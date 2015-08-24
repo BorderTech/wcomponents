@@ -302,12 +302,12 @@
 
 	<modules>
 		<module>core</module>
+		<module>wcomponent_lde</module>
+		<module>wcomponent_test_lib</module>
 		<!--
 		<module>theme_parent</module>
 		<module>theme_impl_parent</module>
 		<module>wcomponent_build_tools</module>
-		<module>wcomponent_lde</module>
-		<module>wcomponent_test_lib</module>
 		<module>wcomponent_sanity4j_plugin</module>
 		<module>wcomponent_findbugs_plugin</module>
 		<module>wcomponent_examples</module>
