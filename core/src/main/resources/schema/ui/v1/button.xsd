@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="https://github.com/openborders/wcomponents/namespace/ui/v1.0" xmlns:ui="https://github.com/openborders/wcomponents/namespace/ui/v1.0">
+	<xs:include schemaLocation="attributeGroups.button.xsd"/>
+
+	<xs:element name="button" type="ui:buttonType"/>
+
+	<xs:complexType name="buttonType">
+		<xs:annotation>
+			<xs:documentation>
+				<p>WButton provides buttons to allow the user to invoke actions within the application.</p>
+				<p>WButton expects that the POSTed form data contains:</p>
+				<table>
+					<thead>
+						<tr>
+							<th>Field name</th>
+							<th>Type</th>
+							<th>Mandatory</th>
+							<th>Value</th>
+							<th>Notes</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>@id</td>
+							<td>String</td>
+							<td>no</td>
+							<td>"x"</td>
+							<td>Value POSTed only if the button is pressed</td>
+						</tr>
+					</tbody>
+				</table>
+			</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attributeGroup ref="ui:button.link.attributes"/>
+				<xs:attributeGroup ref="ui:button.menu.attributes"/>
+				<xs:attribute name="popup" type="xs:boolean">
+					<xs:annotation>
+						<xs:documentation>Indicates whether this button will trigger a WPopup. Required for WCAG2.0 level A compliance of WPopup.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="unsavedChanges" type="xs:boolean">
+					<xs:annotation>
+						<xs:documentation>If set and @cancel is true the user will receive a warning even if they have not made changes on the current screen.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	
+</xs:schema>

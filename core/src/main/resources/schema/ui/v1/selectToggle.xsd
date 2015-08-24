@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="https://github.com/openborders/wcomponents/namespace/ui/v1.0"
+	xmlns:ui="https://github.com/openborders/wcomponents/namespace/ui/v1.0">
+	<xs:element name="selectToggle">
+		<xs:annotation>
+			<xs:documentation>
+				<p>WSelectToggle represents an interactive control used to select or deselect all check box controls (WCheckBox, WCheckBoxSelect) within a particular target.</p>
+				<p>WSelectToggle expects that the POSTed form data contains:</p>
+				<table>
+					<thead>
+						<tr>
+							<th>Field name</th>
+							<th>Type</th>
+							<th>Mandatory</th>
+							<th>Value</th>
+							<th>Notes</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>@id</td>
+							<td>String</td>
+							<td>yes</td>
+							<td>"all" | "some" | "none"</td>
+							<td>Used when @roundTrip is "true" and the component is used to POST the application data to indicate that selection ("all") or deselection ("none") and
+								"some" is not used in this case. When the POST is performed by any other component then "all" indicates that all targetted components are selected,
+								"none" indicates that no target components are selected and "some" indicates that at least one but not all targetted components are selected.</td>
+						</tr>
+					</tbody>
+				</table>
+			</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:attribute name="id" type="xs:ID" use="required">
+				<xs:annotation>
+					<xs:documentation>The unique identifier for the component.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+
+			<xs:attribute name="disabled" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Indicates that the control is disabled on page load. Not output if "false".</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+
+			<xs:attribute name="target" type="xs:NMTOKEN" use="required">
+				<xs:annotation>
+					<xs:documentation>Identifies the group of checkable components to be targetted.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+
+			<xs:attribute name="roundTrip" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Indicates that the selection toggle should be done in a server process and submits the entire application to the server. Not output if
+						"false". <strong>Deprecated</strong> you should avoid using this attribute.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+
+			<xs:attribute name="selected" use="required">
+				<xs:annotation>
+					<xs:documentation>Indicates the state of the selectToggle control when loaded.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="all">
+							<xs:annotation>
+								<xs:documentation>All target checkable controls are in the selected state.</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="some">
+							<xs:annotation>
+								<xs:documentation>At least one but fewer than all of the target checkable controls are in the selected state.</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="none">
+							<xs:annotation>
+								<xs:documentation>None of the target checkable controls are in the selected state.</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+
+			<xs:attribute name="renderAs">
+				<xs:annotation>
+					<xs:documentation>Indicates the display model for the component.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="text">
+							<xs:annotation>
+								<xs:documentation>Render the controls in a text form as two separate controls: one to select and one to deselect.</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="control">
+							<xs:annotation>
+								<xs:documentation>Render the controls as a single toggle control.</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

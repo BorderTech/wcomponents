@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="https://github.com/openborders/wcomponents/namespace/ui/v1.0" xmlns:ui="https://github.com/openborders/wcomponents/namespace/ui/v1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	elementFormDefault="qualified">
+	
+	<xs:include schemaLocation="contentGroups.xsd" />
+	
+	<xs:complexType name="mixedContentWithId" mixed="true">
+		<xs:annotation>
+			<xs:documentation>This type represents a component which requires an id attribute and may contain arbitrary content.</xs:documentation>
+		</xs:annotation>
+
+		<xs:sequence>
+			<xs:group ref="ui:contentGroup" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+
+		<xs:attribute name="id" type="xs:ID" use="required">
+			<xs:annotation>
+				<xs:documentation>The unique identifier for the component.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+
+	</xs:complexType>
+
+</xs:schema>

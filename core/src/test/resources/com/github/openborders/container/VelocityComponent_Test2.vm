@@ -1,0 +1,4 @@
+## Invokes a "bad" method on the test object
+$!{VelocityComponent_Test_key.badMethod()}
+
+Should not see this

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+
+XML schema for ui:menu (WMenu)
+
+- Currently supported types: bar, flyout, tree, column.
+- selectedItem references the menuItem, submenu or menuGroup that is the currently selected element for this menu.
+	- Previously known as the cursor.
+	- This is used (together with submenu/@open) to define a default starting state for column and tree menus.
+	- If not explicitly set, it should default to the first menuItem or submenu.
+	- Note that the selectedItem is not automatically preserved across form submissions - it must be explicitly set according to business logic.
+- Setting disabled on a menu is shorthand for disabling every menuItem within (descendents of) the menu.
+
+WMenu expects that the POSTed form data contains:
+
+Field name      Type        Mandatory       Value
+==========      ====        =========       =====
+@id + "-h"      String      yes             "x"
+
+-->
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="https://github.com/openborders/wcomponents/namespace/ui/v1.0" xmlns:ui="https://github.com/openborders/wcomponents/namespace/ui/v1.0">
+	<xs:include schemaLocation="attributeGroups.control.xsd"/>
+
+	<xs:include schemaLocation="menuItem.xsd"/>
+	<xs:include schemaLocation="submenu.xsd"/>
+	<xs:include schemaLocation="menuGroup.xsd"/>
+	<xs:include schemaLocation="separator.xsd"/>
+	<xs:include schemaLocation="margin.xsd"/>
+	
+	<xs:element name="menu">
+		<xs:annotation>
+			<xs:documentation>
+				<p>WMenu represents menuing tool which is able to be used for any combination of invoking commands, providing navigation and allowing user selection.</p>
+				<p>WMenu expects that the POSTed form data contains:</p>
+				<table>
+					<thead>
+						<tr>
+							<th>Field name</th>
+							<th>Type</th>
+							<th>Mandatory</th>
+							<th>Value</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>@id + "-h"</td>
+							<td>String</td>
+							<td>yes</td>
+							<td>"x"</td>
+						</tr>
+					</tbody>
+				</table>
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="ui:margin" minOccurs="0"/>
+				<xs:choice maxOccurs="unbounded">
+					<xs:group ref="ui:menuComponentGroup"/>
+					<xs:element ref="ui:menuGroup"/>
+				</xs:choice>
+			</xs:sequence>
+			
+			<xs:attributeGroup ref="ui:interaction.attributes"/>
+			
+			<xs:attribute name="type" use="required">
+				<xs:annotation>
+					<xs:documentation>Indicated the render and interaction model for the menu.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="bar">
+							<xs:annotation>
+								<xs:documentation>Provides a toolbar or application level horizontal menu with flyout submenus which fills its containers width.</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="flyout">
+							<xs:annotation>
+								<xs:documentation>Provides a toolbar or application level horizontal menu with flyout submenus which occupies only as much space as is needed to render the top level components.</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="tree">
+							<xs:annotation>
+								<xs:documentation>Provides an interactive tree type menuing component with indented submenus.</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="column">
+							<xs:annotation>
+								<xs:documentation>Provides a vertical menuing sytem with flyout submenus.</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+						<!-- add new menu types here -->
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			
+			<xs:attribute name="rows" type="xs:positiveInteger">
+				<xs:annotation>
+					<xs:documentation>The number of rows to display for a column menu.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			
+			<xs:attribute name="selectMode">
+				<xs:annotation>
+					<xs:documentation>Indicates that the items in the menu may be "selected". The selectMode is able to be overridden in a menu's submenu[s] unless the type is tree. Selection is additive with navigation and command invocation.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="none">
+							<xs:annotation>
+								<xs:documentation>Indicates that selection is not supported. This is the default if not set.</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="single">
+							<xs:annotation>
+								<xs:documentation>Indicates that selection is exclusive and when selecting any selectable child node any previously selected nodes will be deselected. This is analogous to a group of radio buttons.</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="multiple">
+							<xs:annotation>
+								<xs:documentation>Indicates that selection is not exclusive and when selecting any selectable child node any previously selected nodes will remain selected. This is analogous to a group of check boxes.</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>		
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>

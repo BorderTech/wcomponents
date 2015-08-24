@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="https://github.com/openborders/wcomponents/namespace/ui/v1.0" xmlns:ui="https://github.com/openborders/wcomponents/namespace/ui/v1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	elementFormDefault="qualified">
+
+	<xs:element name="margin">
+		<xs:annotation>
+			<xs:documentation>Margin represents a mechanism to provide space around a component.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="all" type="xs:positiveInteger">
+				<xs:annotation>
+					<xs:documentation> Specify the "all" attribute to use the same margin size on all sides of the component or include the specific margin sizes to be used on each
+						side of the component. </xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="north" type="xs:unsignedInt" />
+			<xs:attribute name="east" type="xs:unsignedInt" />
+			<xs:attribute name="south" type="xs:unsignedInt" />
+			<xs:attribute name="west" type="xs:unsignedInt" />
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="https://github.com/openborders/wcomponents/namespace/ui/v1.0" xmlns:ui="https://github.com/openborders/wcomponents/namespace/ui/v1.0">
+	<xs:include schemaLocation="attributeGroups.control.xsd"/>
+	<xs:element name="emailField">
+		<xs:annotation>
+			<xs:documentation>
+				<p>WEmailField represents a data input device for email addresses.</p>
+				<p>WEmailField expects that the POSTed form data contains:</p>
+				<table>
+					<thead>
+						<tr>
+							<th>Field name</th>
+							<th>Type</th>
+							<th>Mandatory</th>
+							<th>Value</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>@id</td>
+							<td>String</td>
+							<td>yes</td>
+							<td>the value entered by the user or ""</td>
+						</tr>
+					</tbody>
+				</table>
+			</xs:documentation>
+		</xs:annotation>
+		
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="xs:string">
+					<xs:attributeGroup ref="ui:submitting.input.attributes"/>
+					
+					<xs:attribute name="size" type="xs:positiveInteger">
+						<xs:annotation>
+							<xs:documentation>The width of the input in units as determined by the user agent.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					
+					<xs:attribute name="maxLength" type="xs:positiveInteger">
+						<xs:annotation>
+							<xs:documentation>The maximum number of characters allowed in the field. This should comply with relevant RFCs but is often constrained by underlying data storage limitations.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					
+					<xs:attribute name="list" type="xs:NMTOKEN">
+						<xs:annotation>
+							<xs:documentation>The id of the suggestions to be used for this text input.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>		
+					
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

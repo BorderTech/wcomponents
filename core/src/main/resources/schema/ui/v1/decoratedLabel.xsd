@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="https://github.com/openborders/wcomponents/namespace/ui/v1.0" xmlns:ui="https://github.com/openborders/wcomponents/namespace/ui/v1.0">
+	<xs:include schemaLocation="attributeGroups.container.xsd"/>
+	<xs:include schemaLocation="mixedContentWithId.xsd"/>
+
+	<xs:element name="decoratedLabel">
+		<xs:annotation>
+			<xs:documentation>WDecoratedLabel represents a piece of (usually descriptive) information which may contain other WComponents.
+			It is used both as a stand-alone element and as a labelling element within other components. The implementation
+			may have restrictions on included content which are not able to be described in this schema.</xs:documentation>
+		</xs:annotation>
+		
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="labelHead" minOccurs="0" type="ui:mixedContentWithId">
+					<xs:annotation>
+						<xs:documentation>The labelHead places its content at the start of the label area.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				
+				<xs:element name="labelBody" type="ui:mixedContentWithId">
+					<xs:annotation>
+						<xs:documentation>The labelBody places its content to fill the label area not occupied by labelHead or labelTail.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				
+				<xs:element name="labelTail" minOccurs="0" type="ui:mixedContentWithId">
+					<xs:annotation>
+						<xs:documentation>The labelTail places its content at the end of the label area.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+			
+			<xs:attributeGroup ref="ui:container.attributes"/>
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="https://github.com/openborders/wcomponents/namespace/ui/v1.0" xmlns:ui="https://github.com/openborders/wcomponents/namespace/ui/v1.0">
+	<xs:include schemaLocation="attributeGroups.control.xsd"/>
+	<xs:element name="textField">
+		<xs:annotation>
+			<xs:documentation>
+				<p>WTextField represents an input for single-line text.</p>
+				<p>WTextField expects that the POSTed form data contains:</p>
+				<table>
+					<thead>
+						<tr>
+							<th>Field name</th>
+							<th>Type</th>
+							<th>Mandatory</th>
+							<th>Value</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>@id</td>
+							<td>String</td>
+							<td>yes</td>
+							<td>value</td>
+						</tr>
+					</tbody>
+				</table>
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="xs:string">
+					<xs:attributeGroup ref="ui:submitting.input.attributes"/>
+					<xs:attributeGroup ref="ui:text.input.attributes"/>
+					<xs:attribute name="list" type="xs:NMTOKEN">
+						<xs:annotation>
+							<xs:documentation>The id of the suggestions to be used for this text input.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>		
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

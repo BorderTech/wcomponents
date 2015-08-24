@@ -1,0 +1,457 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="https://github.com/openborders/wcomponents/namespace/ui/v1.0"
+	xmlns:ui="https://github.com/openborders/wcomponents/namespace/ui/v1.0">
+	<xs:include schemaLocation="attributeGroups.container.xsd" />
+	<xs:include schemaLocation="margin.xsd" />
+	<xs:include schemaLocation="contentGroups.xsd" />
+	<xs:element name="panel">
+		<xs:annotation>
+			<xs:documentation>WPanel provides a generic content container and a number of special purpose container and layout components. It is a fundamental UI layout
+				tool.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="ui:margin" minOccurs="0" />
+				<xs:choice>
+					<xs:element name="gridLayout">
+						<xs:annotation>
+							<xs:documentation>Provides a layout mechanism for WPanel which attempts to apply a regular grid to the components in the panel.</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="cell" minOccurs="0" maxOccurs="unbounded" type="ui:panelContent" />
+							</xs:sequence>
+
+							<xs:attribute name="rows" use="required" type="xs:unsignedInt">
+								<xs:annotation>
+									<xs:documentation>Indicates the number of rows to render in the grid. A value of zero indicates fixed columns, variable rows depending on
+										content.</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+
+							<xs:attribute name="cols" use="required" type="xs:unsignedInt">
+								<xs:annotation>
+									<xs:documentation>Indicates the number of columns to render in the grid. A value of zero indicates fixed rows, variable columns depending on
+										content.</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+
+							<xs:attributeGroup ref="ui:gaps.attributes" />
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="flowLayout">
+						<xs:annotation>
+							<xs:documentation>Provides a layout mechanism for WPanel which attempts to apply a consisten vertical or horizontal flow of the components in the
+								panel.</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="cell" minOccurs="0" maxOccurs="unbounded" type="ui:panelContent" />
+							</xs:sequence>
+							<xs:attribute name="align" use="required">
+								<xs:annotation>
+									<xs:documentation>Indicates the flow arrangement</xs:documentation>
+								</xs:annotation>
+								<xs:simpleType>
+									<xs:restriction base="xs:NMTOKEN">
+										<xs:enumeration value="left">
+											<xs:annotation>
+												<xs:documentation>The components should flow horizontally from the left edge of the container.</xs:documentation>
+											</xs:annotation>
+										</xs:enumeration>
+										<xs:enumeration value="center">
+											<xs:annotation>
+												<xs:documentation>The components should flow horizontally at the horizontal centre of the container.</xs:documentation>
+											</xs:annotation>
+										</xs:enumeration>
+										<xs:enumeration value="right">
+											<xs:annotation>
+												<xs:documentation>The components should flow horizontally ending at the the right edge of the container.</xs:documentation>
+											</xs:annotation>
+										</xs:enumeration>
+										<xs:enumeration value="vertical">
+											<xs:annotation>
+												<xs:documentation>The components should flow vertically.</xs:documentation>
+											</xs:annotation>
+										</xs:enumeration>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:attribute>
+							<xs:attribute name="valign">
+								<xs:annotation>
+									<xs:documentation>Indicates the vertical alignment of components within a horizontal flow. If not set then the flow default is determined by the
+										theme. These differences can be both subtle and arcane and only baseline will give totally consistent results in all modern
+										browsers.</xs:documentation>
+								</xs:annotation>
+								<xs:simpleType>
+									<xs:restriction base="xs:NMTOKEN">
+										<xs:enumeration value="top">
+											<xs:annotation>
+												<xs:documentation>The components should attempt to arrange themselves so that they align at the top of the content box of the parent
+													container.</xs:documentation>
+											</xs:annotation>
+										</xs:enumeration>
+										<xs:enumeration value="middle">
+											<xs:annotation>
+												<xs:documentation>The components should attempt to arrange themselves so that they align at the middle of the content boxes each
+													content cell.</xs:documentation>
+											</xs:annotation>
+										</xs:enumeration>
+										<xs:enumeration value="baseline">
+											<xs:annotation>
+												<xs:documentation>The components should attempt to arrange themselves so that they align at the baseline for text of each content
+													cell.</xs:documentation>
+											</xs:annotation>
+										</xs:enumeration>
+										<xs:enumeration value="bottom">
+											<xs:annotation>
+												<xs:documentation>The components should attempt to arrange themselves so that they align at the bottom of the content box of the
+													parent container.</xs:documentation>
+											</xs:annotation>
+										</xs:enumeration>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:attribute>
+							<xs:attributeGroup ref="ui:gaps.attributes" />
+						</xs:complexType>
+					</xs:element>
+
+					<xs:element name="listLayout">
+						<xs:annotation>
+							<xs:documentation>Provides a layout mechanism for WPanel which creates a list out of components in the panel. This layout should <strong>only</strong>
+								be used when each of the panel's content components is part of a single semantic group.</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="cell" minOccurs="0" maxOccurs="unbounded" type="ui:panelContent" />
+							</xs:sequence>
+							<xs:attribute name="type" use="required">
+								<xs:annotation>
+									<xs:documentation>Indicates the layout of items in the list</xs:documentation>
+								</xs:annotation>
+								<xs:simpleType>
+									<xs:restriction base="xs:NMTOKEN">
+										<xs:enumeration value="flat">
+											<xs:annotation>
+												<xs:documentation>The content cells should be arranged horizontally.</xs:documentation>
+											</xs:annotation>
+										</xs:enumeration>
+										<xs:enumeration value="stacked">
+											<xs:annotation>
+												<xs:documentation>The content cells should be arranged vertically.</xs:documentation>
+											</xs:annotation>
+										</xs:enumeration>
+										<xs:enumeration value="striped">
+											<xs:annotation>
+												<xs:documentation>The content cells should be arranged vertically and non-adjacent rows should differ in background colour to
+													provide a striped appearance.</xs:documentation>
+											</xs:annotation>
+										</xs:enumeration>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:attribute>
+							<xs:attribute name="align">
+								<xs:annotation>
+									<xs:documentation>Indicates the alignment of content in the cells. If not set then "left" is assumed.</xs:documentation>
+								</xs:annotation>
+								<xs:simpleType>
+									<xs:restriction base="xs:NMTOKEN">
+										<xs:enumeration value="left">
+											<xs:annotation>
+												<xs:documentation>The components should be left aligned. If @type is "flat" then the list should flow from the left of the parent
+													panel.</xs:documentation>
+											</xs:annotation>
+										</xs:enumeration>
+										<xs:enumeration value="center">
+											<xs:annotation>
+												<xs:documentation>The components should be centred. If @type is "flat" then the list should flow around the center of the parent
+													panel's content box.</xs:documentation>
+											</xs:annotation>
+										</xs:enumeration>
+										<xs:enumeration value="right">
+											<xs:annotation>
+												<xs:documentation>The components should be right aligned. If @type is "flat" then the list should flow to the right of the parent
+													panel.</xs:documentation>
+											</xs:annotation>
+										</xs:enumeration>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:attribute>
+							<xs:attribute name="separator">
+								<xs:annotation>
+									<xs:documentation>Indicates the list item separator to be used. If onitted then no separator is used. May be overridden in the
+										theme.</xs:documentation>
+								</xs:annotation>
+								<xs:simpleType>
+									<xs:restriction base="xs:NMTOKEN">
+										<xs:enumeration value="none">
+											<xs:annotation>
+												<xs:documentation>There should be no visible list item indicator or separator.</xs:documentation>
+											</xs:annotation>
+										</xs:enumeration>
+										<xs:enumeration value="bar">
+											<xs:annotation>
+												<xs:documentation>The separator should be a vertical bar unless @ordered is "true".</xs:documentation>
+											</xs:annotation>
+										</xs:enumeration>
+										<xs:enumeration value="dot">
+											<xs:annotation>
+												<xs:documentation>The separator should be a bullet unless @ordered is "true".</xs:documentation>
+											</xs:annotation>
+										</xs:enumeration>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:attribute>
+							<xs:attribute name="ordered" type="xs:boolean">
+								<xs:annotation>
+									<xs:documentation>Indicates that the list should be output in a way which indicates that the item order is important. Not output if
+										"false".</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+							<xs:attributeGroup ref="ui:gaps.attributes" />
+						</xs:complexType>
+					</xs:element>
+
+					<xs:element name="borderLayout">
+						<xs:annotation>
+							<xs:documentation>Provides a layout mechanism for WPanel which attempts to apply a layout consisting of up to four edge regions and a central
+								region.</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="north" minOccurs="0" type="ui:panelContent" />
+								<xs:element name="east" minOccurs="0" type="ui:panelContent" />
+								<xs:element name="south" minOccurs="0" type="ui:panelContent" />
+								<xs:element name="west" minOccurs="0" type="ui:panelContent" />
+								<xs:element name="center" minOccurs="0" type="ui:panelContent" />
+							</xs:sequence>
+							<xs:attributeGroup ref="ui:gaps.attributes" />
+						</xs:complexType>
+					</xs:element>
+
+					<xs:element name="columnLayout">
+						<xs:annotation>
+							<xs:documentation>Provides a layout mechanism for WPanel which attempts to apply a consistent row and column set to the components in the panel. This
+								differs from a grid layout in that the columns are not constrained to a uniform width or horizontal alignment of content.</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="column" maxOccurs="unbounded">
+									<xs:annotation>
+										<xs:documentation>Provides information for the rendering of each column in the layout.</xs:documentation>
+									</xs:annotation>
+									<xs:complexType>
+										<xs:attribute name="width" use="required">
+											<xs:annotation>
+												<xs:documentation>The width of the column as a percentage ofthe available space.</xs:documentation>
+											</xs:annotation>
+											<xs:simpleType>
+												<xs:restriction base="xs:int">
+													<xs:minInclusive value="1" />
+													<xs:maxInclusive value="100" />
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:attribute>
+										<xs:attribute name="align">
+											<xs:annotation>
+												<xs:documentation>The alignment of content in the column. if not set "left" is assumed.</xs:documentation>
+											</xs:annotation>
+											<xs:simpleType>
+												<xs:restriction base="xs:token">
+													<xs:enumeration value="left">
+														<xs:annotation>
+															<xs:documentation>The components in the column should be left aligned.</xs:documentation>
+														</xs:annotation>
+													</xs:enumeration>
+													<xs:enumeration value="center">
+														<xs:annotation>
+															<xs:documentation>The components in the column should be centred.</xs:documentation>
+														</xs:annotation>
+													</xs:enumeration>
+													<xs:enumeration value="right">
+														<xs:annotation>
+															<xs:documentation>The components in the column should be right aligned.</xs:documentation>
+														</xs:annotation>
+													</xs:enumeration>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:attribute>
+									</xs:complexType>
+								</xs:element>
+								<xs:element name="cell" minOccurs="0" maxOccurs="unbounded" type="ui:panelContent" />
+							</xs:sequence>
+							<xs:attributeGroup ref="ui:gaps.attributes" />
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="content" type="ui:panelContent" />
+				</xs:choice>
+			</xs:sequence>
+
+			<xs:attributeGroup ref="ui:container.attributes" />
+
+			<xs:attribute name="type">
+				<xs:annotation>
+					<xs:documentation>Indicates the semantic meaning and/or stylistic options to be applied to the panel. Some types provide for explicit block level semantics and
+						style and others are merely stylistic. </xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<!--  General panel types -->
+						<xs:enumeration value="action">
+							<xs:annotation>
+								<xs:documentation>Indicates the panel is a major content section and has an exposed title and some styling but usually less heavily styled than type
+									"chrome" and generally without that type's context aware styling.</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="banner">
+							<xs:annotation>
+								<xs:documentation>Under review: a container used to provide banners.</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="block">
+							<xs:annotation>
+								<xs:documentation>Deprecated: do not use.</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="box">
+							<xs:annotation>
+								<xs:documentation>A simple content container which has a border.</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="chrome">
+							<xs:annotation>
+								<xs:documentation>A major content section with an exposed title and significant styling which may be contextual.</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="feature">
+							<xs:annotation>
+								<xs:documentation>A container which is styled so as to stand out with a border and background colour.</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="footer">
+							<xs:annotation>
+								<xs:documentation>Indicates the panel is the page footer. This is a restricted type and should only be applied once in any
+									screen.</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="group-select">
+							<xs:annotation>
+								<xs:documentation>Deprecated: do not use.</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="header">
+							<xs:annotation>
+								<xs:documentation>Indicates the panel is used as a page header. This is a restricted type and should only be applied once in any
+									screen.</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+						<!-- Application-specific panel types -->
+						<xs:enumeration value="app-summary-panel">
+							<xs:annotation>
+								<xs:documentation>Available for interpretation by theme. No specific semantics or style.</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="app-container">
+							<xs:annotation>
+								<xs:documentation>Available for interpretation by theme. No specific semantics or style.</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="app-tab-menu">
+							<xs:annotation>
+								<xs:documentation>Deprecated: do not use</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="app-content">
+							<xs:annotation>
+								<xs:documentation>Available for interpretation by theme. No specific semantics or style.</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="app-assessment-content">
+							<xs:annotation>
+								<xs:documentation>Deprecated: do not use</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="progress-details-panel">
+							<xs:annotation>
+								<xs:documentation>Deprecated: do not use</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="app-data-controls">
+							<xs:annotation>
+								<xs:documentation>Available for interpretation by theme. No specific semantics or style.</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="app-data-sub-controls">
+							<xs:annotation>
+								<xs:documentation>Available for interpretation by theme. No specific semantics or style.</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="app-accordion">
+							<xs:annotation>
+								<xs:documentation>Deprecated: do not use</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="app-accordion-client">
+							<xs:annotation>
+								<xs:documentation>Deprecated: do not use</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="app-accordion-clients">
+							<xs:annotation>
+								<xs:documentation>Deprecated: do not use</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="app-accordion-actions">
+							<xs:annotation>
+								<xs:documentation>Deprecated: do not use</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+
+			<xs:attributeGroup ref="ui:ajax.mode.simple.attributes" />
+
+			<xs:attribute name="buttonId" type="xs:NMTOKEN">
+				<xs:annotation>
+					<xs:documentation>Provides the id of a WButton which can be used as a default submit button for all data-input components in the panel which support form
+						submission on ENTER key press. May be overridden by individual controls which implement a similar attribute.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+
+			<xs:attribute name="title" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>A human readable title for the panel. Required for @type "action" and "chrome" but optional otherwise.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+
+			<xs:attributeGroup ref="ui:accesskey.attributes" />
+		</xs:complexType>
+	</xs:element>
+
+
+
+	<xs:complexType name="panelContent" mixed="true">
+		<xs:annotation>
+			<xs:documentation>Wrapper container for a single component in the layout.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="ui:contentGroup" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:attributeGroup name="gaps.attributes">
+		<xs:attribute name="hgap" type="xs:positiveInteger">
+			<xs:annotation>
+				<xs:documentation>The horizontal space between content components in the layout in pixels. This may be adjusted by the theme and/or user agent.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="vgap" type="xs:positiveInteger">
+			<xs:annotation>
+				<xs:documentation>The vertical space between content components in the layout in pixels. This may be adjusted by the theme and/or user agent.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:attributeGroup>
+
+</xs:schema>

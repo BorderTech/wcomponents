@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="https://github.com/openborders/wcomponents/namespace/ui/v1.0" xmlns:ui="https://github.com/openborders/wcomponents/namespace/ui/v1.0">
+	<xs:include schemaLocation="option.xsd"/>
+
+	<xs:element name="optgroup">
+		<xs:annotation>
+			<xs:documentation>Provides a grouping container for selectable options within a selection component.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="ui:option" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="label" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>A human readable grouping label for the options in this optgroup.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:group name="option.with.group">
+		<xs:annotation>
+			<xs:documentation>Common group used by many selection controls.</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element ref="ui:option"/>
+			<xs:element ref="ui:optgroup"/>
+		</xs:choice>
+	</xs:group>
+</xs:schema>

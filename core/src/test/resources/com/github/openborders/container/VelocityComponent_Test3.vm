@@ -1,0 +1,6 @@
+## Missing template include
+#if ($VelocityComponent_Test_key)
+   #include("VelocityComponent_Test_Missing_Template.vm")
+#end
+
+Should not see this
