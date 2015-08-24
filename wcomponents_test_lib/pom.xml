@@ -2,8 +2,8 @@
     
 	<modelVersion>4.0.0</modelVersion>
 
-	<name>wcomponent_test_lib</name>
-	<artifactId>wcomponent_test_lib</artifactId>
+	<name>wcomponents_test_lib</name>
+	<artifactId>wcomponents_test_lib</artifactId>
 
 	<parent>
 		<groupId>com.github.openborders</groupId>
@@ -43,7 +43,7 @@
 
 		<dependency>
 			<groupId>com.github.openborders</groupId>
-			<artifactId>wcomponent_lde</artifactId>
+			<artifactId>wcomponents_lde</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 
