@@ -312,8 +312,8 @@
 		<module>wcomponent_examples_lde</module>
 		<module>wcomponent_app_archetype</module>
 		-->
-	 <module>wcomponents_test_lib</module>
-	 <module>wcomponents_lde</module>
+		<module>wcomponents_test_lib</module>
+		<module>wcomponents_lde</module>
 	</modules>
 
 	<distributionManagement>

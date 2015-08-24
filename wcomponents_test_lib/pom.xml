@@ -43,7 +43,7 @@
 
 		<dependency>
 			<groupId>com.github.openborders</groupId>
-			<artifactId>wcomponent_lde</artifactId>
+			<artifactId>wcomponents_lde</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 
