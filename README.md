@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/OpenBorders/wcomponents.svg?branch=master)](https://travis-ci.org/OpenBorders/wcomponents)
 # wcomponents
 Accessible Web UI Framework for Enterprise
 
