@@ -12,6 +12,7 @@ src/main/resources/cowfile-list.csv
 nb-configuration.xml
 nbactions-release-profile.xml
 .project
+.netbeans_automatic_build
 *.copyarea.db
 .settings/
 .DS_Store

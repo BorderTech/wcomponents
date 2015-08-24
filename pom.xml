@@ -14,7 +14,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<parentLoc>wcomponents</parentLoc>
 	</properties>
-	
+
 	<licenses>
 		<license>
 			<name>GPLv3</name>
@@ -76,7 +76,7 @@
 					</plugin>
 				</plugins>
 			</build>
-		</profile> 
+		</profile>
 	</profiles>
 
 	<build>
@@ -221,7 +221,7 @@
 				<dependencies>
 					<dependency>
 						<groupId>com.github.openborders</groupId>
-						<artifactId>wcomponent_sanity4j_plugin</artifactId>
+						<artifactId>wcomponents_sanity4j_plugin</artifactId>
 						<version>${project.version}</version>
 					</dependency>
 				</dependencies>
@@ -278,7 +278,7 @@
 				<version>2.10.3</version>
 				<configuration>
 					<tagletArtifact>
-						<groupId>wcomponent</groupId>
+						<groupId>com.github.openborders</groupId>
 						<artifactId>wcomponent_build_tools</artifactId>
 						<version>${project.version}</version>
 					</tagletArtifact>
@@ -306,14 +306,14 @@
 		<module>theme_parent</module>
 		<module>theme_impl_parent</module>
 		<module>wcomponent_build_tools</module>
-		<module>wcomponent_sanity4j_plugin</module>
-		<module>wcomponent_findbugs_plugin</module>
 		<module>wcomponent_examples</module>
 		<module>wcomponent_examples_lde</module>
-		<module>wcomponent_app_archetype</module>
 		-->
+		<module>wcomponents_app_archetype</module>
 		<module>wcomponents_test_lib</module>
 		<module>wcomponents_lde</module>
+		<module>wcomponents_findbugs_plugin</module>
+		<module>wcomponents_sanity4j_plugin</module>
 	</modules>
 
 	<distributionManagement>
