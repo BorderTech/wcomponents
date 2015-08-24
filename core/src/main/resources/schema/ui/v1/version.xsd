@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 
+
+XML schema for version details.
+
+The T&S will replace this element with the version of the T&S.
+It can also be used to verify the server version and T&S version match.
+
+-->
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	elementFormDefault="qualified" targetNamespace="https://github.com/openborders/wcomponents/namespace/ui/v1.0"
+	xmlns:ui="https://github.com/openborders/wcomponents/namespace/ui/v1.0">
+
+	<xs:element name="version">
+		<xs:complexType>
+			<xs:attribute name="server" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>

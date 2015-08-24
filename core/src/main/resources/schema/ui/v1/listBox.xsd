@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="https://github.com/openborders/wcomponents/namespace/ui/v1.0"
+	xmlns:ui="https://github.com/openborders/wcomponents/namespace/ui/v1.0">
+	<xs:include schemaLocation="attributeGroups.control.xsd" />
+	<xs:include schemaLocation="optgroup.xsd" />
+	<xs:element name="listBox">
+		<xs:annotation>
+			<xs:documentation>
+				<p>WListBox represents a selection device using a common list box widget. It may be a single- or multi-selection component.</p>
+				<p>WListBox expects that the POSTed form data contains:</p>
+				<table>
+					<thead>
+						<tr>
+							<th>Field name</th>
+							<th>Type</th>
+							<th>Mandatory</th>
+							<th>Value</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>@id</td>
+							<td>String[]</td>
+							<td>no</td>
+							<td>selected option(s)</td>
+						</tr>
+						<tr>
+							<td>@id + "-h"</td>
+							<td>String</td>
+							<td>yes</td>
+							<td>"x"</td>
+						</tr>
+					</tbody>
+				</table>
+			</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:group ref="ui:option.with.group" minOccurs="0" maxOccurs="unbounded"/>
+
+			<xs:attributeGroup ref="ui:selectList.attributes"/>
+
+			<xs:attribute name="rows">
+				<xs:annotation>
+					<xs:documentation>Indicates the number of rows of options to display in the user interface. If not specified then the number of rows displayed will be
+						determined by the user agent.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:int">
+						<xs:minInclusive value="2" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+
+			<xs:attribute name="single" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Indicates that the list box must accept only a single selected option. Not oputput if "false".</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+
+			<xs:attributeGroup ref="ui:multiSelect.constraints.attributes">
+				<xs:annotation>
+					<xs:documentation>min and max do not apply if the single attribute is "true".</xs:documentation>
+				</xs:annotation>
+			</xs:attributeGroup>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

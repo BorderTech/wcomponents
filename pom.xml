@@ -1,0 +1,332 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<name>wcomponents</name>
+
+	<groupId>com.github.openborders</groupId>
+	<artifactId>wcomponents</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+
+	<packaging>pom</packaging>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<parentLoc>wcomponents</parentLoc>
+	</properties>
+	
+	<licenses>
+		<license>
+			<name>GPLv3</name>
+			<url>http://www.gnu.org/licenses/gpl-3.0.txt</url>
+			<distribution>manual</distribution>
+			<comments>GNU General Public License</comments>
+		</license>
+	</licenses>
+
+	<scm>
+		<url>https://github.com/openborders/wcomponents</url>
+		<connection>scm:git:https://github.com/openborders/wcomponents.git</connection>
+		<developerConnection>scm:git:https://github.com/openborders/wcomponents.git</developerConnection>
+		<tag>wcomponents-1.0.0</tag>
+	</scm>
+
+	<profiles>
+		<profile>
+			<id>skipAllTests</id>
+			<activation>
+				<property>
+					<name>skipTests</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<properties>
+				<skipOptionalTests>true</skipOptionalTests>
+			</properties>
+		</profile>
+		<profile>
+			<id>coberturaInstrument</id>
+			<activation>
+				<property>
+					<name>coberturaInstrument</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+
+					<!--
+					Cobertura classes are instrumented separately from the normal build/test process
+					so that we can run the tests and generate the site in separate Maven processes.
+					-->
+
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>cobertura-maven-plugin</artifactId>
+						<version>2.7</version>
+						<executions>
+							<execution>
+								<phase>process-classes</phase>
+								<goals>
+									<goal>instrument</goal>
+								</goals>
+							</execution>
+						</executions>
+
+					</plugin>
+				</plugins>
+			</build>
+		</profile> 
+	</profiles>
+
+	<build>
+		<extensions>
+			<extension>
+				<groupId>org.apache.maven.wagon</groupId>
+				<artifactId>wagon-webdav</artifactId>
+				<version>1.0-beta-2</version>
+			</extension>
+			<extension>
+				<!-- Support for SCP of the Site. -->
+				<groupId>org.apache.maven.wagon</groupId>
+				<artifactId>wagon-ssh</artifactId>
+				<version>2.9</version>
+			</extension>
+		</extensions>
+
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.3</version>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.4</version>
+				<configuration>
+					<includes>
+						<include>**/*.java</include>
+					</includes>
+				</configuration>
+				<executions>
+					<execution>
+						<id>sources</id>
+						<phase>package</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+						<configuration>
+							<classifier>sources</classifier>
+						</configuration>
+					</execution>
+					<execution>
+						<id>test-sources</id>
+						<phase>package</phase>
+						<goals>
+							<goal>test-jar</goal>
+						</goals>
+						<configuration>
+							<classifier>sources</classifier>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.6</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>test-jar</goal>
+						</goals>
+						<configuration>
+							<skipIfEmpty>true</skipIfEmpty>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.8</version>
+				<executions>
+					<execution>
+						<id>createOutputDir</id>
+						<phase>process-resources</phase>
+						<configuration>
+							<target>
+								<!-- Create directories to prevent site build from failing. -->
+								<mkdir dir="${project.build.outputDirectory}"/>
+								<mkdir dir="${project.build.directory}/test-classes"/>
+							</target>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>copyChangeLog</id>
+						<phase>site</phase>
+						<inherited>false</inherited>
+						<configuration>
+							<target>
+								<!-- Concat the change log and place in the site. -->
+								<concat destfile="${project.build.directory}/site/changelog.txt">
+									<path>
+										<pathelement location="CHANGELOG.TXT"/>
+										<pathelement location="CHANGELOG.OLD.TXT"/>
+									</path>
+								</concat>
+							</target>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
+				<version>3.4</version>
+				<dependencies>
+					<dependency>
+						<groupId>org.apache.maven.doxia</groupId>
+						<artifactId>doxia-module-markdown</artifactId>
+						<version>1.6</version>
+					</dependency>
+				</dependencies>
+				<executions>
+					<execution>
+						<id>attach-descriptor</id>
+						<goals>
+							<goal>attach-descriptor</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<!-- This defines the classpath for use by the sanity4j plugin within the reporting section. -->
+				<groupId>net.sf.sanity4j</groupId>
+				<artifactId>sanity4j</artifactId>
+				<version>1.1.1</version>
+				<dependencies>
+					<dependency>
+						<groupId>com.github.openborders</groupId>
+						<artifactId>wcomponent_sanity4j_plugin</artifactId>
+						<version>${project.version}</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+
+		</plugins>
+	</build>
+
+
+	<reporting>
+		<plugins>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>2.8</version>
+			</plugin>
+
+			<!-- Cobertura classes are instrumented in the pre-site phase.
+			We don't need the actual cobertura report as it's
+			included in the sanity4j report. -->
+			<!--
+			<plugin>
+			  <groupId>org.codehaus.mojo</groupId>
+			  <artifactId>cobertura-maven-plugin</artifactId>
+			  <version>2.4</version>
+			</plugin>
+			-->
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-report-plugin</artifactId>
+				<version>2.18.1</version>
+				<configuration>
+					<aggregate>true</aggregate>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>net.sf.sanity4j</groupId>
+				<artifactId>sanity4j</artifactId>
+				<version>1.1.1</version>
+
+				<configuration>
+					<aggregate>true</aggregate>
+
+					<externalPropertiesPath>sanity4j-java-${java.specification.version}.properties</externalPropertiesPath>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.10.3</version>
+				<configuration>
+					<tagletArtifact>
+						<groupId>wcomponent</groupId>
+						<artifactId>wcomponent_build_tools</artifactId>
+						<version>${project.version}</version>
+					</tagletArtifact>
+					<useStandardDocletOptions>true</useStandardDocletOptions>
+					<charset>UTF-8</charset>
+					<encoding>UTF-8</encoding>
+					<docencoding>UTF-8</docencoding>
+					<breakiterator>true</breakiterator>
+					<version>true</version>
+					<author>true</author>
+					<keywords>true</keywords>
+					<additionalparam>
+						-sourceclasspath ${project.build.outputDirectory}
+					</additionalparam>
+					<excludePackageNames>*.examples.*,*.example.*,*.experimental.*</excludePackageNames>
+				</configuration>
+			</plugin>
+
+		</plugins>
+	</reporting>
+
+	<modules>
+		<module>core</module>
+		<!--
+		<module>theme_parent</module>
+		<module>theme_impl_parent</module>
+		<module>wcomponent_build_tools</module>
+		<module>wcomponent_lde</module>
+		<module>wcomponent_test_lib</module>
+		<module>wcomponent_sanity4j_plugin</module>
+		<module>wcomponent_findbugs_plugin</module>
+		<module>wcomponent_examples</module>
+		<module>wcomponent_examples_lde</module>
+		<module>wcomponent_app_archetype</module>
+		-->
+	</modules>
+
+	<distributionManagement>
+		<repository>
+			<id>staging-repository</id>
+			<name>staging-repository</name>
+			<url>${stagingUrl}</url>
+		</repository>
+		<site>
+			<id>sites</id>
+			<name>sites</name>
+			<url>${sitesUrl}</url>
+		</site>
+	</distributionManagement>
+
+</project>

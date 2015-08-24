@@ -1,0 +1,131 @@
+package com.github.openborders.container;
+
+import java.io.PrintWriter;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.velocity.Template;
+import org.apache.velocity.VelocityContext;
+import org.apache.velocity.exception.MethodInvocationException;
+import org.apache.velocity.exception.ParseErrorException;
+import org.apache.velocity.exception.ResourceNotFoundException;
+
+import com.github.openborders.RenderContext;
+import com.github.openborders.servlet.WebXmlRenderContext;
+import com.github.openborders.util.SystemException;
+import com.github.openborders.velocity.VelocityEngineFactory;
+import com.github.openborders.velocity.VelocityTemplateManager;
+
+/**
+ * This component is for rendering only, and contains no behaviour.
+ * It renders itself using a Velocity template.
+ *
+ * @author Martin Shevchenko
+ * @since 1.0.0
+ */
+public class VelocityInterceptor extends InterceptorComponent
+{
+    /** The logger instance for this class. */
+    private static final Log log = LogFactory.getLog(VelocityInterceptor.class);
+
+    /** The velocity template's URL. */
+    private String templateUrl;
+
+    /**
+     * Sets the template url.
+     * @param url the template URL.
+     */
+    public void setTemplate(final String url)
+    {
+        this.templateUrl = url;
+    }
+
+    /**
+     * Sets the template url, based on a component's class name.
+     * e.g. <code>com.github.openborders.foo.Bar</code> will have a template of <code>/com/github/openborders/foo/Bar.vm</code>.
+     *
+     * @param clazz the component class.
+     */
+    public void setTemplate(final Class<?> clazz)
+    {
+        this.templateUrl = VelocityTemplateManager.toTemplateResourceName(clazz);
+    }
+
+    /**
+     * Renders the component using the velocity template which has been provided.
+     *
+     * @param renderContext the context for rendering.
+     */
+    @Override
+    public void paint(final RenderContext renderContext)
+    {
+        // TODO: I think that some of the velocity errors should bubble up as
+        // runtime exceptions else we can get stuck.
+        // Eg. com.github.openborders.examples.ErrorGenerator - paintComponent.
+
+        if (!(renderContext instanceof WebXmlRenderContext))
+        {
+            throw new SystemException("Unable to render to " + renderContext);
+        }
+
+        PrintWriter writer = ((WebXmlRenderContext) renderContext).getWriter();
+
+        Template template = null;
+
+        try
+        {
+            template = VelocityEngineFactory.getVelocityEngine().getTemplate(templateUrl);
+        }
+        catch (Exception ex)
+        {
+            String message = "Could not open velocity template \"" + templateUrl + "\" for \"" + this.getClass().getName() + "\"";
+            log.error(message, ex);
+            writer.println(message);
+            return;
+        }
+
+        try
+        {
+            VelocityContext context = new VelocityContext();
+            fillContext(context);
+
+            template.merge(context, writer);
+        }
+        catch (ResourceNotFoundException rnfe)
+        {
+            log.error("Could not find template " + templateUrl, rnfe);
+        }
+        catch (ParseErrorException pee)
+        {
+            // syntax error : problem parsing the template
+            log.error("Parse problems", pee);
+        }
+        catch (MethodInvocationException mie)
+        {
+            // something invoked in the template
+            // threw an exception
+            Throwable wrapped = mie.getWrappedThrowable();
+
+            log.error("Problems with velocity", mie);
+
+            if (wrapped != null)
+            {
+                log.error("Wrapped exception...", wrapped);
+            }
+        }
+        catch (Exception e)
+        {
+            log.error("Problems with velocity", e);
+        }
+    }
+
+    /**
+     * Subclasses can override this method in order to add more parameters to the context.
+     *
+     * @param context the velocity context to add parameters to.
+     */
+    protected void fillContext(final VelocityContext context)
+    {
+        // NOP
+    }
+}

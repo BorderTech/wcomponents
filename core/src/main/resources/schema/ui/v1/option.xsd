@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="https://github.com/openborders/wcomponents/namespace/ui/v1.0" xmlns:ui="https://github.com/openborders/wcomponents/namespace/ui/v1.0">
+	
+	
+	<xs:element name="option">
+		<xs:annotation>
+			<xs:documentation>Provides a single selectable option within a selection component.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="xs:string">
+					<xs:attribute name="value" type="xs:string" use="required">
+						<xs:annotation>
+							<xs:documentation>The value returned to the application if the option is selected when a POST is made.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					
+					<xs:attribute name="selected" type="xs:boolean">
+						<xs:annotation>
+							<xs:documentation>Indicates the initial selected state of the option. If true the option is selected. Not output if "false".</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					
+					<xs:attribute name="isNull" type="xs:boolean">
+						<xs:annotation>
+							<xs:documentation>Indicates that this particular option represents a null option for vaidation purposes. Not output if "false".</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+	
+	
+</xs:schema>

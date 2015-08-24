@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="https://github.com/openborders/wcomponents/namespace/ui/v1.0"
+	xmlns:ui="https://github.com/openborders/wcomponents/namespace/ui/v1.0">
+	<xs:include schemaLocation="attributeGroups.control.xsd" />
+	<xs:include schemaLocation="link.xsd" />
+	<xs:element name="fileUpload">
+		<xs:annotation>
+			<xs:documentation>
+				<p>WFileWidget represents component which can be used to upload zero or one file; WMultiFieldWidget represents a component which is used to upload zero or more
+					files. The component is indicated by the @maxFiles attribute.</p>
+				<p>WMultiFileWidget expect that the POSTed form data contains:</p>
+				<table>
+					<thead>
+						<tr>
+							<th>Field name</th>
+							<th>Type</th>
+							<th>Mandatory</th>
+							<th>Value</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>@id + ".selected"</td>
+							<td>List</td>
+							<td>yes (if maxFiles != 1) otherwise forbidden</td>
+							<td>list of file indices</td>
+						</tr>
+					</tbody>
+				</table>
+			</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="file" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>These represent the list of currently uploaded files for the WMultiFileWidget</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="ui:link" minOccurs="1" maxOccurs="1" />
+						</xs:sequence>
+
+						<xs:attribute name="id" type="xs:string" use="required">
+							<xs:annotation>
+								<xs:documentation>A system provided identifier for the file.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+
+						<xs:attribute name="name" type="xs:string" use="required">
+							<xs:annotation>
+								<xs:documentation>The original (a the time of upload) file name for the file.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+
+						<xs:attribute name="type" type="xs:string" use="required">
+							<xs:annotation>
+								<xs:documentation>The MIME type of the file.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+
+						<xs:attribute name="size" type="xs:unsignedInt" use="required">
+							<xs:annotation>
+								<xs:documentation>The size of the file in bytes.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+
+			<xs:attributeGroup ref="ui:input.attributes" />
+			
+			<xs:attribute name="dropzone" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>The ID of an element that will receive "drag and dropped" files for this file uploader.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+
+			<xs:attribute name="acceptedMimeTypes" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>A list of MIME types which may be uploaded using the fileupload component. If not set then no type constraints will be applied to the uploaded
+						file.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+
+			<xs:attribute name="maxFileSize" type="xs:positiveInteger">
+				<xs:annotation>
+					<xs:documentation>The maximum file size (in bytes) which may be uploaded using the file upload. If this is not set then no explicit constraint is set but
+						implicit constraints may still exist.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+
+			<xs:attribute name="maxFiles" type="xs:positiveInteger">
+				<xs:annotation>
+					<xs:documentation>The maximum number of files which may be uploaded using the file upload. If this is exactly 1 then the component is a simple single file
+						upload. If this is not set then no explicit limit is set on the number of files which may be uploaded using the file upload.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			
+			<xs:attribute name="ajax" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Flag if the uploaded files will be AJAX triggers.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+
+			<xs:attribute name="cols" type="xs:int">
+				<xs:annotation>
+					<xs:documentation>Number of cols to use when displaying the uploaded files. If not set then the theme default will apply.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+
+			<xs:attribute name="async" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Flag used to allow us to distinguish between the multi and single file uploader. Default is true.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

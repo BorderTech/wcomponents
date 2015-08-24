@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="https://github.com/openborders/wcomponents/namespace/ui/v1.0"
+	xmlns:ui="https://github.com/openborders/wcomponents/namespace/ui/v1.0">
+	<xs:include schemaLocation="attributeGroups.control.xsd" />
+	<xs:include schemaLocation="optgroup.xsd" />
+
+	<xs:element name="multiSelectPair">
+		<xs:annotation>
+			<xs:documentation>
+				<p>WMultiSelectPair represents a compound multi-selection device with an option to set the "order" of the selected options.</p>
+				<p>WMultiSelectPair expects that the POSTed form data contains:</p>
+				<table>
+					<thead>
+						<tr>
+							<th>Field name</th>
+							<th>Type</th>
+							<th>Mandatory</th>
+							<th>Value</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>@id</td>
+							<td>String[]</td>
+							<td>no</td>
+							<td>the value of the selected option(s)</td>
+						</tr>
+						<tr>
+							<td>@id + "-h"</td>
+							<td>String</td>
+							<td>yes</td>
+							<td>"x"</td>
+						</tr>
+					</tbody>
+				</table>
+			</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:group ref="ui:option.with.group" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>attribute ui:option/@isNull is not implemented as is meaningless in a component which allows no selection.</xs:documentation>
+				</xs:annotation>
+			</xs:group>
+
+			<xs:attributeGroup ref="ui:input.attributes" />
+
+			<xs:attribute name="size" use="required">
+				<xs:annotation>
+					<xs:documentation>Indicates the number of options which should be visible in the component without scrolling. If not set then the display is determined by the
+						user agent.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:int">
+						<xs:minInclusive value="2" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+
+			<!--  TODO: we could probably have the @fromListName and @toListName not required and default to theme determined values. -->
+			
+			<xs:attribute name="fromListName" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>The label text for the list of unselected options.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+
+			<xs:attribute name="toListName" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>The label text for the list of selected options.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+
+			<xs:attribute name="shuffle" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Indicates that the component should allow the user to rearrange the order of the selected options.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+
+			<xs:attributeGroup ref="ui:multiSelect.constraints.attributes" />
+		</xs:complexType>
+	</xs:element>
+
+
+</xs:schema>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="https://github.com/openborders/wcomponents/namespace/ui/v1.0"
+	xmlns:ui="https://github.com/openborders/wcomponents/namespace/ui/v1.0">
+	<xs:include schemaLocation="attributeGroups.button.xsd" />
+	<xs:include schemaLocation="attributeGroups.window.xsd" />
+
+	<xs:element name="link">
+		<xs:annotation>
+			<xs:documentation>WLink provides a means to link to resources external from the current application.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType mixed="true">
+
+			<xs:sequence>
+				<xs:element name="windowAttributes" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation><p>The windowAttributes element has two functions: its presence indicates that the linked resource should open in a browser window or tab
+								external from the current one and it describes constraints on that target window/tab. Not all user agents honour all settings available in this set
+								and in most cases if a link must target a window other than its own it should do so using only the name attribute and allow the user to control
+								window display.</p>
+							<p> There is implicit linking of attributes @resizeable, @showMenuBar, @showToolBar, @showLocation, @showStatus, @showScrollbars, and @showDirectories
+								where if any of these attributes is set true then all implicit false attributes will be enforced as false.</p></xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						
+						<xs:attribute name="name" type="xs:NMTOKEN" use="required">
+							<xs:annotation>
+								<xs:documentation>A machine readable name for the target window. There are a few reserved words in the HTML specification and some user agents have
+									constraints on names which may cause implementation issues.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+
+						<xs:attributeGroup ref="ui:popupAttributes" />
+
+						<xs:attribute name="showDirectories" type="xs:boolean">
+							<xs:annotation>
+								<xs:documentation>Not implemented: obsolete and no modern browser support.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+
+			<xs:attributeGroup ref="ui:button.link.attributes" />
+
+			<xs:attribute name="url" type="xs:anyURI" use="required">
+				<xs:annotation>
+					<xs:documentation>The location to which the link should link.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="rel" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Descibes the relationship between the document containing the hyperlink and the destination resource. If not set then there is no special
+						relationship between the current document and the linked resource. If this is set then it should be set as per the HTML specification and limited to any one
+						of, or a space separated list of: 
+						<ul>
+							<li>alternate</li>
+							<li>author</li>
+							<li>bookmark</li>
+							<li>help</li>
+							<li>license</li>
+							<li>next</li>
+							<li>nofollow</li>
+							<li>noreferrer</li>
+							<li>prefetch</li>
+							<li>prev</li>
+							<li>search</li>
+							<li>tag</li>
+						</ul>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

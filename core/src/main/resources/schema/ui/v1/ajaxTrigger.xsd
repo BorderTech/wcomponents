@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+XML schema for ajax triggers
+
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="https://github.com/openborders/wcomponents/namespace/ui/v1.0"
+	xmlns:ui="https://github.com/openborders/wcomponents/namespace/ui/v1.0">
+	<xs:element name="ajaxTrigger">
+		<xs:annotation>
+			<xs:documentation>Ajax triggers are used to identify a component as being able to make an asynchronous HTTP request.</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="ajaxTargetId" minOccurs="1" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation> Used to identify the components which will be targetted by the AJAX request's response. This is required before the request is made so
+							that the targets can be identified as WAI-ARIA live regions for improved accessibilty. </xs:documentation>
+					</xs:annotation>
+
+					<xs:complexType>
+						<xs:attribute name="targetId" type="xs:NMTOKEN" use="required">
+							<xs:annotation>
+								<xs:documentation> The value of the id attribute of the target component. </xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+
+			<xs:attribute name="triggerId" type="xs:NMTOKEN" use="required">
+				<xs:annotation>
+					<xs:documentation> The id of the element which will trigger the AJAX request. </xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+
+			<xs:attribute name="allowedUses" type="xs:positiveInteger">
+				<xs:annotation>
+					<xs:documentation> The number of times a trigger can be used. If absent infinity assumed. Really only useful for a value of "1" and by default this is the only
+						supported value. </xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+
+			<xs:attribute name="delay" type="xs:positiveInteger">
+				<xs:annotation>
+					<xs:documentation>This is a delay in MILLISECONDS after which the trigger will fire (without further user intervention). Users will probably not notice any
+						delay &lt; 100 if there are no other pending ajax requests. </xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
