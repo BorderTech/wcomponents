@@ -1,8 +1,5 @@
 package com.github.openborders.examples.petstore.model;
 
-import com.github.openborders.examples.petstore.model.CartBean;
-import com.github.openborders.examples.petstore.model.ConfirmOrderBean;
-import com.github.openborders.examples.petstore.model.PlaceOrderService;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -1,6 +1,5 @@
 package com.github.openborders.examples; 
 
-import com.github.openborders.examples.WDropdownSubmitOnChangeExample;
 import junit.framework.Assert;
 
 import org.junit.Test;

@@ -1,6 +1,5 @@
 package com.github.openborders.examples.petstore;
 
-import com.github.openborders.examples.petstore.ProductImage;
 import java.awt.Dimension;
 
 import org.junit.Assert;

@@ -1,6 +1,5 @@
 package com.github.openborders.examples; 
 
-import com.github.openborders.examples.SimpleFileUpload;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;

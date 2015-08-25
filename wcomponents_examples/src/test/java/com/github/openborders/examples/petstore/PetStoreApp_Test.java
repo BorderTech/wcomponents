@@ -1,6 +1,5 @@
 package com.github.openborders.examples.petstore; 
 
-import com.github.openborders.examples.petstore.PetStoreApp;
 import junit.framework.Assert;
 
 import org.junit.Test;

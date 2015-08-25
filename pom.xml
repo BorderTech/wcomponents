@@ -12,6 +12,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<wcomponents.junit.version>4.8.2</wcomponents.junit.version>
 		<parentLoc>wcomponents</parentLoc>
 	</properties>
 
@@ -325,5 +326,16 @@
 			<url>${sitesUrl}</url>
 		</site>
 	</distributionManagement>
+	
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<scope>test</scope>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>${wcomponents.junit.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 </project>

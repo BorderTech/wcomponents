@@ -1,6 +1,5 @@
 package com.github.openborders.examples.petstore;
 
-import com.github.openborders.examples.petstore.CartPanel;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;

@@ -1,7 +1,5 @@
 package com.github.openborders.examples.petstore.model;
 
-import com.github.openborders.examples.petstore.model.ConfirmOrderBean;
-import com.github.openborders.examples.petstore.model.AddressBean;
 import org.junit.Assert;
 import org.junit.Test;
 

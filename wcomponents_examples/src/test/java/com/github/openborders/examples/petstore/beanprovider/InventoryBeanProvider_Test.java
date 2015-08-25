@@ -1,6 +1,5 @@
 package com.github.openborders.examples.petstore.beanprovider;
 
-import com.github.openborders.examples.petstore.beanprovider.InventoryBeanProvider;
 import java.util.Arrays;
 import java.util.List;
 

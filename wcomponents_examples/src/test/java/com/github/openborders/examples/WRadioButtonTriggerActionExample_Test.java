@@ -1,6 +1,5 @@
 package com.github.openborders.examples; 
 
-import com.github.openborders.examples.WRadioButtonTriggerActionExample;
 import junit.framework.Assert;
 
 import org.junit.Test;

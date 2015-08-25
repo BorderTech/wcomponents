@@ -1,7 +1,5 @@
 package com.github.openborders.examples.petstore.model;
 
-import com.github.openborders.examples.petstore.model.CartBean;
-import com.github.openborders.examples.petstore.model.ProductBean;
 import org.junit.Assert;
 import org.junit.Test;
 

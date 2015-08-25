@@ -1,6 +1,5 @@
 package com.github.openborders.examples; 
 
-import com.github.openborders.examples.TextDuplicator_VelocityImpl;
 import junit.framework.Assert;
 
 import org.junit.Test;

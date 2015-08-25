@@ -51,7 +51,7 @@
 			<scope>test</scope>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.8.2</version>
+			<version>${wcomponents.junit.version}</version>
 		</dependency>
 
 		<!--  The following runtime dependency is for the stand-alone LDE -->
