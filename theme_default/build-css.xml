@@ -103,7 +103,7 @@
 		the path order and fails to overwrite correctly.
 	-->
 	<target name="copyCssSrc">
-		<copy todir="${style.tmp.src.dir}" overwrite="true">
+		<copy todir="${style.tmp.src.dir}" overwrite="true" failonerror="false">
 			<fileset dir="${style.rootdir}" includes="*.css" excludesfile="${excludesfile}" />
 			<filterchain>
 				<expandproperties />
