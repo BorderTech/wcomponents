@@ -1,6 +1,5 @@
 package com.github.openborders.examples.petstore.beanprovider;
 
-import com.github.openborders.examples.petstore.beanprovider.ProductBeanProvider;
 import junit.framework.Assert;
 
 import org.junit.Test;

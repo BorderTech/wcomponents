@@ -1,6 +1,5 @@
 package com.github.openborders.examples.petstore;
 
-import com.github.openborders.examples.petstore.CostRenderer;
 import org.junit.Assert;
 import org.junit.Test;
 

@@ -1,6 +1,5 @@
 package com.github.openborders.examples; 
 
-import com.github.openborders.examples.WDropdownSpecialCharHandlingExample;
 import java.util.List;
 
 import junit.framework.Assert;

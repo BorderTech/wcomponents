@@ -1,6 +1,5 @@
 package com.github.openborders.examples.theme; 
 
-import com.github.openborders.examples.theme.WRadioButtonSelectExample;
 import junit.framework.Assert;
 
 import org.junit.Test;

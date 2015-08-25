@@ -1,6 +1,5 @@
 package com.github.openborders.examples.theme.ajax; 
 
-import com.github.openborders.examples.theme.ajax.AjaxWDropdownExample;
 import junit.framework.Assert;
 
 import org.junit.Test;

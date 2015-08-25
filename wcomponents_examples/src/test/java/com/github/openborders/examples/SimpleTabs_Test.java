@@ -1,6 +1,5 @@
 package com.github.openborders.examples; 
 
-import com.github.openborders.examples.SimpleTabs;
 import java.io.IOException;
 
 import junit.framework.Assert;

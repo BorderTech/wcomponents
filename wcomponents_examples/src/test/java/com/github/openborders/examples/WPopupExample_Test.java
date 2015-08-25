@@ -1,6 +1,5 @@
 package com.github.openborders.examples; 
 
-import com.github.openborders.examples.WPopupExample;
 import java.util.Set;
 
 import junit.framework.Assert;
