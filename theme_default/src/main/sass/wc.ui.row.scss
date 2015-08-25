@@ -1,0 +1,20 @@
+/*
+  wc.ui.row.scss
+  Rows from WRow, columns from WColumn and both from ColumnLayout.
+  box-sizing is really only required if the columns have hgap
+*/
+@import "mixins_common.scss";
+.wc_row > div {
+	@include borderBox;
+	display: inline-block;
+	vertical-align: top;
+
+	@include respond($width: iphone) {
+		display: block;
+		width: 100% !important;
+		max-width: none !important;
+		padding-left: 0 !important;
+		padding-right: 0 !important;
+	}
+}
+/* end wc.ui.row.scss */

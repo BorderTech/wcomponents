@@ -1,0 +1,215 @@
+<project name="BuildXslt" default="build" >
+	<!--
+		NOTE: Building the XSLT requires an XSLT2 aware processor. There is a BUG in ANT 1.8.1
+		which prevents the xslt process' FACTORY from working correctly. Therefore you MUST
+		use ANT 1.8.2 or later to build.
+
+		Build the xslt for a given implementation. The resulting xslt will contain:
+		1. All the xslt from "common" AND
+		2. All the xslt for the specific implementation.
+
+		This build must be called with the name of the implementation rootdir set in property:
+		"implementation.name". If not set then the xslt from "common" alone will be used.
+	-->
+	<import file="build-import.xml"/>
+	<property name="xslt.build.target.dir" location="${target.rootdir}/${xslt.target.dir.name}"/>
+	<property name="xsl.src.dir" location="${common.src.rootdir}/${xslt.target.dir.name}"/>
+	<property name="impl.xsl.src.dir" location="${impl.src.main.dir}/${xslt.target.dir.name}"/>
+	<property name="xsl.tmp.src.dir" location="${tmp.dir}/xsl"/>
+	<property name="xsl.meta.xform.file.name" value="build_all.xsl"/>
+	<property name="xsl.meta.xform.strip_debug.file.name" value="build_strip_debug.xsl"/>
+	<property name="xsl.target.alingual.file.suffix" value="-alingual"/>
+	<property name="xsl.target.intermediate.file.suffix" value="-intermediate.xml"/>
+	<property name="xsl.target.file.prefix" value="${xslt.target.file.name}${xsl.target.alingual.file.suffix}-${build.number}"/>
+	<property name="xsl.target.debug.file.name" value="${xsl.target.file.prefix}${debug.target.file.name.suffix}.xsl"/>
+	<property name="xsl.target.file.name" value="${xsl.target.file.prefix}.xsl"/>
+	<property name="xsl.target.intermediate.file.name" value="${xsl.target.file.prefix}${xsl.target.intermediate.file.suffix}"/>
+	<property name="plugin.xslt.dir.name" value="xslt"/>
+
+	<target name="build"
+		depends="init, copyXslSrc, buildXslt, buildI18nWrappers, minify"
+		description="Builds XSLT artifacts then minifies them">
+<!--		<loadJsDebugMap propertyToSet="xsl.debug.js.map"/>
+		<replace dir="${xslt.build.target.dir}" includes="*${debug.target.file.name.suffix}.xsl" token="@JS_DEBUG_MAP@" value="${xsl.debug.js.map}"/>
+		<replace dir="${xslt.build.target.dir}" includes="*.xsl" token="@JS_DEBUG_MAP@" value=""/>-->
+	</target>
+
+	<!--
+		These XSL "resource bundles"/"wrappers" are consumed not just by the XSL but also
+		by the javascript (which treats them simply as XML files with no XSL behavior).
+	-->
+	<target name="buildI18nWrappers">
+		<copy file="${component.rootdir}/build_i18n_params.xsl" todir="${tmp.dir}" overwrite="true">
+			<filterchain>
+				<expandproperties/>
+			</filterchain>
+		</copy>
+		<xslt basedir="${i18n.build.target.dir}" destdir="${xslt.build.target.dir}"	style="${tmp.dir}/build_i18n_params.xsl">
+			<factory name="net.sf.saxon.TransformerFactoryImpl"/>
+			<param name="includeUrl" expression="${xsl.target.debug.file.name}"/>
+			<regexpmapper from="^(.*)\.xml" to="${xslt.target.file.name}_\1${debug.target.file.name.suffix}.xsl"/>
+		</xslt>
+		
+		<!-- Create a "no locale" version of the default locale XSL -->
+		<copy file="${xslt.build.target.dir}/${xslt.target.file.name}_${default.i18n.locale}${debug.target.file.name.suffix}.xsl"
+			  tofile="${xslt.build.target.dir}/${xslt.target.file.name}${debug.target.file.name.suffix}.xsl"
+			  overwrite="true"/>
+		<!--
+			Seems to be a bug in ant 1.8.2 where it gets confused by the backslash in the \1 matched group ref
+		-->
+		<delete dir="${xslt.build.target.dir}/${xslt.target.file.name}_"/>
+	</target>
+
+	<target name="buildXslt" depends="buildDebugXslt">
+		<buildXSLTPattern pattern="*" targetFile="${xsl.target.debug.file.name}"/>
+	</target>
+
+	<!-- build wc/debug/xsl from files in the wc/debug/*.xsl name space -->
+	<target name="buildDebugXslt">
+		<buildXSLTPattern pattern="${common.debugFiles.name.pattern}" targetFile="${xslt.target.debug.file.name}" includeIncludes="0"/>
+	</target>
+
+	<macrodef name="buildXSLTPattern">
+		<attribute name="pattern"/>
+		<attribute name="targetFile"/>
+		<attribute name="includeIncludes" default="1"/>
+		<sequential>
+			<concat destfile="${tmp.dir}/${xsl.target.intermediate.file.name}" fixlastline="yes" ignoreempty="false">
+				<header filtering="no">&lt;concat&gt;</header>
+				<footer filtering="no">&lt;/concat&gt;</footer>
+				<fileset dir="${xsl.tmp.src.dir}" includes="@{pattern}.xsl" excludesfile="${excludesfile.dynamic}"/>
+			</concat>
+			<simpleAddPatternToExcludes pattern="@{pattern}" destfile="${excludesfile.dynamic}"/>
+			<if>
+				<available file="${tmp.dir}/${xsl.target.intermediate.file.name}"/>
+				<then>
+					<copy file="${component.rootdir}/${xsl.meta.xform.file.name}" todir="${tmp.dir}" overwrite="true">
+						<filterchain>
+							<expandproperties/>
+						</filterchain>
+					</copy>
+					<xslt in="${tmp.dir}/${xsl.target.intermediate.file.name}"
+						out="${xslt.build.target.dir}/@{targetFile}"
+						style="${tmp.dir}/${xsl.meta.xform.file.name}">
+						<param name="includeIncludes" expression="@{includeIncludes}"/>
+						<factory name="net.sf.saxon.TransformerFactoryImpl"/>
+					</xslt>
+				</then>
+			</if>
+		</sequential>
+	</macrodef>
+
+<!--	<macrodef name="addXSLTPatternToExcludes">
+		<attribute name="pattern"/>
+		<sequential>
+			<echo message="${line.separator}@{pattern}" append="true" file="${excludesfile.dynamic}"/>
+		</sequential>
+	</macrodef>-->
+	<!--
+		Make a copy of the source which the rest of the build will use.
+		This also allows the implementation files to overwrite the core files
+		of the same name so the rest of the build script doesn't need to worry
+		about that.
+		NOTE: we use two copies here because there appears to be an ANT bug which changes
+		the path order and fails to overwrite correctly.
+	-->
+	<target name="copyXslSrc">
+		<copy todir="${xsl.tmp.src.dir}" overwrite="true">
+			<fileset dir="${xsl.src.dir}" includes="*.xsl" excludesfile="${excludesfile}"/>
+			<filterchain>
+				<expandproperties/>
+			</filterchain>
+		</copy>
+		<copy todir="${xsl.tmp.src.dir}" overwrite="true" flatten="true">
+			<fileset dir="${common.src.plugin.dir}" includesfile="${plugin.includesfile}" excludesfile="${excludesfile}" erroronmissingdir="false">
+				<filename name="**/${plugin.xslt.dir.name}/*.xsl"/>
+			</fileset>
+			<filterchain>
+				<expandproperties/>
+			</filterchain>
+		</copy>
+		<copy todir="${xsl.tmp.src.dir}" overwrite="true">
+			<fileset dir="${impl.xsl.src.dir}" includes="*.xsl"/>
+			<filterchain>
+				<expandproperties/>
+			</filterchain>
+		</copy>
+		<copy todir="${xsl.tmp.src.dir}" overwrite="true" flatten="true">
+			<fileset dir="${impl.src.plugin.dir}" includesfile="${plugin.includesfile}" excludesfile="${excludesfile}" erroronmissingdir="false">
+				<filename name="**/${plugin.xslt.dir.name}/*.xsl"/>
+			</fileset>
+			<filterchain>
+				<expandproperties/>
+			</filterchain>
+		</copy>
+	</target>
+
+	<!-- note: not going to minify debug.xsl -->
+	<target name="minify" unless="minifiy.resources.off">
+		<taskdef name="xslmin"
+				 classname="com.googlecode.monkeybrown.xslmin.ant.MinifyTask"
+				 classpath="${products.dir}/xsl_compressor/xslmin-2.2.jar"/>
+		<for param="file">
+			<fileset dir="${xslt.build.target.dir}">
+				<include name="*${debug.target.file.name.suffix}.xsl"/>
+			</fileset>
+			<sequential>
+				<var name="base.name" unset="true"/>
+				<var name="xsl.name" unset="true"/>
+				<basename property="base.name" file="@{file}"/><!-- base.name is now the file name without the path -->
+				<propertyregex property="xsl.name"
+					input="${base.name}"
+					regexp="(.+)${debug.target.file.name.suffix}.xsl"
+					select="\1"
+					casesensitive="false" /><!-- xsl.name is now the file name without the ${debug.target.file.name.suffix}.xsl -->
+				<xslmin in="@{file}" out="${xslt.build.target.dir}/${xsl.name}.temp.xsl"/><!-- preserve="true" to prevent stripping unused -->
+				<if>
+					<not><!-- only do this in the i18n wrappers -->
+						<equals arg1="${base.name}" arg2="${xsl.target.debug.file.name}"/>
+					</not>
+					<then>
+						<!-- Change includes to point to minified version (could do this in XSLT but meh) -->
+						<replaceregexp file="${xslt.build.target.dir}/${xsl.name}.temp.xsl"
+							match="${xsl.target.debug.file.name}"
+							replace="${xsl.target.file.name}"
+							byline="true"/>
+					</then>
+				</if>
+				<copy file="${component.rootdir}/${xsl.meta.xform.strip_debug.file.name}" todir="${tmp.dir}" overwrite="true">
+					<filterchain>
+						<expandproperties/>
+					</filterchain>
+				</copy>
+				<!-- final transform to remove xsl isDebug stuff -->
+				<xslt in="${xslt.build.target.dir}/${xsl.name}.temp.xsl"
+					out="${xslt.build.target.dir}/${xsl.name}.xsl"
+					style="${tmp.dir}/${xsl.meta.xform.strip_debug.file.name}">
+					<!--
+						The classpath element pointing to an XSLT 2.0 engine will make ANT
+						use this engine and allow us to use XSLT 2.0 in our intermediate
+						transforms.
+					 -->
+					<factory name="net.sf.saxon.TransformerFactoryImpl"/>
+				</xslt>
+				<delete file="${xslt.build.target.dir}/${xsl.name}.temp.xsl"/>
+			</sequential>
+		</for>
+		<echo message="Done minifying XSLT"/>
+	</target>
+
+	<target name="clean" description="Cleans up all artifacts produced by this build">
+		<delete dir="${xslt.build.target.dir}"/>
+		<delete dir="${xsl.tmp.src.dir}"/>
+		<echo message="Clean from ${ant.file}"/>
+	</target>
+
+	<target name="init" depends="clean">
+		<property file="${properties.build.constants}"/>
+		<mkdir dir="${xslt.build.target.dir}"/>
+		<mkdir dir="${xsl.tmp.src.dir}"/>
+		<available file="${tmp.dir}/${xsl.target.intermediate.file.name}" property=""/>
+		<!-- make an empty dynamic excludes file -->
+		<tempfile property="excludesfile.dynamic" destdir="${tmp.dir}" createfile="true" deleteonexit="true"/>
+	</target>
+
+</project>

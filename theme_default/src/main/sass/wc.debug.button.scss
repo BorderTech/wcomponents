@@ -1,0 +1,12 @@
+/**
+ * wc.debug.button.css
+ * styling for WButton, WCancelButton, WConfirmButton, WPrintButton and WLink[type.BUTTON]
+ * components in debug diagnostic mode.
+ */
+
+/* making the text align left puts the error/warning in a more sensible place
+   without changing the dimensions of the button.*/
+button[data-wc-debugerr],
+button[data-wc-debugwarn]{
+	text-align:left
+}

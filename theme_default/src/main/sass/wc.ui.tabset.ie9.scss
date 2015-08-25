@@ -1,0 +1,11 @@
+/* wc.ui.tabset.ie9.css */
+.top > [role="tablist"]{
+	white-space:nowrap;
+	overflow:hidden
+}
+
+.top > [role="tablist"] > [role="tab"][aria-selected="true"]{
+	position:relative;
+	top: 1px
+}
+/* end wc.ui.tabset.ie9.css */

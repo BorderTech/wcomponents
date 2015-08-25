@@ -1,0 +1,56 @@
+/*
+ * wc.ui.feedback.messages.indicators.scss
+ *    WFieldWarningIndicator
+ *    WFieldErrorIndicator
+ *    WMessageBox/WMessages
+ *    WValidationErrors (server side validation)
+ *    Client side validation error messages
+ *
+ * Iconography for inline messages
+ * This is split out from the main feedback CSS for ease of overriding as it is a lot of
+ * CSS to do a very small job and overriding the whole lot in an implementation would require all
+ * this just to turn off the pseudo elements plus the styling needed for the indicators.
+*/
+@import "mixins_common.scss";
+
+.error, .success, .warn, .info {
+	> li:before {
+		@include useSymbolFont;
+	}
+}
+/* error x */
+.error > li:before{
+	content: "\00D7\00a0"
+}
+
+/* Warn !!*/
+.warn > li:before{
+	content: "\203c\00a0"
+}
+
+/* info i*/
+.info > li:before{
+	content: "\2170\00a0"
+}
+
+/* success tick : could cause i18n problems see http://en.wikipedia.org/wiki/Tick_(check_mark)*/
+.success > li:before{
+	content:"\2713\00a0"
+}
+
+/* message colors */
+ul.error{
+	color: $wc_ui_color_errorForeground;
+}
+
+ul.warn{
+	color: $wc_ui_color_warningForeground;
+}
+
+ul.info{
+	color: $wc_ui_color_infoForeground;
+}
+
+ul.success{
+	color: $wc_ui_color_successForeground;
+}

@@ -1,0 +1,148 @@
+/*
+  wc.ui.dateField.scss
+
+  styling specific to the date input component including the calendar
+  NOTE: unusually we use a single ID'd component for all calendar date pickers
+  and move it around to where it is needed. We do not usually use IDs in this
+  framework, but we like exceptions.
+*/
+@import "mixins_common.scss";
+
+.dateField {
+	display: inline-block;
+	position: relative;
+	&[role="combobox"] {/* partial date field or no native support */
+		@include border($color: $wc_ui_color_border_formControl);
+		&[aria-disabled="true"] {
+			background-color: $wc_ui_color_disabledBackground;
+		}
+	}
+}
+[role="combobox"][aria-expanded="false"] > [role="listbox"] {
+	display: none;
+}
+
+[role="combobox"] > input,
+.wc_wdf_cal {
+	vertical-align: middle
+}
+
+[role="combobox"] {
+	> input {
+		border:0 none !important;
+	}
+	> [role="listbox"] {
+		background-color: $wc_ui_color_globalBackground;
+		@include border;
+		position: absolute;
+		left: $borderWidth * -1;
+		min-width: 100%;
+		padding: 0;
+		margin: 0;
+		list-style-type: none;
+		z-index: 2;
+	}
+	li{
+		padding: 1px $hgap_small;
+		min-height: 1em;
+		margin: 0
+	}
+	[role="option"] {
+		&:hover, &:focus {
+			background-color: $wc_ui_color_invite_bg;
+			cursor: pointer;
+		}
+	}
+}
+
+dialog [role="combobox"] > [role="listbox"]{
+	z-index:22;
+}
+
+/* calendar launch button */
+.wc_wdf_cal {
+	&:hover, &:focus {
+		background-color: $wc_ui_color_invite_bg;
+	}
+	&:before {
+		content: url("../images/wc.ui.dateField.calendar.svg");
+		display: block;
+		height: $lineSize;
+		width: $lineSize;
+	}
+	&[disabled] {
+		visibility: hidden;
+	}
+}
+
+/* This is the calendar container. The important is to override hidden from being inside a closed combo. */
+#wc-calbox {
+	background-color: $wc_ui_color_globalBackground;
+	white-space: nowrap;
+	z-index: 2;
+	&[hidden] {/*override of override */
+		display: none !important
+	}
+}
+dialog #wc-calbox {
+	z-index:22
+}
+
+/* The calendar table */
+#wc-calendar {
+	thead {
+		@include border($pos: bottom);
+		td:last-child { /* container of the close button */
+			padding-right: 0;
+			text-align: right;
+		}
+	}
+	th {
+		background-color: $wc_ui_color_highlight_bg;
+		color: $wc_ui_color_highlight_fg;
+		padding: $vgap_small $hgap_small;
+		text-align: center;
+	}
+	input, thead button:first-of-type {
+		margin-left: $hgap_large;
+	}
+	input { /* year field: FF and IE do not size by max.*/
+		width: 5em
+	}
+	abbr { /* days of the week */
+		border-bottom: 0 none
+	}
+}
+
+#wc-caldaybox td {
+	padding: 0;
+	color: $wc_ui_color_disabledForeground;
+	text-align: center;
+	vertical-align: middle;
+}
+
+/* date picker buttons */
+.wc_wdf_pick {
+	text-align: center;
+	padding: $vgap_small $hgap_small;
+	cursor: pointer;
+	color: $wc_ui_color_globalForeground;
+	width: 100%;
+	&:hover, &:focus {
+		background-color: $wc_ui_color_invite_bg;
+	}
+	&[disabled] {
+		color: $wc_ui_color_disabledForeground;
+		background-color: $wc_ui_color_disabledBackground;
+	}
+	&[aria-pressed='true'] {/* selected date */
+		background-color: $wc_ui_color_highlight_bg;
+		color: $wc_ui_color_highlight_fg;
+	}
+}
+
+/* today */
+.wc_wdf_today {
+	outline:1px solid $wc_ui_color_border;
+}
+/* end wc.ui.dateField.css*/

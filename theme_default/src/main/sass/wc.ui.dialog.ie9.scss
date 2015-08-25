@@ -1,0 +1,41 @@
+/* wc.ui.dialogue.ie9.scss */
+@import "wc.ui.dialog_vars.scss";
+
+dialog {
+	&[open] {
+		display:block;
+	}
+	> [aria-live] {
+		box-sizing:border-box;
+		padding:2em $hgap_normal;
+	}
+	> header, > footer{
+		position: absolute;
+		width: 100%;
+	}
+	> header{
+		height: 16px;
+		overflow: hidden;
+		padding: 3px 0;
+		top: 0;
+		> span {
+			position: absolute;
+			right: 3px;
+			top: 3px;
+			margin-right: 0;
+		}
+	}
+	> footer {
+		bottom: 0;
+	}
+}
+
+.wc_dialog_close.wc_btn_nada {
+	background-image: url(../images/wc.ui.dialog.close.sprite.ie8.png);
+	height: 16px;
+	width: 16px;
+	&:focus, &:hover {
+		background-position: 100% 0;
+	}
+}
+/* end wc.ui.dialogue.ie9.scss*/

@@ -1,0 +1,196 @@
+<project name="BuildJavaScript" default="build">
+	<!--
+		Build the scripts for a given implementation. The resulting scripts will contain:
+		1. All the scripts from "common" AND
+		2. All the scripts for the specific implementation.
+
+		This build must be called with the name of the implementation rootdir set in property:
+		"implementation.name". If not set then the scripts from "common" alone will be used.
+	-->
+	<import file="build-import.xml"/>
+
+	<property name="script.tmp.src.dir" location="${tmp.dir}/src"/>
+	<property name="script.rootdir" location="${common.src.rootdir}/js"/>
+	<property name="impl.script.rootdir" location="${impl.src.main.dir}/js"/>
+	<property name="script.build.target.dir" location="${target.rootdir}/${script.target.dir.name}"/>
+	<property name="plugin.script.dir.name" value="js"/>
+
+	<target name="build"
+		depends="init, copySrc, optimizeJS, copyLibs"
+		description="Builds Javascript artifacts and minifies them">
+	</target>
+
+	<target name="clean" description="Cleans up all artifacts produced by this build">
+		<delete dir="${script.debug.build.target.dir}"/>
+		<delete dir="${script.build.target.dir}"/>
+		<delete dir="${script.tmp.src.dir}"/>
+		<echo message="Clean from ${ant.file}"/>
+	</target>
+
+	<target name="init" depends="clean">
+		<property file="${properties.build.constants}"/>
+		<mkdir dir="${script.debug.build.target.dir}"/>
+		<mkdir dir="${script.build.target.dir}"/>
+		<mkdir dir="${script.tmp.src.dir}"/>
+	</target>
+
+	<!--
+		Make a copy of the source which the rest of the build will use.
+		This is the phase where we replace properties etc.
+		Most importantly, this also allows the implementation files to overwrite the core files
+		of the same name so the rest of the build script doesn't need to worry about that.
+	-->
+	<target name="copySrc">
+		<!-- Note, this is done in two "copy" steps to work around ANT bugs -->
+		<stopwatch name="copySrc" action="start"/>
+		<copy file="${basedir}/node_modules/requirejs/require.js" tofile="${script.tmp.src.dir}/requirejs/require.js"/>
+		<copy file="${basedir}/node_modules/sprintf-js/src/sprintf.js" tofile="${script.tmp.src.dir}/sprintf/sprintf.js"/>
+		<copy todir="${script.tmp.src.dir}/dojo" overwrite="true">
+			<fileset dir="${basedir}/node_modules/dojo">
+				<include name="domReady.js"/>
+				<include name="sniff.js"/>
+				<include name="has.js"/>
+			</fileset>
+		</copy>
+		<copy file="${basedir}/node_modules/sprintf-js/src/sprintf.js" tofile="${script.tmp.src.dir}/sprintf/sprintf.js"/>
+		<!-- main js -->
+		<copy todir="${script.tmp.src.dir}" overwrite="true">
+			<fileset dir="${script.rootdir}" includes="**/*.js"/>
+			<filterchain>
+				<expandproperties/>
+			</filterchain>
+		</copy>
+		<!-- implementation js -->
+		<copy todir="${script.tmp.src.dir}" overwrite="true">
+			<fileset dir="${impl.script.rootdir}" includes="**/*.js"/>
+			<filterchain>
+				<expandproperties/>
+			</filterchain>
+		</copy>
+		
+		<!-- i18n -->
+<!--		<copy todir="${script.tmp.src.dir}/i18n" overwrite="true">
+			<fileset dir="${i18n.build.target.dir}" includes="*.js"/>
+		</copy>-->
+		
+		<!-- default plugins js -->
+		<copy todir="${script.tmp.src.dir}/${plugins.target.dir.name}" overwrite="true">
+			<fileset dir="${common.src.plugin.dir}" includes="**/${plugin.script.dir.name}/**/*.js" erroronmissingdir="false"/>
+			<filterchain>
+				<expandproperties/>
+			</filterchain>
+		</copy>
+		<!-- implementation plugins js -->
+		<copy todir="${script.tmp.src.dir}/${plugins.target.dir.name}" overwrite="true">
+			<fileset dir="${impl.src.plugin.dir}" includes="**/${plugin.script.dir.name}/**/*.js" erroronmissingdir="false"/>
+			<filterchain>
+				<expandproperties/>
+			</filterchain>
+		</copy>
+		
+		<javascript.lint jsdir="${script.tmp.src.dir}"/>
+		<javascript.lint jsdir="${common.src.plugin.dir}"/><!-- The plugins may not be included and therefore not checked above so check them explicitly here unless the build changes so they are always built -->
+		<if>
+			<available file="${impl.src.plugin.dir}" type="dir"/>
+			<then>
+				<javascript.lint jsdir="${impl.src.plugin.dir}"/><!-- The plugins may not be included and therefore not checked above so check them explicitly here unless the build changes so they are always built -->
+			</then>
+		</if>
+		<stopwatch name="copySrc" action="total"/>
+	</target>
+	
+	<target name="copyLibs">
+		<!--
+			Syncs directories from "scripts" to "scripts_debug".
+		-->
+		<copy todir="${script.build.target.dir}/tinymce" >
+			<fileset dir="${basedir}/node_modules/tinymce" includes="**">
+				<exclude name="*jquery*"/>
+			</fileset>
+		</copy>
+		<copy file="${basedir}/node_modules/promise-polyfill/Promise.min.js" tofile="${script.build.target.dir}/promise/Promise.min.js"/>
+		<copy file="${basedir}/node_modules/accessibility-developer-tools/dist/js/axs_testing.js" tofile="${script.build.target.dir}/a11y/axs_testing.js"/>
+		<for param="dir">
+			<dirset dir="${script.build.target.dir}">
+				<include name="*"/>
+			</dirset>
+			<sequential>
+				<var name="dir.name" unset="true"/>
+				<basename property="dir.name" file="@{dir}"/>
+				<if>
+					<not>
+						<available file="${script.debug.build.target.dir}/${dir.name}" type="dir"/>
+					</not>
+					<then>
+						<copy todir="${script.debug.build.target.dir}/${dir.name}">
+							<fileset dir="@{dir}"/>
+						</copy>
+					</then>
+				</if>
+			</sequential>
+		</for>
+	</target>
+
+	<property name="r.js" value="${basedir}/node_modules/requirejs/bin/r.js" />
+	<property name="js.build" value="build-js.js" />
+	<property name="optimized.script.tmp.src.dir" location="${tmp.dir}/rjs_output"/>
+
+	<target name="optimizeJS" description="Combine and minify files.">
+		<stopwatch name="optimizeJS" action="start"/>
+
+		<pathconvert targetos="unix" property="optimized.script.tmp.src.dir.unix">
+			<path>
+				<pathelement location="${optimized.script.tmp.src.dir}"/>
+			</path>
+		</pathconvert>
+		<writeRjsConfig optimizer="uglify2"/>
+		<echo>node ${r.js} -o ${tmp.dir}${file.separator}build-js.js</echo>
+		<nodejs.exec failonerror="true" cwd="${target.rootdir}">
+			<arguments>
+				<arg value="${r.js}"/>
+				<arg value="-o"/>
+				<arg value="${tmp.dir}${file.separator}build-js.js"/>
+			</arguments>
+		</nodejs.exec>
+<!--		<copy todir="${script.debug.build.target.dir}">
+			 Copy the unminified files produced by r.js + uglify2 to the target directory, renaming them to what we expect.
+			<fileset dir="${optimized.script.tmp.src.dir}" includes="**/*.js.src.js"/>
+			<globmapper from="*.js.src.js" to="*.js"/>
+		</copy>
+		<copy todir="${script.debug.build.target.dir}">
+			 Copy the unminified files produced by r.js + closure compiler to the target directory, renaming them to what we expect.
+			<fileset dir="${optimized.script.tmp.src.dir}" includes="**/*.js.src"/>
+			<globmapper from="*.js.src" to="*.js"/>
+		</copy>-->
+		<copy todir="${script.debug.build.target.dir}">
+			<!-- Copy the unminified files to the target directory -->
+			<fileset dir="${script.tmp.src.dir}" includes="**/*"/>
+		</copy>
+		<copy todir="${script.build.target.dir}">
+			<!-- Copy the minified files to the target directory. -->
+			<fileset dir="${optimized.script.tmp.src.dir}" includes="**/*"/>
+		</copy>
+		<stopwatch name="optimizeJS" action="total"/>
+	</target>
+
+	<macrodef name="writeRjsConfig">
+		<attribute name="optimizer"/>
+		<sequential>
+			<echo file="${tmp.dir}/build-js.js">
+({
+	preserveLicenseComments: false,
+	appDir: "src",
+	baseUrl: ".",
+	optimize: "@{optimizer}",
+	optimizeAllPluginResources: true,
+	generateSourceMaps: false,
+	dir: "${optimized.script.tmp.src.dir.unix}",
+	modules: [{
+		name: "wc/common"
+	}]
+})
+			</echo>
+		</sequential>
+	</macrodef>
+
+</project>

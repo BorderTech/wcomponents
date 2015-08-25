@@ -1,0 +1,16 @@
+/*
+	wc.ui.progressBar.ie11.css
+	
+	IE 10 and 11 like big metro progress bars. This is not necessarily a bad thing. Big is 280px wide, 10px high.
+	If you like big then remove this file in your implementation. It is here to make IEs progress bars the same size as 
+	those in Chrome, Firefox and Safari.
+	
+	If you do remove this file, or remove the explicit width, then you should take a look at the faux-progress bars in
+	wc.ui.progressBar.ie9.css to make sure you have not proken them.
+*/
+progress{
+	width:10em;
+	height:1em;
+	vertical-align:-0.2em
+}
+/* end wc.ui.progressBar.ie11.css */

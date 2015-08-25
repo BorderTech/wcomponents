@@ -1,0 +1,41 @@
+//Flex layout mixins
+
+@mixin flex($direction: row, $wrap: nowrap, $justify: flex-start, $align-items: stretch, $align-content: stretch) {
+	display:-webkit-flex;
+	display:flex;
+	-webkit-flex-direction: $direction;
+	-webkit-flex-wrap: $wrap;
+	-webkit-justify-content: $justify;
+	-webkit-align-items: $align-items;
+	-webkit-align-content: $align-content;
+	flex-direction: $direction;
+	flex-wrap: $wrap;
+	justify-content: $justify;
+	align-items: $align-items;
+	align-content: $align-content;
+}
+
+@mixin flexAlignItems($where: flex-start) {
+	-webkit-align-items: $where;
+	align-items: $where;
+}
+
+@mixin flexAlignSelf($align) {
+	-webkit-align-self: $align;
+	align-self: $align;
+}
+
+@mixin flexGrow($int: 0) {
+	-webkit-flex-grow: $int;
+	flex-grow: $int;
+}
+
+@mixin flexJustifyContent($where: flex-start) {
+	-webkit-justify-content: $where;
+	justify-content: $where;
+}
+
+@mixin flexShrink($int: 1) {
+	-webkit-flex-shrink: $int;
+	flex-shrink: $int;
+}

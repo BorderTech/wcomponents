@@ -1,0 +1,17 @@
+/* wc.ui.dialog.mob.css */
+dialog{
+	position:fixed;
+	left:0;
+	top:0;
+	width:96%;
+	height:96%;
+	-moz-box-sizing:border-box;
+	box-sizing:border-box;
+	overflow:auto;
+	margin:2%
+}
+
+dialog > header .wc_maxcont{
+	display:none
+}
+/* end wc.ui.dialog.mob.css */

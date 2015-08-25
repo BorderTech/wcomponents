@@ -1,0 +1,25 @@
+/*
+	wc.ui.feedback.messages.css
+	
+	WFieldWarningIndicator
+	WFieldErrorIndicator
+	WMessageBox/WMessages
+	WValidationErrors (server side validation)
+	Client side validation error messages
+*/
+
+/*
+  Common states for foreground aspects of messages
+  NOTE: the element selector is required here for error messages as we need to 
+  differentiate the message from the element in an error state when both have 
+  the same class  
+*/
+
+ul.error,
+ul.info, 
+ul.warn, 
+ul.success{
+	list-style-type: none;
+	margin: 0;
+	padding:0
+}

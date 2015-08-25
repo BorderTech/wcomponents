@@ -1,0 +1,560 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- NOTE: all file extensions in this map must be lower case as we use .toLowerCase() in the test function in JavaScript --> 
+<mimemap>
+	<mime type="text/h323">
+		<ext name="323"/>
+	</mime>
+	<mime type="application/internet-property-stream">
+		<ext name="acx"/>
+	</mime>
+	<mime type="application/postscript">
+		<ext name="ai"/>
+		<ext name="eps"/>
+		<ext name="ps"/>
+	</mime>
+	<mime type="audio/x-aiff">
+		<ext name="aif"/>
+		<ext name="aifc"/>
+		<ext name="aiff"/>
+	</mime>
+	<mime type="video/x-ms-asf">
+		<ext name="asf"/>
+		<ext name="asr"/>
+		<ext name="asx"/>
+	</mime>
+	<mime type="audio/basic">
+		<ext name="au"/>
+		<ext name="snd"/>
+	</mime>
+	<mime type="video/x-msvideo">
+		<ext name="avi"/>
+	</mime>
+	<mime type="application/olescript">
+		<ext name="axs"/>
+	</mime>
+	<mime type="text/plain">
+		<ext name="bas"/>
+		<ext name="c"/>
+		<ext name="h"/>
+		<ext name="txt"/>
+		<ext name="log"/>
+		<ext name="bat"/>
+	</mime>
+	<mime type="application/x-bcpio">
+		<ext name="bcpio"/>
+	</mime>
+	<mime type="application/octet-stream">
+		<ext name="bin"/>
+		<ext name="class"/>
+		<ext name="dms"/>
+		<ext name="exe"/>
+		<ext name="lha"/>
+		<ext name="lzh"/>
+	</mime>
+	<mime type="image/bmp">
+		<ext name="bmp"/>
+	</mime>
+	<mime type="image/png">
+		<ext name="png"/>
+	</mime>
+	<mime type="application/vnd.ms-pkiseccat">
+		<ext name="cat"/>
+	</mime>
+	<mime type="application/x-cdf">
+		<ext name="cdf"/>
+	</mime>
+	<mime type="application/x-x509-ca-cert">
+		<ext name="cer"/>
+		<ext name="crt"/>
+		<ext name="der"/>
+	</mime>
+	<mime type="application/x-msclip">
+		<ext name="clp"/>
+	</mime>
+	<mime type="image/x-cmx">
+		<ext name="cmx"/>
+	</mime>
+	<mime type="image/cis-cod">
+		<ext name="cod"/>
+	</mime>
+	<mime type="application/x-cpio">
+		<ext name="cpio"/>
+	</mime>
+	<mime type="application/x-mscardfile">
+		<ext name="crd"/>
+	</mime>
+	<mime type="application/pkix-crl">
+		<ext name="crl"/>
+	</mime>
+	<mime type="application/x-csh">
+		<ext name="csh"/>
+	</mime>
+	<mime type="text/css">
+		<ext name="css"/>
+	</mime>
+	<mime type="application/x-director">
+		<ext name="dcr"/>
+		<ext name="dir"/>
+		<ext name="dxr"/>
+	</mime>
+	<mime type="application/x-msdownload">
+		<ext name="dll"/>
+	</mime>
+	<mime type="application/msword">
+		<ext name="doc"/>
+		<ext name="dot"/>
+	</mime>
+	<mime type="application/x-dvi">
+		<ext name="dvi"/>
+	</mime>
+	<mime type="text/x-setext">
+		<ext name="etx"/>
+	</mime>
+	<mime type="application/envoy">
+		<ext name="evy"/>
+	</mime>
+	<mime type="application/fractals">
+		<ext name="fif"/>
+	</mime>
+	<mime type="x-world/x-vrml">
+		<ext name="flr"/>
+		<ext name="vrml"/>
+		<ext name="wrl"/>
+		<ext name="wrz"/>
+		<ext name="xaf"/>
+		<ext name="xof"/>
+	</mime>
+	<mime type="image/gif">
+		<ext name="gif"/>
+	</mime>
+	<mime type="application/x-gtar">
+		<ext name="gtar"/>
+	</mime>
+	<mime type="application/x-gzip">
+		<ext name="gz"/>
+	</mime>
+	<mime type="application/x-hdf">
+		<ext name="hdf"/>
+	</mime>
+	<mime type="application/winhlp">
+		<ext name="hlp"/>
+	</mime>
+	<mime type="application/mac-binhex40">
+		<ext name="hqx"/>
+	</mime>
+	<mime type="application/hta">
+		<ext name="hta"/>
+	</mime>
+	<mime type="text/x-component">
+		<ext name="htc"/>
+	</mime>
+	<mime type="text/html">
+		<ext name="htm"/>
+		<ext name="html"/>
+		<ext name="stm"/>
+	</mime>
+	<mime type="text/webviewhtml">
+		<ext name="htt"/>
+	</mime>
+	<mime type="image/x-icon">
+		<ext name="ico"/>
+	</mime>
+	<mime type="image/ief">
+		<ext name="ief"/>
+	</mime>
+	<mime type="application/x-iphone">
+		<ext name="iii"/>
+	</mime>
+	<mime type="application/x-internet-signup">
+		<ext name="ins"/>
+		<ext name="isp"/>
+	</mime>
+	<mime type="image/pipeg">
+		<ext name="jfif"/>
+	</mime>
+	<mime type="image/jpeg">
+		<ext name="jpe"/>
+		<ext name="jpeg"/>
+		<ext name="jpg"/>
+	</mime>
+	<mime type="application/x-javascript">
+		<ext name="js"/>
+	</mime>
+	<mime type="application/x-latex">
+		<ext name="latex"/>
+	</mime>
+	<mime type="video/x-la-asf">
+		<ext name="lsf"/>
+		<ext name="lsx"/>
+	</mime>
+	<mime type="application/x-msmediaview">
+		<ext name="m13"/>
+		<ext name="m14"/>
+		<ext name="mvb"/>
+	</mime>
+	<mime type="audio/x-mpegurl">
+		<ext name="m3u"/>
+	</mime>
+	<mime type="application/x-troff-man">
+		<ext name="man"/>
+	</mime>
+	<mime type="application/x-msaccess">
+		<ext name="mdb"/>
+	</mime>
+	<mime type="application/x-troff-me">
+		<ext name="me"/>
+	</mime>
+	<mime type="message/rfc822">
+		<ext name="mht"/>
+		<ext name="mhtml"/>
+		<ext name="nws"/>
+	</mime>
+	<mime type="audio/mid">
+		<ext name="mid"/>
+		<ext name="rmi"/>
+	</mime>
+	<mime type="application/x-msmoney">
+		<ext name="mny"/>
+	</mime>
+	<mime type="video/quicktime">
+		<ext name="mov"/>
+		<ext name="qt"/>
+	</mime>
+	<mime type="video/x-sgi-movie">
+		<ext name="movie"/>
+	</mime>
+	<mime type="video/mpeg">
+		<ext name="mp2"/>
+		<ext name="mpa"/>
+		<ext name="mpe"/>
+		<ext name="mpeg"/>
+		<ext name="mpg"/>
+		<ext name="mpv2"/>
+	</mime>
+	<mime type="audio/mpeg">
+		<ext name="mp3"/>
+	</mime>
+	<mime type="application/vnd.ms-project">
+		<ext name="mpp"/>
+	</mime>
+	<mime type="application/x-troff-ms">
+		<ext name="ms"/>
+	</mime>
+	<mime type="application/oda">
+		<ext name="oda"/>
+	</mime>
+	<mime type="application/pkcs10">
+		<ext name="p10"/>
+	</mime>
+	<mime type="application/x-pkcs12">
+		<ext name="p12"/>
+		<ext name="pfx"/>
+	</mime>
+	<mime type="application/x-pkcs7-certificates">
+		<ext name="p7b"/>
+		<ext name="spc"/>
+	</mime>
+	<mime type="application/x-pkcs7-mime">
+		<ext name="p7c"/>
+		<ext name="p7m"/>
+	</mime>
+	<mime type="application/x-pkcs7-certreqresp">
+		<ext name="p7r"/>
+	</mime>
+	<mime type="application/x-pkcs7-signature">
+		<ext name="p7s"/>
+	</mime>
+	<mime type="image/x-portable-bitmap">
+		<ext name="pbm"/>
+	</mime>
+	<mime type="application/pdf">
+		<ext name="pdf"/>
+	</mime>
+	<mime type="image/x-portable-graymap">
+		<ext name="pgm"/>
+	</mime>
+	<mime type="application/ynd.ms-pkipko">
+		<ext name="pko"/>
+	</mime>
+	<mime type="application/x-perfmon">
+		<ext name="pma"/>
+		<ext name="pmc"/>
+		<ext name="pml"/>
+		<ext name="pmr"/>
+		<ext name="pmw"/>
+	</mime>
+	<mime type="image/x-portable-anymap">
+		<ext name="pnm"/>
+	</mime>
+	<mime type="application/vnd.ms-powerpoint">
+		<ext name="pot,"/>
+		<ext name="pps"/>
+		<ext name="ppt"/>
+	</mime>
+	<mime type="image/x-portable-pixmap">
+		<ext name="ppm"/>
+	</mime>
+	<mime type="application/pics-rules">
+		<ext name="prf"/>
+	</mime>
+	<mime type="application/x-mspublisher">
+		<ext name="pub"/>
+	</mime>
+	<mime type="audio/x-pn-realaudio">
+		<ext name="ra"/>
+		<ext name="ram"/>
+	</mime>
+	<mime type="image/x-cmu-raster">
+		<ext name="ras"/>
+	</mime>
+	<mime type="image/x-rgb">
+		<ext name="rgb"/>
+	</mime>
+	<mime type="application/x-troff">
+		<ext name="roff"/>
+		<ext name="t"/>
+		<ext name="tr"/>
+	</mime>
+	<mime type="application/rtf">
+		<ext name="rtf"/>
+	</mime>
+	<mime type="text/richtext">
+		<ext name="rtx"/>
+	</mime>
+	<mime type="application/x-msschedule">
+		<ext name="scd"/>
+	</mime>
+	<mime type="text/scriptlet">
+		<ext name="sct"/>
+	</mime>
+	<mime type="application/set-payment-initiation">
+		<ext name="setpay"/>
+	</mime>
+	<mime type="application/set-registration-initiation">
+		<ext name="setreg"/>
+	</mime>
+	<mime type="application/x-sh">
+		<ext name="sh"/>
+	</mime>
+	<mime type="application/x-shar">
+		<ext name="shar"/>
+	</mime>
+	<mime type="application/x-stuffit">
+		<ext name="sit"/>
+	</mime>
+	<mime type="application/futuresplash">
+		<ext name="spl"/>
+	</mime>
+	<mime type="application/x-wais-source">
+		<ext name="src"/>
+	</mime>
+	<mime type="application/vnd.ms-pkicertstore">
+		<ext name="sst"/>
+	</mime>
+	<mime type="application/vnd.ms-pkistl">
+		<ext name="stl"/>
+	</mime>
+	<mime type="image/svg+xml">
+		<ext name="svg"/>
+	</mime>
+	<mime type="application/x-sv4cpio">
+		<ext name="sv4cpio"/>
+	</mime>
+	<mime type="application/x-sv4crc">
+		<ext name="sv4crc"/>
+	</mime>
+	<mime type="application/x-shockwave-flash">
+		<ext name="swf"/>
+	</mime>
+	<mime type="application/x-tar">
+		<ext name="tar"/>
+	</mime>
+	<mime type="application/x-tcl">
+		<ext name="tcl"/>
+	</mime>
+	<mime type="application/x-tex">
+		<ext name="tex"/>
+	</mime>
+	<mime type="application/x-texinfo">
+		<ext name="texi"/>
+		<ext name="texinfo"/>
+	</mime>
+	<mime type="application/x-compressed">
+		<ext name="tgz"/>
+	</mime>
+	<mime type="image/tiff">
+		<ext name="tif"/>
+		<ext name="tiff"/>
+	</mime>
+	<mime type="application/x-msterminal">
+		<ext name="trm"/>
+	</mime>
+	<mime type="text/tab-separated-values">
+		<ext name="tsv"/>
+	</mime>
+	<mime type="text/iuls">
+		<ext name="uls"/>
+	</mime>
+	<mime type="application/x-ustar">
+		<ext name="ustar"/>
+	</mime>
+	<mime type="text/x-vcard">
+		<ext name="vcf"/>
+	</mime>
+	<mime type="audio/x-wav">
+		<ext name="wav"/>
+	</mime>
+	<mime type="application/vnd.ms-works">
+		<ext name="wcm"/>
+		<ext name="wdb"/>
+		<ext name="wks"/>
+		<ext name="wps"/>
+	</mime>
+	<mime type="application/x-msmetafile">
+		<ext name="wmf"/>
+	</mime>
+	<mime type="application/x-mswrite">
+		<ext name="wri"/>
+	</mime>
+	<mime type="image/x-xbitmap">
+		<ext name="xbm"/>
+	</mime>
+	<mime type="application/vnd.ms-excel">
+		<ext name="xla"/>
+		<ext name="xlc"/>
+		<ext name="xlm"/>
+		<ext name="xls"/>
+		<ext name="xlt"/>
+		<ext name="xlw"/>
+	</mime>
+	<mime type="text/xml">
+		<ext name="xml"/>
+	</mime>
+	<mime type="image/x-xpixmap">
+		<ext name="xpm"/>
+	</mime>
+	<mime type="text/xsl">
+		<ext name="xsl"/>
+		<ext name="xslt"/>
+	</mime>
+	<mime type="image/x-xwindowdump">
+		<ext name="xwd"/>
+	</mime>
+	<mime type="application/x-compress">
+		<ext name="z"/>
+	</mime>
+	<mime type="application/zip">
+		<ext name="zip"/>
+	</mime>
+	<mime type="application/vnd.openxmlformats-officedocument.wordprocessingml.document">
+		<ext name=".docx"/>
+	</mime>
+	<mime type="application/vnd.ms-word.document.macroEnabled.12">
+		<ext name=".docm"/>
+	</mime>
+	<mime type="application/vnd.openxmlformats-officedocument.wordprocessingml.template">
+		<ext name=".dotx"/>
+	</mime>
+	<mime type="application/vnd.ms-word.template.macroEnabled.12">
+		<ext name=".dotm"/>
+	</mime>
+	<mime type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+		<ext name=".xlsx"/>
+	</mime>
+	<mime type="application/vnd.ms-excel.sheet.macroEnabled.12">
+		<ext name=".xlsm"/>
+	</mime>
+	<mime type="application/vnd.openxmlformats-officedocument.spreadsheetml.template">
+		<ext name=".xltx"/>
+	</mime>
+	<mime type="application/vnd.ms-excel.template.macroEnabled.12">
+		<ext name=".xltm"/>
+	</mime>
+	<mime type="application/vnd.ms-excel.sheet.binary.macroEnabled.12">
+		<ext name=".xlsb"/>
+	</mime>
+	<mime type="application/vnd.ms-excel.addin.macroEnabled.12">
+		<ext name=".xlam"/>
+	</mime>
+	<mime type="application/vnd.openxmlformats-officedocument.presentationml.presentation">
+		<ext name=".pptx"/>
+	</mime>
+	<mime type="application/vnd.ms-powerpoint.presentation.macroEnabled.12">
+		<ext name=".pptm"/>
+	</mime>
+	<mime type="application/vnd.openxmlformats-officedocument.presentationml.slideshow">
+		<ext name=".ppsx"/>
+	</mime>
+	<mime type="application/vnd.ms-powerpoint.slideshow.macroEnabled.12">
+		<ext name=".ppsm"/>
+	</mime>
+	<mime type="application/vnd.openxmlformats-officedocument.presentationml.template">
+		<ext name=".potx"/>
+	</mime>
+	<mime type="application/vnd.ms-powerpoint.template.macroEnabled.12">
+		<ext name=".potm"/>
+	</mime>
+	<mime type="application/vnd.ms-powerpoint.addin.macroEnabled.12">
+		<ext name=".ppam"/>
+	</mime>
+	<mime type="application/vnd.openxmlformats-officedocument.presentationml.slide">
+		<ext name=".sldx"/>
+	</mime>
+	<mime type="application/vnd.ms-powerpoint.slide.macroEnabled.12">
+		<ext name=".sldm"/>
+	</mime>
+	<mime type="application/msonenote">
+		<ext name=".onetmp"/>
+		<ext name=".onepkg"/>
+		<ext name=".onetoc2"/>
+		<ext name=".one"/>
+	</mime>
+	<mime type="application/vnd.ms-officetheme">
+		<ext name=".thmx"/>
+	</mime>
+	<mime type="application/vnd.oasis.opendocument.text">
+		<ext name="odt"/>
+	</mime>
+	<mime type="application/vnd.oasis.opendocument.text-template">
+		<ext name="ott"/>
+	</mime>
+	<mime type="application/vnd.oasis.opendocument.text-web">
+		<ext name="oth"/>
+	</mime>
+	<mime type="application/vnd.oasis.opendocument.text-master">
+		<ext name="odm"/>
+	</mime>
+	<mime type="application/vnd.oasis.opendocument.graphics">
+		<ext name="odg"/>
+	</mime>
+	<mime type="application/vnd.oasis.opendocument.graphics-template">
+		<ext name="otg"/>
+	</mime>
+	<mime type="application/vnd.oasis.opendocument.presentation">
+		<ext name="odp"/>
+	</mime>
+	<mime type="application/vnd.oasis.opendocument.presentation-template">
+		<ext name="otp"/>
+	</mime>
+	<mime type="application/vnd.oasis.opendocument.spreadsheet">
+		<ext name="ods"/>
+	</mime>
+	<mime type="application/vnd.oasis.opendocument.spreadsheet-template">
+		<ext name="ots"/>p
+	</mime>
+	<mime type="application/vnd.oasis.opendocument.chart">
+		<ext name="odc"/>
+	</mime>
+	<mime type="application/vnd.oasis.opendocument.formula">
+		<ext name="odf"/>
+	</mime>
+	<mime type="application/vnd.oasis.opendocument.database">
+		<ext name="odb"/>
+	</mime>
+	<mime type="application/vnd.oasis.opendocument.image">
+		<ext name="odi"/>
+	</mime>
+	<mime type="application/vnd.openofficeorg.extension">
+		<ext name="oxt"/>
+	</mime>
+</mimemap>

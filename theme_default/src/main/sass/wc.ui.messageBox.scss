@@ -1,0 +1,49 @@
+/* wc.ui.messagesBox.scss */
+@import "mixins_common.scss";
+/* the message box */
+
+
+.wc_msgbox{
+	background-color: $wc_ui_color_globalBackground;
+	@include border;
+	min-height: 0;
+	padding: 0 0 $vgap_normal 0;
+	> h1 {
+		font-size: 1.25em;
+		margin-top: 0;
+		padding: $vgap_normal $hgap_small;
+	}
+	> button {
+		padding: $vgap_normal $hgap_small;
+	}
+
+	// message types - there can only be one type per box
+	&.error {
+		border-color: $wc_ui_color_errorForeground;
+		> h1 {
+			color: $wc_ui_color_errorForeground;
+		}
+	}
+	&.warn {
+		border-color: $wc_ui_color_warningForeground;
+		> h1 {
+			color: $wc_ui_color_warningForeground;
+		}
+	}
+	&.info {
+		border-color: $wc_ui_color_infoForeground;
+		> h1 {
+			color: $wc_ui_color_infoForeground;
+		}
+	}
+	&.success {
+		border-color: $wc_ui_color_successForeground;
+		> h1 {
+			color: $wc_ui_color_successForeground;
+		}
+	}
+	li { //maintain white space on messages.
+		white-space: pre-wrap
+	}
+}
+/* end wc.ui.messagesBox.scss */

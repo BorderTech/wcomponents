@@ -1,0 +1,15 @@
+<h1 style="background: green">
+$label
+</h1>
+
+<table bgcolor="orange" width="100%">
+<tr><td>
+
+$text
+$duplicateButton
+$clearButton
+
+</td></tr>
+</table>
+
+<hr/>

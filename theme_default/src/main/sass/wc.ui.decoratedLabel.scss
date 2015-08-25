@@ -1,0 +1,18 @@
+/**
+ * wc.ui.decoratedLabel.scss
+ *
+ * Styles for WDecoratedLabel.
+ *
+ * The output element of a WDecoratedLabel is dependent upon the content model
+ * of the containing element bit defaults to span.
+ */
+@import "vars_all.scss";
+
+div.wc_dlbl_seg{
+	display: inline-block;
+}
+
+.wc_dlbl_seg + .wc_dlbl_seg {
+	margin-left: $hgap_small;
+}
+/* end wc.ui.decoratedLabel.scss */

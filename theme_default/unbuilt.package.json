@@ -1,0 +1,24 @@
+{
+	"name": "${maven.project.name}",
+	"version": "${build.number}",
+	"description": "Client side code for WComponent UI tool kit.",
+	"private": true,
+	"optionalDependencies": {
+		"chromedriver": "^2.15.0",
+		"intern": "^2.2.2",
+		"jsdoc-oblivion": "^0.0.4"
+	},
+	"devDependencies": {
+		"accessibility-developer-tools": "^2.7.1-rc.1",
+		"clean-css": "^3.3.7",
+		"css-b64-images": "^0.2.5",
+		"dojo": "^1.10.4",
+		"eslint": "^1.1.0",
+		"jsdoc": "^3.3.0-beta3",
+		"node-sass": "^3.2.0",
+		"promise-polyfill": "^2.1.0",
+		"requirejs": "^2.1.17",
+		"sprintf-js": "^1.0.2",
+		"tinymce": "^4.1.10"
+	}
+}

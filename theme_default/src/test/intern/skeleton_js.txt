@@ -1,0 +1,21 @@
+define(["intern!object", "intern/chai!assert", "./resources/test.utils"], function (registerSuite, assert, testutils) {
+	"use strict";
+
+	var TEST_MODULE = "",
+		controller/*,
+		testHolder,
+		urlResource = "@RESOURCES@/SOME_PAGE.html"*/;
+	registerSuite({
+		name: TEST_MODULE,
+		setup: function() {
+			return testutils.setupHelper([TEST_MODULE], function(obj) {
+				controller = obj;
+				/*testHolder = testutils.getTestHolder();
+				testutils.setUpExternalHTML(urlResource, testHolder);*/
+			});
+		},
+		teardown: function (){
+			//testHolder.innerHTML = "";
+		}
+	});
+});

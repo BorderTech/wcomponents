@@ -1,0 +1,21 @@
+/* wc.ui.legend.scss */
+@import "mixins_common.scss";
+
+.noborder > legend{
+	padding-left: 0
+}
+
+.notext > legend {
+	@include offscreen();
+}
+
+fieldset.wc_req > legend:before{
+	@include mandatoryIndicator;
+	float: right;
+}
+
+fieldset.wc_req.notext > legend:before {
+	content: "";
+}
+
+/* END OF wc.ui.legend.scss */

@@ -1,0 +1,17 @@
+/* wc.ui.separator.scss */
+
+@import "mixins_common.scss";
+
+[role="separator"]{
+	margin: 0;
+	padding: 0;
+	border: 0 none;
+	@include border($pos: bottom);
+	&[aria-orientation="vertical"]{
+		display: inline !important;
+		border-bottom: 0 none;
+		@include border($pos: left);
+	}
+}
+
+/* end wc.ui.separator.scss */

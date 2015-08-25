@@ -1,0 +1,9 @@
+/* wc.common.form.ie8.css
+ * Setting max-width 100% in IE before 9 results in usability and a11y failures in select and unusual collapsing in some
+ * layouts.
+ */
+
+textarea, input, option, select{
+	max-width:none
+}
+/* end wc.common.form.ie8.css */

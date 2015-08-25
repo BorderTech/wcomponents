@@ -1,0 +1,15 @@
+/*wc.ui.table.ie8.scss*/
+@import "vars_all.scss";
+
+tr.wc_table_stripe {
+	background-color: $wc_ui_color_highlight_bg;
+	color: $wc_ui_color_highlight_fg;
+}
+
+.wc_table_rowexp_container,
+.wc_table_sel_wrapper {
+	max-width: $lineSize;
+	width: $lineSize;
+}
+
+/*end wc.ui.table.ie8.scss*/

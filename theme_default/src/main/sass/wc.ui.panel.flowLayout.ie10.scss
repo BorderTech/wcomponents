@@ -1,0 +1,26 @@
+/* wc.ui.panel.flowLayout.ie10.css */
+.flowLayout{
+	display:-ms-flexbox;
+	-ms-flex-direction:row;
+	-ms-flex-pack:start;
+	-ms-flex-wrap:wrap;
+	-ms-flex-align:start
+}
+
+.flowLayout.middle{
+	-ms-flex-align:center
+}
+
+.flowLayout.baseline{
+	-ms-flex-align:baseline
+}
+
+.flowLayout.bottom{
+	-ms-flex-align:end
+}
+
+/*NOTE: inline-block allows for block descendants without breaking, inline doesn't */
+.flowLayout > div{
+	-ms-flex:0 1 auto
+}
+/* end wc.ui.panel.flowLayout.ie10.css */

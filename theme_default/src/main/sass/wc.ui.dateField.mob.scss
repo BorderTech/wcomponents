@@ -1,0 +1,59 @@
+/* wc.ui.dateField.mob.css */
+@import "mixins_common.scss";
+/* The main purpose of this CSS is to make the pop-up calendar full screen. We make all of the buttons bigger to
+   make them easier for fingers to push and finally add a close button to make up for the lack of an escape key. */
+#wc-calbox {
+	position: fixed;
+	left: 0;
+	top: 0;
+	height: 100%;
+	width: 100%;
+	table{
+		height: 100%;
+		font-size: 1.5em
+	}
+}
+
+#wc-calendar {
+	thead {
+		tr {
+			vertical-align: middle;
+		}
+		td {/* The td in the thead contain the form controls to change the date or close the calendar.*/
+			padding: $hgap_normal;
+		}
+		button {
+			background-color: transparent;
+			padding: 0;
+			border: 0 none;
+			margin-left: $hgap_normal;
+			width: $lineSize;
+		}
+	}
+	th { /* The th contain the day name addreviations. */
+		font-size:1em;
+	}
+}
+
+.wc_wdf_mv {
+	&[value="-1"]::before {
+		content: url(../images/wc.ui.dateField.calendar.mob.back1.svg);
+	}
+	&[value="1"]::before {
+		content: url(../images/wc.ui.dateField.calendar.mob.forward1.svg);
+	}
+	&[value="t"]::before {
+		content: url(../images/wc.ui.dateField.calendar.mob.today.svg);
+	}
+}
+
+.wc_wdf_cls::before {
+	content: url(../images/wc.ui.dateField.calendar.mob.close.svg);
+}
+
+
+#wc-caldaybox .wc_wdf_pick {
+	width: 100%;
+	height: 100%;
+}
+/* end wc.ui.dateField.mob.css */

@@ -1,0 +1,309 @@
+<project name="BuildJSDoc" default="build" >
+	<description>Builds the JSDoc3 documentation for the current WComponent theme. Assumes ANT 1.9.1+</description>
+	<import file="build-import.xml"/>
+
+	<!--
+		################################################################################################################
+		Just let me set my own config
+		################################################################################################################
+		To use your own jsdoc configuration file create a file named 'jsdoc.json' in your implementation root directory
+		and you can then ignore the rest of this file.
+
+		See http://usejsdoc.org/about-configuring-jsdoc.html for info about how to configure JSDoc. If you need to read
+		that doco you probably do not want a completely custom configuration.
+
+		NOTE though that the default config	should suit most uses most of the time and it does have quite a lot of
+		options set by over-rideable properties.
+
+		################################################################################################################
+		OK, you win, I will use your config but I need to make changes...
+		################################################################################################################
+		Most of the config is simple and split into a few overridable properties immediately below.
+
+		README.md
+		=========
+		If you want a custom README.md file to go into your JSDoc index page create a README.md file in your
+		implementation src/site/markdown/ directory. Otherwise we will build one for you (see ./unbuilt.README.md). If
+		you REALLY want an empty index page create a file [implementation]/src/site/markdown/README.md and leave it
+		empty.
+
+		This is just here to confuse you (the real options start after this property but it needs to be set early).
+		===========================================================================================================
+		Relative path from JSDoc back to the Maven site main directory. This is to put some stuff into the default
+		README.md file and set a default value for the templates "footer" string. You may not need this at all depending
+		on what you do with those two things.
+
+		This *will* need to be changed if it is used in your README or anywhere else AND:
+		1. you change the nesting of jsdoc.target.dir to add or remove directories; or
+		2. use a custom package.json without a version number or remove the version number from unbuilt.package.json
+		(please dont).
+
+		We expect the JSDoc to be in [output_dir]/site/jsdoc/[package_name]/[version]/ and the main maven site is
+		[output_dir]/site/ so the relative path is ../../../.
+	-->
+	<property name="jsdoc.to.maven.relative.path" value="../../../"/>
+
+	<!--
+		################################################################################################################
+		CONFIGURATION OPTIONS
+		################################################################################################################
+
+		Documenting private members
+		===========================
+		Do you want to document private members? Set "true" to document private members. The string is written straight
+		into the config unquoted as a Boolean so it is not ANT-falsey.
+	-->
+	<property name="jsdoc.private" value="false"/>
+
+	<!--
+		Templating plugin
+		=================
+		The name of the templating plugin you want to use. The "templates" defaults below will work with the default
+		here so if you change this then you will probably need to change the jsdoc.config.templates.options property
+		too.
+
+		This is actually used to build the path to the templates "publish" module so may vary with some templates. For
+		example:
+			JSDoc3 default : "jsdoc/templates/default"
+			ink-docstrap : "ink-docstrap/template"
+			jaguarjs-jsdoc : "jaguarjs-jsdoc".
+
+		If you change the template you may have to change the file unbuilt.package.json to include the dependency. The
+		JSDoc3 default template will work without modifying the unbuilt.package.json.
+
+		REMEMBER : change this and you may have to change the "templates" properties below.
+	-->
+	<property name="jsdoc.template.plugin" value="jsdoc-oblivion/template" />
+
+	<!--
+		Some strings used in templates
+		==============================
+		These properties you may want to override. They are just strings used as configuration values when completing
+		the "templates" JSON object. If you use the default template plugin you can change them here and stop reading.
+		You can ignore these and create a "templates" segment of your own to meet the requirements of a particular
+		template: see property jsdoc.config.templates.options just below.
+	-->
+	<!-- What is the application name? This needs something. -->
+	<property name="jsdoc.output.systemName" value="WComponents ${implementation.name}"/>
+
+	<!-- How do you like your dates? -->
+	<property name="jsdoc.output.dateFormat" value="YYYY-MM-DD"/>
+
+	<!-- Footer? Empty is acceptable. -->
+	<property name="jsdoc.output.footer" value="${jsdoc.output.systemName} is powered by &lt;a href='http://vanilla-js.com/' target='_blank'&gt;&lt;img src='${jsdoc.to.maven.relative.path}images/vanillajs.png' alt='Vanilla JS'/&gt;&lt;/a&gt;."/>
+
+	<!-- Copyright notice? Empty is acceptable. -->
+	<property name="jsdoc.output.copyright" value="${jsdoc.output.systemName} is copyright &amp;#xa9; see https://github.com/OpenBorders."/>
+
+	<!--
+		A Common inconsistency
+		======================
+		Some templates use "systemName" and some use "applicationName" as the key in the templates JSON object.
+	-->
+	<property name="jsdoc.config.templates.systemName.key" value="systemName"/>
+
+	<!--
+		Eye Candy
+		=========
+		The "theme" of the templating plugin. Not all templating plugins use this and some may fail if it is present.
+		The default is for jsdoc-oblivion.
+	-->
+	<property name="jsdoc.config.templates.theme" value="oblivion"/>
+
+	<!--
+		The syntax theme of the templating plugin. If supported usually one of "light" or "dark".
+	-->
+	<property name="jsdoc.config.templates.syntax.theme" value="dark"/>
+
+	<!--
+		The config "templates" object
+		=============================
+		This is a chunk of JSON. It defines the "templates" object's properties in the JSDOc config file.
+
+		See http://usejsdoc.org/about-configuring-jsdoc.html#output-style-configuration and the documentation for your
+		chosen template (such as https://github.com/miguelmota/jsdoc-oblivion) for more info.
+
+		The value below is for jsdoc-oblivion. It
+
+		If you decide not to use the default template defined above then you will be able to use the default config just
+		by overriding this.
+
+		Some of this can also be overridden using the properties up there ^.
+	-->
+	<property name="jsdoc.config.templates.options">
+		"${jsdoc.config.templates.systemName.key}": "${jsdoc.output.systemName}",
+		"cleverLinks":true,
+		"monospaceLinks":false,
+		"default": {
+			"outputSourceFiles":true,
+			"outputSourcePath":true
+		},
+		"linenums":true,
+		"collapseSymbols":false,
+		"navType":"vertical",
+		"theme":"${jsdoc.config.templates.theme}",
+		"inverseNav":true,
+		"dateFormat":"${jsdoc.output.dateFormat}",
+		"footer":"${jsdoc.output.footer}",
+		"syntaxTheme":"${jsdoc.config.templates.syntax.theme}",
+		"copyright":"${jsdoc.output.copyright}"
+	</property>
+	
+	<!--
+		################################################################################################################
+		END SIMPLE CONFIGURATION OPTIONS.
+		################################################################################################################
+
+
+		################################################################################################################
+		LEAVE THIS STUFF ALONE!
+		If you are bored you can stop reading now. Leave everything below this as it is unless changing the default
+		JSDoc build.
+
+		REALLY: JUST LEAVE IT ALONE!
+		################################################################################################################
+
+		Maven integration
+		====================
+		The output directory for the default JSDoc configuration file should be determined by maven when running the
+		site task. To do this we have a property
+			theme.documentation.dir
+		which shold point to the ROOT directory into which the site wants all of the theme documentation to be put.
+		The JSDoc will be put into a sub-directory of this named "jsdoc". If this is not set then the default is
+		[project]/target/site which is probably where you want it anyway.
+
+		We have the following properties:
+		1. theme.documentation.dir
+			The root of the theme documentation. Should come from the POM but we fall back to ${build.rootdir}
+		2. jsdoc.target.dir
+			This is the file system location to which we are going to write the jsdoc doco output. This is
+			${theme.documentation.dir}/jsdoc. If you change this you should also change the site.xml as it links to the
+			JSDOc from the Maven site.
+			This property is used in mkdir but it cannot be used as-is in JSON if being built on windows, therefore we
+			need to unix-ify it later.
+	-->
+	<property name="theme.documentation.dir" location="${build.rootdir}/site"/>
+	<property name="jsdoc.target.dir" location="${theme.documentation.dir}/jsdoc"/>
+
+	<!--
+		Only build if we have a directory of JavaScript to document. No point going on otherwise.
+	-->
+	<target name="jsdoc.run.check">
+		<available property="jsdoc.run" file="${script.debug.build.target.dir}" type="dir"/>
+	</target>
+
+	<!--
+		Build the JSDoc Woo Hoo!
+
+		This gets (or writes) the JSDoc config then executes the nodejs jsdoc task. Simple.
+		Seems like a lot of guff to get here...
+
+		NOTE: some of these properties do not seem to get used: check unbuilt.README.md and unbuilt.jsdoc.json before
+		you go deleting them.
+	-->
+	<target name="build" if="jsdoc.run" depends="jsdoc.run.check" description="Building the JSDoc.">
+		<!-- The JSDoc goes here in UNIX format to include in JSON. -->
+		<pathconvert targetos="unix" property="jsdoc.output.dir">
+			<path>
+				<pathelement location="${jsdoc.target.dir}"/>
+			</path>
+		</pathconvert>
+
+		<!--
+			Get or build the README.md file. If the implementation has a README.md in
+			[implementation]/src/site/markdown/README.md then use it. Otherwise built the default readme file.
+		-->
+		<if>
+			<available file="${impl.src.dir}/src/site/markdown/README.md" type="file"/>
+			<then>
+				<pathconvert targetos="unix" property="jsdoc.readme.dir">
+					<path>
+						<pathelement location="${impl.src.dir}/src/site/markdown/"/>
+					</path>
+				</pathconvert>
+			</then>
+			<else>
+				<!--
+					The copy produces a default README.md in the temp dir but we need the unix-y temp dir path for JSON.
+				-->
+				<copy file="${component.rootdir}/unbuilt.README.md" tofile="${tmp.dir}/README.md" overwrite="true">
+					<filterchain>
+						<expandproperties/>
+					</filterchain>
+				</copy>
+				<!-- the temp dir is here in unix format -->
+				<pathconvert targetos="unix" property="jsdoc.readme.dir">
+					<path>
+						<pathelement location="${tmp.dir}"/>
+					</path>
+				</pathconvert>
+			</else>
+		</if>
+		<property name="jsdoc.readme" value="${jsdoc.readme.dir}/README.md"/>
+
+		<!--
+			Path to the template to use. We use the plugin you defined up there ^ in jsdoc.template.plugin. You probably
+			want to leave this alone.
+		-->
+		<pathconvert targetos="unix" property="jsdoc.base.dir">
+			<path>
+				<pathelement location="${basedir}"/>
+			</path>
+		</pathconvert>
+		<property name="jsdoc.template" value="${jsdoc.base.dir}/node_modules/${jsdoc.template.plugin}"/>
+
+		<pathconvert targetos="unix" property="jsdoc.source.dir">
+			<path>
+				<pathelement location="${script.debug.build.target.dir}"/>
+			</path>
+		</pathconvert>
+
+		<!-- now do the jsdoc thingy -->
+		<!--
+			Path to jsdoc.js: You probably do not want to change this: we load up the node modules as needed.
+			Actually: you REALLY do not want to change this!
+		-->
+		<property name="jsdoc.node.run" value="${basedir}/node_modules/jsdoc/jsdoc.js" />
+		
+		<!--
+			Stuff we do not wish to document. 
+			An array of paths to exclude which should always include external (dojo, requirejs etc). This is built from
+			the list of directories in the built source (and obviously excludes the "wc" directory).
+		-->
+		<dirset id="jsdoc.excludes.dirset" dir="${jsdoc.source.dir}" includes="*" excludes="wc, ${plugins.target.dir.name}"/>
+		<pathconvert pathsep="&quot;, &quot;" property="jsdoc.excludes" targetos="unix" refid="jsdoc.excludes.dirset"/>
+		
+		<!-- Copy the default config file to expand properties. -->
+		<copy file="${component.rootdir}/unbuilt.jsdoc.json" tofile="${tmp.dir}/jsdoc.json" overwrite="true">
+			<filterchain>
+				<expandproperties/>
+			</filterchain>
+		</copy>
+		<!--
+			This is the magic which determines which config file we are going to use.
+			1. If there is a config in the implementation, use it; else
+			2. use the config which is written by this build.
+		-->
+		<available property="jsdoc.config" file="${impl.src.dir}/jsdoc.json" type="file" value="${impl.src.dir}/jsdoc.json"/>
+		<property name="jsdoc.config" location="${tmp.dir}/jsdoc.json" />
+
+		<stopwatch name="node-jsdoc" action="start"/>
+		<echo>node ${jsdoc.node.run} -c ${jsdoc.config}</echo>
+		<nodejs.exec failonerror="false" cwd="${target.rootdir}">
+			<arguments>
+				<arg value="${jsdoc.node.run}"/>
+				<arg value="-c"/>
+				<arg value="${jsdoc.config}"/>
+			</arguments>
+		</nodejs.exec>
+		<stopwatch name="node-jsdoc" action="total"/>
+	</target>
+	<!--
+		NOTES
+		Path manipulation
+		====================
+		JSDoc configuration JSON file requires file paths in real (forward /) format. So we have to convert a pile of
+		previously defined locations. These conversions are done as they are needed so you will see them scattered
+		hither and yon.
+		-->
+</project>

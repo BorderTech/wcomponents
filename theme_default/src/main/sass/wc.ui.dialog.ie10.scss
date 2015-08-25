@@ -1,0 +1,34 @@
+/* wc.ui.dialog.ie10.css */
+dialog[open]{
+	display:-ms-flexbox;
+	-ms-flex-direction:column;
+	-ms-flex-pack:justify;
+	-ms-flex-wrap:nowrap;
+	-ms-flex-align:start
+}
+
+dialog > [aria-live]{
+	-ms-flex:1 1 auto
+}
+
+dialog > header, 
+dialog > footer{
+	-ms-flex:0 0 auto
+}
+
+dialog > header{
+	display:-ms-flexbox;
+	-ms-flex-direction:row-reverse;
+	-ms-flex-pack:justify;
+	-ms-flex-wrap:nowrap;
+	-ms-flex-align:center
+}
+
+dialog > header > h1{
+	-ms-flex:1 1 auto
+}
+
+dialog > header > span{
+	-ms-flex:0 1 auto
+}
+/*end wc.ui.dialog.ie10.css */

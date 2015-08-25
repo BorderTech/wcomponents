@@ -1,0 +1,28 @@
+/* wc.ui.panel.chrome.scss
+type CHROME
+ * "A panel with a title displayed in a border."
+ */
+@import "wc.ui.panel_vars.scss";
+.chrome {
+	@include border;
+	> h1 {
+		background-color: $wc_ui_color_panel_chrome_header_background;
+		color: $wc_ui_color_panel_chrome_header_foreground;
+		margin: 0;
+		padding: $hgap_normal;
+	}
+	> div,
+	> .listLayout{
+		margin: $hgap_normal;
+	}
+	> .listLayout.dot,
+	> ol.listLayout {
+		margin-left: 2em;
+	}
+	> .listLayout.none,
+	> .listLayout.flat,
+	> .listLayout.bar{
+		margin-left: $hgap_normal;
+	}
+}
+/* wc.ui.panel.chrome.scss */

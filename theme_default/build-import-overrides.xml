@@ -1,0 +1,9 @@
+<project name="ThemeBuildImportOverrides" >
+	<description>Support for Overriding Local Environment specific configuration.</description>
+
+	<import file="${user.home}/.wc/${user.name}.xml" optional="true"/>
+	<import file="${user.home}/.wc/wc_theme_build_properties.xml" optional="true"/>
+	<import file="${user.name}.xml" optional="true"/>
+	<import file="wc_theme_build_properties.xml" optional="true"/>
+
+</project>

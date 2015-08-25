@@ -1,0 +1,49 @@
+/* wc.ui.combo.scss */
+@import "mixins_common.scss";
+
+/* this redundant rule is not as redundant as you might think. */
+datalist {
+	display:none
+}
+/* the background-size rule fixes an IE11 bug */
+input[role="combobox"]{
+	background-image: url(../images/wc.ui.combo.arrow.svg);
+	background-position: 100% 0;
+	background-repeat: no-repeat;
+	background-size: $lineSize 100%;
+	@include border;
+	@include borderBox;
+	padding-right: 1.667em;
+	&:hover, &:focus {
+		background-image:url(../images/wc.ui.combo.arrow.focus.svg);
+	}
+	&[disabled] {
+		background-image:url(../images/wc.ui.combo.arrow.d.svg);
+	}
+	~ [role="listbox"] {
+		background-color: $wc_ui_color_globalBackground;
+		@include border;
+		display: block;
+		list-style-type: none;
+		margin: 0;
+		max-width: 100%;
+		padding: 0;
+		position: absolute;
+		&[aria-busy="true"] { /* we do not want dynamic suggestion lists to go transparent when busy */
+			background-color: $wc_ui_color_globalBackground !important
+		}
+	}
+}
+
+
+li[role="option"]{
+	margin: 0;
+	min-height: 1em;
+	padding: $hgap_small;
+	&:hover, &:focus {
+		background-color: $wc_ui_color_invite_bg;
+		cursor: pointer;
+	}
+}
+
+/* end wc.ui.combo.scss */

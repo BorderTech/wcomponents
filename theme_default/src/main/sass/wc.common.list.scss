@@ -1,0 +1,20 @@
+/* wc.common.list.scss
+ Styles applied to list output of many components. */
+@import "vars_all.scss";
+
+/* represents a list with no bullets */
+.wc_list_nb {
+	margin: 0;
+	padding: 0;
+	list-style-type: none
+}
+
+/* text mode option and optgroup emulation*/
+li.wc_inoptgroup {
+	text-indent: $hgap_large;
+}
+
+/* opt group emulator */
+.wc_optgroup {
+	font-weight: bold
+}

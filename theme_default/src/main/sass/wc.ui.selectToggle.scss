@@ -1,0 +1,48 @@
+/*
+ * wc.ui.selectToggle.scss
+ * selectToggle is either a definition list of buttons or a checkbox. The styling applies
+ * only to the definition list variant
+ * Select: All | None
+ */
+@import "mixins_common.scss";
+.wc_seltog {
+	span:first-child { // push the options off of the select keyword
+		margin-right: $hgap_normal;
+	}
+	button {
+		&[aria-checked="true"] {
+			font-weight: bold
+		}
+		+ button::before{
+			content: "|";
+			margin: 0 $hgap_small;
+			font-weight: normal
+		}
+	}
+	&[role="checkbox"] { // Graphical representation of state when rendered as a control
+		&::before {
+			content:url(../images/wc.common.checkbox.svg);
+			@include makeBox($width: 1em, $height: 1em);
+			vertical-align: text-top; // ensure that the 1em "checkbox" analog lines up with any surrounding inline text.
+		}
+		&[aria-checked="true"]::before {
+			content: url(../images/wc.common.checkbox.selected.svg);
+		}
+		&[aria-checked="mixed"]::before {
+			content: url(../images/wc.common.checkbox.indeterminate.svg);
+		}
+		&[disabled] {
+			&::before, &[aria-checked="mixed"]::before {
+				content:url(../images/wc.common.checkbox.indeterminate.d.svg);
+			}
+			&[aria-checked="true"]::before{
+				content:url(../images/wc.common.checkbox.selected.disabled.svg);
+			}
+		}
+	}
+	+ label{
+		margin-left: $hgap_small;
+	}
+}
+
+/* end wc.ui.selectToggle.scss */

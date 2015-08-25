@@ -1,0 +1,18 @@
+/* wc.ui.backToTop.scss */
+@import "mixins_common.scss";
+
+.wc_btt{
+	bottom: 1em;
+	position: fixed;
+	right: 1em;
+	&:before {
+		display: block;
+		content:url(../images/wc.ui.backToTop.svg);
+		height: 4em;
+		width: 4em;
+	}
+	> span {
+		@include offscreen();
+	}
+}
+/* end wc.ui.backToTop.scss */

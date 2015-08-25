@@ -1,0 +1,12 @@
+/* wc.ui.panel.footer.scss
+ * WPanel Type.FOOTER
+ * This CSS for the page footer
+ */
+@import "wc.ui.panel_vars.scss";
+.footer {
+	background-color: $wc_ui_color_panel_footer_background;
+	color: $wc_ui_color_panel_footer_foreground;
+	padding: $hgap_normal;
+}
+
+/* end wc.ui.panel.footer.scss */

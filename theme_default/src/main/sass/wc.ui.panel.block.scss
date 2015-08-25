@@ -1,0 +1,13 @@
+/* wc.ui.panel.block.scss
+ * type BLOCK
+ * If you are reading this with knowledge of HTML and CSS you are possibly thinking
+ * "divs are blocks so surely WPanel type "block" should do nothing?"
+ * But that would be too easy. A WPanel with no type is just a container. Type
+ * BLOCK does (according to the javadoc): "A 'block' type panel has padding around
+ * the edges."
+ */
+@import "wc.ui.panel_vars.scss";
+.block {
+	padding: $hgap_normal;
+}
+/* end wc.ui.panel.block.scss */

@@ -1,0 +1,25 @@
+/* wc.ui.skipLinks.scss */
+@import "vars_all.scss";
+
+.skipLinks {
+	height: 0;
+	left: 0;
+	position: absolute;
+	text-align: center;
+	top: 0;
+	vertical-align: middle;
+	width: 100%;
+	a {
+		left: -9999px;
+		position: absolute;
+		&:focus{
+			position: static;
+			display: inline-block;
+			background-color: $wc_ui_color_globalBackground;
+			color: $wc_ui_color_globalForeground;
+			padding: $hgap_normal;
+			z-index: 100;
+		}
+	}
+}
+/* end wc.ui.skipLinks.scss */

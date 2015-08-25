@@ -1,0 +1,11 @@
+/**
+ * wc.debug.abbr.css
+ * styling for ui:abbr/(WAbbrText) component in debug diagnostic mode
+ */
+
+abbr[ata-wc-debuginfo],
+abbr[data-wc-debugwarn],
+abbr[data-wc-debugerr]{
+	display:inline-block
+}
+/* end wc.debug.abbr.css */

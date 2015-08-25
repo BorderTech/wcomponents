@@ -1,0 +1,58 @@
+/**
+ * wc.ui.label.css
+ * styles for WLabel and the label emulators
+ */
+
+/*
+ .hint is additional text for labels that describe other information for the
+ related form element
+*/
+@import "wc.ui.label_vars.scss";
+
+.hint {
+	@include labelHint;
+}
+
+/* use inline-block on a label-dummy to prevent a required marker flying off the end */
+span.label {
+	display:inline-block;
+}
+
+/* space between a checkable and its label */
+[type="radio"] + label, [type="checkbox"] + label,
+.checkbox + span.label, .radio + span.label {
+	margin-left: $hgap_small;
+}
+
+/* required markers */
+.wc_req {
+	[type="radio"] + &:before,
+	[type="checkbox"] + &:before {
+		margin-right: $hgap_small;
+	}
+	[type="radio"] + &:after,
+	[type="checkbox"] + &:after {
+		display: none;
+	}
+}
+label.wc_req:after,
+.label.wc_req:after,
+[type="radio"] +.wc_req:before,
+[type="checkbox"] + .wc_req:before {
+	@include mandatoryIndicator;
+}
+
+label, .label {
+	&.wc_req {
+		@include borderBox;
+		padding-right: 1em;
+		position: relative;
+		&:after {
+			position:absolute;
+			right:$hgap_small;
+			top: 0;
+		}
+	}
+}
+
+/* end wc.ui.label.css*/

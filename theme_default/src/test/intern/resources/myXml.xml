@@ -1,0 +1,8 @@
+<?xml version='1.0'?>
+<div>
+    <htmlInput/>
+	<textarea id="mytextarea">This XML should be output verbatim:&lt;?xml version="1.0" encoding="UTF-16"?&gt;&lt;ns2:Envelope xmlns:ns2="http://schemas.xmlsoap.org/soap/envelope/"&gt;</textarea>
+    <script defer='defer' type='text/javascript'>
+    	self.fubar='bar';
+    </script>
+</div>

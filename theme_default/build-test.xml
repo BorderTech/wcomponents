@@ -1,0 +1,200 @@
+<project name="BuildTest" default="build" >
+	<!--
+		Build the tests for a given implementation. The resulting tests will contain:
+		1. All the tests from "common" AND
+		2. All the tests for the specific implementation.
+
+		This build must be called with the name of the implementation rootdir set in property:
+		"implementation.name". If not set then the tests from "common" alone will be used.
+	-->
+	<import file="build-import.xml"/>
+
+	<target name="build" description="Build unit tests" depends="init, intern">
+		<antcall target="checkPropertiesExpanded"/>
+		<jsunit srcDir="${intern.target.dir}"/>
+	</target>
+
+	<property name="test.output.rootdir" location="${test.output.dir}/${implementation.name}"/>
+	<property name="intern.target.dir" location="${test.output.rootdir}/intern"/>
+	<property name="impl.intern.srcdir" location="${impl.src.dir}/src/test/intern"/>
+	<property name="intern.srcdir" location="${common.test.rootdir}/intern"/>
+
+	<target name="intern">
+		<copy todir="${intern.target.dir}" overwrite="true">
+			<fileset dir="${intern.srcdir}" excludesfile="${excludesfile}">
+				<include name="*"/>
+			</fileset>
+			<fileset dir="${impl.intern.srcdir}" excludesfile="${excludesfile}">
+				<include name="*"/>
+			</fileset>
+			<filterset>
+				<filter token="RESOURCES" value="../../target/test-classes/${implementation.name}/intern/resources"/>
+				<filter token="HERE" value="${here}"/>
+			</filterset>
+			<filterchain>
+				<expandproperties/>
+			</filterchain>
+		</copy>
+
+		<!-- NOTE: the two step copy here is so we do not try to apply filters to binary resources -->
+		<copy todir="${intern.target.dir}/resources">
+			<fileset dir="${intern.srcdir}/resources" excludesfile="${excludesfile}" includes="**/*.xml,**/*.html,**/*.js,**/*.css"/>
+			<fileset dir="${impl.intern.srcdir}/resources" excludesfile="${excludesfile}" includes="**/*.xml,**/*.html,**/*.js,**/*.css"/>
+			<filterchain>
+				<expandproperties/>
+			</filterchain>
+		</copy>
+		<copy todir="${intern.target.dir}/resources">
+			<fileset dir="${intern.srcdir}/resources" excludesfile="${excludesfile}"  excludes="**/*.xml,**/*.html,**/*.js,**/*.css"/>
+			<fileset dir="${impl.intern.srcdir}/resources" excludesfile="${excludesfile}" excludes="**/*.xml,**/*.html,**/*.js,**/*.css"/>
+		</copy>
+		<javascript.lint jsdir="${intern.target.dir}"/>
+	</target>
+
+
+	<target name="clean" description="Cleans up all artifacts produced by this build">
+		<delete dir="${intern.target.dir}"/>
+		<echo message="Clean from ${ant.file}"/>
+	</target>
+
+
+	<target name="init" depends="clean">
+		<if>
+			<os family="mac"/>
+			<!-- Mac reports the hostname as the IP address with dashes instead of dots, e.g. 192-168-1-9 -->
+			<then>
+				<propertyregex property="httpHost"
+					input="${env.HOSTNAME}"
+					regexp="^(\d+)-(\d+)-(\d+)-(\d+)$"
+					replace="\1.\2.\3.\4"
+					defaultValue="${env.HOSTNAME}"/>
+			</then>
+		</if>
+		<property name="httpHost" value="${env.HOSTNAME}"/>
+		<property file="${properties.build.constants}"/>
+		<property name="xsl.build.path" value="${implementation.name}/${xslt.target.dir.name}" />
+		<property name="xml.build.path" value="${implementation.name}/${xml.target.dir.name}" />
+		<property name="css.build.path" value="${implementation.name}/${css.target.dir.name}" />
+		<if>
+			<equals arg1="${test.target.mode}" arg2="debug" />
+			<then>
+				<property name="jsunit.path.totest" value="${implementation.name}/${script.debug.target.dir.name}"/>
+				<property name="xsl.file.to.test" value="${xslt.target.file.name}${debug.target.file.name.suffix}.xsl" />
+			</then>
+			<else>
+				<property name="jsunit.path.totest" value="${implementation.name}/${script.target.dir.name}"/>
+				<property name="xsl.file.to.test" value="${xslt.target.file.name}.xsl" />
+			</else>
+		</if>
+		<property name="xsl.build.totest" value="${xsl.build.path}/${xsl.file.to.test}" />
+	</target>
+
+	<target name="test" depends="build" description="Run the JavaScript unit tests"/>
+
+	<!--
+		Runs javascript unit tests.
+	-->
+	<macrodef name="jsunit">
+		<attribute name="srcDir" default="${src.dir}"/>
+		<attribute name="configModule" default="intern"/>
+		<attribute name="relativePathToSource" default="target/classes/theme/${implementation.name}/${script.debug.target.dir.name}"/>
+		<attribute name="relativePathToTestdir" default="target/test-classes/${implementation.name}"/>
+		<attribute name="relativePathToTests" default="@{relativePathToTestdir}/intern"/>
+		<attribute name="failonerror" default="true"/>
+		<sequential>
+			<local name="unit.tests"/>
+			<local name="unit.test.src.dir"/>
+			<local name="unit.test.src.dir.raw"/>
+			<local name="amd.src.dir"/>
+			<local name="test.baseurl"/>
+			<condition property="test.default.ua" value="chrome" else="phantomjs">
+				<isset property="test.chrome"/>
+			</condition>
+			<property name="amd.src.dir" value="@{relativePathToSource}"/>
+			<property name="unit.test.src.dir.raw" location="@{srcDir}"/>
+			<pathconvert targetos="unix" property="unit.test.src.dir">
+				<path>
+					<pathelement location="${unit.test.src.dir.raw}"/>
+				</path>
+			</pathconvert>
+			<fileset dir="${intern.target.dir}" id="unitTests">
+				<include name="*.js"/>
+			</fileset>
+			<pathconvert pathsep="," property="unit.tests" refid="unitTests">
+				<chainedmapper>
+					<regexpmapper from="([^\/]+)\.js" to="&quot;@{relativePathToTests}/\1&quot;" handledirsep="true"/>
+				</chainedmapper>
+			</pathconvert>
+			<echo>Found unit tests: ${unit.tests}</echo>
+			<pathconvert targetos="unix" property="test.baseurl">
+				<path>
+					<pathelement location="${intern.target.dir}"/>
+				</path>
+			</pathconvert>
+			<copy todir="${test.output.rootdir}" overwrite="true" force="true">
+				<fileset dir="${common.test.rootdir}">
+					<include name="@{configModule}.js"/>
+				</fileset>
+				<filterchain>
+					<expandproperties />
+				</filterchain>
+			</copy>
+
+			<property name="intern.executable" location="${basedir}/node_modules/intern/runner.js"/>
+			<if>
+				<isset property="test.chrome"/>
+				<then>
+					<property name="chromedriver.executable" location="${basedir}/node_modules/chromedriver/bin/chromedriver"/>
+					<echo>${chromedriver.executable} --port=4444 --url-base=wd/hub</echo>
+					<parallel>
+						<daemons>
+							<nodejs.exec cwd="${basedir}" failonerror="false" spawn="false">
+								<arguments>
+									<arg value="${chromedriver.executable}"/>
+									<arg value="--port=4444"/>
+									<arg value="--url-base=wd/hub"/>
+								</arguments>
+							</nodejs.exec>
+							<!--<wc.exec executable="${chromedriver.executable}" spawn="false">
+								<arg value="- -port=4444"/>
+								<arg value="- -url-base=wd/hub"/>
+							</wc.exec>-->
+						</daemons>
+						<sequential>
+							<sleep seconds="3"/>
+							<echo>node ${intern.executable} config=@{relativePathToTestdir}/@{configModule}</echo>
+							<nodejs.exec cwd="${basedir}" failonerror="true" spawn="false">
+								<arguments>
+									<arg value="${intern.executable}"/>
+									<arg value="config=@{relativePathToTestdir}/@{configModule}"/>
+								</arguments>
+							</nodejs.exec>
+						</sequential>
+					</parallel>
+				</then>
+				<else>
+					<echo>${phantomjs.binary} --webdriver=4444</echo>
+					<parallel>
+						<daemons>
+							<wc.exec executable="${phantomjs.binary}" needscmd="false" spawn="false">
+								<arguments>
+									<arg value="--webdriver=4444"/>
+								</arguments>
+							</wc.exec>
+						</daemons>
+						<sequential>
+							<sleep seconds="3"/>
+							<echo>node ${intern.executable} config=@{relativePathToTestdir}/@{configModule}</echo>
+							<nodejs.exec cwd="${basedir}" failonerror="true" spawn="false">
+								<arguments>
+									<arg value="${intern.executable}"/>
+									<arg value="config=@{relativePathToTestdir}/@{configModule}"/>
+								</arguments>
+							</nodejs.exec>
+						</sequential>
+					</parallel>
+				</else>
+			</if>
+		</sequential>
+	</macrodef>
+</project>

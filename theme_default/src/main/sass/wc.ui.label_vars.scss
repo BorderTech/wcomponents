@@ -1,0 +1,7 @@
+@import "mixins_common.scss";
+
+@mixin labelHint {
+	color: $std_color_secondary;
+	display: block;
+	font-size: 82.5%;
+}

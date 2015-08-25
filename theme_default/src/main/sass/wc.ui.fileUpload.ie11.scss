@@ -1,0 +1,20 @@
+/* wc.ui.fileUpload.ie11.scss */
+@import "mixins_common.scss";
+// The default file upload in IE is a bit ugly if anything is styled at all. This CSS may be considered lipstick. If we
+// cannot style the pseudo elements (IE9-) then it can remain ugly.
+input[type="file"] {
+	padding: 0;
+	background-color: $wc_ui_color_globalBackground;
+	&::-ms-browse { // pseudo-element ::-ms-browse on its own has detrimental effects on all buttons!!
+		border: 0 none;
+	}
+	&::-ms-value {
+		border: 0 none;
+		margin: 0;
+		background-color: inherit;
+	}
+	&[disabled] {
+		background-color: $wc_ui_color_disabledBackground;
+	}
+}
+/* end wc.ui.fileUpload.ie11.scss */

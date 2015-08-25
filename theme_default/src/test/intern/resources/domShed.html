@@ -1,0 +1,85 @@
+<form id="testForm" action="#" method="get">
+	<input id="inp1" disabled="disabled"/>
+	<input id="inp2" disabled/>
+	<input id="inp3"/>
+	<a id="anchor1">a1</a>
+	<a id="anchor2" aria-disabled="true">a2</a>
+	<select id="select1"><option>foo</option></select>
+	<select id="select2" disabled="disabled"><option>bar</option></select>
+	<div id="subscriberDiv1">
+		<input id="subscriberDiv1Input1"/>
+	</div>
+	<div id="selectTests">
+		<input type="button" id="togglebtn1" aria-pressed="false"/>
+		<input type="button" id="togglebtn2" aria-pressed="true"/>
+		<input type="button" id="btn1"/>
+		<input type="checkbox" name="chk1" id="chk1"/>
+		<input type="checkbox" checked="checked" name="chk2" id="chk2"/>
+		<input type="checkbox" name="chk3" id="chk3" indeterminate="true"/>
+		<input type="radio" name="rad1" id="rad1"/>
+		<input type="radio" checked="checked" name="rad1" id="rad2"/>
+		<select name="sel1" id="sel1">
+			<option value="opt1">opt1</option>
+			<option selected="selected" value="opt2">opt2</option>
+		</select>
+		<ul>
+			<li id="fauxChk1" role="checkbox" aria-checked="false">0</li>
+			<li id="fauxChk2" role="checkbox" aria-checked="true">1</li>
+			<li id="presLi" role="presentation">0</li>
+			<li id="justAnLi">0</li>
+			<li id="fauxChk3" role="checkbox" aria-checked="mixed">0</li>
+			<li id="fauxChk4" role="checkbox" aria-disabled="true">0</li>
+		</ul>
+		<ul role="radiogroup">
+			<li id="fauxRad1" role="radio" aria-checked="false">0</li>
+			<li id="fauxRad2" role="radio" aria-checked="true">1</li>
+		</ul>
+		<ul role="listbox" aria-multiselectable="true">
+			<li id="fauxOpt1" role="option" aria-selected="false">0</li>
+			<li id="fauxOpt2" role="option" aria-selected="true">1</li>
+			<li id="fauxOpt3" role="option" aria-checked="true">1</li>
+			<li id="fauxOpt4" role="option" aria-checked="true">1</li>
+		</ul>
+	</div>
+	<span role="button" id="fauxButton1" aria-pressed="false">FauxButton</span>
+	<div id="expandTests">
+		<button id="exp1" type="button" aria-expanded="false">Expand</button>
+		<button id="exp2" type="button" aria-expanded="true">Expand</button>
+		<${wc.dom.html5.element.details} id="details1">
+			<${wc.dom.html5.element.summary} id="details1a">More details</${wc.dom.html5.element.summary}>
+			<div id="details1content">Content</div>
+		</${wc.dom.html5.element.details}>
+		<${wc.dom.html5.element.details} id="details2" open="open">
+			<${wc.dom.html5.element.summary} id="details2a">More details</${wc.dom.html5.element.summary}>
+			<div id="details2content">Content</div>
+		</${wc.dom.html5.element.details}>
+	</div>
+	<div id="hideTests">
+		<button id="hide1" type="button">Hide</button>
+		<button id="hide2" type="button" hidden="hidden">Show</button>
+	</div>
+	<div id="mandatoryTests">
+		<input id="inp7" type="text"/>
+		<input id="inp8" type="text" required="required"/>
+		<fieldset role="radiogroup" class="radioButtonSelect" id="radioButtonGroup1" aria-required="true">
+			<input id="radioButtonGroup1_1" type="radio" required="required" value="0">
+			<input id="radioButtonGroup1_2" type="radio" required="required" value="1">
+		</fieldset>
+		<fieldset role="radiogroup" class="radioButtonSelect" id="radioButtonGroup2">
+			<input id="radioButtonGroup2_1" type="radio" value="0">
+			<input id="radioButtonGroup2_2" type="radio" value="1">
+		</fieldset>
+	</div>
+	<div id="disabledAncestorTests">
+		<fieldset role="radiogroup" class="radioButtonSelect" id="radioButtonGroup3" aria-disabled="true">
+			<input id="radioButtonGroup3_1" type="radio" value="0">
+			<input id="radioButtonGroup3_2" type="radio" value="1">
+		</fieldset>
+	</div>
+	<div id="hiddenAncestorTests" hidden="hidden">
+		<fieldset role="radiogroup" class="radioButtonSelect" id="radioButtonGroup4">
+			<input id="radioButtonGroup4_1" type="radio" value="0">
+			<input id="radioButtonGroup4_2" type="radio" value="1">
+		</fieldset>
+	</div>
+</form>

@@ -1,0 +1,9 @@
+<div style="width:100%; background-color: #dedede; height:42px; border-bottom: 1px solid black;">
+    $!logo
+    <div style="display: inline; text-align: right; float: right; margin-top: 10px;">
+        $!selectOtherPanel 
+    </div>
+</div>
+
+$!messages
+$!mainPanel
