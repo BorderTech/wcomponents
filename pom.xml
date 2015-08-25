@@ -2,10 +2,10 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
-	<name>wcomponents</name>
+	<name>wcomponents_parent</name>
 
 	<groupId>com.github.openborders</groupId>
-	<artifactId>wcomponents</artifactId>
+	<artifactId>wcomponents_parent</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 
 	<packaging>pom</packaging>
@@ -302,7 +302,6 @@
 	</reporting>
 
 	<modules>
-		<module>core</module>
 		<module>theme_parent</module>
 		<module>wcomponents_app_archetype</module>
 		<module>wcomponents_build_tools</module>
@@ -312,6 +311,7 @@
 		<module>wcomponents_sanity4j_plugin</module>
 		<module>wcomponents_examples_lde</module>
 		<module>wcomponents_examples</module>
+	 <module>wcomponents</module>
 	</modules>
 
 	<distributionManagement>

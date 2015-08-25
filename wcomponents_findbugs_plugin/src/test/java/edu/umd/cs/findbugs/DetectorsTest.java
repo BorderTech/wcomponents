@@ -191,7 +191,7 @@ public class DetectorsTest
             project.addFile(s);
         }
 
-        project.addAuxClasspathEntry("../core/target/classes");
+        project.addAuxClasspathEntry("../wcomponents/target/classes");
         setUpDetectors(preferences);
     }
 

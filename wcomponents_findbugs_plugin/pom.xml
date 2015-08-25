@@ -7,7 +7,7 @@
 
 	<parent>
 		<groupId>com.github.openborders</groupId>
-		<artifactId>wcomponents</artifactId>
+		<artifactId>wcomponents_parent</artifactId>
 		<version>1.0.0-SNAPSHOT</version>	
 		<relativePath>../pom.xml</relativePath>
 	</parent>
@@ -58,7 +58,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.github.openborders</groupId>
-			<artifactId>core</artifactId>
+			<artifactId>wcomponents</artifactId>
 			<version>${project.version}</version>
 			<scope>test</scope>
 		</dependency>

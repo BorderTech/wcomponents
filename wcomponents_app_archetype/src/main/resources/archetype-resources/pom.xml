@@ -36,7 +36,7 @@
   
 		<dependency>
 			<groupId>com.github.openborders</groupId>
-			<artifactId>core</artifactId>
+			<artifactId>wcomponents</artifactId>
 			<version>${wcomponent.version}</version>
 		</dependency>
 
