@@ -1,0 +1,26 @@
+// Colour scheme for CSS
+// =====================
+// This file simply translates the colour scheme from ANT to less.
+// These colours can then be used in component definitions.
+
+$std_color_white: #fff;
+$std_color_black: #000;
+$std_color_primary: ${std_color_primary};
+$std_color_secondary: ${std_color_secondary};
+$std_color_tertiary: ${std_color_tertiary};
+$std_color_primary_accent: ${std_color_primary_accent};
+$std_color_secondary_accent: ${std_color_secondary_accent};
+$std_color_tertiary_accent: ${std_color_tertiary_accent};
+$std_color_invite_bg: ${std_color_invite_bg};
+$std_color_invite_fg: ${std_color_invite_fg};
+$std_color_invite_bg_rgba: ${std_color_invite_bg_rgba};
+$std_color_highlight_bg: ${std_color_highlight_bg};
+$std_color_highlight_fg: ${std_color_highlight_fg};
+$std_color_lines: ${std_color_lines};
+$std_color_accent: ${std_color_accent};
+$std_color_success_fg: ${std_color_success_fg};
+$std_color_error_fg: ${std_color_error_fg};
+$std_color_error_bg: ${std_color_error_bg};
+$std_color_warning_fg: ${std_color_warning_fg};
+$std_color_shadow: ${std_color_shadow};
+$std_color_shim: ${std_color_shim};

@@ -1,0 +1,43 @@
+/*
+ * wc.common.buttonLinkImages.scss
+ * Positioning of an image in a WButton or WLink based on the component's imagePosition property. XS:TOKENs for this
+ * property are 'n','e','s','w'.
+ *
+ * Used by:
+ * WButton (incl WCancelButton, WConfirmButton, WPrintButton)
+ * WLink (incl WInternalLink, WContentLink)
+ */
+
+@import "vars_all.scss";
+
+/* Links with north/south images must be inline-block and centered. Buttons have this for free */
+a.wc_btn_img {
+	&n, &s {
+		display:inline-block;
+		text-align:center;
+	}
+}
+
+/* Images in buttons and links are placed in a container so they can be positioned */
+.wc_btn_img {
+	&n, &s {
+		> img {
+			display:block;
+			margin:0 auto;
+		}
+	}
+	&n > img {
+		margin-bottom: $hgap_small;
+	}
+	&s > img{
+		margin-top: $hgap_small
+	}
+	&e > img{
+		margin-left: $hgap_small
+	}
+	&w > img{
+		margin-right: $hgap_small
+	}
+}
+
+/* end wc.common.buttonLinkImages.scss */

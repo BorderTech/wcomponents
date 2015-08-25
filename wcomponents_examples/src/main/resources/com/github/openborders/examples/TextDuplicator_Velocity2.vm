@@ -1,0 +1,9 @@
+<h1 style="background: orange">
+$label
+</h1>
+
+$duplicateButton
+$clearButton
+
+<br />
+$text

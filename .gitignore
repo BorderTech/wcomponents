@@ -17,3 +17,12 @@ nbactions-release-profile.xml
 .settings/
 .DS_Store
 .classpath
+theme_default/node_modules/
+theme_default/node/
+theme_default/package.json
+theme_default/README.md
+theme_default/jsdoc.json
+theme_default/.npmrc
+theme_default/bin/
+theme_default/target/
+*.dat

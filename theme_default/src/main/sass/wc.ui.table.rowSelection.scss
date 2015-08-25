@@ -1,0 +1,31 @@
+/* wc.ui.table.rowSelection.css */
+@import "wc.ui.table.rowSelection_vars.scss";
+
+tr[aria-checked] {
+	&:hover, &:focus {
+		cursor:pointer;
+		@include rowInvite;
+	}
+}
+
+.wc_table_sel_wrapper::before{
+	display:block;
+	width: 1em;
+	height: $lineSize;
+	[role="radio"] > & {
+		content: url(../images/wc.common.radio.svg);
+	}
+	[role="radio"][aria-checked="true"] > & {
+		content: url(../images/wc.common.radio.selected.svg);
+	}
+	[role="checkbox"] > & {
+		content: url(../images/wc.common.checkbox.svg);
+	}
+	[role="checkbox"][aria-checked="true"] > & {
+		content: url(../images/wc.common.checkbox.selected.svg);
+	}
+	[aria-checked][aria-disabled="true"] > & {
+		opacity: $disabledOpacity;
+	}
+}
+/* end wc.ui.table.rowSelection.css */

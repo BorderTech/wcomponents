@@ -1,0 +1,5 @@
+# Only ignore third-party scripts
+**/dojo/**
+**/sprintf/**
+**/requirejs/**
+**/hasjs/**

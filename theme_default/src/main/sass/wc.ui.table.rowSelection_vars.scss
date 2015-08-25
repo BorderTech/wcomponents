@@ -1,0 +1,8 @@
+@import "vars_all.scss";
+
+$disabledOpacity: 0.33;
+
+@mixin rowInvite {
+	background-color: $wc_ui_color_invite_bg;
+	background-color: $wc_ui_color_invite_bg_rgba;
+}

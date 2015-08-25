@@ -1,0 +1,11 @@
+/* wc.ui.tabset.ie9.css */
+.top > [role="tablist"]{
+	display:-ms-flexbox;
+	-ms-flex-pack:start;
+	-ms-flex-wrap:none
+}
+
+.top > [role="tablist"] > [role="tab"]{
+	-ms-flex: 0 1 auto
+}
+/* end wc.ui.tabset.ie9.css */

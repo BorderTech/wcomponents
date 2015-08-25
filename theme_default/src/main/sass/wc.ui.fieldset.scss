@@ -1,0 +1,30 @@
+/*
+  wc.ui.fieldset.css
+
+  WFieldset XML will transform to a fieldset.
+
+  Just a few notes regarding fieldset defaults:
+
+  * Firefox padding:  0.35em 0.625em 0.75em
+  * Chrome padding:  0.35em 0.75em 0.625em
+  * IE padding: 0 2px 3px
+  All three default margin: 0 2px
+
+  Legend:
+  * Firefox & Chrome padding: 0 2px, margin:0. border:0
+  * IE padding: 0 2px, border-width:medium (transparent but changes box)
+*/
+@import "mixins_common.scss";
+
+fieldset {
+	margin:0;
+	padding:1px;
+	@include border;
+}
+
+/* it is pretty common to remove borders from fieldsets */
+fieldset.noborder {
+	border: 0 none;
+	padding: 0;
+	margin:0
+}

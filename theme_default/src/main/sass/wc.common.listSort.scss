@@ -1,0 +1,44 @@
+/* wc.common.listSort.scss
+ * the list sort controls are the buttons used to reorder the options
+ * used by WMultiSelectPair and WShuffler
+ */
+@import "mixins_common.scss";
+
+.wc_sortcont {
+	display: inline-block;
+	vertical-align: top
+}
+
+.wc_sorter {
+	display: block;
+	&::before { /* the movement marker */
+		@include makeBox($width: 0.67em, $height: 0.67em);//height required for IE9+ so do not set auto
+	}
+ 	&:first-of-type::before {
+		content: url("../images/wc.common.listSort.top.svg");
+	}
+	&:nth-of-type(2)::before {
+		content: url("../images/wc.common.listSort.up.svg");
+	}
+	&:nth-of-type(3)::before {
+		content: url("../images/wc.common.listSort.down.svg");
+	}
+	&:nth-of-type(4)::before {
+		content: url("../images/wc.common.listSort.bottom.svg");
+	}
+	&[disabled] {
+		&:first-of-type::before {
+			content: url("../images/wc.common.listSort.top.d.svg");
+		}
+		&:nth-of-type(2)::before {
+			content: url("../images/wc.common.listSort.up.d.svg");
+		}
+		&:nth-of-type(3)::before {
+			content: url("../images/wc.common.listSort.down.d.svg");
+		}
+		&:nth-of-type(4)::before {
+			content: url("../images/wc.common.listSort.bottom.d.svg");
+		}
+	}
+}
+/* end of  wc.common.listSort.scss */

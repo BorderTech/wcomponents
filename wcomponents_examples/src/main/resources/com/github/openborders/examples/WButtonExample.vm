@@ -1,0 +1,14 @@
+<p>Examples of the various ways WButton can be configured.</p>
+$plainBtn
+<br />
+$linkBtn  [this button has been set as the default button when you hit enter while in the text field]
+<br />
+$imageBtn
+<br />
+$iconBtn
+<br />
+$disableBtn $dynamicChangeBtn
+<br />
+$textFld  [A text field to enter a value and check if the value is posted to the server when one of the buttons is pressed]
+<br />
+$textAreaFld

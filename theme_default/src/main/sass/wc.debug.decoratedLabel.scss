@@ -1,0 +1,11 @@
+/**
+ * wc.debug.decoratedLabel.css
+ * 
+ * Styles for WDecoratedLabel in debug diagnostic mode. 
+ * NOTE: we only need to style the decoratedLabel outer element here, not each
+ * segment.
+ */
+div.decoratedLabel[data-wc-debugerr],
+div.decoratedLabel[data-wc-debugwarn]{
+	display:inline-block
+}

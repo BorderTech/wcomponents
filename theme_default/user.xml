@@ -1,0 +1,103 @@
+<project>
+	<!-- This is an example build property override file.
+
+		It is expected that you will make a copy and rename your copy as described below.
+		You can then set properties in your copy to customize your build suit your local
+		environment.
+
+		************************************************************************
+		FILE NAME:
+		************************************************************************
+		You must rename this file for it to take effect. You have two choices 
+		for naming:
+		1. {user.name}.xml (e.g. if your user name is mary.jones then name it 
+			"mary.jones.xml")
+		2. wc_theme_build_properties.xml
+
+		If BOTH files exist and define the same property then the definition/s 
+		in {user.name}.xml will take precedence.
+
+		************************************************************************
+		FILE LOCATION:
+		************************************************************************
+		You can place these files in two locations:
+		1. The {user.home}/.wc directory (where ever java thinks your home 
+			directory is, create a directory called .wc).
+		2. The "theme" project root directory (e.g. right alongside the build 
+			scripts)
+
+		If files exist in both locations and define the same property then the 
+		definitions from files in {user.home}/.wc take precedence over those in
+		the project root dir.
+
+		************************************************************************
+		CONTROLLING WHICH THEME IS BUILT
+		************************************************************************
+		This section has been deleted. The WComponent build will now only build 
+		theme_default. All implementations have been moved to a different Maven 
+		project.
+
+		************************************************************************
+		THEME BUILD CONFIGURATION
+		************************************************************************
+		optimize.with.node:
+			This will use node.js to optimize the javascript code if your 
+			implementation has any required modules in wc.common.js. Even if you
+			do not have these you may find your build will be much quicker with 
+			node.js enabled.
+			
+			NOTE 1:
+				You -almost certainly- absolutely want to have this property set!
+			NOTE 2:
+				You MUST have node.js installed on the build machine before 
+				setting this property. See http://nodejs.org/
+			NOTE 3: 
+				We expect to be able to include node as a maven dependency in 
+				the near future.
+				
+		<property name="optimize.with.node" value="true"/>
+		
+		minifiy.resources.off:
+			Turning off minification speeds up a build slightly for testing 
+			during development but should not be used routinely. Needing to do 
+			this is a strong indicator that you need a new dev machine.
+
+		<property name="minifiy.resources.off" value="true"/>
+
+		images.to.base64.dataurls:
+			Turning off base64 encoding of images will also decrease build time 
+			slightly but again is not recommended or necessary for routine use.
+			It can be handy for debugging SVG issues but usually loading the 
+			recalcitrant SVG directly from the target directory will give you
+			better info.
+
+		<property name="images.to.base64.dataurls" value="false"/>
+
+		tmp.dir:
+			The directory to use as temp during build. Defaults to the JAVA
+			temp directory. Useful in conjunction with build.preserve.tmp.onexit
+			
+		<property name="tmp.dir" location="/path/to/temp/build/dir"/>
+		
+		build.preserve.tmp.onexit:
+			By default the intermediate artefacts created during the build are 
+			deleted once the build has finished. If you ever need to debug build
+			problems you may want to preserve these intermediate artefacts. To 
+			do so set this property. Not recommended or necessary for routine
+			use.
+
+		<property name="build.preserve.tmp.onexit" value="true"/>
+		************************************************************************
+		UNIT TESTING
+		************************************************************************
+		test.target.mode:
+			Comment out this one to run real tests, uncomment it when developing
+			otherwise you will not be able to debug your JavaScript.
+
+			The tests will run against the compressed theme files unless this 
+			property is set to debug.
+
+			values are one of: minified | debug
+		<property name="test.target.mode" value="debug"/>
+	-->
+</project>

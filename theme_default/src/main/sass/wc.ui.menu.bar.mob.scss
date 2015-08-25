@@ -1,0 +1,17 @@
+/* wc.ui.menu.bar.mob.scss
+ * Turn BAR menu in the header into a hamburger icon.
+ */
+@import "mixins_common.scss";
+
+[role="banner"] [role="menubar"] {
+	display: inline-block;
+	> [role="menuitem"]:first-child > button {
+		padding: $hgap_small;
+		&::before{
+			@include makeBox;
+			content:url(../images/wc.ui.menu.bar.show.mob.svg);
+			vertical-align: middle;
+		}
+	}
+}
+/* end wc.ui.menu.bar.mob.scss */

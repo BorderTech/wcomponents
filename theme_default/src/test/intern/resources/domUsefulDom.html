@@ -1,0 +1,343 @@
+<form id="testForm" action="#" method="get">
+	<select id="select1">
+		<option id="opt1" value="volvo">Volvo</option>
+		<option id="opt2" value="saab">Saab</option>
+		<option id="opt3" value="mercedes" selected="selected">Mercedes</option>
+		<option id="opt4" value="audi">Audi</option>
+		<optgroup id="optgrp1" label="grp2">
+			<option id="opt5">foo</option>
+			<option id="opt6">foo</option>
+			<option id="opt7">foo</option>
+			<option id="opt8">foo</option>
+		</optgroup>
+	</select>
+	<select id="select2" disabled="disabled" multiple="multiple">
+		<option value="volvo" selected="selected">Volvo</option>
+		<option value="saab">Saab</option>
+		<option value="mercedes" selected="selected">Mercedes</option>
+		<option value="audi">Audi</option>
+	</select>
+	<select id="select3" multiple="multiple" size="2">
+		<optgroup label="Swedish Cars">
+			<option value="volvo" selected="selected">Volvo</option>
+			<option value="saab">Saab</option>
+		</optgroup>
+		<optgroup label="German Cars">
+			<option value="mercedes">Mercedes</option>
+			<option value="audi" selected="selected">Audi</option>
+		</optgroup>
+	</select>
+	<select id="select4">
+		<option value="" selected="selected">Selected option with empty string value attr but visible text</option>
+		<option value="saab">Saab</option>
+		<option value="mercedes">Mercedes</option>
+		<option value="audi">Audi</option>
+	</select>
+	<select id="select5">
+		<option selected="selected">No Value</option>
+		<option value="saab">Saab</option>
+		<option value="mercedes">Mercedes</option>
+		<option value="audi">Audi</option>
+	</select>
+	<div align="center"><br>
+		<input id="radio1" type="radio" name="group1" value="Milk"> Milk<br>
+		<input type="radio" name="group1" value="Butter" checked="checked"> Butter<br>
+		<input type="radio" name="group1" value="Cheese"> Cheese
+		<hr>
+		<input id="radio2" type="radio" name="group2" value="Water"> Water<br>
+		<input type="radio" name="group2" value="Beer"> Beer<br>
+		<input type="radio" name="group2" value="Wine" checked="checked"> Wine<br>
+		<input id="radio3" type="radio" name="group3" value="Water"> Water<br>
+		<input type="radio" name="group3" value="Beer"> Beer<br>
+		<input type="radio" name="group3" value="Wine"> Wine<br>
+		<input id="radio4" type="radio" name="group4" value="Water"> Water<br>
+		<input type="radio" name="group4" value="Beer"> Beer<br>
+		<input disabled="disabled" type="radio" name="group4" value="Wine" checked="checked"> Wine<br>
+	</div>
+	<div>
+		I have a bike:
+		<input type="checkbox" name="vehicle" value="Bike" checked="checked"/>
+		<br />
+		I have a car:
+		<input type="checkbox" name="vehicle" value="Car" />
+		<br />
+		I have an airplane:
+		<input id="cb1" type="checkbox" name="vehicle" value="Airplane" checked="checked"/>
+		<br />
+		I have an orange:
+		<input type="checkbox" name="fruit" value="Fruit" checked="checked"/>
+	</div>
+	<div id="selectTests">
+		<input type="checkbox" name="chkgrp1" id="chk1"/>
+		<input type="checkbox" checked="checked" name="chkgrp1" id="chk2"/>
+		<input type="checkbox" name="chkgrp1" id="chk3"/>
+		<input type="checkbox" checked="checked" name="chkgrp2" id="chk4"/>
+		<fieldset id="cb_fieldset">
+			<input type="checkbox" name="kung" id="chk5"/>
+			<input type="checkbox" checked="checked" name="fu" id="chk6"/>
+			<input type="checkbox" name="fukung" id="chk7"/>
+			<input type="checkbox" checked="checked" name="fukung" id="chk8"/>
+		</fieldset>
+		<input type="radio" name="rad1" id="rad1"/>
+		<input type="radio" checked="checked" name="rad1" id="rad2"/>
+		<input type="radio" name="rad3" id="rad3"/>
+		<input type="radio" checked="checked" name="rad3" id="rad4"/>
+		<select name="sel1" id="sel1">
+			<option value="opt1">opt1</option>
+			<option selected="selected" value="opt2">opt2</option>
+		</select>
+		<select name="sel2" id="sel2">
+			<option value="opt3">opt3</option>
+			<option selected="selected" value="opt4">opt4</option>
+		</select>
+		<div>
+			<h4>faux checkbox</h4>
+			<ul role="group">
+				<li id="fauxChk1" role="checkbox" aria-checked="false">0</li>
+				<li id="fauxChk2" role="checkbox" aria-checked="true">1</li>
+				<li id="fauxChk3" role="checkbox" aria-checked="false">0</li>
+				<li id="fauxChk4" role="checkbox" aria-checked="true">1</li>
+				<li id="presLi" role="presentation">0</li>
+				<li id="justAnLi">0</li>
+			</ul>
+		</div>
+		<ul role="radiogroup" id="radGrp1">
+			<li id="fauxRad3" role="radio" aria-checked="false">0</li>
+			<li id="fauxRad4" role="radio" aria-checked="true">1</li>
+			<li id="fauxRad5" role="radio" aria-checked="false">0</li>
+			<li>0</li>
+			<li id="fauxRad6" role="radio" aria-checked="false">0</li>
+			<li id="fauxRad7" role="radio" aria-checked="false">0</li>
+			<li id="fauxRad8" role="radio" aria-checked="false">0</li>
+		</ul>
+		<div role="radiogroup" id="radGrp2" aria-owns="rO1 rO2 rO3 rO4 rO5 rO6"></div>
+		<div><span>foobar</span></div>
+		<span id="rO1" role="radio" aria-checked="false">0</span>
+		<span id="rO2" role="radio" aria-checked="true">1</span>
+		<span id="rO3" role="radio" aria-checked="false">0</span>
+		<span id="rO4" role="radio" aria-checked="false">0</span>
+		<span id="rO5" role="radio" aria-checked="false">0</span>
+		<span id="rO6" role="radio" aria-checked="false">0</span>
+		<ul role="radiogroup">
+			<li id="fauxRad1" role="radio" aria-checked="false">0</li>
+			<li id="fauxRad2" role="radio" aria-checked="true">1</li>
+		</ul>
+		<ul role="listbox" id="fauxSelect1">
+			<li id="fauxOpt1" role="option" aria-selected="false">0</li>
+			<li id="fauxOpt2" role="option" aria-selected="false">1</li>
+			<li id="fauxOpt3" role="option" aria-checked="false">1</li>
+			<li id="fauxOpt4" role="option" aria-selected="false">0</li>
+			<li id="fauxOpt5" role="option" aria-selected="true">1</li>
+			<li>0</li>
+			<li id="fauxOpt6" role="option" aria-checked="false">1</li>
+			<li id="fauxOpt7" role="option" aria-checked="false">1</li>
+		</ul>
+		<ul role="listbox" aria-multiselectable="true" id="fauxSelect2">
+			<li id="fauxOpt8" role="option" aria-selected="false">0</li>
+			<li id="fauxOpt9" role="option" aria-selected="true">1</li>
+			<li id="fauxOpt10" role="option" aria-checked="true">1</li>
+			<li id="fauxOpt11" role="option" aria-selected="false">0</li>
+			<li id="fauxOpt12" role="option" aria-selected="true">1</li>
+			<li>0</li>
+			<li id="fauxOpt13" role="option" aria-checked="true">1</li>
+			<li id="fauxOpt14" role="option" aria-checked="true">1</li>
+		</ul>
+		<ul role="menu" id="menu1">
+			<li id="radItem1" role="menuitemradio" aria-checked="false">0</li>
+			<li id="radItem2" role="menuitemradio" aria-checked="true">1</li>
+			<li id="radItem3" role="menuitemradio" aria-checked="false">0</li>
+			<li id="radItem4" role="menuitemradio" aria-checked="false">0</li>
+			<li id="radItem5" role="menuitemradio" aria-checked="false">0</li>
+			<li id="radItem6" role="menuitemradio" aria-checked="false">0</li>
+		</ul>
+		<ul role="menubar" id="menubar1">
+			<li id="radBarItem1" role="menuitemradio" aria-checked="false">0</li>
+			<li id="radBarItem2" role="menuitemradio" aria-checked="true">1</li>
+			<li id="radBarItem3" role="menuitemradio" aria-checked="false">0</li>
+			<li id="radBarItem4" role="menuitemradio" aria-checked="false">0</li>
+			<li id="radBarItem5" role="menuitemradio" aria-checked="false">0</li>
+			<li id="radBarItem6" role="menuitemradio" aria-checked="false">0</li>
+		</ul>
+		<ul role="menu" id="menu2">
+			<li id="chkItem1" role="menuitemcheckbox" aria-checked="false">0</li>
+			<li id="chkItem2" role="menuitemcheckbox" aria-checked="true" aria-disabled="true">1</li>
+			<li id="chkItem3" role="menuitemcheckbox" aria-checked="false" hidden="hidden">0</li>
+			<li id="chkItem4" role="menuitemcheckbox" aria-checked="true">1</li>
+			<li id="chkItem5" role="menuitemcheckbox" aria-checked="false">0</li>
+			<li id="chkItem6" role="menuitemcheckbox" aria-checked="true" aria-disabled="true" hidden="hidden">1</li>
+		</ul>
+		<ul role="menubar" id="menubar2">
+			<li id="chkBarItem1" role="menuitemcheckbox" aria-checked="false">0</li>
+			<li id="chkBarItem2" role="menuitemcheckbox" aria-checked="true">1</li>
+			<li id="chkBarItem3" role="menuitemcheckbox" aria-checked="false">0</li>
+			<li id="chkBarItem4" role="menuitemcheckbox" aria-checked="false">0</li>
+			<li id="chkBarItem5" role="menuitemcheckbox" aria-checked="false">0</li>
+			<li id="chkBarItem6" role="menuitemcheckbox" aria-checked="false">0</li>
+		</ul>
+		<ul role="menu" id="menu3">
+			<li id="radItemGrp1" role="menuitemradio" aria-checked="false">0</li>
+			<li id="radItemGrp2" role="menuitemradio" aria-checked="true">1</li>
+			<li id="radItemGrp3" role="menuitemradio" aria-checked="false">0</li>
+			<li id="radItemGrp4" role="menuitemradio" aria-checked="false">0</li>
+			<li id="radItemGrp5" role="menuitemradio" aria-checked="false">0</li>
+			<li id="radItemGrp6" role="menuitemradio" aria-checked="false">0</li>
+		</ul>
+	</div>
+	<div id="tabpanel_1" class="tabpanel">
+		<ul id="tablist_1" role="tablist">
+			<li id="tab_1" role="tab" tabindex="0">Crust</li>
+			<li id="tab_2" role="tab" tabindex="-1">Veges</li>
+			<li id="tab_3" role="tab" tabindex="-1">Carnivore</li>
+			<li id="tab_4" role="tab" tabindex="-1">Delivery</li>
+		</ul>
+		<div id="panel_1" role="tabpanel" aria-labelledby="tab_1" >
+			<h3>Select Crust</h3>
+			<ul class="controlList">
+				<li><label><input type="radio" name="crust" value="crust1"/>Deep Dish</label></li>
+				<li><label><input type="radio" name="crust" value="crust1"/>Thick and cheesey</label></li>
+				<li><label><input type="radio" name="crust" value="crust1"/>Thick and spicey</label></li>
+				<li><label><input type="radio" name="crust" value="crust1"/>Thin</label></li>
+			</ul>
+		</div>
+		<div id="panel_2" role="tabpanel" aria-labelledby="tab_2" hidden="hidden" style="display: none">
+			<h3>Select Vegetables</h3>
+			<ul class="controlList">
+				<li><label><input id="vege1" type="checkbox" name="vege1"/>Black Olives</label></li>
+				<li><label><input type="checkbox" name="vege2"/>Green Olives</label></li>
+				<li><label><input type="checkbox" name="vege3"/>Green Peppers</label></li>
+				<li><label><input type="checkbox" name="vege4" hidden="hidden"/>Mushrooms</label></li>
+				<li><label><input type="checkbox" name="vege5"/>Black Olives</label></li>
+				<li><label><input type="checkbox" name="vege6" hidden="hidden"/>Onions</label></li>
+				<li><label><input type="checkbox" name="vege7"/>Pineapple</label></li>
+			</ul>
+		</div>
+		<div id="panel_3" role="tabpanel" aria-labelledby="tab_3" hidden="hidden" style="display: none">
+			<h3>Select Carnivore Options</h3>
+			<ul class="controlList">
+				<li><label><input id="meat1" type="checkbox" name="meat1"/>Hamburger</label></li>
+				<li><label><input type="checkbox" name="meat2"/>Ham</label></li>
+				<li><label><input type="checkbox" name="meat3" hidden="hidden"/>Itailian Sausage</label></li>
+				<li><label><input type="checkbox" name="meat4"/>Pepporroni</label></li>
+			</ul>
+		</div>
+		<div id="panel_4" role="tabpanel" aria-labelledby="tab_4" hidden="hidden">
+			<h3>Select Delivery Menthod</h3>
+			<ul class="controlList">
+				<li><label><input type="radio" name="delivery" value="delivery1"/>Eat in</label></li>
+				<li><label><input type="radio" name="delivery" value="delivery2"/>Carry out</label></li>
+				<li><label><input type="radio" name="delivery" value="delivery3"/>Delivery</label></li>
+				<li><label><input type="radio" name="delivery" value="delivery4"/>Overnight mail</label></li>
+			</ul>
+		</div>
+	</div>
+	<ul id="tree1" class="tree root-level" role="tree" aria-labelledby="label_1">
+		<li id="fruits" class="tree-parent" role="treeitem" tabindex="0" aria-expanded="true"><span>Fruits</span>
+			<ul id="fruit-grp" role="group">
+				<li id="oranges" role="treeitem" tabindex="-1">Oranges</li>
+				<li id="pinapples" role="treeitem" tabindex="-1">Pineapples</li>
+				<li id="apples" class="tree-parent" role="treeitem" tabindex="-1" aria-expanded="false"><span>Apples</span>
+					<ul id="apple-grp" role="group">
+						<li id="macintosh" role="treeitem" tabindex="-1">Macintosh</li>
+						<li id="granny_smith" class="tree-parent" role="treeitem" tabindex="-1" aria-expanded="false"><span>Granny Smith</span>
+							<ul id="granny-grp" role="group">
+								<li id="Washington" role="treeitem" tabindex="-1">Washington State</li>
+								<li id="Michigan" role="treeitem" tabindex="-1">Michigan</li>
+								<li id="New_York" role="treeitem" tabindex="-1">New York</li>
+							</ul>
+						</li>
+						<li id="fuji" role="treeitem" tabindex="-1">Fuji</li>
+					</ul>
+				</li>
+				<li id="bananas" role="treeitem" tabindex="-1">Bananas</li>
+				<li id="pears" role="treeitem" tabindex="-1">Pears</li>
+			</ul>
+		</li>
+		<li id="vegetables" class="tree-parent" role="treeitem" tabindex="-1" aria-expanded="true"><span>Vegetables</span>
+			<ul id="veg-grp" role="group">
+				<li id="broccoli" role="treeitem" tabindex="-1">Broccoli</li>
+				<li id="carrots" role="treeitem" tabindex="-1">Carrots</li>
+				<li id="lettuce" class="tree-parent" role="treeitem" tabindex="-1" aria-expanded="false"><span>Lettuce</span>
+					<ul id="lettuce-grp" role="group">
+						<li id="lettuce1" role="treeitem" tabindex="-1">Romaine</li>
+						<li id="lettuce2" role="treeitem" tabindex="-1">Iceberg</li>
+						<li id="lettuce3" role="treeitem" tabindex="-1">Butterhead</li>
+					</ul>
+				</li>
+				<li id="spinach" role="treeitem" tabindex="-1">Spinach</li>
+				<li id="squash" class="tree-parent" role="treeitem" tabindex="-1" aria-expanded="true"><span>Squash</span>
+					<ul id="squash-grp" role="group">
+						<li id="acorn" role="treeitem" tabindex="-1">Acorn</li>
+						<li id="ambercup" role="treeitem" tabindex="-1">Ambercup</li>
+						<li id="autumn_cup" role="treeitem" tabindex="-1">Autumn Cup</li>
+						<li id="hubbard" role="treeitem" tabindex="-1">Hubbard</li>
+					</ul>
+				</li>
+			</ul>
+		</li>
+	</ul>
+</form>
+<form id="form2" name="form2">
+	<fieldset id="form2Fieldset1">
+		<legend>Form2</legend>
+		<ul role="radiogroup" id="form2radGrp1">
+			<li id="form2rad1" role="radio" aria-checked="false">0</li>
+			<li id="form2rad2" role="radio" aria-checked="true">1</li>
+			<li id="form2rad3" role="radio" aria-checked="false">0</li>
+			<li>0</li>
+			<li id="form2rad4" role="radio" aria-checked="false">0</li>
+			<li id="form2rad5" role="radio" aria-checked="false">0</li>
+			<li id="form2rad6" role="radio" aria-checked="false">0</li>
+		</ul>
+	</fieldset>
+	<fieldset id="form2Fieldset2">
+		<legend>faux checkbox</legend>
+		<ul>
+			<li id="form2Chk1" role="checkbox" aria-checked="false">0</li>
+			<li id="form2Chk2" role="checkbox" aria-checked="true">1</li>
+			<li id="form2Chk3" role="checkbox" aria-checked="false">0</li>
+			<li id="form2Chk4" role="checkbox" aria-checked="true">1</li>
+			<li id="presLi" role="presentation">0</li>
+			<li id="justAnLi">0</li>
+		</ul>
+	</fieldset>
+</form>
+<form id="form3" name="form3">
+	<input id="form3txt1" name="form3txt1" type="text" value="AbC123"/>
+	<input id="doesNotMatchMyName" name="form3txt2" type="text" value="dEF456"/>
+	<input id="form3txtTen" name="form3txtTen" type="text" value="10"/>
+	<input id="form3NumTen" name="form3NumTen" type="number" value="10"/>
+	<input id="form3txtEmpty" name="form3txtEmpty" type="text" value="10"/>
+	<input id="form3NumEmpty" name="form3NumEmpty" type="number" value="10"/>
+</form>
+<table id="wctable1">
+	<thead id="wcthead1">
+		<tr>
+			<th>heading1</th>
+			<th>heading2</th>
+			<th>heading3</th>
+			<th>heading4</th>
+		</tr>
+	</thead>
+	<tbody id="wctbody1">
+		<tr id="wctr1">
+			<td>cell1</td>
+			<td>cell2</td>
+			<td>cell3</td>
+			<td>cell4</td>
+		</tr>
+		<tr id="wctr2">
+			<td>cell5</td>
+			<td>cell6</td>
+			<td>cell7</td>
+			<td>cell8</td>
+		</tr>
+	</tbody>
+	<tfoot id="wctfoot1">
+		<tr>
+			<td>footer1</td>
+			<td>footer2</td>
+			<td>footer3</td>
+			<td>footer4</td>
+		</tr>
+	</tfoot>
+</table>

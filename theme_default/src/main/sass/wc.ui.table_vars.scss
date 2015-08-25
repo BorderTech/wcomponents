@@ -1,0 +1,11 @@
+@import "vars_all.scss";
+
+$wc_ui_color_tableHeadBackground: $std_color_primary;
+$wc_ui_color_tableHeadForeground: $std_color_primary_accent;
+$wc_ui_color_tableHeadDisabled: $wc_ui_color_disabledForeground;
+
+$wc_ui_color_tableFootBackground: $std_color_primary;
+$wc_ui_color_tableFootForeground: $std_color_primary_accent;
+
+
+$tableCellPadding: 0.25em;

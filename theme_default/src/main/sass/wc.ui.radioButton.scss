@@ -1,0 +1,12 @@
+/* wc.ui.radioButton.css */
+.radio::before{
+	display:inline-block;
+	width: 1em;
+	height: 1em;
+	content:url(../images/wc.common.radio.readOnly.svg)
+}
+
+.radio.wc_ro_sel::before{
+	content: url(../images/wc.common.radio.selected.readOnly.svg)
+}
+/* end wc.ui.radioButton.css */

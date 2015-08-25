@@ -1,0 +1,23 @@
+/* wc.ui.collapsibleToggle.scss */
+@import "vars_all.scss";
+
+.expandCollapseAll {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+	> li {
+		display:inline-block;
+		+ li {
+			margin-left: $hgap_small;
+		}
+		button:before {
+			content: "\229e";
+			font-size: 1.25em;
+			line-height: 0;
+		}
+		[data-wc-value="collapse"]:before {
+			content: "\229f";
+		}
+	}
+}
+/* end wc.ui.collapsibleToggle.scss*/

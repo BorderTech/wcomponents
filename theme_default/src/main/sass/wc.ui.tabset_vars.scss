@@ -1,0 +1,23 @@
+/* How wide are the tabs left or right? */
+$wc_ui_tabset_leftRight_tab_width: 15%;
+
+/* colors */
+@import "vars_all.scss";
+$wc_ui_color_tabInactive: $std_color_tertiary;
+$wc_ui_color_tabHighlight: $std_color_invite_bg;
+$wc_ui_color_tabFocus: $std_color_invite_bg;
+$wc_ui_color_tabActive: $std_color_white;
+
+
+@mixin wc_ui_tabset_top_borderRadius {
+	border-top-left-radius:0.33em;
+	border-top-right-radius:0.33em;
+}
+@mixin wc_ui_tabset_left_borderRadius {
+	border-top-right-radius:0;
+	border-bottom-left-radius:0.33em;
+}
+@mixin wc_ui_tabset_right_borderRadius {
+	border-top-left-radius:0;
+	border-bottom-right-radius:0.33em;
+}

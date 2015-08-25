@@ -1,0 +1,155 @@
+/* wc.ui.tabset.scss */
+
+@import "mixins_common.scss";
+@import "wc.ui.tabset_vars.scss";
+
+[role="tablist"]{
+	background-color:transparent !important
+}
+
+.top > [role="tablist"]{
+	display:-webkit-flex;
+	-webkit-justify-content:flex-start;
+	-webkit-flex-wrap:nowrap;
+	display:flex;
+	justify-content:flex-start;
+	flex-wrap:nowrap;
+	position:relative;
+	top:1px
+}
+
+
+[role="tab"]{
+	@include paddedBox();
+	background-color: $wc_ui_color_tabInactive;
+	color: $wc_ui_color_globalForeground;
+	margin: 0;
+	cursor:pointer;
+	&[aria-selected="true"] {
+		position: relative;
+	}
+	&:hover, &:focus {
+		background-color: $wc_ui_color_tabFocus;
+	}
+	&[aria-selected="true"], [aria-expanded="true"] {
+		background-color: $wc_ui_color_tabActive;
+	}
+	&[disabled] {
+		color: $wc_ui_color_disabledForeground;
+		background-color: $wc_ui_color_disabledBackground;
+	}
+}
+
+
+[role="tabpanel"], .tabset > [role="presentation"] {
+	background-color: $wc_ui_color_globalBackground;
+}
+
+.tabset > [role="presentation"] {
+	@include border;
+	border-top:0 none;
+}
+
+[role="tabpanel"]{
+	@include border($pos: top);
+	padding: $hgap_normal;
+	&[aria-busy="true"]{
+		min-height:16px;
+	}
+}
+
+/*
+ * NOTE: use of child selector from here due to possibility of a tabset inside the content of a tab
+ */
+
+/* TOP */
+
+.top > [role="tablist"] {
+	& [role="tab"]{
+		@include wc_ui_tabset_top_borderRadius;
+		&[aria-selected="true"] {
+			position: static;
+			border-bottom: 0 none
+		}
+	}
+	 > [role] + [role] {
+		margin-left: $hgap_small;
+	}
+}
+
+
+/*
+ * COMMON LEFT and RIGHT TABS
+ * NOTE: we use display:table and table-cell here to ensure the tabPanel wrapper
+ * is at least as tall as the tablist. Otherwise funny things happen when the
+ * tabPanel has little or no content.
+ */
+.wc_tab_lr {
+	border-collapse:collapse;
+	display:table;
+	width:100%;
+	> [role]{
+		display:table-cell;
+		vertical-align:top
+	}
+	> [role="tablist"]{
+		width: $wc_ui_tabset_leftRight_tab_width;
+		> [role="tab"]{
+			display:block;
+			width:100%
+		}
+		> [role] + [role]{
+			margin-top: $vgap_small;
+		}
+	}
+}
+
+/*
+ * LEFT TABS
+ */
+.left > [role="tablist"] > [role="tab"]{
+	border-right:0 none;
+	text-align:left;
+	@include wc_ui_tabset_left_borderRadius;
+	& [aria-selected="true"]{
+		left: $borderWidth;
+	}
+}
+
+/*
+ * RIGHT TABS
+ */
+.right > [role="tablist"] > [role="tab"]{
+	border-left:0 none;
+	text-align:right;
+	@include wc_ui_tabset_right_borderRadius;
+	&[aria-selected="true"]{
+		right: $borderWidth;
+	}
+}
+
+/*
+ * ACCORDION
+ */
+ [role="tablist"][aria-multiselectable]{
+	@include border;
+	border-bottom:0 none;
+	> [role="tabpanel"]{
+		@include border($pos: bottom);
+	}
+}
+
+[role="tab"] {
+	&[aria-expanded]{
+		display: block;
+		width:100%;
+		text-align:left;
+		border:0 none;
+		@include border($pos: bottom);
+	}
+	&[aria-expanded="true"]{
+		border-bottom:0 none
+	}
+}
+
+/* end wc.ui.tabset.scss */

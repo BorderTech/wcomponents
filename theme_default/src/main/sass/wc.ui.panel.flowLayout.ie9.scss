@@ -1,0 +1,27 @@
+/* wc.ui.panel.flowLayout.ie9.css */
+.flowLayout > div{
+	vertical-align:text-top;
+	width:auto
+}
+
+.flowLayout.middle > div{
+	vertical-align:middle
+}
+
+.flowLayout.baseline > div{
+	vertical-align:baseline
+}
+
+.flowLayout.bottom > div{
+	vertical-align:bottom
+}
+
+.flowLayout.vertical > div{
+	display:block;
+	vertical-align:inherit;
+	width:initial
+}
+.flowLayout.center{
+	text-align:center
+}
+/* end wc.ui.panel.flowLayout.ie9.css */

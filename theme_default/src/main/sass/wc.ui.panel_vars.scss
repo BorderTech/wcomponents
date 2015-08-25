@@ -1,0 +1,18 @@
+@import "mixins_common.scss";
+
+$wc_ui_color_panel_action_header_background: $std_color_secondary;
+$wc_ui_color_panel_action_header_foreground: $std_color_secondary_accent;
+$wc_ui_color_panel_action_background: $std_color_white;
+$wc_ui_color_panel_action_border: $std_color_secondary;
+// Type.CHROME
+$wc_ui_color_panel_chrome_header_background: $std_color_primary;
+$wc_ui_color_panel_chrome_header_foreground: $std_color_primary_accent;
+// Type.FEATURE
+$wc_ui_color_panel_feature_background: $std_color_tertiary;
+$wc_ui_color_panel_feature_foreground: $std_color_tertiary_accent;
+// Type.FOOTER
+$wc_ui_color_panel_footer_background: $std_color_tertiary;
+$wc_ui_color_panel_footer_foreground: $std_color_tertiary_accent;
+// Type.HEADER
+$wc_ui_color_panel_header_background: $std_color_primary;
+$wc_ui_color_panel_header_foreground: $std_color_primary_accent;

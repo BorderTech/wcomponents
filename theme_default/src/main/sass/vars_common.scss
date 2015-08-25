@@ -1,0 +1,17 @@
+
+
+$preferredFontSizePx: 12;
+$preferredLineSizePx: 16;
+$fontSize: $preferredFontSizePx/16 * 100%;
+$lineHeight: $preferredLineSizePx/$preferredFontSizePx;
+
+// This variable is used to construct boxes where the width of the box is equal to the line height of the text.
+$lineSize: $lineHeight * 1em;
+
+//BORDERS
+// Many things have borders and it is nice to have a common look to all of them. You may want to cross reference this to
+// the mixins makeBorder and makePartBorder which use these as default values but allow override.
+$borderStyle: solid;
+$borderWidth: 1px;
+
+$preferredAlignment: left;

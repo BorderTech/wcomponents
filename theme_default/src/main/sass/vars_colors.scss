@@ -1,0 +1,55 @@
+// Component colors
+@import "vars_colorscheme.scss";
+
+// disabled colours are special
+$wc_ui_color_disabledForeground: ${wc_ui_color_disabledForeground};
+$wc_ui_color_disabledBackground: ${wc_ui_color_disabledBackground};
+$wc_ui_color_disabledBorder: ${wc_ui_color_disabledBorder};
+
+
+// Commonly used colors
+// ====================
+// This section has definitions in two formats. Where an $wc_* colour variabe is set to an ANT property then this
+// colour is also used in SVG and must remain in the ANT properties. Otherwise we set a commonly used color to a
+// scheme colour defined above.
+
+
+// Global colours
+$wc_ui_color_globalForeground: $std_color_black;
+$wc_ui_color_globalBackground: $std_color_white;
+// Inverse colours when we need to reverse: these should be the exact reverse of the above
+$wc_ui_color_inverseForeground: $std_color_white;
+$wc_ui_color_inverseBackground: $std_color_black;
+
+// highlights colours
+$wc_ui_color_highlight_bg: $std_color_highlight_bg;
+$wc_ui_color_highlight_fg: $std_color_highlight_fg;
+
+// generic hover/focus
+$wc_ui_color_invite_bg: $std_color_invite_bg;
+$wc_ui_color_invite_fg: $std_color_invite_fg;
+// where translucent invites are acceptable (eg table rows)
+$wc_ui_color_invite_bg_rgba: $std_color_invite_bg_rgba;
+
+// links and headings
+$wc_ui_color_link: $std_color_primary;
+$wc_ui_color_link_visited: $std_color_secondary;
+$wc_ui_color_heading: $std_color_primary;
+
+// border colours - including active element indicator
+$wc_ui_color_border: $std_color_lines;
+$wc_ui_color_border_formControl: $std_color_lines;
+
+// required field marker
+$wc_ui_color_requiredMarker: $std_color_secondary;
+
+// drop shadows
+$wc_ui_color_shadow: $std_color_shadow;
+
+// error indicators
+$wc_ui_color_errorForeground: $std_color_error_fg;
+$wc_ui_color_errorBackground: $std_color_error_bg;
+// other feedback
+$wc_ui_color_infoForeground: $std_color_primary;
+$wc_ui_color_successForeground: $std_color_success_fg;
+$wc_ui_color_warningForeground: $std_color_warning_fg;

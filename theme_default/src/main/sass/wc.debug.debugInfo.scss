@@ -1,0 +1,150 @@
+/**
+ * wc.debug.debugInfo.scss
+ * Styling the debug info definition list.
+
+ * Question: Why is this not themeable?
+ * Answer: I am lazy - do it yourself!
+*/
+@import "mixins_common.scss";
+
+#wcdebugcontainer {
+	max-width: 100%;
+	min-height: 7em;
+	min-width: 15em;
+	position: fixed;
+	width: 40em;
+	z-index: 100;
+	&.wc_max {
+		left: 0 !important;
+		top: 0 !important;
+		width: 100% !important
+	}
+	&.wc_db_showing {
+		-webkit-animation: debugfadein 1s;
+		animation: debugfadein 1s;
+	}
+	> header, > footer {
+		background-color: #036;
+		color: #fff;
+	}
+	> header{
+		padding:0.25em 0.5em;
+		> h1 {
+			color: #fff;
+			font-size: 1em;
+			margin: 0;
+			padding: 0.25em 0.5em;
+		}
+		> span { /* the control 'block' */
+			position: absolute;
+			right: 0.25em;
+			top: 0.5em;
+		}
+	}
+	> [aria-live] {
+		background-color: #fff;
+		border: 1px solid #ccc;
+		color: #000;
+		height: 100%;
+		overflow: auto;
+		padding: 0.5em;
+	}
+	> footer {
+		line-height: 0;
+		text-align: right;
+	}
+	&.wc_dragflow, &.wc_resizeflow {/* move and resize animations */
+		transition-delay:0s;
+		transition-duration: 1s;
+		transition-timing-function: ease-in-out
+	}
+	&.wc_dragflow {
+		transition-property: left, top;
+		&.wc_resizeflow {
+			transition-property: left, top, height, width
+		}
+	}
+	&.wc_resizeflow {
+		transition-property: height, width;
+	}
+}
+/*
+ * The element currently having its debug info exposed
+ */
+.wc_db_active {
+	-webkit-animation: debugactivefade 3s infinite alternate;
+	animation: debugactivefade 3s infinite alternate;
+	background-color: #e6f2ff;
+	background-image: none !important;
+	color: #000 !important;
+}
+
+
+/* the instruction box */
+.wc_db_message {
+	background-color: #fff9e4;
+	border: 2px solid orange;
+	padding: 0.5em;
+	position: fixed;
+	right: 0;
+	top: 0;
+	width: 250px;
+}
+
+
+.wc_dialog_close:focus,
+.wc_dialog_close:hover {
+	background-position:100% 0
+}
+
+.wc_db_crumbs {
+	background-color: #f3f3f3;
+	@include border;
+	list-style-type: none;
+	margin: 0;
+	padding: $hgap_normal;
+	li {
+		display: inline-block;
+		width: auto;
+		+ li:before {
+			content:"> ";
+			margin-left: $hgap_small;
+		}
+	}
+	+ div{
+		bottom: 0;
+		height:1.334em;
+		left: 0;
+		position: absolute;
+		width: 100%;
+	}
+}
+
+@mixin debugColorFade {
+	from {background-color: #e6f2ff;}
+	to {background-color: #f3f3f3;}
+}
+
+
+@mixin debugFadein {
+	from {opacity: 0;}
+	to {opacity:1;}
+}
+
+
+@-webkit-keyframes debugfadein {
+	@include debugFadein;
+}
+
+@keyframes debugfadein{
+	@include debugFadein;
+}
+
+@-webkit-keyframes debugactivefade {
+	@include debugColorFade;
+}
+
+@keyframes debugactivefade{
+	@include debugColorFade;
+}
+/* end wc.debug.debugInfo.scss */

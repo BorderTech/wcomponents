@@ -1,0 +1,55 @@
+// skeleton responsive design mixin
+//how big is a "small" screen?
+$small: 640px;
+//and a common/medium screen?
+$medium: 1280px;
+//how about a BIG screen?
+$large: 2000px;
+
+@mixin respond($width, $test: max-width) {
+	@if ($width == small) {
+		@media only screen and (#{$test}: $small) {
+			@content;
+		}
+	}
+	@else if($width == medium) {
+		@media only screen and (#{$test}: $medium) {
+			@content;
+		}
+	}
+	@else if($width == large) {
+		@media only screen and (#{$test}: $large) {
+			@content;
+		}
+	}
+	@else if($width == ip6) {
+		@media only screen  and (min-device-width : 375px) and (max-device-width : 667px) {
+			@content;
+		}
+	}
+	@else if($width == ip6p) {
+		@media only screen  and (min-device-width : 414px) and (max-device-width : 736px) {
+			@content;
+		}
+	}
+	@else if($width == ip5) {
+		@media only screen  and (min-device-width : 320px) and (max-device-width : 568px) {
+			@content;
+		}
+	}
+	@else if($width == ip4) {
+		@media only screen  and (min-device-width : 320px) and (max-device-width : 480px) {
+			@content;
+		}
+	}
+	@else if($width == ipad) {
+		@media only screen  and (min-device-width : 768px) and (max-device-width : 1024px) {
+			@content;
+		}
+	}
+	@else if($width == iphone) {
+		@media only screen  and (min-device-width : 320px) and (max-device-width : 736px) {
+			@content;
+		}
+	}
+}

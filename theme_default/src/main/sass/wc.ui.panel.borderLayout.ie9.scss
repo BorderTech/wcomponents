@@ -1,0 +1,26 @@
+/* wc.ui.panel.borderLayout.ie9.css */
+/* .wc_borderLayout_middle {
+}
+ */
+.wc_borderLayout_middle > div{
+	vertical-align: text-top;
+	box-sizing:border-box
+}
+
+.wc_borderLayout_middle > .wc_borderLayout_middle25 {
+	width:25%
+}
+
+.wc_borderLayout_middle > .wc_borderLayout_middle50 {
+	width:50%
+}
+
+.wc_borderLayout_middle > .wc_borderLayout_middle75 {
+	width:75%
+}
+
+.wc_borderLayout_middle > .wc_borderLayout_middle100 {
+	width:100%
+}
+
+/* end wc.ui.panel.borderLayout.ie9.css */

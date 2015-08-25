@@ -1,0 +1,59 @@
+@import "vars_all.scss";
+@import "mixins_flex.scss";//flex layouts
+@import "mixins_respond.scss";//responsive design media queries
+
+@mixin align($align: $preferredAlignment) {
+	text-align: $align;
+}
+
+@mixin border($pos: all, $color: $wc_ui_color_border, $style: $borderStyle, $width: $borderWidth) {
+	@if ($pos == all) {
+		border: $width $style $color;
+	}
+	@else {
+		border-#{$pos}: $width $style $color;
+	}
+}
+
+@mixin borderBox {
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+// This mixin makes a square box to put an SVG in.
+@mixin makeBox($display: inline-block, $width: $lineSize, $height: $lineSize) {
+	display: $display;
+	@if ($height != auto) {
+		height: $height;
+	}
+	@if ($width != auto) {
+		width: $width;
+	}
+}
+
+@mixin mandatoryIndicator {
+	color: $wc_ui_color_requiredMarker;
+	content:"${wc.common.indicator.required}"; //This ANT replaced property may be deemed superfluous...
+}
+
+@mixin offscreen {
+	left: -9999px !important;
+	overflow: hidden !important;
+	position: absolute !important;
+}
+
+@mixin outline($color: $wc_ui_color_border, $style: solid, $width: $borderWidth, $offset: 0) {
+	outline: $width $style $color;
+	@if ($offset != 0) {
+		outline-offset: $offset;
+	}
+}
+
+@mixin paddedBox($pad: $hgap_normal, $border: $wc_ui_color_border) {
+	@include border($color: $border);
+	padding: $pad;
+}
+
+@mixin useSymbolFont {
+	font-family: $symbolFont;
+}

@@ -1,0 +1,19 @@
+/*
+ * wc.ui.multiFormComponent.scss
+ *
+ * WMultiTextField and WMultiDropdown
+ */
+@import "vars_all.scss";
+
+.wc_mfc {
+	white-space: nowrap;
+	ul {
+		&.error, &.warn, &.info, &.success {
+			white-space: normal;
+		}
+	}
+	li + li{
+		margin-top: $vgap_small;
+	}
+}
+/* end wc.ui.multiFormComponent.scss */

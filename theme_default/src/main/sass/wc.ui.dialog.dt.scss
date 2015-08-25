@@ -1,0 +1,33 @@
+/* wc.ui.dialog.dt.scss */
+@import "wc.ui.dialog_vars.scss";
+
+dialog {
+	border: 0 none;
+	height:auto;
+	max-width: 100%;
+	min-width: $wc_ui_dialog_minWidth;
+	min-height: $wc_ui_dialog_minHeight;
+	&[open] > [aria-live] { /*dialog content container*/
+		height: 100%;
+	}
+	> footer {
+		display: block;
+		line-height: 0;
+		text-align: right;
+	}
+	&.wc_dragflow, &.wc_resizeflow { /* keyboard and resize event initiated drag and resize animation */
+		transition-delay: 0s;
+		transition-duration: 1s;
+		transition-timing-function: ease-in-out;
+	}
+	&.wc_dragflow {
+		transition-property: left, top;
+	}
+	&.wc_resizeflow {
+		transition-property: height, width;
+	}
+	&.wc_dragflow.wc_resizeflow {
+		transition-property: left, top, height, width;
+	}
+}
+/*end wc.ui.dialog.dt.css */

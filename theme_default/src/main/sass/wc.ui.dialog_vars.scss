@@ -1,0 +1,10 @@
+/* wc.ui.dialog_vars.scss
+ * Override this for some simple colour/size over-rides for dialogs */
+@import "mixins_common.scss";
+
+$wc_ui_color_dialog_head_bg: $std_color_primary;
+$wc_ui_color_dialog_head_fg: $std_color_primary_accent;
+
+$wc_ui_dialog_minWidth: 15em;
+$wc_ui_dialog_minHeight: 7em;
+/* end wc.ui.dialog_vars.scss */

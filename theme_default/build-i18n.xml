@@ -1,0 +1,135 @@
+<project name="BuildI18n" default="build" >
+	<!--
+		Builds the i18n resource bundles
+
+		Order is important which is why we don't have a "copySrc" phase.
+		Implementation properties should be loaded in such a way that they
+		trump any duplicate properties in the core.
+	-->
+
+	<import file="build-import.xml"/>
+	<property name="i18n.rootdir" location="${common.src.rootdir}/i18n"/>
+	<property name="impl.i18n.rootdir" location="${impl.src.main.dir}/i18n"/>
+	<property name="plugin.i18n.dir.name" value="i18n"/>
+
+	<target name="init" depends="clean">
+		<property file="${properties.build.constants}"/>
+		<mkdir dir="${i18n.build.target.dir}"/>
+	</target>
+	
+	<target name="build" depends="init, buildXmlBundles, buildJsBundles" description="Builds i18n resource bundles">
+		
+	</target>
+
+	<target name="buildXmlBundles">
+		<property name="destfile.path" location=""/>
+		<property name="default.locale.properties" location="${i18n.build.target.dir}/${default.i18n.locale}.properties"/>
+		<buildPropsForLocale locale="${default.i18n.locale}" destfile="${default.locale.properties}"/>
+		<for param="file">
+			<path>
+				<fileset dir="${i18n.rootdir}" includes="*.properties" excludesfile="${excludesfile}"/>
+				<fileset dir="${impl.i18n.rootdir}" includes="*.properties"/>
+			</path>
+			<sequential>
+				<var name="file.name" unset="true"/>
+				<var name="locale.suffix" unset="true"/>
+				<var name="destfile.path" unset="true"/>
+				<basename property="file.name" file="@{file}" suffix=".properties"/><!-- file name without the extension or path -->
+				<propertyregex property="locale.suffix"
+					override="true"
+					input="${file.name}"
+					regexp="\.([^\.]+)$"
+					select="\1"
+					casesensitive="false" /><!-- locale.suffix is now the locale "code", e.g. "en-US" -->
+				<property name="destfile.path" location="${i18n.build.target.dir}/${locale.suffix}.xml"/>
+				<if>
+					<not>
+						<available file="${destfile.path}" type="file"/>
+					</not>
+					<then>
+						<echo>Building locale properties for ${locale.suffix} to ${destfile.path}</echo>
+						<buildPropsForLocale locale="${locale.suffix}" destfile="${destfile.path}"/>
+						<mergeProperties
+							format="xml"
+							properties0="${destfile.path}"
+							properties1="${default.locale.properties}"
+							destfile="${destfile.path}"/>
+					</then>
+				</if>
+			</sequential>
+		</for>
+	</target>
+	
+	<target name="buildJsBundles">
+		<echo>Building JS bundles for dir: ${i18n.build.target.dir}</echo>
+		<wc.xsltjson
+			xsltjsonDir="target/xsltjson"
+			xmlDir="${i18n.build.target.dir}"
+			jsonDir="${i18n.build.target.dir}" />
+		<for param="file">
+			<path>
+				<fileset dir="${i18n.build.target.dir}" includes="*.json"/>
+			</path>
+			<sequential>
+				<var name="file.name" unset="true"/>
+				<var name="destfile.path" unset="true"/>
+				<basename property="file.name" file="@{file}" suffix=".json"/><!-- file name without the extension or path -->
+				<property name="destfile.path" location="${i18n.build.target.dir}/${file.name}.js"/>
+				<concat destfile="${destfile.path}">
+					<header filtering="no" trimleading="yes">define(</header>
+					<fileset file="@{file}" />
+					<footer filtering="no" trimleading="yes">);</footer>
+				</concat>
+			</sequential>
+		</for>
+	</target>
+
+	<!--
+		For the given local, builds a properties file from the source files in the core
+		and implementation directories.
+
+		Also injects new properties "lang" and "locale" which are derived from the locale
+		attribute passed to this macro.
+	-->
+	<macrodef name="buildPropsForLocale">
+		<attribute name="locale"/>
+		<attribute name="destfile"/>
+		<sequential>
+			<var name="lang" unset="true"/>
+			<concat fixlastline="true" append="false" destfile="@{destfile}">
+				<path>
+					<fileset dir="${i18n.rootdir}" includes="*.@{locale}.properties" excludesfile="${excludesfile}"/>
+					<fileset dir="${impl.i18n.rootdir}/parentImplementation" includes="*.@{locale}.properties" erroronmissingdir="false"/>
+					<fileset dir="${impl.i18n.rootdir}" includes="*.@{locale}.properties"/>
+					<!-- plugins -->
+					<fileset dir="${common.src.plugin.dir}" includesfile="${plugin.includesfile}" excludesfile="${excludesfile}" erroronmissingdir="false">
+						<filename name="**/${plugin.i18n.dir.name}/*.@{locale}.properties"/>
+					</fileset>
+					<fileset dir="${impl.src.plugin.dir}/parentImplementation" includesfile="${plugin.includesfile}" erroronmissingdir="false">
+						<filename name="**/${plugin.i18n.dir.name}/*.@{locale}.properties"/>
+					</fileset>
+					
+					<fileset dir="${impl.src.plugin.dir}" includesfile="${plugin.includesfile}" erroronmissingdir="false">
+						<filename name="**/${plugin.i18n.dir.name}/*.@{locale}.properties"/>
+					</fileset>
+				</path>
+				<filterchain>
+					<expandproperties/>
+				</filterchain>
+			</concat>
+			<propertyregex property="lang"
+				input="@{locale}"
+				regexp="^([A-Za-z]{2}).*"
+				select="\1"/>
+			<echo append="true" file="@{destfile}">locale=@{locale}</echo>
+			<echo append="true" file="@{destfile}">${line.separator}</echo>
+			<echo append="true" file="@{destfile}">lang=${lang}</echo>
+		</sequential>
+	</macrodef>
+	
+
+	<target name="clean" description="Cleans up all artifacts produced by this build">
+		<echo message="Clean from ${ant.file}"/>
+		<delete dir="${i18n.build.target.dir}"/>
+	</target>
+</project>

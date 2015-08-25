@@ -1,0 +1,91 @@
+/* wc.ui.definitionList.scss
+ * Definition lists
+ *
+ * type column
+ * term	data
+ * 		data
+ * 		data
+ * term	data
+ * term	data
+ *
+ * type stacked
+ * term
+ * data
+ * data
+ * data
+ * term
+ * data
+ * term
+ * data
+ *
+ * type flat
+ * term	data data data term data term data
+ *
+ * If no type is specified then the browser defaults kick in. This is
+ * the way it should be done people - let the user agent do its job!
+ *
+ */
+@import "vars_all.scss";
+
+dl {
+	margin: 0;
+}
+
+dt {
+	font-weight: bold;
+}
+
+/* type column */
+.column {
+	> dt {
+		display: inline-block;
+		margin-right: 0.5%;
+		vertical-align: text-top;
+		width: 30%;
+		+ dd { /* the first dd does not have the left margin defined below*/
+			margin-left:0;
+		}
+	}
+	> dd {
+		display: inline-block;
+		margin-left: 30.5%;
+		padding-left: 0;
+		vertical-align: text-top;
+		width: 69.5%;
+	}
+}
+
+/* type stacked */
+.stacked {
+	> dt,
+	> dd {
+		display: block;
+		margin-left: 0;
+		padding-left: 0
+	}
+}
+
+/* type flat
+ *
+ * NOTE: the dl element is required here to differentiate from WFieldLayout
+ * with the same classNames generated from LAYOUT attribute in XML
+  */
+dl.flat {
+	vertical-align: text-top;
+	> dt,
+	> dd {
+		display: inline-block;
+		margin-left: 0;
+		padding-left: 0;
+		vertical-align: top;
+		width: auto;
+	}
+	> dt ~ dt { /* any dt with a preceding sibling gets margin-left */
+		margin-left: $hgap_normal;
+	}
+	> dd { /* all dds must have a preceding sibling so they all get margin-left */
+		margin-left: $hgap_small;
+	}
+}
+
+/* end wc.ui.definitionList.scss */

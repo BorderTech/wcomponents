@@ -1,0 +1,9 @@
+		 #set( $data = $this.getData() ) 			
+			<p>
+				<h3>$data.getCategory()</h3>
+					<B>Name:$data.getName()</B><br/>
+					Product Id:$data.getId()<br/>
+					Description:$data.getDescription()<br/>
+					Item available:$data.getItemAvailable()<br/>
+		
+            </p>
