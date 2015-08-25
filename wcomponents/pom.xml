@@ -2,12 +2,12 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
-	<name>core</name>
-	<artifactId>core</artifactId>
+	<name>wcomponents</name>
+	<artifactId>wcomponents</artifactId>
 
 	<parent>
 		<groupId>com.github.openborders</groupId>
-		<artifactId>wcomponents</artifactId>
+		<artifactId>wcomponents_parent</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
