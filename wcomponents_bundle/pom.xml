@@ -1,0 +1,39 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<name>wcomponents_bundle</name>
+	<artifactId>wcomponents_bundle</artifactId>
+
+	<parent>
+		<groupId>com.github.openborders</groupId>
+		<artifactId>wcomponents_parent</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+
+	<packaging>jar</packaging>
+	
+	<description>
+		This module bundles core server-side and client-side WComponents.
+		It is used in WComponents examples and is itself an example of how to make WComponents
+		available as a single dependency to applications.
+		This avoids the risk of applications defining incompatible versions of the server-side
+		and client-side artefacts.
+	</description>
+	
+	<dependencies>
+		<dependency>
+			<groupId>com.github.openborders</groupId>
+			<artifactId>wcomponents</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.openborders</groupId>
+			<artifactId>theme_default</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+	</dependencies>
+</project>

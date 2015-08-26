@@ -18,7 +18,7 @@
 
 		<dependency>
 			<groupId>com.github.openborders</groupId>
-			<artifactId>theme_default</artifactId>
+			<artifactId>wcomponents_bundle</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 
@@ -60,7 +60,7 @@
 					</descriptorRefs>
 					<archive>
 						<manifest>
-							<mainClass>com.github.openborders.wcomponents.lde.StandaloneLauncher</mainClass>
+							<mainClass>com.github.openborders.wcomponents.exampleslde.StandaloneLauncherProxy</mainClass>
 						</manifest>
 					</archive>
 				</configuration>

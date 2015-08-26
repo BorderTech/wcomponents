@@ -13,6 +13,10 @@
 	</parent>
 
 	<packaging>jar</packaging>
+	
+	<description>
+		Core server-side WComponents.
+	</description>
 
 	<profiles>
 		<profile>
