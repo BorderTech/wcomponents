@@ -16,7 +16,7 @@ Run these commands to fetch the source and build:
 3. `mvn install`
 
 ## Running the Examples
-### Running the executable Jar file
+### Running the executable jar file
 After following the steps above to build WComponents you may run the `wcomponents_examples_lde`
 
 1. ` cd wcomponents_examples_lde/target/`
