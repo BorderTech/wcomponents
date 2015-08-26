@@ -37,10 +37,10 @@ This is handled by loading all resources with a "cachebuster" which is a queryst
 build of the framework to the next.
 
 For example, to load the resource "all.xsl" would look something like this:
-`\<?xml-stylesheet type="text/xsl"  href="all.xsl?foo=bar"?\>`
+`<?xml-stylesheet type="text/xsl"  href="all.xsl?foo=bar"?>`
 
 In this case "foo=bar" is our cachebuster. When a new version of the framework is released this should change, for
-example: `\<?xml-stylesheet type="text/xsl"  href="all.xsl?foo=bar100"?\`>
+example: `<?xml-stylesheet type="text/xsl"  href="all.xsl?foo=bar100"?>`
 
 We have now changed the cachebuster to "foo=bar100" which will cause the browser to load the new resource from the
 server, bypassing cache.
