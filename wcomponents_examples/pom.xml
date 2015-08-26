@@ -27,7 +27,7 @@
 				<activeByDefault>true</activeByDefault>
 			</activation>
 			<properties>
-				<excludedTestGroups>com.github.openborders.examples.SeleniumTests</excludedTestGroups>
+				<excludedTestGroups>com.github.openborders.wcomponents.examples.SeleniumTests</excludedTestGroups>
 			</properties>
 			<build>
 				<plugins>
@@ -118,7 +118,7 @@
 				<configuration>
 					<excludedGroups>${excludedTestGroups}</excludedGroups>
 					<includes>
-						<include>com/github/openborders/examples/WComponent_Example_Suite.java</include>
+						<include>com/github/openborders/wcomponents/examples/WComponent_Example_Suite.java</include>
 					</includes>
 				</configuration>
 			</plugin>

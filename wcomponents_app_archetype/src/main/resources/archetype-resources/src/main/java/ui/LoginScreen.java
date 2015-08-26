@@ -3,18 +3,18 @@ package ${package}.ui;
 import java.util.List;
 
 import ${package}.util.SecurityUtils;
-import com.github.openborders.Action;
-import com.github.openborders.ActionEvent;
-import com.github.openborders.WButton;
-import com.github.openborders.WFieldLayout;
-import com.github.openborders.WFieldSet;
-import com.github.openborders.WMessages;
-import com.github.openborders.WPanel;
-import com.github.openborders.WPasswordField;
-import com.github.openborders.WTextField;
-import com.github.openborders.layout.FlowLayout;
-import com.github.openborders.validation.Diagnostic;
-import com.github.openborders.validation.ValidatingAction;
+import com.github.openborders.wcomponents.Action;
+import com.github.openborders.wcomponents.ActionEvent;
+import com.github.openborders.wcomponents.WButton;
+import com.github.openborders.wcomponents.WFieldLayout;
+import com.github.openborders.wcomponents.WFieldSet;
+import com.github.openborders.wcomponents.WMessages;
+import com.github.openborders.wcomponents.WPanel;
+import com.github.openborders.wcomponents.WPasswordField;
+import com.github.openborders.wcomponents.WTextField;
+import com.github.openborders.wcomponents.layout.FlowLayout;
+import com.github.openborders.wcomponents.validation.Diagnostic;
+import com.github.openborders.wcomponents.validation.ValidatingAction;
 
 /**
  * An example application entry/login screen.

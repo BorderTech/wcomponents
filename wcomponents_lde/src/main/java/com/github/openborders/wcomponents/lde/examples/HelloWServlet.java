@@ -6,10 +6,10 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.bio.SocketConnector;
 import org.eclipse.jetty.webapp.WebAppContext;
 
-import com.github.openborders.WComponent;
-import com.github.openborders.WText;
-import com.github.openborders.servlet.ThemeServlet;
-import com.github.openborders.servlet.WServlet;
+import com.github.openborders.wcomponents.WComponent;
+import com.github.openborders.wcomponents.WText;
+import com.github.openborders.wcomponents.servlet.ThemeServlet;
+import com.github.openborders.wcomponents.servlet.WServlet;
 
 /**
  * <p>This class demonstrates how to run a WComponent from a Servlet.

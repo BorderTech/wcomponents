@@ -2,20 +2,20 @@ package ${package}.ui;
 
 import ${package}.model.Customer;
 import ${package}.util.DatabaseUtils;
-import com.github.openborders.Action;
-import com.github.openborders.ActionEvent;
-import com.github.openborders.WBeanContainer;
-import com.github.openborders.WButton;
-import com.github.openborders.WCancelButton;
-import com.github.openborders.WDateField;
-import com.github.openborders.WFieldLayout;
-import com.github.openborders.WFieldSet;
-import com.github.openborders.WMessages;
-import com.github.openborders.WPanel;
-import com.github.openborders.WTextField;
-import com.github.openborders.WebUtilities;
-import com.github.openborders.layout.BorderLayout;
-import com.github.openborders.validation.ValidatingAction;
+import com.github.openborders.wcomponents.Action;
+import com.github.openborders.wcomponents.ActionEvent;
+import com.github.openborders.wcomponents.WBeanContainer;
+import com.github.openborders.wcomponents.WButton;
+import com.github.openborders.wcomponents.WCancelButton;
+import com.github.openborders.wcomponents.WDateField;
+import com.github.openborders.wcomponents.WFieldLayout;
+import com.github.openborders.wcomponents.WFieldSet;
+import com.github.openborders.wcomponents.WMessages;
+import com.github.openborders.wcomponents.WPanel;
+import com.github.openborders.wcomponents.WTextField;
+import com.github.openborders.wcomponents.WebUtilities;
+import com.github.openborders.wcomponents.layout.BorderLayout;
+import com.github.openborders.wcomponents.validation.ValidatingAction;
 
 /**
  * This screen is used to edit customer details.

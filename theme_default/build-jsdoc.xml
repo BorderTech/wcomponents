@@ -93,7 +93,7 @@
 	<property name="jsdoc.output.footer" value="${jsdoc.output.systemName} is powered by &lt;a href='http://vanilla-js.com/' target='_blank'&gt;&lt;img src='${jsdoc.to.maven.relative.path}images/vanillajs.png' alt='Vanilla JS'/&gt;&lt;/a&gt;."/>
 
 	<!-- Copyright notice? Empty is acceptable. -->
-	<property name="jsdoc.output.copyright" value="${jsdoc.output.systemName} is copyright &amp;#xa9; see https://github.com/OpenBorders."/>
+	<property name="jsdoc.output.copyright" value="${jsdoc.output.systemName} is copyright &amp;#xa9; see https://github.com/OpenBorders/wcomponents."/>
 
 	<!--
 		A Common inconsistency

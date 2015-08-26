@@ -28,9 +28,9 @@ import org.eclipse.jetty.util.resource.Resource;
 import org.eclipse.jetty.util.resource.ResourceCollection;
 import org.eclipse.jetty.webapp.WebAppContext;
 
-import com.github.openborders.servlet.WServlet;
-import com.github.openborders.util.Config;
-import com.github.openborders.util.SystemException;
+import com.github.openborders.wcomponents.servlet.WServlet;
+import com.github.openborders.wcomponents.util.Config;
+import com.github.openborders.wcomponents.util.SystemException;
 
 /**
  * Enables WComponents to be run in a LDE environment.
@@ -278,7 +278,7 @@ public abstract class TestServlet extends WServlet
         {
             WebAppContext themeWebapp = new WebAppContext();
             themeWebapp.setContextPath("/theme");
-            themeWebapp.addServlet("com.github.openborders.servlet.ThemeServlet", "/*");
+            themeWebapp.addServlet("com.github.openborders.wcomponents.servlet.ThemeServlet", "/*");
             themeWebapp.setResourceBase(".");
             handlers.addHandler(themeWebapp);
         }

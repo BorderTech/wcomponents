@@ -1,9 +1,9 @@
 package ${package}.servlet;
 
 import ${package}.ui.MyApp;
-import com.github.openborders.WComponent;
-import com.github.openborders.registry.UIRegistry;
-import com.github.openborders.servlet.WServlet;
+import com.github.openborders.wcomponents.WComponent;
+import com.github.openborders.wcomponents.registry.UIRegistry;
+import com.github.openborders.wcomponents.servlet.WServlet;
 
 /**
  * This class enables hosting of wcomponents in a servlet container. To get a basic
