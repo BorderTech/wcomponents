@@ -47,6 +47,7 @@ demonstrate that they *do not* trigger *any* failure techniques and can be shown
 techniques for level AA.
 
 This means (but is not limited to):
+
 * all rendered HTML *must* be in accordance with the specification (by default we use HTML5 and the _only_ specification
 is that of the [WHATWG](https://html.spec.whatwg.org/));
 * all components must be operable without a mouse/pointing device and keyboard mappings should comply with WAI-ARIA

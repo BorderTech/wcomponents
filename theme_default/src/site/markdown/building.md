@@ -13,7 +13,7 @@ and follow its directions for configuring theme build options.
 Maven has several flags for skipping automatic tests when running a build. The one to use for skipping theme tests is
 `-DskipTests`. Your IDE may have a configuration to set this as a default for non-test builds (Netbeans has this).
 
-## See also
+## Further information
 
 * [Testing and debugging](./debugging.html)
 * The theme user.xml for documentation regarding building particular implementations

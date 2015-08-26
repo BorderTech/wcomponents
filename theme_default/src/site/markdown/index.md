@@ -39,7 +39,7 @@ where possible, implement a fix which is delivered only to the browsers which ar
 
 ### Usable
 
-The original themes were built under the direction of a user centred design group and usability is still a key
+The original themes were built under the direction of a user centered design group and usability is still a key
 requirement of all components. A component will be added to a theme only if it is required by an application and there
 has been rigorous usability analysis and interaction design for the component.
 
@@ -58,7 +58,7 @@ need and user interface components may be removed if they are not required.
 
 ### Internally documented
 
-Every source file _should_ be internally documented. This should cover JSDoc for all functions in JavaScript; comments
-of all blocks of related selectors in the CSS; header comments for every component transform file and for every named
-transform and global variable in XSLT; and additional comments for any unusual, complex, controversial or convoluted
-piece of code and for any fixes which have to be in the main source. Still working on this one.
+Every source file _should_ be internally documented. This means JSDoc for JavaScript; comments of all blocks of related
+selectors in the CSS; header comments for every component transform file and for every named transform and global
+variable in XSLT; and additional comments for any unusual, complex, controversial or convoluted piece of code and for
+any fixes which have to be in the main source. We're still working on this one (as usual).
