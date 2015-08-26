@@ -15,10 +15,14 @@ Run these commands to fetch the source and build:
 2. `cd wcomponents`
 3. `mvn install`
 
-## Running the wcomponents_examples_lde executable jar
+## Running the Examples
+### Running the executable Jar file
 After following the steps above to build WComponents you may run the `wcomponents_examples_lde`
 
 1. ` cd wcomponents_examples_lde/target/`
 2. `java -jar wcomponents_examples_lde-VERSION-jar-with-dependencies.jar` (replace VERSION with the version you built, e.g. `1.0.0-SNAPSHOT`)
 
 Note: you may also simply double-click the jar file.
+
+### Running the examples project
+TODO document this
