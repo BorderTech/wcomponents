@@ -26,3 +26,5 @@ theme_default/.npmrc
 theme_default/bin/
 theme_default/target/
 *.dat
+SerializeText.txt
+junit-frames.xsl
