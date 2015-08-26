@@ -1,13 +1,12 @@
 ## Code Standards
-The following comprises the expected code standards for the core WComponents implementation code. This is a work in
-progress
+The following comprises the expected code standards for the core WComponents theme code. This is a work in progress.
 
 ### General Coding standards
 The following apply to all code in the WComponents default theme:
 
 * maximum line length is 120 characters and may be exceeded where a break would cause parsing or reading issues;
 * code indentation is made using the TAB character;
-* the source of truth for attribute names is the schema; and
+* the source of truth for attribute names is the XML schema; and
 * code should comply with relevant standards as defined by:
     * [Ecma International](http://www.ecma-international.org/default.htm) for
       [JavaScript](http://www.ecma-international.org/publications/standards/Ecma-262.htm);
@@ -26,35 +25,33 @@ The JavaScript code standards are based on the [Google JavaScript Style Guide](h
  where the Google guidelines specify 2 spaces it can be read as one TAB and 4 spaces can be read as two TABs.
 
 #### Mandatory Requirements
-All JavaScript must cause no errors or warnings when linted using [JSHint](http://jshint.com/) with the configuration as
-set in jsl.wc.conf in the core source root directory. Some specific requirements are:
+All JavaScript must cause no errors or warnings when linted using [eslint](http://http://eslint.org/) with the
+configuration as set in build-import.xml macro javascript.lint. You should refer to that macro and the eslint defaults
+for more information but in plain language some specific requirements are:
 
-* Line ending semi-colons are not optional.
-* All variables must be declared. This means globals are forbidden except for those in the lint config; being:
-    * define (a global in requirejs);
-    * require (a global in requirejs);
-    * window;
-    * console;
-    * document;
-    * NodeFilter;
-    * Node; and
-    * KeyEvent.
+* line ending semi-colons are **not optional**;
+* brace style is Stroustrup and single line blocks **must** be braced;
+* a space is required before a block opening brace;
+* a space is required after **every** keyword;
+* indentation uses TAB and each case in a switch is indented' indentation is checked and each indentable block **must**
+  be indented by exactly one TAB;
+* "use strict" must be defined in each JavaScript file as the first declaration inside the body of the function
+  argument to the file's declare statement;
+* all variables must be declared therefore means globals are forbidden except for those in the AMD and browser
+  environments (require, define, window and document) and the eslint config globals(KeyEvent). The outcome of this is
+  that even commonly used assumptions (such as using alert rather than window.alert) will result in build failure;
+* There **must not** be declared but unused members in any scope except arguments in a function declaration.
 
-    This implies that even commonly used assumptions (such as using alert rather than window.alert) will result in a
-    build failure.
-
-In addition to the lint rules the following must be adhered to:
+In addition to the lint rules the following should be applied:
 
 * One var declaration per function. All vars are hoisted by compressors and JIT compilers and JavaScript does not have
 branch scope so declare everything up front.
-* "use strict"; must be defined in each JavaScript file as the first declaration inside the body of the function
-argument to the files declare statement;
 * == and != must not be used unless absolutely required. In cases where they are used they must be commented with the
 reason otherwise they may be replaced with === and !== without checking your reasoning (everyone is presumed guilty
 until proven innocent);
 * function variables should not mask class variables which, in turn, should not mask arguments to the function argument
 of the class' define which should not mask globals;
-* arguments should generally not be manipulated in a function.
+* arguments should generally not be manipulated in a function unless they are returned by the function.
 
 #### Code formatting
 Code formatting corresponds with the [Google JavaScript Style Guide](https://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml)
@@ -85,13 +82,13 @@ with the following exceptions:
 
 #### JSDoc
 
-Functions should be commented with [JSDoc 3](http://usejsdoc.org/).
+JavaScript should be commented with [JSDoc 3](http://usejsdoc.org/).
 
 ##### AMD modules
-The return function of the define should be tagged with the `@exports` tag as per
+The return function of the define should be tagged with the `@module` tag as per
 [JSDoc AMD modules](http://usejsdoc.org/howto-amd-modules.html). This is usually done before the define() declaration;
 
-    //use this:
+    // use this:
     /**
      * A module representing a foo control.
      * @module
@@ -100,7 +97,7 @@ The return function of the define should be tagged with the `@exports` tag as pe
         ....
     });
 
-    //rather than
+    // rather than
     define([....], function(....) {
         /**
          * A module representing a foo control.
@@ -111,19 +108,28 @@ The return function of the define should be tagged with the `@exports` tag as pe
 
 When the module returns a function use the `@alias` tag.
 
-    //use this:
+    // use this:
     /**
      * A module representing a foo control.
      * @module moduleName
      */
     define([....], function(....) {
-        /**
-         * @alias module:moduleName
-         */
+        /** @alias module:moduleName */
         return function() {
             ....
         };
     });
+
+There are some variations on this to make JSDoc3 work with our singleton model. The best approach is to take a look at a
+similar module. One common variation, for example, is for a module which returns a function to declare the function and
+return a reference to that function rather than returning the function directly as the latter has been show to cause
+JSDoc to fail and there is no significant difference in the final compressed code.
+
+###### What's that pointless `define` JSDoc which is always ignored?
+You may see that the return function argument of a define has JSDoc for each param followed by `@ignore`. This is only
+to make Netbeans behave as we prefer to show warning on incomplete JSDoc. The presence of the module header JSDoc
+comment makes these `@param` tags mandatory in Netbeans with this JSDoc rule in place. It is a bit annoying but removes
+a potential mask of real issues.
 
 ##### Functions
 Each function comment should include a brief outline of the purpose of the function. Markdown is acceptable in the
@@ -148,13 +154,16 @@ WComponents licence making `@copyright` mostly irrelevant.
 
 #### Other comments
 Comments are generally in line with the [Google JavaScript Style Guide](https://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml)
-except for the line length and indent rules as described above.
+except for the line length and indent rules as described above. Comments may be single line or multiline as appropriate
+to the comment, we are not that precious though we do enforce a space at the beginning of each comment!
 
 #### Making properties and methods public for testing
 This is not discouraged and may sometimes be the best way to unit test a function. If a private function is particularly
-complex and does not depend on user interaction then it should be made public in order to be unit tested unless there is
-an obvious mechanism to invoke the function from an existing public function which is also not dependant on user
-interaction.
+complex and either does not depend directly on user interaction or is a complex event driven function (such as some
+key event helpers) then it should be made public in order to be unit tested unless there is an obvious mechanism to
+invoke the function from an existing public function which is also not dependant on user interaction.
+
+**It is always better to publicise and test than not to test at all!**
 
 A function which is public for testing should be published using an expression which provides the public function with
 the name of the private function preceded by an underscore (_) character. Use the `@ignore` JSDoc tag to prevent the
@@ -163,23 +172,23 @@ the class block.
 
 Given a private function foo() which is called internally as foo() then:
 
-    //Use this
+    // Use this
     /**
      * Usual JSDoc gubbins ...
-     * @method
+     * @function
      * @private
      */
     function foo() {
         ....
     }
     /**
-     * Make foo public for testing only.
+     * Make {@link foo} public for testing only.
      * @ignore
      */
     this._foo = foo;
 
     /* Do not use this as this form allows an internal call to this._foo() and foo()
-      which may result in inexpected or inconsistent results. */
+      which may result in unexpected or inconsistent results. */
     this._foo = function foo() {
         ....
     };
@@ -197,34 +206,49 @@ strictly required.
 Members on the prototype chain of a constructor should be declared before the constructor when the constructor is
 itself nested in the function argument of a define or require.
 
-### CSS Coding Standards
-The CSS standards comply in spirit with the [Google HTML/CSS Style Guide](https://google-styleguide.googlecode.com/svn/trunk/htmlcssguide.xml)
-sections which deal with CSS with the exception of:
+### SASS/CSS Coding Standards
+The SASS/CSS standards comply in spirit with the [Google HTML/CSS Style Guide](https://google-styleguide.googlecode.com/svn/trunk/htmlcssguide.xml)
+sections which deal with CSS.
+
+#### Exceptions to the Google guide
 
 * indentation and line length as described above; and
-* a semi-colon must **not** be placed after the last declaration of a rule (as this does not comply with the CSS
+* in CSS a semi-colon must **not** be placed after the last declaration of a rule (as this does not comply with the CSS
   specification). Note, however, that a trailing semi-colon is acceptable in SCSS source as it is removed in compilation
   and compression.
 
-The following additions also apply:
+#### Additions to the Google guide
 
-* A selector should be placed on a single line but if its length exceeds the 120 character limit it may be broken and
-  indented by one TAB, in this case the line break should be *before* a selector modifying combinator (> , ~ etc) if
-  present.
+* SASS **must** be written in SCSS format and white space is for humans.
+* Selectors should be placed one per line unless all selectors for a rule are of two segments or fewer **and** the
+  total length of all selectors is less than 120 characters; basically if you have any long selectors they all go on
+  individual lines. A compound selector should be placed on a single line but it exceeds the 120 character limit it may
+  be broken and subsequent line(s) indented by one more TAB, in this case the line break should be after a selector
+  modifying combinator (> , ~ etc) if present.
 * Never qualify an id selector with a type and avoid qualifying a class selector with a type except to avoid ambiguity.
   In this latter case the reason must be commented.
-* Do not place a comment inside a declaration block (it causes issues with Safari's developer tools).
-* Do not include empty lines in a declaration block (it contravenes the specification).
+* In CSS do not include empty lines in a declaration block (it contravenes the CSS specification). It is best to avoid
+  this is SASS as well.
 * Separate rules with at least one empty line.
 
-#### Commenting SCSS
-* Each SCSS file should commence with a comment which includes its file name and end with a comment which includes the
-  word 'end' and its file name. This makes CSS debugging much easier (remember that comments are stripped in the final
-  compressed output).
-* If a rule is commented there should not be any empty lines between the last line of the comment and the first selector
-  but the comment should not be on the same line as the selector.
+##### Commenting CSS and SCSS
+* Each CSS and SCSS file must commence with a CSS comment which includes its file name and end with a comment which
+  includes the word 'end' and its file name. This makes CSS debugging much easier (remember that CSS style comments are
+  stripped in the final compressed output but SASS comments are stripped in all circumstances).
+* Comments must be in SASS single line style unless they are pertinent to debugging. This is still in a state of flux
+  due to our recent CSS to SASS transition.
+* There must be a single space between the start of a comment and the first character of the comment content. CSS
+  comments must also have a single space between the last character of the comment content and the comment end unless
+  the comment end is on its own line.
+* If a rule is commented there must not be any empty lines between the last line of the comment and the first selector
+  and the comment must not be on the same line as the selector.
+* Do not place a CSS style comment inside a declaration block (it causes issues with Safari's developer tools).
+* SASS single line comments are permitted inside rule blocks but must not occupy a line by themselves. This is to
+  prevent the transitional (and therefore debug) CSS from having empty lines inside a rule block. Any such comments are
+  permitted after the opening brace of a rule block and at the end of any rule in the block.
 * If a particular selector in a multi-selector rule requires a comment it should be placed on the same line as the
-  selector and precede the comma or opening brace (if it is the last selector).
+  selector. If the comment is CSS style then it must precede the comma or opening brace (if it is the last selector).
+  SASS comments must always be at the end of a line (of course).
 * If a particular declaration in a declaration block requires a comment it should be placed in the rule comment and
   include the declaration's property name as part of the comment. This is to avoid placing comments inside a declaration
   block as noted above.
@@ -232,13 +256,11 @@ The following additions also apply:
 
     /* my.component.scss */
 
-    /* This declaration block does something odd.
-     * The line-height declaration is used to ... which is needed for ...
-     */
+    /* This declaration block does something odd and I need to know about it in debug mode */
     .foo,
     .bar > .somelongclassname [aria-selected='true'] > :first-child {
         ....
-        line-height: -2px;
+        line-height: -2px; // The line-height declaration is used to ... which is needed for ...
         ....
     }
 
@@ -259,14 +281,13 @@ IDEs do code completion, highlighting and basic validity checking of each source
 * All variable and template names should be in camelCase. The XSLT compressor is able to replace template, param and
   variable names, in a similar way to JavaScript compressors/obfuscators. Named templates and variables should have a
   name which is descriptive to help with coding and reuse without concern for the file size served to the final client.
-* Use \<xsl:element\> to output any HTML element which is self closing as some XSLT processors have issues with creating
-  HTML shorrtag elements when the XSLT includes a closing tag:
+* Use xsl:element to output any HTML element which is self closing as some XSLT processors have issues with creating
+  HTML shortrtag elements when the XSLT includes a closing tag:
 
         <!-- use this -->
         <xsl:element name="input">
             ....
         </xsl:element>
-
 
         <!-- do not use this -->
         <input>
@@ -282,7 +303,7 @@ IDEs do code completion, highlighting and basic validity checking of each source
         <!-- use this -->
         <xsl:variable name="foo">
             ...
-        </xsl:variable_
+        </xsl:variable>
         <xsl:element name="input">
             <xsl:attribute name="data-bar">
                 <xsl:value-of select="$foo"/>
@@ -293,7 +314,7 @@ IDEs do code completion, highlighting and basic validity checking of each source
         <xsl:element name="input"_
             <xsl:variable name="foo">
                 ...
-            </xsl:variable_
+            </xsl:variable>
             <xsl:attribute name="data-bar">
                 <xsl:value-of select="$foo"/>
             </xsl:attribute>
@@ -307,7 +328,7 @@ IDEs do code completion, highlighting and basic validity checking of each source
             </xsl:attribute>
         </xsl:element>
 
-* Never (really: *NEVER*) use xsl:foreach in live code. It _may_ be acceptable in debug mode but the reason for its use
-  should be included in a comment for each use.
+* Never (really: **NEVER**) use xsl:foreach in live code. It _may_ be acceptable in debug mode but the reason for its
+  use should be included in a comment for each use.
 
 ... **To be continued** ...
