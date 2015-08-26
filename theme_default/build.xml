@@ -247,7 +247,11 @@ chromedriver_cdnurl=${mirror.root}/chromedriver
 					<echo>Copying sub-implementation files from: ${impl.src.dir} to ${merge.impl.dir}</echo>
 					<copy todir="${merge.impl.dir}">
 						<!-- Copy the whole implementation to the dir where we will do the merge -->
-						<fileset dir="${impl.src.dir}" excludes="inherit.txt"/>
+						<fileset dir="${impl.src.dir}" excludes="inherit.txt">
+							<exclude name="**/node/**"/>
+							<exclude name="**/node_modules/**"/>
+							<exclude name="**/target/**"/>
+						</fileset>
 					</copy>
 					<!--
 						We can't just copy the top level dir because we expect the excludes file
