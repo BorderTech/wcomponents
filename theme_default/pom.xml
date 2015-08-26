@@ -13,15 +13,11 @@
 
 	<packaging>jar</packaging>
 	
+	<description>
+		Core client-side WComponents.
+	</description>
+	
 	<properties>
 		<theme.skip.antrun>false</theme.skip.antrun>
 	</properties>
-	
-	<dependencies>
-		<dependency>
-			<groupId>com.github.openborders</groupId>
-			<artifactId>wcomponents</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-	</dependencies>
 </project>

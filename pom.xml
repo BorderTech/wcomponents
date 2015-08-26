@@ -316,7 +316,8 @@
 		<module>wcomponents_sanity4j_plugin</module>
 		<module>wcomponents_examples_lde</module>
 		<module>wcomponents_examples</module>
-	 <module>wcomponents</module>
+		<module>wcomponents</module>
+		<module>wcomponents_bundle</module>
 	</modules>
 
 	<distributionManagement>
