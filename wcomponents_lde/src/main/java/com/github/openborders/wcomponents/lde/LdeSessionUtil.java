@@ -16,8 +16,8 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.github.openborders.util.Config;
-import com.github.openborders.util.StreamUtil;
+import com.github.openborders.wcomponents.util.Config;
+import com.github.openborders.wcomponents.util.StreamUtil;
 
 /** 
  * LdeSessionUtil provides session utility methods for the LDE. 

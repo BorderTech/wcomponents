@@ -17,16 +17,16 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 
-import com.github.openborders.UIContext;
-import com.github.openborders.UIContextDelegate;
-import com.github.openborders.UIContextHolder;
-import com.github.openborders.WebUtilities;
-import com.github.openborders.monitor.UicStats;
-import com.github.openborders.monitor.UicStatsAsHtml;
-import com.github.openborders.util.AbstractTreeNode;
-import com.github.openborders.util.Config;
-import com.github.openborders.util.TreeNode;
-import com.github.openborders.velocity.VelocityEngineFactory;
+import com.github.openborders.wcomponents.UIContext;
+import com.github.openborders.wcomponents.UIContextDelegate;
+import com.github.openborders.wcomponents.UIContextHolder;
+import com.github.openborders.wcomponents.WebUtilities;
+import com.github.openborders.wcomponents.monitor.UicStats;
+import com.github.openborders.wcomponents.monitor.UicStatsAsHtml;
+import com.github.openborders.wcomponents.util.AbstractTreeNode;
+import com.github.openborders.wcomponents.util.Config;
+import com.github.openborders.wcomponents.util.TreeNode;
+import com.github.openborders.wcomponents.velocity.VelocityEngineFactory;
 
 /** 
  * <p>This component adds a "Developer Toolkit" to the UI.</p>

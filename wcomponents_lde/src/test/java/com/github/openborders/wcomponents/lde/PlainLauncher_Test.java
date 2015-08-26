@@ -8,20 +8,20 @@ import junit.framework.Assert;
 import org.junit.After;
 import org.junit.Test;
 
-import com.github.openborders.AbstractWComponent;
-import com.github.openborders.RenderContext;
-import com.github.openborders.Request;
-import com.github.openborders.UIContext;
-import com.github.openborders.UIContextHolder;
-import com.github.openborders.UIContextImpl;
-import com.github.openborders.WApplication;
-import com.github.openborders.WComponent;
-import com.github.openborders.WText;
-import com.github.openborders.WebUtilities;
-import com.github.openborders.servlet.WServlet.WServletEnvironment;
-import com.github.openborders.util.Config;
-import com.github.openborders.util.StreamUtil;
-import com.github.openborders.util.mock.servlet.MockHttpServletRequest;
+import com.github.openborders.wcomponents.AbstractWComponent;
+import com.github.openborders.wcomponents.RenderContext;
+import com.github.openborders.wcomponents.Request;
+import com.github.openborders.wcomponents.UIContext;
+import com.github.openborders.wcomponents.UIContextHolder;
+import com.github.openborders.wcomponents.UIContextImpl;
+import com.github.openborders.wcomponents.WApplication;
+import com.github.openborders.wcomponents.WComponent;
+import com.github.openborders.wcomponents.WText;
+import com.github.openborders.wcomponents.WebUtilities;
+import com.github.openborders.wcomponents.servlet.WServlet.WServletEnvironment;
+import com.github.openborders.wcomponents.util.Config;
+import com.github.openborders.wcomponents.util.StreamUtil;
+import com.github.openborders.wcomponents.util.mock.servlet.MockHttpServletRequest;
 
 /**
  * PlainLauncher_Test - unit tests for {@link PlainLauncher}.

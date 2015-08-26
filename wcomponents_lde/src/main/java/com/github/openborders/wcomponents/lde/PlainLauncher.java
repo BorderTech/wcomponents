@@ -11,15 +11,15 @@ import org.apache.commons.configuration.Configuration;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.github.openborders.WApplication;
-import com.github.openborders.WComponent;
-import com.github.openborders.WText;
-import com.github.openborders.container.InterceptorComponent;
-import com.github.openborders.container.PageShellInterceptor;
-import com.github.openborders.monitor.ProfileContainer;
-import com.github.openborders.registry.UIRegistry;
-import com.github.openborders.util.Config;
-import com.github.openborders.util.Util;
+import com.github.openborders.wcomponents.WApplication;
+import com.github.openborders.wcomponents.WComponent;
+import com.github.openborders.wcomponents.WText;
+import com.github.openborders.wcomponents.container.InterceptorComponent;
+import com.github.openborders.wcomponents.container.PageShellInterceptor;
+import com.github.openborders.wcomponents.monitor.ProfileContainer;
+import com.github.openborders.wcomponents.registry.UIRegistry;
+import com.github.openborders.wcomponents.util.Config;
+import com.github.openborders.wcomponents.util.Util;
 
 /**
  * This class enables easy running of a shared WComponent instance in a Jetty
@@ -30,7 +30,7 @@ import com.github.openborders.util.Util;
  * "local_app.properties" file. E.g.
  * 
  * <pre>
- * ui.web.component.to.launch = com.github.openborders.examples.KitchenSink
+ * ui.web.component.to.launch = com.github.openborders.wcomponents.examples.KitchenSink
  * </pre>
  * 
  * @author Martin Shevchenko
@@ -159,7 +159,7 @@ public class PlainLauncher extends TestServlet
                     + "Do this by setting the parameter \""
                     + COMPONENT_TO_LAUNCH_PARAM_KEY
                     + "\" in your \"local_app.properties\" file.<br />"
-                    + "Eg.  " + COMPONENT_TO_LAUNCH_PARAM_KEY + "=com.github.openborders.examples.KitchenSink");
+                    + "Eg.  " + COMPONENT_TO_LAUNCH_PARAM_KEY + "=com.github.openborders.wcomponents.examples.KitchenSink");
             
             ((WText) sharedApp).setEncodeText(false);
         }

@@ -27,7 +27,7 @@
 				<activeByDefault>true</activeByDefault>
 			</activation>
 			<properties>
-				<excludedTestGroups>com.github.openborders.PerformanceTests</excludedTestGroups>
+				<excludedTestGroups>com.github.openborders.wcomponents.PerformanceTests</excludedTestGroups>
 			</properties>
 		</profile>
 	</profiles>

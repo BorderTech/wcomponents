@@ -4,7 +4,7 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
-import com.github.openborders.util.mock.servlet.MockHttpSession;
+import com.github.openborders.wcomponents.util.mock.servlet.MockHttpSession;
 
 /**
  * LdeSessionUtil_Test - unit tests for {@link LdeSessionUtil}.

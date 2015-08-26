@@ -6,30 +6,30 @@ import java.util.List;
 import ${package}.model.Address;
 import ${package}.model.Customer;
 import ${package}.util.DatabaseUtils;
-import com.github.openborders.ActionEvent;
-import com.github.openborders.BeanProvider;
-import com.github.openborders.BeanProviderBound;
-import com.github.openborders.ImageResource;
-import com.github.openborders.Request;
-import com.github.openborders.SimpleBeanBoundTableDataModel;
-import com.github.openborders.WBeanContainer;
-import com.github.openborders.WButton;
-import com.github.openborders.WButton.ImagePosition;
-import com.github.openborders.WDataTable;
-import com.github.openborders.WDataTable.ActionConstraint;
-import com.github.openborders.WDataTable.PaginationMode;
-import com.github.openborders.WFieldLayout;
-import com.github.openborders.WFieldSet;
-import com.github.openborders.WHeading;
-import com.github.openborders.WMessages;
-import com.github.openborders.WPanel;
-import com.github.openborders.WTableColumn;
-import com.github.openborders.WText;
-import com.github.openborders.WTextField;
-import com.github.openborders.WebUtilities;
-import com.github.openborders.layout.BorderLayout;
-import com.github.openborders.layout.FlowLayout;
-import com.github.openborders.validation.ValidatingAction;
+import com.github.openborders.wcomponents.ActionEvent;
+import com.github.openborders.wcomponents.BeanProvider;
+import com.github.openborders.wcomponents.BeanProviderBound;
+import com.github.openborders.wcomponents.ImageResource;
+import com.github.openborders.wcomponents.Request;
+import com.github.openborders.wcomponents.SimpleBeanBoundTableDataModel;
+import com.github.openborders.wcomponents.WBeanContainer;
+import com.github.openborders.wcomponents.WButton;
+import com.github.openborders.wcomponents.WButton.ImagePosition;
+import com.github.openborders.wcomponents.WDataTable;
+import com.github.openborders.wcomponents.WDataTable.ActionConstraint;
+import com.github.openborders.wcomponents.WDataTable.PaginationMode;
+import com.github.openborders.wcomponents.WFieldLayout;
+import com.github.openborders.wcomponents.WFieldSet;
+import com.github.openborders.wcomponents.WHeading;
+import com.github.openborders.wcomponents.WMessages;
+import com.github.openborders.wcomponents.WPanel;
+import com.github.openborders.wcomponents.WTableColumn;
+import com.github.openborders.wcomponents.WText;
+import com.github.openborders.wcomponents.WTextField;
+import com.github.openborders.wcomponents.WebUtilities;
+import com.github.openborders.wcomponents.layout.BorderLayout;
+import com.github.openborders.wcomponents.layout.FlowLayout;
+import com.github.openborders.wcomponents.validation.ValidatingAction;
 
 /**
  * An example screen to search for customer records.
@@ -250,12 +250,12 @@ public class SearchScreen extends WPanel
         public String getText()
         {
             Address address = (Address) getBean();
-            
+
             if (address == null)
             {
                 return "";
             }
-            
+
             StringBuffer text = new StringBuffer(address.getLine1());
 
             if (address.getLine2() != null)

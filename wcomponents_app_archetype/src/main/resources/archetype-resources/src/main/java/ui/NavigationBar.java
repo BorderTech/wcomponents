@@ -1,10 +1,10 @@
 package ${package}.ui;
 
-import com.github.openborders.Action;
-import com.github.openborders.ActionEvent;
-import com.github.openborders.WMenu;
-import com.github.openborders.WMenuItem;
-import com.github.openborders.WContainer;
+import com.github.openborders.wcomponents.Action;
+import com.github.openborders.wcomponents.ActionEvent;
+import com.github.openborders.wcomponents.WMenu;
+import com.github.openborders.wcomponents.WMenuItem;
+import com.github.openborders.wcomponents.WContainer;
 
 /**
  * The application navigation/menu bar.

@@ -28,7 +28,7 @@ import org.apache.commons.configuration.MapConfiguration;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.github.openborders.util.Config;
+import com.github.openborders.wcomponents.util.Config;
 
 /** 
  * This launcher is intended to be run in a stand-alone environment, 
