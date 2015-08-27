@@ -13,6 +13,7 @@
 	<xsl:template name="plugin_validation">
 		<xsl:variable name="scriptId" select="concat(generate-id(), '-validationscript')"/>
 		<script type="text/javascript" id="{$scriptId}">
+			<xsl:text>require(["wc/compat/compat!"], function(){</xsl:text>
 			<!-- config -->
 			<xsl:text>try{requirejs.config({paths: {${validation.core.path.name}: "${validation.core.path.path}"}});</xsl:text>
 			<!-- requires -->
@@ -21,6 +22,7 @@
 			<xsl:text>}finally{require(["wc/dom/removeElement"],function(r){r("</xsl:text>
 			<xsl:value-of select="$scriptId"/>
 			<xsl:text>",250);});}</xsl:text>
+			<xsl:text>});</xsl:text>
 		</script>
 	</xsl:template>
 </xsl:stylesheet>
