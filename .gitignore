@@ -1,10 +1,10 @@
 ### WComponents ###
-theme_default/node/
-theme_default/package.json
-theme_default/README.md
-theme_default/jsdoc.json
-theme_default/.npmrc
-theme_default/bin/
+wcomponents_theme/node/
+wcomponents_theme/package.json
+wcomponents_theme/README.md
+wcomponents_theme/jsdoc.json
+wcomponents_theme/.npmrc
+wcomponents_theme/bin/
 *.dat
 SerializeText.txt
 junit-frames.xsl

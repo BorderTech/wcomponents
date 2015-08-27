@@ -5,7 +5,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 		allFooBarDivs, mooDivInFooDiv, mooDivInFooDivImmediate, barSpanInMooDivInFooDiv, allStaticAnchors,
 		allStaticBartAnchors, allStaticBartAnchorsWithAName, allStaticBartAnchorsWithANameAndImmediateDescendMooInFoo,
 		staticNamedAnchor, matchId, allNamedElements, allElementsWithId, a3Owner, testHolder,
-		urlResource = "../../target/test-classes/theme_default/intern/resources/domWidget.html";
+		urlResource = "../../target/test-classes/wcomponents_theme/intern/resources/domWidget.html";
 
 
 	registerSuite({

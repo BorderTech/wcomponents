@@ -22,8 +22,8 @@ define({
 			wc: '${amd.src.dir}/wc',
 			dojo: '${amd.src.dir}/dojo',
 			sprintf: '${amd.src.dir}/sprintf',
-			Promise: 'target/classes/theme/theme_default/scripts_debug/promise/Promise.min',
-			compat: 'target/classes/theme/theme_default/scripts_debug/wc/compat'
+			Promise: 'target/classes/theme/wcomponents_theme/scripts_debug/promise/Promise.min',
+			compat: 'target/classes/theme/wcomponents_theme/scripts_debug/wc/compat'
 		}
 	},
 	// A regular expression matching URLs to files that should not be included in code coverage analysis

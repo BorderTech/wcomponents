@@ -15,7 +15,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
 				BUTTONINP: 'btninp',
 				BUTTON: 'btn'
 			},
-			urlResource = "../../target/test-classes/theme_default/intern/resources/domEvent.html",
+			urlResource = "../../target/test-classes/wcomponents_theme/intern/resources/domEvent.html",
 			EVENT = "click",
 			called = false,
 			dom1called = false,

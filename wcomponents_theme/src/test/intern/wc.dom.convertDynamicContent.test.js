@@ -6,7 +6,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
 			form,
 			CONVERSION_TARGET_ID = "conversionTarget",
 			testHolder,
-			urlResource = "../../target/test-classes/theme_default/intern/resources/domConvertDynamicContent.html";
+			urlResource = "../../target/test-classes/wcomponents_theme/intern/resources/domConvertDynamicContent.html";
 
 		registerSuite({
 			name: "domConvertDynamicContent",

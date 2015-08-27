@@ -15,7 +15,7 @@
 		<fileSet>
 			<directory>../</directory>
 			<includes>
-				<include>theme_*/**</include>
+				<include>wcomponents_theme/</include>
 				<include>products/**</include>
 			</includes>
 			<excludes>

@@ -307,7 +307,6 @@
 	</reporting>
 
 	<modules>
-		<module>theme_parent</module>
 		<module>wcomponents_app_archetype</module>
 		<module>wcomponents_build_tools</module>
 		<module>wcomponents_test_lib</module>
@@ -318,6 +317,7 @@
 		<module>wcomponents_examples</module>
 		<module>wcomponents</module>
 		<module>wcomponents_bundle</module>
+	 <module>wcomponents_theme_parent</module>
 	</modules>
 
 	<distributionManagement>

@@ -32,7 +32,7 @@
 		</dependency>
 		<dependency>
 			<groupId>com.github.openborders</groupId>
-			<artifactId>theme_default</artifactId>
+			<artifactId>wcomponents_theme</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
