@@ -6,6 +6,26 @@ WComponents is an opinionated Java framework for building accessible web applica
 
 Its goal is to enable developers to build AJAX enabled, WCAG 2.0 compliant web applications without the need for expertise in accessibility or client side technologies.
 
+# Supported Browsers
+Out of the box WComponents supports all modern desktop and mobile browsers including:
+
+**Mobile**
+
+* iPhone / iPad (Mobile Safari)
+* Android (Mobile Chrome)
+* Mobile Firefox
+* Windows Phone
+
+**Desktop**
+
+* Chrome
+* Firefox
+* Safari
+* Microsoft Edge
+* Internet Explorer 8, 9, 10, 11
+
+Because WComponents client side code is extensible and configurable it is perfectly feasible to add support for older browsers not listed above.
+
 # Building
 If you wish to build WComponents you will need [Apache Maven](https://maven.apache.org/) installed.
 
