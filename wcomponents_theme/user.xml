@@ -34,7 +34,7 @@
 		CONTROLLING WHICH THEME IS BUILT
 		************************************************************************
 		This section has been deleted. The WComponent build will now only build 
-		theme_default. All implementations have been moved to a different Maven 
+		wcomponents_theme. All implementations have been moved to a different Maven 
 		project.
 
 		************************************************************************

@@ -5,7 +5,7 @@ define(["intern!object", "intern/chai!assert", "../intern/resources/test.utils"]
 			testHolder,
 			DUMMY_CLASS = "handsallaroundjingjang",
 			SPACE = /\s+/,
-			urlResource = "../../target/test-classes/theme_default/intern/resources/domClassList.html";
+			urlResource = "../../target/test-classes/wcomponents_theme/intern/resources/domClassList.html";
 
 		function getElementWithClass(multiple) {
 			var candidates = testHolder.getElementsByTagName("*"), i, next, result,

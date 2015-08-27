@@ -3,7 +3,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 
 	var TEST_MODULE = "wc/dom/keyWalker",
 		controller, testHolder,
-		urlResource = "../../target/test-classes/theme_default/intern/resources/domKeyWalker.html",
+		urlResource = "../../target/test-classes/wcomponents_theme/intern/resources/domKeyWalker.html",
 		groupedElements,
 		treeRoot;
 

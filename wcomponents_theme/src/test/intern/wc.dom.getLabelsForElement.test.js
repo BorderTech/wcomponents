@@ -2,7 +2,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
 	function (registerSuite, assert, testutils) {
 		"use strict";
 		var getLabelsForElement, testHolder,
-			urlResource = "../../target/test-classes/theme_default/intern/resources/domGetLabelsForElement.html";
+			urlResource = "../../target/test-classes/wcomponents_theme/intern/resources/domGetLabelsForElement.html";
 
 		registerSuite({
 			name: "domGetLabelsForElement",

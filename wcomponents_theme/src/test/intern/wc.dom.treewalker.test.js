@@ -33,7 +33,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 	var CONTAINER_ID = "treewalkerTestContainerId",
 		ID_1 = "treewalkerTestId1",
 		ID_2 = "treewalkerTestId2",
-		testHolder, urlResource = "../../target/test-classes/theme_default/intern/resources/domTreeWalker.html";
+		testHolder, urlResource = "../../target/test-classes/wcomponents_theme/intern/resources/domTreeWalker.html";
 
 	/*
 	 * Helper for a couple of the tests

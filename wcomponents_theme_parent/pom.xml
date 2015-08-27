@@ -4,8 +4,8 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
-	<name>theme_parent</name>
-	<artifactId>theme_parent</artifactId>
+	<name>wcomponents_theme_parent</name>
+	<artifactId>wcomponents_theme_parent</artifactId>
 
 	<parent>
 		<groupId>com.github.openborders</groupId>
@@ -28,7 +28,7 @@
 		<phantomjs.download.root>https://repo1.maven.org/maven2/com/github/klieber/phantomjs/2.0.0</phantomjs.download.root>
 
 		<theme.dir>${basedir}</theme.dir>
-		<theme.default.name>theme_default</theme.default.name>
+		<theme.default.name>wcomponents_theme</theme.default.name>
 		<theme.unpacked.name>theme_unpacked</theme.unpacked.name>
 		<theme.target.dir>${project.build.directory}</theme.target.dir>
 		<theme.tmp.dir>${java.io.tmpdir}${file.separator}wcomponent-theme-tmp</theme.tmp.dir>
@@ -312,6 +312,6 @@
 		</plugins>
 	</build>
 	<modules>
-		<module>../theme_default</module>
+		<module>../wcomponents_theme</module>
 	</modules>
 </project>

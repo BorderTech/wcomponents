@@ -3,7 +3,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
 		"use strict";
 		var testHolder,
 			impliedARIA,
-			urlResource = "../../target/test-classes/theme_default/intern/resources/domAria.html",
+			urlResource = "../../target/test-classes/wcomponents_theme/intern/resources/domAria.html",
 			ANY_SEL_STATE = "${wc.common.helper.anySelectedState}";
 
 		function doNativeStateTest(elements, state, notThisState) {

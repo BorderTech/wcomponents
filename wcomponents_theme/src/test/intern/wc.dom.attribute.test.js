@@ -14,7 +14,7 @@ define(["intern!object", "intern/chai!assert", "../intern/resources/test.utils"]
 			VAL = "foobar",
 			OBJ = {"foo": "bar"},
 			testHolder,
-			urlResource = "../../target/test-classes/theme_default/intern/resources/domAttribute.html";
+			urlResource = "../../target/test-classes/wcomponents_theme/intern/resources/domAttribute.html";
 
 		registerSuite({
 			name: "domAttribute",

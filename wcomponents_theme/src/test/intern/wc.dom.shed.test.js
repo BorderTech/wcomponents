@@ -3,7 +3,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
 		"use strict";
 
 		var controller, testHolder,
-			urlResource = "../../target/test-classes/theme_default/intern/resources/domShed.html";
+			urlResource = "../../target/test-classes/wcomponents_theme/intern/resources/domShed.html";
 
 		function _withSubscribeHelper(id, action) {
 			var element = document.getElementById(id),

@@ -3,7 +3,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
 		"use strict";
 
 		var getStyle, testHolder,
-			urlResource = "../../target/test-classes/theme_default/intern/resources/domGetStyle.html";
+			urlResource = "../../target/test-classes/wcomponents_theme/intern/resources/domGetStyle.html";
 
 
 		function helpCompareResults(expectedResult, result) {

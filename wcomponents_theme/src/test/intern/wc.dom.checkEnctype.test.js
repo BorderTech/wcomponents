@@ -12,7 +12,7 @@ define(["intern!object", "intern/chai!assert", "../intern/resources/test.utils"]
 		var formUpdateManager,
 			multipartEncType = "multipart/form-data",
 			testHolder,
-			urlResource = "../../target/test-classes/theme_default/intern/resources/domCheckEnctype.html";
+			urlResource = "../../target/test-classes/wcomponents_theme/intern/resources/domCheckEnctype.html";
 		registerSuite({
 			name: "domEnctype",
 			setup: function() {

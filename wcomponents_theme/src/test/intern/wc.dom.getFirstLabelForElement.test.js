@@ -2,7 +2,7 @@ define(["intern!object", "intern/chai!assert", "../intern/resources/test.utils"]
 	function (registerSuite, assert, testutils) {
 		"use strict";
 		var getFirstLabelForElement, testHolder,
-			urlResource = "../../target/test-classes/theme_default/intern/resources/domTest.html";
+			urlResource = "../../target/test-classes/wcomponents_theme/intern/resources/domTest.html";
 
 		registerSuite({
 			name: "domGetFirstLabelForElement",

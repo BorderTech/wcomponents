@@ -2,7 +2,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
 	function(registerSuite, assert, testutils) {
 		"use strict";
 		var controller,
-			urlResource = "../../target/test-classes/theme_default/intern/resources/domUsefulDom.html",
+			urlResource = "../../target/test-classes/wcomponents_theme/intern/resources/domUsefulDom.html",
 			testHolder;
 
 		registerSuite({
