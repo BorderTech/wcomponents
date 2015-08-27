@@ -1,25 +1,3 @@
 /* wc.ui.menu.barColumn.icon.ie9.css */
-[role="menubar"] > [aria-expanded] > button::after{
-	width:8px;
-	height:auto;
-	content:url(../images/wc.ui.menu.bar.open.ie8.png)
-}
 
-[role="menubar"] > [aria-expanded] > [disabled]::after{
-	content:url(../images/wc.ui.menu.bar.open.d.ie8.png)
-}
-
-[role="menu"] [aria-expanded] > button .decoratedLabel::after{
-	display:inline-block;
-	width:8px;
-	min-width:8px;
-	max-width:8px;
-	height:auto;
-	content:url(../images/wc.ui.menu.column.open.ie8.png)
-}
-
-[role="menu"] [aria-expanded] > [disabled] .decoratedLabel::after{
-	content:url(../images/wc.ui.menu.column.open.d.ie8.png);
-	opacity:1
-}
 /* end wc.ui.menu.barColumn.icon.ie9.css*/

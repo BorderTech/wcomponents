@@ -1,23 +1,7 @@
 /*wc.ui.dateField.ie8.scss */
 @import "mixins_common.scss";
 
-.dateField {
-	.wc_wdf_cal {
-		height: 16px;
-		width: 16px;
-		background-image: url(../images/wc.ui.dateField.calendar.sprite.ie8.png);
-		&:hover, &:focus {
-			background-position: 50% 0;
-		}
-		&[disabled] {
-			background-position: 100% 0;
-		}
-	}
-}
-
 #wc-calendar{
-	@include border;
-	border-style: outset;
 	thead {
 		td {
 			vertical-align:bottom;

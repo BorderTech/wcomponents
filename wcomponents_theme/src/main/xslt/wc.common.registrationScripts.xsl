@@ -51,9 +51,9 @@
 						<xsl:text>);});</xsl:text>
 					</xsl:if>
 				</xsl:if>
-				<xsl:text>}finally{require(["wc/dom/removeElement"],function(r){r("</xsl:text>
+				<xsl:text>}finally{/*require(["wc/dom/removeElement"],function(r){r("</xsl:text>
 				<xsl:value-of select="$scriptId"/>
-				<xsl:text>",250);});}}});</xsl:text>
+				<xsl:text>",250);});*/}}});</xsl:text>
 				<xsl:text>});});</xsl:text>
 			</script>
 		</xsl:if>

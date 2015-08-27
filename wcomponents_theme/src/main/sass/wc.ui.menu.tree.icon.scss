@@ -1,29 +1,18 @@
 /*
  * wc.ui.menu,tree.icon.scss
  * tree menu branch indicators */
-@import "vars_all.scss";
-
 [role="treeitem"] {
 	&[aria-expanded] {
-		> button .decoratedLabel::before {
-			content: url(../images/wc.ui.menu.tree.open.svg);
-			display:table-cell;
-			height: 0.75em;
-			max-width: 0.75em;
-			min-width: 0.75em;
-			padding-right: $hgap_small;
-			width: 0.75em;
-		}
-		> [disabled] .decoratedLabel::before {
-			content:url(../images/wc.ui.menu.tree.open.d.svg)
+		> button {
+			background-image: url(../images/go-next-view.png);
+			background-position: 0 50%;
+			background-repeat: no-repeat;
+			padding-left: 19px;
 		}
 	}
 	&[aria-expanded="true"] {
-		> button .decoratedLabel::before {
-			content:url(../images/wc.ui.menu.tree.close.svg)
-		}
-		> [disabled] .decoratedLabel::before {
-			content:url(../images/wc.ui.menu.tree.close.d.svg)
+		> button {
+			background-image: url(../images/go-down-view.png)
 		}
 	}
 }

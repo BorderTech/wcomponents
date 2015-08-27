@@ -6,7 +6,7 @@
 			<clipPath id="clip">
 				<path  d="M 50 50 L 35 0 L 65 0 z" />
 			</clipPath>
-			<ellipse id= "MyEllipse" clip-path="url(#clip)" cx="50" cy="50" rx="30" ry="30" stroke-width="36" style="fill:none; stroke:${wc_ui_color_loadingIndicator_background};opacity:0.75;" />
+			<ellipse id= "MyEllipse" clip-path="url(#clip)" cx="50" cy="50" rx="30" ry="30" stroke-width="36" style="fill:none; stroke:#f3f3f3;opacity:0.75;" />
 		</defs>
 
 		<use xlink:href="#MyEllipse" />
@@ -19,7 +19,7 @@
 		<use xlink:href="#MyEllipse" transform="rotate(280 50 50)"/>
 		<use xlink:href="#MyEllipse" transform="rotate(320 50 50)"/>
 
-		<ellipse clip-path="url(#clip)" cx="50" cy="50" rx="30" ry="30" stroke-width="36" style="fill:none; stroke:${wc_ui_color_loadingIndicator_foreground};opacity:0.75;">
+		<ellipse clip-path="url(#clip)" cx="50" cy="50" rx="30" ry="30" stroke-width="36" style="fill:none; stroke:#696969;opacity:0.75;">
 			<animateTransform attributeName="transform" attributeType="XML" type="rotate" values="0 50 50; 40 50 50; 80 50 50; 120 50 50; 160 50 50; 200 50 50; 240 50 50; 280 50 50; 320 50 50; 360 50 50" dur="2s" repeatCount="indefinite" additive="replace" calcMode="discrete" fill="freeze"/>
 		</ellipse>
 	</g>

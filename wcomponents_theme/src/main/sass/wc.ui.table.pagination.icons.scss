@@ -1,0 +1,40 @@
+/* wc.ui.table.pagination.icons.scss */
+@import "mixins_common.scss";
+
+.wc_table_pag_cont .wc_ibtn {
+	vertical-align: middle;
+	&:before {
+		content: url(../images/go-first-view.png);
+		vertical-align: middle;
+		display: block;
+		height: 16px;
+	}
+	&[disabled]:before {
+		content: url(../images/go-first-view-d.png);
+	}
+	+ .wc_ibtn {
+		&:before {
+			content: url(../images/go-previous-view.png);
+		}
+		&[disabled]:before {
+			content: url(../images/go-previous-view-d.png);
+		}
+		+ .wc_ibtn {
+			&:before {
+				content: url(../images/go-next-view.png);
+			}
+			&[disabled]:before {
+				content: url(../images/go-next-view-d.png);
+			}
+			+ .wc_ibtn {
+				&:before {
+					content: url(../images/go-last-view.png);
+				}
+				&[disabled]:before {
+					content: url(../images/go-last-view-d.png);
+				}
+			}
+		}
+	}
+}
+/* end wc.ui.table.pagination.icons.scss */

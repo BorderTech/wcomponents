@@ -5,20 +5,16 @@
 datalist {
 	display:none
 }
-/* the background-size rule fixes an IE11 bug */
+
 input[role="combobox"]{
-	background-image: url(../images/wc.ui.combo.arrow.svg);
+	background-image: url(../images/go-down-view.png);
 	background-position: 100% 0;
 	background-repeat: no-repeat;
-	background-size: $lineSize 100%;
 	@include border;
 	@include borderBox;
-	padding-right: 1.667em;
-	&:hover, &:focus {
-		background-image:url(../images/wc.ui.combo.arrow.focus.svg);
-	}
+	padding-right: 17px;
 	&[disabled] {
-		background-image:url(../images/wc.ui.combo.arrow.d.svg);
+		background-image:url(../images/go-down-view-d.png);
 	}
 	~ [role="listbox"] {
 		background-color: $wc_ui_color_globalBackground;

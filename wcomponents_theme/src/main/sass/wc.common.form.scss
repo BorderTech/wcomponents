@@ -21,7 +21,7 @@ select {
 	font-size: inherit;
 	max-width: 100%;
 	line-height: inherit;
-	@include border($color: $wc_ui_color_border_formControl);
+	@include border($color: $wc_ui_color_border_formControl); // breaks firefox OS X quite nastily but it is better than the other options with all other browsers
 	&[aria-invalid="true"] {
 		background-color: $wc_ui_color_errorBackground;
 	}

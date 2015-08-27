@@ -37,37 +37,6 @@
 /* the add and remove buttons */
 .wc_msp_btncol button {
 	display: block;
-	padding: 1px 3px;
-	&::before {
-		@include makeBox($width: 1em, $height: 1em); //height is required for IE9 - IE11 and needs to be here in first CSS load - not as a "fix".
-		vertical-align: middle;
-	}
-	&:first-of-type::before {
-		content: url("../images/wc.ui.multiSelectPair.select.svg");
-	}
-	&:nth-of-type(2)::before {
-		content: url("../images/wc.ui.multiSelectPair.selectAll.svg");
-	}
-	&:nth-of-type(3)::before {
-		content: url("../images/wc.ui.multiSelectPair.deselect.svg");
-	}
-	&:nth-of-type(4)::before {
-		content: url("../images/wc.ui.multiSelectPair.deselectAll.svg");
-	}
-	&[disabled] {
-		&:first-of-type::before {
-			content:url("../images/wc.ui.multiSelectPair.select.d.svg");
-		}
-		&:nth-of-type(2)::before {
-			content: url("../images/wc.ui.multiSelectPair.selectAll.d.svg");
-		}
-		&:nth-of-type(3)::before {
-			content: url("../images/wc.ui.multiSelectPair.deselect.d.svg");
-		}
-		&:nth-of-type(4)::before {
-			content: url("../images/wc.ui.multiSelectPair.deselectAll.d.svg");
-		}
-	}
 }
 
 /* a small gap between the add and remove buttons */

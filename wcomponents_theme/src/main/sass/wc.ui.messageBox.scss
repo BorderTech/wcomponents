@@ -12,6 +12,8 @@
 		font-size: 1.25em;
 		margin-top: 0;
 		padding: $vgap_normal $hgap_small;
+		color: $std_color_white;
+		font-weight: normal;
 	}
 	> button {
 		padding: $vgap_normal $hgap_small;
@@ -21,25 +23,25 @@
 	&.error {
 		border-color: $wc_ui_color_errorForeground;
 		> h1 {
-			color: $wc_ui_color_errorForeground;
+			background-color: $wc_ui_color_errorForeground;
 		}
 	}
 	&.warn {
 		border-color: $wc_ui_color_warningForeground;
 		> h1 {
-			color: $wc_ui_color_warningForeground;
+			background-color: $wc_ui_color_warningForeground;
 		}
 	}
 	&.info {
 		border-color: $wc_ui_color_infoForeground;
 		> h1 {
-			color: $wc_ui_color_infoForeground;
+			background-color: $wc_ui_color_infoForeground;
 		}
 	}
 	&.success {
 		border-color: $wc_ui_color_successForeground;
 		> h1 {
-			color: $wc_ui_color_successForeground;
+			background-color: $wc_ui_color_successForeground;
 		}
 	}
 	li { //maintain white space on messages.

@@ -95,9 +95,9 @@ define(["wc/has", "module"], /** @param has wc/has @param module module @ignore 
 			 * @var
 			 * @type {module:wc/loader/style~config}
 			 * @private
-			 * @default {ff: "ff", webkit: "webkit", safari: "safari", ios: "ios"}
+			 * @default {ff: "ff", safari: "safari", ios: "ios"}
 			 */
-			screenStylesToAdd = ((module.config && module.config().screen) ? module.config().css : {ff: "ff", webkit: "webkit", safari: "safari", ios: "ios"}),
+			screenStylesToAdd = ((module.config && module.config().screen) ? module.config().css : {ff: "ff", safari: "safari", ios: "ios"}),
 
 			/* NOTE TO SELF: the vars below which are only used once are used in a function which is called many times.
 			 * leave them here you twit!*/

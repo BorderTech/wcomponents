@@ -1,5 +1,0 @@
-/* wc.ui.multiSelectPair.webkit.scss */
-.wc_msp_btncol button::before {
-	height: auto; //height is required for IE9 - IE11, Edge (which is webkit) _NEEDS_ auto and Safari is improved by it.
-}
-/* end wc.ui.multiSelectPair.webkit.scss */

@@ -33,7 +33,7 @@
 
 @mixin mandatoryIndicator {
 	color: $wc_ui_color_requiredMarker;
-	content:"${wc.common.indicator.required}"; //This ANT replaced property may be deemed superfluous...
+	content: "*";
 }
 
 @mixin offscreen {

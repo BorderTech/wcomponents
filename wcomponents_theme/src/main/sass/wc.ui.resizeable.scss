@@ -1,45 +1,21 @@
 /* wc.ui.resizeable.scss
  * Styles for resizeable components and their controlling elements. */
-/* maximised: */
+
 @import "mixins_common.scss";
 
-.wc_max {
-	left:0 !important;
-	top:0 !important;
-	width:100% !important;
-	height:100% !important;
-	position:fixed !important;
+.wc_max { // maximised:
 	@include borderBox;
-	overflow:auto;
-}
-
-button.wc_maxcont::before, .wc_resize::before {
-	display:block;
-	width: $lineSize;
-	height: $lineSize;
+	height: 100% !important;
+	left: 0 !important;
+	overflow: auto;
+	position: fixed !important;
+	top: 0 !important;
+	width: 100% !important;
 }
 
 /* the resize handle */
-.wc_resize::before {
-	content: url(../images/wc.ui.resizeable.svg);
+.wc_resize {
 	cursor: se-resize;
 }
 
-/* max/restore control */
-button.wc_maxcont {
-	&::before{
-		content: url(../images/wc.ui.resizeable.max.svg);
-	}
-	&:focus::before, &:hover::before {
-		content: url(../images/wc.ui.resizeable.max.selected.svg);
-	}
-	&[aria-pressed="true"] {
-		&::before {
-			content: url(../images/wc.ui.resizeable.restore.svg);
-		}
-		&:focus::before, &:hover::before {
-			content: url(../images/wc.ui.resizeable.restore.selected.svg);
-		}
-	}
-}
 /* end of wc.ui.resizeable.scss */

@@ -1,45 +1,31 @@
 /*
- * wc.ui.menu.barColumn.icon.css
- * for WMenu type BAR, type FLYOUT, type COLUMN. The opener iconography.
- * NOTE: with reference to wc.ui.menu.bar.icon.css the hright rule here is needed in IE11 but does not
- * cause issues in Safari due to the display:table-cell on the preceding segment.
+ * wc.ui.menu.barColumn.icon.dt.scss
  */
 
 @import "wc.ui.menu_vars.scss";
 [role="menubar"] > [aria-expanded] {
-	// NOTE: a height rule here is absolutely needed for IE11 but causes a minor but irritating render error in Safari
-	// (see the long and boring comment below for more details).
 	> button::after {
-			content: url(../images/wc.ui.menu.bar.open.svg);
-			display: inline-block;
-			height: 1em;
-			margin-left: $wc_ui_menu_barColumn_openerIndicator_beforeAfter;
-			width: 0.5em;
+		content: url(../images/go-down-view.png);
+		display:inline-block;
+		height:0;
+		margin-left: $wc_ui_menu_barColumn_openerIndicator_beforeAfter;
+		vertical-align: top;
 	}
 	> [disabled]::after {
-		content: url(../images/wc.ui.menu.bar.open.d.svg);
+		content: url(../images/go-down-view-d.png);
 	}
 }
 
-/* The use of display:table-cell requires all these different width and height rules to make them stick in all browsers.
- * Mobile Safari absolutely needs the width and it works better in FF and IE with width than min-width; IE11 absolutely
- * needs height but the height breaks Safari so one of them needs an override (as an interesting aside ifyou load the
- * height rule from a separate file IE11 will not get the content position correct which is why height is here and not
- * in an ie11 file so we need a Safari override file); Chrome absolutely needs the min-width;
- * and so on. The max width is to keep the table cell as small as possible in all browsers. */
 [role="menu"] [aria-expanded] {
 	> button .decoratedLabel::after {
-		content:url(../images/wc.ui.menu.column.open.svg);
-		display: table-cell;
-		height: 1em;
-		max-width: 0.5em;
-		min-width: 0.5em;
+		content: url(../images/go-next-view.png);
+		display: inline-block;
+		line-height: 0;
 		padding-left: $wc_ui_menu_barColumn_openerIndicator_beforeAfter;
-		width: 0.5em;
+		vertical-align: text-top;
 	}
 	> [disabled] .decoratedLabel::after {
-		content: url(../images/wc.ui.menu.column.open.d.svg);
-		opacity: 0.5
+		content: url(../images/go-next-view-d.png);
 	}
 }
-/* end wc.ui.menu.barColumn.icon.css*/
+/* end wc.ui.menu.barColumn.icon.dt.scss*/

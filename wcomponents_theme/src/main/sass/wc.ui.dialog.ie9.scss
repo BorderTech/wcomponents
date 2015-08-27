@@ -30,12 +30,4 @@ dialog {
 	}
 }
 
-.wc_dialog_close.wc_btn_nada {
-	background-image: url(../images/wc.ui.dialog.close.sprite.ie8.png);
-	height: 16px;
-	width: 16px;
-	&:focus, &:hover {
-		background-position: 100% 0;
-	}
-}
 /* end wc.ui.dialogue.ie9.scss*/

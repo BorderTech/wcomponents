@@ -1,0 +1,30 @@
+/*
+ * wc.ui.resizeable.icons.css
+ */
+.wc_resize,
+button.wc_maxcont {
+	width: 16px;
+	height: 16px
+}
+
+
+.wc_resize {
+	& , &:hover, &:focus {
+		background-image: url(../images/wc.ui.resizeable.png);
+	}
+}
+button.wc_maxcont {
+	& , &:hover, &:focus {
+		background-image: url(../images/wc.ui.resizeable.maxrestore.sprite.png);
+	}
+	&:hover, &:focus {
+		background-position: 33.34% 0;
+	}
+	&[aria-pressed="true"] {
+		background-position: 66.67% 0;
+		&:hover, &:focus {
+			background-position: 100% 0;
+		}
+	}
+}
+/* END wc.ui.resizeable.ieAll.css*/

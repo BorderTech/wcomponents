@@ -7,59 +7,9 @@
 	label, select, .wc_ibtn:first-of-type {
 		margin-left: $hgap_large;
 	}
-	.wc_ibtn {
-		&::before {
-			@include makeBox($display: block, $width: 1em, $height: 1em);//height required for IE9+ block display improves appearance in IE.
-			content: url(../images/wc.ui.table.paginate.prev.svg);
-			vertical-align: middle;
-		}
-		&:first-of-type {
-			margin-left: $hgap_large;
-			&::before {
-				content: url(../images/wc.ui.table.paginate.first.svg);
-			}
-		}
-		&:nth-of-type(3)::before {
-			content: url(../images/wc.ui.table.paginate.next.svg);
-		}
-		&:nth-of-type(4)::before {
-			content: url(../images/wc.ui.table.paginate.last.svg);
-		}
-		&[disabled] {
-			&::before {
-				content: url(../images/wc.ui.table.paginate.prev.d.svg);
-			}
-			&:first-of-type::before {
-				content: url(../images/wc.ui.table.paginate.first.d.svg);
-			}
-			&:nth-of-type(3)::before {
-				content: url(../images/wc.ui.table.paginate.next.d.svg);
-			}
-			&:nth-of-type(4)::before {
-				content: url(../images/wc.ui.table.paginate.last.d.svg);
-			}
-		}
-	}
 }
 
 .wc_table_pag_socbtn {
 	margin-left: $hgap_small;
 	line-height:1;
 }
-
-/*
-.wc_table_pag_cont .wc_ibtn:first-of-type:before{
-	content:"\007c\25c0"
-}
-
-.wc_table_pag_cont .wc_ibtn:nth-of-type(2):before{
-	content:"\25c0"
-}
-
-.wc_table_pag_cont .wc_ibtn:nth-of-type(3):before{
-	content:"\25b6"
-}
-.wc_table_pag_cont .wc_ibtn:nth-of-type(4):before{
-	content:"\25b6\007c"
-}
-*/
