@@ -1,10 +1,8 @@
 /* wc.ui.dateField.ios.css */
-/* The main purpose of this CSS is to make the pop-up calendar full screen. We make all of the buttons bigger to
-   make them easier for fingers to push and finally add a close button to make up for the lack of an escape key. */
-#wc-calendar thead button{
-	vertical-align:middle;
-	background-image:none;
-	width:22px;
-	border-radius:0
+#wc-calendar thead button { // TODO: I don't think we need this any more
+	vertical-align: middle;
+	background-image: none;
+	width: 22px;
+	border-radius: 0;
 }
 /* end wc.ui.dateField.ios.css */

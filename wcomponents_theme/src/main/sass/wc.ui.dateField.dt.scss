@@ -1,18 +1,14 @@
 /* wc.ui.dateField.dt.scss */
 @import "mixins_common.scss";
-/*
-  This is the calendar container. The important is to override hidden from being inside a closed combo.
-*/
-#wc-calbox{
+
+#wc-calbox { // This is the calendar container.
+	@include border;// or box-shadow: 3px 3px 3px $wc_ui_color_shadow; but not both
 	position: absolute;
 	right: 0;
-	box-shadow: 3px 3px 3px $wc_ui_color_shadow;
-	/* collision detection */
-	&.wc_colsth {
+	&.wc_colsth { // bottom collision
 		bottom: 110%;
 	}
-
-	&.wc_colwest {
+	&.wc_colwest { // right collision
 		right: auto;
 		left: 0;
 	}
@@ -21,13 +17,13 @@
 
 #wc-calendar thead button {
 	min-width: $lineSize;
-	&:before {
-		font-size: $lineSize;
-		line-height: 0;
-	}
 }
 
 .wc_wdf_mv {
+	&:before {
+		vertical-align: middle;
+		@include useSymbolFont;
+	}
 	&[value="-1"]:before {/* back a month */
 		content: "\25c0";
 	}

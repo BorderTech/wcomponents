@@ -1,9 +1,9 @@
-/* variables used in accessKey indicators */
-$wc_ui_color_tooltipForeground: ${std_color_primary};
-$wc_ui_color_tooltipBackground: ${std_color_tertiary};
-$wc_ui_color_tooltipBorder: ${std_color_lines};
-
+// variables used in accessKey indicators
 @import "mixins_common.scss";
+$wc_ui_color_tooltipForeground: $std_color_primary;
+$wc_ui_color_tooltipBackground: $std_color_tertiary;
+$wc_ui_color_tooltipBorder: $std_color_lines;
+
 @mixin accesskeyBorder() {
 	@include border($color: $wc_ui_color_tooltipBorder);
 }

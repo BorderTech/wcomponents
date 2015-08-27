@@ -4,45 +4,39 @@
 @import "mixins_common.scss";
 
 .wc_av_play, .src, .track {
-	&::before {
-		@include makeBox;
+	&:before {
 		margin-right: $hgap_small;
 		vertical-align: text-bottom;
 	}
 }
-.wc_av_play {
-	&::before {
-		content: url(../images/wc.ui.media.play.svg);
-	}
-	&[aria-pressed='true']::before {
-		content: url(../images/wc.ui.media.pause.svg);
-	}
-	&[disabled]::before {
-		content: url(../images/wc.ui.media.play.d.svg);
-	}
-	&[aria-pressed='true'][disabled]::before {
-		content: url(../images/wc.ui.media.pause.d.svg);
-	}
-}
-.src {
-	&::before{
-		content: url(../images/wc.ui.media.play.svg);
-	}
-	&[aria-disabled="true"]::before {
-		content: url(../images/wc.ui.media.play.d.svg);
-	}
-}
-.track {
-	&::before {
-		content: url(../images/wc.ui.media.track.svg);
-	}
-	&[aria-disabled="true"]::before {
-		content: url(../images/wc.ui.media.track.d.svg);
+
+.src, .track {
+	display:inline-block;
+	&:before {
+		display:inline-block;
 	}
 }
 
+
+.wc_av_play {
+	&:before {
+		content: url(../images/media-playback-start.png);
+	}
+	&[aria-pressed='true']:before {
+		content: url(../images/media-playback-pause.png);
+	}
+}
+
+.src:before {
+	content: url(../images/media-playback-start.png)
+}
+
+.track:before {
+	content: url(../images/application-smil.png);
+}
+
 .track + .track,
-.src + .src{
+.src + .src {
 	margin-left: $hgap_normal;
 }
 /* end wc.ui.media.player.css */

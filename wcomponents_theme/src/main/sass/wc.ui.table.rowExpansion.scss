@@ -1,7 +1,7 @@
 /*
  * wc.ui.table.rowExpansion.css
  */
-@import "vars_all.scss";
+@import "mixins_common.scss";
 
 thead .rowExpansion{
 	&[role="radiogroup"] {
@@ -22,17 +22,17 @@ thead .rowExpansion{
 /*
  ROW EXPANSION iconography and expand/collapse all iconography.
  .wc_table_rowexp_container is the expandable row's expander holding cell or header*/
-button:before {
-	.wc_table_rowexp_container &, .rowExpansion & {
+
+.rowExpansion button {
+	&:before {
 		content: "\229e";
+		@include useSymbolFont;
 		font-size: 1.25em;
 		line-height: 0;
 	}
-}
-
-.wc_table_rowexp_container [aria-expanded="true"]:before,
-.rowExpansion [data-wc-value="collapse"]:before {
-	content: "\229f";
+	&[data-wc-value="collapse"]:before {
+		content: "\229f";
+	}
 }
 
 tr[aria-disabled="true"] > .wc_table_rowexp_container button:before{

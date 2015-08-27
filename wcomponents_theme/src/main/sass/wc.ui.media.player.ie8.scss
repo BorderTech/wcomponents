@@ -1,51 +1,6 @@
 /* wc.ui.media.player.ie8.css */
-audio,
-video{
+audio, video {
 	display:inline-block;
 	background:transparent
-}
-
-.src,
-.track{
-	display:inline-block
-}
-
-.src:before,
-.track:before{
-	display:inline-block;
-	overflow:hidden;
-	vertical-align:middle
-}
-
-.wc_av_play:before{
-	content:url(../images/wc.ui.media.play.ie8.png)
-}
-
-.wc_av_play[aria-pressed='true']:before{
-	content:url(../images/wc.ui.media.pause.ie8.png)
-}
-
-.src:before{
-	content:url(../images/wc.ui.media.play.ie8.png)
-}
-
-.track:before{
-	content:url(../images/wc.ui.media.track.ie8.png)
-}
-
-.wc_av_play[disabled]:before{
-	content:url(../images/wc.ui.media.play.d.ie8.png)
-}
-
-.wc_av_play[aria-pressed='true'][disabled]:before{
-	content:url(../images/wc.ui.media.pause.d.ie8.png)
-}
-
-.src[aria-disabled="true"]:before{
-	content:url(../images/wc.ui.media.play.d.ie8.png)
-}
-
-.track[aria-disabled="true"]:before{
-	content:url(../images/wc.ui.media.track.d.ie8.png)
 }
 /* end wc.ui.media.player.ie8.css */

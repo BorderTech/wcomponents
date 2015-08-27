@@ -7,7 +7,10 @@
 	background-color: $wc_ui_color_panel_header_background;
 	h1 {
 		color: $wc_ui_color_panel_header_foreground;
-		text-align: center;
+		font-size: 3em;
+		font-weight: lighter;
+		margin: 0;
+		padding: 0.25em 0.3333em;
 	}
 	a, a:visited{
 		color: $wc_ui_color_panel_header_foreground;

@@ -1,0 +1,36 @@
+/* wc.ui.multiSelectPair.icons.scss*/
+@import "mixins_common.scss";
+
+.wc_msp_btncol button {
+	text-align: center;
+	//padding: 1px 3px;
+	&:before{
+		content: url(../images/go-next-view.png);
+		display: inline-block;
+		vertical-align: middle;
+	}
+	+ button:before {
+		content: url(../images/go-last-view.png);
+	}
+	+ button + button:before {
+		content: url(../images/go-previous-view.png);
+	}
+	+ button + button + button:before{
+		content: url(../images/go-first-view.png)
+	}
+	&[disabled] {
+		&:before{
+			content: url(../images/go-next-view-d.png);
+		}
+		+ [disabled]:before {
+			content: url(../images/go-last-view-d.png);
+		}
+		+ [disabled] + [disabled]:before {
+			content: url(../images/go-previous-view-d.png);
+		}
+		+ [disabled] + [disabled] + [disabled]:before{
+			content: url(../images/go-first-view-d.png)
+		}
+	}
+}
+/* end wc.ui.multiSelectPair.icons.css*/

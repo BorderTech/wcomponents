@@ -46,19 +46,14 @@ dialog {
 	}
 }
 
-/* dialog close control
- * NOTE: for resize handle and max/restore control see wc.ui.resizeable.scss.
- * The height rule is needed for IE11 and moving it to a .ie11.scss file causes another heinous bug. It may cause
- * problems in Safari so if it does add a .safari.scss file.*/
-.wc_dialog_close {
-	&::before {
-		display: block;
-		width: $lineSize;
-		height: $lineSize;
-		content: url(../images/wc.ui.dialog.close.svg)
-	}
-	&:focus::before, &:hover::before {
-		content: url(../images/wc.ui.dialog.close.selected.svg)
+// dialog close control
+// NOTE: for resize handle and max/restore control see wc.ui.resizeable.scss.
+.wc_dialog_close.wc_btn_nada {
+	background-image: url(../images/wc.ui.dialog.close.sprite.png);
+	height: 16px;
+	width: 16px;
+	&:focus, &:hover {
+		background-position: 100% 0;
 	}
 }
 /*end wc.ui.dialog.css */

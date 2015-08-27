@@ -1,18 +1,16 @@
 // Component colors
 @import "vars_colorscheme.scss";
 
-// disabled colours are special
-$wc_ui_color_disabledForeground: ${wc_ui_color_disabledForeground};
-$wc_ui_color_disabledBackground: ${wc_ui_color_disabledBackground};
-$wc_ui_color_disabledBorder: ${wc_ui_color_disabledBorder};
-
+// disabled colours are special They are harder to get 4.5:1 and still look disabled!
+$wc_ui_color_disabledForeground: #696969;
+$wc_ui_color_disabledBackground: #f3f3f3;
+$wc_ui_color_disabledBorder: $wc_ui_color_disabledForeground;
 
 // Commonly used colors
 // ====================
 // This section has definitions in two formats. Where an $wc_* colour variabe is set to an ANT property then this
 // colour is also used in SVG and must remain in the ANT properties. Otherwise we set a commonly used color to a
 // scheme colour defined above.
-
 
 // Global colours
 $wc_ui_color_globalForeground: $std_color_black;

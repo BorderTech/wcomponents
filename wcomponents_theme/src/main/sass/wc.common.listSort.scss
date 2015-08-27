@@ -11,33 +11,41 @@
 
 .wc_sorter {
 	display: block;
-	&::before { /* the movement marker */
-		@include makeBox($width: 0.67em, $height: 0.67em);//height required for IE9+ so do not set auto
+	padding: 3px;
+	&:before {
+		content: url("../images/go-top-view.png");
+		position: relative;
+		top: 1px;
 	}
- 	&:first-of-type::before {
-		content: url("../images/wc.common.listSort.top.svg");
-	}
-	&:nth-of-type(2)::before {
-		content: url("../images/wc.common.listSort.up.svg");
-	}
-	&:nth-of-type(3)::before {
-		content: url("../images/wc.common.listSort.down.svg");
-	}
-	&:nth-of-type(4)::before {
-		content: url("../images/wc.common.listSort.bottom.svg");
+	+ .wc_sorter {
+		&:before {
+			content: url("../images/go-up-view.png");
+		}
+		+ .wc_sorter {
+			&:before {
+				content: url("../images/go-down-view.png");
+			}
+			+ .wc_sorter:before {
+				content: url("../images/go-bottom-view.png");
+			}
+		}
 	}
 	&[disabled] {
-		&:first-of-type::before {
-			content: url("../images/wc.common.listSort.top.d.svg");
+		&:before {
+			content: url("../images/go-top-view-d.png");
 		}
-		&:nth-of-type(2)::before {
-			content: url("../images/wc.common.listSort.up.d.svg");
-		}
-		&:nth-of-type(3)::before {
-			content: url("../images/wc.common.listSort.down.d.svg");
-		}
-		&:nth-of-type(4)::before {
-			content: url("../images/wc.common.listSort.bottom.d.svg");
+		+ .wc_sorter {
+			&:before {
+				content: url("../images/go-up-view-d.png");
+			}
+			+ .wc_sorter {
+				&:before {
+					content: url("../images/go-down-view-d.png");
+				}
+				+ .wc_sorter:before {
+					content: url("../images/go-bottom-view-d.png");
+				}
+			}
 		}
 	}
 }

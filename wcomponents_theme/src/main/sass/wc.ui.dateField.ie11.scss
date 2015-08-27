@@ -3,9 +3,5 @@
 
 #wc-calendar thead button{
 	padding:0 3px;
-	&:before{
-		vertical-align:middle;
-		@include useSymbolFont;
-	}
 }
 /* end wc.ui.dateField.ie11.scss */

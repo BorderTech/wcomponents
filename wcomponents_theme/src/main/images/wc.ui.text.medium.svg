@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg width="16px" height="8px" version="1.1" xmlns="http://www.w3.org/2000/svg">
-	<g fill="${wc_ui_color_medForeground}" style="stroke-width:0.5;stroke:${std_color_lines};">
-		<circle cx="4" cy="4" r="3.75"/>
-		<circle cx="12" cy="4" r="3.75"/>
-	</g>
-</svg>

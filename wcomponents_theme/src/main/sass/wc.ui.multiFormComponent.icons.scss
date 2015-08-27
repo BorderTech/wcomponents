@@ -1,28 +1,27 @@
 /*
  * wc.ui.multiFormComponent.icons.scss
- *
  * WMultiTextField and WMultiDropdown action buttons (+/-) */
 @import "mixins_common.scss";
 .wc_mfc {
 	button {
 		margin-left: $hgap_small;
 		padding:0;
-		&::before {
-			content: url(../images/wc.ui.multiFormComponent.del.svg);
-			line-height: 0;
-			@include makeBox($width:1em, $height:1em);
-			vertical-align: text-bottom;
+		vertical-align: bottom;
+		&:before {
+			content: url(../images/edit-delete-2.png);
+			display: inline-block;
+			vertical-align: bottom;
 		}
-		&[disabled]::before {
-			content: url(../images/wc.ui.multiFormComponent.del.d.svg);
+		&[disabled]:before {
+			content: url(../images/edit-delete-2-d.png);
 		}
 	}
 	li:first-child button {
-		&::before {
-			content: url(../images/wc.ui.multiFormComponent.add.svg);
+		&:before {
+			content: url(../images/edit-add-2.png);
 		}
-		&[disabled]::before {
-			content: url(../images/wc.ui.multiFormComponent.add.d.svg);
+		&[disabled]:before {
+			content: url(../images/edit-add-2-d.png);
 		}
 	}
 }

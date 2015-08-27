@@ -6,10 +6,6 @@
 	@include border;
 	padding: 6px;
 	border-radius: 3px;
-	&::before {
-		height: 1.5em;
-		width: 1.5em;
-	}
 }
 
 /* end wc.ui.multiSelectPair.scss*/

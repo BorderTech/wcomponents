@@ -26,10 +26,4 @@ dialog > header > h1{
 dialog > header span{
 	top:9px
 }
-
-dialog > header .wc_dialog_close::before,
-dialog > header .wc_dialog_close:focus::before,
-dialog > header .wc_dialog_close:hover::before{
-	content: url(../images/wc.ui.dialog.close.ios.svg);
-}
 /* end wc.ui.dialog.ios.css */

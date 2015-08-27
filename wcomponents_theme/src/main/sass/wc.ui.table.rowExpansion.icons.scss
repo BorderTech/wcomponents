@@ -1,0 +1,17 @@
+/*
+ * wc.ui.table.rowExpansion.icons.css
+ */
+@import "vars_all.scss";
+
+/*
+ ROW EXPANSION iconography and expand/collapse all iconography.
+ .wc_table_rowexp_container is the expandable row's expander holding cell or header*/
+.wc_table_rowexp_container button {
+	&:before {
+		content: url(../images/go-next-view.png);
+	}
+	&[aria-expanded="true"]:before {
+		content: url(../images/go-down-view.png);
+	}
+}
+/* end wc.ui.table.rowExpansion.icons.css*/

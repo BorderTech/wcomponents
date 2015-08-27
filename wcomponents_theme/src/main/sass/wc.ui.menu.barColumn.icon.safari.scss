@@ -1,7 +1,0 @@
-/* wc.ui.menu.bar.icon.safari.css */
-
-/* NOTE: a height rule here is absolutely needed for IE11 but causes a render error in Safari. See wc.ui.menu.bar.icon.css.*/
-[role="menubar"] > [aria-expanded] > button::after{
-	height:auto
-}
-/* end wc.ui.menu.bar.icon.safari.css */

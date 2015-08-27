@@ -7,20 +7,17 @@
  * use of an image is not ideal but is more accessible than using a foreground color change */
 @import "mixins_common.scss";
 
-.highPriority:after,
-.mediumPriority:after,
-.lowPriority:after {
-	margin-left: $hgap_small;
+.highPriority {
+	color: $wc_ui_color_errorForeground;
+	background-color: $wc_ui_color_errorBackground;
+	padding: 0 $hgap_small;
+	@include outline($color: $wc_ui_color_errorForeground, $style: double, $width: 3px);
 }
-/* use CSS3 pseudo-element selector to omit IE8 */
-.highPriority::after {
-	content: url(../images/wc.ui.text.high.svg);
-}
-.mediumPriority::after {
-	content: url(../images/wc.ui.text.medium.svg);
-}
-.lowPriority::after {
-	content: url(../images/wc.ui.text.low.svg);
+.mediumPriority {
+	padding: 0 $hgap_small;
+	color: $wc_ui_color_warningForeground;
+	background-color: $wc_ui_color_globalBackground;
+	@include outline($color: $wc_ui_color_warningForeground);
 }
 
 .mandatoryIndicator:after {

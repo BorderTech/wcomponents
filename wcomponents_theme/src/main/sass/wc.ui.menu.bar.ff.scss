@@ -5,7 +5,7 @@
 	> [role],
 	> [role] > .decoratedLabel,
 	> [aria-expanded] > button > .decoratedLabel {
-		vertical-align: text-top;// Firefox honours inter-node whitespace even when the XSLT has indent off so this is required to make bar menus look reasonable.
+		vertical-align: top;// Firefox honours inter-node whitespace even when the XSLT has indent off so this is required to make bar menus look reasonable.
 	}
 	> div[role]{// buttons, even with no border, no margin, no padding still occupy 2px more vertical space in FF than divs
 		padding-top: calc(#{$wc_ui_menu_barColumn_itemPad} + 1px);
@@ -15,13 +15,19 @@
 		padding-bottom: 1em !important;
 		vertical-align: top;
 	}
+	> [aria-expanded] {
+		> button::after {
+			position: static;
+		}
+	}
+}
+[role="menubar"].bar > [aria-expanded] > button { //top level submenu openers
+	padding-bottom: 0;
 }
 
-
-//FF cannot correctly calculate the width of a container if it is absolutely positioned so we have to fall back to the old width setting
+//FF cannot correctly calculate the width of a container if it is absolutely positioned
 .submenu[aria-expanded="true"] > [role="menu"] {
-	width: 20em;
-	white-space: normal;
+	width: -moz-max-content;
 }
 
 /* end wc.ui.menu.bar.ff.scss */
