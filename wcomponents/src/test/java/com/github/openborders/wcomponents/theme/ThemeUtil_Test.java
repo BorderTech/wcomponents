@@ -35,7 +35,7 @@ public class ThemeUtil_Test extends AbstractWComponentTestCase
     @Test
     public void testGetThemeName()
     {
-        Assert.assertEquals("Incorrect theme name", ThemeUtil.getThemeName(), "theme_default");
+        Assert.assertEquals("Incorrect theme name", ThemeUtil.getThemeName(), "wcomponents_theme");
     }
     
     @Test
