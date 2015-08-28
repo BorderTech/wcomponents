@@ -1,5 +1,6 @@
 /* wc.common.page.ios.css */
-body{
-	font-family: Helvetica, 'BBAlpha Sans', arial, sans-serif;
+@import "vars_all.scss";
+body {
+	font-family: $iosFont;
 }
 /* end wc.common.page.ios.css */
