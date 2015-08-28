@@ -3,8 +3,8 @@
   The "label" of a WField may not be transformed to a HTML Label element. It is a label if the component in the ui:input
   is labelable EXCEPT when the input is a WCheckBox or WRadioButton. In all other cases it is a span (even when the
   ui:label is not present in the XML).
-  
-  We allow the "label" part of a WField to always have a presence in the transformed output even when it is not in the 
+
+  We allow the "label" part of a WField to always have a presence in the transformed output even when it is not in the
   XML or is moved to be after a WCheckBox or WRadioButton. This has much simplified the CSS.
  */
 @import "wc.ui.fieldLayout_vars.scss" ;
@@ -31,21 +31,17 @@ ul.fieldLayout { /* field layouts may be an ordered list, in which case we want 
 			display: block;
 		}
 	}
-	 > :first-child { /* the first child is the label or standing or merely an empty placeholder/spacer */
+	> :first-child { //the first child is the label or standing or merely an empty placeholder/spacer
 		width: $labelWidth;
-		> .wc_req { /* Position the required marker next to the input. Padding right is for the required marker. */
+		> .wc_req { // Position the required marker next to the input.
 			position: relative;
-			padding-right: 1em;
+			padding-right: 1em; //Padding right is for the required marker.
 			@include borderBox;
-			&:after { /* this is the required marker */
+			&:after { // this is the required marker
 				position: absolute;
 				right: 0;
 				top: 0
 			}
-		}
-
-		@include respond(small) {
-			width: auto !important;
 		}
 	}
 	> .input {
@@ -53,19 +49,25 @@ ul.fieldLayout { /* field layouts may be an ordered list, in which case we want 
 		max-width: $inputWidth;
 		@include respond(small) {
 			width: 100% !important;
-			max-width:100% !important;
+			max-width: 100% !important;
 			@include borderBox;
 		}
 	}
-	> .wc_off + .input {/* if the label is off screen we need some margin. This is a todo to remove and make it more clever and more cross-device friendly. */
+	> :first-child, > .input {
+		@include respond(iphone) {
+			@include borderBox;
+			max-width: 100% !important;
+			width: 100% !important;
+		}
+	}
+	> .wc_off + .input { // if the label is off screen we need some margin.
 		margin-left: $labelWidth;
-		@include respond(small) {
+		@include respond(iphone) {
 			margin-left: 0 !important;
 		}
 	}
-
-	> .wc_fld_pl {
-		@include respond(small) {
+	> .wc_fld_pl { //this is the placeholder for a null or moved label - moved for checkbox or radio
+		@include respond(iphone) {
 			display: none;
 		}
 	}
@@ -77,6 +79,14 @@ ul.fieldLayout { /* field layouts may be an ordered list, in which case we want 
 .fieldLayout.stacked > .field {
 	 > label + .input, > .label + .input {
 		margin-top: $vgap_small;
+	}
+	> .input {
+		@include respond(iphone) {
+			@include borderBox;
+			margin-left: 0 !important;
+			max-width:100% !important;
+			width: 100% !important;
+		}
 	}
 }
 

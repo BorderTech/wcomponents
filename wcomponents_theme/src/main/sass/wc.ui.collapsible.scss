@@ -23,12 +23,14 @@ summary {
 	cursor: pointer;
 	font-weight: bold;
 	padding: $hgap_normal 0;
-	&::before{/* analog of default webkit marker */
-		@include useSymbolFont;
-		content: "\25b6";
+	&::before {
+		content: url(../images/go-next-view.png);
+		display: inline-block;
+		height: 0;
 		margin-right: $hgap_small;
+		vertical-align: top;
 	}
-	&::-webkit-details-marker {/* remove the default summary marker from webkit browsers */
+	&::-webkit-details-marker { // remove the default summary marker from webkit browsers
 		display: none;
 	}
 	> h1, > h2, > h3, > h4, > h5, > h6 {
@@ -43,8 +45,7 @@ summary {
 	}
 }
 
-/* content of the collapsible NOTE: this is currently wrapped in a div but this could be > * with an override for summary::first-of-type*/
-
+// content of the collapsible NOTE: this is currently wrapped in a div but this could be > * with an override for summary::first-of-type
 details {
 	> div {
 		display: none
@@ -57,7 +58,7 @@ details {
 			}
 		}
 		> summary::before{
-			content: "\25bc";
+			content: url(../images/go-down-view.png);
 		}
 	}
 }
