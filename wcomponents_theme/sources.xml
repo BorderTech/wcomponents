@@ -1,4 +1,4 @@
-<!-- 
+<!--
 	This produces a theme sources zip.
 	Simply remove this XML file to prevent the zip from being created.
 -->
@@ -24,6 +24,9 @@
 				<exclude>**/*.bak</exclude>
 				<exclude>**/*.contrib*</exclude>
 				<exclude>**/.settings/**</exclude>
+				<exclude>**/.*</exclude>
+				<exclude>**/nb-*</exclude>
+				<exclude>**/package.json</exclude>
 				<exclude>**/node/**</exclude>
 				<exclude>**/node_modules/**</exclude>
 			</excludes>
