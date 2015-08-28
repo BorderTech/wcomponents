@@ -1,14 +1,15 @@
 /* wc.common.form.ios.css */
+@import "vars_all.scss";
 input,
 textarea,
 select{
 	border-color:#007aff;
-	font-family: 'Helvetica Neue', HelveticaNeue, Helvetica-Neue, Helvetica, 'BBAlpha Sans', arial, sans-serif;
-	font-size:17px
+	font-family: $iosFont;
+	font-size: 17px;
 }
 
 input{
-	height:22px
+	height: 22px
 }
 
 input[type="checkbox"],

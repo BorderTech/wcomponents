@@ -1,11 +1,11 @@
 /* wc.common.button.ios.css */
-@import "vars_colors.scss";
-button{
+@import "vars_all.scss";
+button {
 	background-color: transparent;
 	border: 0 none;
 	border-radius: 0;
 	color: #007aff;
-	font-family: 'Helvetica Neue', HelveticaNeue, Helvetica-Neue, Helvetica, 'BBAlpha Sans', arial, sans-serif;
+	font-family: $iosFont;
 	font-size: 1em;
 	text-align: center;
 	vertical-align: middle;
