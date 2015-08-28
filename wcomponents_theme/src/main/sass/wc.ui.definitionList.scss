@@ -25,7 +25,7 @@
  * the way it should be done people - let the user agent do its job!
  *
  */
-@import "vars_all.scss";
+@import "mixins_common.scss";
 
 dl {
 	margin: 0;
@@ -52,6 +52,15 @@ dt {
 		padding-left: 0;
 		vertical-align: text-top;
 		width: 69.5%;
+	}
+	> dt, > dd {
+		@include respond(iphone) {
+			@include borderBox;
+			display: block;
+			margin-left: 0;
+			margin-right: 0;
+			width: 100%;
+		}
 	}
 }
 
@@ -80,10 +89,10 @@ dl.flat {
 		vertical-align: top;
 		width: auto;
 	}
-	> dt ~ dt { /* any dt with a preceding sibling gets margin-left */
+	> dt ~ dt { // any dt with a preceding sibling gets margin-left
 		margin-left: $hgap_normal;
 	}
-	> dd { /* all dds must have a preceding sibling so they all get margin-left */
+	> dd { // all dds must have a preceding sibling so they all get margin-left
 		margin-left: $hgap_small;
 	}
 }

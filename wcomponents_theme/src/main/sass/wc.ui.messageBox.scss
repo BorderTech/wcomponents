@@ -14,6 +14,11 @@
 		padding: $vgap_normal $hgap_small;
 		color: $std_color_white;
 		font-weight: normal;
+		&:before {
+			display: inline-block;
+			vertical-align: text-top;
+			margin-right: $hgap_small;
+		}
 	}
 	> button {
 		padding: $vgap_normal $hgap_small;
@@ -24,24 +29,36 @@
 		border-color: $wc_ui_color_errorForeground;
 		> h1 {
 			background-color: $wc_ui_color_errorForeground;
+			&:before {
+				content: url(../images/dialog-error-2.png);
+			}
 		}
 	}
 	&.warn {
 		border-color: $wc_ui_color_warningForeground;
 		> h1 {
 			background-color: $wc_ui_color_warningForeground;
+			&:before {
+				content: url(../images/dialog-warning.png);
+			}
 		}
 	}
 	&.info {
 		border-color: $wc_ui_color_infoForeground;
 		> h1 {
 			background-color: $wc_ui_color_infoForeground;
+			&:before {
+				content: url(../images/dialog-information-3.png);
+			}
 		}
 	}
 	&.success {
 		border-color: $wc_ui_color_successForeground;
 		> h1 {
 			background-color: $wc_ui_color_successForeground;
+			&:before {
+				content: url(../images/dialog-accept-2.png);
+			}
 		}
 	}
 	li { //maintain white space on messages.

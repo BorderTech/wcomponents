@@ -1,0 +1,9 @@
+/* wc.ui.messagesBox.scss */
+@import "mixins_common.scss";
+/* the message box */
+
+
+.wc_msgbox > h1:before {
+	vertical-align: middle;
+}
+/* end wc.ui.messagesBox.scss */
