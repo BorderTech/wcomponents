@@ -10,7 +10,6 @@ public class StandaloneLauncherProxy
 {
 	public static void main(final String args[]) throws Exception
 	{
-		PlainLauncherProxy.configureClassToLaunch();
 		StandaloneLauncher.main(args);
 	}
 }
