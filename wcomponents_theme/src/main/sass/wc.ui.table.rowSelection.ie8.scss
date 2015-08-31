@@ -12,30 +12,30 @@
 
 [role="radio"] {
 	> .wc_table_sel_wrapper:before {
-		content: url(../images/wc.common.radio.ie8.png);
+		content: url(../images/radio.ie8.png);
 	}
 	&[aria-checked="true"] > .wc_table_sel_wrapper:before {
-		content: url(../images/wc.common.radio.selected.ie8.png);
+		content: url(../images/radio-s.ie8.png);
 	}
 	&[aria-disabled="true"] > .wc_table_sel_wrapper:before { //note: no selected disabled radio indicator
-		content: url(../images/wc.common.radio.disabled.ie8.png);
+		content: url(../images/radio-d.ie8.png);
 	}
 }
 
 
 [role="checkbox"] {
 	> .wc_table_sel_wrapper:before {
-		content: url(../images/wc.common.checkbox.ie8.png);
+		content: url(../images/checkbox.ie8.png);
 	}
 	&[aria-checked="true"] > .wc_table_sel_wrapper:before {
-		content: url(../images/wc.common.checkbox.selected.ie8.png);
+		content: url(../images/checkbox-s.ie8.png);
 	}
 	&[aria-disabled="true"] {
 		> .wc_table_sel_wrapper:before {
-			content: url(../images/wc.common.checkbox.disabled.ie8.png);
+			content: url(../images/checkbox-d.ie8.png);
 		}
 		&[aria-checked="true"] > .wc_table_sel_wrapper:before {
-			content: url(../images/wc.common.checkbox.selected.disabled.ie8.png);
+			content: url(../images/checkbox-s-d.ie8.png);
 		}
 	}
 }

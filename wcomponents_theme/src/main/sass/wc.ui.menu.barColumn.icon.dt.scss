@@ -5,27 +5,27 @@
 @import "wc.ui.menu_vars.scss";
 [role="menubar"] > [aria-expanded] {
 	> button::after {
-		content: url(../images/go-down-view.png);
+		content: url(../images/down.png);
 		display:inline-block;
 		height:0;
 		margin-left: $wc_ui_menu_barColumn_openerIndicator_beforeAfter;
 		vertical-align: top;
 	}
 	> [disabled]::after {
-		content: url(../images/go-down-view-d.png);
+		content: url(../images/down-d.png);
 	}
 }
 
 [role="menu"] [aria-expanded] {
 	> button .decoratedLabel::after {
-		content: url(../images/go-next-view.png);
+		content: url(../images/next.png);
 		display: inline-block;
 		line-height: 0;
 		padding-left: $wc_ui_menu_barColumn_openerIndicator_beforeAfter;
 		vertical-align: text-top;
 	}
 	> [disabled] .decoratedLabel::after {
-		content: url(../images/go-next-view-d.png);
+		content: url(../images/next-d.png);
 	}
 }
 /* end wc.ui.menu.barColumn.icon.dt.scss*/

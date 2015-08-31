@@ -4,7 +4,7 @@
 [role="treeitem"] {
 	&[aria-expanded] {
 		> button {
-			background-image: url(../images/go-next-view.png);
+			background-image: url(../images/next.png);
 			background-position: 0 50%;
 			background-repeat: no-repeat;
 			padding-left: 19px;
@@ -12,7 +12,7 @@
 	}
 	&[aria-expanded="true"] {
 		> button {
-			background-image: url(../images/go-down-view.png)
+			background-image: url(../images/down.png)
 		}
 	}
 }

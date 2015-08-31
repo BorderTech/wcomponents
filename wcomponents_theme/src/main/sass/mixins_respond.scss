@@ -1,4 +1,6 @@
-// skeleton responsive design mixin
+// Skeleton responsive design mixin. Gives what we need by default but feel free to add to it with other responsive
+// design mixins as required.
+
 //how big is a "small" screen?
 $small: 640px;
 //and a common/medium screen?
@@ -6,49 +8,54 @@ $medium: 1280px;
 //how about a BIG screen?
 $large: 2000px;
 
-@mixin respond($width, $test: max-width) {
-	@if ($width == small) {
+@mixin respond($size, $test: max-width) {
+	@if($size == phone) { //should cover most modern phones and some smaller/older tablets
+		@media only screen  and (min-device-width : 320px) and (max-device-width : 736px) {
+			@content;
+		}
+	}
+	@else if ($size == small) {
 		@media only screen and (#{$test}: $small) {
 			@content;
 		}
 	}
-	@else if($width == medium) {
+	@else if($size == medium) {
 		@media only screen and (#{$test}: $medium) {
 			@content;
 		}
 	}
-	@else if($width == large) {
+	@else if($size == large) {
 		@media only screen and (#{$test}: $large) {
 			@content;
 		}
 	}
-	@else if($width == ip6) {
+	@else if($size == ip6) { //iphone 6plus
 		@media only screen  and (min-device-width : 375px) and (max-device-width : 667px) {
 			@content;
 		}
 	}
-	@else if($width == ip6p) {
+	@else if($size == ip6p) { //iphone 6
 		@media only screen  and (min-device-width : 414px) and (max-device-width : 736px) {
 			@content;
 		}
 	}
-	@else if($width == ip5) {
+	@else if($size == ip5) { //iphone 5/5s/5c
 		@media only screen  and (min-device-width : 320px) and (max-device-width : 568px) {
 			@content;
 		}
 	}
-	@else if($width == ip4) {
+	@else if($size == ip4) { //iphone 4/4s
 		@media only screen  and (min-device-width : 320px) and (max-device-width : 480px) {
 			@content;
 		}
 	}
-	@else if($width == ipad) {
+	@else if($size == ipad) { //most ipads
 		@media only screen  and (min-device-width : 768px) and (max-device-width : 1024px) {
 			@content;
 		}
 	}
-	@else if($width == iphone) {
-		@media only screen  and (min-device-width : 320px) and (max-device-width : 736px) {
+	@else {
+		@media only screen and (#{$test}: $size) { // primitive but should allow a bit of customization.
 			@content;
 		}
 	}

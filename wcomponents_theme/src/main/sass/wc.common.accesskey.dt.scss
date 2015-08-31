@@ -18,9 +18,8 @@
 
 @import "wc.common.accesskey_vars.scss";
 
-/* the character in a string corresponding to the control's access key is underlined */
-.wc_alt .wc_accesskey {
-	text-decoration: underline
+.wc_alt .wc_accesskey { //the character in a string corresponding to the control's access key is underlined
+	text-decoration: underline;
 }
 /*	Accesskey Tooltips
 	Styling for the callout (shows when ALT is held down to fire an accesskey).
@@ -55,12 +54,10 @@
 	&:after {
 		border-color: $wc_ui_color_tooltipBorder transparent transparent;
 	}
-}
-/* Callout display needs a particularly explicit selector to override menu [role]
-  position but cannot use !important because we cannot guarantee that the hidden selector
-  is more specific, */
-[role="tooltip"],
-.menu [role] [role="tooltip"]{
-	display: inline-block;
+	// Callout display needs a particularly explicit selector to override menu [role] position but cannot use !important
+	// because we cannot guarantee that the hidden selector is more specific.
+	&, .menu [role] & {
+		display: inline-block;
+	}
 }
 /* end accesskey.dt.scss */

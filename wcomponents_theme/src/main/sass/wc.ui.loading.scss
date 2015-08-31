@@ -22,7 +22,7 @@
 		vertical-align: middle;
 		width: auto;
 		&:before {/* the spinner */
-			background-image: url(../images/wc.common.loading.svg);
+			background-image: url(../images/loading.svg);
 			background-repeat: no-repeat;
 			background-size: 100% 100%;
 			content: "\a0";
@@ -54,7 +54,7 @@
 	background-size: $lineSize $lineSize !important;
 	border-color: transparent !important;
 	color: $wc_ui_color_disabledForeground;
-	background-image: url(../images/wc.common.loading.svg) !important
+	background-image: url(../images/loading.svg) !important
 }
 
 /*

@@ -54,7 +54,7 @@ dt {
 		width: 69.5%;
 	}
 	> dt, > dd {
-		@include respond(iphone) {
+		@include respond(phone) {
 			@include borderBox;
 			display: block;
 			margin-left: 0;

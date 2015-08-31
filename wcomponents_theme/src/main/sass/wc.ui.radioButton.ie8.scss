@@ -1,16 +1,10 @@
 /* wc.ui.radioButton.ie8.css */
-
-.radio:before{
-	display:inline-block;
-	width: 12px;
-	height:12px
-}
-
-.radio:before{
-	content:url(../images/wc.common.radio.readOnly.ie8.png)
-}
-
-.radio.wc_ro_sel:before{
-	content: url(../images/wc.common.radio.selected.readOnly.ie8.png)
+.radio{
+	&:before {
+		content: url(../images/radio-ro.ie8.png);
+	}
+	&.wc_ro_sel:before{
+		content: url(../images/radio-s-ro.ie8.png);
+	}
 }
 /* end wc.ui.radioButton.ie8.css */

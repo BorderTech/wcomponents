@@ -7,7 +7,7 @@
 
 #wc_ui_loading div{
 	padding: $vgap_large $vgap_large $vgap_large 50px;
-	background-image: url(../images/wc.common.loading.gif);
+	background-image: url(../images/loading.gif);
 	background-position: $vgap_large 50%;
 	&:before {
 		content:"";
@@ -25,7 +25,7 @@
  * You may want to change this (a Cheshire cat maybe?)
  */
 [aria-busy="true"]{
-	background-image : url(../images/wc.common.loading.inline.dark.gif) !important
+	background-image : url(../images/loading-dark.gif) !important
 }
 
 /* end wc.common.loading.ie10.css */

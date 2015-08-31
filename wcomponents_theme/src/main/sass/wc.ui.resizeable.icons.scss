@@ -9,13 +9,13 @@ button.wc_maxcont {
 
 
 .wc_resize {
-	& , &:hover, &:focus {
-		background-image: url(../images/wc.ui.resizeable.png);
+	&, &:hover, &:focus {
+		background-image: url(../images/resizeHandle.png);
 	}
 }
 button.wc_maxcont {
-	& , &:hover, &:focus {
-		background-image: url(../images/wc.ui.resizeable.maxrestore.sprite.png);
+	&, &:hover, &:focus {
+		background-image: url(../images/resizeable.sprite.png);
 	}
 	&:hover, &:focus {
 		background-position: 33.34% 0;

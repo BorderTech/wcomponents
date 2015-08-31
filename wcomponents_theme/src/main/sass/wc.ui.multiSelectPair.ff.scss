@@ -1,12 +1,5 @@
-/*
- * wc.ui.multiSelectPair.ff.css
- */
-
-.multiSelectPair select{
-	min-height:9em
-}
-
-.wc_msp_btncol button::before {
-	height: auto; //height is required for IE9 - IE11, FF is improved by auto.
+/* wc.ui.multiSelectPair.ff.css */
+.multiSelectPair select {
+	min-height: 9em;
 }
 /* end wc.ui.multiSelectPair.ff.css*/

@@ -13,37 +13,37 @@
 	display: block;
 	padding: 3px;
 	&:before {
-		content: url("../images/go-top-view.png");
+		content: url("../images/top.png");
 		position: relative;
 		top: 1px;
 	}
 	+ .wc_sorter {
 		&:before {
-			content: url("../images/go-up-view.png");
+			content: url("../images/up.png");
 		}
 		+ .wc_sorter {
 			&:before {
-				content: url("../images/go-down-view.png");
+				content: url("../images/down.png");
 			}
 			+ .wc_sorter:before {
-				content: url("../images/go-bottom-view.png");
+				content: url("../images/bottom.png");
 			}
 		}
 	}
 	&[disabled] {
 		&:before {
-			content: url("../images/go-top-view-d.png");
+			content: url("../images/top-d.png");
 		}
 		+ .wc_sorter {
 			&:before {
-				content: url("../images/go-up-view-d.png");
+				content: url("../images/up-d.png");
 			}
 			+ .wc_sorter {
 				&:before {
-					content: url("../images/go-down-view-d.png");
+					content: url("../images/down-d.png");
 				}
 				+ .wc_sorter:before {
-					content: url("../images/go-bottom-view-d.png");
+					content: url("../images/bottom-d.png");
 				}
 			}
 		}

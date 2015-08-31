@@ -903,8 +903,9 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 				newValue = sb.join(" ");
 
 				input.value = newValue;
-				focus.setFocusRequest(input);
-				dateField.acceptFirstMatch(input);
+				focus.setFocusRequest(input, function(_el) {
+					dateField.acceptFirstMatch(_el);
+				});
 				hideCalendar(true);
 			}
 			else {

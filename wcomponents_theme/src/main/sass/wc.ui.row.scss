@@ -9,7 +9,7 @@
 	display: inline-block;
 	vertical-align: top;
 
-	@include respond($width: iphone) {
+	@include respond(phone) {
 		display: block;
 		width: 100% !important;
 		max-width: none !important;

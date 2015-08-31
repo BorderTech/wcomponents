@@ -65,12 +65,12 @@ dialog [role="combobox"] > [role="listbox"]{
 		background-color: $wc_ui_color_invite_bg;
 	}
 	&:before {
-		content: url("../images/accessories-date.png");
+		content: url("../images/date.png");
 		position: relative;
 		top: 2px;
 	}
 	&[disabled]:before {
-		content: url("../images/accessories-date-d.png");
+		content: url("../images/date-d.png");
 	}
 }
 

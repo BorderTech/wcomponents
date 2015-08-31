@@ -4,34 +4,34 @@
 .wc_table_pag_cont .wc_ibtn {
 	vertical-align: middle;
 	&:before {
-		content: url(../images/go-first-view.png);
+		content: url(../images/first.png);
 		vertical-align: middle;
 		display: block;
 		height: 16px;
 	}
 	&[disabled]:before {
-		content: url(../images/go-first-view-d.png);
+		content: url(../images/first-d.png);
 	}
 	+ .wc_ibtn {
 		&:before {
-			content: url(../images/go-previous-view.png);
+			content: url(../images/previous.png);
 		}
 		&[disabled]:before {
-			content: url(../images/go-previous-view-d.png);
+			content: url(../images/previous-d.png);
 		}
 		+ .wc_ibtn {
 			&:before {
-				content: url(../images/go-next-view.png);
+				content: url(../images/next.png);
 			}
 			&[disabled]:before {
-				content: url(../images/go-next-view-d.png);
+				content: url(../images/next-d.png);
 			}
 			+ .wc_ibtn {
 				&:before {
-					content: url(../images/go-last-view.png);
+					content: url(../images/last.png);
 				}
 				&[disabled]:before {
-					content: url(../images/go-last-view-d.png);
+					content: url(../images/last-d.png);
 				}
 			}
 		}

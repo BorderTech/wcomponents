@@ -1,13 +1,13 @@
 /* wc.ui.backToTop.scss */
 @import "mixins_common.scss";
 
-.wc_btt{
+.wc_btt {
 	bottom: 1em;
 	position: fixed;
 	right: 1em;
 	&:before {
 		display: block;
-		content:url(../images/wc.ui.backToTop.svg);
+		content:url(../images/backToTop.svg);
 		height: 4em;
 		width: 4em;
 	}

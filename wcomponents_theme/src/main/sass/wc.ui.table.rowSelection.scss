@@ -3,26 +3,26 @@
 
 tr[aria-checked] {
 	&:hover, &:focus {
-		cursor:pointer;
+		cursor: pointer;
 		@include rowInvite;
 	}
 }
 
-.wc_table_sel_wrapper::before{
-	display:block;
+.wc_table_sel_wrapper::before {
+	display: block;
 	width: 1em;
 	height: $lineSize;
 	[role="radio"] > & {
-		content: url(../images/wc.common.radio.svg);
+		content: url(../images/radio.svg);
 	}
 	[role="radio"][aria-checked="true"] > & {
-		content: url(../images/wc.common.radio.selected.svg);
+		content: url(../images/radio-s.svg);
 	}
 	[role="checkbox"] > & {
-		content: url(../images/wc.common.checkbox.svg);
+		content: url(../images/checkbox.svg);
 	}
 	[role="checkbox"][aria-checked="true"] > & {
-		content: url(../images/wc.common.checkbox.selected.svg);
+		content: url(../images/checkbox-s.svg);
 	}
 	[aria-checked][aria-disabled="true"] > & {
 		opacity: $disabledOpacity;

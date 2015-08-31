@@ -109,6 +109,7 @@ define(["wc/array/toArray",
 			 * @throws TypeError if element is not an Element node
 			 * @param {Element} element the element to focus
 			 * @param {Function} [callback] a function to call when the element has focus.
+			 * @todo Make this return a promise.
 			 */
 			this.setFocusRequest = function(element, callback) {
 				var focusElement;

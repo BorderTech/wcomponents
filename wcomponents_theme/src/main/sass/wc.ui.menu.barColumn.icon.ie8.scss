@@ -3,25 +3,25 @@
 	display:table;
 	padding-right:16px;
 	box-sizing:border-box;
-	background-image:url(../images/go-down-view.png);
+	background-image:url(../images/down.png);
 	background-position:100% 50%;
 	background-repeat:no-repeat
 }
 
 [role="menubar"] > [aria-expanded] > button[disabled] .decoratedLabel{
-	background-image:url(../images/go-down-view-d.png)
+	background-image:url(../images/down-d.png)
 }
 
 [role="menu"] [aria-expanded] > button > .decoratedLabel{
 	display:table;/* table-row does not allow it to be sized to 100% in ie8 */
 	padding-right:6px;
 	box-sizing:border-box;
-	background-image:url(../images/go-next-view.png);
+	background-image:url(../images/next.png);
 	background-position:100% 50%;
 	background-repeat:no-repeat
 }
 
 [role="menu"] [aria-expanded] > button[disabled] .decoratedLabel{
-	background-image:url(../images/go-next-view-d.png)
+	background-image:url(../images/next-d.png)
 }
 /* end wc.ui.menu.barColumn.icon.ie8.css */

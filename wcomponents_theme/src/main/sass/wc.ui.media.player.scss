@@ -20,15 +20,15 @@
 
 .wc_av_play {
 	&:before {
-		content: url(../images/media-playback-start.png);
+		content: url(../images/play.png);
 	}
 	&[aria-pressed='true']:before {
-		content: url(../images/media-playback-pause.png);
+		content: url(../images/pause.png);
 	}
 }
 
 .src:before {
-	content: url(../images/media-playback-start.png)
+	content: url(../images/play.png)
 }
 
 .track:before {

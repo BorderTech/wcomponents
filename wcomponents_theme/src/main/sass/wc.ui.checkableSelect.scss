@@ -11,12 +11,12 @@
 .wc_chkgrp > .column {
 	display: inline-block;
 	vertical-align: top;
-	@include respond(small) {
+	@include respond(phone) {
 		display: block;
 	}
 	+ .column {
 		padding-left: $hgap_large;
-		@include respond(small) {
+		@include respond(phone) {
 			padding-left: 0;
 		}
 	}
