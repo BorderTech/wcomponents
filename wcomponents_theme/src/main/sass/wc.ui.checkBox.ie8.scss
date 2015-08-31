@@ -1,9 +1,10 @@
 /* wc.ui.checkBox.ieAll.css */
-.checkbox:before{
-	content:url(../images/wc.common.checkbox.readOnly.ie8.png)
-}
-
-.checkbox.wc_ro_sel:before{
-	content:url(../images/wc.common.checkbox.selected.readOnly.ie8.png)
+.checkbox {
+	&:before {
+		content: url(../images/checkbox-ro.ie8.png);
+	}
+	&.wc_ro_sel:before {
+		content: url(../images/checkbox-s-ro.ie8.png);
+	}
 }
 /* end wc.ui.checkBox.ieAll.css */

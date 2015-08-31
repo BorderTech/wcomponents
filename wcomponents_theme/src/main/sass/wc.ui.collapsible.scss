@@ -24,7 +24,7 @@ summary {
 	font-weight: bold;
 	padding: $hgap_normal 0;
 	&::before {
-		content: url(../images/go-next-view.png);
+		content: url(../images/next.png);
 		display: inline-block;
 		height: 0;
 		margin-right: $hgap_small;
@@ -58,7 +58,7 @@ details {
 			}
 		}
 		> summary::before{
-			content: url(../images/go-down-view.png);
+			content: url(../images/down.png);
 		}
 	}
 }

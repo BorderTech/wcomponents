@@ -30,7 +30,7 @@
 		> h1 {
 			background-color: $wc_ui_color_errorForeground;
 			&:before {
-				content: url(../images/dialog-error-2.png);
+				content: url(../images/error.png);
 			}
 		}
 	}
@@ -39,7 +39,7 @@
 		> h1 {
 			background-color: $wc_ui_color_warningForeground;
 			&:before {
-				content: url(../images/dialog-warning.png);
+				content: url(../images/warning.png);
 			}
 		}
 	}
@@ -48,7 +48,7 @@
 		> h1 {
 			background-color: $wc_ui_color_infoForeground;
 			&:before {
-				content: url(../images/dialog-information-3.png);
+				content: url(../images/information.png);
 			}
 		}
 	}
@@ -57,7 +57,7 @@
 		> h1 {
 			background-color: $wc_ui_color_successForeground;
 			&:before {
-				content: url(../images/dialog-accept-2.png);
+				content: url(../images/success.png);
 			}
 		}
 	}

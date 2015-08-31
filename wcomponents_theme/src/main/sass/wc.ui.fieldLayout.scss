@@ -27,9 +27,6 @@ ul.fieldLayout { /* field layouts may be an ordered list, in which case we want 
 	> * {
 		display: inline-block;
 		vertical-align: text-top;
-		@include respond(small) {
-			display: block;
-		}
 	}
 	> :first-child { //the first child is the label or standing or merely an empty placeholder/spacer
 		width: $labelWidth;
@@ -47,27 +44,23 @@ ul.fieldLayout { /* field layouts may be an ordered list, in which case we want 
 	> .input {
 		width: $inputWidth;
 		max-width: $inputWidth;
-		@include respond(small) {
-			width: 100% !important;
-			max-width: 100% !important;
-			@include borderBox;
-		}
 	}
 	> :first-child, > .input {
-		@include respond(iphone) {
+		@include respond(phone) {
 			@include borderBox;
+			display: block;
 			max-width: 100% !important;
 			width: 100% !important;
 		}
 	}
 	> .wc_off + .input { // if the label is off screen we need some margin.
 		margin-left: $labelWidth;
-		@include respond(iphone) {
+		@include respond(phone) {
 			margin-left: 0 !important;
 		}
 	}
 	> .wc_fld_pl { //this is the placeholder for a null or moved label - moved for checkbox or radio
-		@include respond(iphone) {
+		@include respond(phone) {
 			display: none;
 		}
 	}
@@ -81,7 +74,7 @@ ul.fieldLayout { /* field layouts may be an ordered list, in which case we want 
 		margin-top: $vgap_small;
 	}
 	> .input {
-		@include respond(iphone) {
+		@include respond(phone) {
 			@include borderBox;
 			margin-left: 0 !important;
 			max-width:100% !important;

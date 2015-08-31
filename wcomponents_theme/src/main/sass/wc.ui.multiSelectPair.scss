@@ -21,26 +21,18 @@
 		min-height: 8em;
 		min-width: 100%;
 	}
-}
-
-/* Attempt to align the sort buttons with the top of the SELECTs by using the
- * default line height. This could be done by adding a non-breaking-space in a
- * simple span to the button block but that would involve an extra dom node and
- * having sightly different transform for the list order buttons of WShuffler
- * and WMultiSelectPair.This padding hack works for all usual cases.
- */
-.multiSelectPair .wc_sortcont,
-.wc_msp_btncol {
-	padding-top: $lineSize;
-}
-
-/* the add and remove buttons */
-.wc_msp_btncol button {
-	display: block;
-}
-
-/* a small gap between the add and remove buttons */
-button[value="rem"]{
-	margin-top: $vgap_normal;
+	// Attempt to align the sort buttons with the top of the SELECTs by using the default line height. This could be
+	// done by adding a non-breaking-space in a simple span to the button block but that would involve an extra dom node
+	// and  having sightly different transform for the list order buttons of WShuffler and WMultiSelectPair. This
+	// padding hack works for all usual cases.
+	.wc_sortcont, .wc_msp_btncol {
+		padding-top: $lineSize;
+	}
+	.wc_msp_btncol button { // the add and remove buttons
+		display: block;
+		&[value="rem"] { //a small gap between the add and remove buttons
+			margin-top: $vgap_normal;
+		}
+	}
 }
 /* end wc.ui.multiSelectPair.scss*/

@@ -1,5 +1,9 @@
 /* wc.ui.multiSelectPair.ios.css */
-.wc_msp_btncol button{
-	border-color:#007aff
+@import "mixins_common.scss";
+
+.wc_msp_btncol button {
+	@include border($color: #007aff);
+	padding: 6px;
+	border-radius: 3px;
 }
 /* end wc.ui.multiSelectPair.ios.css*/

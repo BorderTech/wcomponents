@@ -21,22 +21,25 @@
 	}
 	&[role="checkbox"] { // Graphical representation of state when rendered as a control
 		&::before {
-			content:url(../images/wc.common.checkbox.svg);
+			content:url(../images/checkbox.svg);
 			@include makeBox($width: 1em, $height: 1em);
 			vertical-align: text-top; // ensure that the 1em "checkbox" analog lines up with any surrounding inline text.
 		}
 		&[aria-checked="true"]::before {
-			content: url(../images/wc.common.checkbox.selected.svg);
+			content: url(../images/checkbox-s.svg);
 		}
 		&[aria-checked="mixed"]::before {
-			content: url(../images/wc.common.checkbox.indeterminate.svg);
+			content: url(../images/checkbox-i.svg);
 		}
 		&[disabled] {
-			&::before, &[aria-checked="mixed"]::before {
-				content:url(../images/wc.common.checkbox.indeterminate.d.svg);
+			&::before {
+				content:url(../images/checkbox-d.svg);
+			}
+			&[aria-checked="mixed"]::before {
+				content:url(../images/checkbox-i-d.svg);
 			}
 			&[aria-checked="true"]::before{
-				content:url(../images/wc.common.checkbox.selected.disabled.svg);
+				content:url(../images/checkbox-s-d.svg);
 			}
 		}
 	}

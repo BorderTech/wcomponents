@@ -7,14 +7,14 @@ datalist {
 }
 
 input[role="combobox"]{
-	background-image: url(../images/go-down-view.png);
+	background-image: url(../images/down.png);
 	background-position: 100% 0;
 	background-repeat: no-repeat;
 	@include border;
 	@include borderBox;
 	padding-right: 17px;
 	&[disabled] {
-		background-image:url(../images/go-down-view-d.png);
+		background-image:url(../images/down-d.png);
 	}
 	~ [role="listbox"] {
 		background-color: $wc_ui_color_globalBackground;

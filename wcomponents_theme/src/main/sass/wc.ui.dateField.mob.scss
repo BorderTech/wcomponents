@@ -37,18 +37,18 @@
 
 .wc_wdf_mv {
 	&[value="-1"]::before {
-		content: url(../images/wc.ui.dateField.calendar.mob.back1.svg);
+		content: url(../images/cal-mob-back1.svg);
 	}
 	&[value="1"]::before {
-		content: url(../images/wc.ui.dateField.calendar.mob.forward1.svg);
+		content: url(../images/cal-mob-forward1.svg);
 	}
 	&[value="t"]::before {
-		content: url(../images/wc.ui.dateField.calendar.mob.today.svg);
+		content: url(../images/cal-mob-today.svg);
 	}
 }
 
 .wc_wdf_cls::before {
-	content: url(../images/wc.ui.dateField.calendar.mob.close.svg);
+	content: url(../images/cal-mob-close.svg);
 }
 
 #wc-caldaybox .wc_wdf_pick {
