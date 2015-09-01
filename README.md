@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/OpenBorders/wcomponents.svg?branch=master)](https://travis-ci.org/OpenBorders/wcomponents)
+[![Build Status](https://travis-ci.org/DIBP/wcomponents.svg?branch=master)](https://travis-ci.org/DIBP/wcomponents)
 # wcomponents
 Accessible Web UI Framework for Enterprise
 
@@ -31,7 +31,7 @@ If you wish to build WComponents you will need [Apache Maven](https://maven.apac
 
 Run these commands to fetch the source and build:
 
-1. `git clone https://github.com/OpenBorders/wcomponents.git`
+1. `git clone https://github.com/dibp/wcomponents.git`
 2. `cd wcomponents`
 3. `mvn install`
 
