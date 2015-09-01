@@ -12,7 +12,7 @@
     <!-- Serve up the theme resources straight from the JAR rather than extracting them to the WAR. -->
     <servlet>
         <servlet-name>themeServlet</servlet-name>
-        <servlet-class>com.github.openborders.wcomponents.servlet.ThemeServlet</servlet-class>
+        <servlet-class>com.github.dibp.wcomponents.servlet.ThemeServlet</servlet-class>
     </servlet>
 
     <!-- Your servlet's mapping -->
