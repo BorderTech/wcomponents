@@ -7,8 +7,8 @@ Used to turn on and pass config to client side Web Analytics tools. The attribut
 of this element are used to set up page view tracking.
 -->
 
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="https://github.com/openborders/wcomponents/namespace/ui/v1.0"
-	xmlns:ui="https://github.com/openborders/wcomponents/namespace/ui/v1.0">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="https://github.com/dibp/wcomponents/namespace/ui/v1.0"
+	xmlns:ui="https://github.com/dibp/wcomponents/namespace/ui/v1.0">
 	<xs:complexType name="trackable">
 		<xs:annotation>
 			<xs:documentation><p>Tracking element is used to turn on and pass config to client side Web Analytics tools. The attributes of this element are used to set up page view

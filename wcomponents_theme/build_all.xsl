@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:x="https://github.com/openborders/wcomponents/namespace/ui/dummy" version="2.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:x="https://github.com/dibp/wcomponents/namespace/ui/dummy" version="2.0">
 	<!--
 		Transform to convert interim XML file of concatenated XSLT source to a single, final, well formed XSLT.
 		
@@ -141,7 +141,7 @@
 		structure using the namespace alias defined above.
 	-->
 	<xsl:template match="concat">
-		<x:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/openborders/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml"
+		<x:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/dibp/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml"
 			version="1.0" exclude-result-prefixes="xsl ui html">
 
 			<x:output encoding="UTF-8" indent="no" method="html" doctype-system="about:legacy-compat" omit-xml-declaration="yes" />

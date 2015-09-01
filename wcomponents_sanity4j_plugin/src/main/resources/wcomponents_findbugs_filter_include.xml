@@ -1,6 +1,6 @@
 <FindBugsFilter>
 	<Match>
-		<!-- only analyse classes in the com.github.openborders.wcomponents package hierarchy -->
-		<Package name="~com\.github\.openborders\.wcomponents\..*" />
+		<!-- only analyse classes in the com.github.dibp.wcomponents package hierarchy -->
+		<Package name="~com\.github\.dibp\.wcomponents\..*" />
 	</Match>
 </FindBugsFilter>

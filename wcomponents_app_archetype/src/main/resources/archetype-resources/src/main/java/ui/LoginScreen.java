@@ -3,18 +3,18 @@ package ${package}.ui;
 import java.util.List;
 
 import ${package}.util.SecurityUtils;
-import com.github.openborders.wcomponents.Action;
-import com.github.openborders.wcomponents.ActionEvent;
-import com.github.openborders.wcomponents.WButton;
-import com.github.openborders.wcomponents.WFieldLayout;
-import com.github.openborders.wcomponents.WFieldSet;
-import com.github.openborders.wcomponents.WMessages;
-import com.github.openborders.wcomponents.WPanel;
-import com.github.openborders.wcomponents.WPasswordField;
-import com.github.openborders.wcomponents.WTextField;
-import com.github.openborders.wcomponents.layout.FlowLayout;
-import com.github.openborders.wcomponents.validation.Diagnostic;
-import com.github.openborders.wcomponents.validation.ValidatingAction;
+import com.github.dibp.wcomponents.Action;
+import com.github.dibp.wcomponents.ActionEvent;
+import com.github.dibp.wcomponents.WButton;
+import com.github.dibp.wcomponents.WFieldLayout;
+import com.github.dibp.wcomponents.WFieldSet;
+import com.github.dibp.wcomponents.WMessages;
+import com.github.dibp.wcomponents.WPanel;
+import com.github.dibp.wcomponents.WPasswordField;
+import com.github.dibp.wcomponents.WTextField;
+import com.github.dibp.wcomponents.layout.FlowLayout;
+import com.github.dibp.wcomponents.validation.Diagnostic;
+import com.github.dibp.wcomponents.validation.ValidatingAction;
 
 /**
  * An example application entry/login screen.
