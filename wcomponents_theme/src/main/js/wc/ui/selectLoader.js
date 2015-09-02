@@ -84,9 +84,15 @@ define(["wc/ui/listLoader",
 								}
 								// re-select all the options that were originally selected
 								Array.prototype.forEach.call(currentOptions, function(next) {
-									var nextIdx = selectboxSearch.indexOf(next, optContainer);
+									var nextIdx = selectboxSearch.indexOf(next, optContainer), selIdx;
 									if (nextIdx >= 0) {
 										shed.select(element.options[nextIdx], true);  // do not publish as the selection has not changed
+										if (!element.hasAttribute("multiple")) { // Safari 8.0.8 intermittent bug selectedIndex is not always reset ... dunno why but this is cheap and fixes it!
+											selIdx = selectboxSearch.indexOf(next, element);
+											if (element.selectedIndex !== selIdx) {
+												element.selectedIndex = selIdx;
+											}
+										}
 									}
 								});
 							}

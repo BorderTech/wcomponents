@@ -3,7 +3,7 @@
 	<xsl:import href="wc.common.attributeSets.xsl"/>
 	<xsl:import href="wc.common.readOnly.xsl"/>
 	<xsl:import href="wc.common.missingLabel.xsl"/>
-	<xsl:import href="wc.common.title.xsl"/>		
+	<xsl:import href="wc.common.title.xsl"/>
 	<xsl:import href="wc.debug.debugInfo.xsl"/>
 	<xsl:output method="html" doctype-public="XSLT-compat" encoding="UTF-8" indent="no" omit-xml-declaration="yes"/>
 	<xsl:strip-space elements="*"/>
@@ -11,22 +11,22 @@
 		A dateField is a compound control consisting of a text input and a button used
 		to launch a date picker calendar. The text input allows for typeahead to
 		select a date as the user types and for the following shortcuts:
-		
+
 			* t = today
 			* y = yesterday
 			* m = tomorrow
 			* [+|-][1-9][0-9]\* increment/decrement today's date by the number of days
-		
+
 		We do not implement HTML input element types for dates (date, dateTime
 		etc) as their implementation is patchy and no current browser does a good
 		enough job on the date pickers. In addition the date format enforced in the
 		HTML5 date inputs is (whilst eminently reasonable and unambiguous) not one
 		which is commonly used by real people.
-		
+
 		The picker calendar is built in JavaScript based on an XML template. It is not
 		transformed here. A single calendar is used for every dateField in a form by
 		attachment.
-		
+
 	-->
 	<xsl:template match="ui:dateField">
 		<xsl:variable name="id" select="@id"/>
@@ -90,7 +90,7 @@
 					</xsl:call-template>
 				</xsl:if>
 				<!-- NOTE:
-					it would be nice to use a span for wrapping a date control which really is just an input and a button. 
+					it would be nice to use a span for wrapping a date control which really is just an input and a button.
 					The suggestion list used in WComponents is, however, a ul so the wrapper for date fields is a div by
 					necessity which changes its content type to non-phrase.
 				-->
@@ -205,16 +205,9 @@
 								</xsl:otherwise>
 							</xsl:choose>
 						</xsl:if>
-						<xsl:if test="@required or not(@allowPartial)">
+						<xsl:if test="@required">
 							<xsl:attribute name="placeholder">
-								<xsl:choose>
-									<xsl:when test="@required">
-										<xsl:value-of select="$$${wc.common.i18n.requiredPlaceholder}"/>
-									</xsl:when>
-									<xsl:otherwise>
-										<xsl:value-of select="$$${wc.ui.dateField.i18n.mask.format}"/>
-									</xsl:otherwise>
-								</xsl:choose>
+								<xsl:value-of select="$$${wc.common.i18n.requiredPlaceholder}"/>
 							</xsl:attribute>
 						</xsl:if>
 						<xsl:call-template name="ajaxController"/>
