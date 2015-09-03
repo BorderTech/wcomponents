@@ -4,17 +4,17 @@ import java.util.Date;
 
 import ${package}.model.Customer;
 import ${package}.util.DatabaseUtils;
-import com.github.dibp.wcomponents.Action;
-import com.github.dibp.wcomponents.ActionEvent;
-import com.github.dibp.wcomponents.MessageContainer;
-import com.github.dibp.wcomponents.WApplication;
-import com.github.dibp.wcomponents.WCardManager;
-import com.github.dibp.wcomponents.WComponent;
-import com.github.dibp.wcomponents.WHeading;
-import com.github.dibp.wcomponents.WMessages;
-import com.github.dibp.wcomponents.WPanel;
-import com.github.dibp.wcomponents.WText;
-import com.github.dibp.wcomponents.WebUtilities;
+import com.github.openborders.wcomponents.Action;
+import com.github.openborders.wcomponents.ActionEvent;
+import com.github.openborders.wcomponents.MessageContainer;
+import com.github.openborders.wcomponents.WApplication;
+import com.github.openborders.wcomponents.WCardManager;
+import com.github.openborders.wcomponents.WComponent;
+import com.github.openborders.wcomponents.WHeading;
+import com.github.openborders.wcomponents.WMessages;
+import com.github.openborders.wcomponents.WPanel;
+import com.github.openborders.wcomponents.WText;
+import com.github.openborders.wcomponents.WebUtilities;
 
 /**
  * <p>This class is the application's main component.</p>

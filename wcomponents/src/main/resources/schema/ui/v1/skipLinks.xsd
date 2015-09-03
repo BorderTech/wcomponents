@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="https://github.com/dibp/wcomponents/namespace/ui/v1.0"
-	xmlns:ui="https://github.com/dibp/wcomponents/namespace/ui/v1.0">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="https://github.com/openborders/wcomponents/namespace/ui/v1.0"
+	xmlns:ui="https://github.com/openborders/wcomponents/namespace/ui/v1.0">
 	<xs:element name="skipLinks">
 		<xs:annotation>
 			<xs:documentation>WSkipLinks is a placeholder. It is part of a page's screen furniture and is used as a positional element for generated content</xs:documentation>

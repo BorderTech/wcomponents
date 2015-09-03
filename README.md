@@ -50,4 +50,4 @@ The examples project is most easily run from the project view of your IDE.
 For example:
 
 1. Right click the `wcomponents_examples_lde` project.
-2. Select the main class to run: `com.github.dibp.wcomponents.exampleslde.PlainLauncherProxy`
+2. Select the main class to run: `com.github.openborders.wcomponents.exampleslde.PlainLauncherProxy`

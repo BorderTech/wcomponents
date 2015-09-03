@@ -6,7 +6,7 @@
 	<artifactId>wcomponents_app_archetype</artifactId>
 
 	<parent>
-		<groupId>com.github.dibp</groupId>
+		<groupId>com.github.openborders</groupId>
 		<artifactId>wcomponents_parent</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>

@@ -31,9 +31,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.github.dibp.wcomponents.qa.findbugs.CheckComponentModelDefinition;
-import com.github.dibp.wcomponents.qa.findbugs.CheckGetComponentModel;
-import com.github.dibp.wcomponents.qa.findbugs.CheckWComponentFields;
+import com.github.openborders.wcomponents.qa.findbugs.CheckComponentModelDefinition;
+import com.github.openborders.wcomponents.qa.findbugs.CheckGetComponentModel;
+import com.github.openborders.wcomponents.qa.findbugs.CheckWComponentFields;
 import edu.umd.cs.findbugs.annotations.ExpectWarning;
 import edu.umd.cs.findbugs.annotations.NoWarning;
 import edu.umd.cs.findbugs.config.UserPreferences;

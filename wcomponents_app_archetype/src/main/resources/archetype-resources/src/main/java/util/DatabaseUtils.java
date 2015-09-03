@@ -13,7 +13,7 @@ import java.util.Set;
 
 import ${package}.model.Address;
 import ${package}.model.Customer;
-import com.github.dibp.wcomponents.util.SystemException;
+import com.github.openborders.wcomponents.util.SystemException;
 
 /**
  * Data-related utility methods.
