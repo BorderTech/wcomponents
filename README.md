@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/OpenBorders/wcomponents.svg?branch=master)](https://travis-ci.org/OpenBorders/wcomponents)
+[![Build Status](https://travis-ci.org/BorderTech/wcomponents.svg?branch=master)](https://travis-ci.org/BorderTech/wcomponents)
 # wcomponents
 Accessible Web UI Framework for Enterprise
 
@@ -31,7 +31,7 @@ If you wish to build WComponents you will need [Apache Maven](https://maven.apac
 
 Run these commands to fetch the source and build:
 
-1. `git clone https://github.com/OpenBorders/wcomponents.git`
+1. `git clone https://github.com/bordertech/wcomponents.git`
 2. `cd wcomponents`
 3. `mvn install`
 
@@ -50,4 +50,4 @@ The examples project is most easily run from the project view of your IDE.
 For example:
 
 1. Right click the `wcomponents_examples_lde` project.
-2. Select the main class to run: `com.github.openborders.wcomponents.exampleslde.PlainLauncherProxy`
+2. Select the main class to run: `com.github.bordertech.wcomponents.exampleslde.PlainLauncherProxy`

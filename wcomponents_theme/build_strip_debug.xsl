@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <xsl:stylesheet
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-	xmlns:x="https://github.com/openborders/wcomponents/namespace/ui/dummy"
+	xmlns:x="https://github.com/bordertech/wcomponents/namespace/ui/dummy"
 	version="2.0">
 <!--**
 build_strip_debug.xsl

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl"  href="../${xslt.target.dir.name}/${xslt.target.file.name}${debug.target.file.name.suffix}.xsl?build=${build.number}&amp;theme=${implementation.name}"?>
-<ui:root title="preload" xmlns:ui="https://github.com/openborders/wcomponents/namespace/ui/v1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.w3.org/1999/xhtml" xmlns:html="http://www.w3.org/1999/xhtml">
+<ui:root title="preload" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.w3.org/1999/xhtml" xmlns:html="http://www.w3.org/1999/xhtml">
 	<!--
     ###########################################################################
     #                                                                         #

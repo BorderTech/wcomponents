@@ -6,7 +6,7 @@
 	<artifactId>wcomponents_lde</artifactId>
 
 	<parent>
-		<groupId>com.github.openborders</groupId>
+		<groupId>com.github.bordertech</groupId>
 		<artifactId>wcomponents_parent</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
@@ -17,7 +17,7 @@
 	<dependencies>
 
 		<dependency>
-			<groupId>com.github.openborders</groupId>
+			<groupId>com.github.bordertech</groupId>
 			<artifactId>wcomponents</artifactId>
 			<version>${project.version}</version>
 		</dependency>
@@ -65,7 +65,7 @@
 				<version>2.12.4</version>
 				<configuration>
 					<includes>
-						<include>com/github/openborders/wcomponents/lde/Lde_Suite.java</include>
+						<include>com/github/bordertech/wcomponents/lde/Lde_Suite.java</include>
 					</includes>
 				</configuration>
 			</plugin>

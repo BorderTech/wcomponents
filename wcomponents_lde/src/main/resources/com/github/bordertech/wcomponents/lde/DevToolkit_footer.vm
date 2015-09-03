@@ -1,0 +1,7 @@
+## This velocity template is used by the com.github.bordertech.wcomponents.lde.DevToolkit class to output the 
+## controls necessary for the developer toolkit UI. It must not rely on any java WComponents or
+## XML in the "ui" namespace. 
+##
+## This template renders content after the wrapped WComponent UI.
+##
+</div>

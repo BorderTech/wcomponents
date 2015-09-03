@@ -2,20 +2,20 @@ package ${package}.ui;
 
 import ${package}.model.Customer;
 import ${package}.util.DatabaseUtils;
-import com.github.openborders.wcomponents.Action;
-import com.github.openborders.wcomponents.ActionEvent;
-import com.github.openborders.wcomponents.WBeanContainer;
-import com.github.openborders.wcomponents.WButton;
-import com.github.openborders.wcomponents.WCancelButton;
-import com.github.openborders.wcomponents.WDateField;
-import com.github.openborders.wcomponents.WFieldLayout;
-import com.github.openborders.wcomponents.WFieldSet;
-import com.github.openborders.wcomponents.WMessages;
-import com.github.openborders.wcomponents.WPanel;
-import com.github.openborders.wcomponents.WTextField;
-import com.github.openborders.wcomponents.WebUtilities;
-import com.github.openborders.wcomponents.layout.BorderLayout;
-import com.github.openborders.wcomponents.validation.ValidatingAction;
+import com.github.bordertech.wcomponents.Action;
+import com.github.bordertech.wcomponents.ActionEvent;
+import com.github.bordertech.wcomponents.WBeanContainer;
+import com.github.bordertech.wcomponents.WButton;
+import com.github.bordertech.wcomponents.WCancelButton;
+import com.github.bordertech.wcomponents.WDateField;
+import com.github.bordertech.wcomponents.WFieldLayout;
+import com.github.bordertech.wcomponents.WFieldSet;
+import com.github.bordertech.wcomponents.WMessages;
+import com.github.bordertech.wcomponents.WPanel;
+import com.github.bordertech.wcomponents.WTextField;
+import com.github.bordertech.wcomponents.WebUtilities;
+import com.github.bordertech.wcomponents.layout.BorderLayout;
+import com.github.bordertech.wcomponents.validation.ValidatingAction;
 
 /**
  * This screen is used to edit customer details.

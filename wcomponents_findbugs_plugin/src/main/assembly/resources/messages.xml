@@ -2,7 +2,7 @@
 
 	<!-- Detectors -->
 
-	<Detector class="com.github.openborders.wcomponents.qa.findbugs.CheckComponentModelDefinition">
+	<Detector class="com.github.bordertech.wcomponents.qa.findbugs.CheckComponentModelDefinition">
 		<Details>
 			<![CDATA[
 			<p>This detector checks ComponentModel definitions.</p>
@@ -10,7 +10,7 @@
 		</Details>
 	</Detector>
 	
-	<Detector class="com.github.openborders.wcomponents.qa.findbugs.CheckGetComponentModel">
+	<Detector class="com.github.bordertech.wcomponents.qa.findbugs.CheckGetComponentModel">
 		<Details>
 			<![CDATA[
 			<p>This detector checks for incorrect use of WComponent's getComponentModel() and getOrCreateComponentModel() methods.</p>
@@ -18,7 +18,7 @@
 		</Details>
 	</Detector>
 
-	<Detector class="com.github.openborders.wcomponents.qa.findbugs.CheckWComponentFields">
+	<Detector class="com.github.bordertech.wcomponents.qa.findbugs.CheckWComponentFields">
 		<Details>
 			<![CDATA[
 			<p>This detector checks bad assignments to WComponent fields.</p>
