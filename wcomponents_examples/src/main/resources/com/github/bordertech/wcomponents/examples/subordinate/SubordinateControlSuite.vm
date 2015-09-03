@@ -1,0 +1,46 @@
+<h2>Subordinate</h2>
+
+<p>The WComponent <strong>com.github.bordertech.wcomponents.theme.subordinate.SubordinateControl</strong>
+  enables screen logic (in particular visibility) to be abstracted in such a way that
+  the logic can be executed by the UI framework either on the client browser or
+  web server side. By default, the logic is handled on the client side. The logic is
+  handed to the client side as a data structure which the Theme interprets.</p>
+  
+<p><em>A word of warning</em>
+ This control is likely to cause everyone a world of pain if it gets overused.
+ It is recommended that you use it only for simple situations. Overly complex
+ rules will become a major maintenance headache.</p>
+
+<p><b>The list of functions that are currently enabled:</b>
+<ul>
+ <li>And</li>
+ <li>Or</li>
+ <li>ComponentGroup + GroupDeclaration</li>
+ <li>Hide</li>
+ <li>Show</li>
+ <li>ShowInGroup</li>
+ <li>SimpleMatch</li>
+</ul>
+</p>
+
+<p>The <i>SubordinateControl</i> itself is not a visible component but it
+ must be added as a component somewhere within your application. To use it, supply
+ it with the <i>Function</i> objects that implement the screen logic.</p>
+
+<p>Eg.</p> 
+<pre class="code">
+   WCheckBox extraInfoRequired = new WCheckBox();
+   WTextField extraField = new WTextField();
+   add(extraInfoRequired);
+   add(extraField);
+        
+   SubordinateControl control = new SubordinateControl();
+   add(control);
+        
+   Rule rule;
+   rule = new Rule("Extra text required");
+   rule.setCondition(new SimpleMatch(extraInfoRequired, Boolean.TRUE.toString()));
+   rule.addActionOnTrue(new Show(extraField));
+   rule.addActionOnFalse(new Hide(extraField));
+   control.addRule(rule);
+</pre>

@@ -3,18 +3,18 @@ package ${package}.ui;
 import java.util.List;
 
 import ${package}.util.SecurityUtils;
-import com.github.openborders.wcomponents.Action;
-import com.github.openborders.wcomponents.ActionEvent;
-import com.github.openborders.wcomponents.WButton;
-import com.github.openborders.wcomponents.WFieldLayout;
-import com.github.openborders.wcomponents.WFieldSet;
-import com.github.openborders.wcomponents.WMessages;
-import com.github.openborders.wcomponents.WPanel;
-import com.github.openborders.wcomponents.WPasswordField;
-import com.github.openborders.wcomponents.WTextField;
-import com.github.openborders.wcomponents.layout.FlowLayout;
-import com.github.openborders.wcomponents.validation.Diagnostic;
-import com.github.openborders.wcomponents.validation.ValidatingAction;
+import com.github.bordertech.wcomponents.Action;
+import com.github.bordertech.wcomponents.ActionEvent;
+import com.github.bordertech.wcomponents.WButton;
+import com.github.bordertech.wcomponents.WFieldLayout;
+import com.github.bordertech.wcomponents.WFieldSet;
+import com.github.bordertech.wcomponents.WMessages;
+import com.github.bordertech.wcomponents.WPanel;
+import com.github.bordertech.wcomponents.WPasswordField;
+import com.github.bordertech.wcomponents.WTextField;
+import com.github.bordertech.wcomponents.layout.FlowLayout;
+import com.github.bordertech.wcomponents.validation.Diagnostic;
+import com.github.bordertech.wcomponents.validation.ValidatingAction;
 
 /**
  * An example application entry/login screen.

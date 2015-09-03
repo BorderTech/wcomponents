@@ -6,7 +6,7 @@
 	<artifactId>wcomponents_examples</artifactId>
 
 	<parent>
-		<groupId>com.github.openborders</groupId>
+		<groupId>com.github.bordertech</groupId>
 		<artifactId>wcomponents_parent</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
@@ -27,7 +27,7 @@
 				<activeByDefault>true</activeByDefault>
 			</activation>
 			<properties>
-				<excludedTestGroups>com.github.openborders.wcomponents.examples.SeleniumTests</excludedTestGroups>
+				<excludedTestGroups>com.github.bordertech.wcomponents.examples.SeleniumTests</excludedTestGroups>
 			</properties>
 			<build>
 				<plugins>
@@ -55,7 +55,7 @@
 	<dependencies>
 
 		<dependency>
-			<groupId>com.github.openborders</groupId>
+			<groupId>com.github.bordertech</groupId>
 			<artifactId>wcomponents</artifactId>
 			<version>${project.version}</version>
 		</dependency>
@@ -75,14 +75,14 @@
 		
 		<dependency>
 			<scope>test</scope>
-			<groupId>com.github.openborders</groupId>
+			<groupId>com.github.bordertech</groupId>
 			<artifactId>wcomponents_test_lib</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 
 		<dependency>
 			<scope>test</scope>
-			<groupId>com.github.openborders</groupId>
+			<groupId>com.github.bordertech</groupId>
 			<artifactId>wcomponents_theme</artifactId>
 			<version>${project.version}</version>
 		</dependency>
@@ -118,7 +118,7 @@
 				<configuration>
 					<excludedGroups>${excludedTestGroups}</excludedGroups>
 					<includes>
-						<include>com/github/openborders/wcomponents/examples/WComponent_Example_Suite.java</include>
+						<include>com/github/bordertech/wcomponents/examples/WComponent_Example_Suite.java</include>
 					</includes>
 				</configuration>
 			</plugin>
