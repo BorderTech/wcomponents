@@ -37,10 +37,10 @@ Run these commands to fetch the source and build:
 
 ## Running the Examples
 ### Running the executable jar file
-After following the steps above to build WComponents you may run the `wcomponents_examples_lde`
+After following the steps above to build WComponents you may run the `wcomponents-examples-lde`
 
-1. `cd wcomponents_examples_lde/target/`
-2. `java -jar wcomponents_examples_lde-VERSION-jar-with-dependencies.jar` (replace VERSION with the version you built, e.g. `1.0.0-SNAPSHOT`)
+1. `cd wcomponents-examples-lde/target/`
+2. `java -jar wcomponents-examples-lde-VERSION-jar-with-dependencies.jar` (replace VERSION with the version you built, e.g. `1.0.0-SNAPSHOT`)
 
 Note: you may also simply double-click the jar file.
 
@@ -49,5 +49,5 @@ The examples project is most easily run from the project view of your IDE.
 
 For example:
 
-1. Right click the `wcomponents_examples_lde` project.
+1. Right click the `wcomponents-examples-lde` project.
 2. Select the main class to run: `com.github.bordertech.wcomponents.exampleslde.PlainLauncherProxy`
