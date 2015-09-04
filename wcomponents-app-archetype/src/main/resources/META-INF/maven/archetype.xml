@@ -1,0 +1,38 @@
+<archetype xmlns="http://maven.apache.org/plugins/maven-archetype-plugin/archetype/2.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/plugins/maven-archetype-plugin/archetype/2.0.0 http://maven.apache.org/xsd/archetype-2.0.0.xsd" partial="true">
+  
+  <id>wcomponents-app-archetype</id>
+  
+  <sources>
+    <source>src\main\java\model\Address.java</source>
+    <source>src\main\java\model\Customer.java</source>
+    <source>src\main\java\servlet\MyAppServlet.java</source>
+    <source>src\main\java\ui\EditScreen.java</source>
+    <source>src\main\java\ui\LoginScreen.java</source>
+    <source>src\main\java\ui\MyApp.java</source>
+    <source>src\main\java\ui\NavigationBar.java</source>
+    <source>src\main\java\ui\SearchScreen.java</source>
+    <source>src\main\java\util\DatabaseUtils.java</source>
+    <source>src\main\java\util\SecurityUtils.java</source>
+  </sources>
+  
+  <resources>
+    <resource>src/main/webapp/WEB-INF/web.xml</resource>
+    <resource>example_local_app.properties</resource>
+    <resource>local_app.properties</resource>
+    <resource>src/main/resources/wcomponents-app.properties</resource>
+    <resource filtered="false">src/main/resources/icons/delete.png</resource>
+    <resource filtered="false">src/main/resources/icons/edit.png</resource>
+  </resources>
+  
+  <testSources>
+    <!--<source>src/test/java/AppTest.java</source>-->
+  </testSources>
+  
+  <testResources>
+  </testResources>
+  
+  <siteResources>
+  </siteResources>
+  
+</archetype>

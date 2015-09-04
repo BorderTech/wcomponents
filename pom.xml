@@ -2,10 +2,10 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
-	<name>wcomponents_parent</name>
+	<name>wcomponents-parent</name>
 
 	<groupId>com.github.bordertech</groupId>
-	<artifactId>wcomponents_parent</artifactId>
+	<artifactId>wcomponents-parent</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 
 	<packaging>pom</packaging>
@@ -222,7 +222,7 @@
 				<dependencies>
 					<dependency>
 						<groupId>com.github.bordertech</groupId>
-						<artifactId>wcomponents_sanity4j_plugin</artifactId>
+						<artifactId>wcomponents-sanity4j-plugin</artifactId>
 						<version>${project.version}</version>
 					</dependency>
 				</dependencies>
@@ -285,7 +285,7 @@
 					<taglet>com.github.bordertech.wcomponents.taglet.ExampleTaglet</taglet>
 					<tagletArtifact>
 						<groupId>com.github.bordertech</groupId>
-						<artifactId>wcomponent_build_tools</artifactId>
+						<artifactId>wcomponents-build-tools</artifactId>
 						<version>${project.version}</version>
 					</tagletArtifact>
 					<useStandardDocletOptions>true</useStandardDocletOptions>
@@ -307,17 +307,17 @@
 	</reporting>
 
 	<modules>
-		<module>wcomponents_app_archetype</module>
-		<module>wcomponents_build_tools</module>
-		<module>wcomponents_test_lib</module>
-		<module>wcomponents_lde</module>
-		<module>wcomponents_findbugs_plugin</module>
-		<module>wcomponents_sanity4j_plugin</module>
-		<module>wcomponents_examples_lde</module>
-		<module>wcomponents_examples</module>
-		<module>wcomponents</module>
-		<module>wcomponents_bundle</module>
-	 <module>wcomponents_theme_parent</module>
+	 <module>wcomponents-bundle</module>
+	 <module>wcomponents-app-archetype</module>
+	 <module>wcomponents-core</module>
+	 <module>wcomponents-build-tools</module>
+	 <module>wcomponents-examples</module>
+	 <module>wcomponents-examples-lde</module>
+	 <module>wcomponents-findbugs-plugin</module>
+	 <module>wcomponents-lde</module>
+	 <module>wcomponents-sanity4j-plugin</module>
+	 <module>wcomponents-test-lib</module>
+	 <module>wcomponents-theme-parent</module>
 	</modules>
 
 	<distributionManagement>

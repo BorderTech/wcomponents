@@ -1,0 +1,35 @@
+<!--
+	This produces a theme sources zip.
+	Simply remove this XML file to prevent the zip from being created.
+-->
+<assembly xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0 http://maven.apache.org/xsd/assembly-1.1.0.xsd">
+	<id>sources</id>
+	<includeBaseDirectory>false</includeBaseDirectory>
+	<baseDirectory>../</baseDirectory>
+	<formats>
+		<format>zip</format>
+	</formats>
+	<fileSets>
+		<fileSet>
+			<directory>../</directory>
+			<includes>
+				<include>wcomponents-theme/</include>
+				<include>products/**</include>
+			</includes>
+			<excludes>
+				<exclude>**/target/**</exclude>
+				<exclude>**/*.keep*</exclude>
+				<exclude>**/*.bak</exclude>
+				<exclude>**/*.contrib*</exclude>
+				<exclude>**/.settings/**</exclude>
+				<exclude>**/.*</exclude>
+				<exclude>**/nb-*</exclude>
+				<exclude>**/package.json</exclude>
+				<exclude>**/node/**</exclude>
+				<exclude>**/node_modules/**</exclude>
+			</excludes>
+		</fileSet>
+	</fileSets>
+</assembly>
