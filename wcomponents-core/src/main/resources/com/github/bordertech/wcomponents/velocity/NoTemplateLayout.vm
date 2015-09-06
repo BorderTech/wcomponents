@@ -1,0 +1,10 @@
+<table>
+	#foreach ($key in $context.getKeys())
+		#if ($key != "context")
+			<tr>
+				<td>$!key</td>
+				<td>$!{context.get($key).getClass().getName()}</td>
+			</tr>
+		#end
+	#end
+</table>

@@ -1,0 +1,2 @@
+## Simple hello world - invokes toString on the test object
+$!{VelocityComponent_Test_key}

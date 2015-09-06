@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+The XML schema for a WComponent page.
+
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
+	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0">
+
+	<xs:include schemaLocation="all.xsd" />
+	<xs:include schemaLocation="contentGroups.xsd" />
+
+	<xs:element name="root">
+		<xs:annotation>
+			<xs:documentation>This element has no WComponent Java equivalent. It is used as a wrapper for WComponents based applications to provide a single root element for multiple WApplications.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType mixed="true">
+			<xs:sequence>
+				<xs:group ref="ui:contentGroup" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element ref="ui:debug" minOccurs="0" maxOccurs="unbounded" />
+			</xs:sequence>
+			<xs:attribute name="title" type="xs:string" >
+				<xs:annotation>
+					<xs:documentation>The title for the page. This has accessibility implications.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="ajaxResponse">
+		<xs:annotation>
+			<xs:documentation>The root element of the response to an AJAX request.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="ajaxTarget" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Represents each targetted component in an ajax response.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType mixed="true">
+						<xs:group ref="ui:ajaxContentGroup" minOccurs="0" maxOccurs="unbounded" />
+						<xs:attribute name="id" type="xs:NMTOKEN" use="required">
+							<xs:annotation>
+								<xs:documentation>The component id of the target component.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="action" use="required">
+							<xs:annotation>
+								<xs:documentation>Indicates the client action to perform when the response is received.</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:NMTOKEN">
+									<xs:enumeration value="replace">
+										<xs:annotation>
+											<xs:documentation>Indicates that the target element identified by the @id attribute should be completely replaced with a new instance of that element which will be the single child of the ui:ajaxTarget element.</xs:documentation>
+										</xs:annotation>
+									</xs:enumeration>
+									<xs:enumeration value="replaceContent">
+										<xs:annotation>
+											<xs:documentation>Indicates that the target element identified by the @id attribute should have its content replaced with the child(ren) of the ui:ajaxTarget element.</xs:documentation>
+										</xs:annotation>
+									</xs:enumeration>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+				<xs:element ref="ui:debug" minOccurs="0" maxOccurs="unbounded" />
+			</xs:sequence>
+			<xs:attribute name="defaultFocusId" type="xs:NMTOKEN">
+				<xs:annotation>
+					<xs:documentation>Used to indicate that focus should be set to the component with id equivalent to the value of this attribute after the AJAX process is finished.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+
+XML schema for subordinate controls.
+
+-->
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0">
+
+	<xs:element name="subordinate">
+		<xs:annotation>
+			<xs:documentation>Subordinate controls define interactions between components in the client where a change to the state or value of one or more controls can be used to change the state of other components.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:group ref="ui:termGroup"/>
+				<xs:element name="onTrue" type="ui:onConditionType" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="onFalse" type="ui:onConditionType" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="id" type="xs:ID" use="required"/>		
+		</xs:complexType>
+	</xs:element>
+
+	<xs:complexType name="andType">
+		<xs:group ref="ui:termGroup" minOccurs="2" maxOccurs="unbounded"/>		
+	</xs:complexType>
+
+	<xs:complexType name="orType">
+		<xs:group ref="ui:termGroup" minOccurs="2" maxOccurs="unbounded"/>		
+	</xs:complexType>
+
+	<xs:complexType name="notType">
+		<xs:group ref="ui:termGroup" minOccurs="1" maxOccurs="1"/>		
+	</xs:complexType>
+
+	<xs:complexType name="conditionType">
+		<xs:attribute name="controller" type="xs:NMTOKEN" use="required"/>		
+		<xs:attribute name="value" type="xs:string" use="required"/>		
+		<!--  Defaults to "eq" if not provided. -->
+		<xs:attribute name="operator">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="eq"/>
+					<xs:enumeration value="ne"/>
+					<xs:enumeration value="lt"/>
+					<xs:enumeration value="le"/>
+					<xs:enumeration value="gt"/>
+					<xs:enumeration value="ge"/>
+					<xs:enumeration value="rx"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+
+	<xs:group name="termGroup">
+		<xs:choice>
+			<xs:element name="and" type="ui:andType" />
+			<xs:element name="or" type="ui:orType" />
+			<xs:element name="not" type="ui:notType" />
+			<xs:element name="condition" type="ui:conditionType" />
+		</xs:choice>
+	</xs:group>
+
+	<xs:complexType name="onConditionType">
+		<xs:sequence>
+			<xs:element name="target" minOccurs="1" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:attribute name="id" type="xs:NMTOKEN" />
+					<xs:attribute name="groupId" type="xs:NMTOKEN" />
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="action">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="show"/>
+					<xs:enumeration value="showIn"/>
+					<xs:enumeration value="hide"/>
+					<xs:enumeration value="hideIn"/>
+					<xs:enumeration value="enable"/>
+					<xs:enumeration value="enableIn"/>
+					<xs:enumeration value="disable"/>
+					<xs:enumeration value="disableIn"/>
+					<xs:enumeration value="optional"/>
+					<xs:enumeration value="mandatory"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+
+</xs:schema>

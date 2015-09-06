@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
+	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0">
+	<xs:include schemaLocation="attributeGroups.control.xsd" />
+	<xs:include schemaLocation="optgroup.xsd" />
+
+	<xs:element name="multiDropdown">
+		<xs:annotation>
+			<xs:documentation>
+				<p>WMultiDropdown represents a compound multi-selection device comprising an indeterminate number of single selection devices which do not individually allow for no
+					selection.</p>
+				<p>WMultiDropdown expects that the POSTed form data contains:</p>
+				<table>
+					<thead>
+						<tr>
+							<th>Field name</th>
+							<th>Type</th>
+							<th>Mandatory</th>
+							<th>Value</th>
+							<th>Notes</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>@id</td>
+							<td>String[]</td>
+							<td>no</td>
+							<td>the value of the selected option(s)</td>
+							<td>Note that whilst the value is not mandatory a value will always be POSTed for a WMultiDropdown unless the control has been externally
+								manipulated.</td>
+						</tr>
+						<tr>
+							<td>@id + "-h"</td>
+							<td>String</td>
+							<td>yes</td>
+							<td>"x"</td>
+							<td />
+						</tr>
+					</tbody>
+				</table>
+			</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:group ref="ui:option.with.group" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:attributeGroup ref="ui:selectList.attributes" />
+			<xs:attributeGroup ref="ui:multiSelect.constraints.attributes" />
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>

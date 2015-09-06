@@ -1,0 +1,20 @@
+<FindbugsPlugin
+	pluginid       ="WComponents"
+	defaultenabled ="true"
+	provider       ="https://github.com/bordertech/wcomponents/"
+	website        ="https://bordertech.github.io/">
+
+	<!-- Detectors -->
+	<Detector class="com.github.bordertech.wcomponents.qa.findbugs.CheckComponentModelDefinition" speed="fast" />
+	<Detector class="com.github.bordertech.wcomponents.qa.findbugs.CheckGetComponentModel" speed="fast" />
+	<Detector class="com.github.bordertech.wcomponents.qa.findbugs.CheckWComponentFields" speed="fast" />
+
+	<!-- Patterns -->
+	<BugPattern abbrev="WCGETM" type="WCGETM_INCORRECT_USE_OF_GETCOMPONENTMODEL" category="CORRECTNESS" />
+	<BugPattern abbrev="WCGETM" type="WCGETM_INCORRECT_USE_OF_GETORCREATECOMPONENTMODEL" category="CORRECTNESS" />
+	<BugPattern abbrev="WCCM" type="WCCM_NO_PUBLIC_CONSTRUCTOR" category="CORRECTNESS" />
+	<BugPattern abbrev="WCF" type="WCF_NON_FINAL_WCOMPONENT_FIELD" category="CORRECTNESS" />
+	<BugPattern abbrev="WCF" type="WCF_COMPONENT_MODEL_FIELD" category="CORRECTNESS" />
+	<BugPattern abbrev="WCF" type="WCF_UICONTEXT_FIELD" category="CORRECTNESS" />
+
+</FindbugsPlugin>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
+	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0">
+	<xs:include schemaLocation="attributeGroups.control.xsd" />
+
+	<xs:include schemaLocation="tab.xsd" />
+	<xs:include schemaLocation="separator.xsd" />
+	<xs:include schemaLocation="margin.xsd" />
+
+	<xs:element name="tabset">
+		<xs:annotation>
+			<xs:documentation>
+				<p>WTabSet represents a container for a series of tabs with their content and optional separators.</p>
+				<p>WTabSet expects that the POSTed form data contains:</p>
+				<table>
+					<thead>
+						<tr>
+							<th>Field name</th>
+							<th>Type</th>
+							<th>Mandatory</th>
+							<th>Value</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>@id</td>
+							<td>String</td>
+							<td>yes</td>
+							<td>Array of open/selected tabs indices (zero-based), or "" for no open tabs</td>
+						</tr>
+						<tr>
+							<td>@id + ".showHeadOnly"</td>
+							<td>String</td>
+							<td>no</td>
+							<td>"true" | "false"</td>
+						</tr>
+					</tbody>
+				</table>
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="ui:margin" minOccurs="0" />
+				<xs:choice maxOccurs="unbounded">
+					<xs:element ref="ui:tab" />
+					<xs:element name="tabGroup">
+						<xs:annotation>
+							<xs:documentation>Deprecated: do not use.</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element ref="ui:decoratedLabel" minOccurs="0" />
+								<xs:choice maxOccurs="unbounded">
+									<xs:element ref="ui:tab" />
+									<xs:element ref="ui:separator" />
+								</xs:choice>
+							</xs:sequence>
+							<xs:attribute name="id" use="required" type="xs:ID" />
+							<xs:attribute name="disabled" type="xs:boolean" />
+						</xs:complexType>
+					</xs:element>
+					<xs:element ref="ui:separator" />
+				</xs:choice>
+			</xs:sequence>
+			<xs:attributeGroup ref="ui:interaction.attributes" />
+
+			<xs:attribute name="type" use="required">
+				<xs:annotation>
+					<xs:documentation>Indicates the layout and interaction type of the tab set. The actual interpretation of this attribute is theme dependant.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="left" />
+						<xs:enumeration value="right" />
+						<xs:enumeration value="top" />
+						<xs:enumeration value="accordion" />
+						<xs:enumeration value="application" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="single" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Indicates an accordion should only open one tab at a time.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<!-- Used by application tab set to only show the "head" part of the each tab's decorated label. -->
+			<xs:attribute name="showHeadOnly" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Deprecated: do not use.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="contentHeight" type="xs:token">
+				<xs:annotation>
+					<xs:documentation>Indicates the height of the content box for the tab content for all tabs in this tabset. If any tab's content exceeds this height it will
+						provide a scroll mechanism for that tab's content. If not set then th eheight of the tab content is determined by the user agent so as to display all
+						content without scrolling.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>

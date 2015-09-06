@@ -1,0 +1,26 @@
+.javaSourceKeyword,
+.javaSourceComment,
+.javaSourceJavadoc,
+.javaSourceString,
+.javaSourceText
+{
+	font:12px/1.25 monospace;
+	white-space:pre;
+}
+
+span.javaSourceKeyword {
+	color: blue;
+	font-weight: bold;
+}
+
+span.javaSourceComment {
+	color: green;
+}
+
+span.javaSourceJavadoc {
+	color: gray;
+}
+
+span.javaSourceString {
+	color: red;
+}

@@ -1,0 +1,163 @@
+<MessageCollection>
+
+	<!-- Detectors -->
+
+	<Detector class="com.github.bordertech.wcomponents.qa.findbugs.CheckComponentModelDefinition">
+		<Details>
+			<![CDATA[
+			<p>This detector checks ComponentModel definitions.</p>
+			]]>
+		</Details>
+	</Detector>
+	
+	<Detector class="com.github.bordertech.wcomponents.qa.findbugs.CheckGetComponentModel">
+		<Details>
+			<![CDATA[
+			<p>This detector checks for incorrect use of WComponent's getComponentModel() and getOrCreateComponentModel() methods.</p>
+			]]>
+		</Details>
+	</Detector>
+
+	<Detector class="com.github.bordertech.wcomponents.qa.findbugs.CheckWComponentFields">
+		<Details>
+			<![CDATA[
+			<p>This detector checks bad assignments to WComponent fields.</p>
+			]]>
+		</Details>
+	</Detector>
+	
+	<!-- Bug codes -->
+
+	<BugCode abbrev="WCCM">WComponent ComponentModel definition</BugCode>
+	<BugCode abbrev="WCGETM">WComponent ComponentModel access</BugCode>
+	<BugCode abbrev="WCF">WComponent fields</BugCode>
+
+	<!-- Bug patterns -->
+
+	<BugPattern type="WCF_NON_FINAL_WCOMPONENT_FIELD">
+		<ShortDescription>Bad definition of WComponent field.</ShortDescription>
+		<LongDescription>Bad definition of WComponent field {1}</LongDescription>
+		<Details>
+			<![CDATA[
+			<p>A bad definition of a WComponent instance field was detected.
+			</p>
+			<p>
+			Developers that are new to WComponents often create their own WComponents without
+			understanding that a single instance of their component will be shared by many user sessions.
+			Any state information must be stored in a ComponentModel rather than inside a WComponent. 
+			Storing state information inside a WComponent will cause it to leak across to other users.
+			</p>
+			<p>
+			If the field only stores the initial state of the component, and is set from the constructor,
+			it should be marked private + final.
+			</p>
+
+			<pre>
+			public class Example extends WPanel
+			{
+				private String customerId;      // Potentially unsafe field definition
+				private final boolean readOnly; // Acceptable field definition
+
+				public Example(boolean readOnly)
+				{
+					this.readOnly = readOnly;
+				}
+
+				public void setCustomerId(String customerId)
+				{
+					// Bad - could affect multiple users.
+					this.customerId = customerId;
+				}
+				
+				//
+			}
+			</pre>
+			]]>
+		</Details>
+	</BugPattern>
+	
+	<BugPattern type="WCCM_NO_PUBLIC_CONSTRUCTOR">
+		<ShortDescription>No public ComponentModel constructor.</ShortDescription>
+		<LongDescription>No public ComponentModel constructor for {0}</LongDescription>
+		<Details>
+			<![CDATA[
+			<p>ComponentModel subclasses must have a publicly available no-args constructor.
+			</p>
+			ComponentModel subclass must:
+			<ul>
+				<li>be marked as public</li>
+				<li>either not define a constructor, or define a public no-args constructor<li>
+				<li>is marked as static if it is an inner class</li>
+			</ul>
+			<p>
+			</p>
+			]]>
+		</Details>
+	</BugPattern>
+	
+	<BugPattern type="WCGETM_INCORRECT_USE_OF_GETCOMPONENTMODEL">
+		<ShortDescription>Incorrect use of getComponentModel()</ShortDescription>
+		<LongDescription>Incorrect use of getComponentModel() in {1}</LongDescription>
+		<Details>
+			<![CDATA[
+			<p>The ComponentModel instance returned by getComponentModel() must not be modified.
+			</p>
+			<p>
+			The getComponentModel() method may return a reference to the shared model. If the shared
+			model is updated, the changes will leak across to other users. The getOrCreateComponentModel()
+			method must be used to obtain a model which is used for updating.
+			</p>
+			]]>
+		</Details>
+	</BugPattern>
+	
+	<BugPattern type="WCGETM_INCORRECT_USE_OF_GETORCREATECOMPONENTMODEL">
+		<ShortDescription>Incorrect use of getOrCreateComponentModel()</ShortDescription>
+		<LongDescription>Incorrect use of getOrCreateComponentModel() in {1}</LongDescription>
+		<Details>
+			<![CDATA[
+			<p>The ComponentModel instance returned by getOrCreateComponentModel() should only be used for updates.
+			</p>
+			<p>
+			A possible read-only use of a model returned by getOrCreateComponentModel() was detected.
+			If the model is not being modified, consider using the getComponentModel() method instead,
+			as it is far more efficient for read-only access.
+			</p>
+			]]>
+		</Details>
+	</BugPattern>
+	
+	<BugPattern type="WCF_COMPONENT_MODEL_FIELD">
+		<ShortDescription>Unsafe ComponentModel field</ShortDescription>
+		<LongDescription>Unsafe ComponentModel field {1}</LongDescription>
+		<Details>
+			<![CDATA[
+			<p>Do not store references to ComponentModel instances.
+			</p>
+			<p>
+			Keeping references to ComponentModels, especially in a WComponent, is not
+			thread-safe.  If you need to use the ComponentModel in another method,
+			pass it as a method parameter. Note that redundant user component models
+			(those which match the default model) are cleaned up after each request.
+			</p>
+			]]>
+		</Details>
+	</BugPattern>
+	
+	<BugPattern type="WCF_UICONTEXT_FIELD">
+		<ShortDescription>Unsafe UIContext field</ShortDescription>
+		<LongDescription>Unsafe UIContext field {1}</LongDescription>
+		<Details>
+			<![CDATA[
+			<p>Do not store references to UIContext instances.
+			</p>
+			<p>
+			Keeping references to UIContexts, especially in a WComponent, is not
+			thread-safe.  If you need to use the UIContext in another method,
+			pass it as a method parameter.
+			</p>
+			]]>
+		</Details>
+	</BugPattern>
+
+</MessageCollection>

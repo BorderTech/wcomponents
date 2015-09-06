@@ -1,0 +1,161 @@
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+	<xsl:import href="wc.common.ajax.xsl"/>
+	<xsl:import href="wc.common.attributeSets.xsl"/>
+	<xsl:import href="wc.common.listSortControls.xsl"/>
+	<xsl:import href="wc.ui.multiSelectPair.n.multiSelectPairButton.xsl"/>
+	<xsl:import href="wc.common.makeLegend.xsl"/>
+	<xsl:output method="html" doctype-public="XSLT-compat" encoding="UTF-8" indent="no" omit-xml-declaration="yes"/>
+	<xsl:strip-space elements="*"/>
+	<!--
+		Transform for WMultiSelectPair. This component is a mechanism to select 0 or
+		more options from a list. It is presented in a way which puts two lists side by
+		side with a means to move selected options from one to the other (and deselect
+		by moving back again).
+
+		When read only the component outputs a simple unordered list of selected
+		options.
+
+		Otherwise the component outputs a fieldset containing three select elements,
+		one of which is hidden and used as a reference of option order; a set of
+		buttons to move options between the visible lists; and optionally a set of
+		buttons to change the order of selected options.
+	-->
+	<xsl:template match="ui:multiSelectPair">
+		<xsl:variable name="id">
+			<xsl:value-of select="@id"/>
+		</xsl:variable>
+		<xsl:variable name="readOnly">
+			<xsl:if test="@readOnly">
+				<xsl:number value="1"/>
+			</xsl:if>
+		</xsl:variable>
+		<xsl:variable name="size">
+			<xsl:choose>
+				<xsl:when test="@size">
+					<xsl:value-of select="@size"/>
+				</xsl:when>
+				<xsl:otherwise>7</xsl:otherwise><!-- 7 is usually big enough to be around the same size as the buttons -->
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:variable name="isError" select="key('errorKey',$id)"/>
+		<xsl:variable name="myLabel" select="key('labelKey',$id)[1]"/>
+		<xsl:variable name="element">
+			<xsl:choose>
+				<xsl:when test="$readOnly=1">div</xsl:when>
+				<xsl:otherwise>fieldset</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:element name="{$element}">
+			<xsl:call-template name="commonWrapperAttributes">
+				<xsl:with-param name="isError" select="$isError"/>
+				<xsl:with-param name="isControl">
+					<xsl:choose>
+						<xsl:when test="$readOnly=1">
+							<xsl:number value="0"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:number value="1"/>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:with-param>
+				<xsl:with-param name="myLabel" select="$myLabel"/>
+			</xsl:call-template>
+			<xsl:choose>
+				<xsl:when test="$readOnly!=1">
+					<xsl:if test="@min">
+						<xsl:attribute name="${wc.common.attrib.min}">
+							<xsl:value-of select="@min"/>
+						</xsl:attribute>
+					</xsl:if>
+					<xsl:if test="@max">
+						<xsl:attribute name="${wc.common.attrib.max}">
+							<xsl:value-of select="@max"/>
+						</xsl:attribute>
+					</xsl:if>
+					<xsl:call-template name="makeLegend">
+						<xsl:with-param name="myLabel" select="$myLabel"/>
+					</xsl:call-template>
+
+					<!-- AVAILABLE LIST -->
+					<xsl:variable name="availId" select="concat($id, '${wc.ui.multiSelectPair.id.suffix.available}')"/>
+					<span>
+						<label for="{$availId}">
+							<xsl:value-of select="@fromListName"/>
+						</label>
+						<!--<xsl:element name="br"/>-->
+						<select id="{$availId}" multiple="multiple" class="wc_msp_av" size="{$size}">
+							<xsl:call-template name="disabledElement">
+								<xsl:with-param name="isControl" select="1"/>
+							</xsl:call-template>
+							<xsl:apply-templates select="ui:option[not(@selected)]|ui:optgroup[ui:option[not(@selected)]]" mode="multiselectPair">
+								<xsl:with-param name="applyWhich" select="'unselected'"/>
+							</xsl:apply-templates>
+						</select>
+					</span>
+					<!-- BUTTONS -->
+					<span class="wc_msp_btncol">
+						<xsl:call-template name="multiSelectPairButton">
+							<xsl:with-param name="value" select="'add'"/>
+							<xsl:with-param name="buttonText" select="$$${wc.ui.multiSelectPair.i18n.button.add}"/>
+						</xsl:call-template>
+						<xsl:call-template name="multiSelectPairButton">
+							<xsl:with-param name="value" select="'aall'"/>
+							<xsl:with-param name="buttonText" select="$$${wc.ui.multiSelectPair.i18n.button.addAll}"/>
+						</xsl:call-template>
+						<xsl:call-template name="multiSelectPairButton">
+							<xsl:with-param name="value" select="'rem'"/>
+							<xsl:with-param name="buttonText" select="$$${wc.ui.multiSelectPair.i18n.button.remove}"/>
+						</xsl:call-template>
+						<xsl:call-template name="multiSelectPairButton">
+							<xsl:with-param name="value" select="'rall'"/>
+							<xsl:with-param name="buttonText" select="$$${wc.ui.multiSelectPair.i18n.button.removeAll}"/>
+						</xsl:call-template>
+					</span>
+					<!-- SELECTED LIST -->
+					<xsl:variable name="toId">
+						<xsl:value-of select="concat($id, '${wc.ui.multiSelectPair.id.suffix.selected}')"/>
+					</xsl:variable>
+					<span>
+						<label for="{$toId}">
+							<xsl:value-of select="@toListName"/>
+						</label>
+						<!--<xsl:element name="br"/>-->
+						<select id="{$toId}" multiple="multiple" class="wc_msp_chos" size="{$size}">
+							<xsl:call-template name="disabledElement">
+								<xsl:with-param name="isControl" select="1"/>
+							</xsl:call-template>
+							<xsl:apply-templates select="ui:option[@selected]|ui:optgroup[ui:option[@selected]]" mode="multiselectPair">
+								<xsl:with-param name="applyWhich" select="'selected'"/>
+							</xsl:apply-templates>
+						</select>
+					</span>
+					<xsl:if test="@shuffle">
+						<xsl:call-template name="listSortControls">
+							<xsl:with-param name="id" select="$toId"/>
+						</xsl:call-template>
+					</xsl:if>
+					<select multiple="multiple" class="wc_msp_order" hidden="hidden">
+						<xsl:call-template name="disabledElement">
+							<xsl:with-param name="isControl" select="1"/>
+						</xsl:call-template>
+						<xsl:apply-templates mode="multiselectPair"/>
+					</select>
+					<xsl:call-template name="hField"/>
+				</xsl:when>
+				<xsl:when test="count(.//ui:option[@selected]) &gt; 0">
+					<ul class="wc_list_nb">
+						<xsl:apply-templates select="ui:option[@selected]|ui:optgroup[ui:option[@selected]]" mode="multiselectPair">
+							<xsl:with-param name="readOnly" select="1"/>
+							<xsl:with-param name="applyWhich" select="'selected'"/>
+						</xsl:apply-templates>
+					</ul>
+				</xsl:when>
+			</xsl:choose>
+			<xsl:if test="$readOnly!=1">
+				<xsl:call-template name="inlineError">
+					<xsl:with-param name="errors" select="$isError"/>
+				</xsl:call-template>
+			</xsl:if>
+		</xsl:element>
+	</xsl:template>
+</xsl:stylesheet>

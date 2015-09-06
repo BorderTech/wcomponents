@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
+	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0">
+	<xs:include schemaLocation="attributeGroups.control.xsd" />
+	<xs:include schemaLocation="attributeGroups.common.xsd" />
+	<xs:include schemaLocation="contentGroups.xsd" />
+
+	<xs:include schemaLocation="decoratedLabel.xsd" />
+	<xs:include schemaLocation="margin.xsd" />
+
+	<xs:element name="fieldSet">
+		<xs:annotation>
+			<xs:documentation>WFieldSet provides a mechanism to group a set of input components into a semantic unit.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="ui:margin" minOccurs="0" />
+
+				<xs:element ref="ui:decoratedLabel">
+					<xs:annotation>
+						<xs:documentation>The label for the fieldset. It should contain a human readable indication of the purpose and/or content of the
+							fieldset.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+
+				<xs:element name="content">
+					<xs:annotation>
+						<xs:documentation>The content of a fieldset should include at least one interactive form control component.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType mixed="true">
+						<xs:sequence>
+							<xs:group ref="ui:contentGroup" minOccurs="0" maxOccurs="unbounded" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			
+			<xs:attribute name="id" type="xs:ID" use="required">
+				<xs:annotation>
+					<xs:documentation>The unique identifier for the component.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			
+			<xs:attribute name="hidden" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>The component will be in a hidden state if "true". Not output if "false".</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			
+			<xs:attributeGroup ref="ui:accesskey.attributes" />
+			
+			<xs:attribute name="required" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>The fieldset will require completion of at least one nested component if "true". Not output if "false".</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			
+			<xs:attribute name="frame">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="noborder"/>
+						<xs:enumeration value="notext"/>
+						<xs:enumeration value="none"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

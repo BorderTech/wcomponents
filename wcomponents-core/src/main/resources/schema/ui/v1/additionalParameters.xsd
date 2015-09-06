@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+XML schema for additionalParameters (WireOut).
+
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0">
+	<xs:element name="additionalParameters">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="param" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:attribute name="key" type="xs:string" use="required"/>
+						<xs:attribute name="value" type="xs:string" use="required"/>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="for" type="xs:NMTOKEN" use="required"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

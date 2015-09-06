@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 [![Build Status](https://travis-ci.org/DIBP/wcomponents.svg?branch=master)](https://travis-ci.org/DIBP/wcomponents)
+=======
+[![Build Status](https://travis-ci.org/BorderTech/wcomponents.svg?branch=master)](https://travis-ci.org/BorderTech/wcomponents)
+>>>>>>> origin/release2
 # wcomponents
 Accessible Web UI Framework for Enterprise
 
@@ -31,16 +35,20 @@ If you wish to build WComponents you will need [Apache Maven](https://maven.apac
 
 Run these commands to fetch the source and build:
 
+<<<<<<< HEAD
 1. `git clone https://github.com/dibp/wcomponents.git`
+=======
+1. `git clone https://github.com/bordertech/wcomponents.git`
+>>>>>>> origin/release2
 2. `cd wcomponents`
 3. `mvn install`
 
 ## Running the Examples
 ### Running the executable jar file
-After following the steps above to build WComponents you may run the `wcomponents_examples_lde`
+After following the steps above to build WComponents you may run the `wcomponents-examples-lde`
 
-1. `cd wcomponents_examples_lde/target/`
-2. `java -jar wcomponents_examples_lde-VERSION-jar-with-dependencies.jar` (replace VERSION with the version you built, e.g. `1.0.0-SNAPSHOT`)
+1. `cd wcomponents-examples-lde/target/`
+2. `java -jar wcomponents-examples-lde-VERSION-jar-with-dependencies.jar` (replace VERSION with the version you built, e.g. `1.0.0-SNAPSHOT`)
 
 Note: you may also simply double-click the jar file.
 
@@ -49,5 +57,10 @@ The examples project is most easily run from the project view of your IDE.
 
 For example:
 
+<<<<<<< HEAD
 1. Right click the `wcomponents_examples_lde` project.
 2. Select the main class to run: `com.github.dibp.wcomponents.exampleslde.PlainLauncherProxy`
+=======
+1. Right click the `wcomponents-examples-lde` project.
+2. Select the main class to run: `com.github.bordertech.wcomponents.exampleslde.PlainLauncherProxy`
+>>>>>>> origin/release2

@@ -1,0 +1,7 @@
+<p>
+This example demonstrates the use of the "forward" feature.
+<p>
+</p>
+Enter a URL in the entry field and then press the Forward button to go to that url.
+</p>
+URL: $urlField $forwardBtn

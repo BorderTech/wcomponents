@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+	targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
+	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0">
+	<xs:include schemaLocation="attributeGroups.control.xsd"/>
+	<xs:element name="textArea">
+		<xs:annotation>
+			<xs:documentation>
+				<p>WTextArea represents an input for multi-line text.</p>
+				<p>WTextArea expects that the POSTed form data contains:</p>
+				<table>
+					<thead>
+						<tr>
+							<th>Field name</th>
+							<th>Type</th>
+							<th>Mandatory</th>
+							<th>Value</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>@id</td>
+							<td>String</td>
+							<td>yes</td>
+							<td>value</td>
+						</tr>
+					</tbody>
+				</table>
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType mixed="true">
+			<xs:sequence>
+				<xs:element name="rtf" type="xs:string" minOccurs="0" maxOccurs="1"/>
+			</xs:sequence>
+			<xs:attributeGroup ref="ui:submitting.input.attributes"/>
+			<xs:attribute name="minLength" type="xs:positiveInteger">
+				<xs:annotation>
+					<xs:documentation>Indicates the minimum number of characters which represents valid input <em>if any content is entered at all</em>.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="maxLength" type="xs:positiveInteger">
+				<xs:annotation>
+					<xs:documentation>Indicates the maximum number of characters which represents valid input.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="rows" type="xs:positiveInteger">
+				<xs:annotation>
+					<xs:documentation>Defines the vertical size of the text area element in units determined by the user agent (usually lines of text). If not set then the user agent will determine the height of the component.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="cols" type="xs:positiveInteger">
+				<xs:annotation>
+					<xs:documentation>Defines the horizontal size of the text area element in units determined by the user agent (not necessarily characters or ems). If not set then the user agent will determine the width of the component.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0">
+	<xs:element name="redirect" >
+		<xs:annotation>
+			<xs:documentation>WRedirect is used to request that the browser automatically redirect the user to a new URL in the current window.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="url" type="xs:anyURI" use="required">
+				<xs:annotation>
+					<xs:documentation>The target url of the redirection request.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

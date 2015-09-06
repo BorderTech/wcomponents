@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
+	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0">
+	<xs:include schemaLocation="attributeGroups.button.xsd" />
+
+	<xs:include schemaLocation="decoratedLabel.xsd" />
+	<xs:include schemaLocation="menuItem.xsd" />
+	<xs:include schemaLocation="menuGroup.xsd" />
+	<xs:include schemaLocation="separator.xsd" />
+
+	<xs:element name="submenu">
+
+		<xs:annotation>
+			<xs:documentation>
+				<p>WSubMenu provides a grouping mechanism for a set of items with in a WMenu where those items have an intrinsic sematic group nature. In practice a submenu is a
+					hideable set of items which is indicated by a label and interacting with the label toggles the hidden state of the submenu's content.</p>
+				<p>WSubMenu expects that the POSTed form data contains:</p>
+				<table>
+					<thead>
+						<tr>
+							<th>Field name</th>
+							<th>Type</th>
+							<th>Mandatory</th>
+							<th>Value</th>
+							<th>Notes</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>@id</td>
+							<td>String</td>
+							<td>no</td>
+							<td>"x"</td>
+							<td>Value POSTed only if the WSubMenu is the item causing the form submission (using mode server or as AJAX).</td>
+						</tr>
+						<tr>
+							<td>@id.open</td>
+							<td>Boolean</td>
+							<td>no</td>
+							<td> </td>
+							<td>"true" if open, null or "false" if closed.</td>
+						</tr>
+						<tr>
+							<td>@id.selected</td>
+							<td>String</td>
+							<td>no</td>
+							<td>"x"</td>
+							<td>Value POSTed only if the WSubMenu is in the selected state.</td>
+						</tr>
+					</tbody>
+				</table>
+				<p><strong>Note:</strong> WSubMenu expect its parent Menu to put the "-h" parameter in the request to indicate the sub-menu and its items have been included in the
+					request.</p></xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="ui:decoratedLabel" />
+				<xs:element name="content">
+					<xs:annotation>
+						<xs:documentation>Container for the items within the sub menu.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:choice minOccurs="0" maxOccurs="unbounded">
+							<xs:group ref="ui:menuComponentGroup" />
+							<xs:element ref="ui:menuGroup" />
+						</xs:choice>
+						<xs:attribute name="id" use="required" type="xs:ID">
+							<xs:annotation>
+								<xs:documentation>The unique identifier for the sub menu.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+
+			<xs:attributeGroup ref="ui:button.attributes">
+				<xs:annotation>
+					<xs:documentation><strong>NOTE:</strong> attribute @toolTip is not implemented before WComponents 14.</xs:documentation>
+				</xs:annotation>
+			</xs:attributeGroup>
+
+			<xs:attribute name="open" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>True indicates the sub menu is to be rendered as open. Not output if false. Only supported if the nearest ancestor menu has @type set to
+						"tree"</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+
+			<xs:attribute name="selectable" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Indicates that the sub menu may be selected as an entity separate from its contained components. Explicitly output if explicitly set "false"
+						to override a parent component's selectMode.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="selected" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>indicates that the submenu is selected. Not output if "false".</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+
+			<xs:attributeGroup ref="ui:ajax.mode.attributes" />
+
+
+			<xs:attribute name="selectMode">
+				<xs:annotation>
+					<xs:documentation>Indicates that the items in the menu may be "selected". If not present then "none" is implied. The selectMode applies <strong>only</strong> to
+						the menu items in this submenu and is able to be overridden in a submenu's submenu[s] unless the menu @type is tree. Selection is additive with navigation
+						and command invocation.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="none">
+							<xs:annotation>
+								<xs:documentation>Indicates that selection is not supported. This is the default if not set.</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="single">
+							<xs:annotation>
+								<xs:documentation>Indicates that selection is exclusive and when selecting any selectable child node any previously selected nodes will be
+									deselected. This is analogous to a group of radio buttons.</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="multiple">
+							<xs:annotation>
+								<xs:documentation>Indicates that selection is not exclusive and when selecting any selectable child node any previously selected nodes will remain
+									selected. This is analogous to a group of check boxes.</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>

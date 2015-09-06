@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl"  href="../${xslt.target.dir.name}/${xslt.target.file.name}${debug.target.file.name.suffix}.xsl?build=${build.number}&amp;theme=${implementation.name}"?>
+<ui:root title="preload" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.w3.org/1999/xhtml" xmlns:html="http://www.w3.org/1999/xhtml">
+	<!--
+    ###########################################################################
+    #                                                                         #
+    # DO NOT PROVIDE A DIRECT LINK TO THIS FILE!                              #
+    #                                                                         #
+    #                                                                         #
+    #                             REALLY                                      #
+    #                                                                         #
+    # 						   JUST DON'T!!!                                  #
+    #                                                                         #
+    ###########################################################################
+    
+    The purpose of this file is to allow framework resources to be preloaded.
+    
+    This could be useful if you have a static landing page that users spend some time on
+    before they reach the web app itself. By the time they reach the web app hopefully
+    all the framework resources are already cached and the user will get better performance.
+    
+    This page should be loaded:
+    - In a hidden iframe
+    - At the bottom of the page	
+	
+	e.g.
+
+	<body>
+		... PAGE CONTENT HERE ...
+		<iframe src="preload.xml?cacheBuster" style="display:none">
+			<p>This iframe is present to preload framework resources.</p>
+		</iframe>
+	</body>
+	
+	NOTE: It is important that the cache buster querystring matches that used when the web app
+	loads the framework otherwise this will be a waste of time and bandwidth.
+	
+	To prevent getting stale framework resources it is probably best to ensure that this file
+	is not cached indefinately.
+	
+	If bandwidth is a major issue this comment should be removed :D
+	
+	
+	-->
+</ui:root>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0">
+	<xs:element name="debug">
+		<xs:annotation>
+			<xs:documentation>The debug element is used to provide the client with additional information which may be 
+				useful for developers to perform debugging. It should only be emitted by the server when the 
+				ui:application's debug flag is set to true. The theme is free to present the debug information in any 
+				form that it deems appropriate.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="debugInfo" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>The debugInfo element is used to provide the client with debugging information for a particular component.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="debugDetail" minOccurs="1" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>The debugDetail element is used to provide a specific piece of debug data as a key value pair pertinent to the component described by the debugInfo.</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:attribute name="key" type="xs:string" use="required"/>		
+									<xs:attribute name="value" type="xs:string" use="required"/>		
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						
+						<xs:attribute name="for" type="xs:NMTOKEN" use="required">
+							<xs:annotation>
+								<xs:documentation>The id of the WComponent described by the debugInfo.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>	
+						
+						<xs:attribute name="class" type="xs:string" use="required">
+							<xs:annotation>
+								<xs:documentation>The Java Class instantiating the component described by the debugInfo.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						
+						<xs:attribute name="type" type="xs:string">
+							<xs:annotation>
+								<xs:documentation>The WComponent class from which the instantiating class was derived.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>	
+</xs:schema>

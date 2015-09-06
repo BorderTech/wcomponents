@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
+	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0">
+
+	<xs:include schemaLocation="attributeGroups.button.xsd" />
+	<xs:include schemaLocation="decoratedLabel.xsd" />
+	<xs:include schemaLocation="mixedContentWithId.xsd" />
+
+	<xs:element name="tab">
+		<xs:complexType>
+			<xs:annotation>
+				<xs:documentation>WTab represents one piece of coherent, hideable content in a WTabSet and the component which both labels the content and provides the user with a
+					means to toggle the open state of the content.</xs:documentation>
+			</xs:annotation>
+			<xs:sequence>
+				<xs:element ref="ui:decoratedLabel" />
+				<xs:element name="tabContent" type="ui:mixedContentWithId">
+					<xs:annotation>
+						<xs:documentation>If tabContent is omitted, then this is a server-side tab.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+			<xs:attributeGroup ref="ui:button.attributes">
+				<xs:annotation>
+					<xs:documentation>NOTE: attribute toolTip is not implemented before WComponents 14.</xs:documentation>
+				</xs:annotation>
+			</xs:attributeGroup>
+			<xs:attribute name="open" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>True indicates the tab is to be rendered as open. Not output if false. Setting open on a tab requests that it be rendered in the open state
+						when first loaded. For left, right and top tabsets, only one tab should be open. For accordion tabsets, more than one tab may be open.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attributeGroup ref="ui:ajax.mode.attributes" />
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
+	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0">
+	<xs:include schemaLocation="attributeGroups.container.xsd" />
+	<xs:include schemaLocation="contentGroups.xsd" />
+
+	<xs:element name="label">
+		<xs:annotation>
+			<xs:documentation>WLabel provides a means to label data input components and can be used to provide semantically linked descriptions to other
+				components.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType mixed="true">
+			<xs:sequence>
+				<xs:group ref="ui:contentGroup" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>A label must always contain a perceptible indication of the purpose and use of the labelled component. This should be done using plain
+							text where possible. There are complex restrictions on the allowed content of a WLabel which relate not only to the HTML5 soecification and
+							accessibility guidelines for labels but also to the type of component being labelled. For this reason it is <strong>strongly recommended</strong> that a
+							WLabel contain only text unless absolutely essential that it contain something else..</xs:documentation>
+					</xs:annotation>
+				</xs:group>
+			</xs:sequence>
+			<xs:attributeGroup ref="ui:container.key.attributes" />
+
+			<xs:attribute name="for" type="xs:NMTOKEN">
+				<xs:annotation>
+					<xs:documentation>The id of the labelled component. This is not an xs:IDREF because the label may be in an ajax response without its control or the labelled control may not be output or have an ID (such as WText).</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+
+			<xs:attribute name="hint" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Further explanatory text which can be appended to the label and allows for a different output rendering. Used for secondary information which
+						gives context to a component such as a human readable version of constraints on input.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+
+			<xs:attribute name="toolTip" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Provides a mechanism to provide additional information to a label. Should be avoided as it poses significant usability and accessibility
+						issues: use hint instead.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+
+			<xs:attribute name="accessibleText" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Deprecated: do not use.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

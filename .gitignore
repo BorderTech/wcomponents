@@ -1,15 +1,15 @@
 ### WComponents ###
-wcomponents_theme/node/
-wcomponents_theme/package.json
-wcomponents_theme/README.md
-wcomponents_theme/jsdoc.json
-wcomponents_theme/.npmrc
-wcomponents_theme/bin/
+wcomponents-theme/node/
+wcomponents-theme/package.json
+wcomponents-theme/README.md
+wcomponents-theme/jsdoc.json
+wcomponents-theme/.npmrc
+wcomponents-theme/bin/
 *.dat
 SerializeText.txt
 junit-frames.xsl
 local_app.properties
-!wcomponents_app_archetype/src/main/resources/archetype-resources/local_app.properties
+!wcomponents-app-archetype/src/main/resources/archetype-resources/local_app.properties
 
 ### Maven ###
 target/

@@ -1,0 +1,6 @@
+<FindBugsFilter>
+	<Match>
+		<!-- only analyse classes in the com.github.bordertech.wcomponents. package hierarchy -->
+		<Package name="~com\.github\.bordertech\.wcomponents\..*" />
+	</Match>
+</FindBugsFilter>

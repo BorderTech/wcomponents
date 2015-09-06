@@ -1,0 +1,22 @@
+	Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Praesent lectus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Phasellus et turpis. Aenean convallis eleifend elit. Donec venenatis justo id nunc. Sed at purus vel quam mattis elementum. Sed ultrices lobortis orci. Pellentesque enim urna, volutpat at, sagittis id, faucibus sed, lectus. Integer dapibus nulla semper mi. Nunc posuere molestie augue. Aliquam varius libero in tortor. Sed nibh. Nunc erat nunc, pellentesque at, sodales vel, dapibus sit amet, tortor. 
+	<br/>
+#if ($this.Size >= 2)
+	<br/>
+	Pellentesque ut lorem. Nulla imperdiet arcu vitae tellus. Fusce nonummy nibh nec risus. Sed eu enim. Donec varius. Fusce imperdiet tempus dui. Mauris sodales luctus est. Etiam ante lectus, nonummy at, malesuada sit amet, cursus eget, ipsum. Fusce nec quam sit amet enim pretium ultricies. Praesent placerat. Mauris enim nulla, sollicitudin non, facilisis ac, malesuada eu, nisl. Pellentesque leo diam, dignissim quis, tempus ut, rhoncus a, quam. Morbi diam. Morbi porttitor dui. 
+	<br/>
+#end
+#if ($this.Size >= 3)
+	<br/>
+	Nulla id mi tincidunt lorem porta pretium. Proin a sapien. Sed diam diam, posuere ut, sollicitudin non, fringilla eu, massa. Suspendisse ornare, leo a sollicitudin feugiat, mauris velit viverra neque, et porta nulla pede sed ligula. Phasellus rhoncus ornare erat. Suspendisse arcu. Praesent orci lectus, ultrices a, suscipit vel, hendrerit ut, erat. Ut sodales lobortis lectus. Vivamus id pede in sapien congue scelerisque. Aliquam erat volutpat. Praesent tempor, ipsum luctus mollis sodales, ante diam lobortis velit, sit amet pulvinar tellus magna a ante. In hac habitasse platea dictumst. Sed bibendum consequat felis. Aenean eget turpis. Donec luctus quam ut magna. 
+	<br/>
+#end
+#if ($this.Size >= 4)
+	<br/>
+	Pellentesque commodo. In hac habitasse platea dictumst. Fusce ultricies, sem vel congue mattis, dui nulla adipiscing magna, non vulputate diam justo vitae nunc. Quisque pede erat, viverra quis, condimentum eu, fermentum vitae, lectus. Vivamus congue posuere leo. Aliquam erat volutpat. Etiam interdum lobortis ipsum. Donec augue libero, hendrerit non, vulputate quis, varius sed, metus. Etiam interdum gravida eros. Proin turpis eros, lobortis a, pellentesque at, aliquet id, mauris. Nullam id elit nec nisl adipiscing aliquam. Pellentesque lorem justo, facilisis quis, suscipit et, semper sit amet, lacus. In in velit. Pellentesque eleifend libero eu est. In hac habitasse platea dictumst. Proin laoreet. 
+	<br/>
+#end
+#if ($this.Size >= 5)
+	<br/>
+	Suspendisse at est. Sed euismod mauris sed augue. Proin elementum, diam at vulputate rutrum, enim odio cursus urna, vel porta ligula tortor mattis ligula. Nulla facilisi. Sed vulputate molestie tortor. Nunc nonummy, nisi sed dignissim auctor, augue neque euismod massa, eget auctor metus ligula id nibh. Sed quis libero. Nunc cursus rhoncus magna. Aenean feugiat interdum elit. Aliquam ultricies. Pellentesque elit augue, vehicula sit amet, volutpat sed, tincidunt sit amet, dui. 
+	<br/>
+#end

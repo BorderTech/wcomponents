@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
+	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/xhtml">
+	<xs:include schemaLocation="attributeGroups.container.xsd" />
+	<xs:include schemaLocation="margin.xsd" />
+
+	<xs:element name="row">
+		<xs:annotation>
+			<xs:documentation>
+				<p>WRow provides a single block container which contains a set of columns.</p>
+				<p>The height of the bounding box of the row is determined by the height of the child column which has a bounding box with the greatest height or, when the child
+					columns wrap due to having a total width in excess of 100%, the height of the wrapped elements as determined by the output mechanism renderer.</p>
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="ui:margin" minOccurs="0" />
+				<xs:element name="column" minOccurs="1" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>
+							<p>The column element child of the row element is created from WColumnRenderer and is an artifact of WColumn. Each column in a row occupies a segment of
+								the row bounding box.</p>
+							<p>The width of a column is deemed to be a percentage of the available width of the row. If the row has a hgap attribute then the actual width will be
+								decreased to allow for this hgap.</p>
+							<p>If the total width of all columns in a row exceeds 100% then columns which occur during or after the point at which the total width exceeds 100 will
+								wrap and the row's bounding box will increase in height accordingly.</p>
+							<p>There is no guarantee that each column in a row will have the same height. The bounding box of each column is determined by the column's content and
+								is independent of all other columns in the row.</p></xs:documentation>
+					</xs:annotation>
+					<xs:complexType mixed="true">
+						<xs:sequence>
+							<xs:any minOccurs="0" maxOccurs="unbounded" processContents="lax" />
+						</xs:sequence>
+						<xs:attribute name="id" type="xs:ID" use="required">
+							<xs:annotation>
+								<xs:documentation>The unique identifier for the column.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="width" use="required">
+							<xs:annotation>
+								<xs:documentation>The width attribute int is deemed to be a percentage where the width of the column (not allowing for hgap) is @width% of the width
+									of the row. </xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:int">
+									<xs:minInclusive value="1" />
+									<xs:maxInclusive value="100" />
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+						<xs:attribute name="align">
+							<xs:annotation>
+								<xs:documentation> The align attribute is used to indicate the ltr alignment of the content of the column. If not specified then the default
+									alignment is determined by the theme. </xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:token">
+									<xs:enumeration value="left" />
+									<xs:enumeration value="center" />
+									<xs:enumeration value="right" />
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+
+			<xs:attributeGroup ref="ui:container.attributes" />
+
+			<xs:attribute name="hgap" type="xs:positiveInteger">
+				<xs:annotation>
+					<xs:documentation> The hgap attribute is used to provide the horizontal space between each column within the row. It is applied only between sibling column
+						elements and is not used to create space between the outermost columns and the edge of the row's content box. If not specified then no gap is placed between
+						columns, this is the equivalent of an assumed default of 0. The hgap attribute will usually cause a column to have a smaller actual width than the notional
+						width determined by the column's width attribute.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

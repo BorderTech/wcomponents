@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
+	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0">
+	<xs:element name="expandCollapseAll">
+		<xs:annotation>
+			<xs:documentation>
+				<p>WCollapsibleToggle represents an interactive control used to expand and collapse a group of WCollapsibles.</p>
+				<p>WCollapsibleToggle expects that the POSTed form data contains:</p>
+				<table>
+					<thead>
+						<tr>
+							<th>Field name</th>
+							<th>Type</th>
+							<th>Mandatory</th>
+							<th>Value</th>
+							<th>Notes</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>@id</td>
+							<td>String</td>
+							<td>no</td>
+							<td>"expand" or "collapse"</td>
+							<td>Used only when the WCollapsibleToggle has its roundTrip attribute "true"; "expand" indicates that the controlled group of WCollapsibles should all
+								be opened, "collapse" that they should all be closed.</td>
+						</tr>
+					</tbody>
+				</table>
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="id" type="xs:ID" use="required">
+				<xs:annotation>
+					<xs:documentation>The unique identifier for the component.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+
+			<xs:attribute name="groupName" type="xs:NMTOKEN" use="required">
+				<xs:annotation>
+					<xs:documentation>The name of the group of WCollapsibles which is controlled by the WCollapsibleToggle.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+
+			<xs:attribute name="roundTrip" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Indicates that the expansion and collapsing of the WCollapsibleToggles should be done in a server process and submits the entire application
+						to the server. Not output if "false". <strong>Deprecated</strong> you should avoid using this attribute.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

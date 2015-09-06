@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
+	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0">
+
+	<xs:element name="text">
+		<xs:annotation>
+			<xs:documentation>WStyledText provides for various types of text with special meanings.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType mixed="true">
+			<xs:sequence>
+				<xs:element name="nl" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Represents a hard line break. Used when @space is set.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType />
+				</xs:element>
+			</xs:sequence>
+
+			<xs:attribute name="type">
+				<xs:annotation>
+					<xs:documentation>Used to indicate the output type of the text. Should have some semantic meaning rather than be merely styled.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="plain">
+							<xs:annotation>
+								<xs:documentation>Plain text, this is the default if not set.</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="highPriority">
+							<xs:annotation>
+								<xs:documentation>Indicates content which should be brought to the user's attention as a matter of high priority.</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="mediumPriority">
+							<xs:annotation>
+								<xs:documentation>Indicates content which should be brought to the user's attention as a matter of medium priority.</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="lowPriority">
+							<xs:annotation>
+								<xs:documentation>Indicates content which should be brought to the user's attention as a matter of low priority but still brought to
+									attention.</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="emphasised">
+							<xs:annotation>
+								<xs:documentation>Indicates content which should be emphasised.</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="activeIndicator">
+							<xs:annotation>
+								<xs:documentation>Indicates content which represents the description of a active process.</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="matchIndicator">
+							<xs:annotation>
+								<xs:documentation>Indicates content which represents the description of a match.</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="insert">
+							<xs:annotation>
+								<xs:documentation>Indicates inserted content.</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="delete">
+							<xs:annotation>
+								<xs:documentation>Indicates (soft) deleted content.</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="mandatoryIndicator">
+							<xs:annotation>
+								<xs:documentation>Provides a wrapper which can be used to include a 'ley' reference to the 
+									mandatory indicator (which is internationalised and styled in theme).</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+
+			<xs:attribute name="space">
+				<xs:annotation>
+					<xs:documentation>If set provides a whitespace mode for the content.</xs:documentation>
+				</xs:annotation>
+
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="preserve">
+							<xs:annotation>
+								<xs:documentation>Indicates that the whitespace in the content should be strictly preserved.</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="paragraphs">
+							<xs:annotation>
+								<xs:documentation>Indicates that the content should form paragraph(s) split at ui:nl elements.</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>

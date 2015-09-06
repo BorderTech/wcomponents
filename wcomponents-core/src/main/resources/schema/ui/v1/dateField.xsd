@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0">
+	<xs:include schemaLocation="attributeGroups.control.xsd"/>
+	<xs:element name="dateField">
+		<xs:annotation>
+			<xs:documentation>
+				<p>WDateField represents a control for inputting and displaying dates.</p>
+				<p>Dates are passed between the client and server in the format <code>YYYY-MM-DD</code>, with unknown fields
+					replaced with "?" when allowPartial is set "true". This format is referred to as the transfer format.
+					The user-entered text is also sent between the client and server.</p>
+				<p>WDateField expects that the POSTed form data contains:</p>
+				<table>
+					<thead>
+						<tr>
+							<th>Field name</th>
+							<th>Type</th>
+							<th>Mandatory</th>
+							<th>Value</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>@id</td>
+							<td>String</td>
+							<td>yes</td>
+							<td>value as entered by the user</td>
+						</tr>
+						<tr>
+							<td>@id + "-date"</td>
+							<td>String</td>
+							<td>yes</td>
+							<td>value in  transfer format if the user entered date is able to be parsed to a date and then converted to the transfer format, otherwise ""</td>
+						</tr>
+					</tbody>
+				</table>
+			</xs:documentation>
+		</xs:annotation>
+		
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="xs:string">
+					<xs:attributeGroup ref="ui:submitting.input.attributes"/>
+					
+					<xs:attribute name="allowPartial" type="xs:boolean">
+						<xs:annotation>
+							<xs:documentation>Indicates that the dateField can accept any part of a date, being any combination of a date, month and/or year. Not output if "false".</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					
+					<xs:attribute name="date">
+						<xs:annotation>
+							<xs:documentation>The initial value of the date field if not empty nor in an invalid state in the transfer format described above.</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:pattern value="([0-9]{4}|\?\?\?\?)-([0-9]{2}|\?\?)-([0-9]{2}|\?\?)"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+					
+					<xs:attribute name="min">
+						<xs:annotation>
+							<xs:documentation>The earliest date which constitutes a valid input <em>if the user enters any content at all</em>. Defaults to "no minimum" if not specified. Specified using the transfer format described above.</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:pattern value="[0-9]{4}-[0-9]{2}-[0-9]{2}"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+					
+					<xs:attribute name="max">
+						<xs:annotation>
+							<xs:documentation>The latest date which constitutes a valid input <em>if the user enters any content at all</em>. Defaults to "no maximum" if not specified. Specified using the transfer format described above.</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:pattern value="[0-9]{4}-[0-9]{2}-[0-9]{2}"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	elementFormDefault="qualified" targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
+	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns="http://www.w3.org/1999/xhtml">
+
+	<!-- 
+	  A collection of all the top-level elements in the schema.
+	  This is imported by schema.xsd.
+	  -->
+	<xs:include schemaLocation="abbr.xsd" />
+	<xs:include schemaLocation="additionalParameters.xsd" />
+	<xs:include schemaLocation="ajaxTrigger.xsd" />
+	<xs:include schemaLocation="application.xsd" />
+	<xs:include schemaLocation="audio.xsd" />
+	<xs:include schemaLocation="button.xsd" />
+	<xs:include schemaLocation="collapsible.xsd" />
+	<xs:include schemaLocation="collapsibleToggle.xsd" />
+	<xs:include schemaLocation="comment.xsd" />
+	<xs:include schemaLocation="componentGroup.xsd" />
+	<xs:include schemaLocation="checkBox.xsd" />
+	<xs:include schemaLocation="checkBoxSelect.xsd" />
+	<xs:include schemaLocation="dateField.xsd" />
+	<xs:include schemaLocation="debug.xsd" />
+	<xs:include schemaLocation="decoratedLabel.xsd" />
+	<xs:include schemaLocation="definitionList.xsd" />
+	<xs:include schemaLocation="dialog.xsd" />
+	<xs:include schemaLocation="dropdown.xsd" />
+	<xs:include schemaLocation="emailField.xsd" />
+	<xs:include schemaLocation="fieldIndicator.xsd" />	
+	<xs:include schemaLocation="fieldLayout.xsd" />
+	<xs:include schemaLocation="fieldSet.xsd" />
+	<xs:include schemaLocation="figure.xsd" />
+	<xs:include schemaLocation="fileUpload.xsd" />
+	<xs:include schemaLocation="filterControl.xsd" />
+	<xs:include schemaLocation="heading.xsd" />
+	<xs:include schemaLocation="hr.xsd" />
+	<xs:include schemaLocation="image.xsd" />
+	<xs:include schemaLocation="label.xsd" />
+	<xs:include schemaLocation="link.xsd" />
+	<xs:include schemaLocation="listBox.xsd" />
+	<xs:include schemaLocation="menu.xsd" />
+	<xs:include schemaLocation="menuGroup.xsd"/>
+	<xs:include schemaLocation="menuItem.xsd"/>
+	<xs:include schemaLocation="messageBox.xsd" />
+	<xs:include schemaLocation="multiDropdown.xsd" />
+	<xs:include schemaLocation="multiTextField.xsd" />
+	<xs:include schemaLocation="multiSelectPair.xsd" />
+	<xs:include schemaLocation="numberField.xsd" />
+	<xs:include schemaLocation="panel.xsd" />
+	<xs:include schemaLocation="passwordField.xsd" />
+	<xs:include schemaLocation="popup.xsd" />
+	<xs:include schemaLocation="printButton.xsd" />
+	<xs:include schemaLocation="progressBar.xsd" />
+	<xs:include schemaLocation="radioButton.xsd" />
+	<xs:include schemaLocation="radioButtonSelect.xsd" />
+	<xs:include schemaLocation="redirect.xsd" />
+	<xs:include schemaLocation="row.xsd" />
+	<xs:include schemaLocation="section.xsd" />
+	<xs:include schemaLocation="selectToggle.xsd" />
+	<xs:include schemaLocation="separator.xsd"/>
+	<xs:include schemaLocation="session.xsd"/>
+	<xs:include schemaLocation="shuffler.xsd" />
+	<xs:include schemaLocation="skipLinks.xsd" />
+	<xs:include schemaLocation="submenu.xsd"/>
+	<xs:include schemaLocation="subordinate.xsd" />
+	<xs:include schemaLocation="suggestions.xsd" />
+	<xs:include schemaLocation="table.xsd" />
+	<xs:include schemaLocation="tabset.xsd" />
+	<xs:include schemaLocation="telephoneNumberField.xsd" />
+	<xs:include schemaLocation="text.xsd" />
+	<xs:include schemaLocation="textArea.xsd" />
+	<xs:include schemaLocation="textField.xsd" />
+	<xs:include schemaLocation="tracking.xsd"/>
+	<xs:include schemaLocation="validationErrors.xsd" />
+	<xs:include schemaLocation="version.xsd" />
+	<xs:include schemaLocation="video.xsd" />
+</xs:schema>

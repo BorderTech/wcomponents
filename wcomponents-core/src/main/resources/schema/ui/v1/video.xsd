@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+	targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
+	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0">
+	<xs:include schemaLocation="attributeGroups.media.xsd"/>
+
+	<xs:element name="video">
+		<xs:annotation>
+			<xs:documentation>WVideo represents a video widget.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+
+			<xs:sequence>
+			
+				<xs:element name="src" minOccurs="1" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>This is a list of the same video content in different formats.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:attribute name="uri" type="xs:anyURI" use="required">
+							<xs:annotation>
+								<xs:documentation>Location of the source file.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="type" type="xs:string">
+							<xs:annotation>
+								<xs:documentation>MIME type of the source file.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute> 
+						<xs:attribute name="height" type="xs:positiveInteger">
+							<xs:annotation>
+								<xs:documentation>Vertical size (in pixels when rendered in the user agent) of the video encoded in the source file.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="width" type="xs:positiveInteger">
+							<xs:annotation>
+								<xs:documentation>Horizontal size (in pixels when rendered in the user agent) of the video encoded in the source file.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+				
+				<!-- Text tracks (captions) -->
+				<xs:element name="track" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Text tracks to accompany the video to provide closed captions, subtitles etc.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:attribute name="src" type="xs:anyURI" use="required">
+							<xs:annotation>
+								<xs:documentation>Location of the track file.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="lang" type="xs:NMTOKEN">
+							<xs:annotation>
+								<xs:documentation>Language code for the track.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="desc" type="xs:string">
+							<xs:annotation>
+								<xs:documentation>Description of the contents of the track.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="kind">
+							<xs:annotation>
+								<xs:documentation>The track type indicator as per the HTML5 Video element specification.</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:NMTOKEN">
+									<xs:enumeration value="subtitles"/>
+									<xs:enumeration value="captions"/>
+									<xs:enumeration value="descriptions"/>
+									<xs:enumeration value="chapters"/>
+									<xs:enumeration value="metadata"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			
+			<xs:attributeGroup ref="ui:media.attributes"/>
+			
+			<xs:attribute name="poster" type="xs:anyURI">
+				<xs:annotation>
+					<xs:documentation>The location of an image file to display in the video player before the user loads the 
+						actual video file.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			
+			<xs:attribute name="height" type="xs:positiveInteger">
+				<xs:annotation>
+					<xs:documentation>The vertical size of the video player in pixels.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			
+			<xs:attribute name="width" type="xs:positiveInteger">
+				<xs:annotation>
+					<xs:documentation>The horizontal size of the video player in pixels.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

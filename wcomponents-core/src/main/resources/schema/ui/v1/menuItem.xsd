@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
+	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0">
+	<xs:include schemaLocation="attributeGroups.button.xsd" />
+	<xs:include schemaLocation="decoratedLabel.xsd" />
+	<xs:element name="menuItem">
+		<xs:complexType>
+			<xs:annotation>
+				<xs:documentation>
+					<p>WMenuItem provides a single intem within a WMenu. The item can be used to invoke commands or provide a selection mechanism, or both.</p>
+					<p>WMenuItem expects that the POSTed form data contains:</p>
+					<table>
+						<thead>
+							<tr>
+								<th>Field name</th>
+								<th>Type</th>
+								<th>Mandatory</th>
+								<th>Value</th>
+								<th>Notes</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>@id</td>
+								<td>String</td>
+								<td>yes</td>
+								<td>"x"</td>
+								<td>Value POSTed only if the WMenuItem is the item causing the form submission.</td>
+							</tr>
+							<tr>
+								<td>@id.selected</td>
+								<td>String</td>
+								<td>no</td>
+								<td>"x"</td>
+								<td>Value POSTed only if the WMenuItem is in the selected state.</td>
+							</tr>
+						</tbody>
+					</table>
+					<p><strong>Note:</strong> MenuItem expect its parent Menu to put the "-h" parameter in the request to indicate the menu and its items have been included in the
+						request.</p></xs:documentation>
+			</xs:annotation>
+			<xs:sequence>
+				<xs:element ref="ui:decoratedLabel" />
+			</xs:sequence>
+
+			<xs:attributeGroup ref="ui:button.attributes" />
+			<xs:attributeGroup ref="ui:button.menu.attributes" />
+
+			<xs:attribute name="url" type="xs:anyURI">
+				<xs:annotation>
+					<xs:documentation>Setting a url indicates that actioning this item should trigger navigation. This attribute and @submit are mutually
+						exclusive.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+
+			<xs:attribute name="targetWindow" type="xs:NMTOKEN">
+				<xs:annotation>
+					<xs:documentation>Provides a machine-readable reference to a browser window. If set, and the @url attribute is set, then the link to the @url value will open in
+						a new window with this as its window name. There are some implementation issues caused by long standing bugs in some common user agents and some keywords in
+						the HTML specification.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+
+			<xs:attribute name="submit" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Setting submit indicates that actioning this item should trigger a form submit. This attribute and @url are mutually
+						exclusive.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+
+			<xs:attribute name="selectable" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Indicates that the sub menu may be selected as an entity separate from its contained components. Explicitly output if explicitly set "false"
+						to override a parent component's selectMode. Selectable defaults to the container. e.g. if the container has a selectMode of NONE, then selectable defaults
+						to false.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+
+			<xs:attribute name="selected" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>indicates that the submenu is selected. Not output if "false".</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>

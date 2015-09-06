@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
+	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0">
+	<xs:include schemaLocation="attributeGroups.control.xsd" />
+	<xs:include schemaLocation="optgroup.xsd" />
+	<xs:element name="shuffler">
+		<xs:annotation>
+			<xs:documentation>
+				<p>WShuffler provides an interactive control which can be used to set a list into a user defined 'order'.</p>
+				<p>WShuffler expects that the POSTed form data contains:</p>
+				<table>
+					<thead>
+						<tr>
+							<th>Field name</th>
+							<th>Type</th>
+							<th>Mandatory</th>
+							<th>Value</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>@id</td>
+							<td>String</td>
+							<td>yes</td>
+							<td>list of all the option values in the order determined by the user</td>
+						</tr>
+					</tbody>
+				</table>
+			</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:group ref="ui:option.with.group" minOccurs="0" maxOccurs="unbounded" />
+
+			<xs:attributeGroup ref="ui:input.attributes">
+				<xs:annotation>
+					<xs:documentation>Does not implement the required attribute since there is no determinant of optional/mandatory re-ordering of a list.</xs:documentation>
+				</xs:annotation>
+			</xs:attributeGroup>
+
+			<xs:attribute name="rows" type="xs:positiveInteger">
+				<xs:annotation>
+					<xs:documentation>Indicates the number of options which are to be made visible without scrolling the list. If not set then the size of the shuffler list will be
+						determined by the theme or the user agent.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

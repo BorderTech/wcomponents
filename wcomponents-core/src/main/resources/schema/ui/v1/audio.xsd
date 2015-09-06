@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	XML schema for ui:audio (WAudio)
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0">
+	<xs:include schemaLocation="attributeGroups.media.xsd"/>
+	<xs:element name="audio">
+		<xs:annotation>
+			<xs:documentation>Audio component (WAudio).</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="src" minOccurs="1" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>This is a list of the same audio content in different formats.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:attribute name="uri" type="xs:anyURI" use="required">
+							<xs:annotation>
+								<xs:documentation>The location of the audio file.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="type" type="xs:string">
+							<xs:annotation>
+								<xs:documentation>The MIME type of the audio source file.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attributeGroup ref="ui:media.attributes"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

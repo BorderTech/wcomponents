@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
+	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0">
+	<xs:include schemaLocation="contentGroups.xsd"/>
+	<xs:include schemaLocation="tracking.xsd"/>
+	<xs:element name="application">
+		<xs:annotation>
+			<xs:documentation>ui:application is the XML output from WApplication. WApplication is the base component of all WComponent based UIs.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType mixed="true">
+
+			<xs:sequence>
+				<xs:element ref="ui:analytic" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Used to provide application level analytics integration.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="param" type="ui:param" minOccurs="0" maxOccurs="unbounded" />
+				<xs:group ref="ui:contentGroup" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+
+			<xs:attribute name="id" type="xs:ID" use="required">
+				<xs:annotation>
+					<xs:documentation>The unique identifier for the component.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+
+			<xs:attribute name="applicationUrl" type="xs:anyURI" use="required">
+				<xs:annotation>
+					<xs:documentation>The URL to which the application's form data is POSTed.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+
+			<xs:attribute name="ajaxUrl" type="xs:anyURI" use="required">
+				<xs:annotation>
+					<xs:documentation>The URL to which the application's asynchronous HTTP requests are sent. <strong>NOTE:</strong> this attribute is under review as it is no
+						longer necessarily a URL different from applicationUrl.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+
+			<xs:attribute name="dataUrl" type="xs:anyURI" use="required">
+				<xs:annotation>
+					<xs:documentation>The URL to which the AJAX requests for data lists are sent. <strong>NOTE:</strong> this attribute is under review as it is now the same as
+						ajaxUrl.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+
+			<xs:attribute name="unsavedChanges" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Set true if there are unsaved changes within the current session process; if, for example, part way through a multi-page form. This allows
+						client implementations to provide a warning to users if an action is likely to result in those unsaved changes being lost; for example navigation away from
+						the current process. Not output if "false".</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+
+			<xs:attribute name="title" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>A human readable title for the application, most commonly used for analytics.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="defaultFocusId" type="xs:NMTOKEN">
+				<xs:annotation>
+					<xs:documentation>The id of the component which should receive focus when the application is loaded.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="icon" type="xs:anyURI">
+				<xs:annotation>
+					<xs:documentation>Used to replace the default favicon. Whilst this is xs:anyURI it should only be set to a URI which is able to be interpreted as a favicon by
+						all targeted user agents which implement favicon.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:complexType name="param">
+		<xs:annotation>
+			<xs:documentation>Used to track application level parameters which are not editable by the user.</xs:documentation>
+		</xs:annotation>
+
+		<xs:attribute name="name" use="required" type="xs:string" />
+		<xs:attribute name="value" use="required" type="xs:string" />
+	</xs:complexType>
+</xs:schema>

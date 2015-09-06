@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+XML schema for ui:definitionList (WDefinitionList)
+
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0">
+	<xs:include schemaLocation="attributeGroups.container.xsd"/>
+	<xs:include schemaLocation="margin.xsd"/>
+	
+	<xs:element name="definitionList">
+		<xs:annotation>
+			<xs:documentation>WDefinitionList represents a list of defined terms and their definition(s).</xs:documentation>
+		</xs:annotation>
+		
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="ui:margin" minOccurs="0"/>
+				<xs:element name="term" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>The terms to be defined. Each term may have one or more definitions.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="data" minOccurs="0" maxOccurs="unbounded">
+								<xs:complexType mixed="true">
+									<xs:sequence>
+										<xs:any minOccurs="0" maxOccurs="unbounded" processContents="lax"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="text" type="xs:string" use="required"/>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			
+			<xs:attributeGroup ref="ui:container.attributes"/>
+			
+			<xs:attribute name="type">
+				<xs:annotation>
+					<xs:documentation>Indicates the layout of the definition list. If not set then the layout is determined by th euser agent.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="flat">
+							<xs:annotation>
+								<xs:documentation>All terms and their definitions are placed in a single line and wrap points are determined by the user agent.</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="column">
+							<xs:annotation>
+								<xs:documentation>The terms are arranged in a column with their definitions in an adjacent column. The width of the term column is determined by the termWidth attribute.</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="stacked">
+							<xs:annotation>
+								<xs:documentation>All terms and their definitions are arranged in a single column.</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			
+			<xs:attribute name="termWidth">
+				<xs:annotation>
+					<xs:documentation>Indicates the width of the term column as a percentage of the avaialble width. Used when @type is "column". If not set then a default width is determined by the theme.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:int">
+						<xs:minInclusive value="1"></xs:minInclusive>
+						<xs:maxInclusive value="100"></xs:maxInclusive>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+XML schema for popup (WContent [etc. add to list]).
+The expected behaviour is that the popup is triggered automatically on load.
+
+-->
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
+	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0">
+
+	<xs:include schemaLocation="attributeGroups.window.xsd" />
+
+	<xs:element name="popup">
+		<xs:annotation>
+			<xs:documentation>WPopup provide a mechanism to open external content in a popup window. It has accessibility problems, which can be overcome with care, and should be avoided if possible.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="url" type="xs:anyURI" use="required">
+				<xs:annotation>
+					<xs:documentation>The location of the content of the popup window.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			
+			<xs:attributeGroup ref="ui:popupAttributes" />
+			
+			<xs:attribute name="targetWindow" type="xs:NMTOKEN">
+				<!-- TODO: rename this to name and include it in the attributeGroup -->
+				<xs:annotation>
+					<xs:documentation>A machine readable name for the target window. There are a few reserved words in the HTML specification and some user agents have constraints
+						on names which may cause implementation issues.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
