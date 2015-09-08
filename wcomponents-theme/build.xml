@@ -372,10 +372,10 @@ chromedriver_cdnurl=${mirror.root}/chromedriver
 			<callant antFile="build-properties.xml" implName="@{implName}" rootDir = "@{rootDir}" target="@{target}"/>
 			<callant antFile="build-images.xml" implName="@{implName}" rootDir = "@{rootDir}" target="@{target}"/>
 			<callant antFile="build-xml.xml" implName="@{implName}" rootDir = "@{rootDir}" target="@{target}"/>
-			<callant antFile="build-css.xml" implName="@{implName}" rootDir = "@{rootDir}" target="@{target}"/>
+			<callant antFile="build-css.xml" implName="@{implName}" rootDir = "@{rootDir}" target="@{target}"/><!-- build after images -->
 			<callant antFile="build-i18n.xml" implName="@{implName}" rootDir = "@{rootDir}" target="@{target}"/>
-			<callant antFile="build-xslt.xml" implName="@{implName}" rootDir = "@{rootDir}" target="@{target}"/>
-			<callant antFile="build-js.xml" implName="@{implName}" rootDir = "@{rootDir}" target="@{target}"/><!-- Build after i18n -->
+			<callant antFile="build-xslt.xml" implName="@{implName}" rootDir = "@{rootDir}" target="@{target}"/><!-- Build after i18n -->
+			<callant antFile="build-js.xml" implName="@{implName}" rootDir = "@{rootDir}" target="@{target}"/><!-- Build after i18n and css -->
 		</sequential>
 	</macrodef>
 

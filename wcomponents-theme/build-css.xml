@@ -1,28 +1,23 @@
 <project name="BuildCss" default="build" >
 	<!--
-		Build the css for a given implementation. The resulting css will contain:
-		1. All the css from "common" AND
-		2. All the css for the specific implementation.
+		Build the CSS (from Sass in SCSS format) for a given implementation.
 
-		This build must be called with the name of the implementation rootdir set in property:
-		"implementation.name". If not set then the css from "common" alone will be used.
+		This build must be called with the name of the implementation rootdir set in property "implementation.name". If
+		 not set then the css from "wcomponents-theme" alone will be used.
 
 		build-images.xml and build-xml.xml needs to be called before this build so that the base64
 		task can find images and webfonts to embed
 	-->
 	<import file="build-import.xml" />
-
-	<property name="style.rootdir" location="${common.src.rootdir}/css" />
-	<property name="impl.style.rootdir" location="${impl.src.main.dir}/css" />
+	<!--
+		Temp directories used in the build for copy and Sass compile. The copy step is necessary for implementation
+		over-rides and ANT property replacement.
+	-->
 	<property name="style.tmp.src.dir" location="${tmp.dir}/css" />
 	<property name="style.tmp.target.dir" location="${tmp.dir}/css-built" />
-	<property name="plugin.style.dir.name" value="css" />
-
-	<!-- sass -->
 	<property name="sass.rootdir" location="${common.src.rootdir}/sass" />
 	<property name="impl.sass.rootdir" location="${impl.src.main.dir}/sass" />
 	<property name="sass.tmp.src.dir" location="${tmp.dir}/sass" />
-
 
 	<target name="build" depends="init, copyCssSrc, compileScss, initExcludes, buildCss, minify" description="Builds CSS artifacts then minifies them"> </target>
 
@@ -38,8 +33,11 @@
 				<basename property="base.name" file="@{file}" />
 				<!-- base.name is now the file name without the path -->
 				<copy file="@{file}" todir="${tmp.dir}" overwrite="true" />
-				<propertyregex property="css.name" input="${base.name}" regexp="(.+)${debug.target.file.name.suffix}.css" select="\1" casesensitive="false" />
-				<!-- css.name is now the file name without the ${debug.target.file.name.suffix}.js -->
+				<propertyregex property="css.name" input="${base.name}"
+								regexp="(.+)${debug.target.file.name.suffix}.css"
+								select="\1"
+								casesensitive="false" />
+				<!-- css.name is now the file name without the ${debug.target.file.name.suffix}.css bit -->
 				<minify sourceFile="${tmp.dir}/${base.name}" destFile="${style.build.target.dir}/${css.name}.css" />
 			</sequential>
 		</for>
@@ -83,7 +81,10 @@
 	-->
 	<target name="initExcludes">
 		<path id="style.core.file.path">
-			<!-- NOTE: wc.imports.css MUST come first in the CSS file -->
+			<!--
+				NOTE: wc.imports.css MUST come first in the CSS file. The rest of this is not really necessary - it
+				is a hangover from a simpler time.
+			-->
 			<fileset dir="${style.tmp.src.dir}" includes="wc.imports.css" />
 			<fileset dir="${style.tmp.src.dir}" includes="*.imports.css" excludes="wc.imports.css" />
 			<fileset dir="${style.tmp.src.dir}" includes="wc.common.page.css" />
@@ -95,21 +96,13 @@
 	</target>
 
 	<!--
-		Make a copy of the source which the rest of the build will use.
-		This also allows the implementation files to overwrite the core files
-		of the same name so the rest of the build script doesn't need to worry
-		about that.
-		NOTE: we use two copies here because there appears to be an ANT bug which changes
-		the path order and fails to overwrite correctly.
+		Make a copy of the source which the rest of the build will use. This also the implementation files to overwrite
+		the core files of the same name so the rest of the build script doesn't need to worry about that.
+		NOTE: we use two copies here because there appears to be an ANT bug which changes the path order and fails to
+		overwrite correctly.
 	-->
 	<target name="copyCssSrc">
-		<copy todir="${style.tmp.src.dir}" overwrite="true" failonerror="false">
-			<fileset dir="${style.rootdir}" includes="*.css" excludesfile="${excludesfile}" />
-			<filterchain>
-				<expandproperties />
-			</filterchain>
-		</copy>
-
+		<!-- wcomponents-theme SCSS -->
 		<copy todir="${sass.tmp.src.dir}" overwrite="true">
 			<fileset dir="${sass.rootdir}" includes="*.scss" excludesfile="${excludesfile}" />
 			<filterchain>
@@ -117,29 +110,11 @@
 			</filterchain>
 		</copy>
 
-		<!-- core plugin CSS -->
-		<copy todir="${style.tmp.src.dir}" overwrite="true">
-			<fileset dir="${common.src.plugin.dir}" includesfile="${plugin.includesfile}" excludesfile="${excludesfile}" erroronmissingdir="false">
-				<filename name="**/{plugin.style.dir.name}/*.css" />
-			</fileset>
-			<filterchain>
-				<expandproperties />
-			</filterchain>
-		</copy>
-
-		<!-- core plugin SCSS -->
+		<!-- wcomponents-theme's plugin SCSS (if any ever exists) -->
 		<copy todir="${sass.tmp.src.dir}" overwrite="true">
 			<fileset dir="${common.src.plugin.dir}" includesfile="${plugin.includesfile}" excludesfile="${excludesfile}" erroronmissingdir="false">
 				<filename name="**/sass/*.scss" />
 			</fileset>
-			<filterchain>
-				<expandproperties />
-			</filterchain>
-		</copy>
-
-		<!-- implementation CSS -->
-		<copy todir="${style.tmp.src.dir}" overwrite="true">
-			<fileset dir="${impl.style.rootdir}" includes="*.css" />
 			<filterchain>
 				<expandproperties />
 			</filterchain>
@@ -153,15 +128,6 @@
 			</filterchain>
 		</copy>
 
-		<!-- implementation plugin CSS -->
-		<copy todir="${style.tmp.src.dir}" overwrite="true">
-			<fileset dir="${impl.src.plugin.dir}" includesfile="${plugin.includesfile}" excludesfile="${excludesfile}" erroronmissingdir="false">
-				<filename name="**/{plugin.style.dir.name}/*.css" />
-			</fileset>
-			<filterchain>
-				<expandproperties />
-			</filterchain>
-		</copy>
 		<!-- implementation plugin SCSS -->
 		<copy todir="${sass.tmp.src.dir}" overwrite="true">
 			<fileset dir="${impl.src.plugin.dir}" includesfile="${plugin.includesfile}" excludesfile="${excludesfile}" erroronmissingdir="false">
@@ -173,6 +139,10 @@
 		</copy>
 	</target>
 
+	<!--
+		Make CSS out of SCSS.
+		This uses the node-sass module.
+	-->
 	<target name="compileScss">
 		<stopwatch name="compileScss" action="start" />
 		<property name="sass.executable" location="${basedir}/node_modules/node-sass/bin/node-sass"/>
@@ -188,31 +158,75 @@
 		<stopwatch name="compileScss" action="total" />
 	</target>
 
+	<!--
+		Build browser and platform dependent CSS.
+	-->
 	<target name="buildBrowserCss" depends="buildDebugCss">
 		<gatherIeVersionInfo sourceDir="${style.tmp.src.dir}" sourceFileExt=".css" nameOfLowestVersionPropToSet="ie.support.lowest.css.version" />
-
 		<for list="${ie.version.list}" param="version">
 			<sequential>
-				<buildCSSSets pattern="@{version}" targetFile="${css.target.file.name}@{version}" />
+				<buildCSSSets pattern="@{version}" targetFile="${css.target.file.name}.@{version}" />
 			</sequential>
 		</for>
-		<buildCSSSets pattern="${common.ext.gecko}" targetFile="${css.target.file.name}${common.ext.gecko}" />
-		<buildCSSSets pattern="dt" targetFile="${css.target.file.name}dt" />
-		<buildCSSSets pattern="mob" targetFile="${css.target.file.name}mob" />
-		<buildCSSSets pattern="ios" targetFile="${css.target.file.name}ios" />
-		<buildCSSSets pattern="safari" targetFile="${css.target.file.name}safari" />
-		<buildCSSSets pattern="${common.ext.webkit}" targetFile="${css.target.file.name}${common.ext.webkit}"/>
-		<!-- <buildCSSSets pattern="print"
-			targetFile="${css.target.file.name.print}"/>-->
+		<buildCSSSets pattern="dt" targetFile="${css.target.file.name}.dt" />
+		<buildCSSSets pattern="mob" targetFile="${css.target.file.name}.mob" />
+		<getPlatformCSS sourceDir="${style.tmp.src.dir}" />
+		<for list="${platform.list}" param="platform">
+			<sequential>
+				<buildCSSSets pattern="@{platform}" targetFile="${css.target.file.name}.@{platform}" />
+			</sequential>
+		</for>
+		<!-- <buildCSSSets pattern="print" targetFile="${css.target.file.name.print}"/>-->
 	</target>
 
 	<target name="buildDebugCss">
-		<!--<buildCSSSets pattern="${common.debugFiles.name.pattern}${common.ext.ie8}" targetFile="${css.target.file.name.debug}${common.ext.ie8}" />
-		<buildCSSSets pattern="${common.debugFiles.name.pattern}${common.ext.gecko}" targetFile="${css.target.file.name.debug}${common.ext.gecko}" />
-		<buildCSSSets pattern="${common.debugFiles.name.pattern}${common.ext.webkit}" targetFile="${css.target.file.name.debug}${common.ext.webkit}"/>-->
 		<buildCSSSets pattern="${common.debugFiles.name.pattern}" targetFile="${css.target.file.name.debug}" />
 	</target>
 
+	<!--
+		Trawl the copied (and transpiled) source and find files with pattern_X in their names. Make a list of all
+		these patterns and write them to a property for future use in JS.
+	-->
+	<macrodef name="getPlatformCSS">
+		<attribute name="sourceDir"/>
+		<sequential>
+			<var name="platform.list" value=""/>
+			<for param="file">
+				<fileset dir="@{sourceDir}" includes="*.css">
+					<filename regex="\.pattern_[^\.]+\."/>
+				</fileset>
+				<sequential>
+					<var name="platform.name" unset="true"/>
+					<var name="platform.version" unset="true"/>
+					<basename suffix=".css" property="platform.name" file="@{file}"/>
+					<propertyregex property="platform.version"
+						input="${platform.name}"
+						regexp="\.pattern_(.+)$"
+						select="\1"
+						casesensitive="false" />
+					<if>
+						<not>
+							<contains string="${platform.list}" substring="${platform.version}"/>
+						</not>
+						<then>
+							<if>
+								<length string="${platform.list}" length="0"/>
+								<then>
+									<var name="platform.list" value="${platform.version}"/>
+								</then>
+								<else>
+									<var name="platform.list" value="${platform.list},${platform.version}"/>
+								</else>
+							</if>
+						</then>
+					</if>
+				</sequential>
+			</for>
+			<propertyfile file="${properties.build.constants}">
+				<entry key="css.pattern.list" value="${platform.list}"/>
+			</propertyfile>
+		</sequential>
+	</macrodef>
 
 	<macrodef name="buildCSSSets">
 		<attribute name="pattern" />
@@ -238,7 +252,6 @@
 		<attribute name="sourceFile" />
 		<attribute name="destFile" />
 		<sequential>
-			<!--<cssminify in="@{sourceFile}" out="@{destFile}" linebreak="200" />-->
 			<property name="cleancss.executable" location="${basedir}/node_modules/clean-css/bin/cleancss"/>
 			<echo>node ${cleancss.executable} --skip-rebase --skip-import --rounding-precision -1 -o @{destFile} @{sourceFile}</echo>
 			<nodejs.exec failonerror="true" cwd="${target.rootdir}">
@@ -300,6 +313,4 @@
 			</else>
 		</if>
 	</target>
-
-
 </project>
