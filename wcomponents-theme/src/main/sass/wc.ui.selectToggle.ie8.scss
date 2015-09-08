@@ -18,9 +18,6 @@
 			&:before {
 				content: url(../images/checkbox-d.ie8.png);
 			}
-			&[disabled]:before {
-				content: url(../images/checkbox-i-d.ie8.png);
-			}
 		}
 		&[disabled] {
 			&:before, &[aria-checked]:before {
