@@ -206,8 +206,8 @@ strictly required.
 Members on the prototype chain of a constructor should be declared before the constructor when the constructor is
 itself nested in the function argument of a define or require.
 
-### SASS/CSS Coding Standards
-The SASS/CSS standards comply in spirit with the [Google HTML/CSS Style Guide](https://google-styleguide.googlecode.com/svn/trunk/htmlcssguide.xml)
+### Sass/CSS Coding Standards
+The Sass/CSS standards comply in spirit with the [Google HTML/CSS Style Guide](https://google-styleguide.googlecode.com/svn/trunk/htmlcssguide.xml)
 sections which deal with CSS.
 
 #### Exceptions to the Google guide
@@ -219,7 +219,7 @@ sections which deal with CSS.
 
 #### Additions to the Google guide
 
-* SASS **must** be written in SCSS format and white space is for humans.
+* Sass **must** be written in SCSS format and white space is for humans.
 * Selectors should be placed one per line unless all selectors for a rule are of two segments or fewer **and** the
   total length of all selectors is less than 120 characters; basically if you have any long selectors they all go on
   individual lines. A compound selector should be placed on a single line but it exceeds the 120 character limit it may
@@ -228,27 +228,27 @@ sections which deal with CSS.
 * Never qualify an id selector with a type and avoid qualifying a class selector with a type except to avoid ambiguity.
   In this latter case the reason must be commented.
 * In CSS do not include empty lines in a declaration block (it contravenes the CSS specification). It is best to avoid
-  this is SASS as well.
+  this is Sass as well.
 * Separate rules with at least one empty line.
 
 ##### Commenting CSS and SCSS
 * Each CSS and SCSS file must commence with a CSS comment which includes its file name and end with a comment which
   includes the word 'end' and its file name. This makes CSS debugging much easier (remember that CSS style comments are
-  stripped in the final compressed output but SASS comments are stripped in all circumstances).
-* Comments must be in SASS single line style unless they are pertinent to debugging. This is still in a state of flux
-  due to our recent CSS to SASS transition.
+  stripped in the final compressed output but Sass comments are stripped in all circumstances).
+* Comments must be in Sass single line style unless they are pertinent to debugging. This is still in a state of flux
+  due to our recent CSS to Sass transition.
 * There must be a single space between the start of a comment and the first character of the comment content. CSS
   comments must also have a single space between the last character of the comment content and the comment end unless
   the comment end is on its own line.
 * If a rule is commented there must not be any empty lines between the last line of the comment and the first selector
   and the comment must not be on the same line as the selector.
 * Do not place a CSS style comment inside a declaration block (it causes issues with Safari's developer tools).
-* SASS single line comments are permitted inside rule blocks but must not occupy a line by themselves. This is to
+* Sass single line comments are permitted inside rule blocks but must not occupy a line by themselves. This is to
   prevent the transitional (and therefore debug) CSS from having empty lines inside a rule block. Any such comments are
   permitted after the opening brace of a rule block and at the end of any rule in the block.
 * If a particular selector in a multi-selector rule requires a comment it should be placed on the same line as the
   selector. If the comment is CSS style then it must precede the comma or opening brace (if it is the last selector).
-  SASS comments must always be at the end of a line (of course).
+  Sass comments must always be at the end of a line (of course).
 * If a particular declaration in a declaration block requires a comment it should be placed in the rule comment and
   include the declaration's property name as part of the comment. This is to avoid placing comments inside a declaration
   block as noted above.

@@ -63,12 +63,25 @@ define(["wc/has", "module"], /** @param has wc/has @param module module @ignore 
 			 * The supported versions of IE below 10. The versions are of the form 'ie#' and are comma separated. The
 			 * default can be overridden using module.config().ie.
 			 *
+			 * The default is generated through the build process by looking for SASS/CSS files with the name pattern
+			 * .*\.ie[0-9]+\.css. This String is then converted to a String Array and sorted so that later versions of
+			 * IE have their CSS applied earlier than older versions so, for example *.ie9.css is appied before *.ie8.css
+			 * allowing for granular override.
+			 *
 			 * @var
-			 * @type {String[]}
+			 * @type {String}
 			 * @private
-			 * @default ["ie11","ie10", "ie9", "ie8"]
 			 */
-			ieVersionsToSupport = ["ie11", "ie10", "ie9", "ie8"],
+			ieVersionsToSupport = "${ie.css.list}",
+			/**
+			 * The list of platform and browser specific CSS files generated during build. This is used to populate
+			 * the object screenStylesToAdd if that object is not instantiated in module.config().
+			 *
+			 * @var
+			 * @type String
+			 * @private
+			 */
+			platformCSS = "${css.pattern.list}",
 			/**
 			 * <p>A JSON object containing a list of file name 'extensions' which are to be included. This is obtained
 			 * from a module config if you want implementation specific styles. The default/fallback includes only the
@@ -97,7 +110,7 @@ define(["wc/has", "module"], /** @param has wc/has @param module module @ignore 
 			 * @private
 			 * @default {ff: "ff", safari: "safari", ios: "ios"}
 			 */
-			screenStylesToAdd = ((module.config && module.config().screen) ? module.config().css : {ff: "ff", safari: "safari", ios: "ios"}),
+			screenStylesToAdd = ((module.config && module.config().screen) ? module.config().css : null),
 
 			/* NOTE TO SELF: the vars below which are only used once are used in a function which is called many times.
 			 * leave them here you twit!*/
@@ -152,6 +165,34 @@ define(["wc/has", "module"], /** @param has wc/has @param module module @ignore 
 			 */
 			sibling = mainCss ? mainCss.nextSibling : null;
 
+		// We want to sort the IE versions so that we apply fixes for older versions AFTER fixes for newer ones.
+		if (ieVersionsToSupport) {
+			ieVersionsToSupport = ieVersionsToSupport.split(",");
+			if (ieVersionsToSupport.length > 1) {
+				ieVersionsToSupport = ieVersionsToSupport.sort(function (a,b) {
+					var RX = /(\d+)$/,
+						aVer = parseInt(a.match(RX)[0]),
+						bVer = parseInt(b.match(RX)[0]);
+					return bVer - aVer;
+				});
+			}
+		}
+
+		if (platformCSS.length && !screenStylesToAdd) {
+			platformCSS = platformCSS.split(",");
+			/* if(platformCSS.length > 1) {
+				// damn
+				// we want genericRenderingEngine then SpecificBrowser then SpecificPlatform
+				// for example: .webkit THEN .safari THEN .ios
+				// but .ff before .ios so reverse alphabet is not useful.
+				// which means we would be relying on case sensitivity to do unicode ordering - which is BAD!!
+			} */
+			screenStylesToAdd = {};
+			platformCSS.forEach(function(next) {
+				platformCSS[next] = next;
+			});
+		}
+
 		/**
 		 * Create a link element for a particular stylesheet.
 		 * @function
@@ -166,7 +207,7 @@ define(["wc/has", "module"], /** @param has wc/has @param module module @ignore 
 
 			if (!document.getElementById(id)) {
 				head = document.head || document.getElementsByTagName("head")[0];
-				if (!head) {  // you gotta be kidding me...
+				if (!head) { // you gotta be kidding me...
 					return;
 				}
 				el = document.createElement("link");
@@ -196,7 +237,7 @@ define(["wc/has", "module"], /** @param has wc/has @param module module @ignore 
 				key,
 				value,
 				media,
-				CSS_FILE_NAME = "${css.target.file.name}",// The common file name used to build the CSS files. The individual 'extension' extends this.
+				CSS_FILE_NAME = "${css.target.file.name}.",// The common file name used to build the CSS files with an additional DOT suffix. The individual 'extension' extends this.
 				i,
 				next,
 				vNum,
