@@ -14,11 +14,6 @@
 		&[aria-checked="true"]:before {
 			content: url(../images/checkbox-s.ie8.png);
 		}
-		&[aria-checked="mixed"] {
-			&:before {
-				content: url(../images/checkbox-d.ie8.png);
-			}
-		}
 		&[disabled] {
 			&:before, &[aria-checked]:before {
 				content: url(../images/checkbox-d.ie8.png);
