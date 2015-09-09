@@ -1,64 +1,63 @@
-/* wc.ui.menu.scss
- * Structural styles common to all menus.
- *
- * When styling the items set sizes on elements (buttons, links) and visual styles on the role (menuitem etc) as this
- * will mean the sub menu opening button is not 'missable' which is the case if sizes, padding etc are set on the role.
- *
- * The clickable item in a WSubMenu is the opener button artefact generated from the WDecoratedLabel. We make this fill
- * the container so that there is no unclickable edges. This is why we style this button explicitly in many places.
- * This is a bit noisy but better than having a click region which is not full-size.
- *
- * TODO (indefinite): If we ever get rid of SERVER mode WSubMenu we could probably get rid of the opener button as it
- * would no longer need to submit. It is handy for other clickable/focusable/disableable goodness though.
- *
- * TODO (wishful thinking): Where the WMenu type allows use the menu element in the popup mode and its label/button.
- */
-@import "mixins_common.scss";
+/* wc.ui.menu.scss */
+// Structural styles common to all menus.
 
+// When styling the items set sizes on elements (buttons, links) and visual styles on the role (menuitem etc) as this
+// will mean the sub menu opening button is not 'missable' which is the case if sizes, padding etc are set on the role.
 
-/*
- * Item default styles.
- * NOTE: an item may be a WMenuItem or a WSubMenu. Remember each submenu has an item role in [role='menu'] and
- * [role='tree'].
- */
+// The clickable item in a WSubMenu is the opener button artefact generated from the WDecoratedLabel. We make this fill
+// the container so that there is no unclickable edges. This is why we style this button explicitly in many places.
+// This is a bit noisy but better than having a click region which is not full-size.
+//
+// TODO (indefinite): If we ever get rid of SERVER mode WSubMenu we could probably get rid of the opener button as it
+// would no longer need to submit. It is handy for other clickable/focusable/disableable goodness though.
 
+// TODO (wishful thinking): Where the WMenu type allows use the menu element in the popup mode and its label/button.
+@import 'mixins_common.scss';
 
-[role="menuitem"],
-[role="menuitemradio"],
-[role="menuitemcheckbox"],
-[role="treeitem"],
+// Item default styles.
+// NOTE: an item may be a WMenuItem or a WSubMenu. Remember each submenu has an item role in [role='menu'] and
+// [role='tree'].
+[role='menuitem'],
+[role='menuitemradio'],
+[role='menuitemcheckbox'],
+[role='treeitem'],
 .menu [aria-expanded] > button {
-	display:block;
 	@include borderBox;
+	display: block;
 	text-align: $preferredAlignment;
-	width:100%;
+	width: 100%;
 }
 
- /*NOTE: we need the important here otherwise we have to do a LOT of overriding of roles. */
+// NOTE: we need the important here otherwise we have to do a LOT of overriding of roles.
 .submenu[role],
-[role="menu"],
-.menu [role="separator"] {
-	padding: 0 !important
+[role='menu'],
+.menu [role='separator'] {
+	//scss-lint:disable ImportantRule
+	padding: 0 !important;
 }
+
 .menu {
 	.decoratedLabel {
 		display: table-row;
 		width: 100%;
 	}
+
 	.wc_dlbl_seg {
 		display: table-cell;
+
 		+ .wc_dlbl_seg {
 			padding-left: $hgap_small;
 		}
 	}
+
 	.labelBody {
 		width: 100%;
 	}
 }
 
-.submenu[aria-expanded="false"] {
-	> [role="menu"],
-	> [role="group"] {
+.submenu[aria-expanded='false'] {
+	> [role='menu'],
+	> [role='group'] {
 		display: none;
 	}
 }

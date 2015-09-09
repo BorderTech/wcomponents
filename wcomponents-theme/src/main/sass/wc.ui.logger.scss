@@ -5,13 +5,15 @@
 // be able to see more subtle foreground color changes (actually this happened
 // for real which is what prompted the change).
 
-@import "vars_colors.scss";
+@import 'vars_colors.scss';
 
-body.wc_loggedwarn {
-	background-color: $wc_ui_color_warningForeground;
-}
-//the error style MUST TRUMP the warn style
-body.wc_loggederror {
-	background-color: $wc_ui_color_errorForeground;
+body {
+	&.wc_loggedwarn {
+		background-color: $wc_ui_color_warningForeground;
+	}
+
+	&.wc_loggederror { //the error style MUST TRUMP the warn style
+		background-color: $wc_ui_color_errorForeground;
+	}
 }
 /* end wc.ui.logger.scss */

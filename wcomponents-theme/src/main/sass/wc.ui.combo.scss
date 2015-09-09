@@ -1,42 +1,50 @@
 /* wc.ui.combo.scss */
-@import "mixins_common.scss";
+@import 'mixins_common.scss';
 
-/* this redundant rule is not as redundant as you might think. */
+//scss-lint:disable QualifyingElement
+// Qualifying elements are important here to distinguish simple combos (input with list attribute) from date/partialDate
+// combos (which are divs with complex content).
+
+// This redundant rule is not as redundant as you might think so just leave it be!
 datalist {
-	display:none
+	display: none;
 }
 
-input[role="combobox"]{
-	background-image: url(../images/down.png);
-	background-position: 100% 0;
-	background-repeat: no-repeat;
+input[role='combobox'] {
 	@include border;
 	@include borderBox;
+	background-image: url('../images/down.png');
+	background-position: 100% 0;
+	background-repeat: no-repeat;
 	padding-right: 17px;
+
 	&[disabled] {
-		background-image:url(../images/down-d.png);
+		background-image: url('../images/down-d.png');
 	}
-	~ [role="listbox"] {
-		background-color: $wc_ui_color_globalBackground;
+
+	~ [role='listbox'] {
 		@include border;
+		background-color: $wc_ui_color_globalBackground;
 		display: block;
 		list-style-type: none;
 		margin: 0;
 		max-width: 100%;
 		padding: 0;
 		position: absolute;
-		&[aria-busy="true"] { /* we do not want dynamic suggestion lists to go transparent when busy */
-			background-color: $wc_ui_color_globalBackground !important
+		&[aria-busy='true'] { // we do not want dynamic suggestion lists to go transparent when busy
+			// scss-lint:disable ImportantRule
+			background-color: $wc_ui_color_globalBackground !important;
 		}
 	}
 }
 
-
-li[role="option"]{
+li[role='option'] {
 	margin: 0;
 	min-height: 1em;
 	padding: $hgap_small;
-	&:hover, &:focus {
+
+	&:hover,
+	&:focus {
 		background-color: $wc_ui_color_invite_bg;
 		cursor: pointer;
 	}

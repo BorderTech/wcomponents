@@ -1,76 +1,85 @@
-/*
-  wc.ui.dateField.scss
+/* wc.ui.dateField.scss */
 
-  styling specific to the date input component including the calendar
-  NOTE: unusually we use a single ID'd component for all calendar date pickers
-  and move it around to where it is needed. We do not usually use IDs in this
-  framework, but we like exceptions.
-*/
-@import "mixins_common.scss";
+//  Styling specific to the date input component including the calendar. NOTE: unusually we use a single ID'd component
+// for all calendar date pickers and move it around to where it is needed. We do not usually use IDs in this framework,
+// but we like exceptions.
+//scss-lint:disable IdSelector
+@import 'mixins_common.scss';
 
 .dateField {
 	display: inline-block;
 	position: relative;
-	&[role="combobox"] {/* partial date field or no native support */
+
+	&[role='combobox'] {/* partial date field or no native support */
 		@include border($color: $wc_ui_color_border_formControl);
-		&[aria-disabled="true"] {
+
+		&[aria-disabled='true'] {
 			background-color: $wc_ui_color_disabledBackground;
 		}
 	}
 }
-[role="combobox"][aria-expanded="false"] > [role="listbox"] {
-	display: none;
-}
 
-[role="combobox"] > input,
+[role='combobox'] > input,
 .wc_wdf_cal {
-	vertical-align: middle
+	vertical-align: middle;
 }
 
-[role="combobox"] {
+[role='combobox'] {
 	> input {
-		border:0 none !important;
+		//scss-lint:disable ImportantRule
+		border: 0 none !important;
 	}
-	> [role="listbox"] {
-		background-color: $wc_ui_color_globalBackground;
+
+	> [role='listbox'] {
 		@include border;
-		position: absolute;
+		background-color: $wc_ui_color_globalBackground;
 		left: $borderWidth * -1;
+		list-style-type: none;
+		margin: 0;
 		min-width: 100%;
 		padding: 0;
-		margin: 0;
-		list-style-type: none;
+		position: absolute;
 		z-index: 2;
 	}
-	li{
-		padding: 1px $hgap_small;
-		min-height: 1em;
-		margin: 0
+
+	&[aria-expanded='false'] > [role='listbox'] {
+		display: none;
 	}
-	[role="option"] {
-		&:hover, &:focus {
+
+	li {
+		margin: 0;
+		min-height: 1em;
+		padding: 1px $hgap_small;
+	}
+
+	[role='option'] {
+		&:hover,
+		&:focus {
 			background-color: $wc_ui_color_invite_bg;
 			cursor: pointer;
 		}
 	}
 }
 
-dialog [role="combobox"] > [role="listbox"]{
-	z-index:22;
+dialog [role='combobox'] > [role='listbox'] {
+	z-index: 22;
 }
 
 /* calendar launch button */
 .wc_wdf_cal {
-	&:hover, &:focus {
+	&:hover,
+	&:focus {
 		background-color: $wc_ui_color_invite_bg;
 	}
+
 	&:before {
-		content: url("../images/date.png");
+		content: url('../images/date.png');
 		position: relative;
 		top: 2px;
 	}
+
 	&[disabled]:before {
-		content: url("../images/date-d.png");
+		content: url('../images/date-d.png');
 	}
 }
 
@@ -79,69 +88,81 @@ dialog [role="combobox"] > [role="listbox"]{
 	background-color: $wc_ui_color_globalBackground;
 	white-space: nowrap;
 	z-index: 2;
-	&[hidden] {/*override of override */
-		display: none !important
+
+	&[hidden] { // override of override
+		//scss-lint:disable ImportantRule
+		display: none !important;
 	}
-}
-dialog #wc-calbox {
-	z-index:22
+
+	dialog & {
+		z-index: 22;
+	}
 }
 
 /* The calendar table */
 #wc-calendar {
 	thead {
 		@include border($pos: bottom);
+
 		td:last-child { /* container of the close button */
 			padding-right: 0;
 			text-align: right;
 		}
 	}
+
 	th {
 		background-color: $wc_ui_color_highlight_bg;
 		color: $wc_ui_color_highlight_fg;
 		padding: $vgap_small $hgap_small;
 		text-align: center;
 	}
-	input, thead button:first-of-type {
+
+	input,
+	thead button:first-of-type {
 		margin-left: $hgap_large;
 	}
-	input { /* year field: FF and IE do not size by max.*/
-		width: 5em
+
+	input { // year field: FF and IE do not size by max.
+		width: 5em;
 	}
-	abbr { /* days of the week */
-		border-bottom: 0 none
+
+	abbr { // days of the week
+		border-bottom: 0 none;
 	}
 }
 
 #wc-caldaybox td {
-	padding: 0;
 	color: $wc_ui_color_disabledForeground;
+	padding: 0;
 	text-align: center;
 	vertical-align: middle;
 }
 
 /* date picker buttons */
 .wc_wdf_pick {
-	text-align: center;
-	padding: $vgap_small $hgap_small;
-	cursor: pointer;
 	color: $wc_ui_color_globalForeground;
+	cursor: pointer;
+	padding: $vgap_small $hgap_small;
+	text-align: center;
 	width: 100%;
-	&:hover, &:focus {
+
+	&:hover,
+	&:focus {
 		background-color: $wc_ui_color_invite_bg;
 	}
+
 	&[disabled] {
-		color: $wc_ui_color_disabledForeground;
 		background-color: $wc_ui_color_disabledBackground;
+		color: $wc_ui_color_disabledForeground;
 	}
-	&[aria-pressed='true'] {/* selected date */
+
+	&[aria-pressed='true'] { // selected date
 		background-color: $wc_ui_color_highlight_bg;
 		color: $wc_ui_color_highlight_fg;
 	}
 }
 
-/* today */
-.wc_wdf_today {
-	outline:1px solid $wc_ui_color_border;
+.wc_wdf_today { // today
+	@include outline();
 }
 /* end wc.ui.dateField.css*/

@@ -1,15 +1,18 @@
-/* wc.ui.panel.feature.scss
- * type FEATURE
- * "The feature panel is highlighted by a background colour and border."
-*/
-@import "wc.ui.panel_vars.scss";
+/* wc.ui.panel.feature.scss */
+// type FEATURE
+// 'The feature panel is highlighted by a background colour and border.'
+@import 'wc.ui.panel_vars.scss';
+
 .feature {
 	@include border;
 	background-color: $wc_ui_color_panel_feature_background;
 	color: $wc_ui_color_panel_feature_foreground;
 	padding: $hgap_normal;
+
 	> .listLayout {
-		&.none, &.flat, &.bar {
+		&.none,
+		&.flat,
+		&.bar {
 			padding-left: 0;
 		}
 	}

@@ -1,8 +1,8 @@
 /* wc.common.listSort.ios.css */
-@import "mixins_common.scss";
+@import 'mixins_common.scss';
+
 .wc_sorter {
-	@include border($color:#007aff);
+	@include border($color: $wc-ui-ios-interactive);
 	border-radius: 3px;
 }
-
 /* end of  wc.common.listSort.ios.css */

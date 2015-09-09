@@ -1,40 +1,42 @@
 /* wc.ui.menu.barColumn.ios.css */
-[role="menu"] [aria-expanded] > button,
-[role="menu"] [role],
-[role="menubar"] [aria-expanded] > button,
-[role="menubar"] [role] {
-	font-size: 13px;
-	color:#007aff;
+@import 'mixins_common.scss';
+
+[role='menu'],
+[role='menubar'] {
+	[aria-expanded] > button,
+	[role] {
+		color: $wc-color-ios-interactive;
+		font-size: 13px;
+	}
+
+	[aria-expanded='true'] > button,
+	[aria-checked='true'] {
+		background-color: $wc-color-ios-interactive-bg;
+		color: $wc-color-ios-interactive;
+	}
 }
 
-.menu .closesubmenu{
-	color:#ff3b30;
+.menu .closesubmenu {
+	color: $wc-color-ios-interactive-revert;
 }
 
-[role="menubar"].bar,
-[role="menubar"].flyout{
-	background-color:transparent;
-	border: 1px solid #007aff;
+[role='menubar'] {
+	&.bar,
+	&.flyout {
+		@include border($color: $wc-color-ios-interactive);
+		background-color: transparent;
+	}
+
+	> [aria-expanded] > button::after {
+		//scss-lint:disable ImportantRule
+		content: '\25bc' !important;
+		width: auto;
+	}
+
+	[role='menu'] {
+		background-color: $wc-color-ios-interactive-bg;
+		box-shadow: none;
+		color: $wc-color-ios-interactive;
+	}
 }
-
-[role="menubar"] > [aria-expanded] > button::after{
-	width:auto;
-	content:"\25bc" !important
-}
-
-[role="menubar"] [role="menu"]{
-	box-shadow:none;
-	background-color: #fff;
-	color:#007aff;
-}
-
-
-[role="menubar"] [aria-expanded="true"] > button,
-[role="menubar"] [aria-checked="true"],
-[role="menu"] [aria-expanded="true"] > button,
-[role="menu"] [aria-checked="true"]{
-	background-color:#007aff;
-	color: #fff;
-}
-
 /* end wc.ui.menu.barColumn.ios.css */

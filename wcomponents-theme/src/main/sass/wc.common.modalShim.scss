@@ -1,20 +1,19 @@
 /* wc.common.modalShim.scss */
-@import "wc.common.modalShim_vars.scss";
-#wc_shim{
-	position: fixed;
-	top: 0;
-	left: 0;
-	z-index: 19;
-	overflow: hidden;
-	width: 100%;
-	min-height: 100%;
+@import 'wc.common.modalShim_vars.scss';
+// scss-lint:disable IdSelector
+#wc_shim {
 	background-color: $wc_ui_color_modalShim;
 	color: $wc_ui_color_modalShim_foreground;
-	
-}
+	left: 0;
+	min-height: 100%;
+	overflow: hidden;
+	position: fixed;
+	top: 0;
+	width: 100%;
+	z-index: 19;
 
-/* (un)loading indicator shim*/
-#wc_shim.wc_shim_loading{
-	z-index:99
+	&.wc_shim_loading { // (un)loading indicator shim
+		z-index: 99;
+	}
 }
 /* end wc.common.modalShim.scss */

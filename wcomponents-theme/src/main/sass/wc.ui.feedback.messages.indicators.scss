@@ -11,46 +11,56 @@
  * CSS to do a very small job and overriding the whole lot in an implementation would require all
  * this just to turn off the pseudo elements plus the styling needed for the indicators.
 */
-@import "mixins_common.scss";
+@import 'mixins_common.scss';
 
-.error, .success, .warn, .info {
+.error,
+.success,
+.warn,
+.info {
 	> li:before {
 		@include useSymbolFont;
 	}
 }
-/* error x */
-.error > li:before{
-	content: "\00D7\00a0"
+
+
+li:before {
+	// error x
+	.error > & {
+		content: '\00D7\00a0';
+	}
+
+	// Warn !!
+	.warn > & {
+		content: '\203c\00a0';
+	}
+
+	// info i
+	.info > & {
+		content: '\2170\00a0';
+	}
+
+	// success tick : could cause i18n problems see http://en.wikipedia.org/wiki/Tick_(check_mark)
+	.success > & {
+		content: '\2713\00a0';
+	}
 }
 
-/* Warn !!*/
-.warn > li:before{
-	content: "\203c\00a0"
-}
+// message colors
+ul {
+	&.error {
+		color: $wc_ui_color_errorForeground;
+	}
 
-/* info i*/
-.info > li:before{
-	content: "\2170\00a0"
-}
+	&.warn {
+		color: $wc_ui_color_warningForeground;
+	}
 
-/* success tick : could cause i18n problems see http://en.wikipedia.org/wiki/Tick_(check_mark)*/
-.success > li:before{
-	content:"\2713\00a0"
-}
+	&.info {
+		color: $wc_ui_color_infoForeground;
+	}
 
-/* message colors */
-ul.error{
-	color: $wc_ui_color_errorForeground;
+	&.success {
+		color: $wc_ui_color_successForeground;
+	}
 }
-
-ul.warn{
-	color: $wc_ui_color_warningForeground;
-}
-
-ul.info{
-	color: $wc_ui_color_infoForeground;
-}
-
-ul.success{
-	color: $wc_ui_color_successForeground;
-}
+/* end * wc.ui.feedback.messages.indicators.scss */

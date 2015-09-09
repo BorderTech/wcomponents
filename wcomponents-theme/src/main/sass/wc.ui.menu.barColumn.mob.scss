@@ -1,18 +1,19 @@
 /* wc.ui.menu.barColumn.mob.scss */
-@import "wc.ui.menu_vars.scss";
+@import 'wc.ui.menu_vars.scss';
 
-.submenu[aria-expanded="true"] [role="menu"] {
+.submenu[aria-expanded='true'] [role='menu'] {
+	//scss-lint:disable ImportantRule
 	@include borderBox;
-	position:fixed;
-	left:0;
-	overflow:auto;
-	top:0;
-	width:100%;
-	height:100%;
 	background-color: $wc_ui_color_globalBackground !important; //override the default for aria-busy areas. Transparent sub-menus help no-one and it may seem that we are not loading.
+	height: 100%;
+	left: 0;
+	overflow: auto;
+	position: fixed;
+	top: 0;
+	width: 100%;
 }
 
-.menu > [aria-expanded] > [role="menu"] > [role] {
+.menu > [aria-expanded] > [role='menu'] > [role] {
 	font-size: 1.25em;
 }
 

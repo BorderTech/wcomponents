@@ -1,12 +1,13 @@
-/**
- * wc.debug.debugInfo.scss
- * Styling the debug info definition list.
+/* wc.debug.debugInfo.scss */
+@import 'mixins_common.scss';
+@import 'wc.ui.dialog_vars.scss';
 
- * Question: Why is this not themeable?
- * Answer: I am lazy - do it yourself!
-*/
-@import "mixins_common.scss";
+$wc-color-debug-fade-bg: #e6f2ff;
+$wc-color-debug-infobox-bg: #fff9e4;
+$wc-color-debug-infobox-border: 'orange';
+$wc-color-debug-crumb-bg: #f3f3f3;
 
+// scss-lint:disable IdSelector, VendorPrefix
 #wcdebugcontainer {
 	max-width: 100%;
 	min-height: 7em;
@@ -14,76 +15,90 @@
 	position: fixed;
 	width: 40em;
 	z-index: 100;
+
 	&.wc_max {
+		//scss-lint:disable ImportantRule
 		left: 0 !important;
 		top: 0 !important;
-		width: 100% !important
+		width: 100% !important;
 	}
+
 	&.wc_db_showing {
 		-webkit-animation: debugfadein 1s;
 		animation: debugfadein 1s;
 	}
-	> header, > footer {
-		background-color: #036;
-		color: #fff;
+
+	> header,
+	> footer {
+		background-color: $wc_ui_color_dialog_head_bg;
+		color: $wc_ui_color_dialog_head_fg;
 	}
-	> header{
-		padding:0.25em 0.5em;
+
+	> header {
+		padding: 0.25em 0.5em;
+
 		> h1 {
-			color: #fff;
+			color: $wc_ui_color_dialog_head_fg;
 			font-size: 1em;
 			margin: 0;
 			padding: 0.25em 0.5em;
 		}
-		> span { /* the control 'block' */
+
+		> span { // the control 'block'
 			position: absolute;
 			right: 0.25em;
 			top: 0.5em;
 		}
 	}
+
 	> [aria-live] {
-		background-color: #fff;
-		border: 1px solid #ccc;
-		color: #000;
+		@include border();
+		background-color: $wc_ui_color_globalBackground;
+		color: $wc_ui_color_globalForeground;
 		height: 100%;
 		overflow: auto;
 		padding: 0.5em;
 	}
+
 	> footer {
 		line-height: 0;
 		text-align: right;
 	}
-	&.wc_dragflow, &.wc_resizeflow {/* move and resize animations */
-		transition-delay:0s;
+
+	&.wc_dragflow,
+	 &.wc_resizeflow { // move and resize animations
+		transition-delay: 0s;
 		transition-duration: 1s;
-		transition-timing-function: ease-in-out
+		transition-timing-function: ease-in-out;
 	}
+
 	&.wc_dragflow {
 		transition-property: left, top;
+
 		&.wc_resizeflow {
-			transition-property: left, top, height, width
+			transition-property: left, top, height, width;
 		}
 	}
+
 	&.wc_resizeflow {
 		transition-property: height, width;
 	}
 }
-/*
- * The element currently having its debug info exposed
- */
+// The element currently having its debug info exposed
 .wc_db_active {
+	// scss-lint:disable ImportantRule
 	-webkit-animation: debugactivefade 3s infinite alternate;
 	animation: debugactivefade 3s infinite alternate;
-	background-color: #e6f2ff;
+	background-color: $wc-color-debug-fade-bg;
 	background-image: none !important;
-	color: #000 !important;
+	color: $wc_ui_color_globalForeground !important;
 }
 
 
 /* the instruction box */
 .wc_db_message {
-	background-color: #fff9e4;
-	border: 2px solid orange;
+	@include border($color: $wc-color-debug-infobox-border, $width: 2px);
+	background-color: $wc-color-debug-infobox-bg;
 	padding: 0.5em;
 	position: fixed;
 	right: 0;
@@ -91,29 +106,31 @@
 	width: 250px;
 }
 
-
 .wc_dialog_close:focus,
 .wc_dialog_close:hover {
-	background-position:100% 0
+	background-position: 100% 0;
 }
 
 .wc_db_crumbs {
-	background-color: #f3f3f3;
 	@include border;
+	background-color: $wc-color-debug-crumb-bg;
 	list-style-type: none;
 	margin: 0;
 	padding: $hgap_normal;
+
 	li {
 		display: inline-block;
 		width: auto;
+
 		+ li:before {
-			content:"> ";
+			content: '> ';
 			margin-left: $hgap_small;
 		}
 	}
-	+ div{
+
+	+ div {
 		bottom: 0;
-		height:1.334em;
+		height: 1.334em;
 		left: 0;
 		position: absolute;
 		width: 100%;
@@ -121,14 +138,14 @@
 }
 
 @mixin debugColorFade {
-	from {background-color: #e6f2ff;}
-	to {background-color: #f3f3f3;}
+	from {background-color: $wc-color-debug-fade-bg;}
+	to {background-color: $wc-color-debug-crumb-bg;}
 }
 
 
 @mixin debugFadein {
 	from {opacity: 0;}
-	to {opacity:1;}
+	to {opacity: 1;}
 }
 
 

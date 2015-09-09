@@ -1,29 +1,7 @@
 /* wc.ui.panel.scss */
+@import 'wc.ui.panel_vars.scss';
 
-@import "wc.ui.panel_vars.scss";
-
-/* NOTE
-  Regarding flex display and inline/inline-block cells.
-
-  The display rules for cells inside containers with a flex layout are to force inline for the middle cells even when
-  the browser does not support flex layout (or its vendor extension where required). We have extra rules for IE10 to use
-  its quirky flexbox layout rules and for IE8 & 9 using fixed width inline-block layout. We do not support nor warrant
-  any browser which does not support display:flex or its vendor extensions and these display rules are merely to prevent
-  blocking layouts.
-
-  Regarding -webkit- prefix
-  Chrome has had standardised support since v29 but Safari still uses the -webkit- prefix in its stable version.
-  The UC browser for Android also uses the -webkit- prefix and has significant international uptake
-  (http://caniuse.com/#search=flex).
-
-  Regarding the lack of -moz- prefix
-  Firefox has standard support since v22 and the -moz- prefix was for the old flexbox model this is ancient history.
-
-  Regarding -ms- prefix
-  This prefix is not required by IE11 and is implemented only by IE10 using the old flexbox model. See
-  wc.ui.panel.borderLayout.ie10.css and wc.ui.panel.flowLayout.ie10.css.
-  */
-.panel[aria-busy="true"] {
+.panel[aria-busy='true'] {
 	min-height: $lineSize;//always allow room for a loading indicator
 }
 
@@ -33,8 +11,8 @@
 div {
 	.flowLayout > &,
 	.wc_borderLayout_middle > & {
-		display:inline-block;
-		max-width:100%
+		display: inline-block;
+		max-width: 100%;
 	}
 }
 
@@ -44,44 +22,55 @@ div {
 	> div {
 		@include flexGrow(1);
 	}
-	> .center {// NOTE: the text align here is to overrule the generic .center class used in column alignment, table col alignment, flowLayout etc.
+
+	> .center {
 		@include flexGrow(2);
-		text-align: $preferredAlignment;
-		&:first-child, &:last-child {
+		text-align: $preferredAlignment; // NOTE: the text align here is to overrule the generic .center class used in column alignment, table col alignment, flowLayout etc.
+
+		&:first-child,
+		&:last-child {
 			@include flexGrow(3);
 		}
 	}
-	 > .east{
-		text-align: right;
+
+	> .east {
 		@include flexJustifyContent(flex-end);
+		text-align: right;
 	}
 }
 
-/*
-	FLOW LAYOUT
-	flowLayout puts elements into a vertical or horizontal flow.
-*/
+
+// FLOW LAYOUT
+// flowLayout puts elements into a vertical or horizontal flow.
 .flowLayout {
 	@include flex($wrap: wrap, $justify: flex-start, $align-items: flex-start, $align-content: flex-start);
-	&.right {
-		@include flexJustifyContent(flex-end);
-	}
-	&.center{
-		@include flexJustifyContent(center);
-		text-align:$preferredAlignment
-	}
-	&.middle {//vertical align middle of the flow
-		@include flexAlignItems(center);
-	}
+
 	&.baseline {
 		@include flexAlignItems(baseline);
 	}
+
 	&.bottom {
 		@include flexAlignItems(flex-end);
 	}
-	&.vertical,
-	&.vertical > div {
-		display:block;
+
+	&.center {
+		@include flexJustifyContent(center);
+		text-align: $preferredAlignment;
+	}
+
+	&.middle {//vertical align middle of the flow
+		@include flexAlignItems(center);
+	}
+
+	&.right {
+		@include flexJustifyContent(flex-end);
+	}
+
+	&.vertical {
+		&,
+		& > div {
+			display: block;
+		}
 	}
 }
 /* end wc.ui.panel.scss */

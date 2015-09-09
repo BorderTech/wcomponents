@@ -1,0 +1,38 @@
+linters:
+
+  Comment:
+    enabled: false # default is true but we really *need* CSS style comments.
+
+  ElsePlacement:
+    enabled: true
+    style: new_line # default is same_line which does not align with our eslint rules
+
+  ImportPath:
+    enabled: true
+    leading_underscore: false
+    filename_extension: true # default is false - this should be easy enough but does not gel with NetBeans autocomplete
+
+  Indentation:
+    enabled: true
+    allow_non_nested_indentation: false
+    character: tab # default is space: YUK!
+    width: 1 # default is 2 (spaces) - see previous line
+
+  LeadingZero:
+    enabled: true
+    style: include_zero
+
+  NameFormat:
+    enabled: false # this must be fixed in a later config: just a bit big at the moment
+    # allow_leading_underscore: true
+    # convention: hyphenated_lowercase # or 'camel_case', or 'snake_case', or a regex pattern
+
+  NestingDepth:
+    enabled: false
+
+  SelectorDepth:
+    enabled: true
+    max_depth: 6 # default is 3
+
+  SelectorFormat:
+    enabled: false # todo: make this true and set to a common format - this is a BIG job!

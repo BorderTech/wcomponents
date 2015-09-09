@@ -1,27 +1,36 @@
 /* wc.common.button.ios.css */
-@import "vars_all.scss";
+@import 'vars_all.scss';
+
 button {
 	background-color: transparent;
 	border: 0 none;
 	border-radius: 0;
-	color: #007aff;
+	color: $wc-ui-ios-interactive;
 	font-family: $iosFont;
 	font-size: 1em;
 	text-align: center;
 	vertical-align: middle;
+
 	&:active {
-		background-color: #007aff;
-		color: #fff;
+		background-color: $wc-ui-ios-interactive;
+		color: $wc-ui-ios-interactive-bg;
 	}
-	&, &:hover, &:focus, &:active, &[disabled] {
+
+	&,
+	&:hover,
+	&:focus,
+	&:active,
+	&[disabled] {
 		background-image: none;
 	}
+
 	&[disabled] {
 		color: $wc_ui_color_disabledForeground;
 	}
 }
 
-.wc_btn_nada:active, .wc_btn_link:active {
-	background-color: transparent
+.wc_btn_nada:active,
+.wc_btn_link:active {
+	background-color: transparent;
 }
 /* end wc.common.button.ios.css */

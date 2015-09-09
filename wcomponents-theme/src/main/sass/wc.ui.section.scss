@@ -1,23 +1,28 @@
 /* wc.ui.section.scss
  * for WSection */
-@import "mixins_common.scss";
+@import 'mixins_common.scss';
 
-.section{
+.section {
 	@include border;
-	 > .decoratedLabel {
+
+	> .decoratedLabel {
 		background-color: $wc_ui_color_border;
 		border-collapse: collapse;
 		display: table;
 		margin: 0;
 		width: 100%;
-		> h1, > div {
+
+		> h1,
+		> div {
 			display: table-cell;
 			padding: $hgap_normal;
 		}
-		> h1{
+
+		> h1 {
 			margin: 0;
 			width: 100%;
 		}
+
 		> div {
 			white-space: nowrap;
 			width: 0;

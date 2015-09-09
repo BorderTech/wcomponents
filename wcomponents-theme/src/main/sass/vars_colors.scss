@@ -1,5 +1,5 @@
 // Component colors
-@import "vars_colorscheme.scss";
+@import 'vars_colorscheme.scss';
 
 // disabled colours are special They are harder to get 4.5:1 and still look disabled!
 $wc_ui_color_disabledForeground: #696969;
@@ -51,3 +51,10 @@ $wc_ui_color_errorBackground: $std_color_error_bg;
 $wc_ui_color_infoForeground: $std_color_primary;
 $wc_ui_color_successForeground: $std_color_success_fg;
 $wc_ui_color_warningForeground: $std_color_warning_fg;
+
+
+// iOS specific colours
+$wc-color-ios-bg: #fff;
+$wc-color-ios-interactive: #007aff;
+$wc-color-ios-interactive-bg: $wc-color-ios-bg;
+$wc-color-ios-interactive-revert: #ff3b30;

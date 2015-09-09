@@ -1,5 +1,4 @@
-/* wc.common.modalShim_vars.scss */
-@import "vars_all.scss";
+// Variables for the modal shim
+@import 'vars_all.scss';
 $wc_ui_color_modalShim: $std_color_shim;
-$wc_ui_color_modalShim_foreground: $wc_ui_color_inverseForeground
-/* end wc.common.modalShim_vars.scss */
+$wc_ui_color_modalShim_foreground: $wc_ui_color_inverseForeground;

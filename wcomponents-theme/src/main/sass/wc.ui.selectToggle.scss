@@ -1,49 +1,56 @@
-/*
- * wc.ui.selectToggle.scss
- * selectToggle is either a definition list of buttons or a checkbox. The styling applies
- * only to the definition list variant
- * Select: All | None
- */
-@import "mixins_common.scss";
+/* wc.ui.selectToggle.scss */
+// only text mode
+
+@import 'mixins_common.scss';
+
 .wc_seltog {
 	span:first-child { // push the options off of the select keyword
 		margin-right: $hgap_normal;
 	}
+
 	button {
-		&[aria-checked="true"] {
-			font-weight: bold
+		&[aria-checked='true'] {
+			font-weight: bold;
 		}
-		+ button::before{
-			content: "|";
+
+		+ button::before {
+			content: '|';
+			font-weight: normal;
 			margin: 0 $hgap_small;
-			font-weight: normal
 		}
 	}
-	&[role="checkbox"] { // Graphical representation of state when rendered as a control
+
+	&[role='checkbox'] { // Graphical representation of state when rendered as a control
 		&::before {
-			content:url(../images/checkbox.svg);
 			@include makeBox($width: 1em, $height: 1em);
-			vertical-align: text-top; // ensure that the 1em "checkbox" analog lines up with any surrounding inline text.
+			content: url('../images/checkbox.svg');
+			vertical-align: text-top; // ensure that the 1em 'checkbox' analog lines up with any surrounding inline text.
 		}
-		&[aria-checked="true"]::before {
-			content: url(../images/checkbox-s.svg);
+
+		&[aria-checked='true']::before {
+			content: url('../images/checkbox-s.svg');
 		}
-		&[aria-checked="mixed"]::before {
-			content: url(../images/checkbox-i.svg);
+
+		&[aria-checked='mixed']::before {
+			content: url('../images/checkbox-i.svg');
 		}
+
 		&[disabled] {
 			&::before {
-				content:url(../images/checkbox-d.svg);
+				content: url('../images/checkbox-d.svg');
 			}
-			&[aria-checked="mixed"]::before {
-				content:url(../images/checkbox-i-d.svg);
+
+			&[aria-checked='mixed']::before {
+				content: url('../images/checkbox-i-d.svg');
 			}
-			&[aria-checked="true"]::before{
-				content:url(../images/checkbox-s-d.svg);
+
+			&[aria-checked='true']::before {
+				content: url('../images/checkbox-s-d.svg');
 			}
 		}
 	}
-	+ label{
+
+	+ label {
 		margin-left: $hgap_small;
 	}
 }

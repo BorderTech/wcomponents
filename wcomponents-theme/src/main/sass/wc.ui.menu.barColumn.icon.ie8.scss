@@ -1,27 +1,31 @@
 /* wc.ui.menu.barColumn.icon.ie8.css */
-[role="menubar"] > [aria-expanded] > button > .decoratedLabel{
-	display:table;
-	padding-right:16px;
-	box-sizing:border-box;
-	background-image:url(../images/down.png);
-	background-position:100% 50%;
-	background-repeat:no-repeat
+[role='menubar'] > [aria-expanded] > button {
+	> .decoratedLabel {
+		background-image: url('../images/down.png');
+		background-position: 100% 50%;
+		background-repeat: no-repeat;
+		box-sizing: border-box;
+		display: table;
+		padding-right: 16px;
+	}
+
+	&[disabled] .decoratedLabel {
+		background-image: url('../images/down-d.png');
+	}
 }
 
-[role="menubar"] > [aria-expanded] > button[disabled] .decoratedLabel{
-	background-image:url(../images/down-d.png)
-}
+[role='menu'] [aria-expanded] > button {
+	> .decoratedLabel {
+		background-image: url('../images/next.png');
+		background-position: 100% 50%;
+		background-repeat: no-repeat;
+		box-sizing: border-box;
+		display: table;/* table-row does not allow it to be sized to 100% in ie8 */
+		padding-right: 6px;
+	}
 
-[role="menu"] [aria-expanded] > button > .decoratedLabel{
-	display:table;/* table-row does not allow it to be sized to 100% in ie8 */
-	padding-right:6px;
-	box-sizing:border-box;
-	background-image:url(../images/next.png);
-	background-position:100% 50%;
-	background-repeat:no-repeat
-}
-
-[role="menu"] [aria-expanded] > button[disabled] .decoratedLabel{
-	background-image:url(../images/next-d.png)
+	&[disabled] .decoratedLabel {
+		background-image: url('../images/next-d.png');
+	}
 }
 /* end wc.ui.menu.barColumn.icon.ie8.css */

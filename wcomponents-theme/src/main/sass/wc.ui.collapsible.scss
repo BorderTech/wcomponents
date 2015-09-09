@@ -1,39 +1,42 @@
-/*
-	wc.ui.collapsible.scss
+/* wc.ui.collapsible.scss */
+// WCollapsible is a component which consists of a header element and content. The content is shown or hidden according
+// to the state of the collapsible. This is a close map of the HTML5 details element in which the header is a summary
+// element.
 
-	WCollapsible is a component which consists of a header element and content
-	The content is shown or hidden according to the state of the collapsible.
-	This is a close map of the HTML5 details element in which the header is a
-	summary element.
+// We only have to style immediate child elements of the collapsible container. In an ideal world we would not even have
+// to do this but so far only webkit has native support for <details> and that is still flawed.
 
-	We only have to style immediate child elements of the collapsible container.
-	In an ideal world we would not even have to do this but so far only webkit
-	has native support for <details> and that is still flawed.
+// The styles here are purposely minimal and will give you a DETAILS element pretty much like a Chrome default.
 
-	The styles here are purposely minimal and will give you a DETAILS element
-	pretty much like a Chrome default.
-*/
-@import "mixins_common.scss";
+@import 'mixins_common.scss';
 
-details, summary {
-	display: block
+details,
+summary {
+	display: block;
 }
 
 summary {
 	cursor: pointer;
 	font-weight: bold;
 	padding: $hgap_normal 0;
+
 	&::before {
-		content: url(../images/next.png);
+		content: url('../images/next.png');
 		display: inline-block;
 		height: 0;
 		margin-right: $hgap_small;
 		vertical-align: top;
 	}
+
 	&::-webkit-details-marker { // remove the default summary marker from webkit browsers
 		display: none;
 	}
-	> h1, > h2, > h3, > h4, > h5, > h6 {
+	> h1,
+	> h2,
+	> h3,
+	> h4,
+	> h5,
+	> h6 {
 		color: $wc_ui_color_globalForeground;
 		display: inline-block;
 		font-size: 1em;
@@ -45,20 +48,24 @@ summary {
 	}
 }
 
-// content of the collapsible NOTE: this is currently wrapped in a div but this could be > * with an override for summary::first-of-type
+// content of the collapsible NOTE: this is currently wrapped in a div but this could be > * with an override for
+// summary::first-of-type
 details {
 	> div {
-		display: none
+		display: none;
 	}
+
 	&[open] {
 		> div {
 			display: block;
-			&[aria-busy="true"] {
-				min-height: 16px
+
+			&[aria-busy='true'] {
+				min-height: 16px;
 			}
 		}
-		> summary::before{
-			content: url(../images/down.png);
+
+		> summary::before {
+			content: url('../images/down.png');
 		}
 	}
 }

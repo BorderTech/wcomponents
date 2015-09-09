@@ -1,11 +1,13 @@
 /* wc.ui.multiSelectPair.scss */
-@import "mixins_common.scss";
+@import 'mixins_common.scss';
 
 .multiSelectPair {
 	white-space: nowrap;
+
 	> span {// The containers for the parts of the multiSelectPair
 		display: inline-block;
 		vertical-align: top;
+
 		+ span {
 			//just enough margin to keep the buttons and selects visually separated but not enough to make them appear
 			//as separate controls. This is why we do not use the usual hgap_small property as that tends to
@@ -14,23 +16,29 @@
 			margin-left: 1px;
 		}
 	}
+
 	label { //Making the label display:block will define a minimum size for the selects.
 		display: block;
 	}
+
 	select { //Allow the select to grow with the label. NOTE: min-height is roughly the height of the four buttons.
 		min-height: 8em;
 		min-width: 100%;
 	}
+
 	// Attempt to align the sort buttons with the top of the SELECTs by using the default line height. This could be
 	// done by adding a non-breaking-space in a simple span to the button block but that would involve an extra dom node
 	// and  having sightly different transform for the list order buttons of WShuffler and WMultiSelectPair. This
 	// padding hack works for all usual cases.
-	.wc_sortcont, .wc_msp_btncol {
+	.wc_sortcont,
+	.wc_msp_btncol {
 		padding-top: $lineSize;
 	}
+
 	.wc_msp_btncol button { // the add and remove buttons
 		display: block;
-		&[value="rem"] { //a small gap between the add and remove buttons
+
+		&[value='rem'] { //a small gap between the add and remove buttons
 			margin-top: $vgap_normal;
 		}
 	}

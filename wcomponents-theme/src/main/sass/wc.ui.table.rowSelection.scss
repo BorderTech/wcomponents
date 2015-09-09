@@ -1,30 +1,37 @@
 /* wc.ui.table.rowSelection.css */
-@import "wc.ui.table.rowSelection_vars.scss";
-
+@import 'wc.ui.table.rowSelection_vars.scss';
+//scss-lint:disable QualifyingElement
 tr[aria-checked] {
-	&:hover, &:focus {
-		cursor: pointer;
+	&:hover,
+	&:focus {
 		@include rowInvite;
+		cursor: pointer;
 	}
 }
+//scss-lint:enable QualifyingElement
 
 .wc_table_sel_wrapper::before {
 	display: block;
-	width: 1em;
 	height: $lineSize;
-	[role="radio"] > & {
-		content: url(../images/radio.svg);
+	width: 1em;
+
+	[role='radio'] > & {
+		content: url('../images/radio.svg');
 	}
-	[role="radio"][aria-checked="true"] > & {
-		content: url(../images/radio-s.svg);
+
+	[role='radio'][aria-checked='true'] > & {
+		content: url('../images/radio-s.svg');
 	}
-	[role="checkbox"] > & {
-		content: url(../images/checkbox.svg);
+
+	[role='checkbox'] > & {
+		content: url('../images/checkbox.svg');
 	}
-	[role="checkbox"][aria-checked="true"] > & {
-		content: url(../images/checkbox-s.svg);
+
+	[role='checkbox'][aria-checked='true'] > & {
+		content: url('../images/checkbox-s.svg');
 	}
-	[aria-checked][aria-disabled="true"] > & {
+
+	[aria-checked][aria-disabled='true'] > & {
 		opacity: $disabledOpacity;
 	}
 }
