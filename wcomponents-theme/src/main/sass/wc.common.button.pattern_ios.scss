@@ -5,15 +5,15 @@ button {
 	background-color: transparent;
 	border: 0 none;
 	border-radius: 0;
-	color: $wc-ui-ios-interactive;
+	color: $wc-color-ios-interactive;
 	font-family: $iosFont;
 	font-size: 1em;
 	text-align: center;
 	vertical-align: middle;
 
 	&:active {
-		background-color: $wc-ui-ios-interactive;
-		color: $wc-ui-ios-interactive-bg;
+		background-color: $wc-color-ios-interactive;
+		color: $wc-color-ios-interactive-bg;
 	}
 
 	&,
