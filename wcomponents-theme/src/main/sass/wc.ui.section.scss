@@ -4,7 +4,7 @@
 
 .section{
 	@include border;
-	 > .decoratedLabel {
+	> .decoratedLabel {
 		background-color: $wc_ui_color_border;
 		border-collapse: collapse;
 		display: table;
@@ -14,7 +14,7 @@
 			display: table-cell;
 			padding: $hgap_normal;
 		}
-		> h1{
+		> h1 {
 			margin: 0;
 			width: 100%;
 		}
@@ -22,6 +22,9 @@
 			white-space: nowrap;
 			width: 0;
 		}
+	}
+	> .content {
+		padding: $hgap_normal;
 	}
 }
 /* end wc.ui.section.scss */
