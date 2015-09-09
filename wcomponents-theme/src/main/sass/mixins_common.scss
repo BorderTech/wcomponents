@@ -1,6 +1,6 @@
-@import "vars_all.scss";
-@import "mixins_flex.scss";//flex layouts
-@import "mixins_respond.scss";//responsive design media queries
+@import 'vars_all.scss';
+@import 'mixins_flex.scss';//flex layouts
+@import 'mixins_respond.scss';//responsive design media queries
 
 @mixin align($align: $preferredAlignment) {
 	text-align: $align;
@@ -16,6 +16,7 @@
 }
 
 @mixin borderBox {
+	// scss-lint:disable VendorPrefix
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 }
@@ -33,10 +34,11 @@
 
 @mixin mandatoryIndicator {
 	color: $wc_ui_color_requiredMarker;
-	content: "*";
+	content: '*';
 }
 
 @mixin offscreen {
+	// scss-lint:disable ImportantRule
 	left: -9999px !important;
 	overflow: hidden !important;
 	position: absolute !important;

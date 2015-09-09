@@ -1,59 +1,74 @@
 /* wc.ui.fileUpload.scss */
-@import "mixins_common.scss";
+@import 'mixins_common.scss';
+
 .fileUpload {
 	> .wc_filelist {
 		display: table-cell;  // horrendously wrong no doubt but fixes columns
 		margin-top: $hgap_small;
+
 		&.wc_list_flat {
 			.file {
 				display: inline-block;
 				margin-right: $hgap_small;
 				margin-top: $hgap_small;
+
 				&:last-child {
 					margin-right: 0;
 				}
 			}
+
 			a {
 				width: auto;
 			}
 		}
+
 		> .file + .file {
 			margin-top: $vgap_normal;
 		}
 	}
+
 	&[data-wc-cols] {
 		> div {
 			@include flex($justify: space-between);
 			margin-top: $hgap_small;
 		}
+
 		ul {
 			@include flexGrow(1);
 		}
 	}
+
 	.file {
 		@include border;
-		padding: $hgap_normal;
 		background-color: $wc_ui_color_highlight_bg;
 		color: $wc_ui_color_highlight_fg;
+		padding: $hgap_normal;
 		white-space: nowrap;
 	}
-	&.wc_dragging input[type=file] {
-		outline: 2px dotted $wc_ui_color_invite_fg;
+
+	&.wc_dragging [type=file] {
 		background-color: $wc_ui_color_invite_bg;  //#c0ffee
+		outline: 2px dotted $wc_ui_color_invite_fg;
 	}
+
 	button {
 		margin-left: $hgap_small;
+
 		&:before {
-			content: url(../images/edit-delete-2.png);
+			content: url('../images/edit-delete-2.png');
 		}
+
 		&[disabled]:before {
-			content: url(../images/edit-delete-2-d.png);
+			content: url('../images/edit-delete-2-d.png');
 		}
 	}
-	a, a ~ button {
+
+	a,
+	a ~ button {
 		display: inline-block;
 		vertical-align: top;
 	}
+
 	a {
 		width: calc(100% - #{$lineSize});
 	}

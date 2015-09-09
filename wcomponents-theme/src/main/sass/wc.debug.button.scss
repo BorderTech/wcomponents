@@ -1,12 +1,11 @@
-/**
- * wc.debug.button.css
- * styling for WButton, WCancelButton, WConfirmButton, WPrintButton and WLink[type.BUTTON]
- * components in debug diagnostic mode.
- */
+/* wc.debug.button.css */
+// styling for WButton, WCancelButton, WConfirmButton, WPrintButton and WLink[type.BUTTON] components in debug diagnostic mode.
 
 /* making the text align left puts the error/warning in a more sensible place
    without changing the dimensions of the button.*/
+// scss-lint:disable QualifyingElement
 button[data-wc-debugerr],
-button[data-wc-debugwarn]{
-	text-align:left
+button[data-wc-debugwarn] {
+	text-align: left;
 }
+/* end wc.debug.button.css */

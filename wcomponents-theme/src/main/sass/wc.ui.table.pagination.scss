@@ -1,15 +1,19 @@
 /* wc.ui.table.pagination.scss */
-@import "mixins_common.scss";
+@import 'mixins_common.scss';
 
 .wc_table_pag_cont {
-	white-space: nowrap;
 	text-align: right;
-	label, select, .wc_ibtn:first-of-type {
+	white-space: nowrap;
+
+	label,
+	select,
+	.wc_ibtn:first-of-type {
 		margin-left: $hgap_large;
 	}
 }
 
 .wc_table_pag_socbtn {
+	line-height: 1;
 	margin-left: $hgap_small;
-	line-height:1;
 }
+/* end wc.ui.table.pagination.scss */

@@ -1,7 +1,5 @@
-/* wc.ui.selectboxSearch.scss
-  Select box typeahead
-*/
-@import "vars_all.scss";
+/* wc.ui.selectboxSearch.scss */
+@import 'vars_all.scss';
 
 .wc_selsch {
 	background-color: $wc_ui_color_highlight_bg;
@@ -10,6 +8,7 @@
 	margin-top: -1.25em;
 	padding: 0 $hgap_small;
 	position: absolute;
+
 	&.wc_selsch_notfound {
 		color: $wc_ui_color_errorForeground;
 	}

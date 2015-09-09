@@ -1,20 +1,19 @@
-/*
- * wc.ui.menu.barColumn.scss
- * for WMenu type BAR, type FLYOUT, type COLUMN
- */
-@import "wc.ui.menu_vars.scss";
+/* wc.ui.menu.barColumn.scss */
+// for WMenu type BAR, type FLYOUT, type COLUMN
+@import 'wc.ui.menu_vars.scss';
 
-[role="menu"] { //this role is any part of a COLUMN menu and submenus of a BAR or FLYOUT
+[role='menu'] { //this role is any part of a COLUMN menu and submenus of a BAR or FLYOUT
 	> [role],
 	> [aria-expanded] > button {
 		padding: $wc_ui_menu_barColumn_itemPad;
 	}
-	.submenu[aria-expanded="true"] > & {
+
+	.submenu[aria-expanded='true'] > & {
 		z-index: 5;
+
 		dialog & {
 			z-index: 25;
 		}
 	}
 }
-
 /* end wc.ui.menu.barColumn.scss*/

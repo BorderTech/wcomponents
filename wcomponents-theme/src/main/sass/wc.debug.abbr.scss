@@ -1,7 +1,8 @@
 /* wc.debug.abbr.css */
-
 abbr {
-	&[data-wc-debuginfo], &[data-wc-debugwarn], &[data-wc-debugerr] {
+	&[data-wc-debuginfo],
+	&[data-wc-debugwarn],
+	&[data-wc-debugerr] {
 		display: inline-block;
 	}
 }

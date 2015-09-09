@@ -1,29 +1,34 @@
 /* wc.ui.dialog.ios.css */
-dialog{
+@import 'mixins_common.scss';
+
+$wc-color-ios-dialog-bg: #f7f7f7;
+$wc-color-ios-dialog-header-border: #a7a7aa;
+
+dialog {
+	background-color: $wc-color-ios-dialog-bg;
 	border-radius: 2px;
-	background-color: #f7f7f7
-}
 
-dialog > [aria-live]{
-	background-color:transparent;
-	border:0 none
-}
+	> [aria-live] {
+		background-color: transparent;
+		border: 0 none;
+	}
 
-dialog > header{
-	background-color:transparent;
-	border-bottom: 1px solid #a7a7aa
-}
+	> header {
+		@include border($color: $wc-color-ios-dialog-header-border);
+		background-color: transparent;
 
-dialog > header > h1{
-	color:#000;
-	font-size:17px;
-	font-weight:normal;
-	text-align:center;
-	padding:0;
-	margin:14px 0 7px 0
-}
+		> h1 {
+			color: $wc_ui_color_globalForeground;
+			font-size: 17px;
+			font-weight: normal;
+			margin: 14px 0 7px;
+			padding: 0;
+			text-align: center;
+		}
 
-dialog > header span{
-	top:9px
+		span {
+			top: 9px;
+		}
+	}
 }
 /* end wc.ui.dialog.ios.css */

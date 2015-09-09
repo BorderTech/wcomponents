@@ -1,10 +1,11 @@
 /* wc.ui.radioButton.ie8.css */
-.radio{
+.radio {
 	&:before {
-		content: url(../images/radio-ro.ie8.png);
+		content: url('../images/radio-ro.ie8.png');
 	}
-	&.wc_ro_sel:before{
-		content: url(../images/radio-s-ro.ie8.png);
+
+	&.wc_ro_sel:before {
+		content: url('../images/radio-s-ro.ie8.png');
 	}
 }
 /* end wc.ui.radioButton.ie8.css */

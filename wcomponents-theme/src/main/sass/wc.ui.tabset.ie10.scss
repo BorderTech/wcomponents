@@ -1,11 +1,12 @@
-/* wc.ui.tabset.ie9.css */
-.top > [role="tablist"]{
-	display:-ms-flexbox;
-	-ms-flex-pack:start;
-	-ms-flex-wrap:none
-}
+/* wc.ui.tabset.ie9=10.css */
+//scss-lint:disable VendorPrefix
+.top > [role='tablist'] {
+	display: -ms-flexbox;
+	-ms-flex-pack: start;
+	-ms-flex-wrap: none;
 
-.top > [role="tablist"] > [role="tab"]{
-	-ms-flex: 0 1 auto
+	> [role='tab'] {
+		-ms-flex: 0 1 auto;
+	}
 }
-/* end wc.ui.tabset.ie9.css */
+/* end wc.ui.tabset.ie10.css */

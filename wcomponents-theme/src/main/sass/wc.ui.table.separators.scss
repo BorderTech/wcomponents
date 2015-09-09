@@ -1,29 +1,31 @@
-/* wc.ui.table.separators.css
-  Row and Column Separators
+/* wc.ui.table.separators.css */
+// Row and Column Separators
 
-  .wc_table_rowsep is applied to the tbody
-  .wc_table_colsep is applied to the colgroup
+// .wc_table_rowsep is applied to the tbody
+// .wc_table_colsep is applied to the colgroup
 
-*/
-@import "mixins_common.scss";
-@import "wc.ui.table_vars.scss";
+@import 'mixins_common.scss';
+@import 'wc.ui.table_vars.scss';
 
 .wc_table_rowsep > tr + tr {
 	@include border($pos: top);
 }
 
-/* col separators are a bit harder: we have spanned cols in hierarchic tables */
+// col separators are a bit harder: we have spanned cols in hierarchic tables
 .wc_table_colsep {
-	> col + col{
+	> col + col {
 		@include border($pos: left);
 	}
+
 	> .wc_table_colauto,
-	> .wc_table_colauto + col { /* The first col after the last auto generated col is the first data col and cannot have a left border */
+	> .wc_table_colauto + col { // The first col after the last auto generated col is the first data col and cannot have a left border
 		border-left: 0 none;
 	}
-	+ thead td + td { /* override the col border in header row used for controls not in header row used for headings. */
+
+	+ thead td + td { // override the col border in header row used for controls not in header row used for headings.
 		@include border($pos: left, $color: $wc_ui_color_tableHeadBackground);
 	}
+
 	+ tfoot td + td {
 		@include border($pos: left, $color: $wc_ui_color_tableFootBackground);
 	}

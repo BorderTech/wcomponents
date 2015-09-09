@@ -1,22 +1,25 @@
-/*
-	wc.ui.menu.bar.scss
-	These styles apply to WMenus of type BAR and FLYOUT
-	NOTE: role menuitemradio and menuitemcheckbox can be shorthanded to aria-checked.
-*/
-@import "wc.ui.menu_vars.scss";
-[role="menubar"] {
+/* wc.ui.menu.bar.scss */
+// These styles apply to WMenus of type BAR and FLYOUT
+// NOTE: role menuitemradio and menuitemcheckbox can be shorthanded to aria-checked.
+@import 'wc.ui.menu_vars.scss';
+
+[role='menubar'] {
 	&.flyout {
-		display:inline-block;
+		display: inline-block;
+
 		> [role],
 		> [aria-expanded] > button { //top level items
 			padding: $wc_ui_menu_flyout_topLevel_itemPad;
 		}
 	}
+
 	&.bar {
-		> [role], > [aria-expanded] > button {//top level items
+		> [role],
+		> [aria-expanded] > button {//top level items
 			padding: $wc_ui_menu_barColumn_itemPad;
 		}
 	}
+
 	> [role],
 	> [role] > .decoratedLabel,
 	> [aria-expanded] > button > .decoratedLabel {
@@ -24,48 +27,61 @@
 		white-space: nowrap;
 		width: auto;
 	}
+
 	> [role] > .decoratedLabel,
 	> [aria-expanded] > button > .decoratedLabel {
 		vertical-align: middle;
 	}
-	[role="menu"] { //sub-menus of a menu bar see wc.ui.menu.barColumn.scss for more
-		white-space:nowrap;
+
+	[role='menu'] { //sub-menus of a menu bar see wc.ui.menu.barColumn.scss for more
+		white-space: nowrap;
+
 		//now for the collision detection...
-		&.wc_colsth {//south collision
-			left:100%;
-			&.wc_coleast {//collides both south and east
+		&.wc_colsth { //south collision
+			left: 100%;
+
+			&.wc_coleast { //collides both south and east
 				left: auto;
 				right: 100%;
 			}
 		}
-		&.wc_coleast.wc_colwest{//collides both east and west
+
+		&.wc_coleast.wc_colwest { //collides both east and west
 			max-width: 100%;
 		}
-		[role="menu"].wc_coleast.wc_colwest {//nested submenus which collide both east and west - this is a design flaw and I refuse to cater for it!
+
+		[role='menu'].wc_coleast.wc_colwest { //nested submenus which collide both east and west - this is a design flaw and I refuse to cater for it!
 			max-width: none;
 		}
 
 		// Structuring the WDecoratedLabels to make everything fit nice is easy at the top level but needs to override
 		// the menu defaults in wc.ui.menu.barColumn.scss
-		> [role], > [aria-expanded] > button {
+		> [role],
+		> [aria-expanded] > button {
 			> .decoratedLabel {
 				display: inline-block;
 				width: auto;
+
 				> .wc_dlbl_seg {
 					display: inline-block;
 					padding-left: 0;
 				}
+
 				> .labelBody {
 					width: auto;
 				}
 			}
+
 			th & { // reduce padding in a table header
 				padding: 0;
 			}
 		}
-		[role="separator"][aria-orientation="vertical"] {// Separators. Padding is important to override the general zero padding which is important to override all the role paddings.
-			padding: $wc_ui_menu_itemPad_topbottom 0 !important;
-				th & {
+
+		[role='separator'][aria-orientation='vertical'] {// Separators.
+			//scss-lint:disable ImportantRule
+			padding: $wc_ui_menu_itemPad_topbottom 0 !important; //Padding is important to override the general zero padding which is important to override all the role paddings.
+
+			th & {
 				padding: 0 !important;
 			}
 		}

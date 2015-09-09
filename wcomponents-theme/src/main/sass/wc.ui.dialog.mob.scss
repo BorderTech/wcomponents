@@ -1,17 +1,18 @@
 /* wc.ui.dialog.mob.css */
-dialog{
-	position:fixed;
-	left:0;
-	top:0;
-	width:96%;
-	height:96%;
-	-moz-box-sizing:border-box;
-	box-sizing:border-box;
-	overflow:auto;
-	margin:2%
-}
+@import 'mixins_common.scss';
 
-dialog > header .wc_maxcont{
-	display:none
+dialog {
+	@include borderBox;
+	height: 96%;
+	left: 0;
+	margin: 2%;
+	overflow: auto;
+	position: fixed;
+	top: 0;
+	width: 96%;
+
+	> header .wc_maxcont {
+		display: none;
+	}
 }
 /* end wc.ui.dialog.mob.css */

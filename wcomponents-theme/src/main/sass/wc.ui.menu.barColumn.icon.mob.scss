@@ -1,28 +1,27 @@
-/*
- * wc.ui.menu.barColumn.icon.mob.scss
- * for WMenu type BAR, type FLYOUT, type COLUMN. The opener iconoiography for mobile uas.
- */
-
-@import "vars_all.scss";
+/* wc.ui.menu.barColumn.icon.mob.scss */
+// * for WMenu type BAR, type FLYOUT, type COLUMN. The opener iconoiography for mobile uas.
+@import 'vars_all.scss';
 
 [aria-expanded] > button {
-	[role="menubar"] > &::after {
-		content: "\25bc";
+	[role='menubar'] > &::after {
+		content: '\25bc';
 		display: inline-block;
 		margin-left: $hgap_small;
 	}
-	[role="menu"] & .decoratedLabel::after {
-		content:"\25ba";
-		display:table-cell;
-		[role="banner"] & {
+
+	[role='menu'] & .decoratedLabel::after {
+		content: '\25ba';
+		display: table-cell;
+
+		[role='banner'] & {
 			display: inline-block;
 			margin-left: 0.25em;
 		}
 	}
 }
 
-.closesubmenu::before{
-	content:"\2039";
-	margin-right:0.5em;
+.closesubmenu::before {
+	content: '\2039';
+	margin-right: 0.5em;
 }
 /* end wc.ui.menu.barColumn.icon.mob.scss*/

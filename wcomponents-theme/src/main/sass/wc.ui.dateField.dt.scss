@@ -1,16 +1,18 @@
 /* wc.ui.dateField.dt.scss */
-@import "mixins_common.scss";
-
+@import 'mixins_common.scss';
+//scss-lint:disable IdSelector
 #wc-calbox { // This is the calendar container.
-	@include border;// or box-shadow: 3px 3px 3px $wc_ui_color_shadow; but not both
+	@include border; // or box-shadow: 3px 3px 3px $wc_ui_color_shadow; but not both
 	position: absolute;
 	right: 0;
+
 	&.wc_colsth { // bottom collision
 		bottom: 110%;
 	}
+
 	&.wc_colwest { // right collision
-		right: auto;
 		left: 0;
+		right: auto;
 	}
 
 }
@@ -21,23 +23,23 @@
 
 .wc_wdf_mv {
 	&:before {
-		vertical-align: middle;
 		@include useSymbolFont;
+		vertical-align: middle;
 	}
-	&[value="-1"]:before {/* back a month */
-		content: "\25c0";
+
+	&[value='-1']:before {// back a month
+		content: '\25c0';
 	}
-	&[value="1"]:before {/* forwards a month */
-		content: "\25b6";
+	&[value='1']:before {// forwards a month
+		content: '\25b6';
 	}
-	&[value="t"]:before {/* go to today */
-		content: "\25cf";
+	&[value='t']:before {//go to today
+		content: '\25cf';
 	}
 }
 
-/* do not display the close buttton unless we are in a mobile scenario (ESC works)*/
+// do not display the close buttton unless we are in a mobile scenario (ESC works)
 .wc_wdf_cls {
 	display: none;
 }
-
 /* end wc.ui.dateField.dt.css*/

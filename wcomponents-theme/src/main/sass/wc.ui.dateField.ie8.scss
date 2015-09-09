@@ -1,16 +1,18 @@
 /*wc.ui.dateField.ie8.scss */
-@import "mixins_common.scss";
+@import 'mixins_common.scss';
 
-#wc-calendar{
+//scss-lint:disable IdSelector
+#wc-calendar {
 	thead {
 		td {
-			vertical-align:bottom;
-			padding:0;
+			padding: 0;
+			vertical-align: bottom;
 		}
-		input, button[value="-1"] {
+
+		input,
+		[value='-1'] {
 			margin-left: $hgap_large;
 		}
 	}
 }
-
 /* end wc.ui.dateField.ie8.css */

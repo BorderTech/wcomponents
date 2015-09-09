@@ -1,8 +1,9 @@
 /* wc.ui.dateField.ios.css */
+//scss-lint:disable IdSelector
 #wc-calendar thead button { // TODO: I don't think we need this any more
-	vertical-align: middle;
 	background-image: none;
-	width: 22px;
 	border-radius: 0;
+	vertical-align: middle;
+	width: 22px;
 }
 /* end wc.ui.dateField.ios.css */

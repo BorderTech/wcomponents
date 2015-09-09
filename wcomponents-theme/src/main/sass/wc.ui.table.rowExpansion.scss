@@ -1,41 +1,41 @@
-/*
- * wc.ui.table.rowExpansion.css
- */
-@import "mixins_common.scss";
+/* wc.ui.table.rowExpansion.css */
+@import 'mixins_common.scss';
 
-thead .rowExpansion{
-	&[role="radiogroup"] {
+thead .rowExpansion {
+	&[role='radiogroup'] {
 		list-style-type: none;
 		margin: 0;
 		padding: 0;
 		text-align: right;
 	}
-	> li{
+
+	> li {
 		display: inline-block;
 		width: auto;
-		+ li{
+
+		+ li {
 			margin-left: $hgap_small;
 		}
 
 	}
 }
-/*
- ROW EXPANSION iconography and expand/collapse all iconography.
- .wc_table_rowexp_container is the expandable row's expander holding cell or header*/
 
+// ROW EXPANSION iconography and expand/collapse all iconography.
+// .wc_table_rowexp_container is the expandable row's expander holding cell or header*/
 .rowExpansion button {
 	&:before {
-		content: "\229e";
 		@include useSymbolFont;
+		content: '\229e';
 		font-size: 1.25em;
 		line-height: 0;
 	}
-	&[data-wc-value="collapse"]:before {
-		content: "\229f";
+
+	&[data-wc-value='collapse']:before {
+		content: '\229f';
 	}
 }
 
-tr[aria-disabled="true"] > .wc_table_rowexp_container button:before{
+[aria-disabled='true'] > .wc_table_rowexp_container button:before {
 	opacity: 0.5;
 }
 /* end wc.ui.table.rowExpansion.css*/

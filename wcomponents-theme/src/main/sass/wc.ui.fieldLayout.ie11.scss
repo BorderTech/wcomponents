@@ -1,13 +1,12 @@
-/*
- * IE does not implement whitespace:pre-wrap in a consistent manner. It appears
- * to not consider multi-byte punctuation equivalents (such as &gt;) to be word
- * separators. This can lead to uncontrolled overflow. We have decided to only
- * attempt to control this overflow when the textarea is in a WField with its
- * input width set. This gives consuming applications a way to control overflow 
- * without having internal scroll bars on random text areas.
- */
+/* wc.ui.fieldLayout.ie11.scss */
+// IE does not implement whitespace:pre-wrap in a consistent manner. It appears to not consider multi-byte punctuation
+// equivalents (such as &gt;) to be word separators. This can lead to uncontrolled overflow. We have decided to only
+// attempt to control this overflow when the textarea is in a WField with its input width set. This gives consuming
+// applications a way to control overflow without having internal scroll bars on random text areas.
 
-.input.inputWidth > pre.wc_ro{
-	display:block;
-	overflow:auto
+//scss-lint:disable QualifyingElement
+.input.inputWidth > pre.wc_ro {
+	display: block;
+	overflow: auto;
 }
+/* end wc.ui.fieldLayout.ie11.scss */

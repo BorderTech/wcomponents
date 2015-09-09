@@ -1,20 +1,22 @@
 /* wc.ui.panel.borderLayout.ie10.css */
-.wc_borderLayout_middle{
-	display:-ms-flexbox;
-	-ms-flex-direction:row;
-	-ms-flex-pack:justify;
-	-ms-flex-align:start
-}
+//scss-lint:disable VendorPrefix
+.wc_borderLayout_middle {
+	display: -ms-flexbox;
+	-ms-flex-align: start;
+	-ms-flex-direction: row;
+	-ms-flex-pack: justify;
 
-.wc_borderLayout_middle > div{
-	-ms-flex:1 1 25%
-}
+	> div {
+		-ms-flex: 1 1 25%;
+	}
+	
+	> .center {
+		-ms-flex: 1 1 50%;
 
-.wc_borderLayout_middle > .center{
-	-ms-flex:1 1 50%
-}
-.wc_borderLayout_middle > .center:first-child,
-.wc_borderLayout_middle > .center:last-child{
-	-ms-flex:1 1 75%
+		&:first-child,
+		&:last-child {
+			-ms-flex: 1 1 75%;
+		}
+	}
 }
 /* end wc.ui.panel.borderLayout.ie10.css */

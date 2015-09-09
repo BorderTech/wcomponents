@@ -1,30 +1,38 @@
 /* wc.ui.dialogue.ie9.scss */
-@import "wc.ui.dialog_vars.scss";
+@import 'wc.ui.dialog_vars.scss';
 
 dialog {
 	&[open] {
-		display:block;
+		display: block;
+		margin: 0;
+		padding: 0;
 	}
+
 	> [aria-live] {
-		box-sizing:border-box;
-		padding:2em $hgap_normal;
+		@include borderBox;
+		padding: 2em $hgap_normal;
 	}
-	> header, > footer{
+
+	> header,
+	> footer {
 		position: absolute;
 		width: 100%;
 	}
-	> header{
+
+	> header {
 		height: 16px;
 		overflow: hidden;
 		padding: 3px 0;
 		top: 0;
+
 		> span {
+			margin-right: 0;
 			position: absolute;
 			right: 3px;
 			top: 3px;
-			margin-right: 0;
 		}
 	}
+
 	> footer {
 		bottom: 0;
 	}

@@ -3,31 +3,34 @@
  * Description: Show the fake progress bar spans
  */
 
-@import "wc.ui.progress_var.scss";
+@import 'wc.ui.progress_var.scss';
 
 progress {
 	display: inline-block;
 	min-width: 10em;
+
 	&.small {
-		min-width: 6.7em
+		min-width: 6.7em;
 	}
 }
 
-[role="progressbar"] {
-	display:block;
-	position: relative;
-	width:100%;
-	background-color: $progressBackground;
-	height: $lineSize;
+[role='progressbar'] {
 	@include border;
-	> [role="presentation"] { // we build the faux progress indicator using two spans
-		position: absolute;
-		white-space: nowrap;
+	background-color: $progressBackground;
+	display: block;
+	height: $lineSize;
+	position: relative;
+	width: 100%;
+
+	> [role='presentation'] { // we build the faux progress indicator using two spans
 		display: block;
-		width: 100%;
 		height: 100%;
 		overflow: hidden;
-		+ [role="presentation"] { // faux progress bar text label
+		position: absolute;
+		white-space: nowrap;
+		width: 100%;
+
+		+ [role='presentation'] { // faux progress bar text label
 			text-align: center;
 		}
 	}

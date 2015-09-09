@@ -1,27 +1,32 @@
 /* wc.ui.panel.flowLayout.ie9.css */
-.flowLayout > div{
-	vertical-align:text-top;
-	width:auto
-}
 
-.flowLayout.middle > div{
-	vertical-align:middle
-}
 
-.flowLayout.baseline > div{
-	vertical-align:baseline
-}
+.flowLayout {
+	> div {
+		vertical-align: text-top;
+		width: auto;
+	}
 
-.flowLayout.bottom > div{
-	vertical-align:bottom
-}
+	&.baseline > div {
+		vertical-align: baseline;
+	}
 
-.flowLayout.vertical > div{
-	display:block;
-	vertical-align:inherit;
-	width:initial
-}
-.flowLayout.center{
-	text-align:center
+	&.bottom > div {
+		vertical-align: bottom;
+	}
+
+	&.center {
+		text-align: center;
+	}
+
+	&.middle > div {
+		vertical-align: middle;
+	}
+
+	&.vertical > div {
+		display: block;
+		vertical-align: inherit;
+		width: initial;
+	}
 }
 /* end wc.ui.panel.flowLayout.ie9.css */

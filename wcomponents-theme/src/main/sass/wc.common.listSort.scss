@@ -1,49 +1,55 @@
-/* wc.common.listSort.scss
- * the list sort controls are the buttons used to reorder the options
- * used by WMultiSelectPair and WShuffler
- */
-@import "mixins_common.scss";
+/* wc.common.listSort.scss */
+// The list sort controls are the buttons used to reorder the options used by WMultiSelectPair and WShuffler
+@import 'mixins_common.scss';
 
 .wc_sortcont {
 	display: inline-block;
-	vertical-align: top
+	vertical-align: top;
 }
 
 .wc_sorter {
 	display: block;
 	padding: 3px;
+
 	&:before {
-		content: url("../images/top.png");
+		content: url('../images/top.png');
 		position: relative;
 		top: 1px;
 	}
+
 	+ .wc_sorter {
 		&:before {
-			content: url("../images/up.png");
+			content: url('../images/up.png');
 		}
+
 		+ .wc_sorter {
 			&:before {
-				content: url("../images/down.png");
+				content: url('../images/down.png');
 			}
+
 			+ .wc_sorter:before {
-				content: url("../images/bottom.png");
+				content: url('../images/bottom.png');
 			}
 		}
 	}
+
 	&[disabled] {
 		&:before {
-			content: url("../images/top-d.png");
+			content: url('../images/top-d.png');
 		}
+
 		+ .wc_sorter {
 			&:before {
-				content: url("../images/up-d.png");
+				content: url('../images/up-d.png');
 			}
+
 			+ .wc_sorter {
 				&:before {
-					content: url("../images/down-d.png");
+					content: url('../images/down-d.png');
 				}
+				
 				+ .wc_sorter:before {
-					content: url("../images/bottom-d.png");
+					content: url('../images/bottom-d.png');
 				}
 			}
 		}

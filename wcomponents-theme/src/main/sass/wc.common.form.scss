@@ -1,70 +1,69 @@
-/*
-wc.common.form.scss
-
- This document contains general css styling for generic form components. Custom components have their own css files
-
- * see wc.ui.fieldset.css for fieldsets
- * see wc.common.buttons.css for buttons
- */
-@import "mixins_common.scss";
+/* wc.common.form.scss */
+// This document contains general css styling for generic form components. Custom components have their own css files
+@import 'mixins_common.scss';
 
 @mixin ariaDisabled {
-	color: $wc_ui_color_disabledForeground; //NOTE do not set background-color here for your own sanity
+	// scss-lint:disable ImportantRule
+	color: $wc_ui_color_disabledForeground; // NOTE do not set background-color here for your own sanity
 	cursor: default !important;
 	outline: none !important;
 	text-decoration: none !important;
 }
 
-select {
-	margin: 0;
+select,
+%select { //placeholder just to make scss-lint stfu
+	@include border($color: $wc_ui_color_border_formControl); // breaks firefox OS X quite nastily but it is better than the other options with all other browsers
 	font-family: inherit;
 	font-size: inherit;
-	max-width: 100%;
 	line-height: inherit;
-	@include border($color: $wc_ui_color_border_formControl); // breaks firefox OS X quite nastily but it is better than the other options with all other browsers
-	&[aria-invalid="true"] {
+	margin: 0;
+	max-width: 100%;
+
+	&[aria-invalid='true'] {
 		background-color: $wc_ui_color_errorBackground;
 	}
 }
 
-input, textarea {
+input,
+textarea {
+	@extend %select;
 	padding: 1px;
-	@extend select;
 }
 
-[aria-invalid="true"] {
+[type='checkbox'],
+[type='radio'] {
+	border: 0 none;
+}
+
+[aria-invalid='true'] {
 	@include outline($color: $wc_ui_color_errorForeground);
 }
 
-[role="combobox"][aria-invalid="true"] > input {
+[role='combobox'][aria-invalid='true'] > input {
 	background-color: $wc_ui_color_errorBackground;
 }
 
-/* DISABLED */
-
-[aria-disabled="true"] {
+// DISABLED
+[aria-disabled='true'] {
 	@include ariaDisabled;
 }
 
-input, select, textarea {
+input,
+select,
+textarea {
 	&[disabled] {
+			// scss-lint:disable ImportantRule
 		@include ariaDisabled;
 		background-color: $wc_ui_color_disabledBackground !important;
 		border-color: $wc_ui_color_disabledBorder !important;
 	}
 }
 
-input {
-	&[type="checkbox"], &[type="radio"] {
-		border: 0 none;
-	}
-}
-
-/* Read-only: box sizing is to make them the same as the editable element (input, textarea or select). */
+// Read-only: box sizing is to make them the same as the editable element (input, textarea or select).
 .wc_ro {
 	@include borderBox;
 	display: inline-block;
-	word-wrap: break-word;
 	max-width: 100%;
+	word-wrap: break-word;
 }
 /* end of wc.common.form.scss */
