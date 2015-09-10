@@ -28,5 +28,9 @@
 			width: 0;
 		}
 	}
+
+	> .content {
+		margin: $hgap_normal;
+	}
 }
 /* end wc.ui.section.scss */
