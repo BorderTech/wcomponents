@@ -1,8 +1,7 @@
 package com.github.bordertech.wcomponents;
 
-import java.util.List;
-
 import com.github.bordertech.wcomponents.validation.Diagnostic;
+import java.util.List;
 
 /**
  * <p>
@@ -95,17 +94,6 @@ public class WCardManager extends AbstractMutableContainer
     {
         cardContainer.remove(component);
     }
-    
-    /**
-     * Override remove so that components are removed from the (invisible) container.
-     * @param component the component to remove.
-     * @param tidyTheSession if true, the component's state is reset in the given context.
-     */
-    @Override
-    public void remove(final WComponent component, final boolean tidyTheSession)
-    {
-        cardContainer.remove(component, tidyTheSession);
-    }
 
     /**
      * Override removeAll so that all components are removed from the (invisible) container.
@@ -116,16 +104,6 @@ public class WCardManager extends AbstractMutableContainer
         cardContainer.removeAll();
     }
 
-    /**
-     * Override removeAll so that all components are removed from the (invisible) container.
-     * @param tidyTheSession if true, the components' states are reset in the given context.
-     */
-    @Override
-    public void removeAll(final boolean tidyTheSession)
-    {
-        cardContainer.removeAll(tidyTheSession);
-    }
-    
     /**
      * Since none of the children are visible to standard processing,
      * handleRequest has been overridden so that the visible card is 

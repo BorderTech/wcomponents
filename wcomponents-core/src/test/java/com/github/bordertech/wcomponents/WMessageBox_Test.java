@@ -1,9 +1,7 @@
 package com.github.bordertech.wcomponents;
 
 import java.util.List;
-
 import junit.framework.Assert;
-
 import org.junit.Test;
 
 /**
@@ -64,12 +62,6 @@ public class WMessageBox_Test extends AbstractWComponentTestCase
     {
         assertAccessorsCorrect(new WMessageBox(WMessageBox.SUCCESS), "type", WMessageBox.SUCCESS, WMessageBox.ERROR, WMessageBox.WARN);
     }
-
-//    @Test
-//    public void testEncodeAccessors()
-//    {
-//        assertAccessorsCorrect(new WMessageBox(WMessageBox.SUCCESS), "encodeText", true, false, true);
-//    }
 
     @Test
     public void testRemoveMessage()

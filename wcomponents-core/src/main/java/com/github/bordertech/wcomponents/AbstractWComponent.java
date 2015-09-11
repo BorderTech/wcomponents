@@ -1,5 +1,14 @@
 package com.github.bordertech.wcomponents;
 
+import com.github.bordertech.wcomponents.layout.UIManager;
+import com.github.bordertech.wcomponents.registry.UIRegistry;
+import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.I18nUtilities;
+import com.github.bordertech.wcomponents.util.SystemException;
+import com.github.bordertech.wcomponents.util.Util;
+import com.github.bordertech.wcomponents.validation.Diagnostic;
+import com.github.bordertech.wcomponents.validation.DiagnosticImpl;
+import com.github.bordertech.wcomponents.velocity.VelocityTemplateManager;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -12,19 +21,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import com.github.bordertech.wcomponents.layout.UIManager;
-import com.github.bordertech.wcomponents.registry.UIRegistry;
-import com.github.bordertech.wcomponents.util.Config;
-import com.github.bordertech.wcomponents.util.I18nUtilities;
-import com.github.bordertech.wcomponents.util.SystemException;
-import com.github.bordertech.wcomponents.util.Util;
-import com.github.bordertech.wcomponents.validation.Diagnostic;
-import com.github.bordertech.wcomponents.validation.DiagnosticImpl;
-import com.github.bordertech.wcomponents.velocity.VelocityTemplateManager;
 
 /**
  * <p>
@@ -1507,17 +1505,6 @@ public abstract class AbstractWComponent implements WComponent
      */
     void remove(final WComponent aChild)
     {
-        remove(aChild, true);
-    }
-
-    /**
-     * Removes the given component from this component's list of children.
-     *
-     * @param aChild the child component to remove
-     * @param tidyTheSession true to clean up the child's model, false otherwise.
-     */
-    void remove(final WComponent aChild, final boolean tidyTheSession)
-    {
         ComponentModel model = getOrCreateComponentModel();
 
         if (model.getChildren() == null)
@@ -1533,23 +1520,13 @@ public abstract class AbstractWComponent implements WComponent
                 model.setChildren(null);
             }
 
-            // The child component has been successfully removed. We either
-            // clean up the context completely or at least un-parent the child
-            // just in case the developer wants to reuse it else where.
-            if (tidyTheSession)
-            {
-                aChild.reset();
+            // The child component has been successfully removed so clean up the context.
+            aChild.reset();
 
-                // If the parent has been set in the shared model, we must override
-                // it in the session model for the component to be considered removed.
-                // This unfortunately means that the model will remain in the user's session.
-                if (aChild.getParent() != null && aChild instanceof AbstractWComponent)
-                {
-                    ((AbstractWComponent) aChild).getOrCreateComponentModel().setParent(null);
-                    ((AbstractWComponent) aChild).removeNotify();
-                }
-            }
-            else if (aChild instanceof AbstractWComponent)
+            // If the parent has been set in the shared model, we must override
+            // it in the session model for the component to be considered removed.
+            // This unfortunately means that the model will remain in the user's session.
+            if (aChild.getParent() != null && aChild instanceof AbstractWComponent)
             {
                 ((AbstractWComponent) aChild).getOrCreateComponentModel().setParent(null);
                 ((AbstractWComponent) aChild).removeNotify();
@@ -1562,17 +1539,9 @@ public abstract class AbstractWComponent implements WComponent
      */
     void removeAll()
     {
-        removeAll(true);
-    }
-
-    /**
-     * Removes all of the children from this component.
-     */
-    void removeAll(final boolean tidyTheSession)
-    {
         while (getChildCount() > 0)
         {
-            remove(getChildAt(0), tidyTheSession);
+            remove(getChildAt(0));
         }
     }
 
