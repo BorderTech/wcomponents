@@ -31,7 +31,7 @@ define(["wc/ajax/triggerManager", "wc/dom/initialise", "wc/timers"],
 						trig.fire();
 					}
 				}
-				catch(ex) {
+				catch (ex) {
 					console.log("error in delayed ajax trigger for id " + id, ex.message);
 				}
 			}

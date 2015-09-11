@@ -108,7 +108,7 @@ define(["wc/i18n/i18n"], /** @param i18n wc/i18n/i18n @ignore */function(i18n) {
 					console.warn("Could not find ascii map ", lookupProp);
 				}
 			}
-			catch(ex) {
+			catch (ex) {
 				// asciifying stuff is not likely to be mission critical so we'll consume errors here and warn
 				console.warn(ex);
 			}

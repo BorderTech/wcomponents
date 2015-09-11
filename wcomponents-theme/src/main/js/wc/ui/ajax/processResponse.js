@@ -367,7 +367,7 @@ define(["wc/Observer",
 						result[result.length] = scripts[i].parentNode.removeChild(scripts[i]);
 					}
 				}
-				catch(ex) {
+				catch (ex) {
 					console.error("Could not extract scripts from content ", ex.message);
 				}
 				return result;

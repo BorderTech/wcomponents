@@ -50,7 +50,7 @@
 						input = d.createElement("<input type='hidden' name='hasjs'>");
 						supported = input.type === "hidden" && input.name === "hasjs";
 					}
-					catch(e) {
+					catch (e) {
 						// Do nothing
 					}
 					return supported;
@@ -178,7 +178,7 @@
 						try {
 							s.trim();
 						}
-						catch(e) {
+						catch (e) {
 							result = false;  // not good enough to count
 						}
 					}
@@ -200,7 +200,7 @@
 						el.type = d;
 						result = d === el.type;
 					}
-					catch(e) {
+					catch (e) {
 						result = false;
 					}
 					finally {
@@ -218,7 +218,7 @@
 								}
 							});
 						}
-						catch(ex) {
+						catch (ex) {
 							result = false;  // this is not a working defineProperty (i.e. perhaps Safari 5 which does not support defineProperty on DOM objects)
 						}
 					}

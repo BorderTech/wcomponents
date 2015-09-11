@@ -47,7 +47,7 @@ define(["wc/ui/fx", "wc/dom/shed", "wc/has"],
 				try {
 					this.targets.push(new Target(target.id, target.groupId));
 				}
-				catch(ex) {
+				catch (ex) {
 					console.warn(ex);
 				}
 			}, this);
@@ -242,7 +242,7 @@ define(["wc/ui/fx", "wc/dom/shed", "wc/has"],
 							group.forEach(this.doToElement, this);
 						}
 					}
-					catch(ex) {
+					catch (ex) {
 						console.warn(ex);
 					}
 				}

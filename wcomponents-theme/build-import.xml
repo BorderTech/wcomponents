@@ -429,10 +429,7 @@
 		<attribute name="cwd" default="${basedir}" description="The working directory"/>
 		<attribute name="failonerror" default="false"/>
 		<sequential>
-			<local name="package.dir"/>
 			<local name="npm.command"/>
-			<property name="package.dir" location="${basedir}/node_modules/@{package}"/>
-<!--			<available property="npm.command" file="${package.dir}" type="dir" value="update"/>-->
 			<property name="npm.command" value="install"/>
 			<echo>npm ${npm.command} @{package}</echo>
 			<npm.exec cwd="@{cwd}">
@@ -502,11 +499,10 @@
 			<if>
 				<os family="windows"/>
 				<then>
-					<exec dir="@{cwd}" executable="cmd" failonerror="@{failonerror}" spawn="@{spawn}">
+					<exec dir="@{cwd}" executable="${nodejs.dir.location}/node" failonerror="@{failonerror}" spawn="@{spawn}">
 						<env key="Path" path="${npmjs.dir};${nodejs.dir.location};${env.Path}"/>
 						<env key="NVM_NODEJS_ORG_MIRROR" value="${node.download.root}"/><!-- TODO externalize. This is to get SASS to build. -->
 						<env key="SASS_BINARY_SITE" value="${node.sass.download.root}"/><!-- TODO externalize. This is to get SASS to build. -->
-						<arg line="/c &quot;${nodejs.dir.location}\node&quot;"/>
 						<arguments />
 					</exec>
 				</then>

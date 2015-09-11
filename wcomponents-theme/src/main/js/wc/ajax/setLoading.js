@@ -154,7 +154,7 @@ define(["wc/dom/getBox"],
 							removeContent(element);
 						}
 					}
-					catch(ex) {
+					catch (ex) {
 						console.warn(ex);  // probably can't find element
 					}
 				}

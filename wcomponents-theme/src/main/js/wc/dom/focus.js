@@ -133,7 +133,7 @@ define(["wc/array/toArray",
 								}
 							}
 						}
-						catch(err) {
+						catch (err) {
 							console.log("cannot focus element with id " + focusElementId + " " + err.message);
 						}
 					}, 0);
@@ -173,7 +173,7 @@ define(["wc/array/toArray",
 						result = next;
 						break;
 					}
-					catch(e) {
+					catch (e) {
 						result = null;
 					}
 				}

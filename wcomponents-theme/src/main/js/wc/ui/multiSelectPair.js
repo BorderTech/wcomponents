@@ -393,7 +393,7 @@ define(["wc/dom/attribute",
 						try {
 							focus.setFocusRequest(opposite);
 						}
-						catch(ignore) {
+						catch (ignore) {
 							// Do nothing
 						}
 					}
