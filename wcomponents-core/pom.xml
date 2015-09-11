@@ -62,7 +62,7 @@
 				<configuration>
 					<excludedGroups>${excludedTestGroups}</excludedGroups>  
 					<includes>
-						<include>com/github/bordertech/WComponent_Suite.java</include>
+						<include>com/github/bordertech/wcomponents/WComponent_Suite.java</include>
 					</includes>
 				</configuration>
 			</plugin>

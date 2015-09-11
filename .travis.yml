@@ -1,4 +1,5 @@
 language: Java
 jdk:
   - oraclejdk7
-  
+script: "mvn verify"
+
