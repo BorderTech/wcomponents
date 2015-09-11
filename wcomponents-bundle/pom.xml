@@ -8,7 +8,7 @@
 	<artifactId>wcomponents-bundle</artifactId>
 
 	<parent>
-		<groupId>com.github.bordertech</groupId>
+		<groupId>com.github.bordertech.wcomponents</groupId>
 		<artifactId>wcomponents-parent</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
@@ -26,12 +26,12 @@
 	
 	<dependencies>
 		<dependency>
-			<groupId>com.github.bordertech</groupId>
+			<groupId>com.github.bordertech.wcomponents</groupId>
 			<artifactId>wcomponents-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.github.bordertech</groupId>
+			<groupId>com.github.bordertech.wcomponents</groupId>
 			<artifactId>wcomponents-theme</artifactId>
 			<version>${project.version}</version>
 		</dependency>
