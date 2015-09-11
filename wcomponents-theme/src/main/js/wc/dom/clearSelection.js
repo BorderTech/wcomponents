@@ -24,7 +24,7 @@ define(function() {
 			try {
 				document.selection.empty();
 			}
-			catch(err) {
+			catch (err) {
 				// continue on
 				console.log(err.message);
 			}
@@ -39,7 +39,7 @@ define(function() {
 					selection.collapseToEnd();
 				}
 			}
-			catch(ex) {
+			catch (ex) {
 				// consume the exception, we don't want failures here causing the UI to totally stop working
 				console.warn(ex.message);
 			}

@@ -24,7 +24,7 @@ define(["wc/has"], /** @param has wc/has @ignore */ function(has) {
 				file = fso.getFile(filePath);
 				result = file.size;
 			}
-			catch(ex) {
+			catch (ex) {
 				/*
 				 * You will end up here in Internet Explorer 9 or earlier if the security
 				 * settings disable "Script ActiveX controls marked safe for scripting".

@@ -26,7 +26,7 @@ define(["wc/array/toArray"], /** @param toArray wc/array/toArray @ignore */ func
 		 *<pre><code>
 		* var xhr = new XMLHttpRequest();
 		* xhr.open(method, url, true);
-		* try { xhr.responseType = 'msxml-document'; } catch(e) {}
+		* try { xhr.responseType = 'msxml-document'; } catch (e) {}
 		* //...
 		*    var doc = xhr.responseXML;
 		* // 'doc' now contains an MSXML document in IE10's Standards and Quirks document modes
@@ -112,7 +112,7 @@ define(["wc/array/toArray"], /** @param toArray wc/array/toArray @ignore */ func
 							}
 						}
 					}
-					catch(e) {
+					catch (e) {
 						console.log(e.message);
 						result = null;
 					}

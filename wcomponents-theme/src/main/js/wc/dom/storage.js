@@ -123,7 +123,7 @@ define(["wc/has", "wc/dom/cookie"],
 							try {
 								delete window.sessionStorage[key];
 							}
-							catch(ex) {
+							catch (ex) {
 								// IE8
 								if (typeof window.sessionStorage[key] !== "undefined") {
 									window.sessionStorage[key] = "";
@@ -140,7 +140,7 @@ define(["wc/has", "wc/dom/cookie"],
 							try {
 								delete window.localStorage[key];
 							}
-							catch(ex) {
+							catch (ex) {
 								// IE8
 								if (typeof window.localStorage[key] !== "undefined") {
 									window.localStorage[key] = "";

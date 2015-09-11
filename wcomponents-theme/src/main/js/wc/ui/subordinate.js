@@ -75,7 +75,7 @@ define(["wc/dom/tag",
 								console.warn("Could not parse", actions[i]);
 							}
 						}
-						catch(ex) {
+						catch (ex) {
 							console.warn(ex, actions[i]);
 						}
 					}
@@ -128,7 +128,7 @@ define(["wc/dom/tag",
 								try {
 									actions[j].execute();
 								}
-								catch(ex) {
+								catch (ex) {
 									console.error(ex + " executing subordinate action for rule " + rule.id);
 								}
 							}
@@ -503,7 +503,7 @@ define(["wc/dom/tag",
 							}
 							regexCache[re] = result;
 						}
-						catch(ex) {
+						catch (ex) {
 							console.error("Error parsing regexp", re, ex);
 						}
 					}
