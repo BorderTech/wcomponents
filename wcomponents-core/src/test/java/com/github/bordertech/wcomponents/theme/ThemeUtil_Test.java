@@ -1,16 +1,14 @@
 package com.github.bordertech.wcomponents.theme; 
 
-import java.util.Locale;
-
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Test;
-
 import com.github.bordertech.wcomponents.AbstractWComponentTestCase;
 import com.github.bordertech.wcomponents.Environment;
 import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.util.Config;
+import java.util.Locale;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Test;
 
 /** 
  * ThemeUtil_Test - Unit tests for {@link ThemeUtil}. 
@@ -29,13 +27,13 @@ public class ThemeUtil_Test extends AbstractWComponentTestCase
     @Test
     public void testGetThemeBuild()
     {
-        Assert.assertEquals("Incorrect theme build", ThemeUtil.getThemeBuild(), "TEST_BUILD_NUMBER");
+        Assert.assertEquals("Incorrect theme build", "TEST_BUILD_NUMBER", ThemeUtil.getThemeBuild());
     }
     
     @Test
     public void testGetThemeName()
     {
-        Assert.assertEquals("Incorrect theme name", ThemeUtil.getThemeName(), "wcomponents-theme");
+        Assert.assertEquals("Incorrect theme name", "wcomponents-theme", ThemeUtil.getThemeName());
     }
     
     @Test
