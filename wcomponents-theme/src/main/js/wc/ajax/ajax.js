@@ -301,7 +301,7 @@
 							request.overrideMimeType(config.forceMime);
 						}
 					}
-					catch(ex) {
+					catch (ex) {
 						// comsume errors and try to proceed - this is most likely to happen in legacy IE
 						console.warn(ex);
 					}
@@ -312,7 +312,7 @@
 						try {
 							request.responseType = "msxml-document";
 						}
-						catch(ignore) {
+						catch (ignore) {
 							// Do nothing
 						}
 					}
@@ -455,7 +455,7 @@
 						try {
 							callback.call(this, response);
 						}
-						catch(ex) {
+						catch (ex) {
 							console.error("Error in callback ", ex);
 						}
 					}

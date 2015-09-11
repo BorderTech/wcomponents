@@ -179,7 +179,7 @@ define(["wc/string/escapeRe"], /** @param escapeRe wc/string/escapeRe @ignore */
 							}
 						}
 					}
-					catch(ex) {
+					catch (ex) {
 						console.error("Error in callback: ", callback, ex.message);
 					}
 				}
@@ -802,7 +802,7 @@ define(["wc/string/escapeRe"], /** @param escapeRe wc/string/escapeRe @ignore */
 				try {
 					result = func.apply(getContext(this), args);
 				}
-				catch(ex) {
+				catch (ex) {
 					console.error("Error in subscriber: ", $self, ex.message);
 				}
 			}

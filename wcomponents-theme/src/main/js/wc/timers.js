@@ -66,7 +66,7 @@
 							element.setAttribute(PENDING_TIMEOUT_FLAG, !!pendingCount);
 						}
 					}
-					catch(ignore) {  // don't let errors here break everything else - this is just a testing hook
+					catch (ignore) {  // don't let errors here break everything else - this is just a testing hook
 						console.error(ignore);
 					}
 				}

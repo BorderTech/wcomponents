@@ -11,7 +11,7 @@ define(["axs", "wc/dom/initialise"], function(axs, initialise) {
 			issues = axs.Audit.run(auditConfig);
 			issues.forEach(formatIssue);
 		}
-		catch(ex) {
+		catch (ex) {
 			console.error(ex);
 		}
 	}

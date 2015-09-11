@@ -521,7 +521,7 @@ define(["wc/Observer", "wc/dom/tag", "wc/dom/attribute", "wc/dom/uid", "wc/has",
 							$event.defaultPrevented = ($event.returnValue === false);
 						}
 					}
-					catch(e) {
+					catch (e) {
 						console.warn(e);
 					}
 					return $event;

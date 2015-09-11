@@ -108,7 +108,7 @@ define(["wc/dom/initialise",
 							regexp = new RegExp("^(?:" + mask + ")$");
 							patternFlag = i18n.get("${validation.core.i18n.patternMismatch}");
 						}
-						catch(e) {
+						catch (e) {
 							regexp = null;
 							// console.log("cannot convert input mask to regular expression, assuming valid");
 						}

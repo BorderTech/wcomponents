@@ -39,7 +39,7 @@ define(function() {
 					};
 					break;
 				}
-				catch(ex) {
+				catch (ex) {
 					// try again
 				}
 			}

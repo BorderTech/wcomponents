@@ -59,7 +59,7 @@ define(["wc/dom/Widget", "wc/has"], /** @param Widget @param has @ignore */funct
 							}
 						});
 					}
-					catch(ex) {
+					catch (ex) {
 						console.error(ex.message);
 					}
 				}

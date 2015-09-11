@@ -115,7 +115,7 @@ define(["wc/dom/uid", "wc/timers"], /** @param uid wc/dom/uid @param timers wc/t
 						break;
 					}
 				}
-				catch(ex) {
+				catch (ex) {
 					console.error(ex);
 				}
 			}

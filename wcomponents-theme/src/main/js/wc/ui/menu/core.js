@@ -1110,7 +1110,7 @@ define(["wc/has",
 					}
 				}
 			}
-			catch(ex) {
+			catch (ex) {
 				console.log(ex);
 				throw ex;
 			}
@@ -1739,7 +1739,7 @@ define(["wc/has",
 					closeOpenMenu(localOpenMenu, target, this);
 				}
 			}
-			catch(ex) {
+			catch (ex) {
 				$event.preventDefault();  // in case a link or submit was clicked, don't hide/lose the error
 				console.error("Uncaught exception in AbstractMenu.onClick: ", ex.message);
 			}
