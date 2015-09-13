@@ -1,22 +1,22 @@
-/*
-  wc.ui.listLayout.scss
+/* wc.ui.listLayout.scss */
 
-  NOTE: we do not output the separator as a class when the list is ordered.
-*/
-@import "mixins_common.scss";
-
-
+// NOTE: we do not output the separator as a class when the list is ordered.
+@import 'mixins_common.scss';
+//scss-lint:disable QualifyingElement
 ol.listLayout {
 	margin: 0 0 0 2em;
+
 	&.flat {/* flat ordered lists use a pseudo-element with a counter_*/
 		counter-reset: li;
+
 		> li:before {
-			content: counter(li) ".";
+			content: counter(li) '.';
 			counter-increment: li;
 			margin-right: $hgap_small;
 		}
+
 		&.none > li:before {/* remove the counter if the separator is none */
-			content: "";
+			content: '';
 		}
 	}
 }
@@ -27,50 +27,62 @@ ul.listLayout {
 
 .listLayout {
 	padding: 0;
-	&.none, &.flat, &.bar {
-		margin: 0
-	}
+
 	&.dot {
 		margin-left: 1.5em;
+
 		&.flat {
 			margin-left: 0;
 		}
 	}
-	&.none, &.flat, &.bar {
+
+	&.none,
+	&.flat,
+	&.bar {
 		list-style-type: none;
+		margin: 0;
 	}
-	&.flat {/* horizontal list */
+
+	&.flat { // horizontal list
 		> li {
 			display: inline-block;
 			width: auto;
+
 			> * {/* this rule keeps 'block' components inline in a flat list */
 				display: inline-block;
 				width: auto;
 			}
-			+ li{
+
+			+ li {
 				margin-left: $hgap_normal;
 			}
-			.bar, &.dot {
+
+			.bar,
+			&.dot {
 				> li + li {
-					margin-left: 0
+					margin-left: 0;
 				}
 			}
 		}
+
 		&.dot > li + li:before {/*dot bullets should be default but need pseudo-elements for flat lists. */
-			content: "\25cf";
+			content: '\25cf';
 			margin: 0 $hgap_normal;
 		}
 	}
+
 	&.bar {/* bar bullets */
 		> li:before {
-			content: "|";
+			content: '|';
 			margin-right: $hgap_normal;
 		}
+
 		&.flat > li:first-child:before {
-			content: "";
+			content: '';
 			margin-right: 0;
 		}
 	}
+
 	&.striped > :nth-child(odd) {
 		background-color: $wc_ui_color_highlight_bg;
 		color: $wc_ui_color_highlight_fg;

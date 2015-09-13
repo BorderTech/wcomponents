@@ -2,7 +2,7 @@
 	<description>Common properties and macros needed for sub builds</description>
 
 	<import file="build-import-overrides.xml" optional="true"/>
-	
+
 	<!-- GLOBAL PROPERTIES: used in both input and output tasks -->
 	<property name="tmp.dir" location="${theme.tmp.dir}"/>
 	<property name="maven.project.name" value="${project.name}"/>
@@ -70,13 +70,6 @@
 	<!-- image properties used to build css -->
 	<property name="images.rootdir" location="${common.src.rootdir}/images"/>
 	<property name="impl.images.rootdir" location="${impl.src.main.dir}/images"/>
-
-
-	<!-- browser specific stuff -->
-	<property name="common.ext.webkit" value="webkit"/>
-	<property name="common.ext.gecko" value="ff"/>
-	<property name="common.ext.ieAll" value="ieAll"/>
-	<property name="common.ext.ie8" value="ie8"/>
 
 	<!-- ENVIRONMENT PROPERTIES -->
 	<property environment="env"/>
@@ -328,13 +321,14 @@
 			<echo>Setting @{nameOfLowestVersionPropToSet} to: ${ie.support.lowest.version}</echo>
 			<propertyfile file="${properties.build.constants}">
 				<entry key="@{nameOfLowestVersionPropToSet}" value="${ie.support.lowest.version}"/>
+				<entry key="ie.css.list" value="${ie.version.list}"/>
 			</propertyfile>
 		</sequential>
 	</macrodef>
+
 	<!--
 	PLUGINS
 	-->
-	
 	<property name="common.src.plugin.dir" location="${common.src.rootdir}/plugins"/>
 	<property name="impl.src.plugin.dir" location="${impl.src.main.dir}/plugins"/>
 	<condition property="plugin.includesfile" value="${impl.src.dir}/plugins.include.txt" else="${component.rootdir}/plugins.include.txt">
@@ -413,14 +407,14 @@
 			</nodejs.exec>
 		</sequential>
 	</macrodef>
-	
+
 <!--	<macrodef name="loadJsDebugMap">
 		<attribute name="propertyToSet"/>
 		<sequential>
 			<loadfile property="@{propertyToSet}" srcFile="${tmp.dir}/config/map.txt"/>
 		</sequential>
 	</macrodef>-->
-	
+
 	<!--
 		Does what "npm install" does.
 	-->
@@ -429,10 +423,7 @@
 		<attribute name="cwd" default="${basedir}" description="The working directory"/>
 		<attribute name="failonerror" default="false"/>
 		<sequential>
-			<local name="package.dir"/>
 			<local name="npm.command"/>
-			<property name="package.dir" location="${basedir}/node_modules/@{package}"/>
-<!--			<available property="npm.command" file="${package.dir}" type="dir" value="update"/>-->
 			<property name="npm.command" value="install"/>
 			<echo>npm ${npm.command} @{package}</echo>
 			<npm.exec cwd="@{cwd}">
@@ -473,7 +464,7 @@
 			</nodejs.exec>
 		</sequential>
 	</macrodef>
-	
+
 	<!--
 	This macro knows how to call the nodejs executable on different platforms.
 	It is primarily a helper for other macros in this library.
@@ -502,11 +493,10 @@
 			<if>
 				<os family="windows"/>
 				<then>
-					<exec dir="@{cwd}" executable="cmd" failonerror="@{failonerror}" spawn="@{spawn}">
+					<exec dir="@{cwd}" executable="${nodejs.dir.location}/node" failonerror="@{failonerror}" spawn="@{spawn}">
 						<env key="Path" path="${npmjs.dir};${nodejs.dir.location};${env.Path}"/>
 						<env key="NVM_NODEJS_ORG_MIRROR" value="${node.download.root}"/><!-- TODO externalize. This is to get SASS to build. -->
 						<env key="SASS_BINARY_SITE" value="${node.sass.download.root}"/><!-- TODO externalize. This is to get SASS to build. -->
-						<arg line="/c &quot;${nodejs.dir.location}\node&quot;"/>
 						<arguments />
 					</exec>
 				</then>
@@ -521,7 +511,7 @@
 			</if>
 		</sequential>
 	</macrodef>
-	
+
 	<!--
 		General purpose way to invoke an executable.
 	-->
@@ -552,7 +542,7 @@
 							</exec>
 						</else>
 					</if>
-					
+
 				</then>
 				<else>
 					<exec unless:set="onwin" dir="@{cwd}" executable="@{executable}" failonerror="@{failonerror}" spawn="@{spawn}">
@@ -563,9 +553,9 @@
 			</if>
 		</sequential>
 	</macrodef>
-	
+
 	<!--
-	
+
 	This macro performs a transform from XML to JSON using xsltjson: https://github.com/bramstein/xsltjson.
 
 	EXAMPLE:
@@ -586,7 +576,7 @@
 		<attribute name="useRabbitfish" default="false"/>
 		<attribute name="useRayfish" default="false"/>
 		<attribute name="extension" default=".xml"/>
-		
+
 		<sequential>
 			<unzip dest="@{destDir}">
 				<patternset>

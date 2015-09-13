@@ -1,12 +1,11 @@
 package com.github.bordertech.wcomponents;
 
+import com.github.bordertech.wcomponents.layout.LayoutManager;
+import com.github.bordertech.wcomponents.util.I18nUtilities;
 import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
-
-import com.github.bordertech.wcomponents.layout.LayoutManager;
-import com.github.bordertech.wcomponents.util.I18nUtilities;
 
 /**
  * <p>
@@ -291,12 +290,11 @@ public class WPanel extends WContainer implements AjaxTarget, SubordinateTarget,
      * This method has been overriden to remove any associated layout constraints.
      *
      * @param aChild the child component to remove
-     * @param tidyTheSession true to clean up the child's model, false otherwise.
      */
     @Override
-    void remove(final WComponent aChild, final boolean tidyTheSession)
+    public void remove(final WComponent aChild)
     {
-        super.remove(aChild, tidyTheSession);
+        super.remove(aChild);
         PanelModel model = getOrCreateComponentModel();
 
         if (model.layoutConstraints == null)

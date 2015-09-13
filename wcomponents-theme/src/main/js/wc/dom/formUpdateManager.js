@@ -261,7 +261,7 @@ define(["wc/dom/event",
 						console.info("Submit event was cancelled AFTER subscribers were notified.");
 					}
 				}
-				catch(ex) {
+				catch (ex) {
 					addRemoveEvents(form);
 					attribute.remove(form, INITED_ATTR);
 					console.error("error in subscriber", ex);

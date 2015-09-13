@@ -1,0 +1,42 @@
+/* wc.ui.menu.barColumn.ios.css */
+@import 'mixins_common.scss';
+
+[role='menu'],
+[role='menubar'] {
+	[aria-expanded] > button,
+	[role] {
+		color: $wc-color-ios-interactive;
+		font-size: 13px;
+	}
+
+	[aria-expanded='true'] > button,
+	[aria-checked='true'] {
+		background-color: $wc-color-ios-interactive-bg;
+		color: $wc-color-ios-interactive;
+	}
+}
+
+.menu .closesubmenu {
+	color: $wc-color-ios-interactive-revert;
+}
+
+[role='menubar'] {
+	&.bar,
+	&.flyout {
+		@include border($color: $wc-color-ios-interactive);
+		background-color: transparent;
+	}
+
+	> [aria-expanded] > button::after {
+		//scss-lint:disable ImportantRule
+		content: '\25bc' !important;
+		width: auto;
+	}
+
+	[role='menu'] {
+		background-color: $wc-color-ios-interactive-bg;
+		box-shadow: none;
+		color: $wc-color-ios-interactive;
+	}
+}
+/* end wc.ui.menu.barColumn.ios.css */

@@ -3,56 +3,68 @@
  * the actual dialog. Its position is set on open such that it sits in the middle of the viewport. Margin:auto only
  * works in Chrome and Webkit.
  */
-@import "wc.ui.dialog_vars.scss";
+@import 'wc.ui.dialog_vars.scss';
 
 dialog {
+	background: transparent;
+	border: 0 none; // oh chrome, you try so hard to annoy me
 	display: none;
 	position: fixed;
 	z-index: 20;
-	border: 0 none; /* oh chrome, you try so hard */
-	background: transparent;
+
 	&[open] {
 		@include flex($direction: column);
 		@include flexShrink(0);
 	}
-	> [aria-live] { /*dialog content container*/
-		overflow: auto;
-		background-color: $wc_ui_color_globalBackground;
+
+	> [aria-live] { // dialog content container
 		@include border;
+		background-color: $wc_ui_color_globalBackground;
+		overflow: auto;
 		padding: $hgap_normal;
-		&[aria-busy="true"] { /* override usual transparency of busy elements because that's just wierd with a dialog's content. */
-			background-color: $wc_ui_color_globalBackground !important
+
+		&[aria-busy='true'] { // override usual transparency of busy elements because that's just wierd with a dialog's content.
+			//scss-lint:disable ImportantRule
+			background-color: $wc_ui_color_globalBackground !important;
 		}
 	}
-	> header, > footer {/*top and bottom bars of dialog */
+
+	> header,
+	> footer { // top and bottom bars of dialog
 		background-color: $wc_ui_color_dialog_head_bg;
 	}
+
 	> header {
 		@include flex($direction: row-reverse, $wrap: wrap, $justify: space-between, $align-items: center);
-		> h1 { /* the title */
-			margin: 0;
+
+		> h1 { // the title
+			@include flexGrow(1);
 			color: $wc_ui_color_dialog_head_fg;
 			font-size: 1em;
-			@include flexGrow(1);
+			margin: 0;
 		}
-		> span { /* the heander control 'block' */
+
+		> span { // the header control 'block'
+			@include flexAlignSelf(flex-start);
 			line-height: 0;
 			margin-right: 0.25em;
-			@include flexAlignSelf(flex-start);
 		}
 	}
+
 	> footer {
-		display: none;/* only show footer is resizeable AND using desktop css - see wc.ui.dialog.dt.scss */
+		display: none; // only show footer is resizeable AND using desktop css - see wc.ui.dialog.dt.scss
 	}
 }
 
 // dialog close control
 // NOTE: for resize handle and max/restore control see wc.ui.resizeable.scss.
 .wc_dialog_close.wc_btn_nada {
-	background-image: url(../images/dialog-close.sprite.png);
+	background-image: url('../images/dialog-close.sprite.png');
 	height: 16px;
 	width: 16px;
-	&:focus, &:hover {
+
+	&:focus,
+	&:hover {
 		background-position: 100% 0;
 	}
 }

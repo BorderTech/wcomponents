@@ -205,16 +205,9 @@
 								</xsl:otherwise>
 							</xsl:choose>
 						</xsl:if>
-						<xsl:if test="@required or not(@allowPartial)">
+						<xsl:if test="@required">
 							<xsl:attribute name="placeholder">
-								<xsl:choose>
-									<xsl:when test="@required">
-										<xsl:value-of select="$$${wc.common.i18n.requiredPlaceholder}"/>
-									</xsl:when>
-									<xsl:otherwise>
-										<xsl:value-of select="$$${wc.ui.dateField.i18n.mask.format}"/>
-									</xsl:otherwise>
-								</xsl:choose>
+								<xsl:value-of select="$$${wc.common.i18n.requiredPlaceholder}"/>
 							</xsl:attribute>
 						</xsl:if>
 						<xsl:call-template name="ajaxController"/>

@@ -71,7 +71,7 @@ require(["wc/has"], /** @param has @ignore */ function(has) {
 						try {
 							element.focus();
 						}
-						catch(ex) {
+						catch (ex) {
 							console.error("Error applying webkit focus fix", ex);
 						}
 					}, 0);

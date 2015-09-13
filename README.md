@@ -51,3 +51,6 @@ For example:
 
 1. Right click the `wcomponents-examples-lde` project.
 2. Select the main class to run: `com.github.bordertech.wcomponents.exampleslde.PlainLauncherProxy`
+
+# Contributing
+Contributions welcome: [Contributing](https://github.com/BorderTech/wcomponents/wiki/Contributing)

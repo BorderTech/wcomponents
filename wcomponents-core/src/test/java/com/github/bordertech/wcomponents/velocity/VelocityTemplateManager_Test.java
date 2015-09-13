@@ -19,8 +19,8 @@ public class VelocityTemplateManager_Test
         Object myObject = new Object() { };
 
         Assert.assertEquals("Incorrect URL for top-level class", "com/github/bordertech/wcomponents/velocity/VelocityTemplateManager_Test.vm", VelocityTemplateManager.toTemplateResourceName(VelocityTemplateManager_Test.class));
-        Assert.assertEquals("Incorrect URL for inner class", "com/github/bordertech/wcomponents/1elocity/MyClass.vm", VelocityTemplateManager.toTemplateResourceName(MyClass.class));
-        Assert.assertEquals("Incorrect URL for anonymous class", "com/github/bordertech/wcomponents/1elocity/1.vm", VelocityTemplateManager.toTemplateResourceName(myObject.getClass()));
+        Assert.assertEquals("Incorrect URL for inner class", "com/github/bordertech/wcomponents/velocity/MyClass.vm", VelocityTemplateManager.toTemplateResourceName(MyClass.class));
+        Assert.assertEquals("Incorrect URL for anonymous class", "com/github/bordertech/wcomponents/velocity/1.vm", VelocityTemplateManager.toTemplateResourceName(myObject.getClass()));
     }
 
     /** An inner class for testing. */

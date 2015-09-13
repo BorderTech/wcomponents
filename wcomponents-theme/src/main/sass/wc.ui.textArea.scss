@@ -1,35 +1,39 @@
 /* wc.ui.textarea.scss */
-@import "mixins_common.scss";
+@import 'mixins_common.scss';
 
-/* the ticker */
+// the ticker
 textarea + output {
-	position: absolute;
+	@include border($color: $wc_ui_color_border_formControl);
+	background-color: $wc_ui_color_disabledBackground;
+	border-top: 0 none;
+	color: $wc_ui_color_disabledForeground;
 	display: block;
 	margin-top: -$borderWidth;
-	@include border($color: $wc_ui_color_border_formControl);
-	border-top: 0 none;
-	background-color: $wc_ui_color_disabledBackground;
-	color: $wc_ui_color_disabledForeground;
 	padding: $hgap_small;
+	position: absolute;
 	z-index: 5;
-	&:before {/* show the number of chars remaining */
+
+	&:before { // show the number of chars remaining
 		content: attr(value);
 		font-size: 85%;
 	}
-	&.wc_error {/* show when the maxlength is exceeded */
+	&.wc_error { // show when the maxlength is exceeded
 		color: $wc_ui_color_errorForeground;
 	}
-}
-dialog textarea + output {
-	z-index: 25
+
+	dialog & {
+		z-index: 25;
+	}
 }
 
-/* A readonly textarea must preserve whitespace so uses a pre element (for IE compatibility) so we need to override PRE
- * defaults and set whitespace and wrapping to textarea-like settings. */
-pre.wc_ro{
+
+// A readonly textarea must preserve whitespace so uses a pre element (for IE compatibility) so we need to override PRE
+// defaults and set whitespace and wrapping to textarea-like settings.
+//scss-lint:disable QualifyingElement
+pre.wc_ro {
 	font-family: inherit;
 	margin: 0;
-	white-space:pre-wrap;
-	word-wrap: break-word
+	white-space: pre-wrap;
+	word-wrap: break-word;
 }
 /* end wc.ui.textarea.scss */

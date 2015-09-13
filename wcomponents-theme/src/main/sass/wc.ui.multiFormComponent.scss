@@ -3,16 +3,21 @@
  *
  * WMultiTextField and WMultiDropdown
  */
-@import "vars_all.scss";
+@import 'vars_all.scss';
 
 .wc_mfc {
 	white-space: nowrap;
+
 	ul {
-		&.error, &.warn, &.info, &.success {
+		&.error,
+		&.warn,
+		&.info,
+		&.success {
 			white-space: normal;
 		}
 	}
-	li + li{
+
+	li + li {
 		margin-top: $vgap_small;
 	}
 }

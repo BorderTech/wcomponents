@@ -236,7 +236,7 @@ define(["wc/has", "wc/ajax/ajax", "wc/xml/xmlString", "wc/xml/xpath", "wc/array/
 							xslSafe.resolveExternals = true;
 							xslSafe.setProperty("AllowDocumentFunction", true);
 						}
-						catch(ignore) {
+						catch (ignore) {
 							// AllowDocumentFunction may throw an exception on older MSXML engines but we can ignore this.
 						}
 						/*

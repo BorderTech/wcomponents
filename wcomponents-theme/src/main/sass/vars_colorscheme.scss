@@ -1,5 +1,5 @@
 // Colour scheme for CSS
-// : : : : : : : : : : : : : : : : : : : : :
+//
 // This file simply translates the colour scheme from ANT to less.
 // These colours can then be used in component definitions.
 
@@ -34,7 +34,7 @@ $std_color_highlight_bg: #f2f2f2;
 $std_color_highlight_fg: $std_color_black;
 
 // Line accents (usually borders)
-$std_color_lines: #cccccc;
+$std_color_lines: #ccc;
 
 // An accent colour - usually a complement. Used in the calendar icon and warnings. This should really POP!
 $std_color_accent: #cf4000;
@@ -51,7 +51,7 @@ $std_color_warning_fg: $std_color_accent;
 //
 // What colour should shadows be? well it depends on what the shadow is being cast upon but we can use rgba because IE8
 // doesn't support box-shadow anyway!
-$std_color_shadow: rgba(0,0,0,0.25);
+$std_color_shadow: rgba(0, 0, 0, 0.25);
 //
 // and the modal shim?
-$std_color_shim: rgba(0,0,0,0.75);
+$std_color_shim: rgba(0, 0, 0, 0.75);

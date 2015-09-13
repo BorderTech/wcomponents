@@ -1,48 +1,51 @@
-/*
- * wc.ui.table.sort.scss
+/* wc.ui.table.sort.scss */
 
-	Column sorting relate to the sorting of data in sortable tables.
-	This css covers control elements in the heading cells and the rendering of
-	sorted columns.
+// Column sorting relate to the sorting of data in sortable tables.
+// This css covers control elements in the heading cells and the rendering of
+// sorted columns.
 
- * TODO: the direction of sort is an attribute of the th element nowso it should be used instead of the aria-pressed state of the control.
- */
-@import "mixins_common.scss";
+// TODO: the direction of sort is an attribute of the th element now so it should be used instead of the aria-pressed
+// state of the control.
+@import 'mixins_common.scss';
 
-th[aria-sort] > .decoratedLabel {
-	display: table-cell;
-	vertical-align: middle
-}
-/*
-  sorting controls
-*/
-.wc_table_sort_container {
+[aria-sort] > .decoratedLabel {
 	display: table-cell;
 	vertical-align: middle;
+}
+
+// sorting controls
+.wc_table_sort_container {
+	display: table-cell;
 	padding-left: $hgap_large;
+	vertical-align: middle;
+
 	button { //sort control buttons
+		@include makeBox($display: block);
 		line-height: 1;
 		text-align: center;
-		@include makeBox($display: block);
-		&:before {//up
-			content: "\25b3";
+
+		&:before { //up
+			content: '\25b3';
 			height: $lineSize;
 			line-height: 1;
 			position: relative;
 			top: 0.25em;
 		}
+
 		+ button:before { //down
-			content: "\25bd";
+			content: '\25bd';
 			top: -0.25em;
 		}
 	}
+
 	[aria-pressed]:before { //the single control in a column which is already sorted
-		content: "\25b2"; //sorted asc has a sort desc button
-		vertical-align: middle;
+		content: '\25b2'; //sorted asc has a sort desc button
 		top: -0.25em;
+		vertical-align: middle;
 	}
-	[aria-pressed="true"]:before { //sorted desc has a sort asc button
-		content:"\25bc";
+
+	[aria-pressed='true']:before { //sorted desc has a sort asc button
+		content: '\25bc';
 	}
 }
 /* end wc.ui.table.sort.scss */

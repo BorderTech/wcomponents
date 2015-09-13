@@ -1,8 +1,8 @@
-//Flex layout mixins
-
+// Flex layout mixins
+// scss-lint:disable VendorPrefix
 @mixin flex($direction: row, $wrap: nowrap, $justify: flex-start, $align-items: stretch, $align-content: stretch) {
-	display:-webkit-flex;
-	display:flex;
+	display: -webkit-flex;
+	display: flex;
 	-webkit-flex-direction: $direction;
 	-webkit-flex-wrap: $wrap;
 	-webkit-justify-content: $justify;

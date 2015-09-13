@@ -1,12 +1,13 @@
 /* wc.ui.radioButton.css */
-@import "mixins_common.scss";
-.radio { //"readOnly" WRadioButton
+@import 'mixins_common.scss';
+.radio { //'readOnly' WRadioButton
 	&::before {
 		@include makeBox($width: 1em, $height: 1em); // don't use auto height: IE 9-11 has a fit.
-		content: url(../images/radio-ro.svg);
+		content: url('../images/radio-ro.svg');
 	}
-	&.wc_ro_sel::before{
-		content: url(../images/radio-s-ro.svg);
+
+	&.wc_ro_sel::before {
+		content: url('../images/radio-s-ro.svg');
 	}
 }
 /* end wc.ui.radioButton.css */

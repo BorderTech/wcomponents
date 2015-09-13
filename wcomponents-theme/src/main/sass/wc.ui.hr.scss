@@ -1,7 +1,10 @@
 /* wc.ui.hr.scss */
-@import "mixins_common.scss";
+@import 'mixins_common.scss';
+
 hr {
-	border:0 none;
+	//scss-lint:disable DeclarationOrder
+	//we want  to reset the border then set it only on the bottom.
+	border: 0 none;
 	@include border($pos: bottom);
 	margin: $vgap_normal 0;
 }

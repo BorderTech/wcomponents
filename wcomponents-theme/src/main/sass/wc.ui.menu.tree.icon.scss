@@ -1,18 +1,18 @@
-/*
- * wc.ui.menu,tree.icon.scss
- * tree menu branch indicators */
-[role="treeitem"] {
+/* wc.ui.menu,tree.icon.scss */
+// tree menu branch indicators
+[role='treeitem'] {
 	&[aria-expanded] {
 		> button {
-			background-image: url(../images/next.png);
+			background-image: url('../images/next.png');
 			background-position: 0 50%;
 			background-repeat: no-repeat;
 			padding-left: 19px;
 		}
 	}
-	&[aria-expanded="true"] {
+
+	&[aria-expanded='true'] {
 		> button {
-			background-image: url(../images/down.png)
+			background-image: url('../images/down.png');
 		}
 	}
 }

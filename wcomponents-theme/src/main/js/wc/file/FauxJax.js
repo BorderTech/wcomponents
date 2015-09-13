@@ -66,7 +66,7 @@ define(["wc/dom/formUpdateManager",
 						try {
 							event.fire(form, event.TYPE.submit);
 						}
-						catch(ex) {  // this can happen if user types invalid path in file input element (can't happen in FF)
+						catch (ex) {  // this can happen if user types invalid path in file input element (can't happen in FF)
 							console.log(ex);
 						}
 					}
@@ -190,7 +190,7 @@ define(["wc/dom/formUpdateManager",
 						dto.callback(body);
 						dto.complete(dto.element.id);
 					}
-					catch(ex) {
+					catch (ex) {
 						console.log("Error in callback ", ex);
 					}
 					finally {

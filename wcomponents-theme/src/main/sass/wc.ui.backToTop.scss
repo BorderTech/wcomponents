@@ -1,16 +1,18 @@
 /* wc.ui.backToTop.scss */
-@import "mixins_common.scss";
+@import 'mixins_common.scss';
 
 .wc_btt {
 	bottom: 1em;
 	position: fixed;
 	right: 1em;
+
 	&:before {
+		content: url('../images/backToTop.svg');
 		display: block;
-		content:url(../images/backToTop.svg);
 		height: 4em;
 		width: 4em;
 	}
+
 	> span {
 		@include offscreen();
 	}

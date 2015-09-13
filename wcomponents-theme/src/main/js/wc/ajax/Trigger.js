@@ -708,7 +708,7 @@ define(["sprintf/sprintf",
 							trigger.onerror(response, trigger);
 						}
 					}
-					catch(ex) {
+					catch (ex) {
 						console.error(ex);
 					}
 					trigger.profile.received = Date.now();
@@ -758,7 +758,7 @@ define(["sprintf/sprintf",
 						trigger.profile.sent = Date.now();
 						ajax.simpleRequest(this);
 					}
-					catch(ex) {
+					catch (ex) {
 						pendingList.pop();  // error so assume the request is not pending - pop it off the queue
 						console.error(ex);
 					}

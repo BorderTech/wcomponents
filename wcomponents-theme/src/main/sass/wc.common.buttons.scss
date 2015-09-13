@@ -1,35 +1,25 @@
-/*
-wc.common.buttons.scss
+/* wc.common.buttons.scss */
 
- Buttons are not artifacts of any particular WComponent but are output by XSLT
- for any WComponent which requires client side action other than navigation.
- RULE OF THUMB: links are for navigation, buttons are for action.
+// Buttons are not artifacts of any particular WComponent but are output by XSLT for any WComponent which requires
+// client side action other than navigation.
 
- We use button of type submit rather than input of type submit to create form
- submission controls. This is to divorce value from the visible text but is also
- more convenient for styling.
+// RULE OF THUMB: links are for navigation, buttons are for action.
 
- We have two styles for buttons which are not to appear like buttons:
+// We use button of type submit rather than input of type submit to create form submission controls. This is to divorce
+// value from the visible text but is also more convenient for styling.
+// We have two styles for buttons which are not to appear like buttons:
+//  * [wc_btn_link] make the button look like a link
+//  * [wc_btn_nada] give the button no style at all
 
-  [wc_btn_link] make the button look like a link
+// Why would we use a button which looks like a link? Why not just use a link?
+// Well, links are for linking (navigation) these link-like buttons are for undertaking non-navigation behaviour. Using
+// links to provide non-link behaviour is a vestige of poor development practices in the past and an inability to
+// adequately style buttons in older browsers. Neither reason is sufficient to maintain this practice.
 
-  [wc_btn_nada] give the button no style at all
-
- Why would we use a button which looks like a link? Why not just use a link?
- Well, links are for linking (navigation) these link-like buttons are for undertaking
- non-navigation behaviour. Using links to provide non-link behaviour is a vestige
- of poor development practices in the past and an inability to adequately style
- buttons in older browsers. Neither reason is sufficient to maintain this
- practice.
-
- Having a button which is styled to emulate a link is to provide UI consistency
- in areas where buttons and links are mixed. It may be more appropriate to not
- have a button which disguises itself as a link but to use the noStyle variant.
-
- See: WFilterControl and WButton.
-*/
-
-@import "vars_all.scss";
+// Having a button which is styled to emulate a link is to provide UI consistency in areas where buttons and links are
+// mixed. It may be more appropriate to not have a button which disguises itself as a link but to use the noStyle
+ //variant.
+@import 'vars_all.scss';
 
 button {
 	margin: 0;
@@ -40,7 +30,8 @@ button {
  * CLASS wc_btn_nada has all style stripped. CLASS wc_btn_link is made to look like a link.
  */
 .wc_btn {
-	&_link, &_nada {
+	&_link,
+	&_nada {
 		background-color: transparent;
 		background-image: none;
 		border: 0 none;
@@ -50,25 +41,34 @@ button {
 		font-size: inherit;
 		line-height: inherit;
 		padding: 0;
-		&[disabled], &:hover, &:focus, &:active {
+
+		&[disabled],
+		&:hover,
+		&:focus,
+		&:active {
 			background-image: none;
 		}
+
 		&[disabled] {
 			color: $wc_ui_color_disabledForeground;
 		}
 	}
+
 	&_nada {
-		color: inherit
+		color: inherit;
 	}
+
 	&_link {
 		color: $wc_ui_color_link;
 		text-decoration: underline;
 	}
 }
 
-[role="button"] {
+[role='button'] {
 	cursor: pointer;
-	&[disabled], &[aria-disabled="true"] {
+
+	&[disabled],
+	&[aria-disabled='true'] {
 		cursor: auto;
 	}
 }

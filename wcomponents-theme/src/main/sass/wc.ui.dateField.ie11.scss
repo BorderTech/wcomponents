@@ -1,7 +1,7 @@
 /* wc.ui.dateField.ie11.scss */
-@import "mixins_common.scss";
-
-#wc-calendar thead button{
-	padding:0 3px;
+@import 'mixins_common.scss';
+//scss-lint:disable IdSelector
+#wc-calendar thead button {
+	padding: 0 3px;
 }
 /* end wc.ui.dateField.ie11.scss */

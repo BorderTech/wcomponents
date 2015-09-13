@@ -1,9 +1,22 @@
 /* wc.ui.heading.scss */
 // This file is purposely left as a stub for easy over-ride
-@import "vars_all.scss";
+@import 'vars_all.scss';
 
-h1,h2,h3,h4,h5,h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
 	color: $wc_ui_color_heading;
 	margin: $vgap_normal 0;
+}
+
+section {
+	> h1,
+	> header h1 {
+		font-size: 1em;
+		font-weight: normal;
+	}
 }
 /* end wc.ui.heading.scss  */

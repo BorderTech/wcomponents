@@ -1,26 +1,26 @@
 /* wc.ui.panel.flowLayout.ie10.css */
-.flowLayout{
-	display:-ms-flexbox;
-	-ms-flex-direction:row;
-	-ms-flex-pack:start;
-	-ms-flex-wrap:wrap;
-	-ms-flex-align:start
-}
+//scss-lint:disable VendorPrefix
+.flowLayout {
+	display: -ms-flexbox;
+	-ms-flex-align: start;
+	-ms-flex-direction: row;
+	-ms-flex-pack: start;
+	-ms-flex-wrap: wrap;
 
-.flowLayout.middle{
-	-ms-flex-align:center
-}
+	&.baseline {
+		-ms-flex-align: baseline;
+	}
 
-.flowLayout.baseline{
-	-ms-flex-align:baseline
-}
+	&.bottom {
+		-ms-flex-align: end;
+	}
 
-.flowLayout.bottom{
-	-ms-flex-align:end
-}
+	&.middle {
+		-ms-flex-align: center;
+	}
 
-/*NOTE: inline-block allows for block descendants without breaking, inline doesn't */
-.flowLayout > div{
-	-ms-flex:0 1 auto
+	> div {
+		-ms-flex: 0 1 auto;
+	}
 }
 /* end wc.ui.panel.flowLayout.ie10.css */

@@ -1,25 +1,23 @@
-/*
-	wc.ui.menu.tree.css
-	Styles for WMenu type TREE.
-*/
-@import "wc.ui.menu_vars.scss";
+/* wc.ui.menu.tree.css */
+@import 'wc.ui.menu_vars.scss';
 
-[role="tree"] [role="treeitem"],
-[role="treeitem"][aria-expanded] > button {
+[role='tree'] [role='treeitem'],
+[role='treeitem'][aria-expanded] > button {
 	padding: $wc_ui_menu_tree_itemPad;
 }
 
-[role="treeitem"] {
+[role='treeitem'] {
 	[role] {
 		display: table;
 	}
-	> [role="group"]{
+
+	> [role='group'] {
 		display: block;
 		padding: 0 0 0 $wc_ui_menu_tree_indent;
 	}
+
 	&.submenu:hover {
-		background-color: inherit
+		background-color: inherit;
 	}
 }
-
 /* end wc.ui.menu.tree.css*/

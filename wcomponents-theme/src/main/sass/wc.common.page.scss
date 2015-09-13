@@ -1,8 +1,6 @@
-/*
-	wc.common.page.scss
-	primary styling for the page and preliminary styling of some commonly used basic elements and layout classes.
-*/
-@import "mixins_common.scss";
+/* wc.common.page.scss */
+// Primary styling for the page and preliminary styling of some commonly used basic elements and layout classes.
+@import 'mixins_common.scss';
 
 body {
 	background-color: $wc_ui_color_globalBackground;
@@ -12,10 +10,12 @@ body {
 	line-height: $lineHeight;
 	margin: 0;
 	padding: 0;
+
 	@include respond(phone) {
 		font-size: 16px;
 		line-height: normal;
 	}
+
 	@include respond(large) { // make the default (75%) text size bigger on really big screens.
 		font-size: 100%;
 	}
@@ -28,32 +28,32 @@ pre {
 /* phrase elements */
 a {
 	color: $wc_ui_color_link;
+
 	&:visited {
 		color: $wc_ui_color_link_visited;
 	}
-	/* note: we need the disabled color to override the :visited state */
-	&[aria-disabled="true"] {
-		text-decoration: none;
+
+	&[aria-disabled='true'] { // NOTE: we need the disabled color to override the :visited state
 		color: $wc_ui_color_disabledForeground;
+		text-decoration: none;
 	}
 }
 
-
 img {
 	border: 0 none;
-	a &, button & {
+
+	a &,
+	button & {
 		vertical-align: text-bottom;
 	}
 }
 
-
-/*
-  [hidden] hides content.
-  .wc_off moves the content so it is still available to assistive technologies but is not visible on screen.
-  Applying this to [hidden] is redundant but needed because of irregular hidden support.
-*/
+// [hidden] hides content.
+// .wc_off moves the content so it is still available to assistive technologies but is not visible on screen.
+//  Applying this to [hidden] is redundant but needed because of irregular hidden support.
 [hidden] {
-	display: none !important
+	// scss-lint:disable ImportantRule
+	display: none !important;
 }
 
 .wc_off {
@@ -63,7 +63,7 @@ img {
 /*
   Text alignment
 */
-.left{
+.left {
 	@include align(left);
 }
 
@@ -75,17 +75,41 @@ img {
 	@include align(center);
 }
 
-/* Some elements should not exist but devs persist in using them:
- * These have been removed using a null transform but this may not remove any which are injected in a way which will
- * avoid the XSLT (such as by a custom script) so we keep this CSS. */
-applet, acronym, bgsound, dir, frame, frameset, noframes, isindex, listing, nextid, noembed, plaintext,
-rb, strike, xmp, basefont, big, blink, center, font, marquee, multicol, nobr, spacer, tt {
-	display: none
+// scss-lint:disable QualifyingElement
+// Some elements should not exist but devs persist in using them. These have been removed using a null transform but
+// this may not remove any which are injected in a way which will avoid the XSLT (such as by a custom script) so we keep
+// this CSS.
+applet,
+acronym,
+bgsound,
+dir,
+frame,
+frameset,
+noframes,
+isindex,
+listing,
+nextid,
+noembed,
+plaintext,
+rb,
+strike,
+xmp,
+basefont,
+big,
+blink,
+center,
+font,
+marquee,
+multicol,
+nobr,
+spacer,
+tt {
+	display: none;
 }
-/* some are obsolete but conforming:*/
-img[border="0"],
+
+img[border='0'],
 a[name],
-input[type="number"][maxlength] {
+input[type='number'][maxlength] {
 	@include outline($color: $wc_ui_color_errorForeground);
 }
 /* end wc.common.page.css */

@@ -1,18 +1,14 @@
-/*
- * wc.ui.root.css
- * Component(s): ui:root (no WComponent equivalent)
- * Description: styling of the noscript message which appears if the user agent has javascript disabled
- * We do not use any theme based styling here - this is an error state and the user *should* never see this. If they do
- * then the theme CSS will not be completely loaded anyway.
- */
-noscript p{
-	background-color: #fff;
-	border:3px solid #f00;
-	color: #000;
-	font-size:2em;
-	font-weight:bold;
-	margin:1em;
-	padding:1em;
-	text-align:center
+/* wc.ui.root.css */
+@import 'mixins_common.scss';
+
+noscript p {
+	@include border($width: 3px, $color: $wc_ui_color_errorForeground);
+	background-color: $wc_ui_color_globalBackground;
+	color: $wc_ui_color_globalForeground;
+	font-size: 2em;
+	font-weight: bold;
+	margin: 1em;
+	padding: 1em;
+	text-align: center;
 }
 /* end wc.ui.root.css */

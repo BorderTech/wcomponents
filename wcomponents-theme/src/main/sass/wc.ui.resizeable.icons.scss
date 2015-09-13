@@ -1,28 +1,36 @@
-/*
- * wc.ui.resizeable.icons.css
- */
+/* wc.ui.resizeable.icons.css */
+//scss-lint:disable QualifyingElement
 .wc_resize,
-button.wc_maxcont {
+button.wc_maxcont { //this button selector is required to prevent styling a max.restore header bar
+	height: 16px;
 	width: 16px;
-	height: 16px
 }
-
 
 .wc_resize {
-	&, &:hover, &:focus {
-		background-image: url(../images/resizeHandle.png);
+	&,
+	&:hover,
+	&:focus {
+		background-image: url('../images/resizeHandle.png');
 	}
 }
+
 button.wc_maxcont {
-	&, &:hover, &:focus {
-		background-image: url(../images/resizeable.sprite.png);
+	&,
+	&:hover,
+	&:focus {
+		background-image: url('../images/resizeable.sprite.png');
 	}
-	&:hover, &:focus {
+
+	&:hover,
+	&:focus {
 		background-position: 33.34% 0;
 	}
-	&[aria-pressed="true"] {
+
+	&[aria-pressed='true'] {
 		background-position: 66.67% 0;
-		&:hover, &:focus {
+
+		&:hover,
+		&:focus {
 			background-position: 100% 0;
 		}
 	}

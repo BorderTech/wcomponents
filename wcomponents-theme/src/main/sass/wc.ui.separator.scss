@@ -1,17 +1,19 @@
 /* wc.ui.separator.scss */
+@import 'mixins_common.scss';
 
-@import "mixins_common.scss";
-
-[role="separator"]{
+[role='separator'] {
+	border: 0 none;
+	//scss-lint:disable DeclarationOrder
+	@include border($pos: bottom); // rule order to set bottom border
 	margin: 0;
 	padding: 0;
-	border: 0 none;
-	@include border($pos: bottom);
-	&[aria-orientation="vertical"]{
-		display: inline !important;
-		border-bottom: 0 none;
+	//scss-lint:enable DeclarationOrder
+
+	&[aria-orientation='vertical'] {
 		@include border($pos: left);
+		border-bottom: 0 none;
+		//scss-lint:disable ImportantRule
+		display: inline !important;
 	}
 }
-
 /* end wc.ui.separator.scss */
