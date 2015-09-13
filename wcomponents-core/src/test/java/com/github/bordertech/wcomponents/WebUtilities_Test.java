@@ -15,6 +15,7 @@ import org.junit.Test;
 
 import com.github.bordertech.wcomponents.util.Config;
 import com.github.bordertech.wcomponents.util.SystemException;
+import org.apache.commons.lang.BooleanUtils;
 
 /**
  * WebUtilities_Test - unit tests for {@link WebUtilities}.
@@ -517,6 +518,85 @@ public class WebUtilities_Test extends AbstractWComponentTestCase
         Assert.assertEquals("Naming context for child3 should be context3", context3,
                             WebUtilities.getParentNamingContext(child3));
     }
+    
+    /**
+     * Test the function of updateBeanValue() for all variants (single argument, ignoreVisble [true|false]).
+     */
+    @Test
+    public void testUpdateBeanValue()
+    {
+        runUpdateBeanValue(null);
+        runUpdateBeanValue(true);
+        runUpdateBeanValue(false);
+    }
+    
+    /**
+     * Set up and execute the updateBeanValue method with the given parameter.
+     * If the parameter is null then the default updateBeanValue(component) method will be invoked.
+     * 
+     * @param ignoreVisible the parameter to pass to WebUtilities.updateBeanValue(component, ignoreVisible).
+     */
+    private void runUpdateBeanValue(final Boolean ignoreVisible)
+    {
+        final String directChild = "directChild";
+        final String grandChild = "grandChild";
+        final String invisibleGrandChild = "invisibleGrandChild";
+        final String childOfInvisibleContainer = "childOfInvisibleContainer";
+        
+        Map<String, String> beanMap = new HashMap<>();
+        beanMap.put(directChild, null);
+        beanMap.put(grandChild, null);
+        beanMap.put(invisibleGrandChild, null);
+        beanMap.put(childOfInvisibleContainer, null);
+        
+        WContainer root = new WContainer();
+        root.setBean(beanMap);
+        WTextField childTextField = new WTextField();
+        childTextField.setBeanProperty(directChild);
+        childTextField.setData(directChild);
+        childTextField.setFlag(ComponentModel.USER_DATA_SET, true);
+        root.add(childTextField);
+        
+        WContainer childContainer = new WContainer();
+        root.add(childContainer);
+        WTextField grandChildTextField = new WTextField();
+        grandChildTextField.setBeanProperty(grandChild);
+        grandChildTextField.setData(grandChild);
+        grandChildTextField.setFlag(ComponentModel.USER_DATA_SET, true);
+        childContainer.add(grandChildTextField);
+        
+        WTextField invisibleGrandChildTextField = new WTextField();
+        invisibleGrandChildTextField.setBeanProperty(invisibleGrandChild);
+        invisibleGrandChildTextField.setData(invisibleGrandChild);
+        invisibleGrandChildTextField.setVisible(false);
+        invisibleGrandChildTextField.setFlag(ComponentModel.USER_DATA_SET, true);
+        childContainer.add(invisibleGrandChildTextField);
+        
+        
+        WContainer invisibleContainer = new WContainer();
+        invisibleContainer.setVisible(false);
+        root.add(invisibleContainer);
+        WTextField childOfInivisbleContainerTextField = new WTextField();
+        childOfInivisbleContainerTextField.setBeanProperty(childOfInvisibleContainer);
+        childOfInivisbleContainerTextField.setData(childOfInvisibleContainer);
+        childOfInivisbleContainerTextField.setFlag(ComponentModel.USER_DATA_SET, true);
+        invisibleContainer.add(childOfInivisbleContainerTextField);
+        
+        if(ignoreVisible == null)
+        {        
+            WebUtilities.updateBeanValue(root);
+        }
+        else
+        {
+            WebUtilities.updateBeanValue(root, ignoreVisible);
+        }
+        
+        Assert.assertEquals("updateBeanValue failed to update directChild with ignoreVisible=[" + ignoreVisible + "]", directChild, beanMap.get(directChild));
+        Assert.assertEquals("updateBeanValue failed to update grandChild with ignoreVisible=[" + ignoreVisible + "]", grandChild, beanMap.get(grandChild));
+        Assert.assertEquals("updateBeanValue updated an incorrect value for invisibleGrandChild with ignoreVisible=[" + ignoreVisible + "]", BooleanUtils.isTrue(ignoreVisible) ? null : invisibleGrandChild, beanMap.get(invisibleGrandChild));
+        Assert.assertEquals("updateBeanValue updated an incorrect value for childOfInvisibleContainer with ignoreVisible=[" + ignoreVisible + "]", BooleanUtils.isTrue(ignoreVisible) ? null : childOfInvisibleContainer, beanMap.get(childOfInvisibleContainer));       
+    }
+    
 
     /**
      * Compare the URLS. The parameters of the URL must be equal but they do not have to be in the same order.
