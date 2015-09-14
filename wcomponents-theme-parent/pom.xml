@@ -31,7 +31,7 @@
 		<theme.default.name>wcomponents-theme</theme.default.name>
 		<theme.unpacked.name>theme_unpacked</theme.unpacked.name>
 		<theme.target.dir>${project.build.directory}</theme.target.dir>
-		<theme.tmp.dir>${java.io.tmpdir}${file.separator}wcomponent-theme-tmp</theme.tmp.dir>
+		<theme.tmp.dir>${java.io.tmpdir}${file.separator}wcomponents-theme-tmp</theme.tmp.dir>
 		<theme.impl.dir>${theme.tmp.dir}/fakeImplRoot</theme.impl.dir>
 		<theme.impl.name></theme.impl.name>
 		<theme.unpack.dir>${project.build.directory}${file.separator}${theme.unpacked.name}</theme.unpack.dir>
@@ -105,7 +105,7 @@
 							<includes>${theme.default.name}/**, products/**</includes>
 							<artifactItems>
 								<artifactItem>
-									<groupId>wcomponent</groupId>
+									<groupId>com.github.bordertech.wcomponents</groupId>
 									<artifactId>${theme.default.name}</artifactId>
 									<version>${wc.project.version}</version>
 									<classifier>sources</classifier>
