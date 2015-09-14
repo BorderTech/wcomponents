@@ -50,7 +50,7 @@ button {
 		}
 
 		&[disabled] {
-			color: $wc_ui_color_disabledForeground;
+			color: $wc-ui-color-disabled-fg;
 		}
 	}
 
@@ -59,7 +59,7 @@ button {
 	}
 
 	&_link {
-		color: $wc_ui_color_link;
+		color: $wc-ui-color-link;
 		text-decoration: underline;
 	}
 }

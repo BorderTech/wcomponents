@@ -23,15 +23,15 @@
 		}
 
 		td { // The td in the thead contain the form controls to change the date or close the calendar.
-			padding: $hgap_normal;
+			padding: $hgap-normal;
 		}
 
 		button {
 			background-color: transparent;
 			border: 0 none;
-			margin-left: $hgap_normal;
+			margin-left: $hgap-normal;
 			padding: 0;
-			width: $lineSize;
+			width: $line-size;
 		}
 	}
 

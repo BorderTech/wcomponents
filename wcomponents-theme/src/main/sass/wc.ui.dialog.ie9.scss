@@ -9,8 +9,8 @@ dialog {
 	}
 
 	> [aria-live] {
-		@include borderBox;
-		padding: 2em $hgap_normal;
+		@include border-box;
+		padding: 2em $hgap-normal;
 	}
 
 	> header,

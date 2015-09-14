@@ -2,7 +2,7 @@
 @import 'mixins_common.scss';
 
 dialog {
-	@include borderBox;
+	@include border-box;
 	height: 96%;
 	left: 0;
 	margin: 2%;

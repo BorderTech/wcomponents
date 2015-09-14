@@ -6,7 +6,7 @@
 @import 'wc.ui.label_vars.scss';
 
 .hint {// .hint is additional text for labels that describe other information for the related form element
-	@include labelHint;
+	@include label-hint;
 }
 
 // use inline-block on a label-dummy to prevent a required marker flying off the end
@@ -20,14 +20,14 @@ span.label {
 [type='checkbox'] + label,
 .checkbox + span.label,
 .radio + span.label {
-	margin-left: $hgap_small;
+	margin-left: $hgap-small;
 }
 
 /* required markers */
 .wc_req {
 	[type='radio'] + &:before,
 	[type='checkbox'] + &:before {
-		margin-right: $hgap_small;
+		margin-right: $hgap-small;
 	}
 
 	[type='radio'] + &:after,
@@ -40,19 +40,19 @@ label.wc_req:after,
 .label.wc_req:after,
 [type='radio'] +.wc_req:before,
 [type='checkbox'] + .wc_req:before {
-	@include mandatoryIndicator;
+	@include mandatory-indicator;
 }
 
 label,
 .label {
 	&.wc_req {
-		@include borderBox;
+		@include border-box;
 		padding-right: 1em;
 		position: relative;
 
 		&:after {
 			position: absolute;
-			right: $hgap_small;
+			right: $hgap-small;
 			top: 0;
 		}
 	}

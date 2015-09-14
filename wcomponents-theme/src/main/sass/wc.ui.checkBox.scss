@@ -3,7 +3,7 @@
 
 .checkbox { //'readOnly' WCheckBox
 	&::before {
-		@include makeBox($width: 1em, $height: 1em); //NOTE: the height is required for IE11. Do not put this into an IE11 file otherwise you will trigger another bug. If you have problems with Safari use a .safari.css file to unset it.*
+		@include make-box($width: 1em, $height: 1em); //NOTE: the height is required for IE11. Do not put this into an IE11 file otherwise you will trigger another bug. If you have problems with Safari use a .safari.css file to unset it.*
 		content: url('../images/checkbox-ro.svg');
 	}
 

@@ -6,7 +6,7 @@ button {
 	border: 0 none;
 	border-radius: 0;
 	color: $wc-color-ios-interactive;
-	font-family: $iosFont;
+	font-family: $ios-font;
 	font-size: 1em;
 	text-align: center;
 	vertical-align: middle;
@@ -25,7 +25,7 @@ button {
 	}
 
 	&[disabled] {
-		color: $wc_ui_color_disabledForeground;
+		color: $wc-ui-color-disabled-fg;
 	}
 }
 

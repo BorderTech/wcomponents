@@ -16,17 +16,17 @@
 // sorting controls
 .wc_table_sort_container {
 	display: table-cell;
-	padding-left: $hgap_large;
+	padding-left: $hgap-large;
 	vertical-align: middle;
 
 	button { //sort control buttons
-		@include makeBox($display: block);
+		@include make-box($display: block);
 		line-height: 1;
 		text-align: center;
 
 		&:before { //up
 			content: '\25b3';
-			height: $lineSize;
+			height: $line-size;
 			line-height: 1;
 			position: relative;
 			top: 0.25em;

@@ -2,7 +2,7 @@
 @import 'wc.ui.panel_vars.scss';
 
 .panel[aria-busy='true'] {
-	min-height: $lineSize;//always allow room for a loading indicator
+	min-height: $line-size;//always allow room for a loading indicator
 }
 
 //The flowing divs in flowlayout and border layout. This is here for lame browsers and is rudimentary support only.
@@ -20,21 +20,21 @@ div {
 .wc_borderLayout_middle {
 	@include flex($justify: space-between);
 	> div {
-		@include flexGrow(1);
+		@include flex-grow(1);
 	}
 
 	> .center {
-		@include flexGrow(2);
-		text-align: $preferredAlignment; // NOTE: the text align here is to overrule the generic .center class used in column alignment, table col alignment, flowLayout etc.
+		@include flex-grow(2);
+		text-align: $preferred-alignment; // NOTE: the text align here is to overrule the generic .center class used in column alignment, table col alignment, flowLayout etc.
 
 		&:first-child,
 		&:last-child {
-			@include flexGrow(3);
+			@include flex-grow(3);
 		}
 	}
 
 	> .east {
-		@include flexJustifyContent(flex-end);
+		@include flex-justify-content(flex-end);
 		text-align: right;
 	}
 }
@@ -46,24 +46,24 @@ div {
 	@include flex($wrap: wrap, $justify: flex-start, $align-items: flex-start, $align-content: flex-start);
 
 	&.baseline {
-		@include flexAlignItems(baseline);
+		@include flex-align-items(baseline);
 	}
 
 	&.bottom {
-		@include flexAlignItems(flex-end);
+		@include flex-align-items(flex-end);
 	}
 
 	&.center {
-		@include flexJustifyContent(center);
-		text-align: $preferredAlignment;
+		@include flex-justify-content(center);
+		text-align: $preferred-alignment;
 	}
 
 	&.middle {//vertical align middle of the flow
-		@include flexAlignItems(center);
+		@include flex-align-items(center);
 	}
 
 	&.right {
-		@include flexJustifyContent(flex-end);
+		@include flex-justify-content(flex-end);
 	}
 
 	&.vertical {

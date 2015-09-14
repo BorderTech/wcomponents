@@ -11,14 +11,14 @@ ul.fieldLayout { // field layouts may be an ordered list, in which case we want 
 
 .field {
 	+ .field {
-		margin-top: $vgap_normal;
+		margin-top: $vgap-normal;
 	}
 
 	> :first-child,
 	> .input {
 		@include respond(phone) {
 			//scss-lint:disable ImportantRule
-			@include borderBox;
+			@include border-box;
 			display: block;
 			margin-left: 0 !important;
 			max-width: 100% !important;
@@ -34,27 +34,30 @@ ul.fieldLayout { // field layouts may be an ordered list, in which case we want 
 		}
 
 		> :first-child { //the first child is the label or standing or merely an empty placeholder/spacer
-			width: $labelWidth;
+			width: $label-width;
 
 			> .wc_req { // Position the required marker next to the input.
-				@include borderBox;
+				@include border-box;
 				padding-right: 1em; //Padding right is for the required marker.
 				position: relative;
 
+				// The excessive depth here could be re-written I suppose...
+				// scss-lint:disable NestingDepth
 				&:after { // this is the required marker
 					position: absolute;
 					right: 0;
 					top: 0;
 				}
+				// scss-lint:enable NestingDepth
 			}
 		}
 		> .input {
-			max-width: $inputWidth;
-			width: $inputWidth;
+			max-width: $input-width;
+			width: $input-width;
 		}
 
 		> .wc_off + .input { // if the label is off screen we need some margin.
-			margin-left: $labelWidth;
+			margin-left: $label-width;
 		}
 
 		> .wc_fld_pl { //this is the placeholder for a null or moved label - moved for checkbox or radio
@@ -69,7 +72,7 @@ ul.fieldLayout { // field layouts may be an ordered list, in which case we want 
 		//probably be smaller than the gap between fields.
 		> label + .input,
 		> .label + .input {
-			margin-top: $vgap_small;
+			margin-top: $vgap-small;
 		}
 	}
 }
@@ -87,7 +90,7 @@ ul.fieldLayout { // field layouts may be an ordered list, in which case we want 
 	> textarea,
 	> select,
 	> fieldset {
-		@include borderBox;
+		@include border-box;
 		width: 100%;
 	}
 

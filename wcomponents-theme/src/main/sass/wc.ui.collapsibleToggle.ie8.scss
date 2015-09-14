@@ -2,6 +2,6 @@
 @import 'mixins_common.scss';
 
 .expandCollapseAll:before {
-	@include useSymbolFont;
+	@include use-symbol-font;
 }
 /* end wc.ui.collapsibleToggle.ie8.scss */

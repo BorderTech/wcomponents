@@ -20,7 +20,7 @@
 		}
 
 		+ .column {
-			padding-left: $hgap_large;
+			padding-left: $hgap-large;
 
 			@include respond(phone) {
 				padding-left: 0;
@@ -34,7 +34,7 @@
 		> span,
 		> li {
 			display: inline-block;
-			margin-right: $hgap_normal;
+			margin-right: $hgap-normal;
 		}
 
 		> :last-of-type {

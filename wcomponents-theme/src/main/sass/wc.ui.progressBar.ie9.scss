@@ -16,9 +16,9 @@ progress {
 
 [role='progressbar'] {
 	@include border;
-	background-color: $progressBackground;
+	background-color: $wc-ui-color-progress-bg;
 	display: block;
-	height: $lineSize;
+	height: $line-size;
 	position: relative;
 	width: 100%;
 
@@ -35,7 +35,7 @@ progress {
 		}
 	}
 	> :first-child { // faux progress indicator span
-		background-color: $progressForeground;
+		background-color: $wc-ui-color-progress-fg;
 	}
 }
 /* END OF  wc.ui.progressBar.ie9.css */

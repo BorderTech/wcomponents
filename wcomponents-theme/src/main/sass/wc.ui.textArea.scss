@@ -3,13 +3,13 @@
 
 // the ticker
 textarea + output {
-	@include border($color: $wc_ui_color_border_formControl);
-	background-color: $wc_ui_color_disabledBackground;
+	@include border($color: $wc-ui-color-border-form-control);
+	background-color: $wc-ui-color-disabled-bg;
 	border-top: 0 none;
-	color: $wc_ui_color_disabledForeground;
+	color: $wc-ui-color-disabled-fg;
 	display: block;
-	margin-top: -$borderWidth;
-	padding: $hgap_small;
+	margin-top: -$border-width;
+	padding: $hgap-small;
 	position: absolute;
 	z-index: 5;
 
@@ -18,7 +18,7 @@ textarea + output {
 		font-size: 85%;
 	}
 	&.wc_error { // show when the maxlength is exceeded
-		color: $wc_ui_color_errorForeground;
+		color: $wc-ui-color-error-fg;
 	}
 
 	dialog & {

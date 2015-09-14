@@ -11,10 +11,10 @@
 	position: relative;
 
 	&[role='combobox'] {/* partial date field or no native support */
-		@include border($color: $wc_ui_color_border_formControl);
+		@include border($color: $wc-ui-color-border-form-control);
 
 		&[aria-disabled='true'] {
-			background-color: $wc_ui_color_disabledBackground;
+			background-color: $wc-ui-color-disabled-bg;
 		}
 	}
 }
@@ -32,8 +32,8 @@
 
 	> [role='listbox'] {
 		@include border;
-		background-color: $wc_ui_color_globalBackground;
-		left: $borderWidth * -1;
+		background-color: $wc-ui-color-global-bg;
+		left: $border-width * -1;
 		list-style-type: none;
 		margin: 0;
 		min-width: 100%;
@@ -49,13 +49,13 @@
 	li {
 		margin: 0;
 		min-height: 1em;
-		padding: 1px $hgap_small;
+		padding: 1px $hgap-small;
 	}
 
 	[role='option'] {
 		&:hover,
 		&:focus {
-			background-color: $wc_ui_color_invite_bg;
+			background-color: $wc-ui-color-invite-bg;
 			cursor: pointer;
 		}
 	}
@@ -69,7 +69,7 @@ dialog [role='combobox'] > [role='listbox'] {
 .wc_wdf_cal {
 	&:hover,
 	&:focus {
-		background-color: $wc_ui_color_invite_bg;
+		background-color: $wc-ui-color-invite-bg;
 	}
 
 	&:before {
@@ -85,7 +85,7 @@ dialog [role='combobox'] > [role='listbox'] {
 
 /* This is the calendar container. The important is to override hidden from being inside a closed combo. */
 #wc-calbox {
-	background-color: $wc_ui_color_globalBackground;
+	background-color: $wc-ui-color-global-bg;
 	white-space: nowrap;
 	z-index: 2;
 
@@ -111,15 +111,15 @@ dialog [role='combobox'] > [role='listbox'] {
 	}
 
 	th {
-		background-color: $wc_ui_color_highlight_bg;
-		color: $wc_ui_color_highlight_fg;
-		padding: $vgap_small $hgap_small;
+		background-color: $wc-ui-color-highlight-bg;
+		color: $wc-ui-color-highlight-fg;
+		padding: $vgap-small $hgap-small;
 		text-align: center;
 	}
 
 	input,
 	thead button:first-of-type {
-		margin-left: $hgap_large;
+		margin-left: $hgap-large;
 	}
 
 	input { // year field: FF and IE do not size by max.
@@ -132,7 +132,7 @@ dialog [role='combobox'] > [role='listbox'] {
 }
 
 #wc-caldaybox td {
-	color: $wc_ui_color_disabledForeground;
+	color: $wc-ui-color-disabled-fg;
 	padding: 0;
 	text-align: center;
 	vertical-align: middle;
@@ -140,25 +140,25 @@ dialog [role='combobox'] > [role='listbox'] {
 
 /* date picker buttons */
 .wc_wdf_pick {
-	color: $wc_ui_color_globalForeground;
+	color: $wc-ui-color-global-fg;
 	cursor: pointer;
-	padding: $vgap_small $hgap_small;
+	padding: $vgap-small $hgap-small;
 	text-align: center;
 	width: 100%;
 
 	&:hover,
 	&:focus {
-		background-color: $wc_ui_color_invite_bg;
+		background-color: $wc-ui-color-invite-bg;
 	}
 
 	&[disabled] {
-		background-color: $wc_ui_color_disabledBackground;
-		color: $wc_ui_color_disabledForeground;
+		background-color: $wc-ui-color-disabled-bg;
+		color: $wc-ui-color-disabled-fg;
 	}
 
 	&[aria-pressed='true'] { // selected date
-		background-color: $wc_ui_color_highlight_bg;
-		color: $wc_ui_color_highlight_fg;
+		background-color: $wc-ui-color-highlight-bg;
+		color: $wc-ui-color-highlight-fg;
 	}
 }
 

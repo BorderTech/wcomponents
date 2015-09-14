@@ -3,11 +3,11 @@
 @import 'mixins_common.scss';
 
 body {
-	background-color: $wc_ui_color_globalBackground;
-	color: $wc_ui_color_globalForeground;
-	font-family: $defaultFont;
-	font-size: $fontSize;
-	line-height: $lineHeight;
+	background-color: $wc-ui-color-global-bg;
+	color: $wc-ui-color-global-fg;
+	font-family: $default-font;
+	font-size: $font-size;
+	line-height: $line-height;
 	margin: 0;
 	padding: 0;
 
@@ -22,19 +22,19 @@ body {
 }
 
 pre {
-	font-family: $monoFont;
+	font-family: $mono-font;
 }
 
 /* phrase elements */
 a {
-	color: $wc_ui_color_link;
+	color: $wc-ui-color-link;
 
 	&:visited {
-		color: $wc_ui_color_link_visited;
+		color: $wc-ui-color-link-visited;
 	}
 
 	&[aria-disabled='true'] { // NOTE: we need the disabled color to override the :visited state
-		color: $wc_ui_color_disabledForeground;
+		color: $wc-ui-color-disabled-fg;
 		text-decoration: none;
 	}
 }
@@ -110,6 +110,6 @@ tt {
 img[border='0'],
 a[name],
 input[type='number'][maxlength] {
-	@include outline($color: $wc_ui_color_errorForeground);
+	@include outline($color: $wc-ui-color-error-fg);
 }
 /* end wc.common.page.css */

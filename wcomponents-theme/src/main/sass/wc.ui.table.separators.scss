@@ -23,11 +23,11 @@
 	}
 
 	+ thead td + td { // override the col border in header row used for controls not in header row used for headings.
-		@include border($pos: left, $color: $wc_ui_color_tableHeadBackground);
+		@include border($pos: left, $color: $wc-ui-color-table-head-bg);
 	}
 
 	+ tfoot td + td {
-		@include border($pos: left, $color: $wc_ui_color_tableFootBackground);
+		@include border($pos: left, $color: $wc-ui-color-table-foot-bg);
 	}
 }
 /* end wc.ui.table.separators.scss */

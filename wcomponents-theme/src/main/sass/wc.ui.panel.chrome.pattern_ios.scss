@@ -9,7 +9,7 @@
 	> h1 {
 		@include border($color: $wc-color-ios-interactive);
 		background-color: transparent;
-		color: $wc_ui_color_globalBackground;
+		color: $wc-ui-color-global-bg;
 		font-size: 18px;
 		font-weight: normal;
 		text-align: center;

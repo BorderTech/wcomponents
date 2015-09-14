@@ -20,11 +20,11 @@ dl {
 		}
 
 		> dt ~ dt { // any dt with a preceding sibling gets margin-left
-			margin-left: $hgap_normal;
+			margin-left: $hgap-normal;
 		}
 
 		> dd { // all dds must have a preceding sibling so they all get margin-left
-			margin-left: $hgap_small;
+			margin-left: $hgap-small;
 		}
 	}
 }
@@ -57,7 +57,7 @@ dt {
 	> dt,
 	> dd {
 		@include respond(phone) {
-			@include borderBox;
+			@include border-box;
 			display: block;
 			margin-left: 0;
 			margin-right: 0;

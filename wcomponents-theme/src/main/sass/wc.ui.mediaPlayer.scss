@@ -7,7 +7,7 @@
 .src,
 .track {
 	&:before {
-		margin-right: $hgap_small;
+		margin-right: $hgap-small;
 		vertical-align: text-bottom;
 	}
 }
@@ -42,6 +42,6 @@
 
 .track + .track,
 .src + .src {
-	margin-left: $hgap_normal;
+	margin-left: $hgap-normal;
 }
 /* end wc.ui.media.player.css */
