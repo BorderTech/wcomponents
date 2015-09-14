@@ -2,12 +2,12 @@
 @import 'wc.ui.panel_vars.scss';
 
 .panel[aria-busy='true'] {
-	min-height: $line-size;//always allow room for a loading indicator
+	min-height: $line-size; // always allow room for a loading indicator
 }
 
-//The flowing divs in flowlayout and border layout. This is here for lame browsers and is rudimentary support only.
-//The max-width is to ensure long non-wrapping content which has word-break applied (read-only input components) will
-//honour that wrapping in a flow layout.
+// The flowing divs in flowlayout and border layout. This is here for lame browsers and is rudimentary support only.
+// The max-width is to ensure long non-wrapping content which has word-break applied (read-only input components) will
+// honour that wrapping in a flow layout.
 div {
 	.flowLayout > &,
 	.wc_borderLayout_middle > & {
@@ -16,7 +16,7 @@ div {
 	}
 }
 
-/* BORDER LAYOUT */
+// BORDER LAYOUT
 .wc_borderLayout_middle {
 	@include flex($justify: space-between);
 	> div {
@@ -58,7 +58,7 @@ div {
 		text-align: $preferred-alignment;
 	}
 
-	&.middle {//vertical align middle of the flow
+	&.middle { // vertical align middle of the flow
 		@include flex-align-items(center);
 	}
 

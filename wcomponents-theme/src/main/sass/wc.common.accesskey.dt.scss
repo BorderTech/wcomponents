@@ -19,24 +19,20 @@
 .wc_alt .wc_accesskey { //the character in a string corresponding to the control's access key is underlined
 	text-decoration: underline;
 }
-/*	Accesskey Tooltips
-	Styling for the callout (shows when ALT is held down to fire an accesskey).
-	Some of these styles are !important because of the nesting arrangements. see,
-	for example, top level menu item with an accesskey.
-	NOTE: the padding is important to over-ride menu rules which may also apply.
-*/
+//	Accesskey Tooltips
+//	Styling for the callout (shows when ALT is held down to fire an accesskey).
 [role='tooltip'] {
 	@include accesskey-border;
 	background-color: $wc-ui-color-tooltip-bg;
 	color: $wc-ui-color-tooltip-fg;
 	// scss-lint:disable ImportantRule
-	font-weight: bold !important;
+	font-weight: bold !important; //important to over-ride menu rules which may also apply.
 	margin-left: -0.5em;
 	margin-top: -2.25em;
-	padding: 0.25em !important;
+	padding: 0.25em !important; //important to over-ride menu rules which may also apply.
 	position: absolute;
 	text-align: center;
-	width: auto !important;
+	width: auto !important; //important to over-ride menu rules which may also apply.
 	// scss-lint:enable ImportantRule
 
 	&:before,
@@ -66,4 +62,4 @@
 		display: inline-block;
 	}
 }
-/* end accesskey.dt.scss */
+/* end wc.common.accesskey.dt.scss */

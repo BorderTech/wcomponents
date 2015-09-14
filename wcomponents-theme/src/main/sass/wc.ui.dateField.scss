@@ -10,7 +10,7 @@
 	display: inline-block;
 	position: relative;
 
-	&[role='combobox'] {/* partial date field or no native support */
+	&[role='combobox'] {//partial date field or no native support
 		@include border($color: $wc-ui-color-border-form-control);
 
 		&[aria-disabled='true'] {
@@ -65,7 +65,7 @@ dialog [role='combobox'] > [role='listbox'] {
 	z-index: 22;
 }
 
-/* calendar launch button */
+// calendar launch button
 .wc_wdf_cal {
 	&:hover,
 	&:focus {
@@ -83,7 +83,7 @@ dialog [role='combobox'] > [role='listbox'] {
 	}
 }
 
-/* This is the calendar container. The important is to override hidden from being inside a closed combo. */
+// This is the calendar container. The important is to override hidden from being inside a closed combo.
 #wc-calbox {
 	background-color: $wc-ui-color-global-bg;
 	white-space: nowrap;
@@ -99,12 +99,12 @@ dialog [role='combobox'] > [role='listbox'] {
 	}
 }
 
-/* The calendar table */
+// The calendar table
 #wc-calendar {
 	thead {
 		@include border($pos: bottom);
 
-		td:last-child { /* container of the close button */
+		td:last-child { // container of the close button
 			padding-right: 0;
 			text-align: right;
 		}
@@ -138,7 +138,7 @@ dialog [role='combobox'] > [role='listbox'] {
 	vertical-align: middle;
 }
 
-/* date picker buttons */
+// date picker buttons
 .wc_wdf_pick {
 	color: $wc-ui-color-global-fg;
 	cursor: pointer;
@@ -165,4 +165,4 @@ dialog [role='combobox'] > [role='listbox'] {
 .wc_wdf_today { // today
 	@include outline();
 }
-/* end wc.ui.dateField.css*/
+/* end wc.ui.dateField.scss */

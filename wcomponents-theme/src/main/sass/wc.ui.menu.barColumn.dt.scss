@@ -1,7 +1,5 @@
-/*
- * wc.ui.menu.barColumn.dt.scss
- * Desktop styles for WMenu type BAR, type FLYOUT, type COLUMN
- */
+/* wc.ui.menu.barColumn.dt.scss */
+// Desktop styles for WMenu type BAR, type FLYOUT, type COLUMN
 @import 'wc.ui.menu_vars.scss';
 
 .submenu {
@@ -19,18 +17,18 @@
 	}
 
 	> [role='menu'][aria-busy] {
-		//scss-lint:disable ImportantRule
-		background-color: $wc-ui-color-menu-bg !important; //override aria-busy transparency
+		// scss-lint:disable ImportantRule
+		background-color: $wc-ui-color-menu-bg !important; // override aria-busy transparency
 		min-height: $line-size;
 	}
 }
 
 [role='menu'] {
-	[role='menu'] { //nested sub-menus
+	[role='menu'] { // nested sub-menus
 		left: 100%;
 		top: 0;
 
-		&.wc_coleast {//nested collisions
+		&.wc_coleast { // nested collisions
 			right: 100%;
 		}
 
@@ -39,7 +37,7 @@
 		}
 	}
 
-	//viewport edge collisions
+	// viewport edge collisions
 	&.wc_coleast {
 		left: auto;
 		right: 0;
@@ -55,4 +53,4 @@
 		top: auto;
 	}
 }
-/* end wc.ui.menu.barColumn.dt.scss*/
+/* end wc.ui.menu.barColumn.dt.scss */

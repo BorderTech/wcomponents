@@ -95,7 +95,7 @@ $wc-color-debug-crumb-bg: #f3f3f3;
 }
 
 
-/* the instruction box */
+// the instruction box
 .wc_db_message {
 	@include border($color: $wc-color-debug-infobox-border, $width: 2px);
 	background-color: $wc-color-debug-infobox-bg;

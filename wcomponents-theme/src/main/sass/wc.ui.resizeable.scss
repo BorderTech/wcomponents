@@ -2,7 +2,7 @@
 @import 'mixins_common.scss';
 
 .wc_max { // maximised:
-	//scss-lint:disable ImportantRule
+	// scss-lint:disable ImportantRule
 	@include border-box;
 	height: 100% !important;
 	left: 0 !important;
@@ -12,8 +12,8 @@
 	width: 100% !important;
 }
 
-/* the resize handle */
+// the resize handle
 .wc_resize {
 	cursor: se-resize;
 }
-/* end of wc.ui.resizeable.scss */
+/* end wc.ui.resizeable.scss */

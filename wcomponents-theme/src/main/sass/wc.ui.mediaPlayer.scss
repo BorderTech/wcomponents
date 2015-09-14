@@ -1,6 +1,5 @@
-/* wc.ui.media.player.css
- * styles for WAudio and WVideo when the media is not able to be handled by the
- * user agent natively. */
+/* wc.ui.media.player.scss */
+// styles for WAudio and WVideo when the media is not able to be handled by the user agent natively. */
 @import 'mixins_common.scss';
 
 .wc_av_play,
@@ -44,4 +43,4 @@
 .src + .src {
 	margin-left: $hgap-normal;
 }
-/* end wc.ui.media.player.css */
+/* end wc.ui.media.player.scss */

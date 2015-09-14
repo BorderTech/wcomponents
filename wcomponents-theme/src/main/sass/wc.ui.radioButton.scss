@@ -1,4 +1,4 @@
-/* wc.ui.radioButton.css */
+/* wc.ui.radioButton.scss */
 @import 'mixins_common.scss';
 .radio { //'readOnly' WRadioButton
 	&::before {
@@ -10,4 +10,4 @@
 		content: url('../images/radio-s-ro.svg');
 	}
 }
-/* end wc.ui.radioButton.css */
+/* end wc.ui.radioButton.scss */

@@ -1,14 +1,12 @@
-/* wc.ui.timeoutWarn.css
-
-* NOTES: background-color is needed to make it opaque; z-index needs to be above dialogs.*/
+/* wc.ui.timeoutWarn.scss */
 @import 'vars_all.scss';
 //scss-lint:disable IdSelector
 #wc_session_container {
-	background-color: $wc-ui-color-global-bg;
+	background-color: $wc-ui-color-global-bg; // to make it opaque;
 	bottom: 0;
 	position: fixed;
 	right: 0;
 	width: 35em;
-	z-index: 100;
+	z-index: 100; // z-index needs to be above dialogs
 }
-/* end wc.ui.timeoutWarn.css*/
+/* end wc.ui.timeoutWarn.scss */
