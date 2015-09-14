@@ -6,6 +6,6 @@ hr {
 	//we want  to reset the border then set it only on the bottom.
 	border: 0 none;
 	@include border($pos: bottom);
-	margin: $vgap_normal 0;
+	margin: $vgap-normal 0;
 }
 /* end wc.ui.hr.scss */

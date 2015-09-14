@@ -8,12 +8,12 @@
 	label,
 	select,
 	.wc_ibtn:first-of-type {
-		margin-left: $hgap_large;
+		margin-left: $hgap-large;
 	}
 }
 
 .wc_table_pag_socbtn {
 	line-height: 1;
-	margin-left: $hgap_small;
+	margin-left: $hgap-small;
 }
 /* end wc.ui.table.pagination.scss */

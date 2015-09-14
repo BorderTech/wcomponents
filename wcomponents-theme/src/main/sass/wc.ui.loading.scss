@@ -6,15 +6,15 @@
 #wc_ui_loading {
 	position: fixed;
 	text-align: center;
-	top: $vgap_normal;
+	top: $vgap-normal;
 	vertical-align: middle;
 	width: 100%;
 	z-index: 100;
 
 	div {
-		background-color: $wc_ui_color_globalBackground;
+		background-color: $wc-ui-color-global-bg;
 		background-repeat: no-repeat;
-		color: $wc_ui_color_globalForeground;
+		color: $wc-ui-color-global-fg;
 		display: inline-block;
 		margin: 0 auto;
 		padding: 1em;
@@ -28,7 +28,7 @@
 			content: '\a0';
 			display: inline-block;
 			height: 2em;
-			margin-right: $hgap_normal;
+			margin-right: $hgap-normal;
 			vertical-align: middle;
 			width: 2em;
 		}
@@ -48,9 +48,9 @@
 	background-image: url('../images/loading.svg') !important;
 	background-position: 50% 50%;
 	background-repeat: no-repeat;
-	background-size: $lineSize $lineSize !important;
+	background-size: $line-size $line-size !important;
 	border-color: transparent !important;
-	color: $wc_ui_color_disabledForeground;
+	color: $wc-ui-color-disabled-fg;
 
 	// Make any interactive child element of a busy region invisible. We want them to take up their space but not be
 	// shown to reduce the likelihood of a user interacting with them whilst they are being updated/replaced.

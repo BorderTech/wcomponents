@@ -11,19 +11,19 @@
 @import 'wc.ui.panel_vars.scss';
 
 .action {
-	@include border($color: $wc_ui_color_panel_action_border);
-	background-color: $wc_ui_color_panel_action_background;
+	@include border($color: $wc-ui-color-panel-action-border);
+	background-color: $wc-ui-color-panel-action-background;
 
 	> h1 {
-		background-color: $wc_ui_color_panel_action_header_background;
-		color: $wc_ui_color_panel_action_header_foreground;
+		background-color: $wc-ui-color-panel-action-header-background;
+		color: $wc-ui-color-panel-action-header-foreground;
 		margin: 0;
-		padding: $hgap_normal;
+		padding: $hgap-normal;
 	}
 
 	> div,
 	> .listLayout {
-		margin: $hgap_normal;
+		margin: $hgap-normal;
 	}
 
 	//scss-lint:disable QualifyingElement
@@ -37,7 +37,7 @@
 		&.none,
 		&.flat,
 		&.bar {
-			margin-left: $hgap_normal;
+			margin-left: $hgap-normal;
 		}
 	}
 }

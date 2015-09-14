@@ -6,7 +6,7 @@
 		content: url('../images/down.png');
 		display: inline-block;
 		height: 0;
-		margin-left: $wc_ui_menu_barColumn_openerIndicator_beforeAfter;
+		margin-left: $wc-ui-menu-bar-column-opener-indicator-before-after;
 		vertical-align: top;
 	}
 
@@ -20,7 +20,7 @@
 		content: url('../images/next.png');
 		display: inline-block;
 		line-height: 0;
-		padding-left: $wc_ui_menu_barColumn_openerIndicator_beforeAfter;
+		padding-left: $wc-ui-menu-bar-column-opener-indicator-before-after;
 		vertical-align: text-top;
 	}
 

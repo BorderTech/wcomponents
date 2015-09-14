@@ -4,17 +4,20 @@
 .fileUpload {
 	> .wc_filelist {
 		display: table-cell;  // horrendously wrong no doubt but fixes columns
-		margin-top: $hgap_small;
+		margin-top: $hgap-small;
 
 		&.wc_list_flat {
 			.file {
 				display: inline-block;
-				margin-right: $hgap_small;
-				margin-top: $hgap_small;
+				margin-right: $hgap-small;
+				margin-top: $hgap-small;
 
+				// The excessive depth here could be re-written I suppose...
+				// scss-lint:disable NestingDepth
 				&:last-child {
 					margin-right: 0;
 				}
+				// scss-lint:enable NestingDepth
 			}
 
 			a {
@@ -23,36 +26,36 @@
 		}
 
 		> .file + .file {
-			margin-top: $vgap_normal;
+			margin-top: $vgap-normal;
 		}
 	}
 
 	&[data-wc-cols] {
 		> div {
 			@include flex($justify: space-between);
-			margin-top: $hgap_small;
+			margin-top: $hgap-small;
 		}
 
 		ul {
-			@include flexGrow(1);
+			@include flex-grow(1);
 		}
 	}
 
 	.file {
 		@include border;
-		background-color: $wc_ui_color_highlight_bg;
-		color: $wc_ui_color_highlight_fg;
-		padding: $hgap_normal;
+		background-color: $wc-ui-color-highlight-bg;
+		color: $wc-ui-color-highlight-fg;
+		padding: $hgap-normal;
 		white-space: nowrap;
 	}
 
 	&.wc_dragging [type=file] {
-		background-color: $wc_ui_color_invite_bg;  //#c0ffee
-		outline: 2px dotted $wc_ui_color_invite_fg;
+		background-color: $wc-ui-color-invite-bg;  //#c0ffee
+		outline: 2px dotted $wc-ui-color-invite-fg;
 	}
 
 	button {
-		margin-left: $hgap_small;
+		margin-left: $hgap-small;
 
 		&:before {
 			content: url('../images/edit-delete-2.png');
@@ -70,7 +73,7 @@
 	}
 
 	a {
-		width: calc(100% - #{$lineSize});
+		width: calc(100% - #{$line-size});
 	}
 }
 /* end wc.ui.fileUpload.scss */

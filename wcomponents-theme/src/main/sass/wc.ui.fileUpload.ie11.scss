@@ -4,7 +4,7 @@
 // cannot style the pseudo elements (IE9-) then it can remain ugly.
 //scss-lint:disable VendorPrefix
 [type='file'] {
-	background-color: $wc_ui_color_globalBackground;
+	background-color: $wc-ui-color-global-bg;
 	padding: 0;
 
 	&::-ms-browse { // pseudo-element ::-ms-browse on its own has detrimental effects on all buttons!!
@@ -18,7 +18,7 @@
 	}
 
 	&[disabled] {
-		background-color: $wc_ui_color_disabledBackground;
+		background-color: $wc-ui-color-disabled-bg;
 	}
 }
 /* end wc.ui.fileUpload.ie11.scss */

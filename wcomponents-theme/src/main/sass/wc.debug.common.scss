@@ -5,12 +5,12 @@
 @import 'mixins_common.scss';
 
 // next used only in debug mode
-$wc_ui_color_debugForeground: $std_color_primary;
+$wc-ui-color-debug-fg: $std-color-primary;
 
 // scss-lint:disable QualifyingElement
 body.debug:before {
-	background-color: $wc_ui_color_highlight_bg;
-	color: $wc_ui_color_highlight_fg;
+	background-color: $wc-ui-color-highlight-bg;
+	color: $wc-ui-color-highlight-fg;
 	content: 'Client debug/diagnostic mode is on.';
 	display: block;
 	padding: 0.5em;
@@ -22,19 +22,19 @@ body.debug::before {
 }
 // scss-lint:enable QualifyingElement
 [data-wc-dubugdebug] {
-	@include outline($color: $wc_ui_color_debugForeground, $style: dashed, $offset: -1px);
+	@include outline($color: $wc-ui-color-debug-fg, $style: dashed, $offset: -1px);
 }
 
 [ata-wc-debuginfo] {
-	@include outline($color: $wc_ui_color_infoForeground, $style: dotted, $width: 2px, $offset: -2px);
+	@include outline($color: $wc-ui-color-info-fg, $style: dotted, $width: 2px, $offset: -2px);
 }
 
 [data-wc-debugwarn] {
-	@include outline($color: $wc_ui_color_warningForeground, $style: dashed, $width: 3px, $offset: -3px);
+	@include outline($color: $wc-ui-color-warning-fg, $style: dashed, $width: 3px, $offset: -3px);
 }
 
 [data-wc-debugerr] {
-	@include outline($color: $wc_ui_color_errorForeground, $style: dashed, $width: 3px, $offset: -3px);
+	@include outline($color: $wc-ui-color-error-fg, $style: dashed, $width: 3px, $offset: -3px);
 }
 
 // Inline containers in an error or warning state should be set to inline-block
@@ -50,19 +50,19 @@ label {
 
 h3 {
 	&.wc_error {
-		color: $wc_ui_color_errorForeground;
+		color: $wc-ui-color-error-fg;
 	}
 
 	&.wc_warn {
-		color: $wc_ui_color_warningForeground;
+		color: $wc-ui-color-warning-fg;
 	}
 
 	&.wc_info {
-		color: $wc_ui_color_infoForeground;
+		color: $wc-ui-color-info-fg;
 	}
 
 	&.wc_debug {
-		color: $wc_ui_color_debugForeground;
+		color: $wc-ui-color-debug-fg;
 	}
 }
 /* end wc.debug.common.scss */

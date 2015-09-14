@@ -3,8 +3,8 @@
 
 .submenu[aria-expanded='true'] [role='menu'] {
 	//scss-lint:disable ImportantRule
-	@include borderBox;
-	background-color: $wc_ui_color_globalBackground !important; //override the default for aria-busy areas. Transparent sub-menus help no-one and it may seem that we are not loading.
+	@include border-box;
+	background-color: $wc-ui-color-global-bg !important; //override the default for aria-busy areas. Transparent sub-menus help no-one and it may seem that we are not loading.
 	height: 100%;
 	left: 0;
 	overflow: auto;

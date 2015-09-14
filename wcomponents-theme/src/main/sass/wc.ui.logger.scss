@@ -9,11 +9,11 @@
 
 body {
 	&.wc_loggedwarn {
-		background-color: $wc_ui_color_warningForeground;
+		background-color: $wc-ui-color-warning-fg;
 	}
 
 	&.wc_loggederror { //the error style MUST TRUMP the warn style
-		background-color: $wc_ui_color_errorForeground;
+		background-color: $wc-ui-color-error-fg;
 	}
 }
 /* end wc.ui.logger.scss */

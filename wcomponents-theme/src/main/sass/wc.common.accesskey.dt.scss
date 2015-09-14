@@ -26,9 +26,9 @@
 	NOTE: the padding is important to over-ride menu rules which may also apply.
 */
 [role='tooltip'] {
-	@include accesskeyBorder;
-	background-color: $wc_ui_color_tooltipBackground;
-	color: $wc_ui_color_tooltipForeground;
+	@include accesskey-border;
+	background-color: $wc-ui-color-tooltip-bg;
+	color: $wc-ui-color-tooltip-fg;
 	// scss-lint:disable ImportantRule
 	font-weight: bold !important;
 	margin-left: -0.5em;
@@ -52,11 +52,11 @@
 	}
 
 	&:before {
-		border-color: $wc_ui_color_tooltipBorder transparent transparent;
+		border-color: $wc-ui-color-tooltip-border transparent transparent;
 	}
 
 	&:after {
-		border-color: $wc_ui_color_tooltipBorder transparent transparent;
+		border-color: $wc-ui-color-tooltip-border transparent transparent;
 	}
 
 	// Callout display needs a particularly explicit selector to override menu [role] position but cannot use !important

@@ -1,6 +1,7 @@
 /* wc.ui.table.pagination.icons.scss */
 @import 'mixins_common.scss';
 
+// The deep nesting and repition here is necessitated by IE8's (and earlier)) lack of nth-child
 .wc_table_pag_cont .wc_ibtn {
 	vertical-align: middle;
 
@@ -34,6 +35,7 @@
 			}
 
 			+ .wc_ibtn {
+				// scss-lint:disable NestingDepth
 				&:before {
 					content: url('../images/last.png');
 				}
@@ -41,6 +43,7 @@
 				&[disabled]:before {
 					content: url('../images/last-d.png');
 				}
+				// scss-lint:enable NestingDepth
 			}
 		}
 	}

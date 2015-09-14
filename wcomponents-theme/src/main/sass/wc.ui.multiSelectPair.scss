@@ -32,14 +32,14 @@
 	// padding hack works for all usual cases.
 	.wc_sortcont,
 	.wc_msp_btncol {
-		padding-top: $lineSize;
+		padding-top: $line-size;
 	}
 
 	.wc_msp_btncol button { // the add and remove buttons
 		display: block;
 
 		&[value='rem'] { //a small gap between the add and remove buttons
-			margin-top: $vgap_normal;
+			margin-top: $vgap-normal;
 		}
 	}
 }

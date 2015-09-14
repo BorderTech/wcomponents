@@ -6,7 +6,7 @@
 //scss-lint:disable QualifyingElement
 col.wc_table_sort_sorted,
 th[aria-sort$='ending'] {
-	background-color: $wc_ui_color_highlight_bg;
-	color: $wc_ui_color_highlight_fg;
+	background-color: $wc-ui-color-highlight-bg;
+	color: $wc-ui-color-highlight-fg;
 }
 /* end wc.ui.table.sort.color.css */

@@ -2,9 +2,9 @@
 // This document contains general css styling for generic form components. Custom components have their own css files
 @import 'mixins_common.scss';
 
-@mixin ariaDisabled {
+@mixin aria-disabled {
 	// scss-lint:disable ImportantRule
-	color: $wc_ui_color_disabledForeground; // NOTE do not set background-color here for your own sanity
+	color: $wc-ui-color-disabled-fg; // NOTE do not set background-color here for your own sanity
 	cursor: default !important;
 	outline: none !important;
 	text-decoration: none !important;
@@ -12,7 +12,7 @@
 
 select,
 %select { //placeholder just to make scss-lint stfu
-	@include border($color: $wc_ui_color_border_formControl); // breaks firefox OS X quite nastily but it is better than the other options with all other browsers
+	@include border($color: $wc-ui-color-border-form-control); // breaks firefox OS X quite nastily but it is better than the other options with all other browsers
 	font-family: inherit;
 	font-size: inherit;
 	line-height: inherit;
@@ -20,7 +20,7 @@ select,
 	max-width: 100%;
 
 	&[aria-invalid='true'] {
-		background-color: $wc_ui_color_errorBackground;
+		background-color: $wc-ui-color-error-bg;
 	}
 }
 
@@ -36,16 +36,16 @@ textarea {
 }
 
 [aria-invalid='true'] {
-	@include outline($color: $wc_ui_color_errorForeground);
+	@include outline($color: $wc-ui-color-error-fg);
 }
 
 [role='combobox'][aria-invalid='true'] > input {
-	background-color: $wc_ui_color_errorBackground;
+	background-color: $wc-ui-color-error-bg;
 }
 
 // DISABLED
 [aria-disabled='true'] {
-	@include ariaDisabled;
+	@include aria-disabled;
 }
 
 input,
@@ -53,15 +53,15 @@ select,
 textarea {
 	&[disabled] {
 			// scss-lint:disable ImportantRule
-		@include ariaDisabled;
-		background-color: $wc_ui_color_disabledBackground !important;
-		border-color: $wc_ui_color_disabledBorder !important;
+		@include aria-disabled;
+		background-color: $wc-ui-color-disabled-bg !important;
+		border-color: $wc-ui-color-disabled-border !important;
 	}
 }
 
 // Read-only: box sizing is to make them the same as the editable element (input, textarea or select).
 .wc_ro {
-	@include borderBox;
+	@include border-box;
 	display: inline-block;
 	max-width: 100%;
 	word-wrap: break-word;

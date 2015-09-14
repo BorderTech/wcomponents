@@ -12,7 +12,7 @@
 		top: 1px;
 
 		[role='tab'] {
-			@include wc_ui_tabset_top_borderRadius;
+			@include wc-ui-tabset-top-border-radius;
 
 			&[aria-selected='true'] {
 				border-bottom: 0 none;
@@ -21,7 +21,7 @@
 		}
 
 		> [role] + [role] {
-			margin-left: $hgap_small;
+			margin-left: $hgap-small;
 		}
 	}
 
@@ -38,23 +38,23 @@
 	> [role='tab'] {
 		// LEFT TABS
 		.left > & {
-			@include wc_ui_tabset_left_borderRadius;
+			@include wc-ui-tabset-left-border-radius;
 			border-right: 0 none;
 			text-align: left;
 
 			&[aria-selected='true'] {
-				left: $borderWidth;
+				left: $border-width;
 			}
 		}
 
 		// RIGHT TABS
 		.right > & {
-			@include wc_ui_tabset_right_borderRadius;
+			@include wc-ui-tabset-right-border-radius;
 			border-left: 0 none;
 			text-align: right;
 
 			&[aria-selected='true'] {
-				right: $borderWidth;
+				right: $border-width;
 			}
 		}
 	}
@@ -63,9 +63,9 @@
 }
 
 [role='tab'] {
-	@include paddedBox();
-	background-color: $wc_ui_color_tabInactive;
-	color: $wc_ui_color_globalForeground;
+	@include padded-box();
+	background-color: $wc-ui-color-tab-inactive;
+	color: $wc-ui-color-global-fg;
 	cursor: pointer;
 	margin: 0;
 
@@ -75,17 +75,17 @@
 
 	&:hover,
 	&:focus {
-		background-color: $wc_ui_color_tabFocus;
+		background-color: $wc-ui-color-tab-focus;
 	}
 
 	&[aria-selected='true'],
 	[aria-expanded='true'] {
-		background-color: $wc_ui_color_tabActive;
+		background-color: $wc-ui-color-tab-active;
 	}
 
 	&[disabled] {
-		background-color: $wc_ui_color_disabledBackground;
-		color: $wc_ui_color_disabledForeground;
+		background-color: $wc-ui-color-disabled-bg;
+		color: $wc-ui-color-disabled-fg;
 	}
 
 	//accordion tabs are expanded
@@ -107,7 +107,7 @@
 
 [role='tabpanel'],
 .tabset > [role='presentation'] {
-	background-color: $wc_ui_color_globalBackground;
+	background-color: $wc-ui-color-global-bg;
 }
 
 .tabset > [role='presentation'] {
@@ -117,7 +117,7 @@
 
 [role='tabpanel'] {
 	@include border($pos: top);
-	padding: $hgap_normal;
+	padding: $hgap-normal;
 
 	&[aria-busy='true'] {
 		min-height: 16px;
@@ -138,7 +138,7 @@
 	}
 
 	> [role='tablist'] {
-		width: $wc_ui_tabset_leftRight_tab_width;
+		width: $wc-ui-tabset-left-right-tab-width;
 
 		> [role='tab'] {
 			display: block;
@@ -146,7 +146,7 @@
 		}
 
 		> [role] + [role] {
-			margin-top: $vgap_small;
+			margin-top: $vgap-small;
 		}
 	}
 }
