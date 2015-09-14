@@ -1,4 +1,4 @@
-/* wc.ui.table.rowExpansion.css */
+/* wc.ui.table.rowExpansion.scss */
 @import 'mixins_common.scss';
 
 thead .rowExpansion {
@@ -38,4 +38,4 @@ thead .rowExpansion {
 [aria-disabled='true'] > .wc_table_rowexp_container button:before {
 	opacity: 0.5;
 }
-/* end wc.ui.table.rowExpansion.css*/
+/* end wc.ui.table.rowExpansion.scss */

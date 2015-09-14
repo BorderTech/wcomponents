@@ -40,7 +40,7 @@ CSS file `screen.ff.css` and the CSS loader will be told to load this file if `h
   to to keep a selector on one line.
 * Sass should be linted. The lint rules are here to make the SCSS more readable for humans and are the defaults for
   scss-lint with the following exceptions:
-    * CSS comments are allowed (see below for more information about commenting);
+    * CSS comments are allowed only as the file head and tail comment (see below for details);
     * @else must be placed on a new line;
     * @import must include the file extension (this is to improve integration with common IDE's auto-complete);
     * indentation is by **TAB** ONLY - single tab per level of indent;
@@ -54,35 +54,34 @@ CSS file `screen.ff.css` and the CSS loader will be told to load this file if `h
   !important rules.
 
 ### Comments
-* Each CSS and SCSS file must commence with a CSS comment which includes its file name and end with a comment which
-  includes the word 'end' and its file name. This makes CSS debugging much easier (remember that CSS style comments are
-  stripped in the final compressed output but Sass comments are stripped in all circumstances).
-* Comments **must be in Sass single line** style unless they are pertinent to debugging. This is still in a state of
-  flux due to our recent CSS to Sass transition. If a particular declaration in a declaration block requires a comment
-  it **must be in Sass single line form**.
-* There must be a single space between the start of a comment and the first character of the comment content. CSS
-  comments must also have a single space between the last character of the comment content and the comment end unless
-  the comment end is on its own line.
-* If a rule is commented there must not be any empty lines between the last line of the comment and the first selector
-  and the comment must not be on the same line as the selector.
-* Do not place a CSS style comment inside a declaration block (it causes issues with Safari's developer tools).
-* Sass single line comments are permitted inside rule blocks.
+
+* Each CSS and SCSS file must commence with a CSS comment which includes **only** its file name and end with a comment
+  which includes **only** the word 'end' and its file name. This makes CSS debugging much easier (remember that CSS
+  style comments are stripped in the final compressed output but Sass comments are stripped in all circumstances).
+* Comments **must be in Sass single line** style unless they are pertinent to debugging and then they must have a local
+  override of the `Comments` scss-lint rule. If a particular declaration in a declaration block requires a comment it
+  **must be in Sass single line form** under all circumstances.
+* There must be a single space between the start of a comment and the first character of the comment content.
+* If a rule is commented there must not be any empty lines between the last line of the comment and the first selector.
+* Do not place a CSS style comment inside a declaration block (it causes issues with Safari's developer tools). Sass
+  single line comments are permitted inside rule blocks.
 * If a particular selector in a multi-selector rule requires a comment it should be placed on the same line as the
   selector. If the comment is CSS style then it must precede the comma or opening brace (if it is the last selector).
   Sass comments must always be at the end of a line (of course).
 
+#### Example
 
-    /* my.component.scss */
-
+    /* wc.my.component.scss */
+	//scss-lint:disable Comment
     /* This declaration block does something odd and I need to know about it in debug mode */
+	//scss-lint:enable Comment
     .foo,
     .bar > .somelongclassname [aria-selected='true'] > :first-child {
         ....
         line-height: -2px; // The line-height declaration is used to ... which is needed for ...
         ....
     }
-
-    /* end my.component.scss */
+    /* end wc.my.component.scss */
 
 ## Media rules and specific CSS: when to use which
 

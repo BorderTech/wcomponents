@@ -1,4 +1,4 @@
-/* wc.ui.table.rowSelection.css */
+/* wc.ui.table.rowSelection.scss */
 @import 'wc.ui.table.rowSelection_vars.scss';
 //scss-lint:disable QualifyingElement
 tr[aria-checked] {
@@ -35,4 +35,4 @@ tr[aria-checked] {
 		opacity: $row-disable-opacity;
 	}
 }
-/* end wc.ui.table.rowSelection.css */
+/* end wc.ui.table.rowSelection.scss */

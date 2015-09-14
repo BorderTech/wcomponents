@@ -1,8 +1,6 @@
 /* wc.ui.dialog.scss */
-/*
- * the actual dialog. Its position is set on open such that it sits in the middle of the viewport. Margin:auto only
- * works in Chrome and Webkit.
- */
+// The actual dialog. Its position is set on open such that it sits in the middle of the viewport. Margin:auto only
+// works in Chrome and Webkit.
 @import 'wc.ui.dialog_vars.scss';
 
 dialog {
@@ -68,4 +66,4 @@ dialog {
 		background-position: 100% 0;
 	}
 }
-/*end wc.ui.dialog.css */
+/* end wc.ui.dialog.scss */

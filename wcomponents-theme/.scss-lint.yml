@@ -2,8 +2,8 @@ linters:
 # inherit defaults except:
 
   Comment:
-    # default true but we really need CSS style comments - see the SASS README.md file.
-    enabled: false
+    enabled: true
+    allowed: '^\/\*(:? [e|E]nd)? wc\.[a-zA-Z0-9\._]+\.scss \*\/$' # allow file name in head and tail comment.
 
   ElsePlacement:
     enabled: true

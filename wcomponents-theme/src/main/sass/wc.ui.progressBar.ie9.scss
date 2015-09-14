@@ -1,8 +1,5 @@
-/**
- * wc.ui.progressBar.ie9.css
- * Description: Show the fake progress bar spans
- */
-
+/* wc.ui.progressBar.ie9.scss */
+// Description: Show the fake progress bar spans
 @import 'wc.ui.progress_var.scss';
 
 progress {
@@ -38,4 +35,4 @@ progress {
 		background-color: $wc-ui-color-progress-fg;
 	}
 }
-/* END OF  wc.ui.progressBar.ie9.css */
+/* end wc.ui.progressBar.ie9.scss */

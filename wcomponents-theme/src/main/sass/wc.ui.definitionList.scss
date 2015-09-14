@@ -41,7 +41,7 @@ dt {
 		vertical-align: text-top;
 		width: 30%;
 
-		+ dd { /* the first dd does not have the left margin defined below*/
+		+ dd { // the first dd does not have the left margin defined below
 			margin-left: 0;
 		}
 	}

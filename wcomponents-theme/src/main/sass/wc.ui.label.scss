@@ -1,4 +1,4 @@
-/* wc.ui.label.css */
+/* wc.ui.label.scss */
 // styles for WLabel and the label emulators
 
 
@@ -15,7 +15,7 @@ span.label {
 	display: inline-block;
 }
 
-/* space between a checkable and its label */
+// space between a checkable and its label
 [type='radio'] + label,
 [type='checkbox'] + label,
 .checkbox + span.label,
@@ -23,7 +23,7 @@ span.label {
 	margin-left: $hgap-small;
 }
 
-/* required markers */
+// required markers
 .wc_req {
 	[type='radio'] + &:before,
 	[type='checkbox'] + &:before {
@@ -57,5 +57,4 @@ label,
 		}
 	}
 }
-
-/* end wc.ui.label.css*/
+/* end wc.ui.label.scss */

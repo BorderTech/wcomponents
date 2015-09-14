@@ -1,4 +1,4 @@
-/* wc.ui.table.css */
+/* wc.ui.table.scss */
 // This is the core of the table CSS. The other CSS files are used for functional images and other items which are less
 // likely to be implementation specific
 @import 'wc.ui.table_vars.scss';
@@ -15,7 +15,7 @@ table {
 	min-width: 100%;
 }
 
-/* fix the layout of tables where column width is applied */
+// fix the layout of tables where column width is applied
 .wc_table_fix {
 	table-layout: fixed;
 }
@@ -25,7 +25,7 @@ thead {
 	color: $wc-ui-color-table-head-fg;
 
 	[disabled] {
-		//scss-lint:disable ImportantRule
+		// scss-lint:disable ImportantRule
 		color: $wc-ui-color-table-head-disabled !important;
 	}
 }
@@ -70,4 +70,4 @@ col.wc_table_stripe,
 tr.wc_table_stripe {
 	background-color: $wc-ui-color-highlight-bg;
 }
-/*end wc.ui.table.css*/
+/* end wc.ui.table.scss */
