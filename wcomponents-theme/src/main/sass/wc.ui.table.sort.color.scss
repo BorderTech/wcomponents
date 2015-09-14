@@ -3,7 +3,9 @@
 // Column sorting relate to the sorting of data in sortable tables.
 // This css covers control elements in the heading cells and the rendering of sorted columns.
 @import 'wc.ui.table_vars.scss';
-//scss-lint:disable QualifyingElement
+
+// differentiate col from row.
+// scss-lint:disable QualifyingElement
 col.wc_table_sort_sorted,
 th[aria-sort$='ending'] {
 	background-color: $wc-ui-color-highlight-bg;

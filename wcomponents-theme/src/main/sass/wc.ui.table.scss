@@ -25,6 +25,7 @@ thead {
 	color: $wc-ui-color-table-head-fg;
 
 	[disabled] {
+		// override normal disabled state. TODO this important may not be needed!
 		// scss-lint:disable ImportantRule
 		color: $wc-ui-color-table-head-disabled !important;
 	}
@@ -53,6 +54,7 @@ tbody {
 	vertical-align: text-top;
 }
 
+// differentiate the th from the td with these functional classes
 //scss-lint:disable QualifyingElement
 th.wc_table_rowexp_container,
 th.wc_table_sel_wrapper { // reset the vertical alignment of th with these classes

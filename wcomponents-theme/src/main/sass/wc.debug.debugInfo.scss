@@ -7,6 +7,7 @@ $wc-color-debug-infobox-bg: #fff9e4;
 $wc-color-debug-infobox-border: 'orange';
 $wc-color-debug-crumb-bg: #f3f3f3;
 
+// idSelector required the debug container element is a generated single artefact with a fixed id.
 // scss-lint:disable IdSelector, VendorPrefix
 #wcdebugcontainer {
 	max-width: 100%;
@@ -15,13 +16,6 @@ $wc-color-debug-crumb-bg: #f3f3f3;
 	position: fixed;
 	width: 40em;
 	z-index: 100;
-
-	&.wc_max {
-		//scss-lint:disable ImportantRule
-		left: 0 !important;
-		top: 0 !important;
-		width: 100% !important;
-	}
 
 	&.wc_db_showing {
 		-webkit-animation: debug-fade-in 1s;
@@ -86,10 +80,11 @@ $wc-color-debug-crumb-bg: #f3f3f3;
 }
 // The element currently having its debug info exposed
 .wc_db_active {
-	// scss-lint:disable ImportantRule
 	-webkit-animation: debugactivefade 3s infinite alternate;
 	animation: debugactivefade 3s infinite alternate;
 	background-color: $wc-color-debug-fade-bg;
+	// important to clean up other more specific rules - transient debug rules should always win.
+	// scss-lint:disable ImportantRule
 	background-image: none !important;
 	color: $wc-ui-color-global-fg !important;
 }

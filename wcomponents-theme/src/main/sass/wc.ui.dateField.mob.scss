@@ -2,7 +2,8 @@
 @import 'mixins_common.scss';
 // The main purpose of this CSS is to make the pop-up calendar full screen. We make all of the buttons bigger to make
 // them easier for fingers to push and finally add a close button to make up for the lack of an escape key.
-//scss-lint:disable IdSelector
+// The calendar container is a single generated element with a fixed id.
+// scss-lint:disable IdSelector
 #wc-calbox {
 	height: 100%;
 	left: 0;

@@ -1,8 +1,9 @@
 /* wc.ui.table.ie8.scss */
 @import 'vars_all.scss';
 
-//scss-lint:disable QualifyingElement
-tr.wc_table_stripe { // tr required to differentiate from col
+// tr required to differentiate from col
+// scss-lint:disable QualifyingElement
+tr.wc_table_stripe {
 	background-color: $wc-ui-color-highlight-bg;
 	color: $wc-ui-color-highlight-fg;
 }

@@ -58,7 +58,8 @@
 		// the menu defaults in wc.ui.menu.barColumn.scss
 		> [role],
 		> [aria-expanded] > button {
-			// scss-lint:disable SelectorDepth Could be cumbersome and error-prone to unpick this selector depth
+			// Could be cumbersome and error-prone to unpick this selector depth
+			// scss-lint:disable SelectorDepth
 			> .decoratedLabel {
 				display: inline-block;
 				width: auto;
@@ -83,8 +84,9 @@
 		}
 
 		[role='separator'][aria-orientation='vertical'] {// Separators.
-			//scss-lint:disable ImportantRule
-			padding: $wc-ui-menu-item-pad-topbottom 0 !important; //Padding is important to override the general zero padding which is important to override all the role paddings.
+			// Padding is important to override the general zero padding which is important to override all the role paddings.
+			// scss-lint:disable ImportantRule
+			padding: $wc-ui-menu-item-pad-topbottom 0 !important;
 
 			th & {
 				padding: 0 !important;

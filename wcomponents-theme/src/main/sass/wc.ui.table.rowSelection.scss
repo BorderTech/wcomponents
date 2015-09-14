@@ -1,6 +1,8 @@
 /* wc.ui.table.rowSelection.scss */
 @import 'wc.ui.table.rowSelection_vars.scss';
-//scss-lint:disable QualifyingElement
+
+// only want to style ara-checked rows, nothing else!
+// scss-lint:disable QualifyingElement
 tr[aria-checked] {
 	&:hover,
 	&:focus {

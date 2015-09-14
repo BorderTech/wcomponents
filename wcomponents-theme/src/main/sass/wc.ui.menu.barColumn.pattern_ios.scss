@@ -28,7 +28,8 @@
 	}
 
 	> [aria-expanded] > button::after {
-		//scss-lint:disable ImportantRule
+		// important to override more specific selector in main css
+		// scss-lint:disable ImportantRule
 		content: '\25bc' !important;
 		width: auto;
 	}

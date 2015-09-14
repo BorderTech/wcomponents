@@ -1,7 +1,8 @@
 /* wc.ui.dateField.ie8.scss */
 @import 'mixins_common.scss';
 
-//scss-lint:disable IdSelector
+// The calendar container is a single generated element with a fixed id.
+// scss-lint:disable IdSelector
 #wc-calendar {
 	thead {
 		td {

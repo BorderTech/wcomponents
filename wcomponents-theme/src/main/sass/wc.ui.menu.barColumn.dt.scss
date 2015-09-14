@@ -17,8 +17,9 @@
 	}
 
 	> [role='menu'][aria-busy] {
+		// override aria-busy transparency
 		// scss-lint:disable ImportantRule
-		background-color: $wc-ui-color-menu-bg !important; // override aria-busy transparency
+		background-color: $wc-ui-color-menu-bg !important;
 		min-height: $line-size;
 	}
 }

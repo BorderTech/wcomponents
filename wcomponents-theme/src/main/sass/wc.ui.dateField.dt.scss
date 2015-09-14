@@ -1,6 +1,7 @@
 /* wc.ui.dateField.dt.scss */
 @import 'mixins_common.scss';
-//scss-lint:disable IdSelector
+// The calendar container is a single generated element with a fixed id.
+// scss-lint:disable IdSelector
 #wc-calbox { // This is the calendar container.
 	@include border; // or box-shadow: 3px 3px 3px $wc-ui-color-shadow; but not both
 	position: absolute;
@@ -15,11 +16,11 @@
 		right: auto;
 	}
 
+	thead button {
+		min-width: $line-size;
+	}
 }
 
-#wc-calendar thead button {
-	min-width: $line-size;
-}
 
 .wc_wdf_mv {
 	&:before {
