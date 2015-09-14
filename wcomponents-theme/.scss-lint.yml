@@ -5,6 +5,9 @@ linters:
     enabled: true
     allowed: '^\/\*(:? [e|E]nd)? wc\.[a-zA-Z0-9\._]+\.scss \*\/$' # allow file name in head and tail comment.
 
+  DisableLinterReason:
+    enabled: true
+
   ElsePlacement:
     enabled: true
     # default same_line which does not align with our eslint rules and is slightly less readable.
