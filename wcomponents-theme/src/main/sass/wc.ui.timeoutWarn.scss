@@ -1,6 +1,8 @@
 /* wc.ui.timeoutWarn.scss */
 @import 'vars_all.scss';
-//scss-lint:disable IdSelector
+
+// timeout warning container is generated and identified.
+// scss-lint:disable IdSelector
 #wc_session_container {
 	background-color: $wc-ui-color-global-bg; // to make it opaque;
 	bottom: 0;

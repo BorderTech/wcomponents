@@ -3,6 +3,7 @@
 @import 'mixins_common.scss';
 
 @mixin aria-disabled {
+	// important to reset menu button etc rules which are VERY specific
 	// scss-lint:disable ImportantRule
 	color: $wc-ui-color-disabled-fg; // NOTE do not set background-color here for your own sanity
 	cursor: default !important;
@@ -52,10 +53,9 @@ input,
 select,
 textarea {
 	&[disabled] {
-			// scss-lint:disable ImportantRule
 		@include aria-disabled;
-		background-color: $wc-ui-color-disabled-bg !important;
-		border-color: $wc-ui-color-disabled-border !important;
+		background-color: $wc-ui-color-disabled-bg;
+		border-color: $wc-ui-color-disabled-border;
 	}
 }
 

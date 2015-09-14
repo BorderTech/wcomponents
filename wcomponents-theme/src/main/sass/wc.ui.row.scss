@@ -7,7 +7,8 @@
 	vertical-align: top;
 
 	@include respond(phone) {
-		//scss-lint:disable ImportantRule
+		// important to override inline css from XSLT
+		// scss-lint:disable ImportantRule
 		display: block;
 		max-width: none !important;
 		padding-left: 0 !important;

@@ -25,14 +25,15 @@
 	@include accesskey-border;
 	background-color: $wc-ui-color-tooltip-bg;
 	color: $wc-ui-color-tooltip-fg;
+	// important to over-ride menu rules which may also apply.
 	// scss-lint:disable ImportantRule
-	font-weight: bold !important; //important to over-ride menu rules which may also apply.
+	font-weight: bold !important;
 	margin-left: -0.5em;
 	margin-top: -2.25em;
-	padding: 0.25em !important; //important to over-ride menu rules which may also apply.
+	padding: 0.25em !important;
 	position: absolute;
 	text-align: center;
-	width: auto !important; //important to over-ride menu rules which may also apply.
+	width: auto !important;
 	// scss-lint:enable ImportantRule
 
 	&:before,

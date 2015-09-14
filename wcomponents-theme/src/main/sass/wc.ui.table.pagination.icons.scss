@@ -35,6 +35,7 @@
 			}
 
 			+ .wc_ibtn {
+				// need to go this deep to allow for lack of nth-child
 				// scss-lint:disable NestingDepth
 				&:before {
 					content: url('../images/last.png');

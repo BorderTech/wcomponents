@@ -16,6 +16,7 @@
 }
 
 @mixin border-box {
+	// Require -moz-box-sizing for consistency
 	// scss-lint:disable VendorPrefix
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -38,6 +39,7 @@
 }
 
 @mixin offscreen {
+	// Require important to ensure we are really off screen
 	// scss-lint:disable ImportantRule
 	left: -9999px !important;
 	overflow: hidden !important;
