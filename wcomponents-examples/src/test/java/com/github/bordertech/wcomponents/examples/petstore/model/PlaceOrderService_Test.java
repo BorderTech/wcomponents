@@ -10,7 +10,7 @@ import com.github.bordertech.wcomponents.examples.petstore.model.PlaceOrderServi
 
 /**
  * Unit tests for {@link PlaceOrderService}.
- * 
+ *
  * @author Anthony O'Connor
  * @since 1.0.0
  */
@@ -18,6 +18,32 @@ public class PlaceOrderService_Test
 {
     /** orderSequenceNumber from PlaceOrderService. */
     private static final int FIXED_INITIAL_ORDER_SEQUENCE_NUMBER = 12345;
+    private static int orderSequenceNumber = -1;
+
+    /**
+     * Helper for these unit tests.
+     * Manages the expected sequence number `orderSequenceNumber` which can be used in unit tests.
+     * @param cart The cart to pass to PlaceOrderService
+     * @param clientDetails The clientDetails to pass to PlaceOrderService
+     * @return The resulting order status.
+     */
+    private static OrderStatus placeOrder(List<CartBean> cart, ConfirmOrderBean clientDetails)
+    {
+        PlaceOrderService service = PlaceOrderService.getInstance();
+        OrderStatus result = service.placeOrder(cart, clientDetails);
+        if(result.getStatus() == PlaceOrderService.OrderStatus.SUCCESS)
+        {
+            if (orderSequenceNumber < 0)
+            {
+                orderSequenceNumber = FIXED_INITIAL_ORDER_SEQUENCE_NUMBER;
+            }
+            else
+            {
+                orderSequenceNumber++;
+            }
+        }
+        return result;
+    }
 
     /**
      * Test getInstance.
@@ -35,8 +61,6 @@ public class PlaceOrderService_Test
     @Test
     public void testPlaceOrder()
     {
-        PlaceOrderService service = PlaceOrderService.getInstance();
-
         CartBean cartBean1 = new CartBean(0, 1); // cat - 1
         CartBean cartBean2 = new CartBean(1, 1); // dog - 1
         List<CartBean> cart = new ArrayList<CartBean>();
@@ -46,13 +70,13 @@ public class PlaceOrderService_Test
         clientDetails.setFirstName("Fred");
         clientDetails.setLastName("Flinstone");
 
-        OrderStatus result = service.placeOrder(cart, clientDetails);
+        OrderStatus result = placeOrder(cart, clientDetails);
         Assert.assertEquals("should be successful", PlaceOrderService.OrderStatus.SUCCESS, result.getStatus());
-        Assert.assertEquals("should get correct sequence number", Integer.valueOf(FIXED_INITIAL_ORDER_SEQUENCE_NUMBER), result.getDetails());
+        Assert.assertEquals("should get correct sequence number", Integer.valueOf(orderSequenceNumber), result.getDetails());
 
-        result = service.placeOrder(cart, clientDetails);
+        result = placeOrder(cart, clientDetails);
         Assert.assertEquals("should be successful", PlaceOrderService.OrderStatus.SUCCESS, result.getStatus());
-        Assert.assertEquals("should get correct sequence number", Integer.valueOf(FIXED_INITIAL_ORDER_SEQUENCE_NUMBER + 1), result.getDetails());
+        Assert.assertEquals("should get correct sequence number", Integer.valueOf(orderSequenceNumber), result.getDetails());
     }
 
     /**
@@ -61,8 +85,6 @@ public class PlaceOrderService_Test
     @Test
     public void testPlaceOrderUnsuccessfully()
     {
-        PlaceOrderService service = PlaceOrderService.getInstance();
-
         CartBean cartBean1 = new CartBean(0, 500); // cats - 500
         CartBean cartBean2 = new CartBean(1, 1); // dog - 1
         List<CartBean> cart = new ArrayList<CartBean>();
@@ -72,7 +94,7 @@ public class PlaceOrderService_Test
         clientDetails.setFirstName("Fred");
         clientDetails.setLastName("Flinstone");
 
-        OrderStatus result = service.placeOrder(cart, clientDetails);
+        OrderStatus result = placeOrder(cart, clientDetails);
         Assert.assertEquals("should get insufficient stock", PlaceOrderService.OrderStatus.INSUFFICIENT_STOCK, result.getStatus());
         Assert.assertEquals("should get cartBean1 details", cartBean1, result.getDetails()); // the cat item failed
     }
@@ -83,8 +105,6 @@ public class PlaceOrderService_Test
     @Test
     public void testPlaceOrderTooMany()
     {
-        PlaceOrderService service = PlaceOrderService.getInstance();
-
         ConfirmOrderBean clientDetails = new ConfirmOrderBean();
         clientDetails.setFirstName("Fred");
         clientDetails.setLastName("Flinstone");
@@ -95,15 +115,15 @@ public class PlaceOrderService_Test
         cart.add(cartBean1);
         cart.add(cartBean2);
 
-        OrderStatus result = service.placeOrder(cart, clientDetails);
+        OrderStatus result = placeOrder(cart, clientDetails);
         Assert.assertEquals("should be successful", PlaceOrderService.OrderStatus.SUCCESS, result.getStatus());
-        Assert.assertEquals("should get correct sequence number", Integer.valueOf(FIXED_INITIAL_ORDER_SEQUENCE_NUMBER + 2), result.getDetails());
+        Assert.assertEquals("should get correct sequence number", Integer.valueOf(orderSequenceNumber), result.getDetails());
 
         CartBean cartBean3 = new CartBean(2, 21); // fish - 21 - out of only 20 now available
         List<CartBean> cart2 = new ArrayList<CartBean>();
         cart2.add(cartBean3);
 
-        result = service.placeOrder(cart2, clientDetails);
+        result = placeOrder(cart2, clientDetails);
         Assert.assertEquals("should get Insuffient stock", PlaceOrderService.OrderStatus.INSUFFICIENT_STOCK, result.getStatus());
         Assert.assertEquals("should get cartbean3 details", cartBean3, result.getDetails());
     }
