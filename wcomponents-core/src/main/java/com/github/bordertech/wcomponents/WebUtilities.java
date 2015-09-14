@@ -525,12 +525,12 @@ public final class WebUtilities
      * and all its bean-bound children.
      *
      * @param component the component whose contents need to be copied to the bean.
-     * @param ignoreVisible - whether to ignore visible components.
+     * @param visibleOnly - whether to include visible components only.
      */
-    public static void updateBeanValue(final WComponent component, final boolean ignoreVisible)
+    public static void updateBeanValue(final WComponent component, final boolean visibleOnly)
     {
         //Do not process if component is invisble and ignore visible is true. Will ignore entire branch from this point.
-        if(!component.isVisible() && ignoreVisible)
+        if(!component.isVisible() && visibleOnly)
         {
             return;
         }
@@ -552,7 +552,7 @@ public final class WebUtilities
             // Update the rest of the bean
             for (int i = ((Container) component).getChildCount() - 1; i >= 0; i--)
             {
-                updateBeanValue(((Container) component).getChildAt(i), ignoreVisible);
+                updateBeanValue(((Container) component).getChildAt(i), visibleOnly);
             }
         }
     }
