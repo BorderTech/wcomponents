@@ -1,4 +1,4 @@
-/* wc.ui.table.rowExpansion.css */
+/* wc.ui.table.rowExpansion.scss */
 @import 'mixins_common.scss';
 
 thead .rowExpansion {
@@ -14,7 +14,7 @@ thead .rowExpansion {
 		width: auto;
 
 		+ li {
-			margin-left: $hgap_small;
+			margin-left: $hgap-small;
 		}
 
 	}
@@ -24,7 +24,7 @@ thead .rowExpansion {
 // .wc_table_rowexp_container is the expandable row's expander holding cell or header*/
 .rowExpansion button {
 	&:before {
-		@include useSymbolFont;
+		@include use-symbol-font;
 		content: '\229e';
 		font-size: 1.25em;
 		line-height: 0;
@@ -38,4 +38,4 @@ thead .rowExpansion {
 [aria-disabled='true'] > .wc_table_rowexp_container button:before {
 	opacity: 0.5;
 }
-/* end wc.ui.table.rowExpansion.css*/
+/* end wc.ui.table.rowExpansion.scss */

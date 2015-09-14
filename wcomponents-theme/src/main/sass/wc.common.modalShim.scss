@@ -2,8 +2,8 @@
 @import 'wc.common.modalShim_vars.scss';
 // scss-lint:disable IdSelector
 #wc_shim {
-	background-color: $wc_ui_color_modalShim;
-	color: $wc_ui_color_modalShim_foreground;
+	background-color: $wc-ui-color-modal-shim;
+	color: $wc-ui-color-modal-shim-foreground;
 	left: 0;
 	min-height: 100%;
 	overflow: hidden;

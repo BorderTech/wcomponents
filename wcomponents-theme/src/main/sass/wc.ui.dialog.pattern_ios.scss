@@ -1,4 +1,4 @@
-/* wc.ui.dialog.ios.css */
+/* wc.ui.dialog.ios.scss */
 @import 'mixins_common.scss';
 
 $wc-color-ios-dialog-bg: #f7f7f7;
@@ -18,7 +18,7 @@ dialog {
 		background-color: transparent;
 
 		> h1 {
-			color: $wc_ui_color_globalForeground;
+			color: $wc-ui-color-global-fg;
 			font-size: 17px;
 			font-weight: normal;
 			margin: 14px 0 7px;
@@ -31,4 +31,4 @@ dialog {
 		}
 	}
 }
-/* end wc.ui.dialog.ios.css */
+/* end wc.ui.dialog.ios.scss */

@@ -26,9 +26,7 @@ button {
 }
 
 
-/*
- * CLASS wc_btn_nada has all style stripped. CLASS wc_btn_link is made to look like a link.
- */
+// CLASS wc_btn_nada has all style stripped. CLASS wc_btn_link is made to look like a link.
 .wc_btn {
 	&_link,
 	&_nada {
@@ -50,7 +48,7 @@ button {
 		}
 
 		&[disabled] {
-			color: $wc_ui_color_disabledForeground;
+			color: $wc-ui-color-disabled-fg;
 		}
 	}
 
@@ -59,7 +57,7 @@ button {
 	}
 
 	&_link {
-		color: $wc_ui_color_link;
+		color: $wc-ui-color-link;
 		text-decoration: underline;
 	}
 }

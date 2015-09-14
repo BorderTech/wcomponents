@@ -8,13 +8,13 @@
 		@include flex($direction: row-reverse, $wrap: wrap, $justify: space-between, $align-items: center, $align-content: flex-start);
 
 		> * {
-			@include flexGrow(0);
-			@include flexShrink(1);
-			padding-left: $hgap_small;
+			@include flex-grow(0);
+			@include flex-shrink(1);
+			padding-left: $hgap-small;
 		}
 
 		> :last-child {
-			padding-right: $hgap_small;
+			padding-right: $hgap-small;
 		}
 	}
 
@@ -25,4 +25,4 @@
 		padding: 0;
 	}
 }
-/*  wc.ui.panel.header.mob.scss */
+/* end wc.ui.panel.header.mob.scss */

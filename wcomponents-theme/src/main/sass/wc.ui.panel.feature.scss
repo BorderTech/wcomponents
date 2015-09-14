@@ -5,9 +5,9 @@
 
 .feature {
 	@include border;
-	background-color: $wc_ui_color_panel_feature_background;
-	color: $wc_ui_color_panel_feature_foreground;
-	padding: $hgap_normal;
+	background-color: $wc-ui-color-panel-feature-background;
+	color: $wc-ui-color-panel-feature-foreground;
+	padding: $hgap-normal;
 
 	> .listLayout {
 		&.none,

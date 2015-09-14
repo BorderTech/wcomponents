@@ -6,17 +6,19 @@
 	[role='menubar'] > &::after {
 		content: '\25bc';
 		display: inline-block;
-		margin-left: $hgap_small;
+		margin-left: $hgap-small;
 	}
 
 	[role='menu'] & .decoratedLabel::after {
 		content: '\25ba';
 		display: table-cell;
 
+		// scss-lint:disable SelectorDepth This could be unpicked but it would be repetitive and error-prone
 		[role='banner'] & {
 			display: inline-block;
 			margin-left: 0.25em;
 		}
+		// scss-lint:enable SelectorDepth
 	}
 }
 
@@ -24,4 +26,4 @@
 	content: '\2039';
 	margin-right: 0.5em;
 }
-/* end wc.ui.menu.barColumn.icon.mob.scss*/
+/* end wc.ui.menu.barColumn.icon.mob.scss */

@@ -1,4 +1,4 @@
-/* wc.ui.menu.bar.ff.scss*/
+/* wc.ui.menu.bar.ff.scss */
 @import 'wc.ui.menu_vars.scss';
 
 .menu[role='menubar'] {
@@ -10,8 +10,8 @@
 
 	//scss-lint:disable QualifyingElement
 	> div[role] {// buttons, even with no border, no margin, no padding still occupy 2px more vertical space in FF than divs
-		padding-bottom: calc(#{$wc_ui_menu_barColumn_itemPad} + 1px);
-		padding-top: calc(#{$wc_ui_menu_barColumn_itemPad} + 1px);
+		padding-bottom: calc(#{$wc-ui-menu-bar-column-item-pad} + 1px);
+		padding-top: calc(#{$wc-ui-menu-bar-column-item-pad} + 1px);
 	}
 	//scss-lint:enable QualifyingElement
 

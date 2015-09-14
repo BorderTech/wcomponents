@@ -18,13 +18,13 @@ summary {
 summary {
 	cursor: pointer;
 	font-weight: bold;
-	padding: $hgap_normal 0;
+	padding: $hgap-normal 0;
 
 	&::before {
 		content: url('../images/next.png');
 		display: inline-block;
 		height: 0;
-		margin-right: $hgap_small;
+		margin-right: $hgap-small;
 		vertical-align: top;
 	}
 
@@ -37,7 +37,7 @@ summary {
 	> h4,
 	> h5,
 	> h6 {
-		color: $wc_ui_color_globalForeground;
+		color: $wc-ui-color-global-fg;
 		display: inline-block;
 		font-size: 1em;
 		font-weight: bold;
@@ -69,4 +69,4 @@ details {
 		}
 	}
 }
-/*end wc.ui.collapsible.scss*/
+/* end wc.ui.collapsible.scss */

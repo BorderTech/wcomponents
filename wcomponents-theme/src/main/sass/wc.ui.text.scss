@@ -3,21 +3,21 @@
 @import 'mixins_common.scss';
 
 .highPriority { //strong element
-	@include outline($color: $wc_ui_color_errorForeground, $style: double, $width: 3px);
-	background-color: $wc_ui_color_errorBackground;
-	color: $wc_ui_color_errorForeground;
-	padding: 0 $hgap_small;
+	@include outline($color: $wc-ui-color-error-fg, $style: double, $width: 3px);
+	background-color: $wc-ui-color-error-bg;
+	color: $wc-ui-color-error-fg;
+	padding: 0 $hgap-small;
 }
 
 .mediumPriority { //em element
-	@include outline($color: $wc_ui_color_warningForeground);
-	background-color: $wc_ui_color_globalBackground;
-	color: $wc_ui_color_warningForeground;
-	padding: 0 $hgap_small;
+	@include outline($color: $wc-ui-color-warning-fg);
+	background-color: $wc-ui-color-global-bg;
+	color: $wc-ui-color-warning-fg;
+	padding: 0 $hgap-small;
 }
 
-.mandatoryIndicator:after {
-	@include mandatoryIndicator;
-	margin-left: $hgap_small;
+.mandatory-indicator:after {
+	@include mandatory-indicator;
+	margin-left: $hgap-small;
 }
 /* end wc.ui.text.scss */

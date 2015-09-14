@@ -1,4 +1,4 @@
-/*wc.ui.dateField.ie8.scss */
+/* wc.ui.dateField.ie8.scss */
 @import 'mixins_common.scss';
 
 //scss-lint:disable IdSelector
@@ -11,8 +11,8 @@
 
 		input,
 		[value='-1'] {
-			margin-left: $hgap_large;
+			margin-left: $hgap-large;
 		}
 	}
 }
-/* end wc.ui.dateField.ie8.css */
+/* end wc.ui.dateField.ie8.scss */

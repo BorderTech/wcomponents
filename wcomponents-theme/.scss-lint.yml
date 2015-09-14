@@ -1,38 +1,42 @@
 linters:
+# inherit defaults except:
 
   Comment:
-    enabled: false # default is true but we really *need* CSS style comments.
+    enabled: true
+    allowed: '^\/\*(:? [e|E]nd)? wc\.[a-zA-Z0-9\._]+\.scss \*\/$' # allow file name in head and tail comment.
 
   ElsePlacement:
     enabled: true
-    style: new_line # default is same_line which does not align with our eslint rules
+    # default same_line which does not align with our eslint rules and is slightly less readable.
+    style: new_line
 
   ImportPath:
     enabled: true
     leading_underscore: false
-    filename_extension: true # default is false - this should be easy enough but does not gel with NetBeans autocomplete
+    # default false - this should be easy enough to fix but does not gel with IDE autocomplete.
+    filename_extension: true
 
   Indentation:
     enabled: true
     allow_non_nested_indentation: false
-    character: tab # default is space: YUK!
-    width: 1 # default is 2 (spaces) - see previous line
+    character: tab # default space
+    width: 1 # default 2 (spaces).
 
   LeadingZero:
     enabled: true
+    # including the leading ZERO makes numbers much more readable for humans who have studied mathematics beyond that of
+    # a 6 year old. If this is not you then don't play with our Sass!
     style: include_zero
 
-  NameFormat:
-    enabled: false # this must be fixed in a later config: just a bit big at the moment
-    # allow_leading_underscore: true
-    # convention: hyphenated_lowercase # or 'camel_case', or 'snake_case', or a regex pattern
-
+  # Next two (NestingDepth and SelectorDepth) are large due to complex rules. Each has local overrides for some deep
+  # selectors which are needed in a complex framework. These are both under review
   NestingDepth:
-    enabled: false
+    enabled: true
+    max_depth: 4 # default 3
 
   SelectorDepth:
     enabled: true
-    max_depth: 6 # default is 3
+    max_depth: 4 # default 3
 
   SelectorFormat:
-    enabled: false # todo: make this true and set to a common format - this is a BIG job!
+    enabled: false # selectors include XML element and attribute values in camelCase. We may review this.

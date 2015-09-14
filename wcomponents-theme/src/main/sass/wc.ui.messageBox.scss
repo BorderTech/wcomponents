@@ -3,34 +3,34 @@
 
 .wc_msgbox {
 	@include border;
-	background-color: $wc_ui_color_globalBackground;
+	background-color: $wc-ui-color-global-bg;
 	min-height: 0;
-	padding: 0 0 $vgap_normal;
+	padding: 0 0 $vgap-normal;
 
 	> h1 {
-		color: $std_color_white;
+		color: $std-color-white;
 		font-size: 1.25em;
 		font-weight: normal;
 		margin-top: 0;
-		padding: $vgap_normal $hgap_small;
+		padding: $vgap-normal $hgap-small;
 
 		&:before {
 			display: inline-block;
-			margin-right: $hgap_small;
+			margin-right: $hgap-small;
 			vertical-align: text-top;
 		}
 	}
 
 	> button {
-		padding: $vgap_normal $hgap_small;
+		padding: $vgap-normal $hgap-small;
 	}
 
 	// message types - there can only be one type per box
 	&.error {
-		border-color: $wc_ui_color_errorForeground;
+		border-color: $wc-ui-color-error-fg;
 
 		> h1 {
-			background-color: $wc_ui_color_errorForeground;
+			background-color: $wc-ui-color-error-fg;
 
 			&:before {
 				content: url('../images/error.png');
@@ -39,10 +39,10 @@
 	}
 
 	&.warn {
-		border-color: $wc_ui_color_warningForeground;
+		border-color: $wc-ui-color-warning-fg;
 
 		> h1 {
-			background-color: $wc_ui_color_warningForeground;
+			background-color: $wc-ui-color-warning-fg;
 
 			&:before {
 				content: url('../images/warning.png');
@@ -51,10 +51,10 @@
 	}
 
 	&.info {
-		border-color: $wc_ui_color_infoForeground;
+		border-color: $wc-ui-color-info-fg;
 
 		> h1 {
-			background-color: $wc_ui_color_infoForeground;
+			background-color: $wc-ui-color-info-fg;
 
 			&:before {
 				content: url('../images/information.png');
@@ -63,10 +63,10 @@
 	}
 
 	&.success {
-		border-color: $wc_ui_color_successForeground;
+		border-color: $wc-ui-color-success-fg;
 
 		> h1 {
-			background-color: $wc_ui_color_successForeground;
+			background-color: $wc-ui-color-success-fg;
 
 			&:before {
 				content: url('../images/success.png');

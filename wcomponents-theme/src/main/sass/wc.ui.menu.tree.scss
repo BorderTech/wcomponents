@@ -1,9 +1,9 @@
-/* wc.ui.menu.tree.css */
+/* wc.ui.menu.tree.scss */
 @import 'wc.ui.menu_vars.scss';
 
 [role='tree'] [role='treeitem'],
 [role='treeitem'][aria-expanded] > button {
-	padding: $wc_ui_menu_tree_itemPad;
+	padding: $wc-ui-menu-tree-item-pad;
 }
 
 [role='treeitem'] {
@@ -13,11 +13,11 @@
 
 	> [role='group'] {
 		display: block;
-		padding: 0 0 0 $wc_ui_menu_tree_indent;
+		padding: 0 0 0 $wc-ui-menu-tree-indent;
 	}
 
 	&.submenu:hover {
 		background-color: inherit;
 	}
 }
-/* end wc.ui.menu.tree.css*/
+/* end wc.ui.menu.tree.scss */

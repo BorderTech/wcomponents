@@ -1,12 +1,11 @@
-/* wc.ui.section.scss
- * for WSection */
+/* wc.ui.section.scss */
 @import 'mixins_common.scss';
 
 .section {
 	@include border;
 
 	> .decoratedLabel {
-		background-color: $wc_ui_color_border;
+		background-color: $wc-ui-color-border;
 		border-collapse: collapse;
 		display: table;
 		margin: 0;
@@ -15,7 +14,7 @@
 		> h1,
 		> div {
 			display: table-cell;
-			padding: $hgap_normal;
+			padding: $hgap-normal;
 		}
 
 		> h1 {
@@ -30,7 +29,7 @@
 	}
 
 	> .content {
-		margin: $hgap_normal;
+		margin: $hgap-normal;
 	}
 }
 /* end wc.ui.section.scss */

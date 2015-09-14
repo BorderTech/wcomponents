@@ -1,10 +1,10 @@
-/* wc.ui.table.rowSelection.css */
+/* wc.ui.table.rowSelection.scss */
 @import 'wc.ui.table.rowSelection_vars.scss';
 //scss-lint:disable QualifyingElement
 tr[aria-checked] {
 	&:hover,
 	&:focus {
-		@include rowInvite;
+		@include row-invite;
 		cursor: pointer;
 	}
 }
@@ -12,7 +12,7 @@ tr[aria-checked] {
 
 .wc_table_sel_wrapper::before {
 	display: block;
-	height: $lineSize;
+	height: $line-size;
 	width: 1em;
 
 	[role='radio'] > & {
@@ -32,7 +32,7 @@ tr[aria-checked] {
 	}
 
 	[aria-checked][aria-disabled='true'] > & {
-		opacity: $disabledOpacity;
+		opacity: $row-disable-opacity;
 	}
 }
-/* end wc.ui.table.rowSelection.css */
+/* end wc.ui.table.rowSelection.scss */

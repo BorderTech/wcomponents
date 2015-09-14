@@ -6,16 +6,16 @@
 	display: inline-block;
 
 	> [role='menuitem']:first-child > button {
-		padding: $hgap_small;
+		padding: $hgap-small;
 
 		&::before {
-			@include makeBox;
+			@include make-box;
 			content: url('../images/wc.ui.menu.bar.show.mob.svg');
 			vertical-align: middle;
 		}
 
 		&::after {
-			color: $wc_ui_color_panel_header_foreground;
+			color: $wc-ui-color-panel-header-foreground;
 		}
 	}
 }

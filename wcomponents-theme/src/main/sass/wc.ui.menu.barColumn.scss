@@ -5,7 +5,7 @@
 [role='menu'] { //this role is any part of a COLUMN menu and submenus of a BAR or FLYOUT
 	> [role],
 	> [aria-expanded] > button {
-		padding: $wc_ui_menu_barColumn_itemPad;
+		padding: $wc-ui-menu-bar-column-item-pad;
 	}
 
 	.submenu[aria-expanded='true'] > & {
@@ -16,4 +16,4 @@
 		}
 	}
 }
-/* end wc.ui.menu.barColumn.scss*/
+/* end wc.ui.menu.barColumn.scss */

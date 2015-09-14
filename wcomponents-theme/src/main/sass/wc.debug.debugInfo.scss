@@ -24,21 +24,21 @@ $wc-color-debug-crumb-bg: #f3f3f3;
 	}
 
 	&.wc_db_showing {
-		-webkit-animation: debugfadein 1s;
-		animation: debugfadein 1s;
+		-webkit-animation: debug-fade-in 1s;
+		animation: debug-fade-in 1s;
 	}
 
 	> header,
 	> footer {
-		background-color: $wc_ui_color_dialog_head_bg;
-		color: $wc_ui_color_dialog_head_fg;
+		background-color: $wc-ui-color-dialog-head-bg;
+		color: $wc-ui-color-dialog-head-fg;
 	}
 
 	> header {
 		padding: 0.25em 0.5em;
 
 		> h1 {
-			color: $wc_ui_color_dialog_head_fg;
+			color: $wc-ui-color-dialog-head-fg;
 			font-size: 1em;
 			margin: 0;
 			padding: 0.25em 0.5em;
@@ -53,8 +53,8 @@ $wc-color-debug-crumb-bg: #f3f3f3;
 
 	> [aria-live] {
 		@include border();
-		background-color: $wc_ui_color_globalBackground;
-		color: $wc_ui_color_globalForeground;
+		background-color: $wc-ui-color-global-bg;
+		color: $wc-ui-color-global-fg;
 		height: 100%;
 		overflow: auto;
 		padding: 0.5em;
@@ -91,11 +91,11 @@ $wc-color-debug-crumb-bg: #f3f3f3;
 	animation: debugactivefade 3s infinite alternate;
 	background-color: $wc-color-debug-fade-bg;
 	background-image: none !important;
-	color: $wc_ui_color_globalForeground !important;
+	color: $wc-ui-color-global-fg !important;
 }
 
 
-/* the instruction box */
+// the instruction box
 .wc_db_message {
 	@include border($color: $wc-color-debug-infobox-border, $width: 2px);
 	background-color: $wc-color-debug-infobox-bg;
@@ -116,7 +116,7 @@ $wc-color-debug-crumb-bg: #f3f3f3;
 	background-color: $wc-color-debug-crumb-bg;
 	list-style-type: none;
 	margin: 0;
-	padding: $hgap_normal;
+	padding: $hgap-normal;
 
 	li {
 		display: inline-block;
@@ -124,7 +124,7 @@ $wc-color-debug-crumb-bg: #f3f3f3;
 
 		+ li:before {
 			content: '> ';
-			margin-left: $hgap_small;
+			margin-left: $hgap-small;
 		}
 	}
 
@@ -137,31 +137,31 @@ $wc-color-debug-crumb-bg: #f3f3f3;
 	}
 }
 
-@mixin debugColorFade {
+@mixin debug-color-fade {
 	from {background-color: $wc-color-debug-fade-bg;}
 	to {background-color: $wc-color-debug-crumb-bg;}
 }
 
 
-@mixin debugFadein {
+@mixin debug-fade-in {
 	from {opacity: 0;}
 	to {opacity: 1;}
 }
 
 
-@-webkit-keyframes debugfadein {
-	@include debugFadein;
+@-webkit-keyframes debug-fade-in {
+	@include debug-fade-in;
 }
 
-@keyframes debugfadein{
-	@include debugFadein;
+@keyframes debug-fade-in{
+	@include debug-fade-in;
 }
 
 @-webkit-keyframes debugactivefade {
-	@include debugColorFade;
+	@include debug-color-fade;
 }
 
 @keyframes debugactivefade{
-	@include debugColorFade;
+	@include debug-color-fade;
 }
 /* end wc.debug.debugInfo.scss */

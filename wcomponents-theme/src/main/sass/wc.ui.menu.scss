@@ -22,9 +22,9 @@
 [role='menuitemcheckbox'],
 [role='treeitem'],
 .menu [aria-expanded] > button {
-	@include borderBox;
+	@include border-box;
 	display: block;
-	text-align: $preferredAlignment;
+	text-align: $preferred-alignment;
 	width: 100%;
 }
 
@@ -46,7 +46,7 @@
 		display: table-cell;
 
 		+ .wc_dlbl_seg {
-			padding-left: $hgap_small;
+			padding-left: $hgap-small;
 		}
 	}
 
@@ -61,4 +61,4 @@
 		display: none;
 	}
 }
-/* end wc.ui.menu.css */
+/* end wc.ui.menu.scss */

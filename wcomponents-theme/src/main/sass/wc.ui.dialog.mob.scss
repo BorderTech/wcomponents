@@ -1,8 +1,8 @@
-/* wc.ui.dialog.mob.css */
+/* wc.ui.dialog.mob.scss */
 @import 'mixins_common.scss';
 
 dialog {
-	@include borderBox;
+	@include border-box;
 	height: 96%;
 	left: 0;
 	margin: 2%;
@@ -15,4 +15,4 @@ dialog {
 		display: none;
 	}
 }
-/* end wc.ui.dialog.mob.css */
+/* end wc.ui.dialog.mob.scss */

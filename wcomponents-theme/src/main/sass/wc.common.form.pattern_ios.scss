@@ -1,11 +1,11 @@
-/* wc.common.form.ios.css */
+/* wc.common.form.ios.scss */
 @import 'vars_all.scss';
 
 input,
 textarea,
 select {
 	border-color: $wc-color-ios-interactive;
-	font-family: $iosFont;
+	font-family: $ios-font;
 	font-size: 17px;
 }
 
@@ -18,4 +18,4 @@ input {
 	border: 0 none;
 	height: auto;
 }
-/* end wc.common.form.ios.css */
+/* end wc.common.form.ios.scss */

@@ -1,4 +1,4 @@
-/* wc.ui.table.sort.color.css */
+/* wc.ui.table.sort.color.scss */
 
 // Column sorting relate to the sorting of data in sortable tables.
 // This css covers control elements in the heading cells and the rendering of sorted columns.
@@ -6,7 +6,7 @@
 //scss-lint:disable QualifyingElement
 col.wc_table_sort_sorted,
 th[aria-sort$='ending'] {
-	background-color: $wc_ui_color_highlight_bg;
-	color: $wc_ui_color_highlight_fg;
+	background-color: $wc-ui-color-highlight-bg;
+	color: $wc-ui-color-highlight-fg;
 }
-/* end wc.ui.table.sort.color.css */
+/* end wc.ui.table.sort.color.scss */

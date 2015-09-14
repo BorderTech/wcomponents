@@ -12,7 +12,7 @@ legend {
 	}
 
 	.wc_req > &:before {
-		@include mandatoryIndicator;
+		@include mandatory-indicator;
 		float: right;
 	}
 
@@ -20,4 +20,4 @@ legend {
 		content: '';
 	}
 }
-/* END OF wc.ui.legend.scss */
+/* end wc.ui.legend.scss */

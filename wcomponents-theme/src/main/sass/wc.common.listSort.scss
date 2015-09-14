@@ -7,6 +7,8 @@
 	vertical-align: top;
 }
 
+// The excessive depth here is to make this stuff IE8 compatible since we do not have access to nth-child.
+// scss-lint:disable NestingDepth
 .wc_sorter {
 	display: block;
 	padding: 3px;
@@ -47,7 +49,7 @@
 				&:before {
 					content: url('../images/down-d.png');
 				}
-				
+
 				+ .wc_sorter:before {
 					content: url('../images/bottom-d.png');
 				}
@@ -55,4 +57,5 @@
 		}
 	}
 }
-/* end of  wc.common.listSort.scss */
+// scss-lint:enable NestingDepth
+/* end wc.common.listSort.scss */

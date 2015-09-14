@@ -1,14 +1,14 @@
-/* wc.ui.root.css */
+/* wc.ui.root.scss */
 @import 'mixins_common.scss';
 
 noscript p {
-	@include border($width: 3px, $color: $wc_ui_color_errorForeground);
-	background-color: $wc_ui_color_globalBackground;
-	color: $wc_ui_color_globalForeground;
+	@include border($width: 3px, $color: $wc-ui-color-error-fg);
+	background-color: $wc-ui-color-global-bg;
+	color: $wc-ui-color-global-fg;
 	font-size: 2em;
 	font-weight: bold;
 	margin: 1em;
 	padding: 1em;
 	text-align: center;
 }
-/* end wc.ui.root.css */
+/* end wc.ui.root.scss */

@@ -1,11 +1,11 @@
-/* wc.ui.table.css */
+/* wc.ui.table.scss */
 // This is the core of the table CSS. The other CSS files are used for functional images and other items which are less
 // likely to be implementation specific
 @import 'wc.ui.table_vars.scss';
 @import 'mixins_common.scss';
 
 .table.wc_error {
-	@include outline($color: $wc_ui_color_errorForeground, $offset: -1px);
+	@include outline($color: $wc-ui-color-error-fg, $offset: -1px);
 }
 
 table {
@@ -15,29 +15,29 @@ table {
 	min-width: 100%;
 }
 
-/* fix the layout of tables where column width is applied */
+// fix the layout of tables where column width is applied
 .wc_table_fix {
 	table-layout: fixed;
 }
 
 thead {
-	background-color: $wc_ui_color_tableHeadBackground;
-	color: $wc_ui_color_tableHeadForeground;
+	background-color: $wc-ui-color-table-head-bg;
+	color: $wc-ui-color-table-head-fg;
 
 	[disabled] {
-		//scss-lint:disable ImportantRule
-		color: $wc_ui_color_tableHeadDisabled !important;
+		// scss-lint:disable ImportantRule
+		color: $wc-ui-color-table-head-disabled !important;
 	}
 }
 
 tfoot {
-	background-color: $wc_ui_color_tableFootBackground;
-	color: $wc_ui_color_tableFootForeground;
+	background-color: $wc-ui-color-table-foot-bg;
+	color: $wc-ui-color-table-foot-fg;
 }
 
 th,
 td {
-	padding: $tableCellPadding;
+	padding: $table-cell-padding;
 }
 
 tbody {
@@ -60,14 +60,14 @@ th.wc_table_sel_wrapper { // reset the vertical alignment of th with these class
 }
 
 .wc_table_colauto {
-	max-width: $lineSize;
-	width: $lineSize;
+	max-width: $line-size;
+	width: $line-size;
 }
 
 // Column Striping.
 // Row striping: You'd think tr:nth-child(even) would be enough. You'd be wrong - that does not account for sub rows.
 col.wc_table_stripe,
 tr.wc_table_stripe {
-	background-color: $wc_ui_color_highlight_bg;
+	background-color: $wc-ui-color-highlight-bg;
 }
-/*end wc.ui.table.css*/
+/* end wc.ui.table.scss */

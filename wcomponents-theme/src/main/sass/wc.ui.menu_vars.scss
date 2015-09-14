@@ -1,21 +1,21 @@
 @import 'mixins_common.scss';
 
 //generic menu structure
-$wc_ui_menu_itemPad_topbottom: $vgap_normal;
+$wc-ui-menu-item-pad-topbottom: $vgap-normal;
 
 //generic menu colours
-$wc_ui_menu_bg: $std_color_tertiary;
-$wc_ui_menu_fg: $wc_ui_color_globalForeground;
+$wc-ui-color-menu-bg: $std-color-tertiary;
+$wc-ui-color-menu-fg: $wc-ui-color-global-fg;
 //NOTE: hover and focus effects use the global invite colours.
 
 //menu type BAR and FLYOUT structure
 //padding of items in BAR and FLYOUT menus
-$wc_ui_menu_barColumn_itemPad: $wc_ui_menu_itemPad_topbottom;
+$wc-ui-menu-bar-column-item-pad: $wc-ui-menu-item-pad-topbottom;
 //FLYOUT menu top level items
-$wc_ui_menu_flyout_topLevel_itemPad: $hgap_small;
+$wc-ui-menu-flyout-top-level-item-pad: $hgap-small;
 //the gap bewtten the text label of a sub menu and its 'opener' image
-$wc_ui_menu_barColumn_openerIndicator_beforeAfter: $hgap_small;
+$wc-ui-menu-bar-column-opener-indicator-before-after: $hgap-small;
 
 //type TREE
-$wc_ui_menu_tree_indent: 1em;
-$wc_ui_menu_tree_itemPad: $hgap_small $vgap_normal;
+$wc-ui-menu-tree-indent: 1em;
+$wc-ui-menu-tree-item-pad: $hgap-small $vgap-normal;

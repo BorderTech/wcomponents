@@ -1,4 +1,4 @@
-/* wc.ui.menu.barColumn.icon.ie8.css */
+/* wc.ui.menu.barColumn.icon.ie8.scss */
 [role='menubar'] > [aria-expanded] > button {
 	> .decoratedLabel {
 		background-image: url('../images/down.png');
@@ -20,7 +20,7 @@
 		background-position: 100% 50%;
 		background-repeat: no-repeat;
 		box-sizing: border-box;
-		display: table;/* table-row does not allow it to be sized to 100% in ie8 */
+		display: table; // table-row does not allow it to be sized to 100% in ie8
 		padding-right: 6px;
 	}
 
@@ -28,4 +28,4 @@
 		background-image: url('../images/next-d.png');
 	}
 }
-/* end wc.ui.menu.barColumn.icon.ie8.css */
+/* end wc.ui.menu.barColumn.icon.ie8.scss */

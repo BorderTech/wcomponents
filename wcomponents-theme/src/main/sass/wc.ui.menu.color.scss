@@ -6,19 +6,19 @@
 .menu {
 	[role],
 	[aria-expanded] > button {
-		color: $wc_ui_menu_fg;
+		color: $wc-ui-color-menu-fg;
 	}
 
 	[disabled],
 	[aria-disabled='true'] { // override default for disabled
 		//scss-lint:disable ImportantRule
-		color: $wc_ui_color_disabledForeground !important; // the important saves us a lot of override overhead
+		color: $wc-ui-color-disabled-fg !important; // the important saves us a lot of override overhead
 	}
 }
 
 [role='menubar'].bar,
 [role='menu'] {
-	background-color: $wc_ui_menu_bg;
+	background-color: $wc-ui-color-menu-bg;
 }
 
 
@@ -32,15 +32,15 @@
 [role='treeitem'][aria-selected='true'],
 .submenu[aria-selected='true'][aria-expanded] > button,
 .submenu[aria-checked='true'][aria-expanded] > button {
-	background-color: $wc_ui_color_invite_bg;
-	color: $wc_ui_color_invite_fg;
+	background-color: $wc-ui-color-invite-bg;
+	color: $wc-ui-color-invite-fg;
 }
 
 .submenu {
 	&[aria-selected='true'],
 	&[aria-checked='true'] {
 		background-color: transparent;
-		color: $wc_ui_menu_fg;
+		color: $wc-ui-color-menu-fg;
 	}
 }
 
@@ -56,7 +56,7 @@
 .menu [role]:focus,
 .menu [aria-expanded] > button:focus,
 [aria-expanded='true'] > button:hover {
-	background-color: $wc_ui_color_invite_bg;
-	color: $wc_ui_color_invite_fg;
+	background-color: $wc-ui-color-invite-bg;
+	color: $wc-ui-color-invite-fg;
 }
-/* end wc.ui.menu.color.css */
+/* end wc.ui.menu.color.scss */

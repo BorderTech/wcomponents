@@ -4,7 +4,6 @@
 		<menu name="Themes">
 			<item name="Introduction" href="index.html"/>
 			<item name="Accessibility" href="accessibility.html"/>
-			<item name="Code Standards" href="codestandards.html"/>
 			<item name="Browser Support" href="browsersupport.html"/>
 			<item name="JSDoc" href="jsdoc/${project.name}/${project.version}/index.html"/>
 		</menu>

@@ -6,16 +6,16 @@
 ol.listLayout {
 	margin: 0 0 0 2em;
 
-	&.flat {/* flat ordered lists use a pseudo-element with a counter_*/
+	&.flat { // flat ordered lists use a pseudo-element with a counter
 		counter-reset: li;
 
 		> li:before {
 			content: counter(li) '.';
 			counter-increment: li;
-			margin-right: $hgap_small;
+			margin-right: $hgap-small;
 		}
 
-		&.none > li:before {/* remove the counter if the separator is none */
+		&.none > li:before { // remove the counter if the separator is none
 			content: '';
 		}
 	}
@@ -48,33 +48,36 @@ ul.listLayout {
 			display: inline-block;
 			width: auto;
 
-			> * {/* this rule keeps 'block' components inline in a flat list */
+			> * { // this rule keeps 'block' components inline in a flat list
 				display: inline-block;
 				width: auto;
 			}
 
 			+ li {
-				margin-left: $hgap_normal;
+				margin-left: $hgap-normal;
 			}
 
 			.bar,
 			&.dot {
+				// It would be cumbersome to unpick this
+				// scss-lint:disable NestingDepth
 				> li + li {
 					margin-left: 0;
 				}
+				// scss-lint:enable NestingDepth
 			}
 		}
 
-		&.dot > li + li:before {/*dot bullets should be default but need pseudo-elements for flat lists. */
+		&.dot > li + li:before { // dot bullets should be default but need pseudo-elements for flat lists.
 			content: '\25cf';
-			margin: 0 $hgap_normal;
+			margin: 0 $hgap-normal;
 		}
 	}
 
-	&.bar {/* bar bullets */
+	&.bar { // bar bullets
 		> li:before {
 			content: '|';
-			margin-right: $hgap_normal;
+			margin-right: $hgap-normal;
 		}
 
 		&.flat > li:first-child:before {
@@ -84,8 +87,8 @@ ul.listLayout {
 	}
 
 	&.striped > :nth-child(odd) {
-		background-color: $wc_ui_color_highlight_bg;
-		color: $wc_ui_color_highlight_fg;
+		background-color: $wc-ui-color-highlight-bg;
+		color: $wc-ui-color-highlight-fg;
 	}
 }
 /* end wc.ui.listLayout.scss */

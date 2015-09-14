@@ -1,11 +1,10 @@
 @import 'vars_all.scss';
-
-$wc_ui_color_tableHeadBackground: $std_color_primary;
-$wc_ui_color_tableHeadForeground: $std_color_primary_accent;
-$wc_ui_color_tableHeadDisabled: $wc_ui_color_disabledForeground;
-
-$wc_ui_color_tableFootBackground: $std_color_primary;
-$wc_ui_color_tableFootForeground: $std_color_primary_accent;
-
-
-$tableCellPadding: 0.25em;
+// thead
+$wc-ui-color-table-head-bg: $std-color-primary;
+$wc-ui-color-table-head-fg: $std-color-primary-accent;
+$wc-ui-color-table-head-disabled: $wc-ui-color-disabled-fg;
+// tfoot
+$wc-ui-color-table-foot-bg: $std-color-primary;
+$wc-ui-color-table-foot-fg: $std-color-primary-accent;
+// all cells
+$table-cell-padding: 0.25em;

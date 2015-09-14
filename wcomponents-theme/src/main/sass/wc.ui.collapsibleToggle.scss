@@ -10,7 +10,7 @@
 		display: inline-block;
 
 		+ li {
-			margin-left: $hgap_small;
+			margin-left: $hgap-small;
 		}
 
 		button:before {
@@ -24,4 +24,4 @@
 		}
 	}
 }
-/* end wc.ui.collapsibleToggle.scss*/
+/* end wc.ui.collapsibleToggle.scss */

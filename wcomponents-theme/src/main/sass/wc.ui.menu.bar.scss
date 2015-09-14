@@ -9,14 +9,14 @@
 
 		> [role],
 		> [aria-expanded] > button { //top level items
-			padding: $wc_ui_menu_flyout_topLevel_itemPad;
+			padding: $wc-ui-menu-flyout-top-level-item-pad;
 		}
 	}
 
 	&.bar {
 		> [role],
 		> [aria-expanded] > button {//top level items
-			padding: $wc_ui_menu_barColumn_itemPad;
+			padding: $wc-ui-menu-bar-column-item-pad;
 		}
 	}
 
@@ -58,10 +58,13 @@
 		// the menu defaults in wc.ui.menu.barColumn.scss
 		> [role],
 		> [aria-expanded] > button {
+			// scss-lint:disable SelectorDepth Could be cumbersome and error-prone to unpick this selector depth
 			> .decoratedLabel {
 				display: inline-block;
 				width: auto;
 
+				// Could be cumbersome and error-prone to unpick this nesting depth
+				// scss-lint:disable NestingDepth
 				> .wc_dlbl_seg {
 					display: inline-block;
 					padding-left: 0;
@@ -70,16 +73,18 @@
 				> .labelBody {
 					width: auto;
 				}
+				// scss-lint:enable NestingDepth
 			}
 
 			th & { // reduce padding in a table header
 				padding: 0;
 			}
+			// scss-lint:enable SelectorDepth
 		}
 
 		[role='separator'][aria-orientation='vertical'] {// Separators.
 			//scss-lint:disable ImportantRule
-			padding: $wc_ui_menu_itemPad_topbottom 0 !important; //Padding is important to override the general zero padding which is important to override all the role paddings.
+			padding: $wc-ui-menu-item-pad-topbottom 0 !important; //Padding is important to override the general zero padding which is important to override all the role paddings.
 
 			th & {
 				padding: 0 !important;

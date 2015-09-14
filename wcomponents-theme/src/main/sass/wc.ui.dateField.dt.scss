@@ -2,7 +2,7 @@
 @import 'mixins_common.scss';
 //scss-lint:disable IdSelector
 #wc-calbox { // This is the calendar container.
-	@include border; // or box-shadow: 3px 3px 3px $wc_ui_color_shadow; but not both
+	@include border; // or box-shadow: 3px 3px 3px $wc-ui-color-shadow; but not both
 	position: absolute;
 	right: 0;
 
@@ -18,12 +18,12 @@
 }
 
 #wc-calendar thead button {
-	min-width: $lineSize;
+	min-width: $line-size;
 }
 
 .wc_wdf_mv {
 	&:before {
-		@include useSymbolFont;
+		@include use-symbol-font;
 		vertical-align: middle;
 	}
 
@@ -42,4 +42,4 @@
 .wc_wdf_cls {
 	display: none;
 }
-/* end wc.ui.dateField.dt.css*/
+/* end wc.ui.dateField.dt.scss */
