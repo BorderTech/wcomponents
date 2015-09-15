@@ -1,5 +1,6 @@
 /* wc.common.loading.ie10.scss */
 @import 'vars_all.scss';
+// loading indicator is generated and identified
 //scss-lint:disable IdSelector
 #wc_ui_loading div {
 	background-image: url('../images/loading.gif'); // IE10 does not support SVG animation.
@@ -19,6 +20,7 @@
 // background of the busy element transparent and set all of its children to visibility:hidden so the element appears to
 // just vanish and leave its loading indicator You may want to change this (a Cheshire cat maybe?).
 [aria-busy='true'] {
+	// important to override any other background image
 	//scss-lint:disable ImportantRule
 	background-image: url('../images/loading-dark.gif') !important;
 }

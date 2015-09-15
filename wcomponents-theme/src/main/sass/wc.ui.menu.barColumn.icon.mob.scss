@@ -13,7 +13,8 @@
 		content: '\25ba';
 		display: table-cell;
 
-		// scss-lint:disable SelectorDepth This could be unpicked but it would be repetitive and error-prone
+		// This could be unpicked but it would be repetitive and error-prone
+		// scss-lint:disable SelectorDepth
 		[role='banner'] & {
 			display: inline-block;
 			margin-left: 0.25em;

@@ -28,11 +28,12 @@
 	width: 100%;
 }
 
-// NOTE: we need the important here otherwise we have to do a LOT of overriding of roles.
+
 .submenu[role],
 [role='menu'],
 .menu [role='separator'] {
-	//scss-lint:disable ImportantRule
+	// We need the important here otherwise we have to do a LOT of overriding of roles.
+	// scss-lint:disable ImportantRule
 	padding: 0 !important;
 }
 

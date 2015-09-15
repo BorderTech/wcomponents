@@ -2,6 +2,7 @@
 // styling for the loading indicator that appears for page reloads and AJAX regions
 @import 'vars_all.scss';
 
+// loading indicator is generated and identified
 //scss-lint:disable IdSelector
 #wc_ui_loading {
 	position: fixed;
@@ -41,9 +42,9 @@
 // indicator - otherwise we are setting the background image on a container of 0px width and height. We make the
 // background of the busy element transparent and set all of its children to visibility:hidden so the element appears to
 // just vanish and leave its loading indicator You may want to change this (a Cheshire cat maybe?).
-// Some of these properties have to be important to over-ride specific component's rules
 [aria-busy='true'] {
-	//scss-lint:disable ImportantRule
+	// Some of these properties have to be important to over-ride specific component's rules
+	// scss-lint:disable ImportantRule
 	background-color: transparent !important;
 	background-image: url('../images/loading.svg') !important;
 	background-position: 50% 50%;

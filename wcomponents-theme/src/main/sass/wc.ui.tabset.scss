@@ -3,8 +3,10 @@
 @import 'wc.ui.tabset_vars.scss';
 
 [role='tablist'] {
-	//scss-lint:disable ImportantRule
-	background-color: transparent !important;
+	&,
+	&[aria-disabled='true'] {
+		background-color: transparent;
+	}
 
 	.top > & {
 		@include flex();
@@ -90,6 +92,7 @@
 
 	//accordion tabs are expanded
 	&[aria-expanded] {
+		// selector order to turn off default borders then set only bottom border.
 		//scss-lint:disable DeclarationOrder
 		border: 0 none;
 		@include border($pos: bottom);

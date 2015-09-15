@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="WComponents" xmlns="http://maven.apache.org/DECORATION/1.6.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<bannerLeft>
+		<name>WComponents</name>
+		<src>./images/logo.png</src>
+		<href>https://github.com/BorderTech/wcomponents</href>
+	</bannerLeft>
+	<bannerRight>
+		<name>WComponents</name>
+		<src>./images/null.png</src>
+		<href>https://github.com/BorderTech/wcomponents</href>
+	</bannerRight>
+	<body>
+		<menu name="Main" inherit="top">
+			<item name="Introduction" href="./index.html"/>
+		</menu>
+		<menu name="Get WComponents">
+			<item name="GitHub" href="https://github.com/BorderTech/wcomponents"/>
+		</menu>
+		<menu name="Other documentation">
+			<item name="SchemaDoc" href="./schema/schema.html" target="_blank"/>
+		</menu>
+		<menu ref="reports"/>
+	</body>
+</project>

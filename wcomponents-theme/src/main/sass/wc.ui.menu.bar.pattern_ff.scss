@@ -8,15 +8,17 @@
 		vertical-align: top;// Firefox honours inter-node whitespace even when the XSLT has indent off so this is required to make bar menus look reasonable.
 	}
 
-	//scss-lint:disable QualifyingElement
+	// need the element qualifier to apply this only to the non-active menu items
+	// scss-lint:disable QualifyingElement
 	> div[role] {// buttons, even with no border, no margin, no padding still occupy 2px more vertical space in FF than divs
 		padding-bottom: calc(#{$wc-ui-menu-bar-column-item-pad} + 1px);
 		padding-top: calc(#{$wc-ui-menu-bar-column-item-pad} + 1px);
 	}
-	//scss-lint:enable QualifyingElement
+	// scss-lint:enable QualifyingElement
 
-	[role='separator'][aria-orientation='vertical'] { //I honestly do not remember why this works but it does.
-		//scss-lint:disable ImportantRule
+	[role='separator'][aria-orientation='vertical'] { // I honestly do not remember why this works but it does.
+		// important to override more specific selectors in the main menu CSS
+		// scss-lint:disable ImportantRule
 		padding-bottom: 1em !important;
 		vertical-align: top;
 	}
@@ -32,9 +34,9 @@
 	padding-bottom: 0;
 }
 
-//FF cannot correctly calculate the width of a container if it is absolutely positioned
 .submenu[aria-expanded='true'] > [role='menu'] {
-	//scss-lint:disable VendorPrefix
+	// FF cannot correctly calculate the width of a container if it is absolutely positioned
+	// scss-lint:disable VendorPrefix
 	width: -moz-max-content;
 }
 

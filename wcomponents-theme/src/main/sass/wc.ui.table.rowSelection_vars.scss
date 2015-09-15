@@ -4,6 +4,7 @@ $row-disable-opacity: 0.33;
 
 @mixin row-invite {
 	background-color: $wc-ui-color-invite-bg;
-	//scss-lint:disable DuplicateProperty
+	// make the nackground-color rgba for real browsers.
+	// scss-lint:disable DuplicateProperty
 	background-color: $wc-ui-color-invite-bg-rgba;
 }

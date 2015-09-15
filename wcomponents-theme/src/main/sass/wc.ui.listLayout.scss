@@ -2,7 +2,9 @@
 
 // NOTE: we do not output the separator as a class when the list is ordered.
 @import 'mixins_common.scss';
-//scss-lint:disable QualifyingElement
+
+// need qualifiying element to differentiate from unordered listLayout
+// scss-lint:disable QualifyingElement
 ol.listLayout {
 	margin: 0 0 0 2em;
 

@@ -1,5 +1,6 @@
 /* wc.common.modalShim.scss */
 @import 'wc.common.modalShim_vars.scss';
+// The modal shim is a single generated artefact with a constant id.
 // scss-lint:disable IdSelector
 #wc_shim {
 	background-color: $wc-ui-color-modal-shim;

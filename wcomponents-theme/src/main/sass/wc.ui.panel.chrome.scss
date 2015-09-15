@@ -19,6 +19,7 @@
 		margin: $hgap-normal;
 	}
 
+	// element qualifier for ordered lists only
 	//scss-lint:disable QualifyingElement
 	> .listLayout.dot,
 	> ol.listLayout {

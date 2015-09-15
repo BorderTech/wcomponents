@@ -1,8 +1,8 @@
 /* wc.ui.dateField.scss */
 
-//  Styling specific to the date input component including the calendar. NOTE: unusually we use a single ID'd component
-// for all calendar date pickers and move it around to where it is needed. We do not usually use IDs in this framework,
-// but we like exceptions.
+// Styling specific to the date input component including the calendar.
+
+// We use a single ID'd component for all calendar date pickers and move it around to where it is needed.
 //scss-lint:disable IdSelector
 @import 'mixins_common.scss';
 
@@ -26,7 +26,8 @@
 
 [role='combobox'] {
 	> input {
-		//scss-lint:disable ImportantRule
+		// important to remove invalid state border
+		// scss-lint:disable ImportantRule
 		border: 0 none !important;
 	}
 
