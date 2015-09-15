@@ -1,10 +1,5 @@
 package com.github.bordertech.wcomponents.container;
 
-import java.util.Map;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import com.github.bordertech.wcomponents.AjaxHelper;
 import com.github.bordertech.wcomponents.AjaxOperation;
 import com.github.bordertech.wcomponents.ComponentWithContext;
@@ -13,73 +8,71 @@ import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.servlet.WServlet;
 import com.github.bordertech.wcomponents.util.SystemException;
+import java.util.Map;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * This interceptor setups the AJAX operation details.
- * 
+ *
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class AjaxSetupInterceptor extends InterceptorComponent
-{
-    /** The logger instance for this class. */
-    private static final Log log = LogFactory.getLog(AjaxSetupInterceptor.class);
+public class AjaxSetupInterceptor extends InterceptorComponent {
 
-    /**
-     * Setup the AJAX operation details.
-     * 
-     * @param request the request being serviced.
-     */
-    @Override
-    public void serviceRequest(final Request request)
-    {
-        // Get trigger id
-        String triggerId = request.getParameter(WServlet.AJAX_TRIGGER_PARAM_NAME);
-        if (triggerId == null)
-        {
-            throw new SystemException("No AJAX trigger id to on request");
-        }
+	/**
+	 * The logger instance for this class.
+	 */
+	private static final Log LOG = LogFactory.getLog(AjaxSetupInterceptor.class);
 
-        // Get AJAX operations
-        Map<String, AjaxOperation> operations = (Map<String, AjaxOperation>) request
-            .getSessionAttribute(AjaxHelper.AJAX_OPERATIONS_SESSION_KEY);
-        if (operations == null)
-        {
-            throw new SystemException("No AJAX operations have been registered. Trigger " + triggerId + ".");
-        }
+	/**
+	 * Setup the AJAX operation details.
+	 *
+	 * @param request the request being serviced.
+	 */
+	@Override
+	public void serviceRequest(final Request request) {
+		// Get trigger id
+		String triggerId = request.getParameter(WServlet.AJAX_TRIGGER_PARAM_NAME);
+		if (triggerId == null) {
+			throw new SystemException("No AJAX trigger id to on request");
+		}
 
-        // Get Operation for this trigger
-        AjaxOperation ajaxOperation = operations.get(triggerId);
-        if (ajaxOperation == null)
-        {
-            throw new SystemException("No AJAX operation has been registered for trigger " + triggerId + ".");
-        }
+		// Get AJAX operations
+		Map<String, AjaxOperation> operations = (Map<String, AjaxOperation>) request
+				.getSessionAttribute(AjaxHelper.AJAX_OPERATIONS_SESSION_KEY);
+		if (operations == null) {
+			throw new SystemException("No AJAX operations have been registered. Trigger " + triggerId + ".");
+		}
 
-        // Find the Component for this trigger
-        ComponentWithContext trigger = WebUtilities.getComponentById(ajaxOperation.getTriggerId(), true);
-        if (trigger == null)
-        {
-            throw new SystemException("No component found for AJAX trigger " + triggerId + ".");
-        }
+		// Get Operation for this trigger
+		AjaxOperation ajaxOperation = operations.get(triggerId);
+		if (ajaxOperation == null) {
+			throw new SystemException("No AJAX operation has been registered for trigger " + triggerId + ".");
+		}
 
-        // Set current operation
-        AjaxHelper.setCurrentOperationDetails(ajaxOperation, trigger);
+		// Find the Component for this trigger
+		ComponentWithContext trigger = WebUtilities.getComponentById(ajaxOperation.getTriggerId(), true);
+		if (trigger == null) {
+			throw new SystemException("No component found for AJAX trigger " + triggerId + ".");
+		}
 
-        // Process Service Request
-        super.serviceRequest(request);
-    }
+		// Set current operation
+		AjaxHelper.setCurrentOperationDetails(ajaxOperation, trigger);
 
-    /** {@inheritDoc} */
-    @Override
-    public void paint(final RenderContext renderContext)
-    {
-        try
-        {
-            super.paint(renderContext);
-        }
-        finally
-        {
-            AjaxHelper.clearCurrentOperationDetails();
-        }
-    }
+		// Process Service Request
+		super.serviceRequest(request);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void paint(final RenderContext renderContext) {
+		try {
+			super.paint(renderContext);
+		} finally {
+			AjaxHelper.clearCurrentOperationDetails();
+		}
+	}
 }

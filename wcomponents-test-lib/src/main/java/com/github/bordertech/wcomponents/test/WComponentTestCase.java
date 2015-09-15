@@ -4,7 +4,7 @@ import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.UIContextImpl;
 import com.github.bordertech.wcomponents.WApplication;
 import com.github.bordertech.wcomponents.WComponent;
-import com.github.bordertech.wcomponents.theme.ThemeUtil;
+import com.github.bordertech.wcomponents.util.ThemeUtil;
 
 /**
  * This test case base class includes assertions and other

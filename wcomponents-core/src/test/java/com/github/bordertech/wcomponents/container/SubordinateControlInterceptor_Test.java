@@ -1,9 +1,5 @@
 package com.github.bordertech.wcomponents.container;
 
-import junit.framework.Assert;
-
-import org.junit.Test;
-
 import com.github.bordertech.wcomponents.AbstractWComponentTestCase;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
@@ -18,94 +14,93 @@ import com.github.bordertech.wcomponents.subordinate.Rule;
 import com.github.bordertech.wcomponents.subordinate.SubordinateControlHelper;
 import com.github.bordertech.wcomponents.subordinate.WSubordinateControl;
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
+import junit.framework.Assert;
+import org.junit.Test;
 
 /**
  * Test Cases for the {@link SubordinateControlInterceptor} class.
- * 
+ *
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class SubordinateControlInterceptor_Test extends AbstractWComponentTestCase
-{
-    private boolean buttonClicked;
+public class SubordinateControlInterceptor_Test extends AbstractWComponentTestCase {
 
-    @Test
-    public void testServiceRequestApplyControls()
-    {
-        // Create Target
-        WButton target = new WButton();
-        target.setAction(new Action()
-        {
-            @Override
-            public void execute(final ActionEvent event)
-            {
-                buttonClicked = true;
-            }
-        });
+	private boolean buttonClicked;
 
-        // Create Control - Enable/Disable Button
-        WCheckBox box = new WCheckBox();
-        Rule rule = new Rule();
-        rule.setCondition(new Equal(box, Boolean.TRUE));
-        rule.addActionOnTrue(new Enable(target));
-        rule.addActionOnFalse(new Disable(target));
-        WSubordinateControl control = new WSubordinateControl();
-        control.addRule(rule);
+	@Test
+	public void testServiceRequestApplyControls() {
+		// Create Target
+		WButton target = new WButton();
+		target.setAction(new Action() {
+			@Override
+			public void execute(final ActionEvent event) {
+				buttonClicked = true;
+			}
+		});
 
-        // Create component tree
-        WContainer root = new WContainer();
-        root.add(control);
-        root.add(box);
-        root.add(target);
+		// Create Control - Enable/Disable Button
+		WCheckBox box = new WCheckBox();
+		Rule rule = new Rule();
+		rule.setCondition(new Equal(box, Boolean.TRUE));
+		rule.addActionOnTrue(new Enable(target));
+		rule.addActionOnFalse(new Disable(target));
+		WSubordinateControl control = new WSubordinateControl();
+		control.addRule(rule);
 
-        // Setup Intercepter
-        SubordinateControlInterceptor interceptor = new SubordinateControlInterceptor();
-        interceptor.setBackingComponent(root);
-        
-        UIContext uic = createUIContext();
-        uic.setUI(root);
+		// Create component tree
+		WContainer root = new WContainer();
+		root.add(control);
+		root.add(box);
+		root.add(target);
 
-        setActiveContext(uic);
-        buttonClicked = false;
+		// Setup Intercepter
+		SubordinateControlInterceptor interceptor = new SubordinateControlInterceptor();
+		interceptor.setBackingComponent(root);
 
-        // Test Service Request - Empty Request and no control registered, so the control should not be applied
-        MockRequest request = new MockRequest();
-        interceptor.serviceRequest(request);
-        // Target should still be enabled (control not applied)
-        Assert.assertFalse("After service request target should be enabled", target.isDisabled());
-        // Button not clicked
-        Assert.assertFalse("Button should not have been clicked", buttonClicked);
+		UIContext uic = createUIContext();
+		uic.setUI(root);
 
-        // Test Service Request - Try to click button while it is disabled and should not be clicked
-        target.setDisabled(true);
-        request.setParameter(target.getId(), "x");
-        interceptor.serviceRequest(request);
-        // Target should still be disabled (control not applied, as still not registered)
-        Assert.assertTrue("After service request target should be disabled", target.isDisabled());
-        // Button not clicked
-        Assert.assertFalse("Button should not have been clicked while disabled", buttonClicked);
+		setActiveContext(uic);
+		buttonClicked = false;
 
-        // Test Prepare Paint - Should register and apply the subordinate control
-        target.setDisabled(false);
-        request = new MockRequest();
-        interceptor.preparePaint(request);
-        // Target should be disabled (Disabled by control as box is not selected)
-        Assert.assertTrue("After service request target should be disabled", target.isDisabled());
-        // Check Subordinate Controls have been registered
-        Assert.assertNotNull("Registered Controls should be registered on the session",
-                             request.getSessionAttribute(SubordinateControlHelper.SUBORDINATE_CONTROL_SESSION_KEY));
+		// Test Service Request - Empty Request and no control registered, so the control should not be applied
+		MockRequest request = new MockRequest();
+		interceptor.serviceRequest(request);
+		// Target should still be enabled (control not applied)
+		Assert.assertFalse("After service request target should be enabled", target.isDisabled());
+		// Button not clicked
+		Assert.assertFalse("Button should not have been clicked", buttonClicked);
+
+		// Test Service Request - Try to click button while it is disabled and should not be clicked
+		target.setDisabled(true);
+		request.setParameter(target.getId(), "x");
+		interceptor.serviceRequest(request);
+		// Target should still be disabled (control not applied, as still not registered)
+		Assert.assertTrue("After service request target should be disabled", target.isDisabled());
+		// Button not clicked
+		Assert.assertFalse("Button should not have been clicked while disabled", buttonClicked);
+
+		// Test Prepare Paint - Should register and apply the subordinate control
+		target.setDisabled(false);
+		request = new MockRequest();
+		interceptor.preparePaint(request);
+		// Target should be disabled (Disabled by control as box is not selected)
+		Assert.assertTrue("After service request target should be disabled", target.isDisabled());
+		// Check Subordinate Controls have been registered
+		Assert.assertNotNull("Registered Controls should be registered on the session",
+				request.getSessionAttribute(SubordinateControlHelper.SUBORDINATE_CONTROL_SESSION_KEY));
 
         // Test Service Request - Simulate button click as it was enabled on the client by the check box being selected.
-        // As the controls have been registered from the Prepare Paint, they will be applied in the Service Request and
-        // this will enable the button and allow it to be clicked.
-        buttonClicked = false;
-        request.setParameter(target.getId(), "x");
-        setupCheckBoxRequest(box, request, true);
-        interceptor.serviceRequest(request);
-        // Target should be enabled (enabled by control as box is selected)
-        Assert.assertFalse("After service request target should be enabled", target.isDisabled());
-        // Button should have been clicked
-        Assert.assertTrue("Button should have been clicked", buttonClicked);
+		// As the controls have been registered from the Prepare Paint, they will be applied in the Service Request and
+		// this will enable the button and allow it to be clicked.
+		buttonClicked = false;
+		request.setParameter(target.getId(), "x");
+		setupCheckBoxRequest(box, request, true);
+		interceptor.serviceRequest(request);
+		// Target should be enabled (enabled by control as box is selected)
+		Assert.assertFalse("After service request target should be enabled", target.isDisabled());
+		// Button should have been clicked
+		Assert.assertTrue("Button should have been clicked", buttonClicked);
 
 //        // Check Subordinate Controls have not been cleared from session
 //        Assert.assertNotNull("Registered Controls should not have been cleared on the session",
@@ -116,8 +111,7 @@ public class SubordinateControlInterceptor_Test extends AbstractWComponentTestCa
 //        // Check Subordinate Controls have been cleared from session
 //        Assert.assertNull("Registered Controls should have been cleared on the session",
 //                          request.getSessionAttribute(SubordinateControlHelper.SUBORDINATE_CONTROL_SESSION_KEY));
-
-    }
+	}
 
 //    @Test
 //    public void testServiceRequestApplyOneContext()
@@ -251,14 +245,11 @@ public class SubordinateControlInterceptor_Test extends AbstractWComponentTestCa
 ////        Assert.assertEquals("Registered Conterol should be for uic2", uic2, (operations.get(0)).getUic());
 //        
 //    }
-
-    private void setupCheckBoxRequest(final WCheckBox target, final MockRequest request,
-                                      final boolean condition)
-    {
-        if (condition)
-        {
-            request.setParameter(target.getId(), "true");
-        }
-    }
+	private void setupCheckBoxRequest(final WCheckBox target, final MockRequest request,
+			final boolean condition) {
+		if (condition) {
+			request.setParameter(target.getId(), "true");
+		}
+	}
 
 }

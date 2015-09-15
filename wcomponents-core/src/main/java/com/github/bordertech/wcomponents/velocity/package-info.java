@@ -1,6 +1,7 @@
 /**
  * Provides the ability to render sections of WComponent UIs using the Apache Velocity templating language.
- *  
- * <p>TODO: More details here.</p>
+ *
+ * <p>
+ * TODO: More details here.</p>
  */
-package com.github.bordertech.wcomponents.velocity; 
+package com.github.bordertech.wcomponents.velocity;
