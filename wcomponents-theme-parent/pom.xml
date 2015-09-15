@@ -15,7 +15,7 @@
 	</parent>
 
 	<packaging>pom</packaging>
-	
+
 	<properties>
 		<!--
 			We externalize download URLs so that in-house builds can override them to on-prem mirrors.
@@ -264,11 +264,6 @@
 						<groupId>net.sf.saxon</groupId>
 						<artifactId>Saxon-HE</artifactId>
 						<version>9.4</version>
-					</dependency>
-					<dependency>
-						<groupId>batik</groupId>
-						<artifactId>batik-rasterizer</artifactId>
-						<version>1.6-1</version>
 					</dependency>
 					<dependency>
 						<groupId>com.google.javascript</groupId>
