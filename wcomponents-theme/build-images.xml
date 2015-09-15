@@ -35,7 +35,7 @@
 			<fileset dir="${impl.images.rootdir}" includes="*.*" excludes="*.svg"/>
 		</copy>
 		<copy todir="${images.tmp.src.dir}" overwrite="true">
-			<fileset dir="${images.rootdir}" includes="*.svg" excludes="*${wc.ui.icon.svg.src}.svg" excludesfile="${excludesfile}"/><!-- excludes="*.icon.sprite.*.svg"-->
+			<fileset dir="${images.rootdir}" includes="*.svg" excludesfile="${excludesfile}"/>
 			<filterchain>
 				<expandproperties/>
 				<deletecharacters chars="\t"/>
@@ -45,7 +45,7 @@
 			</filterchain>
 		</copy>
 		<copy todir="${images.tmp.src.dir}" overwrite="true">
-			<fileset dir="${impl.images.rootdir}" excludes="${wc.ui.icon.svg.src}.svg,${imp.ui.icon.svg.src}.svg" includes="*.svg"/><!-- excludes="*.icon.sprite.*.svg"-->
+			<fileset dir="${impl.images.rootdir}" includes="*.svg"/>
 			<filterchain>
 				<expandproperties/>
 				<deletecharacters chars="\t"/>
