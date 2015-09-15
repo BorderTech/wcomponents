@@ -32,6 +32,16 @@
 		<tag>wcomponents-1.0.0</tag>
 	</scm>
 
+	<issueManagement>
+		<system>GitHub</system>
+		<url>https://github.com/BorderTech/wcomponents/issues</url>
+	</issueManagement>
+
+	<ciManagement>
+		<system>TravisCI</system>
+		<url>https://travis-ci.org/BorderTech/wcomponents/</url>
+	</ciManagement>
+
 	<profiles>
 		<profile>
 			<id>skipAllTests</id>
@@ -270,7 +280,7 @@
 					<externalPropertiesPath>sanity4j-java-${java.specification.version}.properties</externalPropertiesPath>
 				</configuration>
 			</plugin>
-			
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
@@ -332,7 +342,7 @@
 			<url>${sitesUrl}</url>
 		</site>
 	</distributionManagement>
-	
+
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
