@@ -1,16 +1,5 @@
 package com.github.bordertech.wcomponents.container;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-
-import junit.framework.Assert;
-
-import org.apache.commons.configuration.Configuration;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
 import com.github.bordertech.wcomponents.ActionEscape;
 import com.github.bordertech.wcomponents.Environment;
 import com.github.bordertech.wcomponents.Escape;
@@ -24,6 +13,14 @@ import com.github.bordertech.wcomponents.WebComponent;
 import com.github.bordertech.wcomponents.util.Config;
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
 import com.github.bordertech.wcomponents.util.mock.MockResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import junit.framework.Assert;
+import org.apache.commons.configuration.Configuration;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 /**
  * ContainerHelper_Test - unit tests for {@link AbstractContainerHelper}.
@@ -31,452 +28,422 @@ import com.github.bordertech.wcomponents.util.mock.MockResponse;
  * @author Yiannis Paschalidis
  * @since 1.0.0
  */
-public class AbstractContainerHelper_Test
-{
-    private static Configuration originalConfig;
+public class AbstractContainerHelper_Test {
 
-    @BeforeClass
-    public static void setUp()
-    {
-        originalConfig = Config.getInstance();
+	private static Configuration originalConfig;
 
-        // Want to test with "emulated clustering"
-        Configuration config = Config.copyConfiguration(originalConfig);
-        config.setProperty("bordertech.wcomponents.developer.clusterEmulation.enabled", "true");
-        config.setProperty(AbstractContainerHelper.DEVELOPER_MODE_ERROR_HANDLING, true);
+	@BeforeClass
+	public static void setUp() {
+		originalConfig = Config.getInstance();
 
-        Config.setConfiguration(config);
-    }
+		// Want to test with "emulated clustering"
+		Configuration config = Config.copyConfiguration(originalConfig);
+		config.setProperty("bordertech.wcomponents.developer.clusterEmulation.enabled", "true");
+		config.setProperty(AbstractContainerHelper.DEVELOPER_MODE_ERROR_HANDLING, true);
 
-    @AfterClass
-    public static void tearDown()
-    {
-        // Remove overrides
-        Config.setConfiguration(originalConfig);
-    }
+		Config.setConfiguration(config);
+	}
 
-    @Test
-    public void testSetWebComponent()
-    {
-        AbstractContainerHelper helper = new MyContainerHelper();
-        WebComponent webComponent = new WTextField();
+	@AfterClass
+	public static void tearDown() {
+		// Remove overrides
+		Config.setConfiguration(originalConfig);
+	}
 
-        Assert.assertNull("Default interceptor should be null", helper.getInterceptor()); // getUI throws a NPE
-        helper.setWebComponent(webComponent);
-        Assert.assertSame("Incorrect UI set", webComponent, helper.getUI());
+	@Test
+	public void testSetWebComponent() {
+		AbstractContainerHelper helper = new MyContainerHelper();
+		WebComponent webComponent = new WTextField();
 
-        try
-        {
-            helper = new MyContainerHelper();
-            helper.setWebComponent(new MyWebComponent());
-            Assert.fail("Should have thrown an IllegalArgumentException");
-        }
-        catch (IllegalArgumentException e)
-        {
-            Assert.assertNull("Interceptor should be null", helper.getInterceptor());
-        }
-    }
+		Assert.assertNull("Default interceptor should be null", helper.getInterceptor()); // getUI throws a NPE
+		helper.setWebComponent(webComponent);
+		Assert.assertSame("Incorrect UI set", webComponent, helper.getUI());
 
-    @Test
-    public void testGetUI()
-    {
-        AbstractContainerHelper helper = new MyContainerHelper();
-        WebComponent webComponent = new WTextField();
+		try {
+			helper = new MyContainerHelper();
+			helper.setWebComponent(new MyWebComponent());
+			Assert.fail("Should have thrown an IllegalArgumentException");
+		} catch (IllegalArgumentException e) {
+			Assert.assertNull("Interceptor should be null", helper.getInterceptor());
+		}
+	}
 
-        helper.setWebComponent(webComponent);
-        Assert.assertSame("getUI returned incorrect UI", webComponent, helper.getUI());
-    }
+	@Test
+	public void testGetUI() {
+		AbstractContainerHelper helper = new MyContainerHelper();
+		WebComponent webComponent = new WTextField();
 
-    @Test
-    public void testProcessAction() throws IOException
-    {
-        AbstractContainerHelper helper = new MyContainerHelper();
-        MyInterceptor interceptor = new MyInterceptor();
+		helper.setWebComponent(webComponent);
+		Assert.assertSame("getUI returned incorrect UI", webComponent, helper.getUI());
+	}
 
-        helper.setWebComponent(interceptor);
-        helper.prepareUserContext();
+	@Test
+	public void testProcessAction() throws IOException {
+		AbstractContainerHelper helper = new MyContainerHelper();
+		MyInterceptor interceptor = new MyInterceptor();
 
-        helper.processAction();
+		helper.setWebComponent(interceptor);
+		helper.prepareUserContext();
 
-        Assert.assertTrue("Action phase not processed", interceptor.serviceRequestCalled);
-        Assert.assertFalse("Render phase should not have ocurred", interceptor.preparePaintCalled);
-        Assert.assertFalse("Render phase should not have ocurred", interceptor.paintCalled);
-    }
+		helper.processAction();
 
-    @Test
-    public void testProcessActionWhenDisposed() throws IOException
-    {
-        AbstractContainerHelper helper = new MyContainerHelper();
-        MyInterceptor interceptor = new MyInterceptor();
+		Assert.assertTrue("Action phase not processed", interceptor.serviceRequestCalled);
+		Assert.assertFalse("Render phase should not have ocurred", interceptor.preparePaintCalled);
+		Assert.assertFalse("Render phase should not have ocurred", interceptor.paintCalled);
+	}
 
-        helper.setWebComponent(interceptor);
-        helper.prepareUserContext();
+	@Test
+	public void testProcessActionWhenDisposed() throws IOException {
+		AbstractContainerHelper helper = new MyContainerHelper();
+		MyInterceptor interceptor = new MyInterceptor();
 
-        helper.dispose();
-        helper.processAction();
+		helper.setWebComponent(interceptor);
+		helper.prepareUserContext();
 
-        Assert.assertFalse("Action phase should not occurr when disposed", interceptor.serviceRequestCalled);
-        Assert.assertFalse("Render phase should not have ocurred", interceptor.preparePaintCalled);
-        Assert.assertFalse("Render phase should not have ocurred", interceptor.paintCalled);
-    }
+		helper.dispose();
+		helper.processAction();
 
-    @Test
-    public void testProcessActionWithActionEscape() throws IOException
-    {
-        AbstractContainerHelper helper = new MyContainerHelper();
-        final MyActionEscape escape = new MyActionEscape();
+		Assert.assertFalse("Action phase should not occurr when disposed", interceptor.serviceRequestCalled);
+		Assert.assertFalse("Render phase should not have ocurred", interceptor.preparePaintCalled);
+		Assert.assertFalse("Render phase should not have ocurred", interceptor.paintCalled);
+	}
 
-        MyInterceptor interceptor = new MyInterceptor()
-        {
-            @Override
-            public void serviceRequest(final Request request)
-            {
-                super.serviceRequest(request);
-                throw escape;
-            }
-        };
+	@Test
+	public void testProcessActionWithActionEscape() throws IOException {
+		AbstractContainerHelper helper = new MyContainerHelper();
+		final MyActionEscape escape = new MyActionEscape();
 
-        helper.setWebComponent(interceptor);
-        helper.prepareUserContext();
+		MyInterceptor interceptor = new MyInterceptor() {
+			@Override
+			public void serviceRequest(final Request request) {
+				super.serviceRequest(request);
+				throw escape;
+			}
+		};
 
-        helper.processAction();
+		helper.setWebComponent(interceptor);
+		helper.prepareUserContext();
 
-        Assert.assertTrue("Service request should have been called", interceptor.serviceRequestCalled);
-        Assert.assertFalse("Render phase should not have ocurred", interceptor.preparePaintCalled);
-        Assert.assertFalse("Render phase should not have ocurred", interceptor.paintCalled);
-        Assert.assertTrue("Helper should be disposed after ActionEscape", helper.isDisposed());
-        Assert.assertTrue("ActionEscape should be called during action phase", escape.escapeCalled);
-    }
+		helper.processAction();
 
-    @Test
-    public void testProcessActionWithEscape() throws IOException
-    {
-        AbstractContainerHelper helper = new MyContainerHelper();
-        final MyEscape escape = new MyEscape();
+		Assert.assertTrue("Service request should have been called", interceptor.serviceRequestCalled);
+		Assert.assertFalse("Render phase should not have ocurred", interceptor.preparePaintCalled);
+		Assert.assertFalse("Render phase should not have ocurred", interceptor.paintCalled);
+		Assert.assertTrue("Helper should be disposed after ActionEscape", helper.isDisposed());
+		Assert.assertTrue("ActionEscape should be called during action phase", escape.escapeCalled);
+	}
 
-        MyInterceptor interceptor = new MyInterceptor()
-        {
-            @Override
-            public void serviceRequest(final Request request)
-            {
-                super.serviceRequest(request);
-                throw escape;
-            }
-        };
+	@Test
+	public void testProcessActionWithEscape() throws IOException {
+		AbstractContainerHelper helper = new MyContainerHelper();
+		final MyEscape escape = new MyEscape();
 
-        helper.setWebComponent(interceptor);
-        helper.prepareUserContext();
+		MyInterceptor interceptor = new MyInterceptor() {
+			@Override
+			public void serviceRequest(final Request request) {
+				super.serviceRequest(request);
+				throw escape;
+			}
+		};
 
-        helper.processAction();
+		helper.setWebComponent(interceptor);
+		helper.prepareUserContext();
 
-        Assert.assertTrue("Service request should have been called", interceptor.serviceRequestCalled);
-        Assert.assertFalse("Helper should not be disposed after Escape", helper.isDisposed());
-        Assert.assertFalse("Escape should not have been called after action phase", escape.escapeCalled);
+		helper.processAction();
 
-        helper.render();
-        Assert.assertTrue("Helper should be disposed after render", helper.isDisposed());
+		Assert.assertTrue("Service request should have been called", interceptor.serviceRequestCalled);
+		Assert.assertFalse("Helper should not be disposed after Escape", helper.isDisposed());
+		Assert.assertFalse("Escape should not have been called after action phase", escape.escapeCalled);
+
+		helper.render();
+		Assert.assertTrue("Helper should be disposed after render", helper.isDisposed());
         // TODO: Remove the use of Escape. This test no longer works (22/9/2009).
-        //assertTrue("Escape should have been called during render phase", escape.escapeCalled);
-    }
+		//assertTrue("Escape should have been called during render phase", escape.escapeCalled);
+	}
 
-    @Test
-    public void testRender() throws IOException
-    {
-        AbstractContainerHelper helper = new MyContainerHelper();
-        MyInterceptor interceptor = new MyInterceptor();
+	@Test
+	public void testRender() throws IOException {
+		AbstractContainerHelper helper = new MyContainerHelper();
+		MyInterceptor interceptor = new MyInterceptor();
 
-        helper.setWebComponent(interceptor);
-        helper.prepareUserContext();
+		helper.setWebComponent(interceptor);
+		helper.prepareUserContext();
 
-        helper.processAction();
-        helper.render();
+		helper.processAction();
+		helper.render();
 
-        Assert.assertTrue("Action phase not processed", interceptor.serviceRequestCalled);
-        Assert.assertTrue("PreparePaint should have been called", interceptor.preparePaintCalled);
-        Assert.assertTrue("Paint should have been called", interceptor.paintCalled);
-        Assert.assertTrue("Helper should be disposed after render", helper.isDisposed());
-    }
+		Assert.assertTrue("Action phase not processed", interceptor.serviceRequestCalled);
+		Assert.assertTrue("PreparePaint should have been called", interceptor.preparePaintCalled);
+		Assert.assertTrue("Paint should have been called", interceptor.paintCalled);
+		Assert.assertTrue("Helper should be disposed after render", helper.isDisposed());
+	}
 
-    @Test
-    public void testErrorDuringActionPhase() throws IOException
-    {
-        MyContainerHelper helper = new MyContainerHelper();
-        final IllegalStateException error = new IllegalStateException("simulated action failure");
+	@Test
+	public void testErrorDuringActionPhase() throws IOException {
+		MyContainerHelper helper = new MyContainerHelper();
+		final IllegalStateException error = new IllegalStateException("simulated action failure");
 
-        // Errors should be handled gracefully
-        MyInterceptor interceptor = new MyInterceptor()
-        {
-            @Override
-            public void serviceRequest(final Request request)
-            {
-                super.serviceRequest(request);
-                throw error;
-            }
-        };
+		// Errors should be handled gracefully
+		MyInterceptor interceptor = new MyInterceptor() {
+			@Override
+			public void serviceRequest(final Request request) {
+				super.serviceRequest(request);
+				throw error;
+			}
+		};
 
-        helper.setWebComponent(interceptor);
-        helper.prepareUserContext();
+		helper.setWebComponent(interceptor);
+		helper.prepareUserContext();
 
-        helper.processAction();
-        helper.render();
+		helper.processAction();
+		helper.render();
 
-        Assert.assertTrue("Action phase not processed", interceptor.serviceRequestCalled);
-        Assert.assertFalse("PreparePaint should not have been called", interceptor.preparePaintCalled);
-        Assert.assertFalse("Paint should not have been called", interceptor.paintCalled);
-        Assert.assertTrue("Helper should be disposed after render", helper.isDisposed());
+		Assert.assertTrue("Action phase not processed", interceptor.serviceRequestCalled);
+		Assert.assertFalse("PreparePaint should not have been called", interceptor.preparePaintCalled);
+		Assert.assertFalse("Paint should not have been called", interceptor.paintCalled);
+		Assert.assertTrue("Helper should be disposed after render", helper.isDisposed());
 
-        String output = helper.stringWriter.toString();
-        String expected = error.getMessage();
-        Assert.assertTrue("Missing error message", output.indexOf(expected) != -1);
-    }
+		String output = helper.stringWriter.toString();
+		String expected = error.getMessage();
+		Assert.assertTrue("Missing error message", output.indexOf(expected) != -1);
+	}
 
-    @Test
-    public void testErrorDuringRenderPhase() throws IOException
-    {
-        // Errors should be handled gracefully
-        MyContainerHelper helper = new MyContainerHelper();
-        final IllegalStateException error = new IllegalStateException("simulated paint failure");
+	@Test
+	public void testErrorDuringRenderPhase() throws IOException {
+		// Errors should be handled gracefully
+		MyContainerHelper helper = new MyContainerHelper();
+		final IllegalStateException error = new IllegalStateException("simulated paint failure");
 
-        MyInterceptor interceptor = new MyInterceptor()
-        {
-            @Override
-            public void paint(final RenderContext renderContext)
-            {
-                super.paint(renderContext);
-                throw error;
-            }
-        };
+		MyInterceptor interceptor = new MyInterceptor() {
+			@Override
+			public void paint(final RenderContext renderContext) {
+				super.paint(renderContext);
+				throw error;
+			}
+		};
 
-        helper.setWebComponent(interceptor);
-        helper.prepareUserContext();
+		helper.setWebComponent(interceptor);
+		helper.prepareUserContext();
 
-        helper.processAction();
-        helper.render();
+		helper.processAction();
+		helper.render();
 
-        Assert.assertTrue("Action phase not processed", interceptor.serviceRequestCalled);
-        Assert.assertTrue("PreparePaint should have been called", interceptor.preparePaintCalled);
-        Assert.assertTrue("Paint should have been called", interceptor.paintCalled);
-        Assert.assertTrue("Helper should be disposed after render", helper.isDisposed());
+		Assert.assertTrue("Action phase not processed", interceptor.serviceRequestCalled);
+		Assert.assertTrue("PreparePaint should have been called", interceptor.preparePaintCalled);
+		Assert.assertTrue("Paint should have been called", interceptor.paintCalled);
+		Assert.assertTrue("Helper should be disposed after render", helper.isDisposed());
 
-        String output = helper.stringWriter.toString();
-        String expected = error.getMessage();
-        Assert.assertTrue("Missing error message", output.indexOf(expected) != -1);
-    }
+		String output = helper.stringWriter.toString();
+		String expected = error.getMessage();
+		Assert.assertTrue("Missing error message", output.indexOf(expected) != -1);
+	}
 
-    @Test
-    public void testRenderWhenDisposed() throws IOException
-    {
-        AbstractContainerHelper helper = new MyContainerHelper();
-        MyInterceptor interceptor = new MyInterceptor();
+	@Test
+	public void testRenderWhenDisposed() throws IOException {
+		AbstractContainerHelper helper = new MyContainerHelper();
+		MyInterceptor interceptor = new MyInterceptor();
 
-        helper.setWebComponent(interceptor);
-        helper.prepareUserContext();
+		helper.setWebComponent(interceptor);
+		helper.prepareUserContext();
 
-        helper.dispose();
-        helper.render();
+		helper.dispose();
+		helper.render();
 
-        Assert.assertFalse("PreparePaint should not have been called when disposed", interceptor.preparePaintCalled);
-        Assert.assertFalse("Paint should not have been called when disposed", interceptor.paintCalled);
-        Assert.assertTrue("Helper should still be disposed after render", helper.isDisposed());
-    }
+		Assert.assertFalse("PreparePaint should not have been called when disposed", interceptor.preparePaintCalled);
+		Assert.assertFalse("Paint should not have been called when disposed", interceptor.paintCalled);
+		Assert.assertTrue("Helper should still be disposed after render", helper.isDisposed());
+	}
 
-    @Test(expected = IllegalStateException.class)
-    public void testIsNewConversationUnknown()
-    {
-        // Will throw an exception until processAction has been called
-        new MyContainerHelper().isNewConversation();
-    }
+	@Test(expected = IllegalStateException.class)
+	public void testIsNewConversationUnknown() {
+		// Will throw an exception until processAction has been called
+		new MyContainerHelper().isNewConversation();
+	}
 
-    @Test
-    public void testIsNewConversation() throws IOException
-    {
-        MyContainerHelper helper = new MyContainerHelper();
+	@Test
+	public void testIsNewConversation() throws IOException {
+		MyContainerHelper helper = new MyContainerHelper();
 
-        helper.prepareUserContext();
-        helper.processAction();
+		helper.prepareUserContext();
+		helper.processAction();
 
-        // The default implementation should return false from requestImpliesNew
-        Assert.assertFalse("Should not be a new conversation", helper.isNewConversation());
-        Assert.assertTrue("Should be a continuing conversation", helper.isContinuingConversation());
-    }
+		// The default implementation should return false from requestImpliesNew
+		Assert.assertFalse("Should not be a new conversation", helper.isNewConversation());
+		Assert.assertTrue("Should be a continuing conversation", helper.isContinuingConversation());
+	}
 
-    /**
-     * A trivial implementation of ContainerHelper for testing.
-     */
-    private static final class MyContainerHelper extends AbstractContainerHelper
-    {
-        private UIContext uiContext = new AbstractContainerHelper.UIContextWrap();
-        private final StringWriter stringWriter = new StringWriter();
-        private final Response response = new MockResponse();
+	/**
+	 * A trivial implementation of ContainerHelper for testing.
+	 */
+	private static final class MyContainerHelper extends AbstractContainerHelper {
 
-        @Override
-        protected Environment createEnvironment()
-        {
-            return null;
-        }
+		private UIContext uiContext = new AbstractContainerHelper.UIContextWrap();
+		private final StringWriter stringWriter = new StringWriter();
+		private final Response response = new MockResponse();
 
-        @Override
-        protected Request createRequest()
-        {
-            return new MockRequest();
-        }
+		@Override
+		protected Environment createEnvironment() {
+			return null;
+		}
 
-        @Override
-        protected PrintWriter getPrintWriter()
-        {
-            return new PrintWriter(stringWriter);
-        }
+		@Override
+		protected Request createRequest() {
+			return new MockRequest();
+		}
 
-        @Override
-        protected Response getResponse()
-        {
-            return response;
-        }
+		@Override
+		protected PrintWriter getPrintWriter() {
+			return new PrintWriter(stringWriter);
+		}
 
-        @Override
-        protected UIContext getUIContext()
-        {
-            return uiContext;
-        }
+		@Override
+		protected Response getResponse() {
+			return response;
+		}
 
-        @Override
-        protected void invalidateSession()
-        {
-            // NOP
-        }
+		@Override
+		protected UIContext getUIContext() {
+			return uiContext;
+		}
 
-        @Override
-        protected void redirectForLogout()
-        {
-            // NOP
-        }
+		@Override
+		protected void invalidateSession() {
+			// NOP
+		}
 
-        @Override
-        protected void setTitle(final String title)
-        {
-            // NOP
-        }
+		@Override
+		protected void redirectForLogout() {
+			// NOP
+		}
 
-        @Override
-        protected void setUIContext(final UIContext uic)
-        {
-            this.uiContext = uic;
-        }
+		@Override
+		protected void setTitle(final String title) {
+			// NOP
+		}
 
-        @Override
-        protected void updateEnvironment(final Environment env)
-        {
-            // NOP
-        }
+		@Override
+		protected void setUIContext(final UIContext uic) {
+			this.uiContext = uic;
+		}
 
-        @Override
-        protected void updateRequest(final Request request)
-        {
-            // NOP
-        }
+		@Override
+		protected void updateEnvironment(final Environment env) {
+			// NOP
+		}
 
-    }
+		@Override
+		protected void updateRequest(final Request request) {
+			// NOP
+		}
 
-    /**
-     * A mock WebComponent implementation.
-     * @author Yiannis Paschalidis
-     */
-    private static class MyWebComponent implements WebComponent
-    {
-        public String getId()
-        {
-            return "";
-        }
+	}
 
-        public String getName()
-        {
-            return "";
-        }
+	/**
+	 * A mock WebComponent implementation.
+	 *
+	 * @author Yiannis Paschalidis
+	 */
+	private static class MyWebComponent implements WebComponent {
 
-        public void paint(final RenderContext renderContext)
-        {
-            // NOP
-        }
+		@Override
+		public String getId() {
+			return "";
+		}
 
-        public void preparePaint(final Request request)
-        {
-            // NOP
-        }
+		@Override
+		public String getName() {
+			return "";
+		}
 
-        public void serviceRequest(final Request request)
-        {
-            // NOP
-        }
-    }
+		@Override
+		public void paint(final RenderContext renderContext) {
+			// NOP
+		}
 
-    /**
-     * An interceptor that sets flags when certain methods are called.
-     * @author Yiannis Paschalidis
-     */
-    private static class MyInterceptor extends InterceptorComponent
-    {
-        private boolean paintCalled;
-        private boolean preparePaintCalled;
-        private boolean serviceRequestCalled;
+		@Override
+		public void preparePaint(final Request request) {
+			// NOP
+		}
 
-        MyInterceptor()
-        {
-            super(new WLabel("ContainerHelper_Test"));
-        }
+		@Override
+		public void serviceRequest(final Request request) {
+			// NOP
+		}
+	}
 
-        @Override
-        public void paint(final RenderContext renderContext)
-        {
-            paintCalled = true;
-            super.paint(renderContext);
-        }
+	/**
+	 * An interceptor that sets flags when certain methods are called.
+	 *
+	 * @author Yiannis Paschalidis
+	 */
+	private static class MyInterceptor extends InterceptorComponent {
 
-        @Override
-        public void preparePaint(final Request request)
-        {
-            preparePaintCalled = true;
-            super.preparePaint(request);
-        }
+		private boolean paintCalled;
+		private boolean preparePaintCalled;
+		private boolean serviceRequestCalled;
 
-        @Override
-        public void serviceRequest(final Request request)
-        {
-            serviceRequestCalled = true;
-            super.serviceRequest(request);
-        }
-    }
+		MyInterceptor() {
+			super(new WLabel("ContainerHelper_Test"));
+		}
 
-    /**
-     * An ActionEscape implementation that just sets a flag.
-     * @author Yiannis Paschalidis
-     */
-    private static class MyActionEscape extends ActionEscape
-    {
-        /** A flag to indicate whether the escape method has been called. */
-        private boolean escapeCalled = false;
+		@Override
+		public void paint(final RenderContext renderContext) {
+			paintCalled = true;
+			super.paint(renderContext);
+		}
 
-        /** Sets the escapeCalled flag. */
-        @Override
-        public void escape()
-        {
-            escapeCalled = true;
-        }
-    }
+		@Override
+		public void preparePaint(final Request request) {
+			preparePaintCalled = true;
+			super.preparePaint(request);
+		}
 
-    /**
-     * An Escape implementation that just sets a flag.
-     * @author Yiannis Paschalidis
-     */
-    private static class MyEscape extends Escape
-    {
-        /** A flag to indicate whether the escape method has been called. */
-        private boolean escapeCalled = false;
+		@Override
+		public void serviceRequest(final Request request) {
+			serviceRequestCalled = true;
+			super.serviceRequest(request);
+		}
+	}
 
-        /** Sets the escapeCalled flag. */
-        @Override
-        public void escape()
-        {
-            escapeCalled = true;
-        }
-    }
+	/**
+	 * An ActionEscape implementation that just sets a flag.
+	 *
+	 * @author Yiannis Paschalidis
+	 */
+	private static class MyActionEscape extends ActionEscape {
+
+		/**
+		 * A flag to indicate whether the escape method has been called.
+		 */
+		private boolean escapeCalled = false;
+
+		/**
+		 * Sets the escapeCalled flag.
+		 */
+		@Override
+		public void escape() {
+			escapeCalled = true;
+		}
+	}
+
+	/**
+	 * An Escape implementation that just sets a flag.
+	 *
+	 * @author Yiannis Paschalidis
+	 */
+	private static class MyEscape extends Escape {
+
+		/**
+		 * A flag to indicate whether the escape method has been called.
+		 */
+		private boolean escapeCalled = false;
+
+		/**
+		 * Sets the escapeCalled flag.
+		 */
+		@Override
+		public void escape() {
+			escapeCalled = true;
+		}
+	}
 }

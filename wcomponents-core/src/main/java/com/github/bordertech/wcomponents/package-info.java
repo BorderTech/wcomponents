@@ -1,6 +1,7 @@
 /**
  * Contains the core components of the WComponent framework.
- *  
- * <p>TODO: More details here.</p>
+ *
+ * <p>
+ * TODO: More details here.</p>
  */
-package com.github.bordertech.wcomponents; 
+package com.github.bordertech.wcomponents;
