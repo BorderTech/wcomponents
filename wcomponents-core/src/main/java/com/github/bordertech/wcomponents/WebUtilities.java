@@ -529,7 +529,7 @@ public final class WebUtilities
      */
     public static void updateBeanValue(final WComponent component, final boolean visibleOnly)
     {
-        //Do not process if component is invisble and ignore visible is true. Will ignore entire branch from this point.
+        // Do not process if component is invisble and ignore visible is true. Will ignore entire branch from this point.
         if(!component.isVisible() && visibleOnly)
         {
             return;
@@ -557,15 +557,15 @@ public final class WebUtilities
         }
     }
     
-        /**
+     /**
      * Updates the bean value with the current value of the component
-     * and all its bean-bound children. By default this method will process invisible containers and inputs.
+     * and all its bean-bound children. By default this method will only process visible components.
      *
      * @param component the component whose contents need to be copied to the bean.
      */
     public static void updateBeanValue(final WComponent component)
     {
-            updateBeanValue(component, false);
+            updateBeanValue(component, true);
     }
     /**
      * Renders the given WComponent to a String outside of the context of a Servlet. This is good for getting hold of

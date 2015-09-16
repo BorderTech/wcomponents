@@ -593,8 +593,8 @@ public class WebUtilities_Test extends AbstractWComponentTestCase
         
         Assert.assertEquals("updateBeanValue failed to update directChild with visibleOnly=[" + visibleOnly + "]", directChild, beanMap.get(directChild));
         Assert.assertEquals("updateBeanValue failed to update grandChild with visibleOnly=[" + visibleOnly + "]", grandChild, beanMap.get(grandChild));
-        Assert.assertEquals("updateBeanValue updated an incorrect value for invisibleGrandChild with visibleOnly=[" + visibleOnly + "]", BooleanUtils.isTrue(visibleOnly) ? null :invisibleGrandChild, beanMap.get(invisibleGrandChild));
-        Assert.assertEquals("updateBeanValue updated an incorrect value for childOfInvisibleContainer with visibleOnly=[" + visibleOnly + "]", BooleanUtils.isTrue(visibleOnly) ? null : childOfInvisibleContainer, beanMap.get(childOfInvisibleContainer));       
+        Assert.assertEquals("updateBeanValue updated an incorrect value for invisibleGrandChild with visibleOnly=[" + visibleOnly + "]", BooleanUtils.isNotFalse(visibleOnly) ? null :invisibleGrandChild, beanMap.get(invisibleGrandChild));
+        Assert.assertEquals("updateBeanValue updated an incorrect value for childOfInvisibleContainer with visibleOnly=[" + visibleOnly + "]", BooleanUtils.isNotFalse(visibleOnly) ? null : childOfInvisibleContainer, beanMap.get(childOfInvisibleContainer));       
     }
     
 
