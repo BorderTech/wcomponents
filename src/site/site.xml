@@ -5,17 +5,16 @@
 		<src>./images/logo.png</src>
 		<href>https://github.com/BorderTech/wcomponents</href>
 	</bannerLeft>
-	<bannerRight>
+<!--	<bannerRight>
 		<name>WComponents</name>
 		<src>./images/null.png</src>
 		<href>https://github.com/BorderTech/wcomponents</href>
-	</bannerRight>
+	</bannerRight>-->
 	<body>
-		<menu name="Main" inherit="top">
+		<menu name="Main">
 			<item name="Introduction" href="./index.html"/>
-		</menu>
-		<menu name="Get WComponents">
-			<item name="GitHub" href="https://github.com/BorderTech/wcomponents"/>
+			<item name="Find us on GitHub" href="https://github.com/BorderTech/wcomponents"/>
+			<item name="Acknowledgements" href="./acknowledgements.html"/>
 		</menu>
 		<menu name="Other documentation">
 			<item name="SchemaDoc" href="./schema/schema.html" target="_blank"/>
