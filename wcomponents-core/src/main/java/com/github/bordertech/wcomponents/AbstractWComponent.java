@@ -29,28 +29,25 @@ import org.apache.commons.logging.LogFactory;
  * AbstractWComponent is the parent class of all standard WComponents
  * </p>
  * <p>
- * WComponent trees (UIs) are intended to be shared between sessions in order to reduce their memory
- * footprint. To achive this a class called UIContext has been introduced to store WComponent
- * information specific to an individual session. Each session has its own UIContext instance which
- * is passed to the component tree whenever it needs to handle events and paint.
+ * WComponent trees (UIs) are intended to be shared between sessions in order to reduce their memory footprint. To
+ * achive this a class called UIContext has been introduced to store WComponent information specific to an individual
+ * session. Each session has its own UIContext instance which is passed to the component tree whenever it needs to
+ * handle events and paint.
  * </p>
  * <p>
- * The attributes of a WComponent have an initial shared value that can be overridden on a per
- * session basis. We call this a private attribute value. The methods that manipulate a components
- * attributes will normally have two method signatures. One will manipulate the shared value and
- * does not require a UIContext to be passed. The other will manipulate the private session based
- * value and will include a UIContext as the first parameter. The methods that access a components
- * attributes only require one method signature. Accessor methods will include a UIContext as their
- * first parameter. They will return the private attribute value if one exists else the shared
- * value.
+ * The attributes of a WComponent have an initial shared value that can be overridden on a per session basis. We call
+ * this a private attribute value. The methods that manipulate a components attributes will normally have two method
+ * signatures. One will manipulate the shared value and does not require a UIContext to be passed. The other will
+ * manipulate the private session based value and will include a UIContext as the first parameter. The methods that
+ * access a components attributes only require one method signature. Accessor methods will include a UIContext as their
+ * first parameter. They will return the private attribute value if one exists else the shared value.
  * </p>
  * <p>
- * The shared/private concept makes WComponents very flexible but has the dangerous ramification
- * that it is easy to accidentaly dynamically share attribute values and even whole chunks of UI
- * with everyone. To reduce this risk, it is possible to lock a component and all its children. When
- * the lock is set, it becomes impossible to update a shared value. Trying to update a shared value
- * will result in a runtime exception. The intention is that shared component trees will be held in
- * a registry. Adding a component tree to a registry would be a sensible time to lock it.
+ * The shared/private concept makes WComponents very flexible but has the dangerous ramification that it is easy to
+ * accidentaly dynamically share attribute values and even whole chunks of UI with everyone. To reduce this risk, it is
+ * possible to lock a component and all its children. When the lock is set, it becomes impossible to update a shared
+ * value. Trying to update a shared value will result in a runtime exception. The intention is that shared component
+ * trees will be held in a registry. Adding a component tree to a registry would be a sensible time to lock it.
  * </p>
  *
  * @author James Gifford, Martin Shevchenko
@@ -64,8 +61,8 @@ public abstract class AbstractWComponent implements WComponent {
 	private static final Log LOG = LogFactory.getLog(AbstractWComponent.class);
 
 	/**
-	 * Indicates whether this component is locked. Trying to update a shared value will result in a
-	 * runtime exception when a component is locked.
+	 * Indicates whether this component is locked. Trying to update a shared value will result in a runtime exception
+	 * when a component is locked.
 	 */
 	private boolean locked = false;
 
@@ -80,9 +77,9 @@ public abstract class AbstractWComponent implements WComponent {
 	private static final Pattern ID_PATTERN = Pattern.compile(ID_VALIDATION_PATTERN);
 
 	/**
-	 * This flag controls if component ids should be checked for duplicates. As verifying requires
-	 * extra resources and memory, this can be disabled if required. It is encouraged projects at
-	 * least have this set true in development environment.
+	 * This flag controls if component ids should be checked for duplicates. As verifying requires extra resources and
+	 * memory, this can be disabled if required. It is encouraged projects at least have this set true in development
+	 * environment.
 	 */
 	private static final boolean CHECK_DUPLICATE_IDS = Config.getInstance()
 			.getBoolean("bordertech.wcomponents.check.duplicate.ids.enabled", true);
@@ -212,7 +209,8 @@ public abstract class AbstractWComponent implements WComponent {
 
 		// Log warning if an Active Naming Context has no id name
 		if (this instanceof NamingContextable && ((NamingContextable) this).isNamingContext() && idName == null) {
-			LOG.warn("NamingContext [ID:" + name + "] does not have an id name set. Will be ignored.");
+			LOG.warn(
+					"NamingContext [ID:" + name + "] does not have an id name set. Will be ignored.");
 		}
 
 		return name;
@@ -367,7 +365,8 @@ public abstract class AbstractWComponent implements WComponent {
 			ids.put(idName, component);
 		} else if (mapped != component) { // Check is same component
 			String contextName = getId();
-			throw new SystemException("Duplicate ID. ID \"" + idName + "\" for " + component.getClass().getName()
+			throw new SystemException("Duplicate ID. ID \"" + idName + "\" for " + component.
+					getClass().getName()
 					+ " is already in use by " + mapped.getClass().getName() + " in context \"" + contextName + "\".");
 		}
 
@@ -386,10 +385,9 @@ public abstract class AbstractWComponent implements WComponent {
 
 	/**
 	 * <p>
-	 * Retrieves a short-lived map which can be used to cache data during request processing. This
-	 * map will be guaranteed to be cleared at the end of processing a request, but may also be
-	 * cleared during request processing. Do not rely on the contents of this map to exist at any
-	 * time.
+	 * Retrieves a short-lived map which can be used to cache data during request processing. This map will be
+	 * guaranteed to be cleared at the end of processing a request, but may also be cleared during request processing.
+	 * Do not rely on the contents of this map to exist at any time.
 	 * </p>
 	 * <p>
 	 * This method will return <code>null</code> if called outside of request processing.
@@ -430,9 +428,8 @@ public abstract class AbstractWComponent implements WComponent {
 	}
 
 	/**
-	 * Collates all the visible components in this branch of the WComponent tree. WComponents are
-	 * added to the <code>list</code> in depth-first order, as this list is traversed in order
-	 * during the request handling phase.
+	 * Collates all the visible components in this branch of the WComponent tree. WComponents are added to the
+	 * <code>list</code> in depth-first order, as this list is traversed in order during the request handling phase.
 	 *
 	 * @param component the current branch to collate visible items in.
 	 * @param list the list to add the visible components to.
@@ -452,8 +449,8 @@ public abstract class AbstractWComponent implements WComponent {
 	}
 
 	/**
-	 * The framework calls this method at the end of the serviceRequest method. The default
-	 * implementation is that only a root wcomponent actually runs them.
+	 * The framework calls this method at the end of the serviceRequest method. The default implementation is that only
+	 * a root wcomponent actually runs them.
 	 */
 	protected void invokeLaters() {
 		if (getParent() == null) {
@@ -512,8 +509,7 @@ public abstract class AbstractWComponent implements WComponent {
 	}
 
 	/**
-	 * Directly associates Velocity mark-up with this component. The mark-up will be used for
-	 * rendering.
+	 * Directly associates Velocity mark-up with this component. The mark-up will be used for rendering.
 	 *
 	 * @param markUp Velocity mark-up.
 	 */
@@ -540,8 +536,8 @@ public abstract class AbstractWComponent implements WComponent {
 	}
 
 	/**
-	 * Associates a velocity template with this component. A simple mapping is applied to the given
-	 * class to derive the name of a velocity template.
+	 * Associates a velocity template with this component. A simple mapping is applied to the given class to derive the
+	 * name of a velocity template.
 	 * <p/>
 	 * For instance, com.github.bordertech.wcomponents.WTextField would map to the template
 	 * com/github/bordertech/wcomponents/WTextField.vm
@@ -555,10 +551,9 @@ public abstract class AbstractWComponent implements WComponent {
 	}
 
 	/**
-	 * Prepares this component and all child componenents for painting (e.g. rendering to XML). This
-	 * implementation calls {@link #preparePaintComponent(Request)}, then calls
-	 * {@link #preparePaint(Request)} on all its children. Note that the this component's
-	 * {@link #preparePaintComponent(Request)} is called before the childrens'
+	 * Prepares this component and all child componenents for painting (e.g. rendering to XML). This implementation
+	 * calls {@link #preparePaintComponent(Request)}, then calls {@link #preparePaint(Request)} on all its children.
+	 * Note that the this component's {@link #preparePaintComponent(Request)} is called before the childrens'
 	 * {@link #preparePaintComponent(Request)} is called.
 	 *
 	 * @param request the request being responded to.
@@ -574,7 +569,8 @@ public abstract class AbstractWComponent implements WComponent {
 		preparePaintComponent(request);
 
 		// Prepare its children.
-		final ArrayList<WComponent> children = (ArrayList<WComponent>) getComponentModel().getChildren();
+		final ArrayList<WComponent> children = (ArrayList<WComponent>) getComponentModel().
+				getChildren();
 
 		if (children != null) {
 			final int size = children.size();
@@ -592,9 +588,8 @@ public abstract class AbstractWComponent implements WComponent {
 	}
 
 	/**
-	 * Subclasses may override this method to place the component in the correct state before it is
-	 * painted. When overriding this method, it is good practice to also call the superclass
-	 * implementation.
+	 * Subclasses may override this method to place the component in the correct state before it is painted. When
+	 * overriding this method, it is good practice to also call the superclass implementation.
 	 *
 	 * @param request the request being responded to.
 	 */
@@ -638,8 +633,8 @@ public abstract class AbstractWComponent implements WComponent {
 	}
 
 	/**
-	 * Subclasses may override this method to output content before the component has been painted.
-	 * When overriding this method, it is good practice to call the superclass implementation
+	 * Subclasses may override this method to output content before the component has been painted. When overriding this
+	 * method, it is good practice to call the superclass implementation
 	 * <b>after</b> emitting any additional content.
 	 *
 	 * @param renderContext the context to render to.
@@ -649,8 +644,8 @@ public abstract class AbstractWComponent implements WComponent {
 	}
 
 	/**
-	 * Subclasses may override this method to output content after the component has been painted.
-	 * When overriding this method, it is good practice to call the superclass implementation
+	 * Subclasses may override this method to output content after the component has been painted. When overriding this
+	 * method, it is good practice to call the superclass implementation
 	 * <b>before</b> emitting any additional content.
 	 *
 	 * @param renderContext the context to render to.
@@ -660,10 +655,9 @@ public abstract class AbstractWComponent implements WComponent {
 	}
 
 	/**
-	 * This is where most of the painting work is normally done. If a layout has been supplied
-	 * either directly or by supplying a velocity template, then painting is delegated to the layout
-	 * manager. If there is no layout, the default behaviour is to paint the child components in
-	 * sequence.
+	 * This is where most of the painting work is normally done. If a layout has been supplied either directly or by
+	 * supplying a velocity template, then painting is delegated to the layout manager. If there is no layout, the
+	 * default behaviour is to paint the child components in sequence.
 	 *
 	 * @param renderContext the context to render to.
 	 */
@@ -797,8 +791,8 @@ public abstract class AbstractWComponent implements WComponent {
 
 	/**
 	 * <p>
-	 * This does not affect the diag list at all. The ValidatableComponent should visually mark any
-	 * fields or blocks that have errors in the given diag list.
+	 * This does not affect the diag list at all. The ValidatableComponent should visually mark any fields or blocks
+	 * that have errors in the given diag list.
 	 * </p>
 	 *
 	 * @param diags the list of diagnostics for this component.
@@ -832,8 +826,8 @@ public abstract class AbstractWComponent implements WComponent {
 
 	/**
 	 * <p>
-	 * This does not affect the diag list at all. The ValidatableComponent should visually mark any
-	 * fields or blocks that have warnings in the given diag list.
+	 * This does not affect the diag list at all. The ValidatableComponent should visually mark any fields or blocks
+	 * that have warnings in the given diag list.
 	 * </p>
 	 *
 	 * @param diags the list of diagnostics for this component.
@@ -922,8 +916,8 @@ public abstract class AbstractWComponent implements WComponent {
 
 	/**
 	 * <p>
-	 * Sets the client visibility of this component. Hidden components take part in event handling
-	 * and painting, but are not visible on the client.
+	 * Sets the client visibility of this component. Hidden components take part in event handling and painting, but are
+	 * not visible on the client.
 	 * <p>
 	 *
 	 * @param hidden true for hidden, false for displayed.
@@ -959,7 +953,8 @@ public abstract class AbstractWComponent implements WComponent {
 			if (idName != null) {
 				return true;
 			}
-			LOG.warn("Trying to track a component that has no id name set. Tracking will be ignored. [" + getId() + " "
+			LOG.warn(
+					"Trying to track a component that has no id name set. Tracking will be ignored. [" + getId() + " "
 					+ this.getClass().getName() + "]");
 		}
 		return false;
@@ -993,8 +988,7 @@ public abstract class AbstractWComponent implements WComponent {
 	}
 
 	/**
-	 * Indicates whether any of the given flags are set. This is normally used to only check a
-	 * single flag at a time.
+	 * Indicates whether any of the given flags are set. This is normally used to only check a single flag at a time.
 	 *
 	 * @param mask the bit mask for the flags to check.
 	 * @return true if any flags are set, false otherwise.
@@ -1005,8 +999,8 @@ public abstract class AbstractWComponent implements WComponent {
 	}
 
 	/**
-	 * A utility method check whether any of the given flags are set. This is normally used to only
-	 * check a single flag at a time.
+	 * A utility method check whether any of the given flags are set. This is normally used to only check a single flag
+	 * at a time.
 	 *
 	 * @param flags the current set of flags.
 	 * @param mask the bit mask for the flags to set/clear.
@@ -1066,8 +1060,8 @@ public abstract class AbstractWComponent implements WComponent {
 	// --------------------------------
 	// Extrinsic state management
 	/**
-	 * Creates a new model appropriate for the type of component. Subclasses can override, and
-	 * should narrow the return type.
+	 * Creates a new model appropriate for the type of component. Subclasses can override, and should narrow the return
+	 * type.
 	 *
 	 * @return a new ComponentModel.
 	 */
@@ -1077,8 +1071,8 @@ public abstract class AbstractWComponent implements WComponent {
 
 	/**
 	 * <p>
-	 * Performs initialisation that is required on this components model, and potentially its
-	 * children. Subclasses can override.
+	 * Performs initialisation that is required on this components model, and potentially its children. Subclasses can
+	 * override.
 	 * </p>
 	 * <p>
 	 * Note that the user's component model will automatically be populated from the shared model.
@@ -1100,8 +1094,8 @@ public abstract class AbstractWComponent implements WComponent {
 	}
 
 	/**
-	 * Returns the effective component model for this component. Subclass may override this method
-	 * to narrow the return type to their specific model type.
+	 * Returns the effective component model for this component. Subclass may override this method to narrow the return
+	 * type to their specific model type.
 	 *
 	 * @return the effective component model
 	 */
@@ -1126,8 +1120,8 @@ public abstract class AbstractWComponent implements WComponent {
 	}
 
 	/**
-	 * Returns the shared component model for this component. Subclass may override this method to
-	 * narrow the return type to their specific model type.
+	 * Returns the shared component model for this component. Subclass may override this method to narrow the return
+	 * type to their specific model type.
 	 *
 	 * @return the shared component model
 	 */
@@ -1136,10 +1130,9 @@ public abstract class AbstractWComponent implements WComponent {
 	}
 
 	/**
-	 * Retrieves the model for this component so that it can be modified. If this method is called
-	 * during request processing, and a session specific model does not yet exist, then a new model
-	 * is created. Subclasses may override this method to narrow the return type to their specific
-	 * model type.
+	 * Retrieves the model for this component so that it can be modified. If this method is called during request
+	 * processing, and a session specific model does not yet exist, then a new model is created. Subclasses may override
+	 * this method to narrow the return type to their specific model type.
 	 *
 	 * @return the model for this component
 	 */
@@ -1163,12 +1156,11 @@ public abstract class AbstractWComponent implements WComponent {
 
 	/**
 	 * <p>
-	 * Resets this component and its children to their initial state for the given user context /
-	 * session.
+	 * Resets this component and its children to their initial state for the given user context / session.
 	 * </p>
 	 * <p>
-	 * <b>NOTE:</b> The exception to this rule is if this component has been dynamically added to
-	 * the UI, then the parent component will differ from the initial state.
+	 * <b>NOTE:</b> The exception to this rule is if this component has been dynamically added to the UI, then the
+	 * parent component will differ from the initial state.
 	 * </p>
 	 */
 	@Override
@@ -1222,7 +1214,8 @@ public abstract class AbstractWComponent implements WComponent {
 			// method was initially called has now been reset.
 			// If the component was dynamically added
 			// and the dynamic parent still has this component as a child
-			if ((dynamicParent != null && getParent() != dynamicParent) && getIndexOfChild(dynamicParent, this) != -1) {
+			if ((dynamicParent != null && getParent() != dynamicParent) && getIndexOfChild(
+					dynamicParent, this) != -1) {
 				// then re-instate the reference to the dynamic parent.
 				getOrCreateComponentModel().setParent(dynamicParent);
 			}
@@ -1304,8 +1297,7 @@ public abstract class AbstractWComponent implements WComponent {
 	 * Retrieves the index of the given child.
 	 *
 	 * @param childComponent the child component to retrieve the index for.
-	 * @return the index of the given child component, or -1 if the component is not a child of this
-	 * component.
+	 * @return the index of the given child component, or -1 if the component is not a child of this component.
 	 */
 	int getIndexOfChild(final WComponent childComponent) {
 		ComponentModel model = getComponentModel();
@@ -1315,14 +1307,14 @@ public abstract class AbstractWComponent implements WComponent {
 	}
 
 	/**
-	 * Internal utility method to find the index of a child within a container. This method makes
-	 * use of the additional methods offered by the AbstractWComponent implementation (if
-	 * available), otherwise it falls back the methods declared in the {@link WComponent} interface.
+	 * Internal utility method to find the index of a child within a container. This method makes use of the additional
+	 * methods offered by the AbstractWComponent implementation (if available), otherwise it falls back the methods
+	 * declared in the {@link WComponent} interface.
 	 *
 	 * @param parent the container to search for the child in
 	 * @param childComponent the component to search for.
-	 * @return the index of the <code>childComponent</code> in <code>parent</code>, or -1 if
-	 * <code>childComponent</code> is not a child of <code>parent</code>.
+	 * @return the index of the <code>childComponent</code> in <code>parent</code>, or -1 if <code>childComponent</code>
+	 * is not a child of <code>parent</code>.
 	 */
 	private static int getIndexOfChild(final Container parent, final WComponent childComponent) {
 		if (parent instanceof AbstractWComponent) {
@@ -1371,8 +1363,8 @@ public abstract class AbstractWComponent implements WComponent {
 	}
 
 	/**
-	 * Adds the given component as a child of this component. The tag is used to identify the child
-	 * in a velocity template.
+	 * Adds the given component as a child of this component. The tag is used to identify the child in a velocity
+	 * template.
 	 *
 	 * @param component the component to add.
 	 * @param tag the tag used to identify the component.
@@ -1383,9 +1375,8 @@ public abstract class AbstractWComponent implements WComponent {
 	}
 
 	/**
-	 * Some components may wish to throw an Exception if certain types of components can not be
-	 * added. This implementation does nothing, and is here so that e.g. sub-classes do not have to
-	 * override multiple add methods.
+	 * Some components may wish to throw an Exception if certain types of components can not be added. This
+	 * implementation does nothing, and is here so that e.g. sub-classes do not have to override multiple add methods.
 	 *
 	 * @param componentToAdd the component being added.
 	 */
@@ -1452,8 +1443,8 @@ public abstract class AbstractWComponent implements WComponent {
 	}
 
 	/**
-	 * Ensure that the given component is not about to be re-parented. If it is then this method
-	 * throws a runtime exception to inform the developer of their mistake.
+	 * Ensure that the given component is not about to be re-parented. If it is then this method throws a runtime
+	 * exception to inform the developer of their mistake.
 	 *
 	 * @param component the component to check.
 	 */
@@ -1464,8 +1455,7 @@ public abstract class AbstractWComponent implements WComponent {
 	}
 
 	/**
-	 * Called when an attempt is made to add a component to more than one parent. Throws a runtime
-	 * exception.
+	 * Called when an attempt is made to add a component to more than one parent. Throws a runtime exception.
 	 */
 	private static void throwReparentingException() {
 		String msg = "Reparenting error. A wcomponent instance can only be added as a child to one parent wcomponent.";
@@ -1474,16 +1464,16 @@ public abstract class AbstractWComponent implements WComponent {
 	}
 
 	/**
-	 * Notifies this component that it now has a parent component. Subclasses can override this to
-	 * perform any additional processing required. The default implementation does nothing.
+	 * Notifies this component that it now has a parent component. Subclasses can override this to perform any
+	 * additional processing required. The default implementation does nothing.
 	 */
 	protected void addNotify() {
 		// NOP
 	}
 
 	/**
-	 * Notifies this component that it no longer has a parent component. Subclasses can override
-	 * this to perform any additional processing required. The default implementation does nothing.
+	 * Notifies this component that it no longer has a parent component. Subclasses can override this to perform any
+	 * additional processing required. The default implementation does nothing.
 	 */
 	protected void removeNotify() {
 		// NOP
@@ -1667,7 +1657,8 @@ public abstract class AbstractWComponent implements WComponent {
 		// which is not particularly useful, so we recurse until we find a suitable one.
 		String className = null;
 
-		for (Class<?> clazz = getClass(); Util.empty(className) && clazz != null; clazz = clazz.getSuperclass()) {
+		for (Class<?> clazz = getClass(); Util.empty(className) && clazz != null; clazz = clazz.
+				getSuperclass()) {
 			className = clazz.getSimpleName();
 		}
 
@@ -1732,18 +1723,16 @@ public abstract class AbstractWComponent implements WComponent {
 	// Serialization
 	/**
 	 * <p>
-	 * This class is used to hold a reference to the shared singleton instance of a wcomponent for
-	 * the purpose of serialisation. Serialization of WComponent session information is tricky
-	 * because of the separation of the session state data (the UIContext) and the shared
-	 * application definition (the wcompontent stored in the UIRegistry). When serializing a
-	 * UIContext, we don't want to serialize the entire shared application definition in each users
-	 * session. The problem is that the data stored in the UIContext is keyed using the shared
-	 * WComponent instances, so we must convert them all to references in order to prevent the
-	 * entire application from being serialized.
+	 * This class is used to hold a reference to the shared singleton instance of a wcomponent for the purpose of
+	 * serialisation. Serialization of WComponent session information is tricky because of the separation of the session
+	 * state data (the UIContext) and the shared application definition (the wcompontent stored in the UIRegistry). When
+	 * serializing a UIContext, we don't want to serialize the entire shared application definition in each users
+	 * session. The problem is that the data stored in the UIContext is keyed using the shared WComponent instances, so
+	 * we must convert them all to references in order to prevent the entire application from being serialized.
 	 * </p>
 	 * <p>
-	 * This extends WComponent in order to fulfil the readResolve contract, however it overrides
-	 * writeObject/readObject to only write out the data needed to find the shared instance.
+	 * This extends WComponent in order to fulfil the readResolve contract, however it overrides writeObject/readObject
+	 * to only write out the data needed to find the shared instance.
 	 * </p>
 	 *
 	 * @author Yiannis Paschalidis
@@ -1751,8 +1740,8 @@ public abstract class AbstractWComponent implements WComponent {
 	public static final class WComponentRef extends AbstractWComponent {
 
 		/**
-		 * The UIRegistry key under which the UI root component is registered. This is assumed to be
-		 * the fully qualified class name of the root component.
+		 * The UIRegistry key under which the UI root component is registered. This is assumed to be the fully qualified
+		 * class name of the root component.
 		 */
 		private String repositoryKey;
 
@@ -1796,7 +1785,8 @@ public abstract class AbstractWComponent implements WComponent {
 		 * @throws ClassNotFoundException if the class can't be found.
 		 * @see java.io.Serializable
 		 */
-		private void readObject(final ObjectInputStream in) throws IOException, ClassNotFoundException {
+		private void readObject(final ObjectInputStream in) throws IOException,
+				ClassNotFoundException {
 			repositoryKey = (String) in.readObject();
 			int len = in.readInt();
 			nodeLocation = new int[len];
@@ -1807,18 +1797,18 @@ public abstract class AbstractWComponent implements WComponent {
 		}
 
 		/**
-		 * Implement readResolve so that on deserialization, the WComponent that is referred to by
-		 * this WComponentRef is returned. The WComponent
+		 * Implement readResolve so that on deserialization, the WComponent that is referred to by this WComponentRef is
+		 * returned. The WComponent
 		 *
 		 * @return the WComponent instance that is registered with the registry.
-		 * @throws ObjectStreamException never, but Serializable requires this method signature to
-		 * declare it.
+		 * @throws ObjectStreamException never, but Serializable requires this method signature to declare it.
 		 * @see java.io.Serializable
 		 */
 		private Object readResolve() throws ObjectStreamException {
 			if (repositoryKey == null || nodeLocation == null) {
 				// Should not happen
-				throw new IllegalStateException("Unable to resolve component in repository '" + repositoryKey + '\'');
+				throw new IllegalStateException(
+						"Unable to resolve component in repository '" + repositoryKey + '\'');
 			}
 
 			WComponent comp = UIRegistry.getInstance().getUI(repositoryKey);
@@ -1852,14 +1842,12 @@ public abstract class AbstractWComponent implements WComponent {
 	}
 
 	/**
-	 * Implement writeReplace so that on serialization, WComponents that are registered in the
-	 * UIRegistry write a reference to the registered component rather than the component itself.
-	 * This ensures that, on deserialization, only one copy of the registered component will be
-	 * present in the VM.
+	 * Implement writeReplace so that on serialization, WComponents that are registered in the UIRegistry write a
+	 * reference to the registered component rather than the component itself. This ensures that, on deserialization,
+	 * only one copy of the registered component will be present in the VM.
 	 *
 	 * @return the WComponent instance that is registered with the registry.
-	 * @throws ObjectStreamException never, but Serializable requires this method signature to
-	 * declare it.
+	 * @throws ObjectStreamException never, but Serializable requires this method signature to declare it.
 	 * @see java.io.Serializable
 	 */
 	protected Object writeReplace() throws ObjectStreamException {
@@ -1897,12 +1885,15 @@ public abstract class AbstractWComponent implements WComponent {
 			WComponentRef ref = new WComponentRef(repositoryKey, nodeLocation);
 
 			if (LOG.isDebugEnabled()) {
-				LOG.debug("WComponent converted to reference. Ref = " + ref + ". Component = " + getClass().getName());
+				LOG.debug(
+						"WComponent converted to reference. Ref = " + ref + ". Component = " + getClass().
+						getName());
 			}
 
 			return ref;
 		} else {
-			LOG.debug("WComponent not accessible via the repository, so it will be serialised. Component = "
+			LOG.debug(
+					"WComponent not accessible via the repository, so it will be serialised. Component = "
 					+ getClass().getName());
 
 			return this;
@@ -1910,8 +1901,8 @@ public abstract class AbstractWComponent implements WComponent {
 	}
 
 	/**
-	 * A Utility method which returns the (replaced) serialized form of a WComponent. This method is
-	 * only exposed for internal instrumentation (by UicStats).
+	 * A Utility method which returns the (replaced) serialized form of a WComponent. This method is only exposed for
+	 * internal instrumentation (by UicStats).
 	 *
 	 * @param component the component to serialize.
 	 * @return the serialized form of the component.

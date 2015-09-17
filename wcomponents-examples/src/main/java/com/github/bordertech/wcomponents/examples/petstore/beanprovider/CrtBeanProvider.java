@@ -7,8 +7,8 @@ import com.github.bordertech.wcomponents.util.LookupTable;
 import java.util.List;
 
 /**
- * CrtBeanProvider is a beanProvider that provides data from a CRT. The provider can be used to
- * look-up a single or multiple entries, depending on which constructor is used.
+ * CrtBeanProvider is a beanProvider that provides data from a CRT. The provider can be used to look-up a single or
+ * multiple entries, depending on which constructor is used.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -21,14 +21,13 @@ public class CrtBeanProvider implements BeanProvider {
 	private final String lookupTableName;
 
 	/**
-	 * The table code that will be used to look up the value. If null, the bound component will
-	 * provide the code.
+	 * The table code that will be used to look up the value. If null, the bound component will provide the code.
 	 */
 	private final String tableCode;
 
 	/**
-	 * Creates a CrtBeanProvider that will use the given Crt, and the code from the bound component.
-	 * The value returned by this provided will vary depending on the Crt and bound component.
+	 * Creates a CrtBeanProvider that will use the given Crt, and the code from the bound component. The value returned
+	 * by this provided will vary depending on the Crt and bound component.
 	 *
 	 * @param lookupTableName the crt name.
 	 */
@@ -37,8 +36,8 @@ public class CrtBeanProvider implements BeanProvider {
 	}
 
 	/**
-	 * Creates a CrtBeanProvider that will use the given Crt name and code. This provider will then
-	 * only return one value from the Crt.
+	 * Creates a CrtBeanProvider that will use the given Crt name and code. This provider will then only return one
+	 * value from the Crt.
 	 *
 	 * @param lookupTableName the Crt name.
 	 * @param tableCode the Crt key that will be use to look up the value.

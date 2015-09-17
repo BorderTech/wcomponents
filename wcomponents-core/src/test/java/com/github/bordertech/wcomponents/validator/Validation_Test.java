@@ -39,7 +39,8 @@ public class Validation_Test extends AbstractWComponentTestCase {
 		textField.setText("Blah");
 		diags.clear();
 		textField.validate(diags);
-		Assert.assertEquals("Diags should be empty when mandatory field is filled in", 0, diags.size());
+		Assert.assertEquals("Diags should be empty when mandatory field is filled in", 0, diags.
+				size());
 	}
 
 	@Test
@@ -64,7 +65,8 @@ public class Validation_Test extends AbstractWComponentTestCase {
 		Assert.assertEquals("Diags should contain mandatory validation error", 1, diags.size());
 
 		diag = diags.get(0);
-		Assert.assertTrue("Incorrect custom error text", diag.getDescription().startsWith("Must have"));
+		Assert.assertTrue("Incorrect custom error text", diag.getDescription().startsWith(
+				"Must have"));
 	}
 
 	@Test

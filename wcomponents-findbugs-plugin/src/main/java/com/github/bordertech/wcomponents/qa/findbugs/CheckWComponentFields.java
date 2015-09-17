@@ -49,7 +49,8 @@ public class CheckWComponentFields extends BytecodeScanningDetector {
 		if (!obj.isFinal() && !obj.isStatic()) {
 			FieldAnnotation ann = FieldAnnotation.fromVisitedField(this);
 
-			util.getBugReporter().reportBug(new BugInstance(this, "WCF_NON_FINAL_WCOMPONENT_FIELD", HIGH_PRIORITY)
+			util.getBugReporter().reportBug(new BugInstance(this, "WCF_NON_FINAL_WCOMPONENT_FIELD",
+					HIGH_PRIORITY)
 					.addClass(this)
 					.addField(ann));
 		}
@@ -58,7 +59,8 @@ public class CheckWComponentFields extends BytecodeScanningDetector {
 		if (util.isComponentModel(util.getClassNameFromSignature(obj.getType().getSignature()))) {
 			FieldAnnotation ann = FieldAnnotation.fromVisitedField(this);
 
-			util.getBugReporter().reportBug(new BugInstance(this, "WCF_COMPONENT_MODEL_FIELD", HIGH_PRIORITY)
+			util.getBugReporter().reportBug(new BugInstance(this, "WCF_COMPONENT_MODEL_FIELD",
+					HIGH_PRIORITY)
 					.addClass(this)
 					.addField(ann));
 		}
@@ -67,7 +69,8 @@ public class CheckWComponentFields extends BytecodeScanningDetector {
 		if (util.isUIContext(util.getClassNameFromSignature(obj.getType().getSignature()))) {
 			FieldAnnotation ann = FieldAnnotation.fromVisitedField(this);
 
-			util.getBugReporter().reportBug(new BugInstance(this, "WCF_UICONTEXT_FIELD", HIGH_PRIORITY)
+			util.getBugReporter().reportBug(new BugInstance(this, "WCF_UICONTEXT_FIELD",
+					HIGH_PRIORITY)
 					.addClass(this)
 					.addField(ann));
 		}

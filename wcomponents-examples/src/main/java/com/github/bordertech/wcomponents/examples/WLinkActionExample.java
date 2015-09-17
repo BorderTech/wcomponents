@@ -59,7 +59,8 @@ public class WLinkActionExample extends WPanel {
 		Action action2 = new Action() {
 			@Override
 			public void execute(final ActionEvent event) {
-				messages.addMessage(new Message(Message.SUCCESS_MESSAGE, link2.getText() + " clicked"));
+				messages.addMessage(new Message(Message.SUCCESS_MESSAGE,
+						link2.getText() + " clicked"));
 			}
 		};
 		link2.setAction(action2, this);
@@ -70,7 +71,8 @@ public class WLinkActionExample extends WPanel {
 		Action action3 = new Action() {
 			@Override
 			public void execute(final ActionEvent event) {
-				messages.addMessage(new Message(Message.SUCCESS_MESSAGE, link3.getText() + " clicked"));
+				messages.addMessage(new Message(Message.SUCCESS_MESSAGE,
+						link3.getText() + " clicked"));
 			}
 		};
 		link3.setAction(action3, this);
@@ -87,7 +89,8 @@ public class WLinkActionExample extends WPanel {
 		Action action4 = new Action() {
 			@Override
 			public void execute(final ActionEvent event) {
-				messages.addMessage(new Message(Message.SUCCESS_MESSAGE, link4.getText() + " clicked"));
+				messages.addMessage(new Message(Message.SUCCESS_MESSAGE,
+						link4.getText() + " clicked"));
 				text.setText("Link Action: " + new Date().toString());
 			}
 		};
@@ -100,7 +103,8 @@ public class WLinkActionExample extends WPanel {
 		Action action5 = new Action() {
 			@Override
 			public void execute(final ActionEvent event) {
-				messages.addMessage(new Message(Message.SUCCESS_MESSAGE, link5.getText() + " clicked"));
+				messages.addMessage(new Message(Message.SUCCESS_MESSAGE,
+						link5.getText() + " clicked"));
 			}
 		};
 		link5.setAction(action5, this);

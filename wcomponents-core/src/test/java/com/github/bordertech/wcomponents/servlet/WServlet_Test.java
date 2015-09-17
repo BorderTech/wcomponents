@@ -64,13 +64,15 @@ public class WServlet_Test extends AbstractWComponentTestCase {
 		UIContext uic = getContextForSession(servlet, session1);
 		setActiveContext(uic);
 
-		Assert.assertEquals("Incorrect handle request count for session1", 2, content.getHandleRequestCount());
+		Assert.assertEquals("Incorrect handle request count for session1", 2, content.
+				getHandleRequestCount());
 		Assert.assertEquals("Incorrect paint count for session1", 2, content.getPaintCount());
 
 		uic = getContextForSession(servlet, session2);
 		setActiveContext(uic);
 
-		Assert.assertEquals("Incorrect handle request count for session2", 1, content.getHandleRequestCount());
+		Assert.assertEquals("Incorrect handle request count for session2", 1, content.
+				getHandleRequestCount());
 		Assert.assertEquals("Incorrect paint count for session2", 1, content.getPaintCount());
 	}
 
@@ -122,19 +124,33 @@ public class WServlet_Test extends AbstractWComponentTestCase {
 
 		// check handle request / paint counts for each session - label should not have been painted for either.
 		setActiveContext(uic1);
-		Assert.assertEquals("HandleRequest should have been called for main panel in session1", 1, ui.mainPanel.getHandleRequestCount());
-		Assert.assertEquals("HandleRequest should have been called for ajax panel in session1", 1, ui.ajaxPanel.getHandleRequestCount());
-		Assert.assertEquals("HandleRequest should have been called for label panel in session1", 1, ui.label.getHandleRequestCount());
-		Assert.assertEquals("Main panel should have painted in session1", 1, ui.mainPanel.getPaintCount());
-		Assert.assertEquals("Ajax panel should have painted in session1", 1, ui.ajaxPanel.getPaintCount());
-		Assert.assertEquals("Label should not have painted in session1", 0, ui.label.getPaintCount());
+		Assert.assertEquals("HandleRequest should have been called for main panel in session1", 1,
+				ui.mainPanel.getHandleRequestCount());
+		Assert.assertEquals("HandleRequest should have been called for ajax panel in session1", 1,
+				ui.ajaxPanel.getHandleRequestCount());
+		Assert.assertEquals("HandleRequest should have been called for label panel in session1", 1,
+				ui.label.getHandleRequestCount());
+		Assert.assertEquals("Main panel should have painted in session1", 1, ui.mainPanel.
+				getPaintCount());
+		Assert.assertEquals("Ajax panel should have painted in session1", 1, ui.ajaxPanel.
+				getPaintCount());
+		Assert.
+				assertEquals("Label should not have painted in session1", 0, ui.label.
+						getPaintCount());
 		setActiveContext(uic2);
-		Assert.assertEquals("HandleRequest should have been called for main panel in session2", 1, ui.mainPanel.getHandleRequestCount());
-		Assert.assertEquals("HandleRequest should have been called for ajax panel in session2", 1, ui.ajaxPanel.getHandleRequestCount());
-		Assert.assertEquals("HandleRequest should have been called for label panel in session2", 1, ui.label.getHandleRequestCount());
-		Assert.assertEquals("Main panel should have painted in session2", 1, ui.mainPanel.getPaintCount());
-		Assert.assertEquals("Ajax panel should have painted in session2", 1, ui.ajaxPanel.getPaintCount());
-		Assert.assertEquals("Label should not have painted in session2", 0, ui.label.getPaintCount());
+		Assert.assertEquals("HandleRequest should have been called for main panel in session2", 1,
+				ui.mainPanel.getHandleRequestCount());
+		Assert.assertEquals("HandleRequest should have been called for ajax panel in session2", 1,
+				ui.ajaxPanel.getHandleRequestCount());
+		Assert.assertEquals("HandleRequest should have been called for label panel in session2", 1,
+				ui.label.getHandleRequestCount());
+		Assert.assertEquals("Main panel should have painted in session2", 1, ui.mainPanel.
+				getPaintCount());
+		Assert.assertEquals("Ajax panel should have painted in session2", 1, ui.ajaxPanel.
+				getPaintCount());
+		Assert.
+				assertEquals("Label should not have painted in session2", 0, ui.label.
+						getPaintCount());
 
 // TODO Review what test is
 //        // This is the actual test of the AJAX servlet's service method
@@ -287,13 +303,15 @@ public class WServlet_Test extends AbstractWComponentTestCase {
 		request.setMethod("HEAD");
 		servlet.service(request, response);
 		Assert.assertEquals("Incorrect status code", 200, response.getStatus());
-		Assert.assertNull("Should not have written any content for HEAD request", response.getOutput());
+		Assert.assertNull("Should not have written any content for HEAD request", response.
+				getOutput());
 
 		response = new MockHttpServletResponse();
 		request.setMethod("DELETE");
 		servlet.service(request, response);
 		Assert.assertEquals("Incorrect status code", 501, response.getStatus());
-		Assert.assertNull("Should not have written any content for HEAD request", response.getOutput());
+		Assert.assertNull("Should not have written any content for HEAD request", response.
+				getOutput());
 	}
 
 	/**
@@ -315,7 +333,8 @@ public class WServlet_Test extends AbstractWComponentTestCase {
 	 * @throws ServletException a servlet exception
 	 * @throws IOException an exception
 	 */
-	private void sendRequest(final MockHttpSession session, final WServlet servlet) throws ServletException, IOException {
+	private void sendRequest(final MockHttpSession session, final WServlet servlet) throws
+			ServletException, IOException {
 		MockHttpServletRequest request = new MockHttpServletRequest(session);
 		request.setRequestURI("http://localhost/foo");
 		request.setMethod("GET");
@@ -378,7 +397,8 @@ public class WServlet_Test extends AbstractWComponentTestCase {
 		}
 
 		@Override
-		protected void serviceInt(final HttpServletRequest request, final HttpServletResponse response)
+		protected void serviceInt(final HttpServletRequest request,
+				final HttpServletResponse response)
 				throws ServletException, IOException {
 			HttpSession session = request.getSession(true);
 

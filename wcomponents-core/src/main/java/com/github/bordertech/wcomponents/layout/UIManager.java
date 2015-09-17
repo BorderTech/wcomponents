@@ -20,26 +20,25 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * The UIManager provides a mechanism for client applications to use different Renderers, without
- * having to specify a renderer on a per-component basis.
+ * The UIManager provides a mechanism for client applications to use different Renderers, without having to specify a
+ * renderer on a per-component basis.
  *
  * Renderers are assigned in the following order of preference:
  * <ol>
  * <li>
- * An application-specific renderer for the component. This is configured using application
- * parameters, e.g. for a WText component a Renderer would be specified as:
+ * An application-specific renderer for the component. This is configured using application parameters, e.g. for a WText
+ * component a Renderer would be specified as:
  * <code>bordertech.wcomponents.UIManager.renderer.com.github.bordertech.wcomponents.WText=com.github.myApp.render.MyTextRenderer</code>
  * </li>
  * <li>
- * A package implementation for the component, for the current RenderContext in use. This is
- * controlled by the {@link RenderContext#getRenderPackage()} method, which specifies the package
- * name. The UIManager expects that each renderer package includes a {@link RendererFactory}
- * implementation which knows how to create a specific renderer for a component. The RendererFactory
- * class for each package must be named "RendererFactory".
+ * A package implementation for the component, for the current RenderContext in use. This is controlled by the
+ * {@link RenderContext#getRenderPackage()} method, which specifies the package name. The UIManager expects that each
+ * renderer package includes a {@link RendererFactory} implementation which knows how to create a specific renderer for
+ * a component. The RendererFactory class for each package must be named "RendererFactory".
  * </li>
  * <li>
- * As for the first two options, but for the class's parent class (then grand-parent etc., repeated
- * until the {@link WComponent} class is reached).
+ * As for the first two options, but for the class's parent class (then grand-parent etc., repeated until the
+ * {@link WComponent} class is reached).
  * </li>
  * </ol>
  *
@@ -103,8 +102,8 @@ public final class UIManager implements PropertyChangeListener {
 	}
 
 	/**
-	 * We must invalidate the cached manager lookup when the {@link Config configuration} is
-	 * reloaded, as the mappings may have changed.
+	 * We must invalidate the cached manager lookup when the {@link Config configuration} is reloaded, as the mappings
+	 * may have changed.
 	 *
 	 * @param evt ignored.
 	 */
@@ -119,13 +118,13 @@ public final class UIManager implements PropertyChangeListener {
 	 *
 	 * @param component the component to retrieve the renderer for.
 	 * @param context the render context.
-	 * @return an appropriate renderer for the component and context, or null if a suitable renderer
-	 * could not be found.
+	 * @return an appropriate renderer for the component and context, or null if a suitable renderer could not be found.
 	 */
 	public static Renderer getRenderer(final WComponent component, final RenderContext context) {
 		Class<? extends WComponent> clazz = component.getClass();
 
-		Duplet<String, Class<?>> key = new Duplet<String, Class<?>>(context.getRenderPackage(), clazz);
+		Duplet<String, Class<?>> key = new Duplet<String, Class<?>>(context.getRenderPackage(),
+				clazz);
 		Renderer renderer = INSTANCE.renderers.get(key);
 
 		if (renderer == null) {
@@ -141,8 +140,7 @@ public final class UIManager implements PropertyChangeListener {
 	 * Retrieves a renderer which can renderer templates for the given context.
 	 *
 	 * @param context the render context.
-	 * @return an appropriate renderer for the component and context, or null if a suitable renderer
-	 * could not be found.
+	 * @return an appropriate renderer for the component and context, or null if a suitable renderer could not be found.
 	 */
 	public static Renderer getTemplateRenderer(final RenderContext context) {
 		String packageName = context.getRenderPackage();
@@ -161,8 +159,7 @@ public final class UIManager implements PropertyChangeListener {
 	 * Retrieves the template renderer for the given package.
 	 *
 	 * @param packageName the package to retrieve the template renderer for.
-	 * @return the template renderer for the given package, or null if the package does not contain
-	 * a template renderer.
+	 * @return the template renderer for the given package, or null if the package does not contain a template renderer.
 	 */
 	private synchronized Renderer findTemplateRenderer(final String packageName) {
 		RendererFactory factory = INSTANCE.findRendererFactory(packageName);
@@ -178,8 +175,8 @@ public final class UIManager implements PropertyChangeListener {
 	}
 
 	/**
-	 * Retrieves the default LayoutManager for the given component. This method must no longer be
-	 * used, as it will only ever return a web-xml renderer.
+	 * Retrieves the default LayoutManager for the given component. This method must no longer be used, as it will only
+	 * ever return a web-xml renderer.
 	 *
 	 * @param component the component.
 	 * @return the LayoutManager for the given component.
@@ -207,7 +204,8 @@ public final class UIManager implements PropertyChangeListener {
 	 * @param key the component key to use for caching the renderer.
 	 * @return the LayoutManager for the component.
 	 */
-	private synchronized Renderer findRenderer(final WComponent component, final Duplet<String, Class<?>> key) {
+	private synchronized Renderer findRenderer(final WComponent component,
+			final Duplet<String, Class<?>> key) {
 		LOG.info("Looking for layout for " + key.getSecond().getName() + " in " + key.getFirst());
 
 		Renderer renderer = findConfiguredRenderer(component, key.getFirst());
@@ -232,10 +230,12 @@ public final class UIManager implements PropertyChangeListener {
 
 		if (factory == null) {
 			try {
-				factory = (RendererFactory) Class.forName(packageName + ".RendererFactory").newInstance();
+				factory = (RendererFactory) Class.forName(packageName + ".RendererFactory").
+						newInstance();
 				factoriesByPackage.put(packageName, factory);
 			} catch (Exception e) {
-				throw new SystemException("Failed to create layout manager factory for " + packageName, e);
+				throw new SystemException(
+						"Failed to create layout manager factory for " + packageName, e);
 			}
 		}
 
@@ -254,17 +254,20 @@ public final class UIManager implements PropertyChangeListener {
 
 		// We loop for each WComponent in the class hierarchy, as the
 		// Renderer may have been specified at a higher level.
-		for (Class<?> c = component.getClass(); renderer == null && c != null && !AbstractWComponent.class.equals(c); c = c.getSuperclass()) {
+		for (Class<?> c = component.getClass(); renderer == null && c != null && !AbstractWComponent.class.
+				equals(c); c = c.getSuperclass()) {
 			String qualifiedClassName = c.getName();
 
 			// Is there an override for this class?
-			String rendererName = Config.getInstance().getString(PARAM_KEY_OVERRIDE_PREFIX + qualifiedClassName, null);
+			String rendererName = Config.getInstance().getString(
+					PARAM_KEY_OVERRIDE_PREFIX + qualifiedClassName, null);
 
 			if (rendererName != null) {
 				renderer = createRenderer(rendererName);
 
 				if (renderer == null) {
-					LOG.warn("Layout Manager \"" + rendererName + "\" specified for " + qualifiedClassName + " was not found");
+					LOG.warn(
+							"Layout Manager \"" + rendererName + "\" specified for " + qualifiedClassName + " was not found");
 				} else {
 					return renderer;
 				}

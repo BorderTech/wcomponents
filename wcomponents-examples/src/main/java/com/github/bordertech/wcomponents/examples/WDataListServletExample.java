@@ -53,7 +53,8 @@ public class WDataListServletExample extends WContainer {
 	 * Construct the example.
 	 */
 	public WDataListServletExample() {
-		add(new WHeading(WHeading.SECTION, "Example of components using cached lists (WDataListServlet)"));
+		add(new WHeading(WHeading.SECTION,
+				"Example of components using cached lists (WDataListServlet)"));
 
 		add(layout);
 
@@ -83,13 +84,16 @@ public class WDataListServletExample extends WContainer {
 
 		// Multi-dropdown
 		WMultiDropdown multiDropdown = new WMultiDropdown(TABLE_ICAO);
-		addField(multiDropdown, "Multi-dropdown 1", "CRT Data. Click the add button to add another item");
+		addField(multiDropdown, "Multi-dropdown 1",
+				"CRT Data. Click the add button to add another item");
 
 		multiDropdown = new WMultiDropdown(new TableWithNullOption(TABLE_ICAO));
 		addField(multiDropdown, "Multi-dropdown 2", "CRT Data. With a null option");
 
-		multiDropdown = new WMultiDropdown(new TableWithNullOption(TABLE_ICAO, "MY NULL OPTION", "MY CODE"));
-		addField(multiDropdown, "Multi-dropdown 3", "CRT Data. Override the null option code/string values");
+		multiDropdown = new WMultiDropdown(new TableWithNullOption(TABLE_ICAO, "MY NULL OPTION",
+				"MY CODE"));
+		addField(multiDropdown, "Multi-dropdown 3",
+				"CRT Data. Override the null option code/string values");
 
 		multiDropdown = new WMultiDropdown(new TableWithNullOption(TABLE_NODATA));
 		addField(multiDropdown, "Multi-dropdown 4", "CRT Data. No Data with a null option");
@@ -100,7 +104,8 @@ public class WDataListServletExample extends WContainer {
 
 		multiDropdownSelected = new WMultiDropdown(TABLE_ICAO);
 		multiDropdownSelected.setReadOnly(true);
-		addField(multiDropdownSelected, "Multi-dropdown 6", "CRT Data. Read Only with selected option");
+		addField(multiDropdownSelected, "Multi-dropdown 6",
+				"CRT Data. Read Only with selected option");
 
 		// MultiSelect
 		WMultiSelect box = new WMultiSelect(TABLE_ICAO);
@@ -142,7 +147,8 @@ public class WDataListServletExample extends WContainer {
 	protected void preparePaintComponent(final Request request) {
 		if (!isInitialised()) {
 			dropdownSelected.setSelected(dropdownSelected.getOptions().get(2));
-			multiDropdownSelected.setSelected(Arrays.asList(new Object[]{multiDropdownSelected.getOptions().get(2)}));
+			multiDropdownSelected.setSelected(Arrays.asList(new Object[]{multiDropdownSelected.
+				getOptions().get(2)}));
 			boxSelected.setSelected(Arrays.asList(new Object[]{boxSelected.getOptions().get(2)}));
 			setInitialised(true);
 		}

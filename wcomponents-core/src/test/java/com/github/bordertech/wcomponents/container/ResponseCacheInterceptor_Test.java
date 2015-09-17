@@ -33,15 +33,19 @@ public class ResponseCacheInterceptor_Test extends AbstractWebXmlRendererTestCas
 
 		Assert
 				.assertEquals("Cache-Control header not set correctly for CACHE",
-						ResponseCacheInterceptor.DEFAULT_CACHE_SETTINGS, response.getHeaders().get("Cache-Control"));
-		Assert.assertNull("Pragma header should be null for CACHE", response.getHeaders().get("Pragma"));
-		Assert.assertNull("Expires header should be null for CACHE", response.getHeaders().get("Expires"));
+						ResponseCacheInterceptor.DEFAULT_CACHE_SETTINGS, response.getHeaders().get(
+								"Cache-Control"));
+		Assert.assertNull("Pragma header should be null for CACHE", response.getHeaders().get(
+				"Pragma"));
+		Assert.assertNull("Expires header should be null for CACHE", response.getHeaders().get(
+				"Expires"));
 	}
 
 	@Test
 	public void testNoCache() {
 		// Create interceptor
-		ResponseCacheInterceptor interceptor = new ResponseCacheInterceptor(CacheType.CONTENT_NO_CACHE);
+		ResponseCacheInterceptor interceptor = new ResponseCacheInterceptor(
+				CacheType.CONTENT_NO_CACHE);
 		interceptor.setBackingComponent(new WText());
 
 		// Mock Response
@@ -57,7 +61,8 @@ public class ResponseCacheInterceptor_Test extends AbstractWebXmlRendererTestCas
 		Assert.assertEquals("Pragma header not set correctly for NO_CACHE", "no-cache",
 				response.getHeaders().get("Pragma"));
 		Assert
-				.assertEquals("Expires header not set correctly for NO_CACHE", "-1", response.getHeaders().get("Expires"));
+				.assertEquals("Expires header not set correctly for NO_CACHE", "-1", response.
+						getHeaders().get("Expires"));
 	}
 
 	@Test
@@ -77,7 +82,8 @@ public class ResponseCacheInterceptor_Test extends AbstractWebXmlRendererTestCas
 			Config.setConfiguration(config);
 
 			// Create interceptor
-			ResponseCacheInterceptor interceptor = new ResponseCacheInterceptor(CacheType.CONTENT_CACHE);
+			ResponseCacheInterceptor interceptor = new ResponseCacheInterceptor(
+					CacheType.CONTENT_CACHE);
 			interceptor.setBackingComponent(new WText());
 
 			// Mock Response
@@ -88,7 +94,8 @@ public class ResponseCacheInterceptor_Test extends AbstractWebXmlRendererTestCas
 			interceptor.paint(new WebXmlRenderContext(response.getWriter()));
 
 			// Check Override
-			Assert.assertEquals("Cache-Control header not overriden correctly for CACHE", override, response
+			Assert.assertEquals("Cache-Control header not overriden correctly for CACHE", override,
+					response
 					.getHeaders().get("Cache-Control"));
 
 		} finally {
@@ -114,7 +121,8 @@ public class ResponseCacheInterceptor_Test extends AbstractWebXmlRendererTestCas
 			Config.setConfiguration(config);
 
 			// Create interceptor
-			ResponseCacheInterceptor interceptor = new ResponseCacheInterceptor(CacheType.CONTENT_NO_CACHE);
+			ResponseCacheInterceptor interceptor = new ResponseCacheInterceptor(
+					CacheType.CONTENT_NO_CACHE);
 			interceptor.setBackingComponent(new WText());
 
 			// Mock Response
@@ -125,7 +133,8 @@ public class ResponseCacheInterceptor_Test extends AbstractWebXmlRendererTestCas
 			interceptor.paint(new WebXmlRenderContext(response.getWriter()));
 
 			// Check Override
-			Assert.assertEquals("Cache-Control header not overriden correctly for NO CACHE", override, response
+			Assert.assertEquals("Cache-Control header not overriden correctly for NO CACHE",
+					override, response
 					.getHeaders().get("Cache-Control"));
 
 		} finally {
@@ -152,7 +161,8 @@ public class ResponseCacheInterceptor_Test extends AbstractWebXmlRendererTestCas
 			Config.setConfiguration(config);
 
 			// Create interceptor
-			ResponseCacheInterceptor interceptor = new ResponseCacheInterceptor(CacheType.CONTENT_CACHE);
+			ResponseCacheInterceptor interceptor = new ResponseCacheInterceptor(
+					CacheType.CONTENT_CACHE);
 			interceptor.setBackingComponent(new WText());
 
 			// Mock Response
@@ -163,7 +173,8 @@ public class ResponseCacheInterceptor_Test extends AbstractWebXmlRendererTestCas
 			interceptor.paint(new WebXmlRenderContext(response.getWriter()));
 
 			// Check Override
-			Assert.assertEquals("Cache-Control header not overriden correctly for CONTENT CACHE", override, response
+			Assert.assertEquals("Cache-Control header not overriden correctly for CONTENT CACHE",
+					override, response
 					.getHeaders().get("Cache-Control"));
 
 		} finally {
@@ -189,7 +200,8 @@ public class ResponseCacheInterceptor_Test extends AbstractWebXmlRendererTestCas
 			Config.setConfiguration(config);
 
 			// Create interceptor
-			ResponseCacheInterceptor interceptor = new ResponseCacheInterceptor(CacheType.CONTENT_NO_CACHE);
+			ResponseCacheInterceptor interceptor = new ResponseCacheInterceptor(
+					CacheType.CONTENT_NO_CACHE);
 			interceptor.setBackingComponent(new WText());
 
 			// Mock Response
@@ -200,7 +212,8 @@ public class ResponseCacheInterceptor_Test extends AbstractWebXmlRendererTestCas
 			interceptor.paint(new WebXmlRenderContext(response.getWriter()));
 
 			// Check Override
-			Assert.assertEquals("Cache-Control header not overriden correctly for CONTENT NO CACHE", override, response
+			Assert.assertEquals("Cache-Control header not overriden correctly for CONTENT NO CACHE",
+					override, response
 					.getHeaders().get("Cache-Control"));
 
 		} finally {

@@ -38,6 +38,7 @@ public class HtmlInjector_Test extends WComponentSeleniumTestCase {
 		driver.findElement(byWComponentPath("WTextArea")).sendKeys(html);
 		driver.findElement(byWComponentPath("WButton")).click();
 
-		Assert.assertEquals("Incorrect div text", divText, driver.findElement(By.id("HtmlInjector_Test.id")).getText());
+		Assert.assertEquals("Incorrect div text", divText, driver.findElement(By.id(
+				"HtmlInjector_Test.id")).getText());
 	}
 }

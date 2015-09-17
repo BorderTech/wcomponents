@@ -46,8 +46,7 @@ public class TreePicker extends WPanel implements MessageContainer {
 	private final ExamplePanel examplePanel = new ExamplePanel();
 
 	/**
-	 * This text field can be used to directly select an example, using the class name or the
-	 * example name.
+	 * This text field can be used to directly select an example, using the class name or the example name.
 	 */
 	private final WTextField selectOther = new WTextField();
 
@@ -92,7 +91,8 @@ public class TreePicker extends WPanel implements MessageContainer {
 		/* The utility bar contains the example selector and a bunch of buttons */
 		WPanel utilityBar = new WPanel();
 		headerPanel.add(utilityBar);
-		utilityBar.setLayout(new ListLayout(ListLayout.Type.FLAT, ListLayout.Alignment.RIGHT, ListLayout.Separator.NONE, false, COL_HGAP, 0));
+		utilityBar.setLayout(new ListLayout(ListLayout.Type.FLAT, ListLayout.Alignment.RIGHT,
+				ListLayout.Separator.NONE, false, COL_HGAP, 0));
 
 		// Add an image for the banner
 		//WImage logo = new WImage("/com/github/bordertech/wcomponents/examples/picker/wclogo_small.gif", "WComponents examples");
@@ -103,10 +103,12 @@ public class TreePicker extends WPanel implements MessageContainer {
 
 		add(messages, "messages");
 
-		selectOther.setToolTip("Enter a partial name for one of the examples below, or a fully qualified class name for an arbitrary component.");
+		selectOther.setToolTip(
+				"Enter a partial name for one of the examples below, or a fully qualified class name for an arbitrary component.");
 
 		// Set a validating action on itself to avoid client side validation
-		resetExampleButton.setAction(new ValidatingAction(messages.getValidationErrors(), resetExampleButton) {
+		resetExampleButton.setAction(new ValidatingAction(messages.getValidationErrors(),
+				resetExampleButton) {
 			@Override
 			public void executeOnValid(final ActionEvent event) {
 				examplePanel.resetExample();
@@ -123,7 +125,8 @@ public class TreePicker extends WPanel implements MessageContainer {
 		selectOtherButton.setToolTip("select other");
 
 		// Set a validating action on itself to avoid client side validation
-		selectOtherButton.setAction(new ValidatingAction(messages.getValidationErrors(), selectOtherButton) {
+		selectOtherButton.setAction(new ValidatingAction(messages.getValidationErrors(),
+				selectOtherButton) {
 			@Override
 			public void executeOnValid(final ActionEvent event) {
 				if (!Util.empty(selectOther.getText())) {
@@ -160,7 +163,8 @@ public class TreePicker extends WPanel implements MessageContainer {
 //        });
 
 		// Set a validating action on itself to avoid client side validation
-		refreshButton.setAction(new ValidatingAction(messages.getValidationErrors(), refreshButton) {
+		refreshButton.setAction(
+				new ValidatingAction(messages.getValidationErrors(), refreshButton) {
 			@Override
 			public void executeOnValid(final ActionEvent event) {
 				// Do Nothing
@@ -203,9 +207,8 @@ public class TreePicker extends WPanel implements MessageContainer {
 	 * Override handleRequest in order to perform custom processing for this component.</p>
 	 *
 	 * <p>
-	 * Normally, applications should not look at the request directly, but we look for an "example"
-	 * parameter here so that developers can bookmark particular examples which they are interested
-	 * in.</p>
+	 * Normally, applications should not look at the request directly, but we look for an "example" parameter here so
+	 * that developers can bookmark particular examples which they are interested in.</p>
 	 *
 	 * @param request the request being responded to.
 	 */
@@ -245,8 +248,8 @@ public class TreePicker extends WPanel implements MessageContainer {
 	}
 
 	/**
-	 * Override preparePaintComponent in order to populate the recently accessed menu when a user
-	 * accesses this panel for the first time.
+	 * Override preparePaintComponent in order to populate the recently accessed menu when a user accesses this panel
+	 * for the first time.
 	 *
 	 * @param request the request being responded to.
 	 */

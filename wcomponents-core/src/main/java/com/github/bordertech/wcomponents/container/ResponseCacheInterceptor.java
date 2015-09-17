@@ -22,11 +22,11 @@ public class ResponseCacheInterceptor extends InterceptorComponent {
 	public static final String DEFAULT_NO_CACHE_SETTINGS = "no-cache, no-store, must-revalidate, private";
 
 	/**
-	 * Cache Type allows different cache settings to be set for different response types, such as
-	 * page responses, content, theme resources and datalists.
+	 * Cache Type allows different cache settings to be set for different response types, such as page responses,
+	 * content, theme resources and datalists.
 	 * <p>
-	 * All the cache types uses the same default settings. However, the default setting can be
-	 * overridden or each individual cache type can be overridden.
+	 * All the cache types uses the same default settings. However, the default setting can be overridden or each
+	 * individual cache type can be overridden.
 	 * </p>
 	 */
 	public static enum CacheType {
@@ -89,10 +89,12 @@ public class ResponseCacheInterceptor extends InterceptorComponent {
 		 */
 		private String getDefaultSettings() {
 			if (isCache()) {
-				return Config.getInstance().getString("bordertech.wcomponents.response.header.default.cache",
+				return Config.getInstance().getString(
+						"bordertech.wcomponents.response.header.default.cache",
 						DEFAULT_CACHE_SETTINGS);
 			} else {
-				return Config.getInstance().getString("bordertech.wcomponents.response.header.default.nocache",
+				return Config.getInstance().getString(
+						"bordertech.wcomponents.response.header.default.nocache",
 						DEFAULT_NO_CACHE_SETTINGS);
 			}
 

@@ -39,7 +39,8 @@ public class AbstractTreeTableDataModel_Test {
 	 */
 	@Test
 	public void testConstructor() {
-		Assert.assertEquals("should have successfully set the root node when constructed", node, model.getRootNode());
+		Assert.assertEquals("should have successfully set the root node when constructed", node,
+				model.getRootNode());
 	}
 
 	/**
@@ -83,7 +84,8 @@ public class AbstractTreeTableDataModel_Test {
 	 */
 	@Test
 	public void testGetValueAt() {
-		Assert.assertEquals("should return test set index set in root object method", Integer.valueOf(TEST_ROW_INDEX), model
+		Assert.assertEquals("should return test set index set in root object method", Integer.
+				valueOf(TEST_ROW_INDEX), model
 				.getValueAt(0, 0));
 	}
 

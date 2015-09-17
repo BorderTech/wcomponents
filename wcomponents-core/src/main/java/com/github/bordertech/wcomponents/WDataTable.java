@@ -18,18 +18,17 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * <p>
- * The WDataTable component is used to display tabular data. It supports common functions such as
- * sorting and pagination of data.</p>
+ * The WDataTable component is used to display tabular data. It supports common functions such as sorting and pagination
+ * of data.</p>
  *
  * <p>
- * The WDataTable component is only concerned with how the UI functions, not the data behind the
- * table. In a MVC sense, the WDataTable is the Controller, the view is comprised of the WDataTable
- * layout and column renderers, and the {@link TableDataModel} is the model.</p>
+ * The WDataTable component is only concerned with how the UI functions, not the data behind the table. In a MVC sense,
+ * the WDataTable is the Controller, the view is comprised of the WDataTable layout and column renderers, and the
+ * {@link TableDataModel} is the model.</p>
  *
  * <p>
- * Columns may only be added statically to the table, but individual columns can be shown/hidden per
- * user by toggling their visibility. See {@link #getColumn(int)} and
- * {@link WComponent#setVisible(boolean)}.</p>
+ * Columns may only be added statically to the table, but individual columns can be shown/hidden per user by toggling
+ * their visibility. See {@link #getColumn(int)} and {@link WComponent#setVisible(boolean)}.</p>
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -37,7 +36,8 @@ import org.apache.commons.logging.LogFactory;
  * @deprecated Use {@link WTable} instead.
  */
 @Deprecated
-public class WDataTable extends WBeanComponent implements Disableable, Container, AjaxTarget, SubordinateTarget, NamingContextable {
+public class WDataTable extends WBeanComponent implements Disableable, Container, AjaxTarget,
+		SubordinateTarget, NamingContextable {
 
 	/**
 	 * The logger instance for this class.
@@ -245,8 +245,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	}
 
 	/**
-	 * Retrieves the column at the specified index. Bounds checking is not performed, see
-	 * {@link #getColumnCount()}.
+	 * Retrieves the column at the specified index. Bounds checking is not performed, see {@link #getColumnCount()}.
 	 *
 	 * @param index the column index.
 	 * @return the column at the specified index.
@@ -256,8 +255,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	}
 
 	/**
-	 * Returns the number of columns contained in this table. Invisible columns still count towards
-	 * the total.
+	 * Returns the number of columns contained in this table. Invisible columns still count towards the total.
 	 *
 	 * @return the number of columns contained in this table.
 	 */
@@ -331,8 +329,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	}
 
 	/**
-	 * Updates the bean using the table data model's
-	 * {@link TableDataModel#setValueAt(Object, int, int)} method.
+	 * Updates the bean using the table data model's {@link TableDataModel#setValueAt(Object, int, int)} method.
 	 */
 	@Override
 	public void updateBeanValue() {
@@ -351,9 +348,8 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	}
 
 	/**
-	 * Updates the bean using the table data model's
-	 * {@link TableDataModel#setValueAt(Object, int, int)} method. This method only updates the data
-	 * for the current page.
+	 * Updates the bean using the table data model's {@link TableDataModel#setValueAt(Object, int, int)} method. This
+	 * method only updates the data for the current page.
 	 */
 	private void updateBeanValueCurrentPageOnly() {
 		WDataTableRowRenderer rowRenderer = (WDataTableRowRenderer) repeater.getRepeatedComponent();
@@ -494,8 +490,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	/**
 	 * Sets whether the form should submit whenever the row selection changes.
 	 *
-	 * @param submitOnRowSelect true if form submission should occur on row selection change, false
-	 * otherwise.
+	 * @param submitOnRowSelect true if form submission should occur on row selection change, false otherwise.
 	 */
 	public void setSubmitOnRowSelect(final boolean submitOnRowSelect) {
 		getOrCreateComponentModel().submitOnRowSelect = submitOnRowSelect;
@@ -611,7 +606,8 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 */
 	public void setColumnOrder(final int[] columnOrder) {
 		if (columnOrder.length != getColumnCount()) {
-			throw new IllegalArgumentException("Number of column order indices must match the number of table columns");
+			throw new IllegalArgumentException(
+					"Number of column order indices must match the number of table columns");
 		}
 
 		getOrCreateComponentModel().columnOrder = columnOrder;
@@ -647,7 +643,8 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 */
 	public void setRowsPerPage(final int rowsPerPage) {
 		if (rowsPerPage < 1) {
-			throw new IllegalArgumentException("Rows per page must be greater than 0, but got: " + rowsPerPage);
+			throw new IllegalArgumentException(
+					"Rows per page must be greater than 0, but got: " + rowsPerPage);
 		}
 
 		getOrCreateComponentModel().rowsPerPage = rowsPerPage;
@@ -866,8 +863,8 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	}
 
 	/**
-	 * Indicates whether the sort on this table is ascending. Note that a return value of false does
-	 * not necessarily indicate a descending sort - see {@link #isSorted()}.
+	 * Indicates whether the sort on this table is ascending. Note that a return value of false does not necessarily
+	 * indicate a descending sort - see {@link #isSorted()}.
 	 *
 	 * @return true if the sort order is ascending, false for descending.
 	 */
@@ -933,7 +930,8 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 */
 	public void addActionConstraint(final WButton button, final ActionConstraint constraint) {
 		if (button.getParent() != actions) {
-			throw new IllegalArgumentException("Can only add a constraint to a button which is in this table's actions");
+			throw new IllegalArgumentException(
+					"Can only add a constraint to a button which is in this table's actions");
 		}
 
 		getOrCreateComponentModel().addActionConstraint(button, constraint);
@@ -951,8 +949,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	}
 
 	/**
-	 * Override handleRequest to add table-specific functionality such as pagination and row
-	 * selection.
+	 * Override handleRequest to add table-specific functionality such as pagination and row selection.
 	 *
 	 * @param request the request being responded to.
 	 */
@@ -1120,8 +1117,8 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	}
 
 	/**
-	 * Retrieves the starting row index for the current page. Will always return zero for tables
-	 * which are not paginated.
+	 * Retrieves the starting row index for the current page. Will always return zero for tables which are not
+	 * paginated.
 	 *
 	 * @return the starting row index for the current page.
 	 */
@@ -1150,8 +1147,8 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	}
 
 	/**
-	 * Retrieves the ending row index for the current page. Will always return the row count minus 1
-	 * for tables which are not paginated.
+	 * Retrieves the ending row index for the current page. Will always return the row count minus 1 for tables which
+	 * are not paginated.
 	 *
 	 * @return the starting row index for the current page.
 	 */
@@ -1168,7 +1165,8 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 				TreeTableDataModel treeModel = (TreeTableDataModel) model;
 				TreeNode root = treeModel.getNodeAtLine(0).getRoot();
 
-				int endNode = Math.min(root.getChildCount() - 1, (getCurrentPage() + 1) * rowsPerPage - 1);
+				int endNode = Math.min(root.getChildCount() - 1,
+						(getCurrentPage() + 1) * rowsPerPage - 1);
 
 				endRow = ((TableTreeNode) root.getChildAt(endNode)).getRowIndex() - 1 // -1 as the root is not included in the table
 						+ ((TableTreeNode) root.getChildAt(endNode)).getNodeCount();
@@ -1304,9 +1302,8 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	}
 
 	/**
-	 * A naming context is only considered active if it has been set active via
-	 * {@link #setNamingContext(boolean)} and also has an id name set via
-	 * {@link #setIdName(String)}.
+	 * A naming context is only considered active if it has been set active via {@link #setNamingContext(boolean)} and
+	 * also has an id name set via {@link #setIdName(String)}.
 	 *
 	 * @param context set true if this is a naming context.
 	 */
@@ -1360,14 +1357,15 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 		/**
 		 * Creates an action constraint.
 		 *
-		 * @param minSelectedRowCount the minimum number of rows which must be selected to fulfil
-		 * the constraint, or zero for any number of rows.
-		 * @param maxSelectedRowCount the maximum number of rows which can be selected to fulfil the
-		 * constraint, or zero for any number of rows.
+		 * @param minSelectedRowCount the minimum number of rows which must be selected to fulfil the constraint, or
+		 * zero for any number of rows.
+		 * @param maxSelectedRowCount the maximum number of rows which can be selected to fulfil the constraint, or zero
+		 * for any number of rows.
 		 * @param error true if the constaint is an error, false for a warning.
 		 * @param message the message to display when the constraint is not met.
 		 */
-		public ActionConstraint(final int minSelectedRowCount, final int maxSelectedRowCount, final boolean error, final String message) {
+		public ActionConstraint(final int minSelectedRowCount, final int maxSelectedRowCount,
+				final boolean error, final String message) {
 			this.minSelectedRowCount = minSelectedRowCount;
 			this.maxSelectedRowCount = maxSelectedRowCount;
 			this.error = error;
@@ -1375,8 +1373,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 		}
 
 		/**
-		 * Indicates the minimum number of rows which must be selected for the error/warning not to
-		 * occur.
+		 * Indicates the minimum number of rows which must be selected for the error/warning not to occur.
 		 *
 		 * @return the minimum selected row count.
 		 */
@@ -1392,8 +1389,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 		}
 
 		/**
-		 * Indicates the maximum number of rows which can be selected for the error/warning not to
-		 * occur.
+		 * Indicates the maximum number of rows which can be selected for the error/warning not to occur.
 		 *
 		 * @return the maximum selected row count.
 		 */
@@ -1456,8 +1452,8 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	}
 
 	/**
-	 * A bean provider implementation which provides beans to the table repeater. This provider
-	 * takes the table's pagination state into account, so that only visible rows are rendered.
+	 * A bean provider implementation which provides beans to the table repeater. This provider takes the table's
+	 * pagination state into account, so that only visible rows are rendered.
 	 */
 	private final class DataModelBeanProvider implements BeanProvider, Serializable {
 
@@ -1482,12 +1478,14 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 					int currentPage = getCurrentPage();
 					int rowCount = getComponentModel().getPaginationRowCount();
 
-					startIndex = Math.min(currentPage * rowsPerPage, rowCount - (rowCount % rowsPerPage));
+					startIndex = Math.min(currentPage * rowsPerPage,
+							rowCount - (rowCount % rowsPerPage));
 					endIndex = Math.min(startIndex + rowsPerPage, rowCount) - 1;
 
 					if (dataModel instanceof TreeTableDataModel) {
 						// Adjust indices (child node index --> table row index).
-						TreeNode rootNode = ((TreeTableDataModel) dataModel).getNodeAtLine(0).getParent();
+						TreeNode rootNode = ((TreeTableDataModel) dataModel).getNodeAtLine(0).
+								getParent();
 						TableTreeNode startNode = (TableTreeNode) rootNode.getChildAt(startIndex);
 						TableTreeNode endNode = (TableTreeNode) rootNode.getChildAt(endIndex);
 						startIndex = startNode.getRowIndex() - 1;
@@ -1519,7 +1517,8 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 		int[] rowIndexMapping = getComponentModel().rowIndexMapping;
 
 		// Check if sort mapping needs updating
-		if (isSorted() && rowIndexMapping != null && rowIndexMapping.length != getDataModel().getRowCount()) {
+		if (isSorted() && rowIndexMapping != null && rowIndexMapping.length != getDataModel().
+				getRowCount()) {
 			rowIndexMapping = getDataModel().sort(getSortColumnIndex(), isSortAscending());
 			getOrCreateComponentModel().rowIndexMapping = rowIndexMapping;
 		}
@@ -1691,8 +1690,8 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 		private boolean sortAscending;
 
 		/**
-		 * This is used to map rendered table row indices to table model row indices, if the table
-		 * model supports this mode of sorting.
+		 * This is used to map rendered table row indices to table model row indices, if the table model supports this
+		 * mode of sorting.
 		 */
 		private int[] rowIndexMapping;
 
@@ -1716,8 +1715,8 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 		}
 
 		/**
-		 * The pagination row count takes into account different pagination types. For example,
-		 * hierarchical tables only paginate on top-level nodes (to avoid orphan nodes).
+		 * The pagination row count takes into account different pagination types. For example, hierarchical tables only
+		 * paginate on top-level nodes (to avoid orphan nodes).
 		 *
 		 * @return the row count for pagination
 		 */
@@ -1812,7 +1811,8 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	@Override
 	public String toString() {
 		TableDataModel model = getDataModel();
-		return toString(model.getClass().getSimpleName() + ", " + model.getRowCount() + " rows", -1, -1);
+		return toString(model.getClass().getSimpleName() + ", " + model.getRowCount() + " rows", -1,
+				-1);
 	}
 
 	/**

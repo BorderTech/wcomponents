@@ -23,8 +23,7 @@ import com.github.bordertech.wcomponents.subordinate.builder.SubordinateBuilder;
 import java.util.Arrays;
 
 /**
- * Demonstrate how {@link RadioButtonGroup} and {@link WRadioButton} can be used with a
- * {@link WRepeater}.
+ * Demonstrate how {@link RadioButtonGroup} and {@link WRadioButton} can be used with a {@link WRepeater}.
  *
  * @author Jonathan Austin
  * @since 1.0.0
@@ -118,7 +117,8 @@ public class WRadioButtonInRepeater extends WContainer {
 			setInitialised(true);
 		}
 
-		text.setText("Selected: " + (group.getSelectedValue() == null ? "" : group.getSelectedValue().toString()));
+		text.setText("Selected: " + (group.getSelectedValue() == null ? "" : group.
+				getSelectedValue().toString()));
 
 	}
 

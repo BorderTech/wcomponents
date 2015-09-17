@@ -237,7 +237,8 @@ public class WTableOptionsExample extends WBeanContainer {
 	 * @param options the list of options
 	 * @return a radioButtonSelect with the options
 	 */
-	private <T extends Enum<T>> EnumerationRadioButtonSelect<T> createRadioButtonGroup(final T[] options) {
+	private <T extends Enum<T>> EnumerationRadioButtonSelect<T> createRadioButtonGroup(
+			final T[] options) {
 		EnumerationRadioButtonSelect<T> rbSelect = new EnumerationRadioButtonSelect<>(options);
 		rbSelect.setButtonLayout(EnumerationRadioButtonSelect.Layout.FLAT);
 		rbSelect.setFrameless(true);
@@ -257,8 +258,9 @@ public class WTableOptionsExample extends WBeanContainer {
 		table.setBeanProperty(".");
 
 		// Setup model with column properties
-		SimpleBeanBoundTableModel model = new SimpleBeanBoundTableModel(new String[]{"firstName", "lastName",
-			"dateOfBirth"});
+		SimpleBeanBoundTableModel model = new SimpleBeanBoundTableModel(
+				new String[]{"firstName", "lastName",
+					"dateOfBirth"});
 		model.setSelectable(true);
 		model.setEditable(true);
 		model.setComparator(0, SimpleBeanBoundTableModel.COMPARABLE_COMPARATOR);
@@ -285,8 +287,9 @@ public class WTableOptionsExample extends WBeanContainer {
 		LevelDetails level1 = new LevelDetails("documents", TravelDocPanel.class);
 
 		// Setup model with column properties and the "expandable" level
-		SimpleBeanBoundTableModel model = new SimpleBeanBoundTableModel(new String[]{"firstName", "lastName",
-			"dateOfBirth"}, level1);
+		SimpleBeanBoundTableModel model = new SimpleBeanBoundTableModel(
+				new String[]{"firstName", "lastName",
+					"dateOfBirth"}, level1);
 
 		model.setSelectable(true);
 		model.setEditable(true);
@@ -311,8 +314,9 @@ public class WTableOptionsExample extends WBeanContainer {
 		table.setBeanProperty(".");
 
 		// Setup model with column properties and the "level" to iterate on (ie more details)
-		SimpleBeanBoundTableModel model = new SimpleBeanBoundTableModel(new String[]{"firstName", "lastName",
-			"dateOfBirth"}, "more");
+		SimpleBeanBoundTableModel model = new SimpleBeanBoundTableModel(
+				new String[]{"firstName", "lastName",
+					"dateOfBirth"}, "more");
 
 		model.setIterateFirstLevel(true);
 		model.setSelectable(true);
@@ -437,7 +441,8 @@ public class WTableOptionsExample extends WBeanContainer {
 			table.setRowsPerPageOptions(null);
 		} else {
 			// Options
-			table.setRowsPerPageOptions(chbRowsPerPageOptions.isSelected() ? DEFAULT_ROWS_OPTIONS : null);
+			table.setRowsPerPageOptions(
+					chbRowsPerPageOptions.isSelected() ? DEFAULT_ROWS_OPTIONS : null);
 			// Rows
 			int rows;
 			if (numRowsPerPage.isEmpty() || numRowsPerPage.getNumber().intValue() < 1) {
@@ -462,8 +467,7 @@ public class WTableOptionsExample extends WBeanContainer {
 	}
 
 	/**
-	 * An example component to display travel document details. Expects that the supplied bean is a
-	 * {@link TravelDoc}.
+	 * An example component to display travel document details. Expects that the supplied bean is a {@link TravelDoc}.
 	 */
 	public static final class TravelDocPanel extends WBeanContainer {
 
@@ -500,8 +504,8 @@ public class WTableOptionsExample extends WBeanContainer {
 	}
 
 	/**
-	 * A simple extension of WRadioButtonSelect to enhance type safety and provide a more
-	 * intelligent description of the enumerated values.
+	 * A simple extension of WRadioButtonSelect to enhance type safety and provide a more intelligent description of the
+	 * enumerated values.
 	 *
 	 * @param <T> the enumeration type.
 	 */
@@ -538,8 +542,7 @@ public class WTableOptionsExample extends WBeanContainer {
 	/**
 	 * Columns used on the table.
 	 * <p>
-	 * This enum is used as the options in the WShuffler to demonstrate how column orders can be
-	 * changed.
+	 * This enum is used as the options in the WShuffler to demonstrate how column orders can be changed.
 	 * </p>
 	 */
 	private static enum COLUMN {

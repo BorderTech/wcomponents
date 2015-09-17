@@ -79,7 +79,8 @@ public class WDropdownExample extends WContainer {
 		addFieldToLayout(dropdown, "Simple drop-down, with custom \"null\" selection text", null);
 
 		dropdown = new WDropdown(people);
-		addFieldToLayout(dropdown, "Drop-down with a list of beans", "This is an example dropdown with data from a non-textual source.");
+		addFieldToLayout(dropdown, "Drop-down with a list of beans",
+				"This is an example dropdown with data from a non-textual source.");
 
 		dropdown = new WDropdown(peopleOptions);
 		addFieldToLayout(dropdown, "Drop-down with a list of options", null);
@@ -91,28 +92,36 @@ public class WDropdownExample extends WContainer {
 
 		dropdown = new WDropdown(OPTIONS_ARRAY);
 		dropdown.setType(WDropdown.DropdownType.COMBO);
-		addFieldToLayout(dropdown, "Combo drop-down", "This is an example dropdown which allows user input");
+		addFieldToLayout(dropdown, "Combo drop-down",
+				"This is an example dropdown which allows user input");
 
 		dropdown = new WDropdown("icao");
-		addFieldToLayout(dropdown, "Drop-down with cached data from a look up table", "see ExampleLookupTable for data");
+		addFieldToLayout(dropdown, "Drop-down with cached data from a look up table",
+				"see ExampleLookupTable for data");
 
 		dropdown = new WDropdown(new TableWithNullOption("icao"));
-		addFieldToLayout(dropdown, "Drop-down with cached data from a look up table with Null Option", "see ExampleLookupTable for data");
+		addFieldToLayout(dropdown,
+				"Drop-down with cached data from a look up table with Null Option",
+				"see ExampleLookupTable for data");
 
 		dropdown = new WDropdown(new TableWithNullOption("icao", "Select one please"));
-		addFieldToLayout(dropdown, "Drop-down with cached data with a custom null option", "see ExampleLookupTable for data");
+		addFieldToLayout(dropdown, "Drop-down with cached data with a custom null option",
+				"see ExampleLookupTable for data");
 
 		dropdown = new WDropdown("icao");
 		dropdown.setType(WDropdown.DropdownType.COMBO);
-		addFieldToLayout(dropdown, "Combo with cached data from a look up table", "see ExampleLookupTable for data");
+		addFieldToLayout(dropdown, "Combo with cached data from a look up table",
+				"see ExampleLookupTable for data");
 
 		dropdown = new WDropdown(new TableWithNullOption("icao"));
 		dropdown.setType(WDropdown.DropdownType.COMBO);
-		addFieldToLayout(dropdown, "Combo with cached data from a look up table with Null Option", "Null options make no sense in COMBOs");
+		addFieldToLayout(dropdown, "Combo with cached data from a look up table with Null Option",
+				"Null options make no sense in COMBOs");
 
 		dropdown = new WDropdown(new TableWithNullOption("icao", "Select one please"));
 		dropdown.setType(WDropdown.DropdownType.COMBO);
-		addFieldToLayout(dropdown, "Combo with cached data with a custom null option", "You probably shouldn't do this since it defeats the purpose of a combo.");
+		addFieldToLayout(dropdown, "Combo with cached data with a custom null option",
+				"You probably shouldn't do this since it defeats the purpose of a combo.");
 
 		dropdown = new WDropdown(OPTIONS_ARRAY);
 		dropdown.setDisabled(true);
@@ -226,8 +235,7 @@ public class WDropdownExample extends WContainer {
 	}
 
 	/**
-	 * Applications can wrap options inside lists in order to provide custom text and values for the
-	 * drop down.
+	 * Applications can wrap options inside lists in order to provide custom text and values for the drop down.
 	 */
 	private static final class PersonOption implements Option, Serializable {
 
@@ -269,7 +277,8 @@ public class WDropdownExample extends WContainer {
 	 * @param labelText the label text for the field.
 	 * @param labelHint the optional label hint for the field.
 	 */
-	private void addFieldToLayout(final WComponent input, final String labelText, final String labelHint) {
+	private void addFieldToLayout(final WComponent input, final String labelText,
+			final String labelHint) {
 		WField field = layout.addField(labelText, input);
 
 		if (labelHint != null) {

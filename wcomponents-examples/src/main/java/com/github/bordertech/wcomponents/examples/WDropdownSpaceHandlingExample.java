@@ -31,7 +31,8 @@ public class WDropdownSpaceHandlingExample extends WContainer {
 	 * Creates a WDropdownSpaceHandlingExample.
 	 */
 	public WDropdownSpaceHandlingExample() {
-		add(new WMessageBox(WMessageBox.WARN, "This example is for framework testing ONLY and must not be used as an example of how to set up any UI controls"));
+		add(new WMessageBox(WMessageBox.WARN,
+				"This example is for framework testing ONLY and must not be used as an example of how to set up any UI controls"));
 		final WText text = new WText();
 
 		final WDropdown drop = new WDropdown();
@@ -53,7 +54,8 @@ public class WDropdownSpaceHandlingExample extends WContainer {
 			}
 		});
 
-		WStyledText explanation = new WStyledText("In the result output space characters are replaced with '%20'.");
+		WStyledText explanation = new WStyledText(
+				"In the result output space characters are replaced with '%20'.");
 		explanation.setWhitespaceMode(WStyledText.WhitespaceMode.PARAGRAPHS);
 		add(explanation);
 		add(new WHeading(WHeading.MAJOR, "Result Text"));
@@ -61,13 +63,15 @@ public class WDropdownSpaceHandlingExample extends WContainer {
 		add(new WHorizontalRule());
 
 		add(new WHeading(WHeading.MAJOR, "Test of spaces in options of WCheckBoxSelect"));
-		explanation = new WStyledText("This control is here only for the purposes of unit testing and serves no function with respect to the output of the example above.");
+		explanation = new WStyledText(
+				"This control is here only for the purposes of unit testing and serves no function with respect to the output of the example above.");
 		explanation.setWhitespaceMode(WStyledText.WhitespaceMode.PARAGRAPHS);
 		add(explanation);
 		WCheckBoxSelect multiSelectGroup = new WCheckBoxSelect();
 		multiSelectGroup.setFrameless(true);
 		multiSelectGroup.setToolTip("Select one or more options with spaces");
-		multiSelectGroup.setOptions(new String[]{NO_SPACE, LEADING_SPACE, TRAILING_SPACE, DOUBLE_SPACE});
+		multiSelectGroup.setOptions(
+				new String[]{NO_SPACE, LEADING_SPACE, TRAILING_SPACE, DOUBLE_SPACE});
 		add(multiSelectGroup);
 	}
 }

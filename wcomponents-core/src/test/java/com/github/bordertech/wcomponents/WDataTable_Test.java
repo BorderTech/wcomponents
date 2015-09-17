@@ -40,7 +40,8 @@ public final class WDataTable_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testColumnAccessors() {
 		WDataTable table = new WDataTable();
-		Assert.assertEquals("Table should not have any columns by default", 0, table.getColumnCount());
+		Assert.assertEquals("Table should not have any columns by default", 0, table.
+				getColumnCount());
 
 		WTableColumn col1 = new WTableColumn("dummy", WText.class);
 		WTableColumn col2 = new WTableColumn("dummy", WText.class);
@@ -93,7 +94,8 @@ public final class WDataTable_Test extends AbstractWComponentTestCase {
 		WDataTable.SeparatorType type1 = WDataTable.SeparatorType.HORIZONTAL;
 		WDataTable.SeparatorType type2 = WDataTable.SeparatorType.VERTICAL;
 
-		Assert.assertEquals("Table should not have a separator by default", WDataTable.SeparatorType.NONE, table.getSeparatorType());
+		Assert.assertEquals("Table should not have a separator by default",
+				WDataTable.SeparatorType.NONE, table.getSeparatorType());
 
 		table.setSeparatorType(type1);
 		Assert.assertSame("Incorrect default separator", type1, table.getSeparatorType());
@@ -101,7 +103,8 @@ public final class WDataTable_Test extends AbstractWComponentTestCase {
 		table.setLocked(true);
 		setActiveContext(createUIContext());
 		table.setSeparatorType(type2);
-		Assert.assertSame("Incorrect separator for modified session", type2, table.getSeparatorType());
+		Assert.assertSame("Incorrect separator for modified session", type2, table.
+				getSeparatorType());
 
 		setActiveContext(createUIContext());
 		Assert.assertSame("Incorrect separator for other sessions", type1, table.getSeparatorType());
@@ -114,17 +117,20 @@ public final class WDataTable_Test extends AbstractWComponentTestCase {
 		WDataTable.StripingType type1 = WDataTable.StripingType.ROWS;
 		WDataTable.StripingType type2 = WDataTable.StripingType.COLUMNS;
 
-		Assert.assertEquals("Table should not have striping by default", WDataTable.StripingType.NONE, table.getStripingType());
+		Assert.assertEquals("Table should not have striping by default",
+				WDataTable.StripingType.NONE, table.getStripingType());
 
 		table.setStripingType(type1);
 		Assert.assertSame("Incorrect default striping type", type1, table.getStripingType());
 
 		setActiveContext(createUIContext());
 		table.setStripingType(type2);
-		Assert.assertSame("Incorrect striping type for modified session", type2, table.getStripingType());
+		Assert.assertSame("Incorrect striping type for modified session", type2, table.
+				getStripingType());
 
 		setActiveContext(createUIContext());
-		Assert.assertSame("Incorrect striping type for other sessions", type1, table.getStripingType());
+		Assert.assertSame("Incorrect striping type for other sessions", type1, table.
+				getStripingType());
 	}
 
 	@Test
@@ -151,7 +157,8 @@ public final class WDataTable_Test extends AbstractWComponentTestCase {
 		WDataTable.ExpandMode type1 = WDataTable.ExpandMode.SERVER;
 		WDataTable.ExpandMode type2 = WDataTable.ExpandMode.DYNAMIC;
 
-		Assert.assertEquals("Incorrect default select mode", WDataTable.ExpandMode.NONE, table.getExpandMode());
+		Assert.assertEquals("Incorrect default select mode", WDataTable.ExpandMode.NONE, table.
+				getExpandMode());
 
 		table.setExpandMode(type1);
 		Assert.assertSame("Incorrect default select mode", type1, table.getExpandMode());
@@ -159,7 +166,9 @@ public final class WDataTable_Test extends AbstractWComponentTestCase {
 		table.setLocked(true);
 		setActiveContext(createUIContext());
 		table.setExpandMode(type2);
-		Assert.assertSame("Incorrect select mode for modified session", type2, table.getExpandMode());
+		Assert.
+				assertSame("Incorrect select mode for modified session", type2, table.
+						getExpandMode());
 
 		setActiveContext(createUIContext());
 		Assert.assertSame("Incorrect select mode for other sessions", type1, table.getExpandMode());
@@ -171,7 +180,8 @@ public final class WDataTable_Test extends AbstractWComponentTestCase {
 		WDataTable.PaginationMode mode1 = WDataTable.PaginationMode.SERVER;
 		WDataTable.PaginationMode mode2 = WDataTable.PaginationMode.DYNAMIC;
 
-		Assert.assertEquals("Incorrect default pagination mode", WDataTable.PaginationMode.NONE, table.getPaginationMode());
+		Assert.assertEquals("Incorrect default pagination mode", WDataTable.PaginationMode.NONE,
+				table.getPaginationMode());
 
 		table.setPaginationMode(mode1);
 		Assert.assertSame("Incorrect default pagination mode", mode1, table.getPaginationMode());
@@ -179,10 +189,12 @@ public final class WDataTable_Test extends AbstractWComponentTestCase {
 		table.setLocked(true);
 		setActiveContext(createUIContext());
 		table.setPaginationMode(mode2);
-		Assert.assertSame("Incorrect pagination mode for modified session", mode2, table.getPaginationMode());
+		Assert.assertSame("Incorrect pagination mode for modified session", mode2, table.
+				getPaginationMode());
 
 		setActiveContext(createUIContext());
-		Assert.assertSame("Incorrect pagination mode for other sessions", mode1, table.getPaginationMode());
+		Assert.assertSame("Incorrect pagination mode for other sessions", mode1, table.
+				getPaginationMode());
 	}
 
 	@Test
@@ -208,7 +220,8 @@ public final class WDataTable_Test extends AbstractWComponentTestCase {
 		WDataTable.SelectMode type1 = WDataTable.SelectMode.SINGLE;
 		WDataTable.SelectMode type2 = WDataTable.SelectMode.MULTIPLE;
 
-		Assert.assertEquals("Incorrect default select mode", WDataTable.SelectMode.NONE, table.getSelectMode());
+		Assert.assertEquals("Incorrect default select mode", WDataTable.SelectMode.NONE, table.
+				getSelectMode());
 
 		table.setSelectMode(type1);
 		Assert.assertSame("Incorrect default select  mode", type1, table.getSelectMode());
@@ -216,7 +229,9 @@ public final class WDataTable_Test extends AbstractWComponentTestCase {
 		table.setLocked(true);
 		setActiveContext(createUIContext());
 		table.setSelectMode(type2);
-		Assert.assertSame("Incorrect select mode for modified session", type2, table.getSelectMode());
+		Assert.
+				assertSame("Incorrect select mode for modified session", type2, table.
+						getSelectMode());
 
 		setActiveContext(createUIContext());
 		Assert.assertSame("Incorrect select mode for other sessions", type1, table.getSelectMode());
@@ -228,7 +243,8 @@ public final class WDataTable_Test extends AbstractWComponentTestCase {
 		WDataTable.SelectAllType type1 = WDataTable.SelectAllType.TEXT;
 		WDataTable.SelectAllType type2 = WDataTable.SelectAllType.CONTROL;
 
-		Assert.assertEquals("Incorrect default select all mode", WDataTable.SelectAllType.TEXT, table.getSelectAllMode());
+		Assert.assertEquals("Incorrect default select all mode", WDataTable.SelectAllType.TEXT,
+				table.getSelectAllMode());
 
 		table.setSelectAllMode(type1);
 		Assert.assertSame("Incorrect default select all mode", type1, table.getSelectAllMode());
@@ -236,10 +252,12 @@ public final class WDataTable_Test extends AbstractWComponentTestCase {
 		table.setLocked(true);
 		setActiveContext(createUIContext());
 		table.setSelectAllMode(type2);
-		Assert.assertSame("Incorrect select all mode for modified session", type2, table.getSelectAllMode());
+		Assert.assertSame("Incorrect select all mode for modified session", type2, table.
+				getSelectAllMode());
 
 		setActiveContext(createUIContext());
-		Assert.assertSame("Incorrect select all mode for other sessions", type1, table.getSelectAllMode());
+		Assert.assertSame("Incorrect select all mode for other sessions", type1, table.
+				getSelectAllMode());
 	}
 
 	@Test
@@ -254,7 +272,8 @@ public final class WDataTable_Test extends AbstractWComponentTestCase {
 		table.setLocked(true);
 		setActiveContext(createUIContext());
 		table.setShowRowHeaders(false);
-		Assert.assertFalse("Incorrect show row headers for modified session", table.isShowRowHeaders());
+		Assert.assertFalse("Incorrect show row headers for modified session", table.
+				isShowRowHeaders());
 
 		setActiveContext(createUIContext());
 		Assert.assertTrue("Incorrect show row headers for other sessions", table.isShowRowHeaders());
@@ -272,7 +291,8 @@ public final class WDataTable_Test extends AbstractWComponentTestCase {
 		table.setLocked(true);
 		setActiveContext(createUIContext());
 		table.setShowRowIndices(false);
-		Assert.assertFalse("Incorrect show row indices for modified session", table.isShowRowIndices());
+		Assert.assertFalse("Incorrect show row indices for modified session", table.
+				isShowRowIndices());
 
 		setActiveContext(createUIContext());
 		Assert.assertTrue("Incorrect show row indices for other sessions", table.isShowRowIndices());
@@ -282,7 +302,9 @@ public final class WDataTable_Test extends AbstractWComponentTestCase {
 	public void testSubmitOnRowSelectAccessors() {
 		WDataTable table = new WDataTable();
 
-		Assert.assertFalse("Should not submit on row select by default", table.isSubmitOnRowSelect());
+		Assert.
+				assertFalse("Should not submit on row select by default", table.
+						isSubmitOnRowSelect());
 
 		table.setSubmitOnRowSelect(true);
 		Assert.assertTrue("Incorrect default submit on row select", table.isSubmitOnRowSelect());
@@ -290,10 +312,12 @@ public final class WDataTable_Test extends AbstractWComponentTestCase {
 		table.setLocked(true);
 		setActiveContext(createUIContext());
 		table.setSubmitOnRowSelect(false);
-		Assert.assertFalse("Incorrect submit on row select for modified session", table.isSubmitOnRowSelect());
+		Assert.assertFalse("Incorrect submit on row select for modified session", table.
+				isSubmitOnRowSelect());
 
 		setActiveContext(createUIContext());
-		Assert.assertTrue("Incorrect submit on row select for other sessions", table.isSubmitOnRowSelect());
+		Assert.assertTrue("Incorrect submit on row select for other sessions", table.
+				isSubmitOnRowSelect());
 	}
 
 	@Test
@@ -357,15 +381,18 @@ public final class WDataTable_Test extends AbstractWComponentTestCase {
 		String noDataMessage2 = "testNoDataMessageAccessors.noDataMessage2";
 
 		table.setNoDataMessage(noDataMessage1);
-		Assert.assertSame("Incorrect default 'no data' message", noDataMessage1, table.getNoDataMessage());
+		Assert.assertSame("Incorrect default 'no data' message", noDataMessage1, table.
+				getNoDataMessage());
 
 		table.setLocked(true);
 		setActiveContext(createUIContext());
 		table.setNoDataMessage(noDataMessage2);
-		Assert.assertSame("Incorrect 'no data' message for modified session", noDataMessage2, table.getNoDataMessage());
+		Assert.assertSame("Incorrect 'no data' message for modified session", noDataMessage2, table.
+				getNoDataMessage());
 
 		setActiveContext(createUIContext());
-		Assert.assertSame("Incorrect 'no data' message for other sessions", noDataMessage1, table.getNoDataMessage());
+		Assert.assertSame("Incorrect 'no data' message for other sessions", noDataMessage1, table.
+				getNoDataMessage());
 	}
 
 	@Test
@@ -377,7 +404,9 @@ public final class WDataTable_Test extends AbstractWComponentTestCase {
 		int[] order1 = new int[]{0, 1};
 		int[] order2 = new int[]{1, 0};
 
-		Assert.assertNull("Should not have a custom column order by default", table.getColumnOrder());
+		Assert.
+				assertNull("Should not have a custom column order by default", table.
+						getColumnOrder());
 
 		table.setColumnOrder(order1);
 		Assert.assertSame("Incorrect default column order", order1, table.getColumnOrder());
@@ -385,10 +414,12 @@ public final class WDataTable_Test extends AbstractWComponentTestCase {
 		table.setLocked(true);
 		setActiveContext(createUIContext());
 		table.setColumnOrder(order2);
-		Assert.assertSame("Incorrect column order for modified session", order2, table.getColumnOrder());
+		Assert.assertSame("Incorrect column order for modified session", order2, table.
+				getColumnOrder());
 
 		setActiveContext(createUIContext());
-		Assert.assertSame("Incorrect column order for other sessions", order1, table.getColumnOrder());
+		Assert.assertSame("Incorrect column order for other sessions", order1, table.
+				getColumnOrder());
 	}
 
 	@Test
@@ -400,7 +431,8 @@ public final class WDataTable_Test extends AbstractWComponentTestCase {
 		Action action1 = new TestAction();
 		Action action2 = new TestAction();
 
-		Assert.assertNull("Should not have a custom action by default", table.getSelectionChangeAction());
+		Assert.assertNull("Should not have a custom action by default", table.
+				getSelectionChangeAction());
 
 		table.setSelectionChangeAction(action1);
 		Assert.assertSame("Incorrect default action", action1, table.getSelectionChangeAction());
@@ -408,10 +440,12 @@ public final class WDataTable_Test extends AbstractWComponentTestCase {
 		table.setLocked(true);
 		setActiveContext(createUIContext());
 		table.setSelectionChangeAction(action2);
-		Assert.assertSame("Incorrect action for modified session", action2, table.getSelectionChangeAction());
+		Assert.assertSame("Incorrect action for modified session", action2, table.
+				getSelectionChangeAction());
 
 		setActiveContext(createUIContext());
-		Assert.assertSame("Incorrect action for other sessions", action1, table.getSelectionChangeAction());
+		Assert.assertSame("Incorrect action for other sessions", action1, table.
+				getSelectionChangeAction());
 	}
 
 	@Test
@@ -426,10 +460,12 @@ public final class WDataTable_Test extends AbstractWComponentTestCase {
 		table.setLocked(true);
 		setActiveContext(createUIContext());
 		table.setRowsPerPage(numRows2);
-		Assert.assertEquals("Incorrect rows per page for modified session", numRows2, table.getRowsPerPage());
+		Assert.assertEquals("Incorrect rows per page for modified session", numRows2, table.
+				getRowsPerPage());
 
 		setActiveContext(createUIContext());
-		Assert.assertEquals("Incorrect rows per page for other sessions", numRows1, table.getRowsPerPage());
+		Assert.assertEquals("Incorrect rows per page for other sessions", numRows1, table.
+				getRowsPerPage());
 
 		// try an invalid # of rows per page
 		try {
@@ -437,7 +473,8 @@ public final class WDataTable_Test extends AbstractWComponentTestCase {
 			Assert.fail("Should have thrown an IllegalArgumentException");
 		} catch (IllegalArgumentException expected) {
 			Assert.assertNotNull("Thrown exception should have a message", expected.getMessage());
-			Assert.assertEquals("Rows per page should not have been modified", numRows1, table.getRowsPerPage());
+			Assert.assertEquals("Rows per page should not have been modified", numRows1, table.
+					getRowsPerPage());
 		}
 	}
 
@@ -455,10 +492,12 @@ public final class WDataTable_Test extends AbstractWComponentTestCase {
 		table.setLocked(true);
 		setActiveContext(createUIContext());
 		table.setCurrentPage(page2);
-		Assert.assertEquals("Incorrect rows per page for modified session", page2, table.getCurrentPage());
+		Assert.assertEquals("Incorrect rows per page for modified session", page2, table.
+				getCurrentPage());
 
 		setActiveContext(createUIContext());
-		Assert.assertEquals("Incorrect rows per page for other sessions", page1, table.getCurrentPage());
+		Assert.assertEquals("Incorrect rows per page for other sessions", page1, table.
+				getCurrentPage());
 
 		// try an invalid page
 		try {
@@ -466,12 +505,14 @@ public final class WDataTable_Test extends AbstractWComponentTestCase {
 			Assert.fail("Should have thrown an IllegalArgumentException");
 		} catch (IllegalArgumentException expected) {
 			Assert.assertNotNull("Thrown exception should have a message", expected.getMessage());
-			Assert.assertEquals("Current page should not have been modified", page1, table.getCurrentPage());
+			Assert.assertEquals("Current page should not have been modified", page1, table.
+					getCurrentPage());
 		}
 
 		// try an OOB page - should be max page
 		table.setCurrentPage(123);
-		Assert.assertEquals("Incorrect rows per page for invalid page number", 9, table.getCurrentPage());
+		Assert.assertEquals("Incorrect rows per page for invalid page number", 9, table.
+				getCurrentPage());
 	}
 
 	@Test
@@ -482,7 +523,8 @@ public final class WDataTable_Test extends AbstractWComponentTestCase {
 		List<Integer> rows1 = Arrays.asList(new Integer[]{0, 1, 2});
 		List<Integer> rows2 = Arrays.asList(new Integer[]{3, 4, 5});
 
-		Assert.assertTrue("Should not have selected rows by default", table.getSelectedRows().isEmpty());
+		Assert.assertTrue("Should not have selected rows by default", table.getSelectedRows().
+				isEmpty());
 
 		table.setSelectedRows(rows1);
 		Assert.assertEquals("Incorrect default selected rows", rows1, table.getSelectedRows());
@@ -490,10 +532,12 @@ public final class WDataTable_Test extends AbstractWComponentTestCase {
 		table.setLocked(true);
 		setActiveContext(createUIContext());
 		table.setSelectedRows(rows2);
-		Assert.assertEquals("Incorrect selected rows for modified session", rows2, table.getSelectedRows());
+		Assert.assertEquals("Incorrect selected rows for modified session", rows2, table.
+				getSelectedRows());
 
 		setActiveContext(createUIContext());
-		Assert.assertEquals("Incorrect selected rows for other sessions", rows1, table.getSelectedRows());
+		Assert.assertEquals("Incorrect selected rows for other sessions", rows1, table.
+				getSelectedRows());
 	}
 
 	@Test
@@ -504,7 +548,8 @@ public final class WDataTable_Test extends AbstractWComponentTestCase {
 		List<Integer> rows1 = Arrays.asList(new Integer[]{0, 1, 2});
 		List<Integer> rows2 = Arrays.asList(new Integer[]{3, 4, 5});
 
-		Assert.assertTrue("Should not have expanded rows by default", table.getExpandedRows().isEmpty());
+		Assert.assertTrue("Should not have expanded rows by default", table.getExpandedRows().
+				isEmpty());
 
 		table.setExpandedRows(rows1);
 		Assert.assertEquals("Incorrect default expanded rows", rows1, table.getExpandedRows());
@@ -512,10 +557,12 @@ public final class WDataTable_Test extends AbstractWComponentTestCase {
 		table.setLocked(true);
 		setActiveContext(createUIContext());
 		table.setExpandedRows(rows2);
-		Assert.assertEquals("Incorrect expanded rows for modified session", rows2, table.getExpandedRows());
+		Assert.assertEquals("Incorrect expanded rows for modified session", rows2, table.
+				getExpandedRows());
 
 		setActiveContext(createUIContext());
-		Assert.assertEquals("Incorrect expanded rows for other sessions", rows1, table.getExpandedRows());
+		Assert.assertEquals("Incorrect expanded rows for other sessions", rows1, table.
+				getExpandedRows());
 	}
 
 	@Test
@@ -536,7 +583,8 @@ public final class WDataTable_Test extends AbstractWComponentTestCase {
 		Assert.assertEquals("Incorrect page number after handleRequest", 5, table.getCurrentPage());
 
 		resetContext();
-		Assert.assertEquals("Incorrect default page number after handleRequest", 0, table.getCurrentPage());
+		Assert.assertEquals("Incorrect default page number after handleRequest", 0, table.
+				getCurrentPage());
 	}
 
 	@Test
@@ -553,20 +601,24 @@ public final class WDataTable_Test extends AbstractWComponentTestCase {
 		request.setParameter(table.getId() + ".expanded", new String[]{"5", "6", "7"});
 
 		table.handleRequest(request);
-		Assert.assertEquals("Incorrect expanded rows after handleRequest", Arrays.asList(new Integer[]{5, 6, 7}), table.getExpandedRows());
+		Assert.assertEquals("Incorrect expanded rows after handleRequest", Arrays.asList(
+				new Integer[]{5, 6, 7}), table.getExpandedRows());
 
 		resetContext();
-		Assert.assertTrue("Incorrect default expanded rows after handleRequest", table.getExpandedRows().isEmpty());
+		Assert.assertTrue("Incorrect default expanded rows after handleRequest", table.
+				getExpandedRows().isEmpty());
 
 		setActiveContext(createUIContext());
 		request = new MockRequest();
 		request.setParameter(table.getId() + "-h", "x");
 
 		table.handleRequest(request);
-		Assert.assertTrue("Incorrect expanded rows after handleRequest with no expansions", table.getExpandedRows().isEmpty());
+		Assert.assertTrue("Incorrect expanded rows after handleRequest with no expansions", table.
+				getExpandedRows().isEmpty());
 
 		resetContext();
-		Assert.assertTrue("Incorrect default expanded rows after handleRequest with no expansions", table.getExpandedRows().isEmpty());
+		Assert.assertTrue("Incorrect default expanded rows after handleRequest with no expansions",
+				table.getExpandedRows().isEmpty());
 	}
 
 	@Test
@@ -583,10 +635,12 @@ public final class WDataTable_Test extends AbstractWComponentTestCase {
 		request.setParameter(table.getId() + ".selected", new String[]{"5", "6", "7"});
 
 		table.handleRequest(request);
-		Assert.assertEquals("Should only have selected the first item after handleRequest", Arrays.asList(new Integer[]{5}), table.getSelectedRows());
+		Assert.assertEquals("Should only have selected the first item after handleRequest", Arrays.
+				asList(new Integer[]{5}), table.getSelectedRows());
 
 		resetContext();
-		Assert.assertTrue("Incorrect default selection after handleRequest", table.getSelectedRows().isEmpty());
+		Assert.assertTrue("Incorrect default selection after handleRequest",
+				table.getSelectedRows().isEmpty());
 	}
 
 	@Test
@@ -603,20 +657,24 @@ public final class WDataTable_Test extends AbstractWComponentTestCase {
 		request.setParameter(table.getId() + ".selected", new String[]{"5", "6", "7"});
 
 		table.handleRequest(request);
-		Assert.assertEquals("Incorrect selection after handleRequest", Arrays.asList(new Integer[]{5, 6, 7}), table.getSelectedRows());
+		Assert.assertEquals("Incorrect selection after handleRequest", Arrays.asList(
+				new Integer[]{5, 6, 7}), table.getSelectedRows());
 
 		resetContext();
-		Assert.assertTrue("Incorrect default selection after handleRequest", table.getSelectedRows().isEmpty());
+		Assert.assertTrue("Incorrect default selection after handleRequest",
+				table.getSelectedRows().isEmpty());
 
 		setActiveContext(createUIContext());
 		request = new MockRequest();
 		request.setParameter(table.getId() + "-h", "x");
 
 		table.handleRequest(request);
-		Assert.assertTrue("Incorrect selection after handleRequest with no selection set", table.getSelectedRows().isEmpty());
+		Assert.assertTrue("Incorrect selection after handleRequest with no selection set", table.
+				getSelectedRows().isEmpty());
 
 		resetContext();
-		Assert.assertTrue("Incorrect default selection after handleRequest with no selection set", table.getSelectedRows().isEmpty());
+		Assert.assertTrue("Incorrect default selection after handleRequest with no selection set",
+				table.getSelectedRows().isEmpty());
 	}
 
 	@Test
@@ -647,7 +705,8 @@ public final class WDataTable_Test extends AbstractWComponentTestCase {
 		request.setParameter(table.getId() + ".selected", new String[]{"1"});
 
 		table.handleRequest(request);
-		Assert.assertEquals("Incorrect selection after handleRequest", Arrays.asList(new Integer[]{1}), table.getSelectedRows());
+		Assert.assertEquals("Incorrect selection after handleRequest", Arrays.asList(
+				new Integer[]{1}), table.getSelectedRows());
 
 		// Sort table
 		table.sort(0, false);
@@ -658,7 +717,8 @@ public final class WDataTable_Test extends AbstractWComponentTestCase {
 		request.setParameter(table.getId() + ".selected", new String[]{"8"});
 
 		table.handleRequest(request);
-		Assert.assertEquals("Incorrect selection after handleRequest", Arrays.asList(new Integer[]{1, 8}), table.getSelectedRows());
+		Assert.assertEquals("Incorrect selection after handleRequest", Arrays.asList(
+				new Integer[]{1, 8}), table.getSelectedRows());
 
 		// Select 1st item (after sort)
 		request = new MockRequest();
@@ -666,10 +726,12 @@ public final class WDataTable_Test extends AbstractWComponentTestCase {
 		request.setParameter(table.getId() + ".selected", new String[]{"9"});
 
 		table.handleRequest(request);
-		Assert.assertEquals("Incorrect selection after handleRequest", Arrays.asList(new Integer[]{1, 9}), table.getSelectedRows());
+		Assert.assertEquals("Incorrect selection after handleRequest", Arrays.asList(
+				new Integer[]{1, 9}), table.getSelectedRows());
 
 		resetContext();
-		Assert.assertTrue("Incorrect default selection after handleRequest with no selection set", table.getSelectedRows().isEmpty());
+		Assert.assertTrue("Incorrect default selection after handleRequest with no selection set",
+				table.getSelectedRows().isEmpty());
 	}
 
 	@Test
@@ -687,20 +749,24 @@ public final class WDataTable_Test extends AbstractWComponentTestCase {
 		request.setParameter(table.getId() + ".filters", filters);
 
 		table.handleRequest(request);
-		Assert.assertEquals("Incorrect selection after handleRequest", Arrays.asList(filters), table.getActiveFilters());
+		Assert.assertEquals("Incorrect selection after handleRequest", Arrays.asList(filters),
+				table.getActiveFilters());
 
 		resetContext();
-		Assert.assertTrue("Incorrect default filters after handleRequest", table.getActiveFilters().isEmpty());
+		Assert.assertTrue("Incorrect default filters after handleRequest", table.getActiveFilters().
+				isEmpty());
 
 		setActiveContext(createUIContext());
 		request = new MockRequest();
 		request.setParameter(table.getId() + "-h", "x");
 
 		table.handleRequest(request);
-		Assert.assertTrue("Incorrect filters after handleRequest with no filters set", table.getActiveFilters().isEmpty());
+		Assert.assertTrue("Incorrect filters after handleRequest with no filters set", table.
+				getActiveFilters().isEmpty());
 
 		resetContext();
-		Assert.assertTrue("Incorrect default filters after handleRequest with no filters set", table.getActiveFilters().isEmpty());
+		Assert.assertTrue("Incorrect default filters after handleRequest with no filters set",
+				table.getActiveFilters().isEmpty());
 	}
 
 	@Test
@@ -722,7 +788,8 @@ public final class WDataTable_Test extends AbstractWComponentTestCase {
 
 		table.handleRequest(request);
 		Assert.assertTrue("Incorrect selection after handleRequest", table.isSorted());
-		Assert.assertEquals("Incorrect sort column after handleRequest", 0, table.getSortColumnIndex());
+		Assert.assertEquals("Incorrect sort column after handleRequest", 0, table.
+				getSortColumnIndex());
 		Assert.assertTrue("Incorrect sort direction after handleRequest", table.isSortAscending());
 
 		List rowIndices = table.getRepeater().getBeanList();
@@ -760,7 +827,9 @@ public final class WDataTable_Test extends AbstractWComponentTestCase {
 		table.sort(0, true);
 
 		Assert.assertTrue("Incorrect selection after sort method", table.isSorted());
-		Assert.assertEquals("Incorrect sort column after sort method", 0, table.getSortColumnIndex());
+		Assert.
+				assertEquals("Incorrect sort column after sort method", 0, table.
+						getSortColumnIndex());
 		Assert.assertTrue("Incorrect sort direction after sort method", table.isSortAscending());
 
 		List<?> rowIndices = table.getRepeater().getBeanList();
@@ -794,7 +863,8 @@ public final class WDataTable_Test extends AbstractWComponentTestCase {
 
 		table.setShowColumnHeaders(showColumnHeaders);
 
-		Assert.assertEquals("should return showColumnHeaders set", showColumnHeaders, table.isShowColumnHeaders());
+		Assert.assertEquals("should return showColumnHeaders set", showColumnHeaders, table.
+				isShowColumnHeaders());
 	}
 
 	/**
@@ -809,8 +879,10 @@ public final class WDataTable_Test extends AbstractWComponentTestCase {
 
 		List<String> resultActiveFilters = table.getActiveFilters();
 		Assert.assertNotNull("list of filters should not be null", resultActiveFilters);
-		Assert.assertEquals("result same size as input", activeFilters.size(), resultActiveFilters.size());
-		Assert.assertTrue("result contains all input elements", resultActiveFilters.containsAll(activeFilters));
+		Assert.assertEquals("result same size as input", activeFilters.size(), resultActiveFilters.
+				size());
+		Assert.assertTrue("result contains all input elements", resultActiveFilters.containsAll(
+				activeFilters));
 	}
 
 	/**
@@ -825,7 +897,8 @@ public final class WDataTable_Test extends AbstractWComponentTestCase {
 			table.setColumnOrder(columnOrder);
 			Assert.fail("should throw IllegalArgumentException");
 		} catch (IllegalArgumentException e) {
-			Assert.assertEquals("should get expected message", SET_COLUMN_ORDER_ERROR_MESSAGE, e.getMessage());
+			Assert.assertEquals("should get expected message", SET_COLUMN_ORDER_ERROR_MESSAGE, e.
+					getMessage());
 		}
 	}
 
@@ -857,7 +930,8 @@ public final class WDataTable_Test extends AbstractWComponentTestCase {
 		table.setLocked(true);
 		setActiveContext(createUIContext());
 		table.setCurrentPage(currentPage);
-		Assert.assertEquals("Too high currentPage should be set back to maxPage", 0, table.getCurrentPage());
+		Assert.assertEquals("Too high currentPage should be set back to maxPage", 0, table.
+				getCurrentPage());
 
 		resetContext();
 		Assert.assertEquals("Incorrect default page", 0, table.getCurrentPage());
@@ -875,7 +949,8 @@ public final class WDataTable_Test extends AbstractWComponentTestCase {
 			table.setCurrentPage(currentPage);
 			Assert.fail("should throw IllegalArgumentException");
 		} catch (IllegalArgumentException e) {
-			Assert.assertEquals("should get expected message", SET_CURRENT_PAGE_ERROR_MESSAGE, e.getMessage());
+			Assert.assertEquals("should get expected message", SET_CURRENT_PAGE_ERROR_MESSAGE, e.
+					getMessage());
 		}
 	}
 
@@ -906,7 +981,8 @@ public final class WDataTable_Test extends AbstractWComponentTestCase {
 		WDataTable table = new WDataTable();
 		table.setSortMode(WDataTable.SortMode.SERVER);
 
-		Assert.assertEquals("should return SortMode set", WDataTable.SortMode.SERVER, table.getSortMode());
+		Assert.assertEquals("should return SortMode set", WDataTable.SortMode.SERVER, table.
+				getSortMode());
 	}
 
 	/**
@@ -921,7 +997,8 @@ public final class WDataTable_Test extends AbstractWComponentTestCase {
 			table.setColumnOrder(columnOrder);
 			Assert.fail("should throw IllegalArgumentException");
 		} catch (IllegalArgumentException e) {
-			Assert.assertEquals("should get expected message", SET_COLUMN_ORDER_ERROR_MESSAGE, e.getMessage());
+			Assert.assertEquals("should get expected message", SET_COLUMN_ORDER_ERROR_MESSAGE, e.
+					getMessage());
 		}
 	}
 
@@ -948,7 +1025,8 @@ public final class WDataTable_Test extends AbstractWComponentTestCase {
 	public void testSetSelectedRowsNull() {
 		WDataTable table = new WDataTable();
 
-		List<Integer> selectedRows = Arrays.asList(new Integer[]{Integer.valueOf(2), Integer.valueOf(3)});
+		List<Integer> selectedRows = Arrays.asList(new Integer[]{Integer.valueOf(2), Integer.
+			valueOf(3)});
 
 		table.setSelectedRows(null);
 
@@ -959,7 +1037,8 @@ public final class WDataTable_Test extends AbstractWComponentTestCase {
 		Assert.assertTrue("Incorrect selected rows", table.getSelectedRows().size() == 2);
 
 		resetContext();
-		Assert.assertTrue("Default selected rows should be empty", table.getSelectedRows().size() == 0);
+		Assert.assertTrue("Default selected rows should be empty",
+				table.getSelectedRows().size() == 0);
 	}
 
 	/**
@@ -1028,8 +1107,10 @@ public final class WDataTable_Test extends AbstractWComponentTestCase {
 		table.addAction(button2);
 
 		Assert.assertEquals("should be 2 items in list with uic", 2, table.getActions().size());
-		Assert.assertEquals("should get action added in list with uic", button, table.getActions().get(0));
-		Assert.assertEquals("should get second action added in list with uic", button2, table.getActions().get(1));
+		Assert.assertEquals("should get action added in list with uic", button, table.getActions().
+				get(0));
+		Assert.assertEquals("should get second action added in list with uic", button2, table.
+				getActions().get(1));
 
 		// Default context should be unaffected.
 		resetContext();
@@ -1050,7 +1131,8 @@ public final class WDataTable_Test extends AbstractWComponentTestCase {
 			table.addActionConstraint(button, constraint);
 			Assert.fail("should throw an IllegalArgumentException");
 		} catch (IllegalArgumentException e) {
-			Assert.assertEquals("should get expected message", ACTION_CONSTRAINT_ERROR_MESSAGE, e.getMessage());
+			Assert.assertEquals("should get expected message", ACTION_CONSTRAINT_ERROR_MESSAGE, e.
+					getMessage());
 		}
 	}
 
@@ -1067,7 +1149,8 @@ public final class WDataTable_Test extends AbstractWComponentTestCase {
 			table.addActionConstraint(button, constraint);
 			Assert.fail("should throw an IllegalArgumentException");
 		} catch (IllegalArgumentException e) {
-			Assert.assertEquals("should get expected message", ACTION_CONSTRAINT_ERROR_MESSAGE, e.getMessage());
+			Assert.assertEquals("should get expected message", ACTION_CONSTRAINT_ERROR_MESSAGE, e.
+					getMessage());
 		}
 	}
 
@@ -1091,12 +1174,14 @@ public final class WDataTable_Test extends AbstractWComponentTestCase {
 		table.addAction(button);
 
 		// add constraint to shared
-		WDataTable.ActionConstraint constraint1 = new WDataTable.ActionConstraint(minRowSelected, maxRowSelected,
+		WDataTable.ActionConstraint constraint1 = new WDataTable.ActionConstraint(minRowSelected,
+				maxRowSelected,
 				error, message);
 		table.addActionConstraint(button, constraint1);
 
 		// add constraint to uic
-		WDataTable.ActionConstraint constraint2 = new WDataTable.ActionConstraint(minRowSelectedAlt, maxRowSelectedAlt,
+		WDataTable.ActionConstraint constraint2 = new WDataTable.ActionConstraint(minRowSelectedAlt,
+				maxRowSelectedAlt,
 				errorAlt, messageAlt);
 
 		setActiveContext(createUIContext());
@@ -1105,8 +1190,10 @@ public final class WDataTable_Test extends AbstractWComponentTestCase {
 		List<WDataTable.ActionConstraint> constraints = table.getActionConstraints(button);
 		Assert.assertNotNull("constraints should not be null", constraints);
 		Assert.assertEquals("there should be two constraints", 2, constraints.size());
-		Assert.assertTrue("constraint1 should be one of the constraints", constraints.contains(constraint1));
-		Assert.assertTrue("constraint2 should be one of the constraints", constraints.contains(constraint2));
+		Assert.assertTrue("constraint1 should be one of the constraints", constraints.contains(
+				constraint1));
+		Assert.assertTrue("constraint2 should be one of the constraints", constraints.contains(
+				constraint2));
 	}
 
 	/**
@@ -1127,20 +1214,25 @@ public final class WDataTable_Test extends AbstractWComponentTestCase {
 		WDataTable.ActionConstraint constraint = new WDataTable.ActionConstraint(minSelectedRowCount,
 				maxSelectedRowCount, error, message);
 
-		Assert.assertEquals("should return min count set in constructor", minSelectedRowCount, constraint
+		Assert.assertEquals("should return min count set in constructor", minSelectedRowCount,
+				constraint
 				.getMinSelectedRowCount());
-		Assert.assertEquals("should return max count set in constructor", maxSelectedRowCount, constraint
+		Assert.assertEquals("should return max count set in constructor", maxSelectedRowCount,
+				constraint
 				.getMaxSelectedRowCount());
 		Assert.assertEquals("should return error set in constructor", error, constraint.isError());
-		Assert.assertEquals("should return message set in constructor", message, constraint.getMessage());
+		Assert.assertEquals("should return message set in constructor", message, constraint.
+				getMessage());
 
 		constraint.setMinSelectedRowCount(minSelectedRowCountAlt);
 		constraint.setMaxSelectedRowCount(maxSelectedRowCountAlt);
 		constraint.setError(errorAlt);
 		constraint.setMessage(messageAlt);
 
-		Assert.assertEquals("should return min count set", minSelectedRowCountAlt, constraint.getMinSelectedRowCount());
-		Assert.assertEquals("should return max count set", maxSelectedRowCountAlt, constraint.getMaxSelectedRowCount());
+		Assert.assertEquals("should return min count set", minSelectedRowCountAlt, constraint.
+				getMinSelectedRowCount());
+		Assert.assertEquals("should return max count set", maxSelectedRowCountAlt, constraint.
+				getMaxSelectedRowCount());
 		Assert.assertEquals("should return error set", errorAlt, constraint.isError());
 		Assert.assertEquals("should return message set", messageAlt, constraint.getMessage());
 	}
@@ -1166,10 +1258,12 @@ public final class WDataTable_Test extends AbstractWComponentTestCase {
 		String tableId = table.getId();
 
 		// Repeater ID
-		Assert.assertEquals("Incorrect default id for table repeater", tableId + "-row", table.getRepeater().getId());
+		Assert.assertEquals("Incorrect default id for table repeater", tableId + "-row", table.
+				getRepeater().getId());
 
 		// Repeater repeat root ID
-		Assert.assertEquals("Incorrect default id for table repeater root", tableId + "-row-r", table.getRepeater()
+		Assert.assertEquals("Incorrect default id for table repeater root", tableId + "-row-r",
+				table.getRepeater()
 				.getRepeatRoot().getId());
 
 		String rowPrefix = table.getRepeater().getRepeatRoot().getId();
@@ -1183,7 +1277,8 @@ public final class WDataTable_Test extends AbstractWComponentTestCase {
 			String idPrefix = rowPrefix + row + WComponent.ID_CONTEXT_SEPERATOR + rowSuffix;
 			try {
 				UIContextHolder.pushContext(uic);
-				Assert.assertEquals("Incorrect default id for repeated component", idPrefix, repeated.getId());
+				Assert.assertEquals("Incorrect default id for repeated component", idPrefix,
+						repeated.getId());
 			} finally {
 				UIContextHolder.popContext();
 			}
@@ -1208,15 +1303,18 @@ public final class WDataTable_Test extends AbstractWComponentTestCase {
 		setActiveContext(new UIContextImpl());
 
 		// Table ID
-		Assert.assertEquals("Incorrect id for table with idname", "TEST" + WComponent.ID_CONTEXT_SEPERATOR + "T",
+		Assert.assertEquals("Incorrect id for table with idname",
+				"TEST" + WComponent.ID_CONTEXT_SEPERATOR + "T",
 				table.getId());
 		String tableId = table.getId();
 
 		// Table repeater id
-		Assert.assertEquals("Incorrect id for table repeater", tableId + "-row", table.getRepeater().getId());
+		Assert.assertEquals("Incorrect id for table repeater", tableId + "-row",
+				table.getRepeater().getId());
 
 		// Table repeater root id
-		Assert.assertEquals("Incorrect id for table repeater root", tableId + "-row-r", table.getRepeater()
+		Assert.assertEquals("Incorrect id for table repeater root", tableId + "-row-r", table.
+				getRepeater()
 				.getRepeatRoot().getId());
 
 		String rowPrefix = table.getRepeater().getRepeatRoot().getId();
@@ -1228,7 +1326,8 @@ public final class WDataTable_Test extends AbstractWComponentTestCase {
 			String repeatedId = rowPrefix + row + WComponent.ID_CONTEXT_SEPERATOR + "X";
 			try {
 				UIContextHolder.pushContext(uic);
-				Assert.assertEquals("Incorrect id for repeated component with idname", repeatedId, repeated.getId());
+				Assert.assertEquals("Incorrect id for repeated component with idname", repeatedId,
+						repeated.getId());
 			} finally {
 				UIContextHolder.popContext();
 			}
@@ -1255,11 +1354,13 @@ public final class WDataTable_Test extends AbstractWComponentTestCase {
 		String tableId = table.getInternalId();
 
 		// Table Repeater ID
-		Assert.assertEquals("Incorrect internal id for table repeater", tableId + "c", table.getRepeater()
+		Assert.assertEquals("Incorrect internal id for table repeater", tableId + "c", table.
+				getRepeater()
 				.getInternalId());
 
 		// Table Repeater root ID
-		Assert.assertEquals("Incorrect internal id for table repeater root", tableId + "cr", table.getRepeater()
+		Assert.assertEquals("Incorrect internal id for table repeater root", tableId + "cr", table.
+				getRepeater()
 				.getRepeatRoot().getInternalId());
 
 		String rowPrefix = table.getRepeater().getRepeatRoot().getInternalId();
@@ -1292,7 +1393,8 @@ public final class WDataTable_Test extends AbstractWComponentTestCase {
 		NamingContextable naming = new WDataTable();
 		naming.setIdName(id);
 		Assert.assertEquals("Incorrect component id", id, naming.getId());
-		Assert.assertEquals("Naming context should match component id", id, naming.getNamingContextId());
+		Assert.assertEquals("Naming context should match component id", id, naming.
+				getNamingContextId());
 	}
 
 }

@@ -62,7 +62,8 @@ final class WMultiSelectPairRenderer extends AbstractWebXmlRenderer {
 				// We need to render the selected options in order
 				renderOrderedOptions(multiSelectPair, options, 0, xml, renderSelectionsOnly, encode);
 			} else {
-				renderUnorderedOptions(multiSelectPair, options, 0, xml, renderSelectionsOnly, encode);
+				renderUnorderedOptions(multiSelectPair, options, 0, xml, renderSelectionsOnly,
+						encode);
 			}
 		}
 
@@ -76,8 +77,7 @@ final class WMultiSelectPairRenderer extends AbstractWebXmlRenderer {
 	 * @param options the options to render
 	 * @param startIndex the starting option index
 	 * @param xml the XmlStringBuilder to paint to.
-	 * @param renderSelectionsOnly true to only render selected options, false to render all
-	 * options.
+	 * @param renderSelectionsOnly true to only render selected options, false to render all options.
 	 * @param encode true if the option description should be encoded, false if not.
 	 *
 	 * @return the number of options painted.
@@ -110,14 +110,16 @@ final class WMultiSelectPairRenderer extends AbstractWebXmlRenderer {
 
 				// Recurse to render options inside option groups.
 				List<?> nestedOptions = ((OptionGroup) option).getOptions();
-				optionIndex += renderOrderedOptions(multiSelectPair, nestedOptions, optionIndex, xml, renderSelectionsOnly, encode);
+				optionIndex += renderOrderedOptions(multiSelectPair, nestedOptions, optionIndex, xml,
+						renderSelectionsOnly, encode);
 
 				xml.appendEndTag("ui:optgroup");
 			} else {
 				int index = selections.indexOf(option);
 
 				if (index == -1) {
-					renderOption(multiSelectPair, option, optionIndex++, xml, selections, renderSelectionsOnly, encode);
+					renderOption(multiSelectPair, option, optionIndex++, xml, selections,
+							renderSelectionsOnly, encode);
 				} else {
 					currentSelectionIndices.put(index, optionIndex++);
 				}
@@ -132,7 +134,8 @@ final class WMultiSelectPairRenderer extends AbstractWebXmlRenderer {
 			for (int selectionIndex : sortedSelectedIndices) {
 				int selectionOptionIndex = currentSelectionIndices.get(selectionIndex);
 
-				renderOption(multiSelectPair, selections.get(selectionIndex), selectionOptionIndex, xml, selections, renderSelectionsOnly, encode);
+				renderOption(multiSelectPair, selections.get(selectionIndex), selectionOptionIndex,
+						xml, selections, renderSelectionsOnly, encode);
 			}
 		}
 
@@ -146,13 +149,13 @@ final class WMultiSelectPairRenderer extends AbstractWebXmlRenderer {
 	 * @param options the options to render
 	 * @param startIndex the starting option index
 	 * @param xml the XmlStringBuilder to paint to.
-	 * @param renderSelectionsOnly true to only render selected options, false to render all
-	 * options.
+	 * @param renderSelectionsOnly true to only render selected options, false to render all options.
 	 * @param encode true if the option description should be encoded, false if not.
 	 *
 	 * @return the number of options which were rendered.
 	 */
-	private int renderUnorderedOptions(final WMultiSelectPair multiSelectPair, final List<?> options, final int startIndex,
+	private int renderUnorderedOptions(final WMultiSelectPair multiSelectPair, final List<?> options,
+			final int startIndex,
 			final XmlStringBuilder xml, final boolean renderSelectionsOnly, final boolean encode) {
 		List<?> selections = multiSelectPair.getSelected();
 		int optionIndex = startIndex;
@@ -165,11 +168,13 @@ final class WMultiSelectPairRenderer extends AbstractWebXmlRenderer {
 
 				// Recurse to render options inside option groups.
 				List<?> nestedOptions = ((OptionGroup) option).getOptions();
-				optionIndex += renderUnorderedOptions(multiSelectPair, nestedOptions, optionIndex, xml, renderSelectionsOnly, encode);
+				optionIndex += renderUnorderedOptions(multiSelectPair, nestedOptions, optionIndex,
+						xml, renderSelectionsOnly, encode);
 
 				xml.appendEndTag("ui:optgroup");
 			} else {
-				renderOption(multiSelectPair, option, optionIndex++, xml, selections, renderSelectionsOnly, encode);
+				renderOption(multiSelectPair, option, optionIndex++, xml, selections,
+						renderSelectionsOnly, encode);
 			}
 		}
 
@@ -184,8 +189,7 @@ final class WMultiSelectPairRenderer extends AbstractWebXmlRenderer {
 	 * @param optionIndex the index of the option. OptionGroups are not counted.
 	 * @param html the XmlStringBuilder to paint to.
 	 * @param selections the list of selected options.
-	 * @param renderSelectionsOnly true to only render selected options, false to render all
-	 * options.
+	 * @param renderSelectionsOnly true to only render selected options, false to render all options.
 	 * @param encode true if the option description should be encoded, false if not.
 	 */
 	private void renderOption(final WMultiSelectPair multiSelectPair, final Object option,

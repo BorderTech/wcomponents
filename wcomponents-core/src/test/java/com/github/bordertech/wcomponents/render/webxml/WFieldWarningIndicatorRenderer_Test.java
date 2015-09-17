@@ -27,7 +27,8 @@ public class WFieldWarningIndicatorRenderer_Test extends AbstractWebXmlRendererT
 	@Test
 	public void testRendererCorrectlyConfigured() {
 		WFieldWarningIndicator indicator = new WFieldWarningIndicator(new WTextField());
-		Assert.assertTrue("Incorrect renderer supplied", getWebXmlRenderer(indicator) instanceof WFieldWarningIndicatorRenderer);
+		Assert.assertTrue("Incorrect renderer supplied",
+				getWebXmlRenderer(indicator) instanceof WFieldWarningIndicatorRenderer);
 	}
 
 	@Test

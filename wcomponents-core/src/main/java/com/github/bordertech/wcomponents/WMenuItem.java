@@ -7,8 +7,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * This component provides a menu item for use either directly in the top level of a {@link WMenu}
- * or as an item within a {@link WSubMenu} or {@link WMenuItemGroup}.
+ * This component provides a menu item for use either directly in the top level of a {@link WMenu} or as an item within
+ * a {@link WSubMenu} or {@link WMenuItemGroup}.
  *
  * @author Adam Millard
  * @author Yiannis Paschalidis
@@ -129,8 +129,8 @@ public class WMenuItem extends AbstractContainer implements Disableable, AjaxTri
 	}
 
 	/**
-	 * Override handleRequest in order to perform processing for this component. This implementation
-	 * checks for selection of the menu item, and executes the associated action if it has been set.
+	 * Override handleRequest in order to perform processing for this component. This implementation checks for
+	 * selection of the menu item, and executes the associated action if it has been set.
 	 *
 	 * @param request the request being responded to.
 	 */
@@ -155,7 +155,8 @@ public class WMenuItem extends AbstractContainer implements Disableable, AjaxTri
 				final Action action = getAction();
 
 				if (action != null) {
-					final ActionEvent event = new ActionEvent(this, this.getActionCommand(), this.getActionObject());
+					final ActionEvent event = new ActionEvent(this, this.getActionCommand(), this.
+							getActionObject());
 
 					Runnable later = new Runnable() {
 						@Override
@@ -255,8 +256,7 @@ public class WMenuItem extends AbstractContainer implements Disableable, AjaxTri
 	}
 
 	/**
-	 * @param selectable true if this item is selectable, false if not, or null to default to the
-	 * container.
+	 * @param selectable true if this item is selectable, false if not, or null to default to the container.
 	 */
 	public void setSelectable(final Boolean selectable) {
 		getOrCreateComponentModel().selectable = selectable;
@@ -281,12 +281,12 @@ public class WMenuItem extends AbstractContainer implements Disableable, AjaxTri
 
 	/**
 	 * <p>
-	 * Indicates whether the form should be submitted when the menu item is selected. By default,
-	 * the form will only be submitted if an action has been set on this item.
+	 * Indicates whether the form should be submitted when the menu item is selected. By default, the form will only be
+	 * submitted if an action has been set on this item.
 	 * </p>
 	 * <p>
-	 * Examples of where the form might should not be submitted include if the menu item is within a
-	 * sub-menu which supports multiple selection, or if the menu item points at an external URL.
+	 * Examples of where the form might should not be submitted include if the menu item is within a sub-menu which
+	 * supports multiple selection, or if the menu item points at an external URL.
 	 * </p>
 	 *
 	 * @return true if the form should be submitted when the menu item is selected.
@@ -348,8 +348,8 @@ public class WMenuItem extends AbstractContainer implements Disableable, AjaxTri
 	}
 
 	/**
-	 * Returns the accesskey character as a String. If the character is not a letter or digit then
-	 * <code>null</code> is returned.
+	 * Returns the accesskey character as a String. If the character is not a letter or digit then <code>null</code> is
+	 * returned.
 	 *
 	 * @return The accesskey character as a String (may be <code>null</code>).
 	 */
@@ -417,16 +417,14 @@ public class WMenuItem extends AbstractContainer implements Disableable, AjaxTri
 	}
 
 	/**
-	 * @return true if menu item is a cancel control and will warn the user of unsaved changes,
-	 * otherwise false
+	 * @return true if menu item is a cancel control and will warn the user of unsaved changes, otherwise false
 	 */
 	public boolean isCancel() {
 		return getComponentModel().cancel;
 	}
 
 	/**
-	 * @param cancel true if menu item is a cancel control and will warn the user of unsaved
-	 * changes, otherwise false
+	 * @param cancel true if menu item is a cancel control and will warn the user of unsaved changes, otherwise false
 	 */
 	public void setCancel(final boolean cancel) {
 		getOrCreateComponentModel().cancel = cancel;

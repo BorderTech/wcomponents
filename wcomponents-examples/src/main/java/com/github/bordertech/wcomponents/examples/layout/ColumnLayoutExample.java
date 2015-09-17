@@ -105,7 +105,8 @@ public class ColumnLayoutExample extends WContainer {
 	private void addAlignmentExample() {
 		add(new WHeading(WHeading.SECTION, "Column Alignments: Left, Center, Right"));
 		WPanel panel = new WPanel();
-		panel.setLayout(new ColumnLayout(new int[]{33, 33, 33}, new Alignment[]{Alignment.LEFT, Alignment.CENTER, Alignment.RIGHT}));
+		panel.setLayout(new ColumnLayout(new int[]{33, 33, 33},
+				new Alignment[]{Alignment.LEFT, Alignment.CENTER, Alignment.RIGHT}));
 		add(panel);
 		panel.add(new BoxComponent("Left"));
 		panel.add(new BoxComponent("Center"));

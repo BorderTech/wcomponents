@@ -40,7 +40,8 @@ public class TestApp_Test extends AbstractWComponentTestCase {
 		request.setParameter(testApp.getSearchCriteriaPage().getNumRows().getId(), "200");
 		request.setParameter(testApp.getSearchCriteriaPage().getRowsPerPage().getId(), "20");
 		request.setParameter(testApp.getSearchCriteriaPage().getDetailsSize().getId(), "Huge");
-		request.addParameterForButton(UIContextHolder.getCurrent(), testApp.getSearchCriteriaPage().getSearchBtn());
+		request.addParameterForButton(UIContextHolder.getCurrent(), testApp.getSearchCriteriaPage().
+				getSearchBtn());
 
 		// log elapsed time if the logger is set to trace
 		long elapsed = System.currentTimeMillis();

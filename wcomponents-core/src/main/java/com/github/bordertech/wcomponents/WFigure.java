@@ -2,17 +2,18 @@ package com.github.bordertech.wcomponents;
 
 /**
  * <p>
- * WFigure represents a container that is used to associate a large graphical element with its text
- * description. For example, a graph and its description.
+ * WFigure represents a container that is used to associate a large graphical element with its text description. For
+ * example, a graph and its description.
  * <p>
- * Various {@link FigureMode modes of operation} are supported, which allow developers to tune
- * performance by only loading content when it is needed.
+ * Various {@link FigureMode modes of operation} are supported, which allow developers to tune performance by only
+ * loading content when it is needed.
  * </p>
  *
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class WFigure extends AbstractNamingContextContainer implements AjaxTarget, SubordinateTarget, Marginable {
+public class WFigure extends AbstractNamingContextContainer implements AjaxTarget, SubordinateTarget,
+		Marginable {
 
 	/**
 	 * The available types of AJAX mode.
@@ -116,8 +117,8 @@ public class WFigure extends AbstractNamingContextContainer implements AjaxTarge
 	}
 
 	/**
-	 * Override preparePaintComponent in order to toggle the visibility of the content, or to
-	 * register the appropriate ajax operation.
+	 * Override preparePaintComponent in order to toggle the visibility of the content, or to register the appropriate
+	 * ajax operation.
 	 *
 	 * @param request the request being responded to
 	 */

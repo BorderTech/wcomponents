@@ -45,8 +45,7 @@ public class Message implements Serializable {
 	private Serializable[] args;
 
 	/**
-	 * The type of this message. One of
-	 * ({@link #SUCCESS_MESSAGE}, {@link #INFO_MESSAGE}, {@link #WARNING_MESSAGE} or
+	 * The type of this message. One of ({@link #SUCCESS_MESSAGE}, {@link #INFO_MESSAGE}, {@link #WARNING_MESSAGE} or
 	 * {@link #ERROR_MESSAGE}).
 	 */
 	private int type;

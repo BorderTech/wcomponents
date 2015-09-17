@@ -13,19 +13,16 @@ import java.io.InputStream;
 public interface File extends ContentAccess {
 
 	/**
-	 * Returns the original filename in the client's filesystem, as provided by the browser (or
-	 * other client software).
+	 * Returns the original filename in the client's filesystem, as provided by the browser (or other client software).
 	 *
 	 * @return The original filename in the client's filesystem.
 	 */
 	String getName();
 
 	/**
-	 * Returns an {@link java.io.InputStream InputStream} that can be used to retrieve the contents
-	 * of the file.
+	 * Returns an {@link java.io.InputStream InputStream} that can be used to retrieve the contents of the file.
 	 *
-	 * @return An {@link java.io.InputStream InputStream} that can be used to retrieve the contents
-	 * of the file.
+	 * @return An {@link java.io.InputStream InputStream} that can be used to retrieve the contents of the file.
 	 * @throws IOException if an error occurs.
 	 */
 	InputStream getInputStream() throws IOException;

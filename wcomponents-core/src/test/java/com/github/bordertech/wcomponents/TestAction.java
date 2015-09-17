@@ -1,8 +1,8 @@
 package com.github.bordertech.wcomponents;
 
 /**
- * This class assists in the unit testing of WComponents that support the triggering of Actions.
- * This class simply records details passed to the execute method.
+ * This class assists in the unit testing of WComponents that support the triggering of Actions. This class simply
+ * records details passed to the execute method.
  *
  * @author Martin Shevchenko
  * @since 1.0.0
@@ -32,8 +32,7 @@ public class TestAction implements Action {
 	}
 
 	/**
-	 * @return true if this TestAction has been triggered (execute method called) since the last
-	 * call to reset().
+	 * @return true if this TestAction has been triggered (execute method called) since the last call to reset().
 	 */
 	public boolean wasTriggered() {
 		return latestEvent != null;

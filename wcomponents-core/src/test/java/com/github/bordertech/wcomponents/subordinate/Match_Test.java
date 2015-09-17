@@ -25,13 +25,16 @@ public class Match_Test extends AbstractWComponentTestCase {
 		Match compare = new Match(trigger, value);
 
 		Assert.assertEquals("Value for Match is incorrect", value, compare.getValue());
-		Assert.assertEquals("Trigger for Match should be the trigger", trigger, compare.getTrigger());
+		Assert.
+				assertEquals("Trigger for Match should be the trigger", trigger, compare.
+						getTrigger());
 	}
 
 	@Test
 	public void testCompareType() {
 		Match compare = new Match(new MyTrigger(), null);
-		Assert.assertEquals("Incorrect Compare Type", AbstractCompare.CompareType.MATCH, compare.getCompareType());
+		Assert.assertEquals("Incorrect Compare Type", AbstractCompare.CompareType.MATCH, compare.
+				getCompareType());
 	}
 
 	@Test
@@ -59,10 +62,12 @@ public class Match_Test extends AbstractWComponentTestCase {
 		compare = new Match(trigger, null);
 
 		trigger.setData(null);
-		Assert.assertFalse("Match With Null Value - Compare for null value should be false", compare.execute());
+		Assert.assertFalse("Match With Null Value - Compare for null value should be false",
+				compare.execute());
 
 		trigger.setData("foo");
-		Assert.assertFalse("Match With Null Value - Compare for 'foo' value should be false", compare.execute());
+		Assert.assertFalse("Match With Null Value - Compare for 'foo' value should be false",
+				compare.execute());
 	}
 
 	@Test
@@ -75,7 +80,9 @@ public class Match_Test extends AbstractWComponentTestCase {
 		Match compare = new Match(trigger, "foo[a");
 
 		trigger.setData("fooa");
-		Assert.assertFalse("Match - Compare with invalid pattern should be false", compare.execute());
+		Assert.
+				assertFalse("Match - Compare with invalid pattern should be false", compare.
+						execute());
 	}
 
 	@Test
@@ -83,10 +90,12 @@ public class Match_Test extends AbstractWComponentTestCase {
 		MyTrigger trigger = new MyTrigger();
 
 		Match compare = new Match(trigger, "1");
-		Assert.assertEquals("Incorrect toString for compare", "MyTrigger matches \"1\"", compare.toString());
+		Assert.assertEquals("Incorrect toString for compare", "MyTrigger matches \"1\"", compare.
+				toString());
 
 		WLabel label = new WLabel("test label", trigger);
-		Assert.assertEquals("Incorrect toString for compare with a label", label.getText() + " matches \"1\"", compare.toString());
+		Assert.assertEquals("Incorrect toString for compare with a label",
+				label.getText() + " matches \"1\"", compare.toString());
 	}
 
 	/**

@@ -22,7 +22,8 @@ public class WRadioButtonRenderer_Test extends AbstractWebXmlRendererTestCase {
 	public void testRendererCorrectlyConfigured() {
 		RadioButtonGroup group = new RadioButtonGroup();
 		WRadioButton component = group.addRadioButton(1);
-		Assert.assertTrue("Incorrect renderer supplied", getWebXmlRenderer(component) instanceof WRadioButtonRenderer);
+		Assert.assertTrue("Incorrect renderer supplied",
+				getWebXmlRenderer(component) instanceof WRadioButtonRenderer);
 	}
 
 	@Test

@@ -21,20 +21,26 @@ public class SelectListUtil_Test {
 		String optionC = "C";
 		List<String> options = Arrays.asList(new String[]{optionA, optionB, optionC});
 
-		Assert.assertTrue("OptionA should be in options", SelectListUtil.containsOption(options, optionA));
-		Assert.assertFalse("Null should not be an option", SelectListUtil.containsOption(options, null));
-		Assert.assertFalse("Boolean TRUE is not an option", SelectListUtil.containsOption(options, Boolean.TRUE));
+		Assert.assertTrue("OptionA should be in options", SelectListUtil.containsOption(options,
+				optionA));
+		Assert.assertFalse("Null should not be an option", SelectListUtil.containsOption(options,
+				null));
+		Assert.assertFalse("Boolean TRUE is not an option", SelectListUtil.containsOption(options,
+				Boolean.TRUE));
 
 		// With Matching
-		Assert.assertTrue("OptionA should be in options", SelectListUtil.containsOptionWithMatching(options, optionA));
-		Assert.assertFalse("Null should not an option", SelectListUtil.containsOptionWithMatching(options, null));
+		Assert.assertTrue("OptionA should be in options", SelectListUtil.containsOptionWithMatching(
+				options, optionA));
+		Assert.assertFalse("Null should not an option", SelectListUtil.containsOptionWithMatching(
+				options, null));
 		Assert.assertFalse("Boolean TRUE should not be an option",
 				SelectListUtil.containsOptionWithMatching(options, Boolean.TRUE));
 
 		// With Matching
 		Assert.assertEquals("OptionA should be in options", optionA,
 				SelectListUtil.getOptionWithMatching(options, optionA));
-		Assert.assertNull("Invalid option should return null", SelectListUtil.getOptionWithMatching(options, "Z"));
+		Assert.assertNull("Invalid option should return null", SelectListUtil.getOptionWithMatching(
+				options, "Z"));
 	}
 
 	@Test
@@ -45,21 +51,33 @@ public class SelectListUtil_Test {
 		String optionD = null;
 
 		// Setup Groups
-		OptionGroup group1 = new OptionGroup("Group1", Arrays.asList(new String[]{optionA, "b", "c"}));
-		OptionGroup group2 = new OptionGroup("Group2", Arrays.asList(new String[]{"x", optionB, "z"}));
-		List<Object> options = Arrays.asList(new Object[]{optionC, group1, "Two", group2, optionD, "Three"});
+		OptionGroup group1 = new OptionGroup("Group1", Arrays.
+				asList(new String[]{optionA, "b", "c"}));
+		OptionGroup group2 = new OptionGroup("Group2", Arrays.
+				asList(new String[]{"x", optionB, "z"}));
+		List<Object> options = Arrays.asList(
+				new Object[]{optionC, group1, "Two", group2, optionD, "Three"});
 
-		Assert.assertTrue("OptionA should be in options", SelectListUtil.containsOption(options, optionA));
-		Assert.assertTrue("OptionB should be in options", SelectListUtil.containsOption(options, optionB));
-		Assert.assertTrue("OptionC should be in options", SelectListUtil.containsOption(options, optionC));
-		Assert.assertTrue("OptionD should be in options", SelectListUtil.containsOption(options, optionD));
-		Assert.assertFalse("Boolean TRUE is not an option", SelectListUtil.containsOption(options, Boolean.TRUE));
+		Assert.assertTrue("OptionA should be in options", SelectListUtil.containsOption(options,
+				optionA));
+		Assert.assertTrue("OptionB should be in options", SelectListUtil.containsOption(options,
+				optionB));
+		Assert.assertTrue("OptionC should be in options", SelectListUtil.containsOption(options,
+				optionC));
+		Assert.assertTrue("OptionD should be in options", SelectListUtil.containsOption(options,
+				optionD));
+		Assert.assertFalse("Boolean TRUE is not an option", SelectListUtil.containsOption(options,
+				Boolean.TRUE));
 
 		// With Matching
-		Assert.assertTrue("OptionA should be in options", SelectListUtil.containsOptionWithMatching(options, optionA));
-		Assert.assertTrue("OptionB should be in options", SelectListUtil.containsOptionWithMatching(options, optionB));
-		Assert.assertTrue("OptionC should be in options", SelectListUtil.containsOptionWithMatching(options, optionC));
-		Assert.assertTrue("OptionD should be in options", SelectListUtil.containsOptionWithMatching(options, optionD));
+		Assert.assertTrue("OptionA should be in options", SelectListUtil.containsOptionWithMatching(
+				options, optionA));
+		Assert.assertTrue("OptionB should be in options", SelectListUtil.containsOptionWithMatching(
+				options, optionB));
+		Assert.assertTrue("OptionC should be in options", SelectListUtil.containsOptionWithMatching(
+				options, optionC));
+		Assert.assertTrue("OptionD should be in options", SelectListUtil.containsOptionWithMatching(
+				options, optionD));
 		Assert.assertFalse("Boolean TRUE is not an option",
 				SelectListUtil.containsOptionWithMatching(options, Boolean.TRUE));
 
@@ -70,9 +88,11 @@ public class SelectListUtil_Test {
 		String optionA = "A";
 		String optionB = "B";
 		List<String> options = Arrays.asList(new String[]{optionA, optionB});
-		Assert.assertEquals("First option should be optionA", optionA, SelectListUtil.getFirstOption(options));
+		Assert.assertEquals("First option should be optionA", optionA, SelectListUtil.
+				getFirstOption(options));
 
-		Assert.assertNull("First option should be null for null options", SelectListUtil.getFirstOption(null));
+		Assert.assertNull("First option should be null for null options", SelectListUtil.
+				getFirstOption(null));
 	}
 
 	@Test
@@ -80,7 +100,8 @@ public class SelectListUtil_Test {
 		String optionA = null;
 		String optionB = "B";
 		List<String> options = Arrays.asList(new String[]{optionA, optionB});
-		Assert.assertEquals("First option should be optionA", optionA, SelectListUtil.getFirstOption(options));
+		Assert.assertEquals("First option should be optionA", optionA, SelectListUtil.
+				getFirstOption(options));
 	}
 
 	@Test
@@ -88,9 +109,11 @@ public class SelectListUtil_Test {
 		String optionA = "A";
 		// Setup Groups
 		OptionGroup group1 = new OptionGroup("Group1", null);
-		OptionGroup group2 = new OptionGroup("Group2", Arrays.asList(new String[]{optionA, "B", "C"}));
+		OptionGroup group2 = new OptionGroup("Group2", Arrays.
+				asList(new String[]{optionA, "B", "C"}));
 		List<Object> options = Arrays.asList(new Object[]{group1, group2, "D"});
-		Assert.assertEquals("First option should be optionA", optionA, SelectListUtil.getFirstOption(options));
+		Assert.assertEquals("First option should be optionA", optionA, SelectListUtil.
+				getFirstOption(options));
 	}
 
 	@Test
@@ -99,9 +122,11 @@ public class SelectListUtil_Test {
 		String optionA = null;
 		// Setup Groups
 		OptionGroup group1 = new OptionGroup("Group1", null);
-		OptionGroup group2 = new OptionGroup("Group2", Arrays.asList(new String[]{optionA, "B", "C"}));
+		OptionGroup group2 = new OptionGroup("Group2", Arrays.
+				asList(new String[]{optionA, "B", "C"}));
 		List<Object> options = Arrays.asList(new Object[]{group1, group2, "D"});
-		Assert.assertEquals("First option should be optionA", optionA, SelectListUtil.getFirstOption(options));
+		Assert.assertEquals("First option should be optionA", optionA, SelectListUtil.
+				getFirstOption(options));
 	}
 
 	@Test
@@ -126,20 +151,30 @@ public class SelectListUtil_Test {
 		String optionD = null;
 
 		// Setup Groups
-		OptionGroup group1 = new OptionGroup("Group1", Arrays.asList(new String[]{optionA, "b", "c"}));
-		OptionGroup group2 = new OptionGroup("Group2", Arrays.asList(new String[]{"x", optionB, "z"}));
-		List<Object> options = Arrays.asList(new Object[]{optionC, group1, "Two", group2, optionD, "Three"});
+		OptionGroup group1 = new OptionGroup("Group1", Arrays.
+				asList(new String[]{optionA, "b", "c"}));
+		OptionGroup group2 = new OptionGroup("Group2", Arrays.
+				asList(new String[]{"x", optionB, "z"}));
+		List<Object> options = Arrays.asList(
+				new Object[]{optionC, group1, "Two", group2, optionD, "Three"});
 
 		// Equal Options
-		Assert.assertEquals("Match should be optionA", optionA, SelectListUtil.getOptionWithMatching(options, optionA));
-		Assert.assertEquals("Match should be optionB", optionB, SelectListUtil.getOptionWithMatching(options, optionB));
-		Assert.assertEquals("Match should be optionC", optionC, SelectListUtil.getOptionWithMatching(options, optionC));
-		Assert.assertEquals("Match should be optionD", optionD, SelectListUtil.getOptionWithMatching(options, optionD));
-		Assert.assertNull("Match should be null for invalid option", SelectListUtil.getOptionWithMatching(options, "INVALID OPTION"));
+		Assert.assertEquals("Match should be optionA", optionA, SelectListUtil.
+				getOptionWithMatching(options, optionA));
+		Assert.assertEquals("Match should be optionB", optionB, SelectListUtil.
+				getOptionWithMatching(options, optionB));
+		Assert.assertEquals("Match should be optionC", optionC, SelectListUtil.
+				getOptionWithMatching(options, optionC));
+		Assert.assertEquals("Match should be optionD", optionD, SelectListUtil.
+				getOptionWithMatching(options, optionD));
+		Assert.assertNull("Match should be null for invalid option", SelectListUtil.
+				getOptionWithMatching(options, "INVALID OPTION"));
 
 		// Legacy Matching
-		Assert.assertEquals("Match should be optionA for legacy match", optionA, SelectListUtil.getOptionWithMatching(options, objectStringA));
-		Assert.assertEquals("Match should be optionC for legacy match", optionC, SelectListUtil.getOptionWithMatching(options, objectStringC));
+		Assert.assertEquals("Match should be optionA for legacy match", optionA, SelectListUtil.
+				getOptionWithMatching(options, objectStringA));
+		Assert.assertEquals("Match should be optionC for legacy match", optionC, SelectListUtil.
+				getOptionWithMatching(options, objectStringC));
 	}
 
 	@Test

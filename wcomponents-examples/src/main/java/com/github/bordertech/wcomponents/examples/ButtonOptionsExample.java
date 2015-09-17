@@ -19,8 +19,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * ButtonOptionsExample contains a series of controls for displaying and manipulating an example
- * button.
+ * ButtonOptionsExample contains a series of controls for displaying and manipulating an example button.
  *
  * @author Steve Harney
  * @since 1.0.0
@@ -75,7 +74,8 @@ public class ButtonOptionsExample extends WPanel {
 		tfButtonLabel.setText(INITIAL_BUTTON_TEXT);
 		tfAccesskey.setMaxLength(1);
 
-		List<ImagePosition> positions = new ArrayList<>(Arrays.asList(WButton.ImagePosition.values()));
+		List<ImagePosition> positions = new ArrayList<>(Arrays.
+				asList(WButton.ImagePosition.values()));
 		positions.add(0, null);
 		ddImagePosition.setOptions(positions);
 
@@ -125,9 +125,9 @@ public class ButtonOptionsExample extends WPanel {
 	}
 
 	/**
-	 * this is were the majority of the work is done for building the button. Note that it is in a
-	 * container that is reset, effectively creating a new button. this is only done to enable to
-	 * dynamically change the button to a link and back.
+	 * this is were the majority of the work is done for building the button. Note that it is in a container that is
+	 * reset, effectively creating a new button. this is only done to enable to dynamically change the button to a link
+	 * and back.
 	 */
 	private void applySettings() {
 		buttonContainer.reset();

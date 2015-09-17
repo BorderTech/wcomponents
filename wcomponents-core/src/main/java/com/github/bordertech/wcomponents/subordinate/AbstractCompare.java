@@ -58,12 +58,14 @@ public abstract class AbstractCompare extends AbstractCondition {
 		if (value != null && !CompareType.MATCH.equals(getCompareType())) {
 			// WNumberField trigger value must be a BigDecimal
 			if (trigger instanceof WNumberField && !(value instanceof BigDecimal)) {
-				throw new IllegalArgumentException("The value for a WNumberField trigger must be null or a BigDecimal.");
+				throw new IllegalArgumentException(
+						"The value for a WNumberField trigger must be null or a BigDecimal.");
 			}
 
 			// WDateField trigger value must be a Date
 			if (trigger instanceof WDateField && !(value instanceof Date)) {
-				throw new IllegalArgumentException("The value for a WDateField trigger must be null or a Date.");
+				throw new IllegalArgumentException(
+						"The value for a WDateField trigger must be null or a Date.");
 			}
 		}
 
@@ -153,9 +155,8 @@ public abstract class AbstractCompare extends AbstractCondition {
 	 * It will return the same "value" the client would have used in its subordinate logic.
 	 * </p>
 	 * <p>
-	 * The trigger value will either be (i) a date formatted String for WDateFields, (ii) a
-	 * BigDecimal for WNumberFields or (iii) a List of String values for MultiSelect components or
-	 * (iv) a String value.
+	 * The trigger value will either be (i) a date formatted String for WDateFields, (ii) a BigDecimal for WNumberFields
+	 * or (iii) a List of String values for MultiSelect components or (iv) a String value.
 	 * </p>
 	 *
 	 * @param request the request being processed, can be null
@@ -219,7 +220,8 @@ public abstract class AbstractCompare extends AbstractCondition {
 				inputValue = input.getRequestValue(request);
 			}
 			// Treat empty the same as null
-			return (inputValue == null || Util.empty(inputValue.toString())) ? null : inputValue.toString();
+			return (inputValue == null || Util.empty(inputValue.toString())) ? null : inputValue.
+					toString();
 		} else {
 			throw new SystemException("Trigger is not a valid type.");
 		}
@@ -231,8 +233,8 @@ public abstract class AbstractCompare extends AbstractCondition {
 	 * It will return the same "value" the client would have used in its subordinate logic.
 	 * </p>
 	 * <p>
-	 * The compare value will either be (i) a date formatted String for WDateFields, (ii) a
-	 * BigDecimal for WNumberFields or (iii) a String value.
+	 * The compare value will either be (i) a date formatted String for WDateFields, (ii) a BigDecimal for WNumberFields
+	 * or (iii) a String value.
 	 * </p>
 	 *
 	 * @return the value to be used for the compare.

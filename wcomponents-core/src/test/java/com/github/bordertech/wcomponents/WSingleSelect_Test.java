@@ -25,7 +25,8 @@ public class WSingleSelect_Test extends AbstractWComponentTestCase {
 	public void testConstructorArray() {
 		String[] options = new String[]{"A", "B"};
 		WSingleSelect single = new WSingleSelect(options);
-		Assert.assertEquals("Incorrect options returned", Arrays.asList(options), single.getOptions());
+		Assert.assertEquals("Incorrect options returned", Arrays.asList(options), single.
+				getOptions());
 		Assert.assertTrue("allowNoSelection should be true", single.isAllowNoSelection());
 	}
 
@@ -40,7 +41,8 @@ public class WSingleSelect_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testConstructorTable() {
 		WSingleSelect single = new WSingleSelect(DayOfWeekTable.class);
-		Assert.assertEquals("Incorrect table returned", DayOfWeekTable.class, single.getLookupTable());
+		Assert.assertEquals("Incorrect table returned", DayOfWeekTable.class, single.
+				getLookupTable());
 		Assert.assertTrue("allowNoSelection should be true", single.isAllowNoSelection());
 	}
 

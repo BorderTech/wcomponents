@@ -206,7 +206,8 @@ public class AjaxWRepeaterExample extends WContainer {
 		 * @param extra extra flag
 		 * @param extraText extra text
 		 */
-		public NameBean(final String nameId, final String firstName, final String lastName, final boolean extra,
+		public NameBean(final String nameId, final String firstName, final String lastName,
+				final boolean extra,
 				final String extraText) {
 			this.nameId = nameId;
 			this.firstName = firstName;

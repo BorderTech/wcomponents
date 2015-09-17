@@ -97,10 +97,10 @@ public final class Base64Util {
 	 * @param encoding The character encoding of the string.
 	 * @return A String with the Base64 encoded data.
 	 *
-	 * @throws UnsupportedEncodingException if the java runtime does not support
-	 * <code>encoding</code>.
+	 * @throws UnsupportedEncodingException if the java runtime does not support <code>encoding</code>.
 	 */
-	public static String encodeString(final String string, final String encoding) throws UnsupportedEncodingException {
+	public static String encodeString(final String string, final String encoding) throws
+			UnsupportedEncodingException {
 		byte[] stringBytes = string.getBytes(encoding);
 		return encode(stringBytes);
 	}
@@ -183,8 +183,7 @@ public final class Base64Util {
 	}
 
 	/**
-	 * Decodes a byte array from Base64 format. No blanks or line breaks are allowed within the
-	 * Base64 encoded data.
+	 * Decodes a byte array from Base64 format. No blanks or line breaks are allowed within the Base64 encoded data.
 	 *
 	 * @param input a character array containing the Base64 encoded data.
 	 * @return An array containing the decoded data bytes.
@@ -194,7 +193,8 @@ public final class Base64Util {
 		int iLen = input.length;
 
 		if (iLen % 4 != 0) {
-			throw new IllegalArgumentException("Length of Base64 encoded input string is not a multiple of 4.");
+			throw new IllegalArgumentException(
+					"Length of Base64 encoded input string is not a multiple of 4.");
 		}
 
 		while (iLen > 0 && input[iLen - 1] == '=') {

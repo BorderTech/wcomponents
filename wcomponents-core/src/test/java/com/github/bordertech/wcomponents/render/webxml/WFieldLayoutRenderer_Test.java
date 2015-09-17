@@ -24,7 +24,8 @@ public class WFieldLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {
 	@Test
 	public void testRendererCorrectlyConfigured() {
 		WFieldLayout layout = new WFieldLayout();
-		Assert.assertTrue("Incorrect renderer supplied", getWebXmlRenderer(layout) instanceof WFieldLayoutRenderer);
+		Assert.assertTrue("Incorrect renderer supplied",
+				getWebXmlRenderer(layout) instanceof WFieldLayoutRenderer);
 	}
 
 	@Test

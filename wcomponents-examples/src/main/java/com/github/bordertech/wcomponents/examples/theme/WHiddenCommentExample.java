@@ -38,7 +38,8 @@ public class WHiddenCommentExample extends WContainer {
 	 */
 	public WHiddenCommentExample() {
 		add(new WHeading(WHeading.SECTION, "Hidden Comments Example"));
-		WStyledText text = new WStyledText("Right click the page to view the source and the hidden comments.");
+		WStyledText text = new WStyledText(
+				"Right click the page to view the source and the hidden comments.");
 		text.setWhitespaceMode(WhitespaceMode.PARAGRAPHS);
 		add(text);
 		textComment.setRows(5);

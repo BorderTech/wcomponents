@@ -11,12 +11,12 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * <p>
- * A simple table data model, that takes in a list of bean properties in its constructor, and is
- * backed by either an array or list of beans which is bound to the table.</p>
+ * A simple table data model, that takes in a list of bean properties in its constructor, and is backed by either an
+ * array or list of beans which is bound to the table.</p>
  *
  * <p>
- * This data model supports sorting, however, the sort must be cleared out using
- * {@link #clearSort()} whenever the table's data changes.
+ * This data model supports sorting, however, the sort must be cleared out using {@link #clearSort()} whenever the
+ * table's data changes.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -32,8 +32,7 @@ public class SimpleBeanBoundTableDataModel extends AbstractBeanTableDataModel {
 	private static final Log LOG = LogFactory.getLog(SimpleBeanBoundTableDataModel.class);
 
 	/**
-	 * A simple comparator that compares comparables, for use in sorting e.g. columns containing
-	 * Strings.
+	 * A simple comparator that compares comparables, for use in sorting e.g. columns containing Strings.
 	 */
 	public static final ComparableComparator COMPARABLE_COMPARATOR = new ComparableComparator();
 
@@ -137,8 +136,8 @@ public class SimpleBeanBoundTableDataModel extends AbstractBeanTableDataModel {
 	}
 
 	/**
-	 * Indicates whether the given cell is editable. This model only supports editability at a
-	 * global level. See {@link #setEditable(boolean)}.
+	 * Indicates whether the given cell is editable. This model only supports editability at a global level. See
+	 * {@link #setEditable(boolean)}.
 	 *
 	 * @param row ignored.
 	 * @param col ignored.

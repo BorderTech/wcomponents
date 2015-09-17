@@ -4,8 +4,8 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Test the functionality of the {@link Base64Util} class. The Base64Util class from an open source
- * project, so only a small amount of testing is performed here.
+ * Test the functionality of the {@link Base64Util} class. The Base64Util class from an open source project, so only a
+ * small amount of testing is performed here.
  *
  * @author Francis Naoum
  */
@@ -57,7 +57,8 @@ public class Base64Util_Test {
 				expected.length, decoded.length);
 
 		for (int i = 0; i < expected.length; ++i) {
-			Assert.assertEquals("Decoded data differs from expected at byte " + i, expected[i], decoded[i]);
+			Assert.assertEquals("Decoded data differs from expected at byte " + i, expected[i],
+					decoded[i]);
 		}
 	}
 }

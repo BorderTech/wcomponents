@@ -42,26 +42,36 @@ public class WCardManager_Test extends AbstractWComponentTestCase {
 		List<Diagnostic> diags = new ArrayList<>();
 
 		manager.serviceRequest(request);
-		Assert.assertEquals("Card One should be visible and therefore called", 1, cardOne.getHandleRequestCount());
-		Assert.assertEquals("Card Two should be invisible and therefore not called", 0, cardTwo.getHandleRequestCount());
+		Assert.assertEquals("Card One should be visible and therefore called", 1, cardOne.
+				getHandleRequestCount());
+		Assert.assertEquals("Card Two should be invisible and therefore not called", 0, cardTwo.
+				getHandleRequestCount());
 		cardOne.reset();
 
 		manager.makeVisible(cardTwo);
 		manager.serviceRequest(request);
-		Assert.assertEquals("Card One should be invisible and therefore not called", 0, cardOne.getHandleRequestCount());
-		Assert.assertEquals("Card Two should be visible and therefore called", 1, cardTwo.getHandleRequestCount());
+		Assert.assertEquals("Card One should be invisible and therefore not called", 0, cardOne.
+				getHandleRequestCount());
+		Assert.assertEquals("Card Two should be visible and therefore called", 1, cardTwo.
+				getHandleRequestCount());
 		cardTwo.reset();
 
 		manager.validateComponent(diags);
 		manager.preparePaint(request);
 		manager.paint(new WebXmlRenderContext(writer));
-		Assert.assertEquals("Card Two should be visible and therefore called", 1, cardTwo.getValidateCount());
-		Assert.assertEquals("Card Two should be visible and therefore called", 1, cardTwo.getPreparePaintCount());
-		Assert.assertEquals("Card Two should be visible and therefore called", 1, cardTwo.getPaintCount());
+		Assert.assertEquals("Card Two should be visible and therefore called", 1, cardTwo.
+				getValidateCount());
+		Assert.assertEquals("Card Two should be visible and therefore called", 1, cardTwo.
+				getPreparePaintCount());
+		Assert.assertEquals("Card Two should be visible and therefore called", 1, cardTwo.
+				getPaintCount());
 
-		Assert.assertEquals("Card One should be invisible and therefore not called", 0, cardOne.getValidateCount());
-		Assert.assertEquals("Card One should be invisible and therefore not called", 0, cardOne.getPreparePaintCount());
-		Assert.assertEquals("Card One should be invisible and therefore not called", 0, cardOne.getPaintCount());
+		Assert.assertEquals("Card One should be invisible and therefore not called", 0, cardOne.
+				getValidateCount());
+		Assert.assertEquals("Card One should be invisible and therefore not called", 0, cardOne.
+				getPreparePaintCount());
+		Assert.assertEquals("Card One should be invisible and therefore not called", 0, cardOne.
+				getPaintCount());
 	}
 
 	@Test

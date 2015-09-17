@@ -147,7 +147,8 @@ public class ConfirmOrderPanel extends WBeanContainer {
 		fieldPanel = new FieldPanel();
 		fieldPanel.setLayout(new FlowLayout(Alignment.LEFT));
 		WCheckBox agreeFlag = new WCheckBox();
-		agreeFlag.addValidator(new AbstractFieldValidator("You must agree to the terms and conditions to proceed.") {
+		agreeFlag.addValidator(new AbstractFieldValidator(
+				"You must agree to the terms and conditions to proceed.") {
 			@Override
 			protected boolean isValid() {
 				return ((WCheckBox) getInputField()).isSelected();
@@ -177,8 +178,8 @@ public class ConfirmOrderPanel extends WBeanContainer {
 	}
 
 	/**
-	 * A convenience class to reduce the amount of code necessary to add a field, label and error
-	 * indicator. The labels and fields are displayed with a 20%/80% column split.
+	 * A convenience class to reduce the amount of code necessary to add a field, label and error indicator. The labels
+	 * and fields are displayed with a 20%/80% column split.
 	 *
 	 * @author Yiannis Paschalidis
 	 */
@@ -233,7 +234,8 @@ public class ConfirmOrderPanel extends WBeanContainer {
 			cartSummary.setBeanProvider(new BeanProvider() {
 				@Override
 				public Object getBean(final BeanProviderBound beanProviderBound) {
-					PetStoreApp app = WebUtilities.getClosestOfClass(PetStoreApp.class, OrderSummaryPanel.this);
+					PetStoreApp app = WebUtilities.getClosestOfClass(PetStoreApp.class,
+							OrderSummaryPanel.this);
 					return app.getCart();
 				}
 			});

@@ -60,7 +60,8 @@ public class FormInterceptor extends InterceptorComponent {
 		UIContext uic = UIContextHolder.getCurrent();
 
 		if (uic.isFocusRequired()) {
-			boolean sticky = Config.getInstance().getBoolean("bordertech.wcomponents.stickyFocus", false);
+			boolean sticky = Config.getInstance().getBoolean("bordertech.wcomponents.stickyFocus",
+					false);
 
 			if (!sticky) {
 				uic.setFocussed(null, null);

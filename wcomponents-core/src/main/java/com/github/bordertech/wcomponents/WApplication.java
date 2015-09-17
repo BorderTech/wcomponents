@@ -5,11 +5,11 @@ import com.github.bordertech.wcomponents.util.I18nUtilities;
 
 /**
  * <p>
- * This component must be used as the top level component for an application. It provides
- * application-wide state information, such as unsaved changes.</p>
+ * This component must be used as the top level component for an application. It provides application-wide state
+ * information, such as unsaved changes.</p>
  *
- * Applications can not be nested, but multiple applications can be present on a single screen,
- * usually in a Portlet environment.
+ * Applications can not be nested, but multiple applications can be present on a single screen, usually in a Portlet
+ * environment.
  *
  * @author Jonathan Austin
  * @since 1.0.0
@@ -19,7 +19,8 @@ public class WApplication extends AbstractMutableContainer implements AjaxTarget
 	/**
 	 * The application icon url parameter.
 	 */
-	private static final String ICON_URL = Config.getInstance().getString("bordertech.wcomponents.application.icon.url");
+	private static final String ICON_URL = Config.getInstance().getString(
+			"bordertech.wcomponents.application.icon.url");
 
 	/**
 	 * Indicates whether the application has unsaved changes.
@@ -35,8 +36,8 @@ public class WApplication extends AbstractMutableContainer implements AjaxTarget
 	 * Sets the unsavedChanges flag.</p>
 	 *
 	 * <p>
-	 * The unsavedChanges flag is used by the Themes to display a warning message if the user tries
-	 * to navigate away and the flag is set to true.</p>
+	 * The unsavedChanges flag is used by the Themes to display a warning message if the user tries to navigate away and
+	 * the flag is set to true.</p>
 	 *
 	 * @param unsavedChanges true if there are unsavedChanges
 	 */
@@ -116,12 +117,12 @@ public class WApplication extends AbstractMutableContainer implements AjaxTarget
 
 	/**
 	 * <p>
-	 * This method is called when a wrong step error has occurred, for example as a result of the
-	 * user using the browser's navigation controls..</p>
+	 * This method is called when a wrong step error has occurred, for example as a result of the user using the
+	 * browser's navigation controls..</p>
 	 *
 	 * <p>
-	 * The method can be overridden to allow projects to handle the step error in a manner
-	 * appropriate to their Application.</p>
+	 * The method can be overridden to allow projects to handle the step error in a manner appropriate to their
+	 * Application.</p>
 	 */
 	public void handleStepError() {
 		// No Action
@@ -130,8 +131,7 @@ public class WApplication extends AbstractMutableContainer implements AjaxTarget
 	/**
 	 * Returns the closest WApplication instance (ancestor component) from the given base component.
 	 *
-	 * @param base the component from which we start scanning up the tree for a WApplication
-	 * instance.
+	 * @param base the component from which we start scanning up the tree for a WApplication instance.
 	 * @return the closest WApplication instance from the given base component.
 	 */
 	public static WApplication instance(final WComponent base) {

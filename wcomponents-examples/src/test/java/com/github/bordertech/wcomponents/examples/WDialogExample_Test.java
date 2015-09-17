@@ -33,7 +33,8 @@ public class WDialogExample_Test extends WComponentSeleniumTestCase {
 		WDialogExample example = (WDialogExample) getUi();
 		String expectedText = example.getModalText();
 
-		Assert.assertFalse("Should not be displaying the dialog", driver.getPageSource().contains(expectedText));
+		Assert.assertFalse("Should not be displaying the dialog", driver.getPageSource().contains(
+				expectedText));
 	}
 
 	@Test
@@ -46,7 +47,8 @@ public class WDialogExample_Test extends WComponentSeleniumTestCase {
 
 		// Display the modal dialog
 		driver.findElement(byWComponent(testButton)).click();
-		Assert.assertTrue("Should be displaying the dialog", driver.getPageSource().contains(expectedText));
+		Assert.assertTrue("Should be displaying the dialog", driver.getPageSource().contains(
+				expectedText));
 	}
 
 	@Test
@@ -61,8 +63,10 @@ public class WDialogExample_Test extends WComponentSeleniumTestCase {
 		driver.findElement(byWComponent(testButton)).click();
 
 		// Cancel the dialog
-		driver.findElement(byWComponentPath("WDialogExample$SelectPersonPanel/WCancelButton[0]")).click();
-		Assert.assertFalse("Should not be displaying the dialog", driver.getPageSource().contains(expectedText));
+		driver.findElement(byWComponentPath("WDialogExample$SelectPersonPanel/WCancelButton[0]")).
+				click();
+		Assert.assertFalse("Should not be displaying the dialog", driver.getPageSource().contains(
+				expectedText));
 	}
 
 	@Test
@@ -81,8 +85,10 @@ public class WDialogExample_Test extends WComponentSeleniumTestCase {
 //
 //        Assert.assertTrue("Should have a validation error", driver.getPageSource().contains("Please enter First name"));
 		// Enter search info & submit
-		driver.findElement(byWComponentPath("WDialogExample$SelectPersonPanel/WTextField[0]")).sendKeys("First");
-		driver.findElement(byWComponentPath("WDialogExample$SelectPersonPanel/WTextField[1]")).sendKeys("Last");
+		driver.findElement(byWComponentPath("WDialogExample$SelectPersonPanel/WTextField[0]")).
+				sendKeys("First");
+		driver.findElement(byWComponentPath("WDialogExample$SelectPersonPanel/WTextField[1]")).
+				sendKeys("Last");
 		driver.findElement(byWComponentPath("WDialogExample$SelectPersonPanel/WButton[2]")).click();
 
 // TODO Wait for client side validation to be worked out
@@ -91,7 +97,8 @@ public class WDialogExample_Test extends WComponentSeleniumTestCase {
 //
 //        Assert.assertTrue("Should have a validation error", driver.getPageSource().contains("Please select a name from the list"));
 		// Select first result
-		driver.findElement(byWComponentPath("WDialogExample$SelectPersonPanel/WRadioButtonSelect", "Last, First")).click();
+		driver.findElement(byWComponentPath("WDialogExample$SelectPersonPanel/WRadioButtonSelect",
+				"Last, First")).click();
 		driver.findElement(byWComponentPath("WDialogExample$SelectPersonPanel/WButton[1]")).click();
 
 		String message = driver.findElement(byWComponentPath("WMessageBox")).getText();
@@ -104,7 +111,8 @@ public class WDialogExample_Test extends WComponentSeleniumTestCase {
 		WebDriver driver = getDriver();
 		WDialogExample example = (WDialogExample) getUi();
 		String expectedText = example.getNonModalText();
-		Assert.assertFalse("Should not be displaying the dialog", driver.getPageSource().contains(expectedText));
+		Assert.assertFalse("Should not be displaying the dialog", driver.getPageSource().contains(
+				expectedText));
 	}
 
 	@Test
@@ -118,6 +126,7 @@ public class WDialogExample_Test extends WComponentSeleniumTestCase {
 		// Display the modeless dialog
 		driver.findElement(byWComponent(testButton)).click();
 
-		Assert.assertTrue("Should not be displaying the dialog", driver.getPageSource().contains(expectedText));
+		Assert.assertTrue("Should not be displaying the dialog", driver.getPageSource().contains(
+				expectedText));
 	}
 }

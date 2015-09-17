@@ -18,14 +18,13 @@ import org.openqa.selenium.internal.FindsByXPath;
 
 /**
  * <p>
- * An implementation of By which can find HTML elements which correspond to (most) WComponents. Only
- * WComponents which emit elements with ids can be searched on. This means that components such as
- * WText and "WComponent" itself can not be used in a search path.</p>
+ * An implementation of By which can find HTML elements which correspond to (most) WComponents. Only WComponents which
+ * emit elements with ids can be searched on. This means that components such as WText and "WComponent" itself can not
+ * be used in a search path.</p>
  *
  * <p>
- * <b>Note:</b> Since there's no mapping from XHTML to the WComponent XML schema, this {@link By}
- * implementation will always search from the root component, no matter what the search context
- * is.</p>
+ * <b>Note:</b> Since there's no mapping from XHTML to the WComponent XML schema, this {@link By} implementation will
+ * always search from the root component, no matter what the search context is.</p>
  *
  * <p>
  * See {@link TreeUtil#findWComponents(WComponent, String[])} for details on the path syntax.</p>
@@ -99,7 +98,8 @@ public class ByWComponentPath extends By {
 	 * @param path the path to traverse.
 	 * @param value If not null, narrow the search by value for e.g. list or drop-down entries.
 	 */
-	public ByWComponentPath(final WComponent component, final UIContext context, final String path, final Object value) {
+	public ByWComponentPath(final WComponent component, final UIContext context, final String path,
+			final Object value) {
 		this.component = component;
 		this.context = context == null ? new UIContextImpl() : context;
 		this.path = path.split("/");
@@ -142,7 +142,8 @@ public class ByWComponentPath extends By {
 					resultForComp = ((FindsByName) searchContext).findElementsByName(name);
 				} else {
 					String componentId = cmp.getId();
-					resultForComp = ((FindsByXPath) searchContext).findElementsByXPath("*[@id = '" + componentId + "']");
+					resultForComp = ((FindsByXPath) searchContext).findElementsByXPath(
+							"*[@id = '" + componentId + "']");
 				}
 			} finally {
 				UIContextHolder.popContext();

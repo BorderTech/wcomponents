@@ -8,8 +8,7 @@ import com.github.bordertech.wcomponents.layout.ColumnLayout;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 
 /**
- * This {@link Renderer} renders the children of a {@link WPanel} which have been arranged using a
- * {@link columnLayout}.
+ * This {@link Renderer} renders the children of a {@link WPanel} which have been arranged using a {@link columnLayout}.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -56,7 +55,8 @@ final class ColumnLayoutRenderer extends AbstractWebXmlRenderer {
 					break;
 
 				default:
-					throw new IllegalArgumentException("Invalid alignment: " + layout.getColumnAlignment(col));
+					throw new IllegalArgumentException("Invalid alignment: " + layout.
+							getColumnAlignment(col));
 			}
 
 			xml.appendEnd();

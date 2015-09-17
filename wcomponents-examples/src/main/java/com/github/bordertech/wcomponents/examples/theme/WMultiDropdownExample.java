@@ -52,7 +52,8 @@ public class WMultiDropdownExample extends WContainer {
 		layout.addField("Dynamic multi-dropdown 5", dropdown);
 
 		dropdown = new WMultiDropdown(DATA);
-		dropdown.setSelected(Arrays.asList(new String[]{DATA[0], DATA[1], DATA[2], DATA[3], DATA[4]}));
+		dropdown.setSelected(Arrays.
+				asList(new String[]{DATA[0], DATA[1], DATA[2], DATA[3], DATA[4]}));
 		dropdown.setDisabled(true);
 		dropdown.setMaxSelect(5);
 		layout.addField("Dynamic multi-dropdown 6", dropdown);

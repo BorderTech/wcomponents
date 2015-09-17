@@ -13,8 +13,7 @@ import com.github.bordertech.wcomponents.subordinate.Show;
 import com.github.bordertech.wcomponents.subordinate.WSubordinateControl;
 
 /**
- * This example demonstrates showing/hiding an extra field depending on the selection in a
- * {@link WMultiSelect}.
+ * This example demonstrates showing/hiding an extra field depending on the selection in a {@link WMultiSelect}.
  *
  * @author Martin Shevchenko
  * @since 1.0.0
@@ -37,7 +36,8 @@ public class SubordinateControlSimpleWMultiSelectExample extends WContainer {
 		layout.setLabelWidth(25);
 		layout.setMargin(new Margin(0, 0, 12, 0));
 		add(layout);
-		layout.addField("Select one or more options", groupSelect).getLabel().setHint("Option c requires further information");
+		layout.addField("Select one or more options", groupSelect).getLabel().setHint(
+				"Option c requires further information");
 		WField extraField = layout.addField("Extra information", new WTextField());
 		WSubordinateControl control = new WSubordinateControl();
 		add(control);

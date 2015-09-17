@@ -186,13 +186,15 @@ public class TableLoadPerformance extends WApplication {
 	/**
 	 * Ajax to load tables.
 	 */
-	private final WAjaxControl ajax1 = new WAjaxControl(loadButton, new AjaxTarget[]{ajaxPanel, optionsPanel,
-		tablePanel});
+	private final WAjaxControl ajax1 = new WAjaxControl(loadButton,
+			new AjaxTarget[]{ajaxPanel, optionsPanel,
+				tablePanel});
 
 	/**
 	 * Ajax to load WTable results.
 	 */
-	private final WAjaxControl ajax2 = new WAjaxControl(null, new AjaxTarget[]{ajaxPanel, tableResultsPanel}) {
+	private final WAjaxControl ajax2 = new WAjaxControl(null,
+			new AjaxTarget[]{ajaxPanel, tableResultsPanel}) {
 		@Override
 		protected void preparePaintComponent(final Request request) {
 			super.preparePaintComponent(request);
@@ -208,7 +210,8 @@ public class TableLoadPerformance extends WApplication {
 	/**
 	 * Ajax to load WDataTable.
 	 */
-	private final WAjaxControl ajax3 = new WAjaxControl(null, new AjaxTarget[]{ajaxPanel, dataAjaxPanel}) {
+	private final WAjaxControl ajax3 = new WAjaxControl(null,
+			new AjaxTarget[]{ajaxPanel, dataAjaxPanel}) {
 		@Override
 		protected void preparePaintComponent(final Request request) {
 			super.preparePaintComponent(request);
@@ -223,7 +226,8 @@ public class TableLoadPerformance extends WApplication {
 	/**
 	 * Ajax to load WDataTable results.
 	 */
-	private final WAjaxControl ajax4 = new WAjaxControl(null, new AjaxTarget[]{ajaxPanel, dataResultsPanel}) {
+	private final WAjaxControl ajax4 = new WAjaxControl(null,
+			new AjaxTarget[]{ajaxPanel, dataResultsPanel}) {
 		@Override
 		protected void preparePaintComponent(final Request request) {
 			super.preparePaintComponent(request);
@@ -280,7 +284,8 @@ public class TableLoadPerformance extends WApplication {
 				tableLayout.reset();
 
 				if (isLoadWDataTable() && numRows.getValue().intValue() > 2000) {
-					messages.info("Only use WTable with more than 2000 rows as WDataTable becomes unresponsive");
+					messages.info(
+							"Only use WTable with more than 2000 rows as WDataTable becomes unresponsive");
 					return;
 				}
 
@@ -384,8 +389,9 @@ public class TableLoadPerformance extends WApplication {
 		table.setIdName("wt");
 
 		LevelDetails level = new LevelDetails("documents", TravelDocPanel.class, true);
-		SimpleBeanBoundTableModel model = new SimpleBeanBoundTableModel(new String[]{"firstName", "lastName",
-			"dateOfBirth"}, level);
+		SimpleBeanBoundTableModel model = new SimpleBeanBoundTableModel(
+				new String[]{"firstName", "lastName",
+					"dateOfBirth"}, level);
 		table.setTableModel(model);
 	}
 
@@ -417,7 +423,8 @@ public class TableLoadPerformance extends WApplication {
 	private void startLoad() {
 		tableLayout.setVisible(true);
 
-		List<PersonBean> beans = ExampleDataUtil.createExampleData(numRows.getNumber().intValue(), numDocs.getNumber()
+		List<PersonBean> beans = ExampleDataUtil.createExampleData(numRows.getNumber().intValue(),
+				numDocs.getNumber()
 				.intValue());
 
 		if (isLoadWTable()) {
@@ -426,8 +433,9 @@ public class TableLoadPerformance extends WApplication {
 
 		if (isLoadWDataTable()) {
 			TableTreeNode tree = createTree(beans);
-			datatable.setDataModel(new SimpleBeanTreeTableDataModel(new String[]{"firstName", "lastName",
-				"dateOfBirth"}, tree));
+			datatable.setDataModel(new SimpleBeanTreeTableDataModel(
+					new String[]{"firstName", "lastName",
+						"dateOfBirth"}, tree));
 		}
 
 		if (isLoadWTable()) {
@@ -444,14 +452,16 @@ public class TableLoadPerformance extends WApplication {
 	 * @return true is loading WTable
 	 */
 	private boolean isLoadWTable() {
-		return TABLES.BOTH.equals(rbOptions.getSelected()) || TABLES.WTABLE.equals(rbOptions.getSelected());
+		return TABLES.BOTH.equals(rbOptions.getSelected()) || TABLES.WTABLE.equals(rbOptions.
+				getSelected());
 	}
 
 	/**
 	 * @return true is loading WDataTable
 	 */
 	private boolean isLoadWDataTable() {
-		return TABLES.BOTH.equals(rbOptions.getSelected()) || TABLES.WDATATABLE.equals(rbOptions.getSelected());
+		return TABLES.BOTH.equals(rbOptions.getSelected()) || TABLES.WDATATABLE.equals(rbOptions.
+				getSelected());
 	}
 
 	/**
@@ -664,8 +674,7 @@ public class TableLoadPerformance extends WApplication {
 	};
 
 	/**
-	 * An example component to display travel document details. Expects that the supplied bean is a
-	 * {@link TravelDoc}.
+	 * An example component to display travel document details. Expects that the supplied bean is a {@link TravelDoc}.
 	 */
 	public static final class TravelDocPanel extends WBeanContainer {
 

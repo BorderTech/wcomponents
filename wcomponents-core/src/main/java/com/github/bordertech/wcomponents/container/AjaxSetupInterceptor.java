@@ -42,17 +42,20 @@ public class AjaxSetupInterceptor extends InterceptorComponent {
 		Map<String, AjaxOperation> operations = (Map<String, AjaxOperation>) request
 				.getSessionAttribute(AjaxHelper.AJAX_OPERATIONS_SESSION_KEY);
 		if (operations == null) {
-			throw new SystemException("No AJAX operations have been registered. Trigger " + triggerId + ".");
+			throw new SystemException(
+					"No AJAX operations have been registered. Trigger " + triggerId + ".");
 		}
 
 		// Get Operation for this trigger
 		AjaxOperation ajaxOperation = operations.get(triggerId);
 		if (ajaxOperation == null) {
-			throw new SystemException("No AJAX operation has been registered for trigger " + triggerId + ".");
+			throw new SystemException(
+					"No AJAX operation has been registered for trigger " + triggerId + ".");
 		}
 
 		// Find the Component for this trigger
-		ComponentWithContext trigger = WebUtilities.getComponentById(ajaxOperation.getTriggerId(), true);
+		ComponentWithContext trigger = WebUtilities.getComponentById(ajaxOperation.getTriggerId(),
+				true);
 		if (trigger == null) {
 			throw new SystemException("No component found for AJAX trigger " + triggerId + ".");
 		}

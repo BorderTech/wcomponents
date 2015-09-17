@@ -5,8 +5,7 @@ import java.io.Serializable;
 import java.util.Comparator;
 
 /**
- * A skeleton implementation of a basic data model that does not support filtering, sorting, or
- * editability.
+ * A skeleton implementation of a basic data model that does not support filtering, sorting, or editability.
  * <p>
  * Used for data that is not in a tree like structure (ie not expandable).
  * </p>
@@ -26,8 +25,8 @@ public abstract class AbstractBasicTableModel implements BasicTableModel, Serial
 	}
 
 	/**
-	 * This model does not support the concept of sorting by default. Subclasses will need to
-	 * override this method and {@link #isSortable(int)} to support sorting.
+	 * This model does not support the concept of sorting by default. Subclasses will need to override this method and
+	 * {@link #isSortable(int)} to support sorting.
 	 *
 	 * @param col ignored.
 	 * @param ascending ignored.
@@ -39,8 +38,8 @@ public abstract class AbstractBasicTableModel implements BasicTableModel, Serial
 	}
 
 	/**
-	 * This model does not support the concept of editable cells by default. Subclasses will need to
-	 * override this method and {@link #isCellEditable(int, int)} to support cell editing.
+	 * This model does not support the concept of editable cells by default. Subclasses will need to override this
+	 * method and {@link #isCellEditable(int, int)} to support cell editing.
 	 *
 	 * @param value ignored.
 	 * @param row ignored.
@@ -52,8 +51,8 @@ public abstract class AbstractBasicTableModel implements BasicTableModel, Serial
 	}
 
 	/**
-	 * This model does not support the concept of sorting by default. Subclasses will need to
-	 * override this method and {@link #sort(int, boolean)} to support sorting.
+	 * This model does not support the concept of sorting by default. Subclasses will need to override this method and
+	 * {@link #sort(int, boolean)} to support sorting.
 	 *
 	 * @param col ignored.
 	 * @return false.
@@ -64,8 +63,8 @@ public abstract class AbstractBasicTableModel implements BasicTableModel, Serial
 	}
 
 	/**
-	 * This model does not support the concept of row disabling by default. Subclasses will need to
-	 * override this method to support row disabling.
+	 * This model does not support the concept of row disabling by default. Subclasses will need to override this method
+	 * to support row disabling.
 	 *
 	 * @param row ignored.
 	 * @return false.
@@ -76,8 +75,8 @@ public abstract class AbstractBasicTableModel implements BasicTableModel, Serial
 	}
 
 	/**
-	 * This model does not support the concept of row selectability by default. Subclasses will need
-	 * to override this method disable selection of specific rows.
+	 * This model does not support the concept of row selectability by default. Subclasses will need to override this
+	 * method disable selection of specific rows.
 	 *
 	 * @param row ignored.
 	 * @return true.
@@ -88,8 +87,8 @@ public abstract class AbstractBasicTableModel implements BasicTableModel, Serial
 	}
 
 	/**
-	 * This model does not support the concept of editable cells by default. Subclasses will need to
-	 * override this method and {@link #setValueAt(Object, int, int)} to support cell editing.
+	 * This model does not support the concept of editable cells by default. Subclasses will need to override this
+	 * method and {@link #setValueAt(Object, int, int)} to support cell editing.
 	 *
 	 * @param row ignored.
 	 * @param col ignored.
@@ -137,7 +136,8 @@ public abstract class AbstractBasicTableModel implements BasicTableModel, Serial
 	 * @param highIndex the end index for sub-sorting
 	 * @param sortIndices the row indices, which will be updated as a result of the sort
 	 */
-	private void sortData(final Object[] data, final Comparator<Object> comparator, final boolean ascending,
+	private void sortData(final Object[] data, final Comparator<Object> comparator,
+			final boolean ascending,
 			final int lowIndex, final int highIndex, final int[] sortIndices) {
 		if (lowIndex >= highIndex) {
 			return; // 1 element, so sorted already!

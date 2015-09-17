@@ -20,7 +20,8 @@ public class WApplication_Test extends AbstractWComponentTestCase {
 		setActiveContext(uic1);
 
 		// Flag should be false by default
-		Assert.assertFalse("UnsavedChanges should be false by default", application.hasUnsavedChanges());
+		Assert.assertFalse("UnsavedChanges should be false by default", application.
+				hasUnsavedChanges());
 
 		// Set flag to true
 		application.setUnsavedChanges(true);
@@ -34,10 +35,12 @@ public class WApplication_Test extends AbstractWComponentTestCase {
 		UIContext uic2 = createUIContext();
 		setActiveContext(uic2);
 		application.setUnsavedChanges(true);
-		Assert.assertTrue("UnsavedChanges should be true for second context", application.hasUnsavedChanges());
+		Assert.assertTrue("UnsavedChanges should be true for second context", application.
+				hasUnsavedChanges());
 
 		setActiveContext(uic1);
-		Assert.assertFalse("UnsavedChanges should be false for first context", application.hasUnsavedChanges());
+		Assert.assertFalse("UnsavedChanges should be false for first context", application.
+				hasUnsavedChanges());
 	}
 
 	@Test
@@ -52,15 +55,18 @@ public class WApplication_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testIdNameAccessors() {
-		assertAccessorsCorrect(new WApplication(), "idName", WApplication.DEFAULT_APPLICATION_ID, "XX", "YY");
+		assertAccessorsCorrect(new WApplication(), "idName", WApplication.DEFAULT_APPLICATION_ID,
+				"XX", "YY");
 	}
 
 	@Test
 	public void testNamingContextDefault() {
 		WApplication appl = new WApplication();
 		Assert.assertEquals("Incorrect defualt naming context", "", appl.getNamingContextId());
-		Assert.assertEquals("Incorrect defualt id", WApplication.DEFAULT_APPLICATION_ID, appl.getId());
-		Assert.assertEquals("Incorrect defualt id name", WApplication.DEFAULT_APPLICATION_ID, appl.getIdName());
+		Assert.assertEquals("Incorrect defualt id", WApplication.DEFAULT_APPLICATION_ID, appl.
+				getId());
+		Assert.assertEquals("Incorrect defualt id name", WApplication.DEFAULT_APPLICATION_ID, appl.
+				getIdName());
 		Assert.assertFalse("Append should defualt to false", appl.isAppendID());
 
 		// Put in another context
@@ -74,9 +80,12 @@ public class WApplication_Test extends AbstractWComponentTestCase {
 	public void testNamingContextDefaultWithAppend() {
 		WApplication appl = new WApplication();
 		appl.setAppendID(true);
-		Assert.assertEquals("Incorrect defualt naming context with append", WApplication.DEFAULT_APPLICATION_ID, appl.getNamingContextId());
-		Assert.assertEquals("Incorrect defualt id with append", WApplication.DEFAULT_APPLICATION_ID, appl.getId());
-		Assert.assertEquals("Incorrect defualt id name with append", WApplication.DEFAULT_APPLICATION_ID, appl.getIdName());
+		Assert.assertEquals("Incorrect defualt naming context with append",
+				WApplication.DEFAULT_APPLICATION_ID, appl.getNamingContextId());
+		Assert.assertEquals("Incorrect defualt id with append", WApplication.DEFAULT_APPLICATION_ID,
+				appl.getId());
+		Assert.assertEquals("Incorrect defualt id name with append",
+				WApplication.DEFAULT_APPLICATION_ID, appl.getIdName());
 		Assert.assertTrue("Append should be true", appl.isAppendID());
 	}
 

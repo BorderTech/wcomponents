@@ -32,9 +32,8 @@ public class ScrollableDataTableModelExample extends WPanel {
 	}
 
 	/**
-	 * Creates and configures the table to be used by the example. The table is configured with
-	 * global rather than user data. Although this is not a realistic scenario, it will suffice for
-	 * this example.
+	 * Creates and configures the table to be used by the example. The table is configured with global rather than user
+	 * data. Although this is not a realistic scenario, it will suffice for this example.
 	 *
 	 * @return a new configured table.
 	 */
@@ -64,11 +63,11 @@ public class ScrollableDataTableModelExample extends WPanel {
 	/**
 	 * A basic implementation of the ScrollableTableDataModel.
 	 */
-	public static final class MyTableDataModel extends AbstractTableDataModel implements ScrollableTableDataModel {
+	public static final class MyTableDataModel extends AbstractTableDataModel implements
+			ScrollableTableDataModel {
 
 		/**
-		 * The current row offset for the first row, used to translate the table row index to the
-		 * list index.
+		 * The current row offset for the first row, used to translate the table row index to the list index.
 		 */
 		private int startRow = 0;
 
@@ -84,12 +83,12 @@ public class ScrollableDataTableModelExample extends WPanel {
 
 		/**
 		 * <p>
-		 * This method will be called by the table to notify the TableDataModel of which rows are
-		 * likely to be used in the near future.</p>
+		 * This method will be called by the table to notify the TableDataModel of which rows are likely to be used in
+		 * the near future.</p>
 		 *
 		 * <p>
-		 * This example implementation asks the service to return a sub-set of data, for the current
-		 * page being displayed.</p>
+		 * This example implementation asks the service to return a sub-set of data, for the current page being
+		 * displayed.</p>
 		 *
 		 * @param start the starting row index.
 		 * @param end the ending row index.
@@ -142,7 +141,8 @@ public class ScrollableDataTableModelExample extends WPanel {
 		 * @return the total number of rows contained in this service.
 		 */
 		public static int read(final int start, final int end, final List<String[]> data) {
-			LogFactory.getLog(DummyService.class).info("Calling DummyService to read results " + start + " to " + end);
+			LogFactory.getLog(DummyService.class).info(
+					"Calling DummyService to read results " + start + " to " + end);
 
 			for (int i = start; i <= Math.min(end, DATA.length - 1); i++) {
 				data.add(DATA[i]);

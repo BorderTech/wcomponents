@@ -42,10 +42,12 @@ public class WSelectToggle_Test extends AbstractWComponentTestCase {
 		setActiveContext(createUIContext());
 		toggle.setClientSide(false);
 
-		Assert.assertEquals("Incorrect session client-side after session setClientSide(false)", false, toggle.isClientSide());
+		Assert.assertEquals("Incorrect session client-side after session setClientSide(false)",
+				false, toggle.isClientSide());
 
 		resetContext();
-		Assert.assertEquals("Default client-side flag should not have changed", true, toggle.isClientSide());
+		Assert.assertEquals("Default client-side flag should not have changed", true, toggle.
+				isClientSide());
 	}
 
 	@Test
@@ -64,10 +66,12 @@ public class WSelectToggle_Test extends AbstractWComponentTestCase {
 		setActiveContext(createUIContext());
 		toggle.setTarget(target3);
 
-		Assert.assertSame("Incorrect toggle target after session setTarget", target3, toggle.getTarget());
+		Assert.assertSame("Incorrect toggle target after session setTarget", target3, toggle.
+				getTarget());
 
 		resetContext();
-		Assert.assertSame("Incorrect default toggle target after session setTarget", target2, toggle.getTarget());
+		Assert.assertSame("Incorrect default toggle target after session setTarget", target2,
+				toggle.getTarget());
 	}
 
 	@Test
@@ -77,16 +81,19 @@ public class WSelectToggle_Test extends AbstractWComponentTestCase {
 		Assert.assertNull("Should not have target set", toggle.getTarget());
 
 		toggle.setRenderAsText(true);
-		Assert.assertTrue("Should be renderAsText after setRenderAsText(true)", toggle.isRenderAsText());
+		Assert.assertTrue("Should be renderAsText after setRenderAsText(true)", toggle.
+				isRenderAsText());
 
 		toggle.setLocked(true);
 		setActiveContext(createUIContext());
 		toggle.setRenderAsText(false);
 
-		Assert.assertEquals("Incorrect renderAsText type after session setProgressBarType", false, toggle.isRenderAsText());
+		Assert.assertEquals("Incorrect renderAsText type after session setProgressBarType", false,
+				toggle.isRenderAsText());
 
 		resetContext();
-		Assert.assertEquals("Incorrect default renderAsText after session setRenderAsText(true)", true, toggle.isRenderAsText());
+		Assert.assertEquals("Incorrect default renderAsText after session setRenderAsText(true)",
+				true, toggle.isRenderAsText());
 	}
 
 	@Test
@@ -138,18 +145,24 @@ public class WSelectToggle_Test extends AbstractWComponentTestCase {
 		toggle.serviceRequest(request);
 
 		Assert.assertTrue("Checkbox should be checked", checkBox.isSelected());
-		Assert.assertEquals("CheckboxSelect should have all items checked", 3, checkBoxSelect.getSelected().size());
-		Assert.assertEquals("List should have all items selected", 3, multiSelectList.getSelected().size());
-		Assert.assertEquals("Table should have all rows selected", 3, dataTable.getSelectedRows().size());
+		Assert.assertEquals("CheckboxSelect should have all items checked", 3, checkBoxSelect.
+				getSelected().size());
+		Assert.assertEquals("List should have all items selected", 3, multiSelectList.getSelected().
+				size());
+		Assert.assertEquals("Table should have all rows selected", 3, dataTable.getSelectedRows().
+				size());
 
 		// Check select none
 		request.setParameter(toggle.getId(), "none");
 		toggle.serviceRequest(request);
 
 		Assert.assertFalse("Checkbox should not be checked", checkBox.isSelected());
-		Assert.assertEquals("CheckboxSelect should have no items checked", 0, checkBoxSelect.getSelected().size());
-		Assert.assertEquals("List should have no items selected", 0, multiSelectList.getSelected().size());
-		Assert.assertEquals("Table should have no rows selected", 0, dataTable.getSelectedRows().size());
+		Assert.assertEquals("CheckboxSelect should have no items checked", 0, checkBoxSelect.
+				getSelected().size());
+		Assert.assertEquals("List should have no items selected", 0, multiSelectList.getSelected().
+				size());
+		Assert.assertEquals("Table should have no rows selected", 0, dataTable.getSelectedRows().
+				size());
 
 		// Check that nothing happens when disabled
 		toggle.setDisabled(true);
@@ -157,9 +170,12 @@ public class WSelectToggle_Test extends AbstractWComponentTestCase {
 		toggle.serviceRequest(request);
 
 		Assert.assertFalse("Checkbox should not be checked", checkBox.isSelected());
-		Assert.assertEquals("CheckboxSelect should have no items checked", 0, checkBoxSelect.getSelected().size());
-		Assert.assertEquals("List should have no items selected", 0, multiSelectList.getSelected().size());
-		Assert.assertEquals("Table should have no rows selected", 0, dataTable.getSelectedRows().size());
+		Assert.assertEquals("CheckboxSelect should have no items checked", 0, checkBoxSelect.
+				getSelected().size());
+		Assert.assertEquals("List should have no items selected", 0, multiSelectList.getSelected().
+				size());
+		Assert.assertEquals("Table should have no rows selected", 0, dataTable.getSelectedRows().
+				size());
 	}
 
 	/**

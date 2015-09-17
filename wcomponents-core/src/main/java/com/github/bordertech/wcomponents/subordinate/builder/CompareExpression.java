@@ -45,7 +45,8 @@ public final class CompareExpression implements BooleanExpression {
 	 * @param trigger the trigger for the expression
 	 * @param value the compare value for the expression
 	 */
-	public CompareExpression(final CompareType type, final SubordinateTrigger trigger, final Object value) {
+	public CompareExpression(final CompareType type, final SubordinateTrigger trigger,
+			final Object value) {
 		if (type == null) {
 			throw new IllegalArgumentException("Compare type can not be null");
 		}

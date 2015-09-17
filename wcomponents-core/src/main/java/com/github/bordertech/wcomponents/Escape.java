@@ -3,9 +3,9 @@ package com.github.bordertech.wcomponents;
 import java.io.IOException;
 
 /**
- * An escape can be thrown during servicing in which case the WComponent's paint will not be used,
- * instead the escape method will be called, after the setRequest and setResponse methods are
- * called. This can be used to do forwarding, etc.
+ * An escape can be thrown during servicing in which case the WComponent's paint will not be used, instead the escape
+ * method will be called, after the setRequest and setResponse methods are called. This can be used to do forwarding,
+ * etc.
  *
  * @author Martin Shevchenko
  */

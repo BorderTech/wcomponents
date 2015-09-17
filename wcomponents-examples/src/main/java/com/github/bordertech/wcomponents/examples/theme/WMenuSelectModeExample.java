@@ -192,7 +192,8 @@ public class WMenuSelectModeExample extends WContainer {
 		/**
 		 * Selectable CheckBoxSelect.
 		 */
-		private final WCheckBoxSelect chkSelectable = new WCheckBoxSelect(new String[]{sub1.getText(), sub2.getText(),
+		private final WCheckBoxSelect chkSelectable = new WCheckBoxSelect(new String[]{sub1.
+			getText(), sub2.getText(),
 			item1.getText(), item2.getText(),
 			g1Item1.getText(),
 			s1Item1.getText()});
@@ -276,7 +277,8 @@ public class WMenuSelectModeExample extends WContainer {
 			layout2.addField("Sub2 mode", drop3);
 
 			createHideShowControl(layout2, boxDisable, chkDisable, "Disable/Enable", "Disable");
-			createHideShowControl(layout2, boxSelectable, chkSelectable, "Override Selectable", "Selectable");
+			createHideShowControl(layout2, boxSelectable, chkSelectable, "Override Selectable",
+					"Selectable");
 
 			add(menu);
 			add(new WHeading(WHeading.SECTION, "Details"));
@@ -314,7 +316,8 @@ public class WMenuSelectModeExample extends WContainer {
 		 * @param boxLabel the checkBox label
 		 * @param chkLabel the CheckBoxSelect label
 		 */
-		private void createHideShowControl(final WFieldLayout layout, final WCheckBox box, final WCheckBoxSelect chk,
+		private void createHideShowControl(final WFieldLayout layout, final WCheckBox box,
+				final WCheckBoxSelect chk,
 				final String boxLabel, final String chkLabel) {
 			layout.addField(boxLabel, box);
 			WField field2 = layout.addField(chkLabel, chk);

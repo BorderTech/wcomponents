@@ -39,8 +39,7 @@ public class ListLayout implements LayoutManager {
 		 */
 		STACKED,
 		/**
-		 * Indicates that content should be arranged vertically, with highlighting on alternate rows
-		 * (zebra striping).
+		 * Indicates that content should be arranged vertically, with highlighting on alternate rows (zebra striping).
 		 */
 		STRIPED
 	}
@@ -101,7 +100,8 @@ public class ListLayout implements LayoutManager {
 	 * @param separator the separator to display between items.
 	 * @param ordered whether the list is an ordered list.
 	 */
-	public ListLayout(final Type type, final Alignment alignment, final Separator separator, final boolean ordered) {
+	public ListLayout(final Type type, final Alignment alignment, final Separator separator,
+			final boolean ordered) {
 		this(type, alignment, separator, ordered, 0, 0);
 	}
 
@@ -115,7 +115,8 @@ public class ListLayout implements LayoutManager {
 	 * @param hgap the horizontal gap between the list items, measured in pixels.
 	 * @param vgap the vertical gap between the list items, measured in pixels.
 	 */
-	public ListLayout(final Type type, final Alignment alignment, final Separator separator, final boolean ordered, final int hgap, final int vgap) {
+	public ListLayout(final Type type, final Alignment alignment, final Separator separator,
+			final boolean ordered, final int hgap, final int vgap) {
 		this.type = type;
 		this.alignment = alignment;
 		this.separator = separator;

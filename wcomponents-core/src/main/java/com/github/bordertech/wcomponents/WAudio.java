@@ -26,8 +26,7 @@ public class WAudio extends AbstractWComponent implements Targetable, AjaxTarget
 	private static final String AUDIO_INDEX_REQUEST_PARAM_KEY = "WAudio.index";
 
 	/**
-	 * This is used to indicate whether pre-loading of content should occur before the clip is
-	 * played.
+	 * This is used to indicate whether pre-loading of content should occur before the clip is played.
 	 */
 	public enum Preload {
 		/**
@@ -71,8 +70,8 @@ public class WAudio extends AbstractWComponent implements Targetable, AjaxTarget
 	}
 
 	/**
-	 * Creates a WAudio with no audio clips. Audio clips must be added later by calling one of the
-	 * setAudio(...) methods.
+	 * Creates a WAudio with no audio clips. Audio clips must be added later by calling one of the setAudio(...)
+	 * methods.
 	 */
 	public WAudio() {
 	}
@@ -88,13 +87,12 @@ public class WAudio extends AbstractWComponent implements Targetable, AjaxTarget
 
 	/**
 	 * <p>
-	 * Creates a WAudio with the given static content. This is provided as a convenience method for
-	 * when the audio file is included as static content in the class path rather than in the web
-	 * application's resources.</p>
+	 * Creates a WAudio with the given static content. This is provided as a convenience method for when the audio file
+	 * is included as static content in the class path rather than in the web application's resources.</p>
 	 *
 	 * <p>
-	 * The mime type for the audio clip is looked up from the "mimeType.*" mapping configuration
-	 * parameters using the resource's file extension.</p>
+	 * The mime type for the audio clip is looked up from the "mimeType.*" mapping configuration parameters using the
+	 * resource's file extension.</p>
 	 *
 	 * @param resource the resource path to the audio file.
 	 */
@@ -103,9 +101,9 @@ public class WAudio extends AbstractWComponent implements Targetable, AjaxTarget
 	}
 
 	/**
-	 * Creates a WAudio with the given audio clip in multiple formats. The client will try to load
-	 * the first audio clip, and if it fails or isn't supported, it will move on to the next audio
-	 * clip. Only the first clip which can be played on the client will be used.
+	 * Creates a WAudio with the given audio clip in multiple formats. The client will try to load the first audio clip,
+	 * and if it fails or isn't supported, it will move on to the next audio clip. Only the first clip which can be
+	 * played on the client will be used.
 	 *
 	 * @param audio multiple formats for the same the audio clip.
 	 */
@@ -123,9 +121,9 @@ public class WAudio extends AbstractWComponent implements Targetable, AjaxTarget
 	}
 
 	/**
-	 * Sets the audio clip in multiple formats for all users. The client will try to load the first
-	 * audio clip, and if it fails or isn't supported, it will move on to the next audio clip. Only
-	 * the first clip which can be played on the client will be used.
+	 * Sets the audio clip in multiple formats for all users. The client will try to load the first audio clip, and if
+	 * it fails or isn't supported, it will move on to the next audio clip. Only the first clip which can be played on
+	 * the client will be used.
 	 *
 	 * @param audio multiple formats for the same the audio clip.
 	 */
@@ -249,10 +247,9 @@ public class WAudio extends AbstractWComponent implements Targetable, AjaxTarget
 	}
 
 	/**
-	 * Creates dynamic URLs that the audio clips can be loaded from. In fact the URL points to the
-	 * main application servlet, but includes a non-null for the parameter associated with this
-	 * WComponent (ie, its label). The handleRequest method below detects this when the browser
-	 * requests a file.
+	 * Creates dynamic URLs that the audio clips can be loaded from. In fact the URL points to the main application
+	 * servlet, but includes a non-null for the parameter associated with this WComponent (ie, its label). The
+	 * handleRequest method below detects this when the browser requests a file.
 	 *
 	 * @return the urls to load the audio files from, or null if there are no clips defined.
 	 */
@@ -308,10 +305,9 @@ public class WAudio extends AbstractWComponent implements Targetable, AjaxTarget
 	}
 
 	/**
-	 * When an audio element is rendered to the client, the browser will make a second request to
-	 * get the audio content. The handleRequest method has been overridden to detect whether the
-	 * request is the "content fetch" request by looking for the parameter that we encode in the
-	 * content url.
+	 * When an audio element is rendered to the client, the browser will make a second request to get the audio content.
+	 * The handleRequest method has been overridden to detect whether the request is the "content fetch" request by
+	 * looking for the parameter that we encode in the content url.
 	 *
 	 * @param request the request being responded to.
 	 */
@@ -372,10 +368,9 @@ public class WAudio extends AbstractWComponent implements Targetable, AjaxTarget
 	}
 
 	/**
-	 * Sets which playback controls (e.g. stop/start/pause) to display on the audio component. The
-	 * values of {@link Controls#NONE} and {@link Controls#ALL} take precedence over all other
-	 * values. Passing a null or empty set of controls will cause the client's default set of
-	 * controls to be used.
+	 * Sets which playback controls (e.g. stop/start/pause) to display on the audio component. The values of
+	 * {@link Controls#NONE} and {@link Controls#ALL} take precedence over all other values. Passing a null or empty set
+	 * of controls will cause the client's default set of controls to be used.
 	 *
 	 * @param controls the playback controls to display.
 	 */

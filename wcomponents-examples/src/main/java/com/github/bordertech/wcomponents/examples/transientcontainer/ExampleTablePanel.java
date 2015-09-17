@@ -8,8 +8,8 @@ import com.github.bordertech.wcomponents.WText;
 import java.util.List;
 
 /**
- * An example table for the {@link TransientDataContainerExample}. The data must be supplied to the
- * table using the setData(List) method.
+ * An example table for the {@link TransientDataContainerExample}. The data must be supplied to the table using the
+ * setData(List) method.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -25,8 +25,10 @@ public class ExampleTablePanel extends WContainer {
 	 * Creates an ExampleTablePanel.
 	 */
 	public ExampleTablePanel() {
-		simpleTable.setCaption("Example table usage with no data stored in the UIContext long-term.");
-		simpleTable.setSummary("Example table usage with no data stored in the UIContext long-term.");
+		simpleTable.
+				setCaption("Example table usage with no data stored in the UIContext long-term.");
+		simpleTable.
+				setSummary("Example table usage with no data stored in the UIContext long-term.");
 		simpleTable.setNoDataMessage("No Data!");
 
 		simpleTable.addColumn(new WTableColumn("Colour", WText.class));

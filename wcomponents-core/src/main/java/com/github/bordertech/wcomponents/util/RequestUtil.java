@@ -18,8 +18,8 @@ public final class RequestUtil {
 	}
 
 	/**
-	 * Add the file data to the files collection. If a file already exists with the given name then
-	 * the value for this name will be an array of all registered files.
+	 * Add the file data to the files collection. If a file already exists with the given name then the value for this
+	 * name will be an array of all registered files.
 	 *
 	 * @param files the map in which to store file data.
 	 * @param name the name of the file, i.e. the key to store the file against.
@@ -47,8 +47,8 @@ public final class RequestUtil {
 	}
 
 	/**
-	 * Add the request parameter to the parameters collection. If a parameter already exists with
-	 * the given name then the Map will contain an array of all registered values.
+	 * Add the request parameter to the parameters collection. If a parameter already exists with the given name then
+	 * the Map will contain an array of all registered values.
 	 *
 	 * @param parameters the map to store non-file request parameters in.
 	 * @param name the name of the parameter.

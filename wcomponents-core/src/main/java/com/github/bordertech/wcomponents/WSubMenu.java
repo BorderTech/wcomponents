@@ -7,8 +7,8 @@ import java.util.List;
 
 /**
  * <p>
- * This component is used to provide either a dropmenu (when added directly to a {@link WMenu} or
- * nestable sub menus (when added to another <code>WSubMenu</code> instance).</p>
+ * This component is used to provide either a dropmenu (when added directly to a {@link WMenu} or nestable sub menus
+ * (when added to another <code>WSubMenu</code> instance).</p>
  *
  * <p>
  * Sub Menus may contain the following components:
@@ -35,8 +35,8 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 		/**
 		 * Indicates that a round-trip should be made whenever the menu is opened.
 		 *
-		 * @deprecated Use MenuMode DYNAMIC instead as a like-for-like replacement or any other mode
-		 * if it is more appropriate to the individual use case.
+		 * @deprecated Use MenuMode DYNAMIC instead as a like-for-like replacement or any other mode if it is more
+		 * appropriate to the individual use case.
 		 */
 		SERVER,
 		/**
@@ -172,8 +172,7 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 	}
 
 	/**
-	 * The accesskey is a shortcut key that will focus the input element when used in combination
-	 * with the Alt key.
+	 * The accesskey is a shortcut key that will focus the input element when used in combination with the Alt key.
 	 *
 	 * @return The key that in combination with Alt will focus this input.
 	 */
@@ -182,8 +181,8 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 	}
 
 	/**
-	 * Returns the accesskey character as a String. If the character is not a letter or digit then
-	 * <code>null</code> is returned.
+	 * Returns the accesskey character as a String. If the character is not a letter or digit then <code>null</code> is
+	 * returned.
 	 *
 	 * @return The accesskey character as a String (may be <code>null</code>).
 	 */
@@ -214,8 +213,7 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 	}
 
 	/**
-	 * @return true if this submenu is selectable, false if not, or null if default to its
-	 * container.
+	 * @return true if this submenu is selectable, false if not, or null if default to its container.
 	 * @deprecated submenus should not be selectable.
 	 */
 	@Deprecated
@@ -224,11 +222,10 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 	}
 
 	/**
-	 * This methods sets whether this sub-menu is selectable. Note that selectability does not
-	 * affect other operations, for example the ability to expand/collapse a sub-menu.
+	 * This methods sets whether this sub-menu is selectable. Note that selectability does not affect other operations,
+	 * for example the ability to expand/collapse a sub-menu.
 	 *
-	 * @param selectable true if this submenu is selectable, false if not, or null if default to the
-	 * container.
+	 * @param selectable true if this submenu is selectable, false if not, or null if default to the container.
 	 * @deprecated submenus should not be selectable
 	 */
 	@Deprecated
@@ -276,8 +273,8 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 	}
 
 	/**
-	 * Sets the action to execute when the sub-menu is selected. Note that actions are currently
-	 * only supported for {@link WMenu.MenuType#COLUMN} menus.
+	 * Sets the action to execute when the sub-menu is selected. Note that actions are currently only supported for
+	 * {@link WMenu.MenuType#COLUMN} menus.
 	 *
 	 * @param action the menu item's action.
 	 */
@@ -364,8 +361,8 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 	}
 
 	/**
-	 * Override handleRequest in order to perform processing for this component. This implementation
-	 * checks for submenu selection and executes the associated action if it has been set.
+	 * Override handleRequest in order to perform processing for this component. This implementation checks for submenu
+	 * selection and executes the associated action if it has been set.
 	 *
 	 * @param request the request being responded to.
 	 */
@@ -421,8 +418,8 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 	}
 
 	/**
-	 * Override preparePaintComponent in order to correct the visibility of the sub-menu's children
-	 * before they are rendered.
+	 * Override preparePaintComponent in order to correct the visibility of the sub-menu's children before they are
+	 * rendered.
 	 *
 	 * @param request the request being responded to.
 	 */
@@ -452,7 +449,8 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 				}
 
 				if (!isOpen()) {
-					AjaxHelper.registerContainer(getId(), getId() + "-content", childrenIds, request);
+					AjaxHelper.
+							registerContainer(getId(), getId() + "-content", childrenIds, request);
 				}
 
 				break;

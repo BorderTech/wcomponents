@@ -97,8 +97,7 @@ public class RepeaterExampleWithEditableRows extends WContainer {
 	}
 
 	/**
-	 * Adds a new contact to the list of contacts. The contact's name is obtained from
-	 * {@link newNameField}.
+	 * Adds a new contact to the list of contacts. The contact's name is obtained from {@link newNameField}.
 	 */
 	private void addNewContact() {
 		List list = new ArrayList(repeater.getBeanList());
@@ -108,8 +107,7 @@ public class RepeaterExampleWithEditableRows extends WContainer {
 	}
 
 	/**
-	 * Write the list of contacts into the textarea console. Any modified phone numbers should be
-	 * printed out.
+	 * Write the list of contacts into the textarea console. Any modified phone numbers should be printed out.
 	 */
 	private void printEditedDetails() {
 		StringBuffer buf = new StringBuffer();
@@ -138,8 +136,8 @@ public class RepeaterExampleWithEditableRows extends WContainer {
 	}
 
 	/**
-	 * The component to be used to render one row. Note that this component remembers the given data
-	 * object and keeps it up to date.
+	 * The component to be used to render one row. Note that this component remembers the given data object and keeps it
+	 * up to date.
 	 *
 	 * @author Martin Shevchenko
 	 */

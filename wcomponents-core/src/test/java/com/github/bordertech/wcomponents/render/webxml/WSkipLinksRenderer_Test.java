@@ -18,7 +18,8 @@ public class WSkipLinksRenderer_Test extends AbstractWebXmlRendererTestCase {
 	@Test
 	public void testRendererCorrectlyConfigured() {
 		WSkipLinks skipLinks = new WSkipLinks();
-		Assert.assertTrue("Incorrect renderer supplied", getWebXmlRenderer(skipLinks) instanceof WSkipLinksRenderer);
+		Assert.assertTrue("Incorrect renderer supplied",
+				getWebXmlRenderer(skipLinks) instanceof WSkipLinksRenderer);
 	}
 
 	@Test

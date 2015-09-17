@@ -5,13 +5,14 @@ import com.github.bordertech.wcomponents.validation.Diagnostic;
 import java.util.List;
 
 /**
- * WFieldSet is used to logically group together input fields. It can be used to optionally render a
- * border and title around the fields.
+ * WFieldSet is used to logically group together input fields. It can be used to optionally render a border and title
+ * around the fields.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
  */
-public class WFieldSet extends AbstractMutableContainer implements AjaxTarget, SubordinateTarget, Mandatable, Marginable, DropZone {
+public class WFieldSet extends AbstractMutableContainer implements AjaxTarget, SubordinateTarget,
+		Mandatable, Marginable, DropZone {
 
 	/**
 	 * Describes how the field set's frame is rendered.
@@ -97,8 +98,7 @@ public class WFieldSet extends AbstractMutableContainer implements AjaxTarget, S
 	}
 
 	/**
-	 * Set whether or not this field set is mandatory, and customise the error message that will be
-	 * displayed.
+	 * Set whether or not this field set is mandatory, and customise the error message that will be displayed.
 	 *
 	 * @param mandatory true for mandatory, false for optional.
 	 * @param message the message to display to the user on mandatory validation failure.
@@ -169,12 +169,12 @@ public class WFieldSet extends AbstractMutableContainer implements AjaxTarget, S
 
 	/**
 	 * <p>
-	 * This method is called by validateComponent to create the mandatory diagnostic error message
-	 * if the mandatory validation check does not pass.
+	 * This method is called by validateComponent to create the mandatory diagnostic error message if the mandatory
+	 * validation check does not pass.
 	 * </p>
 	 * <p>
-	 * Subclasses may override this method to customise the message, however in most cases it is
-	 * easier to supply a custom error message pattern to the setMandatory method.
+	 * Subclasses may override this method to customise the message, however in most cases it is easier to supply a
+	 * custom error message pattern to the setMandatory method.
 	 * </p>
 	 *
 	 * @return a new diagnostic for when mandatory validation fails.

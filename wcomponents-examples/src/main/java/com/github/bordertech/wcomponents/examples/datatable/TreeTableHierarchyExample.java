@@ -36,9 +36,8 @@ public class TreeTableHierarchyExample extends WPanel {
 	}
 
 	/**
-	 * Creates and configures the table to be used by the example. The table is configured with
-	 * global rather than user data. Although this is not a realistic scenario, it will suffice for
-	 * this example.
+	 * Creates and configures the table to be used by the example. The table is configured with global rather than user
+	 * data. Although this is not a realistic scenario, it will suffice for this example.
 	 *
 	 * @return a new configured table.
 	 */
@@ -78,11 +77,16 @@ public class TreeTableHierarchyExample extends WPanel {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
 
 		try {
-			TableTreeNode joe = new TableTreeNode(new PersonBean("Joe", "Bloggs", sdf.parse("01/02/1934")));
-			TableTreeNode jane = new TableTreeNode(new PersonBean("Jane", "Bloggs", sdf.parse("02/03/1935")));
-			TableTreeNode child = new TableTreeNode(new PersonBean("Child", "Bloggs", sdf.parse("03/04/1976")));
-			TableTreeNode grandChild1 = new TableTreeNode(new PersonBean("Grandchild-One", "Bloggs", sdf.parse("04/05/2006")));
-			TableTreeNode grandChild2 = new TableTreeNode(new PersonBean("Grandchild-Two", "Bloggs", sdf.parse("05/06/2007")));
+			TableTreeNode joe = new TableTreeNode(new PersonBean("Joe", "Bloggs", sdf.parse(
+					"01/02/1934")));
+			TableTreeNode jane = new TableTreeNode(new PersonBean("Jane", "Bloggs", sdf.parse(
+					"02/03/1935")));
+			TableTreeNode child = new TableTreeNode(new PersonBean("Child", "Bloggs", sdf.parse(
+					"03/04/1976")));
+			TableTreeNode grandChild1 = new TableTreeNode(new PersonBean("Grandchild-One", "Bloggs",
+					sdf.parse("04/05/2006")));
+			TableTreeNode grandChild2 = new TableTreeNode(new PersonBean("Grandchild-Two", "Bloggs",
+					sdf.parse("05/06/2007")));
 
 			root.add(joe);
 			root.add(jane);

@@ -40,7 +40,8 @@ public class WRepeater_Test extends AbstractWComponentTestCase {
 		Assert.assertEquals("Incorrect row data 2", ROW_DATA[2], repeater.getBeanList().get(2));
 
 		resetContext();
-		Assert.assertEquals("Bean list for other UI context should be empty", 0, repeater.getBeanList().size());
+		Assert.assertEquals("Bean list for other UI context should be empty", 0, repeater.
+				getBeanList().size());
 	}
 
 	@Test
@@ -77,7 +78,8 @@ public class WRepeater_Test extends AbstractWComponentTestCase {
 		repeater.setBeanList(Arrays.asList(ROW_DATA));
 		repeater.preparePaint(request);
 
-		Assert.assertEquals("Incorrect row value before request", ROW_DATA[0], repeater.getBeanList().get(0));
+		Assert.assertEquals("Incorrect row value before request", ROW_DATA[0], repeater.
+				getBeanList().get(0));
 		UIContext rowContext = repeater.getRowContexts().get(0);
 
 		setActiveContext(rowContext);
@@ -108,7 +110,8 @@ public class WRepeater_Test extends AbstractWComponentTestCase {
 		setActiveContext(uic);
 		repeater.setBeanList(Arrays.asList(ROW_DATA));
 
-		SubUIContext lastRowContext = (SubUIContext) repeater.getRowContexts().get(ROW_DATA.length - 1);
+		SubUIContext lastRowContext = (SubUIContext) repeater.getRowContexts().get(
+				ROW_DATA.length - 1);
 		setActiveContext(lastRowContext);
 		textField.setText(text2);
 		String lastRowId = textField.getId();
@@ -172,7 +175,8 @@ public class WRepeater_Test extends AbstractWComponentTestCase {
 		repeater.preparePaint(request);
 		SubUIContext lastRowContext = (SubUIContext) repeater.getRowContexts().get(data.size() - 1);
 
-		Assert.assertEquals("Incorrect data for row context", newValue, repeater.getRowBeanForSubcontext(lastRowContext));
+		Assert.assertEquals("Incorrect data for row context", newValue, repeater.
+				getRowBeanForSubcontext(lastRowContext));
 
 		DataBound component = (DataBound) repeater.getRepeatedComponent();
 		setActiveContext(lastRowContext);
@@ -199,7 +203,8 @@ public class WRepeater_Test extends AbstractWComponentTestCase {
 		String repeaterId = repeater.getId();
 
 		// Repeat root ID
-		Assert.assertEquals("Incorrect default id for repeater root", repeaterId + "-r", repeater.getRepeatRoot()
+		Assert.assertEquals("Incorrect default id for repeater root", repeaterId + "-r", repeater.
+				getRepeatRoot()
 				.getId());
 
 		// Row IDs
@@ -211,7 +216,8 @@ public class WRepeater_Test extends AbstractWComponentTestCase {
 
 			try {
 				UIContextHolder.pushContext(uic);
-				Assert.assertEquals("Incorrect default id for repeated component", idPrefix, repeated.getId());
+				Assert.assertEquals("Incorrect default id for repeated component", idPrefix,
+						repeated.getId());
 			} finally {
 				UIContextHolder.popContext();
 			}
@@ -235,12 +241,14 @@ public class WRepeater_Test extends AbstractWComponentTestCase {
 		repeater.setBeanList(Arrays.asList("A", "B", "C"));
 
 		// Repeater ID
-		Assert.assertEquals("Incorrect id for repeater with idname", "TEST" + WComponent.ID_CONTEXT_SEPERATOR + "R",
+		Assert.assertEquals("Incorrect id for repeater with idname",
+				"TEST" + WComponent.ID_CONTEXT_SEPERATOR + "R",
 				repeater.getId());
 		String repeaterId = repeater.getId();
 
 		// Repeat root ID
-		Assert.assertEquals("Incorrect id for repeater root", repeaterId + "-r", repeater.getRepeatRoot().getId());
+		Assert.assertEquals("Incorrect id for repeater root", repeaterId + "-r", repeater.
+				getRepeatRoot().getId());
 
 		// Row IDs
 		for (UIContext uic : repeater.getRowContexts()) {
@@ -250,7 +258,8 @@ public class WRepeater_Test extends AbstractWComponentTestCase {
 					+ WComponent.ID_CONTEXT_SEPERATOR + "X";
 			try {
 				UIContextHolder.pushContext(uic);
-				Assert.assertEquals("Incorrect id for repeated component with idname", repeatedId, repeated.getId());
+				Assert.assertEquals("Incorrect id for repeated component with idname", repeatedId,
+						repeated.getId());
 			} finally {
 				UIContextHolder.popContext();
 			}
@@ -271,12 +280,14 @@ public class WRepeater_Test extends AbstractWComponentTestCase {
 		repeater.setBeanList(Arrays.asList("A", "B", "C"));
 
 		// Repeater ID
-		Assert.assertEquals("Incorrect internal id for repeater", WComponent.DEFAULT_INTERNAL_ID + "0",
+		Assert.assertEquals("Incorrect internal id for repeater",
+				WComponent.DEFAULT_INTERNAL_ID + "0",
 				repeater.getInternalId());
 		String repeaterId = repeater.getInternalId();
 
 		// Repeat root ID
-		Assert.assertEquals("Incorrect internal id for repeater root", repeaterId + "r", repeater.getRepeatRoot()
+		Assert.assertEquals("Incorrect internal id for repeater root", repeaterId + "r", repeater.
+				getRepeatRoot()
 				.getInternalId());
 
 		// Row IDs
@@ -305,7 +316,8 @@ public class WRepeater_Test extends AbstractWComponentTestCase {
 		NamingContextable naming = new WRepeater();
 		naming.setIdName(id);
 		Assert.assertEquals("Incorrect component id", id, naming.getId());
-		Assert.assertEquals("Naming context should match component id", id, naming.getNamingContextId());
+		Assert.assertEquals("Naming context should match component id", id, naming.
+				getNamingContextId());
 	}
 
 }

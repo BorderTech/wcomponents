@@ -36,7 +36,8 @@ public class WFigureRenderer_Test extends AbstractWebXmlRendererTestCase {
 	@Test
 	public void testRendererCorrectlyConfigured() {
 		WFigure figure = new WFigure(new WText(), "");
-		Assert.assertTrue("Incorrect renderer supplied", getWebXmlRenderer(figure) instanceof WFigureRenderer);
+		Assert.assertTrue("Incorrect renderer supplied",
+				getWebXmlRenderer(figure) instanceof WFigureRenderer);
 	}
 
 	@Test

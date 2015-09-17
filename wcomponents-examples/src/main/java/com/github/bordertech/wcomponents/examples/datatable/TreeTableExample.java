@@ -47,9 +47,8 @@ public class TreeTableExample extends WPanel {
 	}
 
 	/**
-	 * Creates and configures the table to be used by the example. The table is configured with
-	 * global rather than user data. Although this is not a realistic scenario, it will suffice for
-	 * this example.
+	 * Creates and configures the table to be used by the example. The table is configured with global rather than user
+	 * data. Although this is not a realistic scenario, it will suffice for this example.
 	 *
 	 * @return a new configured table.
 	 */
@@ -87,12 +86,18 @@ public class TreeTableExample extends WPanel {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
 
 		try {
-			TableTreeNode joe = new TableTreeNode(new PersonBean("Joe", "Bloggs", sdf.parse("01/02/1973")));
-			TableTreeNode jane = new TableTreeNode(new PersonBean("Jane", "Bloggs", sdf.parse("04/05/1976")));
-			TableTreeNode kid = new TableTreeNode(new PersonBean("Kid", "Bloggs", sdf.parse("31/12/1999")));
-			TableTreeNode doc1 = new TravelDocNode(new TravelDoc("12345", "Canada", "Ottawa", sdf.parse("01/01/1990"), sdf.parse("01/01/1983")));
-			TableTreeNode doc2 = new TravelDocNode(new TravelDoc("23456", "New Zealand", "Wellington", sdf.parse("01/01/1999"), sdf.parse("01/01/2009")));
-			TableTreeNode doc3 = new TravelDocNode(new TravelDoc("78901", "New Zealand", "Wellington", sdf.parse("01/01/2005"), sdf.parse("01/01/2015")));
+			TableTreeNode joe = new TableTreeNode(new PersonBean("Joe", "Bloggs", sdf.parse(
+					"01/02/1973")));
+			TableTreeNode jane = new TableTreeNode(new PersonBean("Jane", "Bloggs", sdf.parse(
+					"04/05/1976")));
+			TableTreeNode kid = new TableTreeNode(new PersonBean("Kid", "Bloggs", sdf.parse(
+					"31/12/1999")));
+			TableTreeNode doc1 = new TravelDocNode(new TravelDoc("12345", "Canada", "Ottawa", sdf.
+					parse("01/01/1990"), sdf.parse("01/01/1983")));
+			TableTreeNode doc2 = new TravelDocNode(new TravelDoc("23456", "New Zealand",
+					"Wellington", sdf.parse("01/01/1999"), sdf.parse("01/01/2009")));
+			TableTreeNode doc3 = new TravelDocNode(new TravelDoc("78901", "New Zealand",
+					"Wellington", sdf.parse("01/01/2005"), sdf.parse("01/01/2015")));
 
 			root.add(joe);
 			root.add(jane);
@@ -288,7 +293,8 @@ public class TreeTableExample extends WPanel {
 		 * @param issueDate the date of issue
 		 * @param expiryDate the expiry date
 		 */
-		public TravelDoc(final String documentNumber, final String countryOfIssue, final String placeOfIssue,
+		public TravelDoc(final String documentNumber, final String countryOfIssue,
+				final String placeOfIssue,
 				final Date issueDate, final Date expiryDate) {
 			this.documentNumber = documentNumber;
 			this.countryOfIssue = countryOfIssue;
@@ -369,8 +375,7 @@ public class TreeTableExample extends WPanel {
 	}
 
 	/**
-	 * An example component to display travel document details. Expects that the supplied bean is a
-	 * {@link TravelDoc}.
+	 * An example component to display travel document details. Expects that the supplied bean is a {@link TravelDoc}.
 	 *
 	 * @author Yiannis Paschalidis
 	 */

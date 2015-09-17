@@ -27,7 +27,8 @@ public class EnableInGroup_Test extends AbstractWComponentTestCase {
 
 		Assert.assertEquals("Value for EnableIn should be false", Boolean.FALSE, action.getValue());
 		Assert.assertEquals("Target for EnableIn should be the group", group, action.getTarget());
-		Assert.assertEquals("TargetInGroup for EnableIn should be the target", target, action.getTargetInGroup());
+		Assert.assertEquals("TargetInGroup for EnableIn should be the target", target, action.
+				getTargetInGroup());
 	}
 
 	@Test
@@ -60,7 +61,8 @@ public class EnableInGroup_Test extends AbstractWComponentTestCase {
 		WComponentGroup<SubordinateTarget> group = new WComponentGroup<>();
 		group.addToGroup(target);
 		EnableInGroup action = new EnableInGroup(target, group);
-		Assert.assertEquals("Incorrect Action Type", action.getActionType(), AbstractAction.ActionType.ENABLEIN);
+		Assert.assertEquals("Incorrect Action Type", action.getActionType(),
+				AbstractAction.ActionType.ENABLEIN);
 	}
 
 	@Test
@@ -76,17 +78,20 @@ public class EnableInGroup_Test extends AbstractWComponentTestCase {
 
 		EnableInGroup action = new EnableInGroup(target2, group);
 		Assert.assertEquals("Incorrect toString for action",
-				"enable MyTarget in WComponentGroup([MyTarget, MyTarget, MyTarget])", action.toString());
+				"enable MyTarget in WComponentGroup([MyTarget, MyTarget, MyTarget])", action.
+				toString());
 
 		new WLabel("test label", target2);
 		Assert.assertEquals("Incorrect toString for action with a label",
-				"enable test label in WComponentGroup([MyTarget, MyTarget, MyTarget])", action.toString());
+				"enable test label in WComponentGroup([MyTarget, MyTarget, MyTarget])", action.
+				toString());
 	}
 
 	/**
 	 * Test component that implements the SubordinateTarget interface.
 	 */
-	private static class MyTarget extends AbstractWComponent implements SubordinateTarget, Disableable {
+	private static class MyTarget extends AbstractWComponent implements SubordinateTarget,
+			Disableable {
 
 		/**
 		 * {@inheritDoc}

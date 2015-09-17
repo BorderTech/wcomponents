@@ -3,8 +3,7 @@ package com.github.bordertech.wcomponents.util;
 import java.util.Iterator;
 
 /**
- * Represents a node in a tree structure. The API is loosely based on Swing's
- * DefaultMutableTreeNode.
+ * Represents a node in a tree structure. The API is loosely based on Swing's DefaultMutableTreeNode.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -100,12 +99,11 @@ public interface TreeNode {
 	boolean isLeaf();
 
 	/**
-	 * Returns true if and only if <code>otherNode</code> is in the same tree as this node. Returns
-	 * false if <code>otherNode</code> is null.
+	 * Returns true if and only if <code>otherNode</code> is in the same tree as this node. Returns false if
+	 * <code>otherNode</code> is null.
 	 *
 	 * @param otherNode the node to check.
-	 * @return true if <code>otherNode</code> is in the same tree as this node; false if
-	 * <code>otherNode</code> is null
+	 * @return true if <code>otherNode</code> is in the same tree as this node; false if <code>otherNode</code> is null
 	 */
 	boolean isRelated(final TreeNode otherNode);
 
@@ -115,11 +113,10 @@ public interface TreeNode {
 	TreeNode getRoot();
 
 	/**
-	 * Returns the path from the root, to get to this node. The last element in the path is this
-	 * node.
+	 * Returns the path from the root, to get to this node. The last element in the path is this node.
 	 *
-	 * @return an array of DefaultTreeNode objects giving the path, where the first element in the
-	 * path is the root and the last element is this node.
+	 * @return an array of DefaultTreeNode objects giving the path, where the first element in the path is the root and
+	 * the last element is this node.
 	 */
 	TreeNode[] getPath();
 }

@@ -9,8 +9,7 @@ import org.junit.runner.RunWith;
  * "@RunWith(MultiBrowserRunner.class)" annotation at class level.</p>
  *
  * <p>
- * Note that this test class just inherits tests from the {@link ExampleSeleniumTest} example test
- * case.</p>
+ * Note that this test class just inherits tests from the {@link ExampleSeleniumTest} example test case.</p>
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0

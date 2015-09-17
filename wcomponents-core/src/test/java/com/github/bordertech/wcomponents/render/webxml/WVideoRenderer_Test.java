@@ -24,7 +24,8 @@ public class WVideoRenderer_Test extends AbstractWebXmlRendererTestCase {
 	@Test
 	public void testRendererCorrectlyConfigured() {
 		WVideo video = new WVideo();
-		Assert.assertTrue("Incorrect renderer supplied", getWebXmlRenderer(video) instanceof WVideoRenderer);
+		Assert.assertTrue("Incorrect renderer supplied",
+				getWebXmlRenderer(video) instanceof WVideoRenderer);
 	}
 
 	@Test
@@ -63,8 +64,10 @@ public class WVideoRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo("1", "count(//ui:video/ui:src)", video);
 		assertXpathEvaluatesTo(video.getVideoUrls()[0], "//ui:video/ui:src/@uri", video);
 		assertXpathEvaluatesTo(video.getVideo()[0].getMimeType(), "//ui:video/ui:src/@type", video);
-		assertXpathEvaluatesTo(String.valueOf(mockVideo.getSize().width), "//ui:video/ui:src/@width", video);
-		assertXpathEvaluatesTo(String.valueOf(mockVideo.getSize().height), "//ui:video/ui:src/@height", video);
+		assertXpathEvaluatesTo(String.valueOf(mockVideo.getSize().width), "//ui:video/ui:src/@width",
+				video);
+		assertXpathEvaluatesTo(String.valueOf(mockVideo.getSize().height),
+				"//ui:video/ui:src/@height", video);
 
 		// Test other options, resetting them after each test
 		video.setAltText("altText");

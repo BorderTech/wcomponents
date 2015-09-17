@@ -32,7 +32,8 @@ public class WDropdownSpecialCharHandlingExample_Test extends WComponentSelenium
 	public void testExample() {
 		WDropdownSpecialCharHandlingExample example = (WDropdownSpecialCharHandlingExample) getUi();
 
-		WDropdown dropdown = (WDropdown) TreeUtil.findWComponent(example, new String[]{"WDropdown"}).getComponent();
+		WDropdown dropdown = (WDropdown) TreeUtil.findWComponent(example, new String[]{"WDropdown"}).
+				getComponent();
 		List<?> options = dropdown.getOptions();
 
 		// Launch the web browser to the LDE

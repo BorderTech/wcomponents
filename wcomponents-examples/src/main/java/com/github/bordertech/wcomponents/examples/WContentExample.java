@@ -18,8 +18,7 @@ import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.layout.GridLayout;
 
 /**
- * Demonstrates the use of {@link WContent} and {@link WContentLink} for displaying arbitrary binary
- * files.
+ * Demonstrates the use of {@link WContent} and {@link WContentLink} for displaying arbitrary binary files.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -40,26 +39,30 @@ public class WContentExample extends WPanel {
 		add(new WText("WMenu with a link"));
 
 		// Some content which all browsers should be able to display internally
-		addContentRow("View GIF", new InternalResource("/com/github/bordertech/wcomponents/examples/picker/wclogo_small.gif", "example.gif"), this);
+		addContentRow("View GIF", new InternalResource(
+				"/com/github/bordertech/wcomponents/examples/picker/wclogo_small.gif", "example.gif"),
+				this);
 
 		// Some content which browsers may be able to display using a plugin.
-		addContentRow("View PDF", new InternalResource("/com/github/bordertech/wcomponents/examples/test.pdf", "example.pdf"), this);
+		addContentRow("View PDF", new InternalResource(
+				"/com/github/bordertech/wcomponents/examples/test.pdf", "example.pdf"), this);
 
 		// Some content which browsers should not be able to display.
 		// The user should always be prompted to save or open with an associated application.
-		addContentRow("View TR5", new InternalResource("/com/github/bordertech/wcomponents/examples/test.tr5", "example.tr5"), this);
+		addContentRow("View TR5", new InternalResource(
+				"/com/github/bordertech/wcomponents/examples/test.tr5", "example.tr5"), this);
 		addContentRow("MP3", new InternalResource("/audio/mp3.mp3", "example.mp3"), this);
 	}
 
 	/**
-	 * Adds components to the given container which demonstrate various ways of acessing the given
-	 * content.
+	 * Adds components to the given container which demonstrate various ways of acessing the given content.
 	 *
 	 * @param contentDesc the description of the content, used to label the controls.
 	 * @param contentAccess the content which will be displayed.
 	 * @param target the container to add the UI controls to.
 	 */
-	private void addContentRow(final String contentDesc, final ContentAccess contentAccess, final MutableContainer target) {
+	private void addContentRow(final String contentDesc, final ContentAccess contentAccess,
+			final MutableContainer target) {
 		// Demonstrate WButton + WContent, round trip
 		WButton button = new WButton(contentDesc);
 		final WContent buttonContent = new WContent();

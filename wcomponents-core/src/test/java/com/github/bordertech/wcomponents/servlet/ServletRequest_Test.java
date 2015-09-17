@@ -26,7 +26,8 @@ public class ServletRequest_Test {
 		ServletRequest request = new ServletRequest(backing);
 
 		backing.removeParameter(paramName);
-		Assert.assertEquals("Request should have a local copy of the parameters", paramValue, request.getParameter(paramName));
+		Assert.assertEquals("Request should have a local copy of the parameters", paramValue,
+				request.getParameter(paramName));
 	}
 
 	@Test

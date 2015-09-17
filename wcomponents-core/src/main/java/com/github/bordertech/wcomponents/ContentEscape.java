@@ -9,8 +9,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * An Escape subclass that bypasses the usual request -&gt; paint flow by directly producing the
- * binary document content.
+ * An Escape subclass that bypasses the usual request -&gt; paint flow by directly producing the binary document
+ * content.
  *
  * @author Martin Shevchenko
  * @since 1.0.0
@@ -70,7 +70,8 @@ public class ContentEscape extends ActionEscape {
 			}
 
 			if (contentAccess.getDescription() != null) {
-				String fileName = WebUtilities.encodeForContentDispositionHeader(contentAccess.getDescription());
+				String fileName = WebUtilities.encodeForContentDispositionHeader(contentAccess.
+						getDescription());
 
 				if (displayInline) {
 					response.setHeader("Content-Disposition", "inline; filename=" + fileName);
@@ -86,7 +87,8 @@ public class ContentEscape extends ActionEscape {
 					stream = ((ContentStreamAccess) contentAccess).getStream();
 
 					if (stream == null) {
-						throw new SystemException("ContentAccess returned null stream, access=" + contentAccess);
+						throw new SystemException(
+								"ContentAccess returned null stream, access=" + contentAccess);
 					}
 
 					StreamUtil.copy(stream, response.getOutputStream());
@@ -97,7 +99,8 @@ public class ContentEscape extends ActionEscape {
 				byte[] bytes = contentAccess.getBytes();
 
 				if (bytes == null) {
-					throw new SystemException("ContentAccess returned null data, access=" + contentAccess);
+					throw new SystemException(
+							"ContentAccess returned null data, access=" + contentAccess);
 				}
 
 				response.getOutputStream().write(bytes);
@@ -131,8 +134,7 @@ public class ContentEscape extends ActionEscape {
 	/**
 	 * Sets whether the content should be displayed inline or downloaded.
 	 *
-	 * @param displayInline true if the content should be displayed inline, false if it should be
-	 * downloaded.
+	 * @param displayInline true if the content should be displayed inline, false if it should be downloaded.
 	 */
 	public void setDisplayInline(final boolean displayInline) {
 		this.displayInline = displayInline;

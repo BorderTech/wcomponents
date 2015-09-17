@@ -9,8 +9,8 @@ import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.layout.ColumnLayout;
 
 /**
- * A component which displays a {@link MyData} object's name and count attributes. The name is
- * rendered as a link and can have an action attached to it.
+ * A component which displays a {@link MyData} object's name and count attributes. The name is rendered as a link and
+ * can have an action attached to it.
  *
  * @author Adam Millard
  */

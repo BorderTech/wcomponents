@@ -1,9 +1,8 @@
 package com.github.bordertech.wcomponents;
 
 /**
- * The super-interface for "bean-aware" components. Components should normally not implement this
- * interface, but either {@link BeanBound} or {@link BeanProviderBound}, as those interfaces provide
- * methods of supplying the bean.
+ * The super-interface for "bean-aware" components. Components should normally not implement this interface, but either
+ * {@link BeanBound} or {@link BeanProviderBound}, as those interfaces provide methods of supplying the bean.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0

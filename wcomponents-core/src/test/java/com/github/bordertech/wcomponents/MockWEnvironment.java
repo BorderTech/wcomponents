@@ -17,8 +17,7 @@ public class MockWEnvironment extends AbstractEnvironment {
 	private Map<String, String> hiddenParameters = new HashMap<>();
 
 	/**
-	 * Sets the post path. Overriden in order to make method public, as it's useful for unit
-	 * testing.
+	 * Sets the post path. Overriden in order to make method public, as it's useful for unit testing.
 	 *
 	 * @param postPath the post path.
 	 */

@@ -31,12 +31,15 @@ public class AbstractCondition_Test {
 		// True Condition
 		request.setParameter("condition", "true");
 		Assert.assertTrue("Condition isTrue should be true with Request", condition.isTrue(request));
-		Assert.assertFalse("Condition isFalse should be false with Request", condition.isFalse(request));
+		Assert.assertFalse("Condition isFalse should be false with Request", condition.isFalse(
+				request));
 
 		// False Condition
 		request.setParameter("condition", "false");
-		Assert.assertFalse("Condition isTrue should be false with Request", condition.isTrue(request));
-		Assert.assertTrue("Condition isFalse should be true with Request", condition.isFalse(request));
+		Assert.assertFalse("Condition isTrue should be false with Request", condition.
+				isTrue(request));
+		Assert.assertTrue("Condition isFalse should be true with Request", condition.
+				isFalse(request));
 
 	}
 

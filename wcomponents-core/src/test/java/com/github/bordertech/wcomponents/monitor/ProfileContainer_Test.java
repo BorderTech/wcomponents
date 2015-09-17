@@ -73,10 +73,12 @@ public class ProfileContainer_Test extends AbstractWComponentTestCase {
 		String profileLine0 = PROFILER_UIC_HEADER;
 		String profileLine1 = PROFILER_LINE1.replaceAll("<<NUM_ROOTS>>", "1");
 		String profileLine2 = PROFILER_LINE2.replaceAll("<<NUM_COMPONENTS>>", "4");
-		String profileLine31 = PROFILER_LINE3.replaceAll("<<CLASS_NAME>>", "com.github.bordertech.wcomponents.WButton");
+		String profileLine31 = PROFILER_LINE3.replaceAll("<<CLASS_NAME>>",
+				"com.github.bordertech.wcomponents.WButton");
 		String profileLine32 = PROFILER_LINE3.replaceAll("<<CLASS_NAME>>",
 				"com.github.bordertech.wcomponents.monitor.ProfileContainer");
-		String profileLine33 = PROFILER_LINE3.replaceAll("<<CLASS_NAME>>", "com.github.bordertech.wcomponents.WLabel");
+		String profileLine33 = PROFILER_LINE3.replaceAll("<<CLASS_NAME>>",
+				"com.github.bordertech.wcomponents.WLabel");
 		String profileLine4 = PROFILER_PROFILE_HEADER.replaceAll("<<CLASS_NAME>>",
 				"com.github.bordertech.wcomponents.monitor.ProfileContainer");
 
@@ -85,7 +87,8 @@ public class ProfileContainer_Test extends AbstractWComponentTestCase {
 
 		String result = outStr.toString();
 		for (int i = 0; i < expectedResults.length; i++) {
-			Assert.assertTrue("result should contain substring " + i + "  ", result.indexOf(expectedResults[i]) != -1);
+			Assert.assertTrue("result should contain substring " + i + "  ", result.indexOf(
+					expectedResults[i]) != -1);
 		}
 	}
 }

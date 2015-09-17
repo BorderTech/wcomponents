@@ -14,15 +14,14 @@ import java.util.List;
 
 /**
  * <p>
- * An example showing best practice using the AbstractTransientDataContainer. While this example
- * just wraps one table with the TransientDataContainer, a "real" application is likely to wrap a
- * larger section of their UI. For example, a table containing data may be wrapped to force it to be
- * re-read from an application cache each time.</p>
+ * An example showing best practice using the AbstractTransientDataContainer. While this example just wraps one table
+ * with the TransientDataContainer, a "real" application is likely to wrap a larger section of their UI. For example, a
+ * table containing data may be wrapped to force it to be re-read from an application cache each time.</p>
  *
  * <p>
  * This example uses a dummy cache, where data is never expired. A more realistic implementation of
- * AbstractTransientDataContainer's setupData method would invoke the DMS, which will call the
- * underlying service if the result is not found in the cache.</p>
+ * AbstractTransientDataContainer's setupData method would invoke the DMS, which will call the underlying service if the
+ * result is not found in the cache.</p>
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -95,8 +94,8 @@ public class TransientDataContainerExample extends WPanel {
 	}
 
 	/**
-	 * An example implementation of the TransientDataContainer. In this example, the text to be
-	 * displayed is stored as an attribute rather than a more sensible value, e.g. a cache key.
+	 * An example implementation of the TransientDataContainer. In this example, the text to be displayed is stored as
+	 * an attribute rather than a more sensible value, e.g. a cache key.
 	 *
 	 * @author Yiannis Paschalidis
 	 */
@@ -139,9 +138,9 @@ public class TransientDataContainerExample extends WPanel {
 		}
 
 		/**
-		 * Sets the cache key as an attribute which is persisted across requests. This will be the
-		 * only data that ends up being stored in the session. The cache key is used to retrieve the
-		 * data from the application cache before each paint.
+		 * Sets the cache key as an attribute which is persisted across requests. This will be the only data that ends
+		 * up being stored in the session. The cache key is used to retrieve the data from the application cache before
+		 * each paint.
 		 *
 		 * @param cacheKey the cache key to set.
 		 */

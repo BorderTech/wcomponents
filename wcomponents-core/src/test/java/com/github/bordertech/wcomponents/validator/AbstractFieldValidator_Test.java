@@ -28,7 +28,8 @@ public class AbstractFieldValidator_Test {
 		String errorMessage = "testErrorMessageAccessors.error message";
 
 		validator.setErrorMessage(errorMessage);
-		Assert.assertEquals("Incorrect error message returned", errorMessage, validator.getErrorMessage());
+		Assert.assertEquals("Incorrect error message returned", errorMessage, validator.
+				getErrorMessage());
 	}
 
 	/**

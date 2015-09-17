@@ -108,21 +108,24 @@ public class SubordinateBuilderComplexExample extends WContainer {
 			WField expiryField = fieldLayout.addField("Expiry date", createDatePicker());
 			WField nameField = fieldLayout.addField("Name on credit card", new WTextField());
 			WField cvcField = fieldLayout.addField("Card security code", new WTextField());
-			fieldLayout.addField("Payment amount", new WStyledText("$nnn", WStyledText.Type.EMPHASISED));
+			fieldLayout.addField("Payment amount", new WStyledText("$nnn",
+					WStyledText.Type.EMPHASISED));
 
 			add(fieldLayout);
 
 			// Create the subordinates for the credit card payment panel
 			// When any card is selected, show the name and number fields
 			SubordinateBuilder builder = new SubordinateBuilder();
-			builder.condition().equals(creditCardType, cardAButton).or().equals(creditCardType, cardBButton).or().equals(creditCardType, cardCButton);
+			builder.condition().equals(creditCardType, cardAButton).or().equals(creditCardType,
+					cardBButton).or().equals(creditCardType, cardCButton);
 			builder.whenTrue().show(numberField, expiryField, nameField); // multiple fields can be acted on at once
 			builder.whenFalse().hide(numberField, expiryField, nameField);
 			add(builder.build());
 
 			// When card B or card C is selected, show the CVC field
 			builder = new SubordinateBuilder();
-			builder.condition().equals(creditCardType, cardBButton).or().equals(creditCardType, cardCButton);
+			builder.condition().equals(creditCardType, cardBButton).or().equals(creditCardType,
+					cardCButton);
 			builder.whenTrue().show(cvcField);
 			builder.whenFalse().hide(cvcField);
 			add(builder.build());
@@ -169,8 +172,8 @@ public class SubordinateBuilderComplexExample extends WContainer {
 	}
 
 	/**
-	 * An example panel which provides instructions on how to complete the transaction. This panel
-	 * does not contain any subordinate logic.
+	 * An example panel which provides instructions on how to complete the transaction. This panel does not contain any
+	 * subordinate logic.
 	 */
 	private static final class TransferPanel extends WPanel {
 

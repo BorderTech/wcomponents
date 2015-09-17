@@ -19,7 +19,8 @@ public class WMessageBoxRenderer_Test extends AbstractWebXmlRendererTestCase {
 	@Test
 	public void testRendererCorrectlyConfigured() {
 		WMessageBox messageBox = new WMessageBox(WMessageBox.SUCCESS);
-		Assert.assertTrue("Incorrect renderer supplied", getWebXmlRenderer(messageBox) instanceof WMessageBoxRenderer);
+		Assert.assertTrue("Incorrect renderer supplied",
+				getWebXmlRenderer(messageBox) instanceof WMessageBoxRenderer);
 	}
 
 	@Test
@@ -42,9 +43,12 @@ public class WMessageBoxRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		assertSchemaMatch(messageBox);
 		assertXpathEvaluatesTo("success", "//ui:messageBox/@type", messageBox);
-		assertXpathEvaluatesTo(message1, "normalize-space(//ui:messageBox/ui:message[position()=1])", messageBox);
-		assertXpathEvaluatesTo(message2, "normalize-space(//ui:messageBox/ui:message[position()=2])", messageBox);
-		assertXpathEvaluatesTo(message3, "normalize-space(//ui:messageBox/ui:message[position()=3])", messageBox);
+		assertXpathEvaluatesTo(message1, "normalize-space(//ui:messageBox/ui:message[position()=1])",
+				messageBox);
+		assertXpathEvaluatesTo(message2, "normalize-space(//ui:messageBox/ui:message[position()=2])",
+				messageBox);
+		assertXpathEvaluatesTo(message3, "normalize-space(//ui:messageBox/ui:message[position()=3])",
+				messageBox);
 
 		messageBox.setType(WMessageBox.INFO);
 		assertSchemaMatch(messageBox);

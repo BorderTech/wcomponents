@@ -94,8 +94,8 @@ public class SimpleTableBean implements Serializable {
 	}
 
 	/**
-	 * Indicates whether this SimpleTableBean is equal to another object. Two SimpleTableBeans are
-	 * considered equal if they have the same name.
+	 * Indicates whether this SimpleTableBean is equal to another object. Two SimpleTableBeans are considered equal if
+	 * they have the same name.
 	 *
 	 * @param obj the object to test for equality.
 	 * @return true if the object is a SimpleTableBean and is equal to this one, otherwise false.

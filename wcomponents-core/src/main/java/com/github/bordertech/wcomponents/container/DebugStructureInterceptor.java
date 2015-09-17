@@ -97,7 +97,8 @@ public class DebugStructureInterceptor extends InterceptorComponent {
 	 * @return the component type, or null if the given component is not a core component.
 	 */
 	private String getType(final WComponent component) {
-		for (Class<?> clazz = component.getClass(); clazz != null && WComponent.class.isAssignableFrom(clazz); clazz = clazz.getSuperclass()) {
+		for (Class<?> clazz = component.getClass(); clazz != null && WComponent.class.
+				isAssignableFrom(clazz); clazz = clazz.getSuperclass()) {
 			if ("com.github.bordertech.wcomponents".equals(clazz.getPackage().getName())) {
 				return clazz.getName();
 			}

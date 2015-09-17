@@ -20,7 +20,8 @@ public class WMenuItemGroupRenderer_Test extends AbstractWebXmlRendererTestCase 
 	@Test
 	public void testRendererCorrectlyConfigured() {
 		WMenuItemGroup menuItemGroup = new WMenuItemGroup("");
-		Assert.assertTrue("Incorrect renderer supplied", getWebXmlRenderer(menuItemGroup) instanceof WMenuItemGroupRenderer);
+		Assert.assertTrue("Incorrect renderer supplied",
+				getWebXmlRenderer(menuItemGroup) instanceof WMenuItemGroupRenderer);
 	}
 
 	@Test
@@ -33,7 +34,8 @@ public class WMenuItemGroupRenderer_Test extends AbstractWebXmlRendererTestCase 
 		setActiveContext(createUIContext());
 
 		assertXpathExists("//ui:menuGroup", wrapped);
-		assertXpathEvaluatesTo(groupName, "normalize-space(//ui:menuGroup/ui:decoratedLabel)", wrapped);
+		assertXpathEvaluatesTo(groupName, "normalize-space(//ui:menuGroup/ui:decoratedLabel)",
+				wrapped);
 		assertXpathEvaluatesTo(menuGroup.getId(), "//ui:menuGroup/@id", wrapped);
 		assertXpathNotExists("//ui:menuGroup/ui:submenu", wrapped);
 		assertXpathNotExists("//ui:menuGroup/ui:menuItem", wrapped);

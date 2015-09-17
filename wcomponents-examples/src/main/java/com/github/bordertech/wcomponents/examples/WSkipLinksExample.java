@@ -14,8 +14,8 @@ import com.github.bordertech.wcomponents.layout.FlowLayout.Alignment;
  * This example demonstrates the {@link WSkiplinks} component.</p>
  *
  * <p>
- * WSkipLinks is a component which has a heading and a list of internal links. These links will move
- * the cursor point to the first focusable element within a WPanel which has an accessKey set.</p>
+ * WSkipLinks is a component which has a heading and a list of internal links. These links will move the cursor point to
+ * the first focusable element within a WPanel which has an accessKey set.</p>
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0

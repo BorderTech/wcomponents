@@ -37,13 +37,17 @@ public class PetStoreDao_Test {
 			final String newImage = "lemming.gif";
 			final String newDescription = "has been modified";
 
-			PetStoreDao.writeProduct(new ProductBean(testProductId, newShortTitle, newImage, newDescription));
+			PetStoreDao.writeProduct(new ProductBean(testProductId, newShortTitle, newImage,
+					newDescription));
 
 			ProductBean newProduct = PetStoreDao.readProduct(testProductId);
 			Assert.assertEquals("should get productId requested", testProductId, newProduct.getId());
-			Assert.assertEquals("should get title for productdId " + testProductId, newShortTitle, newProduct.getShortTitle());
-			Assert.assertEquals("should get image for productId " + testProductId, newImage, newProduct.getImage());
-			Assert.assertEquals("should get description for productId " + testProductId, newDescription, newProduct.getDescription());
+			Assert.assertEquals("should get title for productdId " + testProductId, newShortTitle,
+					newProduct.getShortTitle());
+			Assert.assertEquals("should get image for productId " + testProductId, newImage,
+					newProduct.getImage());
+			Assert.assertEquals("should get description for productId " + testProductId,
+					newDescription, newProduct.getDescription());
 		} finally {
 			PetStoreDao.writeProduct(oldProduct);  // restore the original product
 		}
@@ -56,9 +60,11 @@ public class PetStoreDao_Test {
 	public void testReadInventory() {
 		InventoryBean[] inventory = PetStoreDao.readInventory();
 
-		Assert.assertEquals("should get correct inventory size", EXPECTED_INVENTORY_SIZE, inventory.length);
+		Assert.assertEquals("should get correct inventory size", EXPECTED_INVENTORY_SIZE,
+				inventory.length);
 		for (int i = 0; i < EXPECTED_INVENTORY_SIZE; i++) {
-			Assert.assertEquals("should get productId equal to index", i, inventory[i].getProductId());
+			Assert.assertEquals("should get productId equal to index", i, inventory[i].
+					getProductId());
 		}
 	}
 
@@ -70,9 +76,11 @@ public class PetStoreDao_Test {
 		int[] inventoryIds = new int[]{0, 2, 4};
 		InventoryBean[] inventory = PetStoreDao.readInventory(inventoryIds);
 
-		Assert.assertEquals("should get correct inventory size", inventoryIds.length, inventory.length);
+		Assert.assertEquals("should get correct inventory size", inventoryIds.length,
+				inventory.length);
 		for (int i = 0; i < inventoryIds.length; i++) {
-			Assert.assertEquals("should get productId twice the index", i * 2, inventory[i].getProductId());
+			Assert.assertEquals("should get productId twice the index", i * 2, inventory[i].
+					getProductId());
 		}
 	}
 
@@ -89,9 +97,12 @@ public class PetStoreDao_Test {
 		InventoryBean item = PetStoreDao.readInventory(testProductId);
 
 		Assert.assertEquals("should get expected  productId", testProductId, item.getProductId());
-		Assert.assertEquals("should get status for productId " + testProductId, expectedStatus, item.getStatus());
-		Assert.assertEquals("should get count for productId " + testProductId, expectedCount, item.getCount());
-		Assert.assertEquals("should get cost for productId " + testProductId, expectedCost, item.getUnitCost());
+		Assert.assertEquals("should get status for productId " + testProductId, expectedStatus,
+				item.getStatus());
+		Assert.assertEquals("should get count for productId " + testProductId, expectedCount, item.
+				getCount());
+		Assert.assertEquals("should get cost for productId " + testProductId, expectedCost, item.
+				getUnitCost());
 	}
 
 	/**
@@ -107,9 +118,12 @@ public class PetStoreDao_Test {
 		ProductBean product = PetStoreDao.readProduct(testProductId);
 
 		Assert.assertEquals("should get productId requested", testProductId, product.getId());
-		Assert.assertEquals("should get title for productdId " + testProductId, expectedTitle, product.getShortTitle());
-		Assert.assertEquals("should get image for productId " + testProductId, expectedImage, product.getImage());
-		Assert.assertEquals("should get description for productId " + testProductId, expectedDescription, product.getDescription());
+		Assert.assertEquals("should get title for productdId " + testProductId, expectedTitle,
+				product.getShortTitle());
+		Assert.assertEquals("should get image for productId " + testProductId, expectedImage,
+				product.getImage());
+		Assert.assertEquals("should get description for productId " + testProductId,
+				expectedDescription, product.getDescription());
 	}
 
 	/**
@@ -137,13 +151,17 @@ public class PetStoreDao_Test {
 		final int newCount = 99;
 		final int newUnitCost = 1995;
 
-		PetStoreDao.writeInventory(new InventoryBean(testProductId, newStatus, newCount, newUnitCost));
+		PetStoreDao.writeInventory(
+				new InventoryBean(testProductId, newStatus, newCount, newUnitCost));
 
 		InventoryBean item = PetStoreDao.readInventory(testProductId);
 
 		Assert.assertEquals("should get expected  productId", testProductId, item.getProductId());
-		Assert.assertEquals("should get new status for productId " + testProductId, newStatus, item.getStatus());
-		Assert.assertEquals("should get new count for productId " + testProductId, newCount, item.getCount());
-		Assert.assertEquals("should get new cost for productId " + testProductId, newUnitCost, item.getUnitCost());
+		Assert.assertEquals("should get new status for productId " + testProductId, newStatus, item.
+				getStatus());
+		Assert.assertEquals("should get new count for productId " + testProductId, newCount, item.
+				getCount());
+		Assert.assertEquals("should get new cost for productId " + testProductId, newUnitCost, item.
+				getUnitCost());
 	}
 }

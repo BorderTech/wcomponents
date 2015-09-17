@@ -36,22 +36,32 @@ public class WTextExample_Test extends WComponentSeleniumTestCase {
 		final String beanProviderText = "(innerBean.innerAttribute) for bean with id 123456";
 
 		// Test initial state
-		Assert.assertTrue("Dynamic model text should be present", driver.getPageSource().indexOf(dynamicText) != -1);
-		Assert.assertTrue("Bean text should not be present", driver.getPageSource().indexOf(beanText) == -1);
-		Assert.assertTrue("Bean provider text should not be present", driver.getPageSource().indexOf(beanProviderText) == -1);
+		Assert.assertTrue("Dynamic model text should be present", driver.getPageSource().indexOf(
+				dynamicText) != -1);
+		Assert.assertTrue("Bean text should not be present", driver.getPageSource().
+				indexOf(beanText) == -1);
+		Assert.assertTrue("Bean provider text should not be present", driver.getPageSource().
+				indexOf(beanProviderText) == -1);
 
 		// Load bean bound bean
 		driver.findElement(byWComponentPath("WButton[0]")).click();
-		Assert.assertTrue("Dynamic model text should be present", driver.getPageSource().indexOf(dynamicText) != -1);
-		Assert.assertTrue("Bean text should be present", driver.getPageSource().indexOf(beanText) != -1);
-		Assert.assertTrue("Bean provider text should not be present", driver.getPageSource().indexOf(beanProviderText) == -1);
+		Assert.assertTrue("Dynamic model text should be present", driver.getPageSource().indexOf(
+				dynamicText) != -1);
+		Assert.assertTrue("Bean text should be present",
+				driver.getPageSource().indexOf(beanText) != -1);
+		Assert.assertTrue("Bean provider text should not be present", driver.getPageSource().
+				indexOf(beanProviderText) == -1);
 
 		// Load bean provider bound bean
 		driver.findElement(byWComponentPath("WButton[1]")).click();
-		Assert.assertTrue("Dynamic model text should be present", driver.getPageSource().indexOf(dynamicText) != -1);
-		Assert.assertTrue("Bean text should be present", driver.getPageSource().indexOf(beanText) != -1);
-		Assert.assertTrue("Bean provider text should be present", driver.getPageSource().indexOf(beanProviderText) != -1);
+		Assert.assertTrue("Dynamic model text should be present", driver.getPageSource().indexOf(
+				dynamicText) != -1);
+		Assert.assertTrue("Bean text should be present",
+				driver.getPageSource().indexOf(beanText) != -1);
+		Assert.assertTrue("Bean provider text should be present", driver.getPageSource().indexOf(
+				beanProviderText) != -1);
 		Assert.assertTrue("Static model text should be present",
-				driver.getPageSource().lastIndexOf(staticText) < driver.getPageSource().indexOf("The following line of text is from the dynamic model."));
+				driver.getPageSource().lastIndexOf(staticText) < driver.getPageSource().indexOf(
+				"The following line of text is from the dynamic model."));
 	}
 }

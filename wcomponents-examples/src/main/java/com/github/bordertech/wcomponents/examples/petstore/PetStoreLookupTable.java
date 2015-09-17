@@ -19,8 +19,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * A slightly more realistic example LookupTable implementation. This implementation reads the table
- * data from an external file.
+ * A slightly more realistic example LookupTable implementation. This implementation reads the table data from an
+ * external file.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -35,7 +35,8 @@ public class PetStoreLookupTable implements LookupTable {
 	/**
 	 * A map to hold the relationship between the cache key and the source table.
 	 */
-	private static final Map<String, Object> CACHE_MAP = Collections.synchronizedMap(new HashMap<String, Object>());
+	private static final Map<String, Object> CACHE_MAP = Collections.synchronizedMap(
+			new HashMap<String, Object>());
 
 	/**
 	 * {@inheritDoc}
@@ -148,7 +149,8 @@ public class PetStoreLookupTable implements LookupTable {
 		 * @param dateFrom the valid from date.
 		 * @param dateTo the valid to date.
 		 */
-		public TableEntry(final String tableName, final String code, final String desc, final Date dateFrom, final Date dateTo) {
+		public TableEntry(final String tableName, final String code, final String desc,
+				final Date dateFrom, final Date dateTo) {
 			this.tableName = tableName;
 			this.code = code;
 			this.desc = desc;
@@ -247,7 +249,8 @@ public class PetStoreLookupTable implements LookupTable {
 		/**
 		 * Cached tables, to avoid having to read the data file from disk each time.
 		 */
-		private static final Map<String, List<TableEntry>> TABLES = Collections.synchronizedMap(new HashMap<String, List<TableEntry>>());
+		private static final Map<String, List<TableEntry>> TABLES = Collections.synchronizedMap(
+				new HashMap<String, List<TableEntry>>());
 
 		/**
 		 * Prevent instantation of this utility class.
@@ -294,7 +297,8 @@ public class PetStoreLookupTable implements LookupTable {
 
 				return list;
 			} catch (IOException ex) {
-				throw new SystemException("Unable to load codesets from resource '" + RESOURCE_NAME + "'.", ex);
+				throw new SystemException(
+						"Unable to load codesets from resource '" + RESOURCE_NAME + "'.", ex);
 			} finally {
 				try {
 					if (null != in) {
@@ -314,7 +318,8 @@ public class PetStoreLookupTable implements LookupTable {
 		 * @return the table.
 		 * @throws IOException if there is an error reading from the reader.
 		 */
-		private static List<TableEntry> readTable(final BufferedReader bufReader, final String tableName) throws IOException {
+		private static List<TableEntry> readTable(final BufferedReader bufReader,
+				final String tableName) throws IOException {
 			LOG.debug("Loading CRT '" + tableName + "'.");
 			SimpleDateFormat dateFormatter = new SimpleDateFormat(DATE_FORMAT);
 
@@ -337,7 +342,8 @@ public class PetStoreLookupTable implements LookupTable {
 				String[] args = line.split(DELIMITER);
 
 				if (args.length < 4) {
-					throw new IOException("Format of the file is invalid!" + "\nThe format of each line should be "
+					throw new IOException(
+							"Format of the file is invalid!" + "\nThe format of each line should be "
 							+ "[crtname]" + DELIMITER + "[code]" + DELIMITER + "[datefrom]" + DELIMITER
 							+ "[dateto]" + DELIMITER + "[description]"
 							+ "\nThe line that cause the error is: " + line);

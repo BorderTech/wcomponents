@@ -27,16 +27,20 @@ public class RadioButtonGroup_Test extends AbstractWComponentTestCase {
 
 		// Set data as a empty string
 		group.setData("");
-		Assert.assertNull("getValue should return null when data is an empty string", group.getValue());
+		Assert.assertNull("getValue should return null when data is an empty string", group.
+				getValue());
 
 		// Set data as a String value
 		group.setData("test data");
-		Assert.assertEquals("getValue returned the incorrect value for the data", "test data", group.getValue());
+		Assert.assertEquals("getValue returned the incorrect value for the data", "test data",
+				group.getValue());
 
 		// Set data as an Object
 		Object object = new Date();
 		group.setData(object);
-		Assert.assertEquals("getValue should return the string value of the data", object.toString(), group.getValue());
+		Assert.
+				assertEquals("getValue should return the string value of the data", object.
+						toString(), group.getValue());
 	}
 
 	@Test
@@ -53,10 +57,13 @@ public class RadioButtonGroup_Test extends AbstractWComponentTestCase {
 		group.setData(null);
 		boolean changed = group.doHandleRequest(request);
 
-		Assert.assertFalse("doHandleRequest should have returned false for request with null value and group is null",
+		Assert.assertFalse(
+				"doHandleRequest should have returned false for request with null value and group is null",
 				changed);
 		Assert
-				.assertNull("Value should still be null after request with null value and group is null", group.getData());
+				.assertNull(
+						"Value should still be null after request with null value and group is null",
+						group.getData());
 
 		// -----------------------------------------------------
 		// Request with null value and group is empty (No Change)
@@ -65,9 +72,11 @@ public class RadioButtonGroup_Test extends AbstractWComponentTestCase {
 
 		changed = group.doHandleRequest(request);
 
-		Assert.assertFalse("doHandleRequest should have returned false for request with null value and group is empty",
+		Assert.assertFalse(
+				"doHandleRequest should have returned false for request with null value and group is empty",
 				changed);
-		Assert.assertEquals("Value should still be empty after request with null value an group is empty", "",
+		Assert.assertEquals(
+				"Value should still be empty after request with null value an group is empty", "",
 				group.getData());
 
 		// -----------------------------------------------------
@@ -77,9 +86,11 @@ public class RadioButtonGroup_Test extends AbstractWComponentTestCase {
 
 		changed = group.doHandleRequest(request);
 
-		Assert.assertFalse("doHandleRequest should have returned false for request with empty value and group is null",
+		Assert.assertFalse(
+				"doHandleRequest should have returned false for request with empty value and group is null",
 				changed);
-		Assert.assertNull("Value should still be null after request with empty value and group is null",
+		Assert.assertNull(
+				"Value should still be null after request with empty value and group is null",
 				group.getData());
 
 		// -----------------------------------------------------
@@ -90,9 +101,12 @@ public class RadioButtonGroup_Test extends AbstractWComponentTestCase {
 		changed = group.doHandleRequest(request);
 
 		Assert
-				.assertFalse("doHandleRequest should have returned false for request with empty value and group is empty",
+				.assertFalse(
+						"doHandleRequest should have returned false for request with empty value and group is empty",
 						changed);
-		Assert.assertEquals("Value should still be empty after empty request and group is empty", "", group.getData());
+		Assert.
+				assertEquals("Value should still be empty after empty request and group is empty",
+						"", group.getData());
 
 		// -----------------------------------------------------
 		// Request with a Value and group is null (No Change)
@@ -101,9 +115,11 @@ public class RadioButtonGroup_Test extends AbstractWComponentTestCase {
 
 		changed = group.doHandleRequest(request);
 
-		Assert.assertFalse("doHandleRequest should have returned false for request with a value and group is null",
+		Assert.assertFalse(
+				"doHandleRequest should have returned false for request with a value and group is null",
 				changed);
-		Assert.assertNull("Value should still be null after request with a value and group is null", group.getData());
+		Assert.assertNull("Value should still be null after request with a value and group is null",
+				group.getData());
 
 		// -----------------------------------------------------
 		// Request with a Value and group is Empty (No Change)
@@ -112,9 +128,11 @@ public class RadioButtonGroup_Test extends AbstractWComponentTestCase {
 
 		changed = group.doHandleRequest(request);
 
-		Assert.assertFalse("doHandleRequest should have returned false for request with a value and group is empty",
+		Assert.assertFalse(
+				"doHandleRequest should have returned false for request with a value and group is empty",
 				changed);
-		Assert.assertEquals("Value should still be empty after a request with a value and group is empty", "",
+		Assert.assertEquals(
+				"Value should still be empty after a request with a value and group is empty", "",
 				group.getData());
 
 		// -----------------------------------------------------
@@ -124,9 +142,11 @@ public class RadioButtonGroup_Test extends AbstractWComponentTestCase {
 
 		changed = group.doHandleRequest(request);
 
-		Assert.assertTrue("doHandleRequest should have returned true for request with null value and group has value",
+		Assert.assertTrue(
+				"doHandleRequest should have returned true for request with null value and group has value",
 				changed);
-		Assert.assertNull("Value should be null after request with null value and group has value", group.getData());
+		Assert.assertNull("Value should be null after request with null value and group has value",
+				group.getData());
 
 	}
 
@@ -144,7 +164,8 @@ public class RadioButtonGroup_Test extends AbstractWComponentTestCase {
 		boolean changed = group.handleButtonOnRequest(request);
 
 		Assert
-				.assertFalse("handleButtonOnRequest should have returned false for request with null value and group is null",
+				.assertFalse(
+						"handleButtonOnRequest should have returned false for request with null value and group is null",
 						changed);
 		Assert.assertNull("Value should still be null after null request", group.getData());
 
@@ -155,7 +176,8 @@ public class RadioButtonGroup_Test extends AbstractWComponentTestCase {
 		changed = group.handleButtonOnRequest(request);
 
 		Assert
-				.assertFalse("handleButtonOnRequest should have returned false for request with null value and group is empty",
+				.assertFalse(
+						"handleButtonOnRequest should have returned false for request with null value and group is empty",
 						changed);
 		Assert.assertEquals("Value should still be empty after null request", "", group.getData());
 
@@ -164,7 +186,9 @@ public class RadioButtonGroup_Test extends AbstractWComponentTestCase {
 		request = setupRequest(group, "X");
 		changed = group.handleButtonOnRequest(request);
 
-		Assert.assertTrue("handleButtonOnRequest should have returned true for request with different value", changed);
+		Assert.assertTrue(
+				"handleButtonOnRequest should have returned true for request with different value",
+				changed);
 		Assert.assertEquals("Value not set after request", "X", group.getData());
 
 		// -----------------------------------------------------
@@ -172,17 +196,22 @@ public class RadioButtonGroup_Test extends AbstractWComponentTestCase {
 		request = setupRequest(group, "X");
 		changed = group.handleButtonOnRequest(request);
 
-		Assert.assertFalse("handleButtonOnRequest should have returned false for request with same value", changed);
-		Assert.assertEquals("Value should not have changed after request with same value", "X", group.getData());
+		Assert.assertFalse(
+				"handleButtonOnRequest should have returned false for request with same value",
+				changed);
+		Assert.assertEquals("Value should not have changed after request with same value", "X",
+				group.getData());
 
 		// -----------------------------------------------------
 		// Request with null value (Change)
 		request = setupRequest(group, null);
 		changed = group.handleButtonOnRequest(request);
 
-		Assert.assertTrue("handleButtonOnRequest should have returned true for request going back to a null value",
+		Assert.assertTrue(
+				"handleButtonOnRequest should have returned true for request going back to a null value",
 				changed);
-		Assert.assertNull("Value should go back to null for request with null value", group.getData());
+		Assert.assertNull("Value should go back to null for request with null value", group.
+				getData());
 	}
 
 	@Test
@@ -193,7 +222,8 @@ public class RadioButtonGroup_Test extends AbstractWComponentTestCase {
 
 		group.setFocussed();
 
-		Assert.assertNull("Foccussed should be null for a radio button group", UIContextHolder.getCurrent()
+		Assert.assertNull("Foccussed should be null for a radio button group", UIContextHolder.
+				getCurrent()
 				.getFocussed());
 	}
 
@@ -209,17 +239,22 @@ public class RadioButtonGroup_Test extends AbstractWComponentTestCase {
 
 		// Empty Request (not present, should return current value)
 		MockRequest request = new MockRequest();
-		Assert.assertEquals("Current value of the group should have been returned for empty request", "current",
-				group.getRequestValue(request));
+		Assert.
+				assertEquals(
+						"Current value of the group should have been returned for empty request",
+						"current",
+						group.getRequestValue(request));
 
 		// Request with "empty" value (should return null as an empty value on the request is treated as null)
 		request = setupRequest(group, "");
 		Assert
-				.assertNull("Null should have been returned for request with empty value", group.getRequestValue(request));
+				.assertNull("Null should have been returned for request with empty value", group.
+						getRequestValue(request));
 
 		// Request with value (should return the value on the request)
 		request = setupRequest(group, "X");
-		Assert.assertEquals("Value from the request should have been returned", "X", group.getRequestValue(request));
+		Assert.assertEquals("Value from the request should have been returned", "X", group.
+				getRequestValue(request));
 	}
 
 	@Test
@@ -228,11 +263,13 @@ public class RadioButtonGroup_Test extends AbstractWComponentTestCase {
 
 		// Empty Request (Not Present)
 		MockRequest request = new MockRequest();
-		Assert.assertFalse("isPresent should return false for empty request", group.isPresent(request));
+		Assert.assertFalse("isPresent should return false for empty request", group.isPresent(
+				request));
 
 		// On Request
 		request = setupRequest(group, null);
-		Assert.assertTrue("isPresent should return true for request with group", group.isPresent(request));
+		Assert.assertTrue("isPresent should return true for request with group", group.isPresent(
+				request));
 	}
 
 	@Test
@@ -261,7 +298,8 @@ public class RadioButtonGroup_Test extends AbstractWComponentTestCase {
 		WRadioButton radio = group.addRadioButton();
 		Assert.assertNotNull("Radio button should not be null", radio);
 		Assert.assertNull("Radio button value should be null", radio.getValue());
-		Assert.assertEquals("Radio button bean property should default to \".\"", ".", radio.getBeanProperty());
+		Assert.assertEquals("Radio button bean property should default to \".\"", ".", radio.
+				getBeanProperty());
 	}
 
 	/**

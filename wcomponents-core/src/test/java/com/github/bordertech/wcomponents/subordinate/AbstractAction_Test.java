@@ -71,9 +71,15 @@ public class AbstractAction_Test extends AbstractWComponentTestCase {
 		setActiveContext(createUIContext());
 		action.execute();
 
-		Assert.assertEquals("Incorrect value set on target1", value, ((MyTarget) target1).getValue());
-		Assert.assertEquals("Incorrect value set on target2", value, ((MyTarget) target2).getValue());
-		Assert.assertEquals("Incorrect value set on target3", value, ((MyTarget) target3).getValue());
+		Assert.
+				assertEquals("Incorrect value set on target1", value, ((MyTarget) target1).
+						getValue());
+		Assert.
+				assertEquals("Incorrect value set on target2", value, ((MyTarget) target2).
+						getValue());
+		Assert.
+				assertEquals("Incorrect value set on target3", value, ((MyTarget) target3).
+						getValue());
 	}
 
 	/**

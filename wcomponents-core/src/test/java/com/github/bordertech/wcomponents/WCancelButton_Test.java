@@ -20,17 +20,21 @@ public class WCancelButton_Test extends AbstractWComponentTestCase {
 		Assert.assertEquals("Incorrect default text", "Cancel", cancelButton.getText());
 
 		cancelButton = new WCancelButton(text);
-		Assert.assertEquals("Incorrect text when using text constructor", text, cancelButton.getText());
+		Assert.assertEquals("Incorrect text when using text constructor", text, cancelButton.
+				getText());
 
 		cancelButton = new WCancelButton(text, accessKey);
-		Assert.assertEquals("Incorrect text when using text + accesskey constructor", text, cancelButton.getText());
-		Assert.assertEquals("Incorrect access key text when using text + accesskey constructor", accessKey, cancelButton.getAccessKey());
+		Assert.assertEquals("Incorrect text when using text + accesskey constructor", text,
+				cancelButton.getText());
+		Assert.assertEquals("Incorrect access key text when using text + accesskey constructor",
+				accessKey, cancelButton.getAccessKey());
 	}
 
 	@Test
 	public void testUnsavedChanges() {
 		WCancelButton cancelButton = new WCancelButton();
-		Assert.assertFalse("Cancel button should not have unsaved changes by default", cancelButton.isUnsavedChanges());
+		Assert.assertFalse("Cancel button should not have unsaved changes by default", cancelButton.
+				isUnsavedChanges());
 
 		cancelButton.setLocked(true);
 		setActiveContext(createUIContext());
@@ -38,6 +42,7 @@ public class WCancelButton_Test extends AbstractWComponentTestCase {
 		Assert.assertTrue("Failed to set unsaved changes to true", cancelButton.isUnsavedChanges());
 
 		resetContext();
-		Assert.assertFalse("Cancel button should not have unsaved changes by default", cancelButton.isUnsavedChanges());
+		Assert.assertFalse("Cancel button should not have unsaved changes by default", cancelButton.
+				isUnsavedChanges());
 	}
 }

@@ -54,7 +54,8 @@ public class PatternValidationExample extends WContainer {
 					try {
 						Pattern.compile(getText());
 					} catch (PatternSyntaxException e) {
-						diags.add(createErrorDiagnostic("Invalid pattern syntax (" + e.getMessage() + ")"));
+						diags.add(createErrorDiagnostic(
+								"Invalid pattern syntax (" + e.getMessage() + ")"));
 					}
 				}
 			}

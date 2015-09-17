@@ -14,16 +14,16 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * <p>
- * This component is a date entry component. Individual themes may add features such as automatic
- * text formatting and date picker widgets. Convenience methods exist to set and get the value as a
- * java date object.
+ * This component is a date entry component. Individual themes may add features such as automatic text formatting and
+ * date picker widgets. Convenience methods exist to set and get the value as a java date object.
  * </p>
  *
  * @author Ming Gao
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class WDateField extends AbstractInput implements AjaxTrigger, AjaxTarget, SubordinateTrigger, SubordinateTarget {
+public class WDateField extends AbstractInput implements AjaxTrigger, AjaxTarget, SubordinateTrigger,
+		SubordinateTarget {
 
 	/**
 	 * The logger instance for this class.
@@ -85,8 +85,8 @@ public class WDateField extends AbstractInput implements AjaxTrigger, AjaxTarget
 	}
 
 	/**
-	 * Returns the text entered into the WDateField as a java date. Returns null if the data cannot
-	 * be converted into a java date.
+	 * Returns the text entered into the WDateField as a java date. Returns null if the data cannot be converted into a
+	 * java date.
 	 *
 	 * @return the java date or null
 	 */
@@ -131,8 +131,7 @@ public class WDateField extends AbstractInput implements AjaxTrigger, AjaxTarget
 	}
 
 	/**
-	 * Retrieves the text entered into the field by a specific user. This is not necessarily a valid
-	 * date.
+	 * Retrieves the text entered into the field by a specific user. This is not necessarily a valid date.
 	 *
 	 * @return the text field's text for the given context.
 	 */
@@ -150,8 +149,8 @@ public class WDateField extends AbstractInput implements AjaxTrigger, AjaxTarget
 	}
 
 	/**
-	 * Retrieves a String representation of the date field's value. The date value will be returned
-	 * using its default String representation.
+	 * Retrieves a String representation of the date field's value. The date value will be returned using its default
+	 * String representation.
 	 *
 	 * @return the date value, or the text entered by the user if there is no valid date.
 	 */
@@ -213,7 +212,8 @@ public class WDateField extends AbstractInput implements AjaxTrigger, AjaxTarget
 
 			// Check the date is not empty and correct length
 			if (Util.empty(dateParam) || dateParam.length() != INTERNAL_DATE_FORMAT.length()) {
-				LOG.warn("Date parameter is not the valid length of " + INTERNAL_DATE_FORMAT.length() + " characters ("
+				LOG.warn("Date parameter is not the valid length of " + INTERNAL_DATE_FORMAT.
+						length() + " characters ("
 						+ dateParam + ") and will be treated as null");
 				return null;
 			}
@@ -224,7 +224,9 @@ public class WDateField extends AbstractInput implements AjaxTrigger, AjaxTarget
 				sdf.setLenient(lenient);
 				return sdf.parse(dateParam);
 			} catch (ParseException e) {
-				LOG.warn("Date parameter could not be parsed (" + dateParam + ") and will be treated as null", e);
+				LOG.warn(
+						"Date parameter could not be parsed (" + dateParam + ") and will be treated as null",
+						e);
 				return null;
 			}
 		} else {
@@ -259,8 +261,8 @@ public class WDateField extends AbstractInput implements AjaxTrigger, AjaxTarget
 
 	/**
 	 * <p>
-	 * Performs validation of the date. Validation ensures that the entered date is between the
-	 * minimum/maximum values (if applicable).
+	 * Performs validation of the date. Validation ensures that the entered date is between the minimum/maximum values
+	 * (if applicable).
 	 * </p>
 	 * <p>
 	 * Subclasses can override this method to perform more specific validation.
@@ -278,18 +280,19 @@ public class WDateField extends AbstractInput implements AjaxTrigger, AjaxTarget
 		Date max = getMaxDate();
 
 		if (min != null && value.compareTo(min) < 0) {
-			diags.add(createErrorDiagnostic(InternalMessages.DEFAULT_VALIDATION_ERROR_DATE_AFTER_OR_EQUAL, this, min));
+			diags.add(createErrorDiagnostic(
+					InternalMessages.DEFAULT_VALIDATION_ERROR_DATE_AFTER_OR_EQUAL, this, min));
 		}
 
 		if (max != null && value.compareTo(max) > 0) {
-			diags.add(createErrorDiagnostic(InternalMessages.DEFAULT_VALIDATION_ERROR_DATE_BEFORE_OR_EQUAL, this, max));
+			diags.add(createErrorDiagnostic(
+					InternalMessages.DEFAULT_VALIDATION_ERROR_DATE_BEFORE_OR_EQUAL, this, max));
 		}
 	}
 
 	/**
-	 * Retrieves the minimum allowable value for this date field. The minimum value is enforced
-	 * server-side using the WComponent validation framework, and <b>may</b> be enforced
-	 * client-side.
+	 * Retrieves the minimum allowable value for this date field. The minimum value is enforced server-side using the
+	 * WComponent validation framework, and <b>may</b> be enforced client-side.
 	 *
 	 * @return the minimum allowable value, or null if there is no minimum.
 	 */
@@ -307,9 +310,8 @@ public class WDateField extends AbstractInput implements AjaxTrigger, AjaxTarget
 	}
 
 	/**
-	 * Retrieves the maximum allowable value for this date field. The maximum value is enforced
-	 * server-side using the WComponent validation framework, and <b>may</b> be enforced
-	 * client-side.
+	 * Retrieves the maximum allowable value for this date field. The maximum value is enforced server-side using the
+	 * WComponent validation framework, and <b>may</b> be enforced client-side.
 	 *
 	 * @return the maximum allowable value, or null if there is no maximum.
 	 */

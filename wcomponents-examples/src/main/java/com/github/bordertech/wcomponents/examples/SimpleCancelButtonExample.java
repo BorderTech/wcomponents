@@ -19,14 +19,14 @@ import com.github.bordertech.wcomponents.layout.FlowLayout.Alignment;
  * </p>
  *
  * <p>
- * The {@link Action} of the "Apply to Server" {@link WButton} uses the state of the "Unsaved
- * Changes" {@link WCheckBox check box} to set/unset the null {@link WCancelButton#setUnsavedChanges(boolean) unsaved changes
+ * The {@link Action} of the "Apply to Server" {@link WButton} uses the state of the "Unsaved Changes"
+ * {@link WCheckBox check box} to set/unset the null {@link WCancelButton#setUnsavedChanges(boolean) unsaved changes
  * flag} of the cancel button.
  * </p>
  *
  * <p>
- * The "Cancel" button will display a confirmation prompt if either the check box has been set and
- * not submitted or the server side unsaved changes flag has been set.
+ * The "Cancel" button will display a confirmation prompt if either the check box has been set and not submitted or the
+ * server side unsaved changes flag has been set.
  * </p>
  *
  * @author Steve Harney

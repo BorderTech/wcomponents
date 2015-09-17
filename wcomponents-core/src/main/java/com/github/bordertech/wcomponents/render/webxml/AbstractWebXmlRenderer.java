@@ -10,9 +10,9 @@ import com.github.bordertech.wcomponents.util.SystemException;
 /**
  * An abstract web xml renderer.
  *
- * All web xml renderers should extend this class, and must be thread-safe, as only a single
- * instance of the renderer is created by the UIManager. It is recommended that renderers do not
- * keep any state information, to avoid the performance penality of having to synchronize methods.
+ * All web xml renderers should extend this class, and must be thread-safe, as only a single instance of the renderer is
+ * created by the UIManager. It is recommended that renderers do not keep any state information, to avoid the
+ * performance penality of having to synchronize methods.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -40,7 +40,8 @@ public abstract class AbstractWebXmlRenderer implements Renderer {
 	 * @param container the component whose children will be painted.
 	 * @param renderContext the context for rendering.
 	 */
-	protected final void paintChildren(final Container container, final WebXmlRenderContext renderContext) {
+	protected final void paintChildren(final Container container,
+			final WebXmlRenderContext renderContext) {
 		final int size = container.getChildCount();
 
 		for (int i = 0; i < size; i++) {

@@ -81,7 +81,8 @@ public class Serialization_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testUIContextSerialization() {
-		MyApplication app = (MyApplication) UIRegistry.getInstance().getUI(MyApplication.class.getName());
+		MyApplication app = (MyApplication) UIRegistry.getInstance().getUI(MyApplication.class.
+				getName());
 
 		UIContextImpl uic = new UIContextImpl();
 		setActiveContext(uic);
@@ -98,7 +99,8 @@ public class Serialization_Test extends AbstractWComponentTestCase {
 		// Components returned should be the same instance
 		MyApplication pipedApp = (MyApplication) uic.getUI();
 		Assert.assertSame("Should be the same component instance", app, pipedApp);
-		Assert.assertSame("Should be the same text field instance", app.getText(), pipedApp.getText());
+		Assert.assertSame("Should be the same text field instance", app.getText(), pipedApp.
+				getText());
 
 		Assert.assertEquals("Text incorrect after serialization", TEST_STRING, name.getText());
 	}
@@ -149,8 +151,7 @@ public class Serialization_Test extends AbstractWComponentTestCase {
 	}
 
 	/**
-	 * A simple UI to use in the test. This just contains a single text field which can hold some
-	 * text.
+	 * A simple UI to use in the test. This just contains a single text field which can hold some text.
 	 */
 	protected static final class MyApplication extends WApplication {
 

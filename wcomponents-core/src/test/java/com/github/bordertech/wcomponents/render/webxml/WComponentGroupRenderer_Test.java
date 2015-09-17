@@ -21,7 +21,8 @@ public class WComponentGroupRenderer_Test extends AbstractWebXmlRendererTestCase
 	@Test
 	public void testRendererCorrectlyConfigured() {
 		WComponentGroup<WComponent> group = new WComponentGroup<>();
-		Assert.assertTrue("Incorrect renderer supplied", getWebXmlRenderer(group) instanceof WComponentGroupRenderer);
+		Assert.assertTrue("Incorrect renderer supplied",
+				getWebXmlRenderer(group) instanceof WComponentGroupRenderer);
 	}
 
 	@Test
@@ -49,9 +50,12 @@ public class WComponentGroupRenderer_Test extends AbstractWebXmlRendererTestCase
 		assertXpathEvaluatesTo("1", "count(//ui:componentGroup)", root);
 		assertXpathEvaluatesTo("3", "count(//ui:componentGroup/ui:component)", root);
 		assertXpathEvaluatesTo(group.getId(), "//ui:componentGroup/@id", root);
-		assertXpathEvaluatesTo(actionTarget1.getId(), "//ui:componentGroup/ui:component[position()=1]/@id", root);
-		assertXpathEvaluatesTo(actionTarget2.getId(), "//ui:componentGroup/ui:component[position()=2]/@id", root);
-		assertXpathEvaluatesTo(actionTarget3.getId(), "//ui:componentGroup/ui:component[position()=3]/@id", root);
+		assertXpathEvaluatesTo(actionTarget1.getId(),
+				"//ui:componentGroup/ui:component[position()=1]/@id", root);
+		assertXpathEvaluatesTo(actionTarget2.getId(),
+				"//ui:componentGroup/ui:component[position()=2]/@id", root);
+		assertXpathEvaluatesTo(actionTarget3.getId(),
+				"//ui:componentGroup/ui:component[position()=3]/@id", root);
 	}
 
 }

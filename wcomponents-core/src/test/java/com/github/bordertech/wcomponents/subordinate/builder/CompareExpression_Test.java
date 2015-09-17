@@ -80,27 +80,33 @@ public final class CompareExpression_Test {
 		// Build NotEqual
 		expr = new CompareExpression(CompareType.NOT_EQUAL, trigger, value);
 		NotEqual notEqual = (NotEqual) expr.build();
-		Assert.assertEquals("NotEqual condition returned invalid trigger", trigger, notEqual.getTrigger());
+		Assert.assertEquals("NotEqual condition returned invalid trigger", trigger, notEqual.
+				getTrigger());
 		Assert.assertEquals("NotEqual condition returned invalid value", value, notEqual.getValue());
 
 		// Build LessThan
 		expr = new CompareExpression(CompareType.LESS_THAN, trigger, value);
 		LessThan lessThan = (LessThan) expr.build();
-		Assert.assertEquals("LessThan condition returned invalid trigger", trigger, lessThan.getTrigger());
+		Assert.assertEquals("LessThan condition returned invalid trigger", trigger, lessThan.
+				getTrigger());
 		Assert.assertEquals("LessThan condition returned invalid value", value, lessThan.getValue());
 
 		// Build LessThanOrEqual
 		expr = new CompareExpression(CompareType.LESS_THAN_OR_EQUAL, trigger, value);
 		LessThanOrEqual lessThanOrEqual = (LessThanOrEqual) expr.build();
 		Assert
-				.assertEquals("LessThanOrEqual condition returned invalid trigger", trigger, lessThanOrEqual.getTrigger());
-		Assert.assertEquals("LessThanOrEqual condition returned invalid value", value, lessThanOrEqual.getValue());
+				.assertEquals("LessThanOrEqual condition returned invalid trigger", trigger,
+						lessThanOrEqual.getTrigger());
+		Assert.assertEquals("LessThanOrEqual condition returned invalid value", value,
+				lessThanOrEqual.getValue());
 
 		// Build GreaterThan
 		expr = new CompareExpression(CompareType.GREATER_THAN, trigger, value);
 		GreaterThan greaterThan = (GreaterThan) expr.build();
-		Assert.assertEquals("GreaterThan condition returned invalid trigger", trigger, greaterThan.getTrigger());
-		Assert.assertEquals("GreaterThan condition returned invalid value", value, greaterThan.getValue());
+		Assert.assertEquals("GreaterThan condition returned invalid trigger", trigger, greaterThan.
+				getTrigger());
+		Assert.assertEquals("GreaterThan condition returned invalid value", value, greaterThan.
+				getValue());
 
 		// Build GreaterThanOrEqual
 		expr = new CompareExpression(CompareType.GREATER_THAN_OR_EQUAL, trigger, value);
@@ -108,7 +114,8 @@ public final class CompareExpression_Test {
 		Assert.assertEquals("GreaterThanOrEqual condition returned invalid trigger", trigger,
 				greaterThanOrEqual.getTrigger());
 		Assert
-				.assertEquals("GreaterThanOrEqual condition returned invalid value", value, greaterThanOrEqual.getValue());
+				.assertEquals("GreaterThanOrEqual condition returned invalid value", value,
+						greaterThanOrEqual.getValue());
 
 		// Build Match
 		expr = new CompareExpression(CompareType.MATCH, trigger, value);
@@ -124,38 +131,46 @@ public final class CompareExpression_Test {
 
 		// Equal
 		CompareExpression expr = new CompareExpression(CompareType.EQUAL, trigger, value);
-		Assert.assertEquals("Incorrect toString for equals compare", "WTextField=\"test\"", expr.toString());
+		Assert.assertEquals("Incorrect toString for equals compare", "WTextField=\"test\"", expr.
+				toString());
 
 		// NotEqual
 		expr = new CompareExpression(CompareType.NOT_EQUAL, trigger, value);
-		Assert.assertEquals("Incorrect toString for not equals compare", "WTextField!=\"test\"", expr.toString());
+		Assert.assertEquals("Incorrect toString for not equals compare", "WTextField!=\"test\"",
+				expr.toString());
 
 		// LessThan
 		expr = new CompareExpression(CompareType.LESS_THAN, trigger, value);
-		Assert.assertEquals("Incorrect toString for less than compare", "WTextField<\"test\"", expr.toString());
+		Assert.assertEquals("Incorrect toString for less than compare", "WTextField<\"test\"", expr.
+				toString());
 
 		// LessThanOrEqual
 		expr = new CompareExpression(CompareType.LESS_THAN_OR_EQUAL, trigger, value);
-		Assert.assertEquals("Incorrect toString for less than or equal compare", "WTextField<=\"test\"",
+		Assert.assertEquals("Incorrect toString for less than or equal compare",
+				"WTextField<=\"test\"",
 				expr.toString());
 
 		// GreaterThan
 		expr = new CompareExpression(CompareType.GREATER_THAN, trigger, value);
-		Assert.assertEquals("Incorrect toString for greater than compare", "WTextField>\"test\"", expr.toString());
+		Assert.assertEquals("Incorrect toString for greater than compare", "WTextField>\"test\"",
+				expr.toString());
 
 		// GreaterThanOrEqual
 		expr = new CompareExpression(CompareType.GREATER_THAN_OR_EQUAL, trigger, value);
-		Assert.assertEquals("Incorrect toString for greater thanor equal compare", "WTextField>=\"test\"",
+		Assert.assertEquals("Incorrect toString for greater thanor equal compare",
+				"WTextField>=\"test\"",
 				expr.toString());
 
 		// Match
 		expr = new CompareExpression(CompareType.MATCH, trigger, value);
-		Assert.assertEquals("Incorrect toString for match compare", "WTextField matches \"test\"", expr.toString());
+		Assert.assertEquals("Incorrect toString for match compare", "WTextField matches \"test\"",
+				expr.toString());
 
 		// Test when a label is associated with the field
 		expr = new CompareExpression(CompareType.EQUAL, trigger, value);
 		new WLabel("My test field", trigger);
-		Assert.assertEquals("Incorrect toString for equals compare with label", "My test field=\"test\"",
+		Assert.assertEquals("Incorrect toString for equals compare with label",
+				"My test field=\"test\"",
 				expr.toString());
 
 	}

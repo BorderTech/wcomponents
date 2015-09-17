@@ -19,9 +19,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * This {@link InterceptorComponent} looks for an ajax 'trigger' parameter in the request. The
- * trigger parameter identifies the {@link WAjaxControl} to be handled by the request. In the paint
- * phase the interceptor will only paint the targeted components to the response.
+ * This {@link InterceptorComponent} looks for an ajax 'trigger' parameter in the request. The trigger parameter
+ * identifies the {@link WAjaxControl} to be handled by the request. In the paint phase the interceptor will only paint
+ * the targeted components to the response.
  *
  * @see WAjaxControl
  * @author Christina Harris
@@ -43,12 +43,14 @@ public class AjaxInterceptor extends InterceptorComponent {
 
 		AjaxOperation ajaxOperation = AjaxHelper.getCurrentOperation();
 		if (ajaxOperation == null) {
-			throw new IllegalStateException("No AJAX operation available for trigger " + triggerId + ".");
+			throw new IllegalStateException(
+					"No AJAX operation available for trigger " + triggerId + ".");
 		}
 
 		ComponentWithContext triggerWithContext = AjaxHelper.getCurrentTriggerAndContext();
 		if (triggerWithContext == null) {
-			throw new IllegalStateException("No component/context available for AJAX trigger " + triggerId + ".");
+			throw new IllegalStateException(
+					"No component/context available for AJAX trigger " + triggerId + ".");
 		}
 
 		UIContext uic = UIContextHolder.getCurrent();
@@ -74,7 +76,8 @@ public class AjaxInterceptor extends InterceptorComponent {
 				UIContextHolder.popContext();
 			}
 		} else if ("GET".equals(request.getMethod())) { // GET only supports the above scenarios
-			throw new IllegalStateException("GET is not supported for the AJAX trigger " + triggerId + ".");
+			throw new IllegalStateException(
+					"GET is not supported for the AJAX trigger " + triggerId + ".");
 		} else {
 			// service the request
 			super.serviceRequest(request);
@@ -82,8 +85,8 @@ public class AjaxInterceptor extends InterceptorComponent {
 	}
 
 	/**
-	 * Paints the targeted ajax regions. The format of the response is an agreement between the
-	 * server and the client side JavaScript handling our ajax response.
+	 * Paints the targeted ajax regions. The format of the response is an agreement between the server and the client
+	 * side JavaScript handling our ajax response.
 	 *
 	 * @param renderContext the renderContext to send the output to.
 	 */
@@ -109,7 +112,8 @@ public class AjaxInterceptor extends InterceptorComponent {
 	 * @param renderContext the render context
 	 * @param operation the ajax operation
 	 */
-	private void paintContainerResponse(final RenderContext renderContext, final AjaxOperation operation) {
+	private void paintContainerResponse(final RenderContext renderContext,
+			final AjaxOperation operation) {
 		WebXmlRenderContext webRenderContext = (WebXmlRenderContext) renderContext;
 		XmlStringBuilder xml = webRenderContext.getWriter();
 
@@ -198,7 +202,8 @@ public class AjaxInterceptor extends InterceptorComponent {
 	 * @param operation current ajax operation
 	 * @return true if process this trigger only
 	 */
-	private boolean isProcessTriggerOnly(final ComponentWithContext triggerWithContext, final AjaxOperation operation) {
+	private boolean isProcessTriggerOnly(final ComponentWithContext triggerWithContext,
+			final AjaxOperation operation) {
 		// Target container implies only process the trigger
 		if (operation.getTargetContainerId() != null) {
 			return true;

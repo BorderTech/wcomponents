@@ -23,7 +23,8 @@ public class WTextFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 	@Test
 	public void testRendererCorrectlyConfigured() {
 		WTextField textField = new WTextField();
-		Assert.assertTrue("Incorrect renderer supplied", getWebXmlRenderer(textField) instanceof WTextFieldRenderer);
+		Assert.assertTrue("Incorrect renderer supplied",
+				getWebXmlRenderer(textField) instanceof WTextFieldRenderer);
 	}
 
 	@Test
@@ -82,7 +83,8 @@ public class WTextFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		textField.setAccessibleText("accessible");
 		assertSchemaMatch(textField);
-		assertXpathEvaluatesTo(textField.getAccessibleText(), "//ui:textField/@accessibleText", textField);
+		assertXpathEvaluatesTo(textField.getAccessibleText(), "//ui:textField/@accessibleText",
+				textField);
 
 		textField.setColumns(40);
 		assertSchemaMatch(textField);

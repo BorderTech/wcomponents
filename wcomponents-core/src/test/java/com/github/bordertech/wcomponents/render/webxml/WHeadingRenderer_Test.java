@@ -21,7 +21,8 @@ public class WHeadingRenderer_Test extends AbstractWebXmlRendererTestCase {
 	@Test
 	public void testRendererCorrectlyConfigured() {
 		WHeading component = new WHeading(WHeading.TITLE, "");
-		Assert.assertTrue("Incorrect renderer supplied", getWebXmlRenderer(component) instanceof WHeadingRenderer);
+		Assert.assertTrue("Incorrect renderer supplied",
+				getWebXmlRenderer(component) instanceof WHeadingRenderer);
 	}
 
 	@Test
@@ -68,11 +69,13 @@ public class WHeadingRenderer_Test extends AbstractWebXmlRendererTestCase {
 		WHeading heading = new WHeading(WHeading.TITLE, new WDecoratedLabel(new WText(text1)));
 		assertSchemaMatch(heading);
 
-		assertXpathEvaluatesTo(text1, "//ui:heading[@level=1]/ui:decoratedLabel/ui:labelBody/text()", heading);
+		assertXpathEvaluatesTo(text1, "//ui:heading[@level=1]/ui:decoratedLabel/ui:labelBody/text()",
+				heading);
 
 		// Test WHeading's WText implementation
 		heading.setText(text2);
-		assertXpathEvaluatesTo(text2 + text1, "//ui:heading[@level=1]/ui:decoratedLabel/ui:labelBody/text()", heading);
+		assertXpathEvaluatesTo(text2 + text1,
+				"//ui:heading[@level=1]/ui:decoratedLabel/ui:labelBody/text()", heading);
 	}
 
 	@Test

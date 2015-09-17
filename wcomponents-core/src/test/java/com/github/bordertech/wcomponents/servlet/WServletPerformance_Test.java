@@ -37,8 +37,8 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
 /**
- * Tests to check the performance of WComponent servlet processing. This test does not check for
- * correct behaviour - see {@link WServlet_Test} instead.
+ * Tests to check the performance of WComponent servlet processing. This test does not check for correct behaviour - see
+ * {@link WServlet_Test} instead.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -52,8 +52,7 @@ public class WServletPerformance_Test extends AbstractWComponentTestCase {
 	private static final Log LOG = LogFactory.getLog(WServletPerformance_Test.class);
 
 	/**
-	 * Basic sanity-test to ensure that the WComponent app is performing all the processing that it
-	 * should.
+	 * Basic sanity-test to ensure that the WComponent app is performing all the processing that it should.
 	 *
 	 * @throws Exception an exception
 	 */
@@ -67,7 +66,8 @@ public class WServletPerformance_Test extends AbstractWComponentTestCase {
 		sendWServletRequest(servlet, session, 0, null);
 
 		// Second request
-		WServletHelper helper = new WServletHelper(servlet, new MockHttpServletRequest(session), new MockHttpServletResponse());
+		WServletHelper helper = new WServletHelper(servlet, new MockHttpServletRequest(session),
+				new MockHttpServletResponse());
 		UIContext uic = helper.getUIContext();
 		SimpleApp app = (SimpleApp) uic.getUI();
 
@@ -75,13 +75,14 @@ public class WServletPerformance_Test extends AbstractWComponentTestCase {
 
 		setActiveContext(uic);
 		Assert.assertEquals("Incorrect step", 2, uic.getEnvironment().getStep());
-		Assert.assertEquals("Incorrect property1 value", "p1_1", ((SimpleFormBean) app.beanContainer.getBean()).getProperty1());
-		Assert.assertEquals("Incorrect property2 value", "p2_1", ((SimpleFormBean) app.beanContainer.getBean()).getProperty2());
+		Assert.assertEquals("Incorrect property1 value", "p1_1",
+				((SimpleFormBean) app.beanContainer.getBean()).getProperty1());
+		Assert.assertEquals("Incorrect property2 value", "p2_1",
+				((SimpleFormBean) app.beanContainer.getBean()).getProperty2());
 	}
 
 	/**
-	 * Basic sanity-test to ensure that the other app is performing all the processing that it
-	 * should.
+	 * Basic sanity-test to ensure that the other app is performing all the processing that it should.
 	 *
 	 * @throws Exception an exception
 	 */
@@ -110,7 +111,8 @@ public class WServletPerformance_Test extends AbstractWComponentTestCase {
 		LOG.info("Simple servlet time: " + (simpleTime / 1000000.0) + "ms");
 		LOG.info("WComponent servlet time: " + (wservletTime / 1000000.0) + "ms");
 
-		Assert.assertTrue("WComponent servlet time should not exceed 10x simple time", wservletTime < simpleTime * 10);
+		Assert.assertTrue("WComponent servlet time should not exceed 10x simple time",
+				wservletTime < simpleTime * 10);
 	}
 
 	/**
@@ -129,7 +131,8 @@ public class WServletPerformance_Test extends AbstractWComponentTestCase {
 		sendWServletRequest(servlet, simpleWServletSession, 0, null);
 
 		// Get token
-		WServletHelper helper = new WServletHelper(servlet, new MockHttpServletRequest(simpleWServletSession), new MockHttpServletResponse());
+		WServletHelper helper = new WServletHelper(servlet, new MockHttpServletRequest(
+				simpleWServletSession), new MockHttpServletResponse());
 		String token = helper.getUIContext().getEnvironment().getSessionToken();
 
 		// JIT warm-up
@@ -160,8 +163,7 @@ public class WServletPerformance_Test extends AbstractWComponentTestCase {
 	}
 
 	/**
-	 * Times the other servlet execution looping the given number of times and returns the elapsed
-	 * time.
+	 * Times the other servlet execution looping the given number of times and returns the elapsed time.
 	 *
 	 * @param count the number of times to loop.
 	 * @return the elapsed time, in nanoseconds.
@@ -204,7 +206,8 @@ public class WServletPerformance_Test extends AbstractWComponentTestCase {
 	 * @param token the session token
 	 * @throws Exception an exception
 	 */
-	private void sendWServletRequest(final WServlet servlet, final HttpSession session, final int step, final String token) throws Exception {
+	private void sendWServletRequest(final WServlet servlet, final HttpSession session,
+			final int step, final String token) throws Exception {
 		MockHttpServletRequest request = new MockHttpServletRequest(session);
 		MockHttpServletResponse response = new MockHttpServletResponse();
 
@@ -234,7 +237,8 @@ public class WServletPerformance_Test extends AbstractWComponentTestCase {
 	 * @param step the step count
 	 * @throws Exception an exception
 	 */
-	private void sendOtherServletRequest(final SimpleServlet servlet, final HttpSession session, final int step) throws Exception {
+	private void sendOtherServletRequest(final SimpleServlet servlet, final HttpSession session,
+			final int step) throws Exception {
 		MockHttpServletRequest request = new MockHttpServletRequest(session);
 		MockHttpServletResponse response = new MockHttpServletResponse();
 
@@ -326,7 +330,8 @@ public class WServletPerformance_Test extends AbstractWComponentTestCase {
 		 * {@inheritDoc}
 		 */
 		@Override
-		protected void service(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
+		protected void service(final HttpServletRequest request, final HttpServletResponse response)
+				throws ServletException {
 			try {
 				// Match logging overhead
 				LOG.info("Service called " + this + " from " + request.getRequestURL());
@@ -353,7 +358,8 @@ public class WServletPerformance_Test extends AbstractWComponentTestCase {
 					String key = (String) names.nextElement();
 
 					if (key.startsWith("formBean")) {
-						properties.put(key.substring("formBean.".length()), request.getParameterValues(key));
+						properties.put(key.substring("formBean.".length()), request.
+								getParameterValues(key));
 					}
 				}
 
@@ -368,26 +374,37 @@ public class WServletPerformance_Test extends AbstractWComponentTestCase {
 		 * @param response the response to write to.
 		 * @throws Exception on error
 		 */
-		private void doRender(final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+		private void doRender(final HttpServletRequest request, final HttpServletResponse response)
+				throws Exception {
 			SimpleFormBean formBean = getFormBean(request);
 			String title = "Some title";
 
 			PrintWriter writer = response.getWriter();
 
 			writer.print("<!DOCTYPE html>");
-			writer.print("\n<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"en\">");
+			writer.print(
+					"\n<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"en\">");
 			writer.print("\n<head>");
-			writer.print("\n<meta http-equiv=\"Content-type\" content=\"text/html; charset=utf-8\">");
+			writer.
+					print("\n<meta http-equiv=\"Content-type\" content=\"text/html; charset=utf-8\">");
 			writer.print("<title>" + title + "</title>");
-			writer.print("<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/my.css/\" media=\"all\">");
+			writer.print(
+					"<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/my.css/\" media=\"all\">");
 			writer.print("\n</head>");
 			writer.print("\n<body>");
 
-			writer.print("\n<form method=\"post\" action=\"" + request.getRequestURI() + "\" id=\"mainForm\">");
-			writer.print("\n<label id=\"label_formBean.property1\" for=\"formBean.property1\">Property 1:</label>");
-			writer.print("\n<input type=\"text\" id=\"formBean.property1\" name=\"formBean.property1\" value=\"" + BeanUtils.getProperty(formBean, "property1") + "\"/>");
-			writer.print("\n<label id=\"label_formBean.property2\" for=\"formBean.property2\">Property 2:</label>");
-			writer.print("\n<input type=\"text\" id=\"formBean.property2\" name=\"formBean.property2\" value=\"" + BeanUtils.getProperty(formBean, "property2") + "\"/>");
+			writer.print(
+					"\n<form method=\"post\" action=\"" + request.getRequestURI() + "\" id=\"mainForm\">");
+			writer.print(
+					"\n<label id=\"label_formBean.property1\" for=\"formBean.property1\">Property 1:</label>");
+			writer.print(
+					"\n<input type=\"text\" id=\"formBean.property1\" name=\"formBean.property1\" value=\"" + BeanUtils.
+					getProperty(formBean, "property1") + "\"/>");
+			writer.print(
+					"\n<label id=\"label_formBean.property2\" for=\"formBean.property2\">Property 2:</label>");
+			writer.print(
+					"\n<input type=\"text\" id=\"formBean.property2\" name=\"formBean.property2\" value=\"" + BeanUtils.
+					getProperty(formBean, "property2") + "\"/>");
 			writer.print("\n<input type=\"submit\" id=\"submit\" name=\"submit\" value=\"Submit\">");
 			writer.print("\n</form>");
 
@@ -396,8 +413,7 @@ public class WServletPerformance_Test extends AbstractWComponentTestCase {
 		}
 
 		/**
-		 * Retrieves the form bean instance from the session, creating a new bean if one does not
-		 * already exist.
+		 * Retrieves the form bean instance from the session, creating a new bean if one does not already exist.
 		 *
 		 * @param request the request being handled.
 		 * @return the form bean instance.

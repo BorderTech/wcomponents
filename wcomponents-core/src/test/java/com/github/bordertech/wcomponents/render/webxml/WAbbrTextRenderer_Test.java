@@ -18,7 +18,8 @@ public class WAbbrTextRenderer_Test extends AbstractWebXmlRendererTestCase {
 	@Test
 	public void testRendererCorrectlyConfigured() {
 		WAbbrText component = new WAbbrText();
-		Assert.assertTrue("Incorrect renderer supplied", getWebXmlRenderer(component) instanceof WAbbrTextRenderer);
+		Assert.assertTrue("Incorrect renderer supplied",
+				getWebXmlRenderer(component) instanceof WAbbrTextRenderer);
 	}
 
 	@Test

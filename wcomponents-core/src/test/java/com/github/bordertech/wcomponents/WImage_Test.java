@@ -30,13 +30,17 @@ public class WImage_Test extends AbstractWComponentTestCase {
 
 		image.setLocked(true);
 		setActiveContext(createUIContext());
-		Assert.assertSame("Default image should be returned when no user specific image set", defaultImage, image.getImage());
-		Assert.assertTrue("Should be in default state when no user specific image set", image.isDefaultState());
+		Assert.assertSame("Default image should be returned when no user specific image set",
+				defaultImage, image.getImage());
+		Assert.assertTrue("Should be in default state when no user specific image set", image.
+				isDefaultState());
 
 		setActiveContext(createUIContext());
 		image.setImage(sessionImage);
-		Assert.assertSame("Session image should be returned when set", sessionImage, image.getImage());
-		Assert.assertFalse("Should not be in default state when session image set", image.isDefaultState());
+		Assert.assertSame("Session image should be returned when set", sessionImage, image.
+				getImage());
+		Assert.assertFalse("Should not be in default state when session image set", image.
+				isDefaultState());
 
 		resetContext();
 		Assert.assertSame("Default image should not be changed", defaultImage, image.getImage());
@@ -51,17 +55,21 @@ public class WImage_Test extends AbstractWComponentTestCase {
 		Assert.assertNull("CacheKey should be null by default", image.getCacheKey());
 
 		image.setCacheKey(defaultKey);
-		Assert.assertEquals("Incorrect value returned for default cache key", defaultKey, image.getCacheKey());
+		Assert.assertEquals("Incorrect value returned for default cache key", defaultKey, image.
+				getCacheKey());
 
 		image.setLocked(true);
 		setActiveContext(createUIContext());
-		Assert.assertEquals("Incorrect value returned for default cache key with user context", defaultKey, image.getCacheKey());
+		Assert.assertEquals("Incorrect value returned for default cache key with user context",
+				defaultKey, image.getCacheKey());
 
 		image.setCacheKey(testKey);
-		Assert.assertEquals("Incorrect value returned for cache key with user context", testKey, image.getCacheKey());
+		Assert.assertEquals("Incorrect value returned for cache key with user context", testKey,
+				image.getCacheKey());
 
 		resetContext();
-		Assert.assertEquals("Incorrect value returned for default cache key", defaultKey, image.getCacheKey());
+		Assert.assertEquals("Incorrect value returned for default cache key", defaultKey, image.
+				getCacheKey());
 	}
 
 	@Test
@@ -76,8 +84,10 @@ public class WImage_Test extends AbstractWComponentTestCase {
 		container.add(image3);
 
 		setActiveContext(createUIContext());
-		Assert.assertEquals("Image urls should match for the same image", image1.getTargetUrl(), image2.getTargetUrl());
-		Assert.assertFalse("Image urls should differ for different images", image1.getTargetUrl().equals(image3.getTargetUrl()));
+		Assert.assertEquals("Image urls should match for the same image", image1.getTargetUrl(),
+				image2.getTargetUrl());
+		Assert.assertFalse("Image urls should differ for different images", image1.getTargetUrl().
+				equals(image3.getTargetUrl()));
 	}
 
 	@Test
@@ -108,7 +118,8 @@ public class WImage_Test extends AbstractWComponentTestCase {
 			escape.escape();
 
 			String output = new String(response.getOutput(), CHAR_ENCODING);
-			Assert.assertEquals("Incorrect content returned", new String(data, CHAR_ENCODING), output);
+			Assert.assertEquals("Incorrect content returned", new String(data, CHAR_ENCODING),
+					output);
 			Assert.assertFalse("Cache flag should not be set", escape.isCacheable());
 			Assert.assertEquals("Response should have header set for no caching",
 					ResponseCacheInterceptor.DEFAULT_NO_CACHE_SETTINGS,
@@ -128,11 +139,13 @@ public class WImage_Test extends AbstractWComponentTestCase {
 			escape.escape();
 
 			String output = new String(response.getOutput(), CHAR_ENCODING);
-			Assert.assertEquals("Incorrect content returned", new String(data, CHAR_ENCODING), output);
+			Assert.assertEquals("Incorrect content returned", new String(data, CHAR_ENCODING),
+					output);
 			Assert.assertTrue("Cache flag should be set", escape.isCacheable());
 			Assert
 					.assertEquals("Response should have header set for caching",
-							ResponseCacheInterceptor.DEFAULT_CACHE_SETTINGS, response.getHeaders().get("Cache-Control"));
+							ResponseCacheInterceptor.DEFAULT_CACHE_SETTINGS, response.getHeaders().
+							get("Cache-Control"));
 		}
 	}
 }

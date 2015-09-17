@@ -5,8 +5,8 @@ import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WStyledText;
 
 /**
- * Common warning message for WComponent examples to flag an example as having potential
- * accessibility, design or best-practice issues.
+ * Common warning message for WComponent examples to flag an example as having potential accessibility, design or
+ * best-practice issues.
  *
  */
 public class AccessibilityWarningPanel extends WPanel {

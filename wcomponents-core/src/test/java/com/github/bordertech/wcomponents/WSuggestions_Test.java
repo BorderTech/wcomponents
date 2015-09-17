@@ -32,42 +32,51 @@ public class WSuggestions_Test extends AbstractWComponentTestCase {
 	public void testDefaultConstructor() {
 		WSuggestions sugg = new WSuggestions();
 
-		Assert.assertTrue("Default Const - Suggestions list should be empty", sugg.getSuggestions().isEmpty());
+		Assert.assertTrue("Default Const - Suggestions list should be empty", sugg.getSuggestions().
+				isEmpty());
 		Assert.assertNull("Default Const - List cache key should be null", sugg.getListCacheKey());
 		Assert.assertNull("Default Const - Lookup table should be null", sugg.getLookupTable());
 		Assert.assertNull("Default Const - Refresh action should be null", sugg.getRefreshAction());
 		Assert.assertNull("Default Const - AJAX filter should be null", sugg.getAjaxFilter());
-		Assert.assertEquals("Default Const - Min refresh characters should be 0", 0, sugg.getMinRefresh());
+		Assert.assertEquals("Default Const - Min refresh characters should be 0", 0, sugg.
+				getMinRefresh());
 	}
 
 	@Test
 	public void testConstructorWithLookupTable() {
 		WSuggestions sugg = new WSuggestions(TestLookupTable.CACHEABLE_DAY_OF_WEEK_TABLE);
 
-		Assert.assertFalse("Lookuptable Const - Suggestions list should not be empty", sugg.getSuggestions().isEmpty());
-		Assert.assertNotNull("Lookuptable Const - List cache key should not be null", sugg.getListCacheKey());
+		Assert.assertFalse("Lookuptable Const - Suggestions list should not be empty", sugg.
+				getSuggestions().isEmpty());
+		Assert.assertNotNull("Lookuptable Const - List cache key should not be null", sugg.
+				getListCacheKey());
 		Assert.assertEquals("Lookuptable Const - Incorrect lookup table returned",
 				TestLookupTable.CACHEABLE_DAY_OF_WEEK_TABLE, sugg.getLookupTable());
-		Assert.assertNull("Lookuptable Const - Refresh action should be null", sugg.getRefreshAction());
+		Assert.assertNull("Lookuptable Const - Refresh action should be null", sugg.
+				getRefreshAction());
 		Assert.assertNull("Lookuptable Const - AJAX filter should be null", sugg.getAjaxFilter());
-		Assert.assertEquals("Lookuptable Const - Min refresh characters should be 0", 0, sugg.getMinRefresh());
+		Assert.assertEquals("Lookuptable Const - Min refresh characters should be 0", 0, sugg.
+				getMinRefresh());
 	}
 
 	@Test
 	public void testConstructorWithOptions() {
 		WSuggestions sugg = new WSuggestions(DEFAULT_OPTIONS);
 
-		Assert.assertEquals("Options Const - Suggestions list is not correct", DEFAULT_OPTIONS, sugg.getSuggestions());
+		Assert.assertEquals("Options Const - Suggestions list is not correct", DEFAULT_OPTIONS,
+				sugg.getSuggestions());
 		Assert.assertNull("Options Const - List cache key should be null", sugg.getListCacheKey());
 		Assert.assertNull("Options Const - Lookup table should be null", sugg.getLookupTable());
 		Assert.assertNull("Options Const - Refresh action should be null", sugg.getRefreshAction());
 		Assert.assertNull("Options Const - AJAX filter should be null", sugg.getAjaxFilter());
-		Assert.assertEquals("Options Const - Min refresh characters should be 0", 0, sugg.getMinRefresh());
+		Assert.assertEquals("Options Const - Min refresh characters should be 0", 0, sugg.
+				getMinRefresh());
 	}
 
 	@Test
 	public void testSuggestionAccessors() {
-		assertAccessorsCorrect(new WSuggestions(), "suggestions", Collections.EMPTY_LIST, DEFAULT_OPTIONS,
+		assertAccessorsCorrect(new WSuggestions(), "suggestions", Collections.EMPTY_LIST,
+				DEFAULT_OPTIONS,
 				DEFAULT_OPTIONS2);
 	}
 
@@ -78,7 +87,8 @@ public class WSuggestions_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testRefreshActionAccessors() {
-		assertAccessorsCorrect(new WSuggestions(), "refreshAction", null, new TestAction(), new TestAction());
+		assertAccessorsCorrect(new WSuggestions(), "refreshAction", null, new TestAction(),
+				new TestAction());
 	}
 
 	@Test
@@ -111,11 +121,13 @@ public class WSuggestions_Test extends AbstractWComponentTestCase {
 		setActiveContext(createUIContext());
 		list.setLookupTable(table2);
 		Assert.assertEquals("LookupTable with uic1 should be table2", table2, list.getLookupTable());
-		Assert.assertEquals("Incorrect options returned for table2 with uic", data2, list.getSuggestions());
+		Assert.assertEquals("Incorrect options returned for table2 with uic", data2, list.
+				getSuggestions());
 
 		resetContext();
 		Assert.assertEquals("Default lookupTable should be table1", table1, list.getLookupTable());
-		Assert.assertEquals("Incorrect default options returned for table1", data1, list.getSuggestions());
+		Assert.assertEquals("Incorrect default options returned for table1", data1, list.
+				getSuggestions());
 	}
 
 	@Test
@@ -142,7 +154,8 @@ public class WSuggestions_Test extends AbstractWComponentTestCase {
 		sugg.serviceRequest(request);
 
 		// Nothing should be set
-		Assert.assertTrue("Request - Suggestions list should be empty", sugg.getSuggestions().isEmpty());
+		Assert.assertTrue("Request - Suggestions list should be empty", sugg.getSuggestions().
+				isEmpty());
 		Assert.assertNull("Request - AJAX filter should be null", sugg.getAjaxFilter());
 
 		// Mock AJAX Request - Should trigger action and render suggestions
@@ -155,8 +168,10 @@ public class WSuggestions_Test extends AbstractWComponentTestCase {
 			sugg.serviceRequest(request);
 
 			// Refresh action should have set the suggestions
-			Assert.assertEquals("AJAX Request - Suggestions list should be set", options, sugg.getSuggestions());
-			Assert.assertEquals("AJAX Request - AJAX filter should be set", "TEST", sugg.getAjaxFilter());
+			Assert.assertEquals("AJAX Request - Suggestions list should be set", options, sugg.
+					getSuggestions());
+			Assert.assertEquals("AJAX Request - AJAX filter should be set", "TEST", sugg.
+					getAjaxFilter());
 		} finally {
 			AjaxHelper.clearCurrentOperationDetails();
 		}

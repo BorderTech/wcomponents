@@ -39,8 +39,10 @@ public class ValidatingAction_Test {
 				validatingAction.getComponentToValidate());
 
 		validatingAction.execute(new ActionEvent("source", "command"));
-		Assert.assertTrue("Should have called executeOnError", validatingAction.executeOnErrorExecuted);
-		Assert.assertFalse("Should not have called executeOnValid", validatingAction.executeOnValidExecuted);
+		Assert.assertTrue("Should have called executeOnError",
+				validatingAction.executeOnErrorExecuted);
+		Assert.assertFalse("Should not have called executeOnValid",
+				validatingAction.executeOnValidExecuted);
 	}
 
 	@Test
@@ -50,19 +52,22 @@ public class ValidatingAction_Test {
 				validatingAction.getComponentToValidate());
 
 		validatingAction.execute(new ActionEvent("source", "command"));
-		Assert.assertTrue("Should have called executeOnValid", validatingAction.executeOnValidExecuted);
-		Assert.assertFalse("Should not have called executeOnError", validatingAction.executeOnErrorExecuted);
+		Assert.assertTrue("Should have called executeOnValid",
+				validatingAction.executeOnValidExecuted);
+		Assert.assertFalse("Should not have called executeOnError",
+				validatingAction.executeOnErrorExecuted);
 
 		// Test with a warning diagnostic - should still succeed
 		componentToValidate.setErrorLevel(Diagnostic.WARNING);
 		validatingAction.execute(new ActionEvent("source", "command"));
-		Assert.assertTrue("Should have called executeOnValid", validatingAction.executeOnValidExecuted);
-		Assert.assertFalse("Should not have called executeOnError", validatingAction.executeOnErrorExecuted);
+		Assert.assertTrue("Should have called executeOnValid",
+				validatingAction.executeOnValidExecuted);
+		Assert.assertFalse("Should not have called executeOnError",
+				validatingAction.executeOnErrorExecuted);
 	}
 
 	/**
-	 * This trivial implementation of ValidatingAction just records whether various methods have
-	 * been called.
+	 * This trivial implementation of ValidatingAction just records whether various methods have been called.
 	 *
 	 * @author Yiannis Paschalidis
 	 */

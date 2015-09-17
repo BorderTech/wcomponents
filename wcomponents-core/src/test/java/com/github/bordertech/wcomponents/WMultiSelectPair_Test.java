@@ -27,7 +27,9 @@ public class WMultiSelectPair_Test extends AbstractWComponentTestCase {
 	public void testConstructorArray() {
 		String[] options = new String[]{"A", "B"};
 		WMultiSelectPair multi = new WMultiSelectPair(options);
-		Assert.assertEquals("Incorrect options returned", Arrays.asList(options), multi.getOptions());
+		Assert.
+				assertEquals("Incorrect options returned", Arrays.asList(options), multi.
+						getOptions());
 		Assert.assertTrue("allowNoSelection should be true", multi.isAllowNoSelection());
 	}
 
@@ -42,7 +44,9 @@ public class WMultiSelectPair_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testConstructorTable() {
 		WMultiSelectPair multi = new WMultiSelectPair(DayOfWeekTable.class);
-		Assert.assertEquals("Incorrect table returned", DayOfWeekTable.class, multi.getLookupTable());
+		Assert.
+				assertEquals("Incorrect table returned", DayOfWeekTable.class, multi.
+						getLookupTable());
 		Assert.assertTrue("allowNoSelection should be true", multi.isAllowNoSelection());
 	}
 
@@ -71,7 +75,8 @@ public class WMultiSelectPair_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testSelectionOrderable() {
 		WMultiSelectPair multi = new WMultiSelectPair();
-		Assert.assertFalse("SelectionOrderable should default to false", multi.isSelectionOrderable());
+		Assert.assertFalse("SelectionOrderable should default to false", multi.
+				isSelectionOrderable());
 
 		multi.setShuffle(true);
 		Assert.assertTrue("SelectionOrderable should be true", multi.isSelectionOrderable());

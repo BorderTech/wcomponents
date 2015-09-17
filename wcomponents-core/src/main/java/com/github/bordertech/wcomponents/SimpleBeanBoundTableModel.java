@@ -14,21 +14,19 @@ import org.apache.commons.logging.LogFactory;
 /**
  * A simple table data model that is bound to a list of beans.
  * <p>
- * The simplest use of this model is to define the column bean properties for a list of beans that
- * is not expandable, via the {@link #SimpleBeanBoundTableModel(String[])} constructor.
+ * The simplest use of this model is to define the column bean properties for a list of beans that is not expandable,
+ * via the {@link #SimpleBeanBoundTableModel(String[])} constructor.
  * </p>
  * <p>
- * The model also allows tree like structures (ie expandable rows) to be defined by using
- * {@link LevelDetails}. Each {@link LevelDetails} determines which "beanProperty" will be used to
- * expand the next level. The defined "beanProperty" is usually another list of beans. There are
- * different helper constructors that will help define these levels based on the bean properties
- * passed in.
+ * The model also allows tree like structures (ie expandable rows) to be defined by using {@link LevelDetails}. Each
+ * {@link LevelDetails} determines which "beanProperty" will be used to expand the next level. The defined
+ * "beanProperty" is usually another list of beans. There are different helper constructors that will help define these
+ * levels based on the bean properties passed in.
  * </p>
  * <p>
  * If the data is hierarchic, then the one {@link LevelDetails} can be defined, and the
- * {@link #setIterateFirstLevel(boolean)} can be set to true. The model will then iterate this level
- * down the bean list using the level's bean property. The maximum number of iterations can be set
- * via {@link #setMaxIterations(int)}.
+ * {@link #setIterateFirstLevel(boolean)} can be set to true. The model will then iterate this level down the bean list
+ * using the level's bean property. The maximum number of iterations can be set via {@link #setMaxIterations(int)}.
  * </p>
  * <p>
  * The model supports sorting. A comparator for a particular column can be added via
@@ -46,8 +44,7 @@ public class SimpleBeanBoundTableModel extends AbstractBeanBoundTableModel {
 	private static final Log LOG = LogFactory.getLog(SimpleBeanBoundTableModel.class);
 
 	/**
-	 * A simple comparator that compares comparables, for use in sorting e.g. columns containing
-	 * Strings.
+	 * A simple comparator that compares comparables, for use in sorting e.g. columns containing Strings.
 	 */
 	public static final ComparableComparator COMPARABLE_COMPARATOR = new ComparableComparator();
 
@@ -96,32 +93,32 @@ public class SimpleBeanBoundTableModel extends AbstractBeanBoundTableModel {
 	}
 
 	/**
-	 * Define the column bean properties for the top level along with the bean property of the first
-	 * expandable level.
+	 * Define the column bean properties for the top level along with the bean property of the first expandable level.
 	 * <p>
 	 * The expandable level will use the same column bean properties as the top level.
 	 * </p>
 	 * <p>
-	 * To iterate down multiple levels on this bean property, set
-	 * {@link #setIterateFirstLevel(boolean)} to true.
+	 * To iterate down multiple levels on this bean property, set {@link #setIterateFirstLevel(boolean)} to true.
 	 * </p>
 	 *
 	 * @param columnBeanProperties the column bean properties
 	 * @param levelBeanProperty the bean property for the expandable level
 	 */
-	public SimpleBeanBoundTableModel(final String[] columnBeanProperties, final String levelBeanProperty) {
+	public SimpleBeanBoundTableModel(final String[] columnBeanProperties,
+			final String levelBeanProperty) {
 		this(columnBeanProperties, new LevelDetails(levelBeanProperty, columnBeanProperties));
 	}
 
 	/**
-	 * Define the column bean properties for the top level along with the bean properties and column
-	 * bean properties of the expandable levels.
+	 * Define the column bean properties for the top level along with the bean properties and column bean properties of
+	 * the expandable levels.
 	 *
 	 * @param columnBeanProperties the top level column bean properties
 	 * @param levelBeanProperties the bean properties for the expandable levels
 	 * @param levelColumnBeanProperties the column bean properties for the expandable levels
 	 */
-	public SimpleBeanBoundTableModel(final String[] columnBeanProperties, final String[] levelBeanProperties,
+	public SimpleBeanBoundTableModel(final String[] columnBeanProperties,
+			final String[] levelBeanProperties,
 			final String[][] levelColumnBeanProperties) {
 		this(columnBeanProperties);
 		if (levelBeanProperties == null || levelBeanProperties.length == 0) {
@@ -135,7 +132,8 @@ public class SimpleBeanBoundTableModel extends AbstractBeanBoundTableModel {
 		}
 
 		for (int i = 0; i < levelBeanProperties.length; i++) {
-			LevelDetails level = new LevelDetails(levelBeanProperties[i], levelColumnBeanProperties[i]);
+			LevelDetails level = new LevelDetails(levelBeanProperties[i],
+					levelColumnBeanProperties[i]);
 			this.levels.add(level);
 		}
 	}
@@ -146,7 +144,8 @@ public class SimpleBeanBoundTableModel extends AbstractBeanBoundTableModel {
 	 * @param columnBeanProperties the top level column bean properties
 	 * @param levels the expandable levels
 	 */
-	public SimpleBeanBoundTableModel(final String[] columnBeanProperties, final LevelDetails... levels) {
+	public SimpleBeanBoundTableModel(final String[] columnBeanProperties,
+			final LevelDetails... levels) {
 		this(columnBeanProperties);
 
 		// Expandable Levels
@@ -272,8 +271,8 @@ public class SimpleBeanBoundTableModel extends AbstractBeanBoundTableModel {
 	}
 
 	/**
-	 * Indicates whether the given cell is editable. This model only supports editability at a
-	 * global level. See {@link #setEditable(boolean)}.
+	 * Indicates whether the given cell is editable. This model only supports editability at a global level. See
+	 * {@link #setEditable(boolean)}.
 	 *
 	 * @param row ignored.
 	 * @param col ignored.
@@ -336,7 +335,8 @@ public class SimpleBeanBoundTableModel extends AbstractBeanBoundTableModel {
 	@Override
 	public int[] sort(final int col, final boolean ascending) {
 		if (!isSortable(col)) {
-			throw new IllegalStateException("Attempted to sort on column " + col + ", which is not sortable");
+			throw new IllegalStateException(
+					"Attempted to sort on column " + col + ", which is not sortable");
 		}
 
 		return sort(comparators.get(col), col, ascending);
@@ -543,7 +543,8 @@ public class SimpleBeanBoundTableModel extends AbstractBeanBoundTableModel {
 	 * @param bean the bean
 	 * @param value the value to set
 	 */
-	protected void setBeanPropertyValue(final String property, final Object bean, final Serializable value) {
+	protected void setBeanPropertyValue(final String property, final Object bean,
+			final Serializable value) {
 		if (bean == null) {
 			return;
 		}
@@ -590,10 +591,10 @@ public class SimpleBeanBoundTableModel extends AbstractBeanBoundTableModel {
 	/**
 	 * The details of an expandable level. A level can either have "columns" or a "renderer".
 	 * <p>
-	 * For levels that have a "renderer", if the data for the level is a list, then a row can be
-	 * rendered for "each" item in the list. However, if the data is not a list or the renderer will
-	 * handle rendering the "list" then the rowPerListItem flag needs to be set to false via
-	 * {@link LevelDetails#LevelDetails(String, Class, boolean)} constructor.
+	 * For levels that have a "renderer", if the data for the level is a list, then a row can be rendered for "each"
+	 * item in the list. However, if the data is not a list or the renderer will handle rendering the "list" then the
+	 * rowPerListItem flag needs to be set to false via {@link LevelDetails#LevelDetails(String, Class, boolean)}
+	 * constructor.
 	 * </p>
 	 *
 	 * @author Jonathan Austin
@@ -619,8 +620,7 @@ public class SimpleBeanBoundTableModel extends AbstractBeanBoundTableModel {
 		private final boolean rowPerListItem;
 
 		/**
-		 * @param levelBeanProperty the bean property for this level's data (usually a list of
-		 * beans)
+		 * @param levelBeanProperty the bean property for this level's data (usually a list of beans)
 		 * @param columnBeanProperties the column bean properties for the level
 		 */
 		public LevelDetails(final String levelBeanProperty, final String[] columnBeanProperties) {
@@ -631,21 +631,21 @@ public class SimpleBeanBoundTableModel extends AbstractBeanBoundTableModel {
 		}
 
 		/**
-		 * @param levelBeanProperty the bean property for this level's data (usually a list of
-		 * beans)
+		 * @param levelBeanProperty the bean property for this level's data (usually a list of beans)
 		 * @param renderer the custom renderer for this level
 		 */
-		public LevelDetails(final String levelBeanProperty, final Class<? extends WComponent> renderer) {
+		public LevelDetails(final String levelBeanProperty,
+				final Class<? extends WComponent> renderer) {
 			this(levelBeanProperty, renderer, true);
 		}
 
 		/**
-		 * @param levelBeanProperty the bean property for this level's data (usually a list of
-		 * beans)
+		 * @param levelBeanProperty the bean property for this level's data (usually a list of beans)
 		 * @param renderer the custom renderer for this level
 		 * @param rowPerListItem true if row per item in list, otherwise false
 		 */
-		public LevelDetails(final String levelBeanProperty, final Class<? extends WComponent> renderer,
+		public LevelDetails(final String levelBeanProperty,
+				final Class<? extends WComponent> renderer,
 				final boolean rowPerListItem) {
 			this.levelBeanProperty = levelBeanProperty;
 			this.renderer = renderer;
@@ -668,9 +668,9 @@ public class SimpleBeanBoundTableModel extends AbstractBeanBoundTableModel {
 		}
 
 		/**
-		 * For levels that have a "renderer", if the data for the level is a list, then a row can be
-		 * rendered for "each" item in the list. However, if the data is not a list or the renderer
-		 * will handle rendering the "list" then the rowPerListItem will be false.
+		 * For levels that have a "renderer", if the data for the level is a list, then a row can be rendered for "each"
+		 * item in the list. However, if the data is not a list or the renderer will handle rendering the "list" then
+		 * the rowPerListItem will be false.
 		 *
 		 * @return true if row per item in list, otherwise false
 		 */
@@ -679,8 +679,7 @@ public class SimpleBeanBoundTableModel extends AbstractBeanBoundTableModel {
 		}
 
 		/**
-		 * @return the column bean properties for the level, or null if the level has a custom
-		 * renderer
+		 * @return the column bean properties for the level, or null if the level has a custom renderer
 		 */
 		public String[] getColumnBeanProperties() {
 			return columnBeanProperties;

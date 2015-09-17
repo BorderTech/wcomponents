@@ -37,13 +37,15 @@ public class ProductImage_Test {
 		final String testName = null;
 		final String testDescription = "description";
 
-		ProductBean testProduct = new ProductBean(testProductId, testTitle, testName, testDescription);
+		ProductBean testProduct = new ProductBean(testProductId, testTitle, testName,
+				testDescription);
 		ProductImage image = new ProductImage(testProduct);
 		byte[] bytes = image.getBytes();
 
 		Assert.assertNull("should be null - no bean/name to look for bytes", bytes);
 
-		Assert.assertEquals("should have description set to testTitle given", testTitle, image.getDescription());
+		Assert.assertEquals("should have description set to testTitle given", testTitle, image.
+				getDescription());
 		Assert.assertNull("should have no mime type set", image.getMimeType());
 	}
 
@@ -57,13 +59,15 @@ public class ProductImage_Test {
 		final String testName = "dogXXX.gif"; // this file does not exist in the image directory
 		final String testDescription = "description";
 
-		ProductBean testProduct = new ProductBean(testProductId, testTitle, testName, testDescription);
+		ProductBean testProduct = new ProductBean(testProductId, testTitle, testName,
+				testDescription);
 		ProductImage image = new ProductImage(testProduct);
 		byte[] bytes = image.getBytes();
 
 		Assert.assertNull("should be null - bean/name set but no file found", bytes);
 
-		Assert.assertEquals("should have description set to testTitle given", testTitle, image.getDescription());
+		Assert.assertEquals("should have description set to testTitle given", testTitle, image.
+				getDescription());
 		Assert.assertNull("should have no mime type set", image.getMimeType());
 	}
 
@@ -78,14 +82,16 @@ public class ProductImage_Test {
 		final String testDescription = "description";
 		final String expectedMimeType = "image/gif";
 
-		ProductBean testProduct = new ProductBean(testProductId, testTitle, testName, testDescription);
+		ProductBean testProduct = new ProductBean(testProductId, testTitle, testName,
+				testDescription);
 		ProductImage image = new ProductImage(testProduct);
 		byte[] bytes = image.getBytes();
 
 		Assert.assertNotNull("should have found file loaded bytes", bytes);
 		Assert.assertTrue("should have bytes found", bytes.length > 0);
 
-		Assert.assertEquals("should have description set to testTitle given", testTitle, image.getDescription());
+		Assert.assertEquals("should have description set to testTitle given", testTitle, image.
+				getDescription());
 		Assert.assertEquals("should have no mime type set", expectedMimeType, image.getMimeType());
 	}
 
@@ -125,6 +131,7 @@ public class ProductImage_Test {
 		ProductImage image = new ProductImage(new ProductBean());
 		image.setDescription(testDescription);
 
-		Assert.assertEquals("should returnd description set", testDescription, image.getDescription());
+		Assert.assertEquals("should returnd description set", testDescription, image.
+				getDescription());
 	}
 }

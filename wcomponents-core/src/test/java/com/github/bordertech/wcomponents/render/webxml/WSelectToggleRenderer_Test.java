@@ -20,7 +20,8 @@ public class WSelectToggleRenderer_Test extends AbstractWebXmlRendererTestCase {
 	@Test
 	public void testRendererCorrectlyConfigured() {
 		WSelectToggle component = new WSelectToggle();
-		Assert.assertTrue("Incorrect renderer supplied", getWebXmlRenderer(component) instanceof WSelectToggleRenderer);
+		Assert.assertTrue("Incorrect renderer supplied",
+				getWebXmlRenderer(component) instanceof WSelectToggleRenderer);
 	}
 
 	@Test

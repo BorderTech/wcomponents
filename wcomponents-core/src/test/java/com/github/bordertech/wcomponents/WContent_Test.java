@@ -68,10 +68,12 @@ public class WContent_Test extends AbstractWComponentTestCase {
 		Assert.assertTrue("Should be resizable by default", wContent.isResizable());
 
 		wContent.setResizable(false);
-		Assert.assertFalse("Incorrect value for resizable after setResizable(false) called", wContent.isResizable());
+		Assert.assertFalse("Incorrect value for resizable after setResizable(false) called",
+				wContent.isResizable());
 
 		wContent.setResizable(true);
-		Assert.assertTrue("Incorrect value for resizable after setResizable(true) called", wContent.isResizable());
+		Assert.assertTrue("Incorrect value for resizable after setResizable(true) called", wContent.
+				isResizable());
 	}
 
 	@Test
@@ -83,17 +85,21 @@ public class WContent_Test extends AbstractWComponentTestCase {
 		Assert.assertNull("CacheKey should be null by default", wContent.getCacheKey());
 
 		wContent.setCacheKey(defaultKey);
-		Assert.assertEquals("Incorrect value returned for default cache key", defaultKey, wContent.getCacheKey());
+		Assert.assertEquals("Incorrect value returned for default cache key", defaultKey, wContent.
+				getCacheKey());
 
 		wContent.setLocked(true);
 		setActiveContext(createUIContext());
-		Assert.assertEquals("Incorrect value returned for default cache key with user context", defaultKey, wContent.getCacheKey());
+		Assert.assertEquals("Incorrect value returned for default cache key with user context",
+				defaultKey, wContent.getCacheKey());
 
 		wContent.setCacheKey(testKey);
-		Assert.assertEquals("Incorrect value returned for cache key with user context", testKey, wContent.getCacheKey());
+		Assert.assertEquals("Incorrect value returned for cache key with user context", testKey,
+				wContent.getCacheKey());
 
 		resetContext();
-		Assert.assertEquals("Incorrect value returned for default cache key", defaultKey, wContent.getCacheKey());
+		Assert.assertEquals("Incorrect value returned for default cache key", defaultKey, wContent.
+				getCacheKey());
 	}
 
 	@Test
@@ -132,7 +138,8 @@ public class WContent_Test extends AbstractWComponentTestCase {
 			escape.escape();
 
 			String output = new String(response.getOutput(), CHAR_ENCODING);
-			Assert.assertEquals("Incorrect content returned", new String(data, CHAR_ENCODING), output);
+			Assert.assertEquals("Incorrect content returned", new String(data, CHAR_ENCODING),
+					output);
 			Assert.assertFalse("Cache flag should not be set", escape.isCacheable());
 			Assert.assertEquals("Response should have header set for no caching",
 					ResponseCacheInterceptor.DEFAULT_NO_CACHE_SETTINGS,
@@ -152,11 +159,13 @@ public class WContent_Test extends AbstractWComponentTestCase {
 			escape.escape();
 
 			String output = new String(response.getOutput(), CHAR_ENCODING);
-			Assert.assertEquals("Incorrect content returned", new String(data, CHAR_ENCODING), output);
+			Assert.assertEquals("Incorrect content returned", new String(data, CHAR_ENCODING),
+					output);
 			Assert.assertTrue("Cache flag should be set", escape.isCacheable());
 			Assert
 					.assertEquals("Response should have header set for caching",
-							ResponseCacheInterceptor.DEFAULT_CACHE_SETTINGS, response.getHeaders().get("Cache-Control"));
+							ResponseCacheInterceptor.DEFAULT_CACHE_SETTINGS, response.getHeaders().
+							get("Cache-Control"));
 		}
 
 		// Test with streamed content
@@ -173,7 +182,8 @@ public class WContent_Test extends AbstractWComponentTestCase {
 			escape.escape();
 
 			String output = new String(response.getOutput(), CHAR_ENCODING);
-			Assert.assertEquals("Incorrect content returned", new String(data, CHAR_ENCODING), output);
+			Assert.assertEquals("Incorrect content returned", new String(data, CHAR_ENCODING),
+					output);
 		}
 	}
 }

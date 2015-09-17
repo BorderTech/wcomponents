@@ -25,8 +25,8 @@ public final class MockFileItem implements FileItem {
 	private String fieldName;
 
 	/**
-	 * <code>True</code> if the instance represents a simple form field, or <code>false</code> if it
-	 * represents an uploaded file.
+	 * <code>True</code> if the instance represents a simple form field, or <code>false</code> if it represents an
+	 * uploaded file.
 	 */
 	private boolean formField = true;
 

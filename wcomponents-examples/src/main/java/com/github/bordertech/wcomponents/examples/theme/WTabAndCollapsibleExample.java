@@ -31,7 +31,8 @@ public class WTabAndCollapsibleExample extends WPanel {
 		setLayout(new FlowLayout(Alignment.VERTICAL));
 
 		WContainer tab0 = new WContainer();
-		tab0.add(new WCollapsible(new WText("The first collapsed content."), "Client Collapsed Content 1"));
+		tab0.add(new WCollapsible(new WText("The first collapsed content."),
+				"Client Collapsed Content 1"));
 		tab0.add(newVisibilityToggleForTab(1));
 
 		// TODO: This is bad - use a layout instead
@@ -41,7 +42,8 @@ public class WTabAndCollapsibleExample extends WPanel {
 
 		tab0.add(newVisibilityToggleForTab(3));
 
-		WComponent tab1 = new WCollapsible(new WText("The second collapsed content."), "Client Collapsed Content 2");
+		WComponent tab1 = new WCollapsible(new WText("The second collapsed content."),
+				"Client Collapsed Content 2");
 		WComponent tab2 = new WText("Three");
 		WComponent tab3 = new WText("Four");
 

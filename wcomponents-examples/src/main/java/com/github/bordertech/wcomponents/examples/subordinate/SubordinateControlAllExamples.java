@@ -6,8 +6,8 @@ import com.github.bordertech.wcomponents.layout.FlowLayout;
 import com.github.bordertech.wcomponents.layout.FlowLayout.Alignment;
 
 /**
- * A collection of SubordinateControl examples. This portfolio example is used for unit testing. See
- * individual examples for more specific information.
+ * A collection of SubordinateControl examples. This portfolio example is used for unit testing. See individual examples
+ * for more specific information.
  *
  * @author Martin Shevchenko
  * @since 1.0.0

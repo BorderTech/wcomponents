@@ -35,7 +35,8 @@ final class WSuggestionsRenderer extends AbstractWebXmlRenderer {
 		xml.appendTagOpen("ui:suggestions");
 		xml.appendAttribute("id", component.getId());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
-		xml.appendOptionalAttribute("min", suggestions.getMinRefresh() > 0, suggestions.getMinRefresh());
+		xml.appendOptionalAttribute("min", suggestions.getMinRefresh() > 0, suggestions.
+				getMinRefresh());
 		xml.appendOptionalAttribute("ajax", useAjax, "true");
 		xml.appendOptionalAttribute("data", dataKey);
 		xml.appendClose();

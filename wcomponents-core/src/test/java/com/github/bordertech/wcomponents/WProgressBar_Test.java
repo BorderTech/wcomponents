@@ -21,16 +21,19 @@ public class WProgressBar_Test extends AbstractWComponentTestCase {
 		Assert.assertEquals("Incorrect progressBar type", type1, progressBar.getProgressBarType());
 
 		progressBar.setProgressBarType(type2);
-		Assert.assertEquals("Incorrect progressBar type after setProgressBarType", type2, progressBar.getProgressBarType());
+		Assert.assertEquals("Incorrect progressBar type after setProgressBarType", type2,
+				progressBar.getProgressBarType());
 
 		progressBar.setLocked(true);
 		setActiveContext(createUIContext());
 		progressBar.setProgressBarType(type3);
 
-		Assert.assertEquals("Incorrect progressBar type after session setProgressBarType", type3, progressBar.getProgressBarType());
+		Assert.assertEquals("Incorrect progressBar type after session setProgressBarType", type3,
+				progressBar.getProgressBarType());
 
 		resetContext();
-		Assert.assertEquals("Incorrect default progressBar type after session setProgressBarType", type2, progressBar.getProgressBarType());
+		Assert.assertEquals("Incorrect default progressBar type after session setProgressBarType",
+				type2, progressBar.getProgressBarType());
 	}
 
 	@Test
@@ -42,16 +45,19 @@ public class WProgressBar_Test extends AbstractWComponentTestCase {
 		Assert.assertEquals("Incorrect progressBar unit type", unitType1, progressBar.getUnitType());
 
 		progressBar.setUnitType(unitType2);
-		Assert.assertEquals("Incorrect progressBar unit type after setUnitType", unitType2, progressBar.getUnitType());
+		Assert.assertEquals("Incorrect progressBar unit type after setUnitType", unitType2,
+				progressBar.getUnitType());
 
 		progressBar.setLocked(true);
 		setActiveContext(createUIContext());
 		progressBar.setUnitType(unitType1);
 
-		Assert.assertEquals("Incorrect progressBar unit type after session setUnitType", unitType1, progressBar.getUnitType());
+		Assert.assertEquals("Incorrect progressBar unit type after session setUnitType", unitType1,
+				progressBar.getUnitType());
 
 		resetContext();
-		Assert.assertEquals("Incorrect default progressBar unit type after session setUnitType", unitType2, progressBar.getUnitType());
+		Assert.assertEquals("Incorrect default progressBar unit type after session setUnitType",
+				unitType2, progressBar.getUnitType());
 	}
 
 	@Test
@@ -67,10 +73,12 @@ public class WProgressBar_Test extends AbstractWComponentTestCase {
 		progressBar.setLocked(true);
 		setActiveContext(createUIContext());
 		progressBar.setText(userText);
-		Assert.assertEquals("Modified session should have session text", userText, progressBar.getText());
+		Assert.assertEquals("Modified session should have session text", userText, progressBar.
+				getText());
 
 		resetContext();
-		Assert.assertEquals("Other session should have default text", defaultText, progressBar.getText());
+		Assert.assertEquals("Other session should have default text", defaultText, progressBar.
+				getText());
 
 		//Test nulls
 		progressBar.setText("");
@@ -89,7 +97,8 @@ public class WProgressBar_Test extends AbstractWComponentTestCase {
 		Assert.assertEquals("Max value accessors incorrect", max1, progressBar.getMax());
 
 		progressBar.setMax(max2);
-		Assert.assertEquals("Incorrect max value after call to setMax(int)", max2, progressBar.getMax());
+		Assert.assertEquals("Incorrect max value after call to setMax(int)", max2, progressBar.
+				getMax());
 
 		progressBar.setLocked(true);
 		setActiveContext(createUIContext());

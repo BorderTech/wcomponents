@@ -26,7 +26,8 @@ public class ShowInGroup_Test extends AbstractWComponentTestCase {
 
 		Assert.assertEquals("Value for ShowIn should be false", Boolean.FALSE, action.getValue());
 		Assert.assertEquals("Target for ShowIn should be the group", group, action.getTarget());
-		Assert.assertEquals("TargetInGroup for ShowIn should be the target", target, action.getTargetInGroup());
+		Assert.assertEquals("TargetInGroup for ShowIn should be the target", target, action.
+				getTargetInGroup());
 	}
 
 	@Test
@@ -65,7 +66,8 @@ public class ShowInGroup_Test extends AbstractWComponentTestCase {
 		WComponentGroup<SubordinateTarget> group = new WComponentGroup<>();
 		group.addToGroup(target);
 		ShowInGroup action = new ShowInGroup(target, group);
-		Assert.assertEquals("Incorrect Action Type", action.getActionType(), AbstractAction.ActionType.SHOWIN);
+		Assert.assertEquals("Incorrect Action Type", action.getActionType(),
+				AbstractAction.ActionType.SHOWIN);
 	}
 
 	@Test
@@ -81,11 +83,13 @@ public class ShowInGroup_Test extends AbstractWComponentTestCase {
 
 		ShowInGroup action = new ShowInGroup(target2, group);
 		Assert.assertEquals("Incorrect toString for action",
-				"show MyTarget in WComponentGroup([MyTarget, MyTarget, MyTarget])", action.toString());
+				"show MyTarget in WComponentGroup([MyTarget, MyTarget, MyTarget])", action.
+				toString());
 
 		new WLabel("test label", target2);
 		Assert.assertEquals("Incorrect toString for action with a label",
-				"show test label in WComponentGroup([MyTarget, MyTarget, MyTarget])", action.toString());
+				"show test label in WComponentGroup([MyTarget, MyTarget, MyTarget])", action.
+				toString());
 	}
 
 	/**

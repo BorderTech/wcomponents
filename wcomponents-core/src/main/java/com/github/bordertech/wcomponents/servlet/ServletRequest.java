@@ -117,7 +117,8 @@ public class ServletRequest extends AbstractRequest {
 		String contentType = backingReq.getContentType();
 
 		// Can't use the HttpServletRequest.getParameterMap because it's not in Servlet 2.2
-		boolean isMultipart = (contentType != null && contentType.toLowerCase().startsWith("multipart/form-data"));
+		boolean isMultipart = (contentType != null && contentType.toLowerCase().startsWith(
+				"multipart/form-data"));
 
 		if (!isMultipart) {
 			for (Enumeration en = backingReq.getParameterNames(); en.hasMoreElements();) {
@@ -159,8 +160,7 @@ public class ServletRequest extends AbstractRequest {
 	}
 
 	/**
-	 * Support for Public Render Parameters in Portal. In a Servlet environment, this will be the
-	 * same as the session.
+	 * Support for Public Render Parameters in Portal. In a Servlet environment, this will be the same as the session.
 	 *
 	 * @param key The key for the parameter.
 	 * @param value The value of the parameter.
@@ -173,8 +173,7 @@ public class ServletRequest extends AbstractRequest {
 	}
 
 	/**
-	 * Support for Public Render Parameters in Portal. In a Servlet environment, this will be the
-	 * same as the session.
+	 * Support for Public Render Parameters in Portal. In a Servlet environment, this will be the same as the session.
 	 *
 	 * @param key The key for the parameter.
 	 * @return The value of the parameter.
@@ -187,13 +186,13 @@ public class ServletRequest extends AbstractRequest {
 	}
 
 	/**
-	 * Returns a boolean indicating whether the authenticated user is included in the specified
-	 * logical "role". Roles and role membership can be defined using deployment descriptors. If the
-	 * user has not been authenticated, the method returns false.
+	 * Returns a boolean indicating whether the authenticated user is included in the specified logical "role". Roles
+	 * and role membership can be defined using deployment descriptors. If the user has not been authenticated, the
+	 * method returns false.
 	 *
 	 * @param role a String specifying the name of the role.
-	 * @return a boolean indicating whether the user making this request belongs to a given role;
-	 * false if the user has not been authenticated.
+	 * @return a boolean indicating whether the user making this request belongs to a given role; false if the user has
+	 * not been authenticated.
 	 * @since 1.0.0
 	 * @see HttpServletRequest#isUserInRole(String)
 	 */
@@ -203,8 +202,7 @@ public class ServletRequest extends AbstractRequest {
 	}
 
 	/**
-	 * @return the name of the HTTP method with which this request was made, for example, GET, POST,
-	 * or PUT.
+	 * @return the name of the HTTP method with which this request was made, for example, GET, POST, or PUT.
 	 */
 	@Override
 	public String getMethod() {

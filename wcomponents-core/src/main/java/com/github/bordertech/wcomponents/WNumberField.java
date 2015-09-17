@@ -9,25 +9,24 @@ import java.util.List;
 
 /**
  * <p>
- * A WNumberField is a wcomponent used to display a numeric input field. Use the method
- * "{@link #getValue()}" to get the number entered into the field by the user.
+ * A WNumberField is a wcomponent used to display a numeric input field. Use the method "{@link #getValue()}" to get the
+ * number entered into the field by the user.
  * </p>
  * <p>
- * Additional methods are available to return the value entered as an integer or decimal value, and
- * there are methods which can be used to restrict the range of values which are allowed to be
- * entered.
+ * Additional methods are available to return the value entered as an integer or decimal value, and there are methods
+ * which can be used to restrict the range of values which are allowed to be entered.
  * </p>
  * <p>
- * A number field differs from a text field in the way in which some user agents interact with it.
- * For example, touchscreen devices may display a numeric data entry pad rather than an alphanumeric
- * keyboard.
+ * A number field differs from a text field in the way in which some user agents interact with it. For example,
+ * touchscreen devices may display a numeric data entry pad rather than an alphanumeric keyboard.
  * </p>
  *
  * @author Yiannis Paschalidis
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarget, SubordinateTrigger,
+public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarget,
+		SubordinateTrigger,
 		SubordinateTarget {
 
 	/**
@@ -129,7 +128,8 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 		try {
 			return new BigDecimal(dataString);
 		} catch (NumberFormatException ex) {
-			throw new SystemException("Could not convert data of type " + value.getClass() + " with String value "
+			throw new SystemException(
+					"Could not convert data of type " + value.getClass() + " with String value "
 					+ dataString + " to BigDecimal", ex);
 		}
 	}
@@ -232,9 +232,8 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 	}
 
 	/**
-	 * Retrieves the minimum allowable value for this number field. The minimum value is enforced
-	 * server-side using the WComponent validation framework, and <b>may</b> be enforced
-	 * client-side.
+	 * Retrieves the minimum allowable value for this number field. The minimum value is enforced server-side using the
+	 * WComponent validation framework, and <b>may</b> be enforced client-side.
 	 *
 	 * @return the minimum allowable value, or null if there is no minimum.
 	 */
@@ -270,9 +269,8 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 	}
 
 	/**
-	 * Retrieves the maximum allowable value for this number field. The minimum value is enforced
-	 * server-side using the WComponent validation framework, and <b>may</b> be enforced
-	 * client-side.
+	 * Retrieves the maximum allowable value for this number field. The minimum value is enforced server-side using the
+	 * WComponent validation framework, and <b>may</b> be enforced client-side.
 	 *
 	 * @return the maximum allowable value, or null if there is no maximum.
 	 */
@@ -308,8 +306,8 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 	}
 
 	/**
-	 * Retrieves the step value for this number field. The step may be used by some user agents to
-	 * provide a convenient increment/decrement function, such to a spinner control.
+	 * Retrieves the step value for this number field. The step may be used by some user agents to provide a convenient
+	 * increment/decrement function, such to a spinner control.
 	 *
 	 * @return the step value, or null if there is no step value set.
 	 */
@@ -345,8 +343,8 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 	}
 
 	/**
-	 * Retrieves the number of decimal places to use for this number field. A value of zero
-	 * indicates that the fields should only accept integer values.
+	 * Retrieves the number of decimal places to use for this number field. A value of zero indicates that the fields
+	 * should only accept integer values.
 	 *
 	 * @return the number of decimal places to use.
 	 */
@@ -394,15 +392,17 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 		if (isValidNumber()) {
 			validateNumber(diags);
 		} else {
-			diags.add(createErrorDiagnostic(InternalMessages.DEFAULT_VALIDATION_ERROR_INVALID, this));
+			diags.
+					add(createErrorDiagnostic(InternalMessages.DEFAULT_VALIDATION_ERROR_INVALID,
+							this));
 		}
 
 	}
 
 	/**
 	 * <p>
-	 * Performs validation of the number. Validation ensures that the entered text is a valid
-	 * number, and is between the minimum/maximum values (if applicable).
+	 * Performs validation of the number. Validation ensures that the entered text is a valid number, and is between the
+	 * minimum/maximum values (if applicable).
 	 * </p>
 	 * <p>
 	 * Subclasses can override this method to perform more specific validation.
@@ -421,15 +421,18 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 		int decimals = getComponentModel().decimalPlaces;
 
 		if (min != null && value.compareTo(min) < 0) {
-			diags.add(createErrorDiagnostic(InternalMessages.DEFAULT_VALIDATION_ERROR_MIN_VALUE, this, min));
+			diags.add(createErrorDiagnostic(InternalMessages.DEFAULT_VALIDATION_ERROR_MIN_VALUE,
+					this, min));
 		}
 
 		if (max != null && value.compareTo(max) > 0) {
-			diags.add(createErrorDiagnostic(InternalMessages.DEFAULT_VALIDATION_ERROR_MAX_VALUE, this, max));
+			diags.add(createErrorDiagnostic(InternalMessages.DEFAULT_VALIDATION_ERROR_MAX_VALUE,
+					this, max));
 		}
 
 		if (value.scale() > decimals) {
-			diags.add(createErrorDiagnostic(InternalMessages.DEFAULT_VALIDATION_ERROR_MAX_DECIMAL_PLACES, this,
+			diags.add(createErrorDiagnostic(
+					InternalMessages.DEFAULT_VALIDATION_ERROR_MAX_DECIMAL_PLACES, this,
 					decimals));
 		}
 

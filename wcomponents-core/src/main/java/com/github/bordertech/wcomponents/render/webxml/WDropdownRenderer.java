@@ -76,12 +76,14 @@ final class WDropdownRenderer extends AbstractWebXmlRenderer {
 					xml.appendClose();
 
 					for (Object nestedOption : ((OptionGroup) option).getOptions()) {
-						renderOption(dropdown, nestedOption, optionIndex++, xml, selectedOption, renderSelectionsOnly, encode);
+						renderOption(dropdown, nestedOption, optionIndex++, xml, selectedOption,
+								renderSelectionsOnly, encode);
 					}
 
 					xml.appendEndTag("ui:optgroup");
 				} else {
-					renderOption(dropdown, option, optionIndex++, xml, selectedOption, renderSelectionsOnly, encode);
+					renderOption(dropdown, option, optionIndex++, xml, selectedOption,
+							renderSelectionsOnly, encode);
 				}
 			}
 		}
@@ -98,8 +100,7 @@ final class WDropdownRenderer extends AbstractWebXmlRenderer {
 	 * @param optionIndex the index of the option. OptionGroups are not counted.
 	 * @param html the XmlStringBuilder to paint to.
 	 * @param selectedOption the dropdown's selected option.
-	 * @param renderSelectionsOnly true to only render selected options, false to render all
-	 * options.
+	 * @param renderSelectionsOnly true to only render selected options, false to render all options.
 	 * @param encode true if the option description should be encoded, false if not.
 	 */
 	private void renderOption(final WDropdown dropdown, final Object option,

@@ -18,15 +18,15 @@ public class DisableInGroup extends AbstractSetEnable {
 	 * @param target the component to disable in the group.
 	 * @param group the group containing the target.
 	 */
-	public DisableInGroup(final SubordinateTarget target, final WComponentGroup<? extends SubordinateTarget> group) {
+	public DisableInGroup(final SubordinateTarget target,
+			final WComponentGroup<? extends SubordinateTarget> group) {
 		// Enable everything in the group.
 		super(group, Boolean.TRUE);
 		setTargetInGroup(target);
 	}
 
 	/**
-	 * Executes the action. Disables the target component and makes everything else enabled in the
-	 * group.
+	 * Executes the action. Disables the target component and makes everything else enabled in the group.
 	 */
 	@Override
 	public void execute() {

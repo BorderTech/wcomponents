@@ -8,8 +8,7 @@ import com.github.bordertech.wcomponents.layout.FlowLayout;
 import com.github.bordertech.wcomponents.layout.FlowLayout.Alignment;
 
 /**
- * In this example the {@link WRadioButtonSelect} is made AJAX aware to update the content of a
- * {@link WPanel}.
+ * In this example the {@link WRadioButtonSelect} is made AJAX aware to update the content of a {@link WPanel}.
  *
  * @since 1.0.0
  * @author Jonathan Austin
@@ -42,8 +41,7 @@ public class AjaxWRadioButtonSelectExample extends WPanel {
 	private final WPanel panel = new WPanel();
 
 	/**
-	 * Text area on the panel that will display different content depending on the radio button
-	 * selected.
+	 * Text area on the panel that will display different content depending on the radio button selected.
 	 */
 	private final WText content = new WText();
 
@@ -72,8 +70,7 @@ public class AjaxWRadioButtonSelectExample extends WPanel {
 	}
 
 	/**
-	 * Set the content of the text field depending on the selected option in the radio button
-	 * select.
+	 * Set the content of the text field depending on the selected option in the radio button select.
 	 *
 	 * @param request the request being processed
 	 */

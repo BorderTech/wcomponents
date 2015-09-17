@@ -5,8 +5,8 @@ import com.github.bordertech.wcomponents.WText;
 
 /**
  * <p>
- * A simple WComponent extension that draws a box around its content. This is to provide a quick
- * visual guide to how the various layout cells are sized.</p>
+ * A simple WComponent extension that draws a box around its content. This is to provide a quick visual guide to how the
+ * various layout cells are sized.</p>
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0

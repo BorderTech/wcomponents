@@ -74,8 +74,8 @@ public class SimpleEditableDataTableExample extends WPanel {
 	}
 
 	/**
-	 * Override preparePaintComponent in order to set up the example data the first time that the
-	 * example is accessed by each user.
+	 * Override preparePaintComponent in order to set up the example data the first time that the example is accessed by
+	 * each user.
 	 *
 	 * @param request the request being responded to.
 	 */
@@ -103,8 +103,8 @@ public class SimpleEditableDataTableExample extends WPanel {
 	}
 
 	/**
-	 * An extension of SimpleTableDataModel which allows editing, and also provides an accessor
-	 * method to retrieve the entire data.
+	 * An extension of SimpleTableDataModel which allows editing, and also provides an accessor method to retrieve the
+	 * entire data.
 	 */
 	private static final class MyTableDataModel extends SimpleTableDataModel {
 

@@ -53,8 +53,7 @@ public final class I18nUtilities {
 	}
 
 	/**
-	 * Converts a message String and optional message arguments to a an appropriate format for
-	 * internationalisation.
+	 * Converts a message String and optional message arguments to a an appropriate format for internationalisation.
 	 *
 	 * @param text the message text.
 	 * @param args the message arguments.
@@ -76,8 +75,8 @@ public final class I18nUtilities {
 	 *
 	 * <p>
 	 * If a locale is provided, this method will attempt to load the text from a resource bundle. If
-	 * <code>message</code> is a {@link Message} and has format arguments, then
-	 * {@link MessageFormat} will be used to format the final message.</p>
+	 * <code>message</code> is a {@link Message} and has format arguments, then {@link MessageFormat} will be used to
+	 * format the final message.</p>
 	 *
 	 * @param locale the locale to use, or null to use the current UIContext's Locale.
 	 * @param message the message object to format.
@@ -155,7 +154,8 @@ public final class I18nUtilities {
 
 			try {
 				// TODO: This is slow
-				ResourceBundle bundle = ResourceBundle.getBundle(resourceBundleBaseName, effectiveLocale);
+				ResourceBundle bundle = ResourceBundle.getBundle(resourceBundleBaseName,
+						effectiveLocale);
 				message = bundle.getString(text);
 			} catch (MissingResourceException e) {
 				// Fall back to the Configuration mechanism for the default internal messages

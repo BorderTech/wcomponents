@@ -78,7 +78,8 @@ public class NavigationBar extends WPanel {
 			setAction(new Action() {
 				@Override
 				public void execute(final ActionEvent event) {
-					PetStoreApp app = WebUtilities.getClosestOfClass(PetStoreApp.class, ContinueShoppingButton.this);
+					PetStoreApp app = WebUtilities.getClosestOfClass(PetStoreApp.class,
+							ContinueShoppingButton.this);
 
 					if (app != null) {
 						app.showProductListing();
@@ -88,8 +89,7 @@ public class NavigationBar extends WPanel {
 		}
 
 		/**
-		 * Override isVisible to dynamically change the visibility without needing to store anything
-		 * in the session.
+		 * Override isVisible to dynamically change the visibility without needing to store anything in the session.
 		 *
 		 * @return true if this component is visible, false if invisible.
 		 */
@@ -117,7 +117,8 @@ public class NavigationBar extends WPanel {
 			setAction(new Action() {
 				@Override
 				public void execute(final ActionEvent event) {
-					PetStoreApp app = WebUtilities.getClosestOfClass(PetStoreApp.class, CartButton.this);
+					PetStoreApp app = WebUtilities.getClosestOfClass(PetStoreApp.class,
+							CartButton.this);
 
 					if (app != null) {
 						app.showCart();
@@ -127,8 +128,7 @@ public class NavigationBar extends WPanel {
 		}
 
 		/**
-		 * Override isDisabled to dynamically enable/disable navigation depending on the contents of
-		 * the cart.
+		 * Override isDisabled to dynamically enable/disable navigation depending on the contents of the cart.
 		 *
 		 * @return true if the button is disabled.
 		 */
@@ -139,8 +139,7 @@ public class NavigationBar extends WPanel {
 		}
 
 		/**
-		 * Override isVisible to dynamically change the visibility without needing to store anything
-		 * in the session.
+		 * Override isVisible to dynamically change the visibility without needing to store anything in the session.
 		 *
 		 * @return true if this component is visible, false if invisible.
 		 */
@@ -168,7 +167,8 @@ public class NavigationBar extends WPanel {
 			setAction(new Action() {
 				@Override
 				public void execute(final ActionEvent event) {
-					PetStoreApp app = WebUtilities.getClosestOfClass(PetStoreApp.class, CheckOutButton.this);
+					PetStoreApp app = WebUtilities.getClosestOfClass(PetStoreApp.class,
+							CheckOutButton.this);
 
 					if (app != null) {
 						app.showOrderConfirmation();
@@ -178,8 +178,7 @@ public class NavigationBar extends WPanel {
 		}
 
 		/**
-		 * Override isDisabled to dynamically enable/disable navigation depending on the contents of
-		 * the cart.
+		 * Override isDisabled to dynamically enable/disable navigation depending on the contents of the cart.
 		 *
 		 * @return true if the button is disabled.
 		 */
@@ -190,8 +189,7 @@ public class NavigationBar extends WPanel {
 		}
 
 		/**
-		 * Override isVisible to dynamically change the visibility without needing to store anything
-		 * in the session.
+		 * Override isVisible to dynamically change the visibility without needing to store anything in the session.
 		 *
 		 * @return true if this component is visible, false if invisible.
 		 */

@@ -44,7 +44,8 @@ public class WWindowInterceptor_Test extends AbstractWComponentTestCase {
 		app.setLocked(true);
 
 		// Set up servlet env
-		WServlet.WServletEnvironment servletEnvironment = new WServlet.WServletEnvironment("/app", "", "");
+		WServlet.WServletEnvironment servletEnvironment = new WServlet.WServletEnvironment("/app",
+				"", "");
 		servletEnvironment.setStep(initialServletStep);
 
 		// Set user session
@@ -65,16 +66,22 @@ public class WWindowInterceptor_Test extends AbstractWComponentTestCase {
 		request.setParameter(Environment.TARGET_ID, content.getId());
 
 		interceptor.serviceRequest(request);
-		Assert.assertEquals("Servlet step should have changed after serviceRequest", initialServletStep + 1, servletEnvironment.getStep());
-		Assert.assertEquals("Window step should not have changed", initialWindowStep, window.getStep());
+		Assert.assertEquals("Servlet step should have changed after serviceRequest",
+				initialServletStep + 1, servletEnvironment.getStep());
+		Assert.assertEquals("Window step should not have changed", initialWindowStep, window.
+				getStep());
 
 		interceptor.preparePaint(request);
-		Assert.assertEquals("Servlet step should have changed after preparePaint", initialServletStep + 2, servletEnvironment.getStep());
-		Assert.assertEquals("Window step should not have changed", initialWindowStep, window.getStep());
+		Assert.assertEquals("Servlet step should have changed after preparePaint",
+				initialServletStep + 2, servletEnvironment.getStep());
+		Assert.assertEquals("Window step should not have changed", initialWindowStep, window.
+				getStep());
 
 		interceptor.paint(new WebXmlRenderContext(new PrintWriter(new NullWriter())));
-		Assert.assertEquals("Servlet step should have changed after paint", initialServletStep + 3, servletEnvironment.getStep());
-		Assert.assertEquals("Window step should not have changed", initialWindowStep, window.getStep());
+		Assert.assertEquals("Servlet step should have changed after paint", initialServletStep + 3,
+				servletEnvironment.getStep());
+		Assert.assertEquals("Window step should not have changed", initialWindowStep, window.
+				getStep());
 
 		servletEnvironment.setStep(initialServletStep);
 
@@ -82,24 +89,30 @@ public class WWindowInterceptor_Test extends AbstractWComponentTestCase {
 		request.setParameter(WWindow.WWINDOW_REQUEST_PARAM_KEY, window.getId());
 
 		interceptor.serviceRequest(request);
-		Assert.assertEquals("Window step should have changed after serviceRequest", initialWindowStep + 1, window.getStep());
-		Assert.assertEquals("Servlet step should not have changed", initialServletStep, servletEnvironment.getStep());
+		Assert.assertEquals("Window step should have changed after serviceRequest",
+				initialWindowStep + 1, window.getStep());
+		Assert.assertEquals("Servlet step should not have changed", initialServletStep,
+				servletEnvironment.getStep());
 
 		interceptor.preparePaint(request);
-		Assert.assertEquals("Window step should have changed after preparePaintnot have changed", initialWindowStep + 2, window.getStep());
-		Assert.assertEquals("Servlet step should not have changed", initialServletStep, servletEnvironment.getStep());
+		Assert.assertEquals("Window step should have changed after preparePaintnot have changed",
+				initialWindowStep + 2, window.getStep());
+		Assert.assertEquals("Servlet step should not have changed", initialServletStep,
+				servletEnvironment.getStep());
 
 		interceptor.paint(new WebXmlRenderContext(new PrintWriter(new NullWriter())));
-		Assert.assertEquals("Window step should have changed after paint", initialWindowStep + 3, window.getStep());
-		Assert.assertEquals("Servlet step should not have changed", initialServletStep, servletEnvironment.getStep());
+		Assert.assertEquals("Window step should have changed after paint", initialWindowStep + 3,
+				window.getStep());
+		Assert.assertEquals("Servlet step should not have changed", initialServletStep,
+				servletEnvironment.getStep());
 
 		String actualTargetId = testInterceptor.hiddenParams.get(WWindow.WWINDOW_REQUEST_PARAM_KEY);
-		Assert.assertEquals("Hidden params target id should be window id", window.getId(), actualTargetId);
+		Assert.assertEquals("Hidden params target id should be window id", window.getId(),
+				actualTargetId);
 	}
 
 	/**
-	 * This interceptor increments the environment step variable and stores the hidden parameters
-	 * during paint.
+	 * This interceptor increments the environment step variable and stores the hidden parameters during paint.
 	 */
 	private static final class TestInterceptor extends InterceptorComponent {
 

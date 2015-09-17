@@ -20,8 +20,8 @@ import java.util.List;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * This example shows the use of a {@link WDataTable} with a list of editable beans. All bean
- * binding logic for the table column renderers is performed by the data model.
+ * This example shows the use of a {@link WDataTable} with a list of editable beans. All bean binding logic for the
+ * table column renderers is performed by the data model.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -41,7 +41,8 @@ public class DataTableBeanExample extends WPanel {
 
 		// Since this data model doesn't store any user state information within it,
 		// we can safely use a single shared instance.
-		SimpleBeanBoundTableDataModel dataModel = new SimpleBeanBoundTableDataModel(new String[]{"firstName", "lastName", "dateOfBirth"});
+		SimpleBeanBoundTableDataModel dataModel = new SimpleBeanBoundTableDataModel(
+				new String[]{"firstName", "lastName", "dateOfBirth"});
 		dataModel.setEditable(true);
 		table.setDataModel(dataModel);
 
@@ -80,8 +81,7 @@ public class DataTableBeanExample extends WPanel {
 	}
 
 	/**
-	 * Override preparePaintComponent in order to set the data up for the first time the user
-	 * accesses the example.
+	 * Override preparePaintComponent in order to set the data up for the first time the user accesses the example.
 	 *
 	 * @param request the request being responded to.
 	 */

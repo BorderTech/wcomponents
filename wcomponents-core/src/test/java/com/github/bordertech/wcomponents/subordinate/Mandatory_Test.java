@@ -27,7 +27,8 @@ public class Mandatory_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testActionType() {
 		Mandatory action = new Mandatory(new MyTarget());
-		Assert.assertEquals("Incorrect Action Type", AbstractAction.ActionType.MANDATORY, action.getActionType());
+		Assert.assertEquals("Incorrect Action Type", AbstractAction.ActionType.MANDATORY, action.
+				getActionType());
 	}
 
 	@Test
@@ -35,10 +36,12 @@ public class Mandatory_Test extends AbstractWComponentTestCase {
 		MyTarget target = new MyTarget();
 
 		Mandatory action = new Mandatory(target);
-		Assert.assertEquals("Incorrect toString for action", "set MyTarget mandatory", action.toString());
+		Assert.assertEquals("Incorrect toString for action", "set MyTarget mandatory", action.
+				toString());
 
 		WLabel label = new WLabel("test label", target);
-		Assert.assertEquals("Incorrect toString for action with a label", "set " + label.getText() + " mandatory", action.toString());
+		Assert.assertEquals("Incorrect toString for action with a label",
+				"set " + label.getText() + " mandatory", action.toString());
 	}
 
 	/**

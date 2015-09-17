@@ -61,11 +61,13 @@ public class RegExFieldValidator_Test {
 
 		field1.setText(TEST_TEXT);
 		field1.validate(diags);
-		Assert.assertTrue("Field with matching text should not have a validation error", diags.isEmpty());
+		Assert.assertTrue("Field with matching text should not have a validation error", diags.
+				isEmpty());
 
 		field2.setText(TEST_TEXT);
 		field2.validate(diags);
-		Assert.assertTrue("Field with matching text should not have a validation error", diags.isEmpty());
+		Assert.assertTrue("Field with matching text should not have a validation error", diags.
+				isEmpty());
 	}
 
 	@Test
@@ -74,7 +76,8 @@ public class RegExFieldValidator_Test {
 
 		field1.setText(TEST_TEXT + '_');
 		field1.validate(diags);
-		Assert.assertFalse("Field with non-matching text should have a validation error", diags.isEmpty());
+		Assert.assertFalse("Field with non-matching text should have a validation error", diags.
+				isEmpty());
 
 		Diagnostic diag = diags.get(0);
 		Assert.assertEquals("Incorrect error message", ERROR_MESSAGE, diag.getDescription());
@@ -83,7 +86,8 @@ public class RegExFieldValidator_Test {
 
 		field2.setText(TEST_TEXT + '_');
 		field2.validate(diags);
-		Assert.assertFalse("Field with non-matching text should have a validation error", diags.isEmpty());
+		Assert.assertFalse("Field with non-matching text should have a validation error", diags.
+				isEmpty());
 
 		diag = diags.get(0);
 		String text = diag.getDescription();

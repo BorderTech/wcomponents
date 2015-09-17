@@ -10,8 +10,8 @@ import java.util.List;
 
 /**
  * <p>
- * This class describes a boolean expression. Since an expression evaluates to a boolean result, it
- * may also be treated as a BooleanExpression.
+ * This class describes a boolean expression. Since an expression evaluates to a boolean result, it may also be treated
+ * as a BooleanExpression.
  * </p>
  *
  * @author Yiannis Paschalidis
@@ -105,7 +105,8 @@ public final class GroupExpression implements BooleanExpression {
 		switch (getType()) {
 			case OR: {
 				if (operands.size() < 2) {
-					throw new IllegalArgumentException("An OR expression must have at least 2 operands");
+					throw new IllegalArgumentException(
+							"An OR expression must have at least 2 operands");
 				}
 
 				for (BooleanExpression operand : operands) {
@@ -119,7 +120,8 @@ public final class GroupExpression implements BooleanExpression {
 
 			case AND: {
 				if (operands.size() < 2) {
-					throw new IllegalArgumentException("An AND expression must have at least 2 operands");
+					throw new IllegalArgumentException(
+							"An AND expression must have at least 2 operands");
 				}
 
 				for (BooleanExpression operand : operands) {
@@ -159,11 +161,13 @@ public final class GroupExpression implements BooleanExpression {
 
 				// The subordinate API is a bit nasty, we have to split the list after the first two conditions.
 				if (conditions.size() < 2) {
-					throw new IllegalArgumentException("An OR expression must include at least two operands.");
+					throw new IllegalArgumentException(
+							"An OR expression must include at least two operands.");
 				}
 
 				List<Condition> extraConditionsList = conditions.subList(2, conditions.size());
-				Condition[] extraConditions = extraConditionsList.toArray(new Condition[extraConditionsList.size()]);
+				Condition[] extraConditions = extraConditionsList.toArray(
+						new Condition[extraConditionsList.size()]);
 				return new Or(conditions.get(0), conditions.get(1), extraConditions);
 			}
 			case AND: {
@@ -175,11 +179,13 @@ public final class GroupExpression implements BooleanExpression {
 
 				// The subordinate API is a bit nasty, we have to split the list after the first two conditions.
 				if (conditions.size() < 2) {
-					throw new IllegalArgumentException("An AND expression must include at least two operands.");
+					throw new IllegalArgumentException(
+							"An AND expression must include at least two operands.");
 				}
 
 				List<Condition> extraConditionsList = conditions.subList(2, conditions.size());
-				Condition[] extraConditions = extraConditionsList.toArray(new Condition[extraConditionsList.size()]);
+				Condition[] extraConditions = extraConditionsList.toArray(
+						new Condition[extraConditionsList.size()]);
 				return new And(conditions.get(0), conditions.get(1), extraConditions);
 			}
 

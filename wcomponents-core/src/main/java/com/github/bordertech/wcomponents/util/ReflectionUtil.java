@@ -8,8 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class provides helpers for invoking objects using the java.lang.reflect package to invoke
- * objects.
+ * This class provides helpers for invoking objects using the java.lang.reflect package to invoke objects.
  *
  * @author Francis Naoum
  * @since 1.0.0
@@ -91,7 +90,8 @@ public final class ReflectionUtil {
 	 * @param excludeTransient if true, transient fields will be omitted
 	 * @return a list of fields for the given object
 	 */
-	public static List getAllFields(final Object obj, final boolean excludeStatic, final boolean excludeTransient) {
+	public static List getAllFields(final Object obj, final boolean excludeStatic,
+			final boolean excludeTransient) {
 		List fieldList = new ArrayList();
 
 		for (Class clazz = obj.getClass(); clazz != null; clazz = clazz.getSuperclass()) {
@@ -119,7 +119,8 @@ public final class ReflectionUtil {
 	 * @param propertyType The type of the property being set.
 	 * @param value The value of the property being set.
 	 */
-	public static void setProperty(final Object object, final String property, final Class propertyType, final Object value) {
+	public static void setProperty(final Object object, final String property,
+			final Class propertyType, final Object value) {
 		Class[] paramTypes = new Class[]{propertyType};
 		Object[] params = new Object[]{value};
 		String methodName = "set" + property.substring(0, 1).toUpperCase() + property.substring(1);

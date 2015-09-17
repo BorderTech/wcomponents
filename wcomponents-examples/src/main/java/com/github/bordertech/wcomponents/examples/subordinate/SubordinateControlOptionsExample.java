@@ -103,7 +103,8 @@ public class SubordinateControlOptionsExample extends WContainer {
 	/**
 	 * Target WField1.
 	 */
-	private final WField targetField1 = targetFieldLayout.addField("Targetable WField", targetTextField);
+	private final WField targetField1 = targetFieldLayout.addField("Targetable WField",
+			targetTextField);
 	/**
 	 * Target WField2.
 	 */
@@ -126,7 +127,8 @@ public class SubordinateControlOptionsExample extends WContainer {
 	/**
 	 * Target WCollapsible.
 	 */
-	private final WCollapsible targetCollapsible = new WCollapsible(targetPanel, "Targetable WCollapsible");
+	private final WCollapsible targetCollapsible = new WCollapsible(targetPanel,
+			"Targetable WCollapsible");
 
 	/**
 	 * Panel that contains the configured subordinate control.
@@ -864,7 +866,8 @@ public class SubordinateControlOptionsExample extends WContainer {
 	private void setPresets() {
 		TriggerType selectedTrigger = (TriggerType) drpTriggerType.getSelected();
 
-		comboField.setVisible(selectedTrigger != TriggerType.DateField && selectedTrigger != TriggerType.NumberField);
+		comboField.setVisible(
+				selectedTrigger != TriggerType.DateField && selectedTrigger != TriggerType.NumberField);
 		dateField.setVisible(selectedTrigger == TriggerType.DateField);
 		numberField.setVisible(selectedTrigger == TriggerType.NumberField);
 

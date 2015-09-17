@@ -15,8 +15,8 @@ import com.github.bordertech.wcomponents.subordinate.WSubordinateControl;
 
 /**
  * <p>
- * An example showing using a {@link WSubordinateControl} to hide/show a field depending on the
- * selected value in a {@link WDropdown}.</p>
+ * An example showing using a {@link WSubordinateControl} to hide/show a field depending on the selected value in a
+ * {@link WDropdown}.</p>
  *
  * <p>
  * Three rules have been created:

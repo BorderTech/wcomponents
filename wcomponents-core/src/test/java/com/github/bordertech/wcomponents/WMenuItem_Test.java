@@ -155,20 +155,23 @@ public class WMenuItem_Test extends AbstractWComponentTestCase {
 		setActiveContext(createUIContext());
 		MockRequest request = new MockRequest();
 		menu.serviceRequest(request);
-		Assert.assertFalse("Action should not have been called when item was not selected", action.wasTriggered());
+		Assert.assertFalse("Action should not have been called when item was not selected", action.
+				wasTriggered());
 
 		// Menu in request, but item not selected
 		request = new MockRequest();
 		request.setParameter(menu.getId() + "-h", "x");
 		menu.serviceRequest(request);
-		Assert.assertFalse("Action should not have been called when item was not selected", action.wasTriggered());
+		Assert.assertFalse("Action should not have been called when item was not selected", action.
+				wasTriggered());
 
 		// Menu in request and item selected
 		request = new MockRequest();
 		request.setParameter(menu.getId() + "-h", "x");
 		request.setParameter(item.getId(), "x");
 		menu.serviceRequest(request);
-		Assert.assertTrue("Action should have been called when item is selected", action.wasTriggered());
+		Assert.assertTrue("Action should have been called when item is selected", action.
+				wasTriggered());
 	}
 
 	@Test
@@ -182,10 +185,12 @@ public class WMenuItem_Test extends AbstractWComponentTestCase {
 		MockRequest request = new MockRequest();
 
 		item.serviceRequest(request);
-		Assert.assertFalse("Action should not have been called when item was not selected", action.wasTriggered());
+		Assert.assertFalse("Action should not have been called when item was not selected", action.
+				wasTriggered());
 
 		request.setParameter(item.getId(), "x");
 		item.serviceRequest(request);
-		Assert.assertFalse("Action should not have been called on a disabled item", action.wasTriggered());
+		Assert.assertFalse("Action should not have been called on a disabled item", action.
+				wasTriggered());
 	}
 }

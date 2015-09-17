@@ -17,6 +17,7 @@ public class FatalErrorPageFactoryImpl_Test extends AbstractWComponentTestCase {
 		TestSampleException exception = new TestSampleException("sample exception");
 		WComponent result = factory.createErrorPage(true, exception);
 
-		Assert.assertTrue("result should be instance of FatalErrorPage", result instanceof FatalErrorPage);
+		Assert.assertTrue("result should be instance of FatalErrorPage",
+				result instanceof FatalErrorPage);
 	}
 }

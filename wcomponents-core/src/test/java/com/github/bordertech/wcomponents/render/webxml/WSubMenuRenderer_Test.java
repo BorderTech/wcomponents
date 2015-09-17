@@ -22,7 +22,8 @@ public class WSubMenuRenderer_Test extends AbstractWebXmlRendererTestCase {
 	@Test
 	public void testRendererCorrectlyConfigured() {
 		WSubMenu subMenu = new WSubMenu("");
-		Assert.assertTrue("Incorrect renderer supplied", getWebXmlRenderer(subMenu) instanceof WSubMenuRenderer);
+		Assert.assertTrue("Incorrect renderer supplied",
+				getWebXmlRenderer(subMenu) instanceof WSubMenuRenderer);
 	}
 
 	@Test

@@ -1,8 +1,8 @@
 package com.github.bordertech.wcomponents;
 
 /**
- * This abstract impements the Container interface to expose methods for retrieving the contents of
- * the container. This class is extended by most WComponents which contain other components
+ * This abstract impements the Container interface to expose methods for retrieving the contents of the container. This
+ * class is extended by most WComponents which contain other components
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0

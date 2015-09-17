@@ -23,7 +23,8 @@ public class WImageRenderer_Test extends AbstractWebXmlRendererTestCase {
 	public void testRendererCorrectlyConfigured() {
 
 		WImage image = new WImage();
-		Assert.assertTrue("Incorrect renderer supplied", getWebXmlRenderer(image) instanceof WImageRenderer);
+		Assert.assertTrue("Incorrect renderer supplied",
+				getWebXmlRenderer(image) instanceof WImageRenderer);
 	}
 
 	@Test

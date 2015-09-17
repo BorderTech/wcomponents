@@ -41,14 +41,16 @@ public class AbstractSetMandatory_Test {
 
 		// Should be mandatory
 		mandatory.execute();
-		Assert.assertTrue("Target (Mandatable) should be mandatory", ((Mandatable) target1).isMandatory());
+		Assert.assertTrue("Target (Mandatable) should be mandatory", ((Mandatable) target1).
+				isMandatory());
 
 		// FALSE Boolean Value
 		mandatory = new MyMandatory(target1, Boolean.FALSE);
 
 		// Should not be mandatory
 		mandatory.execute();
-		Assert.assertFalse("Target (Mandatable) should not be mandatory", ((Mandatable) target1).isMandatory());
+		Assert.assertFalse("Target (Mandatable) should not be mandatory", ((Mandatable) target1).
+				isMandatory());
 
 		// ---------------------
 		// Valid Target (WField) and TRUE Boolean Value
@@ -147,7 +149,8 @@ public class AbstractSetMandatory_Test {
 	/**
 	 * Test Implementation class of SubordinateTarget and Mandatable.
 	 */
-	private static class MyTarget extends AbstractWComponent implements SubordinateTarget, Mandatable {
+	private static class MyTarget extends AbstractWComponent implements SubordinateTarget,
+			Mandatable {
 
 		/**
 		 * {@inheritDoc}

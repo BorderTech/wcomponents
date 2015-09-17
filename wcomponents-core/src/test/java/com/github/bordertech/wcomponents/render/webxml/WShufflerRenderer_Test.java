@@ -19,7 +19,8 @@ public class WShufflerRenderer_Test extends AbstractWebXmlRendererTestCase {
 	@Test
 	public void testRendererCorrectlyConfigured() {
 		WShuffler component = new WShuffler();
-		Assert.assertTrue("Incorrect renderer supplied", getWebXmlRenderer(component) instanceof WShufflerRenderer);
+		Assert.assertTrue("Incorrect renderer supplied",
+				getWebXmlRenderer(component) instanceof WShufflerRenderer);
 	}
 
 	@Test
@@ -80,7 +81,8 @@ public class WShufflerRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 	@Test
 	public void testXssEscaping() throws IOException, SAXException, XpathException {
-		WShuffler shuffler = new WShuffler(Arrays.asList(new String[]{getInvalidCharSequence(), getMaliciousContent()}));
+		WShuffler shuffler = new WShuffler(Arrays.asList(
+				new String[]{getInvalidCharSequence(), getMaliciousContent()}));
 
 		assertSafeContent(shuffler);
 

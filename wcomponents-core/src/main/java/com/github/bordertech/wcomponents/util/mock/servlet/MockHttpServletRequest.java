@@ -252,8 +252,8 @@ public class MockHttpServletRequest implements HttpServletRequest {
 	}
 
 	/**
-	 * Returns the current HttpSession, or creates a new one if there is no current session and the
-	 * <code>create</code> flag is set.
+	 * Returns the current HttpSession, or creates a new one if there is no current session and the <code>create</code>
+	 * flag is set.
 	 *
 	 * @param create if true, creates a new session if one does not exist.
 	 * @return the current HttpSession, may be null if the create flag is false.
@@ -466,8 +466,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
 	}
 
 	/**
-	 * Sets a parameter. If the parameter already exists, another value will be added to the
-	 * parameter values.
+	 * Sets a parameter. If the parameter already exists, another value will be added to the parameter values.
 	 *
 	 * @param name the parameter name
 	 * @param value the parameter value

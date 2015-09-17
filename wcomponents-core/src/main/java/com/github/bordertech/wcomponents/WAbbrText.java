@@ -5,8 +5,7 @@ import com.github.bordertech.wcomponents.util.LookupTable;
 
 /**
  * <p>
- * The WAbbrText component shows a further textual description for its (abbreviated) text
- * content.</p>
+ * The WAbbrText component shows a further textual description for its (abbreviated) text content.</p>
  *
  * @author Kishan Bisht
  * @since 1.0.0
@@ -74,8 +73,8 @@ public class WAbbrText extends WText {
 	}
 
 	/**
-	 * Loads the abbreviated text component from the given code reference table entry. The text is
-	 * set to the description. The abbreviated text is set to the code.
+	 * Loads the abbreviated text component from the given code reference table entry. The text is set to the
+	 * description. The abbreviated text is set to the code.
 	 *
 	 * @param entry the CRT entry to use.
 	 */
@@ -85,8 +84,8 @@ public class WAbbrText extends WText {
 	}
 
 	/**
-	 * Loads the abbreviated text component from the given code reference table entry. The text is
-	 * set to the code. The abbreviated text is set to the description.
+	 * Loads the abbreviated text component from the given code reference table entry. The text is set to the code. The
+	 * abbreviated text is set to the description.
 	 *
 	 * @param entry the CRT entry to use.
 	 */

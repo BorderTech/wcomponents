@@ -6,9 +6,8 @@ import java.util.Map;
 
 /**
  * <p>
- * The WImage component provides a way for applications to display images within their application.
- * It may either serve up a pre-defined image which is part of the application, or generate the
- * image dynamically.
+ * The WImage component provides a way for applications to display images within their application. It may either serve
+ * up a pre-defined image which is part of the application, or generate the image dynamically.
  * </p>
  *
  * <pre>
@@ -58,13 +57,12 @@ public class WImage extends WBeanComponent implements Targetable, AjaxTarget {
 
 	/**
 	 * <p>
-	 * Creates a WImage with the given static content. This is provided as a convenience method for
-	 * when the image is included as static content in the class path rather than in the web
-	 * application's resources.
+	 * Creates a WImage with the given static content. This is provided as a convenience method for when the image is
+	 * included as static content in the class path rather than in the web application's resources.
 	 * </p>
 	 * <p>
-	 * The mime type for the image is looked up from the "mimeType.*" mapping configuration
-	 * parameters using the resource's file extension.
+	 * The mime type for the image is looked up from the "mimeType.*" mapping configuration parameters using the
+	 * resource's file extension.
 	 * </p>
 	 *
 	 * @param imageResource the resource path to the image file.
@@ -84,10 +82,9 @@ public class WImage extends WBeanComponent implements Targetable, AjaxTarget {
 	}
 
 	/**
-	 * Creates a dynamic URL that the image can be loaded from. In fact the URL points to the main
-	 * application servlet, but includes a non-null for the parameter associated with this
-	 * WComponent (ie, its label). The handleRequest method below detects this when the browser
-	 * requests the image
+	 * Creates a dynamic URL that the image can be loaded from. In fact the URL points to the main application servlet,
+	 * but includes a non-null for the parameter associated with this WComponent (ie, its label). The handleRequest
+	 * method below detects this when the browser requests the image
 	 *
 	 * @return the url to load the image from
 	 */
@@ -125,10 +122,9 @@ public class WImage extends WBeanComponent implements Targetable, AjaxTarget {
 	}
 
 	/**
-	 * When an img element is included in the html output of a page, the browser will make a second
-	 * request to get the image contents. The handleRequest method has been overridden to detect
-	 * whether the request is the "image content fetch" request by looking for the parameter that we
-	 * encode in the image url.
+	 * When an img element is included in the html output of a page, the browser will make a second request to get the
+	 * image contents. The handleRequest method has been overridden to detect whether the request is the "image content
+	 * fetch" request by looking for the parameter that we encode in the image url.
 	 *
 	 * @param request the request being responded to.
 	 */
@@ -185,8 +181,7 @@ public class WImage extends WBeanComponent implements Targetable, AjaxTarget {
 	}
 
 	/**
-	 * Retrieves the cache key for this image. This is used to enable caching of the image on the
-	 * client agent.
+	 * Retrieves the cache key for this image. This is used to enable caching of the image on the client agent.
 	 *
 	 * @return the cacheKey
 	 */
@@ -209,9 +204,8 @@ public class WImage extends WBeanComponent implements Targetable, AjaxTarget {
 	/**
 	 * Retrieve the image size.
 	 * <p>
-	 * Returns the size set via {@link #setSize(Dimension)}. If this has not been set and an image
-	 * resource is provideing the image then the size of the image resource is returned. Otherwise
-	 * return null.
+	 * Returns the size set via {@link #setSize(Dimension)}. If this has not been set and an image resource is
+	 * provideing the image then the size of the image resource is returned. Otherwise return null.
 	 * </p>
 	 *
 	 * @return the size of the image.
@@ -238,9 +232,8 @@ public class WImage extends WBeanComponent implements Targetable, AjaxTarget {
 	/**
 	 * Retrieve the alternative text for the image.
 	 * <p>
-	 * Returns the alternative text set via {@link #setAlternativeText(String)}. If this has not
-	 * been set and an image resource is providing the image then the description of the image
-	 * resource is returned. Otherwise return null.
+	 * Returns the alternative text set via {@link #setAlternativeText(String)}. If this has not been set and an image
+	 * resource is providing the image then the description of the image resource is returned. Otherwise return null.
 	 * </p>
 	 *
 	 * @return the alternative text for the image.

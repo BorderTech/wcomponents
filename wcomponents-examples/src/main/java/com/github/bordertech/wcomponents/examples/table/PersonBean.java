@@ -51,7 +51,8 @@ public final class PersonBean implements Serializable {
 	 * @param lastName the person's last name.
 	 * @param dateOfBirth the person's date of birth.
 	 */
-	public PersonBean(final String personId, final String firstName, final String lastName, final Date dateOfBirth) {
+	public PersonBean(final String personId, final String firstName, final String lastName,
+			final Date dateOfBirth) {
 		this.personId = personId;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -194,7 +195,8 @@ public final class PersonBean implements Serializable {
 		 * @param issueDate the date of issue
 		 * @param expiryDate the expiry date
 		 */
-		public TravelDoc(final String documentNumber, final String countryOfIssue, final String placeOfIssue,
+		public TravelDoc(final String documentNumber, final String countryOfIssue,
+				final String placeOfIssue,
 				final Date issueDate, final Date expiryDate) {
 			this.documentNumber = documentNumber;
 			this.countryOfIssue = countryOfIssue;
@@ -278,7 +280,8 @@ public final class PersonBean implements Serializable {
 		 */
 		@Override
 		public boolean equals(final Object o) {
-			return (o instanceof TravelDoc) && Util.equals(documentNumber, ((TravelDoc) o).getDocumentNumber());
+			return (o instanceof TravelDoc) && Util.equals(documentNumber, ((TravelDoc) o).
+					getDocumentNumber());
 		}
 
 		/**

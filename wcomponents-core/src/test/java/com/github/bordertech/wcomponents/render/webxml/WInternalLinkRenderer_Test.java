@@ -21,7 +21,8 @@ public class WInternalLinkRenderer_Test extends AbstractWebXmlRendererTestCase {
 	@Test
 	public void testRendererCorrectlyConfigured() {
 		WInternalLink link = new WInternalLink();
-		Assert.assertTrue("Incorrect renderer supplied", getWebXmlRenderer(link) instanceof WInternalLinkRenderer);
+		Assert.assertTrue("Incorrect renderer supplied",
+				getWebXmlRenderer(link) instanceof WInternalLinkRenderer);
 	}
 
 	@Test

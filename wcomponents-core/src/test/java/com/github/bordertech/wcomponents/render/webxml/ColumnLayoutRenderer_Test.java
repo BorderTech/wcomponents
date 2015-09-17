@@ -41,19 +41,27 @@ public class ColumnLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {
 		container.add(new WText(text1));
 		assertSchemaMatch(container);
 		assertXpathEvaluatesTo("1", "count(//ui:panel/ui:columnLayout)", container);
-		assertXpathEvaluatesTo(String.valueOf(cols.length), "count(//ui:panel/ui:columnLayout/ui:column)", container);
-		assertXpathEvaluatesTo(text1, "normalize-space(//ui:panel/ui:columnLayout/ui:cell[1])", container);
-		assertXpathEvaluatesTo("", "normalize-space(//ui:panel/ui:columnLayout/ui:cell[2])", container);
+		assertXpathEvaluatesTo(String.valueOf(cols.length),
+				"count(//ui:panel/ui:columnLayout/ui:column)", container);
+		assertXpathEvaluatesTo(text1, "normalize-space(//ui:panel/ui:columnLayout/ui:cell[1])",
+				container);
+		assertXpathEvaluatesTo("", "normalize-space(//ui:panel/ui:columnLayout/ui:cell[2])",
+				container);
 
 		// Two elements -> 1 row, 2 cols
 		container.add(new WText(text2));
 		assertSchemaMatch(container);
 		assertXpathEvaluatesTo("1", "count(//ui:panel/ui:columnLayout)", container);
-		assertXpathEvaluatesTo(String.valueOf(cols.length), "count(//ui:panel/ui:columnLayout/ui:column)", container);
-		assertXpathEvaluatesTo(String.valueOf(cols[0]), "//ui:panel/ui:columnLayout/ui:column[1]/@width", container);
-		assertXpathEvaluatesTo(String.valueOf(cols[1]), "//ui:panel/ui:columnLayout/ui:column[2]/@width", container);
-		assertXpathEvaluatesTo(text1, "normalize-space(//ui:panel/ui:columnLayout/ui:cell[1])", container);
-		assertXpathEvaluatesTo(text2, "normalize-space(//ui:panel/ui:columnLayout/ui:cell[2])", container);
+		assertXpathEvaluatesTo(String.valueOf(cols.length),
+				"count(//ui:panel/ui:columnLayout/ui:column)", container);
+		assertXpathEvaluatesTo(String.valueOf(cols[0]),
+				"//ui:panel/ui:columnLayout/ui:column[1]/@width", container);
+		assertXpathEvaluatesTo(String.valueOf(cols[1]),
+				"//ui:panel/ui:columnLayout/ui:column[2]/@width", container);
+		assertXpathEvaluatesTo(text1, "normalize-space(//ui:panel/ui:columnLayout/ui:cell[1])",
+				container);
+		assertXpathEvaluatesTo(text2, "normalize-space(//ui:panel/ui:columnLayout/ui:cell[2])",
+				container);
 		assertXpathEvaluatesTo("", "//ui:panel/ui:columnLayout/@hgap", container);
 		assertXpathEvaluatesTo("", "//ui:panel/ui:columnLayout/@vgap", container);
 

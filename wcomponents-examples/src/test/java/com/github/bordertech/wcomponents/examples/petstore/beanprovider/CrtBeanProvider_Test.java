@@ -48,7 +48,9 @@ public class CrtBeanProvider_Test {
 		originalConfig = Config.getInstance();
 
 		Configuration config = Config.copyConfiguration(originalConfig);
-		config.setProperty("bordertech.wcomponents.factory.impl.com.github.bordertech.wcomponents.util.LookupTable", PetStoreLookupTable.class.getName());
+		config.setProperty(
+				"bordertech.wcomponents.factory.impl.com.github.bordertech.wcomponents.util.LookupTable",
+				PetStoreLookupTable.class.getName());
 
 		Config.setConfiguration(config);
 	}
@@ -110,8 +112,7 @@ public class CrtBeanProvider_Test {
 	}
 
 	/**
-	 * Test getBean - name but not code in constructor - code from BeanProvider. entry from code
-	 * table not found.
+	 * Test getBean - name but not code in constructor - code from BeanProvider. entry from code table not found.
 	 */
 	@Test
 	public void testGetBeanCase3() {
@@ -125,8 +126,7 @@ public class CrtBeanProvider_Test {
 	}
 
 	/**
-	 * Test getBean - name but not code in constructor - code from BeanProvider. entry from code
-	 * table found.
+	 * Test getBean - name but not code in constructor - code from BeanProvider. entry from code table found.
 	 */
 	@Test
 	public void testGetBeanCase4() {

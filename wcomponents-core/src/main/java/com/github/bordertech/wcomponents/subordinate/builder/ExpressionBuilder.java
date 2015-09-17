@@ -9,8 +9,8 @@ import java.util.Stack;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * The expression builder provides a convenient and more readable API for building conditions than
- * using the various Expression/Operand classes.
+ * The expression builder provides a convenient and more readable API for building conditions than using the various
+ * Expression/Operand classes.
  *
  * @author Yiannis Paschalidis
  * @author Jonathan Austin
@@ -41,8 +41,8 @@ public final class ExpressionBuilder {
 	}
 
 	/**
-	 * Creates an ExpressionBuilder. This method is package protected as developers should be
-	 * obtaining an ExpressionBuilder editor using {@link SubordinateBuilder#condition()}.
+	 * Creates an ExpressionBuilder. This method is package protected as developers should be obtaining an
+	 * ExpressionBuilder editor using {@link SubordinateBuilder#condition()}.
 	 *
 	 * @param expression the expression to modify
 	 */
@@ -103,7 +103,8 @@ public final class ExpressionBuilder {
 	 * @return this ExpressionBuilder.
 	 */
 	public ExpressionBuilder lessThanOrEquals(final SubordinateTrigger trigger, final Object compare) {
-		BooleanExpression exp = new CompareExpression(CompareType.LESS_THAN_OR_EQUAL, trigger, compare);
+		BooleanExpression exp = new CompareExpression(CompareType.LESS_THAN_OR_EQUAL, trigger,
+				compare);
 		appendExpression(exp);
 
 		return this;
@@ -130,8 +131,10 @@ public final class ExpressionBuilder {
 	 * @param compare the value to use in the compare.
 	 * @return this ExpressionBuilder.
 	 */
-	public ExpressionBuilder greaterThanOrEquals(final SubordinateTrigger trigger, final Object compare) {
-		BooleanExpression exp = new CompareExpression(CompareType.GREATER_THAN_OR_EQUAL, trigger, compare);
+	public ExpressionBuilder greaterThanOrEquals(final SubordinateTrigger trigger,
+			final Object compare) {
+		BooleanExpression exp = new CompareExpression(CompareType.GREATER_THAN_OR_EQUAL, trigger,
+				compare);
 		appendExpression(exp);
 
 		return this;
@@ -155,8 +158,7 @@ public final class ExpressionBuilder {
 	// Group Expressions - OR, AND, NOT
 	//
 	/**
-	 * Appends an OR expression to the RHS of the expression. The current RHS of the expression must
-	 * be an Operand.
+	 * Appends an OR expression to the RHS of the expression. The current RHS of the expression must be an Operand.
 	 *
 	 * @return this ExpressionBuilder.
 	 */
@@ -202,8 +204,7 @@ public final class ExpressionBuilder {
 	}
 
 	/**
-	 * Appends an AND expression to the RHS of the expression. The current RHS of the expression
-	 * must be an Operand.
+	 * Appends an AND expression to the RHS of the expression. The current RHS of the expression must be an Operand.
 	 *
 	 * @return this ExpressionBuilder.
 	 */
@@ -339,8 +340,7 @@ public final class ExpressionBuilder {
 	}
 
 	/**
-	 * Checks nesting of expressions to ensure we don't end up in an infinite recursive loop during
-	 * evaluation.
+	 * Checks nesting of expressions to ensure we don't end up in an infinite recursive loop during evaluation.
 	 *
 	 * @param expression the expression to check
 	 * @param visitedExpressions a list of expressions which have been visited so far.

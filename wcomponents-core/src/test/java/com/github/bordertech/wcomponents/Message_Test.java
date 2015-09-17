@@ -43,7 +43,9 @@ public class Message_Test {
 		Assert.assertEquals("Incorrect message field", messageField1, message.getArgs()[0]);
 
 		message.setArgs(messageField2);
-		Assert.assertEquals("Incorrect message field after set", messageField2, message.getArgs()[0]);
+		Assert.
+				assertEquals("Incorrect message field after set", messageField2,
+						message.getArgs()[0]);
 	}
 
 	@Test
@@ -52,7 +54,8 @@ public class Message_Test {
 		Assert.assertEquals("Incorrect message type", Message.INFO_MESSAGE, message.getType());
 
 		message.setType(Message.WARNING_MESSAGE);
-		Assert.assertEquals("Incorrect message type after set", Message.WARNING_MESSAGE, message.getType());
+		Assert.assertEquals("Incorrect message type after set", Message.WARNING_MESSAGE, message.
+				getType());
 
 		try {
 			message.setType(-1234567);
@@ -73,13 +76,16 @@ public class Message_Test {
 		Assert.assertEquals("Messages should be equal", message1, message2);
 
 		message2 = new Message(Message.SUCCESS_MESSAGE, messageText, arg);
-		Assert.assertFalse("Messages with different types should not be equal", message1.equals(message2));
+		Assert.assertFalse("Messages with different types should not be equal", message1.equals(
+				message2));
 
 		message2 = new Message(Message.INFO_MESSAGE, messageText + "X", arg);
-		Assert.assertFalse("Messages with different text should not be equal", message1.equals(message2));
+		Assert.assertFalse("Messages with different text should not be equal", message1.equals(
+				message2));
 
 		message2 = new Message(Message.INFO_MESSAGE, messageText, (String) null);
-		Assert.assertFalse("Messages with different fields should not be equal", message1.equals(message2));
+		Assert.assertFalse("Messages with different fields should not be equal", message1.equals(
+				message2));
 	}
 
 	@Test

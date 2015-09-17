@@ -23,8 +23,7 @@ import java.util.List;
  * <p>
  * This component shows the various configurations of a {@link WList} component.
  * </p><p>
- * <b>note: there are several configurations that just wont render correctly because the combination
- * does not make sense
+ * <b>note: there are several configurations that just wont render correctly because the combination does not make sense
  * <br/>
  * such as</b>
  * <ul>
@@ -32,8 +31,8 @@ import java.util.List;
  * <li>stacked or striped with bars on a flow layout</li>
  * </ul>
  * </p><p>
- * also note: as at WComponents 6 the hidden tag has not been implemented in WList this has been
- * raised but as it is has not been raised by a project it has been placed on the todo pile.
+ * also note: as at WComponents 6 the hidden tag has not been implemented in WList this has been raised but as it is has
+ * not been raised by a project it has been placed on the todo pile.
  * </p>
  *
  * @author Steve Harney
@@ -42,8 +41,7 @@ import java.util.List;
 public class WListOptionsExample extends WPanel {
 
 	/**
-	 * a container for holding the {@link WList} so it can be replaced without upsetting the whole
-	 * page.
+	 * a container for holding the {@link WList} so it can be replaced without upsetting the whole page.
 	 */
 	private final WContainer container = new WContainer();
 
@@ -90,8 +88,7 @@ public class WListOptionsExample extends WPanel {
 	}
 
 	/**
-	 * This builds and returns a WCheckbox group containing the list of fields on the
-	 * {@link SimpleTableBean}.
+	 * This builds and returns a WCheckbox group containing the list of fields on the {@link SimpleTableBean}.
 	 *
 	 * @return a WCheckBoxSelect
 	 */
@@ -143,15 +140,15 @@ public class WListOptionsExample extends WPanel {
 	}
 
 	/**
-	 * Apply settings is responsible for building the list to be displayed and adding it to the
-	 * container.
+	 * Apply settings is responsible for building the list to be displayed and adding it to the container.
 	 */
 	private void applySettings() {
 		container.reset();
 		WList list = new WList((com.github.bordertech.wcomponents.WList.Type) ddType.getSelected());
 
 		List<String> selected = (List<String>) cgBeanFields.getSelected();
-		SimpleListRenderer renderer = new SimpleListRenderer(selected, cbRenderUsingFieldLayout.isSelected());
+		SimpleListRenderer renderer = new SimpleListRenderer(selected, cbRenderUsingFieldLayout.
+				isSelected());
 
 		list.setRepeatedComponent(renderer);
 

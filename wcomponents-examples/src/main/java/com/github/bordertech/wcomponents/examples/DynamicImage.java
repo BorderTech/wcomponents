@@ -55,8 +55,8 @@ public class DynamicImage implements Image {
 	}
 
 	/**
-	 * Retrieves the natural size of the image. If only one dimension is known, a negative value
-	 * will be returned for the other dimension.
+	 * Retrieves the natural size of the image. If only one dimension is known, a negative value will be returned for
+	 * the other dimension.
 	 *
 	 * @return the image size, or null if unknown.
 	 */
@@ -75,9 +75,11 @@ public class DynamicImage implements Image {
 				// Draw the image.
 				Dimension size = getSize();
 
-				BufferedImage image = new BufferedImage(size.width, size.height, BufferedImage.TYPE_INT_ARGB);
+				BufferedImage image = new BufferedImage(size.width, size.height,
+						BufferedImage.TYPE_INT_ARGB);
 				Graphics2D graphics = image.createGraphics();
-				graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+				graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+						RenderingHints.VALUE_ANTIALIAS_ON);
 
 				graphics.setColor(new Color(255, 255, 255, 0));
 				graphics.fillRect(0, 0, size.width, size.height);

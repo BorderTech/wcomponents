@@ -9,11 +9,10 @@ import java.io.PrintWriter;
 import org.apache.commons.configuration.Configuration;
 
 /**
- * WhitespaceFilterInterceptor is an interceptor that removes HTML comments and redundant white
- * space from HTML output.
+ * WhitespaceFilterInterceptor is an interceptor that removes HTML comments and redundant white space from HTML output.
  *
- * For local testing/troubleshooting, the filter can be disabled by setting the following
- * {@link Config configuration} parameter:
+ * For local testing/troubleshooting, the filter can be disabled by setting the following {@link Config configuration}
+ * parameter:
  * <pre>
  * com.github.bordertech.wcomponents.container.WhitespaceFilterInterceptor.enabled=false
  * </pre>
@@ -42,7 +41,8 @@ public class WhitespaceFilterInterceptor extends InterceptorComponent {
 			PrintWriter writer = ((WebXmlRenderContext) renderContext).getWriter();
 			writer = new WhiteSpaceFilterPrintWriter(writer);
 
-			WebXmlRenderContext filteredContext = new WebXmlRenderContext(writer, UIContextHolder.getCurrent().getLocale());
+			WebXmlRenderContext filteredContext = new WebXmlRenderContext(writer, UIContextHolder.
+					getCurrent().getLocale());
 			filteredContext.getWriter().turnIndentingOff();
 			super.paint(filteredContext);
 		} else {

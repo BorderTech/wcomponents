@@ -22,8 +22,7 @@ import org.openqa.selenium.WebDriver;
 public class ErrorGenerator_Test extends WComponentSeleniumTestCase {
 
 	/**
-	 * The error message displayed when an unhandled error occurs. Obtained from
-	 * DefaultSystemFailureMapper.
+	 * The error message displayed when an unhandled error occurs. Obtained from DefaultSystemFailureMapper.
 	 */
 	private static final String ERROR_STRING = "The system is currently unavailable";
 
@@ -63,6 +62,7 @@ public class ErrorGenerator_Test extends WComponentSeleniumTestCase {
 		driver.findElement(byWComponentPath(path)).click();
 
 		// Exception will have been caught by framework, so an error message should be displayed
-		Assert.assertTrue("Should be displaying an error page", driver.getPageSource().contains(ERROR_STRING));
+		Assert.assertTrue("Should be displaying an error page", driver.getPageSource().contains(
+				ERROR_STRING));
 	}
 }

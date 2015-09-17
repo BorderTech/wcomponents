@@ -27,7 +27,8 @@ public class Hide_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testActionType() {
 		Hide action = new Hide(new MyTarget());
-		Assert.assertEquals("Incorrect Action Type", AbstractAction.ActionType.HIDE, action.getActionType());
+		Assert.assertEquals("Incorrect Action Type", AbstractAction.ActionType.HIDE, action.
+				getActionType());
 	}
 
 	@Test
@@ -38,7 +39,8 @@ public class Hide_Test extends AbstractWComponentTestCase {
 		Assert.assertEquals("Incorrect toString for action", "hide MyTarget", action.toString());
 
 		WLabel label = new WLabel("test label", target);
-		Assert.assertEquals("Incorrect toString for action with a label", "hide " + label.getText(), action.toString());
+		Assert.assertEquals("Incorrect toString for action with a label", "hide " + label.getText(),
+				action.toString());
 	}
 
 	/**

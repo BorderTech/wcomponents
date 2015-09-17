@@ -12,8 +12,8 @@ import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WText;
 
 /**
- * This example demonstrates the use of {@link WCheckBox#setActionOnChange(Action)}. The action
- * associated with the checkbox gets executed whenever the checkbox selection changes.
+ * This example demonstrates the use of {@link WCheckBox#setActionOnChange(Action)}. The action associated with the
+ * checkbox gets executed whenever the checkbox selection changes.
  *
  * @author Christina Harris
  * @since 1.0.0

@@ -4,10 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This is component can be used to expand or collapse all collapsibles. This component can work as
- * a server-side or a client-side component. It can also belong to a {@link CollapsibleGroup}, in
- * this case the toggle functionality will apply to the {@link WCollapsible} components in that
- * group only.
+ * This is component can be used to expand or collapse all collapsibles. This component can work as a server-side or a
+ * client-side component. It can also belong to a {@link CollapsibleGroup}, in this case the toggle functionality will
+ * apply to the {@link WCollapsible} components in that group only.
  *
  * @author Ming Gao
  * @author Yiannis Paschalidis
@@ -57,8 +56,8 @@ public class WCollapsibleToggle extends AbstractWComponent implements AjaxTarget
 	}
 
 	/**
-	 * Retrieves the name of the {@link CollapsibleGroup} associated with this toggle. If no group
-	 * has been associated, this component's name is returned.
+	 * Retrieves the name of the {@link CollapsibleGroup} associated with this toggle. If no group has been associated,
+	 * this component's name is returned.
 	 *
 	 * @return the group name.
 	 */
@@ -85,8 +84,8 @@ public class WCollapsibleToggle extends AbstractWComponent implements AjaxTarget
 	}
 
 	/**
-	 * If not running client-side, it is WCollapsibleToggle's responsibility to expand/collapse each
-	 * individual WCollapsible in the group.
+	 * If not running client-side, it is WCollapsibleToggle's responsibility to expand/collapse each individual
+	 * WCollapsible in the group.
 	 *
 	 * @param request the request being responded to
 	 */
@@ -108,7 +107,8 @@ public class WCollapsibleToggle extends AbstractWComponent implements AjaxTarget
 
 						// if no group is defined then just find all the collapsibles in the ui
 						List<WCollapsible> collapsibles = (group == null) ? findAllCollapsibles(
-								uic.getUI(), new ArrayList<WCollapsible>()) : group.getAllCollapsibles();
+								uic.getUI(), new ArrayList<WCollapsible>()) : group.
+								getAllCollapsibles();
 
 						for (WCollapsible next : collapsibles) {
 							setCollapsed(next, collapse);
@@ -126,8 +126,7 @@ public class WCollapsibleToggle extends AbstractWComponent implements AjaxTarget
 	}
 
 	/**
-	 * Expands/collapses the given collapsibles, taking into account any repeaters present in the UI
-	 * hierarchy.
+	 * Expands/collapses the given collapsibles, taking into account any repeaters present in the UI hierarchy.
 	 *
 	 * @param collapsible the collapsible whose state will be changed.
 	 * @param collapsed true if the collapsible is to be collapsed, false if it is to be expanded.
@@ -170,8 +169,8 @@ public class WCollapsibleToggle extends AbstractWComponent implements AjaxTarget
 	}
 
 	/**
-	 * Finds all repeaters in the component hierarchy that are an ancestor of <code>child</code>.
-	 * Repeaters are added to the list in hierarchical order, parent first.
+	 * Finds all repeaters in the component hierarchy that are an ancestor of <code>child</code>. Repeaters are added to
+	 * the list in hierarchical order, parent first.
 	 *
 	 * @param child the child component to start the search from.
 	 * @param repeaters the list to add repeaters to.
@@ -186,15 +185,14 @@ public class WCollapsibleToggle extends AbstractWComponent implements AjaxTarget
 	}
 
 	/**
-	 * A utility used by the expand/collapse buttons when no {@link CollapsibleGroup} group is
-	 * defined for this class.
+	 * A utility used by the expand/collapse buttons when no {@link CollapsibleGroup} group is defined for this class.
 	 *
 	 * @param comp the component to search for {@link WCollapsible}s.
-	 * @param results the list to receive all the collapsibles in the ui tree rooted at
-	 * <code>comp</code>.
+	 * @param results the list to receive all the collapsibles in the ui tree rooted at <code>comp</code>.
 	 * @return The <code>results</code> parameter.
 	 */
-	private static List<WCollapsible> findAllCollapsibles(final WComponent comp, final List<WCollapsible> results) {
+	private static List<WCollapsible> findAllCollapsibles(final WComponent comp,
+			final List<WCollapsible> results) {
 		if (comp instanceof WCollapsible) {
 			results.add((WCollapsible) comp);
 		}

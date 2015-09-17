@@ -17,8 +17,8 @@ import org.junit.runners.model.RunnerScheduler;
 import org.junit.runners.model.Statement;
 
 /**
- * MultiBrowserRunner is a jUnit Suite which will run a single {@link WComponentSeleniumTestCase}
- * using multiple browsers. It should only be used as follows:
+ * MultiBrowserRunner is a jUnit Suite which will run a single {@link WComponentSeleniumTestCase} using multiple
+ * browsers. It should only be used as follows:
  *
  * <pre>
  *   &#64;RunWith(MultiBrowserRunner.class)
@@ -100,7 +100,8 @@ public class MultiBrowserRunner extends Suite {
 		 * @param parameterIndex the browser index number.
 		 * @throws InitializationError if there is an error creating the runner.
 		 */
-		private TestClassRunnerForBrowser(final Class<?> type, final String[] browsers, final int parameterIndex) throws InitializationError {
+		private TestClassRunnerForBrowser(final Class<?> type, final String[] browsers, final int parameterIndex) throws
+				InitializationError {
 			super(type);
 			this.browsers = browsers;
 			this.parameterIndex = parameterIndex;

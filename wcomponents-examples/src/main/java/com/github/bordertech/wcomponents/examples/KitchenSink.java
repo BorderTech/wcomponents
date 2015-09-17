@@ -23,8 +23,7 @@ public class KitchenSink extends WPanel {
 	/**
 	 * The tabset that holds all the examples.
 	 *
-	 * Tabs are set to be client-side so we can test the rendering performance of all of the
-	 * components in one hit.
+	 * Tabs are set to be client-side so we can test the rendering performance of all of the components in one hit.
 	 */
 	private final WTabSet tabs = new WTabSet();
 
@@ -61,8 +60,8 @@ public class KitchenSink extends WPanel {
 	}
 
 	/**
-	 * This component demonstrates the ability to dynamically build a UI. It adds TextDuplicators or
-	 * copies of itself, depending on which button is pressed.
+	 * This component demonstrates the ability to dynamically build a UI. It adds TextDuplicators or copies of itself,
+	 * depending on which button is pressed.
 	 */
 	public static class DuplicatorGroup extends WPanel {
 
@@ -104,9 +103,9 @@ public class KitchenSink extends WPanel {
 		}
 
 		/**
-		 * Override handleRequest to implement processing specific to this component. Normally,
-		 * applications should be adding Actions to WButtons rather than overriding this method. See
-		 * the KitchenSink's resetButton for an example.
+		 * Override handleRequest to implement processing specific to this component. Normally, applications should be
+		 * adding Actions to WButtons rather than overriding this method. See the KitchenSink's resetButton for an
+		 * example.
 		 *
 		 * @param request the request being responded to.
 		 */

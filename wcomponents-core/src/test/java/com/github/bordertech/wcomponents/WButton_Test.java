@@ -98,18 +98,24 @@ public class WButton_Test extends AbstractWComponentTestCase {
 
 		WButton button = new WButton(text);
 		button.setLocked(true);
-		Assert.assertEquals("Default action command should be button text", text, button.getActionCommand());
+		Assert.assertEquals("Default action command should be button text", text, button.
+				getActionCommand());
 
 		button.setActionCommand(sharedValue);
-		Assert.assertEquals("Incorrect shared action command returned", sharedValue, button.getActionCommand());
+		Assert.assertEquals("Incorrect shared action command returned", sharedValue, button.
+				getActionCommand());
 
 		setActiveContext(uic1);
 		button.setActionCommand(value);
-		Assert.assertEquals("Uic 1 action command should be returned for uic 1", value, button.getActionCommand());
-		Assert.assertFalse("Button should not be in default state for uic1", button.isDefaultState());
+		Assert.assertEquals("Uic 1 action command should be returned for uic 1", value, button.
+				getActionCommand());
+		Assert.
+				assertFalse("Button should not be in default state for uic1", button.
+						isDefaultState());
 		resetContext();
 
-		Assert.assertEquals("Incorrect shared action command returned", sharedValue, button.getActionCommand());
+		Assert.assertEquals("Incorrect shared action command returned", sharedValue, button.
+				getActionCommand());
 	}
 
 	@Test
@@ -136,8 +142,11 @@ public class WButton_Test extends AbstractWComponentTestCase {
 		setActiveContext(createUIContext());
 		button.setImageUrl(imageUrl);
 		button.setLocked(true);
-		Assert.assertEquals("Uic 1 image url should be returned for uic 1", imageUrl, button.getImageUrl());
-		Assert.assertFalse("Button should not be in default state for uic1", button.isDefaultState());
+		Assert.assertEquals("Uic 1 image url should be returned for uic 1", imageUrl, button.
+				getImageUrl());
+		Assert.
+				assertFalse("Button should not be in default state for uic1", button.
+						isDefaultState());
 
 		resetContext();
 		Assert.assertNull("Default image url should be null", button.getImageUrl());
@@ -153,7 +162,9 @@ public class WButton_Test extends AbstractWComponentTestCase {
 		button.setLocked(true);
 		Assert.assertEquals("Uic 1 image position should be returned for uic 1", ImagePosition.EAST,
 				button.getImagePosition());
-		Assert.assertFalse("Button should not be in default state for uic1", button.isDefaultState());
+		Assert.
+				assertFalse("Button should not be in default state for uic1", button.
+						isDefaultState());
 
 		resetContext();
 		Assert.assertNull("Default image position should be null", button.getImagePosition());
@@ -171,7 +182,8 @@ public class WButton_Test extends AbstractWComponentTestCase {
 		Assert.assertTrue("Button should be a popup trigger", button.isPopupTrigger());
 
 		resetContext();
-		Assert.assertFalse("Default popup trigger status should not have changed", button.isPopupTrigger());
+		Assert.assertFalse("Default popup trigger status should not have changed", button.
+				isPopupTrigger());
 	}
 
 	// TODO rewrite as a parameterised test when we upgrade to jUnit4?
@@ -236,9 +248,11 @@ public class WButton_Test extends AbstractWComponentTestCase {
 				USER_TEXT,
 				getButtonText(false, true, true, true, false, false));
 
-		Assert.assertEquals("Incorrect text for button with Shared + user text, shared + user value",
-				USER_TEXT,
-				getButtonText(true, true, true, true, false, false));
+		Assert.
+				assertEquals(
+						"Incorrect text for button with Shared + user text, shared + user value",
+						USER_TEXT,
+						getButtonText(true, true, true, true, false, false));
 
 		Assert.assertNull("Incorrect text for button with null bean only",
 				getButtonText(false, false, false, false, true, true));
@@ -267,7 +281,8 @@ public class WButton_Test extends AbstractWComponentTestCase {
 				USER_TEXT,
 				getButtonText(false, true, true, false, true, true));
 
-		Assert.assertEquals("Incorrect text for button with null bean, Shared + user text, shared value",
+		Assert.assertEquals(
+				"Incorrect text for button with null bean, Shared + user text, shared value",
 				USER_TEXT,
 				getButtonText(true, true, true, false, true, true));
 
@@ -283,7 +298,8 @@ public class WButton_Test extends AbstractWComponentTestCase {
 				USER_TEXT,
 				getButtonText(false, true, false, true, true, true));
 
-		Assert.assertEquals("Incorrect text for button with null bean, Shared + user text, user value",
+		Assert.assertEquals(
+				"Incorrect text for button with null bean, Shared + user text, user value",
 				USER_TEXT,
 				getButtonText(true, true, false, true, true, true));
 
@@ -291,15 +307,18 @@ public class WButton_Test extends AbstractWComponentTestCase {
 				USER_VALUE,
 				getButtonText(false, false, true, true, true, true));
 
-		Assert.assertEquals("Incorrect text for button with null bean, Shared text, shared + user value",
+		Assert.assertEquals(
+				"Incorrect text for button with null bean, Shared text, shared + user value",
 				SHARED_TEXT,
 				getButtonText(true, false, true, true, true, true));
 
-		Assert.assertEquals("Incorrect text for button with null bean, User text, shared + user value",
+		Assert.assertEquals(
+				"Incorrect text for button with null bean, User text, shared + user value",
 				USER_TEXT,
 				getButtonText(false, true, true, true, true, true));
 
-		Assert.assertEquals("Incorrect text for button with null bean, Shared + user text, shared + user value",
+		Assert.assertEquals(
+				"Incorrect text for button with null bean, Shared + user text, shared + user value",
 				USER_TEXT,
 				getButtonText(true, true, true, true, true, true));
 
@@ -363,7 +382,8 @@ public class WButton_Test extends AbstractWComponentTestCase {
 				USER_TEXT,
 				getButtonText(false, true, true, true, true, false));
 
-		Assert.assertEquals("Incorrect text for button with bean, Shared + user text, shared + user value",
+		Assert.assertEquals(
+				"Incorrect text for button with bean, Shared + user text, shared + user value",
 				USER_TEXT,
 				getButtonText(true, true, true, true, true, false));
 	}
@@ -431,7 +451,8 @@ public class WButton_Test extends AbstractWComponentTestCase {
 				USER_VALUE,
 				getButtonValue(false, true, true, true, false, false));
 
-		Assert.assertEquals("Incorrect value for button with Shared + user text, shared + user value",
+		Assert.assertEquals(
+				"Incorrect value for button with Shared + user text, shared + user value",
 				USER_VALUE,
 				getButtonValue(true, true, true, true, false, false));
 
@@ -463,7 +484,8 @@ public class WButton_Test extends AbstractWComponentTestCase {
 				SHARED_VALUE,
 				getButtonValue(false, true, true, false, true, true));
 
-		Assert.assertEquals("Incorrect value for button with null bean, Shared + user text, shared value",
+		Assert.assertEquals(
+				"Incorrect value for button with null bean, Shared + user text, shared value",
 				SHARED_VALUE,
 				getButtonValue(true, true, true, false, true, true));
 
@@ -479,7 +501,8 @@ public class WButton_Test extends AbstractWComponentTestCase {
 				USER_VALUE,
 				getButtonValue(false, true, false, true, true, true));
 
-		Assert.assertEquals("Incorrect value for button with null bean, Shared + user text, user value",
+		Assert.assertEquals(
+				"Incorrect value for button with null bean, Shared + user text, user value",
 				USER_VALUE,
 				getButtonValue(true, true, false, true, true, true));
 
@@ -487,15 +510,18 @@ public class WButton_Test extends AbstractWComponentTestCase {
 				USER_VALUE,
 				getButtonValue(false, false, true, true, true, true));
 
-		Assert.assertEquals("Incorrect value for button with null bean, Shared text, shared + user value",
+		Assert.assertEquals(
+				"Incorrect value for button with null bean, Shared text, shared + user value",
 				USER_VALUE,
 				getButtonValue(true, false, true, true, true, true));
 
-		Assert.assertEquals("Incorrect value for button with null bean, User text, shared + user value",
+		Assert.assertEquals(
+				"Incorrect value for button with null bean, User text, shared + user value",
 				USER_VALUE,
 				getButtonValue(false, true, true, true, true, true));
 
-		Assert.assertEquals("Incorrect value for button with null bean, Shared + user text, shared + user value",
+		Assert.assertEquals(
+				"Incorrect value for button with null bean, Shared + user text, shared + user value",
 				USER_VALUE,
 				getButtonValue(true, true, true, true, true, true));
 
@@ -527,9 +553,11 @@ public class WButton_Test extends AbstractWComponentTestCase {
 				BEAN_VALUE,
 				getButtonValue(false, true, true, false, true, false));
 
-		Assert.assertEquals("Incorrect value for button with bean, Shared + user text, shared value",
-				BEAN_VALUE,
-				getButtonValue(true, true, true, false, true, false));
+		Assert.
+				assertEquals(
+						"Incorrect value for button with bean, Shared + user text, shared value",
+						BEAN_VALUE,
+						getButtonValue(true, true, true, false, true, false));
 
 		Assert.assertEquals("Incorrect value for button with bean, User value only",
 				USER_VALUE,
@@ -551,15 +579,18 @@ public class WButton_Test extends AbstractWComponentTestCase {
 				USER_VALUE,
 				getButtonValue(false, false, true, true, true, false));
 
-		Assert.assertEquals("Incorrect value for button with bean, Shared text, shared + user value",
-				USER_VALUE,
-				getButtonValue(true, false, true, true, true, false));
+		Assert.
+				assertEquals(
+						"Incorrect value for button with bean, Shared text, shared + user value",
+						USER_VALUE,
+						getButtonValue(true, false, true, true, true, false));
 
 		Assert.assertEquals("Incorrect value for button with bean, User text, shared + user value",
 				USER_VALUE,
 				getButtonValue(false, true, true, true, true, false));
 
-		Assert.assertEquals("Incorrect value for button with bean, Shared + user text, shared + user value",
+		Assert.assertEquals(
+				"Incorrect value for button with bean, Shared + user text, shared + user value",
 				USER_VALUE,
 				getButtonValue(true, true, true, true, true, false));
 	}
@@ -579,7 +610,8 @@ public class WButton_Test extends AbstractWComponentTestCase {
 	private String getButtonText(final boolean useSharedText, final boolean useUserText,
 			final boolean useSharedValue, final boolean useUserValue,
 			final boolean useBeanValue, final boolean nullBean) {
-		WButton button = createButton(useSharedText, useUserText, useSharedValue, useUserValue, useBeanValue, nullBean);
+		WButton button = createButton(useSharedText, useUserText, useSharedValue, useUserValue,
+				useBeanValue, nullBean);
 
 		setActiveContext(createUIContext());
 
@@ -606,7 +638,8 @@ public class WButton_Test extends AbstractWComponentTestCase {
 	private String getButtonValue(final boolean useSharedText, final boolean useUserText,
 			final boolean useSharedValue, final boolean useUserValue,
 			final boolean useBeanValue, final boolean nullBean) {
-		WButton button = createButton(useSharedText, useUserText, useSharedValue, useUserValue, useBeanValue, nullBean);
+		WButton button = createButton(useSharedText, useUserText, useSharedValue, useUserValue,
+				useBeanValue, nullBean);
 		setActiveContext(createUIContext());
 
 		try {

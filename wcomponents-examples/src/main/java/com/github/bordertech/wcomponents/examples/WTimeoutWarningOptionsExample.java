@@ -20,11 +20,11 @@ import java.math.BigDecimal;
 import java.util.List;
 
 /**
- * This example is shows how WTimeoutWarning can be configured to show a warning at different times
- * before the timeout period and how the timeout period itself can be manipulated.
+ * This example is shows how WTimeoutWarning can be configured to show a warning at different times before the timeout
+ * period and how the timeout period itself can be manipulated.
  *
- * The timeout warning will not appear if the timeout period is not set or is set to 0. The warning
- * must be set to a period less then the timeout and defaults to 20 seconds.
+ * The timeout warning will not appear if the timeout period is not set or is set to 0. The warning must be set to a
+ * period less then the timeout and defaults to 20 seconds.
  *
  * @author Mark Reeves
  * @since 1.0.0
@@ -32,14 +32,12 @@ import java.util.List;
 public class WTimeoutWarningOptionsExample extends WContainer {
 
 	/**
-	 * The absolute minimum warning period is fixed in all themes as the WCAG 2.0 minimum
-	 * requirement of 20 seconds.
+	 * The absolute minimum warning period is fixed in all themes as the WCAG 2.0 minimum requirement of 20 seconds.
 	 */
 	private static final int MIN_WARN = 20;
 	/**
-	 * The timeout must be greater than a theme-determined value otherwise the warning may not be
-	 * able to be rendered. This is never less than 30 seconds but may be longer. If your example
-	 * doesn't work - check your theme.
+	 * The timeout must be greater than a theme-determined value otherwise the warning may not be able to be rendered.
+	 * This is never less than 30 seconds but may be longer. If your example doesn't work - check your theme.
 	 */
 	private static final int MIN_EXPIRY = 60;
 
@@ -81,7 +79,8 @@ public class WTimeoutWarningOptionsExample extends WContainer {
 
 		warnAtNumberField.setMinValue(MIN_WARN);
 		WField warnField = layout.addField("Demonstration Warning Period", warnAtNumberField);
-		warnField.getLabel().setHint("Must be at least " + String.valueOf(MIN_WARN) + " and less than the value of the demonstration timeout period");
+		warnField.getLabel().setHint(
+				"Must be at least " + String.valueOf(MIN_WARN) + " and less than the value of the demonstration timeout period");
 
 		layout.addField((WLabel) null, saveButton);
 
@@ -102,7 +101,8 @@ public class WTimeoutWarningOptionsExample extends WContainer {
 
 				if (warnValue != null) {
 					if (warnValue.compareTo(timeoutValue) != -1) {
-						diags.add(createErrorDiagnostic(warnAtNumberField, "The warning period must be less than the timeout period."));
+						diags.add(createErrorDiagnostic(warnAtNumberField,
+								"The warning period must be less than the timeout period."));
 					}
 				}
 			}

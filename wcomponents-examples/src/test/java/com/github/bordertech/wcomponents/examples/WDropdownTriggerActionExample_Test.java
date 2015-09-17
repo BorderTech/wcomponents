@@ -34,32 +34,40 @@ public class WDropdownTriggerActionExample_Test extends WComponentSeleniumTestCa
 
 		// Select "ACT" from State dropdown
 		driver.findElement(byWComponent(ui.getStateDropdown(), "ACT")).click();
-		Assert.assertTrue("Incorrect region selection on client", driver.findElement(byWComponent(ui.getRegionDropdown(), "")).isSelected());
+		Assert.assertTrue("Incorrect region selection on client", driver.findElement(byWComponent(
+				ui.getRegionDropdown(), "")).isSelected());
 
 		// Should have round-tripped, check server and client-side states
-		Assert.assertEquals("Incorrect state selection on server", "ACT", ui.getStateDropdown().getSelected());
-		Assert.assertTrue("Incorrect state selection on client", driver.findElement(byWComponent(ui.getStateDropdown(), "ACT")).isSelected());
+		Assert.assertEquals("Incorrect state selection on server", "ACT", ui.getStateDropdown().
+				getSelected());
+		Assert.assertTrue("Incorrect state selection on client", driver.findElement(byWComponent(ui.
+				getStateDropdown(), "ACT")).isSelected());
 
 		// Select "Woden" from Region dropdown
 		driver.findElement(byWComponent(ui.getRegionDropdown(), "Woden")).click();
 
 		// Should have round-tripped, check server and client-side states
-		Assert.assertEquals("Incorrect region selection on server", "Woden", ui.getRegionDropdown().getSelected());
-		Assert.assertTrue("Incorrect region selection on client", driver.findElement(byWComponent(ui.getRegionDropdown(), "Woden")).isSelected());
+		Assert.assertEquals("Incorrect region selection on server", "Woden", ui.getRegionDropdown().
+				getSelected());
+		Assert.assertTrue("Incorrect region selection on client", driver.findElement(byWComponent(
+				ui.getRegionDropdown(), "Woden")).isSelected());
 
 		// Select "Torrens" from Suburb dropdown (no round trip)
 		driver.findElement(byWComponent(ui.getSuburbDropdown(), "Torrens")).click();
-		Assert.assertTrue("Incorrect suburb selection on client", driver.findElement(byWComponent(ui.getSuburbDropdown(), "Torrens")).isSelected());
+		Assert.assertTrue("Incorrect suburb selection on client", driver.findElement(byWComponent(
+				ui.getSuburbDropdown(), "Torrens")).isSelected());
 
 		// Select "VIC" from the State dropdown
 		driver.findElement(byWComponent(ui.getStateDropdown(), "VIC")).click();
-		Assert.assertTrue("Incorrect region selection on client", driver.findElement(byWComponent(ui.getRegionDropdown(), "")).isSelected());
+		Assert.assertTrue("Incorrect region selection on client", driver.findElement(byWComponent(
+				ui.getRegionDropdown(), "")).isSelected());
 
 		// Select "Melbourne" from Region dropdown
 		driver.findElement(byWComponent(ui.getRegionDropdown(), "Melbourne")).click();
 
 		// Select "Torrens" from Suburb dropdown (no round trip)
 		driver.findElement(byWComponent(ui.getSuburbDropdown(), "Blackburn")).click();
-		Assert.assertTrue("Incorrect suburb selection on client", driver.findElement(byWComponent(ui.getSuburbDropdown(), "Blackburn")).isSelected());
+		Assert.assertTrue("Incorrect suburb selection on client", driver.findElement(byWComponent(
+				ui.getSuburbDropdown(), "Blackburn")).isSelected());
 	}
 }

@@ -6,8 +6,8 @@ import java.io.Serializable;
 
 /**
  * <p>
- * An extension of AbstractTreeNode that supports a data attribute, the concept of being
- * expanded/collapsed and node-specific renderers.</p>
+ * An extension of AbstractTreeNode that supports a data attribute, the concept of being expanded/collapsed and
+ * node-specific renderers.</p>
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -43,9 +43,8 @@ public class TableTreeNode extends AbstractTreeNode {
 	private int nodeCount = 0;
 
 	/**
-	 * Creates a TableTreeNode with the specified data. The data may be an id or complex data, and
-	 * should be used in the {@link AbstractTreeTableDataModel#getValueAt(TableTreeNode, int)}
-	 * method.
+	 * Creates a TableTreeNode with the specified data. The data may be an id or complex data, and should be used in the
+	 * {@link AbstractTreeTableDataModel#getValueAt(TableTreeNode, int)} method.
 	 *
 	 * @param data the data for this node.
 	 */
@@ -54,14 +53,12 @@ public class TableTreeNode extends AbstractTreeNode {
 	}
 
 	/**
-	 * Creates a TableTreeNode with the specified data. The data may be an id or complex data, and
-	 * should be used in the {@link AbstractTreeTableDataModel#getValueAt(TableTreeNode, int)}
-	 * method.
+	 * Creates a TableTreeNode with the specified data. The data may be an id or complex data, and should be used in the
+	 * {@link AbstractTreeTableDataModel#getValueAt(TableTreeNode, int)} method.
 	 *
 	 * @param data the data for this node.
 	 * @param rendererClass The renderer class for this row.
-	 * @param rendererSpansAllCols true if the renderer should span all columns, false to only span
-	 * the first.
+	 * @param rendererSpansAllCols true if the renderer should span all columns, false to only span the first.
 	 */
 	public TableTreeNode(final Serializable data, final Class<? extends WComponent> rendererClass,
 			final boolean rendererSpansAllCols) {
@@ -197,8 +194,8 @@ public class TableTreeNode extends AbstractTreeNode {
 	}
 
 	/**
-	 * Sets the renderer to be used to render the row for this node. If null, the default table row
-	 * renderer will be used.
+	 * Sets the renderer to be used to render the row for this node. If null, the default table row renderer will be
+	 * used.
 	 *
 	 * @param rendererClass The renderer class to set.
 	 */
@@ -259,13 +256,14 @@ public class TableTreeNode extends AbstractTreeNode {
 	}
 
 	/**
-	 * Adjusts the node count of this node and all parent nodes. Called when nodes are being
-	 * added/removed from the tree.
+	 * Adjusts the node count of this node and all parent nodes. Called when nodes are being added/removed from the
+	 * tree.
 	 *
 	 * @param delta the change in the node count.
 	 */
 	private void adjustNodeCount(final int delta) {
-		for (TableTreeNode parent = this; parent != null; parent = (TableTreeNode) parent.getParent()) {
+		for (TableTreeNode parent = this; parent != null; parent = (TableTreeNode) parent.
+				getParent()) {
 			parent.nodeCount += delta;
 		}
 	}

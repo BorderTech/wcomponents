@@ -34,10 +34,10 @@ public class WDropdownOptionsExample_Test extends WComponentSeleniumTestCase {
 	 *
 	 * @param driver the selenium driver
 	 * @param type the type of drop down.
-	 * @param actionNumber the number of the action to use, base off position in the radio button
-	 * select.
+	 * @param actionNumber the number of the action to use, base off position in the radio button select.
 	 */
-	private void configureDropDown(final WebDriver driver, final WDropdown.DropdownType type, final int actionNumber) {
+	private void configureDropDown(final WebDriver driver, final WDropdown.DropdownType type,
+			final int actionNumber) {
 
 		// action on change.
 		WebElement actionOnChange = driver.findElement(byWComponentPath("WCheckBox[1]"));

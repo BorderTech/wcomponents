@@ -92,7 +92,8 @@ public class WVideo_Test extends AbstractWComponentTestCase {
 			escape.escape();
 
 			String output = new String(response.getOutput(), CHAR_ENCODING);
-			Assert.assertEquals("Incorrect content returned", new String(clip1.getBytes(), CHAR_ENCODING), output);
+			Assert.assertEquals("Incorrect content returned", new String(clip1.getBytes(),
+					CHAR_ENCODING), output);
 			Assert.assertFalse("Cache flag should not be set", escape.isCacheable());
 			Assert.assertEquals("Response should have header set for no caching",
 					ResponseCacheInterceptor.DEFAULT_NO_CACHE_SETTINGS,
@@ -113,11 +114,13 @@ public class WVideo_Test extends AbstractWComponentTestCase {
 			escape.escape();
 
 			String output = new String(response.getOutput(), CHAR_ENCODING);
-			Assert.assertEquals("Incorrect content returned", new String(clip2.getBytes(), CHAR_ENCODING), output);
+			Assert.assertEquals("Incorrect content returned", new String(clip2.getBytes(),
+					CHAR_ENCODING), output);
 			Assert.assertTrue("Cache flag should be set", escape.isCacheable());
 			Assert
 					.assertEquals("Response should have header set for caching",
-							ResponseCacheInterceptor.DEFAULT_CACHE_SETTINGS, response.getHeaders().get("Cache-Control"));
+							ResponseCacheInterceptor.DEFAULT_CACHE_SETTINGS, response.getHeaders().
+							get("Cache-Control"));
 		}
 	}
 
@@ -151,7 +154,8 @@ public class WVideo_Test extends AbstractWComponentTestCase {
 			escape.escape();
 
 			String output = new String(response.getOutput(), CHAR_ENCODING);
-			Assert.assertEquals("Incorrect content returned", new String(track1.getBytes(), CHAR_ENCODING), output);
+			Assert.assertEquals("Incorrect content returned", new String(track1.getBytes(),
+					CHAR_ENCODING), output);
 			Assert.assertFalse("Cache flag should not be set", escape.isCacheable());
 			Assert.assertEquals("Response should have header set for no caching",
 					ResponseCacheInterceptor.DEFAULT_NO_CACHE_SETTINGS,
@@ -172,11 +176,13 @@ public class WVideo_Test extends AbstractWComponentTestCase {
 			escape.escape();
 
 			String output = new String(response.getOutput(), CHAR_ENCODING);
-			Assert.assertEquals("Incorrect content returned", new String(track2.getBytes(), CHAR_ENCODING), output);
+			Assert.assertEquals("Incorrect content returned", new String(track2.getBytes(),
+					CHAR_ENCODING), output);
 			Assert.assertTrue("Cache flag should be set", escape.isCacheable());
 			Assert
 					.assertEquals("Response should have header set for caching",
-							ResponseCacheInterceptor.DEFAULT_CACHE_SETTINGS, response.getHeaders().get("Cache-Control"));
+							ResponseCacheInterceptor.DEFAULT_CACHE_SETTINGS, response.getHeaders().
+							get("Cache-Control"));
 		}
 	}
 
@@ -207,7 +213,8 @@ public class WVideo_Test extends AbstractWComponentTestCase {
 			escape.escape();
 
 			String output = new String(response.getOutput(), CHAR_ENCODING);
-			Assert.assertEquals("Incorrect content returned", new String(poster.getBytes(), CHAR_ENCODING), output);
+			Assert.assertEquals("Incorrect content returned", new String(poster.getBytes(),
+					CHAR_ENCODING), output);
 			Assert.assertFalse("Cache flag should not be set", escape.isCacheable());
 			Assert.assertEquals("Response should have header set for no caching",
 					ResponseCacheInterceptor.DEFAULT_NO_CACHE_SETTINGS,
@@ -228,11 +235,13 @@ public class WVideo_Test extends AbstractWComponentTestCase {
 			escape.escape();
 
 			String output = new String(response.getOutput(), CHAR_ENCODING);
-			Assert.assertEquals("Incorrect content returned", new String(poster.getBytes(), CHAR_ENCODING), output);
+			Assert.assertEquals("Incorrect content returned", new String(poster.getBytes(),
+					CHAR_ENCODING), output);
 			Assert.assertTrue("Cache flag should be set", escape.isCacheable());
 			Assert
 					.assertEquals("Response should have header set for caching",
-							ResponseCacheInterceptor.DEFAULT_CACHE_SETTINGS, response.getHeaders().get("Cache-Control"));
+							ResponseCacheInterceptor.DEFAULT_CACHE_SETTINGS, response.getHeaders().
+							get("Cache-Control"));
 		}
 	}
 
@@ -249,10 +258,12 @@ public class WVideo_Test extends AbstractWComponentTestCase {
 		video.setLocked(true);
 		setActiveContext(createUIContext());
 		video.setAltText(userText);
-		Assert.assertEquals("User session should have session alt text", userText, video.getAltText());
+		Assert.assertEquals("User session should have session alt text", userText, video.
+				getAltText());
 
 		resetContext();
-		Assert.assertEquals("Other sessions should have default alt text", defaultText, video.getAltText());
+		Assert.assertEquals("Other sessions should have default alt text", defaultText, video.
+				getAltText());
 
 		//Test nulls
 		video.setAltText("");
@@ -335,7 +346,8 @@ public class WVideo_Test extends AbstractWComponentTestCase {
 		setActiveContext(createUIContext());
 		video.setControls(WVideo.Controls.PLAY_PAUSE);
 		Assert.assertNotNull("Video should have controls for affected context", video.getControls());
-		Assert.assertEquals("Incorrect controls for affected context", WVideo.Controls.PLAY_PAUSE, video.getControls());
+		Assert.assertEquals("Incorrect controls for affected context", WVideo.Controls.PLAY_PAUSE,
+				video.getControls());
 
 		resetContext();
 		Assert.assertNull("Video should not have controls for other contexts", video.getControls());
@@ -374,7 +386,8 @@ public class WVideo_Test extends AbstractWComponentTestCase {
 
 		// Test default preload
 		WVideo video = new WVideo();
-		Assert.assertEquals("Default preload should be NONE", WVideo.Preload.NONE, video.getPreload());
+		Assert.assertEquals("Default preload should be NONE", WVideo.Preload.NONE, video.
+				getPreload());
 
 		// Test set default preload
 		video.setPreload(preload1);

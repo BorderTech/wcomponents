@@ -63,7 +63,8 @@ public class UIContextDumpInterceptor extends InterceptorComponent {
 				ObjectGraphNode root = ObjectGraphDump.dump(treeAndSession);
 
 				// We only want to dump the tree once
-				boolean treeDumped = "true".equalsIgnoreCase((String) uic.getFwkAttribute(UICONTEXT_TREE_DUMPED_KEY));
+				boolean treeDumped = "true".equalsIgnoreCase((String) uic.getFwkAttribute(
+						UICONTEXT_TREE_DUMPED_KEY));
 
 				if (!treeDumped) {
 					uic.setFwkAttribute(UICONTEXT_TREE_DUMPED_KEY, "true");

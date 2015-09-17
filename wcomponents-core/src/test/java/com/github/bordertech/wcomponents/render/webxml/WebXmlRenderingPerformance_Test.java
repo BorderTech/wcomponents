@@ -25,8 +25,8 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
 /**
- * Tests to check the performance of WComponent XML rendering. This test does not check that the XML
- * output is correct - see the tests for each Renderer.
+ * Tests to check the performance of WComponent XML rendering. This test does not check that the XML output is correct -
+ * see the tests for each Renderer.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -35,8 +35,8 @@ import org.junit.experimental.categories.Category;
 public class WebXmlRenderingPerformance_Test extends AbstractWComponentTestCase {
 
 	/**
-	 * The number of repetitions to use for testing serialization time. This should be set to be
-	 * greater than the minimum number of invocations required to trigger JIT compilation.
+	 * The number of repetitions to use for testing serialization time. This should be set to be greater than the
+	 * minimum number of invocations required to trigger JIT compilation.
 	 */
 	private static final int NUM_REPETITIONS = 2000;
 
@@ -81,7 +81,8 @@ public class WebXmlRenderingPerformance_Test extends AbstractWComponentTestCase 
 		nullWriter.resetCount();
 
 		long rawTime = time(runnable) / NUM_REPETITIONS;
-		Assert.assertEquals("Incorrect amount of raw data written", xml.length * NUM_REPETITIONS, nullWriter.getCount());
+		Assert.assertEquals("Incorrect amount of raw data written", xml.length * NUM_REPETITIONS,
+				nullWriter.getCount());
 		nullWriter.resetCount();
 
 		// Run the test using WComponent rendering
@@ -101,17 +102,20 @@ public class WebXmlRenderingPerformance_Test extends AbstractWComponentTestCase 
 		nullWriter.resetCount();
 
 		long renderTime = time(runnable) / NUM_REPETITIONS;
-		Assert.assertEquals("Incorrect amount of rendered data written", xml.length * NUM_REPETITIONS, nullWriter.getCount());
+		Assert.assertEquals("Incorrect amount of rendered data written",
+				xml.length * NUM_REPETITIONS, nullWriter.getCount());
 		nullWriter.resetCount();
 
 		LOG.info("Raw write time: " + (rawTime / 1000000.0) + "ms");
 		LOG.info("WComponent render time: " + (renderTime / 1000000.0) + "ms");
-		Assert.assertTrue("WComponent render time should not exceed 5x raw write time", renderTime < rawTime * 5);
+		Assert.assertTrue("WComponent render time should not exceed 5x raw write time",
+				renderTime < rawTime * 5);
 	}
 
 	@Test
 	public void testRenderingScaling() throws Exception {
-		final RenderContext renderContext = new WebXmlRenderContext(new PrintWriter(new NullWriter()));
+		final RenderContext renderContext = new WebXmlRenderContext(
+				new PrintWriter(new NullWriter()));
 
 		final AllComponents component1 = new AllComponents();
 		final UIContext uic1 = createUIContext();
@@ -159,8 +163,7 @@ public class WebXmlRenderingPerformance_Test extends AbstractWComponentTestCase 
 	}
 
 	/**
-	 * Invokes WComponent request processing, so that this test case can more closely match a
-	 * production scenario.
+	 * Invokes WComponent request processing, so that this test case can more closely match a production scenario.
 	 *
 	 * @param comp the component to invoke request processing on.
 	 * @param uic the user context to use.

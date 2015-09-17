@@ -98,7 +98,8 @@ public class InventoryBean_Test {
 		InventoryBean bean = new InventoryBean(testProductId, 42, 43, 44);
 		ProductBean product = bean.getProduct();
 
-		Assert.assertEquals("should return product with ID testProductId", testProductId, product.getId());
+		Assert.assertEquals("should return product with ID testProductId", testProductId, product.
+				getId());
 	}
 
 	/**

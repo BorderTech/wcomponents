@@ -6,8 +6,7 @@ import com.github.bordertech.wcomponents.WFieldSet;
 import com.github.bordertech.wcomponents.WRepeater;
 
 /**
- * An example component showing use of repeated links, where the row data is used in the link's
- * action.
+ * An example component showing use of repeated links, where the row data is used in the link's action.
  *
  * @author Adam Millard
  * @since 1.0.0

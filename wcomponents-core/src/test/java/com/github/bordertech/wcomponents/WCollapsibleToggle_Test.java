@@ -48,16 +48,20 @@ public class WCollapsibleToggle_Test extends AbstractWComponentTestCase {
 	public void testExpandAllNoGroup() {
 		expandAll();
 
-		Assert.assertFalse("Open collapsible should have stayed open", initiallyOpenCollapsible.isCollapsed());
-		Assert.assertFalse("Collapsed collapsible should have opened", initiallyCollapsedCollapsible.isCollapsed());
+		Assert.assertFalse("Open collapsible should have stayed open", initiallyOpenCollapsible.
+				isCollapsed());
+		Assert.assertFalse("Collapsed collapsible should have opened",
+				initiallyCollapsedCollapsible.isCollapsed());
 	}
 
 	@Test
 	public void testCollapseAllNoGroup() {
 		collapseAll();
 
-		Assert.assertTrue("Open collapsible should have collapsed", initiallyOpenCollapsible.isCollapsed());
-		Assert.assertTrue("Collapsed collapsible should have stayed collapsed", initiallyCollapsedCollapsible.isCollapsed());
+		Assert.assertTrue("Open collapsible should have collapsed", initiallyOpenCollapsible.
+				isCollapsed());
+		Assert.assertTrue("Collapsed collapsible should have stayed collapsed",
+				initiallyCollapsedCollapsible.isCollapsed());
 	}
 
 	@Test
@@ -65,8 +69,10 @@ public class WCollapsibleToggle_Test extends AbstractWComponentTestCase {
 		toggle.setGroup(group);
 		collapseAll();
 
-		Assert.assertTrue("Open collapsible should have collapsed", initiallyOpenCollapsible.isCollapsed());
-		Assert.assertTrue("Collapsed collapsible should have stayed collapsed", initiallyCollapsedCollapsible.isCollapsed());
+		Assert.assertTrue("Open collapsible should have collapsed", initiallyOpenCollapsible.
+				isCollapsed());
+		Assert.assertTrue("Collapsed collapsible should have stayed collapsed",
+				initiallyCollapsedCollapsible.isCollapsed());
 	}
 
 	@Test
@@ -74,8 +80,10 @@ public class WCollapsibleToggle_Test extends AbstractWComponentTestCase {
 		toggle.setGroup(group);
 		expandAll();
 
-		Assert.assertFalse("Open collapsible should have stayed open", initiallyOpenCollapsible.isCollapsed());
-		Assert.assertFalse("Collapsed collapsible should have opened", initiallyCollapsedCollapsible.isCollapsed());
+		Assert.assertFalse("Open collapsible should have stayed open", initiallyOpenCollapsible.
+				isCollapsed());
+		Assert.assertFalse("Collapsed collapsible should have opened",
+				initiallyCollapsedCollapsible.isCollapsed());
 	}
 
 	/**

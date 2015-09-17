@@ -67,7 +67,9 @@ public class HeadLineInterceptor_Test extends AbstractWebXmlRendererTestCase {
 
 		String headings = evaluateXPath(headLineComponent, "/");
 		Assert.assertTrue("Headings should contain generic 2", headings.indexOf(generic2) != -1);
-		Assert.assertFalse("Headings should not contain generic 1", headings.indexOf(generic1) != -1);
+		Assert.
+				assertFalse("Headings should not contain generic 1",
+						headings.indexOf(generic1) != -1);
 	}
 
 	@Test
@@ -84,7 +86,8 @@ public class HeadLineInterceptor_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo(LABEL_TEXT, "normalize-space(//ui:label)", headLineComponent);
 
 		String renderedScript = evaluateXPath(headLineComponent, "//html:script");
-		Assert.assertTrue("Javascript should contain given script", renderedScript.indexOf(script) != -1);
+		Assert.assertTrue("Javascript should contain given script",
+				renderedScript.indexOf(script) != -1);
 	}
 
 	@Test

@@ -62,7 +62,8 @@ public final class UicStatsAsHtml {
 	 * @param writer the writer to write the stats to.
 	 * @param treeStats the stats for the component.
 	 */
-	private static void writeProfileForTree(final PrintWriter writer, final Map<WComponent, UicStats.Stat> treeStats) {
+	private static void writeProfileForTree(final PrintWriter writer,
+			final Map<WComponent, UicStats.Stat> treeStats) {
 		// Copy all the stats into a list so we can sort and cull.
 		List<UicStats.Stat> statList = new ArrayList<>(treeStats.values());
 

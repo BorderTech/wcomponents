@@ -27,11 +27,13 @@ public class ErrorGenerator extends WContainer {
 	/**
 	 * A button to generate an exception in the prepare-paint phase.
 	 */
-	private final WButton preparePaintComponentErrorBtn = new WButton("Generate exception in preparePaintComponent");
+	private final WButton preparePaintComponentErrorBtn = new WButton(
+			"Generate exception in preparePaintComponent");
 	/**
 	 * A button to generate an exception in the render phase.
 	 */
-	private final WButton paintComponentErrorBtn = new WButton("Generate exception in paintComponent");
+	private final WButton paintComponentErrorBtn = new WButton(
+			"Generate exception in paintComponent");
 
 	/**
 	 * Creates an ErrorGenerator.
@@ -72,15 +74,15 @@ public class ErrorGenerator extends WContainer {
 	}
 
 	/**
-	 * Override preparePaintComponent to throw an exception if preparePaintComponentErrorBtn is
-	 * pressed.
+	 * Override preparePaintComponent to throw an exception if preparePaintComponentErrorBtn is pressed.
 	 *
 	 * @param request the request being responded to.
 	 */
 	@Override
 	protected void preparePaintComponent(final Request request) {
 		if (preparePaintComponentErrorBtn.isPressed()) {
-			throw new MyRuntimeException("A deliberate runtime exception thrown in preparePaintComponent.");
+			throw new MyRuntimeException(
+					"A deliberate runtime exception thrown in preparePaintComponent.");
 		}
 
 		super.preparePaintComponent(request);

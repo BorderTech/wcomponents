@@ -11,9 +11,8 @@ import com.github.bordertech.wcomponents.WText;
 
 /**
  * <p>
- * This is component looks a bit like a set of tabs. It has a row of buttons at the top that control
- * which tab is displayed in the space below the buttons. Use the addTab method to add a tab to this
- * component.</p>
+ * This is component looks a bit like a set of tabs. It has a row of buttons at the top that control which tab is
+ * displayed in the space below the buttons. Use the addTab method to add a tab to this component.</p>
  *
  * <p>
  * NOTE: If using the theme css &amp javascript, it is better to use a

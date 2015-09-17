@@ -49,12 +49,14 @@ public class UIContextDebugWrapper_Test extends AbstractWComponentTestCase {
 		String subResult = result.substring(result.indexOf("WComponent session usage by class:"));
 
 		// top level item
-		Assert.assertTrue("should report className for top level component in list", subResult.indexOf(component.getClass()
-				.getName()) != -1);
+		Assert.assertTrue("should report className for top level component in list", subResult.
+				indexOf(component.getClass()
+						.getName()) != -1);
 
 		// child items
 		for (int i = 0; i < component.getChildCount(); i++) {
-			Assert.assertTrue("should report className for each child", subResult.indexOf(component.getChildAt(i)
+			Assert.assertTrue("should report className for each child", subResult.indexOf(component.
+					getChildAt(i)
 					.getClass().getName()) != -1);
 		}
 	}

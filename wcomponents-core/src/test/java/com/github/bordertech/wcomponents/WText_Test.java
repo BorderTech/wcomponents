@@ -47,9 +47,11 @@ public class WText_Test extends AbstractWComponentTestCase {
 		Assert.assertTrue("Should be in default state by default", wtf.isDefaultState());
 
 		wtf.setText(myText);
-		Assert.assertFalse("Should not be in default state after setting different text", wtf.isDefaultState());
+		Assert.assertFalse("Should not be in default state after setting different text", wtf.
+				isDefaultState());
 
 		wtf.setText(defaultText);
-		Assert.assertTrue("Should be in default state after setting text to default text", wtf.isDefaultState());
+		Assert.assertTrue("Should be in default state after setting text to default text", wtf.
+				isDefaultState());
 	}
 }

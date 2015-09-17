@@ -23,7 +23,8 @@ public class WCheckBoxRenderer_Test extends AbstractWebXmlRendererTestCase {
 	@Test
 	public void testRendererCorrectlyConfigured() {
 		WCheckBox component = new WCheckBox();
-		Assert.assertTrue("Incorrect renderer supplied", getWebXmlRenderer(component) instanceof WCheckBoxRenderer);
+		Assert.assertTrue("Incorrect renderer supplied",
+				getWebXmlRenderer(component) instanceof WCheckBoxRenderer);
 	}
 
 	@Test

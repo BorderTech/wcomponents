@@ -29,21 +29,24 @@ public class VelocityInterceptor_Test extends AbstractWComponentTestCase {
 		RenderContext renderContext = new WebXmlRenderContext(printWriter);
 		MyVelocityComponent component = new MyVelocityComponent();
 
-		component.setTemplate("com/github/bordertech/wcomponents/container/VelocityComponent_Test1.vm");
+		component.setTemplate(
+				"com/github/bordertech/wcomponents/container/VelocityComponent_Test1.vm");
 		component.paint(renderContext);
 		String renderedFormat = stringWriter.toString().trim();
 		Assert.assertEquals("Incorrect rendered format", TEST_VALUE, renderedFormat);
 
 		// Errors in a template should not throw an exception, or render anything
 		// Method called using reflection that results in a MethodInvocationException
-		component.setTemplate("com/github/bordertech/wcomponents/container/VelocityComponent_Test2.vm");
+		component.setTemplate(
+				"com/github/bordertech/wcomponents/container/VelocityComponent_Test2.vm");
 		stringWriter.getBuffer().setLength(0);
 		component.paint(renderContext);
 		renderedFormat = stringWriter.toString().trim();
 		Assert.assertEquals("Incorrect rendered format", "", renderedFormat);
 
 		// Template that #includes a non-existant template
-		component.setTemplate("com/github/bordertech/wcomponents/container/VelocityComponent_Test3.vm");
+		component.setTemplate(
+				"com/github/bordertech/wcomponents/container/VelocityComponent_Test3.vm");
 		stringWriter.getBuffer().setLength(0);
 		component.paint(renderContext);
 		renderedFormat = stringWriter.toString().trim();
@@ -65,8 +68,8 @@ public class VelocityInterceptor_Test extends AbstractWComponentTestCase {
 	}
 
 	/**
-	 * A test object containing a "bad method" that throws an exception. This class needs to be
-	 * public so that the methods can be used from a Velocity template.
+	 * A test object containing a "bad method" that throws an exception. This class needs to be public so that the
+	 * methods can be used from a Velocity template.
 	 *
 	 * @author Yiannis Paschalidis
 	 */

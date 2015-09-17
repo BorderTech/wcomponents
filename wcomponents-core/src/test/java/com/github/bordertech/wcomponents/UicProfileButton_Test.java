@@ -40,7 +40,8 @@ public class UicProfileButton_Test extends AbstractWComponentTestCase {
 
 		button.afterPaint(new WebXmlRenderContext(writer));
 
-		Assert.assertEquals("for button not pressed afterPaint writer output should be empty", strWriter.toString(), "");
+		Assert.assertEquals("for button not pressed afterPaint writer output should be empty",
+				strWriter.toString(), "");
 	}
 
 	@Test
@@ -55,8 +56,11 @@ public class UicProfileButton_Test extends AbstractWComponentTestCase {
 
 		button.afterPaint(new WebXmlRenderContext(writer));
 
-		Assert.assertTrue("for button pressed afterpaint writer output should start with <br/><br/>", strWriter.toString()
-				.startsWith("<br/><br/>"));
+		Assert.
+				assertTrue(
+						"for button pressed afterpaint writer output should start with <br/><br/>",
+						strWriter.toString()
+						.startsWith("<br/><br/>"));
 	}
 
 	@Test
@@ -70,13 +74,16 @@ public class UicProfileButton_Test extends AbstractWComponentTestCase {
 		String result = button.dumpAll().toString();
 
 		// result table contains class name
-		Assert.assertTrue("dump table should contain component class name", result.indexOf("<td>" + button.getClass().getName() + "</td>") != -1);
+		Assert.assertTrue("dump table should contain component class name", result.indexOf(
+				"<td>" + button.getClass().getName() + "</td>") != -1);
 
 		// result table contains component id
-		Assert.assertTrue("dump table should contain component id", result.indexOf("<td>" + button.getId() + "</td>") != -1);
+		Assert.assertTrue("dump table should contain component id", result.indexOf("<td>" + button.
+				getId() + "</td>") != -1);
 
 		// result table contains isSerialisable
-		Assert.assertTrue("dump table should contain serialisability", result.indexOf("<td>true</td>") != -1);
+		Assert.assertTrue("dump table should contain serialisability", result.indexOf(
+				"<td>true</td>") != -1);
 
 		// result table contains size
 		Assert.assertTrue("dump table should contain size", result.indexOf("<td>0</td></tr>") != -1);

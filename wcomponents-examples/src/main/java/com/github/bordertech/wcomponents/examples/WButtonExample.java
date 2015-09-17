@@ -61,7 +61,8 @@ public class WButtonExample extends WPanel implements MessageContainer {
 
 		// Button rendered as a link
 		add(new WHeading(WHeading.MAJOR, "Link button"));
-		add(new ExplanatoryText("It is a mere design artifact to make a button look like a link but it is strongly recommended that you do not do this as it can cause issues for users."));
+		add(new ExplanatoryText(
+				"It is a mere design artifact to make a button look like a link but it is strongly recommended that you do not do this as it can cause issues for users."));
 
 		linkBtn.setRenderAsLink(true);
 		add(linkBtn);
@@ -98,8 +99,8 @@ public class WButtonExample extends WPanel implements MessageContainer {
 	}
 
 	/**
-	 * An example to cover the gamut of image buttons both with and without visible text and with
-	 * both renderAsLink and render as button.
+	 * An example to cover the gamut of image buttons both with and without visible text and with both renderAsLink and
+	 * render as button.
 	 */
 	private void addImageExamples() {
 		// Button rendered with an image only
@@ -107,40 +108,52 @@ public class WButtonExample extends WPanel implements MessageContainer {
 		add(new ExplanatoryText("This example shows how to use an image inside a WButton."));
 
 		add(new WHeading(WHeading.SECTION, "Just an image"));
-		add(new ExplanatoryText("This example shows how to use an image as the only content of a WButton. "
+		add(new ExplanatoryText(
+				"This example shows how to use an image as the only content of a WButton. "
 				+ "The button must still have text content to adequately explain the button's purpose."));
 
 		add(new WHeading(WHeading.MINOR, "Image in a button"));
 		add(makeImageButton("Save", false));
 
 		add(new WHeading(WHeading.MINOR, "Image button without button style"));
-		add(new ExplanatoryText("This example shows how to use an image as the only content of a WButton when styled to be without its button appearance. "
+		add(new ExplanatoryText(
+				"This example shows how to use an image as the only content of a WButton when styled to be without its button appearance. "
 				+ "If you are creating a button containing only an image you should be careful as it may not be obvious to the application user that the 'image' is actually a 'button'."
 				+ "The button must still have text content to adequately explain the button's purpose."));
 		add(makeImageButton("Save", true));
 
 		add(new WHeading(WHeading.SECTION, "Image and text"));
-		add(new ExplanatoryText("This example shows how to use an image and text as the content of a button."));
+		add(new ExplanatoryText(
+				"This example shows how to use an image and text as the content of a button."));
 
 		add(new WHeading(WHeading.MINOR, "Rendered as a button"));
 
 		WPanel buttonLayoutPanel = new WPanel(WPanel.Type.FEATURE);
-		buttonLayoutPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 6, 0, FlowLayout.ContentAlignment.BOTTOM));
+		buttonLayoutPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 6, 0,
+				FlowLayout.ContentAlignment.BOTTOM));
 		add(buttonLayoutPanel);
-		buttonLayoutPanel.add(makeImageButtonWithPosition("Image on the North", ImagePosition.NORTH));
+		buttonLayoutPanel.
+				add(makeImageButtonWithPosition("Image on the North", ImagePosition.NORTH));
 		buttonLayoutPanel.add(makeImageButtonWithPosition("Image on the East", ImagePosition.EAST));
-		buttonLayoutPanel.add(makeImageButtonWithPosition("Image on the South", ImagePosition.SOUTH));
+		buttonLayoutPanel.
+				add(makeImageButtonWithPosition("Image on the South", ImagePosition.SOUTH));
 		buttonLayoutPanel.add(makeImageButtonWithPosition("Image on the West", ImagePosition.WEST));
 
 		add(new WHeading(WHeading.MINOR, "Rendered as a link"));
-		add(new ExplanatoryText("This example shows how to use an image and text as the content of a button without the button styling."));
+		add(new ExplanatoryText(
+				"This example shows how to use an image and text as the content of a button without the button styling."));
 		buttonLayoutPanel = new WPanel(WPanel.Type.FEATURE);
-		buttonLayoutPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 6, 0, FlowLayout.ContentAlignment.BOTTOM));
+		buttonLayoutPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 6, 0,
+				FlowLayout.ContentAlignment.BOTTOM));
 		add(buttonLayoutPanel);
-		buttonLayoutPanel.add(makeImageButtonWithPosition("Image on the North", ImagePosition.NORTH, true));
-		buttonLayoutPanel.add(makeImageButtonWithPosition("Image on the East", ImagePosition.EAST, true));
-		buttonLayoutPanel.add(makeImageButtonWithPosition("Image on the South", ImagePosition.SOUTH, true));
-		buttonLayoutPanel.add(makeImageButtonWithPosition("Image on the West", ImagePosition.WEST, true));
+		buttonLayoutPanel.add(makeImageButtonWithPosition("Image on the North", ImagePosition.NORTH,
+				true));
+		buttonLayoutPanel.add(makeImageButtonWithPosition("Image on the East", ImagePosition.EAST,
+				true));
+		buttonLayoutPanel.add(makeImageButtonWithPosition("Image on the South", ImagePosition.SOUTH,
+				true));
+		buttonLayoutPanel.add(makeImageButtonWithPosition("Image on the West", ImagePosition.WEST,
+				true));
 	}
 
 	/**
@@ -151,7 +164,8 @@ public class WButtonExample extends WPanel implements MessageContainer {
 	 * @param asLink indicates the button should be rendered as a link
 	 * @return a button
 	 */
-	private WButton makeImageButtonWithPosition(final String text, final ImagePosition pos, final Boolean asLink) {
+	private WButton makeImageButtonWithPosition(final String text, final ImagePosition pos,
+			final Boolean asLink) {
 		WButton button = new WButton(text);
 		button.setImage("/image/tick.png");
 		if (pos != null) {
@@ -194,7 +208,8 @@ public class WButtonExample extends WPanel implements MessageContainer {
 	private void addDefaultSubmitButtonExample() {
 		add(new WHeading(WHeading.SECTION, "Default submit button"));
 
-		add(new ExplanatoryText("This example shows how to use an image as the only content of a WButton. "
+		add(new ExplanatoryText(
+				"This example shows how to use an image as the only content of a WButton. "
 				+ "In addition this text field submits the entire screen using the image button to the right of the field."));
 		// We use WFieldLayout to lay out a label:input pair. In this case the input is a
 		//compound control of a WTextField and a WButton.
@@ -230,7 +245,8 @@ public class WButtonExample extends WPanel implements MessageContainer {
 		add(new WHeading(WHeading.MAJOR, "Examples of disabled buttons"));
 
 		WPanel disabledButtonLayoutPanel = new WPanel(WPanel.Type.FEATURE);
-		disabledButtonLayoutPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 6, 0, FlowLayout.ContentAlignment.BASELINE));
+		disabledButtonLayoutPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 6, 0,
+				FlowLayout.ContentAlignment.BASELINE));
 		add(disabledButtonLayoutPanel);
 
 		WButton button = new WButton("Disabled button");
@@ -243,7 +259,8 @@ public class WButtonExample extends WPanel implements MessageContainer {
 
 		add(new WHeading(WHeading.SECTION, "Examples of disabled buttons displaying only an image"));
 		disabledButtonLayoutPanel = new WPanel(WPanel.Type.FEATURE);
-		disabledButtonLayoutPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 6, 0, FlowLayout.ContentAlignment.BASELINE));
+		disabledButtonLayoutPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 6, 0,
+				FlowLayout.ContentAlignment.BASELINE));
 		add(disabledButtonLayoutPanel);
 
 		button = new WButton("Disabled button");
@@ -258,10 +275,12 @@ public class WButtonExample extends WPanel implements MessageContainer {
 		button.setToolTip("Checking currently disabled");
 		disabledButtonLayoutPanel.add(button);
 
-		add(new WHeading(WHeading.SECTION, "Examples of disabled buttons displaying an image with imagePosition EAST"));
+		add(new WHeading(WHeading.SECTION,
+				"Examples of disabled buttons displaying an image with imagePosition EAST"));
 
 		disabledButtonLayoutPanel = new WPanel(WPanel.Type.FEATURE);
-		disabledButtonLayoutPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 6, 0, FlowLayout.ContentAlignment.BASELINE));
+		disabledButtonLayoutPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 6, 0,
+				FlowLayout.ContentAlignment.BASELINE));
 		add(disabledButtonLayoutPanel);
 		button = new WButton("Disabled button");
 		button.setDisabled(true);
@@ -283,7 +302,8 @@ public class WButtonExample extends WPanel implements MessageContainer {
 	 */
 	private void addAntiPatternExamples() {
 		add(new WHeading(WHeading.MAJOR, "WButton anti-pattern examples"));
-		add(new WMessageBox(WMessageBox.WARN, "These examples are purposely bad and should not be used as samples of how to use WComponents but samples of how NOT to use them."));
+		add(new WMessageBox(WMessageBox.WARN,
+				"These examples are purposely bad and should not be used as samples of how to use WComponents but samples of how NOT to use them."));
 
 		add(new WHeading(WHeading.SECTION, "WButton without a good label"));
 		add(new WButton("\u2002"));
@@ -293,7 +313,8 @@ public class WButtonExample extends WPanel implements MessageContainer {
 		WButton button = new WButton("\u00a0");
 		button.setImage("/image/help.png");
 		add(button);
-		add(new ExplanatoryText("A button without a text label is very bad, even if you think the image is sufficient. The text label becomes the image alt text."));
+		add(new ExplanatoryText(
+				"A button without a text label is very bad, even if you think the image is sufficient. The text label becomes the image alt text."));
 
 	}
 
@@ -306,8 +327,8 @@ public class WButtonExample extends WPanel implements MessageContainer {
 	}
 
 	/**
-	 * Override handleRequest in order to perform processing specific to this example. Normally, you
-	 * would attach actions to a button rather than calling "isPressed" on each button.
+	 * Override handleRequest in order to perform processing specific to this example. Normally, you would attach
+	 * actions to a button rather than calling "isPressed" on each button.
 	 *
 	 * @param request the request being responded to.
 	 */

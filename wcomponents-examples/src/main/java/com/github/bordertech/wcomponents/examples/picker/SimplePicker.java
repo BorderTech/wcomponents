@@ -217,9 +217,8 @@ public class SimplePicker extends WContainer implements MessageContainer {
 	}
 
 	/**
-	 * When the example picker starts up, we want to display the last selection the user made in
-	 * their previous session. We can do this because the list of recent selections is stored in a
-	 * file on the file system.
+	 * When the example picker starts up, we want to display the last selection the user made in their previous session.
+	 * We can do this because the list of recent selections is stored in a file on the file system.
 	 *
 	 * @param request the request being responded to.
 	 */
@@ -261,8 +260,8 @@ public class SimplePicker extends WContainer implements MessageContainer {
 	}
 
 	/**
-	 * Override afterPaint in order to paint the UIContext serialization statistics if the profile
-	 * button has been pressed.
+	 * Override afterPaint in order to paint the UIContext serialization statistics if the profile button has been
+	 * pressed.
 	 *
 	 * @param renderContext the renderContext to send output to.
 	 */
@@ -358,7 +357,8 @@ public class SimplePicker extends WContainer implements MessageContainer {
 
 		if (selectedComponent == null) {
 			// Can't load selected component.
-			WMessages.getInstance(this).error("Unable to load example: " + selection + ", see log for details.");
+			WMessages.getInstance(this).error(
+					"Unable to load example: " + selection + ", see log for details.");
 			return;
 		}
 
@@ -619,10 +619,9 @@ public class SimplePicker extends WContainer implements MessageContainer {
 		}
 
 		/**
-		 * Based on selection it is responsible for displaying a WComponent and making sure the
-		 * recent list is updated. If selectionText is supplied then it is selected and if not then
-		 * example list is checked. If these both are not supplied then it looks for recent list
-		 * selection.
+		 * Based on selection it is responsible for displaying a WComponent and making sure the recent list is updated.
+		 * If selectionText is supplied then it is selected and if not then example list is checked. If these both are
+		 * not supplied then it looks for recent list selection.
 		 */
 		private void doSelect() {
 			String selection = "";

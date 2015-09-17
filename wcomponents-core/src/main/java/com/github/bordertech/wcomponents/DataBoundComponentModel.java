@@ -28,8 +28,8 @@ public class DataBoundComponentModel extends ComponentModel {
 	}
 
 	/**
-	 * Resets the data to the default value. Only has an effect for session component models (ie.
-	 * those with a shared model set).
+	 * Resets the data to the default value. Only has an effect for session component models (ie. those with a shared
+	 * model set).
 	 */
 	public void resetData() {
 		ComponentModel sharedModel = getSharedModel();

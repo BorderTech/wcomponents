@@ -110,7 +110,8 @@ final class MenuPanel extends WPanel {
 		}
 
 		for (ExampleData entry : entries) {
-			WDecoratedLabel label = new WDecoratedLabel(new WAbbrText(entry.getExampleName(), entry.getExampleClass()
+			WDecoratedLabel label = new WDecoratedLabel(new WAbbrText(entry.getExampleName(), entry.
+					getExampleClass()
 					.getName()));
 			WMenuItem item = new WMenuItem(label, new SelectExampleAction());
 			item.setActionObject(entry);
@@ -130,17 +131,17 @@ final class MenuPanel extends WPanel {
 	 * @param data the example data instance.
 	 */
 	private void addExample(final String text, final ExampleData data) {
-		WDecoratedLabel label = new WDecoratedLabel(new WAbbrText(text, data.getExampleClass().getName()));
+		WDecoratedLabel label = new WDecoratedLabel(new WAbbrText(text, data.getExampleClass().
+				getName()));
 		WMenuItem item = new WMenuItem(label, new SelectExampleAction());
 		item.setActionObject(data);
 		recentMenu.add(item);
 	}
 
 	/**
-	 * Retrieves the closest known match to a WComponent (or example) which this MenuPanel knows
-	 * about. A fully qualified class name or partial name may be provided. A fully qualified match
-	 * is returned in preference to a partial one. Partial name matching is case-insensitivie, for
-	 * example "prog" will match "WProgressBarExample".
+	 * Retrieves the closest known match to a WComponent (or example) which this MenuPanel knows about. A fully
+	 * qualified class name or partial name may be provided. A fully qualified match is returned in preference to a
+	 * partial one. Partial name matching is case-insensitivie, for example "prog" will match "WProgressBarExample".
 	 *
 	 * @param className the component class name to search for.
 	 * @return the class for the given name, or null if not found.
@@ -248,8 +249,8 @@ final class MenuPanel extends WPanel {
 	}
 
 	/**
-	 * Adds an example to the list of recently accessed examples. The list of recently examples will
-	 * be persisted to the file system.
+	 * Adds an example to the list of recently accessed examples. The list of recently examples will be persisted to the
+	 * file system.
 	 *
 	 * @param data the data for the recently accessed example.
 	 */
@@ -297,14 +298,15 @@ final class MenuPanel extends WPanel {
 				addExample(builder.toString(), data);
 			} catch (Exception e) {
 				i.remove();
-				LogFactory.getLog(getClass()).error("Unable to read recent class: " + data.getExampleName());
+				LogFactory.getLog(getClass()).error("Unable to read recent class: " + data.
+						getExampleName());
 			}
 		}
 	}
 
 	/**
-	 * Override preparePaintComponent in order to populate the recently accessed menu when a user
-	 * accesses this panel for the first time.
+	 * Override preparePaintComponent in order to populate the recently accessed menu when a user accesses this panel
+	 * for the first time.
 	 *
 	 * @param request the request being responded to.
 	 */

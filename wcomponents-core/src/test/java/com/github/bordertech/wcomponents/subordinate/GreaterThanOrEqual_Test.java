@@ -37,13 +37,15 @@ public class GreaterThanOrEqual_Test extends AbstractWComponentTestCase {
 		GreaterThanOrEqual compare = new GreaterThanOrEqual(trigger, value);
 
 		Assert.assertEquals("Value for GreaterThanOrEqual is incorrect", value, compare.getValue());
-		Assert.assertEquals("Trigger for GreaterThanOrEqual should be the trigger", trigger, compare.getTrigger());
+		Assert.assertEquals("Trigger for GreaterThanOrEqual should be the trigger", trigger,
+				compare.getTrigger());
 	}
 
 	@Test
 	public void testCompareType() {
 		GreaterThanOrEqual compare = new GreaterThanOrEqual(new MyTrigger(), null);
-		Assert.assertEquals("Incorrect Compare Type", AbstractCompare.CompareType.GREATER_THAN_OR_EQUAL,
+		Assert.assertEquals("Incorrect Compare Type",
+				AbstractCompare.CompareType.GREATER_THAN_OR_EQUAL,
 				compare.getCompareType());
 	}
 
@@ -56,27 +58,33 @@ public class GreaterThanOrEqual_Test extends AbstractWComponentTestCase {
 		GreaterThanOrEqual compare = new GreaterThanOrEqual(trigger, EQ_VALUE);
 
 		trigger.setNumber(null);
-		Assert.assertFalse("Greater Than Or Equal - Compare for null value should be false", compare.execute());
+		Assert.assertFalse("Greater Than Or Equal - Compare for null value should be false",
+				compare.execute());
 
 		trigger.setNumber(LT_VALUE);
-		Assert.assertFalse("Greater Than Or Equal - Compare for less value should be false", compare.execute());
+		Assert.assertFalse("Greater Than Or Equal - Compare for less value should be false",
+				compare.execute());
 
 		trigger.setNumber(EQ_VALUE);
-		Assert.assertTrue("Greater Than Or Equal - Compare for equal value should be true", compare.execute());
+		Assert.assertTrue("Greater Than Or Equal - Compare for equal value should be true", compare.
+				execute());
 
 		trigger.setNumber(GT_VALUE);
-		Assert.assertTrue("Greater Than Or Equal - Compare for greater value should be true", compare.execute());
+		Assert.assertTrue("Greater Than Or Equal - Compare for greater value should be true",
+				compare.execute());
 
 		// ------------------------------
 		// Setup GREATER THAN - with null value
 		compare = new GreaterThanOrEqual(trigger, null);
 
 		trigger.setNumber(null);
-		Assert.assertTrue("Greater Than Or Equal With Null Value - Compare for null value should be true",
+		Assert.assertTrue(
+				"Greater Than Or Equal With Null Value - Compare for null value should be true",
 				compare.execute());
 
 		trigger.setNumber(EQ_VALUE);
-		Assert.assertFalse("Greater Than Or Equal With Null Value - Compare for value should be false",
+		Assert.assertFalse(
+				"Greater Than Or Equal With Null Value - Compare for value should be false",
 				compare.execute());
 	}
 
@@ -85,10 +93,13 @@ public class GreaterThanOrEqual_Test extends AbstractWComponentTestCase {
 		MyTrigger trigger = new MyTrigger();
 
 		GreaterThanOrEqual compare = new GreaterThanOrEqual(trigger, "1");
-		Assert.assertEquals("Incorrect toString for compare", "MyTrigger>=\"1\"", compare.toString());
+		Assert.
+				assertEquals("Incorrect toString for compare", "MyTrigger>=\"1\"", compare.
+						toString());
 
 		WLabel label = new WLabel("test label", trigger);
-		Assert.assertEquals("Incorrect toString for compare with a label", label.getText() + ">=\"1\"", compare.toString());
+		Assert.assertEquals("Incorrect toString for compare with a label",
+				label.getText() + ">=\"1\"", compare.toString());
 	}
 
 	/**

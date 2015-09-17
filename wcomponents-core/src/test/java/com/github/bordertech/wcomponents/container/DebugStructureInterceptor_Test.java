@@ -42,7 +42,8 @@ public class DebugStructureInterceptor_Test extends AbstractWebXmlRendererTestCa
 		assertXpathEvaluatesTo(new WApplication().getId(), "//ui:debugInfo/@for", xml);
 		assertXpathEvaluatesTo(WApplication.class.getName(), "//ui:debug/ui:debugInfo/@class", xml);
 		assertXpathEvaluatesTo(WApplication.class.getName(), "//ui:debug/ui:debugInfo/@type", xml);
-		assertXpathEvaluatesTo("false", "//ui:debug/ui:debugInfo/ui:debugDetail[@key='defaultState']/@value", xml);
+		assertXpathEvaluatesTo("false",
+				"//ui:debug/ui:debugInfo/ui:debugDetail[@key='defaultState']/@value", xml);
 	}
 
 	/**

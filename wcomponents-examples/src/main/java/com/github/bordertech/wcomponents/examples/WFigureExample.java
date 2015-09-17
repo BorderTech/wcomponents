@@ -37,7 +37,8 @@ public class WFigureExample extends WContainer {
 	/**
 	 * Image resource.
 	 */
-	private static final ImageResource IMAGE_RESOURCE = new ImageResource("/com/github/bordertech/wcomponents/examples/portlet-portrait.jpg", "Portrait");
+	private static final ImageResource IMAGE_RESOURCE = new ImageResource(
+			"/com/github/bordertech/wcomponents/examples/portlet-portrait.jpg", "Portrait");
 
 	/**
 	 * Build example.

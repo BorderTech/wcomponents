@@ -28,7 +28,9 @@ public class WSubordinateControl_Test extends AbstractWComponentTestCase {
 		Assert.assertTrue("Controls should be empty", control.getRules().isEmpty());
 		control.addRule(rule1);
 		Assert.assertEquals("Controls list should have 1 item", 1, control.getRules().size());
-		Assert.assertEquals("Item 1 in Controls list is incorrect", rule1, control.getRules().get(0));
+		Assert.
+				assertEquals("Item 1 in Controls list is incorrect", rule1, control.getRules().
+						get(0));
 		try {
 			control.addRule(null);
 			Assert.fail("Should not be able to add a null control.");
@@ -71,7 +73,9 @@ public class WSubordinateControl_Test extends AbstractWComponentTestCase {
 		setupCheckBoxRequest(box, request, true);
 		// ApplyControls with Request
 		control.applyTheControls(request);
-		Assert.assertTrue("Request - After applyControls target should be hidden", target.isHidden());
+		Assert.
+				assertTrue("Request - After applyControls target should be hidden", target.
+						isHidden());
 	}
 
 	@Test
@@ -98,7 +102,8 @@ public class WSubordinateControl_Test extends AbstractWComponentTestCase {
 	 * @param request the request being setup
 	 * @param condition true if checked
 	 */
-	private void setupCheckBoxRequest(final WCheckBox target, final MockRequest request, final boolean condition) {
+	private void setupCheckBoxRequest(final WCheckBox target, final MockRequest request,
+			final boolean condition) {
 		if (condition) {
 			request.setParameter(target.getId(), "true");
 		}

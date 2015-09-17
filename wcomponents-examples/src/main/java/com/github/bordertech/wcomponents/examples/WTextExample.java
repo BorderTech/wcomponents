@@ -142,9 +142,8 @@ public class WTextExample extends WPanel {
 	private static final class ExampleBeanProvider implements BeanProvider, Serializable {
 
 		/**
-		 * This method is called whenever the BeanProviderBound component wants to access the Bean.
-		 * The id (cache key, primary key, etc.) is retrieved from the component. This
-		 * implementation just "fakes" a service call.
+		 * This method is called whenever the BeanProviderBound component wants to access the Bean. The id (cache key,
+		 * primary key, etc.) is retrieved from the component. This implementation just "fakes" a service call.
 		 *
 		 * @param beanProviderBound the provider bound component that wishes to retrieve the bean.
 		 * @return the bean, or null if the bean id was null.

@@ -38,7 +38,8 @@ public class SimpleBeanListTableDataModel_Test {
 			new PersonBean("first2", "last3")
 		};
 
-		model = new SimpleBeanListTableDataModel(new String[]{".", "givenNames", "lastName"}, Arrays.asList(beans));
+		model = new SimpleBeanListTableDataModel(new String[]{".", "givenNames", "lastName"},
+				Arrays.asList(beans));
 	}
 
 	@Test
@@ -49,9 +50,12 @@ public class SimpleBeanListTableDataModel_Test {
 	@Test
 	public void testGetValueAt() {
 		for (int i = 0; i < beans.length; i++) {
-			Assert.assertEquals("Incorrect value at row " + i + " column 0", beans[i], model.getValueAt(i, 0));
-			Assert.assertEquals("Incorrect value at row " + i + " column 1", beans[i].getGivenNames(), model.getValueAt(i, 1));
-			Assert.assertEquals("Incorrect value at row " + i + " column 2", beans[i].getLastName(), model.getValueAt(i, 2));
+			Assert.assertEquals("Incorrect value at row " + i + " column 0", beans[i], model.
+					getValueAt(i, 0));
+			Assert.assertEquals("Incorrect value at row " + i + " column 1", beans[i].
+					getGivenNames(), model.getValueAt(i, 1));
+			Assert.assertEquals("Incorrect value at row " + i + " column 2", beans[i].getLastName(),
+					model.getValueAt(i, 2));
 		}
 	}
 
@@ -63,12 +67,14 @@ public class SimpleBeanListTableDataModel_Test {
 
 		model.setComparator(1, new ComparableComparator());
 		Assert.assertFalse("Column 0 should not be sortable by default", model.isSortable(0));
-		Assert.assertTrue("Column 1 should be sortable after comparator has been set", model.isSortable(1));
+		Assert.assertTrue("Column 1 should be sortable after comparator has been set", model.
+				isSortable(1));
 		Assert.assertFalse("Column 2 should not be sortable by default", model.isSortable(2));
 
 		model.setComparator(1, null);
 		Assert.assertFalse("Column 0 should not be sortable by default", model.isSortable(0));
-		Assert.assertFalse("Column 1 should be sortable after comparator has been removed", model.isSortable(1));
+		Assert.assertFalse("Column 1 should be sortable after comparator has been removed", model.
+				isSortable(1));
 		Assert.assertFalse("Column 2 should not be sortable by default", model.isSortable(2));
 	}
 
@@ -79,11 +85,14 @@ public class SimpleBeanListTableDataModel_Test {
 
 		model.setEditable(true);
 		Assert.assertTrue("Should be editable after call to setEditable(true)", model.isEditable());
-		Assert.assertTrue("Should be editable after call to setEditable(true)", model.isCellEditable(0, 0));
+		Assert.assertTrue("Should be editable after call to setEditable(true)", model.
+				isCellEditable(0, 0));
 
 		model.setEditable(false);
-		Assert.assertFalse("Should not be editable after call to setEditable(false)", model.isEditable());
-		Assert.assertFalse("Should not be editable after call to setEditable(false)", model.isCellEditable(0, 0));
+		Assert.assertFalse("Should not be editable after call to setEditable(false)", model.
+				isEditable());
+		Assert.assertFalse("Should not be editable after call to setEditable(false)", model.
+				isCellEditable(0, 0));
 	}
 
 	@Test(expected = IllegalStateException.class)
@@ -125,14 +134,16 @@ public class SimpleBeanListTableDataModel_Test {
 		int[] sortIndices = model.sort(1, true);
 
 		for (int i = 0; i < beans.length; i++) {
-			Assert.assertEquals("Incorrect value at row " + i + " after asc sort", beanList.get(i), model.getValueAt(sortIndices[i], 0));
+			Assert.assertEquals("Incorrect value at row " + i + " after asc sort", beanList.get(i),
+					model.getValueAt(sortIndices[i], 0));
 		}
 
 		Collections.reverse(beanList);
 		sortIndices = model.sort(1, false);
 
 		for (int i = 0; i < beans.length; i++) {
-			Assert.assertEquals("Incorrect value at row " + i + " after desc sort", beanList.get(i), model.getValueAt(sortIndices[i], 0));
+			Assert.assertEquals("Incorrect value at row " + i + " after desc sort", beanList.get(i),
+					model.getValueAt(sortIndices[i], 0));
 		}
 	}
 

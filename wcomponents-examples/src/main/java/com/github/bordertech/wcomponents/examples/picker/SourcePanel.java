@@ -48,8 +48,7 @@ public class SourcePanel extends WPanel {
 	}
 
 	/**
-	 * Override afterPaint in order to render the additional mark-up required for client-side syntax
-	 * highligthing.
+	 * Override afterPaint in order to render the additional mark-up required for client-side syntax highligthing.
 	 *
 	 * @param renderContext the renderContext to send output to.
 	 */
@@ -61,7 +60,8 @@ public class SourcePanel extends WPanel {
 			PrintWriter writer = ((WebXmlRenderContext) renderContext).getWriter();
 
 			// Kick of the syntax highlighting
-			writer.write("<script type='text/javascript'>if (window.doHighlighting) doHighlighting('" + getId() + "');</script>");
+			writer.write(
+					"<script type='text/javascript'>if (window.doHighlighting) doHighlighting('" + getId() + "');</script>");
 		}
 	}
 }

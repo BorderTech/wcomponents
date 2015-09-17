@@ -18,10 +18,12 @@ public class WFieldWarningIndicator_Test extends AbstractWComponentTestCase {
 		WTextField component = new WTextField();
 		WFieldWarningIndicator indicator = new WFieldWarningIndicator(component);
 
-		Assert.assertEquals("Incorrect indicator type", AbstractWFieldIndicator.FieldIndicatorType.WARN, indicator
+		Assert.assertEquals("Incorrect indicator type",
+				AbstractWFieldIndicator.FieldIndicatorType.WARN, indicator
 				.getFieldIndicatorType());
 		Assert.assertEquals("Incorrect releated field", component, indicator.getRelatedField());
 
-		Assert.assertEquals("Incorrect releated field id", component.getId(), indicator.getRelatedFieldId());
+		Assert.assertEquals("Incorrect releated field id", component.getId(), indicator.
+				getRelatedFieldId());
 	}
 }

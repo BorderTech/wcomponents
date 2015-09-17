@@ -157,7 +157,9 @@ public class AbstractWSelectList_Test extends AbstractWComponentTestCase {
 		int expectedIndex = 2;
 		String lookedForOption = "B";
 		String result = list.optionToCode(lookedForOption);
-		Assert.assertEquals("should have found option in options set", String.valueOf(expectedIndex), result);
+		Assert.
+				assertEquals("should have found option in options set", String.
+						valueOf(expectedIndex), result);
 	}
 
 	@Test
@@ -169,7 +171,8 @@ public class AbstractWSelectList_Test extends AbstractWComponentTestCase {
 
 		// Right class - matching value
 		String result = list.optionToCode(option2);
-		Assert.assertEquals("Should have found option2 and returned its code", option2.getCode(), result);
+		Assert.assertEquals("Should have found option2 and returned its code", option2.getCode(),
+				result);
 	}
 
 	@Test
@@ -180,14 +183,17 @@ public class AbstractWSelectList_Test extends AbstractWComponentTestCase {
 
 		// Right class - matching value
 		String result = list.optionToCode(yesEntry);
-		Assert.assertEquals("Should have found table entry and returned its code", yesEntry.getCode(), result);
+		Assert.assertEquals("Should have found table entry and returned its code", yesEntry.
+				getCode(), result);
 	}
 
 	@Test
 	public void testGetListCacheKey() {
 		// With Cache Key
-		AbstractWSelectList list = new MyWSelectList(TestLookupTable.CACHEABLE_DAY_OF_WEEK_TABLE, true);
-		Assert.assertEquals("Incorrect cache key returned", TestLookupTable.CACHEABLE_DAY_OF_WEEK_TABLE,
+		AbstractWSelectList list = new MyWSelectList(TestLookupTable.CACHEABLE_DAY_OF_WEEK_TABLE,
+				true);
+		Assert.assertEquals("Incorrect cache key returned",
+				TestLookupTable.CACHEABLE_DAY_OF_WEEK_TABLE,
 				list.getListCacheKey());
 		// No Cache Key
 		list = new MyWSelectList(TestLookupTable.DayOfWeekTable.class, true);
@@ -197,7 +203,8 @@ public class AbstractWSelectList_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testOptionToString() {
 		AbstractWSelectList list = new MyWSelectList(null, true);
-		Assert.assertEquals("Incorrect string returned for option", "true", list.optionToString(Boolean.TRUE));
+		Assert.assertEquals("Incorrect string returned for option", "true", list.optionToString(
+				Boolean.TRUE));
 	}
 
 	@Test
@@ -220,11 +227,13 @@ public class AbstractWSelectList_Test extends AbstractWComponentTestCase {
 		setActiveContext(createUIContext());
 		list.setLookupTable(table2);
 		Assert.assertEquals("LookupTable with uic1 should be table2", table2, list.getLookupTable());
-		Assert.assertEquals("Incorrect options returned for table2 with uic", data2, list.getOptions());
+		Assert.assertEquals("Incorrect options returned for table2 with uic", data2, list.
+				getOptions());
 
 		resetContext();
 		Assert.assertEquals("Default lookupTable should be table1", table1, list.getLookupTable());
-		Assert.assertEquals("Incorrect default options returned for table1", data1, list.getOptions());
+		Assert.assertEquals("Incorrect default options returned for table1", data1, list.
+				getOptions());
 	}
 
 	@Test
@@ -254,7 +263,8 @@ public class AbstractWSelectList_Test extends AbstractWComponentTestCase {
 		WPanel target1 = new WPanel();
 		list.setAjaxTarget(target1);
 		Assert.assertEquals("Incorrect default Ajax Target returned", target1, list.getAjaxTarget());
-		Assert.assertEquals("Incorrect default Ajax Target returned for uic", target1, list.getAjaxTarget());
+		Assert.assertEquals("Incorrect default Ajax Target returned for uic", target1, list.
+				getAjaxTarget());
 		Assert.assertTrue("isAjax should default to true", list.isAjax());
 
 		// Change target on user context

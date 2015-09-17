@@ -22,10 +22,9 @@ import com.github.bordertech.wcomponents.WTextField;
 import java.util.Arrays;
 
 /**
- * This example is for internal testing. It comprises a set of controls which are each a trigger for
- * a WAjaxControl. There is then another WAjaxControl which replaces each of these original
- * controls. The point of this is to ensure that an ajax trigger remains an ajax trigger after it is
- * replaced.
+ * This example is for internal testing. It comprises a set of controls which are each a trigger for a WAjaxControl.
+ * There is then another WAjaxControl which replaces each of these original controls. The point of this is to ensure
+ * that an ajax trigger remains an ajax trigger after it is replaced.
  *
  * @author Mark Reeves
  * @since 1.0.0
@@ -174,9 +173,10 @@ public class AjaxReplaceControllerExample extends WPanel {
 				reset();
 			}
 		});
-		add(new WAjaxControl(ajaxButton, new AjaxTarget[]{controller, controller2, controller3, controller4,
-			controller5, controller6, controller7, controller8,
-			controller9, controller10}));
+		add(new WAjaxControl(ajaxButton,
+				new AjaxTarget[]{controller, controller2, controller3, controller4,
+					controller5, controller6, controller7, controller8,
+					controller9, controller10}));
 
 		// do the layout
 		final WFieldLayout layout = new WFieldLayout();

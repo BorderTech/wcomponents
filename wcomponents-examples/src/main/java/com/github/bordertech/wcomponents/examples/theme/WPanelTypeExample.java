@@ -45,7 +45,8 @@ public class WPanelTypeExample extends WContainer {
 		//a holder for the label, dropdown and refresh button
 		WPanel layoutPanel = new WPanel();
 		add(layoutPanel);
-		layoutPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 6, 0, FlowLayout.ContentAlignment.BASELINE));
+		layoutPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 6, 0,
+				FlowLayout.ContentAlignment.BASELINE));
 		layoutPanel.setMargin(new Margin(0, 0, 12, 0));
 		WLabel selectLabel = new WLabel("Select a WPanel Type", panelType);
 		layoutPanel.add(selectLabel);

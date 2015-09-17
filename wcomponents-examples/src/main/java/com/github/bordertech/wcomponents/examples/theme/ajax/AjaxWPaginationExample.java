@@ -66,7 +66,8 @@ public class AjaxWPaginationExample extends WContainer {
 			items.add(new SimpleTableBean("K", "little", "thing11"));
 			items.add(new SimpleTableBean("L", "lots", "thing12"));
 
-			table.setDataModel(new SimpleBeanListTableDataModel(new String[]{"name", "type", "thing"}, items));
+			table.setDataModel(new SimpleBeanListTableDataModel(
+					new String[]{"name", "type", "thing"}, items));
 			setInitialised(true);
 		}
 	}

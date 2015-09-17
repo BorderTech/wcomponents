@@ -449,8 +449,7 @@ public class InputBeanBindingExample extends WBeanContainer {
 	}
 
 	/**
-	 * Class used to display the WINput component as well as its current value and its corresponding
-	 * value on the bean.
+	 * Class used to display the WINput component as well as its current value and its corresponding value on the bean.
 	 */
 	public static class MyPanel extends WContainer {
 

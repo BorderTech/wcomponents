@@ -29,21 +29,18 @@ import com.github.bordertech.wcomponents.validator.RegExFieldValidator;
 
 /**
  * <p>
- * This <code>ValidatableComponent</code> just contains examples of validation of all the core
- * <code>WComponent</code>s.
+ * This <code>ValidatableComponent</code> just contains examples of validation of all the core <code>WComponent</code>s.
  * </p>
  * <p>
- * <b>NOTE:</b> This example makes use of the <code>WFieldLayout</code> and <code>WField</code>
- * components to provide alot of the ground work to do with validation of this component. The
- * <code>BasicFields</code> example from the <code>.../examples/validation/basic</code> package
- * shows a similar setup but without using the <code>WFieldLayout</code> and <code>WField</code>
- * components.
+ * <b>NOTE:</b> This example makes use of the <code>WFieldLayout</code> and <code>WField</code> components to provide
+ * alot of the ground work to do with validation of this component. The <code>BasicFields</code> example from the
+ * <code>.../examples/validation/basic</code> package shows a similar setup but without using the
+ * <code>WFieldLayout</code> and <code>WField</code> components.
  * </p>
  * <p>
- * The "sourceField" passed to the WFieldLayout (and the showErrorIndicators() method) must be
- * consistent with the type of validation being performed so that the error messages can be
- * successfully linked back to the appropriate input fields. (Another option would be to pass
- * validation to a Business Object instance).
+ * The "sourceField" passed to the WFieldLayout (and the showErrorIndicators() method) must be consistent with the type
+ * of validation being performed so that the error messages can be successfully linked back to the appropriate input
+ * fields. (Another option would be to pass validation to a Business Object instance).
  * </p>
  *
  * @author Adam Millard
@@ -103,7 +100,8 @@ public class CoreFields extends WPanel {
 		textField = new WTextField();
 		textField.setMinLength(2);
 		WField field = fields.addField("WTextField", textField);
-		field.addValidator(new RegExFieldValidator("^[a-zA-Z]*$", "{0} must only contain alphabetic characters."));
+		field.addValidator(new RegExFieldValidator("^[a-zA-Z]*$",
+				"{0} must only contain alphabetic characters."));
 		field.getLabel().setHint("Must contain only alphabetic characters.");
 
 		// text area.
@@ -148,7 +146,8 @@ public class CoreFields extends WPanel {
 		radioButtonGroupFieldSet.add(new WText("\u00a0"));
 		radioButtonGroupFieldSet.add(rb3);
 		radioButtonGroupFieldSet.add(new WLabel("Uncertain", rb3));
-		fields.addField("Radio Button Group", radioButtonGroupFieldSet).getLabel().setHint("required");
+		fields.addField("Radio Button Group", radioButtonGroupFieldSet).getLabel().setHint(
+				"required");
 		radioButtonGroupFieldSet.setMandatory(true);
 		radioButtonGroupFieldSet.add(rbgroup);
 
@@ -172,7 +171,8 @@ public class CoreFields extends WPanel {
 		multi.setMaxSelect(3);
 
 		multi.setMandatory(true);
-		fields.addField("WMultiSelect Min 2 Max 3", multi).getLabel().setHint("must select two or three options");
+		fields.addField("WMultiSelect Min 2 Max 3", multi).getLabel().setHint(
+				"must select two or three options");
 
 		// multi select field.
 		WField multiSelectPairField = fields.addField("WMultiSelectPair",
@@ -268,8 +268,8 @@ public class CoreFields extends WPanel {
 	}
 
 	/**
-	 * used to ensure that the fieldset holding the radio button group is highlighted rather than
-	 * the individual buttons.
+	 * used to ensure that the fieldset holding the radio button group is highlighted rather than the individual
+	 * buttons.
 	 *
 	 * @param diags the diagnosits list.
 	 */

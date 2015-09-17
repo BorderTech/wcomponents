@@ -8,26 +8,24 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * WSuggestions represents a device for providing suggested input for a text-like input field. The
- * suggestions may be a static list, derived from a data url or acquired on the fly (via AJAX) based
- * on user input into an associated input.
+ * WSuggestions represents a device for providing suggested input for a text-like input field. The suggestions may be a
+ * static list, derived from a data url or acquired on the fly (via AJAX) based on user input into an associated input.
  * <p>
- * WSuggestions has no effect unless it is associated with a text-like input control such as
- * WTextField. If it is associated with a constrained input (such as WEmailField) then it is
- * expected (but not enforced) that the suggestions would be in line with the associated field's
- * constraints.
+ * WSuggestions has no effect unless it is associated with a text-like input control such as WTextField. If it is
+ * associated with a constrained input (such as WEmailField) then it is expected (but not enforced) that the suggestions
+ * would be in line with the associated field's constraints.
  * </p>
  * <p>
- * It allows for client caching of frequently used lists via a data key or lists that can be
- * produced via AJAX depending on the text entered in the related TextField.
+ * It allows for client caching of frequently used lists via a data key or lists that can be produced via AJAX depending
+ * on the text entered in the related TextField.
  * </p>
  * <p>
  * Suggestions provided via a lookup table are cached on the client and filtered on the client.
  * </p>
  * <p>
- * To have a suggestion list dynamically updated via AJAX, do not use a lookup table, but manually
- * set the options and set a refresh action via {@link #setRefreshAction(Action)}. The text entered
- * by the user that triggered the refresh is provided by {@link #getAjaxFilter()}.
+ * To have a suggestion list dynamically updated via AJAX, do not use a lookup table, but manually set the options and
+ * set a refresh action via {@link #setRefreshAction(Action)}. The text entered by the user that triggered the refresh
+ * is provided by {@link #getAjaxFilter()}.
  * </p>
  *
  * @author Jonathan Austin
@@ -38,7 +36,8 @@ public class WSuggestions extends AbstractWComponent implements AjaxTarget {
 	/**
 	 * The Application-wide lookup-table to use.
 	 */
-	private static final LookupTable APPLICATION_LOOKUP_TABLE = Factory.newInstance(LookupTable.class);
+	private static final LookupTable APPLICATION_LOOKUP_TABLE = Factory.newInstance(
+			LookupTable.class);
 
 	/**
 	 * AJAX refresh command.
@@ -154,7 +153,8 @@ public class WSuggestions extends AbstractWComponent implements AjaxTarget {
 	public String getListCacheKey() {
 		Object table = getLookupTable();
 
-		if (table != null && Config.getInstance().getBoolean(AbstractWSelectList.DATALIST_CACHING_PARAM_KEY, false)) {
+		if (table != null && Config.getInstance().getBoolean(
+				AbstractWSelectList.DATALIST_CACHING_PARAM_KEY, false)) {
 			String key = APPLICATION_LOOKUP_TABLE.getCacheKeyForTable(table);
 			return key;
 		}
@@ -219,8 +219,8 @@ public class WSuggestions extends AbstractWComponent implements AjaxTarget {
 	}
 
 	/**
-	 * The minimum number of characters entered before refreshing suggestions. A value of zero
-	 * indicates to use the theme default, which is usually 3.
+	 * The minimum number of characters entered before refreshing suggestions. A value of zero indicates to use the
+	 * theme default, which is usually 3.
 	 *
 	 * @param min the minimum number of characters entered before refreshing suggestions.
 	 */
@@ -313,7 +313,8 @@ public class WSuggestions extends AbstractWComponent implements AjaxTarget {
 		 * @param suggestions the suggestions to set.
 		 */
 		private void setSuggestions(final List<String> suggestions) {
-			this.suggestions = suggestions == null ? null : Collections.unmodifiableList(suggestions);
+			this.suggestions = suggestions == null ? null : Collections.
+					unmodifiableList(suggestions);
 			lookupTable = null;
 		}
 

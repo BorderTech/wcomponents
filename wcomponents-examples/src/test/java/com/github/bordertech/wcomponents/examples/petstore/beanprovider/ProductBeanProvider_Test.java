@@ -20,7 +20,8 @@ public class ProductBeanProvider_Test {
 	@Test
 	public void testGetInstance() {
 		Object object = ProductBeanProvider.getInstance();
-		Assert.assertTrue("should return instance of ProductBeanProvider", object instanceof ProductBeanProvider);
+		Assert.assertTrue("should return instance of ProductBeanProvider",
+				object instanceof ProductBeanProvider);
 	}
 
 	/**
@@ -38,7 +39,8 @@ public class ProductBeanProvider_Test {
 		Object obj = provider.getBean(beanProviderBound);
 
 		Assert.assertTrue("should return a ProductBean", obj instanceof ProductBean);
-		Assert.assertEquals("the ProductBean should have the requested productId", testProductId, ((ProductBean) obj).getId());
+		Assert.assertEquals("the ProductBean should have the requested productId", testProductId,
+				((ProductBean) obj).getId());
 	}
 
 	/**

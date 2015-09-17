@@ -1,22 +1,21 @@
 package com.github.bordertech.wcomponents;
 
 /**
- * This class is a convenience WComponent that is bound to a data object. It keeps hold of the data
- * object supplied via the setData method, and returns that same instance in the getData method. The
- * data object is kept in sync with the users actions every request/response cycle.
+ * This class is a convenience WComponent that is bound to a data object. It keeps hold of the data object supplied via
+ * the setData method, and returns that same instance in the getData method. The data object is kept in sync with the
+ * users actions every request/response cycle.
  *
  * @author Martin Shevchenko
  */
 public class WDataRenderer extends WContainer {
 
 	/**
-	 * Subclasses must override this method if they need to keep the data object bound to this
-	 * wcomponent in sync with changes entered by the user. Extensions of this class that act as
-	 * editors will need to override this method.
+	 * Subclasses must override this method if they need to keep the data object bound to this wcomponent in sync with
+	 * changes entered by the user. Extensions of this class that act as editors will need to override this method.
 	 *
 	 * <p>
-	 * In terms of the MVC pattern this method copies data from the View into the Model. Note that
-	 * this method is the reverse of updateComponent.
+	 * In terms of the MVC pattern this method copies data from the View into the Model. Note that this method is the
+	 * reverse of updateComponent.
 	 *
 	 * <p>
 	 * NOTE: This method will only be called if {@link #getData()} does not return null.
@@ -37,12 +36,12 @@ public class WDataRenderer extends WContainer {
 	}
 
 	/**
-	 * Subclasses must override this method if they need to keep this wcomponent in sync with the
-	 * data object. The data object may have been modified by other wcomponents, or control logic.
+	 * Subclasses must override this method if they need to keep this wcomponent in sync with the data object. The data
+	 * object may have been modified by other wcomponents, or control logic.
 	 *
 	 * <p>
-	 * In terms of the MVC pattern this method copies data from the Model into the View. Note that
-	 * this method is the reverse of updateData.
+	 * In terms of the MVC pattern this method copies data from the Model into the View. Note that this method is the
+	 * reverse of updateData.
 	 *
 	 * <p>
 	 * NOTE: This method will only be called if {@link #getData()} does not return null.
@@ -63,8 +62,8 @@ public class WDataRenderer extends WContainer {
 	}
 
 	/**
-	 * The handleRequest method has been overridden to keep the data object bound to this wcomponent
-	 * in sync with any changes the user has entered.
+	 * The handleRequest method has been overridden to keep the data object bound to this wcomponent in sync with any
+	 * changes the user has entered.
 	 *
 	 * @param request the Request being responded to.
 	 */
@@ -83,9 +82,8 @@ public class WDataRenderer extends WContainer {
 	}
 
 	/**
-	 * The preparePaintComponent method has been overridden to keep the data object bound to this
-	 * wcomponent in sync with any changes that control logic (Action implementations) or other
-	 * wcomponents have made to the data.
+	 * The preparePaintComponent method has been overridden to keep the data object bound to this wcomponent in sync
+	 * with any changes that control logic (Action implementations) or other wcomponents have made to the data.
 	 *
 	 * @param request the Request being responded to.
 	 */

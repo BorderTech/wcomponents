@@ -93,7 +93,8 @@ public class XsltTestComponent extends WPanel {
 	 * @param outputFile where to place the transformed output.
 	 * @throws Exception if there is an I/O error, or error during transformation.
 	 */
-	private void transform(final File xsltFile, final File inputFile, final File outputFile) throws Exception {
+	private void transform(final File xsltFile, final File inputFile, final File outputFile) throws
+			Exception {
 		FileReader xsltIn = null;
 		FileReader in = null;
 		FileWriter out = null;

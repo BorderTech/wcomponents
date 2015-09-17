@@ -8,9 +8,9 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * <p>
- * A WButton is used to submit the contents of the form to the server. It can be rendered as a plain
- * button, image button or hyperlink. An {@link Action Action} can be associated with the button to
- * execute application-specific code when the button is pressed.
+ * A WButton is used to submit the contents of the form to the server. It can be rendered as a plain button, image
+ * button or hyperlink. An {@link Action Action} can be associated with the button to execute application-specific code
+ * when the button is pressed.
  * </p>
  *
  * <pre>
@@ -30,7 +30,8 @@ import org.apache.commons.logging.LogFactory;
  * @author James Gifford
  * @since 1.0.0
  */
-public class WButton extends WBeanComponent implements Container, Disableable, AjaxTrigger, AjaxTarget,
+public class WButton extends WBeanComponent implements Container, Disableable, AjaxTrigger,
+		AjaxTarget,
 		SubordinateTarget {
 
 	/**
@@ -71,8 +72,7 @@ public class WButton extends WBeanComponent implements Container, Disableable, A
 	};
 
 	/**
-	 * Creates a WButton with no text or image. The button text or image must be set after
-	 * construction.
+	 * Creates a WButton with no text or image. The button text or image must be set after construction.
 	 */
 	public WButton() {
 		add(buttonImage);
@@ -126,8 +126,8 @@ public class WButton extends WBeanComponent implements Container, Disableable, A
 	// ================================
 	// Action/Event handling
 	/**
-	 * Override handleRequest in order to perform processing for this component. This implementation
-	 * checks whether the button has been pressed in the request.
+	 * Override handleRequest in order to perform processing for this component. This implementation checks whether the
+	 * button has been pressed in the request.
 	 *
 	 * @param request the request being responded to.
 	 */
@@ -211,7 +211,8 @@ public class WButton extends WBeanComponent implements Container, Disableable, A
 				};
 				invokeLater(later);
 			} else {
-				final ActionEvent event = new ActionEvent(this, getActionCommand(), getActionObject());
+				final ActionEvent event = new ActionEvent(this, getActionCommand(),
+						getActionObject());
 
 				Runnable later = new Runnable() {
 					@Override
@@ -228,8 +229,8 @@ public class WButton extends WBeanComponent implements Container, Disableable, A
 	}
 
 	/**
-	 * Called before the button action is executed. Subclasses may override. Provides an opportunity
-	 * to do preparation work before the action.execute.
+	 * Called before the button action is executed. Subclasses may override. Provides an opportunity to do preparation
+	 * work before the action.execute.
 	 *
 	 * @param request the request that is being responded to.
 	 */
@@ -238,8 +239,8 @@ public class WButton extends WBeanComponent implements Container, Disableable, A
 	}
 
 	/**
-	 * Called after the button action has been executed. Subclasses may override. Provides an
-	 * opportunity to do cleanup work after the action.execute.
+	 * Called after the button action has been executed. Subclasses may override. Provides an opportunity to do cleanup
+	 * work after the action.execute.
 	 *
 	 * @param request the request that is being responded to.
 	 */
@@ -248,8 +249,7 @@ public class WButton extends WBeanComponent implements Container, Disableable, A
 	}
 
 	/**
-	 * Sets the focus back to this button after the round trip to the server, unless explicity set
-	 * elsewhere.
+	 * Sets the focus back to this button after the round trip to the server, unless explicity set elsewhere.
 	 */
 	protected void focusMe() {
 		if (UIContextHolder.getCurrent().getFocussed() == null) {
@@ -355,8 +355,8 @@ public class WButton extends WBeanComponent implements Container, Disableable, A
 	}
 
 	/**
-	 * Same as getValue(). This method exists simply to clarify the relationship between the
-	 * WButton, its Action, and the ActionEvent sent to the execute() method of the Action.
+	 * Same as getValue(). This method exists simply to clarify the relationship between the WButton, its Action, and
+	 * the ActionEvent sent to the execute() method of the Action.
 	 *
 	 * @return the action command.
 	 */
@@ -365,8 +365,8 @@ public class WButton extends WBeanComponent implements Container, Disableable, A
 	}
 
 	/**
-	 * Same as setValue(). This method exists simply to clarify the relationship between the
-	 * WButton, its Action, and the ActionEvent sent to the execute() method of the Action.
+	 * Same as setValue(). This method exists simply to clarify the relationship between the WButton, its Action, and
+	 * the ActionEvent sent to the execute() method of the Action.
 	 *
 	 * @param actionCommand the action command.
 	 */
@@ -375,9 +375,8 @@ public class WButton extends WBeanComponent implements Container, Disableable, A
 	}
 
 	/**
-	 * Returns the data object that has been associated with this button, else null. For
-	 * convenience, this data object is passed to the execute() method of the button's associated
-	 * Action, in the ActionEvent parameter.
+	 * Returns the data object that has been associated with this button, else null. For convenience, this data object
+	 * is passed to the execute() method of the button's associated Action, in the ActionEvent parameter.
 	 *
 	 * @return the action object.
 	 */
@@ -386,8 +385,8 @@ public class WButton extends WBeanComponent implements Container, Disableable, A
 	}
 
 	/**
-	 * Associate this button with a data object that can be easily accessed in the execute() method
-	 * of the button's associated Action.
+	 * Associate this button with a data object that can be easily accessed in the execute() method of the button's
+	 * associated Action.
 	 *
 	 * @param data the action object.
 	 */
@@ -416,8 +415,8 @@ public class WButton extends WBeanComponent implements Container, Disableable, A
 	}
 
 	/**
-	 * Sets the image to display on the button. The image will be read from the application's class
-	 * path rather than from its web docs.
+	 * Sets the image to display on the button. The image will be read from the application's class path rather than
+	 * from its web docs.
 	 *
 	 * @param image the relative path to the image resource, or null for no image.
 	 */
@@ -431,8 +430,7 @@ public class WButton extends WBeanComponent implements Container, Disableable, A
 	 * If the button is not using an Image resource, it will return null.
 	 * </p>
 	 *
-	 * @return the WImage holding the Image resource, or null if the button is not using an Image
-	 * resource.
+	 * @return the WImage holding the Image resource, or null if the button is not using an Image resource.
 	 */
 	public WImage getImageHolder() {
 		return getImage() == null ? null : buttonImage;
@@ -500,9 +498,9 @@ public class WButton extends WBeanComponent implements Container, Disableable, A
 	}
 
 	/**
-	 * Sets whether this button will trigger a WPopup when used. This flag is only used to provide
-	 * information to the client on the button's intent. The actual invocation of the WPopup is done
-	 * elsewhere, e.g. in the button's action.
+	 * Sets whether this button will trigger a WPopup when used. This flag is only used to provide information to the
+	 * client on the button's intent. The actual invocation of the WPopup is done elsewhere, e.g. in the button's
+	 * action.
 	 *
 	 * @param popupTrigger The popupTrigger to set.
 	 */
@@ -511,8 +509,7 @@ public class WButton extends WBeanComponent implements Container, Disableable, A
 	}
 
 	/**
-	 * The accesskey is a shortcut key that will focus the input element when used in combination
-	 * with the Alt key.
+	 * The accesskey is a shortcut key that will focus the input element when used in combination with the Alt key.
 	 *
 	 * @return The key that in combination with Alt will focus this input.
 	 */
@@ -521,8 +518,8 @@ public class WButton extends WBeanComponent implements Container, Disableable, A
 	}
 
 	/**
-	 * Returns the accesskey character as a String. If the character is not a letter or digit then
-	 * <code>null</code> is returned.
+	 * Returns the accesskey character as a String. If the character is not a letter or digit then <code>null</code> is
+	 * returned.
 	 *
 	 * @return The accesskey character as a String (may be <code>null</code>).
 	 */
@@ -563,9 +560,9 @@ public class WButton extends WBeanComponent implements Container, Disableable, A
 	}
 
 	/**
-	 * Sets the AJAX target for the button. If a target is supplied, a an AJAX request is made
-	 * rather than a round-trip to the server. The AJAX response will only contain the (possibly
-	 * updated) target element rather than the entire UI.
+	 * Sets the AJAX target for the button. If a target is supplied, a an AJAX request is made rather than a round-trip
+	 * to the server. The AJAX response will only contain the (possibly updated) target element rather than the entire
+	 * UI.
 	 *
 	 * @param ajaxTarget the AJAX target.
 	 */
@@ -583,8 +580,8 @@ public class WButton extends WBeanComponent implements Container, Disableable, A
 	}
 
 	/**
-	 * This feature exists to pass information to the client side javascript to inform it that the
-	 * server side thinks there are unsaved changes.
+	 * This feature exists to pass information to the client side javascript to inform it that the server side thinks
+	 * there are unsaved changes.
 	 *
 	 * @param hasUnsavedChanges true if there are unsaved changes, false if not.
 	 */
@@ -610,16 +607,14 @@ public class WButton extends WBeanComponent implements Container, Disableable, A
 	}
 
 	/**
-	 * @return true if the button is a cancel control and will warn the user of unsaved changes,
-	 * otherwise false
+	 * @return true if the button is a cancel control and will warn the user of unsaved changes, otherwise false
 	 */
 	public boolean isCancel() {
 		return getComponentModel().cancel;
 	}
 
 	/**
-	 * @param cancel true if the button is a cancel control and will warn the user of unsaved
-	 * changes, otherwise false
+	 * @param cancel true if the button is a cancel control and will warn the user of unsaved changes, otherwise false
 	 */
 	public void setCancel(final boolean cancel) {
 		getOrCreateComponentModel().cancel = cancel;
@@ -767,8 +762,7 @@ public class WButton extends WBeanComponent implements Container, Disableable, A
 	}
 
 	/**
-	 * This WImage implementation delegates to the button's image and is only used to serve up the
-	 * image for the button.
+	 * This WImage implementation delegates to the button's image and is only used to serve up the image for the button.
 	 */
 	private static final class ButtonImage extends WImage {
 

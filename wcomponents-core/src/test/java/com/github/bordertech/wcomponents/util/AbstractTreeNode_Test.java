@@ -36,7 +36,8 @@ public class AbstractTreeNode_Test {
 		Assert.assertSame("Incorrect child", child, parent.getChildAt(0));
 		Assert.assertSame("Incorrect grandChild", grandChild, child.getChildAt(0));
 		Assert.assertNull("Parent's parent should be null", parent.getParent());
-		Assert.assertEquals("Grandchild should not contain any children", 0, grandChild.getChildCount());
+		Assert.assertEquals("Grandchild should not contain any children", 0, grandChild.
+				getChildCount());
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -123,8 +124,10 @@ public class AbstractTreeNode_Test {
 	@Test
 	public void testGetIndexNonChild() {
 		TreeNode node = buildTestTree();
-		Assert.assertEquals("Incorrect child index for non-descendent", -1, node.getIndex(new TestNode()));
-		Assert.assertEquals("Incorrect child index for grandChild", -1, node.getIndex(getNode(node, "E")));
+		Assert.assertEquals("Incorrect child index for non-descendent", -1, node.getIndex(
+				new TestNode()));
+		Assert.assertEquals("Incorrect child index for grandChild", -1, node.getIndex(getNode(node,
+				"E")));
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -141,10 +144,12 @@ public class AbstractTreeNode_Test {
 		Assert.assertEquals("Incorrect tree after remove of null", "ABCDEFGH", treeToString(node));
 
 		node.remove(new TestNode());
-		Assert.assertEquals("Incorrect tree after remove of non-child", "ABCDEFGH", treeToString(node));
+		Assert.assertEquals("Incorrect tree after remove of non-child", "ABCDEFGH", treeToString(
+				node));
 
 		node.remove(getNode(node, "E"));
-		Assert.assertEquals("Incorrect tree after remove of non-child", "ABCDEFGH", treeToString(node));
+		Assert.assertEquals("Incorrect tree after remove of non-child", "ABCDEFGH", treeToString(
+				node));
 
 		// Test individual node removal
 		getNode(node, "D").remove(getNode(node, "G"));
@@ -177,8 +182,7 @@ public class AbstractTreeNode_Test {
 //	}
 
 	/**
-	 * Handy testing method for returning a String representation of the tree, using a breadth-first
-	 * iteration.
+	 * Handy testing method for returning a String representation of the tree, using a breadth-first iteration.
 	 *
 	 * @param node the tree to convert.
 	 * @return a String representation of the tree.
@@ -198,11 +202,14 @@ public class AbstractTreeNode_Test {
 		TreeNode node = buildTestTree();
 
 		Assert.assertFalse("A node is not a descendant of itself", node.isDescendant(node));
-		Assert.assertFalse("A parent is not a descendant of a child", node.isDescendant(getNode(node, "C")));
-		Assert.assertFalse("A node is not a descendant of its sibling", getNode(node, "B").isDescendant(getNode(node, "C")));
+		Assert.assertFalse("A parent is not a descendant of a child", node.isDescendant(
+				getNode(node, "C")));
+		Assert.assertFalse("A node is not a descendant of its sibling", getNode(node, "B").
+				isDescendant(getNode(node, "C")));
 
 		Assert.assertTrue("Incorrect isDescendant for child", getNode(node, "B").isDescendant(node));
-		Assert.assertTrue("Incorrect isDescendant for grandChild", getNode(node, "F").isDescendant(node));
+		Assert.assertTrue("Incorrect isDescendant for grandChild", getNode(node, "F").isDescendant(
+				node));
 	}
 
 	@Test
@@ -210,7 +217,9 @@ public class AbstractTreeNode_Test {
 		TreeNode node = buildTestTree();
 		Assert.assertEquals("Incorrect level for root node", 0, node.getLevel());
 		Assert.assertEquals("Incorrect level for child node", 1, getNode(node, "C").getLevel());
-		Assert.assertEquals("Incorrect level for grand-child node", 2, getNode(node, "G").getLevel());
+		Assert.
+				assertEquals("Incorrect level for grand-child node", 2, getNode(node, "G").
+						getLevel());
 	}
 
 	@Test
@@ -223,24 +232,30 @@ public class AbstractTreeNode_Test {
 	@Test
 	public void testIsRelated() {
 		TreeNode node = buildTestTree();
-		Assert.assertTrue("Incorrect isRelated for related nodes", getNode(node, "H").isRelated(getNode(node, "D")));
-		Assert.assertFalse("Incorrect isRelated for unrelated node", getNode(node, "H").isRelated(new TestNode()));
+		Assert.assertTrue("Incorrect isRelated for related nodes", getNode(node, "H").isRelated(
+				getNode(node, "D")));
+		Assert.assertFalse("Incorrect isRelated for unrelated node", getNode(node, "H").isRelated(
+				new TestNode()));
 	}
 
 	@Test
 	public void testGetRoot() {
 		TreeNode node = buildTestTree();
 		Assert.assertSame("Incorrect getRoot for root node", node, node.getRoot());
-		Assert.assertSame("Incorrect getRoot for descendant node", node, getNode(node, "H").getRoot());
+		Assert.assertSame("Incorrect getRoot for descendant node", node, getNode(node, "H").
+				getRoot());
 	}
 
 	@Test
 	public void testGetPath() {
 		TreeNode node = buildTestTree();
 		Assert.assertEquals("Incorrect path for root node", "A", pathToString(node.getPath()));
-		Assert.assertEquals("Incorrect path for node C", "AC", pathToString(getNode(node, "C").getPath()));
-		Assert.assertEquals("Incorrect path for node G", "ADG", pathToString(getNode(node, "G").getPath()));
-		Assert.assertEquals("Incorrect path for node H", "ABFH", pathToString(getNode(node, "H").getPath()));
+		Assert.assertEquals("Incorrect path for node C", "AC", pathToString(getNode(node, "C").
+				getPath()));
+		Assert.assertEquals("Incorrect path for node G", "ADG", pathToString(getNode(node, "G").
+				getPath()));
+		Assert.assertEquals("Incorrect path for node H", "ABFH", pathToString(getNode(node, "H").
+				getPath()));
 	}
 
 	/**

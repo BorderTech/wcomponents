@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * A simple table data model, that takes in tabular data in its constructor. Note that use of this
- * data model is discouraged, as the table data will be stored in the user's session.
+ * A simple table data model, that takes in tabular data in its constructor. Note that use of this data model is
+ * discouraged, as the table data will be stored in the user's session.
  * <p>
  * Used in conjunction with the {@link AdapterBasicTableModel} for {@link WTable}.
  * </p>
@@ -20,8 +20,7 @@ import java.util.Map;
 public class SimpleTableModel extends AbstractBasicTableModel {
 
 	/**
-	 * A simple comparator that compares comparables, for use in sorting e.g. columns containing
-	 * Strings.
+	 * A simple comparator that compares comparables, for use in sorting e.g. columns containing Strings.
 	 */
 	public static final ComparableComparator COMPARABLE_COMPARATOR = new ComparableComparator();
 
@@ -115,8 +114,8 @@ public class SimpleTableModel extends AbstractBasicTableModel {
 	}
 
 	/**
-	 * Indicates whether the given cell is editable. This model only supports editability at a
-	 * global level. See {@link #setEditable(boolean)}.
+	 * Indicates whether the given cell is editable. This model only supports editability at a global level. See
+	 * {@link #setEditable(boolean)}.
 	 *
 	 * @param row ignored.
 	 * @param col ignored.
@@ -163,7 +162,8 @@ public class SimpleTableModel extends AbstractBasicTableModel {
 	@Override
 	public int[] sort(final int col, final boolean ascending) {
 		if (!isSortable(col)) {
-			throw new IllegalStateException("Attempted to sort on column " + col + ", which is not sortable");
+			throw new IllegalStateException(
+					"Attempted to sort on column " + col + ", which is not sortable");
 		}
 
 		return sort(comparators.get(col), col, ascending);

@@ -19,33 +19,33 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * <p>
- * The WTable component is used to display tabular data. It supports common functions such as
- * sorting and pagination of data.
+ * The WTable component is used to display tabular data. It supports common functions such as sorting and pagination of
+ * data.
  * </p>
  * <p>
- * The WTable component is only concerned with how the UI functions, not the data behind the table.
- * In a MVC sense, the WTable is the Controller, the view is comprised of the WTable layout and
- * column renderers, and the {@link TableModel} is the model.
+ * The WTable component is only concerned with how the UI functions, not the data behind the table. In a MVC sense, the
+ * WTable is the Controller, the view is comprised of the WTable layout and column renderers, and the {@link TableModel}
+ * is the model.
  * </p>
  * <p>
- * Columns may only be added statically to the table, but individual columns can be shown/hidden per
- * user by toggling their visibility. See {@link #getColumn(int)} and
- * {@link WComponent#setVisible(boolean)}. Making columns not visible can be problematic with
- * sorting.
+ * Columns may only be added statically to the table, but individual columns can be shown/hidden per user by toggling
+ * their visibility. See {@link #getColumn(int)} and {@link WComponent#setVisible(boolean)}. Making columns not visible
+ * can be problematic with sorting.
  * </p>
  * <p>
- * Another way to make columns not visible is by using {@link #setColumnOrder(int[])}. This can be
- * used to change the column order but also hide columns by not including their index in the array.
+ * Another way to make columns not visible is by using {@link #setColumnOrder(int[])}. This can be used to change the
+ * column order but also hide columns by not including their index in the array.
  * </p>
  * <p>
- * For data that is not in a tree like structure (ie not expandable), the {@link BasicTableModel}
- * interface can be used via the {@link AdapterBasicTableModel}.
+ * For data that is not in a tree like structure (ie not expandable), the {@link BasicTableModel} interface can be used
+ * via the {@link AdapterBasicTableModel}.
  * </p>
  *
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class WTable extends WBeanComponent implements Container, AjaxTarget, SubordinateTarget, Marginable, NamingContextable {
+public class WTable extends WBeanComponent implements Container, AjaxTarget, SubordinateTarget,
+		Marginable, NamingContextable {
 
 	/**
 	 * The logger instance for this class.
@@ -250,8 +250,7 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 	}
 
 	/**
-	 * Retrieves the column at the specified index. Bounds checking is not performed, see
-	 * {@link #getColumnCount()}.
+	 * Retrieves the column at the specified index. Bounds checking is not performed, see {@link #getColumnCount()}.
 	 *
 	 * @param index the column index. Zero based.
 	 * @return the column at the specified index.
@@ -261,8 +260,7 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 	}
 
 	/**
-	 * Returns the number of columns contained in this table. Invisible columns still count towards
-	 * the total.
+	 * Returns the number of columns contained in this table. Invisible columns still count towards the total.
 	 *
 	 * @return the number of columns contained in this table.
 	 */
@@ -298,13 +296,15 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 		clearPrevRenderedRows();
 
 		if (tableModel instanceof BeanBoundTableModel) {
-			((BeanBoundTableModel) tableModel).setBeanProvider(new BeanBoundTableModelBeanProvider());
+			((BeanBoundTableModel) tableModel).
+					setBeanProvider(new BeanBoundTableModelBeanProvider());
 			((BeanBoundTableModel) tableModel).setBeanProperty(".");
 		}
 
 		if (tableModel instanceof ScrollableTableModel) {
 			if (!isPaginated()) {
-				throw new IllegalStateException("Set a ScrollableTableModel on a table that is not paginated.");
+				throw new IllegalStateException(
+						"Set a ScrollableTableModel on a table that is not paginated.");
 			}
 
 			int startIndex = getCurrentPage() * getRowsPerPage();
@@ -317,11 +317,10 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 	}
 
 	/**
-	 * Updates the bean using the table data model's
-	 * {@link TableModel#setValueAt(Object, List, int)} method.
+	 * Updates the bean using the table data model's {@link TableModel#setValueAt(Object, List, int)} method.
 	 * <p>
-	 * The update is only applied if the table has been set as editable via
-	 * {@link #setEditable(boolean)}. Only rows that have been rendered are updated.
+	 * The update is only applied if the table has been set as editable via {@link #setEditable(boolean)}. Only rows
+	 * that have been rendered are updated.
 	 * </p>
 	 * <p>
 	 * For {@link ScrollableTableModel}, only the rows on the current page are updated.
@@ -348,7 +347,8 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 		// For scrollable table model, only update the rows on the current page
 		if (model instanceof ScrollableTableModel) {
 			if (!isPaginated()) {
-				throw new IllegalStateException("UpdateBeanValue tried to update a ScrollableTableModel with no pagination.");
+				throw new IllegalStateException(
+						"UpdateBeanValue tried to update a ScrollableTableModel with no pagination.");
 			}
 
 			int rowsPerPage = getRowsPerPage();
@@ -371,9 +371,8 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 	}
 
 	/**
-	 * Updates the bean using the table data model's
-	 * {@link TableModel#setValueAt(Object, List, int)} method. This method only updates the data
-	 * for the currently set row ids.
+	 * Updates the bean using the table data model's {@link TableModel#setValueAt(Object, List, int)} method. This
+	 * method only updates the data for the currently set row ids.
 	 */
 	private void updateBeanValueForRenderedRows() {
 		WTableRowRenderer rowRenderer = (WTableRowRenderer) repeater.getRepeatedComponent();
@@ -415,7 +414,8 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 	 * @param col the column to update
 	 * @param model the table model
 	 */
-	private void updateBeanValueForColumnInRow(final WTableRowRenderer rowRenderer, final UIContext rowContext,
+	private void updateBeanValueForColumnInRow(final WTableRowRenderer rowRenderer,
+			final UIContext rowContext,
 			final List<Integer> rowIndex, final int col, final TableModel model) {
 		// The actual component is wrapped in a renderer wrapper, so we have to fetch it from that
 		WComponent renderer = ((Container) rowRenderer.getRenderer(col)).getChildAt(0);
@@ -448,10 +448,12 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 	 * @param rowContext the row context
 	 * @param expandRenderer the renderer for the expandable row.
 	 */
-	private void updateBeanValueForRowRenderer(final WTableRowRenderer rowRenderer, final UIContext rowContext,
+	private void updateBeanValueForRowRenderer(final WTableRowRenderer rowRenderer,
+			final UIContext rowContext,
 			final Class<? extends WComponent> expandRenderer) {
 
-		Container expandWrapper = (Container) rowRenderer.getExpandedTreeNodeRenderer(expandRenderer);
+		Container expandWrapper = (Container) rowRenderer.
+				getExpandedTreeNodeRenderer(expandRenderer);
 		if (expandWrapper == null) {
 			return;
 		}
@@ -592,8 +594,7 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 	}
 
 	/**
-	 * Provide an array of column indexes in the order they should be rendered. At least one column
-	 * must be specifed.
+	 * Provide an array of column indexes in the order they should be rendered. At least one column must be specifed.
 	 * <p>
 	 * This can also be used to "hide" columns by not including them in the array.
 	 * </p>
@@ -614,7 +615,8 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 			}
 			for (int idx : columnOrder) {
 				if (idx < 0 || idx > count - 1) {
-					throw new IllegalArgumentException("Illegal index in column order indices [" + idx + "]");
+					throw new IllegalArgumentException(
+							"Illegal index in column order indices [" + idx + "]");
 				}
 			}
 			getOrCreateComponentModel().columnOrder = Arrays.copyOf(columnOrder, columnOrder.length);
@@ -666,8 +668,8 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 	/**
 	 * Sets the number of rows to display per page when pagination is enabled.
 	 * <p>
-	 * If rows per page options have been set, then the value must be a valid option, which can
-	 * include zero to indicate show all rows, otherwise the value must be greater than zero.
+	 * If rows per page options have been set, then the value must be a valid option, which can include zero to indicate
+	 * show all rows, otherwise the value must be greater than zero.
 	 * </p>
 	 *
 	 * @param rowsPerPage the rowsPerPage to set
@@ -676,10 +678,12 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 		List<Integer> rowsOptions = getRowsPerPageOptions();
 		if (rowsOptions == null) {
 			if (rowsPerPage < 1) {
-				throw new IllegalArgumentException("Rows per page must be greater than 0, but got: " + rowsPerPage);
+				throw new IllegalArgumentException(
+						"Rows per page must be greater than 0, but got: " + rowsPerPage);
 			}
 		} else if (!rowsOptions.contains(rowsPerPage)) {
-			throw new IllegalArgumentException("Rows per page is not a valid rows per page option, got: " + rowsPerPage);
+			throw new IllegalArgumentException(
+					"Rows per page is not a valid rows per page option, got: " + rowsPerPage);
 		}
 		getOrCreateComponentModel().rowsPerPage = rowsPerPage;
 	}
@@ -694,8 +698,7 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 	/**
 	 * Set the rows per page options.
 	 * <p>
-	 * If the current value of {@link #getRowsPerPage()} is not a valid option, it will be set to
-	 * the first option.
+	 * If the current value of {@link #getRowsPerPage()} is not a valid option, it will be set to the first option.
 	 * </p>
 	 *
 	 * @param rowsPerPageOptions the rows per page options
@@ -712,7 +715,8 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 			// Validate options
 			for (Integer rows : rowsPerPageOptions) {
 				if (rows == null || rows < 0) {
-					throw new IllegalArgumentException("Rows per page option cannot be less than 0 or null, got: " + rows);
+					throw new IllegalArgumentException(
+							"Rows per page option cannot be less than 0 or null, got: " + rows);
 				}
 			}
 			model.rowsPerPageOptions = new ArrayList<>(rowsPerPageOptions);
@@ -764,9 +768,8 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 
 	/**
 	 * <p>
-	 * For tables that are editable, extra details about each row must be stored to allow them to be
-	 * updated. Therefore, if the table is not editable, the table is able to have improved
-	 * performance.
+	 * For tables that are editable, extra details about each row must be stored to allow them to be updated. Therefore,
+	 * if the table is not editable, the table is able to have improved performance.
 	 * </p>
 	 *
 	 * @return true if table is editable
@@ -778,9 +781,8 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 	/**
 	 * Sets the table to be editable.
 	 * <p>
-	 * For tables that are editable, extra details about each row must be stored to allow them to be
-	 * updated. Therefore, if the table is not editable, the table is able to have improved
-	 * performance.
+	 * For tables that are editable, extra details about each row must be stored to allow them to be updated. Therefore,
+	 * if the table is not editable, the table is able to have improved performance.
 	 * </p>
 	 *
 	 * @param editable true if editable
@@ -1072,8 +1074,8 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 	}
 
 	/**
-	 * Indicates whether the sort on this table is ascending. Note that a return value of false does
-	 * not necessarily indicate a descending sort - see {@link #isSorted()}.
+	 * Indicates whether the sort on this table is ascending. Note that a return value of false does not necessarily
+	 * indicate a descending sort - see {@link #isSorted()}.
 	 *
 	 * @return true if the sort order is ascending, false for descending.
 	 */
@@ -1139,7 +1141,8 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 	 */
 	public void addActionConstraint(final WButton button, final ActionConstraint constraint) {
 		if (button.getParent() != actions) {
-			throw new IllegalArgumentException("Can only add a constraint to a button which is in this table's actions");
+			throw new IllegalArgumentException(
+					"Can only add a constraint to a button which is in this table's actions");
 		}
 
 		getOrCreateComponentModel().addActionConstraint(button, constraint);
@@ -1157,8 +1160,7 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 	}
 
 	/**
-	 * Override handleRequest to add table-specific functionality such as pagination and row
-	 * selection.
+	 * Override handleRequest to add table-specific functionality such as pagination and row selection.
 	 *
 	 * @param request the request being responded to.
 	 */
@@ -1435,18 +1437,18 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 	protected void preparePaintComponent(final Request request) {
 		super.preparePaintComponent(request);
 
-		if (getRowsPerPageOptions() != null || PaginationMode.DYNAMIC.equals(getPaginationMode()) || SortMode.DYNAMIC.equals(getSortMode())
-				|| ExpandMode.DYNAMIC.equals(getExpandMode()) || ExpandMode.LAZY.equals(getExpandMode())) {
+		if (getRowsPerPageOptions() != null || PaginationMode.DYNAMIC.equals(getPaginationMode()) || SortMode.DYNAMIC.
+				equals(getSortMode())
+				|| ExpandMode.DYNAMIC.equals(getExpandMode()) || ExpandMode.LAZY.equals(
+				getExpandMode())) {
 			AjaxHelper.registerComponentTargetItself(getId(), request);
 		}
 	}
 
 	/**
-	 * Method to call when the model data has changed. For example, when a row has been added or
-	 * removed.
+	 * Method to call when the model data has changed. For example, when a row has been added or removed.
 	 * <p>
-	 * Handles resorting the data (if table sorted) and making sure the table pagination is still
-	 * correct.
+	 * Handles resorting the data (if table sorted) and making sure the table pagination is still correct.
 	 * </p>
 	 */
 	public void handleDataChanged() {
@@ -1458,8 +1460,8 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 	}
 
 	/**
-	 * Allows a subclass to provide the ID used in the row naming context. It is important this ID
-	 * is unique for each row.
+	 * Allows a subclass to provide the ID used in the row naming context. It is important this ID is unique for each
+	 * row.
 	 * <p>
 	 * The returned ID must only contain letters, digits or underscores.
 	 * </p>
@@ -1503,14 +1505,15 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 		/**
 		 * Creates an action constraint.
 		 *
-		 * @param minSelectedRowCount the minimum number of rows which must be selected to fulfil
-		 * the constraint, or zero for any number of rows.
-		 * @param maxSelectedRowCount the maximum number of rows which can be selected to fulfil the
-		 * constraint, or zero for any number of rows.
+		 * @param minSelectedRowCount the minimum number of rows which must be selected to fulfil the constraint, or
+		 * zero for any number of rows.
+		 * @param maxSelectedRowCount the maximum number of rows which can be selected to fulfil the constraint, or zero
+		 * for any number of rows.
 		 * @param error true if the constraint is an error, false for a warning.
 		 * @param message the message to display when the constraint is not met.
 		 */
-		public ActionConstraint(final int minSelectedRowCount, final int maxSelectedRowCount, final boolean error,
+		public ActionConstraint(final int minSelectedRowCount, final int maxSelectedRowCount,
+				final boolean error,
 				final String message) {
 			this.minSelectedRowCount = minSelectedRowCount;
 			this.maxSelectedRowCount = maxSelectedRowCount;
@@ -1519,8 +1522,7 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 		}
 
 		/**
-		 * Indicates the minimum number of rows which must be selected for the error/warning not to
-		 * occur.
+		 * Indicates the minimum number of rows which must be selected for the error/warning not to occur.
 		 *
 		 * @return the minimum selected row count.
 		 */
@@ -1536,8 +1538,7 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 		}
 
 		/**
-		 * Indicates the maximum number of rows which can be selected for the error/warning not to
-		 * occur.
+		 * Indicates the maximum number of rows which can be selected for the error/warning not to occur.
 		 *
 		 * @return the maximum selected row count.
 		 */
@@ -1600,8 +1601,8 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 	}
 
 	/**
-	 * A bean provider implementation which provides beans to the table repeater. This provider
-	 * takes the table's pagination state into account, so that only visible rows are rendered.
+	 * A bean provider implementation which provides beans to the table repeater. This provider takes the table's
+	 * pagination state into account, so that only visible rows are rendered.
 	 */
 	private final class RepeaterRowIdBeanProvider implements BeanProvider, Serializable {
 
@@ -1625,7 +1626,8 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 				int currentPage = getCurrentPage();
 				// Only render the rows on the current page
 				// If total row count has changed, calc the new last page
-				startIndex = Math.min(currentPage * rowsPerPage, rowCount - (rowCount % rowsPerPage));
+				startIndex = Math.
+						min(currentPage * rowsPerPage, rowCount - (rowCount % rowsPerPage));
 				endIndex = Math.min(startIndex + rowsPerPage, rowCount) - 1;
 			}
 
@@ -1646,7 +1648,8 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 	 * @param forUpdate true if building list of rowids for rows that need updating
 	 * @return the list of rowIds for the provided index range
 	 */
-	private List<RowIdWrapper> getRowIds(final int startIndex, final int endIndex, final boolean forUpdate) {
+	private List<RowIdWrapper> getRowIds(final int startIndex, final int endIndex,
+			final boolean forUpdate) {
 		TableModel model = getTableModel();
 
 		// If the table is sorted, we may require a mapping for table row index <--> data model index.
@@ -1746,7 +1749,8 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 	 * @param forUpdate true if building list of row ids to update
 	 * @param editable true if the table is editable
 	 */
-	private void calcChildrenRowIds(final List<RowIdWrapper> rows, final RowIdWrapper row, final TableModel model,
+	private void calcChildrenRowIds(final List<RowIdWrapper> rows, final RowIdWrapper row,
+			final TableModel model,
 			final RowIdWrapper parent, final Set<?> expanded, final ExpandMode mode,
 			final boolean forUpdate, final boolean editable) {
 		// Add row
@@ -1776,7 +1780,8 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 		row.setHasChildren(true);
 
 		// Always add children if CLIENT mode or row is expanded
-		boolean addChildren = (mode == ExpandMode.CLIENT) || (expanded != null && expanded.contains(row.getRowKey()));
+		boolean addChildren = (mode == ExpandMode.CLIENT) || (expanded != null && expanded.contains(
+				row.getRowKey()));
 		if (!addChildren) {
 			return;
 		}
@@ -1954,8 +1959,7 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 		private Set<Object> prevRenderedRows;
 
 		/**
-		 * Flag if table cells/rows are editable. If true, extra details about each row need to be
-		 * stored.
+		 * Flag if table cells/rows are editable. If true, extra details about each row need to be stored.
 		 */
 		private boolean editable;
 
@@ -1971,8 +1975,8 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 		private boolean sortAscending;
 
 		/**
-		 * This is used to map rendered table row indices to table model row indices, if the table
-		 * model supports this mode of sorting.
+		 * This is used to map rendered table row indices to table model row indices, if the table model supports this
+		 * mode of sorting.
 		 */
 		private int[] rowIndexMapping;
 
@@ -2049,13 +2053,13 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 	@Override
 	public String toString() {
 		TableModel model = getTableModel();
-		return toString(model.getClass().getSimpleName() + ", " + model.getRowCount() + " rows", -1, -1);
+		return toString(model.getClass().getSimpleName() + ", " + model.getRowCount() + " rows", -1,
+				-1);
 	}
 
 	/**
-	 * A naming context is only considered active if it has been set active via
-	 * {@link #setNamingContext(boolean)} and also has an id name set via
-	 * {@link #setIdName(String)}.
+	 * A naming context is only considered active if it has been set active via {@link #setNamingContext(boolean)} and
+	 * also has an id name set via {@link #setIdName(String)}.
 	 *
 	 * @param context set true if this is a naming context.
 	 */
@@ -2109,21 +2113,19 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 
 	/**
 	 * <p>
-	 * TableModel provides the data for tables. In a MVC sense, the TableModel is the Model, the
-	 * {@link WTable} is the controller and the view is comprised of the WTable layout and column
-	 * renderers.
+	 * TableModel provides the data for tables. In a MVC sense, the TableModel is the Model, the {@link WTable} is the
+	 * controller and the view is comprised of the WTable layout and column renderers.
 	 * </p>
 	 * <p>
-	 * Note that Data may be stored locally or sourced remotely, depending on the particular
-	 * TableModel implementation.
+	 * Note that Data may be stored locally or sourced remotely, depending on the particular TableModel implementation.
 	 * <p>
 	 * <p>
-	 * The row indexes used in the interface are a list of row indexes. Each item in the list is the
-	 * index of the row for that level. The size of the list passed in matches the depth of the row.
+	 * The row indexes used in the interface are a list of row indexes. Each item in the list is the index of the row
+	 * for that level. The size of the list passed in matches the depth of the row.
 	 * </p>
 	 * <p>
-	 * Row and column indices for all methods are zero-based, and TableModels are not expected to
-	 * perform bounds-checking.
+	 * Row and column indices for all methods are zero-based, and TableModels are not expected to perform
+	 * bounds-checking.
 	 * </p>
 	 *
 	 * @author Jonathan Austin
@@ -2176,22 +2178,20 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 		 * <ol>
 		 * <li>
 		 * <p>
-		 * If the data is accessible locally by the data model (ie. a sort won't result in a service
-		 * call to obtain sorted data), then this method should not sort the actual data, but return
-		 * a row-index mapping which the table will use to access the data. Row selection and
-		 * expansion will be updated to use the new row indices.
+		 * If the data is accessible locally by the data model (ie. a sort won't result in a service call to obtain
+		 * sorted data), then this method should not sort the actual data, but return a row-index mapping which the
+		 * table will use to access the data. Row selection and expansion will be updated to use the new row indices.
 		 * </p>
 		 * <p>
-		 * For example, if the data for the column is {"a", "b", "d", "c"}, then an ascending sort
-		 * should return {0, 1, 3, 2}, and a descending sort {2, 3, 1, 0}.
+		 * For example, if the data for the column is {"a", "b", "d", "c"}, then an ascending sort should return {0, 1,
+		 * 3, 2}, and a descending sort {2, 3, 1, 0}.
 		 * </p>
 		 * </li>
 		 * <li>
 		 * <p>
-		 * If the data is not accessible locally by the data model, or the model is otherwise unable
-		 * to perform a mapping between old and new row indices, then the model should sort the
-		 * actual data, and return null. In this case, the table will reset any row selection or
-		 * expansion.
+		 * If the data is not accessible locally by the data model, or the model is otherwise unable to perform a
+		 * mapping between old and new row indices, then the model should sort the actual data, and return null. In this
+		 * case, the table will reset any row selection or expansion.
 		 * </p>
 		 * </li>
 		 * </ol>
@@ -2234,8 +2234,8 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 		int getRowCount();
 
 		/**
-		 * Allows the model to report if the row has children without actually having to determine
-		 * the number of children (as it might not be known).
+		 * Allows the model to report if the row has children without actually having to determine the number of
+		 * children (as it might not be known).
 		 *
 		 * @param row the row index
 		 * @return true if the row has children
@@ -2264,13 +2264,11 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 		 * The usual implementation of this method would just return the row id passed in.
 		 * </p>
 		 * <p>
-		 * However, if you are required to dynamically add/remove rows in the model, which would
-		 * change the row index, then the implementation of this method needs to return an object
-		 * that uniquely identifies this row.
+		 * However, if you are required to dynamically add/remove rows in the model, which would change the row index,
+		 * then the implementation of this method needs to return an object that uniquely identifies this row.
 		 * </p>
 		 * <p>
-		 * When rows have been added/removed, the {@link WTable#handleDataChanged} method on WTable
-		 * needs to be called.
+		 * When rows have been added/removed, the {@link WTable#handleDataChanged} method on WTable needs to be called.
 		 * </p>
 		 *
 		 * @param row the row index
@@ -2280,10 +2278,9 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 	}
 
 	/**
-	 * This extension of {@link TableModel} is primarily for models that do not store their data
-	 * locally. Models implementing this interface can provide more efficient calls to back-end
-	 * systems, as the data model is notified of which rows are likely to be used in the near
-	 * future.
+	 * This extension of {@link TableModel} is primarily for models that do not store their data locally. Models
+	 * implementing this interface can provide more efficient calls to back-end systems, as the data model is notified
+	 * of which rows are likely to be used in the near future.
 	 * <p>
 	 * It is expected this TableModel is always used with Pagination.
 	 * </p>
@@ -2294,8 +2291,8 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 	public interface ScrollableTableModel extends TableModel {
 
 		/**
-		 * This method will be called by the table to notify the TableModel of which rows are likely
-		 * to be used in the near future.
+		 * This method will be called by the table to notify the TableModel of which rows are likely to be used in the
+		 * near future.
 		 *
 		 * @param start the starting row index.
 		 * @param end the ending row index.
@@ -2304,8 +2301,7 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 	}
 
 	/**
-	 * The BeanBoundTableModel provides a link between a bean (bound to a table), and the table
-	 * model API.
+	 * The BeanBoundTableModel provides a link between a bean (bound to a table), and the table model API.
 	 *
 	 * @author Jonathan Austin
 	 * @since 1.0.0
@@ -2421,7 +2417,8 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 		 * @param rowKey the row key
 		 * @param parent the parent of the row, or null if no parent
 		 */
-		public RowIdWrapper(final List<Integer> rowIndex, final Object rowKey, final RowIdWrapper parent) {
+		public RowIdWrapper(final List<Integer> rowIndex, final Object rowKey,
+				final RowIdWrapper parent) {
 			this.rowIndex = rowIndex;
 			this.rowKey = rowKey;
 			this.parent = parent;

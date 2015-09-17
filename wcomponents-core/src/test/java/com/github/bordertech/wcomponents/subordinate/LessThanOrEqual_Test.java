@@ -37,14 +37,17 @@ public class LessThanOrEqual_Test extends AbstractWComponentTestCase {
 		LessThanOrEqual compare = new LessThanOrEqual(trigger, value);
 
 		Assert.assertEquals("Value for LessThanOrEqual is incorrect", value, compare.getValue());
-		Assert.assertEquals("Trigger for LessThanOrEqual should be the trigger", trigger, compare.getTrigger());
+		Assert.assertEquals("Trigger for LessThanOrEqual should be the trigger", trigger, compare.
+				getTrigger());
 	}
 
 	@Test
 	public void testCompareType() {
 		LessThanOrEqual compare = new LessThanOrEqual(new MyTrigger(), null);
-		Assert.assertEquals("Incorrect Compare Type", AbstractCompare.CompareType.LESS_THAN_OR_EQUAL,
-				compare.getCompareType());
+		Assert.
+				assertEquals("Incorrect Compare Type",
+						AbstractCompare.CompareType.LESS_THAN_OR_EQUAL,
+						compare.getCompareType());
 	}
 
 	@Test
@@ -56,27 +59,33 @@ public class LessThanOrEqual_Test extends AbstractWComponentTestCase {
 		LessThanOrEqual compare = new LessThanOrEqual(trigger, EQ_VALUE);
 
 		trigger.setNumber(null);
-		Assert.assertFalse("Less Than Or Equal - Compare for null value should be false", compare.execute());
+		Assert.assertFalse("Less Than Or Equal - Compare for null value should be false", compare.
+				execute());
 
 		trigger.setNumber(LT_VALUE);
-		Assert.assertTrue("Less Than Or Equal - Compare for less value should be true", compare.execute());
+		Assert.assertTrue("Less Than Or Equal - Compare for less value should be true", compare.
+				execute());
 
 		trigger.setNumber(EQ_VALUE);
-		Assert.assertTrue("Less Than Or Equal - Compare for equal value should be true", compare.execute());
+		Assert.assertTrue("Less Than Or Equal - Compare for equal value should be true", compare.
+				execute());
 
 		trigger.setNumber(GT_VALUE);
-		Assert.assertFalse("Less Than Or Equal - Compare for greater value should be false", compare.execute());
+		Assert.assertFalse("Less Than Or Equal - Compare for greater value should be false",
+				compare.execute());
 
 		// ------------------------------
 		// Setup LESS THAN OR EQUAL - with null value
 		compare = new LessThanOrEqual(trigger, null);
 
 		trigger.setNumber(null);
-		Assert.assertTrue("Less Than Or Equal With Null Value - Compare for null value should be true",
+		Assert.assertTrue(
+				"Less Than Or Equal With Null Value - Compare for null value should be true",
 				compare.execute());
 
 		trigger.setNumber(EQ_VALUE);
-		Assert.assertFalse("Less Than Or Equal With Null Value - Compare for value should be false", compare.execute());
+		Assert.assertFalse("Less Than Or Equal With Null Value - Compare for value should be false",
+				compare.execute());
 	}
 
 	@Test
@@ -84,10 +93,13 @@ public class LessThanOrEqual_Test extends AbstractWComponentTestCase {
 		MyTrigger trigger = new MyTrigger();
 
 		LessThanOrEqual compare = new LessThanOrEqual(trigger, "1");
-		Assert.assertEquals("Incorrect toString for compare", "MyTrigger<=\"1\"", compare.toString());
+		Assert.
+				assertEquals("Incorrect toString for compare", "MyTrigger<=\"1\"", compare.
+						toString());
 
 		WLabel label = new WLabel("test label", trigger);
-		Assert.assertEquals("Incorrect toString for compare with a label", label.getText() + "<=\"1\"", compare.toString());
+		Assert.assertEquals("Incorrect toString for compare with a label",
+				label.getText() + "<=\"1\"", compare.toString());
 	}
 
 	/**

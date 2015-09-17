@@ -33,17 +33,21 @@ public class WRadioButtonSelectExample_Test extends WComponentSeleniumTestCase {
 		driver.findElement(byWComponentPath("WButton")).click();
 
 		Assert.assertTrue("Northern Territory should be selected",
-				driver.findElement(byWComponentPath("WRadioButtonSelect[0]", "Northern Territory")).isSelected());
+				driver.findElement(byWComponentPath("WRadioButtonSelect[0]", "Northern Territory")).
+				isSelected());
 
-		Assert.assertTrue("Incorrect selection text", driver.getPageSource().contains("The selected item is: Northern Territory"));
+		Assert.assertTrue("Incorrect selection text", driver.getPageSource().contains(
+				"The selected item is: Northern Territory"));
 
 		// Select WA and submit
 		driver.findElement(byWComponentPath("WRadioButtonSelect[0]", "Western Australia")).click();
 		driver.findElement(byWComponentPath("WButton")).click();
 
 		Assert.assertTrue("Western Australia should be selected",
-				driver.findElement(byWComponentPath("WRadioButtonSelect[0]", "Western Australia")).isSelected());
+				driver.findElement(byWComponentPath("WRadioButtonSelect[0]", "Western Australia")).
+				isSelected());
 
-		Assert.assertTrue("Incorrect selection text", driver.getPageSource().contains("The selected item is: Western Australia"));
+		Assert.assertTrue("Incorrect selection text", driver.getPageSource().contains(
+				"The selected item is: Western Australia"));
 	}
 }

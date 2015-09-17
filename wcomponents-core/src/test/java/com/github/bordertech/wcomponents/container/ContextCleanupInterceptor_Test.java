@@ -29,7 +29,8 @@ public class ContextCleanupInterceptor_Test extends AbstractWComponentTestCase {
 
 		// After the paint, the component should have been painted, and the context cleared up
 		Assert.assertTrue("tidyUpUIContextForTree was not called", label.tidiedUp);
-		Assert.assertTrue("Component was not painted", writer.toString().indexOf(label.getText()) != -1);
+		Assert.assertTrue("Component was not painted",
+				writer.toString().indexOf(label.getText()) != -1);
 	}
 
 	/**

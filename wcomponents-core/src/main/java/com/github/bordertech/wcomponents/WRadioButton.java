@@ -4,46 +4,43 @@ import com.github.bordertech.wcomponents.util.Util;
 
 /**
  * <p>
- * A WRadioButton is a wcomponent used to display a radio button and must be used with a
- * {@link RadioButtonGroup}.
+ * A WRadioButton is a wcomponent used to display a radio button and must be used with a {@link RadioButtonGroup}.
  * </p>
  * <p>
  * A WRadioButton instance can only be created by using the {@link RadioButtonGroup#addRadioButton(Object)
- * addRadioButton(value)} method or {@link RadioButtonGroup#addRadioButton() addRadioButton()}
- * method. Call one of these methods to get an instance of a radio button and then add the radio
- * button to the required location in the UI. Each radio button added to a group must have a unique
- * value for that group.
+ * addRadioButton(value)} method or {@link RadioButtonGroup#addRadioButton() addRadioButton()} method. Call one of these
+ * methods to get an instance of a radio button and then add the radio button to the required location in the UI. Each
+ * radio button added to a group must have a unique value for that group.
  * </p>
  * <p>
  * If the value of the radio button is known when creating its instance, then use the
  * {@link RadioButtonGroup#addRadioButton(Object) addRadioButton(Object)}.
  * </p>
  * <p>
- * If a radio button needs to be used in a repeating component and will have different values
- * depending on its context, then use the
- * {@link RadioButtonGroup#addRadioButton() addRadioButton()}. Radio buttons used with a
- * {@link WRepeater} will get their value from the "bean" associated to the row in the repeater. By
- * default, the bean property for the radio button will be set to ".", but this can be overridden by
- * calling {@link #setBeanProperty(String)} on the radio button instance.
+ * If a radio button needs to be used in a repeating component and will have different values depending on its context,
+ * then use the {@link RadioButtonGroup#addRadioButton() addRadioButton()}. Radio buttons used with a {@link WRepeater}
+ * will get their value from the "bean" associated to the row in the repeater. By default, the bean property for the
+ * radio button will be set to ".", but this can be overridden by calling {@link #setBeanProperty(String)} on the radio
+ * button instance.
  * </p>
  * <p>
- * For the radio button group to work correctly, it is important that each radio button in the group
- * has a unique value. The radio button group uses the {@link String} representation of the radio
- * button's value to identify which button has been selected. As the string representation of the
- * radio button's value is sent to the client, be mindful that it should not be too large.
+ * For the radio button group to work correctly, it is important that each radio button in the group has a unique value.
+ * The radio button group uses the {@link String} representation of the radio button's value to identify which button
+ * has been selected. As the string representation of the radio button's value is sent to the client, be mindful that it
+ * should not be too large.
  * </p>
  * <p>
- * To determine if a WRadioButton has been selected use the {@link #isSelected() isSelected} method.
- * Alternatively, you can call the {@link RadioButtonGroup#getSelectedValue() getSelectedValue}
- * method on the {@link RadioButtonGroup} which will return the value associated with the
- * WRadioButton which is currently selected.
+ * To determine if a WRadioButton has been selected use the {@link #isSelected() isSelected} method. Alternatively, you
+ * can call the {@link RadioButtonGroup#getSelectedValue() getSelectedValue} method on the {@link RadioButtonGroup}
+ * which will return the value associated with the WRadioButton which is currently selected.
  * </p>
  *
  * @author James Gifford
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class WRadioButton extends WBeanComponent implements AjaxTarget, SubordinateTarget, Disableable {
+public class WRadioButton extends WBeanComponent implements AjaxTarget, SubordinateTarget,
+		Disableable {
 
 	/**
 	 * The RadioButtonGroup the button belongs to.
@@ -65,8 +62,7 @@ public class WRadioButton extends WBeanComponent implements AjaxTarget, Subordin
 	// ================================
 	// Handle Request
 	/**
-	 * This method will only process the request if the value for the group matches the button's
-	 * value.
+	 * This method will only process the request if the value for the group matches the button's value.
 	 *
 	 * @param request the request being processed.
 	 */
@@ -140,9 +136,9 @@ public class WRadioButton extends WBeanComponent implements AjaxTarget, Subordin
 	/**
 	 * Retrieves the radio button's value.
 	 * <p>
-	 * The radio button group uses the {@link String} value of the radio button's value to identify
-	 * which button has been selected. As the string representation of the radio button's value is
-	 * sent to the client, be mindful that it should not be too large.
+	 * The radio button group uses the {@link String} value of the radio button's value to identify which button has
+	 * been selected. As the string representation of the radio button's value is sent to the client, be mindful that it
+	 * should not be too large.
 	 * </p>
 	 *
 	 * @return the radio button's value.

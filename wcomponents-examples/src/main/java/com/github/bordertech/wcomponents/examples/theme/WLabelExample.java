@@ -83,7 +83,8 @@ public class WLabelExample extends WPanel {
 		 * legend of the controls fieldset and the on-screen version in the
 		 * WFieldLayout is just a placeholder
 		 */
-		WCheckBoxSelect cbSelect = new WCheckBoxSelect(new String[]{"Apple", "Cherry", "Orange", "Pineapple"});
+		WCheckBoxSelect cbSelect = new WCheckBoxSelect(
+				new String[]{"Apple", "Cherry", "Orange", "Pineapple"});
 		cbSelect.setFrameless(true);
 		fieldsFlat.addField("Select one or more options", cbSelect);
 
@@ -193,7 +194,8 @@ public class WLabelExample extends WPanel {
 		// Now it gets confusing. We want the radio buttons to flow with their labels but be apart from each other...
 		//The WPanel which flowLayout and hgap will make the two control:label pairs sit apart from each other
 		WPanel rbLayout = new WPanel();
-		rbLayout.setLayout(new FlowLayout(FlowLayout.LEFT, 12, 0, FlowLayout.ContentAlignment.BASELINE));
+		rbLayout.setLayout(new FlowLayout(FlowLayout.LEFT, 12, 0,
+				FlowLayout.ContentAlignment.BASELINE));
 		//then we use WContainer to add each control:label pair to the WPanel
 		WContainer rbContainer = new WContainer();
 		rbLayout.add(rbContainer);
@@ -237,7 +239,8 @@ public class WLabelExample extends WPanel {
 		errorLayoutPanel.setLayout(new FlowLayout(FlowLayout.VERTICAL, 0, 12));
 		errorLayoutPanel.setMargin(new com.github.bordertech.wcomponents.Margin(0, 0, 24, 0));
 		add(errorLayoutPanel);
-		errorLayoutPanel.add(new ExplanatoryText("This example shows WLabels with a single nested simple form control WTextField. This is not a contravention of the HTML specification but you should not do it."));
+		errorLayoutPanel.add(new ExplanatoryText(
+				"This example shows WLabels with a single nested simple form control WTextField. This is not a contravention of the HTML specification but you should not do it."));
 		WLabel outerLabel = new WLabel("Label with nested WTextField and not 'for' anything");
 		errorLayoutPanel.add(outerLabel);
 		outerLabel.add(new WTextField());
@@ -253,7 +256,8 @@ public class WLabelExample extends WPanel {
 		 * of what NOT to do.
 		 */
 		add(new WHeading(WHeading.MAJOR, "WLabel anti-patterns"));
-		add(new ExplanatoryText("These are here for testing purposes and must not be used as examples to follow.\nTurn on client debugging to get much more information."));
+		add(new ExplanatoryText(
+				"These are here for testing purposes and must not be used as examples to follow.\nTurn on client debugging to get much more information."));
 		add(new WHeading(HeadingLevel.H3, "Poor but not erroneous uses of WLabel"));
 		errorLayoutPanel = new WPanel();
 		errorLayoutPanel.setLayout(new FlowLayout(FlowLayout.VERTICAL, 0, 12));
@@ -261,7 +265,8 @@ public class WLabelExample extends WPanel {
 		//label not for anything should not be a WLabel
 		errorLayoutPanel.add(new WLabel("I am not 'for' anything"));
 		//WLabel for something which is not labellable
-		errorLayoutPanel.add(new WLabel("I am for a component which should not be labelled", fieldsFlat));
+		errorLayoutPanel.add(new WLabel("I am for a component which should not be labelled",
+				fieldsFlat));
 		//If the WLabel is 'for' something that is not in the tree it becomes 'for' the WApplication
 		//TODO: this is not necessarily a good thing!!!
 		WCheckBox notHere = new WCheckBox();
@@ -279,7 +284,8 @@ public class WLabelExample extends WPanel {
 		/*
 		 * Nested WLabels: very bad
 		 */
-		errorLayoutPanel.add(new ExplanatoryText("This example shows nested WLabels. This is a contravention of the HTML specification."));
+		errorLayoutPanel.add(new ExplanatoryText(
+				"This example shows nested WLabels. This is a contravention of the HTML specification."));
 
 		WPanel nestingErrorPanel = new WPanel();
 		//nestingErrorPanel.setLayout(new FlowLayout(FlowLayout.LEFT,12,0,FlowLayout.ContentAlignment.BASELINE));
@@ -304,7 +310,8 @@ public class WLabelExample extends WPanel {
 		 * (and I am not going to tell you which they are);
 		 * The WLabel must be 'for' the nested component or not 'for' anything.
 		 */
-		errorLayoutPanel.add(new ExplanatoryText("This example shows a WLabel with a nested simple form control WTextField but the WLabel is not 'for' the WTextField. This is a contravention of the HTML specification."));
+		errorLayoutPanel.add(new ExplanatoryText(
+				"This example shows a WLabel with a nested simple form control WTextField but the WLabel is not 'for' the WTextField. This is a contravention of the HTML specification."));
 
 		WTextField notMyField = new WTextField();
 		notMyField.setToolTip("This field should not be in the label it is in");

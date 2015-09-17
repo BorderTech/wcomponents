@@ -17,7 +17,8 @@ public class WSection_Test extends AbstractWComponentTestCase {
 		WSection section = new WSection("label");
 		WText txt = (WText) section.getDecoratedLabel().getBody();
 		Assert.assertEquals("Constructor - Incorrect label", "label", txt.getText());
-		Assert.assertNotNull("Constructor - Content should not be null by default", section.getContent());
+		Assert.assertNotNull("Constructor - Content should not be null by default", section.
+				getContent());
 	}
 
 	@Test

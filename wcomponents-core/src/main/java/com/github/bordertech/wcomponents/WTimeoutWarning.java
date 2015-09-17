@@ -3,19 +3,18 @@ package com.github.bordertech.wcomponents;
 import com.github.bordertech.wcomponents.util.Config;
 
 /**
- * WTimeoutWarning provides a mechanism to pass a session timeout period in seconds to the client.
- * This can then be used to indicate to the user when their session is about to expire.
+ * WTimeoutWarning provides a mechanism to pass a session timeout period in seconds to the client. This can then be used
+ * to indicate to the user when their session is about to expire.
  * <p>
- * This has two purposes: firstly it provides a means to minimise data loss by users by indicating
- * that they should submit their work before the session expires; and secondly it is a WCAG
- * requirement that users be given a warning of the end of a time-limited process and a means to
- * extend that limit.
+ * This has two purposes: firstly it provides a means to minimise data loss by users by indicating that they should
+ * submit their work before the session expires; and secondly it is a WCAG requirement that users be given a warning of
+ * the end of a time-limited process and a means to extend that limit.
  * </p>
  * <p>
- * If the timeout period is "zero", then use the http session timeout interval will be used. If a
- * user's session does not expire then an existing WTimeoutWarning can have its timeout set to -1.
- * This will prevent painting the WTimeoutWarning. This value is the equivalent of a http session
- * time out value of -1 which indicates that the session does not time out.
+ * If the timeout period is "zero", then use the http session timeout interval will be used. If a user's session does
+ * not expire then an existing WTimeoutWarning can have its timeout set to -1. This will prevent painting the
+ * WTimeoutWarning. This value is the equivalent of a http session time out value of -1 which indicates that the session
+ * does not time out.
  * </p>
  *
  * @author Mark Reeves
@@ -24,9 +23,8 @@ import com.github.bordertech.wcomponents.util.Config;
 public class WTimeoutWarning extends AbstractWComponent {
 
 	/**
-	 * The number of seconds before timeout in which a warning is shown to the user. The default of
-	 * 20 is the smallest amount of time (in seconds) a warning can be set to according to the WCAG
-	 * 2.0
+	 * The number of seconds before timeout in which a warning is shown to the user. The default of 20 is the smallest
+	 * amount of time (in seconds) a warning can be set to according to the WCAG 2.0
 	 */
 	private static final int MINIMUM_WARNING = 20;
 
@@ -37,8 +35,7 @@ public class WTimeoutWarning extends AbstractWComponent {
 			.getInt("bordertech.wcomponents.timeoutWarning.warningPeriod", 300);
 
 	/**
-	 * The default timeout period (in seconds). If the value is "zero", then use the http session
-	 * timeout value.
+	 * The default timeout period (in seconds). If the value is "zero", then use the http session timeout value.
 	 */
 	private static final int DEFAULT_TIMEOUT_PERIOD = Config.getInstance()
 			.getInt("bordertech.wcomponents.timeoutWarning.timeoutPeriod", 0);
@@ -56,11 +53,10 @@ public class WTimeoutWarning extends AbstractWComponent {
 	 * If the timeout period is "zero", then use the http session timeout interval will be used.
 	 * </p>
 	 *
-	 * @param timeoutPeriod The timeout in seconds. This should be slightly less than the shortest
-	 * timeout period in the entire application stack, not just the web server session timeout.
-	 * @param warningPeriod The time in seconds before the time out occurs in which the warning
-	 * indicator should show. There is a minimum for this which is determined by the Web Content
-	 * Accessibility Guidelines 2.0.
+	 * @param timeoutPeriod The timeout in seconds. This should be slightly less than the shortest timeout period in the
+	 * entire application stack, not just the web server session timeout.
+	 * @param warningPeriod The time in seconds before the time out occurs in which the warning indicator should show.
+	 * There is a minimum for this which is determined by the Web Content Accessibility Guidelines 2.0.
 	 */
 	public WTimeoutWarning(final int timeoutPeriod, final int warningPeriod) {
 		setTimeoutPeriod(timeoutPeriod);
@@ -92,19 +88,18 @@ public class WTimeoutWarning extends AbstractWComponent {
 	}
 
 	/**
-	 * Set a pre-timeout warning to a specified number of seconds. This should be no less than the
-	 * WCAG minimum of 20.
+	 * Set a pre-timeout warning to a specified number of seconds. This should be no less than the WCAG minimum of 20.
 	 * <p>
-	 * Setting the warning period to exactly ZERO (0) allows the warning time to be determined in
-	 * the client layer.
+	 * Setting the warning period to exactly ZERO (0) allows the warning time to be determined in the client layer.
 	 * </p>
 	 *
-	 * @param warningPeriod The timeout warning will show this many seconds before the timeout as
-	 * indicated by the timeoutPeriod.
+	 * @param warningPeriod The timeout warning will show this many seconds before the timeout as indicated by the
+	 * timeoutPeriod.
 	 */
 	public void setWarningPeriod(final int warningPeriod) {
 		if (0 != warningPeriod && warningPeriod < MINIMUM_WARNING) {
-			throw new IllegalArgumentException("Warning period must be at least " + String.valueOf(MINIMUM_WARNING));
+			throw new IllegalArgumentException("Warning period must be at least " + String.valueOf(
+					MINIMUM_WARNING));
 		}
 		getOrCreateComponentModel().warningPeriod = warningPeriod;
 	}
@@ -128,8 +123,8 @@ public class WTimeoutWarning extends AbstractWComponent {
 	}
 
 	/**
-	 * Initialise by setting the timeout to the HTTPSession maxInactiveInterval if the timeoutPeriod
-	 * has not yet been set. {@inheritDoc}
+	 * Initialise by setting the timeout to the HTTPSession maxInactiveInterval if the timeoutPeriod has not yet been
+	 * set. {@inheritDoc}
 	 */
 	@Override
 	protected void preparePaintComponent(final Request request) {

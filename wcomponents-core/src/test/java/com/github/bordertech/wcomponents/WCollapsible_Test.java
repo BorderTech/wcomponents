@@ -17,15 +17,18 @@ public class WCollapsible_Test extends AbstractWComponentTestCase {
 		WCollapsible collapsible = new WCollapsible(new WText(""), "");
 		collapsible.setCollapsed(false);
 
-		Assert.assertFalse("Collapsible should not be collapsed by default", collapsible.isCollapsed());
+		Assert.assertFalse("Collapsible should not be collapsed by default", collapsible.
+				isCollapsed());
 
 		collapsible.setLocked(true);
 		setActiveContext(createUIContext());
 		collapsible.setCollapsed(true);
-		Assert.assertTrue("Collapsible should be collapsed for affected context", collapsible.isCollapsed());
+		Assert.assertTrue("Collapsible should be collapsed for affected context", collapsible.
+				isCollapsed());
 
 		resetContext();
-		Assert.assertFalse("Collapsible should not be collapsed for other contexts", collapsible.isCollapsed());
+		Assert.assertFalse("Collapsible should not be collapsed for other contexts", collapsible.
+				isCollapsed());
 
 		collapsible = new WCollapsible(new WText(""), "");
 		collapsible.setCollapsed(true);
@@ -35,10 +38,12 @@ public class WCollapsible_Test extends AbstractWComponentTestCase {
 
 		setActiveContext(createUIContext());
 		collapsible.setCollapsed(false);
-		Assert.assertFalse("Collapsible should not be collapsed for affected context", collapsible.isCollapsed());
+		Assert.assertFalse("Collapsible should not be collapsed for affected context", collapsible.
+				isCollapsed());
 
 		resetContext();
-		Assert.assertTrue("Collapsible should be collapsed for other contexts", collapsible.isCollapsed());
+		Assert.assertTrue("Collapsible should be collapsed for other contexts", collapsible.
+				isCollapsed());
 	}
 
 	@Test
@@ -59,10 +64,12 @@ public class WCollapsible_Test extends AbstractWComponentTestCase {
 		collapsible.setLocked(true);
 		setActiveContext(createUIContext());
 		collapsible.setHeading(heading2);
-		Assert.assertEquals("Incorrect dynamic heading for affected context", heading2, collapsible.getHeading());
+		Assert.assertEquals("Incorrect dynamic heading for affected context", heading2, collapsible.
+				getHeading());
 
 		resetContext();
-		Assert.assertEquals("Incorrect static heading after dynamic setHeading", heading1, collapsible.getHeading());
+		Assert.assertEquals("Incorrect static heading after dynamic setHeading", heading1,
+				collapsible.getHeading());
 	}
 
 	@Test
@@ -72,12 +79,15 @@ public class WCollapsible_Test extends AbstractWComponentTestCase {
 
 		CollapsibleGroup group = new CollapsibleGroup();
 		collapsible.setGroup(group);
-		Assert.assertEquals("Incorrect group name", group.getGroupName(), collapsible.getGroupName());
+		Assert.
+				assertEquals("Incorrect group name", group.getGroupName(), collapsible.
+						getGroupName());
 	}
 
 	@Test
 	public void testHandleRequestClientSide() {
-		WCollapsible collapsible = new WCollapsible(new WText(""), "", WCollapsible.CollapsibleMode.CLIENT);
+		WCollapsible collapsible = new WCollapsible(new WText(""), "",
+				WCollapsible.CollapsibleMode.CLIENT);
 		collapsible.setCollapsed(false);
 
 		collapsible.setLocked(true);
@@ -86,21 +96,25 @@ public class WCollapsible_Test extends AbstractWComponentTestCase {
 		request.setParameter(collapsible.getId(), "closed");
 
 		collapsible.handleRequest(request);
-		Assert.assertTrue("Collapsible should be collapsed after handleRequest to close", collapsible.isCollapsed());
+		Assert.assertTrue("Collapsible should be collapsed after handleRequest to close",
+				collapsible.isCollapsed());
 
 		request.setParameter(collapsible.getId(), "open");
-		Assert.assertTrue("Collapsible should not be collapsed after handleRequest to open", collapsible.isCollapsed());
+		Assert.assertTrue("Collapsible should not be collapsed after handleRequest to open",
+				collapsible.isCollapsed());
 	}
 
 	@Test
 	public void testMarginAccessors() {
-		WCollapsible collapsible = new WCollapsible(new WText(""), "", WCollapsible.CollapsibleMode.CLIENT);
+		WCollapsible collapsible = new WCollapsible(new WText(""), "",
+				WCollapsible.CollapsibleMode.CLIENT);
 		assertAccessorsCorrect(collapsible, "margin", null, new Margin(1), new Margin(2));
 	}
 
 	@Test
 	public void testHeadingLevelAccessors() {
-		WCollapsible collapsible = new WCollapsible(new WText(""), "", WCollapsible.CollapsibleMode.CLIENT);
+		WCollapsible collapsible = new WCollapsible(new WText(""), "",
+				WCollapsible.CollapsibleMode.CLIENT);
 		assertAccessorsCorrect(collapsible, "headingLevel", null, HeadingLevel.H1, HeadingLevel.H2);
 	}
 

@@ -12,8 +12,7 @@ import com.github.bordertech.wcomponents.WTextField;
  * This component demonstrates how to add some simple control logic, by using Actions.</p>
  *
  * <p>
- * Buttons can be given actions. If the button is pressed, then the action supplied will be
- * executed.</p>
+ * Buttons can be given actions. If the button is pressed, then the action supplied will be executed.</p>
  *
  * @author Martin Shevchenko
  * @since 1.0.0

@@ -24,7 +24,8 @@ public class InitialisationException_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testInitialisationExceptionString() {
 		InitialisationException exception = new InitialisationException(ERROR_MESSAGE);
-		Assert.assertTrue("error message should be ERROR_MESSAGE", exception.getMessage().equals(ERROR_MESSAGE));
+		Assert.assertTrue("error message should be ERROR_MESSAGE", exception.getMessage().equals(
+				ERROR_MESSAGE));
 		Assert.assertTrue("cause should be null", exception.getCause() == null);
 	}
 
@@ -32,8 +33,10 @@ public class InitialisationException_Test extends AbstractWComponentTestCase {
 	public void testInitialisationExceptionStringAndThrowable() {
 		Throwable throwable = new TestSampleException(SECOND_ERROR_MESSAGE);
 		InitialisationException exception = new InitialisationException(ERROR_MESSAGE, throwable);
-		Assert.assertTrue("error message should be ERROR_MESSAGE", exception.getMessage().equals(ERROR_MESSAGE));
-		Assert.assertTrue("cause should be TestSampleException", exception.getCause().getClass().getName()
+		Assert.assertTrue("error message should be ERROR_MESSAGE", exception.getMessage().equals(
+				ERROR_MESSAGE));
+		Assert.assertTrue("cause should be TestSampleException", exception.getCause().getClass().
+				getName()
 				.equals(throwable.getClass().getName()));
 	}
 
@@ -41,9 +44,11 @@ public class InitialisationException_Test extends AbstractWComponentTestCase {
 	public void testInitialisationExceptionThrowable() {
 		Throwable throwable = new TestSampleException(SECOND_ERROR_MESSAGE);
 		InitialisationException exception = new InitialisationException(throwable);
-		Assert.assertTrue("error message should contain SECOND_ERROR_MESSAGE", exception.getMessage()
+		Assert.assertTrue("error message should contain SECOND_ERROR_MESSAGE", exception.
+				getMessage()
 				.indexOf(SECOND_ERROR_MESSAGE) != -1);
-		Assert.assertTrue("cause should be TestSampleException", exception.getCause().getClass().getName()
+		Assert.assertTrue("cause should be TestSampleException", exception.getCause().getClass().
+				getName()
 				.equals(throwable.getClass().getName()));
 	}
 }
