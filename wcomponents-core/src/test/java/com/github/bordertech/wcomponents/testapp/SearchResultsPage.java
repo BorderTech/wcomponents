@@ -83,7 +83,7 @@ public class SearchResultsPage extends WContainer {
 		 *
 		 * @param data the search result data.
 		 */
-		public MyDataModel(final List data) {
+		private MyDataModel(final List data) {
 			this.data = data;
 		}
 

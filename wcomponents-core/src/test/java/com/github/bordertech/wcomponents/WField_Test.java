@@ -41,7 +41,7 @@ public class WField_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testAddValidator() {
-		My_Validator validator = new My_Validator();
+		MyValidator validator = new MyValidator();
 
 		WTextField textField = new WTextField();
 		WField field = new WField("dummy", textField);
@@ -102,7 +102,7 @@ public class WField_Test extends AbstractWComponentTestCase {
 	/**
 	 * Test Validator used for testing validation logic.
 	 */
-	private static class My_Validator extends AbstractFieldValidator {
+	private static class MyValidator extends AbstractFieldValidator {
 
 		@Override
 		protected boolean isValid() {

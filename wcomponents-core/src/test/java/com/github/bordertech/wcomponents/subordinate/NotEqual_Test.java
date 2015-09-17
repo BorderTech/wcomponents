@@ -49,7 +49,7 @@ public class NotEqual_Test {
 	public void testDoCompare() {
 		WNumberField trigger = new WNumberField();
 
-        // ------------------------------
+		// ------------------------------
 		// Setup NOT EQUAL - with value
 		NotEqual compare = new NotEqual(trigger, EQ_VALUE);
 
@@ -65,7 +65,7 @@ public class NotEqual_Test {
 		trigger.setNumber(GT_VALUE);
 		Assert.assertTrue("Not Equal - Compare for greater value should be true", compare.execute());
 
-        // ------------------------------
+		// ------------------------------
 		// Setup NOT EQUAL - with null value
 		compare = new NotEqual(trigger, null);
 

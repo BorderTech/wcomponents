@@ -36,6 +36,8 @@ public class WButton_Test extends AbstractWComponentTestCase {
 
 	/**
 	 * Test the access key methods on button.
+	 *
+	 * @throws java.lang.Exception
 	 */
 	@Test
 	public void testAccessKeyHandling() throws Exception {

@@ -226,7 +226,7 @@ public class AbstractWComponent_Test extends AbstractWComponentTestCase {
 		Assert.assertNull("Attribute should have been removed",
 				comp.getAttribute("a3"));
 
-        // Ensure attribute is isolated to individual component.
+		// Ensure attribute is isolated to individual component.
 		// Root should not see attributes on a.
 		Assert.assertNull("Parent should not see child's attributes",
 				root.getAttribute("a1"));
@@ -284,7 +284,7 @@ public class AbstractWComponent_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testVisibilityAndFlow() {
-        //    a
+		//    a
 		//   /|\
 		//  b c d
 		//  |
@@ -461,7 +461,7 @@ public class AbstractWComponent_Test extends AbstractWComponentTestCase {
 
 		WTextField date = new WTextField();
 		WField partialDateField = new WField("Text", date);
-		partialDateField.addValidator(new My_Validator());
+		partialDateField.addValidator(new MyValidator());
 		comp.add(partialDateField);
 
 		List<Diagnostic> diags = new ArrayList<>();
@@ -483,7 +483,7 @@ public class AbstractWComponent_Test extends AbstractWComponentTestCase {
 
 		WTextField date = new WTextField();
 		WField partialDateField = new WField("Text", date);
-		partialDateField.addValidator(new My_Validator());
+		partialDateField.addValidator(new MyValidator());
 		comp.add(partialDateField);
 
 		List<Diagnostic> diags = new ArrayList<>();
@@ -525,7 +525,7 @@ public class AbstractWComponent_Test extends AbstractWComponentTestCase {
 	public void testValidateIfIsDisableable() {
 		// instanceOf Disableable and isDisabled implies abort validate()
 		WTextField date = new WTextField();
-		date.addValidator(new My_Validator());
+		date.addValidator(new MyValidator());
 
 		date.setLocked(true);
 		setActiveContext(createUIContext());
@@ -855,37 +855,37 @@ public class AbstractWComponent_Test extends AbstractWComponentTestCase {
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testInvalidId_Null() {
+	public void testInvalidIdNull() {
 		new SimpleComponent().setIdName(null);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testInvalidId_Empty() {
+	public void testInvalidIdEmpty() {
 		new SimpleComponent().setIdName("");
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testInvalidId_Start_Reserved() {
+	public void testInvalidIdStartReserved() {
 		new SimpleComponent().setIdName("_");
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testInvalidId_Start_Digit() {
+	public void testInvalidIdStartDigit() {
 		new SimpleComponent().setIdName("1");
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testInvalidId_Contain_Invalid_Character_Dot() {
+	public void testInvalidIdContainInvalidCharacterDot() {
 		new SimpleComponent().setIdName("A.");
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testInvalidId_Contain_Invalid_Character_Dash() {
+	public void testInvalidIdContainInvalidCharacterDash() {
 		new SimpleComponent().setIdName("A-");
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testInvalidId_Contain_Space() {
+	public void testInvalidIdContainSpace() {
 		new SimpleComponent().setIdName("A A");
 	}
 
@@ -1053,6 +1053,9 @@ public class AbstractWComponent_Test extends AbstractWComponentTestCase {
 	 */
 	public static class TestComp extends MockContainer {
 
+		/**
+		 * @param content the test content
+		 */
 		public TestComp(final String content) {
 			WText text = new WText(content);
 			text.setEncodeText(false);
@@ -1069,7 +1072,7 @@ public class AbstractWComponent_Test extends AbstractWComponentTestCase {
 	/**
 	 * Test Validator used for testing validation logic.
 	 */
-	private static class My_Validator extends AbstractFieldValidator {
+	private static class MyValidator extends AbstractFieldValidator {
 
 		@Override
 		protected boolean isValid() {

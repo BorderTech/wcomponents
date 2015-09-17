@@ -47,7 +47,7 @@ public class RadioButtonGroup_Test extends AbstractWComponentTestCase {
 
 		setActiveContext(createUIContext());
 
-        // -----------------------------------------------------
+		// -----------------------------------------------------
 		// Request with null value and group is null (No Change)
 		MockRequest request = setupRequest(group, null);
 		group.setData(null);
@@ -58,7 +58,7 @@ public class RadioButtonGroup_Test extends AbstractWComponentTestCase {
 		Assert
 				.assertNull("Value should still be null after request with null value and group is null", group.getData());
 
-        // -----------------------------------------------------
+		// -----------------------------------------------------
 		// Request with null value and group is empty (No Change)
 		request = setupRequest(group, null);
 		group.setData("");
@@ -70,7 +70,7 @@ public class RadioButtonGroup_Test extends AbstractWComponentTestCase {
 		Assert.assertEquals("Value should still be empty after request with null value an group is empty", "",
 				group.getData());
 
-        // -----------------------------------------------------
+		// -----------------------------------------------------
 		// Request with Empty Value and group is null (No Change)
 		request = setupRequest(group, "");
 		group.setData(null);
@@ -82,7 +82,7 @@ public class RadioButtonGroup_Test extends AbstractWComponentTestCase {
 		Assert.assertNull("Value should still be null after request with empty value and group is null",
 				group.getData());
 
-        // -----------------------------------------------------
+		// -----------------------------------------------------
 		// Request with Empty Value and group is empty (No Change)
 		request = setupRequest(group, "");
 		group.setData("");
@@ -94,7 +94,7 @@ public class RadioButtonGroup_Test extends AbstractWComponentTestCase {
 						changed);
 		Assert.assertEquals("Value should still be empty after empty request and group is empty", "", group.getData());
 
-        // -----------------------------------------------------
+		// -----------------------------------------------------
 		// Request with a Value and group is null (No Change)
 		request = setupRequest(group, "XX");
 		group.setData(null);
@@ -105,7 +105,7 @@ public class RadioButtonGroup_Test extends AbstractWComponentTestCase {
 				changed);
 		Assert.assertNull("Value should still be null after request with a value and group is null", group.getData());
 
-        // -----------------------------------------------------
+		// -----------------------------------------------------
 		// Request with a Value and group is Empty (No Change)
 		request = setupRequest(group, "XX");
 		group.setData("");
@@ -117,7 +117,7 @@ public class RadioButtonGroup_Test extends AbstractWComponentTestCase {
 		Assert.assertEquals("Value should still be empty after a request with a value and group is empty", "",
 				group.getData());
 
-        // -----------------------------------------------------
+		// -----------------------------------------------------
 		// Request with null value and group has value (Change)
 		request = setupRequest(group, null);
 		group.setData("XX");
@@ -137,7 +137,7 @@ public class RadioButtonGroup_Test extends AbstractWComponentTestCase {
 
 		setActiveContext(createUIContext());
 
-        // -----------------------------------------------------
+		// -----------------------------------------------------
 		// Request with null value and group is null (No Change)
 		group.setData(null);
 		MockRequest request = setupRequest(group, null);
@@ -148,7 +148,7 @@ public class RadioButtonGroup_Test extends AbstractWComponentTestCase {
 						changed);
 		Assert.assertNull("Value should still be null after null request", group.getData());
 
-        // -----------------------------------------------------
+		// -----------------------------------------------------
 		// Request with null value and group is empty (No Change)
 		group.setData("");
 		request = setupRequest(group, null);
@@ -159,7 +159,7 @@ public class RadioButtonGroup_Test extends AbstractWComponentTestCase {
 						changed);
 		Assert.assertEquals("Value should still be empty after null request", "", group.getData());
 
-        // -----------------------------------------------------
+		// -----------------------------------------------------
 		// Request with Different Value (Change)
 		request = setupRequest(group, "X");
 		changed = group.handleButtonOnRequest(request);
@@ -167,7 +167,7 @@ public class RadioButtonGroup_Test extends AbstractWComponentTestCase {
 		Assert.assertTrue("handleButtonOnRequest should have returned true for request with different value", changed);
 		Assert.assertEquals("Value not set after request", "X", group.getData());
 
-        // -----------------------------------------------------
+		// -----------------------------------------------------
 		// Request with Same Value (No Change)
 		request = setupRequest(group, "X");
 		changed = group.handleButtonOnRequest(request);
@@ -175,7 +175,7 @@ public class RadioButtonGroup_Test extends AbstractWComponentTestCase {
 		Assert.assertFalse("handleButtonOnRequest should have returned false for request with same value", changed);
 		Assert.assertEquals("Value should not have changed after request with same value", "X", group.getData());
 
-        // -----------------------------------------------------
+		// -----------------------------------------------------
 		// Request with null value (Change)
 		request = setupRequest(group, null);
 		changed = group.handleButtonOnRequest(request);

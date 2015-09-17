@@ -1035,6 +1035,10 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 		Assert.assertEquals("Naming context should match component id", id, naming.getNamingContextId());
 	}
 
+	/**
+	 * @param data the test data
+	 * @return the table model
+	 */
 	private TableModel createModel(final Serializable[][] data) {
 		SimpleTableModel model = new SimpleTableModel(data);
 		return new AdapterBasicTableModel(model);

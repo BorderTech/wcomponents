@@ -1,8 +1,4 @@
 /**
- * Contains classes for mapping from system level exception to user
- * friendly message.
- *
- * <p>
- * TODO: More details here.</p>
+ * Contains classes for mapping from system level exceptions to user friendly message.
  */
 package com.github.bordertech.wcomponents.util.error;

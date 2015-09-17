@@ -148,7 +148,7 @@ public class WLinkRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathNotExists("//ui:link/ui:windowAttributes/@showScrollbars", link);
 		assertXpathNotExists("//ui:link/ui:windowAttributes/@showDirectories", link);
 
-        // TODO this doesn't test that the renderer is using the correct properties to render.
+		// TODO this doesn't test that the renderer is using the correct properties to render.
 		// We need a convenient way of testing that only one attribute is set at a time.
 		link = new WLink.Builder(TEXT, LINK_URL)
 				.resizable(true)

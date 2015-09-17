@@ -90,7 +90,7 @@ public class SubordinateControlInterceptor_Test extends AbstractWComponentTestCa
 		Assert.assertNotNull("Registered Controls should be registered on the session",
 				request.getSessionAttribute(SubordinateControlHelper.SUBORDINATE_CONTROL_SESSION_KEY));
 
-        // Test Service Request - Simulate button click as it was enabled on the client by the check box being selected.
+		// Test Service Request - Simulate button click as it was enabled on the client by the check box being selected.
 		// As the controls have been registered from the Prepare Paint, they will be applied in the Service Request and
 		// this will enable the button and allow it to be clicked.
 		buttonClicked = false;
@@ -105,9 +105,9 @@ public class SubordinateControlInterceptor_Test extends AbstractWComponentTestCa
 //        // Check Subordinate Controls have not been cleared from session
 //        Assert.assertNotNull("Registered Controls should not have been cleared on the session",
 //                          request.getSessionAttribute(SubordinateControlHelper.SUBORDINATE_CONTROL_SESSION_KEY));
-//        
+//
 //        interceptor.preparePaint(request);
-//        
+//
 //        // Check Subordinate Controls have been cleared from session
 //        Assert.assertNull("Registered Controls should have been cleared on the session",
 //                          request.getSessionAttribute(SubordinateControlHelper.SUBORDINATE_CONTROL_SESSION_KEY));
@@ -142,7 +142,7 @@ public class SubordinateControlInterceptor_Test extends AbstractWComponentTestCa
 //                {
 //                    Assert.fail("Apply Controls should not have been executed for uic2");
 //                }
-//                
+//
 //                return super.execute(request);
 //            }
 //        });
@@ -196,7 +196,7 @@ public class SubordinateControlInterceptor_Test extends AbstractWComponentTestCa
 //        // Check Subordinate Controls have been cleared from session
 //        Assert.assertNull("Registered Controls should have been cleared on the session",
 //                          request.getSessionAttribute(SubordinateControlHelper.SUBORDINATE_CONTROL_SESSION_KEY));
-//        
+//
 //        // Check for AJAX operation only UIC1 should be applied and only UIC1 cleared from registry.
 //
 //        // Register the controls
@@ -226,15 +226,15 @@ public class SubordinateControlInterceptor_Test extends AbstractWComponentTestCa
 //        {
 //            // Clear AJAX operation
 //            AjaxHelper.setCurrentOperation(null);
-//        }        
-//        
+//        }
+//
 ////        // Check control is only applied for UIC1
 ////        // UIC1 - Target should be enabled (enabled by control as box is selected)
 ////        Assert.assertFalse("After service request target uic1 should be enabled", target.isDisabled());
 ////        // UIC2 - Target should be disabled
 ////        setActiveContext(uic2);
 ////        Assert.assertTrue("After service request target uic2 should be disabled", target.isDisabled());
-////        
+////
 ////        // Check UIC1 controls have been removed but UIC2 is still registered
 ////        Assert.assertNotNull("UIC2 Registered Controls should still be on the session",
 ////                             request.getSessionAttribute(SubordinateControlHelper.SUBORDINATE_CONTROL_SESSION_KEY));
@@ -243,8 +243,13 @@ public class SubordinateControlInterceptor_Test extends AbstractWComponentTestCa
 ////        // UIC2 operations should still be on the session
 ////        Assert.assertEquals("Should have 1 registered control on the session from uic2", 1, operations.size());
 ////        Assert.assertEquals("Registered Conterol should be for uic2", uic2, (operations.get(0)).getUic());
-//        
+//
 //    }
+	/**
+	 * @param target the subordinate check box target
+	 * @param request the request to be processed
+	 * @param condition the flag if the check box is selected
+	 */
 	private void setupCheckBoxRequest(final WCheckBox target, final MockRequest request,
 			final boolean condition) {
 		if (condition) {

@@ -24,7 +24,7 @@ public class Or_Test extends AbstractWComponentTestCase {
 		Condition condFalse3 = new FalseCondition();
 		Condition condFalse4 = new FalseCondition();
 
-        // Constructor - Two Conditions
+		// Constructor - Two Conditions
 		// Test True
 		Or orTest = new Or(condFalse1, condTrue1);
 		Assert.assertTrue("Constructor with two conditions: Or condition isTrue should be true", orTest.isTrue());
@@ -34,7 +34,7 @@ public class Or_Test extends AbstractWComponentTestCase {
 		orTest = new Or(condFalse1, condFalse2);
 		Assert.assertFalse("Constructor with two conditions: Or condition isTrue should be false", orTest.isTrue());
 
-        // Constructor - Multiple Conditions
+		// Constructor - Multiple Conditions
 		// Test True
 		orTest = new Or(condFalse1, condFalse2, condTrue1);
 		Assert.assertTrue("Constructor with multiple conditions: Or condition isTrue should be true", orTest.isTrue());

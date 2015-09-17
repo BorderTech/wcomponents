@@ -105,7 +105,7 @@ public class WRadioButton_Test extends AbstractWComponentTestCase {
 
 		setActiveContext(createUIContext());
 
-        // -------------------
+		// -------------------
 		// No Submit on change (focus not set when change)
 		// Setup radio button and request to cause a change
 		WRadioButton rb1 = group.addRadioButton(buttonValue);
@@ -117,7 +117,7 @@ public class WRadioButton_Test extends AbstractWComponentTestCase {
 		Assert.assertNull("Foccussed should not have been set as submit on change is false", UIContextHolder
 				.getCurrent().getFocussed());
 
-        // -------------------
+		// -------------------
 		// Submit on change (focus should be set)
 		// Setup radio button and request to cause a change
 		rb1 = group.addRadioButton(buttonValue);
@@ -130,7 +130,7 @@ public class WRadioButton_Test extends AbstractWComponentTestCase {
 		Assert.assertEquals("Foccussed should be the radio button as submit on change is true", rb1, UIContextHolder
 				.getCurrent().getFocussed());
 
-        // -------------------
+		// -------------------
 		// Submit on change but focus already set (focus should not change)
 		// Set focus
 		WTextField otherField = new WTextField();

@@ -40,7 +40,7 @@ public class AbstractCompare_Test {
 	public void testConstructors() {
 		AbstractCompare compare;
 
-        // --------------------------
+		// --------------------------
 		// Constructor - Valid Value
 		SubordinateTrigger trigger = new MyInput();
 		String value = "test";
@@ -49,7 +49,7 @@ public class AbstractCompare_Test {
 		Assert.assertEquals("Invalid trigger returned", trigger, compare.getTrigger());
 		Assert.assertEquals("Invalid compare value returned", value, compare.getValue());
 
-        // --------------------------
+		// --------------------------
 		// Constructor - Null Value
 		trigger = new MyInput();
 		compare = new MyCompare(trigger, null);
@@ -57,7 +57,7 @@ public class AbstractCompare_Test {
 		Assert.assertEquals("Invalid trigger returned", trigger, compare.getTrigger());
 		Assert.assertNull("Invalid compare value returned", compare.getValue());
 
-        // --------------------------
+		// --------------------------
 		// Constructor - Null Trigger
 		try {
 			compare = new MyCompare(null, "Test");
@@ -66,7 +66,7 @@ public class AbstractCompare_Test {
 			Assert.assertNotNull("Exception message for null trigger should not be null", e.getMessage());
 		}
 
-        // --------------------------
+		// --------------------------
 		// Constructor - DateField and Valid Value
 		SubordinateTrigger dateTrigger = new WDateField();
 		Date dateValue = new Date();
@@ -75,7 +75,7 @@ public class AbstractCompare_Test {
 		Assert.assertEquals("Invalid date trigger returned", dateTrigger, compare.getTrigger());
 		Assert.assertEquals("Invalid date compare value returned", dateValue, compare.getValue());
 
-        // --------------------------
+		// --------------------------
 		// Constructor - DateField and Invalid Value
 		try {
 			compare = new MyCompare(new WDateField(), "Invalid Date");
@@ -85,7 +85,7 @@ public class AbstractCompare_Test {
 					e.getMessage());
 		}
 
-        // --------------------------
+		// --------------------------
 		// Constructor - NumberField and Valid Value
 		SubordinateTrigger numberTrigger = new WNumberField();
 		BigDecimal numberValue = BigDecimal.valueOf(5);
@@ -491,9 +491,13 @@ public class AbstractCompare_Test {
 	/**
 	 * Test class for AbstractCompare (Basic Equals).
 	 */
-	private static class MyCompare extends AbstractCompare {
+	private static final class MyCompare extends AbstractCompare {
 
-		public MyCompare(final SubordinateTrigger trigger, final Object value) {
+		/**
+		 * @param trigger the trigger
+		 * @param value the value to compare
+		 */
+		private MyCompare(final SubordinateTrigger trigger, final Object value) {
 			super(trigger, value);
 		}
 
@@ -518,13 +522,13 @@ public class AbstractCompare_Test {
 	/**
 	 * Test class for AbstractWSingleSelectList.
 	 */
-	private static class MySingleSelectList extends AbstractWSingleSelectList implements SubordinateTrigger {
+	private static final class MySingleSelectList extends AbstractWSingleSelectList implements SubordinateTrigger {
 
 		/**
 		 * @param options the list's options.
 		 * @param allowNoSelection if true, allow no option to be selected
 		 */
-		public MySingleSelectList(final List<?> options, final boolean allowNoSelection) {
+		private MySingleSelectList(final List<?> options, final boolean allowNoSelection) {
 			super(options, allowNoSelection);
 		}
 
@@ -533,7 +537,7 @@ public class AbstractCompare_Test {
 		 * options from.
 		 * @param allowNoSelection if true, allow no option to be selected
 		 */
-		public MySingleSelectList(final Object lookupTable, final boolean allowNoSelection) {
+		private MySingleSelectList(final Object lookupTable, final boolean allowNoSelection) {
 			super(lookupTable, allowNoSelection);
 		}
 	}
@@ -541,13 +545,13 @@ public class AbstractCompare_Test {
 	/**
 	 * Test class for AbstractWMultiSelectList.
 	 */
-	private static class MyMultiSelectList extends AbstractWMultiSelectList implements SubordinateTrigger {
+	private static final class MyMultiSelectList extends AbstractWMultiSelectList implements SubordinateTrigger {
 
 		/**
 		 * @param options the list's options.
 		 * @param allowNoSelection if true, allow no option to be selected
 		 */
-		public MyMultiSelectList(final List<?> options, final boolean allowNoSelection) {
+		private MyMultiSelectList(final List<?> options, final boolean allowNoSelection) {
 			super(options, allowNoSelection);
 		}
 
@@ -556,7 +560,7 @@ public class AbstractCompare_Test {
 		 * options from.
 		 * @param allowNoSelection if true, allow no option to be selected
 		 */
-		public MyMultiSelectList(final Object lookupTable, final boolean allowNoSelection) {
+		private MyMultiSelectList(final Object lookupTable, final boolean allowNoSelection) {
 			super(lookupTable, allowNoSelection);
 		}
 	}

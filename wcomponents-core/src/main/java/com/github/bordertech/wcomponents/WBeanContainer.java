@@ -8,5 +8,5 @@ package com.github.bordertech.wcomponents;
  */
 @Deprecated
 public class WBeanContainer extends WContainer {
-    // Deprecated
+	// Deprecated
 }

@@ -33,11 +33,13 @@ public class WComponentPerformance_Test extends AbstractWComponentTestCase {
 	/**
 	 * The logger instance for this class.
 	 */
-	private static final Log log = LogFactory.getLog(WServletPerformance_Test.class);
+	private static final Log LOG = LogFactory.getLog(WServletPerformance_Test.class);
 
 	/**
 	 * Basic sanity-test to ensure that the WComponent implementation is
 	 * performing all the processing that it should.
+	 *
+	 * @throws java.lang.Exception an exception
 	 */
 	@Test
 	public void testWComponentAppCorrectness() throws Exception {
@@ -54,6 +56,8 @@ public class WComponentPerformance_Test extends AbstractWComponentTestCase {
 	/**
 	 * Basic sanity-test to ensure that the basic implementation is performing
 	 * all the processing that it should.
+	 *
+	 * @throws java.lang.Exception
 	 */
 	@Test
 	public void testOtherImplementationCorrectness() throws Exception {
@@ -73,8 +77,8 @@ public class WComponentPerformance_Test extends AbstractWComponentTestCase {
 		long simpleTime = timeOtherServlet(numLoops) / numLoops;
 		long wcomponentTime = timeWComponentProcessing(numLoops) / numLoops;
 
-		log.info("Simple request handling time: " + (simpleTime / 1000000.0) + "ms");
-		log.info("WComponent request handling time: " + (wcomponentTime / 1000000.0) + "ms");
+		LOG.info("Simple request handling time: " + (simpleTime / 1000000.0) + "ms");
+		LOG.info("WComponent request handling time: " + (wcomponentTime / 1000000.0) + "ms");
 
 		Assert.assertTrue("WComponent request handling time should not exceed 10x simple time", wcomponentTime < simpleTime * 10);
 	}
@@ -85,6 +89,7 @@ public class WComponentPerformance_Test extends AbstractWComponentTestCase {
 	 *
 	 * @param count the number of times to loop.
 	 * @return the elapsed time, in nanoseconds.
+	 * @throws Exception an exception
 	 */
 	private long timeWComponentProcessing(final int count) throws Exception {
 		final UIContext uic = createUIContext();
@@ -115,6 +120,7 @@ public class WComponentPerformance_Test extends AbstractWComponentTestCase {
 	 *
 	 * @param count the number of times to loop.
 	 * @return the elapsed time, in nanoseconds.
+	 * @throws Exception an exception
 	 */
 	private long timeOtherServlet(final int count) throws Exception {
 		final HttpSession session = new MockHttpSession();
@@ -143,6 +149,7 @@ public class WComponentPerformance_Test extends AbstractWComponentTestCase {
 	 *
 	 * @param app the component to invoke request processing on.
 	 * @param uic the user context to use.
+	 * @param step the step count
 	 */
 	private void sendWComponentRequest(final SimpleApp app, final UIContext uic, final int step) {
 		// The parameter names are hard-coded to avoid overhead during performance testing
@@ -160,8 +167,8 @@ public class WComponentPerformance_Test extends AbstractWComponentTestCase {
 	/**
 	 * Invokes simple request processing.
 	 *
-	 * @param servlet the servlet to invoke request processing on.
-	 * @param uic the user context to use.
+	 * @param session the http session
+	 * @param step the step count
 	 */
 	private void sendSimpleRequest(final HttpSession session, final int step) {
 		MockHttpServletRequest request = new MockHttpServletRequest(session);
@@ -252,7 +259,7 @@ public class WComponentPerformance_Test extends AbstractWComponentTestCase {
 			try {
 				BeanUtils.populate(formBean, properties);
 			} catch (Exception e) {
-				log.error("Failed to execute test", e);
+				LOG.error("Failed to execute test", e);
 			}
 		}
 	}

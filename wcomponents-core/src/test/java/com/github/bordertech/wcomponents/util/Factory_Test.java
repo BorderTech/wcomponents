@@ -43,7 +43,7 @@ public class Factory_Test {
 	/**
 	 * A test interface to use with the factory.
 	 */
-	public static interface TestInterface {
+	public interface TestInterface {
 	}
 
 	/**

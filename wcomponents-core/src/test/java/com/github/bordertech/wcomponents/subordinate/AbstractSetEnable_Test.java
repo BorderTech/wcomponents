@@ -113,7 +113,7 @@ public class AbstractSetEnable_Test {
 	/**
 	 * Test Implementation class of AbstractSetEnable.
 	 */
-	private static class MyEnable extends AbstractSetEnable {
+	private static final class MyEnable extends AbstractSetEnable {
 
 		/**
 		 * Test Constructor.
@@ -121,7 +121,7 @@ public class AbstractSetEnable_Test {
 		 * @param aTarget a test target
 		 * @param aValue a test value
 		 */
-		public MyEnable(final SubordinateTarget aTarget, final Boolean aValue) {
+		private MyEnable(final SubordinateTarget aTarget, final Boolean aValue) {
 			super(aTarget, aValue);
 		}
 

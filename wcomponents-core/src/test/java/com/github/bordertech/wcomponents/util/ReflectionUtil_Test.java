@@ -17,84 +17,150 @@ public class ReflectionUtil_Test {
 	 *
 	 * @author francis.naoum
 	 */
-	public static class DummyObject {
+	private static class DummyObject {
 
-		boolean invokedVoidNoParams = false;
+		/**
+		 * Invoked void number of parameters.
+		 */
+		private boolean invokedVoidNoParams = false;
 
-		Object invokedVoidParams = null;
+		/**
+		 * Invoked void parameters.
+		 */
+		private Object invokedVoidParams = null;
 
-		static boolean staticInvokedVoidNoParams = false;
+		/**
+		 * Static invoked void number of parameters.
+		 */
+		private static boolean staticInvokedVoidNoParams = false;
 
-		static Object staticInvokedVoidParams = null;
+		/**
+		 * Static invoked void parameters.
+		 */
+		private static Object staticInvokedVoidParams = null;
 
+		/**
+		 * Hold a property.
+		 */
 		private Object someProperty;
 
-		// getter for someProperty
+		/**
+		 * @return some property
+		 */
 		public Object getSomeProperty() {
 			return someProperty;
 		}
 
-		// setter for someProperty
+		/**
+		 * @param someProperty set some property
+		 */
 		public void setSomeProperty(final Object someProperty) {
 			this.someProperty = someProperty;
 		}
 
-		// a void method, with void params
+		/**
+		 * A void parameter with no parameters.
+		 */
 		public void voidNoParams() {
 			invokedVoidNoParams = true;
 		}
 
-		// a void method, which accepts parameters
+		/**
+		 * A void method, which accepts parameters.
+		 *
+		 * @param param a parameter
+		 */
 		public void voidParams(final Object param) {
 			invokedVoidParams = param;
 		}
 
-		// a non void method, with no parameters
+		/**
+		 * A non void method, with no parameters.
+		 *
+		 * @return an object
+		 */
 		public Object nonvoidNoParams() {
 			return new Object();
 		}
 
-		// a non void method which accepts params
+		/**
+		 * A non void method, with parameters.
+		 *
+		 * @param param a parameter
+		 * @return an object
+		 */
 		public Object nonvoidParams(final Object param) {
 			return param;
 		}
 
-		// a private method
+		/**
+		 * A private method.
+		 *
+		 * @return an object
+		 */
 		private Object privateMethod() {
 			return new Object();
 		}
 
-		// an exception throwing static method
+		/**
+		 * An exception throwing static method.
+		 *
+		 * @return nothing but throw an exception.
+		 */
 		public Object exceptionThrower() {
 			throw new UnsupportedOperationException();
 		}
 
-		// a void static method, with void params
+		/**
+		 * A void static method, with void params.
+		 *
+		 */
 		public static void staticVoidNoParams() {
 			staticInvokedVoidNoParams = true;
 		}
 
-		// a void static method, which accepts parameters
+		/**
+		 * A void static method, which accepts parameters.
+		 *
+		 * @param param a parameter
+		 */
 		public static void staticVoidParams(final Object param) {
 			staticInvokedVoidParams = param;
 		}
 
-		// a non void static method, with no parameters
+		/**
+		 * A non void static method, with no parameters.
+		 *
+		 * @return an object
+		 */
 		public static Object staticNonvoidNoParams() {
 			return new Object();
 		}
 
-		// a non void static method which accepts params
+		/**
+		 * A non void static method which accepts params.
+		 *
+		 * @param param a parameter
+		 * @return the parameter
+		 */
 		public static Object staticNonvoidParams(final Object param) {
 			return param;
 		}
 
-		// a private static method
+		/**
+		 * A private static method.
+		 *
+		 * @return an object
+		 */
 		private static Object staticPrivateMethod() {
 			return new Object();
 		}
 
-		// an exception throwing method
+		/**
+		 * An exception throwing method.
+		 *
+		 * @return nothing but throw an exception
+		 */
 		public static Object staticExceptionThrower() {
 			throw new UnsupportedOperationException();
 		}

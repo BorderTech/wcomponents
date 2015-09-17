@@ -126,7 +126,7 @@ public class WSuggestions_Test extends AbstractWComponentTestCase {
 		// Set action for AJAX refresh
 		sugg.setRefreshAction(new Action() {
 			@Override
-			public void execute(ActionEvent event) {
+			public void execute(final ActionEvent event) {
 				// For AJAX refresh set the options
 				WSuggestions suggestions = (WSuggestions) event.getSource();
 				suggestions.setSuggestions(options);

@@ -13,8 +13,7 @@ import org.junit.Test;
 import org.xml.sax.SAXException;
 
 /**
- * DebugStructureInterceptor_Test - unit tests for
- * {@link DebugStructureInterceptor}.
+ * DebugStructureInterceptor_Test - unit tests for {@link DebugStructureInterceptor}.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -60,21 +59,21 @@ public class DebugStructureInterceptor_Test extends AbstractWebXmlRendererTestCa
 		setActiveContext(uic);
 
 		// Create interceptor
-		PageShellInterceptor PageInterceptor = new PageShellInterceptor();
+		PageShellInterceptor pageInterceptor = new PageShellInterceptor();
 		DebugStructureInterceptor debugInterceptor = new DebugStructureInterceptor();
 
-		PageInterceptor.setBackingComponent(debugInterceptor);
-		PageInterceptor.attachUI(app);
+		pageInterceptor.setBackingComponent(debugInterceptor);
+		pageInterceptor.attachUI(app);
 
 		// Action phase
 		MockRequest request = new MockRequest();
-		PageInterceptor.serviceRequest(request);
-		PageInterceptor.preparePaint(request);
+		pageInterceptor.serviceRequest(request);
+		pageInterceptor.preparePaint(request);
 
 		// Render phase
 		MockResponse response = new MockResponse();
-		PageInterceptor.attachResponse(response);
-		PageInterceptor.paint(new WebXmlRenderContext(response.getWriter()));
+		pageInterceptor.attachResponse(response);
+		pageInterceptor.paint(new WebXmlRenderContext(response.getWriter()));
 
 		return response.getWriterOutput();
 	}

@@ -265,7 +265,10 @@ public class ValidateXMLInterceptor_Test extends AbstractWComponentTestCase {
 		 */
 		private final String content;
 
-		public MyComponent(final String content) {
+		/**
+		 * @param content the test content
+		 */
+		private MyComponent(final String content) {
 			this.content = content;
 		}
 

@@ -68,6 +68,8 @@ public class ThemeServlet_Test {
 	 * @param asParam true to use the ThemeServlet's 'f' parameter or false to
 	 * place the path in the URL.
 	 * @return the servlet response
+	 * @throws ServletException a servlet exception
+	 * @throws IOException an exception
 	 */
 	private MockHttpServletResponse requestFile(final String path, final boolean asParam) throws ServletException, IOException {
 		MockHttpServletRequest request = new MockHttpServletRequest();

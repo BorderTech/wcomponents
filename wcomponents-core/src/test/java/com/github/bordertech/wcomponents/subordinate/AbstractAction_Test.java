@@ -85,6 +85,7 @@ public class AbstractAction_Test extends AbstractWComponentTestCase {
 		 * Creates an action with the given target.
 		 *
 		 * @param target the component to disable.
+		 * @param value the action value
 		 */
 		public MyAction(final SubordinateTarget target, final Object value) {
 			super(target, value);

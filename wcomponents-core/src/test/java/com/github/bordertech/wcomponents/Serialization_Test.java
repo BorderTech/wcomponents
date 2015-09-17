@@ -122,6 +122,8 @@ public class Serialization_Test extends AbstractWComponentTestCase {
 	 * Take a copy of an input object via serialization.
 	 *
 	 * @param obj the object to copy
+	 *
+	 * @return the copy of the object
 	 */
 	private static Object pipe(final Object obj) {
 		try {
@@ -147,8 +149,8 @@ public class Serialization_Test extends AbstractWComponentTestCase {
 	}
 
 	/**
-	 * A simple UI to use in the test. This just contains a single text field
-	 * which can hold some text.
+	 * A simple UI to use in the test. This just contains a single text field which can hold some
+	 * text.
 	 */
 	protected static final class MyApplication extends WApplication {
 

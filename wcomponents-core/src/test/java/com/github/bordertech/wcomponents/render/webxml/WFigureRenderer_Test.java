@@ -52,7 +52,7 @@ public class WFigureRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo("lazy", "//ui:figure/@mode", figure);
 		assertXpathEvaluatesTo(FIGURE_CONTENT, "//ui:figure/ui:content", figure);
 
-        // Content Hidden
+		// Content Hidden
 		// Create User Context with UI component
 		UIContext uic = createUIContext();
 		uic.setUI(new DefaultWComponent());

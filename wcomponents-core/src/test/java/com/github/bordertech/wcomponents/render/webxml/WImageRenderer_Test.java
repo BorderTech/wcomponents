@@ -21,12 +21,14 @@ public class WImageRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 	@Test
 	public void testRendererCorrectlyConfigured() {
+
 		WImage image = new WImage();
 		Assert.assertTrue("Incorrect renderer supplied", getWebXmlRenderer(image) instanceof WImageRenderer);
 	}
 
 	@Test
 	public void testDoPaint() throws IOException, SAXException, XpathException {
+
 		MockImage content = new MockImage();
 		WImage image = new WImage();
 		assertSchemaMatch(image);
@@ -68,8 +70,13 @@ public class WImageRenderer_Test extends AbstractWebXmlRendererTestCase {
 	 * <pre>unknown?no-cache=1994285646-4&target_id=L&s=0</pre>
 	 *
 	 * @param image the image to test.
+	 *
+	 * @throws IOException an IO exception
+	 * @throws SAXException a SAX exception
+	 * @throws XpathException an xpath exception
 	 */
 	private void assertSrcMatch(final WImage image) throws IOException, SAXException, XpathException {
+
 		final String noCacheRegexp = "no-cache=[^&]*";
 
 		String src = WebUtilities.decode(image.getTargetUrl());
@@ -80,6 +87,7 @@ public class WImageRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 	@Test
 	public void testXssEscaping() throws IOException, SAXException, XpathException {
+
 		WImage image = new WImage();
 		MockImage content = new MockImage();
 		content.setDescription(getMaliciousAttribute("ui:image"));

@@ -5,7 +5,7 @@ import junit.framework.Assert;
 import org.junit.Test;
 
 /**
- * Unit tests for WTimeoutWarning
+ * Unit tests for WTimeoutWarning.
  *
  * @author Mark Reeves
  * @since 1.0.0
@@ -20,18 +20,18 @@ public class WTimeoutWarning_Test extends AbstractWComponentTestCase {
 			.getInt("bordertech.wcomponents.timeoutWarning.timeoutPeriod", 0);
 
 	/**
-	 * default warning period
+	 * default warning period.
 	 */
 	private static final int DEFAULT_WARNING_PERIOD = Config.getInstance()
 			.getInt("bordertech.wcomponents.timeoutWarning.warningPeriod", 300);
 
 	/**
-	 * Test timeout 60
+	 * Test timeout 60.
 	 */
 	private static final int TIMEOUT = 60;
 
 	/**
-	 * Test warning 30
+	 * Test warning 30.
 	 */
 	private static final int WARN_AT = 30;
 

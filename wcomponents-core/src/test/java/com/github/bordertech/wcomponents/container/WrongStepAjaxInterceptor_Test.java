@@ -21,8 +21,7 @@ import org.junit.Test;
 import org.xml.sax.SAXException;
 
 /**
- * WrongStepAjaxInterceptor_Test - unit tests for
- * {@link WrongStepAjaxInterceptor}.
+ * WrongStepAjaxInterceptor_Test - unit tests for {@link WrongStepAjaxInterceptor}.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -139,7 +138,7 @@ public class WrongStepAjaxInterceptor_Test extends AbstractWebXmlRendererTestCas
 		/**
 		 * Creates the test app.
 		 */
-		public MyApp() {
+		private MyApp() {
 			trigger.setAjaxTarget(target);
 			add(trigger);
 			add(target);

@@ -62,7 +62,7 @@ public class WSuggestionsRenderer_Test extends AbstractWebXmlRendererTestCase {
 		// If action set with a lookup table, AJAX flag should still be not set
 		field.setRefreshAction(new Action() {
 			@Override
-			public void execute(ActionEvent event) {
+			public void execute(final ActionEvent event) {
 				// Do nothing
 			}
 		});
@@ -96,7 +96,7 @@ public class WSuggestionsRenderer_Test extends AbstractWebXmlRendererTestCase {
 		// Set action for AJAX refresh
 		field.setRefreshAction(new Action() {
 			@Override
-			public void execute(ActionEvent event) {
+			public void execute(final ActionEvent event) {
 				// Do nothing
 			}
 		});

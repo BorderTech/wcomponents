@@ -23,27 +23,27 @@ public class ProfileContainer_Test extends AbstractWComponentTestCase {
 	/**
 	 * template for first header line of expected text from afterPaint.
 	 */
-	private final static String PROFILER_UIC_HEADER = "<h2>Serialization Profile of UIC</h2>";
+	private static final String PROFILER_UIC_HEADER = "<h2>Serialization Profile of UIC</h2>";
 
 	/**
 	 * template for first line of expected text from afterPaint.
 	 */
-	private final static String PROFILER_LINE1 = "<dt>Total root wcomponents found in UIC</dt><dd><<NUM_ROOTS>></dd>";
+	private static final String PROFILER_LINE1 = "<dt>Total root wcomponents found in UIC</dt><dd><<NUM_ROOTS>></dd>";
 
 	/**
 	 * template for second line of expected text from afterPaint.
 	 */
-	private final static String PROFILER_LINE2 = "<b>Number of components in tree:</b> <<NUM_COMPONENTS>>";
+	private static final String PROFILER_LINE2 = "<b>Number of components in tree:</b> <<NUM_COMPONENTS>>";
 
 	/**
 	 * template for third line of expected text from afterPaint.
 	 */
-	private final static String PROFILER_LINE3 = "<td><<CLASS_NAME>></td><td>Serializable</td>";
+	private static final String PROFILER_LINE3 = "<td><<CLASS_NAME>></td><td>Serializable</td>";
 
 	/**
 	 * template for second header line of expected text from afterPaint.
 	 */
-	private final static String PROFILER_PROFILE_HEADER = "<h2>ObjectProfiler - <<CLASS_NAME>>";
+	private static final String PROFILER_PROFILE_HEADER = "<h2>ObjectProfiler - <<CLASS_NAME>>";
 
 	/**
 	 * Test afterPaint.
@@ -68,7 +68,7 @@ public class ProfileContainer_Test extends AbstractWComponentTestCase {
 
 		app.afterPaint(renderContext);
 
-        // expecting 1 root class, 3 components, class names as shown, profiler
+		// expecting 1 root class, 3 components, class names as shown, profiler
 		// class
 		String profileLine0 = PROFILER_UIC_HEADER;
 		String profileLine1 = PROFILER_LINE1.replaceAll("<<NUM_ROOTS>>", "1");

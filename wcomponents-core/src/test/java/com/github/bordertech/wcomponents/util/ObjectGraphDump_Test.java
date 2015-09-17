@@ -29,7 +29,7 @@ public class ObjectGraphDump_Test extends AbstractWComponentTestCase {
 		ObjectGraphNode graphNode = ObjectGraphDump.dump(component);
 		String result = graphNode.toXml();
 
-        // ObjectGraphNode tested independently
+		// ObjectGraphNode tested independently
 		// for the input 'component' above - the dump result must at least contain the following
 		// and have run without exceptions
 		Assert.assertTrue("", result.indexOf("type=\"com.github.bordertech.wcomponents.WPanel\"") != -1);

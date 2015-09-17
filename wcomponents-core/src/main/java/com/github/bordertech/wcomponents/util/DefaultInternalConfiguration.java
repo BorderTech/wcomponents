@@ -496,7 +496,7 @@ final class DefaultInternalConfiguration implements Configuration {
 	 * @return the ClassLoader instance for this class.
 	 */
 	private ClassLoader getParamsClassLoader() {
-        // Ideally we could just use the defining classloader for this class.  But unfortunately we have to deal with
+		// Ideally we could just use the defining classloader for this class.  But unfortunately we have to deal with
 		// "legacy" deployment styles where this class is visible to the container's system class loader (ie in the
 		// system class path), instead of being deployed within the application.
 		//

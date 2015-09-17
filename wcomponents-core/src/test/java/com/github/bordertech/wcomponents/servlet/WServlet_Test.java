@@ -136,22 +136,22 @@ public class WServlet_Test extends AbstractWComponentTestCase {
 		Assert.assertEquals("Ajax panel should have painted in session2", 1, ui.ajaxPanel.getPaintCount());
 		Assert.assertEquals("Label should not have painted in session2", 0, ui.label.getPaintCount());
 
-// TODO Review what test is        
+// TODO Review what test is
 //        // This is the actual test of the AJAX servlet's service method
 //        // handleRequest should be called on everything, but only the label should be painted.
-//        WServlet servlet = new WServlet();       
+//        WServlet servlet = new WServlet();
 //        servlet.init(new MockServletConfig());
-//        
+//
 //        MockHttpServletRequest request = new MockHttpServletRequest(session1);
 //        setActiveContext(uic1);
 //        request.setMethod("GET");
 //        request.setParameter(WServlet.AJAX_TRIGGER_PARAM_NAME, ui.ajaxPanel.getId());
 //        request.setParameter(Environment.SESSION_TOKEN_VARIABLE, uic1.getEnvironment().getSessionToken());
 //        request.setParameter(Environment.STEP_VARIABLE, String.valueOf(uic1.getEnvironment().getStep()));
-//        
+//
 //        MockHttpServletResponse response = new MockHttpServletResponse();
 //        servlet.service(request, response);
-//        
+//
 //        // check handle request / paint counts for each session - only label should have painted for uic1.
 //        setActiveContext(uic1);
 //        Assert.assertEquals("HandleRequest should have been called for main panel in session1", 2, ui.mainPanel.getHandleRequestCount());
@@ -159,7 +159,7 @@ public class WServlet_Test extends AbstractWComponentTestCase {
 //        Assert.assertEquals("HandleRequest should have been called for label panel in session1", 2, ui.label.getHandleRequestCount());
 //        Assert.assertEquals("Paint should not have been called for main panel in session1", 1, ui.mainPanel.getPaintCount());
 //        Assert.assertEquals("Paint should have been called for ajax panel in session1", 2, ui.ajaxPanel.getPaintCount());
-//        Assert.assertEquals("Paint should have been called for label in session1", 1, ui.label.getPaintCount());        
+//        Assert.assertEquals("Paint should have been called for label in session1", 1, ui.label.getPaintCount());
 //        setActiveContext(uic2);
 //        Assert.assertEquals("HandleRequest should not have been called for main panel in session2", 1, ui.mainPanel.getHandleRequestCount());
 //        Assert.assertEquals("HandleRequest should not have been called for ajax panel in session2", 1, ui.ajaxPanel.getHandleRequestCount());
@@ -167,7 +167,7 @@ public class WServlet_Test extends AbstractWComponentTestCase {
 //        Assert.assertEquals("Paint should not have been called for main panel in session1", 1, ui.mainPanel.getPaintCount());
 //        Assert.assertEquals("Paint should not been called for ajax panel in session1", 1, ui.ajaxPanel.getPaintCount());
 //        Assert.assertEquals("Paint should not have been called for label in session1", 0, ui.label.getPaintCount());
-//        
+//
 //        Assert.assertTrue("Response should contain label text", response.getOutputAsString().contains(LABEL_TEXT));
 	}
 
@@ -297,18 +297,23 @@ public class WServlet_Test extends AbstractWComponentTestCase {
 	}
 
 	/**
-	 * getUIContext is protected in WServlet.WServletHelper, so this is a
-	 * duplicate
+	 * getUIContext is protected in WServlet.WServletHelper, so this is a duplicate.
+	 *
+	 * @param servlet the servlet instance
+	 * @param session the current session.
+	 * @return the user context for the session
 	 */
 	private UIContext getContextForSession(final WServlet servlet, final HttpSession session) {
 		return (UIContext) session.getAttribute(servlet.getClass().getName() + ".servlet.model");
 	}
 
 	/**
-	 * Simulates an HTTP GET request to a WServlet
+	 * Simulates an HTTP GET request to a WServlet.
 	 *
 	 * @param session the current user's session
-	 * @param servlet the servlet to send the request to
+	 * @param servlet the servlet to invoke request processing on.
+	 * @throws ServletException a servlet exception
+	 * @throws IOException an exception
 	 */
 	private void sendRequest(final MockHttpSession session, final WServlet servlet) throws ServletException, IOException {
 		MockHttpServletRequest request = new MockHttpServletRequest(session);
@@ -334,7 +339,7 @@ public class WServlet_Test extends AbstractWComponentTestCase {
 		/**
 		 * Creates the test UI.
 		 */
-		public AjaxTestUI() {
+		private AjaxTestUI() {
 			add(mainPanel);
 			mainPanel.add(ajaxPanel);
 
@@ -344,7 +349,7 @@ public class WServlet_Test extends AbstractWComponentTestCase {
 	}
 
 	/**
-	 * A WServlet that lets you specify the root component
+	 * A WServlet that lets you specify the root component.
 	 */
 	private static final class MyWServlet extends WServlet {
 
@@ -356,7 +361,7 @@ public class WServlet_Test extends AbstractWComponentTestCase {
 		/**
 		 * Used to hold the count of invocations per session.
 		 */
-		private final String INVOCATION_COUNT_KEY = "MyWServlet.invocationCountKey";
+		private static final String INVOCATION_COUNT_KEY = "MyWServlet.invocationCountKey";
 
 		/**
 		 * The invocation count for the last request that was serviced.
@@ -368,7 +373,7 @@ public class WServlet_Test extends AbstractWComponentTestCase {
 		 *
 		 * @param component the WComponent UI to serve.
 		 */
-		public MyWServlet(final WComponent component) {
+		private MyWServlet(final WComponent component) {
 			this.component = component;
 		}
 

@@ -21,12 +21,12 @@ public class WCollapsibleRenderer_Test extends AbstractWebXmlRendererTestCase {
 	/**
 	 * The collapsible heading to use when testing.
 	 */
-	final String COLLAPSIBLE_HEADING = "WCollapsibleRenderer_Test.collapsibleHeading";
+	private static final String COLLAPSIBLE_HEADING = "WCollapsibleRenderer_Test.collapsibleHeading";
 
 	/**
 	 * The collapsible content to use when testing.
 	 */
-	final String COLLAPSIBLE_CONTENT = "WCollapsibleRenderer_Test.collapsibleContent";
+	private static final String COLLAPSIBLE_CONTENT = "WCollapsibleRenderer_Test.collapsibleContent";
 
 	@Test
 	public void testRendererCorrectlyConfigured() {
@@ -102,14 +102,36 @@ public class WCollapsibleRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo("4", "//ui:collapsible/ui:margin/@west", collapsible);
 	}
 
+	@Test
+	public void testRenderedWithHeadingLevel() throws IOException, SAXException, XpathException {
+		WCollapsible collapsible = new WCollapsible(new WText(COLLAPSIBLE_CONTENT), COLLAPSIBLE_HEADING, WCollapsible.CollapsibleMode.EAGER);
+		assertSchemaMatch(collapsible);
+		assertXpathNotExists("//ui:collapsible/@level", collapsible);
+
+		// Set level
+		collapsible.setHeadingLevel(HeadingLevel.H1);
+		assertSchemaMatch(collapsible);
+		assertXpathEvaluatesTo("1", "//ui:collapsible/@level", collapsible);
+	}
+
+	@Test
+	public void testXssEscaping() throws IOException, SAXException, XpathException {
+		WCollapsible collapsible = new WCollapsible(new WText("dummy"), getMaliciousContent(), WCollapsible.CollapsibleMode.CLIENT);
+		assertSafeContent(collapsible);
+	}
+
 	/**
 	 * Asserts that the collapsible renders its content correctly.
 	 *
 	 * @param collapsible the collapsible to render.
-	 * @param shouldRenderContentWhenClosed true if the content should render
-	 * when the collapsible is closed.
-	 * @param shouldRenderContentWhenOpen true if the content should render when
-	 * the collapsible is open.
+	 * @param shouldRenderContentWhenClosed true if the content should render when the collapsible
+	 * is closed.
+	 * @param shouldRenderContentWhenOpen true if the content should render when the collapsible is
+	 * open.
+	 *
+	 * @throws IOException an IO exception
+	 * @throws SAXException a SAX exception
+	 * @throws XpathException an Xpath exception
 	 */
 	private void assertRenderContentCorrectly(final WCollapsible collapsible, final boolean shouldRenderContentWhenClosed, final boolean shouldRenderContentWhenOpen)
 			throws IOException, SAXException, XpathException {
@@ -134,23 +156,5 @@ public class WCollapsibleRenderer_Test extends AbstractWebXmlRendererTestCase {
 		} else {
 			assertXpathEvaluatesTo("", "normalize-space(//ui:collapsible/ui:content)", collapsible);
 		}
-	}
-
-	@Test
-	public void testRenderedWithHeadingLevel() throws IOException, SAXException, XpathException {
-		WCollapsible collapsible = new WCollapsible(new WText(COLLAPSIBLE_CONTENT), COLLAPSIBLE_HEADING, WCollapsible.CollapsibleMode.EAGER);
-		assertSchemaMatch(collapsible);
-		assertXpathNotExists("//ui:collapsible/@level", collapsible);
-
-		// Set level
-		collapsible.setHeadingLevel(HeadingLevel.H1);
-		assertSchemaMatch(collapsible);
-		assertXpathEvaluatesTo("1", "//ui:collapsible/@level", collapsible);
-	}
-
-	@Test
-	public void testXssEscaping() throws IOException, SAXException, XpathException {
-		WCollapsible collapsible = new WCollapsible(new WText("dummy"), getMaliciousContent(), WCollapsible.CollapsibleMode.CLIENT);
-		assertSafeContent(collapsible);
 	}
 }

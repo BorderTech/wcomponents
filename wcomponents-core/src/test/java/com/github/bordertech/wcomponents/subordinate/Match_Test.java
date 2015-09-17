@@ -38,7 +38,7 @@ public class Match_Test extends AbstractWComponentTestCase {
 	public void testDoCompare() {
 		MyInput trigger = new MyInput();
 
-        // ------------------------------
+		// ------------------------------
 		// Setup MATCH - with value
 		Match compare = new Match(trigger, "foo[abc]");
 
@@ -54,7 +54,7 @@ public class Match_Test extends AbstractWComponentTestCase {
 		trigger.setData("fooa");
 		Assert.assertTrue("Match - Compare for 'fooa' value should be true", compare.execute());
 
-        // ------------------------------
+		// ------------------------------
 		// Setup MATCH - with null value
 		compare = new Match(trigger, null);
 
@@ -70,7 +70,7 @@ public class Match_Test extends AbstractWComponentTestCase {
 		// MATCH
 		MyInput trigger = new MyInput();
 
-        // ------------------------------
+		// ------------------------------
 		// Setup MATCH - with value
 		Match compare = new Match(trigger, "foo[a");
 

@@ -34,7 +34,7 @@ public class AbstractSetMandatory_Test {
 
 	@Test
 	public void testExecute() {
-        // ---------------------
+		// ---------------------
 		// Valid Target (WInput) and TRUE Boolean Value
 		SubordinateTarget target1 = new MyTarget();
 		AbstractSetMandatory mandatory = new MyMandatory(target1, Boolean.TRUE);
@@ -50,7 +50,7 @@ public class AbstractSetMandatory_Test {
 		mandatory.execute();
 		Assert.assertFalse("Target (Mandatable) should not be mandatory", ((Mandatable) target1).isMandatory());
 
-        // ---------------------
+		// ---------------------
 		// Valid Target (WField) and TRUE Boolean Value
 		Input textArea = new WTextArea();
 		WField target2 = new WFieldLayout().addField("test", textArea);
@@ -67,7 +67,7 @@ public class AbstractSetMandatory_Test {
 		mandatory.execute();
 		Assert.assertFalse("Target (WField) should not be mandatory", textArea.isMandatory());
 
-        // ---------------------
+		// ---------------------
 		// Valid Target (WFieldSet) and TRUE Boolean Value
 		WFieldSet target3 = new WFieldSet("Test");
 		mandatory = new MyMandatory(target3, Boolean.TRUE);
@@ -83,7 +83,7 @@ public class AbstractSetMandatory_Test {
 		mandatory.execute();
 		Assert.assertFalse("Target (WFieldSet) should not be mandatory", target3.isMandatory());
 
-        // ---------------------
+		// ---------------------
 		// Invalid Target (Cannot be set Mandatory) and Boolean Value
 		MyInvalidTarget target4 = new MyInvalidTarget();
 		mandatory = new MyMandatory(target4, Boolean.TRUE);
@@ -122,7 +122,7 @@ public class AbstractSetMandatory_Test {
 	/**
 	 * Test Implementation class of AbstractSetEnable.
 	 */
-	private static class MyMandatory extends AbstractSetMandatory {
+	private static final class MyMandatory extends AbstractSetMandatory {
 
 		/**
 		 * Test Constructor.
@@ -130,7 +130,7 @@ public class AbstractSetMandatory_Test {
 		 * @param aTarget a test target
 		 * @param aValue a test value
 		 */
-		public MyMandatory(final SubordinateTarget aTarget, final Boolean aValue) {
+		private MyMandatory(final SubordinateTarget aTarget, final Boolean aValue) {
 			super(aTarget, aValue);
 		}
 

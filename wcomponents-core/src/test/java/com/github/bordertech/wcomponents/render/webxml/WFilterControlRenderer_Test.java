@@ -23,7 +23,7 @@ public class WFilterControlRenderer_Test extends AbstractWebXmlRendererTestCase 
 	/**
 	 * Test label text.
 	 */
-	private final static String TEST_LABEL = "Test Label";
+	private static final String TEST_LABEL = "Test Label";
 
 	/**
 	 * Test the Layout is correctly configured.

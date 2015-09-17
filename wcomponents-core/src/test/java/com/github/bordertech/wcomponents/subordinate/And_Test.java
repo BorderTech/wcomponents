@@ -22,7 +22,7 @@ public class And_Test {
 		Condition condTrue4 = new TrueCondition();
 		Condition condFalse = new FalseCondition();
 
-        // Constructor - Two Conditions
+		// Constructor - Two Conditions
 		// Test True
 		And and = new And(condTrue1, condTrue2);
 		Assert.assertTrue("Constructor with two conditions: And condition isTrue should be true", and.isTrue());
@@ -31,7 +31,7 @@ public class And_Test {
 		and = new And(condTrue1, condFalse);
 		Assert.assertFalse("Constructor with two conditions: And condition isTrue should be false", and.isTrue());
 
-        // Constructor - Multiple Conditions
+		// Constructor - Multiple Conditions
 		// Test True
 		and = new And(condTrue1, condTrue2, condTrue3);
 		Assert.assertTrue("Constructor with multiple conditions: And condition isTrue should be true", and.isTrue());

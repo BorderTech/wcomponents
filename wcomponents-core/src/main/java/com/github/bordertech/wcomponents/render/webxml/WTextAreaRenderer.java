@@ -52,9 +52,9 @@ final class WTextAreaRenderer extends AbstractWebXmlRenderer {
 		// no longer extend WTextField.
 		if (textArea.isRichTextArea()) {
 			/*
-             * This is a nested element instead of an attribute to cater for future enhancements
-             * such as turning rich text features on or off, or specifying JSON config either as
-             * a URL attribute or a nested CDATA section.
+			 * This is a nested element instead of an attribute to cater for future enhancements
+			 * such as turning rich text features on or off, or specifying JSON config either as
+			 * a URL attribute or a nested CDATA section.
 			 */
 			xml.append("<ui:rtf />");
 		}

@@ -71,7 +71,10 @@ public class ValidatingAction_Test {
 		private boolean executeOnValidExecuted = false;
 		private boolean executeOnErrorExecuted = false;
 
-		public MyValidatingAction(final WComponent componentToValidate) {
+		/**
+		 * @param componentToValidate the component to validate
+		 */
+		private MyValidatingAction(final WComponent componentToValidate) {
 			super(new WValidationErrors(), componentToValidate);
 		}
 

@@ -58,7 +58,7 @@ public class HeadLineInterceptor_Test extends AbstractWebXmlRendererTestCase {
 		content = new WLabelWithHeaders(LABEL_TEXT, Headers.UNTYPED_HEADLINE, generic2);
 		headLineComponent.setBackingComponent(content);
 
-        // Script 1 emulates a previous render, and should have been cleared out.
+		// Script 1 emulates a previous render, and should have been cleared out.
 		// Script 2 should be present.
 		assertSchemaMatch(headLineComponent);
 		assertXpathNotExists("//script", headLineComponent);
@@ -128,7 +128,7 @@ public class HeadLineInterceptor_Test extends AbstractWebXmlRendererTestCase {
 		 * @param key the key of the header to set.
 		 * @param value the value of the header to set.
 		 */
-		public WLabelWithHeaders(final String text, final String key, final String value) {
+		private WLabelWithHeaders(final String text, final String key, final String value) {
 			setText(text);
 			this.key = key;
 			this.value = value;
