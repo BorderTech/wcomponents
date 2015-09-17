@@ -1,8 +1,5 @@
 package com.github.bordertech.wcomponents.examples;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.WButton;
@@ -12,10 +9,12 @@ import com.github.bordertech.wcomponents.WFileWidget;
 import com.github.bordertech.wcomponents.WLabel;
 import com.github.bordertech.wcomponents.WTextArea;
 import com.github.bordertech.wcomponents.util.Util;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
- * This example demonstrates the use of WFileWidget to select and upload a file. The contents of the
- * uploaded file in displayed in the "console" component when the "Upload" button is pressed.
+ * This example demonstrates the use of WFileWidget to select and upload a file. The contents of the uploaded file in
+ * displayed in the "console" component when the "Upload" button is pressed.
  *
  * @author Martin Shevchenko
  */

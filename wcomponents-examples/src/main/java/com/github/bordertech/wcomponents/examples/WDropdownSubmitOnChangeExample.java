@@ -10,10 +10,9 @@ import com.github.bordertech.wcomponents.WStyledText;
 import com.github.bordertech.wcomponents.WText;
 
 /**
- * This example demonstrates the use of the submitOnChange flag available on {@link WDropdown}. When
- * you change the selected state in the state dropdown, the options available in the region dropdown
- * are changed to match. Also, if you select "ACT", you get a special message displayed. You should
- * endeavour to avoid this setting.
+ * This example demonstrates the use of the submitOnChange flag available on {@link WDropdown}. When you change the
+ * selected state in the state dropdown, the options available in the region dropdown are changed to match. Also, if you
+ * select "ACT", you get a special message displayed. You should endeavour to avoid this setting.
  *
  * @author Martin Shevchenko
  * @author Mark Reeves
@@ -47,7 +46,8 @@ public class WDropdownSubmitOnChangeExample extends WContainer {
 	/**
 	 * A Message to display when "ACT" is selected from the state selector.
 	 */
-	private final WText actMessage = new WText("<strong>Australian Capital Territory</strong> - the heart of the nation!");
+	private final WText actMessage = new WText(
+			"<strong>Australian Capital Territory</strong> - the heart of the nation!");
 
 	/**
 	 * Creates a WDropdownSubmitOnChangeExample.
@@ -55,7 +55,8 @@ public class WDropdownSubmitOnChangeExample extends WContainer {
 	public WDropdownSubmitOnChangeExample() {
 		actMessage.setEncodeText(false);
 
-		WStyledText text = new WStyledText("Any form control component which is not a WButton will show a visiable warning in its label if its submitOnChange property is set true.");
+		WStyledText text = new WStyledText(
+				"Any form control component which is not a WButton will show a visiable warning in its label if its submitOnChange property is set true.");
 		text.setWhitespaceMode(WStyledText.WhitespaceMode.PARAGRAPHS);
 		add(text);
 
@@ -96,9 +97,11 @@ public class WDropdownSubmitOnChangeExample extends WContainer {
 			actMessage.setVisible(true);
 			regionSelector.setOptions(new String[]{null, "Belconnen", "City", "Woden"});
 		} else if (STATE_NSW.equals(state)) {
-			regionSelector.setOptions(new String[]{null, "Hunter", "Riverina", "Southern Tablelands"});
+			regionSelector.setOptions(
+					new String[]{null, "Hunter", "Riverina", "Southern Tablelands"});
 		} else if (STATE_VIC.equals(state)) {
-			regionSelector.setOptions(new String[]{null, "Gippsland", "Melbourne", "Mornington Peninsula"});
+			regionSelector.setOptions(
+					new String[]{null, "Gippsland", "Melbourne", "Mornington Peninsula"});
 		} else {
 			regionSelector.setOptions(new Object[]{null});
 		}

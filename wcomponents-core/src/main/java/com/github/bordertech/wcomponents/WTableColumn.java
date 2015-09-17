@@ -1,8 +1,8 @@
 package com.github.bordertech.wcomponents;
 
 /**
- * WTableColumn represents a column in a {@link WDataTable}. It only holds configuration and state
- * information relating to the UI, and does not know about the data model.
+ * WTableColumn represents a column in a {@link WDataTable}. It only holds configuration and state information relating
+ * to the UI, and does not know about the data model.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -105,8 +105,7 @@ public final class WTableColumn extends AbstractContainer {
 	}
 
 	/**
-	 * Returns the heading text for this column, in the case that the heading does not contain
-	 * complex content.
+	 * Returns the heading text for this column, in the case that the heading does not contain complex content.
 	 *
 	 * @return the heading text, if available, otherwise null.
 	 * @see WDecoratedLabel#getText()
@@ -131,7 +130,8 @@ public final class WTableColumn extends AbstractContainer {
 	 */
 	public void setWidth(final int width) {
 		if (width > 100) {
-			throw new IllegalArgumentException("Width (" + width + ") cannot be greater than 100 percent");
+			throw new IllegalArgumentException(
+					"Width (" + width + ") cannot be greater than 100 percent");
 		}
 		getOrCreateComponentModel().width = Math.max(0, width);
 	}

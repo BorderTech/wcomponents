@@ -43,69 +43,85 @@ public class ProductBean_Test {
 
 	@Test
 	public void testConstructorAllParams() {
-		ProductBean bean = new ProductBean(TEST_PRODUCT_ID, TEST_SHORT_TITLE, TEST_IMAGE, TEST_DESCRIPTION);
+		ProductBean bean = new ProductBean(TEST_PRODUCT_ID, TEST_SHORT_TITLE, TEST_IMAGE,
+				TEST_DESCRIPTION);
 
 		Assert.assertEquals("id should be value set", TEST_PRODUCT_ID, bean.getId());
-		Assert.assertEquals("short title should be value set", TEST_SHORT_TITLE, bean.getShortTitle());
+		Assert.assertEquals("short title should be value set", TEST_SHORT_TITLE, bean.
+				getShortTitle());
 		Assert.assertEquals("image should be value set", TEST_IMAGE, bean.getImage());
-		Assert.assertEquals("description should be value set", TEST_DESCRIPTION, bean.getDescription());
+		Assert.assertEquals("description should be value set", TEST_DESCRIPTION, bean.
+				getDescription());
 	}
 
 	@Test
 	public void testSetDescription() {
 		final String testNewDescription = "new description";
 
-		ProductBean bean = new ProductBean(TEST_PRODUCT_ID, TEST_SHORT_TITLE, TEST_IMAGE, TEST_DESCRIPTION);
+		ProductBean bean = new ProductBean(TEST_PRODUCT_ID, TEST_SHORT_TITLE, TEST_IMAGE,
+				TEST_DESCRIPTION);
 		bean.setDescription(testNewDescription);
 
 		Assert.assertEquals("id should be value set", TEST_PRODUCT_ID, bean.getId());
-		Assert.assertEquals("short title should be value set", TEST_SHORT_TITLE, bean.getShortTitle());
+		Assert.assertEquals("short title should be value set", TEST_SHORT_TITLE, bean.
+				getShortTitle());
 		Assert.assertEquals("image should be value set", TEST_IMAGE, bean.getImage());
-		Assert.assertEquals("description should be value set", testNewDescription, bean.getDescription());
+		Assert.assertEquals("description should be value set", testNewDescription, bean.
+				getDescription());
 	}
 
 	@Test
 	public void testSetImage() {
 		final String testNewImage = "new image";
 
-		ProductBean bean = new ProductBean(TEST_PRODUCT_ID, TEST_SHORT_TITLE, TEST_IMAGE, TEST_DESCRIPTION);
+		ProductBean bean = new ProductBean(TEST_PRODUCT_ID, TEST_SHORT_TITLE, TEST_IMAGE,
+				TEST_DESCRIPTION);
 		bean.setImage(testNewImage);
 
 		Assert.assertEquals("id should be value set", TEST_PRODUCT_ID, bean.getId());
-		Assert.assertEquals("short title should be value set", TEST_SHORT_TITLE, bean.getShortTitle());
+		Assert.assertEquals("short title should be value set", TEST_SHORT_TITLE, bean.
+				getShortTitle());
 		Assert.assertEquals("image should be value set", testNewImage, bean.getImage());
-		Assert.assertEquals("description should be value set", TEST_DESCRIPTION, bean.getDescription());
+		Assert.assertEquals("description should be value set", TEST_DESCRIPTION, bean.
+				getDescription());
 	}
 
 	@Test
 	public void testSetShortTitle() {
 		final String testNewShortTitle = "new short Title";
 
-		ProductBean bean = new ProductBean(TEST_PRODUCT_ID, TEST_SHORT_TITLE, TEST_IMAGE, TEST_DESCRIPTION);
+		ProductBean bean = new ProductBean(TEST_PRODUCT_ID, TEST_SHORT_TITLE, TEST_IMAGE,
+				TEST_DESCRIPTION);
 		bean.setShortTitle(testNewShortTitle);
 
 		Assert.assertEquals("id should be value set", TEST_PRODUCT_ID, bean.getId());
-		Assert.assertEquals("short title should be value set", testNewShortTitle, bean.getShortTitle());
+		Assert.assertEquals("short title should be value set", testNewShortTitle, bean.
+				getShortTitle());
 		Assert.assertEquals("image should be value set", TEST_IMAGE, bean.getImage());
-		Assert.assertEquals("description should be value set", TEST_DESCRIPTION, bean.getDescription());
+		Assert.assertEquals("description should be value set", TEST_DESCRIPTION, bean.
+				getDescription());
 	}
 
 	@Test
 	public void testSetId() {
 		final int testNewProductId = 3;
 
-		ProductBean bean = new ProductBean(TEST_PRODUCT_ID, TEST_SHORT_TITLE, TEST_IMAGE, TEST_DESCRIPTION);
+		ProductBean bean = new ProductBean(TEST_PRODUCT_ID, TEST_SHORT_TITLE, TEST_IMAGE,
+				TEST_DESCRIPTION);
 		bean.setId(testNewProductId);
 
 		Assert.assertEquals("id should be value set", testNewProductId, bean.getId());
-		Assert.assertEquals("short title should be value set", TEST_SHORT_TITLE, bean.getShortTitle());
+		Assert.assertEquals("short title should be value set", TEST_SHORT_TITLE, bean.
+				getShortTitle());
 		Assert.assertEquals("image should be value set", TEST_IMAGE, bean.getImage());
-		Assert.assertEquals("description should be value set", TEST_DESCRIPTION, bean.getDescription());
+		Assert.assertEquals("description should be value set", TEST_DESCRIPTION, bean.
+				getDescription());
 	}
 
 	@Test
 	public void testHashCode() {
-		ProductBean bean = new ProductBean(TEST_PRODUCT_ID, TEST_SHORT_TITLE, TEST_IMAGE, TEST_DESCRIPTION);
+		ProductBean bean = new ProductBean(TEST_PRODUCT_ID, TEST_SHORT_TITLE, TEST_IMAGE,
+				TEST_DESCRIPTION);
 
 		Assert.assertEquals("hashCode should be ID", TEST_PRODUCT_ID, bean.hashCode());
 	}

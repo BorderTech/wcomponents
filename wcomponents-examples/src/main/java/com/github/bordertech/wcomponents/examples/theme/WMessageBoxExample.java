@@ -157,7 +157,9 @@ public class WMessageBoxExample extends WPanel {
 		selRemove.resetData();
 		btnRemove.setDisabled(messageList.isEmpty());
 		btnRemoveAll.setDisabled(messageList.isEmpty());
-		messageBox.setType((com.github.bordertech.wcomponents.WMessageBox.Type) messageBoxTypeSelect.getSelected());
+		messageBox.setType(
+				(com.github.bordertech.wcomponents.WMessageBox.Type) messageBoxTypeSelect.
+				getSelected());
 		messageBox.setVisible(cbVisible.isSelected());
 	}
 

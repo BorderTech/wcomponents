@@ -54,11 +54,11 @@ public abstract class AbstractWComponentTestCase {
 	}
 
 	/**
-	 * This method will test that the getter/setter methods on a component are returning the correct
-	 * values in its (i) initial state (ii) default state and (iii) user context.
+	 * This method will test that the getter/setter methods on a component are returning the correct values in its (i)
+	 * initial state (ii) default state and (iii) user context.
 	 * <p>
-	 * Note that the component will be left in a dirty state after this method is invoked and the
-	 * UIContext will be reset.
+	 * Note that the component will be left in a dirty state after this method is invoked and the UIContext will be
+	 * reset.
 	 * </p>
 	 *
 	 * @param component the component to test the accessors on
@@ -67,7 +67,8 @@ public abstract class AbstractWComponentTestCase {
 	 * @param defaultValue the default value to be used on the shared model
 	 * @param userContextValue the value to be used with a user context
 	 */
-	protected void assertAccessorsCorrect(final WComponent component, final String method, final Object initValue,
+	protected void assertAccessorsCorrect(final WComponent component, final String method,
+			final Object initValue,
 			final Object defaultValue, final Object userContextValue) {
 		try {
 			// Check initial value
@@ -118,7 +119,8 @@ public abstract class AbstractWComponentTestCase {
 		try {
 			return PropertyUtils.getProperty(component, methodName);
 		} catch (Exception e) {
-			throw new SystemException("Failed to get value on component for method " + methodName + " on "
+			throw new SystemException(
+					"Failed to get value on component for method " + methodName + " on "
 					+ component.getClass(), e);
 		}
 	}
@@ -128,11 +130,13 @@ public abstract class AbstractWComponentTestCase {
 	 * @param methodName the name of the method
 	 * @param value the value to pass into the setter method
 	 */
-	private void invokeSetMethod(final WComponent component, final String methodName, final Object value) {
+	private void invokeSetMethod(final WComponent component, final String methodName,
+			final Object value) {
 		try {
 			PropertyUtils.setProperty(component, methodName, value);
 		} catch (Exception e) {
-			throw new SystemException("Failed to set value on component for method " + methodName + " on "
+			throw new SystemException(
+					"Failed to set value on component for method " + methodName + " on "
 					+ component.getClass(), e);
 		}
 	}
@@ -177,8 +181,8 @@ public abstract class AbstractWComponentTestCase {
 	}
 
 	/**
-	 * Modifies the component's flags. This is necessary for testing as some of the setter methods
-	 * are intentionally not visible in the public API.
+	 * Modifies the component's flags. This is necessary for testing as some of the setter methods are intentionally not
+	 * visible in the public API.
 	 *
 	 * @param component the component to set the modify the flag for.
 	 * @param mask the flags to set/clear.
@@ -197,7 +201,8 @@ public abstract class AbstractWComponentTestCase {
 	 * @param expected the expected value
 	 * @param actual the actual value
 	 */
-	private void checkValue(final String method, final String prefix, final Object expected, final Object actual) {
+	private void checkValue(final String method, final String prefix, final Object expected,
+			final Object actual) {
 		if (expected instanceof Object[]) {
 			Assert.assertTrue("(Array) Incorrect value for method " + method + " on " + prefix,
 					Arrays.equals((Object[]) expected, (Object[]) actual));
@@ -205,7 +210,8 @@ public abstract class AbstractWComponentTestCase {
 			Assert.assertTrue("(Int Array) Incorrect value for method " + method + " on " + prefix,
 					Arrays.equals((int[]) expected, (int[]) actual));
 		} else {
-			Assert.assertEquals("Incorrect value for method " + method + " on " + prefix, expected, actual);
+			Assert.assertEquals("Incorrect value for method " + method + " on " + prefix, expected,
+					actual);
 		}
 	}
 

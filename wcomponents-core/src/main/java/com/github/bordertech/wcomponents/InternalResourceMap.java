@@ -12,16 +12,13 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * <p>
- * The ImageResourceMap map keeps a reference to all internal resources within an application. It is
- * used by the WContentHelperServlet to efficiently serve binary data without having to go through
- * normal WComponent processing.</p>
+ * The ImageResourceMap map keeps a reference to all internal resources within an application. It is used by the
+ * WContentHelperServlet to efficiently serve binary data without having to go through normal WComponent processing.</p>
  *
  * Two things stop this map from consuming excessive amounts of memory:
  * <ol>
- * <li>InternalResources are files which are present in the classpath. There will be a finite
- * set.</li>
- * <li>The InternalResource implementation does not hold the file data, just a reference to the
- * file.</li>
+ * <li>InternalResources are files which are present in the classpath. There will be a finite set.</li>
+ * <li>The InternalResource implementation does not hold the file data, just a reference to the file.</li>
  * </ol>
  *
  * @author Yiannis Paschalidis
@@ -40,8 +37,8 @@ public final class InternalResourceMap {
 	private static final Map<String, InternalResource> RESOURCES = new HashMap<>();
 
 	/**
-	 * A map of internal resources cache keys by path. This is used to bust the browser cache when a
-	 * resource changes after a new deployment of the application.
+	 * A map of internal resources cache keys by path. This is used to bust the browser cache when a resource changes
+	 * after a new deployment of the application.
 	 */
 	private static final Map<String, String> RESOURCE_CACHE_KEYS = new HashMap<>();
 

@@ -57,22 +57,26 @@ public class CheckGetComponentModel extends OpcodeStackDetector {
 				if (util.isWComponent(getClassConstantOperand())) {
 					// Check for call to getComponentModel() & getOrCreateComponentModel().
 					// We don't check the specific return type as the code wouldn't have compiled if it's not a ComponentModel.
-					if (setter && "getComponentModel".equals(getNameConstantOperand()) && getSigConstantOperand().startsWith("()L")) {
+					if (setter && "getComponentModel".equals(getNameConstantOperand()) && getSigConstantOperand().startsWith(
+							"()L")) {
 						// Suspicious to call getComponentModel in a setter,
 						// but will not necessarily lead to application errors.
 						bug = "WCGETM_INCORRECT_USE_OF_GETCOMPONENTMODEL";
-					} else if (getter && !"getOrCreateComponentModel".equals(methodName) && "getOrCreateComponentModel".equals(getNameConstantOperand()) && getSigConstantOperand().startsWith("()L")) {
+					} else if (getter && !"getOrCreateComponentModel".equals(methodName) && "getOrCreateComponentModel".equals(
+							getNameConstantOperand()) && getSigConstantOperand().startsWith("()L")) {
 						// Suspicious to call getOrCreateComponentModel in a getter,
 						// but will not necessarily lead to application errors.
 						bug = "WCGETM_INCORRECT_USE_OF_GETORCREATECOMPONENTMODEL";
 					}
-				} else if (util.isComponentModel(getClassConstantOperand()) && getNameConstantOperand().startsWith("set")) {
+				} else if (util.isComponentModel(getClassConstantOperand()) && getNameConstantOperand().startsWith(
+						"set")) {
 					// TODO: this may not work if there are any double or long args.
 					Item model = stack.getStackItem(getNumberMethodArguments());
 					XMethod from = model.getReturnValueOf();
 
 					if (from != null && "getComponentModel".equals(from.getName())
-							&& from.getSignature().startsWith("()L") && util.isWComponent(from.getClassName())) {
+							&& from.getSignature().startsWith("()L") && util.isWComponent(
+							from.getClassName())) {
 						bug = "WCGETM_INCORRECT_USE_OF_GETCOMPONENTMODEL";
 						priority = HIGH_PRIORITY;
 					}
@@ -86,7 +90,8 @@ public class CheckGetComponentModel extends OpcodeStackDetector {
 					XMethod from = model.getReturnValueOf();
 
 					if ("getComponentModel".equals(from.getName())
-							&& from.getSignature().startsWith("()L") && util.isWComponent(from.getClassName())) {
+							&& from.getSignature().startsWith("()L") && util.isWComponent(
+							from.getClassName())) {
 						bug = "WCGETM_INCORRECT_USE_OF_GETCOMPONENTMODEL";
 						priority = HIGH_PRIORITY;
 					}

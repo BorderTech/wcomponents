@@ -10,12 +10,12 @@ import java.util.List;
 
 /**
  * <p>
- * This example demonstrates that focus will be returned to the control which triggered the form
- * submit after a round trip to the server completes.</p>
+ * This example demonstrates that focus will be returned to the control which triggered the form submit after a round
+ * trip to the server completes.</p>
  *
  * <p>
- * This example is similar to the {@link AutoReFocusExample}, except that it demonstrates that focus
- * is correctly set even when the components are repeated.</p>
+ * This example is similar to the {@link AutoReFocusExample}, except that it demonstrates that focus is correctly set
+ * even when the components are repeated.</p>
  *
  * @author Martin Shevchenko
  * @since 1.0.0

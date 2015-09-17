@@ -91,7 +91,8 @@ public class BigPanel extends WContainer {
 
 		WTextArea textArea = new WTextArea();
 		textArea
-				.setText("Hey, being a Gandalf would be wicked cool for a Tolkien fan (but who isn't, post-Jackson?) - unfortunately I have trouble to grow a dense, long beard even at 34 (and my wife wouldn't let me anyway). I once tried to be a Ninja, which is the second coolest position, it worked for a while (have the tons of SVN commits to prove, hehehe) but my company was not mature for telecommuting and I had to go back working with my pants on. (If anybody is willing to send me a monthly paycheck and never see my face, just call: 055-HACKFORFOOD.) So I guess I'm just a Workaholic again, except perhaps when posting and blogging, as evangelism and even fanboying help alleviate the stress... ");
+				.setText(
+						"Hey, being a Gandalf would be wicked cool for a Tolkien fan (but who isn't, post-Jackson?) - unfortunately I have trouble to grow a dense, long beard even at 34 (and my wife wouldn't let me anyway). I once tried to be a Ninja, which is the second coolest position, it worked for a while (have the tons of SVN commits to prove, hehehe) but my company was not mature for telecommuting and I had to go back working with my pants on. (If anybody is willing to send me a monthly paycheck and never see my face, just call: 055-HACKFORFOOD.) So I guess I'm just a Workaholic again, except perhaps when posting and blogging, as evangelism and even fanboying help alleviate the stress... ");
 		textArea.setMandatory(true);
 		leftColumn.addField("Describe yourself: ", textArea);
 

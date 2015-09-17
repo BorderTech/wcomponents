@@ -36,8 +36,8 @@ public class AppPreferenceParameterExample extends WContainer {
 	}
 
 	/**
-	 * Override preparePaintComponent to set the initial selection from the app preferences. The
-	 * selection is set the first time the example is accessed or when the reset button is used.
+	 * Override preparePaintComponent to set the initial selection from the app preferences. The selection is set the
+	 * first time the example is accessed or when the reset button is used.
 	 *
 	 * @param request the request being responded to.
 	 */

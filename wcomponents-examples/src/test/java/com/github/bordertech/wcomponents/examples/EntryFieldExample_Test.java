@@ -31,29 +31,46 @@ public class EntryFieldExample_Test extends WComponentSeleniumTestCase {
 		WebDriver driver = getDriver();
 
 		// Test initial state
-		Assert.assertEquals("Incorrect default values", "", driver.findElement(byWComponentPath("WTextArea")).getAttribute("value"));
+		Assert.assertEquals("Incorrect default values", "", driver.findElement(byWComponentPath(
+				"WTextArea")).getAttribute("value"));
 
-		Assert.assertEquals("Incorrect default text for tf1", "blah blah", driver.findElement(byWComponentPath("WTextField[0]")).getAttribute("value"));
-		Assert.assertEquals("Incorrect default text for tf2", "abc", driver.findElement(byWComponentPath("WTextField[1]")).getAttribute("value"));
-		Assert.assertEquals("Incorrect default text for tf3", "abc", driver.findElement(byWComponentPath("WTextField[2]")).getAttribute("value"));
-		Assert.assertEquals("Incorrect default text for tf4", "", driver.findElement(byWComponentPath("WTextField[3]")).getAttribute("value"));
+		Assert.assertEquals("Incorrect default text for tf1", "blah blah", driver.findElement(
+				byWComponentPath("WTextField[0]")).getAttribute("value"));
+		Assert.assertEquals("Incorrect default text for tf2", "abc", driver.findElement(
+				byWComponentPath("WTextField[1]")).getAttribute("value"));
+		Assert.assertEquals("Incorrect default text for tf3", "abc", driver.findElement(
+				byWComponentPath("WTextField[2]")).getAttribute("value"));
+		Assert.assertEquals("Incorrect default text for tf4", "", driver.findElement(
+				byWComponentPath("WTextField[3]")).getAttribute("value"));
 
-		Assert.assertTrue("Incorrect default value for drop1", driver.findElement(byWComponentPath("WDropdown[0]", "One")).isSelected());
-		Assert.assertTrue("Incorrect default value for drop2", driver.findElement(byWComponentPath("WDropdown[1]", "")).isSelected());
+		Assert.assertTrue("Incorrect default value for drop1", driver.findElement(byWComponentPath(
+				"WDropdown[0]", "One")).isSelected());
+		Assert.assertTrue("Incorrect default value for drop2", driver.findElement(byWComponentPath(
+				"WDropdown[1]", "")).isSelected());
 
-		Assert.assertEquals("Incorrect default value for multi1", "", driver.findElement(byWComponentPath("WMultiSelect[0]")).getAttribute("value"));
-		Assert.assertEquals("Incorrect default value for multi2", "", driver.findElement(byWComponentPath("WMultiSelect[1]")).getAttribute("value"));
+		Assert.assertEquals("Incorrect default value for multi1", "", driver.findElement(
+				byWComponentPath("WMultiSelect[0]")).getAttribute("value"));
+		Assert.assertEquals("Incorrect default value for multi2", "", driver.findElement(
+				byWComponentPath("WMultiSelect[1]")).getAttribute("value"));
 
-		Assert.assertFalse("Incorrect default value for checkbox group", driver.findElement(byWComponentPath("WCheckBoxSelect", "Female")).isSelected());
-		Assert.assertFalse("Incorrect default value for checkbox group", driver.findElement(byWComponentPath("WCheckBoxSelect", "Male")).isSelected());
+		Assert.assertFalse("Incorrect default value for checkbox group", driver.findElement(
+				byWComponentPath("WCheckBoxSelect", "Female")).isSelected());
+		Assert.assertFalse("Incorrect default value for checkbox group", driver.findElement(
+				byWComponentPath("WCheckBoxSelect", "Male")).isSelected());
 
-		Assert.assertFalse("Incorrect default value for radio button 1", driver.findElement(byWComponentPath("WRadioButton[0]")).isSelected());
-		Assert.assertFalse("Incorrect default value for radio button 2", driver.findElement(byWComponentPath("WRadioButton[1]")).isSelected());
-		Assert.assertFalse("Incorrect default value for radio button 3", driver.findElement(byWComponentPath("WRadioButton[2]")).isSelected());
+		Assert.assertFalse("Incorrect default value for radio button 1", driver.findElement(
+				byWComponentPath("WRadioButton[0]")).isSelected());
+		Assert.assertFalse("Incorrect default value for radio button 2", driver.findElement(
+				byWComponentPath("WRadioButton[1]")).isSelected());
+		Assert.assertFalse("Incorrect default value for radio button 3", driver.findElement(
+				byWComponentPath("WRadioButton[2]")).isSelected());
 
-		Assert.assertFalse("Incorrect default value for checkbox 1", driver.findElement(byWComponentPath("WCheckBox[0]")).isSelected());
-		Assert.assertFalse("Incorrect default value for checkbox 2", driver.findElement(byWComponentPath("WCheckBox[1]")).isSelected());
-		Assert.assertFalse("Incorrect default value for checkbox 3", driver.findElement(byWComponentPath("WCheckBox[2]")).isSelected());
+		Assert.assertFalse("Incorrect default value for checkbox 1", driver.findElement(
+				byWComponentPath("WCheckBox[0]")).isSelected());
+		Assert.assertFalse("Incorrect default value for checkbox 2", driver.findElement(
+				byWComponentPath("WCheckBox[1]")).isSelected());
+		Assert.assertFalse("Incorrect default value for checkbox 3", driver.findElement(
+				byWComponentPath("WCheckBox[2]")).isSelected());
 	}
 
 	@Test

@@ -37,7 +37,8 @@ public class VelocityRenderer_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testPaint() {
 		TestComponent component = new TestComponent();
-		VelocityRenderer layout = new VelocityRenderer("com/github/bordertech/wcomponents/velocity/VelocityRenderer_Test.vm");
+		VelocityRenderer layout = new VelocityRenderer(
+				"com/github/bordertech/wcomponents/velocity/VelocityRenderer_Test.vm");
 		setActiveContext(createUIContext());
 
 		StringWriter writer = new StringWriter();
@@ -46,16 +47,21 @@ public class VelocityRenderer_Test extends AbstractWComponentTestCase {
 		printWriter.close();
 
 		String result = writer.toString();
-		Assert.assertTrue("Missing 'this'", result.contains("this=com.github.bordertech.wcomponents.velocity.VelocityRenderer_Test$TestComponent"));
-		Assert.assertTrue("Missing 'this.someProperty'", result.contains("[this.someProperty=somePropertyValue]"));
-		Assert.assertTrue("Missing 'uicontext'", result.contains("[uicontext=com.github.bordertech.wcomponents.UIContextImpl"));
-		Assert.assertTrue("Missing 'uic'", result.contains("uicontext=com.github.bordertech.wcomponents.UIContextImpl"));
+		Assert.assertTrue("Missing 'this'", result.contains(
+				"this=com.github.bordertech.wcomponents.velocity.VelocityRenderer_Test$TestComponent"));
+		Assert.assertTrue("Missing 'this.someProperty'", result.contains(
+				"[this.someProperty=somePropertyValue]"));
+		Assert.assertTrue("Missing 'uicontext'", result.contains(
+				"[uicontext=com.github.bordertech.wcomponents.UIContextImpl"));
+		Assert.assertTrue("Missing 'uic'", result.contains(
+				"uicontext=com.github.bordertech.wcomponents.UIContextImpl"));
 		Assert.assertTrue("Missing 'children'", result.contains("[children=[A, B, C, D]]"));
 		Assert.assertTrue("Missing 'childA'", result.contains("[childA=A]"));
 		Assert.assertTrue("Missing 'childB'", result.contains("[childB=B]"));
 		Assert.assertTrue("Missing 'childC'", result.contains("[childC=]"));
 		Assert.assertTrue("Missing 'test_list'", result.contains("[test_list=[C, D]]"));
-		Assert.assertTrue("Missing velocity map params", result.contains("[velocityMapParam=velocityMapParamValue]"));
+		Assert.assertTrue("Missing velocity map params", result.contains(
+				"[velocityMapParam=velocityMapParamValue]"));
 		Assert.assertTrue("Map should have been used", component.mapUsedCalled);
 		Assert.assertFalse("Should not contain debug markers", result.contains("<!-- Start"));
 
@@ -71,13 +77,15 @@ public class VelocityRenderer_Test extends AbstractWComponentTestCase {
 		int endIndex = result.indexOf("<!-- End   " + layout.getUrl() + " -->");
 		Assert.assertTrue("Should contain start debug marker", startIndex != -1);
 		Assert.assertTrue("Should contain end debug marker", endIndex != -1);
-		Assert.assertTrue("Start debug marker should be before end debug marker", startIndex < endIndex);
+		Assert.assertTrue("Start debug marker should be before end debug marker",
+				startIndex < endIndex);
 	}
 
 	@Test
 	public void testPaintMissingTemplate() {
 		TestComponent component = new TestComponent();
-		VelocityRenderer layout = new VelocityRenderer("/com/github/bordertech/wcomponents/velocity/VelocityRenderer_Test_missing_template.vm");
+		VelocityRenderer layout = new VelocityRenderer(
+				"/com/github/bordertech/wcomponents/velocity/VelocityRenderer_Test_missing_template.vm");
 
 		StringWriter writer = new StringWriter();
 		PrintWriter printWriter = new PrintWriter(writer);
@@ -87,7 +95,8 @@ public class VelocityRenderer_Test extends AbstractWComponentTestCase {
 		// This should still render, and just dump out the contents of the Velocity context.
 		String result = writer.toString();
 		Assert.assertTrue("Should have rendered output", result.contains("<td>this</td>"));
-		Assert.assertTrue("Should have rendered output", result.contains("<td>" + component.getClass().getName() + "</td>"));
+		Assert.assertTrue("Should have rendered output", result.contains("<td>" + component.
+				getClass().getName() + "</td>"));
 	}
 
 	/**

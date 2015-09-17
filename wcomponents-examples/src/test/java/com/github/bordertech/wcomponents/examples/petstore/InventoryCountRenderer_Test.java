@@ -41,7 +41,8 @@ public class InventoryCountRenderer_Test {
 
 		// not setting the bean
 		String renderedText = renderer.getText();
-		Assert.assertEquals("should return $string without values filled", EXPECTED_VALUE_FROM_NULL_BEAN_VALUE, renderedText);
+		Assert.assertEquals("should return $string without values filled",
+				EXPECTED_VALUE_FROM_NULL_BEAN_VALUE, renderedText);
 	}
 
 	/**

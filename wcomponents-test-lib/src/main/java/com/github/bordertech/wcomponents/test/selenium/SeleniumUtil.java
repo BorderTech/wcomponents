@@ -72,9 +72,9 @@ public final class SeleniumUtil {
 	}
 
 	/**
-	 * Narrows the results of a search using the given value. A search is performed under each
-	 * search result for an element with the given value. Existing results are either replaced or
-	 * removed, depending on whether a match was found.
+	 * Narrows the results of a search using the given value. A search is performed under each search result for an
+	 * element with the given value. Existing results are either replaced or removed, depending on whether a match was
+	 * found.
 	 *
 	 * @param results the search results to modify.
 	 * @param component the component.

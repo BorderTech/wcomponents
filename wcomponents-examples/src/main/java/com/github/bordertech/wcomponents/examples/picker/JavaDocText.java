@@ -4,8 +4,7 @@ import com.github.bordertech.wcomponents.WText;
 
 /**
  * <p>
- * JavaDocText is a simple component to render the javaDoc from the example classes into a
- * WComponent.
+ * JavaDocText is a simple component to render the javaDoc from the example classes into a WComponent.
  * </p>
  *
  * It performs a series of operations on the inbound source to:
@@ -42,8 +41,7 @@ public class JavaDocText extends WText {
 	}
 
 	/**
-	 * extracts the javadoc. It assumes that the java doc for the class is the first javadoc in the
-	 * file.
+	 * extracts the javadoc. It assumes that the java doc for the class is the first javadoc in the file.
 	 *
 	 * @param source string representing the java class.
 	 * @return a String builder containing the javadoc.

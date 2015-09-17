@@ -42,10 +42,12 @@ public class UIRegistryClassLoaderImpl_Test {
 
 		try {
 			reg.register(key, component);
-			Assert.fail("attempted registration with key already used should have thrown an exception");
+			Assert.fail(
+					"attempted registration with key already used should have thrown an exception");
 		} catch (SystemException e) {
 			String expectedMessage = "Cannot re-register a component. Key = " + key;
-			Assert.assertEquals("exceptions hould have contained message expected", expectedMessage, e.getMessage());
+			Assert.assertEquals("exceptions hould have contained message expected", expectedMessage,
+					e.getMessage());
 		}
 	}
 

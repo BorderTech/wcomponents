@@ -86,7 +86,8 @@ public class ColumnLayout implements LayoutManager {
 	 * @param hgap the horizontal gap between the columns, measured in pixels.
 	 * @param vgap the vertical gap between the rows, measured in pixels.
 	 */
-	public ColumnLayout(final int[] columnWidths, final Alignment[] columnAlignments, final int hgap, final int vgap) {
+	public ColumnLayout(final int[] columnWidths, final Alignment[] columnAlignments, final int hgap,
+			final int vgap) {
 		if (columnWidths == null || columnWidths.length == 0) {
 			throw new IllegalArgumentException("ColumnWidths must be provided");
 		}
@@ -94,12 +95,14 @@ public class ColumnLayout implements LayoutManager {
 		// Column Definitions
 		for (int col = 0; col < columnWidths.length; col++) {
 			if (columnWidths[col] < 1 || columnWidths[col] > 100) {
-				throw new IllegalArgumentException("ColumnWidth (" + columnWidths[col] + ") must be between 1 and 100 percent");
+				throw new IllegalArgumentException(
+						"ColumnWidth (" + columnWidths[col] + ") must be between 1 and 100 percent");
 			}
 		}
 
 		if (columnAlignments != null && columnAlignments.length != columnWidths.length) {
-			throw new IllegalArgumentException("A columnAlignment must be provided for each columnWidth");
+			throw new IllegalArgumentException(
+					"A columnAlignment must be provided for each columnWidth");
 		}
 
 		if (hgap < 0) {
@@ -126,8 +129,7 @@ public class ColumnLayout implements LayoutManager {
 	}
 
 	/**
-	 * Sets the alignment of the given column. An IndexOutOfBoundsException will be thrown if col is
-	 * out of bounds.
+	 * Sets the alignment of the given column. An IndexOutOfBoundsException will be thrown if col is out of bounds.
 	 *
 	 * @param col the index of the column to set the alignment of.
 	 * @param alignment the alignment to set.

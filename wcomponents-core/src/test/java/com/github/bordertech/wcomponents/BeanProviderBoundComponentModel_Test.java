@@ -17,6 +17,7 @@ public class BeanProviderBoundComponentModel_Test extends AbstractWComponentTest
 		BeanProviderBoundComponentModel providerBoundBean = new BeanProviderBoundComponentModel();
 		providerBoundBean.setBeanId(textIn);
 
-		Assert.assertEquals("Bean retrieved should be same as bean set", textIn, providerBoundBean.getBeanId());
+		Assert.assertEquals("Bean retrieved should be same as bean set", textIn, providerBoundBean.
+				getBeanId());
 	}
 }

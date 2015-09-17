@@ -36,7 +36,8 @@ public class WMenu_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testSelectModeAccessors() {
-		assertAccessorsCorrect(new WMenu(), "selectMode", SelectMode.NONE, SelectMode.MULTIPLE, SelectMode.SINGLE);
+		assertAccessorsCorrect(new WMenu(), "selectMode", SelectMode.NONE, SelectMode.MULTIPLE,
+				SelectMode.SINGLE);
 	}
 
 	@Test
@@ -71,11 +72,14 @@ public class WMenu_Test extends AbstractWComponentTestCase {
 
 		List<WComponent> resultItems = menu.getSelectedItems();
 		Assert.assertNotNull("results should not be null", resultItems);
-		Assert.assertEquals("results should be same size as inputs", selectedItems.size(), resultItems.size());
-		Assert.assertTrue("results should contain the inputs", resultItems.containsAll(selectedItems));
+		Assert.assertEquals("results should be same size as inputs", selectedItems.size(),
+				resultItems.size());
+		Assert.assertTrue("results should contain the inputs", resultItems.
+				containsAll(selectedItems));
 
 		resetContext();
-		Assert.assertTrue("Should not have a selection by default", menu.getSelectedItems().isEmpty());
+		Assert.assertTrue("Should not have a selection by default", menu.getSelectedItems().
+				isEmpty());
 	}
 
 	/**
@@ -123,8 +127,7 @@ public class WMenu_Test extends AbstractWComponentTestCase {
 	}
 
 	/**
-	 * Test setSelectedItem - when selections already set. creates new selectionList containing the
-	 * single new item.
+	 * Test setSelectedItem - when selections already set. creates new selectionList containing the single new item.
 	 */
 	@Test
 	public void testSetSelectedItem() {
@@ -148,16 +151,17 @@ public class WMenu_Test extends AbstractWComponentTestCase {
 		List<WComponent> resultItems = menu.getSelectedItems();
 
 		Assert.assertNotNull("results should not be null", resultItems);
-		Assert.assertEquals("results size should equal expected size", expectedItems.size(), resultItems.size());
-		Assert.assertTrue("results should contain all items in expected", resultItems.containsAll(expectedItems));
+		Assert.assertEquals("results size should equal expected size", expectedItems.size(),
+				resultItems.size());
+		Assert.assertTrue("results should contain all items in expected", resultItems.containsAll(
+				expectedItems));
 
 		resetContext();
 		Assert.assertNull("Should not have a selection by default", menu.getSelectedItem());
 	}
 
 	/**
-	 * Test setSelectedItem - when no selection set. creates new selectionList containing the single
-	 * new item.
+	 * Test setSelectedItem - when no selection set. creates new selectionList containing the single new item.
 	 */
 	@Test
 	public void testSetSelectedItemNoSelections() {
@@ -179,8 +183,10 @@ public class WMenu_Test extends AbstractWComponentTestCase {
 		List<WComponent> resultItems = menu.getSelectedItems();
 
 		Assert.assertNotNull("results should not be null", resultItems);
-		Assert.assertEquals("results size should equal expected size", expectedItems.size(), resultItems.size());
-		Assert.assertTrue("results should contain all items in expected", resultItems.containsAll(expectedItems));
+		Assert.assertEquals("results size should equal expected size", expectedItems.size(),
+				resultItems.size());
+		Assert.assertTrue("results should contain all items in expected", resultItems.containsAll(
+				expectedItems));
 
 		resetContext();
 		Assert.assertNull("Should not have a selection by default", menu.getSelectedItem());
@@ -258,7 +264,8 @@ public class WMenu_Test extends AbstractWComponentTestCase {
 		// Menu not in request, selected items should not change
 		MockRequest request = new MockRequest();
 		menu.handleRequest(request);
-		Assert.assertEquals("results should not have changed", expectedSelectedItems, menu.getSelectedItems());
+		Assert.assertEquals("results should not have changed", expectedSelectedItems, menu.
+				getSelectedItems());
 
 		// Menu in request with no items, no items should be selected
 		request = new MockRequest();
@@ -273,7 +280,8 @@ public class WMenu_Test extends AbstractWComponentTestCase {
 		WSubMenu subMenu = new WSubMenu("submenu");
 		menuBar.add(subMenu);
 
-		Assert.assertTrue("Sub-menu should have been added to menu bar", menuBar.getIndexOfChild(subMenu) != -1);
+		Assert.assertTrue("Sub-menu should have been added to menu bar", menuBar.getIndexOfChild(
+				subMenu) != -1);
 		Assert.assertSame("Menu bar should be parent of sub-menu", menuBar, subMenu.getParent());
 	}
 
@@ -283,7 +291,8 @@ public class WMenu_Test extends AbstractWComponentTestCase {
 		WMenuItem menuItem = new WMenuItem("item");
 		menuBar.add(menuItem);
 
-		Assert.assertTrue("Menu item should have been added to menu bar", menuBar.getIndexOfChild(menuItem) != -1);
+		Assert.assertTrue("Menu item should have been added to menu bar", menuBar.getIndexOfChild(
+				menuItem) != -1);
 		Assert.assertSame("Menu bar should be parent of menu item", menuBar, menuItem.getParent());
 	}
 

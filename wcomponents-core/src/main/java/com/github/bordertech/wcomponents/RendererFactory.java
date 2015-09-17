@@ -19,8 +19,7 @@ public interface RendererFactory {
 	/**
 	 * Obtains a renderer for the given template.
 	 *
-	 * @return a template renderer for the given template, or null if template rendering is not
-	 * supported.
+	 * @return a template renderer for the given template, or null if template rendering is not supported.
 	 */
 	Renderer getTemplateRenderer();
 }

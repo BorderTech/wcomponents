@@ -7,13 +7,12 @@ import java.util.List;
 
 /**
  * <p>
- * This class is used to group multiple {@link WCollapsible} components and one
- * {@link WCollapsibleToggle} component together. Each collapsible component in the same group has
- * the same name.</p>
+ * This class is used to group multiple {@link WCollapsible} components and one {@link WCollapsibleToggle} component
+ * together. Each collapsible component in the same group has the same name.</p>
  *
  * <p>
- * The <code>WCollapsibleToggle</code> component of the group applies to only the
- * <code>collapsible</code> components in the same group.</p>
+ * The <code>WCollapsibleToggle</code> component of the group applies to only the <code>collapsible</code> components in
+ * the same group.</p>
  *
  * @author Christina Harris
  * @since 1.0.0

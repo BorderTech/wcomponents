@@ -6,16 +6,17 @@ import java.util.List;
 
 /**
  * <p>
- * WRadioButtonSelect is a convenience class which presents a group of radio buttons for the user to
- * select one option from. Unlike {@link WRadioButton}, an explicit {@link RadioButtonGroup} and
- * individual labels for the radio buttons do not need to be provided. The visual arrangement of the
- * radio buttons can be configured using the {@link #setButtonLayout(Layout)} method.</p>
+ * WRadioButtonSelect is a convenience class which presents a group of radio buttons for the user to select one option
+ * from. Unlike {@link WRadioButton}, an explicit {@link RadioButtonGroup} and individual labels for the radio buttons
+ * do not need to be provided. The visual arrangement of the radio buttons can be configured using the
+ * {@link #setButtonLayout(Layout)} method.</p>
  *
  * @author Yiannis Paschalidis
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class WRadioButtonSelect extends AbstractWSingleSelectList implements AjaxTrigger, AjaxTarget, SubordinateTrigger, SubordinateTarget {
+public class WRadioButtonSelect extends AbstractWSingleSelectList implements AjaxTrigger, AjaxTarget,
+		SubordinateTrigger, SubordinateTarget {
 
 	/**
 	 * An enumeration of button layouts.
@@ -38,18 +39,15 @@ public class WRadioButtonSelect extends AbstractWSingleSelectList implements Aja
 	};
 
 	/**
-	 * A layout where buttons are placed horizontally. Convenience constant for
-	 * {@link WRadioButtonSelect.Layout#FLAT}.
+	 * A layout where buttons are placed horizontally. Convenience constant for {@link WRadioButtonSelect.Layout#FLAT}.
 	 */
 	public static final Layout LAYOUT_FLAT = Layout.FLAT;
 	/**
-	 * A layout where buttons are placed vertically. Convenience constant for
-	 * {@link WRadioButtonSelect.Layout#STACKED}.
+	 * A layout where buttons are placed vertically. Convenience constant for {@link WRadioButtonSelect.Layout#STACKED}.
 	 */
 	public static final Layout LAYOUT_STACKED = Layout.STACKED;
 	/**
-	 * A layout where buttons are placed in columns. Convenience constant for
-	 * {@link WRadioButtonSelect.Layout#COLUMNS}.
+	 * A layout where buttons are placed in columns. Convenience constant for {@link WRadioButtonSelect.Layout#COLUMNS}.
 	 */
 	public static final Layout LAYOUT_COLUMNS = Layout.COLUMNS;
 
@@ -153,9 +151,9 @@ public class WRadioButtonSelect extends AbstractWSingleSelectList implements Aja
 	}
 
 	/**
-	 * Sets the default AJAX target for this list. If a target is supplied, an AJAX request is made
-	 * rather than a round-trip to the server. The AJAX response will only contain the (possibly
-	 * updated) target element rather than the entire UI.
+	 * Sets the default AJAX target for this list. If a target is supplied, an AJAX request is made rather than a
+	 * round-trip to the server. The AJAX response will only contain the (possibly updated) target element rather than
+	 * the entire UI.
 	 *
 	 * @param ajaxTarget the AJAX target.
 	 */

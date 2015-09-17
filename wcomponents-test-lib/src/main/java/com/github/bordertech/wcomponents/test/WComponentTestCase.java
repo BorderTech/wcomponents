@@ -7,8 +7,7 @@ import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.util.ThemeUtil;
 
 /**
- * This test case base class includes assertions and other features useful for the testing of
- * WComponents.
+ * This test case base class includes assertions and other features useful for the testing of WComponents.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -49,8 +48,8 @@ public abstract class WComponentTestCase {
 	}
 
 	/**
-	 * Returns the version of the Theme and Skin to run the tests under. By default, this returns
-	 * the default theme in use, but individual tests can override this to use a specific theme.
+	 * Returns the version of the Theme and Skin to run the tests under. By default, this returns the default theme in
+	 * use, but individual tests can override this to use a specific theme.
 	 *
 	 * @return the version of the Theme and Skin to use.
 	 */
@@ -59,8 +58,8 @@ public abstract class WComponentTestCase {
 	}
 
 	/**
-	 * This returns the top-level context to be used during testing. The default implementation is
-	 * to create and use a single context, but subclasses can change this behaviour if they wish.
+	 * This returns the top-level context to be used during testing. The default implementation is to create and use a
+	 * single context, but subclasses can change this behaviour if they wish.
 	 *
 	 * @return the top-level UIContext.
 	 */

@@ -12,9 +12,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * This class demonstrates a problem with binding a WDataRenderer to a data bean that is unable to
- * store incorrectly typed values. In this case, the problem attribute is java.util.Date. If you
- * enter a value such as "44 Aug 2008" into the WDateField, then there is a problem!
+ * This class demonstrates a problem with binding a WDataRenderer to a data bean that is unable to store incorrectly
+ * typed values. In this case, the problem attribute is java.util.Date. If you enter a value such as "44 Aug 2008" into
+ * the WDateField, then there is a problem!
  *
  * @author Martin Shevchenko
  */
@@ -129,7 +129,8 @@ public class ValidationAndDataRendererIssue extends ValidationContainer {
 
 				try {
 					dataBean.setDob((new SimpleDateFormat("dd/MM/yyyy")).parse("20/02/1984"));
-					dataBean.setDisappearingDate((new SimpleDateFormat("dd/MM/yyyy")).parse("30/03/1993"));
+					dataBean.setDisappearingDate((new SimpleDateFormat("dd/MM/yyyy")).parse(
+							"30/03/1993"));
 				} catch (ParseException e) {
 					LOG.error("Error parsing dates", e);
 				}

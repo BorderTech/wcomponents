@@ -95,13 +95,16 @@ public class ObjectGraphNode_Test extends AbstractWComponentTestCase {
 
 		final int nodeId = component.getIndexOfChild(label);
 		final String fieldName = label.getId();
-		ObjectGraphNode node = new ObjectGraphNode(nodeId, fieldName, label.getClass().getName(), label);
+		ObjectGraphNode node = new ObjectGraphNode(nodeId, fieldName, label.getClass().getName(),
+				label);
 
 		String flatSummary = node.toFlatSummary();
 		flatSummary = flatSummary.replaceAll("\n", "");
 
-		Assert.assertTrue("summary should start with size", flatSummary.startsWith(node.getSize() + " "));
-		Assert.assertTrue("summary should end with class name", flatSummary.endsWith(label.getClass().getName()));
+		Assert.assertTrue("summary should start with size", flatSummary.startsWith(
+				node.getSize() + " "));
+		Assert.assertTrue("summary should end with class name", flatSummary.endsWith(label.
+				getClass().getName()));
 	}
 
 	@Test
@@ -113,11 +116,13 @@ public class ObjectGraphNode_Test extends AbstractWComponentTestCase {
 
 		final int nodeId = component.getIndexOfChild(label);
 		final String fieldName = label.getId();
-		ObjectGraphNode node = new ObjectGraphNode(nodeId, fieldName, label.getClass().getName(), label);
+		ObjectGraphNode node = new ObjectGraphNode(nodeId, fieldName, label.getClass().getName(),
+				label);
 		String xmlSummary = node.toXml();
 
 		Assert.assertTrue("should report correct ID", xmlSummary.indexOf("object id=\"0\"") != -1);
-		Assert.assertTrue("should report correct field name", xmlSummary.indexOf("field=\"" + fieldName + "\"") != -1);
+		Assert.assertTrue("should report correct field name", xmlSummary.indexOf(
+				"field=\"" + fieldName + "\"") != -1);
 		Assert.assertTrue("should report correct class name",
 				xmlSummary.indexOf("type=\"com.github.bordertech.wcomponents.WLabel\"") != -1);
 		Assert.assertTrue("should report correct size", xmlSummary.indexOf("size=\"12\"") != -1);

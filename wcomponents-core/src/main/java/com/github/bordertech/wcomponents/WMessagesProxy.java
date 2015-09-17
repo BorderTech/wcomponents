@@ -8,8 +8,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * WMessagesProxy - A proxy used by {@link WMessages} when a component does not have an ancestor
- * that implements MessageContainer when WMessages.getInstance(WComponent) is called.
+ * WMessagesProxy - A proxy used by {@link WMessages} when a component does not have an ancestor that implements
+ * MessageContainer when WMessages.getInstance(WComponent) is called.
  *
  * The proxy will search for a MessageContainer each time a method is called.
  *
@@ -44,8 +44,8 @@ class WMessagesProxy extends WMessages {
 	}
 
 	/**
-	 * Utility method that searches for the WMessages instance for the given component. If not
-	 * found, a warning will be logged and null returned.
+	 * Utility method that searches for the WMessages instance for the given component. If not found, a warning will be
+	 * logged and null returned.
 	 *
 	 * @return the WMessages instance for the given component, or null if not found.
 	 */
@@ -249,10 +249,9 @@ class WMessagesProxy extends WMessages {
 	}
 
 	/**
-	 * Provides a proxy for the WValidationErrors exposed by
-	 * {@link WMessages#getValidationErrors()}. All methods in this proxy will delegate to the
-	 * WValidationErrors instance for the given component, or will have no effect if there is no
-	 * instance found.
+	 * Provides a proxy for the WValidationErrors exposed by {@link WMessages#getValidationErrors()}. All methods in
+	 * this proxy will delegate to the WValidationErrors instance for the given component, or will have no effect if
+	 * there is no instance found.
 	 *
 	 * @author Yiannis Paschalidis
 	 */
@@ -315,7 +314,8 @@ class WMessagesProxy extends WMessages {
 
 			if (instance != null) {
 				// This ugly cast is required because WValidationErrors is in a different package
-				return (ValidationErrorsModel) ((AbstractWComponent) instance).getOrCreateComponentModel();
+				return (ValidationErrorsModel) ((AbstractWComponent) instance).
+						getOrCreateComponentModel();
 			}
 
 			return new ValidationErrorsModel();

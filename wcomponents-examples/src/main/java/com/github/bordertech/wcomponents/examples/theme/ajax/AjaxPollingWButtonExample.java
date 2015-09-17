@@ -21,13 +21,12 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * <p>
- * This example use of a {@link WAjaxControl} in conjunction with a {@link WAjaxPollingRegion} to
- * produce an AJAX polling effect. </p>
+ * This example use of a {@link WAjaxControl} in conjunction with a {@link WAjaxPollingRegion} to produce an AJAX
+ * polling effect. </p>
  *
  * <p>
- * The {@link WAjaxControl} initiates the {@link WAjaxPollingRegion} and makes a service call. the
- * polling region polls every second until the service returns. The service will return after 5
- * seconds. </p>
+ * The {@link WAjaxControl} initiates the {@link WAjaxPollingRegion} and makes a service call. the polling region polls
+ * every second until the service returns. The service will return after 5 seconds. </p>
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0

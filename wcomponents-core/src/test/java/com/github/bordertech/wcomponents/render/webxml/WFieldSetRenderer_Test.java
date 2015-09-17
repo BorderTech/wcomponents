@@ -24,7 +24,8 @@ public class WFieldSetRenderer_Test extends AbstractWebXmlRendererTestCase {
 	@Test
 	public void testRendererCorrectlyConfigured() {
 		WFieldSet fieldSet = new WFieldSet("dummy");
-		Assert.assertTrue("Incorrect renderer supplied", getWebXmlRenderer(fieldSet) instanceof WFieldSetRenderer);
+		Assert.assertTrue("Incorrect renderer supplied",
+				getWebXmlRenderer(fieldSet) instanceof WFieldSetRenderer);
 	}
 
 	@Test

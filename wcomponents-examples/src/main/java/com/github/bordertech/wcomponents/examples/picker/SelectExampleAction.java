@@ -7,9 +7,8 @@ import com.github.bordertech.wcomponents.WMenuItem;
 import com.github.bordertech.wcomponents.WebUtilities;
 
 /**
- * An action used to select an example. Expects to be fired from a WComponent which has the set the
- * event's action object to the class to be launched. For example, a {@link WMenuItem} where the
- * action object has been set using
+ * An action used to select an example. Expects to be fired from a WComponent which has the set the event's action
+ * object to the class to be launched. For example, a {@link WMenuItem} where the action object has been set using
  * {@link WMenuItem#setActionObject(java.io.Serializable) setActionObject}.
  *
  * @author Yiannis Paschalidis

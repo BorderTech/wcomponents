@@ -46,8 +46,7 @@ public final class SelectListUtil {
 	}
 
 	/**
-	 * Iterate through the options to determine if an option exists allowing for Option/Code and
-	 * Legacy matching.
+	 * Iterate through the options to determine if an option exists allowing for Option/Code and Legacy matching.
 	 *
 	 * @param options the list of options
 	 * @param data the test data value
@@ -76,15 +75,13 @@ public final class SelectListUtil {
 	/**
 	 * Return the option that matches the data allowing for Option/Code and Legacy matching.
 	 * <p>
-	 * This method should be used in conjunction with
-	 * {@link #containsOptionWithMatching(List, Object)} as this method will return null if no match
-	 * found, but null could be a valid option.
+	 * This method should be used in conjunction with {@link #containsOptionWithMatching(List, Object)} as this method
+	 * will return null if no match found, but null could be a valid option.
 	 * </p>
 	 *
 	 * @param options the list of options
 	 * @param data the test data value
-	 * @return the option that matches allowing for Option/Code and Legacy matching, otherwise
-	 * return null
+	 * @return the option that matches allowing for Option/Code and Legacy matching, otherwise return null
 	 */
 	public static Object getOptionWithMatching(final List<?> options, final Object data) {
 		if (options != null) {
@@ -97,7 +94,8 @@ public final class SelectListUtil {
 					if (groupOptions != null) {
 						for (Object nestedOption : groupOptions) {
 							// Check for match via equals/code
-							if (Util.equals(nestedOption, data) || isOptionCodeMatch(nestedOption, data)) {
+							if (Util.equals(nestedOption, data) || isOptionCodeMatch(nestedOption,
+									data)) {
 								return nestedOption;
 							}
 
@@ -162,7 +160,8 @@ public final class SelectListUtil {
 	 * @return true if the option and data are a match
 	 */
 	private static boolean isEqualWithMatching(final Object option, final Object data) {
-		return (Util.equals(option, data) || isOptionCodeMatch(option, data) || isLegacyMatch(option, data));
+		return (Util.equals(option, data) || isOptionCodeMatch(option, data) || isLegacyMatch(option,
+				data));
 	}
 
 	/**
@@ -183,8 +182,7 @@ public final class SelectListUtil {
 	}
 
 	/**
-	 * If the option is an instance of {@link Option}, check if the data value matches the Code
-	 * value of the option.
+	 * If the option is an instance of {@link Option}, check if the data value matches the Code value of the option.
 	 *
 	 * @param option the option to test for a match
 	 * @param data the test data value

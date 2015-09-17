@@ -27,8 +27,7 @@ public class ExampleTaglet implements Taglet {
 	private static final Pattern PRE_TAG_PATTERN = Pattern.compile("(<pre>|<PRE>).*(</pre>|</PRE>)", Pattern.DOTALL);
 
 	/**
-	 * The set of Java keywords, taken from
-	 * http://java.sun.com/docs/books/tutorial/java/nutsandbolts/_keywords.html .
+	 * The set of Java keywords, taken from http://java.sun.com/docs/books/tutorial/java/nutsandbolts/_keywords.html .
 	 */
 	private static final Set<String> KEYWORDS = new HashSet<>(Arrays.asList(
 			"abstract", "continue", "for", "new", "switch",
@@ -124,8 +123,7 @@ public class ExampleTaglet implements Taglet {
 	}
 
 	/**
-	 * Given the <code>Tag</code> representation of this custom tag, return its string
-	 * representation.
+	 * Given the <code>Tag</code> representation of this custom tag, return its string representation.
 	 *
 	 * @param tag the <code>Tag</code> representation of this custom tag.
 	 * @return the String representation of this custom tag.
@@ -138,8 +136,7 @@ public class ExampleTaglet implements Taglet {
 	}
 
 	/**
-	 * Given an array of <code>Tag</code>s representing this custom tag, return its string
-	 * representation.
+	 * Given an array of <code>Tag</code>s representing this custom tag, return its string representation.
 	 *
 	 * @param tags the array of <code>Tag</code>s representing of this custom tag.
 	 * @return the String representation of this custom tag.

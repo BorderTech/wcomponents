@@ -296,7 +296,8 @@ public class ReflectionUtil_Test {
 				"staticVoidNoParams", null, null);
 
 		Assert.assertNull("staticVoidNoParams should not return a value", returned);
-		Assert.assertTrue("staticVoidNoParams was not invoked", DummyObject.staticInvokedVoidNoParams);
+		Assert.assertTrue("staticVoidNoParams was not invoked",
+				DummyObject.staticInvokedVoidNoParams);
 	}
 
 	/**
@@ -327,7 +328,8 @@ public class ReflectionUtil_Test {
 				new Class[]{Object.class});
 
 		Assert.assertNull("staticVoidParams should not return a value", returned);
-		Assert.assertEquals("staticVoidParams was not invoked", param, DummyObject.staticInvokedVoidParams);
+		Assert.assertEquals("staticVoidParams was not invoked", param,
+				DummyObject.staticInvokedVoidParams);
 	}
 
 	/**

@@ -20,7 +20,8 @@ public class WLabel_Test extends AbstractWComponentTestCase {
 		setActiveContext(createUIContext());
 		Assert.assertTrue("Should be in default state by default", lbl.isDefaultState());
 		lbl.setText("blah");
-		Assert.assertFalse("Should not be in default state when has session text", lbl.isDefaultState());
+		Assert.assertFalse("Should not be in default state when has session text", lbl.
+				isDefaultState());
 		Assert.assertEquals("getText returned incorrect session text", "blah", lbl.getText());
 
 		resetContext();

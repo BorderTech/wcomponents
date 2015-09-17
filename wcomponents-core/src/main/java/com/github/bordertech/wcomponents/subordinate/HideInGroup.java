@@ -18,15 +18,15 @@ public class HideInGroup extends AbstractSetVisible {
 	 * @param target the component to show in the group.
 	 * @param group the group containing the target.
 	 */
-	public HideInGroup(final SubordinateTarget target, final WComponentGroup<? extends SubordinateTarget> group) {
+	public HideInGroup(final SubordinateTarget target,
+			final WComponentGroup<? extends SubordinateTarget> group) {
 		// Show everything in the group.
 		super(group, Boolean.TRUE);
 		setTargetInGroup(target);
 	}
 
 	/**
-	 * Executes the action. Hides the target component and makes everything else visible in the
-	 * group.
+	 * Executes the action. Hides the target component and makes everything else visible in the group.
 	 */
 	@Override
 	public void execute() {

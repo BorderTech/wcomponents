@@ -21,14 +21,15 @@ public class PlaceOrderService_Test {
 	private static int orderSequenceNumber = -1;
 
 	/**
-	 * Helper for these unit tests. Manages the expected sequence number `orderSequenceNumber` which
-	 * can be used in unit tests.
+	 * Helper for these unit tests. Manages the expected sequence number `orderSequenceNumber` which can be used in unit
+	 * tests.
 	 *
 	 * @param cart The cart to pass to PlaceOrderService
 	 * @param clientDetails The clientDetails to pass to PlaceOrderService
 	 * @return The resulting order status.
 	 */
-	private static OrderStatus placeOrder(final List<CartBean> cart, final ConfirmOrderBean clientDetails) {
+	private static OrderStatus placeOrder(final List<CartBean> cart,
+			final ConfirmOrderBean clientDetails) {
 		PlaceOrderService service = PlaceOrderService.getInstance();
 		OrderStatus result = service.placeOrder(cart, clientDetails);
 		if (result.getStatus() == PlaceOrderService.OrderStatus.SUCCESS) {
@@ -65,12 +66,16 @@ public class PlaceOrderService_Test {
 		clientDetails.setLastName("Flinstone");
 
 		OrderStatus result = placeOrder(cart, clientDetails);
-		Assert.assertEquals("should be successful", PlaceOrderService.OrderStatus.SUCCESS, result.getStatus());
-		Assert.assertEquals("should get correct sequence number", Integer.valueOf(orderSequenceNumber), result.getDetails());
+		Assert.assertEquals("should be successful", PlaceOrderService.OrderStatus.SUCCESS, result.
+				getStatus());
+		Assert.assertEquals("should get correct sequence number", Integer.valueOf(
+				orderSequenceNumber), result.getDetails());
 
 		result = placeOrder(cart, clientDetails);
-		Assert.assertEquals("should be successful", PlaceOrderService.OrderStatus.SUCCESS, result.getStatus());
-		Assert.assertEquals("should get correct sequence number", Integer.valueOf(orderSequenceNumber), result.getDetails());
+		Assert.assertEquals("should be successful", PlaceOrderService.OrderStatus.SUCCESS, result.
+				getStatus());
+		Assert.assertEquals("should get correct sequence number", Integer.valueOf(
+				orderSequenceNumber), result.getDetails());
 	}
 
 	/**
@@ -88,7 +93,8 @@ public class PlaceOrderService_Test {
 		clientDetails.setLastName("Flinstone");
 
 		OrderStatus result = placeOrder(cart, clientDetails);
-		Assert.assertEquals("should get insufficient stock", PlaceOrderService.OrderStatus.INSUFFICIENT_STOCK, result.getStatus());
+		Assert.assertEquals("should get insufficient stock",
+				PlaceOrderService.OrderStatus.INSUFFICIENT_STOCK, result.getStatus());
 		Assert.assertEquals("should get cartBean1 details", cartBean1, result.getDetails()); // the cat item failed
 	}
 
@@ -108,15 +114,18 @@ public class PlaceOrderService_Test {
 		cart.add(cartBean2);
 
 		OrderStatus result = placeOrder(cart, clientDetails);
-		Assert.assertEquals("should be successful", PlaceOrderService.OrderStatus.SUCCESS, result.getStatus());
-		Assert.assertEquals("should get correct sequence number", Integer.valueOf(orderSequenceNumber), result.getDetails());
+		Assert.assertEquals("should be successful", PlaceOrderService.OrderStatus.SUCCESS, result.
+				getStatus());
+		Assert.assertEquals("should get correct sequence number", Integer.valueOf(
+				orderSequenceNumber), result.getDetails());
 
 		CartBean cartBean3 = new CartBean(2, 21); // fish - 21 - out of only 20 now available
 		List<CartBean> cart2 = new ArrayList<>();
 		cart2.add(cartBean3);
 
 		result = placeOrder(cart2, clientDetails);
-		Assert.assertEquals("should get Insuffient stock", PlaceOrderService.OrderStatus.INSUFFICIENT_STOCK, result.getStatus());
+		Assert.assertEquals("should get Insuffient stock",
+				PlaceOrderService.OrderStatus.INSUFFICIENT_STOCK, result.getStatus());
 		Assert.assertEquals("should get cartbean3 details", cartBean3, result.getDetails());
 	}
 
@@ -129,23 +138,31 @@ public class PlaceOrderService_Test {
 		final Object details = new String("details of order");
 		final String userMessage = "user message";
 
-		PlaceOrderService.OrderStatus orderStatus = new PlaceOrderService.OrderStatus(status, details, userMessage);
+		PlaceOrderService.OrderStatus orderStatus = new PlaceOrderService.OrderStatus(status,
+				details, userMessage);
 
 		Assert.assertEquals("status should be value set", status, orderStatus.getStatus());
 		Assert.assertEquals("details should be object set", details, orderStatus.getDetails());
-		Assert.assertEquals("userMessage should be value set", userMessage, orderStatus.getUserMessage());
+		Assert.assertEquals("userMessage should be value set", userMessage, orderStatus.
+				getUserMessage());
 
-		orderStatus = new PlaceOrderService.OrderStatus(PlaceOrderService.OrderStatus.UNKOWN_FAILURE, details,
+		orderStatus = new PlaceOrderService.OrderStatus(PlaceOrderService.OrderStatus.UNKOWN_FAILURE,
+				details,
 				userMessage);
-		Assert.assertEquals("status should be static value set", PlaceOrderService.OrderStatus.UNKOWN_FAILURE,
+		Assert.assertEquals("status should be static value set",
+				PlaceOrderService.OrderStatus.UNKOWN_FAILURE,
 				orderStatus.getStatus());
 
-		orderStatus = new PlaceOrderService.OrderStatus(PlaceOrderService.OrderStatus.SUCCESS, details, userMessage);
-		Assert.assertEquals("status should be static value set", PlaceOrderService.OrderStatus.SUCCESS, orderStatus.getStatus());
+		orderStatus = new PlaceOrderService.OrderStatus(PlaceOrderService.OrderStatus.SUCCESS,
+				details, userMessage);
+		Assert.assertEquals("status should be static value set",
+				PlaceOrderService.OrderStatus.SUCCESS, orderStatus.getStatus());
 
-		orderStatus = new PlaceOrderService.OrderStatus(PlaceOrderService.OrderStatus.INSUFFICIENT_STOCK, details,
+		orderStatus = new PlaceOrderService.OrderStatus(
+				PlaceOrderService.OrderStatus.INSUFFICIENT_STOCK, details,
 				userMessage);
-		Assert.assertEquals("status should be static value set", PlaceOrderService.OrderStatus.INSUFFICIENT_STOCK,
+		Assert.assertEquals("status should be static value set",
+				PlaceOrderService.OrderStatus.INSUFFICIENT_STOCK,
 				orderStatus.getStatus());
 	}
 }

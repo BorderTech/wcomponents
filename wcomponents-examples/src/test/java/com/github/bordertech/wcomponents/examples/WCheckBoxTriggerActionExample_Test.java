@@ -34,19 +34,23 @@ public class WCheckBoxTriggerActionExample_Test extends WComponentSeleniumTestCa
 
 		// Select "Breakfast"
 		driver.findElement(byWComponent(ui.getBreakfastCheckBox())).click();
-		Assert.assertEquals("Should have submitted 'Breakfast' to server", "Breakfast selected", getMessageText());
+		Assert.assertEquals("Should have submitted 'Breakfast' to server", "Breakfast selected",
+				getMessageText());
 
 		// Select "Lunch"
 		driver.findElement(byWComponent(ui.getLunchCheckBox())).click();
-		Assert.assertEquals("Should have submitted 'Lunch' to server", "Lunch selected", getMessageText());
+		Assert.assertEquals("Should have submitted 'Lunch' to server", "Lunch selected",
+				getMessageText());
 
 		// Select "Dinner"
 		driver.findElement(byWComponent(ui.getDinnerCheckBox())).click();
-		Assert.assertEquals("Should have submitted 'Dinner' to server", "Dinner selected", getMessageText());
+		Assert.assertEquals("Should have submitted 'Dinner' to server", "Dinner selected",
+				getMessageText());
 
 		// De-select "Lunch"
 		driver.findElement(byWComponent(ui.getLunchCheckBox())).click();
-		Assert.assertEquals("Should have submitted 'Lunch' to server", "Lunch unselected", getMessageText());
+		Assert.assertEquals("Should have submitted 'Lunch' to server", "Lunch unselected",
+				getMessageText());
 	}
 
 	/**

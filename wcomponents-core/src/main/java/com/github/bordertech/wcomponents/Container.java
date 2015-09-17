@@ -5,8 +5,8 @@ package com.github.bordertech.wcomponents;
  * The interface for WComponents which can contain child WComponents.
  * </p>
  * <p>
- * A basic Container is often used to group related components together. Grouping components
- * together is good for readability of the code and it is also how you create reusable chunks of UI.
+ * A basic Container is often used to group related components together. Grouping components together is good for
+ * readability of the code and it is also how you create reusable chunks of UI.
  * </p>
  *
  * @author Yiannis Paschalidis
@@ -31,8 +31,7 @@ public interface Container extends WComponent {
 	 * Retrieves the index of the given child.
 	 *
 	 * @param childComponent the child component to retrieve the index for.
-	 * @return the index of the given child component, or -1 if the component is not a child of this
-	 * component.
+	 * @return the index of the given child component, or -1 if the component is not a child of this component.
 	 */
 	int getIndexOfChild(WComponent childComponent);
 }

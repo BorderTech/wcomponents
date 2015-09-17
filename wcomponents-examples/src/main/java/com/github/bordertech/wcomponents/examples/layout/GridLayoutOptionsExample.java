@@ -144,8 +144,7 @@ public class GridLayoutOptionsExample extends WContainer {
 	}
 
 	/**
-	 * reset the container that holds the grid layout and create a new grid layout with the
-	 * appropriate properties.
+	 * reset the container that holds the grid layout and create a new grid layout with the appropriate properties.
 	 */
 	private void applySettings() {
 		container.reset();
@@ -194,8 +193,7 @@ public class GridLayoutOptionsExample extends WContainer {
 	}
 
 	/**
-	 * the ControlFieldLayout extends the WField layout to be able to link the row and column
-	 * controls together.
+	 * the ControlFieldLayout extends the WField layout to be able to link the row and column controls together.
 	 *
 	 * @author Steve Harney
 	 */

@@ -9,8 +9,8 @@ import java.text.MessageFormat;
  * WText is used to render some basic/raw text.</p>
  *
  * <p>
- * See {@link com.github.bordertech.wcomponents.examples.WTextExample} for example usage, including
- * binding to bean data.</p>
+ * See {@link com.github.bordertech.wcomponents.examples.WTextExample} for example usage, including binding to bean
+ * data.</p>
  *
  * @author Adam Millard
  * @since 1.0.0
@@ -59,9 +59,8 @@ public class WText extends WBeanComponent {
 	 * Sets the text.</p>
 	 *
 	 * <p>
-	 * NOTE: If the text is dynamically generated, it may be preferable to override
-	 * {@link #getText()} instead. This will reduce the amount of data which is stored in the user
-	 * session.</p>
+	 * NOTE: If the text is dynamically generated, it may be preferable to override {@link #getText()} instead. This
+	 * will reduce the amount of data which is stored in the user session.</p>
 	 *
 	 * @param text the text to set, using {@link MessageFormat} syntax.
 	 * @param args optional arguments for the message format string.
@@ -94,23 +93,20 @@ public class WText extends WBeanComponent {
 	 * Sets whether the text needs to be encoded.</p>
 	 *
 	 * <p>
-	 * When setting <code>encodeText</code> to <code>false</code>, it then becomes the
-	 * responsibility of the application to ensure that the text does not contain any characters
-	 * which need to be escaped.</p>
+	 * When setting <code>encodeText</code> to <code>false</code>, it then becomes the responsibility of the application
+	 * to ensure that the text does not contain any characters which need to be escaped.</p>
 	 *
 	 * <p>
-	 * <b>WARNING:</b> If you are using WText to display "user entered" or untrusted data, use of
-	 * this method with <code>encodeText</code> set to <code>false</code> may result in security
-	 * issues.</p>
+	 * <b>WARNING:</b> If you are using WText to display "user entered" or untrusted data, use of this method with
+	 * <code>encodeText</code> set to <code>false</code> may result in security issues.</p>
 	 *
 	 * <p>
-	 * <b>WARNING:</b> Avoid using WText to add excessive amounts of HTML mark-up to the UI.
-	 * Embedded mark-up is more likely to break in future WComponent releases. If you are attempting
-	 * to use WText for layout purposes, consider using a
-	 * {@link com.github.bordertech.wcomponents.layout.LayoutManager LayoutManager} instead. For
-	 * example, <code>new WText("&lt;br&gt;")</code> could be rewritten to use the
-	 * {@link com.github.bordertech.wcomponents.layout.FlowLayout FlowLayout} layout with a vertical
-	 * layout direction.</p>
+	 * <b>WARNING:</b> Avoid using WText to add excessive amounts of HTML mark-up to the UI. Embedded mark-up is more
+	 * likely to break in future WComponent releases. If you are attempting to use WText for layout purposes, consider
+	 * using a {@link com.github.bordertech.wcomponents.layout.LayoutManager LayoutManager} instead. For example,
+	 * <code>new WText("&lt;br&gt;")</code> could be rewritten to use the
+	 * {@link com.github.bordertech.wcomponents.layout.FlowLayout FlowLayout} layout with a vertical layout
+	 * direction.</p>
 	 *
 	 * @param encodeText true if the text needs to be encoded, false if not.
 	 */

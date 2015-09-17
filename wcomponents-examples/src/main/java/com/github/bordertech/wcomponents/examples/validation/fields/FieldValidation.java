@@ -12,11 +12,10 @@ import com.github.bordertech.wcomponents.validation.WValidationErrors;
 
 /**
  * <p>
- * This is an example of a component that is used to validate a contained <code>component</code>. It
- * supplies an instance of {@link WValidationErrors} for displaying an error box containing all
- * validation errors and provides the validatable component with an extension of
- * {@link ValidatingAction} used to perform the validation. If there are no validation errors then
- * visibility is given to a simple component to show the success. </p>
+ * This is an example of a component that is used to validate a contained <code>component</code>. It supplies an
+ * instance of {@link WValidationErrors} for displaying an error box containing all validation errors and provides the
+ * validatable component with an extension of {@link ValidatingAction} used to perform the validation. If there are no
+ * validation errors then visibility is given to a simple component to show the success. </p>
  *
  * <p>
  * Note the additional validation

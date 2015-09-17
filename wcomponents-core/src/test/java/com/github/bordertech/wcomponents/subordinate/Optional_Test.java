@@ -27,7 +27,8 @@ public class Optional_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testActionType() {
 		Optional action = new Optional(new MyTarget());
-		Assert.assertEquals("Incorrect Action Type", AbstractAction.ActionType.OPTIONAL, action.getActionType());
+		Assert.assertEquals("Incorrect Action Type", AbstractAction.ActionType.OPTIONAL, action.
+				getActionType());
 	}
 
 	@Test
@@ -35,10 +36,12 @@ public class Optional_Test extends AbstractWComponentTestCase {
 		MyTarget target = new MyTarget();
 
 		Optional action = new Optional(target);
-		Assert.assertEquals("Incorrect toString for action", "set MyTarget optional", action.toString());
+		Assert.assertEquals("Incorrect toString for action", "set MyTarget optional", action.
+				toString());
 
 		WLabel label = new WLabel("test label", target);
-		Assert.assertEquals("Incorrect toString for action with a label", "set " + label.getText() + " optional", action.toString());
+		Assert.assertEquals("Incorrect toString for action with a label",
+				"set " + label.getText() + " optional", action.toString());
 	}
 
 	/**

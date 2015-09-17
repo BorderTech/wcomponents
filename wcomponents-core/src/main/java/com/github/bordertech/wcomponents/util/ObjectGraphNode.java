@@ -102,8 +102,8 @@ public final class ObjectGraphNode extends AbstractTreeNode {
 	}));
 
 	/**
-	 * The set of Java "simple" types. A type is considered simple if it is a leaf node (ie.
-	 * contains no further fields).
+	 * The set of Java "simple" types. A type is considered simple if it is a leaf node (ie. contains no further
+	 * fields).
 	 */
 	private static final Set<String> SIMPLE_TYPES
 			= new HashSet<>(Arrays.asList(new String[]{
@@ -125,8 +125,7 @@ public final class ObjectGraphNode extends AbstractTreeNode {
 	private final String fieldName;
 
 	/**
-	 * The fully qualified java type of the field. Not necessarily the same as the {@link #value}'s
-	 * class.
+	 * The fully qualified java type of the field. Not necessarily the same as the {@link #value}'s class.
 	 */
 	private final String type;
 
@@ -158,7 +157,8 @@ public final class ObjectGraphNode extends AbstractTreeNode {
 	 * @param type the fully qualified java type name.
 	 * @param value the node value.
 	 */
-	public ObjectGraphNode(final int id, final String fieldName, final String type, final Object value) {
+	public ObjectGraphNode(final int id, final String fieldName, final String type,
+			final Object value) {
 		this.id = id;
 		this.fieldName = fieldName;
 		this.type = type;
@@ -169,8 +169,7 @@ public final class ObjectGraphNode extends AbstractTreeNode {
 	/**
 	 * Calculates the size of a field value obtained using the reflection API.
 	 *
-	 * @param fieldType the Field's type (class), needed to return the correct values for
-	 * primitives.
+	 * @param fieldType the Field's type (class), needed to return the correct values for primitives.
 	 * @param fieldValue the field's value (primitives are boxed).
 	 *
 	 * @return an approximation of amount of memory the field occupies, in bytes.
@@ -208,7 +207,8 @@ public final class ObjectGraphNode extends AbstractTreeNode {
 	public boolean isSimpleType() {
 		// Simple types may be stored in java.lang.Object fields, so we have to check both
 		return SIMPLE_TYPES.contains(type)
-				|| (value != null && Object.class.getName().equals(type) && SIMPLE_TYPES.contains(value.getClass().getName()));
+				|| (value != null && Object.class.getName().equals(type) && SIMPLE_TYPES.contains(
+				value.getClass().getName()));
 	}
 
 	/**
@@ -239,9 +239,8 @@ public final class ObjectGraphNode extends AbstractTreeNode {
 	}
 
 	/**
-	 * Returns the sum of the size of primitive/simple value data contained within this node. This
-	 * will differ from the serialized size, as references to shared objects aren't
-	 * followed/counted.
+	 * Returns the sum of the size of primitive/simple value data contained within this node. This will differ from the
+	 * serialized size, as references to shared objects aren't followed/counted.
 	 *
 	 * @return the actual data size, in bytes.
 	 */
@@ -415,8 +414,7 @@ public final class ObjectGraphNode extends AbstractTreeNode {
 	}
 
 	/**
-	 * Sets the node size. Allows ObjectGraphDump to adjust the overhead size of e.g. collections
-	 * classes.
+	 * Sets the node size. Allows ObjectGraphDump to adjust the overhead size of e.g. collections classes.
 	 *
 	 * @param size the new node size.
 	 */

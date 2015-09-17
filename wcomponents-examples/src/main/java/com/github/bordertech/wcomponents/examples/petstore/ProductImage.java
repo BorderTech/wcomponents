@@ -55,7 +55,8 @@ public class ProductImage implements Image {
 			String name = bean.getImage();
 
 			if (name != null) {
-				InputStream in = Thread.currentThread().getContextClassLoader().getResourceAsStream(IMAGE_PATH + name);
+				InputStream in = Thread.currentThread().getContextClassLoader().getResourceAsStream(
+						IMAGE_PATH + name);
 
 				if (in != null) {
 					try {
@@ -97,8 +98,8 @@ public class ProductImage implements Image {
 	}
 
 	/**
-	 * Retrieves the natural size of the image. If only one dimension is known, a negative value
-	 * will be returned for the other dimension.
+	 * Retrieves the natural size of the image. If only one dimension is known, a negative value will be returned for
+	 * the other dimension.
 	 *
 	 * @return the image size, or null if unknown.
 	 */
@@ -108,8 +109,8 @@ public class ProductImage implements Image {
 	}
 
 	/**
-	 * Sets the natural size of the image. If only one dimension is known, use a negative value for
-	 * the other dimension. If the image size is unknown, set the size to null.
+	 * Sets the natural size of the image. If only one dimension is known, use a negative value for the other dimension.
+	 * If the image size is unknown, set the size to null.
 	 *
 	 * @param size the image size.
 	 */

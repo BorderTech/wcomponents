@@ -20,8 +20,7 @@ import org.apache.commons.logging.LogFactory;
 /**
  * This panel displays the currently selected example.
  *
- * It provides some protection against bad example code, and will display an error message rather
- * than failing.
+ * It provides some protection against bad example code, and will display an error message rather than failing.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -108,8 +107,7 @@ final class ExamplePanel extends WPanel {
 	}
 
 	/**
-	 * Selects an example. If there is an error instantiating the component, an error message will
-	 * be displayed.
+	 * Selects an example. If there is an error instantiating the component, an error message will be displayed.
 	 *
 	 * @param example the ExampleData of the example to select.
 	 */
@@ -122,7 +120,8 @@ final class ExamplePanel extends WPanel {
 			exampleName.append(example.getExampleName());
 			selectExample(example.getExampleClass().newInstance(), exampleName.toString());
 		} catch (Exception e) {
-			WMessages.getInstance(this).error("Error selecting example \"" + example.getExampleName() + '"');
+			WMessages.getInstance(this).error("Error selecting example \"" + example.
+					getExampleName() + '"');
 			selectExample(new ErrorComponent(e.getMessage(), e), "Error");
 		}
 	}

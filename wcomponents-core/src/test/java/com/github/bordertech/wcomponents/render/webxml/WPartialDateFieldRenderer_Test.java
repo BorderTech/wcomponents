@@ -90,7 +90,8 @@ public class WPartialDateFieldRenderer_Test extends AbstractWebXmlRendererTestCa
 		assertXpathEvaluatesTo("true", "//ui:dateField/@readOnly", dateField);
 		assertXpathEvaluatesTo(TEST_TITLE, "//ui:dateField/@toolTip", dateField);
 		assertXpathEvaluatesTo(TEST_ALT_TEXT, "//ui:dateField/@accessibleText", dateField);
-		assertXpathEvaluatesTo(String.valueOf(dateField.getDefaultSubmitButton().getId()), "//ui:dateField/@buttonId",
+		assertXpathEvaluatesTo(String.valueOf(dateField.getDefaultSubmitButton().getId()),
+				"//ui:dateField/@buttonId",
 				dateField);
 
 		// Actual date value not set

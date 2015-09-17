@@ -76,7 +76,8 @@ final class WCollapsibleRenderer extends AbstractWebXmlRenderer {
 		xml.appendClose();
 
 		// Render content if not EAGER Mode or is EAGER and is the current AJAX trigger
-		if (CollapsibleMode.EAGER != collapsible.getMode() || AjaxHelper.isCurrentAjaxTrigger(collapsible)) {
+		if (CollapsibleMode.EAGER != collapsible.getMode() || AjaxHelper.isCurrentAjaxTrigger(
+				collapsible)) {
 			// Visibility of content set in prepare paint
 			content.paint(renderContext);
 		}

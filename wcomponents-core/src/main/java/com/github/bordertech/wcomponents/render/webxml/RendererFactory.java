@@ -4,8 +4,8 @@ import com.github.bordertech.wcomponents.Renderer;
 import com.github.bordertech.wcomponents.util.SystemException;
 
 /**
- * The layout factory for the WebXml renderer package. This factory uses reflection to cut down on
- * the amount of code necessary to support every conceivable component.
+ * The layout factory for the WebXml renderer package. This factory uses reflection to cut down on the amount of code
+ * necessary to support every conceivable component.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -32,7 +32,8 @@ public class RendererFactory implements com.github.bordertech.wcomponents.Render
 	@Override
 	public Renderer getRenderer(final Class<?> clazz) {
 		String qualifiedClassName = clazz.getName();
-		String unqualifiedClassName = qualifiedClassName.substring(qualifiedClassName.lastIndexOf('.') + 1);
+		String unqualifiedClassName = qualifiedClassName.substring(qualifiedClassName.lastIndexOf(
+				'.') + 1);
 		String rendererName = packagePrefix + unqualifiedClassName + "Renderer";
 
 		return createRenderer(rendererName);

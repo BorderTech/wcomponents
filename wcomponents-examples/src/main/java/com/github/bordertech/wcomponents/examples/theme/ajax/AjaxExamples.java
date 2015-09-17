@@ -4,8 +4,8 @@ import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WTabSet;
 
 /**
- * An example of an {@link WTabSet} using AJAX. Each tab is AJAX enabled and the tab content is
- * loaded in the AJAX response.
+ * An example of an {@link WTabSet} using AJAX. Each tab is AJAX enabled and the tab content is loaded in the AJAX
+ * response.
  *
  * @author Christina Harris
  * @since 18/06/2009

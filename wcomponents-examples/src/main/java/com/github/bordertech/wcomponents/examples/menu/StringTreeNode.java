@@ -3,8 +3,7 @@ package com.github.bordertech.wcomponents.examples.menu;
 import com.github.bordertech.wcomponents.util.AbstractTreeNode;
 
 /**
- * Trivial implementation of a tree node, in order to show how to transform a tree structure into a
- * menu structure.
+ * Trivial implementation of a tree node, in order to show how to transform a tree structure into a menu structure.
  *
  * @author Yiannis Paschalidis
  */

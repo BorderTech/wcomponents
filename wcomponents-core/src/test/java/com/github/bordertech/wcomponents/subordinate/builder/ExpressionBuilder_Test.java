@@ -13,8 +13,8 @@ import org.junit.Test;
  * JUnit tests for the {@link ExpressionBuilder} class.
  * </p>
  * <p>
- * The tests use the <code>toString()</code> representation of the conditions as they are easier to
- * write and are easier to diagnose when the tests fail.
+ * The tests use the <code>toString()</code> representation of the conditions as they are easier to write and are easier
+ * to diagnose when the tests fail.
  * </p>
  *
  * @author Yiannis Paschalidis
@@ -62,63 +62,71 @@ public class ExpressionBuilder_Test {
 	@Test
 	public void testTwoArgOrCondition() {
 		builder.equals(new WTextField(), "1").or().equals(new WTextArea(), "2");
-		Assert.assertEquals("Incorrect condition", "(WTextField=\"1\" or WTextArea=\"2\")", builder.build().toString());
+		Assert.assertEquals("Incorrect condition", "(WTextField=\"1\" or WTextArea=\"2\")", builder.
+				build().toString());
 	}
 
 	@Test
 	public void testTwoArgAndCondition() {
 		builder.equals(new WTextField(), "1").and().equals(new WTextArea(), "2");
 		Assert
-				.assertEquals("Incorrect condition", "(WTextField=\"1\" and WTextArea=\"2\")", builder.build().toString());
+				.assertEquals("Incorrect condition", "(WTextField=\"1\" and WTextArea=\"2\")",
+						builder.build().toString());
 	}
 
 	@Test
 	public void testThreeArgOrCondition() {
-		builder.equals(new WTextField(), "1").or().equals(new WTextArea(), "2").or().equals(new WDropdown(), "3");
+		builder.equals(new WTextField(), "1").or().equals(new WTextArea(), "2").or().equals(
+				new WDropdown(), "3");
 
-		Assert.assertEquals("Incorrect condition", "(WTextField=\"1\" or WTextArea=\"2\" or WDropdown=\"3\")", builder
+		Assert.assertEquals("Incorrect condition",
+				"(WTextField=\"1\" or WTextArea=\"2\" or WDropdown=\"3\")", builder
 				.build().toString());
 	}
 
 	@Test
 	public void testThreeArgAndCondition() {
-		builder.equals(new WTextField(), "1").and().equals(new WTextArea(), "2").and().equals(new WDropdown(), "3");
+		builder.equals(new WTextField(), "1").and().equals(new WTextArea(), "2").and().equals(
+				new WDropdown(), "3");
 
-		Assert.assertEquals("Incorrect condition", "(WTextField=\"1\" and WTextArea=\"2\" and WDropdown=\"3\")",
+		Assert.assertEquals("Incorrect condition",
+				"(WTextField=\"1\" and WTextArea=\"2\" and WDropdown=\"3\")",
 				builder.build().toString());
 	}
 
 	/**
-	 * Tests for correct operator precedence when there is an AND on the right-hand side of the OR:
-	 * a || b && c.
+	 * Tests for correct operator precedence when there is an AND on the right-hand side of the OR: a || b && c.
 	 */
 	@Test
 	public void testAndOperatorPrecedenceRHS() {
-		builder.equals(new WTextField(), "1").or().equals(new WTextArea(), "2").and().equals(new WDropdown(), "3");
+		builder.equals(new WTextField(), "1").or().equals(new WTextArea(), "2").and().equals(
+				new WDropdown(), "3");
 
-		Assert.assertEquals("Incorrect condition", "(WTextField=\"1\" or (WTextArea=\"2\" and WDropdown=\"3\"))",
+		Assert.assertEquals("Incorrect condition",
+				"(WTextField=\"1\" or (WTextArea=\"2\" and WDropdown=\"3\"))",
 				builder.build().toString());
 	}
 
 	/**
-	 * Tests for correct operator precedence when there is an AND on the left-hand side of the OR: a
-	 * && b || c.
+	 * Tests for correct operator precedence when there is an AND on the left-hand side of the OR: a && b || c.
 	 */
 	@Test
 	public void testAndOperatorPrecedenceLHS() {
-		builder.equals(new WTextField(), "1").and().equals(new WTextArea(), "2").or().equals(new WDropdown(), "3");
+		builder.equals(new WTextField(), "1").and().equals(new WTextArea(), "2").or().equals(
+				new WDropdown(), "3");
 
-		Assert.assertEquals("Incorrect condition", "((WTextField=\"1\" and WTextArea=\"2\") or WDropdown=\"3\")",
+		Assert.assertEquals("Incorrect condition",
+				"((WTextField=\"1\" and WTextArea=\"2\") or WDropdown=\"3\")",
 				builder.build().toString());
 	}
 
 	/**
-	 * Tests for correct operator precedence when there are ANDs on both sides of the OR: a && b ||
-	 * c && d.
+	 * Tests for correct operator precedence when there are ANDs on both sides of the OR: a && b || c && d.
 	 */
 	@Test
 	public void testAndOperatorPrecedenceBoth() {
-		builder.equals(new WTextField(), "1").and().equals(new WTextArea(), "2").or().equals(new WDropdown(), "3")
+		builder.equals(new WTextField(), "1").and().equals(new WTextArea(), "2").or().equals(
+				new WDropdown(), "3")
 				.and().equals(new WMultiSelect(), "4");
 
 		Assert.assertEquals("Incorrect condition",
@@ -127,12 +135,12 @@ public class ExpressionBuilder_Test {
 	}
 
 	/**
-	 * Tests for correct operator precedence when there are ANDs on both sides of the OR: a || b &&
-	 * c || d.
+	 * Tests for correct operator precedence when there are ANDs on both sides of the OR: a || b && c || d.
 	 */
 	@Test
 	public void testOrOperatorPrecedenceBoth() {
-		builder.equals(new WTextField(), "1").or().equals(new WTextArea(), "2").and().equals(new WDropdown(), "3").or()
+		builder.equals(new WTextField(), "1").or().equals(new WTextArea(), "2").and().equals(
+				new WDropdown(), "3").or()
 				.equals(new WMultiSelect(), "4");
 
 		Assert.assertEquals("Incorrect condition",
@@ -147,7 +155,8 @@ public class ExpressionBuilder_Test {
 	public void testNotCondition() {
 		builder.not(new ExpressionBuilder().equals(new WTextArea(), "1"));
 
-		Assert.assertEquals("Incorrect condition", "NOT (WTextArea=\"1\")", builder.build().toString());
+		Assert.assertEquals("Incorrect condition", "NOT (WTextArea=\"1\")", builder.build().
+				toString());
 	}
 
 	/**
@@ -156,8 +165,10 @@ public class ExpressionBuilder_Test {
 	@Test
 	public void testNotWithAndCondition() {
 
-		builder.equals(new WTextField(), "1").and().not(new ExpressionBuilder().equals(new WTextArea(), "2")).or()
-				.not(new ExpressionBuilder().equals(new WTextArea(), "2")).and().equals(new WDropdown(), "3");
+		builder.equals(new WTextField(), "1").and().not(new ExpressionBuilder().equals(
+				new WTextArea(), "2")).or()
+				.not(new ExpressionBuilder().equals(new WTextArea(), "2")).and().equals(
+				new WDropdown(), "3");
 
 		Assert
 				.assertEquals("Incorrect condition",
@@ -171,7 +182,8 @@ public class ExpressionBuilder_Test {
 	@Test
 	public void testNesting() {
 		builder.equals(new WTextField(), "1")
-				.and(new ExpressionBuilder().equals(new WTextArea(), "2").or().equals(new WDropdown(), "3")).and()
+				.and(new ExpressionBuilder().equals(new WTextArea(), "2").or().equals(
+						new WDropdown(), "3")).and()
 				.equals(new WMultiSelect(), "4");
 
 		Assert.assertEquals("Incorrect condition",
@@ -185,8 +197,10 @@ public class ExpressionBuilder_Test {
 	 */
 	@Test
 	public void testAndandOrWithExpressions() {
-		builder.equals(new WTextField(), "1").and(new ExpressionBuilder().equals(new WTextArea(), "2"))
-				.or(new ExpressionBuilder().equals(new WDropdown(), "3")).and().equals(new WMultiSelect(), "4");
+		builder.equals(new WTextField(), "1").and(new ExpressionBuilder().equals(new WTextArea(),
+				"2"))
+				.or(new ExpressionBuilder().equals(new WDropdown(), "3")).and().equals(
+				new WMultiSelect(), "4");
 
 		Assert.assertEquals("Incorrect condition",
 				"((WTextField=\"1\" and WTextArea=\"2\") or (WDropdown=\"3\" and WMultiSelect=\"4\"))",
@@ -258,7 +272,8 @@ public class ExpressionBuilder_Test {
 	@Test
 	public void testBuildMatches() {
 		builder.matches(new WTextField(), "1");
-		Assert.assertEquals("Incorrect condition", "WTextField matches \"1\"", builder.build().toString());
+		Assert.assertEquals("Incorrect condition", "WTextField matches \"1\"", builder.build().
+				toString());
 	}
 
 }

@@ -46,12 +46,14 @@ public class WImageExample extends WPanel {
 		setLayout(new FlowLayout(Alignment.VERTICAL, 0, 6));
 
 		// This image is a static resource, and will be cached on the client.
-		final ImageResource bannerImage = new ImageResource("/com/github/bordertech/wcomponents/examples/picker/wclogo_small.gif", "Logo");
+		final ImageResource bannerImage = new ImageResource(
+				"/com/github/bordertech/wcomponents/examples/picker/wclogo_small.gif", "Logo");
 
 		// Even though this image is a static resource, it will not be cached on the client.
 		// To enable images to be cached, either use ImageResource for static images, or set the cache key on the WImage.
 		// See WImage.setCacheKey(String).
-		final ExampleImage portraitImage = new ExampleImage("com/github/bordertech/wcomponents/examples/portlet-portrait.jpg");
+		final ExampleImage portraitImage = new ExampleImage(
+				"com/github/bordertech/wcomponents/examples/portlet-portrait.jpg");
 		//If you do not set the description in the constructor then you should set it explicitly.
 		//There are some crcumstances where a WImage should not have a description to meet accessibility requirements.
 		//If the image is *purely* decorative or repeats information set in visible text within the *same* context
@@ -123,7 +125,8 @@ public class WImageExample extends WPanel {
 		 * @param resource the path to the image file.
 		 */
 		public ExampleImage(final String resource) {
-			InputStream in = Thread.currentThread().getContextClassLoader().getResourceAsStream(resource);
+			InputStream in = Thread.currentThread().getContextClassLoader().getResourceAsStream(
+					resource);
 
 			if (in != null) {
 				try {

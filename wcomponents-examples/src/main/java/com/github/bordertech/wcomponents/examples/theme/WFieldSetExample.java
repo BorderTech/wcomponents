@@ -26,11 +26,13 @@ public class WFieldSetExample extends WPanel {
 		//various settings for frame type
 		add(new WHeading(WHeading.MAJOR, "Examples of WFieldSet FrameType"));
 		add(new WHeading(WHeading.SECTION, "FrameType NONE"));
-		addFieldSet("Enter your address in a borderless fieldset with no visible legend", WFieldSet.FrameType.NONE);
+		addFieldSet("Enter your address in a borderless fieldset with no visible legend",
+				WFieldSet.FrameType.NONE);
 		add(new WHeading(WHeading.SECTION, "FrameType NO_BORDER"));
 		addFieldSet("Enter your address in a borderless fieldset", WFieldSet.FrameType.NO_BORDER);
 		add(new WHeading(WHeading.SECTION, "FrameType NO_TEXT"));
-		addFieldSet("Enter your address in a fieldset with a hidden legend", WFieldSet.FrameType.NO_TEXT);
+		addFieldSet("Enter your address in a fieldset with a hidden legend",
+				WFieldSet.FrameType.NO_TEXT);
 	}
 
 	/**
@@ -51,7 +53,8 @@ public class WFieldSetExample extends WPanel {
 		final WField add2Field = layout.addField("Street address line 2", new WTextField());
 		add2Field.getLabel().setHidden(true);
 		layout.addField("Suburb", new WTextField());
-		layout.addField("State/Territory", new WDropdown(new String[]{"", "ACT", "NSW", "NT", "QLD", "SA", "TAS", "VIC", "WA"}));
+		layout.addField("State/Territory", new WDropdown(
+				new String[]{"", "ACT", "NSW", "NT", "QLD", "SA", "TAS", "VIC", "WA"}));
 		//NOTE: this is an Australia-specific post code field. An Australian post code is not a number as they may contain a leading zero.
 		final WTextField postcode = new WTextField();
 		postcode.setMaxLength(4);
@@ -63,8 +66,7 @@ public class WFieldSetExample extends WPanel {
 	}
 
 	/**
-	 * Creates a WFieldSet with a normal frame and visible legend. The legend content is the
-	 * WFieldSet title.
+	 * Creates a WFieldSet with a normal frame and visible legend. The legend content is the WFieldSet title.
 	 *
 	 * @param title The title of the WFieldSet.
 	 * @return a WFieldSet with a frame and form control content.

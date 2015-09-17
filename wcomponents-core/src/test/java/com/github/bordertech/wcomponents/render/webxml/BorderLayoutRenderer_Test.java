@@ -54,19 +54,26 @@ public class BorderLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		container.add(new WText(northText), BorderLayout.NORTH);
 		container.add(new WText(westText), BorderLayout.WEST);
-		assertXpathEvaluatesTo(northText, "normalize-space(//ui:panel/ui:borderLayout/ui:north)", container);
+		assertXpathEvaluatesTo(northText, "normalize-space(//ui:panel/ui:borderLayout/ui:north)",
+				container);
 		assertXpathNotExists("//ui:panel/ui:borderLayout/ui:south", container);
 		assertXpathNotExists("//ui:panel/ui:borderLayout/ui:east", container);
-		assertXpathEvaluatesTo(westText, "normalize-space(//ui:panel/ui:borderLayout/ui:west)", container);
+		assertXpathEvaluatesTo(westText, "normalize-space(//ui:panel/ui:borderLayout/ui:west)",
+				container);
 		assertXpathNotExists("//ui:panel/ui:borderLayout/ui:center", container);
 
 		container.add(new WText(southText), BorderLayout.SOUTH);
 		container.add(new WText(eastText), BorderLayout.EAST);
 		container.add(new WText(centerText));
-		assertXpathEvaluatesTo(northText, "normalize-space(//ui:panel/ui:borderLayout/ui:north)", container);
-		assertXpathEvaluatesTo(westText, "normalize-space(//ui:panel/ui:borderLayout/ui:west)", container);
-		assertXpathEvaluatesTo(southText, "normalize-space(//ui:panel/ui:borderLayout/ui:south)", container);
-		assertXpathEvaluatesTo(eastText, "normalize-space(//ui:panel/ui:borderLayout/ui:east)", container);
-		assertXpathEvaluatesTo(centerText, "normalize-space(//ui:panel/ui:borderLayout/ui:center)", container);
+		assertXpathEvaluatesTo(northText, "normalize-space(//ui:panel/ui:borderLayout/ui:north)",
+				container);
+		assertXpathEvaluatesTo(westText, "normalize-space(//ui:panel/ui:borderLayout/ui:west)",
+				container);
+		assertXpathEvaluatesTo(southText, "normalize-space(//ui:panel/ui:borderLayout/ui:south)",
+				container);
+		assertXpathEvaluatesTo(eastText, "normalize-space(//ui:panel/ui:borderLayout/ui:east)",
+				container);
+		assertXpathEvaluatesTo(centerText, "normalize-space(//ui:panel/ui:borderLayout/ui:center)",
+				container);
 	}
 }

@@ -35,22 +35,26 @@ public class I18nUtilities_Test {
 	private static final Locale PROVIDED_LOCALE = new Locale("fr", "CA");
 
 	/**
-	 * Tests that the Utilities class returns the correct bundle base name. The bundle base name is
-	 * configured in wcomponents-test.properties.
+	 * Tests that the Utilities class returns the correct bundle base name. The bundle base name is configured in
+	 * wcomponents-test.properties.
 	 */
 	@Test
 	public void testGetResourceBundleBaseName() {
-		Assert.assertEquals("Incorrect bundle base name", "i18n/test", I18nUtilities.getResourceBundleBaseName());
+		Assert.assertEquals("Incorrect bundle base name", "i18n/test", I18nUtilities.
+				getResourceBundleBaseName());
 	}
 
 	@Test
 	public void testAsMessage() {
 		Assert.assertNull("A null string should give a null message", I18nUtilities.asMessage(null));
-		Assert.assertNull("A null string should give a null message", I18nUtilities.asMessage(null, "dummy"));
+		Assert.assertNull("A null string should give a null message", I18nUtilities.asMessage(null,
+				"dummy"));
 
-		Assert.assertEquals("A message with no params should be a String", "test", I18nUtilities.asMessage("test"));
+		Assert.assertEquals("A message with no params should be a String", "test", I18nUtilities.
+				asMessage("test"));
 
-		Assert.assertEquals("Incorrect message", new Message("text", "param"), I18nUtilities.asMessage("text", "param"));
+		Assert.assertEquals("Incorrect message", new Message("text", "param"), I18nUtilities.
+				asMessage("text", "param"));
 		Assert.assertEquals("Incorrect message", "text", I18nUtilities.asMessage("text"));
 	}
 
@@ -75,7 +79,8 @@ public class I18nUtilities_Test {
 		Assert.assertEquals("Incorrect simple text for locale", "fr_CA text", result);
 
 		result = I18nUtilities.format(NON_PROVIDED_LOCALE, PARAMETERISED_TEXT_KEY, "arg1");
-		Assert.assertEquals("Incorrect parameterised text for default locale", "default arg1", result);
+		Assert.assertEquals("Incorrect parameterised text for default locale", "default arg1",
+				result);
 
 		result = I18nUtilities.format(PROVIDED_LOCALE, PARAMETERISED_TEXT_KEY, "arg1");
 		Assert.assertEquals("Incorrect parameterised text for locale", "fr_CA arg1", result);
@@ -84,7 +89,8 @@ public class I18nUtilities_Test {
 	@Test
 	public void testFormatInternalMessage() {
 		// With resource bundle set but no locale-specific text, should drop back to text in messages.properties.
-		String result = I18nUtilities.format(PROVIDED_LOCALE, "bordertech.wcomponents.message.printButton");
+		String result = I18nUtilities.format(PROVIDED_LOCALE,
+				"bordertech.wcomponents.message.printButton");
 		Assert.assertEquals("Incorrect text", "Print", result);
 
 		// Without resource bundle set, should still drop back to text in messages.properties
@@ -92,7 +98,8 @@ public class I18nUtilities_Test {
 			Configuration config = Config.getInstance();
 			config.clearProperty(I18nUtilities.RESOURCE_BUNDLE_BASE_NAME_CONFIG_KEY);
 
-			result = I18nUtilities.format(PROVIDED_LOCALE, "bordertech.wcomponents.message.printButton");
+			result = I18nUtilities.format(PROVIDED_LOCALE,
+					"bordertech.wcomponents.message.printButton");
 			Assert.assertEquals("Incorrect text", "Print", result);
 		} finally {
 			Config.reset();

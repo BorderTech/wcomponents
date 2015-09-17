@@ -30,10 +30,12 @@ public class WCheckBox_Test extends AbstractWComponentTestCase {
 		WCheckBox wcbTest = new WCheckBox();
 
 		wcbTest.setSelected(false);
-		Assert.assertNull("CheckBox ValueAsString should be null for not selected", wcbTest.getValueAsString());
+		Assert.assertNull("CheckBox ValueAsString should be null for not selected", wcbTest.
+				getValueAsString());
 
 		wcbTest.setSelected(true);
-		Assert.assertEquals("CheckBox ValueAsString should be 'true' for selected", "true", wcbTest.getValueAsString());
+		Assert.assertEquals("CheckBox ValueAsString should be 'true' for selected", "true", wcbTest.
+				getValueAsString());
 	}
 
 	@Test
@@ -53,30 +55,38 @@ public class WCheckBox_Test extends AbstractWComponentTestCase {
 		MockRequest request = setupRequest(wcbTest, false);
 		boolean changed = wcbTest.doHandleRequest(request);
 		Assert
-				.assertFalse("doHandleRequest should return false with not selected in request and checkbox not selected",
+				.assertFalse(
+						"doHandleRequest should return false with not selected in request and checkbox not selected",
 						changed);
-		Assert.assertFalse("Should not be selected after not selected in request", wcbTest.isSelected());
+		Assert.assertFalse("Should not be selected after not selected in request", wcbTest.
+				isSelected());
 
 		// Request - Selected (change)
 		request = setupRequest(wcbTest, true);
 		changed = wcbTest.doHandleRequest(request);
-		Assert.assertTrue("doHandleRequest should return true with selected in request and checkbox not selected",
+		Assert.assertTrue(
+				"doHandleRequest should return true with selected in request and checkbox not selected",
 				changed);
-		Assert.assertTrue("Should be selected after request with parameter set", wcbTest.isSelected());
+		Assert.assertTrue("Should be selected after request with parameter set", wcbTest.
+				isSelected());
 
 		// Request - Selected (no change)
 		request = setupRequest(wcbTest, true);
 		changed = wcbTest.doHandleRequest(request);
-		Assert.assertFalse("doHandleRequest should return false with selected in request and checkbox selected",
+		Assert.assertFalse(
+				"doHandleRequest should return false with selected in request and checkbox selected",
 				changed);
-		Assert.assertTrue("Should be selected after request with parameter set", wcbTest.isSelected());
+		Assert.assertTrue("Should be selected after request with parameter set", wcbTest.
+				isSelected());
 
 		// Request - Not Selected (change)
 		request = setupRequest(wcbTest, false);
 		changed = wcbTest.doHandleRequest(request);
-		Assert.assertTrue("doHandleRequest should return true with not selected in request and checkbox selected",
+		Assert.assertTrue(
+				"doHandleRequest should return true with not selected in request and checkbox selected",
 				changed);
-		Assert.assertFalse("Should not be selected after not selected in request", wcbTest.isSelected());
+		Assert.assertFalse("Should not be selected after not selected in request", wcbTest.
+				isSelected());
 	}
 
 	@Test
@@ -91,7 +101,8 @@ public class WCheckBox_Test extends AbstractWComponentTestCase {
 
 		// Empty Request should default to current value
 		MockRequest request = new MockRequest();
-		Assert.assertTrue("Request value should be current value that is true", wcbTest.getRequestValue(request));
+		Assert.assertTrue("Request value should be current value that is true", wcbTest.
+				getRequestValue(request));
 
 		// Request with Check box selected
 		request = setupRequest(wcbTest, true);
@@ -99,7 +110,8 @@ public class WCheckBox_Test extends AbstractWComponentTestCase {
 
 		// Request with Check box not selected
 		request = setupRequest(wcbTest, false);
-		Assert.assertFalse("Request value returned should be false", wcbTest.getRequestValue(request));
+		Assert.assertFalse("Request value returned should be false", wcbTest.
+				getRequestValue(request));
 	}
 
 	@Test
@@ -109,11 +121,13 @@ public class WCheckBox_Test extends AbstractWComponentTestCase {
 
 		// Empty Request
 		MockRequest request = new MockRequest();
-		Assert.assertFalse("IsPresent should return false on empty request", wcbTest.isPresent(request));
+		Assert.assertFalse("IsPresent should return false on empty request", wcbTest.isPresent(
+				request));
 
 		// Check box on request - selected
 		request = setupRequest(wcbTest, true);
-		Assert.assertTrue("IsPresent should return true for selected checkbox on request", wcbTest.isPresent(request));
+		Assert.assertTrue("IsPresent should return true for selected checkbox on request", wcbTest.
+				isPresent(request));
 
 		// Check box on request - not selected
 		request = setupRequest(wcbTest, false);
@@ -158,7 +172,8 @@ public class WCheckBox_Test extends AbstractWComponentTestCase {
 	public void testGetActionCommand() {
 		WCheckBox wcbTest = new WCheckBox();
 		setActiveContext(createUIContext());
-		Assert.assertEquals("Action command should match the name", wcbTest.getId(), wcbTest.getActionCommand());
+		Assert.assertEquals("Action command should match the name", wcbTest.getId(), wcbTest.
+				getActionCommand());
 	}
 
 	/**

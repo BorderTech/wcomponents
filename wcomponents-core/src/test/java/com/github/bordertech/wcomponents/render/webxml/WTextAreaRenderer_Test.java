@@ -21,7 +21,8 @@ public class WTextAreaRenderer_Test extends AbstractWebXmlRendererTestCase {
 	@Test
 	public void testRendererCorrectlyConfigured() {
 		WTextArea textArea = new WTextArea();
-		Assert.assertTrue("Incorrect renderer supplied", getWebXmlRenderer(textArea) instanceof WTextAreaRenderer);
+		Assert.assertTrue("Incorrect renderer supplied",
+				getWebXmlRenderer(textArea) instanceof WTextAreaRenderer);
 	}
 
 	@Test

@@ -43,7 +43,8 @@ public class BytesImage implements Image {
 	 * @param description A description of the {@link BytesImage}.
 	 * @param size The x-y dimensions of the {@link BytesImage}.
 	 */
-	public BytesImage(final byte[] bytes, final String mimeType, final String description, final Dimension size) {
+	public BytesImage(final byte[] bytes, final String mimeType, final String description,
+			final Dimension size) {
 		this.bytes = bytes;
 		this.mimeType = mimeType;
 		this.description = description;

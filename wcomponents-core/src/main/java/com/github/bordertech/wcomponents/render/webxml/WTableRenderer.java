@@ -96,7 +96,8 @@ final class WTableRenderer extends AbstractWebXmlRenderer {
 			xml.appendTagOpen("ui:pagination");
 
 			xml.appendAttribute("rows", model.getRowCount());
-			xml.appendOptionalAttribute("rowsPerPage", table.getRowsPerPage() > 0, table.getRowsPerPage());
+			xml.appendOptionalAttribute("rowsPerPage", table.getRowsPerPage() > 0, table.
+					getRowsPerPage());
 			xml.appendAttribute("currentPage", table.getCurrentPage());
 
 			switch (table.getPaginationMode()) {
@@ -109,7 +110,8 @@ final class WTableRenderer extends AbstractWebXmlRenderer {
 				case NONE:
 					break;
 				default:
-					throw new SystemException("Unknown pagination mode: " + table.getPaginationMode());
+					throw new SystemException("Unknown pagination mode: " + table.
+							getPaginationMode());
 			}
 
 			xml.appendClose();
@@ -145,7 +147,8 @@ final class WTableRenderer extends AbstractWebXmlRenderer {
 					case NONE:
 						break;
 					default:
-						throw new SystemException("Unknown select-all mode: " + table.getSelectAllMode());
+						throw new SystemException("Unknown select-all mode: " + table.
+								getSelectAllMode());
 				}
 			}
 

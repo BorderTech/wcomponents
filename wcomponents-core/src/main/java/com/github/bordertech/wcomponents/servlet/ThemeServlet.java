@@ -8,14 +8,12 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * <p>
- * This servlet is designed to servlet up theme files from within the WComponent project or jar
- * file. This saves developers from having to configure where the webdocs directory is, or extract
- * the theme into their WAR file.
+ * This servlet is designed to servlet up theme files from within the WComponent project or jar file. This saves
+ * developers from having to configure where the webdocs directory is, or extract the theme into their WAR file.
  * </p>
  * <p>
- * The ThemeServlet expects all static resources to be available in the classpath under
- * <code>/theme/XXXXXX/</code>. Where "XXXXX" is the value of the configuration parameter
- * "<code>theme.name</code>".
+ * The ThemeServlet expects all static resources to be available in the classpath under <code>/theme/XXXXXX/</code>.
+ * Where "XXXXX" is the value of the configuration parameter "<code>theme.name</code>".
  * </p>
  *
  * @author Yiannis Paschalidis
@@ -29,7 +27,8 @@ public class ThemeServlet extends HttpServlet {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected void doPost(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException,
+	protected void doPost(final HttpServletRequest req, final HttpServletResponse resp) throws
+			ServletException,
 			IOException {
 		doGet(req, resp);
 	}
@@ -43,7 +42,8 @@ public class ThemeServlet extends HttpServlet {
 	 * @throws IOException if there is an error reading the file / writing the response.
 	 */
 	@Override
-	protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException,
+	protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws
+			ServletException,
 			IOException {
 		ServletUtil.handleThemeResourceRequest(req, resp);
 	}

@@ -28,8 +28,10 @@ public class WFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 	 */
 	@Test
 	public void testRendererCorrectlyConfigured() {
-		WField field = new com.github.bordertech.wcomponents.WFieldLayout().addField("test1", new WTextArea());
-		Assert.assertTrue("Incorrect renderer supplied", getWebXmlRenderer(field) instanceof WFieldRenderer);
+		WField field = new com.github.bordertech.wcomponents.WFieldLayout().addField("test1",
+				new WTextArea());
+		Assert.assertTrue("Incorrect renderer supplied",
+				getWebXmlRenderer(field) instanceof WFieldRenderer);
 	}
 
 	@Test
@@ -108,8 +110,10 @@ public class WFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 		// Check Input
 		assertXpathEvaluatesTo("text1", "//ui:field/ui:input/ui:textField", field);
 		// Check Indicator
-		assertXpathEvaluatesTo("Test Error", "//ui:field/ui:input/ui:fieldIndicator[@type='error']/ui:message", field);
-		assertXpathEvaluatesTo("Test Warning", "//ui:field/ui:input/ui:fieldIndicator[@type='warn']/ui:message", field);
+		assertXpathEvaluatesTo("Test Error",
+				"//ui:field/ui:input/ui:fieldIndicator[@type='error']/ui:message", field);
+		assertXpathEvaluatesTo("Test Warning",
+				"//ui:field/ui:input/ui:fieldIndicator[@type='warn']/ui:message", field);
 	}
 
 }

@@ -10,9 +10,9 @@ import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.util.SystemException;
 
 /**
- * This interceptor component checks to see if a parameter named {@link Environment#TARGET_ID}
- * exists on the request. If the parameter is found then this interceptor replaces the top level ui
- * component with the {@link Targetable} component with the same id as the parameter value.
+ * This interceptor component checks to see if a parameter named {@link Environment#TARGET_ID} exists on the request. If
+ * the parameter is found then this interceptor replaces the top level ui component with the {@link Targetable}
+ * component with the same id as the parameter value.
  *
  * @author Christina Harris
  * @since 1.0.0

@@ -14,8 +14,7 @@ import java.util.Date;
  * This is a simple example of actions attached to a {@link WButton} component.
  * </p>
  * <p>
- * The button press causes a trip to the server which returns the current time and date in a
- * {@link WText} field.
+ * The button press causes a trip to the server which returns the current time and date in a {@link WText} field.
  * </p>
  *
  * @author Steve Harney
@@ -48,7 +47,8 @@ public class WButtonActionExample extends WPanel {
 		button.setAction(new Action() {
 			@Override
 			public void execute(final ActionEvent event) {
-				message.setText("The \"" + event.getActionCommand() + "\" button was pressed at " + new Date());
+				message.setText(
+						"The \"" + event.getActionCommand() + "\" button was pressed at " + new Date());
 			}
 		});
 	}

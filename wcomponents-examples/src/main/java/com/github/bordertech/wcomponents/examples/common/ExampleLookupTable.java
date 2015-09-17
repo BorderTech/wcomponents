@@ -22,7 +22,8 @@ public class ExampleLookupTable implements LookupTable {
 	/**
 	 * A map to hold the relationship between the cache key and the source table.
 	 */
-	private static final Map<String, Object> CACHE_MAP = Collections.synchronizedMap(new HashMap<String, Object>());
+	private static final Map<String, Object> CACHE_MAP = Collections.synchronizedMap(
+			new HashMap<String, Object>());
 
 	/**
 	 * {@inheritDoc}
@@ -65,7 +66,8 @@ public class ExampleLookupTable implements LookupTable {
 		}
 
 		// For the examples, we only cache the "icao" and "australian_state" sets.
-		if ("icao".equals(tableName) || "australian_state".equals(tableName) || "nodata".equals(tableName)) {
+		if ("icao".equals(tableName) || "australian_state".equals(tableName) || "nodata".equals(
+				tableName)) {
 			StringBuffer key = new StringBuffer(tableName);
 			if (nullOptionTable != null) {
 				key.append("C");
@@ -238,7 +240,8 @@ public class ExampleLookupTable implements LookupTable {
 		 * @param nullDescription the description for the null option
 		 * @param nullCode the code for the null option
 		 */
-		public TableWithNullOption(final String tableName, final String nullDescription, final String nullCode) {
+		public TableWithNullOption(final String tableName, final String nullDescription,
+				final String nullCode) {
 			this.tableName = tableName;
 			this.nullDescription = nullDescription;
 			this.nullCode = nullCode;

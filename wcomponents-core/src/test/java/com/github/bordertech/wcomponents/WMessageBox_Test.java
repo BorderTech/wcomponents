@@ -54,7 +54,8 @@ public class WMessageBox_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testTypeAccessors() {
-		assertAccessorsCorrect(new WMessageBox(WMessageBox.SUCCESS), "type", WMessageBox.SUCCESS, WMessageBox.ERROR, WMessageBox.WARN);
+		assertAccessorsCorrect(new WMessageBox(WMessageBox.SUCCESS), "type", WMessageBox.SUCCESS,
+				WMessageBox.ERROR, WMessageBox.WARN);
 	}
 
 	@Test
@@ -79,15 +80,20 @@ public class WMessageBox_Test extends AbstractWComponentTestCase {
 		messageBox.removeMessage(1);
 		List<String> messages = messageBox.getMessages();
 		Assert.assertEquals("Incorrect number of messages", 3, messages.size());
-		Assert.assertTrue("Context with dynamic messages should contain static message 1", messages.contains(staticMessage1));
-		Assert.assertTrue("Context with dynamic messages should contain dynamic message 1", messages.contains(dynamicMessage1));
-		Assert.assertTrue("Context with dynamic messages should contain dynamic message 2", messages.contains(dynamicMessage2));
+		Assert.assertTrue("Context with dynamic messages should contain static message 1", messages.
+				contains(staticMessage1));
+		Assert.assertTrue("Context with dynamic messages should contain dynamic message 1",
+				messages.contains(dynamicMessage1));
+		Assert.assertTrue("Context with dynamic messages should contain dynamic message 2",
+				messages.contains(dynamicMessage2));
 
 		resetContext();
 		messages = messageBox.getMessages();
 		Assert.assertEquals("Incorrect number of messages", 2, messages.size());
-		Assert.assertTrue("Contexts in default state should contain static message 1", messages.contains(staticMessage1));
-		Assert.assertTrue("Contexts in default state should contain static message 2", messages.contains(staticMessage2));
+		Assert.assertTrue("Contexts in default state should contain static message 1", messages.
+				contains(staticMessage1));
+		Assert.assertTrue("Contexts in default state should contain static message 2", messages.
+				contains(staticMessage2));
 
 		// Remove dynamic message 1 from uic 1
 		setActiveContext(uic1);
@@ -100,8 +106,10 @@ public class WMessageBox_Test extends AbstractWComponentTestCase {
 		resetContext();
 		messages = messageBox.getMessages();
 		Assert.assertEquals("Incorrect number of messages", 2, messages.size());
-		Assert.assertTrue("Contexts in default state should contain static message 1", messages.contains(staticMessage1));
-		Assert.assertTrue("Contexts in default state should contain static message 2", messages.contains(staticMessage2));
+		Assert.assertTrue("Contexts in default state should contain static message 1", messages.
+				contains(staticMessage1));
+		Assert.assertTrue("Contexts in default state should contain static message 2", messages.
+				contains(staticMessage2));
 	}
 
 	@Test

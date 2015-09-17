@@ -64,15 +64,19 @@ public class UicStatsAsHtml_Test extends AbstractWComponentTestCase {
 		// expecting 1 root class, 3 components, class names as shown
 		String uicStatsHtml1 = UICSTATS_HTML1.replaceAll("<<NUM_ROOTS>>", "1");
 		String uicStatsHtml2 = UICSTATS_HTML2.replaceAll("<<NUM_COMPONENTS>>", "4");
-		String uicStatsHtml31 = UICSTATS_HTML3.replaceAll("<<CLASS_NAME>>", "com.github.bordertech.wcomponents.WApplication");
-		String uicStatsHtml32 = UICSTATS_HTML3.replaceAll("<<CLASS_NAME>>", "com.github.bordertech.wcomponents.WButton");
-		String uicStatsHtml33 = UICSTATS_HTML3.replaceAll("<<CLASS_NAME>>", "com.github.bordertech.wcomponents.WLabel");
+		String uicStatsHtml31 = UICSTATS_HTML3.replaceAll("<<CLASS_NAME>>",
+				"com.github.bordertech.wcomponents.WApplication");
+		String uicStatsHtml32 = UICSTATS_HTML3.replaceAll("<<CLASS_NAME>>",
+				"com.github.bordertech.wcomponents.WButton");
+		String uicStatsHtml33 = UICSTATS_HTML3.replaceAll("<<CLASS_NAME>>",
+				"com.github.bordertech.wcomponents.WLabel");
 
 		String[] expectedResults = {uicStatsHtml1, uicStatsHtml2, uicStatsHtml31, uicStatsHtml32, uicStatsHtml33};
 
 		String result = outStr.toString();
 		for (int i = 0; i < expectedResults.length; i++) {
-			Assert.assertTrue("result should contain substring " + i + "  ", result.indexOf(expectedResults[i]) != -1);
+			Assert.assertTrue("result should contain substring " + i + "  ", result.indexOf(
+					expectedResults[i]) != -1);
 		}
 	}
 }

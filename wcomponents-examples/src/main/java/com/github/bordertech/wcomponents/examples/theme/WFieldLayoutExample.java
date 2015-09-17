@@ -13,8 +13,8 @@ import com.github.bordertech.wcomponents.WTextField;
 
 /**
  * <p>
- * This component demonstrates the usage of the {@link WFieldLayout}, components. These are in the
- * following configurations. </p>
+ * This component demonstrates the usage of the {@link WFieldLayout}, components. These are in the following
+ * configurations. </p>
  *
  * <p>
  * <ul>
@@ -98,24 +98,36 @@ public class WFieldLayoutExample extends WPanel {
 		add(new WHeading(HeadingLevel.H3, "Stacked with labelWidth=33"));
 		layout = new WFieldLayout(WFieldLayout.LAYOUT_STACKED);
 		layout.setLabelWidth(33);
-		layout.addField("WTextField 1 which has an inordinately ong label which is quite unnecessary and is in itself most likely an a11y issue for some users but we shall persist in the aid of providing a testable piece of code.", new WTextField());
-		layout.addField("WTextField 2 which has an inordinately ong label which is quite unnecessary and is in itself most likely an a11y issue for some users but we shall persist in the aid of providing a testable piece of code.", new WTextField());
+		layout.addField(
+				"WTextField 1 which has an inordinately ong label which is quite unnecessary and is in itself most likely an a11y issue for some users but we shall persist in the aid of providing a testable piece of code.",
+				new WTextField());
+		layout.addField(
+				"WTextField 2 which has an inordinately ong label which is quite unnecessary and is in itself most likely an a11y issue for some users but we shall persist in the aid of providing a testable piece of code.",
+				new WTextField());
 		layout.addField("WCheckBox", new WCheckBox());
 		add(layout);
 
 		add(new WHeading(HeadingLevel.H3, "Stacked with labelWidth=50"));
 		layout = new WFieldLayout(WFieldLayout.LAYOUT_STACKED);
 		layout.setLabelWidth(50);
-		layout.addField("WTextField 1 which has an inordinately ong label which is quite unnecessary and is in itself most likely an a11y issue for some users but we shall persist in the aid of providing a testable piece of code.", new WTextField());
-		layout.addField("WTextField 2 which has an inordinately ong label which is quite unnecessary and is in itself most likely an a11y issue for some users but we shall persist in the aid of providing a testable piece of code.", new WTextField());
+		layout.addField(
+				"WTextField 1 which has an inordinately ong label which is quite unnecessary and is in itself most likely an a11y issue for some users but we shall persist in the aid of providing a testable piece of code.",
+				new WTextField());
+		layout.addField(
+				"WTextField 2 which has an inordinately ong label which is quite unnecessary and is in itself most likely an a11y issue for some users but we shall persist in the aid of providing a testable piece of code.",
+				new WTextField());
 		layout.addField("WCheckBox", new WCheckBox());
 		add(layout);
 
 		add(new WHeading(HeadingLevel.H3, "Stacked with labelWidth=67"));
 		layout = new WFieldLayout(WFieldLayout.LAYOUT_STACKED);
 		layout.setLabelWidth(67);
-		layout.addField("WTextField 1 which has an inordinately ong label which is quite unnecessary and is in itself most likely an a11y issue for some users but we shall persist in the aid of providing a testable piece of code.", new WTextField());
-		layout.addField("WTextField 2 which has an inordinately ong label which is quite unnecessary and is in itself most likely an a11y issue for some users but we shall persist in the aid of providing a testable piece of code.", new WTextField());
+		layout.addField(
+				"WTextField 1 which has an inordinately ong label which is quite unnecessary and is in itself most likely an a11y issue for some users but we shall persist in the aid of providing a testable piece of code.",
+				new WTextField());
+		layout.addField(
+				"WTextField 2 which has an inordinately ong label which is quite unnecessary and is in itself most likely an a11y issue for some users but we shall persist in the aid of providing a testable piece of code.",
+				new WTextField());
 		layout.addField("WCheckBox", new WCheckBox());
 		add(layout);
 
@@ -185,11 +197,14 @@ public class WFieldLayoutExample extends WPanel {
 			innerLayout.setOrderedOffset(startAt);
 		}
 		innerLayout.addField("Test " + String.valueOf(startAt > 1 ? startAt : 1), new WTextField());
-		innerLayout.addField("Test " + String.valueOf(startAt > 1 ? startAt + 1 : 2), new WTextField());
-		innerLayout.addField("Test " + String.valueOf(startAt > 1 ? startAt + 2 : 2), new WTextField());
+		innerLayout.addField("Test " + String.valueOf(startAt > 1 ? startAt + 1 : 2),
+				new WTextField());
+		innerLayout.addField("Test " + String.valueOf(startAt > 1 ? startAt + 2 : 2),
+				new WTextField());
 		if (curr < 4) {
 			int next = curr + 1;
-			innerLayout.addField("indent level " + String.valueOf(next), recursiveFieldLayout(next, 0));
+			innerLayout.addField("indent level " + String.valueOf(next), recursiveFieldLayout(next,
+					0));
 		}
 		innerLayout.addField("Test after nest", new WTextField());
 		return innerLayout;

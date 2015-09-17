@@ -14,7 +14,8 @@ public final class WTableColumn_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testAlignAccessors() {
-		assertAccessorsCorrect(new WTableColumn("align", WText.class), "align", null, WTableColumn.Alignment.LEFT,
+		assertAccessorsCorrect(new WTableColumn("align", WText.class), "align", null,
+				WTableColumn.Alignment.LEFT,
 				WTableColumn.Alignment.RIGHT);
 	}
 

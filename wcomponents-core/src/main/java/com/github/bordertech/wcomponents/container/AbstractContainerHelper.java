@@ -28,12 +28,11 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * <p>
- * This class exists to enable sharing of features that are common between Servlet and Portlet
- * handling of WComponents.
+ * This class exists to enable sharing of features that are common between Servlet and Portlet handling of WComponents.
  * </p>
  * <p>
- * Instances of this support class are intended to be short lived. An instance of this class is
- * intended to be created to help service a single request and then be thrown away.
+ * Instances of this support class are intended to be short lived. An instance of this class is intended to be created
+ * to help service a single request and then be thrown away.
  * </p>
  *
  * @author Martin Shevchenko
@@ -61,8 +60,7 @@ public abstract class AbstractContainerHelper {
 	public static final String TERMINATE_SESSION_ON_ERROR = "bordertech.wcomponents.terminateSessionOnError";
 
 	/**
-	 * The default session attribute key for where the UIContext is stored in the underlying
-	 * session.
+	 * The default session attribute key for where the UIContext is stored in the underlying session.
 	 *
 	 * @deprecated portal specific
 	 */
@@ -75,15 +73,15 @@ public abstract class AbstractContainerHelper {
 	private static final String ACTION_ERROR_KEY = AbstractContainerHelper.class.getName() + ".action.error";
 
 	/**
-	 * Indicates whether the helper has been disposed. A disposed helper does not take part in
-	 * action or render processing.
+	 * Indicates whether the helper has been disposed. A disposed helper does not take part in action or render
+	 * processing.
 	 */
 	private boolean disposed = false;
 
 	/**
-	 * This flag indicates if we are starting a new session. Starting a new session normally occurs
-	 * because a new user is hitting the application for the first time. It can also be an existing
-	 * user, but the request sent has indicated the desire to start a new session.
+	 * This flag indicates if we are starting a new session. Starting a new session normally occurs because a new user
+	 * is hitting the application for the first time. It can also be an existing user, but the request sent has
+	 * indicated the desire to start a new session.
 	 */
 	private Boolean newConversation = null;
 
@@ -159,7 +157,8 @@ public abstract class AbstractContainerHelper {
 		try {
 			// Check user context has been prepared
 			if (newConversation == null) {
-				throw new IllegalStateException("User context has not been prepared before the action phase");
+				throw new IllegalStateException(
+						"User context has not been prepared before the action phase");
 			}
 
 			prepareAction();
@@ -219,7 +218,8 @@ public abstract class AbstractContainerHelper {
 		try {
 			// Check user context has been prepared
 			if (newConversation == null) {
-				throw new IllegalStateException("User context has not been prepared before the render phase");
+				throw new IllegalStateException(
+						"User context has not been prepared before the render phase");
 			}
 
 			prepareRender();
@@ -263,7 +263,8 @@ public abstract class AbstractContainerHelper {
 			getInterceptor().paint(new WebXmlRenderContext(writer, uic.getLocale()));
 
 			// The following only matters for a Portal context
-			String title = uiComponent instanceof WApplication ? ((WApplication) uiComponent).getTitle() : null;
+			String title = uiComponent instanceof WApplication ? ((WApplication) uiComponent).
+					getTitle() : null;
 
 			if (title != null) {
 				setTitle(title);
@@ -283,8 +284,7 @@ public abstract class AbstractContainerHelper {
 	}
 
 	/**
-	 * @return true if the current request signals a restart of the application. Subclasses may
-	 * override.
+	 * @return true if the current request signals a restart of the application. Subclasses may override.
 	 */
 	protected boolean requestImpliesNew() {
 		return false;
@@ -303,8 +303,8 @@ public abstract class AbstractContainerHelper {
 	}
 
 	/**
-	 * Retrieves the UIContext from session. If the session does not yet exist or the UIContext is
-	 * not yet created and saved, then this method returns null.
+	 * Retrieves the UIContext from session. If the session does not yet exist or the UIContext is not yet created and
+	 * saved, then this method returns null.
 	 *
 	 * @return the UIContext in the session, or null if it does not exist.
 	 */
@@ -318,8 +318,7 @@ public abstract class AbstractContainerHelper {
 	protected abstract void setUIContext(UIContext uiContext);
 
 	/**
-	 * Call this method to simulate what would happen if the UIContext was serialized due to
-	 * clustering of servers.
+	 * Call this method to simulate what would happen if the UIContext was serialized due to clustering of servers.
 	 */
 	protected void cycleUIContext() {
 		boolean cycleIt = Config.getInstance().getBoolean(DEVELOPER_MODE_CLUSTER_EMULATION, false);
@@ -335,8 +334,8 @@ public abstract class AbstractContainerHelper {
 	}
 
 	/**
-	 * This class exists because we'd like to simulate clustering while still being able to use the
-	 * UIContext as the synchronization lock when servicing a request.
+	 * This class exists because we'd like to simulate clustering while still being able to use the UIContext as the
+	 * synchronization lock when servicing a request.
 	 */
 	public static class UIContextWrap extends UIContextDelegate {
 
@@ -348,8 +347,7 @@ public abstract class AbstractContainerHelper {
 		}
 
 		/**
-		 * Simulates moving between servers in a cluster by copying the UIContext backing using
-		 * Serialization.
+		 * Simulates moving between servers in a cluster by copying the UIContext backing using Serialization.
 		 */
 		public void cycle() {
 			setBacking((UIContext) SerializationUtil.pipe(getBacking()));
@@ -393,8 +391,7 @@ public abstract class AbstractContainerHelper {
 	}
 
 	/**
-	 * Marks the helper as disposed. A disposed helper does not take part in action or render
-	 * processing.
+	 * Marks the helper as disposed. A disposed helper does not take part in action or render processing.
 	 */
 	protected void dispose() {
 		LOG.debug("Disposing ContainerHelper instance");
@@ -407,8 +404,8 @@ public abstract class AbstractContainerHelper {
 	}
 
 	/**
-	 * Indicates whether the helper has been disposed. A disposed helper does not take part in
-	 * action or render processing.
+	 * Indicates whether the helper has been disposed. A disposed helper does not take part in action or render
+	 * processing.
 	 *
 	 * @return true if the helper is disposed, false otherwise.
 	 */
@@ -417,8 +414,7 @@ public abstract class AbstractContainerHelper {
 	}
 
 	/**
-	 * Creates an implementation of WEnvironment suitable for the type of container we are running
-	 * in.
+	 * Creates an implementation of WEnvironment suitable for the type of container we are running in.
 	 *
 	 * @return a new WEnvironment instance.
 	 */
@@ -439,16 +435,14 @@ public abstract class AbstractContainerHelper {
 	}
 
 	/**
-	 * Creates an implementation of WComponent Request suitable to the type of container we are
-	 * running in.
+	 * Creates an implementation of WComponent Request suitable to the type of container we are running in.
 	 *
 	 * @return a new Request.
 	 */
 	protected abstract Request createRequest();
 
 	/**
-	 * Updates the wcomponent Request for the current phase of the outer containers request
-	 * processing.
+	 * Updates the wcomponent Request for the current phase of the outer containers request processing.
 	 *
 	 * @param request the request to update.
 	 */
@@ -484,8 +478,8 @@ public abstract class AbstractContainerHelper {
 	}
 
 	/**
-	 * The application can ask the Container to "log out" by setting the logout attribute on the
-	 * Request. This method is called in response to that.
+	 * The application can ask the Container to "log out" by setting the logout attribute on the Request. This method is
+	 * called in response to that.
 	 * <p>
 	 * It invalidates the session and redirects the browser to the root of the web application.
 	 * </p>
@@ -506,17 +500,15 @@ public abstract class AbstractContainerHelper {
 	protected abstract void invalidateSession();
 
 	/**
-	 * Redirects the client to a URL after the log-out process is complete. The URL is specified by
-	 * the configuration parameter <code>bordertech.wcomponents.logout.url</code>. Note that this
-	 * method is called after {@link #invalidateSession()}, so there may not be any session
-	 * information available.
+	 * Redirects the client to a URL after the log-out process is complete. The URL is specified by the configuration
+	 * parameter <code>bordertech.wcomponents.logout.url</code>. Note that this method is called after
+	 * {@link #invalidateSession()}, so there may not be any session information available.
 	 */
 	protected abstract void redirectForLogout();
 
 	/**
-	 * Subclasses can override this method to add extra headers. They can do this by obtaining the
-	 * top ui component's WHeaders object and adding headers to it. Adding generic headers makes
-	 * sense for servlets but maybe not portlets.
+	 * Subclasses can override this method to add extra headers. They can do this by obtaining the top ui component's
+	 * WHeaders object and adding headers to it. Adding generic headers makes sense for servlets but maybe not portlets.
 	 *
 	 * @param uic the current user context
 	 * @param ui the WComponent UI which is handling the request.
@@ -566,8 +558,7 @@ public abstract class AbstractContainerHelper {
 	}
 
 	/**
-	 * Indicates whether there is an error which has been propogated from the action to the render
-	 * phase.
+	 * Indicates whether there is an error which has been propogated from the action to the render phase.
 	 *
 	 * @return true if there is a propogated escape, false otherwise.
 	 */

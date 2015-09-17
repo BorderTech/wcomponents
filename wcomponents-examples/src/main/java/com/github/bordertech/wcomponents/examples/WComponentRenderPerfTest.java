@@ -38,8 +38,7 @@ public final class WComponentRenderPerfTest {
 	private static final String LINE_PREFIX = "WComponentRenderPerfTest:";
 
 	/**
-	 * A list of all the test methods. This list is used when the program is launched with no
-	 * command line args.
+	 * A list of all the test methods. This list is used when the program is launched with no command line args.
 	 */
 	private static final String[] TESTS = {"runDefaultUIManagerImpl"};
 
@@ -188,14 +187,17 @@ public final class WComponentRenderPerfTest {
 
 			LOG.info(LINE_PREFIX + "Memory use before paint: " + memBeforePaint);
 			LOG.info(LINE_PREFIX + "Memory use after 1 paint: " + memAfterOnePaint);
-			LOG.info(LINE_PREFIX + "Memory use after " + NUM_RENDERS + " paints: " + memAfterAllPaints);
+			LOG.info(
+					LINE_PREFIX + "Memory use after " + NUM_RENDERS + " paints: " + memAfterAllPaints);
 			LOG.info(LINE_PREFIX + "Render time: " + (elapsedTime / (double) NUM_RENDERS) + "ms");
 
 			Object[] treeAndSession = new Object[]{component, uic};
 			ObjectGraphNode root = ObjectGraphDump.dump(treeAndSession);
 
-			LOG.info(LINE_PREFIX + "Component mem use: " + ((ObjectGraphNode) root.getChildAt(0)).getSize());
-			LOG.info(LINE_PREFIX + "UIC mem use: " + ((ObjectGraphNode) root.getChildAt(1)).getSize());
+			LOG.info(LINE_PREFIX + "Component mem use: " + ((ObjectGraphNode) root.getChildAt(0)).
+					getSize());
+			LOG.info(LINE_PREFIX + "UIC mem use: " + ((ObjectGraphNode) root.getChildAt(1)).
+					getSize());
 		} finally {
 			UIContextHolder.popContext();
 		}

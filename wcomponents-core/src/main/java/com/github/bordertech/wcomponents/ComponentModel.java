@@ -25,8 +25,8 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * <p>
- * Holds the extrinsic state information of a WComponent. Subclasses can extend this class and add
- * extra model attributes.</p>
+ * Holds the extrinsic state information of a WComponent. Subclasses can extend this class and add extra model
+ * attributes.</p>
  *
  * <p>
  * Subclasses must adhere to the following rules:
@@ -83,23 +83,20 @@ public class ComponentModel implements WebModel, Externalizable {
 	public static final int VALIDATE_FLAG = 1 << 5;
 
 	/**
-	 * The bit-mask for the flag that indicates whether a component is submitted on change/click
-	 * (client side).
+	 * The bit-mask for the flag that indicates whether a component is submitted on change/click (client side).
 	 */
 	public static final int SUBMIT_ON_CHANGE_FLAG = 1 << 6;
 
 	/**
-	 * The bit-mask for the flag that indicates whether a component is rendered as "hidden" on the
-	 * client side.
+	 * The bit-mask for the flag that indicates whether a component is rendered as "hidden" on the client side.
 	 */
 	public static final int HIDE_FLAG = 1 << 7;
 
 	/**
 	 * <p>
-	 * The bit-mask for the flag that indicates whether that user data has been set. This is
-	 * necessary, as some components do not contain enough values to determine this automatically.
-	 * For example, WCheckBox only has two states (on/off), and could already contain two different
-	 * "default" values from the shared model and a bean.</p>
+	 * The bit-mask for the flag that indicates whether that user data has been set. This is necessary, as some
+	 * components do not contain enough values to determine this automatically. For example, WCheckBox only has two
+	 * states (on/off), and could already contain two different "default" values from the shared model and a bean.</p>
 	 *
 	 * <p>
 	 * <b>Note:</b> This bit mask must never be set on a component's shared model.</p>
@@ -107,8 +104,7 @@ public class ComponentModel implements WebModel, Externalizable {
 	public static final int USER_DATA_SET = 1 << 8;
 
 	/**
-	 * The bit-mask for the flag that indicates whether a component's text needs to be encoded
-	 * before output.
+	 * The bit-mask for the flag that indicates whether a component's text needs to be encoded before output.
 	 */
 	public static final int ENCODE_TEXT_FLAG = 1 << 9;
 
@@ -128,16 +124,14 @@ public class ComponentModel implements WebModel, Externalizable {
 	protected static final int FLAGS_DEFAULT = VISIBLE_FLAG | VALIDATE_FLAG | ENCODE_TEXT_FLAG;
 
 	/**
-	 * When initially constructed or deserialized, some of our fields may be defaulted to the shared
-	 * model, but we don't yet have a reference to it. When a reference is supplied using the
-	 * setSharedModel method, this list controls which fields should have the values set to the
-	 * shared model's values.
+	 * When initially constructed or deserialized, some of our fields may be defaulted to the shared model, but we don't
+	 * yet have a reference to it. When a reference is supplied using the setSharedModel method, this list controls
+	 * which fields should have the values set to the shared model's values.
 	 */
 	private transient List<Field> unsetFields = Arrays.asList(getFields(this));
 
 	/**
-	 * A reference to the sharedModel. This is not serialized, and must therefore be supplied after
-	 * deserialization.
+	 * A reference to the sharedModel. This is not serialized, and must therefore be supplied after deserialization.
 	 */
 	private transient ComponentModel sharedModel;
 
@@ -147,21 +141,19 @@ public class ComponentModel implements WebModel, Externalizable {
 	private int flags = FLAGS_DEFAULT;
 
 	/**
-	 * You can override the children on a per session basis. When children is set to null we know
-	 * there is no override. An empty array indicates no children.
+	 * You can override the children on a per session basis. When children is set to null we know there is no override.
+	 * An empty array indicates no children.
 	 */
 	private List<WComponent> children;
 
 	/**
-	 * You can override the parent on a per session basis. When PARENT_OVERRIDDEN_FLAG is not set,
-	 * we know there is no override. This is important because setting the parent to java null is a
-	 * valid override.
+	 * You can override the parent on a per session basis. When PARENT_OVERRIDDEN_FLAG is not set, we know there is no
+	 * override. This is important because setting the parent to java null is a valid override.
 	 */
 	private Container parent;
 
 	/**
-	 * Optional tag used to identify the child by the parent. This is particularly good in
-	 * templating layout managers.
+	 * Optional tag used to identify the child by the parent. This is particularly good in templating layout managers.
 	 */
 	private String tag;
 
@@ -176,21 +168,20 @@ public class ComponentModel implements WebModel, Externalizable {
 	private String templateMarkUp;
 
 	/**
-	 * Adds a toolTip to the component. Browsers will display this value when the element is
-	 * hovered-over or is in focus.
+	 * Adds a toolTip to the component. Browsers will display this value when the element is hovered-over or is in
+	 * focus.
 	 */
 	private Serializable toolTip;
 
 	/**
-	 * Adds extra textual information to describe a component. This is intended for screen-readers
-	 * only.
+	 * Adds extra textual information to describe a component. This is intended for screen-readers only.
 	 */
 	private Serializable accessibleText;
 
 	/**
-	 * General placeholder for subclasses of WComponent to place model attributes. This is mostly
-	 * for convenience so that subclasses do not need to extend the <code>ComponentModel</code> and
-	 * override the extrinsic state management (eg, newComponentModel(), etc).
+	 * General placeholder for subclasses of WComponent to place model attributes. This is mostly for convenience so
+	 * that subclasses do not need to extend the <code>ComponentModel</code> and override the extrinsic state management
+	 * (eg, newComponentModel(), etc).
 	 */
 	private Map<String, Serializable> attributes;
 
@@ -254,8 +245,7 @@ public class ComponentModel implements WebModel, Externalizable {
 	/**
 	 * Indicates whether this ComponentModel is equal to the given object.
 	 *
-	 * Subclasses should not need to override this method, as reflection is used to read in all
-	 * fields.
+	 * Subclasses should not need to override this method, as reflection is used to read in all fields.
 	 *
 	 * @param obj the object to check for equality.
 	 * @return true if the other object is a ComponentModel and is equal to this model.
@@ -311,8 +301,7 @@ public class ComponentModel implements WebModel, Externalizable {
 	}
 
 	/**
-	 * Sets the shared component model. If there are any unset fields, they are set from the values
-	 * in the shared model.
+	 * Sets the shared component model. If there are any unset fields, they are set from the values in the shared model.
 	 *
 	 * @param sharedModel the shared ComponentModel
 	 */
@@ -327,9 +316,11 @@ public class ComponentModel implements WebModel, Externalizable {
 					Object sessionValue = copyData(sharedValue);
 					field.set(this, sessionValue);
 				} catch (IllegalAccessException e) {
-					LOG.error("Failed to set field " + field.getName() + " on " + getClass().getName(), e);
+					LOG.error("Failed to set field " + field.getName() + " on " + getClass().
+							getName(), e);
 				} catch (IllegalArgumentException e) {
-					LOG.error("Failed to set field " + field.getName() + " on " + getClass().getName(), e);
+					LOG.error("Failed to set field " + field.getName() + " on " + getClass().
+							getName(), e);
 				}
 			}
 
@@ -338,8 +329,7 @@ public class ComponentModel implements WebModel, Externalizable {
 	}
 
 	/**
-	 * Creates a copy of mutable data, to ensure updates to one component model do not update the
-	 * other.
+	 * Creates a copy of mutable data, to ensure updates to one component model do not update the other.
 	 *
 	 * TODO: We might need to add other collections/arrays later
 	 *
@@ -583,16 +573,16 @@ public class ComponentModel implements WebModel, Externalizable {
 
 	/**
 	 * <p>
-	 * Implementation of the Externalizable interface to ensure that we don't serialize redundant
-	 * data (anything contained by the {@link #sharedModel}.</p>
+	 * Implementation of the Externalizable interface to ensure that we don't serialize redundant data (anything
+	 * contained by the {@link #sharedModel}.</p>
 	 *
 	 * <p>
-	 * Data is obtained using reflection so that subclasses don't need concern themselves with the
-	 * ComponentModel serialization mechanism.</p>
+	 * Data is obtained using reflection so that subclasses don't need concern themselves with the ComponentModel
+	 * serialization mechanism.</p>
 	 *
 	 * <p>
-	 * After the ComponentModel data is read in, some fields may be in a "unset" state. The static
-	 * model needs to be supplied using {@link #setSharedModel(ComponentModel)}
+	 * After the ComponentModel data is read in, some fields may be in a "unset" state. The static model needs to be
+	 * supplied using {@link #setSharedModel(ComponentModel)}
 	 *
 	 * @param in the ObjectInput to read from.
 	 *
@@ -622,12 +612,12 @@ public class ComponentModel implements WebModel, Externalizable {
 
 	/**
 	 * <p>
-	 * Implementation of the Externalizable interface to ensure that we don't serialize redundant
-	 * data (anything contained by the {@link #sharedModel}.</p>
+	 * Implementation of the Externalizable interface to ensure that we don't serialize redundant data (anything
+	 * contained by the {@link #sharedModel}.</p>
 	 *
 	 * <p>
-	 * Data is obtained using reflection so that subclasses don't need concern themselves with the
-	 * ComponentModel serialization mechanism.</p>
+	 * Data is obtained using reflection so that subclasses don't need concern themselves with the ComponentModel
+	 * serialization mechanism.</p>
 	 *
 	 * @param out the ObjectOutput to write to.
 	 *
@@ -690,9 +680,8 @@ public class ComponentModel implements WebModel, Externalizable {
 	}
 
 	/**
-	 * When serializing the model, we need to be distinguish a null override of the static model's
-	 * value vs a field that hasn't been written because it hasn't been overridden. This object is
-	 * used as a marker.
+	 * When serializing the model, we need to be distinguish a null override of the static model's value vs a field that
+	 * hasn't been written because it hasn't been overridden. This object is used as a marker.
 	 *
 	 * @author Yiannis Paschalidis
 	 */
@@ -711,22 +700,21 @@ public class ComponentModel implements WebModel, Externalizable {
 	}
 
 	/**
-	 * The reflection API doesn't guarantee that fields will be returned in any particular order. To
-	 * ensure that fields are deserialized in the same order that they were serialized, we need to
-	 * sort the field list.
+	 * The reflection API doesn't guarantee that fields will be returned in any particular order. To ensure that fields
+	 * are deserialized in the same order that they were serialized, we need to sort the field list.
 	 *
 	 * @author Yiannis Paschalidis
 	 */
 	private static final class FieldComparator implements Comparator<Field>, Serializable {
 
 		/**
-		 * Compares two objects for order. Returns a negative integer, zero, or a positive integer
-		 * as the first object is less than, equal to, or greater than the second.<p>
+		 * Compares two objects for order. Returns a negative integer, zero, or a positive integer as the first object
+		 * is less than, equal to, or greater than the second.<p>
 		 *
 		 * @param field1 the first field to compare.
 		 * @param field2 the second field to compare.
-		 * @return a negative integer, zero, or a positive integer as the first object is less than,
-		 * equal to, or greater than the second.
+		 * @return a negative integer, zero, or a positive integer as the first object is less than, equal to, or
+		 * greater than the second.
 		 */
 		@Override
 		public int compare(final Field field1, final Field field2) {

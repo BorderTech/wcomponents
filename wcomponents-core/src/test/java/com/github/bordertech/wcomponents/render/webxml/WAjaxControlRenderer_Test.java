@@ -22,7 +22,8 @@ public class WAjaxControlRenderer_Test extends AbstractWebXmlRendererTestCase {
 	@Test
 	public void testRendererCorrectlyConfigured() {
 		WAjaxControl component = new WAjaxControl(new WButton("x"));
-		Assert.assertTrue("Incorrect renderer supplied", getWebXmlRenderer(component) instanceof WAjaxControlRenderer);
+		Assert.assertTrue("Incorrect renderer supplied",
+				getWebXmlRenderer(component) instanceof WAjaxControlRenderer);
 	}
 
 	@Test
@@ -53,9 +54,12 @@ public class WAjaxControlRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo("", "//ui:ajaxTrigger/@allowedUses", root);
 		assertXpathEvaluatesTo("", "//ui:ajaxTrigger/@delay", root);
 		assertXpathEvaluatesTo("3", "count(//ui:ajaxTrigger/ui:ajaxTargetId)", root);
-		assertXpathEvaluatesTo(target1.getId(), "//ui:ajaxTrigger/ui:ajaxTargetId[1]/@targetId", root);
-		assertXpathEvaluatesTo(target2.getId(), "//ui:ajaxTrigger/ui:ajaxTargetId[2]/@targetId", root);
-		assertXpathEvaluatesTo(target3.getId(), "//ui:ajaxTrigger/ui:ajaxTargetId[3]/@targetId", root);
+		assertXpathEvaluatesTo(target1.getId(), "//ui:ajaxTrigger/ui:ajaxTargetId[1]/@targetId",
+				root);
+		assertXpathEvaluatesTo(target2.getId(), "//ui:ajaxTrigger/ui:ajaxTargetId[2]/@targetId",
+				root);
+		assertXpathEvaluatesTo(target3.getId(), "//ui:ajaxTrigger/ui:ajaxTargetId[3]/@targetId",
+				root);
 
 		// With Targets and optional attributes
 		control.setLoadCount(6);

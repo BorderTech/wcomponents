@@ -27,7 +27,8 @@ public class WDropdown_Test extends AbstractWComponentTestCase {
 	public void testConstructorArray() {
 		String[] options = new String[]{"A", "B"};
 		WDropdown dropdown = new WDropdown(options);
-		Assert.assertEquals("Incorrect options returned", Arrays.asList(options), dropdown.getOptions());
+		Assert.assertEquals("Incorrect options returned", Arrays.asList(options), dropdown.
+				getOptions());
 		Assert.assertFalse("allowNoSelection should be false", dropdown.isAllowNoSelection());
 	}
 
@@ -42,7 +43,8 @@ public class WDropdown_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testConstructorTable() {
 		WDropdown dropdown = new WDropdown(DayOfWeekTable.class);
-		Assert.assertEquals("Incorrect table returned", DayOfWeekTable.class, dropdown.getLookupTable());
+		Assert.assertEquals("Incorrect table returned", DayOfWeekTable.class, dropdown.
+				getLookupTable());
 		Assert.assertFalse("allowNoSelection should be false", dropdown.isAllowNoSelection());
 	}
 
@@ -58,7 +60,8 @@ public class WDropdown_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testTypeAccessors() {
-		assertAccessorsCorrect(new WDropdown(), "type", null, WDropdown.DropdownType.NATIVE, WDropdown.DropdownType.COMBO);
+		assertAccessorsCorrect(new WDropdown(), "type", null, WDropdown.DropdownType.NATIVE,
+				WDropdown.DropdownType.COMBO);
 	}
 
 }

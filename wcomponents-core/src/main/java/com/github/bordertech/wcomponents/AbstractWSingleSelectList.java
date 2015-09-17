@@ -7,8 +7,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * AbstractWSingleSelectList provides the basis for components that allow the user to select a
- * single item from a list.
+ * AbstractWSingleSelectList provides the basis for components that allow the user to select a single item from a list.
  *
  * @author Jonathan Austin
  * @since 1.0.0
@@ -132,7 +131,8 @@ public abstract class AbstractWSingleSelectList extends AbstractWSelectList {
 	public void setData(final Object data) {
 		List<?> options = getOptions();
 		if ((!(isEditable() && data instanceof String)) && (options == null || options.isEmpty())) {
-			throw new IllegalStateException("Should not set a selection on a list component with no options.");
+			throw new IllegalStateException(
+					"Should not set a selection on a list component with no options.");
 		}
 
 		Object validOption = findValidOption(options, data, false);
@@ -147,7 +147,8 @@ public abstract class AbstractWSingleSelectList extends AbstractWSelectList {
 	 * @param handleInvalid true if allow handle invalid option
 	 * @return the valid option
 	 */
-	private Object findValidOption(final List<?> options, final Object selected, final boolean handleInvalid) {
+	private Object findValidOption(final List<?> options, final Object selected,
+			final boolean handleInvalid) {
 
 		// No selection made
 		if (selected == null) {
@@ -185,7 +186,8 @@ public abstract class AbstractWSingleSelectList extends AbstractWSelectList {
 			setSelected(valid);
 			return valid;
 		} else {
-			throw new IllegalStateException("The selected option \"" + selected + "\" is not an available option.");
+			throw new IllegalStateException(
+					"The selected option \"" + selected + "\" is not an available option.");
 		}
 
 	}
@@ -196,8 +198,8 @@ public abstract class AbstractWSingleSelectList extends AbstractWSelectList {
 	 * By default, this method throws an {@link IllegalStateException}.
 	 * </p>
 	 * <p>
-	 * This method can be overridden to handle an invalid option without throwing the exception. It
-	 * must return a valid option that will be set as the selected option.
+	 * This method can be overridden to handle an invalid option without throwing the exception. It must return a valid
+	 * option that will be set as the selected option.
 	 * </p>
 	 *
 	 * @param invalidOption the invalid option
@@ -287,7 +289,8 @@ public abstract class AbstractWSingleSelectList extends AbstractWSelectList {
 		}
 
 		// Invalid option. Ignore and use the current selection
-		LOG.warn("Option \"" + paramValue + "\" on the request is not a valid option. Will be ignored.");
+		LOG.warn(
+				"Option \"" + paramValue + "\" on the request is not a valid option. Will be ignored.");
 		Object currentOption = getValue();
 		return currentOption;
 	}

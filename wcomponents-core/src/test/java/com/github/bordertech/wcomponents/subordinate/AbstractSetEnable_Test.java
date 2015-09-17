@@ -138,7 +138,8 @@ public class AbstractSetEnable_Test {
 	/**
 	 * Test Implementation class of SubordinateTarget and Disableable.
 	 */
-	private static class MyTarget extends AbstractWComponent implements SubordinateTarget, Disableable {
+	private static class MyTarget extends AbstractWComponent implements SubordinateTarget,
+			Disableable {
 
 		/**
 		 * {@inheritDoc}

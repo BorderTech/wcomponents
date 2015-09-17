@@ -15,10 +15,10 @@ import com.github.bordertech.wcomponents.validation.ValidatingAction;
 import com.github.bordertech.wcomponents.validation.WValidationErrors;
 
 /**
- * This class is a support class used by some of the validation examples as a container for testing
- * the validation logic contained in another WComponent. This class has a button called "validate"
- * to call the validation logic on the contained component, and a box for displaying any errors
- * found. If no validation errors are found then a "success" dialog is displayed.
+ * This class is a support class used by some of the validation examples as a container for testing the validation logic
+ * contained in another WComponent. This class has a button called "validate" to call the validation logic on the
+ * contained component, and a box for displaying any errors found. If no validation errors are found then a "success"
+ * dialog is displayed.
  *
  * @author Martin Shevchenko
  */
@@ -67,7 +67,8 @@ public class ValidationContainer extends WPanel implements MessageContainer {
 
 		cardManager.add(mainPanel);
 
-		setValidatingAction(new ValidatingAction(messages.getValidationErrors(), componentToValidate) {
+		setValidatingAction(
+				new ValidatingAction(messages.getValidationErrors(), componentToValidate) {
 			@Override
 			public void executeOnValid(final ActionEvent event) {
 				showSuccessDialog();
@@ -119,8 +120,8 @@ public class ValidationContainer extends WPanel implements MessageContainer {
 	}
 
 	/**
-	 * Sets the action for the validation button. The action should be a {@link ValidatingAction}
-	 * for validation to actually occur.
+	 * Sets the action for the validation button. The action should be a {@link ValidatingAction} for validation to
+	 * actually occur.
 	 *
 	 * @param action the button action.
 	 */
@@ -137,8 +138,7 @@ public class ValidationContainer extends WPanel implements MessageContainer {
 	}
 
 	/**
-	 * This component is used to display a "success" message when the contained component passes
-	 * validation.
+	 * This component is used to display a "success" message when the contained component passes validation.
 	 */
 	private final class SuccessPanel extends WContainer {
 

@@ -78,9 +78,12 @@ public class MenuFlyoutExample extends WPanel {
 
 		// The Image menu shows use of decorated labels and images
 		WSubMenu imageMenu = new WSubMenu("Images");
-		imageMenu.add(createImageMenuItem("/image/flag.png", "Flag", "eg-menu-image-1", selectedMenuText));
-		imageMenu.add(createImageMenuItem("/image/attachment.png", "Attachment", "eg-menu-image-2", selectedMenuText));
-		imageMenu.add(createImageMenuItem("/image/settings.png", "Settings", "eg-menu-image-3", selectedMenuText));
+		imageMenu.add(createImageMenuItem("/image/flag.png", "Flag", "eg-menu-image-1",
+				selectedMenuText));
+		imageMenu.add(createImageMenuItem("/image/attachment.png", "Attachment", "eg-menu-image-2",
+				selectedMenuText));
+		imageMenu.add(createImageMenuItem("/image/settings.png", "Settings", "eg-menu-image-3",
+				selectedMenuText));
 
 		imageMenu.addSeparator();
 		imageMenu.add(new WMenuItem("Disable image menu", new ToggleDisabledAction(imageMenu)));
@@ -94,7 +97,8 @@ public class MenuFlyoutExample extends WPanel {
 		menu.add(sitesMenu);
 
 		// Add an item to toggle the states of all the menus
-		menu.add(new WMenuItem("Toggle top-level menus", new ToggleDisabledAction(colourMenu, shapeMenu, imageMenu,
+		menu.add(new WMenuItem("Toggle top-level menus", new ToggleDisabledAction(colourMenu,
+				shapeMenu, imageMenu,
 				sitesMenu)));
 
 		menu.add(new WMenuItem("Link", "http://www.example.com"));
@@ -104,14 +108,14 @@ public class MenuFlyoutExample extends WPanel {
 	}
 
 	/**
-	 * Adds an example menu item with the given text and an example action to the a parent
-	 * component.
+	 * Adds an example menu item with the given text and an example action to the a parent component.
 	 *
 	 * @param parent the component to add the menu item to.
 	 * @param text the text to display on the menu item.
 	 * @param selectedMenuText the WText to display the selected menu item.
 	 */
-	private void addMenuItem(final WComponent parent, final String text, final WText selectedMenuText) {
+	private void addMenuItem(final WComponent parent, final String text,
+			final WText selectedMenuText) {
 		WMenuItem menuItem = new WMenuItem(text, new ExampleMenuAction(selectedMenuText));
 		menuItem.setActionObject(text);
 		if (parent instanceof WSubMenu) {
@@ -130,7 +134,8 @@ public class MenuFlyoutExample extends WPanel {
 	 * @param selectedMenuText the WText to display the selected menu item.
 	 * @return a menu item using an image
 	 */
-	private WMenuItem createImageMenuItem(final String resource, final String desc, final String cacheKey,
+	private WMenuItem createImageMenuItem(final String resource, final String desc,
+			final String cacheKey,
 			final WText selectedMenuText) {
 		WImage image = new WImage(resource, desc);
 		image.setCacheKey(cacheKey);
@@ -153,8 +158,8 @@ public class MenuFlyoutExample extends WPanel {
 		private final Disableable[] disableables;
 
 		/**
-		 * Creates a ToggleDisabledMenuAction which toggles the disabled status of the given
-		 * Disableable when the action executes.
+		 * Creates a ToggleDisabledMenuAction which toggles the disabled status of the given Disableable when the action
+		 * executes.
 		 *
 		 * @param disableables the disableable to toggle the disabled status of.
 		 */

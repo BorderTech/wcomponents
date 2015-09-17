@@ -24,7 +24,8 @@ public class WTabRenderer_Test extends AbstractWebXmlRendererTestCase {
 		tabSet.addTab(new WText(""), "", TabMode.SERVER);
 		WTab tab = tabSet.getTab(0);
 
-		Assert.assertTrue("Incorrect renderer supplied", getWebXmlRenderer(tab) instanceof WTabRenderer);
+		Assert.assertTrue("Incorrect renderer supplied",
+				getWebXmlRenderer(tab) instanceof WTabRenderer);
 	}
 
 	@Test

@@ -70,8 +70,7 @@ public class UIContextImpl implements UIContext {
 	/**
 	 * The context of the component which needs to be given focus.
 	 *
-	 * This is necessary to cater for repeaters, which used the same component, but have a different
-	 * context per row.
+	 * This is necessary to cater for repeaters, which used the same component, but have a different context per row.
 	 */
 	private transient UIContext focussedUIC;
 
@@ -123,8 +122,8 @@ public class UIContextImpl implements UIContext {
 	}
 
 	/**
-	 * Removes the extrinsic state information for the given component. Note that this is not
-	 * recursive for the children.
+	 * Removes the extrinsic state information for the given component. Note that this is not recursive for the
+	 * children.
 	 *
 	 * @param component the component to remove the model for.
 	 */
@@ -236,8 +235,8 @@ public class UIContextImpl implements UIContext {
 	}
 
 	/**
-	 * Sets the component in this UIC which is to be the focus of the client browser cursor. The id
-	 * of the component is used to find the focussed element in the rendered html.
+	 * Sets the component in this UIC which is to be the focus of the client browser cursor. The id of the component is
+	 * used to find the focussed element in the rendered html.
 	 *
 	 * @param component the component that sould be the cursor focus in the rendered UI.
 	 */
@@ -247,9 +246,9 @@ public class UIContextImpl implements UIContext {
 	}
 
 	/**
-	 * Sets the component in this UIC which is to be the focus of the client browser cursor. The id
-	 * of the component is used to find the focussed element in the rendered html. Since id could be
-	 * different in different contexts the context of the component is also needed.
+	 * Sets the component in this UIC which is to be the focus of the client browser cursor. The id of the component is
+	 * used to find the focussed element in the rendered html. Since id could be different in different contexts the
+	 * context of the component is also needed.
 	 *
 	 * @param component - the component that sould be the cursor focus in the rendered UI.
 	 * @param uic - the context that the component exists in.
@@ -378,8 +377,7 @@ public class UIContextImpl implements UIContext {
 	/**
 	 * Reserved for internal framework use.
 	 *
-	 * @return the names of all attributes bound to this context, or null if there are no
-	 * attributes.
+	 * @return the names of all attributes bound to this context, or null if there are no attributes.
 	 */
 	@Override
 	public Set<String> getFwkAttributeNames() {
@@ -391,9 +389,8 @@ public class UIContextImpl implements UIContext {
 	}
 
 	/**
-	 * Reserved for internal framework use. Retrieves a scratch area, where data can be temporarily
-	 * stored. WComponents must not rely on data being available in the scratch area after each
-	 * phase.
+	 * Reserved for internal framework use. Retrieves a scratch area, where data can be temporarily stored. WComponents
+	 * must not rely on data being available in the scratch area after each phase.
 	 *
 	 * @param component the component to retrieve the scratch map for.
 	 * @return the scratch map for the given component.

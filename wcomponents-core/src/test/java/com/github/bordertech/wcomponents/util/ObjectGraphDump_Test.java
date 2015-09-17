@@ -32,10 +32,13 @@ public class ObjectGraphDump_Test extends AbstractWComponentTestCase {
 		// ObjectGraphNode tested independently
 		// for the input 'component' above - the dump result must at least contain the following
 		// and have run without exceptions
-		Assert.assertTrue("", result.indexOf("type=\"com.github.bordertech.wcomponents.WPanel\"") != -1);
-		Assert.assertTrue("", result.indexOf("field=\"label\" type=\"com.github.bordertech.wcomponents.WLabel\"") != -1);
+		Assert.assertTrue("",
+				result.indexOf("type=\"com.github.bordertech.wcomponents.WPanel\"") != -1);
+		Assert.assertTrue("", result.indexOf(
+				"field=\"label\" type=\"com.github.bordertech.wcomponents.WLabel\"") != -1);
 		Assert.assertTrue("", result.indexOf("field=\"text\" value=\"&quot;" + TEST_LABEL
 				+ "&quot;\" type=\"java.io.Serializable\"") != -1);
-		Assert.assertTrue("", result.indexOf("field=\"value\" type=\"com.github.bordertech.wcomponents.layout.BorderLayout$BorderLayoutConstraint\"") != -1);
+		Assert.assertTrue("", result.indexOf(
+				"field=\"value\" type=\"com.github.bordertech.wcomponents.layout.BorderLayout$BorderLayoutConstraint\"") != -1);
 	}
 }

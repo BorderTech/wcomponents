@@ -8,8 +8,8 @@ import com.github.bordertech.wcomponents.WHeading;
 import com.github.bordertech.wcomponents.WText;
 
 /**
- * Example of using AJAX collapsibles. To load the content via AJAX, the collapsibles are created
- * using the {@link WCollapsible.CollapsibleMode#LAZY LAZY} collapsible mode.
+ * Example of using AJAX collapsibles. To load the content via AJAX, the collapsibles are created using the
+ * {@link WCollapsible.CollapsibleMode#LAZY LAZY} collapsible mode.
  *
  * @author Christina Harris
  * @since 1.0.0

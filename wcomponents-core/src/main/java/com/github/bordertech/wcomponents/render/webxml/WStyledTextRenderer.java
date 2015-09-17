@@ -87,7 +87,8 @@ final class WStyledTextRenderer extends AbstractWebXmlRenderer {
 					break;
 
 				default:
-					throw new IllegalArgumentException("Unknown white space mode: " + text.getWhitespaceMode());
+					throw new IllegalArgumentException("Unknown white space mode: " + text.
+							getWhitespaceMode());
 			}
 
 			xml.appendClose();
@@ -103,7 +104,8 @@ final class WStyledTextRenderer extends AbstractWebXmlRenderer {
 					break;
 
 				default:
-					throw new IllegalArgumentException("Unknown white space mode: " + text.getWhitespaceMode());
+					throw new IllegalArgumentException("Unknown white space mode: " + text.
+							getWhitespaceMode());
 			}
 
 			xml.appendEndTag("ui:text");

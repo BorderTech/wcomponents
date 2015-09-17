@@ -8,9 +8,9 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * A Rule defines the visibility control logic to be added to a SubordinateControl. A Rule consists
- * of a "condition" that will evaluate to true or false, a list of actions to be executed if the
- * condition is true, and a list of actions to be executed if the condition is false.
+ * A Rule defines the visibility control logic to be added to a SubordinateControl. A Rule consists of a "condition"
+ * that will evaluate to true or false, a list of actions to be executed if the condition is true, and a list of actions
+ * to be executed if the condition is false.
  *
  * @author Martin Shevchenko
  * @author Jonathan Austin
@@ -41,8 +41,7 @@ public class Rule implements Serializable {
 	}
 
 	/**
-	 * Creates a Rule with the specified condition and no actions. Useful if you want to set the
-	 * actions separately.
+	 * Creates a Rule with the specified condition and no actions. Useful if you want to set the actions separately.
 	 *
 	 * @param condition the condition
 	 */
@@ -61,9 +60,8 @@ public class Rule implements Serializable {
 	}
 
 	/**
-	 * Creates a Rule with an onTrue and onFalse action. When execute() is called. If "condition"
-	 * evaluates to true, "onTrue" is executed, else "onFalse" is executed. The "onTrue" and/or
-	 * "onFalse" functions can be null.
+	 * Creates a Rule with an onTrue and onFalse action. When execute() is called. If "condition" evaluates to true,
+	 * "onTrue" is executed, else "onFalse" is executed. The "onTrue" and/or "onFalse" functions can be null.
 	 *
 	 * @param condition the condition to evaluate.
 	 * @param onTrue the action to execute if the condition evaluates to true.

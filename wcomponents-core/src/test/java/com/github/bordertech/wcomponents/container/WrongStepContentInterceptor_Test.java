@@ -50,12 +50,14 @@ public class WrongStepContentInterceptor_Test extends AbstractWComponentTestCase
 		MyApp app = new MyApp();
 		app.setLocked(true);
 		MockResponse response = sendContentRequest(app.appContent, 1, 1);
-		Assert.assertEquals("Should have returned content", MyContent.CONTENT, new String(response.getOutput()));
+		Assert.assertEquals("Should have returned content", MyContent.CONTENT, new String(response.
+				getOutput()));
 	}
 
 	@Test
 	public void testErrorDirectContent() {
-		Config.getInstance().setProperty(StepCountUtil.STEP_ERROR_URL_PARAMETER_KEY, "http://test.test");
+		Config.getInstance().setProperty(StepCountUtil.STEP_ERROR_URL_PARAMETER_KEY,
+				"http://test.test");
 
 		MyApp app = new MyApp();
 		app.setLocked(true);
@@ -72,10 +74,12 @@ public class WrongStepContentInterceptor_Test extends AbstractWComponentTestCase
 	 * @param serverStep the server-side step count
 	 * @return the response.
 	 */
-	private MockResponse sendContentRequest(final WComponent target, final int clientStep, final int serverStep) {
+	private MockResponse sendContentRequest(final WComponent target, final int clientStep,
+			final int serverStep) {
 		UIContext uic = createUIContext();
 		uic.setUI(WebUtilities.getTop(target));
-		WServlet.WServletEnvironment env = new WServlet.WServletEnvironment("/app", "http://localhost", "");
+		WServlet.WServletEnvironment env = new WServlet.WServletEnvironment("/app",
+				"http://localhost", "");
 		env.setStep(serverStep);
 		uic.setEnvironment(env);
 		setActiveContext(uic);

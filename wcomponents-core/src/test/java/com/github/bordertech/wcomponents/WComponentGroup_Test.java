@@ -46,10 +46,14 @@ public class WComponentGroup_Test extends AbstractWComponentTestCase {
 		group.setLocked(true);
 		setActiveContext(uic);
 		group.addToGroup(item3);
-		Assert.assertEquals("User Context Group should have 3 items", 3, group.getComponents().size());
-		Assert.assertTrue("User Context Group should have item1", group.getComponents().contains(item1));
-		Assert.assertTrue("User Context Group should have item2", group.getComponents().contains(item2));
-		Assert.assertTrue("User Context Group should have item3", group.getComponents().contains(item3));
+		Assert.assertEquals("User Context Group should have 3 items", 3, group.getComponents().
+				size());
+		Assert.assertTrue("User Context Group should have item1", group.getComponents().contains(
+				item1));
+		Assert.assertTrue("User Context Group should have item2", group.getComponents().contains(
+				item2));
+		Assert.assertTrue("User Context Group should have item3", group.getComponents().contains(
+				item3));
 
 		resetContext();
 		Assert.assertEquals("Default Group should have 2 items", 2, group.getComponents().size());
@@ -59,9 +63,12 @@ public class WComponentGroup_Test extends AbstractWComponentTestCase {
 		// Remove Item from User Context
 		setActiveContext(uic);
 		group.removeFromGroup(item1);
-		Assert.assertEquals("User Context Group should have 2 items", 2, group.getComponents().size());
-		Assert.assertTrue("User Context Group should have item2", group.getComponents().contains(item2));
-		Assert.assertTrue("User Context Group should have item3", group.getComponents().contains(item3));
+		Assert.assertEquals("User Context Group should have 2 items", 2, group.getComponents().
+				size());
+		Assert.assertTrue("User Context Group should have item2", group.getComponents().contains(
+				item2));
+		Assert.assertTrue("User Context Group should have item3", group.getComponents().contains(
+				item3));
 
 		resetContext();
 		Assert.assertEquals("Default Group should have 2 items", 2, group.getComponents().size());

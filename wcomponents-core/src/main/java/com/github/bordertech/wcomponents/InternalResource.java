@@ -12,8 +12,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * Provides a bridge to static resources which are present in the class path, but not in the web
- * application itself.
+ * Provides a bridge to static resources which are present in the class path, but not in the web application itself.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -101,7 +100,8 @@ public class InternalResource implements ContentStreamAccess {
 
 		if (index != -1) {
 			String extension = resourceName.substring(index + 1);
-			String fileMimeType = Config.getInstance().getString("bordertech.wcomponents.mimeType." + extension.toLowerCase());
+			String fileMimeType = Config.getInstance().getString(
+					"bordertech.wcomponents.mimeType." + extension.toLowerCase());
 
 			if (fileMimeType != null) {
 				return fileMimeType;

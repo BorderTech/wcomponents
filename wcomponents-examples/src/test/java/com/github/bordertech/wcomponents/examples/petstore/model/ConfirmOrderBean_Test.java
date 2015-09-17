@@ -117,7 +117,8 @@ public class ConfirmOrderBean_Test {
 		ConfirmOrderBean bean = new ConfirmOrderBean();
 		bean.setPaymentType(testPaymentType);
 
-		Assert.assertEquals("should return testPaymentType set", testPaymentType, bean.getPaymentType());
+		Assert.assertEquals("should return testPaymentType set", testPaymentType, bean.
+				getPaymentType());
 	}
 
 	/**
@@ -144,6 +145,7 @@ public class ConfirmOrderBean_Test {
 		ConfirmOrderBean bean = new ConfirmOrderBean();
 		bean.setEmailAddress(testEmailAddress);
 
-		Assert.assertEquals("should return testEmailAddress set", testEmailAddress, bean.getEmailAddress());
+		Assert.assertEquals("should return testEmailAddress set", testEmailAddress, bean.
+				getEmailAddress());
 	}
 }

@@ -5,8 +5,8 @@ import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WComponentGroup;
 
 /**
- * A class of "action functions" that apply a value to a target, where the target could be an
- * individual component or a group of components.
+ * A class of "action functions" that apply a value to a target, where the target could be an individual component or a
+ * group of components.
  *
  * @author Martin Shevchenko
  * @author Jonathan Austin

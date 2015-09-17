@@ -39,21 +39,25 @@ public class WNumberField_Test extends AbstractWComponentTestCase {
 		WNumberField numberField = new WNumberField();
 
 		// Value and User Text null
-		Assert.assertNull("getValue on a numberField should default to null", numberField.getValueAsString());
+		Assert.assertNull("getValue on a numberField should default to null", numberField.
+				getValueAsString());
 
 		// Valid number on request
 		numberField = processDoHandleRequestWithValidNumber();
-		Assert.assertEquals("getValue should return the string value of the valid number on the request",
+		Assert.assertEquals(
+				"getValue should return the string value of the valid number on the request",
 				REQUEST_VALID_NUMBER_VALUE.toString(), numberField.getValueAsString());
 
 		// Bad number on request
 		numberField = processDoHandleRequestWithBadNumber();
-		Assert.assertEquals("getValue should return the user text for bad number on request", REQUEST_BAD_NUMBER_TEXT,
+		Assert.assertEquals("getValue should return the user text for bad number on request",
+				REQUEST_BAD_NUMBER_TEXT,
 				numberField.getValueAsString());
 
 		// Empty Request
 		numberField = processDoHandleRequestWithEmptyRequest();
-		Assert.assertNull("getValue should be null for an empty request", numberField.getValueAsString());
+		Assert.assertNull("getValue should be null for an empty request", numberField.
+				getValueAsString());
 
 		// When set a number value, value string should be the value
 		numberField.setNumber(REQUEST_VALID_NUMBER_VALUE);
@@ -72,19 +76,24 @@ public class WNumberField_Test extends AbstractWComponentTestCase {
 		MockRequest request = new MockRequest();
 		request.setParameter(numberField.getId(), "");
 		boolean changed = numberField.doHandleRequest(request);
-		Assert.assertFalse("doHandleRequest should have returned false for empty request and field is null", changed);
+		Assert.assertFalse(
+				"doHandleRequest should have returned false for empty request and field is null",
+				changed);
 
 		// Request with valid value and Field is null (changed)
 		request = new MockRequest();
 		request.setParameter(numberField.getId(), REQUEST_VALID_NUMBER_TEXT);
 
 		changed = numberField.doHandleRequest(request);
-		Assert.assertTrue("doHandleRequest should have returned true for request with valid value and field is null",
+		Assert.assertTrue(
+				"doHandleRequest should have returned true for request with valid value and field is null",
 				changed);
 
 		// Request with same value (no change)
 		changed = numberField.doHandleRequest(request);
-		Assert.assertFalse("doHandleRequest should have returned false for request with same valid value", changed);
+		Assert.assertFalse(
+				"doHandleRequest should have returned false for request with same valid value",
+				changed);
 
 		// Request with invalid value (changed)
 		request = new MockRequest();
@@ -92,22 +101,30 @@ public class WNumberField_Test extends AbstractWComponentTestCase {
 
 		changed = numberField.doHandleRequest(request);
 		Assert
-				.assertTrue("doHandleRequest should have returned true for request with different invalid value", changed);
+				.assertTrue(
+						"doHandleRequest should have returned true for request with different invalid value",
+						changed);
 
 		// Request with same invalid value (no change)
 		changed = numberField.doHandleRequest(request);
-		Assert.assertFalse("doHandleRequest should have returned false for request with same invalid value", changed);
+		Assert.assertFalse(
+				"doHandleRequest should have returned false for request with same invalid value",
+				changed);
 
 		// Request with empty value (changed)
 		request = new MockRequest();
 		request.setParameter(numberField.getId(), "");
 
 		changed = numberField.doHandleRequest(request);
-		Assert.assertTrue("doHandleRequest should have returned true for request going back to empty value", changed);
+		Assert.assertTrue(
+				"doHandleRequest should have returned true for request going back to empty value",
+				changed);
 
 		// Request with same empty value (no change)
 		changed = numberField.doHandleRequest(request);
-		Assert.assertFalse("doHandleRequest should have returned false for request with same empty value", changed);
+		Assert.assertFalse(
+				"doHandleRequest should have returned false for request with same empty value",
+				changed);
 	}
 
 	@Test
@@ -127,7 +144,9 @@ public class WNumberField_Test extends AbstractWComponentTestCase {
 		// Empty Request and Field is null (no change)
 		boolean changed = numberField.doHandleRequest(request);
 
-		Assert.assertFalse("Empty request and field is null - doHandleRequest should have returned false", changed);
+		Assert.assertFalse(
+				"Empty request and field is null - doHandleRequest should have returned false",
+				changed);
 		assertNumberFieldNullValue(numberField, "Empty request and field is null");
 
 		// Scenario #2
@@ -136,7 +155,8 @@ public class WNumberField_Test extends AbstractWComponentTestCase {
 
 		// Empty Request and Field has a valid number set (change)
 		changed = numberField.doHandleRequest(request);
-		Assert.assertTrue("Empty request and field has a valid number set - doHandleRequest should have returned true",
+		Assert.assertTrue(
+				"Empty request and field has a valid number set - doHandleRequest should have returned true",
 				changed);
 		assertNumberFieldNullValue(numberField, "Empty request and field has a valid number set");
 
@@ -148,7 +168,8 @@ public class WNumberField_Test extends AbstractWComponentTestCase {
 
 		// Empty Request and Field has an invalid number value (change)
 		changed = numberField.doHandleRequest(request);
-		Assert.assertTrue("Empty request and field has an invalid number - doHandleRequest should have returned true",
+		Assert.assertTrue(
+				"Empty request and field has an invalid number - doHandleRequest should have returned true",
 				changed);
 		assertNumberFieldNullValue(numberField, "Empty request and field has an invalid number");
 
@@ -160,7 +181,8 @@ public class WNumberField_Test extends AbstractWComponentTestCase {
 
 		// Empty Request and Field has a valid number value (change)
 		changed = numberField.doHandleRequest(request);
-		Assert.assertTrue("Empty request and field has a valid value - doHandleRequest should have returned true",
+		Assert.assertTrue(
+				"Empty request and field has a valid value - doHandleRequest should have returned true",
 				changed);
 		assertNumberFieldNullValue(numberField, "Empty request and field has a valid value");
 	}
@@ -181,7 +203,8 @@ public class WNumberField_Test extends AbstractWComponentTestCase {
 
 		boolean changed = numberField.doHandleRequest(request);
 
-		Assert.assertTrue("Request with Bad Number and field is null - doHandleRequest should have returned true",
+		Assert.assertTrue(
+				"Request with Bad Number and field is null - doHandleRequest should have returned true",
 				changed);
 		assertNumberFieldBadNumber(numberField, "Request with Bad Number and field is null");
 
@@ -191,9 +214,11 @@ public class WNumberField_Test extends AbstractWComponentTestCase {
 
 		changed = numberField.doHandleRequest(request);
 		Assert
-				.assertTrue("Request with Bad Number and field has a valid number set - doHandleRequest should have returned true",
+				.assertTrue(
+						"Request with Bad Number and field has a valid number set - doHandleRequest should have returned true",
 						changed);
-		assertNumberFieldBadNumber(numberField, "Request with Bad Number and field has a valid number set");
+		assertNumberFieldBadNumber(numberField,
+				"Request with Bad Number and field has a valid number set");
 
 		// Scenario #3
 		// Setup numberField with DIFFERENT invalid number value
@@ -204,18 +229,22 @@ public class WNumberField_Test extends AbstractWComponentTestCase {
 		changed = numberField.doHandleRequest(request);
 
 		Assert
-				.assertTrue("Request with Bad Number and field has a different invalid number - doHandleRequest should have returned true",
+				.assertTrue(
+						"Request with Bad Number and field has a different invalid number - doHandleRequest should have returned true",
 						changed);
-		assertNumberFieldBadNumber(numberField, "Request with Bad Number and field has a different invalid number");
+		assertNumberFieldBadNumber(numberField,
+				"Request with Bad Number and field has a different invalid number");
 
 		// Scenario #4
 		// Setup numberField with SAME invalid number value
 		changed = numberField.doHandleRequest(request);
 
 		Assert
-				.assertFalse("Request with Bad Number and field has same invalid number - doHandleRequest should have returned false",
+				.assertFalse(
+						"Request with Bad Number and field has same invalid number - doHandleRequest should have returned false",
 						changed);
-		assertNumberFieldBadNumber(numberField, "Request with Bad Number and field has same invalid number");
+		assertNumberFieldBadNumber(numberField,
+				"Request with Bad Number and field has same invalid number");
 
 		// Scenario #5
 		// Setup numberField with valid number value
@@ -226,9 +255,11 @@ public class WNumberField_Test extends AbstractWComponentTestCase {
 		changed = numberField.doHandleRequest(request);
 
 		Assert
-				.assertTrue("Request with Bad Number and field has a valid value - doHandleRequest should have returned true",
+				.assertTrue(
+						"Request with Bad Number and field has a valid value - doHandleRequest should have returned true",
 						changed);
-		assertNumberFieldBadNumber(numberField, "Request with Bad Number and field has a valid value");
+		assertNumberFieldBadNumber(numberField,
+				"Request with Bad Number and field has a valid value");
 	}
 
 	@Test
@@ -247,7 +278,8 @@ public class WNumberField_Test extends AbstractWComponentTestCase {
 
 		boolean changed = numberField.doHandleRequest(request);
 
-		Assert.assertTrue("Request with Valid Number and field is null - doHandleRequest should have returned true",
+		Assert.assertTrue(
+				"Request with Valid Number and field is null - doHandleRequest should have returned true",
 				changed);
 		assertNumbderFieldValidNumber(numberField, "Request with Valid Number and field is null");
 
@@ -258,7 +290,8 @@ public class WNumberField_Test extends AbstractWComponentTestCase {
 		changed = numberField.doHandleRequest(request);
 
 		Assert
-				.assertTrue("Request with Valid Number and field has a different valid number set - doHandleRequest should have returned true",
+				.assertTrue(
+						"Request with Valid Number and field has a different valid number set - doHandleRequest should have returned true",
 						changed);
 		assertNumbderFieldValidNumber(numberField,
 				"Request with Valid Number and field has a different valid number set");
@@ -268,9 +301,11 @@ public class WNumberField_Test extends AbstractWComponentTestCase {
 		changed = numberField.doHandleRequest(request);
 
 		Assert
-				.assertFalse("Request with Valid Number and field has same valid number set - doHandleRequest should have returned false",
+				.assertFalse(
+						"Request with Valid Number and field has same valid number set - doHandleRequest should have returned false",
 						changed);
-		assertNumbderFieldValidNumber(numberField, "Request with Valid Number and field has same valid number set");
+		assertNumbderFieldValidNumber(numberField,
+				"Request with Valid Number and field has same valid number set");
 
 		// Scenario #4
 		// Setup numberField with invalid number value
@@ -281,9 +316,11 @@ public class WNumberField_Test extends AbstractWComponentTestCase {
 		changed = numberField.doHandleRequest(request);
 
 		Assert
-				.assertTrue("Request with Valid Number and field has an invalid number - doHandleRequest should have returned true",
+				.assertTrue(
+						"Request with Valid Number and field has an invalid number - doHandleRequest should have returned true",
 						changed);
-		assertNumbderFieldValidNumber(numberField, "Request with Valid Number and field has an invalid number");
+		assertNumbderFieldValidNumber(numberField,
+				"Request with Valid Number and field has an invalid number");
 	}
 
 	@Test
@@ -299,8 +336,11 @@ public class WNumberField_Test extends AbstractWComponentTestCase {
 
 		// Empty Request (not present, should return current value)
 		MockRequest request = new MockRequest();
-		Assert.assertEquals("Current value of the field should have been returned for empty request", current,
-				numberField.getRequestValue(request));
+		Assert.
+				assertEquals(
+						"Current value of the field should have been returned for empty request",
+						current,
+						numberField.getRequestValue(request));
 
 		// Request with "empty" value (should return null)
 		request = new MockRequest();
@@ -311,7 +351,8 @@ public class WNumberField_Test extends AbstractWComponentTestCase {
 		// Request with valid value
 		request = new MockRequest();
 		request.setParameter(numberField.getId(), REQUEST_VALID_NUMBER_TEXT);
-		Assert.assertEquals("Value from the request should have been returned", REQUEST_VALID_NUMBER_VALUE,
+		Assert.assertEquals("Value from the request should have been returned",
+				REQUEST_VALID_NUMBER_VALUE,
 				numberField.getRequestValue(request));
 	}
 
@@ -324,7 +365,8 @@ public class WNumberField_Test extends AbstractWComponentTestCase {
 
 		// Data is a BigDecimal
 		numberField.setData(REQUEST_VALID_NUMBER_VALUE);
-		Assert.assertEquals("getValue incorrect value for BigDecimal type", REQUEST_VALID_NUMBER_VALUE,
+		Assert.assertEquals("getValue incorrect value for BigDecimal type",
+				REQUEST_VALID_NUMBER_VALUE,
 				numberField.getValue());
 
 		// Data is a Long
@@ -347,7 +389,8 @@ public class WNumberField_Test extends AbstractWComponentTestCase {
 			numberField.getValue();
 			Assert.fail("Invalid string should have thrown an exception");
 		} catch (SystemException e) {
-			Assert.assertNotNull("Exception should have a message for invalid string", e.getMessage());
+			Assert.assertNotNull("Exception should have a message for invalid string", e.
+					getMessage());
 		}
 
 		// Unsupported Type
@@ -356,7 +399,8 @@ public class WNumberField_Test extends AbstractWComponentTestCase {
 			numberField.getValue();
 			Assert.fail("Unsupported data type should have thrown an exception");
 		} catch (SystemException e) {
-			Assert.assertNotNull("Exception should have a message for unsupported data type", e.getMessage());
+			Assert.assertNotNull("Exception should have a message for unsupported data type", e.
+					getMessage());
 		}
 	}
 
@@ -365,7 +409,8 @@ public class WNumberField_Test extends AbstractWComponentTestCase {
 		WNumberField numberField = new WNumberField();
 
 		// Default to null
-		Assert.assertNull("User text on a NumberField should default to null until a handleRequest has been processed",
+		Assert.assertNull(
+				"User text on a NumberField should default to null until a handleRequest has been processed",
 				numberField.getText());
 
 		// Valid number on request
@@ -375,7 +420,8 @@ public class WNumberField_Test extends AbstractWComponentTestCase {
 
 		// Bad number on request
 		numberField = processDoHandleRequestWithBadNumber();
-		Assert.assertEquals("User text should be the invalid text for bad number on request", REQUEST_BAD_NUMBER_TEXT,
+		Assert.assertEquals("User text should be the invalid text for bad number on request",
+				REQUEST_BAD_NUMBER_TEXT,
 				numberField.getText());
 
 		// Empty Request
@@ -385,7 +431,8 @@ public class WNumberField_Test extends AbstractWComponentTestCase {
 		// When set a number value, user text should be null
 		numberField = processDoHandleRequestWithBadNumber(); // Put a value in User Text and make sure it gets cleared
 		numberField.setNumber(new BigDecimal(200));
-		Assert.assertNull("User text should be null when a valid number is set", numberField.getText());
+		Assert.assertNull("User text should be null when a valid number is set", numberField.
+				getText());
 	}
 
 	@Test
@@ -393,26 +440,31 @@ public class WNumberField_Test extends AbstractWComponentTestCase {
 		WNumberField numberField = new WNumberField();
 
 		// Default to true
-		Assert.assertTrue("isValidNumber on a NumberField should default to true until a handleRequest has been processed",
+		Assert.assertTrue(
+				"isValidNumber on a NumberField should default to true until a handleRequest has been processed",
 				numberField.isValidNumber());
 
 		// Valid number on request
 		numberField = processDoHandleRequestWithValidNumber();
-		Assert.assertTrue("isValidNumber should be true for a valid number on the request", numberField.isValidNumber());
+		Assert.assertTrue("isValidNumber should be true for a valid number on the request",
+				numberField.isValidNumber());
 
 		// Bad number on request
 		numberField = processDoHandleRequestWithBadNumber();
-		Assert.assertFalse("isValidNumber should be false for a bad number on the request", numberField.isValidNumber());
+		Assert.assertFalse("isValidNumber should be false for a bad number on the request",
+				numberField.isValidNumber());
 
 		// Empty Request
 		numberField = processDoHandleRequestWithEmptyRequest();
-		Assert.assertTrue("isValidNumber should be true for an empty request", numberField.isValidNumber());
+		Assert.assertTrue("isValidNumber should be true for an empty request", numberField.
+				isValidNumber());
 
 		// When set a number value, valid number should be true
 		numberField = processDoHandleRequestWithBadNumber(); // Make valid number false and make sure it gets set to
 		// true
 		numberField.setNumber(new BigDecimal(200));
-		Assert.assertTrue("isValidNumber should be true when a valid number is set", numberField.isValidNumber());
+		Assert.assertTrue("isValidNumber should be true when a valid number is set", numberField.
+				isValidNumber());
 	}
 
 	@Test
@@ -443,11 +495,13 @@ public class WNumberField_Test extends AbstractWComponentTestCase {
 
 		// Long Value
 		numberField.setMinValue(value.longValue());
-		Assert.assertEquals("getMinValue should be a BigDecimal value", value, numberField.getMinValue());
+		Assert.assertEquals("getMinValue should be a BigDecimal value", value, numberField.
+				getMinValue());
 
 		// Double Value
 		numberField.setMinValue(value.doubleValue());
-		Assert.assertEquals("getMinValue should be a BigDecimal value", value, numberField.getMinValue());
+		Assert.assertEquals("getMinValue should be a BigDecimal value", value, numberField.
+				getMinValue());
 	}
 
 	@Test
@@ -459,11 +513,13 @@ public class WNumberField_Test extends AbstractWComponentTestCase {
 
 		// Long Value
 		numberField.setMaxValue(value.longValue());
-		Assert.assertEquals("getMaxValue should be a BigDecimal value", value, numberField.getMaxValue());
+		Assert.assertEquals("getMaxValue should be a BigDecimal value", value, numberField.
+				getMaxValue());
 
 		// Double Value
 		numberField.setMaxValue(value.doubleValue());
-		Assert.assertEquals("getMaxValue should be a BigDecimal value", value, numberField.getMaxValue());
+		Assert.assertEquals("getMaxValue should be a BigDecimal value", value, numberField.
+				getMaxValue());
 	}
 
 	@Test
@@ -603,7 +659,8 @@ public class WNumberField_Test extends AbstractWComponentTestCase {
 		numberField.setDecimalPlaces(0);
 		diags = new ArrayList<>();
 		numberField.validate(diags);
-		Assert.assertTrue("Value with no decimal places and no decimal place set should be valid", diags.isEmpty());
+		Assert.assertTrue("Value with no decimal places and no decimal place set should be valid",
+				diags.isEmpty());
 
 		BigDecimal value = new BigDecimal("1.12");
 
@@ -648,7 +705,9 @@ public class WNumberField_Test extends AbstractWComponentTestCase {
 	private void assertNumberFieldNullValue(final WNumberField numberField, final String prefix) {
 		Assert.assertNull(prefix + " - Number should be null", numberField.getValue());
 		Assert.assertNull(prefix + " - User Text should be null", numberField.getText());
-		Assert.assertNull(prefix + " - ValueAsString should be null", numberField.getValueAsString());
+		Assert.
+				assertNull(prefix + " - ValueAsString should be null", numberField.
+						getValueAsString());
 		Assert.assertTrue(prefix + " - ValidNumber should be true", numberField.isValidNumber());
 	}
 
@@ -660,10 +719,12 @@ public class WNumberField_Test extends AbstractWComponentTestCase {
 	 */
 	private void assertNumberFieldBadNumber(final WNumberField numberField, final String prefix) {
 		Assert.assertNull(prefix + " - Number should be null", numberField.getValue());
-		Assert.assertEquals(prefix + " - Incorrect user text set", REQUEST_BAD_NUMBER_TEXT, numberField.getText());
+		Assert.assertEquals(prefix + " - Incorrect user text set", REQUEST_BAD_NUMBER_TEXT,
+				numberField.getText());
 		Assert.assertEquals(prefix + " - Incorrect number string returned", REQUEST_BAD_NUMBER_TEXT,
 				numberField.getValueAsString());
-		Assert.assertFalse(prefix + " - ValidNumber flag should be false", numberField.isValidNumber());
+		Assert.assertFalse(prefix + " - ValidNumber flag should be false", numberField.
+				isValidNumber());
 	}
 
 	/**
@@ -673,11 +734,16 @@ public class WNumberField_Test extends AbstractWComponentTestCase {
 	 * @param prefix the prefix for assert messages
 	 */
 	private void assertNumbderFieldValidNumber(final WNumberField numberField, final String prefix) {
-		Assert.assertEquals(prefix + " - Number incorrectly set", REQUEST_VALID_NUMBER_VALUE, numberField.getValue());
-		Assert.assertEquals(prefix + " - Incorrect user text set", REQUEST_VALID_NUMBER_TEXT, numberField.getText());
-		Assert.assertEquals(prefix + " - Incorrect number string returned", REQUEST_VALID_NUMBER_VALUE.toString(),
+		Assert.assertEquals(prefix + " - Number incorrectly set", REQUEST_VALID_NUMBER_VALUE,
+				numberField.getValue());
+		Assert.assertEquals(prefix + " - Incorrect user text set", REQUEST_VALID_NUMBER_TEXT,
+				numberField.getText());
+		Assert.assertEquals(prefix + " - Incorrect number string returned",
+				REQUEST_VALID_NUMBER_VALUE.toString(),
 				numberField.getValueAsString());
-		Assert.assertTrue(prefix + " - ValidNumber flag should be true", numberField.isValidNumber());
+		Assert.
+				assertTrue(prefix + " - ValidNumber flag should be true", numberField.
+						isValidNumber());
 	}
 
 	/**

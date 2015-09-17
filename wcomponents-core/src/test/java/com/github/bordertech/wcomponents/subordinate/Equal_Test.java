@@ -36,13 +36,16 @@ public class Equal_Test {
 		Equal compare = new Equal(trigger, value);
 
 		Assert.assertEquals("Value for Equal is incorrect", value, compare.getValue());
-		Assert.assertEquals("Trigger for Equal should be the trigger", trigger, compare.getTrigger());
+		Assert.
+				assertEquals("Trigger for Equal should be the trigger", trigger, compare.
+						getTrigger());
 	}
 
 	@Test
 	public void testCompareType() {
 		Equal compare = new Equal(new MyTrigger(), null);
-		Assert.assertEquals("Incorrect Compare Type", AbstractCompare.CompareType.EQUAL, compare.getCompareType());
+		Assert.assertEquals("Incorrect Compare Type", AbstractCompare.CompareType.EQUAL, compare.
+				getCompareType());
 	}
 
 	@Test
@@ -63,17 +66,20 @@ public class Equal_Test {
 		Assert.assertTrue("Equal Type - Compare for equal value should be true", compare.execute());
 
 		trigger.setNumber(GT_VALUE);
-		Assert.assertFalse("Equal Type - Compare for greater value should be false", compare.execute());
+		Assert.assertFalse("Equal Type - Compare for greater value should be false", compare.
+				execute());
 
 		// ------------------------------
 		// Setup EQUAL - with null value
 		compare = new Equal(trigger, null);
 
 		trigger.setNumber(null);
-		Assert.assertTrue("Equal Type With Null Value - Compare for null value should be true", compare.execute());
+		Assert.assertTrue("Equal Type With Null Value - Compare for null value should be true",
+				compare.execute());
 
 		trigger.setNumber(EQ_VALUE);
-		Assert.assertFalse("Equal Type With Null Value - Compare for value should be false", compare.execute());
+		Assert.assertFalse("Equal Type With Null Value - Compare for value should be false",
+				compare.execute());
 	}
 
 	@Test
@@ -84,7 +90,8 @@ public class Equal_Test {
 		Assert.assertEquals("Incorrect toString for compare", "MyTrigger=\"1\"", compare.toString());
 
 		WLabel label = new WLabel("test label", trigger);
-		Assert.assertEquals("Incorrect toString for compare with a label", label.getText() + "=\"1\"", compare.toString());
+		Assert.assertEquals("Incorrect toString for compare with a label",
+				label.getText() + "=\"1\"", compare.toString());
 	}
 
 	/**

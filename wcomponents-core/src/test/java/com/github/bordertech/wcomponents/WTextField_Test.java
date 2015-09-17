@@ -31,7 +31,8 @@ public class WTextField_Test extends AbstractWComponentTestCase {
 		request.setParameter(field.getId(), "");
 		boolean changed = field.doHandleRequest(request);
 
-		Assert.assertFalse("doHandleRequest should have returned false for request with empty value and field is null",
+		Assert.assertFalse(
+				"doHandleRequest should have returned false for request with empty value and field is null",
 				changed);
 		Assert.assertNull("Value should still be null after empty request", field.getData());
 
@@ -42,7 +43,8 @@ public class WTextField_Test extends AbstractWComponentTestCase {
 		changed = field.doHandleRequest(request);
 
 		Assert
-				.assertFalse("doHandleRequest should have returned false for request with empty value and field is empty",
+				.assertFalse(
+						"doHandleRequest should have returned false for request with empty value and field is empty",
 						changed);
 		Assert.assertEquals("Value should still be empty after empty request", "", field.getData());
 
@@ -51,7 +53,9 @@ public class WTextField_Test extends AbstractWComponentTestCase {
 		request.setParameter(field.getId(), "X");
 		changed = field.doHandleRequest(request);
 
-		Assert.assertTrue("doHandleRequest should have returned true for request with different value", changed);
+		Assert.assertTrue(
+				"doHandleRequest should have returned true for request with different value",
+				changed);
 		Assert.assertEquals("Value not set after request", "X", field.getData());
 
 		// Request with Same Value (No Change)
@@ -59,8 +63,10 @@ public class WTextField_Test extends AbstractWComponentTestCase {
 		request.setParameter(field.getId(), "X");
 		changed = field.doHandleRequest(request);
 
-		Assert.assertFalse("doHandleRequest should have returned false for request with same value", changed);
-		Assert.assertEquals("Value should not have changed after request with same value", "X", field.getData());
+		Assert.assertFalse("doHandleRequest should have returned false for request with same value",
+				changed);
+		Assert.assertEquals("Value should not have changed after request with same value", "X",
+				field.getData());
 
 		// Request with Empty Value (Change)
 		request = new MockRequest();
@@ -68,8 +74,11 @@ public class WTextField_Test extends AbstractWComponentTestCase {
 		changed = field.doHandleRequest(request);
 
 		Assert
-				.assertTrue("doHandleRequest should have returned true for request going back to an empty value", changed);
-		Assert.assertNull("Value should go back to null for request with empty value", field.getData());
+				.assertTrue(
+						"doHandleRequest should have returned true for request going back to an empty value",
+						changed);
+		Assert.assertNull("Value should go back to null for request with empty value", field.
+				getData());
 	}
 
 	@Test
@@ -84,19 +93,24 @@ public class WTextField_Test extends AbstractWComponentTestCase {
 
 		// Empty Request (not present, should return current value)
 		MockRequest request = new MockRequest();
-		Assert.assertEquals("Current value of the field should have been returned for empty request", "A",
-				field.getRequestValue(request));
+		Assert.
+				assertEquals(
+						"Current value of the field should have been returned for empty request",
+						"A",
+						field.getRequestValue(request));
 
 		// Request with "empty" value (should return null as an empty value on the request is treated as null)
 		request = new MockRequest();
 		request.setParameter(field.getId(), "");
 		Assert
-				.assertNull("Null should have been returned for request with empty value", field.getRequestValue(request));
+				.assertNull("Null should have been returned for request with empty value", field.
+						getRequestValue(request));
 
 		// Request with value (should return the value on the request)
 		request = new MockRequest();
 		request.setParameter(field.getId(), "X");
-		Assert.assertEquals("Value from the request should have been returned", "X", field.getRequestValue(request));
+		Assert.assertEquals("Value from the request should have been returned", "X", field.
+				getRequestValue(request));
 	}
 
 	@Test
@@ -112,16 +126,20 @@ public class WTextField_Test extends AbstractWComponentTestCase {
 
 		// Set data as a empty string
 		field.setData("");
-		Assert.assertNull("getValue should return null when data is an empty string", field.getValue());
+		Assert.assertNull("getValue should return null when data is an empty string", field.
+				getValue());
 
 		// Set data as a String value
 		field.setData("A");
-		Assert.assertEquals("getValue returned the incorrect value for the data", "A", field.getValue());
+		Assert.assertEquals("getValue returned the incorrect value for the data", "A", field.
+				getValue());
 
 		// Set data as an Object
 		Object object = new Date();
 		field.setData(object);
-		Assert.assertEquals("getValue should return the string value of the data", object.toString(), field.getValue());
+		Assert.
+				assertEquals("getValue should return the string value of the data", object.
+						toString(), field.getValue());
 	}
 
 	@Test
@@ -157,7 +175,8 @@ public class WTextField_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testSuggestionsAccessors() {
-		assertAccessorsCorrect(new WTextField(), "suggestions", null, new WSuggestions(), new WSuggestions());
+		assertAccessorsCorrect(new WTextField(), "suggestions", null, new WSuggestions(),
+				new WSuggestions());
 	}
 
 	@Test

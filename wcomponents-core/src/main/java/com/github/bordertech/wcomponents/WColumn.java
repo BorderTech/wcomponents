@@ -29,8 +29,7 @@ public class WColumn extends AbstractMutableContainer implements AjaxTarget {
 	/**
 	 * Creates a WColumn with 1% width.
 	 *
-	 * @deprecated Use {{@link #WColumn(int)} instead as width is required. Will default width to
-	 * 1%.
+	 * @deprecated Use {{@link #WColumn(int)} instead as width is required. Will default width to 1%.
 	 */
 	@Deprecated
 	public WColumn() {
@@ -53,14 +52,14 @@ public class WColumn extends AbstractMutableContainer implements AjaxTarget {
 	 */
 	public void setWidth(final int widthPercent) {
 		if (widthPercent < 1 || widthPercent > 100) {
-			throw new IllegalArgumentException("Width (" + widthPercent + ") must be between 1 and 100 percent");
+			throw new IllegalArgumentException(
+					"Width (" + widthPercent + ") must be between 1 and 100 percent");
 		}
 		getOrCreateComponentModel().width = widthPercent;
 	}
 
 	/**
-	 * @return the column width as a percentage of the total available width, or zero if it has not
-	 * been specified.
+	 * @return the column width as a percentage of the total available width, or zero if it has not been specified.
 	 */
 	public int getWidth() {
 		return getComponentModel().width;

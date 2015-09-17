@@ -29,7 +29,8 @@ public class WDecoratedLabel_Test extends AbstractWComponentTestCase {
 		Assert.assertNull("Constructor 2 - Label head should be null.", label.getHead());
 		Assert.assertTrue("Constructor 2 - Label body should be by default a WText.",
 				label.getBody() instanceof WText);
-		Assert.assertEquals("Constructor 2 - Label body has an invalid value.", labelText, label.getText());
+		Assert.assertEquals("Constructor 2 - Label body has an invalid value.", labelText, label.
+				getText());
 		Assert.assertNull("Constructor 2 - Label tail should be null.", label.getTail());
 	}
 
@@ -132,22 +133,30 @@ public class WDecoratedLabel_Test extends AbstractWComponentTestCase {
 		UIContext uic = createUIContext();
 		setActiveContext(uic);
 		wText.setText("WTEXT - UIC");
-		Assert.assertEquals("Incorrect text value for WText Component with uic", wText.getText(), label.getText());
+		Assert.assertEquals("Incorrect text value for WText Component with uic", wText.getText(),
+				label.getText());
 
 		resetContext();
-		Assert.assertEquals("Incorrect text value for WText Component", wText.getText(), label.getText());
+		Assert.assertEquals("Incorrect text value for WText Component", wText.getText(), label.
+				getText());
 
 		// Change via Label
 		label.setText("WTEXT2");
-		Assert.assertEquals("Incorrect text value set for WText Component", wText.getText(), label.getText());
+		Assert.assertEquals("Incorrect text value set for WText Component", wText.getText(), label.
+				getText());
 
 		setActiveContext(uic);
-		Assert.assertEquals("Incorrect text value set for WText Component with uic", wText.getText(), label.getText());
+		Assert.
+				assertEquals("Incorrect text value set for WText Component with uic", wText.
+						getText(), label.getText());
 		label.setText("WTEXT2 - UIC");
-		Assert.assertEquals("Incorrect text value set for WText Component with uic", wText.getText(), label.getText());
+		Assert.
+				assertEquals("Incorrect text value set for WText Component with uic", wText.
+						getText(), label.getText());
 
 		resetContext();
-		Assert.assertEquals("Incorrect text value set for WText Component", wText.getText(), label.getText());
+		Assert.assertEquals("Incorrect text value set for WText Component", wText.getText(), label.
+				getText());
 
 		// WLabel
 		WLabel wLabel = new WLabel();
@@ -156,22 +165,28 @@ public class WDecoratedLabel_Test extends AbstractWComponentTestCase {
 
 		setActiveContext(createUIContext());
 		wLabel.setText("WLABEL - UIC");
-		Assert.assertEquals("Incorrect text value for WLabel Component with uic", wLabel.getText(), label.getText());
+		Assert.assertEquals("Incorrect text value for WLabel Component with uic", wLabel.getText(),
+				label.getText());
 
 		resetContext();
-		Assert.assertEquals("Incorrect text value for WLabel Component", wLabel.getText(), label.getText());
+		Assert.assertEquals("Incorrect text value for WLabel Component", wLabel.getText(), label.
+				getText());
 
 		// Change via Label
 		label.setText("WLABEL2");
-		Assert.assertEquals("Incorrect text value set for WLabel Component", wLabel.getText(), label.getText());
+		Assert.assertEquals("Incorrect text value set for WLabel Component", wLabel.getText(),
+				label.getText());
 
 		setActiveContext(uic);
-		Assert.assertEquals("Incorrect text value set for WLabel Component with uic", wLabel.getText(), label.getText());
+		Assert.assertEquals("Incorrect text value set for WLabel Component with uic", wLabel.
+				getText(), label.getText());
 		label.setText("WLABEL2 - UIC");
-		Assert.assertEquals("Incorrect text value set for WLabel Component with uic", wLabel.getText(), label.getText());
+		Assert.assertEquals("Incorrect text value set for WLabel Component with uic", wLabel.
+				getText(), label.getText());
 
 		resetContext();
-		Assert.assertEquals("Incorrect text value set for WLabel Component", wLabel.getText(), label.getText());
+		Assert.assertEquals("Incorrect text value set for WLabel Component", wLabel.getText(),
+				label.getText());
 
 		// WButton
 		WButton wButton = new WButton();
@@ -180,22 +195,29 @@ public class WDecoratedLabel_Test extends AbstractWComponentTestCase {
 
 		setActiveContext(uic);
 		wButton.setText("WBUTTON - UIC");
-		Assert.assertEquals("Incorrect text value for WButton Component with uic", wButton.getText(), label.getText());
+		Assert.
+				assertEquals("Incorrect text value for WButton Component with uic", wButton.
+						getText(), label.getText());
 
 		resetContext();
-		Assert.assertEquals("Incorrect text value for WButton Component", wButton.getText(), label.getText());
+		Assert.assertEquals("Incorrect text value for WButton Component", wButton.getText(), label.
+				getText());
 
 		// Change via Label
 		label.setText("WBUTTON2");
-		Assert.assertEquals("Incorrect text value set for WButton Component", wButton.getText(), label.getText());
+		Assert.assertEquals("Incorrect text value set for WButton Component", wButton.getText(),
+				label.getText());
 
 		setActiveContext(uic);
-		Assert.assertEquals("Incorrect text value set for WButton Component with uic", wButton.getText(), label.getText());
+		Assert.assertEquals("Incorrect text value set for WButton Component with uic", wButton.
+				getText(), label.getText());
 		label.setText("WBUTTON2 - UIC");
-		Assert.assertEquals("Incorrect text value set for WButton Component with uic", wButton.getText(), label.getText());
+		Assert.assertEquals("Incorrect text value set for WButton Component with uic", wButton.
+				getText(), label.getText());
 
 		resetContext();
-		Assert.assertEquals("Incorrect text value set for WButton Component", wButton.getText(), label.getText());
+		Assert.assertEquals("Incorrect text value set for WButton Component", wButton.getText(),
+				label.getText());
 
 		// WLink
 		WLink wLink = new WLink();
@@ -204,22 +226,28 @@ public class WDecoratedLabel_Test extends AbstractWComponentTestCase {
 
 		setActiveContext(uic);
 		wLink.setText("WLINK - UIC");
-		Assert.assertEquals("Incorrect text value for WLink Component with uic", wLink.getText(), label.getText());
+		Assert.assertEquals("Incorrect text value for WLink Component with uic", wLink.getText(),
+				label.getText());
 
 		resetContext();
-		Assert.assertEquals("Incorrect text value for WLink Component", wLink.getText(), label.getText());
+		Assert.assertEquals("Incorrect text value for WLink Component", wLink.getText(), label.
+				getText());
 
 		// Change via Label
 		label.setText("WLINK2");
-		Assert.assertEquals("Incorrect text value set for WLink Component", wLink.getText(), label.getText());
+		Assert.assertEquals("Incorrect text value set for WLink Component", wLink.getText(), label.
+				getText());
 
 		setActiveContext(uic);
-		Assert.assertEquals("Incorrect text value set for WLink Component with ", wLink.getText(), label.getText());
+		Assert.assertEquals("Incorrect text value set for WLink Component with ", wLink.getText(),
+				label.getText());
 		label.setText("WLINK2 - ");
-		Assert.assertEquals("Incorrect text value set for WLink Component with ", wLink.getText(), label.getText());
+		Assert.assertEquals("Incorrect text value set for WLink Component with ", wLink.getText(),
+				label.getText());
 
 		resetContext();
-		Assert.assertEquals("Incorrect text value set for WLink Component", wLink.getText(), label.getText());
+		Assert.assertEquals("Incorrect text value set for WLink Component", wLink.getText(), label.
+				getText());
 	}
 
 }

@@ -6,8 +6,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * CostRenderer renders a dollar amount specified as an int, in cents. Expects an Integer as its
- * bean value.
+ * CostRenderer renders a dollar amount specified as an int, in cents. Expects an Integer as its bean value.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0

@@ -11,8 +11,8 @@ import com.github.bordertech.wcomponents.WText;
 import java.util.Arrays;
 
 /**
- * This example demonstrates a simple {@link WTable} that is bean bound, has pagination and the rows
- * per page options set.
+ * This example demonstrates a simple {@link WTable} that is bean bound, has pagination and the rows per page options
+ * set.
  * <p>
  * Uses {@link SimpleBeanBoundTableModel} to handle the bean binding.
  * </p>
@@ -43,8 +43,9 @@ public class SimplePaginationWithRowOptionsTableExample extends WPanel {
 		table.setRowsPerPage(2);
 
 		// Setup model
-		SimpleBeanBoundTableModel model = new SimpleBeanBoundTableModel(new String[]{"firstName", "lastName",
-			"dateOfBirth"});
+		SimpleBeanBoundTableModel model = new SimpleBeanBoundTableModel(
+				new String[]{"firstName", "lastName",
+					"dateOfBirth"});
 		table.setTableModel(model);
 
 		// Set the rows per page options
@@ -52,8 +53,8 @@ public class SimplePaginationWithRowOptionsTableExample extends WPanel {
 	}
 
 	/**
-	 * Override preparePaintComponent in order to set up the example data the first time that the
-	 * example is accessed by each user.
+	 * Override preparePaintComponent in order to set up the example data the first time that the example is accessed by
+	 * each user.
 	 *
 	 * @param request the request being responded to.
 	 */

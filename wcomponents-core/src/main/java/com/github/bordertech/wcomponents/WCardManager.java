@@ -5,16 +5,15 @@ import java.util.List;
 
 /**
  * <p>
- * A WCardManager is a wcomponent used to control the visibility of its child components. It can
- * help to think of a WCardManager as a deck of cards, where only the top most card is visible. The
- * WCardManager enables you to add cards to the deck (using the "add" method) and to select which of
- * the cards to place on the top of the deck (using the "makeVisible" method).
+ * A WCardManager is a wcomponent used to control the visibility of its child components. It can help to think of a
+ * WCardManager as a deck of cards, where only the top most card is visible. The WCardManager enables you to add cards
+ * to the deck (using the "add" method) and to select which of the cards to place on the top of the deck (using the
+ * "makeVisible" method).
  * </p>
  * <p>
- * You would expect a WComponent that is using a WCardManager to support its functionality, to add
- * all the cards it will need in its constructor. Note that the first card added will be the default
- * visible component. Implementations of the Action interface are normally used to change which card
- * is visible.
+ * You would expect a WComponent that is using a WCardManager to support its functionality, to add all the cards it will
+ * need in its constructor. Note that the first card added will be the default visible component. Implementations of the
+ * Action interface are normally used to change which card is visible.
  * </p>
  *
  * @author James Gifford
@@ -61,7 +60,8 @@ public class WCardManager extends AbstractMutableContainer {
 	 */
 	public void makeVisible(final WComponent component) {
 		if (component.getParent() != getCardContainer()) {
-			throw new IllegalArgumentException("Attempted to make a component visible which is not contained in this WCardManager");
+			throw new IllegalArgumentException(
+					"Attempted to make a component visible which is not contained in this WCardManager");
 		}
 
 		CardManagerModel model = getOrCreateComponentModel();
@@ -104,8 +104,8 @@ public class WCardManager extends AbstractMutableContainer {
 	}
 
 	/**
-	 * Since none of the children are visible to standard processing, handleRequest has been
-	 * overridden so that the visible card is processed.
+	 * Since none of the children are visible to standard processing, handleRequest has been overridden so that the
+	 * visible card is processed.
 	 *
 	 * @param request the request being responded to.
 	 */
@@ -121,8 +121,8 @@ public class WCardManager extends AbstractMutableContainer {
 	}
 
 	/**
-	 * Since none of the children are visible to standard processing, preparePaintComponent has been
-	 * overridden so that the visible card is prepared.
+	 * Since none of the children are visible to standard processing, preparePaintComponent has been overridden so that
+	 * the visible card is prepared.
 	 *
 	 * @param request the request being responded to.
 	 */
@@ -138,8 +138,8 @@ public class WCardManager extends AbstractMutableContainer {
 	}
 
 	/**
-	 * Since none of the children are visible to standard processing, paintComponent has been
-	 * overridden so that the visible card is painted.
+	 * Since none of the children are visible to standard processing, paintComponent has been overridden so that the
+	 * visible card is painted.
 	 *
 	 * @param renderContext the RenderContext to paint to.
 	 */
@@ -155,8 +155,8 @@ public class WCardManager extends AbstractMutableContainer {
 	}
 
 	/**
-	 * Since none of the children are visible to standard processing, validateComponent has been
-	 * overridden so that the visible card is processed.
+	 * Since none of the children are visible to standard processing, validateComponent has been overridden so that the
+	 * visible card is processed.
 	 *
 	 * @param diags the list to add validation diagnostics to.
 	 */
@@ -200,7 +200,8 @@ public class WCardManager extends AbstractMutableContainer {
 	public String toString() {
 		int index = getCardContainer().getIndexOfChild(getVisible());
 		List<WComponent> cards = getCardContainer().getComponentModel().getChildren();
-		WComponent[] children = cards == null ? new WComponent[0] : cards.toArray(new WComponent[cards.size()]);
+		WComponent[] children = cards == null ? new WComponent[0] : cards.toArray(
+				new WComponent[cards.size()]);
 
 		return toString("active=" + index, -1, -1) + childrenToString(children);
 	}

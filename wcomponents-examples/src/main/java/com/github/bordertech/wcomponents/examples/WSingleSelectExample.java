@@ -82,7 +82,8 @@ public class WSingleSelectExample extends WContainer {
 
 		sSelect = new WSingleSelect(people);
 		sSelect.setRows(3);
-		addFieldToLayout(sSelect, "Select list with a list of beans", "This is an example sSelect with data from a non-textual source.");
+		addFieldToLayout(sSelect, "Select list with a list of beans",
+				"This is an example sSelect with data from a non-textual source.");
 
 		sSelect = new WSingleSelect(peopleOptions);
 		sSelect.setRows(3);
@@ -96,15 +97,19 @@ public class WSingleSelectExample extends WContainer {
 
 		sSelect = new WSingleSelect("icao");
 		sSelect.setRows(10);
-		addFieldToLayout(sSelect, "Select list with cached data from a look up table", "see ExampleLookupTable for data");
+		addFieldToLayout(sSelect, "Select list with cached data from a look up table",
+				"see ExampleLookupTable for data");
 
 		sSelect = new WSingleSelect(new TableWithNullOption("icao"));
 		sSelect.setRows(10);
-		addFieldToLayout(sSelect, "Select list with cached data from a look up table with Null Option", "see ExampleLookupTable for data");
+		addFieldToLayout(sSelect,
+				"Select list with cached data from a look up table with Null Option",
+				"see ExampleLookupTable for data");
 
 		sSelect = new WSingleSelect(new TableWithNullOption("icao", "Select one please"));
 		sSelect.setRows(10);
-		addFieldToLayout(sSelect, "Select list with cached data with a custom null option", "see ExampleLookupTable for data");
+		addFieldToLayout(sSelect, "Select list with cached data with a custom null option",
+				"see ExampleLookupTable for data");
 
 		add(layout);
 		add(new WButton("submit"));
@@ -195,8 +200,7 @@ public class WSingleSelectExample extends WContainer {
 	}
 
 	/**
-	 * Applications can wrap options inside lists in order to provide custom text and values for the
-	 * drop down.
+	 * Applications can wrap options inside lists in order to provide custom text and values for the drop down.
 	 */
 	private static final class PersonOption implements Option, Serializable {
 
@@ -238,7 +242,8 @@ public class WSingleSelectExample extends WContainer {
 	 * @param labelText the label text for the field.
 	 * @param labelHint the optional label hint for the field.
 	 */
-	private void addFieldToLayout(final WComponent input, final String labelText, final String labelHint) {
+	private void addFieldToLayout(final WComponent input, final String labelText,
+			final String labelHint) {
 		WField field = layout.addField(labelText, input);
 
 		if (labelHint != null) {

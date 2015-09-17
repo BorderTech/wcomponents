@@ -27,7 +27,8 @@ public class Enable_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testActionType() {
 		Enable action = new Enable(new MyTarget());
-		Assert.assertEquals("Incorrect Action Type", AbstractAction.ActionType.ENABLE, action.getActionType());
+		Assert.assertEquals("Incorrect Action Type", AbstractAction.ActionType.ENABLE, action.
+				getActionType());
 	}
 
 	@Test
@@ -38,7 +39,8 @@ public class Enable_Test extends AbstractWComponentTestCase {
 		Assert.assertEquals("Incorrect toString for action", "enable MyTarget", action.toString());
 
 		WLabel label = new WLabel("test label", target);
-		Assert.assertEquals("Incorrect toString for action with a label", "enable " + label.getText(), action.toString());
+		Assert.assertEquals("Incorrect toString for action with a label", "enable " + label.
+				getText(), action.toString());
 	}
 
 	/**

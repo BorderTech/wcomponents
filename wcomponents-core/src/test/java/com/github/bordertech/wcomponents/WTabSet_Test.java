@@ -158,10 +158,14 @@ public class WTabSet_Test extends AbstractWComponentTestCase {
 
 		// Default to first tab
 		Assert.assertEquals("Incorrect active tab", tab1, tabset.getActiveTab().getContent());
-		Assert.assertEquals("Incorrect active tab", tab1, tabset.getActiveTabs().get(0).getContent());
+		Assert.
+				assertEquals("Incorrect active tab", tab1, tabset.getActiveTabs().get(0).
+						getContent());
 		tabset.setActiveTab(tab3);
 		Assert.assertEquals("Incorrect active tab", tab3, tabset.getActiveTab().getContent());
-		Assert.assertEquals("Incorrect active tab", tab3, tabset.getActiveTabs().get(0).getContent());
+		Assert.
+				assertEquals("Incorrect active tab", tab3, tabset.getActiveTabs().get(0).
+						getContent());
 	}
 
 	@Test
@@ -197,7 +201,8 @@ public class WTabSet_Test extends AbstractWComponentTestCase {
 		setActiveContext(createUIContext());
 		tabset.setTabVisible(0, false);
 		Assert.assertFalse("Tab should not be visible for affected context", tabset.isTabVisible(0));
-		Assert.assertTrue("Other tabs should be visible for affected context", tabset.isTabVisible(1));
+		Assert.assertTrue("Other tabs should be visible for affected context", tabset.
+				isTabVisible(1));
 
 		resetContext();
 		Assert.assertTrue("Tab should be visible for other contexts", tabset.isTabVisible(0));
@@ -217,19 +222,23 @@ public class WTabSet_Test extends AbstractWComponentTestCase {
 		MockRequest request = new MockRequest();
 		request.setParameter(tabset.getId(), "1");
 		tabset.handleRequest(request);
-		Assert.assertEquals("Incorrect dynamic active index after handleRequest", 1, tabset.getActiveIndex());
+		Assert.assertEquals("Incorrect dynamic active index after handleRequest", 1, tabset.
+				getActiveIndex());
 
 		resetContext();
-		Assert.assertEquals("Incorrect static active index after handleRequest", 0, tabset.getActiveIndex());
+		Assert.assertEquals("Incorrect static active index after handleRequest", 0, tabset.
+				getActiveIndex());
 
 		setActiveContext(createUIContext());
 		request.setParameter(tabset.getId(), "2");
 		tabset.handleRequest(request);
 
-		Assert.assertEquals("Incorrect dynamic active index after handleRequest", 2, tabset.getActiveIndex());
+		Assert.assertEquals("Incorrect dynamic active index after handleRequest", 2, tabset.
+				getActiveIndex());
 
 		resetContext();
-		Assert.assertEquals("Incorrect static active index after handleRequest", 0, tabset.getActiveIndex());
+		Assert.assertEquals("Incorrect static active index after handleRequest", 0, tabset.
+				getActiveIndex());
 
 		// Test that selection doesn't change when the tabset is disabled
 		tabset.setDisabled(true);
@@ -237,10 +246,12 @@ public class WTabSet_Test extends AbstractWComponentTestCase {
 		request.setParameter(tabset.getId(), "1");
 		tabset.handleRequest(request);
 
-		Assert.assertEquals("Dynamic active index should not change when disabled", 0, tabset.getActiveIndex());
+		Assert.assertEquals("Dynamic active index should not change when disabled", 0, tabset.
+				getActiveIndex());
 
 		resetContext();
-		Assert.assertEquals("Static active index should not change when disabled", 0, tabset.getActiveIndex());
+		Assert.assertEquals("Static active index should not change when disabled", 0, tabset.
+				getActiveIndex());
 	}
 
 	@Test
@@ -267,20 +278,24 @@ public class WTabSet_Test extends AbstractWComponentTestCase {
 
 		tabset.handleRequest(request);
 
-		Assert.assertEquals("Incorrect dynamic active index after handleRequest", 5, tabset.getActiveIndex());
+		Assert.assertEquals("Incorrect dynamic active index after handleRequest", 5, tabset.
+				getActiveIndex());
 
 		resetContext();
-		Assert.assertEquals("Incorrect static active index after handleRequest", 0, tabset.getActiveIndex());
+		Assert.assertEquals("Incorrect static active index after handleRequest", 0, tabset.
+				getActiveIndex());
 
 		// Select "tab2"
 		setActiveContext(createUIContext());
 		request.setParameter(tabset.getId(), "1");
 		tabset.handleRequest(request);
 
-		Assert.assertEquals("Incorrect dynamic active index after handleRequest", 1, tabset.getActiveIndex());
+		Assert.assertEquals("Incorrect dynamic active index after handleRequest", 1, tabset.
+				getActiveIndex());
 
 		resetContext();
-		Assert.assertEquals("Incorrect static active index after handleRequest", 0, tabset.getActiveIndex());
+		Assert.assertEquals("Incorrect static active index after handleRequest", 0, tabset.
+				getActiveIndex());
 	}
 
 	/**
@@ -296,8 +311,11 @@ public class WTabSet_Test extends AbstractWComponentTestCase {
 		WTabSet.TabMode mode1 = WTabSet.TabMode.SERVER;
 		tabset.addTab(content1, label1, mode1);
 
-		Assert.assertEquals("first tab has correct content", content1, tabset.getTab(0).getContent());
-		Assert.assertEquals("first tab has correct label", label1, tabset.getTab(0).getTabLabel().getText());
+		Assert.
+				assertEquals("first tab has correct content", content1, tabset.getTab(0).
+						getContent());
+		Assert.assertEquals("first tab has correct label", label1, tabset.getTab(0).getTabLabel().
+				getText());
 		Assert.assertEquals("first tab has correct mode", mode1, tabset.getTab(0).getMode());
 		Assert.assertEquals("first tab has correct accessKey", 0, tabset.getTab(0).getAccessKey());
 
@@ -308,10 +326,13 @@ public class WTabSet_Test extends AbstractWComponentTestCase {
 		char accessKey2 = 'X';
 		tabset.addTab(content2, label2, mode2, accessKey2);
 
-		Assert.assertEquals("second tab has correct content", content2, tabset.getTab(1).getContent());
-		Assert.assertEquals("second tab has correct label", label2, tabset.getTab(1).getTabLabel().getText());
+		Assert.assertEquals("second tab has correct content", content2, tabset.getTab(1).
+				getContent());
+		Assert.assertEquals("second tab has correct label", label2, tabset.getTab(1).getTabLabel().
+				getText());
 		Assert.assertEquals("second tab has correct mode", mode2, tabset.getTab(1).getMode());
-		Assert.assertEquals("second tab has correct accessKey", accessKey2, tabset.getTab(1).getAccessKey());
+		Assert.assertEquals("second tab has correct accessKey", accessKey2, tabset.getTab(1).
+				getAccessKey());
 
 		// Tab3 - Content, label, mode
 		WComponent content3 = new DefaultWComponent();
@@ -319,7 +340,9 @@ public class WTabSet_Test extends AbstractWComponentTestCase {
 		WTabSet.TabMode mode3 = WTabSet.TabMode.SERVER;
 		tabset.addTab(content3, label3, mode3);
 
-		Assert.assertEquals("third tab has correct content", content3, tabset.getTab(2).getContent());
+		Assert.
+				assertEquals("third tab has correct content", content3, tabset.getTab(2).
+						getContent());
 		Assert.assertEquals("third tab has correct label", label3, tabset.getTab(2).getTabLabel());
 		Assert.assertEquals("third tab has correct mode", mode3, tabset.getTab(2).getMode());
 		Assert.assertEquals("third tab has correct accessKey", 0, tabset.getTab(2).getAccessKey());
@@ -331,10 +354,12 @@ public class WTabSet_Test extends AbstractWComponentTestCase {
 		char accessKey4 = 'X';
 		tabset.addTab(content4, label4, mode4, accessKey4);
 
-		Assert.assertEquals("fourth tab has correct content", content4, tabset.getTab(3).getContent());
+		Assert.assertEquals("fourth tab has correct content", content4, tabset.getTab(3).
+				getContent());
 		Assert.assertEquals("fourth tab has correct label", label4, tabset.getTab(3).getTabLabel());
 		Assert.assertEquals("fourth tab has correct mode", mode4, tabset.getTab(3).getMode());
-		Assert.assertEquals("fourth tab has correct accessKey", accessKey4, tabset.getTab(3).getAccessKey());
+		Assert.assertEquals("fourth tab has correct accessKey", accessKey4, tabset.getTab(3).
+				getAccessKey());
 	}
 
 	/**
@@ -348,11 +373,14 @@ public class WTabSet_Test extends AbstractWComponentTestCase {
 		WTabSet.TabMode mode = WTabSet.TabMode.SERVER;
 		tabset.addTab(content, label, mode);
 
-		Assert.assertEquals("first child should be the tab already added", 1, tabset.getChildCount());
+		Assert.
+				assertEquals("first child should be the tab already added", 1, tabset.
+						getChildCount());
 		tabset.addSeparator();
 		Assert.assertEquals("there should be two children", 2, tabset.getChildCount());
 		Assert
-				.assertTrue("second child should be the separator just added", tabset.getChildAt(1) instanceof WSeparator);
+				.assertTrue("second child should be the separator just added",
+						tabset.getChildAt(1) instanceof WSeparator);
 	}
 
 	/**
@@ -423,7 +451,8 @@ public class WTabSet_Test extends AbstractWComponentTestCase {
 		List<Integer> expectedIndices = Arrays.asList(new Integer[]{0, 1, 2});
 		List<Integer> activeIndices = tabset.getActiveIndices();
 		Assert.assertNotNull("should get non null List", activeIndices);
-		Assert.assertEquals("active indices should be those expected", expectedIndices, activeIndices);
+		Assert.assertEquals("active indices should be those expected", expectedIndices,
+				activeIndices);
 
 		// make the first invisible
 		expectedIndices = Arrays.asList(new Integer[]{1, 2});
@@ -431,12 +460,14 @@ public class WTabSet_Test extends AbstractWComponentTestCase {
 		tabset.setTabVisible(0, false);
 		activeIndices = tabset.getActiveIndices();
 		Assert.assertNotNull("should get non null List", activeIndices);
-		Assert.assertEquals("active indices should be those expected", expectedIndices, activeIndices);
+		Assert.assertEquals("active indices should be those expected", expectedIndices,
+				activeIndices);
 
 		resetContext();
 		expectedIndices = Arrays.asList(new Integer[]{0, 1, 2});
 		activeIndices = tabset.getActiveIndices();
-		Assert.assertEquals("active indices should be those expected", expectedIndices, activeIndices);
+		Assert.assertEquals("active indices should be those expected", expectedIndices,
+				activeIndices);
 
 		// make all invisible - so activeTabs is now empty - recreated as [0]
 		setActiveContext(createUIContext());
@@ -446,7 +477,8 @@ public class WTabSet_Test extends AbstractWComponentTestCase {
 		tabset.setTabVisible(2, false);
 		activeIndices = tabset.getActiveIndices();
 		Assert.assertNotNull("should get non null List", activeIndices);
-		Assert.assertEquals("active indices should be those expected", expectedIndices, activeIndices);
+		Assert.assertEquals("active indices should be those expected", expectedIndices,
+				activeIndices);
 	}
 
 	/**
@@ -508,7 +540,8 @@ public class WTabSet_Test extends AbstractWComponentTestCase {
 		Assert.assertFalse("Tab should be invisible", tabset.isTabVisible(content1));
 
 		resetContext();
-		Assert.assertTrue("Default tab visibility should not have changed", tabset.isTabVisible(content1));
+		Assert.assertTrue("Default tab visibility should not have changed", tabset.isTabVisible(
+				content1));
 	}
 
 	/**
@@ -567,7 +600,8 @@ public class WTabSet_Test extends AbstractWComponentTestCase {
 	 */
 	@Test
 	public void testSetActionOnChange() {
-		assertAccessorsCorrect(new WTabSet(), "actionOnChange", null, new TestAction(), new TestAction());
+		assertAccessorsCorrect(new WTabSet(), "actionOnChange", null, new TestAction(),
+				new TestAction());
 	}
 
 	@Test
@@ -584,10 +618,12 @@ public class WTabSet_Test extends AbstractWComponentTestCase {
 		tabset.setLocked(true);
 		setActiveContext(createUIContext());
 		tabset.setShowHeadOnly(headonly2);
-		Assert.assertEquals("User context ShowHeadOnly should be set", headonly2, tabset.isShowHeadOnly());
+		Assert.assertEquals("User context ShowHeadOnly should be set", headonly2, tabset.
+				isShowHeadOnly());
 
 		resetContext();
-		Assert.assertEquals("Default ShowHeadOnly should not have changed", headonly, tabset.isShowHeadOnly());
+		Assert.assertEquals("Default ShowHeadOnly should not have changed", headonly, tabset.
+				isShowHeadOnly());
 	}
 
 	@Test

@@ -13,8 +13,7 @@ import com.github.bordertech.wcomponents.subordinate.Show;
 import com.github.bordertech.wcomponents.subordinate.WSubordinateControl;
 
 /**
- * This example demonstrates showing/hiding an extra field depending on the selection in a
- * {@link WDropdown}.
+ * This example demonstrates showing/hiding an extra field depending on the selection in a {@link WDropdown}.
  *
  * @author Martin Shevchenko
  * @since 1.0.0

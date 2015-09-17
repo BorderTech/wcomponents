@@ -6,8 +6,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 /**
- * Helper methods related to serialization. These are mainly useful for testing framework
- * components.
+ * Helper methods related to serialization. These are mainly useful for testing framework components.
  *
  * @author James Gifford
  */

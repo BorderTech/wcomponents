@@ -79,15 +79,14 @@ public class BorderLayout implements LayoutManager {
 	/**
 	 * Creates a border layout with the gap between component areas.
 	 * <p>
-	 * The horizontal and vertical gaps are set to the specified values. Horizontal gaps are placed
-	 * at the left and right edges, and between each of the columns. Vertical gaps are placed at the
-	 * top and bottom edges, and between each of the rows.
+	 * The horizontal and vertical gaps are set to the specified values. Horizontal gaps are placed at the left and
+	 * right edges, and between each of the columns. Vertical gaps are placed at the top and bottom edges, and between
+	 * each of the rows.
 	 * <p>
 	 * All <code>BorderLayout</code> constructors defer to this one.
 	 *
 	 * @param hgap the horizontal gap between the west, center and east cells, measured in pixels.
-	 * @param vgap the vertical gap between the north cell, middle row and south cell, measured in
-	 * pixels
+	 * @param vgap the vertical gap between the north cell, middle row and south cell, measured in pixels
 	 */
 	public BorderLayout(final int hgap, final int vgap) {
 		if (hgap < 0) {

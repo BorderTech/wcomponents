@@ -8,8 +8,8 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * <p>
- * WMessages provides a convenient wrapper for the WMessageBox and WValidationErrors components, and
- * lets the developer use a "singleton" WMessages instance per application.
+ * WMessages provides a convenient wrapper for the WMessageBox and WValidationErrors components, and lets the developer
+ * use a "singleton" WMessages instance per application.
  * </p>
  *
  * @author Yiannis Paschalidis
@@ -58,8 +58,8 @@ public class WMessages extends WPanel {
 	/**
 	 * Creates a new WMessages.
 	 *
-	 * @param persistent if true, all messages are persisted between requests. If false, only
-	 * validation messages are persisted between requests.
+	 * @param persistent if true, all messages are persisted between requests. If false, only validation messages are
+	 * persisted between requests.
 	 */
 	public WMessages(final boolean persistent) {
 		add(validationErrors);
@@ -82,11 +82,10 @@ public class WMessages extends WPanel {
 	}
 
 	/**
-	 * Retrieves the WMessages instance for the given component. The component tree is searched for
-	 * an ancestor that implements the MessageContainer interface. If not found, a proxy is returned
-	 * that searches for the MessageContainer each time a WMessages method is called. This allows
-	 * developers to obtain a valid "instance" during e.g. constructors, where the component will
-	 * not have been added to the tree yet.
+	 * Retrieves the WMessages instance for the given component. The component tree is searched for an ancestor that
+	 * implements the MessageContainer interface. If not found, a proxy is returned that searches for the
+	 * MessageContainer each time a WMessages method is called. This allows developers to obtain a valid "instance"
+	 * during e.g. constructors, where the component will not have been added to the tree yet.
 	 *
 	 * @param component the component to retrieve the WMessages instance for
 	 * @return the WMessages instance for the given component.
@@ -106,7 +105,8 @@ public class WMessages extends WPanel {
 	 * @return true if there are messages to display
 	 */
 	public boolean hasMessages() {
-		return successMessages.hasMessages() || infoMessages.hasMessages() || warningMessages.hasMessages()
+		return successMessages.hasMessages() || infoMessages.hasMessages() || warningMessages.
+				hasMessages()
 				|| errorMessages.hasMessages() || validationErrors.hasErrors();
 	}
 
@@ -122,14 +122,12 @@ public class WMessages extends WPanel {
 	/**
 	 * Adds a message.
 	 * <p>
-	 * When setting <code>encodeText</code> to <code>false</code>, it then becomes the
-	 * responsibility of the application to ensure that the text does not contain any characters
-	 * which need to be escaped.
+	 * When setting <code>encodeText</code> to <code>false</code>, it then becomes the responsibility of the application
+	 * to ensure that the text does not contain any characters which need to be escaped.
 	 * </p>
 	 * <p>
-	 * <b>WARNING:</b> If you are using WMessageBox to display "user entered" or untrusted data, use
-	 * of this method with <code>encodeText</code> set to <code>false</code> may result in security
-	 * issues.
+	 * <b>WARNING:</b> If you are using WMessageBox to display "user entered" or untrusted data, use of this method with
+	 * <code>encodeText</code> set to <code>false</code> may result in security issues.
 	 * </p>
 	 *
 	 * @param message the message to add
@@ -170,14 +168,12 @@ public class WMessages extends WPanel {
 	/**
 	 * Adds a success message.
 	 * <p>
-	 * When setting <code>encodeText</code> to <code>false</code>, it then becomes the
-	 * responsibility of the application to ensure that the text does not contain any characters
-	 * which need to be escaped.
+	 * When setting <code>encodeText</code> to <code>false</code>, it then becomes the responsibility of the application
+	 * to ensure that the text does not contain any characters which need to be escaped.
 	 * </p>
 	 * <p>
-	 * <b>WARNING:</b> If you are using WMessageBox to display "user entered" or untrusted data, use
-	 * of this method with <code>encodeText</code> set to <code>false</code> may result in security
-	 * issues.
+	 * <b>WARNING:</b> If you are using WMessageBox to display "user entered" or untrusted data, use of this method with
+	 * <code>encodeText</code> set to <code>false</code> may result in security issues.
 	 * </p>
 	 *
 	 * @param code the message code
@@ -201,14 +197,12 @@ public class WMessages extends WPanel {
 	/**
 	 * Adds a success message.
 	 * <p>
-	 * When setting <code>encodeText</code> to <code>false</code>, it then becomes the
-	 * responsibility of the application to ensure that the text does not contain any characters
-	 * which need to be escaped.
+	 * When setting <code>encodeText</code> to <code>false</code>, it then becomes the responsibility of the application
+	 * to ensure that the text does not contain any characters which need to be escaped.
 	 * </p>
 	 * <p>
-	 * <b>WARNING:</b> If you are using WMessageBox to display "user entered" or untrusted data, use
-	 * of this method with <code>encodeText</code> set to <code>false</code> may result in security
-	 * issues.
+	 * <b>WARNING:</b> If you are using WMessageBox to display "user entered" or untrusted data, use of this method with
+	 * <code>encodeText</code> set to <code>false</code> may result in security issues.
 	 * </p>
 	 *
 	 * @param code the message code.
@@ -232,14 +226,12 @@ public class WMessages extends WPanel {
 	/**
 	 * Adds an informational message.
 	 * <p>
-	 * When setting <code>encodeText</code> to <code>false</code>, it then becomes the
-	 * responsibility of the application to ensure that the text does not contain any characters
-	 * which need to be escaped.
+	 * When setting <code>encodeText</code> to <code>false</code>, it then becomes the responsibility of the application
+	 * to ensure that the text does not contain any characters which need to be escaped.
 	 * </p>
 	 * <p>
-	 * <b>WARNING:</b> If you are using WMessageBox to display "user entered" or untrusted data, use
-	 * of this method with <code>encodeText</code> set to <code>false</code> may result in security
-	 * issues.
+	 * <b>WARNING:</b> If you are using WMessageBox to display "user entered" or untrusted data, use of this method with
+	 * <code>encodeText</code> set to <code>false</code> may result in security issues.
 	 * </p>
 	 *
 	 * @param code the message code.
@@ -263,14 +255,12 @@ public class WMessages extends WPanel {
 	/**
 	 * Adds an informational message.
 	 * <p>
-	 * When setting <code>encodeText</code> to <code>false</code>, it then becomes the
-	 * responsibility of the application to ensure that the text does not contain any characters
-	 * which need to be escaped.
+	 * When setting <code>encodeText</code> to <code>false</code>, it then becomes the responsibility of the application
+	 * to ensure that the text does not contain any characters which need to be escaped.
 	 * </p>
 	 * <p>
-	 * <b>WARNING:</b> If you are using WMessageBox to display "user entered" or untrusted data, use
-	 * of this method with <code>encodeText</code> set to <code>false</code> may result in security
-	 * issues.
+	 * <b>WARNING:</b> If you are using WMessageBox to display "user entered" or untrusted data, use of this method with
+	 * <code>encodeText</code> set to <code>false</code> may result in security issues.
 	 * </p>
 	 *
 	 * @param code the message code.
@@ -294,14 +284,12 @@ public class WMessages extends WPanel {
 	/**
 	 * Adds a warning message.
 	 * <p>
-	 * When setting <code>encodeText</code> to <code>false</code>, it then becomes the
-	 * responsibility of the application to ensure that the text does not contain any characters
-	 * which need to be escaped.
+	 * When setting <code>encodeText</code> to <code>false</code>, it then becomes the responsibility of the application
+	 * to ensure that the text does not contain any characters which need to be escaped.
 	 * </p>
 	 * <p>
-	 * <b>WARNING:</b> If you are using WMessageBox to display "user entered" or untrusted data, use
-	 * of this method with <code>encodeText</code> set to <code>false</code> may result in security
-	 * issues.
+	 * <b>WARNING:</b> If you are using WMessageBox to display "user entered" or untrusted data, use of this method with
+	 * <code>encodeText</code> set to <code>false</code> may result in security issues.
 	 * </p>
 	 *
 	 * @param code the message code.
@@ -325,14 +313,12 @@ public class WMessages extends WPanel {
 	/**
 	 * Adds a warning message.
 	 * <p>
-	 * When setting <code>encodeText</code> to <code>false</code>, it then becomes the
-	 * responsibility of the application to ensure that the text does not contain any characters
-	 * which need to be escaped.
+	 * When setting <code>encodeText</code> to <code>false</code>, it then becomes the responsibility of the application
+	 * to ensure that the text does not contain any characters which need to be escaped.
 	 * </p>
 	 * <p>
-	 * <b>WARNING:</b> If you are using WMessageBox to display "user entered" or untrusted data, use
-	 * of this method with <code>encodeText</code> set to <code>false</code> may result in security
-	 * issues.
+	 * <b>WARNING:</b> If you are using WMessageBox to display "user entered" or untrusted data, use of this method with
+	 * <code>encodeText</code> set to <code>false</code> may result in security issues.
 	 * </p>
 	 *
 	 * @param code the message code.
@@ -356,14 +342,12 @@ public class WMessages extends WPanel {
 	/**
 	 * Adds an error message.
 	 * <p>
-	 * When setting <code>encodeText</code> to <code>false</code>, it then becomes the
-	 * responsibility of the application to ensure that the text does not contain any characters
-	 * which need to be escaped.
+	 * When setting <code>encodeText</code> to <code>false</code>, it then becomes the responsibility of the application
+	 * to ensure that the text does not contain any characters which need to be escaped.
 	 * </p>
 	 * <p>
-	 * <b>WARNING:</b> If you are using WMessageBox to display "user entered" or untrusted data, use
-	 * of this method with <code>encodeText</code> set to <code>false</code> may result in security
-	 * issues.
+	 * <b>WARNING:</b> If you are using WMessageBox to display "user entered" or untrusted data, use of this method with
+	 * <code>encodeText</code> set to <code>false</code> may result in security issues.
 	 * </p>
 	 *
 	 * @param code the message code.
@@ -387,14 +371,12 @@ public class WMessages extends WPanel {
 	/**
 	 * Adds an error message.
 	 * <p>
-	 * When setting <code>encodeText</code> to <code>false</code>, it then becomes the
-	 * responsibility of the application to ensure that the text does not contain any characters
-	 * which need to be escaped.
+	 * When setting <code>encodeText</code> to <code>false</code>, it then becomes the responsibility of the application
+	 * to ensure that the text does not contain any characters which need to be escaped.
 	 * </p>
 	 * <p>
-	 * <b>WARNING:</b> If you are using WMessageBox to display "user entered" or untrusted data, use
-	 * of this method with <code>encodeText</code> set to <code>false</code> may result in security
-	 * issues.
+	 * <b>WARNING:</b> If you are using WMessageBox to display "user entered" or untrusted data, use of this method with
+	 * <code>encodeText</code> set to <code>false</code> may result in security issues.
 	 * </p>
 	 *
 	 * @param code the message code.
@@ -504,8 +486,8 @@ public class WMessages extends WPanel {
 	}
 
 	/**
-	 * Searches the WComponent tree of the given component for an ancestor that implements the
-	 * MessageContainer interface.
+	 * Searches the WComponent tree of the given component for an ancestor that implements the MessageContainer
+	 * interface.
 	 *
 	 * @param component the component to return the Container for
 	 * @return the nearest MessageContainer if found, null otherwise

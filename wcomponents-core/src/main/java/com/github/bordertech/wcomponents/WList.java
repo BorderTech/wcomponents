@@ -2,12 +2,11 @@ package com.github.bordertech.wcomponents;
 
 /**
  * <p>
- * This component is an extension of a {@link WRepeater} that is used to render a collection of
- * items as a list.
+ * This component is an extension of a {@link WRepeater} that is used to render a collection of items as a list.
  * </p>
  * <p>
- * The operation of this component is essentially the same as a WRepeater, but it allows for some
- * basic control over how the repeated components are arranged.
+ * The operation of this component is essentially the same as a WRepeater, but it allows for some basic control over how
+ * the repeated components are arranged.
  * </p>
  *
  * @author Adam Millard
@@ -29,8 +28,7 @@ public class WList extends WRepeater implements Marginable {
 		 */
 		STACKED,
 		/**
-		 * Indicates that content should be arranged vertically, with highlighting on alternate rows
-		 * (zebra striping).
+		 * Indicates that content should be arranged vertically, with highlighting on alternate rows (zebra striping).
 		 */
 		STRIPED
 	}

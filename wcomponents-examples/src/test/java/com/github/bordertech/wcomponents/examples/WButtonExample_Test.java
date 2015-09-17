@@ -38,12 +38,16 @@ public class WButtonExample_Test extends WComponentSeleniumTestCase {
 		assertHasMessage("Link button should have been pressed", "Link button pressed");
 
 		driver.findElement(byWComponentPath("WButton[2]")).click();
-		Assert.assertFalse("Plain button should be disabled", driver.findElement(byWComponentPath("WButton[0]")).isEnabled());
-		Assert.assertFalse("Link button should be disabled", driver.findElement(byWComponentPath("WButton[1]")).isEnabled());
+		Assert.assertFalse("Plain button should be disabled", driver.findElement(byWComponentPath(
+				"WButton[0]")).isEnabled());
+		Assert.assertFalse("Link button should be disabled", driver.findElement(byWComponentPath(
+				"WButton[1]")).isEnabled());
 
 		driver.findElement(byWComponentPath("WButton[2]")).click();
-		Assert.assertTrue("Plain button should be enabled", driver.findElement(byWComponentPath("WButton[0]")).isEnabled());
-		Assert.assertTrue("Link button should be enabled", driver.findElement(byWComponentPath("WButton[1]")).isEnabled());
+		Assert.assertTrue("Plain button should be enabled", driver.findElement(byWComponentPath(
+				"WButton[0]")).isEnabled());
+		Assert.assertTrue("Link button should be enabled", driver.findElement(byWComponentPath(
+				"WButton[1]")).isEnabled());
 	}
 
 	/**

@@ -55,8 +55,8 @@ import java.util.Set;
 import java.util.StringTokenizer;
 
 /**
- * Check uses of the ExpectWarning and NoWarning annotations. This is for internal testing of
- * FindBugs (against findbugsTestCases).
+ * Check uses of the ExpectWarning and NoWarning annotations. This is for internal testing of FindBugs (against
+ * findbugsTestCases).
  *
  * @author David Hovemeyer
  * @author Yiannis Paschalidis - added warnings for classes and fields as well.
@@ -88,7 +88,8 @@ public class CheckExpectedWarnings implements Detector2, NonReportingDetector {
 	public void visitClass(final ClassDescriptor classDescriptor) throws CheckedAnalysisException {
 		if (reporter == null) {
 			if (!warned) {
-				System.err.println("*** NOTE ***: CheckExpectedWarnings disabled because bug reporter doesn't use a BugCollection");
+				System.err.println(
+						"*** NOTE ***: CheckExpectedWarnings disabled because bug reporter doesn't use a BugCollection");
 				warned = true;
 			}
 			return;
@@ -133,7 +134,8 @@ public class CheckExpectedWarnings implements Detector2, NonReportingDetector {
 
 					warnings.add(warning);
 				} else if (clazz != null) {
-					ClassDescriptor classDesc = DescriptorFactory.createClassDescriptorFromDottedClassName(clazz.getClassName());
+					ClassDescriptor classDesc = DescriptorFactory.createClassDescriptorFromDottedClassName(
+							clazz.getClassName());
 					Collection<BugInstance> warnings = warningsByClass.get(classDesc);
 
 					if (warnings == null) {
@@ -196,7 +198,8 @@ public class CheckExpectedWarnings implements Detector2, NonReportingDetector {
 		check(xclass, noWarning, false);
 	}
 
-	private void check(final XMethod xmethod, final ClassDescriptor annotation, final boolean expectWarnings) {
+	private void check(final XMethod xmethod, final ClassDescriptor annotation,
+			final boolean expectWarnings) {
 		AnnotationValue expect = xmethod.getAnnotation(annotation);
 
 		if (expect != null) {
@@ -215,17 +218,20 @@ public class CheckExpectedWarnings implements Detector2, NonReportingDetector {
 				}
 
 				if (expectWarnings && count == 0 && possibleBugCodes.contains(bugCode)) {
-					reporter.reportBug(new BugInstance(this, "FB_MISSING_EXPECTED_WARNING", NORMAL_PRIORITY)
+					reporter.reportBug(new BugInstance(this, "FB_MISSING_EXPECTED_WARNING",
+							NORMAL_PRIORITY)
 							.addClassAndMethod(xmethod.getMethodDescriptor()).addString(bugCode));
 				} else if (!expectWarnings && count > 0) {
-					reporter.reportBug(new BugInstance(this, "FB_UNEXPECTED_WARNING", NORMAL_PRIORITY)
+					reporter.reportBug(new BugInstance(this, "FB_UNEXPECTED_WARNING",
+							NORMAL_PRIORITY)
 							.addClassAndMethod(xmethod.getMethodDescriptor()).addString(bugCode));
 				}
 			}
 		}
 	}
 
-	private void check(final XField field, final ClassDescriptor annotation, final boolean expectWarnings) {
+	private void check(final XField field, final ClassDescriptor annotation,
+			final boolean expectWarnings) {
 		AnnotationValue expect = field.getAnnotation(annotation);
 
 		if (expect != null) {
@@ -244,18 +250,21 @@ public class CheckExpectedWarnings implements Detector2, NonReportingDetector {
 				}
 
 				if (expectWarnings && count == 0 && possibleBugCodes.contains(bugCode)) {
-					reporter.reportBug(new BugInstance(this, "FB_MISSING_EXPECTED_WARNING", NORMAL_PRIORITY)
+					reporter.reportBug(new BugInstance(this, "FB_MISSING_EXPECTED_WARNING",
+							NORMAL_PRIORITY)
 							.addClass(field.getClassDescriptor())
 							.addField(field.getFieldDescriptor()).addString(bugCode));
 				} else if (!expectWarnings && count > 0) {
-					reporter.reportBug(new BugInstance(this, "FB_UNEXPECTED_WARNING", NORMAL_PRIORITY)
+					reporter.reportBug(new BugInstance(this, "FB_UNEXPECTED_WARNING",
+							NORMAL_PRIORITY)
 							.addField(field.getFieldDescriptor()).addString(bugCode));
 				}
 			}
 		}
 	}
 
-	private void check(final XClass xclass, final ClassDescriptor annotation, final boolean expectWarnings) {
+	private void check(final XClass xclass, final ClassDescriptor annotation,
+			final boolean expectWarnings) {
 		AnnotationValue expect = xclass.getAnnotation(annotation);
 
 		if (expect != null) {
@@ -274,10 +283,12 @@ public class CheckExpectedWarnings implements Detector2, NonReportingDetector {
 				}
 
 				if (expectWarnings && count == 0 && possibleBugCodes.contains(bugCode)) {
-					reporter.reportBug(new BugInstance(this, "FB_MISSING_EXPECTED_WARNING", NORMAL_PRIORITY)
+					reporter.reportBug(new BugInstance(this, "FB_MISSING_EXPECTED_WARNING",
+							NORMAL_PRIORITY)
 							.addClass(xclass.getClassDescriptor()).addString(bugCode));
 				} else if (!expectWarnings && count > 0) {
-					reporter.reportBug(new BugInstance(this, "FB_UNEXPECTED_WARNING", NORMAL_PRIORITY)
+					reporter.reportBug(new BugInstance(this, "FB_UNEXPECTED_WARNING",
+							NORMAL_PRIORITY)
 							.addClass(xclass.getClassDescriptor()).addString(bugCode));
 				}
 			}

@@ -16,14 +16,13 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * <p>
- * A component which enables users to pick an example to display. The UI is provided by either
- * delegate {@link SimplePicker} or {@link TreePicker}, depending on the configuration parameters.
- * By default, the TreePicker is used. To use the (old) simple example picker, set the following
- * parameter in e.g. your local_app.properties.</p>
+ * A component which enables users to pick an example to display. The UI is provided by either delegate
+ * {@link SimplePicker} or {@link TreePicker}, depending on the configuration parameters. By default, the TreePicker is
+ * used. To use the (old) simple example picker, set the following parameter in e.g. your local_app.properties.</p>
  *
  * <p>
- * It also demonstrates how to add additional functionality on the client, by performing syntax
- * highlighting of the java source code using javascript/css.</p>
+ * It also demonstrates how to add additional functionality on the client, by performing syntax highlighting of the java
+ * source code using javascript/css.</p>
  *
  * <pre>
  * com.github.bordertech.wcomponents.examples.picker.ExamplePicker.ui = com.github.bordertech.wcomponents.examples.picker.SimplePicker
@@ -115,14 +114,20 @@ public class ExamplePicker extends WApplication {
 				messages.addMessage(new Message(Message.ERROR_MESSAGE, msg));
 			}
 
-			javascript.setContentAccess(new InternalResource("/com/github/bordertech/wcomponents/examples/syntaxHighlight.js", "syntaxHighlight.js"));
-			css.setContentAccess(new InternalResource("/com/github/bordertech/wcomponents/examples/syntaxHighlight.css", "syntaxHighlight.css"));
+			javascript.setContentAccess(new InternalResource(
+					"/com/github/bordertech/wcomponents/examples/syntaxHighlight.js",
+					"syntaxHighlight.js"));
+			css.setContentAccess(new InternalResource(
+					"/com/github/bordertech/wcomponents/examples/syntaxHighlight.css",
+					"syntaxHighlight.css"));
 			setInitialised(true);
 		}
 
 		UIContext uic = UIContextHolder.getCurrent();
-		uic.getHeaders().addUniqueHeadLine("<script type='text/javascript' src='" + WebUtilities.encode(javascript.getUrl()) + "'></script>");
-		uic.getHeaders().addUniqueHeadLine("<link type='text/css' rel='stylesheet' href='" + WebUtilities.encode(css.getUrl()) + "'></link>");
+		uic.getHeaders().addUniqueHeadLine("<script type='text/javascript' src='" + WebUtilities.
+				encode(javascript.getUrl()) + "'></script>");
+		uic.getHeaders().addUniqueHeadLine(
+				"<link type='text/css' rel='stylesheet' href='" + WebUtilities.encode(css.getUrl()) + "'></link>");
 
 	}
 }

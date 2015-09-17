@@ -58,10 +58,12 @@ public class WWindow_Test extends AbstractWComponentTestCase {
 		Assert.assertTrue("Window should be resizable by default", window.isResizable());
 
 		window.setResizable(false);
-		Assert.assertFalse("Window should not be resizable after setResizable(false)", window.isResizable());
+		Assert.assertFalse("Window should not be resizable after setResizable(false)", window.
+				isResizable());
 
 		window.setResizable(true);
-		Assert.assertTrue("Window should be resizable after setResizable(true)", window.isResizable());
+		Assert.assertTrue("Window should be resizable after setResizable(true)", window.
+				isResizable());
 	}
 
 	@Test
@@ -70,10 +72,12 @@ public class WWindow_Test extends AbstractWComponentTestCase {
 		Assert.assertFalse("Window should not have scrollbar by default", window.isScrollable());
 
 		window.setScrollable(true);
-		Assert.assertTrue("Window should have scrollbar after setScrollable(true)", window.isScrollable());
+		Assert.assertTrue("Window should have scrollbar after setScrollable(true)", window.
+				isScrollable());
 
 		window.setScrollable(false);
-		Assert.assertFalse("Window should not have scrollbar after setScrollable(false)", window.isScrollable());
+		Assert.assertFalse("Window should not have scrollbar after setScrollable(false)", window.
+				isScrollable());
 
 	}
 

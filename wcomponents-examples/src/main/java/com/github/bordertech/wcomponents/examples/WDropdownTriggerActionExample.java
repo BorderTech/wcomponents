@@ -11,8 +11,8 @@ import com.github.bordertech.wcomponents.WFieldSet;
 
 /**
  * This example demonstrates how an {@link Action} object can be associated with a WDropdown (use
- * {@link WDropdown#setActionOnChange(com.github.bordertech.wcomponents.Action)} ). Changing the
- * selection of the dropdown will execute the action.
+ * {@link WDropdown#setActionOnChange(com.github.bordertech.wcomponents.Action)} ). Changing the selection of the
+ * dropdown will execute the action.
  *
  * @author Christina Harris
  * @since 1.0.0

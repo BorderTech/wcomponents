@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.Map;
 
 /**
- * Methods for finding out about the environment in which wcomponents are hosted. Current supported
- * environments are Servlet and Portlet.
+ * Methods for finding out about the environment in which wcomponents are hosted. Current supported environments are
+ * Servlet and Portlet.
  *
  * @author James Gifford
  * @since 1.0.0
@@ -13,20 +13,20 @@ import java.util.Map;
 public interface Environment extends Serializable {
 
 	/**
-	 * The URL/Post variable that will store the session token. The session token is used to prevent
-	 * Cross-site request forgery (CSRF) attacks.
+	 * The URL/Post variable that will store the session token. The session token is used to prevent Cross-site request
+	 * forgery (CSRF) attacks.
 	 */
 	String SESSION_TOKEN_VARIABLE = "wc_t";
 
 	/**
-	 * The URL/Post variable that will store the step number. The step number is used to identify
-	 * the request is from the most currently rendered view.
+	 * The URL/Post variable that will store the step number. The step number is used to identify the request is from
+	 * the most currently rendered view.
 	 */
 	String STEP_VARIABLE = "wc_s";
 
 	/**
-	 * The URL/Post variable that will store the action step number. The action step number is used
-	 * to identify the request is still related to the current action step.
+	 * The URL/Post variable that will store the action step number. The action step number is used to identify the
+	 * request is still related to the current action step.
 	 *
 	 * @deprecated portal specific
 	 */
@@ -39,10 +39,10 @@ public interface Environment extends Serializable {
 	String CONTENT_CACHE_KEY = "contentCacheKey";
 
 	/**
-	 * The URL/Post variable that will identify a specific wcomponent to process the request. A
-	 * request that includes this variable is called a targeted request. Targeted requests are used
-	 * to return document content such as image data and PDFs. It is also used to support AJAX
-	 * regions. Targeted requests are handled by the WContentHelperServlet.
+	 * The URL/Post variable that will identify a specific wcomponent to process the request. A request that includes
+	 * this variable is called a targeted request. Targeted requests are used to return document content such as image
+	 * data and PDFs. It is also used to support AJAX regions. Targeted requests are handled by the
+	 * WContentHelperServlet.
 	 */
 	String TARGET_ID = "wc_target";
 
@@ -52,9 +52,8 @@ public interface Environment extends Serializable {
 	String THEME_RESOURCE_PATH_NAME = "wc_th";
 
 	/**
-	 * The parameter variable that contains the URL path to the support servlet that services
-	 * targeted requests for a Portlet application. This parameter is only applicable to portlet
-	 * applications
+	 * The parameter variable that contains the URL path to the support servlet that services targeted requests for a
+	 * Portlet application. This parameter is only applicable to portlet applications
 	 */
 	String SUPPORT_SERVLET_PATH = "bordertech.wcomponents.servlet.support.path";
 
@@ -64,17 +63,16 @@ public interface Environment extends Serializable {
 	String THEME_CONTENT_PATH = "bordertech.wcomponents.theme.content.path";
 
 	/**
-	 * The URL query string parameter variable name that is used to ensure that the URL appears
-	 * unique to the browser. This is used to prevent caching of PDFs, TR5s etc by the client.
+	 * The URL query string parameter variable name that is used to ensure that the URL appears unique to the browser.
+	 * This is used to prevent caching of PDFs, TR5s etc by the client.
 	 */
 	String UNIQUE_RANDOM_PARAM = "no-cache";
 
 	/**
-	 * The key we use to store the primary contexts in the user's session. The AJAX and content
-	 * helper servlets will use this key to retrieve the appropriate UIC and process the request.
-	 * The map is keyed by application Id, and will contain one entry per Portlet in the
-	 * application. If the application does not use portlets, the map will only contain the single
-	 * UIContext for the main servlet.
+	 * The key we use to store the primary contexts in the user's session. The AJAX and content helper servlets will use
+	 * this key to retrieve the appropriate UIC and process the request. The map is keyed by application Id, and will
+	 * contain one entry per Portlet in the application. If the application does not use portlets, the map will only
+	 * contain the single UIContext for the main servlet.
 	 *
 	 * @deprecated portal specific
 	 */
@@ -100,9 +98,9 @@ public interface Environment extends Serializable {
 	void setPostPath(final String postPath);
 
 	/**
-	 * Gets the URL path for the WComponent support servlets, which handle serving content for
-	 * Targetable WComponents, AJAX and data lists. There needs to be a servlet (WServlet) deployed
-	 * to serve Targetable content. This method returns the URL to that servlet.
+	 * Gets the URL path for the WComponent support servlets, which handle serving content for Targetable WComponents,
+	 * AJAX and data lists. There needs to be a servlet (WServlet) deployed to serve Targetable content. This method
+	 * returns the URL to that servlet.
 	 * <dl>
 	 * Examples of what this method may return:
 	 * <dt>Servlet</dt><dd>/app</dd>
@@ -115,8 +113,8 @@ public interface Environment extends Serializable {
 
 	/**
 	 * Gets the base URL under which web applications are hosted. This is for portals where multiple
-	 * applications/portlets are being hosted. This AppHostPath can be used to create url links to
-	 * applications that have been given fixed relative names.
+	 * applications/portlets are being hosted. This AppHostPath can be used to create url links to applications that
+	 * have been given fixed relative names.
 	 * <dl>
 	 * Examples of what this method may return:
 	 * <dt>Servlet</dt><dd></dd>
@@ -128,8 +126,8 @@ public interface Environment extends Serializable {
 	String getAppHostPath();
 
 	/**
-	 * Gets the base URL under which the web content for the Theme is hosted. Web content is static
-	 * content such as css, js, html, and image files.
+	 * Gets the base URL under which the web content for the Theme is hosted. Web content is static content such as css,
+	 * js, html, and image files.
 	 * <dl>
 	 * Examples of what this method may return:
 	 * <dt>Servlet</dt><dd></dd>
@@ -143,8 +141,7 @@ public interface Environment extends Serializable {
 	/**
 	 * Get the base url at which this web application is hosted.
 	 * <p>
-	 * Implementations ensure that this method returns a URL WITHOUT a trailing slash, as in above
-	 * example.
+	 * Implementations ensure that this method returns a URL WITHOUT a trailing slash, as in above example.
 	 * <dl>
 	 * Examples of what this method may return:
 	 * <dt>Servlet</dt>http://localhost:8080<dd></dd>
@@ -169,9 +166,9 @@ public interface Environment extends Serializable {
 	String getHostFreeBaseUrl();
 
 	/**
-	 * Get a unique "app" id. This is intended to help with portals where multiple applications are
-	 * present in the one document. The app id will be a machine generated unique identifier, but
-	 * must not contain the character {@link WComponent#IDNAME_SEPERATOR}.
+	 * Get a unique "app" id. This is intended to help with portals where multiple applications are present in the one
+	 * document. The app id will be a machine generated unique identifier, but must not contain the character
+	 * {@link WComponent#IDNAME_SEPERATOR}.
 	 *
 	 * @return the unique application id for this application.
 	 * @deprecated no longer used. Use {@link WApplication#getIdName()} instead.
@@ -203,8 +200,7 @@ public interface Environment extends Serializable {
 	void setSessionToken(String sessionToken);
 
 	/**
-	 * Gets the page step number. This is intended to make sure the request being processed is on
-	 * the correct step.
+	 * Gets the page step number. This is intended to make sure the request being processed is on the correct step.
 	 *
 	 * @return the page step number.
 	 */
@@ -218,8 +214,8 @@ public interface Environment extends Serializable {
 	void setStep(int step);
 
 	/**
-	 * Gets the page action step number. This is intended to make sure the request being processed
-	 * is on the correct action step.
+	 * Gets the page action step number. This is intended to make sure the request being processed is on the correct
+	 * action step.
 	 *
 	 * @return the page action step number.
 	 *
@@ -239,10 +235,9 @@ public interface Environment extends Serializable {
 	void setActionStep(int actionStep);
 
 	/**
-	 * Return a Map containing the hidden parameters that are needed for the WServlet to work
-	 * correctly. Amongst these are the step number and the window id. This map may be mutated (ie,
-	 * a new Map instance is created and returned). The map may have additional variables added, and
-	 * it may be turned into a path using {@link WebUtilities#getPath}
+	 * Return a Map containing the hidden parameters that are needed for the WServlet to work correctly. Amongst these
+	 * are the step number and the window id. This map may be mutated (ie, a new Map instance is created and returned).
+	 * The map may have additional variables added, and it may be turned into a path using {@link WebUtilities#getPath}
 	 *
 	 * @return a Map containing the hidden parameters required by WServlet.
 	 */

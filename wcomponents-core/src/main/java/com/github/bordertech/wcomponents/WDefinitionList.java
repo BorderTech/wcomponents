@@ -13,7 +13,8 @@ import java.util.Map;
  * @author Yiannis Paschalidis
  * @since 1.0.0
  */
-public class WDefinitionList extends AbstractNamingContextContainer implements AjaxTarget, SubordinateTarget, Marginable {
+public class WDefinitionList extends AbstractNamingContextContainer implements AjaxTarget,
+		SubordinateTarget, Marginable {
 
 	/**
 	 * The layout options.
@@ -38,8 +39,7 @@ public class WDefinitionList extends AbstractNamingContextContainer implements A
 	}
 
 	/**
-	 * Content is added to this hidden container, so nothing can be added to the definition list
-	 * directly.
+	 * Content is added to this hidden container, so nothing can be added to the definition list directly.
 	 */
 	private final WContainer content = new WContainer();
 
@@ -93,8 +93,8 @@ public class WDefinitionList extends AbstractNamingContextContainer implements A
 	}
 
 	/**
-	 * Adds a term to this definition list. If there is an existing term, the component is added to
-	 * the list of data for the term.
+	 * Adds a term to this definition list. If there is an existing term, the component is added to the list of data for
+	 * the term.
 	 *
 	 * @param term the term to add.
 	 * @param data the term data.
@@ -150,7 +150,8 @@ public class WDefinitionList extends AbstractNamingContextContainer implements A
 				Duplet<String, List<WComponent>> termComponents = componentsByTerm.get(term);
 
 				if (termComponents == null) {
-					termComponents = new Duplet<String, List<WComponent>>(term, new ArrayList<WComponent>());
+					termComponents = new Duplet<String, List<WComponent>>(term,
+							new ArrayList<WComponent>());
 					componentsByTerm.put(term, termComponents);
 					result.add(termComponents);
 				}

@@ -4,8 +4,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 /**
- * Utility class used by WComponents for accessing {@link Config configuration} parameters used in
- * debug features.
+ * Utility class used by WComponents for accessing {@link Config configuration} parameters used in debug features.
  *
  * @author Jonathan Austin
  * @since 1.0.0
@@ -53,14 +52,16 @@ public final class DebugUtil {
 	 * Retrieve the current parameter settings for the debug flags.
 	 */
 	private static void retrieveDebugParameters() {
-		debugFeaturesEnabled = Config.getInstance().getBoolean("bordertech.wcomponents.debug.enabled", false);
-		validateXMLEnabled = Config.getInstance().getBoolean("bordertech.wcomponents.debug.validateXML.enabled", false);
-		debugStructureEnabled = Config.getInstance().getBoolean("bordertech.wcomponents.debug.clientSide.enabled", false);
+		debugFeaturesEnabled = Config.getInstance().getBoolean(
+				"bordertech.wcomponents.debug.enabled", false);
+		validateXMLEnabled = Config.getInstance().getBoolean(
+				"bordertech.wcomponents.debug.validateXML.enabled", false);
+		debugStructureEnabled = Config.getInstance().getBoolean(
+				"bordertech.wcomponents.debug.clientSide.enabled", false);
 	}
 
 	/**
-	 * Determines if WComponents is in debug mode. The debug features will only be enabled if this
-	 * is true.
+	 * Determines if WComponents is in debug mode. The debug features will only be enabled if this is true.
 	 *
 	 * @return true or false
 	 */

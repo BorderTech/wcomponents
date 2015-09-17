@@ -43,8 +43,9 @@ public class SimpleSelectableTableExample extends WPanel {
 		table.setSelectMode(SelectMode.MULTIPLE);
 
 		// Setup model
-		SimpleBeanBoundTableModel model = new SimpleBeanBoundTableModel(new String[]{"firstName", "lastName",
-			"dateOfBirth"});
+		SimpleBeanBoundTableModel model = new SimpleBeanBoundTableModel(
+				new String[]{"firstName", "lastName",
+					"dateOfBirth"});
 		model.setSelectable(true);
 		table.setTableModel(model);
 
@@ -53,7 +54,8 @@ public class SimpleSelectableTableExample extends WPanel {
 		table.addAction(selectButton);
 
 		// An action constraint is used so that a row must be selected before using the "Select" button
-		table.addActionConstraint(selectButton, new ActionConstraint(1, 0, true, "One or more rows must be selected"));
+		table.addActionConstraint(selectButton, new ActionConstraint(1, 0, true,
+				"One or more rows must be selected"));
 
 		final WStyledText selectionText = new WStyledText();
 		selectionText.setWhitespaceMode(WStyledText.WhitespaceMode.PRESERVE);
@@ -81,8 +83,8 @@ public class SimpleSelectableTableExample extends WPanel {
 	}
 
 	/**
-	 * Override preparePaintComponent in order to set up the example data the first time that the
-	 * example is accessed by each user.
+	 * Override preparePaintComponent in order to set up the example data the first time that the example is accessed by
+	 * each user.
 	 *
 	 * @param request the request being responded to.
 	 */

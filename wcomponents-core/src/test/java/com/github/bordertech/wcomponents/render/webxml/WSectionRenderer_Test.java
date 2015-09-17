@@ -36,7 +36,8 @@ public class WSectionRenderer_Test extends AbstractWebXmlRendererTestCase {
 	@Test
 	public void testRendererCorrectlyConfigured() {
 		WSection section = new WSection("");
-		Assert.assertTrue("Incorrect renderer supplied", getWebXmlRenderer(section) instanceof WSectionRenderer);
+		Assert.assertTrue("Incorrect renderer supplied",
+				getWebXmlRenderer(section) instanceof WSectionRenderer);
 	}
 
 	@Test
@@ -92,7 +93,8 @@ public class WSectionRenderer_Test extends AbstractWebXmlRendererTestCase {
 			assertXpathEvaluatesTo("", "//ui:section/@type", section);
 			assertXpathEvaluatesTo("", "//ui:section/@hidden", section);
 			assertXpathEvaluatesTo("eager", "//ui:section/@mode", section);
-			assertXpathEvaluatesTo(SECTION_CONTENT, "normalize-space(//ui:section/ui:panel)", section);
+			assertXpathEvaluatesTo(SECTION_CONTENT, "normalize-space(//ui:section/ui:panel)",
+					section);
 		} finally {
 			AjaxHelper.clearCurrentOperationDetails();
 		}

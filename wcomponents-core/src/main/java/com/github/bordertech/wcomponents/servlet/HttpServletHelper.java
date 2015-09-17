@@ -27,8 +27,8 @@ import org.apache.commons.logging.LogFactory;
 /**
  * A servlet specific ContainerHelper.
  * <p>
- * Chiefly it handles the creation and storage of each users {@link UIContext} in the servlet
- * session, and it maps servlet requests and responses to wcomponent requests and responses.
+ * Chiefly it handles the creation and storage of each users {@link UIContext} in the servlet session, and it maps
+ * servlet requests and responses to wcomponent requests and responses.
  * </p>
  * <p>
  * An instance is created each request being processed.
@@ -45,8 +45,8 @@ public class HttpServletHelper extends AbstractContainerHelper {
 	private static final Log LOG = LogFactory.getLog(HttpServletHelper.class);
 
 	/**
-	 * The name of the servlet initialisation parameter whose value is used to distinguish "new"
-	 * sessions from "ongoing" sessions.
+	 * The name of the servlet initialisation parameter whose value is used to distinguish "new" sessions from "ongoing"
+	 * sessions.
 	 */
 	public static final String ONGOING_URL_SUFFIX = "suffix";
 
@@ -71,8 +71,8 @@ public class HttpServletHelper extends AbstractContainerHelper {
 	private HttpServletResponse httpServletResponse;
 
 	/**
-	 * The name of a session parameter used to store the UIContext. We try to make the key unique
-	 * between servlets by prefixing it with the class name of this servlet.
+	 * The name of a session parameter used to store the UIContext. We try to make the key unique between servlets by
+	 * prefixing it with the class name of this servlet.
 	 */
 	private final String uiContextSessionKey;
 
@@ -296,8 +296,8 @@ public class HttpServletHelper extends AbstractContainerHelper {
 	}
 
 	/**
-	 * Get the URL that responses should be directed to (ie, the URL in forms and hyperlinks). This
-	 * is usually the same as the current request URL.
+	 * Get the URL that responses should be directed to (ie, the URL in forms and hyperlinks). This is usually the same
+	 * as the current request URL.
 	 *
 	 * @param request the incoming HttpServletRequest
 	 * @return the URL that will be used in the form's action attribute and also in hyperlinks
@@ -314,10 +314,9 @@ public class HttpServletHelper extends AbstractContainerHelper {
 	}
 
 	/**
-	 * Get the base url that corresponds to this request. For instance, if the web application is
-	 * mounted in the web context "evisas" on the server "localhost", and the request is for the URL
-	 * "http://localhost/evisas/some/thing/page", then the returned base url will be
-	 * "http://localhost/evisas".
+	 * Get the base url that corresponds to this request. For instance, if the web application is mounted in the web
+	 * context "evisas" on the server "localhost", and the request is for the URL
+	 * "http://localhost/evisas/some/thing/page", then the returned base url will be "http://localhost/evisas".
 	 *
 	 * @param request the incoming request
 	 * @return the base url for the web application.
@@ -389,7 +388,8 @@ public class HttpServletHelper extends AbstractContainerHelper {
 		 * @param baseUrl the base url
 		 * @param userAgent the user agent string
 		 */
-		public HttpServletEnvironment(final String postPath, final String baseUrl, final String userAgent) {
+		public HttpServletEnvironment(final String postPath, final String baseUrl,
+				final String userAgent) {
 			this(postPath, baseUrl, new UserAgentInfo(userAgent));
 			LOG.debug("user-agent: " + userAgent);
 		}
@@ -399,7 +399,8 @@ public class HttpServletHelper extends AbstractContainerHelper {
 		 * @param baseUrl the base url
 		 * @param userAgentInfo the user agent info
 		 */
-		public HttpServletEnvironment(final String postPath, final String baseUrl, final UserAgentInfo userAgentInfo) {
+		public HttpServletEnvironment(final String postPath, final String baseUrl,
+				final UserAgentInfo userAgentInfo) {
 			setPostPath(postPath);
 			setBaseUrl(baseUrl);
 			setUserAgentInfo(userAgentInfo);

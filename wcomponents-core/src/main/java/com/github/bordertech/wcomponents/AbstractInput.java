@@ -55,9 +55,9 @@ public abstract class AbstractInput extends WBeanComponent implements Input {
 	}
 
 	/**
-	 * Override WComponent's validatorComponent in order to use the validators which have been added
-	 * to this input field. Subclasses may still override this method, but it is suggested to call
-	 * super.validateComponent to ensure that the validators are still used.
+	 * Override WComponent's validatorComponent in order to use the validators which have been added to this input
+	 * field. Subclasses may still override this method, but it is suggested to call super.validateComponent to ensure
+	 * that the validators are still used.
 	 *
 	 * @param diags the list into which any validation diagnostics are added.
 	 */
@@ -80,12 +80,12 @@ public abstract class AbstractInput extends WBeanComponent implements Input {
 
 	/**
 	 * <p>
-	 * This method is called by validateComponent to create the mandatory diagnostic error message
-	 * if the mandatory validation check does not pass.
+	 * This method is called by validateComponent to create the mandatory diagnostic error message if the mandatory
+	 * validation check does not pass.
 	 * </p>
 	 * <p>
-	 * Subclasses may override this method to customise the message, however in most cases it is
-	 * easier to supply a custom error message pattern to the setMandatory method.
+	 * Subclasses may override this method to customise the message, however in most cases it is easier to supply a
+	 * custom error message pattern to the setMandatory method.
 	 * </p>
 	 *
 	 * @return a new diagnostic for when mandatory validation fails.
@@ -228,13 +228,13 @@ public abstract class AbstractInput extends WBeanComponent implements Input {
 	/**
 	 * Override handleRequest in order to perform consistent processing for input components.
 	 * <p>
-	 * To protect against client-side tampering of the request, disabled/readonly input fields will
-	 * not have their handle request processing performed.
+	 * To protect against client-side tampering of the request, disabled/readonly input fields will not have their
+	 * handle request processing performed.
 	 * </p>
 	 * <p>
-	 * This method will call {@link #doHandleRequest(Request)} for input components to process the
-	 * request. If the input component has changed, then this method will call
-	 * {@link #doHandleChanged()} and set the {@link #isChangedInLastRequest()} flag.
+	 * This method will call {@link #doHandleRequest(Request)} for input components to process the request. If the input
+	 * component has changed, then this method will call {@link #doHandleChanged()} and set the
+	 * {@link #isChangedInLastRequest()} flag.
 	 * </p>
 	 *
 	 * @param request the request being responded to.
@@ -282,8 +282,8 @@ public abstract class AbstractInput extends WBeanComponent implements Input {
 	/**
 	 * Specific handle request processing for an input component is provided here.
 	 * <p>
-	 * Input components are required to determine if the component has changed in the request, set
-	 * the component data to the new value (if changed) and return the changed flag.
+	 * Input components are required to determine if the component has changed in the request, set the component data to
+	 * the new value (if changed) and return the changed flag.
 	 * </p>
 	 *
 	 * @param request the request being responded to.
@@ -376,8 +376,7 @@ public abstract class AbstractInput extends WBeanComponent implements Input {
 	// ================================
 	// Submit On Change
 	/**
-	 * Setting this flag to true will cause this component to post the form to the server when it
-	 * changes.
+	 * Setting this flag to true will cause this component to post the form to the server when it changes.
 	 *
 	 * @param flag if true, the form is submitted when the component changes.
 	 */

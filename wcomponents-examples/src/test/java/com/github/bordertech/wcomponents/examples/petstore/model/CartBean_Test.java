@@ -22,7 +22,8 @@ public class CartBean_Test {
 		CartBean bean = new CartBean();
 
 		Assert.assertEquals("count should be default value", testCountInit, bean.getCount());
-		Assert.assertEquals("productId should be default value", testProductIdInit, bean.getProductId());
+		Assert.assertEquals("productId should be default value", testProductIdInit, bean.
+				getProductId());
 	}
 
 	/**
@@ -93,6 +94,7 @@ public class CartBean_Test {
 		// one dog at $10.00 each - or 10000 cents in total
 		int expectedSubTotal = 10000;
 
-		Assert.assertEquals("should return subtotal for testCount number of testProductId item", expectedSubTotal, subTotal);
+		Assert.assertEquals("should return subtotal for testCount number of testProductId item",
+				expectedSubTotal, subTotal);
 	}
 }

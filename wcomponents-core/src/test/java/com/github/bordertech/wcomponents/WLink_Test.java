@@ -88,7 +88,8 @@ public class WLink_Test extends AbstractWComponentTestCase {
 		Assert.assertEquals("Incorrect url", TEST_URL, link.getUrl());
 
 		WindowAttributes attributes = link.getWindowAttrs();
-		Assert.assertEquals("incorrect attribute windowName", TEST_WINDOW_NAME, attributes.getWindowName());
+		Assert.assertEquals("incorrect attribute windowName", TEST_WINDOW_NAME, attributes.
+				getWindowName());
 		Assert.assertEquals("incorrect attribute width", width, attributes.getWidth());
 		Assert.assertEquals("incorrect attribute height", height, attributes.getHeight());
 		Assert.assertTrue("incorrect attribute resizable", attributes.isResizable());
@@ -135,8 +136,10 @@ public class WLink_Test extends AbstractWComponentTestCase {
 		link.setLocked(true);
 		setActiveContext(createUIContext());
 		link.setText(text);
-		Assert.assertFalse("Link should not be in default state with session text is set", link.isDefaultState());
-		Assert.assertEquals("Session text should be returend for modified session", text, link.getText());
+		Assert.assertFalse("Link should not be in default state with session text is set", link.
+				isDefaultState());
+		Assert.assertEquals("Session text should be returend for modified session", text, link.
+				getText());
 
 		resetContext();
 		Assert.assertSame("Shared text should not have changed", sharedText, link.getText());
@@ -152,8 +155,10 @@ public class WLink_Test extends AbstractWComponentTestCase {
 		link.setLocked(true);
 		setActiveContext(createUIContext());
 		link.setUrl(url);
-		Assert.assertFalse("Link should not be in default state with session url is set", link.isDefaultState());
-		Assert.assertEquals("Session url should be returend for modified session", url, link.getUrl());
+		Assert.assertFalse("Link should not be in default state with session url is set", link.
+				isDefaultState());
+		Assert.assertEquals("Session url should be returend for modified session", url, link.
+				getUrl());
 
 		resetContext();
 		Assert.assertSame("Shared url should not have changed", sharedUrl, link.getUrl());
@@ -177,7 +182,8 @@ public class WLink_Test extends AbstractWComponentTestCase {
 		link.setLocked(true);
 		setActiveContext(createUIContext());
 		link.setDisabled(true);
-		Assert.assertFalse("Link should not be in default state with session disabled flag is set", link.isDefaultState());
+		Assert.assertFalse("Link should not be in default state with session disabled flag is set",
+				link.isDefaultState());
 		Assert.assertTrue("Should be disabled for modified session", link.isDisabled());
 
 		resetContext();
@@ -213,10 +219,12 @@ public class WLink_Test extends AbstractWComponentTestCase {
 		Assert.assertFalse("Should render as link by default", link.isRenderAsButton());
 
 		link.setRenderAsButton(true);
-		Assert.assertTrue("Should render as button after setRenderAsButton(true)", link.isRenderAsButton());
+		Assert.assertTrue("Should render as button after setRenderAsButton(true)", link.
+				isRenderAsButton());
 
 		link.setRenderAsButton(false);
-		Assert.assertFalse("Should render as link after setRenderAsButton(false)", link.isRenderAsButton());
+		Assert.assertFalse("Should render as link after setRenderAsButton(false)", link.
+				isRenderAsButton());
 	}
 
 	@Test
@@ -228,10 +236,12 @@ public class WLink_Test extends AbstractWComponentTestCase {
 		setActiveContext(createUIContext());
 		link.setTargetWindowName(TEST_WINDOW_NAME2);
 
-		Assert.assertEquals("TargetWindowName should be changed for uic2", TEST_WINDOW_NAME2, link.getTargetWindowName());
+		Assert.assertEquals("TargetWindowName should be changed for uic2", TEST_WINDOW_NAME2, link.
+				getTargetWindowName());
 
 		resetContext();
-		Assert.assertEquals("TargetWindowName should be unchanged for shared", TEST_WINDOW_NAME, link.getTargetWindowName());
+		Assert.assertEquals("TargetWindowName should be unchanged for shared", TEST_WINDOW_NAME,
+				link.getTargetWindowName());
 	}
 
 	@Test
@@ -256,7 +266,8 @@ public class WLink_Test extends AbstractWComponentTestCase {
 
 		setActiveContext(createUIContext());
 		link.setImage(image);
-		Assert.assertSame("Uic 1 image position should be returned for uic 1", image, link.getImage());
+		Assert.assertSame("Uic 1 image position should be returned for uic 1", image, link.
+				getImage());
 		Assert.assertFalse("Image should not be in default state for uic1", link.isDefaultState());
 
 		resetContext();
@@ -271,7 +282,8 @@ public class WLink_Test extends AbstractWComponentTestCase {
 
 		setActiveContext(createUIContext());
 		link.setImageUrl(imageUrl);
-		Assert.assertEquals("Uic 1 image url should be returned for uic 1", imageUrl, link.getImageUrl());
+		Assert.assertEquals("Uic 1 image url should be returned for uic 1", imageUrl, link.
+				getImageUrl());
 		Assert.assertFalse("Button should not be in default state for uic1", link.isDefaultState());
 
 		resetContext();
@@ -285,7 +297,8 @@ public class WLink_Test extends AbstractWComponentTestCase {
 
 		setActiveContext(createUIContext());
 		link.setImagePosition(WLink.ImagePosition.EAST);
-		Assert.assertEquals("Uic 1 image position should be returned for uic 1", WLink.ImagePosition.EAST,
+		Assert.assertEquals("Uic 1 image position should be returned for uic 1",
+				WLink.ImagePosition.EAST,
 				link.getImagePosition());
 		Assert.assertFalse("Button should not be in default state for uic1", link.isDefaultState());
 
@@ -312,8 +325,10 @@ public class WLink_Test extends AbstractWComponentTestCase {
 		Assert.assertEquals("Incorrect action returned", action, link.getAction());
 		Assert.assertNotNull("Action targets should not be null", link.getActionTargets());
 		Assert.assertEquals("Incorrect action targets returned", 2, link.getActionTargets().length);
-		Assert.assertEquals("Incorrect action target returned for target1", target1, link.getActionTargets()[0]);
-		Assert.assertEquals("Incorrect action target returned for target2", target2, link.getActionTargets()[1]);
+		Assert.assertEquals("Incorrect action target returned for target1", target1, link.
+				getActionTargets()[0]);
+		Assert.assertEquals("Incorrect action target returned for target2", target2, link.
+				getActionTargets()[1]);
 	}
 
 	@Test
@@ -339,7 +354,8 @@ public class WLink_Test extends AbstractWComponentTestCase {
 			Assert.assertFalse("Action should not have triggered", action.wasTriggered());
 
 			// Setup AJAX Operation trigger by the link
-			AjaxHelper.setCurrentOperationDetails(new AjaxOperation(link.getId(), link.getId()), null);
+			AjaxHelper.setCurrentOperationDetails(new AjaxOperation(link.getId(), link.getId()),
+					null);
 
 			// Request with link pressed (via AJAX operation)
 			link.serviceRequest(request);
@@ -349,7 +365,8 @@ public class WLink_Test extends AbstractWComponentTestCase {
 			action.reset();
 			link.setDisabled(true);
 			link.serviceRequest(request);
-			Assert.assertFalse("Action should not have triggered when disabled", action.wasTriggered());
+			Assert.assertFalse("Action should not have triggered when disabled", action.
+					wasTriggered());
 		} finally {
 			// Clear AJAX operation
 			AjaxHelper.clearCurrentOperationDetails();

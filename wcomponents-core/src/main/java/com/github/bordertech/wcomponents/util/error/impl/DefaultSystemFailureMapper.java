@@ -22,8 +22,7 @@ public class DefaultSystemFailureMapper implements SystemFailureMapper {
 	 * This method converts a java Throwable into a "user friendly" error message.
 	 *
 	 * @param throwable the Throwable to convert
-	 * @return A {@link Message} containing the hard coded description "The system is currently
-	 * unavailable."
+	 * @return A {@link Message} containing the hard coded description "The system is currently unavailable."
 	 */
 	@Override
 	public Message toMessage(final Throwable throwable) {

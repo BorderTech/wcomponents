@@ -57,8 +57,8 @@ public class UIContextImpl_Test extends AbstractWComponentTestCase {
 	}
 
 	/**
-	 * TestSumRunner - sums the first 'count' positive integers. This extends Thread - but is run as
-	 * a jUnit test case not in a webApp.
+	 * TestSumRunner - sums the first 'count' positive integers. This extends Thread - but is run as a jUnit test case
+	 * not in a webApp.
 	 */
 	private static final class TestSumRunner implements Runnable {
 
@@ -120,16 +120,22 @@ public class UIContextImpl_Test extends AbstractWComponentTestCase {
 		uic.setModel(component, model);
 		uic.setModel(component2, model2);
 
-		Assert.assertEquals("Incorrect number of components returned", 2, uic.getComponents().size());
-		Assert.assertTrue("Component is not in the user context", uic.getComponents().contains(component));
-		Assert.assertTrue("Component2 is not in the user context", uic.getComponents().contains(component2));
+		Assert.
+				assertEquals("Incorrect number of components returned", 2, uic.getComponents().
+						size());
+		Assert.assertTrue("Component is not in the user context", uic.getComponents().contains(
+				component));
+		Assert.assertTrue("Component2 is not in the user context", uic.getComponents().contains(
+				component2));
 	}
 
 	@Test
 	public void testEnvironmentAccessors() {
 		UIContext uic = createUIContext();
-		Assert.assertTrue("User Context should have a dummy environment by default", uic.isDummyEnvironment());
-		Assert.assertNotNull("User context should return an environment by default", uic.getEnvironment());
+		Assert.assertTrue("User Context should have a dummy environment by default", uic.
+				isDummyEnvironment());
+		Assert.assertNotNull("User context should return an environment by default", uic.
+				getEnvironment());
 
 		Environment environment = new AbstractEnvironment() {
 		};
@@ -151,7 +157,8 @@ public class UIContextImpl_Test extends AbstractWComponentTestCase {
 		UIContext uic2 = createUIContext();
 		uic2.setUI(component);
 		uic.setFocussed(component, uic2);
-		Assert.assertEquals("Incorrect focussed component returned with a different context", component, uic.getFocussed());
+		Assert.assertEquals("Incorrect focussed component returned with a different context",
+				component, uic.getFocussed());
 	}
 
 	@Test
@@ -164,12 +171,14 @@ public class UIContextImpl_Test extends AbstractWComponentTestCase {
 
 		setActiveContext(uic);
 
-		Assert.assertEquals("Incorrect focussed component id returned", component.getId(), uic.getFocussedId());
+		Assert.assertEquals("Incorrect focussed component id returned", component.getId(), uic.
+				getFocussedId());
 
 		UIContext uic2 = createUIContext();
 		uic2.setUI(component);
 		uic.setFocussed(component, uic2);
-		Assert.assertEquals("Incorrect focussed component id returned with a different context", component.getId(), uic.getFocussedId());
+		Assert.assertEquals("Incorrect focussed component id returned with a different context",
+				component.getId(), uic.getFocussedId());
 	}
 
 	@Test
@@ -191,15 +200,19 @@ public class UIContextImpl_Test extends AbstractWComponentTestCase {
 		WComponent component = new DefaultWComponent();
 		uic.setUI(component);
 		uic.setFocussed(component);
-		Assert.assertEquals("Focussed id not valid before setting to not visible", component.getId(), uic.getFocussedId());
+		Assert.
+				assertEquals("Focussed id not valid before setting to not visible", component.
+						getId(), uic.getFocussedId());
 		component.setVisible(false);
-		Assert.assertNull("Focussed id should be null when component not visible", uic.getFocussedId());
+		Assert.assertNull("Focussed id should be null when component not visible", uic.
+				getFocussedId());
 
 		// Hidden
 		component = new DefaultWComponent();
 		uic.setUI(component);
 		uic.setFocussed(component);
-		Assert.assertEquals("Focussed id not valid before setting to hidden", component.getId(), uic.getFocussedId());
+		Assert.assertEquals("Focussed id not valid before setting to hidden", component.getId(),
+				uic.getFocussedId());
 		setFlag((DefaultWComponent) component, ComponentModel.HIDE_FLAG, true);
 		Assert.assertNull("Focussed id should be null when component hidden", uic.getFocussedId());
 
@@ -207,7 +220,8 @@ public class UIContextImpl_Test extends AbstractWComponentTestCase {
 		component = new DisableableComponent();
 		uic.setUI(component);
 		uic.setFocussed(component);
-		Assert.assertEquals("Focussed id not valid before setting to disabled", component.getId(), uic
+		Assert.assertEquals("Focussed id not valid before setting to disabled", component.getId(),
+				uic
 				.getFocussedId());
 		((Disableable) component).setDisabled(true);
 		Assert.assertNull("Focussed id should be null when component disabled", uic.getFocussedId());
@@ -227,9 +241,11 @@ public class UIContextImpl_Test extends AbstractWComponentTestCase {
 
 		uic.setUI(component);
 		uic.setFocussed(component);
-		Assert.assertEquals("Focussed id not valid before setting to readonly", component.getId(), uic.getFocussedId());
+		Assert.assertEquals("Focussed id not valid before setting to readonly", component.getId(),
+				uic.getFocussedId());
 		((AbstractInput) component).setReadOnly(true);
-		Assert.assertNull("Focussed id should be null when component is readonly", uic.getFocussedId());
+		Assert.assertNull("Focussed id should be null when component is readonly", uic.
+				getFocussedId());
 	}
 
 	@Test
@@ -244,7 +260,8 @@ public class UIContextImpl_Test extends AbstractWComponentTestCase {
 		WComponent component = new DefaultWComponent();
 		parent.add(component);
 		uic.setFocussed(component);
-		Assert.assertEquals("Focussed id not valid before setting parent to not visible", component.getId(), uic.getFocussedId());
+		Assert.assertEquals("Focussed id not valid before setting parent to not visible", component.
+				getId(), uic.getFocussedId());
 		parent.setVisible(false);
 		Assert.assertNull("Focussed id should be null when parent not visible", uic.getFocussedId());
 
@@ -254,7 +271,8 @@ public class UIContextImpl_Test extends AbstractWComponentTestCase {
 		component = new DefaultWComponent();
 		parent.add(component);
 		uic.setFocussed(component);
-		Assert.assertEquals("Focussed id not valid before setting parent to hidden", component.getId(), uic.getFocussedId());
+		Assert.assertEquals("Focussed id not valid before setting parent to hidden", component.
+				getId(), uic.getFocussedId());
 		parent.setHidden(true);
 		Assert.assertNull("Focussed id should be null when parent hidden", uic.getFocussedId());
 
@@ -266,9 +284,12 @@ public class UIContextImpl_Test extends AbstractWComponentTestCase {
 		container.add(component);
 		parent.add(container);
 		uic.setFocussed(component);
-		Assert.assertEquals("Focussed id not valid before setting parent with invisible container to hidden", component.getId(), uic.getFocussedId());
+		Assert.assertEquals(
+				"Focussed id not valid before setting parent with invisible container to hidden",
+				component.getId(), uic.getFocussedId());
 		parent.setHidden(true);
-		Assert.assertNull("Focussed id should be null when parent with invisible container hidden", uic.getFocussedId());
+		Assert.assertNull("Focussed id should be null when parent with invisible container hidden",
+				uic.getFocussedId());
 
 		// Card Manager not visible
 		parent = new WContainer();
@@ -281,10 +302,12 @@ public class UIContextImpl_Test extends AbstractWComponentTestCase {
 		parent.add(manager);
 		manager.makeVisible(component);
 		uic.setFocussed(component);
-		Assert.assertEquals("Focussed id not valid before setting not visible with Card Manager", component.getId(),
+		Assert.assertEquals("Focussed id not valid before setting not visible with Card Manager",
+				component.getId(),
 				uic.getFocussedId());
 		manager.makeVisible(component2);
-		Assert.assertNull("Focussed id should be null when not visible in Card Manager", uic.getFocussedId());
+		Assert.assertNull("Focussed id should be null when not visible in Card Manager", uic.
+				getFocussedId());
 	}
 
 	@Test
@@ -349,7 +372,8 @@ public class UIContextImpl_Test extends AbstractWComponentTestCase {
 		}
 
 		Assert.assertNotNull("Focus ID should not be null", focusId);
-		Assert.assertEquals("Focus ID should be the ID for the component on the 2nd row", rowComponentId, focusId);
+		Assert.assertEquals("Focus ID should be the ID for the component on the 2nd row",
+				rowComponentId, focusId);
 
 		// Make root hidden
 		root.setHidden(true);
@@ -445,7 +469,8 @@ public class UIContextImpl_Test extends AbstractWComponentTestCase {
 		}
 
 		Assert.assertNotNull("Focus ID should not be null", focusId);
-		Assert.assertEquals("Focus ID should be the ID for the component on the 2nd row", rowComponentId, focusId);
+		Assert.assertEquals("Focus ID should be the ID for the component on the 2nd row",
+				rowComponentId, focusId);
 	}
 
 	@Test
@@ -527,7 +552,8 @@ public class UIContextImpl_Test extends AbstractWComponentTestCase {
 		}
 
 		Assert.assertNotNull("Focus ID should not be null", focusId);
-		Assert.assertEquals("Focus ID should be the ID for the component on the 2nd row", rowComponentId, focusId);
+		Assert.assertEquals("Focus ID should be the ID for the component on the 2nd row",
+				rowComponentId, focusId);
 	}
 
 	@Test
@@ -588,10 +614,12 @@ public class UIContextImpl_Test extends AbstractWComponentTestCase {
 		String value = "value";
 
 		uic.setFwkAttribute(key, value);
-		Assert.assertEquals("Incorrect fwk attribute value returned", value, uic.getFwkAttribute(key));
+		Assert.assertEquals("Incorrect fwk attribute value returned", value, uic.
+				getFwkAttribute(key));
 
 		uic.removeFwkAttribute(key);
-		Assert.assertNull("Fwk attribute should be null after being removed", uic.getFwkAttribute(key));
+		Assert.assertNull("Fwk attribute should be null after being removed", uic.getFwkAttribute(
+				key));
 
 		String key2 = "key2";
 		String value2 = "value2";
@@ -599,9 +627,12 @@ public class UIContextImpl_Test extends AbstractWComponentTestCase {
 		uic.setFwkAttribute(key, value);
 		uic.setFwkAttribute(key2, value2);
 
-		Assert.assertEquals("Incorrect number of fwk attributes returned", 2, uic.getFwkAttributeNames().size());
-		Assert.assertTrue("The test key is not in the user context", uic.getFwkAttributeNames().contains(key));
-		Assert.assertTrue("The second test key is not in the user context", uic.getFwkAttributeNames().contains(key2));
+		Assert.assertEquals("Incorrect number of fwk attributes returned", 2, uic.
+				getFwkAttributeNames().size());
+		Assert.assertTrue("The test key is not in the user context", uic.getFwkAttributeNames().
+				contains(key));
+		Assert.assertTrue("The second test key is not in the user context", uic.
+				getFwkAttributeNames().contains(key2));
 	}
 
 	@Test
@@ -617,19 +648,23 @@ public class UIContextImpl_Test extends AbstractWComponentTestCase {
 		String value = "value";
 		uic.getScratchMap(component).put(key, value);
 
-		Assert.assertEquals("Incorrect number of scratch map entries", 1, uic.getScratchMap(component).size());
-		Assert.assertTrue("The test key is not in the scratch map", uic.getScratchMap(component).containsKey(key));
+		Assert.assertEquals("Incorrect number of scratch map entries", 1, uic.getScratchMap(
+				component).size());
+		Assert.assertTrue("The test key is not in the scratch map", uic.getScratchMap(component).
+				containsKey(key));
 
 		// Clear Scratch Map
 		uic.clearScratchMap(component);
-		Assert.assertTrue("Scratch map should be empty after being cleared", uic.getScratchMap(component).isEmpty());
+		Assert.assertTrue("Scratch map should be empty after being cleared", uic.getScratchMap(
+				component).isEmpty());
 
 		// Add item to scratch map
 		uic.getScratchMap(component).put(key, value);
 
 		// Clear ALL Scratch Maps
 		uic.clearScratchMap();
-		Assert.assertTrue("Scratch map should be empty after all scratch maps cleared", uic.getScratchMap(component).isEmpty());
+		Assert.assertTrue("Scratch map should be empty after all scratch maps cleared", uic.
+				getScratchMap(component).isEmpty());
 	}
 
 	@Test
@@ -691,8 +726,7 @@ public class UIContextImpl_Test extends AbstractWComponentTestCase {
 	private static final class MyTable extends WTable {
 
 		/**
-		 * Construct. Package protected constructor so can instanciated by WTable as the expandable
-		 * content.
+		 * Construct. Package protected constructor so can instanciated by WTable as the expandable content.
 		 */
 		MyTable() {
 			setTableModel(new SimpleBeanBoundTableModel(new String[]{"."}));

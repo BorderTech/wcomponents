@@ -4,17 +4,18 @@ import com.github.bordertech.wcomponents.util.SystemException;
 
 /**
  * <p>
- * The WCollapsible component enables a given component to be expanded/collapsed (shown/hidden) via
- * clicking on the collapsible's header section. When a user clicks the heading, the visibility of
- * the collapsible's content is toggled.</p>
+ * The WCollapsible component enables a given component to be expanded/collapsed (shown/hidden) via clicking on the
+ * collapsible's header section. When a user clicks the heading, the visibility of the collapsible's content is
+ * toggled.</p>
  *
  * <p>
- * Various {@link CollapsibleMode modes of operation} are supported, which allow developers to tune
- * performance by only loading content when it is needed.</p>
+ * Various {@link CollapsibleMode modes of operation} are supported, which allow developers to tune performance by only
+ * loading content when it is needed.</p>
  *
  * @author Martin Shevchenko
  */
-public class WCollapsible extends AbstractNamingContextContainer implements AjaxTarget, SubordinateTarget, Marginable {
+public class WCollapsible extends AbstractNamingContextContainer implements AjaxTarget,
+		SubordinateTarget, Marginable {
 
 	/**
 	 * The available types of collapsible mode.
@@ -23,31 +24,31 @@ public class WCollapsible extends AbstractNamingContextContainer implements Ajax
 	 */
 	public static enum CollapsibleMode {
 		/**
-		 * Indicates that expanding/collapsing involves a round-trip to the server. The collapsible
-		 * content will be rendered only when the collapsible is open.
+		 * Indicates that expanding/collapsing involves a round-trip to the server. The collapsible content will be
+		 * rendered only when the collapsible is open.
 		 *
-		 * @deprecated Use CollapsibleMode DYNAMIC instead as a like-for-like replacement or any
-		 * other mode if it is more appropriate to the individual use case.
+		 * @deprecated Use CollapsibleMode DYNAMIC instead as a like-for-like replacement or any other mode if it is
+		 * more appropriate to the individual use case.
 		 */
 		SERVER,
 		/**
-		 * Indicates that expanding/collapsing is performed client-side, using a single AJAX request
-		 * to obtain the content the first time the collapsible is expanded.
+		 * Indicates that expanding/collapsing is performed client-side, using a single AJAX request to obtain the
+		 * content the first time the collapsible is expanded.
 		 */
 		LAZY,
 		/**
-		 * Indicates that expanding/collapsing is handled on the client. The content is always
-		 * rendered, and no additional trips to the server are made.
+		 * Indicates that expanding/collapsing is handled on the client. The content is always rendered, and no
+		 * additional trips to the server are made.
 		 */
 		CLIENT,
 		/**
-		 * Indicates that expanding/collapsing is performed using AJAX requests. A request will be
-		 * made every time the collapsible is expanded.
+		 * Indicates that expanding/collapsing is performed using AJAX requests. A request will be made every time the
+		 * collapsible is expanded.
 		 */
 		DYNAMIC,
 		/**
-		 * Indicates that expanding/collapsing is performed client-side, using a single AJAX request
-		 * to obtain the content immediately after the page loads.
+		 * Indicates that expanding/collapsing is performed client-side, using a single AJAX request to obtain the
+		 * content immediately after the page loads.
 		 */
 		EAGER
 	};
@@ -100,7 +101,8 @@ public class WCollapsible extends AbstractNamingContextContainer implements Ajax
 	 * @param label the collapsible's heading.
 	 * @param mode the mode of the collapsible
 	 */
-	public WCollapsible(final WComponent content, final WDecoratedLabel label, final CollapsibleMode mode) {
+	public WCollapsible(final WComponent content, final WDecoratedLabel label,
+			final CollapsibleMode mode) {
 		this(content, label, mode, null);
 	}
 
@@ -125,7 +127,8 @@ public class WCollapsible extends AbstractNamingContextContainer implements Ajax
 	 * @param mode the mode of the collapsible
 	 * @param group the {@link CollapsibleGroup} that this collapsible belongs to.
 	 */
-	public WCollapsible(final WComponent content, final WDecoratedLabel label, final CollapsibleMode mode,
+	public WCollapsible(final WComponent content, final WDecoratedLabel label,
+			final CollapsibleMode mode,
 			final CollapsibleGroup group) {
 		getComponentModel().mode = mode;
 		this.content = content;
@@ -182,8 +185,7 @@ public class WCollapsible extends AbstractNamingContextContainer implements Ajax
 	/**
 	 * Sets whether the collapsible is collapsed in the given context.
 	 *
-	 * @param collapsed true if the collapsible is to be collapsed for the given user, false if
-	 * expanded.
+	 * @param collapsed true if the collapsible is to be collapsed for the given user, false if expanded.
 	 */
 	public void setCollapsed(final boolean collapsed) {
 		getOrCreateComponentModel().collapsed = collapsed;
@@ -228,8 +230,8 @@ public class WCollapsible extends AbstractNamingContextContainer implements Ajax
 	}
 
 	/**
-	 * The group name that this collapsible component belongs to. If it is not part of a group then
-	 * the name defaults to {@link WComponent#getName()}.
+	 * The group name that this collapsible component belongs to. If it is not part of a group then the name defaults to
+	 * {@link WComponent#getName()}.
 	 *
 	 * @return the collapsible group name
 	 */
@@ -239,8 +241,8 @@ public class WCollapsible extends AbstractNamingContextContainer implements Ajax
 	}
 
 	/**
-	 * Set the {@link CollapsibleGroup} that this component belongs to. This will enable a
-	 * {@link WCollapsibleToggle} component to target the group.
+	 * Set the {@link CollapsibleGroup} that this component belongs to. This will enable a {@link WCollapsibleToggle}
+	 * component to target the group.
 	 *
 	 * @param group the group to set
 	 */
@@ -264,9 +266,8 @@ public class WCollapsible extends AbstractNamingContextContainer implements Ajax
 	}
 
 	/**
-	 * Override handleRequest to perform processing necessary for this component. This is used to
-	 * handle the server-side collapsible mode and to synchronise with the client-side state for the
-	 * other modes.
+	 * Override handleRequest to perform processing necessary for this component. This is used to handle the server-side
+	 * collapsible mode and to synchronise with the client-side state for the other modes.
 	 *
 	 * @param request the request being responded to.
 	 */
@@ -280,8 +281,8 @@ public class WCollapsible extends AbstractNamingContextContainer implements Ajax
 	}
 
 	/**
-	 * Override preparePaintComponent in order to toggle the visibility of the content, or to
-	 * register the appropriate ajax operation.
+	 * Override preparePaintComponent in order to toggle the visibility of the content, or to register the appropriate
+	 * ajax operation.
 	 *
 	 * @param request the request being responded to
 	 */
@@ -294,21 +295,24 @@ public class WCollapsible extends AbstractNamingContextContainer implements Ajax
 				case EAGER: {
 					// Always visible
 					content.setVisible(true);
-					AjaxHelper.registerContainer(getId(), getId() + "-content", content.getId(), request);
+					AjaxHelper.registerContainer(getId(), getId() + "-content", content.getId(),
+							request);
 					break;
 				}
 				case LAZY:
 					content.setVisible(!isCollapsed());
 
 					if (isCollapsed()) {
-						AjaxHelper.registerContainer(getId(), getId() + "-content", content.getId(), request);
+						AjaxHelper.registerContainer(getId(), getId() + "-content", content.getId(),
+								request);
 					}
 
 					break;
 
 				case DYNAMIC: {
 					content.setVisible(!isCollapsed());
-					AjaxHelper.registerContainer(getId(), getId() + "-content", content.getId(), request);
+					AjaxHelper.registerContainer(getId(), getId() + "-content", content.getId(),
+							request);
 					break;
 				}
 				case SERVER: {
@@ -374,8 +378,8 @@ public class WCollapsible extends AbstractNamingContextContainer implements Ajax
 		private boolean collapsed = true;
 
 		/**
-		 * The CollapsibleGroup, primarily used with a {@link #CollapsibleToggle} to toggle a group
-		 * of collapsibles at once.
+		 * The CollapsibleGroup, primarily used with a {@link #CollapsibleToggle} to toggle a group of collapsibles at
+		 * once.
 		 */
 		private CollapsibleGroup group;
 

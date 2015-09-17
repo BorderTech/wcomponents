@@ -13,15 +13,13 @@ import javax.servlet.ServletOutputStream;
 public class MockServletOutputStream extends ServletOutputStream {
 
 	/**
-	 * The backing output stream to write content to, so that it may later be retrieved using
-	 * {@link #getOutput}.
+	 * The backing output stream to write content to, so that it may later be retrieved using {@link #getOutput}.
 	 */
 	private final ByteArrayOutputStream backing = new ByteArrayOutputStream();
 
 	/**
-	 * Writes the specified byte to this output stream. The byte to be written is the eight
-	 * low-order bits of the argument <code>b</code>. The 24 high-order bits of <code>b</code> are
-	 * ignored.
+	 * Writes the specified byte to this output stream. The byte to be written is the eight low-order bits of the
+	 * argument <code>b</code>. The 24 high-order bits of <code>b</code> are ignored.
 	 *
 	 * @param byt the <code>byte</code> to be written.
 	 * @throws IOException if an I/O error occurs.

@@ -28,7 +28,8 @@ public class WLinkRenderer_Test extends AbstractWebXmlRendererTestCase {
 	@Test
 	public void testRendererCorrectlyConfigured() {
 		WLink component = new WLink();
-		Assert.assertTrue("Incorrect renderer supplied", getWebXmlRenderer(component) instanceof WLinkRenderer);
+		Assert.assertTrue("Incorrect renderer supplied",
+				getWebXmlRenderer(component) instanceof WLinkRenderer);
 	}
 
 	@Test
@@ -88,7 +89,8 @@ public class WLinkRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo(IMAGE_URL, "//ui:link/@imageUrl", link);
 		assertXpathEvaluatesTo("button", "//ui:link/@type", link);
 		assertXpathEvaluatesTo("e", "//ui:link/@imagePosition", link);
-		assertXpathEvaluatesTo(link.getTargetWindowName(), "//ui:link/ui:windowAttributes/@name", link);
+		assertXpathEvaluatesTo(link.getTargetWindowName(), "//ui:link/ui:windowAttributes/@name",
+				link);
 	}
 
 	@Test
@@ -195,8 +197,10 @@ public class WLinkRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertSchemaMatch(root);
 		assertXpathEvaluatesTo(link.getId(), "//ui:ajaxTrigger/@triggerId", root);
 		assertXpathEvaluatesTo("2", "count(//ui:ajaxTrigger/ui:ajaxTargetId)", root);
-		assertXpathEvaluatesTo(target1.getId(), "//ui:ajaxTrigger/ui:ajaxTargetId[1]/@targetId", root);
-		assertXpathEvaluatesTo(target2.getId(), "//ui:ajaxTrigger/ui:ajaxTargetId[2]/@targetId", root);
+		assertXpathEvaluatesTo(target1.getId(), "//ui:ajaxTrigger/ui:ajaxTargetId[1]/@targetId",
+				root);
+		assertXpathEvaluatesTo(target2.getId(), "//ui:ajaxTrigger/ui:ajaxTargetId[2]/@targetId",
+				root);
 	}
 
 }

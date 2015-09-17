@@ -1,8 +1,5 @@
 package com.github.bordertech.wcomponents.examples.subordinate;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.github.bordertech.wcomponents.Input;
 import com.github.bordertech.wcomponents.SubordinateTarget;
 import com.github.bordertech.wcomponents.WCheckBox;
@@ -14,6 +11,7 @@ import com.github.bordertech.wcomponents.WField;
 import com.github.bordertech.wcomponents.WFieldLayout;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WTextField;
+import com.github.bordertech.wcomponents.examples.validation.ValidationContainer;
 import com.github.bordertech.wcomponents.subordinate.And;
 import com.github.bordertech.wcomponents.subordinate.Condition;
 import com.github.bordertech.wcomponents.subordinate.Equal;
@@ -23,22 +21,21 @@ import com.github.bordertech.wcomponents.subordinate.Show;
 import com.github.bordertech.wcomponents.subordinate.ShowInGroup;
 import com.github.bordertech.wcomponents.subordinate.WSubordinateControl;
 import com.github.bordertech.wcomponents.validator.RegExFieldValidator;
-
-import com.github.bordertech.wcomponents.examples.validation.ValidationContainer;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * <p>
  * This example demonstrates use of the SubordinateControl.</p>
  *
  * <p>
- * This example scenario involves a component (CardSelector) that enables a user to enter a card
- * type, where there are many different types of card types with different validations. When the
- * user switches between types, the input field should update to match.</p>
+ * This example scenario involves a component (CardSelector) that enables a user to enter a card type, where there are
+ * many different types of card types with different validations. When the user switches between types, the input field
+ * should update to match.</p>
  *
  * <p>
- * There are 2 instances of this CardSelector, the first one is configured to use server side
- * features to switch between card types, the second one is configured to use client side
- * switching.</p>
+ * There are 2 instances of this CardSelector, the first one is configured to use server side features to switch between
+ * card types, the second one is configured to use client side switching.</p>
  *
  * @author Martin Shevchenko
  * @since 15/12/2008
@@ -147,7 +144,8 @@ public class SubordinateControlExample extends ValidationContainer {
 			cvcInputField.setMaxLength(3);
 			cvcInputField.setMinLength(3);
 			cvcInputField.setMandatory(true);
-			cvcInputField.addValidator(new RegExFieldValidator("^[0-9]*$", "{0} must only contain numeric characters."));
+			cvcInputField.addValidator(new RegExFieldValidator("^[0-9]*$",
+					"{0} must only contain numeric characters."));
 
 			WField extraField = layout.addField("CVC", cvcInputField);
 
@@ -235,8 +233,8 @@ public class SubordinateControlExample extends ValidationContainer {
 
 	//=========================================================================
 	/**
-	 * A Text field extension for entering an Visa Card number, which ensures that the Card Number
-	 * is in the correct format.
+	 * A Text field extension for entering an Visa Card number, which ensures that the Card Number is in the correct
+	 * format.
 	 */
 	public static class VisaCardField extends WTextField {
 
@@ -248,13 +246,13 @@ public class SubordinateControlExample extends ValidationContainer {
 			this.setColumns(10);
 			this.setMaxLength(10);
 			this.setMinLength(10);
-			this.addValidator(new RegExFieldValidator("^[0-9]*$", "{0} must only contain numeric characters."));
+			this.addValidator(new RegExFieldValidator("^[0-9]*$",
+					"{0} must only contain numeric characters."));
 		}
 	}
 
 	/**
-	 * A Number field extension for entering a MasterCard, which ensures that the CardType is in the
-	 * correct format.
+	 * A Number field extension for entering a MasterCard, which ensures that the CardType is in the correct format.
 	 */
 	public static class MasterCardField extends WTextField {
 
@@ -266,7 +264,8 @@ public class SubordinateControlExample extends ValidationContainer {
 			this.setColumns(8);
 			this.setMaxLength(8);
 			this.setMinLength(8);
-			this.addValidator(new RegExFieldValidator("^[0-9]*$", "{0} must only contain numeric characters."));
+			this.addValidator(new RegExFieldValidator("^[0-9]*$",
+					"{0} must only contain numeric characters."));
 
 		}
 	}
@@ -283,7 +282,8 @@ public class SubordinateControlExample extends ValidationContainer {
 			this.setMandatory(true);
 			this.setColumns(12);
 			this.setMaxLength(12);
-			this.addValidator(new RegExFieldValidator("^[0-9]*$", "{0} must only contain numeric characters."));
+			this.addValidator(new RegExFieldValidator("^[0-9]*$",
+					"{0} must only contain numeric characters."));
 		}
 	}
 }

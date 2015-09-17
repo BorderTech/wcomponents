@@ -20,8 +20,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * An example showing use of a {@link WCancelButton} with unsaved changes being flagged both by the
- * client and server.
+ * An example showing use of a {@link WCancelButton} with unsaved changes being flagged both by the client and server.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -90,7 +89,8 @@ public class WCancelButtonExample extends WPanel implements MessageContainer {
 		add(buttonPanel);
 
 		add(new WHeading(WHeading.MAJOR, "Testing example for Internet Explorer"));
-		add(new ExplanatoryText("Internet Explorer (up to and including IE11) honours clicks on disabled buttons and causes the event handlers to be called."
+		add(new ExplanatoryText(
+				"Internet Explorer (up to and including IE11) honours clicks on disabled buttons and causes the event handlers to be called."
 				+ " This example is only used to check that we are correctly handling these click on disabled buttons. To undertake the test enter some text"
 				+ " into any field on this screen then click the disabled 'IE Test Cancel' button below. You should not see the unsaved changes warning."));
 

@@ -40,12 +40,14 @@ public class WMultiFileWidget_Test extends AbstractWComponentTestCase {
 	/**
 	 * File item wrap for file item 1.
 	 */
-	private static final FileWidgetUpload TEST_FILE_ITEM_WRAP1 = new FileWidgetUpload("1", new FileItemWrap(TEST_FILE_ITEM1));
+	private static final FileWidgetUpload TEST_FILE_ITEM_WRAP1 = new FileWidgetUpload("1",
+			new FileItemWrap(TEST_FILE_ITEM1));
 
 	/**
 	 * File item wrap for file item 2.
 	 */
-	private static final FileWidgetUpload TEST_FILE_ITEM_WRAP2 = new FileWidgetUpload("2", new FileItemWrap(TEST_FILE_ITEM2));
+	private static final FileWidgetUpload TEST_FILE_ITEM_WRAP2 = new FileWidgetUpload("2",
+			new FileItemWrap(TEST_FILE_ITEM2));
 
 	/**
 	 * Selected Item 1.
@@ -55,7 +57,8 @@ public class WMultiFileWidget_Test extends AbstractWComponentTestCase {
 	/**
 	 * Selected Item 1 and Item 2.
 	 */
-	private static final List<FileWidgetUpload> UPLOADED_1_2 = Arrays.asList(TEST_FILE_ITEM_WRAP1, TEST_FILE_ITEM_WRAP2);
+	private static final List<FileWidgetUpload> UPLOADED_1_2 = Arrays.asList(TEST_FILE_ITEM_WRAP1,
+			TEST_FILE_ITEM_WRAP2);
 
 	@Test
 	public void testGetValueAsString() {
@@ -73,7 +76,8 @@ public class WMultiFileWidget_Test extends AbstractWComponentTestCase {
 
 		// Upload file1, file2
 		widget.setData(UPLOADED_1_2);
-		Assert.assertEquals("Value as String should be Item1, Item2", "name=" + TEST_FILE_ITEM1.getName() + ", "
+		Assert.assertEquals("Value as String should be Item1, Item2", "name=" + TEST_FILE_ITEM1.
+				getName() + ", "
 				+ "name=" + TEST_FILE_ITEM2.getName(),
 				widget.getValueAsString());
 	}
@@ -89,7 +93,8 @@ public class WMultiFileWidget_Test extends AbstractWComponentTestCase {
 
 		// Set file1, file2 as uploaded
 		widget.setData(UPLOADED_1_2);
-		Assert.assertEquals("Value should be list containing Item1, Item2", UPLOADED_1_2, widget.getValue());
+		Assert.assertEquals("Value should be list containing Item1, Item2", UPLOADED_1_2, widget.
+				getValue());
 	}
 
 	@Test
@@ -103,7 +108,8 @@ public class WMultiFileWidget_Test extends AbstractWComponentTestCase {
 
 		// Set file1, file2 as uploaded
 		widget.setData(UPLOADED_1_2);
-		Assert.assertEquals("Files should be list containing Item1, Item2", UPLOADED_1_2, widget.getFiles());
+		Assert.assertEquals("Files should be list containing Item1, Item2", UPLOADED_1_2, widget.
+				getFiles());
 	}
 
 	@Test
@@ -118,7 +124,8 @@ public class WMultiFileWidget_Test extends AbstractWComponentTestCase {
 
 		// Set file1, file2 as uploaded
 		widget.setData(UPLOADED_1_2);
-		Assert.assertEquals("File2 should be returned for index 1", TEST_FILE_ITEM_WRAP2, widget.getFile("2"));
+		Assert.assertEquals("File2 should be returned for index 1", TEST_FILE_ITEM_WRAP2, widget.
+				getFile("2"));
 	}
 
 	@Test
@@ -151,7 +158,8 @@ public class WMultiFileWidget_Test extends AbstractWComponentTestCase {
 		WMultiFileWidget widget = new WMultiFileWidget();
 		widget.setFileTypes(types1);
 
-		Assert.assertTrue("Incorrect file types returned", CollectionUtils.isEqualCollection(Arrays.asList(types1), widget.getFileTypes()));
+		Assert.assertTrue("Incorrect file types returned", CollectionUtils.isEqualCollection(Arrays.
+				asList(types1), widget.getFileTypes()));
 	}
 
 	@Test
@@ -165,7 +173,8 @@ public class WMultiFileWidget_Test extends AbstractWComponentTestCase {
 		WMultiFileWidget widget = new WMultiFileWidget();
 		widget.setFileTypes(types1);
 
-		Assert.assertTrue("Incorrect file types returned", CollectionUtils.isEqualCollection(types1, widget.getFileTypes()));
+		Assert.assertTrue("Incorrect file types returned", CollectionUtils.isEqualCollection(types1,
+				widget.getFileTypes()));
 	}
 
 	@Test
@@ -179,7 +188,8 @@ public class WMultiFileWidget_Test extends AbstractWComponentTestCase {
 		WMultiFileWidget widget = new WMultiFileWidget();
 		widget.setFileTypes(types1);
 
-		Assert.assertTrue("Incorrect file types returned", CollectionUtils.isEqualCollection(types1, widget.getFileTypes()));
+		Assert.assertTrue("Incorrect file types returned", CollectionUtils.isEqualCollection(types1,
+				widget.getFileTypes()));
 	}
 
 	@Test
@@ -197,7 +207,8 @@ public class WMultiFileWidget_Test extends AbstractWComponentTestCase {
 		WMultiFileWidget widget = new WMultiFileWidget();
 		widget.setFileTypes(types1);
 
-		Assert.assertTrue("Duplicate file types should not be honored", CollectionUtils.isEqualCollection(expected, widget.getFileTypes()));
+		Assert.assertTrue("Duplicate file types should not be honored", CollectionUtils.
+				isEqualCollection(expected, widget.getFileTypes()));
 	}
 
 	@Test
@@ -216,7 +227,8 @@ public class WMultiFileWidget_Test extends AbstractWComponentTestCase {
 		types1.add("text/javascript");
 		types1.add(".doc");
 
-		Assert.assertTrue("Modifiying the list after calling 'set' should not update state", CollectionUtils.isEqualCollection(expected, widget.getFileTypes()));
+		Assert.assertTrue("Modifiying the list after calling 'set' should not update state",
+				CollectionUtils.isEqualCollection(expected, widget.getFileTypes()));
 	}
 
 	@Test
@@ -234,7 +246,8 @@ public class WMultiFileWidget_Test extends AbstractWComponentTestCase {
 		widget.setFileTypes(types1);
 		widget.setFileTypes(types2);  // this should not ADD to the existing acceepted file types, it should replace it
 
-		Assert.assertTrue("Calling set multiple times should not be additive", CollectionUtils.isEqualCollection(types2, widget.getFileTypes()));
+		Assert.assertTrue("Calling set multiple times should not be additive", CollectionUtils.
+				isEqualCollection(types2, widget.getFileTypes()));
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -265,7 +278,8 @@ public class WMultiFileWidget_Test extends AbstractWComponentTestCase {
 		} catch (IllegalArgumentException ignore) {
 			// ignore
 		}
-		Assert.assertTrue("Calling set with an invalid file type does not modify the widget", CollectionUtils.isEqualCollection(expected, widget.getFileTypes()));
+		Assert.assertTrue("Calling set with an invalid file type does not modify the widget",
+				CollectionUtils.isEqualCollection(expected, widget.getFileTypes()));
 	}
 
 	@Test
@@ -276,7 +290,8 @@ public class WMultiFileWidget_Test extends AbstractWComponentTestCase {
 
 		// Set null array
 		widget.setFileTypes((String[]) null);
-		Assert.assertEquals("File types should be empty when set to null array", Collections.EMPTY_LIST,
+		Assert.assertEquals("File types should be empty when set to null array",
+				Collections.EMPTY_LIST,
 				widget.getFileTypes());
 
 		// Set types on widget
@@ -284,7 +299,8 @@ public class WMultiFileWidget_Test extends AbstractWComponentTestCase {
 
 		// Set as null list
 		widget.setFileTypes((List<String>) null);
-		Assert.assertEquals("File types should be empty when set to null list", Collections.EMPTY_LIST,
+		Assert.assertEquals("File types should be empty when set to null list",
+				Collections.EMPTY_LIST,
 				widget.getFileTypes());
 
 		// Set types on widget
@@ -292,13 +308,15 @@ public class WMultiFileWidget_Test extends AbstractWComponentTestCase {
 
 		// Set as empty list
 		widget.setFileTypes(new ArrayList<String>());
-		Assert.assertEquals("File types should be empty when set to empty list", Collections.EMPTY_LIST,
+		Assert.assertEquals("File types should be empty when set to empty list",
+				Collections.EMPTY_LIST,
 				widget.getFileTypes());
 	}
 
 	@Test
 	public void testMaxFileSizeAccessors() {
-		assertAccessorsCorrect(new WMultiFileWidget(), "maxFileSize", (long) 10240000, (long) 1, (long) 2);
+		assertAccessorsCorrect(new WMultiFileWidget(), "maxFileSize", (long) 10240000, (long) 1,
+				(long) 2);
 	}
 
 	@Test
@@ -503,7 +521,8 @@ public class WMultiFileWidget_Test extends AbstractWComponentTestCase {
 	 * @param fileItem the file item to include on the request
 	 * @return a request containing the file item for the widget
 	 */
-	private static FileUploadMockRequest setupFileUploadRequest(final WMultiFileWidget widget, final FileItem fileItem) {
+	private static FileUploadMockRequest setupFileUploadRequest(final WMultiFileWidget widget,
+			final FileItem fileItem) {
 		fileItem.setFieldName(widget.getId());
 
 		final FileUploadMockRequest request = new FileUploadMockRequest();
@@ -517,7 +536,8 @@ public class WMultiFileWidget_Test extends AbstractWComponentTestCase {
 	 * @param fileItems the file items to include on the request
 	 * @return a request containing the file item for the widget
 	 */
-	private static FileUploadMockRequest setupFileUploadRequest(final WMultiFileWidget widget, final FileItem[] fileItems) {
+	private static FileUploadMockRequest setupFileUploadRequest(final WMultiFileWidget widget,
+			final FileItem[] fileItems) {
 		final FileUploadMockRequest request = new FileUploadMockRequest();
 		for (FileItem fileItem : fileItems) {
 			fileItem.setFieldName(widget.getId());

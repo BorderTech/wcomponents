@@ -41,15 +41,20 @@ public final class WAbbrTextExample extends WContainer {
 		WAbbrText at1 = new WAbbrText("App Id", "Identification number of the visa application");
 		add(at1);
 
-		add(new WHeading(WHeading.SECTION, "Abreviation created from lookup tables using the code as the text"));
-		crtIcaoPanel.setLayout(new ListLayout(ListLayout.Type.STACKED, ListLayout.Alignment.LEFT, ListLayout.Separator.DOT, false));
+		add(new WHeading(WHeading.SECTION,
+				"Abreviation created from lookup tables using the code as the text"));
+		crtIcaoPanel.setLayout(new ListLayout(ListLayout.Type.STACKED, ListLayout.Alignment.LEFT,
+				ListLayout.Separator.DOT, false));
 		add(crtIcaoPanel);
 
-		add(new WHeading(WHeading.SECTION, "Abreviation created from lookup tables using the description as the text"));
-		final WStyledText info = new WStyledText("This example shows the dangers of doing code-set conversion and confusing the code and description. Obviously the abbreviation here is NOT the abbreviation we want. We would normally expect the reverse as in the example above.");
+		add(new WHeading(WHeading.SECTION,
+				"Abreviation created from lookup tables using the description as the text"));
+		final WStyledText info = new WStyledText(
+				"This example shows the dangers of doing code-set conversion and confusing the code and description. Obviously the abbreviation here is NOT the abbreviation we want. We would normally expect the reverse as in the example above.");
 		add(info);
 		info.setWhitespaceMode(WStyledText.WhitespaceMode.PARAGRAPHS);
-		crtSexPanel.setLayout(new ListLayout(ListLayout.Type.STACKED, ListLayout.Alignment.LEFT, ListLayout.Separator.DOT, false));
+		crtSexPanel.setLayout(new ListLayout(ListLayout.Type.STACKED, ListLayout.Alignment.LEFT,
+				ListLayout.Separator.DOT, false));
 		add(crtSexPanel);
 	}
 

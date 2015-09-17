@@ -71,7 +71,8 @@ public class BasicFields extends WContainer {
 			@Override
 			public void execute(final ActionEvent event) {
 				field2.setMandatory(!field2.isMandatory());
-				field2.getLabel().setHint("mandatory and must be at least two characters and may only contain alphabetic characters and must be different from field 1");
+				field2.getLabel().setHint(
+						"mandatory and must be at least two characters and may only contain alphabetic characters and must be different from field 1");
 			}
 		});
 
@@ -86,7 +87,8 @@ public class BasicFields extends WContainer {
 		field.getLabel().setHint("must contain between 2 and 5 characters");
 
 		field = layout.addField("Field 2", field2);
-		field.getLabel().setHint("may only contain alphabetic characters, should be a minimum of two characters and must be different from field 1");
+		field.getLabel().setHint(
+				"may only contain alphabetic characters, should be a minimum of two characters and must be different from field 1");
 		layout.addField((WLabel) null, field2ToggleMandatoryBtn);
 		field = layout.addField("Field 3", field3);
 		field.getLabel().setHint("preferably not blank");
@@ -118,12 +120,14 @@ public class BasicFields extends WContainer {
 		}
 		if (len > 20) {
 			// Note that this error does not link to a specific field.
-			diags.add(createErrorDiagnostic("The total length of Field 1 plus Field 2 can exceed 20 characters."));
+			diags.add(createErrorDiagnostic(
+					"The total length of Field 1 plus Field 2 can exceed 20 characters."));
 		}
 
 		// Sample Warning Message
 		if (Util.empty(text3)) {
-			diags.add(new DiagnosticImpl(Diagnostic.WARNING, UIContextHolder.getCurrent(), field3, "Warning that this should not be blank"));
+			diags.add(new DiagnosticImpl(Diagnostic.WARNING, UIContextHolder.getCurrent(), field3,
+					"Warning that this should not be blank"));
 		}
 	}
 

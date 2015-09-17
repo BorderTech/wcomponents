@@ -9,9 +9,9 @@ import java.util.Date;
 
 /**
  * <p>
- * This example demonstrates how an {@link Action} can be associated with a {@link WTabSet}
- * component. This action gets executed when the tab selection changes. Associate the action to the
- * <code>tabset</code> using {@link WTabSet#setActionOnChange(Action)}.</p>
+ * This example demonstrates how an {@link Action} can be associated with a {@link WTabSet} component. This action gets
+ * executed when the tab selection changes. Associate the action to the <code>tabset</code> using
+ * {@link WTabSet#setActionOnChange(Action)}.</p>
  *
  * <p>
  * The source object of {@link ActionEvent} will be the <code>tabset</code> of the action.</p>

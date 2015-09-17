@@ -14,8 +14,8 @@ import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WTextField;
 
 /**
- * The DefaultSubmit control allows us to stipulate which submit button should be triggered when the
- * user hits the Enter key inside an input field.
+ * The DefaultSubmit control allows us to stipulate which submit button should be triggered when the user hits the Enter
+ * key inside an input field.
  *
  * @author Christina Harris
  * @since 1.0.0
@@ -54,7 +54,8 @@ public class WButtonDefaultSubmitExample extends WContainer {
 			}
 		});
 
-		add(new WText("The cursor position determines which submit button is triggered when the user hits the ENTER key."));
+		add(new WText(
+				"The cursor position determines which submit button is triggered when the user hits the ENTER key."));
 
 		// TODO: This is bad - use a layout instead
 		WText lineBreak = new WText("<br />");

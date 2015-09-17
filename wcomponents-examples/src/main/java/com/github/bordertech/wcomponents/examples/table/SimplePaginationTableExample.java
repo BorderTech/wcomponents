@@ -41,14 +41,15 @@ public class SimplePaginationTableExample extends WPanel {
 		table.setRowsPerPage(3);
 
 		// Setup model
-		SimpleBeanBoundTableModel model = new SimpleBeanBoundTableModel(new String[]{"firstName", "lastName",
-			"dateOfBirth"});
+		SimpleBeanBoundTableModel model = new SimpleBeanBoundTableModel(
+				new String[]{"firstName", "lastName",
+					"dateOfBirth"});
 		table.setTableModel(model);
 	}
 
 	/**
-	 * Override preparePaintComponent in order to set up the example data the first time that the
-	 * example is accessed by each user.
+	 * Override preparePaintComponent in order to set up the example data the first time that the example is accessed by
+	 * each user.
 	 *
 	 * @param request the request being responded to.
 	 */

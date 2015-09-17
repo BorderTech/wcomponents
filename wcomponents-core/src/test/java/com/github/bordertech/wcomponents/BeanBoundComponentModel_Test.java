@@ -17,6 +17,8 @@ public class BeanBoundComponentModel_Test extends AbstractWComponentTestCase {
 		BeanBoundComponentModel boundBean = new BeanBoundComponentModel();
 		boundBean.setBean(textIn);
 
-		Assert.assertEquals("Bean retrieved should be same as bean set", textIn, boundBean.getBean());
+		Assert.
+				assertEquals("Bean retrieved should be same as bean set", textIn, boundBean.
+						getBean());
 	}
 }

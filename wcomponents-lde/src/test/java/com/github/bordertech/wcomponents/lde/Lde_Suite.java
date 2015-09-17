@@ -11,12 +11,10 @@ import org.junit.runners.Suite;
  * @since 1.0.0
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses
-({
-    DevToolkit_Test.class,
-    LdeSessionUtil_Test.class,
-    PlainLauncher_Test.class
+@Suite.SuiteClasses({
+	DevToolkit_Test.class,
+	LdeSessionUtil_Test.class,
+	PlainLauncher_Test.class
 })
-public class Lde_Suite
-{
+public class Lde_Suite {
 }

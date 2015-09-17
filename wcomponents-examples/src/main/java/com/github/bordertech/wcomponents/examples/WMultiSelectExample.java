@@ -48,8 +48,7 @@ public class WMultiSelectExample extends WContainer {
 	}
 
 	/**
-	 * A panel which can be easily configured to demonstrate different configurations of a
-	 * WMultiSelect.
+	 * A panel which can be easily configured to demonstrate different configurations of a WMultiSelect.
 	 */
 	private static final class ExamplePanel extends WPanel {
 
@@ -103,8 +102,8 @@ public class WMultiSelectExample extends WContainer {
 		}
 
 		/**
-		 * Override prepaprePaintComponent to initialise the example the first time through. This
-		 * just sets the text of the text area to match the initial selections.
+		 * Override prepaprePaintComponent to initialise the example the first time through. This just sets the text of
+		 * the text area to match the initial selections.
 		 *
 		 * @param request the request being responded to
 		 */

@@ -32,17 +32,20 @@ public class WCheckBoxSelectExample_Test extends WComponentSeleniumTestCase {
 		WebDriver driver = getDriver();
 
 		// Select "ACT", "NSW" and "QLD"
-		driver.findElement(byWComponentPath("WCheckBoxSelect[0]", "Australian Capital Territory")).click();
+		driver.findElement(byWComponentPath("WCheckBoxSelect[0]", "Australian Capital Territory")).
+				click();
 		driver.findElement(byWComponentPath("WCheckBoxSelect[0]", "New South Wales")).click();
 		driver.findElement(byWComponentPath("WCheckBoxSelect[0]", "Queensland")).click();
 
-		Assert.assertFalse("Should not have submitted selections yet.", driver.getPageSource().contains("The selected states are"));
+		Assert.assertFalse("Should not have submitted selections yet.", driver.getPageSource().
+				contains("The selected states are"));
 
 		// Click "Update"
 		driver.findElement(byWComponentPath("WButton")).click();
 
 		Assert.assertTrue("Incorrect selected options",
-				driver.getPageSource().contains("The selected states are: [Australian Capital Territory, New South Wales, Queensland]"));
+				driver.getPageSource().contains(
+						"The selected states are: [Australian Capital Territory, New South Wales, Queensland]"));
 
 		// De-select "NSW"
 		driver.findElement(byWComponentPath("WCheckBoxSelect[0]", "New South Wales")).click();
@@ -51,7 +54,8 @@ public class WCheckBoxSelectExample_Test extends WComponentSeleniumTestCase {
 		driver.findElement(byWComponentPath("WButton")).click();
 
 		Assert.assertTrue("Incorrect selected options",
-				driver.getPageSource().contains("The selected states are: [Australian Capital Territory, Queensland]"));
+				driver.getPageSource().contains(
+						"The selected states are: [Australian Capital Territory, Queensland]"));
 	}
 
 	@Test
@@ -66,13 +70,15 @@ public class WCheckBoxSelectExample_Test extends WComponentSeleniumTestCase {
 		driver.findElement(byWComponentPath("WCheckBoxSelect[1]", "Toyota, Prius")).click();
 		driver.findElement(byWComponentPath("WCheckBoxSelect[1]", "Nissan, Skyline")).click();
 
-		Assert.assertFalse("Should not have submitted selections yet.", driver.getPageSource().contains("The selected cars are"));
+		Assert.assertFalse("Should not have submitted selections yet.", driver.getPageSource().
+				contains("The selected cars are"));
 
 		// Click "Update"
 		driver.findElement(byWComponentPath("WButton[1]")).click();
 
 		Assert.assertTrue("Incorrect selected options",
-				driver.getPageSource().contains("The selected cars are: [{ Nissan, Skyline }, { Toyota, Prius }]"));
+				driver.getPageSource().contains(
+						"The selected cars are: [{ Nissan, Skyline }, { Toyota, Prius }]"));
 
 		// De-select the toyota
 		driver.findElement(byWComponentPath("WCheckBoxSelect", "Toyota, Prius")).click();

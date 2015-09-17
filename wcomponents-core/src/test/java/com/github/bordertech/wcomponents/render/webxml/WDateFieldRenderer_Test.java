@@ -36,7 +36,8 @@ public class WDateFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 	@Test
 	public void testRendererCorrectlyConfigured() {
 		WDateField dateField = new WDateField();
-		Assert.assertTrue("Incorrect renderer supplied", getWebXmlRenderer(dateField) instanceof WDateFieldRenderer);
+		Assert.assertTrue("Incorrect renderer supplied",
+				getWebXmlRenderer(dateField) instanceof WDateFieldRenderer);
 	}
 
 	@Test

@@ -22,7 +22,8 @@ public class WPhoneNumberFieldRenderer_Test extends AbstractWebXmlRendererTestCa
 	@Test
 	public void testRendererCorrectlyConfigured() {
 		WPhoneNumberField textField = new WPhoneNumberField();
-		Assert.assertTrue("Incorrect renderer supplied", getWebXmlRenderer(textField) instanceof WPhoneNumberFieldRenderer);
+		Assert.assertTrue("Incorrect renderer supplied",
+				getWebXmlRenderer(textField) instanceof WPhoneNumberFieldRenderer);
 	}
 
 	@Test
@@ -81,7 +82,8 @@ public class WPhoneNumberFieldRenderer_Test extends AbstractWebXmlRendererTestCa
 
 		field.setAccessibleText("accessible");
 		assertSchemaMatch(field);
-		assertXpathEvaluatesTo(field.getAccessibleText(), "//ui:phoneNumberField/@accessibleText", field);
+		assertXpathEvaluatesTo(field.getAccessibleText(), "//ui:phoneNumberField/@accessibleText",
+				field);
 
 		field.setColumns(40);
 		assertSchemaMatch(field);

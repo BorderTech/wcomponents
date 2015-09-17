@@ -51,7 +51,8 @@ public class WMultiTextField_Test extends AbstractWComponentTestCase {
 
 		// Constructor 2
 		field = new WMultiTextField(ENTERED_1_2);
-		Assert.assertTrue("Wrong text values returned", Arrays.equals(ENTERED_1_2, field.getTextInputs()));
+		Assert.assertTrue("Wrong text values returned", Arrays.equals(ENTERED_1_2, field.
+				getTextInputs()));
 	}
 
 	@Test
@@ -84,12 +85,14 @@ public class WMultiTextField_Test extends AbstractWComponentTestCase {
 		List<String> data = new ArrayList<>(Arrays.asList(ENTERED_1_2));
 		data.add("");
 		field.setBean(data);
-		Assert.assertTrue("Value should be an array with the two entries in the list without the empty entry",
+		Assert.assertTrue(
+				"Value should be an array with the two entries in the list without the empty entry",
 				Arrays.equals(ENTERED_1_2, field.getValue()));
 
 		// Just object
 		field.setBean(TEXT1);
-		Assert.assertTrue("Value should be an array with the text item", Arrays.equals(ENTERED_1, field.getValue()));
+		Assert.assertTrue("Value should be an array with the text item", Arrays.equals(ENTERED_1,
+				field.getValue()));
 	}
 
 	@Test
@@ -100,7 +103,8 @@ public class WMultiTextField_Test extends AbstractWComponentTestCase {
 		setActiveContext(createUIContext());
 
 		field.setData(ENTERED_1_2);
-		Assert.assertTrue("Wrong value returned for data", Arrays.equals(ENTERED_1_2, (Object[]) field.getData()));
+		Assert.assertTrue("Wrong value returned for data", Arrays.equals(ENTERED_1_2,
+				(Object[]) field.getData()));
 
 		// Empty array
 		field.setData(ENTERED_EMPTY);
@@ -114,7 +118,8 @@ public class WMultiTextField_Test extends AbstractWComponentTestCase {
 		// Max options exceeded
 		field.setMaxInputs(1);
 		field.setData(ENTERED_1_2);
-		Assert.assertTrue("Should only return the first option", Arrays.equals(ENTERED_1, (Object[]) field.getData()));
+		Assert.assertTrue("Should only return the first option", Arrays.equals(ENTERED_1,
+				(Object[]) field.getData()));
 	}
 
 	@Test
@@ -170,7 +175,8 @@ public class WMultiTextField_Test extends AbstractWComponentTestCase {
 		// Entered text1 and text2
 		field.setData(ENTERED_1_2);
 		Assert
-				.assertEquals("Value as String should be text1 and text2", TEXT1 + ", " + TEXT2, field.getValueAsString());
+				.assertEquals("Value as String should be text1 and text2", TEXT1 + ", " + TEXT2,
+						field.getValueAsString());
 	}
 
 	@Test
@@ -194,13 +200,15 @@ public class WMultiTextField_Test extends AbstractWComponentTestCase {
 
 		Assert.assertTrue("Should have changed for request with text entries", changed);
 		Assert
-				.assertTrue("Unexpected inputs set on WMultiTextField", Arrays.equals(ENTERED_1_2, field.getTextInputs()));
+				.assertTrue("Unexpected inputs set on WMultiTextField", Arrays.equals(ENTERED_1_2,
+						field.getTextInputs()));
 
 		// Same request (no change)
 		changed = field.doHandleRequest(request);
 		Assert.assertFalse("Should have not changed for request with same text entries", changed);
 		Assert
-				.assertTrue("Unexpected inputs set on WMultiTextField", Arrays.equals(ENTERED_1_2, field.getTextInputs()));
+				.assertTrue("Unexpected inputs set on WMultiTextField", Arrays.equals(ENTERED_1_2,
+						field.getTextInputs()));
 
 		// Empty Request (change)
 		request = new MockRequest();
@@ -226,7 +234,8 @@ public class WMultiTextField_Test extends AbstractWComponentTestCase {
 		String[] value = new String[]{"", null};
 		request = new MockRequest();
 		request.setParameter(field.getId(), value);
-		Assert.assertNull("Request value should be null for empty values on request", field.getRequestValue(request));
+		Assert.assertNull("Request value should be null for empty values on request", field.
+				getRequestValue(request));
 
 		// Values on the request
 		request = new MockRequest();
@@ -238,7 +247,8 @@ public class WMultiTextField_Test extends AbstractWComponentTestCase {
 		String[] inputs2 = new String[]{"", "x", "y", "", "", null, "z"};
 		request.setParameter(field.getId(), inputs2);
 
-		Assert.assertTrue("Request value should be the values on the request without the null and empty entries",
+		Assert.assertTrue(
+				"Request value should be the values on the request without the null and empty entries",
 				Arrays.equals(new String[]{"x", "y", "z"}, field.getRequestValue(request)));
 
 	}

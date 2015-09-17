@@ -24,7 +24,8 @@ public final class MarginRendererUtil {
 	 * @param component the marginable component to paint a margin
 	 * @param renderContext the RenderContext to paint to.
 	 */
-	public static void renderMargin(final Marginable component, final WebXmlRenderContext renderContext) {
+	public static void renderMargin(final Marginable component,
+			final WebXmlRenderContext renderContext) {
 		Margin margin = component.getMargin();
 		if (margin == null) {
 			return;
@@ -36,7 +37,8 @@ public final class MarginRendererUtil {
 			xml.appendTagOpen("ui:margin");
 			xml.appendAttribute("all", String.valueOf(margin.getAll()));
 			xml.appendEnd();
-		} else if (margin.getNorth() > 0 || margin.getEast() > 0 || margin.getSouth() > 0 || margin.getWest() > 0) {
+		} else if (margin.getNorth() > 0 || margin.getEast() > 0 || margin.getSouth() > 0 || margin.
+				getWest() > 0) {
 			xml.appendTagOpen("ui:margin");
 			xml.appendAttribute("north", String.valueOf(margin.getNorth()));
 			xml.appendAttribute("east", String.valueOf(margin.getEast()));

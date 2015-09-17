@@ -25,7 +25,9 @@ public class WMultiSelect_Test extends AbstractWComponentTestCase {
 	public void testConstructorArray() {
 		String[] options = new String[]{"A", "B"};
 		WMultiSelect multi = new WMultiSelect(options);
-		Assert.assertEquals("Incorrect options returned", Arrays.asList(options), multi.getOptions());
+		Assert.
+				assertEquals("Incorrect options returned", Arrays.asList(options), multi.
+						getOptions());
 		Assert.assertTrue("allowNoSelection should be true", multi.isAllowNoSelection());
 	}
 
@@ -40,7 +42,9 @@ public class WMultiSelect_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testConstructorTable() {
 		WMultiSelect multi = new WMultiSelect(DayOfWeekTable.class);
-		Assert.assertEquals("Incorrect table returned", DayOfWeekTable.class, multi.getLookupTable());
+		Assert.
+				assertEquals("Incorrect table returned", DayOfWeekTable.class, multi.
+						getLookupTable());
 		Assert.assertTrue("allowNoSelection should be true", multi.isAllowNoSelection());
 	}
 

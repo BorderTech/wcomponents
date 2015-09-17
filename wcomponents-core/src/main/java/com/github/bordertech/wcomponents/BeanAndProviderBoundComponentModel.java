@@ -1,8 +1,8 @@
 package com.github.bordertech.wcomponents;
 
 /**
- * The {@link ComponentModel} for components that support binding to a bean either directly or
- * through a BeanProvider. A direct binding has higher precedence than an indirect binding.
+ * The {@link ComponentModel} for components that support binding to a bean either directly or through a BeanProvider. A
+ * direct binding has higher precedence than an indirect binding.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -25,8 +25,8 @@ public class BeanAndProviderBoundComponentModel extends DataBoundComponentModel 
 	private BeanProvider beanProvider;
 
 	/**
-	 * This bean property that the component is interested in. The property is specified using
-	 * Jakarta BeanUtils bean notation.
+	 * This bean property that the component is interested in. The property is specified using Jakarta BeanUtils bean
+	 * notation.
 	 */
 	private String beanProperty;
 
@@ -87,8 +87,8 @@ public class BeanAndProviderBoundComponentModel extends DataBoundComponentModel 
 	}
 
 	/**
-	 * Sets the bean property that the component is interested in. The property is specified using
-	 * Jakarta BeanUtils bean notation.
+	 * Sets the bean property that the component is interested in. The property is specified using Jakarta BeanUtils
+	 * bean notation.
 	 *
 	 * @param beanProperty The bean property to set.
 	 */

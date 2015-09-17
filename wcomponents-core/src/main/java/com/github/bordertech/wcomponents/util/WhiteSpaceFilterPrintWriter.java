@@ -4,8 +4,7 @@ import java.io.PrintWriter;
 import java.io.Writer;
 
 /**
- * WhiteSpaceFilterPrintWriter is a writer that filters out extraneous whitespace from HTML content
- * written to it.
+ * WhiteSpaceFilterPrintWriter is a writer that filters out extraneous whitespace from HTML content written to it.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0

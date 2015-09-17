@@ -3,8 +3,8 @@ package com.github.bordertech.wcomponents.examples.petstore.model;
 import java.util.List;
 
 /**
- * A service to place an order. For a real application, this should be an EJB or ESB/point-to-point
- * service, accessed through a DMS.
+ * A service to place an order. For a real application, this should be an EJB or ESB/point-to-point service, accessed
+ * through a DMS.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0

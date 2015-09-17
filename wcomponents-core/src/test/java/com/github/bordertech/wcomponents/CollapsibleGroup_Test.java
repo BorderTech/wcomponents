@@ -41,11 +41,15 @@ public class CollapsibleGroup_Test {
 		WCollapsible collapsible2 = new WCollapsible(new WTextField(), "heading 2");
 
 		group.addCollapsible(collapsible1);
-		Assert.assertEquals("Incorrect number of collapsibles", 1, group.getAllCollapsibles().size());
+		Assert.
+				assertEquals("Incorrect number of collapsibles", 1, group.getAllCollapsibles().
+						size());
 		Assert.assertSame("Incorrect collapsible", collapsible1, group.getAllCollapsibles().get(0));
 
 		group.addCollapsible(collapsible2);
-		Assert.assertEquals("Incorrect number of collapsibles", 2, group.getAllCollapsibles().size());
+		Assert.
+				assertEquals("Incorrect number of collapsibles", 2, group.getAllCollapsibles().
+						size());
 		Assert.assertSame("Incorrect collapsible", collapsible1, group.getAllCollapsibles().get(0));
 		Assert.assertSame("Incorrect collapsible", collapsible2, group.getAllCollapsibles().get(1));
 	}
@@ -53,7 +57,8 @@ public class CollapsibleGroup_Test {
 	@Test
 	public void testGetCollapsibleToggle() {
 		CollapsibleGroup group = new CollapsibleGroup();
-		Assert.assertNull("Collapsible toggle should be null by default", group.getCollapsibleToggle());
+		Assert.assertNull("Collapsible toggle should be null by default", group.
+				getCollapsibleToggle());
 
 		WCollapsibleToggle toggle = new WCollapsibleToggle();
 		group.setCollapsibleToggle(toggle);

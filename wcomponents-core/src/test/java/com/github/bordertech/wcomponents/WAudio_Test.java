@@ -92,7 +92,8 @@ public class WAudio_Test extends AbstractWComponentTestCase {
 			escape.escape();
 
 			String output = new String(response.getOutput(), CHAR_ENCODING);
-			Assert.assertEquals("Incorrect content returned", new String(clip1.getBytes(), CHAR_ENCODING), output);
+			Assert.assertEquals("Incorrect content returned", new String(clip1.getBytes(),
+					CHAR_ENCODING), output);
 			Assert.assertFalse("Cache flag should not be set", escape.isCacheable());
 			Assert.assertEquals("Response should have header set for no caching",
 					ResponseCacheInterceptor.DEFAULT_NO_CACHE_SETTINGS,
@@ -113,11 +114,13 @@ public class WAudio_Test extends AbstractWComponentTestCase {
 			escape.escape();
 
 			String output = new String(response.getOutput(), CHAR_ENCODING);
-			Assert.assertEquals("Incorrect content returned", new String(clip2.getBytes(), CHAR_ENCODING), output);
+			Assert.assertEquals("Incorrect content returned", new String(clip2.getBytes(),
+					CHAR_ENCODING), output);
 			Assert.assertTrue("Cache flag should be set", escape.isCacheable());
 			Assert
 					.assertEquals("Response should have header set for caching",
-							ResponseCacheInterceptor.DEFAULT_CACHE_SETTINGS, response.getHeaders().get("Cache-Control"));
+							ResponseCacheInterceptor.DEFAULT_CACHE_SETTINGS, response.getHeaders().
+							get("Cache-Control"));
 
 		}
 	}
@@ -137,10 +140,12 @@ public class WAudio_Test extends AbstractWComponentTestCase {
 		audio.setLocked(true);
 		setActiveContext(createUIContext());
 		audio.setAltText(userText);
-		Assert.assertEquals("User session should have session alt text", userText, audio.getAltText());
+		Assert.assertEquals("User session should have session alt text", userText, audio.
+				getAltText());
 
 		resetContext();
-		Assert.assertEquals("Other sessions should have default alt text", defaultText, audio.getAltText());
+		Assert.assertEquals("Other sessions should have default alt text", defaultText, audio.
+				getAltText());
 
 		//Test nulls
 		audio.setAltText("");
@@ -227,7 +232,8 @@ public class WAudio_Test extends AbstractWComponentTestCase {
 		setActiveContext(createUIContext());
 		audio.setControls(WAudio.Controls.PLAY_PAUSE);
 		Assert.assertNotNull("Audio should have controls for affected context", audio.getControls());
-		Assert.assertEquals("Incorrect controls for affected context", WAudio.Controls.PLAY_PAUSE, audio.getControls());
+		Assert.assertEquals("Incorrect controls for affected context", WAudio.Controls.PLAY_PAUSE,
+				audio.getControls());
 
 		resetContext();
 		Assert.assertNull("Audio should not have controls for other contexts", audio.getControls());
@@ -269,7 +275,8 @@ public class WAudio_Test extends AbstractWComponentTestCase {
 
 		// Test default preload
 		WAudio audio = new WAudio();
-		Assert.assertEquals("Default preload should be NONE", WAudio.Preload.NONE, audio.getPreload());
+		Assert.assertEquals("Default preload should be NONE", WAudio.Preload.NONE, audio.
+				getPreload());
 
 		// Test set default preload
 		audio.setPreload(preload1);

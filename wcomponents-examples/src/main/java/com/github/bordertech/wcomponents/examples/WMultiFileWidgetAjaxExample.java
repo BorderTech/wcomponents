@@ -212,7 +212,8 @@ public class WMultiFileWidgetAjaxExample extends WContainer {
 
 				if (imageHolder.getDecoratedLabel() != null) {
 					if (!"".equals(image.getAlternativeText())) {
-						imageHolder.getDecoratedLabel().setBody(new WText(image.getAlternativeText()));
+						imageHolder.getDecoratedLabel().setBody(
+								new WText(image.getAlternativeText()));
 					} else {
 						imageHolder.getDecoratedLabel().setBody(new WText("Unnamed Image."));
 					}

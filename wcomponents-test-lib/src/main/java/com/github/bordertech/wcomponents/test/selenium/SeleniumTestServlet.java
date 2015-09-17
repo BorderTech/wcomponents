@@ -35,8 +35,8 @@ import org.eclipse.jetty.webapp.WebAppContext;
 public class SeleniumTestServlet extends TestServlet {
 
 	/**
-	 * A map of UIContext by test case instance identifier. These are used instead of the UIContext
-	 * in the HTTP session so that the jUnit test case has visibility of the UIContext being used.
+	 * A map of UIContext by test case instance identifier. These are used instead of the UIContext in the HTTP session
+	 * so that the jUnit test case has visibility of the UIContext being used.
 	 */
 	private static final Map<String, UIContext> CONTEXT_MAP = new HashMap<>();
 
@@ -95,11 +95,9 @@ public class SeleniumTestServlet extends TestServlet {
 	/**
 	 * Override in order to notify listeners when a request has been processed.
 	 *
-	 * @param req the {@link HttpServletRequest} object that contains the request the client made of
-	 * the servlet
+	 * @param req the {@link HttpServletRequest} object that contains the request the client made of the servlet
 	 *
-	 * @param res the {@link HttpServletResponse} object that contains the response the servlet
-	 * returns to the client
+	 * @param res the {@link HttpServletResponse} object that contains the response the servlet returns to the client
 	 *
 	 * @throws ServletException a servlet exception
 	 * @throws IOException an IO exception
@@ -230,8 +228,8 @@ public class SeleniumTestServlet extends TestServlet {
 
 	/**
 	 * <p>
-	 * This servlet helper passes the request test case ID parameter around between requests, and
-	 * also makes it available to the SeleniumTestServlet as a request attribute.</p>
+	 * This servlet helper passes the request test case ID parameter around between requests, and also makes it
+	 * available to the SeleniumTestServlet as a request attribute.</p>
 	 *
 	 * <p>
 	 * The helper also ensures that we are using the test case's UIContext.</p>
@@ -239,9 +237,9 @@ public class SeleniumTestServlet extends TestServlet {
 	private static final class SeleniumServletHelper extends WServletHelper {
 
 		/**
-		 * We need the WComponent request object created immediately so that we can place the
-		 * attribute in the request. NOTE: The creation of this request object performs a
-		 * destructive read on the servlet input stream when a file has been uploaded.
+		 * We need the WComponent request object created immediately so that we can place the attribute in the request.
+		 * NOTE: The creation of this request object performs a destructive read on the servlet input stream when a file
+		 * has been uploaded.
 		 */
 		private final Request request = createRequest();
 		private final String testId;
@@ -267,8 +265,7 @@ public class SeleniumTestServlet extends TestServlet {
 		}
 
 		/**
-		 * We want to use the UIContext from the test case rather than creating and storing it in
-		 * the HttpSession.
+		 * We want to use the UIContext from the test case rather than creating and storing it in the HttpSession.
 		 *
 		 * @return the correct UIContext instance for the current test case.
 		 */
@@ -356,7 +353,8 @@ public class SeleniumTestServlet extends TestServlet {
 				WebXmlRenderContext webContext = (WebXmlRenderContext) renderContext;
 
 				try {
-					InputStream stream = getClass().getResourceAsStream("/com/github/bordertech/wcomponents/test/selenium/" + scriptRequested);
+					InputStream stream = getClass().getResourceAsStream(
+							"/com/github/bordertech/wcomponents/test/selenium/" + scriptRequested);
 					webContext.getWriter().write(new String(StreamUtil.getBytes(stream), "UTF-8"));
 				} catch (Exception e) {
 					LogFactory.getLog(getClass()).error("Failed to write selenium script", e);

@@ -5,21 +5,21 @@ import java.util.List;
 
 /**
  * <p>
- * The WMultiSelect input component allows the user to select one or more options from a list. The
- * list of options that can be selected are supplied at construction time as a parameter in the
- * constructor or via the {@link #setOptions(List)} method. The list of options are java objects
- * that are rendered using their toString() by default.
+ * The WMultiSelect input component allows the user to select one or more options from a list. The list of options that
+ * can be selected are supplied at construction time as a parameter in the constructor or via the
+ * {@link #setOptions(List)} method. The list of options are java objects that are rendered using their toString() by
+ * default.
  * </p>
  * <p>
- * Use the {@link #getSelected() getSelected} method to determine which of the list of options were
- * chosen by the user. Note that getSelectedOptions will return a sub-set of the object instances
- * supplied in the original list of options.
+ * Use the {@link #getSelected() getSelected} method to determine which of the list of options were chosen by the user.
+ * Note that getSelectedOptions will return a sub-set of the object instances supplied in the original list of options.
  * </p>
  *
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class WMultiSelect extends AbstractWMultiSelectList implements AjaxTrigger, AjaxTarget, SubordinateTrigger,
+public class WMultiSelect extends AbstractWMultiSelectList implements AjaxTrigger, AjaxTarget,
+		SubordinateTrigger,
 		SubordinateTarget {
 
 	/**
@@ -57,8 +57,8 @@ public class WMultiSelect extends AbstractWMultiSelectList implements AjaxTrigge
 	}
 
 	/**
-	 * Sets the maximum number of rows that are visible in the list at any one time. If the number
-	 * of rows is less than two, then the default number of rows will be displayed.
+	 * Sets the maximum number of rows that are visible in the list at any one time. If the number of rows is less than
+	 * two, then the default number of rows will be displayed.
 	 *
 	 * @param rows the number of rows to display.
 	 */

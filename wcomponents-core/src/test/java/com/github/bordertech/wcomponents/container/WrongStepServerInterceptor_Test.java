@@ -76,8 +76,10 @@ public class WrongStepServerInterceptor_Test extends AbstractWComponentTestCase 
 	public void testServiceRequestDefaultState() {
 		// Test default state
 		interceptor.serviceRequest(request);
-		Assert.assertTrue("Action phase should have occurred by default", component.handleRequestCalled);
-		Assert.assertEquals("Step should not have been incremented", 0, uic.getEnvironment().getStep());
+		Assert.assertTrue("Action phase should have occurred by default",
+				component.handleRequestCalled);
+		Assert.assertEquals("Step should not have been incremented", 0, uic.getEnvironment().
+				getStep());
 		interceptor.preparePaint(request);
 		Assert.assertEquals("Step should have been incremented", 1, uic.getEnvironment().getStep());
 	}
@@ -88,8 +90,10 @@ public class WrongStepServerInterceptor_Test extends AbstractWComponentTestCase 
 		request.setParameter(Environment.STEP_VARIABLE, "3");
 
 		interceptor.serviceRequest(request);
-		Assert.assertTrue("Action phase should have occurred for no step error", component.handleRequestCalled);
-		Assert.assertEquals("Step should not have been incremented", 3, uic.getEnvironment().getStep());
+		Assert.assertTrue("Action phase should have occurred for no step error",
+				component.handleRequestCalled);
+		Assert.assertEquals("Step should not have been incremented", 3, uic.getEnvironment().
+				getStep());
 		interceptor.preparePaint(request);
 		Assert.assertEquals("Step should have been incremented", 4, uic.getEnvironment().getStep());
 	}
@@ -99,9 +103,12 @@ public class WrongStepServerInterceptor_Test extends AbstractWComponentTestCase 
 		uic.getEnvironment().setStep(3);
 		request.setParameter(Environment.STEP_VARIABLE, "1");
 		interceptor.serviceRequest(request);
-		Assert.assertTrue("Handle Step Error should have been called for step error", component.handleStepErrorCalled);
-		Assert.assertFalse("Action phase should not have occurred for step error", component.handleRequestCalled);
-		Assert.assertEquals("Step should not have been incremented", 3, uic.getEnvironment().getStep());
+		Assert.assertTrue("Handle Step Error should have been called for step error",
+				component.handleStepErrorCalled);
+		Assert.assertFalse("Action phase should not have occurred for step error",
+				component.handleRequestCalled);
+		Assert.assertEquals("Step should not have been incremented", 3, uic.getEnvironment().
+				getStep());
 		interceptor.preparePaint(request);
 		Assert.assertEquals("Step should have been incremented", 4, uic.getEnvironment().getStep());
 	}
@@ -125,7 +132,8 @@ public class WrongStepServerInterceptor_Test extends AbstractWComponentTestCase 
 					component.handleRequestCalled);
 			Assert.assertFalse("Handle Step Error should not have occurred for redirect",
 					component.handleStepErrorCalled);
-			Assert.assertEquals("Step should not have been incremented", 3, uic.getEnvironment().getStep());
+			Assert.assertEquals("Step should not have been incremented", 3, uic.getEnvironment().
+					getStep());
 		}
 	}
 

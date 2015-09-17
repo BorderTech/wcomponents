@@ -59,12 +59,14 @@ public final class GroupExpression_Test {
 
 		expr.remove(operand2);
 		Assert.assertEquals("Incorrect number of operands", 1, expr.getOperands().size());
-		Assert.assertSame("Incorrect operand after remove of last", operand1, expr.getOperands().get(0));
+		Assert.assertSame("Incorrect operand after remove of last", operand1, expr.getOperands().
+				get(0));
 
 		expr.add(operand2);
 		expr.remove(operand1);
 		Assert.assertEquals("Incorrect number of operands", 1, expr.getOperands().size());
-		Assert.assertSame("Incorrect operand after remove of first", operand2, expr.getOperands().get(0));
+		Assert.assertSame("Incorrect operand after remove of first", operand2, expr.getOperands().
+				get(0));
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -106,7 +108,8 @@ public final class GroupExpression_Test {
 			}
 
 			List<Boolean> operands = Arrays.asList(row.operands);
-			Assert.assertEquals("Invalid AND of " + operands, row.expected, expr.evaluate().booleanValue());
+			Assert.assertEquals("Invalid AND of " + operands, row.expected, expr.evaluate().
+					booleanValue());
 		}
 	}
 
@@ -149,7 +152,8 @@ public final class GroupExpression_Test {
 			}
 
 			List<Boolean> operands = Arrays.asList(row.operands);
-			Assert.assertEquals("Invalid OR of " + operands, row.expected, expr.evaluate().booleanValue());
+			Assert.assertEquals("Invalid OR of " + operands, row.expected, expr.evaluate().
+					booleanValue());
 		}
 	}
 
@@ -208,12 +212,16 @@ public final class GroupExpression_Test {
 
 		And condition = (And) expr.build();
 
-		Assert.assertEquals("Incorrect number of conditions for AND", 3, condition.getConditions().size());
-		Assert.assertEquals("Incorrect 1st operand for AND", operand1.build().toString(), condition.getConditions()
+		Assert.assertEquals("Incorrect number of conditions for AND", 3, condition.getConditions().
+				size());
+		Assert.assertEquals("Incorrect 1st operand for AND", operand1.build().toString(), condition.
+				getConditions()
 				.get(0).toString());
-		Assert.assertEquals("Incorrect 2nd operand for AND", operand2.build().toString(), condition.getConditions()
+		Assert.assertEquals("Incorrect 2nd operand for AND", operand2.build().toString(), condition.
+				getConditions()
 				.get(1).toString());
-		Assert.assertEquals("Incorrect 3rd operand for AND", operand3.build().toString(), condition.getConditions()
+		Assert.assertEquals("Incorrect 3rd operand for AND", operand3.build().toString(), condition.
+				getConditions()
 				.get(2).toString());
 	}
 
@@ -274,7 +282,8 @@ public final class GroupExpression_Test {
 
 		Not condition = (Not) expr.build();
 
-		Assert.assertEquals("Incorrect 1st operand for NOT", operand1.build().toString(), condition.getCondition()
+		Assert.assertEquals("Incorrect 1st operand for NOT", operand1.build().toString(), condition.
+				getCondition()
 				.toString());
 	}
 
@@ -290,11 +299,14 @@ public final class GroupExpression_Test {
 
 		// Two Operand
 		expr.add(new BooleanLiteral(false));
-		Assert.assertEquals("Invalid string for AND with two operand", "(true and false)", expr.toString());
+		Assert.assertEquals("Invalid string for AND with two operand", "(true and false)", expr.
+				toString());
 
 		// Three Operand
 		expr.add(new BooleanLiteral(true));
-		Assert.assertEquals("Invalid string for AND with three operand", "(true and false and true)", expr.toString());
+		Assert.
+				assertEquals("Invalid string for AND with three operand",
+						"(true and false and true)", expr.toString());
 	}
 
 	@Test
@@ -309,11 +321,13 @@ public final class GroupExpression_Test {
 
 		// Two Operand
 		expr.add(new BooleanLiteral(false));
-		Assert.assertEquals("Invalid string for OR with two operand", "(true or false)", expr.toString());
+		Assert.assertEquals("Invalid string for OR with two operand", "(true or false)", expr.
+				toString());
 
 		// Three Operand
 		expr.add(new BooleanLiteral(true));
-		Assert.assertEquals("Invalid string for OR with three operand", "(true or false or true)", expr.toString());
+		Assert.assertEquals("Invalid string for OR with three operand", "(true or false or true)",
+				expr.toString());
 	}
 
 	@Test
@@ -324,11 +338,15 @@ public final class GroupExpression_Test {
 
 		// One Operand
 		expr.add(new BooleanLiteral(true));
-		Assert.assertEquals("Invalid string for NOT with one operand", "NOT (true)", expr.toString());
+		Assert.
+				assertEquals("Invalid string for NOT with one operand", "NOT (true)", expr.
+						toString());
 
 		// Two Operand
 		expr.add(new BooleanLiteral(false));
-		Assert.assertEquals("Invalid string for NOT with two operand", "NOT (true)", expr.toString());
+		Assert.
+				assertEquals("Invalid string for NOT with two operand", "NOT (true)", expr.
+						toString());
 	}
 
 	/**

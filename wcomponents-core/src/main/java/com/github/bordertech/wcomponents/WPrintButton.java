@@ -3,8 +3,7 @@ package com.github.bordertech.wcomponents;
 import com.github.bordertech.wcomponents.util.InternalMessages;
 
 /**
- * This button opens a client side browser print window. It can be rendered as a button or as a
- * link.
+ * This button opens a client side browser print window. It can be rendered as a button or as a link.
  *
  * @author Martin Shevchenko
  * @since 1.0.0

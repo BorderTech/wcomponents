@@ -92,7 +92,8 @@ public class PetStoreApp extends WApplication implements MessageContainer {
 
 		try {
 			Properties properties = new Properties();
-			properties.load(PetStoreApp.class.getResourceAsStream("/com/github/bordertech/wcomponents/examples/petstore/resources/petstore.properties"));
+			properties.load(PetStoreApp.class.getResourceAsStream(
+					"/com/github/bordertech/wcomponents/examples/petstore/resources/petstore.properties"));
 
 			CompositeConfiguration config = new CompositeConfiguration(Config.getInstance());
 			config.addConfiguration(new MapConfiguration(properties));
@@ -239,7 +240,8 @@ public class PetStoreApp extends WApplication implements MessageContainer {
 			}
 			default: {
 				WMessages.getInstance(this).error(orderStatus.getUserMessage());
-				LOG.error("Unknown response code (" + orderStatus.getStatus() + "): " + orderStatus.getDetails());
+				LOG.error("Unknown response code (" + orderStatus.getStatus() + "): " + orderStatus.
+						getDetails());
 			}
 		}
 	}

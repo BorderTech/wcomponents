@@ -57,7 +57,8 @@ final class WRadioButtonSelectRenderer extends AbstractWebXmlRenderer {
 				xml.appendAttribute("layout", "stacked");
 				break;
 			default:
-				throw new SystemException("Unknown radio button layout: " + rbSelect.getButtonLayout());
+				throw new SystemException("Unknown radio button layout: " + rbSelect.
+						getButtonLayout());
 		}
 
 		xml.appendClose();
@@ -74,7 +75,8 @@ final class WRadioButtonSelectRenderer extends AbstractWebXmlRenderer {
 				if (option instanceof OptionGroup) {
 					throw new SystemException("Option groups not supported in WRadioButtonSelect.");
 				} else {
-					renderOption(rbSelect, option, optionIndex++, xml, selectedOption, renderSelectionsOnly, encode);
+					renderOption(rbSelect, option, optionIndex++, xml, selectedOption,
+							renderSelectionsOnly, encode);
 				}
 			}
 		}
@@ -94,8 +96,7 @@ final class WRadioButtonSelectRenderer extends AbstractWebXmlRenderer {
 	 * @param optionIndex the index of the option. OptionGroups are not counted.
 	 * @param html the XmlStringBuilder to paint to.
 	 * @param selectedOption the selected option
-	 * @param renderSelectionsOnly true to only render selected options, false to render all
-	 * options.
+	 * @param renderSelectionsOnly true to only render selected options, false to render all options.
 	 * @param encode true if the option description should be encoded, false if not.
 	 */
 	private void renderOption(final WRadioButtonSelect rbSelect, final Object option,

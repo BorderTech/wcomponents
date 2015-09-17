@@ -2,8 +2,7 @@ package com.github.bordertech.wcomponents;
 
 /**
  * <p>
- * This component is used to group together two components into a two column (left and right)
- * display.
+ * This component is used to group together two components into a two column (left and right) display.
  * </p><p>
  * A common usage would be two wrap two {@link WFieldLayout} instances into two columns.
  * </p>

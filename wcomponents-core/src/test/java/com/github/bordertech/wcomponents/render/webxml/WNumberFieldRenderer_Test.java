@@ -24,7 +24,8 @@ public class WNumberFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 	public void testRendererCorrectlyConfigured() {
 		WNumberField numberField = new WNumberField();
 		Assert
-				.assertTrue("Incorrect renderer supplied", getWebXmlRenderer(numberField) instanceof WNumberFieldRenderer);
+				.assertTrue("Incorrect renderer supplied",
+						getWebXmlRenderer(numberField) instanceof WNumberFieldRenderer);
 	}
 
 	@Test
@@ -78,7 +79,8 @@ public class WNumberFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		numberField.setAccessibleText("accessibleText");
 		assertSchemaMatch(numberField);
-		assertXpathEvaluatesTo(numberField.getAccessibleText(), "//ui:numberField/@accessibleText", numberField);
+		assertXpathEvaluatesTo(numberField.getAccessibleText(), "//ui:numberField/@accessibleText",
+				numberField);
 
 		numberField.setMinValue(45);
 		assertSchemaMatch(numberField);

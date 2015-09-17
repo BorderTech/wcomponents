@@ -77,6 +77,7 @@ public class WFilterText_Test extends AbstractWComponentTestCase {
 		String testText = new String(TEST_TEXT);
 		String expectedResult = testText.replaceAll(TEST_SEARCH, TEST_REPLACE);
 
-		Assert.assertEquals("should replace search substring with replace substring in text string", result, expectedResult);
+		Assert.assertEquals("should replace search substring with replace substring in text string",
+				result, expectedResult);
 	}
 }

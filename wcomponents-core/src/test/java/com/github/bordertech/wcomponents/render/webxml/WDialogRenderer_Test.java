@@ -24,7 +24,8 @@ public class WDialogRenderer_Test extends AbstractWebXmlRendererTestCase {
 	@Test
 	public void testRendererCorrectlyConfigured() {
 		WDialog component = new WDialog();
-		Assert.assertTrue("Incorrect renderer supplied", getWebXmlRenderer(component) instanceof WDialogRenderer);
+		Assert.assertTrue("Incorrect renderer supplied",
+				getWebXmlRenderer(component) instanceof WDialogRenderer);
 	}
 
 	@Test

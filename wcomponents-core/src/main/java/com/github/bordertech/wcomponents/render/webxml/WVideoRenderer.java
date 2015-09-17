@@ -119,8 +119,10 @@ final class WVideoRenderer extends AbstractWebXmlRenderer {
 			xml.appendOptionalAttribute("type", video[i].getMimeType());
 
 			if (video[i].getSize() != null) {
-				xml.appendOptionalAttribute("width", video[i].getSize().width > 0, video[i].getSize().width);
-				xml.appendOptionalAttribute("height", video[i].getSize().height > 0, video[i].getSize().height);
+				xml.appendOptionalAttribute("width", video[i].getSize().width > 0, video[i].
+						getSize().width);
+				xml.appendOptionalAttribute("height", video[i].getSize().height > 0, video[i].
+						getSize().height);
 			}
 
 			xml.appendEnd();

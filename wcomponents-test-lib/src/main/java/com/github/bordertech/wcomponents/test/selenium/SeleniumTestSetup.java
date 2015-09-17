@@ -11,8 +11,8 @@ import com.github.bordertech.wcomponents.util.SystemException;
 public final class SeleniumTestSetup {
 
 	/**
-	 * In order to support tests running directly as well as suites, keep count of the
-	 * setup/teardown invocations, so that we don't keep restarting the LDE unnecessarily.
+	 * In order to support tests running directly as well as suites, keep count of the setup/teardown invocations, so
+	 * that we don't keep restarting the LDE unnecessarily.
 	 */
 	private static int startCount = 0;
 

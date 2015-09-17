@@ -50,7 +50,8 @@ public class WAjaxControl_Test extends AbstractWComponentTestCase {
 		Assert.assertEquals("Load count should not be set", -1, control.getLoadCount());
 		Assert.assertEquals("Delay should not be set", 0, control.getDelay());
 		Assert.assertEquals("Incorrect targets list", Arrays.asList(targets), control.getTargets());
-		Assert.assertTrue("Incorrect targets array", Arrays.equals(targets, control.getTargetsArray()));
+		Assert.assertTrue("Incorrect targets array", Arrays.equals(targets, control.
+				getTargetsArray()));
 	}
 
 	@Test
@@ -93,7 +94,8 @@ public class WAjaxControl_Test extends AbstractWComponentTestCase {
 		Assert.assertEquals("Incorrect targets", Arrays.asList(target1), control.getTargets());
 
 		control.addTarget(target2);
-		Assert.assertEquals("Incorrect targets", Arrays.asList(target1, target2), control.getTargets());
+		Assert.assertEquals("Incorrect targets", Arrays.asList(target1, target2), control.
+				getTargets());
 	}
 
 	@Test
@@ -106,10 +108,12 @@ public class WAjaxControl_Test extends AbstractWComponentTestCase {
 		Assert.assertTrue("Targets should be empty", control.getTargets().isEmpty());
 
 		control.addTargets(new AjaxTarget[]{target1, target2});
-		Assert.assertEquals("Incorrect targets", Arrays.asList(target1, target2), control.getTargets());
+		Assert.assertEquals("Incorrect targets", Arrays.asList(target1, target2), control.
+				getTargets());
 
 		control.addTargets(new AjaxTarget[]{target3});
-		Assert.assertEquals("Incorrect targets", Arrays.asList(target1, target2, target3), control.getTargets());
+		Assert.assertEquals("Incorrect targets", Arrays.asList(target1, target2, target3), control.
+				getTargets());
 	}
 
 	@Test
@@ -122,10 +126,12 @@ public class WAjaxControl_Test extends AbstractWComponentTestCase {
 		Assert.assertTrue("Targets should be empty", control.getTargets().isEmpty());
 
 		control.addTargets(Arrays.asList(target1, target2));
-		Assert.assertEquals("Incorrect targets", Arrays.asList(target1, target2), control.getTargets());
+		Assert.assertEquals("Incorrect targets", Arrays.asList(target1, target2), control.
+				getTargets());
 
 		control.addTargets(Arrays.asList(target3));
-		Assert.assertEquals("Incorrect targets", Arrays.asList(target1, target2, target3), control.getTargets());
+		Assert.assertEquals("Incorrect targets", Arrays.asList(target1, target2, target3), control.
+				getTargets());
 	}
 
 	@Test
@@ -149,8 +155,10 @@ public class WAjaxControl_Test extends AbstractWComponentTestCase {
 
 		AjaxOperation ajaxOperation = AjaxHelper.getAjaxOperation(trigger.getId(), req);
 		Assert.assertNotNull("Ajax operation should have been registered", ajaxOperation);
-		Assert.assertEquals("Incorrect ajax operation trigger id", trigger.getId(), ajaxOperation.getTriggerId());
-		Assert.assertEquals("Incorrect ajax operation targets", target.getId(), ajaxOperation.getTargets().get(0));
+		Assert.assertEquals("Incorrect ajax operation trigger id", trigger.getId(), ajaxOperation.
+				getTriggerId());
+		Assert.assertEquals("Incorrect ajax operation targets", target.getId(), ajaxOperation.
+				getTargets().get(0));
 	}
 
 	@Test

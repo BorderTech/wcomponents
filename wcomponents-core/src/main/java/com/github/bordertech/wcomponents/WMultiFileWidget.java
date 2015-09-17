@@ -26,15 +26,13 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * <p>
- * The WMultiFileWidget component allows multiple file input elements to be uploaded, without
- * requiring an entire page reload for each item. After a file is uploaded to the server the client
- * displays the file information with a checkbox adjacent to it. The file information is a link that
- * pops up the file content. Use {@link #getFiles()} to retrieve all files uploaded by the client,
- * use {@link #getSelectedFiles()} to retrieve only the selected file items.
+ * The WMultiFileWidget component allows multiple file input elements to be uploaded, without requiring an entire page
+ * reload for each item. After a file is uploaded to the server the client displays the file information with a checkbox
+ * adjacent to it. The file information is a link that pops up the file content. Use {@link #getFiles()} to retrieve all
+ * files uploaded by the client, use {@link #getSelectedFiles()} to retrieve only the selected file items.
  * </p>
  * <p>
- * The maximum number of allowed files, maximum individual file size, and allowed file types can be
- * configured.
+ * The maximum number of allowed files, maximum individual file size, and allowed file types can be configured.
  * </p>
  *
  * @author Christina Harris
@@ -42,7 +40,8 @@ import org.apache.commons.logging.LogFactory;
  * @author Rick Brown
  * @since 1.0.0
  */
-public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxTrigger, AjaxTarget, SubordinateTarget {
+public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxTrigger, AjaxTarget,
+		SubordinateTarget {
 
 	/**
 	 * The logger instance for this class.
@@ -137,8 +136,8 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxT
 	}
 
 	/**
-	 * Retrieves the File at the given index. Will throw an {@link IndexOutOfBoundsException} if
-	 * <code>index</code> is not in the range of the list of items.
+	 * Retrieves the File at the given index. Will throw an {@link IndexOutOfBoundsException} if <code>index</code> is
+	 * not in the range of the list of items.
 	 *
 	 * @param fileId the file id
 	 * @return The FileWidgetUpload for the file id or null
@@ -153,13 +152,12 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxT
 	}
 
 	/**
-	 * Returns only the selected file items. The file is selected if the checkbox adjacent to the
-	 * uploaded file name is checked by the user.
+	 * Returns only the selected file items. The file is selected if the checkbox adjacent to the uploaded file name is
+	 * checked by the user.
 	 *
-	 * @return The uploaded file items that have been selected by the user. If no files have been
-	 * selected then an empty list is returned.
-	 * @deprecated no longer required as unselected files are now removed. So all files are
-	 * "selected".
+	 * @return The uploaded file items that have been selected by the user. If no files have been selected then an empty
+	 * list is returned.
+	 * @deprecated no longer required as unselected files are now removed. So all files are "selected".
 	 */
 	@Deprecated
 	public List<FileWidgetUpload> getSelectedFiles() {
@@ -171,8 +169,7 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxT
 	 *
 	 * @param upload the uploaded file
 	 * @return true if the upload has been selected, false otherwise.
-	 * @deprecated no longer required as unselected files are now removed. So all files are
-	 * "selected".
+	 * @deprecated no longer required as unselected files are now removed. So all files are "selected".
 	 */
 	@Deprecated
 	public boolean isSelected(final File upload) {
@@ -202,21 +199,19 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxT
 	}
 
 	/**
-	 * Determines the file types accepted by this widget. Note that duplicates are not allowed and
-	 * these are not case sensitive. A file type may be one of the following:
+	 * Determines the file types accepted by this widget. Note that duplicates are not allowed and these are not case
+	 * sensitive. A file type may be one of the following:
 	 * <ul>
 	 * <li>The string audio/* (Indicates that sound files are accepted.)</li>
 	 * <li>The string video/* (Indicates that video files are accepted.)</li>
 	 * <li>The string image/* (Indicates that image files are accepted.)</li>
-	 * <li>A valid MIME type with no parameters (Indicates that files of the specified type are
-	 * accepted.)</li>
-	 * <li>A string whose first character is a "." (U+002E) character (Indicates that files with the
-	 * specified file extension are accepted).</li>
+	 * <li>A valid MIME type with no parameters (Indicates that files of the specified type are accepted.)</li>
+	 * <li>A string whose first character is a "." (U+002E) character (Indicates that files with the specified file
+	 * extension are accepted).</li>
 	 * </ul>
 	 *
-	 * @param types The file types that will be accepted by the file input. Note that this is not
-	 * additive, it will overwrite any previously set fileTypes. Pass null or and empty collection
-	 * to clear all file types.
+	 * @param types The file types that will be accepted by the file input. Note that this is not additive, it will
+	 * overwrite any previously set fileTypes. Pass null or and empty collection to clear all file types.
 	 */
 	public void setFileTypes(final Collection<String> types) {
 		Set newFileTypes = null;
@@ -256,16 +251,15 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxT
 	}
 
 	/**
-	 * Returns a list of file types accepted by the file input. For a description of what
-	 * constitutes an allowable file type {
+	 * Returns a list of file types accepted by the file input. For a description of what constitutes an allowable file
+	 * type {
 	 *
 	 * @see #setFileTypes(Collection<String>)}}
 	 *
-	 * If no types have been added an empty list is returned. An empty list indicates that all file
-	 * types are accepted.
+	 * If no types have been added an empty list is returned. An empty list indicates that all file types are accepted.
 	 *
-	 * @return The file types accepted by this file input e.g. "image/*", ".vis", "text/plain",
-	 * "text/html", "application/pdf".
+	 * @return The file types accepted by this file input e.g. "image/*", ".vis", "text/plain", "text/html",
+	 * "application/pdf".
 	 */
 	public List<String> getFileTypes() {
 		Set<String> fileTypes = getComponentModel().fileTypes;
@@ -278,9 +272,8 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxT
 	}
 
 	/**
-	 * Set the maximum file size (in bytes) that will be accepted by the file input. If the user
-	 * selects a file larger than this value the client script will tell the user it cannot be
-	 * uploaded.
+	 * Set the maximum file size (in bytes) that will be accepted by the file input. If the user selects a file larger
+	 * than this value the client script will tell the user it cannot be uploaded.
 	 *
 	 * @param bytes The maximum size (in bytes) that can be uploaded by this input.
 	 */
@@ -316,10 +309,10 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxT
 	}
 
 	/**
-	 * Register a component to receive drag and dropped files on behalf of this input. It is
-	 * recommended that you register the WApplication as the dropzone. This allows users to drop
-	 * files anywhere on the page and eliminates the risk of them dropping files outside of the
-	 * dropzone (which causes the browser to attempt to render the dropped files).
+	 * Register a component to receive drag and dropped files on behalf of this input. It is recommended that you
+	 * register the WApplication as the dropzone. This allows users to drop files anywhere on the page and eliminates
+	 * the risk of them dropping files outside of the dropzone (which causes the browser to attempt to render the
+	 * dropped files).
 	 *
 	 * @param dropzone The dropzone.
 	 */
@@ -339,8 +332,8 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxT
 	/**
 	 * The AJAX action used when an uploaded file has been selected.
 	 * <p>
-	 * Setting this action causes the uploaded file links to act as AJAX triggers. The file id of
-	 * the selected file is set as the action object.
+	 * Setting this action causes the uploaded file links to act as AJAX triggers. The file id of the selected file is
+	 * set as the action object.
 	 * </p>
 	 *
 	 * @param action the file AJAX action
@@ -359,8 +352,7 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxT
 	}
 
 	/**
-	 * Sets the layout of uploaded files to be a certain number of columns. Null uses the theme
-	 * default.
+	 * Sets the layout of uploaded files to be a certain number of columns. Null uses the theme default.
 	 *
 	 * @param cols the number of columns.
 	 */
@@ -402,9 +394,9 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxT
 	}
 
 	/**
-	 * If enabled then uploaded files will display to the user as thumbnails. While this can be used
-	 * for any file types it is only recommended when the WMultiFileWidget is set to accept image
-	 * types only, e.g. with <code>setFileTypes(new String[] { "image/*" });</code>
+	 * If enabled then uploaded files will display to the user as thumbnails. While this can be used for any file types
+	 * it is only recommended when the WMultiFileWidget is set to accept image types only, e.g. with
+	 * <code>setFileTypes(new String[] { "image/*" });</code>
 	 *
 	 * @param useThumbnails true if generate thumb nails for the file links.
 	 */
@@ -443,9 +435,8 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxT
 	/**
 	 * Set the thumbnail size. Null uses the default size.
 	 * <p>
-	 * To scale thumbnails to a certain height or width, use -1 on the scalable dimension. For
-	 * example, to scale thumbnails to 64 pixels high but maintain the correct width ration, set
-	 * Height to 64 and Width to -1.
+	 * To scale thumbnails to a certain height or width, use -1 on the scalable dimension. For example, to scale
+	 * thumbnails to 64 pixels high but maintain the correct width ration, set Height to 64 and Width to -1.
 	 * </p>
 	 *
 	 * @param thumbnailSize the thumbnail size or null for default
@@ -453,18 +444,20 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxT
 	public void setThumbnailSize(final Dimension thumbnailSize) {
 		if (thumbnailSize != null) {
 			if (thumbnailSize.height == 0 || thumbnailSize.width == 0) {
-				throw new IllegalArgumentException("Thumbnail size cannot have a height or width of zero.");
+				throw new IllegalArgumentException(
+						"Thumbnail size cannot have a height or width of zero.");
 			}
 			if (thumbnailSize.height == -1 && thumbnailSize.width == -1) {
-				throw new IllegalArgumentException("Thumbnail size cannot have both height and width set to -1.");
+				throw new IllegalArgumentException(
+						"Thumbnail size cannot have both height and width set to -1.");
 			}
 		}
 		getOrCreateComponentModel().thumbnailSize = thumbnailSize;
 	}
 
 	/**
-	 * Clear the thumbnails currently set on the files. This will cause them to be generated again
-	 * when requested. This can be used if the thumbanil size has changed.
+	 * Clear the thumbnails currently set on the files. This will cause them to be generated again when requested. This
+	 * can be used if the thumbanil size has changed.
 	 */
 	public void clearThumbnails() {
 		for (FileWidgetUpload file : getFiles()) {
@@ -618,8 +611,7 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxT
 	}
 
 	/**
-	 * The request is a targeted file upload request. Upload the file and respond with the file
-	 * information.
+	 * The request is a targeted file upload request. Upload the file and respond with the file information.
 	 *
 	 * @param request the request being processed.
 	 */
@@ -631,7 +623,8 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxT
 
 		// Only process on a POST
 		if (!"POST".equals(request.getMethod())) {
-			throw new SystemException("File widget cannot be updated by " + request.getMethod() + ".");
+			throw new SystemException(
+					"File widget cannot be updated by " + request.getMethod() + ".");
 		}
 
 		// Check only one file item in the request
@@ -714,7 +707,8 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxT
 		Image image = null;
 		try {
 			Dimension size = getThumbnailSize();
-			image = ThumbnailUtil.createThumbnail(file.getInputStream(), file.getName(), size, file.getMimeType());
+			image = ThumbnailUtil.createThumbnail(file.getInputStream(), file.getName(), size, file.
+					getMimeType());
 		} catch (Exception e) {
 			LOG.error("Could not generate thumbnail for file. " + e.getMessage(), e);
 		}
@@ -840,8 +834,8 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxT
 	}
 
 	/**
-	 * Selection lists are considered equal if they have the same items (order is not important). An
-	 * empty list is considered equal to a null list.
+	 * Selection lists are considered equal if they have the same items (order is not important). An empty list is
+	 * considered equal to a null list.
 	 *
 	 * @param list1 the first list to check.
 	 * @param list2 the second list to check.
@@ -849,7 +843,8 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxT
 	 */
 	private boolean selectionsEqual(final List<?> list1, final List<?> list2) {
 		return (list1 == null || list1.isEmpty()) && (list2 == null || list2.isEmpty())
-				|| (list1 != null && list2 != null && list1.size() == list2.size() && list1.containsAll(list2));
+				|| (list1 != null && list2 != null && list1.size() == list2.size() && list1.
+				containsAll(list2));
 	}
 
 	// ----------------------------------------------------------------
@@ -1110,7 +1105,8 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxT
 		 */
 		@Override
 		public boolean equals(final Object o) {
-			return (o instanceof FileWidgetUpload) && Util.equals(fileId, ((FileWidgetUpload) o).getFileId());
+			return (o instanceof FileWidgetUpload) && Util.equals(fileId, ((FileWidgetUpload) o).
+					getFileId());
 		}
 
 		/**

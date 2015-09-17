@@ -1,8 +1,7 @@
 package com.github.bordertech.wcomponents.examples;
 
 /**
- * An example extension of {@link TextDuplicatorVelocityImpl} to show how different a template can
- * be specified.
+ * An example extension of {@link TextDuplicatorVelocityImpl} to show how different a template can be specified.
  *
  * @author Martin Shevchenko
  * @since 1.0.0

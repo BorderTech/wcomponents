@@ -34,13 +34,16 @@ public class WDropdownSubmitOnChangeExample_Test extends WComponentSeleniumTestC
 		driver.findElement(byWComponentPath("WDropdown[0]", "ACT")).click();
 
 		// Should have round-tripped, check server and client-side states
-		Assert.assertTrue("Incorrect state selection on server", driver.getPageSource().contains("the heart of the nation!"));
-		Assert.assertTrue("Incorrect state selection on client", driver.findElement(byWComponentPath("WDropdown[0]", "ACT")).isSelected());
+		Assert.assertTrue("Incorrect state selection on server", driver.getPageSource().contains(
+				"the heart of the nation!"));
+		Assert.assertTrue("Incorrect state selection on client", driver.findElement(
+				byWComponentPath("WDropdown[0]", "ACT")).isSelected());
 
 		// Select "Woden" from Region dropdown
 		driver.findElement(byWComponentPath("WDropdown[1]", "City")).click();
 
 		// No round-trip for last dropdown
-		Assert.assertTrue("Incorrect region selection on client", driver.findElement(byWComponentPath("WDropdown[1]", "City")).isSelected());
+		Assert.assertTrue("Incorrect region selection on client", driver.findElement(
+				byWComponentPath("WDropdown[1]", "City")).isSelected());
 	}
 }

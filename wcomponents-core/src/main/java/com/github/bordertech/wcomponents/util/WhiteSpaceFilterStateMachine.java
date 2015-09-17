@@ -5,8 +5,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * WhiteSpaceFilterOutputStream is a state machine that filters out extraneous whitespace from XHTML
- * content.
+ * WhiteSpaceFilterOutputStream is a state machine that filters out extraneous whitespace from XHTML content.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -605,7 +604,9 @@ public class WhiteSpaceFilterStateMachine {
 			} catch (UnsupportedEncodingException e) {
 				//Ok, this shouldn't ever happen, but we want to do something sensible. Set up a single-state that does nothing
 				Log logger = LogFactory.getLog(WhiteSpaceFilterStateMachine.class);
-				logger.error("UTF-8 encoding unsupported, white space filtering will be disabled", e);
+				logger.
+						error("UTF-8 encoding unsupported, white space filtering will be disabled",
+								e);
 
 				INITIAL_STATE.inputChars = new char[0];
 				INITIAL_STATE.stateChanges = new StateChange[0];
@@ -748,12 +749,11 @@ public class WhiteSpaceFilterStateMachine {
 		 * Creates a StateChange.
 		 *
 		 * @param newState the new State.
-		 * @param suppressCurrentChar whether the character which triggered the change should be
-		 * suppressed.
-		 * @param outputBytes the data to output on transition to the new state, or null for no
-		 * output.
+		 * @param suppressCurrentChar whether the character which triggered the change should be suppressed.
+		 * @param outputBytes the data to output on transition to the new state, or null for no output.
 		 */
-		public StateChange(final State newState, final boolean suppressCurrentChar, final byte[] outputBytes) {
+		public StateChange(final State newState, final boolean suppressCurrentChar,
+				final byte[] outputBytes) {
 			this.newState = newState;
 			this.suppressCurrentChar = suppressCurrentChar;
 			this.outputBytes = outputBytes;

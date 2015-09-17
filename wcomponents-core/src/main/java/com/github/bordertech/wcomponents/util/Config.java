@@ -12,19 +12,17 @@ import org.apache.commons.configuration.MapConfiguration;
 
 /**
  * <p>
- * The Config class is the central access point to the WComponent configuration mechanism, and is
- * used to read or modify the current configuration.</p>
+ * The Config class is the central access point to the WComponent configuration mechanism, and is used to read or modify
+ * the current configuration.</p>
  *
  * <p>
- * The WComponent library is configured using the Apache Configuration API. This allows developers
- * to programmatically integrate the WComponent configuration with whatever mechanism is used to
- * configure their applications.
- * <b>Note:</b>To prevent against accidental modifications, the default WComponent configuration is
- * read-only, and any attempt to modify it will result in a runtime exception.</p>
+ * The WComponent library is configured using the Apache Configuration API. This allows developers to programmatically
+ * integrate the WComponent configuration with whatever mechanism is used to configure their applications.
+ * <b>Note:</b>To prevent against accidental modifications, the default WComponent configuration is read-only, and any
+ * attempt to modify it will result in a runtime exception.</p>
  *
  * <p>
- * For more information, refer to the "Configuring the WComponent library" section in the WComponent
- * user's guide.</p>
+ * For more information, refer to the "Configuring the WComponent library" section in the WComponent user's guide.</p>
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -55,9 +53,8 @@ public final class Config {
 	}
 
 	/**
-	 * Resets the configuration back to the default internal configuration. All configuration
-	 * changes which have been made will be lost. This method is primarily intended for unit
-	 * testing.
+	 * Resets the configuration back to the default internal configuration. All configuration changes which have been
+	 * made will be lost. This method is primarily intended for unit testing.
 	 */
 	public static synchronized void reset() {
 		configuration = new DefaultInternalConfiguration();
@@ -98,8 +95,8 @@ public final class Config {
 	}
 
 	/**
-	 * This method notifies all the {@link PropertyChangeListener}s that have registered with this
-	 * object that a change has occurred.
+	 * This method notifies all the {@link PropertyChangeListener}s that have registered with this object that a change
+	 * has occurred.
 	 */
 	public static void notifyListeners() {
 		// The trivial case is when there are no listeners.
@@ -124,10 +121,10 @@ public final class Config {
 	}
 
 	/**
-	 * Registers a property change listener to receive notifications of configuration changes. Note
-	 * that the listener will only be notified when this class knows that the configuration has
-	 * changed. No notification is sent if a {@link Configuration} changes its values internally. In
-	 * this case, a manual call to {@link #notifyListeners()} must be made to notify the listeners.
+	 * Registers a property change listener to receive notifications of configuration changes. Note that the listener
+	 * will only be notified when this class knows that the configuration has changed. No notification is sent if a
+	 * {@link Configuration} changes its values internally. In this case, a manual call to {@link #notifyListeners()}
+	 * must be made to notify the listeners.
 	 *
 	 * @param listener the listener to add.
 	 */

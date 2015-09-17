@@ -39,15 +39,19 @@ public class ThemeUtil_Test extends AbstractWComponentTestCase {
 
 		String build = ThemeUtil.getThemeBuild();
 		String themeName = ThemeUtil.getThemeName();
-		String versionSuffix = "?build=" + WebUtilities.escapeForUrl(build) + "&theme=" + WebUtilities.escapeForUrl(themeName);
+		String versionSuffix = "?build=" + WebUtilities.escapeForUrl(build) + "&theme=" + WebUtilities.
+				escapeForUrl(themeName);
 
 		UIContext uic = createUIContext();
-		Assert.assertEquals("Incorrect theme path", themePath + "/xslt/all.xsl" + versionSuffix, ThemeUtil.getThemeXslt(uic));
+		Assert.assertEquals("Incorrect theme path", themePath + "/xslt/all.xsl" + versionSuffix,
+				ThemeUtil.getThemeXslt(uic));
 
 		uic.setLocale(Locale.ENGLISH);
-		Assert.assertEquals("Incorrect theme path", themePath + "/xslt/all_en.xsl" + versionSuffix, ThemeUtil.getThemeXslt(uic));
+		Assert.assertEquals("Incorrect theme path", themePath + "/xslt/all_en.xsl" + versionSuffix,
+				ThemeUtil.getThemeXslt(uic));
 
 		uic.setLocale(Locale.CANADA_FRENCH);
-		Assert.assertEquals("Incorrect theme path", themePath + "/xslt/all_fr-CA.xsl" + versionSuffix, ThemeUtil.getThemeXslt(uic));
+		Assert.assertEquals("Incorrect theme path",
+				themePath + "/xslt/all_fr-CA.xsl" + versionSuffix, ThemeUtil.getThemeXslt(uic));
 	}
 }

@@ -15,8 +15,8 @@ import com.github.bordertech.wcomponents.validation.WFieldErrorIndicator;
 import java.util.List;
 
 /**
- * A component to update the quantity of an item in the user's shopping cart. Expects the bean to be
- * the Integer item id.
+ * A component to update the quantity of an item in the user's shopping cart. Expects the bean to be the Integer item
+ * id.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -84,8 +84,7 @@ public class UpdateCartComponent extends WBeanContainer {
 	}
 
 	/**
-	 * Updates the contents of a user's shopping cart and displays a confirmation message to the
-	 * user.
+	 * Updates the contents of a user's shopping cart and displays a confirmation message to the user.
 	 *
 	 * @param productId the id of the product that is being updated.
 	 * @param quantity the quantity being set.

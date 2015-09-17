@@ -23,7 +23,8 @@ public class WRadioButtonSelectRenderer_Test extends AbstractWebXmlRendererTestC
 	@Test
 	public void testRendererCorrectlyConfigured() {
 		WRadioButtonSelect component = new WRadioButtonSelect();
-		Assert.assertTrue("Incorrect renderer supplied", getWebXmlRenderer(component) instanceof WRadioButtonSelectRenderer);
+		Assert.assertTrue("Incorrect renderer supplied",
+				getWebXmlRenderer(component) instanceof WRadioButtonSelectRenderer);
 	}
 
 	@Test
@@ -37,15 +38,19 @@ public class WRadioButtonSelectRenderer_Test extends AbstractWebXmlRendererTestC
 
 		buttonGroup.setSelected("b");
 		assertSchemaMatch(buttonGroup);
-		assertXpathEvaluatesTo("1", "count(//ui:radioButtonSelect/ui:option[@selected='true'])", buttonGroup);
-		assertXpathEvaluatesTo("b", "//ui:radioButtonSelect/ui:option[@selected='true']", buttonGroup);
+		assertXpathEvaluatesTo("1", "count(//ui:radioButtonSelect/ui:option[@selected='true'])",
+				buttonGroup);
+		assertXpathEvaluatesTo("b", "//ui:radioButtonSelect/ui:option[@selected='true']",
+				buttonGroup);
 
 		// Check Readonly - only render selected option
 		buttonGroup.setReadOnly(true);
 		assertSchemaMatch(buttonGroup);
 		assertXpathEvaluatesTo("true", "//ui:radioButtonSelect/@readOnly", buttonGroup);
-		assertXpathEvaluatesTo("1", "count(//ui:radioButtonSelect/ui:option[@selected='true'])", buttonGroup);
-		assertXpathEvaluatesTo("b", "//ui:radioButtonSelect/ui:option[@selected='true']", buttonGroup);
+		assertXpathEvaluatesTo("1", "count(//ui:radioButtonSelect/ui:option[@selected='true'])",
+				buttonGroup);
+		assertXpathEvaluatesTo("b", "//ui:radioButtonSelect/ui:option[@selected='true']",
+				buttonGroup);
 
 	}
 
@@ -83,13 +88,15 @@ public class WRadioButtonSelectRenderer_Test extends AbstractWebXmlRendererTestC
 	@Test(expected = SystemException.class)
 	public void testOptGroupException() throws IOException, SAXException, XpathException {
 		OptionGroup optionGroup = new OptionGroup("Test", Arrays.asList(new String[]{"A", "B"}));
-		WRadioButtonSelect group = new WRadioButtonSelect(Arrays.asList(new Object[]{"X", optionGroup}));
+		WRadioButtonSelect group = new WRadioButtonSelect(Arrays.asList(
+				new Object[]{"X", optionGroup}));
 		assertSchemaMatch(group);
 	}
 
 	@Test
 	public void testXssEscaping() throws IOException, SAXException, XpathException {
-		WRadioButtonSelect group = new WRadioButtonSelect(Arrays.asList(new Object[]{getInvalidCharSequence(), getMaliciousContent()}));
+		WRadioButtonSelect group = new WRadioButtonSelect(Arrays.asList(
+				new Object[]{getInvalidCharSequence(), getMaliciousContent()}));
 
 		assertSafeContent(group);
 
@@ -114,11 +121,15 @@ public class WRadioButtonSelectRenderer_Test extends AbstractWebXmlRendererTestC
 			String code = select.optionToCode(options[i]);
 			String option = options[i];
 			if (option == null || option.equals("")) {
-				assertXpathEvaluatesTo("", "//ui:radioButtonSelect/ui:option[@value='" + code + "']/text()", select);
-				assertXpathEvaluatesTo("true", "//ui:radioButtonSelect/ui:option[@value='" + code + "']/@isNull", select);
+				assertXpathEvaluatesTo("",
+						"//ui:radioButtonSelect/ui:option[@value='" + code + "']/text()", select);
+				assertXpathEvaluatesTo("true",
+						"//ui:radioButtonSelect/ui:option[@value='" + code + "']/@isNull", select);
 			} else {
-				assertXpathEvaluatesTo(option, "//ui:radioButtonSelect/ui:option[@value='" + code + "']/text()", select);
-				assertXpathEvaluatesTo("", "//ui:radioButtonSelect/ui:option[@value='" + code + "']/@isNull", select);
+				assertXpathEvaluatesTo(option,
+						"//ui:radioButtonSelect/ui:option[@value='" + code + "']/text()", select);
+				assertXpathEvaluatesTo("",
+						"//ui:radioButtonSelect/ui:option[@value='" + code + "']/@isNull", select);
 			}
 		}
 	}

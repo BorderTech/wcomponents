@@ -14,7 +14,8 @@ public class WFieldLayout_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testConstructor() {
 		WFieldLayout layout = new WFieldLayout();
-		Assert.assertEquals("Incorrect default layout", WFieldLayout.LAYOUT_FLAT, layout.getLayoutType());
+		Assert.assertEquals("Incorrect default layout", WFieldLayout.LAYOUT_FLAT, layout.
+				getLayoutType());
 
 		layout = new WFieldLayout(WFieldLayout.LAYOUT_STACKED);
 		Assert.assertEquals("Incorrect layout", WFieldLayout.LAYOUT_STACKED, layout.getLayoutType());
@@ -51,7 +52,8 @@ public class WFieldLayout_Test extends AbstractWComponentTestCase {
 		Assert.assertEquals("Incorrect width percentage from setter 0", 0, layout.getLabelWidth());
 
 		layout.setLabelWidth(100);
-		Assert.assertEquals("Incorrect width percentage from setter 100", 100, layout.getLabelWidth());
+		Assert.assertEquals("Incorrect width percentage from setter 100", 100, layout.
+				getLabelWidth());
 	}
 
 	@Test(expected = IllegalArgumentException.class)

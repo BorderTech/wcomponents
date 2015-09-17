@@ -23,15 +23,14 @@ import java.util.List;
  * Example use of the {@link WMultiFileWidget} component.
  * </p>
  * <p>
- * WMultiFileWidget allows user to upload multiple files. File information is rendered for each
- * upload. The file link pops up a window to show the uploaded content.
+ * WMultiFileWidget allows user to upload multiple files. File information is rendered for each upload. The file link
+ * pops up a window to show the uploaded content.
  * <ul>
  * <li>Use <code>getSelectedFiles()</code> to get the checked file uploads only.</li>
  * <li>Use <code>getFiles()</code> to get all file uploads.</li>
- * <li>Use <code>setMaxFileSize(long)</code> to set the maximum size of files that can be
- * uploaded.</li>
- * <li>Use <code>setContentType(String[])</code> to set the file types that will be accepted
- * (setting no types implies that all types are accepted).</li>
+ * <li>Use <code>setMaxFileSize(long)</code> to set the maximum size of files that can be uploaded.</li>
+ * <li>Use <code>setContentType(String[])</code> to set the file types that will be accepted (setting no types implies
+ * that all types are accepted).</li>
  * </ul>
  * </p>
  *
@@ -54,7 +53,8 @@ public class WMultiFileWidgetExample extends WContainer {
 	 * Creates a WMultiFileWidgetExample.
 	 */
 	public WMultiFileWidgetExample() {
-		add(new WHeading(WHeading.SUB_HEADING, "A WMultiFileWidget that accepts all file types and has a dropzone."));
+		add(new WHeading(WHeading.SUB_HEADING,
+				"A WMultiFileWidget that accepts all file types and has a dropzone."));
 
 		// Multi file upload widgets
 		// smallFiles.setMaxFileSize(1024);
@@ -67,7 +67,8 @@ public class WMultiFileWidgetExample extends WContainer {
 		add(dropzone);
 		allFiles.setDropzone(dropzone);
 
-		add(new WHeading(WHeading.SUB_HEADING, "A WMultiFileWidget that accepts images of any type and displays thumbnails in two columns"));
+		add(new WHeading(WHeading.SUB_HEADING,
+				"A WMultiFileWidget that accepts images of any type and displays thumbnails in two columns"));
 
 		imageFiles.setFileTypes(new String[]{"image/*"});
 		imageFiles.setAccessibleText("File selector for image files");
@@ -75,7 +76,8 @@ public class WMultiFileWidgetExample extends WContainer {
 		imageFiles.setColumns(2);
 		add(imageFiles);
 
-		add(new WHeading(WHeading.SUB_HEADING, "A WMultiFileWidget that accepts one text file displays thumbnails."));
+		add(new WHeading(WHeading.SUB_HEADING,
+				"A WMultiFileWidget that accepts one text file displays thumbnails."));
 
 		textFiles.setFileTypes(new String[]{".txt"});  // N.B. this one uses an extension instead of a mime type "text/plain"
 		// textFiles.setMaxFileSize(8 * 1024);
@@ -84,7 +86,8 @@ public class WMultiFileWidgetExample extends WContainer {
 		textFiles.setMaxFiles(1);
 		add(textFiles);
 
-		add(new WHeading(WHeading.SUB_HEADING, "A WMultiFileWidget that accepts pdfs and html files up to a max size of 5 MB."));
+		add(new WHeading(WHeading.SUB_HEADING,
+				"A WMultiFileWidget that accepts pdfs and html files up to a max size of 5 MB."));
 
 		pdfFiles.setFileTypes(new String[]{"application/pdf", "text/html"});
 		pdfFiles.setMaxFileSize(5 * 1024 * 1024);
@@ -111,14 +114,16 @@ public class WMultiFileWidgetExample extends WContainer {
 		panel.add(container);
 		WButton roundtrip = new WButton("Roundtrip");
 		container.add(roundtrip);
-		container.add(new WText(" - Performs a round trip to the server, which proves we don't loose access to the files already selected."));
+		container.add(new WText(
+				" - Performs a round trip to the server, which proves we don't loose access to the files already selected."));
 
 		// Toggle readonly
 		container = new WContainer();
 		panel.add(container);
 		WButton readonly = new WButton("Toggle Readonly");
 		container.add(readonly);
-		container.add(new WText(" - Toggle the readonly state of all the multiFileWidgets in the example."));
+		container.add(new WText(
+				" - Toggle the readonly state of all the multiFileWidgets in the example."));
 
 		// Reset
 		container = new WContainer();

@@ -24,14 +24,12 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * This wrong step interceptor makes sure that ajax requests are only processed for the most
- * recently rendered view.
+ * This wrong step interceptor makes sure that ajax requests are only processed for the most recently rendered view.
  * <p>
- * If a step error occurs, then the user, depending on the redirect flag, is either (1)redirected to
- * an error page or (2) warped to the future by being redirected to the current page so the
- * application is refreshed to the current state. When the user is warped to the future, the
- * handleStepError method is called on WApplication, which allows applications to take the
- * appropriate action for when a step error has occurred.
+ * If a step error occurs, then the user, depending on the redirect flag, is either (1)redirected to an error page or
+ * (2) warped to the future by being redirected to the current page so the application is refreshed to the current
+ * state. When the user is warped to the future, the handleStepError method is called on WApplication, which allows
+ * applications to take the appropriate action for when a step error has occurred.
  * </p>
  *
  * @author Jonathan Austin
@@ -59,7 +57,8 @@ public class WrongStepAjaxInterceptor extends InterceptorComponent {
 		// Get trigger and its context
 		ComponentWithContext trigger = AjaxHelper.getCurrentTriggerAndContext();
 		if (trigger == null) {
-			throw new IllegalStateException("No component/context available for AJAX trigger " + triggerId + ".");
+			throw new IllegalStateException(
+					"No component/context available for AJAX trigger " + triggerId + ".");
 		}
 
 		// Get expected step count
@@ -68,7 +67,8 @@ public class WrongStepAjaxInterceptor extends InterceptorComponent {
 
 		// Step should already be set on the session
 		if (expected == 0) {
-			throw new SystemException("Step count should already be set on the session before AJAX request.");
+			throw new SystemException(
+					"Step count should already be set on the session before AJAX request.");
 		}
 
 		// Get step count on the request
@@ -79,7 +79,8 @@ public class WrongStepAjaxInterceptor extends InterceptorComponent {
 			// Process Service Request
 			getBackingComponent().serviceRequest(request);
 		} else { // Invalid step
-			LOG.warn("AJAX: Wrong step detected. Expected step " + expected + " but got step " + got);
+			LOG.
+					warn("AJAX: Wrong step detected. Expected step " + expected + " but got step " + got);
 
 			// "GET" Ajax requests are just ignored and return an error code
 			if ("GET".equals(request.getMethod())) {
@@ -178,7 +179,8 @@ public class WrongStepAjaxInterceptor extends InterceptorComponent {
 	 */
 	private void handleError() {
 		String msg = I18nUtilities
-				.format(UIContextHolder.getCurrent().getLocale(), InternalMessages.DEFAULT_STEP_ERROR);
+				.format(UIContextHolder.getCurrent().getLocale(),
+						InternalMessages.DEFAULT_STEP_ERROR);
 		throw new ErrorCodeEscape(HttpServletResponse.SC_BAD_REQUEST, msg);
 	}
 

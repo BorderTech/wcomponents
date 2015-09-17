@@ -161,16 +161,20 @@ public class InterceptorComponent_Test extends AbstractWComponentTestCase {
 		interceptor3.setBackingComponent(interceptor2);
 
 		// Replace interceptor2
-		InterceptorComponent newChain = InterceptorComponent.replaceInterceptor(interceptor2.getClass(), replacement, interceptor3);
+		InterceptorComponent newChain = InterceptorComponent.replaceInterceptor(interceptor2.
+				getClass(), replacement, interceptor3);
 		Assert.assertSame("Incorrect head of chain", interceptor3, newChain);
 		Assert.assertSame("Incorrect replacement", replacement, newChain.getBackingComponent());
-		Assert.assertSame("Incorrect tail of chain", interceptor1, replacement.getBackingComponent());
+		Assert.
+				assertSame("Incorrect tail of chain", interceptor1, replacement.
+						getBackingComponent());
 		Assert.assertSame("Incorrect UI", ui, newChain.getUI());
 	}
 
 	@Test
 	public void testReplaceInterceptorNullChain() {
-		InterceptorComponent newChain = InterceptorComponent.replaceInterceptor(InterceptorComponent.class, new FormInterceptor(), null);
+		InterceptorComponent newChain = InterceptorComponent.replaceInterceptor(
+				InterceptorComponent.class, new FormInterceptor(), null);
 		Assert.assertNull("New chain should be null", newChain);
 	}
 

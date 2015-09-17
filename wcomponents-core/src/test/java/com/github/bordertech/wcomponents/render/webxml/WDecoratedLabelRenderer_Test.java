@@ -22,7 +22,8 @@ public class WDecoratedLabelRenderer_Test extends AbstractWebXmlRendererTestCase
 	@Test
 	public void testRendererCorrectlyConfigured() {
 		WDecoratedLabel decoratedLabel = new WDecoratedLabel();
-		Assert.assertTrue("Incorrect renderer supplied", getWebXmlRenderer(decoratedLabel) instanceof WDecoratedLabelRenderer);
+		Assert.assertTrue("Incorrect renderer supplied",
+				getWebXmlRenderer(decoratedLabel) instanceof WDecoratedLabelRenderer);
 	}
 
 	@Test
@@ -35,7 +36,8 @@ public class WDecoratedLabelRenderer_Test extends AbstractWebXmlRendererTestCase
 		WDecoratedLabel decoratedLabel = new WDecoratedLabel(bodyText);
 
 		assertSchemaMatch(decoratedLabel);
-		assertXpathEvaluatesTo(bodyText, "normalize-space(//ui:decoratedLabel/ui:labelBody)", decoratedLabel);
+		assertXpathEvaluatesTo(bodyText, "normalize-space(//ui:decoratedLabel/ui:labelBody)",
+				decoratedLabel);
 		assertXpathNotExists("//ui:decoratedLabel/@labelFocus", decoratedLabel);
 
 		decoratedLabel.setHead(new WText(headText));
@@ -43,9 +45,12 @@ public class WDecoratedLabelRenderer_Test extends AbstractWebXmlRendererTestCase
 
 		// Test all text content
 		assertSchemaMatch(decoratedLabel);
-		assertXpathEvaluatesTo(headText, "normalize-space(//ui:decoratedLabel/ui:labelHead)", decoratedLabel);
-		assertXpathEvaluatesTo(bodyText, "normalize-space(//ui:decoratedLabel/ui:labelBody)", decoratedLabel);
-		assertXpathEvaluatesTo(tailText, "normalize-space(//ui:decoratedLabel/ui:labelTail)", decoratedLabel);
+		assertXpathEvaluatesTo(headText, "normalize-space(//ui:decoratedLabel/ui:labelHead)",
+				decoratedLabel);
+		assertXpathEvaluatesTo(bodyText, "normalize-space(//ui:decoratedLabel/ui:labelBody)",
+				decoratedLabel);
+		assertXpathEvaluatesTo(tailText, "normalize-space(//ui:decoratedLabel/ui:labelTail)",
+				decoratedLabel);
 		assertXpathNotExists("//ui:decoratedLabel/@labelFocus", decoratedLabel);
 
 		// Test complex content
@@ -54,6 +59,7 @@ public class WDecoratedLabelRenderer_Test extends AbstractWebXmlRendererTestCase
 		complexContent.add(new WCheckBox());
 		decoratedLabel.setBody(complexContent);
 
-		assertXpathExists("//ui:decoratedLabel/ui:labelBody/ui:label/following-sibling::ui:checkBox", decoratedLabel);
+		assertXpathExists("//ui:decoratedLabel/ui:labelBody/ui:label/following-sibling::ui:checkBox",
+				decoratedLabel);
 	}
 }

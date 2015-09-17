@@ -93,16 +93,14 @@ public class FlowLayout implements LayoutManager {
 	private final ContentAlignment contentAlignment;
 
 	/**
-	 * Constructs a new <code>FlowLayout</code> with a centered alignment and no horizontal or
-	 * vertical gap.
+	 * Constructs a new <code>FlowLayout</code> with a centered alignment and no horizontal or vertical gap.
 	 */
 	public FlowLayout() {
 		this(Alignment.CENTER, 0, 0, null);
 	}
 
 	/**
-	 * Constructs a new <code>FlowLayout</code> with the specified alignment and no horizontal or
-	 * vertical gap.
+	 * Constructs a new <code>FlowLayout</code> with the specified alignment and no horizontal or vertical gap.
 	 *
 	 * @param alignment the alignment of the components
 	 */
@@ -111,8 +109,8 @@ public class FlowLayout implements LayoutManager {
 	}
 
 	/**
-	 * Constructs a new <code>FlowLayout</code> with the specified alignment (no horizontal or
-	 * vertical gap) and content alignment.
+	 * Constructs a new <code>FlowLayout</code> with the specified alignment (no horizontal or vertical gap) and content
+	 * alignment.
 	 *
 	 * @param alignment the alignment of the components
 	 * @param contentAlignment the alignment of the content in each cell
@@ -122,8 +120,7 @@ public class FlowLayout implements LayoutManager {
 	}
 
 	/**
-	 * Creates a new flow layout manager with the indicated alignment and horizontal and vertical
-	 * gaps.
+	 * Creates a new flow layout manager with the indicated alignment and horizontal and vertical gaps.
 	 *
 	 * @param alignment the alignment of the components
 	 * @param hgap the horizontal gap between the cells, measured in pixels.
@@ -134,15 +131,16 @@ public class FlowLayout implements LayoutManager {
 	}
 
 	/**
-	 * Creates a new flow layout manager with the indicated alignment, horizontal and vertical gaps
-	 * and content alignment.
+	 * Creates a new flow layout manager with the indicated alignment, horizontal and vertical gaps and content
+	 * alignment.
 	 *
 	 * @param alignment the alignment of the components
 	 * @param hgap the horizontal gap between the cells, measured in pixels.
 	 * @param vgap the vertical gap between the cells, measured in pixels.
 	 * @param contentAlignment the alignment of the content in each cell
 	 */
-	public FlowLayout(final Alignment alignment, final int hgap, final int vgap, final ContentAlignment contentAlignment) {
+	public FlowLayout(final Alignment alignment, final int hgap, final int vgap,
+			final ContentAlignment contentAlignment) {
 		if (alignment == null) {
 			throw new IllegalArgumentException("Alignment must be provided.");
 		}

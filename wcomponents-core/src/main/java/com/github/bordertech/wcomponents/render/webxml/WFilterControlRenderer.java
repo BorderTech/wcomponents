@@ -27,7 +27,8 @@ final class WFilterControlRenderer extends AbstractWebXmlRenderer {
 		String value = filter.getValue();
 
 		if (filter.getTarget() == null) {
-			throw new SystemException("The filter control cannot be painted as it has no target component.");
+			throw new SystemException(
+					"The filter control cannot be painted as it has no target component.");
 		}
 
 		xml.appendTagOpen("ui:filterControl");

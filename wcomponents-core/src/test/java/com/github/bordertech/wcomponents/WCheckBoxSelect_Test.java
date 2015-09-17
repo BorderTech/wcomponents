@@ -26,7 +26,8 @@ public class WCheckBoxSelect_Test extends AbstractWComponentTestCase {
 	public void testConstructorArray() {
 		String[] options = new String[]{"A", "B"};
 		WCheckBoxSelect checkBoxSelect = new WCheckBoxSelect(options);
-		Assert.assertEquals("Incorrect options returned", Arrays.asList(options), checkBoxSelect.getOptions());
+		Assert.assertEquals("Incorrect options returned", Arrays.asList(options), checkBoxSelect.
+				getOptions());
 		Assert.assertTrue("allowNoSelection should be true", checkBoxSelect.isAllowNoSelection());
 	}
 
@@ -41,7 +42,8 @@ public class WCheckBoxSelect_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testConstructorTable() {
 		WCheckBoxSelect checkBoxSelect = new WCheckBoxSelect(DayOfWeekTable.class);
-		Assert.assertEquals("Incorrect table returned", DayOfWeekTable.class, checkBoxSelect.getLookupTable());
+		Assert.assertEquals("Incorrect table returned", DayOfWeekTable.class, checkBoxSelect.
+				getLookupTable());
 		Assert.assertTrue("allowNoSelection should be true", checkBoxSelect.isAllowNoSelection());
 	}
 

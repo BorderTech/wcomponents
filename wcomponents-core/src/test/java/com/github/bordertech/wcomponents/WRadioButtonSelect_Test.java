@@ -26,7 +26,8 @@ public class WRadioButtonSelect_Test extends AbstractWComponentTestCase {
 	public void testConstructorArray() {
 		String[] options = new String[]{"A", "B"};
 		WRadioButtonSelect radioButtonSelect = new WRadioButtonSelect(options);
-		Assert.assertEquals("Incorrect options returned", Arrays.asList(options), radioButtonSelect.getOptions());
+		Assert.assertEquals("Incorrect options returned", Arrays.asList(options), radioButtonSelect.
+				getOptions());
 		Assert.assertTrue("allowNoSelection should be true", radioButtonSelect.isAllowNoSelection());
 	}
 
@@ -41,7 +42,8 @@ public class WRadioButtonSelect_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testConstructorTable() {
 		WRadioButtonSelect radioButtonSelect = new WRadioButtonSelect(DayOfWeekTable.class);
-		Assert.assertEquals("Incorrect table returned", DayOfWeekTable.class, radioButtonSelect.getLookupTable());
+		Assert.assertEquals("Incorrect table returned", DayOfWeekTable.class, radioButtonSelect.
+				getLookupTable());
 		Assert.assertTrue("allowNoSelection should be true", radioButtonSelect.isAllowNoSelection());
 	}
 
@@ -64,7 +66,8 @@ public class WRadioButtonSelect_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testButtonlayoutAccessors() {
-		assertAccessorsCorrect(new WRadioButtonSelect(), "buttonLayout", WRadioButtonSelect.LAYOUT_STACKED,
+		assertAccessorsCorrect(new WRadioButtonSelect(), "buttonLayout",
+				WRadioButtonSelect.LAYOUT_STACKED,
 				WRadioButtonSelect.LAYOUT_COLUMNS, WRadioButtonSelect.LAYOUT_FLAT);
 	}
 
@@ -88,7 +91,8 @@ public class WRadioButtonSelect_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testAjaxTargetAccessors() {
-		assertAccessorsCorrect(new WRadioButtonSelect(), "ajaxTarget", null, new WPanel(), new WPanel());
+		assertAccessorsCorrect(new WRadioButtonSelect(), "ajaxTarget", null, new WPanel(),
+				new WPanel());
 	}
 
 }

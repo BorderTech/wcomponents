@@ -36,13 +36,15 @@ public class NotEqual_Test {
 		NotEqual compare = new NotEqual(trigger, value);
 
 		Assert.assertEquals("Value for NotEqual is incorrect", value, compare.getValue());
-		Assert.assertEquals("Trigger for NotEqual should be the trigger", trigger, compare.getTrigger());
+		Assert.assertEquals("Trigger for NotEqual should be the trigger", trigger, compare.
+				getTrigger());
 	}
 
 	@Test
 	public void testCompareType() {
 		NotEqual compare = new NotEqual(new MyTrigger(), null);
-		Assert.assertEquals("Incorrect Compare Type", AbstractCompare.CompareType.NOT_EQUAL, compare.getCompareType());
+		Assert.assertEquals("Incorrect Compare Type", AbstractCompare.CompareType.NOT_EQUAL,
+				compare.getCompareType());
 	}
 
 	@Test
@@ -70,10 +72,12 @@ public class NotEqual_Test {
 		compare = new NotEqual(trigger, null);
 
 		trigger.setNumber(null);
-		Assert.assertFalse("Not Equal With Null Value - Compare for null value should be false", compare.execute());
+		Assert.assertFalse("Not Equal With Null Value - Compare for null value should be false",
+				compare.execute());
 
 		trigger.setNumber(EQ_VALUE);
-		Assert.assertTrue("Not Equal With Null Value - Compare for value should be true", compare.execute());
+		Assert.assertTrue("Not Equal With Null Value - Compare for value should be true", compare.
+				execute());
 	}
 
 	@Test
@@ -81,10 +85,13 @@ public class NotEqual_Test {
 		MyTrigger trigger = new MyTrigger();
 
 		NotEqual compare = new NotEqual(trigger, "1");
-		Assert.assertEquals("Incorrect toString for compare", "MyTrigger!=\"1\"", compare.toString());
+		Assert.
+				assertEquals("Incorrect toString for compare", "MyTrigger!=\"1\"", compare.
+						toString());
 
 		WLabel label = new WLabel("test label", trigger);
-		Assert.assertEquals("Incorrect toString for compare with a label", label.getText() + "!=\"1\"", compare.toString());
+		Assert.assertEquals("Incorrect toString for compare with a label",
+				label.getText() + "!=\"1\"", compare.toString());
 	}
 
 	/**

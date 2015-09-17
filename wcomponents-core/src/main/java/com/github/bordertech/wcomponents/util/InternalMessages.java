@@ -1,9 +1,9 @@
 package com.github.bordertech.wcomponents.util;
 
 /**
- * This class declares constants for internal messages issued by the WComponent framework itself.
- * The default messages themeselves are contained in a WComponent configuration properties file.
- * Developers who are internationalising an application should also internationalise these messages.
+ * This class declares constants for internal messages issued by the WComponent framework itself. The default messages
+ * themeselves are contained in a WComponent configuration properties file. Developers who are internationalising an
+ * application should also internationalise these messages.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0

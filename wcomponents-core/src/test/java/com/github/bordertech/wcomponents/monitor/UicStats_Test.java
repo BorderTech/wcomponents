@@ -96,7 +96,8 @@ public class UicStats_Test extends AbstractWComponentTestCase {
 			WComponent resultComponent = resultWcs.next();
 			Assert.assertEquals("the analysed component should be app", app, resultComponent);
 		}
-		Assert.assertEquals("there should be only one analysed components", expectedLoopCount, loopCount);
+		Assert.assertEquals("there should be only one analysed components", expectedLoopCount,
+				loopCount);
 	}
 
 	/**
@@ -127,7 +128,8 @@ public class UicStats_Test extends AbstractWComponentTestCase {
 			WComponent resultComponent = resultWcs.next();
 			Assert.assertEquals("the analysed component should be app", app, resultComponent);
 		}
-		Assert.assertEquals("there should be only one analysed components", expectedLoopCount, loopCount);
+		Assert.assertEquals("there should be only one analysed components", expectedLoopCount,
+				loopCount);
 	}
 
 	/**
@@ -147,13 +149,17 @@ public class UicStats_Test extends AbstractWComponentTestCase {
 
 			if (comp instanceof WLabel) {
 				Assert.assertEquals("this should be the label created", label, comp);
-				Assert.assertEquals("stat should have correct label name", label.getId(), stat.getName());
+				Assert.assertEquals("stat should have correct label name", label.getId(), stat.
+						getName());
 			} else if (comp instanceof WButton) {
 				Assert.assertEquals("this should be the button in the app", button, comp);
-				Assert.assertEquals("stat should have correct button name", button.getId(), stat.getName());
+				Assert.assertEquals("stat should have correct button name", button.getId(), stat.
+						getName());
 			} else if (comp instanceof WApplication) {
 				Assert.assertEquals("this should be the app", app, comp);
-				Assert.assertEquals("stat should have correct app name", app.getId(), stat.getName());
+				Assert.
+						assertEquals("stat should have correct app name", app.getId(), stat.
+								getName());
 			}
 		}
 	}
