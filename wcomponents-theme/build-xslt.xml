@@ -147,8 +147,8 @@
 	<!-- note: not going to minify debug.xsl -->
 	<target name="minify" unless="minifiy.resources.off">
 		<taskdef name="xslmin"
-				 classname="com.googlecode.monkeybrown.xslmin.ant.MinifyTask"
-				 classpath="${products.dir}/xsl_compressor/xslmin-2.2.jar"/>
+				 classname="com.github.ricksbrown.xslmin.ant.MinifyTask"
+				 classpathref="project.class.path"/>
 		<for param="file">
 			<fileset dir="${xslt.build.target.dir}">
 				<include name="*${debug.target.file.name.suffix}.xsl"/>
