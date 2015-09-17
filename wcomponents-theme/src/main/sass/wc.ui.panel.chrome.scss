@@ -8,8 +8,8 @@
 	@include border;
 
 	> h1 {
-		background-color: $wc-ui-color-panel-chrome-header-background;
-		color: $wc-ui-color-panel-chrome-header-foreground;
+		background-color: $wc-ui-color-section-heading-bg;
+		color: $wc-ui-color-section-heading-fg;
 		margin: 0;
 		padding: $hgap-normal;
 	}

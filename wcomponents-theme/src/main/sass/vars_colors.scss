@@ -5,6 +5,9 @@
 $wc-ui-color-disabled-fg: #696969;
 $wc-ui-color-disabled-bg: #f3f3f3;
 $wc-ui-color-disabled-border: $wc-ui-color-disabled-fg;
+//disabled controls in the banner, WSection headers, dialog headers etc
+$wc-color-primary-disabled: #ccc;
+// $wc-ui-color-primary-disabled-bg: #333; //may be unnecessary
 
 // Commonly used colors
 // ====================
@@ -52,6 +55,10 @@ $wc-ui-color-info-fg: $std-color-primary;
 $wc-ui-color-success-fg: $std-color-success-fg;
 $wc-ui-color-warning-fg: $std-color-warning-fg;
 
+// Section headers (WSection)
+$wc-ui-color-section-heading-bg: $std-color-primary;
+$wc-ui-color-section-heading-fg: $std-color-primary-accent;
+$wc-ui-color-section-heading-fg-disabled: $wc-color-primary-disabled;
 
 // iOS specific colours
 $wc-color-ios-bg: #fff;
