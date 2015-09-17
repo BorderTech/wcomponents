@@ -102,8 +102,8 @@ public final class ObjectGraphNode extends AbstractTreeNode {
 	}));
 
 	/**
-	 * The set of Java "simple" types. A type is considered simple if it is a
-	 * leaf node (ie. contains no further fields).
+	 * The set of Java "simple" types. A type is considered simple if it is a leaf node (ie.
+	 * contains no further fields).
 	 */
 	private static final Set<String> SIMPLE_TYPES
 			= new HashSet<>(Arrays.asList(new String[]{
@@ -120,14 +120,13 @@ public final class ObjectGraphNode extends AbstractTreeNode {
 	}));
 
 	/**
-	 * The name of the field that this object is stored under in its parent
-	 * object.
+	 * The name of the field that this object is stored under in its parent object.
 	 */
 	private final String fieldName;
 
 	/**
-	 * The fully qualified java type of the field. Not necessarily the same as
-	 * the {@link #value}'s class.
+	 * The fully qualified java type of the field. Not necessarily the same as the {@link #value}'s
+	 * class.
 	 */
 	private final String type;
 
@@ -147,8 +146,7 @@ public final class ObjectGraphNode extends AbstractTreeNode {
 	private final int id;
 
 	/**
-	 * If non-zero, this node is a reference to another node, using the other
-	 * node's id.
+	 * If non-zero, this node is a reference to another node, using the other node's id.
 	 */
 	private ObjectGraphNode refNode;
 
@@ -156,8 +154,7 @@ public final class ObjectGraphNode extends AbstractTreeNode {
 	 * Creates an ObjectGraphNode.
 	 *
 	 * @param id the node id.
-	 * @param fieldName the field name that the parent node refers to this node
-	 * by.
+	 * @param fieldName the field name that the parent node refers to this node by.
 	 * @param type the fully qualified java type name.
 	 * @param value the node value.
 	 */
@@ -172,12 +169,11 @@ public final class ObjectGraphNode extends AbstractTreeNode {
 	/**
 	 * Calculates the size of a field value obtained using the reflection API.
 	 *
-	 * @param fieldType the Field's type (class), needed to return the correct
-	 * values for primitives.
+	 * @param fieldType the Field's type (class), needed to return the correct values for
+	 * primitives.
 	 * @param fieldValue the field's value (primitives are boxed).
 	 *
-	 * @return an approximation of amount of memory the field occupies, in
-	 * bytes.
+	 * @return an approximation of amount of memory the field occupies, in bytes.
 	 */
 	private int getSize(final String fieldType, final Object fieldValue) {
 		Integer fieldSize = SIMPLE_SIZES.get(fieldType);
@@ -216,8 +212,7 @@ public final class ObjectGraphNode extends AbstractTreeNode {
 	}
 
 	/**
-	 * @return a String representation of this node's value if it is simple,
-	 * otherwise null.
+	 * @return a String representation of this node's value if it is simple, otherwise null.
 	 */
 	private String formatSimpleValue() {
 		if (value instanceof Character) {
@@ -244,9 +239,9 @@ public final class ObjectGraphNode extends AbstractTreeNode {
 	}
 
 	/**
-	 * Returns the sum of the size of primitive/simple value data contained
-	 * within this node. This will differ from the serialized size, as
-	 * references to shared objects aren't followed/counted.
+	 * Returns the sum of the size of primitive/simple value data contained within this node. This
+	 * will differ from the serialized size, as references to shared objects aren't
+	 * followed/counted.
 	 *
 	 * @return the actual data size, in bytes.
 	 */
@@ -261,8 +256,7 @@ public final class ObjectGraphNode extends AbstractTreeNode {
 	}
 
 	/**
-	 * @return a flat format summary representation of the object tree, starting
-	 * at this node.
+	 * @return a flat format summary representation of the object tree, starting at this node.
 	 */
 	public String toFlatSummary() {
 		StringBuffer buffer = new StringBuffer();
@@ -272,8 +266,7 @@ public final class ObjectGraphNode extends AbstractTreeNode {
 	}
 
 	/**
-	 * Generates a flat format summary XML representation of this
-	 * ObjectGraphNode.
+	 * Generates a flat format summary XML representation of this ObjectGraphNode.
 	 *
 	 * @param indent the indent, for formatting.
 	 * @param buffer the StringBuffer to append the summary to.
@@ -422,8 +415,8 @@ public final class ObjectGraphNode extends AbstractTreeNode {
 	}
 
 	/**
-	 * Sets the node size. Allows ObjectGraphDump to adjust the overhead size of
-	 * e.g. collections classes.
+	 * Sets the node size. Allows ObjectGraphDump to adjust the overhead size of e.g. collections
+	 * classes.
 	 *
 	 * @param size the new node size.
 	 */

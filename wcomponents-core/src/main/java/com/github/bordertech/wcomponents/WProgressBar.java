@@ -2,14 +2,13 @@ package com.github.bordertech.wcomponents;
 
 /**
  * <p>
- * WProgressBar is a component for displaying progress bars. The number of steps
- * in the progress bar is configurable, and the progress bar's value can either
- * be set manually, or sourced from an Integer bean.</p>
+ * WProgressBar is a component for displaying progress bars. The number of steps in the progress bar
+ * is configurable, and the progress bar's value can either be set manually, or sourced from an
+ * Integer bean.</p>
  *
  * <p>
- * Methods are available to customise the progress bar's appearance, such as
- * setting its size or whether to display the progress as a fraction or
- * percentage.</p>
+ * Methods are available to customise the progress bar's appearance, such as setting its size or
+ * whether to display the progress as a fraction or percentage.</p>
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -45,16 +44,15 @@ public class WProgressBar extends WBeanComponent implements AjaxTarget {
 	}
 
 	/**
-	 * Creates a progress bar with the type of "normal" and a fraction unit
-	 * type.
+	 * Creates a progress bar with the type of "normal" and a fraction unit type.
 	 */
 	public WProgressBar() {
 		this(ProgressBarType.NORMAL, UnitType.FRACTION);
 	}
 
 	/**
-	 * Creates a progress bar with the type of "normal", a fraction unit type
-	 * and the given maximum value.
+	 * Creates a progress bar with the type of "normal", a fraction unit type and the given maximum
+	 * value.
 	 *
 	 * @param max the maximum value
 	 */

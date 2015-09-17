@@ -94,10 +94,9 @@ final class WRadioButtonSelectRenderer extends AbstractWebXmlRenderer {
 	 * @param optionIndex the index of the option. OptionGroups are not counted.
 	 * @param html the XmlStringBuilder to paint to.
 	 * @param selectedOption the selected option
-	 * @param renderSelectionsOnly true to only render selected options, false
-	 * to render all options.
-	 * @param encode true if the option description should be encoded, false if
-	 * not.
+	 * @param renderSelectionsOnly true to only render selected options, false to render all
+	 * options.
+	 * @param encode true if the option description should be encoded, false if not.
 	 */
 	private void renderOption(final WRadioButtonSelect rbSelect, final Object option,
 			final int optionIndex, final XmlStringBuilder html,

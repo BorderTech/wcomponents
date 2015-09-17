@@ -15,8 +15,7 @@ import java.util.Arrays;
 public class Message implements Serializable {
 
 	/**
-	 * A message type that indicates that a message is an "informational
-	 * message".
+	 * A message type that indicates that a message is an "informational message".
 	 */
 	public static final int INFO_MESSAGE = 0;
 
@@ -47,8 +46,8 @@ public class Message implements Serializable {
 
 	/**
 	 * The type of this message. One of
-	 * ({@link #SUCCESS_MESSAGE}, {@link #INFO_MESSAGE}, {@link #WARNING_MESSAGE}
-	 * or {@link #ERROR_MESSAGE}).
+	 * ({@link #SUCCESS_MESSAGE}, {@link #INFO_MESSAGE}, {@link #WARNING_MESSAGE} or
+	 * {@link #ERROR_MESSAGE}).
 	 */
 	private int type;
 
@@ -130,8 +129,7 @@ public class Message implements Serializable {
 	 * Indicates whether this Message is equal to the given object.
 	 *
 	 * @param obj the object to compare against.
-	 * @return true if the supplied object is a Message and is equal to this
-	 * message.
+	 * @return true if the supplied object is a Message and is equal to this message.
 	 */
 	@Override
 	public boolean equals(final Object obj) {

@@ -12,18 +12,16 @@ import org.apache.commons.fileupload.FileItem;
 
 /**
  * <p>
- * The WFileWidget represents a "File Chooser" form widget. The
- * {@link #getBytes() "bytes"} property is updated with the binary data from the
- * uploaded file. If the user submits a form with no file chosen, the bytes
- * array will be set to null.
+ * The WFileWidget represents a "File Chooser" form widget. The {@link #getBytes() "bytes"} property
+ * is updated with the binary data from the uploaded file. If the user submits a form with no file
+ * chosen, the bytes array will be set to null.
  * </p>
  * <p>
- * The current implementation creates a {@link FileItem} which will be written
- * temporarily to disk if the size of the file reaches a threshold. A reaper
- * thread is started to clean up those temp files no longer being used. When
- * using this component, developers should include the
- * {@link WFileWidgetCleanup} context listener to their application to kill this
- * thread when the application is stopped. i.e the web.xml should include:
+ * The current implementation creates a {@link FileItem} which will be written temporarily to disk
+ * if the size of the file reaches a threshold. A reaper thread is started to clean up those temp
+ * files no longer being used. When using this component, developers should include the
+ * {@link WFileWidgetCleanup} context listener to their application to kill this thread when the
+ * application is stopped. i.e the web.xml should include:
  * </p>
  *
  * <pre>
@@ -32,8 +30,8 @@ import org.apache.commons.fileupload.FileItem;
  *    &lt;/listener&gt;
  * </pre>
  * <p>
- * The WFileWidget allows developers to limit the maximum file size and types of
- * files which can be uploaded.
+ * The WFileWidget allows developers to limit the maximum file size and types of files which can be
+ * uploaded.
  * </p>
  *
  * @author James Gifford
@@ -47,12 +45,12 @@ import org.apache.commons.fileupload.FileItem;
 public class WFileWidget extends AbstractInput implements AjaxTarget, SubordinateTarget {
 
 	/**
-	 * Returns a list of strings that determine the allowable file mime types
-	 * accepted by the file input. If no types have been added an empty list is
-	 * returned. An empty list indicates that all file types are accepted.
+	 * Returns a list of strings that determine the allowable file mime types accepted by the file
+	 * input. If no types have been added an empty list is returned. An empty list indicates that
+	 * all file types are accepted.
 	 *
-	 * @return The mime types accepted by this file input e.g. "text/plain",
-	 * "text/html", "application/pdf".
+	 * @return The mime types accepted by this file input e.g. "text/plain", "text/html",
+	 * "application/pdf".
 	 */
 	public List<String> getFileTypes() {
 		List<String> fileTypes = getComponentModel().fileTypes;
@@ -65,8 +63,7 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 	}
 
 	/**
-	 * Set each file type as a valid file mime type to be accepted by the
-	 * WMultiFileWidget.
+	 * Set each file type as a valid file mime type to be accepted by the WMultiFileWidget.
 	 *
 	 * @param types The mime types that will be accepted by the file input.
 	 */
@@ -79,8 +76,7 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 	}
 
 	/**
-	 * Set each file type as a valid file mime type to be accepted by the
-	 * WMultiFileWidget.
+	 * Set each file type as a valid file mime type to be accepted by the WMultiFileWidget.
 	 *
 	 * @param types The mime types that will be accepted by the file input.
 	 */
@@ -89,23 +85,20 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 	}
 
 	/**
-	 * Set the maximum file size (in bytes) that will be accepted by the file
-	 * input. If the user selects a file larger than this value the client
-	 * script will tell the user it cannot be uploaded.
+	 * Set the maximum file size (in bytes) that will be accepted by the file input. If the user
+	 * selects a file larger than this value the client script will tell the user it cannot be
+	 * uploaded.
 	 *
-	 * @param bytes The maximum size (in bytes) that can be uploaded by this
-	 * input.
+	 * @param bytes The maximum size (in bytes) that can be uploaded by this input.
 	 */
 	public void setMaxFileSize(final long bytes) {
 		getOrCreateComponentModel().maxFileSize = bytes;
 	}
 
 	/**
-	 * Return the maximum file size (in bytes) that can be accepted by this file
-	 * input.
+	 * Return the maximum file size (in bytes) that can be accepted by this file input.
 	 *
-	 * @return The maximum size (in bytes) that can be uploaded by this
-	 * component.
+	 * @return The maximum size (in bytes) that can be uploaded by this component.
 	 */
 	public long getMaxFileSize() {
 		return getComponentModel().maxFileSize;
@@ -182,10 +175,8 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 	/**
 	 * Retrieves an input stream of the uploaded file's contents.
 	 *
-	 * @return an input stream of the file's contents, or null if there was no
-	 * file uploaded
-	 * @throws IOException if there is an error obtaining the input stream from
-	 * the uploaded file.
+	 * @return an input stream of the file's contents, or null if there was no file uploaded
+	 * @throws IOException if there is an error obtaining the input stream from the uploaded file.
 	 */
 	public InputStream getInputStream() throws IOException {
 		FileItemWrap wrapper = getValue();
@@ -198,8 +189,7 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 	}
 
 	/**
-	 * @return the size of the uploaded file, or zero if there was no file
-	 * uploaded
+	 * @return the size of the uploaded file, or zero if there was no file uploaded
 	 */
 	public long getSize() {
 		FileItemWrap wrapper = getValue();
@@ -212,8 +202,7 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 	}
 
 	/**
-	 * @return the file name of the uploaded file, or null if there was no file
-	 * uploaded
+	 * @return the file name of the uploaded file, or null if there was no file uploaded
 	 */
 	public String getFileName() {
 		FileItemWrap wrapper = getValue();

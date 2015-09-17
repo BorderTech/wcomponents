@@ -11,16 +11,14 @@ import java.io.StringWriter;
 
 /**
  * <p>
- * Interceptor components are used to plug in features to a container that is
- * serving WComponents. Interceptor components can be chained together. The last
- * component in the chain is normally the WComponent (UI) that is being served
- * up.</p>
+ * Interceptor components are used to plug in features to a container that is serving WComponents.
+ * Interceptor components can be chained together. The last component in the chain is normally the
+ * WComponent (UI) that is being served up.</p>
  *
  * <p>
- * A new interceptor chain is created for each request that is served, so
- * interceptors do not need to be thread safe. Note that in a Portal
- * environment, the action and render phases will have separate interceptor
- * chain instances.</p>
+ * A new interceptor chain is created for each request that is served, so interceptors do not need
+ * to be thread safe. Note that in a Portal environment, the action and render phases will have
+ * separate interceptor chain instances.</p>
  *
  * @author Martin Shevchenko
  */
@@ -37,9 +35,8 @@ public class InterceptorComponent implements WebComponent {
 	private Response response;
 
 	/**
-	 * Creates an InterceptorComponent with no backing component. Set the
-	 * backing component after construction using method
-	 * {@link #setBackingComponent(WebComponent)}.
+	 * Creates an InterceptorComponent with no backing component. Set the backing component after
+	 * construction using method {@link #setBackingComponent(WebComponent)}.
 	 */
 	public InterceptorComponent() {
 		super();
@@ -88,15 +85,13 @@ public class InterceptorComponent implements WebComponent {
 	}
 
 	/**
-	 * Utility method for replacing an individual interceptor within an existing
-	 * chain.
+	 * Utility method for replacing an individual interceptor within an existing chain.
 	 *
 	 * @param match the type of the interceptor to be replaced.
 	 * @param replacement the new interceptor to be used as a replacement.
-	 * @param chain the existing interceptor chain in which the replacement will
-	 * take place.
-	 * @return the modified interceptor chain. If no match was found, the
-	 * existing interceptor chain is returned unchanged.
+	 * @param chain the existing interceptor chain in which the replacement will take place.
+	 * @return the modified interceptor chain. If no match was found, the existing interceptor chain
+	 * is returned unchanged.
 	 */
 	public static InterceptorComponent replaceInterceptor(final Class match, final InterceptorComponent replacement, final InterceptorComponent chain) {
 		if (chain == null) {
@@ -134,8 +129,7 @@ public class InterceptorComponent implements WebComponent {
 	}
 
 	/**
-	 * Subclasses can override. By default it delegates to the next interceptor
-	 * in the chain.
+	 * Subclasses can override. By default it delegates to the next interceptor in the chain.
 	 *
 	 * @see WebComponent#getName().
 	 *
@@ -148,8 +142,7 @@ public class InterceptorComponent implements WebComponent {
 	}
 
 	/**
-	 * Subclasses can override. By default it delegates to the next interceptor
-	 * in the chain.
+	 * Subclasses can override. By default it delegates to the next interceptor in the chain.
 	 *
 	 * @see WebComponent#getId().
 	 *
@@ -161,8 +154,7 @@ public class InterceptorComponent implements WebComponent {
 	}
 
 	/**
-	 * Subclasses can override. By default it delegates to the next interceptor
-	 * in the chain.
+	 * Subclasses can override. By default it delegates to the next interceptor in the chain.
 	 *
 	 * @see WebComponent#serviceRequest(Request).
 	 *
@@ -174,8 +166,7 @@ public class InterceptorComponent implements WebComponent {
 	}
 
 	/**
-	 * Subclasses can override. By default it delegates to the next interceptor
-	 * in the chain.
+	 * Subclasses can override. By default it delegates to the next interceptor in the chain.
 	 *
 	 * @see WebComponent#preparePaint(Request)
 	 *
@@ -187,8 +178,7 @@ public class InterceptorComponent implements WebComponent {
 	}
 
 	/**
-	 * Subclasses can override. By default it delegates to the next interceptor
-	 * in the chain.
+	 * Subclasses can override. By default it delegates to the next interceptor in the chain.
 	 *
 	 * @see WebComponent#paint(RenderContext)
 	 *
@@ -200,8 +190,8 @@ public class InterceptorComponent implements WebComponent {
 	}
 
 	/**
-	 * Renders the given component to a web-XML String and returns it. This
-	 * occurs outside the context of a Servlet.
+	 * Renders the given component to a web-XML String and returns it. This occurs outside the
+	 * context of a Servlet.
 	 *
 	 * @param component the component to render.
 	 * @return the rendered output as a String.
@@ -216,8 +206,7 @@ public class InterceptorComponent implements WebComponent {
 	}
 
 	/**
-	 * @return The top most WComponent which will be at the end of the
-	 * interceptor chain.
+	 * @return The top most WComponent which will be at the end of the interceptor chain.
 	 */
 	public WComponent getUI() {
 		if (backing instanceof WComponent) {

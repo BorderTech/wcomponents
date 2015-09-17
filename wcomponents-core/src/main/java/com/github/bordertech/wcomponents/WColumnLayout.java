@@ -2,11 +2,10 @@ package com.github.bordertech.wcomponents;
 
 /**
  * <p>
- * This component is used to group together two components into a two column
- * (left and right) display.
+ * This component is used to group together two components into a two column (left and right)
+ * display.
  * </p><p>
- * A common usage would be two wrap two {@link WFieldLayout} instances into two
- * columns.
+ * A common usage would be two wrap two {@link WFieldLayout} instances into two columns.
  * </p>
  *
  * @author Adam Millard
@@ -125,8 +124,7 @@ public class WColumnLayout extends AbstractNamingContextContainer {
 	}
 
 	/**
-	 * Sets the content of the given column and updates the column widths and
-	 * visibilities.
+	 * Sets the content of the given column and updates the column widths and visibilities.
 	 *
 	 * @param column the column being updated.
 	 * @param heading the column heading.
@@ -162,8 +160,7 @@ public class WColumnLayout extends AbstractNamingContextContainer {
 	}
 
 	/**
-	 * For the DIMAv2 theme and above, this can be used to change the left
-	 * column attributes.
+	 * For the DIMAv2 theme and above, this can be used to change the left column attributes.
 	 *
 	 * @return the left column.
 	 */
@@ -172,8 +169,7 @@ public class WColumnLayout extends AbstractNamingContextContainer {
 	}
 
 	/**
-	 * For the DIMAv2 theme and above, this can be used to change the right
-	 * column attributes.
+	 * For the DIMAv2 theme and above, this can be used to change the right column attributes.
 	 *
 	 * @return the right column.
 	 */

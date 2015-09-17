@@ -1,8 +1,7 @@
 package com.github.bordertech.wcomponents;
 
 /**
- * A default implementation of {@link AbstractTransientDataContainer} that
- * doesn't provide any data.
+ * A default implementation of {@link AbstractTransientDataContainer} that doesn't provide any data.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -16,8 +15,7 @@ public class DefaultTransientDataContainer extends AbstractTransientDataContaine
 	}
 
 	/**
-	 * Convenience method to creates a DefaultTransientDataContainer with the
-	 * given content.
+	 * Convenience method to creates a DefaultTransientDataContainer with the given content.
 	 *
 	 * @param child the container's content.
 	 */

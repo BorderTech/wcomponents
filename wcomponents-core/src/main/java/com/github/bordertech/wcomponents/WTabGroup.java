@@ -90,8 +90,7 @@ public class WTabGroup extends AbstractContainer implements Disableable {
 	 * Adds a tab to the tab set.
 	 *
 	 * @param content the tab set content.
-	 * @param label the tab's label, which can contain rich content (images or
-	 * other components).
+	 * @param label the tab's label, which can contain rich content (images or other components).
 	 * @param mode the tab mode.
 	 * @return the tab which was added to the group.
 	 */
@@ -106,8 +105,7 @@ public class WTabGroup extends AbstractContainer implements Disableable {
 	 * Adds a tab to the tab set.
 	 *
 	 * @param content the tab set content.
-	 * @param label the tab's label, which can contain rich content (images or
-	 * other components).
+	 * @param label the tab's label, which can contain rich content (images or other components).
 	 * @param mode the tab mode.
 	 * @param accessKey the access key used to activate the tab.
 	 * @return the tab which was added to the group.
@@ -139,8 +137,7 @@ public class WTabGroup extends AbstractContainer implements Disableable {
 	}
 
 	/**
-	 * @return a String representation of this component, for debugging
-	 * purposes.
+	 * @return a String representation of this component, for debugging purposes.
 	 */
 	@Override
 	public String toString() {

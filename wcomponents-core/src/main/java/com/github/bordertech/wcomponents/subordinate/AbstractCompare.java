@@ -39,8 +39,7 @@ public abstract class AbstractCompare extends AbstractCondition {
 	private final Object value;
 
 	/**
-	 * This date format is used internally to exchange dates between the client
-	 * and server.
+	 * This date format is used internally to exchange dates between the client and server.
 	 */
 	private static final String INTERNAL_DATE_FORMAT = "yyyy-MM-dd";
 
@@ -82,8 +81,7 @@ public abstract class AbstractCompare extends AbstractCondition {
 	/**
 	 * Compare the trigger and compare value.
 	 *
-	 * @return true if the trigger input's value compares to the compare value,
-	 * otherwise false
+	 * @return true if the trigger input's value compares to the compare value, otherwise false
 	 */
 	@Override
 	protected boolean execute() {
@@ -102,8 +100,7 @@ public abstract class AbstractCompare extends AbstractCondition {
 	 * Compare the trigger value from the request and compare value.
 	 *
 	 * @param request the request being processed.
-	 * @return true if the trigger input's value compares to the compare value,
-	 * otherwise false
+	 * @return true if the trigger input's value compares to the compare value, otherwise false
 	 */
 	@Override
 	protected boolean execute(final Request request) {
@@ -153,13 +150,12 @@ public abstract class AbstractCompare extends AbstractCondition {
 	 * If no request is passed in, the current value of the trigger is used.
 	 * </p>
 	 * <p>
-	 * It will return the same "value" the client would have used in its
-	 * subordinate logic.
+	 * It will return the same "value" the client would have used in its subordinate logic.
 	 * </p>
 	 * <p>
-	 * The trigger value will either be (i) a date formatted String for
-	 * WDateFields, (ii) a BigDecimal for WNumberFields or (iii) a List of
-	 * String values for MultiSelect components or (iv) a String value.
+	 * The trigger value will either be (i) a date formatted String for WDateFields, (ii) a
+	 * BigDecimal for WNumberFields or (iii) a List of String values for MultiSelect components or
+	 * (iv) a String value.
 	 * </p>
 	 *
 	 * @param request the request being processed, can be null
@@ -232,12 +228,11 @@ public abstract class AbstractCompare extends AbstractCondition {
 	/**
 	 * Get the value to use in the compare.
 	 * <p>
-	 * It will return the same "value" the client would have used in its
-	 * subordinate logic.
+	 * It will return the same "value" the client would have used in its subordinate logic.
 	 * </p>
 	 * <p>
-	 * The compare value will either be (i) a date formatted String for
-	 * WDateFields, (ii) a BigDecimal for WNumberFields or (iii) a String value.
+	 * The compare value will either be (i) a date formatted String for WDateFields, (ii) a
+	 * BigDecimal for WNumberFields or (iii) a String value.
 	 * </p>
 	 *
 	 * @return the value to be used for the compare.

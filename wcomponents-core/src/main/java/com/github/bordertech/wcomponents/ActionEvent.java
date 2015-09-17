@@ -3,9 +3,8 @@ package com.github.bordertech.wcomponents;
 import java.util.EventObject;
 
 /**
- * The object that indicates that a component action occured. It contains
- * information about the event, and is passed to the Action object that will
- * handle the event.
+ * The object that indicates that a component action occured. It contains information about the
+ * event, and is passed to the Action object that will handle the event.
  *
  * @author Martin Shevchenko
  * @since 1.0.0
@@ -23,8 +22,8 @@ public class ActionEvent extends EventObject {
 
 	/**
 	 * @param source the object that originated the event. (Normally a WButton)
-	 * @param command a string that may specify a command associated with the
-	 * event. (Normally the "actionCommand" from the source WButton)
+	 * @param command a string that may specify a command associated with the event. (Normally the
+	 * "actionCommand" from the source WButton)
 	 */
 	public ActionEvent(final Object source, final String command) {
 		this(source, command, null);
@@ -33,10 +32,10 @@ public class ActionEvent extends EventObject {
 	/**
 	 *
 	 * @param source the object that originated the event. (Normally a WButton)
-	 * @param command a string that may specify a command associated with the
-	 * event. (Normally the "actionCommand" from the source WButton)
-	 * @param actionObject a data object that may contain information related to
-	 * the event. (Normally the "actionObject" from the source WButton)
+	 * @param command a string that may specify a command associated with the event. (Normally the
+	 * "actionCommand" from the source WButton)
+	 * @param actionObject a data object that may contain information related to the event.
+	 * (Normally the "actionObject" from the source WButton)
 	 */
 	public ActionEvent(final Object source, final String command, final Object actionObject) {
 		super(source);
@@ -45,16 +44,14 @@ public class ActionEvent extends EventObject {
 	}
 
 	/**
-	 * @return The string that specifies a command associated with the event, if
-	 * set
+	 * @return The string that specifies a command associated with the event, if set
 	 */
 	public String getActionCommand() {
 		return actionCommand;
 	}
 
 	/**
-	 * @return The data object that contains information related to the event,
-	 * if set.
+	 * @return The data object that contains information related to the event, if set.
 	 */
 	public Object getActionObject() {
 		return actionObject;

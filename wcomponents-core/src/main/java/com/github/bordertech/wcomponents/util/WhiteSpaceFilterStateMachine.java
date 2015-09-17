@@ -5,8 +5,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * WhiteSpaceFilterOutputStream is a state machine that filters out extraneous
- * whitespace from XHTML content.
+ * WhiteSpaceFilterOutputStream is a state machine that filters out extraneous whitespace from XHTML
+ * content.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -682,8 +682,7 @@ public class WhiteSpaceFilterStateMachine {
 		 * Adds a possible state transition.
 		 *
 		 * @param c the character which triggers the change.
-		 * @param change the state to transition to when the character is
-		 * encountered.
+		 * @param change the state to transition to when the character is encountered.
 		 */
 		public void addChange(final char c, final StateChange change) {
 			//Yes, this is inefficient, but it's only going to be done during the static initializer
@@ -700,8 +699,7 @@ public class WhiteSpaceFilterStateMachine {
 		}
 
 		/**
-		 * Sets the default state change, used when no matching character is
-		 * found.
+		 * Sets the default state change, used when no matching character is found.
 		 *
 		 * @param change the default state change.
 		 */
@@ -750,10 +748,10 @@ public class WhiteSpaceFilterStateMachine {
 		 * Creates a StateChange.
 		 *
 		 * @param newState the new State.
-		 * @param suppressCurrentChar whether the character which triggered the
-		 * change should be suppressed.
-		 * @param outputBytes the data to output on transition to the new state,
-		 * or null for no output.
+		 * @param suppressCurrentChar whether the character which triggered the change should be
+		 * suppressed.
+		 * @param outputBytes the data to output on transition to the new state, or null for no
+		 * output.
 		 */
 		public StateChange(final State newState, final boolean suppressCurrentChar, final byte[] outputBytes) {
 			this.newState = newState;

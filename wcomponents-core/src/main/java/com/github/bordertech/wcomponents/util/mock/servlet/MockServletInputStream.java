@@ -27,15 +27,13 @@ public class MockServletInputStream extends ServletInputStream {
 	}
 
 	/**
-	 * Reads the next byte of data from the backing stream. The value byte is
-	 * returned as an <code>int</code> in the range <code>0</code> to
-	 * <code>255</code>. If no byte is available because the end of the stream
-	 * has been reached, the value <code>-1</code> is returned. This method
-	 * blocks until input data is available, the end of the stream is detected,
-	 * or an exception is thrown.
+	 * Reads the next byte of data from the backing stream. The value byte is returned as an
+	 * <code>int</code> in the range <code>0</code> to <code>255</code>. If no byte is available
+	 * because the end of the stream has been reached, the value <code>-1</code> is returned. This
+	 * method blocks until input data is available, the end of the stream is detected, or an
+	 * exception is thrown.
 	 *
-	 * @return the next byte of data, or <code>-1</code> if the end of the
-	 * stream is reached.
+	 * @return the next byte of data, or <code>-1</code> if the end of the stream is reached.
 	 * @throws IOException if an I/O error occurs.
 	 */
 	@Override

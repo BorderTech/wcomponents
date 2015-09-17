@@ -9,9 +9,8 @@ import com.github.bordertech.wcomponents.util.Factory;
 import java.io.PrintWriter;
 
 /**
- * HtmlComponent adds in some HTTP headers and elements commonly used in
- * HTML-based web apps. This interceptor is used when running in a servlet
- * environment, without any theme and skin.
+ * HtmlComponent adds in some HTTP headers and elements commonly used in HTML-based web apps. This
+ * interceptor is used when running in a servlet environment, without any theme and skin.
  *
  * @author Martin Shevchenko
  * @since 1.0.0

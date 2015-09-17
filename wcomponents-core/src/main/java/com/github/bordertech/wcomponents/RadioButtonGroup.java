@@ -9,30 +9,26 @@ import org.apache.commons.logging.LogFactory;
  * This class is used to create a group of radio buttons.
  * </p>
  * <p>
- * A {@link WRadioButton} can only be created by using the
- * {@link #addRadioButton(Object)} method or {@link #addRadioButton()} method.
- * Call one of these methods to get an instance of a radio button and then add
- * the radio button to the required location in the UI component tree.
+ * A {@link WRadioButton} can only be created by using the {@link #addRadioButton(Object)} method or
+ * {@link #addRadioButton()} method. Call one of these methods to get an instance of a radio button
+ * and then add the radio button to the required location in the UI component tree.
  * </p>
  * <p>
- * If the value of the radio button is known when creating its instance, then
- * use the {@link #addRadioButton(Object)}.
+ * If the value of the radio button is known when creating its instance, then use the
+ * {@link #addRadioButton(Object)}.
  * </p>
  * <p>
- * If a radio button needs to be used in a repeating component and will have
- * different values depending on its context, then use the
- * {@link #addRadioButton()}. Radio buttons used with a {@link WRepeater} will
- * get their value from the "bean" associated to the row in the repeater. By
- * default, the bean property for the radio button will be set to ".", but this
- * can be overridden by calling {@link #setBeanProperty(String)} on the radio
- * button instance.
+ * If a radio button needs to be used in a repeating component and will have different values
+ * depending on its context, then use the {@link #addRadioButton()}. Radio buttons used with a
+ * {@link WRepeater} will get their value from the "bean" associated to the row in the repeater. By
+ * default, the bean property for the radio button will be set to ".", but this can be overridden by
+ * calling {@link #setBeanProperty(String)} on the radio button instance.
  * </p>
  * <p>
- * For the radio button group to work correctly, it is important that each radio
- * button in the group has a unique value. The radio button group uses the
- * {@link String} representation of the radio button's value to identify which
- * button has been selected. As the string representation of the radio button's
- * value is sent to the client, be mindful that it should not be too large.
+ * For the radio button group to work correctly, it is important that each radio button in the group
+ * has a unique value. The radio button group uses the {@link String} representation of the radio
+ * button's value to identify which button has been selected. As the string representation of the
+ * radio button's value is sent to the client, be mindful that it should not be too large.
  * </p>
  *
  * @author Jonathan Austin
@@ -59,9 +55,9 @@ public class RadioButtonGroup extends AbstractInput implements AjaxTrigger, Subo
 	}
 
 	/**
-	 * This method will only processes a request where the group is on the
-	 * request and has no value. If the group has no value, then none of the
-	 * group's radio buttons will be triggered to process the request.
+	 * This method will only processes a request where the group is on the request and has no value.
+	 * If the group has no value, then none of the group's radio buttons will be triggered to
+	 * process the request.
 	 *
 	 * @param request the request being responded to.
 	 * @return true if the group has changed, otherwise false
@@ -84,8 +80,8 @@ public class RadioButtonGroup extends AbstractInput implements AjaxTrigger, Subo
 	}
 
 	/**
-	 * This method is to be only called by the {@link WRadioButton} that has its
-	 * value on the request.
+	 * This method is to be only called by the {@link WRadioButton} that has its value on the
+	 * request.
 	 *
 	 * @param request the request being responded to.
 	 * @return true if the group has changed, otherwise false
@@ -112,8 +108,8 @@ public class RadioButtonGroup extends AbstractInput implements AjaxTrigger, Subo
 	}
 
 	/**
-	 * The radio button group does not set focus. It allows the radio buttons to
-	 * set their own focus if they are selected.
+	 * The radio button group does not set focus. It allows the radio buttons to set their own focus
+	 * if they are selected.
 	 */
 	@Override
 	public void setFocussed() {
@@ -145,8 +141,7 @@ public class RadioButtonGroup extends AbstractInput implements AjaxTrigger, Subo
 	/**
 	 * Retrieves the selected value for this group.
 	 *
-	 * @return the value of the selected radio button, or null if there is no
-	 * selection.
+	 * @return the value of the selected radio button, or null if there is no selection.
 	 */
 	public String getSelectedValue() {
 		return getValue();
@@ -172,8 +167,7 @@ public class RadioButtonGroup extends AbstractInput implements AjaxTrigger, Subo
 	}
 
 	/**
-	 * Indicates whether the form should be submitted when the selection
-	 * changes.
+	 * Indicates whether the form should be submitted when the selection changes.
 	 *
 	 * @return true if the form should be submitted on change.
 	 */
@@ -183,17 +177,16 @@ public class RadioButtonGroup extends AbstractInput implements AjaxTrigger, Subo
 	}
 
 	/**
-	 * This method will add a radio button to the group with the given value.
-	 * The value must be unique for the group.
+	 * This method will add a radio button to the group with the given value. The value must be
+	 * unique for the group.
 	 * <p>
-	 * The radio button returned by this method must be added to the required
-	 * location in the UI Component tree.
+	 * The radio button returned by this method must be added to the required location in the UI
+	 * Component tree.
 	 * </p>
 	 * <p>
-	 * The radio button group uses the {@link String} representation of the
-	 * radio button's value to identify which button has been selected. As the
-	 * string representation of the radio button's value is sent to the client,
-	 * be mindful that it should not be too large.
+	 * The radio button group uses the {@link String} representation of the radio button's value to
+	 * identify which button has been selected. As the string representation of the radio button's
+	 * value is sent to the client, be mindful that it should not be too large.
 	 * </p>
 	 *
 	 * @param value a unique value for the radio button.
@@ -208,21 +201,19 @@ public class RadioButtonGroup extends AbstractInput implements AjaxTrigger, Subo
 	/**
 	 * This method will add a radio button to the group.
 	 * <p>
-	 * Unlike {{@link #addRadioButton(Object)}, which requires a value to be
-	 * passed in, this method has no value passed in for the radio button, as it
-	 * is expected the radio button will be used with a {@link WRepeater} and
-	 * will get its value from a bean. The bean property will default to ".",
-	 * but can be set to the appropriate bean property after being returned.
+	 * Unlike {{@link #addRadioButton(Object)}, which requires a value to be passed in, this method
+	 * has no value passed in for the radio button, as it is expected the radio button will be used
+	 * with a {@link WRepeater} and will get its value from a bean. The bean property will default
+	 * to ".", but can be set to the appropriate bean property after being returned.
 	 * </p>
 	 * <p>
-	 * The radio button returned by this method must be added to the required
-	 * location in the UI Component tree.
+	 * The radio button returned by this method must be added to the required location in the UI
+	 * Component tree.
 	 * </p>
 	 * <p>
-	 * The radio button group uses the {@link String} representation of the
-	 * radio button's value to identify which button has been selected. As the
-	 * string representation of the radio button's value is sent to the client,
-	 * be mindful that it should not be too large.
+	 * The radio button group uses the {@link String} representation of the radio button's value to
+	 * identify which button has been selected. As the string representation of the radio button's
+	 * value is sent to the client, be mindful that it should not be too large.
 	 * </p>
 	 *
 	 * @return the radio button that was added to the group

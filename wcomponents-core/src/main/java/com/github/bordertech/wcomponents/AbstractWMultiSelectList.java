@@ -11,8 +11,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * AbstractWMultiSelectList provides the basis for components that allow the
- * user to select multiple items from a list.
+ * AbstractWMultiSelectList provides the basis for components that allow the user to select multiple
+ * items from a list.
  *
  * @author Jonathan Austin
  * @since 1.0.0
@@ -47,8 +47,7 @@ public abstract class AbstractWMultiSelectList extends AbstractWSelectList {
 	/**
 	 * Creates an AbstractWMultiSelectList.
 	 *
-	 * @param lookupTable the lookup table identifier to obtain the list's
-	 * options from.
+	 * @param lookupTable the lookup table identifier to obtain the list's options from.
 	 * @param allowNoSelection if true, allow no option to be selected
 	 */
 	public AbstractWMultiSelectList(final Object lookupTable, final boolean allowNoSelection) {
@@ -56,9 +55,9 @@ public abstract class AbstractWMultiSelectList extends AbstractWSelectList {
 	}
 
 	/**
-	 * Returns a string value of the selected item for this users session. If
-	 * multiple selections have been made, this will be a comma separated list
-	 * of string values. If no value is selected, null is returned.
+	 * Returns a string value of the selected item for this users session. If multiple selections
+	 * have been made, this will be a comma separated list of string values. If no value is
+	 * selected, null is returned.
 	 *
 	 * @return the selected item value as a rendered String
 	 */
@@ -83,8 +82,8 @@ public abstract class AbstractWMultiSelectList extends AbstractWSelectList {
 	}
 
 	/**
-	 * @return true if nothing selected or if a selection is required and only
-	 * the null option has been selected.
+	 * @return true if nothing selected or if a selection is required and only the null option has
+	 * been selected.
 	 */
 	@Override
 	public boolean isEmpty() {
@@ -157,20 +156,18 @@ public abstract class AbstractWMultiSelectList extends AbstractWSelectList {
 	}
 
 	/**
-	 * Returns a {@link List} of the selected options. If no options have been
-	 * selected, then it returns an empty list.
+	 * Returns a {@link List} of the selected options. If no options have been selected, then it
+	 * returns an empty list.
 	 * <p>
-	 * As getValue calls {@link #getData()} for the currently selected options,
-	 * it usually expects getData to return null (for no selection) or a
-	 * {@link List} of selected options. If the data returned by getData is not
-	 * null and is not a List, then setData will either (1) if the data is an
-	 * array, convert the array to a List or (2) create a List and add the data
-	 * as the selected option.
+	 * As getValue calls {@link #getData()} for the currently selected options, it usually expects
+	 * getData to return null (for no selection) or a {@link List} of selected options. If the data
+	 * returned by getData is not null and is not a List, then setData will either (1) if the data
+	 * is an array, convert the array to a List or (2) create a List and add the data as the
+	 * selected option.
 	 * </p>
 	 * <p>
-	 * getValue will verify the selected option/s are valid. If a selected
-	 * option does not exist, then it will throw an
-	 * {@link IllegalArgumentException}.
+	 * getValue will verify the selected option/s are valid. If a selected option does not exist,
+	 * then it will throw an {@link IllegalArgumentException}.
 	 * </p>
 	 *
 	 * @return the selected options in the given UI context.
@@ -193,16 +190,15 @@ public abstract class AbstractWMultiSelectList extends AbstractWSelectList {
 	/**
 	 * {@inheritDoc}
 	 * <p>
-	 * getData expects the data to be either null (for no selection) or a
-	 * {@link List} of selected options.
+	 * getData expects the data to be either null (for no selection) or a {@link List} of selected
+	 * options.
 	 * </p>
 	 * <p>
-	 * getData will check that if no options have been selected (ie data is
-	 * null) and the list component requires an option to be selected (ie
-	 * {@link #isAllowNoSelection()} is false), it will return a list containing
-	 * the first option as the default selected option. If the data is an empty
-	 * list or an empty array, then it will be treated the same as there being
-	 * no selection.
+	 * getData will check that if no options have been selected (ie data is null) and the list
+	 * component requires an option to be selected (ie {@link #isAllowNoSelection()} is false), it
+	 * will return a list containing the first option as the default selected option. If the data is
+	 * an empty list or an empty array, then it will be treated the same as there being no
+	 * selection.
 	 * </p>
 	 */
 	@Override
@@ -240,28 +236,27 @@ public abstract class AbstractWMultiSelectList extends AbstractWSelectList {
 	/**
 	 * Sets the data that this component displays/edits.
 	 * <p>
-	 * setData expects the data being passed in to be either null (for no
-	 * selection) or a {@link List} of selected options. If an empty list is
-	 * passed in, then it will be treated the same as null.
+	 * setData expects the data being passed in to be either null (for no selection) or a
+	 * {@link List} of selected options. If an empty list is passed in, then it will be treated the
+	 * same as null.
 	 * </p>
 	 * <p>
-	 * If the data is not null and is not a List, then setData will either (1)
-	 * if the data is an array, convert the array to a List or (2) create a List
-	 * and add the data as the selected option.
+	 * If the data is not null and is not a List, then setData will either (1) if the data is an
+	 * array, convert the array to a List or (2) create a List and add the data as the selected
+	 * option.
 	 * </p>
 	 * <p>
-	 * setData will verify the selected option/s are valid. If a selected option
-	 * does not exist, then it will throw an {@link IllegalArgumentException}.
+	 * setData will verify the selected option/s are valid. If a selected option does not exist,
+	 * then it will throw an {@link IllegalArgumentException}.
 	 * </p>
 	 * <p>
-	 * If the list component requires a selection (ie
-	 * {@link #isAllowNoSelection()} is false) and the data being set is null
-	 * and null is not a valid option, then setData will throw an
+	 * If the list component requires a selection (ie {@link #isAllowNoSelection()} is false) and
+	 * the data being set is null and null is not a valid option, then setData will throw an
 	 * {@link IllegalArgumentException}.
 	 * </p>
 	 *
-	 * @param data the data to set which is usually a List containing the
-	 * selected options or null for no selection.
+	 * @param data the data to set which is usually a List containing the selected options or null
+	 * for no selection.
 	 * @throws IllegalArgumentException
 	 */
 	@Override
@@ -298,8 +293,7 @@ public abstract class AbstractWMultiSelectList extends AbstractWSelectList {
 	}
 
 	/**
-	 * Find the valid options for the selected data, allowing for option/code
-	 * and legacy matching.
+	 * Find the valid options for the selected data, allowing for option/code and legacy matching.
 	 *
 	 * @param options the list of options
 	 * @param selected the options to search for
@@ -370,9 +364,8 @@ public abstract class AbstractWMultiSelectList extends AbstractWSelectList {
 	 * By default, this method throws an {@link IllegalStateException}.
 	 * </p>
 	 * <p>
-	 * This method can be overridden to handle an invalid option without
-	 * throwing the exception. It must return a list of valid options that will
-	 * be set as the selected options.
+	 * This method can be overridden to handle an invalid option without throwing the exception. It
+	 * must return a list of valid options that will be set as the selected options.
 	 * </p>
 	 *
 	 * @param invalidOption the invalid option
@@ -504,8 +497,8 @@ public abstract class AbstractWMultiSelectList extends AbstractWSelectList {
 	}
 
 	/**
-	 * Selection lists are considered equal if they have the same items (order
-	 * is not important). An empty list is considered equal to a null list.
+	 * Selection lists are considered equal if they have the same items (order is not important). An
+	 * empty list is considered equal to a null list.
 	 *
 	 * @param list1 the first list to check.
 	 * @param list2 the second list to check.
@@ -521,8 +514,7 @@ public abstract class AbstractWMultiSelectList extends AbstractWSelectList {
 	}
 
 	/**
-	 * Override WInput's validateComponent to perform further validation on the
-	 * options selected.
+	 * Override WInput's validateComponent to perform further validation on the options selected.
 	 *
 	 * @param diags the list into which any validation diagnostics are added.
 	 */

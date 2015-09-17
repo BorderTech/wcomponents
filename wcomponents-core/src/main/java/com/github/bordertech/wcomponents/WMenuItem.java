@@ -7,9 +7,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * This component provides a menu item for use either directly in the top level
- * of a {@link WMenu} or as an item within a {@link WSubMenu} or
- * {@link WMenuItemGroup}.
+ * This component provides a menu item for use either directly in the top level of a {@link WMenu}
+ * or as an item within a {@link WSubMenu} or {@link WMenuItemGroup}.
  *
  * @author Adam Millard
  * @author Yiannis Paschalidis
@@ -130,9 +129,8 @@ public class WMenuItem extends AbstractContainer implements Disableable, AjaxTri
 	}
 
 	/**
-	 * Override handleRequest in order to perform processing for this component.
-	 * This implementation checks for selection of the menu item, and executes
-	 * the associated action if it has been set.
+	 * Override handleRequest in order to perform processing for this component. This implementation
+	 * checks for selection of the menu item, and executes the associated action if it has been set.
 	 *
 	 * @param request the request being responded to.
 	 */
@@ -176,8 +174,7 @@ public class WMenuItem extends AbstractContainer implements Disableable, AjaxTri
 	 * Determine if this WMenuItem's parent WMenu is on the Request.
 	 *
 	 * @param request the request being responded to.
-	 * @return true if this WMenuItem's WMenu is on the Request, otherwise
-	 * return false.
+	 * @return true if this WMenuItem's WMenu is on the Request, otherwise return false.
 	 */
 	protected boolean isMenuPresent(final Request request) {
 		WMenu menu = WebUtilities.getAncestorOfClass(WMenu.class, this);
@@ -190,8 +187,7 @@ public class WMenuItem extends AbstractContainer implements Disableable, AjaxTri
 	}
 
 	/**
-	 * Indicates whether this menu item is selected (for menu types which
-	 * support selections).
+	 * Indicates whether this menu item is selected (for menu types which support selections).
 	 *
 	 * @return true if this menu item is selected, false otherwise.
 	 */
@@ -252,16 +248,15 @@ public class WMenuItem extends AbstractContainer implements Disableable, AjaxTri
 	}
 
 	/**
-	 * @return true if this item is selectable, false if not, or null if default
-	 * to its container.
+	 * @return true if this item is selectable, false if not, or null if default to its container.
 	 */
 	public Boolean isSelectable() {
 		return getComponentModel().selectable;
 	}
 
 	/**
-	 * @param selectable true if this item is selectable, false if not, or null
-	 * to default to the container.
+	 * @param selectable true if this item is selectable, false if not, or null to default to the
+	 * container.
 	 */
 	public void setSelectable(final Boolean selectable) {
 		getOrCreateComponentModel().selectable = selectable;
@@ -286,18 +281,15 @@ public class WMenuItem extends AbstractContainer implements Disableable, AjaxTri
 
 	/**
 	 * <p>
-	 * Indicates whether the form should be submitted when the menu item is
-	 * selected. By default, the form will only be submitted if an action has
-	 * been set on this item.
+	 * Indicates whether the form should be submitted when the menu item is selected. By default,
+	 * the form will only be submitted if an action has been set on this item.
 	 * </p>
 	 * <p>
-	 * Examples of where the form might should not be submitted include if the
-	 * menu item is within a sub-menu which supports multiple selection, or if
-	 * the menu item points at an external URL.
+	 * Examples of where the form might should not be submitted include if the menu item is within a
+	 * sub-menu which supports multiple selection, or if the menu item points at an external URL.
 	 * </p>
 	 *
-	 * @return true if the form should be submitted when the menu item is
-	 * selected.
+	 * @return true if the form should be submitted when the menu item is selected.
 	 */
 	public boolean isSubmit() {
 		return getComponentModel().submit;
@@ -339,11 +331,10 @@ public class WMenuItem extends AbstractContainer implements Disableable, AjaxTri
 	}
 
 	/**
-	 * Set the accesskey on the menu item button or link. For more information
-	 * on access keys see {@link WButton#setAccessKey(char)}.
+	 * Set the accesskey on the menu item button or link. For more information on access keys see
+	 * {@link WButton#setAccessKey(char)}.
 	 *
-	 * @param accesskey The key that will form a keyboard shortcut to the menu
-	 * item.
+	 * @param accesskey The key that will form a keyboard shortcut to the menu item.
 	 */
 	public void setAccessKey(final char accesskey) {
 		getOrCreateComponentModel().accessKey = accesskey;
@@ -357,8 +348,8 @@ public class WMenuItem extends AbstractContainer implements Disableable, AjaxTri
 	}
 
 	/**
-	 * Returns the accesskey character as a String. If the character is not a
-	 * letter or digit then <code>null</code> is returned.
+	 * Returns the accesskey character as a String. If the character is not a letter or digit then
+	 * <code>null</code> is returned.
 	 *
 	 * @return The accesskey character as a String (may be <code>null</code>).
 	 */
@@ -416,11 +407,9 @@ public class WMenuItem extends AbstractContainer implements Disableable, AjaxTri
 	}
 
 	/**
-	 * Sets the confirmation message that is to be displayed to the user for
-	 * this menu item.
+	 * Sets the confirmation message that is to be displayed to the user for this menu item.
 	 *
-	 * @param message the confirmation message to display, using
-	 * {@link MessageFormat} syntax.
+	 * @param message the confirmation message to display, using {@link MessageFormat} syntax.
 	 * @param args optional arguments for the message format string.
 	 */
 	public void setMessage(final String message, final Serializable... args) {
@@ -428,24 +417,23 @@ public class WMenuItem extends AbstractContainer implements Disableable, AjaxTri
 	}
 
 	/**
-	 * @return true if menu item is a cancel control and will warn the user of
-	 * unsaved changes, otherwise false
+	 * @return true if menu item is a cancel control and will warn the user of unsaved changes,
+	 * otherwise false
 	 */
 	public boolean isCancel() {
 		return getComponentModel().cancel;
 	}
 
 	/**
-	 * @param cancel true if menu item is a cancel control and will warn the
-	 * user of unsaved changes, otherwise false
+	 * @param cancel true if menu item is a cancel control and will warn the user of unsaved
+	 * changes, otherwise false
 	 */
 	public void setCancel(final boolean cancel) {
 		getOrCreateComponentModel().cancel = cancel;
 	}
 
 	/**
-	 * @return a String representation of this component, for debugging
-	 * purposes.
+	 * @return a String representation of this component, for debugging purposes.
 	 */
 	@Override
 	public String toString() {
@@ -498,8 +486,7 @@ public class WMenuItem extends AbstractContainer implements Disableable, AjaxTri
 		private String url;
 
 		/**
-		 * Used together with the url parameter to launch the url in a new
-		 * window.
+		 * Used together with the url parameter to launch the url in a new window.
 		 */
 		private String targetWindow;
 
@@ -514,8 +501,7 @@ public class WMenuItem extends AbstractContainer implements Disableable, AjaxTri
 		private Action action;
 
 		/**
-		 * The action command to pass to the menu item's action when it
-		 * executes.
+		 * The action command to pass to the menu item's action when it executes.
 		 */
 		private String actionCommand;
 
@@ -525,8 +511,7 @@ public class WMenuItem extends AbstractContainer implements Disableable, AjaxTri
 		private Serializable actionObject;
 
 		/**
-		 * Indicates whether the sub-menu itself can be selected (e.g. for
-		 * column menus).
+		 * Indicates whether the sub-menu itself can be selected (e.g. for column menus).
 		 */
 		private Boolean selectable;
 

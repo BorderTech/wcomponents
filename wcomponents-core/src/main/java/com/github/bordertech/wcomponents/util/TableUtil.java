@@ -89,8 +89,7 @@ public final class TableUtil {
 	}
 
 	/**
-	 * This can be used by column components on a {@link WTable} to determine
-	 * the current row key.
+	 * This can be used by column components on a {@link WTable} to determine the current row key.
 	 *
 	 * @return the row key for the current row, or null if no row details
 	 */
@@ -103,8 +102,7 @@ public final class TableUtil {
 	}
 
 	/**
-	 * This can be used by column components on a {@link WTable} to determine
-	 * the current row index.
+	 * This can be used by column components on a {@link WTable} to determine the current row index.
 	 *
 	 * @param component the column component
 	 * @return the row index for the current row, or null if no row details

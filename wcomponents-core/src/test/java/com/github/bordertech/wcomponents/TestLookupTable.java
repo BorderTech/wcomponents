@@ -37,8 +37,7 @@ public class TestLookupTable implements LookupTable {
 	public static final String DAY_OF_WEEK_TABLE_WITH_NULL_OPTION = "day_of_week_with_null_option";
 
 	/**
-	 * Table name constant for the cacheable day of the week table with a NULL
-	 * option.
+	 * Table name constant for the cacheable day of the week table with a NULL option.
 	 */
 	public static final String CACHEABLE_DAY_OF_WEEK_TABLE_WITH_NULL_OPTION = "cacheable_day_of_week_with_null_option";
 
@@ -257,8 +256,7 @@ public class TestLookupTable implements LookupTable {
 		 * Indicates whether the given object is equal to this one.
 		 *
 		 * @param obj the object to test for equality.
-		 * @return true if the object is a TableEntry and has the same code as
-		 * this one.
+		 * @return true if the object is a TableEntry and has the same code as this one.
 		 */
 		@Override
 		public boolean equals(final Object obj) {

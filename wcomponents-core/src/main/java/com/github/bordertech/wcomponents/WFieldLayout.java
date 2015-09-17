@@ -4,15 +4,15 @@ import com.github.bordertech.wcomponents.util.I18nUtilities;
 
 /**
  * <p>
- * This component is used to group together a collection of <code>WField</code>
- * components to provide a consistent layout template.
+ * This component is used to group together a collection of <code>WField</code> components to
+ * provide a consistent layout template.
  * </p>
  * <p>
- * It also provides some helpful infrastructure around WComponent validation by
- * supplying helper methods to validate and set error indicators on each of its
- * contained <code>WField</code> components. It is up the the parent
- * <code>ValidatableComponent</code> or a <code>ValidatingAction</code> to call
- * the validate() and showErrorIndicator() methods on this component.
+ * It also provides some helpful infrastructure around WComponent validation by supplying helper
+ * methods to validate and set error indicators on each of its contained <code>WField</code>
+ * components. It is up the the parent <code>ValidatableComponent</code> or a
+ * <code>ValidatingAction</code> to call the validate() and showErrorIndicator() methods on this
+ * component.
  * </p>
  *
  * @author Adam Millard
@@ -22,8 +22,8 @@ public class WFieldLayout extends AbstractNamingContextContainer implements Ajax
 	/**
 	 * The default label width.
 	 *
-	 * @deprecated Will be defined by the theme. Set
-	 * {@link #setLabelWidth(int) labelWidth} &lt;=0 for the default.
+	 * @deprecated Will be defined by the theme. Set {@link #setLabelWidth(int) labelWidth} &lt;=0
+	 * for the default.
 	 */
 	@Deprecated
 	public static final int DEFAULT_LABEL_WIDTH = 0;
@@ -38,8 +38,7 @@ public class WFieldLayout extends AbstractNamingContextContainer implements Ajax
 	public static final String LAYOUT_STACKED = "stacked";
 
 	/**
-	 * Creates a WFieldLayout with the default layout type of
-	 * {@link #LAYOUT_FLAT}.
+	 * Creates a WFieldLayout with the default layout type of {@link #LAYOUT_FLAT}.
 	 */
 	public WFieldLayout() {
 		this(LAYOUT_FLAT);
@@ -110,8 +109,7 @@ public class WFieldLayout extends AbstractNamingContextContainer implements Ajax
 	/**
 	 * Sets the label width.
 	 *
-	 * @param labelWidth the percentage width, or &lt;= 0 to use the default
-	 * field width.
+	 * @param labelWidth the percentage width, or &lt;= 0 to use the default field width.
 	 */
 	public void setLabelWidth(final int labelWidth) {
 		if (labelWidth > 100) {
@@ -144,8 +142,7 @@ public class WFieldLayout extends AbstractNamingContextContainer implements Ajax
 	}
 
 	/**
-	 * Flag a layout to be an ordered list. Used with
-	 * {@link #setOrderedOffset(int)}.
+	 * Flag a layout to be an ordered list. Used with {@link #setOrderedOffset(int)}.
 	 *
 	 * @param ordered true if ordered layout
 	 */
@@ -154,8 +151,8 @@ public class WFieldLayout extends AbstractNamingContextContainer implements Ajax
 	}
 
 	/**
-	 * Allows layouts to have its ordered numbering start from an offset. Used
-	 * with {@link #setOrdered(boolean)}.
+	 * Allows layouts to have its ordered numbering start from an offset. Used with
+	 * {@link #setOrdered(boolean)}.
 	 *
 	 * @return the ordered start offset.
 	 */
@@ -164,8 +161,7 @@ public class WFieldLayout extends AbstractNamingContextContainer implements Ajax
 	}
 
 	/**
-	 * Set the starting offset for an ordered layout. Used with
-	 * {@link #setOrdered(boolean)}.
+	 * Set the starting offset for an ordered layout. Used with {@link #setOrdered(boolean)}.
 	 *
 	 * @param orderedOffset the ordered start offset. Must be 1 or greater.
 	 */
@@ -210,8 +206,7 @@ public class WFieldLayout extends AbstractNamingContextContainer implements Ajax
 	}
 
 	/**
-	 * @return a String representation of this component, for debugging
-	 * purposes.
+	 * @return a String representation of this component, for debugging purposes.
 	 */
 	@Override
 	public String toString() {

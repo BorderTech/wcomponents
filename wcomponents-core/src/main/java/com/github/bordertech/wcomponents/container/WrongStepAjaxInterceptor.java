@@ -24,15 +24,14 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * This wrong step interceptor makes sure that ajax requests are only processed
- * for the most recently rendered view.
+ * This wrong step interceptor makes sure that ajax requests are only processed for the most
+ * recently rendered view.
  * <p>
- * If a step error occurs, then the user, depending on the redirect flag, is
- * either (1)redirected to an error page or (2) warped to the future by being
- * redirected to the current page so the application is refreshed to the current
- * state. When the user is warped to the future, the handleStepError method is
- * called on WApplication, which allows applications to take the appropriate
- * action for when a step error has occurred.
+ * If a step error occurs, then the user, depending on the redirect flag, is either (1)redirected to
+ * an error page or (2) warped to the future by being redirected to the current page so the
+ * application is refreshed to the current state. When the user is warped to the future, the
+ * handleStepError method is called on WApplication, which allows applications to take the
+ * appropriate action for when a step error has occurred.
  * </p>
  *
  * @author Jonathan Austin
@@ -45,8 +44,7 @@ public class WrongStepAjaxInterceptor extends InterceptorComponent {
 	private static final Log LOG = LogFactory.getLog(WrongStepAjaxInterceptor.class);
 
 	/**
-	 * Override to check whether the step variable in the incoming request
-	 * matches what we expect.
+	 * Override to check whether the step variable in the incoming request matches what we expect.
 	 *
 	 * @param request the request being serviced.
 	 */

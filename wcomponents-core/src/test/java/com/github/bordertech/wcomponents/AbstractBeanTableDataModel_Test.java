@@ -53,8 +53,7 @@ public class AbstractBeanTableDataModel_Test {
 	}
 
 	/**
-	 * A simple bean provider implementation that returns different data
-	 * depending on the bean id.
+	 * A simple bean provider implementation that returns different data depending on the bean id.
 	 */
 	private static final class MyBeanProvider implements BeanProvider {
 

@@ -98,8 +98,8 @@ public class WWindowInterceptor_Test extends AbstractWComponentTestCase {
 	}
 
 	/**
-	 * This interceptor increments the environment step variable and stores the
-	 * hidden parameters during paint.
+	 * This interceptor increments the environment step variable and stores the hidden parameters
+	 * during paint.
 	 */
 	private static final class TestInterceptor extends InterceptorComponent {
 

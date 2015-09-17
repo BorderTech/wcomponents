@@ -10,16 +10,15 @@ import java.util.List;
 
 /**
  * <p>
- * A <code>WMessageBox</code> is a component that renders a collection of
- * informational messages. Most commonly placed near the top of an application's
- * UI.
+ * A <code>WMessageBox</code> is a component that renders a collection of informational messages.
+ * Most commonly placed near the top of an application's UI.
  * </p>
  * <p>
  * The different message types catered for here are:
  * <ul>
  * <li>Error - For reporting system and application errors.</li>
- * <li>Warning - For warning users about the possible consequences of an action.
- * The process may continue.</li>
+ * <li>Warning - For warning users about the possible consequences of an action. The process may
+ * continue.</li>
  * <li>Information - For providing general information.</li>
  * <li>Success - For reporting on the success of an action or operation.</li>
  * </ul>
@@ -100,8 +99,8 @@ public class WMessageBox extends AbstractWComponent implements AjaxTarget, Subor
 	/**
 	 * Creates a WMessageBox of the given type.
 	 *
-	 * @param type the messageBox type, one of
-	 * {@link #SUCCESS}, {@link #INFO}, {@link #WARN} or {@link #ERROR}.
+	 * @param type the messageBox type, one of {@link #SUCCESS}, {@link #INFO}, {@link #WARN} or
+	 * {@link #ERROR}.
 	 */
 	public WMessageBox(final Type type) {
 		if (type == null) {
@@ -113,10 +112,9 @@ public class WMessageBox extends AbstractWComponent implements AjaxTarget, Subor
 	/**
 	 * Creates a WMessageBox of the given type with an initial message.
 	 *
-	 * @param type the messageBox type, one of
-	 * {@link #SUCCESS}, {@link #INFO}, {@link #WARN} or {@link #ERROR}.
-	 * @param msg the initial message to display, using {@link MessageFormat}
-	 * syntax.
+	 * @param type the messageBox type, one of {@link #SUCCESS}, {@link #INFO}, {@link #WARN} or
+	 * {@link #ERROR}.
+	 * @param msg the initial message to display, using {@link MessageFormat} syntax.
 	 * @param args optional arguments for the message format string.
 	 */
 	public WMessageBox(final Type type, final String msg, final Serializable... args) {
@@ -126,12 +124,10 @@ public class WMessageBox extends AbstractWComponent implements AjaxTarget, Subor
 	/**
 	 * Creates a WMessageBox of the given type with an initial message.
 	 *
-	 * @param type the messageBox type, one of
-	 * {@link #SUCCESS}, {@link #INFO}, {@link #WARN} or {@link #ERROR}.
-	 * @param encode true to encode the message text, false to leave it
-	 * unencoded.
-	 * @param msg the initial message to display, using {@link MessageFormat}
-	 * syntax.
+	 * @param type the messageBox type, one of {@link #SUCCESS}, {@link #INFO}, {@link #WARN} or
+	 * {@link #ERROR}.
+	 * @param encode true to encode the message text, false to leave it unencoded.
+	 * @param msg the initial message to display, using {@link MessageFormat} syntax.
 	 * @param args optional arguments for the message format string.
 	 */
 	public WMessageBox(final Type type, final boolean encode, final String msg, final Serializable... args) {
@@ -142,8 +138,8 @@ public class WMessageBox extends AbstractWComponent implements AjaxTarget, Subor
 	/**
 	 * Sets the message box type.
 	 *
-	 * @param type the messageBox type, one of
-	 * {@link #SUCCESS}, {@link #INFO}, {@link #WARN} or {@link #ERROR}.
+	 * @param type the messageBox type, one of {@link #SUCCESS}, {@link #INFO}, {@link #WARN} or
+	 * {@link #ERROR}.
 	 */
 	public void setType(final Type type) {
 		getOrCreateComponentModel().type = type;
@@ -159,8 +155,7 @@ public class WMessageBox extends AbstractWComponent implements AjaxTarget, Subor
 	/**
 	 * Adds a message to the message box.
 	 *
-	 * @param msg the text of the message to add, using {@link MessageFormat}
-	 * syntax.
+	 * @param msg the text of the message to add, using {@link MessageFormat} syntax.
 	 * @param args optional arguments for the message format string.
 	 */
 	public void addMessage(final String msg, final Serializable... args) {
@@ -170,10 +165,8 @@ public class WMessageBox extends AbstractWComponent implements AjaxTarget, Subor
 	/**
 	 * Adds a message to the message box.
 	 *
-	 * @param encode true to encode the message text, false to leave it
-	 * unencoded.
-	 * @param msg the text of the message to add, using {@link MessageFormat}
-	 * syntax.
+	 * @param encode true to encode the message text, false to leave it unencoded.
+	 * @param msg the text of the message to add, using {@link MessageFormat} syntax.
 	 * @param args optional arguments for the message format string.
 	 */
 	public void addMessage(final boolean encode, final String msg, final Serializable... args) {

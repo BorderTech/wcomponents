@@ -4,8 +4,7 @@ import com.github.bordertech.wcomponents.util.Util;
 import java.util.List;
 
 /**
- * Utility class used by {@link AbstractWSelectList} for processing options and
- * list of options.
+ * Utility class used by {@link AbstractWSelectList} for processing options and list of options.
  *
  * @author Jonathan Austin
  * @since 1.0.0
@@ -47,8 +46,8 @@ public final class SelectListUtil {
 	}
 
 	/**
-	 * Iterate through the options to determine if an option exists allowing for
-	 * Option/Code and Legacy matching.
+	 * Iterate through the options to determine if an option exists allowing for Option/Code and
+	 * Legacy matching.
 	 *
 	 * @param options the list of options
 	 * @param data the test data value
@@ -75,18 +74,17 @@ public final class SelectListUtil {
 	}
 
 	/**
-	 * Return the option that matches the data allowing for Option/Code and
-	 * Legacy matching.
+	 * Return the option that matches the data allowing for Option/Code and Legacy matching.
 	 * <p>
 	 * This method should be used in conjunction with
-	 * {@link #containsOptionWithMatching(List, Object)} as this method will
-	 * return null if no match found, but null could be a valid option.
+	 * {@link #containsOptionWithMatching(List, Object)} as this method will return null if no match
+	 * found, but null could be a valid option.
 	 * </p>
 	 *
 	 * @param options the list of options
 	 * @param data the test data value
-	 * @return the option that matches allowing for Option/Code and Legacy
-	 * matching, otherwise return null
+	 * @return the option that matches allowing for Option/Code and Legacy matching, otherwise
+	 * return null
 	 */
 	public static Object getOptionWithMatching(final List<?> options, final Object data) {
 		if (options != null) {
@@ -168,8 +166,7 @@ public final class SelectListUtil {
 	}
 
 	/**
-	 * Check for legacy matching, which supported setSelected using String
-	 * representations.
+	 * Check for legacy matching, which supported setSelected using String representations.
 	 *
 	 * @param option the option to test for a match
 	 * @param data the test data value
@@ -186,8 +183,8 @@ public final class SelectListUtil {
 	}
 
 	/**
-	 * If the option is an instance of {@link Option}, check if the data value
-	 * matches the Code value of the option.
+	 * If the option is an instance of {@link Option}, check if the data value matches the Code
+	 * value of the option.
 	 *
 	 * @param option the option to test for a match
 	 * @param data the test data value

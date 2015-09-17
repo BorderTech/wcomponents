@@ -44,8 +44,7 @@ public class HeadersImpl implements Headers {
 	}
 
 	/**
-	 * Records a "shared" line (of a specified type) for inclusion in the
-	 * output.
+	 * Records a "shared" line (of a specified type) for inclusion in the output.
 	 *
 	 * @param type the type of line.
 	 * @param aLine the line to include.
@@ -63,8 +62,7 @@ public class HeadersImpl implements Headers {
 	}
 
 	/**
-	 * Records a line for inclusion in the html/head, if it has not already been
-	 * included.
+	 * Records a line for inclusion in the html/head, if it has not already been included.
 	 *
 	 * @param aLine the line to include.
 	 */
@@ -74,8 +72,7 @@ public class HeadersImpl implements Headers {
 	}
 
 	/**
-	 * Records a line for inclusion in the html/head, if it has not already been
-	 * included.
+	 * Records a line for inclusion in the html/head, if it has not already been included.
 	 *
 	 * @param type the type of line.
 	 * @param aLine the line to include.
@@ -107,8 +104,7 @@ public class HeadersImpl implements Headers {
 	 * Gets the head lines, of a specified type.
 	 *
 	 * @param type the type of lines to retrieve.
-	 * @return a list of headlines, or null if there are no headlines of the
-	 * given type.
+	 * @return a list of headlines, or null if there are no headlines of the given type.
 	 */
 	@Override
 	public List<String> getHeadLines(final String type) {
@@ -117,8 +113,7 @@ public class HeadersImpl implements Headers {
 	}
 
 	/**
-	 * @return the content type for the response. The default type is
-	 * <code>text/html</code>.
+	 * @return the content type for the response. The default type is <code>text/html</code>.
 	 */
 	@Override
 	public String getContentType() {
@@ -126,8 +121,7 @@ public class HeadersImpl implements Headers {
 	}
 
 	/**
-	 * Sets the content type for the response. The default type is
-	 * <code>text/html</code>.
+	 * Sets the content type for the response. The default type is <code>text/html</code>.
 	 *
 	 * @param type The content type.
 	 */

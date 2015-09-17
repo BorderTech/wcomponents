@@ -94,8 +94,7 @@ public class DebugStructureInterceptor extends InterceptorComponent {
 	 * Tries to return the type of component.
 	 *
 	 * @param component the component to determine the type of.
-	 * @return the component type, or null if the given component is not a core
-	 * component.
+	 * @return the component type, or null if the given component is not a core component.
 	 */
 	private String getType(final WComponent component) {
 		for (Class<?> clazz = component.getClass(); clazz != null && WComponent.class.isAssignableFrom(clazz); clazz = clazz.getSuperclass()) {

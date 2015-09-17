@@ -102,8 +102,7 @@ public final class ThumbnailUtil {
 	private static final Log LOG = LogFactory.getLog(ThumbnailUtil.class);
 
 	/**
-	 * The "format" passed to {@link ImageIO} to indicate that it should create
-	 * a JPEG image.
+	 * The "format" passed to {@link ImageIO} to indicate that it should create a JPEG image.
 	 */
 	private static final String IMAGE_JPEG_FORMAT = "jpeg";
 
@@ -115,19 +114,17 @@ public final class ThumbnailUtil {
 	}
 
 	/**
-	 * This method takes a input document (represented by an
-	 * {@link InputStream}) and returns a byte[] representing a JPEG "thumb
-	 * nail" of a given page of the document. It can do this for a limited
-	 * number of input document "types"images.
+	 * This method takes a input document (represented by an {@link InputStream}) and returns a
+	 * byte[] representing a JPEG "thumb nail" of a given page of the document. It can do this for a
+	 * limited number of input document "types"images.
 	 *
 	 * @param is The {@link InputStream} representing the input document.
-	 * @param name The name of the file from which the input document was
-	 * sourced.
-	 * @param scaledSize the size to which the given <em>image</em> is to be
-	 * scaled, null for default
+	 * @param name The name of the file from which the input document was sourced.
+	 * @param scaledSize the size to which the given <em>image</em> is to be scaled, null for
+	 * default
 	 * @param mimeType the mime type
-	 * @return a byte[] array representing a JEPG thumb nail of the specified
-	 * page within the Office document or Image.
+	 * @return a byte[] array representing a JEPG thumb nail of the specified page within the Office
+	 * document or Image.
 	 */
 	public static com.github.bordertech.wcomponents.Image createThumbnail(final InputStream is, final String name,
 			final Dimension scaledSize, final String mimeType) {
@@ -194,14 +191,12 @@ public final class ThumbnailUtil {
 	}
 
 	/**
-	 * This method will create a JPEG "thumb nail" of an image read from an
-	 * {@link InputStream}. The maximum Dimension of the returned JPEG Image
-	 * will be {@link #THUMBNAIL_MAX}.
+	 * This method will create a JPEG "thumb nail" of an image read from an {@link InputStream}. The
+	 * maximum Dimension of the returned JPEG Image will be {@link #THUMBNAIL_MAX}.
 	 *
-	 * @param is the InputStream representing the image for which the JPEG thumb
-	 * nail is to be returned.
-	 * @param scaledSize the size to which the given <em>image</em> is to be
-	 * scaled.
+	 * @param is the InputStream representing the image for which the JPEG thumb nail is to be
+	 * returned.
+	 * @param scaledSize the size to which the given <em>image</em> is to be scaled.
 	 * @return a byte[] representing the JPEG thumb nail.
 	 */
 	private static byte[] createImageThumbnail(final InputStream is, final Dimension scaledSize) {
@@ -234,14 +229,12 @@ public final class ThumbnailUtil {
 	}
 
 	/**
-	 * This method creates an array of bytes representing a JPEG image that is a
-	 * "scaled" version of the given {@link Image}.
+	 * This method creates an array of bytes representing a JPEG image that is a "scaled" version of
+	 * the given {@link Image}.
 	 *
 	 * @param image The image to be turned into a scaled JPEG.
-	 * @param scaledSize The size to which the given <em>image</em> is to be
-	 * scaled.
-	 * @return A byte[] representing the JPEG image containing the scaled
-	 * {@link Image}.
+	 * @param scaledSize The size to which the given <em>image</em> is to be scaled.
+	 * @return A byte[] representing the JPEG image containing the scaled {@link Image}.
 	 * @throws IOException on any sort of error.
 	 */
 	private static byte[] createScaledJPEG(final Image image, final Dimension scaledSize) throws IOException {

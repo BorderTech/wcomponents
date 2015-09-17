@@ -11,8 +11,7 @@ import com.github.bordertech.wcomponents.util.DebugUtil;
 
 /**
  * <p>
- * An Interceptor used to output structural debugging information for AJAX
- * requests.</p>
+ * An Interceptor used to output structural debugging information for AJAX requests.</p>
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0

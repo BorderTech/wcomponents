@@ -8,8 +8,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * A UIRegistry implementation that can load UIs using the key, where the keys
- * are the fully qualified class names.
+ * A UIRegistry implementation that can load UIs using the key, where the keys are the fully
+ * qualified class names.
  *
  * @author Martin Shevchenko
  * @since 1.0.0
@@ -53,9 +53,8 @@ public class UIRegistryClassLoaderImpl extends UIRegistry {
 	}
 
 	/**
-	 * Retrieves the user interface that was registered with the given key. If
-	 * the UI has not been registered, this attempts to load the UI using the
-	 * key as a class name.
+	 * Retrieves the user interface that was registered with the given key. If the UI has not been
+	 * registered, this attempts to load the UI using the key as a class name.
 	 *
 	 * @param key the registration key
 	 * @return the UI for the given key. The UI may be newly created.
@@ -89,8 +88,8 @@ public class UIRegistryClassLoaderImpl extends UIRegistry {
 	 * Attemps to load a ui using the key as a class name.
 	 *
 	 * @param key the registration key
-	 * @return A WComponent if one could be loaded from the classpath, else it
-	 * returns Boolean.FALSE.
+	 * @return A WComponent if one could be loaded from the classpath, else it returns
+	 * Boolean.FALSE.
 	 */
 	private static Object loadUI(final String key) {
 		String classname = key.trim();

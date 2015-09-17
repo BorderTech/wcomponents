@@ -177,8 +177,8 @@ public class AbstractTreeNode_Test {
 //	}
 
 	/**
-	 * Handy testing method for returning a String representation of the tree,
-	 * using a breadth-first iteration.
+	 * Handy testing method for returning a String representation of the tree, using a breadth-first
+	 * iteration.
 	 *
 	 * @param node the tree to convert.
 	 * @return a String representation of the tree.

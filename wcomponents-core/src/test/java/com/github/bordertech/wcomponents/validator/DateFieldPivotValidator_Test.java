@@ -11,8 +11,7 @@ import junit.framework.Assert;
 import org.junit.Test;
 
 /**
- * DateFieldPivotValidator_Test - unit tests for
- * {@link DateFieldPivotValidator}.
+ * DateFieldPivotValidator_Test - unit tests for {@link DateFieldPivotValidator}.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0

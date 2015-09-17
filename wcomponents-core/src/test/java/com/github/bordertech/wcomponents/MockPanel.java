@@ -37,8 +37,7 @@ public final class MockPanel extends WPanel {
 	}
 
 	/**
-	 * Retrieves the number of invocations of the handleRequest method for the
-	 * given UIContext.
+	 * Retrieves the number of invocations of the handleRequest method for the given UIContext.
 	 *
 	 * @return the number of invocations.
 	 */
@@ -47,8 +46,7 @@ public final class MockPanel extends WPanel {
 	}
 
 	/**
-	 * Retrieves the number of invocations of the paint method for the given
-	 * UIContext.
+	 * Retrieves the number of invocations of the paint method for the given UIContext.
 	 *
 	 * @return the number of invocations.
 	 */
@@ -57,8 +55,7 @@ public final class MockPanel extends WPanel {
 	}
 
 	/**
-	 * An extension of the panel data model to record request/paint invocation
-	 * counts.
+	 * An extension of the panel data model to record request/paint invocation counts.
 	 *
 	 * @author Yiannis Paschalidis
 	 */

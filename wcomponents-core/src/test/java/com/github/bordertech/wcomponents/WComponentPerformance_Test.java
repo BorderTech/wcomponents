@@ -19,9 +19,8 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
 /**
- * Tests to check the performance of WComponent request processing. This test
- * does not check for correct behaviour - see the respective tests for
- * WApplication etc.
+ * Tests to check the performance of WComponent request processing. This test does not check for
+ * correct behaviour - see the respective tests for WApplication etc.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -36,8 +35,8 @@ public class WComponentPerformance_Test extends AbstractWComponentTestCase {
 	private static final Log LOG = LogFactory.getLog(WServletPerformance_Test.class);
 
 	/**
-	 * Basic sanity-test to ensure that the WComponent implementation is
-	 * performing all the processing that it should.
+	 * Basic sanity-test to ensure that the WComponent implementation is performing all the
+	 * processing that it should.
 	 *
 	 * @throws java.lang.Exception an exception
 	 */
@@ -54,8 +53,8 @@ public class WComponentPerformance_Test extends AbstractWComponentTestCase {
 	}
 
 	/**
-	 * Basic sanity-test to ensure that the basic implementation is performing
-	 * all the processing that it should.
+	 * Basic sanity-test to ensure that the basic implementation is performing all the processing
+	 * that it should.
 	 *
 	 * @throws java.lang.Exception
 	 */
@@ -84,8 +83,8 @@ public class WComponentPerformance_Test extends AbstractWComponentTestCase {
 	}
 
 	/**
-	 * Times the WComponent execution looping the given number of times and
-	 * returns the elapsed time.
+	 * Times the WComponent execution looping the given number of times and returns the elapsed
+	 * time.
 	 *
 	 * @param count the number of times to loop.
 	 * @return the elapsed time, in nanoseconds.
@@ -115,8 +114,8 @@ public class WComponentPerformance_Test extends AbstractWComponentTestCase {
 	}
 
 	/**
-	 * Times the other servlet execution looping the given number of times and
-	 * returns the elapsed time.
+	 * Times the other servlet execution looping the given number of times and returns the elapsed
+	 * time.
 	 *
 	 * @param count the number of times to loop.
 	 * @return the elapsed time, in nanoseconds.

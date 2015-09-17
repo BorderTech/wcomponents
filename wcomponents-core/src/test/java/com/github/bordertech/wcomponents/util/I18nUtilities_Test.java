@@ -35,8 +35,8 @@ public class I18nUtilities_Test {
 	private static final Locale PROVIDED_LOCALE = new Locale("fr", "CA");
 
 	/**
-	 * Tests that the Utilities class returns the correct bundle base name. The
-	 * bundle base name is configured in wcomponents-test.properties.
+	 * Tests that the Utilities class returns the correct bundle base name. The bundle base name is
+	 * configured in wcomponents-test.properties.
 	 */
 	@Test
 	public void testGetResourceBundleBaseName() {

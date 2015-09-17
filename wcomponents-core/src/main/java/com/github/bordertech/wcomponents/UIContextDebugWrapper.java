@@ -7,8 +7,7 @@ import java.util.Set;
 import java.util.TreeMap;
 
 /**
- * This class can be used to dump the contents of a UIContext object for
- * debugging purposes.
+ * This class can be used to dump the contents of a UIContext object for debugging purposes.
  *
  * @author Martin_Schevchenko
  * @since 1.0.0
@@ -37,10 +36,9 @@ public class UIContextDebugWrapper {
 	}
 
 	/**
-	 * Tally up the number of WComponents storing data in the session grouped by
-	 * object type. Also tally up how many are storing data unnecessarily. Also
-	 * tally how many different top components are referenced by the components
-	 * stored in the UIContext.
+	 * Tally up the number of WComponents storing data in the session grouped by object type. Also
+	 * tally up how many are storing data unnecessarily. Also tally how many different top
+	 * components are referenced by the components stored in the UIContext.
 	 *
 	 * @return the debugging information.
 	 */
@@ -111,15 +109,14 @@ public class UIContextDebugWrapper {
 	private static final class GroupData {
 
 		/**
-		 * The count of instances of the particular WComponent class with a
-		 * component model in the context/session.
+		 * The count of instances of the particular WComponent class with a component model in the
+		 * context/session.
 		 */
 		private int total = 0;
 
 		/**
-		 * The count of instances of the particular WComponent class with a
-		 * component model in the context/session which doesn't need to be
-		 * there.
+		 * The count of instances of the particular WComponent class with a component model in the
+		 * context/session which doesn't need to be there.
 		 */
 		private int unnecessaryCount = 0;
 	}

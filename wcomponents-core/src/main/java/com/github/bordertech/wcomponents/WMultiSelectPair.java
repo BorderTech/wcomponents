@@ -6,10 +6,9 @@ import java.util.List;
 
 /**
  * <p>
- * This component is functionally the same as {@link WMultiSelect} but it looks
- * different. It has a list of options in a box on the left, and a box on the
- * right containing the selected options. Add and Remove buttons enable users to
- * select from the list of options.</p>
+ * This component is functionally the same as {@link WMultiSelect} but it looks different. It has a
+ * list of options in a box on the left, and a box on the right containing the selected options. Add
+ * and Remove buttons enable users to select from the list of options.</p>
  *
  * @author Ming Gao
  */
@@ -89,8 +88,8 @@ public class WMultiSelectPair extends WMultiSelect implements AjaxTrigger, AjaxT
 	}
 
 	/**
-	 * Indicates whether options in the selection list can be re-ordered
-	 * (shuffled). The default value is false (no shuffle).
+	 * Indicates whether options in the selection list can be re-ordered (shuffled). The default
+	 * value is false (no shuffle).
 	 *
 	 * @return true if shuffle is enabled, false otherwise.
 	 */
@@ -161,8 +160,7 @@ public class WMultiSelectPair extends WMultiSelect implements AjaxTrigger, AjaxT
 		private String selectedListName = InternalMessages.DEFAULT_MULTI_SELECT_PAIR_SELECTIONS_LIST_HEADING;
 
 		/**
-		 * A flag to indicate whether users are allowed to re-order selected
-		 * options.
+		 * A flag to indicate whether users are allowed to re-order selected options.
 		 */
 		private boolean shuffle = false;
 	}

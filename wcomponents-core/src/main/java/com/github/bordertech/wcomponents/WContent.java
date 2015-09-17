@@ -5,15 +5,14 @@ import java.util.Map;
 
 /**
  * <p>
- * This wcomponent enables the display of arbitrary document content from a
- * WComponent application. This component does not by default display anything
- * until the {@link #display()} method is called. It then causes the browser to
- * access the content through the WContentHelperServlet.</p>
+ * This wcomponent enables the display of arbitrary document content from a WComponent application.
+ * This component does not by default display anything until the {@link #display()} method is
+ * called. It then causes the browser to access the content through the WContentHelperServlet.</p>
  *
  * <p>
  * By default, the browser will display the content in a new window, but the
- * {@link #setDisplayMode(DisplayMode)} method can be used to display the
- * content inline or prompt the user to save the content to a file.</p>
+ * {@link #setDisplayMode(DisplayMode)} method can be used to display the content inline or prompt
+ * the user to save the content to a file.</p>
  *
  * @author Martin Shevchenko
  * @since 1.0.0
@@ -25,8 +24,7 @@ public class WContent extends AbstractWComponent implements Targetable {
 	 */
 	public static enum DisplayMode {
 		/**
-		 * Indicates that the content should be displayed in another browser
-		 * window.
+		 * Indicates that the content should be displayed in another browser window.
 		 */
 		OPEN_NEW_WINDOW,
 		/**
@@ -34,25 +32,22 @@ public class WContent extends AbstractWComponent implements Targetable {
 		 */
 		DISPLAY_INLINE,
 		/**
-		 * Indicates that the browser should prompt the user to save the content
-		 * to a file. Note that for this to work, the ContenetAccess MUST have
-		 * its description set to the file name which the content should be
-		 * saved as.
+		 * Indicates that the browser should prompt the user to save the content to a file. Note
+		 * that for this to work, the ContenetAccess MUST have its description set to the file name
+		 * which the content should be saved as.
 		 */
 		PROMPT_TO_SAVE
 	}
 
 	/**
-	 * This magic parameter is a work-around to the loading indicator becoming
-	 * "stuck" in certain browsers. It is also used by the static resource
-	 * handler to set the correct headers
+	 * This magic parameter is a work-around to the loading indicator becoming "stuck" in certain
+	 * browsers. It is also used by the static resource handler to set the correct headers
 	 *
 	 */
 	public static final String URL_CONTENT_MODE_PARAMETER_KEY = "wc_content";
 
 	/**
-	 * Supply this component with access to the document content to be
-	 * displayed.
+	 * Supply this component with access to the document content to be displayed.
 	 *
 	 * @param contentAccess the ContentAccess which will supply the content.
 	 */
@@ -68,16 +63,15 @@ public class WContent extends AbstractWComponent implements Targetable {
 	}
 
 	/**
-	 * Next time this component is painted, it will output the appropriate
-	 * script to open a new browser window to display the content.
+	 * Next time this component is painted, it will output the appropriate script to open a new
+	 * browser window to display the content.
 	 */
 	public void display() {
 		getOrCreateComponentModel().displayRequested = true;
 	}
 
 	/**
-	 * @return The height of the window containing the document content. Default
-	 * is 600px.
+	 * @return The height of the window containing the document content. Default is 600px.
 	 */
 	public String getHeight() {
 		return getComponentModel().height;
@@ -105,8 +99,7 @@ public class WContent extends AbstractWComponent implements Targetable {
 	}
 
 	/**
-	 * @return The width of the window containing the document content. Default
-	 * is 800px.
+	 * @return The width of the window containing the document content. Default is 800px.
 	 */
 	public String getWidth() {
 		return getComponentModel().width;
@@ -177,8 +170,7 @@ public class WContent extends AbstractWComponent implements Targetable {
 	}
 
 	/**
-	 * Retrieves a dynamic URL which this targetable component can be accessed
-	 * from.
+	 * Retrieves a dynamic URL which this targetable component can be accessed from.
 	 *
 	 * @return the URL to access this targetable component.
 	 */
@@ -226,13 +218,11 @@ public class WContent extends AbstractWComponent implements Targetable {
 
 	/**
 	 * <p>
-	 * Override handleRequest in order to perform processing specific to this
-	 * component.</p>
+	 * Override handleRequest in order to perform processing specific to this component.</p>
 	 *
 	 * <p>
-	 * When the new browser window for the document content is opened, it will
-	 * make another request to fetch the content. It is that situation we are
-	 * trying to detect and handle here.</p>
+	 * When the new browser window for the document content is opened, it will make another request
+	 * to fetch the content. It is that situation we are trying to detect and handle here.</p>
 	 *
 	 * @param request the request being responded to.
 	 */
@@ -266,8 +256,7 @@ public class WContent extends AbstractWComponent implements Targetable {
 	}
 
 	/**
-	 * @return a String representation of this component, for debugging
-	 * purposes.
+	 * @return a String representation of this component, for debugging purposes.
 	 */
 	@Override
 	public String toString() {

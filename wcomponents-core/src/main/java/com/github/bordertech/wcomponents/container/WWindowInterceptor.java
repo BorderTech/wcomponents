@@ -16,15 +16,13 @@ import java.util.Map;
 
 /**
  * <p>
- * This interceptor temporarily replaces the primary UIContext's
- * {@link Environment} with an Environment suitable for processing a content
- * request for a WWindow.
+ * This interceptor temporarily replaces the primary UIContext's {@link Environment} with an
+ * Environment suitable for processing a content request for a WWindow.
  * </p>
  * <p>
- * The replacement of the environment is not thread-safe, but the interceptor
- * methods are only ever called from code in {@link AbstractContainerHelper}
- * which synchronizes on the primary context. This prevents any concurrency
- * issues.
+ * The replacement of the environment is not thread-safe, but the interceptor methods are only ever
+ * called from code in {@link AbstractContainerHelper} which synchronizes on the primary context.
+ * This prevents any concurrency issues.
  * </p>
  *
  * @author Yiannis Paschalidis
@@ -147,8 +145,8 @@ public class WWindowInterceptor extends InterceptorComponent {
 	}
 
 	/**
-	 * This Environment implementation delegates all methods to a backing
-	 * Environment instance, except for methods relating to the step counter.
+	 * This Environment implementation delegates all methods to a backing Environment instance,
+	 * except for methods relating to the step counter.
 	 */
 	private static final class EnvironmentDelegate implements Environment {
 
@@ -322,10 +320,9 @@ public class WWindowInterceptor extends InterceptorComponent {
 		}
 
 		/**
-		 * The {@link #windowId} will need to be carried through to subsequent
-		 * requests so that the correct component will continue being targeted.
-		 * The step counter should also be retrieved from a WWindow if one is
-		 * present.
+		 * The {@link #windowId} will need to be carried through to subsequent requests so that the
+		 * correct component will continue being targeted. The step counter should also be retrieved
+		 * from a WWindow if one is present.
 		 *
 		 * @return the hidden parameters.
 		 */
@@ -342,8 +339,8 @@ public class WWindowInterceptor extends InterceptorComponent {
 		}
 
 		/**
-		 * Override getStep to retrieve the step from a WWindow if the targeted
-		 * component is a WWindow or a descendant of one.
+		 * Override getStep to retrieve the step from a WWindow if the targeted component is a
+		 * WWindow or a descendant of one.
 		 *
 		 * @return the step count.
 		 */
@@ -364,8 +361,8 @@ public class WWindowInterceptor extends InterceptorComponent {
 		}
 
 		/**
-		 * Override setStep to store the step on a WWindow if the targeted
-		 * component is a WWindow or a descendant of one.
+		 * Override setStep to store the step on a WWindow if the targeted component is a WWindow or
+		 * a descendant of one.
 		 *
 		 * @param step the step count to set.
 		 */

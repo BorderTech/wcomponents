@@ -26,8 +26,7 @@ public class WDateFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 	private static final Date TEST_DATE = DateUtilities.createDate(31, 12, 2010);
 
 	/**
-	 * A string representation of the test Date, using the internal date format
-	 * .
+	 * A string representation of the test Date, using the internal date format .
 	 */
 	private static final String TEST_INTERNAL_DATE_STRING = "2010-12-31";
 

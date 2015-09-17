@@ -47,8 +47,8 @@ public class And extends AbstractCondition {
 	}
 
 	/**
-	 * Evaluates the condition. Note that this uses the short-circuit and
-	 * operator, so condition 'b' will not necessarily be evaluated.
+	 * Evaluates the condition. Note that this uses the short-circuit and operator, so condition 'b'
+	 * will not necessarily be evaluated.
 	 *
 	 * @return true if all conditions are true, otherwise false
 	 */
@@ -64,9 +64,8 @@ public class And extends AbstractCondition {
 	}
 
 	/**
-	 * Evaluates the condition using values on the Request. Note that this uses
-	 * the short-circuit and operator, so condition 'b' will not necessarily be
-	 * evaluated.
+	 * Evaluates the condition using values on the Request. Note that this uses the short-circuit
+	 * and operator, so condition 'b' will not necessarily be evaluated.
 	 *
 	 * @param request the request being processed.
 	 * @return true if all conditions are true, otherwise false

@@ -13,8 +13,7 @@ import com.github.bordertech.wcomponents.UIContext;
 public final class StepCountUtil {
 
 	/**
-	 * The parameter key for the URL users are redirected to when a step error
-	 * occurs.
+	 * The parameter key for the URL users are redirected to when a step error occurs.
 	 */
 	public static final String STEP_ERROR_URL_PARAMETER_KEY = "bordertech.wcomponents.wrongStep.redirect.url";
 

@@ -15,8 +15,8 @@ import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.util.XMLUtil;
 
 /**
- * This {@link InterceptorComponent} provides the XML wrapper necessary for
- * serving up an AJAX response.
+ * This {@link InterceptorComponent} provides the XML wrapper necessary for serving up an AJAX
+ * response.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -39,9 +39,8 @@ public class AjaxPageShellInterceptor extends InterceptorComponent {
 	}
 
 	/**
-	 * Paints the targeted ajax regions. The format of the response is an
-	 * agreement between the server and the client side handling our AJAX
-	 * response.
+	 * Paints the targeted ajax regions. The format of the response is an agreement between the
+	 * server and the client side handling our AJAX response.
 	 *
 	 * @param renderContext the renderContext to send the output to.
 	 */

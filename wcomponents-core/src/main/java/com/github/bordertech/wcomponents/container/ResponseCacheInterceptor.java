@@ -4,8 +4,7 @@ import com.github.bordertech.wcomponents.RenderContext;
 import com.github.bordertech.wcomponents.util.Config;
 
 /**
- * Interceptor that sets the appropriate response headers for caching or not
- * caching the response.
+ * Interceptor that sets the appropriate response headers for caching or not caching the response.
  *
  * @author Jonathan Austin
  * @since 1.0.0
@@ -23,13 +22,11 @@ public class ResponseCacheInterceptor extends InterceptorComponent {
 	public static final String DEFAULT_NO_CACHE_SETTINGS = "no-cache, no-store, must-revalidate, private";
 
 	/**
-	 * Cache Type allows different cache settings to be set for different
-	 * response types, such as page responses, content, theme resources and
-	 * datalists.
+	 * Cache Type allows different cache settings to be set for different response types, such as
+	 * page responses, content, theme resources and datalists.
 	 * <p>
-	 * All the cache types uses the same default settings. However, the default
-	 * setting can be overridden or each individual cache type can be
-	 * overridden.
+	 * All the cache types uses the same default settings. However, the default setting can be
+	 * overridden or each individual cache type can be overridden.
 	 * </p>
 	 */
 	public static enum CacheType {
@@ -115,8 +112,7 @@ public class ResponseCacheInterceptor extends InterceptorComponent {
 	}
 
 	/**
-	 * Set the appropriate response headers for caching or not caching the
-	 * response.
+	 * Set the appropriate response headers for caching or not caching the response.
 	 *
 	 * @param renderContext the rendering context
 	 */

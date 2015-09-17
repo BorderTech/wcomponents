@@ -18,9 +18,8 @@ import java.util.Map;
  * A default implementation of the PageShell interface.</p>
  *
  * <p>
- * This implementation writes the absolute minimum amount of mark-up necessary
- * to support a WComponent application. There is no visible content written to
- * the headers/footers.</p>
+ * This implementation writes the absolute minimum amount of mark-up necessary to support a
+ * WComponent application. There is no visible content written to the headers/footers.</p>
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -43,10 +42,9 @@ public class DefaultPageShell implements PageShell {
 	}
 
 	/**
-	 * Retrieves the application title for the given context. This mess is
-	 * required due to WWindow essentially existing as a separate UI root. If
-	 * WWindow is eventually removed, then we can just retrieve the title from
-	 * the root WApplication.
+	 * Retrieves the application title for the given context. This mess is required due to WWindow
+	 * essentially existing as a separate UI root. If WWindow is eventually removed, then we can
+	 * just retrieve the title from the root WApplication.
 	 *
 	 * @param uic the context to check.
 	 * @return the current application title.
@@ -118,12 +116,10 @@ public class DefaultPageShell implements PageShell {
 	}
 
 	/**
-	 * Add a list of html headline entries intended to be added only once to the
-	 * page.
+	 * Add a list of html headline entries intended to be added only once to the page.
 	 *
 	 * @param writer the writer to write to.
-	 * @param headlines a list of html entries to be added to the page as a
-	 * whole.
+	 * @param headlines a list of html entries to be added to the page as a whole.
 	 */
 	private void addHeadlines(final PrintWriter writer, final List headlines) {
 		if (headlines == null || headlines.isEmpty()) {
@@ -140,12 +136,10 @@ public class DefaultPageShell implements PageShell {
 	}
 
 	/**
-	 * Add a list of javascript headline entries intended to be added only once
-	 * to the page.
+	 * Add a list of javascript headline entries intended to be added only once to the page.
 	 *
 	 * @param writer the writer to write to.
-	 * @param jsHeadlines a list of javascript entries to be added to the page
-	 * as a whole.
+	 * @param jsHeadlines a list of javascript entries to be added to the page as a whole.
 	 */
 	private void addJsHeadlines(final PrintWriter writer, final List jsHeadlines) {
 		if (jsHeadlines == null || jsHeadlines.isEmpty()) {
@@ -165,12 +159,10 @@ public class DefaultPageShell implements PageShell {
 	}
 
 	/**
-	 * Add a list of css headline entries intended to be added only once to the
-	 * page.
+	 * Add a list of css headline entries intended to be added only once to the page.
 	 *
 	 * @param writer the writer to write to.
-	 * @param cssHeadlines a list of css entries to be added to the page as a
-	 * whole.
+	 * @param cssHeadlines a list of css entries to be added to the page as a whole.
 	 */
 	private void addCssHeadlines(final PrintWriter writer, final List cssHeadlines) {
 		if (cssHeadlines == null || cssHeadlines.isEmpty()) {

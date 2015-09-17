@@ -9,9 +9,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * This interceptor removes component model objects that are no longer needed
- * from the UIContext. This is not essential other than to keep web server
- * memory usage down.
+ * This interceptor removes component model objects that are no longer needed from the UIContext.
+ * This is not essential other than to keep web server memory usage down.
  *
  * @author Martin Shevchenko
  * @since 1.0.0
@@ -24,9 +23,8 @@ public class ContextCleanupInterceptor extends InterceptorComponent {
 	private static final Log LOG = LogFactory.getLog(ContextCleanupInterceptor.class);
 
 	/**
-	 * Override serviceRequest to clear out the targetable index from the last
-	 * request. And clear out the scratch map after the request has been
-	 * processed (and before painting occurs).
+	 * Override serviceRequest to clear out the targetable index from the last request. And clear
+	 * out the scratch map after the request has been processed (and before painting occurs).
 	 *
 	 * @param request the request being responded to.
 	 */
@@ -41,8 +39,8 @@ public class ContextCleanupInterceptor extends InterceptorComponent {
 	}
 
 	/**
-	 * Override paint to clear out the scratch map and component models which
-	 * are no longer necessary.
+	 * Override paint to clear out the scratch map and component models which are no longer
+	 * necessary.
 	 *
 	 * @param renderContext the renderContext to send the output to.
 	 */

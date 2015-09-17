@@ -39,8 +39,7 @@ public class BytesImage implements Image {
 	 * This constructor creates a {@link BytesImage} from the given byte array.
 	 *
 	 * @param bytes The bytes which make up this {@link BytesImage}.
-	 * @param mimeType The MIME type of the {@link BytesImage}. (i.e.
-	 * "image/jpeg")
+	 * @param mimeType The MIME type of the {@link BytesImage}. (i.e. "image/jpeg")
 	 * @param description A description of the {@link BytesImage}.
 	 * @param size The x-y dimensions of the {@link BytesImage}.
 	 */

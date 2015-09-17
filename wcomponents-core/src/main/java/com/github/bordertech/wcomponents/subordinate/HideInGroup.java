@@ -25,8 +25,8 @@ public class HideInGroup extends AbstractSetVisible {
 	}
 
 	/**
-	 * Executes the action. Hides the target component and makes everything else
-	 * visible in the group.
+	 * Executes the action. Hides the target component and makes everything else visible in the
+	 * group.
 	 */
 	@Override
 	public void execute() {

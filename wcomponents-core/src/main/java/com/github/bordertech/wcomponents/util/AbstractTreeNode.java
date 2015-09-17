@@ -7,9 +7,8 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 /**
- * A default implementation of the TreeNode interface. This class is abstract,
- * as it doesn't make sense to instantiate a TreeNode that doesn't contain any
- * data.
+ * A default implementation of the TreeNode interface. This class is abstract, as it doesn't make
+ * sense to instantiate a TreeNode that doesn't contain any data.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -240,15 +239,14 @@ public abstract class AbstractTreeNode implements TreeNode, Serializable {
 	}
 
 	/**
-	 * Builds the parents of node up to and including the root node, where the
-	 * original node is the last element in the returned array. The length of
-	 * the returned array gives the node's depth in the tree.
+	 * Builds the parents of node up to and including the root node, where the original node is the
+	 * last element in the returned array. The length of the returned array gives the node's depth
+	 * in the tree.
 	 *
 	 * @param aNode the DefaultTreeNode to get the path for
-	 * @param depth an int giving the number of steps already taken towards the
-	 * root (on recursive calls), used to size the returned array
-	 * @return an array of TreeNodes giving the path from the root to the
-	 * specified node
+	 * @param depth an int giving the number of steps already taken towards the root (on recursive
+	 * calls), used to size the returned array
+	 * @return an array of TreeNodes giving the path from the root to the specified node
 	 */
 	private TreeNode[] getPathToRoot(final TreeNode aNode, final int depth) {
 		TreeNode[] retNodes;
@@ -274,9 +272,8 @@ public abstract class AbstractTreeNode implements TreeNode, Serializable {
 	}
 
 	/**
-	 * An iteration that traverses the subtree rooted at this node in
-	 * breadth-first order. The first node returned by the iteration's
-	 * <code>nextElement()</code> method is the initial node.
+	 * An iteration that traverses the subtree rooted at this node in breadth-first order. The first
+	 * node returned by the iteration's <code>nextElement()</code> method is the initial node.
 	 * <P>
 	 * Adapted from javax.swing.tree.TreeNode.BreadthFirstEnumerator.
 	 *

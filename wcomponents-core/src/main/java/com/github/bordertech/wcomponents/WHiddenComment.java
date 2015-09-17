@@ -1,8 +1,8 @@
 package com.github.bordertech.wcomponents;
 
 /**
- * This component is useful to put hidden text on a page. Normal XML comments
- * may be stripped by filters or XSLT.
+ * This component is useful to put hidden text on a page. Normal XML comments may be stripped by
+ * filters or XSLT.
  *
  * @author Darian Bridge
  * @since 1.0.0

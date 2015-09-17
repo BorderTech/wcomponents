@@ -5,8 +5,7 @@ import com.github.bordertech.wcomponents.WLabel;
 import com.github.bordertech.wcomponents.util.Util;
 
 /**
- * A logical condition that tests if the trigger is not equal to the compare
- * value.
+ * A logical condition that tests if the trigger is not equal to the compare value.
  *
  * @author Jonathan Austin
  * @since 1.0.0

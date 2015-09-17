@@ -1,8 +1,7 @@
 package com.github.bordertech.wcomponents;
 
 /**
- * MessageContainer - Interface for a {@link WComponent} that displays
- * {@link WMessages}.
+ * MessageContainer - Interface for a {@link WComponent} that displays {@link WMessages}.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0

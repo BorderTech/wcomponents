@@ -84,8 +84,7 @@ public class UIRegistryAmicableImpl_Test {
 	}
 
 	/**
-	 * Test getUI - nothing registered - no class creatable from key - returns.
-	 * FatalErrorPage
+	 * Test getUI - nothing registered - no class creatable from key - returns. FatalErrorPage
 	 */
 	@Test
 	public void testGetUINotRegisteredNoClass() {
@@ -101,8 +100,7 @@ public class UIRegistryAmicableImpl_Test {
 	}
 
 	/**
-	 * Test getUI - nothing registered - class creatable from key - but not a
-	 * WComponent.
+	 * Test getUI - nothing registered - class creatable from key - but not a WComponent.
 	 */
 	@Test
 	public void testGetUINotRegisteredNotWComponent() {

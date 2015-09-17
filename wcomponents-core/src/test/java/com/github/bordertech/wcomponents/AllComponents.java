@@ -6,8 +6,7 @@ import com.github.bordertech.wcomponents.validation.WValidationErrors;
 import java.util.Arrays;
 
 /**
- * This container holds one of each component, and is used for performance
- * regression testing.
+ * This container holds one of each component, and is used for performance regression testing.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -22,8 +21,7 @@ public class AllComponents extends WApplication {
 	}
 
 	/**
-	 * Creates a container with all the components in it repeated the number of
-	 * times specified.
+	 * Creates a container with all the components in it repeated the number of times specified.
 	 *
 	 * @param repetitions the number of times to repeat the components.
 	 */

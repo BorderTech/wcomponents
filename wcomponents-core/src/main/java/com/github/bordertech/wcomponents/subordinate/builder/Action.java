@@ -15,9 +15,8 @@ import com.github.bordertech.wcomponents.subordinate.Show;
 import com.github.bordertech.wcomponents.subordinate.ShowInGroup;
 
 /**
- * Describes an action to execute. This class is used by the
- * {@link SubordinateBuilder} class to define what needs to be done when a
- * condition is met.
+ * Describes an action to execute. This class is used by the {@link SubordinateBuilder} class to
+ * define what needs to be done when a condition is met.
  *
  * @author Yiannis Paschalidis
  * @author Jonathan Austin

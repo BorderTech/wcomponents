@@ -19,8 +19,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * WrongStepServerInterceptor_Test - unit tests for
- * {@link WrongStepServerInterceptor}.
+ * WrongStepServerInterceptor_Test - unit tests for {@link WrongStepServerInterceptor}.
  *
  * @author Jonathan Austin
  * @since 1.0.0

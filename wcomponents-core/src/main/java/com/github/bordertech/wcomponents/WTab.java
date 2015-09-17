@@ -5,9 +5,8 @@ import java.io.Serializable;
 import java.text.MessageFormat;
 
 /**
- * WTab encapsulates a tab on a tab set. The contents may or may not be
- * rendered, depending on the tab mode. This class is not intended to be
- * instantiated outside {@link WTabSet}'s addTab methods.
+ * WTab encapsulates a tab on a tab set. The contents may or may not be rendered, depending on the
+ * tab mode. This class is not intended to be instantiated outside {@link WTabSet}'s addTab methods.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -126,8 +125,7 @@ public class WTab extends AbstractNamingContextContainer implements Disableable 
 	/**
 	 * Set the accesskey (shortcut key) that will activate the tab.
 	 *
-	 * @param accesskey The key (in combination with the Alt key) that activates
-	 * this element.
+	 * @param accesskey The key (in combination with the Alt key) that activates this element.
 	 */
 	public void setAccessKey(final char accesskey) {
 		getOrCreateComponentModel().accessKey = accesskey;
@@ -175,8 +173,8 @@ public class WTab extends AbstractNamingContextContainer implements Disableable 
 	}
 
 	/**
-	 * Override preparePaintComponent in order to correct the visibility of the
-	 * tab's content before it is rendered.
+	 * Override preparePaintComponent in order to correct the visibility of the tab's content before
+	 * it is rendered.
 	 *
 	 * @param request the request being responded to.
 	 */
@@ -237,8 +235,7 @@ public class WTab extends AbstractNamingContextContainer implements Disableable 
 	}
 
 	/**
-	 * @return a String representation of this component, for debugging
-	 * purposes.
+	 * @return a String representation of this component, for debugging purposes.
 	 */
 	@Override
 	public String toString() {

@@ -164,8 +164,7 @@ public class TreeUtil_Test {
 	 * @param components the list of components to check.
 	 * @param component the component to search for.
 	 * @param uic the component context to search for.
-	 * @return true if the component is in the list with the given context,
-	 * false otherwise.
+	 * @return true if the component is in the list with the given context, false otherwise.
 	 */
 	private boolean isInList(final List<ComponentWithContext> components, final WComponent component, final UIContext uic) {
 		for (ComponentWithContext comp : components) {

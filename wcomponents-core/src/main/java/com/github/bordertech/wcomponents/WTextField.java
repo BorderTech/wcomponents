@@ -8,9 +8,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * A WTextField is a wcomponent used to display a html text input field. Use the
- * method "getText" to get the text entered into the field by the user. Common
- * configuration methods include "setColumns" and "setMaxlength".
+ * A WTextField is a wcomponent used to display a html text input field. Use the method "getText" to
+ * get the text entered into the field by the user. Common configuration methods include
+ * "setColumns" and "setMaxlength".
  *
  * @author James Gifford
  * @author Martin Shevchenko
@@ -20,8 +20,8 @@ import java.util.regex.Pattern;
 public class WTextField extends AbstractInput implements AjaxTrigger, AjaxTarget, SubordinateTrigger, SubordinateTarget {
 
 	/**
-	 * Override handleRequest in order to perform processing for this component.
-	 * This implementation updates the text field's text if it has changed.
+	 * Override handleRequest in order to perform processing for this component. This implementation
+	 * updates the text field's text if it has changed.
 	 *
 	 * @param request the request being responded to.
 	 * @return true if the text field has changed, otherwise false
@@ -104,8 +104,7 @@ public class WTextField extends AbstractInput implements AjaxTrigger, AjaxTarget
 	}
 
 	/**
-	 * @return the minimum number of characters that the user can enter into the
-	 * text field.
+	 * @return the minimum number of characters that the user can enter into the text field.
 	 */
 	public int getMinLength() {
 		return getComponentModel().minLength;
@@ -113,14 +112,12 @@ public class WTextField extends AbstractInput implements AjaxTrigger, AjaxTarget
 
 	/**
 	 * <p>
-	 * Set the minimum number of characters that the user can enter into the
-	 * text field.
+	 * Set the minimum number of characters that the user can enter into the text field.
 	 * </p>
 	 * <p>
-	 * Setting the minimum number of characters will not make a field mandatory
-	 * as the validation is only applied once the user has entered some text.
-	 * Use {@link #setMandatory(boolean)} to make a field mandatory, which can
-	 * be used in combination with setMinLength.
+	 * Setting the minimum number of characters will not make a field mandatory as the validation is
+	 * only applied once the user has entered some text. Use {@link #setMandatory(boolean)} to make
+	 * a field mandatory, which can be used in combination with setMinLength.
 	 * </p>
 	 *
 	 * @param minLength the minimum number of characters to allow.
@@ -130,16 +127,14 @@ public class WTextField extends AbstractInput implements AjaxTrigger, AjaxTarget
 	}
 
 	/**
-	 * @return the maximum number of characters that the user can enter into the
-	 * text field.
+	 * @return the maximum number of characters that the user can enter into the text field.
 	 */
 	public int getMaxLength() {
 		return getComponentModel().maxLength;
 	}
 
 	/**
-	 * Set the maximum number of characters that the user can enter into the
-	 * text field.
+	 * Set the maximum number of characters that the user can enter into the text field.
 	 *
 	 * @param maxLength the maximum number of characters to allow.
 	 */
@@ -150,12 +145,11 @@ public class WTextField extends AbstractInput implements AjaxTrigger, AjaxTarget
 	/**
 	 * The pattern to validate against.
 	 * <p>
-	 * The pattern must be supported natively by your target user agent (e.g.
-	 * browser).
+	 * The pattern must be supported natively by your target user agent (e.g. browser).
 	 * </p>
 	 * <p>
-	 * It is expected the {@link WLabel} for this component describes the
-	 * required format of the component.
+	 * It is expected the {@link WLabel} for this component describes the required format of the
+	 * component.
 	 * </p>
 	 *
 	 * @param pattern the pattern to validate against.
@@ -228,8 +222,7 @@ public class WTextField extends AbstractInput implements AjaxTrigger, AjaxTarget
 	}
 
 	/**
-	 * Creates a new TextFieldModel holds Extrinsic state management of the
-	 * field.
+	 * Creates a new TextFieldModel holds Extrinsic state management of the field.
 	 *
 	 * @return a new TextFieldModel
 	 */

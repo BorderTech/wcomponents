@@ -4,8 +4,8 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 /**
- * Utility class used by WComponents for accessing {@link Config configuration}
- * parameters used in debug features.
+ * Utility class used by WComponents for accessing {@link Config configuration} parameters used in
+ * debug features.
  *
  * @author Jonathan Austin
  * @since 1.0.0
@@ -26,8 +26,7 @@ public final class DebugUtil {
 	private static boolean debugStructureEnabled;
 
 	/**
-	 * When this class is loaded by the application, register a property change
-	 * listener.
+	 * When this class is loaded by the application, register a property change listener.
 	 */
 	static {
 		PropertyChangeListener paramChange = new PropertyChangeListener() {
@@ -60,8 +59,8 @@ public final class DebugUtil {
 	}
 
 	/**
-	 * Determines if WComponents is in debug mode. The debug features will only
-	 * be enabled if this is true.
+	 * Determines if WComponents is in debug mode. The debug features will only be enabled if this
+	 * is true.
 	 *
 	 * @return true or false
 	 */

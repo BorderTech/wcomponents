@@ -1,8 +1,7 @@
 package com.github.bordertech.wcomponents;
 
 /**
- * This is a JUnit4.8
- * {@link org.junit.experimental.categories.Category Category} for marking
+ * This is a JUnit4.8 {@link org.junit.experimental.categories.Category Category} for marking
  * performance unit tests.
  *
  * @author Yiannis Paschalidis

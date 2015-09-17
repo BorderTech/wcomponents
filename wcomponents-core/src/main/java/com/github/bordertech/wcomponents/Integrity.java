@@ -5,13 +5,12 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * <p>
- * A convenience class to raise integrity issues. An integrity issue is usually
- * issued on misconfiguration of a WComponent.</p>
+ * A convenience class to raise integrity issues. An integrity issue is usually issued on
+ * misconfiguration of a WComponent.</p>
  *
  * <p>
  * If the <code>sfp.web.integrity.terminate.mode</code> parameter is set, an
- * {@link IntegrityException} will be thrown, otherwise a warning message will
- * be logged.<p>
+ * {@link IntegrityException} will be thrown, otherwise a warning message will be logged.<p>
  *
  * @author Martin Shevchenko
  * @since 1.0.0

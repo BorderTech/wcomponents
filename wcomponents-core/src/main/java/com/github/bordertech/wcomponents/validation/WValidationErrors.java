@@ -8,16 +8,16 @@ import java.util.List;
 
 /**
  * <p>
- * This component is used to render an error message box (commonly near the top
- * of an application's UI) which contains all supplied validation errors.
+ * This component is used to render an error message box (commonly near the top of an application's
+ * UI) which contains all supplied validation errors.
  * </p>
  * <p>
- * This provides (in conjuntion with {@link WFieldErrorIndicator} components)
- * the ability to link error messages with the input field that is in error.
+ * This provides (in conjuntion with {@link WFieldErrorIndicator} components) the ability to link
+ * error messages with the input field that is in error.
  * </p>
  * <p>
- * NOTE: The collection of errors passed to this component must be
- * implementations of {@link Diagnostic}.
+ * NOTE: The collection of errors passed to this component must be implementations of
+ * {@link Diagnostic}.
  * </p>
  *
  * @see Diagnostic
@@ -126,8 +126,7 @@ public class WValidationErrors extends AbstractWComponent {
 	}
 
 	/**
-	 * @return a String representation of this component, for debugging
-	 * purposes.
+	 * @return a String representation of this component, for debugging purposes.
 	 */
 	@Override
 	public String toString() {

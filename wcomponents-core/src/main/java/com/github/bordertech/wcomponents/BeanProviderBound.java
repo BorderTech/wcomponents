@@ -1,10 +1,9 @@
 package com.github.bordertech.wcomponents;
 
 /**
- * Components implementing this interface are bound to a bean through a
- * BeanProvider. The BeanProvider can obtain the bean from any source (e.g. a
- * database or service call) using the bean id obtained from the
- * BeanProviderBound component.
+ * Components implementing this interface are bound to a bean through a BeanProvider. The
+ * BeanProvider can obtain the bean from any source (e.g. a database or service call) using the bean
+ * id obtained from the BeanProviderBound component.
  *
  * @see BeanBound
  *

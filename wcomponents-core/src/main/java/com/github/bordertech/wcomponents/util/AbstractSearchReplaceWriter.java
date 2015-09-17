@@ -6,15 +6,15 @@ import java.util.Arrays;
 
 /**
  * <p>
- * AbstractSearchReplaceWriter is a writer extension that allows programmatic
- * replacement of strings contained in written stream. For efficiency, it uses a
- * buffer that is twice the size of the longest search string.</p>
+ * AbstractSearchReplaceWriter is a writer extension that allows programmatic replacement of strings
+ * contained in written stream. For efficiency, it uses a buffer that is twice the size of the
+ * longest search string.</p>
  *
  * <p>
- * Data is only written to the underlying writer when the buffer is filled, or
- * when the writer is closed; calling {@link #flush()} only flushes the
- * underlying writer. Calling {@link #close()} may not close the underlying
- * writer, depending on the return value of {@link #closeBackingOnClose()}</p>
+ * Data is only written to the underlying writer when the buffer is filled, or when the writer is
+ * closed; calling {@link #flush()} only flushes the underlying writer. Calling {@link #close()} may
+ * not close the underlying writer, depending on the return value of
+ * {@link #closeBackingOnClose()}</p>
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -32,9 +32,8 @@ public abstract class AbstractSearchReplaceWriter extends Writer {
 	private final Writer backing;
 
 	/**
-	 * The "lookahead" buffer. It buffers characters from the underlying stream
-	 * to allow us to check for the "match" string before writing them to the
-	 * underlying writer.
+	 * The "lookahead" buffer. It buffers characters from the underlying stream to allow us to check
+	 * for the "match" string before writing them to the underlying writer.
 	 */
 	private final char[] buffer;
 
@@ -47,8 +46,7 @@ public abstract class AbstractSearchReplaceWriter extends Writer {
 	 * Creates a SearchReplaceWriter.
 	 *
 	 * @param search the search strings.
-	 * @param backing the backing writer, where output will be eventually sent
-	 * to.
+	 * @param backing the backing writer, where output will be eventually sent to.
 	 */
 	public AbstractSearchReplaceWriter(final String[] search, final Writer backing) {
 		this.backing = backing;
@@ -110,8 +108,7 @@ public abstract class AbstractSearchReplaceWriter extends Writer {
 	 * @param cbuf the character buffer to write.
 	 * @param off the start position in the array to write from.
 	 * @param len the amount of character data to write.
-	 * @throws IOException if there is an error writing to the underlying
-	 * buffer.
+	 * @throws IOException if there is an error writing to the underlying buffer.
 	 */
 	@Override
 	public void write(final char[] cbuf, final int off, final int len) throws IOException {
@@ -130,13 +127,11 @@ public abstract class AbstractSearchReplaceWriter extends Writer {
 	}
 
 	/**
-	 * Writes the current contents of the buffer, up to the given position. More
-	 * data may be written from the buffer when there is a search string that
-	 * crosses over endPos.
+	 * Writes the current contents of the buffer, up to the given position. More data may be written
+	 * from the buffer when there is a search string that crosses over endPos.
 	 *
 	 * @param endPos the end position to stop writing
-	 * @throws IOException if there is an error writing to the underlying
-	 * writer.
+	 * @throws IOException if there is an error writing to the underlying writer.
 	 */
 	private void writeBuf(final int endPos) throws IOException {
 		// If the stream is not closed, we only process half the buffer at once.
@@ -171,8 +166,7 @@ public abstract class AbstractSearchReplaceWriter extends Writer {
 	}
 
 	/**
-	 * Searches for any search strings in the buffer that start between the
-	 * specified offsets.
+	 * Searches for any search strings in the buffer that start between the specified offsets.
 	 *
 	 * @param start the start search offset
 	 * @param end the end search offset
@@ -215,11 +209,10 @@ public abstract class AbstractSearchReplaceWriter extends Writer {
 	}
 
 	/**
-	 * Indicates whether the backing writer should be closed on close of this
-	 * writer. Subclasses can override this to keep the underlying writer open.
+	 * Indicates whether the backing writer should be closed on close of this writer. Subclasses can
+	 * override this to keep the underlying writer open.
 	 *
-	 * @return true if the backing writer should be closed when {@link #close()}
-	 * is called.
+	 * @return true if the backing writer should be closed when {@link #close()} is called.
 	 */
 	protected boolean closeBackingOnClose() {
 		return true;
@@ -230,8 +223,7 @@ public abstract class AbstractSearchReplaceWriter extends Writer {
 	 *
 	 * @param search the search string that was matched.
 	 * @param backing the underlying writer to write the output to.
-	 * @throws IOException if there is an error writing to the underlying
-	 * writer.
+	 * @throws IOException if there is an error writing to the underlying writer.
 	 */
 	protected abstract void doReplace(String search, Writer backing) throws IOException;
 }

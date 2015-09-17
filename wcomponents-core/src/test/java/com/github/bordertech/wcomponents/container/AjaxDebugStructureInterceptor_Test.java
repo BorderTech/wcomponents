@@ -17,8 +17,7 @@ import org.junit.Test;
 import org.xml.sax.SAXException;
 
 /**
- * AjaxDebugStructureInterceptor_Test - unit tests for
- * {@link AjaxDebugStructureInterceptor}.
+ * AjaxDebugStructureInterceptor_Test - unit tests for {@link AjaxDebugStructureInterceptor}.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0

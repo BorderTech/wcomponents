@@ -14,8 +14,7 @@ import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 final class WTimeoutWarningRenderer extends AbstractWebXmlRenderer {
 
 	/**
-	 * Paints the given WTimeoutWarning if the component's timeout period is
-	 * greater than 0.
+	 * Paints the given WTimeoutWarning if the component's timeout period is greater than 0.
 	 *
 	 * @param component the WTimeoutWarning to paint.
 	 * @param renderContext the RenderContext to paint to.

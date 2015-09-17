@@ -13,8 +13,7 @@ public class WColumn extends AbstractMutableContainer implements AjaxTarget {
 	 */
 	public static enum Alignment {
 		/**
-		 * Indicates that content should be left-aligned. This is the default
-		 * alignment.
+		 * Indicates that content should be left-aligned. This is the default alignment.
 		 */
 		LEFT,
 		/**
@@ -30,8 +29,8 @@ public class WColumn extends AbstractMutableContainer implements AjaxTarget {
 	/**
 	 * Creates a WColumn with 1% width.
 	 *
-	 * @deprecated Use {{@link #WColumn(int)} instead as width is required. Will
-	 * default width to 1%.
+	 * @deprecated Use {{@link #WColumn(int)} instead as width is required. Will default width to
+	 * 1%.
 	 */
 	@Deprecated
 	public WColumn() {
@@ -39,8 +38,7 @@ public class WColumn extends AbstractMutableContainer implements AjaxTarget {
 	}
 
 	/**
-	 * Creates a WColumn with the width specified as a percentage of the total
-	 * available width.
+	 * Creates a WColumn with the width specified as a percentage of the total available width.
 	 *
 	 * @param widthPercentage the percentage width.
 	 */
@@ -49,8 +47,7 @@ public class WColumn extends AbstractMutableContainer implements AjaxTarget {
 	}
 
 	/**
-	 * Sets the relative column width, measured as a percentage of the total
-	 * available width.
+	 * Sets the relative column width, measured as a percentage of the total available width.
 	 *
 	 * @param widthPercent the column width.
 	 */
@@ -62,8 +59,8 @@ public class WColumn extends AbstractMutableContainer implements AjaxTarget {
 	}
 
 	/**
-	 * @return the column width as a percentage of the total available width, or
-	 * zero if it has not been specified.
+	 * @return the column width as a percentage of the total available width, or zero if it has not
+	 * been specified.
 	 */
 	public int getWidth() {
 		return getComponentModel().width;
@@ -100,8 +97,7 @@ public class WColumn extends AbstractMutableContainer implements AjaxTarget {
 	}
 
 	/**
-	 * @return a String representation of this component, for debugging
-	 * purposes.
+	 * @return a String representation of this component, for debugging purposes.
 	 */
 	@Override
 	public String toString() {

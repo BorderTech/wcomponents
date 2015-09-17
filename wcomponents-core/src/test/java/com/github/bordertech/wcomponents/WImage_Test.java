@@ -16,8 +16,7 @@ import org.junit.Test;
 public class WImage_Test extends AbstractWComponentTestCase {
 
 	/**
-	 * The character encoding to use when converting Strings to/from byte
-	 * arrays.
+	 * The character encoding to use when converting Strings to/from byte arrays.
 	 */
 	private static final String CHAR_ENCODING = "UTF-8";
 

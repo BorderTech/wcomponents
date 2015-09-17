@@ -53,8 +53,7 @@ public class UIContextImpl implements UIContext {
 	private Environment environment;
 
 	/**
-	 * A list of runnables to invoke later (near the end of processing the
-	 * current request).
+	 * A list of runnables to invoke later (near the end of processing the current request).
 	 */
 	private transient List<Duplet<UIContext, Runnable>> invokeLaterRunnables;
 
@@ -71,22 +70,20 @@ public class UIContextImpl implements UIContext {
 	/**
 	 * The context of the component which needs to be given focus.
 	 *
-	 * This is necessary to cater for repeaters, which used the same component,
-	 * but have a different context per row.
+	 * This is necessary to cater for repeaters, which used the same component, but have a different
+	 * context per row.
 	 */
 	private transient UIContext focussedUIC;
 
 	/**
-	 * Indicates whether keyboard focus needs to be set to a particular
-	 * component.
+	 * Indicates whether keyboard focus needs to be set to a particular component.
 	 */
 	private transient boolean focusRequired = false;
 
 	private transient Headers headers;
 
 	/**
-	 * For use by internal framework code only. Sets the top level web component
-	 * for this context.
+	 * For use by internal framework code only. Sets the top level web component for this context.
 	 *
 	 * @param topUi the top level web component for this context.
 	 */
@@ -126,8 +123,8 @@ public class UIContextImpl implements UIContext {
 	}
 
 	/**
-	 * Removes the extrinsic state information for the given component. Note
-	 * that this is not recursive for the children.
+	 * Removes the extrinsic state information for the given component. Note that this is not
+	 * recursive for the children.
 	 *
 	 * @param component the component to remove the model for.
 	 */
@@ -155,8 +152,7 @@ public class UIContextImpl implements UIContext {
 	}
 
 	/**
-	 * If an environment has been set, it is returned. Otherwise a dummy
-	 * environment is returned.
+	 * If an environment has been set, it is returned. Otherwise a dummy environment is returned.
 	 *
 	 * @return the current environment.
 	 */
@@ -240,12 +236,10 @@ public class UIContextImpl implements UIContext {
 	}
 
 	/**
-	 * Sets the component in this UIC which is to be the focus of the client
-	 * browser cursor. The id of the component is used to find the focussed
-	 * element in the rendered html.
+	 * Sets the component in this UIC which is to be the focus of the client browser cursor. The id
+	 * of the component is used to find the focussed element in the rendered html.
 	 *
-	 * @param component the component that sould be the cursor focus in the
-	 * rendered UI.
+	 * @param component the component that sould be the cursor focus in the rendered UI.
 	 */
 	@Override
 	public void setFocussed(final WComponent component) {
@@ -253,13 +247,11 @@ public class UIContextImpl implements UIContext {
 	}
 
 	/**
-	 * Sets the component in this UIC which is to be the focus of the client
-	 * browser cursor. The id of the component is used to find the focussed
-	 * element in the rendered html. Since id could be different in different
-	 * contexts the context of the component is also needed.
+	 * Sets the component in this UIC which is to be the focus of the client browser cursor. The id
+	 * of the component is used to find the focussed element in the rendered html. Since id could be
+	 * different in different contexts the context of the component is also needed.
 	 *
-	 * @param component - the component that sould be the cursor focus in the
-	 * rendered UI.
+	 * @param component - the component that sould be the cursor focus in the rendered UI.
 	 * @param uic - the context that the component exists in.
 	 */
 	@Override
@@ -386,8 +378,8 @@ public class UIContextImpl implements UIContext {
 	/**
 	 * Reserved for internal framework use.
 	 *
-	 * @return the names of all attributes bound to this context, or null if
-	 * there are no attributes.
+	 * @return the names of all attributes bound to this context, or null if there are no
+	 * attributes.
 	 */
 	@Override
 	public Set<String> getFwkAttributeNames() {
@@ -399,9 +391,9 @@ public class UIContextImpl implements UIContext {
 	}
 
 	/**
-	 * Reserved for internal framework use. Retrieves a scratch area, where data
-	 * can be temporarily stored. WComponents must not rely on data being
-	 * available in the scratch area after each phase.
+	 * Reserved for internal framework use. Retrieves a scratch area, where data can be temporarily
+	 * stored. WComponents must not rely on data being available in the scratch area after each
+	 * phase.
 	 *
 	 * @param component the component to retrieve the scratch map for.
 	 * @return the scratch map for the given component.
@@ -423,8 +415,7 @@ public class UIContextImpl implements UIContext {
 	}
 
 	/**
-	 * Reserved for internal framework use. Clears the scratch map for the given
-	 * component.
+	 * Reserved for internal framework use. Clears the scratch map for the given component.
 	 *
 	 * @param component the component to clear the scratch map for.
 	 */
@@ -455,8 +446,7 @@ public class UIContextImpl implements UIContext {
 	}
 
 	/**
-	 * The DummyEnvironment is used when an environment hasn't been explicitly
-	 * supplied.
+	 * The DummyEnvironment is used when an environment hasn't been explicitly supplied.
 	 *
 	 * @author Martin Shevchenko
 	 */

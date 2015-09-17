@@ -11,9 +11,8 @@ import java.util.Set;
 import java.util.TreeMap;
 
 /**
- * This is a convenience WComponent and basically a WButton. When click on it,
- * information about the WComponent tree and UIContext will be displayed after
- * the button.
+ * This is a convenience WComponent and basically a WButton. When click on it, information about the
+ * WComponent tree and UIContext will be displayed after the button.
  *
  * @author Ming Gao
  */
@@ -36,8 +35,7 @@ public class UicProfileButton extends WButton {
 	}
 
 	/**
-	 * Override afterPaint to paint the profile information if the button has
-	 * been pressed.
+	 * Override afterPaint to paint the profile information if the button has been pressed.
 	 *
 	 * @param renderContext the renderContext to send output to.
 	 */
@@ -228,15 +226,14 @@ public class UicProfileButton extends WButton {
 	private static final class GroupData {
 
 		/**
-		 * The count of instances of the particular WComponent class with a
-		 * component model in the context/session.
+		 * The count of instances of the particular WComponent class with a component model in the
+		 * context/session.
 		 */
 		private int total = 0;
 
 		/**
-		 * The count of instances of the particular WComponent class with a
-		 * component model in the context/session which doesn't need to be
-		 * there.
+		 * The count of instances of the particular WComponent class with a component model in the
+		 * context/session which doesn't need to be there.
 		 */
 		private int unnecessaryCount = 0;
 	}

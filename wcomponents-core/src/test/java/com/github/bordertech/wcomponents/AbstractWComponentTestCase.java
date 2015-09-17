@@ -54,12 +54,11 @@ public abstract class AbstractWComponentTestCase {
 	}
 
 	/**
-	 * This method will test that the getter/setter methods on a component are
-	 * returning the correct values in its (i) initial state (ii) default state
-	 * and (iii) user context.
+	 * This method will test that the getter/setter methods on a component are returning the correct
+	 * values in its (i) initial state (ii) default state and (iii) user context.
 	 * <p>
-	 * Note that the component will be left in a dirty state after this method
-	 * is invoked and the UIContext will be reset.
+	 * Note that the component will be left in a dirty state after this method is invoked and the
+	 * UIContext will be reset.
 	 * </p>
 	 *
 	 * @param component the component to test the accessors on
@@ -139,8 +138,7 @@ public abstract class AbstractWComponentTestCase {
 	}
 
 	/**
-	 * Times the given runnable, using the best available "guess" for the CPU
-	 * time.
+	 * Times the given runnable, using the best available "guess" for the CPU time.
 	 *
 	 * @param runnable the runnable to run.
 	 * @return an approximation of the CPU time taken, in nanoseconds.
@@ -179,8 +177,8 @@ public abstract class AbstractWComponentTestCase {
 	}
 
 	/**
-	 * Modifies the component's flags. This is necessary for testing as some of
-	 * the setter methods are intentionally not visible in the public API.
+	 * Modifies the component's flags. This is necessary for testing as some of the setter methods
+	 * are intentionally not visible in the public API.
 	 *
 	 * @param component the component to set the modify the flag for.
 	 * @param mask the flags to set/clear.

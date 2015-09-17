@@ -115,8 +115,7 @@ final class WSubordinateControlRenderer extends AbstractWebXmlRenderer {
 	 * Paints an action.
 	 *
 	 * @param action the action to paint
-	 * @param elementName the enclosing element name ("ui:onFalse" or
-	 * "ui:onTrue").
+	 * @param elementName the enclosing element name ("ui:onFalse" or "ui:onTrue").
 	 * @param xml the writer to send the output to
 	 */
 	private void paintAction(final Action action, final String elementName, final XmlStringBuilder xml) {
@@ -143,12 +142,10 @@ final class WSubordinateControlRenderer extends AbstractWebXmlRenderer {
 	}
 
 	/**
-	 * Paint a standard action - where a single item or single group is
-	 * targeted.
+	 * Paint a standard action - where a single item or single group is targeted.
 	 *
 	 * @param action the action to paint
-	 * @param elementName the enclosing element name ("ui:onFalse" or
-	 * "ui:onTrue").
+	 * @param elementName the enclosing element name ("ui:onFalse" or "ui:onTrue").
 	 * @param xml the output response
 	 */
 	private void paintStandardAction(final Action action, final String elementName, final XmlStringBuilder xml) {
@@ -169,12 +166,10 @@ final class WSubordinateControlRenderer extends AbstractWebXmlRenderer {
 	}
 
 	/**
-	 * Paint an inGroup action - where a single item is being targeted out of a
-	 * group of items.
+	 * Paint an inGroup action - where a single item is being targeted out of a group of items.
 	 *
 	 * @param action the action to paint
-	 * @param elementName the enclosing element name ("ui:onFalse" or
-	 * "ui:onTrue").
+	 * @param elementName the enclosing element name ("ui:onFalse" or "ui:onTrue").
 	 * @param xml the output response
 	 */
 	private void paintInGroupAction(final Action action, final String elementName, final XmlStringBuilder xml) {

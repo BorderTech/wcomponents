@@ -6,22 +6,20 @@ import java.util.List;
 
 /**
  * <p>
- * The WDropdown component is used to let the user select a single option from a
- * drop-down list. The list of options that can be selected are supplied at
- * construction time as a parameter in the constructor or via the
- * {@link #setOptions(List)} method. The list of options are java objects that
- * are rendered using their toString() by default.</p>
+ * The WDropdown component is used to let the user select a single option from a drop-down list. The
+ * list of options that can be selected are supplied at construction time as a parameter in the
+ * constructor or via the {@link #setOptions(List)} method. The list of options are java objects
+ * that are rendered using their toString() by default.</p>
  *
  * <p>
- * Use the {@link #getSelected() getSelected} method to determine which of the
- * list of options was chosen by the user. Note that getSelected returns one of
- * the object instances supplied in the original list of options.</p>
+ * Use the {@link #getSelected() getSelected} method to determine which of the list of options was
+ * chosen by the user. Note that getSelected returns one of the object instances supplied in the
+ * original list of options.</p>
  *
  * <p>
- * The WDropdown component supports extensions using the
- * {@link #setType(DropdownType)} method. The {@link DropdownType#COMBO "combo"}
- * drop-down extension allows the user to enter in a value which was not present
- * in the original list.</p>
+ * The WDropdown component supports extensions using the {@link #setType(DropdownType)} method. The
+ * {@link DropdownType#COMBO "combo"} drop-down extension allows the user to enter in a value which
+ * was not present in the original list.</p>
  *
  * @author James Gifford
  * @author Jonathan Austin
@@ -32,8 +30,7 @@ public class WDropdown extends AbstractWSingleSelectList implements AjaxTrigger,
 	/**
 	 * The type of drop down.
 	 *
-	 * @deprecated COMBO no longer required. WSuggestions and a WTextfield
-	 * should be used instead
+	 * @deprecated COMBO no longer required. WSuggestions and a WTextfield should be used instead
 	 */
 	public static enum DropdownType implements Serializable {
 		/**
@@ -83,12 +80,11 @@ public class WDropdown extends AbstractWSingleSelectList implements AjaxTrigger,
 	}
 
 	/**
-	 * Sets whether the users are able to enter in an arbitrary value, rather
-	 * than having to pick one from the drop-down list.
+	 * Sets whether the users are able to enter in an arbitrary value, rather than having to pick
+	 * one from the drop-down list.
 	 *
 	 * @param editable true for editable, false for fixed.
-	 * @deprecated editable no longer required. WSuggestions and a WTextfield
-	 * should be used instead
+	 * @deprecated editable no longer required. WSuggestions and a WTextfield should be used instead
 	 */
 	@Deprecated
 	@Override
@@ -97,12 +93,11 @@ public class WDropdown extends AbstractWSingleSelectList implements AjaxTrigger,
 	}
 
 	/**
-	 * Indicates whether users are able to enter in an arbitrary value, rather
-	 * than having to pick one from the drop-down list.
+	 * Indicates whether users are able to enter in an arbitrary value, rather than having to pick
+	 * one from the drop-down list.
 	 *
 	 * @return true if the user can enter arbitrary values, false if not.
-	 * @deprecated editable no longer required. WSuggestions and a WTextfield
-	 * should be used instead
+	 * @deprecated editable no longer required. WSuggestions and a WTextfield should be used instead
 	 */
 	@Deprecated
 	@Override
@@ -111,12 +106,11 @@ public class WDropdown extends AbstractWSingleSelectList implements AjaxTrigger,
 	}
 
 	/**
-	 * Sets the type of this drop down. If un-set, reverts to the
-	 * un-editable/native type.
+	 * Sets the type of this drop down. If un-set, reverts to the un-editable/native type.
 	 *
 	 * @param type one of native or combo.
-	 * @deprecated No longer required as COMBO will be dropped. WSuggestions and
-	 * a WTextfield should be used instead
+	 * @deprecated No longer required as COMBO will be dropped. WSuggestions and a WTextfield should
+	 * be used instead
 	 */
 	@Deprecated
 	public void setType(final DropdownType type) {
@@ -128,8 +122,8 @@ public class WDropdown extends AbstractWSingleSelectList implements AjaxTrigger,
 	 * Indicates the type of this drop down.
 	 *
 	 * @return the drop down type, one of native or combo.
-	 * @deprecated No longer required as COMBO will be dropped. WSuggestions and
-	 * a WTextfield should be used instead
+	 * @deprecated No longer required as COMBO will be dropped. WSuggestions and a WTextfield should
+	 * be used instead
 	 */
 	@Deprecated
 	public DropdownType getType() {
@@ -137,8 +131,8 @@ public class WDropdown extends AbstractWSingleSelectList implements AjaxTrigger,
 	}
 
 	/**
-	 * Set the width of the selectable options when rendered to screen. Has no
-	 * effect with a native drop down.
+	 * Set the width of the selectable options when rendered to screen. Has no effect with a native
+	 * drop down.
 	 *
 	 * @param optionWidth the option width.
 	 */
@@ -147,8 +141,8 @@ public class WDropdown extends AbstractWSingleSelectList implements AjaxTrigger,
 	}
 
 	/**
-	 * Get the width of the selectable options when rendered to screen. Has no
-	 * effect with a native drop down.
+	 * Get the width of the selectable options when rendered to screen. Has no effect with a native
+	 * drop down.
 	 *
 	 * @return the option width.
 	 */
@@ -157,8 +151,7 @@ public class WDropdown extends AbstractWSingleSelectList implements AjaxTrigger,
 	}
 
 	/**
-	 * Creates a new DropdownModel which holds Extrinsic state management of the
-	 * drop down.
+	 * Creates a new DropdownModel which holds Extrinsic state management of the drop down.
 	 *
 	 * @return a new DropdownModel.
 	 */

@@ -5,11 +5,10 @@ import java.io.PrintWriter;
 import java.util.Map;
 
 /**
- * This component enables a pop up browser window with interactive wcomponent
- * content. Be warned that pop up windows can cause workflow headaches as you
- * can't control where the user goes. Eg. They may not close a pop up window
- * before going back to the parent window. Later on they may choose to continue
- * working in the pop up window, breaking the intended flow of the application.
+ * This component enables a pop up browser window with interactive wcomponent content. Be warned
+ * that pop up windows can cause workflow headaches as you can't control where the user goes. Eg.
+ * They may not close a pop up window before going back to the parent window. Later on they may
+ * choose to continue working in the pop up window, breaking the intended flow of the application.
  *
  * @author Martin Shevchenko
  * @author Jonathan Austin
@@ -23,21 +22,19 @@ public class WWindow extends AbstractWComponent implements Container {
 	public static final String WWINDOW_REQUEST_PARAM_KEY = "wc_wwindow";
 
 	/**
-	 * This is the "normal" state for the Window component when it's being
-	 * processed as part of the parent window.
+	 * This is the "normal" state for the Window component when it's being processed as part of the
+	 * parent window.
 	 */
 	public static final int INACTIVE_STATE = 0;
 
 	/**
-	 * The component is in this state when a request has been made to display
-	 * the window. The necessary mark-up to open the window will be rendered in
-	 * this mode.
+	 * The component is in this state when a request has been made to display the window. The
+	 * necessary mark-up to open the window will be rendered in this mode.
 	 */
 	public static final int DISPLAY_STATE = 1;
 
 	/**
-	 * This state is when the window is open and the initial render of the
-	 * content is complete.
+	 * This state is when the window is open and the initial render of the content is complete.
 	 */
 	public static final int ACTIVE_STATE = 2;
 
@@ -57,10 +54,9 @@ public class WWindow extends AbstractWComponent implements Container {
 	};
 
 	/**
-	 * The content holder exists to keep the content hidden from normal
-	 * requests, yet still have the content attached to the wcomponent tree.
-	 * Being part of the tree enables embedded targetables and other components
-	 * to be found.
+	 * The content holder exists to keep the content hidden from normal requests, yet still have the
+	 * content attached to the wcomponent tree. Being part of the tree enables embedded targetables
+	 * and other components to be found.
 	 */
 	private final WInvisibleContainer holder = new WInvisibleContainer();
 
@@ -212,8 +208,7 @@ public class WWindow extends AbstractWComponent implements Container {
 	}
 
 	/**
-	 * Sets whether the browser menubar should be shown. It is hidden by
-	 * default.
+	 * Sets whether the browser menubar should be shown. It is hidden by default.
 	 *
 	 * @param showMenuBar The showMenuBar to set.
 	 */
@@ -229,8 +224,7 @@ public class WWindow extends AbstractWComponent implements Container {
 	}
 
 	/**
-	 * Sets whether the browser toolbar should be shown. It is hidden by
-	 * default.
+	 * Sets whether the browser toolbar should be shown. It is hidden by default.
 	 *
 	 * @param showToolbar The showToolbar to set.
 	 */
@@ -246,8 +240,7 @@ public class WWindow extends AbstractWComponent implements Container {
 	}
 
 	/**
-	 * Sets whether the browser location bar should be shown. It is hidden by
-	 * default.
+	 * Sets whether the browser location bar should be shown. It is hidden by default.
 	 *
 	 * @param showLocation The showLocation to set.
 	 */
@@ -263,8 +256,7 @@ public class WWindow extends AbstractWComponent implements Container {
 	}
 
 	/**
-	 * Sets whether the browser status bar should be shown. It is hidden by
-	 * default.
+	 * Sets whether the browser status bar should be shown. It is hidden by default.
 	 *
 	 * @param showStatus The showStatus to set.
 	 */
@@ -298,8 +290,7 @@ public class WWindow extends AbstractWComponent implements Container {
 	/**
 	 * Sets whether the window should have a scroll bar.
 	 *
-	 * @param scrollable true if the window should have a scroll bar, false if
-	 * not.
+	 * @param scrollable true if the window should have a scroll bar, false if not.
 	 */
 	public void setScrollable(final boolean scrollable) {
 		getOrCreateComponentModel().scrollbars = scrollable;
@@ -344,8 +335,7 @@ public class WWindow extends AbstractWComponent implements Container {
 	// Action and Event Handling
 	// -------------------------------------------------------------
 	/**
-	 * Override handleRequest in order to perform processing specific to this
-	 * component.
+	 * Override handleRequest in order to perform processing specific to this component.
 	 *
 	 * @param request the request being responded to.
 	 */
@@ -373,9 +363,9 @@ public class WWindow extends AbstractWComponent implements Container {
 	}
 
 	/**
-	 * When the window is targetted, we need to run the "laters". If we don't do
-	 * this, they will not run because a targetted request bypasses the root
-	 * component that would normally have run them.
+	 * When the window is targetted, we need to run the "laters". If we don't do this, they will not
+	 * run because a targetted request bypasses the root component that would normally have run
+	 * them.
 	 */
 	@Override
 	protected void invokeLaters() {
@@ -387,8 +377,8 @@ public class WWindow extends AbstractWComponent implements Container {
 	}
 
 	/**
-	 * Override preparePaintComponent to clear the scratch map before the window
-	 * content is being painted.
+	 * Override preparePaintComponent to clear the scratch map before the window content is being
+	 * painted.
 	 *
 	 * @param request the request being responded to.
 	 */
@@ -406,8 +396,8 @@ public class WWindow extends AbstractWComponent implements Container {
 	}
 
 	/**
-	 * Override paintComponent in order to paint the window or its content,
-	 * depending on the window state.
+	 * Override paintComponent in order to paint the window or its content, depending on the window
+	 * state.
 	 *
 	 * @param renderContext the RenderContext to send the output to.
 	 */
@@ -500,8 +490,7 @@ public class WWindow extends AbstractWComponent implements Container {
 	}
 
 	/**
-	 * Retrieves the current step counter. This method should only ever be used
-	 * by internal code.
+	 * Retrieves the current step counter. This method should only ever be used by internal code.
 	 *
 	 * @return the current step counter.
 	 */
@@ -510,8 +499,7 @@ public class WWindow extends AbstractWComponent implements Container {
 	}
 
 	/**
-	 * Sets the current step counter. This method should only ever be used by
-	 * internal code.
+	 * Sets the current step counter. This method should only ever be used by internal code.
 	 *
 	 * @param step the step to set.
 	 */
@@ -547,8 +535,7 @@ public class WWindow extends AbstractWComponent implements Container {
 	}
 
 	/**
-	 * @return a String representation of this component, for debugging
-	 * purposes.
+	 * @return a String representation of this component, for debugging purposes.
 	 */
 	@Override
 	public String toString() {
@@ -594,8 +581,7 @@ public class WWindow extends AbstractWComponent implements Container {
 	public static class WindowModel extends ComponentModel {
 
 		/**
-		 * The state of the window controls the behaviour during normal
-		 * WComponent processing.
+		 * The state of the window controls the behaviour during normal WComponent processing.
 		 */
 		private int state = INACTIVE_STATE;
 
@@ -656,8 +642,8 @@ public class WWindow extends AbstractWComponent implements Container {
 		private WApplication wrappedContent;
 
 		/**
-		 * The expected step counter. This is kept separate from the Environment
-		 * step counter to allow separate processing to occur in a WWindow.
+		 * The expected step counter. This is kept separate from the Environment step counter to
+		 * allow separate processing to occur in a WWindow.
 		 */
 		private int step;
 

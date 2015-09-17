@@ -1,10 +1,9 @@
 package com.github.bordertech.wcomponents;
 
 /**
- * A default implementation of the {@link Container} interface. This can be used
- * as a generic container for components which do not need to be referenced
- * together. If you need to target a collection of components for use in e.g.
- * AJAX, you should use a {@link WPanel} instead.
+ * A default implementation of the {@link Container} interface. This can be used as a generic
+ * container for components which do not need to be referenced together. If you need to target a
+ * collection of components for use in e.g. AJAX, you should use a {@link WPanel} instead.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -86,11 +85,11 @@ public class WContainer extends WBeanComponent implements MutableContainer {
 	}
 
 	/**
-	 * Associates a velocity template with this component. A simple mapping is
-	 * applied to the given class to derive the name of a velocity template.
+	 * Associates a velocity template with this component. A simple mapping is applied to the given
+	 * class to derive the name of a velocity template.
 	 * <p>
-	 * For instance, com.github.bordertech.wcomponents.WTextField would map to
-	 * the template com/github/bordertech/wcomponents/WTextField.vm
+	 * For instance, com.github.bordertech.wcomponents.WTextField would map to the template
+	 * com/github/bordertech/wcomponents/WTextField.vm
 	 * </p>
 	 *
 	 * @param clazz the class to use to retrieve the template.

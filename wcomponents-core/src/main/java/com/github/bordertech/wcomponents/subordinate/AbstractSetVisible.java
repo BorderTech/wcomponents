@@ -4,8 +4,7 @@ import com.github.bordertech.wcomponents.InternalSubordinateUtil;
 import com.github.bordertech.wcomponents.SubordinateTarget;
 
 /**
- * An "action function" that sets the visibility on a WComponent or group of
- * WComponents.
+ * An "action function" that sets the visibility on a WComponent or group of WComponents.
  *
  * @author Martin Shevchenko
  * @author Jonathan Austin

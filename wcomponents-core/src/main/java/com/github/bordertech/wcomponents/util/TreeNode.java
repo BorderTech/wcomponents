@@ -42,8 +42,7 @@ public interface TreeNode {
 	TreeNode getChildAt(final int index);
 
 	/**
-	 * Return the index of the child node. Return -1 if the node is not a child
-	 * of this node.
+	 * Return the index of the child node. Return -1 if the node is not a child of this node.
 	 *
 	 * @param aChild the node to return index of.
 	 * @return the index of the child or -1 if there is no such child node.
@@ -101,12 +100,12 @@ public interface TreeNode {
 	boolean isLeaf();
 
 	/**
-	 * Returns true if and only if <code>otherNode</code> is in the same tree as
-	 * this node. Returns false if <code>otherNode</code> is null.
+	 * Returns true if and only if <code>otherNode</code> is in the same tree as this node. Returns
+	 * false if <code>otherNode</code> is null.
 	 *
 	 * @param otherNode the node to check.
-	 * @return true if <code>otherNode</code> is in the same tree as this node;
-	 * false if <code>otherNode</code> is null
+	 * @return true if <code>otherNode</code> is in the same tree as this node; false if
+	 * <code>otherNode</code> is null
 	 */
 	boolean isRelated(final TreeNode otherNode);
 
@@ -116,11 +115,11 @@ public interface TreeNode {
 	TreeNode getRoot();
 
 	/**
-	 * Returns the path from the root, to get to this node. The last element in
-	 * the path is this node.
+	 * Returns the path from the root, to get to this node. The last element in the path is this
+	 * node.
 	 *
-	 * @return an array of DefaultTreeNode objects giving the path, where the
-	 * first element in the path is the root and the last element is this node.
+	 * @return an array of DefaultTreeNode objects giving the path, where the first element in the
+	 * path is the root and the last element is this node.
 	 */
 	TreeNode[] getPath();
 }

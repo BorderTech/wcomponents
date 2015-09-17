@@ -72,8 +72,8 @@ public final class Action_Test {
 	}
 
 	/**
-	 * Since the string representation is relied upon by other tests, it's worth
-	 * testing specifically.
+	 * Since the string representation is relied upon by other tests, it's worth testing
+	 * specifically.
 	 */
 	@Test
 	public void testToString() {

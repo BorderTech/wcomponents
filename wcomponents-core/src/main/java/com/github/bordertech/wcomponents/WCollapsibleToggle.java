@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This is component can be used to expand or collapse all collapsibles. This
- * component can work as a server-side or a client-side component. It can also
- * belong to a {@link CollapsibleGroup}, in this case the toggle functionality
- * will apply to the {@link WCollapsible} components in that group only.
+ * This is component can be used to expand or collapse all collapsibles. This component can work as
+ * a server-side or a client-side component. It can also belong to a {@link CollapsibleGroup}, in
+ * this case the toggle functionality will apply to the {@link WCollapsible} components in that
+ * group only.
  *
  * @author Ming Gao
  * @author Yiannis Paschalidis
@@ -16,8 +16,7 @@ import java.util.List;
 public class WCollapsibleToggle extends AbstractWComponent implements AjaxTarget {
 
 	/**
-	 * Indicates whether processing will occur client-side (true) or server-side
-	 * (false).
+	 * Indicates whether processing will occur client-side (true) or server-side (false).
 	 */
 	private final boolean clientSide;
 
@@ -51,17 +50,15 @@ public class WCollapsibleToggle extends AbstractWComponent implements AjaxTarget
 	/**
 	 * Indicates whether processing will occur client-side.
 	 *
-	 * @return true if processing is handled client-side, or false for
-	 * server-side.
+	 * @return true if processing is handled client-side, or false for server-side.
 	 */
 	public boolean isClientSideToggleable() {
 		return clientSide;
 	}
 
 	/**
-	 * Retrieves the name of the {@link CollapsibleGroup} associated with this
-	 * toggle. If no group has been associated, this component's name is
-	 * returned.
+	 * Retrieves the name of the {@link CollapsibleGroup} associated with this toggle. If no group
+	 * has been associated, this component's name is returned.
 	 *
 	 * @return the group name.
 	 */
@@ -71,8 +68,7 @@ public class WCollapsibleToggle extends AbstractWComponent implements AjaxTarget
 	}
 
 	/**
-	 * Sets the collapsible group that this WCollapsibleToggle can
-	 * expand/collapse.
+	 * Sets the collapsible group that this WCollapsibleToggle can expand/collapse.
 	 *
 	 * @param group the CollapsibleGroup to expand/collapse.
 	 */
@@ -82,16 +78,15 @@ public class WCollapsibleToggle extends AbstractWComponent implements AjaxTarget
 	}
 
 	/**
-	 * @return the CollapsibleGroup that this WCollapsibleToggle can
-	 * expand/collapse.
+	 * @return the CollapsibleGroup that this WCollapsibleToggle can expand/collapse.
 	 */
 	public CollapsibleGroup getGroup() {
 		return getComponentModel().group;
 	}
 
 	/**
-	 * If not running client-side, it is WCollapsibleToggle's responsibility to
-	 * expand/collapse each individual WCollapsible in the group.
+	 * If not running client-side, it is WCollapsibleToggle's responsibility to expand/collapse each
+	 * individual WCollapsible in the group.
 	 *
 	 * @param request the request being responded to
 	 */
@@ -131,12 +126,11 @@ public class WCollapsibleToggle extends AbstractWComponent implements AjaxTarget
 	}
 
 	/**
-	 * Expands/collapses the given collapsibles, taking into account any
-	 * repeaters present in the UI hierarchy.
+	 * Expands/collapses the given collapsibles, taking into account any repeaters present in the UI
+	 * hierarchy.
 	 *
 	 * @param collapsible the collapsible whose state will be changed.
-	 * @param collapsed true if the collapsible is to be collapsed, false if it
-	 * is to be expanded.
+	 * @param collapsed true if the collapsible is to be collapsed, false if it is to be expanded.
 	 */
 	private static void setCollapsed(final WCollapsible collapsible, final boolean collapsed) {
 		List<WRepeater> repeaters = new ArrayList<>();
@@ -149,8 +143,7 @@ public class WCollapsibleToggle extends AbstractWComponent implements AjaxTarget
 	 *
 	 * @param collapsible the collapsible whose state will be changed.
 	 * @param repeaters the list of nested repeaters, parent-first.
-	 * @param collapsed true if the collapsible is to be collapsed, false if it
-	 * is to be expanded.
+	 * @param collapsed true if the collapsible is to be collapsed, false if it is to be expanded.
 	 */
 	private static void setCollapsed(final List<WRepeater> repeaters,
 			final WCollapsible collapsible, final boolean collapsed) {
@@ -177,9 +170,8 @@ public class WCollapsibleToggle extends AbstractWComponent implements AjaxTarget
 	}
 
 	/**
-	 * Finds all repeaters in the component hierarchy that are an ancestor of
-	 * <code>child</code>. Repeaters are added to the list in hierarchical
-	 * order, parent first.
+	 * Finds all repeaters in the component hierarchy that are an ancestor of <code>child</code>.
+	 * Repeaters are added to the list in hierarchical order, parent first.
 	 *
 	 * @param child the child component to start the search from.
 	 * @param repeaters the list to add repeaters to.
@@ -194,12 +186,12 @@ public class WCollapsibleToggle extends AbstractWComponent implements AjaxTarget
 	}
 
 	/**
-	 * A utility used by the expand/collapse buttons when no
-	 * {@link CollapsibleGroup} group is defined for this class.
+	 * A utility used by the expand/collapse buttons when no {@link CollapsibleGroup} group is
+	 * defined for this class.
 	 *
 	 * @param comp the component to search for {@link WCollapsible}s.
-	 * @param results the list to receive all the collapsibles in the ui tree
-	 * rooted at <code>comp</code>.
+	 * @param results the list to receive all the collapsibles in the ui tree rooted at
+	 * <code>comp</code>.
 	 * @return The <code>results</code> parameter.
 	 */
 	private static List<WCollapsible> findAllCollapsibles(final WComponent comp, final List<WCollapsible> results) {
@@ -255,8 +247,7 @@ public class WCollapsibleToggle extends AbstractWComponent implements AjaxTarget
 	public static class CollapsibleModel extends ComponentModel {
 
 		/**
-		 * The collapsible group to be expanded/collapsed by this collapsible
-		 * toggle.
+		 * The collapsible group to be expanded/collapsed by this collapsible toggle.
 		 */
 		private CollapsibleGroup group;
 	}

@@ -4,12 +4,12 @@ import com.github.bordertech.wcomponents.subordinate.AbstractSetVisible;
 
 /**
  * <p>
- * This class is a work-around to having the subordinate classes declared in a
- * different package. It must not be used by application code.</p>
+ * This class is a work-around to having the subordinate classes declared in a different package. It
+ * must not be used by application code.</p>
  *
  * <p>
- * TODO: When the package hierarchy is renamed, the subordinate classes should
- * be moved to the main package and this class deleted.</p>
+ * TODO: When the package hierarchy is renamed, the subordinate classes should be moved to the main
+ * package and this class deleted.</p>
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -25,8 +25,7 @@ public final class InternalSubordinateUtil {
 	/**
 	 * Applies the hidden flag on behalf of a AbstractSetVisible implementation.
 	 *
-	 * @param action the AbstractSetVisible implementation to apply the flag
-	 * for.
+	 * @param action the AbstractSetVisible implementation to apply the flag for.
 	 * @param target the target to apply the flag to.
 	 * @param value the value to apply.
 	 */

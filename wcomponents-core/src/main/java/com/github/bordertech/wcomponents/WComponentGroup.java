@@ -6,8 +6,8 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Define a group of components that can be used or controlled by other
- * components like {@link WSubordinateControl}.
+ * Define a group of components that can be used or controlled by other components like
+ * {@link WSubordinateControl}.
  *
  * @author Jonathan Austin
  * @since 1.0.0
@@ -42,8 +42,7 @@ public class WComponentGroup<T extends WComponent> extends AbstractWComponent im
 	}
 
 	/**
-	 * @return a String representation of this component, for debugging
-	 * purposes.
+	 * @return a String representation of this component, for debugging purposes.
 	 */
 	@Override
 	public String toString() {

@@ -12,8 +12,7 @@ import com.github.bordertech.wcomponents.Request;
 public abstract class AbstractCondition implements Condition {
 
 	/**
-	 * Indicates whether this condition evaluates to 'true' in the given
-	 * context.
+	 * Indicates whether this condition evaluates to 'true' in the given context.
 	 *
 	 * @return the boolean value of this condition.
 	 */
@@ -23,8 +22,7 @@ public abstract class AbstractCondition implements Condition {
 	}
 
 	/**
-	 * Indicates whether this condition evaluates to 'false' in the given
-	 * context.
+	 * Indicates whether this condition evaluates to 'false' in the given context.
 	 *
 	 * @return the negation of the boolean value of this condition.
 	 */
@@ -34,8 +32,7 @@ public abstract class AbstractCondition implements Condition {
 	}
 
 	/**
-	 * Indicates whether this condition evaluates to 'true' in the given
-	 * context.
+	 * Indicates whether this condition evaluates to 'true' in the given context.
 	 *
 	 * @param request the request being processed.
 	 * @return the boolean value of this condition.
@@ -46,8 +43,7 @@ public abstract class AbstractCondition implements Condition {
 	}
 
 	/**
-	 * Indicates whether this condition evaluates to 'false' in the given
-	 * context.
+	 * Indicates whether this condition evaluates to 'false' in the given context.
 	 *
 	 * @param request the request being processed.
 	 * @return the negation of the boolean value of this condition.

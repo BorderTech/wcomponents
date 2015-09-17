@@ -4,9 +4,8 @@ import com.github.bordertech.wcomponents.Renderer;
 import com.github.bordertech.wcomponents.util.SystemException;
 
 /**
- * The layout factory for the WebXml renderer package. This factory uses
- * reflection to cut down on the amount of code necessary to support every
- * conceivable component.
+ * The layout factory for the WebXml renderer package. This factory uses reflection to cut down on
+ * the amount of code necessary to support every conceivable component.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -43,8 +42,7 @@ public class RendererFactory implements com.github.bordertech.wcomponents.Render
 	 * Attempts to create a Renderer with the given name.
 	 *
 	 * @param rendererName the name of the Renderer
-	 * @return a LayoutManager of the given type, or null if the class was not
-	 * found.
+	 * @return a LayoutManager of the given type, or null if the class was not found.
 	 */
 	private Renderer createRenderer(final String rendererName) {
 		try {

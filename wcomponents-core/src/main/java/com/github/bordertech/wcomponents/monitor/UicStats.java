@@ -87,12 +87,11 @@ public class UicStats {
 	}
 
 	/**
-	 * Retrieves the map wchich contains all the WComponent instances that make
-	 * up the WComponent tree starting from the given root component.
+	 * Retrieves the map wchich contains all the WComponent instances that make up the WComponent
+	 * tree starting from the given root component.
 	 *
 	 * @param root the root component.
-	 * @return the map of Stats for the components under the given root
-	 * component.
+	 * @return the map of Stats for the components under the given root component.
 	 */
 	public Map<WComponent, Stat> getWCTreeStats(final WComponent root) {
 		return statsByWCTree.get(root);
@@ -108,8 +107,7 @@ public class UicStats {
 	}
 
 	/**
-	 * Creates statistics for the given WComponent within the uicontext being
-	 * analysed.
+	 * Creates statistics for the given WComponent within the uicontext being analysed.
 	 *
 	 * @param comp the component to create stats for.
 	 */
@@ -122,8 +120,7 @@ public class UicStats {
 	}
 
 	/**
-	 * Finds all instances that make up the tree (static and dynamic) and
-	 * gathers stats.
+	 * Finds all instances that make up the tree (static and dynamic) and gathers stats.
 	 *
 	 * @param root the root component to start from.
 	 * @return the statistics for components in the given subtree.
@@ -143,8 +140,7 @@ public class UicStats {
 	}
 
 	/**
-	 * Recursively adds statistics for a component and its children to the stats
-	 * map.
+	 * Recursively adds statistics for a component and its children to the stats map.
 	 *
 	 * @param statsMap the stats map to add to.
 	 * @param comp the component to analyse.
@@ -204,8 +200,7 @@ public class UicStats {
 	}
 
 	/**
-	 * Determines the serialized size of an object by serializng it to a byte
-	 * array.
+	 * Determines the serialized size of an object by serializng it to a byte array.
 	 *
 	 * @param obj the object to find the serialized size of.
 	 * @return the serialized size of the given object, or -1 on error.
@@ -270,8 +265,7 @@ public class UicStats {
 		 */
 		private static final int MDL_SERIALIZABLE = 2;
 		/**
-		 * Indicates that the component has an unserializable session model
-		 * (which is BAD).
+		 * Indicates that the component has an unserializable session model (which is BAD).
 		 */
 		private static final int MDL_UN_SERIALIZABLE = 3;
 

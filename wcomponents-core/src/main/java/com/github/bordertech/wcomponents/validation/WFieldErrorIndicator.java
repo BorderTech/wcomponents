@@ -5,10 +5,9 @@ import java.util.List;
 
 /**
  * <p>
- * This component is used to render errors relating to an individual field.
- * Generally, this is placed next to the input field to help highlight the
- * individual fields that are in error. An instance of the indicator is
- * automatically provided when adding a field to a WFieldLayout.</p>
+ * This component is used to render errors relating to an individual field. Generally, this is
+ * placed next to the input field to help highlight the individual fields that are in error. An
+ * instance of the indicator is automatically provided when adding a field to a WFieldLayout.</p>
  *
  * @author Adam Millard
  */
@@ -24,8 +23,7 @@ public class WFieldErrorIndicator extends AbstractWFieldIndicator {
 	}
 
 	/**
-	 * Calls {@link #showIndicatorsForComponent(List, int)} with a
-	 * {@link Diagnostic#ERROR}.
+	 * Calls {@link #showIndicatorsForComponent(List, int)} with a {@link Diagnostic#ERROR}.
 	 *
 	 * @param diags A List of Diagnostic objects.
 	 */

@@ -6,13 +6,12 @@ import java.io.Serializable;
 
 /**
  * <p>
- * Stores an error, warning or informational message produced as part of
- * WComponent validation. Each diagnostic will can be associated with particular
- * user context and component.</p>
+ * Stores an error, warning or informational message produced as part of WComponent validation. Each
+ * diagnostic will can be associated with particular user context and component.</p>
  *
  * <p>
- * In the case of a cross-field error the component may not be able to be
- * specified, and may be null.</p>
+ * In the case of a cross-field error the component may not be able to be specified, and may be
+ * null.</p>
  *
  * @author James Gifford
  * @since 1.0.0
@@ -54,9 +53,8 @@ public interface Diagnostic extends Serializable {
 	UIContext getContext();
 
 	/**
-	 * The "field "in the Business Object that produced the diagnostic, if there
-	 * is one. This may be null in the case of cross field validation
-	 * diagnostics.
+	 * The "field "in the Business Object that produced the diagnostic, if there is one. This may be
+	 * null in the case of cross field validation diagnostics.
 	 *
 	 * @return the field associated with the diagnostic, or null.
 	 */

@@ -8,24 +8,23 @@ import java.util.List;
 
 /**
  * <p>
- * WSubordinateControl enables screen logic (in particular visibility) to be
- * abstracted in such a way that the logic can be executed by the UI framework
- * in the client browser. The WSubordinateControl itself does not have a visual
- * representation, but it must still be added to a visible section within the
- * application.
+ * WSubordinateControl enables screen logic (in particular visibility) to be abstracted in such a
+ * way that the logic can be executed by the UI framework in the client browser. The
+ * WSubordinateControl itself does not have a visual representation, but it must still be added to a
+ * visible section within the application.
  * </p>
  * <p>
- * To make use of WSubordinateControl, create a {@link Rule} and add it to the
- * WSubordinateControl. Rules combine {@link Condition} functions with
- * {@link Action} functions to form the logic of your WSubordinateControl.
+ * To make use of WSubordinateControl, create a {@link Rule} and add it to the WSubordinateControl.
+ * Rules combine {@link Condition} functions with {@link Action} functions to form the logic of your
+ * WSubordinateControl.
  * </p>
  * <p>
- * Conditions are specified using {@link Equal} tests on input field values and
- * can be combined with {@link And} and {@link Or} logical operators.
+ * Conditions are specified using {@link Equal} tests on input field values and can be combined with
+ * {@link And} and {@link Or} logical operators.
  * </p>
  * <p>
- * Actions can be performed on a single component, or a group of components. The
- * following lists the actions that are currently available:
+ * Actions can be performed on a single component, or a group of components. The following lists the
+ * actions that are currently available:
  * </p>
  * <ul>
  * <li>{@link Hide}</li>
@@ -40,9 +39,9 @@ import java.util.List;
  * <li>{@link DisableInGroup}</li>
  * </ul>
  * <p>
- * <b>WARNING:</b> Use of this control is likely to cause maintenance issues if
- * it is overused. It is recommended that you use it only for simple situations,
- * as overly complex rules become hard to maintain.
+ * <b>WARNING:</b> Use of this control is likely to cause maintenance issues if it is overused. It
+ * is recommended that you use it only for simple situations, as overly complex rules become hard to
+ * maintain.
  * </p>
  *
  * @author Martin Shevchenko

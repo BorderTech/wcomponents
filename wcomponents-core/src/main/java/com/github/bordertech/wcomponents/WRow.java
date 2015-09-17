@@ -1,8 +1,8 @@
 package com.github.bordertech.wcomponents;
 
 /**
- * This is a layout component, to which you add {@link WColumn} components. The
- * widths of all the columns added to the row should total 100.
+ * This is a layout component, to which you add {@link WColumn} components. The widths of all the
+ * columns added to the row should total 100.
  *
  * @author Ming Gao
  * @author Yiannis Paschalidis
@@ -24,8 +24,7 @@ public class WRow extends AbstractNamingContextContainer implements AjaxTarget, 
 	/**
 	 * Creates a WRow with the specified attributes.
 	 *
-	 * @param hgap the horizontal gap between the columns in the row, measured
-	 * in pixels
+	 * @param hgap the horizontal gap between the columns in the row, measured in pixels
 	 */
 	public WRow(final int hgap) {
 		this.hgap = hgap;
@@ -50,8 +49,7 @@ public class WRow extends AbstractNamingContextContainer implements AjaxTarget, 
 	}
 
 	/**
-	 * @return the horizontal gap between the columns in the row, measured in
-	 * pixels
+	 * @return the horizontal gap between the columns in the row, measured in pixels
 	 */
 	public int getHgap() {
 		return hgap;

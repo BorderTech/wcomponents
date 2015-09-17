@@ -6,17 +6,15 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * <p>
- * Provides a generic mechanism for obtaining objects which implement a
- * requested interface. A new object will be created each time the
- * newImplementation method is called.</p>
+ * Provides a generic mechanism for obtaining objects which implement a requested interface. A new
+ * object will be created each time the newImplementation method is called.</p>
  *
  * <p>
- * The runtime {@link Config} class is used to look up the implementing class,
- * based on the requested interface's classname. This is done by prefixing the
- * full interface name with "bordertech.wcomponents.factory.impl.". For example,
- * to specify that the com.github.myapp.util.FooImpl implements
- * com.github.myapp.util.Foo interface, the following should be added to the
- * configuration:</p>
+ * The runtime {@link Config} class is used to look up the implementing class, based on the
+ * requested interface's classname. This is done by prefixing the full interface name with
+ * "bordertech.wcomponents.factory.impl.". For example, to specify that the
+ * com.github.myapp.util.FooImpl implements com.github.myapp.util.Foo interface, the following
+ * should be added to the configuration:</p>
  * <pre>
  * bordertech.wcomponents.factory.impl.com.github.myapp.util.Foo=com.github.myapp.util.FooImpl
  * </pre>
@@ -31,8 +29,7 @@ public final class Factory {
 	private static final Log LOG = LogFactory.getLog(Factory.class);
 
 	/**
-	 * Prefix used to look up implementing classes in the
-	 * {@link Config configuration}.
+	 * Prefix used to look up implementing classes in the {@link Config configuration}.
 	 */
 	public static final String PREFIX = "bordertech.wcomponents.factory.impl.";
 
@@ -46,8 +43,7 @@ public final class Factory {
 	 * Given an interface, instantiate a class implementing that interface.
 	 *
 	 * The classname to instantiate is obtained by looking in the runtime
-	 * {@link Config configuration}, under the factory.impl.&lt;interface
-	 * name&gt; key.
+	 * {@link Config configuration}, under the factory.impl.&lt;interface name&gt; key.
 	 *
 	 * @param <T> the interface type.
 	 * @param interfaz the interface to instantiate an implementation for.
@@ -77,12 +73,11 @@ public final class Factory {
 	}
 
 	/**
-	 * Given an interface, determine if an implementation of that interface is
-	 * available to this factory, see newInstance(.) method.
+	 * Given an interface, determine if an implementation of that interface is available to this
+	 * factory, see newInstance(.) method.
 	 *
 	 * @param interfaz the interface to check for.
-	 * @return true if an implementation of the interface is available to this
-	 * factory.
+	 * @return true if an implementation of the interface is available to this factory.
 	 */
 	public static boolean implementationExists(final Class<?> interfaz) {
 		Configuration config = Config.getInstance();

@@ -6,14 +6,13 @@ import java.text.MessageFormat;
 
 /**
  * <p>
- * WDialog is used to display pop-up content. It uses theme & skin features
- * which keep the dialog associated with its parent window. Using a
- * {@link #MODAL} dialog eliminates much of the workflow complication involved
- * when using the {@link WWindow} component.
+ * WDialog is used to display pop-up content. It uses theme & skin features which keep the dialog
+ * associated with its parent window. Using a {@link #MODAL} dialog eliminates much of the workflow
+ * complication involved when using the {@link WWindow} component.
  * </p>
  * <p>
- * The content of the dialog is held in a {@link WNamingContext} with an id of
- * "dlg" to make the ids of the content unique and have the same id prefix.
+ * The content of the dialog is held in a {@link WNamingContext} with an id of "dlg" to make the ids
+ * of the content unique and have the same id prefix.
  * </p>
  *
  * @author Christina Harris
@@ -22,26 +21,23 @@ import java.text.MessageFormat;
 public class WDialog extends AbstractWComponent implements Container, AjaxTarget {
 
 	/**
-	 * This is the "normal" state for the Dialog component, when the dialog is
-	 * not visible.
+	 * This is the "normal" state for the Dialog component, when the dialog is not visible.
 	 */
 	public static final int INACTIVE_STATE = 0;
 
 	/**
-	 * This state is when the dialog is open and the initial render of the
-	 * content is complete.
+	 * This state is when the dialog is open and the initial render of the content is complete.
 	 */
 	public static final int ACTIVE_STATE = 2;
 
 	/**
-	 * In this mode the dialog retains the input focus while open. The user
-	 * cannot switch windows until the dialog box is closed.
+	 * In this mode the dialog retains the input focus while open. The user cannot switch windows
+	 * until the dialog box is closed.
 	 */
 	public static final int MODAL = 0;
 
 	/**
-	 * In this mode the dialog displays even when the user switches input focus
-	 * to the window.
+	 * In this mode the dialog displays even when the user switches input focus to the window.
 	 */
 	public static final int MODELESS = 1;
 
@@ -51,13 +47,12 @@ public class WDialog extends AbstractWComponent implements Container, AjaxTarget
 	private final WButton trigger;
 
 	/**
-	 * The content holder exists to keep the content hidden from normal
-	 * requests, yet still have the content attached to the wcomponent tree.
-	 * Being part of the tree enables embedded targetables and other components
-	 * to be found.
+	 * The content holder exists to keep the content hidden from normal requests, yet still have the
+	 * content attached to the wcomponent tree. Being part of the tree enables embedded targetables
+	 * and other components to be found.
 	 * <p>
-	 * The holder is a naming context to make the ids in the dialog all unique
-	 * and have the same prefix.
+	 * The holder is a naming context to make the ids in the dialog all unique and have the same
+	 * prefix.
 	 * </p>
 	 */
 	private final WNamingContext holder = new WNamingContext("dlg") {
@@ -95,8 +90,8 @@ public class WDialog extends AbstractWComponent implements Container, AjaxTarget
 	}
 
 	/**
-	 * Creates a WDialog containing the given content and trigger. The dialog
-	 * will be opened client-side, without a round-trip.
+	 * Creates a WDialog containing the given content and trigger. The dialog will be opened
+	 * client-side, without a round-trip.
 	 *
 	 * @param content the dialog content.
 	 * @param trigger the WButton used to trigger the dialog to display.
@@ -236,8 +231,7 @@ public class WDialog extends AbstractWComponent implements Container, AjaxTarget
 	// Action and Event Handling
 	// -------------------------------------------------------------
 	/**
-	 * Override handleRequest in order to perform processing specific to this
-	 * component.
+	 * Override handleRequest in order to perform processing specific to this component.
 	 *
 	 * @param request the request being responded to.
 	 */
@@ -266,8 +260,7 @@ public class WDialog extends AbstractWComponent implements Container, AjaxTarget
 	}
 
 	/**
-	 * Indicates whether the dialog is currently the target of an AJAX
-	 * operation.
+	 * Indicates whether the dialog is currently the target of an AJAX operation.
 	 *
 	 * @return true if the dialog is currently AJAX targeted, otherwise false.
 	 */
@@ -330,8 +323,7 @@ public class WDialog extends AbstractWComponent implements Container, AjaxTarget
 	}
 
 	/**
-	 * @return a String representation of this component, for debugging
-	 * purposes.
+	 * @return a String representation of this component, for debugging purposes.
 	 */
 	@Override
 	public String toString() {
@@ -404,8 +396,8 @@ public class WDialog extends AbstractWComponent implements Container, AjaxTarget
 		private WComponent content;
 
 		/**
-		 * The relationship between the parent window and this dialog window.
-		 * Possible values are {@link #MODAL} and {@link #MODELESS}.
+		 * The relationship between the parent window and this dialog window. Possible values are
+		 * {@link #MODAL} and {@link #MODELESS}.
 		 */
 		private int mode = MODELESS;
 	}

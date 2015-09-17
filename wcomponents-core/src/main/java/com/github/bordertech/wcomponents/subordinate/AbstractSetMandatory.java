@@ -6,8 +6,7 @@ import com.github.bordertech.wcomponents.SubordinateTarget;
 import com.github.bordertech.wcomponents.WComponent;
 
 /**
- * An "action function" that sets the mandatory attribute on a wcomponent or
- * group of wcomponents.
+ * An "action function" that sets the mandatory attribute on a wcomponent or group of wcomponents.
  *
  * @author Jonathan Austin
  * @since 1.0.0

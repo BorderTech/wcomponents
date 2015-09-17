@@ -11,8 +11,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * SubordinateControlHelper provides convenience methods to register Subordinate
- * Controls for use with the {@link SubordinateControlInterceptor}.
+ * SubordinateControlHelper provides convenience methods to register Subordinate Controls for use
+ * with the {@link SubordinateControlInterceptor}.
  *
  * @author Jonathan Austin
  * @since 1.0.0
@@ -25,8 +25,7 @@ public final class SubordinateControlHelper {
 	private static final Log LOG = LogFactory.getLog(SubordinateControlHelper.class);
 
 	/**
-	 * The key we use to store the subordinate controls that are currently
-	 * active on the client.
+	 * The key we use to store the subordinate controls that are currently active on the client.
 	 */
 	public static final String SUBORDINATE_CONTROL_SESSION_KEY = "subordinate.control.active";
 
@@ -57,8 +56,7 @@ public final class SubordinateControlHelper {
 	 * Apply the registered Subordinate Controls.
 	 *
 	 * @param request the request being processed.
-	 * @param useRequestValues the flag to indicate the controls should use
-	 * values from the request.
+	 * @param useRequestValues the flag to indicate the controls should use values from the request.
 	 */
 	public static void applyRegisteredControls(final Request request, final boolean useRequestValues) {
 		HashSet<String> controls = (HashSet<String>) request.getSessionAttribute(SUBORDINATE_CONTROL_SESSION_KEY);

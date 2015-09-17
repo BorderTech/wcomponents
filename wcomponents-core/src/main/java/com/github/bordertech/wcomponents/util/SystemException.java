@@ -1,10 +1,9 @@
 package com.github.bordertech.wcomponents.util;
 
 /**
- * This runtime exception can be thrown to indicate a system failure. This
- * should only be thrown if there is either a bug in the program code or a
- * system configuration error. The operators should monitor for these exceptions
- * and try to fix the problem.
+ * This runtime exception can be thrown to indicate a system failure. This should only be thrown if
+ * there is either a bug in the program code or a system configuration error. The operators should
+ * monitor for these exceptions and try to fix the problem.
  *
  * @author James Gifford
  * @since 1.0.0

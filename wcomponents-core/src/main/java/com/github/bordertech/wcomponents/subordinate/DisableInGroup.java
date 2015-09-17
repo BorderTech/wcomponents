@@ -5,8 +5,7 @@ import com.github.bordertech.wcomponents.WComponentGroup;
 import com.github.bordertech.wcomponents.WLabel;
 
 /**
- * An action that disables only one target component within a group of
- * components.
+ * An action that disables only one target component within a group of components.
  *
  * @author Jonathan Austin
  * @since 1.0.0
@@ -26,8 +25,8 @@ public class DisableInGroup extends AbstractSetEnable {
 	}
 
 	/**
-	 * Executes the action. Disables the target component and makes everything
-	 * else enabled in the group.
+	 * Executes the action. Disables the target component and makes everything else enabled in the
+	 * group.
 	 */
 	@Override
 	public void execute() {

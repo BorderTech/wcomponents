@@ -5,8 +5,7 @@ import com.github.bordertech.wcomponents.WLabel;
 import com.github.bordertech.wcomponents.util.Util;
 
 /**
- * A logical condition that tests if the trigger is less than or equal the
- * compare value.
+ * A logical condition that tests if the trigger is less than or equal the compare value.
  *
  * @author Jonathan Austin
  * @since 1.0.0
@@ -14,8 +13,7 @@ import com.github.bordertech.wcomponents.util.Util;
 public class LessThanOrEqual extends AbstractCompare {
 
 	/**
-	 * Create a LessThanOrEqual condition with a SubordinateTrigger and Compare
-	 * value.
+	 * Create a LessThanOrEqual condition with a SubordinateTrigger and Compare value.
 	 *
 	 * @param trigger the trigger input field.
 	 * @param compare the value to use in the compare.

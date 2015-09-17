@@ -19,8 +19,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * This abstract class is intended to support all the various request
- * implementations.
+ * This abstract class is intended to support all the various request implementations.
  *
  * @author Martin Shevchenko
  */
@@ -123,9 +122,8 @@ public abstract class AbstractRequest implements Request {
 	}
 
 	/**
-	 * @return the complete list of parameters contained in this request. If the
-	 * request contains no parameters, the method returns an empty
-	 * <code>Map</code>.
+	 * @return the complete list of parameters contained in this request. If the request contains no
+	 * parameters, the method returns an empty <code>Map</code>.
 	 */
 	@Override
 	public abstract Map getParameters();
@@ -177,19 +175,16 @@ public abstract class AbstractRequest implements Request {
 
 	/**
 	 * <p>
-	 * {@link FileItem} classes (if attachements) will be kept as part of the
-	 * request. The default behaviour of the file item is to store the upload in
-	 * memory until it reaches a certain size, after which the content is
-	 * streamed to a temp file.</p>
+	 * {@link FileItem} classes (if attachements) will be kept as part of the request. The default
+	 * behaviour of the file item is to store the upload in memory until it reaches a certain size,
+	 * after which the content is streamed to a temp file.</p>
 	 *
 	 * <p>
-	 * If, in the future, performance of uploads becomes a focus we can instead
-	 * look into using the Jakarta Commons Streaming API. In this case, the
-	 * content of the upload isn't stored anywhere. It will be up to the user to
-	 * read/store the content of the stream.</p>
+	 * If, in the future, performance of uploads becomes a focus we can instead look into using the
+	 * Jakarta Commons Streaming API. In this case, the content of the upload isn't stored anywhere.
+	 * It will be up to the user to read/store the content of the stream.</p>
 	 *
-	 * @param fileItems a list of {@link FileItem}s corresponding to POSTed form
-	 * data.
+	 * @param fileItems a list of {@link FileItem}s corresponding to POSTed form data.
 	 * @param parameters the map to store non-file request parameters in.
 	 * @param files the map to store the uploaded file parameters in.
 	 */
@@ -222,8 +217,7 @@ public abstract class AbstractRequest implements Request {
 	}
 
 	/**
-	 * Returns a byte array containing all the information contained in the
-	 * given input stream.
+	 * Returns a byte array containing all the information contained in the given input stream.
 	 *
 	 * @param stream the input stream to read from.
 	 * @return the stream contents as a byte array.
@@ -248,9 +242,8 @@ public abstract class AbstractRequest implements Request {
 	}
 
 	/**
-	 * This method contains no logic. Subclasses which need to perform event
-	 * handling logic (eg. <code>WPortletRequest</code>) should override this
-	 * method.
+	 * This method contains no logic. Subclasses which need to perform event handling logic (eg.
+	 * <code>WPortletRequest</code>) should override this method.
 	 *
 	 * @param actionName the name of the action that is invoking the event
 	 * @param parameter the key of the parameter to store in the eventMap
@@ -264,9 +257,8 @@ public abstract class AbstractRequest implements Request {
 	}
 
 	/**
-	 * This method contains no logic. Subclasses which need to perform event
-	 * handling logic (eg. <code>WPortletRequest</code>) should override this
-	 * method.
+	 * This method contains no logic. Subclasses which need to perform event handling logic (eg.
+	 * <code>WPortletRequest</code>) should override this method.
 	 *
 	 * @param action name of the publishing event to trigger
 	 * @param eventMap the key/value pair for the event payload

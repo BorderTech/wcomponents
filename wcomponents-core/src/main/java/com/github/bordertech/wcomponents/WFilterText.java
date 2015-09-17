@@ -1,9 +1,8 @@
 package com.github.bordertech.wcomponents;
 
 /**
- * WFilterText is an extension of {@link WText} that can be used to replace
- * text. Both the search and replace regular expressions must be set before text
- * is filtered.
+ * WFilterText is an extension of {@link WText} that can be used to replace text. Both the search
+ * and replace regular expressions must be set before text is filtered.
  *
  * Example usage for a quick way to replace new lines with paragraphs (Note: Use
  * {@link com.github.bordertech.wcomponents.WStyledText} for this):

@@ -11,13 +11,12 @@ import java.util.NoSuchElementException;
 
 /**
  * <p>
- * This implementation of the List interface is not intended for general use, it
- * exists solely to provide memory efficient support for
- * {@link WRepeater#getBeanList()}.</p>
+ * This implementation of the List interface is not intended for general use, it exists solely to
+ * provide memory efficient support for {@link WRepeater#getBeanList()}.</p>
  *
  * <p>
- * This list is immutable; any attempts to call a mutator method will result in
- * an {@link UnsupportedOperationException} being thrown.</p>
+ * This list is immutable; any attempts to call a mutator method will result in an
+ * {@link UnsupportedOperationException} being thrown.</p>
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -28,8 +27,7 @@ import java.util.NoSuchElementException;
 public final class RowIdList implements List<Integer>, Serializable {
 
 	/**
-	 * Message for the UnsupportedOperationExceptions thrown for mutator
-	 * methods.
+	 * Message for the UnsupportedOperationExceptions thrown for mutator methods.
 	 */
 	private static final String IMMUTABLE_MESSAGE = "DataModelRowIdList is immutable";
 
@@ -43,9 +41,8 @@ public final class RowIdList implements List<Integer>, Serializable {
 	private final int endIndex;
 
 	/**
-	 * Creates a RowIdList, which will "contain" consecutive Integer values,
-	 * starting with <code>startIndex</code> and ending with
-	 * <code>endIndex</code>.
+	 * Creates a RowIdList, which will "contain" consecutive Integer values, starting with
+	 * <code>startIndex</code> and ending with <code>endIndex</code>.
 	 *
 	 * @param startIndex the first id
 	 * @param endIndex the last id

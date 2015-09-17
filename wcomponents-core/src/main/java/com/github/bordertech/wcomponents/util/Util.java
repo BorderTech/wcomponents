@@ -55,14 +55,14 @@ public final class Util {
 	}
 
 	/**
-	 * Compares two comparable objects where either may be null. Null is
-	 * regarded as the smallest value, and 2 nulls are considered equal.
+	 * Compares two comparable objects where either may be null. Null is regarded as the smallest
+	 * value, and 2 nulls are considered equal.
 	 *
 	 * @param c1 the first comparable
 	 * @param c2 the second comparable
 	 *
-	 * @return a negative integer, zero, or a positive integer if c1 is less
-	 * than, equal to, or greater than the c2.
+	 * @return a negative integer, zero, or a positive integer if c1 is less than, equal to, or
+	 * greater than the c2.
 	 */
 	public static int compareAllowNull(final Comparable c1, final Comparable c2) {
 		if (c1 == null && c2 == null) {
@@ -80,8 +80,7 @@ public final class Util {
 	 * Converts a string to upper case, where the string may be null.
 	 *
 	 * @param aString the string to convert.
-	 * @return the string converted to upper case, or null if the supplied
-	 * string was null.
+	 * @return the string converted to upper case, or null if the supplied string was null.
 	 */
 	public static String upperCase(final String aString) {
 		if (!empty(aString)) {
@@ -92,12 +91,10 @@ public final class Util {
 	}
 
 	/**
-	 * Copies this String removing white space characters from the end of the
-	 * string.
+	 * Copies this String removing white space characters from the end of the string.
 	 *
 	 * @param aString the String to trim.
-	 * @return a new String with characters <code><= \\u0020</code> removed from
-	 * the end
+	 * @return a new String with characters <code><= \\u0020</code> removed from the end
 	 */
 	public static String rightTrim(final String aString) {
 		if (aString == null) {
@@ -114,12 +111,10 @@ public final class Util {
 	}
 
 	/**
-	 * Copies this String removing white space characters from the beginning of
-	 * the string.
+	 * Copies this String removing white space characters from the beginning of the string.
 	 *
 	 * @param aString the String to trim.
-	 * @return a new String with characters <code><= \\u0020</code> removed from
-	 * the beginning
+	 * @return a new String with characters <code><= \\u0020</code> removed from the beginning
 	 */
 	public static String leftTrim(final String aString) {
 		if (aString == null) {

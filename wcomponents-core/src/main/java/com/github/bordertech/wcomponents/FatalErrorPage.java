@@ -7,16 +7,14 @@ import com.github.bordertech.wcomponents.util.error.SystemFailureMapper;
 import java.io.PrintWriter;
 
 /**
- * A component used to display a "Fatal" error page, when an unhandled error
- * occurs.
+ * A component used to display a "Fatal" error page, when an unhandled error occurs.
  *
  * @author Martin Shevchenko
  */
 public class FatalErrorPage extends AbstractWComponent implements ErrorPage {
 
 	/**
-	 * Indicates whether additional developer details should be included on the
-	 * error page.
+	 * Indicates whether additional developer details should be included on the error page.
 	 */
 	private final boolean developerFriendly;
 
@@ -28,8 +26,7 @@ public class FatalErrorPage extends AbstractWComponent implements ErrorPage {
 	/**
 	 * Creates a FatalErrorPage.
 	 *
-	 * @param developerFriendly if true, additional technical details will be
-	 * included.
+	 * @param developerFriendly if true, additional technical details will be included.
 	 * @param error the unhandled error.
 	 */
 	public FatalErrorPage(final boolean developerFriendly, final Throwable error) {

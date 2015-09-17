@@ -9,13 +9,13 @@ import java.util.regex.Pattern;
 
 /**
  * <p>
- * A WPhoneNumberField is a wcomponent used to display a telephone number field.
- * Use the method "getText" to get the text entered into the field by the user.
+ * A WPhoneNumberField is a wcomponent used to display a telephone number field. Use the method
+ * "getText" to get the text entered into the field by the user.
  * </p>
  * <p>
- * A telephone number field differs from a text field in the way in which some
- * user agents interact with it. For example, touchscreen devices may display a
- * numeric data entry pad rather than an alphanumeric keyboard.
+ * A telephone number field differs from a text field in the way in which some user agents interact
+ * with it. For example, touchscreen devices may display a numeric data entry pad rather than an
+ * alphanumeric keyboard.
  * </p>
  *
  * @author Yiannis Paschalidis
@@ -105,21 +105,18 @@ public class WPhoneNumberField extends AbstractInput implements AjaxTrigger, Aja
 	}
 
 	/**
-	 * @return the minimum number of characters that the user can enter into the
-	 * phone number field.
+	 * @return the minimum number of characters that the user can enter into the phone number field.
 	 */
 	public int getMinLength() {
 		return getComponentModel().minLength;
 	}
 
 	/**
-	 * Set the minimum number of characters that the user can enter into the
-	 * phone number field.
+	 * Set the minimum number of characters that the user can enter into the phone number field.
 	 * <p>
-	 * Setting the minimum number of characters will not make a field mandatory
-	 * as the validation is only applied once the user has entered some text.
-	 * Use {@link #setMandatory(boolean)} to make a field mandatory, which can
-	 * be used in combination with setMinLength.
+	 * Setting the minimum number of characters will not make a field mandatory as the validation is
+	 * only applied once the user has entered some text. Use {@link #setMandatory(boolean)} to make
+	 * a field mandatory, which can be used in combination with setMinLength.
 	 * </p>
 	 *
 	 * @param minLength the minimum number of characters to allow.
@@ -129,16 +126,14 @@ public class WPhoneNumberField extends AbstractInput implements AjaxTrigger, Aja
 	}
 
 	/**
-	 * @return the maximum number of characters that the user can enter into the
-	 * phone number field.
+	 * @return the maximum number of characters that the user can enter into the phone number field.
 	 */
 	public int getMaxLength() {
 		return getComponentModel().maxLength;
 	}
 
 	/**
-	 * Set the maximum number of characters that the user can enter into the
-	 * phone number field.
+	 * Set the maximum number of characters that the user can enter into the phone number field.
 	 *
 	 * @param maxLength the maximum number of characters to allow.
 	 */
@@ -149,12 +144,11 @@ public class WPhoneNumberField extends AbstractInput implements AjaxTrigger, Aja
 	/**
 	 * The pattern to validate against.
 	 * <p>
-	 * The pattern must be supported natively by your target user agent (e.g.
-	 * browser).
+	 * The pattern must be supported natively by your target user agent (e.g. browser).
 	 * </p>
 	 * <p>
-	 * It is expected the {@link WLabel} for this component describes the
-	 * required format of the component.
+	 * It is expected the {@link WLabel} for this component describes the required format of the
+	 * component.
 	 * </p>
 	 *
 	 * @param pattern the pattern to validate against.
@@ -227,8 +221,7 @@ public class WPhoneNumberField extends AbstractInput implements AjaxTrigger, Aja
 	}
 
 	/**
-	 * Creates a new PhoneFieldModel holds Extrinsic state management of the
-	 * field.
+	 * Creates a new PhoneFieldModel holds Extrinsic state management of the field.
 	 *
 	 * @return a new PhoneFieldModel
 	 */

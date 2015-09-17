@@ -6,9 +6,9 @@ import java.util.List;
 
 /**
  * <p>
- * This component enables rendering of a menuing system for an application. A
- * menu bar consists of a collection of either "Menu Items" (see
- * {@link WMenuItem} or "Sub Menus" (see {@link WSubMenu}).</p>
+ * This component enables rendering of a menuing system for an application. A menu bar consists of a
+ * collection of either "Menu Items" (see {@link WMenuItem} or "Sub Menus" (see
+ * {@link WSubMenu}).</p>
  *
  * @author Adam Millard
  * @author Yiannis Paschalidis
@@ -23,13 +23,12 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 	 */
 	public static enum MenuType {
 		/**
-		 * The menu is displayed as a horizontal bar, similar to menu bars in
-		 * desktop applications.
+		 * The menu is displayed as a horizontal bar, similar to menu bars in desktop applications.
 		 */
 		BAR,
 		/**
-		 * The menu is displayed as a series of buttons. This is most commonly
-		 * used to display a single submenu as a button.
+		 * The menu is displayed as a series of buttons. This is most commonly used to display a
+		 * single submenu as a button.
 		 */
 		FLYOUT,
 		/**
@@ -37,8 +36,8 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 		 */
 		TREE,
 		/**
-		 * The menu is displayed columns from left to right. This menu type
-		 * supports multiple selections of menu items and sub-menus.
+		 * The menu is displayed columns from left to right. This menu type supports multiple
+		 * selections of menu items and sub-menus.
 		 */
 		COLUMN
 	};
@@ -207,8 +206,8 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 	}
 
 	/**
-	 * Returns the selected item (WMenUItem/WSubMenu, depending on the menu
-	 * type) in the given context.
+	 * Returns the selected item (WMenUItem/WSubMenu, depending on the menu type) in the given
+	 * context.
 	 *
 	 * @return the selected item, or null if no item has been selected.
 	 */
@@ -222,8 +221,8 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 	}
 
 	/**
-	 * Returns the selected items (WMenUItems/WSubMenus, depending on the menu
-	 * type) in the given context.
+	 * Returns the selected items (WMenUItems/WSubMenus, depending on the menu type) in the given
+	 * context.
 	 *
 	 * @return the selected items, or an empty list if nothing is selected.
 	 */
@@ -240,8 +239,7 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 	}
 
 	/**
-	 * Sets the selected items (WMenuItems or WSubMenus, depending on the menu
-	 * type).
+	 * Sets the selected items (WMenuItems or WSubMenus, depending on the menu type).
 	 *
 	 * @param selectedItems the selected items.
 	 */
@@ -259,8 +257,7 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 	}
 
 	/**
-	 * Sets the selected item (WMenuItem and/or WSubMenu, depending on the menu
-	 * type).
+	 * Sets the selected item (WMenuItem and/or WSubMenu, depending on the menu type).
 	 *
 	 * @param selectedItem the selected item.
 	 */
@@ -371,8 +368,7 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 	 *
 	 * @param parent the component to search within.
 	 * @param parentSelectMode the select mode of the current menu/sub-menu
-	 * @return the list of selectable children for the given component. May be
-	 * empty.
+	 * @return the list of selectable children for the given component. May be empty.
 	 */
 	private List<WComponent> getSelectableChildren(final Container parent,
 			final SelectMode parentSelectMode) {

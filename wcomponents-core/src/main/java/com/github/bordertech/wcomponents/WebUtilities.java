@@ -96,9 +96,8 @@ public final class WebUtilities {
 	}
 
 	/**
-	 * Retrieves a "path" of component classes from the given component to the
-	 * root node. The path is formatted with one component on each line, with
-	 * the first line being the root node.
+	 * Retrieves a "path" of component classes from the given component to the root node. The path
+	 * is formatted with one component on each line, with the first line being the root node.
 	 *
 	 * @param component the component to retrieve the path for
 	 * @return a "path" of class names from the component to the root.
@@ -118,8 +117,8 @@ public final class WebUtilities {
 	}
 
 	/**
-	 * Attempts to find a component which is an ancestor of the given component,
-	 * and that is assignable to the given class.
+	 * Attempts to find a component which is an ancestor of the given component, and that is
+	 * assignable to the given class.
 	 *
 	 * @param clazz the class to look for
 	 * @param comp the component to start at.
@@ -144,8 +143,8 @@ public final class WebUtilities {
 	}
 
 	/**
-	 * Attempts to find the nearest component (may be the component itself) that
-	 * is assignable to the given class.
+	 * Attempts to find the nearest component (may be the component itself) that is assignable to
+	 * the given class.
 	 *
 	 * @param clazz the class to look for
 	 * @param comp the component to start at.
@@ -182,8 +181,8 @@ public final class WebUtilities {
 	}
 
 	/**
-	 * Escapes the given string to make it presentable in a URL. This follows
-	 * RFC 3986, with some extensions for UTF-8.
+	 * Escapes the given string to make it presentable in a URL. This follows RFC 3986, with some
+	 * extensions for UTF-8.
 	 *
 	 * @param input the String to escape.
 	 * @return an escaped copy of the string.
@@ -224,10 +223,9 @@ public final class WebUtilities {
 	}
 
 	/**
-	 * Encode all the special characters found in the given string to their
-	 * escape sequences according to the XML specification, and returns the
-	 * resultant string. Eg. "cat&amp;dog &gt; ant" becomes "cat&amp;amp;dog
-	 * &amp;gt; ant".
+	 * Encode all the special characters found in the given string to their escape sequences
+	 * according to the XML specification, and returns the resultant string. Eg. "cat&amp;dog &gt;
+	 * ant" becomes "cat&amp;amp;dog &amp;gt; ant".
 	 *
 	 * @param input the String to encode
 	 * @return an encoded copy of the input String.
@@ -262,14 +260,12 @@ public final class WebUtilities {
 
 	/**
 	 * <p>
-	 * Encodes the given fileName for output in the HTTP Content-Disposition
-	 * header.</p>
+	 * Encodes the given fileName for output in the HTTP Content-Disposition header.</p>
 	 *
 	 * <p>
-	 * This is a complete mess. There are multiple standards (rfc 2183, rfc
-	 * 2231, rfc 5987) and some browsers don't even adhere to those properly. We
-	 * take a cautious approach and just replace all extended characters with
-	 * underscores.</p>
+	 * This is a complete mess. There are multiple standards (rfc 2183, rfc 2231, rfc 5987) and some
+	 * browsers don't even adhere to those properly. We take a cautious approach and just replace
+	 * all extended characters with underscores.</p>
 	 *
 	 * @param fileName the file name to encode.
 	 * @return the encoded file name.
@@ -279,11 +275,10 @@ public final class WebUtilities {
 	}
 
 	/**
-	 * This method is required on occasion because WebSphere Portal by default
-	 * escapes "&lt;" and "&gt;" characters for security reasons.
+	 * This method is required on occasion because WebSphere Portal by default escapes "&lt;" and
+	 * "&gt;" characters for security reasons.
 	 *
-	 * Decode any escape sequences to their original character, and return the
-	 * resultant string.
+	 * Decode any escape sequences to their original character, and return the resultant string.
 	 *
 	 * Eg. "cat&amp;amp;dog &amp;gt; ant" becomes "cat&amp;dog &gt; ant"
 	 *
@@ -319,8 +314,7 @@ public final class WebUtilities {
 	 *
 	 * @param url the existing url path
 	 * @param parameters are put into the URL as get parameters.
-	 * @param javascript true if the URL is intended for use within a javascript
-	 * function
+	 * @param javascript true if the URL is intended for use within a javascript function
 	 * @return the complete url eg http://localhost/app?step=1
 	 */
 	public static String getPath(final String url, final Map<String, String> parameters, final boolean javascript) {
@@ -353,15 +347,13 @@ public final class WebUtilities {
 	}
 
 	/**
-	 * This is a slightly different version of appendGetParam that doesn't
-	 * encode the ampersand seperator. It is intended to be used in urls that
-	 * are generated for javascript functions.
+	 * This is a slightly different version of appendGetParam that doesn't encode the ampersand
+	 * seperator. It is intended to be used in urls that are generated for javascript functions.
 	 *
 	 * @param key the key to append
 	 * @param value the value to append
 	 * @param vars the existing query string
-	 * @param existingVars true if there are already existing query string
-	 * key/value pairs
+	 * @param existingVars true if there are already existing query string key/value pairs
 	 */
 	public static void appendGetParamForJavascript(final String key, final String value,
 			final StringBuffer vars, final boolean existingVars) {
@@ -374,16 +366,14 @@ public final class WebUtilities {
 	 * Appends a key/value pair to a query string.</p>
 	 *
 	 * <p>
-	 * A '?' or '&' token will first be appended to the end of the vars
-	 * StringBuffer, according to the presence of other vars. We quote the &
-	 * using XML character entity, because otherwise the resulting URL will be
-	 * invalid XML parsed character data and so we can't generate XHTML.</p>
+	 * A '?' or '&' token will first be appended to the end of the vars StringBuffer, according to
+	 * the presence of other vars. We quote the & using XML character entity, because otherwise the
+	 * resulting URL will be invalid XML parsed character data and so we can't generate XHTML.</p>
 	 *
 	 * @param key the key to append
 	 * @param value the value to append
 	 * @param vars the existing query string
-	 * @param existingVars true if there are already existing query string
-	 * key/value pairs
+	 * @param existingVars true if there are already existing query string key/value pairs
 	 */
 	public static void appendGetParam(final String key, final String value,
 			final StringBuffer vars, final boolean existingVars) {
@@ -392,8 +382,8 @@ public final class WebUtilities {
 	}
 
 	/**
-	 * Generates a random String. Can be useful for creating unique URLs by
-	 * adding the String as a query parameter to the URL.
+	 * Generates a random String. Can be useful for creating unique URLs by adding the String as a
+	 * query parameter to the URL.
 	 *
 	 * @return a random string
 	 */
@@ -409,8 +399,8 @@ public final class WebUtilities {
 	 *
 	 * @param component1 a possible ancestor.
 	 * @param component2 the component to check.
-	 * @return true if <code>component1</code> is an ancestor of
-	 * <code>component2</code>, false otherwise.
+	 * @return true if <code>component1</code> is an ancestor of <code>component2</code>, false
+	 * otherwise.
 	 */
 	public static boolean isAncestor(final WComponent component1, final WComponent component2) {
 		for (WComponent parent = component2.getParent(); parent != null; parent = parent.getParent()) {
@@ -427,8 +417,8 @@ public final class WebUtilities {
 	 *
 	 * @param component1 a possible descendent.
 	 * @param component2 the component to check.
-	 * @return true if <code>component1</code> is a descendant of
-	 * <code>component2</code>, false otherwise.
+	 * @return true if <code>component1</code> is a descendant of <code>component2</code>, false
+	 * otherwise.
 	 */
 	public static boolean isDescendant(final WComponent component1, final WComponent component2) {
 		return isAncestor(component2, component1);
@@ -479,9 +469,9 @@ public final class WebUtilities {
 	}
 
 	/**
-	 * Finds the closest context for the given component id. This handles the
-	 * case where the component no longer exists due to having been removed from
-	 * the UI, or having a SubUIContext removed.
+	 * Finds the closest context for the given component id. This handles the case where the
+	 * component no longer exists due to having been removed from the UI, or having a SubUIContext
+	 * removed.
 	 *
 	 * @param id the id of the component to search for.
 	 * @return the component and context for the given id, or null if not found.
@@ -494,11 +484,10 @@ public final class WebUtilities {
 	}
 
 	/**
-	 * Updates the bean value with the current value of the component and all
-	 * its bean-bound children.
+	 * Updates the bean value with the current value of the component and all its bean-bound
+	 * children.
 	 *
-	 * @param component the component whose contents need to be copied to the
-	 * bean.
+	 * @param component the component whose contents need to be copied to the bean.
 	 */
 	public static void updateBeanValue(final WComponent component) {
 		if (component instanceof WBeanComponent) {
@@ -520,10 +509,9 @@ public final class WebUtilities {
 	}
 
 	/**
-	 * Renders the given WComponent to a String outside of the context of a
-	 * Servlet. This is good for getting hold of the XML for debugging, unit
-	 * testing etc. Also it is good for using the WComponent framework as a more
-	 * generic templating framework.
+	 * Renders the given WComponent to a String outside of the context of a Servlet. This is good
+	 * for getting hold of the XML for debugging, unit testing etc. Also it is good for using the
+	 * WComponent framework as a more generic templating framework.
 	 *
 	 * @param component the root WComponent to render.
 	 * @return the rendered output as a String.
@@ -533,10 +521,9 @@ public final class WebUtilities {
 	}
 
 	/**
-	 * Renders the given WComponent to a String outside of the context of a
-	 * Servlet. This is good for getting hold of the XML for debugging, unit
-	 * testing etc. Also it is good for using the WComponent framework as a more
-	 * generic templating framework.
+	 * Renders the given WComponent to a String outside of the context of a Servlet. This is good
+	 * for getting hold of the XML for debugging, unit testing etc. Also it is good for using the
+	 * WComponent framework as a more generic templating framework.
 	 *
 	 * @param request the request being responded to.
 	 * @param component the root WComponent to render.
@@ -569,8 +556,7 @@ public final class WebUtilities {
 	 * Attempts to guess the content-type for the given file name.
 	 *
 	 * @param fileName the file name to return the content-type for.
-	 * @return the content-type for the given fileName, or a generic type if
-	 * unknown.
+	 * @return the content-type for the given fileName, or a generic type if unknown.
 	 */
 	public static String getContentType(final String fileName) {
 		Configuration config = Config.getInstance();
@@ -589,8 +575,8 @@ public final class WebUtilities {
 	 * Determine if this component is an active naming context.
 	 * <p>
 	 * A naming context is only considered active if it has been set active via
-	 * {@link NamingContextable#setNamingContext(boolean)} and also has an id
-	 * name set via {@link WComponent#setIdName(String)}.
+	 * {@link NamingContextable#setNamingContext(boolean)} and also has an id name set via
+	 * {@link WComponent#setIdName(String)}.
 	 * </p>
 	 *
 	 * @param component the component to test for naming context

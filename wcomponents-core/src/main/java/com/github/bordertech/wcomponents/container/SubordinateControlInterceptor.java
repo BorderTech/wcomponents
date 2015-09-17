@@ -5,13 +5,13 @@ import com.github.bordertech.wcomponents.subordinate.SubordinateControlHelper;
 import com.github.bordertech.wcomponents.subordinate.WSubordinateControl;
 
 /**
- * This {@link InterceptorComponent} will process any subordinate controls that
- * were registered as being active on the client (i.e. rendered).
+ * This {@link InterceptorComponent} will process any subordinate controls that were registered as
+ * being active on the client (i.e. rendered).
  * <p>
- * It applies the subordinate controls before the service request phase, to
- * apply any state changes that have occurred on the client, and after the
- * prepare paint phase to make sure the subordinate logic has been applied and
- * the components are in the correct state before being rendered to the client.
+ * It applies the subordinate controls before the service request phase, to apply any state changes
+ * that have occurred on the client, and after the prepare paint phase to make sure the subordinate
+ * logic has been applied and the components are in the correct state before being rendered to the
+ * client.
  * </p>
  *
  * @see WSubordinateControl
@@ -21,9 +21,8 @@ import com.github.bordertech.wcomponents.subordinate.WSubordinateControl;
 public class SubordinateControlInterceptor extends InterceptorComponent {
 
 	/**
-	 * Before servicing the request, apply the registered subordinate controls
-	 * to make sure any state changes that have occurred on the client are
-	 * applied.
+	 * Before servicing the request, apply the registered subordinate controls to make sure any
+	 * state changes that have occurred on the client are applied.
 	 *
 	 * @param request the request being serviced
 	 */
@@ -40,9 +39,8 @@ public class SubordinateControlInterceptor extends InterceptorComponent {
 	}
 
 	/**
-	 * After the prepare paint phase, apply the registered subordinate controls
-	 * to make sure all the components are in the correct state before being
-	 * rendered to the client.
+	 * After the prepare paint phase, apply the registered subordinate controls to make sure all the
+	 * components are in the correct state before being rendered to the client.
 	 *
 	 * @param request the request being serviced
 	 */

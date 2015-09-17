@@ -5,8 +5,8 @@ import javax.servlet.ServletContextListener;
 import org.apache.commons.io.FileCleaner;
 
 /**
- * This context listener is used to stop the reaper {@link Thread} that is
- * started by the jakarta commons file upload API.
+ * This context listener is used to stop the reaper {@link Thread} that is started by the jakarta
+ * commons file upload API.
  *
  * @author Christina Harris
  * @since 1.0.0

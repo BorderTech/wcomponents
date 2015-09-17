@@ -65,8 +65,8 @@ public class ThemeServlet_Test {
 	 * Requests a file from the servlet.
 	 *
 	 * @param path the path to the file
-	 * @param asParam true to use the ThemeServlet's 'f' parameter or false to
-	 * place the path in the URL.
+	 * @param asParam true to use the ThemeServlet's 'f' parameter or false to place the path in the
+	 * URL.
 	 * @return the servlet response
 	 * @throws ServletException a servlet exception
 	 * @throws IOException an exception

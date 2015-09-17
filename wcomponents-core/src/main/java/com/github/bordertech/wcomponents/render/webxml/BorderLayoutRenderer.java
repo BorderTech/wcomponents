@@ -12,8 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This {@link Renderer} renders the children of a {@link WPanel} which have
- * been arranged using a {@link BorderLayout}.
+ * This {@link Renderer} renders the children of a {@link WPanel} which have been arranged using a
+ * {@link BorderLayout}.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -61,8 +61,7 @@ final class BorderLayoutRenderer extends AbstractWebXmlRenderer {
 	}
 
 	/**
-	 * Retrieves the name of the element that will contain components with the
-	 * given constraint.
+	 * Retrieves the name of the element that will contain components with the given constraint.
 	 *
 	 * @param constraint the constraint to retrieve the tag for.
 	 * @return the tag for the given constraint.
@@ -117,9 +116,8 @@ final class BorderLayoutRenderer extends AbstractWebXmlRenderer {
 	}
 
 	/**
-	 * Retrieves the layout constraint for the given component. If the
-	 * constraint is incorrectly configured, an {@link IllegalStateException}
-	 * will be thrown.
+	 * Retrieves the layout constraint for the given component. If the constraint is incorrectly
+	 * configured, an {@link IllegalStateException} will be thrown.
 	 *
 	 * @param panel the panel which contains the child
 	 * @param child the component to retrieve the constraint for.

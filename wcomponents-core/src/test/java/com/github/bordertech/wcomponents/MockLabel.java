@@ -1,8 +1,7 @@
 package com.github.bordertech.wcomponents;
 
 /**
- * A {@link WLabel} which stores the count of action/render phases for each
- * session.
+ * A {@link WLabel} which stores the count of action/render phases for each session.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -47,8 +46,7 @@ public final class MockLabel extends WLabel {
 	}
 
 	/**
-	 * Retrieves the number of invocations of the handleRequest method for the
-	 * given UIContext.
+	 * Retrieves the number of invocations of the handleRequest method for the given UIContext.
 	 *
 	 * @return the number of invocations.
 	 */
@@ -57,8 +55,7 @@ public final class MockLabel extends WLabel {
 	}
 
 	/**
-	 * Retrieves the number of invocations of the paint method for the given
-	 * UIContext.
+	 * Retrieves the number of invocations of the paint method for the given UIContext.
 	 *
 	 * @return the number of invocations.
 	 */
@@ -67,8 +64,7 @@ public final class MockLabel extends WLabel {
 	}
 
 	/**
-	 * An extension of the label data model to record request/paint invocation
-	 * counts.
+	 * An extension of the label data model to record request/paint invocation counts.
 	 *
 	 * @author Yiannis Paschalidis
 	 */

@@ -6,8 +6,8 @@ import java.io.Serializable;
 
 /**
  * <p>
- * An extension of AbstractTreeNode that supports a data attribute, the concept
- * of being expanded/collapsed and node-specific renderers.</p>
+ * An extension of AbstractTreeNode that supports a data attribute, the concept of being
+ * expanded/collapsed and node-specific renderers.</p>
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -33,8 +33,7 @@ public class TableTreeNode extends AbstractTreeNode {
 	private Class<? extends WComponent> rendererClass = null;
 
 	/**
-	 * Indicates whether the {@link #rendererClass custom renderer} spans the
-	 * entire row.
+	 * Indicates whether the {@link #rendererClass custom renderer} spans the entire row.
 	 */
 	private boolean rendererSpansAllCols = true;
 
@@ -44,9 +43,9 @@ public class TableTreeNode extends AbstractTreeNode {
 	private int nodeCount = 0;
 
 	/**
-	 * Creates a TableTreeNode with the specified data. The data may be an id or
-	 * complex data, and should be used in the
-	 * {@link AbstractTreeTableDataModel#getValueAt(TableTreeNode, int)} method.
+	 * Creates a TableTreeNode with the specified data. The data may be an id or complex data, and
+	 * should be used in the {@link AbstractTreeTableDataModel#getValueAt(TableTreeNode, int)}
+	 * method.
 	 *
 	 * @param data the data for this node.
 	 */
@@ -55,14 +54,14 @@ public class TableTreeNode extends AbstractTreeNode {
 	}
 
 	/**
-	 * Creates a TableTreeNode with the specified data. The data may be an id or
-	 * complex data, and should be used in the
-	 * {@link AbstractTreeTableDataModel#getValueAt(TableTreeNode, int)} method.
+	 * Creates a TableTreeNode with the specified data. The data may be an id or complex data, and
+	 * should be used in the {@link AbstractTreeTableDataModel#getValueAt(TableTreeNode, int)}
+	 * method.
 	 *
 	 * @param data the data for this node.
 	 * @param rendererClass The renderer class for this row.
-	 * @param rendererSpansAllCols true if the renderer should span all columns,
-	 * false to only span the first.
+	 * @param rendererSpansAllCols true if the renderer should span all columns, false to only span
+	 * the first.
 	 */
 	public TableTreeNode(final Serializable data, final Class<? extends WComponent> rendererClass,
 			final boolean rendererSpansAllCols) {
@@ -121,8 +120,7 @@ public class TableTreeNode extends AbstractTreeNode {
 	}
 
 	/**
-	 * Indicates whether this node is currently visible (ie. all ancestors are
-	 * expanded).
+	 * Indicates whether this node is currently visible (ie. all ancestors are expanded).
 	 *
 	 * @return true if this node is currently visible, otherwise false.
 	 */
@@ -183,8 +181,7 @@ public class TableTreeNode extends AbstractTreeNode {
 	/**
 	 * Sets whether this node is expanded.
 	 *
-	 * @param expanded true to set this node expanded this node, false for
-	 * collapsed.
+	 * @param expanded true to set this node expanded this node, false for collapsed.
 	 */
 	public void setExpanded(final boolean expanded) {
 		this.expanded = expanded;
@@ -193,16 +190,15 @@ public class TableTreeNode extends AbstractTreeNode {
 	/**
 	 * Retrieves the custom renderer for this node.
 	 *
-	 * @return the renderer class, or null if the default renderer is to be
-	 * used.
+	 * @return the renderer class, or null if the default renderer is to be used.
 	 */
 	public Class<? extends WComponent> getRendererClass() {
 		return rendererClass;
 	}
 
 	/**
-	 * Sets the renderer to be used to render the row for this node. If null,
-	 * the default table row renderer will be used.
+	 * Sets the renderer to be used to render the row for this node. If null, the default table row
+	 * renderer will be used.
 	 *
 	 * @param rendererClass The renderer class to set.
 	 */
@@ -211,11 +207,9 @@ public class TableTreeNode extends AbstractTreeNode {
 	}
 
 	/**
-	 * Indicates whether the custom renderer, if set, should span all table
-	 * columns.
+	 * Indicates whether the custom renderer, if set, should span all table columns.
 	 *
-	 * @return true if the custom renderer should span all columns, false to
-	 * only span the first.
+	 * @return true if the custom renderer should span all columns, false to only span the first.
 	 */
 	public boolean isRendererSpansAllCols() {
 		return rendererSpansAllCols;
@@ -224,8 +218,7 @@ public class TableTreeNode extends AbstractTreeNode {
 	/**
 	 * Sets whether the custom renderer should span all table columns.
 	 *
-	 * @param rendererSpansAllCols true to span all columns, false to only span
-	 * the first.
+	 * @param rendererSpansAllCols true to span all columns, false to only span the first.
 	 */
 	public void setRendererSpansAllCols(final boolean rendererSpansAllCols) {
 		this.rendererSpansAllCols = rendererSpansAllCols;
@@ -266,8 +259,8 @@ public class TableTreeNode extends AbstractTreeNode {
 	}
 
 	/**
-	 * Adjusts the node count of this node and all parent nodes. Called when
-	 * nodes are being added/removed from the tree.
+	 * Adjusts the node count of this node and all parent nodes. Called when nodes are being
+	 * added/removed from the tree.
 	 *
 	 * @param delta the change in the node count.
 	 */

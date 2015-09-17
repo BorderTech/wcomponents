@@ -123,8 +123,8 @@ public class WMenu_Test extends AbstractWComponentTestCase {
 	}
 
 	/**
-	 * Test setSelectedItem - when selections already set. creates new
-	 * selectionList containing the single new item.
+	 * Test setSelectedItem - when selections already set. creates new selectionList containing the
+	 * single new item.
 	 */
 	@Test
 	public void testSetSelectedItem() {
@@ -156,8 +156,8 @@ public class WMenu_Test extends AbstractWComponentTestCase {
 	}
 
 	/**
-	 * Test setSelectedItem - when no selection set. creates new selectionList
-	 * containing the single new item.
+	 * Test setSelectedItem - when no selection set. creates new selectionList containing the single
+	 * new item.
 	 */
 	@Test
 	public void testSetSelectedItemNoSelections() {

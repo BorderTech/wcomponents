@@ -97,8 +97,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
 	 * Returns the value of the given header.
 	 *
 	 * @param name the header name.
-	 * @return the value of the given header, or null if no header exists with
-	 * that name.
+	 * @return the value of the given header, or null if no header exists with that name.
 	 */
 	@Override
 	public String getHeader(final String name) {
@@ -253,8 +252,8 @@ public class MockHttpServletRequest implements HttpServletRequest {
 	}
 
 	/**
-	 * Returns the current HttpSession, or creates a new one if there is no
-	 * current session and the <code>create</code> flag is set.
+	 * Returns the current HttpSession, or creates a new one if there is no current session and the
+	 * <code>create</code> flag is set.
 	 *
 	 * @param create if true, creates a new session if one does not exist.
 	 * @return the current HttpSession, may be null if the create flag is false.
@@ -381,9 +380,8 @@ public class MockHttpServletRequest implements HttpServletRequest {
 	}
 
 	/**
-	 * Returns a stream to read the request content. If the content has not been
-	 * set previously by {@link #setContent(byte[])}, an empty input stream is
-	 * returned.
+	 * Returns a stream to read the request content. If the content has not been set previously by
+	 * {@link #setContent(byte[])}, an empty input stream is returned.
 	 *
 	 * @return the request input stream.
 	 */
@@ -460,8 +458,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
 	 * Returns the parameter values for the given parameter.
 	 *
 	 * @param name the parameter name
-	 * @return the values of the given parameter, or null if the parameter does
-	 * not exist.
+	 * @return the values of the given parameter, or null if the parameter does not exist.
 	 */
 	@Override
 	public String[] getParameterValues(final String name) {
@@ -469,8 +466,8 @@ public class MockHttpServletRequest implements HttpServletRequest {
 	}
 
 	/**
-	 * Sets a parameter. If the parameter already exists, another value will be
-	 * added to the parameter values.
+	 * Sets a parameter. If the parameter already exists, another value will be added to the
+	 * parameter values.
 	 *
 	 * @param name the parameter name
 	 * @param value the parameter value

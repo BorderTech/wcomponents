@@ -14,8 +14,7 @@ import org.junit.Test;
 public class WTab_Test extends AbstractWComponentTestCase {
 
 	/**
-	 * error message for constructor - null label - private in class being
-	 * tested.
+	 * error message for constructor - null label - private in class being tested.
 	 */
 	private static final String ILLEGAL_LABEL_ERROR = "A label must be specified";
 

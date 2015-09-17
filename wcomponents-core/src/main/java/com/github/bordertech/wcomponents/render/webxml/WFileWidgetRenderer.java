@@ -46,12 +46,10 @@ final class WFileWidgetRenderer extends AbstractWebXmlRenderer {
 	}
 
 	/**
-	 * Flattens the list of accepted mime types into a format suitable for
-	 * rendering.
+	 * Flattens the list of accepted mime types into a format suitable for rendering.
 	 *
 	 * @param types the list of accepted mime types
-	 * @return the list of accepted mime types in a format suitable for
-	 * rendering
+	 * @return the list of accepted mime types in a format suitable for rendering
 	 */
 	private String typesToString(final List<String> types) {
 		if (types == null || types.isEmpty()) {

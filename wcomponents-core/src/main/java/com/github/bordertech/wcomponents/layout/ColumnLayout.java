@@ -11,13 +11,11 @@ import java.util.Arrays;
 public class ColumnLayout implements LayoutManager {
 
 	/**
-	 * An enumeration of possible values for horizontal alignment of column
-	 * content.
+	 * An enumeration of possible values for horizontal alignment of column content.
 	 */
 	public static enum Alignment {
 		/**
-		 * Indicates that content should be left-aligned. This is the default
-		 * alignment.
+		 * Indicates that content should be left-aligned. This is the default alignment.
 		 */
 		LEFT,
 		/**
@@ -60,8 +58,7 @@ public class ColumnLayout implements LayoutManager {
 	}
 
 	/**
-	 * Creates a ColumnLayout with the specified percentage column widths and
-	 * column alignments.
+	 * Creates a ColumnLayout with the specified percentage column widths and column alignments.
 	 *
 	 * @param columnWidths the column widths, in percent units.
 	 * @param columnAlignments the column alignments
@@ -129,8 +126,8 @@ public class ColumnLayout implements LayoutManager {
 	}
 
 	/**
-	 * Sets the alignment of the given column. An IndexOutOfBoundsException will
-	 * be thrown if col is out of bounds.
+	 * Sets the alignment of the given column. An IndexOutOfBoundsException will be thrown if col is
+	 * out of bounds.
 	 *
 	 * @param col the index of the column to set the alignment of.
 	 * @param alignment the alignment to set.

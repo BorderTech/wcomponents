@@ -1,10 +1,9 @@
 package com.github.bordertech.wcomponents;
 
 /**
- * This abstract class extends AbstractContainer and implements the
- * MutableContainer interface to expose methods for modifying the contents of a
- * container. This class is extended by other container classes which allow
- * arbitrary content.
+ * This abstract class extends AbstractContainer and implements the MutableContainer interface to
+ * expose methods for modifying the contents of a container. This class is extended by other
+ * container classes which allow arbitrary content.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -22,8 +21,8 @@ public abstract class AbstractMutableContainer extends AbstractNamingContextCont
 	}
 
 	/**
-	 * Add the given component as a child of this component. The tag is used to
-	 * identify the child in this component's velocity template.
+	 * Add the given component as a child of this component. The tag is used to identify the child
+	 * in this component's velocity template.
 	 *
 	 * @param component the component to add.
 	 * @param tag the tag used to identify the component.

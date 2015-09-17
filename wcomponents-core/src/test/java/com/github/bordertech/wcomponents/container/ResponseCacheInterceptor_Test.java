@@ -11,8 +11,7 @@ import org.apache.commons.configuration.Configuration;
 import org.junit.Test;
 
 /**
- * ResponseCacheInterceptor_Test - unit tests for
- * {@link ResponseCacheInterceptor}.
+ * ResponseCacheInterceptor_Test - unit tests for {@link ResponseCacheInterceptor}.
  *
  * @author Jonathan Austin
  * @since 1.0.0

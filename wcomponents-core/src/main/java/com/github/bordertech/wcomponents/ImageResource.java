@@ -3,8 +3,8 @@ package com.github.bordertech.wcomponents;
 import java.awt.Dimension;
 
 /**
- * Provides a bridge to static image resources which are present in the class
- * path, but not in the web application itself.
+ * Provides a bridge to static image resources which are present in the class path, but not in the
+ * web application itself.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0

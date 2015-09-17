@@ -10,14 +10,13 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * WBeanComponent provides a default implementation of a bean-aware component,
- * and is the basis for most bean-aware WComponents. It can be used as a
- * starting point for custom application bean-aware components.
+ * WBeanComponent provides a default implementation of a bean-aware component, and is the basis for
+ * most bean-aware WComponents. It can be used as a starting point for custom application bean-aware
+ * components.
  * <p>
- * A fix has been made to the logic for a bean container, that has a bean
- * property set, to pass the correct bean value to its child bean components.
- * This fix is an "opt in". To enable the correct bean container logic set the
- * parameter "bordertech.wcomponents.bean.logic.correct=true".
+ * A fix has been made to the logic for a bean container, that has a bean property set, to pass the
+ * correct bean value to its child bean components. This fix is an "opt in". To enable the correct
+ * bean container logic set the parameter "bordertech.wcomponents.bean.logic.correct=true".
  * </p>
  *
  * @author Yiannis Paschalidis
@@ -29,8 +28,8 @@ public class WBeanComponent extends AbstractWComponent implements DataBound, Bea
 	/**
 	 * Flag for which bean logic will be used.
 	 *
-	 * @deprecated Will be removed and correct logic always used. Projects
-	 * should set this parameter to true.
+	 * @deprecated Will be removed and correct logic always used. Projects should set this parameter
+	 * to true.
 	 */
 	@Deprecated
 	private static final boolean CORRECT_PARENT_BEAN_LOGIC = Config.getInstance().getBoolean("bordertech.wcomponents.bean.logic.correct",
@@ -59,10 +58,9 @@ public class WBeanComponent extends AbstractWComponent implements DataBound, Bea
 	 * <ul>
 	 * <li>A bean set explicitly using <code>setBean</code></li>
 	 * <li>A bean cached in the scratch map</li>
-	 * <li>A bean provided by a BeanProvider (and subsequently cached in the
-	 * scratch map)</li>
-	 * <li>A bean provided by a bean-aware parent component (and subsequently
-	 * cached in the scratch map)</li>
+	 * <li>A bean provided by a BeanProvider (and subsequently cached in the scratch map)</li>
+	 * <li>A bean provided by a bean-aware parent component (and subsequently cached in the scratch
+	 * map)</li>
 	 * </ul>
 	 *
 	 * @return this component's bean for the given context.
@@ -123,9 +121,9 @@ public class WBeanComponent extends AbstractWComponent implements DataBound, Bea
 	}
 
 	/**
-	 * Sets the bean associated with this WBeanComponent. This method of bean
-	 * association is discouraged, as the bean will be stored in the user's
-	 * session. A better alternative is to provide a BeanProvider and a Bean Id.
+	 * Sets the bean associated with this WBeanComponent. This method of bean association is
+	 * discouraged, as the bean will be stored in the user's session. A better alternative is to
+	 * provide a BeanProvider and a Bean Id.
 	 *
 	 * @param bean the bean to associate.
 	 */
@@ -150,8 +148,8 @@ public class WBeanComponent extends AbstractWComponent implements DataBound, Bea
 	/**
 	 * Sets the bean id associated with this WBeanComponent.
 	 *
-	 * This bean id will be used to obtain the bean from the associated
-	 * {@link BeanProvider} whenever the bean data is required.
+	 * This bean id will be used to obtain the bean from the associated {@link BeanProvider}
+	 * whenever the bean data is required.
 	 *
 	 * @see BeanProviderBound
 	 *
@@ -172,8 +170,8 @@ public class WBeanComponent extends AbstractWComponent implements DataBound, Bea
 	}
 
 	/**
-	 * Retrieves the bean id associated with this component. This method will be
-	 * used by a {@link BeanProvider} to retrieve the bean.
+	 * Retrieves the bean id associated with this component. This method will be used by a
+	 * {@link BeanProvider} to retrieve the bean.
 	 *
 	 * @return the bean Id associated with this component.
 	 */
@@ -184,12 +182,11 @@ public class WBeanComponent extends AbstractWComponent implements DataBound, Bea
 	}
 
 	/**
-	 * Sets the bean property that this component is interested in. The bean
-	 * property is expressed in Jakarta PropertyUtils bean notation, with an
-	 * extension of "." to indicate that the bean itself should be used.
+	 * Sets the bean property that this component is interested in. The bean property is expressed
+	 * in Jakarta PropertyUtils bean notation, with an extension of "." to indicate that the bean
+	 * itself should be used.
 	 *
-	 * @param propertyName the bean property, in Jakarta PropertyUtils bean
-	 * notation.
+	 * @param propertyName the bean property, in Jakarta PropertyUtils bean notation.
 	 */
 	@Override
 	public void setBeanProperty(final String propertyName) {
@@ -222,8 +219,8 @@ public class WBeanComponent extends AbstractWComponent implements DataBound, Bea
 	}
 
 	/**
-	 * Sets the {@link BeanProvider} associated with this WBeanComponent. The
-	 * bean provider will be called to supply the bean whenever necessary.
+	 * Sets the {@link BeanProvider} associated with this WBeanComponent. The bean provider will be
+	 * called to supply the bean whenever necessary.
 	 *
 	 * @param beanProvider the bean provider to associate.
 	 */
@@ -244,8 +241,7 @@ public class WBeanComponent extends AbstractWComponent implements DataBound, Bea
 	/**
 	 * Returns the data for this component. The following are searched in order:
 	 * <ul>
-	 * <li>A value set explicitly in the ui context using
-	 * {@link #setData(Object)}</li>
+	 * <li>A value set explicitly in the ui context using {@link #setData(Object)}</li>
 	 * <li>If a bean is available; the bean's value.</li>
 	 * <li>The value set on the shared model.</li>
 	 * </ul>
@@ -274,8 +270,8 @@ public class WBeanComponent extends AbstractWComponent implements DataBound, Bea
 	}
 
 	/**
-	 * Retrieves the bean value. The value is (temporarily) cached in the
-	 * scratch map to speed up subsequent accesses.
+	 * Retrieves the bean value. The value is (temporarily) cached in the scratch map to speed up
+	 * subsequent accesses.
 	 *
 	 * @return the bean value, or null if no bean value is available.
 	 */
@@ -347,9 +343,8 @@ public class WBeanComponent extends AbstractWComponent implements DataBound, Bea
 	}
 
 	/**
-	 * Sets the data that this component displays/edits. For bean aware
-	 * components, this should only be called from handleRequest to set
-	 * user-entered data.
+	 * Sets the data that this component displays/edits. For bean aware components, this should only
+	 * be called from handleRequest to set user-entered data.
 	 *
 	 * @param data the data to set.
 	 */
@@ -382,14 +377,13 @@ public class WBeanComponent extends AbstractWComponent implements DataBound, Bea
 	}
 
 	/**
-	 * Indicates whether this component's data has changed from the default
-	 * value.
+	 * Indicates whether this component's data has changed from the default value.
 	 *
-	 * TODO: This needs to be added to the databound interface after the bulk of
-	 * the components have been converted.
+	 * TODO: This needs to be added to the databound interface after the bulk of the components have
+	 * been converted.
 	 *
-	 * @return true if this component's current value differs from the default
-	 * value for the given context.
+	 * @return true if this component's current value differs from the default value for the given
+	 * context.
 	 */
 	public boolean isChanged() {
 		Object currentValue = getData();
@@ -403,8 +397,8 @@ public class WBeanComponent extends AbstractWComponent implements DataBound, Bea
 	}
 
 	/**
-	 * Resets the data back to the default value, which may either be from a
-	 * bean or the shared model.
+	 * Resets the data back to the default value, which may either be from a bean or the shared
+	 * model.
 	 */
 	public void resetData() {
 		getComponentModel().resetData();
