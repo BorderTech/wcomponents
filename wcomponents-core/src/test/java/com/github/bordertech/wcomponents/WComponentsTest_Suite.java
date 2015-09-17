@@ -72,7 +72,7 @@ import org.junit.runners.Suite;
 	WContent_Test.class,
 	WContentLink_Test.class,
 	WComponentGroup_Test.class,
-	WComponentPerformance_Test.class,
+	WComponentsPerformance_Test.class,
 	WDropdown_Test.class,
 	WFileWidget_Test.class,
 	WMultiFileWidget_Test.class,
@@ -161,5 +161,5 @@ import org.junit.runners.Suite;
 	TestApp_Test.class,
 	ThemeUtil_Test.class
 })
-public class WComponent_Suite {
+public class WComponentsTest_Suite {
 }
