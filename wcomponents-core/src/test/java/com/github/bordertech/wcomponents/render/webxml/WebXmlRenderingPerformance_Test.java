@@ -25,8 +25,8 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
 /**
- * Tests to check the performance of WComponent XML rendering. This test does
- * not check that the XML output is correct - see the tests for each Renderer.
+ * Tests to check the performance of WComponent XML rendering. This test does not check that the XML
+ * output is correct - see the tests for each Renderer.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -35,16 +35,15 @@ import org.junit.experimental.categories.Category;
 public class WebXmlRenderingPerformance_Test extends AbstractWComponentTestCase {
 
 	/**
-	 * The number of repetitions to use for testing serialization time. This
-	 * should be set to be greater than the minimum number of invocations
-	 * required to trigger JIT compilation.
+	 * The number of repetitions to use for testing serialization time. This should be set to be
+	 * greater than the minimum number of invocations required to trigger JIT compilation.
 	 */
 	private static final int NUM_REPETITIONS = 2000;
 
 	/**
 	 * The logger instance for this class.
 	 */
-	private static final Log log = LogFactory.getLog(WebXmlRenderingPerformance_Test.class);
+	private static final Log LOG = LogFactory.getLog(WebXmlRenderingPerformance_Test.class);
 
 	@Test
 	public void testRenderingPerformance() throws Exception {
@@ -52,7 +51,7 @@ public class WebXmlRenderingPerformance_Test extends AbstractWComponentTestCase 
 		final UIContext uic = createUIContext();
 		sendRequest(component, uic);
 
-		// Render and store the XML to compare against 
+		// Render and store the XML to compare against
 		setActiveContext(uic);
 		StringWriter tempStringWriter = new StringWriter();
 		PrintWriter tempPrintWriter = new PrintWriter(tempStringWriter);
@@ -64,7 +63,7 @@ public class WebXmlRenderingPerformance_Test extends AbstractWComponentTestCase 
 		final byte[] xml = tempStringWriter.toString().getBytes("UTF-8");
 		final CountingNullPrintWriter nullWriter = new CountingNullPrintWriter();
 
-		log.info("Rendered UI size: " + xml.length + " bytes");
+		LOG.info("Rendered UI size: " + xml.length + " bytes");
 
 		Runnable runnable = new Runnable() {
 			@Override
@@ -105,8 +104,8 @@ public class WebXmlRenderingPerformance_Test extends AbstractWComponentTestCase 
 		Assert.assertEquals("Incorrect amount of rendered data written", xml.length * NUM_REPETITIONS, nullWriter.getCount());
 		nullWriter.resetCount();
 
-		log.info("Raw write time: " + (rawTime / 1000000.0) + "ms");
-		log.info("WComponent render time: " + (renderTime / 1000000.0) + "ms");
+		LOG.info("Raw write time: " + (rawTime / 1000000.0) + "ms");
+		LOG.info("WComponent render time: " + (renderTime / 1000000.0) + "ms");
 		Assert.assertTrue("WComponent render time should not exceed 5x raw write time", renderTime < rawTime * 5);
 	}
 
@@ -154,14 +153,14 @@ public class WebXmlRenderingPerformance_Test extends AbstractWComponentTestCase 
 
 		long renderTime10 = time(runnable) / NUM_REPETITIONS;
 
-		log.info("Render 1x time: " + (renderTime1 / 1000000.0) + "ms");
-		log.info("Render 10x time: " + (renderTime10 / 1000000.0) + "ms");
+		LOG.info("Render 1x time: " + (renderTime1 / 1000000.0) + "ms");
+		LOG.info("Render 10x time: " + (renderTime10 / 1000000.0) + "ms");
 		Assert.assertTrue("Render time scaling should be O(n)", renderTime10 < renderTime1 * 12); // TODO: Figure out why this doesn't scale nicely.
 	}
 
 	/**
-	 * Invokes WComponent request processing, so that this test case can more
-	 * closely match a production scenario.
+	 * Invokes WComponent request processing, so that this test case can more closely match a
+	 * production scenario.
 	 *
 	 * @param comp the component to invoke request processing on.
 	 * @param uic the user context to use.
@@ -202,7 +201,7 @@ public class WebXmlRenderingPerformance_Test extends AbstractWComponentTestCase 
 		/**
 		 * Creates the writer.
 		 */
-		public CountingNullPrintWriter() {
+		private CountingNullPrintWriter() {
 			super(new Writer() {
 				@Override
 				public void write(final char[] cbuf, final int off, final int len) {

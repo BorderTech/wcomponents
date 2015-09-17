@@ -68,6 +68,10 @@ public class WTabGroupRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 	/**
 	 * Tabs can not be used stand-alone, so we must test them through a WTabSet.
+	 *
+	 * @param tabGroup the tab group to wrap
+	 *
+	 * @return wrapped tab group
 	 */
 	private WComponent wrapTabGroup(final WTabGroup tabGroup) {
 		WTabSet tabSet = new WTabSet();

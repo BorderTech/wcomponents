@@ -113,7 +113,7 @@ public class AjaxDebugStructureInterceptor_Test extends AbstractWebXmlRendererTe
 		/**
 		 * Creates the test app.
 		 */
-		public MyApp() {
+		private MyApp() {
 			trigger.setAjaxTarget(target);
 			add(trigger);
 			add(target);

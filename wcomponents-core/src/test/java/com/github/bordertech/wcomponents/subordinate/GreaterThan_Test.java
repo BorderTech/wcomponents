@@ -51,7 +51,7 @@ public class GreaterThan_Test extends AbstractWComponentTestCase {
 	public void testDoCompare() {
 		WNumberField trigger = new WNumberField();
 
-        // ------------------------------
+		// ------------------------------
 		// Setup GREATER THAN - with value
 		GreaterThan compare = new GreaterThan(trigger, EQ_VALUE);
 
@@ -67,7 +67,7 @@ public class GreaterThan_Test extends AbstractWComponentTestCase {
 		trigger.setNumber(GT_VALUE);
 		Assert.assertTrue("Greater Than - Compare for greater value should be true", compare.execute());
 
-        // ------------------------------
+		// ------------------------------
 		// Setup GREATER THAN - with null value
 		compare = new GreaterThan(trigger, null);
 

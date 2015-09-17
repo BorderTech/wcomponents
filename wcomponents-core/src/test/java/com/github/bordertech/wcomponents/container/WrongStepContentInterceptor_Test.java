@@ -4,6 +4,7 @@ import com.github.bordertech.wcomponents.AbstractWComponentTestCase;
 import com.github.bordertech.wcomponents.ActionEscape;
 import com.github.bordertech.wcomponents.ContentEscape;
 import com.github.bordertech.wcomponents.Environment;
+import com.github.bordertech.wcomponents.ErrorCodeEscape;
 import com.github.bordertech.wcomponents.MockContentAccess;
 import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.WApplication;
@@ -26,8 +27,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * WrongStepContentComponent_Test - unit tests for
- * {@link WrongStepContentInterceptor}.
+ * WrongStepContentComponent_Test - unit tests for {@link WrongStepContentInterceptor}.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -53,13 +53,14 @@ public class WrongStepContentInterceptor_Test extends AbstractWComponentTestCase
 		Assert.assertEquals("Should have returned content", MyContent.CONTENT, new String(response.getOutput()));
 	}
 
+	@Test
 	public void testErrorDirectContent() {
 		Config.getInstance().setProperty(StepCountUtil.STEP_ERROR_URL_PARAMETER_KEY, "http://test.test");
 
 		MyApp app = new MyApp();
 		app.setLocked(true);
 		MockResponse response = sendContentRequest(app.appContent, 1, 99);
-		Assert.assertEquals("Should have returned error", HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+		Assert.assertEquals("Should have returned error", HttpServletResponse.SC_BAD_REQUEST,
 				response.getErrorCode());
 	}
 
@@ -102,6 +103,14 @@ public class WrongStepContentInterceptor_Test extends AbstractWComponentTestCase
 			} catch (IOException e) {
 				Assert.fail("Failed to write content");
 			}
+		} catch (ErrorCodeEscape escape) {
+			try {
+				escape.setRequest(request);
+				escape.setResponse(response);
+				escape.escape();
+			} catch (IOException e) {
+				Assert.fail("Failed to write error content");
+			}
 		} catch (ActionEscape ignored) {
 			// don't care
 		}
@@ -123,7 +132,7 @@ public class WrongStepContentInterceptor_Test extends AbstractWComponentTestCase
 		/**
 		 * Creates the mock content.
 		 */
-		public MyContent() {
+		private MyContent() {
 			MockContentAccess content = new MockContentAccess();
 			content.setMimeType("text/plain");
 			content.setBytes(CONTENT.getBytes());
@@ -143,15 +152,14 @@ public class WrongStepContentInterceptor_Test extends AbstractWComponentTestCase
 		private final WContent appContent = new MyContent();
 
 		/**
-		 * For testing that step errors for content inside a WWindow are handled
-		 * correctly.
+		 * For testing that step errors for content inside a WWindow are handled correctly.
 		 */
 		private final WWindow window = new WWindow();
 
 		/**
 		 * Creates a MyApp.
 		 */
-		public MyApp() {
+		private MyApp() {
 			add(appContent);
 			add(window);
 

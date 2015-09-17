@@ -121,8 +121,8 @@ public class InterceptorComponent_Test extends AbstractWComponentTestCase {
 			}
 		});
 
-        // This should throw an exception, as it doesn't know how to attach the UI
-		// to the anonymous WebComponent implementation. 
+		// This should throw an exception, as it doesn't know how to attach the UI
+		// to the anonymous WebComponent implementation.
 		interceptor.attachUI(new WLabel());
 	}
 

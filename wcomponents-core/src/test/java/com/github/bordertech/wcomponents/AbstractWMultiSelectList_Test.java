@@ -171,7 +171,7 @@ public class AbstractWMultiSelectList_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testGetValueConvertDataToList() {
-        // =======================
+		// =======================
 		// ALLOW NONE - TRUE
 
 		AbstractWMultiSelectList multi = new MyWMultiSelectList(OPTIONS, true);
@@ -214,7 +214,7 @@ public class AbstractWMultiSelectList_Test extends AbstractWComponentTestCase {
 
 		resetContext();
 
-        // =======================
+		// =======================
 		// ALLOW NONE - FALSE
 		multi = new MyWMultiSelectList(OPTIONS, false);
 
@@ -281,7 +281,7 @@ public class AbstractWMultiSelectList_Test extends AbstractWComponentTestCase {
 				multi.getValue());
 		resetContext();
 
-        // =======================
+		// =======================
 		// ALLOW NONE - FALSE
 		// Null Options
 		multi = new MyWMultiSelectList(null, false);
@@ -306,7 +306,7 @@ public class AbstractWMultiSelectList_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testGetValueWithOptionsNothingSelected() {
-        // =======================
+		// =======================
 		// ALLOW NONE - TRUE
 
 		AbstractWMultiSelectList multi = new MyWMultiSelectList(OPTIONS, true);
@@ -320,7 +320,7 @@ public class AbstractWMultiSelectList_Test extends AbstractWComponentTestCase {
 				multi.getValue());
 		resetContext();
 
-        // =======================
+		// =======================
 		// ALLOW NONE - FALSE
 		multi = new MyWMultiSelectList(OPTIONS, false);
 		// Should be the first option
@@ -339,7 +339,7 @@ public class AbstractWMultiSelectList_Test extends AbstractWComponentTestCase {
 		List<String> selectedC = Arrays.asList(OPTION_C);
 		List<String> selectedB = Arrays.asList(OPTION_B);
 
-        // =======================
+		// =======================
 		// ALLOW NONE - TRUE
 		AbstractWMultiSelectList multi = new MyWMultiSelectList(OPTIONS, true);
 		// Set OptionC as default
@@ -360,7 +360,7 @@ public class AbstractWMultiSelectList_Test extends AbstractWComponentTestCase {
 		resetContext();
 		Assert.assertEquals("Allow None - should be optionC selected", OPTION_C, multi.getValue().get(0));
 
-        // =======================
+		// =======================
 		// ALLOW NONE - FALSE
 		multi = new MyWMultiSelectList(OPTIONS, false);
 		// Set OptionC as default
@@ -385,7 +385,7 @@ public class AbstractWMultiSelectList_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testGetValueDefaultWithNullOption() {
 
-        // =======================
+		// =======================
 		// Allow None - TRUE
 		AbstractWMultiSelectList multi = new MyWMultiSelectList(OPTIONS_WITH_NULL, true);
 
@@ -397,7 +397,7 @@ public class AbstractWMultiSelectList_Test extends AbstractWComponentTestCase {
 		Assert.assertEquals("Allow None - Selected should be empty with uic", EMPTY_LIST, multi.getValue());
 		resetContext();
 
-        // =======================
+		// =======================
 		// Allow None - FALSE
 		multi = new MyWMultiSelectList(OPTIONS_WITH_NULL, false);
 
@@ -413,7 +413,7 @@ public class AbstractWMultiSelectList_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testGetValueWithBean() {
-        // =======================
+		// =======================
 		// Allow None - TRUE
 
 		AbstractWMultiSelectList multi = new MyWMultiSelectList(OPTIONS, true);
@@ -442,7 +442,7 @@ public class AbstractWMultiSelectList_Test extends AbstractWComponentTestCase {
 		}
 		resetContext();
 
-        // =======================
+		// =======================
 		// Allow None - FALSE
 		multi = new MyWMultiSelectList(OPTIONS, false);
 		// Set Bean Property
@@ -487,12 +487,12 @@ public class AbstractWMultiSelectList_Test extends AbstractWComponentTestCase {
 		multi.setBean("USERTEXT");
 		Assert.assertEquals("Should be user text selected", userTextList, multi.getValue());
 
-        // ===============
+		// ===============
 		// Null Options
 		multi.setOptions((List<?>) null);
 		Assert.assertEquals("Should be user text selected", userTextList, multi.getValue());
 
-        // ===============
+		// ===============
 		// Empty Options
 		multi.setOptions(EMPTY_LIST);
 		Assert.assertEquals("Should be user text selected", userTextList, multi.getValue());
@@ -501,7 +501,7 @@ public class AbstractWMultiSelectList_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testGetData() {
 
-        // =======================
+		// =======================
 		// ALLOW NONE - TRUE
 		AbstractWMultiSelectList multi = new MyWMultiSelectList(OPTIONS, true);
 
@@ -542,7 +542,7 @@ public class AbstractWMultiSelectList_Test extends AbstractWComponentTestCase {
 
 		resetContext();
 
-        // =======================
+		// =======================
 		// ALLOW NONE - FALSE
 		multi = new MyWMultiSelectList(OPTIONS, false);
 
@@ -581,7 +581,7 @@ public class AbstractWMultiSelectList_Test extends AbstractWComponentTestCase {
 		multi.setBean(OPTION_B);
 		Assert.assertEquals("No Allow None - getData for Object data should be the Object", OPTION_B, multi.getData());
 
-        // =======================
+		// =======================
 		// Include "null" as an option
 		multi.setOptions(OPTIONS_WITH_NULL);
 
@@ -603,7 +603,7 @@ public class AbstractWMultiSelectList_Test extends AbstractWComponentTestCase {
 				.assertEquals("No Allow None - Null is an option -  getData for empty array data should be a list with the null option",
 						SELECTED_NULL, multi.getData());
 
-        // =======================
+		// =======================
 		// No Options
 		multi.setOptions((List<?>) null);
 
@@ -748,7 +748,7 @@ public class AbstractWMultiSelectList_Test extends AbstractWComponentTestCase {
 		List<String> userTextList = new ArrayList<>(Arrays.asList("USERTEXT"));
 		List<String> userTextList2 = new ArrayList<>(Arrays.asList("USERTEXT2"));
 
-        // ===================
+		// ===================
 		// Null Options
 		AbstractWMultiSelectList multi = new MyWMultiSelectList(null, true);
 		multi.setEditable(true);
@@ -769,7 +769,7 @@ public class AbstractWMultiSelectList_Test extends AbstractWComponentTestCase {
 		resetContext();
 		Assert.assertEquals("Null Options - Should be usertext selected", userTextList, multi.getData());
 
-        // ===================
+		// ===================
 		// Empty Options
 		multi = new MyWMultiSelectList(EMPTY_LIST, true);
 		multi.setEditable(true);
@@ -966,7 +966,7 @@ public class AbstractWMultiSelectList_Test extends AbstractWComponentTestCase {
 		// Set action on change
 		AbstractWMultiSelectList multi = new MyWMultiSelectList(options, true);
 
-        // Set selected to OptionA - "String Representation" (Legacy String match)
+		// Set selected to OptionA - "String Representation" (Legacy String match)
 		// Get value from the bean (nut use setData)
 		multi.setBeanProperty(".");
 
@@ -1151,7 +1151,7 @@ public class AbstractWMultiSelectList_Test extends AbstractWComponentTestCase {
 		request.setParameter(multi.getId(), OPTION_INVALID);
 		Assert.assertEquals("new selection should return optionA", SELECTED_A, multi.getNewSelections(request));
 
-        // -------------
+		// -------------
 		// Null Options
 		multi.setOptions((List<?>) null);
 		// Request with any value
@@ -1159,7 +1159,7 @@ public class AbstractWMultiSelectList_Test extends AbstractWComponentTestCase {
 		request.setParameter(multi.getId(), "any value");
 		Assert.assertTrue("result should be empty when null options", multi.getNewSelections(request).isEmpty());
 
-        // -------------
+		// -------------
 		// Empty Options
 		multi.setOptions(EMPTY_LIST);
 		// Request with a value
@@ -1167,7 +1167,7 @@ public class AbstractWMultiSelectList_Test extends AbstractWComponentTestCase {
 		request.setParameter(multi.getId(), "any value");
 		Assert.assertTrue("result should be empty when options empty", multi.getNewSelections(request).isEmpty());
 
-        // -------------
+		// -------------
 		// Editable
 		multi.setOptions(OPTIONS);
 		multi.setEditable(true);
@@ -1322,10 +1322,9 @@ public class AbstractWMultiSelectList_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testMatchingDuplicateText() {
-		MyObject[] options
-				= {
-					new MyObject("1", "Desc"),
-					new MyObject("2", "Desc"),};
+		MyObject[] options = {
+			new MyObject("1", "Desc"),
+			new MyObject("2", "Desc")};
 
 		AbstractWMultiSelectList list = new MyWMultiSelectList(Arrays.asList(options), true);
 
@@ -1371,6 +1370,14 @@ public class AbstractWMultiSelectList_Test extends AbstractWComponentTestCase {
 		 * {@inheritDoc}
 		 */
 		@Override
+		public int hashCode() {
+			return code.hashCode();
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
 		public String toString() {
 			return desc;
 		}
@@ -1379,6 +1386,7 @@ public class AbstractWMultiSelectList_Test extends AbstractWComponentTestCase {
 	/**
 	 * @param target the target component
 	 * @param option the option to select on the request
+	 * @return a mock request with a single option selected
 	 */
 	private MockRequest setupSingleOptionRequest(final AbstractWMultiSelectList target, final Object option) {
 		MockRequest request = new MockRequest();
@@ -1395,6 +1403,7 @@ public class AbstractWMultiSelectList_Test extends AbstractWComponentTestCase {
 	/**
 	 * @param target the target component
 	 * @param options the options to select on the request
+	 * @return a mock request with multiple options selected
 	 */
 	private MockRequest setupMultiOptionRequest(final AbstractWMultiSelectList target, final String[] options) {
 		MockRequest request = new MockRequest();
@@ -1416,6 +1425,7 @@ public class AbstractWMultiSelectList_Test extends AbstractWComponentTestCase {
 
 	/**
 	 * @param target the target component
+	 * @return a mock request with nothing selected
 	 */
 	private MockRequest setupNothingSelectedRequest(final AbstractWMultiSelectList target) {
 		MockRequest request = new MockRequest();
@@ -1430,13 +1440,13 @@ public class AbstractWMultiSelectList_Test extends AbstractWComponentTestCase {
 	/**
 	 * Test class for AbstractWMultiSelectList.
 	 */
-	private static class MyWMultiSelectList extends AbstractWMultiSelectList {
+	private static final class MyWMultiSelectList extends AbstractWMultiSelectList {
 
 		/**
 		 * @param options the list's options.
 		 * @param allowNoSelection if true, allow no option to be selected
 		 */
-		public MyWMultiSelectList(final List<?> options, final boolean allowNoSelection) {
+		private MyWMultiSelectList(final List<?> options, final boolean allowNoSelection) {
 			super(options, allowNoSelection);
 		}
 
@@ -1445,7 +1455,7 @@ public class AbstractWMultiSelectList_Test extends AbstractWComponentTestCase {
 		 * options from.
 		 * @param allowNoSelection if true, allow no option to be selected
 		 */
-		public MyWMultiSelectList(final Object lookupTable, final boolean allowNoSelection) {
+		private MyWMultiSelectList(final Object lookupTable, final boolean allowNoSelection) {
 			super(lookupTable, allowNoSelection);
 		}
 	}

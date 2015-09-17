@@ -163,17 +163,18 @@ public class AbstractTreeNode_Test {
 		node.remove(getNode(node, "D"));
 		Assert.assertEquals("Incorrect tree after remove of all children", "A", treeToString(node));
 	}
-
-	public void testRemoveAll() {
-		TreeNode node = buildTestTree();
-
-		// Test remove when there are no children, should not alter tree.
-		getNode(node, "C").removeAll();
-		Assert.assertEquals("Incorrect tree after remove of all children", "ABCDEFGH", treeToString(node));
-
-		getNode(node, "B").removeAll();
-		Assert.assertEquals("Incorrect tree after remove of all children", "ACDG", treeToString(node));
-	}
+// TODO Review test
+//	@Test
+//	public void testRemoveAll() {
+//		TreeNode node = buildTestTree();
+//
+//		// Test remove when there are no children, should not alter tree.
+//		getNode(node, "C").removeAll();
+//		Assert.assertEquals("Incorrect tree after remove of all children", "ABCDEFGH", treeToString(node));
+//
+//		getNode(node, "B").removeAll();
+//		Assert.assertEquals("Incorrect tree after remove of all children", "ACDG", treeToString(node));
+//	}
 
 	/**
 	 * Handy testing method for returning a String representation of the tree,
@@ -329,7 +330,7 @@ public class AbstractTreeNode_Test {
 		/**
 		 * Creates a test node with null data.
 		 */
-		public TestNode() {
+		private TestNode() {
 			this(null);
 		}
 
@@ -338,7 +339,7 @@ public class AbstractTreeNode_Test {
 		 *
 		 * @param data the test data.
 		 */
-		public TestNode(final String data) {
+		private TestNode(final String data) {
 			this.data = data;
 		}
 

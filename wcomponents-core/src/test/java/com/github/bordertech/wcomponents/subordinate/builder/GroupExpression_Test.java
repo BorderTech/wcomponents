@@ -96,7 +96,7 @@ public final class GroupExpression_Test {
 			new TruthTableRow(false, true, false, false),
 			new TruthTableRow(false, true, false, true),
 			new TruthTableRow(false, true, true, false),
-			new TruthTableRow(true, true, true, true),};
+			new TruthTableRow(true, true, true, true)};
 
 		for (TruthTableRow row : testData) {
 			GroupExpression expr = new GroupExpression(GroupExpression.Type.AND);
@@ -139,7 +139,7 @@ public final class GroupExpression_Test {
 			new TruthTableRow(true, true, false, false),
 			new TruthTableRow(true, true, false, true),
 			new TruthTableRow(true, true, true, false),
-			new TruthTableRow(true, true, true, true),};
+			new TruthTableRow(true, true, true, true)};
 
 		for (TruthTableRow row : testData) {
 			GroupExpression expr = new GroupExpression(GroupExpression.Type.OR);
@@ -173,13 +173,13 @@ public final class GroupExpression_Test {
 		GroupExpression expr = new GroupExpression(GroupExpression.Type.NOT);
 		expr.add(new BooleanLiteral(true));
 
-		Assert.assertFalse("NOT for true literal should be false", expr.evaluate().booleanValue());
+		Assert.assertFalse("NOT for true literal should be false", expr.evaluate());
 
 		// False Literal
 		expr = new GroupExpression(GroupExpression.Type.NOT);
 		expr.add(new BooleanLiteral(false));
 
-		Assert.assertTrue("NOT for false literal should be true", expr.evaluate().booleanValue());
+		Assert.assertTrue("NOT for false literal should be true", expr.evaluate());
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -354,7 +354,7 @@ public final class GroupExpression_Test {
 		 * @param expected the expected outcome.
 		 * @param operands the expression operands.
 		 */
-		public TruthTableRow(final boolean expected, final Boolean... operands) {
+		private TruthTableRow(final boolean expected, final Boolean... operands) {
 			this.expected = expected;
 			this.operands = operands;
 		}
@@ -363,7 +363,7 @@ public final class GroupExpression_Test {
 	/**
 	 * Test class for boolean literal.
 	 */
-	private static class BooleanLiteral implements BooleanExpression {
+	private static final class BooleanLiteral implements BooleanExpression {
 
 		/**
 		 * Value for the boolean literal.
@@ -373,7 +373,7 @@ public final class GroupExpression_Test {
 		/**
 		 * @param value the value for the boolean literal
 		 */
-		public BooleanLiteral(final boolean value) {
+		private BooleanLiteral(final boolean value) {
 			this.value = value;
 		}
 

@@ -312,13 +312,13 @@ public class AbstractWSelectList_Test extends AbstractWComponentTestCase {
 	/**
 	 * Test class for AbstractWSelectList.
 	 */
-	private static class MyWSelectList extends AbstractWSelectList {
+	private static final class MyWSelectList extends AbstractWSelectList {
 
 		/**
 		 * @param options the list's options.
 		 * @param allowNoSelection if true, allow no option to be selected
 		 */
-		public MyWSelectList(final List<?> options, final boolean allowNoSelection) {
+		private MyWSelectList(final List<?> options, final boolean allowNoSelection) {
 			super(options, allowNoSelection);
 		}
 
@@ -327,7 +327,7 @@ public class AbstractWSelectList_Test extends AbstractWComponentTestCase {
 		 * options from.
 		 * @param allowNoSelection if true, allow no option to be selected
 		 */
-		public MyWSelectList(final Object lookupTable, final boolean allowNoSelection) {
+		private MyWSelectList(final Object lookupTable, final boolean allowNoSelection) {
 			super(lookupTable, allowNoSelection);
 		}
 
@@ -351,7 +351,7 @@ public class AbstractWSelectList_Test extends AbstractWComponentTestCase {
 	/**
 	 * Test class for Option.
 	 */
-	private static class MyOption implements Option {
+	private static final class MyOption implements Option {
 
 		/**
 		 * Option code value.
@@ -368,7 +368,7 @@ public class AbstractWSelectList_Test extends AbstractWComponentTestCase {
 		 * @param code the option code value.
 		 * @param desc the option description value.
 		 */
-		public MyOption(final String code, final String desc) {
+		private MyOption(final String code, final String desc) {
 			this.code = code;
 			this.desc = desc;
 		}

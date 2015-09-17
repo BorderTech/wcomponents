@@ -137,7 +137,7 @@ public class WMessages_Test extends AbstractWComponentTestCase {
 		/**
 		 * Creates a MessageContainerImpl.
 		 */
-		public MessageContainerImpl() {
+		private MessageContainerImpl() {
 			add(messages);
 		}
 

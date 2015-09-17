@@ -15,11 +15,11 @@ public class WFilterControl_Test extends AbstractWComponentTestCase {
 	/**
 	 * Default value used for testing.
 	 */
-	private final static String DEFAULT_VALUE = "DEFAULT";
+	private static final String DEFAULT_VALUE = "DEFAULT";
 	/**
 	 * Value used for testing.
 	 */
-	private final static String TEST_VALUE = "TEST";
+	private static final String TEST_VALUE = "TEST";
 
 	@Test
 	public void testConstructor1() {

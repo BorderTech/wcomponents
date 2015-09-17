@@ -22,17 +22,17 @@ public class UicStatsAsHtml_Test extends AbstractWComponentTestCase {
 	/**
 	 * template for first line of expected html in testWriter.
 	 */
-	private final static String UICSTATS_HTML1 = "<dt>Total root wcomponents found in UIC</dt><dd><<NUM_ROOTS>></dd>";
+	private static final String UICSTATS_HTML1 = "<dt>Total root wcomponents found in UIC</dt><dd><<NUM_ROOTS>></dd>";
 
 	/**
 	 * template for second line of expected html in testWriter.
 	 */
-	private final static String UICSTATS_HTML2 = "<b>Number of components in tree:</b> <<NUM_COMPONENTS>>";
+	private static final String UICSTATS_HTML2 = "<b>Number of components in tree:</b> <<NUM_COMPONENTS>>";
 
 	/**
 	 * template for third line of expected html in testWriter.
 	 */
-	private final static String UICSTATS_HTML3 = "<td><<CLASS_NAME>></td><td>Serializable</td>";
+	private static final String UICSTATS_HTML3 = "<td><<CLASS_NAME>></td><td>Serializable</td>";
 
 	/**
 	 * Test writer.
@@ -68,7 +68,7 @@ public class UicStatsAsHtml_Test extends AbstractWComponentTestCase {
 		String uicStatsHtml32 = UICSTATS_HTML3.replaceAll("<<CLASS_NAME>>", "com.github.bordertech.wcomponents.WButton");
 		String uicStatsHtml33 = UICSTATS_HTML3.replaceAll("<<CLASS_NAME>>", "com.github.bordertech.wcomponents.WLabel");
 
-		String[] expectedResults = {uicStatsHtml1, uicStatsHtml2, uicStatsHtml31, uicStatsHtml32, uicStatsHtml33,};
+		String[] expectedResults = {uicStatsHtml1, uicStatsHtml2, uicStatsHtml31, uicStatsHtml32, uicStatsHtml33};
 
 		String result = outStr.toString();
 		for (int i = 0; i < expectedResults.length; i++) {

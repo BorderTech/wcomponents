@@ -50,7 +50,7 @@ public class LessThan_Test extends AbstractWComponentTestCase {
 	public void testDoCompare() {
 		WNumberField trigger = new WNumberField();
 
-        // ------------------------------
+		// ------------------------------
 		// Setup LESS THAN - with value
 		LessThan compare = new LessThan(trigger, EQ_VALUE);
 
@@ -66,7 +66,7 @@ public class LessThan_Test extends AbstractWComponentTestCase {
 		trigger.setNumber(GT_VALUE);
 		Assert.assertFalse("Less Than - Compare for greater value should be false", compare.execute());
 
-        // ------------------------------
+		// ------------------------------
 		// Setup LESS THAN - with null value
 		compare = new LessThan(trigger, null);
 

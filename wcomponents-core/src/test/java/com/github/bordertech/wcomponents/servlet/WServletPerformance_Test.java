@@ -49,11 +49,13 @@ public class WServletPerformance_Test extends AbstractWComponentTestCase {
 	/**
 	 * The logger instance for this class.
 	 */
-	private static final Log log = LogFactory.getLog(WServletPerformance_Test.class);
+	private static final Log LOG = LogFactory.getLog(WServletPerformance_Test.class);
 
 	/**
 	 * Basic sanity-test to ensure that the WComponent app is performing all the
 	 * processing that it should.
+	 *
+	 * @throws Exception an exception
 	 */
 	@Test
 	public void testWServletAppCorrectness() throws Exception {
@@ -80,6 +82,8 @@ public class WServletPerformance_Test extends AbstractWComponentTestCase {
 	/**
 	 * Basic sanity-test to ensure that the other app is performing all the
 	 * processing that it should.
+	 *
+	 * @throws Exception an exception
 	 */
 	@Test
 	public void testOtherServletAppCorrectness() throws Exception {
@@ -103,8 +107,8 @@ public class WServletPerformance_Test extends AbstractWComponentTestCase {
 		long simpleTime = timeOtherServlet(numLoops) / numLoops;
 		long wservletTime = timeWServlet(numLoops) / numLoops;
 
-		log.info("Simple servlet time: " + (simpleTime / 1000000.0) + "ms");
-		log.info("WComponent servlet time: " + (wservletTime / 1000000.0) + "ms");
+		LOG.info("Simple servlet time: " + (simpleTime / 1000000.0) + "ms");
+		LOG.info("WComponent servlet time: " + (wservletTime / 1000000.0) + "ms");
 
 		Assert.assertTrue("WComponent servlet time should not exceed 10x simple time", wservletTime < simpleTime * 10);
 	}
@@ -115,6 +119,7 @@ public class WServletPerformance_Test extends AbstractWComponentTestCase {
 	 *
 	 * @param count the number of times to loop.
 	 * @return the elapsed time, in nanoseconds.
+	 * @throws Exception an exception
 	 */
 	private long timeWServlet(final int count) throws Exception {
 		final SimpleWServlet servlet = new SimpleWServlet();
@@ -147,7 +152,7 @@ public class WServletPerformance_Test extends AbstractWComponentTestCase {
 						sendWServletRequest(servlet, simpleWServletSession, i, token2);
 					}
 				} catch (Exception e) {
-					log.error("Failed to execute test", e);
+					LOG.error("Failed to execute test", e);
 				}
 			}
 		};
@@ -161,6 +166,7 @@ public class WServletPerformance_Test extends AbstractWComponentTestCase {
 	 *
 	 * @param count the number of times to loop.
 	 * @return the elapsed time, in nanoseconds.
+	 * @throws Exception an exception
 	 */
 	private long timeOtherServlet(final int count) throws Exception {
 		final SimpleServlet servlet = new SimpleServlet();
@@ -182,7 +188,7 @@ public class WServletPerformance_Test extends AbstractWComponentTestCase {
 						sendOtherServletRequest(servlet, simpleServletSession, i);
 					}
 				} catch (Exception e) {
-					log.error("Failed to execute test", e);
+					LOG.error("Failed to execute test", e);
 				}
 			}
 		};
@@ -194,7 +200,10 @@ public class WServletPerformance_Test extends AbstractWComponentTestCase {
 	 * Invokes WComponent servlet processing.
 	 *
 	 * @param servlet the servlet to invoke request processing on.
-	 * @param uic the user context to use.
+	 * @param session the current session.
+	 * @param step the step count
+	 * @param token the session token
+	 * @throws Exception an exception
 	 */
 	private void sendWServletRequest(final WServlet servlet, final HttpSession session, final int step, final String token) throws Exception {
 		MockHttpServletRequest request = new MockHttpServletRequest(session);
@@ -222,7 +231,9 @@ public class WServletPerformance_Test extends AbstractWComponentTestCase {
 	 * Invokes the other servlet request processing.
 	 *
 	 * @param servlet the servlet to invoke request processing on.
-	 * @param uic the user context to use.
+	 * @param session the current session.
+	 * @param step the step count
+	 * @throws Exception an exception
 	 */
 	private void sendOtherServletRequest(final SimpleServlet servlet, final HttpSession session, final int step) throws Exception {
 		MockHttpServletRequest request = new MockHttpServletRequest(session);
@@ -310,7 +321,7 @@ public class WServletPerformance_Test extends AbstractWComponentTestCase {
 		/**
 		 * The logger instance for this class.
 		 */
-		private static final Log log = LogFactory.getLog(SimpleServlet.class);
+		private static final Log LOG = LogFactory.getLog(SimpleServlet.class);
 
 		/**
 		 * {@inheritDoc}
@@ -319,10 +330,10 @@ public class WServletPerformance_Test extends AbstractWComponentTestCase {
 		protected void service(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 			try {
 				// Match logging overhead
-				log.info("Service called " + this + " from " + request.getRequestURL());
+				LOG.info("Service called " + this + " from " + request.getRequestURL());
 				doAction(request);
 				doRender(request, response);
-				log.info("service complete");
+				LOG.info("service complete");
 			} catch (Exception e) {
 				throw new ServletException("Internal error", e);
 			}

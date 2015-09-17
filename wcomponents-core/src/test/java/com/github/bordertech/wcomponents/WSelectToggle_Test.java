@@ -169,7 +169,10 @@ public class WSelectToggle_Test extends AbstractWComponentTestCase {
 	 */
 	private static final class MyDataModel extends SimpleTableDataModel {
 
-		public MyDataModel() {
+		/**
+		 * Construct model.
+		 */
+		private MyDataModel() {
 			super(new String[][]{{"a"}, {"b"}, {"c"}});
 		}
 

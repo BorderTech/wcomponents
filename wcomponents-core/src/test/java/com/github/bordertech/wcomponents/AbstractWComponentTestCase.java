@@ -23,7 +23,7 @@ public abstract class AbstractWComponentTestCase {
 	/**
 	 * The logger instance for this class.
 	 */
-	private static final Log log = LogFactory.getLog(AbstractWComponentTestCase.class);
+	private static final Log LOG = LogFactory.getLog(AbstractWComponentTestCase.class);
 
 	/**
 	 * Creates a UI Context.
@@ -158,7 +158,7 @@ public abstract class AbstractWComponentTestCase {
 					runnable.run();
 					result[0] = threadMxBean.getCurrentThreadCpuTime();
 				} else {
-					log.warn("Thread CPU time not supported, result may be inaccurate.");
+					LOG.warn("Thread CPU time not supported, result may be inaccurate.");
 					long start = System.currentTimeMillis();
 					runnable.run();
 					long end = System.currentTimeMillis();
@@ -171,7 +171,7 @@ public abstract class AbstractWComponentTestCase {
 			runThread.start();
 			runThread.join();
 		} catch (Exception e) {
-			log.error("Failed to run runnable", e);
+			LOG.error("Failed to run runnable", e);
 			Assert.fail(e.toString());
 		}
 
@@ -184,6 +184,7 @@ public abstract class AbstractWComponentTestCase {
 	 *
 	 * @param component the component to set the modify the flag for.
 	 * @param mask the flags to set/clear.
+	 * @param flag flag value
 	 */
 	protected void setFlag(final AbstractWComponent component, final int mask, final boolean flag) {
 		ComponentModel model = component.getOrCreateComponentModel();

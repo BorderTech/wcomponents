@@ -130,6 +130,11 @@ public class DateFieldPivotValidator_Test {
 		Assert.assertEquals("Should have one validation error", 1, diags.size());
 	}
 
+	/**
+	 *
+	 * @param operator the date operator
+	 * @return the test results
+	 */
 	private String[][] runTest(final int operator) {
 		String[][] result = new String[DATES.length][DATES[0].length];
 

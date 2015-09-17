@@ -11,8 +11,7 @@ import junit.framework.Assert;
 import org.junit.Test;
 
 /**
- * AbstractWSingleSelectList_Test - unit tests for
- * {@link AbstractWSingleSelectList}.
+ * AbstractWSingleSelectList_Test - unit tests for {@link AbstractWSingleSelectList}.
  *
  * @author Jonathan Austin
  * @since 1.0.0
@@ -130,7 +129,7 @@ public class AbstractWSingleSelectList_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testGetValueConvertDataToList() {
-        // =======================
+		// =======================
 		// ALLOW NONE - TRUE
 
 		AbstractWSingleSelectList single = new MyWSingleSelectList(OPTIONS, true);
@@ -152,7 +151,7 @@ public class AbstractWSingleSelectList_Test extends AbstractWComponentTestCase {
 
 		resetContext();
 
-        // =======================
+		// =======================
 		// ALLOW NONE - FALSE
 		single = new MyWSingleSelectList(OPTIONS, false);
 
@@ -197,7 +196,7 @@ public class AbstractWSingleSelectList_Test extends AbstractWComponentTestCase {
 		Assert.assertNull("Allow none - Empty Options -  should be null selected with uic", single.getValue());
 		resetContext();
 
-        // =======================
+		// =======================
 		// ALLOW NONE - FALSE
 		// Null Options
 		single = new MyWSingleSelectList(null, false);
@@ -220,7 +219,7 @@ public class AbstractWSingleSelectList_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testGetValueWithOptionsNothingSelected() {
-        // =======================
+		// =======================
 		// ALLOW NONE - TRUE
 
 		AbstractWSingleSelectList single = new MyWSingleSelectList(OPTIONS, true);
@@ -233,7 +232,7 @@ public class AbstractWSingleSelectList_Test extends AbstractWComponentTestCase {
 		Assert.assertNull("Allow none - Nothing selected - should be null selected with uic", single.getValue());
 		resetContext();
 
-        // =======================
+		// =======================
 		// ALLOW NONE - FALSE
 		single = new MyWSingleSelectList(OPTIONS, false);
 		// Should be the first option
@@ -248,7 +247,7 @@ public class AbstractWSingleSelectList_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testGetValueWithDefaultSet() {
-        // =======================
+		// =======================
 		// ALLOW NONE - TRUE
 
 		AbstractWSingleSelectList single = new MyWSingleSelectList(OPTIONS, true);
@@ -270,7 +269,7 @@ public class AbstractWSingleSelectList_Test extends AbstractWComponentTestCase {
 		resetContext();
 		Assert.assertEquals("Allow None - should be optionC selected", OPTION_C, single.getValue());
 
-        // =======================
+		// =======================
 		// ALLOW NONE - FALSE
 		single = new MyWSingleSelectList(OPTIONS, false);
 		// Set OptionC as default
@@ -295,7 +294,7 @@ public class AbstractWSingleSelectList_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testGetValueDefaultWithNullOption() {
 
-        // =======================
+		// =======================
 		// Allow None - TRUE
 		AbstractWSingleSelectList single = new MyWSingleSelectList(OPTIONS_WITH_NULL, true);
 
@@ -307,7 +306,7 @@ public class AbstractWSingleSelectList_Test extends AbstractWComponentTestCase {
 		Assert.assertNull("Allow None - Selected should be null with uic", single.getValue());
 		resetContext();
 
-        // =======================
+		// =======================
 		// Allow None - FALSE
 		single = new MyWSingleSelectList(OPTIONS_WITH_NULL, false);
 
@@ -323,7 +322,7 @@ public class AbstractWSingleSelectList_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testGetValueWithBean() {
-        // =======================
+		// =======================
 		// Allow None - TRUE
 
 		AbstractWSingleSelectList single = new MyWSingleSelectList(OPTIONS, true);
@@ -352,7 +351,7 @@ public class AbstractWSingleSelectList_Test extends AbstractWComponentTestCase {
 		}
 		resetContext();
 
-        // =======================
+		// =======================
 		// Allow None - FALSE
 		single = new MyWSingleSelectList(OPTIONS, false);
 		// Set Bean Property
@@ -394,12 +393,12 @@ public class AbstractWSingleSelectList_Test extends AbstractWComponentTestCase {
 		single.setBean("USERTEXT");
 		Assert.assertEquals("Should be user text selected", "USERTEXT", single.getValue());
 
-        // ===============
+		// ===============
 		// Null Options
 		single.setOptions((List<?>) null);
 		Assert.assertEquals("Should be user text selected", "USERTEXT", single.getValue());
 
-        // ===============
+		// ===============
 		// Empty Options
 		single.setOptions(EMPTY_LIST);
 		Assert.assertEquals("Should be user text selected", "USERTEXT", single.getValue());
@@ -408,7 +407,7 @@ public class AbstractWSingleSelectList_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testGetData() {
 
-        // =======================
+		// =======================
 		// ALLOW NONE - TRUE
 		AbstractWSingleSelectList single = new MyWSingleSelectList(OPTIONS, true);
 
@@ -429,7 +428,7 @@ public class AbstractWSingleSelectList_Test extends AbstractWComponentTestCase {
 
 		resetContext();
 
-        // =======================
+		// =======================
 		// ALLOW NONE - FALSE
 		single = new MyWSingleSelectList(OPTIONS, false);
 
@@ -448,7 +447,7 @@ public class AbstractWSingleSelectList_Test extends AbstractWComponentTestCase {
 		single.setBean(OPTION_B);
 		Assert.assertEquals("No Allow None - getData for Object data should be the Object", OPTION_B, single.getData());
 
-        // =======================
+		// =======================
 		// Include "null" as an option
 		single.setOptions(OPTIONS_WITH_NULL);
 
@@ -456,7 +455,7 @@ public class AbstractWSingleSelectList_Test extends AbstractWComponentTestCase {
 		single.setBean(null);
 		Assert.assertNull("No Allow None - Null is an option - getData for null data should be null", single.getData());
 
-        // =======================
+		// =======================
 		// No Options
 		single.setOptions((List<?>) null);
 
@@ -573,7 +572,7 @@ public class AbstractWSingleSelectList_Test extends AbstractWComponentTestCase {
 		String userText1 = "UserText1";
 		String userText2 = "UserText2";
 
-        // ===================
+		// ===================
 		// Null Options
 		AbstractWSingleSelectList single = new MyWSingleSelectList(null, true);
 		single.setEditable(true);
@@ -594,7 +593,7 @@ public class AbstractWSingleSelectList_Test extends AbstractWComponentTestCase {
 		resetContext();
 		Assert.assertEquals("Null Options - Should be usertext selected", userText1, single.getData());
 
-        // ===================
+		// ===================
 		// Empty Options
 		single = new MyWSingleSelectList(EMPTY_LIST, true);
 		single.setEditable(true);
@@ -784,7 +783,7 @@ public class AbstractWSingleSelectList_Test extends AbstractWComponentTestCase {
 		// Set action on change
 		AbstractWSingleSelectList single = new MyWSingleSelectList(options, true);
 
-        // Set selected to OptionA - "String Representation" (Legacy String match)
+		// Set selected to OptionA - "String Representation" (Legacy String match)
 		// Get value from the bean (nut use setData)
 		single.setBeanProperty(".");
 
@@ -969,7 +968,7 @@ public class AbstractWSingleSelectList_Test extends AbstractWComponentTestCase {
 		request.setParameter(single.getId(), OPTION_INVALID);
 		Assert.assertEquals("new selection should return optionA", OPTION_A, single.getNewSelection(request));
 
-        // -------------
+		// -------------
 		// Null Options
 		single.setOptions((List<?>) null);
 		// Request with any value
@@ -977,7 +976,7 @@ public class AbstractWSingleSelectList_Test extends AbstractWComponentTestCase {
 		request.setParameter(single.getId(), "any value");
 		Assert.assertNull("result should be empty when null options", single.getNewSelection(request));
 
-        // -------------
+		// -------------
 		// Empty Options
 		single.setOptions(EMPTY_LIST);
 		// Request with a value
@@ -985,7 +984,7 @@ public class AbstractWSingleSelectList_Test extends AbstractWComponentTestCase {
 		request.setParameter(single.getId(), "any value");
 		Assert.assertNull("result should be empty when options empty", single.getNewSelection(request));
 
-        // -------------
+		// -------------
 		// Editable
 		single.setOptions(OPTIONS);
 		single.setEditable(true);
@@ -1091,7 +1090,7 @@ public class AbstractWSingleSelectList_Test extends AbstractWComponentTestCase {
 		MyObject[] options
 				= {
 					new MyObject("1", "Desc"),
-					new MyObject("2", "Desc"),};
+					new MyObject("2", "Desc")};
 
 		AbstractWSingleSelectList list = new MyWSingleSelectList(Arrays.asList(options), true);
 
@@ -1121,7 +1120,7 @@ public class AbstractWSingleSelectList_Test extends AbstractWComponentTestCase {
 		 * @param code the code
 		 * @param desc the description
 		 */
-		MyObject(final String code, final String desc) {
+		private MyObject(final String code, final String desc) {
 			this.code = code;
 			this.desc = desc;
 		}
@@ -1138,6 +1137,14 @@ public class AbstractWSingleSelectList_Test extends AbstractWComponentTestCase {
 		 * {@inheritDoc}
 		 */
 		@Override
+		public int hashCode() {
+			return code.hashCode();
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
 		public String toString() {
 			return desc;
 		}
@@ -1146,6 +1153,7 @@ public class AbstractWSingleSelectList_Test extends AbstractWComponentTestCase {
 	/**
 	 * @param target the target component
 	 * @param option the option to select on the request
+	 * @return a mock request with a selected option
 	 */
 	private MockRequest setupRequest(final AbstractWSingleSelectList target, final Object option) {
 		final MockRequest request = new MockRequest();
@@ -1160,6 +1168,7 @@ public class AbstractWSingleSelectList_Test extends AbstractWComponentTestCase {
 
 	/**
 	 * @param target the target component
+	 * @return a mock request with nothing selected
 	 */
 	private MockRequest setupNothingSelectedRequest(final AbstractWSingleSelectList target) {
 		final MockRequest request = new MockRequest();
@@ -1172,22 +1181,21 @@ public class AbstractWSingleSelectList_Test extends AbstractWComponentTestCase {
 	/**
 	 * Test class for AbstractWSingleSelectList.
 	 */
-	private static class MyWSingleSelectList extends AbstractWSingleSelectList {
+	private static final class MyWSingleSelectList extends AbstractWSingleSelectList {
 
 		/**
 		 * @param options the list's options.
 		 * @param allowNoSelection if true, allow no option to be selected
 		 */
-		public MyWSingleSelectList(final List<?> options, final boolean allowNoSelection) {
+		private MyWSingleSelectList(final List<?> options, final boolean allowNoSelection) {
 			super(options, allowNoSelection);
 		}
 
 		/**
-		 * @param lookupTable the lookup table identifier to obtain the list's
-		 * options from.
+		 * @param lookupTable the lookup table identifier to obtain the list's options from.
 		 * @param allowNoSelection if true, allow no option to be selected
 		 */
-		public MyWSingleSelectList(final Object lookupTable, final boolean allowNoSelection) {
+		private MyWSingleSelectList(final Object lookupTable, final boolean allowNoSelection) {
 			super(lookupTable, allowNoSelection);
 		}
 	}

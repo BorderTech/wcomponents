@@ -44,11 +44,15 @@ public class WMenuItemGroupRenderer_Test extends AbstractWebXmlRendererTestCase 
 	}
 
 	/**
-	 * Menus can not be used stand-alone, so we must test them through a Wmenu.
+	 * Menu group can not be used stand-alone, so we must test them through a WMenu.
+	 *
+	 * @param menuGroup the menu group to wrap
+	 *
+	 * @return the wrapped menu group
 	 */
-	private WComponent wrapMenuGroup(final WMenuItemGroup MenuGroup) {
+	private WComponent wrapMenuGroup(final WMenuItemGroup menuGroup) {
 		WMenu menu = new WMenu();
-		menu.add(MenuGroup);
+		menu.add(menuGroup);
 		return menu;
 	}
 }

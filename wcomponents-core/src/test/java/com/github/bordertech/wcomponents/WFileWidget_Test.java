@@ -290,7 +290,10 @@ public class WFileWidget_Test extends AbstractWComponentTestCase {
 	 */
 	private static final class FileUploadMockRequest extends MockRequest {
 
-		public void uploadFile(final FileItem item) {
+		/**
+		 * @param item the file item
+		 */
+		private void uploadFile(final FileItem item) {
 			getFiles().put(item.getFieldName(), item);
 		}
 	}

@@ -24,10 +24,10 @@ public class WShufflerRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 	@Test
 	public void testDoPaint() throws IOException, SAXException, XpathException {
-		String OPTION_A = "A";
-		String OPTION_B = "B";
-		String OPTION_C = "C";
-		String OPTION_X = "X";
+		String optionA = "A";
+		String optionB = "B";
+		String optionC = "C";
+		String optionX = "X";
 
 		// No options.
 		WShuffler shuffler = new WShuffler();
@@ -35,12 +35,12 @@ public class WShufflerRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo("0", "count(//ui:shuffler/ui:option)", shuffler);
 
 		// Default options
-		shuffler.setOptions(Arrays.asList(new String[]{OPTION_A, OPTION_B, OPTION_C}));
+		shuffler.setOptions(Arrays.asList(new String[]{optionA, optionB, optionC}));
 		assertSchemaMatch(shuffler);
 		assertXpathEvaluatesTo("3", "count(//ui:shuffler/ui:option)", shuffler);
-		assertXpathEvaluatesTo(OPTION_A, "//ui:shuffler/ui:option[1]", shuffler);
-		assertXpathEvaluatesTo(OPTION_B, "//ui:shuffler/ui:option[2]", shuffler);
-		assertXpathEvaluatesTo(OPTION_C, "//ui:shuffler/ui:option[3]", shuffler);
+		assertXpathEvaluatesTo(optionA, "//ui:shuffler/ui:option[1]", shuffler);
+		assertXpathEvaluatesTo(optionB, "//ui:shuffler/ui:option[2]", shuffler);
+		assertXpathEvaluatesTo(optionC, "//ui:shuffler/ui:option[3]", shuffler);
 		assertXpathEvaluatesTo("0", "//ui:shuffler/ui:option[1]/@value", shuffler);
 		assertXpathEvaluatesTo("1", "//ui:shuffler/ui:option[2]/@value", shuffler);
 		assertXpathEvaluatesTo("2", "//ui:shuffler/ui:option[3]/@value", shuffler);
@@ -52,17 +52,17 @@ public class WShufflerRenderer_Test extends AbstractWebXmlRendererTestCase {
 		// Check with user context
 		assertSchemaMatch(shuffler);
 		assertXpathEvaluatesTo("3", "count(//ui:shuffler/ui:option)", shuffler);
-		assertXpathEvaluatesTo(OPTION_A, "//ui:shuffler/ui:option[1]", shuffler);
-		assertXpathEvaluatesTo(OPTION_B, "//ui:shuffler/ui:option[2]", shuffler);
-		assertXpathEvaluatesTo(OPTION_C, "//ui:shuffler/ui:option[3]", shuffler);
+		assertXpathEvaluatesTo(optionA, "//ui:shuffler/ui:option[1]", shuffler);
+		assertXpathEvaluatesTo(optionB, "//ui:shuffler/ui:option[2]", shuffler);
+		assertXpathEvaluatesTo(optionC, "//ui:shuffler/ui:option[3]", shuffler);
 		assertXpathEvaluatesTo("0", "//ui:shuffler/ui:option[1]/@value", shuffler);
 		assertXpathEvaluatesTo("1", "//ui:shuffler/ui:option[2]/@value", shuffler);
 		assertXpathEvaluatesTo("2", "//ui:shuffler/ui:option[3]/@value", shuffler);
 
 		// User specific options
-		shuffler.setOptions(Arrays.asList(new String[]{OPTION_X}));
+		shuffler.setOptions(Arrays.asList(new String[]{optionX}));
 		assertXpathEvaluatesTo("1", "count(//ui:shuffler/ui:option)", shuffler);
-		assertXpathEvaluatesTo(OPTION_X, "//ui:shuffler/ui:option[1]", shuffler);
+		assertXpathEvaluatesTo(optionX, "//ui:shuffler/ui:option[1]", shuffler);
 		assertXpathEvaluatesTo("0", "//ui:shuffler/ui:option[1]/@value", shuffler);
 
 		// Check optional attributes

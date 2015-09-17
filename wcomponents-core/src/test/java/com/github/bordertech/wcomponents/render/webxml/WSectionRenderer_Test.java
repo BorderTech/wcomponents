@@ -26,12 +26,12 @@ public class WSectionRenderer_Test extends AbstractWebXmlRendererTestCase {
 	/**
 	 * The heading to use when testing.
 	 */
-	final String SECTION_HEADING = "WSectionRenderer_Test.heading";
+	private static final String SECTION_HEADING = "WSectionRenderer_Test.heading";
 
 	/**
 	 * The content to use when testing.
 	 */
-	final String SECTION_CONTENT = "WSectionRenderer_Test.content";
+	private static final String SECTION_CONTENT = "WSectionRenderer_Test.content";
 
 	@Test
 	public void testRendererCorrectlyConfigured() {
@@ -53,7 +53,7 @@ public class WSectionRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo("lazy", "//ui:section/@mode", section);
 		assertXpathEvaluatesTo(SECTION_CONTENT, "normalize-space(//ui:section/ui:panel)", section);
 
-        // Content Hidden
+		// Content Hidden
 		// Create User Context with UI component
 		UIContext uic = createUIContext();
 		uic.setUI(new DefaultWComponent());

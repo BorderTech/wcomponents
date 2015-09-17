@@ -36,12 +36,12 @@ import org.xml.sax.SAXException;
 
 /**
  * <p>
- * This extension of junit TestCase includes assertions and other features
- * useful for the testing WComponent XML layouts.</p>
+ * This extension of junit TestCase includes assertions and other features useful for the testing
+ * WComponent XML layouts.</p>
  *
  * <p>
- * This differs from WComponentTestCase in that developers do not need to
- * specify the schema for each component; it is derived from the theme in use.
+ * This differs from WComponentTestCase in that developers do not need to specify the schema for
+ * each component; it is derived from the theme in use.
  * </p>
  *
  * @author Yiannis Paschalidis
@@ -52,11 +52,10 @@ public abstract class AbstractWebXmlRendererTestCase extends AbstractWComponentT
 	/**
 	 * The logger instance for this class.
 	 */
-	private static final Log log = LogFactory.getLog(AbstractWebXmlRendererTestCase.class);
+	private static final Log LOG = LogFactory.getLog(AbstractWebXmlRendererTestCase.class);
 
 	/**
-	 * We need to register the "ui" prefix with XMLUnit so that we can use it in
-	 * XPath expressions.
+	 * We need to register the "ui" prefix with XMLUnit so that we can use it in XPath expressions.
 	 */
 	@BeforeClass
 	public static void registerUINamespace() {
@@ -75,8 +74,8 @@ public abstract class AbstractWebXmlRendererTestCase extends AbstractWComponentT
 	}
 
 	/**
-	 * Return the path to the schema to test against. This can be overridden if
-	 * client applications wish to validate their own components.
+	 * Return the path to the schema to test against. This can be overridden if client applications
+	 * wish to validate their own components.
 	 *
 	 * @return the schema path for the current theme in use.
 	 */
@@ -85,8 +84,8 @@ public abstract class AbstractWebXmlRendererTestCase extends AbstractWComponentT
 	}
 
 	/**
-	 * Return the schema name space URI. This can be overridden if client
-	 * applications wish to validate their own components.
+	 * Return the schema name space URI. This can be overridden if client applications wish to
+	 * validate their own components.
 	 *
 	 * @return the schema URI for the current theme in use.
 	 */
@@ -124,11 +123,11 @@ public abstract class AbstractWebXmlRendererTestCase extends AbstractWComponentT
 	/**
 	 * Obtains an XMLUnit schema validator for validating the output.
 	 *
-	 * @param xhtml the htm lto validate
+	 * @param xhtml the html to validate
 	 * @return the validator to use.
 	 */
 	protected Validator getSchemaValidator(final String xhtml) {
-        // Some web components generate a fragment of xhtml markup that does not
+		// Some web components generate a fragment of xhtml markup that does not
 		// have a single root element, so we add a "body" root element to the
 		// markup fragment and the schema fragment.
 
@@ -153,12 +152,11 @@ public abstract class AbstractWebXmlRendererTestCase extends AbstractWComponentT
 	}
 
 	/**
-	 * Wraps an XML fragment rendered by a WComponent so that it can be
-	 * validated against the schema.
+	 * Wraps an XML fragment rendered by a WComponent so that it can be validated against the
+	 * schema.
 	 *
 	 * @param xml the XML fragment to wrap
-	 * @return a wrapped copy of the given fragment, suitable for validation
-	 * against the schema.
+	 * @return a wrapped copy of the given fragment, suitable for validation against the schema.
 	 */
 	protected String wrapXHtml(final String xml) {
 		return XMLUtil.XML_DECLERATION
@@ -168,8 +166,15 @@ public abstract class AbstractWebXmlRendererTestCase extends AbstractWComponentT
 	}
 
 	/**
-	 * Renders the <code>component</code> to xhtml and asserts that the
-	 * <code>xpathExpression</code> evaluates to the <code>expectedValue</code>
+	 * Renders the <code>component</code> to xhtml and asserts that the <code>xpathExpression</code>
+	 * evaluates to the <code>expectedValue</code>.
+	 *
+	 * @param expectedValue the expected value
+	 * @param xpathExpression the xpath expression
+	 * @param component the component to validate
+	 * @throws IOException if there is an I/O error
+	 * @throws SAXException if there is a parsing error
+	 * @throws XpathException if there is a xpath error
 	 */
 	public void assertXpathEvaluatesTo(final String expectedValue, final String xpathExpression,
 			final WebComponent component) throws SAXException, IOException, XpathException {
@@ -178,8 +183,14 @@ public abstract class AbstractWebXmlRendererTestCase extends AbstractWComponentT
 	}
 
 	/**
-	 * Asserts that the <code>xpathExpression</code> evaluates to the
-	 * <code>expectedValue</code>
+	 * Asserts that the <code>xpathExpression</code> evaluates to the <code>expectedValue</code>.
+	 *
+	 * @param expectedValue the expected value
+	 * @param xpathExpression the xpath expression
+	 * @param xml the xml to validate
+	 * @throws IOException if there is an I/O error
+	 * @throws SAXException if there is a parsing error
+	 * @throws XpathException if there is a xpath error
 	 */
 	public void assertXpathEvaluatesTo(final String expectedValue, final String xpathExpression,
 			final String xml) throws SAXException, IOException, XpathException {
@@ -189,6 +200,12 @@ public abstract class AbstractWebXmlRendererTestCase extends AbstractWComponentT
 	/**
 	 * Renders the <code>component</code> to xhtml and then asserts that the
 	 * <code>xpathExpression</code> exists in that xhtml.
+	 *
+	 * @param xpathExpression the xpath expression to process
+	 * @param component the component to validate
+	 * @throws IOException if there is an I/O error
+	 * @throws SAXException if there is a parsing error
+	 * @throws XpathException if there is a xpath error
 	 */
 	public void assertXpathExists(final String xpathExpression, final WebComponent component) throws XpathException,
 			IOException, SAXException {
@@ -199,6 +216,12 @@ public abstract class AbstractWebXmlRendererTestCase extends AbstractWComponentT
 	/**
 	 * Renders the <code>component</code> to xhtml and then asserts that the
 	 * <code>xpathExpression</code> exists in that xhtml.
+	 *
+	 * @param xpathExpression the xpath expression to process
+	 * @param xhtml the xhtml to validate
+	 * @throws IOException if there is an I/O error
+	 * @throws SAXException if there is a parsing error
+	 * @throws XpathException if there is a xpath error
 	 */
 	public void assertXpathExists(final String xpathExpression, final String xhtml) throws XpathException,
 			IOException, SAXException {
@@ -208,6 +231,12 @@ public abstract class AbstractWebXmlRendererTestCase extends AbstractWComponentT
 	/**
 	 * Renders the <code>component</code> to xhtml and then asserts that the
 	 * <code>xpathExpression</code> does not exist in that xhtml.
+	 *
+	 * @param xpathExpression the xpath expression to process
+	 * @param component the component to validate
+	 * @throws IOException if there is an I/O error
+	 * @throws SAXException if there is a parsing error
+	 * @throws XpathException if there is a xpath error
 	 */
 	public void assertXpathNotExists(final String xpathExpression, final WebComponent component) throws XpathException,
 			IOException, SAXException {
@@ -218,6 +247,12 @@ public abstract class AbstractWebXmlRendererTestCase extends AbstractWComponentT
 	/**
 	 * Renders the <code>component</code> to xhtml and then asserts that the
 	 * <code>xpathExpression</code> does not exist in that xhtml.
+	 *
+	 * @param xpathExpression the xpath expression to process
+	 * @param xhtml the xhtml to validate
+	 * @throws IOException if there is an I/O error
+	 * @throws SAXException if there is a parsing error
+	 * @throws XpathException if there is a xpath error
 	 */
 	public void assertXpathNotExists(final String xpathExpression, final String xhtml) throws XpathException,
 			IOException, SAXException {
@@ -246,14 +281,16 @@ public abstract class AbstractWebXmlRendererTestCase extends AbstractWComponentT
 	 */
 	public String toXHtml(final WebComponent component) {
 		String xhtml = render(component);
-		log.debug(xhtml);
+		LOG.debug(xhtml);
 		return xhtml;
 	}
 
 	/**
-	 * Some webcomponents generate a fragment of xhtml markup that does not have
-	 * a single root element, so we add a "body" root element to the markup
-	 * fragment and the schema fragment.
+	 * Some webcomponents generate a fragment of xhtml markup that does not have a single root
+	 * element, so we add a "body" root element to the markup fragment and the schema fragment.
+	 *
+	 * @param component the component to wrap
+	 * @return the component wrapped as xhtml
 	 */
 	protected String toWrappedXHtml(final WebComponent component) {
 		String xhtmlFrag = toXHtml(component);
@@ -274,7 +311,7 @@ public abstract class AbstractWebXmlRendererTestCase extends AbstractWComponentT
 			validator.setJAXP12SchemaSource(new File(getSchemaPath()));
 			return validator;
 		} catch (SAXException ex) {
-			log.error("Unexpected error while testing", ex);
+			LOG.error("Unexpected error while testing", ex);
 			throw new IllegalStateException("Unable to set up validator");
 		}
 	}
@@ -282,9 +319,8 @@ public abstract class AbstractWebXmlRendererTestCase extends AbstractWComponentT
 	/**
 	 * Obtains a UI Context.
 	 *
-	 * This is called by many of the other methods where a UIContext is not
-	 * explicitly passed. Subclasses can therefore e.g. override this to ensure
-	 * that the same context is always used.
+	 * This is called by many of the other methods where a UIContext is not explicitly passed.
+	 * Subclasses can therefore e.g. override this to ensure that the same context is always used.
 	 *
 	 * @return a new UIContext.
 	 */
@@ -323,17 +359,15 @@ public abstract class AbstractWebXmlRendererTestCase extends AbstractWComponentT
 	}
 
 	/**
-	 * Evaluates the given XPath expression against the rendered output of the
-	 * given component.
+	 * Evaluates the given XPath expression against the rendered output of the given component.
 	 *
 	 * @param component the component to render.
 	 * @param xpathExpression the XPath expression to evaluate.
-	 * @return the result of the XPath expression on the component's rendered
-	 * format.
+	 * @return the result of the XPath expression on the component's rendered format.
 	 *
-	 * @throws IOException
-	 * @throws SAXException
-	 * @throws XpathException
+	 * @throws IOException if there is an I/O error
+	 * @throws SAXException if there is a parsing error
+	 * @throws XpathException if there is a xpath error
 	 */
 	protected String evaluateXPath(final WebComponent component, final String xpathExpression) throws IOException,
 			SAXException, XpathException {
@@ -344,9 +378,8 @@ public abstract class AbstractWebXmlRendererTestCase extends AbstractWComponentT
 	}
 
 	/**
-	 * A namespace context which can resolve the html and ui namespaces without
-	 * requiring network access. This is necessary when running tests behing a
-	 * firewall.
+	 * A namespace context which can resolve the html and ui namespaces without requiring network
+	 * access. This is necessary when running tests behing a firewall.
 	 */
 	private static final class XmlLayoutTestNamespaceContext implements NamespaceContext {
 
@@ -400,8 +433,8 @@ public abstract class AbstractWebXmlRendererTestCase extends AbstractWComponentT
 	}
 
 	/**
-	 * Generates un-escaped malicious content which would be placed as a text
-	 * node within the XML document.
+	 * Generates un-escaped malicious content which would be placed as a text node within the XML
+	 * document.
 	 *
 	 * @return some malicious content.
 	 */
@@ -410,8 +443,8 @@ public abstract class AbstractWebXmlRendererTestCase extends AbstractWComponentT
 	}
 
 	/**
-	 * Generates un-escaped malicious content which would be placed as an
-	 * attribute of a self-closing element within the XML document.
+	 * Generates un-escaped malicious content which would be placed as an attribute of a
+	 * self-closing element within the XML document.
 	 *
 	 * @return some malicious content.
 	 */
@@ -420,8 +453,8 @@ public abstract class AbstractWebXmlRendererTestCase extends AbstractWComponentT
 	}
 
 	/**
-	 * Generates un-escaped malicious content which would be placed as an
-	 * attribute of an element within the XML document.
+	 * Generates un-escaped malicious content which would be placed as an attribute of an element
+	 * within the XML document.
 	 *
 	 * @param tagName the element tag name.
 	 * @return some malicious content.
@@ -445,17 +478,17 @@ public abstract class AbstractWebXmlRendererTestCase extends AbstractWComponentT
 
 	/**
 	 * <p>
-	 * Asserts that any unsafe content has been escaped correctly. Checks
-	 * whether the XML is syntactically valid, matches the component schema and
-	 * doesn't contain any content returned by
-	 * {@link #getMaliciousAttribute()}, {@link #getMaliciousAttribute(String)}
-	 * or {@link #getMaliciousContent()}.</p>
+	 * Asserts that any unsafe content has been escaped correctly. Checks whether the XML is
+	 * syntactically valid, matches the component schema and doesn't contain any content returned by
+	 * {@link #getMaliciousAttribute()}, {@link #getMaliciousAttribute(String)} or
+	 * {@link #getMaliciousContent()}.</p>
 	 *
 	 * <p>
-	 * Note: This method assumes that no components are emitting script tags
-	 * themselves.</p>
+	 * Note: This method assumes that no components are emitting script tags themselves.</p>
 	 *
 	 * @param component the component to check.
+	 * @throws IOException if there is an I/O error
+	 * @throws SAXException if there is a parsing error
 	 */
 	public void assertSafeContent(final WebComponent component) throws IOException,
 			SAXException {
@@ -470,6 +503,8 @@ public abstract class AbstractWebXmlRendererTestCase extends AbstractWComponentT
 	 * Retrieves the webxml renderer for the given component.
 	 *
 	 * @param component the component to retrieve the renderer for.
+	 *
+	 * @return the webxml renderer for the component
 	 */
 	public Renderer getWebXmlRenderer(final WComponent component) {
 		return UIManager.getRenderer(component, new WebXmlRenderContext(new PrintWriter(new NullWriter())));

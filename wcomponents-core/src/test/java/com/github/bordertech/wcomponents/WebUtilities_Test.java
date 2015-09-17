@@ -90,7 +90,7 @@ public class WebUtilities_Test extends AbstractWComponentTestCase {
 		Assert.assertNull("Incorrect ancestor returned", WebUtilities.getClosestOfClass(WButton.class, dropdown));
 	}
 
-    // @Test
+	// @Test
 	// public void testGetWComponentPath()
 	// {
 	// // Simple test, one root element.
@@ -498,6 +498,10 @@ public class WebUtilities_Test extends AbstractWComponentTestCase {
 	/**
 	 * Compare the URLS. The parameters of the URL must be equal but they do not
 	 * have to be in the same order.
+	 *
+	 * @param actual the actual value
+	 * @param expected the expected value
+	 * @param separator the separator
 	 */
 	private void assertURLEquals(final String actual, final String expected, final String separator) {
 		// compare the path section of urls (string compare)

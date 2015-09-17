@@ -8,7 +8,7 @@ import com.github.bordertech.wcomponents.render.Render_Suite;
 import com.github.bordertech.wcomponents.servlet.Servlet_Suite;
 import com.github.bordertech.wcomponents.subordinate.Subordinate_Suite;
 import com.github.bordertech.wcomponents.testapp.TestApp_Test;
-import com.github.bordertech.wcomponents.theme.ThemeUtil_Test;
+import com.github.bordertech.wcomponents.util.ThemeUtil_Test;
 import com.github.bordertech.wcomponents.util.Util_Suite;
 import com.github.bordertech.wcomponents.validation.Validation_Suite;
 import com.github.bordertech.wcomponents.validator.Validator_Suite;
@@ -111,7 +111,7 @@ import org.junit.runners.Suite;
 	WNumberField_Test.class,
 	WPasswordField_Test.class,
 	WPhoneNumberField_Test.class,
-	WStyledText_Text.class,
+	WStyledText_Test.class,
 	WSubMenu_Test.class,
 	WSuggestions_Test.class,
 	WTab_Test.class,

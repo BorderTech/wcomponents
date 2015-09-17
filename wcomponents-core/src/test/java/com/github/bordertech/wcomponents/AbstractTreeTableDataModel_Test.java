@@ -16,7 +16,7 @@ public class AbstractTreeTableDataModel_Test {
 	/**
 	 * test row index for mock TableTreeNode.
 	 */
-	private final static int TEST_ROW_INDEX = 42;
+	private static final int TEST_ROW_INDEX = 42;
 
 	/**
 	 * test tableTreeNode.
@@ -154,15 +154,18 @@ public class AbstractTreeTableDataModel_Test {
 	 * @author Anthony O'Connor
 	 * @since 1.0.0
 	 */
-	private class TreeTableDataModelTest extends AbstractTreeTableDataModel {
+	private static final class TreeTableDataModelTest extends AbstractTreeTableDataModel {
 
-		public TreeTableDataModelTest(final TableTreeNode root) {
+		/**
+		 * @param root the root node
+		 */
+		private TreeTableDataModelTest(final TableTreeNode root) {
 			super(root);
 		}
 
 		@Override
 		public Object getValueAt(final TableTreeNode treeNode, final int col) {
-			return Integer.valueOf(TEST_ROW_INDEX);
+			return TEST_ROW_INDEX;
 		}
 	}
 }

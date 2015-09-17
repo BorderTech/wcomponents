@@ -57,8 +57,8 @@ public class UIContextImpl_Test extends AbstractWComponentTestCase {
 	}
 
 	/**
-	 * TestSumRunner - sums the first 'count' positive integers. This extends
-	 * Thread - but is run as a jUnit test case not in a webApp.
+	 * TestSumRunner - sums the first 'count' positive integers. This extends Thread - but is run as
+	 * a jUnit test case not in a webApp.
 	 */
 	private static final class TestSumRunner implements Runnable {
 
@@ -72,7 +72,10 @@ public class UIContextImpl_Test extends AbstractWComponentTestCase {
 		 */
 		private int sum = 0;
 
-		public TestSumRunner(final int count) {
+		/**
+		 * @param count the count
+		 */
+		private TestSumRunner(final int count) {
 			this.count = count;
 		}
 
@@ -83,6 +86,9 @@ public class UIContextImpl_Test extends AbstractWComponentTestCase {
 			}
 		}
 
+		/**
+		 * @return the sum
+		 */
 		public int getSum() {
 			return sum;
 		}
@@ -552,16 +558,17 @@ public class UIContextImpl_Test extends AbstractWComponentTestCase {
 		// Lock component
 		table.setLocked(true);
 
-		// Set the repeater as the "UI" for context
+		// Set the table as the "UI" for context
 		UIContext uic = new UIContextImpl();
 		uic.setUI(table);
 
 		setActiveContext(uic);
 
-		// Setup the bean list on the top level repeater
+		// Setup the bean list on the table
 		table.setBean(beans);
 
 		// ServiceRequest on the repeater (to create the SubUiContexts)
+		// The prepare paint will set the row with the option "D" as focused
 		MockRequest request = new MockRequest();
 		table.preparePaint(request);
 
@@ -681,16 +688,18 @@ public class UIContextImpl_Test extends AbstractWComponentTestCase {
 	/**
 	 * Table used in expandable level.
 	 */
-	private static class MyTable extends WTable {
+	private static final class MyTable extends WTable {
 
 		/**
-		 * Construct.
+		 * Construct. Package protected constructor so can instanciated by WTable as the expandable
+		 * content.
 		 */
-		public MyTable() {
+		MyTable() {
 			setTableModel(new SimpleBeanBoundTableModel(new String[]{"."}));
 			WBeanComponent col = new WBeanComponent() {
+
 				@Override
-				protected void preparePaintComponent(Request request) {
+				protected void preparePaintComponent(final Request request) {
 					String bean = (String) getData();
 					if ("D".equals(bean)) {
 						setFocussed();

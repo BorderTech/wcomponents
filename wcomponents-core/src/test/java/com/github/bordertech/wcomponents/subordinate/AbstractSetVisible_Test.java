@@ -28,7 +28,7 @@ public class AbstractSetVisible_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testExecute() {
-        //----------------------
+		//----------------------
 		// Valid Target and FALSE Boolean Value
 		SubordinateTarget target = new MyTarget();
 		AbstractSetVisible visible = new MyVisible(target, Boolean.FALSE);
@@ -43,7 +43,7 @@ public class AbstractSetVisible_Test extends AbstractWComponentTestCase {
 		// Should be not validate
 		Assert.assertFalse("Target should not be validate", target.isValidate());
 
-        //----------------------
+		//----------------------
 		// Valid Target and TRUE Boolean Value
 		target = new MyTarget();
 		visible = new MyVisible(target, Boolean.TRUE);
@@ -64,7 +64,7 @@ public class AbstractSetVisible_Test extends AbstractWComponentTestCase {
 	/**
 	 * Test implementation class of AbstractSetVisible.
 	 */
-	private static class MyVisible extends AbstractSetVisible {
+	private static final class MyVisible extends AbstractSetVisible {
 
 		/**
 		 * Test Constructor.
@@ -72,7 +72,7 @@ public class AbstractSetVisible_Test extends AbstractWComponentTestCase {
 		 * @param aTarget a test target
 		 * @param aValue a test value
 		 */
-		public MyVisible(final SubordinateTarget aTarget, final Boolean aValue) {
+		private MyVisible(final SubordinateTarget aTarget, final Boolean aValue) {
 			super(aTarget, aValue);
 		}
 

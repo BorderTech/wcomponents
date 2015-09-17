@@ -24,7 +24,7 @@ public class WMessagesProxy_Test extends AbstractWComponentTestCase {
 		WMessagesProxy proxy = new WMessagesProxy(child);
 		WMessages messages = root.getMessages();
 
-		// Test the proxy doesn't crash when there is no backing WMessages (should only log a warning).       
+		// Test the proxy doesn't crash when there is no backing WMessages (should only log a warning).
 		setActiveContext(createUIContext());
 		proxy.info(message1);
 		proxy.success(message1);
@@ -73,7 +73,7 @@ public class WMessagesProxy_Test extends AbstractWComponentTestCase {
 		/**
 		 * Creates a MessageContainerImpl.
 		 */
-		public MessageContainerImpl() {
+		private MessageContainerImpl() {
 			add(messages);
 		}
 

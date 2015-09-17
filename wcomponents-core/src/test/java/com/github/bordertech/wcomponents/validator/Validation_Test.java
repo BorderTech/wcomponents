@@ -73,7 +73,7 @@ public class Validation_Test extends AbstractWComponentTestCase {
 		UIContext uic2 = new UIContextImpl();
 		List<Diagnostic> diags = new ArrayList<>();
 
-        // uic 1 has mandatory check
+		// uic 1 has mandatory check
 		// uic 2 does not.
 		WTextField textField = new WTextField();
 		textField.setLocked(true);

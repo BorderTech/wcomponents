@@ -1,7 +1,4 @@
 /**
- * Contains the files used for providing statics about the user context.
- *
- * <p>
- * TODO: More details here.</p>
+ * Contains the classes used for providing statics about the user context.
  */
 package com.github.bordertech.wcomponents.monitor;

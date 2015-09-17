@@ -49,7 +49,7 @@ public class Equal_Test {
 	public void testDoCompare() {
 		WNumberField trigger = new WNumberField();
 
-        // ------------------------------
+		// ------------------------------
 		// Setup EQUAL - with value
 		Equal compare = new Equal(trigger, EQ_VALUE);
 
@@ -65,7 +65,7 @@ public class Equal_Test {
 		trigger.setNumber(GT_VALUE);
 		Assert.assertFalse("Equal Type - Compare for greater value should be false", compare.execute());
 
-        // ------------------------------
+		// ------------------------------
 		// Setup EQUAL - with null value
 		compare = new Equal(trigger, null);
 

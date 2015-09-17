@@ -1,7 +1,4 @@
 /**
- * Contains classes for providing thumbnails.
- *
- * <p>
- * TODO: More details here.</p>
+ * Contains classes for providing thumbnail images.
  */
 package com.github.bordertech.wcomponents.util.thumbnail;

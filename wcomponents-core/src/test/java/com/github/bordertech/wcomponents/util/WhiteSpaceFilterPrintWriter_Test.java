@@ -18,7 +18,7 @@ public class WhiteSpaceFilterPrintWriter_Test {
 	/**
 	 * The logger instance for this class.
 	 */
-	private static final Log log = LogFactory.getLog(WhiteSpaceFilterPrintWriter_Test.class);
+	private static final Log LOG = LogFactory.getLog(WhiteSpaceFilterPrintWriter_Test.class);
 
 	/**
 	 * Error message prefix to display on test failure.
@@ -67,7 +67,7 @@ public class WhiteSpaceFilterPrintWriter_Test {
 
 	@Test
 	public void testParagraphTag1() {
-        //Make sure it doesn't get <p> confused with the start of <pre>
+		//Make sure it doesn't get <p> confused with the start of <pre>
 		//should strip whitespace within the paragraph
 		String input = "<ui:root>   foo   <p>   foo   foo   </p>   foo   </ui:root>";
 		String expected = "<ui:root> foo <p> foo foo </p> foo </ui:root>";
@@ -76,7 +76,7 @@ public class WhiteSpaceFilterPrintWriter_Test {
 
 	@Test
 	public void testParagraphTag2() {
-        //Make sure it doesn't get <p> confused with the start of <pre>
+		//Make sure it doesn't get <p> confused with the start of <pre>
 		//shouldn't get confused by self-closing tag
 		String input = "<ui:root>   foo   <p/>   foo   </ui:root>";
 		String expected = "<ui:root> foo <p/> foo </ui:root>";
@@ -85,7 +85,7 @@ public class WhiteSpaceFilterPrintWriter_Test {
 
 	@Test
 	public void testFakePrehistoricTag() {
-        //tests that <prexyz> isn't confused with <pre>
+		//tests that <prexyz> isn't confused with <pre>
 		//should strip whitespace within the "prehistoric" block
 		String input = "<ui:root>   foo   <prehistoric>   foo   foo   </prehistoric>   foo   </ui:root>";
 		String expected = "<ui:root> foo <prehistoric> foo foo </prehistoric> foo </ui:root>";
@@ -179,7 +179,7 @@ public class WhiteSpaceFilterPrintWriter_Test {
 		String expected = "<ui:root><ui:foo> foo foo <ui:foo></ui:root>";
 		Assert.assertEquals(ERROR_MESSAGE + input + '"', expected, filter(input));
 
-        // Test elements that start with the same character as elements that are stripped
+		// Test elements that start with the same character as elements that are stripped
 		// ui:tfoo - Whitespace should be stripped
 		input = "<ui:root><ui:tfoo>  foo  foo  <ui:tfoo></ui:root>";
 		expected = "<ui:root><ui:tfoo> foo foo <ui:tfoo></ui:root>";
@@ -249,6 +249,10 @@ public class WhiteSpaceFilterPrintWriter_Test {
 		Assert.assertEquals(ERROR_MESSAGE + input + '"', expected, filter(input));
 	}
 
+	/**
+	 * @param input the test input
+	 * @return the filtered result
+	 */
 	private String filter(final String input) {
 		StringWriter stringWriter = new StringWriter();
 
@@ -259,8 +263,8 @@ public class WhiteSpaceFilterPrintWriter_Test {
 
 		String output = stringWriter.getBuffer().toString();
 
-		log.debug("Before filter: \n\"" + input + "\"");
-		log.debug("After filter: \n\"" + output + "\"");
+		LOG.debug("Before filter: \n\"" + input + "\"");
+		LOG.debug("After filter: \n\"" + output + "\"");
 
 		return output;
 	}

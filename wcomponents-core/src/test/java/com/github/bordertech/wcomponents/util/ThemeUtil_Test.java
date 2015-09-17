@@ -1,11 +1,9 @@
-package com.github.bordertech.wcomponents.theme;
+package com.github.bordertech.wcomponents.util;
 
-import com.github.bordertech.wcomponents.util.ThemeUtil;
 import com.github.bordertech.wcomponents.AbstractWComponentTestCase;
 import com.github.bordertech.wcomponents.Environment;
 import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.WebUtilities;
-import com.github.bordertech.wcomponents.util.Config;
 import java.util.Locale;
 import org.junit.After;
 import org.junit.Assert;

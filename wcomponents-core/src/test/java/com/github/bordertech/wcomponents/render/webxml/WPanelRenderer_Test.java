@@ -50,11 +50,11 @@ public class WPanelRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 	@Test
 	public void testRenderedLazyModePanel() throws IOException, SAXException, XpathException {
-		String CONTENT = "TEST CONTENT";
+		String content = "TEST CONTENT";
 
 		WPanel panel = new WPanel();
 		panel.setMode(PanelMode.LAZY);
-		panel.add(new WText(CONTENT));
+		panel.add(new WText(content));
 
 		// Content NOT Hidden
 		assertSchemaMatch(panel);
@@ -62,9 +62,9 @@ public class WPanelRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo("", "//ui:panel/@type", panel);
 		assertXpathEvaluatesTo("", "//ui:panel/@hidden", panel);
 		assertXpathEvaluatesTo("lazy", "//ui:panel/@mode", panel);
-		assertXpathEvaluatesTo(CONTENT, "//ui:panel/ui:content", panel);
+		assertXpathEvaluatesTo(content, "//ui:panel/ui:content", panel);
 
-        // Content Hidden
+		// Content Hidden
 		// Create User Context with UI component
 		UIContext uic = createUIContext();
 		uic.setUI(new DefaultWComponent());
@@ -80,10 +80,12 @@ public class WPanelRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 	@Test
 	public void testRenderedEagerModePanel() throws IOException, SAXException, XpathException {
-		String CONTENT = "TEST CONTENT";
+
+		String content = "TEST CONTENT";
+
 		WPanel panel = new WPanel();
 		panel.setMode(PanelMode.EAGER);
-		panel.add(new WText(CONTENT));
+		panel.add(new WText(content));
 
 		UIContext uic = createUIContext();
 		uic.setUI(new DefaultWComponent());
@@ -104,7 +106,7 @@ public class WPanelRenderer_Test extends AbstractWebXmlRendererTestCase {
 			assertXpathEvaluatesTo("", "//ui:panel/@type", panel);
 			assertXpathEvaluatesTo("", "//ui:panel/@hidden", panel);
 			assertXpathEvaluatesTo("eager", "//ui:panel/@mode", panel);
-			assertXpathEvaluatesTo(CONTENT, "//ui:panel/ui:content", panel);
+			assertXpathEvaluatesTo(content, "//ui:panel/ui:content", panel);
 		} finally {
 			AjaxHelper.clearCurrentOperationDetails();
 		}

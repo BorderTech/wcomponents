@@ -98,17 +98,17 @@ public final class CompareExpression_Test {
 
 		// Build GreaterThan
 		expr = new CompareExpression(CompareType.GREATER_THAN, trigger, value);
-		GreaterThan GreaterThan = (GreaterThan) expr.build();
-		Assert.assertEquals("GreaterThan condition returned invalid trigger", trigger, GreaterThan.getTrigger());
-		Assert.assertEquals("GreaterThan condition returned invalid value", value, GreaterThan.getValue());
+		GreaterThan greaterThan = (GreaterThan) expr.build();
+		Assert.assertEquals("GreaterThan condition returned invalid trigger", trigger, greaterThan.getTrigger());
+		Assert.assertEquals("GreaterThan condition returned invalid value", value, greaterThan.getValue());
 
 		// Build GreaterThanOrEqual
 		expr = new CompareExpression(CompareType.GREATER_THAN_OR_EQUAL, trigger, value);
-		GreaterThanOrEqual GreaterThanOrEqual = (GreaterThanOrEqual) expr.build();
+		GreaterThanOrEqual greaterThanOrEqual = (GreaterThanOrEqual) expr.build();
 		Assert.assertEquals("GreaterThanOrEqual condition returned invalid trigger", trigger,
-				GreaterThanOrEqual.getTrigger());
+				greaterThanOrEqual.getTrigger());
 		Assert
-				.assertEquals("GreaterThanOrEqual condition returned invalid value", value, GreaterThanOrEqual.getValue());
+				.assertEquals("GreaterThanOrEqual condition returned invalid value", value, greaterThanOrEqual.getValue());
 
 		// Build Match
 		expr = new CompareExpression(CompareType.MATCH, trigger, value);

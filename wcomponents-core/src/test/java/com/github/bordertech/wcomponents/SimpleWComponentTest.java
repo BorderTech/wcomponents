@@ -17,7 +17,7 @@ public class SimpleWComponentTest extends AbstractWComponentTestCase {
 	/**
 	 * The Logger instance for this class.
 	 */
-	private static final Log log = LogFactory.getLog(SimpleWComponentTest.class);
+	private static final Log LOG = LogFactory.getLog(SimpleWComponentTest.class);
 
 	@Test
 	public void testRequest() {
@@ -37,7 +37,7 @@ public class SimpleWComponentTest extends AbstractWComponentTestCase {
 		name.setText("Batman");
 		Assert.assertEquals("text accessors incorrect", "Batman", name.getText());
 
-        // Service a request that simulates a user entering a value
+		// Service a request that simulates a user entering a value
 		// into the entry field.
 		request.setParameter(name.getId(), "Superman");
 		panel.serviceRequest(request);
@@ -45,6 +45,6 @@ public class SimpleWComponentTest extends AbstractWComponentTestCase {
 
 		// Render the output and log it.
 		String output = WebUtilities.render(request, panel);
-		log.debug(output);
+		LOG.debug(output);
 	}
 }

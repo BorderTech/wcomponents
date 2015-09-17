@@ -160,7 +160,7 @@ public class SelectListUtil_Test {
 	/**
 	 * Test class for Option.
 	 */
-	private static class MyOption implements Option {
+	private static final class MyOption implements Option {
 
 		/**
 		 * Option code value.
@@ -177,7 +177,7 @@ public class SelectListUtil_Test {
 		 * @param code the option code value.
 		 * @param desc the option description value.
 		 */
-		public MyOption(final String code, final String desc) {
+		private MyOption(final String code, final String desc) {
 			this.code = code;
 			this.desc = desc;
 		}

@@ -93,6 +93,11 @@ public class WSubordinateControl_Test extends AbstractWComponentTestCase {
 
 	}
 
+	/**
+	 * @param target the check box target
+	 * @param request the request being setup
+	 * @param condition true if checked
+	 */
 	private void setupCheckBoxRequest(final WCheckBox target, final MockRequest request, final boolean condition) {
 		if (condition) {
 			request.setParameter(target.getId(), "true");

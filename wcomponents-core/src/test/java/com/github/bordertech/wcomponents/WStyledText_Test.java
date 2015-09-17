@@ -11,7 +11,7 @@ import org.junit.Test;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class WStyledText_Text extends AbstractWComponentTestCase {
+public class WStyledText_Test extends AbstractWComponentTestCase {
 
 	/**
 	 * Test text value.

@@ -34,7 +34,7 @@ public class VelocityInterceptor_Test extends AbstractWComponentTestCase {
 		String renderedFormat = stringWriter.toString().trim();
 		Assert.assertEquals("Incorrect rendered format", TEST_VALUE, renderedFormat);
 
-        // Errors in a template should not throw an exception, or render anything
+		// Errors in a template should not throw an exception, or render anything
 		// Method called using reflection that results in a MethodInvocationException
 		component.setTemplate("com/github/bordertech/wcomponents/container/VelocityComponent_Test2.vm");
 		stringWriter.getBuffer().setLength(0);
@@ -51,8 +51,7 @@ public class VelocityInterceptor_Test extends AbstractWComponentTestCase {
 	}
 
 	/**
-	 * An extension of VelocityComponent which ensures that a test object is
-	 * placed in the context.
+	 * An extension of VelocityComponent which ensures that a test object is placed in the context.
 	 *
 	 * @author Yiannis Paschalidis
 	 */
@@ -66,14 +65,16 @@ public class VelocityInterceptor_Test extends AbstractWComponentTestCase {
 	}
 
 	/**
-	 * A test object containing a "bad method" that throws an exception. This
-	 * class needs to be public so that the methods can be used from a Velocity
-	 * template.
+	 * A test object containing a "bad method" that throws an exception. This class needs to be
+	 * public so that the methods can be used from a Velocity template.
 	 *
 	 * @author Yiannis Paschalidis
 	 */
 	public static final class TestObject {
 
+		/**
+		 * @return nothing as will throw exception
+		 */
 		public boolean badMethod() {
 			throw new IllegalStateException("Bad method");
 		}

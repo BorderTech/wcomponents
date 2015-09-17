@@ -36,11 +36,11 @@ public class TestApp_Test extends AbstractWComponentTestCase {
 		MockRequest request = new MockRequest();
 
 		//set search criteria details in searchCriteriaPage
-		request.setParameter(testApp.searchCriteriaPage.getDataField().getId(), "Joe Bloggs");
-		request.setParameter(testApp.searchCriteriaPage.getNumRows().getId(), "200");
-		request.setParameter(testApp.searchCriteriaPage.getRowsPerPage().getId(), "20");
-		request.setParameter(testApp.searchCriteriaPage.getDetailsSize().getId(), "Huge");
-		request.addParameterForButton(UIContextHolder.getCurrent(), testApp.searchCriteriaPage.getSearchBtn());
+		request.setParameter(testApp.getSearchCriteriaPage().getDataField().getId(), "Joe Bloggs");
+		request.setParameter(testApp.getSearchCriteriaPage().getNumRows().getId(), "200");
+		request.setParameter(testApp.getSearchCriteriaPage().getRowsPerPage().getId(), "20");
+		request.setParameter(testApp.getSearchCriteriaPage().getDetailsSize().getId(), "Huge");
+		request.addParameterForButton(UIContextHolder.getCurrent(), testApp.getSearchCriteriaPage().getSearchBtn());
 
 		// log elapsed time if the logger is set to trace
 		long elapsed = System.currentTimeMillis();
@@ -68,7 +68,7 @@ public class TestApp_Test extends AbstractWComponentTestCase {
 		Assert.assertNotNull("Rendered page should not be null", result);
 		Assert.assertTrue("Should be on search results page", result.contains("Search Results"));
 
-		int numRows = testApp.searchCriteriaPage.getRowsPerPageAsInt();
+		int numRows = testApp.getSearchCriteriaPage().getRowsPerPageAsInt();
 
 		for (int i = 0; i < numRows; i++) {
 			Assert.assertTrue("Missing row " + i, result.contains("Joe Bloggs " + (i + 1)));

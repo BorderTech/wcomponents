@@ -31,7 +31,7 @@ public class TestApp extends WApplication {
 	/**
 	 * The logger instance for this class.
 	 */
-	private static final Log log = LogFactory.getLog(TestApp.class);
+	private static final Log LOG = LogFactory.getLog(TestApp.class);
 
 	/**
 	 * Random number generator used to create data.
@@ -42,8 +42,10 @@ public class TestApp extends WApplication {
 	private final WCardManager pages;
 	private final DetailsPage detailsPage;
 
-	// The following is protected in order to support some junit tests.
-	protected final SearchCriteriaPage searchCriteriaPage;
+	/**
+	 * The search criteria page.
+	 */
+	private final SearchCriteriaPage searchCriteriaPage;
 
 	/**
 	 * Creates a TestApp.
@@ -78,6 +80,13 @@ public class TestApp extends WApplication {
 	}
 
 	/**
+	 * @return the search criteria page.
+	 */
+	public SearchCriteriaPage getSearchCriteriaPage() {
+		return searchCriteriaPage;
+	}
+
+	/**
 	 * @return the single instance of the TestApp that is registered with the
 	 * {@link UIRegistry}.
 	 */
@@ -94,11 +103,11 @@ public class TestApp extends WApplication {
 	protected void paintComponent(final RenderContext renderContext) {
 		super.paintComponent(renderContext);
 
-		if (log.isInfoEnabled()) {
+		if (LOG.isInfoEnabled()) {
 			int i = pages.getIndexOfChild(pages.getVisible());
 
 			if (i >= 0) {
-				log.info(PAGE_NAMES[i] + " page, " + getJvmStats());
+				LOG.info(PAGE_NAMES[i] + " page, " + getJvmStats());
 			}
 		}
 	}
@@ -122,7 +131,7 @@ public class TestApp extends WApplication {
 	 * Performs a search (using dummy data).
 	 */
 	public void doSearch() {
-        // Junk String
+		// Junk String
 		// Number of rows (entry field)
 		// rows per page (dropdown)
 		// quantity of data per row (radio group)
@@ -203,6 +212,8 @@ public class TestApp extends WApplication {
 
 	/**
 	 * Displays the details page for the given search result row.
+	 *
+	 * @param row the row data
 	 */
 	public void doDetails(final SearchResultRowBO row) {
 		detailsPage.setDetails(row);

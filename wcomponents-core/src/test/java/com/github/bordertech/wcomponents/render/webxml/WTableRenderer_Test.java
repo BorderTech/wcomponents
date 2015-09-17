@@ -73,18 +73,12 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 	 */
 	private static final String TRUE = "true";
 
-	/**
-	 * test that layout is correctly configured.
-	 */
 	@Test
 	public void testRendererCorrectlyConfigured() {
 		WTable component = new WTable();
 		Assert.assertTrue("Incorrect renderer supplied", getWebXmlRenderer(component) instanceof WTableRenderer);
 	}
 
-	/**
-	 * test doPaint - empty data table - no attributes.
-	 */
 	@Test
 	public void testDoPaintEmptyTableNoAttributes() throws IOException, SAXException, XpathException {
 		WTable component = new WTable();
@@ -98,10 +92,6 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo(component.getNoDataMessage(), "//ui:table/ui:tbody/ui:noData", component);
 	}
 
-	/**
-	 * test doPaint - no caption, no summary, default tableType TABLE. with
-	 * default stripingType NONE and default SeperatorType NONE
-	 */
 	@Test
 	public void testDoPaintMissingAttributes() throws IOException, SAXException, XpathException {
 		WTable component = new WTable();
@@ -121,10 +111,6 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathNotExists("//ui:table/@separators", component);
 	}
 
-	/**
-	 * test doPaint - no caption, no summary, default tableType TABLE. with
-	 * stripingType=ROWS and separatorType=HORIZONTAL
-	 */
 	@Test
 	public void testDoPaintMissingAttributesRowStriping() throws IOException, SAXException, XpathException {
 		WTable component = new WTable();
@@ -144,10 +130,6 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo("horizontal", "//ui:table/@separators", component);
 	}
 
-	/**
-	 * test doPaint - no caption, no summary, default tableType TABLE. with
-	 * default stripingType=COLUMNS and separatorType=VERTICAL
-	 */
 	@Test
 	public void testDoPaintMissingAttributesColumnStriping() throws IOException, SAXException, XpathException {
 		WTable component = new WTable();
@@ -167,10 +149,6 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo("vertical", "//ui:table/@separators", component);
 	}
 
-	/**
-	 * test doPaint - no caption, no summary, default tableType TABLE. with
-	 * default stripingType=COLUMNS and separatorType=BOTH
-	 */
 	@Test
 	public void testDoPaintMissingAttributesColumnStripingSeparatorsBoth() throws IOException, SAXException,
 			XpathException {
@@ -191,10 +169,6 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo("both", "//ui:table/@separators", component);
 	}
 
-	/**
-	 * test doPaint with summary and caption set and table type HIERARCHIC.
-	 * checking table columns and table data contents
-	 */
 	@Test
 	public void testDoPaintAttributesAndContent() throws IOException, SAXException, XpathException {
 		WTable component = new WTable();
@@ -237,9 +211,6 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		}
 	}
 
-	/**
-	 * test doPaint paginationMode=CLIENT
-	 */
 	@Test
 	public void testDoPaintPaginatedClient() throws IOException, SAXException, XpathException {
 		WTable component = new WTable();
@@ -265,9 +236,6 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 	}
 
-	/**
-	 * test doPaint paginationMode=DYNAMIC
-	 */
 	@Test
 	public void testDoPaintPaginatedDynamic() throws IOException, SAXException, XpathException {
 		WTable component = new WTable();
@@ -293,9 +261,6 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 	}
 
-	/**
-	 * test doPaint paginationMode=DYNAMIC an dhas Rows per page options.
-	 */
 	@Test
 	public void testDoPaintWithRowsPerPageOptions() throws IOException, SAXException, XpathException {
 		WTable component = new WTable();
@@ -325,9 +290,6 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 	}
 
-	/**
-	 * test doPaint - selectMode=SINGLE.
-	 */
 	@Test
 	public void testDoPaintSelectModeSingle() throws IOException, SAXException, XpathException {
 		WTable component = new WTable();
@@ -345,9 +307,6 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathExists("//ui:table/ui:rowSelection", component);
 	}
 
-	/**
-	 * test doPaint selectMode=Multiple selectAll=text.
-	 */
 	@Test
 	public void testDoPaintSelectModeMultipleSelectAllText() throws IOException, SAXException, XpathException {
 		WTable component = new WTable();
@@ -368,9 +327,6 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo("text", "//ui:table/ui:rowSelection/@selectAll", component);
 	}
 
-	/**
-	 * test doPaint SelectMode=multiple selectAll=Control.
-	 */
 	@Test
 	public void testDoPaintSelectModeMultipleSelectAllControl() throws IOException, SAXException, XpathException {
 		WTable component = new WTable();
@@ -391,10 +347,6 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo("control", "//ui:table/ui:rowSelection/@selectAll", component);
 	}
 
-	/**
-	 * test doPaint selectMode=multiple selectAll=Control -
-	 * submitOnRowSelect=true, groupName Set.
-	 */
 	@Test
 	public void testDoPaintSelectModeMultipleSelectAllControlSubmitOnChangeAndGroupName() throws IOException,
 			SAXException, XpathException {
@@ -417,9 +369,6 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo("control", "//ui:table/ui:rowSelection/@selectAll", component);
 	}
 
-	/**
-	 * test doPaint - expandMode CLIENT
-	 */
 	@Test
 	public void testDoPaintExpandModeClient() throws IOException, SAXException, XpathException {
 		WTable component = new WTable();
@@ -436,9 +385,6 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo("client", "//ui:table/ui:rowExpansion/@mode", component);
 	}
 
-	/**
-	 * test doPaint - expandMode LAZY
-	 */
 	@Test
 	public void testDoPaintExpandModeLazy() throws IOException, SAXException, XpathException {
 		WTable component = new WTable();
@@ -455,9 +401,6 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo("lazy", "//ui:table/ui:rowExpansion/@mode", component);
 	}
 
-	/**
-	 * test doPaint - expandMode DYNAMIC
-	 */
 	@Test
 	public void testDoPaintExpandModeDynamic() throws IOException, SAXException, XpathException {
 		WTable component = new WTable();
@@ -474,9 +417,6 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo("dynamic", "//ui:table/ui:rowExpansion/@mode", component);
 	}
 
-	/**
-	 * test doPaint - sortable - sortMode DYNAMIC
-	 */
 	@Test
 	public void testDoPaintSortableSortModeDynamic() throws IOException, SAXException, XpathException {
 		WTable component = new WTable();
@@ -497,9 +437,6 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo(TRUE, "//ui:table/ui:thead/ui:th[3]/@sortable", component);
 	}
 
-	/**
-	 * test doPaint - with column alignment
-	 */
 	@Test
 	public void testDoPaintWithColAlignment() throws IOException, SAXException, XpathException {
 		WTable table = new WTable();
@@ -520,9 +457,6 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo("right", "//ui:table/ui:thead/ui:th[3]/@align", table);
 	}
 
-	/**
-	 * test doPaint - with column width
-	 */
 	@Test
 	public void testDoPaintWithColWidth() throws IOException, SAXException, XpathException {
 
@@ -544,18 +478,14 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo("100", "//ui:table/ui:thead/ui:th[3]/@width", table);
 	}
 
-	/**
-	 * test doPaint - sortable - sortMode DYNAMIC. with simulated client side
-	 * setting of sortColindex and descending mode
-	 */
 	@Test
 	public void testDoPaintSortableSortModeDynamicClientSettings() throws IOException, SAXException, XpathException {
 		WTable component = new WTable();
 		component.addColumn(new WTableColumn(COL1_HEADING_TEST, WTextField.class));
 		component.addColumn(new WTableColumn(COL2_HEADING_TEST, WTextField.class));
 		component.addColumn(new WTableColumn(COL3_HEADING_TEST, WTextField.class));
-		TableModel XTreeTableDataModel = createTableModelSortable(); // sortable data model
-		component.setTableModel(XTreeTableDataModel);
+		TableModel tableModel = createTableModelSortable(); // sortable data model
+		component.setTableModel(tableModel);
 		component.setVisible(true);
 
 		component.setSortMode(SortMode.DYNAMIC);
@@ -579,9 +509,6 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo(TRUE, "//ui:table/ui:thead/ui:th[3]/@sortable", component);
 	}
 
-	/**
-	 * test doPaint - table actions
-	 */
 	@Test
 	public void testDoPaintTableActions() throws IOException, SAXException, XpathException {
 		WTable component = new WTable();
@@ -602,9 +529,6 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo(TEST_ACTION_TWO, "//ui:table/ui:actions/ui:action[2]/ui:button", component);
 	}
 
-	/**
-	 * test doPaint - tableActions with constraints
-	 */
 	@Test
 	public void testDoPaintTableActionsWithConstraints() throws IOException, SAXException, XpathException {
 		final int minSelectedRowCount1 = 1;
@@ -654,9 +578,6 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo(message2, "//ui:table/ui:actions/ui:action[2]/ui:condition/@message", component);
 	}
 
-	/**
-	 * test doPaint - table actions
-	 */
 	@Test
 	public void testDoPaintTableActionsInvisibleButton() throws IOException, SAXException, XpathException {
 		WTable component = new WTable();
@@ -680,17 +601,14 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathNotExists("//ui:table/ui:actions", component);
 	}
 
-	/**
-	 * test doPaint - with an invisible column and hidden column headers
-	 */
 	@Test
 	public void testDoPaintWithInvisibleColumnAndNoColumnHeaders() throws IOException, SAXException, XpathException {
 		WTable component = new WTable();
 		component.addColumn(new WTableColumn(COL1_HEADING_TEST, WTextField.class));
 		component.addColumn(new WTableColumn(COL2_HEADING_TEST, WTextField.class));
 		component.addColumn(new WTableColumn(COL3_HEADING_TEST, WTextField.class));
-		TableModel XTreeTableDataModel = createTableModel();
-		component.setTableModel(XTreeTableDataModel);
+		TableModel tableModel = createTableModel();
+		component.setTableModel(tableModel);
 		component.setVisible(true);
 
 		final int testColIndex = 1;
@@ -714,8 +632,8 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		List<Integer> row = new ArrayList<>();
 		row.add(0);
 
-		String firstName = (String) XTreeTableDataModel.getValueAt(row, 0);
-		String entryDate = (String) XTreeTableDataModel.getValueAt(row, 2);
+		String firstName = (String) tableModel.getValueAt(row, 0);
+		String entryDate = (String) tableModel.getValueAt(row, 2);
 
 		assertXpathEvaluatesTo(firstName, "//ui:table/ui:tbody/ui:tr[1]/ui:td[1]/ui:textField", component);
 		assertXpathEvaluatesTo(entryDate, "//ui:table/ui:tbody/ui:tr[1]/ui:td[2]/ui:textField", component);
@@ -781,7 +699,7 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	/**
-	 * @return a test XTreeTableDataModel.
+	 * @return a test table model.
 	 */
 	private TableModel createTableModel() {
 		String[][] data = new String[][]{new String[]{"Joe", "Bloggs", "01/02/1973"},
@@ -795,7 +713,7 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	/**
-	 * @return a test XTreeTableDataModel - sorting enabled on column 1.
+	 * @return a test table model for sorting.
 	 */
 	private TableModel createTableModelSortable() {
 		String[][] data = new String[][]{new String[]{"Joe2", "Bloggs2", "01/02/1971"},

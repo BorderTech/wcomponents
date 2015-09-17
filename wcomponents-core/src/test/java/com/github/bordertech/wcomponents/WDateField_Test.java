@@ -279,7 +279,7 @@ public class WDateField_Test extends AbstractWComponentTestCase {
 		MockRequest request = new MockRequest();
 		request.setParameter(dateField.getId(), "");
 
-        // Scenario #1
+		// Scenario #1
 		// Setup datefield with null value
 		dateField.setDate(null);
 
@@ -289,7 +289,7 @@ public class WDateField_Test extends AbstractWComponentTestCase {
 		Assert.assertFalse("Empty request and field is null - doHandleRequest should have returned false", changed);
 		assertDateFieldNullValue(dateField, "Empty request and field is null");
 
-        // Scenario #2
+		// Scenario #2
 		// Setup datefield with a valid date set
 		dateField.setDate(new Date());
 
@@ -299,7 +299,7 @@ public class WDateField_Test extends AbstractWComponentTestCase {
 				changed);
 		assertDateFieldNullValue(dateField, "Empty request and field has a valid date set");
 
-        // Scenario #3
+		// Scenario #3
 		// Setup datefield with invalid date value
 		MockRequest request2 = new MockRequest();
 		request2.setParameter(dateField.getId(), REQUEST_BAD_USER_TEXT);
@@ -311,7 +311,7 @@ public class WDateField_Test extends AbstractWComponentTestCase {
 				changed);
 		assertDateFieldNullValue(dateField, "Empty request and field has an invalid date");
 
-        // Scenario #4
+		// Scenario #4
 		// Setup datefield with valid date value
 		request2 = new MockRequest();
 		request2.setParameter(dateField.getId(), REQUEST_VALID_USER_TEXT);
@@ -335,7 +335,7 @@ public class WDateField_Test extends AbstractWComponentTestCase {
 		MockRequest request = new MockRequest();
 		request.setParameter(dateField.getId(), REQUEST_BAD_USER_TEXT);
 
-        // Scenario #1
+		// Scenario #1
 		// Setup datefield with null value
 		dateField.setDate(null);
 
@@ -345,7 +345,7 @@ public class WDateField_Test extends AbstractWComponentTestCase {
 				changed);
 		assertDateFieldBadDate(dateField, "Request with Bad Date and field is null");
 
-        // Scenario #2
+		// Scenario #2
 		// Setup datefield with a valid date set
 		dateField.setDate(new Date());
 
@@ -355,7 +355,7 @@ public class WDateField_Test extends AbstractWComponentTestCase {
 						changed);
 		assertDateFieldBadDate(dateField, "Request with Bad Date and field has a valid date set");
 
-        // Scenario #3
+		// Scenario #3
 		// Setup datefield with DIFFERENT invalid date value
 		MockRequest request2 = new MockRequest();
 		request2.setParameter(dateField.getId(), "ANOTHER BAD DATE");
@@ -368,7 +368,7 @@ public class WDateField_Test extends AbstractWComponentTestCase {
 						changed);
 		assertDateFieldBadDate(dateField, "Request with Bad Date and field has a different invalid date");
 
-        // Scenario #4
+		// Scenario #4
 		// Setup datefield with SAME invalid date value
 		changed = dateField.doHandleRequest(request);
 
@@ -377,7 +377,7 @@ public class WDateField_Test extends AbstractWComponentTestCase {
 						changed);
 		assertDateFieldBadDate(dateField, "Request with Bad Date and field has same invalid date");
 
-        // Scenario #5
+		// Scenario #5
 		// Setup datefield with valid date value
 		request2 = new MockRequest();
 		request2.setParameter(dateField.getId(), REQUEST_VALID_USER_TEXT);
@@ -403,7 +403,7 @@ public class WDateField_Test extends AbstractWComponentTestCase {
 		request.setParameter(dateField.getId(), REQUEST_VALID_USER_TEXT);
 		request.setParameter(dateField.getId() + "-date", REQUEST_VALID_INTERNAL_DATE_TEXT);
 
-        // Scenario #1
+		// Scenario #1
 		// Setup datefield with null value
 		dateField.setDate(null);
 
@@ -413,7 +413,7 @@ public class WDateField_Test extends AbstractWComponentTestCase {
 				changed);
 		assertDateFieldValidDate(dateField, "Request with Valid Date and field is null");
 
-        // Scenario #2
+		// Scenario #2
 		// Setup datefield with a different valid date set
 		dateField.setDate(new Date());
 
@@ -424,7 +424,7 @@ public class WDateField_Test extends AbstractWComponentTestCase {
 						changed);
 		assertDateFieldValidDate(dateField, "Request with Valid Date and field has a different valid date set");
 
-        // Scenario #3
+		// Scenario #3
 		// Datefield with same valid date set
 		changed = dateField.doHandleRequest(request);
 
@@ -433,7 +433,7 @@ public class WDateField_Test extends AbstractWComponentTestCase {
 						changed);
 		assertDateFieldValidDate(dateField, "Request with Valid Date and field has same valid date set");
 
-        // Scenario #4
+		// Scenario #4
 		// Setup datefield with invalid date value
 		MockRequest request2 = new MockRequest();
 		request2.setParameter(dateField.getId(), REQUEST_BAD_USER_TEXT);

@@ -23,15 +23,15 @@ public class WPopupRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 	@Test
 	public void testDoPaint() throws IOException, SAXException, XpathException {
-		final String TEST_URL = "www.testurl.invalid";
-		final String TEST_URL2 = "www.testurl2.invalid";
-		final String TEST_WINDOW = "window";
+		final String testUrl = "www.testurl.invalid";
+		final String testUrl2 = "www.testurl2.invalid";
+		final String testWindow = "window";
 
 		final int width = 100;
 		final int height = 90;
 
 		// Popup with only URL and default settings
-		WPopup popup = new WPopup(TEST_URL) {
+		WPopup popup = new WPopup(testUrl) {
 			@Override
 			public boolean isVisible() {
 				return true;
@@ -39,7 +39,7 @@ public class WPopupRenderer_Test extends AbstractWebXmlRendererTestCase {
 		};
 
 		assertSchemaMatch(popup);
-		assertXpathEvaluatesTo(TEST_URL, "//ui:popup/@url", popup);
+		assertXpathEvaluatesTo(testUrl, "//ui:popup/@url", popup);
 		assertXpathEvaluatesTo("", "//ui:popup/@width", popup);
 		assertXpathEvaluatesTo("", "//ui:popup/@height", popup);
 		assertXpathEvaluatesTo("true", "//ui:popup/@resizable", popup);
@@ -47,20 +47,20 @@ public class WPopupRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo("", "//ui:popup/@targetWindow", popup);
 
 		// All options
-		popup.setUrl(TEST_URL2);
+		popup.setUrl(testUrl2);
 		popup.setWidth(width);
 		popup.setHeight(height);
 		popup.setResizable(false);
 		popup.setScrollable(true);
-		popup.setTargetWindow(TEST_WINDOW);
+		popup.setTargetWindow(testWindow);
 
 		assertSchemaMatch(popup);
-		assertXpathEvaluatesTo(TEST_URL2, "//ui:popup/@url", popup);
+		assertXpathEvaluatesTo(testUrl2, "//ui:popup/@url", popup);
 		assertXpathEvaluatesTo(Integer.toString(width), "//ui:popup/@width", popup);
 		assertXpathEvaluatesTo(Integer.toString(height), "//ui:popup/@height", popup);
 		assertXpathEvaluatesTo("", "//ui:popup/@resizable", popup);
 		assertXpathEvaluatesTo("true", "//ui:popup/@showScrollbars", popup);
-		assertXpathEvaluatesTo(TEST_WINDOW, "//ui:popup/@targetWindow", popup);
+		assertXpathEvaluatesTo(testWindow, "//ui:popup/@targetWindow", popup);
 	}
 
 	@Test

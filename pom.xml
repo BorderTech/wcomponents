@@ -249,14 +249,6 @@
 						<artifactId>checkstyle</artifactId>
 						<version>6.10.1</version>
 					</dependency>
-					<!--
-					<dependency>
-						<groupId>com.github.bordertech.wcomponents</groupId>
-						<artifactId>wcomponents-build-tools</artifactId>
-						<version>${project.version}</version>
-							<configLocation>checkstyle/sun_checks_wc.xml</configLocation>
-					</dependency>
-					-->
 				</dependencies>
 				<executions>
 					<execution>
@@ -269,6 +261,7 @@
 							<consoleOutput>true</consoleOutput>
 							<failsOnError>true</failsOnError>
 							<linkXRef>false</linkXRef>
+							<includeTestSourceDirectory>true</includeTestSourceDirectory>
 						</configuration>
 						<goals>
 							<goal>check</goal>

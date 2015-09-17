@@ -24,9 +24,8 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
 /**
- * Tests to check the performance of WComponent graph serialization. This test
- * does not check for correct serialization - see {@link Serialization_Test}
- * instead.
+ * Tests to check the performance of WComponent graph serialization. This test does not check for
+ * correct serialization - see {@link Serialization_Test} instead.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -35,16 +34,15 @@ import org.junit.experimental.categories.Category;
 public class SerializationPerformance_Test extends AbstractWComponentTestCase {
 
 	/**
-	 * The number of repetitions to use for testing serialization time. This
-	 * should be set to be greater than the minimum number of invocations
-	 * required to trigger JIT compilation.
+	 * The number of repetitions to use for testing serialization time. This should be set to be
+	 * greater than the minimum number of invocations required to trigger JIT compilation.
 	 */
 	private static final int NUM_REPETITIONS = 2000;
 
 	/**
 	 * The logger instance for this class.
 	 */
-	private static final Log log = LogFactory.getLog(SerializationPerformance_Test.class);
+	private static final Log LOG = LogFactory.getLog(SerializationPerformance_Test.class);
 
 	@Test
 	public void testSerializationSize() throws Exception {
@@ -59,8 +57,8 @@ public class SerializationPerformance_Test extends AbstractWComponentTestCase {
 		int nonRegisteredSize = getUISize(nonRegisteredContext, nonRegistered);
 		int registeredSize = getUISize(registeredContext, registered);
 
-		log.info("Optimised size - clean session: " + registeredSize);
-		log.info("default size - clean session: " + nonRegisteredSize);
+		LOG.info("Optimised size - clean session: " + registeredSize);
+		LOG.info("default size - clean session: " + nonRegisteredSize);
 		assertLessThan("Optimised size should be smaller than default", registeredSize, nonRegisteredSize);
 
 		// Test used session - 50% components with models
@@ -70,8 +68,8 @@ public class SerializationPerformance_Test extends AbstractWComponentTestCase {
 		nonRegisteredSize = getUISize(nonRegisteredContext, nonRegistered);
 		registeredSize = getUISize(registeredContext, registered);
 
-		log.info("Optimised size - 50% models: " + registeredSize);
-		log.info("default size - 50% models: " + nonRegisteredSize);
+		LOG.info("Optimised size - 50% models: " + registeredSize);
+		LOG.info("default size - 50% models: " + nonRegisteredSize);
 		assertLessThan("Optimised size should be smaller than default", registeredSize, nonRegisteredSize);
 
 		// Test used session - 100% components with models
@@ -81,8 +79,8 @@ public class SerializationPerformance_Test extends AbstractWComponentTestCase {
 		nonRegisteredSize = getUISize(nonRegisteredContext, nonRegistered);
 		registeredSize = getUISize(registeredContext, registered);
 
-		log.info("Optimised size - 100% models: " + registeredSize);
-		log.info("default size - 100% models: " + nonRegisteredSize);
+		LOG.info("Optimised size - 100% models: " + registeredSize);
+		LOG.info("default size - 100% models: " + nonRegisteredSize);
 		assertLessThan("Optimised size should be smaller than default", registeredSize, nonRegisteredSize);
 	}
 
@@ -101,8 +99,8 @@ public class SerializationPerformance_Test extends AbstractWComponentTestCase {
 		int registered1Size = getUISize(context1, registered1);
 		int registered10Size = getUISize(context10, registered10);
 
-		log.info("Optimised size - 50% models 1x: " + registered1Size);
-		log.info("Optimised size - 50% models 10x: " + registered10Size);
+		LOG.info("Optimised size - 50% models 1x: " + registered1Size);
+		LOG.info("Optimised size - 50% models 10x: " + registered10Size);
 		assertLessThan("Size scaling should be O(n)", registered10Size, registered1Size * 10);
 	}
 
@@ -119,8 +117,8 @@ public class SerializationPerformance_Test extends AbstractWComponentTestCase {
 		long nonRegisteredTime = serializeSession(nonRegistered, nonRegisteredContext, NUM_REPETITIONS);
 		long registeredTime = serializeSession(registered, registeredContext, NUM_REPETITIONS);
 
-		log.info("Optimised time - clean session: " + (registeredTime / 1000000.0) + "ms");
-		log.info("default time - clean session: " + (nonRegisteredTime / 1000000.0) + "ms");
+		LOG.info("Optimised time - clean session: " + (registeredTime / 1000000.0) + "ms");
+		LOG.info("default time - clean session: " + (nonRegisteredTime / 1000000.0) + "ms");
 		assertLessThan("Optimised time should be less than default time", registeredTime, nonRegisteredTime);
 
 		// Test used session - 50% components with models
@@ -130,8 +128,8 @@ public class SerializationPerformance_Test extends AbstractWComponentTestCase {
 		nonRegisteredTime = serializeSession(nonRegistered, nonRegisteredContext, NUM_REPETITIONS);
 		registeredTime = serializeSession(registered, registeredContext, NUM_REPETITIONS);
 
-		log.info("Optimised time - 50% models: " + (registeredTime / 1000000.0) + "ms");
-		log.info("default time - 50% models: " + (nonRegisteredTime / 1000000.0) + "ms");
+		LOG.info("Optimised time - 50% models: " + (registeredTime / 1000000.0) + "ms");
+		LOG.info("default time - 50% models: " + (nonRegisteredTime / 1000000.0) + "ms");
 		assertLessThan("Optimised time should be less than default time", registeredTime, nonRegisteredTime);
 
 		// Test used session - 100% components with models
@@ -141,8 +139,8 @@ public class SerializationPerformance_Test extends AbstractWComponentTestCase {
 		nonRegisteredTime = serializeSession(nonRegistered, nonRegisteredContext, NUM_REPETITIONS);
 		registeredTime = serializeSession(registered, registeredContext, NUM_REPETITIONS);
 
-		log.info("Optimised time - 100% models: " + (registeredTime / 1000000.0) + "ms");
-		log.info("default time - 100% models: " + (nonRegisteredTime / 1000000.0) + "ms");
+		LOG.info("Optimised time - 100% models: " + (registeredTime / 1000000.0) + "ms");
+		LOG.info("default time - 100% models: " + (nonRegisteredTime / 1000000.0) + "ms");
 		assertLessThan("Optimised time should be less than default time", registeredTime, nonRegisteredTime);
 	}
 
@@ -161,8 +159,8 @@ public class SerializationPerformance_Test extends AbstractWComponentTestCase {
 		long registered1Time = serializeSession(registered1, context1, NUM_REPETITIONS);
 		long registered10Time = serializeSession(registered10, context10, NUM_REPETITIONS);
 
-		log.info("Optimised time - 50% models 1x: " + (registered1Time / 1000000.0) + "ms");
-		log.info("Optimised time - 50% models 10x: " + (registered10Time / 1000000.0) + "ms");
+		LOG.info("Optimised time - 50% models 1x: " + (registered1Time / 1000000.0) + "ms");
+		LOG.info("Optimised time - 50% models 10x: " + (registered10Time / 1000000.0) + "ms");
 		assertLessThan("Time scaling should be O(n)", registered10Time, registered1Time * 10);
 	}
 
@@ -184,6 +182,7 @@ public class SerializationPerformance_Test extends AbstractWComponentTestCase {
 	 *
 	 * @param obj the object to serialize.
 	 * @return the serialized object.
+	 * @throws IOException an IO exception
 	 */
 	private static byte[] serialize(final Serializable obj) throws IOException {
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -195,13 +194,13 @@ public class SerializationPerformance_Test extends AbstractWComponentTestCase {
 	}
 
 	/**
-	 * Serializes the session the given number of times and returns the elapsed
-	 * time.
+	 * Serializes the session the given number of times and returns the elapsed time.
 	 *
 	 * @param comp the root component.
 	 * @param uic the UIContext to serialize.
 	 * @param count the number of times to serialize the session.
 	 * @return the elapsed time, in milliseconds.
+	 * @throws Exception an exception
 	 */
 	private long serializeSession(final WComponent comp, final UIContext uic, final long count) throws Exception {
 		sendRequest(comp, uic);
@@ -222,8 +221,8 @@ public class SerializationPerformance_Test extends AbstractWComponentTestCase {
 	}
 
 	/**
-	 * Invokes WComponent request processing, so that this test case can more
-	 * closely match a production scenario.
+	 * Invokes WComponent request processing, so that this test case can more closely match a
+	 * production scenario.
 	 *
 	 * @param comp the component to invoke request processing on.
 	 * @param uic the user context to use.
@@ -265,7 +264,7 @@ public class SerializationPerformance_Test extends AbstractWComponentTestCase {
 
 		setActiveContext(uic);
 
-        // Rather than loop through the first percentage of components in the list,
+		// Rather than loop through the first percentage of components in the list,
 		// we loop through the whole lot, so that there is a decent mix of clean/dirty components.
 		for (int i = 0; i < components.size(); i++) {
 			if ((componentsWithModel * 100 / (i + 1)) < percent) {
@@ -305,8 +304,8 @@ public class SerializationPerformance_Test extends AbstractWComponentTestCase {
 	}
 
 	/**
-	 * AllComponents instantiated with 10 repetitions. This needs to be created
-	 * as a subclass as the UIRegistry uses the class name.
+	 * AllComponents instantiated with 10 repetitions. This needs to be created as a subclass as the
+	 * UIRegistry uses the class name.
 	 */
 	public static final class AllComponents10 extends AllComponents {
 

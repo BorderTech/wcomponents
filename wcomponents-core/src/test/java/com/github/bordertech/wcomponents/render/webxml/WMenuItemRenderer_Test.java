@@ -97,7 +97,10 @@ public class WMenuItemRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	/**
-	 * Tabs can not be used stand-alone, so we must test them through a WTabSet.
+	 * Menu items can not be used stand-alone, so we must test them through a WMenu.
+	 *
+	 * @param item the menu item
+	 * @return the menu item wrapped
 	 */
 	private WMenu wrapMenuItem(final WMenuItem item) {
 		WMenu menu = new WMenu();

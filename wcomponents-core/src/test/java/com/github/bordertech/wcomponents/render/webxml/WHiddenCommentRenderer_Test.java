@@ -19,7 +19,7 @@ public class WHiddenCommentRenderer_Test extends AbstractWebXmlRendererTestCase 
 	/**
 	 * Xpath for the comment element.
 	 */
-	private final static String COMMENT_XPATH = "//ui:comment";
+	private static final String COMMENT_XPATH = "//ui:comment";
 
 	/**
 	 * Test the Layout is correctly configured.
