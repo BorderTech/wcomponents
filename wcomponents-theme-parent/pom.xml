@@ -102,7 +102,7 @@
 							<!--				<stripVersion>true</stripVersion>-->
 							<!--				<excludes>theme_build_tools/**, theme*parent/**</excludes>-->
 							<excludes>**/pom.xml</excludes>
-							<includes>${theme.default.name}/**, products/**</includes>
+							<includes>${theme.default.name}/**</includes>
 							<artifactItems>
 								<artifactItem>
 									<groupId>com.github.bordertech.wcomponents</groupId>
@@ -263,7 +263,7 @@
 					<dependency>
 						<groupId>net.sf.saxon</groupId>
 						<artifactId>Saxon-HE</artifactId>
-						<version>9.4</version>
+						<version>9.6.0-7</version>
 					</dependency>
 					<dependency>
 						<groupId>batik</groupId>
@@ -279,6 +279,11 @@
 						<groupId>com.googlecode.jgenhtml</groupId>
 						<artifactId>jgenhtml</artifactId>
 						<version>1.5</version>
+					</dependency>
+					<dependency>
+						<groupId>com.github.ricksbrown</groupId>
+						<artifactId>xslmin</artifactId>
+						<version>2.3.0</version>
 					</dependency>
 				</dependencies>
 			</plugin>
