@@ -27,7 +27,7 @@ import org.junit.experimental.categories.Category;
  */
 @Category(PerformanceTests.class)
 // TODO: Parameterise the test so that we can test for "n" components.
-public class WComponentPerformance_Test extends AbstractWComponentTestCase {
+public class WComponentsPerformance_Test extends AbstractWComponentTestCase {
 
 	/**
 	 * The logger instance for this class.

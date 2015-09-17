@@ -1,18 +1,15 @@
 package com.github.bordertech.wcomponents.examples;
 
+import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.WDropdown;
+import com.github.bordertech.wcomponents.test.selenium.MultiBrowserRunner;
+import com.github.bordertech.wcomponents.test.selenium.WComponentSeleniumTestCase;
+import com.github.bordertech.wcomponents.util.TreeUtil;
 import junit.framework.Assert;
-
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
-
-import com.github.bordertech.wcomponents.WComponent;
-import com.github.bordertech.wcomponents.WDropdown;
-import com.github.bordertech.wcomponents.util.TreeUtil;
-
-import com.github.bordertech.wcomponents.test.selenium.MultiBrowserRunner;
-import com.github.bordertech.wcomponents.test.selenium.WComponentSeleniumTestCase;
 
 /**
  * Selenium unit tests for {@link AutoReFocusExample}.
@@ -22,46 +19,42 @@ import com.github.bordertech.wcomponents.test.selenium.WComponentSeleniumTestCas
  */
 @Category(SeleniumTests.class)
 @RunWith(MultiBrowserRunner.class)
-public class AutoReFocusExample_Test extends WComponentSeleniumTestCase
-{
-    /**
-     * Creates a new AutoReFocusExample_Test.
-     */
-    public AutoReFocusExample_Test()
-    {
-        super(new AutoReFocusExample());
-    }
+public class AutoReFocusExample_Test extends WComponentSeleniumTestCase {
 
-    @Test
-    public void testAutoReFocus()
-    {
-        // Launch the web browser to the LDE
-        WebDriver driver = getDriver();
+	/**
+	 * Creates a new AutoReFocusExample_Test.
+	 */
+	public AutoReFocusExample_Test() {
+		super(new AutoReFocusExample());
+	}
 
-        String[] paths =
-        {
-            "TextDuplicator/WButton",
-            "WRadioButtonTriggerActionExample/WRadioButton",
-            "WDropdownSubmitOnChangeExample/WDropdown[0]",
-            "WDropdownTriggerActionExample/WDropdown[0]"
-        };
+	@Test
+	public void testAutoReFocus() {
+		// Launch the web browser to the LDE
+		WebDriver driver = getDriver();
 
-        for (String path : paths)
-        {
-            driver.findElement(byWComponentPath(path)).click();
+		String[] paths
+				= {
+					"TextDuplicator/WButton",
+					"WRadioButtonTriggerActionExample/WRadioButton",
+					"WDropdownSubmitOnChangeExample/WDropdown[0]",
+					"WDropdownTriggerActionExample/WDropdown[0]"
+				};
 
-            // The dropdowns in the example need something to be selected to trigger the submit
-            WComponent comp = TreeUtil.findWComponent(getUi(), path.split("/")).getComponent();
+		for (String path : paths) {
+			driver.findElement(byWComponentPath(path)).click();
 
-            if (comp instanceof WDropdown)
-            {
-                WDropdown dropdown = (WDropdown) comp;
-                driver.findElement(byWComponentPath(path, dropdown.getOptions().get(0))).click();
-            }
+			// The dropdowns in the example need something to be selected to trigger the submit
+			WComponent comp = TreeUtil.findWComponent(getUi(), path.split("/")).getComponent();
 
-            Assert.assertEquals("Incorrect focus for " + path,
-                                driver.findElement(byWComponentPath(path)).getAttribute("id"),
-                                driver.switchTo().activeElement().getAttribute("id"));
-        }
-    }
+			if (comp instanceof WDropdown) {
+				WDropdown dropdown = (WDropdown) comp;
+				driver.findElement(byWComponentPath(path, dropdown.getOptions().get(0))).click();
+			}
+
+			Assert.assertEquals("Incorrect focus for " + path,
+					driver.findElement(byWComponentPath(path)).getAttribute("id"),
+					driver.switchTo().activeElement().getAttribute("id"));
+		}
+	}
 }

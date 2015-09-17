@@ -14,30 +14,29 @@ import com.github.bordertech.wcomponents.layout.FlowLayout.Alignment;
  * @author Yiannis Paschalidis
  * @since 1.0.0
  */
-public class WPopupExample extends WPanel
-{
-    /** Creates a WPopupExample. */
-    public WPopupExample()
-    {
-        final WPopup popup = new WPopup("http://www.ubuntu.com/");
-        popup.setResizable(true);
-        popup.setScrollable(true);
+public class WPopupExample extends WPanel {
 
-        WButton button1 = new WButton("Popup Ubuntu website");
-        button1.setAction(new Action()
-        {
-            @Override
-            public void execute(final ActionEvent event)
-            {
-                popup.setVisible(true);
-            }
-        });
+	/**
+	 * Creates a WPopupExample.
+	 */
+	public WPopupExample() {
+		final WPopup popup = new WPopup("http://www.ubuntu.com/");
+		popup.setResizable(true);
+		popup.setScrollable(true);
 
-        WButton button2 = new WButton("Refresh page");
+		WButton button1 = new WButton("Popup Ubuntu website");
+		button1.setAction(new Action() {
+			@Override
+			public void execute(final ActionEvent event) {
+				popup.setVisible(true);
+			}
+		});
 
-        setLayout(new FlowLayout(Alignment.VERTICAL));
-        add(button1);
-        add(button2);
-        add(popup);
-    }
+		WButton button2 = new WButton("Refresh page");
+
+		setLayout(new FlowLayout(Alignment.VERTICAL));
+		add(button1);
+		add(button2);
+		add(popup);
+	}
 }
