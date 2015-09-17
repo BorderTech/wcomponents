@@ -32,36 +32,29 @@ import org.apache.velocity.exception.ResourceNotFoundException;
 /**
  * Renders WComponents using a Velocity template.
  *
- * Children of the WComponent being rendered are placed into the VelocityContext
- * for use by the velocity template. If a child is added to the parent with a
- * tag of "xyz", then the child's rendered output will be placed into the
- * VelocityContext under the variable "$xyz".
+ * Children of the WComponent being rendered are placed into the VelocityContext for use by the
+ * velocity template. If a child is added to the parent with a tag of "xyz", then the child's
+ * rendered output will be placed into the VelocityContext under the variable "$xyz".
  * <p>
- * There are some other standard variables that are available in the
- * VelocityContext:
+ * There are some other standard variables that are available in the VelocityContext:
  * <ul>
- * <li> $children is a list of the rendered output of all children, in
- * order.</li>
+ * <li> $children is a list of the rendered output of all children, in order.</li>
  * <li> $this is a reference to the WComponent itself.</li>
  * <li> $context is a reference to the VelocityContext itself.</li>
- * <li> If a child's tag ends in "_list", then instead of adding the child's
- * rendered output to the context, the output is placed in a List which is added
- * to the context. This means that several children can use the same tag (ending
- * in "_list") and the template can iterate over a list structure to render
- * them.</li>
+ * <li> If a child's tag ends in "_list", then instead of adding the child's rendered output to the
+ * context, the output is placed in a List which is added to the context. This means that several
+ * children can use the same tag (ending in "_list") and the template can iterate over a list
+ * structure to render them.</li>
  * </ul>
  *
  * The Velocity engine can be configured to work in one of two modes:
  * <ol>
- * <li> Source mode - by setting the
- * <code>bordertech.wcomponents.velocity.fileTemplatesDir</code> parameter to
- * point to the location of the source tree (eg the src directory), the Velocity
- * engine will read the templates directly from the source. It will not cache
- * them.</li>
+ * <li> Source mode - by setting the <code>bordertech.wcomponents.velocity.fileTemplatesDir</code>
+ * parameter to point to the location of the source tree (eg the src directory), the Velocity engine
+ * will read the templates directly from the source. It will not cache them.</li>
  * <li> Classpath mode - by setting the
- * <code>bordertech.wcomponents.velocity.fileTemplatesDir</code> parameter to
- * null or empty, the Velocity engine will read the templates from the classpath
- * and will cache them.</li>
+ * <code>bordertech.wcomponents.velocity.fileTemplatesDir</code> parameter to null or empty, the
+ * Velocity engine will read the templates from the classpath and will cache them.</li>
  * </ol>
  *
  * @author James Gifford
@@ -88,8 +81,7 @@ public final class VelocityRenderer implements Renderer {
 	private final String url;
 
 	/**
-	 * Creates a VelocityRenderer where the template is determined during
-	 * rendering.
+	 * Creates a VelocityRenderer where the template is determined during rendering.
 	 */
 	public VelocityRenderer() {
 		url = null;
@@ -213,9 +205,8 @@ public final class VelocityRenderer implements Renderer {
 	}
 
 	/**
-	 * Fills the given velocity context with data from the component which is
-	 * being rendered. A map of components is also built up, in order to support
-	 * deferred rendering.
+	 * Fills the given velocity context with data from the component which is being rendered. A map
+	 * of components is also built up, in order to support deferred rendering.
 	 *
 	 * @param component the current component being rendered.
 	 * @param context the velocity context to modify.
@@ -283,8 +274,8 @@ public final class VelocityRenderer implements Renderer {
 	}
 
 	/**
-	 * Adds a name/value pair to the Velocity context. If the name parameter
-	 * ends with {@link #LIST_SUFFIX}
+	 * Adds a name/value pair to the Velocity context. If the name parameter ends with
+	 * {@link #LIST_SUFFIX}
 	 *
 	 * @param context the context to add to.
 	 * @param name the name
@@ -342,8 +333,7 @@ public final class VelocityRenderer implements Renderer {
 	 * Retrieves the Velocity template for the given component.
 	 *
 	 * @param component the component to retrieve the template for.
-	 * @return the template for the given component, or null if there is no
-	 * template.
+	 * @return the template for the given component, or null if there is no template.
 	 */
 	private Template getTemplate(final WComponent component) {
 		String templateUrl = url;

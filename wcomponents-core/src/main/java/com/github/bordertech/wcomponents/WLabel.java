@@ -6,9 +6,9 @@ import java.text.MessageFormat;
 
 /**
  * <p>
- * The WLabel component is used to display a textual label for an input field. A
- * WLabel is associated with an input field provided in the labels constructor,
- * or via the {@link #setForComponent(WComponent) setForComponent} method.</p>
+ * The WLabel component is used to display a textual label for an input field. A WLabel is
+ * associated with an input field provided in the labels constructor, or via the
+ * {@link #setForComponent(WComponent) setForComponent} method.</p>
  *
  * @author James Gifford
  * @since 1.0.0
@@ -16,8 +16,7 @@ import java.text.MessageFormat;
 public class WLabel extends AbstractMutableContainer implements AjaxTarget {
 
 	/**
-	 * Creates a new WLabel. Sets the label text, access key and the component
-	 * that label is for.
+	 * Creates a new WLabel. Sets the label text, access key and the component that label is for.
 	 *
 	 * @param text The label text.
 	 * @param accessKey The access key for the label.
@@ -29,8 +28,7 @@ public class WLabel extends AbstractMutableContainer implements AjaxTarget {
 	}
 
 	/**
-	 * Creates a new WLabel with the specified text and component that the label
-	 * is for.
+	 * Creates a new WLabel with the specified text and component that the label is for.
 	 *
 	 * @param text the label text.
 	 * @param forComponent the component that this label is for.
@@ -48,8 +46,7 @@ public class WLabel extends AbstractMutableContainer implements AjaxTarget {
 	 * Creates a new WLabel with the specified text and access key.
 	 *
 	 * @param text The label text.
-	 * @param accessKey The access key for the label's
-	 * <code>forComponent</code>.
+	 * @param accessKey The access key for the label's <code>forComponent</code>.
 	 */
 	public WLabel(final String text, final char accessKey) {
 		this(text);
@@ -102,8 +99,7 @@ public class WLabel extends AbstractMutableContainer implements AjaxTarget {
 	}
 
 	/**
-	 * Sets the label "hint" text, which can be used to provide additional
-	 * information to the user.
+	 * Sets the label "hint" text, which can be used to provide additional information to the user.
 	 *
 	 * @param hint the hint text, using {@link MessageFormat} syntax.
 	 * @param args optional arguments for the message format string.
@@ -156,19 +152,17 @@ public class WLabel extends AbstractMutableContainer implements AjaxTarget {
 	// Access key
 	/**
 	 * <p>
-	 * Set the key (in combination with Alt) that should give focus to this
-	 * label. The action that occurs when the label is focussed depends on the
-	 * type of component this label is for (the <code>forComponent</code>). For
-	 * example, WTextField will focus the cursor in the text input, WCheckBox
-	 * will toggle the check box selection. Access keys are not case sensitive.
+	 * Set the key (in combination with Alt) that should give focus to this label. The action that
+	 * occurs when the label is focussed depends on the type of component this label is for (the
+	 * <code>forComponent</code>). For example, WTextField will focus the cursor in the text input,
+	 * WCheckBox will toggle the check box selection. Access keys are not case sensitive.
 	 * </p>
 	 * <p>
-	 * Note: Setting the access key also sets the shared title of the component
-	 * to indicate the access key combination.
+	 * Note: Setting the access key also sets the shared title of the component to indicate the
+	 * access key combination.
 	 * </p>
 	 *
-	 * @param accesskey The key (in combination with the Alt key) that activates
-	 * this label.
+	 * @param accesskey The key (in combination with the Alt key) that activates this label.
 	 * @since 1.0.0
 	 */
 	public void setAccessKey(final char accesskey) {
@@ -176,8 +170,8 @@ public class WLabel extends AbstractMutableContainer implements AjaxTarget {
 	}
 
 	/**
-	 * The access key is a shortcut key that will focus the label when used in
-	 * combination with the Alt key.
+	 * The access key is a shortcut key that will focus the label when used in combination with the
+	 * Alt key.
 	 *
 	 * @return The key that in combination with Alt will focus this label.
 	 * @since 1.0.0
@@ -187,8 +181,8 @@ public class WLabel extends AbstractMutableContainer implements AjaxTarget {
 	}
 
 	/**
-	 * Returns the accesskey character as a String. If the character is not a
-	 * letter or digit then <code>null</code> is returned.
+	 * Returns the accesskey character as a String. If the character is not a letter or digit then
+	 * <code>null</code> is returned.
 	 *
 	 * @return The accesskey character as a String (may be <code>null</code>).
 	 */
@@ -216,9 +210,9 @@ public class WLabel extends AbstractMutableContainer implements AjaxTarget {
 	 * Sets whether the heading text needs to be encoded.</p>
 	 *
 	 * <p>
-	 * When setting <code>encodeText</code> to <code>false</code>, it then
-	 * becomes the responsibility of the application to ensure that the text
-	 * does not contain any characters which need to be escaped.</p>
+	 * When setting <code>encodeText</code> to <code>false</code>, it then becomes the
+	 * responsibility of the application to ensure that the text does not contain any characters
+	 * which need to be escaped.</p>
 	 *
 	 * @param encodeText true if the text needs to be encode, false if not.
 	 */
@@ -227,8 +221,8 @@ public class WLabel extends AbstractMutableContainer implements AjaxTarget {
 	}
 
 	/**
-	 * Sets the client visibility of this label. This method should only ever be
-	 * called to hide labels which are intended for use by screen-readers.
+	 * Sets the client visibility of this label. This method should only ever be called to hide
+	 * labels which are intended for use by screen-readers.
 	 *
 	 * @param hidden true for hidden, false for displayed.
 	 */
@@ -238,8 +232,7 @@ public class WLabel extends AbstractMutableContainer implements AjaxTarget {
 	}
 
 	/**
-	 * @return a String representation of this component, for debugging
-	 * purposes.
+	 * @return a String representation of this component, for debugging purposes.
 	 */
 	@Override
 	public String toString() {
@@ -287,8 +280,7 @@ public class WLabel extends AbstractMutableContainer implements AjaxTarget {
 		private Serializable text;
 
 		/**
-		 * Provides further hint text to the user, in addition to the label
-		 * text.
+		 * Provides further hint text to the user, in addition to the label text.
 		 */
 		private Serializable hint;
 
@@ -298,8 +290,7 @@ public class WLabel extends AbstractMutableContainer implements AjaxTarget {
 		private WComponent forComponent;
 
 		/**
-		 * The key shortcut that activates the label's
-		 * <code>forComponent</code>.
+		 * The key shortcut that activates the label's <code>forComponent</code>.
 		 */
 		private char accessKey = '\0';
 	}

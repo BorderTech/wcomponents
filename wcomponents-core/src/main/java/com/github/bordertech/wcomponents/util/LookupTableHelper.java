@@ -6,8 +6,8 @@ import com.github.bordertech.wcomponents.UIContextDelegate;
 import com.github.bordertech.wcomponents.UIContextHolder;
 
 /**
- * LookupTableHelper provides convenience methods to register lookup tables for
- * use with the data list servlet.
+ * LookupTableHelper provides convenience methods to register lookup tables for use with the data
+ * list servlet.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -15,9 +15,8 @@ import com.github.bordertech.wcomponents.UIContextHolder;
 public final class LookupTableHelper {
 
 	/**
-	 * The key we use to store the UIContext in the user's session. The data
-	 * list servlet will use this key to retrieve the UIContext and process the
-	 * request.
+	 * The key we use to store the UIContext in the user's session. The data list servlet will use
+	 * this key to retrieve the UIContext and process the request.
 	 */
 	private static final String DATA_LIST_UIC_SESSION_KEY = "dataList.uic";
 

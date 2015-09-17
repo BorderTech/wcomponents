@@ -4,8 +4,7 @@ import com.github.bordertech.wcomponents.SubordinateTrigger;
 import com.github.bordertech.wcomponents.WLabel;
 
 /**
- * A logical condition that tests if the trigger is greater than the compare
- * value.
+ * A logical condition that tests if the trigger is greater than the compare value.
  *
  * @author Jonathan Austin
  * @since 1.0.0
@@ -13,8 +12,7 @@ import com.github.bordertech.wcomponents.WLabel;
 public class GreaterThan extends AbstractCompare {
 
 	/**
-	 * Create a GreaterThan condition with a SubordinateTrigger and Compare
-	 * value.
+	 * Create a GreaterThan condition with a SubordinateTrigger and Compare value.
 	 *
 	 * @param trigger the trigger input field.
 	 * @param compare the value to use in the compare.

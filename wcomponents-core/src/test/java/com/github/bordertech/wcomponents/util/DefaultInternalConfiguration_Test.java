@@ -11,8 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * DefaultInternalConfiguration_Test - JUnit tests for
- * {@link DefaultInternalConfiguration}.
+ * DefaultInternalConfiguration_Test - JUnit tests for {@link DefaultInternalConfiguration}.
  *
  * @author Yiannis Paschalidis.
  * @since 1.0.0

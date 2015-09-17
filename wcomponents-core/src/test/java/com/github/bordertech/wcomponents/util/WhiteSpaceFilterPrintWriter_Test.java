@@ -7,8 +7,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * WhiteSpaceFilterPrintWriter_Test - unit tests for
- * {@link WhiteSpaceFilterPrintWriter}.
+ * WhiteSpaceFilterPrintWriter_Test - unit tests for {@link WhiteSpaceFilterPrintWriter}.
  *
  * @author Yiannis Paschalidis.
  * @since 1.0.0

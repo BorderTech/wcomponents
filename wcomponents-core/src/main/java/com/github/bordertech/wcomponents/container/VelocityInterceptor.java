@@ -15,8 +15,8 @@ import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 
 /**
- * This component is for rendering only, and contains no behaviour. It renders
- * itself using a Velocity template.
+ * This component is for rendering only, and contains no behaviour. It renders itself using a
+ * Velocity template.
  *
  * @author Martin Shevchenko
  * @since 1.0.0
@@ -44,8 +44,8 @@ public class VelocityInterceptor extends InterceptorComponent {
 
 	/**
 	 * Sets the template url, based on a component's class name. e.g.
-	 * <code>com.github.bordertech.wcomponents.foo.Bar</code> will have a
-	 * template of <code>/com/github/bordertech/wcomponents/foo/Bar.vm</code>.
+	 * <code>com.github.bordertech.wcomponents.foo.Bar</code> will have a template of
+	 * <code>/com/github/bordertech/wcomponents/foo/Bar.vm</code>.
 	 *
 	 * @param clazz the component class.
 	 */
@@ -54,8 +54,7 @@ public class VelocityInterceptor extends InterceptorComponent {
 	}
 
 	/**
-	 * Renders the component using the velocity template which has been
-	 * provided.
+	 * Renders the component using the velocity template which has been provided.
 	 *
 	 * @param renderContext the context for rendering.
 	 */
@@ -108,8 +107,7 @@ public class VelocityInterceptor extends InterceptorComponent {
 	}
 
 	/**
-	 * Subclasses can override this method in order to add more parameters to
-	 * the context.
+	 * Subclasses can override this method in order to add more parameters to the context.
 	 *
 	 * @param context the velocity context to add parameters to.
 	 */

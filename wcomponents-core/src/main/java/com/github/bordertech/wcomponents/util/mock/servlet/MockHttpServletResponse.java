@@ -13,8 +13,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * A mock http servlet response, useful for unit testing. Extracted from
- * PortalBridge_Test
+ * A mock http servlet response, useful for unit testing. Extracted from PortalBridge_Test
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -254,9 +253,9 @@ public class MockHttpServletResponse implements HttpServletResponse {
 	}
 
 	/**
-	 * Returns a ServletOutputStream that would normally be used to write
-	 * content back to the client. Instead, the content is held internally and
-	 * may be retrieved by calling {@link #getOutput()}.
+	 * Returns a ServletOutputStream that would normally be used to write content back to the
+	 * client. Instead, the content is held internally and may be retrieved by calling
+	 * {@link #getOutput()}.
 	 *
 	 * @return a ServletOutputStream to write content to.
 	 * @throws IOException if {@link #getWriter()} has been called.
@@ -275,9 +274,8 @@ public class MockHttpServletResponse implements HttpServletResponse {
 	}
 
 	/**
-	 * Returns a PrintWriter that would normally be used to write content back
-	 * to the client. Instead, the content is held internally and may be
-	 * retrieved by calling {@link #getOutput()}.
+	 * Returns a PrintWriter that would normally be used to write content back to the client.
+	 * Instead, the content is held internally and may be retrieved by calling {@link #getOutput()}.
 	 *
 	 * @return a PrintWriter to write content to.
 	 * @throws IOException if {@link #getOutputStream()} has been called.
@@ -371,8 +369,7 @@ public class MockHttpServletResponse implements HttpServletResponse {
 	/**
 	 * Sets the contentEncoding for the StringWriter.
 	 *
-	 * @param contentEncoding The name of the content encoding for the
-	 * stringWriter.
+	 * @param contentEncoding The name of the content encoding for the stringWriter.
 	 */
 	@Override
 	public void setCharacterEncoding(final String contentEncoding) {
@@ -390,8 +387,7 @@ public class MockHttpServletResponse implements HttpServletResponse {
 	 * Returns the value of the specified header.
 	 *
 	 * @param name the header name.
-	 * @return the value of the specified header, or null if it has not been
-	 * set.
+	 * @return the value of the specified header, or null if it has not been set.
 	 */
 	public String getHeader(final String name) {
 		return (String) headers.get(name);
@@ -400,9 +396,8 @@ public class MockHttpServletResponse implements HttpServletResponse {
 	/**
 	 * Retrieves the content written to the response.
 	 *
-	 * @return the content written to the response outputStream or printWriter.
-	 * Null is returned if neither {@link #getOutputStream()} or
-	 * {@link #getWriter()} have been called.
+	 * @return the content written to the response outputStream or printWriter. Null is returned if
+	 * neither {@link #getOutputStream()} or {@link #getWriter()} have been called.
 	 */
 	public byte[] getOutput() {
 		if (stringWriter != null) {
@@ -428,9 +423,8 @@ public class MockHttpServletResponse implements HttpServletResponse {
 	/**
 	 * Retrieves the content written to the response.
 	 *
-	 * @return the content written to the response outputStream or printWriter.
-	 * Null is returned if neither {@link #getOutputStream()} or
-	 * {@link #getWriter()} have been called.
+	 * @return the content written to the response outputStream or printWriter. Null is returned if
+	 * neither {@link #getOutputStream()} or {@link #getWriter()} have been called.
 	 */
 	public String getOutputAsString() {
 		if (stringWriter != null) {

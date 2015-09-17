@@ -5,8 +5,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /**
- * An empty Iterator, that can be returned for an iterator on a null/empty
- * collection.
+ * An empty Iterator, that can be returned for an iterator on a null/empty collection.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0

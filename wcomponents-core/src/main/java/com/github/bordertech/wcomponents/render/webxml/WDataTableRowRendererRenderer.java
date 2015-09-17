@@ -155,8 +155,7 @@ final class WDataTableRowRendererRenderer extends AbstractWebXmlRenderer {
 	}
 
 	/**
-	 * Retrieves the filter values for the given row in the data model, as a
-	 * comma-separated string.
+	 * Retrieves the filter values for the given row in the data model, as a comma-separated string.
 	 *
 	 * @param dataModel the data model.
 	 * @param rowIndex the row index.

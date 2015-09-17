@@ -159,14 +159,13 @@ public class ServletRequest extends AbstractRequest {
 	}
 
 	/**
-	 * Support for Public Render Parameters in Portal. In a Servlet environment,
-	 * this will be the same as the session.
+	 * Support for Public Render Parameters in Portal. In a Servlet environment, this will be the
+	 * same as the session.
 	 *
 	 * @param key The key for the parameter.
 	 * @param value The value of the parameter.
 	 * @since 1.0.0
-	 * @deprecated portal specific. user
-	 * {@link #setSessionAttribute(String, Serializable)}
+	 * @deprecated portal specific. user {@link #setSessionAttribute(String, Serializable)}
 	 */
 	@Override
 	public void setRenderParameter(final String key, final Serializable value) {
@@ -174,8 +173,8 @@ public class ServletRequest extends AbstractRequest {
 	}
 
 	/**
-	 * Support for Public Render Parameters in Portal. In a Servlet environment,
-	 * this will be the same as the session.
+	 * Support for Public Render Parameters in Portal. In a Servlet environment, this will be the
+	 * same as the session.
 	 *
 	 * @param key The key for the parameter.
 	 * @return The value of the parameter.
@@ -188,14 +187,13 @@ public class ServletRequest extends AbstractRequest {
 	}
 
 	/**
-	 * Returns a boolean indicating whether the authenticated user is included
-	 * in the specified logical "role". Roles and role membership can be defined
-	 * using deployment descriptors. If the user has not been authenticated, the
-	 * method returns false.
+	 * Returns a boolean indicating whether the authenticated user is included in the specified
+	 * logical "role". Roles and role membership can be defined using deployment descriptors. If the
+	 * user has not been authenticated, the method returns false.
 	 *
 	 * @param role a String specifying the name of the role.
-	 * @return a boolean indicating whether the user making this request belongs
-	 * to a given role; false if the user has not been authenticated.
+	 * @return a boolean indicating whether the user making this request belongs to a given role;
+	 * false if the user has not been authenticated.
 	 * @since 1.0.0
 	 * @see HttpServletRequest#isUserInRole(String)
 	 */
@@ -205,8 +203,8 @@ public class ServletRequest extends AbstractRequest {
 	}
 
 	/**
-	 * @return the name of the HTTP method with which this request was made, for
-	 * example, GET, POST, or PUT.
+	 * @return the name of the HTTP method with which this request was made, for example, GET, POST,
+	 * or PUT.
 	 */
 	@Override
 	public String getMethod() {

@@ -5,16 +5,14 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * A default implementation of the {@link BeanTableDataModel} interface. This
- * implementation does not support editing, row selection, filtering etc.
- * Subclasses need only implement the {@link TableDataModel#getRowCount()} and
- * {@link TableDataModel#getValueAt(int, int)} methods.
+ * A default implementation of the {@link BeanTableDataModel} interface. This implementation does
+ * not support editing, row selection, filtering etc. Subclasses need only implement the
+ * {@link TableDataModel#getRowCount()} and {@link TableDataModel#getValueAt(int, int)} methods.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
  *
- * @deprecated Use {@link WTable} and {@link AbstractBeanBoundTableModel}
- * instead.
+ * @deprecated Use {@link WTable} and {@link AbstractBeanBoundTableModel} instead.
  */
 @Deprecated
 public abstract class AbstractBeanTableDataModel extends AbstractTableDataModel implements BeanTableDataModel {
@@ -35,8 +33,8 @@ public abstract class AbstractBeanTableDataModel extends AbstractTableDataModel 
 	private Object beanId;
 
 	/**
-	 * This bean property that this component is interested in. The property is
-	 * specified using Jakarta BeanUtils bean notation.
+	 * This bean property that this component is interested in. The property is specified using
+	 * Jakarta BeanUtils bean notation.
 	 */
 	private String beanProperty;
 

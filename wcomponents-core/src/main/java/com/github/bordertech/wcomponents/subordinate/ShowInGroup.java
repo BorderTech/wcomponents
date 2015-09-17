@@ -26,8 +26,7 @@ public class ShowInGroup extends AbstractSetVisible {
 	}
 
 	/**
-	 * Executes the action. Shows the target component and hides everything else
-	 * in the group.
+	 * Executes the action. Shows the target component and hides everything else in the group.
 	 */
 	@Override
 	public void execute() {

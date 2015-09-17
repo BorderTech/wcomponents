@@ -10,8 +10,8 @@ import java.util.List;
 
 /**
  * <p>
- * This class describes a boolean expression. Since an expression evaluates to a
- * boolean result, it may also be treated as a BooleanExpression.
+ * This class describes a boolean expression. Since an expression evaluates to a boolean result, it
+ * may also be treated as a BooleanExpression.
  * </p>
  *
  * @author Yiannis Paschalidis
@@ -40,18 +40,15 @@ public final class GroupExpression implements BooleanExpression {
 	 */
 	public enum Type {
 		/**
-		 * An expression where the result is the logical OR of at least two
-		 * boolean operands.
+		 * An expression where the result is the logical OR of at least two boolean operands.
 		 */
 		OR,
 		/**
-		 * An expression where the result is the logical AND of at least two
-		 * boolean operands.
+		 * An expression where the result is the logical AND of at least two boolean operands.
 		 */
 		AND,
 		/**
-		 * An expression where the result is the logical NOT of a boolean
-		 * operand.
+		 * An expression where the result is the logical NOT of a boolean operand.
 		 */
 		NOT
 	}

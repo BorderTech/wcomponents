@@ -12,8 +12,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * Provides a bridge to static resources which are present in the class path,
- * but not in the web application itself.
+ * Provides a bridge to static resources which are present in the class path, but not in the web
+ * application itself.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0

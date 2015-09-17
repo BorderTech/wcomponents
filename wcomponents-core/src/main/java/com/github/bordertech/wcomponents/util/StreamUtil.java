@@ -32,13 +32,12 @@ public final class StreamUtil {
 	public static final int DEFAULT_BUFFER_SIZE = 2048;
 
 	/**
-	 * Copies information from the input stream to the output stream, using the
-	 * default copy buffer size.
+	 * Copies information from the input stream to the output stream, using the default copy buffer
+	 * size.
 	 *
 	 * @param in the source stream.
 	 * @param out the destination stream.
-	 * @throws IOException if there is an error reading or writing to the
-	 * streams.
+	 * @throws IOException if there is an error reading or writing to the streams.
 	 */
 	public static void copy(final InputStream in, final OutputStream out)
 			throws IOException {
@@ -46,14 +45,12 @@ public final class StreamUtil {
 	}
 
 	/**
-	 * Copies information from the input stream to the output stream using a
-	 * specified buffer size.
+	 * Copies information from the input stream to the output stream using a specified buffer size.
 	 *
 	 * @param in the source stream.
 	 * @param out the destination stream.
 	 * @param bufferSize the buffer size.
-	 * @throws IOException if there is an error reading or writing to the
-	 * streams.
+	 * @throws IOException if there is an error reading or writing to the streams.
 	 */
 	public static void copy(final InputStream in, final OutputStream out, final int bufferSize)
 			throws IOException {
@@ -69,8 +66,7 @@ public final class StreamUtil {
 	}
 
 	/**
-	 * Returns a byte array containing all the information contained in the
-	 * given input stream.
+	 * Returns a byte array containing all the information contained in the given input stream.
 	 *
 	 * @param in the stream to read from.
 	 * @return the stream contents as a byte array.

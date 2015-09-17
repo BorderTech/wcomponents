@@ -27,8 +27,8 @@ public class FileItemWrap implements File {
 	}
 
 	/**
-	 * The name of the file as supplied by the client. Depending on the client
-	 * this may or may not include the full path to the file.
+	 * The name of the file as supplied by the client. Depending on the client this may or may not
+	 * include the full path to the file.
 	 *
 	 * @return The name of the file.
 	 */
@@ -56,11 +56,9 @@ public class FileItemWrap implements File {
 	}
 
 	/**
-	 * Returns the content type passed by the browser or <code>null</code> if
-	 * not defined.
+	 * Returns the content type passed by the browser or <code>null</code> if not defined.
 	 *
-	 * @return The content type passed by the browser or <code>null</code> if
-	 * not defined.
+	 * @return The content type passed by the browser or <code>null</code> if not defined.
 	 */
 	@Override
 	public String getMimeType() {
@@ -78,11 +76,11 @@ public class FileItemWrap implements File {
 	}
 
 	/**
-	 * Returns an {@link java.io.InputStream InputStream} that can be used to
-	 * retrieve the contents of the file.
+	 * Returns an {@link java.io.InputStream InputStream} that can be used to retrieve the contents
+	 * of the file.
 	 *
-	 * @return An {@link java.io.InputStream InputStream} that can be used to
-	 * retrieve the contents of the file.
+	 * @return An {@link java.io.InputStream InputStream} that can be used to retrieve the contents
+	 * of the file.
 	 * @throws IOException unable to access file.
 	 */
 	@Override
@@ -101,12 +99,11 @@ public class FileItemWrap implements File {
 	}
 
 	/**
-	 * Constructs a {@link java.io.File} instance using the name of the file,
-	 * and invokes {@link java.io.File#getName()} to retrieve the name of the
-	 * file minus its extension.
+	 * Constructs a {@link java.io.File} instance using the name of the file, and invokes
+	 * {@link java.io.File#getName()} to retrieve the name of the file minus its extension.
 	 *
-	 * @return The name of the file or directory denoted by this abstract
-	 * pathname, or the empty string if this pathname's name sequence is empty
+	 * @return The name of the file or directory denoted by this abstract pathname, or the empty
+	 * string if this pathname's name sequence is empty
 	 */
 	@Override
 	public String getFileName() {

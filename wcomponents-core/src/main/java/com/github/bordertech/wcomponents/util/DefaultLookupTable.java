@@ -3,8 +3,7 @@ package com.github.bordertech.wcomponents.util;
 import java.util.List;
 
 /**
- * This default implementation of {@link LookupTable} does not provide any
- * look-up tables.
+ * This default implementation of {@link LookupTable} does not provide any look-up tables.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0

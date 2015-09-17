@@ -2,12 +2,12 @@ package com.github.bordertech.wcomponents;
 
 /**
  * <p>
- * The WSection component defines a major discrete section of a screen which is
- * associated with, and described by, a heading.
+ * The WSection component defines a major discrete section of a screen which is associated with, and
+ * described by, a heading.
  * </p>
  * <p>
- * Various {@link SectionMode modes of operation} are supported, which allow
- * developers to tune performance by only loading content when it is needed.
+ * Various {@link SectionMode modes of operation} are supported, which allow developers to tune
+ * performance by only loading content when it is needed.
  * </p>
  *
  * @author Jonathan Austin
@@ -20,13 +20,11 @@ public class WSection extends AbstractNamingContextContainer implements AjaxTarg
 	 */
 	public static enum SectionMode {
 		/**
-		 * A lazy section will load its content via AJAX when it is made
-		 * visible.
+		 * A lazy section will load its content via AJAX when it is made visible.
 		 */
 		LAZY,
 		/**
-		 * An eager section will load its content via AJAX immediately after the
-		 * page is loaded.
+		 * An eager section will load its content via AJAX immediately after the page is loaded.
 		 */
 		EAGER
 	};
@@ -128,8 +126,8 @@ public class WSection extends AbstractNamingContextContainer implements AjaxTarg
 	}
 
 	/**
-	 * Override preparePaintComponent in order to toggle the visibility of the
-	 * content, or to register the appropriate ajax operation.
+	 * Override preparePaintComponent in order to toggle the visibility of the content, or to
+	 * register the appropriate ajax operation.
 	 *
 	 * @param request the request being responded to
 	 */
@@ -146,8 +144,7 @@ public class WSection extends AbstractNamingContextContainer implements AjaxTarg
 	}
 
 	/**
-	 * @return a String representation of this component, for debugging
-	 * purposes.
+	 * @return a String representation of this component, for debugging purposes.
 	 */
 	@Override
 	public String toString() {

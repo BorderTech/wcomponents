@@ -96,8 +96,7 @@ public class UIRegistryClassLoaderImpl_Test {
 	}
 
 	/**
-	 * Test getUI - nothing registered - class creatable from key - but not a
-	 * WComponent.
+	 * Test getUI - nothing registered - class creatable from key - but not a WComponent.
 	 */
 	@Test
 	public void testGetUINotRegisteredNotWComponent() {

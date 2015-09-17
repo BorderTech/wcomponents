@@ -17,8 +17,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * When you have a situation where you have a list of a repeated data type that
- * you want to render or edit, then this ui component can help.
+ * When you have a situation where you have a list of a repeated data type that you want to render
+ * or edit, then this ui component can help.
  * <p>
  * Typical usage: <blockquote>
  *
@@ -39,8 +39,7 @@ import org.apache.commons.logging.LogFactory;
 public class WRepeater extends WBeanComponent implements Container, AjaxTarget, NamingContextable {
 
 	/**
-	 * This key is used to access the rowId-to-row-bean mapping table from the
-	 * scratch map.
+	 * This key is used to access the rowId-to-row-bean mapping table from the scratch map.
 	 */
 	private static final String SCRATCHMAP_DATA_BY_ROW_ID_KEY = "WRepeater.dataByRowId";
 
@@ -50,15 +49,13 @@ public class WRepeater extends WBeanComponent implements Container, AjaxTarget, 
 	private static final Log LOG = LogFactory.getLog(WRepeater.class);
 
 	/**
-	 * Row context name pattern. Must contain only letters, digits or
-	 * underscores.
+	 * Row context name pattern. Must contain only letters, digits or underscores.
 	 */
 	private static final Pattern ROW_ID_CONTEXT_NAME_PATTERN = Pattern.compile("[0-9a-zA-Z_]*");
 
 	/**
 	 * Creates a WRepeater without any repeated component. The method
-	 * {@link #setRepeatedComponent(WComponent)} must be called to configure the
-	 * repeater.
+	 * {@link #setRepeatedComponent(WComponent)} must be called to configure the repeater.
 	 */
 	public WRepeater() {
 		// Do nothing
@@ -74,10 +71,9 @@ public class WRepeater extends WBeanComponent implements Container, AjaxTarget, 
 	}
 
 	/**
-	 * Set the wcomponent instance capable of handling a row. The component must
-	 * implement at least one of the {@link DataBound}, {@link BeanBound} or
-	 * {@link BeanProviderBound} interfaces. The data entries in the bean list
-	 * passed to this repeater must be compatible with the component.
+	 * Set the wcomponent instance capable of handling a row. The component must implement at least
+	 * one of the {@link DataBound}, {@link BeanBound} or {@link BeanProviderBound} interfaces. The
+	 * data entries in the bean list passed to this repeater must be compatible with the component.
 	 *
 	 * @param repeatedComponent the component to repeat.
 	 */
@@ -113,8 +109,8 @@ public class WRepeater extends WBeanComponent implements Container, AjaxTarget, 
 	}
 
 	/**
-	 * Recursively clears cached component scratch maps. This is called when the
-	 * bean list changes, as the beans may have changed.
+	 * Recursively clears cached component scratch maps. This is called when the bean list changes,
+	 * as the beans may have changed.
 	 *
 	 * @param node the component branch to clear cached data in.
 	 */
@@ -148,10 +144,9 @@ public class WRepeater extends WBeanComponent implements Container, AjaxTarget, 
 	}
 
 	/**
-	 * Retrieves the list of dataBeans that holds the data object for each row.
-	 * The list returned will be the same instance as the one supplied via the
-	 * setBeanList method. Will never return null, but it can return an empty
-	 * list.
+	 * Retrieves the list of dataBeans that holds the data object for each row. The list returned
+	 * will be the same instance as the one supplied via the setBeanList method. Will never return
+	 * null, but it can return an empty list.
 	 *
 	 * @return the list of dataBeans that holds the data object for each row
 	 */
@@ -166,8 +161,8 @@ public class WRepeater extends WBeanComponent implements Container, AjaxTarget, 
 	}
 
 	/**
-	 * Override updateBeanValue to update the bean value for all WBeanComponents
-	 * Updates the bean value with the value returned by {@link #getData()}.
+	 * Override updateBeanValue to update the bean value for all WBeanComponents Updates the bean
+	 * value with the value returned by {@link #getData()}.
 	 */
 	@Override
 	public void updateBeanValue() {
@@ -229,8 +224,7 @@ public class WRepeater extends WBeanComponent implements Container, AjaxTarget, 
 	}
 
 	/**
-	 * Visually marks any fields or blocks that have errors in the given diag
-	 * list.
+	 * Visually marks any fields or blocks that have errors in the given diag list.
 	 *
 	 * @param diags the list of SfpDiagnostics from the last validation pass.
 	 */
@@ -318,9 +312,8 @@ public class WRepeater extends WBeanComponent implements Container, AjaxTarget, 
 	/**
 	 * Removes any component models that are in their default state.
 	 * <p>
-	 * The subContexts are held onto as they hold the "render id" for the row.
-	 * This is needed to be able to match the rendered row back to the
-	 * subcontext.
+	 * The subContexts are held onto as they hold the "render id" for the row. This is needed to be
+	 * able to match the rendered row back to the subcontext.
 	 * </p>
 	 */
 	@Override
@@ -436,8 +429,7 @@ public class WRepeater extends WBeanComponent implements Container, AjaxTarget, 
 	/**
 	 * Sets the bean property that can be used to obtain each row's unique id.
 	 *
-	 * @param rowIdProperty the row id property, using jakarta PropertyUtils
-	 * notation
+	 * @param rowIdProperty the row id property, using jakarta PropertyUtils notation
 	 */
 	public void setRowIdProperty(final String rowIdProperty) {
 		getOrCreateComponentModel().rowIdProperty = rowIdProperty;
@@ -471,9 +463,8 @@ public class WRepeater extends WBeanComponent implements Container, AjaxTarget, 
 
 	// --------------------------------
 	/**
-	 * Ensures that the repeater has been correctly configured. A
-	 * SystemException will be thrown if the repeater is not configured
-	 * correctly.
+	 * Ensures that the repeater has been correctly configured. A SystemException will be thrown if
+	 * the repeater is not configured correctly.
 	 */
 	private void assertConfigured() {
 		if (getRepeatRoot() == null) {
@@ -600,9 +591,8 @@ public class WRepeater extends WBeanComponent implements Container, AjaxTarget, 
 	}
 
 	/**
-	 * Creates a temporary cache of mappings from row id to row data. The
-	 * mappings will be stored in this repeater's scratch map under
-	 * {@link #SCRATCHMAP_DATA_BY_ROW_ID_KEY}.
+	 * Creates a temporary cache of mappings from row id to row data. The mappings will be stored in
+	 * this repeater's scratch map under {@link #SCRATCHMAP_DATA_BY_ROW_ID_KEY}.
 	 *
 	 * @return the newly created map
 	 */
@@ -648,8 +638,8 @@ public class WRepeater extends WBeanComponent implements Container, AjaxTarget, 
 	/**
 	 * Retrieves the row contexts for all rows.
 	 *
-	 * @return A list containing a UIContext for each row. Will never return
-	 * null, but it can return an empty list.
+	 * @return A list containing a UIContext for each row. Will never return null, but it can return
+	 * an empty list.
 	 */
 	public List<UIContext> getRowContexts() {
 		List<?> beanList = this.getBeanList();
@@ -716,8 +706,7 @@ public class WRepeater extends WBeanComponent implements Container, AjaxTarget, 
 	}
 
 	/**
-	 * @return a String representation of this component, for debugging
-	 * purposes.
+	 * @return a String representation of this component, for debugging purposes.
 	 */
 	@Override
 	public String toString() {
@@ -753,8 +742,7 @@ public class WRepeater extends WBeanComponent implements Container, AjaxTarget, 
 	}
 
 	/**
-	 * Component to hold the repeated component and provide the correct row
-	 * data.
+	 * Component to hold the repeated component and provide the correct row data.
 	 */
 	public static class WRepeatRoot extends WBeanComponent implements BeanProvider, Container, NamingContextable {
 
@@ -782,8 +770,7 @@ public class WRepeater extends WBeanComponent implements Container, AjaxTarget, 
 		}
 
 		/**
-		 * WRepeatRoot will act as a provider for a provider bound repeated
-		 * component.
+		 * WRepeatRoot will act as a provider for a provider bound repeated component.
 		 *
 		 * @param beanProviderBound expected to be the repeated component.
 		 * @return the Bean for the provider bound component.
@@ -808,9 +795,8 @@ public class WRepeater extends WBeanComponent implements Container, AjaxTarget, 
 		}
 
 		/**
-		 * Override setData in order to push data to
-		 * non-{@link BeanProviderBound} renderers each time the data is
-		 * changed.
+		 * Override setData in order to push data to non-{@link BeanProviderBound} renderers each
+		 * time the data is changed.
 		 *
 		 * @param rowData the data for this row.
 		 */
@@ -915,8 +901,8 @@ public class WRepeater extends WBeanComponent implements Container, AjaxTarget, 
 		}
 
 		/**
-		 * WRepeatRoot is part of the tree, but we don't want any request
-		 * handling or painting to be performed on it automatically.
+		 * WRepeatRoot is part of the tree, but we don't want any request handling or painting to be
+		 * performed on it automatically.
 		 *
 		 * @return false
 		 */
@@ -967,8 +953,8 @@ public class WRepeater extends WBeanComponent implements Container, AjaxTarget, 
 	}
 
 	/**
-	 * The SubUIContext stores the state information for the repeated component
-	 * hierarchy for a single row in the repeater.
+	 * The SubUIContext stores the state information for the repeated component hierarchy for a
+	 * single row in the repeater.
 	 *
 	 * @author Martin Shevchenko
 	 */
@@ -979,8 +965,8 @@ public class WRepeater extends WBeanComponent implements Container, AjaxTarget, 
 		 */
 		private int rowIndex = -1;
 		/**
-		 * The row render id to keep the ids unique for each sub context and
-		 * process handle request correctly.
+		 * The row render id to keep the ids unique for each sub context and process handle request
+		 * correctly.
 		 */
 		private final String rowRenderId;
 		/**
@@ -997,8 +983,7 @@ public class WRepeater extends WBeanComponent implements Container, AjaxTarget, 
 		private final int contextId;
 
 		/**
-		 * A map of Component models, keyed by the component which they belong
-		 * to.
+		 * A map of Component models, keyed by the component which they belong to.
 		 */
 		private final Map<WebComponent, WebModel> componentModels = new HashMap<>();
 
@@ -1052,8 +1037,7 @@ public class WRepeater extends WBeanComponent implements Container, AjaxTarget, 
 		}
 
 		/**
-		 * Sets the row index, in the case that the repeater has rows
-		 * added/removed/moved.
+		 * Sets the row index, in the case that the repeater has rows added/removed/moved.
 		 *
 		 * @param rowIndex the new row index for this sub context.
 		 */
@@ -1062,8 +1046,7 @@ public class WRepeater extends WBeanComponent implements Container, AjaxTarget, 
 		}
 
 		/**
-		 * Sets the row bean, in the case that the repeater has rows
-		 * added/removed/moved.
+		 * Sets the row bean, in the case that the repeater has rows added/removed/moved.
 		 *
 		 * @param rowId the row id for this sub context.
 		 */
@@ -1081,8 +1064,8 @@ public class WRepeater extends WBeanComponent implements Container, AjaxTarget, 
 		}
 
 		/**
-		 * @return the row render id to keep each row unique so that handle
-		 * request processing is handled correctly.
+		 * @return the row render id to keep each row unique so that handle request processing is
+		 * handled correctly.
 		 */
 		public String getRowRenderId() {
 			return rowRenderId;
@@ -1098,8 +1081,8 @@ public class WRepeater extends WBeanComponent implements Container, AjaxTarget, 
 		/**
 		 * Retrieves the component model for the given component.
 		 *
-		 * If the component is not being repeated by the WRepeater, the parent
-		 * context will be queried for the model.
+		 * If the component is not being repeated by the WRepeater, the parent context will be
+		 * queried for the model.
 		 *
 		 * @param component the component to retrieve the model for.
 		 * @return the component model for the given component.
@@ -1119,8 +1102,8 @@ public class WRepeater extends WBeanComponent implements Container, AjaxTarget, 
 		/**
 		 * Sets the component model for the given component.
 		 *
-		 * If the component is not being repeated by the WRepeater, the parent
-		 * context will be given the model.
+		 * If the component is not being repeated by the WRepeater, the parent context will be given
+		 * the model.
 		 *
 		 * @param component the component to set the model for.
 		 * @param model the component model for the given component.
@@ -1143,12 +1126,10 @@ public class WRepeater extends WBeanComponent implements Container, AjaxTarget, 
 		}
 
 		/**
-		 * Indicates whether the given component is inside this context's
-		 * repeatRoot.
+		 * Indicates whether the given component is inside this context's repeatRoot.
 		 *
 		 * @param component the component to check
-		 * @return true if the given component belongs in this context, false
-		 * otherwise.
+		 * @return true if the given component belongs in this context, false otherwise.
 		 */
 		protected boolean isInContext(final WebComponent component) {
 
@@ -1178,8 +1159,8 @@ public class WRepeater extends WBeanComponent implements Container, AjaxTarget, 
 		/**
 		 * Removes the component model for the given component.
 		 *
-		 * If the component is not being repeated by the WRepeater, the parent
-		 * context will be asked to remove the model.
+		 * If the component is not being repeated by the WRepeater, the parent context will be asked
+		 * to remove the model.
 		 *
 		 * @param component the component to remove the model for.
 		 */
@@ -1200,8 +1181,8 @@ public class WRepeater extends WBeanComponent implements Container, AjaxTarget, 
 		}
 
 		/**
-		 * Throws an UnsupportedOperationException, as the environment can not
-		 * be set on a SubUIContext.
+		 * Throws an UnsupportedOperationException, as the environment can not be set on a
+		 * SubUIContext.
 		 *
 		 * @param environment the environment to set.
 		 */
@@ -1213,9 +1194,8 @@ public class WRepeater extends WBeanComponent implements Container, AjaxTarget, 
 		/**
 		 * Retrieves the scratch map for the given component.
 		 *
-		 * The scratch map is stored under one further level of indirection; by
-		 * this sub-ui context. This allows each row to have its own scratch
-		 * map.
+		 * The scratch map is stored under one further level of indirection; by this sub-ui context.
+		 * This allows each row to have its own scratch map.
 		 *
 		 * @param component the component to retrieve the scratch map for.
 		 * @return the scratch map for the given component.

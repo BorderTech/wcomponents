@@ -14,9 +14,9 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * <p>
- * This component is a date entry component. Individual themes may add features
- * such as automatic text formatting and date picker widgets. Convenience
- * methods exist to set and get the value as a java date object.
+ * This component is a date entry component. Individual themes may add features such as automatic
+ * text formatting and date picker widgets. Convenience methods exist to set and get the value as a
+ * java date object.
  * </p>
  *
  * @author Ming Gao
@@ -31,8 +31,7 @@ public class WDateField extends AbstractInput implements AjaxTrigger, AjaxTarget
 	private static final Log LOG = LogFactory.getLog(WDateField.class);
 
 	/**
-	 * This date format is used internally to exchange dates between the client
-	 * and server.
+	 * This date format is used internally to exchange dates between the client and server.
 	 */
 	private static final String INTERNAL_DATE_FORMAT = "yyyy-MM-dd";
 
@@ -86,8 +85,8 @@ public class WDateField extends AbstractInput implements AjaxTrigger, AjaxTarget
 	}
 
 	/**
-	 * Returns the text entered into the WDateField as a java date. Returns null
-	 * if the data cannot be converted into a java date.
+	 * Returns the text entered into the WDateField as a java date. Returns null if the data cannot
+	 * be converted into a java date.
 	 *
 	 * @return the java date or null
 	 */
@@ -104,8 +103,7 @@ public class WDateField extends AbstractInput implements AjaxTrigger, AjaxTarget
 	}
 
 	/**
-	 * Attempts to convert the given object to a date. Throws a SystemException
-	 * on error.
+	 * Attempts to convert the given object to a date. Throws a SystemException on error.
 	 *
 	 * @param data the data to convert.
 	 * @return the converted date, or null if <code>data</code> was null/empty.
@@ -133,8 +131,8 @@ public class WDateField extends AbstractInput implements AjaxTrigger, AjaxTarget
 	}
 
 	/**
-	 * Retrieves the text entered into the field by a specific user. This is not
-	 * necessarily a valid date.
+	 * Retrieves the text entered into the field by a specific user. This is not necessarily a valid
+	 * date.
 	 *
 	 * @return the text field's text for the given context.
 	 */
@@ -145,19 +143,17 @@ public class WDateField extends AbstractInput implements AjaxTrigger, AjaxTarget
 	/**
 	 * Indicates whether the text value held in this field is a valid date.
 	 *
-	 * @return true if the field contains text which is a valid date, false
-	 * otherwise.
+	 * @return true if the field contains text which is a valid date, false otherwise.
 	 */
 	public boolean isParseable() {
 		return getComponentModel().validDate;
 	}
 
 	/**
-	 * Retrieves a String representation of the date field's value. The date
-	 * value will be returned using its default String representation.
+	 * Retrieves a String representation of the date field's value. The date value will be returned
+	 * using its default String representation.
 	 *
-	 * @return the date value, or the text entered by the user if there is no
-	 * valid date.
+	 * @return the date value, or the text entered by the user if there is no valid date.
 	 */
 	@Override
 	public String getValueAsString() {
@@ -239,16 +235,14 @@ public class WDateField extends AbstractInput implements AjaxTrigger, AjaxTarget
 	/**
 	 * Sets the validation error message.
 	 *
-	 * @param errorMessage The errorMessage to set, or null to use the default
-	 * error message.
+	 * @param errorMessage The errorMessage to set, or null to use the default error message.
 	 */
 	public void setInvalidDateErrorMessage(final String errorMessage) {
 		getOrCreateComponentModel().errorMessage = errorMessage;
 	}
 
 	/**
-	 * Override WInput's validateComponent to perform further validation on the
-	 * date.
+	 * Override WInput's validateComponent to perform further validation on the date.
 	 *
 	 * @param diags the list into which any validation diagnostics are added.
 	 */
@@ -265,8 +259,8 @@ public class WDateField extends AbstractInput implements AjaxTrigger, AjaxTarget
 
 	/**
 	 * <p>
-	 * Performs validation of the date. Validation ensures that the entered date
-	 * is between the minimum/maximum values (if applicable).
+	 * Performs validation of the date. Validation ensures that the entered date is between the
+	 * minimum/maximum values (if applicable).
 	 * </p>
 	 * <p>
 	 * Subclasses can override this method to perform more specific validation.
@@ -293,9 +287,9 @@ public class WDateField extends AbstractInput implements AjaxTrigger, AjaxTarget
 	}
 
 	/**
-	 * Retrieves the minimum allowable value for this date field. The minimum
-	 * value is enforced server-side using the WComponent validation framework,
-	 * and <b>may</b> be enforced client-side.
+	 * Retrieves the minimum allowable value for this date field. The minimum value is enforced
+	 * server-side using the WComponent validation framework, and <b>may</b> be enforced
+	 * client-side.
 	 *
 	 * @return the minimum allowable value, or null if there is no minimum.
 	 */
@@ -313,9 +307,9 @@ public class WDateField extends AbstractInput implements AjaxTrigger, AjaxTarget
 	}
 
 	/**
-	 * Retrieves the maximum allowable value for this date field. The maximum
-	 * value is enforced server-side using the WComponent validation framework,
-	 * and <b>may</b> be enforced client-side.
+	 * Retrieves the maximum allowable value for this date field. The maximum value is enforced
+	 * server-side using the WComponent validation framework, and <b>may</b> be enforced
+	 * client-side.
 	 *
 	 * @return the maximum allowable value, or null if there is no maximum.
 	 */
@@ -333,8 +327,7 @@ public class WDateField extends AbstractInput implements AjaxTrigger, AjaxTarget
 	}
 
 	/**
-	 * Creates a new DateFieldModel holds Extrinsic state management of the
-	 * field.
+	 * Creates a new DateFieldModel holds Extrinsic state management of the field.
 	 *
 	 * @return a new DateFieldModel
 	 */
@@ -367,8 +360,7 @@ public class WDateField extends AbstractInput implements AjaxTrigger, AjaxTarget
 	public static class DateFieldModel extends InputModel {
 
 		/**
-		 * The error message to display when the input fails the date validation
-		 * check.
+		 * The error message to display when the input fails the date validation check.
 		 */
 		private String errorMessage = InternalMessages.DEFAULT_VALIDATION_ERROR_INVALID_DATE;
 

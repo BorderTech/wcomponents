@@ -6,14 +6,13 @@ import java.util.List;
 
 /**
  * <p>
- * This is component can be used to select all/none within a containing
- * component, for example a {@link WPanel} or {@link WFieldSet} containing
- * {@link WCheckBox}es, or a {@link WDataTable} with multiple row selection
- * enabled.</p>
+ * This is component can be used to select all/none within a containing component, for example a
+ * {@link WPanel} or {@link WFieldSet} containing {@link WCheckBox}es, or a {@link WDataTable} with
+ * multiple row selection enabled.</p>
  *
  * <p>
- * Note that the target component must render out with an ID, so a plain
- * {@link WComponent} or {@link WContainer} is not suitable.</p>
+ * Note that the target component must render out with an ID, so a plain {@link WComponent} or
+ * {@link WContainer} is not suitable.</p>
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -66,8 +65,7 @@ public class WSelectToggle extends AbstractWComponent implements Disableable, Aj
 	}
 
 	/**
-	 * Override handleRequest to handle selection toggling if server-side
-	 * processing is being used.
+	 * Override handleRequest to handle selection toggling if server-side processing is being used.
 	 *
 	 * @param request the request being responded to.
 	 */
@@ -109,8 +107,7 @@ public class WSelectToggle extends AbstractWComponent implements Disableable, Aj
 	 * Sets the selections for the given context.
 	 *
 	 * @param component the container to modify the selected state for.
-	 * @param selected if true, select everything. If false, deselect
-	 * everything.
+	 * @param selected if true, select everything. If false, deselect everything.
 	 */
 	private static void setSelections(final WComponent component, final boolean selected) {
 		if (component instanceof WCheckBox) {
@@ -156,8 +153,7 @@ public class WSelectToggle extends AbstractWComponent implements Disableable, Aj
 	/**
 	 * Indicates whether the toggle should occur client- or server-side.
 	 *
-	 * @return true if the toggle should occur client-side, false for
-	 * server-side.
+	 * @return true if the toggle should occur client-side, false for server-side.
 	 */
 	public boolean isClientSide() {
 		return getComponentModel().clientSide;
@@ -200,8 +196,7 @@ public class WSelectToggle extends AbstractWComponent implements Disableable, Aj
 	/**
 	 * Sets whether the control should render as text.
 	 *
-	 * @param renderAsText true to render as text, false to render as a
-	 * checkbox.
+	 * @param renderAsText true to render as text, false to render as a checkbox.
 	 */
 	public void setRenderAsText(final boolean renderAsText) {
 		getOrCreateComponentModel().renderAsText = renderAsText;

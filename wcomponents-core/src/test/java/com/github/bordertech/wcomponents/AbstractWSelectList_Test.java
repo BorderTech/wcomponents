@@ -323,8 +323,7 @@ public class AbstractWSelectList_Test extends AbstractWComponentTestCase {
 		}
 
 		/**
-		 * @param lookupTable the lookup table identifier to obtain the list's
-		 * options from.
+		 * @param lookupTable the lookup table identifier to obtain the list's options from.
 		 * @param allowNoSelection if true, allow no option to be selected
 		 */
 		private MyWSelectList(final Object lookupTable, final boolean allowNoSelection) {

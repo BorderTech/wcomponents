@@ -31,20 +31,17 @@ import org.junit.Test;
 public final class WTable_Test extends AbstractWComponentTestCase {
 
 	/**
-	 * error message expected for testAddActionConstraint - private in class
-	 * being tested.
+	 * error message expected for testAddActionConstraint - private in class being tested.
 	 */
 	private static final String ACTION_CONSTRAINT_ERROR_MESSAGE = "Can only add a constraint to a button which is in this table's actions";
 
 	/**
-	 * error message expected for testSetCurrentPage - private in class being
-	 * tested.
+	 * error message expected for testSetCurrentPage - private in class being tested.
 	 */
 	private static final String SET_CURRENT_PAGE_ERROR_MESSAGE = "Page number must be greater than or equal to zero.";
 
 	/**
-	 * error message expected for testSetRowsPerPage - private in class being
-	 * tested.
+	 * error message expected for testSetRowsPerPage - private in class being tested.
 	 */
 	private static final String SET_ROWS_PER_PAGE_ERROR_MESSAGE = "Rows per page must be greater than 0, but got: ";
 

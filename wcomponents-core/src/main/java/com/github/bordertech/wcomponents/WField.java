@@ -6,10 +6,10 @@ import com.github.bordertech.wcomponents.validator.FieldValidator;
 
 /**
  * <p>
- * This component is used to aggregate the common elements that are used to
- * display an editable field (ie, the label, the field itself and an error
- * indicator). It can only be used by adding instances to a {@link WFieldLayout}
- * component. If input field is not present then it renders as read only field.
+ * This component is used to aggregate the common elements that are used to display an editable
+ * field (ie, the label, the field itself and an error indicator). It can only be used by adding
+ * instances to a {@link WFieldLayout} component. If input field is not present then it renders as
+ * read only field.
  * </p>
  *
  * @author Adam Millard
@@ -37,11 +37,10 @@ public class WField extends AbstractContainer implements AjaxTarget, Subordinate
 	/**
 	 * Creates a WField with the specified label text and field.
 	 *
-	 * @param labelText contains the textual label to be displayed next to the
-	 * input field.
-	 * @param field is the component to be layed out (normally in the right hand
-	 * column). In order to support validation, the given field must be a WInput
-	 * or a component that contains one WInput as a descendant.
+	 * @param labelText contains the textual label to be displayed next to the input field.
+	 * @param field is the component to be layed out (normally in the right hand column). In order
+	 * to support validation, the given field must be a WInput or a component that contains one
+	 * WInput as a descendant.
 	 */
 	WField(final String labelText, final WComponent field) {
 		this(new WLabel(labelText), field);
@@ -161,8 +160,8 @@ public class WField extends AbstractContainer implements AjaxTarget, Subordinate
 	/**
 	 * Sets whether this field is mandatory.
 	 * <p>
-	 * The mandatory flag will only be set if the field is a {@link Input}
-	 * component or {@link WFieldSet}.
+	 * The mandatory flag will only be set if the field is a {@link Input} component or
+	 * {@link WFieldSet}.
 	 * </p>
 	 *
 	 * @param mandatory true for mandatory, false for optional
@@ -176,8 +175,8 @@ public class WField extends AbstractContainer implements AjaxTarget, Subordinate
 	/**
 	 * Sets whether this field is mandatory.
 	 * <p>
-	 * The mandatory flag will only be set if the field is a {@link Input}
-	 * component or {@link WFieldSet}.
+	 * The mandatory flag will only be set if the field is a {@link Input} component or
+	 * {@link WFieldSet}.
 	 * </p>
 	 *
 	 * @param mandatory true for mandatory, false for optional
@@ -198,8 +197,7 @@ public class WField extends AbstractContainer implements AjaxTarget, Subordinate
 	/**
 	 * Adds a validator to the input field.
 	 * <p>
-	 * The validator will only be added if the field is a {@link Input}
-	 * component.
+	 * The validator will only be added if the field is a {@link Input} component.
 	 * </p>
 	 *
 	 * @param validator the validator to add.
@@ -239,8 +237,7 @@ public class WField extends AbstractContainer implements AjaxTarget, Subordinate
 	}
 
 	/**
-	 * Indicates the desired width of the input field, as a percentage of the
-	 * available space.
+	 * Indicates the desired width of the input field, as a percentage of the available space.
 	 *
 	 * @return the percentage width, or 0 to use the default field width.
 	 */
@@ -249,11 +246,9 @@ public class WField extends AbstractContainer implements AjaxTarget, Subordinate
 	}
 
 	/**
-	 * Sets the desired width of the input field, as a percentage of the
-	 * available space.
+	 * Sets the desired width of the input field, as a percentage of the available space.
 	 *
-	 * @param inputWidth the percentage width, or &lt;= 0 to use the default
-	 * field width.
+	 * @param inputWidth the percentage width, or &lt;= 0 to use the default field width.
 	 */
 	public void setInputWidth(final int inputWidth) {
 		if (inputWidth > 100) {
@@ -263,8 +258,7 @@ public class WField extends AbstractContainer implements AjaxTarget, Subordinate
 	}
 
 	/**
-	 * @return a String representation of this component, for debugging
-	 * purposes.
+	 * @return a String representation of this component, for debugging purposes.
 	 */
 	@Override
 	public String toString() {
@@ -316,8 +310,7 @@ public class WField extends AbstractContainer implements AjaxTarget, Subordinate
 	public static class FieldModel extends ComponentModel {
 
 		/**
-		 * Indicates the desired width of the input field, as a percentage of
-		 * the available space.
+		 * Indicates the desired width of the input field, as a percentage of the available space.
 		 */
 		private int inputWidth;
 	}

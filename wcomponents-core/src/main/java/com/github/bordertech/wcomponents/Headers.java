@@ -3,15 +3,14 @@ package com.github.bordertech.wcomponents;
 import java.util.List;
 
 /**
- * WComponents can use this interface to communicate "global" or "shared" items
- * to the server. Examples are lines in the html/head element. It also allows
- * for extra attributes on the html element itself.
+ * WComponents can use this interface to communicate "global" or "shared" items to the server.
+ * Examples are lines in the html/head element. It also allows for extra attributes on the html
+ * element itself.
  * <p>
- * It is important to note that "headlines" must be added in the preparePaint
- * phase. Headlines adding in serviceRequest will be lost because the headers
- * are reset at the start of preparePaint. Adding headlines in the paint phase
- * is too late as the headers have already been written. Note also that it would
- * be possible to make the adding of headlines work for the paint phase, but at
+ * It is important to note that "headlines" must be added in the preparePaint phase. Headlines
+ * adding in serviceRequest will be lost because the headers are reset at the start of preparePaint.
+ * Adding headlines in the paint phase is too late as the headers have already been written. Note
+ * also that it would be possible to make the adding of headlines work for the paint phase, but at
  * the expense of requiring the entire body of the page to be cached.
  *
  * @author James Gifford
@@ -46,8 +45,7 @@ public interface Headers {
 	void addHeadLine(String aLine);
 
 	/**
-	 * Records a "shared" line (of a specified type) for inclusion in the
-	 * output.
+	 * Records a "shared" line (of a specified type) for inclusion in the output.
 	 *
 	 * @param type the type of line to add.
 	 * @param aLine the line to add.
@@ -55,16 +53,15 @@ public interface Headers {
 	void addHeadLine(String type, String aLine);
 
 	/**
-	 * Records a line for inclusion in the html/head, if it has not already been
-	 * included.
+	 * Records a line for inclusion in the html/head, if it has not already been included.
 	 *
 	 * @param aLine the line to add.
 	 */
 	void addUniqueHeadLine(String aLine);
 
 	/**
-	 * Records a "shared" line (of a specified type) for inclusion in the
-	 * output, if it has not already been included.
+	 * Records a "shared" line (of a specified type) for inclusion in the output, if it has not
+	 * already been included.
 	 * <p>
 	 * An example of where this is useful is for adding shared JavaScript code.
 	 *

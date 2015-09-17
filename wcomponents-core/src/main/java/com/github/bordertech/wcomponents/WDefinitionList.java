@@ -38,8 +38,8 @@ public class WDefinitionList extends AbstractNamingContextContainer implements A
 	}
 
 	/**
-	 * Content is added to this hidden container, so nothing can be added to the
-	 * definition list directly.
+	 * Content is added to this hidden container, so nothing can be added to the definition list
+	 * directly.
 	 */
 	private final WContainer content = new WContainer();
 
@@ -93,8 +93,8 @@ public class WDefinitionList extends AbstractNamingContextContainer implements A
 	}
 
 	/**
-	 * Adds a term to this definition list. If there is an existing term, the
-	 * component is added to the list of data for the term.
+	 * Adds a term to this definition list. If there is an existing term, the component is added to
+	 * the list of data for the term.
 	 *
 	 * @param term the term to add.
 	 * @param data the term data.
@@ -121,8 +121,7 @@ public class WDefinitionList extends AbstractNamingContextContainer implements A
 	}
 
 	/**
-	 * Removes a term from the definition list. All data (components) for the
-	 * term is removed.
+	 * Removes a term from the definition list. All data (components) for the term is removed.
 	 *
 	 * @param term the term to remove.
 	 */

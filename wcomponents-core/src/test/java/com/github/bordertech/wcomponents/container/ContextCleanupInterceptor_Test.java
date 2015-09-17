@@ -9,8 +9,7 @@ import junit.framework.Assert;
 import org.junit.Test;
 
 /**
- * ContextCleanupInterceptor_Test - unit tests for
- * {@link ContextCleanupInterceptor}.
+ * ContextCleanupInterceptor_Test - unit tests for {@link ContextCleanupInterceptor}.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -34,8 +33,7 @@ public class ContextCleanupInterceptor_Test extends AbstractWComponentTestCase {
 	}
 
 	/**
-	 * A WLabel extension that sets a flag when tidyUpUIContextForTree is
-	 * called.
+	 * A WLabel extension that sets a flag when tidyUpUIContextForTree is called.
 	 *
 	 * @author Yiannis Paschalidis
 	 */

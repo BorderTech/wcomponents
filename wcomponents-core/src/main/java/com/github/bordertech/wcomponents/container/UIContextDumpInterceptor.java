@@ -10,11 +10,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * SessionDumpInterceptor is an interceptor that dumps the contents of the
- * session to the log file.
+ * SessionDumpInterceptor is an interceptor that dumps the contents of the session to the log file.
  *
- * For local testing/troubleshooting, the filter can be enabled by setting the
- * following property:
+ * For local testing/troubleshooting, the filter can be enabled by setting the following property:
  * com.github.bordertech.wcomponents.container.UIContextDumpInterceptor.enabled=true
  *
  * @author Yiannis Paschalidis
@@ -28,15 +26,13 @@ public class UIContextDumpInterceptor extends InterceptorComponent {
 	private static final Log LOG = LogFactory.getLog(UIContextDumpInterceptor.class);
 
 	/**
-	 * The key used to look up the "enabled" flag in the
-	 * {@link Config WComponent Configuration}.
+	 * The key used to look up the "enabled" flag in the {@link Config WComponent Configuration}.
 	 */
 	private static final String PARAMETERS_ENABLED_KEY
 			= "bordertech.wcomponents.developer.UIContextDump.enabled";
 
 	/**
-	 * The key used to look up the single flag in the
-	 * {@link Config WComponent Configuration}.
+	 * The key used to look up the single flag in the {@link Config WComponent Configuration}.
 	 */
 	private static final String UICONTEXT_TREE_DUMPED_KEY
 			= "com.github.bordertech.wcomponents.container.UIContextDumpInterceptor.treeDumped";

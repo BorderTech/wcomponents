@@ -4,8 +4,8 @@ import com.github.bordertech.wcomponents.SubordinateTarget;
 import java.io.Serializable;
 
 /**
- * This interface marks functions that make changes to the application, such as
- * hiding parts of a page.
+ * This interface marks functions that make changes to the application, such as hiding parts of a
+ * page.
  *
  * @author Martin Shevchenko
  * @author Jonathan Austin

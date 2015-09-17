@@ -7,8 +7,7 @@ import com.github.bordertech.wcomponents.UIContextHolder;
 import com.github.bordertech.wcomponents.util.Config;
 
 /**
- * This interceptor is used as the top-level component in both Portlet and
- * Servlet environments.
+ * This interceptor is used as the top-level component in both Portlet and Servlet environments.
  *
  * @author Martin Shevchenko
  * @since 1.0.0
@@ -16,8 +15,7 @@ import com.github.bordertech.wcomponents.util.Config;
 public class FormInterceptor extends InterceptorComponent {
 
 	/**
-	 * Override serviceRequest in order to perform processing specific to this
-	 * interceptor.
+	 * Override serviceRequest in order to perform processing specific to this interceptor.
 	 *
 	 * @param request the request being responded to.
 	 */
@@ -34,8 +32,7 @@ public class FormInterceptor extends InterceptorComponent {
 	}
 
 	/**
-	 * Override preparePaint in order to perform processing specific to this
-	 * interceptor.
+	 * Override preparePaint in order to perform processing specific to this interceptor.
 	 *
 	 * @param request the request being responded to.
 	 */
@@ -49,8 +46,7 @@ public class FormInterceptor extends InterceptorComponent {
 	}
 
 	/**
-	 * Override paint in order to perform processing specific to this
-	 * interceptor.
+	 * Override paint in order to perform processing specific to this interceptor.
 	 *
 	 * @param renderContext the renderContext to send the output to.
 	 */

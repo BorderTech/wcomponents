@@ -13,28 +13,24 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * <p>
- * The WMultiTextField component allows multiple text input elements to be
- * generated dynamically on the client without requiring the page to be
- * reloaded. This component takes its appearance and attributes from a regular
- * text input but allows for one or more items of text to be entered via the add
- * link adjacent to the right of the text input.
+ * The WMultiTextField component allows multiple text input elements to be generated dynamically on
+ * the client without requiring the page to be reloaded. This component takes its appearance and
+ * attributes from a regular text input but allows for one or more items of text to be entered via
+ * the add link adjacent to the right of the text input.
  * </p>
  * <p>
- * This component is useful in instances where the user needs to enter one or
- * more text items into the interfaces for a particular field. For instance, the
- * user may have one or more aliases that need to be entered into the system.
+ * This component is useful in instances where the user needs to enter one or more text items into
+ * the interfaces for a particular field. For instance, the user may have one or more aliases that
+ * need to be entered into the system.
  * </p>
  * <p>
  * The following attributes can be set on WMultiTextField:
  * <ul>
- * <li>MaxInputs: The maximum number of text inputs the user can add to the
- * component. Client-side functionality will stop users adding more than the
- * allowable number of inputs via the UI. This class chops off any excess inputs
- * if an attempt is made to add them programmatically.</li>
- * <li>MaxLength: The maximum length of the text fields rendered to allow user
- * text entry.</li>
- * <li>Columns: The size of the text fields rendered to allow user text
- * entry.</li>
+ * <li>MaxInputs: The maximum number of text inputs the user can add to the component. Client-side
+ * functionality will stop users adding more than the allowable number of inputs via the UI. This
+ * class chops off any excess inputs if an attempt is made to add them programmatically.</li>
+ * <li>MaxLength: The maximum length of the text fields rendered to allow user text entry.</li>
+ * <li>Columns: The size of the text fields rendered to allow user text entry.</li>
  * </ul>
  * </p>
  *
@@ -134,16 +130,14 @@ public class WMultiTextField extends AbstractInput implements AjaxTrigger, AjaxT
 	}
 
 	/**
-	 * @return The maximum number of strings that can be associated to this
-	 * component.
+	 * @return The maximum number of strings that can be associated to this component.
 	 */
 	public int getMaxInputs() {
 		return getComponentModel().maxInputs;
 	}
 
 	/**
-	 * Set the maximum number of strings/inputs that can be associated to this
-	 * component.
+	 * Set the maximum number of strings/inputs that can be associated to this component.
 	 *
 	 * @param max The maximum number of text inputs.
 	 */
@@ -168,21 +162,18 @@ public class WMultiTextField extends AbstractInput implements AjaxTrigger, AjaxT
 	}
 
 	/**
-	 * @return the minimum number of characters that the user can enter into the
-	 * multi text field.
+	 * @return the minimum number of characters that the user can enter into the multi text field.
 	 */
 	public int getMinLength() {
 		return getComponentModel().minLength;
 	}
 
 	/**
-	 * Set the minimum number of characters that the user can enter into the
-	 * multi text field.
+	 * Set the minimum number of characters that the user can enter into the multi text field.
 	 * <p>
-	 * Setting the minimum number of characters will not make a field mandatory
-	 * as the validation is only applied once the user has entered some text.
-	 * Use {@link #setMandatory(boolean)} to make a field mandatory, which can
-	 * be used in combination with setMinLength.
+	 * Setting the minimum number of characters will not make a field mandatory as the validation is
+	 * only applied once the user has entered some text. Use {@link #setMandatory(boolean)} to make
+	 * a field mandatory, which can be used in combination with setMinLength.
 	 * </p>
 	 *
 	 * @param minLength the minimum number of characters to allow.
@@ -192,16 +183,14 @@ public class WMultiTextField extends AbstractInput implements AjaxTrigger, AjaxT
 	}
 
 	/**
-	 * @return the maximum number of characters that the user can enter into the
-	 * multi text field.
+	 * @return the maximum number of characters that the user can enter into the multi text field.
 	 */
 	public int getMaxLength() {
 		return getComponentModel().maxLength;
 	}
 
 	/**
-	 * Set the maximum number of characters that the user can enter into the
-	 * multi text field.
+	 * Set the maximum number of characters that the user can enter into the multi text field.
 	 *
 	 * @param maxLength the maximum number of characters to allow.
 	 */
@@ -212,12 +201,11 @@ public class WMultiTextField extends AbstractInput implements AjaxTrigger, AjaxT
 	/**
 	 * The pattern to validate against.
 	 * <p>
-	 * The pattern must be supported natively by your target user agent (e.g.
-	 * browser).
+	 * The pattern must be supported natively by your target user agent (e.g. browser).
 	 * </p>
 	 * <p>
-	 * It is expected the {@link WLabel} for this component describes the
-	 * required format of the component.
+	 * It is expected the {@link WLabel} for this component describes the required format of the
+	 * component.
 	 * </p>
 	 *
 	 * @param pattern the pattern to validate against.
@@ -264,9 +252,9 @@ public class WMultiTextField extends AbstractInput implements AjaxTrigger, AjaxT
 	}
 
 	/**
-	 * Set the inputs based on the incoming request. The text input values are
-	 * set as an array of strings on the parameter with this name
-	 * {@link #getName()}. Any empty strings will be ignored.
+	 * Set the inputs based on the incoming request. The text input values are set as an array of
+	 * strings on the parameter with this name {@link #getName()}. Any empty strings will be
+	 * ignored.
 	 *
 	 * @param request the current request.
 	 * @return true if the inputs have changed, otherwise return false
@@ -299,16 +287,13 @@ public class WMultiTextField extends AbstractInput implements AjaxTrigger, AjaxT
 	}
 
 	/**
-	 * Helper that removes empty/null string from the <code>original</code>
-	 * string array.
+	 * Helper that removes empty/null string from the <code>original</code> string array.
 	 * <p>
 	 * Will treat an empty array the same as null.
 	 * </p>
 	 *
-	 * @param originals The string array from which the null/empty strings
-	 * should be removed from.
-	 * @return Array of non empty strings from the <code>original</code> string
-	 * array.
+	 * @param originals The string array from which the null/empty strings should be removed from.
+	 * @return Array of non empty strings from the <code>original</code> string array.
 	 */
 	private String[] removeEmptyStrings(final String[] originals) {
 		if (originals == null) {
@@ -381,8 +366,7 @@ public class WMultiTextField extends AbstractInput implements AjaxTrigger, AjaxT
 	}
 
 	/**
-	 * Creates a new MultiTextFieldModel holds Extrinsic state management of the
-	 * field.
+	 * Creates a new MultiTextFieldModel holds Extrinsic state management of the field.
 	 *
 	 * @return a new MultiTextFieldModel
 	 */

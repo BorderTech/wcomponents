@@ -7,14 +7,14 @@ import java.util.List;
 
 /**
  * <p>
- * A WPasswordField is a wcomponent used to display a password input field. Use
- * the method "getText" to get the text entered into the field by the user.
+ * A WPasswordField is a wcomponent used to display a password input field. Use the method "getText"
+ * to get the text entered into the field by the user.
  * </p>
  * <p>
- * A password field differs from a text field in that the text entered is
- * typically masked from the user, to prevent over-the-shoulder attacks. For
- * security reasons, the text value of a password field is never sent to the
- * client. This means that password fields will always appear to be empty.
+ * A password field differs from a text field in that the text entered is typically masked from the
+ * user, to prevent over-the-shoulder attacks. For security reasons, the text value of a password
+ * field is never sent to the client. This means that password fields will always appear to be
+ * empty.
  * </p>
  *
  * @author Yiannis Paschalidis
@@ -104,21 +104,18 @@ public class WPasswordField extends AbstractInput implements AjaxTrigger, AjaxTa
 	}
 
 	/**
-	 * @return the minimum number of characters that the user can enter into the
-	 * password field.
+	 * @return the minimum number of characters that the user can enter into the password field.
 	 */
 	public int getMinLength() {
 		return getComponentModel().minLength;
 	}
 
 	/**
-	 * Set the minimum number of characters that the user can enter into the
-	 * password field.
+	 * Set the minimum number of characters that the user can enter into the password field.
 	 * <p>
-	 * Setting the minimum number of characters will not make a field mandatory
-	 * as the validation is only applied once the user has entered some text.
-	 * Use {@link #setMandatory(boolean)} to make a field mandatory, which can
-	 * be used in combination with setMinLength.
+	 * Setting the minimum number of characters will not make a field mandatory as the validation is
+	 * only applied once the user has entered some text. Use {@link #setMandatory(boolean)} to make
+	 * a field mandatory, which can be used in combination with setMinLength.
 	 * </p>
 	 *
 	 * @param minLength the minimum number of characters to allow.
@@ -128,16 +125,14 @@ public class WPasswordField extends AbstractInput implements AjaxTrigger, AjaxTa
 	}
 
 	/**
-	 * @return the maximum number of characters that the user can enter into the
-	 * password field.
+	 * @return the maximum number of characters that the user can enter into the password field.
 	 */
 	public int getMaxLength() {
 		return getComponentModel().maxLength;
 	}
 
 	/**
-	 * Set the maximum number of characters that the user can enter into the
-	 * password field.
+	 * Set the maximum number of characters that the user can enter into the password field.
 	 *
 	 * @param maxLength the maximum number of characters to allow.
 	 */
@@ -176,8 +171,7 @@ public class WPasswordField extends AbstractInput implements AjaxTrigger, AjaxTa
 	}
 
 	/**
-	 * Creates a new PasswordFieldModel holds Extrinsic state management of the
-	 * field.
+	 * Creates a new PasswordFieldModel holds Extrinsic state management of the field.
 	 *
 	 * @return a new PasswordFieldModel
 	 */

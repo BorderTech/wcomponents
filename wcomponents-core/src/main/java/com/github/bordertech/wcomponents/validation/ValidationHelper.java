@@ -18,9 +18,8 @@ public final class ValidationHelper {
 	}
 
 	/**
-	 * Extract diagnostics with a given severity from a list of Diagnostic
-	 * objects. This is useful for picking errors out from a list of
-	 * diagnostics, for example.
+	 * Extract diagnostics with a given severity from a list of Diagnostic objects. This is useful
+	 * for picking errors out from a list of diagnostics, for example.
 	 *
 	 * @param diagnostics the list of diagnostics to look through.
 	 * @param severity the severity of diagnostics to extract.

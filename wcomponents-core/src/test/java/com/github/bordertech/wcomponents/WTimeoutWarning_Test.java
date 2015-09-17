@@ -13,8 +13,8 @@ import org.junit.Test;
 public class WTimeoutWarning_Test extends AbstractWComponentTestCase {
 
 	/**
-	 * The default timeout period (in seconds). If the value is "zero", then use
-	 * the http session timeout value.
+	 * The default timeout period (in seconds). If the value is "zero", then use the http session
+	 * timeout value.
 	 */
 	private static final int DEFAULT_TIMEOUT_PERIOD = Config.getInstance()
 			.getInt("bordertech.wcomponents.timeoutWarning.timeoutPeriod", 0);

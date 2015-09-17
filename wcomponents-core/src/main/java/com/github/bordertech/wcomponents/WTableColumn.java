@@ -1,9 +1,8 @@
 package com.github.bordertech.wcomponents;
 
 /**
- * WTableColumn represents a column in a {@link WDataTable}. It only holds
- * configuration and state information relating to the UI, and does not know
- * about the data model.
+ * WTableColumn represents a column in a {@link WDataTable}. It only holds configuration and state
+ * information relating to the UI, and does not know about the data model.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -26,13 +25,11 @@ public final class WTableColumn extends AbstractContainer {
 	private final WDecoratedLabel label;
 
 	/**
-	 * An enumeration of possible values for horizontal alignment of table
-	 * column content.
+	 * An enumeration of possible values for horizontal alignment of table column content.
 	 */
 	public static enum Alignment {
 		/**
-		 * Indicates that content should be left-aligned. This is the default
-		 * alignment.
+		 * Indicates that content should be left-aligned. This is the default alignment.
 		 */
 		LEFT,
 		/**
@@ -94,24 +91,22 @@ public final class WTableColumn extends AbstractContainer {
 	}
 
 	/**
-	 * @return the renderer class that will be used to render row data for this
-	 * column.
+	 * @return the renderer class that will be used to render row data for this column.
 	 */
 	public Class<? extends WComponent> getRendererClass() {
 		return rendererClass;
 	}
 
 	/**
-	 * @return the renderer that will be used to render row data for this
-	 * column.
+	 * @return the renderer that will be used to render row data for this column.
 	 */
 	public WComponent getRenderer() {
 		return renderer;
 	}
 
 	/**
-	 * Returns the heading text for this column, in the case that the heading
-	 * does not contain complex content.
+	 * Returns the heading text for this column, in the case that the heading does not contain
+	 * complex content.
 	 *
 	 * @return the heading text, if available, otherwise null.
 	 * @see WDecoratedLabel#getText()
@@ -132,8 +127,7 @@ public final class WTableColumn extends AbstractContainer {
 	/**
 	 * Sets the column width.
 	 *
-	 * @param width the column width as a percentage, or &lt;= 0 for default
-	 * width.
+	 * @param width the column width as a percentage, or &lt;= 0 for default width.
 	 */
 	public void setWidth(final int width) {
 		if (width > 100) {
@@ -168,8 +162,7 @@ public final class WTableColumn extends AbstractContainer {
 	}
 
 	/**
-	 * @return a String representation of this component, for debugging
-	 * purposes.
+	 * @return a String representation of this component, for debugging purposes.
 	 */
 	@Override
 	public String toString() {

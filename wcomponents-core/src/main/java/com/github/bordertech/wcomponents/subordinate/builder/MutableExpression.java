@@ -4,8 +4,7 @@ import com.github.bordertech.wcomponents.subordinate.Condition;
 import java.io.Serializable;
 
 /**
- * A mutable wrapper for a boolean expression. Used by the
- * {@link ExpressionBuilder}.
+ * A mutable wrapper for a boolean expression. Used by the {@link ExpressionBuilder}.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0

@@ -9,15 +9,14 @@ package com.github.bordertech.wcomponents;
 public interface NamingContextable extends Container {
 
 	/**
-	 * Allow components that implement {@link NamingContextable} to selectively
-	 * disable prepending their ID to their descendent's IDs by breaking the
-	 * prepending logic into a seperately callable method.
+	 * Allow components that implement {@link NamingContextable} to selectively disable prepending
+	 * their ID to their descendent's IDs by breaking the prepending logic into a seperately
+	 * callable method.
 	 * <p>
 	 * See {@link #getId()} for usage.
 	 * </p>
 	 * <p>
-	 * By default, this method will call through to {@link #getId()} and return
-	 * the result.
+	 * By default, this method will call through to {@link #getId()} and return the result.
 	 * </p>
 	 *
 	 * @return by default, return getId().

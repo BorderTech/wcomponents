@@ -76,15 +76,13 @@ final class WMultiSelectPairRenderer extends AbstractWebXmlRenderer {
 	 * @param options the options to render
 	 * @param startIndex the starting option index
 	 * @param xml the XmlStringBuilder to paint to.
-	 * @param renderSelectionsOnly true to only render selected options, false
-	 * to render all options.
-	 * @param encode true if the option description should be encoded, false if
-	 * not.
+	 * @param renderSelectionsOnly true to only render selected options, false to render all
+	 * options.
+	 * @param encode true if the option description should be encoded, false if not.
 	 *
 	 * @return the number of options painted.
 	 *
-	 * TODO: This does not support the legacy allowNull or setSelected using
-	 * String representations.
+	 * TODO: This does not support the legacy allowNull or setSelected using String representations.
 	 */
 	private int renderOrderedOptions(final WMultiSelectPair multiSelectPair, final List<?> options,
 			final int startIndex, final XmlStringBuilder xml,
@@ -148,10 +146,9 @@ final class WMultiSelectPairRenderer extends AbstractWebXmlRenderer {
 	 * @param options the options to render
 	 * @param startIndex the starting option index
 	 * @param xml the XmlStringBuilder to paint to.
-	 * @param renderSelectionsOnly true to only render selected options, false
-	 * to render all options.
-	 * @param encode true if the option description should be encoded, false if
-	 * not.
+	 * @param renderSelectionsOnly true to only render selected options, false to render all
+	 * options.
+	 * @param encode true if the option description should be encoded, false if not.
 	 *
 	 * @return the number of options which were rendered.
 	 */
@@ -187,10 +184,9 @@ final class WMultiSelectPairRenderer extends AbstractWebXmlRenderer {
 	 * @param optionIndex the index of the option. OptionGroups are not counted.
 	 * @param html the XmlStringBuilder to paint to.
 	 * @param selections the list of selected options.
-	 * @param renderSelectionsOnly true to only render selected options, false
-	 * to render all options.
-	 * @param encode true if the option description should be encoded, false if
-	 * not.
+	 * @param renderSelectionsOnly true to only render selected options, false to render all
+	 * options.
+	 * @param encode true if the option description should be encoded, false if not.
 	 */
 	private void renderOption(final WMultiSelectPair multiSelectPair, final Object option,
 			final int optionIndex, final XmlStringBuilder html, final List<?> selections,

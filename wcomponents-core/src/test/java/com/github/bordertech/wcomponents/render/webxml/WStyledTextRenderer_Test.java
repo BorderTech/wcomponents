@@ -142,9 +142,8 @@ public class WStyledTextRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	/**
-	 * This function tests the rendered content of the ui:text. This is
-	 * necessary, as there doesn't seem to be a nice way to obtain the nested
-	 * content using XPath.
+	 * This function tests the rendered content of the ui:text. This is necessary, as there doesn't
+	 * seem to be a nice way to obtain the nested content using XPath.
 	 *
 	 * @param expected the expected text
 	 * @param text the text component

@@ -8,9 +8,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * WMessagesProxy - A proxy used by {@link WMessages} when a component does not
- * have an ancestor that implements MessageContainer when
- * WMessages.getInstance(WComponent) is called.
+ * WMessagesProxy - A proxy used by {@link WMessages} when a component does not have an ancestor
+ * that implements MessageContainer when WMessages.getInstance(WComponent) is called.
  *
  * The proxy will search for a MessageContainer each time a method is called.
  *
@@ -37,8 +36,7 @@ class WMessagesProxy extends WMessages {
 	/**
 	 * Creates a proxy using the given component.
 	 *
-	 * @param component the component that will be used to search for a
-	 * MessageContainer
+	 * @param component the component that will be used to search for a MessageContainer
 	 */
 	protected WMessagesProxy(final WComponent component) {
 		this.component = component;
@@ -46,11 +44,10 @@ class WMessagesProxy extends WMessages {
 	}
 
 	/**
-	 * Utility method that searches for the WMessages instance for the given
-	 * component. If not found, a warning will be logged and null returned.
+	 * Utility method that searches for the WMessages instance for the given component. If not
+	 * found, a warning will be logged and null returned.
 	 *
-	 * @return the WMessages instance for the given component, or null if not
-	 * found.
+	 * @return the WMessages instance for the given component, or null if not found.
 	 */
 	private WMessages getWMessageInstance() {
 		MessageContainer container = getMessageContainer(component);
@@ -143,8 +140,7 @@ class WMessagesProxy extends WMessages {
 	}
 
 	/**
-	 * @return the validation errors component, for use in e.g.
-	 * ValidatingActions.
+	 * @return the validation errors component, for use in e.g. ValidatingActions.
 	 */
 	@Override
 	public WValidationErrors getValidationErrors() {
@@ -254,17 +250,16 @@ class WMessagesProxy extends WMessages {
 
 	/**
 	 * Provides a proxy for the WValidationErrors exposed by
-	 * {@link WMessages#getValidationErrors()}. All methods in this proxy will
-	 * delegate to the WValidationErrors instance for the given component, or
-	 * will have no effect if there is no instance found.
+	 * {@link WMessages#getValidationErrors()}. All methods in this proxy will delegate to the
+	 * WValidationErrors instance for the given component, or will have no effect if there is no
+	 * instance found.
 	 *
 	 * @author Yiannis Paschalidis
 	 */
 	private final class WValidationErrorsProxy extends WValidationErrors {
 
 		/**
-		 * @return the WValidationErrors instance for the given component, or
-		 * null if not found.
+		 * @return the WValidationErrors instance for the given component, or null if not found.
 		 */
 		private WValidationErrors getWValidationErrors() {
 			WMessages messages = getWMessageInstance();

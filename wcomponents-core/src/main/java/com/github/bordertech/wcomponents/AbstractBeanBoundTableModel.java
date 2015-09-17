@@ -32,8 +32,8 @@ public abstract class AbstractBeanBoundTableModel extends AbstractTableModel imp
 	private Object beanId;
 
 	/**
-	 * This bean property that this component is interested in. The property is
-	 * specified using Jakarta BeanUtils bean notation.
+	 * This bean property that this component is interested in. The property is specified using
+	 * Jakarta BeanUtils bean notation.
 	 */
 	private String beanProperty;
 

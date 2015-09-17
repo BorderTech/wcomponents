@@ -5,8 +5,8 @@ import com.github.bordertech.wcomponents.Renderer;
 import com.github.bordertech.wcomponents.WComponent;
 
 /**
- * The layout factory for the nil renderer package. This factory produces a
- * renderer which doesn't do anything, and is useful for testing.
+ * The layout factory for the nil renderer package. This factory produces a renderer which doesn't
+ * do anything, and is useful for testing.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0

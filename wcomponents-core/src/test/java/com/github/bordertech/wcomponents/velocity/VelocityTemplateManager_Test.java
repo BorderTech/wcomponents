@@ -4,8 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * VelocityTemplateManager_Test - JUnit tests for
- * {@link VelocityTemplateManager}.
+ * VelocityTemplateManager_Test - JUnit tests for {@link VelocityTemplateManager}.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0

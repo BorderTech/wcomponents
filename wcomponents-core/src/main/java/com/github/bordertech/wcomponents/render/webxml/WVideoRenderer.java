@@ -146,8 +146,7 @@ final class WVideoRenderer extends AbstractWebXmlRenderer {
 	 * Converts a Track kind to the client track kind identifier.
 	 *
 	 * @param kind the Track Kind to convert.
-	 * @return a client track kind identifier, or null if it could not be
-	 * converted.
+	 * @return a client track kind identifier, or null if it could not be converted.
 	 */
 	private String trackKindToString(final Track.Kind kind) {
 		if (kind == null) {

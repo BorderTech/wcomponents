@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class provides helpers for invoking objects using the java.lang.reflect
- * package to invoke objects.
+ * This class provides helpers for invoking objects using the java.lang.reflect package to invoke
+ * objects.
  *
  * @author Francis Naoum
  * @since 1.0.0
@@ -84,8 +84,7 @@ public final class ReflectionUtil {
 	}
 
 	/**
-	 * Retrieves all the fields contained in the given object and its
-	 * superclasses.
+	 * Retrieves all the fields contained in the given object and its superclasses.
 	 *
 	 * @param obj the object to examine
 	 * @param excludeStatic if true, static fields will be omitted

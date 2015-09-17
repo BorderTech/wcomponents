@@ -11,8 +11,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * An extension of {@link WContainer} that renders some statistics after its
- * normal output. This class should only be used during development.
+ * An extension of {@link WContainer} that renders some statistics after its normal output. This
+ * class should only be used during development.
  *
  * @author Martin Shevchenko
  * @since 1.0.0
@@ -25,8 +25,7 @@ public class ProfileContainer extends AbstractMutableContainer {
 	private static final Log LOG = LogFactory.getLog(ProfileContainer.class);
 
 	/**
-	 * Override afterPaint to write the statistics after the component is
-	 * painted.
+	 * Override afterPaint to write the statistics after the component is painted.
 	 *
 	 * @param renderContext the renderContext to send output to.
 	 */

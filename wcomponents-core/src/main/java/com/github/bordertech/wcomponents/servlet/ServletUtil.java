@@ -34,11 +34,11 @@ import com.github.bordertech.wcomponents.container.WhitespaceFilterInterceptor;
 import com.github.bordertech.wcomponents.container.WrongStepAjaxInterceptor;
 import com.github.bordertech.wcomponents.container.WrongStepContentInterceptor;
 import com.github.bordertech.wcomponents.container.WrongStepServerInterceptor;
-import com.github.bordertech.wcomponents.util.ThemeUtil;
 import com.github.bordertech.wcomponents.util.Config;
 import com.github.bordertech.wcomponents.util.I18nUtilities;
 import com.github.bordertech.wcomponents.util.InternalMessages;
 import com.github.bordertech.wcomponents.util.StreamUtil;
+import com.github.bordertech.wcomponents.util.ThemeUtil;
 import com.github.bordertech.wcomponents.util.Util;
 import java.io.IOException;
 import java.io.InputStream;
@@ -75,20 +75,20 @@ public final class ServletUtil {
 	private static final String THEME_RESOURCE_PATH_PARAM = "/" + Environment.THEME_RESOURCE_PATH_NAME + "/";
 
 	/**
-	 * The key used to look up the {@link Config WComponent Configuration} flag
-	 * for whether we should use enable sub-session support.
+	 * The key used to look up the {@link Config WComponent Configuration} flag for whether we
+	 * should use enable sub-session support.
 	 */
 	public static final String ENABLE_SUBSESSIONS = "bordertech.wcomponents.servlet.subsessions.enabled";
 
 	/**
-	 * The key used to look up the {@link Config WComponent Configuration} flag
-	 * for developer mode error handling.
+	 * The key used to look up the {@link Config WComponent Configuration} flag for developer mode
+	 * error handling.
 	 */
 	public static final String DEVELOPER_MODE_ERROR_HANDLING = "bordertech.wcomponents.developer.errorHandling.enabled";
 
 	/**
-	 * The key used to look up the {@link Config WComponent Configuration} flag
-	 * for whether we should use the ErrorPageFactory.
+	 * The key used to look up the {@link Config WComponent Configuration} flag for whether we
+	 * should use the ErrorPageFactory.
 	 */
 	public static final String HANDLE_ERROR_WITH_FATAL_ERROR_PAGE_FACTORY = WServlet.class.getName()
 			+ ".handleErrorWithFatalErrorPageFactory";
@@ -135,9 +135,8 @@ public final class ServletUtil {
 	}
 
 	/**
-	 * This method does the real work in servicing the http request. It
-	 * integrates wcomponents into a servlet environment via a servlet specific
-	 * helper class.
+	 * This method does the real work in servicing the http request. It integrates wcomponents into
+	 * a servlet environment via a servlet specific helper class.
 	 *
 	 * @param helper the servlet helper
 	 * @param ui the application ui
@@ -259,12 +258,10 @@ public final class ServletUtil {
 	/**
 	 * Serves up a file from the theme.
 	 *
-	 * @param req the request with the file name in parameter "f", or following
-	 * the servlet path.
+	 * @param req the request with the file name in parameter "f", or following the servlet path.
 	 * @param resp the response to write to.
 	 * @throws ServletException on error.
-	 * @throws IOException if there is an error reading the file / writing the
-	 * response.
+	 * @throws IOException if there is an error reading the file / writing the response.
 	 */
 	public static void handleThemeResourceRequest(final HttpServletRequest req, final HttpServletResponse resp)
 			throws ServletException, IOException {
@@ -385,8 +382,8 @@ public final class ServletUtil {
 	}
 
 	/**
-	 * Called if a Throwable is caught by the top-level service method. By
-	 * default we display an error and terminate the session.
+	 * Called if a Throwable is caught by the top-level service method. By default we display an
+	 * error and terminate the session.
 	 *
 	 * @param helper the current servlet helper
 	 * @param throwable the throwable

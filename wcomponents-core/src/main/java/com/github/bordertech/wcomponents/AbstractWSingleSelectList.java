@@ -7,8 +7,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * AbstractWSingleSelectList provides the basis for components that allow the
- * user to select a single item from a list.
+ * AbstractWSingleSelectList provides the basis for components that allow the user to select a
+ * single item from a list.
  *
  * @author Jonathan Austin
  * @since 1.0.0
@@ -38,8 +38,7 @@ public abstract class AbstractWSingleSelectList extends AbstractWSelectList {
 	/**
 	 * Creates an AbstractWSingleSelectList.
 	 *
-	 * @param lookupTable the lookup table identifier to obtain the list's
-	 * options from.
+	 * @param lookupTable the lookup table identifier to obtain the list's options from.
 	 * @param allowNoSelection if true, allow no option to be selected
 	 */
 	public AbstractWSingleSelectList(final Object lookupTable, final boolean allowNoSelection) {
@@ -141,8 +140,7 @@ public abstract class AbstractWSingleSelectList extends AbstractWSelectList {
 	}
 
 	/**
-	 * Find the valid option for the selected data, allowing for option/code and
-	 * legacy matching.
+	 * Find the valid option for the selected data, allowing for option/code and legacy matching.
 	 *
 	 * @param options the list of options
 	 * @param selected the option to search for
@@ -198,9 +196,8 @@ public abstract class AbstractWSingleSelectList extends AbstractWSelectList {
 	 * By default, this method throws an {@link IllegalStateException}.
 	 * </p>
 	 * <p>
-	 * This method can be overridden to handle an invalid option without
-	 * throwing the exception. It must return a valid option that will be set as
-	 * the selected option.
+	 * This method can be overridden to handle an invalid option without throwing the exception. It
+	 * must return a valid option that will be set as the selected option.
 	 * </p>
 	 *
 	 * @param invalidOption the invalid option

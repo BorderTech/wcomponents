@@ -16,8 +16,7 @@ import java.util.Date;
 final class WDateFieldRenderer extends AbstractWebXmlRenderer {
 
 	/**
-	 * This date format is used internally to exchange dates between the client
-	 * and server.
+	 * This date format is used internally to exchange dates between the client and server.
 	 */
 	private static final String INTERNAL_DATE_FORMAT = "yyyy-MM-dd";
 

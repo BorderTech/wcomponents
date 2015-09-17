@@ -37,8 +37,8 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
 /**
- * Tests to check the performance of WComponent servlet processing. This test
- * does not check for correct behaviour - see {@link WServlet_Test} instead.
+ * Tests to check the performance of WComponent servlet processing. This test does not check for
+ * correct behaviour - see {@link WServlet_Test} instead.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -52,8 +52,8 @@ public class WServletPerformance_Test extends AbstractWComponentTestCase {
 	private static final Log LOG = LogFactory.getLog(WServletPerformance_Test.class);
 
 	/**
-	 * Basic sanity-test to ensure that the WComponent app is performing all the
-	 * processing that it should.
+	 * Basic sanity-test to ensure that the WComponent app is performing all the processing that it
+	 * should.
 	 *
 	 * @throws Exception an exception
 	 */
@@ -80,8 +80,8 @@ public class WServletPerformance_Test extends AbstractWComponentTestCase {
 	}
 
 	/**
-	 * Basic sanity-test to ensure that the other app is performing all the
-	 * processing that it should.
+	 * Basic sanity-test to ensure that the other app is performing all the processing that it
+	 * should.
 	 *
 	 * @throws Exception an exception
 	 */
@@ -114,8 +114,7 @@ public class WServletPerformance_Test extends AbstractWComponentTestCase {
 	}
 
 	/**
-	 * Times the WServlet execution looping the given number of times and
-	 * returns the elapsed time.
+	 * Times the WServlet execution looping the given number of times and returns the elapsed time.
 	 *
 	 * @param count the number of times to loop.
 	 * @return the elapsed time, in nanoseconds.
@@ -161,8 +160,8 @@ public class WServletPerformance_Test extends AbstractWComponentTestCase {
 	}
 
 	/**
-	 * Times the other servlet execution looping the given number of times and
-	 * returns the elapsed time.
+	 * Times the other servlet execution looping the given number of times and returns the elapsed
+	 * time.
 	 *
 	 * @param count the number of times to loop.
 	 * @return the elapsed time, in nanoseconds.
@@ -397,8 +396,8 @@ public class WServletPerformance_Test extends AbstractWComponentTestCase {
 		}
 
 		/**
-		 * Retrieves the form bean instance from the session, creating a new
-		 * bean if one does not already exist.
+		 * Retrieves the form bean instance from the session, creating a new bean if one does not
+		 * already exist.
 		 *
 		 * @param request the request being handled.
 		 * @return the form bean instance.

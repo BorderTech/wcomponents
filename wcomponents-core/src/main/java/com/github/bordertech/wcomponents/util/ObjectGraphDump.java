@@ -11,8 +11,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * Dumps an object graph, optionally excluding fields that are static or
- * transient.
+ * Dumps an object graph, optionally excluding fields that are static or transient.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -48,10 +47,8 @@ public final class ObjectGraphDump {
 	/**
 	 * Creates an ObjectGraphDump.
 	 *
-	 * @param excludeTransient if true, transient fields will be omitted from
-	 * the dump.
-	 * @param excludeStatic if true, static fields will be omitted from the
-	 * dump.
+	 * @param excludeTransient if true, transient fields will be omitted from the dump.
+	 * @param excludeStatic if true, static fields will be omitted from the dump.
 	 */
 	private ObjectGraphDump(final boolean excludeTransient, final boolean excludeStatic) {
 		this.excludeTransient = excludeTransient;
@@ -240,8 +237,7 @@ public final class ObjectGraphDump {
 	}
 
 	/**
-	 * For some types, we don't care about their internals, so just summarise
-	 * the size.
+	 * For some types, we don't care about their internals, so just summarise the size.
 	 *
 	 * @param node the node to summarise.
 	 */
@@ -252,8 +248,8 @@ public final class ObjectGraphDump {
 	}
 
 	/**
-	 * Adjusts the overhead of the given node, for types where not all data is
-	 * output (e.g. Lists and Maps).
+	 * Adjusts the overhead of the given node, for types where not all data is output (e.g. Lists
+	 * and Maps).
 	 *
 	 * @param node the node to adjust.
 	 */

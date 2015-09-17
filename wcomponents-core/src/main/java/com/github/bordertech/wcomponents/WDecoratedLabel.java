@@ -5,10 +5,9 @@ import java.text.MessageFormat;
 
 /**
  * <p>
- * WDecorated is a "decorated label" which is typically displayed inside other
- * components, for example {@link com.github.bordertech.wcomponents.WTab}. The
- * decorated label allows deveopers to mix text with other content, e.g.
- * images.</p>
+ * WDecorated is a "decorated label" which is typically displayed inside other components, for
+ * example {@link com.github.bordertech.wcomponents.WTab}. The decorated label allows deveopers to
+ * mix text with other content, e.g. images.</p>
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -16,16 +15,14 @@ import java.text.MessageFormat;
 public final class WDecoratedLabel extends AbstractMutableContainer implements AjaxTarget {
 
 	/**
-	 * Creates an initially empty decorated label, with a {@link WText} as the
-	 * body content.
+	 * Creates an initially empty decorated label, with a {@link WText} as the body content.
 	 */
 	public WDecoratedLabel() {
 		this(null, new WText(""), null, null);
 	}
 
 	/**
-	 * Creates a decorated label with a WText as the body content, containing
-	 * the given text.
+	 * Creates a decorated label with a WText as the body content, containing the given text.
 	 *
 	 * @param text the label's text, using {@link MessageFormat} syntax.
 	 * @param args optional arguments for the message format string.
@@ -44,9 +41,8 @@ public final class WDecoratedLabel extends AbstractMutableContainer implements A
 	}
 
 	/**
-	 * Creates a decorated label with the given content. The head, body, and
-	 * tail are usually displayed in that order, from left-to-right. At minimum,
-	 * the body content must not be null.
+	 * Creates a decorated label with the given content. The head, body, and tail are usually
+	 * displayed in that order, from left-to-right. At minimum, the body content must not be null.
 	 *
 	 * @param head the label's head content.
 	 * @param body the label's body content.
@@ -144,8 +140,8 @@ public final class WDecoratedLabel extends AbstractMutableContainer implements A
 	}
 
 	/**
-	 * Attempts to set the text contained in the body component. This works only
-	 * for simple components types:
+	 * Attempts to set the text contained in the body component. This works only for simple
+	 * components types:
 	 * <ul>
 	 * <li>{@link WButton}</li>
 	 * <li>{@link WLink}</li>
@@ -173,8 +169,8 @@ public final class WDecoratedLabel extends AbstractMutableContainer implements A
 	}
 
 	/**
-	 * Attempts to retrieve the text contained in the body component. This works
-	 * only for simple components types:
+	 * Attempts to retrieve the text contained in the body component. This works only for simple
+	 * components types:
 	 * <ul>
 	 * <li>{@link WButton}</li>
 	 * <li>{@link WLink}</li>

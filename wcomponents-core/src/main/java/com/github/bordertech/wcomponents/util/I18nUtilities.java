@@ -32,8 +32,7 @@ public final class I18nUtilities {
 	public static final String RESOURCE_BUNDLE_BASE_NAME_CONFIG_KEY = "bordertech.wcomponents.i18n.baseName";
 
 	/**
-	 * A store of bad bundles, to avoid repeated logging of errors when the
-	 * bundle fails to load.
+	 * A store of bad bundles, to avoid repeated logging of errors when the bundle fails to load.
 	 */
 	private static final Set<Locale> MISSING_RESOURCES = new HashSet<>();
 
@@ -44,8 +43,8 @@ public final class I18nUtilities {
 	}
 
 	/**
-	 * Retrieves the resource bundle base name. The base name is looked up using
-	 * the parameter {@link #RESOURCE_BUNDLE_BASE_NAME_CONFIG_KEY}.
+	 * Retrieves the resource bundle base name. The base name is looked up using the parameter
+	 * {@link #RESOURCE_BUNDLE_BASE_NAME_CONFIG_KEY}.
 	 *
 	 * @return the resource bundle base name.
 	 */
@@ -54,13 +53,12 @@ public final class I18nUtilities {
 	}
 
 	/**
-	 * Converts a message String and optional message arguments to a an
-	 * appropriate format for internationalisation.
+	 * Converts a message String and optional message arguments to a an appropriate format for
+	 * internationalisation.
 	 *
 	 * @param text the message text.
 	 * @param args the message arguments.
-	 * @return a message in an appropriate format for internationalisation, may
-	 * be null.
+	 * @return a message in an appropriate format for internationalisation, may be null.
 	 */
 	public static Serializable asMessage(final String text, final Serializable... args) {
 		if (text == null) {
@@ -77,13 +75,11 @@ public final class I18nUtilities {
 	 * Attempts to format the given message for the given locale.</p>
 	 *
 	 * <p>
-	 * If a locale is provided, this method will attempt to load the text from a
-	 * resource bundle. If <code>message</code> is a {@link Message} and has
-	 * format arguments, then {@link MessageFormat} will be used to format the
-	 * final message.</p>
+	 * If a locale is provided, this method will attempt to load the text from a resource bundle. If
+	 * <code>message</code> is a {@link Message} and has format arguments, then
+	 * {@link MessageFormat} will be used to format the final message.</p>
 	 *
-	 * @param locale the locale to use, or null to use the current UIContext's
-	 * Locale.
+	 * @param locale the locale to use, or null to use the current UIContext's Locale.
 	 * @param message the message object to format.
 	 * @return the formatted message.
 	 */
@@ -134,8 +130,7 @@ public final class I18nUtilities {
 	/**
 	 * Attempts to retrieve the localized message for the given text.
 	 *
-	 * @param locale the locale to retrieve the message for, or null for the
-	 * default locale.
+	 * @param locale the locale to retrieve the message for, or null for the default locale.
 	 * @param text the text message or id to look up.
 	 * @return the localised text if found, otherwise null.
 	 */

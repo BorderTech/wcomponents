@@ -8,8 +8,8 @@ import com.github.bordertech.wcomponents.layout.ListLayout;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 
 /**
- * This {@link Renderer} renders the children of a {@link WPanel} which have
- * been arranged using a {@link ListLayout}.
+ * This {@link Renderer} renders the children of a {@link WPanel} which have been arranged using a
+ * {@link ListLayout}.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0

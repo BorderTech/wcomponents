@@ -7,9 +7,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * UIContextDelegate implements UIContext, but delegates all the work to a
- * backing context. This allows us to easily write UIContext extensions that
- * only need to change the behaviour of a few methods.
+ * UIContextDelegate implements UIContext, but delegates all the work to a backing context. This
+ * allows us to easily write UIContext extensions that only need to change the behaviour of a few
+ * methods.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -27,8 +27,8 @@ public class UIContextDelegate implements UIContext {
 	private UIContext backing;
 
 	/**
-	 * Creates a UIContextDelegate. This is marked protected, as it doesn't make
-	 * sense to create an instance of the delegate without changing behaviour.
+	 * Creates a UIContextDelegate. This is marked protected, as it doesn't make sense to create an
+	 * instance of the delegate without changing behaviour.
 	 *
 	 * @param backing the backing context.
 	 */
@@ -285,8 +285,7 @@ public class UIContextDelegate implements UIContext {
 	}
 
 	/**
-	 * A utility function to iterate to the primary (top most) context and
-	 * return it.
+	 * A utility function to iterate to the primary (top most) context and return it.
 	 *
 	 * @param uic the UIContext to retrieve the primary context for.
 	 * @return the primary context for the given context.

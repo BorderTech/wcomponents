@@ -6,9 +6,9 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * The WShuffler is a WComponent that allows a list of options to have its order
- * manually shuffled by the user. The component accepts a list of objects and
- * the toString method is used to render the option in the response.
+ * The WShuffler is a WComponent that allows a list of options to have its order manually shuffled
+ * by the user. The component accepts a list of objects and the toString method is used to render
+ * the option in the response.
  *
  * @author Jonathan Austin
  * @since 1.0.0
@@ -68,8 +68,7 @@ public class WShuffler extends AbstractInput implements AjaxTrigger, AjaxTarget,
 	}
 
 	/**
-	 * Sets the maximum number of rows that are visible in the list at any one
-	 * time.
+	 * Sets the maximum number of rows that are visible in the list at any one time.
 	 *
 	 * @param rows the number of rows to display.
 	 */

@@ -7,8 +7,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * A logical condition that tests if the trigger matches the compare value as a
- * regular expression.
+ * A logical condition that tests if the trigger matches the compare value as a regular expression.
  *
  * @author Jonathan Austin
  * @since 1.0.0

@@ -4,8 +4,7 @@ import com.github.bordertech.wcomponents.validation.Diagnostic;
 import java.util.List;
 
 /**
- * This component doesn't do anything important, but does note which methods
- * were called.
+ * This component doesn't do anything important, but does note which methods were called.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -57,40 +56,35 @@ public class MockContainer extends AbstractMutableContainer {
 	}
 
 	/**
-	 * @return the number of times handleRequest has been called in the current
-	 * context.
+	 * @return the number of times handleRequest has been called in the current context.
 	 */
 	public int getHandleRequestCount() {
 		return ((CountModel) getComponentModel()).handleRequestCount;
 	}
 
 	/**
-	 * @return the number of times paintComponent has been called in the current
-	 * context.
+	 * @return the number of times paintComponent has been called in the current context.
 	 */
 	public int getPaintCount() {
 		return ((CountModel) getComponentModel()).paintCount;
 	}
 
 	/**
-	 * @return the number of times preparePaintComponent has been called in the
-	 * current context.
+	 * @return the number of times preparePaintComponent has been called in the current context.
 	 */
 	public int getPreparePaintCount() {
 		return ((CountModel) getComponentModel()).paintCount;
 	}
 
 	/**
-	 * @return the number of times validate has been called in the current
-	 * context.
+	 * @return the number of times validate has been called in the current context.
 	 */
 	public int getValidateCount() {
 		return ((CountModel) getComponentModel()).validateCount;
 	}
 
 	/**
-	 * An component model extension which records certain method invocation
-	 * counts.
+	 * An component model extension which records certain method invocation counts.
 	 */
 	public static class CountModel extends ComponentModel {
 
@@ -99,8 +93,7 @@ public class MockContainer extends AbstractMutableContainer {
 		 */
 		private int handleRequestCount = 0;
 		/**
-		 * The number of times that the preparePaintComponent method has been
-		 * invoked.
+		 * The number of times that the preparePaintComponent method has been invoked.
 		 */
 		private int preparePaintCount = 0;
 		/**

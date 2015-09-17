@@ -9,8 +9,8 @@ import java.util.Stack;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * The expression builder provides a convenient and more readable API for
- * building conditions than using the various Expression/Operand classes.
+ * The expression builder provides a convenient and more readable API for building conditions than
+ * using the various Expression/Operand classes.
  *
  * @author Yiannis Paschalidis
  * @author Jonathan Austin
@@ -19,8 +19,7 @@ import org.apache.commons.logging.LogFactory;
 public final class ExpressionBuilder {
 
 	/**
-	 * The stack of expressions so far. This is used to provide correct operator
-	 * precedence.
+	 * The stack of expressions so far. This is used to provide correct operator precedence.
 	 */
 	private final Stack<GroupExpression> stack = new Stack<>();
 
@@ -42,9 +41,8 @@ public final class ExpressionBuilder {
 	}
 
 	/**
-	 * Creates an ExpressionBuilder. This method is package protected as
-	 * developers should be obtaining an ExpressionBuilder editor using
-	 * {@link SubordinateBuilder#condition()}.
+	 * Creates an ExpressionBuilder. This method is package protected as developers should be
+	 * obtaining an ExpressionBuilder editor using {@link SubordinateBuilder#condition()}.
 	 *
 	 * @param expression the expression to modify
 	 */
@@ -157,8 +155,8 @@ public final class ExpressionBuilder {
 	// Group Expressions - OR, AND, NOT
 	//
 	/**
-	 * Appends an OR expression to the RHS of the expression. The current RHS of
-	 * the expression must be an Operand.
+	 * Appends an OR expression to the RHS of the expression. The current RHS of the expression must
+	 * be an Operand.
 	 *
 	 * @return this ExpressionBuilder.
 	 */
@@ -204,8 +202,8 @@ public final class ExpressionBuilder {
 	}
 
 	/**
-	 * Appends an AND expression to the RHS of the expression. The current RHS
-	 * of the expression must be an Operand.
+	 * Appends an AND expression to the RHS of the expression. The current RHS of the expression
+	 * must be an Operand.
 	 *
 	 * @return this ExpressionBuilder.
 	 */
@@ -242,8 +240,7 @@ public final class ExpressionBuilder {
 	/**
 	 * Appends an AND expression to this expression.
 	 *
-	 * @param exp the builder containing the expression to AND with the current
-	 * expression.
+	 * @param exp the builder containing the expression to AND with the current expression.
 	 * @return this ExpressionBuilder.
 	 */
 	public ExpressionBuilder and(final ExpressionBuilder exp) {
@@ -254,8 +251,7 @@ public final class ExpressionBuilder {
 	/**
 	 * Appends an OR expression to the RHS of the expression.
 	 *
-	 * @param exp the builder containing the expression to OR with the current
-	 * expression.
+	 * @param exp the builder containing the expression to OR with the current expression.
 	 * @return this ExpressionBuilder.
 	 */
 	public ExpressionBuilder or(final ExpressionBuilder exp) {
@@ -266,8 +262,7 @@ public final class ExpressionBuilder {
 	/**
 	 * Appends a NOT expression to this expression.
 	 *
-	 * @param exp the builder containing the expression to NOT with the current
-	 * expression.
+	 * @param exp the builder containing the expression to NOT with the current expression.
 	 * @return this ExpressionBuilder.
 	 */
 	public ExpressionBuilder not(final ExpressionBuilder exp) {
@@ -344,12 +339,11 @@ public final class ExpressionBuilder {
 	}
 
 	/**
-	 * Checks nesting of expressions to ensure we don't end up in an infinite
-	 * recursive loop during evaluation.
+	 * Checks nesting of expressions to ensure we don't end up in an infinite recursive loop during
+	 * evaluation.
 	 *
 	 * @param expression the expression to check
-	 * @param visitedExpressions a list of expressions which have been visited
-	 * so far.
+	 * @param visitedExpressions a list of expressions which have been visited so far.
 	 */
 	private static void checkNesting(final BooleanExpression expression,
 			final List<BooleanExpression> visitedExpressions) {

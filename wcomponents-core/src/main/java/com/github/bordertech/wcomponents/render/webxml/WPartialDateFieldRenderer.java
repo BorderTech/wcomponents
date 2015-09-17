@@ -79,8 +79,8 @@ final class WPartialDateFieldRenderer extends AbstractWebXmlRenderer {
 	}
 
 	/**
-	 * Appends a single date component to the given StringBuffer. Nulls are
-	 * replaced with question marks, and numbers are padded with zeros.
+	 * Appends a single date component to the given StringBuffer. Nulls are replaced with question
+	 * marks, and numbers are padded with zeros.
 	 *
 	 * @param buf the buffer to append to.
 	 * @param num the number to append, may be null.

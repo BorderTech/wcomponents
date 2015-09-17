@@ -297,8 +297,7 @@ final class WDataTableRenderer extends AbstractWebXmlRenderer {
 	}
 
 	/**
-	 * Override paintRow so that we only paint the first-level nodes for
-	 * tree-tables.
+	 * Override paintRow so that we only paint the first-level nodes for tree-tables.
 	 *
 	 * @param table the table to paint the rows for.
 	 * @param renderContext the RenderContext to paint to.

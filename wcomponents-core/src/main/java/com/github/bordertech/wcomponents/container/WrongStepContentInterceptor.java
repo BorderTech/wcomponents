@@ -23,21 +23,18 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * <p>
- * This wrong step interceptor makes sure that content requests are only
- * processed from the most recently rendered view.
+ * This wrong step interceptor makes sure that content requests are only processed from the most
+ * recently rendered view.
  * </p>
  * <p>
- * It assumes the correct context has already been set via the
- * {@link WWindowInterceptor}.
+ * It assumes the correct context has already been set via the {@link WWindowInterceptor}.
  * </p>
  * <p>
- * If a step error occurs, then the user, depending on the redirect flag, is
- * either (1) redirected to an error page or (2) warped to the future so the
- * application is rendered in its current state. When the user is warped to the
- * future, the handleStepError method is called on WApplication, which allows
- * applications to take the appropriate action for when a step error has
- * occurred. For content like WImage, an error code is set, rather than trying
- * to do a redirect.
+ * If a step error occurs, then the user, depending on the redirect flag, is either (1) redirected
+ * to an error page or (2) warped to the future so the application is rendered in its current state.
+ * When the user is warped to the future, the handleStepError method is called on WApplication,
+ * which allows applications to take the appropriate action for when a step error has occurred. For
+ * content like WImage, an error code is set, rather than trying to do a redirect.
  * </p>
  *
  * @author Jonathan Austin
@@ -50,8 +47,7 @@ public class WrongStepContentInterceptor extends InterceptorComponent {
 	private static final Log LOG = LogFactory.getLog(WrongStepContentInterceptor.class);
 
 	/**
-	 * Override to check whether the step variable in the incoming request
-	 * matches what we expect.
+	 * Override to check whether the step variable in the incoming request matches what we expect.
 	 *
 	 * @param request the request being serviced.
 	 */

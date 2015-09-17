@@ -9,13 +9,11 @@ package com.github.bordertech.wcomponents.layout;
 public class ListLayout implements LayoutManager {
 
 	/**
-	 * An enumeration of possible values for horizontal alignment of column
-	 * content.
+	 * An enumeration of possible values for horizontal alignment of column content.
 	 */
 	public static enum Alignment {
 		/**
-		 * Indicates that content should be left-aligned. This is the default
-		 * alignment.
+		 * Indicates that content should be left-aligned. This is the default alignment.
 		 */
 		LEFT,
 		/**
@@ -41,8 +39,8 @@ public class ListLayout implements LayoutManager {
 		 */
 		STACKED,
 		/**
-		 * Indicates that content should be arranged vertically, with
-		 * highlighting on alternate rows (zebra striping).
+		 * Indicates that content should be arranged vertically, with highlighting on alternate rows
+		 * (zebra striping).
 		 */
 		STRIPED
 	}
@@ -114,8 +112,7 @@ public class ListLayout implements LayoutManager {
 	 * @param alignment the item alignment.
 	 * @param separator the separator to display between items.
 	 * @param ordered whether the list is an ordered list.
-	 * @param hgap the horizontal gap between the list items, measured in
-	 * pixels.
+	 * @param hgap the horizontal gap between the list items, measured in pixels.
 	 * @param vgap the vertical gap between the list items, measured in pixels.
 	 */
 	public ListLayout(final Type type, final Alignment alignment, final Separator separator, final boolean ordered, final int hgap, final int vgap) {

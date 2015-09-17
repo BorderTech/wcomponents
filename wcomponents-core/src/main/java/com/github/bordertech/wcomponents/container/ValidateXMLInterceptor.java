@@ -12,19 +12,17 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * <p>
- * An Interceptor used to report any WComponent that has generated HTML/XML that
- * is not well formed.
+ * An Interceptor used to report any WComponent that has generated HTML/XML that is not well formed.
  * </p>
  * <p>
  * To enable this Interceptor, both "bordertech.wcomponents.debug.enabled" and
  * "bordertech.wcomponents.debug.validateXML.enabled" must be set to true.
  * </p>
  * <p>
- * The Interceptor calls {@link DebugValidateXML} to determine if XML Validation
- * is enabled. If it has been enabled, then the interceptor uses a temporary
- * buffer to hold the original response so that if {@link DebugValidateXML} has
- * reported errors, it can wrap the original response in a CDATA section and
- * include any error messages in a new response.
+ * The Interceptor calls {@link DebugValidateXML} to determine if XML Validation is enabled. If it
+ * has been enabled, then the interceptor uses a temporary buffer to hold the original response so
+ * that if {@link DebugValidateXML} has reported errors, it can wrap the original response in a
+ * CDATA section and include any error messages in a new response.
  * </p>
  *
  * @author Jonathan Austin

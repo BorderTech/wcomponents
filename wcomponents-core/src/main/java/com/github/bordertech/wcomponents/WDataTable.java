@@ -18,19 +18,18 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * <p>
- * The WDataTable component is used to display tabular data. It supports common
- * functions such as sorting and pagination of data.</p>
+ * The WDataTable component is used to display tabular data. It supports common functions such as
+ * sorting and pagination of data.</p>
  *
  * <p>
- * The WDataTable component is only concerned with how the UI functions, not the
- * data behind the table. In a MVC sense, the WDataTable is the Controller, the
- * view is comprised of the WDataTable layout and column renderers, and the
- * {@link TableDataModel} is the model.</p>
+ * The WDataTable component is only concerned with how the UI functions, not the data behind the
+ * table. In a MVC sense, the WDataTable is the Controller, the view is comprised of the WDataTable
+ * layout and column renderers, and the {@link TableDataModel} is the model.</p>
  *
  * <p>
- * Columns may only be added statically to the table, but individual columns can
- * be shown/hidden per user by toggling their visibility. See
- * {@link #getColumn(int)} and {@link WComponent#setVisible(boolean)}.</p>
+ * Columns may only be added statically to the table, but individual columns can be shown/hidden per
+ * user by toggling their visibility. See {@link #getColumn(int)} and
+ * {@link WComponent#setVisible(boolean)}.</p>
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -46,8 +45,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	private static final Log LOG = LogFactory.getLog(WDataTable.class);
 
 	/**
-	 * For easy access to the columns, including the ability to hide them all at
-	 * once.
+	 * For easy access to the columns, including the ability to hide them all at once.
 	 */
 	private final WContainer columns = new WContainer();
 
@@ -93,13 +91,11 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 		 */
 		NONE,
 		/**
-		 * Indicates that the select all/none function should is displayed as
-		 * text.
+		 * Indicates that the select all/none function should is displayed as text.
 		 */
 		TEXT,
 		/**
-		 * Indicates that the select all/none function should is displayed as a
-		 * control (checkbox).
+		 * Indicates that the select all/none function should is displayed as a control (checkbox).
 		 */
 		CONTROL
 	};
@@ -135,8 +131,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 */
 	public static enum PaginationMode {
 		/**
-		 * Indicates that pagination is not supported, all data will be
-		 * displayed in the one page.
+		 * Indicates that pagination is not supported, all data will be displayed in the one page.
 		 */
 		NONE,
 		/**
@@ -144,8 +139,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 		 */
 		SERVER,
 		/**
-		 * Indicates that pagination occurs on the client. All data will be sent
-		 * at once.
+		 * Indicates that pagination occurs on the client. All data will be sent at once.
 		 */
 		CLIENT,
 		/**
@@ -189,8 +183,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 		 */
 		VERTICAL,
 		/**
-		 * Indicates that both horizontal and vertical separators should be
-		 * displayed.
+		 * Indicates that both horizontal and vertical separators should be displayed.
 		 */
 		BOTH
 	};
@@ -252,8 +245,8 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	}
 
 	/**
-	 * Retrieves the column at the specified index. Bounds checking is not
-	 * performed, see {@link #getColumnCount()}.
+	 * Retrieves the column at the specified index. Bounds checking is not performed, see
+	 * {@link #getColumnCount()}.
 	 *
 	 * @param index the column index.
 	 * @return the column at the specified index.
@@ -263,8 +256,8 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	}
 
 	/**
-	 * Returns the number of columns contained in this table. Invisible columns
-	 * still count towards the total.
+	 * Returns the number of columns contained in this table. Invisible columns still count towards
+	 * the total.
 	 *
 	 * @return the number of columns contained in this table.
 	 */
@@ -359,8 +352,8 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 
 	/**
 	 * Updates the bean using the table data model's
-	 * {@link TableDataModel#setValueAt(Object, int, int)} method. This method
-	 * only updates the data for the current page.
+	 * {@link TableDataModel#setValueAt(Object, int, int)} method. This method only updates the data
+	 * for the current page.
 	 */
 	private void updateBeanValueCurrentPageOnly() {
 		WDataTableRowRenderer rowRenderer = (WDataTableRowRenderer) repeater.getRepeatedComponent();
@@ -442,8 +435,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	/**
 	 * Sets whether table column headers should be displayed.
 	 *
-	 * @param showColumnHeaders true to display table column headers, false
-	 * otherwise.
+	 * @param showColumnHeaders true to display table column headers, false otherwise.
 	 */
 	public void setShowColumnHeaders(final boolean showColumnHeaders) {
 		getOrCreateComponentModel().showColumnHeaders = showColumnHeaders;
@@ -484,19 +476,16 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	/**
 	 * Sets whether row indices should be displayed.
 	 *
-	 * @param showRowIndices true if row indices should be displayed, false
-	 * otherwise.
+	 * @param showRowIndices true if row indices should be displayed, false otherwise.
 	 */
 	public void setShowRowIndices(final boolean showRowIndices) {
 		getOrCreateComponentModel().showRowIndices = showRowIndices;
 	}
 
 	/**
-	 * Indicates whether the form should submit whenever the row selection
-	 * changes.
+	 * Indicates whether the form should submit whenever the row selection changes.
 	 *
-	 * @return true if form submission should occur on row selection change,
-	 * false otherwise.
+	 * @return true if form submission should occur on row selection change, false otherwise.
 	 */
 	public boolean isSubmitOnRowSelect() {
 		return getComponentModel().submitOnRowSelect;
@@ -505,8 +494,8 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	/**
 	 * Sets whether the form should submit whenever the row selection changes.
 	 *
-	 * @param submitOnRowSelect true if form submission should occur on row
-	 * selection change, false otherwise.
+	 * @param submitOnRowSelect true if form submission should occur on row selection change, false
+	 * otherwise.
 	 */
 	public void setSubmitOnRowSelect(final boolean submitOnRowSelect) {
 		getOrCreateComponentModel().submitOnRowSelect = submitOnRowSelect;
@@ -556,8 +545,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	/**
 	 * Sets the action to execute when row selection changes.
 	 *
-	 * @param selectionChangeAction the action to execute on row selection
-	 * change.
+	 * @param selectionChangeAction the action to execute on row selection change.
 	 */
 	public void setSelectionChangeAction(final Action selectionChangeAction) {
 		getOrCreateComponentModel().selectionChangeAction = selectionChangeAction;
@@ -619,8 +607,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	}
 
 	/**
-	 * @param columnOrder the column order to set, or null to use default
-	 * ordering.
+	 * @param columnOrder the column order to set, or null to use default ordering.
 	 */
 	public void setColumnOrder(final int[] columnOrder) {
 		if (columnOrder.length != getColumnCount()) {
@@ -704,8 +691,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	}
 
 	/**
-	 * Sets the table sort mode. The data model controls which columns are
-	 * sortable.
+	 * Sets the table sort mode. The data model controls which columns are sortable.
 	 *
 	 * @param sortMode The sort mode to set.
 	 */
@@ -775,8 +761,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	/**
 	 * Sets whether the "expand all" control should be available.
 	 *
-	 * @param expandAll true if the expand-all control should be available,
-	 * false if not.
+	 * @param expandAll true if the expand-all control should be available, false if not.
 	 */
 	public void setExpandAll(final boolean expandAll) {
 		getOrCreateComponentModel().expandAll = expandAll;
@@ -881,9 +866,8 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	}
 
 	/**
-	 * Indicates whether the sort on this table is ascending. Note that a return
-	 * value of false does not necessarily indicate a descending sort - see
-	 * {@link #isSorted()}.
+	 * Indicates whether the sort on this table is ascending. Note that a return value of false does
+	 * not necessarily indicate a descending sort - see {@link #isSorted()}.
 	 *
 	 * @return true if the sort order is ascending, false for descending.
 	 */
@@ -894,8 +878,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	/**
 	 * Indicates whether the table supports sorting.
 	 *
-	 * @return true if the table and model both support sorting, false
-	 * otherwise.
+	 * @return true if the table and model both support sorting, false otherwise.
 	 */
 	public boolean isSortable() {
 		// First check global override which turns sorting off
@@ -960,8 +943,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 * Retrieves the constraints for the given action.
 	 *
 	 * @param button the button to retrieve the constraints for.
-	 * @return the constraints for the given action, or null if there are no
-	 * constraints.
+	 * @return the constraints for the given action, or null if there are no constraints.
 	 */
 	public List<ActionConstraint> getActionConstraints(final WButton button) {
 		List<ActionConstraint> constraints = getComponentModel().actionConstraints.get(button);
@@ -969,8 +951,8 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	}
 
 	/**
-	 * Override handleRequest to add table-specific functionality such as
-	 * pagination and row selection.
+	 * Override handleRequest to add table-specific functionality such as pagination and row
+	 * selection.
 	 *
 	 * @param request the request being responded to.
 	 */
@@ -1138,8 +1120,8 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	}
 
 	/**
-	 * Retrieves the starting row index for the current page. Will always return
-	 * zero for tables which are not paginated.
+	 * Retrieves the starting row index for the current page. Will always return zero for tables
+	 * which are not paginated.
 	 *
 	 * @return the starting row index for the current page.
 	 */
@@ -1168,8 +1150,8 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	}
 
 	/**
-	 * Retrieves the ending row index for the current page. Will always return
-	 * the row count minus 1 for tables which are not paginated.
+	 * Retrieves the ending row index for the current page. Will always return the row count minus 1
+	 * for tables which are not paginated.
 	 *
 	 * @return the starting row index for the current page.
 	 */
@@ -1284,13 +1266,10 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	}
 
 	/**
-	 * Helper that removes empty/null string from the <code>original</code>
-	 * string array.
+	 * Helper that removes empty/null string from the <code>original</code> string array.
 	 *
-	 * @param originals The string array from which the null/empty strings
-	 * should be removed from.
-	 * @return Array of non empty strings from the <code>original</code> string
-	 * array.
+	 * @param originals The string array from which the null/empty strings should be removed from.
+	 * @return Array of non empty strings from the <code>original</code> string array.
 	 */
 	private String[] removeEmptyStrings(final String[] originals) {
 		if (originals == null) {
@@ -1359,14 +1338,12 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	public static final class ActionConstraint implements Serializable {
 
 		/**
-		 * The minimum number of rows which must be selected to fulfil the
-		 * constraint.
+		 * The minimum number of rows which must be selected to fulfil the constraint.
 		 */
 		private int minSelectedRowCount;
 
 		/**
-		 * The maximum number of rows which must be selected to fulfil the
-		 * constraint.
+		 * The maximum number of rows which must be selected to fulfil the constraint.
 		 */
 		private int maxSelectedRowCount;
 
@@ -1383,10 +1360,10 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 		/**
 		 * Creates an action constraint.
 		 *
-		 * @param minSelectedRowCount the minimum number of rows which must be
-		 * selected to fulfil the constraint, or zero for any number of rows.
-		 * @param maxSelectedRowCount the maximum number of rows which can be
-		 * selected to fulfil the constraint, or zero for any number of rows.
+		 * @param minSelectedRowCount the minimum number of rows which must be selected to fulfil
+		 * the constraint, or zero for any number of rows.
+		 * @param maxSelectedRowCount the maximum number of rows which can be selected to fulfil the
+		 * constraint, or zero for any number of rows.
 		 * @param error true if the constaint is an error, false for a warning.
 		 * @param message the message to display when the constraint is not met.
 		 */
@@ -1398,8 +1375,8 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 		}
 
 		/**
-		 * Indicates the minimum number of rows which must be selected for the
-		 * error/warning not to occur.
+		 * Indicates the minimum number of rows which must be selected for the error/warning not to
+		 * occur.
 		 *
 		 * @return the minimum selected row count.
 		 */
@@ -1415,8 +1392,8 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 		}
 
 		/**
-		 * Indicates the maximum number of rows which can be selected for the
-		 * error/warning not to occur.
+		 * Indicates the maximum number of rows which can be selected for the error/warning not to
+		 * occur.
 		 *
 		 * @return the maximum selected row count.
 		 */
@@ -1479,9 +1456,8 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	}
 
 	/**
-	 * A bean provider implementation which provides beans to the table
-	 * repeater. This provider takes the table's pagination state into account,
-	 * so that only visible rows are rendered.
+	 * A bean provider implementation which provides beans to the table repeater. This provider
+	 * takes the table's pagination state into account, so that only visible rows are rendered.
 	 */
 	private final class DataModelBeanProvider implements BeanProvider, Serializable {
 
@@ -1571,8 +1547,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	public static final class TableModel extends BeanAndProviderBoundComponentModel {
 
 		/**
-		 * This controls how sorting should function. Sortability is determined
-		 * by the data model.
+		 * This controls how sorting should function. Sortability is determined by the data model.
 		 */
 		private SortMode sortMode = SortMode.SERVER;
 
@@ -1582,14 +1557,12 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 		private TableDataModel dataModel = EmptyTableDataModel.INSTANCE;
 
 		/**
-		 * Controls whether backgound striping is used to distinguish
-		 * rows/columns from each other.
+		 * Controls whether backgound striping is used to distinguish rows/columns from each other.
 		 */
 		private StripingType stripingType = StripingType.NONE;
 
 		/**
-		 * Controls whether a visual separator is used to distinguish
-		 * rows/columns from each other.
+		 * Controls whether a visual separator is used to distinguish rows/columns from each other.
 		 */
 		private SeparatorType separatorType = SeparatorType.NONE;
 
@@ -1675,8 +1648,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 		private List<Integer> selectedRows;
 
 		/**
-		 * Indicates whether the client should round-trip every time a row is
-		 * selected.
+		 * Indicates whether the client should round-trip every time a row is selected.
 		 */
 		private boolean submitOnRowSelect = false;
 
@@ -1687,8 +1659,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 		private ExpandMode expandMode = ExpandMode.NONE;
 
 		/**
-		 * Indicates whether a "expand/collapse all" control should be
-		 * displayed.
+		 * Indicates whether a "expand/collapse all" control should be displayed.
 		 */
 		private boolean expandAll = false;
 
@@ -1699,8 +1670,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 
 		// Filtering
 		/**
-		 * Indicates whether the table should allow client-side filtering of
-		 * rows.
+		 * Indicates whether the table should allow client-side filtering of rows.
 		 */
 		private boolean filterable = false;
 
@@ -1711,8 +1681,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 
 		// Sorting
 		/**
-		 * Holds the currently sorted column index. A value of -1 indicates no
-		 * active sort.
+		 * Holds the currently sorted column index. A value of -1 indicates no active sort.
 		 */
 		private int sortColIndex = -1;
 
@@ -1722,8 +1691,8 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 		private boolean sortAscending;
 
 		/**
-		 * This is used to map rendered table row indices to table model row
-		 * indices, if the table model supports this mode of sorting.
+		 * This is used to map rendered table row indices to table model row indices, if the table
+		 * model supports this mode of sorting.
 		 */
 		private int[] rowIndexMapping;
 
@@ -1747,9 +1716,8 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 		}
 
 		/**
-		 * The pagination row count takes into account different pagination
-		 * types. For example, hierarchical tables only paginate on top-level
-		 * nodes (to avoid orphan nodes).
+		 * The pagination row count takes into account different pagination types. For example,
+		 * hierarchical tables only paginate on top-level nodes (to avoid orphan nodes).
 		 *
 		 * @return the row count for pagination
 		 */
@@ -1839,8 +1807,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	}
 
 	/**
-	 * @return a String representation of this component, for debugging
-	 * purposes.
+	 * @return a String representation of this component, for debugging purposes.
 	 */
 	@Override
 	public String toString() {

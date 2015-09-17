@@ -19,15 +19,13 @@ public final class PageContentHelper {
 	private static final String CLOSE_JAVASCRIPT = "\n</script>";
 
 	/**
-	 * Prevent instance creation because this class only contains static utility
-	 * methods.
+	 * Prevent instance creation because this class only contains static utility methods.
 	 */
 	private PageContentHelper() {
 	}
 
 	/**
-	 * Shortcut method for adding all the headline entries stored in the
-	 * WHeaders.
+	 * Shortcut method for adding all the headline entries stored in the WHeaders.
 	 *
 	 * @param writer the writer to write to.
 	 * @param headers contains all the headline entries.
@@ -39,12 +37,10 @@ public final class PageContentHelper {
 	}
 
 	/**
-	 * Add a list of html headline entries intended to be added only once to the
-	 * page.
+	 * Add a list of html headline entries intended to be added only once to the page.
 	 *
 	 * @param writer the writer to write to.
-	 * @param headlines a list of html entries to be added to the page as a
-	 * whole.
+	 * @param headlines a list of html entries to be added to the page as a whole.
 	 */
 	public static void addHeadlines(final PrintWriter writer, final List headlines) {
 		if (headlines == null || headlines.isEmpty()) {
@@ -63,12 +59,10 @@ public final class PageContentHelper {
 	}
 
 	/**
-	 * Add a list of javascript headline entries intended to be added only once
-	 * to the page.
+	 * Add a list of javascript headline entries intended to be added only once to the page.
 	 *
 	 * @param writer the writer to write to.
-	 * @param jsHeadlines a list of javascript entries to be added to the page
-	 * as a whole.
+	 * @param jsHeadlines a list of javascript entries to be added to the page as a whole.
 	 */
 	public static void addJsHeadlines(final PrintWriter writer, final List jsHeadlines) {
 		if (jsHeadlines == null || jsHeadlines.isEmpty()) {
@@ -89,12 +83,10 @@ public final class PageContentHelper {
 	}
 
 	/**
-	 * Add a list of css headline entries intended to be added only once to the
-	 * page.
+	 * Add a list of css headline entries intended to be added only once to the page.
 	 *
 	 * @param writer the writer to write to.
-	 * @param cssHeadlines a list of css entries to be added to the page as a
-	 * whole.
+	 * @param cssHeadlines a list of css entries to be added to the page as a whole.
 	 */
 	public static void addCssHeadlines(final PrintWriter writer, final List cssHeadlines) {
 		if (cssHeadlines == null || cssHeadlines.isEmpty()) {

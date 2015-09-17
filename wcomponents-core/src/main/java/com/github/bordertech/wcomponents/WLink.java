@@ -11,15 +11,14 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * Note that WLink is different to WButton rendered as a link because WLink will
- * not post the form, and does not support Actions. By default it opens up a new
- * browser window and shows the given url. If the new window attributes needs to
- * be specified then a builder can be used <code>
+ * Note that WLink is different to WButton rendered as a link because WLink will not post the form,
+ * and does not support Actions. By default it opens up a new browser window and shows the given
+ * url. If the new window attributes needs to be specified then a builder can be used <code>
  * WLink wLink = new WLink.Builder("WLink using builder and with attrs", "http://bordertech.github.io/").
  * window("myWcomponentsWindow").width(200).height(200).scrollbars(true).build();
- * </code> Caution must be taken when specifying attributes so that window name
- * is not same for two links on the same page. This can occur when window name
- * is not provided with attributes causing same default window name.
+ * </code> Caution must be taken when specifying attributes so that window name is not same for two
+ * links on the same page. This can occur when window name is not provided with attributes causing
+ * same default window name.
  *
  * @author Martin Shevchenko
  * @since 1.0.0
@@ -90,8 +89,7 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 	}
 
 	/**
-	 * The name of the target popup window. Has no meaning when the link is not
-	 * a popup.
+	 * The name of the target popup window. Has no meaning when the link is not a popup.
 	 *
 	 * @return the target window name.
 	 */
@@ -100,8 +98,7 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 	}
 
 	/**
-	 * The name of the target popup window. Has no meaning when the link is not
-	 * a popup.
+	 * The name of the target popup window. Has no meaning when the link is not a popup.
 	 *
 	 * @param targetWindowName The targetWindowName to set.
 	 */
@@ -163,8 +160,8 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 	// ================================
 	// Access key
 	/**
-	 * The accesskey is a shortcut key that will focus the input element when
-	 * used in combination with the Alt key.
+	 * The accesskey is a shortcut key that will focus the input element when used in combination
+	 * with the Alt key.
 	 *
 	 * @return The key that in combination with Alt will focus this input.
 	 */
@@ -173,8 +170,8 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 	}
 
 	/**
-	 * Returns the accesskey character as a String. If the character is not a
-	 * letter or digit then <code>null</code> is returned.
+	 * Returns the accesskey character as a String. If the character is not a letter or digit then
+	 * <code>null</code> is returned.
 	 *
 	 * @return The accesskey character as a String (may be <code>null</code>).
 	 */
@@ -191,8 +188,7 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 	/**
 	 * Set the accesskey (shortcut key) that will activate the link.
 	 *
-	 * @param accessKey The key (in combination with the Alt key) that activates
-	 * this element.
+	 * @param accessKey The key (in combination with the Alt key) that activates this element.
 	 */
 	public void setAccessKey(final char accessKey) {
 		getOrCreateComponentModel().accessKey = accessKey;
@@ -211,8 +207,7 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 	/**
 	 * Sets whether this link is disabled by default.
 	 *
-	 * @param disabled true if this link is to disabled by default, false for
-	 * enabled.
+	 * @param disabled true if this link is to disabled by default, false for enabled.
 	 */
 	@Override
 	public void setDisabled(final boolean disabled) {
@@ -231,8 +226,7 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 	 *
 	 * @param rel the relationship to set.
 	 * @see
-	 * <a href="http://www.w3.org/TR/html4/struct/links.html#adef-rel">Links in
-	 * html docuemnts</a>
+	 * <a href="http://www.w3.org/TR/html4/struct/links.html#adef-rel">Links in html docuemnts</a>
 	 */
 	public void setRel(final String rel) {
 		getOrCreateComponentModel().rel = rel;
@@ -241,8 +235,8 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 	/**
 	 * Indicates whether this link should open in a new window.
 	 *
-	 * @return true if the link should open in a new window, false if it should
-	 * re-use the existing window.
+	 * @return true if the link should open in a new window, false if it should re-use the existing
+	 * window.
 	 */
 	public boolean getOpenNewWindow() {
 		return getComponentModel().openNewWindow;
@@ -251,8 +245,7 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 	/**
 	 * Sets whether this link should open in a new window.
 	 *
-	 * @param openNewWindow true to open in a new window, false to re-use the
-	 * existing window.
+	 * @param openNewWindow true to open in a new window, false to re-use the existing window.
 	 */
 	public void setOpenNewWindow(final boolean openNewWindow) {
 		getOrCreateComponentModel().openNewWindow = openNewWindow;
@@ -261,8 +254,8 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 	/**
 	 * Retrieves the attributes for new windows which are opened.
 	 * <p>
-	 * To change attributes for individual users, set a new
-	 * {@link WindowAttributes} object for each user.
+	 * To change attributes for individual users, set a new {@link WindowAttributes} object for each
+	 * user.
 	 * </p>
 	 *
 	 * @return the attributes for new windows.
@@ -292,8 +285,7 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 	/**
 	 * Indicates whether this link should render as a button.
 	 *
-	 * @return true if this link should render as a button, false for a
-	 * hyperlink.
+	 * @return true if this link should render as a button, false for a hyperlink.
 	 */
 	public boolean isRenderAsButton() {
 		return getComponentModel().renderAsButton;
@@ -302,8 +294,7 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 	/**
 	 * Sets whether this link should render as a button.
 	 *
-	 * @param renderAsButton true if this link should render as a button, false
-	 * for a hyperlink.
+	 * @param renderAsButton true if this link should render as a button, false for a hyperlink.
 	 */
 	public void setRenderAsButton(final boolean renderAsButton) {
 		getOrCreateComponentModel().renderAsButton = renderAsButton;
@@ -321,8 +312,8 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 	/**
 	 * Sets the action that will run if the link is pressed.
 	 * <p>
-	 * The intended use of this action is when the link opens a new window or
-	 * launches another application such as "mailto".
+	 * The intended use of this action is when the link opens a new window or launches another
+	 * application such as "mailto".
 	 * </p>
 	 *
 	 * @param action the action to execute when the link is pressed.
@@ -360,9 +351,9 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 	}
 
 	/**
-	 * Returns the data object that has been associated with this button, else
-	 * null. For convenience, this data object is passed to the execute() method
-	 * of the button's associated Action, in the ActionEvent parameter.
+	 * Returns the data object that has been associated with this button, else null. For
+	 * convenience, this data object is passed to the execute() method of the button's associated
+	 * Action, in the ActionEvent parameter.
 	 *
 	 * @return the action object.
 	 */
@@ -371,8 +362,8 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 	}
 
 	/**
-	 * Associate this button with a data object that can be easily accessed in
-	 * the execute() method of the button's associated Action.
+	 * Associate this button with a data object that can be easily accessed in the execute() method
+	 * of the button's associated Action.
 	 *
 	 * @param data the action object.
 	 */
@@ -381,9 +372,8 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 	}
 
 	/**
-	 * Override handleRequest in order to perform processing for this component.
-	 * This implementation checks whether the link has been pressed via the
-	 * current ajax operation.
+	 * Override handleRequest in order to perform processing for this component. This implementation
+	 * checks whether the link has been pressed via the current ajax operation.
 	 *
 	 * @param request the request being responded to.
 	 */
@@ -418,8 +408,7 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 	}
 
 	/**
-	 * Override preparePaintComponent to register an AJAX operation if this link
-	 * has an action.
+	 * Override preparePaintComponent to register an AJAX operation if this link has an action.
 	 *
 	 * @param request the request being responded to.
 	 */
@@ -468,25 +457,23 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 	}
 
 	/**
-	 * Sets the image to display on the link. The image will be read from the
-	 * application's class path rather than from its web docs.
+	 * Sets the image to display on the link. The image will be read from the application's class
+	 * path rather than from its web docs.
 	 *
-	 * @param image the relative path to the image resource, or null for no
-	 * image.
+	 * @param image the relative path to the image resource, or null for no image.
 	 */
 	public void setImage(final String image) {
 		setImage(new ImageResource(image));
 	}
 
 	/**
-	 * Return the {@link WImage} used by this link to hold the {@link Image}
-	 * resource.
+	 * Return the {@link WImage} used by this link to hold the {@link Image} resource.
 	 * <p>
 	 * If the link is not using an Image resource, it will return null.
 	 * </p>
 	 *
-	 * @return the WImage holding the Image resource, or null if the link is not
-	 * using an Image resource.
+	 * @return the WImage holding the Image resource, or null if the link is not using an Image
+	 * resource.
 	 */
 	public WImage getImageHolder() {
 		return getImage() == null ? null : linkImage;
@@ -529,8 +516,7 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 	}
 
 	/**
-	 * @return a String representation of this component, for debugging
-	 * purposes.
+	 * @return a String representation of this component, for debugging purposes.
 	 */
 	@Override
 	public String toString() {
@@ -637,8 +623,7 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 		private boolean renderAsButton = false;
 
 		/**
-		 * The attributes of the window if the url will be opened in a new
-		 * window.
+		 * The attributes of the window if the url will be opened in a new window.
 		 */
 		private WindowAttributes windowAttrs;
 
@@ -653,8 +638,7 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 		private String actionCommand;
 
 		/**
-		 * The object to include in the action event when the action is
-		 * triggered.
+		 * The object to include in the action event when the action is triggered.
 		 */
 		private Object actionObject;
 
@@ -680,8 +664,8 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 	}
 
 	/**
-	 * This WImage implemention delegates to the link's image and is only used
-	 * to serve up the image for the link.
+	 * This WImage implemention delegates to the link's image and is only used to serve up the image
+	 * for the link.
 	 */
 	private static final class LinkImage extends WImage {
 
@@ -728,8 +712,7 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 	public static final class WindowAttributes implements Serializable, Cloneable {
 
 		/**
-		 * The link which these window attributes belong to. Used to enforce
-		 * locking.
+		 * The link which these window attributes belong to. Used to enforce locking.
 		 */
 		private WLink link;
 
@@ -971,9 +954,8 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 	}
 
 	/**
-	 * This class allows building of WLink in a fluent interface style. It will
-	 * use a default window name if window name is not supplied along with other
-	 * attributes.
+	 * This class allows building of WLink in a fluent interface style. It will use a default window
+	 * name if window name is not supplied along with other attributes.
 	 */
 	public static class Builder {
 
@@ -1066,8 +1048,7 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 		/**
 		 * Sets whether the target window should have scrollbars visible.
 		 *
-		 * @param val true if the window should have scrollbars visible, false
-		 * if not.
+		 * @param val true if the window should have scrollbars visible, false if not.
 		 * @return this builder.
 		 */
 		public Builder scrollbars(final boolean val) {
@@ -1076,11 +1057,9 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 		}
 
 		/**
-		 * Sets whether the target window should have the browser toolbar
-		 * visible.
+		 * Sets whether the target window should have the browser toolbar visible.
 		 *
-		 * @param val true if the window should have the toolbar visible, false
-		 * if not.
+		 * @param val true if the window should have the toolbar visible, false if not.
 		 * @return this builder.
 		 */
 		public Builder toolbar(final boolean val) {
@@ -1089,11 +1068,9 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 		}
 
 		/**
-		 * Sets whether the target window should have the browser location input
-		 * field visible.
+		 * Sets whether the target window should have the browser location input field visible.
 		 *
-		 * @param val true if the window should have the location visible, false
-		 * if not.
+		 * @param val true if the window should have the location visible, false if not.
 		 * @return this builder.
 		 */
 		public Builder location(final boolean val) {
@@ -1102,11 +1079,10 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 		}
 
 		/**
-		 * Sets whether the target window should contain the standard browser
-		 * directory buttons.
+		 * Sets whether the target window should contain the standard browser directory buttons.
 		 *
-		 * @param val true the target window should contain the standard browser
-		 * directory buttons, false if not.
+		 * @param val true the target window should contain the standard browser directory buttons,
+		 * false if not.
 		 * @return this builder.
 		 */
 		public Builder directories(final boolean val) {
@@ -1115,11 +1091,9 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 		}
 
 		/**
-		 * Sets whether the target window should have the browser status bar
-		 * visible.
+		 * Sets whether the target window should have the browser status bar visible.
 		 *
-		 * @param val true if the window should have the status visible, false
-		 * if not.
+		 * @param val true if the window should have the status visible, false if not.
 		 * @return this builder.
 		 */
 		public Builder status(final boolean val) {
@@ -1128,11 +1102,9 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 		}
 
 		/**
-		 * Sets whether the target window should have the browser menu bar
-		 * visible.
+		 * Sets whether the target window should have the browser menu bar visible.
 		 *
-		 * @param val true if the window should have the menu bar visible, false
-		 * if not.
+		 * @param val true if the window should have the menu bar visible, false if not.
 		 * @return this builder.
 		 */
 		public Builder menubar(final boolean val) {
@@ -1143,8 +1115,7 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 		/**
 		 * Sets the X-axis location of the browser window.
 		 *
-		 * @param val the location for the left side of the browser window, in
-		 * pixels.
+		 * @param val the location for the left side of the browser window, in pixels.
 		 * @return this builder.
 		 */
 		public Builder left(final int val) {
@@ -1155,8 +1126,7 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 		/**
 		 * Sets the Y-axis location of the browser window.
 		 *
-		 * @param val the location for the top side of the browser window, in
-		 * pixels.
+		 * @param val the location for the top side of the browser window, in pixels.
 		 * @return this builder.
 		 */
 		public Builder top(final int val) {
@@ -1167,8 +1137,7 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 		/**
 		 * Build the attributes list for new window.
 		 *
-		 * @return a new WLink, configured with the attributes from this
-		 * builder.
+		 * @return a new WLink, configured with the attributes from this builder.
 		 */
 		public WLink build() {
 			// add a default unique name for the window if not provided

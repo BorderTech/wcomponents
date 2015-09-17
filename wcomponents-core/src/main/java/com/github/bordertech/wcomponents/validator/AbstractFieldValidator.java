@@ -9,8 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class provides the common functionality required by a
- * {@link FieldValidator} implementation.
+ * This class provides the common functionality required by a {@link FieldValidator} implementation.
  *
  * @author Adam Millard
  */
@@ -35,8 +34,8 @@ public abstract class AbstractFieldValidator implements FieldValidator, Serializ
 	/**
 	 * Creates an AbstractFieldValidator with the given error message.
 	 *
-	 * The format of the error message String must conform to the pattern
-	 * required by <code>MessageFormat</code>.
+	 * The format of the error message String must conform to the pattern required by
+	 * <code>MessageFormat</code>.
 	 *
 	 * @see java.text.MessageFormat
 	 *
@@ -67,8 +66,8 @@ public abstract class AbstractFieldValidator implements FieldValidator, Serializ
 	/**
 	 * Sets the error message to display on validation failure.
 	 *
-	 * This is the format of the error message for a validator. It must conform
-	 * to the pattern required by <code>MessageFormat</code>.
+	 * This is the format of the error message for a validator. It must conform to the pattern
+	 * required by <code>MessageFormat</code>.
 	 *
 	 * @see java.text.MessageFormat
 	 *
@@ -97,11 +96,10 @@ public abstract class AbstractFieldValidator implements FieldValidator, Serializ
 	}
 
 	/**
-	 * Sub classes should remember to call super.getMessageArguments() to ensure
-	 * that the field label is added to the list of arguments.
+	 * Sub classes should remember to call super.getMessageArguments() to ensure that the field
+	 * label is added to the list of arguments.
 	 *
-	 * @return The list of arguments to be applied to the validators error
-	 * message.
+	 * @return The list of arguments to be applied to the validators error message.
 	 */
 	protected List<Serializable> getMessageArguments() {
 		List<Serializable> args = new ArrayList<>(1);

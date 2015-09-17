@@ -5,11 +5,10 @@ import java.util.List;
 
 /**
  * <p>
- * WCheckBoxSelect is a convenience class which presents a group of check boxes
- * for the user to select one or more options from. Unlike {@link WCheckBox},
- * the check boxes inside a WCheckBoxSelect will automatically have text labels
- * associated with them. The visual arrangement of the check boxes can be
- * configured using the {@link #setButtonLayout(Layout)} method.</p>
+ * WCheckBoxSelect is a convenience class which presents a group of check boxes for the user to
+ * select one or more options from. Unlike {@link WCheckBox}, the check boxes inside a
+ * WCheckBoxSelect will automatically have text labels associated with them. The visual arrangement
+ * of the check boxes can be configured using the {@link #setButtonLayout(Layout)} method.</p>
  *
  * @author Yiannis Paschalidis
  * @author Jonathan Austin
@@ -114,8 +113,7 @@ public class WCheckBoxSelect extends AbstractWMultiSelectList implements AjaxTri
 	}
 
 	/**
-	 * @return the number of columns for layout. Only applies to LAYOUT_COLUMNS
-	 * layout.
+	 * @return the number of columns for layout. Only applies to LAYOUT_COLUMNS layout.
 	 */
 	public int getButtonColumns() {
 		return getComponentModel().numColumns;
@@ -186,8 +184,7 @@ public class WCheckBoxSelect extends AbstractWMultiSelectList implements AjaxTri
 		private int numColumns = 0;
 
 		/**
-		 * Indicates whether the check box frame should be visible when
-		 * rendering.
+		 * Indicates whether the check box frame should be visible when rendering.
 		 */
 		private boolean frameless = false;
 	}

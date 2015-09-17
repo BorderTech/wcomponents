@@ -14,8 +14,8 @@ public class MockAudio extends MockContentStreamAccess implements Audio {
 	private int duration;
 
 	/**
-	 * Retrieves the duration of the audio clip. A value of &lt;= 0 indicates
-	 * that the duration is unknown.
+	 * Retrieves the duration of the audio clip. A value of &lt;= 0 indicates that the duration is
+	 * unknown.
 	 *
 	 * @return the duration of the audio clip.
 	 */
@@ -25,8 +25,8 @@ public class MockAudio extends MockContentStreamAccess implements Audio {
 	}
 
 	/**
-	 * Sets the duration of the audio clip, A value of &lt;= 0 indicates that
-	 * the duration is unknown.
+	 * Sets the duration of the audio clip, A value of &lt;= 0 indicates that the duration is
+	 * unknown.
 	 *
 	 * @param duration The duration to set.
 	 */

@@ -14,17 +14,16 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * <p>
- * This UIRegistry implementation differs from the UIRegistryClassLoaderImpl in
- * two ways.</p>
+ * This UIRegistry implementation differs from the UIRegistryClassLoaderImpl in two ways.</p>
  *
  * <p>
- * 1. If the top level WComponent cannot be loaded, then an ErrorPage WComponent
- * will be returned by {@link #getUI(String)} instead of a null. The ErrorPage
- * will be generated using the {@link FatalErrorPageFactory}.</p>
+ * 1. If the top level WComponent cannot be loaded, then an ErrorPage WComponent will be returned by
+ * {@link #getUI(String)} instead of a null. The ErrorPage will be generated using the
+ * {@link FatalErrorPageFactory}.</p>
  *
  * <p>
- * 2. The ErrorPage WComponent will not be cached so that subsequent calls to
- * {@link #getUI(String)} will attempt to re-load the top level component.</p>
+ * 2. The ErrorPage WComponent will not be cached so that subsequent calls to {@link #getUI(String)}
+ * will attempt to re-load the top level component.</p>
  *
  * @author Darian Bridge
  * @since 1.0.0
@@ -68,9 +67,8 @@ public class UIRegistryAmicableImpl extends UIRegistry {
 	}
 
 	/**
-	 * Retrieves the user interface that was registered with the given key. If
-	 * the UI has not been registered, this attempts to load the UI using the
-	 * key as a class name.
+	 * Retrieves the user interface that was registered with the given key. If the UI has not been
+	 * registered, this attempts to load the UI using the key as a class name.
 	 *
 	 * @param key The registration key.
 	 * @return the UI for the given key. The UI may be newly created.
@@ -104,8 +102,8 @@ public class UIRegistryAmicableImpl extends UIRegistry {
 	 * Attempts to load a UI using the key as a class name.
 	 *
 	 * @param key The registration key.
-	 * @return A WComponent if one could be loaded from the classpath, else an
-	 * ErrorPage WComponent containing the problem.
+	 * @return A WComponent if one could be loaded from the classpath, else an ErrorPage WComponent
+	 * containing the problem.
 	 */
 	private static WComponent loadUI(final String key) {
 		String classname = key.trim();

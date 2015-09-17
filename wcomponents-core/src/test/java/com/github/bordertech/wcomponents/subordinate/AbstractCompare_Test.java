@@ -31,8 +31,7 @@ import org.junit.Test;
 public class AbstractCompare_Test {
 
 	/**
-	 * This date format is used internally to exchange dates between the client
-	 * and server.
+	 * This date format is used internally to exchange dates between the client and server.
 	 */
 	private static final String INTERNAL_DATE_FORMAT = "yyyy-MM-dd";
 
@@ -533,8 +532,7 @@ public class AbstractCompare_Test {
 		}
 
 		/**
-		 * @param lookupTable the lookup table identifier to obtain the list's
-		 * options from.
+		 * @param lookupTable the lookup table identifier to obtain the list's options from.
 		 * @param allowNoSelection if true, allow no option to be selected
 		 */
 		private MySingleSelectList(final Object lookupTable, final boolean allowNoSelection) {
@@ -556,8 +554,7 @@ public class AbstractCompare_Test {
 		}
 
 		/**
-		 * @param lookupTable the lookup table identifier to obtain the list's
-		 * options from.
+		 * @param lookupTable the lookup table identifier to obtain the list's options from.
 		 * @param allowNoSelection if true, allow no option to be selected
 		 */
 		private MyMultiSelectList(final Object lookupTable, final boolean allowNoSelection) {

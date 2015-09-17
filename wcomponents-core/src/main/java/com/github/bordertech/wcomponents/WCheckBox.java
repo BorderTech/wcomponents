@@ -2,13 +2,12 @@ package com.github.bordertech.wcomponents;
 
 /**
  * <p>
- * A WCheckBox is a wcomponent used to display a checkbox input field. Note that
- * WCheckBox does not render any text. To display text for the check box,
- * developers should associate a {@link WLabel} with the check box.
+ * A WCheckBox is a wcomponent used to display a checkbox input field. Note that WCheckBox does not
+ * render any text. To display text for the check box, developers should associate a {@link WLabel}
+ * with the check box.
  * </p>
  * <p>
- * The {@link #isSelected()} method is used to determine if the checkbox has
- * been ticked.
+ * The {@link #isSelected()} method is used to determine if the checkbox has been ticked.
  * </p>
  *
  * @author James Gifford
@@ -27,8 +26,8 @@ public class WCheckBox extends AbstractInput implements AjaxTrigger, AjaxTarget,
 	/**
 	 * Creates a check box with the specified text and selection state.
 	 *
-	 * @param selected if true, the check box is initially selected; otherwise,
-	 * the check box is initially unselected
+	 * @param selected if true, the check box is initially selected; otherwise, the check box is
+	 * initially unselected
 	 */
 	public WCheckBox(final boolean selected) {
 		getComponentModel().setData(selected);
@@ -45,9 +44,8 @@ public class WCheckBox extends AbstractInput implements AjaxTrigger, AjaxTarget,
 	}
 
 	/**
-	 * Sets the checkbox group. When a single grouped checkbox is targeted with
-	 * a <code>WSelectToggle</code>, all checkboxes in that group will be
-	 * updated.
+	 * Sets the checkbox group. When a single grouped checkbox is targeted with a
+	 * <code>WSelectToggle</code>, all checkboxes in that group will be updated.
 	 *
 	 * @param group The group to set.
 	 */
@@ -66,8 +64,8 @@ public class WCheckBox extends AbstractInput implements AjaxTrigger, AjaxTarget,
 	// Action/Event handling
 	/**
 	 * <p>
-	 * Override handleRequest in order to perform processing for this component.
-	 * This implementation checks the checkbox state in the request.
+	 * Override handleRequest in order to perform processing for this component. This implementation
+	 * checks the checkbox state in the request.
 	 * </p>
 	 *
 	 * @param request the request being responded to.
@@ -129,9 +127,8 @@ public class WCheckBox extends AbstractInput implements AjaxTrigger, AjaxTarget,
 	}
 
 	/**
-	 * Sets whether the form should be submitted when the checkbox is
-	 * checked/unchecked. This sets the default option SubmitOnChange seen by
-	 * all user sessions.
+	 * Sets whether the form should be submitted when the checkbox is checked/unchecked. This sets
+	 * the default option SubmitOnChange seen by all user sessions.
 	 *
 	 * @param submitOnChange true to submit the form on change.
 	 */
@@ -141,8 +138,7 @@ public class WCheckBox extends AbstractInput implements AjaxTrigger, AjaxTarget,
 	}
 
 	/**
-	 * Indicates whether the form should be submitted when the checkbox is
-	 * checked/unchecked.
+	 * Indicates whether the form should be submitted when the checkbox is checked/unchecked.
 	 *
 	 * @return true if the form should be submitted on change.
 	 */
@@ -152,9 +148,8 @@ public class WCheckBox extends AbstractInput implements AjaxTrigger, AjaxTarget,
 	}
 
 	/**
-	 * Same as {@link #getName()}. This method exists simply to clarify the
-	 * relationship between the WCheckBox, its Action, and the ActionEvent sent
-	 * to the execute() method of the Action.
+	 * Same as {@link #getName()}. This method exists simply to clarify the relationship between the
+	 * WCheckBox, its Action, and the ActionEvent sent to the execute() method of the Action.
 	 *
 	 * @return this checkbox's name.
 	 */

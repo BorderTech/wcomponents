@@ -47,8 +47,8 @@ public class Or extends AbstractCondition {
 	}
 
 	/**
-	 * Evaluates the condition. Note that this uses the short-circuit or
-	 * operator, so condition 'b' will not necessarily be evaluated.
+	 * Evaluates the condition. Note that this uses the short-circuit or operator, so condition 'b'
+	 * will not necessarily be evaluated.
 	 *
 	 * @return true if either of the conditions are true, otherwise false
 	 */
@@ -64,9 +64,8 @@ public class Or extends AbstractCondition {
 	}
 
 	/**
-	 * Evaluates the condition using values on the Request. Note that this uses
-	 * the short-circuit or operator, so condition 'b' will not necessarily be
-	 * evaluated.
+	 * Evaluates the condition using values on the Request. Note that this uses the short-circuit or
+	 * operator, so condition 'b' will not necessarily be evaluated.
 	 *
 	 * @param request the request being processed.
 	 * @return true if either of the conditions are true, otherwise false

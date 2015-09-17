@@ -11,8 +11,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * WTableRowRenderer is used by the table's repeater to render row data. This
- * class is intended for internal use only.
+ * WTableRowRenderer is used by the table's repeater to render row data. This class is intended for
+ * internal use only.
  *
  * @author Jonathan Austin
  * @since 1.0.0
@@ -62,15 +62,14 @@ public final class WTableRowRenderer extends WDataRenderer {
 
 	/**
 	 * <p>
-	 * The preparePaintComponent method has been overridden to ensure that
-	 * expanded row renderers have been correctly initialised.
+	 * The preparePaintComponent method has been overridden to ensure that expanded row renderers
+	 * have been correctly initialised.
 	 * </p>
 	 * <p>
-	 * Expanded row renderers are lazily instantiated and added to the shared
-	 * structure as needed. This means for the first use of a renderer, it will
-	 * not have been part of the WComponent tree, and would not have had its
-	 * preparePaintComponent called. We therefore add the renderer to the tree
-	 * here, and manually call its preparePaint.
+	 * Expanded row renderers are lazily instantiated and added to the shared structure as needed.
+	 * This means for the first use of a renderer, it will not have been part of the WComponent
+	 * tree, and would not have had its preparePaintComponent called. We therefore add the renderer
+	 * to the tree here, and manually call its preparePaint.
 	 * </p>
 	 *
 	 * @param request the Request being responded to.
@@ -88,10 +87,9 @@ public final class WTableRowRenderer extends WDataRenderer {
 
 	/**
 	 * <p>
-	 * This is called to lazily add expanded renderers as necessary. To save
-	 * memory, only one instance of a renderer class is ever added to the row
-	 * renderer instance. The RendererWrapper ensures that data binding occurs
-	 * at the right time.
+	 * This is called to lazily add expanded renderers as necessary. To save memory, only one
+	 * instance of a renderer class is ever added to the row renderer instance. The RendererWrapper
+	 * ensures that data binding occurs at the right time.
 	 * </p>
 	 *
 	 * @param rendererClass the renderer class.
@@ -125,8 +123,7 @@ public final class WTableRowRenderer extends WDataRenderer {
 	/**
 	 * Retrieves the renderer class for a given row.
 	 *
-	 * @return the renderer class for a given row (if it's an expanded row),
-	 * otherwise null.
+	 * @return the renderer class for a given row (if it's an expanded row), otherwise null.
 	 */
 	private Class<? extends WComponent> getRowRendererClass() {
 		RowIdWrapper wrapper = getCurrentRowIdWrapper();
@@ -155,10 +152,9 @@ public final class WTableRowRenderer extends WDataRenderer {
 	}
 
 	/**
-	 * The renderer wrapper is responsible for ensuring that the renderer is
-	 * only used when needed (ie. it is only involved in processing of certain
-	 * rows), and ensuring that data is passed to / from the renderer when
-	 * required.
+	 * The renderer wrapper is responsible for ensuring that the renderer is only used when needed
+	 * (ie. it is only involved in processing of certain rows), and ensuring that data is passed to
+	 * / from the renderer when required.
 	 */
 	private static final class RendererWrapper extends WBeanContainer implements BeanProvider {
 
@@ -173,8 +169,8 @@ public final class WTableRowRenderer extends WDataRenderer {
 		private final WComponent renderer;
 
 		/**
-		 * The index of the column which this wrapper renders, or -1 if this is
-		 * an expanded renderer.
+		 * The index of the column which this wrapper renders, or -1 if this is an expanded
+		 * renderer.
 		 */
 		private final int columnIndex;
 
@@ -183,8 +179,8 @@ public final class WTableRowRenderer extends WDataRenderer {
 		 *
 		 * @param rowRenderer the row renderer.
 		 * @param rendererClass the column/expanded content renderer class.
-		 * @param columnIndex the index of the column renderer, or -1 if the
-		 * renderer is for expanded content.
+		 * @param columnIndex the index of the column renderer, or -1 if the renderer is for
+		 * expanded content.
 		 */
 		private RendererWrapper(final WTableRowRenderer rowRenderer, final Class<? extends WComponent> rendererClass,
 				final int columnIndex) {
@@ -214,8 +210,8 @@ public final class WTableRowRenderer extends WDataRenderer {
 		 *
 		 * @param rowRenderer the row renderer.
 		 * @param renderer the column/expanded content renderer component.
-		 * @param columnIndex the index of the column renderer, or -1 if the
-		 * renderer is for expanded content.
+		 * @param columnIndex the index of the column renderer, or -1 if the renderer is for
+		 * expanded content.
 		 */
 		private RendererWrapper(final WTableRowRenderer rowRenderer, final WComponent renderer, final int columnIndex) {
 			this.rowRenderer = rowRenderer;
@@ -230,8 +226,7 @@ public final class WTableRowRenderer extends WDataRenderer {
 		}
 
 		/**
-		 * Column Renderers are invisible for expanded rows with an expanded
-		 * renderer set.
+		 * Column Renderers are invisible for expanded rows with an expanded renderer set.
 		 *
 		 * @return true if this component is visible, false if invisible.
 		 */
@@ -256,8 +251,7 @@ public final class WTableRowRenderer extends WDataRenderer {
 		 * Provides data to a component rendering a column.
 		 *
 		 * @param beanProviderBound the component rendering the column.
-		 * @return a bean value for component that is rendering the specified
-		 * row/column
+		 * @return a bean value for component that is rendering the specified row/column
 		 */
 		@Override
 		public Object getBean(final BeanProviderBound beanProviderBound) {
@@ -282,8 +276,8 @@ public final class WTableRowRenderer extends WDataRenderer {
 		}
 
 		/**
-		 * Some renderers may not be bean provider bound, or not bean-aware. We
-		 * need to make sure that the data is set correctly for these columns.
+		 * Some renderers may not be bean provider bound, or not bean-aware. We need to make sure
+		 * that the data is set correctly for these columns.
 		 *
 		 * @param request the request being responded to.
 		 */
@@ -318,8 +312,8 @@ public final class WTableRowRenderer extends WDataRenderer {
 	}
 
 	/**
-	 * Adds a column to the renderer. This method is called by {@link WTable} to
-	 * keep the renderer's and table's columns in sync.
+	 * Adds a column to the renderer. This method is called by {@link WTable} to keep the renderer's
+	 * and table's columns in sync.
 	 *
 	 * @param column the column to add.
 	 * @param columnIndex the index of the column. Zero based.

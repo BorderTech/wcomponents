@@ -6,24 +6,22 @@ import java.util.List;
 
 /**
  * <p>
- * The WMultiDropdown component allows multiple dropdown elements to be
- * generated dynamically on the client, without requiring the page to be
- * reloaded. This component takes its appearance and attributes from a regular
- * drop down but allows for one or more items of text to be entered via the add
- * link adjacent to the right of the input.
+ * The WMultiDropdown component allows multiple dropdown elements to be generated dynamically on the
+ * client, without requiring the page to be reloaded. This component takes its appearance and
+ * attributes from a regular drop down but allows for one or more items of text to be entered via
+ * the add link adjacent to the right of the input.
  * </p>
  * <p>
- * This component is useful in instances where the user needs to select one or
- * more items into the interfaces for a particular field. For instance, the user
- * may have one or more aliases that need to be entered into the system.
+ * This component is useful in instances where the user needs to select one or more items into the
+ * interfaces for a particular field. For instance, the user may have one or more aliases that need
+ * to be entered into the system.
  * </p>
  * <p>
  * The following attributes can be set on WMultiDropdown:
  * <ul>
- * <li>maxInputs: The maximum number of text inputs the user can add to the
- * component. Client-side functionality will stop users adding more than the
- * allowable number of inputs via the UI. This class chops off any excess inputs
- * if an attempt is made to add them programmatically.</li>
+ * <li>maxInputs: The maximum number of text inputs the user can add to the component. Client-side
+ * functionality will stop users adding more than the allowable number of inputs via the UI. This
+ * class chops off any excess inputs if an attempt is made to add them programmatically.</li>
  * </ul>
  * </p>
  *
@@ -70,8 +68,7 @@ public class WMultiDropdown extends AbstractWMultiSelectList implements AjaxTrig
 	/**
 	 * Sets the maximum allowable number of inputs.
 	 *
-	 * @param maxInputs the maximum allowable number of inputs, or &lt;=0 for
-	 * unlimited inputs.
+	 * @param maxInputs the maximum allowable number of inputs, or &lt;=0 for unlimited inputs.
 	 * @deprecated Use {{@link #setMaxSelect(int)} instead
 	 */
 	@Deprecated
@@ -89,9 +86,8 @@ public class WMultiDropdown extends AbstractWMultiSelectList implements AjaxTrig
 	}
 
 	/**
-	 * Override getNewSelections to ensure that the max number of inputs is
-	 * honoured and that there are no duplicates. This should not normally
-	 * occur, as the client side js should prevent it.
+	 * Override getNewSelections to ensure that the max number of inputs is honoured and that there
+	 * are no duplicates. This should not normally occur, as the client side js should prevent it.
 	 *
 	 * @param request the current request
 	 * @return a list of selections that have been added in the given request.

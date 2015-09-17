@@ -25,8 +25,7 @@ public class MockResponse implements Response {
 	private static final Log LOG = LogFactory.getLog(MockResponse.class);
 
 	/**
-	 * The outputStream containing the data which has been written to the
-	 * response.
+	 * The outputStream containing the data which has been written to the response.
 	 */
 	private final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 

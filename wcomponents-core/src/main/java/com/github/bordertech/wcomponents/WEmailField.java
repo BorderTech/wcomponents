@@ -8,14 +8,13 @@ import java.util.regex.Pattern;
 
 /**
  * <p>
- * A WEmailField is a wcomponent used to display an email input field. Use the
- * method "getText" to get the text entered into the field by the user.
+ * A WEmailField is a wcomponent used to display an email input field. Use the method "getText" to
+ * get the text entered into the field by the user.
  * </p>
  * <p>
- * An email field differs from a text field in the way in which some user agents
- * interact with it. For example, touchscreen devices may display a different
- * soft keyboard from the default layout. In addition, they may present email
- * addresses from the user's address book.
+ * An email field differs from a text field in the way in which some user agents interact with it.
+ * For example, touchscreen devices may display a different soft keyboard from the default layout.
+ * In addition, they may present email addresses from the user's address book.
  * </p>
  *
  * @author Yiannis Paschalidis
@@ -107,16 +106,14 @@ public class WEmailField extends AbstractInput implements AjaxTrigger, AjaxTarge
 	}
 
 	/**
-	 * @return the maximum number of characters that the user can enter into the
-	 * email field.
+	 * @return the maximum number of characters that the user can enter into the email field.
 	 */
 	public int getMaxLength() {
 		return getComponentModel().maxLength;
 	}
 
 	/**
-	 * Set the maximum number of characters that the user can enter into the
-	 * email field.
+	 * Set the maximum number of characters that the user can enter into the email field.
 	 *
 	 * @param maxLength the maximum number of characters to allow.
 	 */
@@ -141,8 +138,7 @@ public class WEmailField extends AbstractInput implements AjaxTrigger, AjaxTarge
 	}
 
 	/**
-	 * Override WInput's validateComponent to perform futher validation on email
-	 * addresses.
+	 * Override WInput's validateComponent to perform futher validation on email addresses.
 	 *
 	 * @param diags the list into which any validation diagnostics are added.
 	 */
@@ -154,9 +150,9 @@ public class WEmailField extends AbstractInput implements AjaxTrigger, AjaxTarge
 
 	/**
 	 * <p>
-	 * Performs validation of the email address. This only performs very basic
-	 * validation - an email address must contain some text, followed by an '@',
-	 * and then something which resembles a domain/host name.
+	 * Performs validation of the email address. This only performs very basic validation - an email
+	 * address must contain some text, followed by an '@', and then something which resembles a
+	 * domain/host name.
 	 * </p>
 	 * <p>
 	 * Subclasses can override this method to perform more specific validation.
@@ -186,16 +182,14 @@ public class WEmailField extends AbstractInput implements AjaxTrigger, AjaxTarge
 	/**
 	 * Sets the validation error message.
 	 *
-	 * @param message The errorMessage to set, or null to use the default error
-	 * message.
+	 * @param message The errorMessage to set, or null to use the default error message.
 	 */
 	public void setInvalidEmailAddressErrorMessage(final String message) {
 		getOrCreateComponentModel().errorMessage = message;
 	}
 
 	/**
-	 * Creates a new EmailFieldModel holds Extrinsic state management of the
-	 * field.
+	 * Creates a new EmailFieldModel holds Extrinsic state management of the field.
 	 *
 	 * @return a new EmailFieldModel
 	 */
@@ -240,8 +234,7 @@ public class WEmailField extends AbstractInput implements AjaxTrigger, AjaxTarge
 		private int columns;
 
 		/**
-		 * The error message to display when the input fails the email address
-		 * validation check.
+		 * The error message to display when the input fails the email address validation check.
 		 */
 		private String errorMessage = InternalMessages.DEFAULT_VALIDATION_ERROR_INVALID;
 

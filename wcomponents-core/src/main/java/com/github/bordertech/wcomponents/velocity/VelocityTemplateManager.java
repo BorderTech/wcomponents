@@ -15,8 +15,7 @@ public final class VelocityTemplateManager {
 	private static final String VELOCITY_PREFIX = "";
 
 	/**
-	 * Remove this prefix from full classnames before appending to the above
-	 * prefix.
+	 * Remove this prefix from full classnames before appending to the above prefix.
 	 */
 	private static final String PATH_REMOVE = "";
 
@@ -34,8 +33,8 @@ public final class VelocityTemplateManager {
 	/**
 	 * Map the given class to a velocity template resource name.
 	 * <p/>
-	 * For instance, com.github.bordertech.wcomponents.WTextField maps to the
-	 * template in com/github/bordertech/wcomponents/WTextField.vm
+	 * For instance, com.github.bordertech.wcomponents.WTextField maps to the template in
+	 * com/github/bordertech/wcomponents/WTextField.vm
 	 *
 	 * @param clazz is the Class to find the resource name for.
 	 * @return the template resource name for the given class.

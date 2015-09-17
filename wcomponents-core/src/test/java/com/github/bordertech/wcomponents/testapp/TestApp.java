@@ -14,10 +14,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * This class is the top most wcomponent that represents a test application that
- * we can use to study the performance of wcomponents. It is a simple
- * application that collects some search criteria, displays a list of results,
- * and displays details for one of those results.
+ * This class is the top most wcomponent that represents a test application that we can use to study
+ * the performance of wcomponents. It is a simple application that collects some search criteria,
+ * displays a list of results, and displays details for one of those results.
  *
  * @author Martin Shevchenko
  */
@@ -87,8 +86,7 @@ public class TestApp extends WApplication {
 	}
 
 	/**
-	 * @return the single instance of the TestApp that is registered with the
-	 * {@link UIRegistry}.
+	 * @return the single instance of the TestApp that is registered with the {@link UIRegistry}.
 	 */
 	public static TestApp getInstance() {
 		return (TestApp) UIRegistry.getInstance().getUI(TestApp.class.getName());

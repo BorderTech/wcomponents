@@ -3,8 +3,7 @@ package com.github.bordertech.wcomponents;
 /**
  * A container that provides a {@link NamingContextable} for its children's ids.
  * <p>
- * Components with {@link #setIdName(String)} set must be unique within a
- * {@link NamingContextable}.
+ * Components with {@link #setIdName(String)} set must be unique within a {@link NamingContextable}.
  * </p>
  * <p>
  * Example of using a WNamingContext:-

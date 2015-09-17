@@ -8,9 +8,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * A simple table data model, that takes in tabular data in its constructor.
- * Note that use of this data model is discouraged, as the table data will be
- * stored in the user's session.
+ * A simple table data model, that takes in tabular data in its constructor. Note that use of this
+ * data model is discouraged, as the table data will be stored in the user's session.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -21,8 +20,8 @@ import java.util.Map;
 public class SimpleTableDataModel extends AbstractTableDataModel {
 
 	/**
-	 * A simple comparator that compares comparables, for use in sorting e.g.
-	 * columns containing Strings.
+	 * A simple comparator that compares comparables, for use in sorting e.g. columns containing
+	 * Strings.
 	 */
 	public static final ComparableComparator COMPARABLE_COMPARATOR = new ComparableComparator();
 
@@ -109,8 +108,8 @@ public class SimpleTableDataModel extends AbstractTableDataModel {
 	}
 
 	/**
-	 * Indicates whether the given cell is editable. This model only supports
-	 * editability at a global level. See {@link #setEditable(boolean)}.
+	 * Indicates whether the given cell is editable. This model only supports editability at a
+	 * global level. See {@link #setEditable(boolean)}.
 	 *
 	 * @param row ignored.
 	 * @param col ignored.
@@ -143,8 +142,7 @@ public class SimpleTableDataModel extends AbstractTableDataModel {
 	}
 
 	/**
-	 * Sets whether the data in this model is editable. By default, the data is
-	 * not editable.
+	 * Sets whether the data in this model is editable. By default, the data is not editable.
 	 *
 	 * @param editable true if the data is editable, false if it is read-only.
 	 */

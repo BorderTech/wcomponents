@@ -1,8 +1,8 @@
 package com.github.bordertech.wcomponents;
 
 /**
- * Provides a bridge to static audio resources which are present in the class
- * path, but not in the web application itself.
+ * Provides a bridge to static audio resources which are present in the class path, but not in the
+ * web application itself.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -34,8 +34,8 @@ public class AudioResource extends InternalResource implements Audio {
 	}
 
 	/**
-	 * Retrieves the duration of the audio clip. A value of &lt;= 0 indicates
-	 * that the duration is unknown.
+	 * Retrieves the duration of the audio clip. A value of &lt;= 0 indicates that the duration is
+	 * unknown.
 	 *
 	 * @return the duration of the audio clip.
 	 */
@@ -45,8 +45,8 @@ public class AudioResource extends InternalResource implements Audio {
 	}
 
 	/**
-	 * Sets the duration of the audio clip, A value of &lt;= 0 indicates that
-	 * the duration is unknown.
+	 * Sets the duration of the audio clip, A value of &lt;= 0 indicates that the duration is
+	 * unknown.
 	 *
 	 * @param duration The duration to set.
 	 */

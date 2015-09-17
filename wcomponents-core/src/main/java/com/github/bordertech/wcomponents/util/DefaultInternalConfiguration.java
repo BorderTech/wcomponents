@@ -34,11 +34,10 @@ import org.apache.commons.configuration.MapConfiguration;
  * Implementation of the {@link Configuration} interface.
  * </p>
  * <p>
- * Note: We can't use the logging infrastructure in this class, because the
- * logging infrastructure is probably not initialised yet. Indeed, it will be
- * via this mechanism that the logging configuration is loaded! Instead, we have
- * a primitive mechanism for recording significant events which can be accessed
- * later for logging if need be.
+ * Note: We can't use the logging infrastructure in this class, because the logging infrastructure
+ * is probably not initialised yet. Indeed, it will be via this mechanism that the logging
+ * configuration is loaded! Instead, we have a primitive mechanism for recording significant events
+ * which can be accessed later for logging if need be.
  * </p>
  *
  * @author Yiannis Paschalidis, based on ParamImpl
@@ -47,8 +46,8 @@ import org.apache.commons.configuration.MapConfiguration;
 final class DefaultInternalConfiguration implements Configuration {
 
 	/**
-	 * This array defines the file names which we load the internal
-	 * configuration from, as well as the order in which the files are loaded.
+	 * This array defines the file names which we load the internal configuration from, as well as
+	 * the order in which the files are loaded.
 	 */
 	private static final String[] PARAMETER_LOAD_ORDER
 			= {
@@ -61,55 +60,51 @@ final class DefaultInternalConfiguration implements Configuration {
 			};
 
 	/**
-	 * If this parameter is defined, it is treated as a comma-separated list of
-	 * additional resources to load. The include is processed immediately.
+	 * If this parameter is defined, it is treated as a comma-separated list of additional resources
+	 * to load. The include is processed immediately.
 	 */
 	private static final String INCLUDE = "include";
 
 	/**
-	 * If this parameter is defined, it is taken as a (comma-separated) resource
-	 * to load. The resource is loaded after the current (set of) resources is
-	 * loaded.
+	 * If this parameter is defined, it is taken as a (comma-separated) resource to load. The
+	 * resource is loaded after the current (set of) resources is loaded.
 	 */
 	private static final String INCLUDE_AFTER = "includeAfter";
 
 	/**
-	 * If this parameter is defined and resolves to true as a boolean, then the
-	 * system properties will be merged at the end of the loading process.
+	 * If this parameter is defined and resolves to true as a boolean, then the system properties
+	 * will be merged at the end of the loading process.
 	 */
 	private static final String USE_SYSTEM_PROPERTIES = "bordertech.wcomponents.parameters.useSystemProperties";
 
 	/**
-	 * If this parameter is set to true, then after loading the parameters, they
-	 * will be dumped to the console.
+	 * If this parameter is set to true, then after loading the parameters, they will be dumped to
+	 * the console.
 	 */
 	private static final String DUMP = "bordertech.wcomponents.parameters.dump.console";
 
 	/**
-	 * Parameters with this prefix will be dumped into the System parameters.
-	 * This feature is for handling recalcitrant 3rd party software only - not
-	 * for general use!!!
+	 * Parameters with this prefix will be dumped into the System parameters. This feature is for
+	 * handling recalcitrant 3rd party software only - not for general use!!!
 	 */
 	private static final String SYSTEM_PARAMETERS_PREFIX = "bordertech.wcomponents.parameters.system.";
 
 	// -----------------------------------------------------------------------------------------------------------------
 	// State used during loading of parameters
 	/**
-	 * The messages logged during loading of the configuration. We can't depend
-	 * on a logging framework to log errors, as this class is typically used to
-	 * configure the logging.
+	 * The messages logged during loading of the configuration. We can't depend on a logging
+	 * framework to log errors, as this class is typically used to configure the logging.
 	 */
 	private final StringBuffer messages = new StringBuffer();
 
 	/**
-	 * The resource being loaded. This is used for the relative form of resource
-	 * loading.
+	 * The resource being loaded. This is used for the relative form of resource loading.
 	 */
 	private final Stack<String> resources = new Stack<>();
 
 	/**
-	 * A generic object that allows us to synchronized refreshes. Required so
-	 * that gets and refreshes are threadsafe
+	 * A generic object that allows us to synchronized refreshes. Required so that gets and
+	 * refreshes are threadsafe
 	 */
 	private final Object lockObject = new Object();
 
@@ -126,9 +121,9 @@ final class DefaultInternalConfiguration implements Configuration {
 	private Set<String> booleanBacking;
 
 	/**
-	 * Stores "explanations" of where each setting comes from. Each parameter
-	 * will have a history, explaining all the locations where that parameter
-	 * was defined, in reverse order (so the first entry is the defining entry).
+	 * Stores "explanations" of where each setting comes from. Each parameter will have a history,
+	 * explaining all the locations where that parameter was defined, in reverse order (so the first
+	 * entry is the defining entry).
 	 */
 	private Map<String, String> locations;
 
@@ -140,14 +135,14 @@ final class DefaultInternalConfiguration implements Configuration {
 	private IncludeProperties runtimeProperties;
 
 	/**
-	 * Variables that we are in the process of substituting. This is used to
-	 * detect recursive substitutions
+	 * Variables that we are in the process of substituting. This is used to detect recursive
+	 * substitutions
 	 */
 	private final Set<String> substituting = new HashSet<>();
 
 	/**
-	 * Creates a DefaultInternalConfiguration. The constructor is package
-	 * protected as it is called from {@link Config#getInstance()};
+	 * Creates a DefaultInternalConfiguration. The constructor is package protected as it is called
+	 * from {@link Config#getInstance()};
 	 */
 	protected DefaultInternalConfiguration() {
 		initialiseInstanceVariables();
@@ -155,13 +150,12 @@ final class DefaultInternalConfiguration implements Configuration {
 	}
 
 	/**
-	 * Create an instance of DefaultInternalConfiguration, loading values from a
-	 * resource named "resourceName". This constructor is provided purely for
-	 * testing purposes. Application code should always use the
-	 * {@link Config#getInstance()} method.
+	 * Create an instance of DefaultInternalConfiguration, loading values from a resource named
+	 * "resourceName". This constructor is provided purely for testing purposes. Application code
+	 * should always use the {@link Config#getInstance()} method.
 	 *
-	 * @param resourceName the name of the resource to load (from the
-	 * classloader, working or home directory)
+	 * @param resourceName the name of the resource to load (from the classloader, working or home
+	 * directory)
 	 */
 	protected DefaultInternalConfiguration(final String resourceName) {
 		initialiseInstanceVariables();
@@ -193,8 +187,8 @@ final class DefaultInternalConfiguration implements Configuration {
 	}
 
 	/**
-	 * Splits the given comma-delimited string into an an array.
-	 * Leading/trailing spaces in list items will be trimmed.
+	 * Splits the given comma-delimited string into an an array. Leading/trailing spaces in list
+	 * items will be trimmed.
 	 *
 	 * @param list the String to split.
 	 * @return the split version of the list.
@@ -212,8 +206,8 @@ final class DefaultInternalConfiguration implements Configuration {
 	}
 
 	/**
-	 * Removes any leading/trailing spaces from the given string. This has the
-	 * same effect as calling {@link String#trim}, but is null-safe.
+	 * Removes any leading/trailing spaces from the given string. This has the same effect as
+	 * calling {@link String#trim}, but is null-safe.
 	 *
 	 * @param aStr the String to trim.
 	 * @return the trimmed String, or null if the <code>aStr</code> was null.
@@ -251,8 +245,7 @@ final class DefaultInternalConfiguration implements Configuration {
 	}
 
 	/**
-	 * Load the backing from the properties file visible to our classloader,
-	 * plus the filesystem.
+	 * Load the backing from the properties file visible to our classloader, plus the filesystem.
 	 */
 	private void load() {
 		recordMessage("Loading parameters");
@@ -344,9 +337,8 @@ final class DefaultInternalConfiguration implements Configuration {
 	}
 
 	/**
-	 * Loading of "top level" resources is different to the general recursive
-	 * case, since it is only at the top level that we check for the
-	 * includeAfter parameter.
+	 * Loading of "top level" resources is different to the general recursive case, since it is only
+	 * at the top level that we check for the includeAfter parameter.
 	 *
 	 * @param resourceName the path of the resource to load from.
 	 */
@@ -381,8 +373,8 @@ final class DefaultInternalConfiguration implements Configuration {
 	}
 
 	/**
-	 * Try loading the given resource name. There may be several resources
-	 * corresponding to that name...
+	 * Try loading the given resource name. There may be several resources corresponding to that
+	 * name...
 	 *
 	 * @param resourceName the path of the resource to load from.
 	 */
@@ -480,8 +472,7 @@ final class DefaultInternalConfiguration implements Configuration {
 	 * Retrieves the canonical path for a given file.
 	 *
 	 * @param aFile the file to get the canonical path for.
-	 * @return the canonical path to the given file, or
-	 * <code>"UNKNOWN FILE"</code> on error.
+	 * @return the canonical path to the given file, or <code>"UNKNOWN FILE"</code> on error.
 	 */
 	private String filename(final File aFile) {
 		try {
@@ -540,13 +531,12 @@ final class DefaultInternalConfiguration implements Configuration {
 	}
 
 	/**
-	 * Load the properties from the given Properties object, recording the
-	 * origin on those properties as being from the given location.
+	 * Load the properties from the given Properties object, recording the origin on those
+	 * properties as being from the given location.
 	 *
 	 * @param properties the properties to load from
 	 * @param location the location where the parameter was defined.
-	 * @param overwriteOnly if true, only properties that are already defined
-	 * will be loaded
+	 * @param overwriteOnly if true, only properties that are already defined will be loaded
 	 */
 	private void load(final Properties properties, final String location, final boolean overwriteOnly) {
 		for (Iterator iter = properties.keySet().iterator(); iter.hasNext();) {
@@ -563,8 +553,8 @@ final class DefaultInternalConfiguration implements Configuration {
 	}
 
 	/**
-	 * Loads a single parameter into the configuration. This handles the special
-	 * directives such as "include".
+	 * Loads a single parameter into the configuration. This handles the special directives such as
+	 * "include".
 	 *
 	 * @param key the parameter key.
 	 * @param value the parameter value.
@@ -642,8 +632,7 @@ final class DefaultInternalConfiguration implements Configuration {
 	 * Returns a sub-set of the parameters contained in this configuration.
 	 *
 	 * @param prefix the prefix of the parameter keys which should be included.
-	 * @param truncate if true, the prefix is truncated in the returned
-	 * properties.
+	 * @param truncate if true, the prefix is truncated in the returned properties.
 	 * @return the properties sub-set, may be empty.
 	 */
 	public Properties getSubProperties(final String prefix, final boolean truncate) {
@@ -684,9 +673,8 @@ final class DefaultInternalConfiguration implements Configuration {
 	}
 
 	/**
-	 * Iterates through the values, looking for values containing ${...}
-	 * strings. For those that do, we substitute if the stuff in the {...} is a
-	 * defined key.
+	 * Iterates through the values, looking for values containing ${...} strings. For those that do,
+	 * we substitute if the stuff in the {...} is a defined key.
 	 *
 	 * @return true if any substitutions were made, false otherwise.
 	 */
@@ -701,8 +689,8 @@ final class DefaultInternalConfiguration implements Configuration {
 	}
 
 	/**
-	 * Performs value substitution for the given key. For values containing
-	 * ${...} strings, we substitute if the stuff in the {...} is a defined key.
+	 * Performs value substitution for the given key. For values containing ${...} strings, we
+	 * substitute if the stuff in the {...} is a defined key.
 	 *
 	 * @param aKey the key to run the substitution for.
 	 * @return true if a substitutions was made, false otherwise.
@@ -774,8 +762,7 @@ final class DefaultInternalConfiguration implements Configuration {
 	 * "${<i>variableName</i>}" notation.
 	 *
 	 * @param aKey the key to search.
-	 * @return the index of the start of a variable name in the given string, or
-	 * -1 if not found.
+	 * @return the index of the start of a variable name in the given string, or -1 if not found.
 	 */
 	private int findStartVariable(final String aKey) {
 		if (aKey == null) {
@@ -863,8 +850,7 @@ final class DefaultInternalConfiguration implements Configuration {
 		}
 
 		/**
-		 * Creates an IncludeProperties, which will be sourced from the given
-		 * location.
+		 * Creates an IncludeProperties, which will be sourced from the given location.
 		 *
 		 * @param aLocation the location of the external properties.
 		 */
@@ -873,13 +859,12 @@ final class DefaultInternalConfiguration implements Configuration {
 		}
 
 		/**
-		 * Adds a value to the properties set. This has been overridden to
-		 * support the Configuration extensions (e.g. the "include" directive).
+		 * Adds a value to the properties set. This has been overridden to support the Configuration
+		 * extensions (e.g. the "include" directive).
 		 *
 		 * @param aKey the key to add
 		 * @param aValue the value to add
-		 * @return the old value for the key, or null if there was no previously
-		 * associated value.
+		 * @return the old value for the key, or null if there was no previously associated value.
 		 */
 		@Override
 		public Object put(final Object aKey, final Object aValue) {
@@ -919,8 +904,8 @@ final class DefaultInternalConfiguration implements Configuration {
 	}
 
 	/**
-	 * The parameters implementation can not depend on a logging framework to
-	 * log errors, as it is typically used to configure logging.
+	 * The parameters implementation can not depend on a logging framework to log errors, as it is
+	 * typically used to configure logging.
 	 *
 	 * @param message the message to log.
 	 */

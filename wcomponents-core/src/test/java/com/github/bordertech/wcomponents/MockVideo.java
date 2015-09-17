@@ -36,8 +36,8 @@ public class MockVideo extends MockContentStreamAccess implements Video {
 	}
 
 	/**
-	 * Retrieves the duration of the video clip. A value of &lt;= 0 indicates
-	 * that the duration is unknown.
+	 * Retrieves the duration of the video clip. A value of &lt;= 0 indicates that the duration is
+	 * unknown.
 	 *
 	 * @return the duration of the audio clip.
 	 */
@@ -47,8 +47,8 @@ public class MockVideo extends MockContentStreamAccess implements Video {
 	}
 
 	/**
-	 * Sets the duration of the video clip, A value of &lt;= 0 indicates that
-	 * the duration is unknown.
+	 * Sets the duration of the video clip, A value of &lt;= 0 indicates that the duration is
+	 * unknown.
 	 *
 	 * @param duration The duration to set.
 	 */

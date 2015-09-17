@@ -19,12 +19,11 @@ public class DefaultSystemFailureMapper implements SystemFailureMapper {
 	private static final Log LOG = LogFactory.getLog(DefaultSystemFailureMapper.class);
 
 	/**
-	 * This method converts a java Throwable into a "user friendly" error
-	 * message.
+	 * This method converts a java Throwable into a "user friendly" error message.
 	 *
 	 * @param throwable the Throwable to convert
-	 * @return A {@link Message} containing the hard coded description "The
-	 * system is currently unavailable."
+	 * @return A {@link Message} containing the hard coded description "The system is currently
+	 * unavailable."
 	 */
 	@Override
 	public Message toMessage(final Throwable throwable) {

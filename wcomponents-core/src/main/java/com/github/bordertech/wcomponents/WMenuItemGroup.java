@@ -1,9 +1,8 @@
 package com.github.bordertech.wcomponents;
 
 /**
- * This component provides a logical grouping of related menu items. The
- * rendered version in the UI usually provides a visual grouping as well,
- * including the menu item group's title.
+ * This component provides a logical grouping of related menu items. The rendered version in the UI
+ * usually provides a visual grouping as well, including the menu item group's title.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -126,8 +125,7 @@ public class WMenuItemGroup extends AbstractContainer implements Disableable {
 	}
 
 	/**
-	 * @return a String representation of this component, for debugging
-	 * purposes.
+	 * @return a String representation of this component, for debugging purposes.
 	 */
 	@Override
 	public String toString() {

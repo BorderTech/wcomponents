@@ -7,12 +7,12 @@ import java.util.Locale;
 
 /**
  * <p>
- * This class is used by the Layout classes to assist with common but primitive
- * html/xml string construction.
+ * This class is used by the Layout classes to assist with common but primitive html/xml string
+ * construction.
  * </p>
  * <p>
- * It extends PrintWriter to allow the same instance to be re-used by the old
- * layout classes which use PrintWriters.
+ * It extends PrintWriter to allow the same instance to be re-used by the old layout classes which
+ * use PrintWriters.
  * </p>
  *
  * @author Martin Shevchenko
@@ -41,8 +41,7 @@ public final class XmlStringBuilder extends PrintWriter {
 	private final Locale locale;
 
 	/**
-	 * Creates a XmlStringBuilder with the default capacity and no explicit
-	 * locale.
+	 * Creates a XmlStringBuilder with the default capacity and no explicit locale.
 	 *
 	 * @param writer the backing writer.
 	 */
@@ -51,8 +50,7 @@ public final class XmlStringBuilder extends PrintWriter {
 	}
 
 	/**
-	 * Creates a XmlStringBuilder with the default capacity and the given
-	 * Locale.
+	 * Creates a XmlStringBuilder with the default capacity and the given Locale.
 	 *
 	 * @param writer the backing writer.
 	 * @param locale the locale to use for translating messages.
@@ -102,8 +100,8 @@ public final class XmlStringBuilder extends PrintWriter {
 
 	/**
 	 * <p>
-	 * Adds a starting xml tag (but without the closing angle bracket) to the
-	 * end of this XmlStringBuilder.
+	 * Adds a starting xml tag (but without the closing angle bracket) to the end of this
+	 * XmlStringBuilder.
 	 * </p>
 	 * <p>
 	 * Eg. &lt;name
@@ -132,8 +130,7 @@ public final class XmlStringBuilder extends PrintWriter {
 
 	/**
 	 * <p>
-	 * Adds a tag end character plus a closing angle bracket to the end of this
-	 * XmlStringBuilder.
+	 * Adds a tag end character plus a closing angle bracket to the end of this XmlStringBuilder.
 	 * </p>
 	 * <p>
 	 * Eg. /&gt;
@@ -198,9 +195,8 @@ public final class XmlStringBuilder extends PrintWriter {
 	// === end formatting routines ===
 	/**
 	 * <p>
-	 * Adds an xml attribute name+value pair to the end of this
-	 * XmlStringBuilder. All attribute values are escaped to prevent malformed
-	 * XML and XSS attacks.
+	 * Adds an xml attribute name+value pair to the end of this XmlStringBuilder. All attribute
+	 * values are escaped to prevent malformed XML and XSS attacks.
 	 * </p>
 	 * <p>
 	 * If the value is null an empty string "" is output.
@@ -228,8 +224,7 @@ public final class XmlStringBuilder extends PrintWriter {
 
 	/**
 	 * <p>
-	 * Adds an xml attribute name+value pair to the end of this
-	 * XmlStringBuilder.
+	 * Adds an xml attribute name+value pair to the end of this XmlStringBuilder.
 	 * </p>
 	 * <p>
 	 * Eg. name="1"
@@ -248,8 +243,8 @@ public final class XmlStringBuilder extends PrintWriter {
 
 	/**
 	 * <p>
-	 * If the value is not null, add an xml attribute name+value pair to the end
-	 * of this XmlStringBuilder
+	 * If the value is not null, add an xml attribute name+value pair to the end of this
+	 * XmlStringBuilder
 	 * <p>
 	 * Eg. name="value"
 	 * </p>
@@ -265,8 +260,7 @@ public final class XmlStringBuilder extends PrintWriter {
 
 	/**
 	 * <p>
-	 * If the flag is true, add an xml attribute name+value pair to the end of
-	 * this XmlStringBuilder
+	 * If the flag is true, add an xml attribute name+value pair to the end of this XmlStringBuilder
 	 * <p>
 	 * Eg. name="1"
 	 * </p>
@@ -283,8 +277,7 @@ public final class XmlStringBuilder extends PrintWriter {
 
 	/**
 	 * <p>
-	 * If the flag is true, add an xml attribute name+value pair to the end of
-	 * this XmlStringBuilder
+	 * If the flag is true, add an xml attribute name+value pair to the end of this XmlStringBuilder
 	 * <p>
 	 * Eg. name="value"
 	 * </p>
@@ -336,8 +329,7 @@ public final class XmlStringBuilder extends PrintWriter {
 	 * Appends the string to this XmlStringBuilder. XML values are not escaped.
 	 *
 	 * @param string the String to append.
-	 * @param encode true to encode the string before output, false to output as
-	 * is
+	 * @param encode true to encode the string before output, false to output as is
 	 */
 	public void append(final String string, final boolean encode) {
 		if (encode) {
@@ -357,8 +349,7 @@ public final class XmlStringBuilder extends PrintWriter {
 	}
 
 	/**
-	 * Appends the given character to this XmlStringBuilder. XML values are not
-	 * escaped.
+	 * Appends the given character to this XmlStringBuilder. XML values are not escaped.
 	 *
 	 * @param chr the character to append.
 	 * @return this XmlStringBuilder
@@ -370,8 +361,8 @@ public final class XmlStringBuilder extends PrintWriter {
 	}
 
 	/**
-	 * Appends an XML-escaped copy of the string to this XmlStringBuffer. If the
-	 * string is null then no text will be appended.
+	 * Appends an XML-escaped copy of the string to this XmlStringBuffer. If the string is null then
+	 * no text will be appended.
 	 *
 	 * @param string the String to append.
 	 */
@@ -380,8 +371,8 @@ public final class XmlStringBuilder extends PrintWriter {
 	}
 
 	/**
-	 * Translates the given message into the appropriate user text. This takes
-	 * the current locale into consideration, if set.
+	 * Translates the given message into the appropriate user text. This takes the current locale
+	 * into consideration, if set.
 	 *
 	 * @param messageObject the message to translate.
 	 * @return the translated message.

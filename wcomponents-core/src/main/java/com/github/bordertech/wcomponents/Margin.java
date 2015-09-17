@@ -5,8 +5,8 @@ import java.io.Serializable;
 /**
  * The margins to be used on a component.
  * <p>
- * A default margin size can be set for "all" sides of the panel, or the
- * specific margin sizes can be set for each side of the panel.
+ * A default margin size can be set for "all" sides of the panel, or the specific margin sizes can
+ * be set for each side of the panel.
  * </p>
  *
  * @author Jonathan Austin
@@ -82,8 +82,8 @@ public class Margin implements Serializable {
 	}
 
 	/**
-	 * @return the size of the margin to be used on all sides of the panel, or
-	 * -1 if it has not been set.
+	 * @return the size of the margin to be used on all sides of the panel, or -1 if it has not been
+	 * set.
 	 */
 	public int getAll() {
 		return all;

@@ -1,10 +1,9 @@
 package com.github.bordertech.wcomponents;
 
 /**
- * This component enables a pop up browser window to an arbitrary location.
- * Pop-ups are initially invisible, to display a pop-up, call
- * {@link #setVisible(boolean)}. This will set the pop-up visible for the render
- * cycle only.
+ * This component enables a pop up browser window to an arbitrary location. Pop-ups are initially
+ * invisible, to display a pop-up, call {@link #setVisible(boolean)}. This will set the pop-up
+ * visible for the render cycle only.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -71,8 +70,7 @@ public class WPopup extends AbstractWComponent {
 	/**
 	 * Sets whether the popup window is resizable.
 	 *
-	 * @param resizable true if the popup window should be resizable, false if
-	 * not.
+	 * @param resizable true if the popup window should be resizable, false if not.
 	 */
 	public void setResizable(final boolean resizable) {
 		getOrCreateComponentModel().resizable = resizable;
@@ -88,8 +86,7 @@ public class WPopup extends AbstractWComponent {
 	/**
 	 * Sets whether the popup window should have a scroll bar.
 	 *
-	 * @param scrollable true if the popup window should have a scroll bar,
-	 * false if not.
+	 * @param scrollable true if the popup window should have a scroll bar, false if not.
 	 */
 	public void setScrollable(final boolean scrollable) {
 		getOrCreateComponentModel().scrollbars = scrollable;
@@ -141,8 +138,7 @@ public class WPopup extends AbstractWComponent {
 	}
 
 	/**
-	 * @return a String representation of this component, for debugging
-	 * purposes.
+	 * @return a String representation of this component, for debugging purposes.
 	 */
 	@Override
 	public String toString() {

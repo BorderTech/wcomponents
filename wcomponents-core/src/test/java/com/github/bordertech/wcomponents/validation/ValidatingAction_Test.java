@@ -61,8 +61,8 @@ public class ValidatingAction_Test {
 	}
 
 	/**
-	 * This trivial implementation of ValidatingAction just records whether
-	 * various methods have been called.
+	 * This trivial implementation of ValidatingAction just records whether various methods have
+	 * been called.
 	 *
 	 * @author Yiannis Paschalidis
 	 */

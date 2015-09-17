@@ -15,19 +15,18 @@ import javax.servlet.http.HttpSessionContext;
 
 /**
  * <p>
- * This HttpServletRequestWrapper implementation changes the way in which
- * sessions are managed, to allow multiple "sub-sessions" per HTTP session.
+ * This HttpServletRequestWrapper implementation changes the way in which sessions are managed, to
+ * allow multiple "sub-sessions" per HTTP session.
  * </p>
  * <p>
- * The standard (cookie) mechanism is used to store the normal HTTP session, and
- * an additional request parameter ("ssid") is used to determine which
- * sub-session to use. Using a wrapper approach limits the impact to the
- * WServlet class only, and doesn't require deployment of additional servlet
- * filters.
+ * The standard (cookie) mechanism is used to store the normal HTTP session, and an additional
+ * request parameter ("ssid") is used to determine which sub-session to use. Using a wrapper
+ * approach limits the impact to the WServlet class only, and doesn't require deployment of
+ * additional servlet filters.
  * </p>
  * <p>
- * Invalidated sub-sessions have their data cleared out to minimise session use,
- * but are not removed from the backing HTTP session.
+ * Invalidated sub-sessions have their data cleared out to minimise session use, but are not removed
+ * from the backing HTTP session.
  * </p>
  *
  * @author Jonathan Austin
@@ -36,8 +35,7 @@ import javax.servlet.http.HttpSessionContext;
 public final class SubSessionHttpServletRequestWrapper extends HttpServletRequestWrapper {
 
 	/**
-	 * This key is used to store subsessions in the backing HTTP session's
-	 * attribute map.
+	 * This key is used to store subsessions in the backing HTTP session's attribute map.
 	 */
 	private static final String SESSION_MAP_KEY = SubSessionHttpServletRequestWrapper.class.getName() + ".subsessions";
 
@@ -94,8 +92,8 @@ public final class SubSessionHttpServletRequestWrapper extends HttpServletReques
 	}
 
 	/**
-	 * Retrieves the subsession for this request. If there is no existing
-	 * subsession, a new one is created.
+	 * Retrieves the subsession for this request. If there is no existing subsession, a new one is
+	 * created.
 	 *
 	 * @return the subsession for this request.
 	 */
@@ -144,8 +142,8 @@ public final class SubSessionHttpServletRequestWrapper extends HttpServletReques
 		private Map<String, Object> attributes = new HashMap<>();
 
 		/**
-		 * The maximum interval before a sub-session can be invalidated due to
-		 * inactivity, specified in milliseconds.
+		 * The maximum interval before a sub-session can be invalidated due to inactivity, specified
+		 * in milliseconds.
 		 */
 		private int maxInactiveInterval;
 

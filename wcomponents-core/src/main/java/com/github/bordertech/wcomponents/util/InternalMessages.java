@@ -1,11 +1,9 @@
 package com.github.bordertech.wcomponents.util;
 
 /**
- * This class declares constants for internal messages issued by the WComponent
- * framework itself. The default messages themeselves are contained in a
- * WComponent configuration properties file. Developers who are
- * internationalising an application should also internationalise these
- * messages.
+ * This class declares constants for internal messages issued by the WComponent framework itself.
+ * The default messages themeselves are contained in a WComponent configuration properties file.
+ * Developers who are internationalising an application should also internationalise these messages.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -63,8 +61,7 @@ public final class InternalMessages {
 	public static final String DEFAULT_VALIDATION_ERROR_DATE_BEFORE = "bordertech.wcomponents.message.fieldDateBefore";
 
 	/**
-	 * The key for the default date before or equal to pivot validator error
-	 * text.
+	 * The key for the default date before or equal to pivot validator error text.
 	 */
 	public static final String DEFAULT_VALIDATION_ERROR_DATE_BEFORE_OR_EQUAL = "bordertech.wcomponents.message.fieldDateBeforeOrEqual";
 
@@ -74,8 +71,7 @@ public final class InternalMessages {
 	public static final String DEFAULT_VALIDATION_ERROR_DATE_EQUAL = "bordertech.wcomponents.message.fieldDateEqual";
 
 	/**
-	 * The key for the default date after or equal to pivot validator error
-	 * text.
+	 * The key for the default date after or equal to pivot validator error text.
 	 */
 	public static final String DEFAULT_VALIDATION_ERROR_DATE_AFTER_OR_EQUAL = "bordertech.wcomponents.message.fieldDateAfterOrEqual";
 
@@ -90,8 +86,7 @@ public final class InternalMessages {
 	public static final String DEFAULT_VALIDATION_ERROR_DATE_BEFORE_TODAY = "bordertech.wcomponents.message.fieldDateBeforeToday";
 
 	/**
-	 * The key for the default date before or equal to today pivot validator
-	 * error text.
+	 * The key for the default date before or equal to today pivot validator error text.
 	 */
 	public static final String DEFAULT_VALIDATION_ERROR_DATE_BEFORE_OR_EQUAL_TODAY = "bordertech.wcomponents.message.fieldDateBeforeOrEqualToday";
 
@@ -101,8 +96,7 @@ public final class InternalMessages {
 	public static final String DEFAULT_VALIDATION_ERROR_DATE_EQUAL_TODAY = "bordertech.wcomponents.message.fieldDateEqualToday";
 
 	/**
-	 * The key for the default date after or equal to today pivot validator
-	 * error text.
+	 * The key for the default date after or equal to today pivot validator error text.
 	 */
 	public static final String DEFAULT_VALIDATION_ERROR_DATE_AFTER_OR_EQUAL_TODAY = "bordertech.wcomponents.message.fieldDateAfterOrEqualToday";
 
@@ -132,8 +126,7 @@ public final class InternalMessages {
 	public static final String DEFAULT_SYSTEM_ERROR = "bordertech.wcomponents.message.defaultSystemError";
 
 	/**
-	 * The key for the system error error text, where the session is
-	 * irrecoverable.
+	 * The key for the system error error text, where the session is irrecoverable.
 	 */
 	public static final String DEFAULT_SYSTEM_ERROR_SEVERE = "bordertech.wcomponents.message.defaultSystemErrorSevere";
 

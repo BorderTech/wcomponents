@@ -12,8 +12,7 @@ import junit.framework.Assert;
 import org.junit.Test;
 
 /**
- * AbstractWMultiSelectList_Test - unit tests for
- * {@link AbstractWMultiSelectList}.
+ * AbstractWMultiSelectList_Test - unit tests for {@link AbstractWMultiSelectList}.
  *
  * @author Jonathan Austin
  * @since 1.0.0
@@ -1451,8 +1450,7 @@ public class AbstractWMultiSelectList_Test extends AbstractWComponentTestCase {
 		}
 
 		/**
-		 * @param lookupTable the lookup table identifier to obtain the list's
-		 * options from.
+		 * @param lookupTable the lookup table identifier to obtain the list's options from.
 		 * @param allowNoSelection if true, allow no option to be selected
 		 */
 		private MyWMultiSelectList(final Object lookupTable, final boolean allowNoSelection) {

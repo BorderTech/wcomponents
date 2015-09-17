@@ -8,12 +8,12 @@ import java.util.List;
 /**
  * <p>
  * This class is used to group multiple {@link WCollapsible} components and one
- * {@link WCollapsibleToggle} component together. Each collapsible component in
- * the same group has the same name.</p>
+ * {@link WCollapsibleToggle} component together. Each collapsible component in the same group has
+ * the same name.</p>
  *
  * <p>
- * The <code>WCollapsibleToggle</code> component of the group applies to only
- * the <code>collapsible</code> components in the same group.</p>
+ * The <code>WCollapsibleToggle</code> component of the group applies to only the
+ * <code>collapsible</code> components in the same group.</p>
  *
  * @author Christina Harris
  * @since 1.0.0
@@ -36,8 +36,7 @@ public class CollapsibleGroup implements Serializable {
 	private WCollapsibleToggle collapsibleToggle;
 
 	/**
-	 * Retrieves the common name used by all collapsible components in the
-	 * group.
+	 * Retrieves the common name used by all collapsible components in the group.
 	 *
 	 * @return the common name to use.
 	 */

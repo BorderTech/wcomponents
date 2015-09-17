@@ -21,8 +21,7 @@ public class WebXmlRenderContext implements RenderContext {
 	/**
 	 * Creates a WebXmlRenderContext.
 	 *
-	 * @param writer the PrintWriter where the rendered output should be sent
-	 * to.
+	 * @param writer the PrintWriter where the rendered output should be sent to.
 	 */
 	public WebXmlRenderContext(final PrintWriter writer) {
 		if (writer instanceof XmlStringBuilder) {
@@ -35,8 +34,7 @@ public class WebXmlRenderContext implements RenderContext {
 	/**
 	 * Creates a WebXmlRenderContext.
 	 *
-	 * @param writer the PrintWriter where the rendered output should be sent
-	 * to.
+	 * @param writer the PrintWriter where the rendered output should be sent to.
 	 * @param locale the Locale to use for translating messages.
 	 */
 	public WebXmlRenderContext(final PrintWriter writer, final Locale locale) {

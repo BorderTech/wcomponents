@@ -18,9 +18,9 @@ public interface BooleanExpression extends Serializable {
 	Condition build();
 
 	/**
-	 * Evaluates and returns the value of this operand. This method is only used
-	 * for internal testing purposes, as the actual expression will be
-	 * "compiled" to a subordinate for application use.
+	 * Evaluates and returns the value of this operand. This method is only used for internal
+	 * testing purposes, as the actual expression will be "compiled" to a subordinate for
+	 * application use.
 	 *
 	 * @return the value of this operand.
 	 */

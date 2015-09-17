@@ -450,8 +450,8 @@ public class AbstractWComponent_Test extends AbstractWComponentTestCase {
 	}
 
 	/**
-	 * Test validate - where isVisible, isValidate and it not Disableable and
-	 * there are validation errors.
+	 * Test validate - where isVisible, isValidate and it not Disableable and there are validation
+	 * errors.
 	 */
 	@Test
 	public void testValidate() {

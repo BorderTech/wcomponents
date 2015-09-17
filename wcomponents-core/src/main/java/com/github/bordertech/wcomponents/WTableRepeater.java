@@ -1,8 +1,7 @@
 package com.github.bordertech.wcomponents;
 
 /**
- * This repeater extension is necessary to ensure that tree-tables are painted
- * correctly.
+ * This repeater extension is necessary to ensure that tree-tables are painted correctly.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0

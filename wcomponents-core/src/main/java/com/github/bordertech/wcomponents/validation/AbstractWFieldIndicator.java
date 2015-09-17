@@ -10,8 +10,8 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * A component to display a warning/error (or other) message that can be
- * associated with an input field.
+ * A component to display a warning/error (or other) message that can be associated with an input
+ * field.
  *
  * @author Darian Bridge
  * @version 9/10/2009
@@ -47,8 +47,8 @@ public abstract class AbstractWFieldIndicator extends AbstractWComponent {
 	// ================================
 	// Validation
 	/**
-	 * Iterates over the {@link Diagnostic}s and finds the diagnostics that
-	 * related to {@link #relatedField}.
+	 * Iterates over the {@link Diagnostic}s and finds the diagnostics that related to
+	 * {@link #relatedField}.
 	 *
 	 * @param diags A List of Diagnostic objects.
 	 * @param severity A Diagnostic severity code. e.g. {@link Diagnostic#ERROR}

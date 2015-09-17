@@ -5,8 +5,7 @@ import java.io.UnsupportedEncodingException;
 /**
  * A Base64 Encoder/Decoder.
  * <p>
- * This class is used to encode and decode data in Base64 format as described in
- * RFC 1521.
+ * This class is used to encode and decode data in Base64 format as described in RFC 1521.
  * <p>
  * This is "Open Source" software and released under the
  * <a href="http://www.gnu.org/licenses/lgpl.html">GNU/LGPL </a>
@@ -74,8 +73,7 @@ public final class Base64Util {
 	}
 
 	/**
-	 * Encodes a string into Base64 format. No blanks or line breaks are
-	 * inserted.
+	 * Encodes a string into Base64 format. No blanks or line breaks are inserted.
 	 *
 	 * @param string a String to be encoded.
 	 * @return A String with the Base64 encoded data.
@@ -93,8 +91,7 @@ public final class Base64Util {
 	}
 
 	/**
-	 * Encodes a string into Base64 format. No blanks or line breaks are
-	 * inserted.
+	 * Encodes a string into Base64 format. No blanks or line breaks are inserted.
 	 *
 	 * @param string a String to be encoded.
 	 * @param encoding The character encoding of the string.
@@ -109,8 +106,7 @@ public final class Base64Util {
 	}
 
 	/**
-	 * Encodes a byte array into Base64 format. No blanks or line breaks are
-	 * inserted.
+	 * Encodes a byte array into Base64 format. No blanks or line breaks are inserted.
 	 * <p>
 	 * This method has been modified to return a string not a char[].
 	 *
@@ -123,8 +119,7 @@ public final class Base64Util {
 	}
 
 	/**
-	 * Encodes a byte array into Base64 format. No blanks or line breaks are
-	 * inserted.
+	 * Encodes a byte array into Base64 format. No blanks or line breaks are inserted.
 	 *
 	 * @param input an array containing the data bytes to be encoded.
 	 * @param iLen number of bytes to process in <code>in</code>.
@@ -161,8 +156,7 @@ public final class Base64Util {
 	 *
 	 * @param string a Base64 String to be decoded.
 	 * @return A String containing the decoded data.
-	 * @throws IllegalArgumentException if the input is not valid Base64 encoded
-	 * data.
+	 * @throws IllegalArgumentException if the input is not valid Base64 encoded data.
 	 */
 	public static String decodeString(final String string) {
 		String decodedString = null;
@@ -182,21 +176,19 @@ public final class Base64Util {
 	 *
 	 * @param string a Base64 String to be decoded.
 	 * @return An array containing the decoded data bytes.
-	 * @throws IllegalArgumentException if the input is not valid Base64 encoded
-	 * data.
+	 * @throws IllegalArgumentException if the input is not valid Base64 encoded data.
 	 */
 	public static byte[] decode(final String string) {
 		return decode(string.toCharArray());
 	}
 
 	/**
-	 * Decodes a byte array from Base64 format. No blanks or line breaks are
-	 * allowed within the Base64 encoded data.
+	 * Decodes a byte array from Base64 format. No blanks or line breaks are allowed within the
+	 * Base64 encoded data.
 	 *
 	 * @param input a character array containing the Base64 encoded data.
 	 * @return An array containing the decoded data bytes.
-	 * @throws IllegalArgumentException if the input is not valid Base64 encoded
-	 * data.
+	 * @throws IllegalArgumentException if the input is not valid Base64 encoded data.
 	 */
 	public static byte[] decode(final char[] input) {
 		int iLen = input.length;

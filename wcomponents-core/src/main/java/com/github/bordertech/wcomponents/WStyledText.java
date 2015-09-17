@@ -2,13 +2,12 @@ package com.github.bordertech.wcomponents;
 
 /**
  * <p>
- * This component is used to render the different types of text. If the text
- * contains special characters, they will be escaped automatically, as in
- * {@link WText}.</p>
+ * This component is used to render the different types of text. If the text contains special
+ * characters, they will be escaped automatically, as in {@link WText}.</p>
  *
  * <p>
- * Note that the visual representation of the different types of text will
- * depend on the current Theme in use.</p>
+ * Note that the visual representation of the different types of text will depend on the current
+ * Theme in use.</p>
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -68,8 +67,8 @@ public class WStyledText extends WText {
 	 */
 	public static enum WhitespaceMode {
 		/**
-		 * Default whitespace handling. Browser-dependent behaviour, but most
-		 * likely whitespace will be ignored.
+		 * Default whitespace handling. Browser-dependent behaviour, but most likely whitespace will
+		 * be ignored.
 		 */
 		DEFAULT,
 		/**

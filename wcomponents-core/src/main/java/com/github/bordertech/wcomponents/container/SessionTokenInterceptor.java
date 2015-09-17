@@ -13,11 +13,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * This session token interceptor makes sure the request being processed is for
- * the correct session.
+ * This session token interceptor makes sure the request being processed is for the correct session.
  * <p>
- * As the token is a UUID, it will be much harder for CSRF attacks. No request
- * processing will occur without the correct UUID.
+ * As the token is a UUID, it will be much harder for CSRF attacks. No request processing will occur
+ * without the correct UUID.
  * </p>
  *
  * @author Jonathan Austin
@@ -31,8 +30,8 @@ public class SessionTokenInterceptor extends InterceptorComponent {
 	private static final Log LOG = LogFactory.getLog(SessionTokenInterceptor.class);
 
 	/**
-	 * Override to check whether the session token variable in the incoming
-	 * request matches what we expect.
+	 * Override to check whether the session token variable in the incoming request matches what we
+	 * expect.
 	 *
 	 * @param request the request being serviced.
 	 */

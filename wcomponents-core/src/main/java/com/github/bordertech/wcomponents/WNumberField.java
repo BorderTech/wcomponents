@@ -9,19 +9,18 @@ import java.util.List;
 
 /**
  * <p>
- * A WNumberField is a wcomponent used to display a numeric input field. Use the
- * method "{@link #getValue()}" to get the number entered into the field by the
- * user.
+ * A WNumberField is a wcomponent used to display a numeric input field. Use the method
+ * "{@link #getValue()}" to get the number entered into the field by the user.
  * </p>
  * <p>
- * Additional methods are available to return the value entered as an integer or
- * decimal value, and there are methods which can be used to restrict the range
- * of values which are allowed to be entered.
+ * Additional methods are available to return the value entered as an integer or decimal value, and
+ * there are methods which can be used to restrict the range of values which are allowed to be
+ * entered.
  * </p>
  * <p>
- * A number field differs from a text field in the way in which some user agents
- * interact with it. For example, touchscreen devices may display a numeric data
- * entry pad rather than an alphanumeric keyboard.
+ * A number field differs from a text field in the way in which some user agents interact with it.
+ * For example, touchscreen devices may display a numeric data entry pad rather than an alphanumeric
+ * keyboard.
  * </p>
  *
  * @author Yiannis Paschalidis
@@ -32,8 +31,7 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 		SubordinateTarget {
 
 	/**
-	 * @return the number value, or the text entered by the user if there is no
-	 * valid number.
+	 * @return the number value, or the text entered by the user if there is no valid number.
 	 */
 	@Override
 	public String getValueAsString() {
@@ -102,8 +100,7 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 	/**
 	 * Retrieves the numeric value of this field.
 	 *
-	 * @return the numeric value, or null if the field does not contain a valid
-	 * number.
+	 * @return the numeric value, or null if the field does not contain a valid number.
 	 */
 	@Override
 	public BigDecimal getValue() {
@@ -111,12 +108,10 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 	}
 
 	/**
-	 * Attempts to convert a value to a BigDecimal. Throws a SystemException on
-	 * error.
+	 * Attempts to convert a value to a BigDecimal. Throws a SystemException on error.
 	 *
 	 * @param value the value to convert.
-	 * @return the converted value, or null if <code>value</code> was
-	 * null/empty.
+	 * @return the converted value, or null if <code>value</code> was null/empty.
 	 */
 	private BigDecimal convertValue(final Object value) {
 		if (value == null) {
@@ -142,8 +137,7 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 	// ================================
 	// Attributes
 	/**
-	 * Retrieves the text as entered by the user. This is not necessarily a
-	 * valid date.
+	 * Retrieves the text as entered by the user. This is not necessarily a valid date.
 	 *
 	 * @return the text, as entered by the user.
 	 */
@@ -154,8 +148,7 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 	/**
 	 * Indicates whether the text value held in this field is a valid number.
 	 *
-	 * @return true if the field contains text which is a valid number, false
-	 * otherwise.
+	 * @return true if the field contains text which is a valid number, false otherwise.
 	 */
 	public boolean isValidNumber() {
 		return getComponentModel().validNumber;
@@ -164,8 +157,7 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 	/**
 	 * Retrieves the numeric value of this field.
 	 *
-	 * @return the numeric value, or null if the field does not contain a valid
-	 * number.
+	 * @return the numeric value, or null if the field does not contain a valid number.
 	 */
 	public BigDecimal getNumber() {
 		return getValue();
@@ -240,9 +232,9 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 	}
 
 	/**
-	 * Retrieves the minimum allowable value for this number field. The minimum
-	 * value is enforced server-side using the WComponent validation framework,
-	 * and <b>may</b> be enforced client-side.
+	 * Retrieves the minimum allowable value for this number field. The minimum value is enforced
+	 * server-side using the WComponent validation framework, and <b>may</b> be enforced
+	 * client-side.
 	 *
 	 * @return the minimum allowable value, or null if there is no minimum.
 	 */
@@ -278,9 +270,9 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 	}
 
 	/**
-	 * Retrieves the maximum allowable value for this number field. The minimum
-	 * value is enforced server-side using the WComponent validation framework,
-	 * and <b>may</b> be enforced client-side.
+	 * Retrieves the maximum allowable value for this number field. The minimum value is enforced
+	 * server-side using the WComponent validation framework, and <b>may</b> be enforced
+	 * client-side.
 	 *
 	 * @return the maximum allowable value, or null if there is no maximum.
 	 */
@@ -316,9 +308,8 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 	}
 
 	/**
-	 * Retrieves the step value for this number field. The step may be used by
-	 * some user agents to provide a convenient increment/decrement function,
-	 * such to a spinner control.
+	 * Retrieves the step value for this number field. The step may be used by some user agents to
+	 * provide a convenient increment/decrement function, such to a spinner control.
 	 *
 	 * @return the step value, or null if there is no step value set.
 	 */
@@ -354,9 +345,8 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 	}
 
 	/**
-	 * Retrieves the number of decimal places to use for this number field. A
-	 * value of zero indicates that the fields should only accept integer
-	 * values.
+	 * Retrieves the number of decimal places to use for this number field. A value of zero
+	 * indicates that the fields should only accept integer values.
 	 *
 	 * @return the number of decimal places to use.
 	 */
@@ -394,8 +384,7 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 	}
 
 	/**
-	 * Override WInput's validateComponent to perform futher validation on email
-	 * addresses.
+	 * Override WInput's validateComponent to perform futher validation on email addresses.
 	 *
 	 * @param diags the list into which any validation diagnostics are added.
 	 */
@@ -412,9 +401,8 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 
 	/**
 	 * <p>
-	 * Performs validation of the number. Validation ensures that the entered
-	 * text is a valid number, and is between the minimum/maximum values (if
-	 * applicable).
+	 * Performs validation of the number. Validation ensures that the entered text is a valid
+	 * number, and is between the minimum/maximum values (if applicable).
 	 * </p>
 	 * <p>
 	 * Subclasses can override this method to perform more specific validation.
@@ -448,8 +436,7 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 	}
 
 	/**
-	 * Creates a new NumberFieldModel holds Extrinsic state management of the
-	 * field.
+	 * Creates a new NumberFieldModel holds Extrinsic state management of the field.
 	 *
 	 * @return a new NumberFieldModel
 	 */
@@ -504,8 +491,7 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 		private BigDecimal step;
 
 		/**
-		 * The maximum number of decimal places to display/enter, defaults to
-		 * zero (integer).
+		 * The maximum number of decimal places to display/enter, defaults to zero (integer).
 		 */
 		private int decimalPlaces;
 

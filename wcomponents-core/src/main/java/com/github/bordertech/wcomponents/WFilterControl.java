@@ -1,8 +1,8 @@
 package com.github.bordertech.wcomponents;
 
 /**
- * The WFilterControl lets the user filter data within another (table)
- * component. The filtering occurs client-side, based on text matching.
+ * The WFilterControl lets the user filter data within another (table) component. The filtering
+ * occurs client-side, based on text matching.
  *
  * @author Jonathan Austin
  * @since 1.0.0
@@ -42,8 +42,7 @@ public class WFilterControl extends AbstractContainer implements AjaxTarget {
 	}
 
 	/**
-	 * Override handleRequest in order to implement processing specific to this
-	 * component.
+	 * Override handleRequest in order to implement processing specific to this component.
 	 *
 	 * @param request the request being responded to.
 	 */
@@ -119,8 +118,7 @@ public class WFilterControl extends AbstractContainer implements AjaxTarget {
 	}
 
 	/**
-	 * @return a String representation of this component, for debugging
-	 * purposes.
+	 * @return a String representation of this component, for debugging purposes.
 	 */
 	@Override
 	public String toString() {

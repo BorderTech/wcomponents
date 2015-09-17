@@ -3,8 +3,7 @@ package com.github.bordertech.wcomponents;
 import java.io.IOException;
 
 /**
- * This escape is thrown to forward the browser to a different URL rather than
- * rendering the UI.
+ * This escape is thrown to forward the browser to a different URL rather than rendering the UI.
  *
  * @author Martin Shevchenko
  */

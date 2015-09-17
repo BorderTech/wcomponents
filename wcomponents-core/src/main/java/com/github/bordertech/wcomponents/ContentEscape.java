@@ -9,8 +9,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * An Escape subclass that bypasses the usual request -&gt; paint flow by
- * directly producing the binary document content.
+ * An Escape subclass that bypasses the usual request -&gt; paint flow by directly producing the
+ * binary document content.
  *
  * @author Martin Shevchenko
  * @since 1.0.0
@@ -122,8 +122,7 @@ public class ContentEscape extends ActionEscape {
 	/**
 	 * Indicates whether the content should be displayed inline or downloaded.
 	 *
-	 * @return true if the content should be displayed inline, false if it
-	 * should be downloaded.
+	 * @return true if the content should be displayed inline, false if it should be downloaded.
 	 */
 	public boolean isDisplayInline() {
 		return displayInline;
@@ -132,8 +131,8 @@ public class ContentEscape extends ActionEscape {
 	/**
 	 * Sets whether the content should be displayed inline or downloaded.
 	 *
-	 * @param displayInline true if the content should be displayed inline,
-	 * false if it should be downloaded.
+	 * @param displayInline true if the content should be displayed inline, false if it should be
+	 * downloaded.
 	 */
 	public void setDisplayInline(final boolean displayInline) {
 		this.displayInline = displayInline;

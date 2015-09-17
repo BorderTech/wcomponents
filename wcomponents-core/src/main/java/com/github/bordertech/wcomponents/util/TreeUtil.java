@@ -32,9 +32,8 @@ public final class TreeUtil {
 	}
 
 	/**
-	 * Obtains a list of components which are visible in the given tree.
-	 * Repeated components will be returned multiple times, one for each row
-	 * which they are visible in.
+	 * Obtains a list of components which are visible in the given tree. Repeated components will be
+	 * returned multiple times, one for each row which they are visible in.
 	 *
 	 * @param comp the root component to search from.
 	 * @return a list of components which are visible in the given context.
@@ -134,8 +133,7 @@ public final class TreeUtil {
 	 *
 	 * @param root the root component to search from.
 	 * @param id the id to search for.
-	 * @return the context for the component with the given id, or null if not
-	 * found.
+	 * @return the context for the component with the given id, or null if not found.
 	 */
 	public static UIContext getContextForId(final WComponent root, final String id) {
 		return getContextForId(root, id, false);
@@ -147,8 +145,7 @@ public final class TreeUtil {
 	 * @param root the root component to search from.
 	 * @param id the id to search for.
 	 * @param visibleOnly true if process visible only
-	 * @return the context for the component with the given id, or null if not
-	 * found.
+	 * @return the context for the component with the given id, or null if not found.
 	 */
 	public static UIContext getContextForId(final WComponent root, final String id, final boolean visibleOnly) {
 		AbstractTreeVisitorWithResult<UIContext> visitor = new AbstractTreeVisitorWithResult<UIContext>() {
@@ -187,8 +184,7 @@ public final class TreeUtil {
 	 *
 	 * @param root the root component to search from.
 	 * @param id the id to search for.
-	 * @return the context for the component with the given id, or null if not
-	 * found.
+	 * @return the context for the component with the given id, or null if not found.
 	 */
 	public static ComponentWithContext getComponentWithContextForId(final WComponent root, final String id) {
 		return getComponentWithContextForId(root, id, false);
@@ -200,8 +196,7 @@ public final class TreeUtil {
 	 * @param root the root component to search from.
 	 * @param id the id to search for.
 	 * @param visibleOnly true if process visible only
-	 * @return the context for the component with the given id, or null if not
-	 * found.
+	 * @return the context for the component with the given id, or null if not found.
 	 */
 	public static ComponentWithContext getComponentWithContextForId(final WComponent root, final String id,
 			final boolean visibleOnly) {
@@ -241,8 +236,7 @@ public final class TreeUtil {
 	 *
 	 * @param root the root component to search from.
 	 * @param id the id to search for.
-	 * @return the closest context for the component with the given id, or null
-	 * if not found.
+	 * @return the closest context for the component with the given id, or null if not found.
 	 */
 	public static UIContext getClosestContextForId(final WComponent root, final String id) {
 		return getClosestContextForId(root, id, false);
@@ -254,8 +248,7 @@ public final class TreeUtil {
 	 * @param root the root component to search from.
 	 * @param id the id to search for.
 	 * @param visibleOnly true if process visible only
-	 * @return the closest context for the component with the given id, or null
-	 * if not found.
+	 * @return the closest context for the component with the given id, or null if not found.
 	 */
 	public static UIContext getClosestContextForId(final WComponent root, final String id, final boolean visibleOnly) {
 		AbstractTreeVisitorWithResult<UIContext> visitor = new AbstractTreeVisitorWithResult<UIContext>() {
@@ -291,8 +284,7 @@ public final class TreeUtil {
 	/**
 	 * Check if this ID is focusable.
 	 * <p>
-	 * Considered focusable if the component and all its ancestors are visible
-	 * and not hidden.
+	 * Considered focusable if the component and all its ancestors are visible and not hidden.
 	 * </p>
 	 *
 	 * @param root the root component to search from.
@@ -301,8 +293,7 @@ public final class TreeUtil {
 	 */
 	public static boolean isIdFocusable(final WComponent root, final String id) {
 		/**
-		 * Visit visible components to find the matching ID and check the
-		 * components are not hidden.
+		 * Visit visible components to find the matching ID and check the components are not hidden.
 		 */
 		AbstractTreeVisitorWithResult<Boolean> visitor = new AbstractTreeVisitorWithResult<Boolean>() {
 			/**
@@ -339,8 +330,8 @@ public final class TreeUtil {
 	}
 
 	/**
-	 * General utility method to visit every WComponent in the tree, taking
-	 * repeaters etc. into account.
+	 * General utility method to visit every WComponent in the tree, taking repeaters etc. into
+	 * account.
 	 *
 	 * @param node the node to traverse.
 	 * @param visitor the visitor to notify as the tree is traversed.
@@ -350,8 +341,8 @@ public final class TreeUtil {
 	}
 
 	/**
-	 * General utility method to visit every visible WComponent in the tree,
-	 * taking repeaters etc. into account.
+	 * General utility method to visit every visible WComponent in the tree, taking repeaters etc.
+	 * into account.
 	 *
 	 * @param node the node to traverse.
 	 * @param visitor the visitor to notify as the tree is traversed.
@@ -445,12 +436,11 @@ public final class TreeUtil {
 	/**
 	 * Retrieves WComponents by their path in the WComponent tree.
 	 * <p>
-	 * Paths are specified using class names, starting from the furthest
-	 * ancestor. To reduce the path lengths, class names do not need to be
-	 * fully-qualified. The path does not need to explicitly state intermediate
-	 * components between components, and may include an index suffix to select
-	 * a particular instance of a component in e.g. a repeater or a set of
-	 * fields. Some example paths are shown below.
+	 * Paths are specified using class names, starting from the furthest ancestor. To reduce the
+	 * path lengths, class names do not need to be fully-qualified. The path does not need to
+	 * explicitly state intermediate components between components, and may include an index suffix
+	 * to select a particular instance of a component in e.g. a repeater or a set of fields. Some
+	 * example paths are shown below.
 	 * </p>
 	 * Example paths.
 	 * <dl>
@@ -461,11 +451,10 @@ public final class TreeUtil {
 	 * <dt><code>{ "MyComponent[1]" }</code></dt>
 	 * <dd>Matches the second instance of MyComponent.</dd>
 	 * <dt><code>{ "MyPanel", "MyComponent" }</code></dt>
-	 * <dd>Matches the first instance of MyComponent which is nested anywhere
-	 * under a MyPanel.</dd>
+	 * <dd>Matches the first instance of MyComponent which is nested anywhere under a MyPanel.</dd>
 	 * <dt><code>{ "MyApp", "MyPanel", "MyComponent" }</code></dt>
-	 * <dd>Matches the first instance of MyComponent, nested within a MyPanel,
-	 * which is in turn nested somewhere within a MyApp.</dd>
+	 * <dd>Matches the first instance of MyComponent, nested within a MyPanel, which is in turn
+	 * nested somewhere within a MyApp.</dd>
 	 * </dl>
 	 *
 	 * @param component the component to search from.
@@ -509,13 +498,11 @@ public final class TreeUtil {
 
 	/**
 	 * Retrieves the first WComponent by its path in the WComponent tree. See
-	 * {@link #findWComponents(WComponent, String[])} for a description of
-	 * paths.
+	 * {@link #findWComponents(WComponent, String[])} for a description of paths.
 	 *
 	 * @param component the component to search from.
 	 * @param path the path to the WComponent.
-	 * @return the first component matching the given path, or null if not
-	 * found.
+	 * @return the first component matching the given path, or null if not found.
 	 */
 	public static ComponentWithContext findWComponent(final WComponent component, final String[] path) {
 		ComponentWithContext[] components = findWComponents(component, path);
@@ -594,8 +581,7 @@ public final class TreeUtil {
 	}
 
 	/**
-	 * A tree visitor implementation which finds components in the tree with a
-	 * given class.
+	 * A tree visitor implementation which finds components in the tree with a given class.
 	 */
 	private static final class FindComponentByClassVisitor extends
 			AbstractTreeVisitorWithResult<List<ComponentWithContext>> {
@@ -619,10 +605,9 @@ public final class TreeUtil {
 		 * Creates a FindComponentByClassVisitor.
 		 *
 		 * @param root the root component being searched from.
-		 * @param className the class name to search for. The package name may
-		 * be omitted for convenience.
-		 * @param includeRoot true if the root should be also be tested for a
-		 * match, false if not.
+		 * @param className the class name to search for. The package name may be omitted for
+		 * convenience.
+		 * @param includeRoot true if the root should be also be tested for a match, false if not.
 		 */
 		private FindComponentByClassVisitor(final ComponentWithContext root, final String className,
 				final boolean includeRoot) {
@@ -647,8 +632,8 @@ public final class TreeUtil {
 		}
 
 		/**
-		 * Tests two class names for equality, taking partical class names (no
-		 * package given) into account.
+		 * Tests two class names for equality, taking partical class names (no package given) into
+		 * account.
 		 *
 		 * @param name1 the first class name to compare.
 		 * @param name2 the second class name to compare.

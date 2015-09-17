@@ -1,8 +1,7 @@
 package com.github.bordertech.wcomponents;
 
 /**
- * This component is used to render the different types of headings within an
- * application.
+ * This component is used to render the different types of headings within an application.
  *
  * @author Adam Millard
  * @author Yiannis Paschalidis
@@ -236,8 +235,7 @@ public class WHeading extends WText implements Container, AjaxTarget, Marginable
 	}
 
 	/**
-	 * @return a String representation of this component, for debugging
-	 * purposes.
+	 * @return a String representation of this component, for debugging purposes.
 	 */
 	@Override
 	public String toString() {

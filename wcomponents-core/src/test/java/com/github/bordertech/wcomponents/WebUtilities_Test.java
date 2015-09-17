@@ -496,8 +496,8 @@ public class WebUtilities_Test extends AbstractWComponentTestCase {
 	}
 
 	/**
-	 * Compare the URLS. The parameters of the URL must be equal but they do not
-	 * have to be in the same order.
+	 * Compare the URLS. The parameters of the URL must be equal but they do not have to be in the
+	 * same order.
 	 *
 	 * @param actual the actual value
 	 * @param expected the expected value
@@ -530,8 +530,7 @@ public class WebUtilities_Test extends AbstractWComponentTestCase {
 	}
 
 	/**
-	 * A convenience method to retrieve the ID of the component in the given
-	 * context.
+	 * A convenience method to retrieve the ID of the component in the given context.
 	 *
 	 * @param component the component.
 	 * @param uic the context.

@@ -6,12 +6,10 @@ import java.util.List;
 
 /**
  * <p>
- * WRadioButtonSelect is a convenience class which presents a group of radio
- * buttons for the user to select one option from. Unlike {@link WRadioButton},
- * an explicit {@link RadioButtonGroup} and individual labels for the radio
- * buttons do not need to be provided. The visual arrangement of the radio
- * buttons can be configured using the {@link #setButtonLayout(Layout)}
- * method.</p>
+ * WRadioButtonSelect is a convenience class which presents a group of radio buttons for the user to
+ * select one option from. Unlike {@link WRadioButton}, an explicit {@link RadioButtonGroup} and
+ * individual labels for the radio buttons do not need to be provided. The visual arrangement of the
+ * radio buttons can be configured using the {@link #setButtonLayout(Layout)} method.</p>
  *
  * @author Yiannis Paschalidis
  * @author Jonathan Austin
@@ -116,8 +114,7 @@ public class WRadioButtonSelect extends AbstractWSingleSelectList implements Aja
 	}
 
 	/**
-	 * @return the number of columns for layout. Only applies to LAYOUT_COLUMNS
-	 * layout.
+	 * @return the number of columns for layout. Only applies to LAYOUT_COLUMNS layout.
 	 */
 	public int getButtonColumns() {
 		return getComponentModel().numColumns;
@@ -145,8 +142,8 @@ public class WRadioButtonSelect extends AbstractWSingleSelectList implements Aja
 	}
 
 	/**
-	 * Indicates whether this component is AJAX enabled. A list is an AJAX list
-	 * if it has a {@link #setAjaxTarget(AjaxTarget) target set}.
+	 * Indicates whether this component is AJAX enabled. A list is an AJAX list if it has a
+	 * {@link #setAjaxTarget(AjaxTarget) target set}.
 	 *
 	 * @return true if this list is AJAX enabled, false otherwise.
 	 */
@@ -156,10 +153,9 @@ public class WRadioButtonSelect extends AbstractWSingleSelectList implements Aja
 	}
 
 	/**
-	 * Sets the default AJAX target for this list. If a target is supplied, an
-	 * AJAX request is made rather than a round-trip to the server. The AJAX
-	 * response will only contain the (possibly updated) target element rather
-	 * than the entire UI.
+	 * Sets the default AJAX target for this list. If a target is supplied, an AJAX request is made
+	 * rather than a round-trip to the server. The AJAX response will only contain the (possibly
+	 * updated) target element rather than the entire UI.
 	 *
 	 * @param ajaxTarget the AJAX target.
 	 */
@@ -222,8 +218,7 @@ public class WRadioButtonSelect extends AbstractWSingleSelectList implements Aja
 		private int numColumns = 0;
 
 		/**
-		 * Indicates whether the radio button select frame should be visible
-		 * when rendering.
+		 * Indicates whether the radio button select frame should be visible when rendering.
 		 */
 		private boolean frameless = false;
 	}

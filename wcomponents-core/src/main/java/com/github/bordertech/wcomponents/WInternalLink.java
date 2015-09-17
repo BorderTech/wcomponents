@@ -7,8 +7,7 @@ package com.github.bordertech.wcomponents;
  * Current limitations of this component are:</p>
  * <ul>
  * <li>It will only link to components that render out their id</li>
- * <li>It will not link to components nested within WRepeater of WTable
- * components</li>
+ * <li>It will not link to components nested within WRepeater of WTable components</li>
  * <li>The text for this link is the same for all users.
  * </ul>
  *
@@ -68,8 +67,7 @@ public class WInternalLink extends AbstractWComponent implements AjaxTarget {
 	}
 
 	/**
-	 * @return a String representation of this component, for debugging
-	 * purposes.
+	 * @return a String representation of this component, for debugging purposes.
 	 */
 	@Override
 	public String toString() {

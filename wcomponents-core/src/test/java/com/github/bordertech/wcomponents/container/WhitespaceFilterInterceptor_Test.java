@@ -11,8 +11,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * WhitespaceFilterInterceptor_Test - unit tests for
- * {@link WhitespaceFilterInterceptor}.
+ * WhitespaceFilterInterceptor_Test - unit tests for {@link WhitespaceFilterInterceptor}.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0

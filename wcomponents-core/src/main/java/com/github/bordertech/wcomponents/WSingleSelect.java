@@ -5,16 +5,15 @@ import java.util.List;
 
 /**
  * <p>
- * The WSingleSelect input component allows the user to select one option from a
- * list. The list of options that can be selected are supplied at construction
- * time as a parameter in the constructor or via the {@link #setOptions(List)}
- * method. The list of options are java objects that are rendered using their
- * toString() by default.
+ * The WSingleSelect input component allows the user to select one option from a list. The list of
+ * options that can be selected are supplied at construction time as a parameter in the constructor
+ * or via the {@link #setOptions(List)} method. The list of options are java objects that are
+ * rendered using their toString() by default.
  * </p>
  * <p>
- * Use the {@link #getSelected() getSelected} method to determine which of the
- * list of options was chosen by the user. Note that getSelected returns one of
- * the object instances supplied in the original list of options.
+ * Use the {@link #getSelected() getSelected} method to determine which of the list of options was
+ * chosen by the user. Note that getSelected returns one of the object instances supplied in the
+ * original list of options.
  * </p>
  *
  * @author Jonathan Austin
@@ -58,9 +57,8 @@ public class WSingleSelect extends AbstractWSingleSelectList implements AjaxTrig
 	}
 
 	/**
-	 * Sets the maximum number of rows that are visible in the list at any one
-	 * time. If the number of rows is less than two, then the default number of
-	 * rows will be displayed.
+	 * Sets the maximum number of rows that are visible in the list at any one time. If the number
+	 * of rows is less than two, then the default number of rows will be displayed.
 	 *
 	 * @param rows the number of rows to display.
 	 */

@@ -3,9 +3,8 @@ package com.github.bordertech.wcomponents;
 import com.github.bordertech.wcomponents.validation.ValidatingAction;
 
 /**
- * WMessagesValidatingAction - Convenience class that validates a component and
- * uses WMessages to display the results. If the component is not in a valid
- * state, the action is not executed.
+ * WMessagesValidatingAction - Convenience class that validates a component and uses WMessages to
+ * display the results. If the component is not in a valid state, the action is not executed.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0

@@ -395,8 +395,7 @@ public class WTabSet_Test extends AbstractWComponentTestCase {
 	}
 
 	/**
-	 * Test getActiveIndices - in a uic, when removing invisible tabs from the
-	 * active list.
+	 * Test getActiveIndices - in a uic, when removing invisible tabs from the active list.
 	 */
 	@Test
 	public void testGetActiveIndicesWhenSomeInvisisible() {
@@ -451,8 +450,7 @@ public class WTabSet_Test extends AbstractWComponentTestCase {
 	}
 
 	/**
-	 * Test setActiveTab - when the tab to be set active isnt even in the
-	 * tabset.
+	 * Test setActiveTab - when the tab to be set active isnt even in the tabset.
 	 */
 	@Test
 	public void testSetActiveTabWhenNotThere() {

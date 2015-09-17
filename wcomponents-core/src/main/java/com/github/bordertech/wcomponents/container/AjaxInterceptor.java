@@ -19,10 +19,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * This {@link InterceptorComponent} looks for an ajax 'trigger' parameter in
- * the request. The trigger parameter identifies the {@link WAjaxControl} to be
- * handled by the request. In the paint phase the interceptor will only paint
- * the targeted components to the response.
+ * This {@link InterceptorComponent} looks for an ajax 'trigger' parameter in the request. The
+ * trigger parameter identifies the {@link WAjaxControl} to be handled by the request. In the paint
+ * phase the interceptor will only paint the targeted components to the response.
  *
  * @see WAjaxControl
  * @author Christina Harris
@@ -83,9 +82,8 @@ public class AjaxInterceptor extends InterceptorComponent {
 	}
 
 	/**
-	 * Paints the targeted ajax regions. The format of the response is an
-	 * agreement between the server and the client side JavaScript handling our
-	 * ajax response.
+	 * Paints the targeted ajax regions. The format of the response is an agreement between the
+	 * server and the client side JavaScript handling our ajax response.
 	 *
 	 * @param renderContext the renderContext to send the output to.
 	 */

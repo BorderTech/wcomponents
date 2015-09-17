@@ -1,8 +1,7 @@
 package com.github.bordertech.wcomponents;
 
 /**
- * An IntegrityException is usually thrown to indicate a misconfiguration of a
- * WComponent.
+ * An IntegrityException is usually thrown to indicate a misconfiguration of a WComponent.
  *
  * @author Martin Shevchenko.
  * @since 1.0.0

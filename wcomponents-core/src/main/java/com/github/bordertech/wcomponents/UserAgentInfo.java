@@ -5,14 +5,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * This server side browser detection code is required as the client side
- * browser detection code doesn't work for WebSeal's URL re-writing. The client
- * side browser detection uses Microsoft specific code that is embedded in
- * comments. The comments are ignored by all browsers except Microsoft browsers
- * which secretly parses the comments for special keywords. WebSeal behaves as
- * any other normal browser and only URL re-writes html code (and ignores
- * comments) so the screen.css file cannot be located correctly as it's URL
- * doesn't get re-written.
+ * This server side browser detection code is required as the client side browser detection code
+ * doesn't work for WebSeal's URL re-writing. The client side browser detection uses Microsoft
+ * specific code that is embedded in comments. The comments are ignored by all browsers except
+ * Microsoft browsers which secretly parses the comments for special keywords. WebSeal behaves as
+ * any other normal browser and only URL re-writes html code (and ignores comments) so the
+ * screen.css file cannot be located correctly as it's URL doesn't get re-written.
  *
  * @author Martin Shevchenko
  * @since 1.0.0
