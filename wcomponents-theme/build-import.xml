@@ -12,7 +12,6 @@
 	<property name="theme.src.dir" location="${component.rootdir}/src"/>
 	<property name="common.src.rootdir" location="${theme.src.dir}/main"/>
 	<property name="common.test.rootdir" location="${theme.src.dir}/test"/>
-	<property name="products.dir" location="${component.rootdir}/../products"/>
 	<property name="lde_config_dir" location="${component.rootdir}/lde"/>
 	<property name="impl.src.rootdir" location="${theme.impl.dir}"/>
 	<property name="impl.src.dir" location="${impl.src.rootdir}/${implementation.name}"/>
@@ -94,19 +93,7 @@
 	<!-- TASKDEFS and MACRODEFS -->
 	<taskdef resource="net/sf/antcontrib/antcontrib.properties" classpathref="project.class.path"/>
 	<taskdef resource="net/sf/antcontrib/antlib.xml" classpathref="project.class.path"/>
-	<!--
-	<taskdef resource="net/sf/antcontrib/antcontrib.properties">
-		<classpath>
-			<pathelement location="${products.dir}/ant-contrib-1.0b3/ant-contrib-1.0b3.jar"/>
-		</classpath>
-	</taskdef>
 
-	<taskdef resource="net/sf/antcontrib/antlib.xml">
-		<classpath>
-			<pathelement location="${products.dir}/ant-contrib-1.0b3/ant-contrib-1.0b3.jar"/>
-		</classpath>
-	</taskdef>
-	-->
 	<!-- "PRIVATE" properties, for use by macros inside this file - don't play with them -->
 	<var name="private.unique.id.increment.count" value="0"/>
 
@@ -209,38 +196,6 @@
 			<echo append="true" file="${jsLint.conf.file}">${line.separator}+recurse </echo>
 			<echo append="true" file="${jsLint.conf.file}">${line.separator}+process </echo>
 			<echo append="true" file="${jsLint.conf.file}">@{process}</echo>
-		</sequential>
-	</macrodef>
-
-	<!--
-		For goodness sake NEVER run this on the minified js files (crashed my entire
-		machine every time I accidentally did this).
-	-->
-	<macrodef name="qualityCheck">
-		<!--
-			I tried to use JsLint4Java but it was way too slow.
-		-->
-		<attribute name="process" description="The path to the JS we want to lint. Supports wildcards."/>
-		<attribute name="define" default="" description="Optional. Newline separated list of definitions you want to add."/>
-		<sequential>
-			<buildJsLintConf process="@{process}" define="@{define}"/>
-			<condition property="jslExecutable" value="jsl">
-				<os name="Linux"/>
-			</condition>
-			<condition property="jslExecutable" value="jsl-mac">
-				<os family="mac"/>
-			</condition>
-			<condition property="jslExecutable" value="jsl.exe">
-				<os family="windows"/>
-			</condition>
-			<property name="jslExecutable" value="jsl"/>
-			<chmod file="${products.dir}/jsLint/${jslExecutable}" perm="ugo+rx"/>
-			<echo>Running: ${products.dir}/jsLint/${jslExecutable}</echo>
-			<exec spawn="false" executable="${jslExecutable}" failonerror="true"
-				dir="${products.dir}/jsLint" resolveexecutable="true">
-				<arg value="-conf"/>
-				<arg value="${jsLint.conf.file}"/>
-			</exec>
 		</sequential>
 	</macrodef>
 
