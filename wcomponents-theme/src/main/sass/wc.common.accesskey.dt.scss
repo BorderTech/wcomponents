@@ -1,19 +1,13 @@
 /* wc.common.accesskey.dt.scss */
-// Provides the styling for the accesskey indicator. @accesskey is a property of WLabel, WFieldSet, WButton, WLink
-// WMenuItem, WSubMenu, WTab.
+// Provides the styling for the accesskey indicator for componentd which implement the @accessKey XML attribute.
 
-// In most cases the accesskey will be in a label. It may, however be in a legend, link or button. The accesskey
-// character will be the first text character which is a case insensitive match for the accessKey attribute of the
-// element which is labelled.
-
-// The callout is placed by XSLT (see wc.common.accessKey.xsl) and is (where possible) placed as the first child of the
-// labelled element.
+// The accesskey character and callout will be in a label, legend, link or button. The accesskey character will be the
+// first text character which is a case insensitive match for the accessKey attribute. The callout is placed as the
+// first child of the element (where possible) or immediately preceding the element.
 
 // NOTE: Collision detection
-// The callout position is fixed and, by default, is above the item to which it points. The TODO to allow for collision
-// detection is very low priority since most application use a banner of some kind and the access keys live below this
-// banner.
-
+// The callout position is fixed and, by default, is above the item to which it points. Collision detection is very low
+// priority since most application use a banner of some kind and the access keys live below this banner.
 @import 'wc.common.accesskey_vars.scss';
 
 .wc_alt .wc_accesskey { //the character in a string corresponding to the control's access key is underlined
@@ -28,7 +22,6 @@
 	// important to over-ride menu rules which may also apply.
 	// scss-lint:disable ImportantRule
 	font-weight: bold !important;
-	margin-left: -0.5em;
 	margin-top: -2.25em;
 	padding: 0.25em !important;
 	position: absolute;

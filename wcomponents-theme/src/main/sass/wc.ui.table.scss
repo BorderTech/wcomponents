@@ -25,7 +25,7 @@ thead {
 	color: $wc-ui-color-table-head-fg;
 
 	[disabled] {
-		// override normal disabled state. TODO this important may not be needed!
+		// override normal disabled state this important is needed to override the wc_btn_nada class
 		// scss-lint:disable ImportantRule
 		color: $wc-ui-color-table-head-disabled !important;
 	}
@@ -34,6 +34,11 @@ thead {
 tfoot {
 	background-color: $wc-ui-color-table-foot-bg;
 	color: $wc-ui-color-table-foot-fg;
+
+	// Disabled overrides not really needed in tfoot as we do not use 'buttonless' buttons here.
+	//[disabled] {
+	//	color: $wc-ui-color-table-foot-disabled;
+	//}
 }
 
 th,

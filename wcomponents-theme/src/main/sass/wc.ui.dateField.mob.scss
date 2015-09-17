@@ -32,7 +32,11 @@
 			border: 0 none;
 			margin-left: $hgap-normal;
 			padding: 0;
-			width: $line-size;
+			vertical-align: middle;
+
+			&::before {
+				@include make-box($width: 3em, $height: 3em);
+			}
 		}
 	}
 
@@ -57,6 +61,8 @@
 
 .wc_wdf_cls::before {
 	content: url('../images/cal-mob-close.svg');
+	position: relative;
+	right: $hgap-small;
 }
 
 #wc-caldaybox .wc_wdf_pick {
