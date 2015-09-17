@@ -29,7 +29,6 @@
         <!-- Handled by PMD
         <module name="UnusedImports"/>
         -->
-        <module name="FileLength"/>
         <module name="MethodLength"/>
         <module name="ParameterNumber"/>
         <module name="EmptyForIteratorPad"/>
@@ -65,7 +64,6 @@
         <!-- Unused
         <module name="AvoidInlineConditionals"/>
         -->
-        <module name="DoubleCheckedLocking"/>
         <module name="EmptyStatement"/>
         <module name="EqualsHashCode"/>
         <module name="HiddenField">
@@ -88,7 +86,7 @@
         <module name="InterfaceIsType"/>
         <module name="VisibilityModifier"/>
         <module name="ArrayTypeStyle"/>
-        <!-- Unused        
+        <!-- Unused
         <module name="GenericIllegalRegexp">
             <property name="format" value="\s+$"/>
             <property name="message" value="Line has trailing spaces."/>
@@ -114,10 +112,10 @@
 	    <module name="JavadocVariable"/>
 	    <module name="JavadocStyle"/>
     </module>
-    <!-- Unused
-    <module name="PackageHtml"/>
+    <!-- Unused (formerly PackageHtml)
+    <module name="JavadocPackage"/>
     -->
+    <module name="FileLength"/>
     <module name="NewlineAtEndOfFile"/>
     <module name="Translation"/>
-    <module name="PackageHtml"/>
 </module>
