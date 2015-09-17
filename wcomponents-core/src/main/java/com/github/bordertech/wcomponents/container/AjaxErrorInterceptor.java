@@ -58,7 +58,8 @@ public class AjaxErrorInterceptor extends InterceptorComponent {
 	 */
 	private void handleError() {
 		String msg = I18nUtilities
-				.format(UIContextHolder.getCurrent().getLocale(), InternalMessages.DEFAULT_AJAX_ERROR);
+				.format(UIContextHolder.getCurrent().getLocale(),
+						InternalMessages.DEFAULT_AJAX_ERROR);
 		throw new ErrorCodeEscape(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, msg);
 	}
 }

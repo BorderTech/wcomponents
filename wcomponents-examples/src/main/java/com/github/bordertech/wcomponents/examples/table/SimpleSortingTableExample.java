@@ -10,8 +10,7 @@ import com.github.bordertech.wcomponents.WTableColumn;
 import com.github.bordertech.wcomponents.WText;
 
 /**
- * This example demonstrates a simple {@link WTable} that is bean bound and has sorting defined for
- * each column.
+ * This example demonstrates a simple {@link WTable} that is bean bound and has sorting defined for each column.
  * <p>
  * Uses {@link SimpleBeanBoundTableModel} to handle the bean binding.
  * </p>
@@ -41,8 +40,9 @@ public class SimpleSortingTableExample extends WPanel {
 		table.setSortMode(SortMode.DYNAMIC);
 
 		// Setup model
-		SimpleBeanBoundTableModel model = new SimpleBeanBoundTableModel(new String[]{"firstName", "lastName",
-			"dateOfBirth"});
+		SimpleBeanBoundTableModel model = new SimpleBeanBoundTableModel(
+				new String[]{"firstName", "lastName",
+					"dateOfBirth"});
 		// Set comparators for the columns
 		model.setComparator(0, SimpleBeanBoundTableModel.COMPARABLE_COMPARATOR);
 		model.setComparator(1, SimpleBeanBoundTableModel.COMPARABLE_COMPARATOR);
@@ -52,8 +52,8 @@ public class SimpleSortingTableExample extends WPanel {
 	}
 
 	/**
-	 * Override preparePaintComponent in order to set up the example data the first time that the
-	 * example is accessed by each user.
+	 * Override preparePaintComponent in order to set up the example data the first time that the example is accessed by
+	 * each user.
 	 *
 	 * @param request the request being responded to.
 	 */

@@ -83,8 +83,10 @@ final class WLinkRenderer extends AbstractWebXmlRenderer {
 			if (attributes != null) {
 				xml.appendOptionalAttribute("top", attributes.getTop() >= 0, attributes.getTop());
 				xml.appendOptionalAttribute("left", attributes.getLeft() >= 0, attributes.getLeft());
-				xml.appendOptionalAttribute("width", attributes.getWidth() > 0, attributes.getWidth());
-				xml.appendOptionalAttribute("height", attributes.getHeight() > 0, attributes.getHeight());
+				xml.appendOptionalAttribute("width", attributes.getWidth() > 0, attributes.
+						getWidth());
+				xml.appendOptionalAttribute("height", attributes.getHeight() > 0, attributes.
+						getHeight());
 				xml.appendOptionalAttribute("resizable", attributes.isResizable(), "true");
 				xml.appendOptionalAttribute("showMenubar", attributes.isMenubar(), "true");
 				xml.appendOptionalAttribute("showToolbar", attributes.isToolbars(), "true");

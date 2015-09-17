@@ -18,7 +18,8 @@ public class WCollapsibleToggleRenderer_Test extends AbstractWebXmlRendererTestC
 	@Test
 	public void testRendererCorrectlyConfigured() {
 		WCollapsibleToggle component = new WCollapsibleToggle();
-		Assert.assertTrue("Incorrect renderer supplied", getWebXmlRenderer(component) instanceof WCollapsibleToggleRenderer);
+		Assert.assertTrue("Incorrect renderer supplied",
+				getWebXmlRenderer(component) instanceof WCollapsibleToggleRenderer);
 	}
 
 	@Test

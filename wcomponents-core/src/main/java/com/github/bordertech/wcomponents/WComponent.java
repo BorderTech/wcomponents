@@ -9,13 +9,13 @@ import java.util.List;
 /**
  * The WComponent interface.
  * <p>
- * In the WComponent library, only the {@link AbstractWComponent} implements this interface
- * directly. All other components extend from the abstract class.
+ * In the WComponent library, only the {@link AbstractWComponent} implements this interface directly. All other
+ * components extend from the abstract class.
  * </p>
  * <p>
- * There are a few other interfaces which extend this one. They are used to provide additional
- * functionality (e.g. {@link Container} which can contain other components), or used as a marker to
- * denote capabilities (e.g. {@link AjaxTarget} can be updated with AJAX).
+ * There are a few other interfaces which extend this one. They are used to provide additional functionality (e.g.
+ * {@link Container} which can contain other components), or used as a marker to denote capabilities (e.g.
+ * {@link AjaxTarget} can be updated with AJAX).
  * </p>
  *
  * @author Yiannis Paschalidis
@@ -54,8 +54,7 @@ public interface WComponent extends WebComponent {
 	String ID_VALIDATION_PATTERN = "[a-zA-Z][0-9a-zA-Z_]*";
 
 	/**
-	 * @return the internal identifier of this Component based on its position in the component
-	 * tree.
+	 * @return the internal identifier of this Component based on its position in the component tree.
 	 */
 	String getInternalId();
 
@@ -65,8 +64,8 @@ public interface WComponent extends WebComponent {
 	String getIdName();
 
 	/**
-	 * Set the component identifier of this Component (if any). Component identifiers must obey the
-	 * following syntax restrictions:
+	 * Set the component identifier of this Component (if any). Component identifiers must obey the following syntax
+	 * restrictions:
 	 * <ul>
 	 * <li>Must not be a zero-length String.</li>
 	 * <li>First character must be a letter.</li>
@@ -74,8 +73,8 @@ public interface WComponent extends WebComponent {
 	 * <li>Subsequent characters must be a letter, a digit or an underscore ('_').</li>
 	 * </ul>
 	 * <p>
-	 * The specified identifier must be unique among all the components that are descendents of the
-	 * nearest ancestor Component that is an active {@link NamingContextable}.
+	 * The specified identifier must be unique among all the components that are descendents of the nearest ancestor
+	 * Component that is an active {@link NamingContextable}.
 	 * </p>
 	 *
 	 * @param idName the id name
@@ -107,11 +106,10 @@ public interface WComponent extends WebComponent {
 	 * </ul>
 	 * If no id name set:
 	 * <ul>
-	 * <li>If the component's parent is null, then let the ID be
-	 * {@link WComponent#DEFAULT_NO_ID}.</li>
-	 * <li>If has a parent, then let the ID prefix be parent.getId() or parent.getNamingContextID()
-	 * + {@link WComponent#ID_CONTEXT_SEPERATOR} if the parent is an active NamingContext. Then let
-	 * the ID be prefix + generate unique id.</li>
+	 * <li>If the component's parent is null, then let the ID be {@link WComponent#DEFAULT_NO_ID}.</li>
+	 * <li>If has a parent, then let the ID prefix be parent.getId() or parent.getNamingContextID() +
+	 * {@link WComponent#ID_CONTEXT_SEPERATOR} if the parent is an active NamingContext. Then let the ID be prefix +
+	 * generate unique id.</li>
 	 * </ul>
 	 *
 	 * @return the id for this WComponent in the current context.
@@ -121,20 +119,19 @@ public interface WComponent extends WebComponent {
 
 	/**
 	 * <p>
-	 * This is the main entry point during request handling. Only the "top-level" component will
-	 * have this method called - other components will have {@link #handleRequest(Request)} called.
-	 * For efficiency, only {@link #isVisible()
+	 * This is the main entry point during request handling. Only the "top-level" component will have this method called
+	 * - other components will have {@link #handleRequest(Request)} called. For efficiency, only {@link #isVisible()
 	 * visible} components are asked to handle the request.
 	 * </p>
 	 * The basic workflow is:
 	 * <ol>
-	 * <li>Collate the list of visible components, in depth-first order. Depth-first traversal is
-	 * used to ensure that when a parent component's handleRequest method is called, all of its
-	 * children have already handled the request and are in a stable state.</li>
+	 * <li>Collate the list of visible components, in depth-first order. Depth-first traversal is used to ensure that
+	 * when a parent component's handleRequest method is called, all of its children have already handled the request
+	 * and are in a stable state.</li>
 	 * <li>Call handle request for each visible component found, in order.</li>
-	 * <li>At this point, all the components should be in a stable state, and any runnables added
-	 * using {@link #invokeLater(Runnable)} will be invoked. These runnables can include e.g.
-	 * {@link Action Actions} on buttons.</li>
+	 * <li>At this point, all the components should be in a stable state, and any runnables added using
+	 * {@link #invokeLater(Runnable)} will be invoked. These runnables can include e.g. {@link Action Actions} on
+	 * buttons.</li>
 	 * </ol>
 	 * <p>
 	 * Applications should not call this method directly.
@@ -147,40 +144,37 @@ public interface WComponent extends WebComponent {
 
 	/**
 	 * <p>
-	 * Adds a runnable that will be processed after the completion of the current serviceRequest
-	 * method. This method is intended to be called from subcomponents' handleRequest methods, to
-	 * permit processing to continue once the entire WComponent tree has been updated from the
-	 * incoming HTTP request.
+	 * Adds a runnable that will be processed after the completion of the current serviceRequest method. This method is
+	 * intended to be called from subcomponents' handleRequest methods, to permit processing to continue once the entire
+	 * WComponent tree has been updated from the incoming HTTP request.
 	 * </p>
 	 * <p>
 	 * If this method is invoked more than once, each Runnable will be invoked in turn.
 	 * </p>
 	 *
-	 * @param runnable the Runnable to execute after the serviceRequest method has otherwise
-	 * completed.
+	 * @param runnable the Runnable to execute after the serviceRequest method has otherwise completed.
 	 */
 	void invokeLater(final Runnable runnable);
 
 	/**
-	 * Subclasses should override this method in order to provide specific request handling logic.
-	 * For example, a text field may set its value to the value of a request parameter.
+	 * Subclasses should override this method in order to provide specific request handling logic. For example, a text
+	 * field may set its value to the value of a request parameter.
 	 *
 	 * @param request the request being responded to.
 	 */
 	void handleRequest(final Request request);
 
 	/**
-	 * Applications can call this method during event handling to indicate that we should forward to
-	 * a given url. The event handling will complete and the forwarding will take place before
-	 * painting.
+	 * Applications can call this method during event handling to indicate that we should forward to a given url. The
+	 * event handling will complete and the forwarding will take place before painting.
 	 *
 	 * @param url the URL to forward to
 	 */
 	void forward(final String url);
 
 	/**
-	 * Prepares this component and all child components for immediate painting (e.g. rendering to
-	 * XML). Note that the parent's preparePaint method is called before the childrens'.
+	 * Prepares this component and all child components for immediate painting (e.g. rendering to XML). Note that the
+	 * parent's preparePaint method is called before the childrens'.
 	 *
 	 * @param request the request being responded to.
 	 */
@@ -197,16 +191,16 @@ public interface WComponent extends WebComponent {
 
 	/**
 	 * <p>
-	 * The validate method should be called by an {@link Action}, or {@link ValidatingAction} at
-	 * points in the application lifecycle where it makes sense to perform validation.
+	 * The validate method should be called by an {@link Action}, or {@link ValidatingAction} at points in the
+	 * application lifecycle where it makes sense to perform validation.
 	 * </p>
 	 * <p>
-	 * No side effect of displaying error markers implied by this. This is a pure "function" except
-	 * that it stores the results in the <code>diags</code> list.
+	 * No side effect of displaying error markers implied by this. This is a pure "function" except that it stores the
+	 * results in the <code>diags</code> list.
 	 * </p>
 	 * <p>
-	 * It is the responsibility of the validatable component to call any of its children that may
-	 * also require validation.
+	 * It is the responsibility of the validatable component to call any of its children that may also require
+	 * validation.
 	 * </p>
 	 *
 	 * @param diags the list into which any validation diagnostics are added.
@@ -215,12 +209,11 @@ public interface WComponent extends WebComponent {
 
 	/**
 	 * <p>
-	 * This does not affect the diag list at all. The ValidatableComponent should visually mark any
-	 * fields or blocks that have errors in the given diag list.
+	 * This does not affect the diag list at all. The ValidatableComponent should visually mark any fields or blocks
+	 * that have errors in the given diag list.
 	 * </p>
 	 * <p>
-	 * It is the responsibility of the validatable component to call any of its children that may
-	 * also be validatable.
+	 * It is the responsibility of the validatable component to call any of its children that may also be validatable.
 	 * </p>
 	 *
 	 * @param diags the list of current validation diagnostics.
@@ -229,12 +222,12 @@ public interface WComponent extends WebComponent {
 
 	/**
 	 * <p>
-	 * This does not affect the diag list at all. The ValidatableComponent should visually mark any
-	 * fields or blocks that have warnings in the given diag list.
+	 * This does not affect the diag list at all. The ValidatableComponent should visually mark any fields or blocks
+	 * that have warnings in the given diag list.
 	 * </p>
 	 * <p>
-	 * It is the responsibility of the validatable component to call any of its children that may
-	 * also be validatable. The default implemntation does nothing.
+	 * It is the responsibility of the validatable component to call any of its children that may also be validatable.
+	 * The default implemntation does nothing.
 	 * </p>
 	 *
 	 * @param diags the list of diagnostics for this component.
@@ -243,9 +236,8 @@ public interface WComponent extends WebComponent {
 
 	/**
 	 * <p>
-	 * The shared attributes of a component (and all its children) can be locked, preventing
-	 * users/developers from making further updates. However, attribute values can still be updated
-	 * on a per session basis.
+	 * The shared attributes of a component (and all its children) can be locked, preventing users/developers from
+	 * making further updates. However, attribute values can still be updated on a per session basis.
 	 * <p>
 	 * <p>
 	 * This method should normally never be called from application code.
@@ -256,16 +248,15 @@ public interface WComponent extends WebComponent {
 	void setLocked(final boolean lock);
 
 	/**
-	 * Indicates whether this component is locked. If the component is locked, shared attribute
-	 * values can not be updated.
+	 * Indicates whether this component is locked. If the component is locked, shared attribute values can not be
+	 * updated.
 	 *
 	 * @return true if the component is locked, false if not.
 	 */
 	boolean isLocked();
 
 	/**
-	 * Optionally use this flag to test if some arbitrary initialisation has been performed by this
-	 * component.
+	 * Optionally use this flag to test if some arbitrary initialisation has been performed by this component.
 	 *
 	 * @return true if the component has been marked as initialised, false otherwise.
 	 * @see #setInitialised(boolean)
@@ -273,9 +264,8 @@ public interface WComponent extends WebComponent {
 	boolean isInitialised();
 
 	/**
-	 * Optionally use this flag to store whether some arbitrary initialisation has been performed by
-	 * this component on the given session. This should normally only be used after the UI has been
-	 * constructed.
+	 * Optionally use this flag to store whether some arbitrary initialisation has been performed by this component on
+	 * the given session. This should normally only be used after the UI has been constructed.
 	 *
 	 * @param flag the initialised flag.
 	 */
@@ -296,24 +286,24 @@ public interface WComponent extends WebComponent {
 	void setValidate(final boolean flag);
 
 	/**
-	 * Indicates whether this component is visible. Invisible components are normally excluded from
-	 * all event handling and painting.
+	 * Indicates whether this component is visible. Invisible components are normally excluded from all event handling
+	 * and painting.
 	 *
 	 * @return true if this component is visible, false if invisible.
 	 */
 	boolean isVisible();
 
 	/**
-	 * Sets the visibility of this component. Invisible components are normally excluded from all
-	 * event handling and painting.
+	 * Sets the visibility of this component. Invisible components are normally excluded from all event handling and
+	 * painting.
 	 *
 	 * @param visible true to set this component visible, false for invisible.
 	 */
 	void setVisible(final boolean visible);
 
 	/**
-	 * Indicates whether this component is hidden. Hidden components take part in event handling and
-	 * painting, but are not visible on the client.
+	 * Indicates whether this component is hidden. Hidden components take part in event handling and painting, but are
+	 * not visible on the client.
 	 *
 	 * @return true if this component is hidden, false if displayed.
 	 */
@@ -347,20 +337,20 @@ public interface WComponent extends WebComponent {
 	void reset();
 
 	/**
-	 * This method removes unnecessary component models from the user session for this component and
-	 * all its descendants. A component model is deemed unnecessary when it has the same state as
-	 * the component's default component model.
+	 * This method removes unnecessary component models from the user session for this component and all its
+	 * descendants. A component model is deemed unnecessary when it has the same state as the component's default
+	 * component model.
 	 */
 	void tidyUpUIContextForTree();
 
 	/**
 	 * <p>
-	 * WComponents must implement this method in order to protect any session based information they
-	 * store from being incorrectly removed by the {@link #tidyUpUIContextForTree()} method.
+	 * WComponents must implement this method in order to protect any session based information they store from being
+	 * incorrectly removed by the {@link #tidyUpUIContextForTree()} method.
 	 * </p>
 	 * <p>
-	 * It is possible you can write a more exact check for the default state here than the method on
-	 * the component model itself can provide.
+	 * It is possible you can write a more exact check for the default state here than the method on the component model
+	 * itself can provide.
 	 * </p>
 	 *
 	 * @return true if the component is in it's default state, otherwise false.
@@ -387,8 +377,8 @@ public interface WComponent extends WebComponent {
 	void setTag(final String tag);
 
 	/**
-	 * Retrieves the environment for the current session. If there is no environment for the
-	 * session, a dummy environment is returned.
+	 * Retrieves the environment for the current session. If there is no environment for the session, a dummy
+	 * environment is returned.
 	 *
 	 * @return the environment for the user session.
 	 */
@@ -409,8 +399,7 @@ public interface WComponent extends WebComponent {
 	Headers getHeaders();
 
 	/**
-	 * Exposes the base URL for this environment. Renderers can call this method to construct URIs
-	 * to sub-resources.
+	 * Exposes the base URL for this environment. Renderers can call this method to construct URIs to sub-resources.
 	 *
 	 * The baseurl is ultimately derived from com.github.bordertech.wcomponents.Environment
 	 *
@@ -438,8 +427,7 @@ public interface WComponent extends WebComponent {
 	 * Removes an arbitrary attribute.
 	 *
 	 * @param key the attribute key.
-	 * @return the value for the attribute which was removed, or null if no attribute was found with
-	 * the given key.
+	 * @return the value for the attribute which was removed, or null if no attribute was found with the given key.
 	 */
 	Serializable removeAttribute(final String key);
 
@@ -474,16 +462,14 @@ public interface WComponent extends WebComponent {
 	String getAccessibleText();
 
 	/**
-	 * Sets the flag if tracking is enabled for this component. This flag is used by
-	 * {@link #isTracking()}.
+	 * Sets the flag if tracking is enabled for this component. This flag is used by {@link #isTracking()}.
 	 *
 	 * @param track set true if tracking is enabled for this component.
 	 */
 	void setTrackingEnabled(final boolean track);
 
 	/**
-	 * Returns true if tracking is enabled for this component.This flag is used by
-	 * {@link #isTracking()}.
+	 * Returns true if tracking is enabled for this component.This flag is used by {@link #isTracking()}.
 	 *
 	 * @return true if tracking is enabled for this component.
 	 */
@@ -492,10 +478,9 @@ public interface WComponent extends WebComponent {
 	/**
 	 * Returns true if this component should be tracked.
 	 * <p>
-	 * A component will only be tracked if {@link #setTrackingEnabled(boolean)} is set true and the
-	 * component has an id set via {@link #setIdName(String)}. If the id has not been set, then the
-	 * id used for tracking will be dynamic and constantly changing which makes it useless for
-	 * analysing.
+	 * A component will only be tracked if {@link #setTrackingEnabled(boolean)} is set true and the component has an id
+	 * set via {@link #setIdName(String)}. If the id has not been set, then the id used for tracking will be dynamic and
+	 * constantly changing which makes it useless for analysing.
 	 * </p>
 	 *
 	 * @return true if this component should be tracked.

@@ -20,7 +20,8 @@ public class WMultiTextFieldRenderer_Test extends AbstractWebXmlRendererTestCase
 	@Test
 	public void testRendererCorrectlyConfigured() {
 		WMultiTextField wmtf = new WMultiTextField();
-		Assert.assertTrue("Incorrect renderer supplied", getWebXmlRenderer(wmtf) instanceof WMultiTextFieldRenderer);
+		Assert.assertTrue("Incorrect renderer supplied",
+				getWebXmlRenderer(wmtf) instanceof WMultiTextFieldRenderer);
 	}
 
 	@Test
@@ -33,8 +34,10 @@ public class WMultiTextFieldRenderer_Test extends AbstractWebXmlRendererTestCase
 		wmtf.setTextInputs(new String[]{"a", "b"});
 
 		assertXpathEvaluatesTo("2", "count(//ui:multiTextField/ui:value)", wmtf);
-		assertXpathEvaluatesTo("a", "normalize-space(//ui:multiTextField/ui:value[position()=1])", wmtf);
-		assertXpathEvaluatesTo("b", "normalize-space(//ui:multiTextField/ui:value[position()=2])", wmtf);
+		assertXpathEvaluatesTo("a", "normalize-space(//ui:multiTextField/ui:value[position()=1])",
+				wmtf);
+		assertXpathEvaluatesTo("b", "normalize-space(//ui:multiTextField/ui:value[position()=2])",
+				wmtf);
 	}
 
 	@Test
@@ -93,7 +96,8 @@ public class WMultiTextFieldRenderer_Test extends AbstractWebXmlRendererTestCase
 
 		field.setAccessibleText("accessible");
 		assertSchemaMatch(field);
-		assertXpathEvaluatesTo(field.getAccessibleText(), "//ui:multiTextField/@accessibleText", field);
+		assertXpathEvaluatesTo(field.getAccessibleText(), "//ui:multiTextField/@accessibleText",
+				field);
 
 		field.setColumns(40);
 		assertSchemaMatch(field);

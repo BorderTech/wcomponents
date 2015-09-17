@@ -4,17 +4,16 @@ import com.github.bordertech.wcomponents.WTable.TableModel;
 
 /**
  * <p>
- * TableDataModel provides the data for tables. In a MVC sense, the TableDataModel is the Model, the
- * {@link WDataTable} is the controller and the view is comprised of the WTable layout and column
- * renderers.</p>
+ * TableDataModel provides the data for tables. In a MVC sense, the TableDataModel is the Model, the {@link WDataTable}
+ * is the controller and the view is comprised of the WTable layout and column renderers.</p>
  *
  * <p>
- * Note that Data may be stored locally or sourced remotely, depending on the particular
- * TableDataModel implementation.<p>
+ * Note that Data may be stored locally or sourced remotely, depending on the particular TableDataModel
+ * implementation.<p>
  *
  * <p>
- * Row and column indices for all methods are zero-based, and TableDataModels are not expected to
- * perform bounds-checking.</p>
+ * Row and column indices for all methods are zero-based, and TableDataModels are not expected to perform
+ * bounds-checking.</p>
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0

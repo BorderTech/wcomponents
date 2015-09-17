@@ -11,8 +11,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * An extension of {@link WContainer} that renders some statistics after its normal output. This
- * class should only be used during development.
+ * An extension of {@link WContainer} that renders some statistics after its normal output. This class should only be
+ * used during development.
  *
  * @author Martin Shevchenko
  * @since 1.0.0

@@ -47,15 +47,16 @@ final class SafetyContainer extends AbstractMutableContainer {
 	}
 
 	/**
-	 * Override handleRequest in order to safely process the example component, which has been
-	 * excluded from normal WComponent processing.
+	 * Override handleRequest in order to safely process the example component, which has been excluded from normal
+	 * WComponent processing.
 	 *
 	 * @param request the request being responded to.
 	 */
 	@Override
 	public void handleRequest(final Request request) {
 		if (!isInitialised()) {
-			getOrCreateComponentModel().delegate = new SafetyContainerDelegate(UIContextHolder.getCurrent());
+			getOrCreateComponentModel().delegate = new SafetyContainerDelegate(UIContextHolder.
+					getCurrent());
 			setInitialised(true);
 		}
 
@@ -86,8 +87,8 @@ final class SafetyContainer extends AbstractMutableContainer {
 
 	/**
 	 * <p>
-	 * Override preparePaintComponent to provide some protection against bad code when examples are
-	 * being developed, resulting in invalid XML.</p>
+	 * Override preparePaintComponent to provide some protection against bad code when examples are being developed,
+	 * resulting in invalid XML.</p>
 	 *
 	 * <p>
 	 * Real applications should not emit HTML directly.</p>
@@ -113,8 +114,8 @@ final class SafetyContainer extends AbstractMutableContainer {
 
 	/**
 	 * <p>
-	 * Override paintComponent to provide some protection against bad code when examples are being
-	 * developed, resulting in invalid XML.</p>
+	 * Override paintComponent to provide some protection against bad code when examples are being developed, resulting
+	 * in invalid XML.</p>
 	 *
 	 * <p>
 	 * Real applications should not emit HTML directly.</p>
@@ -238,8 +239,8 @@ final class SafetyContainer extends AbstractMutableContainer {
 	}
 
 	/**
-	 * We need to keep the Example's invoke later actions separate from the rest, so this delegate
-	 * keeps its own list of runnables.
+	 * We need to keep the Example's invoke later actions separate from the rest, so this delegate keeps its own list of
+	 * runnables.
 	 */
 	private static final class SafetyContainerDelegate extends UIContextDelegate {
 

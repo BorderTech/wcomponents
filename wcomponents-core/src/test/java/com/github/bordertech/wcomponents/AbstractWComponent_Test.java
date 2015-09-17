@@ -44,7 +44,9 @@ public class AbstractWComponent_Test extends AbstractWComponentTestCase {
 		resetContext();
 		Assert.assertEquals("getChildCount() incorrect for 0 children", 0, child1.getChildCount());
 		setActiveContext(uic);
-		Assert.assertEquals("getChildCount(uic) incorrect for 0 children", 0, child1.getChildCount());
+		Assert.
+				assertEquals("getChildCount(uic) incorrect for 0 children", 0, child1.
+						getChildCount());
 		resetContext();
 		Assert.assertEquals("getChildAt(0) incorrect", child1, parent.getChildAt(0));
 		Assert.assertNull("getParent() incorrect for no parent", parent.getParent());
@@ -58,18 +60,23 @@ public class AbstractWComponent_Test extends AbstractWComponentTestCase {
 		parent.add(child2);
 		Assert.assertEquals("getChildCount() incorrect for 2 children", 2, parent.getChildCount());
 		setActiveContext(uic);
-		Assert.assertEquals("getChildCount(uic) incorrect for 2 children", 2, parent.getChildCount());
+		Assert.
+				assertEquals("getChildCount(uic) incorrect for 2 children", 2, parent.
+						getChildCount());
 		resetContext();
 		Assert.assertEquals("getChildAt(1) incorrect", child2, parent.getChildAt(1));
 		setActiveContext(uic);
 		Assert.assertEquals("getParent(uic) incorrect for 2nd child", parent, child2.getParent());
 		resetContext();
-		Assert.assertEquals("Incorrect indexOfChild for 2nd child", 1, parent.getIndexOfChild(child2));
+		Assert.assertEquals("Incorrect indexOfChild for 2nd child", 1, parent.
+				getIndexOfChild(child2));
 
 		setActiveContext(uic);
-		Assert.assertEquals("getTop(uic, comp) incorrect for 1st child", parent, WebUtilities.getTop(child1));
+		Assert.assertEquals("getTop(uic, comp) incorrect for 1st child", parent, WebUtilities.
+				getTop(child1));
 		resetContext();
-		Assert.assertEquals("getTop(uic, comp) incorrect for 2nd child", parent, WebUtilities.getTop(child2));
+		Assert.assertEquals("getTop(uic, comp) incorrect for 2nd child", parent, WebUtilities.
+				getTop(child2));
 
 		// Remove
 		parent.remove(child1);
@@ -138,15 +145,24 @@ public class AbstractWComponent_Test extends AbstractWComponentTestCase {
 
 		// Reset
 		a.reset();
-		Assert.assertTrue("'b' should be in default state after UIContext reset", b.isDefaultState());
-		Assert.assertTrue("'a' should be in default state after UIContext reset", a.isDefaultState());
-		Assert.assertTrue("'s1' should be in default state after UIContext reset", d1.isDefaultState());
-		Assert.assertTrue("'d2' should be in default state after UIContext reset", d2.isDefaultState());
+		Assert.
+				assertTrue("'b' should be in default state after UIContext reset", b.
+						isDefaultState());
+		Assert.
+				assertTrue("'a' should be in default state after UIContext reset", a.
+						isDefaultState());
+		Assert.assertTrue("'s1' should be in default state after UIContext reset", d1.
+				isDefaultState());
+		Assert.assertTrue("'d2' should be in default state after UIContext reset", d2.
+				isDefaultState());
 
 		// Static structure will still be in place, so b is child of a.
-		Assert.assertEquals("Incorrect number of children for 'a' after reset", 1, a.getChildCount());
+		Assert.
+				assertEquals("Incorrect number of children for 'a' after reset", 1, a.
+						getChildCount());
 		a.remove(b);
-		Assert.assertEquals("Incorrect number of children for 'a' after remove", 0, a.getChildCount());
+		Assert.assertEquals("Incorrect number of children for 'a' after remove", 0, a.
+				getChildCount());
 		Assert.assertFalse("'a' should not be in default state after remove", a.isDefaultState());
 		Assert.assertNull("Incorrect parent for 'b' after remove", b.getParent());
 		Assert.assertFalse("'b' should be in default state after remove", b.isDefaultState());
@@ -161,8 +177,10 @@ public class AbstractWComponent_Test extends AbstractWComponentTestCase {
 		parent.add(child);
 		child.reset();
 
-		Assert.assertEquals("Child component should have reference to parent", parent, child.getParent());
-		Assert.assertEquals("Parent component should have reference to child", 0, parent.getIndexOfChild(child));
+		Assert.assertEquals("Child component should have reference to parent", parent, child.
+				getParent());
+		Assert.assertEquals("Parent component should have reference to child", 0, parent.
+				getIndexOfChild(child));
 	}
 
 	@Test
@@ -177,7 +195,8 @@ public class AbstractWComponent_Test extends AbstractWComponentTestCase {
 		parent1.remove(child);
 		parent2.add(child);
 
-		Assert.assertEquals("Child component should have been moved to parent2", parent2, child.getParent());
+		Assert.assertEquals("Child component should have been moved to parent2", parent2, child.
+				getParent());
 	}
 
 	@Test
@@ -316,17 +335,27 @@ public class AbstractWComponent_Test extends AbstractWComponentTestCase {
 		a.paint(new WebXmlRenderContext(printWriter));
 
 		// Check that lifecycle methods were called as expected.
-		Assert.assertEquals("Handle request should have been called on 'a'", 1, a.getHandleRequestCount());
-		Assert.assertEquals("Handle request should have been called on 'b'", 1, b.getHandleRequestCount());
-		Assert.assertEquals("Handle request should have been called on static invisible 'c'", 0, c.getHandleRequestCount());
-		Assert.assertEquals("Handle request should have been calle on 'd'", 1, d.getHandleRequestCount());
-		Assert.assertEquals("Handle request should have been calle on 'e'", 1, e.getHandleRequestCount());
+		Assert.assertEquals("Handle request should have been called on 'a'", 1, a.
+				getHandleRequestCount());
+		Assert.assertEquals("Handle request should have been called on 'b'", 1, b.
+				getHandleRequestCount());
+		Assert.assertEquals("Handle request should have been called on static invisible 'c'", 0, c.
+				getHandleRequestCount());
+		Assert.assertEquals("Handle request should have been calle on 'd'", 1, d.
+				getHandleRequestCount());
+		Assert.assertEquals("Handle request should have been calle on 'e'", 1, e.
+				getHandleRequestCount());
 
-		Assert.assertEquals("Prepare paint should have been called on 'a'", 1, a.getPreparePaintCount());
-		Assert.assertEquals("Prepare paint should have been called on 'b'", 1, b.getPreparePaintCount());
-		Assert.assertEquals("Prepare paint should have been called on static invisible 'c'", 0, c.getPreparePaintCount());
-		Assert.assertEquals("Prepare paint should have been called on 'd'", 1, d.getPreparePaintCount());
-		Assert.assertEquals("Prepare paint should have been called on 'e'", 1, e.getPreparePaintCount());
+		Assert.assertEquals("Prepare paint should have been called on 'a'", 1, a.
+				getPreparePaintCount());
+		Assert.assertEquals("Prepare paint should have been called on 'b'", 1, b.
+				getPreparePaintCount());
+		Assert.assertEquals("Prepare paint should have been called on static invisible 'c'", 0, c.
+				getPreparePaintCount());
+		Assert.assertEquals("Prepare paint should have been called on 'd'", 1, d.
+				getPreparePaintCount());
+		Assert.assertEquals("Prepare paint should have been called on 'e'", 1, e.
+				getPreparePaintCount());
 
 		Assert.assertEquals("Incorrect paint order", "abed", stringWriter.toString());
 
@@ -345,17 +374,29 @@ public class AbstractWComponent_Test extends AbstractWComponentTestCase {
 		a.paint(new WebXmlRenderContext(printWriter));
 
 		// Check that lifecycle methods were called as expected.
-		Assert.assertEquals("Handle request should have been called on 'a'", 1, a.getHandleRequestCount());
-		Assert.assertEquals("Handle request should have been called on dynamic invisible 'b'", 0, b.getHandleRequestCount());
-		Assert.assertEquals("Handle request should have been called on static invisible 'c'", 0, c.getHandleRequestCount());
-		Assert.assertEquals("Handle request should have been calle on 'd'", 1, d.getHandleRequestCount());
-		Assert.assertEquals("Handle request should have been calle on child 'e' of dynamic invisible 'b'", 0, e.getHandleRequestCount());
+		Assert.assertEquals("Handle request should have been called on 'a'", 1, a.
+				getHandleRequestCount());
+		Assert.assertEquals("Handle request should have been called on dynamic invisible 'b'", 0, b.
+				getHandleRequestCount());
+		Assert.assertEquals("Handle request should have been called on static invisible 'c'", 0, c.
+				getHandleRequestCount());
+		Assert.assertEquals("Handle request should have been calle on 'd'", 1, d.
+				getHandleRequestCount());
+		Assert.assertEquals(
+				"Handle request should have been calle on child 'e' of dynamic invisible 'b'", 0, e.
+				getHandleRequestCount());
 
-		Assert.assertEquals("Prepare paint should have been called on 'a'", 1, a.getPreparePaintCount());
-		Assert.assertEquals("Prepare paint should have been called on dynamic invisible 'b'", 0, b.getPreparePaintCount());
-		Assert.assertEquals("Prepare paint should have been called on static invisible 'c'", 0, c.getPreparePaintCount());
-		Assert.assertEquals("Prepare paint should have been called on 'd'", 1, d.getPreparePaintCount());
-		Assert.assertEquals("Prepare paint should have been called on child 'e' of dynamic invisible 'b'", 0, e.getPreparePaintCount());
+		Assert.assertEquals("Prepare paint should have been called on 'a'", 1, a.
+				getPreparePaintCount());
+		Assert.assertEquals("Prepare paint should have been called on dynamic invisible 'b'", 0, b.
+				getPreparePaintCount());
+		Assert.assertEquals("Prepare paint should have been called on static invisible 'c'", 0, c.
+				getPreparePaintCount());
+		Assert.assertEquals("Prepare paint should have been called on 'd'", 1, d.
+				getPreparePaintCount());
+		Assert.assertEquals(
+				"Prepare paint should have been called on child 'e' of dynamic invisible 'b'", 0, e.
+				getPreparePaintCount());
 
 		Assert.assertEquals("Incorrect paint order", "ad", stringWriter.toString());
 	}
@@ -450,8 +491,7 @@ public class AbstractWComponent_Test extends AbstractWComponentTestCase {
 	}
 
 	/**
-	 * Test validate - where isVisible, isValidate and it not Disableable and there are validation
-	 * errors.
+	 * Test validate - where isVisible, isValidate and it not Disableable and there are validation errors.
 	 */
 	@Test
 	public void testValidate() {
@@ -647,7 +687,8 @@ public class AbstractWComponent_Test extends AbstractWComponentTestCase {
 		comp.reset(); // do it for uic1 only
 
 		Assert.assertTrue("uic1 should not have a component model", comp.hasNoComponentModel(uic1));
-		Assert.assertFalse("uic2 should still have a component model", comp.hasNoComponentModel(uic2));
+		Assert.assertFalse("uic2 should still have a component model", comp.
+				hasNoComponentModel(uic2));
 	}
 
 	/**
@@ -680,7 +721,8 @@ public class AbstractWComponent_Test extends AbstractWComponentTestCase {
 		comp.tidyUpUIContextForTree(); // do it for uic2 only - but no effect since not in default state
 
 		Assert.assertTrue("uic1 should not have a component model", comp.hasNoComponentModel(uic1));
-		Assert.assertFalse("uic2 should still have a component model", comp.hasNoComponentModel(uic2));
+		Assert.assertFalse("uic2 should still have a component model", comp.
+				hasNoComponentModel(uic2));
 	}
 
 	/**
@@ -892,7 +934,8 @@ public class AbstractWComponent_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testValidId() {
 		new SimpleComponent().setIdName("A_09azAZ");
-		new SimpleComponent().setIdName("abcdefghijhklmnopqrstuvwxyz_0123456789_ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+		new SimpleComponent().setIdName(
+				"abcdefghijhklmnopqrstuvwxyz_0123456789_ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 	}
 
 	@Test
@@ -904,12 +947,14 @@ public class AbstractWComponent_Test extends AbstractWComponentTestCase {
 	public void testGetId() {
 		// No Parent
 		AbstractWComponent component = new SimpleComponent();
-		Assert.assertEquals("Incorrect ID with no parent", WComponent.DEFAULT_NO_ID, component.getId());
+		Assert.assertEquals("Incorrect ID with no parent", WComponent.DEFAULT_NO_ID, component.
+				getId());
 
 		// With parent
 		WContainer parent = new WContainer();
 		parent.add(component);
-		Assert.assertEquals("Incorrect ID for with parent", WComponent.DEFAULT_NO_ID + "0", component.getId());
+		Assert.assertEquals("Incorrect ID for with parent", WComponent.DEFAULT_NO_ID + "0",
+				component.getId());
 	}
 
 	@Test
@@ -925,7 +970,8 @@ public class AbstractWComponent_Test extends AbstractWComponentTestCase {
 		// Grand child
 		WContainer grandchild = new WContainer();
 		child.add(grandchild);
-		Assert.assertEquals("Incorrect id for grand child", WComponent.DEFAULT_NO_ID + "0a", grandchild.getId());
+		Assert.assertEquals("Incorrect id for grand child", WComponent.DEFAULT_NO_ID + "0a",
+				grandchild.getId());
 	}
 
 	@Test
@@ -943,7 +989,8 @@ public class AbstractWComponent_Test extends AbstractWComponentTestCase {
 		// Grand child
 		WContainer grandchild = new WContainer();
 		child.add(grandchild);
-		Assert.assertEquals("Incorrect id for grand child in context", prefix + "0a", grandchild.getId());
+		Assert.assertEquals("Incorrect id for grand child in context", prefix + "0a", grandchild.
+				getId());
 	}
 
 	@Test
@@ -957,17 +1004,20 @@ public class AbstractWComponent_Test extends AbstractWComponentTestCase {
 		WContainer child = new WContainer();
 		child.setIdName("CHILD");
 		root.add(child);
-		Assert.assertEquals("Incorrect id for child in context with idname", prefix + "CHILD", child.getId());
+		Assert.assertEquals("Incorrect id for child in context with idname", prefix + "CHILD",
+				child.getId());
 
 		// Grand child
 		WContainer grandchild = new WContainer();
 		child.add(grandchild);
 		// No id name
-		Assert.assertEquals("Incorrect id for grand child in context with no idname", child.getId() + WComponent.ID_FRAMEWORK_ASSIGNED_SEPERATOR + "0", grandchild.getId());
+		Assert.assertEquals("Incorrect id for grand child in context with no idname",
+				child.getId() + WComponent.ID_FRAMEWORK_ASSIGNED_SEPERATOR + "0", grandchild.getId());
 
 		// Grand child with ID
 		grandchild.setIdName("GRAND");
-		Assert.assertEquals("Incorrect id for grand child in context with idname", prefix + "GRAND", grandchild.getId());
+		Assert.assertEquals("Incorrect id for grand child in context with idname", prefix + "GRAND",
+				grandchild.getId());
 	}
 
 	@Test(expected = SystemException.class)
@@ -994,28 +1044,33 @@ public class AbstractWComponent_Test extends AbstractWComponentTestCase {
 	public void testInternalId() {
 		// No Parent
 		AbstractWComponent component = new SimpleComponent();
-		Assert.assertEquals("Incorrect internal ID with no parent", WComponent.DEFAULT_INTERNAL_ID, component.getInternalId());
+		Assert.assertEquals("Incorrect internal ID with no parent", WComponent.DEFAULT_INTERNAL_ID,
+				component.getInternalId());
 
 		// With parent
 		WContainer parent = new WContainer();
 		parent.add(component);
-		Assert.assertEquals("Incorrect internal ID for with parent", WComponent.DEFAULT_INTERNAL_ID + "0", component.getInternalId());
+		Assert.assertEquals("Incorrect internal ID for with parent",
+				WComponent.DEFAULT_INTERNAL_ID + "0", component.getInternalId());
 	}
 
 	@Test
 	public void testInternalIdInTree() {
 		WContainer root = new WContainer();
-		Assert.assertEquals("Incorrect defualt internal id", WComponent.DEFAULT_INTERNAL_ID, root.getInternalId());
+		Assert.assertEquals("Incorrect defualt internal id", WComponent.DEFAULT_INTERNAL_ID, root.
+				getInternalId());
 
 		// Child
 		WContainer child = new WContainer();
 		root.add(child);
-		Assert.assertEquals("Incorrect internal id for child", WComponent.DEFAULT_INTERNAL_ID + "0", child.getInternalId());
+		Assert.assertEquals("Incorrect internal id for child", WComponent.DEFAULT_INTERNAL_ID + "0",
+				child.getInternalId());
 
 		// Grand child
 		WContainer grandchild = new WContainer();
 		child.add(grandchild);
-		Assert.assertEquals("Incorrect internal id for grand child", WComponent.DEFAULT_INTERNAL_ID + "0a", grandchild.getInternalId());
+		Assert.assertEquals("Incorrect internal id for grand child",
+				WComponent.DEFAULT_INTERNAL_ID + "0a", grandchild.getInternalId());
 	}
 
 	@Test

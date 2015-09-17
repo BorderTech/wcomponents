@@ -19,7 +19,8 @@ public class ShowInGroup extends AbstractSetVisible {
 	 * @param target the component to show in the group.
 	 * @param group the group containing the target.
 	 */
-	public ShowInGroup(final SubordinateTarget target, final WComponentGroup<? extends SubordinateTarget> group) {
+	public ShowInGroup(final SubordinateTarget target,
+			final WComponentGroup<? extends SubordinateTarget> group) {
 		// Hide everything in the group.
 		super(group, Boolean.FALSE);
 		setTargetInGroup(target);

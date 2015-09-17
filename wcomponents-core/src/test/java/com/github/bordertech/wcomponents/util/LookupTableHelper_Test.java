@@ -32,6 +32,7 @@ public class LookupTableHelper_Test extends AbstractWComponentTestCase {
 		// Use a new request to ensure that it was stored as a session attribute
 		request = new ServletRequest(new MockHttpServletRequest(session));
 
-		Assert.assertSame("Incorrect context returned", uic, LookupTableHelper.getContext(key, request));
+		Assert.assertSame("Incorrect context returned", uic, LookupTableHelper.getContext(key,
+				request));
 	}
 }

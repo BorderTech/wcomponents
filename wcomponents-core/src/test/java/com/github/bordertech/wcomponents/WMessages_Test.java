@@ -36,8 +36,10 @@ public class WMessages_Test extends AbstractWComponentTestCase {
 
 		Assert.assertNotNull("Obtained instance not be null", instance);
 
-		Assert.assertFalse("Obtained instance should not be a proxy if there is a message container",
-				WMessagesProxy.class.equals(instance.getClass()));
+		Assert.
+				assertFalse(
+						"Obtained instance should not be a proxy if there is a message container",
+						WMessagesProxy.class.equals(instance.getClass()));
 
 		WMessages instance2 = WMessages.getInstance(root);
 

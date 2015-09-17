@@ -51,7 +51,8 @@ public class WSelectToggleExample extends WPanel {
 		add(toggle);
 		add(target);
 
-		add(new WHeading(WHeading.MAJOR, "Client-side targeting of grouped checkboxes not in a WFieldSet"));
+		add(new WHeading(WHeading.MAJOR,
+				"Client-side targeting of grouped checkboxes not in a WFieldSet"));
 		WComponentGroup<WCheckBox> group = new WComponentGroup<>();
 		add(group);
 
@@ -99,7 +100,8 @@ public class WSelectToggleExample extends WPanel {
 		add(layout);
 
 		//targeting a WCheckBoxSelect AND labelling the selectToggle
-		add(new WHeading(WHeading.MAJOR, "Client side as text targeting a WCheckBoxSelect and with a label"));
+		add(new WHeading(WHeading.MAJOR,
+				"Client side as text targeting a WCheckBoxSelect and with a label"));
 		select = new WCheckBoxSelect("australian_state");
 		select.setFrameless(true);
 		select.setButtonColumns(3);

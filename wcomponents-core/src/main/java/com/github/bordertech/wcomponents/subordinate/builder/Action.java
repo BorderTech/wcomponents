@@ -15,8 +15,8 @@ import com.github.bordertech.wcomponents.subordinate.Show;
 import com.github.bordertech.wcomponents.subordinate.ShowInGroup;
 
 /**
- * Describes an action to execute. This class is used by the {@link SubordinateBuilder} class to
- * define what needs to be done when a condition is met.
+ * Describes an action to execute. This class is used by the {@link SubordinateBuilder} class to define what needs to be
+ * done when a condition is met.
  *
  * @author Yiannis Paschalidis
  * @author Jonathan Austin
@@ -45,7 +45,8 @@ public final class Action {
 	 * @param type the type of action to execute.
 	 * @param target the target to execute the action on.
 	 */
-	public Action(final com.github.bordertech.wcomponents.subordinate.Action.ActionType type, final SubordinateTarget target) {
+	public Action(final com.github.bordertech.wcomponents.subordinate.Action.ActionType type,
+			final SubordinateTarget target) {
 		this(type, target, null);
 	}
 
@@ -56,7 +57,8 @@ public final class Action {
 	 * @param target the target to execute the action on.
 	 * @param group the group of targets to use on the action.
 	 */
-	public Action(final com.github.bordertech.wcomponents.subordinate.Action.ActionType type, final SubordinateTarget target,
+	public Action(final com.github.bordertech.wcomponents.subordinate.Action.ActionType type,
+			final SubordinateTarget target,
 			final WComponentGroup<? extends SubordinateTarget> group) {
 		if (type == null) {
 			throw new IllegalArgumentException("Action type can not be null");
@@ -67,10 +69,13 @@ public final class Action {
 		}
 
 		if (group == null
-				&& (com.github.bordertech.wcomponents.subordinate.Action.ActionType.HIDEIN.equals(type)
-				|| com.github.bordertech.wcomponents.subordinate.Action.ActionType.SHOWIN.equals(type)
-				|| com.github.bordertech.wcomponents.subordinate.Action.ActionType.ENABLEIN.equals(type) || com.github.bordertech.wcomponents.subordinate.Action.ActionType.DISABLEIN
-				.equals(type))) {
+				&& (com.github.bordertech.wcomponents.subordinate.Action.ActionType.HIDEIN.equals(
+						type)
+				|| com.github.bordertech.wcomponents.subordinate.Action.ActionType.SHOWIN.equals(
+						type)
+				|| com.github.bordertech.wcomponents.subordinate.Action.ActionType.ENABLEIN.equals(
+						type) || com.github.bordertech.wcomponents.subordinate.Action.ActionType.DISABLEIN.
+				equals(type))) {
 			throw new IllegalArgumentException("Group can not be null");
 		}
 

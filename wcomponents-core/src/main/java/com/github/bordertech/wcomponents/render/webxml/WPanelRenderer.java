@@ -141,8 +141,7 @@ final class WPanelRenderer extends AbstractWebXmlRenderer {
 	}
 
 	/**
-	 * Paints the children contained within the panel. This defers rendering to a layout renderer
-	 * (if available).
+	 * Paints the children contained within the panel. This defers rendering to a layout renderer (if available).
 	 *
 	 * @param panel the panel to paint.
 	 * @param renderContext the RenderContext to paint to.

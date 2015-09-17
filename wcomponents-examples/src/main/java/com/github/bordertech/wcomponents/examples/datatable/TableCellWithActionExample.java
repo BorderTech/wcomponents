@@ -62,9 +62,8 @@ public class TableCellWithActionExample extends WPanel {
 	}
 
 	/**
-	 * Creates and configures the table to be used by the example. The table is configured with
-	 * global rather than user data. Although this is not a realistic scenario, it will suffice for
-	 * this example.
+	 * Creates and configures the table to be used by the example. The table is configured with global rather than user
+	 * data. Although this is not a realistic scenario, it will suffice for this example.
 	 *
 	 * @return a new configured table.
 	 */
@@ -124,7 +123,8 @@ public class TableCellWithActionExample extends WPanel {
 			private static final int BUTTON = 3;
 
 			private final List<Person> data
-					= Arrays.asList(new Person[]{new Person(123, "Joe", "Bloggs", parse("01/02/1973")),
+					= Arrays.asList(new Person[]{new Person(123, "Joe", "Bloggs",
+				parse("01/02/1973")),
 				new Person(456, "Jane", "Bloggs", parse("04/05/1976")),
 				new Person(789, "Kid", "Bloggs", parse("31/12/1999"))});
 
@@ -189,7 +189,8 @@ public class TableCellWithActionExample extends WPanel {
 		 * @param lastName the last name.
 		 * @param dateOfBirth the date of birth.
 		 */
-		public Person(final int id, final String firstName, final String lastName, final Date dateOfBirth) {
+		public Person(final int id, final String firstName, final String lastName,
+				final Date dateOfBirth) {
 			this.id = id;
 			this.firstName = firstName;
 			this.lastName = lastName;
@@ -272,8 +273,10 @@ public class TableCellWithActionExample extends WPanel {
 				public void execute(final ActionEvent event) {
 					Person person = (Person) getBean();
 
-					TableCellWithActionExample example = WebUtilities.getAncestorOfClass(TableCellWithActionExample.class, ExampleButton.this);
-					example.getActionText().setText("Action for: " + person.getFirstName() + ' ' + person.getLastName());
+					TableCellWithActionExample example = WebUtilities.getAncestorOfClass(
+							TableCellWithActionExample.class, ExampleButton.this);
+					example.getActionText().setText(
+							"Action for: " + person.getFirstName() + ' ' + person.getLastName());
 				}
 			});
 		}

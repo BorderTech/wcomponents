@@ -4,12 +4,12 @@ import java.io.Serializable;
 
 /**
  * <p>
- * This interface enables access to arbitrary document content such as a PDF. It could be fetched
- * from the database or it could be generated on the fly.</p>
+ * This interface enables access to arbitrary document content such as a PDF. It could be fetched from the database or
+ * it could be generated on the fly.</p>
  *
  * <p>
- * For larger content, consider using {@link ContentStreamAccess}, as it does not require the entire
- * binary content to be held in memory.</p>
+ * For larger content, consider using {@link ContentStreamAccess}, as it does not require the entire binary content to
+ * be held in memory.</p>
  *
  * @author Martin Shevchenko
  * @since 1.0.0
@@ -24,8 +24,7 @@ public interface ContentAccess extends Serializable {
 	byte[] getBytes();
 
 	/**
-	 * Some text that describes the document content. This text could be the document filename or
-	 * title, for instance.
+	 * Some text that describes the document content. This text could be the document filename or title, for instance.
 	 *
 	 * @return a short document description
 	 */

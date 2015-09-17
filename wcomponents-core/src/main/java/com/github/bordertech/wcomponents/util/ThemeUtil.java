@@ -117,8 +117,8 @@ public final class ThemeUtil {
 
 	/**
 	 * <p>
-	 * Retrieves the complete path to the theme's XSLT. This method takes the current theme and
-	 * user's locale into account.
+	 * Retrieves the complete path to the theme's XSLT. This method takes the current theme and user's locale into
+	 * account.
 	 * </p>
 	 * <p>
 	 * Note: The XSLT is the single integration point to the client-side rendering.
@@ -169,7 +169,8 @@ public final class ThemeUtil {
 		String build = getThemeBuild();
 		String themeName = getThemeName();
 
-		path.append(hasQueryString ? '&' : '?').append("build=").append(WebUtilities.escapeForUrl(build))
+		path.append(hasQueryString ? '&' : '?').append("build=").append(WebUtilities.escapeForUrl(
+				build))
 				.append("&theme=").append(WebUtilities.escapeForUrl(themeName));
 
 		return path.toString();

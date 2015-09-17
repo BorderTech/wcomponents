@@ -11,8 +11,8 @@ import java.util.Set;
 import java.util.TreeMap;
 
 /**
- * This is a convenience WComponent and basically a WButton. When click on it, information about the
- * WComponent tree and UIContext will be displayed after the button.
+ * This is a convenience WComponent and basically a WButton. When click on it, information about the WComponent tree and
+ * UIContext will be displayed after the button.
  *
  * @author Ming Gao
  */
@@ -69,7 +69,8 @@ public class UicProfileButton extends WButton {
 
 		String className = root.getClass().getName();
 
-		out.append("<b>The root of the WComponent tree is:</b>\n<br/>").append(className).append("\n<br/>");
+		out.append("<b>The root of the WComponent tree is:</b>\n<br/>").append(className).append(
+				"\n<br/>");
 
 		tally(root, compTallyByClass, compDataOverall, out);
 
@@ -82,7 +83,8 @@ public class UicProfileButton extends WButton {
 			for (Map.Entry<String, GroupData> entry : compTallyByClass.entrySet()) {
 				className = entry.getKey();
 				GroupData dataForClass = entry.getValue();
-				out.append(' ').append(dataForClass.total).append("  ").append(className).append("<br/>");
+				out.append(' ').append(dataForClass.total).append("  ").append(className).append(
+						"<br/>");
 			}
 
 			out.append("<br/><hr/>");
@@ -201,7 +203,8 @@ public class UicProfileButton extends WButton {
 			out.append('[')
 					.append(dataOverall.unnecessaryCount)
 					.append("] WComponent(s) in default state. WComponents in default state do not need to store data in the session.<br/>"
-							+ " Therefore, only ").append(dataOverall.total - dataOverall.unnecessaryCount)
+							+ " Therefore, only ").append(
+							dataOverall.total - dataOverall.unnecessaryCount)
 					.append(" WComponent(s) actually need(s) to store data in the session.<br/>");
 
 			out.append("<b>WComponent session usage by class:</b><br/>");
@@ -210,7 +213,8 @@ public class UicProfileButton extends WButton {
 				String className = entry.getKey();
 				GroupData dataForClass = entry.getValue();
 
-				out.append(' ').append(dataForClass.total).append(" [").append(dataForClass.unnecessaryCount).append("] ")
+				out.append(' ').append(dataForClass.total).append(" [").append(
+						dataForClass.unnecessaryCount).append("] ")
 						.append(className).append("<br/>");
 			}
 
@@ -226,14 +230,13 @@ public class UicProfileButton extends WButton {
 	private static final class GroupData {
 
 		/**
-		 * The count of instances of the particular WComponent class with a component model in the
-		 * context/session.
+		 * The count of instances of the particular WComponent class with a component model in the context/session.
 		 */
 		private int total = 0;
 
 		/**
-		 * The count of instances of the particular WComponent class with a component model in the
-		 * context/session which doesn't need to be there.
+		 * The count of instances of the particular WComponent class with a component model in the context/session which
+		 * doesn't need to be there.
 		 */
 		private int unnecessaryCount = 0;
 	}

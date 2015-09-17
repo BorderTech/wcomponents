@@ -6,15 +6,15 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Define a group of components that can be used or controlled by other components like
- * {@link WSubordinateControl}.
+ * Define a group of components that can be used or controlled by other components like {@link WSubordinateControl}.
  *
  * @author Jonathan Austin
  * @since 1.0.0
  *
  * @param <T> the type of component which the group contains.
  */
-public class WComponentGroup<T extends WComponent> extends AbstractWComponent implements SubordinateTarget {
+public class WComponentGroup<T extends WComponent> extends AbstractWComponent implements
+		SubordinateTarget {
 
 	/**
 	 * Add a component to this group.

@@ -53,9 +53,8 @@ public class DataTableBeanProviderExample extends WBeanContainer {
 	}
 
 	/**
-	 * Creates and configures the table to be used by the example. The table is configured with
-	 * global rather than user data. Although this is not a realistic scenario, it will suffice for
-	 * this example.
+	 * Creates and configures the table to be used by the example. The table is configured with global rather than user
+	 * data. Although this is not a realistic scenario, it will suffice for this example.
 	 *
 	 * @return a new configured table.
 	 */

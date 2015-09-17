@@ -16,8 +16,8 @@ import com.github.bordertech.wcomponents.layout.FlowLayout.Alignment;
 
 /**
  * <p>
- * A {@link WTextArea} is a wcomponent used to display a html textarea. It is very much like
- * WTextField except that it has multiple lines of input.
+ * A {@link WTextArea} is a wcomponent used to display a html textarea. It is very much like WTextField except that it
+ * has multiple lines of input.
  * </p>
  * <p>
  * WTextArea example demonstrates various states of the WTextArea

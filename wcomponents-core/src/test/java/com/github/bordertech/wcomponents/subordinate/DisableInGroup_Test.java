@@ -27,7 +27,8 @@ public class DisableInGroup_Test extends AbstractWComponentTestCase {
 
 		Assert.assertEquals("Value for DisableIn should be true", Boolean.TRUE, action.getValue());
 		Assert.assertEquals("Target for DisableIn should be the group", group, action.getTarget());
-		Assert.assertEquals("TargetInGroup for DisableIn should be the target", target, action.getTargetInGroup());
+		Assert.assertEquals("TargetInGroup for DisableIn should be the target", target, action.
+				getTargetInGroup());
 	}
 
 	@Test
@@ -60,7 +61,8 @@ public class DisableInGroup_Test extends AbstractWComponentTestCase {
 		WComponentGroup<SubordinateTarget> group = new WComponentGroup<>();
 		group.addToGroup(target);
 		DisableInGroup action = new DisableInGroup(target, group);
-		Assert.assertEquals("Incorrect Action Type", action.getActionType(), AbstractAction.ActionType.DISABLEIN);
+		Assert.assertEquals("Incorrect Action Type", action.getActionType(),
+				AbstractAction.ActionType.DISABLEIN);
 	}
 
 	@Test
@@ -76,17 +78,20 @@ public class DisableInGroup_Test extends AbstractWComponentTestCase {
 
 		DisableInGroup action = new DisableInGroup(target2, group);
 		Assert.assertEquals("Incorrect toString for action",
-				"disable MyTarget in WComponentGroup([MyTarget, MyTarget, MyTarget])", action.toString());
+				"disable MyTarget in WComponentGroup([MyTarget, MyTarget, MyTarget])", action.
+				toString());
 
 		new WLabel("test label", target2);
 		Assert.assertEquals("Incorrect toString for action with a label",
-				"disable test label in WComponentGroup([MyTarget, MyTarget, MyTarget])", action.toString());
+				"disable test label in WComponentGroup([MyTarget, MyTarget, MyTarget])", action.
+				toString());
 	}
 
 	/**
 	 * Test component that implements the SubordinateTarget interface.
 	 */
-	private static class MyTarget extends AbstractWComponent implements SubordinateTarget, Disableable {
+	private static class MyTarget extends AbstractWComponent implements SubordinateTarget,
+			Disableable {
 
 		/**
 		 * {@inheritDoc}

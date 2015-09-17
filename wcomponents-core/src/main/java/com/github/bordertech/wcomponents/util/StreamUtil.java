@@ -32,8 +32,7 @@ public final class StreamUtil {
 	public static final int DEFAULT_BUFFER_SIZE = 2048;
 
 	/**
-	 * Copies information from the input stream to the output stream, using the default copy buffer
-	 * size.
+	 * Copies information from the input stream to the output stream, using the default copy buffer size.
 	 *
 	 * @param in the source stream.
 	 * @param out the destination stream.

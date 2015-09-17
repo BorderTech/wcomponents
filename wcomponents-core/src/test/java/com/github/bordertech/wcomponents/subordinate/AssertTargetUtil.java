@@ -118,12 +118,16 @@ public final class AssertTargetUtil {
 	 * @param target2 test target 2
 	 * @param target3 test target 3
 	 */
-	public static void assertTargetsMandatory(final SubordinateTarget target1, final SubordinateTarget target2,
+	public static void assertTargetsMandatory(final SubordinateTarget target1,
+			final SubordinateTarget target2,
 			final SubordinateTarget target3) {
 		// Check Mandatory
-		Assert.assertTrue("Target1 should be mandatory", (target1 instanceof Input) && ((Input) target1).isMandatory());
-		Assert.assertTrue("Target2 should be mandatory", (target2 instanceof Input) && ((Input) target2).isMandatory());
-		Assert.assertTrue("Target3 should be mandatory", (target3 instanceof Input) && ((Input) target3).isMandatory());
+		Assert.assertTrue("Target1 should be mandatory",
+				(target1 instanceof Input) && ((Input) target1).isMandatory());
+		Assert.assertTrue("Target2 should be mandatory",
+				(target2 instanceof Input) && ((Input) target2).isMandatory());
+		Assert.assertTrue("Target3 should be mandatory",
+				(target3 instanceof Input) && ((Input) target3).isMandatory());
 	}
 
 	/**
@@ -133,12 +137,16 @@ public final class AssertTargetUtil {
 	 * @param target2 test target 2
 	 * @param target3 test target 3
 	 */
-	public static void assertTargetsOptional(final SubordinateTarget target1, final SubordinateTarget target2,
+	public static void assertTargetsOptional(final SubordinateTarget target1,
+			final SubordinateTarget target2,
 			final SubordinateTarget target3) {
 		// Check Optional
-		Assert.assertFalse("Target1 should be optional", (target1 instanceof Input) && ((Input) target1).isMandatory());
-		Assert.assertFalse("Target2 should be optional", (target2 instanceof Input) && ((Input) target2).isMandatory());
-		Assert.assertFalse("Target3 should be optional", (target3 instanceof Input) && ((Input) target3).isMandatory());
+		Assert.assertFalse("Target1 should be optional",
+				(target1 instanceof Input) && ((Input) target1).isMandatory());
+		Assert.assertFalse("Target2 should be optional",
+				(target2 instanceof Input) && ((Input) target2).isMandatory());
+		Assert.assertFalse("Target3 should be optional",
+				(target3 instanceof Input) && ((Input) target3).isMandatory());
 	}
 
 }

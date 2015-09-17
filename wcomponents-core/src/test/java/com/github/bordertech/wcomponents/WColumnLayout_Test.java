@@ -46,15 +46,19 @@ public class WColumnLayout_Test extends AbstractWComponentTestCase {
 		col.getLeftColumn().remove(label);
 		col = new WColumnLayout();
 		col.setLeftColumn(headingText, label);
-		Assert.assertEquals("Should have 2 children after setLeftColumn with heading text", 2, col.getLeftColumn().getChildCount());
-		Assert.assertTrue("Incorrect heading component", col.getLeftColumn().getChildAt(0) instanceof WHeading);
-		Assert.assertEquals("Incorrect heading text", headingText, ((WHeading) col.getLeftColumn().getChildAt(0)).getText());
+		Assert.assertEquals("Should have 2 children after setLeftColumn with heading text", 2, col.
+				getLeftColumn().getChildCount());
+		Assert.assertTrue("Incorrect heading component",
+				col.getLeftColumn().getChildAt(0) instanceof WHeading);
+		Assert.assertEquals("Incorrect heading text", headingText, ((WHeading) col.getLeftColumn().
+				getChildAt(0)).getText());
 		Assert.assertSame("Incorrect component", label, col.getLeftColumn().getChildAt(1));
 
 		col.getLeftColumn().remove(label);
 		col = new WColumnLayout();
 		col.setLeftColumn(heading, label);
-		Assert.assertEquals("Should have 2 children after setLeftColumn with heading", 2, col.getLeftColumn().getChildCount());
+		Assert.assertEquals("Should have 2 children after setLeftColumn with heading", 2, col.
+				getLeftColumn().getChildCount());
 		Assert.assertSame("Incorrect heading", heading, col.getLeftColumn().getChildAt(0));
 		Assert.assertSame("Incorrect component", label, col.getLeftColumn().getChildAt(1));
 	}
@@ -68,21 +72,26 @@ public class WColumnLayout_Test extends AbstractWComponentTestCase {
 
 		Assert.assertFalse("Should not have any content by default", col.hasRightContent());
 		col.setRightColumn(label);
-		Assert.assertEquals("Should have 1 child after setRightColumn", 1, col.getRightColumn().getChildCount());
+		Assert.assertEquals("Should have 1 child after setRightColumn", 1, col.getRightColumn().
+				getChildCount());
 		Assert.assertSame("Incorrect component", label, col.getRightColumn().getChildAt(0));
 
 		col.getRightColumn().remove(label);
 		col = new WColumnLayout();
 		col.setRightColumn(headingText, label);
-		Assert.assertEquals("Should have 2 children after setRightColumn with heading text", 2, col.getRightColumn().getChildCount());
-		Assert.assertTrue("Incorrect heading component", col.getRightColumn().getChildAt(0) instanceof WHeading);
-		Assert.assertEquals("Incorrect heading text", headingText, ((WHeading) col.getRightColumn().getChildAt(0)).getText());
+		Assert.assertEquals("Should have 2 children after setRightColumn with heading text", 2, col.
+				getRightColumn().getChildCount());
+		Assert.assertTrue("Incorrect heading component",
+				col.getRightColumn().getChildAt(0) instanceof WHeading);
+		Assert.assertEquals("Incorrect heading text", headingText, ((WHeading) col.getRightColumn().
+				getChildAt(0)).getText());
 		Assert.assertSame("Incorrect component", label, col.getRightColumn().getChildAt(1));
 
 		col.getRightColumn().remove(label);
 		col = new WColumnLayout();
 		col.setRightColumn(heading, label);
-		Assert.assertEquals("Should have 2 children after setRightColumn with heading", 2, col.getRightColumn().getChildCount());
+		Assert.assertEquals("Should have 2 children after setRightColumn with heading", 2, col.
+				getRightColumn().getChildCount());
 		Assert.assertSame("Incorrect heading", heading, col.getRightColumn().getChildAt(0));
 		Assert.assertSame("Incorrect component", label, col.getRightColumn().getChildAt(1));
 	}

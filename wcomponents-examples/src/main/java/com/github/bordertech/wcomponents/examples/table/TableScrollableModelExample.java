@@ -16,8 +16,8 @@ import java.util.List;
 /**
  * This example shows use of a {@link WTable}, with a {@link ScrollableTableModel}.
  * <p>
- * It extends {@link SimpleBeanBoundTableModel} to be scrollable. As this model is bean bound, the
- * rows for the current page are set as the bean for the table.
+ * It extends {@link SimpleBeanBoundTableModel} to be scrollable. As this model is bean bound, the rows for the current
+ * page are set as the bean for the table.
  * </p>
  *
  * @author Jonathan Austin
@@ -49,8 +49,8 @@ public class TableScrollableModelExample extends WContainer {
 	}
 
 	/**
-	 * Override preparePaintComponent in order to set up the example data the first time that the
-	 * example is accessed by each user.
+	 * Override preparePaintComponent in order to set up the example data the first time that the example is accessed by
+	 * each user.
 	 *
 	 * @param request the request being responded to.
 	 */
@@ -59,8 +59,9 @@ public class TableScrollableModelExample extends WContainer {
 		super.preparePaintComponent(request);
 		if (!isInitialised()) {
 			// Needs to be set per user as the model holds the current page index and total row per user.
-			ExampleScrollableModel model = new ExampleScrollableModel(table, new String[]{"firstName", "lastName",
-				"dateOfBirth"}, "more");
+			ExampleScrollableModel model = new ExampleScrollableModel(table,
+					new String[]{"firstName", "lastName",
+						"dateOfBirth"}, "more");
 			model.setIterateFirstLevel(true);
 			table.setTableModel(model);
 			setInitialised(true);
@@ -68,10 +69,10 @@ public class TableScrollableModelExample extends WContainer {
 	}
 
 	/**
-	 * Example of a scrollable table model. Needs to be set per user as it holds the current page
-	 * index and total row.
+	 * Example of a scrollable table model. Needs to be set per user as it holds the current page index and total row.
 	 */
-	public static class ExampleScrollableModel extends SimpleBeanBoundTableModel implements ScrollableTableModel {
+	public static class ExampleScrollableModel extends SimpleBeanBoundTableModel implements
+			ScrollableTableModel {
 
 		/**
 		 * The table instance.
@@ -114,8 +115,7 @@ public class TableScrollableModelExample extends WContainer {
 		}
 
 		/**
-		 * Call a service to retrieve the rows for this page and set the rows as the bean on the
-		 * table.
+		 * Call a service to retrieve the rows for this page and set the rows as the bean on the table.
 		 *
 		 * @param start the start index of the current page
 		 * @param end the end index of the current page
@@ -178,7 +178,8 @@ public class TableScrollableModelExample extends WContainer {
 		 * @param endIndex the end index for the current page
 		 * @return the rows for the index range
 		 */
-		public static List<PersonBean> fakeServiceRetrievePage(final int startIndex, final int endIndex) {
+		public static List<PersonBean> fakeServiceRetrievePage(final int startIndex,
+				final int endIndex) {
 			int max = Math.min(DATA.size() - 1, endIndex);
 			return DATA.subList(startIndex, max + 1);
 		}

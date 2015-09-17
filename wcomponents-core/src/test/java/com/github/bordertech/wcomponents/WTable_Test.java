@@ -48,7 +48,8 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testColumnAccessors() {
 		WTable table = new WTable();
-		Assert.assertEquals("Table should not have any columns by default", 0, table.getColumnCount());
+		Assert.assertEquals("Table should not have any columns by default", 0, table.
+				getColumnCount());
 
 		WTableColumn col1 = new WTableColumn("dummy", WText.class);
 		WTableColumn col2 = new WTableColumn("dummy", WText.class);
@@ -77,13 +78,15 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testSeparatorTypeAccessors() {
-		assertAccessorsCorrect(new WTable(), "separatorType", SeparatorType.NONE, SeparatorType.HORIZONTAL,
+		assertAccessorsCorrect(new WTable(), "separatorType", SeparatorType.NONE,
+				SeparatorType.HORIZONTAL,
 				SeparatorType.VERTICAL);
 	}
 
 	@Test
 	public void testStripingTypeAccessors() {
-		assertAccessorsCorrect(new WTable(), "stripingType", StripingType.NONE, StripingType.ROWS, StripingType.COLUMNS);
+		assertAccessorsCorrect(new WTable(), "stripingType", StripingType.NONE, StripingType.ROWS,
+				StripingType.COLUMNS);
 	}
 
 	@Test
@@ -93,28 +96,33 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testExpandModeAccessors() {
-		assertAccessorsCorrect(new WTable(), "expandMode", ExpandMode.NONE, ExpandMode.LAZY, ExpandMode.DYNAMIC);
+		assertAccessorsCorrect(new WTable(), "expandMode", ExpandMode.NONE, ExpandMode.LAZY,
+				ExpandMode.DYNAMIC);
 	}
 
 	@Test
 	public void testPaginationModeAccessors() {
-		assertAccessorsCorrect(new WTable(), "paginationMode", PaginationMode.NONE, PaginationMode.CLIENT,
+		assertAccessorsCorrect(new WTable(), "paginationMode", PaginationMode.NONE,
+				PaginationMode.CLIENT,
 				PaginationMode.DYNAMIC);
 	}
 
 	@Test
 	public void testSortModeAccessors() {
-		assertAccessorsCorrect(new WTable(), "sortMode", SortMode.NONE, SortMode.DYNAMIC, SortMode.NONE);
+		assertAccessorsCorrect(new WTable(), "sortMode", SortMode.NONE, SortMode.DYNAMIC,
+				SortMode.NONE);
 	}
 
 	@Test
 	public void testSelectModeAccessors() {
-		assertAccessorsCorrect(new WTable(), "selectMode", SelectMode.NONE, SelectMode.SINGLE, SelectMode.MULTIPLE);
+		assertAccessorsCorrect(new WTable(), "selectMode", SelectMode.NONE, SelectMode.SINGLE,
+				SelectMode.MULTIPLE);
 	}
 
 	@Test
 	public void testSelectAllTypeAccessors() {
-		assertAccessorsCorrect(new WTable(), "selectAllMode", SelectAllType.TEXT, SelectAllType.CONTROL,
+		assertAccessorsCorrect(new WTable(), "selectAllMode", SelectAllType.TEXT,
+				SelectAllType.CONTROL,
 				SelectAllType.TEXT);
 	}
 
@@ -136,7 +144,8 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testSelectionChangeActionAccessors() {
-		assertAccessorsCorrect(new WTable(), "selectionChangeAction", null, new TestAction(), new TestAction());
+		assertAccessorsCorrect(new WTable(), "selectionChangeAction", null, new TestAction(),
+				new TestAction());
 	}
 
 	@Test
@@ -202,7 +211,8 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 		table.setRowsPerPage(40);
 		Assert.assertEquals("Rows per page should be 40", 40, table.getRowsPerPage());
 		table.setRowsPerPageOptions(Arrays.asList(1, 2, 3));
-		Assert.assertEquals("Rows per page should be the first option as it was not a valid option", 1, table.getRowsPerPage());
+		Assert.assertEquals("Rows per page should be the first option as it was not a valid option",
+				1, table.getRowsPerPage());
 	}
 
 	@Test
@@ -218,7 +228,8 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 		Assert.assertEquals("Rows per page should be 0", 0, table.getRowsPerPage());
 		table.setRowsPerPageOptions(null);
 		Assert.assertNull("Rows per options should be null", table.getRowsPerPageOptions());
-		Assert.assertEquals("Rows per page should be the default after the options are set to null", 10, table.getRowsPerPage());
+		Assert.assertEquals("Rows per page should be the default after the options are set to null",
+				10, table.getRowsPerPage());
 
 		// Change to empty
 		table.setRowsPerPageOptions(Arrays.asList(0, 1, 2));
@@ -227,7 +238,10 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 		Assert.assertEquals("Rows per page should be 0", 0, table.getRowsPerPage());
 		table.setRowsPerPageOptions(Collections.EMPTY_LIST);
 		Assert.assertNull("Rows per options should be null", table.getRowsPerPageOptions());
-		Assert.assertEquals("Rows per page should be the default after the options are set to empty", 10, table.getRowsPerPage());
+		Assert.
+				assertEquals(
+						"Rows per page should be the default after the options are set to empty", 10,
+						table.getRowsPerPage());
 	}
 
 	@Test
@@ -252,7 +266,8 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 		table.setRowsPerPage(10);
 		// Page is greater than number of pages
 		table.setCurrentPage(90);
-		Assert.assertEquals("Current page should be equal to the max page of 9", 9, table.getCurrentPage());
+		Assert.assertEquals("Current page should be equal to the max page of 9", 9, table.
+				getCurrentPage());
 	}
 
 	@Test
@@ -262,7 +277,8 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 		table.setTableModel(createModel(new String[100][1]));
 		table.setRowsPerPage(10);
 		table.setCurrentPage(50);
-		Assert.assertEquals("Current page should alway be zero for a table with no pagination", 0, table.getCurrentPage());
+		Assert.assertEquals("Current page should alway be zero for a table with no pagination", 0,
+				table.getCurrentPage());
 	}
 
 	@Test
@@ -275,7 +291,8 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 		// Rows option of 5
 		table.setRowsPerPage(5);
 		table.setCurrentPage(2);
-		Assert.assertEquals("Current page should be 2 for a table with rows option of 5", 2, table.getCurrentPage());
+		Assert.assertEquals("Current page should be 2 for a table with rows option of 5", 2, table.
+				getCurrentPage());
 
 		// Rows option of 0
 		table.setRowsPerPage(0);
@@ -289,8 +306,10 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 		WTable table = new WTable();
 		table.setTableModel(createModel(new String[10][1]));
 
-		Set<Object> rows1 = new HashSet<Object>(Arrays.asList(Arrays.asList(0), Arrays.asList(1), Arrays.asList(2)));
-		Set<Object> rows2 = new HashSet<Object>(Arrays.asList(Arrays.asList(3), Arrays.asList(4), Arrays.asList(5)));
+		Set<Object> rows1 = new HashSet<Object>(Arrays.asList(Arrays.asList(0), Arrays.asList(1),
+				Arrays.asList(2)));
+		Set<Object> rows2 = new HashSet<Object>(Arrays.asList(Arrays.asList(3), Arrays.asList(4),
+				Arrays.asList(5)));
 
 		assertAccessorsCorrect(table, "selectedRows", Collections.EMPTY_SET, rows1, rows2);
 	}
@@ -300,8 +319,10 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 		WTable table = new WTable();
 		table.setTableModel(createModel(new String[10][1]));
 
-		Set<Object> rows1 = new HashSet<Object>(Arrays.asList(Arrays.asList(0), Arrays.asList(1), Arrays.asList(2)));
-		Set<Object> rows2 = new HashSet<Object>(Arrays.asList(Arrays.asList(3), Arrays.asList(4), Arrays.asList(5)));
+		Set<Object> rows1 = new HashSet<Object>(Arrays.asList(Arrays.asList(0), Arrays.asList(1),
+				Arrays.asList(2)));
+		Set<Object> rows2 = new HashSet<Object>(Arrays.asList(Arrays.asList(3), Arrays.asList(4),
+				Arrays.asList(5)));
 
 		assertAccessorsCorrect(table, "expandedRows", Collections.EMPTY_SET, rows1, rows2);
 	}
@@ -324,7 +345,8 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 		Assert.assertEquals("Incorrect page number after handleRequest", 5, table.getCurrentPage());
 
 		resetContext();
-		Assert.assertEquals("Incorrect default page number after handleRequest", 0, table.getCurrentPage());
+		Assert.assertEquals("Incorrect default page number after handleRequest", 0, table.
+				getCurrentPage());
 	}
 
 	@Test
@@ -346,8 +368,10 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 		request.setParameter(table.getId() + ".rows", "10");
 
 		table.handleRequest(request);
-		Assert.assertEquals("Incorrect rows per page after handleRequest", 10, table.getRowsPerPage());
-		Assert.assertEquals("Incorrect page number after handleRequest with change of rows", 2, table.getCurrentPage());
+		Assert.assertEquals("Incorrect rows per page after handleRequest", 10, table.
+				getRowsPerPage());
+		Assert.assertEquals("Incorrect page number after handleRequest with change of rows", 2,
+				table.getCurrentPage());
 
 		// Test no change of rows option or page
 		request = new MockRequest();
@@ -356,8 +380,10 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 		request.setParameter(table.getId() + ".rows", "10");
 
 		table.handleRequest(request);
-		Assert.assertEquals("Incorrect rows per page after handleRequest and no change", 10, table.getRowsPerPage());
-		Assert.assertEquals("Incorrect page number after handleRequest and no change", 2, table.getCurrentPage());
+		Assert.assertEquals("Incorrect rows per page after handleRequest and no change", 10, table.
+				getRowsPerPage());
+		Assert.assertEquals("Incorrect page number after handleRequest and no change", 2, table.
+				getCurrentPage());
 
 		// Test no change of rows option but change page
 		request = new MockRequest();
@@ -366,8 +392,10 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 		request.setParameter(table.getId() + ".rows", "10");
 
 		table.handleRequest(request);
-		Assert.assertEquals("Incorrect rows per page after handleRequest and no change", 10, table.getRowsPerPage());
-		Assert.assertEquals("Incorrect page number after handleRequest with change", 4, table.getCurrentPage());
+		Assert.assertEquals("Incorrect rows per page after handleRequest and no change", 10, table.
+				getRowsPerPage());
+		Assert.assertEquals("Incorrect page number after handleRequest with change", 4, table.
+				getCurrentPage());
 
 		// Test change to zero rows option
 		request = new MockRequest();
@@ -376,12 +404,18 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 		request.setParameter(table.getId() + ".rows", "0");
 
 		table.handleRequest(request);
-		Assert.assertEquals("Incorrect rows per page after handleRequest and change to zero rows option", 0, table.getRowsPerPage());
-		Assert.assertEquals("Incorrect page number after handleRequest with change to zero rows option", 0, table.getCurrentPage());
+		Assert.assertEquals(
+				"Incorrect rows per page after handleRequest and change to zero rows option", 0,
+				table.getRowsPerPage());
+		Assert.assertEquals(
+				"Incorrect page number after handleRequest with change to zero rows option", 0,
+				table.getCurrentPage());
 
 		resetContext();
-		Assert.assertEquals("Incorrect default page number after handleRequest", 1, table.getCurrentPage());
-		Assert.assertEquals("Incorrect default rows per page after handleRequest", 20, table.getRowsPerPage());
+		Assert.assertEquals("Incorrect default page number after handleRequest", 1, table.
+				getCurrentPage());
+		Assert.assertEquals("Incorrect default rows per page after handleRequest", 20, table.
+				getRowsPerPage());
 	}
 
 	@Test
@@ -400,22 +434,27 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 		request.setParameter(table.getId() + ".expanded", new String[]{"5", "6", "7"});
 
 		table.handleRequest(request);
-		Assert.assertEquals("Incorrect expanded rows after handleRequest", 3, table.getExpandedRows().size());
-		Assert.assertTrue("Incorrect expanded rows after handleRequest", table.getExpandedRows().containsAll(expanded));
+		Assert.assertEquals("Incorrect expanded rows after handleRequest", 3, table.
+				getExpandedRows().size());
+		Assert.assertTrue("Incorrect expanded rows after handleRequest", table.getExpandedRows().
+				containsAll(expanded));
 
 		resetContext();
-		Assert.assertTrue("Incorrect default expanded rows after handleRequest", table.getExpandedRows().isEmpty());
+		Assert.assertTrue("Incorrect default expanded rows after handleRequest", table.
+				getExpandedRows().isEmpty());
 
 		setActiveContext(createUIContext());
 		request = new MockRequest();
 		request.setParameter(table.getId() + "-h", "x");
 
 		table.handleRequest(request);
-		Assert.assertTrue("Incorrect expanded rows after handleRequest with no expansions", table.getExpandedRows()
+		Assert.assertTrue("Incorrect expanded rows after handleRequest with no expansions", table.
+				getExpandedRows()
 				.isEmpty());
 
 		resetContext();
-		Assert.assertTrue("Incorrect default expanded rows after handleRequest with no expansions", table
+		Assert.assertTrue("Incorrect default expanded rows after handleRequest with no expansions",
+				table
 				.getExpandedRows().isEmpty());
 	}
 
@@ -435,13 +474,15 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 		request.setParameter(table.getId() + ".selected", new String[]{"5", "6", "7"});
 
 		table.handleRequest(request);
-		Assert.assertEquals("Should only have selected the first item after handleRequest", 1, table.getSelectedRows()
+		Assert.assertEquals("Should only have selected the first item after handleRequest", 1,
+				table.getSelectedRows()
 				.size());
 		Assert.assertTrue("Should only have selected the first item after handleRequest",
 				selected.containsAll(table.getSelectedRows()));
 
 		resetContext();
-		Assert.assertTrue("Incorrect default selection after handleRequest", table.getSelectedRows().isEmpty());
+		Assert.assertTrue("Incorrect default selection after handleRequest",
+				table.getSelectedRows().isEmpty());
 	}
 
 	@Test
@@ -460,23 +501,28 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 		request.setParameter(table.getId() + ".selected", new String[]{"5", "6", "7"});
 
 		table.handleRequest(request);
-		Assert.assertEquals("Incorrect selection after handleRequest", 3, table.getSelectedRows().size());
+		Assert.assertEquals("Incorrect selection after handleRequest", 3, table.getSelectedRows().
+				size());
 		Assert
-				.assertTrue("Incorrect selection rows after handleRequest", table.getSelectedRows().containsAll(selected));
+				.assertTrue("Incorrect selection rows after handleRequest", table.getSelectedRows().
+						containsAll(selected));
 
 		resetContext();
-		Assert.assertTrue("Incorrect default selection after handleRequest", table.getSelectedRows().isEmpty());
+		Assert.assertTrue("Incorrect default selection after handleRequest",
+				table.getSelectedRows().isEmpty());
 
 		setActiveContext(createUIContext());
 		request = new MockRequest();
 		request.setParameter(table.getId() + "-h", "x");
 
 		table.handleRequest(request);
-		Assert.assertTrue("Incorrect selection after handleRequest with no selection set", table.getSelectedRows()
+		Assert.assertTrue("Incorrect selection after handleRequest with no selection set", table.
+				getSelectedRows()
 				.isEmpty());
 
 		resetContext();
-		Assert.assertTrue("Incorrect default selection after handleRequest with no selection set", table
+		Assert.assertTrue("Incorrect default selection after handleRequest with no selection set",
+				table
 				.getSelectedRows().isEmpty());
 	}
 
@@ -502,14 +548,18 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 
 		table.handleRequest(request);
 		Assert.assertTrue("Incorrect selection after handleRequest", table.isSorted());
-		Assert.assertEquals("Incorrect sort column after handleRequest", 0, table.getSortColumnIndex());
+		Assert.assertEquals("Incorrect sort column after handleRequest", 0, table.
+				getSortColumnIndex());
 		Assert.assertTrue("Incorrect sort direction after handleRequest", table.isSortAscending());
 
 		List<RowIdWrapper> rowIndices = table.getRepeater().getBeanList();
 		Assert.assertEquals("Incorrect sort", 3, rowIndices.size());
-		Assert.assertEquals("Incorrect sort", Integer.valueOf(0), rowIndices.get(0).getRowIndex().get(0));
-		Assert.assertEquals("Incorrect sort", Integer.valueOf(1), rowIndices.get(1).getRowIndex().get(0));
-		Assert.assertEquals("Incorrect sort", Integer.valueOf(2), rowIndices.get(2).getRowIndex().get(0));
+		Assert.assertEquals("Incorrect sort", Integer.valueOf(0), rowIndices.get(0).getRowIndex().
+				get(0));
+		Assert.assertEquals("Incorrect sort", Integer.valueOf(1), rowIndices.get(1).getRowIndex().
+				get(0));
+		Assert.assertEquals("Incorrect sort", Integer.valueOf(2), rowIndices.get(2).getRowIndex().
+				get(0));
 
 		resetContext();
 		Assert.assertFalse("Incorrect default sort after handleRequest", table.isSorted());
@@ -524,9 +574,12 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 
 		rowIndices = table.getRepeater().getBeanList();
 		Assert.assertEquals("Incorrect sort", 3, rowIndices.size());
-		Assert.assertEquals("Incorrect sort", Integer.valueOf(0), rowIndices.get(0).getRowIndex().get(0));
-		Assert.assertEquals("Incorrect sort", Integer.valueOf(1), rowIndices.get(1).getRowIndex().get(0));
-		Assert.assertEquals("Incorrect sort", Integer.valueOf(2), rowIndices.get(2).getRowIndex().get(0));
+		Assert.assertEquals("Incorrect sort", Integer.valueOf(0), rowIndices.get(0).getRowIndex().
+				get(0));
+		Assert.assertEquals("Incorrect sort", Integer.valueOf(1), rowIndices.get(1).getRowIndex().
+				get(0));
+		Assert.assertEquals("Incorrect sort", Integer.valueOf(2), rowIndices.get(2).getRowIndex().
+				get(0));
 	}
 
 	@Test
@@ -546,14 +599,19 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 		table.sort(0, true);
 
 		Assert.assertTrue("Incorrect selection after sort method", table.isSorted());
-		Assert.assertEquals("Incorrect sort column after sort method", 0, table.getSortColumnIndex());
+		Assert.
+				assertEquals("Incorrect sort column after sort method", 0, table.
+						getSortColumnIndex());
 		Assert.assertTrue("Incorrect sort direction after sort method", table.isSortAscending());
 
 		List<RowIdWrapper> rowIndices = table.getRepeater().getBeanList();
 		Assert.assertEquals("Incorrect sort", 3, rowIndices.size());
-		Assert.assertEquals("Incorrect sort", Integer.valueOf(0), rowIndices.get(0).getRowIndex().get(0));
-		Assert.assertEquals("Incorrect sort", Integer.valueOf(2), rowIndices.get(1).getRowIndex().get(0));
-		Assert.assertEquals("Incorrect sort", Integer.valueOf(1), rowIndices.get(2).getRowIndex().get(0));
+		Assert.assertEquals("Incorrect sort", Integer.valueOf(0), rowIndices.get(0).getRowIndex().
+				get(0));
+		Assert.assertEquals("Incorrect sort", Integer.valueOf(2), rowIndices.get(1).getRowIndex().
+				get(0));
+		Assert.assertEquals("Incorrect sort", Integer.valueOf(1), rowIndices.get(2).getRowIndex().
+				get(0));
 	}
 
 	/**
@@ -566,7 +624,8 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 
 		table.setShowColumnHeaders(showColumnHeaders);
 
-		Assert.assertEquals("should return showColumnHeaders set", showColumnHeaders, table.isShowColumnHeaders());
+		Assert.assertEquals("should return showColumnHeaders set", showColumnHeaders, table.
+				isShowColumnHeaders());
 	}
 
 	@Test
@@ -629,7 +688,8 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 		table.setLocked(true);
 		setActiveContext(createUIContext());
 		table.setCurrentPage(currentPage);
-		Assert.assertEquals("Too high currentPage should be set back to maxPage", 0, table.getCurrentPage());
+		Assert.assertEquals("Too high currentPage should be set back to maxPage", 0, table.
+				getCurrentPage());
 
 		resetContext();
 		Assert.assertEquals("Incorrect default page", 0, table.getCurrentPage());
@@ -647,7 +707,8 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 			table.setCurrentPage(currentPage);
 			Assert.fail("should throw IllegalArgumentException");
 		} catch (IllegalArgumentException e) {
-			Assert.assertEquals("should get expected message", SET_CURRENT_PAGE_ERROR_MESSAGE, e.getMessage());
+			Assert.assertEquals("should get expected message", SET_CURRENT_PAGE_ERROR_MESSAGE, e.
+					getMessage());
 		}
 	}
 
@@ -659,7 +720,8 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 		WTable table = new WTable();
 		table.setSortMode(WTable.SortMode.DYNAMIC);
 
-		Assert.assertEquals("should return SortMode set", WTable.SortMode.DYNAMIC, table.getSortMode());
+		Assert.assertEquals("should return SortMode set", WTable.SortMode.DYNAMIC, table.
+				getSortMode());
 	}
 
 	/**
@@ -685,7 +747,8 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 	public void testSetSelectedRowsNull() {
 		WTable table = new WTable();
 
-		Set<Object> selectedRows = new HashSet<Object>(Arrays.asList(Arrays.asList(2), Arrays.asList(3)));
+		Set<Object> selectedRows = new HashSet<Object>(Arrays.asList(Arrays.asList(2), Arrays.
+				asList(3)));
 
 		table.setSelectedRows(null);
 
@@ -696,7 +759,8 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 		Assert.assertTrue("Incorrect selected rows", table.getSelectedRows().size() == 2);
 
 		resetContext();
-		Assert.assertTrue("Default selected rows should be empty", table.getSelectedRows().size() == 0);
+		Assert.assertTrue("Default selected rows should be empty",
+				table.getSelectedRows().size() == 0);
 	}
 
 	/**
@@ -765,8 +829,10 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 		table.addAction(button2);
 
 		Assert.assertEquals("should be 2 items in list with uic", 2, table.getActions().size());
-		Assert.assertEquals("should get action added in list with uic", button, table.getActions().get(0));
-		Assert.assertEquals("should get second action added in list with uic", button2, table.getActions().get(1));
+		Assert.assertEquals("should get action added in list with uic", button, table.getActions().
+				get(0));
+		Assert.assertEquals("should get second action added in list with uic", button2, table.
+				getActions().get(1));
 
 		// Default context should be unaffected.
 		resetContext();
@@ -787,7 +853,8 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 			table.addActionConstraint(button, constraint);
 			Assert.fail("should throw an IllegalArgumentException");
 		} catch (IllegalArgumentException e) {
-			Assert.assertEquals("should get expected message", ACTION_CONSTRAINT_ERROR_MESSAGE, e.getMessage());
+			Assert.assertEquals("should get expected message", ACTION_CONSTRAINT_ERROR_MESSAGE, e.
+					getMessage());
 		}
 	}
 
@@ -804,7 +871,8 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 			table.addActionConstraint(button, constraint);
 			Assert.fail("should throw an IllegalArgumentException");
 		} catch (IllegalArgumentException e) {
-			Assert.assertEquals("should get expected message", ACTION_CONSTRAINT_ERROR_MESSAGE, e.getMessage());
+			Assert.assertEquals("should get expected message", ACTION_CONSTRAINT_ERROR_MESSAGE, e.
+					getMessage());
 		}
 	}
 
@@ -828,12 +896,14 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 		table.addAction(button);
 
 		// add constraint to shared
-		WTable.ActionConstraint constraint1 = new WTable.ActionConstraint(minRowSelected, maxRowSelected, error,
+		WTable.ActionConstraint constraint1 = new WTable.ActionConstraint(minRowSelected,
+				maxRowSelected, error,
 				message);
 		table.addActionConstraint(button, constraint1);
 
 		// add constraint to uic
-		WTable.ActionConstraint constraint2 = new WTable.ActionConstraint(minRowSelectedAlt, maxRowSelectedAlt,
+		WTable.ActionConstraint constraint2 = new WTable.ActionConstraint(minRowSelectedAlt,
+				maxRowSelectedAlt,
 				errorAlt, messageAlt);
 
 		setActiveContext(createUIContext());
@@ -842,8 +912,10 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 		List<WTable.ActionConstraint> constraints = table.getActionConstraints(button);
 		Assert.assertNotNull("constraints should not be null", constraints);
 		Assert.assertEquals("there should be two constraints", 2, constraints.size());
-		Assert.assertTrue("constraint1 should be one of the constraints", constraints.contains(constraint1));
-		Assert.assertTrue("constraint2 should be one of the constraints", constraints.contains(constraint2));
+		Assert.assertTrue("constraint1 should be one of the constraints", constraints.contains(
+				constraint1));
+		Assert.assertTrue("constraint2 should be one of the constraints", constraints.contains(
+				constraint2));
 	}
 
 	/**
@@ -861,7 +933,8 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 		final boolean errorAlt = true;
 		final String messageAlt = "this is a different test message";
 
-		WTable.ActionConstraint constraint = new WTable.ActionConstraint(minSelectedRowCount, maxSelectedRowCount,
+		WTable.ActionConstraint constraint = new WTable.ActionConstraint(minSelectedRowCount,
+				maxSelectedRowCount,
 				error, message);
 
 		Assert.assertEquals("should return min count set in constructor", minSelectedRowCount,
@@ -869,15 +942,18 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 		Assert.assertEquals("should return max count set in constructor", maxSelectedRowCount,
 				constraint.getMaxSelectedRowCount());
 		Assert.assertEquals("should return error set in constructor", error, constraint.isError());
-		Assert.assertEquals("should return message set in constructor", message, constraint.getMessage());
+		Assert.assertEquals("should return message set in constructor", message, constraint.
+				getMessage());
 
 		constraint.setMinSelectedRowCount(minSelectedRowCountAlt);
 		constraint.setMaxSelectedRowCount(maxSelectedRowCountAlt);
 		constraint.setError(errorAlt);
 		constraint.setMessage(messageAlt);
 
-		Assert.assertEquals("should return min count set", minSelectedRowCountAlt, constraint.getMinSelectedRowCount());
-		Assert.assertEquals("should return max count set", maxSelectedRowCountAlt, constraint.getMaxSelectedRowCount());
+		Assert.assertEquals("should return min count set", minSelectedRowCountAlt, constraint.
+				getMinSelectedRowCount());
+		Assert.assertEquals("should return max count set", maxSelectedRowCountAlt, constraint.
+				getMaxSelectedRowCount());
 		Assert.assertEquals("should return error set", errorAlt, constraint.isError());
 		Assert.assertEquals("should return message set", messageAlt, constraint.getMessage());
 	}
@@ -887,7 +963,8 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 		WNamingContext context = new WNamingContext("TEST");
 
 		WTable table = new WTable();
-		table.setTableModel(new AdapterBasicTableModel(new SimpleTableModel(new String[][]{{"1"}, {"3"}, {"2"}})));
+		table.setTableModel(new AdapterBasicTableModel(new SimpleTableModel(
+				new String[][]{{"1"}, {"3"}, {"2"}})));
 		WComponent repeated = new WBeanComponent();
 		table.addColumn(new WTableColumn("dummy", repeated));
 
@@ -903,10 +980,12 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 		String tableId = table.getId();
 
 		// Repeater ID
-		Assert.assertEquals("Incorrect default id for table repeater", tableId + "-row", table.getRepeater().getId());
+		Assert.assertEquals("Incorrect default id for table repeater", tableId + "-row", table.
+				getRepeater().getId());
 
 		// Repeater repeat root ID
-		Assert.assertEquals("Incorrect default id for table repeater root", tableId + "-row-r", table.getRepeater()
+		Assert.assertEquals("Incorrect default id for table repeater root", tableId + "-row-r",
+				table.getRepeater()
 				.getRepeatRoot().getId());
 
 		String rowPrefix = table.getRepeater().getRepeatRoot().getId();
@@ -920,7 +999,8 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 			String idPrefix = rowPrefix + row + WComponent.ID_CONTEXT_SEPERATOR + rowSuffix;
 			try {
 				UIContextHolder.pushContext(uic);
-				Assert.assertEquals("Incorrect default id for repeated component", idPrefix, repeated.getId());
+				Assert.assertEquals("Incorrect default id for repeated component", idPrefix,
+						repeated.getId());
 			} finally {
 				UIContextHolder.popContext();
 			}
@@ -932,7 +1012,8 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 		WNamingContext context = new WNamingContext("TEST");
 
 		WTable table = new WTable();
-		table.setTableModel(new AdapterBasicTableModel(new SimpleTableModel(new String[][]{{"1"}, {"3"}, {"2"}})));
+		table.setTableModel(new AdapterBasicTableModel(new SimpleTableModel(
+				new String[][]{{"1"}, {"3"}, {"2"}})));
 		WComponent repeated = new WBeanComponent();
 		table.addColumn(new WTableColumn("dummy", repeated));
 
@@ -945,15 +1026,18 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 		setActiveContext(new UIContextImpl());
 
 		// Table ID
-		Assert.assertEquals("Incorrect id for table with idname", "TEST" + WComponent.ID_CONTEXT_SEPERATOR + "T",
+		Assert.assertEquals("Incorrect id for table with idname",
+				"TEST" + WComponent.ID_CONTEXT_SEPERATOR + "T",
 				table.getId());
 		String tableId = table.getId();
 
 		// Table repeater id
-		Assert.assertEquals("Incorrect id for table repeater", tableId + "-row", table.getRepeater().getId());
+		Assert.assertEquals("Incorrect id for table repeater", tableId + "-row",
+				table.getRepeater().getId());
 
 		// Table repeater root id
-		Assert.assertEquals("Incorrect id for table repeater root", tableId + "-row-r", table.getRepeater()
+		Assert.assertEquals("Incorrect id for table repeater root", tableId + "-row-r", table.
+				getRepeater()
 				.getRepeatRoot().getId());
 
 		String rowPrefix = table.getRepeater().getRepeatRoot().getId();
@@ -965,7 +1049,8 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 			String repeatedId = rowPrefix + row + WComponent.ID_CONTEXT_SEPERATOR + "X";
 			try {
 				UIContextHolder.pushContext(uic);
-				Assert.assertEquals("Incorrect id for repeated component with idname", repeatedId, repeated.getId());
+				Assert.assertEquals("Incorrect id for repeated component with idname", repeatedId,
+						repeated.getId());
 			} finally {
 				UIContextHolder.popContext();
 			}
@@ -977,7 +1062,8 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 		WNamingContext context = new WNamingContext("TEST");
 
 		WTable table = new WTable();
-		table.setTableModel(new AdapterBasicTableModel(new SimpleTableModel(new String[][]{{"1"}, {"3"}, {"2"}})));
+		table.setTableModel(new AdapterBasicTableModel(new SimpleTableModel(
+				new String[][]{{"1"}, {"3"}, {"2"}})));
 		WComponent repeated = new WBeanComponent();
 		table.addColumn(new WTableColumn("dummy", repeated));
 
@@ -992,11 +1078,13 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 		String tableId = table.getInternalId();
 
 		// Table Repeater ID
-		Assert.assertEquals("Incorrect internal id for table repeater", tableId + "b", table.getRepeater()
+		Assert.assertEquals("Incorrect internal id for table repeater", tableId + "b", table.
+				getRepeater()
 				.getInternalId());
 
 		// Table Repeater root ID
-		Assert.assertEquals("Incorrect internal id for table repeater root", tableId + "br", table.getRepeater()
+		Assert.assertEquals("Incorrect internal id for table repeater root", tableId + "br", table.
+				getRepeater()
 				.getRepeatRoot().getInternalId());
 
 		String rowPrefix = table.getRepeater().getRepeatRoot().getInternalId();
@@ -1029,7 +1117,8 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 		NamingContextable naming = new WTable();
 		naming.setIdName(id);
 		Assert.assertEquals("Incorrect component id", id, naming.getId());
-		Assert.assertEquals("Naming context should match component id", id, naming.getNamingContextId());
+		Assert.assertEquals("Naming context should match component id", id, naming.
+				getNamingContextId());
 	}
 
 	/**

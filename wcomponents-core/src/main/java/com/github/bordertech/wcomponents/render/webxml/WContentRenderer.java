@@ -26,13 +26,12 @@ final class WContentRenderer extends AbstractWebXmlRenderer {
 	 * Paints the given WContent.</p>
 	 *
 	 * <p>
-	 * This paint method outputs a popup that opens browser window in which the content document
-	 * will be displayed. The component is only rendered for requests in which the display() method
-	 * of the content component has just been called.</p>
+	 * This paint method outputs a popup that opens browser window in which the content document will be displayed. The
+	 * component is only rendered for requests in which the display() method of the content component has just been
+	 * called.</p>
 	 *
 	 * <p>
-	 * WContent's handleRequest() method will return the actual PDF document content via the use of
-	 * an Escape.</p>
+	 * WContent's handleRequest() method will return the actual PDF document content via the use of an Escape.</p>
 	 *
 	 * @param component the WContent to paint.
 	 * @param renderContext the RenderContext to paint to.

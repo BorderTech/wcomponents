@@ -8,8 +8,7 @@ import com.github.bordertech.wcomponents.examples.validation.fields.FieldValidat
 import com.github.bordertech.wcomponents.examples.validation.repeater.RepeaterExample;
 
 /**
- * This test component is used to provide the different ways of performing validation with
- * WComponents.
+ * This test component is used to provide the different ways of performing validation with WComponents.
  *
  * @author Adam Millard
  */
@@ -21,7 +20,8 @@ public class ValidationExamples extends WContainer {
 	public ValidationExamples() {
 		WTabSet tabs = new WTabSet();
 		tabs.addTab(new BasicFieldsValidationExample(), "Basic", WTabSet.TAB_MODE_CLIENT);
-		tabs.addTab(new BasicFieldLayoutValidationExample(), "Basic - using WFieldLayout", WTabSet.TAB_MODE_LAZY);
+		tabs.addTab(new BasicFieldLayoutValidationExample(), "Basic - using WFieldLayout",
+				WTabSet.TAB_MODE_LAZY);
 		tabs.addTab(new RepeaterExample(), "Repeater", WTabSet.TAB_MODE_LAZY);
 		tabs.addTab(new FieldValidation(), "All Fields", WTabSet.TAB_MODE_LAZY);
 

@@ -47,7 +47,7 @@ public class TargetableInterceptor_Test extends AbstractWComponentTestCase {
 		Assert.assertSame("Incorrect UI returned",
 				originalUI, interceptor.getUI());
 
-		// Should not change UI by default 
+		// Should not change UI by default
 		try {
 			MockRequest request = new MockRequest();
 			interceptor.serviceRequest(request);
@@ -77,7 +77,8 @@ public class TargetableInterceptor_Test extends AbstractWComponentTestCase {
 	public void testServiceRequestWithUndefinedTarget() {
 		// UI should change when a target is present in a request
 		MockRequest request = new MockRequest();
-		request.setParameter(Environment.TARGET_ID, "TargetableInterceptor_Test.testServiceRequestWithUndefinedTarget");
+		request.setParameter(Environment.TARGET_ID,
+				"TargetableInterceptor_Test.testServiceRequestWithUndefinedTarget");
 
 		interceptor.serviceRequest(request);
 	}

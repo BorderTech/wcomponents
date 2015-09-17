@@ -20,7 +20,8 @@ public class WFileWidgetRenderer_Test extends AbstractWebXmlRendererTestCase {
 	@Test
 	public void testRendererCorrectlyConfigured() {
 		WFileWidget fileUpload = new WFileWidget();
-		Assert.assertTrue("Incorrect renderer supplied", getWebXmlRenderer(fileUpload) instanceof WFileWidgetRenderer);
+		Assert.assertTrue("Incorrect renderer supplied",
+				getWebXmlRenderer(fileUpload) instanceof WFileWidgetRenderer);
 	}
 
 	@Test
@@ -63,7 +64,8 @@ public class WFileWidgetRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		fileUpload.setAccessibleText("accessible");
 		assertSchemaMatch(fileUpload);
-		assertXpathEvaluatesTo(fileUpload.getAccessibleText(), "//ui:fileUpload/@accessibleText", fileUpload);
+		assertXpathEvaluatesTo(fileUpload.getAccessibleText(), "//ui:fileUpload/@accessibleText",
+				fileUpload);
 
 		fileUpload.setFileTypes(new String[]{"a/b", "c/d"});
 		assertXpathEvaluatesTo("a/b,c/d", "//ui:fileUpload/@acceptedMimeTypes", fileUpload);

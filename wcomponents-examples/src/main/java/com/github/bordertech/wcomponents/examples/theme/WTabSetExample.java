@@ -116,33 +116,39 @@ public class WTabSetExample extends WPanel {
 		/* NOTE: no example of the hidden property because WTabSet is not a subordinate target. This is inconsistent
 		 * with the schema. */
 		add(new WHeading(WHeading.MAJOR, "Setting the initially active tab"));
-		add(new WHeading(WHeading.SECTION, "Server side with tabs on the left, with second tab initially active."));
+		add(new WHeading(WHeading.SECTION,
+				"Server side with tabs on the left, with second tab initially active."));
 		WTabSet tabset3 = new WTabSet(WTabSet.TYPE_LEFT);
 		tabset3.setContentHeight("10em");
-		tabset3.addTab(new WText("Some content should go in here."), "First tab", WTabSet.TAB_MODE_SERVER, 'i');
+		tabset3.addTab(new WText("Some content should go in here."), "First tab",
+				WTabSet.TAB_MODE_SERVER, 'i');
 
 		WPanel largeContent2 = new WPanel();
 		largeContent2.setLayout(new FlowLayout(Alignment.VERTICAL));
 		largeContent2.add(new WText(LONG_TEXT));
 		largeContent2.add(new WText(LONG_TEXT));
 		largeContent2.add(new WText(LONG_TEXT));
-		tabset3.addTab(largeContent2, "Second tab which is much longer", WTabSet.TAB_MODE_SERVER, 'e');
+		tabset3.addTab(largeContent2, "Second tab which is much longer", WTabSet.TAB_MODE_SERVER,
+				'e');
 
 		WImage image = new WImage("/image/success.png", "success");
 		image.setCacheKey("eg-image-tab");
 		WDecoratedLabel tabLabel = new WDecoratedLabel(image, new WText("Third tab"), null);
 
-		tabset3.addTab(new WText("The tab button for this tab has an image!"), tabLabel, WTabSet.TAB_MODE_SERVER, 'h');
+		tabset3.addTab(new WText("The tab button for this tab has an image!"), tabLabel,
+				WTabSet.TAB_MODE_SERVER, 'h');
 
 		// Set 2nd tab active
 		tabset3.setActiveIndex(1);
 		add(tabset3);
 
-		add(new WHeading(WHeading.SECTION, "Client side with tabs on the right and the third tab initially active."));
+		add(new WHeading(WHeading.SECTION,
+				"Client side with tabs on the right and the third tab initially active."));
 		WText thirdContent = new WText("Some more content should go into here.");
 		WTabSet tabset4 = new WTabSet(WTabSet.TYPE_RIGHT);
 		tabset4.setContentHeight("10em");
-		tabset4.addTab(new WText("Some content should go into here."), "First tab", WTabSet.TAB_MODE_CLIENT);
+		tabset4.addTab(new WText("Some content should go into here."), "First tab",
+				WTabSet.TAB_MODE_CLIENT);
 		tabset4.addTab(new WText(LONG_TEXT), "Second tab which is longer", WTabSet.TAB_MODE_CLIENT);
 		tabset4.addTab(thirdContent, "Third tab", WTabSet.TAB_MODE_CLIENT);
 
@@ -151,7 +157,8 @@ public class WTabSetExample extends WPanel {
 		add(tabset4);
 
 		add(new WHeading(WHeading.SECTION, "Client side with showing lots of tabs."));
-		add(new ExplanatoryText("This will effectively show what happens when tabs need to wrap. You should do everything possible to avoid this situation."));
+		add(new ExplanatoryText(
+				"This will effectively show what happens when tabs need to wrap. You should do everything possible to avoid this situation."));
 		WTabSet tabset5 = new WTabSet();
 		tabset5.addTab(new WText("Tab 1."), "First tab", WTabSet.TAB_MODE_CLIENT);
 		tabset5.addTab(new WText("Tab 2."), "Second tab", WTabSet.TAB_MODE_CLIENT);

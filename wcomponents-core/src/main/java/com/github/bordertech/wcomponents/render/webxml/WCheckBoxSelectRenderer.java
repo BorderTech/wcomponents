@@ -79,7 +79,8 @@ final class WCheckBoxSelectRenderer extends AbstractWebXmlRenderer {
 				if (option instanceof OptionGroup) {
 					throw new SystemException("Option groups not supported in WCheckBoxSelect.");
 				} else {
-					renderOption(select, option, optionIndex++, xml, selections, renderSelectionsOnly, encode);
+					renderOption(select, option, optionIndex++, xml, selections,
+							renderSelectionsOnly, encode);
 				}
 			}
 		}
@@ -95,11 +96,11 @@ final class WCheckBoxSelectRenderer extends AbstractWebXmlRenderer {
 	 * @param optionIndex the index of the option. OptionGroups are not counted.
 	 * @param html the XmlStringBuilder to paint to.
 	 * @param selections the list of selected options.
-	 * @param renderSelectionsOnly true to only render selected options, false to render all
-	 * options.
+	 * @param renderSelectionsOnly true to only render selected options, false to render all options.
 	 * @param encode true if the option description should be encoded, false if not.
 	 */
-	private void renderOption(final WCheckBoxSelect select, final Object option, final int optionIndex,
+	private void renderOption(final WCheckBoxSelect select, final Object option,
+			final int optionIndex,
 			final XmlStringBuilder html, final List<?> selections,
 			final boolean renderSelectionsOnly, final boolean encode) {
 		boolean selected = selections.contains(option);

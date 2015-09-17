@@ -8,20 +8,21 @@ import java.util.regex.Pattern;
 
 /**
  * <p>
- * A WEmailField is a wcomponent used to display an email input field. Use the method "getText" to
- * get the text entered into the field by the user.
+ * A WEmailField is a wcomponent used to display an email input field. Use the method "getText" to get the text entered
+ * into the field by the user.
  * </p>
  * <p>
- * An email field differs from a text field in the way in which some user agents interact with it.
- * For example, touchscreen devices may display a different soft keyboard from the default layout.
- * In addition, they may present email addresses from the user's address book.
+ * An email field differs from a text field in the way in which some user agents interact with it. For example,
+ * touchscreen devices may display a different soft keyboard from the default layout. In addition, they may present
+ * email addresses from the user's address book.
  * </p>
  *
  * @author Yiannis Paschalidis
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class WEmailField extends AbstractInput implements AjaxTrigger, AjaxTarget, SubordinateTrigger, SubordinateTarget {
+public class WEmailField extends AbstractInput implements AjaxTrigger, AjaxTarget,
+		SubordinateTrigger, SubordinateTarget {
 	// ================================
 	// Action/Event handling
 
@@ -150,9 +151,8 @@ public class WEmailField extends AbstractInput implements AjaxTrigger, AjaxTarge
 
 	/**
 	 * <p>
-	 * Performs validation of the email address. This only performs very basic validation - an email
-	 * address must contain some text, followed by an '@', and then something which resembles a
-	 * domain/host name.
+	 * Performs validation of the email address. This only performs very basic validation - an email address must
+	 * contain some text, followed by an '@', and then something which resembles a domain/host name.
 	 * </p>
 	 * <p>
 	 * Subclasses can override this method to perform more specific validation.
@@ -166,15 +166,19 @@ public class WEmailField extends AbstractInput implements AjaxTrigger, AjaxTarge
 			String errorMessage = getComponentModel().errorMessage;
 
 			// Email Pattern
-			if (!Pattern.matches("^(?:\".+\"|[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+)@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)+$", value)) {
+			if (!Pattern.matches(
+					"^(?:\".+\"|[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+)@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)+$",
+					value)) {
 				diags.add(createErrorDiagnostic(errorMessage, this));
 			}
 
 			// Maximum Length
 			int max = getMaxLength();
 			if (max > 0 && value.length() > max) {
-				diags.add(createErrorDiagnostic(InternalMessages.DEFAULT_VALIDATION_ERROR_MAX_LENGTH, this,
-						String.valueOf(max)));
+				diags.add(
+						createErrorDiagnostic(InternalMessages.DEFAULT_VALIDATION_ERROR_MAX_LENGTH,
+								this,
+								String.valueOf(max)));
 			}
 		}
 	}

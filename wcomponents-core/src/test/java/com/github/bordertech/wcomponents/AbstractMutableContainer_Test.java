@@ -31,7 +31,8 @@ public class AbstractMutableContainer_Test extends AbstractWComponentTestCase {
 		container.remove(child);
 
 		// Check no children
-		Assert.assertEquals("Should have no child count after removing", 0, container.getChildCount());
+		Assert.assertEquals("Should have no child count after removing", 0, container.
+				getChildCount());
 	}
 
 	/**

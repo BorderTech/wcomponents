@@ -33,7 +33,8 @@ public class WDropdownSpaceHandlingExample_Test extends WComponentSeleniumTestCa
 	public void testDropdown() {
 		WDropdownSpaceHandlingExample example = (WDropdownSpaceHandlingExample) getUi();
 
-		WDropdown dropdown = (WDropdown) TreeUtil.findWComponent(example, new String[]{"WDropdown"}).getComponent();
+		WDropdown dropdown = (WDropdown) TreeUtil.findWComponent(example, new String[]{"WDropdown"}).
+				getComponent();
 		List<?> options = dropdown.getOptions();
 
 		// Launch the web browser to the LDE
@@ -51,7 +52,8 @@ public class WDropdownSpaceHandlingExample_Test extends WComponentSeleniumTestCa
 	public void testCheckbox() {
 		WDropdownSpaceHandlingExample example = (WDropdownSpaceHandlingExample) getUi();
 
-		WCheckBoxSelect group = (WCheckBoxSelect) TreeUtil.findWComponent(example, new String[]{"WCheckBoxSelect"}).getComponent();
+		WCheckBoxSelect group = (WCheckBoxSelect) TreeUtil.findWComponent(example,
+				new String[]{"WCheckBoxSelect"}).getComponent();
 		List<?> options = group.getOptions();
 
 		// Launch the web browser to the LDE

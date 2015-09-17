@@ -11,19 +11,19 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * Note that WLink is different to WButton rendered as a link because WLink will not post the form,
- * and does not support Actions. By default it opens up a new browser window and shows the given
- * url. If the new window attributes needs to be specified then a builder can be used <code>
+ * Note that WLink is different to WButton rendered as a link because WLink will not post the form, and does not support
+ * Actions. By default it opens up a new browser window and shows the given url. If the new window attributes needs to
+ * be specified then a builder can be used <code>
  * WLink wLink = new WLink.Builder("WLink using builder and with attrs", "http://bordertech.github.io/").
  * window("myWcomponentsWindow").width(200).height(200).scrollbars(true).build();
- * </code> Caution must be taken when specifying attributes so that window name is not same for two
- * links on the same page. This can occur when window name is not provided with attributes causing
- * same default window name.
+ * </code> Caution must be taken when specifying attributes so that window name is not same for two links on the same
+ * page. This can occur when window name is not provided with attributes causing same default window name.
  *
  * @author Martin Shevchenko
  * @since 1.0.0
  */
-public class WLink extends WBeanComponent implements Container, Disableable, AjaxTarget, SubordinateTarget {
+public class WLink extends WBeanComponent implements Container, Disableable, AjaxTarget,
+		SubordinateTarget {
 
 	/**
 	 * The logger instance for this class.
@@ -160,8 +160,7 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 	// ================================
 	// Access key
 	/**
-	 * The accesskey is a shortcut key that will focus the input element when used in combination
-	 * with the Alt key.
+	 * The accesskey is a shortcut key that will focus the input element when used in combination with the Alt key.
 	 *
 	 * @return The key that in combination with Alt will focus this input.
 	 */
@@ -170,8 +169,8 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 	}
 
 	/**
-	 * Returns the accesskey character as a String. If the character is not a letter or digit then
-	 * <code>null</code> is returned.
+	 * Returns the accesskey character as a String. If the character is not a letter or digit then <code>null</code> is
+	 * returned.
 	 *
 	 * @return The accesskey character as a String (may be <code>null</code>).
 	 */
@@ -235,8 +234,7 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 	/**
 	 * Indicates whether this link should open in a new window.
 	 *
-	 * @return true if the link should open in a new window, false if it should re-use the existing
-	 * window.
+	 * @return true if the link should open in a new window, false if it should re-use the existing window.
 	 */
 	public boolean getOpenNewWindow() {
 		return getComponentModel().openNewWindow;
@@ -254,8 +252,7 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 	/**
 	 * Retrieves the attributes for new windows which are opened.
 	 * <p>
-	 * To change attributes for individual users, set a new {@link WindowAttributes} object for each
-	 * user.
+	 * To change attributes for individual users, set a new {@link WindowAttributes} object for each user.
 	 * </p>
 	 *
 	 * @return the attributes for new windows.
@@ -272,7 +269,8 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 
 		if (windowAttrs != null) {
 			if (windowAttrs.link != null) {
-				throw new IllegalArgumentException("WindowAttributes is already being used by another WLink");
+				throw new IllegalArgumentException(
+						"WindowAttributes is already being used by another WLink");
 			}
 
 			windowAttrs.link = this;
@@ -312,8 +310,8 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 	/**
 	 * Sets the action that will run if the link is pressed.
 	 * <p>
-	 * The intended use of this action is when the link opens a new window or launches another
-	 * application such as "mailto".
+	 * The intended use of this action is when the link opens a new window or launches another application such as
+	 * "mailto".
 	 * </p>
 	 *
 	 * @param action the action to execute when the link is pressed.
@@ -351,9 +349,8 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 	}
 
 	/**
-	 * Returns the data object that has been associated with this button, else null. For
-	 * convenience, this data object is passed to the execute() method of the button's associated
-	 * Action, in the ActionEvent parameter.
+	 * Returns the data object that has been associated with this button, else null. For convenience, this data object
+	 * is passed to the execute() method of the button's associated Action, in the ActionEvent parameter.
 	 *
 	 * @return the action object.
 	 */
@@ -362,8 +359,8 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 	}
 
 	/**
-	 * Associate this button with a data object that can be easily accessed in the execute() method
-	 * of the button's associated Action.
+	 * Associate this button with a data object that can be easily accessed in the execute() method of the button's
+	 * associated Action.
 	 *
 	 * @param data the action object.
 	 */
@@ -372,8 +369,8 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 	}
 
 	/**
-	 * Override handleRequest in order to perform processing for this component. This implementation
-	 * checks whether the link has been pressed via the current ajax operation.
+	 * Override handleRequest in order to perform processing for this component. This implementation checks whether the
+	 * link has been pressed via the current ajax operation.
 	 *
 	 * @param request the request being responded to.
 	 */
@@ -457,8 +454,8 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 	}
 
 	/**
-	 * Sets the image to display on the link. The image will be read from the application's class
-	 * path rather than from its web docs.
+	 * Sets the image to display on the link. The image will be read from the application's class path rather than from
+	 * its web docs.
 	 *
 	 * @param image the relative path to the image resource, or null for no image.
 	 */
@@ -472,8 +469,7 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 	 * If the link is not using an Image resource, it will return null.
 	 * </p>
 	 *
-	 * @return the WImage holding the Image resource, or null if the link is not using an Image
-	 * resource.
+	 * @return the WImage holding the Image resource, or null if the link is not using an Image resource.
 	 */
 	public WImage getImageHolder() {
 		return getImage() == null ? null : linkImage;
@@ -664,8 +660,7 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 	}
 
 	/**
-	 * This WImage implemention delegates to the link's image and is only used to serve up the image
-	 * for the link.
+	 * This WImage implemention delegates to the link's image and is only used to serve up the image for the link.
 	 */
 	private static final class LinkImage extends WImage {
 
@@ -954,8 +949,8 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 	}
 
 	/**
-	 * This class allows building of WLink in a fluent interface style. It will use a default window
-	 * name if window name is not supplied along with other attributes.
+	 * This class allows building of WLink in a fluent interface style. It will use a default window name if window name
+	 * is not supplied along with other attributes.
 	 */
 	public static class Builder {
 
@@ -1081,8 +1076,7 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 		/**
 		 * Sets whether the target window should contain the standard browser directory buttons.
 		 *
-		 * @param val true the target window should contain the standard browser directory buttons,
-		 * false if not.
+		 * @param val true the target window should contain the standard browser directory buttons, false if not.
 		 * @return this builder.
 		 */
 		public Builder directories(final boolean val) {

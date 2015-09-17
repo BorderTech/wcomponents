@@ -17,7 +17,7 @@ public class ContentEscape_Test {
 
 	@Test
 	public void testEscapeNoContent() throws IOException {
-		// ContentEscape with no content 
+		// ContentEscape with no content
 		MockResponse response = new MockResponse();
 		ContentEscape contentEscape = new ContentEscape(null);
 		contentEscape.setResponse(response);
@@ -39,9 +39,12 @@ public class ContentEscape_Test {
 		contentEscape.setResponse(response);
 		contentEscape.escape();
 
-		Assert.assertTrue("Incorrect content written", Arrays.equals(contentAccess.getBytes(), response.getOutput()));
-		Assert.assertEquals("Incorrect mime type set", contentAccess.getMimeType(), response.getContentType());
-		Assert.assertFalse("Content-Disposition header should not be set", response.getHeaders().containsKey("Content-Disposition"));
+		Assert.assertTrue("Incorrect content written", Arrays.equals(contentAccess.getBytes(),
+				response.getOutput()));
+		Assert.assertEquals("Incorrect mime type set", contentAccess.getMimeType(), response.
+				getContentType());
+		Assert.assertFalse("Content-Disposition header should not be set", response.getHeaders().
+				containsKey("Content-Disposition"));
 		Assert.assertEquals("Response should have header set for no caching",
 				ResponseCacheInterceptor.DEFAULT_NO_CACHE_SETTINGS,
 				response.getHeaders().get("Cache-Control"));
@@ -53,9 +56,12 @@ public class ContentEscape_Test {
 		contentEscape.setResponse(response);
 		contentEscape.escape();
 
-		Assert.assertTrue("Incorrect content written", Arrays.equals(contentAccess.getBytes(), response.getOutput()));
-		Assert.assertEquals("Incorrect mime type set", contentAccess.getMimeType(), response.getContentType());
-		Assert.assertEquals("Incorrect content-Disposition", "inline; filename=" + contentAccess.getDescription(), response.getHeaders().get("Content-Disposition"));
+		Assert.assertTrue("Incorrect content written", Arrays.equals(contentAccess.getBytes(),
+				response.getOutput()));
+		Assert.assertEquals("Incorrect mime type set", contentAccess.getMimeType(), response.
+				getContentType());
+		Assert.assertEquals("Incorrect content-Disposition", "inline; filename=" + contentAccess.
+				getDescription(), response.getHeaders().get("Content-Disposition"));
 
 		// ContentEscape with Cacheable True
 		contentEscape.setCacheable(true);
@@ -65,7 +71,8 @@ public class ContentEscape_Test {
 
 		Assert
 				.assertEquals("Response should have header set for caching",
-						ResponseCacheInterceptor.DEFAULT_CACHE_SETTINGS, response.getHeaders().get("Cache-Control"));
+						ResponseCacheInterceptor.DEFAULT_CACHE_SETTINGS, response.getHeaders().get(
+								"Cache-Control"));
 	}
 
 	@Test

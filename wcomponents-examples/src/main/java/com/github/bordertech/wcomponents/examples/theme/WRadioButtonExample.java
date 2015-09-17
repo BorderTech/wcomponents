@@ -25,7 +25,8 @@ public class WRadioButtonExample extends WContainer {
 		//Normal WRadioButtons in a RadioButtonGroup
 		add(new WHeading(WHeading.MAJOR, "Radio buttons are answers to a particular question."));
 
-		add(new ExplanatoryText("It is not required that all WRadioButtons in a group be in the same field set (or even in the same part of the UI)"
+		add(new ExplanatoryText(
+				"It is not required that all WRadioButtons in a group be in the same field set (or even in the same part of the UI)"
 				+ " but it is strongly recommended. The radio buttons represent possible answers and only one may be selected so the question context must be provided."
 				+ " A table column (or, less commonly a row) may server to provide the question context. There are no other arrangements which can be"
 				+ " guaranteed to provide adequate accessible context for the relationship between the question and the answers."));
@@ -51,7 +52,8 @@ public class WRadioButtonExample extends WContainer {
 		add(new WHorizontalRule());
 
 		//mandatory
-		add(new ExplanatoryText("Radio buttons may be mandatory but the required marker has to go on the 'question', not on the 'answers'."));
+		add(new ExplanatoryText(
+				"Radio buttons may be mandatory but the required marker has to go on the 'question', not on the 'answers'."));
 		fset = new WFieldSet("Choose your nearest neighbour");
 		add(fset);
 		fset.setMargin(new Margin(12, 0, 0, 0));
@@ -84,7 +86,8 @@ public class WRadioButtonExample extends WContainer {
 
 		add(new WHorizontalRule());
 		add(new WHeading(WHeading.SECTION, "Radio buttons may be read-only."));
-		add(new ExplanatoryText("Radio Buttons may be read-only. In this case the widget is replaced with a render which does not allow for malicious or accidental change of state."));
+		add(new ExplanatoryText(
+				"Radio Buttons may be read-only. In this case the widget is replaced with a render which does not allow for malicious or accidental change of state."));
 		fset = new WFieldSet("Here's some we answered earlier.");
 		add(fset);
 		layout = new WFieldLayout(WFieldLayout.LAYOUT_STACKED);

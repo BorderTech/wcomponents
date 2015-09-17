@@ -33,21 +33,23 @@ public class WPartialDateField_Test extends AbstractWComponentTestCase {
 	/**
 	 * List of valid dates.
 	 */
-	private static final List<String> VALID_INTERNAL_DATES = Arrays.asList(new String[]{"????-??-??", "2011-??-??",
-		"2011-10-??", "2011-10-14",
-		"2011-??-14", "????-10-??",
-		"????-10-14", "????-??-14"});
+	private static final List<String> VALID_INTERNAL_DATES = Arrays.asList(
+			new String[]{"????-??-??", "2011-??-??",
+				"2011-10-??", "2011-10-14",
+				"2011-??-14", "????-10-??",
+				"????-10-14", "????-??-14"});
 
 	/**
 	 * List of invalid dates.
 	 */
-	private static final List<String> INVALID_INTERNAL_DATES = Arrays.asList(new String[]{"ABCD-01-01", "20AB-01-01",
-		"1234-56-789", "20?1-10-14",
-		"2011-?0-14", "2011-10-?4",
-		"20A1-10-14", "2011-A0-14",
-		"2011-10-A4", "123-123-12",
-		"1234-123-1", "1234567890",
-		""});
+	private static final List<String> INVALID_INTERNAL_DATES = Arrays.asList(
+			new String[]{"ABCD-01-01", "20AB-01-01",
+				"1234-56-789", "20?1-10-14",
+				"2011-?0-14", "2011-10-?4",
+				"20A1-10-14", "2011-A0-14",
+				"2011-10-A4", "123-123-12",
+				"1234-123-1", "1234567890",
+				""});
 
 	/**
 	 * Valid Date - user text.
@@ -128,7 +130,8 @@ public class WPartialDateField_Test extends AbstractWComponentTestCase {
 		Assert.assertEquals("Incorrect Day value returned", day, partial.getDay());
 		Assert.assertEquals("Incorrect Month value returned", month, partial.getMonth());
 		Assert.assertEquals("Incorrect Year value returned", year, partial.getYear());
-		Assert.assertEquals("Incorrect String value returned", "20121001", partial.getValueAsString());
+		Assert.assertEquals("Incorrect String value returned", "20121001", partial.
+				getValueAsString());
 
 		// Invalid Year
 		day = null;
@@ -138,7 +141,10 @@ public class WPartialDateField_Test extends AbstractWComponentTestCase {
 			partial = new WPartialDateField(day, month, year);
 			Assert.fail("Invalid partial year should throw an exception");
 		} catch (IllegalArgumentException e) {
-			Assert.assertNotNull("Invalid argument exception for invalid year should have a message", e.getMessage());
+			Assert.
+					assertNotNull(
+							"Invalid argument exception for invalid year should have a message", e.
+							getMessage());
 
 		}
 
@@ -149,7 +155,9 @@ public class WPartialDateField_Test extends AbstractWComponentTestCase {
 			partial = new WPartialDateField(day, month, year);
 			Assert.fail("Invalid partial date should throw an exception");
 		} catch (IllegalArgumentException e) {
-			Assert.assertNotNull("Invalid argument exception for invalid month should have a message", e.getMessage());
+			Assert.assertNotNull(
+					"Invalid argument exception for invalid month should have a message", e.
+					getMessage());
 		}
 
 		// Invalid Month
@@ -160,7 +168,9 @@ public class WPartialDateField_Test extends AbstractWComponentTestCase {
 			partial = new WPartialDateField(day, month, year);
 			Assert.fail("Invalid partial month should throw an exception");
 		} catch (IllegalArgumentException e) {
-			Assert.assertNotNull("Invalid argument exception for invalid month should have a message", e.getMessage());
+			Assert.assertNotNull(
+					"Invalid argument exception for invalid month should have a message", e.
+					getMessage());
 
 		}
 
@@ -171,7 +181,9 @@ public class WPartialDateField_Test extends AbstractWComponentTestCase {
 			partial = new WPartialDateField(day, month, year);
 			Assert.fail("Invalid partial month should throw an exception");
 		} catch (IllegalArgumentException e) {
-			Assert.assertNotNull("Invalid argument exception for invalid month should have a message", e.getMessage());
+			Assert.assertNotNull(
+					"Invalid argument exception for invalid month should have a message", e.
+					getMessage());
 		}
 
 		// Invalid Day
@@ -182,7 +194,8 @@ public class WPartialDateField_Test extends AbstractWComponentTestCase {
 			partial = new WPartialDateField(day, month, year);
 			Assert.fail("Invalid partial day should throw an exception");
 		} catch (IllegalArgumentException e) {
-			Assert.assertNotNull("Invalid argument exception for invalid day should have a message", e.getMessage());
+			Assert.assertNotNull("Invalid argument exception for invalid day should have a message",
+					e.getMessage());
 
 		}
 
@@ -193,7 +206,8 @@ public class WPartialDateField_Test extends AbstractWComponentTestCase {
 			partial = new WPartialDateField(day, month, year);
 			Assert.fail("Invalid partial day should throw an exception");
 		} catch (IllegalArgumentException e) {
-			Assert.assertNotNull("Invalid argument exception for invalid day should have a message", e.getMessage());
+			Assert.assertNotNull("Invalid argument exception for invalid day should have a message",
+					e.getMessage());
 		}
 
 	}
@@ -217,7 +231,8 @@ public class WPartialDateField_Test extends AbstractWComponentTestCase {
 		year = null;
 		partialDateField.setPartialDate(day, month, year);
 		Assert.assertNull("date should be null", partialDateField.getDate());
-		Assert.assertEquals("Incorrect String value returned", "    10", partialDateField.getValueAsString());
+		Assert.assertEquals("Incorrect String value returned", "    10", partialDateField.
+				getValueAsString());
 
 		// Invalid Year
 		day = null;
@@ -227,7 +242,10 @@ public class WPartialDateField_Test extends AbstractWComponentTestCase {
 			partialDateField.setPartialDate(day, month, year);
 			Assert.fail("Invalid partial year should throw an exception");
 		} catch (IllegalArgumentException e) {
-			Assert.assertNotNull("Invalid argument exception for invalid year should have a message", e.getMessage());
+			Assert.
+					assertNotNull(
+							"Invalid argument exception for invalid year should have a message", e.
+							getMessage());
 
 		}
 
@@ -238,7 +256,9 @@ public class WPartialDateField_Test extends AbstractWComponentTestCase {
 			partialDateField.setPartialDate(day, month, year);
 			Assert.fail("Invalid partial date should throw an exception");
 		} catch (IllegalArgumentException e) {
-			Assert.assertNotNull("Invalid argument exception for invalid month should have a message", e.getMessage());
+			Assert.assertNotNull(
+					"Invalid argument exception for invalid month should have a message", e.
+					getMessage());
 		}
 
 		// Invalid Month
@@ -249,7 +269,9 @@ public class WPartialDateField_Test extends AbstractWComponentTestCase {
 			partialDateField.setPartialDate(day, month, year);
 			Assert.fail("Invalid partial month should throw an exception");
 		} catch (IllegalArgumentException e) {
-			Assert.assertNotNull("Invalid argument exception for invalid month should have a message", e.getMessage());
+			Assert.assertNotNull(
+					"Invalid argument exception for invalid month should have a message", e.
+					getMessage());
 
 		}
 
@@ -260,7 +282,9 @@ public class WPartialDateField_Test extends AbstractWComponentTestCase {
 			partialDateField.setPartialDate(day, month, year);
 			Assert.fail("Invalid partial month should throw an exception");
 		} catch (IllegalArgumentException e) {
-			Assert.assertNotNull("Invalid argument exception for invalid month should have a message", e.getMessage());
+			Assert.assertNotNull(
+					"Invalid argument exception for invalid month should have a message", e.
+					getMessage());
 		}
 
 		// Invalid Day
@@ -271,7 +295,8 @@ public class WPartialDateField_Test extends AbstractWComponentTestCase {
 			partialDateField.setPartialDate(day, month, year);
 			Assert.fail("Invalid partial day should throw an exception");
 		} catch (IllegalArgumentException e) {
-			Assert.assertNotNull("Invalid argument exception for invalid day should have a message", e.getMessage());
+			Assert.assertNotNull("Invalid argument exception for invalid day should have a message",
+					e.getMessage());
 
 		}
 
@@ -282,7 +307,8 @@ public class WPartialDateField_Test extends AbstractWComponentTestCase {
 			partialDateField.setPartialDate(day, month, year);
 			Assert.fail("Invalid partial day should throw an exception");
 		} catch (IllegalArgumentException e) {
-			Assert.assertNotNull("Invalid argument exception for invalid day should have a message", e.getMessage());
+			Assert.assertNotNull("Invalid argument exception for invalid day should have a message",
+					e.getMessage());
 		}
 
 		// Valid Date
@@ -292,7 +318,8 @@ public class WPartialDateField_Test extends AbstractWComponentTestCase {
 		Date date = DateUtilities.createDate(12, 11, 2007);
 		partialDateField.setPartialDate(day, month, year);
 		Assert.assertEquals("date incorrectly set", date, partialDateField.getDate());
-		Assert.assertEquals("Incorrect String value returned", "20071112", partialDateField.getValueAsString());
+		Assert.assertEquals("Incorrect String value returned", "20071112", partialDateField.
+				getValueAsString());
 	}
 
 	@Test
@@ -319,12 +346,14 @@ public class WPartialDateField_Test extends AbstractWComponentTestCase {
 
 		// Data is a Full PartialDate
 		dateField.setData(REQUEST_VALID_DATE_TEXT);
-		Assert.assertEquals("Date getValue incorrect date value for Date type", REQUEST_VALID_DATE_TEXT,
+		Assert.assertEquals("Date getValue incorrect date value for Date type",
+				REQUEST_VALID_DATE_TEXT,
 				dateField.getValue());
 
 		// Data is a Partial PartialDate
 		dateField.setData(REQUEST_VALID_PARTIAL_DATE_TEXT);
-		Assert.assertEquals("Date getValue incorrect date value for Date type", REQUEST_VALID_PARTIAL_DATE_TEXT,
+		Assert.assertEquals("Date getValue incorrect date value for Date type",
+				REQUEST_VALID_PARTIAL_DATE_TEXT,
 				dateField.getValue());
 
 		// Object with a String
@@ -335,7 +364,8 @@ public class WPartialDateField_Test extends AbstractWComponentTestCase {
 			}
 		};
 		dateField.setData(dateString);
-		Assert.assertEquals("Date getValue incorrecr date value for Object to String type", REQUEST_VALID_DATE_TEXT,
+		Assert.assertEquals("Date getValue incorrecr date value for Object to String type",
+				REQUEST_VALID_DATE_TEXT,
 				dateField.getValue());
 
 		// Invalid Date
@@ -344,7 +374,8 @@ public class WPartialDateField_Test extends AbstractWComponentTestCase {
 			dateField.getValue();
 			Assert.fail("Unsupported data type should have thrown an exception");
 		} catch (SystemException e) {
-			Assert.assertNotNull("Exception should have a message for unsupported data type", e.getMessage());
+			Assert.assertNotNull("Exception should have a message for unsupported data type", e.
+					getMessage());
 		}
 
 		// Unsupported Type
@@ -353,7 +384,8 @@ public class WPartialDateField_Test extends AbstractWComponentTestCase {
 			dateField.getValue();
 			Assert.fail("Unsupported data type should have thrown an exception");
 		} catch (SystemException e) {
-			Assert.assertNotNull("Exception should have a message for unsupported data type", e.getMessage());
+			Assert.assertNotNull("Exception should have a message for unsupported data type", e.
+					getMessage());
 		}
 	}
 
@@ -362,12 +394,14 @@ public class WPartialDateField_Test extends AbstractWComponentTestCase {
 		WPartialDateField dateField = new WPartialDateField();
 
 		// Default to null
-		Assert.assertNull("User text on a datefield should default to null until a handleRequest has been processed",
+		Assert.assertNull(
+				"User text on a datefield should default to null until a handleRequest has been processed",
 				dateField.getText());
 
 		// Valid date on request
 		dateField = processDoHandleRequestWithValidDate();
-		Assert.assertEquals("User text should be the valid text for valid date on request", REQUEST_VALID_USER_TEXT,
+		Assert.assertEquals("User text should be the valid text for valid date on request",
+				REQUEST_VALID_USER_TEXT,
 				dateField.getText());
 
 		// Valid partial date on request
@@ -377,7 +411,8 @@ public class WPartialDateField_Test extends AbstractWComponentTestCase {
 
 		// Bad date on request
 		dateField = processDoHandleRequestWithBadDate();
-		Assert.assertEquals("User text should be the invalid text for bad date on request", REQUEST_BAD_USER_TEXT,
+		Assert.assertEquals("User text should be the invalid text for bad date on request",
+				REQUEST_BAD_USER_TEXT,
 				dateField.getText());
 
 		// Bad theme date on request (bad date parameter by T&S)
@@ -400,24 +435,29 @@ public class WPartialDateField_Test extends AbstractWComponentTestCase {
 		WPartialDateField dateField = new WPartialDateField();
 
 		// Default to true
-		Assert.assertTrue("ValidDate on a datefield should default to true until a handleRequest has been processed",
+		Assert.assertTrue(
+				"ValidDate on a datefield should default to true until a handleRequest has been processed",
 				dateField.isValidDate());
 
 		// Valid date on request
 		dateField = processDoHandleRequestWithValidDate();
-		Assert.assertTrue("ValidDate should be true for a valid date on the request", dateField.isValidDate());
+		Assert.assertTrue("ValidDate should be true for a valid date on the request", dateField.
+				isValidDate());
 
 		// Valid partial date on request
 		dateField = processDoHandleRequestWithValidPartialDate();
-		Assert.assertTrue("ValidDate should be true for a valid partial date on the request", dateField.isValidDate());
+		Assert.assertTrue("ValidDate should be true for a valid partial date on the request",
+				dateField.isValidDate());
 
 		// Bad date on request
 		dateField = processDoHandleRequestWithBadDate();
-		Assert.assertFalse("ValidDate should be false for a bad date on the request", dateField.isValidDate());
+		Assert.assertFalse("ValidDate should be false for a bad date on the request", dateField.
+				isValidDate());
 
 		// Bad theme date on request (bad date parameter by T&S)
 		dateField = processDoHandleRequestWithBadThemeDate();
-		Assert.assertFalse("ValidDate should be false for a bad theme date on the request", dateField.isValidDate());
+		Assert.assertFalse("ValidDate should be false for a bad theme date on the request",
+				dateField.isValidDate());
 
 		// Empty Request
 		dateField = processDoHandleRequestWithEmptyRequest();
@@ -426,7 +466,8 @@ public class WPartialDateField_Test extends AbstractWComponentTestCase {
 		// When set a date value, parseable should be true
 		dateField = processDoHandleRequestWithBadDate(); // Make parseable false and make sure it gets set to true
 		dateField.setDate(new Date());
-		Assert.assertTrue("ValidDate should be true when a valid date is set", dateField.isValidDate());
+		Assert.assertTrue("ValidDate should be true when a valid date is set", dateField.
+				isValidDate());
 	}
 
 	@Test
@@ -434,21 +475,25 @@ public class WPartialDateField_Test extends AbstractWComponentTestCase {
 		WPartialDateField dateField = new WPartialDateField();
 
 		// Value and User Text null
-		Assert.assertNull("getValue on a datefield should default to null", dateField.getValueAsString());
+		Assert.assertNull("getValue on a datefield should default to null", dateField.
+				getValueAsString());
 
 		// Valid date on request
 		dateField = processDoHandleRequestWithValidDate();
-		Assert.assertEquals("getValue should return the string value of the valid date on the request",
+		Assert.assertEquals(
+				"getValue should return the string value of the valid date on the request",
 				REQUEST_VALID_DATE_TEXT, dateField.getValueAsString());
 
 		// Valid partial date on request
 		dateField = processDoHandleRequestWithValidPartialDate();
-		Assert.assertEquals("getValue should return the string value of the valid partial date on the request",
+		Assert.assertEquals(
+				"getValue should return the string value of the valid partial date on the request",
 				REQUEST_VALID_PARTIAL_DATE_TEXT, dateField.getValueAsString());
 
 		// Bad date on request
 		dateField = processDoHandleRequestWithBadDate();
-		Assert.assertEquals("getValue should return the user text for bad date on request", REQUEST_BAD_USER_TEXT,
+		Assert.assertEquals("getValue should return the user text for bad date on request",
+				REQUEST_BAD_USER_TEXT,
 				dateField.getValueAsString());
 
 		// Bad theme date on request (bad date parameter by T&S)
@@ -458,7 +503,8 @@ public class WPartialDateField_Test extends AbstractWComponentTestCase {
 
 		// Empty Request
 		dateField = processDoHandleRequestWithEmptyRequest();
-		Assert.assertNull("getValue should be null for an empty request", dateField.getValueAsString());
+		Assert.assertNull("getValue should be null for an empty request", dateField.
+				getValueAsString());
 
 		// When set a date value, value should be the value
 		dateField.setDate(REQUEST_VALID_DATE_DATE);
@@ -477,7 +523,9 @@ public class WPartialDateField_Test extends AbstractWComponentTestCase {
 		MockRequest request = new MockRequest();
 		request.setParameter(dateField.getId(), "");
 		boolean changed = dateField.doHandleRequest(request);
-		Assert.assertFalse("doHandleRequest should have returned false for empty request and field is null", changed);
+		Assert.assertFalse(
+				"doHandleRequest should have returned false for empty request and field is null",
+				changed);
 
 		// Request with valid value and Field is null (changed)
 		request = new MockRequest();
@@ -485,12 +533,15 @@ public class WPartialDateField_Test extends AbstractWComponentTestCase {
 		request.setParameter(dateField.getId() + "-date", REQUEST_VALID_INTERNAL_DATE_TEXT);
 
 		changed = dateField.doHandleRequest(request);
-		Assert.assertTrue("doHandleRequest should have returned true for request with valid value and field is null",
+		Assert.assertTrue(
+				"doHandleRequest should have returned true for request with valid value and field is null",
 				changed);
 
 		// Request with same value (no change)
 		changed = dateField.doHandleRequest(request);
-		Assert.assertFalse("doHandleRequest should have returned false for request with same valid value", changed);
+		Assert.assertFalse(
+				"doHandleRequest should have returned false for request with same valid value",
+				changed);
 
 		// Request with invalid value (changed)
 		request = new MockRequest();
@@ -498,22 +549,30 @@ public class WPartialDateField_Test extends AbstractWComponentTestCase {
 
 		changed = dateField.doHandleRequest(request);
 		Assert
-				.assertTrue("doHandleRequest should have returned true for request with different invalid value", changed);
+				.assertTrue(
+						"doHandleRequest should have returned true for request with different invalid value",
+						changed);
 
 		// Request with same invalid value (no change)
 		changed = dateField.doHandleRequest(request);
-		Assert.assertFalse("doHandleRequest should have returned false for request with same invalid value", changed);
+		Assert.assertFalse(
+				"doHandleRequest should have returned false for request with same invalid value",
+				changed);
 
 		// Request with empty value (changed)
 		request = new MockRequest();
 		request.setParameter(dateField.getId(), "");
 
 		changed = dateField.doHandleRequest(request);
-		Assert.assertTrue("doHandleRequest should have returned true for request going back to empty value", changed);
+		Assert.assertTrue(
+				"doHandleRequest should have returned true for request going back to empty value",
+				changed);
 
 		// Request with same empty value (no change)
 		changed = dateField.doHandleRequest(request);
-		Assert.assertFalse("doHandleRequest should have returned false for request with same empty value", changed);
+		Assert.assertFalse(
+				"doHandleRequest should have returned false for request with same empty value",
+				changed);
 	}
 
 	@Test
@@ -533,7 +592,9 @@ public class WPartialDateField_Test extends AbstractWComponentTestCase {
 		// Empty Request and Field is null (no change)
 		boolean changed = dateField.doHandleRequest(request);
 
-		Assert.assertFalse("Empty request and field is null - doHandleRequest should have returned false", changed);
+		Assert.assertFalse(
+				"Empty request and field is null - doHandleRequest should have returned false",
+				changed);
 		assertDateFieldNullValue(dateField, "Empty request and field is null");
 
 		// Scenario #2
@@ -542,7 +603,8 @@ public class WPartialDateField_Test extends AbstractWComponentTestCase {
 
 		// Empty Request and Field has a valid date set (change)
 		changed = dateField.doHandleRequest(request);
-		Assert.assertTrue("Empty request and field has a valid date set - doHandleRequest should have returned true",
+		Assert.assertTrue(
+				"Empty request and field has a valid date set - doHandleRequest should have returned true",
 				changed);
 		assertDateFieldNullValue(dateField, "Empty request and field has a valid date set");
 
@@ -554,7 +616,8 @@ public class WPartialDateField_Test extends AbstractWComponentTestCase {
 
 		// Empty Request and Field has an invalid date value (change)
 		changed = dateField.doHandleRequest(request);
-		Assert.assertTrue("Empty request and field has an invalid date - doHandleRequest should have returned true",
+		Assert.assertTrue(
+				"Empty request and field has an invalid date - doHandleRequest should have returned true",
 				changed);
 		assertDateFieldNullValue(dateField, "Empty request and field has an invalid date");
 
@@ -567,7 +630,8 @@ public class WPartialDateField_Test extends AbstractWComponentTestCase {
 
 		// Empty Request and Field has a valid date value (change)
 		changed = dateField.doHandleRequest(request);
-		Assert.assertTrue("Empty request and field has a valid value - doHandleRequest should have returned true",
+		Assert.assertTrue(
+				"Empty request and field has a valid value - doHandleRequest should have returned true",
 				changed);
 		assertDateFieldNullValue(dateField, "Empty request and field has a valid value");
 	}
@@ -588,7 +652,8 @@ public class WPartialDateField_Test extends AbstractWComponentTestCase {
 
 		boolean changed = dateField.doHandleRequest(request);
 
-		Assert.assertTrue("Request with Bad Date and field is null - doHandleRequest should have returned true",
+		Assert.assertTrue(
+				"Request with Bad Date and field is null - doHandleRequest should have returned true",
 				changed);
 		assertDateFieldBadDate(dateField, "Request with Bad Date and field is null");
 
@@ -598,7 +663,8 @@ public class WPartialDateField_Test extends AbstractWComponentTestCase {
 
 		changed = dateField.doHandleRequest(request);
 		Assert
-				.assertTrue("Request with Bad Date and field has a valid date set - doHandleRequest should have returned true",
+				.assertTrue(
+						"Request with Bad Date and field has a valid date set - doHandleRequest should have returned true",
 						changed);
 		assertDateFieldBadDate(dateField, "Request with Bad Date and field has a valid date set");
 
@@ -611,16 +677,19 @@ public class WPartialDateField_Test extends AbstractWComponentTestCase {
 		changed = dateField.doHandleRequest(request);
 
 		Assert
-				.assertTrue("Request with Bad Date and field has a different invalid date - doHandleRequest should have returned true",
+				.assertTrue(
+						"Request with Bad Date and field has a different invalid date - doHandleRequest should have returned true",
 						changed);
-		assertDateFieldBadDate(dateField, "Request with Bad Date and field has a different invalid date");
+		assertDateFieldBadDate(dateField,
+				"Request with Bad Date and field has a different invalid date");
 
 		// Scenario #4
 		// Setup datefield with SAME invalid date value
 		changed = dateField.doHandleRequest(request);
 
 		Assert
-				.assertFalse("Request with Bad Date and field has same invalid date - doHandleRequest should have returned false",
+				.assertFalse(
+						"Request with Bad Date and field has same invalid date - doHandleRequest should have returned false",
 						changed);
 		assertDateFieldBadDate(dateField, "Request with Bad Date and field has same invalid date");
 
@@ -634,7 +703,8 @@ public class WPartialDateField_Test extends AbstractWComponentTestCase {
 		changed = dateField.doHandleRequest(request);
 
 		Assert
-				.assertTrue("Request with Bad Date and field has a valid value - doHandleRequest should have returned true",
+				.assertTrue(
+						"Request with Bad Date and field has a valid value - doHandleRequest should have returned true",
 						changed);
 		assertDateFieldBadDate(dateField, "Request with Bad Date and field has a valid value");
 	}
@@ -656,7 +726,8 @@ public class WPartialDateField_Test extends AbstractWComponentTestCase {
 
 		boolean changed = dateField.doHandleRequest(request);
 
-		Assert.assertTrue("Request with Valid Date and field is null - doHandleRequest should have returned true",
+		Assert.assertTrue(
+				"Request with Valid Date and field is null - doHandleRequest should have returned true",
 				changed);
 		assertDateFieldValidDate(dateField, "Request with Valid Date and field is null");
 
@@ -667,18 +738,22 @@ public class WPartialDateField_Test extends AbstractWComponentTestCase {
 		changed = dateField.doHandleRequest(request);
 
 		Assert
-				.assertTrue("Request with Valid Date and field has a different valid date set - doHandleRequest should have returned true",
+				.assertTrue(
+						"Request with Valid Date and field has a different valid date set - doHandleRequest should have returned true",
 						changed);
-		assertDateFieldValidDate(dateField, "Request with Valid Date and field has a different valid date set");
+		assertDateFieldValidDate(dateField,
+				"Request with Valid Date and field has a different valid date set");
 
 		// Scenario #3
 		// Datefield with same valid date set
 		changed = dateField.doHandleRequest(request);
 
 		Assert
-				.assertFalse("Request with Valid Date and field has same valid date set - doHandleRequest should have returned false",
+				.assertFalse(
+						"Request with Valid Date and field has same valid date set - doHandleRequest should have returned false",
 						changed);
-		assertDateFieldValidDate(dateField, "Request with Valid Date and field has same valid date set");
+		assertDateFieldValidDate(dateField,
+				"Request with Valid Date and field has same valid date set");
 
 		// Scenario #4
 		// Setup datefield with invalid date value
@@ -689,7 +764,8 @@ public class WPartialDateField_Test extends AbstractWComponentTestCase {
 		changed = dateField.doHandleRequest(request);
 
 		Assert
-				.assertTrue("Request with Valid Date and field has an invalid date - doHandleRequest should have returned true",
+				.assertTrue(
+						"Request with Valid Date and field has an invalid date - doHandleRequest should have returned true",
 						changed);
 		assertDateFieldValidDate(dateField, "Request with Valid Date and field has an invalid date");
 	}
@@ -707,8 +783,10 @@ public class WPartialDateField_Test extends AbstractWComponentTestCase {
 
 		// Empty Request (not present, should return current value)
 		MockRequest request = new MockRequest();
-		Assert.assertEquals("Current value of the field should have been returned for empty request",
-				REQUEST_VALID_DATE_TEXT, dateField.getRequestValue(request));
+		Assert.
+				assertEquals(
+						"Current value of the field should have been returned for empty request",
+						REQUEST_VALID_DATE_TEXT, dateField.getRequestValue(request));
 
 		// Request with "empty" value (should return null)
 		request = new MockRequest();
@@ -720,28 +798,32 @@ public class WPartialDateField_Test extends AbstractWComponentTestCase {
 		request = new MockRequest();
 		request.setParameter(dateField.getId(), "TEST");
 		request.setParameter(dateField.getId() + "-date", "ABCDEFGHIHJKLMNOP");
-		Assert.assertNull("Null should have been returned for request with invalid length date parameter",
+		Assert.assertNull(
+				"Null should have been returned for request with invalid length date parameter",
 				dateField.getRequestValue(request));
 
 		// Request with "invalid" data parameter by T&S - empty (should return null)
 		request = new MockRequest();
 		request.setParameter(dateField.getId(), "TEST");
 		request.setParameter(dateField.getId() + "-date", "");
-		Assert.assertNull("Null should have been returned for request with invalid empty date parameter",
+		Assert.assertNull(
+				"Null should have been returned for request with invalid empty date parameter",
 				dateField.getRequestValue(request));
 
 		// Request with valid value
 		request = new MockRequest();
 		request.setParameter(dateField.getId(), REQUEST_VALID_USER_TEXT);
 		request.setParameter(dateField.getId() + "-date", REQUEST_VALID_INTERNAL_DATE_TEXT);
-		Assert.assertEquals("Value from the request should have been returned", REQUEST_VALID_DATE_TEXT,
+		Assert.assertEquals("Value from the request should have been returned",
+				REQUEST_VALID_DATE_TEXT,
 				dateField.getRequestValue(request));
 
 		// Request with partial valid value
 		request = new MockRequest();
 		request.setParameter(dateField.getId(), REQUEST_VALID_PARTIAL_USER_TEXT);
 		request.setParameter(dateField.getId() + "-date", REQUEST_VALID_PARTIAL_INTERNAL_DATE_TEXT);
-		Assert.assertEquals("Value from the request should have been returned", REQUEST_VALID_PARTIAL_DATE_TEXT,
+		Assert.assertEquals("Value from the request should have been returned",
+				REQUEST_VALID_PARTIAL_DATE_TEXT,
 				dateField.getRequestValue(request));
 
 	}
@@ -767,7 +849,8 @@ public class WPartialDateField_Test extends AbstractWComponentTestCase {
 			diags.clear();
 			doRequest(dateField, validDate);
 			dateField.validate(diags);
-			Assert.assertTrue("A valid date (" + validDate + ") should not have a validation error", diags.isEmpty());
+			Assert.assertTrue("A valid date (" + validDate + ") should not have a validation error",
+					diags.isEmpty());
 		}
 
 		// Invalid dates
@@ -775,7 +858,8 @@ public class WPartialDateField_Test extends AbstractWComponentTestCase {
 			doRequest(dateField, invalidDate);
 			diags.clear();
 			dateField.validate(diags);
-			Assert.assertEquals("Invalid date (" + invalidDate + ") should have a validation error", 1, diags.size());
+			Assert.assertEquals("Invalid date (" + invalidDate + ") should have a validation error",
+					1, diags.size());
 		}
 
 	}
@@ -813,7 +897,8 @@ public class WPartialDateField_Test extends AbstractWComponentTestCase {
 	 */
 	@Test
 	public void testDateAccessors() {
-		assertAccessorsCorrect(new WPartialDateField(), "date", null, DateUtilities.createDate(01, 01, 2010),
+		assertAccessorsCorrect(new WPartialDateField(), "date", null, DateUtilities.createDate(01,
+				01, 2010),
 				DateUtilities.createDate(2, 2, 2012));
 	}
 
@@ -984,7 +1069,8 @@ public class WPartialDateField_Test extends AbstractWComponentTestCase {
 		Assert.assertNull(prefix + " - Date day incorrectly set", dateField.getDay());
 		Assert.assertNull(prefix + " - Date month incorrectly set", dateField.getMonth());
 		Assert.assertNull(prefix + " - Date year incorrectly set", dateField.getYear());
-		Assert.assertEquals(prefix + " - Incorrect user text set", REQUEST_BAD_USER_TEXT, dateField.getText());
+		Assert.assertEquals(prefix + " - Incorrect user text set", REQUEST_BAD_USER_TEXT, dateField.
+				getText());
 		Assert.assertEquals(prefix + " - Incorrect date string returned", REQUEST_BAD_USER_TEXT,
 				dateField.getValueAsString());
 		Assert.assertFalse(prefix + " - ValidDate flag should be false", dateField.isValidDate());
@@ -997,12 +1083,18 @@ public class WPartialDateField_Test extends AbstractWComponentTestCase {
 	 * @param prefix the prefix for assert messages
 	 */
 	private void assertDateFieldValidDate(final WPartialDateField dateField, final String prefix) {
-		Assert.assertEquals(prefix + " - Date incorrectly set", REQUEST_VALID_DATE_DATE, dateField.getDate());
-		Assert.assertEquals(prefix + " - Date day incorrectly set", REQUEST_VALID_DAY_VALUE, dateField.getDay());
-		Assert.assertEquals(prefix + " - Date month incorrectly set", REQUEST_VALID_MONTH_VALUE, dateField.getMonth());
-		Assert.assertEquals(prefix + " - Date year incorrectly set", REQUEST_VALID_YEAR_VALUE, dateField.getYear());
-		Assert.assertEquals(prefix + " - Incorrect user text set", REQUEST_VALID_USER_TEXT, dateField.getText());
-		Assert.assertEquals(prefix + " - Incorrect date string returned", REQUEST_VALID_DATE_TEXT.toString(),
+		Assert.assertEquals(prefix + " - Date incorrectly set", REQUEST_VALID_DATE_DATE, dateField.
+				getDate());
+		Assert.assertEquals(prefix + " - Date day incorrectly set", REQUEST_VALID_DAY_VALUE,
+				dateField.getDay());
+		Assert.assertEquals(prefix + " - Date month incorrectly set", REQUEST_VALID_MONTH_VALUE,
+				dateField.getMonth());
+		Assert.assertEquals(prefix + " - Date year incorrectly set", REQUEST_VALID_YEAR_VALUE,
+				dateField.getYear());
+		Assert.assertEquals(prefix + " - Incorrect user text set", REQUEST_VALID_USER_TEXT,
+				dateField.getText());
+		Assert.assertEquals(prefix + " - Incorrect date string returned", REQUEST_VALID_DATE_TEXT.
+				toString(),
 				dateField.getValueAsString());
 		Assert.assertTrue(prefix + " - ValidDate flag should be true", dateField.isValidDate());
 	}

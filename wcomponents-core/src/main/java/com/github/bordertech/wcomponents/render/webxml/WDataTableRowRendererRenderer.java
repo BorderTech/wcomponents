@@ -108,7 +108,8 @@ final class WDataTableRowRendererRenderer extends AbstractWebXmlRenderer {
 					// Paint immediate children only.
 					if (rendererPresent) {
 						xml.appendTagOpen("ui:content");
-						xml.appendOptionalAttribute("spanAllCols", node.isRendererSpansAllCols(), "true");
+						xml.appendOptionalAttribute("spanAllCols", node.isRendererSpansAllCols(),
+								"true");
 						xml.appendClose();
 
 						for (Iterator<TreeNode> i = node.children(); i.hasNext();) {
@@ -116,7 +117,8 @@ final class WDataTableRowRendererRenderer extends AbstractWebXmlRenderer {
 							Integer rowId = child.getRowIndex() - 1;
 							UIContext nodeContext = repeater.getRowContext(rowId);
 
-							WComponent expandedRenderer = renderer.getExpandedTreeNodeRenderer(child.getRendererClass());
+							WComponent expandedRenderer = renderer.getExpandedTreeNodeRenderer(
+									child.getRendererClass());
 
 							if (expandedRenderer != null) {
 								UIContextHolder.pushContext(nodeContext);

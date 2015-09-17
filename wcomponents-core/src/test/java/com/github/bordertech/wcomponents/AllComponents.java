@@ -187,7 +187,8 @@ public class AllComponents extends WApplication {
 
 		WButton action = new WButton("Action");
 		table.addAction(action);
-		table.addActionConstraint(action, new ActionConstraint(1, -1, true, "At least one row must be selected to use this function"));
+		table.addActionConstraint(action, new ActionConstraint(1, -1, true,
+				"At least one row must be selected to use this function"));
 
 		return table;
 	}

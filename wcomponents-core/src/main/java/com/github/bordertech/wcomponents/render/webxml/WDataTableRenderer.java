@@ -100,7 +100,8 @@ final class WDataTableRenderer extends AbstractWebXmlRenderer {
 			if (model instanceof TreeTableDataModel) {
 				// For tree tables, we only include top-level nodes for pagination.
 				TreeNode firstNode = ((TreeTableDataModel) model).getNodeAtLine(0);
-				xml.appendAttribute("rows", firstNode == null ? 0 : firstNode.getParent().getChildCount());
+				xml.appendAttribute("rows", firstNode == null ? 0 : firstNode.getParent().
+						getChildCount());
 			} else {
 				xml.appendAttribute("rows", model.getRowCount());
 			}
@@ -121,7 +122,8 @@ final class WDataTableRenderer extends AbstractWebXmlRenderer {
 				case NONE:
 					break;
 				default:
-					throw new SystemException("Unknown pagination mode: " + table.getPaginationMode());
+					throw new SystemException("Unknown pagination mode: " + table.
+							getPaginationMode());
 			}
 
 			xml.appendEnd();
@@ -144,7 +146,8 @@ final class WDataTableRenderer extends AbstractWebXmlRenderer {
 					case NONE:
 						break;
 					default:
-						throw new SystemException("Unknown select-all mode: " + table.getSelectAllMode());
+						throw new SystemException("Unknown select-all mode: " + table.
+								getSelectAllMode());
 				}
 			}
 
@@ -374,7 +377,8 @@ final class WDataTableRenderer extends AbstractWebXmlRenderer {
 	 * @param sortable true if the column is sortable, false otherwise
 	 * @param renderContext the RenderContext to paint to.
 	 */
-	private void paintColumnHeading(final WTableColumn col, final boolean sortable, final WebXmlRenderContext renderContext) {
+	private void paintColumnHeading(final WTableColumn col, final boolean sortable,
+			final WebXmlRenderContext renderContext) {
 		XmlStringBuilder xml = renderContext.getWriter();
 		int width = col.getWidth();
 		Alignment align = col.getAlign();

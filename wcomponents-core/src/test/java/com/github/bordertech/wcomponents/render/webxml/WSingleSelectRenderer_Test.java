@@ -22,7 +22,8 @@ public class WSingleSelectRenderer_Test extends AbstractWebXmlRendererTestCase {
 	@Test
 	public void testRendererCorrectlyConfigured() {
 		WSingleSelect single = new WSingleSelect(new String[]{"a", "b", "c"});
-		Assert.assertTrue("Incorrect renderer supplied", getWebXmlRenderer(single) instanceof WSingleSelectRenderer);
+		Assert.assertTrue("Incorrect renderer supplied",
+				getWebXmlRenderer(single) instanceof WSingleSelectRenderer);
 	}
 
 	@Test
@@ -40,14 +41,16 @@ public class WSingleSelectRenderer_Test extends AbstractWebXmlRendererTestCase {
 		single.setSelected("b");
 		assertSchemaMatch(single);
 		assertXpathEvaluatesTo("3", "count(//ui:listBox/ui:option)", single);
-		assertXpathEvaluatesTo("b", "normalize-space(//ui:listBox/ui:option[@selected='true'])", single);
+		assertXpathEvaluatesTo("b", "normalize-space(//ui:listBox/ui:option[@selected='true'])",
+				single);
 
 		// Check Readonly - only render selected option
 		single.setReadOnly(true);
 		assertSchemaMatch(single);
 		assertXpathEvaluatesTo("true", "//ui:listBox/@readOnly", single);
 		assertXpathEvaluatesTo("1", "count(//ui:listBox/ui:option)", single);
-		assertXpathEvaluatesTo("b", "normalize-space(//ui:listBox/ui:option[@selected='true'])", single);
+		assertXpathEvaluatesTo("b", "normalize-space(//ui:listBox/ui:option[@selected='true'])",
+				single);
 
 		// Check rows
 		single.setRows(123);
@@ -103,7 +106,8 @@ public class WSingleSelectRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 	@Test
 	public void testOptionGroups() throws IOException, SAXException, XpathException {
-		OptionGroup optionGroup = new OptionGroup("B", Arrays.asList(new String[]{"B.1", "B.2", "B.3", "B.4"}));
+		OptionGroup optionGroup = new OptionGroup("B", Arrays.asList(
+				new String[]{"B.1", "B.2", "B.3", "B.4"}));
 		Object[] options = new Object[]{"A", optionGroup, "C"};
 
 		WSingleSelect single = new WSingleSelect(options);
@@ -114,13 +118,17 @@ public class WSingleSelectRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		// Check grouped options
 		assertXpathEvaluatesTo(optionGroup.getDesc(), "//ui:listBox/ui:optgroup/@label", single);
-		assertXpathEvaluatesTo((String) optionGroup.getOptions().get(0), "//ui:listBox/ui:optgroup/ui:option[1]",
+		assertXpathEvaluatesTo((String) optionGroup.getOptions().get(0),
+				"//ui:listBox/ui:optgroup/ui:option[1]",
 				single);
-		assertXpathEvaluatesTo((String) optionGroup.getOptions().get(1), "//ui:listBox/ui:optgroup/ui:option[2]",
+		assertXpathEvaluatesTo((String) optionGroup.getOptions().get(1),
+				"//ui:listBox/ui:optgroup/ui:option[2]",
 				single);
-		assertXpathEvaluatesTo((String) optionGroup.getOptions().get(2), "//ui:listBox/ui:optgroup/ui:option[3]",
+		assertXpathEvaluatesTo((String) optionGroup.getOptions().get(2),
+				"//ui:listBox/ui:optgroup/ui:option[3]",
 				single);
-		assertXpathEvaluatesTo((String) optionGroup.getOptions().get(3), "//ui:listBox/ui:optgroup/ui:option[4]",
+		assertXpathEvaluatesTo((String) optionGroup.getOptions().get(3),
+				"//ui:listBox/ui:optgroup/ui:option[4]",
 				single);
 
 		// Check values
@@ -138,15 +146,17 @@ public class WSingleSelectRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		single.setSelected("B.3");
 		assertXpathEvaluatesTo("1", "count(//ui:option[@selected='true'])", single);
-		assertXpathExists("//ui:listBox/ui:optgroup/ui:option[text()='B.3'][@selected='true']", single);
+		assertXpathExists("//ui:listBox/ui:optgroup/ui:option[text()='B.3'][@selected='true']",
+				single);
 	}
 
 	@Test
 	public void testXssEscaping() throws IOException, SAXException, XpathException {
 		OptionGroup optionGroup = new OptionGroup(getMaliciousAttribute("ui:optgroup"),
 				Arrays.asList(new String[]{"dummy"}));
-		WSingleSelect single = new WSingleSelect(Arrays.asList(new Object[]{getInvalidCharSequence(),
-			getMaliciousContent(), optionGroup}));
+		WSingleSelect single = new WSingleSelect(Arrays.asList(
+				new Object[]{getInvalidCharSequence(),
+					getMaliciousContent(), optionGroup}));
 
 		assertSafeContent(single);
 
@@ -171,11 +181,15 @@ public class WSingleSelectRenderer_Test extends AbstractWebXmlRendererTestCase {
 			String code = single.optionToCode(options[i]);
 			String option = options[i];
 			if (option == null || option.equals("")) {
-				assertXpathEvaluatesTo("", "//ui:listBox/ui:option[@value='" + code + "']/text()", single);
-				assertXpathEvaluatesTo("true", "//ui:listBox/ui:option[@value='" + code + "']/@isNull", single);
+				assertXpathEvaluatesTo("", "//ui:listBox/ui:option[@value='" + code + "']/text()",
+						single);
+				assertXpathEvaluatesTo("true",
+						"//ui:listBox/ui:option[@value='" + code + "']/@isNull", single);
 			} else {
-				assertXpathEvaluatesTo(option, "//ui:listBox/ui:option[@value='" + code + "']/text()", single);
-				assertXpathEvaluatesTo("", "//ui:listBox/ui:option[@value='" + code + "']/@isNull", single);
+				assertXpathEvaluatesTo(option,
+						"//ui:listBox/ui:option[@value='" + code + "']/text()", single);
+				assertXpathEvaluatesTo("", "//ui:listBox/ui:option[@value='" + code + "']/@isNull",
+						single);
 			}
 		}
 	}

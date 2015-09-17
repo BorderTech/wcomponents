@@ -23,7 +23,8 @@ public class InventoryBeanProvider_Test {
 	@Test
 	public void testGetInstance() {
 		Object object = InventoryBeanProvider.getInstance();
-		Assert.assertTrue("should return instance of InventoryBeanProvider", object instanceof InventoryBeanProvider);
+		Assert.assertTrue("should return instance of InventoryBeanProvider",
+				object instanceof InventoryBeanProvider);
 	}
 
 	/**
@@ -40,7 +41,8 @@ public class InventoryBeanProvider_Test {
 
 		Object obj = provider.getBean(beanProviderBound);
 		Assert.assertTrue("should return an InventoryBean", obj instanceof InventoryBean);
-		Assert.assertEquals("the inventoryBean should have the requested productId", testProductId, ((InventoryBean) obj)
+		Assert.assertEquals("the inventoryBean should have the requested productId", testProductId,
+				((InventoryBean) obj)
 				.getProductId());
 	}
 
@@ -59,10 +61,12 @@ public class InventoryBeanProvider_Test {
 		Object obj = provider.getBean(beanProviderBound);
 		Assert.assertTrue("should return an InventoryBean[]", obj instanceof InventoryBean[]);
 		InventoryBean[] beans = (InventoryBean[]) obj;
-		Assert.assertEquals("should return an InventoryBean[] of right length", testProductIds.length, beans.length);
+		Assert.assertEquals("should return an InventoryBean[] of right length",
+				testProductIds.length, beans.length);
 
 		for (int i = 0; i < testProductIds.length; i++) {
-			Assert.assertEquals("product " + i + "  not match expected", beans[i].getProductId(), testProductIds[i]);
+			Assert.assertEquals("product " + i + "  not match expected", beans[i].getProductId(),
+					testProductIds[i]);
 		}
 	}
 
@@ -82,8 +86,10 @@ public class InventoryBeanProvider_Test {
 		List<?> allBeansReturned = (List<?>) obj;
 		List<?> allPetStoreBeans = Arrays.asList(PetStoreDao.readInventory());
 
-		Assert.assertEquals("should get all of the store beans", allBeansReturned.size(), allPetStoreBeans.size());
-		Assert.assertTrue("provider returned beans contains all beans in the store", allBeansReturned
+		Assert.assertEquals("should get all of the store beans", allBeansReturned.size(),
+				allPetStoreBeans.size());
+		Assert.assertTrue("provider returned beans contains all beans in the store",
+				allBeansReturned
 				.containsAll(allPetStoreBeans));
 	}
 }

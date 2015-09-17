@@ -28,7 +28,8 @@ public class WValidationErrorsRenderer_Test extends AbstractWebXmlRendererTestCa
 	@Test
 	public void testRendererCorrectlyConfigured() {
 		WValidationErrors errors = new WValidationErrors();
-		Assert.assertTrue("Incorrect renderer supplied", getWebXmlRenderer(errors) instanceof WValidationErrorsRenderer);
+		Assert.assertTrue("Incorrect renderer supplied",
+				getWebXmlRenderer(errors) instanceof WValidationErrorsRenderer);
 	}
 
 	@Test

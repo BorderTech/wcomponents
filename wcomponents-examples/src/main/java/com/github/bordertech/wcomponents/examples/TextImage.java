@@ -88,9 +88,11 @@ public class TextImage implements Image {
 
 			try {
 				// Draw the image.
-				BufferedImage image = new BufferedImage(this.size.width, this.size.height, BufferedImage.TYPE_INT_ARGB);
+				BufferedImage image = new BufferedImage(this.size.width, this.size.height,
+						BufferedImage.TYPE_INT_ARGB);
 				Graphics2D graphics = image.createGraphics();
-				graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+				graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+						RenderingHints.VALUE_ANTIALIAS_ON);
 
 				graphics.setColor(BACKGROUND_COLOR);
 				graphics.fillRect(0, 0, this.size.width, this.size.height);
@@ -101,7 +103,8 @@ public class TextImage implements Image {
 				graphics.setColor(Color.WHITE);
 				graphics.setFont(new Font("Arial", Font.BOLD, 24));
 
-				Rectangle2D bounds = graphics.getFontMetrics().getStringBounds(description, graphics);
+				Rectangle2D bounds = graphics.getFontMetrics().
+						getStringBounds(description, graphics);
 				int x = (int) (this.size.width - bounds.getWidth()) / 2;
 				int y = (int) (this.size.height + bounds.getHeight() / 2) / 2;
 				graphics.drawString(description, x, y);
@@ -132,8 +135,8 @@ public class TextImage implements Image {
 	}
 
 	/**
-	 * Retrieves the natural size of the image. If only one dimension is known, a negative value
-	 * will be returned for the other dimension.
+	 * Retrieves the natural size of the image. If only one dimension is known, a negative value will be returned for
+	 * the other dimension.
 	 *
 	 * @return the image size, or null if unknown.
 	 */
@@ -143,8 +146,8 @@ public class TextImage implements Image {
 	}
 
 	/**
-	 * Sets the natural size of the image. If only one dimension is known, use a negative value for
-	 * the other dimension. If the image size is unknown, set the size to null.
+	 * Sets the natural size of the image. If only one dimension is known, use a negative value for the other dimension.
+	 * If the image size is unknown, set the size to null.
 	 *
 	 * @param size the image size.
 	 */

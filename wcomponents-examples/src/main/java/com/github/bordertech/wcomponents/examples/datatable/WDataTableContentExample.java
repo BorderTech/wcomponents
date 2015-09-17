@@ -12,9 +12,8 @@ import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.examples.DynamicImage;
 
 /**
- * This example shows use of a {@link WDataTable}, with a two-dimensional array of data and
- * rendering of dynamic content using the WContentHelperServlet. The data will be held in the user's
- * session.
+ * This example shows use of a {@link WDataTable}, with a two-dimensional array of data and rendering of dynamic content
+ * using the WContentHelperServlet. The data will be held in the user's session.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -37,8 +36,8 @@ public class WDataTableContentExample extends WPanel {
 	}
 
 	/**
-	 * Override preparePaintComponent in order to set up the example data the first time that the
-	 * example is accessed by each user.
+	 * Override preparePaintComponent in order to set up the example data the first time that the example is accessed by
+	 * each user.
 	 *
 	 * @param request the request being responded to.
 	 */

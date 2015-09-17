@@ -70,13 +70,18 @@ public class TreeUtil_Test {
 
 		Assert.assertEquals("Incorrect number of visible components", 10, visibles.size());
 		Assert.assertTrue("List should contain root", isInList(visibles, root, uic));
-		Assert.assertTrue("List should contain containerChild", isInList(visibles, containerChild, uic));
+		Assert.assertTrue("List should contain containerChild", isInList(visibles, containerChild,
+				uic));
 		Assert.assertTrue("List should contain simpleChild", isInList(visibles, simpleChild, uic));
-		Assert.assertTrue("List should contain repeaterChild", isInList(visibles, repeaterChild, uic));
+		Assert.assertTrue("List should contain repeaterChild",
+				isInList(visibles, repeaterChild, uic));
 		Assert.assertTrue("List should contain grandChild", isInList(visibles, grandChild, uic));
-		Assert.assertTrue("List should contain repeatedComponent row 1", isInList(visibles, repeatedComponent, repeaterChild.getRowContext("1")));
-		Assert.assertTrue("List should contain repeatedComponent row 2", isInList(visibles, repeatedComponent, repeaterChild.getRowContext("2")));
-		Assert.assertTrue("List should contain repeatedComponent row 3", isInList(visibles, repeatedComponent, repeaterChild.getRowContext("3")));
+		Assert.assertTrue("List should contain repeatedComponent row 1", isInList(visibles,
+				repeatedComponent, repeaterChild.getRowContext("1")));
+		Assert.assertTrue("List should contain repeatedComponent row 2", isInList(visibles,
+				repeatedComponent, repeaterChild.getRowContext("2")));
+		Assert.assertTrue("List should contain repeatedComponent row 3", isInList(visibles,
+				repeatedComponent, repeaterChild.getRowContext("3")));
 		Assert.assertTrue("List should contain card manager", isInList(visibles, cardManager, uic));
 		Assert.assertTrue("List should contain visible card", isInList(visibles, card1, uic));
 
@@ -85,12 +90,17 @@ public class TreeUtil_Test {
 		visibles = TreeUtil.collateVisibles(root);
 		Assert.assertEquals("Incorrect number of visible components", 9, visibles.size());
 		Assert.assertTrue("List should contain root", isInList(visibles, root, uic));
-		Assert.assertTrue("List should contain containerChild", isInList(visibles, containerChild, uic));
+		Assert.assertTrue("List should contain containerChild", isInList(visibles, containerChild,
+				uic));
 		Assert.assertTrue("List should contain simpleChild", isInList(visibles, simpleChild, uic));
-		Assert.assertTrue("List should contain repeaterChild", isInList(visibles, repeaterChild, uic));
-		Assert.assertTrue("List should contain repeatedComponent row 1", isInList(visibles, repeatedComponent, repeaterChild.getRowContext("1")));
-		Assert.assertTrue("List should contain repeatedComponent row 2", isInList(visibles, repeatedComponent, repeaterChild.getRowContext("2")));
-		Assert.assertTrue("List should contain repeatedComponent row 3", isInList(visibles, repeatedComponent, repeaterChild.getRowContext("3")));
+		Assert.assertTrue("List should contain repeaterChild",
+				isInList(visibles, repeaterChild, uic));
+		Assert.assertTrue("List should contain repeatedComponent row 1", isInList(visibles,
+				repeatedComponent, repeaterChild.getRowContext("1")));
+		Assert.assertTrue("List should contain repeatedComponent row 2", isInList(visibles,
+				repeatedComponent, repeaterChild.getRowContext("2")));
+		Assert.assertTrue("List should contain repeatedComponent row 3", isInList(visibles,
+				repeatedComponent, repeaterChild.getRowContext("3")));
 		Assert.assertTrue("List should contain card manager", isInList(visibles, cardManager, uic));
 		Assert.assertTrue("List should contain visible card", isInList(visibles, card1, uic));
 		grandChild.setVisible(true);
@@ -101,10 +111,14 @@ public class TreeUtil_Test {
 		Assert.assertEquals("Incorrect number of visible components", 8, visibles.size());
 		Assert.assertTrue("List should contain root", isInList(visibles, root, uic));
 		Assert.assertTrue("List should contain simpleChild", isInList(visibles, simpleChild, uic));
-		Assert.assertTrue("List should contain repeaterChild", isInList(visibles, repeaterChild, uic));
-		Assert.assertTrue("List should contain repeatedComponent row 1", isInList(visibles, repeatedComponent, repeaterChild.getRowContext("1")));
-		Assert.assertTrue("List should contain repeatedComponent row 2", isInList(visibles, repeatedComponent, repeaterChild.getRowContext("2")));
-		Assert.assertTrue("List should contain repeatedComponent row 3", isInList(visibles, repeatedComponent, repeaterChild.getRowContext("3")));
+		Assert.assertTrue("List should contain repeaterChild",
+				isInList(visibles, repeaterChild, uic));
+		Assert.assertTrue("List should contain repeatedComponent row 1", isInList(visibles,
+				repeatedComponent, repeaterChild.getRowContext("1")));
+		Assert.assertTrue("List should contain repeatedComponent row 2", isInList(visibles,
+				repeatedComponent, repeaterChild.getRowContext("2")));
+		Assert.assertTrue("List should contain repeatedComponent row 3", isInList(visibles,
+				repeatedComponent, repeaterChild.getRowContext("3")));
 		Assert.assertTrue("List should contain card manager", isInList(visibles, cardManager, uic));
 		Assert.assertTrue("List should contain visible card", isInList(visibles, card1, uic));
 		containerChild.setVisible(true);
@@ -114,7 +128,8 @@ public class TreeUtil_Test {
 		visibles = TreeUtil.collateVisibles(root);
 		Assert.assertEquals("Incorrect number of visible components", 6, visibles.size());
 		Assert.assertTrue("List should contain root", isInList(visibles, root, uic));
-		Assert.assertTrue("List should contain containerChild", isInList(visibles, containerChild, uic));
+		Assert.assertTrue("List should contain containerChild", isInList(visibles, containerChild,
+				uic));
 		Assert.assertTrue("List should contain simpleChild", isInList(visibles, simpleChild, uic));
 		Assert.assertTrue("List should contain grandChild", isInList(visibles, grandChild, uic));
 		Assert.assertTrue("List should contain card manager", isInList(visibles, cardManager, uic));
@@ -129,12 +144,16 @@ public class TreeUtil_Test {
 		visibles = TreeUtil.collateVisibles(root);
 		Assert.assertEquals("Incorrect number of visible components", 9, visibles.size());
 		Assert.assertTrue("List should contain root", isInList(visibles, root, uic));
-		Assert.assertTrue("List should contain containerChild", isInList(visibles, containerChild, uic));
+		Assert.assertTrue("List should contain containerChild", isInList(visibles, containerChild,
+				uic));
 		Assert.assertTrue("List should contain simpleChild", isInList(visibles, simpleChild, uic));
-		Assert.assertTrue("List should contain repeaterChild", isInList(visibles, repeaterChild, uic));
+		Assert.assertTrue("List should contain repeaterChild",
+				isInList(visibles, repeaterChild, uic));
 		Assert.assertTrue("List should contain grandChild", isInList(visibles, grandChild, uic));
-		Assert.assertTrue("List should contain repeatedComponent row 1", isInList(visibles, repeatedComponent, repeaterChild.getRowContext("1")));
-		Assert.assertTrue("List should contain repeatedComponent row 3", isInList(visibles, repeatedComponent, repeaterChild.getRowContext("3")));
+		Assert.assertTrue("List should contain repeatedComponent row 1", isInList(visibles,
+				repeatedComponent, repeaterChild.getRowContext("1")));
+		Assert.assertTrue("List should contain repeatedComponent row 3", isInList(visibles,
+				repeatedComponent, repeaterChild.getRowContext("3")));
 		Assert.assertTrue("List should contain card manager", isInList(visibles, cardManager, uic));
 		Assert.assertTrue("List should contain visible card", isInList(visibles, card1, uic));
 
@@ -143,12 +162,16 @@ public class TreeUtil_Test {
 		visibles = TreeUtil.collateVisibles(root);
 		Assert.assertEquals("Incorrect number of visible components", 9, visibles.size());
 		Assert.assertTrue("List should contain root", isInList(visibles, root, uic));
-		Assert.assertTrue("List should contain containerChild", isInList(visibles, containerChild, uic));
+		Assert.assertTrue("List should contain containerChild", isInList(visibles, containerChild,
+				uic));
 		Assert.assertTrue("List should contain simpleChild", isInList(visibles, simpleChild, uic));
-		Assert.assertTrue("List should contain repeaterChild", isInList(visibles, repeaterChild, uic));
+		Assert.assertTrue("List should contain repeaterChild",
+				isInList(visibles, repeaterChild, uic));
 		Assert.assertTrue("List should contain grandChild", isInList(visibles, grandChild, uic));
-		Assert.assertTrue("List should contain repeatedComponent row 1", isInList(visibles, repeatedComponent, repeaterChild.getRowContext("1")));
-		Assert.assertTrue("List should contain repeatedComponent row 3", isInList(visibles, repeatedComponent, repeaterChild.getRowContext("3")));
+		Assert.assertTrue("List should contain repeatedComponent row 1", isInList(visibles,
+				repeatedComponent, repeaterChild.getRowContext("1")));
+		Assert.assertTrue("List should contain repeatedComponent row 3", isInList(visibles,
+				repeatedComponent, repeaterChild.getRowContext("3")));
 		Assert.assertTrue("List should contain card manager", isInList(visibles, cardManager, uic));
 		Assert.assertTrue("List should contain visible card", isInList(visibles, card2, uic));
 
@@ -166,7 +189,8 @@ public class TreeUtil_Test {
 	 * @param uic the component context to search for.
 	 * @return true if the component is in the list with the given context, false otherwise.
 	 */
-	private boolean isInList(final List<ComponentWithContext> components, final WComponent component, final UIContext uic) {
+	private boolean isInList(final List<ComponentWithContext> components, final WComponent component,
+			final UIContext uic) {
 		for (ComponentWithContext comp : components) {
 			if (comp.getComponent() == component && comp.getContext() == uic) {
 				return true;
@@ -179,68 +203,96 @@ public class TreeUtil_Test {
 	@Test
 	public void testGetRoot() {
 		UIContext uic = UIContextHolder.getCurrent();
-		Assert.assertSame("Incorrect root node returned for root", root, TreeUtil.getRoot(uic, root));
-		Assert.assertSame("Incorrect root node returned for containerChild", root, TreeUtil.getRoot(uic, containerChild));
-		Assert.assertSame("Incorrect root node returned for simpleChild", root, TreeUtil.getRoot(uic, simpleChild));
-		Assert.assertSame("Incorrect root node returned for repeaterChild", root, TreeUtil.getRoot(uic, repeaterChild));
-		Assert.assertSame("Incorrect root node returned for grandChild", root, TreeUtil.getRoot(uic, grandChild));
+		Assert.
+				assertSame("Incorrect root node returned for root", root, TreeUtil.
+						getRoot(uic, root));
+		Assert.assertSame("Incorrect root node returned for containerChild", root, TreeUtil.getRoot(
+				uic, containerChild));
+		Assert.assertSame("Incorrect root node returned for simpleChild", root, TreeUtil.
+				getRoot(uic, simpleChild));
+		Assert.assertSame("Incorrect root node returned for repeaterChild", root, TreeUtil.getRoot(
+				uic, repeaterChild));
+		Assert.assertSame("Incorrect root node returned for grandChild", root, TreeUtil.getRoot(uic,
+				grandChild));
 
 		UIContext row2Context = repeaterChild.getRowContext("2");
-		Assert.assertSame("Incorrect root node returned for repeatedComponent row 2", root, TreeUtil.getRoot(row2Context, repeatedComponent));
+		Assert.assertSame("Incorrect root node returned for repeatedComponent row 2", root,
+				TreeUtil.getRoot(row2Context, repeatedComponent));
 	}
 
 	@Test
 	public void testGetComponentWithId() {
-		Assert.assertSame("Incorrect component returned for root", root, TreeUtil.getComponentWithId(root, root.getId()));
-		Assert.assertSame("Incorrect component returned for containerChild", containerChild, TreeUtil.getComponentWithId(root, containerChild.getId()));
-		Assert.assertSame("Incorrect component returned for simpleChild", simpleChild, TreeUtil.getComponentWithId(root, simpleChild.getId()));
-		Assert.assertSame("Incorrect component returned for repeaterChild", repeaterChild, TreeUtil.getComponentWithId(root, repeaterChild.getId()));
-		Assert.assertSame("Incorrect component returned for grandChild", grandChild, TreeUtil.getComponentWithId(root, grandChild.getId()));
+		Assert.assertSame("Incorrect component returned for root", root, TreeUtil.
+				getComponentWithId(root, root.getId()));
+		Assert.assertSame("Incorrect component returned for containerChild", containerChild,
+				TreeUtil.getComponentWithId(root, containerChild.getId()));
+		Assert.assertSame("Incorrect component returned for simpleChild", simpleChild, TreeUtil.
+				getComponentWithId(root, simpleChild.getId()));
+		Assert.assertSame("Incorrect component returned for repeaterChild", repeaterChild, TreeUtil.
+				getComponentWithId(root, repeaterChild.getId()));
+		Assert.assertSame("Incorrect component returned for grandChild", grandChild, TreeUtil.
+				getComponentWithId(root, grandChild.getId()));
 
 		UIContext row2Context = repeaterChild.getRowContext("2");
 		setActiveContext(row2Context);
-		Assert.assertSame("Incorrect component returned for repeatedComponent row 2", repeatedComponent, TreeUtil.getComponentWithId(root, repeatedComponent.getId()));
+		Assert.assertSame("Incorrect component returned for repeatedComponent row 2",
+				repeatedComponent, TreeUtil.getComponentWithId(root, repeatedComponent.getId()));
 	}
 
 	@Test
 	public void testGetContextForId() {
 		UIContext uic = UIContextHolder.getCurrent();
-		Assert.assertSame("Incorrect context returned for root", uic, TreeUtil.getContextForId(root, root.getId()));
-		Assert.assertSame("Incorrect context returned for containerChild", uic, TreeUtil.getContextForId(root, containerChild.getId()));
-		Assert.assertSame("Incorrect context returned for simpleChild", uic, TreeUtil.getContextForId(root, simpleChild.getId()));
-		Assert.assertSame("Incorrect context returned for repeaterChild", uic, TreeUtil.getContextForId(root, repeaterChild.getId()));
-		Assert.assertSame("Incorrect context returned for grandChild", uic, TreeUtil.getContextForId(root, grandChild.getId()));
+		Assert.assertSame("Incorrect context returned for root", uic, TreeUtil.getContextForId(root,
+				root.getId()));
+		Assert.assertSame("Incorrect context returned for containerChild", uic, TreeUtil.
+				getContextForId(root, containerChild.getId()));
+		Assert.assertSame("Incorrect context returned for simpleChild", uic, TreeUtil.
+				getContextForId(root, simpleChild.getId()));
+		Assert.assertSame("Incorrect context returned for repeaterChild", uic, TreeUtil.
+				getContextForId(root, repeaterChild.getId()));
+		Assert.assertSame("Incorrect context returned for grandChild", uic, TreeUtil.
+				getContextForId(root, grandChild.getId()));
 
 		UIContext row2Context = repeaterChild.getRowContext("2");
 		setActiveContext(row2Context);
 
-		Assert.assertSame("Incorrect context returned for repeatedComponent row 2", row2Context, TreeUtil.getContextForId(root, repeatedComponent.getId()));
+		Assert.assertSame("Incorrect context returned for repeatedComponent row 2", row2Context,
+				TreeUtil.getContextForId(root, repeatedComponent.getId()));
 	}
 
 	@Test
 	public void testFindWComponent() {
 		UIContext uic = UIContextHolder.getCurrent();
 		ComponentWithContext result = TreeUtil.findWComponent(root, new String[]{"WApplication"});
-		Assert.assertSame("Incorrect component returned for find WApplication", root, result.getComponent());
-		Assert.assertSame("Incorrect context returned for find WApplication", uic, result.getContext());
+		Assert.assertSame("Incorrect component returned for find WApplication", root, result.
+				getComponent());
+		Assert.assertSame("Incorrect context returned for find WApplication", uic, result.
+				getContext());
 
 		result = TreeUtil.findWComponent(root, new String[]{"WTextArea"});
-		Assert.assertSame("Incorrect component returned for find WTextArea", grandChild, result.getComponent());
+		Assert.assertSame("Incorrect component returned for find WTextArea", grandChild, result.
+				getComponent());
 		Assert.assertSame("Incorrect context returned for find WTextArea", uic, result.getContext());
 
 		result = TreeUtil.findWComponent(root, new String[]{"WContainer", "WTextArea"});
-		Assert.assertSame("Incorrect component returned for find WContainer/WTextArea", grandChild, result.getComponent());
-		Assert.assertSame("Incorrect context returned for find WContainer/WTextArea", uic, result.getContext());
+		Assert.assertSame("Incorrect component returned for find WContainer/WTextArea", grandChild,
+				result.getComponent());
+		Assert.assertSame("Incorrect context returned for find WContainer/WTextArea", uic, result.
+				getContext());
 
 		result = TreeUtil.findWComponent(root, new String[]{"WText[1]"});
-		Assert.assertSame("Incorrect component returned for find WText[1]", repeatedComponent, result.getComponent());
+		Assert.assertSame("Incorrect component returned for find WText[1]", repeatedComponent,
+				result.getComponent());
 		UIContext row2Context = repeaterChild.getRowContext("2");
-		Assert.assertSame("Incorrect context returned for find WText[1]", row2Context, result.getContext());
+		Assert.assertSame("Incorrect context returned for find WText[1]", row2Context, result.
+				getContext());
 
 		result = TreeUtil.findWComponent(root, new String[]{"WApplication", "WText[1]"});
-		Assert.assertSame("Incorrect component returned for find WApplication/WText[1]", repeatedComponent, result.getComponent());
+		Assert.assertSame("Incorrect component returned for find WApplication/WText[1]",
+				repeatedComponent, result.getComponent());
 		row2Context = repeaterChild.getRowContext("2");
-		Assert.assertSame("Incorrect context returned for find WApplication/WText[1]", row2Context, result.getContext());
+		Assert.assertSame("Incorrect context returned for find WApplication/WText[1]", row2Context,
+				result.getContext());
 
 		result = TreeUtil.findWComponent(root, new String[]{"WContainer", "WRepeater"});
 		Assert.assertNull("Should not have a result for an invalid path", result);

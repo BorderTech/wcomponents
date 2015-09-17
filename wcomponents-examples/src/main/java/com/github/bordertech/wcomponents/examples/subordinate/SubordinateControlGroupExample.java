@@ -15,8 +15,8 @@ import com.github.bordertech.wcomponents.subordinate.ShowInGroup;
 import com.github.bordertech.wcomponents.subordinate.WSubordinateControl;
 
 /**
- * This example demonstrates a SubordinateControl that combines WDropdown, Groups, and FieldLayout
- * with functions Show, Hide, and ShowInGroup.
+ * This example demonstrates a SubordinateControl that combines WDropdown, Groups, and FieldLayout with functions Show,
+ * Hide, and ShowInGroup.
  *
  * @author Martin Shevchenko
  * @since 1.0.0

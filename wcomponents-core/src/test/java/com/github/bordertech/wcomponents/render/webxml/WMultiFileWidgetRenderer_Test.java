@@ -69,7 +69,8 @@ public class WMultiFileWidgetRenderer_Test extends AbstractWebXmlRendererTestCas
 
 		fileUpload.setAccessibleText("accessible");
 		assertSchemaMatch(fileUpload);
-		assertXpathEvaluatesTo(fileUpload.getAccessibleText(), "//ui:fileUpload/@accessibleText", fileUpload);
+		assertXpathEvaluatesTo(fileUpload.getAccessibleText(), "//ui:fileUpload/@accessibleText",
+				fileUpload);
 
 		fileUpload.setFileTypes(new String[]{"a/b", "c/d"});
 		assertXpathEvaluatesTo("a/b,c/d", "//ui:fileUpload/@acceptedMimeTypes", fileUpload);
@@ -93,8 +94,10 @@ public class WMultiFileWidgetRenderer_Test extends AbstractWebXmlRendererTestCas
 		assertXpathEvaluatesTo("1", "count(//ui:fileUpload/ui:file)", fileUpload);
 		assertXpathEvaluatesTo("X", "//ui:fileUpload/ui:file/@id", fileUpload);
 		assertXpathEvaluatesTo(fileItem.getName(), "//ui:fileUpload/ui:file/@name", fileUpload);
-		assertXpathEvaluatesTo(fileItem.getContentType(), "//ui:fileUpload/ui:file/@type", fileUpload);
-		assertXpathEvaluatesTo(String.valueOf(fileItem.getSize()), "//ui:fileUpload/ui:file/@size", fileUpload);
+		assertXpathEvaluatesTo(fileItem.getContentType(), "//ui:fileUpload/ui:file/@type",
+				fileUpload);
+		assertXpathEvaluatesTo(String.valueOf(fileItem.getSize()), "//ui:fileUpload/ui:file/@size",
+				fileUpload);
 	}
 
 	@Test

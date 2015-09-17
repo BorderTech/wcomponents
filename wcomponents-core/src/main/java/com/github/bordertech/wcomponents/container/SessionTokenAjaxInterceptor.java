@@ -14,8 +14,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * This session token interceptor makes sure the ajax request being processed is for the correct
- * session.
+ * This session token interceptor makes sure the ajax request being processed is for the correct session.
  * <p>
  * Similar to {@link SessionTokenInterceptor} but sets an error code when a token error is detected.
  * </p>
@@ -31,8 +30,7 @@ public class SessionTokenAjaxInterceptor extends InterceptorComponent {
 	private static final Log LOG = LogFactory.getLog(SessionTokenAjaxInterceptor.class);
 
 	/**
-	 * Override to check whether the session token variable in the incoming request matches what we
-	 * expect.
+	 * Override to check whether the session token variable in the incoming request matches what we expect.
 	 *
 	 * @param request the request being serviced.
 	 */
@@ -44,7 +42,8 @@ public class SessionTokenAjaxInterceptor extends InterceptorComponent {
 
 		// Session token should already be set
 		if (expected == null) {
-			throw new SystemException("Session token should already be set on the session before AJAX request");
+			throw new SystemException(
+					"Session token should already be set on the session before AJAX request");
 		}
 
 		// Get the session token from the request

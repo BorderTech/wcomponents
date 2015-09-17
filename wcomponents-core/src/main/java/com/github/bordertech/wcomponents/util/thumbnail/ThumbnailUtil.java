@@ -36,13 +36,15 @@ public final class ThumbnailUtil {
 	/**
 	 * Thumbnail for ms-word.
 	 */
-	public static final ImageResource THUMBNAIL_MSWORD = new ImageResource("/icons/thumbnails/application-msword.png",
+	public static final ImageResource THUMBNAIL_MSWORD = new ImageResource(
+			"/icons/thumbnails/application-msword.png",
 			"msword", THUMBNAIL_DEFAULT_SIZE);
 
 	/**
 	 * Thumbnail for pdf.
 	 */
-	public static final ImageResource THUMBNAIL_PDF = new ImageResource("/icons/thumbnails/application-pdf.png", "pdf",
+	public static final ImageResource THUMBNAIL_PDF = new ImageResource(
+			"/icons/thumbnails/application-pdf.png", "pdf",
 			THUMBNAIL_DEFAULT_SIZE);
 
 	/**
@@ -69,31 +71,36 @@ public final class ThumbnailUtil {
 	/**
 	 * Thumbnail for audio.
 	 */
-	public static final ImageResource THUMBNAIL_AUDIO = new ImageResource("/icons/thumbnails/audio-x-generic.png",
+	public static final ImageResource THUMBNAIL_AUDIO = new ImageResource(
+			"/icons/thumbnails/audio-x-generic.png",
 			"audio", THUMBNAIL_DEFAULT_SIZE);
 
 	/**
 	 * Thumbnail for generic image.
 	 */
-	public static final ImageResource THUMBNAIL_IMAGE = new ImageResource("/icons/thumbnails/image-x-generic.png",
+	public static final ImageResource THUMBNAIL_IMAGE = new ImageResource(
+			"/icons/thumbnails/image-x-generic.png",
 			"image", THUMBNAIL_DEFAULT_SIZE);
 
 	/**
 	 * Thumbnail for misc.
 	 */
-	public static final ImageResource THUMBNAIL_MISC = new ImageResource("/icons/thumbnails/misc.png", "misc",
+	public static final ImageResource THUMBNAIL_MISC = new ImageResource(
+			"/icons/thumbnails/misc.png", "misc",
 			THUMBNAIL_DEFAULT_SIZE);
 
 	/**
 	 * Thumbnail for text.
 	 */
-	public static final ImageResource THUMBNAIL_TEXT = new ImageResource("/icons/thumbnails/text-x-generic.png",
+	public static final ImageResource THUMBNAIL_TEXT = new ImageResource(
+			"/icons/thumbnails/text-x-generic.png",
 			"text", THUMBNAIL_DEFAULT_SIZE);
 
 	/**
 	 * Thumbnail for video.
 	 */
-	public static final ImageResource THUMBNAIL_VIDEO = new ImageResource("/icons/thumbnails/video-x-generic.png",
+	public static final ImageResource THUMBNAIL_VIDEO = new ImageResource(
+			"/icons/thumbnails/video-x-generic.png",
 			"video", THUMBNAIL_DEFAULT_SIZE);
 
 	/**
@@ -114,24 +121,24 @@ public final class ThumbnailUtil {
 	}
 
 	/**
-	 * This method takes a input document (represented by an {@link InputStream}) and returns a
-	 * byte[] representing a JPEG "thumb nail" of a given page of the document. It can do this for a
-	 * limited number of input document "types"images.
+	 * This method takes a input document (represented by an {@link InputStream}) and returns a byte[] representing a
+	 * JPEG "thumb nail" of a given page of the document. It can do this for a limited number of input document
+	 * "types"images.
 	 *
 	 * @param is The {@link InputStream} representing the input document.
 	 * @param name The name of the file from which the input document was sourced.
-	 * @param scaledSize the size to which the given <em>image</em> is to be scaled, null for
-	 * default
+	 * @param scaledSize the size to which the given <em>image</em> is to be scaled, null for default
 	 * @param mimeType the mime type
-	 * @return a byte[] array representing a JEPG thumb nail of the specified page within the Office
-	 * document or Image.
+	 * @return a byte[] array representing a JEPG thumb nail of the specified page within the Office document or Image.
 	 */
-	public static com.github.bordertech.wcomponents.Image createThumbnail(final InputStream is, final String name,
+	public static com.github.bordertech.wcomponents.Image createThumbnail(final InputStream is,
+			final String name,
 			final Dimension scaledSize, final String mimeType) {
 		final Dimension scale = scaledSize == null ? THUMBNAIL_SCALE_SIZE : scaledSize;
 
 		// Generate thumbnail for image files
-		if (is != null && mimeType != null && (mimeType.equals("image/jpeg") || mimeType.equals("image/bmp")
+		if (is != null && mimeType != null && (mimeType.equals("image/jpeg") || mimeType.equals(
+				"image/bmp")
 				|| mimeType.equals("image/png") || mimeType.equals("image/gif"))) {
 			byte[] bytes = createImageThumbnail(is, scale);
 			if (bytes != null) {
@@ -150,7 +157,8 @@ public final class ThumbnailUtil {
 	 * @param scale the thumbnail size
 	 * @return the thumbnail
 	 */
-	private static com.github.bordertech.wcomponents.Image handleDefaultImage(final String mimeType, final String name,
+	private static com.github.bordertech.wcomponents.Image handleDefaultImage(final String mimeType,
+			final String name,
 			final Dimension scale) {
 		com.github.bordertech.wcomponents.Image image;
 		if (mimeType == null) {
@@ -191,11 +199,10 @@ public final class ThumbnailUtil {
 	}
 
 	/**
-	 * This method will create a JPEG "thumb nail" of an image read from an {@link InputStream}. The
-	 * maximum Dimension of the returned JPEG Image will be {@link #THUMBNAIL_MAX}.
+	 * This method will create a JPEG "thumb nail" of an image read from an {@link InputStream}. The maximum Dimension
+	 * of the returned JPEG Image will be {@link #THUMBNAIL_MAX}.
 	 *
-	 * @param is the InputStream representing the image for which the JPEG thumb nail is to be
-	 * returned.
+	 * @param is the InputStream representing the image for which the JPEG thumb nail is to be returned.
 	 * @param scaledSize the size to which the given <em>image</em> is to be scaled.
 	 * @return a byte[] representing the JPEG thumb nail.
 	 */
@@ -229,20 +236,23 @@ public final class ThumbnailUtil {
 	}
 
 	/**
-	 * This method creates an array of bytes representing a JPEG image that is a "scaled" version of
-	 * the given {@link Image}.
+	 * This method creates an array of bytes representing a JPEG image that is a "scaled" version of the given
+	 * {@link Image}.
 	 *
 	 * @param image The image to be turned into a scaled JPEG.
 	 * @param scaledSize The size to which the given <em>image</em> is to be scaled.
 	 * @return A byte[] representing the JPEG image containing the scaled {@link Image}.
 	 * @throws IOException on any sort of error.
 	 */
-	private static byte[] createScaledJPEG(final Image image, final Dimension scaledSize) throws IOException {
+	private static byte[] createScaledJPEG(final Image image, final Dimension scaledSize) throws
+			IOException {
 		// Scale the image.
-		Image scaledImage = image.getScaledInstance(scaledSize.width, scaledSize.height, Image.SCALE_SMOOTH);
+		Image scaledImage = image.getScaledInstance(scaledSize.width, scaledSize.height,
+				Image.SCALE_SMOOTH);
 
 		// Create a BufferedImage copy of the scaledImage.
-		BufferedImage bufferedImage = new BufferedImage(scaledImage.getWidth(null), scaledImage.getHeight(null),
+		BufferedImage bufferedImage = new BufferedImage(scaledImage.getWidth(null), scaledImage.
+				getHeight(null),
 				BufferedImage.TYPE_INT_RGB);
 		Graphics2D graphics = bufferedImage.createGraphics();
 		graphics.drawImage(scaledImage, 0, 0, null);

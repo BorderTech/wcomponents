@@ -7,18 +7,15 @@ import java.util.List;
 
 /**
  * <p>
- * The WAjaxControl links an ajax trigger component with one or more ajax target components.
- * Creating an ajax trigger will result in an ajax request being made on the 'onChange' event of the
- * trigger element. For an ajax request the whole UI tree is serviced in the action phase but only
- * the 'target' components related by this control will be painted in the response. Repainting only
- * small parts of the UI aims to improve client response times.
+ * The WAjaxControl links an ajax trigger component with one or more ajax target components. Creating an ajax trigger
+ * will result in an ajax request being made on the 'onChange' event of the trigger element. For an ajax request the
+ * whole UI tree is serviced in the action phase but only the 'target' components related by this control will be
+ * painted in the response. Repainting only small parts of the UI aims to improve client response times.
  * </p>
  * <p>
- * On the client-side, an AJAX target region must have a single html element as its parent and this
- * element <b>must</b>
- * have an id. In the AJAX response the whole element is replaced by the response. Components which
- * do not implement the {@link AjaxTarget} interface can be wrapped in a
- * {@link com.github.bordertech.wcomponents.WPanel}.
+ * On the client-side, an AJAX target region must have a single html element as its parent and this element <b>must</b>
+ * have an id. In the AJAX response the whole element is replaced by the response. Components which do not implement the
+ * {@link AjaxTarget} interface can be wrapped in a {@link com.github.bordertech.wcomponents.WPanel}.
  * </p>
  *
  * @author Christina Harris
@@ -89,8 +86,8 @@ public class WAjaxControl extends AbstractWComponent {
 	}
 
 	/**
-	 * Add an ajax target for this control. When the ajax request is triggered only the target
-	 * components will be re-painted.
+	 * Add an ajax target for this control. When the ajax request is triggered only the target components will be
+	 * re-painted.
 	 *
 	 * @param targets The UI components to be repainted in the ajax response.
 	 */
@@ -169,8 +166,8 @@ public class WAjaxControl extends AbstractWComponent {
 	}
 
 	/**
-	 * Get the target WComponents that will be repainted as a consequence of the AJAX request. An
-	 * empty list is returned if no targets have been defined.
+	 * Get the target WComponents that will be repainted as a consequence of the AJAX request. An empty list is returned
+	 * if no targets have been defined.
 	 *
 	 * @return The target regions that are repainted in the ajax response.
 	 */
@@ -185,8 +182,7 @@ public class WAjaxControl extends AbstractWComponent {
 	}
 
 	/**
-	 * Returns the target WComponents as an array. If no targets have been registered then an empty
-	 * array is returned.
+	 * Returns the target WComponents as an array. If no targets have been registered then an empty array is returned.
 	 *
 	 * @return An array of ajax target components.
 	 */
@@ -222,7 +218,8 @@ public class WAjaxControl extends AbstractWComponent {
 		if (targets != null && !targets.isEmpty()) {
 			WComponent triggerComponent = trigger == null ? this : trigger;
 
-			UIContext triggerContext = WebUtilities.getPrimaryContext(UIContextHolder.getCurrent(), triggerComponent);
+			UIContext triggerContext = WebUtilities.getPrimaryContext(UIContextHolder.getCurrent(),
+					triggerComponent);
 			UIContextHolder.pushContext(triggerContext);
 
 			try {

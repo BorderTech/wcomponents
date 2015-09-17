@@ -9,21 +9,20 @@ import java.util.Map;
 
 /**
  * <p>
- * A WPanel is used to group components together. It can optionally provide additional styling for
- * the group, for example to display a titled border. Layouts can be used to arrange components
- * within the panel.
+ * A WPanel is used to group components together. It can optionally provide additional styling for the group, for
+ * example to display a titled border. Layouts can be used to arrange components within the panel.
  * </p>
  * <p>
- * Users can add a {@link WButton} ({@link #setDefaultSubmitButton(WButton)}) to this component that
- * will submit when the user hits the Enter key and the cursor is in an input field inside the
- * panel.
+ * Users can add a {@link WButton} ({@link #setDefaultSubmitButton(WButton)}) to this component that will submit when
+ * the user hits the Enter key and the cursor is in an input field inside the panel.
  * </p>
  *
  * @author Christina Harris
  * @since 1.0.0
  * @author Yiannis Paschalidis
  */
-public class WPanel extends WContainer implements AjaxTarget, SubordinateTarget, Marginable, DropZone {
+public class WPanel extends WContainer implements AjaxTarget, SubordinateTarget, Marginable,
+		DropZone {
 
 	/**
 	 * An enumeration of available panel types.
@@ -34,8 +33,8 @@ public class WPanel extends WContainer implements AjaxTarget, SubordinateTarget,
 		 */
 		PLAIN,
 		/**
-		 * An action panel is similar to CHROME but with a different appearance. It is intended to
-		 * be used once per screen to highlight the main area of activity.
+		 * An action panel is similar to CHROME but with a different appearance. It is intended to be used once per
+		 * screen to highlight the main area of activity.
 		 */
 		ACTION,
 		/**
@@ -99,8 +98,7 @@ public class WPanel extends WContainer implements AjaxTarget, SubordinateTarget,
 	}
 
 	/**
-	 * Sets the button that should be submitted when the user hits enter key and cursor is inside
-	 * this panel.
+	 * Sets the button that should be submitted when the user hits enter key and cursor is inside this panel.
 	 *
 	 * @param defaultSubmitButton the default submit button.
 	 */
@@ -109,8 +107,7 @@ public class WPanel extends WContainer implements AjaxTarget, SubordinateTarget,
 	}
 
 	/**
-	 * @return The button that will be submitted if the user hits the enter key when the cursor is
-	 * in this field.
+	 * @return The button that will be submitted if the user hits the enter key when the cursor is in this field.
 	 */
 	public WButton getDefaultSubmitButton() {
 		return getComponentModel().defaultSubmitButton;
@@ -181,8 +178,8 @@ public class WPanel extends WContainer implements AjaxTarget, SubordinateTarget,
 	}
 
 	/**
-	 * Returns the accesskey character as a String. If the character is not a letter or digit then
-	 * <code>null</code> is returned.
+	 * Returns the accesskey character as a String. If the character is not a letter or digit then <code>null</code> is
+	 * returned.
 	 *
 	 * @return The accesskey character as a String (may be <code>null</code>).
 	 */
@@ -248,8 +245,8 @@ public class WPanel extends WContainer implements AjaxTarget, SubordinateTarget,
 
 	/**
 	 * <p>
-	 * Adds the given component as a child of this component. The constraints are made available to
-	 * the {@link LayoutManager} if it requires them.</p>
+	 * Adds the given component as a child of this component. The constraints are made available to the
+	 * {@link LayoutManager} if it requires them.</p>
 	 *
 	 * @param component the component to add.
 	 * @param constraints the layout constraints
@@ -270,8 +267,8 @@ public class WPanel extends WContainer implements AjaxTarget, SubordinateTarget,
 
 	/**
 	 * <p>
-	 * Adds the given component as a child of this component. The constraints are made available to
-	 * the {@link LayoutManager} if it requires them.</p>
+	 * Adds the given component as a child of this component. The constraints are made available to the
+	 * {@link LayoutManager} if it requires them.</p>
 	 *
 	 * @param component the component to add.
 	 * @param constraints the layout constraints
@@ -289,8 +286,8 @@ public class WPanel extends WContainer implements AjaxTarget, SubordinateTarget,
 	}
 
 	/**
-	 * Removes the given component from this component's list of children. This method has been
-	 * overriden to remove any associated layout constraints.
+	 * Removes the given component from this component's list of children. This method has been overriden to remove any
+	 * associated layout constraints.
 	 *
 	 * @param aChild the child component to remove
 	 */

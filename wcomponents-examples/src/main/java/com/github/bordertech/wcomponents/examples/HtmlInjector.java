@@ -10,9 +10,8 @@ import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WTextArea;
 
 /**
- * Demonstrates a method to inject HTML mark-up directly into a generated page using a
- * {@link WText}. It also serves as a demonstration of why untrusted input should never be be
- * displayed using {@link WText} with encoding disabled.
+ * Demonstrates a method to inject HTML mark-up directly into a generated page using a {@link WText}. It also serves as
+ * a demonstration of why untrusted input should never be be displayed using {@link WText} with encoding disabled.
  *
  * @author Martin Shevchenko
  * @since 1.0.0

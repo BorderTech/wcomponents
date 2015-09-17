@@ -60,7 +60,8 @@ public class BasicFieldLayoutValidationExample extends ValidationContainer {
 			textField2.setMinLength(2);
 
 			WField field2 = layout.addField("Field 2", textField2);
-			field2.addValidator(new RegExFieldValidator("^[a-zA-Z]*$", "{0} must only contain alphabetic characters."));
+			field2.addValidator(new RegExFieldValidator("^[a-zA-Z]*$",
+					"{0} must only contain alphabetic characters."));
 			field2.getLabel().setHint("may only contain alphabetic characters");
 
 			WDateField df1 = new WDateField(true);
@@ -69,12 +70,14 @@ public class BasicFieldLayoutValidationExample extends ValidationContainer {
 			dateField.getLabel().setHint("after today");
 
 			WField dateField2 = layout.addField("Date Field 2", new WDateField(true));
-			dateField2.addValidator(new DateFieldPivotValidator(DateFieldPivotValidator.AFTER_OR_EQUAL, df1));
+			dateField2.addValidator(new DateFieldPivotValidator(
+					DateFieldPivotValidator.AFTER_OR_EQUAL, df1));
 			dateField2.getLabel().setHint("on or after the date entered in date field 1");
 
 			WTextField textField = new WTextField();
 			textField.setMandatory(true);
-			layout.addField("Mandatory flag set to input field instead", textField).getLabel().setHint("required");
+			layout.addField("Mandatory flag set to input field instead", textField).getLabel().
+					setHint("required");
 		}
 	}
 }

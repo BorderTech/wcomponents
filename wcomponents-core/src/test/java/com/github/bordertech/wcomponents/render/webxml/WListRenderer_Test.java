@@ -21,7 +21,8 @@ public class WListRenderer_Test extends AbstractWebXmlRendererTestCase {
 	@Test
 	public void testLayoutCorrectlyConfigured() {
 		WList component = new WList(WList.Type.STRIPED);
-		Assert.assertTrue("Incorrect layout supplied", getWebXmlRenderer(component) instanceof WListRenderer);
+		Assert.assertTrue("Incorrect layout supplied",
+				getWebXmlRenderer(component) instanceof WListRenderer);
 	}
 
 	@Test

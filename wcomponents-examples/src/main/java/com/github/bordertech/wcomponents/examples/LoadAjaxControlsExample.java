@@ -38,7 +38,8 @@ public class LoadAjaxControlsExample extends WContainer {
 	public LoadAjaxControlsExample() {
 		WPanel content = new WPanel();
 
-		WCollapsible collapse = new WCollapsible(content, "Content with AJAX components", CollapsibleMode.DYNAMIC);
+		WCollapsible collapse = new WCollapsible(content, "Content with AJAX components",
+				CollapsibleMode.DYNAMIC);
 		add(collapse);
 
 		content.add(new WHeading(WHeading.SECTION, "Lists using datalist"));
@@ -97,19 +98,26 @@ public class LoadAjaxControlsExample extends WContainer {
 		content.add(new WHorizontalRule());
 		content.add(new WHeading(WHeading.SECTION, "Tab Modes"));
 		WTabSet tabset1 = new WTabSet();
-		tabset1.addTab(new DateText("Tab Content 1"), "Tab 1 (client)", WTabSet.TAB_MODE_CLIENT, '1');
-		tabset1.addTab(new DateText("Tab Content 2"), "Tab 2 (client)", WTabSet.TAB_MODE_CLIENT, '2');
-		tabset1.addTab(new DateText("Tab Content 3"), "Tab 3 (server)", WTabSet.TAB_MODE_SERVER, '3');
+		tabset1.
+				addTab(new DateText("Tab Content 1"), "Tab 1 (client)", WTabSet.TAB_MODE_CLIENT, '1');
+		tabset1.
+				addTab(new DateText("Tab Content 2"), "Tab 2 (client)", WTabSet.TAB_MODE_CLIENT, '2');
+		tabset1.
+				addTab(new DateText("Tab Content 3"), "Tab 3 (server)", WTabSet.TAB_MODE_SERVER, '3');
 		tabset1.addTab(new DateText("Tab Content 4"), "Tab 4 (lazy)", WTabSet.TAB_MODE_LAZY, '4');
-		tabset1.addTab(new DateText("Tab Content 5"), "Tab 5 (dynamic)", WTabSet.TAB_MODE_DYNAMIC, '5');
+		tabset1.addTab(new DateText("Tab Content 5"), "Tab 5 (dynamic)", WTabSet.TAB_MODE_DYNAMIC,
+				'5');
 		tabset1.addTab(new DateText("Tab Content 6"), "Tab 6 (eager)", WTabSet.TAB_MODE_EAGER, '6');
 		content.add(tabset1);
 
 		content.add(new WHorizontalRule());
 		content.add(new WHeading(WHeading.SECTION, "Collapsibles"));
-		content.add(new WCollapsible(new DateText("Eager Collapsible Content"), "Eager Mode", CollapsibleMode.EAGER));
-		content.add(new WCollapsible(new DateText("Lazy Collapsible Content"), "Lazy Mode", CollapsibleMode.LAZY));
-		content.add(new WCollapsible(new DateText("Dynamic Collapsible Content"), "Dynamic Mode", CollapsibleMode.DYNAMIC));
+		content.add(new WCollapsible(new DateText("Eager Collapsible Content"), "Eager Mode",
+				CollapsibleMode.EAGER));
+		content.add(new WCollapsible(new DateText("Lazy Collapsible Content"), "Lazy Mode",
+				CollapsibleMode.LAZY));
+		content.add(new WCollapsible(new DateText("Dynamic Collapsible Content"), "Dynamic Mode",
+				CollapsibleMode.DYNAMIC));
 
 	}
 

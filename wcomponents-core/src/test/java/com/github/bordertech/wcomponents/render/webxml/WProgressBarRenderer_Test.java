@@ -20,7 +20,8 @@ public class WProgressBarRenderer_Test extends AbstractWebXmlRendererTestCase {
 	@Test
 	public void testRendererCorrectlyConfigured() {
 		WProgressBar progressBar = new WProgressBar();
-		Assert.assertTrue("Incorrect renderer supplied", getWebXmlRenderer(progressBar) instanceof WProgressBarRenderer);
+		Assert.assertTrue("Incorrect renderer supplied",
+				getWebXmlRenderer(progressBar) instanceof WProgressBarRenderer);
 	}
 
 	@Test
@@ -32,13 +33,15 @@ public class WProgressBarRenderer_Test extends AbstractWebXmlRendererTestCase {
 			}
 		};
 
-		WProgressBar progressBar = new WProgressBar(WProgressBar.ProgressBarType.NORMAL, WProgressBar.UnitType.FRACTION);
+		WProgressBar progressBar = new WProgressBar(WProgressBar.ProgressBarType.NORMAL,
+				WProgressBar.UnitType.FRACTION);
 		progressBar.setBeanProvider(provider);
 		progressBar.setMax(33);
 
 		assertSchemaMatch(progressBar);
 
-		progressBar = new WProgressBar(WProgressBar.ProgressBarType.SMALL, WProgressBar.UnitType.PERCENTAGE);
+		progressBar = new WProgressBar(WProgressBar.ProgressBarType.SMALL,
+				WProgressBar.UnitType.PERCENTAGE);
 		progressBar.setBeanProvider(provider);
 		progressBar.setMax(33);
 
@@ -47,7 +50,8 @@ public class WProgressBarRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 	@Test
 	public void testXssEscaping() throws IOException, SAXException, XpathException {
-		WProgressBar progressBar = new WProgressBar(WProgressBar.ProgressBarType.NORMAL, WProgressBar.UnitType.FRACTION);
+		WProgressBar progressBar = new WProgressBar(WProgressBar.ProgressBarType.NORMAL,
+				WProgressBar.UnitType.FRACTION);
 		progressBar.setMax(100);
 
 		progressBar.setText(getMaliciousContent());

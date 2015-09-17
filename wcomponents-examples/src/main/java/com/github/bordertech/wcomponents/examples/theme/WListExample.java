@@ -56,7 +56,8 @@ public class WListExample extends WPanel {
 	 * @param renderBorder true to render a border around the list, false otherwise.
 	 * @param renderer the component to use to render items in the list.
 	 */
-	private void addList(final WList.Type type, final WList.Separator separator, final boolean renderBorder, final WComponent renderer) {
+	private void addList(final WList.Type type, final WList.Separator separator,
+			final boolean renderBorder, final WComponent renderer) {
 		WList list = new WList(type);
 
 		if (separator != null) {
@@ -71,8 +72,7 @@ public class WListExample extends WPanel {
 	}
 
 	/**
-	 * Simple WDataRenderer implementation for the list. Expects the bean to be a
-	 * {@link SimpleTableBean}.
+	 * Simple WDataRenderer implementation for the list. Expects the bean to be a {@link SimpleTableBean}.
 	 *
 	 * @author Yiannis Paschalidis
 	 */

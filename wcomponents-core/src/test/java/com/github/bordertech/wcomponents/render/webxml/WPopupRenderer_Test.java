@@ -18,7 +18,8 @@ public class WPopupRenderer_Test extends AbstractWebXmlRendererTestCase {
 	@Test
 	public void testRendererCorrectlyConfigured() {
 		WPopup popup = new WPopup();
-		Assert.assertTrue("Incorrect renderer supplied", getWebXmlRenderer(popup) instanceof WPopupRenderer);
+		Assert.assertTrue("Incorrect renderer supplied",
+				getWebXmlRenderer(popup) instanceof WPopupRenderer);
 	}
 
 	@Test

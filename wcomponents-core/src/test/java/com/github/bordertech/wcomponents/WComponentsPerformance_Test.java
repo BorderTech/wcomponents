@@ -19,8 +19,8 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
 /**
- * Tests to check the performance of WComponent request processing. This test does not check for
- * correct behaviour - see the respective tests for WApplication etc.
+ * Tests to check the performance of WComponent request processing. This test does not check for correct behaviour - see
+ * the respective tests for WApplication etc.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -35,8 +35,7 @@ public class WComponentsPerformance_Test extends AbstractWComponentTestCase {
 	private static final Log LOG = LogFactory.getLog(WServletPerformance_Test.class);
 
 	/**
-	 * Basic sanity-test to ensure that the WComponent implementation is performing all the
-	 * processing that it should.
+	 * Basic sanity-test to ensure that the WComponent implementation is performing all the processing that it should.
 	 *
 	 * @throws java.lang.Exception an exception
 	 */
@@ -48,13 +47,14 @@ public class WComponentsPerformance_Test extends AbstractWComponentTestCase {
 		sendWComponentRequest(app, uic, 1);
 
 		setActiveContext(uic);
-		Assert.assertEquals("Incorrect property1 value", "p1_1", ((SimpleFormBean) app.beanContainer.getBean()).getProperty1());
-		Assert.assertEquals("Incorrect property2 value", "p2_1", ((SimpleFormBean) app.beanContainer.getBean()).getProperty2());
+		Assert.assertEquals("Incorrect property1 value", "p1_1",
+				((SimpleFormBean) app.beanContainer.getBean()).getProperty1());
+		Assert.assertEquals("Incorrect property2 value", "p2_1",
+				((SimpleFormBean) app.beanContainer.getBean()).getProperty2());
 	}
 
 	/**
-	 * Basic sanity-test to ensure that the basic implementation is performing all the processing
-	 * that it should.
+	 * Basic sanity-test to ensure that the basic implementation is performing all the processing that it should.
 	 *
 	 * @throws java.lang.Exception
 	 */
@@ -79,12 +79,12 @@ public class WComponentsPerformance_Test extends AbstractWComponentTestCase {
 		LOG.info("Simple request handling time: " + (simpleTime / 1000000.0) + "ms");
 		LOG.info("WComponent request handling time: " + (wcomponentTime / 1000000.0) + "ms");
 
-		Assert.assertTrue("WComponent request handling time should not exceed 10x simple time", wcomponentTime < simpleTime * 10);
+		Assert.assertTrue("WComponent request handling time should not exceed 10x simple time",
+				wcomponentTime < simpleTime * 10);
 	}
 
 	/**
-	 * Times the WComponent execution looping the given number of times and returns the elapsed
-	 * time.
+	 * Times the WComponent execution looping the given number of times and returns the elapsed time.
 	 *
 	 * @param count the number of times to loop.
 	 * @return the elapsed time, in nanoseconds.
@@ -114,8 +114,7 @@ public class WComponentsPerformance_Test extends AbstractWComponentTestCase {
 	}
 
 	/**
-	 * Times the other servlet execution looping the given number of times and returns the elapsed
-	 * time.
+	 * Times the other servlet execution looping the given number of times and returns the elapsed time.
 	 *
 	 * @param count the number of times to loop.
 	 * @return the elapsed time, in nanoseconds.
@@ -235,7 +234,8 @@ public class WComponentsPerformance_Test extends AbstractWComponentTestCase {
 	 * @param request the request to handle.
 	 * @param response ignored - rendering is not tested.
 	 */
-	protected static void doSimpleRequest(final HttpServletRequest request, final HttpServletResponse response) {
+	protected static void doSimpleRequest(final HttpServletRequest request,
+			final HttpServletResponse response) {
 		if (request.getParameter("submit") != null) {
 			HttpSession session = request.getSession(true);
 			SimpleFormBean formBean = (SimpleFormBean) session.getAttribute("formBean");
@@ -251,7 +251,8 @@ public class WComponentsPerformance_Test extends AbstractWComponentTestCase {
 				String key = (String) names.nextElement();
 
 				if (key.startsWith("formBean")) {
-					properties.put(key.substring("formBean.".length()), request.getParameterValues(key));
+					properties.put(key.substring("formBean.".length()), request.getParameterValues(
+							key));
 				}
 			}
 

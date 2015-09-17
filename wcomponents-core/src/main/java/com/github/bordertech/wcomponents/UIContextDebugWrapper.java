@@ -36,9 +36,9 @@ public class UIContextDebugWrapper {
 	}
 
 	/**
-	 * Tally up the number of WComponents storing data in the session grouped by object type. Also
-	 * tally up how many are storing data unnecessarily. Also tally how many different top
-	 * components are referenced by the components stored in the UIContext.
+	 * Tally up the number of WComponents storing data in the session grouped by object type. Also tally up how many are
+	 * storing data unnecessarily. Also tally how many different top components are referenced by the components stored
+	 * in the UIContext.
 	 *
 	 * @return the debugging information.
 	 */
@@ -83,15 +83,20 @@ public class UIContextDebugWrapper {
 			buf.append(dataOverall.total).append(" WComponent(s) storing data in the session.\n");
 
 			if (dataOverall.total > 0) {
-				buf.append("[").append(dataOverall.unnecessaryCount).append("] WComponent(s) in default state. WComponents in default state do not need to store data in the session.\n");
-				buf.append(" Therefore, only ").append(dataOverall.total - dataOverall.unnecessaryCount).append(" WComponent(s) actually need(s) to store data in the session.\n");
+				buf.append("[").append(dataOverall.unnecessaryCount).append(
+						"] WComponent(s) in default state. WComponents in default state do not need to store data in the session.\n");
+				buf.append(" Therefore, only ").append(
+						dataOverall.total - dataOverall.unnecessaryCount).append(
+								" WComponent(s) actually need(s) to store data in the session.\n");
 
 				buf.append("WComponent session usage by class:\n");
 
 				for (Map.Entry<String, GroupData> entry : tallyByClass.entrySet()) {
 					String className = entry.getKey();
 					GroupData dataForClass = entry.getValue();
-					buf.append(' ').append(dataForClass.total).append(" [").append(dataForClass.unnecessaryCount).append("] ").append(className).append('\n');
+					buf.append(' ').append(dataForClass.total).append(" [").append(
+							dataForClass.unnecessaryCount).append("] ").append(className).append(
+							'\n');
 				}
 
 				buf.append("Found ").append(topComponents.size()).append(" top component(s).\n");
@@ -109,14 +114,13 @@ public class UIContextDebugWrapper {
 	private static final class GroupData {
 
 		/**
-		 * The count of instances of the particular WComponent class with a component model in the
-		 * context/session.
+		 * The count of instances of the particular WComponent class with a component model in the context/session.
 		 */
 		private int total = 0;
 
 		/**
-		 * The count of instances of the particular WComponent class with a component model in the
-		 * context/session which doesn't need to be there.
+		 * The count of instances of the particular WComponent class with a component model in the context/session which
+		 * doesn't need to be there.
 		 */
 		private int unnecessaryCount = 0;
 	}

@@ -31,12 +31,14 @@ public class WCollapsibleRenderer_Test extends AbstractWebXmlRendererTestCase {
 	@Test
 	public void testRendererCorrectlyConfigured() {
 		WCollapsible collapsible = new WCollapsible(new WText(), "");
-		Assert.assertTrue("Incorrect renderer supplied", getWebXmlRenderer(collapsible) instanceof WCollapsibleRenderer);
+		Assert.assertTrue("Incorrect renderer supplied",
+				getWebXmlRenderer(collapsible) instanceof WCollapsibleRenderer);
 	}
 
 	@Test
 	public void testDoRenderServerSideCollapse() throws IOException, SAXException, XpathException {
-		WCollapsible collapsible = new WCollapsible(new WText(COLLAPSIBLE_CONTENT), COLLAPSIBLE_HEADING, WCollapsible.CollapsibleMode.SERVER);
+		WCollapsible collapsible = new WCollapsible(new WText(COLLAPSIBLE_CONTENT),
+				COLLAPSIBLE_HEADING, WCollapsible.CollapsibleMode.SERVER);
 		assertSchemaMatch(collapsible);
 		assertXpathEvaluatesTo("server", "//ui:collapsible/@mode", collapsible);
 		assertRenderContentCorrectly(collapsible, false, true);
@@ -44,7 +46,8 @@ public class WCollapsibleRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 	@Test
 	public void testDoRenderClientSideCollapse() throws IOException, SAXException, XpathException {
-		WCollapsible collapsible = new WCollapsible(new WText(COLLAPSIBLE_CONTENT), COLLAPSIBLE_HEADING, WCollapsible.CollapsibleMode.CLIENT);
+		WCollapsible collapsible = new WCollapsible(new WText(COLLAPSIBLE_CONTENT),
+				COLLAPSIBLE_HEADING, WCollapsible.CollapsibleMode.CLIENT);
 		assertSchemaMatch(collapsible);
 		assertXpathEvaluatesTo("client", "//ui:collapsible/@mode", collapsible);
 		assertRenderContentCorrectly(collapsible, true, true);
@@ -52,7 +55,8 @@ public class WCollapsibleRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 	@Test
 	public void testDoRenderLazyCollapse() throws IOException, SAXException, XpathException {
-		WCollapsible collapsible = new WCollapsible(new WText(COLLAPSIBLE_CONTENT), COLLAPSIBLE_HEADING, WCollapsible.CollapsibleMode.LAZY);
+		WCollapsible collapsible = new WCollapsible(new WText(COLLAPSIBLE_CONTENT),
+				COLLAPSIBLE_HEADING, WCollapsible.CollapsibleMode.LAZY);
 		assertSchemaMatch(collapsible);
 		assertXpathEvaluatesTo("lazy", "//ui:collapsible/@mode", collapsible);
 		assertRenderContentCorrectly(collapsible, false, true);
@@ -60,7 +64,8 @@ public class WCollapsibleRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 	@Test
 	public void testDoRenderDynamicCollapse() throws IOException, SAXException, XpathException {
-		WCollapsible collapsible = new WCollapsible(new WText(COLLAPSIBLE_CONTENT), COLLAPSIBLE_HEADING, WCollapsible.CollapsibleMode.DYNAMIC);
+		WCollapsible collapsible = new WCollapsible(new WText(COLLAPSIBLE_CONTENT),
+				COLLAPSIBLE_HEADING, WCollapsible.CollapsibleMode.DYNAMIC);
 		assertSchemaMatch(collapsible);
 		assertXpathEvaluatesTo("dynamic", "//ui:collapsible/@mode", collapsible);
 		assertRenderContentCorrectly(collapsible, false, true);
@@ -68,7 +73,8 @@ public class WCollapsibleRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 	@Test
 	public void testDoRenderEagerCollapse() throws IOException, SAXException, XpathException {
-		WCollapsible collapsible = new WCollapsible(new WText(COLLAPSIBLE_CONTENT), COLLAPSIBLE_HEADING, WCollapsible.CollapsibleMode.EAGER);
+		WCollapsible collapsible = new WCollapsible(new WText(COLLAPSIBLE_CONTENT),
+				COLLAPSIBLE_HEADING, WCollapsible.CollapsibleMode.EAGER);
 		assertSchemaMatch(collapsible);
 		assertXpathEvaluatesTo("eager", "//ui:collapsible/@mode", collapsible);
 		assertRenderContentCorrectly(collapsible, false, false);
@@ -76,7 +82,8 @@ public class WCollapsibleRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 	@Test
 	public void testRenderedWithMargins() throws IOException, SAXException, XpathException {
-		WCollapsible collapsible = new WCollapsible(new WText(COLLAPSIBLE_CONTENT), COLLAPSIBLE_HEADING, WCollapsible.CollapsibleMode.EAGER);
+		WCollapsible collapsible = new WCollapsible(new WText(COLLAPSIBLE_CONTENT),
+				COLLAPSIBLE_HEADING, WCollapsible.CollapsibleMode.EAGER);
 		assertXpathNotExists("//ui:collapsible/ui:margin", collapsible);
 
 		Margin margin = new Margin(0);
@@ -104,7 +111,8 @@ public class WCollapsibleRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 	@Test
 	public void testRenderedWithHeadingLevel() throws IOException, SAXException, XpathException {
-		WCollapsible collapsible = new WCollapsible(new WText(COLLAPSIBLE_CONTENT), COLLAPSIBLE_HEADING, WCollapsible.CollapsibleMode.EAGER);
+		WCollapsible collapsible = new WCollapsible(new WText(COLLAPSIBLE_CONTENT),
+				COLLAPSIBLE_HEADING, WCollapsible.CollapsibleMode.EAGER);
 		assertSchemaMatch(collapsible);
 		assertXpathNotExists("//ui:collapsible/@level", collapsible);
 
@@ -116,7 +124,8 @@ public class WCollapsibleRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 	@Test
 	public void testXssEscaping() throws IOException, SAXException, XpathException {
-		WCollapsible collapsible = new WCollapsible(new WText("dummy"), getMaliciousContent(), WCollapsible.CollapsibleMode.CLIENT);
+		WCollapsible collapsible = new WCollapsible(new WText("dummy"), getMaliciousContent(),
+				WCollapsible.CollapsibleMode.CLIENT);
 		assertSafeContent(collapsible);
 	}
 
@@ -124,24 +133,25 @@ public class WCollapsibleRenderer_Test extends AbstractWebXmlRendererTestCase {
 	 * Asserts that the collapsible renders its content correctly.
 	 *
 	 * @param collapsible the collapsible to render.
-	 * @param shouldRenderContentWhenClosed true if the content should render when the collapsible
-	 * is closed.
-	 * @param shouldRenderContentWhenOpen true if the content should render when the collapsible is
-	 * open.
+	 * @param shouldRenderContentWhenClosed true if the content should render when the collapsible is closed.
+	 * @param shouldRenderContentWhenOpen true if the content should render when the collapsible is open.
 	 *
 	 * @throws IOException an IO exception
 	 * @throws SAXException a SAX exception
 	 * @throws XpathException an Xpath exception
 	 */
-	private void assertRenderContentCorrectly(final WCollapsible collapsible, final boolean shouldRenderContentWhenClosed, final boolean shouldRenderContentWhenOpen)
+	private void assertRenderContentCorrectly(final WCollapsible collapsible,
+			final boolean shouldRenderContentWhenClosed, final boolean shouldRenderContentWhenOpen)
 			throws IOException, SAXException, XpathException {
 		collapsible.setCollapsed(true);
 		assertSchemaMatch(collapsible);
 		assertXpathEvaluatesTo("true", "//ui:collapsible/@collapsed", collapsible);
-		assertXpathEvaluatesTo(COLLAPSIBLE_HEADING, "normalize-space(//ui:collapsible/ui:decoratedLabel/ui:labelBody)", collapsible);
+		assertXpathEvaluatesTo(COLLAPSIBLE_HEADING,
+				"normalize-space(//ui:collapsible/ui:decoratedLabel/ui:labelBody)", collapsible);
 
 		if (shouldRenderContentWhenClosed) {
-			assertXpathEvaluatesTo(COLLAPSIBLE_CONTENT, "normalize-space(//ui:collapsible/ui:content)", collapsible);
+			assertXpathEvaluatesTo(COLLAPSIBLE_CONTENT,
+					"normalize-space(//ui:collapsible/ui:content)", collapsible);
 		} else {
 			assertXpathEvaluatesTo("", "normalize-space(//ui:collapsible/ui:content)", collapsible);
 		}
@@ -149,10 +159,12 @@ public class WCollapsibleRenderer_Test extends AbstractWebXmlRendererTestCase {
 		collapsible.setCollapsed(false);
 		assertSchemaMatch(collapsible);
 		assertXpathNotExists("//ui:collapsible/@collapsed", collapsible);
-		assertXpathEvaluatesTo(COLLAPSIBLE_HEADING, "normalize-space(//ui:collapsible/ui:decoratedLabel/ui:labelBody)", collapsible);
+		assertXpathEvaluatesTo(COLLAPSIBLE_HEADING,
+				"normalize-space(//ui:collapsible/ui:decoratedLabel/ui:labelBody)", collapsible);
 
 		if (shouldRenderContentWhenOpen) {
-			assertXpathEvaluatesTo(COLLAPSIBLE_CONTENT, "normalize-space(//ui:collapsible/ui:content)", collapsible);
+			assertXpathEvaluatesTo(COLLAPSIBLE_CONTENT,
+					"normalize-space(//ui:collapsible/ui:content)", collapsible);
 		} else {
 			assertXpathEvaluatesTo("", "normalize-space(//ui:collapsible/ui:content)", collapsible);
 		}

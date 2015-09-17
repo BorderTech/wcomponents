@@ -42,10 +42,12 @@ public class UIRegistryAmicableImpl_Test {
 
 		try {
 			reg.register(key, component);
-			Assert.fail("attempted registration with key already used should have thrown an exception");
+			Assert.fail(
+					"attempted registration with key already used should have thrown an exception");
 		} catch (SystemException e) {
 			String expectedMessage = "Cannot re-register a component. Key = " + key;
-			Assert.assertEquals("exceptions hould have contained message expected", expectedMessage, e.getMessage());
+			Assert.assertEquals("exceptions hould have contained message expected", expectedMessage,
+					e.getMessage());
 		}
 	}
 
@@ -95,7 +97,8 @@ public class UIRegistryAmicableImpl_Test {
 		WComponent result = reg.getUI(key);
 
 		Assert.assertNotNull("should return a fatal error page - when no class found", result);
-		Assert.assertEquals("should be of the expected type", expectedClassName, result.getClass().getName());
+		Assert.assertEquals("should be of the expected type", expectedClassName, result.getClass().
+				getName());
 		Assert.assertFalse("should not be cached", reg.isRegistered(key));
 	}
 
@@ -111,7 +114,8 @@ public class UIRegistryAmicableImpl_Test {
 		WComponent result = reg.getUI(key);
 
 		Assert.assertNotNull("should return a fatal error page - when no WComponentclass", result);
-		Assert.assertEquals("should be of the expected type", expectedClassName, result.getClass().getName());
+		Assert.assertEquals("should be of the expected type", expectedClassName, result.getClass().
+				getName());
 		Assert.assertFalse("should not be cached", reg.isRegistered(key));
 	}
 

@@ -22,24 +22,34 @@ public class WStyledText_Test extends AbstractWComponentTestCase {
 	public void testConstructor1() {
 		WStyledText text = new WStyledText();
 		Assert.assertNull("Constructor 1 - text should default to null", text.getText());
-		Assert.assertEquals("Constructor 1 - type should default to PLAIN", Type.PLAIN, text.getType());
-		Assert.assertEquals("Constructor 1 - whitspace mode should default to DEFAULT", WhitespaceMode.DEFAULT, text.getWhitespaceMode());
+		Assert.assertEquals("Constructor 1 - type should default to PLAIN", Type.PLAIN, text.
+				getType());
+		Assert.assertEquals("Constructor 1 - whitspace mode should default to DEFAULT",
+				WhitespaceMode.DEFAULT, text.getWhitespaceMode());
 	}
 
 	@Test
 	public void testConstructor2() {
 		WStyledText text = new WStyledText(TEST_STRING);
-		Assert.assertEquals("Constructor 2 - text returned wrong value", TEST_STRING, text.getText());
-		Assert.assertEquals("Constructor 2 - type should default to PLAIN", Type.PLAIN, text.getType());
-		Assert.assertEquals("Constructor 2 - whitspace mode should default to DEFAULT", WhitespaceMode.DEFAULT, text.getWhitespaceMode());
+		Assert.
+				assertEquals("Constructor 2 - text returned wrong value", TEST_STRING, text.
+						getText());
+		Assert.assertEquals("Constructor 2 - type should default to PLAIN", Type.PLAIN, text.
+				getType());
+		Assert.assertEquals("Constructor 2 - whitspace mode should default to DEFAULT",
+				WhitespaceMode.DEFAULT, text.getWhitespaceMode());
 	}
 
 	@Test
 	public void testConstructor3() {
 		WStyledText text = new WStyledText(TEST_STRING, Type.EMPHASISED);
-		Assert.assertEquals("Constructor 3 - text returned wrong value", TEST_STRING, text.getText());
-		Assert.assertEquals("Constructor 3 - type returned wrong value", Type.EMPHASISED, text.getType());
-		Assert.assertEquals("Constructor 3 - whitspace mode should default to DEFAULT", WhitespaceMode.DEFAULT, text.getWhitespaceMode());
+		Assert.
+				assertEquals("Constructor 3 - text returned wrong value", TEST_STRING, text.
+						getText());
+		Assert.assertEquals("Constructor 3 - type returned wrong value", Type.EMPHASISED, text.
+				getType());
+		Assert.assertEquals("Constructor 3 - whitspace mode should default to DEFAULT",
+				WhitespaceMode.DEFAULT, text.getWhitespaceMode());
 	}
 
 	@Test
@@ -49,6 +59,7 @@ public class WStyledText_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testWhitespaceModeAccessors() {
-		assertAccessorsCorrect(new WStyledText(), "whitespaceMode", WhitespaceMode.DEFAULT, WhitespaceMode.PARAGRAPHS, WhitespaceMode.PRESERVE);
+		assertAccessorsCorrect(new WStyledText(), "whitespaceMode", WhitespaceMode.DEFAULT,
+				WhitespaceMode.PARAGRAPHS, WhitespaceMode.PRESERVE);
 	}
 }

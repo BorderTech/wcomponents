@@ -45,7 +45,8 @@ public class WFieldNestedExample extends WPanel {
 		WField field = layout.addField("Enter date range", innerFieldSet);
 		WLabel layoutLabel = field.getLabel();
 
-		innerLayout.getDateStart().addValidator(new InnerFieldLayoutValidator("{0} must be before {1} for {2}", layoutLabel, innerLayout));
+		innerLayout.getDateStart().addValidator(new InnerFieldLayoutValidator(
+				"{0} must be before {1} for {2}", layoutLabel, innerLayout));
 
 		WButton button = new WButton("Validate");
 		layout.addField((WLabel) null, button);
@@ -148,7 +149,8 @@ public class WFieldNestedExample extends WPanel {
 		 * @param layoutLabel the label for the innerLayout
 		 * @param innerLayout the innerLayout being validated
 		 */
-		private InnerFieldLayoutValidator(final String msg, final WLabel layoutLabel, final InnerFieldLayout innerLayout) {
+		private InnerFieldLayoutValidator(final String msg, final WLabel layoutLabel,
+				final InnerFieldLayout innerLayout) {
 			super(msg);
 			this.layoutLabel = layoutLabel;
 			this.innerLayout = innerLayout;
@@ -162,7 +164,8 @@ public class WFieldNestedExample extends WPanel {
 		@Override
 		protected boolean isValid() {
 			// Assume Mandatory Validator Catches Empty Fields
-			if (Util.empty(innerLayout.getDateStart().getText()) || Util.empty(innerLayout.getDateFinish().getText())) {
+			if (Util.empty(innerLayout.getDateStart().getText()) || Util.empty(innerLayout.
+					getDateFinish().getText())) {
 				return true;
 			}
 

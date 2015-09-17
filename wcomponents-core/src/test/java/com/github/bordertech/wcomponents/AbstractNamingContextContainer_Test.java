@@ -24,7 +24,8 @@ public class AbstractNamingContextContainer_Test extends AbstractWComponentTestC
 		container.setIdName(id);
 
 		Assert.assertEquals("Incorrect component id", id, container.getId());
-		Assert.assertEquals("Naming context should match component id", id, container.getNamingContextId());
+		Assert.assertEquals("Naming context should match component id", id, container.
+				getNamingContextId());
 	}
 
 	/**

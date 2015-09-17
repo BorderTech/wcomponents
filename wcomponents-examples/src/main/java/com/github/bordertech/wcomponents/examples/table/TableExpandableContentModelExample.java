@@ -28,8 +28,7 @@ import java.util.List;
  * It is not heirarchic as the expanded content has its own "renderer".
  * </p>
  * <p>
- * {@link SimpleBeanBoundTableModel} can be used to achieve the same result and is the preferred
- * implementation.
+ * {@link SimpleBeanBoundTableModel} can be used to achieve the same result and is the preferred implementation.
  * </p>
  *
  * @author Jonathan Austin
@@ -67,8 +66,8 @@ public class TableExpandableContentModelExample extends WPanel {
 	}
 
 	/**
-	 * Override preparePaintComponent in order to set up the example data the first time that the
-	 * example is accessed by each user.
+	 * Override preparePaintComponent in order to set up the example data the first time that the example is accessed by
+	 * each user.
 	 *
 	 * @param request the request being responded to.
 	 */
@@ -77,7 +76,8 @@ public class TableExpandableContentModelExample extends WPanel {
 		super.preparePaintComponent(request);
 		if (!isInitialised()) {
 			// This model holds the data so would be included on the user session.
-			ExampleExpandableModel data = new ExampleExpandableModel(ExampleDataUtil.createExampleData(),
+			ExampleExpandableModel data = new ExampleExpandableModel(ExampleDataUtil.
+					createExampleData(),
 					TravelDocPanel.class);
 			table.setTableModel(data);
 			setInitialised(true);
@@ -87,8 +87,7 @@ public class TableExpandableContentModelExample extends WPanel {
 	/**
 	 * This class is an example of a table model that will support one expandable level.
 	 * <p>
-	 * {@link SimpleBeanBoundTableModel} can be used to achieve the same result and is the preferred
-	 * implementation.
+	 * {@link SimpleBeanBoundTableModel} can be used to achieve the same result and is the preferred implementation.
 	 * </p>
 	 */
 	public static class ExampleExpandableModel extends AbstractTableModel {
@@ -120,7 +119,8 @@ public class TableExpandableContentModelExample extends WPanel {
 		 * @param data the sample data
 		 * @param renderer the expanded content renderer
 		 */
-		public ExampleExpandableModel(final List<PersonBean> data, final Class<? extends WComponent> renderer) {
+		public ExampleExpandableModel(final List<PersonBean> data,
+				final Class<? extends WComponent> renderer) {
 			this.data = data;
 			this.renderer = renderer;
 		}
@@ -225,8 +225,7 @@ public class TableExpandableContentModelExample extends WPanel {
 	}
 
 	/**
-	 * An example component to display travel document details. Expects that the supplied bean is a
-	 * {@link TravelDoc}.
+	 * An example component to display travel document details. Expects that the supplied bean is a {@link TravelDoc}.
 	 */
 	public static final class TravelDocPanel extends WBeanContainer {
 

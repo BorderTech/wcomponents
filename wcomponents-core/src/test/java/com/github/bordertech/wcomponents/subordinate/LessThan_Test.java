@@ -37,13 +37,15 @@ public class LessThan_Test extends AbstractWComponentTestCase {
 		LessThan compare = new LessThan(trigger, value);
 
 		Assert.assertEquals("Value for LessThan is incorrect", value, compare.getValue());
-		Assert.assertEquals("Trigger for LessThan should be the trigger", trigger, compare.getTrigger());
+		Assert.assertEquals("Trigger for LessThan should be the trigger", trigger, compare.
+				getTrigger());
 	}
 
 	@Test
 	public void testCompareType() {
 		LessThan compare = new LessThan(new MyTrigger(), null);
-		Assert.assertEquals("Incorrect Compare Type", AbstractCompare.CompareType.LESS_THAN, compare.getCompareType());
+		Assert.assertEquals("Incorrect Compare Type", AbstractCompare.CompareType.LESS_THAN,
+				compare.getCompareType());
 	}
 
 	@Test
@@ -64,17 +66,20 @@ public class LessThan_Test extends AbstractWComponentTestCase {
 		Assert.assertFalse("Less Than - Compare for equal value should be false", compare.execute());
 
 		trigger.setNumber(GT_VALUE);
-		Assert.assertFalse("Less Than - Compare for greater value should be false", compare.execute());
+		Assert.assertFalse("Less Than - Compare for greater value should be false", compare.
+				execute());
 
 		// ------------------------------
 		// Setup LESS THAN - with null value
 		compare = new LessThan(trigger, null);
 
 		trigger.setNumber(null);
-		Assert.assertFalse("Less Than With Null Value - Compare for null value should be false", compare.execute());
+		Assert.assertFalse("Less Than With Null Value - Compare for null value should be false",
+				compare.execute());
 
 		trigger.setNumber(EQ_VALUE);
-		Assert.assertFalse("Less Than With Null Value - Compare for value should be false", compare.execute());
+		Assert.assertFalse("Less Than With Null Value - Compare for value should be false", compare.
+				execute());
 	}
 
 	@Test
@@ -85,7 +90,8 @@ public class LessThan_Test extends AbstractWComponentTestCase {
 		Assert.assertEquals("Incorrect toString for compare", "MyTrigger<\"1\"", compare.toString());
 
 		WLabel label = new WLabel("test label", trigger);
-		Assert.assertEquals("Incorrect toString for compare with a label", label.getText() + "<\"1\"", compare.toString());
+		Assert.assertEquals("Incorrect toString for compare with a label",
+				label.getText() + "<\"1\"", compare.toString());
 	}
 
 	/**

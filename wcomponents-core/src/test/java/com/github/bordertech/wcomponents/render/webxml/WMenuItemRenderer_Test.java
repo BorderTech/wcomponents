@@ -21,7 +21,8 @@ public class WMenuItemRenderer_Test extends AbstractWebXmlRendererTestCase {
 	@Test
 	public void testRendererCorrectlyConfigured() {
 		WMenuItem menuItem = new WMenuItem("");
-		Assert.assertTrue("Incorrect renderer supplied", getWebXmlRenderer(menuItem) instanceof WMenuItemRenderer);
+		Assert.assertTrue("Incorrect renderer supplied",
+				getWebXmlRenderer(menuItem) instanceof WMenuItemRenderer);
 	}
 
 	@Test

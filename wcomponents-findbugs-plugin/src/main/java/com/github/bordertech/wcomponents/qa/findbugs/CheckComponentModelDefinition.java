@@ -97,7 +97,8 @@ public class CheckComponentModelDefinition extends BytecodeScanningDetector {
 	 * @param classContext the class to report against.
 	 */
 	private void reportBug(final ClassContext classContext) {
-		util.getBugReporter().reportBug(new BugInstance(this, "WCCM_NO_PUBLIC_CONSTRUCTOR", HIGH_PRIORITY)
+		util.getBugReporter().reportBug(new BugInstance(this, "WCCM_NO_PUBLIC_CONSTRUCTOR",
+				HIGH_PRIORITY)
 				.addClass(classContext.getClassDescriptor()));
 	}
 }

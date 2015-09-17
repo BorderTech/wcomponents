@@ -20,7 +20,8 @@ public class WAudioRenderer_Test extends AbstractWebXmlRendererTestCase {
 	@Test
 	public void testRendererCorrectlyConfigured() {
 		WAudio audio = new WAudio();
-		Assert.assertTrue("Incorrect renderer supplied", getWebXmlRenderer(audio) instanceof WAudioRenderer);
+		Assert.assertTrue("Incorrect renderer supplied",
+				getWebXmlRenderer(audio) instanceof WAudioRenderer);
 	}
 
 	@Test

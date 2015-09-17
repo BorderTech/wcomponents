@@ -13,9 +13,9 @@ import java.util.Set;
 import org.apache.commons.fileupload.FileItem;
 
 /**
- * A mock request is useful when you want to write junits and the like. Normally the container
- * running the components handles this, but in the case of junits, you are the container, so you
- * must supply a request. MockRequest fills this requirement.
+ * A mock request is useful when you want to write junits and the like. Normally the container running the components
+ * handles this, but in the case of junits, you are the container, so you must supply a request. MockRequest fills this
+ * requirement.
  *
  * @author Martin Shevchenko
  * @author Rick Brown
@@ -249,8 +249,7 @@ public class MockRequest extends AbstractRequest {
 	}
 
 	/**
-	 * Support for Public Render Parameters in Portal. In a Servlet environment, this will be the
-	 * same as the session.
+	 * Support for Public Render Parameters in Portal. In a Servlet environment, this will be the same as the session.
 	 *
 	 * @param key The key for the parameter.
 	 * @param value The value of the parameter.
@@ -263,8 +262,7 @@ public class MockRequest extends AbstractRequest {
 	}
 
 	/**
-	 * Support for Public Render Parameters in Portal. In a Servlet environment, this will be the
-	 * same as the session.
+	 * Support for Public Render Parameters in Portal. In a Servlet environment, this will be the same as the session.
 	 *
 	 * @param key The key for the parameter.
 	 * @return The value of the parameter.
@@ -288,8 +286,7 @@ public class MockRequest extends AbstractRequest {
 	}
 
 	/**
-	 * @return the name of the HTTP method with which this request was made, for example, GET, POST,
-	 * or PUT.
+	 * @return the name of the HTTP method with which this request was made, for example, GET, POST, or PUT.
 	 */
 	@Override
 	public String getMethod() {
@@ -299,8 +296,7 @@ public class MockRequest extends AbstractRequest {
 	/**
 	 * For a mock request, allow the method to be set.
 	 *
-	 * @param method the name of the HTTP method with which this request was made, for example, GET,
-	 * POST, or PUT.
+	 * @param method the name of the HTTP method with which this request was made, for example, GET, POST, or PUT.
 	 */
 	public void setMethod(final String method) {
 		this.method = method;

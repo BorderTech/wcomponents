@@ -101,8 +101,11 @@ public class DateFieldPivotValidator_Test {
 	public void testGetErrorMessage() {
 		final String errorMessage = "DateFieldPivotValidator_Test.testGetErrorMessage.errorMessage";
 
-		DateFieldPivotValidator validator = new DateFieldPivotValidator(DateFieldPivotValidator.EQUAL);
-		Assert.assertEquals("Incorrect error message", InternalMessages.DEFAULT_VALIDATION_ERROR_DATE_EQUAL_TODAY, validator.getErrorMessage());
+		DateFieldPivotValidator validator = new DateFieldPivotValidator(
+				DateFieldPivotValidator.EQUAL);
+		Assert.assertEquals("Incorrect error message",
+				InternalMessages.DEFAULT_VALIDATION_ERROR_DATE_EQUAL_TODAY, validator.
+				getErrorMessage());
 
 		validator.setErrorMessage(errorMessage);
 		Assert.assertEquals("Incorrect error message", errorMessage, validator.getErrorMessage());
@@ -113,7 +116,8 @@ public class DateFieldPivotValidator_Test {
 		WDateField variableField = new WDateField();
 		variableField.setDate(DateUtilities.createDate(31, 1, 2000));
 
-		DateFieldPivotValidator validator = new DateFieldPivotValidator(DateFieldPivotValidator.EQUAL, variableField);
+		DateFieldPivotValidator validator = new DateFieldPivotValidator(
+				DateFieldPivotValidator.EQUAL, variableField);
 
 		WDateField dateField = new WDateField();
 		dateField.addValidator(validator);

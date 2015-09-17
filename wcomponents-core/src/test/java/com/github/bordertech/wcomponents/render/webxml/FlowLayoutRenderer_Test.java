@@ -86,19 +86,24 @@ public class FlowLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathExists("//ui:panel/ui:flowLayout", panel);
 		assertXpathEvaluatesTo("center", "//ui:panel/ui:flowLayout/@align", panel);
 
-		panel.setLayout(new FlowLayout(FlowLayout.Alignment.CENTER, FlowLayout.ContentAlignment.TOP));
+		panel.
+				setLayout(new FlowLayout(FlowLayout.Alignment.CENTER,
+						FlowLayout.ContentAlignment.TOP));
 		assertSchemaMatch(panel);
 		assertXpathEvaluatesTo("top", "//ui:panel/ui:flowLayout/@valign", panel);
 
-		panel.setLayout(new FlowLayout(FlowLayout.Alignment.CENTER, FlowLayout.ContentAlignment.MIDDLE));
+		panel.setLayout(new FlowLayout(FlowLayout.Alignment.CENTER,
+				FlowLayout.ContentAlignment.MIDDLE));
 		assertSchemaMatch(panel);
 		assertXpathEvaluatesTo("middle", "//ui:panel/ui:flowLayout/@valign", panel);
 
-		panel.setLayout(new FlowLayout(FlowLayout.Alignment.CENTER, FlowLayout.ContentAlignment.BASELINE));
+		panel.setLayout(new FlowLayout(FlowLayout.Alignment.CENTER,
+				FlowLayout.ContentAlignment.BASELINE));
 		assertSchemaMatch(panel);
 		assertXpathEvaluatesTo("baseline", "//ui:panel/ui:flowLayout/@valign", panel);
 
-		panel.setLayout(new FlowLayout(FlowLayout.Alignment.CENTER, FlowLayout.ContentAlignment.BOTTOM));
+		panel.setLayout(new FlowLayout(FlowLayout.Alignment.CENTER,
+				FlowLayout.ContentAlignment.BOTTOM));
 		assertSchemaMatch(panel);
 		assertXpathEvaluatesTo("bottom", "//ui:panel/ui:flowLayout/@valign", panel);
 	}

@@ -5,14 +5,13 @@ import java.util.Map;
 
 /**
  * <p>
- * This wcomponent enables the display of arbitrary document content from a WComponent application.
- * This component does not by default display anything until the {@link #display()} method is
- * called. It then causes the browser to access the content through the WContentHelperServlet.</p>
+ * This wcomponent enables the display of arbitrary document content from a WComponent application. This component does
+ * not by default display anything until the {@link #display()} method is called. It then causes the browser to access
+ * the content through the WContentHelperServlet.</p>
  *
  * <p>
- * By default, the browser will display the content in a new window, but the
- * {@link #setDisplayMode(DisplayMode)} method can be used to display the content inline or prompt
- * the user to save the content to a file.</p>
+ * By default, the browser will display the content in a new window, but the {@link #setDisplayMode(DisplayMode)} method
+ * can be used to display the content inline or prompt the user to save the content to a file.</p>
  *
  * @author Martin Shevchenko
  * @since 1.0.0
@@ -32,16 +31,15 @@ public class WContent extends AbstractWComponent implements Targetable {
 		 */
 		DISPLAY_INLINE,
 		/**
-		 * Indicates that the browser should prompt the user to save the content to a file. Note
-		 * that for this to work, the ContenetAccess MUST have its description set to the file name
-		 * which the content should be saved as.
+		 * Indicates that the browser should prompt the user to save the content to a file. Note that for this to work,
+		 * the ContenetAccess MUST have its description set to the file name which the content should be saved as.
 		 */
 		PROMPT_TO_SAVE
 	}
 
 	/**
-	 * This magic parameter is a work-around to the loading indicator becoming "stuck" in certain
-	 * browsers. It is also used by the static resource handler to set the correct headers
+	 * This magic parameter is a work-around to the loading indicator becoming "stuck" in certain browsers. It is also
+	 * used by the static resource handler to set the correct headers
 	 *
 	 */
 	public static final String URL_CONTENT_MODE_PARAMETER_KEY = "wc_content";
@@ -63,8 +61,8 @@ public class WContent extends AbstractWComponent implements Targetable {
 	}
 
 	/**
-	 * Next time this component is painted, it will output the appropriate script to open a new
-	 * browser window to display the content.
+	 * Next time this component is painted, it will output the appropriate script to open a new browser window to
+	 * display the content.
 	 */
 	public void display() {
 		getOrCreateComponentModel().displayRequested = true;
@@ -120,8 +118,7 @@ public class WContent extends AbstractWComponent implements Targetable {
 	}
 
 	/**
-	 * Sets the content display mode. The default displayMode is
-	 * {@link DisplayMode#OPEN_NEW_WINDOW}.
+	 * Sets the content display mode. The default displayMode is {@link DisplayMode#OPEN_NEW_WINDOW}.
 	 *
 	 * @param displayMode The displayMode to set.
 	 */
@@ -221,8 +218,8 @@ public class WContent extends AbstractWComponent implements Targetable {
 	 * Override handleRequest in order to perform processing specific to this component.</p>
 	 *
 	 * <p>
-	 * When the new browser window for the document content is opened, it will make another request
-	 * to fetch the content. It is that situation we are trying to detect and handle here.</p>
+	 * When the new browser window for the document content is opened, it will make another request to fetch the
+	 * content. It is that situation we are trying to detect and handle here.</p>
 	 *
 	 * @param request the request being responded to.
 	 */

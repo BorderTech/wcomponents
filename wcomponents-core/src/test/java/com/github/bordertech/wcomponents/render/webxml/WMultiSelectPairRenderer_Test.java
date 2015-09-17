@@ -21,7 +21,8 @@ public class WMultiSelectPairRenderer_Test extends AbstractWebXmlRendererTestCas
 	@Test
 	public void testRendererCorrectlyConfigured() {
 		WMultiSelectPair multiSelectPair = new WMultiSelectPair();
-		Assert.assertTrue("Incorrect renderer supplied", getWebXmlRenderer(multiSelectPair) instanceof WMultiSelectPairRenderer);
+		Assert.assertTrue("Incorrect renderer supplied",
+				getWebXmlRenderer(multiSelectPair) instanceof WMultiSelectPairRenderer);
 	}
 
 	@Test
@@ -38,18 +39,22 @@ public class WMultiSelectPairRenderer_Test extends AbstractWebXmlRendererTestCas
 		assertSchemaMatch(select);
 		assertXpathEvaluatesTo("0", "count(//ui:multiSelectPair/option)", select);
 		assertXpathEvaluatesTo(select.getId(), "//ui:multiSelectPair/@id", select);
-		assertXpathEvaluatesTo(String.valueOf(select.getRows()), "//ui:multiSelectPair/@size", select);
+		assertXpathEvaluatesTo(String.valueOf(select.getRows()), "//ui:multiSelectPair/@size",
+				select);
 		assertXpathNotExists("//ui:multiSelectPair/@disabled", select);
 		assertXpathNotExists("//ui:multiSelectPair/@required", select);
 		assertXpathNotExists("//ui:multiSelectPair/@accessibleText", select);
-		assertXpathEvaluatesTo(select.getAvailableListName(), "//ui:multiSelectPair/@fromListName", select);
-		assertXpathEvaluatesTo(select.getSelectedListName(), "//ui:multiSelectPair/@toListName", select);
+		assertXpathEvaluatesTo(select.getAvailableListName(), "//ui:multiSelectPair/@fromListName",
+				select);
+		assertXpathEvaluatesTo(select.getSelectedListName(), "//ui:multiSelectPair/@toListName",
+				select);
 
 		// List with options
 		select.setOptions(new String[]{option1, option2, option3});
 		assertSchemaMatch(select);
 		assertXpathEvaluatesTo("3", "count(//ui:multiSelectPair/ui:option)", select);
-		assertXpathEvaluatesTo("0", "count(//ui:multiSelectPair/ui:option[@selected='true'])", select);
+		assertXpathEvaluatesTo("0", "count(//ui:multiSelectPair/ui:option[@selected='true'])",
+				select);
 		assertXpathEvaluatesTo(option1, "//ui:multiSelectPair/ui:option[1]", select);
 		assertXpathEvaluatesTo(option2, "//ui:multiSelectPair/ui:option[2]", select);
 		assertXpathEvaluatesTo(option3, "//ui:multiSelectPair/ui:option[3]", select);
@@ -58,7 +63,8 @@ public class WMultiSelectPairRenderer_Test extends AbstractWebXmlRendererTestCas
 		select.setSelected(Arrays.asList(new String[]{option2}));
 		assertSchemaMatch(select);
 		assertXpathEvaluatesTo("3", "count(//ui:multiSelectPair/ui:option)", select);
-		assertXpathEvaluatesTo("1", "count(//ui:multiSelectPair/ui:option[@selected='true'])", select);
+		assertXpathEvaluatesTo("1", "count(//ui:multiSelectPair/ui:option[@selected='true'])",
+				select);
 		assertXpathEvaluatesTo(option2, "//ui:multiSelectPair/ui:option[@selected='true']", select);
 
 		// Check Readonly - only render selected option
@@ -87,7 +93,8 @@ public class WMultiSelectPairRenderer_Test extends AbstractWebXmlRendererTestCas
 		// Rows - Less than 2 should return default
 		select.setRows(1);
 		assertSchemaMatch(select);
-		assertXpathEvaluatesTo(String.valueOf(WMultiSelectPair.DEFAULT_ROWS), "//ui:multiSelectPair/@size", select);
+		assertXpathEvaluatesTo(String.valueOf(WMultiSelectPair.DEFAULT_ROWS),
+				"//ui:multiSelectPair/@size", select);
 		// Rows - Set valid rows
 		select.setRows(10);
 		assertSchemaMatch(select);
@@ -128,7 +135,8 @@ public class WMultiSelectPairRenderer_Test extends AbstractWebXmlRendererTestCas
 
 	@Test
 	public void testOptionGroups() throws IOException, SAXException, XpathException {
-		OptionGroup optionGroup = new OptionGroup("B", Arrays.asList(new String[]{"B.1", "B.2", "B.3", "B.4"}));
+		OptionGroup optionGroup = new OptionGroup("B", Arrays.asList(
+				new String[]{"B.1", "B.2", "B.3", "B.4"}));
 		Object[] options = new Object[]{"A", optionGroup, "C"};
 
 		WMultiSelectPair select = new WMultiSelectPair(options);
@@ -138,11 +146,16 @@ public class WMultiSelectPairRenderer_Test extends AbstractWebXmlRendererTestCas
 		assertXpathEvaluatesTo("4", "count(//ui:multiSelectPair/ui:optgroup/ui:option)", select);
 
 		// Check grouped options
-		assertXpathEvaluatesTo(optionGroup.getDesc(), "//ui:multiSelectPair/ui:optgroup/@label", select);
-		assertXpathEvaluatesTo((String) optionGroup.getOptions().get(0), "//ui:multiSelectPair/ui:optgroup/ui:option[1]", select);
-		assertXpathEvaluatesTo((String) optionGroup.getOptions().get(1), "//ui:multiSelectPair/ui:optgroup/ui:option[2]", select);
-		assertXpathEvaluatesTo((String) optionGroup.getOptions().get(2), "//ui:multiSelectPair/ui:optgroup/ui:option[3]", select);
-		assertXpathEvaluatesTo((String) optionGroup.getOptions().get(3), "//ui:multiSelectPair/ui:optgroup/ui:option[4]", select);
+		assertXpathEvaluatesTo(optionGroup.getDesc(), "//ui:multiSelectPair/ui:optgroup/@label",
+				select);
+		assertXpathEvaluatesTo((String) optionGroup.getOptions().get(0),
+				"//ui:multiSelectPair/ui:optgroup/ui:option[1]", select);
+		assertXpathEvaluatesTo((String) optionGroup.getOptions().get(1),
+				"//ui:multiSelectPair/ui:optgroup/ui:option[2]", select);
+		assertXpathEvaluatesTo((String) optionGroup.getOptions().get(2),
+				"//ui:multiSelectPair/ui:optgroup/ui:option[3]", select);
+		assertXpathEvaluatesTo((String) optionGroup.getOptions().get(3),
+				"//ui:multiSelectPair/ui:optgroup/ui:option[4]", select);
 
 		// Check values
 		assertXpathEvaluatesTo("1", "//ui:multiSelectPair/ui:option[1]/@value", select);
@@ -156,12 +169,14 @@ public class WMultiSelectPairRenderer_Test extends AbstractWebXmlRendererTestCas
 		select.setSelected(Arrays.asList(new String[]{"A", "B.3"}));
 		assertXpathEvaluatesTo("2", "count(//ui:option[@selected='true'])", select);
 		assertXpathExists("//ui:multiSelectPair/ui:option[text()='A'][@selected='true']", select);
-		assertXpathExists("//ui:multiSelectPair/ui:optgroup/ui:option[text()='B.3'][@selected='true']", select);
+		assertXpathExists(
+				"//ui:multiSelectPair/ui:optgroup/ui:option[text()='B.3'][@selected='true']", select);
 	}
 
 	@Test
 	public void testOptionGroupsWithShuffle() throws IOException, SAXException, XpathException {
-		OptionGroup optionGroup = new OptionGroup("B", Arrays.asList(new String[]{"B.1", "B.2", "B.3", "B.4"}));
+		OptionGroup optionGroup = new OptionGroup("B", Arrays.asList(
+				new String[]{"B.1", "B.2", "B.3", "B.4"}));
 		Object[] options = new Object[]{"A", optionGroup, "C"};
 
 		WMultiSelectPair select = new WMultiSelectPair(options);
@@ -172,11 +187,16 @@ public class WMultiSelectPairRenderer_Test extends AbstractWebXmlRendererTestCas
 		assertXpathEvaluatesTo("4", "count(//ui:multiSelectPair/ui:optgroup/ui:option)", select);
 
 		// Check grouped options
-		assertXpathEvaluatesTo(optionGroup.getDesc(), "//ui:multiSelectPair/ui:optgroup/@label", select);
-		assertXpathEvaluatesTo((String) optionGroup.getOptions().get(0), "//ui:multiSelectPair/ui:optgroup/ui:option[1]", select);
-		assertXpathEvaluatesTo((String) optionGroup.getOptions().get(1), "//ui:multiSelectPair/ui:optgroup/ui:option[2]", select);
-		assertXpathEvaluatesTo((String) optionGroup.getOptions().get(2), "//ui:multiSelectPair/ui:optgroup/ui:option[3]", select);
-		assertXpathEvaluatesTo((String) optionGroup.getOptions().get(3), "//ui:multiSelectPair/ui:optgroup/ui:option[4]", select);
+		assertXpathEvaluatesTo(optionGroup.getDesc(), "//ui:multiSelectPair/ui:optgroup/@label",
+				select);
+		assertXpathEvaluatesTo((String) optionGroup.getOptions().get(0),
+				"//ui:multiSelectPair/ui:optgroup/ui:option[1]", select);
+		assertXpathEvaluatesTo((String) optionGroup.getOptions().get(1),
+				"//ui:multiSelectPair/ui:optgroup/ui:option[2]", select);
+		assertXpathEvaluatesTo((String) optionGroup.getOptions().get(2),
+				"//ui:multiSelectPair/ui:optgroup/ui:option[3]", select);
+		assertXpathEvaluatesTo((String) optionGroup.getOptions().get(3),
+				"//ui:multiSelectPair/ui:optgroup/ui:option[4]", select);
 
 		// Check values
 		assertXpathEvaluatesTo("1", "//ui:multiSelectPair/ui:option[1]/@value", select);
@@ -190,17 +210,24 @@ public class WMultiSelectPairRenderer_Test extends AbstractWebXmlRendererTestCas
 		select.setSelected(Arrays.asList(new String[]{"A", "B.3", "B.1"}));
 		assertXpathEvaluatesTo("3", "count(//ui:option[@selected='true'])", select);
 		assertXpathExists("//ui:multiSelectPair/ui:option[text()='A'][@selected='true']", select);
-		assertXpathExists("//ui:multiSelectPair/ui:optgroup/ui:option[text()='B.3'][@selected='true']", select);
-		assertXpathExists("//ui:multiSelectPair/ui:optgroup/ui:option[text()='B.1'][@selected='true']", select);
-		assertXpathEvaluatesTo("A", "//ui:multiSelectPair/ui:option[@selected='true']/text()", select);
-		assertXpathEvaluatesTo("B.3", "//ui:multiSelectPair/ui:optgroup[1]/ui:option[@selected='true'][1]/text()", select);
-		assertXpathEvaluatesTo("B.1", "//ui:multiSelectPair/ui:optgroup[1]/ui:option[@selected='true'][2]/text()", select);
+		assertXpathExists(
+				"//ui:multiSelectPair/ui:optgroup/ui:option[text()='B.3'][@selected='true']", select);
+		assertXpathExists(
+				"//ui:multiSelectPair/ui:optgroup/ui:option[text()='B.1'][@selected='true']", select);
+		assertXpathEvaluatesTo("A", "//ui:multiSelectPair/ui:option[@selected='true']/text()",
+				select);
+		assertXpathEvaluatesTo("B.3",
+				"//ui:multiSelectPair/ui:optgroup[1]/ui:option[@selected='true'][1]/text()", select);
+		assertXpathEvaluatesTo("B.1",
+				"//ui:multiSelectPair/ui:optgroup[1]/ui:option[@selected='true'][2]/text()", select);
 	}
 
 	@Test
 	public void testXssEscaping() throws IOException, SAXException, XpathException {
-		OptionGroup optionGroup = new OptionGroup(getMaliciousAttribute("ui:optgroup"), Arrays.asList(new String[]{"dummy"}));
-		WMultiSelectPair select = new WMultiSelectPair(Arrays.asList(new Object[]{getInvalidCharSequence(), getMaliciousContent(), optionGroup}));
+		OptionGroup optionGroup = new OptionGroup(getMaliciousAttribute("ui:optgroup"), Arrays.
+				asList(new String[]{"dummy"}));
+		WMultiSelectPair select = new WMultiSelectPair(Arrays.asList(
+				new Object[]{getInvalidCharSequence(), getMaliciousContent(), optionGroup}));
 		select.setAvailableListName(getMaliciousAttribute("ui:multiSelectPair"));
 		select.setSelectedListName(getMaliciousAttribute("ui:multiSelectPair"));
 

@@ -15,8 +15,7 @@ import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 
 /**
- * This component is for rendering only, and contains no behaviour. It renders itself using a
- * Velocity template.
+ * This component is for rendering only, and contains no behaviour. It renders itself using a Velocity template.
  *
  * @author Martin Shevchenko
  * @since 1.0.0
@@ -75,7 +74,8 @@ public class VelocityInterceptor extends InterceptorComponent {
 		try {
 			template = VelocityEngineFactory.getVelocityEngine().getTemplate(templateUrl);
 		} catch (Exception ex) {
-			String message = "Could not open velocity template \"" + templateUrl + "\" for \"" + this.getClass().getName() + "\"";
+			String message = "Could not open velocity template \"" + templateUrl + "\" for \"" + this.
+					getClass().getName() + "\"";
 			LOG.error(message, ex);
 			writer.println(message);
 			return;

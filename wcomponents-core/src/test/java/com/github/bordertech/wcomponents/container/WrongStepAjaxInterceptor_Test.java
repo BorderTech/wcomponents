@@ -49,7 +49,8 @@ public class WrongStepAjaxInterceptor_Test extends AbstractWebXmlRendererTestCas
 
 	@Test
 	public void testInterceptorRedirect() throws XpathException, SAXException, IOException {
-		Config.getInstance().setProperty(StepCountUtil.STEP_ERROR_URL_PARAMETER_KEY, "http://test.test");
+		Config.getInstance().setProperty(StepCountUtil.STEP_ERROR_URL_PARAMETER_KEY,
+				"http://test.test");
 
 		MyApp app = new MyApp();
 		app.setLocked(true);
@@ -80,7 +81,8 @@ public class WrongStepAjaxInterceptor_Test extends AbstractWebXmlRendererTestCas
 	 */
 	private MockResponse doAjaxRequest(final MyApp app, final int clientStep, final int serverStep) {
 		UIContext uic = createUIContext();
-		WServlet.WServletEnvironment env = new WServlet.WServletEnvironment(APP_POSTPATH, "http://localhost", "");
+		WServlet.WServletEnvironment env = new WServlet.WServletEnvironment(APP_POSTPATH,
+				"http://localhost", "");
 		env.setStep(serverStep);
 		env.setSessionToken("T");
 		uic.setEnvironment(env);

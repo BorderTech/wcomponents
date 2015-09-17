@@ -47,13 +47,16 @@ public class DataListInterceptor_Test extends AbstractWebXmlRendererTestCase {
 		String xml = response.getWriterOutput();
 
 		// Ensure that the data matches the test table.
-		List<TestLookupTable.TableEntry> table = (List<TestLookupTable.TableEntry>) Factory.newInstance(LookupTable.class).getTable(tableKey);
+		List<TestLookupTable.TableEntry> table = (List<TestLookupTable.TableEntry>) Factory.
+				newInstance(LookupTable.class).getTable(tableKey);
 
 		assertXpathEvaluatesTo(String.valueOf(table.size()), "count(/ui:datalist/ui:option)", xml);
 
 		for (int i = 0; i < table.size(); i++) {
-			assertXpathEvaluatesTo(table.get(i).getCode(), "/ui:datalist/ui:option[" + (i + 1) + "]/@value", xml);
-			assertXpathEvaluatesTo(table.get(i).getDesc(), "/ui:datalist/ui:option[" + (i + 1) + "]/text()", xml);
+			assertXpathEvaluatesTo(table.get(i).getCode(),
+					"/ui:datalist/ui:option[" + (i + 1) + "]/@value", xml);
+			assertXpathEvaluatesTo(table.get(i).getDesc(),
+					"/ui:datalist/ui:option[" + (i + 1) + "]/text()", xml);
 		}
 	}
 
@@ -79,7 +82,8 @@ public class DataListInterceptor_Test extends AbstractWebXmlRendererTestCase {
 		String xml = response.getWriterOutput();
 
 		// Ensure that the data matches the test table.
-		List<TestLookupTable.TableEntry> table = (List<TestLookupTable.TableEntry>) Factory.newInstance(LookupTable.class).getTable(tableKey);
+		List<TestLookupTable.TableEntry> table = (List<TestLookupTable.TableEntry>) Factory.
+				newInstance(LookupTable.class).getTable(tableKey);
 
 		assertXpathEvaluatesTo(String.valueOf(table.size()), "count(/ui:datalist/ui:option)", xml);
 
@@ -87,10 +91,13 @@ public class DataListInterceptor_Test extends AbstractWebXmlRendererTestCase {
 			if (table.get(i) == null) {
 				assertXpathEvaluatesTo("", "/ui:datalist/ui:option[" + (i + 1) + "]/@value", xml);
 				assertXpathEvaluatesTo("", "/ui:datalist/ui:option[" + (i + 1) + "]/text()", xml);
-				assertXpathEvaluatesTo("true", "/ui:datalist/ui:option[" + (i + 1) + "]/@isNull", xml);
+				assertXpathEvaluatesTo("true", "/ui:datalist/ui:option[" + (i + 1) + "]/@isNull",
+						xml);
 			} else {
-				assertXpathEvaluatesTo(table.get(i).getCode(), "/ui:datalist/ui:option[" + (i + 1) + "]/@value", xml);
-				assertXpathEvaluatesTo(table.get(i).getDesc(), "/ui:datalist/ui:option[" + (i + 1) + "]/text()", xml);
+				assertXpathEvaluatesTo(table.get(i).getCode(),
+						"/ui:datalist/ui:option[" + (i + 1) + "]/@value", xml);
+				assertXpathEvaluatesTo(table.get(i).getDesc(),
+						"/ui:datalist/ui:option[" + (i + 1) + "]/text()", xml);
 				assertXpathNotExists("/ui:datalist/ui:option[" + (i + 1) + "]/@isNull", xml);
 			}
 		}

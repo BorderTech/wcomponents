@@ -26,7 +26,8 @@ public class WRepeaterRenderer_Test extends AbstractWebXmlRendererTestCase {
 	@Test
 	public void testRendererCorrectlyConfigured() {
 		WRepeater component = new WRepeater();
-		Assert.assertTrue("Incorrect renderer supplied", getWebXmlRenderer(component) instanceof WRepeaterRenderer);
+		Assert.assertTrue("Incorrect renderer supplied",
+				getWebXmlRenderer(component) instanceof WRepeaterRenderer);
 	}
 
 	@Test

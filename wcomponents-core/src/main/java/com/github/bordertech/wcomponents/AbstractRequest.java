@@ -122,8 +122,8 @@ public abstract class AbstractRequest implements Request {
 	}
 
 	/**
-	 * @return the complete list of parameters contained in this request. If the request contains no
-	 * parameters, the method returns an empty <code>Map</code>.
+	 * @return the complete list of parameters contained in this request. If the request contains no parameters, the
+	 * method returns an empty <code>Map</code>.
 	 */
 	@Override
 	public abstract Map getParameters();
@@ -175,27 +175,29 @@ public abstract class AbstractRequest implements Request {
 
 	/**
 	 * <p>
-	 * {@link FileItem} classes (if attachements) will be kept as part of the request. The default
-	 * behaviour of the file item is to store the upload in memory until it reaches a certain size,
-	 * after which the content is streamed to a temp file.</p>
+	 * {@link FileItem} classes (if attachements) will be kept as part of the request. The default behaviour of the file
+	 * item is to store the upload in memory until it reaches a certain size, after which the content is streamed to a
+	 * temp file.</p>
 	 *
 	 * <p>
-	 * If, in the future, performance of uploads becomes a focus we can instead look into using the
-	 * Jakarta Commons Streaming API. In this case, the content of the upload isn't stored anywhere.
-	 * It will be up to the user to read/store the content of the stream.</p>
+	 * If, in the future, performance of uploads becomes a focus we can instead look into using the Jakarta Commons
+	 * Streaming API. In this case, the content of the upload isn't stored anywhere. It will be up to the user to
+	 * read/store the content of the stream.</p>
 	 *
 	 * @param fileItems a list of {@link FileItem}s corresponding to POSTed form data.
 	 * @param parameters the map to store non-file request parameters in.
 	 * @param files the map to store the uploaded file parameters in.
 	 */
-	protected static void uploadFileItems(final List fileItems, final Map parameters, final Map files) {
+	protected static void uploadFileItems(final List fileItems, final Map parameters,
+			final Map files) {
 		for (int i = 0; i < fileItems.size(); i++) {
 			FileItem item = (FileItem) fileItems.get(i);
 			String name = item.getFieldName();
 			boolean formField = item.isFormField();
 
 			if (LOG.isDebugEnabled()) {
-				LOG.debug("Uploading form " + (formField ? "field" : "attachment") + " \"" + name + "\"");
+				LOG.debug(
+						"Uploading form " + (formField ? "field" : "attachment") + " \"" + name + "\"");
 			}
 
 			if (formField) {

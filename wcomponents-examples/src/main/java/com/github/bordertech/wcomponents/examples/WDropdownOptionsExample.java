@@ -37,14 +37,13 @@ import java.util.List;
 
 /**
  * <p>
- * This example provides the configuration options for the dropdown box, including the various
- * different action types.
+ * This example provides the configuration options for the dropdown box, including the various different action types.
  * </p>
  * <p>
- * Please note that for the subordinate controls its not actually the text being copied from the
- * drop down to the panel rather a series of panels with the appropriate text being shown and
- * hidden. This can lead with both the Action on Change populating the text of the drop down and the
- * subordinate showing the panel representing the dropdown value at the same time.
+ * Please note that for the subordinate controls its not actually the text being copied from the drop down to the panel
+ * rather a series of panels with the appropriate text being shown and hidden. This can lead with both the Action on
+ * Change populating the text of the drop down and the subordinate showing the panel representing the dropdown value at
+ * the same time.
  * </p>
  *
  * @author Steve Harney
@@ -97,7 +96,8 @@ public class WDropdownOptionsExample extends WContainer {
 	/**
 	 * radio button select for selecting the dropdown type.
 	 */
-	private final WRadioButtonSelect rbsDDType = new WRadioButtonSelect(WDropdown.DropdownType.values());
+	private final WRadioButtonSelect rbsDDType = new WRadioButtonSelect(WDropdown.DropdownType.
+			values());
 
 	/**
 	 * width control.

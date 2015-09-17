@@ -49,7 +49,9 @@ abstract class AbstractWFieldIndicatorRenderer extends AbstractWebXmlRenderer {
 					break;
 
 				default:
-					throw new SystemException("Cannot paint field indicator due to an invalid field indicator type: " + fieldIndicator.getFieldIndicatorType());
+					throw new SystemException(
+							"Cannot paint field indicator due to an invalid field indicator type: " + fieldIndicator.
+							getFieldIndicatorType());
 			}
 
 			xml.appendAttribute("for", fieldIndicator.getRelatedFieldId());

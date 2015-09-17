@@ -21,7 +21,8 @@ public class WTabSetRenderer_Test extends AbstractWebXmlRendererTestCase {
 	@Test
 	public void testRendererCorrectlyConfigured() {
 		WTabSet tabSet = new WTabSet();
-		Assert.assertTrue("Incorrect renderer supplied", getWebXmlRenderer(tabSet) instanceof WTabSetRenderer);
+		Assert.assertTrue("Incorrect renderer supplied",
+				getWebXmlRenderer(tabSet) instanceof WTabSetRenderer);
 	}
 
 	@Test
@@ -35,7 +36,8 @@ public class WTabSetRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathExists("//ui:tabset", tabSet);
 		assertXpathEvaluatesTo("3", "count(//ui:tabset/ui:tab)", tabSet);
 		assertXpathEvaluatesTo(tabSet.getId(), "//ui:tabset/@id", tabSet);
-		assertXpathEvaluatesTo(WTabSetRenderer.getTypeAsString(tabSet.getType()), "//ui:tabset/@type", tabSet);
+		assertXpathEvaluatesTo(WTabSetRenderer.getTypeAsString(tabSet.getType()),
+				"//ui:tabset/@type", tabSet);
 		assertXpathNotExists("//ui:tabset/@disabled", tabSet);
 
 		tabSet.setDisabled(true);

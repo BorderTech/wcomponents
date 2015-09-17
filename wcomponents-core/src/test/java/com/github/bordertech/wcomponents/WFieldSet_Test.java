@@ -14,7 +14,8 @@ public class WFieldSet_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testFrameTypeAccessors() {
-		assertAccessorsCorrect(new WFieldSet(""), "frameType", FrameType.NORMAL, FrameType.NO_TEXT, FrameType.NO_BORDER);
+		assertAccessorsCorrect(new WFieldSet(""), "frameType", FrameType.NORMAL, FrameType.NO_TEXT,
+				FrameType.NO_BORDER);
 	}
 
 	@Test

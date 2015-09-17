@@ -21,11 +21,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * This session token interceptor makes sure the content request being processed is for the correct
- * session.
+ * This session token interceptor makes sure the content request being processed is for the correct session.
  * <p>
- * Similar to {@link SessionTokenInterceptor} but caters for setting error codes for content
- * requests such as {@link WImage} when a token error is detected.
+ * Similar to {@link SessionTokenInterceptor} but caters for setting error codes for content requests such as
+ * {@link WImage} when a token error is detected.
  * </p>
  *
  * @author Jonathan Austin
@@ -39,8 +38,7 @@ public class SessionTokenContentInterceptor extends InterceptorComponent {
 	private static final Log LOG = LogFactory.getLog(SessionTokenContentInterceptor.class);
 
 	/**
-	 * Override to check whether the session token variable in the incoming request matches what we
-	 * expect.
+	 * Override to check whether the session token variable in the incoming request matches what we expect.
 	 *
 	 * @param request the request being serviced.
 	 */
@@ -52,7 +50,8 @@ public class SessionTokenContentInterceptor extends InterceptorComponent {
 
 		// Session token should already be set
 		if (expected == null) {
-			throw new SystemException("Session token should already be set on the session before content request.");
+			throw new SystemException(
+					"Session token should already be set on the session before content request.");
 		}
 
 		// Get the session token from the request

@@ -32,8 +32,7 @@ public class DiagnosticImpl implements Diagnostic {
 	private final UIContext uic;
 
 	/**
-	 * The field is the source of the diagnostic, or null if there is no appropriate field.
-	 * Preferably a {@link Input}.
+	 * The field is the source of the diagnostic, or null if there is no appropriate field. Preferably a {@link Input}.
 	 */
 	private final WComponent component;
 
@@ -52,8 +51,8 @@ public class DiagnosticImpl implements Diagnostic {
 	/**
 	 * Constructs a DiagnosticImpl.
 	 *
-	 * @param severity The severity of the diagnostic. One of
-	 * {@link Diagnostic#INFO}, {@link Diagnostic#WARNING} or {@link Diagnostic#ERROR}.
+	 * @param severity The severity of the diagnostic. One of {@link Diagnostic#INFO}, {@link Diagnostic#WARNING} or
+	 * {@link Diagnostic#ERROR}.
 	 *
 	 * @param source the component which the diagnostic relates to.
 	 * @param message the message to display to the user, using {@link MessageFormat} syntax.
@@ -65,11 +64,11 @@ public class DiagnosticImpl implements Diagnostic {
 	}
 
 	/**
-	 * Constructs a DiagnosticImpl (such as an error, warning, or information item) using generic
-	 * Java Objects as source and sourceField.
+	 * Constructs a DiagnosticImpl (such as an error, warning, or information item) using generic Java Objects as source
+	 * and sourceField.
 	 *
-	 * @param severity The severity of the diagnostic. One of
-	 * {@link Diagnostic#INFO}, {@link Diagnostic#WARNING} or {@link Diagnostic#ERROR}.
+	 * @param severity The severity of the diagnostic. One of {@link Diagnostic#INFO}, {@link Diagnostic#WARNING} or
+	 * {@link Diagnostic#ERROR}.
 	 *
 	 * @param uic the current user's UIContext
 	 * @param source the component which the diagnostic relates to.
@@ -151,9 +150,9 @@ public class DiagnosticImpl implements Diagnostic {
 	}
 
 	/**
-	 * Creates a {@link WComponent} that will render the error message. If users want to do
-	 * something more sophisticated than rendering the description as text (e.g. the message might
-	 * include a link/button) then they should extend this class and override this method.
+	 * Creates a {@link WComponent} that will render the error message. If users want to do something more sophisticated
+	 * than rendering the description as text (e.g. the message might include a link/button) then they should extend
+	 * this class and override this method.
 	 *
 	 * @return The WComponent that represents the error message.
 	 */

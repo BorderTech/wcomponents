@@ -92,7 +92,8 @@ public class WPopup_Test extends AbstractWComponentTestCase {
 		Assert.assertEquals("User context resizable should be set", resizable2, popup.isResizable());
 
 		resetContext();
-		Assert.assertEquals("Default resizable should not have changed", resizable, popup.isResizable());
+		Assert.assertEquals("Default resizable should not have changed", resizable, popup.
+				isResizable());
 	}
 
 	@Test
@@ -109,10 +110,12 @@ public class WPopup_Test extends AbstractWComponentTestCase {
 		popup.setLocked(true);
 		setActiveContext(createUIContext());
 		popup.setScrollable(scrollable2);
-		Assert.assertEquals("User context scrollable should be set", scrollable2, popup.isScrollable());
+		Assert.assertEquals("User context scrollable should be set", scrollable2, popup.
+				isScrollable());
 
 		resetContext();
-		Assert.assertEquals("Default scrollable should not have changed", scrollable, popup.isScrollable());
+		Assert.assertEquals("Default scrollable should not have changed", scrollable, popup.
+				isScrollable());
 	}
 
 	@Test
@@ -147,10 +150,12 @@ public class WPopup_Test extends AbstractWComponentTestCase {
 		popup.setLocked(true);
 		setActiveContext(createUIContext());
 		popup.setTargetWindow(targetWindow2);
-		Assert.assertEquals("User context Target Window should be set", targetWindow2, popup.getTargetWindow());
+		Assert.assertEquals("User context Target Window should be set", targetWindow2, popup.
+				getTargetWindow());
 
 		resetContext();
-		Assert.assertEquals("Default Target Window should not have changed", targetWindow1, popup.getTargetWindow());
+		Assert.assertEquals("Default Target Window should not have changed", targetWindow1, popup.
+				getTargetWindow());
 	}
 
 	@Test

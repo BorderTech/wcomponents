@@ -18,7 +18,8 @@ public class WDefinitionList_Test extends AbstractWComponentTestCase {
 		Assert.assertEquals("Incorrect default type", WDefinitionList.Type.NORMAL, list.getType());
 
 		list = new WDefinitionList(WDefinitionList.Type.FLAT);
-		Assert.assertEquals("Incorrect type after construction", WDefinitionList.Type.FLAT, list.getType());
+		Assert.assertEquals("Incorrect type after construction", WDefinitionList.Type.FLAT, list.
+				getType());
 	}
 
 	@Test
@@ -46,7 +47,9 @@ public class WDefinitionList_Test extends AbstractWComponentTestCase {
 		list.addTerm(term1);
 		Container termContainer = (Container) list.getChildAt(0);
 		Assert.assertEquals("Term1 should have been added", 1, termContainer.getChildCount());
-		Assert.assertEquals("Incorrect value for Term1", term1, termContainer.getChildAt(0).getTag());
+		Assert.
+				assertEquals("Incorrect value for Term1", term1, termContainer.getChildAt(0).
+						getTag());
 
 		// Test addition of term with multiple components
 		list.addTerm(term2, term2data1, term2data2);
@@ -75,6 +78,8 @@ public class WDefinitionList_Test extends AbstractWComponentTestCase {
 
 		list.removeTerm(term2);
 		Assert.assertEquals("Incorrect term data", 1, termContainer.getChildCount());
-		Assert.assertEquals("Incorrect value for Term1", term1, termContainer.getChildAt(0).getTag());
+		Assert.
+				assertEquals("Incorrect value for Term1", term1, termContainer.getChildAt(0).
+						getTag());
 	}
 }

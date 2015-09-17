@@ -36,10 +36,9 @@ public class WTimoutWarningRenderer_Test extends AbstractWebXmlRendererTestCase 
 	}
 
 	/**
-	 * WTimeoutWarning does not participate in the Request phase: it is a one-way instruction to the
-	 * client. If the timeout is set to -1 then the timeout warning is not rendered. This complies
-	 * with the definition of a http session timeout in which a value of -1 means that the session
-	 * does not time out.
+	 * WTimeoutWarning does not participate in the Request phase: it is a one-way instruction to the client. If the
+	 * timeout is set to -1 then the timeout warning is not rendered. This complies with the definition of a http
+	 * session timeout in which a value of -1 means that the session does not time out.
 	 *
 	 * @throws IOException
 	 * @throws SAXException
@@ -53,8 +52,8 @@ public class WTimoutWarningRenderer_Test extends AbstractWebXmlRendererTestCase 
 	}
 
 	/**
-	 * If warningPeriod is exactly ZERO the warn attribute is not output and the warning time is
-	 * determined entirely in the client layer.
+	 * If warningPeriod is exactly ZERO the warn attribute is not output and the warning time is determined entirely in
+	 * the client layer.
 	 *
 	 * @throws IOException
 	 * @throws SAXException

@@ -50,7 +50,8 @@ final class WTableRowRendererRenderer extends AbstractWebXmlRenderer {
 		boolean rowSelected = rowSelectable && table.getSelectedRows().contains(wrapper.getRowKey());
 
 		boolean tableExpandable = table.getExpandMode() != WTable.ExpandMode.NONE;
-		boolean rowExpandable = tableExpandable && dataModel.isExpandable(rowIndex) && wrapper.hasChildren();
+		boolean rowExpandable = tableExpandable && dataModel.isExpandable(rowIndex) && wrapper.
+				hasChildren();
 		boolean rowExpanded = rowExpandable && table.getExpandedRows().contains(wrapper.getRowKey());
 
 		String rowIndexAsString = TableUtil.rowIndexListToString(rowIndex);
@@ -94,7 +95,8 @@ final class WTableRowRendererRenderer extends AbstractWebXmlRenderer {
 	 * @param renderContext the RenderContext to paint to.
 	 * @param children the children ids
 	 */
-	private void renderChildren(final WTableRowRenderer renderer, final WebXmlRenderContext renderContext,
+	private void renderChildren(final WTableRowRenderer renderer,
+			final WebXmlRenderContext renderContext,
 			final List<RowIdWrapper> children) {
 		XmlStringBuilder xml = renderContext.getWriter();
 
@@ -121,8 +123,9 @@ final class WTableRowRendererRenderer extends AbstractWebXmlRenderer {
 			for (RowIdWrapper child : children) {
 				UIContext nodeContext = repeater.getRowContext(child, child.getPosition());
 
-				WComponent expandedRenderer = renderer.getExpandedTreeNodeRenderer(dataModel.getRendererClass(child
-						.getRowIndex()));
+				WComponent expandedRenderer = renderer.getExpandedTreeNodeRenderer(dataModel.
+						getRendererClass(child
+								.getRowIndex()));
 
 				if (expandedRenderer != null) {
 					UIContextHolder.pushContext(nodeContext);

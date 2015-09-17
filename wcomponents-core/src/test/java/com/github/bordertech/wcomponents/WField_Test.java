@@ -33,10 +33,12 @@ public class WField_Test extends AbstractWComponentTestCase {
 		Assert.assertFalse("Field should not be mandatory by default", textField.isMandatory());
 
 		field.setMandatory(true);
-		Assert.assertTrue("Field should be mandatory after setMandatory(true)", textField.isMandatory());
+		Assert.assertTrue("Field should be mandatory after setMandatory(true)", textField.
+				isMandatory());
 
 		field.setMandatory(false);
-		Assert.assertFalse("Field should be mandatory after setMandatory(true)", textField.isMandatory());
+		Assert.assertFalse("Field should be mandatory after setMandatory(true)", textField.
+				isMandatory());
 	}
 
 	@Test
@@ -90,7 +92,9 @@ public class WField_Test extends AbstractWComponentTestCase {
 		Assert.assertEquals("Incorrect width percentage from setter 0", 0, field.getInputWidth());
 
 		field.setInputWidth(100);
-		Assert.assertEquals("Incorrect width percentage from setter 100", 100, field.getInputWidth());
+		Assert.
+				assertEquals("Incorrect width percentage from setter 100", 100, field.
+						getInputWidth());
 	}
 
 	@Test(expected = IllegalArgumentException.class)

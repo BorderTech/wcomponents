@@ -36,11 +36,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * This test runs a FindBugs analysis on the wcomponent qa rules and checks if there are any
- * unexpected bugs.
+ * This test runs a FindBugs analysis on the wcomponent qa rules and checks if there are any unexpected bugs.
  *
- * The results are checked for the unexpected bugs of type FB_MISSING_EXPECTED_WARNING or
- * FB_UNEXPECTED_WARNING.
+ * The results are checked for the unexpected bugs of type FB_MISSING_EXPECTED_WARNING or FB_UNEXPECTED_WARNING.
  *
  * @see ExpectWarning
  * @see NoWarning
@@ -70,8 +68,10 @@ public class DetectorsTest {
 	 */
 	private static final DetectorInfo[] DETECTORS
 			= {
-				new DetectorInfo(CheckWComponentFields.class, "WCF_NON_FINAL_WCOMPONENT_FIELD,WCF_COMPONENT_MODEL_FIELD,WCF_UICONTEXT_FIELD"),
-				new DetectorInfo(CheckGetComponentModel.class, "WCGETM_INCORRECT_USE_OF_GETCOMPONENTMODEL,WCGETM_INCORRECT_USE_OF_GETORCREATECOMPONENTMODEL"),
+				new DetectorInfo(CheckWComponentFields.class,
+						"WCF_NON_FINAL_WCOMPONENT_FIELD,WCF_COMPONENT_MODEL_FIELD,WCF_UICONTEXT_FIELD"),
+				new DetectorInfo(CheckGetComponentModel.class,
+						"WCGETM_INCORRECT_USE_OF_GETCOMPONENTMODEL,WCGETM_INCORRECT_USE_OF_GETORCREATECOMPONENTMODEL"),
 				new DetectorInfo(CheckComponentModelDefinition.class, "WCCM_NO_PUBLIC_CONSTRUCTOR")
 			};
 
@@ -97,7 +97,8 @@ public class DetectorsTest {
 		engine.execute();
 
 		// If there are zero bugs, then something's wrong
-		assertFalse("No bugs were reported. Something is wrong with the configuration", bugReporter.getBugCollection()
+		assertFalse("No bugs were reported. Something is wrong with the configuration",
+				bugReporter.getBugCollection()
 				.getCollection().isEmpty());
 	}
 
@@ -114,7 +115,8 @@ public class DetectorsTest {
 		}
 
 		if (!unexpectedBugs.isEmpty()) {
-			Assert.fail("Unexpected bugs (" + unexpectedBugs.size() + "):" + getBugsLocations(unexpectedBugs));
+			Assert.fail("Unexpected bugs (" + unexpectedBugs.size() + "):" + getBugsLocations(
+					unexpectedBugs));
 		}
 	}
 
@@ -144,12 +146,12 @@ public class DetectorsTest {
 	 * Returns if a bug instance is unexpected for this test.
 	 */
 	private boolean isUnexpectedBug(final BugInstance bug) {
-		return FB_MISSING_EXPECTED_WARNING.equals(bug.getType()) || FB_UNEXPECTED_WARNING.equals(bug.getType());
+		return FB_MISSING_EXPECTED_WARNING.equals(bug.getType()) || FB_UNEXPECTED_WARNING.equals(
+				bug.getType());
 	}
 
 	/**
-	 * Loads the default detectors from findbugs.jar, to isolate the test from others that use fake
-	 * plugins.
+	 * Loads the default detectors from findbugs.jar, to isolate the test from others that use fake plugins.
 	 */
 	private void loadFindbugsPlugin() {
 		DetectorFactoryCollection dfc = new DetectorFactoryCollection();
@@ -157,8 +159,8 @@ public class DetectorsTest {
 	}
 
 	/**
-	 * Sets up a FB engine to run on the 'findbugsTestCases' project. It enables all the available
-	 * detectors and reports all the bug categories. Uses a low priority threshold.
+	 * Sets up a FB engine to run on the 'findbugsTestCases' project. It enables all the available detectors and reports
+	 * all the bug categories. Uses a low priority threshold.
 	 */
 	private void setUpEngine(final String... analyzeMe) {
 		engine = new FindBugs2();
@@ -174,7 +176,8 @@ public class DetectorsTest {
 
 		engine.setBugReporter(bugReporter);
 		UserPreferences preferences = UserPreferences.createDefaultUserPreferences();
-		DetectorFactory checkExpectedWarnings = detectorFactoryCollection.getFactory("CheckExpectedWarnings");
+		DetectorFactory checkExpectedWarnings = detectorFactoryCollection.getFactory(
+				"CheckExpectedWarnings");
 		preferences.enableAllDetectors(false);
 		preferences.enableDetector(checkExpectedWarnings, true);
 		preferences.getFilterSettings().clearAllCategories();
@@ -193,7 +196,8 @@ public class DetectorsTest {
 		Plugin plugin = detectorFactoryCollection.getCorePlugin();
 
 		for (DetectorInfo info : DETECTORS) {
-			DetectorFactory factory = new DetectorFactory(plugin, info.detector, true, "fast", info.reports, "");
+			DetectorFactory factory = new DetectorFactory(plugin, info.detector, true, "fast",
+					info.reports, "");
 			detectorFactoryCollection.registerDetector(factory);
 			plugin.addDetectorFactory(factory);
 			preferences.enableDetector(factory, true);
@@ -203,14 +207,15 @@ public class DetectorsTest {
 				String abbr = bugCode.replaceAll("_.*", "");
 
 				I18N.instance().registerBugCode(new BugCode(abbr, ""));
-				I18N.instance().registerBugPattern(new BugPattern(bugCode, abbr, "", false, "", "", ""));
+				I18N.instance().registerBugPattern(new BugPattern(bugCode, abbr, "", false, "", "",
+						""));
 			}
 		}
 	}
 
 	/**
-	 * Basic information about a detector and the bug types that it reports. This is normally
-	 * obtained from findbugs.xml.
+	 * Basic information about a detector and the bug types that it reports. This is normally obtained from
+	 * findbugs.xml.
 	 */
 	private static final class DetectorInfo {
 

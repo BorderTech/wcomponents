@@ -12,13 +12,12 @@ import java.util.List;
 
 /**
  * <p>
- * The SubordinateBuilder is a utility class which provides a convenient way to build up simple
- * logic rules so that they executed on both the client and server. See the
- * {@link WSubordinateControl} documentation for more information.
+ * The SubordinateBuilder is a utility class which provides a convenient way to build up simple logic rules so that they
+ * executed on both the client and server. See the {@link WSubordinateControl} documentation for more information.
  * </p>
  * <p>
- * Consider a user interface which contains two "yes"/"no" radio button groups and two text inputs.
- * To create a rule that makes the text inputs mandatory if either "yes" option has been selected:
+ * Consider a user interface which contains two "yes"/"no" radio button groups and two text inputs. To create a rule
+ * that makes the text inputs mandatory if either "yes" option has been selected:
  * </p>
  *
  * <pre>
@@ -83,8 +82,7 @@ public final class SubordinateBuilder {
 	}
 
 	/**
-	 * This method is used to append actions to execute when the {@link #condition() condition}
-	 * evaluates to 'true'.
+	 * This method is used to append actions to execute when the {@link #condition() condition} evaluates to 'true'.
 	 *
 	 * @return a builder used to append actions to the "true" branch.
 	 */
@@ -93,8 +91,7 @@ public final class SubordinateBuilder {
 	}
 
 	/**
-	 * This method is used to append actions to execute when the {@link #condition() condition}
-	 * evaluates to 'false'.
+	 * This method is used to append actions to execute when the {@link #condition() condition} evaluates to 'false'.
 	 *
 	 * @return a builder used to append actions to the "false" branch.
 	 */
@@ -103,8 +100,7 @@ public final class SubordinateBuilder {
 	}
 
 	/**
-	 * This method is used to build the conditional statement which controls when the FlowRule
-	 * should execute.
+	 * This method is used to build the conditional statement which controls when the FlowRule should execute.
 	 *
 	 * @return an expression builder to append expressions to the condition.
 	 */
@@ -120,24 +116,22 @@ public final class SubordinateBuilder {
 	}
 
 	/**
-	 * @return a read-only copy of the actions to execute when the {@link #getCondition() condition}
-	 * evaluates to true.
+	 * @return a read-only copy of the actions to execute when the {@link #getCondition() condition} evaluates to true.
 	 */
 	public List<Action> getActionsWhenTrue() {
 		return Collections.unmodifiableList(onTrue);
 	}
 
 	/**
-	 * @return a read-only copy of the actions to execute when the {@link #getCondition() condition}
-	 * evaluates to false.
+	 * @return a read-only copy of the actions to execute when the {@link #getCondition() condition} evaluates to false.
 	 */
 	public List<Action> getActionsWhenFalse() {
 		return Collections.unmodifiableList(onFalse);
 	}
 
 	/**
-	 * This builds the SubordinateControl. This method will throw a SystemException if the condition
-	 * is invalid, or there are no actions specified.
+	 * This builds the SubordinateControl. This method will throw a SystemException if the condition is invalid, or
+	 * there are no actions specified.
 	 *
 	 * @return a SubordinateControl built using this builder.
 	 */
@@ -278,7 +272,8 @@ public final class SubordinateBuilder {
 		 * @param targets the group of targets
 		 * @return this ActionBuilder.
 		 */
-		public ActionBuilder showIn(final SubordinateTarget showTarget, final SubordinateTarget... targets) {
+		public ActionBuilder showIn(final SubordinateTarget showTarget,
+				final SubordinateTarget... targets) {
 			WComponentGroup<SubordinateTarget> group = new WComponentGroup<>();
 			for (SubordinateTarget target : targets) {
 				group.addToGroup(target);
@@ -295,7 +290,8 @@ public final class SubordinateBuilder {
 		 * @param group the group of targets
 		 * @return this ActionBuilder.
 		 */
-		public ActionBuilder showIn(final SubordinateTarget showTarget, final WComponentGroup<SubordinateTarget> group) {
+		public ActionBuilder showIn(final SubordinateTarget showTarget,
+				final WComponentGroup<SubordinateTarget> group) {
 			actions.add(new Action(ActionType.SHOWIN, showTarget, group));
 
 			return this;
@@ -308,7 +304,8 @@ public final class SubordinateBuilder {
 		 * @param targets the group of targets
 		 * @return this ActionBuilder.
 		 */
-		public ActionBuilder hideIn(final SubordinateTarget showTarget, final SubordinateTarget... targets) {
+		public ActionBuilder hideIn(final SubordinateTarget showTarget,
+				final SubordinateTarget... targets) {
 			WComponentGroup<SubordinateTarget> group = new WComponentGroup<>();
 			for (SubordinateTarget target : targets) {
 				group.addToGroup(target);
@@ -325,7 +322,8 @@ public final class SubordinateBuilder {
 		 * @param group the group of targets
 		 * @return this ActionBuilder.
 		 */
-		public ActionBuilder hideIn(final SubordinateTarget showTarget, final WComponentGroup<SubordinateTarget> group) {
+		public ActionBuilder hideIn(final SubordinateTarget showTarget,
+				final WComponentGroup<SubordinateTarget> group) {
 			actions.add(new Action(ActionType.HIDEIN, showTarget, group));
 
 			return this;
@@ -338,7 +336,8 @@ public final class SubordinateBuilder {
 		 * @param targets the group of targets
 		 * @return this ActionBuilder.
 		 */
-		public ActionBuilder enableIn(final SubordinateTarget showTarget, final SubordinateTarget... targets) {
+		public ActionBuilder enableIn(final SubordinateTarget showTarget,
+				final SubordinateTarget... targets) {
 			WComponentGroup<SubordinateTarget> group = new WComponentGroup<>();
 			for (SubordinateTarget target : targets) {
 				group.addToGroup(target);
@@ -355,7 +354,8 @@ public final class SubordinateBuilder {
 		 * @param group the group of targets
 		 * @return this ActionBuilder.
 		 */
-		public ActionBuilder enableIn(final SubordinateTarget showTarget, final WComponentGroup<SubordinateTarget> group) {
+		public ActionBuilder enableIn(final SubordinateTarget showTarget,
+				final WComponentGroup<SubordinateTarget> group) {
 			actions.add(new Action(ActionType.ENABLEIN, showTarget, group));
 
 			return this;
@@ -368,7 +368,8 @@ public final class SubordinateBuilder {
 		 * @param targets the group of targets
 		 * @return this ActionBuilder.
 		 */
-		public ActionBuilder disableIn(final SubordinateTarget showTarget, final SubordinateTarget... targets) {
+		public ActionBuilder disableIn(final SubordinateTarget showTarget,
+				final SubordinateTarget... targets) {
 			WComponentGroup<SubordinateTarget> group = new WComponentGroup<>();
 			for (SubordinateTarget target : targets) {
 				group.addToGroup(target);
@@ -385,7 +386,8 @@ public final class SubordinateBuilder {
 		 * @param group the group of targets
 		 * @return this ActionBuilder.
 		 */
-		public ActionBuilder disableIn(final SubordinateTarget showTarget, final WComponentGroup<SubordinateTarget> group) {
+		public ActionBuilder disableIn(final SubordinateTarget showTarget,
+				final WComponentGroup<SubordinateTarget> group) {
 			actions.add(new Action(ActionType.DISABLEIN, showTarget, group));
 
 			return this;

@@ -15,8 +15,7 @@ import com.github.bordertech.wcomponents.WTextField;
 import java.util.List;
 
 /**
- * This example demonstrates a simple editable table where only one row is allowed to be edited at a
- * time.
+ * This example demonstrates a simple editable table where only one row is allowed to be edited at a time.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -57,7 +56,8 @@ public class SimpleRowEditingTableExample extends WPanel {
 		});
 
 		table.addAction(editRowButton);
-		table.addActionConstraint(editRowButton, new ActionConstraint(1, 0, true, "At least one row must be selected to use this function."));
+		table.addActionConstraint(editRowButton, new ActionConstraint(1, 0, true,
+				"At least one row must be selected to use this function."));
 
 		// Create a component to display the table data in text format
 		final WStyledText dataOutput = new WStyledText() {
@@ -96,8 +96,8 @@ public class SimpleRowEditingTableExample extends WPanel {
 	}
 
 	/**
-	 * Override preparePaintComponent in order to set up the example data the first time that the
-	 * example is accessed by each user.
+	 * Override preparePaintComponent in order to set up the example data the first time that the example is accessed by
+	 * each user.
 	 *
 	 * @param request the request being responded to.
 	 */
@@ -125,8 +125,8 @@ public class SimpleRowEditingTableExample extends WPanel {
 	}
 
 	/**
-	 * An extension of SimpleTableDataModel which allows editing of a single row, and also provides
-	 * an accessor method to retrieve the entire data.
+	 * An extension of SimpleTableDataModel which allows editing of a single row, and also provides an accessor method
+	 * to retrieve the entire data.
 	 */
 	private static final class MyTableDataModel extends SimpleTableDataModel {
 

@@ -13,27 +13,25 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * <p>
- * This component is a date entry component. Individual themes may add features such as automatic
- * text formatting and date picker widgets. Convenience methods exist to set and get the value as a
- * java date object.
+ * This component is a date entry component. Individual themes may add features such as automatic text formatting and
+ * date picker widgets. Convenience methods exist to set and get the value as a java date object.
  * </p>
  * <p>
- * "Partial dates" can be specified without day or month components, e.g. "JAN 2001", or just
- * "2001".
+ * "Partial dates" can be specified without day or month components, e.g. "JAN 2001", or just "2001".
  * </p>
  * <p>
- * When the component is bound to a bean, the bean property must be a string containing the date in
- * the format "yyyyMMdd". Parts of the date that do not have a value are padded with space
- * characters by default. The padding character can be changed using the
- * {@link #setPaddingChar(char)} method. An example of a partial date bean value for "Mar 2012"
- * would be "201203". Note, trailing spaces are removed. If a padding character of '@' was
- * specified, then the bean value would be "201203@@".
+ * When the component is bound to a bean, the bean property must be a string containing the date in the format
+ * "yyyyMMdd". Parts of the date that do not have a value are padded with space characters by default. The padding
+ * character can be changed using the {@link #setPaddingChar(char)} method. An example of a partial date bean value for
+ * "Mar 2012" would be "201203". Note, trailing spaces are removed. If a padding character of '@' was specified, then
+ * the bean value would be "201203@@".
  * </p>
  *
  * @author Ming Gao
  * @author Jonathan Austin
  */
-public class WPartialDateField extends AbstractInput implements AjaxTrigger, AjaxTarget, SubordinateTrigger,
+public class WPartialDateField extends AbstractInput implements AjaxTrigger, AjaxTarget,
+		SubordinateTrigger,
 		SubordinateTarget {
 
 	/**
@@ -173,19 +171,22 @@ public class WPartialDateField extends AbstractInput implements AjaxTrigger, Aja
 	public WPartialDateField(final Integer day, final Integer month, final Integer year) {
 		// Validate Year
 		if (!isValidYear(year)) {
-			throw new IllegalArgumentException("Invalid partial year value (" + year + "). Year should be between "
+			throw new IllegalArgumentException(
+					"Invalid partial year value (" + year + "). Year should be between "
 					+ YEAR_MIN + " to " + YEAR_MAX + ".");
 		}
 
 		// Validate Month
 		if (!isValidMonth(month)) {
-			throw new IllegalArgumentException("Invalid partial month value (" + month + "). Month should be between "
+			throw new IllegalArgumentException(
+					"Invalid partial month value (" + month + "). Month should be between "
 					+ MONTH_MIN + " to " + MONTH_MAX + ".");
 		}
 
 		// Validate Day
 		if (!isValidDay(day)) {
-			throw new IllegalArgumentException("Invalid partial day value (" + day + "). Day should be between "
+			throw new IllegalArgumentException(
+					"Invalid partial day value (" + day + "). Day should be between "
 					+ DAY_MIN + " to " + DAY_MAX + ".");
 		}
 
@@ -195,8 +196,8 @@ public class WPartialDateField extends AbstractInput implements AjaxTrigger, Aja
 	}
 
 	/**
-	 * Set the WPartialDateField with the given day, month and year. Each of the day, month and year
-	 * parameters that make up the partial date are optional.
+	 * Set the WPartialDateField with the given day, month and year. Each of the day, month and year parameters that
+	 * make up the partial date are optional.
 	 *
 	 * @param day A number from 1 to 31 or null if unknown.
 	 * @param month A number from 1 to 12, or null if unknown.
@@ -236,9 +237,8 @@ public class WPartialDateField extends AbstractInput implements AjaxTrigger, Aja
 	}
 
 	/**
-	 * The padding character used in the partial date value. The default padding character is a
-	 * space. If the padding character is a space, then the date value will be right trimmed to
-	 * remove the trailing spaces.
+	 * The padding character used in the partial date value. The default padding character is a space. If the padding
+	 * character is a space, then the date value will be right trimmed to remove the trailing spaces.
 	 *
 	 * @param paddingChar the padding character used in the partial date value.
 	 */
@@ -299,7 +299,8 @@ public class WPartialDateField extends AbstractInput implements AjaxTrigger, Aja
 			}
 
 			// Validate Transfer Date Format - YYYY-MM-DD
-			if (dateParam.length() != INTERNAL_DATE_TOTAL_CHARS || dateParam.charAt(INTERNAL_DASH1_POS) != '-'
+			if (dateParam.length() != INTERNAL_DATE_TOTAL_CHARS || dateParam.charAt(
+					INTERNAL_DASH1_POS) != '-'
 					|| dateParam.charAt(INTERNAL_DASH2_POS) != '-') {
 				LOG.warn("Date parameter is not in the format yyyy-MM-dd (" + dateParam
 						+ ") and will be treated as null.");
@@ -339,8 +340,8 @@ public class WPartialDateField extends AbstractInput implements AjaxTrigger, Aja
 	}
 
 	/**
-	 * Override WInput's validateComponent to perform further validation on the date. A partial date
-	 * is invalid if there was text submitted but no date components were parsed.
+	 * Override WInput's validateComponent to perform further validation on the date. A partial date is invalid if there
+	 * was text submitted but no date components were parsed.
 	 *
 	 * @param diags the list into which any validation diagnostics are added.
 	 */
@@ -387,7 +388,8 @@ public class WPartialDateField extends AbstractInput implements AjaxTrigger, Aja
 
 		// Check the format is correct - yyyyMMdd
 		if (!isValidPartialDateStringFormat(value, getPaddingChar())) {
-			throw new SystemException("PartialDate data value (" + value + ") is not in the format yyyyMMdd");
+			throw new SystemException(
+					"PartialDate data value (" + value + ") is not in the format yyyyMMdd");
 		}
 
 		return value;
@@ -396,8 +398,8 @@ public class WPartialDateField extends AbstractInput implements AjaxTrigger, Aja
 	/**
 	 * Get the partial date as its formatted string.
 	 * <p>
-	 * The expected format of the partial date is "yyyyMMdd", where parts of the date that do not
-	 * have a value are padded with the padding character.
+	 * The expected format of the partial date is "yyyyMMdd", where parts of the date that do not have a value are
+	 * padded with the padding character.
 	 * </p>
 	 *
 	 * @return the partial data formatted as a string, or null
@@ -483,8 +485,8 @@ public class WPartialDateField extends AbstractInput implements AjaxTrigger, Aja
 	}
 
 	/**
-	 * Retrieves a String representation of the date field's value. The date value will be returned
-	 * using its default String representation.
+	 * Retrieves a String representation of the date field's value. The date value will be returned using its default
+	 * String representation.
 	 *
 	 * @return the date value, or the text entered by the user if there is no valid date.
 	 */
@@ -495,8 +497,8 @@ public class WPartialDateField extends AbstractInput implements AjaxTrigger, Aja
 	}
 
 	/**
-	 * Set the WPartialDateField with the given day, month and year. Each of the day, month and year
-	 * parameters that make up the partial date are optional.
+	 * Set the WPartialDateField with the given day, month and year. Each of the day, month and year parameters that
+	 * make up the partial date are optional.
 	 *
 	 * @param day a number from 1 to 31 or null if unknown.
 	 * @param month a number from 1 to 12, or null if unknown.
@@ -504,7 +506,8 @@ public class WPartialDateField extends AbstractInput implements AjaxTrigger, Aja
 	 * @param padding the padding character for the partial date
 	 * @return the formatted partial date, or null if invalid
 	 */
-	private String formatPartialDateToString(final Integer day, final Integer month, final Integer year,
+	private String formatPartialDateToString(final Integer day, final Integer month,
+			final Integer year,
 			final char padding) {
 		if (year == null && month == null && day == null) {
 			return null;
@@ -584,7 +587,8 @@ public class WPartialDateField extends AbstractInput implements AjaxTrigger, Aja
 		// Month - ?? or MM
 		if (component.length() >= MONTH_END) {
 			String month = component.substring(MONTH_START, MONTH_END);
-			if (!isValidCharacters(month, padding) || !isValidMonth(parseDateComponent(month, padding))) {
+			if (!isValidCharacters(month, padding) || !isValidMonth(parseDateComponent(month,
+					padding))) {
 				return false;
 			}
 		}
@@ -651,15 +655,16 @@ public class WPartialDateField extends AbstractInput implements AjaxTrigger, Aja
 	}
 
 	/**
-	 * Appends a single date component to the given StringBuffer. Nulls are replaced with the
-	 * padding char, and numbers are padded with zeros.
+	 * Appends a single date component to the given StringBuffer. Nulls are replaced with the padding char, and numbers
+	 * are padded with zeros.
 	 *
 	 * @param buf the buffer to append to.
 	 * @param num the number to append, may be null.
 	 * @param digits the minimum number of digits to append.
 	 * @param padding the padding character for null values
 	 */
-	private void append(final StringBuffer buf, final Integer num, final int digits, final char padding) {
+	private void append(final StringBuffer buf, final Integer num, final int digits,
+			final char padding) {
 		if (num == null) {
 			for (int i = 0; i < digits; i++) {
 				buf.append(padding);

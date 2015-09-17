@@ -69,9 +69,11 @@ public class ColumnMenuExample extends WPanel {
 	 * @param currentNode the current node in the tree.
 	 * @param selectedMenuText the WText to display the selected menu item.
 	 */
-	private void mapColumnHierarchy(final WComponent currentComponent, final StringTreeNode currentNode, final WText selectedMenuText) {
+	private void mapColumnHierarchy(final WComponent currentComponent,
+			final StringTreeNode currentNode, final WText selectedMenuText) {
 		if (currentNode.isLeaf()) {
-			WMenuItem menuItem = new WMenuItem(currentNode.getData(), new ExampleMenuAction(selectedMenuText));
+			WMenuItem menuItem = new WMenuItem(currentNode.getData(), new ExampleMenuAction(
+					selectedMenuText));
 			menuItem.setActionObject(currentNode.getData());
 			if (currentComponent instanceof WMenu) {
 				((WMenu) currentComponent).add(menuItem);
@@ -192,8 +194,7 @@ public class ColumnMenuExample extends WPanel {
 	/**
 	 * Builds one level of the org hierarchy tree.
 	 *
-	 * The data parameter should either contain a single String, or a String plus data arrays for
-	 * child nodes.
+	 * The data parameter should either contain a single String, or a String plus data arrays for child nodes.
 	 *
 	 * @param data the node data.
 	 * @return the tree node created from the data.

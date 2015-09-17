@@ -103,7 +103,8 @@ public class AbstractContainerHelper_Test {
 		helper.dispose();
 		helper.processAction();
 
-		Assert.assertFalse("Action phase should not occurr when disposed", interceptor.serviceRequestCalled);
+		Assert.assertFalse("Action phase should not occurr when disposed",
+				interceptor.serviceRequestCalled);
 		Assert.assertFalse("Render phase should not have ocurred", interceptor.preparePaintCalled);
 		Assert.assertFalse("Render phase should not have ocurred", interceptor.paintCalled);
 	}
@@ -126,7 +127,8 @@ public class AbstractContainerHelper_Test {
 
 		helper.processAction();
 
-		Assert.assertTrue("Service request should have been called", interceptor.serviceRequestCalled);
+		Assert.assertTrue("Service request should have been called",
+				interceptor.serviceRequestCalled);
 		Assert.assertFalse("Render phase should not have ocurred", interceptor.preparePaintCalled);
 		Assert.assertFalse("Render phase should not have ocurred", interceptor.paintCalled);
 		Assert.assertTrue("Helper should be disposed after ActionEscape", helper.isDisposed());
@@ -151,9 +153,11 @@ public class AbstractContainerHelper_Test {
 
 		helper.processAction();
 
-		Assert.assertTrue("Service request should have been called", interceptor.serviceRequestCalled);
+		Assert.assertTrue("Service request should have been called",
+				interceptor.serviceRequestCalled);
 		Assert.assertFalse("Helper should not be disposed after Escape", helper.isDisposed());
-		Assert.assertFalse("Escape should not have been called after action phase", escape.escapeCalled);
+		Assert.assertFalse("Escape should not have been called after action phase",
+				escape.escapeCalled);
 
 		helper.render();
 		Assert.assertTrue("Helper should be disposed after render", helper.isDisposed());
@@ -199,7 +203,8 @@ public class AbstractContainerHelper_Test {
 		helper.render();
 
 		Assert.assertTrue("Action phase not processed", interceptor.serviceRequestCalled);
-		Assert.assertFalse("PreparePaint should not have been called", interceptor.preparePaintCalled);
+		Assert.assertFalse("PreparePaint should not have been called",
+				interceptor.preparePaintCalled);
 		Assert.assertFalse("Paint should not have been called", interceptor.paintCalled);
 		Assert.assertTrue("Helper should be disposed after render", helper.isDisposed());
 
@@ -249,8 +254,10 @@ public class AbstractContainerHelper_Test {
 		helper.dispose();
 		helper.render();
 
-		Assert.assertFalse("PreparePaint should not have been called when disposed", interceptor.preparePaintCalled);
-		Assert.assertFalse("Paint should not have been called when disposed", interceptor.paintCalled);
+		Assert.assertFalse("PreparePaint should not have been called when disposed",
+				interceptor.preparePaintCalled);
+		Assert.assertFalse("Paint should not have been called when disposed",
+				interceptor.paintCalled);
 		Assert.assertTrue("Helper should still be disposed after render", helper.isDisposed());
 	}
 

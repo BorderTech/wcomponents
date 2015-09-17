@@ -180,8 +180,8 @@ import com.github.bordertech.wcomponents.util.Util;
 import java.io.Serializable;
 
 /**
- * ExampleData contains the information necessary to describe an example. It also provides some
- * groupings for the standard WComponent examples.
+ * ExampleData contains the information necessary to describe an example. It also provides some groupings for the
+ * standard WComponent examples.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -226,7 +226,8 @@ public final class ExampleData implements Serializable {
 		new ExampleData("Dropdown (action on change)", WDropdownTriggerActionExample.class),
 		new ExampleData("Dropdown (submit on change)", WDropdownSubmitOnChangeExample.class),
 		new ExampleData("Dropdown (space handling)", WDropdownSpaceHandlingExample.class),
-		new ExampleData("Dropdown (special char handling)", WDropdownSpecialCharHandlingExample.class),
+		new ExampleData("Dropdown (special char handling)",
+		WDropdownSpecialCharHandlingExample.class),
 		new ExampleData("Dropdown configuration options", WDropdownOptionsExample.class),
 		new ExampleData("Email field", WEmailFieldExample.class),
 		new ExampleData("Simple File upload", SimpleFileUpload.class),
@@ -278,7 +279,8 @@ public final class ExampleData implements Serializable {
 		new ExampleData("Basic WDataTable", WDataTableExample.class),
 		new ExampleData("Table with row selection", SelectableDataTableExample.class),
 		new ExampleData("Editable table", SimpleEditableDataTableExample.class),
-		new ExampleData("Editable table with per-cell editability", SimpleRowEditingTableExample.class),
+		new ExampleData("Editable table with per-cell editability",
+		SimpleRowEditingTableExample.class),
 		new ExampleData("Table cell action", TableCellWithActionExample.class),
 		new ExampleData("Data Table (bean)", DataTableBeanExample.class),
 		new ExampleData("Tree table", TreeTableExample.class),
@@ -297,7 +299,8 @@ public final class ExampleData implements Serializable {
 		new ExampleData("Simple expandable", SimpleExpandableTableExample.class),
 		new ExampleData("Simple expandable content", SimpleExpandableContentTableExample.class),
 		new ExampleData("Simple pagination", SimplePaginationTableExample.class),
-		new ExampleData("Simple pagination with row options", SimplePaginationWithRowOptionsTableExample.class),
+		new ExampleData("Simple pagination with row options",
+		SimplePaginationWithRowOptionsTableExample.class),
 		new ExampleData("Simple selectable", SimpleSelectableTableExample.class),
 		new ExampleData("Simple sorting", SimpleSortingTableExample.class),
 		new ExampleData("Table using a bean provider", TableBeanProviderExample.class),

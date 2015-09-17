@@ -26,13 +26,15 @@ public class WHeading_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testConstructor3() {
 		WHeading heading = new WHeading(HeadingLevel.H1, "dummy");
-		Assert.assertEquals("Constructor - Incorrect type", HeadingLevel.H1, heading.getHeadingLevel());
+		Assert.assertEquals("Constructor - Incorrect type", HeadingLevel.H1, heading.
+				getHeadingLevel());
 	}
 
 	@Test
 	public void testConstructor4() {
 		WHeading heading = new WHeading(HeadingLevel.H1, new WDecoratedLabel("test"));
-		Assert.assertEquals("Constructor - Incorrect type", HeadingLevel.H1, heading.getHeadingLevel());
+		Assert.assertEquals("Constructor - Incorrect type", HeadingLevel.H1, heading.
+				getHeadingLevel());
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -57,12 +59,14 @@ public class WHeading_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testMarginAccessors() {
-		assertAccessorsCorrect(new WHeading(HeadingLevel.H1, "test"), "margin", null, new Margin(1), new Margin(2));
+		assertAccessorsCorrect(new WHeading(HeadingLevel.H1, "test"), "margin", null, new Margin(1),
+				new Margin(2));
 	}
 
 	@Test
 	public void testHeadingLevelAccessors() {
-		assertAccessorsCorrect(new WHeading(HeadingLevel.H1, "test"), "headingLevel", HeadingLevel.H1, HeadingLevel.H2,
+		assertAccessorsCorrect(new WHeading(HeadingLevel.H1, "test"), "headingLevel",
+				HeadingLevel.H1, HeadingLevel.H2,
 				HeadingLevel.H3);
 	}
 

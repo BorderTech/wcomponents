@@ -22,7 +22,8 @@ public class WTabGroupRenderer_Test extends AbstractWebXmlRendererTestCase {
 	@Test
 	public void testRendererCorrectlyConfigured() {
 		WTabGroup tabGroup = new WTabGroup("");
-		Assert.assertTrue("Incorrect renderer supplied", getWebXmlRenderer(tabGroup) instanceof WTabGroupRenderer);
+		Assert.assertTrue("Incorrect renderer supplied",
+				getWebXmlRenderer(tabGroup) instanceof WTabGroupRenderer);
 	}
 
 	@Test
@@ -33,7 +34,8 @@ public class WTabGroupRenderer_Test extends AbstractWebXmlRendererTestCase {
 		WComponent wrapped = wrapTabGroup(tabGroup);
 
 		assertXpathExists("//ui:tabGroup", wrapped);
-		assertXpathEvaluatesTo(groupName, "normalize-space(//ui:tabGroup/ui:decoratedLabel)", wrapped);
+		assertXpathEvaluatesTo(groupName, "normalize-space(//ui:tabGroup/ui:decoratedLabel)",
+				wrapped);
 		assertXpathEvaluatesTo(tabGroup.getId(), "//ui:tabGroup/@id", wrapped);
 		assertXpathNotExists("//ui:tabGroup/@disabled", wrapped);
 		assertXpathNotExists("//ui:tabGroup/ui:tab", wrapped);

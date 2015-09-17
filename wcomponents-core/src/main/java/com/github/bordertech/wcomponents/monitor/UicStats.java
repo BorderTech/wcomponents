@@ -79,16 +79,15 @@ public class UicStats {
 	}
 
 	/**
-	 * @return an iterator over the wcomponents that have been analysed via
-	 * <code>createWCTreeStats</code>.
+	 * @return an iterator over the wcomponents that have been analysed via <code>createWCTreeStats</code>.
 	 */
 	public Iterator<WComponent> getWCsAnalysed() {
 		return statsByWCTree.keySet().iterator();
 	}
 
 	/**
-	 * Retrieves the map wchich contains all the WComponent instances that make up the WComponent
-	 * tree starting from the given root component.
+	 * Retrieves the map wchich contains all the WComponent instances that make up the WComponent tree starting from the
+	 * given root component.
 	 *
 	 * @param root the root component.
 	 * @return the map of Stats for the components under the given root component.

@@ -22,7 +22,8 @@ public class WMultiSelectRenderer_Test extends AbstractWebXmlRendererTestCase {
 	@Test
 	public void testRendererCorrectlyConfigured() {
 		WMultiSelect multi = new WMultiSelect(new String[]{"a", "b", "c"});
-		Assert.assertTrue("Incorrect renderer supplied", getWebXmlRenderer(multi) instanceof WMultiSelectRenderer);
+		Assert.assertTrue("Incorrect renderer supplied",
+				getWebXmlRenderer(multi) instanceof WMultiSelectRenderer);
 	}
 
 	@Test
@@ -40,14 +41,16 @@ public class WMultiSelectRenderer_Test extends AbstractWebXmlRendererTestCase {
 		multi.setSelected(Arrays.asList(new String[]{"b"}));
 		assertSchemaMatch(multi);
 		assertXpathEvaluatesTo("3", "count(//ui:listBox/ui:option)", multi);
-		assertXpathEvaluatesTo("b", "normalize-space(//ui:listBox/ui:option[@selected='true'])", multi);
+		assertXpathEvaluatesTo("b", "normalize-space(//ui:listBox/ui:option[@selected='true'])",
+				multi);
 
 		// Check Readonly - only render selected option
 		multi.setReadOnly(true);
 		assertSchemaMatch(multi);
 		assertXpathEvaluatesTo("true", "//ui:listBox/@readOnly", multi);
 		assertXpathEvaluatesTo("1", "count(//ui:listBox/ui:option)", multi);
-		assertXpathEvaluatesTo("b", "normalize-space(//ui:listBox/ui:option[@selected='true'])", multi);
+		assertXpathEvaluatesTo("b", "normalize-space(//ui:listBox/ui:option[@selected='true'])",
+				multi);
 
 		// Check rows
 		multi.setRows(123);
@@ -113,7 +116,8 @@ public class WMultiSelectRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 	@Test
 	public void testOptionGroups() throws IOException, SAXException, XpathException {
-		OptionGroup optionGroup = new OptionGroup("B", Arrays.asList(new String[]{"B.1", "B.2", "B.3", "B.4"}));
+		OptionGroup optionGroup = new OptionGroup("B", Arrays.asList(
+				new String[]{"B.1", "B.2", "B.3", "B.4"}));
 		Object[] options = new Object[]{"A", optionGroup, "C"};
 
 		WMultiSelect multi = new WMultiSelect(options);
@@ -124,10 +128,14 @@ public class WMultiSelectRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		// Check grouped options
 		assertXpathEvaluatesTo(optionGroup.getDesc(), "//ui:listBox/ui:optgroup/@label", multi);
-		assertXpathEvaluatesTo((String) optionGroup.getOptions().get(0), "//ui:listBox/ui:optgroup/ui:option[1]", multi);
-		assertXpathEvaluatesTo((String) optionGroup.getOptions().get(1), "//ui:listBox/ui:optgroup/ui:option[2]", multi);
-		assertXpathEvaluatesTo((String) optionGroup.getOptions().get(2), "//ui:listBox/ui:optgroup/ui:option[3]", multi);
-		assertXpathEvaluatesTo((String) optionGroup.getOptions().get(3), "//ui:listBox/ui:optgroup/ui:option[4]", multi);
+		assertXpathEvaluatesTo((String) optionGroup.getOptions().get(0),
+				"//ui:listBox/ui:optgroup/ui:option[1]", multi);
+		assertXpathEvaluatesTo((String) optionGroup.getOptions().get(1),
+				"//ui:listBox/ui:optgroup/ui:option[2]", multi);
+		assertXpathEvaluatesTo((String) optionGroup.getOptions().get(2),
+				"//ui:listBox/ui:optgroup/ui:option[3]", multi);
+		assertXpathEvaluatesTo((String) optionGroup.getOptions().get(3),
+				"//ui:listBox/ui:optgroup/ui:option[4]", multi);
 
 		// Check values
 		assertXpathEvaluatesTo("1", "//ui:listBox/ui:option[1]/@value", multi);
@@ -141,7 +149,8 @@ public class WMultiSelectRenderer_Test extends AbstractWebXmlRendererTestCase {
 		multi.setSelected(Arrays.asList(new String[]{"A", "B.3"}));
 		assertXpathEvaluatesTo("2", "count(//ui:option[@selected='true'])", multi);
 		assertXpathExists("//ui:listBox/ui:option[text()='A'][@selected='true']", multi);
-		assertXpathExists("//ui:listBox/ui:optgroup/ui:option[text()='B.3'][@selected='true']", multi);
+		assertXpathExists("//ui:listBox/ui:optgroup/ui:option[text()='B.3'][@selected='true']",
+				multi);
 	}
 
 	@Test

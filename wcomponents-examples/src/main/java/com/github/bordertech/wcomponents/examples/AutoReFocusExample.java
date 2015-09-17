@@ -5,8 +5,8 @@ import com.github.bordertech.wcomponents.layout.FlowLayout;
 import com.github.bordertech.wcomponents.layout.FlowLayout.Alignment;
 
 /**
- * This example demonstrates that focus will be returned to the control which triggered the form
- * submit after a round trip to the server completes.
+ * This example demonstrates that focus will be returned to the control which triggered the form submit after a round
+ * trip to the server completes.
  *
  * @author Martin Shevchenko
  * @since 1.0.0

@@ -31,8 +31,8 @@ public abstract class AbstractEnvironment implements Environment {
 	private String baseUrl;
 
 	/**
-	 * The host free part of the base url. e.g. for
-	 * <code>"http://localhost:1234/bar/something?a=b"</code>, it would be <code>"bar"</code>.
+	 * The host free part of the base url. e.g. for <code>"http://localhost:1234/bar/something?a=b"</code>, it would be
+	 * <code>"bar"</code>.
 	 */
 	private String hostFreeBaseUrl;
 
@@ -47,8 +47,7 @@ public abstract class AbstractEnvironment implements Environment {
 	private String sessionToken;
 
 	/**
-	 * The step counter, used for ensuring requests are not processed out of order or multiple
-	 * times.
+	 * The step counter, used for ensuring requests are not processed out of order or multiple times.
 	 */
 	private int step;
 
@@ -58,8 +57,7 @@ public abstract class AbstractEnvironment implements Environment {
 	private int actionStep;
 
 	/**
-	 * An optional form encoding type, for example "multipart/form-data" if files need to be
-	 * uploaded.
+	 * An optional form encoding type, for example "multipart/form-data" if files need to be uploaded.
 	 */
 	private String formEncType;
 
@@ -75,8 +73,8 @@ public abstract class AbstractEnvironment implements Environment {
 
 	// === Start WEnvironment implementation ===
 	/**
-	 * Construct the path to the support servlet. Web components that need to construct a URL to
-	 * target this servlet will use this method.
+	 * Construct the path to the support servlet. Web components that need to construct a URL to target this servlet
+	 * will use this method.
 	 *
 	 * @return the path to the AJAX servlet.
 	 */
@@ -90,8 +88,7 @@ public abstract class AbstractEnvironment implements Environment {
 	}
 
 	/**
-	 * Constructs the path to one of the various helper servlets. This is used by the more specific
-	 * getXXXPath methods.
+	 * Constructs the path to one of the various helper servlets. This is used by the more specific getXXXPath methods.
 	 *
 	 * @param paramName the name of the parameter which holds the relative servlet path.
 	 * @return the path to the servlet corresponding to the given parameter name.
@@ -181,8 +178,7 @@ public abstract class AbstractEnvironment implements Environment {
 	}
 
 	/**
-	 * Sets the application id. The applicationId must not contain
-	 * {@link WComponent#IDNAME_SEPERATOR}.
+	 * Sets the application id. The applicationId must not contain {@link WComponent#IDNAME_SEPERATOR}.
 	 *
 	 * @param appId the appId to set.
 	 * @deprecated no longer used. Use {@link WApplication#setIdName(String)} instead.

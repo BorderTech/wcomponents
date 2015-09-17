@@ -18,7 +18,8 @@ public class WHorizontalRuleRenderer_Test extends AbstractWebXmlRendererTestCase
 	@Test
 	public void testRendererCorrectlyConfigured() {
 		WHorizontalRule horizontalRule = new WHorizontalRule();
-		Assert.assertTrue("Incorrect renderer supplied", getWebXmlRenderer(horizontalRule) instanceof WHorizontalRuleRenderer);
+		Assert.assertTrue("Incorrect renderer supplied",
+				getWebXmlRenderer(horizontalRule) instanceof WHorizontalRuleRenderer);
 	}
 
 	@Test

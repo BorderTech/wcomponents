@@ -20,7 +20,8 @@ public class WDefinitionListRenderer_Test extends AbstractWebXmlRendererTestCase
 	@Test
 	public void testRendererCorrectlyConfigured() {
 		WDefinitionList list = new WDefinitionList();
-		Assert.assertTrue("Incorrect renderer supplied", getWebXmlRenderer(list) instanceof WDefinitionListRenderer);
+		Assert.assertTrue("Incorrect renderer supplied",
+				getWebXmlRenderer(list) instanceof WDefinitionListRenderer);
 	}
 
 	@Test
@@ -55,8 +56,10 @@ public class WDefinitionListRenderer_Test extends AbstractWebXmlRendererTestCase
 		assertXpathEvaluatesTo("1", "count(//ui:definitionList/ui:term)", list);
 		assertXpathEvaluatesTo(term1, "//ui:definitionList/ui:term/@text", list);
 		assertXpathEvaluatesTo("2", "count(//ui:definitionList/ui:term/ui:data)", list);
-		assertXpathEvaluatesTo(text1, "normalize-space(//ui:definitionList/ui:term/ui:data[1])", list);
-		assertXpathEvaluatesTo(text2, "normalize-space(//ui:definitionList/ui:term/ui:data[2])", list);
+		assertXpathEvaluatesTo(text1, "normalize-space(//ui:definitionList/ui:term/ui:data[1])",
+				list);
+		assertXpathEvaluatesTo(text2, "normalize-space(//ui:definitionList/ui:term/ui:data[2])",
+				list);
 
 		list.addTerm(term2, new WText(text3));
 		list.setType(WDefinitionList.Type.FLAT);
@@ -65,24 +68,31 @@ public class WDefinitionListRenderer_Test extends AbstractWebXmlRendererTestCase
 		assertXpathEvaluatesTo("2", "count(//ui:definitionList/ui:term)", list);
 		assertXpathEvaluatesTo(term1, "//ui:definitionList/ui:term[1]/@text", list);
 		assertXpathEvaluatesTo("2", "count(//ui:definitionList/ui:term[1]/ui:data)", list);
-		assertXpathEvaluatesTo(text1, "normalize-space(//ui:definitionList/ui:term[1]/ui:data[1])", list);
-		assertXpathEvaluatesTo(text2, "normalize-space(//ui:definitionList/ui:term[1]/ui:data[2])", list);
+		assertXpathEvaluatesTo(text1, "normalize-space(//ui:definitionList/ui:term[1]/ui:data[1])",
+				list);
+		assertXpathEvaluatesTo(text2, "normalize-space(//ui:definitionList/ui:term[1]/ui:data[2])",
+				list);
 		assertXpathEvaluatesTo(term2, "//ui:definitionList/ui:term[2]/@text", list);
 		assertXpathEvaluatesTo("1", "count(//ui:definitionList/ui:term[2]/ui:data)", list);
-		assertXpathEvaluatesTo(text3, "normalize-space(//ui:definitionList/ui:term[2]/ui:data[1])", list);
+		assertXpathEvaluatesTo(text3, "normalize-space(//ui:definitionList/ui:term[2]/ui:data[1])",
+				list);
 
 		list.addTerm(term3, new WText(text4));
 		assertSchemaMatch(list);
 		assertXpathEvaluatesTo("3", "count(//ui:definitionList/ui:term)", list);
 		assertXpathEvaluatesTo(term1, "//ui:definitionList/ui:term[1]/@text", list);
 		assertXpathEvaluatesTo("2", "count(//ui:definitionList/ui:term[1]/ui:data)", list);
-		assertXpathEvaluatesTo(text1, "normalize-space(//ui:definitionList/ui:term[1]/ui:data[1])", list);
-		assertXpathEvaluatesTo(text2, "normalize-space(//ui:definitionList/ui:term[1]/ui:data[2])", list);
+		assertXpathEvaluatesTo(text1, "normalize-space(//ui:definitionList/ui:term[1]/ui:data[1])",
+				list);
+		assertXpathEvaluatesTo(text2, "normalize-space(//ui:definitionList/ui:term[1]/ui:data[2])",
+				list);
 		assertXpathEvaluatesTo(term2, "//ui:definitionList/ui:term[2]/@text", list);
 		assertXpathEvaluatesTo("1", "count(//ui:definitionList/ui:term[2]/ui:data)", list);
-		assertXpathEvaluatesTo(text3, "normalize-space(//ui:definitionList/ui:term[2]/ui:data[1])", list);
+		assertXpathEvaluatesTo(text3, "normalize-space(//ui:definitionList/ui:term[2]/ui:data[1])",
+				list);
 		assertXpathEvaluatesTo("1", "count(//ui:definitionList/ui:term[3]/ui:data)", list);
-		assertXpathEvaluatesTo(text4, "normalize-space(//ui:definitionList/ui:term[3]/ui:data[1])", list);
+		assertXpathEvaluatesTo(text4, "normalize-space(//ui:definitionList/ui:term[3]/ui:data[1])",
+				list);
 	}
 
 	@Test

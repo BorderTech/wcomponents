@@ -14,9 +14,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * This class is the top most wcomponent that represents a test application that we can use to study
- * the performance of wcomponents. It is a simple application that collects some search criteria,
- * displays a list of results, and displays details for one of those results.
+ * This class is the top most wcomponent that represents a test application that we can use to study the performance of
+ * wcomponents. It is a simple application that collects some search criteria, displays a list of results, and displays
+ * details for one of those results.
  *
  * @author Martin Shevchenko
  */
@@ -159,7 +159,8 @@ public class TestApp extends WApplication {
 	 * @param detailsSize the description text size.
 	 * @return a search result BO with the given attributes.
 	 */
-	public SearchResultRowBO createRow(final int rowIndex, final String name, final String detailsSize) {
+	public SearchResultRowBO createRow(final int rowIndex, final String name,
+			final String detailsSize) {
 		SearchResultRowBO row = new SearchResultRowBO();
 
 		row.setName(name + " " + (rowIndex + 1));
@@ -187,7 +188,8 @@ public class TestApp extends WApplication {
 		if (SearchCriteriaPage.SMALL.equals(detailsSize)) {
 			row.setDesc("Small");
 		} else if (SearchCriteriaPage.MEDIUM.equals(detailsSize)) {
-			row.setDesc("Medium blah blah blah blah blah blah. Blah blah blah blah blah blah blah blah blah blah.");
+			row.setDesc(
+					"Medium blah blah blah blah blah blah. Blah blah blah blah blah blah blah blah blah blah.");
 		} else if (SearchCriteriaPage.LARGE.equals(detailsSize)) {
 			row.setDesc(
 					"Large blah blah blah blah blah blah. Blah blah blah blah blah blah blah blah blah blah."

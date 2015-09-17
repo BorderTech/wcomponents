@@ -3,8 +3,8 @@ package com.github.bordertech.wcomponents.exampleslde;
 import com.github.bordertech.wcomponents.lde.PlainLauncher;
 
 /**
- * Provides this project with a main class that can facilitate running from an IDE. This allows
- * people to run the examples "out of the box" with zero configuration.
+ * Provides this project with a main class that can facilitate running from an IDE. This allows people to run the
+ * examples "out of the box" with zero configuration.
  *
  * @author Rick Brown
  */

@@ -190,7 +190,8 @@ public class DataTableOptionsExample extends WContainer {
 	 * @param options the list of options
 	 * @return a radioButtonSelect with the options
 	 */
-	private <T extends Enum<T>> EnumerationRadioButtonSelect<T> createRadioButtonGroup(final T[] options) {
+	private <T extends Enum<T>> EnumerationRadioButtonSelect<T> createRadioButtonGroup(
+			final T[] options) {
 		EnumerationRadioButtonSelect<T> rbSelect = new EnumerationRadioButtonSelect<>(options);
 		rbSelect.setButtonLayout(EnumerationRadioButtonSelect.Layout.FLAT);
 		rbSelect.setFrameless(true);
@@ -395,7 +396,8 @@ public class DataTableOptionsExample extends WContainer {
 				}
 				ExampleBean bean;
 				if (data instanceof TreeTableDataModel) {
-					TableTreeNode node = ((TreeTableDataModel) data).getNodeAtLine(rowIdx.intValue());
+					TableTreeNode node = ((TreeTableDataModel) data).
+							getNodeAtLine(rowIdx.intValue());
 					bean = (ExampleBean) node.getData();
 				} else {
 					ExampleDataModel node = (ExampleDataModel) data;
@@ -878,8 +880,8 @@ public class DataTableOptionsExample extends WContainer {
 	}
 
 	/**
-	 * A simple extension of WRadioButtonSelect to enhance type safety and provide a more
-	 * intelligent description of the enumerated values.
+	 * A simple extension of WRadioButtonSelect to enhance type safety and provide a more intelligent description of the
+	 * enumerated values.
 	 *
 	 * @param <T> the enumeration type.
 	 */

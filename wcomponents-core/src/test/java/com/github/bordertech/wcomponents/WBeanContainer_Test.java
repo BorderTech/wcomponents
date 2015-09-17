@@ -31,7 +31,8 @@ public class WBeanContainer_Test extends AbstractWComponentTestCase {
 		container.remove(child);
 
 		// Check no children
-		Assert.assertEquals("Should have no child count after removing", 0, container.getChildCount());
+		Assert.assertEquals("Should have no child count after removing", 0, container.
+				getChildCount());
 	}
 
 	@Test
@@ -45,7 +46,8 @@ public class WBeanContainer_Test extends AbstractWComponentTestCase {
 		NamingContextable naming = new WBeanContainer();
 		naming.setIdName(id);
 		Assert.assertEquals("Incorrect component id", id, naming.getId());
-		Assert.assertEquals("Naming context should match component id", id, naming.getNamingContextId());
+		Assert.assertEquals("Naming context should match component id", id, naming.
+				getNamingContextId());
 	}
 
 }

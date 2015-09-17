@@ -11,8 +11,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * AbstractWSelectList provides the basis for components that allow the user to select an item from
- * a list.
+ * AbstractWSelectList provides the basis for components that allow the user to select an item from a list.
  *
  * @author Yiannis Paschalidis
  * @author Jonathan Austin
@@ -23,7 +22,8 @@ public abstract class AbstractWSelectList extends AbstractInput {
 	/**
 	 * The Application-wide lookup-table to use.
 	 */
-	private static final LookupTable APPLICATION_LOOKUP_TABLE = Factory.newInstance(LookupTable.class);
+	private static final LookupTable APPLICATION_LOOKUP_TABLE = Factory.newInstance(
+			LookupTable.class);
 
 	/**
 	 * Indicates whether having no selection is allowed.
@@ -65,8 +65,8 @@ public abstract class AbstractWSelectList extends AbstractInput {
 	}
 
 	/**
-	 * Setting this flag to true will cause this list component to post the form to the server when
-	 * it's selection is changed.
+	 * Setting this flag to true will cause this list component to post the form to the server when it's selection is
+	 * changed.
 	 *
 	 * @param flag if true, the form is submitted when the selection changes.
 	 */
@@ -76,8 +76,7 @@ public abstract class AbstractWSelectList extends AbstractInput {
 	}
 
 	/**
-	 * Indicates whether the form should submit to server when the list component's selection
-	 * changes.
+	 * Indicates whether the form should submit to server when the list component's selection changes.
 	 *
 	 * @return true if the form is submitted when the selection changes.
 	 */
@@ -128,10 +127,12 @@ public abstract class AbstractWSelectList extends AbstractInput {
 						+ option + "\" to a code.");
 			} else {
 				StringBuffer message = new StringBuffer();
-				message.append("The option \"").append(option).append("\" is not one of the available options.");
+				message.append("The option \"").append(option).append(
+						"\" is not one of the available options.");
 				Object firstOption = SelectListUtil.getFirstOption(options);
 
-				if (firstOption != null && option != null && firstOption.getClass() != option.getClass()) {
+				if (firstOption != null && option != null && firstOption.getClass() != option.
+						getClass()) {
 					message.append(" The options in this list component are of type \"");
 					message.append(firstOption.getClass().getName())
 							.append("\", the selection you supplied is of type \"");
@@ -157,8 +158,8 @@ public abstract class AbstractWSelectList extends AbstractInput {
 	}
 
 	/**
-	 * Retrieves the index of the given option. The index is not necessarily the index of the option
-	 * in the options list, as there may be options nested in OptionGroups.
+	 * Retrieves the index of the given option. The index is not necessarily the index of the option in the options
+	 * list, as there may be options nested in OptionGroups.
 	 *
 	 * @param option the option
 	 * @return the index of the given option, or -1 if there is no matching option.
@@ -207,9 +208,8 @@ public abstract class AbstractWSelectList extends AbstractInput {
 	}
 
 	/**
-	 * This method converts an option object into a string. List components that need to control the
-	 * format of the string can override this method. By default this method simply calls toString()
-	 * on the given option object.
+	 * This method converts an option object into a string. List components that need to control the format of the
+	 * string can override this method. By default this method simply calls toString() on the given option object.
 	 *
 	 * @param option the option to return a String representation of.
 	 * @return a String representation of the given option.
@@ -273,9 +273,9 @@ public abstract class AbstractWSelectList extends AbstractInput {
 	}
 
 	/**
-	 * Sets whether users are able to enter in an arbitrary value, rather than having to pick one
-	 * from the list. This method is marked protected, as not all list type controls will support
-	 * editing. Controls which do support editing should override this method and make it public.
+	 * Sets whether users are able to enter in an arbitrary value, rather than having to pick one from the list. This
+	 * method is marked protected, as not all list type controls will support editing. Controls which do support editing
+	 * should override this method and make it public.
 	 *
 	 * @param editable true for editable, false for fixed.
 	 * @deprecated Editable no longer required. WSuggestions and a WTextfield should be used instead
@@ -286,10 +286,9 @@ public abstract class AbstractWSelectList extends AbstractInput {
 	}
 
 	/**
-	 * Indicates whether users are able to enter in an arbitrary value, rather than having to pick
-	 * one from the list. This method is marked protected, as not all list type controls will
-	 * support editing. Controls which do support editing should override this method and make it
-	 * public.
+	 * Indicates whether users are able to enter in an arbitrary value, rather than having to pick one from the list.
+	 * This method is marked protected, as not all list type controls will support editing. Controls which do support
+	 * editing should override this method and make it public.
 	 *
 	 * @return true if the user can enter arbitrary values, false if not.
 	 * @deprecated Editable no longer required. WSuggestions and a WTextfield should be used instead
@@ -303,8 +302,7 @@ public abstract class AbstractWSelectList extends AbstractInput {
 	 * Indicates whether this component is AJAX enabled. A list is an AJAX list if it has a
 	 * {@link #setAjaxTarget(AjaxTarget) target set}.
 	 * <p>
-	 * This method is protected due to this being an abstract class and not all the classes that
-	 * extend it support AJAX.
+	 * This method is protected due to this being an abstract class and not all the classes that extend it support AJAX.
 	 * </p>
 	 *
 	 * @return true if this list is AJAX enabled, false otherwise.
@@ -316,8 +314,7 @@ public abstract class AbstractWSelectList extends AbstractInput {
 	/**
 	 * Retrieves the default AJAX target.
 	 * <p>
-	 * This method is protected due to this being an abstract class and not all the classes that
-	 * extend it support AJAX.
+	 * This method is protected due to this being an abstract class and not all the classes that extend it support AJAX.
 	 * </p>
 	 *
 	 * @return the default AJAX target for this list.
@@ -327,12 +324,11 @@ public abstract class AbstractWSelectList extends AbstractInput {
 	}
 
 	/**
-	 * Sets the AJAX target for the list. If a target is supplied, as an AJAX request is made rather
-	 * than a round-trip to the server. The AJAX response will only contain the (possibly updated)
-	 * target element rather than the entire UI.
+	 * Sets the AJAX target for the list. If a target is supplied, as an AJAX request is made rather than a round-trip
+	 * to the server. The AJAX response will only contain the (possibly updated) target element rather than the entire
+	 * UI.
 	 * <p>
-	 * This method is protected due to this being an abstract class and not all the classes that
-	 * extend it support AJAX.
+	 * This method is protected due to this being an abstract class and not all the classes that extend it support AJAX.
 	 * </p>
 	 *
 	 * @param ajaxTarget the AJAX target.
@@ -346,8 +342,8 @@ public abstract class AbstractWSelectList extends AbstractInput {
 	 * Indicates whether this list was present in the request.
 	 * </p>
 	 * <p>
-	 * Lists that allow no option to be selected have a hidden input field, whose name is name-h to
-	 * indicate that it is in the request.
+	 * Lists that allow no option to be selected have a hidden input field, whose name is name-h to indicate that it is
+	 * in the request.
 	 * </p>
 	 *
 	 * @param request the request being responded to.
@@ -477,8 +473,8 @@ public abstract class AbstractWSelectList extends AbstractInput {
 		private Object lookupTable;
 
 		/**
-		 * Indicates whether the user is able to enter in an arbitrary value, rather than having to
-		 * pick one from the list.
+		 * Indicates whether the user is able to enter in an arbitrary value, rather than having to pick one from the
+		 * list.
 		 */
 		private boolean editable;
 

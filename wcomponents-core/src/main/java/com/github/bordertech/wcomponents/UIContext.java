@@ -6,9 +6,9 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * The state information for a WebComponent tree (a UI) is stored in a UIContext. The reason for
- * this is to minimize the size of the footprint in the session. A UI can be shared between multiple
- * sessions but there is only one UIContext per session. This is a form of the flyweight pattern.
+ * The state information for a WebComponent tree (a UI) is stored in a UIContext. The reason for this is to minimize the
+ * size of the footprint in the session. A UI can be shared between multiple sessions but there is only one UIContext
+ * per session. This is a form of the flyweight pattern.
  *
  * @author Martin Shevchenko
  * @since 1.0.0
@@ -44,8 +44,8 @@ public interface UIContext extends Serializable {
 	void setModel(WebComponent component, WebModel model);
 
 	/**
-	 * Removes the extrinsic state information for the given component. Note that this is not
-	 * recursive for the children.
+	 * Removes the extrinsic state information for the given component. Note that this is not recursive for the
+	 * children.
 	 *
 	 * @param component the component to remove the model for.
 	 */
@@ -76,8 +76,8 @@ public interface UIContext extends Serializable {
 	boolean isDummyEnvironment();
 
 	/**
-	 * Adds a runnable to the list of runnables to be invoked later. The runnable will be invoked
-	 * against this UIContext.
+	 * Adds a runnable to the list of runnables to be invoked later. The runnable will be invoked against this
+	 * UIContext.
 	 *
 	 * @param runnable the runnable to add
 	 */
@@ -97,17 +97,17 @@ public interface UIContext extends Serializable {
 	void doInvokeLaters();
 
 	/**
-	 * Sets the component in this UIC which is to be the focus of the client browser cursor. The id
-	 * of the component is used to find the focussed element in the rendered html.
+	 * Sets the component in this UIC which is to be the focus of the client browser cursor. The id of the component is
+	 * used to find the focussed element in the rendered html.
 	 *
 	 * @param component the component that sould be the cursor focus in the rendered UI.
 	 */
 	void setFocussed(WComponent component);
 
 	/**
-	 * Sets the component in this UIC which is to be the focus of the client browser cursor. The id
-	 * of the component is used to find the focussed element in the rendered html. Since id could be
-	 * different in different contexts the context of the component is also needed.
+	 * Sets the component in this UIC which is to be the focus of the client browser cursor. The id of the component is
+	 * used to find the focussed element in the rendered html. Since id could be different in different contexts the
+	 * context of the component is also needed.
 	 *
 	 * @param component - the component that sould be the cursor focus in the rendered UI.
 	 * @param uic - the context that the component exists in.
@@ -174,9 +174,8 @@ public interface UIContext extends Serializable {
 	Set getFwkAttributeNames();
 
 	/**
-	 * Reserved for internal framework use. Retrieves a scratch area, where data can be temporarily
-	 * stored. WComponents must not rely on data being available in the scratch area after each
-	 * phase.
+	 * Reserved for internal framework use. Retrieves a scratch area, where data can be temporarily stored. WComponents
+	 * must not rely on data being available in the scratch area after each phase.
 	 *
 	 * @param component the component to retrieve the scratch map for.
 	 * @return the scratch map for the given component.
@@ -196,8 +195,7 @@ public interface UIContext extends Serializable {
 	void clearScratchMap();
 
 	/**
-	 * Returns the creation time of this UIContext, which can be used to approximate the user
-	 * session creation time.
+	 * Returns the creation time of this UIContext, which can be used to approximate the user session creation time.
 	 *
 	 * @return the creation time of this UIContext.
 	 */

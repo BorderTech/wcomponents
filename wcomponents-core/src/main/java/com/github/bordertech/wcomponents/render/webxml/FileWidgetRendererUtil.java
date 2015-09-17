@@ -27,7 +27,8 @@ public final class FileWidgetRendererUtil {
 	 * @param file the file to render
 	 * @param idx the index of the file
 	 */
-	public static void renderFileElement(final WMultiFileWidget widget, final XmlStringBuilder xml, final FileWidgetUpload file, final int idx) {
+	public static void renderFileElement(final WMultiFileWidget widget, final XmlStringBuilder xml,
+			final FileWidgetUpload file, final int idx) {
 		xml.appendTagOpen("ui:file");
 		xml.appendAttribute("id", file.getFileId());
 		xml.appendAttribute("name", file.getFile().getName());

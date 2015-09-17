@@ -27,7 +27,8 @@ public class WHiddenCommentRenderer_Test extends AbstractWebXmlRendererTestCase 
 	@Test
 	public void testRendererCorrectlyConfigured() {
 		WHiddenComment hiddenComment = new WHiddenComment("comment");
-		Assert.assertTrue("Incorrect renderer supplied", getWebXmlRenderer(hiddenComment) instanceof WHiddenCommentRenderer);
+		Assert.assertTrue("Incorrect renderer supplied",
+				getWebXmlRenderer(hiddenComment) instanceof WHiddenCommentRenderer);
 	}
 
 	@Test

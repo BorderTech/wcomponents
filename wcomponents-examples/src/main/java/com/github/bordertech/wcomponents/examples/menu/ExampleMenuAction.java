@@ -5,8 +5,7 @@ import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.WText;
 
 /**
- * An action which updates the selectedMenuText field with the text of the menu item which was
- * selected.
+ * An action which updates the selectedMenuText field with the text of the menu item which was selected.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0

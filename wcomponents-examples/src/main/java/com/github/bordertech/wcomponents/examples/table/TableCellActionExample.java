@@ -47,14 +47,16 @@ public class TableCellActionExample extends WPanel {
 			@Override
 			public void execute(final ActionEvent event) {
 				PersonBean person = (PersonBean) button.getBean();
-				actionText.setText("Action for: " + person.getFirstName() + ' ' + person.getLastName());
+				actionText.setText("Action for: " + person.getFirstName() + ' ' + person.
+						getLastName());
 			}
 		});
 		table.addColumn(new WTableColumn("Action", button));
 
 		// Setup model - The button column gets the "person bean".
-		SimpleBeanBoundTableModel model = new SimpleBeanBoundTableModel(new String[]{"firstName", "lastName",
-			"dateOfBirth", "."});
+		SimpleBeanBoundTableModel model = new SimpleBeanBoundTableModel(
+				new String[]{"firstName", "lastName",
+					"dateOfBirth", "."});
 		table.setTableModel(model);
 
 		WPanel panel = new WPanel();
@@ -66,8 +68,8 @@ public class TableCellActionExample extends WPanel {
 	}
 
 	/**
-	 * Override preparePaintComponent in order to set up the example data the first time that the
-	 * example is accessed by each user.
+	 * Override preparePaintComponent in order to set up the example data the first time that the example is accessed by
+	 * each user.
 	 *
 	 * @param request the request being responded to.
 	 */

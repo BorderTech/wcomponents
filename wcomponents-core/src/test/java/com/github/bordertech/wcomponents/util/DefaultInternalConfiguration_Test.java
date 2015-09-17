@@ -55,13 +55,16 @@ public class DefaultInternalConfiguration_Test {
 
 	@Before
 	public void loadProperties() {
-		config = new DefaultInternalConfiguration("com/github/bordertech/wcomponents/util/DefaultInternalConfiguration_Test.properties");
+		config = new DefaultInternalConfiguration(
+				"com/github/bordertech/wcomponents/util/DefaultInternalConfiguration_Test.properties");
 	}
 
 	@Test
 	public void testSimpleProperties() {
-		Assert.assertNull("Missing properties should be null", config.get("simple.nonExistantPropertyKey"));
-		Assert.assertEquals("Incorrect default value for missing property", "defaultValue", config.getString("simple.nonExistantPropertyKey", "defaultValue"));
+		Assert.assertNull("Missing properties should be null", config.get(
+				"simple.nonExistantPropertyKey"));
+		Assert.assertEquals("Incorrect default value for missing property", "defaultValue", config.
+				getString("simple.nonExistantPropertyKey", "defaultValue"));
 		assertPropertyEquals(EMPTY_PROPERTY_KEY, "");
 		assertPropertyEquals(STRING_PROPERTY_KEY, "simplePropertyValue");
 		assertPropertyEquals(INT_PROPERTY_KEY, "123");
@@ -98,7 +101,8 @@ public class DefaultInternalConfiguration_Test {
 		assertPropertyEquals(BOOLEAN_TRUE_PROPERTY_KEY, "true", props);
 		assertPropertyEquals(BOOLEAN_FALSE_PROPERTY_KEY, "false", props);
 		assertPropertyEquals("simple.listPropertyKey", "item1,item2,item3", props);
-		assertPropertyEquals("simple.propertiesPropertyKey", "key1=value1,key2=value2,key3=value3", props);
+		assertPropertyEquals("simple.propertiesPropertyKey", "key1=value1,key2=value2,key3=value3",
+				props);
 
 		// Now test with the prefix truncated
 		props = config.getSubProperties("simple.", true);
@@ -193,7 +197,8 @@ public class DefaultInternalConfiguration_Test {
 				234, config.getShort(MISSING_PROPERTY_KEY, (short) 234));
 
 		Assert.assertEquals("Incorrect default short value for missing key",
-				Short.valueOf((short) 234), config.getShort(MISSING_PROPERTY_KEY, Short.valueOf((short) 234)));
+				Short.valueOf((short) 234), config.getShort(MISSING_PROPERTY_KEY, Short.valueOf(
+				(short) 234)));
 	}
 
 	@Test(expected = ConversionException.class)
@@ -213,7 +218,8 @@ public class DefaultInternalConfiguration_Test {
 				111, config.getByte(MISSING_PROPERTY_KEY, (byte) 111));
 
 		Assert.assertEquals("Incorrect default byte value for missing key",
-				Byte.valueOf((byte) 111), config.getByte(MISSING_PROPERTY_KEY, Byte.valueOf((byte) 111)));
+				Byte.valueOf((byte) 111), config.getByte(MISSING_PROPERTY_KEY, Byte.valueOf(
+				(byte) 111)));
 	}
 
 	@Test(expected = ConversionException.class)
@@ -230,7 +236,8 @@ public class DefaultInternalConfiguration_Test {
 				BigDecimal.valueOf(0.0), config.getBigDecimal(MISSING_PROPERTY_KEY));
 
 		Assert.assertEquals("Incorrect default BigDecimal value for missing key",
-				BigDecimal.valueOf(234), config.getBigDecimal(MISSING_PROPERTY_KEY, BigDecimal.valueOf(234)));
+				BigDecimal.valueOf(234), config.getBigDecimal(MISSING_PROPERTY_KEY, BigDecimal.
+				valueOf(234)));
 	}
 
 	@Test(expected = ConversionException.class)
@@ -247,7 +254,8 @@ public class DefaultInternalConfiguration_Test {
 				BigInteger.valueOf(0), config.getBigInteger(MISSING_PROPERTY_KEY));
 
 		Assert.assertEquals("Incorrect default BigInteger value for missing key",
-				BigInteger.valueOf(234), config.getBigInteger(MISSING_PROPERTY_KEY, BigInteger.valueOf(234)));
+				BigInteger.valueOf(234), config.getBigInteger(MISSING_PROPERTY_KEY, BigInteger.
+				valueOf(234)));
 	}
 
 	@Test(expected = ConversionException.class)
@@ -316,10 +324,12 @@ public class DefaultInternalConfiguration_Test {
 	@Test
 	public void testGetList() {
 		Assert.assertEquals("Incorrect list value for " + STRING_PROPERTY_KEY,
-				Arrays.asList(new String[]{"simplePropertyValue"}), config.getList(STRING_PROPERTY_KEY));
+				Arrays.asList(new String[]{"simplePropertyValue"}), config.getList(
+				STRING_PROPERTY_KEY));
 
 		Assert.assertEquals("Incorrect list value for simple.listPropertyKey",
-				Arrays.asList(new String[]{"item1", "item2", "item3"}), config.getList("simple.listPropertyKey"));
+				Arrays.asList(new String[]{"item1", "item2", "item3"}), config.getList(
+				"simple.listPropertyKey"));
 
 		List<String> defaultList = Arrays.asList(new String[]{"default1", "default2"});
 		Assert.assertEquals("Incorrect default list value for missing key",
@@ -352,7 +362,8 @@ public class DefaultInternalConfiguration_Test {
 	 * @param expected the expected property value.
 	 * @param props the properties to search in.
 	 */
-	private void assertPropertyEquals(final String key, final Object expected, final Properties props) {
+	private void assertPropertyEquals(final String key, final Object expected,
+			final Properties props) {
 		Assert.assertEquals("Incorrect value for " + key, expected, props.get(key));
 	}
 }

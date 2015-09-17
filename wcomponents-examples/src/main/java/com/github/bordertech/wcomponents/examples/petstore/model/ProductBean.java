@@ -39,7 +39,8 @@ public class ProductBean {
 	 * @param image the image id (if available).
 	 * @param description the long description.
 	 */
-	public ProductBean(final int productId, final String shortTitle, final String image, final String description) {
+	public ProductBean(final int productId, final String shortTitle, final String image,
+			final String description) {
 		this.id = productId;
 		this.shortTitle = shortTitle;
 		this.image = image;

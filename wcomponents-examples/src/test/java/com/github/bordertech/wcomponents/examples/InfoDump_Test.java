@@ -33,7 +33,8 @@ public class InfoDump_Test extends WComponentSeleniumTestCase {
 		// Launch the web browser to the LDE
 		WebDriver driver = getDriver();
 
-		Assert.assertEquals("Incorrect default text", "", driver.findElement(byWComponentPath("WTextArea")).getText());
+		Assert.assertEquals("Incorrect default text", "", driver.findElement(byWComponentPath(
+				"WTextArea")).getText());
 
 		driver.findElement(byWComponentPath("WButton[1]")).click();
 
@@ -42,6 +43,7 @@ public class InfoDump_Test extends WComponentSeleniumTestCase {
 		Assert.assertTrue("Incorrect AppId", text.contains("AppId: " + env.getAppId()));
 
 		driver.findElement(byWComponentPath("WButton[0]")).click();
-		Assert.assertEquals("Text should have been cleared", "", driver.findElement(byWComponentPath("WTextArea")).getText());
+		Assert.assertEquals("Text should have been cleared", "", driver.findElement(
+				byWComponentPath("WTextArea")).getText());
 	}
 }

@@ -166,7 +166,8 @@ public class WPartialDateFieldExample extends WPanel {
 		btnSetDMY.setAction(new Action() {
 			@Override
 			public void execute(final ActionEvent event) {
-				dateField.setPartialDate(parseInt(day.getText()), parseInt(month.getText()), parseInt(year.getText()));
+				dateField.setPartialDate(parseInt(day.getText()), parseInt(month.getText()),
+						parseInt(year.getText()));
 			}
 		});
 

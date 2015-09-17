@@ -22,7 +22,8 @@ public class AbstractInput_Test extends AbstractWComponentTestCase {
 	public void testValidatorsAccessors() {
 		AbstractInput input = new MyInput();
 
-		Assert.assertFalse("Default input should have no validators", input.getValidators().hasNext());
+		Assert.assertFalse("Default input should have no validators", input.getValidators().
+				hasNext());
 
 		// Add validator
 		FieldValidator validator = new AbstractFieldValidator() {
@@ -33,7 +34,8 @@ public class AbstractInput_Test extends AbstractWComponentTestCase {
 		};
 		input.addValidator(validator);
 
-		Assert.assertEquals("Validator Iterator did not contain the valid validator", validator, input.getValidators()
+		Assert.assertEquals("Validator Iterator did not contain the valid validator", validator,
+				input.getValidators()
 				.next());
 	}
 
@@ -43,20 +45,23 @@ public class AbstractInput_Test extends AbstractWComponentTestCase {
 		AbstractInput input = new MyInput();
 		List<Diagnostic> diags = new ArrayList<>();
 		input.validate(diags);
-		Assert.assertTrue("Input with no validation should return an empty daignostics list", diags.isEmpty());
+		Assert.assertTrue("Input with no validation should return an empty daignostics list", diags.
+				isEmpty());
 
 		// Mandatory with no value - Validation Error
 		input = new MyInput();
 		diags.clear();
 		input.setMandatory(true);
 		input.validate(diags);
-		Assert.assertEquals("Mandatory input with no value should return a diagnostic message", 1, diags.size());
+		Assert.assertEquals("Mandatory input with no value should return a diagnostic message", 1,
+				diags.size());
 
 		// Switch to ReadOnly and should have no validation errors
 		input.setReadOnly(true);
 		diags.clear();
 		input.validate(diags);
-		Assert.assertTrue("Mandatory input that is ReadOnly with no value should return an empty diagnostic message",
+		Assert.assertTrue(
+				"Mandatory input that is ReadOnly with no value should return an empty diagnostic message",
 				diags.isEmpty());
 
 		// Mandatory with a value - No Validation Errors
@@ -65,7 +70,8 @@ public class AbstractInput_Test extends AbstractWComponentTestCase {
 		input.setMandatory(true);
 		input.setData("value");
 		input.validate(diags);
-		Assert.assertTrue("Mandatory input with a value should return an empty daignostics list", diags.isEmpty());
+		Assert.assertTrue("Mandatory input with a value should return an empty daignostics list",
+				diags.isEmpty());
 
 		// Custom Validator - Validation Error
 		FieldValidator validator = new AbstractFieldValidator() {
@@ -78,12 +84,14 @@ public class AbstractInput_Test extends AbstractWComponentTestCase {
 		diags.clear();
 		input.addValidator(validator);
 		input.validate(diags);
-		Assert.assertEquals("Input with custom validator should return a diagnostic message", 1, diags.size());
+		Assert.assertEquals("Input with custom validator should return a diagnostic message", 1,
+				diags.size());
 	}
 
 	@Test
 	public void testActionOnChangeAccessors() {
-		assertAccessorsCorrect(new MyInput(), "actionOnChange", null, new TestAction(), new TestAction());
+		assertAccessorsCorrect(new MyInput(), "actionOnChange", null, new TestAction(),
+				new TestAction());
 	}
 
 	@Test
@@ -99,12 +107,14 @@ public class AbstractInput_Test extends AbstractWComponentTestCase {
 		input.setData(value);
 
 		// Action command default to the string value
-		Assert.assertEquals("Action command should defualt to the string value", value, input.getActionCommand());
+		Assert.assertEquals("Action command should defualt to the string value", value, input.
+				getActionCommand());
 	}
 
 	@Test
 	public void testDefaultSubmitButtonAccessors() {
-		assertAccessorsCorrect(new MyInput(), "defaultSubmitButton", null, new WButton(), new WButton());
+		assertAccessorsCorrect(new MyInput(), "defaultSubmitButton", null, new WButton(),
+				new WButton());
 	}
 
 	@Test
@@ -121,7 +131,8 @@ public class AbstractInput_Test extends AbstractWComponentTestCase {
 		List<Diagnostic> diags = new ArrayList<>();
 		input.setMandatory(true, msg);
 		input.validate(diags);
-		Assert.assertEquals("Incorrect mandatory message returned", msg, diags.get(0).getDescription());
+		Assert.assertEquals("Incorrect mandatory message returned", msg, diags.get(0).
+				getDescription());
 	}
 
 	@Test
@@ -145,7 +156,8 @@ public class AbstractInput_Test extends AbstractWComponentTestCase {
 		MockRequest request = new MockRequest();
 		input.serviceRequest(request);
 		Assert.assertNull("Input value after empty request should be null", input.getValue());
-		Assert.assertFalse("Change Action should not have triggered for an empty request", action.wasTriggered());
+		Assert.assertFalse("Change Action should not have triggered for an empty request", action.
+				wasTriggered());
 		Assert.assertFalse("Changed in last request should be false for an empty request",
 				input.isChangedInLastRequest());
 
@@ -155,8 +167,10 @@ public class AbstractInput_Test extends AbstractWComponentTestCase {
 		request.setParameter(input.getId(), value);
 		action.reset();
 		input.serviceRequest(request);
-		Assert.assertEquals("Input value is incorrect after request with a value", value, input.getValue());
-		Assert.assertTrue("Change Action should have triggered for a request with a value", action.wasTriggered());
+		Assert.assertEquals("Input value is incorrect after request with a value", value, input.
+				getValue());
+		Assert.assertTrue("Change Action should have triggered for a request with a value", action.
+				wasTriggered());
 		Assert.assertTrue("Changed in last request should be true for a request with a value",
 				input.isChangedInLastRequest());
 
@@ -165,7 +179,8 @@ public class AbstractInput_Test extends AbstractWComponentTestCase {
 		request.setParameter(input.getId(), value);
 		action.reset();
 		input.serviceRequest(request);
-		Assert.assertEquals("Input value is incorrect after request with same value", value, input.getValue());
+		Assert.assertEquals("Input value is incorrect after request with same value", value, input.
+				getValue());
 		Assert.assertFalse("Change Action should not have triggered for a request with same value",
 				action.wasTriggered());
 		Assert.assertFalse("Changed in last request should be false for a request with same value",
@@ -179,7 +194,8 @@ public class AbstractInput_Test extends AbstractWComponentTestCase {
 		input.setDisabled(true);
 		input.serviceRequest(request);
 		Assert.assertEquals("Input value should not change when disabled", value, input.getValue());
-		Assert.assertFalse("Change Action should not have triggered for a disabled input", action.wasTriggered());
+		Assert.assertFalse("Change Action should not have triggered for a disabled input", action.
+				wasTriggered());
 		Assert.assertFalse("Changed in last request should be false for a disabled input",
 				input.isChangedInLastRequest());
 		input.setDisabled(false);
@@ -191,7 +207,8 @@ public class AbstractInput_Test extends AbstractWComponentTestCase {
 		input.setReadOnly(true);
 		input.serviceRequest(request);
 		Assert.assertEquals("Input value should not change when readonly", value, input.getValue());
-		Assert.assertFalse("Change Action should not have triggered for a readonly input", action.wasTriggered());
+		Assert.assertFalse("Change Action should not have triggered for a readonly input", action.
+				wasTriggered());
 		Assert.assertFalse("Changed in last request should be false for a readonly input",
 				input.isChangedInLastRequest());
 		input.setReadOnly(false);
@@ -208,21 +225,25 @@ public class AbstractInput_Test extends AbstractWComponentTestCase {
 
 		// No submit on change flag (no focus should be set)
 		input.doHandleChanged();
-		Assert.assertNull("Focussed should be null submit flag set to false", UIContextHolder.getCurrent()
+		Assert.assertNull("Focussed should be null submit flag set to false", UIContextHolder.
+				getCurrent()
 				.getFocussed());
 
 		// Submit on change (focus should be set)
 		input.setSubmitOnChange(true);
 		input.doHandleChanged();
-		Assert.assertEquals("Focussed should be set with submit flag set to true", input, UIContextHolder.getCurrent()
+		Assert.assertEquals("Focussed should be set with submit flag set to true", input,
+				UIContextHolder.getCurrent()
 				.getFocussed());
 
 		// Test focus does not change if already set
 		MyInput inputFocussed = new MyInput();
 		inputFocussed.setFocussed();
 		input.doHandleChanged();
-		Assert.assertEquals("Focussed should not have changed with focus already set", inputFocussed, UIContextHolder
-				.getCurrent().getFocussed());
+		Assert.
+				assertEquals("Focussed should not have changed with focus already set",
+						inputFocussed, UIContextHolder
+						.getCurrent().getFocussed());
 
 		// Test focused when input has an action set
 		resetContext();
@@ -235,22 +256,27 @@ public class AbstractInput_Test extends AbstractWComponentTestCase {
 		// No submit on change flag (no focus should be set)
 		input.doHandleChanged();
 		UIContextHolder.getCurrent().doInvokeLaters();
-		Assert.assertNull("Focussed should be null with submit flag set to false and input has change action",
+		Assert.assertNull(
+				"Focussed should be null with submit flag set to false and input has change action",
 				UIContextHolder.getCurrent().getFocussed());
 
 		// Submit on change (focus should be set)
 		input.setSubmitOnChange(true);
 		input.doHandleChanged();
 		UIContextHolder.getCurrent().doInvokeLaters();
-		Assert.assertEquals("Focussed should be set with submit flag set to true and input has change action", input,
+		Assert.assertEquals(
+				"Focussed should be set with submit flag set to true and input has change action",
+				input,
 				UIContextHolder.getCurrent().getFocussed());
 
 		// Test focus does not change if already set
 		inputFocussed.setFocussed();
 		input.doHandleChanged();
 		UIContextHolder.getCurrent().doInvokeLaters();
-		Assert.assertEquals("Focussed should not have changed with focus already set", inputFocussed, UIContextHolder
-				.getCurrent().getFocussed());
+		Assert.
+				assertEquals("Focussed should not have changed with focus already set",
+						inputFocussed, UIContextHolder
+						.getCurrent().getFocussed());
 
 		resetContext();
 	}
@@ -258,9 +284,12 @@ public class AbstractInput_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testChangedInLastRequestAccessors() {
 		AbstractInput input = new MyInput();
-		Assert.assertFalse("changedInLastRequest flag should default to false", input.isChangedInLastRequest());
+		Assert.assertFalse("changedInLastRequest flag should default to false", input.
+				isChangedInLastRequest());
 		input.setChangedInLastRequest(true);
-		Assert.assertTrue("changedInLastRequest flag should be true", input.isChangedInLastRequest());
+		Assert.
+				assertTrue("changedInLastRequest flag should be true", input.
+						isChangedInLastRequest());
 	}
 
 	@Test
@@ -301,7 +330,8 @@ public class AbstractInput_Test extends AbstractWComponentTestCase {
 		Boolean value = Boolean.TRUE;
 		input.setData(value);
 
-		Assert.assertEquals("Incorrect value as string returned", value.toString(), input.getValueAsString());
+		Assert.assertEquals("Incorrect value as string returned", value.toString(), input.
+				getValueAsString());
 	}
 
 	@Test
@@ -312,12 +342,14 @@ public class AbstractInput_Test extends AbstractWComponentTestCase {
 
 		// Empty String should be "empty"
 		input.setData("");
-		Assert.assertTrue("isEmpty for an input with an empty string as its value should be true", input.isEmpty());
+		Assert.assertTrue("isEmpty for an input with an empty string as its value should be true",
+				input.isEmpty());
 
 		// Not Empty value
 		Boolean value = Boolean.TRUE;
 		input.setData(value);
-		Assert.assertFalse("isEmpty for an input with a non-empty value should be false", input.isEmpty());
+		Assert.assertFalse("isEmpty for an input with a non-empty value should be false", input.
+				isEmpty());
 	}
 
 	@Test

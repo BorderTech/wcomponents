@@ -2,18 +2,19 @@ package com.github.bordertech.wcomponents;
 
 /**
  * <p>
- * The WSection component defines a major discrete section of a screen which is associated with, and
- * described by, a heading.
+ * The WSection component defines a major discrete section of a screen which is associated with, and described by, a
+ * heading.
  * </p>
  * <p>
- * Various {@link SectionMode modes of operation} are supported, which allow developers to tune
- * performance by only loading content when it is needed.
+ * Various {@link SectionMode modes of operation} are supported, which allow developers to tune performance by only
+ * loading content when it is needed.
  * </p>
  *
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class WSection extends AbstractNamingContextContainer implements AjaxTarget, SubordinateTarget, Marginable, DropZone {
+public class WSection extends AbstractNamingContextContainer implements AjaxTarget,
+		SubordinateTarget, Marginable, DropZone {
 
 	/**
 	 * The available types of section mode.
@@ -126,8 +127,8 @@ public class WSection extends AbstractNamingContextContainer implements AjaxTarg
 	}
 
 	/**
-	 * Override preparePaintComponent in order to toggle the visibility of the content, or to
-	 * register the appropriate ajax operation.
+	 * Override preparePaintComponent in order to toggle the visibility of the content, or to register the appropriate
+	 * ajax operation.
 	 *
 	 * @param request the request being responded to
 	 */

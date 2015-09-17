@@ -75,20 +75,19 @@ public final class ServletUtil {
 	private static final String THEME_RESOURCE_PATH_PARAM = "/" + Environment.THEME_RESOURCE_PATH_NAME + "/";
 
 	/**
-	 * The key used to look up the {@link Config WComponent Configuration} flag for whether we
-	 * should use enable sub-session support.
+	 * The key used to look up the {@link Config WComponent Configuration} flag for whether we should use enable
+	 * sub-session support.
 	 */
 	public static final String ENABLE_SUBSESSIONS = "bordertech.wcomponents.servlet.subsessions.enabled";
 
 	/**
-	 * The key used to look up the {@link Config WComponent Configuration} flag for developer mode
-	 * error handling.
+	 * The key used to look up the {@link Config WComponent Configuration} flag for developer mode error handling.
 	 */
 	public static final String DEVELOPER_MODE_ERROR_HANDLING = "bordertech.wcomponents.developer.errorHandling.enabled";
 
 	/**
-	 * The key used to look up the {@link Config WComponent Configuration} flag for whether we
-	 * should use the ErrorPageFactory.
+	 * The key used to look up the {@link Config WComponent Configuration} flag for whether we should use the
+	 * ErrorPageFactory.
 	 */
 	public static final String HANDLE_ERROR_WITH_FATAL_ERROR_PAGE_FACTORY = WServlet.class.getName()
 			+ ".handleErrorWithFatalErrorPageFactory";
@@ -110,7 +109,8 @@ public final class ServletUtil {
 	 * @throws ServletException a servlet exception
 	 * @throws IOException an IO Exception
 	 */
-	public static boolean checkResourceRequest(final HttpServletRequest request, final HttpServletResponse response)
+	public static boolean checkResourceRequest(final HttpServletRequest request,
+			final HttpServletResponse response)
 			throws ServletException, IOException {
 		// Static resource
 		if (isStaticResourceRequest(request)) {
@@ -135,8 +135,8 @@ public final class ServletUtil {
 	}
 
 	/**
-	 * This method does the real work in servicing the http request. It integrates wcomponents into
-	 * a servlet environment via a servlet specific helper class.
+	 * This method does the real work in servicing the http request. It integrates wcomponents into a servlet
+	 * environment via a servlet specific helper class.
 	 *
 	 * @param helper the servlet helper
 	 * @param ui the application ui
@@ -195,7 +195,8 @@ public final class ServletUtil {
 	 * @param request the http request.
 	 * @param response the http response.
 	 */
-	public static void handleStaticResourceRequest(final HttpServletRequest request, final HttpServletResponse response) {
+	public static void handleStaticResourceRequest(final HttpServletRequest request,
+			final HttpServletResponse response) {
 		String staticRequest = request.getParameter(WServlet.STATIC_RESOURCE_PARAM_NAME);
 
 		try {
@@ -210,14 +211,16 @@ public final class ServletUtil {
 
 			InputStream resourceStream = staticResource.getStream();
 			if (resourceStream == null) {
-				LOG.warn("Static resource [" + staticRequest + "] not found. Stream for content is null.");
+				LOG.warn(
+						"Static resource [" + staticRequest + "] not found. Stream for content is null.");
 				response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 				return;
 			}
 
 			int size = resourceStream.available();
-			String fileName = WebUtilities.encodeForContentDispositionHeader(staticRequest.substring(staticRequest
-					.lastIndexOf('/') + 1));
+			String fileName = WebUtilities.encodeForContentDispositionHeader(staticRequest.
+					substring(staticRequest
+							.lastIndexOf('/') + 1));
 
 			if (size > 0) {
 				response.setContentLength(size);
@@ -263,7 +266,8 @@ public final class ServletUtil {
 	 * @throws ServletException on error.
 	 * @throws IOException if there is an error reading the file / writing the response.
 	 */
-	public static void handleThemeResourceRequest(final HttpServletRequest req, final HttpServletResponse resp)
+	public static void handleThemeResourceRequest(final HttpServletRequest req,
+			final HttpServletResponse resp)
 			throws ServletException, IOException {
 
 		if (req.getHeader("If-Modified-Since") != null) {
@@ -276,7 +280,8 @@ public final class ServletUtil {
 
 		String path = req.getPathInfo();
 		if (fileName == null && !Util.empty(path)) {
-			int offset = path.startsWith(THEME_RESOURCE_PATH_PARAM) ? THEME_RESOURCE_PATH_PARAM.length() : 1;
+			int offset = path.startsWith(THEME_RESOURCE_PATH_PARAM) ? THEME_RESOURCE_PATH_PARAM.
+					length() : 1;
 			fileName = path.substring(offset);
 		}
 
@@ -296,8 +301,9 @@ public final class ServletUtil {
 				resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
 			} else {
 				int size = resourceStream.available();
-				String encodedName = WebUtilities.encodeForContentDispositionHeader(fileName.substring(fileName
-						.lastIndexOf('/') + 1));
+				String encodedName = WebUtilities.encodeForContentDispositionHeader(fileName.
+						substring(fileName
+								.lastIndexOf('/') + 1));
 
 				if (size > 0) {
 					resp.setContentLength(size);
@@ -382,15 +388,16 @@ public final class ServletUtil {
 	}
 
 	/**
-	 * Called if a Throwable is caught by the top-level service method. By default we display an
-	 * error and terminate the session.
+	 * Called if a Throwable is caught by the top-level service method. By default we display an error and terminate the
+	 * session.
 	 *
 	 * @param helper the current servlet helper
 	 * @param throwable the throwable
 	 * @throws ServletException a servlet exception
 	 * @throws IOException an IO Exception
 	 */
-	public static void handleError(final HttpServletHelper helper, final Throwable throwable) throws ServletException,
+	public static void handleError(final HttpServletHelper helper, final Throwable throwable) throws
+			ServletException,
 			IOException {
 		HttpServletRequest httpServletRequest = helper.getBackingRequest();
 		HttpServletResponse httpServletResponse = helper.getBackingResponse();

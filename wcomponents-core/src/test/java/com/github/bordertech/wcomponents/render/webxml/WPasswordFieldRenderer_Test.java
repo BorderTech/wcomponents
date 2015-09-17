@@ -22,7 +22,8 @@ public class WPasswordFieldRenderer_Test extends AbstractWebXmlRendererTestCase 
 	@Test
 	public void testRendererCorrectlyConfigured() {
 		WPasswordField field = new WPasswordField();
-		Assert.assertTrue("Incorrect renderer supplied", getWebXmlRenderer(field) instanceof WPasswordFieldRenderer);
+		Assert.assertTrue("Incorrect renderer supplied",
+				getWebXmlRenderer(field) instanceof WPasswordFieldRenderer);
 	}
 
 	@Test
@@ -79,7 +80,8 @@ public class WPasswordFieldRenderer_Test extends AbstractWebXmlRendererTestCase 
 
 		field.setAccessibleText("accessible");
 		assertSchemaMatch(field);
-		assertXpathEvaluatesTo(field.getAccessibleText(), "//ui:passwordField/@accessibleText", field);
+		assertXpathEvaluatesTo(field.getAccessibleText(), "//ui:passwordField/@accessibleText",
+				field);
 
 		field.setColumns(40);
 		assertSchemaMatch(field);

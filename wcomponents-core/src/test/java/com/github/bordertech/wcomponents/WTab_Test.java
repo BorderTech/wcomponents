@@ -25,7 +25,8 @@ public class WTab_Test extends AbstractWComponentTestCase {
 		WTab tab = new WTab(component, label, WTabSet.TabMode.SERVER);
 
 		Assert.assertEquals("label should be added as first tab content", label, tab.getChildAt(0));
-		Assert.assertEquals("label should be added as second tab content", component, tab.getChildAt(1));
+		Assert.assertEquals("label should be added as second tab content", component, tab.
+				getChildAt(1));
 	}
 
 	@Test
@@ -298,7 +299,8 @@ public class WTab_Test extends AbstractWComponentTestCase {
 		WDecoratedLabel label = new WDecoratedLabel(labelText);
 		WTab tab = new WTab(component, label, WTabSet.TabMode.CLIENT);
 
-		Assert.assertEquals("should get decorated label set in constructor", label, tab.getTabLabel());
+		Assert.assertEquals("should get decorated label set in constructor", label, tab.
+				getTabLabel());
 	}
 
 	@Test

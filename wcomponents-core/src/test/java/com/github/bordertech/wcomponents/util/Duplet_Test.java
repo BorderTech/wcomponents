@@ -66,6 +66,7 @@ public class Duplet_Test {
 		Duplet<Object, Object> dup1 = new Duplet<Object, Object>(new Long(12345), null);
 		Duplet<Object, Object> dup2 = new Duplet<Object, Object>(new Long(12345), null);
 
-		Assert.assertEquals("Duplet should have same hash as an equivalent duplet", dup1.hashCode(), dup2.hashCode());
+		Assert.assertEquals("Duplet should have same hash as an equivalent duplet", dup1.hashCode(),
+				dup2.hashCode());
 	}
 }

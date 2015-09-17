@@ -22,8 +22,8 @@ import org.apache.commons.logging.LogFactory;
  * {@link FatalErrorPageFactory}.</p>
  *
  * <p>
- * 2. The ErrorPage WComponent will not be cached so that subsequent calls to {@link #getUI(String)}
- * will attempt to re-load the top level component.</p>
+ * 2. The ErrorPage WComponent will not be cached so that subsequent calls to {@link #getUI(String)} will attempt to
+ * re-load the top level component.</p>
  *
  * @author Darian Bridge
  * @since 1.0.0
@@ -67,8 +67,8 @@ public class UIRegistryAmicableImpl extends UIRegistry {
 	}
 
 	/**
-	 * Retrieves the user interface that was registered with the given key. If the UI has not been
-	 * registered, this attempts to load the UI using the key as a class name.
+	 * Retrieves the user interface that was registered with the given key. If the UI has not been registered, this
+	 * attempts to load the UI using the key as a class name.
 	 *
 	 * @param key The registration key.
 	 * @return the UI for the given key. The UI may be newly created.
@@ -102,8 +102,8 @@ public class UIRegistryAmicableImpl extends UIRegistry {
 	 * Attempts to load a UI using the key as a class name.
 	 *
 	 * @param key The registration key.
-	 * @return A WComponent if one could be loaded from the classpath, else an ErrorPage WComponent
-	 * containing the problem.
+	 * @return A WComponent if one could be loaded from the classpath, else an ErrorPage WComponent containing the
+	 * problem.
 	 */
 	private static WComponent loadUI(final String key) {
 		String classname = key.trim();
@@ -116,13 +116,16 @@ public class UIRegistryAmicableImpl extends UIRegistry {
 				LOG.debug("WComponent successfully loaded with class name \"" + classname + "\".");
 				return instance;
 			} else {
-				throw new SystemException("The resource with the name \"" + classname + "\" is not a WComponent.");
+				throw new SystemException(
+						"The resource with the name \"" + classname + "\" is not a WComponent.");
 			}
 		} catch (Exception ex) {
-			LOG.error("Unable to load a WComponent using the resource name \"" + classname + "\"", ex);
+			LOG.error("Unable to load a WComponent using the resource name \"" + classname + "\"",
+					ex);
 
 			// Are we in developer friendly error mode?
-			boolean friendly = Config.getInstance().getBoolean(AbstractContainerHelper.DEVELOPER_MODE_ERROR_HANDLING, false);
+			boolean friendly = Config.getInstance().getBoolean(
+					AbstractContainerHelper.DEVELOPER_MODE_ERROR_HANDLING, false);
 
 			FatalErrorPageFactory factory = Factory.newInstance(FatalErrorPageFactory.class);
 			WComponent errorPage = factory.createErrorPage(friendly, ex);

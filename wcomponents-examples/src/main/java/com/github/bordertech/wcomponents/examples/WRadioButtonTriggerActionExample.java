@@ -1,7 +1,5 @@
 package com.github.bordertech.wcomponents.examples;
 
-import java.util.Date;
-
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.RadioButtonGroup;
@@ -13,12 +11,13 @@ import com.github.bordertech.wcomponents.WRadioButton;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.layout.FlowLayout;
 import com.github.bordertech.wcomponents.layout.FlowLayout.Alignment;
+import java.util.Date;
 
 /**
  *
- * This example demonstrates how an {@link Action} can be associated with a
- * {@link RadioButtonGroup}. The action is executed when a radio button selection within the group
- * changes. Use {@link RadioButtonGroup#setActionOnChange(Action)} to add the action to the group.
+ * This example demonstrates how an {@link Action} can be associated with a {@link RadioButtonGroup}. The action is
+ * executed when a radio button selection within the group changes. Use
+ * {@link RadioButtonGroup#setActionOnChange(Action)} to add the action to the group.
  *
  * @author Christina Harris
  * @since 1/04/2008

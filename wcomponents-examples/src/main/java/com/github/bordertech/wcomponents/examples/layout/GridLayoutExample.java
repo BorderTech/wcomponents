@@ -25,7 +25,8 @@ public class GridLayoutExample extends WContainer {
 	public GridLayoutExample() {
 		final int maxCols = 12;
 
-		WText text = new WText("<p>The number of rows/colums are specified as the <em>maximum</em> number of rows/columns. "
+		WText text = new WText(
+				"<p>The number of rows/colums are specified as the <em>maximum</em> number of rows/columns. "
 				+ "If there are not enough components to fill up the grid, you will end up with 'empty' cells.</p>");
 
 		text.setEncodeText(false);
@@ -44,7 +45,8 @@ public class GridLayoutExample extends WContainer {
 		simplePanel.add(textLabel);
 		simplePanel.add(textField);
 
-		simplePanel.add(new WText("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed malesuada orci non diam dictum iaculis. "
+		simplePanel.add(new WText(
+				"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed malesuada orci non diam dictum iaculis. "
 				+ "Curabitur nunc lectus, malesuada sit amet semper sed, facilisis sed erat. Curabitur in ipsum lacus. Quisque dictum "
 				+ "rhoncus mauris eget pellentesque. Mauris vel quam non magna pellentesque gravida. Mauris a placerat risus. Integer "
 				+ "egestas orci orci, et tristique neque bibendum eu. In in pellentesque urna. Etiam ultrices id nunc ut tristique. "

@@ -7,8 +7,8 @@ import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WTextField;
 
 /**
- * This example demonstrates the use of the "forward" feature. Enter a URL in the entry field and
- * then press the Forward button to go to that url.
+ * This example demonstrates the use of the "forward" feature. Enter a URL in the entry field and then press the Forward
+ * button to go to that url.
  *
  * @author Martin Shevchenko
  * @since 14/02/2008

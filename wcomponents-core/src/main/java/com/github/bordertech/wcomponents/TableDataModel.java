@@ -4,17 +4,16 @@ import java.util.List;
 
 /**
  * <p>
- * TableDataModel provides the data for tables. In a MVC sense, the TableDataModel is the Model, the
- * {@link WDataTable} is the controller and the view is comprised of the WDataTable layout and
- * column renderers.</p>
+ * TableDataModel provides the data for tables. In a MVC sense, the TableDataModel is the Model, the {@link WDataTable}
+ * is the controller and the view is comprised of the WDataTable layout and column renderers.</p>
  *
  * <p>
- * Note that Data may be stored locally or sourced remotely, depending on the particular
- * TableDataModel implementation.<p>
+ * Note that Data may be stored locally or sourced remotely, depending on the particular TableDataModel
+ * implementation.<p>
  *
  * <p>
- * Row and column indices for all methods are zero-based, and TableDataModels are not expected to
- * perform bounds-checking.</p>
+ * Row and column indices for all methods are zero-based, and TableDataModels are not expected to perform
+ * bounds-checking.</p>
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -70,20 +69,19 @@ public interface TableDataModel {
 	 * <ol>
 	 * <li>
 	 * <p>
-	 * If the data is accessible locally by the data model (ie. a sort won't result in a service
-	 * call to obtain sorted data), then this method should not sort the actual data, but return a
-	 * row-index mapping which the table will use to access the data. Row selection and expansion
-	 * will be updated to use the new row indices.</p>
+	 * If the data is accessible locally by the data model (ie. a sort won't result in a service call to obtain sorted
+	 * data), then this method should not sort the actual data, but return a row-index mapping which the table will use
+	 * to access the data. Row selection and expansion will be updated to use the new row indices.</p>
 	 *
 	 * <p>
-	 * For example, if the data for the column is {"a", "b", "d", "c"}, then an ascending sort
-	 * should return {0, 1, 3, 2}, and a descending sort {2, 3, 1, 0}.</p>
+	 * For example, if the data for the column is {"a", "b", "d", "c"}, then an ascending sort should return {0, 1, 3,
+	 * 2}, and a descending sort {2, 3, 1, 0}.</p>
 	 * </li>
 	 * <li>
 	 * <p>
-	 * If the data is not accessible locally by the data model, or the model is otherwise unable to
-	 * perform a mapping between old and new row indices, then the model should sort the actual
-	 * data, and return null. In this case, the table will reset any row selection or expansion.</p>
+	 * If the data is not accessible locally by the data model, or the model is otherwise unable to perform a mapping
+	 * between old and new row indices, then the model should sort the actual data, and return null. In this case, the
+	 * table will reset any row selection or expansion.</p>
 	 * </li>
 	 * </ol>
 	 *

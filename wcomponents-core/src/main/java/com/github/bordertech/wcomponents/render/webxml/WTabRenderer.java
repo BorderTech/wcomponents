@@ -56,7 +56,8 @@ final class WTabRenderer extends AbstractWebXmlRenderer {
 		}
 
 		if (tab.getAccessKey() != 0) {
-			xml.appendAttribute("accessKey", String.valueOf(Character.toUpperCase(tab.getAccessKey())));
+			xml.appendAttribute("accessKey", String.valueOf(Character.
+					toUpperCase(tab.getAccessKey())));
 		}
 
 		xml.appendClose();
@@ -72,7 +73,8 @@ final class WTabRenderer extends AbstractWebXmlRenderer {
 		xml.appendClose();
 
 		// Render content if not EAGER Mode or is EAGER and is the current AJAX trigger
-		if (content != null && (TabMode.EAGER != tab.getMode() || AjaxHelper.isCurrentAjaxTrigger(tab))) {
+		if (content != null && (TabMode.EAGER != tab.getMode() || AjaxHelper.isCurrentAjaxTrigger(
+				tab))) {
 			// Visibility of content set in prepare paint
 			content.paint(renderContext);
 		}

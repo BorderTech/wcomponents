@@ -55,14 +55,13 @@ public final class Util {
 	}
 
 	/**
-	 * Compares two comparable objects where either may be null. Null is regarded as the smallest
-	 * value, and 2 nulls are considered equal.
+	 * Compares two comparable objects where either may be null. Null is regarded as the smallest value, and 2 nulls are
+	 * considered equal.
 	 *
 	 * @param c1 the first comparable
 	 * @param c2 the second comparable
 	 *
-	 * @return a negative integer, zero, or a positive integer if c1 is less than, equal to, or
-	 * greater than the c2.
+	 * @return a negative integer, zero, or a positive integer if c1 is less than, equal to, or greater than the c2.
 	 */
 	public static int compareAllowNull(final Comparable c1, final Comparable c2) {
 		if (c1 == null && c2 == null) {

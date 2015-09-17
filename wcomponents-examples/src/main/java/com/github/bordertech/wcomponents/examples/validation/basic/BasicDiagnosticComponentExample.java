@@ -14,13 +14,13 @@ import java.util.List;
 
 /**
  * <p>
- * An example of the {@link WDiagnosticImpl} class. This type of diagnostic provides a
- * {@link WComponent} that represents the message. The {@link WValidationErrors} component renderes
- * the {@link WComponent} in place of the description (old behaviour).</p>
+ * An example of the {@link WDiagnosticImpl} class. This type of diagnostic provides a {@link WComponent} that
+ * represents the message. The {@link WValidationErrors} component renderes the {@link WComponent} in place of the
+ * description (old behaviour).</p>
  *
  * <p>
- * The example diagnostic in this example ({@link LinkDiagnosticImpl}) creates an error message that
- * contains a link that clears the input feilds of the form.</p>
+ * The example diagnostic in this example ({@link LinkDiagnosticImpl}) creates an error message that contains a link
+ * that clears the input feilds of the form.</p>
  *
  * @author Christina Harris
  * @since 1.0.0
@@ -55,7 +55,8 @@ public class BasicDiagnosticComponentExample extends ValidationContainer {
 			inputText1.setMandatory(true);
 			layout.addField("Unique Input 1", inputText1).getLabel().setHint("required");
 			inputText2.setMandatory(true);
-			layout.addField("Unique Input 2", inputText2).getLabel().setHint("required and must be different from unique input 1");
+			layout.addField("Unique Input 2", inputText2).getLabel().setHint(
+					"required and must be different from unique input 1");
 			add(layout);
 		}
 
@@ -91,8 +92,7 @@ public class BasicDiagnosticComponentExample extends ValidationContainer {
 		/**
 		 * Creates a LinkDiagnosticImpl.
 		 *
-		 * @param sourceField the field that is the source of the diagnostic, or null if there is no
-		 * appropriate field
+		 * @param sourceField the field that is the source of the diagnostic, or null if there is no appropriate field
 		 * @param description the description (message) of the diagnostic
 		 * @param severity one of Diagnostic.INFO, Diagnostic.WARNING or Diagnostic.ERROR
 		 */

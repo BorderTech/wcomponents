@@ -38,7 +38,8 @@ public class WCheckBoxSelectRenderer_Test extends AbstractWebXmlRendererTestCase
 		setActiveContext(createUIContext());
 		wcbTest.setSelected(Arrays.asList(new String[]{"b"}));
 		assertSchemaMatch(wcbTest);
-		assertXpathEvaluatesTo("1", "count(//ui:checkBoxSelect/ui:option[@selected='true'])", wcbTest);
+		assertXpathEvaluatesTo("1", "count(//ui:checkBoxSelect/ui:option[@selected='true'])",
+				wcbTest);
 		assertXpathEvaluatesTo("b", "//ui:checkBoxSelect/ui:option[@selected='true']", wcbTest);
 
 		// Check Readonly - only render selected option
@@ -46,7 +47,8 @@ public class WCheckBoxSelectRenderer_Test extends AbstractWebXmlRendererTestCase
 		assertSchemaMatch(wcbTest);
 		assertXpathEvaluatesTo("true", "//ui:checkBoxSelect/@readOnly", wcbTest);
 		assertXpathEvaluatesTo("1", "count(//ui:checkBoxSelect/ui:option)", wcbTest);
-		assertXpathEvaluatesTo("1", "count(//ui:checkBoxSelect/ui:option[@selected='true'])", wcbTest);
+		assertXpathEvaluatesTo("1", "count(//ui:checkBoxSelect/ui:option[@selected='true'])",
+				wcbTest);
 		assertXpathEvaluatesTo("b", "//ui:checkBoxSelect/ui:option[@selected='true']", wcbTest);
 	}
 
@@ -105,8 +107,9 @@ public class WCheckBoxSelectRenderer_Test extends AbstractWebXmlRendererTestCase
 
 	@Test
 	public void testXssEscaping() throws IOException, SAXException, XpathException {
-		WCheckBoxSelect wcb = new WCheckBoxSelect(Arrays.asList(new Object[]{getInvalidCharSequence(),
-			getMaliciousContent()}));
+		WCheckBoxSelect wcb = new WCheckBoxSelect(Arrays.asList(
+				new Object[]{getInvalidCharSequence(),
+					getMaliciousContent()}));
 
 		assertSafeContent(wcb);
 

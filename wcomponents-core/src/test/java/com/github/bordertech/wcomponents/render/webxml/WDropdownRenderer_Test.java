@@ -25,7 +25,8 @@ public class WDropdownRenderer_Test extends AbstractWebXmlRendererTestCase {
 	@Test
 	public void testRendererCorrectlyConfigured() {
 		WDropdown component = new WDropdown();
-		Assert.assertTrue("Incorrect renderer supplied", getWebXmlRenderer(component) instanceof WDropdownRenderer);
+		Assert.assertTrue("Incorrect renderer supplied",
+				getWebXmlRenderer(component) instanceof WDropdownRenderer);
 	}
 
 	@Test
@@ -179,7 +180,8 @@ public class WDropdownRenderer_Test extends AbstractWebXmlRendererTestCase {
 			} else {
 				option = options[i];
 			}
-			assertXpathEvaluatesTo(option, "//ui:dropdown/ui:option[@value='" + code + "']/text()", drop);
+			assertXpathEvaluatesTo(option, "//ui:dropdown/ui:option[@value='" + code + "']/text()",
+					drop);
 		}
 	}
 
@@ -197,11 +199,15 @@ public class WDropdownRenderer_Test extends AbstractWebXmlRendererTestCase {
 			String code = drop.optionToCode(options[i]);
 			String option = options[i];
 			if (option == null || option.equals("")) {
-				assertXpathEvaluatesTo("", "//ui:dropdown/ui:option[@value='" + code + "']/text()", drop);
-				assertXpathEvaluatesTo("true", "//ui:dropdown/ui:option[@value='" + code + "']/@isNull", drop);
+				assertXpathEvaluatesTo("", "//ui:dropdown/ui:option[@value='" + code + "']/text()",
+						drop);
+				assertXpathEvaluatesTo("true",
+						"//ui:dropdown/ui:option[@value='" + code + "']/@isNull", drop);
 			} else {
-				assertXpathEvaluatesTo(option, "//ui:dropdown/ui:option[@value='" + code + "']/text()", drop);
-				assertXpathEvaluatesTo("", "//ui:dropdown/ui:option[@value='" + code + "']/@isNull", drop);
+				assertXpathEvaluatesTo(option,
+						"//ui:dropdown/ui:option[@value='" + code + "']/text()", drop);
+				assertXpathEvaluatesTo("", "//ui:dropdown/ui:option[@value='" + code + "']/@isNull",
+						drop);
 			}
 		}
 	}
@@ -241,7 +247,8 @@ public class WDropdownRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 	@Test
 	public void testOptionGroups() throws IOException, SAXException, XpathException {
-		OptionGroup optionGroup = new OptionGroup("B", Arrays.asList(new String[]{"B.1", "B.2", "B.3", "B.4"}));
+		OptionGroup optionGroup = new OptionGroup("B", Arrays.asList(
+				new String[]{"B.1", "B.2", "B.3", "B.4"}));
 		Object[] options = new Object[]{"A", optionGroup, "C"};
 
 		WDropdown drop = new WDropdown(options);
@@ -252,10 +259,14 @@ public class WDropdownRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		// Check grouped options
 		assertXpathEvaluatesTo(optionGroup.getDesc(), "//ui:dropdown/ui:optgroup/@label", drop);
-		assertXpathEvaluatesTo((String) optionGroup.getOptions().get(0), "//ui:dropdown/ui:optgroup/ui:option[1]", drop);
-		assertXpathEvaluatesTo((String) optionGroup.getOptions().get(1), "//ui:dropdown/ui:optgroup/ui:option[2]", drop);
-		assertXpathEvaluatesTo((String) optionGroup.getOptions().get(2), "//ui:dropdown/ui:optgroup/ui:option[3]", drop);
-		assertXpathEvaluatesTo((String) optionGroup.getOptions().get(3), "//ui:dropdown/ui:optgroup/ui:option[4]", drop);
+		assertXpathEvaluatesTo((String) optionGroup.getOptions().get(0),
+				"//ui:dropdown/ui:optgroup/ui:option[1]", drop);
+		assertXpathEvaluatesTo((String) optionGroup.getOptions().get(1),
+				"//ui:dropdown/ui:optgroup/ui:option[2]", drop);
+		assertXpathEvaluatesTo((String) optionGroup.getOptions().get(2),
+				"//ui:dropdown/ui:optgroup/ui:option[3]", drop);
+		assertXpathEvaluatesTo((String) optionGroup.getOptions().get(3),
+				"//ui:dropdown/ui:optgroup/ui:option[4]", drop);
 
 		// Check values
 		assertXpathEvaluatesTo("1", "//ui:dropdown/ui:option[1]/@value", drop);
@@ -268,13 +279,16 @@ public class WDropdownRenderer_Test extends AbstractWebXmlRendererTestCase {
 		// Check selection
 		drop.setSelected("B.3");
 		assertXpathEvaluatesTo("1", "count(//ui:option[@selected='true'])", drop);
-		assertXpathExists("//ui:dropdown/ui:optgroup/ui:option[text()='B.3'][@selected='true']", drop);
+		assertXpathExists("//ui:dropdown/ui:optgroup/ui:option[text()='B.3'][@selected='true']",
+				drop);
 	}
 
 	@Test
 	public void testXssEscaping() throws IOException, SAXException, XpathException {
-		OptionGroup optionGroup = new OptionGroup(getMaliciousAttribute("ui:optgroup"), Arrays.asList(new String[]{"dummy"}));
-		WDropdown drop = new WDropdown(Arrays.asList(new Object[]{getInvalidCharSequence(), getMaliciousContent(), optionGroup}));
+		OptionGroup optionGroup = new OptionGroup(getMaliciousAttribute("ui:optgroup"), Arrays.
+				asList(new String[]{"dummy"}));
+		WDropdown drop = new WDropdown(Arrays.asList(
+				new Object[]{getInvalidCharSequence(), getMaliciousContent(), optionGroup}));
 
 		assertSafeContent(drop);
 

@@ -34,8 +34,8 @@ import java.util.List;
  *
  *
  * @author Mark Reeves
- * @since 1.0.0 Added many examples and reordered the examples so that the preferred mechanism for
- * opening a dialog is the primary example.
+ * @since 1.0.0 Added many examples and reordered the examples so that the preferred mechanism for opening a dialog is
+ * the primary example.
  */
 public class WDialogExample extends WPanel implements MessageContainer {
 
@@ -45,15 +45,15 @@ public class WDialogExample extends WPanel implements MessageContainer {
 	private final WMessages messages = new WMessages();
 
 	/**
-	 * This text is used for automated testing ONLY. It is used to test for a specific piece of
-	 * content in a modal dialog to show that the dialog has opened. It is not necessary for the
-	 * functioning of the example dialogs that this text be specified.
+	 * This text is used for automated testing ONLY. It is used to test for a specific piece of content in a modal
+	 * dialog to show that the dialog has opened. It is not necessary for the functioning of the example dialogs that
+	 * this text be specified.
 	 */
 	private static final String MODAL_TEXT = "Modal dialog example";
 	/**
-	 * This text is used for automated testing ONLY. It is used to test for a specific piece of
-	 * content in a modal dialog to show that the dialog has opened. It is not necessary for the
-	 * functioning of the example dialogs that this text be specified.
+	 * This text is used for automated testing ONLY. It is used to test for a specific piece of content in a modal
+	 * dialog to show that the dialog has opened. It is not necessary for the functioning of the example dialogs that
+	 * this text be specified.
 	 */
 	private static final String NON_MODAL_TEXT = "Non-modal dialog example";
 
@@ -87,7 +87,8 @@ public class WDialogExample extends WPanel implements MessageContainer {
 		 * part of the call for content in an immediately opening dialog as
 		 * this was not done in early versions of WComponents.
 		 */
-		final WButton dialogOpeningButton = new WButton("Immediate (non-modal) dialog with button action");
+		final WButton dialogOpeningButton = new WButton(
+				"Immediate (non-modal) dialog with button action");
 		final ViewPersonList defList = new ViewPersonList();
 		defList.addTerm("Dialog opened by", new WText(dialogOpeningButton.getText()));
 		nonModalDialog = new WDialog(defList, dialogOpeningButton);
@@ -122,7 +123,8 @@ public class WDialogExample extends WPanel implements MessageContainer {
 		selectPanel2.setSelectAction(new Action() {
 			@Override
 			public void execute(final ActionEvent event) {
-				WMessages.getInstance(WDialogExample.this).info("Selected: " + selectPanel2.getSelected());
+				WMessages.getInstance(WDialogExample.this).info("Selected: " + selectPanel2.
+						getSelected());
 				//reset the dialog after use.
 				modalDialog.reset();
 			}
@@ -143,7 +145,8 @@ public class WDialogExample extends WPanel implements MessageContainer {
 		selectPanel.setSelectAction(new Action() {
 			@Override
 			public void execute(final ActionEvent event) {
-				WMessages.getInstance(WDialogExample.this).info("Selected: " + selectPanel.getSelected());
+				WMessages.getInstance(WDialogExample.this).info("Selected: " + selectPanel.
+						getSelected());
 			}
 		});
 		// Modal Dialog which opens after round trip to server
@@ -190,7 +193,8 @@ public class WDialogExample extends WPanel implements MessageContainer {
 		 * If not set explicitly, the title of a dialog is determined by the UI theme.
 		 * ALL dialogs must have a title, you probably DO NOT WANT the theme default!
 		 */
-		final WDialog dialogWithTitle = new WDialog(new ViewPersonList(), new WButton("Show dialog with specified title"));
+		final WDialog dialogWithTitle = new WDialog(new ViewPersonList(), new WButton(
+				"Show dialog with specified title"));
 		dialogWithTitle.setTitle("List of people");
 		/*
 		 * NOT RESIZEABLE
@@ -198,29 +202,34 @@ public class WDialogExample extends WPanel implements MessageContainer {
 		 * disabled: you usually don't want to do this as it may cause usability
 		 * problems.
 		 */
-		final WDialog fixedSizeDialog = new WDialog(new ViewPersonList(), new WButton("Show dialog which is not resizeable"));
+		final WDialog fixedSizeDialog = new WDialog(new ViewPersonList(), new WButton(
+				"Show dialog which is not resizeable"));
 		fixedSizeDialog.setResizable(false);
 		/*
 		 * SET THE WIDTH of a dialog
 		 * If not set explicitly, the initial width of a dialog is determined by the UI theme.
 		 */
-		final WDialog dialogWithWidth = new WDialog(new ViewPersonList(), new WButton("Show dialog with specified width (300px)"));
+		final WDialog dialogWithWidth = new WDialog(new ViewPersonList(), new WButton(
+				"Show dialog with specified width (300px)"));
 		dialogWithWidth.setWidth(300);
 		/*
 		 * SET THE HEIGHT of a dialog
 		 * If not set explicitly, the initial width of a dialog is determined by the UI theme.
 		 */
-		final WDialog dialogWithHeight = new WDialog(new ViewPersonList(), new WButton("Show dialog with specified height (50px)"));
+		final WDialog dialogWithHeight = new WDialog(new ViewPersonList(), new WButton(
+				"Show dialog with specified height (50px)"));
 		dialogWithHeight.setHeight(50);
 		/*
 		 * Make Modal
 		 * If not set explicitly, the initial width of a dialog is determined by the UI theme.
 		 */
-		final WDialog dialogWithMode = new WDialog(new ViewPersonList(), new WButton("Show dialog with mode set to MODAL"));
+		final WDialog dialogWithMode = new WDialog(new ViewPersonList(), new WButton(
+				"Show dialog with mode set to MODAL"));
 		dialogWithMode.setMode(WDialog.MODAL);
 
 		// Layout
-		add(new WHeading(WHeading.MAJOR, "Dialogs which display use of various properties one at a time"));
+		add(new WHeading(WHeading.MAJOR,
+				"Dialogs which display use of various properties one at a time"));
 		add(dialogWithTitle);
 		add(fixedSizeDialog);
 		add(dialogWithWidth);
@@ -244,7 +253,8 @@ public class WDialogExample extends WPanel implements MessageContainer {
 		add(modalDialogRT);
 		add(nonModalDialogRT);
 
-		WDialog fileUploadDialog = new WDialog(new WMultiFileWidgetAjaxExample(), new WButton("Upload"));
+		WDialog fileUploadDialog = new WDialog(new WMultiFileWidgetAjaxExample(), new WButton(
+				"Upload"));
 		fileUploadDialog.setMode(WDialog.MODAL);
 		fileUploadDialog.setWidth(600);
 		add(fileUploadDialog);
@@ -278,8 +288,8 @@ public class WDialogExample extends WPanel implements MessageContainer {
 		}
 
 		/**
-		 * Override preparePaintComponent in order to set some content which varies according to the
-		 * modality of the containing dialog.
+		 * Override preparePaintComponent in order to set some content which varies according to the modality of the
+		 * containing dialog.
 		 *
 		 * @param request the request being responded to.
 		 */
@@ -287,7 +297,8 @@ public class WDialogExample extends WPanel implements MessageContainer {
 		protected void preparePaintComponent(final Request request) {
 			removeTerm(MODE_FLAG_TERM_TEXT);
 			WDialog dialog = (WDialog) WebUtilities.getAncestorOfClass(WDialog.class, this);
-			addTerm(MODE_FLAG_TERM_TEXT, new WText(((dialog == null || dialog.getMode() == WDialog.MODELESS) ? NON_MODAL_TEXT : MODAL_TEXT)));
+			addTerm(MODE_FLAG_TERM_TEXT, new WText(
+					((dialog == null || dialog.getMode() == WDialog.MODELESS) ? NON_MODAL_TEXT : MODAL_TEXT)));
 		}
 	}
 
@@ -296,12 +307,12 @@ public class WDialogExample extends WPanel implements MessageContainer {
 	 * An example panel which is used to search/select a person.</p>
 	 *
 	 * <p>
-	 * This demonstrates "conversational" dialog content, where AJAX is used to update components
-	 * within the dialog, and the dialog has validation to ensure the entered data is valid.</p>
+	 * This demonstrates "conversational" dialog content, where AJAX is used to update components within the dialog, and
+	 * the dialog has validation to ensure the entered data is valid.</p>
 	 *
 	 * <p>
-	 * This also demonstrates the use of a "chained" action, where another action is invoked from
-	 * the executeOnValid part of a validating action.</p>
+	 * This also demonstrates the use of a "chained" action, where another action is invoked from the executeOnValid
+	 * part of a validating action.</p>
 	 */
 	private static final class SelectPersonPanel extends WPanel implements MessageContainer {
 
@@ -347,7 +358,8 @@ public class WDialogExample extends WPanel implements MessageContainer {
 
 			searchButton.setAjaxTarget(this);
 
-			searchButton.setAction(new ValidatingAction(WMessages.getInstance(searchFS).getValidationErrors(), searchFS) {
+			searchButton.setAction(new ValidatingAction(WMessages.getInstance(searchFS).
+					getValidationErrors(), searchFS) {
 				@Override
 				public void executeOnValid(final ActionEvent event) {
 					String[] data = new String[]{
@@ -367,12 +379,14 @@ public class WDialogExample extends WPanel implements MessageContainer {
 			cancelButton.setAction(new Action() {
 				@Override
 				public void execute(final ActionEvent event) {
-					WDialog dialog = (WDialog) WebUtilities.getAncestorOfClass(WDialog.class, cancelButton);
+					WDialog dialog = (WDialog) WebUtilities.getAncestorOfClass(WDialog.class,
+							cancelButton);
 					dialog.reset();
 				}
 			});
 
-			selectButton.setAction(new ValidatingAction(WMessages.getInstance(selectButton).getValidationErrors(), rbSelect) {
+			selectButton.setAction(new ValidatingAction(WMessages.getInstance(selectButton).
+					getValidationErrors(), rbSelect) {
 				/**
 				 * If validation passes, invoke the backing action.
 				 *
@@ -384,8 +398,7 @@ public class WDialogExample extends WPanel implements MessageContainer {
 				}
 
 				/**
-				 * Since the dialog is closed on a round-trip, we need to override executeOnError to
-				 * re-show the dialog.
+				 * Since the dialog is closed on a round-trip, we need to override executeOnError to re-show the dialog.
 				 *
 				 * @param event the event which triggered validation.
 				 * @param diags the list of validation errors.
@@ -394,7 +407,8 @@ public class WDialogExample extends WPanel implements MessageContainer {
 				public void executeOnError(final ActionEvent event, final List<Diagnostic> diags) {
 					super.executeOnError(event, diags);
 
-					WDialog dialog = (WDialog) WebUtilities.getAncestorOfClass(WDialog.class, selectButton);
+					WDialog dialog = (WDialog) WebUtilities.getAncestorOfClass(WDialog.class,
+							selectButton);
 					dialog.display();
 				}
 			});
@@ -495,8 +509,7 @@ public class WDialogExample extends WPanel implements MessageContainer {
 	}
 
 	/**
-	 * Get the modal dialog marker text. This is used for automated testing only and is not part of
-	 * the example.
+	 * Get the modal dialog marker text. This is used for automated testing only and is not part of the example.
 	 *
 	 * @return the modal marker text
 	 */
@@ -505,8 +518,7 @@ public class WDialogExample extends WPanel implements MessageContainer {
 	}
 
 	/**
-	 * Get the non-modal dialog marker text. This is used for automated testing only and is not part
-	 * of the example.
+	 * Get the non-modal dialog marker text. This is used for automated testing only and is not part of the example.
 	 *
 	 * @return the non-modal marker text
 	 */
@@ -515,8 +527,7 @@ public class WDialogExample extends WPanel implements MessageContainer {
 	}
 
 	/**
-	 * Gets a button which opens a modal dialog. Used for automated testing only: not part of the
-	 * example.
+	 * Gets a button which opens a modal dialog. Used for automated testing only: not part of the example.
 	 *
 	 * @return a modal dialog launch button;
 	 */

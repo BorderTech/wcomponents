@@ -121,7 +121,8 @@ public class LinkOptionsExample extends WPanel {
 
 		layout.addField("Link text", tfLinkLabel);
 		layout.addField("Link address", tfUrlField);
-		layout.addField("Link AccessKey", tfAccesskey).getLabel().setHint("A single upper case letter or digit.");
+		layout.addField("Link AccessKey", tfAccesskey).getLabel().setHint(
+				"A single upper case letter or digit.");
 		layout.addField("Render as button", cbRenderAsButton);
 		layout.addField("Disabled", cbDisabled);
 		layout.addField("Open in a new window", cbOpenNew);
@@ -153,9 +154,9 @@ public class LinkOptionsExample extends WPanel {
 	}
 
 	/**
-	 * this is were the majority of the work is done for building the link. Note that it is in a
-	 * container that is reset, effectively creating a new link. this is only done to enable to
-	 * dynamically change the link to a button and back.
+	 * this is were the majority of the work is done for building the link. Note that it is in a container that is
+	 * reset, effectively creating a new link. this is only done to enable to dynamically change the link to a button
+	 * and back.
 	 */
 	private void applySettings() {
 		linkContainer.reset();

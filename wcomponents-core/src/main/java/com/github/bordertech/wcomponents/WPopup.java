@@ -1,9 +1,8 @@
 package com.github.bordertech.wcomponents;
 
 /**
- * This component enables a pop up browser window to an arbitrary location. Pop-ups are initially
- * invisible, to display a pop-up, call {@link #setVisible(boolean)}. This will set the pop-up
- * visible for the render cycle only.
+ * This component enables a pop up browser window to an arbitrary location. Pop-ups are initially invisible, to display
+ * a pop-up, call {@link #setVisible(boolean)}. This will set the pop-up visible for the render cycle only.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0

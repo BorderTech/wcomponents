@@ -32,7 +32,8 @@ public class CartPanel_Test {
 		Assert.assertTrue("first child is a WDataTable", comp instanceof WDataTable);
 		WDataTable table = (WDataTable) comp;
 
-		Assert.assertEquals("list of cartbeans should be empty - nothing in cart", 0, table.getDataModel().getRowCount());
+		Assert.assertEquals("list of cartbeans should be empty - nothing in cart", 0, table.
+				getDataModel().getRowCount());
 	}
 
 	@After

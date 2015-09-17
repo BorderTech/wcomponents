@@ -118,7 +118,8 @@ final class WSubordinateControlRenderer extends AbstractWebXmlRenderer {
 	 * @param elementName the enclosing element name ("ui:onFalse" or "ui:onTrue").
 	 * @param xml the writer to send the output to
 	 */
-	private void paintAction(final Action action, final String elementName, final XmlStringBuilder xml) {
+	private void paintAction(final Action action, final String elementName,
+			final XmlStringBuilder xml) {
 		switch (action.getActionType()) {
 			case SHOW:
 			case HIDE:
@@ -148,7 +149,8 @@ final class WSubordinateControlRenderer extends AbstractWebXmlRenderer {
 	 * @param elementName the enclosing element name ("ui:onFalse" or "ui:onTrue").
 	 * @param xml the output response
 	 */
-	private void paintStandardAction(final Action action, final String elementName, final XmlStringBuilder xml) {
+	private void paintStandardAction(final Action action, final String elementName,
+			final XmlStringBuilder xml) {
 		xml.appendTagOpen(elementName);
 		xml.appendAttribute("action", getActionTypeName(action.getActionType()));
 		xml.appendClose();
@@ -172,7 +174,8 @@ final class WSubordinateControlRenderer extends AbstractWebXmlRenderer {
 	 * @param elementName the enclosing element name ("ui:onFalse" or "ui:onTrue").
 	 * @param xml the output response
 	 */
-	private void paintInGroupAction(final Action action, final String elementName, final XmlStringBuilder xml) {
+	private void paintInGroupAction(final Action action, final String elementName,
+			final XmlStringBuilder xml) {
 		xml.appendTagOpen(elementName);
 		xml.appendAttribute("action", getActionTypeName(action.getActionType()));
 		xml.appendClose();

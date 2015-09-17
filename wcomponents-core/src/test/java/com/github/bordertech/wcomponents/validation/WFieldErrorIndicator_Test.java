@@ -21,11 +21,13 @@ public class WFieldErrorIndicator_Test extends AbstractWComponentTestCase {
 		WTextField component = new WTextField();
 		WFieldErrorIndicator indicator = new WFieldErrorIndicator(component);
 
-		Assert.assertEquals("Incorrect indicator type", AbstractWFieldIndicator.FieldIndicatorType.ERROR, indicator
+		Assert.assertEquals("Incorrect indicator type",
+				AbstractWFieldIndicator.FieldIndicatorType.ERROR, indicator
 				.getFieldIndicatorType());
 		Assert.assertEquals("Incorrect releated field", component, indicator.getRelatedField());
 
-		Assert.assertEquals("Incorrect releated field id", component.getId(), indicator.getRelatedFieldId());
+		Assert.assertEquals("Incorrect releated field id", component.getId(), indicator.
+				getRelatedFieldId());
 	}
 
 	@Test
@@ -53,7 +55,8 @@ public class WFieldErrorIndicator_Test extends AbstractWComponentTestCase {
 		root.validate(diags);
 		root.showErrorIndicators(diags);
 
-		Assert.assertFalse("Should not be in default if there are errors", indicator.isDefaultState());
+		Assert.assertFalse("Should not be in default if there are errors", indicator.
+				isDefaultState());
 
 		root.reset();
 		Assert.assertTrue("Should be in default after reset", indicator.isDefaultState());

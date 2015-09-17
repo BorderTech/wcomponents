@@ -34,7 +34,8 @@ final class WTabSetRenderer extends AbstractWebXmlRenderer {
 		xml.appendOptionalAttribute("hidden", tabSet.isHidden(), "true");
 		xml.appendOptionalAttribute("contentHeight", tabSet.getContentHeight());
 		xml.appendOptionalAttribute("showHeadOnly", tabSet.isShowHeadOnly(), "true");
-		xml.appendOptionalAttribute("single", TabSetType.ACCORDION.equals(tabSet.getType()) && tabSet.isSingle(),
+		xml.appendOptionalAttribute("single",
+				TabSetType.ACCORDION.equals(tabSet.getType()) && tabSet.isSingle(),
 				"true");
 		xml.appendClose();
 

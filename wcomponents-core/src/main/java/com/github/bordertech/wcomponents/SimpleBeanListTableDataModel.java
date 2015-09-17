@@ -11,9 +11,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * A simple table data model, that takes in a list of beans and bean properties in its constructor.
- * Note that use of this data model is discouraged, as the table data will be stored in the user's
- * session.
+ * A simple table data model, that takes in a list of beans and bean properties in its constructor. Note that use of
+ * this data model is discouraged, as the table data will be stored in the user's session.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -26,8 +25,7 @@ public class SimpleBeanListTableDataModel extends AbstractTableDataModel {
 	private static final Log LOG = LogFactory.getLog(SimpleBeanListTableDataModel.class);
 
 	/**
-	 * A simple comparator that compares comparables, for use in sorting e.g. columns containing
-	 * Strings.
+	 * A simple comparator that compares comparables, for use in sorting e.g. columns containing Strings.
 	 */
 	public static final ComparableComparator COMPARABLE_COMPARATOR = new ComparableComparator();
 
@@ -57,7 +55,8 @@ public class SimpleBeanListTableDataModel extends AbstractTableDataModel {
 	 * @param properties the bean properties for each column.
 	 * @param data the table data, one bean per row.
 	 */
-	public SimpleBeanListTableDataModel(final String[] properties, final List<? extends Serializable> data) {
+	public SimpleBeanListTableDataModel(final String[] properties,
+			final List<? extends Serializable> data) {
 		this(properties, data.toArray(new Serializable[data.size()]));
 	}
 
@@ -132,8 +131,8 @@ public class SimpleBeanListTableDataModel extends AbstractTableDataModel {
 	}
 
 	/**
-	 * Indicates whether the given cell is editable. This model only supports editability at a
-	 * global level. See {@link #setEditable(boolean)}.
+	 * Indicates whether the given cell is editable. This model only supports editability at a global level. See
+	 * {@link #setEditable(boolean)}.
 	 *
 	 * @param row ignored.
 	 * @param col ignored.

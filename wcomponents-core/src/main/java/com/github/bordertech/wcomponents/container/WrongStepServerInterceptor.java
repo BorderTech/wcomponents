@@ -12,14 +12,13 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * This wrong step interceptor prevents an old request being processed that might have been
- * submitted by a user using multiple windows.
+ * This wrong step interceptor prevents an old request being processed that might have been submitted by a user using
+ * multiple windows.
  * <p>
- * If a step error occurs, then the user, depending on the redirect flag, is either (1) redirected
- * to an error page or (2) warped to the future by the application being rendered in its current
- * state. When the user is warped to the future, the handleStepError method is called on
- * WApplication, which allows applications to take the appropriate action for when a step error has
- * occurred.
+ * If a step error occurs, then the user, depending on the redirect flag, is either (1) redirected to an error page or
+ * (2) warped to the future by the application being rendered in its current state. When the user is warped to the
+ * future, the handleStepError method is called on WApplication, which allows applications to take the appropriate
+ * action for when a step error has occurred.
  * </p>
  *
  * @author Jonathan Austin
@@ -48,11 +47,13 @@ public class WrongStepServerInterceptor extends InterceptorComponent {
 
 		// Match (first time, both are zero)
 		// or no Step count and processing a GET
-		if (expected == got || (!StepCountUtil.isStepOnRequest(request) && "GET".equals(request.getMethod()))) {
+		if (expected == got || (!StepCountUtil.isStepOnRequest(request) && "GET".equals(request.
+				getMethod()))) {
 			// Process Service Request
 			getBackingComponent().serviceRequest(request);
 		} else { // Invalid step
-			LOG.warn("SERVER: Wrong step detected. Expected step " + expected + " but got step " + got);
+			LOG.warn(
+					"SERVER: Wrong step detected. Expected step " + expected + " but got step " + got);
 
 			// Redirect to error page
 			if (StepCountUtil.isErrorRedirect()) {

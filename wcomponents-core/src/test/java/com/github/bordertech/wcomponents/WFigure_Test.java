@@ -42,11 +42,13 @@ public class WFigure_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testModeAccessors() {
-		assertAccessorsCorrect(new WFigure(new WText(), ""), "mode", null, FigureMode.EAGER, FigureMode.LAZY);
+		assertAccessorsCorrect(new WFigure(new WText(), ""), "mode", null, FigureMode.EAGER,
+				FigureMode.LAZY);
 	}
 
 	@Test
 	public void testMarginAccessors() {
-		assertAccessorsCorrect(new WFigure(new WText(), ""), "margin", null, new Margin(1), new Margin(2));
+		assertAccessorsCorrect(new WFigure(new WText(), ""), "margin", null, new Margin(1),
+				new Margin(2));
 	}
 }

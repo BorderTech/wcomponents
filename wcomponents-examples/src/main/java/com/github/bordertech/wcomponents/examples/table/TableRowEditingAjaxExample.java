@@ -113,8 +113,9 @@ public class TableRowEditingAjaxExample extends WPanel {
 		setUpActionButtons();
 
 		// Setup model
-		SimpleBeanBoundTableModel model = new SimpleBeanBoundTableModel(new String[]{"firstName", "lastName",
-			"dateOfBirth", "."}) {
+		SimpleBeanBoundTableModel model = new SimpleBeanBoundTableModel(
+				new String[]{"firstName", "lastName",
+					"dateOfBirth", "."}) {
 			@Override
 			public boolean isCellEditable(final List<Integer> row, final int col) {
 				Object key = getRowKey(row);
@@ -143,7 +144,8 @@ public class TableRowEditingAjaxExample extends WPanel {
 			@Override
 			public void execute(final ActionEvent event) {
 				List<PersonBean> beans = (List<PersonBean>) table.getBean();
-				beans.add(new PersonBean(String.valueOf(new Date().getTime()), "New First", "New Last", new Date()));
+				beans.add(new PersonBean(String.valueOf(new Date().getTime()), "New First",
+						"New Last", new Date()));
 				table.handleDataChanged();
 			}
 		});
@@ -255,8 +257,9 @@ public class TableRowEditingAjaxExample extends WPanel {
 		buttonPanel.add(deleteButton);
 
 		// Ajax - edit button
-		WAjaxControl editAjax = new WAjaxControl(editButton, new AjaxTarget[]{firstNameField, lastNameField,
-			dobField, buttonPanel}) {
+		WAjaxControl editAjax = new WAjaxControl(editButton,
+				new AjaxTarget[]{firstNameField, lastNameField,
+					dobField, buttonPanel}) {
 			@Override
 			public boolean isVisible() {
 				return editButton.isVisible();
@@ -266,8 +269,9 @@ public class TableRowEditingAjaxExample extends WPanel {
 		buttonPanel.add(editAjax);
 
 		// Ajax - cancel button
-		WAjaxControl cancelAjax = new WAjaxControl(cancelButton, new AjaxTarget[]{firstNameField, lastNameField,
-			dobField, buttonPanel}) {
+		WAjaxControl cancelAjax = new WAjaxControl(cancelButton,
+				new AjaxTarget[]{firstNameField, lastNameField,
+					dobField, buttonPanel}) {
 			@Override
 			public boolean isVisible() {
 				return cancelButton.isVisible();
@@ -284,8 +288,8 @@ public class TableRowEditingAjaxExample extends WPanel {
 	}
 
 	/**
-	 * Override preparePaintComponent in order to set up the example data the first time that the
-	 * example is accessed by each user.
+	 * Override preparePaintComponent in order to set up the example data the first time that the example is accessed by
+	 * each user.
 	 *
 	 * @param request the request being responded to.
 	 */

@@ -14,8 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This example shows the use of a {@link WTable} with a bean provider that provides the list of
- * beans.
+ * This example shows the use of a {@link WTable} with a bean provider that provides the list of beans.
  * <p>
  * It also demonstrates, in a very simplistic way, how to implement caching.
  * </p>

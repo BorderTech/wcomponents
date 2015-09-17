@@ -15,8 +15,7 @@ import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.util.XMLUtil;
 
 /**
- * This {@link InterceptorComponent} provides the XML wrapper necessary for serving up an AJAX
- * response.
+ * This {@link InterceptorComponent} provides the XML wrapper necessary for serving up an AJAX response.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -39,8 +38,8 @@ public class AjaxPageShellInterceptor extends InterceptorComponent {
 	}
 
 	/**
-	 * Paints the targeted ajax regions. The format of the response is an agreement between the
-	 * server and the client side handling our AJAX response.
+	 * Paints the targeted ajax regions. The format of the response is an agreement between the server and the client
+	 * side handling our AJAX response.
 	 *
 	 * @param renderContext the renderContext to send the output to.
 	 */
@@ -52,7 +51,8 @@ public class AjaxPageShellInterceptor extends InterceptorComponent {
 
 		if (operation == null) {
 			// the request attribute that we place in the ui contenxt in the action phase can't be null
-			throw new SystemException("Can't paint AJAX response. Couldn't find the expected reference to the AjaxOperation.");
+			throw new SystemException(
+					"Can't paint AJAX response. Couldn't find the expected reference to the AjaxOperation.");
 		}
 
 		UIContext uic = UIContextHolder.getCurrent();
@@ -62,7 +62,8 @@ public class AjaxPageShellInterceptor extends InterceptorComponent {
 		xml.append(XMLUtil.DOC_TYPE);  // It is possible that the AJAX response contains XHTML including &nbsp;
 		xml.appendTagOpen("ui:ajaxResponse");
 		xml.append(XMLUtil.STANDARD_NAMESPACES);
-		xml.appendOptionalAttribute("defaultFocusId", uic.isFocusRequired() && !Util.empty(focusId), focusId);
+		xml.appendOptionalAttribute("defaultFocusId", uic.isFocusRequired() && !Util.empty(focusId),
+				focusId);
 		xml.appendClose();
 
 		getBackingComponent().paint(renderContext);

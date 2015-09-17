@@ -41,7 +41,8 @@ public class AbstractWSingleSelectList_Test extends AbstractWComponentTestCase {
 	/**
 	 * Options list with null option.
 	 */
-	private static final List<String> OPTIONS_WITH_NULL = Arrays.asList(OPTION_A, OPTION_NULL, OPTION_B, OPTION_C);
+	private static final List<String> OPTIONS_WITH_NULL = Arrays.asList(OPTION_A, OPTION_NULL,
+			OPTION_B, OPTION_C);
 
 	/**
 	 * Invalid option.
@@ -71,7 +72,8 @@ public class AbstractWSingleSelectList_Test extends AbstractWComponentTestCase {
 	/**
 	 * Group Options List.
 	 */
-	private static final List<Serializable> OPTIONS_WITH_GROUPS = Arrays.asList(OPTION_C, GROUP1, "Two",
+	private static final List<Serializable> OPTIONS_WITH_GROUPS = Arrays.asList(OPTION_C, GROUP1,
+			"Two",
 			GROUP2, OPTION_NULL, "Three");
 
 	@Test
@@ -91,7 +93,8 @@ public class AbstractWSingleSelectList_Test extends AbstractWComponentTestCase {
 	public void testConstructor2() {
 		// Constructor - 2
 		AbstractWSingleSelectList single = new MyWSingleSelectList(DayOfWeekTable.class, true);
-		Assert.assertEquals("Incorrect table returned", DayOfWeekTable.class, single.getLookupTable());
+		Assert.assertEquals("Incorrect table returned", DayOfWeekTable.class, single.
+				getLookupTable());
 		Assert.assertTrue("allowNoSelection should be true", single.isAllowNoSelection());
 
 		single = new MyWSingleSelectList(DayOfWeekTable.class, false);
@@ -107,24 +110,29 @@ public class AbstractWSingleSelectList_Test extends AbstractWComponentTestCase {
 
 		// Select optionA
 		single.setSelected(OPTION_A);
-		Assert.assertEquals("Value as String should be OptionA", OPTION_A, single.getValueAsString());
+		Assert.
+				assertEquals("Value as String should be OptionA", OPTION_A, single.
+						getValueAsString());
 	}
 
 	@Test
 	public void testGetValueAsStringEmptyOptions() {
 		AbstractWSingleSelectList single = new MyWSingleSelectList(new ArrayList<String>(), true);
-		Assert.assertNull("Value as String should be null - empty list to select from", single.getValueAsString());
+		Assert.assertNull("Value as String should be null - empty list to select from", single.
+				getValueAsString());
 	}
 
 	@Test
 	public void testGetValueAsStringNullOptions() {
 		AbstractWSingleSelectList single = new MyWSingleSelectList(null, true);
-		Assert.assertNull("Value as String should be null - null to select from", single.getValueAsString());
+		Assert.assertNull("Value as String should be null - null to select from", single.
+				getValueAsString());
 	}
 
 	@Test
 	public void testSelectedAccessors() {
-		assertAccessorsCorrect(new MyWSingleSelectList(OPTIONS, true), "selected", null, OPTION_A, OPTION_B);
+		assertAccessorsCorrect(new MyWSingleSelectList(OPTIONS, true), "selected", null, OPTION_A,
+				OPTION_B);
 	}
 
 	@Test
@@ -146,7 +154,8 @@ public class AbstractWSingleSelectList_Test extends AbstractWComponentTestCase {
 
 		// Data is an Option
 		single.setBean(OPTION_B);
-		Assert.assertEquals("Allow None - getValue for Object data should be the selected option", OPTION_B,
+		Assert.assertEquals("Allow None - getValue for Object data should be the selected option",
+				OPTION_B,
 				single.getValue());
 
 		resetContext();
@@ -163,12 +172,14 @@ public class AbstractWSingleSelectList_Test extends AbstractWComponentTestCase {
 
 		// Data is null
 		single.setBean(null);
-		Assert.assertEquals("No Allow None - getValue for null data should be the first option", SELECTED_FIRST_OPTION,
+		Assert.assertEquals("No Allow None - getValue for null data should be the first option",
+				SELECTED_FIRST_OPTION,
 				single.getValue());
 
 		// Data is an Option
 		single.setBean(OPTION_B);
-		Assert.assertEquals("getValue for Object data should be the selected optionB", OPTION_B, single.getValue());
+		Assert.assertEquals("getValue for Object data should be the selected optionB", OPTION_B,
+				single.getValue());
 
 	}
 
@@ -184,36 +195,44 @@ public class AbstractWSingleSelectList_Test extends AbstractWComponentTestCase {
 		// With User Context
 		single.setLocked(true);
 		setActiveContext(createUIContext());
-		Assert.assertNull("Allow none - Null Options -  should be null selected with uic", single.getValue());
+		Assert.assertNull("Allow none - Null Options -  should be null selected with uic", single.
+				getValue());
 		resetContext();
 
 		// Empty Options
 		single = new MyWSingleSelectList(new ArrayList<>(), true);
-		Assert.assertNull("Allow none - Empty Options -  should be null selected", single.getValue());
+		Assert.
+				assertNull("Allow none - Empty Options -  should be null selected", single.
+						getValue());
 		// With User Context
 		single.setLocked(true);
 		setActiveContext(createUIContext());
-		Assert.assertNull("Allow none - Empty Options -  should be null selected with uic", single.getValue());
+		Assert.assertNull("Allow none - Empty Options -  should be null selected with uic", single.
+				getValue());
 		resetContext();
 
 		// =======================
 		// ALLOW NONE - FALSE
 		// Null Options
 		single = new MyWSingleSelectList(null, false);
-		Assert.assertNull("No Allow none - Null Options -  should be null selected", single.getValue());
+		Assert.assertNull("No Allow none - Null Options -  should be null selected", single.
+				getValue());
 		// With User Context
 		single.setLocked(true);
 		setActiveContext(createUIContext());
-		Assert.assertNull("No Allow none - Null Options -  should be null selected with uic", single.getValue());
+		Assert.assertNull("No Allow none - Null Options -  should be null selected with uic",
+				single.getValue());
 		resetContext();
 
 		// Empty Options
 		single = new MyWSingleSelectList(new ArrayList<>(), false);
-		Assert.assertNull("No Allow none - Empty Options -  should be null selected", single.getValue());
+		Assert.assertNull("No Allow none - Empty Options -  should be null selected", single.
+				getValue());
 		// With User Context
 		single.setLocked(true);
 		setActiveContext(createUIContext());
-		Assert.assertNull("No Allow none - Empty Options -  should be null selected with uic", single.getValue());
+		Assert.assertNull("No Allow none - Empty Options -  should be null selected with uic",
+				single.getValue());
 		resetContext();
 	}
 
@@ -225,24 +244,29 @@ public class AbstractWSingleSelectList_Test extends AbstractWComponentTestCase {
 		AbstractWSingleSelectList single = new MyWSingleSelectList(OPTIONS, true);
 
 		// Nothing selected - Should return empty
-		Assert.assertNull("Allow none - Nothing selected - should be null selected", single.getValue());
+		Assert.assertNull("Allow none - Nothing selected - should be null selected", single.
+				getValue());
 		// With User Context
 		single.setLocked(true);
 		setActiveContext(createUIContext());
-		Assert.assertNull("Allow none - Nothing selected - should be null selected with uic", single.getValue());
+		Assert.assertNull("Allow none - Nothing selected - should be null selected with uic",
+				single.getValue());
 		resetContext();
 
 		// =======================
 		// ALLOW NONE - FALSE
 		single = new MyWSingleSelectList(OPTIONS, false);
 		// Should be the first option
-		Assert.assertEquals("No Allow None - Nothing Selected - should be optionA selected", SELECTED_FIRST_OPTION,
+		Assert.assertEquals("No Allow None - Nothing Selected - should be optionA selected",
+				SELECTED_FIRST_OPTION,
 				single.getValue());
 		// With User Context
 		single.setLocked(true);
 		setActiveContext(createUIContext());
-		Assert.assertEquals("No Allow None - Nohting Selected - should be optionA selected with uic",
-				SELECTED_FIRST_OPTION, single.getValue());
+		Assert.
+				assertEquals(
+						"No Allow None - Nohting Selected - should be optionA selected with uic",
+						SELECTED_FIRST_OPTION, single.getValue());
 	}
 
 	@Test
@@ -260,11 +284,13 @@ public class AbstractWSingleSelectList_Test extends AbstractWComponentTestCase {
 		single.setLocked(true);
 		setActiveContext(createUIContext());
 
-		Assert.assertEquals("Allow None - should be optionC selected with uic", OPTION_C, single.getValue());
+		Assert.assertEquals("Allow None - should be optionC selected with uic", OPTION_C, single.
+				getValue());
 
 		// Set optionB on the user context
 		single.setSelected(OPTION_B);
-		Assert.assertEquals("Allow None - should be optionB selected with uic", OPTION_B, single.getValue());
+		Assert.assertEquals("Allow None - should be optionB selected with uic", OPTION_B, single.
+				getValue());
 
 		resetContext();
 		Assert.assertEquals("Allow None - should be optionC selected", OPTION_C, single.getValue());
@@ -275,20 +301,24 @@ public class AbstractWSingleSelectList_Test extends AbstractWComponentTestCase {
 		// Set OptionC as default
 		single.setSelected(OPTION_C);
 		// Should return optionC
-		Assert.assertEquals("No Allow None - should be optionC selected", OPTION_C, single.getValue());
+		Assert.assertEquals("No Allow None - should be optionC selected", OPTION_C, single.
+				getValue());
 
 		// With User Context
 		single.setLocked(true);
 		setActiveContext(createUIContext());
 
-		Assert.assertEquals("No Allow None - should be optionC selected with uic", OPTION_C, single.getValue());
+		Assert.assertEquals("No Allow None - should be optionC selected with uic", OPTION_C, single.
+				getValue());
 
 		// Set OptionB on the user context
 		single.setSelected(OPTION_B);
-		Assert.assertEquals("No Allow None - should be optionB selected with uic", OPTION_B, single.getValue());
+		Assert.assertEquals("No Allow None - should be optionB selected with uic", OPTION_B, single.
+				getValue());
 
 		resetContext();
-		Assert.assertEquals("No Allow None - should be optionC selected", OPTION_C, single.getValue());
+		Assert.assertEquals("No Allow None - should be optionC selected", OPTION_C, single.
+				getValue());
 	}
 
 	@Test
@@ -334,11 +364,13 @@ public class AbstractWSingleSelectList_Test extends AbstractWComponentTestCase {
 		setActiveContext(createUIContext());
 
 		// Null Bean Value
-		Assert.assertNull("Allow None - Data should be null when bean value is null", single.getValue());
+		Assert.assertNull("Allow None - Data should be null when bean value is null", single.
+				getValue());
 
 		// Valid Bean Value
 		single.setBean(OPTION_B);
-		Assert.assertEquals("Allow None - Data should be OptionA from bean", OPTION_B, single.getValue());
+		Assert.assertEquals("Allow None - Data should be OptionA from bean", OPTION_B, single.
+				getValue());
 
 		// Invalid Bean Value
 		single.setBean(OPTION_INVALID);
@@ -346,7 +378,8 @@ public class AbstractWSingleSelectList_Test extends AbstractWComponentTestCase {
 			single.getValue();
 			Assert.fail("Allow None - Exception should have been thrown for invalid option on bean");
 		} catch (IllegalStateException e) {
-			Assert.assertNotNull("Allow None - No exception message provided for invalid option on bean",
+			Assert.assertNotNull(
+					"Allow None - No exception message provided for invalid option on bean",
 					e.getMessage());
 		}
 		resetContext();
@@ -362,19 +395,23 @@ public class AbstractWSingleSelectList_Test extends AbstractWComponentTestCase {
 		setActiveContext(createUIContext());
 
 		// Null Bean Value
-		Assert.assertEquals("No Allow None - Data should default to OptionA", OPTION_A, single.getValue());
+		Assert.assertEquals("No Allow None - Data should default to OptionA", OPTION_A, single.
+				getValue());
 
 		// Valid Bean Value
 		single.setBean(OPTION_B);
-		Assert.assertEquals("No Allow None - Data should be OptionB from bean", OPTION_B, single.getValue());
+		Assert.assertEquals("No Allow None - Data should be OptionB from bean", OPTION_B, single.
+				getValue());
 
 		// Invalid Bean Value
 		single.setBean(OPTION_INVALID);
 		try {
 			single.getValue();
-			Assert.fail("No Allow None - Exception should have been thrown for invalid option on bean");
+			Assert.fail(
+					"No Allow None - Exception should have been thrown for invalid option on bean");
 		} catch (IllegalStateException e) {
-			Assert.assertNotNull("No Allow None - No exception message provided for invalid option on bean",
+			Assert.assertNotNull(
+					"No Allow None - No exception message provided for invalid option on bean",
 					e.getMessage());
 		}
 	}
@@ -423,7 +460,8 @@ public class AbstractWSingleSelectList_Test extends AbstractWComponentTestCase {
 
 		// Data is an Option
 		single.setBean(OPTION_B);
-		Assert.assertEquals("Allow None - getData for Object data should be the selected option", OPTION_B,
+		Assert.assertEquals("Allow None - getData for Object data should be the selected option",
+				OPTION_B,
 				single.getData());
 
 		resetContext();
@@ -445,7 +483,9 @@ public class AbstractWSingleSelectList_Test extends AbstractWComponentTestCase {
 
 		// Data is an Option
 		single.setBean(OPTION_B);
-		Assert.assertEquals("No Allow None - getData for Object data should be the Object", OPTION_B, single.getData());
+		Assert.
+				assertEquals("No Allow None - getData for Object data should be the Object",
+						OPTION_B, single.getData());
 
 		// =======================
 		// Include "null" as an option
@@ -453,7 +493,10 @@ public class AbstractWSingleSelectList_Test extends AbstractWComponentTestCase {
 
 		// Data is null
 		single.setBean(null);
-		Assert.assertNull("No Allow None - Null is an option - getData for null data should be null", single.getData());
+		Assert.
+				assertNull(
+						"No Allow None - Null is an option - getData for null data should be null",
+						single.getData());
 
 		// =======================
 		// No Options
@@ -461,11 +504,14 @@ public class AbstractWSingleSelectList_Test extends AbstractWComponentTestCase {
 
 		// Data is null
 		single.setBean(null);
-		Assert.assertNull("No Allow None - No options - getData for null data should be null", single.getData());
+		Assert.assertNull("No Allow None - No options - getData for null data should be null",
+				single.getData());
 
 		// Data is an Option
 		single.setBean(OPTION_B);
-		Assert.assertEquals("No Allow None - No options -  getData for Object data should be the Object", OPTION_B,
+		Assert.assertEquals(
+				"No Allow None - No options -  getData for Object data should be the Object",
+				OPTION_B,
 				single.getData());
 
 	}
@@ -509,7 +555,8 @@ public class AbstractWSingleSelectList_Test extends AbstractWComponentTestCase {
 		// Set invalid option type (wrong class)
 		try {
 			single.setData(Boolean.TRUE);
-			Assert.fail("Should have thrown exception for setting a boolean when options are strings");
+			Assert.fail(
+					"Should have thrown exception for setting a boolean when options are strings");
 		} catch (IllegalStateException e) {
 			Assert.assertNotNull("No exception message provided", e.getMessage());
 		}
@@ -529,7 +576,8 @@ public class AbstractWSingleSelectList_Test extends AbstractWComponentTestCase {
 
 		// Data is an Option
 		single.setData(OPTION_B);
-		Assert.assertEquals("getValue for Object data should be the selected option", OPTION_B, single.getValue());
+		Assert.assertEquals("getValue for Object data should be the selected option", OPTION_B,
+				single.getValue());
 	}
 
 	@Test
@@ -579,19 +627,23 @@ public class AbstractWSingleSelectList_Test extends AbstractWComponentTestCase {
 
 		// Set Default "User Text"
 		single.setData(userText1);
-		Assert.assertEquals("Null Options - Should be user text selected", userText1, single.getData());
+		Assert.assertEquals("Null Options - Should be user text selected", userText1, single.
+				getData());
 
 		// With User Context
 		single.setLocked(true);
 		setActiveContext(createUIContext());
-		Assert.assertEquals("Null Options - Should be user text selected in uic", userText1, single.getData());
+		Assert.assertEquals("Null Options - Should be user text selected in uic", userText1, single.
+				getData());
 
 		// Set "User Text2"
 		single.setData(userText2);
-		Assert.assertEquals("Null Options - Should be usertext2 selected in uic", userText2, single.getData());
+		Assert.assertEquals("Null Options - Should be usertext2 selected in uic", userText2, single.
+				getData());
 
 		resetContext();
-		Assert.assertEquals("Null Options - Should be usertext selected", userText1, single.getData());
+		Assert.assertEquals("Null Options - Should be usertext selected", userText1, single.
+				getData());
 
 		// ===================
 		// Empty Options
@@ -600,19 +652,23 @@ public class AbstractWSingleSelectList_Test extends AbstractWComponentTestCase {
 
 		// Set Default "User Text"
 		single.setData(userText1);
-		Assert.assertEquals("Empty Options - Should be user text selected", userText1, single.getData());
+		Assert.assertEquals("Empty Options - Should be user text selected", userText1, single.
+				getData());
 
 		// With User Context
 		single.setLocked(true);
 		setActiveContext(createUIContext());
-		Assert.assertEquals("Empty Options - Should be user text selected in uic", userText1, single.getData());
+		Assert.assertEquals("Empty Options - Should be user text selected in uic", userText1,
+				single.getData());
 
 		// Set "User Text2"
 		single.setData(userText2);
-		Assert.assertEquals("Empty Options - Should be usertext2 selected in uic", userText2, single.getData());
+		Assert.assertEquals("Empty Options - Should be usertext2 selected in uic", userText2,
+				single.getData());
 
 		resetContext();
-		Assert.assertEquals("Empty Options - Should be usertext selected", userText1, single.getData());
+		Assert.assertEquals("Empty Options - Should be usertext selected", userText1, single.
+				getData());
 	}
 
 	@Test
@@ -666,8 +722,10 @@ public class AbstractWSingleSelectList_Test extends AbstractWComponentTestCase {
 		// Setup Single Option Request with optionB
 		MockRequest request = setupRequest(single, OPTION_B);
 		boolean changed = single.doHandleRequest(request);
-		Assert.assertTrue("doHandleRequest should have returned true for request with optionB", changed);
-		Assert.assertEquals("Selected should have changed to optionB", OPTION_B, single.getSelected());
+		Assert.assertTrue("doHandleRequest should have returned true for request with optionB",
+				changed);
+		Assert.assertEquals("Selected should have changed to optionB", OPTION_B, single.
+				getSelected());
 	}
 
 	@Test
@@ -756,7 +814,8 @@ public class AbstractWSingleSelectList_Test extends AbstractWComponentTestCase {
 
 		// Change Bean to optionB (Make sure the value is coming from the bean)
 		bean.setMyOption(OPTION_B);
-		Assert.assertEquals("Selected should be optionB coming from the bean", OPTION_B, single.getSelected());
+		Assert.assertEquals("Selected should be optionB coming from the bean", OPTION_B, single.
+				getSelected());
 
 		// Setup Request with optionC (Change)
 		request = setupRequest(single, OPTION_C);
@@ -796,7 +855,9 @@ public class AbstractWSingleSelectList_Test extends AbstractWComponentTestCase {
 		MockRequest request = setupRequest(single, optionC);
 		boolean changed = single.doHandleRequest(request);
 		// Action should not trigger but selected should now be the correct option
-		Assert.assertEquals("Selected should have changed to optionA", optionC, single.getSelected());
+		Assert.
+				assertEquals("Selected should have changed to optionA", optionC, single.
+						getSelected());
 		Assert.assertFalse("doHandleRequest should have returned false", changed);
 	}
 
@@ -817,7 +878,8 @@ public class AbstractWSingleSelectList_Test extends AbstractWComponentTestCase {
 		request.setParameter(single.getId(), userText);
 
 		boolean changed = single.doHandleRequest(request);
-		Assert.assertEquals("Selected should have changed to user text", userText, single.getSelected());
+		Assert.assertEquals("Selected should have changed to user text", userText, single.
+				getSelected());
 		Assert.assertTrue("doHandleRequest should have returned true", changed);
 	}
 
@@ -831,7 +893,9 @@ public class AbstractWSingleSelectList_Test extends AbstractWComponentTestCase {
 		// Setup Request with null option
 		MockRequest request = setupRequest(single, OPTION_NULL);
 		boolean changed = single.doHandleRequest(request);
-		Assert.assertNull("Selected option should have changed to null option", single.getSelected());
+		Assert.
+				assertNull("Selected option should have changed to null option", single.
+						getSelected());
 		Assert.assertTrue("doHandleRequest should have returned true", changed);
 	}
 
@@ -921,7 +985,8 @@ public class AbstractWSingleSelectList_Test extends AbstractWComponentTestCase {
 		// Setup Request with optionB
 		request = setupRequest(single, OPTION_B);
 		changed = single.doHandleRequest(request);
-		Assert.assertEquals("Selected option should have changed to optionB", OPTION_B, single.getSelected());
+		Assert.assertEquals("Selected option should have changed to optionB", OPTION_B, single.
+				getSelected());
 		Assert.assertTrue("doHandleRequest should have returned true", changed);
 	}
 
@@ -934,7 +999,9 @@ public class AbstractWSingleSelectList_Test extends AbstractWComponentTestCase {
 
 		// Empty Request, should return OptionA
 		MockRequest request = new MockRequest();
-		Assert.assertEquals("getRequestValue should return the current selected option for an empty request", OPTION_A,
+		Assert.assertEquals(
+				"getRequestValue should return the current selected option for an empty request",
+				OPTION_A,
 				single.getRequestValue(request));
 
 		// OptionB on the Request
@@ -961,12 +1028,14 @@ public class AbstractWSingleSelectList_Test extends AbstractWComponentTestCase {
 
 		// Valid item on request
 		request = setupRequest(single, OPTION_B);
-		Assert.assertEquals("new selection should return optionB", OPTION_B, single.getNewSelection(request));
+		Assert.assertEquals("new selection should return optionB", OPTION_B, single.getNewSelection(
+				request));
 
 		// Invalid item on request (should return the current value)
 		single.setSelected(OPTION_A);
 		request.setParameter(single.getId(), OPTION_INVALID);
-		Assert.assertEquals("new selection should return optionA", OPTION_A, single.getNewSelection(request));
+		Assert.assertEquals("new selection should return optionA", OPTION_A, single.getNewSelection(
+				request));
 
 		// -------------
 		// Null Options
@@ -974,7 +1043,8 @@ public class AbstractWSingleSelectList_Test extends AbstractWComponentTestCase {
 		// Request with any value
 		request = setupNothingSelectedRequest(single);
 		request.setParameter(single.getId(), "any value");
-		Assert.assertNull("result should be empty when null options", single.getNewSelection(request));
+		Assert.assertNull("result should be empty when null options", single.
+				getNewSelection(request));
 
 		// -------------
 		// Empty Options
@@ -982,26 +1052,31 @@ public class AbstractWSingleSelectList_Test extends AbstractWComponentTestCase {
 		// Request with a value
 		request = setupNothingSelectedRequest(single);
 		request.setParameter(single.getId(), "any value");
-		Assert.assertNull("result should be empty when options empty", single.getNewSelection(request));
+		Assert.assertNull("result should be empty when options empty", single.getNewSelection(
+				request));
 
 		// -------------
 		// Editable
 		single.setOptions(OPTIONS);
 		single.setEditable(true);
 		request = setupRequest(single, OPTION_B);
-		Assert.assertEquals("new selection should return optionB", OPTION_B, single.getNewSelection(request));
+		Assert.assertEquals("new selection should return optionB", OPTION_B, single.getNewSelection(
+				request));
 
 		// UserText
 		request.setParameter(single.getId(), "usertext");
-		Assert.assertEquals("new selection should return user text", "usertext", single.getNewSelection(request));
+		Assert.assertEquals("new selection should return user text", "usertext", single.
+				getNewSelection(request));
 
 		// Null options
 		single.setOptions((List<?>) null);
-		Assert.assertEquals("new selection should return user text", "usertext", single.getNewSelection(request));
+		Assert.assertEquals("new selection should return user text", "usertext", single.
+				getNewSelection(request));
 
 		// Empty options
 		single.setOptions(EMPTY_LIST);
-		Assert.assertEquals("new selection should return user text", "usertext", single.getNewSelection(request));
+		Assert.assertEquals("new selection should return user text", "usertext", single.
+				getNewSelection(request));
 
 	}
 
@@ -1025,7 +1100,8 @@ public class AbstractWSingleSelectList_Test extends AbstractWComponentTestCase {
 		// Test handle request is "no change"
 		MockRequest request = setupRequest(single, OPTION_A);
 		boolean changed = single.doHandleRequest(request);
-		Assert.assertFalse("doHandleRequest should return false as option should not change", changed);
+		Assert.assertFalse("doHandleRequest should return false as option should not change",
+				changed);
 
 		// Update Bean (should have optionA on the bean)
 		Assert.assertNull("Bean should still be null", bean.getMyOption());
@@ -1048,7 +1124,8 @@ public class AbstractWSingleSelectList_Test extends AbstractWComponentTestCase {
 		// Set option on the user context
 		single.setSelected(OPTION_B);
 		Assert.assertTrue("Allow None - hasSelection should be true", single.hasSelection());
-		Assert.assertEquals("Allow None - Selected option should be optionB", OPTION_B, single.getSelected());
+		Assert.assertEquals("Allow None - Selected option should be optionB", OPTION_B, single.
+				getSelected());
 		resetContext();
 
 		// Allow None - FALSE
@@ -1060,11 +1137,13 @@ public class AbstractWSingleSelectList_Test extends AbstractWComponentTestCase {
 
 		// Should have a selection by default (ie first option)
 		Assert.assertTrue("No Allow None - hasSelection should be true", single.hasSelection());
-		Assert.assertEquals("No Allow None - Selected option should be optionA", OPTION_A, single.getSelected());
+		Assert.assertEquals("No Allow None - Selected option should be optionA", OPTION_A, single.
+				getSelected());
 		// Set option on the user context
 		single.setSelected(OPTION_B);
 		Assert.assertTrue("No Allow None - hasSelection should be true", single.hasSelection());
-		Assert.assertEquals("No Allow None - Selected option should be optionB", OPTION_B, single.getSelected());
+		Assert.assertEquals("No Allow None - Selected option should be optionB", OPTION_B, single.
+				getSelected());
 		resetContext();
 	}
 
@@ -1095,10 +1174,12 @@ public class AbstractWSingleSelectList_Test extends AbstractWComponentTestCase {
 		AbstractWSingleSelectList list = new MyWSingleSelectList(Arrays.asList(options), true);
 
 		list.setSelected(new MyObject("2", "Desc"));
-		Assert.assertEquals("Incorrect selected option", options[1].code, ((MyObject) list.getSelected()).code);
+		Assert.assertEquals("Incorrect selected option", options[1].code, ((MyObject) list.
+				getSelected()).code);
 
 		list.setSelected("Desc");
-		Assert.assertEquals("Incorrect selected option", options[0].code, ((MyObject) list.getSelected()).code);
+		Assert.assertEquals("Incorrect selected option", options[0].code, ((MyObject) list.
+				getSelected()).code);
 
 	}
 

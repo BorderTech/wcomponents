@@ -24,12 +24,11 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * An example of a bean bound {@link WTable} with column level filtering. This example includes menu
- * based filtering for each column in the table and each filter is case-insensitive but allows the
- * possibility of making them all case sensitive. If a column has no data it gets no filter. There
- * is also a table action to clear all of the filters. This action is disabled if no filter is
- * currently applied and hidden if the table has no visible filter menus. This is possibly a tiny
- * bit more complicated than it needs to be.
+ * An example of a bean bound {@link WTable} with column level filtering. This example includes menu based filtering for
+ * each column in the table and each filter is case-insensitive but allows the possibility of making them all case
+ * sensitive. If a column has no data it gets no filter. There is also a table action to clear all of the filters. This
+ * action is disabled if no filter is currently applied and hidden if the table has no visible filter menus. This is
+ * possibly a tiny bit more complicated than it needs to be.
  *
  * @author Mark Reeves
  * @since 1.0.0
@@ -109,8 +108,10 @@ public class FilterableTableExample extends WContainer {
 		add(table);
 
 		// Columns
-		table.addColumn(new WTableColumn(buildColumnHeader("Given name", firstNameFilterMenu), new WText()));
-		table.addColumn(new WTableColumn(buildColumnHeader("Family name", lastNameFilterMenu), new WText()));
+		table.addColumn(new WTableColumn(buildColumnHeader("Given name", firstNameFilterMenu),
+				new WText()));
+		table.addColumn(new WTableColumn(buildColumnHeader("Family name", lastNameFilterMenu),
+				new WText()));
 		table.addColumn(new WTableColumn(buildColumnHeader("DoB", dobFilterMenu), new WDateField()));
 
 		clearAllFiltersButton.setAction(new Action() {
@@ -129,8 +130,8 @@ public class FilterableTableExample extends WContainer {
 	/**
 	 * Set the filter case sensitivity.
 	 *
-	 * @param caseInsensitive If true the filter will not be case sensitive so, for example, "Smith"
-	 * and "smith" will be equivalent.
+	 * @param caseInsensitive If true the filter will not be case sensitive so, for example, "Smith" and "smith" will be
+	 * equivalent.
 	 */
 	public void setCaseSensitiveMatch(final Boolean caseInsensitive) {
 		FilterableBeanBoundDataModel model = getFilterableTableModel();
@@ -202,8 +203,8 @@ public class FilterableTableExample extends WContainer {
 	}
 
 	/**
-	 * Sets the state of the clearAllActions button based on the visibility of the filter menus and
-	 * if the button is visible sets its disabled state if nothing is filtered.
+	 * Sets the state of the clearAllActions button based on the visibility of the filter menus and if the button is
+	 * visible sets its disabled state if nothing is filtered.
 	 *
 	 * This is usability sugar, it is not necessary for the functionality of the filters.
 	 */
@@ -230,7 +231,8 @@ public class FilterableTableExample extends WContainer {
 		if (clearAllFiltersButton.isVisible()) {
 			List<?> fullList = getFilterableTableModel().getFullBeanList();
 			List<?> filteredList = getFilterableTableModel().getBeanList();
-			clearAllFiltersButton.setDisabled(fullList == null || filteredList == null || fullList.size() == filteredList.size());
+			clearAllFiltersButton.setDisabled(fullList == null || filteredList == null || fullList.
+					size() == filteredList.size());
 		}
 	}
 
@@ -247,8 +249,8 @@ public class FilterableTableExample extends WContainer {
 	 * Creates and populates the sub-menu for each filter menu.
 	 *
 	 * @param menu The WMenu we are currently populating.
-	 * @param column The column index of the table column the menu is in. This is used to get the
-	 * data off the table's Bean to put text content into the menu's items.
+	 * @param column The column index of the table column the menu is in. This is used to get the data off the table's
+	 * Bean to put text content into the menu's items.
 	 */
 	private void buildFilterSubMenu(final WMenu menu, final int column) {
 		List<?> beanList = getFilterableTableModel().getFullBeanList();
@@ -260,7 +262,8 @@ public class FilterableTableExample extends WContainer {
 
 		final List<String> found = new ArrayList<>();
 
-		final WImage filterImage = new WImage("/image/view-filter.png", "Filter table using this column");
+		final WImage filterImage = new WImage("/image/view-filter.png",
+				"Filter table using this column");
 		filterImage.setCacheKey("filterImage");
 		final WDecoratedLabel filterSubMenuLabel = new WDecoratedLabel(filterImage);
 		final WSubMenu submenu = new WSubMenu(filterSubMenuLabel);
@@ -280,7 +283,8 @@ public class FilterableTableExample extends WContainer {
 		for (int i = 0; i < rows; ++i) {
 			bean = beanList.get(i);
 
-			cellObject = getFilterableTableModel().getBeanPropertyValueFullList(beanProperties[column], bean);
+			cellObject = getFilterableTableModel().getBeanPropertyValueFullList(
+					beanProperties[column], bean);
 			if (cellObject == null) {
 				continue; //nothing to add to the sub menu
 			}
@@ -294,7 +298,8 @@ public class FilterableTableExample extends WContainer {
 				cellContent = EMPTY;
 			}
 
-			cellContentMatch = (getFilterableTableModel().isCaseInsensitiveMatch()) ? cellContent.toLowerCase() : cellContent;
+			cellContentMatch = (getFilterableTableModel().isCaseInsensitiveMatch()) ? cellContent.
+					toLowerCase() : cellContent;
 
 			if (found.indexOf(cellContentMatch) == -1) {
 				item = new WMenuItem(cellContent, new FilterAction());
@@ -306,8 +311,8 @@ public class FilterableTableExample extends WContainer {
 	}
 
 	/**
-	 * Convenience class to add the same action to a bunch of menu items. This Action will apply all
-	 * current filters to a table.
+	 * Convenience class to add the same action to a bunch of menu items. This Action will apply all current filters to
+	 * a table.
 	 *
 	 * @author Mark Reeves
 	 */
@@ -324,8 +329,8 @@ public class FilterableTableExample extends WContainer {
 	}
 
 	/**
-	 * Convenience class to add the same action to a bunch of menu items. This Action will clear all
-	 * current filters from a table.
+	 * Convenience class to add the same action to a bunch of menu items. This Action will clear all current filters
+	 * from a table.
 	 *
 	 * @author Mark Reeves
 	 */
@@ -348,8 +353,7 @@ public class FilterableTableExample extends WContainer {
 	}
 
 	/**
-	 * A simple table model which provides a bean list filter to filter by String value on each
-	 * column in the table.
+	 * A simple table model which provides a bean list filter to filter by String value on each column in the table.
 	 *
 	 * @author Mark Reeves
 	 * @since 1.0.0
@@ -403,8 +407,8 @@ public class FilterableTableExample extends WContainer {
 		}
 
 		/**
-		 * Helper to get a bean property value from the unfiltered bean list. Basically it just
-		 * makes getBeanPropertyValue public.
+		 * Helper to get a bean property value from the unfiltered bean list. Basically it just makes
+		 * getBeanPropertyValue public.
 		 *
 		 * @param property The bean property to retrieve
 		 * @param bean The bean to interrogate
@@ -455,8 +459,8 @@ public class FilterableTableExample extends WContainer {
 		/**
 		 * Sets the case sensitivity flag for filtering the table.
 		 *
-		 * @param caseInsensitive If true the filter will not be case sensitive so, for example,
-		 * "Smith" and "smith" will be equivalent.
+		 * @param caseInsensitive If true the filter will not be case sensitive so, for example, "Smith" and "smith"
+		 * will be equivalent.
 		 */
 		public void setCaseSensitiveMatch(final Boolean caseInsensitive) {
 			this.caseInsensitiveMatch = caseInsensitive;

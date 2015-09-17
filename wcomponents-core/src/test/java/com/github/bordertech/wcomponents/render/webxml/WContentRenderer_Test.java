@@ -20,7 +20,8 @@ public class WContentRenderer_Test extends AbstractWebXmlRendererTestCase {
 	@Test
 	public void testRendererCorrectlyConfigured() {
 		WContent component = new WContent();
-		Assert.assertTrue("Incorrect renderer supplied", getWebXmlRenderer(component) instanceof WContentRenderer);
+		Assert.assertTrue("Incorrect renderer supplied",
+				getWebXmlRenderer(component) instanceof WContentRenderer);
 	}
 
 	@Test

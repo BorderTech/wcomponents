@@ -62,7 +62,8 @@ public class SearchCriteriaPage extends WContainer {
 	/**
 	 * The amount of detail to bring back for each record.
 	 */
-	private final WRadioButtonSelect detailsSize = new WRadioButtonSelect(new String[]{SMALL, MEDIUM, LARGE, HUGE});
+	private final WRadioButtonSelect detailsSize = new WRadioButtonSelect(
+			new String[]{SMALL, MEDIUM, LARGE, HUGE});
 
 	/**
 	 * The button which initiates the search.
@@ -101,7 +102,8 @@ public class SearchCriteriaPage extends WContainer {
 		// Validations
 		dataField.setMandatory(true);
 		numRows.setMandatory(true);
-		numRows.addValidator(new RegExFieldValidator("^\\d*", "{0} must only contain numeric characters."));
+		numRows.addValidator(new RegExFieldValidator("^\\d*",
+				"{0} must only contain numeric characters."));
 		detailsSize.setMandatory(true);
 
 		add(searchBtn, "searchButton");

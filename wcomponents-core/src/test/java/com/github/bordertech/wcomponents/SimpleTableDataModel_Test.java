@@ -72,7 +72,8 @@ public class SimpleTableDataModel_Test extends AbstractWComponentTestCase {
 
 		model.setEditable(true);
 		Assert.assertTrue("Model should be editable after setEditable(true)", model.isEditable());
-		Assert.assertTrue("Model should be editable after setEditable(true)", model.isCellEditable(0, 0));
+		Assert.assertTrue("Model should be editable after setEditable(true)", model.
+				isCellEditable(0, 0));
 	}
 
 	@Test
@@ -121,14 +122,16 @@ public class SimpleTableDataModel_Test extends AbstractWComponentTestCase {
 		int[] expected = {0, 2, 1};
 
 		for (int i = 0; i < sortIndices.length; i++) {
-			Assert.assertEquals("Incorrect ascending sort index[" + i + ']', expected[i], sortIndices[i]);
+			Assert.assertEquals("Incorrect ascending sort index[" + i + ']', expected[i],
+					sortIndices[i]);
 		}
 
 		expected = new int[]{1, 2, 0};
 		sortIndices = model.sort(0, false);
 
 		for (int i = 0; i < sortIndices.length; i++) {
-			Assert.assertEquals("Incorrect descending sort index[" + i + ']', expected[i], sortIndices[i]);
+			Assert.assertEquals("Incorrect descending sort index[" + i + ']', expected[i],
+					sortIndices[i]);
 		}
 	}
 }

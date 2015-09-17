@@ -50,18 +50,22 @@ public class DiagnosticImpl_Test {
 
 		// Test with formatting, but missing label text should default to empty String
 		diag = new DiagnosticImpl(Diagnostic.INFO, uic, input, fieldArgMessage, input);
-		Assert.assertEquals("Incorrect description text", "The field '' is required", diag.getDescription());
+		Assert.assertEquals("Incorrect description text", "The field '' is required", diag.
+				getDescription());
 
 		// Test with formatting with accessible text set
 		input.setAccessibleText("a");
-		Assert.assertEquals("Incorrect description text", "The field 'a' is required", diag.getDescription());
+		Assert.assertEquals("Incorrect description text", "The field 'a' is required", diag.
+				getDescription());
 
 		// Test with label set
 		WLabel label = new WLabel("bc", input);
-		Assert.assertEquals("Incorrect description text", "The field 'bc' is required", diag.getDescription());
+		Assert.assertEquals("Incorrect description text", "The field 'bc' is required", diag.
+				getDescription());
 
 		// Test with label set, with a colon at the end
 		label.setText("def:");
-		Assert.assertEquals("Incorrect description text", "The field 'def' is required", diag.getDescription());
+		Assert.assertEquals("Incorrect description text", "The field 'def' is required", diag.
+				getDescription());
 	}
 }

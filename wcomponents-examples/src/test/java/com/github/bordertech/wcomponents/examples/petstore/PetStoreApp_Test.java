@@ -31,7 +31,8 @@ public class PetStoreApp_Test extends WComponentSeleniumTestCase {
 
 		String source = driver.getPageSource();
 
-		Assert.assertTrue("Incorrect default page - should have product listing", source.indexOf("Product listing.") != -1);
+		Assert.assertTrue("Incorrect default page - should have product listing", source.indexOf(
+				"Product listing.") != -1);
 	}
 
 	@Test
@@ -48,7 +49,9 @@ public class PetStoreApp_Test extends WComponentSeleniumTestCase {
 
 		// Check for the success message.
 		String source = driver.getPageSource();
-		Assert.assertTrue("Should have added dog to cart", source.indexOf("Added Dog to cart") != -1);
+		Assert.
+				assertTrue("Should have added dog to cart",
+						source.indexOf("Added Dog to cart") != -1);
 
 		// Find the 2nd text field in the entire UI (will be the 2nd text field inside the product table).
 		element = driver.findElement(byWComponentPath("WTextField[1]"));

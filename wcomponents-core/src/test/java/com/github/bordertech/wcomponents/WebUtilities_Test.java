@@ -40,14 +40,16 @@ public class WebUtilities_Test extends AbstractWComponentTestCase {
 	public void testGetProjectVersion() {
 		String testVersion = "TEST VERSION";
 		Config.getInstance().setProperty("bordertech.wcomponents.version", testVersion);
-		Assert.assertEquals("Wrong project version returned", testVersion, WebUtilities.getProjectVersion());
+		Assert.assertEquals("Wrong project version returned", testVersion, WebUtilities.
+				getProjectVersion());
 
 		try {
 			Config.getInstance().clearProperty("bordertech.wcomponents.version");
 			WebUtilities.getProjectVersion();
 			Assert.fail("An exception should have been thrown for a null project version");
 		} catch (SystemException e) {
-			Assert.assertNotNull("No error message included for null project version", e.getMessage());
+			Assert.assertNotNull("No error message included for null project version", e.
+					getMessage());
 		}
 	}
 
@@ -62,12 +64,17 @@ public class WebUtilities_Test extends AbstractWComponentTestCase {
 		tabs.addTab(dropdown, "dropdown tab", WTabSet.TAB_MODE_SERVER);
 		tabs.addTab(text, "text tab", WTabSet.TAB_MODE_SERVER);
 
-		Assert.assertNull("Incorrect ancestor returned", WebUtilities.getAncestorOfClass(WTabSet.class, null));
+		Assert.assertNull("Incorrect ancestor returned", WebUtilities.getAncestorOfClass(
+				WTabSet.class, null));
 		Assert
-				.assertSame("Incorrect ancestor returned", tabs, WebUtilities.getAncestorOfClass(WTabSet.class, dropdown));
-		Assert.assertSame("Incorrect ancestor returned", root, WebUtilities.getAncestorOfClass(WComponent.class, tabs));
-		Assert.assertNull("Incorrect ancestor returned", WebUtilities.getAncestorOfClass(WButton.class, dropdown));
-		Assert.assertNull("Root ancestor should be null", WebUtilities.getAncestorOfClass(WComponent.class, root));
+				.assertSame("Incorrect ancestor returned", tabs, WebUtilities.getAncestorOfClass(
+						WTabSet.class, dropdown));
+		Assert.assertSame("Incorrect ancestor returned", root, WebUtilities.getAncestorOfClass(
+				WComponent.class, tabs));
+		Assert.assertNull("Incorrect ancestor returned", WebUtilities.getAncestorOfClass(
+				WButton.class, dropdown));
+		Assert.assertNull("Root ancestor should be null", WebUtilities.getAncestorOfClass(
+				WComponent.class, root));
 	}
 
 	@Test
@@ -81,13 +88,18 @@ public class WebUtilities_Test extends AbstractWComponentTestCase {
 		tabs.addTab(dropdown, "dropdown tab", WTabSet.TAB_MODE_SERVER);
 		tabs.addTab(text, "text tab", WTabSet.TAB_MODE_SERVER);
 
-		Assert.assertNull("Incorrect ancestor returned", WebUtilities.getClosestOfClass(WTabSet.class, null));
-		Assert.assertSame("Incorrect ancestor returned", tabs, WebUtilities.getClosestOfClass(WTabSet.class, dropdown));
-		Assert.assertSame("Incorrect ancestor returned", tabs, WebUtilities.getClosestOfClass(WComponent.class, tabs));
+		Assert.assertNull("Incorrect ancestor returned", WebUtilities.getClosestOfClass(
+				WTabSet.class, null));
+		Assert.assertSame("Incorrect ancestor returned", tabs, WebUtilities.getClosestOfClass(
+				WTabSet.class, dropdown));
+		Assert.assertSame("Incorrect ancestor returned", tabs, WebUtilities.getClosestOfClass(
+				WComponent.class, tabs));
 		Assert.assertSame("Incorrect ancestor returned", dropdown,
 				WebUtilities.getClosestOfClass(WComponent.class, dropdown));
-		Assert.assertSame("Incorrect ancestor returned", root, WebUtilities.getClosestOfClass(WComponent.class, root));
-		Assert.assertNull("Incorrect ancestor returned", WebUtilities.getClosestOfClass(WButton.class, dropdown));
+		Assert.assertSame("Incorrect ancestor returned", root, WebUtilities.getClosestOfClass(
+				WComponent.class, root));
+		Assert.assertNull("Incorrect ancestor returned", WebUtilities.getClosestOfClass(
+				WButton.class, dropdown));
 	}
 
 	// @Test
@@ -220,7 +232,8 @@ public class WebUtilities_Test extends AbstractWComponentTestCase {
 		String rootId = root.getId();
 		String staticChildId = staticChild.getId();
 
-		Assert.assertSame("Incorrect closest uic1 for root", uic1, WebUtilities.findClosestContext(rootId));
+		Assert.assertSame("Incorrect closest uic1 for root", uic1, WebUtilities.findClosestContext(
+				rootId));
 		Assert.assertSame("Incorrect closest uic1 for static child", uic1,
 				WebUtilities.findClosestContext(staticChildId));
 
@@ -230,7 +243,8 @@ public class WebUtilities_Test extends AbstractWComponentTestCase {
 		setActiveContext(uic2);
 		root.remove(staticChild);
 
-		Assert.assertSame("Incorrect closest uic2 for root", uic2, WebUtilities.findClosestContext(rootId));
+		Assert.assertSame("Incorrect closest uic2 for root", uic2, WebUtilities.findClosestContext(
+				rootId));
 		Assert.assertSame("Incorrect closest uic2 for removed child", uic2,
 				WebUtilities.findClosestContext(staticChildId));
 	}
@@ -255,10 +269,12 @@ public class WebUtilities_Test extends AbstractWComponentTestCase {
 		setActiveContext(uic1);
 		repeater.setData(data);
 
-		Assert.assertSame("Incorrect closest uic1 for root", uic1, WebUtilities.findClosestContext(root.getId()));
+		Assert.assertSame("Incorrect closest uic1 for root", uic1, WebUtilities.findClosestContext(
+				root.getId()));
 
 		setActiveContext(uic2);
-		Assert.assertSame("Incorrect closest uic2 for root", uic2, WebUtilities.findClosestContext(root.getId()));
+		Assert.assertSame("Incorrect closest uic2 for root", uic2, WebUtilities.findClosestContext(
+				root.getId()));
 
 		setActiveContext(uic1);
 		UIContext rowContext = repeater.getRowContexts().get(0);
@@ -270,7 +286,8 @@ public class WebUtilities_Test extends AbstractWComponentTestCase {
 				WebUtilities.findClosestContext(repeatedId));
 
 		setActiveContext(uic2);
-		Assert.assertSame("Incorrect closest uic2 for deleted row", uic2, WebUtilities.findClosestContext(repeatedId));
+		Assert.assertSame("Incorrect closest uic2 for deleted row", uic2, WebUtilities.
+				findClosestContext(repeatedId));
 	}
 
 	@Test
@@ -285,12 +302,15 @@ public class WebUtilities_Test extends AbstractWComponentTestCase {
 
 		String staticChildId = getComponentId(staticChild, uic1);
 
-		Assert.assertSame("Incorrect component for root", root, WebUtilities.getComponentById(root.getId())
+		Assert.assertSame("Incorrect component for root", root, WebUtilities.getComponentById(root.
+				getId())
 				.getComponent());
-		Assert.assertSame("Incorrect context for root", uic1, WebUtilities.getComponentById(root.getId()).getContext());
+		Assert.assertSame("Incorrect context for root", uic1, WebUtilities.getComponentById(root.
+				getId()).getContext());
 		Assert.assertSame("Incorrect component for static child", staticChild,
 				WebUtilities.getComponentById(staticChildId).getComponent());
-		Assert.assertSame("Incorrect context for static child", uic1, WebUtilities.getComponentById(root.getId())
+		Assert.assertSame("Incorrect context for static child", uic1, WebUtilities.getComponentById(
+				root.getId())
 				.getContext());
 
 		// Test UIContext where components have been removed from the tree
@@ -299,10 +319,13 @@ public class WebUtilities_Test extends AbstractWComponentTestCase {
 		setActiveContext(uic2);
 		root.remove(staticChild);
 
-		Assert.assertSame("Incorrect component for root", root, WebUtilities.getComponentById(root.getId())
+		Assert.assertSame("Incorrect component for root", root, WebUtilities.getComponentById(root.
+				getId())
 				.getComponent());
-		Assert.assertSame("Incorrect context for root", uic2, WebUtilities.getComponentById(root.getId()).getContext());
-		Assert.assertNull("Incorrect component for removed child", WebUtilities.getComponentById(staticChildId));
+		Assert.assertSame("Incorrect context for root", uic2, WebUtilities.getComponentById(root.
+				getId()).getContext());
+		Assert.assertNull("Incorrect component for removed child", WebUtilities.getComponentById(
+				staticChildId));
 	}
 
 	@Test
@@ -325,16 +348,20 @@ public class WebUtilities_Test extends AbstractWComponentTestCase {
 		setActiveContext(uic1);
 		repeater.setData(data);
 
-		Assert.assertSame("Incorrect component for root", root, WebUtilities.getComponentById(root.getId())
+		Assert.assertSame("Incorrect component for root", root, WebUtilities.getComponentById(root.
+				getId())
 				.getComponent());
 		Assert
-				.assertSame("Incorrect context1 for root", uic1, WebUtilities.getComponentById(root.getId()).getContext());
+				.assertSame("Incorrect context1 for root", uic1, WebUtilities.getComponentById(root.
+						getId()).getContext());
 
 		setActiveContext(uic2);
-		Assert.assertSame("Incorrect component for root", root, WebUtilities.getComponentById(root.getId())
+		Assert.assertSame("Incorrect component for root", root, WebUtilities.getComponentById(root.
+				getId())
 				.getComponent());
 		Assert
-				.assertSame("Incorrect context2 for root", uic2, WebUtilities.getComponentById(root.getId()).getContext());
+				.assertSame("Incorrect context2 for root", uic2, WebUtilities.getComponentById(root.
+						getId()).getContext());
 
 		setActiveContext(uic1);
 		UIContext rowContext = repeater.getRowContexts().get(0);
@@ -342,19 +369,26 @@ public class WebUtilities_Test extends AbstractWComponentTestCase {
 
 		Assert.assertSame("Incorrect component for repeated row", repeatedComponent,
 				WebUtilities.getComponentById(repeatedId).getComponent());
-		Assert.assertSame("Incorrect context for repeated row", rowContext, WebUtilities.getComponentById(repeatedId)
+		Assert.assertSame("Incorrect context for repeated row", rowContext, WebUtilities.
+				getComponentById(repeatedId)
 				.getContext());
 
 		setActiveContext(uic2);
-		Assert.assertNull("Incorrect component for deleted row", WebUtilities.getComponentById(repeatedId));
+		Assert.assertNull("Incorrect component for deleted row", WebUtilities.getComponentById(
+				repeatedId));
 	}
 
 	@Test
 	public void testEscapeForUrl() {
-		Assert.assertEquals("Incorrectly encoded null string", null, WebUtilities.escapeForUrl(null));
+		Assert.
+				assertEquals("Incorrectly encoded null string", null, WebUtilities.
+						escapeForUrl(null));
 		Assert.assertEquals("Incorrectly encoded empty string", "", WebUtilities.escapeForUrl(""));
-		Assert.assertEquals("Incorrectly encoded 1 char string", "x", WebUtilities.escapeForUrl("x"));
-		Assert.assertEquals("Incorrectly encoded 1 special char string", "%20", WebUtilities.escapeForUrl(" "));
+		Assert.
+				assertEquals("Incorrectly encoded 1 char string", "x", WebUtilities.
+						escapeForUrl("x"));
+		Assert.assertEquals("Incorrectly encoded 1 special char string", "%20", WebUtilities.
+				escapeForUrl(" "));
 
 		// Text with multiple escapes
 		String in = "Hello world slash/ question? amper& quote\" apos'";
@@ -382,7 +416,8 @@ public class WebUtilities_Test extends AbstractWComponentTestCase {
 		Assert.assertEquals("Incorrectly encoded null string", null, WebUtilities.encode(null));
 		Assert.assertEquals("Incorrectly encoded empty string", "", WebUtilities.encode(""));
 		Assert.assertEquals("Incorrectly encoded 1 char string", "x", WebUtilities.encode("x"));
-		Assert.assertEquals("Incorrectly encoded 1 special char string", "&amp;", WebUtilities.encode("&"));
+		Assert.assertEquals("Incorrectly encoded 1 special char string", "&amp;", WebUtilities.
+				encode("&"));
 
 		String in = "Hello world greater> less< amper& quote\"\t\r\n";
 		String expected = "Hello world greater&gt; less&lt; amper&amp; quote&quot;\t\r\n";
@@ -394,7 +429,8 @@ public class WebUtilities_Test extends AbstractWComponentTestCase {
 		Assert.assertEquals("Incorrectly decoded null string", null, WebUtilities.decode(null));
 		Assert.assertEquals("Incorrectly decoded empty string", "", WebUtilities.decode(""));
 		Assert.assertEquals("Incorrectly decoded 1 char string", "x", WebUtilities.decode("x"));
-		Assert.assertEquals("Incorrectly decoded 1 special char string", "&", WebUtilities.decode("&amp;"));
+		Assert.assertEquals("Incorrectly decoded 1 special char string", "&", WebUtilities.decode(
+				"&amp;"));
 
 		String in = "Hello world greater&gt; less&lt; amper&amp; quote&quot;";
 		String expected = "Hello world greater> less< amper& quote\"";
@@ -402,7 +438,8 @@ public class WebUtilities_Test extends AbstractWComponentTestCase {
 
 		// Finally, check a encode/decode pair
 		String encoded = WebUtilities.encode(expected);
-		Assert.assertEquals("Incorrectly encoded/decoded value", expected, WebUtilities.decode(encoded));
+		Assert.assertEquals("Incorrectly encoded/decoded value", expected, WebUtilities.decode(
+				encoded));
 	}
 
 	@Test
@@ -410,7 +447,8 @@ public class WebUtilities_Test extends AbstractWComponentTestCase {
 		// Simple case
 		String url = "/foo";
 		String expected = "/foo";
-		Assert.assertEquals("Incorrect path returned for " + url, expected, WebUtilities.getPath(url, null));
+		Assert.assertEquals("Incorrect path returned for " + url, expected, WebUtilities.
+				getPath(url, null));
 
 		// Simple case with one param
 		Map<String, String> params = new HashMap<>();
@@ -451,15 +489,18 @@ public class WebUtilities_Test extends AbstractWComponentTestCase {
 
 		WContainer naming = new WContainer();
 		// Not active
-		Assert.assertFalse("Component is not an active naming context", WebUtilities.isActiveNamingContext(naming));
+		Assert.assertFalse("Component is not an active naming context", WebUtilities.
+				isActiveNamingContext(naming));
 
 		// Make active (but no ID)
 		naming.setNamingContext(true);
-		Assert.assertFalse("Component is not an active naming context as no ID", WebUtilities.isActiveNamingContext(naming));
+		Assert.assertFalse("Component is not an active naming context as no ID", WebUtilities.
+				isActiveNamingContext(naming));
 
 		// Set ID
 		naming.setIdName("id");
-		Assert.assertTrue("Component is an active naming context", WebUtilities.isActiveNamingContext(naming));
+		Assert.assertTrue("Component is an active naming context", WebUtilities.
+				isActiveNamingContext(naming));
 	}
 
 	@Test
@@ -485,7 +526,8 @@ public class WebUtilities_Test extends AbstractWComponentTestCase {
 		context3.add(child3);
 
 		// Test tree
-		Assert.assertNull("Naming context for context1 should be null", WebUtilities.getParentNamingContext(context1));
+		Assert.assertNull("Naming context for context1 should be null", WebUtilities.
+				getParentNamingContext(context1));
 
 		Assert.assertEquals("Naming context for child1 should be context1", context1,
 				WebUtilities.getParentNamingContext(child1));
@@ -496,8 +538,7 @@ public class WebUtilities_Test extends AbstractWComponentTestCase {
 	}
 
 	/**
-	 * Compare the URLS. The parameters of the URL must be equal but they do not have to be in the
-	 * same order.
+	 * Compare the URLS. The parameters of the URL must be equal but they do not have to be in the same order.
 	 *
 	 * @param actual the actual value
 	 * @param expected the expected value
@@ -520,7 +561,8 @@ public class WebUtilities_Test extends AbstractWComponentTestCase {
 
 		int params = expectedParams.length;
 
-		Assert.assertEquals("The number of parameters in URLs are not equal", params, actualParams.length);
+		Assert.assertEquals("The number of parameters in URLs are not equal", params,
+				actualParams.length);
 
 		List<String> expectedParamArray = Arrays.asList(expectedParams);
 		List<String> actualParamArray = Arrays.asList(actualParams);

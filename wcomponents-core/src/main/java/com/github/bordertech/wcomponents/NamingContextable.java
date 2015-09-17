@@ -9,9 +9,8 @@ package com.github.bordertech.wcomponents;
 public interface NamingContextable extends Container {
 
 	/**
-	 * Allow components that implement {@link NamingContextable} to selectively disable prepending
-	 * their ID to their descendent's IDs by breaking the prepending logic into a seperately
-	 * callable method.
+	 * Allow components that implement {@link NamingContextable} to selectively disable prepending their ID to their
+	 * descendent's IDs by breaking the prepending logic into a seperately callable method.
 	 * <p>
 	 * See {@link #getId()} for usage.
 	 * </p>
@@ -24,9 +23,8 @@ public interface NamingContextable extends Container {
 	String getNamingContextId();
 
 	/**
-	 * A naming context is only considered active if it has been set active via
-	 * {@link #setNamingContext(boolean)} and also has an id name set via
-	 * {@link #setIdName(String)}.
+	 * A naming context is only considered active if it has been set active via {@link #setNamingContext(boolean)} and
+	 * also has an id name set via {@link #setIdName(String)}.
 	 *
 	 * @return true if active naming context.
 	 */

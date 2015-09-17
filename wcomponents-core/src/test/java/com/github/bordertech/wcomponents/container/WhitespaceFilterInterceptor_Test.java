@@ -42,7 +42,8 @@ public class WhitespaceFilterInterceptor_Test extends AbstractWComponentTestCase
 		interceptor.paint(new WebXmlRenderContext(printWriter));
 		printWriter.close();
 
-		Assert.assertTrue("Should not have filtered text when disabled", writer.toString().contains(testString));
+		Assert.assertTrue("Should not have filtered text when disabled", writer.toString().contains(
+				testString));
 
 		// Test when enabled
 		Config.getInstance().setProperty("bordertech.wcomponents.whitespaceFilter.enabled", "true");
@@ -52,6 +53,7 @@ public class WhitespaceFilterInterceptor_Test extends AbstractWComponentTestCase
 		interceptor.paint(new WebXmlRenderContext(printWriter));
 		printWriter.close();
 
-		Assert.assertTrue("Should have filtered text when enabled", writer.toString().contains(filteredString));
+		Assert.assertTrue("Should have filtered text when enabled", writer.toString().contains(
+				filteredString));
 	}
 }

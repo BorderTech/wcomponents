@@ -20,7 +20,8 @@ public class WRowRenderer_Test extends AbstractWebXmlRendererTestCase {
 	@Test
 	public void testRendererCorrectlyConfigured() {
 		WRow component = new WRow();
-		Assert.assertTrue("Incorrect renderer supplied", getWebXmlRenderer(component) instanceof WRowRenderer);
+		Assert.assertTrue("Incorrect renderer supplied",
+				getWebXmlRenderer(component) instanceof WRowRenderer);
 	}
 
 	@Test

@@ -31,19 +31,23 @@ public class WRadioButtonTriggerActionExample_Test extends WComponentSeleniumTes
 		WebDriver driver = getDriver();
 
 		// "Lunch" should be initially selected
-		Assert.assertTrue("Lunch should be selected by default", driver.findElement(byWComponentPath("WRadioButton[1]")).isSelected());
+		Assert.assertTrue("Lunch should be selected by default", driver.findElement(
+				byWComponentPath("WRadioButton[1]")).isSelected());
 
 		// Select "Breakfast"
 		driver.findElement(byWComponentPath("WRadioButton[0]")).click();
-		Assert.assertTrue("Should have submitted 'Breakfast' to server", getMessageText().startsWith("Breakfast selected"));
+		Assert.assertTrue("Should have submitted 'Breakfast' to server", getMessageText().
+				startsWith("Breakfast selected"));
 
 		// Select "Lunch"
 		driver.findElement(byWComponentPath("WRadioButton[1]")).click();
-		Assert.assertTrue("Should have submitted 'Lunch' to server", getMessageText().startsWith("Lunch selected"));
+		Assert.assertTrue("Should have submitted 'Lunch' to server", getMessageText().startsWith(
+				"Lunch selected"));
 
 		// Select "Dinner"
 		driver.findElement(byWComponentPath("WRadioButton[2]")).click();
-		Assert.assertTrue("Should have submitted 'Dinner' to server", getMessageText().startsWith("Dinner selected"));
+		Assert.assertTrue("Should have submitted 'Dinner' to server", getMessageText().startsWith(
+				"Dinner selected"));
 
 		// A round-trip should not trigger the action to update the message text (which includes a timestamp).
 		String oldText = getMessageText();

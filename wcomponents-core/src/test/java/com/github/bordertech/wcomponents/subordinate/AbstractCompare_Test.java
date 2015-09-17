@@ -62,7 +62,8 @@ public class AbstractCompare_Test {
 			compare = new MyCompare(null, "Test");
 			Assert.fail("A null trigger should not be allowed");
 		} catch (IllegalArgumentException e) {
-			Assert.assertNotNull("Exception message for null trigger should not be null", e.getMessage());
+			Assert.assertNotNull("Exception message for null trigger should not be null", e.
+					getMessage());
 		}
 
 		// --------------------------
@@ -80,7 +81,8 @@ public class AbstractCompare_Test {
 			compare = new MyCompare(new WDateField(), "Invalid Date");
 			Assert.fail("A datefield trigger and invalid date value should not be allowed");
 		} catch (IllegalArgumentException e) {
-			Assert.assertNotNull("Exception message for datefield trigger and invalid date should not be null",
+			Assert.assertNotNull(
+					"Exception message for datefield trigger and invalid date should not be null",
 					e.getMessage());
 		}
 
@@ -91,14 +93,17 @@ public class AbstractCompare_Test {
 		compare = new MyCompare(numberTrigger, numberValue);
 
 		Assert.assertEquals("Invalid number trigger returned", numberTrigger, compare.getTrigger());
-		Assert.assertEquals("Invalid number compare value returned", numberValue, compare.getValue());
+		Assert.
+				assertEquals("Invalid number compare value returned", numberValue, compare.
+						getValue());
 
 		// Constructor - NumberField and Invalid Value
 		try {
 			compare = new MyCompare(new WNumberField(), "Invalid Number");
 			Assert.fail("A numberField trigger and invalid number value should not be allowed");
 		} catch (IllegalArgumentException e) {
-			Assert.assertNotNull("Exception message for numberField trigger and invalid number should not be null",
+			Assert.assertNotNull(
+					"Exception message for numberField trigger and invalid number should not be null",
 					e.getMessage());
 		}
 
@@ -119,52 +124,63 @@ public class AbstractCompare_Test {
 
 		// Disabled trigger should make the compare false
 		trigger.setDisabled(true);
-		Assert.assertFalse("Compare of equal disabled trigger and value should be false", compare.execute());
-		Assert.assertFalse("Compare of equal disabled trigger and value should be false with request",
+		Assert.assertFalse("Compare of equal disabled trigger and value should be false", compare.
+				execute());
+		Assert.assertFalse(
+				"Compare of equal disabled trigger and value should be false with request",
 				compare.execute(new MockRequest()));
 	}
 
 	@Test
 	public void testExecuteTriggerWithListOfValues() {
-		MyMultiSelectList trigger = new MyMultiSelectList(Arrays.asList(new String[]{"a", "b", "c", "d", "e"}), true);
+		MyMultiSelectList trigger = new MyMultiSelectList(Arrays.asList(
+				new String[]{"a", "b", "c", "d", "e"}), true);
 
 		// Test for option "b"
 		AbstractCompare compare = new MyCompare(trigger, "b");
 
 		// True
 		trigger.setSelected(Arrays.asList(new String[]{"b"}));
-		Assert.assertTrue("Compare using multiSelect with option 'b' condition should be true", compare.execute());
+		Assert.assertTrue("Compare using multiSelect with option 'b' condition should be true",
+				compare.execute());
 
 		// True - Multiple selected
 		trigger.setSelected(Arrays.asList(new String[]{"a", "b", "e"}));
-		Assert.assertTrue("Compare using multiSelect with option 'b' condition should be true", compare.execute());
+		Assert.assertTrue("Compare using multiSelect with option 'b' condition should be true",
+				compare.execute());
 
 		// False
 		trigger.setSelected(Arrays.asList(new String[]{"c"}));
-		Assert.assertFalse("Compare using multiSelect with option 'b' condition should be false", compare.execute());
+		Assert.assertFalse("Compare using multiSelect with option 'b' condition should be false",
+				compare.execute());
 
 		// False - Multiple selected
 		trigger.setSelected(Arrays.asList(new String[]{"c", "d", "e"}));
-		Assert.assertFalse("Compare using multiSelect with option 'b' condition should be false", compare.execute());
+		Assert.assertFalse("Compare using multiSelect with option 'b' condition should be false",
+				compare.execute());
 
 		// Nothing Selected
 		trigger.setSelected(null);
-		Assert.assertFalse("Compare using multiSelect with option 'b' condition should be false", compare.execute());
+		Assert.assertFalse("Compare using multiSelect with option 'b' condition should be false",
+				compare.execute());
 
 		// NULL Test
 		compare = new Equal(trigger, null);
 
 		// False
 		trigger.setSelected(Arrays.asList(new String[]{"b"}));
-		Assert.assertFalse("Compare using multiSelect with null condition should be false", compare.execute());
+		Assert.assertFalse("Compare using multiSelect with null condition should be false", compare.
+				execute());
 
 		// False - Multiple selected
 		trigger.setSelected(Arrays.asList(new String[]{"c", "d", "e"}));
-		Assert.assertFalse("Compare using multiSelect with null condition should be false", compare.execute());
+		Assert.assertFalse("Compare using multiSelect with null condition should be false", compare.
+				execute());
 
 		// True - Nothing Selected
 		trigger.setSelected(null);
-		Assert.assertTrue("Compare using multiSelect with null condition should be true", compare.execute());
+		Assert.assertTrue("Compare using multiSelect with null condition should be true", compare.
+				execute());
 	}
 
 	@Test
@@ -175,7 +191,8 @@ public class AbstractCompare_Test {
 		// No Value
 		trigger.setDate(null);
 
-		Assert.assertNull("DateField Trigger Value - should be null for null date", compare.getTriggerValue(null));
+		Assert.assertNull("DateField Trigger Value - should be null for null date", compare.
+				getTriggerValue(null));
 
 		// Value
 		Date date = new Date();
@@ -183,7 +200,9 @@ public class AbstractCompare_Test {
 
 		trigger.setDate(date);
 
-		Assert.assertEquals("DateField Trigger Value - should be the formatted string of the date value", dateString,
+		Assert.assertEquals(
+				"DateField Trigger Value - should be the formatted string of the date value",
+				dateString,
 				compare.getTriggerValue(null));
 
 		// Value on the Request
@@ -195,7 +214,8 @@ public class AbstractCompare_Test {
 		request.setParameter(trigger.getId() + "-date", dateString);
 
 		Assert
-				.assertEquals("DateField Trigger Value - should be the formatted string of the date value on the request",
+				.assertEquals(
+						"DateField Trigger Value - should be the formatted string of the date value on the request",
 						dateString, compare.getTriggerValue(request));
 	}
 
@@ -207,7 +227,8 @@ public class AbstractCompare_Test {
 		// No Value
 		trigger.setNumber(null);
 
-		Assert.assertNull("NumberField Trigger Value - should be null for null number", compare.getTriggerValue(null));
+		Assert.assertNull("NumberField Trigger Value - should be null for null number", compare.
+				getTriggerValue(null));
 
 		// Value
 		BigDecimal value = BigDecimal.valueOf(5);
@@ -243,7 +264,8 @@ public class AbstractCompare_Test {
 		trigger.setSelected(Boolean.TRUE);
 		String valueCode = trigger.optionToCode(Boolean.TRUE);
 
-		Assert.assertEquals("SingleSelectList Trigger Value - should be the code value of the selected option",
+		Assert.assertEquals(
+				"SingleSelectList Trigger Value - should be the code value of the selected option",
 				valueCode, compare.getTriggerValue(null));
 
 		// Value on the Request
@@ -253,7 +275,8 @@ public class AbstractCompare_Test {
 		request.setParameter(trigger.getId() + "-h", "x");
 		request.setParameter(trigger.getId(), valueCode);
 
-		Assert.assertEquals("SingleSelectList Trigger Value - should be the code value on the option on the request",
+		Assert.assertEquals(
+				"SingleSelectList Trigger Value - should be the code value on the option on the request",
 				valueCode, compare.getTriggerValue(request));
 	}
 
@@ -268,14 +291,16 @@ public class AbstractCompare_Test {
 		trigger.setSelected(null);
 
 		Assert
-				.assertNull("MultiSelectList Trigger Value - should be null for null data", compare.getTriggerValue(null));
+				.assertNull("MultiSelectList Trigger Value - should be null for null data", compare.
+						getTriggerValue(null));
 
 		// Value
 		trigger.setSelected(Arrays.asList(Boolean.TRUE));
 
 		List<String> valueCodes = Arrays.asList(trigger.optionToCode(Boolean.TRUE));
 		Assert
-				.assertEquals("MultiSelectList Trigger Value - should be a list of the code value of the selected option",
+				.assertEquals(
+						"MultiSelectList Trigger Value - should be a list of the code value of the selected option",
 						valueCodes, compare.getTriggerValue(null));
 
 		// Value on the Request
@@ -285,7 +310,8 @@ public class AbstractCompare_Test {
 		request.setParameter(trigger.getId() + "-h", "x");
 		request.setParameter(trigger.getId(), trigger.optionToCode(Boolean.FALSE));
 
-		Assert.assertEquals("MultiSelectList Trigger Value - should be the code value on the option on the request",
+		Assert.assertEquals(
+				"MultiSelectList Trigger Value - should be the code value on the option on the request",
 				valueCodes, compare.getTriggerValue(request));
 	}
 
@@ -297,17 +323,20 @@ public class AbstractCompare_Test {
 		// No Value
 		trigger.setData(null);
 
-		Assert.assertNull("Input Trigger Value - should be null for null data", compare.getTriggerValue(null));
+		Assert.assertNull("Input Trigger Value - should be null for null data", compare.
+				getTriggerValue(null));
 
 		// Empty Value
 		trigger.setData("");
 
-		Assert.assertNull("Input Trigger Value - should be null for empty data", compare.getTriggerValue(null));
+		Assert.assertNull("Input Trigger Value - should be null for empty data", compare.
+				getTriggerValue(null));
 
 		// Value
 		trigger.setData(Boolean.TRUE);
 
-		Assert.assertEquals("Input Trigger Value - should be the string value of the data", Boolean.TRUE.toString(),
+		Assert.assertEquals("Input Trigger Value - should be the string value of the data",
+				Boolean.TRUE.toString(),
 				compare.getTriggerValue(null));
 
 		// Value on the Request
@@ -329,7 +358,8 @@ public class AbstractCompare_Test {
 			compare.execute();
 			Assert.fail("Should have thrown exception for invalid subordinate trigger.");
 		} catch (SystemException e) {
-			Assert.assertNotNull("Exception for invalid subordinate trigger should have a message", e.getMessage());
+			Assert.assertNotNull("Exception for invalid subordinate trigger should have a message",
+					e.getMessage());
 		}
 	}
 
@@ -340,7 +370,8 @@ public class AbstractCompare_Test {
 		// Null Value
 		AbstractCompare compare = new MyCompare(trigger, null);
 
-		Assert.assertNull("DateField Compare Value - should be null for null date", compare.getCompareValue());
+		Assert.assertNull("DateField Compare Value - should be null for null date", compare.
+				getCompareValue());
 
 		// Value
 		Date date = new Date();
@@ -348,7 +379,9 @@ public class AbstractCompare_Test {
 
 		compare = new MyCompare(trigger, date);
 
-		Assert.assertEquals("DateField Compare Value - should be the formatted string of the date value", dateString,
+		Assert.assertEquals(
+				"DateField Compare Value - should be the formatted string of the date value",
+				dateString,
 				compare.getCompareValue());
 	}
 
@@ -359,14 +392,16 @@ public class AbstractCompare_Test {
 		// Null Value
 		AbstractCompare compare = new MyCompare(trigger, null);
 
-		Assert.assertNull("NumberField Compare Value - should be null for null number", compare.getCompareValue());
+		Assert.assertNull("NumberField Compare Value - should be null for null number", compare.
+				getCompareValue());
 
 		// Value
 		BigDecimal value = BigDecimal.valueOf(5);
 
 		compare = new MyCompare(trigger, value);
 
-		Assert.assertEquals("NumberField Compare Value - should be the number value", value, compare.getCompareValue());
+		Assert.assertEquals("NumberField Compare Value - should be the number value", value,
+				compare.getCompareValue());
 	}
 
 	@Test
@@ -376,11 +411,13 @@ public class AbstractCompare_Test {
 		// Null Value
 		AbstractCompare compare = new MyCompare(trigger, null);
 
-		Assert.assertNull("RadioButtonGroup Compare Value - should be null for null value", compare.getCompareValue());
+		Assert.assertNull("RadioButtonGroup Compare Value - should be null for null value", compare.
+				getCompareValue());
 
 		// Empty Value
 		compare = new MyCompare(trigger, "");
-		Assert.assertNull("RadioButtonGroup Compare Value - should be null for empty value", compare.getCompareValue());
+		Assert.assertNull("RadioButtonGroup Compare Value - should be null for empty value",
+				compare.getCompareValue());
 
 		// Value
 		compare = new MyCompare(trigger, Boolean.FALSE);
@@ -390,11 +427,15 @@ public class AbstractCompare_Test {
 
 		// Button - Null Value
 		compare = new MyCompare(trigger, trigger.addRadioButton(null));
-		Assert.assertNull("RadioButtonGroup Compare Value - should be null for button with null value", compare.getCompareValue());
+		Assert.assertNull(
+				"RadioButtonGroup Compare Value - should be null for button with null value",
+				compare.getCompareValue());
 
 		// Button - Empty Value
 		compare = new MyCompare(trigger, trigger.addRadioButton(""));
-		Assert.assertNull("RadioButtonGroup Compare Value - should be null for button with empty value", compare.getCompareValue());
+		Assert.assertNull(
+				"RadioButtonGroup Compare Value - should be null for button with empty value",
+				compare.getCompareValue());
 
 		// Button - Value
 		compare = new MyCompare(trigger, trigger.addRadioButton("B1"));
@@ -410,12 +451,14 @@ public class AbstractCompare_Test {
 		// No Options - null value
 		AbstractCompare compare = new MyCompare(trigger, null);
 
-		Assert.assertNull("NumberField Compare Value - should be null for null number", compare.getCompareValue());
+		Assert.assertNull("NumberField Compare Value - should be null for null number", compare.
+				getCompareValue());
 
 		// Empty Options - null value
 		trigger.setOptions(new ArrayList<String>());
 
-		Assert.assertNull("NumberField Compare Value - should be null for null number", compare.getCompareValue());
+		Assert.assertNull("NumberField Compare Value - should be null for null number", compare.
+				getCompareValue());
 
 		// No Options - with value
 		compare = new MyCompare(trigger, Boolean.TRUE);
@@ -430,19 +473,22 @@ public class AbstractCompare_Test {
 		compare = new MyCompare(trigger, Boolean.TRUE);
 		String valueCode = trigger.optionToCode(Boolean.TRUE);
 
-		Assert.assertEquals("List Component Compare Value - should be the code of the option", valueCode,
+		Assert.assertEquals("List Component Compare Value - should be the code of the option",
+				valueCode,
 				compare.getCompareValue());
 
 		// Valid option - legacy match
 		compare = new MyCompare(trigger, "false");
 		valueCode = trigger.optionToCode(Boolean.FALSE);
 		Assert
-				.assertEquals("List Component Compare Value - should be the code of the option matched via legacy matching",
+				.assertEquals(
+						"List Component Compare Value - should be the code of the option matched via legacy matching",
 						valueCode, compare.getCompareValue());
 
 		// Invalid option
 		compare = new MyCompare(trigger, "X");
-		Assert.assertEquals("List Component Compare Value - should be the string of the invalid option", "X",
+		Assert.assertEquals(
+				"List Component Compare Value - should be the string of the invalid option", "X",
 				compare.getCompareValue());
 
 		// Invalid option (Empty)
@@ -458,17 +504,20 @@ public class AbstractCompare_Test {
 		// Null Value
 		AbstractCompare compare = new MyCompare(trigger, null);
 
-		Assert.assertNull("Input Compare Value - should be null for null value", compare.getCompareValue());
+		Assert.assertNull("Input Compare Value - should be null for null value", compare.
+				getCompareValue());
 
 		// Empty Value
 		compare = new MyCompare(trigger, "");
 
-		Assert.assertNull("Input Compare Value - should be null for empty value", compare.getCompareValue());
+		Assert.assertNull("Input Compare Value - should be null for empty value", compare.
+				getCompareValue());
 
 		// Value
 		compare = new MyCompare(trigger, Boolean.TRUE);
 
-		Assert.assertEquals("Input Compare Value - should be the string of the value", Boolean.TRUE.toString(),
+		Assert.assertEquals("Input Compare Value - should be the string of the value", Boolean.TRUE.
+				toString(),
 				compare.getCompareValue());
 	}
 
@@ -483,7 +532,8 @@ public class AbstractCompare_Test {
 		// Value
 		compare = new MyCompare(new MyInput(), Boolean.TRUE);
 
-		Assert.assertEquals("Compare paint value should be the string of the value", Boolean.TRUE.toString(),
+		Assert.assertEquals("Compare paint value should be the string of the value", Boolean.TRUE.
+				toString(),
 				compare.getComparePaintValue());
 	}
 
@@ -521,7 +571,8 @@ public class AbstractCompare_Test {
 	/**
 	 * Test class for AbstractWSingleSelectList.
 	 */
-	private static final class MySingleSelectList extends AbstractWSingleSelectList implements SubordinateTrigger {
+	private static final class MySingleSelectList extends AbstractWSingleSelectList implements
+			SubordinateTrigger {
 
 		/**
 		 * @param options the list's options.
@@ -543,7 +594,8 @@ public class AbstractCompare_Test {
 	/**
 	 * Test class for AbstractWMultiSelectList.
 	 */
-	private static final class MyMultiSelectList extends AbstractWMultiSelectList implements SubordinateTrigger {
+	private static final class MyMultiSelectList extends AbstractWMultiSelectList implements
+			SubordinateTrigger {
 
 		/**
 		 * @param options the list's options.

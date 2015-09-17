@@ -18,7 +18,8 @@ public class WPrintButtonRenderer_Test extends AbstractWebXmlRendererTestCase {
 	@Test
 	public void testRendererCorrectlyConfigured() {
 		WPrintButton component = new WPrintButton("dummy");
-		Assert.assertTrue("Incorrect renderer supplied", getWebXmlRenderer(component) instanceof WPrintButtonRenderer);
+		Assert.assertTrue("Incorrect renderer supplied",
+				getWebXmlRenderer(component) instanceof WPrintButtonRenderer);
 	}
 
 	@Test

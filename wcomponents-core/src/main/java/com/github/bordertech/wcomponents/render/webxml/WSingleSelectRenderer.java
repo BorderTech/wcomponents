@@ -63,12 +63,14 @@ final class WSingleSelectRenderer extends AbstractWebXmlRenderer {
 					xml.appendClose();
 
 					for (Object nestedOption : ((OptionGroup) option).getOptions()) {
-						renderOption(listBox, nestedOption, optionIndex++, xml, selectedOption, renderSelectionsOnly, encode);
+						renderOption(listBox, nestedOption, optionIndex++, xml, selectedOption,
+								renderSelectionsOnly, encode);
 					}
 
 					xml.appendEndTag("ui:optgroup");
 				} else {
-					renderOption(listBox, option, optionIndex++, xml, selectedOption, renderSelectionsOnly, encode);
+					renderOption(listBox, option, optionIndex++, xml, selectedOption,
+							renderSelectionsOnly, encode);
 				}
 			}
 		}
@@ -84,8 +86,7 @@ final class WSingleSelectRenderer extends AbstractWebXmlRenderer {
 	 * @param optionIndex the index of the option. OptionGroups are not counted.
 	 * @param html the XmlStringBuilder to paint to.
 	 * @param selectedOption the selected option.
-	 * @param renderSelectionsOnly true to only render selected options, false to render all
-	 * options.
+	 * @param renderSelectionsOnly true to only render selected options, false to render all options.
 	 * @param encode true if option descriptions should be encoded, false if not.
 	 */
 	private void renderOption(final WSingleSelect listBox, final Object option,

@@ -12,8 +12,7 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 /**
- * VelocityWriter extends SearchReplaceWriter to defer rendering of WComponents when using a
- * Velocity template.
+ * VelocityWriter extends SearchReplaceWriter to defer rendering of WComponents when using a Velocity template.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -34,11 +33,11 @@ public class VelocityWriter extends AbstractSearchReplaceWriter {
 	 * Creates a VelocityWriter.
 	 *
 	 * @param backing the underlying writer where output will be sent to.
-	 * @param componentsByKey a map of WComponents, keyed by a marker that will be output by
-	 * Velocity.
+	 * @param componentsByKey a map of WComponents, keyed by a marker that will be output by Velocity.
 	 * @param uic the user's UIContext that will be used when painting the components.
 	 */
-	public VelocityWriter(final Writer backing, final Map<String, WComponent> componentsByKey, final UIContext uic) {
+	public VelocityWriter(final Writer backing, final Map<String, WComponent> componentsByKey,
+			final UIContext uic) {
 		super(componentsByKey.keySet().toArray(new String[componentsByKey.size()]), backing);
 
 		this.uic = uic;

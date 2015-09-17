@@ -23,7 +23,8 @@ public class WLabelRenderer_Test extends AbstractWebXmlRendererTestCase {
 	@Test
 	public void testRendererCorrectlyConfigured() {
 		WLabel label = new WLabel();
-		Assert.assertTrue("Incorrect renderer supplied", getWebXmlRenderer(label) instanceof WLabelRenderer);
+		Assert.assertTrue("Incorrect renderer supplied",
+				getWebXmlRenderer(label) instanceof WLabelRenderer);
 	}
 
 	@Test

@@ -165,7 +165,8 @@ public final class RowIdList_Test {
 		Assert.assertFalse("Contains(start-1) should return false", list.contains(start - 1));
 		Assert.assertTrue("Contains(start) should return true", list.contains(start));
 		Assert.assertTrue("Contains(start + 1) should return true", list.contains(start + 1));
-		Assert.assertTrue("Contains((end-start)/2) should return true", list.contains((end - start / 2)));
+		Assert.assertTrue("Contains((end-start)/2) should return true", list.contains(
+				(end - start / 2)));
 		Assert.assertTrue("Contains(end - 1) should return true", list.contains(end - 1));
 		Assert.assertTrue("Contains(end) should return true", list.contains(end));
 		Assert.assertFalse("Contains(end+1) should return false", list.contains(end + 1));
@@ -177,11 +178,14 @@ public final class RowIdList_Test {
 		final int end = 456;
 
 		List<Integer> contained = Arrays.asList(new Integer[]{start, start + 1, end - 1, end});
-		List<Integer> notContained = Arrays.asList(new Integer[]{start, start + 1, end - 1, end, end + 1});
+		List<Integer> notContained = Arrays.asList(
+				new Integer[]{start, start + 1, end - 1, end, end + 1});
 
 		List<Integer> list = new RowIdList(start, end);
-		Assert.assertTrue("ContainsAll should return true when all items are contained", list.containsAll(contained));
-		Assert.assertFalse("ContainsAll should return false when not all items are contained", list.containsAll(notContained));
+		Assert.assertTrue("ContainsAll should return true when all items are contained", list.
+				containsAll(contained));
+		Assert.assertFalse("ContainsAll should return false when not all items are contained", list.
+				containsAll(notContained));
 	}
 
 	@Test
@@ -192,7 +196,8 @@ public final class RowIdList_Test {
 		List<Integer> list = new RowIdList(start, end);
 
 		for (int i = 0; i <= end - start; i++) {
-			Assert.assertEquals("Incorrect value for get(" + i + ")", Integer.valueOf(start + i), list.get(i));
+			Assert.assertEquals("Incorrect value for get(" + i + ")", Integer.valueOf(start + i),
+					list.get(i));
 		}
 
 		// Test OOB errors
@@ -221,15 +226,19 @@ public final class RowIdList_Test {
 		for (int i = 0; i <= end - start; i++) {
 			Object item = Integer.valueOf(start + i);
 			Assert.assertEquals("Incorrect value for indexOf(" + item + ")", i, list.indexOf(item));
-			Assert.assertEquals("Incorrect value for lastIndexOf(" + item + ")", i, list.lastIndexOf(item));
+			Assert.assertEquals("Incorrect value for lastIndexOf(" + item + ")", i, list.
+					lastIndexOf(item));
 		}
 
 		// Test for item not in list
 		Assert.assertEquals("Index of items not in list should be -1", -1, list.indexOf("123"));
 		Assert.assertEquals("Index of items not in list should be -1", -1, list.indexOf(start - 1));
-		Assert.assertEquals("Index of items not in list should be -1", -1, list.lastIndexOf(start - 1));
+		Assert.assertEquals("Index of items not in list should be -1", -1, list.lastIndexOf(
+				start - 1));
 		Assert.assertEquals("Index of items not in list should be -1", -1, list.indexOf(end + 1));
-		Assert.assertEquals("Index of items not in list should be -1", -1, list.lastIndexOf(end + 1));
+		Assert.
+				assertEquals("Index of items not in list should be -1", -1, list.
+						lastIndexOf(end + 1));
 	}
 
 	@Test
@@ -307,8 +316,10 @@ public final class RowIdList_Test {
 		}
 
 		// Go backwards through the list
-		Assert.assertEquals("Incorrect iterator previous value", Integer.valueOf(8), iterator.previous());
-		Assert.assertEquals("Incorrect iterator previous value", Integer.valueOf(7), iterator.previous());
+		Assert.assertEquals("Incorrect iterator previous value", Integer.valueOf(8), iterator.
+				previous());
+		Assert.assertEquals("Incorrect iterator previous value", Integer.valueOf(7), iterator.
+				previous());
 
 		// Ensure bounds checking works -- lower bound
 		Assert.assertFalse("Iterator should not have previous", iterator.hasPrevious());

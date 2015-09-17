@@ -36,21 +36,25 @@ public class SimpleFileUpload_Test extends WComponentSeleniumTestCase {
 		// Launch the web browser to the LDE
 		WebDriver driver = getDriver();
 
-		Assert.assertEquals("Incorrect default text", "", driver.findElement(byWComponentPath("WTextArea")).getText());
+		Assert.assertEquals("Incorrect default text", "", driver.findElement(byWComponentPath(
+				"WTextArea")).getText());
 
 		// Upload nothing
 		driver.findElement(byWComponentPath("WButton")).click();
-		Assert.assertEquals("Should not have uploaded", "nothing uploaded", driver.findElement(byWComponentPath("WTextArea")).getText());
+		Assert.assertEquals("Should not have uploaded", "nothing uploaded", driver.findElement(
+				byWComponentPath("WTextArea")).getText());
 
 		// Upload a file
 		String testText = "SimpleFileUpload_Test.testExample. The time is: " + new Date();
 
 		File tempFile = createTempFile(testText);
 
-		driver.findElement(byWComponentPath("WFileWidget")).findElement(By.xpath("descendant-or-self::input")).sendKeys(tempFile.getAbsolutePath());
+		driver.findElement(byWComponentPath("WFileWidget")).findElement(By.xpath(
+				"descendant-or-self::input")).sendKeys(tempFile.getAbsolutePath());
 
 		driver.findElement(byWComponentPath("WButton")).click();
-		Assert.assertEquals("Incorrect data uploaded", testText, driver.findElement(byWComponentPath("WTextArea")).getText());
+		Assert.assertEquals("Incorrect data uploaded", testText, driver.findElement(
+				byWComponentPath("WTextArea")).getText());
 	}
 
 	/**

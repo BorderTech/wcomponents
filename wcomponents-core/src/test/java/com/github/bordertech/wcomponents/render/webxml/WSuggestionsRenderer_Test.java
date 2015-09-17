@@ -28,7 +28,8 @@ public class WSuggestionsRenderer_Test extends AbstractWebXmlRendererTestCase {
 	public void testRendererCorrectlyConfigured() {
 		WSuggestions suggestions = new WSuggestions();
 		Assert
-				.assertTrue("Incorrect renderer supplied", getWebXmlRenderer(suggestions) instanceof WSuggestionsRenderer);
+				.assertTrue("Incorrect renderer supplied",
+						getWebXmlRenderer(suggestions) instanceof WSuggestionsRenderer);
 	}
 
 	@Test

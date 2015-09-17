@@ -54,7 +54,8 @@ public class I18nExample extends WPanel implements MessageContainer {
 		nameField.setMandatory(true);
 
 		WButton actionButton = new WButton("SUBMIT_FORM");
-		actionButton.setAction(new ValidatingAction(messages.getValidationErrors(), I18nExample.this) {
+		actionButton.setAction(
+				new ValidatingAction(messages.getValidationErrors(), I18nExample.this) {
 			@Override
 			public void executeOnValid(final ActionEvent event) {
 				helloWorldText.setText("HELLO_NAME", nameField.getText());
@@ -105,8 +106,8 @@ public class I18nExample extends WPanel implements MessageContainer {
 		}
 
 		/**
-		 * Return a button image for this button. The button images are present in the classpath, in
-		 * the same location as the resource bundles.
+		 * Return a button image for this button. The button images are present in the classpath, in the same location
+		 * as the resource bundles.
 		 *
 		 * @param locale the locale to retrieve the image for.
 		 * @return the image for the given locale.

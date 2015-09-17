@@ -80,8 +80,7 @@ public class WCheckBoxSelectExample extends WContainer {
 	}
 
 	/**
-	 * This example creates the WCheckBoxSelect using an a look up table. This checkBoxSelect has a
-	 * frame.
+	 * This example creates the WCheckBoxSelect using an a look up table. This checkBoxSelect has a frame.
 	 */
 	private void addAustralianStatesExample() {
 		add(new WHeading(WHeading.SECTION, "WCheckBoxSelect created using a lookup table"));
@@ -110,8 +109,8 @@ public class WCheckBoxSelectExample extends WContainer {
 	}
 
 	/**
-	 * This example creates the WCheckBoxSelect from an array of Strings. This checkBoxSelect has no
-	 * frame and uses a toolTip to set its legend
+	 * This example creates the WCheckBoxSelect from an array of Strings. This checkBoxSelect has no frame and uses a
+	 * toolTip to set its legend
 	 */
 	private void addAnimalExample() {
 		add(new WHeading(WHeading.SECTION, "WCheckBoxSelect created using a String array"));
@@ -140,8 +139,8 @@ public class WCheckBoxSelectExample extends WContainer {
 	}
 
 	/**
-	 * This example creates the WCheckBoxSelect from a List of CarOptions. This WCheckBoxSelect has
-	 * no frame and uses a toolTip to set its labelling element
+	 * This example creates the WCheckBoxSelect from a List of CarOptions. This WCheckBoxSelect has no frame and uses a
+	 * toolTip to set its labelling element
 	 */
 	private void addCarsExample() {
 		add(new WHeading(WHeading.SECTION, "WCheckBoxSelect created using an array list of options"));
@@ -175,8 +174,8 @@ public class WCheckBoxSelectExample extends WContainer {
 	}
 
 	/**
-	 * When a WCheckBoxSelect is added to a WFieldLayout the legend is moved. The first
-	 * CheckBoxSelect has a frame, the second doesn't
+	 * When a WCheckBoxSelect is added to a WFieldLayout the legend is moved. The first CheckBoxSelect has a frame, the
+	 * second doesn't
 	 */
 	private void addInsideAFieldLayoutExample() {
 		add(new WHeading(WHeading.SECTION, "WCheckBoxSelect inside a WFieldLayout"));
@@ -203,9 +202,8 @@ public class WCheckBoxSelectExample extends WContainer {
 	}
 
 	/**
-	 * WCheckBoxSelect layout options These examples show the various ways to lay out the options in
-	 * a WCheckBoxSelect NOTE: the default (if no buttonLayout is set) is LAYOUT_STACKED. adds a
-	 * WCheckBoxSelect with LAYOUT_FLAT
+	 * WCheckBoxSelect layout options These examples show the various ways to lay out the options in a WCheckBoxSelect
+	 * NOTE: the default (if no buttonLayout is set) is LAYOUT_STACKED. adds a WCheckBoxSelect with LAYOUT_FLAT
 	 */
 	private void addFlatSelectExample() {
 		add(new WHeading(WHeading.SECTION, "WCheckBoxSelect with flat layout"));
@@ -232,8 +230,8 @@ public class WCheckBoxSelectExample extends WContainer {
 	}
 
 	/**
-	 * adds a WCheckBoxSelect with LAYOUT_COLUMN in 1 column simply by not setting the number of
-	 * columns. This is superfluous as you should use LAYOUT_STACKED (the default) instead.
+	 * adds a WCheckBoxSelect with LAYOUT_COLUMN in 1 column simply by not setting the number of columns. This is
+	 * superfluous as you should use LAYOUT_STACKED (the default) instead.
 	 */
 	private void addSingleColumnSelectExample() {
 		add(new WHeading(WHeading.SECTION, "WCheckBoxSelect laid out in a single column"));
@@ -425,8 +423,8 @@ public class WCheckBoxSelectExample extends WContainer {
 	}
 
 	/**
-	 * Examples of disabled state. You should use {@link WSubordinateControl} to set and manage the
-	 * disabled state unless there is no facility for the user to enable a control.
+	 * Examples of disabled state. You should use {@link WSubordinateControl} to set and manage the disabled state
+	 * unless there is no facility for the user to enable a control.
 	 */
 	private void addDisabledExamples() {
 		add(new WHeading(WHeading.SECTION, "Disabled WCheckBoxSelect examples"));
@@ -531,8 +529,7 @@ public class WCheckBoxSelectExample extends WContainer {
 	}
 
 	/**
-	 * Applications can wrap options inside lists in order to provide custom text and values for the
-	 * CheckBoxes.
+	 * Applications can wrap options inside lists in order to provide custom text and values for the CheckBoxes.
 	 */
 	private static final class CarOption implements Option, Serializable {
 

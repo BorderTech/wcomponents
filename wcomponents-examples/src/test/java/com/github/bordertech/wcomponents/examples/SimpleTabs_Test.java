@@ -75,11 +75,15 @@ public class SimpleTabs_Test extends WComponentSeleniumTestCase {
 			String tabContent = "tab" + i + "content";
 
 			if (i == index) {
-				Assert.assertTrue("Tab " + i + " heading should be visible", driver.getPageSource().contains(tabHeading));
-				Assert.assertTrue("Tab " + i + " content should be visible", driver.getPageSource().contains(tabContent));
+				Assert.assertTrue("Tab " + i + " heading should be visible", driver.getPageSource().
+						contains(tabHeading));
+				Assert.assertTrue("Tab " + i + " content should be visible", driver.getPageSource().
+						contains(tabContent));
 			} else {
-				Assert.assertFalse("Tab " + i + " heading should not be visible", driver.getPageSource().contains(tabHeading));
-				Assert.assertFalse("Tab " + i + " content should not be visible", driver.getPageSource().contains(tabContent));
+				Assert.assertFalse("Tab " + i + " heading should not be visible", driver.
+						getPageSource().contains(tabHeading));
+				Assert.assertFalse("Tab " + i + " content should not be visible", driver.
+						getPageSource().contains(tabContent));
 			}
 		}
 	}

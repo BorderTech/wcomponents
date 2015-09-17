@@ -6,17 +6,17 @@ import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 
 /**
- * Adds headline entries to a page. Headline entries are intended to only be added once to a page,
- * but in a portal environment this proves difficult. This interceptor is currently used on a
- * per-portlet basis which is not really what we want. It seems to work for now.
+ * Adds headline entries to a page. Headline entries are intended to only be added once to a page, but in a portal
+ * environment this proves difficult. This interceptor is currently used on a per-portlet basis which is not really what
+ * we want. It seems to work for now.
  *
  * @author Martin Shevchenko
  */
 public class HeadLineInterceptor extends InterceptorComponent {
 
 	/**
-	 * Override preparePaint in order to perform processing specific to this interceptor. Any old
-	 * headers are cleared out before preparePaint is called on the main UI.
+	 * Override preparePaint in order to perform processing specific to this interceptor. Any old headers are cleared
+	 * out before preparePaint is called on the main UI.
 	 *
 	 * @param request the request being responded to.
 	 */
@@ -34,15 +34,16 @@ public class HeadLineInterceptor extends InterceptorComponent {
 	}
 
 	/**
-	 * Override paint in order to perform processing specific to this interceptor. This
-	 * implementation is responsible for rendering the headlines for the UI.
+	 * Override paint in order to perform processing specific to this interceptor. This implementation is responsible
+	 * for rendering the headlines for the UI.
 	 *
 	 * @param renderContext the renderContext to send the output to.
 	 */
 	@Override
 	public void paint(final RenderContext renderContext) {
 		if (renderContext instanceof WebXmlRenderContext) {
-			PageContentHelper.addAllHeadlines(((WebXmlRenderContext) renderContext).getWriter(), getUI().getHeaders());
+			PageContentHelper.addAllHeadlines(((WebXmlRenderContext) renderContext).getWriter(),
+					getUI().getHeaders());
 		}
 
 		getBackingComponent().paint(renderContext);

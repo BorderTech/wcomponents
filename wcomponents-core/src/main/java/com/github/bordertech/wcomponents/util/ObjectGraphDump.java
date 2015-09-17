@@ -63,7 +63,8 @@ public final class ObjectGraphDump {
 	 */
 	public static ObjectGraphNode dump(final Object obj) {
 		ObjectGraphDump dump = new ObjectGraphDump(false, true);
-		ObjectGraphNode root = new ObjectGraphNode(++dump.nodeCount, null, obj.getClass().getName(), obj);
+		ObjectGraphNode root = new ObjectGraphNode(++dump.nodeCount, null, obj.getClass().getName(),
+				obj);
 		dump.visit(root);
 
 		return root;
@@ -122,7 +123,8 @@ public final class ObjectGraphDump {
 			Object fieldValue = readField(fields[i], node.getValue());
 			String fieldType = fields[i].getType().getName();
 
-			ObjectGraphNode childNode = new ObjectGraphNode(++nodeCount, fields[i].getName(), fieldType, fieldValue);
+			ObjectGraphNode childNode = new ObjectGraphNode(++nodeCount, fields[i].getName(),
+					fieldType, fieldValue);
 			node.add(childNode);
 			visit(childNode);
 		}
@@ -147,7 +149,8 @@ public final class ObjectGraphDump {
 				String fieldType = fields[i].getType().getName();
 				String nodeFieldName = fields[i].getName() + (Util.equals(fieldValue, otherValue) ? "" : "*");
 
-				ObjectGraphNode childNode = new ObjectGraphNode(++nodeCount, nodeFieldName, fieldType, fieldValue);
+				ObjectGraphNode childNode = new ObjectGraphNode(++nodeCount, nodeFieldName,
+						fieldType, fieldValue);
 				node.add(childNode);
 				visit(childNode);
 			}
@@ -204,14 +207,17 @@ public final class ObjectGraphDump {
 			Object[] array = (Object[]) node.getValue();
 
 			for (int i = 0; i < array.length; i++) {
-				String entryType = array[i] == null ? Object.class.getName() : array[i].getClass().getName();
+				String entryType = array[i] == null ? Object.class.getName() : array[i].getClass().
+						getName();
 
-				ObjectGraphNode childNode = new ObjectGraphNode(++nodeCount, "[" + i + "]", entryType, array[i]);
+				ObjectGraphNode childNode = new ObjectGraphNode(++nodeCount, "[" + i + "]",
+						entryType, array[i]);
 				node.add(childNode);
 				visit(childNode);
 			}
 		} else {
-			ObjectGraphNode childNode = new ObjectGraphNode(++nodeCount, "[primitive array]", node.getValue().getClass().getName(), node.getValue());
+			ObjectGraphNode childNode = new ObjectGraphNode(++nodeCount, "[primitive array]", node.
+					getValue().getClass().getName(), node.getValue());
 			node.add(childNode);
 		}
 	}
@@ -228,7 +234,8 @@ public final class ObjectGraphDump {
 			Object entry = i.next();
 			String entryType = entry == null ? Object.class.getName() : entry.getClass().getName();
 
-			ObjectGraphNode childNode = new ObjectGraphNode(++nodeCount, "[" + index++ + "]", entryType, entry);
+			ObjectGraphNode childNode = new ObjectGraphNode(++nodeCount, "[" + index++ + "]",
+					entryType, entry);
 			node.add(childNode);
 			visit(childNode);
 		}
@@ -248,8 +255,7 @@ public final class ObjectGraphDump {
 	}
 
 	/**
-	 * Adjusts the overhead of the given node, for types where not all data is output (e.g. Lists
-	 * and Maps).
+	 * Adjusts the overhead of the given node, for types where not all data is output (e.g. Lists and Maps).
 	 *
 	 * @param node the node to adjust.
 	 */
@@ -291,22 +297,26 @@ public final class ObjectGraphDump {
 			Object key = entry.getKey();
 
 			if (key != null) {
-				ObjectGraphNode keyNode = new ObjectGraphNode(++nodeCount, "key", key.getClass().getName(), key);
+				ObjectGraphNode keyNode = new ObjectGraphNode(++nodeCount, "key", key.getClass().
+						getName(), key);
 				node.add(keyNode);
 				visit(keyNode);
 			} else {
-				ObjectGraphNode keyNode = new ObjectGraphNode(++nodeCount, "key", Object.class.getName(), null);
+				ObjectGraphNode keyNode = new ObjectGraphNode(++nodeCount, "key", Object.class.
+						getName(), null);
 				node.add(keyNode);
 			}
 
 			Object value = entry.getValue();
 
 			if (value != null) {
-				ObjectGraphNode valueNode = new ObjectGraphNode(++nodeCount, "value", value.getClass().getName(), value);
+				ObjectGraphNode valueNode = new ObjectGraphNode(++nodeCount, "value", value.
+						getClass().getName(), value);
 				node.add(valueNode);
 				visit(valueNode);
 			} else {
-				ObjectGraphNode valueNode = new ObjectGraphNode(++nodeCount, "value", Object.class.getName(), null);
+				ObjectGraphNode valueNode = new ObjectGraphNode(++nodeCount, "value", Object.class.
+						getName(), null);
 				node.add(valueNode);
 			}
 		}
@@ -343,7 +353,8 @@ public final class ObjectGraphDump {
 		Field[] fields = instanceFieldsByClass.get(obj.getClass());
 
 		if (fields == null) {
-			List<Field> fieldList = ReflectionUtil.getAllFields(obj, excludeStatic, excludeTransient);
+			List<Field> fieldList = ReflectionUtil.
+					getAllFields(obj, excludeStatic, excludeTransient);
 			fields = fieldList.toArray(new Field[fieldList.size()]);
 
 			instanceFieldsByClass.put(obj.getClass(), fields);

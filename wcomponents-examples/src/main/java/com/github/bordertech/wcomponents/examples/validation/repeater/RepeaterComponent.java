@@ -9,8 +9,7 @@ import com.github.bordertech.wcomponents.WTextField;
 import com.github.bordertech.wcomponents.validator.RegExFieldValidator;
 
 /**
- * This component shows an example of validation within a
- * {@link com.github.bordertech.wcomponents.WRepeater}.
+ * This component shows an example of validation within a {@link com.github.bordertech.wcomponents.WRepeater}.
  *
  * @author Adam Millard
  * @since 1.0.0
@@ -52,7 +51,8 @@ public class RepeaterComponent extends WDataRenderer {
 		WField field2 = fields.addField("Field 2", field2Text);
 		field2Text.setMandatory(true);
 		field2.getLabel().setHint("required and must only contain alphabetic characters");
-		field2.addValidator(new RegExFieldValidator("^[a-zA-Z]*$", "{0} must only contain alphabetic characters."));
+		field2.addValidator(new RegExFieldValidator("^[a-zA-Z]*$",
+				"{0} must only contain alphabetic characters."));
 
 	}
 

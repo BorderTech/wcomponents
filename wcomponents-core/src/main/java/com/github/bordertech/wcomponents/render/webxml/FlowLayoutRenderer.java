@@ -8,8 +8,7 @@ import com.github.bordertech.wcomponents.layout.FlowLayout;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 
 /**
- * This {@link Renderer} renders the children of a {@link WPanel} which have been arranged using a
- * {@link FlowLayout}.
+ * This {@link Renderer} renders the children of a {@link WPanel} which have been arranged using a {@link FlowLayout}.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -77,7 +76,8 @@ final class FlowLayoutRenderer extends AbstractWebXmlRenderer {
 					break;
 
 				default:
-					throw new IllegalStateException("Unknown content alignment type: " + layout.getContentAlignment());
+					throw new IllegalStateException("Unknown content alignment type: " + layout.
+							getContentAlignment());
 			}
 		}
 

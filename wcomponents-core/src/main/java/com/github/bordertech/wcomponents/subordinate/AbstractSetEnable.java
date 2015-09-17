@@ -6,8 +6,7 @@ import com.github.bordertech.wcomponents.SubordinateTarget;
 import com.github.bordertech.wcomponents.WComponent;
 
 /**
- * An "action function" that sets the enable/disable attribute on a wcomponent or group of
- * wcomponents.
+ * An "action function" that sets the enable/disable attribute on a wcomponent or group of wcomponents.
  *
  * @author Martin Shevchenko
  * @author Jonathan Austin

@@ -6,13 +6,13 @@ import java.text.MessageFormat;
 
 /**
  * <p>
- * WDialog is used to display pop-up content. It uses theme & skin features which keep the dialog
- * associated with its parent window. Using a {@link #MODAL} dialog eliminates much of the workflow
- * complication involved when using the {@link WWindow} component.
+ * WDialog is used to display pop-up content. It uses theme & skin features which keep the dialog associated with its
+ * parent window. Using a {@link #MODAL} dialog eliminates much of the workflow complication involved when using the
+ * {@link WWindow} component.
  * </p>
  * <p>
- * The content of the dialog is held in a {@link WNamingContext} with an id of "dlg" to make the ids
- * of the content unique and have the same id prefix.
+ * The content of the dialog is held in a {@link WNamingContext} with an id of "dlg" to make the ids of the content
+ * unique and have the same id prefix.
  * </p>
  *
  * @author Christina Harris
@@ -31,8 +31,8 @@ public class WDialog extends AbstractWComponent implements Container, AjaxTarget
 	public static final int ACTIVE_STATE = 2;
 
 	/**
-	 * In this mode the dialog retains the input focus while open. The user cannot switch windows
-	 * until the dialog box is closed.
+	 * In this mode the dialog retains the input focus while open. The user cannot switch windows until the dialog box
+	 * is closed.
 	 */
 	public static final int MODAL = 0;
 
@@ -47,12 +47,10 @@ public class WDialog extends AbstractWComponent implements Container, AjaxTarget
 	private final WButton trigger;
 
 	/**
-	 * The content holder exists to keep the content hidden from normal requests, yet still have the
-	 * content attached to the wcomponent tree. Being part of the tree enables embedded targetables
-	 * and other components to be found.
+	 * The content holder exists to keep the content hidden from normal requests, yet still have the content attached to
+	 * the wcomponent tree. Being part of the tree enables embedded targetables and other components to be found.
 	 * <p>
-	 * The holder is a naming context to make the ids in the dialog all unique and have the same
-	 * prefix.
+	 * The holder is a naming context to make the ids in the dialog all unique and have the same prefix.
 	 * </p>
 	 */
 	private final WNamingContext holder = new WNamingContext("dlg") {
@@ -90,8 +88,8 @@ public class WDialog extends AbstractWComponent implements Container, AjaxTarget
 	}
 
 	/**
-	 * Creates a WDialog containing the given content and trigger. The dialog will be opened
-	 * client-side, without a round-trip.
+	 * Creates a WDialog containing the given content and trigger. The dialog will be opened client-side, without a
+	 * round-trip.
 	 *
 	 * @param content the dialog content.
 	 * @param trigger the WButton used to trigger the dialog to display.
@@ -396,8 +394,8 @@ public class WDialog extends AbstractWComponent implements Container, AjaxTarget
 		private WComponent content;
 
 		/**
-		 * The relationship between the parent window and this dialog window. Possible values are
-		 * {@link #MODAL} and {@link #MODELESS}.
+		 * The relationship between the parent window and this dialog window. Possible values are {@link #MODAL} and
+		 * {@link #MODELESS}.
 		 */
 		private int mode = MODELESS;
 	}

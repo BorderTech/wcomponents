@@ -17,11 +17,9 @@ import com.github.bordertech.wcomponents.util.TableUtil;
 import java.util.List;
 
 /**
- * This example demonstrates a simple {@link WTable} that is bean bound and has a custom renderer
- * for expandable rows.
+ * This example demonstrates a simple {@link WTable} that is bean bound and has a custom renderer for expandable rows.
  * <p>
- * Uses {@link SimpleBeanBoundTableModel} to handle the bean binding and define the expandable
- * levels.
+ * Uses {@link SimpleBeanBoundTableModel} to handle the bean binding and define the expandable levels.
  * </p>
  *
  * @author Jonathan Austin
@@ -55,15 +53,16 @@ public class SimpleExpandableContentTableExample extends WPanel {
 		LevelDetails level = new LevelDetails("documents", TravelDocPanel.class);
 
 		// Setup model - Define bean properties for the columns and the expandable level
-		SimpleBeanBoundTableModel model = new SimpleBeanBoundTableModel(new String[]{"firstName", "lastName",
-			"dateOfBirth"}, level);
+		SimpleBeanBoundTableModel model = new SimpleBeanBoundTableModel(
+				new String[]{"firstName", "lastName",
+					"dateOfBirth"}, level);
 
 		table.setTableModel(model);
 	}
 
 	/**
-	 * Override preparePaintComponent in order to set up the example data the first time that the
-	 * example is accessed by each user.
+	 * Override preparePaintComponent in order to set up the example data the first time that the example is accessed by
+	 * each user.
 	 *
 	 * @param request the request being responded to.
 	 */
@@ -78,8 +77,7 @@ public class SimpleExpandableContentTableExample extends WPanel {
 	}
 
 	/**
-	 * An example component to display travel document details. Expects that the supplied bean is a
-	 * {@link TravelDoc}.
+	 * An example component to display travel document details. Expects that the supplied bean is a {@link TravelDoc}.
 	 */
 	public static final class TravelDocPanel extends WBeanContainer {
 

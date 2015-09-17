@@ -22,8 +22,8 @@ public final class TreeUtil {
 	}
 
 	/**
-	 * Obtains a list of components which are visible in the given tree. Repeated components will be
-	 * returned multiple times, one for each row which they are visible in.
+	 * Obtains a list of components which are visible in the given tree. Repeated components will be returned multiple
+	 * times, one for each row which they are visible in.
 	 *
 	 * @param comp the root component to search from.
 	 * @return a list of components which are visible in the given context.
@@ -66,8 +66,7 @@ public final class TreeUtil {
 	}
 
 	/**
-	 * General utility method to visit every WComponent in the tree, taking repeaters etc. into
-	 * account.
+	 * General utility method to visit every WComponent in the tree, taking repeaters etc. into account.
 	 *
 	 * @param node the node to traverse.
 	 * @param visitor the visitor to notify as the tree is traversed.
@@ -77,8 +76,7 @@ public final class TreeUtil {
 	}
 
 	/**
-	 * General utility method to visit every visible WComponent in the tree, taking repeaters etc.
-	 * into account.
+	 * General utility method to visit every visible WComponent in the tree, taking repeaters etc. into account.
 	 *
 	 * @param node the node to traverse.
 	 * @param visitor the visitor to notify as the tree is traversed.
@@ -91,11 +89,10 @@ public final class TreeUtil {
 	 * Retrieves WComponents by their path in the WComponent tree.
 	 *
 	 * <p>
-	 * Paths are specified using class names, starting from the furthest ancestor. To reduce the
-	 * path lengths, class names do not need to be fully-qualified. The path does not need to
-	 * explicitly state intermediate components between components, and may include an index suffix
-	 * to select a particular instance of a component in e.g. a repeater or a set of fields. Some
-	 * example paths are shown below.</p>
+	 * Paths are specified using class names, starting from the furthest ancestor. To reduce the path lengths, class
+	 * names do not need to be fully-qualified. The path does not need to explicitly state intermediate components
+	 * between components, and may include an index suffix to select a particular instance of a component in e.g. a
+	 * repeater or a set of fields. Some example paths are shown below.</p>
 	 *
 	 * Example paths.
 	 * <dl>
@@ -108,8 +105,8 @@ public final class TreeUtil {
 	 * <dt><code>{ "MyPanel", "MyComponent" }</code></dt>
 	 * <dd>Matches the first instance of MyComponent which is nested anywhere under a MyPanel.</dd>
 	 * <dt><code>{ "MyApp", "MyPanel", "MyComponent" }</code></dt>
-	 * <dd>Matches the first instance of MyComponent, nested within a MyPanel, which is in turn
-	 * nested somewhere within a MyApp.</dd>
+	 * <dd>Matches the first instance of MyComponent, nested within a MyPanel, which is in turn nested somewhere within
+	 * a MyApp.</dd>
 	 * </dl>
 	 *
 	 * @param component the component to search from.

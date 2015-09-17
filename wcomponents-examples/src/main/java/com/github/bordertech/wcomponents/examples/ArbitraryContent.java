@@ -4,8 +4,8 @@ import com.github.bordertech.wcomponents.WContainer;
 
 /**
  * <p>
- * This component generates paragraphs of text which can be used as arbitrary content to assist with
- * development of wcomponent examples.</p>
+ * This component generates paragraphs of text which can be used as arbitrary content to assist with development of
+ * wcomponent examples.</p>
  *
  * <p>
  * The "size" determines how many paragraphs of text are displayed.</p>

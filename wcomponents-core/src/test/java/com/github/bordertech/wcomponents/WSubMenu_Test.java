@@ -24,7 +24,8 @@ public class WSubMenu_Test extends AbstractWComponentTestCase {
 		WSubMenu subSubMenu = new WSubMenu("submenu");
 		subMenu.add(subSubMenu);
 
-		Assert.assertSame("Sub-menu should be ancestor of sub-sub-menu", subMenu, WebUtilities.getTop(subSubMenu));
+		Assert.assertSame("Sub-menu should be ancestor of sub-sub-menu", subMenu, WebUtilities.
+				getTop(subSubMenu));
 	}
 
 	@Test
@@ -33,7 +34,8 @@ public class WSubMenu_Test extends AbstractWComponentTestCase {
 		WMenuItem menuItem = new WMenuItem("item");
 		subMenu.add(menuItem);
 
-		Assert.assertSame("Sub-menu should be ancestor of menu item", subMenu, WebUtilities.getTop(menuItem));
+		Assert.assertSame("Sub-menu should be ancestor of menu item", subMenu, WebUtilities.getTop(
+				menuItem));
 	}
 
 	@Test
@@ -42,13 +44,16 @@ public class WSubMenu_Test extends AbstractWComponentTestCase {
 		WSubMenu subMenu = new WSubMenu("a");
 		WSubMenu subSubMenu = new WSubMenu("b");
 
-		Assert.assertFalse("Should not be a top-level menu when there is no parent", subMenu.isTopLevelMenu());
+		Assert.assertFalse("Should not be a top-level menu when there is no parent", subMenu.
+				isTopLevelMenu());
 
 		menu.add(subMenu);
 		subMenu.add(subSubMenu);
 
-		Assert.assertTrue("isTopLevel should be true for top-level sub-menu", subMenu.isTopLevelMenu());
-		Assert.assertFalse("isTopLevel should be false for second-level sub-menu", subSubMenu.isTopLevelMenu());
+		Assert.assertTrue("isTopLevel should be true for top-level sub-menu", subMenu.
+				isTopLevelMenu());
+		Assert.assertFalse("isTopLevel should be false for second-level sub-menu", subSubMenu.
+				isTopLevelMenu());
 	}
 
 	@Test
@@ -127,7 +132,8 @@ public class WSubMenu_Test extends AbstractWComponentTestCase {
 		Assert.assertTrue("in uic1 should be muli-selectable", subMenu.isMultipleSelection());
 
 		resetContext();
-		Assert.assertFalse("Default multi-select flag should not have changed", subMenu.isMultipleSelection());
+		Assert.assertFalse("Default multi-select flag should not have changed", subMenu.
+				isMultipleSelection());
 	}
 
 	/**
@@ -136,7 +142,8 @@ public class WSubMenu_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testSetSelectMode() {
 		WSubMenu subMenu = new WSubMenu("sub");
-		Assert.assertEquals("Should default to select mode none", WMenu.SelectMode.NONE, subMenu.getSelectMode());
+		Assert.assertEquals("Should default to select mode none", WMenu.SelectMode.NONE, subMenu.
+				getSelectMode());
 
 		subMenu.setSelectMode(WMenu.SelectMode.SINGLE);
 
@@ -144,10 +151,12 @@ public class WSubMenu_Test extends AbstractWComponentTestCase {
 		setActiveContext(createUIContext());
 		subMenu.setSelectMode(WMenu.SelectMode.MULTIPLE);
 
-		Assert.assertEquals("in uic1 should be multiple select mode", WMenu.SelectMode.MULTIPLE, subMenu.getSelectMode());
+		Assert.assertEquals("in uic1 should be multiple select mode", WMenu.SelectMode.MULTIPLE,
+				subMenu.getSelectMode());
 
 		resetContext();
-		Assert.assertEquals("Default be single select mode", WMenu.SelectMode.SINGLE, subMenu.getSelectMode());
+		Assert.assertEquals("Default be single select mode", WMenu.SelectMode.SINGLE, subMenu.
+				getSelectMode());
 	}
 
 	@Test
@@ -159,15 +168,18 @@ public class WSubMenu_Test extends AbstractWComponentTestCase {
 		Assert.assertNull("Action command should be null by default", subMenu.getActionCommand());
 
 		subMenu.setActionCommand(sharedValue);
-		Assert.assertEquals("Incorrect shared action command returned", sharedValue, subMenu.getActionCommand());
+		Assert.assertEquals("Incorrect shared action command returned", sharedValue, subMenu.
+				getActionCommand());
 
 		subMenu.setLocked(true);
 		setActiveContext(createUIContext());
 		subMenu.setActionCommand(value);
-		Assert.assertEquals("Uic 1 action command should be returned for uic 1", value, subMenu.getActionCommand());
+		Assert.assertEquals("Uic 1 action command should be returned for uic 1", value, subMenu.
+				getActionCommand());
 
 		resetContext();
-		Assert.assertEquals("Incorrect shared action command returned", sharedValue, subMenu.getActionCommand());
+		Assert.assertEquals("Incorrect shared action command returned", sharedValue, subMenu.
+				getActionCommand());
 	}
 
 	@Test
@@ -179,15 +191,18 @@ public class WSubMenu_Test extends AbstractWComponentTestCase {
 		Assert.assertNull("Action object should be null by default", subMenu.getActionObject());
 
 		subMenu.setActionObject(sharedValue);
-		Assert.assertEquals("Incorrect shared action object returned", sharedValue, subMenu.getActionObject());
+		Assert.assertEquals("Incorrect shared action object returned", sharedValue, subMenu.
+				getActionObject());
 
 		subMenu.setLocked(true);
 		setActiveContext(createUIContext());
 		subMenu.setActionObject(value);
-		Assert.assertEquals("Uic 1 action object should be returned for uic 1", value, subMenu.getActionObject());
+		Assert.assertEquals("Uic 1 action object should be returned for uic 1", value, subMenu.
+				getActionObject());
 
 		resetContext();
-		Assert.assertEquals("Incorrect shared action object returned", sharedValue, subMenu.getActionObject());
+		Assert.assertEquals("Incorrect shared action object returned", sharedValue, subMenu.
+				getActionObject());
 	}
 
 	@Test
@@ -203,20 +218,23 @@ public class WSubMenu_Test extends AbstractWComponentTestCase {
 		// Menu not in Request
 		MockRequest request = new MockRequest();
 		menu.serviceRequest(request);
-		Assert.assertFalse("Action should not have been called when sub-menu was not selected", action.wasTriggered());
+		Assert.assertFalse("Action should not have been called when sub-menu was not selected",
+				action.wasTriggered());
 
 		// Menu in Request but submenu not selected
 		request = new MockRequest();
 		request.setParameter(menu.getId() + "-h", "x");
 		menu.serviceRequest(request);
-		Assert.assertFalse("Action should not have been called when sub-menu was not selected", action.wasTriggered());
+		Assert.assertFalse("Action should not have been called when sub-menu was not selected",
+				action.wasTriggered());
 
 		// Menu in Request and submenu selected
 		request = new MockRequest();
 		request.setParameter(menu.getId() + "-h", "x");
 		request.setParameter(subMenu.getId(), "x");
 		menu.serviceRequest(request);
-		Assert.assertTrue("Action should have been called when sub-menu is selected", action.wasTriggered());
+		Assert.assertTrue("Action should have been called when sub-menu is selected", action.
+				wasTriggered());
 	}
 
 	@Test
@@ -262,10 +280,12 @@ public class WSubMenu_Test extends AbstractWComponentTestCase {
 		request.setParameter(menu.getId() + "-h", "x");
 
 		menu.serviceRequest(request);
-		Assert.assertFalse("Action should not have been called when sub-menu was not selected", action.wasTriggered());
+		Assert.assertFalse("Action should not have been called when sub-menu was not selected",
+				action.wasTriggered());
 
 		request.setParameter(subMenu.getId(), "x");
 		menu.serviceRequest(request);
-		Assert.assertFalse("Action should not have been called on a disabled sub-menu", action.wasTriggered());
+		Assert.assertFalse("Action should not have been called on a disabled sub-menu", action.
+				wasTriggered());
 	}
 }

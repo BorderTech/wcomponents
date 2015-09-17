@@ -79,7 +79,8 @@ public class WTabGroup extends AbstractContainer implements Disableable {
 	 * @param accessKey the access key used to activate the tab.
 	 * @return the tab which was added to the group.
 	 */
-	public WTab addTab(final WComponent content, final String tabName, final TabMode mode, final char accessKey) {
+	public WTab addTab(final WComponent content, final String tabName, final TabMode mode,
+			final char accessKey) {
 		WTab tab = new WTab(content, tabName, mode, accessKey);
 		add(tab);
 
@@ -110,7 +111,8 @@ public class WTabGroup extends AbstractContainer implements Disableable {
 	 * @param accessKey the access key used to activate the tab.
 	 * @return the tab which was added to the group.
 	 */
-	public WTab addTab(final WComponent content, final WDecoratedLabel label, final TabMode mode, final char accessKey) {
+	public WTab addTab(final WComponent content, final WDecoratedLabel label, final TabMode mode,
+			final char accessKey) {
 		WTab tab = new WTab(content, label, mode, accessKey);
 		add(tab);
 

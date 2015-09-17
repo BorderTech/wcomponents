@@ -16,8 +16,7 @@ import com.github.bordertech.wcomponents.layout.FlowLayout;
 import com.github.bordertech.wcomponents.layout.FlowLayout.Alignment;
 
 /**
- * Displays the list of products in the store and allows a user to view a product or add it to their
- * shopping cart.
+ * Displays the list of products in the store and allows a user to view a product or add it to their shopping cart.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -67,8 +66,8 @@ public class ProductTable extends WContainer {
 	}
 
 	/**
-	 * The data model for the product table. Data is sourced from a bean provider so that it is not
-	 * stored in the session.
+	 * The data model for the product table. Data is sourced from a bean provider so that it is not stored in the
+	 * session.
 	 */
 	public static final class ProductTableModel extends SimpleBeanBoundTableDataModel {
 
@@ -97,7 +96,8 @@ public class ProductTable extends WContainer {
 			setAction(new Action() {
 				@Override
 				public void execute(final ActionEvent event) {
-					PetStoreApp app = WebUtilities.getClosestOfClass(PetStoreApp.class, ProductLink.this);
+					PetStoreApp app = WebUtilities.getClosestOfClass(PetStoreApp.class,
+							ProductLink.this);
 					ProductBean inventory = (ProductBean) getBean();
 
 					if (inventory != null && app != null) {
@@ -108,8 +108,7 @@ public class ProductTable extends WContainer {
 		}
 
 		/**
-		 * Override WButton's getText so that the button text can be obtained from the bean rather
-		 * than the ButtonModel.
+		 * Override WButton's getText so that the button text can be obtained from the bean rather than the ButtonModel.
 		 *
 		 * @return the text to display on the button.
 		 */

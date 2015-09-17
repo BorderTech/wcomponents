@@ -17,8 +17,7 @@ import com.github.bordertech.wcomponents.layout.FlowLayout;
 import com.github.bordertech.wcomponents.layout.FlowLayout.Alignment;
 
 /**
- * ProductDetailView shows details for a particular product and allows the user to add it to their
- * shopping cart.
+ * ProductDetailView shows details for a particular product and allows the user to add it to their shopping cart.
  *
  * Expects the bean to be an InventoryBean.
  *

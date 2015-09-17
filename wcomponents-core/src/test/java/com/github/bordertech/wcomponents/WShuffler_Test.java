@@ -73,20 +73,24 @@ public class WShuffler_Test extends AbstractWComponentTestCase {
 
 		// Data is empty list
 		shuffler.setData(EMPTY_LIST);
-		Assert.assertEquals("getValue for empty list data should be an empty list", EMPTY_LIST, shuffler.getValue());
+		Assert.assertEquals("getValue for empty list data should be an empty list", EMPTY_LIST,
+				shuffler.getValue());
 
 		// Data is a list
 		shuffler.setOptions(OPTIONS);
-		Assert.assertEquals("getValue for list data should be the selected options in a list", OPTIONS,
+		Assert.assertEquals("getValue for list data should be the selected options in a list",
+				OPTIONS,
 				shuffler.getValue());
 
 		// Data is an empty array
 		shuffler.setData(new String[]{});
-		Assert.assertEquals("getValue for empty array data should be an empty list", EMPTY_LIST, shuffler.getValue());
+		Assert.assertEquals("getValue for empty array data should be an empty list", EMPTY_LIST,
+				shuffler.getValue());
 
 		// Data is an array
 		shuffler.setData(OPTIONS.toArray());
-		Assert.assertEquals("getValue for array data should be the selected options in a list", OPTIONS,
+		Assert.assertEquals("getValue for array data should be the selected options in a list",
+				OPTIONS,
 				shuffler.getValue());
 
 		// Data is an Option
@@ -111,7 +115,8 @@ public class WShuffler_Test extends AbstractWComponentTestCase {
 		boolean changed = shuffler.doHandleRequest(request);
 
 		Assert.assertFalse("Empty Request - Options should not have changed", changed);
-		Assert.assertEquals("Empty Request - Incorrect default options returned", OPTIONS, shuffler.getOptions());
+		Assert.assertEquals("Empty Request - Incorrect default options returned", OPTIONS, shuffler.
+				getOptions());
 
 		// Request with Options in same order (No Change)
 		setActiveContext(createUIContext());
@@ -120,7 +125,8 @@ public class WShuffler_Test extends AbstractWComponentTestCase {
 		changed = shuffler.doHandleRequest(request);
 
 		Assert.assertFalse("Same Request - Options should not have changed", changed);
-		Assert.assertEquals("Same Request - Incorrect default options returned", OPTIONS, shuffler.getOptions());
+		Assert.assertEquals("Same Request - Incorrect default options returned", OPTIONS, shuffler.
+				getOptions());
 
 		// Shuffle options via a request (change)
 		setActiveContext(createUIContext());
@@ -129,10 +135,14 @@ public class WShuffler_Test extends AbstractWComponentTestCase {
 		changed = shuffler.doHandleRequest(request);
 
 		Assert.assertTrue("Shuffled Request - Options should not have changed", changed);
-		Assert.assertEquals("Shuffled Request - Invalid number of options", 3, shuffler.getOptions().size());
-		Assert.assertEquals("Shuffled Request - Invalid first option", OPTION_C, shuffler.getOptions().get(0));
-		Assert.assertEquals("Shuffled Request - Invalid second option", OPTION_A, shuffler.getOptions().get(1));
-		Assert.assertEquals("Shuffled Request - Invalid third option", OPTION_B, shuffler.getOptions().get(2));
+		Assert.assertEquals("Shuffled Request - Invalid number of options", 3,
+				shuffler.getOptions().size());
+		Assert.assertEquals("Shuffled Request - Invalid first option", OPTION_C, shuffler.
+				getOptions().get(0));
+		Assert.assertEquals("Shuffled Request - Invalid second option", OPTION_A, shuffler.
+				getOptions().get(1));
+		Assert.assertEquals("Shuffled Request - Invalid third option", OPTION_B, shuffler.
+				getOptions().get(2));
 
 		// Default should not have changed
 		resetContext();
@@ -149,16 +159,22 @@ public class WShuffler_Test extends AbstractWComponentTestCase {
 		MockRequest request = new MockRequest();
 
 		// Should return default options
-		Assert.assertEquals("Incorrect default options returned", OPTIONS, shuffler.getRequestValue(request));
+		Assert.assertEquals("Incorrect default options returned", OPTIONS, shuffler.getRequestValue(
+				request));
 
 		// Shuffle options on the request
 		request = new MockRequest();
 		request.setParameter(shuffler.getId(), new String[]{"2", "0", "1"});
 		Assert.assertNotNull("Request Value should not be null", shuffler.getRequestValue(request));
-		Assert.assertEquals("Invalid number of options", 3, shuffler.getRequestValue(request).size());
-		Assert.assertEquals("Invalid first option", OPTION_C, shuffler.getRequestValue(request).get(0));
-		Assert.assertEquals("Invalid second option", OPTION_A, shuffler.getRequestValue(request).get(1));
-		Assert.assertEquals("Invalid third option", OPTION_B, shuffler.getRequestValue(request).get(2));
+		Assert.
+				assertEquals("Invalid number of options", 3, shuffler.getRequestValue(request).
+						size());
+		Assert.assertEquals("Invalid first option", OPTION_C, shuffler.getRequestValue(request).get(
+				0));
+		Assert.assertEquals("Invalid second option", OPTION_A, shuffler.getRequestValue(request).
+				get(1));
+		Assert.assertEquals("Invalid third option", OPTION_B, shuffler.getRequestValue(request).get(
+				2));
 	}
 
 	@Test
@@ -174,7 +190,8 @@ public class WShuffler_Test extends AbstractWComponentTestCase {
 		// Shuffler on the request (but options are different)
 		request = new MockRequest();
 		request.setParameter(shuffler.getId(), new String[]{"0", "1"});
-		Assert.assertFalse("IsPresent should return false when options have changed", shuffler.isPresent(request));
+		Assert.assertFalse("IsPresent should return false when options have changed", shuffler.
+				isPresent(request));
 
 		// Shuffler on the request (Same options)
 		request = new MockRequest();

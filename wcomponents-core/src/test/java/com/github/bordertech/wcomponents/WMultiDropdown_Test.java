@@ -27,7 +27,8 @@ public class WMultiDropdown_Test extends AbstractWComponentTestCase {
 	public void testConstructorArray() {
 		String[] options = new String[]{"A", "B"};
 		WMultiDropdown multiDropdown = new WMultiDropdown(options);
-		Assert.assertEquals("Incorrect options returned", Arrays.asList(options), multiDropdown.getOptions());
+		Assert.assertEquals("Incorrect options returned", Arrays.asList(options), multiDropdown.
+				getOptions());
 		Assert.assertFalse("allowNoSelection should be false", multiDropdown.isAllowNoSelection());
 	}
 
@@ -42,7 +43,8 @@ public class WMultiDropdown_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testConstructorTable() {
 		WMultiDropdown multiDropdown = new WMultiDropdown(DayOfWeekTable.class);
-		Assert.assertEquals("Incorrect table returned", DayOfWeekTable.class, multiDropdown.getLookupTable());
+		Assert.assertEquals("Incorrect table returned", DayOfWeekTable.class, multiDropdown.
+				getLookupTable());
 		Assert.assertFalse("allowNoSelection should be false", multiDropdown.isAllowNoSelection());
 	}
 

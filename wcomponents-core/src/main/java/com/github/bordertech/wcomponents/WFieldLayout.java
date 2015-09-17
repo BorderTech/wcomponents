@@ -4,26 +4,25 @@ import com.github.bordertech.wcomponents.util.I18nUtilities;
 
 /**
  * <p>
- * This component is used to group together a collection of <code>WField</code> components to
- * provide a consistent layout template.
+ * This component is used to group together a collection of <code>WField</code> components to provide a consistent
+ * layout template.
  * </p>
  * <p>
- * It also provides some helpful infrastructure around WComponent validation by supplying helper
- * methods to validate and set error indicators on each of its contained <code>WField</code>
- * components. It is up the the parent <code>ValidatableComponent</code> or a
- * <code>ValidatingAction</code> to call the validate() and showErrorIndicator() methods on this
- * component.
+ * It also provides some helpful infrastructure around WComponent validation by supplying helper methods to validate and
+ * set error indicators on each of its contained <code>WField</code> components. It is up the the parent
+ * <code>ValidatableComponent</code> or a <code>ValidatingAction</code> to call the validate() and showErrorIndicator()
+ * methods on this component.
  * </p>
  *
  * @author Adam Millard
  */
-public class WFieldLayout extends AbstractNamingContextContainer implements AjaxTarget, SubordinateTarget, Marginable {
+public class WFieldLayout extends AbstractNamingContextContainer implements AjaxTarget,
+		SubordinateTarget, Marginable {
 
 	/**
 	 * The default label width.
 	 *
-	 * @deprecated Will be defined by the theme. Set {@link #setLabelWidth(int) labelWidth} &lt;=0
-	 * for the default.
+	 * @deprecated Will be defined by the theme. Set {@link #setLabelWidth(int) labelWidth} &lt;=0 for the default.
 	 */
 	@Deprecated
 	public static final int DEFAULT_LABEL_WIDTH = 0;
@@ -113,7 +112,8 @@ public class WFieldLayout extends AbstractNamingContextContainer implements Ajax
 	 */
 	public void setLabelWidth(final int labelWidth) {
 		if (labelWidth > 100) {
-			throw new IllegalArgumentException("labelWidth (" + labelWidth + ") cannot be greater than 100 percent.");
+			throw new IllegalArgumentException(
+					"labelWidth (" + labelWidth + ") cannot be greater than 100 percent.");
 		}
 		getOrCreateComponentModel().labelWidth = Math.max(0, labelWidth);
 	}
@@ -151,8 +151,7 @@ public class WFieldLayout extends AbstractNamingContextContainer implements Ajax
 	}
 
 	/**
-	 * Allows layouts to have its ordered numbering start from an offset. Used with
-	 * {@link #setOrdered(boolean)}.
+	 * Allows layouts to have its ordered numbering start from an offset. Used with {@link #setOrdered(boolean)}.
 	 *
 	 * @return the ordered start offset.
 	 */
@@ -167,7 +166,8 @@ public class WFieldLayout extends AbstractNamingContextContainer implements Ajax
 	 */
 	public void setOrderedOffset(final int orderedOffset) {
 		if (orderedOffset <= 0) {
-			throw new IllegalArgumentException("Ordered start offset (" + orderedOffset + ") must be greater than zero.");
+			throw new IllegalArgumentException(
+					"Ordered start offset (" + orderedOffset + ") must be greater than zero.");
 		}
 		getOrCreateComponentModel().orderedOffset = orderedOffset;
 	}

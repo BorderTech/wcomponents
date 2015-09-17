@@ -45,12 +45,11 @@ public class DebugValidateXMLErrorDetail {
 	/**
 	 * Indicates whether this error details is equal to the given object.
 	 *
-	 * Two DebugValidateXMLErrorDetails are considered equal if they have the same error message and
-	 * component description.
+	 * Two DebugValidateXMLErrorDetails are considered equal if they have the same error message and component
+	 * description.
 	 *
 	 * @param obj the object to test for equality.
-	 * @return true if the given object is a DebugValidateXMLErrorDetail and is equal to this one,
-	 * otherwise false.
+	 * @return true if the given object is a DebugValidateXMLErrorDetail and is equal to this one, otherwise false.
 	 */
 	@Override
 	public boolean equals(final Object obj) {
@@ -63,7 +62,8 @@ public class DebugValidateXMLErrorDetail {
 		}
 
 		DebugValidateXMLErrorDetail other = (DebugValidateXMLErrorDetail) obj;
-		return (other.errorMessage.equals(this.errorMessage) && other.componentDescription.equals(this.componentDescription));
+		return (other.errorMessage.equals(this.errorMessage) && other.componentDescription.equals(
+				this.componentDescription));
 	}
 
 	/**

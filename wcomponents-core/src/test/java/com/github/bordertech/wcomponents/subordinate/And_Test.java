@@ -25,24 +25,34 @@ public class And_Test {
 		// Constructor - Two Conditions
 		// Test True
 		And and = new And(condTrue1, condTrue2);
-		Assert.assertTrue("Constructor with two conditions: And condition isTrue should be true", and.isTrue());
+		Assert.assertTrue("Constructor with two conditions: And condition isTrue should be true",
+				and.isTrue());
 
 		// Test False
 		and = new And(condTrue1, condFalse);
-		Assert.assertFalse("Constructor with two conditions: And condition isTrue should be false", and.isTrue());
+		Assert.assertFalse("Constructor with two conditions: And condition isTrue should be false",
+				and.isTrue());
 
 		// Constructor - Multiple Conditions
 		// Test True
 		and = new And(condTrue1, condTrue2, condTrue3);
-		Assert.assertTrue("Constructor with multiple conditions: And condition isTrue should be true", and.isTrue());
+		Assert.assertTrue(
+				"Constructor with multiple conditions: And condition isTrue should be true", and.
+				isTrue());
 		and = new And(condTrue1, condTrue2, condTrue3, condTrue4);
-		Assert.assertTrue("Constructor with multiple conditions: And condition isTrue should be true", and.isTrue());
+		Assert.assertTrue(
+				"Constructor with multiple conditions: And condition isTrue should be true", and.
+				isTrue());
 
 		// Test False
 		and = new And(condTrue1, condTrue2, condFalse);
-		Assert.assertFalse("Constructor with multiple conditions: And condition isTrue should be false", and.isTrue());
+		Assert.assertFalse(
+				"Constructor with multiple conditions: And condition isTrue should be false", and.
+				isTrue());
 		and = new And(condTrue1, condTrue2, condTrue3, condFalse);
-		Assert.assertFalse("Constructor with multiple conditions: And condition isTrue should be false", and.isTrue());
+		Assert.assertFalse(
+				"Constructor with multiple conditions: And condition isTrue should be false", and.
+				isTrue());
 	}
 
 	@Test
@@ -113,13 +123,15 @@ public class And_Test {
 
 		And and = new And(condTrue1, condTrue2);
 
-		Assert.assertEquals("Invalid conditions returned", Arrays.asList(condTrue1, condTrue2), and.getConditions());
+		Assert.assertEquals("Invalid conditions returned", Arrays.asList(condTrue1, condTrue2), and.
+				getConditions());
 	}
 
 	@Test
 	public void testToString() {
 		And and = new And(new TrueCondition(), new FalseCondition(), new TrueCondition());
-		Assert.assertEquals("Incorrect toString for AND", "(true and false and true)", and.toString());
+		Assert.assertEquals("Incorrect toString for AND", "(true and false and true)", and.
+				toString());
 	}
 
 	/**

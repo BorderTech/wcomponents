@@ -12,8 +12,8 @@ import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.runtime.RuntimeConstants;
 
 /**
- * A wrapper for the creation of a (singleton) VelocityEngine, using runtime
- * {@link Config configuration} parameters for configuration.
+ * A wrapper for the creation of a (singleton) VelocityEngine, using runtime {@link Config configuration} parameters for
+ * configuration.
  *
  * @author James Gifford
  * @since 1.0.0
@@ -26,15 +26,14 @@ public final class VelocityEngineFactory {
 	private static final Log LOG = LogFactory.getLog(VelocityEngineFactory.class);
 
 	/**
-	 * If this setting is non-null, velocity templates will be loaded from the given directory. This
-	 * is good for developers, who can point into their source tree directly. Templates will not be
-	 * cached in this case.
+	 * If this setting is non-null, velocity templates will be loaded from the given directory. This is good for
+	 * developers, who can point into their source tree directly. Templates will not be cached in this case.
 	 */
 	private static final String FILE_TEMPLATES_KEY = "bordertech.wcomponents.velocity.fileTemplatesDir";
 
 	/**
-	 * If we are not using fileTemplates, the templates are read from the classpath. This setting
-	 * governs whether we cache these templates or not. For production, we should cache.
+	 * If we are not using fileTemplates, the templates are read from the classpath. This setting governs whether we
+	 * cache these templates or not. For production, we should cache.
 	 */
 	private static final String CACHE_TEMPLATES_KEY = "bordertech.wcomponents.velocity.cacheTemplates.enabled";
 
@@ -51,14 +50,13 @@ public final class VelocityEngineFactory {
 
 	/**
 	 * <p>
-	 * Returns the VelocityEngine associated with this factory. If this is the first time we are
-	 * using the engine, create it and initialise it.</p>
+	 * Returns the VelocityEngine associated with this factory. If this is the first time we are using the engine,
+	 * create it and initialise it.</p>
 	 *
 	 * <p>
-	 * Note that velocity engines are hugely resource intensive, so we don't want too many of them.
-	 * For the time being we have a single instance stored as a static variable. This would only be
-	 * a problem if the VelocityLayout class ever wanted to use different engine configurations
-	 * (unlikely).</p>
+	 * Note that velocity engines are hugely resource intensive, so we don't want too many of them. For the time being
+	 * we have a single instance stored as a static variable. This would only be a problem if the VelocityLayout class
+	 * ever wanted to use different engine configurations (unlikely).</p>
 	 *
 	 * @return the VelocityEngine associated with this factory.
 	 */
@@ -100,7 +98,8 @@ public final class VelocityEngineFactory {
 					"com.github.bordertech.wcomponents.velocity.VelocityLogger");
 
 			// Set up access to the common velocity macros.
-			props.setProperty(RuntimeConstants.VM_LIBRARY, config.getString("bordertech.wcomponents.velocity.macroLibrary"));
+			props.setProperty(RuntimeConstants.VM_LIBRARY, config.getString(
+					"bordertech.wcomponents.velocity.macroLibrary"));
 
 			try {
 				if (LOG.isInfoEnabled()) {

@@ -55,9 +55,11 @@ public class SessionTokenInterceptor_Test extends AbstractWComponentTestCase {
 	public void testServiceRequestDefaultState() {
 		// Test default state (ie no params and new session)
 		interceptor.serviceRequest(request);
-		Assert.assertTrue("Action phase should have occurred by default", component.handleRequestCalled);
+		Assert.assertTrue("Action phase should have occurred by default",
+				component.handleRequestCalled);
 		Assert
-				.assertEquals("Step count should not have been incremented by default", 0, uic.getEnvironment().getStep());
+				.assertEquals("Step count should not have been incremented by default", 0, uic.
+						getEnvironment().getStep());
 	}
 
 	@Test
@@ -67,8 +69,10 @@ public class SessionTokenInterceptor_Test extends AbstractWComponentTestCase {
 		request.setParameter(Environment.SESSION_TOKEN_VARIABLE, "X");
 
 		interceptor.serviceRequest(request);
-		Assert.assertTrue("Action phase should have occurred for corret token", component.handleRequestCalled);
-		Assert.assertEquals("Step count should not have been incremented for correct token", 10, uic.getEnvironment()
+		Assert.assertTrue("Action phase should have occurred for corret token",
+				component.handleRequestCalled);
+		Assert.assertEquals("Step count should not have been incremented for correct token", 10,
+				uic.getEnvironment()
 				.getStep());
 	}
 
@@ -81,8 +85,10 @@ public class SessionTokenInterceptor_Test extends AbstractWComponentTestCase {
 			interceptor.serviceRequest(request);
 			Assert.fail("Should have thrown an excpetion for incorrect token");
 		} catch (SystemException e) {
-			Assert.assertFalse("Action phase should not have occurred for token error", component.handleRequestCalled);
-			Assert.assertEquals("Step count should not have been incremented for token error", 10, uic.getEnvironment()
+			Assert.assertFalse("Action phase should not have occurred for token error",
+					component.handleRequestCalled);
+			Assert.assertEquals("Step count should not have been incremented for token error", 10,
+					uic.getEnvironment()
 					.getStep());
 		}
 	}
@@ -97,8 +103,10 @@ public class SessionTokenInterceptor_Test extends AbstractWComponentTestCase {
 		} catch (SystemException e) {
 			Assert.assertFalse("Action phase should not have occurred for session timeout",
 					component.handleRequestCalled);
-			Assert.assertEquals("Step count should not have been incremented for session timeout", 0, uic
-					.getEnvironment().getStep());
+			Assert.
+					assertEquals("Step count should not have been incremented for session timeout",
+							0, uic
+							.getEnvironment().getStep());
 		}
 	}
 

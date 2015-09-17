@@ -31,7 +31,8 @@ public class WFilterControlRenderer_Test extends AbstractWebXmlRendererTestCase 
 	@Test
 	public void testRendererCorrectlyConfigured() {
 		WFilterControl filter = new WFilterControl(new WDecoratedLabel());
-		Assert.assertTrue("Incorrect renderer supplied", getWebXmlRenderer(filter) instanceof WFilterControlRenderer);
+		Assert.assertTrue("Incorrect renderer supplied",
+				getWebXmlRenderer(filter) instanceof WFilterControlRenderer);
 	}
 
 	@Test(expected = SystemException.class)
@@ -104,7 +105,8 @@ public class WFilterControlRenderer_Test extends AbstractWebXmlRendererTestCase 
 
 	@Test
 	public void testXssEscaping() throws IOException, SAXException, XpathException {
-		WFilterControl filter = new WFilterControl(new WDecoratedLabel(TEST_LABEL), new WTextField(), getMaliciousAttribute("ui:filterControl"));
+		WFilterControl filter = new WFilterControl(new WDecoratedLabel(TEST_LABEL), new WTextField(),
+				getMaliciousAttribute("ui:filterControl"));
 		filter.setActive(true);
 
 		assertSafeContent(filter);

@@ -22,8 +22,8 @@ import org.custommonkey.xmlunit.XMLUnit;
 import org.xml.sax.SAXException;
 
 /**
- * ValidatorApp provides a quick way to validate arbitrary XML output against the schema. The
- * ValidatorApp should be run from the command-line.
+ * ValidatorApp provides a quick way to validate arbitrary XML output against the schema. The ValidatorApp should be run
+ * from the command-line.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -53,7 +53,8 @@ public final class ValidatorApp extends JFrame {
 		JPanel topPanel = new JPanel();
 		topPanel.setLayout(new BorderLayout());
 		topPanel.add(new JLabel("XML to validate:"), BorderLayout.NORTH);
-		JScrollPane scrollPane = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		JScrollPane scrollPane = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.getViewport().add(in);
 		topPanel.add(scrollPane, BorderLayout.CENTER);
 
@@ -81,8 +82,7 @@ public final class ValidatorApp extends JFrame {
 	}
 
 	/**
-	 * Validates the XML contained in the input text area and displays the errors (if any) in the
-	 * output text area.
+	 * Validates the XML contained in the input text area and displays the errors (if any) in the output text area.
 	 */
 	private void validateXml() {
 		String xhtml = in.getText();
@@ -128,8 +128,7 @@ public final class ValidatorApp extends JFrame {
 	private static final class XmlLayoutTestNamespaceContext implements NamespaceContext {
 
 		/**
-		 * The backing context, used for resolving namespaces which this context does not know
-		 * about.
+		 * The backing context, used for resolving namespaces which this context does not know about.
 		 */
 		private final NamespaceContext backing;
 

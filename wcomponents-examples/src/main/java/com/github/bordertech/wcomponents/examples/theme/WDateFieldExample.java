@@ -95,7 +95,8 @@ public class WDateFieldExample extends WContainer {
 		mainLayout.addField("Date", dateField);
 		mainLayout.addField("Text output", textField);
 
-		mainLayout.addField("Read only date field", dateFieldReadOnly).getLabel().setHint("populated from the editable date field above");
+		mainLayout.addField("Read only date field", dateFieldReadOnly).getLabel().setHint(
+				"populated from the editable date field above");
 
 		/*
          * WDateFields with a date on load.

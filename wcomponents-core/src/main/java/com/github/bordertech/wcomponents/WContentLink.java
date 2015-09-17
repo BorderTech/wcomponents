@@ -7,14 +7,13 @@ import java.text.MessageFormat;
 
 /**
  * <p>
- * WContentLink is a convenience class to configure a {@link WLink} to display content, such as a
- * pdf, that is rendered by {@link WContent}. By default, the content is displayed in a new
- * window.</p>
+ * WContentLink is a convenience class to configure a {@link WLink} to display content, such as a pdf, that is rendered
+ * by {@link WContent}. By default, the content is displayed in a new window.</p>
  *
  * <p>
- * Be warned that this link does not post the entire form, as the client will opens the content
- * directly via a "get" request. For situations where it is important to post the form, use a
- * combination of {@link WButton} and {@link WContent}.
+ * Be warned that this link does not post the entire form, as the client will opens the content directly via a "get"
+ * request. For situations where it is important to post the form, use a combination of {@link WButton} and
+ * {@link WContent}.
  * </p>
  * <p>
  * WContentLink provides a number of defaults to minimise configuration:-
@@ -52,9 +51,9 @@ import java.text.MessageFormat;
  *
  * </blockquote>
  * <p>
- * WContentLink provides basic configuration options, but if more advanced configuration is
- * required, then a {@link WLink} component and {@link WContent} component should be used instead.
- * Below is an example of the code required to use a WLink in combination with WContent:-
+ * WContentLink provides basic configuration options, but if more advanced configuration is required, then a
+ * {@link WLink} component and {@link WContent} component should be used instead. Below is an example of the code
+ * required to use a WLink in combination with WContent:-
  * </p>
  * <blockquote>
  *
@@ -229,8 +228,7 @@ public class WContentLink extends AbstractContainer implements Disableable {
 	/**
 	 * Retrieves the attributes for new windows which are opened.
 	 * <p>
-	 * To change attributes for individual users, set a new {@link WindowAttributes} object for each
-	 * user.
+	 * To change attributes for individual users, set a new {@link WindowAttributes} object for each user.
 	 * </p>
 	 *
 	 * @return the attributes for new windows.
@@ -331,8 +329,8 @@ public class WContentLink extends AbstractContainer implements Disableable {
 	}
 
 	/**
-	 * Sets the content display mode. Note that the window attributes will be ignored if the mode is
-	 * changed to something other than {@link WContent.DisplayMode#OPEN_NEW_WINDOW}.
+	 * Sets the content display mode. Note that the window attributes will be ignored if the mode is changed to
+	 * something other than {@link WContent.DisplayMode#OPEN_NEW_WINDOW}.
 	 *
 	 * @param displayMode the content display mode to set.
 	 */

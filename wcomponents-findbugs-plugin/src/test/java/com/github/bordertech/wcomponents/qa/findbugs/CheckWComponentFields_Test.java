@@ -15,8 +15,7 @@ import edu.umd.cs.findbugs.annotations.NoWarning;
 public class CheckWComponentFields_Test {
 
 	/**
-	 * A class which is not a component, to ensure false positives are not reported against other
-	 * classes.
+	 * A class which is not a component, to ensure false positives are not reported against other classes.
 	 */
 	public static final class NotAComponent {
 

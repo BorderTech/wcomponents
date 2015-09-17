@@ -50,14 +50,16 @@ public class WValidationErrors_Test extends AbstractWComponentTestCase {
 		wValidationErrors.setLocked(true);
 		setActiveContext(createUIContext());
 
-		Assert.assertTrue("Should not have errors by default", wValidationErrors.getErrors().isEmpty());
+		Assert.assertTrue("Should not have errors by default", wValidationErrors.getErrors().
+				isEmpty());
 
 		wValidationErrors.setErrors(errors);
 
 		Assert.assertEquals("Should have one error", 1, wValidationErrors.getErrors().size());
 
 		wValidationErrors.reset();
-		Assert.assertTrue("Should not have errors after reset", wValidationErrors.getErrors().isEmpty());
+		Assert.assertTrue("Should not have errors after reset", wValidationErrors.getErrors().
+				isEmpty());
 	}
 
 	@Test
@@ -76,14 +78,17 @@ public class WValidationErrors_Test extends AbstractWComponentTestCase {
 		wValidationErrors.setLocked(true);
 		setActiveContext(createUIContext());
 
-		Assert.assertTrue("Should be in default state by default", wValidationErrors.isDefaultState());
+		Assert.assertTrue("Should be in default state by default", wValidationErrors.
+				isDefaultState());
 
 		wValidationErrors.setErrors(new ArrayList<Diagnostic>());
 
-		Assert.assertTrue("Should be in default if there are no errors", wValidationErrors.isDefaultState());
+		Assert.assertTrue("Should be in default if there are no errors", wValidationErrors.
+				isDefaultState());
 
 		wValidationErrors.setErrors(errors);
-		Assert.assertFalse("Should not be in default if there are errors", wValidationErrors.isDefaultState());
+		Assert.assertFalse("Should not be in default if there are errors", wValidationErrors.
+				isDefaultState());
 
 		wValidationErrors.reset();
 		Assert.assertTrue("Should be in default after reset", wValidationErrors.isDefaultState());
@@ -119,11 +124,16 @@ public class WValidationErrors_Test extends AbstractWComponentTestCase {
 		GroupedDiagnositcs group1 = groupedErrors.get(0);
 		GroupedDiagnositcs group2 = groupedErrors.get(1);
 
-		Assert.assertEquals("Incorrect number of errors for group 1", 1, group1.getDiagnostics().size());
-		Assert.assertSame("Incorrect diagnostic in group 1", component1Error1, group1.getDiagnostics().get(0));
+		Assert.assertEquals("Incorrect number of errors for group 1", 1, group1.getDiagnostics().
+				size());
+		Assert.assertSame("Incorrect diagnostic in group 1", component1Error1, group1.
+				getDiagnostics().get(0));
 
-		Assert.assertEquals("Incorrect number of errors for group 2", 2, group2.getDiagnostics().size());
-		Assert.assertSame("Incorrect diagnostic in group 2", component2Error1, group2.getDiagnostics().get(0));
-		Assert.assertSame("Incorrect diagnostic in group 2", component2Error2, group2.getDiagnostics().get(1));
+		Assert.assertEquals("Incorrect number of errors for group 2", 2, group2.getDiagnostics().
+				size());
+		Assert.assertSame("Incorrect diagnostic in group 2", component2Error1, group2.
+				getDiagnostics().get(0));
+		Assert.assertSame("Incorrect diagnostic in group 2", component2Error2, group2.
+				getDiagnostics().get(1));
 	}
 }

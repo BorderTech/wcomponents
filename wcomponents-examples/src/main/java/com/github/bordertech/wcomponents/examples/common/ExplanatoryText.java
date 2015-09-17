@@ -11,8 +11,8 @@ import com.github.bordertech.wcomponents.WStyledText;
 public class ExplanatoryText extends WStyledText {
 
 	/**
-	 * Simple utility to create a paragraph of text. This is used rather a lot to add human readable
-	 * text explanations to the WComponent example output.
+	 * Simple utility to create a paragraph of text. This is used rather a lot to add human readable text explanations
+	 * to the WComponent example output.
 	 */
 	public ExplanatoryText() {
 		this("", Type.PLAIN);

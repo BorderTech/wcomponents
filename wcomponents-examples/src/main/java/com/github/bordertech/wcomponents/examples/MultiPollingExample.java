@@ -30,7 +30,8 @@ public class MultiPollingExample extends WPanel {
 	 */
 	public MultiPollingExample() {
 		setLayout(new FlowLayout(FlowLayout.VERTICAL, 0, 12));
-		add(new WText("This example is for framework testing only. It is not to be used as an example of setting up a polling region."));
+		add(new WText(
+				"This example is for framework testing only. It is not to be used as an example of setting up a polling region."));
 
 		WPanel panel1 = new WPanel();
 		add(panel1);

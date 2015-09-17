@@ -1,14 +1,5 @@
 package com.github.bordertech.wcomponents.lde;
 
-import com.github.bordertech.wcomponents.lde.PlainLauncher;
-import java.net.URL;
-import java.net.URLConnection;
-
-import junit.framework.Assert;
-
-import org.junit.After;
-import org.junit.Test;
-
 import com.github.bordertech.wcomponents.AbstractWComponent;
 import com.github.bordertech.wcomponents.RenderContext;
 import com.github.bordertech.wcomponents.Request;
@@ -23,6 +14,11 @@ import com.github.bordertech.wcomponents.servlet.WServlet.WServletEnvironment;
 import com.github.bordertech.wcomponents.util.Config;
 import com.github.bordertech.wcomponents.util.StreamUtil;
 import com.github.bordertech.wcomponents.util.mock.servlet.MockHttpServletRequest;
+import java.net.URL;
+import java.net.URLConnection;
+import junit.framework.Assert;
+import org.junit.After;
+import org.junit.Test;
 
 /**
  * PlainLauncher_Test - unit tests for {@link PlainLauncher}.
@@ -30,153 +26,161 @@ import com.github.bordertech.wcomponents.util.mock.servlet.MockHttpServletReques
  * @author Yiannis Paschalidis.
  * @since 1.0.0
  */
-public class PlainLauncher_Test
-{
-    private PlainLauncher launcher;
+public class PlainLauncher_Test {
 
-    @After
-    public void tearDown() throws InterruptedException
-    {
-        Config.reset();
-        UIContextHolder.reset();
+	private PlainLauncher launcher;
 
-        // Shut down the server
-        if (launcher != null)
-        {
-            launcher.stop();
-            launcher = null;
-        }
-    }
+	@After
+	public void tearDown() throws InterruptedException {
+		Config.reset();
+		UIContextHolder.reset();
 
-    @Test
-    public void testCreateUI()
-    {
-        Config.getInstance().clearProperty(PlainLauncher.COMPONENT_TO_LAUNCH_PARAM_KEY);
+		// Shut down the server
+		if (launcher != null) {
+			launcher.stop();
+			launcher = null;
+		}
+	}
 
-        launcher = new PlainLauncher();
-        WComponent ui = launcher.createUI();
-        Assert.assertTrue("UI should be an instance of WText", ui instanceof WText);
-        Assert.assertTrue("UI should contain instructions on configuring the LDE",
-                          ((WText) ui).getText().contains(PlainLauncher.COMPONENT_TO_LAUNCH_PARAM_KEY));
-    }
+	@Test
+	public void testCreateUI() {
+		Config.getInstance().clearProperty(PlainLauncher.COMPONENT_TO_LAUNCH_PARAM_KEY);
 
-    @Test
-    public void testGetUI()
-    {
-        Config.getInstance().setProperty(PlainLauncher.COMPONENT_TO_LAUNCH_PARAM_KEY, MyTestApp.class.getName());
-        launcher = new PlainLauncher();
+		launcher = new PlainLauncher();
+		WComponent ui = launcher.createUI();
+		Assert.assertTrue("UI should be an instance of WText", ui instanceof WText);
+		Assert.assertTrue("UI should contain instructions on configuring the LDE",
+				((WText) ui).getText().contains(PlainLauncher.COMPONENT_TO_LAUNCH_PARAM_KEY));
+	}
 
-        WComponent ui1 = launcher.getUI(new MockHttpServletRequest());
-        Assert.assertTrue("UI should be an instance of MyTestComponent", ui1 instanceof MyTestApp);
+	@Test
+	public void testGetUI() {
+		Config.getInstance().setProperty(PlainLauncher.COMPONENT_TO_LAUNCH_PARAM_KEY,
+				MyTestApp.class.getName());
+		launcher = new PlainLauncher();
 
-        // Call getUI again, the same instance should be returned
-        WComponent ui2 = launcher.getUI(new MockHttpServletRequest());
-        Assert.assertSame("Should have returned the same UI instance", ui1, ui2);
-    }
+		WComponent ui1 = launcher.getUI(new MockHttpServletRequest());
+		Assert.assertTrue("UI should be an instance of MyTestComponent", ui1 instanceof MyTestApp);
 
-    @Test
-    public void testGetUINonWApplication()
-    {
-        Config.getInstance().setProperty(PlainLauncher.COMPONENT_TO_LAUNCH_PARAM_KEY, MyTestComponent.class.getName());
-        PlainLauncher launcher = new PlainLauncher();
+		// Call getUI again, the same instance should be returned
+		WComponent ui2 = launcher.getUI(new MockHttpServletRequest());
+		Assert.assertSame("Should have returned the same UI instance", ui1, ui2);
+	}
 
-        WComponent ui1 = launcher.getUI(new MockHttpServletRequest());
-        Assert.assertTrue("Root UI should be a WApplication", ui1 instanceof WApplication);
+	@Test
+	public void testGetUINonWApplication() {
+		Config.getInstance().setProperty(PlainLauncher.COMPONENT_TO_LAUNCH_PARAM_KEY,
+				MyTestComponent.class.getName());
+		PlainLauncher plain = new PlainLauncher();
 
-        ui1 = ((WApplication) ui1).getChildAt(0);
-        Assert.assertTrue("UI should be an instance of MyTestComponent", ui1 instanceof MyTestComponent);
+		WComponent ui1 = plain.getUI(new MockHttpServletRequest());
+		Assert.assertTrue("Root UI should be a WApplication", ui1 instanceof WApplication);
 
-        // Call getUI again, the same instance should be returned
-        WComponent ui2 = ((WApplication) launcher.getUI(new MockHttpServletRequest())).getChildAt(0);
-        Assert.assertSame("Should have returned the same UI instance", ui1, ui2);
-    }
+		ui1 = ((WApplication) ui1).getChildAt(0);
+		Assert.assertTrue("UI should be an instance of MyTestComponent",
+				ui1 instanceof MyTestComponent);
 
-    @Test
-    public void testServer() throws Exception
-    {
-        Config.getInstance().setProperty(PlainLauncher.COMPONENT_TO_LAUNCH_PARAM_KEY, MyTestApp.class.getName());
-        Config.getInstance().setProperty("bordertech.wcomponents.lde.server.port", "0"); // random port
-        Config.getInstance().setProperty("bordertech.wcomponents.whitespaceFilter.enabled", "false");
+		// Call getUI again, the same instance should be returned
+		WComponent ui2 = ((WApplication) plain.getUI(new MockHttpServletRequest())).getChildAt(0);
+		Assert.assertSame("Should have returned the same UI instance", ui1, ui2);
+	}
 
-        launcher = new PlainLauncher();
-        launcher.run();
+	@Test
+	public void testServer() throws Exception {
+		Config.getInstance().setProperty(PlainLauncher.COMPONENT_TO_LAUNCH_PARAM_KEY,
+				MyTestApp.class.getName());
+		// random port
+		Config.getInstance().setProperty("bordertech.wcomponents.lde.server.port", "0");
+		Config.getInstance().
+				setProperty("bordertech.wcomponents.whitespaceFilter.enabled", "false");
 
-        // Access the server and record the output
-        URL url = new URL(launcher.getUrl());
-        URLConnection conn = url.openConnection();
-        byte[] result = StreamUtil.getBytes(conn.getInputStream());
-        String content = new String(result, "UTF-8");
+		launcher = new PlainLauncher();
+		launcher.run();
 
-        Assert.assertEquals("HandleRequest should have been called once", 1, MyTestApp.handleRequestCount);
-        Assert.assertEquals("PaintComponent should have been called once", 1, MyTestApp.paintCount);
+		// Access the server and record the output
+		URL url = new URL(launcher.getUrl());
+		URLConnection conn = url.openConnection();
+		byte[] result = StreamUtil.getBytes(conn.getInputStream());
+		String content = new String(result, "UTF-8");
 
-        // Extract session token
-        String tokenSearch = "\"wc_t\" value=\"";
-        int start = content.indexOf(tokenSearch);
-        int end = content.indexOf("\"", start + tokenSearch.length());
-        String token = content.substring(start + tokenSearch.length(), end);
+		Assert.assertEquals("HandleRequest should have been called once", 1,
+				MyTestApp.handleRequestCount);
+		Assert.assertEquals("PaintComponent should have been called once", 1, MyTestApp.paintCount);
 
-        // Recreate the output outside of the LDE.
-        UIContext uic = new UIContextImpl();
-        WServletEnvironment env = new WServletEnvironment(url.getPath(), url.toString(), "");
-        env.setStep(1); // the step count will be set to one after the request
-        env.setSessionToken(token);
-        uic.setEnvironment(env);
-        UIContextHolder.pushContext(uic);
-        String expected = WebUtilities.render(new MyTestApp());
+		// Extract session token
+		String tokenSearch = "\"wc_t\" value=\"";
+		int start = content.indexOf(tokenSearch);
+		int end = content.indexOf("\"", start + tokenSearch.length());
+		String token = content.substring(start + tokenSearch.length(), end);
 
-        Assert.assertTrue("Content should contain the rendered application", content.contains(expected));
-    }
+		// Recreate the output outside of the LDE.
+		UIContext uic = new UIContextImpl();
+		WServletEnvironment env = new WServletEnvironment(url.getPath(), url.toString(), "");
+		env.setStep(1); // the step count will be set to one after the request
+		env.setSessionToken(token);
+		uic.setEnvironment(env);
+		UIContextHolder.pushContext(uic);
+		String expected = WebUtilities.render(new MyTestApp());
 
-    /**
-     * A non-WApplication component, to test that LDE component wrapping works.
-     */
-    public static final class MyTestComponent extends AbstractWComponent
-    {
-    }
+		Assert.assertTrue("Content should contain the rendered application", content.contains(
+				expected));
+	}
 
-    /**
-     * A Test component to use as the UI.
-     */
-    public static final class MyTestApp extends WApplication
-    {
-        /** Some text which is rendered to the client. */
-        private static final String HELLO_WORLD = "Hello world!";
+	/**
+	 * A non-WApplication component, to test that LDE component wrapping works.
+	 */
+	public static final class MyTestComponent extends AbstractWComponent {
+	}
 
-        /** The number of times that the handleRequest method has been called. */
-        private static int handleRequestCount = 0;
+	/**
+	 * A Test component to use as the UI.
+	 */
+	public static final class MyTestApp extends WApplication {
 
-        /** The number of times that the paint method has been called. */
-        private static int paintCount = 0;
+		/**
+		 * Some text which is rendered to the client.
+		 */
+		private static final String HELLO_WORLD = "Hello world!";
 
-        /** Creates the test component. */
-        public MyTestApp()
-        {
-            add(new WText(HELLO_WORLD));
-        }
+		/**
+		 * The number of times that the handleRequest method has been called.
+		 */
+		private static int handleRequestCount = 0;
 
-        /** {@inheritDoc} */
-        @Override
-        public void handleRequest(final Request request)
-        {
-            super.handleRequest(request);
+		/**
+		 * The number of times that the paint method has been called.
+		 */
+		private static int paintCount = 0;
 
-            synchronized (MyTestApp.class)
-            {
-                handleRequestCount++;
-            }
-        }
+		/**
+		 * Creates the test component.
+		 */
+		public MyTestApp() {
+			add(new WText(HELLO_WORLD));
+		}
 
-        /** {@inheritDoc} */
-        @Override
-        protected void paintComponent(final RenderContext renderContext)
-        {
-            super.paintComponent(renderContext);
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public void handleRequest(final Request request) {
+			super.handleRequest(request);
 
-            synchronized (MyTestApp.class)
-            {
-                paintCount++;
-            }
-        }
-    }
+			synchronized (MyTestApp.class) {
+				handleRequestCount++;
+			}
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		protected void paintComponent(final RenderContext renderContext) {
+			super.paintComponent(renderContext);
+
+			synchronized (MyTestApp.class) {
+				paintCount++;
+			}
+		}
+	}
 }

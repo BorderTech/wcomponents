@@ -13,9 +13,9 @@ import com.github.bordertech.wcomponents.WStyledText;
 import com.github.bordertech.wcomponents.WText;
 
 /**
- * This example demonstrates the use of the submitOnChange flag available on WDropdown. When you
- * change the selected state in the state dropdown, the options available in the region dropdown are
- * changed to match. Also, if you select "ACT", you get a special message displayed.
+ * This example demonstrates the use of the submitOnChange flag available on WDropdown. When you change the selected
+ * state in the state dropdown, the options available in the region dropdown are changed to match. Also, if you select
+ * "ACT", you get a special message displayed.
  *
  * @author Ming Gao
  * @since 1.0.0
@@ -73,7 +73,8 @@ public class WRadioButtonSubmitOnChangeExample extends WContainer {
 		regionSelector.setAccessibleText("Region");
 
 		add(actMessagePanel);
-		actMessagePanel.add(new WStyledText("Australian Capital Territory", WStyledText.Type.EMPHASISED));
+		actMessagePanel.add(new WStyledText("Australian Capital Territory",
+				WStyledText.Type.EMPHASISED));
 		actMessagePanel.add(new WText(" - the heart of the nation!"));
 
 		updateRegion();
@@ -81,8 +82,7 @@ public class WRadioButtonSubmitOnChangeExample extends WContainer {
 	}
 
 	/**
-	 * Updates the visibility and options present in the region selector, depending on the state
-	 * selector's value.
+	 * Updates the visibility and options present in the region selector, depending on the state selector's value.
 	 */
 	private void updateRegion() {
 		actMessagePanel.setVisible(false);
@@ -94,11 +94,13 @@ public class WRadioButtonSubmitOnChangeExample extends WContainer {
 			regionSelector.setVisible(true);
 		} else if (rbtNSW.isSelected()) {
 			regionPanel.setVisible(true);
-			regionSelector.setOptions(new String[]{null, "Hunter", "Riverina", "Southern Tablelands"});
+			regionSelector.setOptions(
+					new String[]{null, "Hunter", "Riverina", "Southern Tablelands"});
 			regionSelector.setVisible(true);
 		} else if (rbtVIC.isSelected()) {
 			regionPanel.setVisible(true);
-			regionSelector.setOptions(new String[]{null, "Gippsland", "Melbourne", "Mornington Peninsula"});
+			regionSelector.setOptions(
+					new String[]{null, "Gippsland", "Melbourne", "Mornington Peninsula"});
 			regionSelector.setVisible(true);
 		} else {
 			regionSelector.setOptions(new Object[]{null});

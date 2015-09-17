@@ -18,7 +18,8 @@ public class WConfirmationButtonRenderer_Test extends AbstractWebXmlRendererTest
 	@Test
 	public void testRendererCorrectlyConfigured() {
 		WConfirmationButton component = new WConfirmationButton("dummy");
-		Assert.assertTrue("Incorrect renderer supplied", getWebXmlRenderer(component) instanceof WButtonRenderer);
+		Assert.assertTrue("Incorrect renderer supplied",
+				getWebXmlRenderer(component) instanceof WButtonRenderer);
 	}
 
 	@Test

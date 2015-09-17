@@ -23,7 +23,8 @@ public class WEmailFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 	@Test
 	public void testRendererCorrectlyConfigured() {
 		WEmailField textField = new WEmailField();
-		Assert.assertTrue("Incorrect renderer supplied", getWebXmlRenderer(textField) instanceof WEmailFieldRenderer);
+		Assert.assertTrue("Incorrect renderer supplied",
+				getWebXmlRenderer(textField) instanceof WEmailFieldRenderer);
 	}
 
 	@Test

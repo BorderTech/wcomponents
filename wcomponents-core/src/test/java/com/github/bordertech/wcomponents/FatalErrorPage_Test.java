@@ -26,7 +26,8 @@ public class FatalErrorPage_Test extends AbstractWComponentTestCase {
 		PrintWriter writer = new PrintWriter(strWriter);
 		fatalErrPage.paintComponent(new WebXmlRenderContext(writer));
 
-		Assert.assertTrue("Should equal the contents of getMessage()", strWriter.toString().equals(correctMsg + System.getProperty("line.separator")));
+		Assert.assertTrue("Should equal the contents of getMessage()", strWriter.toString().equals(
+				correctMsg + System.getProperty("line.separator")));
 	}
 
 	@Test
@@ -43,7 +44,9 @@ public class FatalErrorPage_Test extends AbstractWComponentTestCase {
 
 		String result = strWriter.toString();
 
-		Assert.assertTrue("should contain contents of getMessage()", result.indexOf(correctMsg) != -1);
-		Assert.assertTrue("should contain the name of the Exception", result.indexOf(exception.getClass().getName()) != -1);
+		Assert.assertTrue("should contain contents of getMessage()",
+				result.indexOf(correctMsg) != -1);
+		Assert.assertTrue("should contain the name of the Exception", result.indexOf(exception.
+				getClass().getName()) != -1);
 	}
 }

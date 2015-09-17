@@ -64,9 +64,12 @@ public class Triplet_Test {
 
 	@Test
 	public void testEquals() {
-		Triplet<Object, Object, Object> trip1 = new Triplet<Object, Object, Object>("1", new Long(12345), null);
-		Triplet<Object, Object, Object> trip2 = new Triplet<Object, Object, Object>("1", new Long(12345), null);
-		Triplet<Object, Object, Object> trip3 = new Triplet<Object, Object, Object>("1", null, new Long(12345));
+		Triplet<Object, Object, Object> trip1 = new Triplet<Object, Object, Object>("1", new Long(
+				12345), null);
+		Triplet<Object, Object, Object> trip2 = new Triplet<Object, Object, Object>("1", new Long(
+				12345), null);
+		Triplet<Object, Object, Object> trip3 = new Triplet<Object, Object, Object>("1", null,
+				new Long(12345));
 
 		Assert.assertTrue("Triplet should equal itself", trip1.equals(trip1));
 		Assert.assertTrue("Triplet should equal an equivalent triplet", trip1.equals(trip2));
@@ -78,9 +81,12 @@ public class Triplet_Test {
 
 	@Test
 	public void testHashCode() {
-		Triplet<Object, Object, Object> trip1 = new Triplet<Object, Object, Object>("1", new Long(12345), null);
-		Triplet<Object, Object, Object> trip2 = new Triplet<Object, Object, Object>("1", new Long(12345), null);
+		Triplet<Object, Object, Object> trip1 = new Triplet<Object, Object, Object>("1", new Long(
+				12345), null);
+		Triplet<Object, Object, Object> trip2 = new Triplet<Object, Object, Object>("1", new Long(
+				12345), null);
 
-		Assert.assertEquals("Triplet should have same hash as an equivalent triplet", trip1.hashCode(), trip2.hashCode());
+		Assert.assertEquals("Triplet should have same hash as an equivalent triplet", trip1.
+				hashCode(), trip2.hashCode());
 	}
 }

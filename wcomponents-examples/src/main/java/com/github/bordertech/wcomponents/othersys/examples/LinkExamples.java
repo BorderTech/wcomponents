@@ -40,7 +40,8 @@ public class LinkExamples extends WContainer {
 
 		WPanel linkPanel = new WPanel();
 		add(linkPanel);
-		linkPanel.setLayout(new ListLayout(ListLayout.Type.STACKED, ListLayout.Alignment.LEFT, ListLayout.Separator.NONE,
+		linkPanel.setLayout(new ListLayout(ListLayout.Type.STACKED, ListLayout.Alignment.LEFT,
+				ListLayout.Separator.NONE,
 				false));
 
 		linkPanel.add(new WLink.Builder("WLink using builder and with attrs", URL)

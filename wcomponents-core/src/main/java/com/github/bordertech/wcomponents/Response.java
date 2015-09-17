@@ -5,8 +5,8 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 
 /**
- * An abstraction of a response to a client in a web environment, that allows WComponents to
- * function similarly when running in e.g. Servlet or Portlet environment.
+ * An abstraction of a response to a client in a web environment, that allows WComponents to function similarly when
+ * running in e.g. Servlet or Portlet environment.
  *
  * @author James Gifford, 6/07/2005
  * @author Martin Shevchenko
@@ -27,8 +27,8 @@ public interface Response {
 	OutputStream getOutputStream() throws IOException;
 
 	/**
-	 * Sends a redirect response to the client using the specified redirect URL. Normally, no
-	 * further data will be written back to the client.
+	 * Sends a redirect response to the client using the specified redirect URL. Normally, no further data will be
+	 * written back to the client.
 	 *
 	 * @param redirect the URL to redirect to.
 	 * @throws IOException if there is an error sending the redirect.
@@ -43,8 +43,8 @@ public interface Response {
 	void setContentType(String contentType);
 
 	/**
-	 * Sets a response header with the given name and value. If the header had already been set, the
-	 * new value overwrites the previous one.
+	 * Sets a response header with the given name and value. If the header had already been set, the new value
+	 * overwrites the previous one.
 	 *
 	 * @param name the name of the header
 	 * @param value the header value

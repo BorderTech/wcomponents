@@ -50,9 +50,11 @@ public class AjaxDebugStructureInterceptor_Test extends AbstractWebXmlRendererTe
 		String xml = doAjaxRequest(app);
 		assertXpathEvaluatesTo("1", "count(//ui:debug/ui:debugInfo)", xml);
 		assertXpathEvaluatesTo(app.target.getId(), "//ui:debug/ui:debugInfo/@for", xml);
-		assertXpathEvaluatesTo(app.target.getClass().getName(), "//ui:debug/ui:debugInfo/@class", xml);
+		assertXpathEvaluatesTo(app.target.getClass().getName(), "//ui:debug/ui:debugInfo/@class",
+				xml);
 		assertXpathEvaluatesTo(app.target.getClass().getName(), "//ui:debug/ui:debugInfo/@type", xml);
-		assertXpathEvaluatesTo("true", "//ui:debug/ui:debugInfo/ui:debugDetail[@key='defaultState']/@value", xml);
+		assertXpathEvaluatesTo("true",
+				"//ui:debug/ui:debugInfo/ui:debugDetail[@key='defaultState']/@value", xml);
 	}
 
 	/**

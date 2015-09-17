@@ -28,8 +28,8 @@ public class SubordinateControlMandatoryExample extends ValidationContainer {
 	}
 
 	/**
-	 * Creates the component to be added to the validation container. This is doen in a static
-	 * method because the component is passed into the superclass constructor.
+	 * Creates the component to be added to the validation container. This is doen in a static method because the
+	 * component is passed into the superclass constructor.
 	 *
 	 * @return the component to be added to the validation container.
 	 */

@@ -8,8 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * These examples show different usages of buttons/links when used within a {@link WRepeater} in
- * different combinations.
+ * These examples show different usages of buttons/links when used within a {@link WRepeater} in different combinations.
  *
  * @author Adam Millard
  */

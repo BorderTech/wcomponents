@@ -43,8 +43,8 @@ public class WComponentSeleniumTestCase extends WComponentTestCase {
 	private static final Log LOG = LogFactory.getLog(WComponentSeleniumTestCase.class);
 
 	/**
-	 * How long to implicitly wait for elements to appear, in milliseconds. If an element does not
-	 * appear after this delay, Selenium will throw a NoSuchElementException.
+	 * How long to implicitly wait for elements to appear, in milliseconds. If an element does not appear after this
+	 * delay, Selenium will throw a NoSuchElementException.
 	 */
 	private static final int IMPLICIT_WAIT = 1000;
 
@@ -121,8 +121,7 @@ public class WComponentSeleniumTestCase extends WComponentTestCase {
 	}
 
 	/**
-	 * Called once before any test methods, to start the Selenium test LDE if it is not already
-	 * running.
+	 * Called once before any test methods, to start the Selenium test LDE if it is not already running.
 	 */
 	@BeforeClass
 	public static void startLde() {
@@ -130,8 +129,8 @@ public class WComponentSeleniumTestCase extends WComponentTestCase {
 	}
 
 	/**
-	 * Called once after all test methods have completed, to stop the Selenium test LDE if it is the
-	 * last test being run.
+	 * Called once after all test methods have completed, to stop the Selenium test LDE if it is the last test being
+	 * run.
 	 */
 	@AfterClass
 	public static void stopLde() {
@@ -148,9 +147,8 @@ public class WComponentSeleniumTestCase extends WComponentTestCase {
 	}
 
 	/**
-	 * Retrieves the current driver instance. Subclasses should use this to obtain a driver instance
-	 * for their tests. Note that the driver is disposed of between tests, so it should not be
-	 * cached in the test classes.
+	 * Retrieves the current driver instance. Subclasses should use this to obtain a driver instance for their tests.
+	 * Note that the driver is disposed of between tests, so it should not be cached in the test classes.
 	 *
 	 * @return the driver to use during testing.
 	 */
@@ -159,8 +157,8 @@ public class WComponentSeleniumTestCase extends WComponentTestCase {
 	}
 
 	/**
-	 * Creates a driver to use during testing. Subclasses may use this to change the browser that is
-	 * used during testing.
+	 * Creates a driver to use during testing. Subclasses may use this to change the browser that is used during
+	 * testing.
 	 *
 	 * @return the driver to use during testing.
 	 */
@@ -248,7 +246,8 @@ public class WComponentSeleniumTestCase extends WComponentTestCase {
 					LOG.debug("READY");
 					break;
 				} else if (LOG.isDebugEnabled()) {
-					LOG.debug("STATUS: " + driver.executeScript("return window.isPageReady? window.isPageReady.status() : ''"));
+					LOG.debug("STATUS: " + driver.executeScript(
+							"return window.isPageReady? window.isPageReady.status() : ''"));
 					LOG.debug("PAGE NOT READY. WAITING...");
 				}
 
@@ -264,8 +263,8 @@ public class WComponentSeleniumTestCase extends WComponentTestCase {
 	}
 
 	/**
-	 * Extension of InternetExplorerDriver to work around Selenium not waiting for the theme and
-	 * skin javascript to complete.
+	 * Extension of InternetExplorerDriver to work around Selenium not waiting for the theme and skin javascript to
+	 * complete.
 	 */
 	private static final class MyInternetExplorerDriver extends InternetExplorerDriver {
 
@@ -319,8 +318,7 @@ public class WComponentSeleniumTestCase extends WComponentTestCase {
 	}
 
 	/**
-	 * Extension of FirefoxDriver to work around Selenium not waiting for the theme and skin
-	 * javascript to complete.
+	 * Extension of FirefoxDriver to work around Selenium not waiting for the theme and skin javascript to complete.
 	 */
 	private static final class MyFirefoxDriver extends FirefoxDriver {
 
@@ -374,8 +372,7 @@ public class WComponentSeleniumTestCase extends WComponentTestCase {
 	}
 
 	/**
-	 * Extension of ChromeDriver to work around Selenium not waiting for the theme and skin
-	 * javascript to complete.
+	 * Extension of ChromeDriver to work around Selenium not waiting for the theme and skin javascript to complete.
 	 */
 	private static final class MyChromeDriver extends ChromeDriver {
 
@@ -439,17 +436,16 @@ public class WComponentSeleniumTestCase extends WComponentTestCase {
 	}
 
 	/**
-	 * A Wrapper for a web-element to provide developers some further insulation from theme and skin
-	 * changes.
+	 * A Wrapper for a web-element to provide developers some further insulation from theme and skin changes.
 	 *
-	 * This also contains a work-around for Selenium not waiting for javascript form submission. A
-	 * delay is inserted after each form control is used.
+	 * This also contains a work-around for Selenium not waiting for javascript form submission. A delay is inserted
+	 * after each form control is used.
 	 */
 	private static final class WebElementWrapper implements WebElement {
 
 		/**
-		 * Sleep delay after using a control, in milliseconds. This only needs to sleep for as long
-		 * as themes take to submit the form, trigger AJAX, subordinates etc.
+		 * Sleep delay after using a control, in milliseconds. This only needs to sleep for as long as themes take to
+		 * submit the form, trigger AJAX, subordinates etc.
 		 */
 		private static final int SLEEP_DELAY = 100;
 
@@ -485,7 +481,8 @@ public class WComponentSeleniumTestCase extends WComponentTestCase {
 		 * @param element the backing element.
 		 * @param componentClass the class for the component corresponding to the element.
 		 */
-		private WebElementWrapper(final WebDriver driver, final WebElement element, final Class<? extends WComponent> componentClass) {
+		private WebElementWrapper(final WebDriver driver, final WebElement element,
+				final Class<? extends WComponent> componentClass) {
 			this.driver = driver;
 			this.element = element;
 			this.componentClass = componentClass;

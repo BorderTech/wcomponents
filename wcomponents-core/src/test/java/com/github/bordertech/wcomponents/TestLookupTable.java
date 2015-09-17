@@ -119,7 +119,8 @@ public class TestLookupTable implements LookupTable {
 	private List<Object> getTable(final String tableName) {
 		if (CACHEABLE_DAY_OF_WEEK_TABLE.equals(tableName)) {
 			return getTable(DAY_OF_WEEK_TABLE);
-		} else if (CACHEABLE_DAY_OF_WEEK_TABLE_WITH_NULL_OPTION.equals(tableName) || DAY_OF_WEEK_TABLE_WITH_NULL_OPTION.equals(tableName)) {
+		} else if (CACHEABLE_DAY_OF_WEEK_TABLE_WITH_NULL_OPTION.equals(tableName) || DAY_OF_WEEK_TABLE_WITH_NULL_OPTION.
+				equals(tableName)) {
 			List<Object> list = getTable(DAY_OF_WEEK_TABLE);
 			list.add(0, null);
 			return list;

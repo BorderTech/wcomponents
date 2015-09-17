@@ -94,7 +94,8 @@ public class TableTreeNode_Test {
 		Assert.assertSame("Incorrect renderer class", WText.class, node.getRendererClass());
 
 		node.setRendererClass(WTextField.class);
-		Assert.assertSame("Incorrect renderer class after setRenderClass", WTextField.class, node.getRendererClass());
+		Assert.assertSame("Incorrect renderer class after setRenderClass", WTextField.class, node.
+				getRendererClass());
 	}
 
 	@Test
@@ -103,7 +104,8 @@ public class TableTreeNode_Test {
 		Assert.assertTrue("RendererSpansAllCols should be true", node.isRendererSpansAllCols());
 
 		node.setRendererSpansAllCols(false);
-		Assert.assertFalse("RendererSpansAllCols should be false after set", node.isRendererSpansAllCols());
+		Assert.assertFalse("RendererSpansAllCols should be false after set", node.
+				isRendererSpansAllCols());
 	}
 
 	@Test

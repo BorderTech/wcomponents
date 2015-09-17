@@ -25,7 +25,8 @@ final class WAjaxControlRenderer extends AbstractWebXmlRenderer {
 	public void doRender(final WComponent component, final WebXmlRenderContext renderContext) {
 		WAjaxControl ajaxControl = (WAjaxControl) component;
 		XmlStringBuilder xml = renderContext.getWriter();
-		WComponent trigger = ajaxControl.getTrigger() == null ? ajaxControl : ajaxControl.getTrigger();
+		WComponent trigger = ajaxControl.getTrigger() == null ? ajaxControl : ajaxControl.
+				getTrigger();
 		int loadCount = ajaxControl.getLoadCount();
 		int delay = ajaxControl.getDelay();
 

@@ -50,42 +50,54 @@ public final class ExampleDataUtil {
 		data.add(new PersonBean("ID10", "Saul", "Hudson", DateUtilities.createDate(5, 3, 1978)));
 
 		// Add documents
-		data.get(0).setDocuments(Arrays.asList(new TravelDoc("11122", "Canada", "Ottawa", DateUtilities
+		data.get(0).setDocuments(Arrays.asList(new TravelDoc("11122", "Canada", "Ottawa",
+				DateUtilities
 				.createDate(5, 3, 1990), DateUtilities.createDate(2, 4, 1983))));
-		data.get(2).setDocuments(Arrays.asList(new TravelDoc("23456", "New Zealand", "Wellington", DateUtilities
+		data.get(2).setDocuments(Arrays.asList(new TravelDoc("23456", "New Zealand", "Wellington",
+				DateUtilities
 				.createDate(6, 3, 1999), DateUtilities.createDate(4, 7, 2009)),
 				new TravelDoc("23457", "Australia", "Perth", DateUtilities
 						.createDate(8, 5, 2005), DateUtilities.createDate(6, 9, 2015))));
-		data.get(7).setDocuments(Arrays.asList(new TravelDoc("78901", "New Zealand", "Wellington", DateUtilities
+		data.get(7).setDocuments(Arrays.asList(new TravelDoc("78901", "New Zealand", "Wellington",
+				DateUtilities
 				.createDate(10, 7, 2005), DateUtilities.createDate(8, 11, 2015))));
 
 		// Add related persons - Level1
-		data.get(0).setMore(Arrays.asList(new PersonBean("1A", "Jane", "Paice", DateUtilities.createDate(3, 4, 1980)),
+		data.get(0).setMore(Arrays.asList(new PersonBean("1A", "Jane", "Paice", DateUtilities.
+				createDate(3, 4, 1980)),
 				new PersonBean("1B", "Richie", "Benaud", DateUtilities
 						.createDate(5, 11, 1989))));
 		data.get(1)
-				.setMore(Arrays.asList(new PersonBean("2A", "Steven", "Anderson", DateUtilities.createDate(1, 7, 1969)),
-						new PersonBean("2B", "Terry", "Bollea", DateUtilities.createDate(8, 12, 1975))));
+				.setMore(Arrays.asList(new PersonBean("2A", "Steven", "Anderson", DateUtilities.
+						createDate(1, 7, 1969)),
+						new PersonBean("2B", "Terry", "Bollea", DateUtilities.
+								createDate(8, 12, 1975))));
 		data.get(3)
-				.setMore(Arrays.asList(new PersonBean("4A", "John", "Stanley", DateUtilities.createDate(2, 7, 2001)),
+				.setMore(Arrays.asList(new PersonBean("4A", "John", "Stanley", DateUtilities.
+						createDate(2, 7, 2001)),
 						new PersonBean("4B", "Mary", "Smith", DateUtilities.createDate(8, 1, 2003))));
-		data.get(4).setMore(Arrays.asList(new PersonBean("5A", "David", "Jones", DateUtilities.createDate(1, 4, 2002)),
+		data.get(4).setMore(Arrays.asList(new PersonBean("5A", "David", "Jones", DateUtilities.
+				createDate(1, 4, 2002)),
 				new PersonBean("5B", "Dwayne", "Johnson", DateUtilities
 						.createDate(5, 2, 2014))));
-		data.get(7).setMore(Arrays.asList(new PersonBean("8A", "Charles", "Spencer", DateUtilities.createDate(2, 6,
-				1981))));
+		data.get(7).setMore(Arrays.asList(new PersonBean("8A", "Charles", "Spencer", DateUtilities.
+				createDate(2, 6,
+						1981))));
 
 		// Add related persons - Level2
 		data.get(0)
 				.getMore()
 				.get(1)
-				.setMore(Arrays.asList(new PersonBean("1B1", "Chaim", "Witz", DateUtilities.createDate(1, 2, 2010)),
+				.setMore(Arrays.asList(new PersonBean("1B1", "Chaim", "Witz", DateUtilities.
+						createDate(1, 2, 2010)),
 						new PersonBean("1B2", "John", "Bloggs", DateUtilities.createDate(3, 4, 2005))));
 
 		data.get(3).getMore().get(0)
-				.setMore(Arrays.asList(new PersonBean("4A1", "Vincent", "Anderson", DateUtilities.createDate(1, 8, 2010))));
+				.setMore(Arrays.asList(new PersonBean("4A1", "Vincent", "Anderson", DateUtilities.
+						createDate(1, 8, 2010))));
 		data.get(7).getMore().get(0)
-				.setMore(Arrays.asList(new PersonBean("8A1", "Jnr", "Kulick", DateUtilities.createDate(4, 7, 2013))));
+				.setMore(Arrays.asList(new PersonBean("8A1", "Jnr", "Kulick", DateUtilities.
+						createDate(4, 7, 2013))));
 
 		return data;
 	}
@@ -120,7 +132,8 @@ public final class ExampleDataUtil {
 			List<TravelDoc> docs = new ArrayList<>(documents);
 			for (int j = 1; j <= documents; j++) {
 				String prefix = i + "-" + j;
-				TravelDoc doc = new TravelDoc("DOC" + prefix, "Canada" + prefix, "Ottawa" + prefix, date2, date3);
+				TravelDoc doc = new TravelDoc("DOC" + prefix, "Canada" + prefix, "Ottawa" + prefix,
+						date2, date3);
 				docs.add(doc);
 			}
 

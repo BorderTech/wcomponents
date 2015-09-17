@@ -13,15 +13,14 @@ import java.util.List;
  * A <code>WTabSet</code> WComponent has the following functionality:
  * <ul>
  * <li>The ability to render as different types of client-side tab controls.</li>
- * <li>The ability to process each tab control on the client side (via JavaScript) or Server side
- * processing.</li>
- * <li> The ability to set the active tab(s). By default it is the first in the list and can be set
- * via the following methods:
+ * <li>The ability to process each tab control on the client side (via JavaScript) or Server side processing.</li>
+ * <li> The ability to set the active tab(s). By default it is the first in the list and can be set via the following
+ * methods:
  * <ul>
- * <li>{@link #setActiveIndex(int)} to set the active tab as the index corresponding to the order of
- * tabs at construction time.</li>
- * <li>{@link #setActiveTab(WComponent)} to set the active tab that matches the WComponent supplied
- * at construction time (see {@link #addTab(WComponent, String, TabMode)}).</li>
+ * <li>{@link #setActiveIndex(int)} to set the active tab as the index corresponding to the order of tabs at
+ * construction time.</li>
+ * <li>{@link #setActiveTab(WComponent)} to set the active tab that matches the WComponent supplied at construction time
+ * (see {@link #addTab(WComponent, String, TabMode)}).</li>
  * </ul>
  * </li>
  * </ul>
@@ -29,13 +28,14 @@ import java.util.List;
  *
  * <p>
  * <b>NOTE:</b> When setting the tab set type to be LEFT or RIGHT you should make use of the method
- * {@link #setContentHeight(String)} to provide a sensible default height for the tab set.
- * Otherwise, it will default to the height of one tab.</p>
+ * {@link #setContentHeight(String)} to provide a sensible default height for the tab set. Otherwise, it will default to
+ * the height of one tab.</p>
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
  */
-public class WTabSet extends AbstractNamingContextContainer implements Disableable, AjaxTarget, Marginable {
+public class WTabSet extends AbstractNamingContextContainer implements Disableable, AjaxTarget,
+		Marginable {
 
 	/**
 	 * The available types of client-side tab sets.
@@ -74,8 +74,8 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 		/**
 		 * Indicates that a round-trip should be made whenever the tab is selected.
 		 *
-		 * @deprecated Use TabMode DYNAMIC instead as a like-for-like replacement or any other mode
-		 * if it is more appropriate to the individual use case.
+		 * @deprecated Use TabMode DYNAMIC instead as a like-for-like replacement or any other mode if it is more
+		 * appropriate to the individual use case.
 		 */
 		SERVER,
 		/**
@@ -120,29 +120,25 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	/**
 	 * A tab mode where invoking the tab will always perform a round-trip to the server.
 	 *
-	 * @deprecated Use TAB_MODE_DYNAMIC instead as a like-for-like replacement or any other mode if
-	 * it is more appropriate to the individual use case.
+	 * @deprecated Use TAB_MODE_DYNAMIC instead as a like-for-like replacement or any other mode if it is more
+	 * appropriate to the individual use case.
 	 */
 	@Deprecated
 	public static final TabMode TAB_MODE_SERVER = TabMode.SERVER;
 	/**
-	 * A tab mode where invoking the tab will perform an ajax request the first time the tab is
-	 * requested.
+	 * A tab mode where invoking the tab will perform an ajax request the first time the tab is requested.
 	 */
 	public static final TabMode TAB_MODE_LAZY = TabMode.LAZY;
 	/**
-	 * A tab mode where tab content is always rendered, and invoking the tab only results in a
-	 * client-side switch.
+	 * A tab mode where tab content is always rendered, and invoking the tab only results in a client-side switch.
 	 */
 	public static final TabMode TAB_MODE_CLIENT = TabMode.CLIENT;
 	/**
-	 * A tab mode where invoking the tab will perform an ajax request every time the tab is
-	 * requested.
+	 * A tab mode where invoking the tab will perform an ajax request every time the tab is requested.
 	 */
 	public static final TabMode TAB_MODE_DYNAMIC = TabMode.DYNAMIC;
 	/**
-	 * A tab mode where invoking the tab will perform an ajax request immediately after the page is
-	 * loaded.
+	 * A tab mode where invoking the tab will perform an ajax request immediately after the page is loaded.
 	 */
 	public static final TabMode TAB_MODE_EAGER = TabMode.EAGER;
 
@@ -186,8 +182,8 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	}
 
 	/**
-	 * Sets the content height of the tab set. This is primarily used for tab sets where the tabs
-	 * are positioned on the left or right, to limit the height of the tab set.
+	 * Sets the content height of the tab set. This is primarily used for tab sets where the tabs are positioned on the
+	 * left or right, to limit the height of the tab set.
 	 *
 	 * @param contentHeight the content height, measured in a valid CSS unit, e.g. "10em".
 	 */
@@ -226,7 +222,8 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	 * @param accessKey the access key used to activate the tab.
 	 * @return the tab which was added to the tab set.
 	 */
-	public WTab addTab(final WComponent content, final String tabName, final TabMode mode, final char accessKey) {
+	public WTab addTab(final WComponent content, final String tabName, final TabMode mode,
+			final char accessKey) {
 		WTab tab = new WTab(content, tabName, mode, accessKey);
 		add(tab);
 
@@ -257,7 +254,8 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	 * @param accessKey the access key used to activate the tab.
 	 * @return the tab which was added to the tab set.
 	 */
-	public WTab addTab(final WComponent content, final WDecoratedLabel label, final TabMode mode, final char accessKey) {
+	public WTab addTab(final WComponent content, final WDecoratedLabel label, final TabMode mode,
+			final char accessKey) {
 		WTab tab = new WTab(content, label, mode, accessKey);
 		add(tab);
 
@@ -362,8 +360,8 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	}
 
 	/**
-	 * Returns the active tab (as seen by the given context/session). Note that some tab sets
-	 * support multiple active tabs, see {@link #getActiveTabs()}.
+	 * Returns the active tab (as seen by the given context/session). Note that some tab sets support multiple active
+	 * tabs, see {@link #getActiveTabs()}.
 	 *
 	 * @return the active tab (as seen by the given context/session).
 	 */
@@ -424,8 +422,7 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	}
 
 	/**
-	 * Sets the active tab using tab content. TODO: this is stupid! setActiveTab should use the WTab
-	 * not its content!
+	 * Sets the active tab using tab content. TODO: this is stupid! setActiveTab should use the WTab not its content!
 	 *
 	 * @param content the active tab's content.
 	 */
@@ -591,7 +588,8 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 					if (!oldIndices.contains(tabIndex)) {
 						// Check for a server mode tab and set focus
 						WTab tab = getTab(tabIndex);
-						if (TabMode.SERVER == tab.getMode() && UIContextHolder.getCurrent().getFocussed() == null) {
+						if (TabMode.SERVER == tab.getMode() && UIContextHolder.getCurrent().
+								getFocussed() == null) {
 							tab.setFocussed();
 						}
 						changes.add(tabIndex);
@@ -627,8 +625,7 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	}
 
 	/**
-	 * The client-side tab indices will differ from the WTabSet's indices when one or more tabs is
-	 * invisible.
+	 * The client-side tab indices will differ from the WTabSet's indices when one or more tabs is invisible.
 	 *
 	 * @param clientIndex the client-side index
 	 * @return the WTabSet index corresponding to the given client index
@@ -647,8 +644,7 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	}
 
 	/**
-	 * Find the index of the first visible tab. If there are no visible tabs then return the first
-	 * tab.
+	 * Find the index of the first visible tab. If there are no visible tabs then return the first tab.
 	 *
 	 * @return the index of the first visible tab
 	 */
@@ -710,8 +706,8 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	}
 
 	/**
-	 * Sets whether only the "head" portion of a tab's decorated label should be visible. At
-	 * present, this only has a visible effect on {@link TabSetType#APPLICATION} tab sets.
+	 * Sets whether only the "head" portion of a tab's decorated label should be visible. At present, this only has a
+	 * visible effect on {@link TabSetType#APPLICATION} tab sets.
 	 *
 	 * @param showHeadOnly true if only the "head" part of the tab label should be shown.
 	 */
@@ -720,8 +716,8 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	}
 
 	/**
-	 * Indicates whether only the "head" portion of a tab's decorated label should be visible. At
-	 * present, this only has a visible effect on {@link TabSetType#APPLICATION} tab sets.
+	 * Indicates whether only the "head" portion of a tab's decorated label should be visible. At present, this only has
+	 * a visible effect on {@link TabSetType#APPLICATION} tab sets.
 	 *
 	 * @return true if only the "head" part of the tab label should be shown.
 	 */

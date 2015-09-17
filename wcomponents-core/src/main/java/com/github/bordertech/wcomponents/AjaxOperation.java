@@ -24,8 +24,8 @@ public final class AjaxOperation implements Serializable {
 	private final String triggerId;
 
 	/**
-	 * The list of target components to repaint when this trigger occurs. They do not necessarily
-	 * need to be contained within one section of the UI, but if containerId is set, they should be.
+	 * The list of target components to repaint when this trigger occurs. They do not necessarily need to be contained
+	 * within one section of the UI, but if containerId is set, they should be.
 	 */
 	private final List<String> targetIds;
 
@@ -37,8 +37,7 @@ public final class AjaxOperation implements Serializable {
 	/**
 	 * Creates an AjaxOperation.
 	 *
-	 * @param triggerId the trigger id. {@link WServlet} uses this as a look-up to obtain the
-	 * correct AjaxOperation.
+	 * @param triggerId the trigger id. {@link WServlet} uses this as a look-up to obtain the correct AjaxOperation.
 	 * @param targetId the id of the target component.
 	 */
 	public AjaxOperation(final String triggerId, final String targetId) {
@@ -58,8 +57,7 @@ public final class AjaxOperation implements Serializable {
 	/**
 	 * Creates an AjaxOperation.
 	 *
-	 * @param triggerId the trigger id. {@link WServlet} uses this as a look-up to obtain the
-	 * correct AjaxOperation.
+	 * @param triggerId the trigger id. {@link WServlet} uses this as a look-up to obtain the correct AjaxOperation.
 	 * @param targetIds the ids of the target components.
 	 */
 	public AjaxOperation(final String triggerId, final List<String> targetIds) {
@@ -76,9 +74,9 @@ public final class AjaxOperation implements Serializable {
 	}
 
 	/**
-	 * Sets the target container id. Allows you to replace a child component without affecting the
-	 * parent. This is necessary for lazy loading components, where child content is not initally
-	 * present, and can therefore not be replaced.
+	 * Sets the target container id. Allows you to replace a child component without affecting the parent. This is
+	 * necessary for lazy loading components, where child content is not initally present, and can therefore not be
+	 * replaced.
 	 *
 	 * @param targetContainerId the target container's id.
 	 */

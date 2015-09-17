@@ -29,7 +29,8 @@ public class WApplicationRenderer_Test extends AbstractWebXmlRendererTestCase {
 	@Test
 	public void testRendererCorrectlyConfigured() {
 		WApplication application = new WApplication();
-		Assert.assertTrue("Incorrect renderer supplied", getWebXmlRenderer(application) instanceof WApplicationRenderer);
+		Assert.assertTrue("Incorrect renderer supplied",
+				getWebXmlRenderer(application) instanceof WApplicationRenderer);
 	}
 
 	@Test
@@ -43,13 +44,15 @@ public class WApplicationRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		// Test with no unsavedChanges
 		assertSchemaMatch(application);
-		assertXpathEvaluatesTo(WComponent.DEFAULT_APPLICATION_ID, "//ui:application/@id", application);
+		assertXpathEvaluatesTo(WComponent.DEFAULT_APPLICATION_ID, "//ui:application/@id",
+				application);
 		assertXpathEvaluatesTo("", "//ui:application/@unsavedChanges", application);
 
 		// Test with unsavedChanges
 		application.setUnsavedChanges(true);
 		assertSchemaMatch(application);
-		assertXpathEvaluatesTo(WComponent.DEFAULT_APPLICATION_ID, "//ui:application/@id", application);
+		assertXpathEvaluatesTo(WComponent.DEFAULT_APPLICATION_ID, "//ui:application/@id",
+				application);
 		assertXpathEvaluatesTo("true", "//ui:application/@unsavedChanges", application);
 	}
 
@@ -70,10 +73,12 @@ public class WApplicationRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		// Check Schema
 		assertSchemaMatch(application);
-		assertXpathEvaluatesTo(WComponent.DEFAULT_APPLICATION_ID, "//ui:application/@id", application);
+		assertXpathEvaluatesTo(WComponent.DEFAULT_APPLICATION_ID, "//ui:application/@id",
+				application);
 		assertXpathEvaluatesTo("true", "//ui:application/@unsavedChanges", application);
 		// Check Children
-		assertXpathEvaluatesTo("test text", "normalize-space(//ui:application/text()[1])", application);
+		assertXpathEvaluatesTo("test text", "normalize-space(//ui:application/text()[1])",
+				application);
 		assertXpathEvaluatesTo("1", "count(//ui:application/ui:button)", application);
 	}
 
@@ -90,14 +95,18 @@ public class WApplicationRenderer_Test extends AbstractWebXmlRendererTestCase {
 		setActiveContext(uic);
 
 		assertSchemaMatch(application);
-		assertXpathEvaluatesTo(environment.getPostPath(), "//ui:application/@applicationUrl", application);
-		assertXpathEvaluatesTo(environment.getWServletPath(), "//ui:application/@ajaxUrl", application);
-		assertXpathEvaluatesTo(environment.getWServletPath(), "//ui:application/@dataUrl", application);
+		assertXpathEvaluatesTo(environment.getPostPath(), "//ui:application/@applicationUrl",
+				application);
+		assertXpathEvaluatesTo(environment.getWServletPath(), "//ui:application/@ajaxUrl",
+				application);
+		assertXpathEvaluatesTo(environment.getWServletPath(), "//ui:application/@dataUrl",
+				application);
 		assertXpathNotExists("//ui:application/@defaultFocusId", application);
 	}
 
 	@Test
-	public void testRenderedFormatWithFocussedComponent() throws XpathException, IOException, SAXException {
+	public void testRenderedFormatWithFocussedComponent() throws XpathException, IOException,
+			SAXException {
 		MockWEnvironment environment = new MockWEnvironment();
 		WApplication application = new WApplication();
 		environment.setPostPath("WApplicationRendererTest.postPath");
@@ -114,18 +123,24 @@ public class WApplicationRenderer_Test extends AbstractWebXmlRendererTestCase {
 		setActiveContext(uic);
 
 		assertSchemaMatch(application);
-		assertXpathEvaluatesTo(environment.getPostPath(), "//ui:application/@applicationUrl", application);
-		assertXpathEvaluatesTo(WComponent.DEFAULT_APPLICATION_ID, "//ui:application/@id", application);
-		assertXpathEvaluatesTo(environment.getWServletPath(), "//ui:application/@ajaxUrl", application);
-		assertXpathEvaluatesTo(environment.getWServletPath(), "//ui:application/@dataUrl", application);
-		assertXpathEvaluatesTo(focussedComponent.getId(), "//ui:application/@defaultFocusId", application);
+		assertXpathEvaluatesTo(environment.getPostPath(), "//ui:application/@applicationUrl",
+				application);
+		assertXpathEvaluatesTo(WComponent.DEFAULT_APPLICATION_ID, "//ui:application/@id",
+				application);
+		assertXpathEvaluatesTo(environment.getWServletPath(), "//ui:application/@ajaxUrl",
+				application);
+		assertXpathEvaluatesTo(environment.getWServletPath(), "//ui:application/@dataUrl",
+				application);
+		assertXpathEvaluatesTo(focussedComponent.getId(), "//ui:application/@defaultFocusId",
+				application);
 
 		uic.setFocusRequired(false);
 		assertXpathNotExists("//ui:application/@defaultFocusId", application);
 	}
 
 	@Test
-	public void testRenderedFormatWithHiddenFields() throws XpathException, IOException, SAXException {
+	public void testRenderedFormatWithHiddenFields() throws XpathException, IOException,
+			SAXException {
 		MockWEnvironment environment = new MockWEnvironment();
 		environment.setPostPath("WApplicationRendererTest.postPath");
 
@@ -145,9 +160,12 @@ public class WApplicationRenderer_Test extends AbstractWebXmlRendererTestCase {
 		environment.setHiddenParameters(hiddenParameters);
 
 		assertSchemaMatch(application);
-		assertXpathEvaluatesTo(label.getText(), "normalize-space(//ui:application/ui:label)", application);
-		assertXpathEvaluatesTo("valueA", "//ui:application/ui:param[@name='keyA']/@value", application);
-		assertXpathEvaluatesTo("valueB", "//ui:application/ui:param[@name='keyB']/@value", application);
+		assertXpathEvaluatesTo(label.getText(), "normalize-space(//ui:application/ui:label)",
+				application);
+		assertXpathEvaluatesTo("valueA", "//ui:application/ui:param[@name='keyA']/@value",
+				application);
+		assertXpathEvaluatesTo("valueB", "//ui:application/ui:param[@name='keyB']/@value",
+				application);
 	}
 
 	@Test

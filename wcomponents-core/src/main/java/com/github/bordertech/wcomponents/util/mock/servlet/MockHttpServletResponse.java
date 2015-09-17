@@ -253,9 +253,8 @@ public class MockHttpServletResponse implements HttpServletResponse {
 	}
 
 	/**
-	 * Returns a ServletOutputStream that would normally be used to write content back to the
-	 * client. Instead, the content is held internally and may be retrieved by calling
-	 * {@link #getOutput()}.
+	 * Returns a ServletOutputStream that would normally be used to write content back to the client. Instead, the
+	 * content is held internally and may be retrieved by calling {@link #getOutput()}.
 	 *
 	 * @return a ServletOutputStream to write content to.
 	 * @throws IOException if {@link #getWriter()} has been called.
@@ -274,8 +273,8 @@ public class MockHttpServletResponse implements HttpServletResponse {
 	}
 
 	/**
-	 * Returns a PrintWriter that would normally be used to write content back to the client.
-	 * Instead, the content is held internally and may be retrieved by calling {@link #getOutput()}.
+	 * Returns a PrintWriter that would normally be used to write content back to the client. Instead, the content is
+	 * held internally and may be retrieved by calling {@link #getOutput()}.
 	 *
 	 * @return a PrintWriter to write content to.
 	 * @throws IOException if {@link #getOutputStream()} has been called.
@@ -396,8 +395,8 @@ public class MockHttpServletResponse implements HttpServletResponse {
 	/**
 	 * Retrieves the content written to the response.
 	 *
-	 * @return the content written to the response outputStream or printWriter. Null is returned if
-	 * neither {@link #getOutputStream()} or {@link #getWriter()} have been called.
+	 * @return the content written to the response outputStream or printWriter. Null is returned if neither
+	 * {@link #getOutputStream()} or {@link #getWriter()} have been called.
 	 */
 	public byte[] getOutput() {
 		if (stringWriter != null) {
@@ -423,8 +422,8 @@ public class MockHttpServletResponse implements HttpServletResponse {
 	/**
 	 * Retrieves the content written to the response.
 	 *
-	 * @return the content written to the response outputStream or printWriter. Null is returned if
-	 * neither {@link #getOutputStream()} or {@link #getWriter()} have been called.
+	 * @return the content written to the response outputStream or printWriter. Null is returned if neither
+	 * {@link #getOutputStream()} or {@link #getWriter()} have been called.
 	 */
 	public String getOutputAsString() {
 		if (stringWriter != null) {

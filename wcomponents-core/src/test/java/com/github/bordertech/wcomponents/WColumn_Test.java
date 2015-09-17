@@ -15,7 +15,9 @@ public class WColumn_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testConstructor1() {
 		WColumn col = new WColumn();
-		Assert.assertEquals("Incorrect default width percentage from constructor", 1, col.getWidth());
+		Assert.
+				assertEquals("Incorrect default width percentage from constructor", 1, col.
+						getWidth());
 	}
 
 	@Test
@@ -31,7 +33,8 @@ public class WColumn_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testAlignmentAccessors() {
-		assertAccessorsCorrect(new WColumn(10), "alignment", Alignment.LEFT, Alignment.CENTER, Alignment.RIGHT);
+		assertAccessorsCorrect(new WColumn(10), "alignment", Alignment.LEFT, Alignment.CENTER,
+				Alignment.RIGHT);
 	}
 
 	@Test

@@ -65,9 +65,11 @@ public class TreeMenuExample extends WPanel {
 	 * @param currentNode the current node in the tree.
 	 * @param selectedMenuText the WText to display the selected menu item.
 	 */
-	private void mapTreeHierarchy(final WComponent currentComponent, final StringTreeNode currentNode, final WText selectedMenuText) {
+	private void mapTreeHierarchy(final WComponent currentComponent,
+			final StringTreeNode currentNode, final WText selectedMenuText) {
 		if (currentNode.isLeaf()) {
-			WMenuItem menuItem = new WMenuItem(currentNode.getData(), new ExampleMenuAction(selectedMenuText));
+			WMenuItem menuItem = new WMenuItem(currentNode.getData(), new ExampleMenuAction(
+					selectedMenuText));
 			menuItem.setActionObject(currentNode.getData());
 			if (currentComponent instanceof WMenu) {
 				((WMenu) currentComponent).add(menuItem);
@@ -119,7 +121,8 @@ public class TreeMenuExample extends WPanel {
 			StringTreeNode childNode = new StringTreeNode(clazz.getName());
 			nodeMap.put(childNode.getData(), childNode);
 
-			for (Class<?> parentClass = clazz.getSuperclass(); parentClass != null; parentClass = parentClass.getSuperclass()) {
+			for (Class<?> parentClass = clazz.getSuperclass(); parentClass != null; parentClass = parentClass.
+					getSuperclass()) {
 				StringTreeNode parentNode = nodeMap.get(parentClass.getName());
 
 				if (parentNode == null) {
@@ -138,24 +141,31 @@ public class TreeMenuExample extends WPanel {
 	}
 
 	/**
-	 * Tree menu containing image in the items. This example demonstrates creating {@link WSubMenu}
-	 * and {@link WMenuItem} components with {@link WDecoratedLabel}.
+	 * Tree menu containing image in the items. This example demonstrates creating {@link WSubMenu} and
+	 * {@link WMenuItem} components with {@link WDecoratedLabel}.
 	 *
 	 * @return menu with a decorated label
 	 */
 	private WMenu buildTreeMenuWithDecoratedLabel() {
 		WMenu menu = new WMenu(WMenu.MenuType.TREE);
 
-		WDecoratedLabel dLabel = new WDecoratedLabel(null, new WText("Settings Menu"), new WImage("/image/settings.png", "settings"));
+		WDecoratedLabel dLabel = new WDecoratedLabel(null, new WText("Settings Menu"), new WImage(
+				"/image/settings.png", "settings"));
 		WSubMenu settings = new WSubMenu(dLabel);
 		menu.add(settings);
-		settings.add(new WMenuItem(new WDecoratedLabel(null, new WText("Account Settings"), new WImage("/image/user-properties.png", "user properties"))));
-		settings.add(new WMenuItem(new WDecoratedLabel(null, new WText("Personal Details"), new WImage("/image/user.png", "user"))));
-		WSubMenu addressSub = new WSubMenu(new WDecoratedLabel(null, new WText("Address Details"), new WImage("/image/address-book-open.png", "address book")));
+		settings.add(new WMenuItem(new WDecoratedLabel(null, new WText("Account Settings"),
+				new WImage("/image/user-properties.png", "user properties"))));
+		settings.add(new WMenuItem(new WDecoratedLabel(null, new WText("Personal Details"),
+				new WImage("/image/user.png", "user"))));
+		WSubMenu addressSub = new WSubMenu(new WDecoratedLabel(null, new WText("Address Details"),
+				new WImage("/image/address-book-open.png", "address book")));
 		settings.add(addressSub);
-		addressSub.add(new WMenuItem(new WDecoratedLabel(null, new WText("Home Address"), new WImage("/image/home.png", "home"))));
-		addressSub.add(new WMenuItem(new WDecoratedLabel(null, new WText("Work Address"), new WImage("/image/wrench.png", "work"))));
-		addressSub.add(new WMenuItem(new WDecoratedLabel(null, new WText("Postal Address"), new WImage("/image/mail-post.png", "postal"))));
+		addressSub.add(new WMenuItem(new WDecoratedLabel(null, new WText("Home Address"),
+				new WImage("/image/home.png", "home"))));
+		addressSub.add(new WMenuItem(new WDecoratedLabel(null, new WText("Work Address"),
+				new WImage("/image/wrench.png", "work"))));
+		addressSub.add(new WMenuItem(new WDecoratedLabel(null, new WText("Postal Address"),
+				new WImage("/image/mail-post.png", "postal"))));
 		return menu;
 	}
 }

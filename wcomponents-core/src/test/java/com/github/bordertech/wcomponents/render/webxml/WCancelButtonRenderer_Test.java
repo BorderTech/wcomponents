@@ -18,7 +18,8 @@ public class WCancelButtonRenderer_Test extends AbstractWebXmlRendererTestCase {
 	@Test
 	public void testRendererCorrectlyConfigured() {
 		WCancelButton component = new WCancelButton("dummy");
-		Assert.assertTrue("Incorrect renderer supplied", getWebXmlRenderer(component) instanceof WButtonRenderer);
+		Assert.assertTrue("Incorrect renderer supplied",
+				getWebXmlRenderer(component) instanceof WButtonRenderer);
 	}
 
 	@Test

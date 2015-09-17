@@ -1,8 +1,8 @@
 package com.github.bordertech.wcomponents.examples.petstore.model;
 
 /**
- * A dummy DAO for the PetStore. There is only one copy of the hard-coded data, so that the data at
- * least appears to be updated when a single user interacts with the app.
+ * A dummy DAO for the PetStore. There is only one copy of the hard-coded data, so that the data at least appears to be
+ * updated when a single user interacts with the app.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -90,8 +90,7 @@ public final class PetStoreDao {
 	private static final class DummyData {
 
 		/**
-		 * A dummy description for all the products, just to show what a large block of text would
-		 * look like.
+		 * A dummy description for all the products, just to show what a large block of text would look like.
 		 */
 		private static final String DUMMY_DESCRIPTION = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In tristique pellentesque massa, et placerat justo ullamcorper vel. Nunc scelerisque, sem ut hendrerit pharetra, tellus erat dictum felis, at facilisis metus odio ac justo. Curabitur rutrum lacus in nulla iaculis at vestibulum metus facilisis. Aenean id nulla massa. Suspendisse vitae nunc nec urna laoreet elementum. Duis in orci ac leo elementum sagittis ac non massa. Sed vel massa purus, eu facilisis ipsum. Maecenas quis mi non metus scelerisque sagittis quis ac lacus. Fusce faucibus, urna ut viverra vulputate, tellus metus venenatis enim, eget mollis neque libero a turpis. Nullam convallis, lacus vel gravida suscipit, ipsum ante interdum libero, placerat laoreet dui magna et odio.\n\nPhasellus interdum placerat risus ut aliquam. In hac habitasse platea dictumst. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Fusce varius sem sit amet lorem commodo at ornare dui ultricies. Morbi consequat nunc sit amet magna facilisis luctus. Sed sit amet dapibus mi. Donec non quam tortor, sed tincidunt felis. Cras pulvinar ultrices elit in molestie. Morbi sapien nisi, porta in tempor et, dignissim quis nisl. Phasellus facilisis commodo mauris, in tristique velit semper in. Nullam vehicula, urna vel gravida molestie, lectus arcu semper urna, eget feugiat est augue id diam. Nulla dapibus eleifend justo, et malesuada erat accumsan vitae.";
 
@@ -126,8 +125,8 @@ public final class PetStoreDao {
 		};
 
 		/**
-		 * Returns the list of products. New instances of each product are returned, to emulate data
-		 * expiring from the cache.
+		 * Returns the list of products. New instances of each product are returned, to emulate data expiring from the
+		 * cache.
 		 *
 		 * @return the list of products.
 		 */
@@ -142,8 +141,8 @@ public final class PetStoreDao {
 		}
 
 		/**
-		 * Returns the list of inventory. New instances of each inventory are returned, to emulate
-		 * data expiring from the cache.
+		 * Returns the list of inventory. New instances of each inventory are returned, to emulate data expiring from
+		 * the cache.
 		 *
 		 * @return the list of inventory.
 		 */
@@ -158,8 +157,7 @@ public final class PetStoreDao {
 		}
 
 		/**
-		 * Returns the given product. A new instance is returned, to emulate data expiring from the
-		 * cache.
+		 * Returns the given product. A new instance is returned, to emulate data expiring from the cache.
 		 *
 		 * @param productId the product id
 		 * @return the product with the given id.
@@ -170,14 +168,14 @@ public final class PetStoreDao {
 		}
 
 		/**
-		 * Returns the given inventory. A new instance is returned, to emulate data expiring from
-		 * the cache.
+		 * Returns the given inventory. A new instance is returned, to emulate data expiring from the cache.
 		 *
 		 * @param productId the product id
 		 * @return the inventory with the given id.
 		 */
 		private static InventoryBean getInventory(final int productId) {
-			return new InventoryBean(INVENTORY[productId].getProductId(), INVENTORY[productId].getStatus(),
+			return new InventoryBean(INVENTORY[productId].getProductId(), INVENTORY[productId].
+					getStatus(),
 					INVENTORY[productId].getCount(), INVENTORY[productId].getUnitCost());
 		}
 	}

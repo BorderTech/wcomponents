@@ -27,8 +27,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * CartPanel displays the contents of the "shoppping cart" and allows the user to add/remove items
- * and "check out" (complete) the order.
+ * CartPanel displays the contents of the "shoppping cart" and allows the user to add/remove items and "check out"
+ * (complete) the order.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -130,8 +130,7 @@ public class CartPanel extends WContainer {
 	}
 
 	/**
-	 * Override preparePaintComponent to dynamically disable/enable the buttons depending on the
-	 * cart contents.
+	 * Override preparePaintComponent to dynamically disable/enable the buttons depending on the cart contents.
 	 *
 	 * @param request the request being responded to.
 	 */

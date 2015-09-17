@@ -88,7 +88,8 @@ public class SubordinateControlInterceptor_Test extends AbstractWComponentTestCa
 		Assert.assertTrue("After service request target should be disabled", target.isDisabled());
 		// Check Subordinate Controls have been registered
 		Assert.assertNotNull("Registered Controls should be registered on the session",
-				request.getSessionAttribute(SubordinateControlHelper.SUBORDINATE_CONTROL_SESSION_KEY));
+				request.
+				getSessionAttribute(SubordinateControlHelper.SUBORDINATE_CONTROL_SESSION_KEY));
 
 		// Test Service Request - Simulate button click as it was enabled on the client by the check box being selected.
 		// As the controls have been registered from the Prepare Paint, they will be applied in the Service Request and

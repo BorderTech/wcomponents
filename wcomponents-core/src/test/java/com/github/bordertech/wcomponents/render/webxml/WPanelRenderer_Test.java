@@ -27,7 +27,8 @@ public class WPanelRenderer_Test extends AbstractWebXmlRendererTestCase {
 	@Test
 	public void testRendererCorrectlyConfigured() {
 		WPanel panel = new WPanel();
-		Assert.assertTrue("Incorrect renderer supplied", getWebXmlRenderer(panel) instanceof WPanelRenderer);
+		Assert.assertTrue("Incorrect renderer supplied",
+				getWebXmlRenderer(panel) instanceof WPanelRenderer);
 	}
 
 	@Test

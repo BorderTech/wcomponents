@@ -54,7 +54,8 @@ public class WFileWidget_Test extends AbstractWComponentTestCase {
 		// Set as array
 		WFileWidget widget = new WFileWidget();
 		widget.setFileTypes(types1);
-		Assert.assertEquals("Incorrect file types returned", Arrays.asList(types1), widget.getFileTypes());
+		Assert.assertEquals("Incorrect file types returned", Arrays.asList(types1), widget.
+				getFileTypes());
 	}
 
 	@Test
@@ -65,7 +66,8 @@ public class WFileWidget_Test extends AbstractWComponentTestCase {
 
 		// Set null array
 		widget.setFileTypes((String[]) null);
-		Assert.assertEquals("File types should be empty when set to null array", Collections.EMPTY_LIST,
+		Assert.assertEquals("File types should be empty when set to null array",
+				Collections.EMPTY_LIST,
 				widget.getFileTypes());
 
 		// Set types on widget
@@ -73,13 +75,15 @@ public class WFileWidget_Test extends AbstractWComponentTestCase {
 
 		// Set as null list
 		widget.setFileTypes((List<String>) null);
-		Assert.assertEquals("File types should be empty when set to null list", Collections.EMPTY_LIST,
+		Assert.assertEquals("File types should be empty when set to null list",
+				Collections.EMPTY_LIST,
 				widget.getFileTypes());
 	}
 
 	@Test
 	public void testMaxFileSizeAccessors() {
-		assertAccessorsCorrect(new WFileWidget(), "maxFileSize", Long.valueOf(0), Long.valueOf(1), Long.valueOf(2));
+		assertAccessorsCorrect(new WFileWidget(), "maxFileSize", Long.valueOf(0), Long.valueOf(1),
+				Long.valueOf(2));
 	}
 
 	@Test
@@ -92,7 +96,8 @@ public class WFileWidget_Test extends AbstractWComponentTestCase {
 		boolean changed = widget.doHandleRequest(request);
 
 		Assert.assertTrue("Request With File - Widget should have changed", changed);
-		Assert.assertEquals("Request With File - Incorrect file item returned", TEST_FILE_ITEM.getName(), widget
+		Assert.assertEquals("Request With File - Incorrect file item returned", TEST_FILE_ITEM.
+				getName(), widget
 				.getValue().getName());
 
 		// Request - with same file (still change as any file uploaded is a change)
@@ -100,9 +105,11 @@ public class WFileWidget_Test extends AbstractWComponentTestCase {
 		changed = widget.doHandleRequest(request);
 
 		Assert
-				.assertTrue("Request With Same File - Widget should have changed as any file upload is considered a change",
+				.assertTrue(
+						"Request With Same File - Widget should have changed as any file upload is considered a change",
 						changed);
-		Assert.assertEquals("Request With Same File - Incorrect file item returned", TEST_FILE_ITEM.getName(), widget
+		Assert.assertEquals("Request With Same File - Incorrect file item returned", TEST_FILE_ITEM.
+				getName(), widget
 				.getValue().getName());
 
 		// Request - with different file (change)
@@ -110,7 +117,8 @@ public class WFileWidget_Test extends AbstractWComponentTestCase {
 		changed = widget.doHandleRequest(request);
 
 		Assert.assertTrue("Request With Different File - Widget should have changed", changed);
-		Assert.assertEquals("Request With Different File - Incorrect file item returned", TEST_FILE_ITEM2.getName(),
+		Assert.assertEquals("Request With Different File - Incorrect file item returned",
+				TEST_FILE_ITEM2.getName(),
 				widget.getValue().getName());
 
 		// Request - no file (change)
@@ -118,14 +126,16 @@ public class WFileWidget_Test extends AbstractWComponentTestCase {
 		changed = widget.doHandleRequest(request);
 
 		Assert.assertTrue("Request With Empty File - Widget should have changed", changed);
-		Assert.assertNull("Request With Empty File - Incorrect file item returned", widget.getValue());
+		Assert.assertNull("Request With Empty File - Incorrect file item returned", widget.
+				getValue());
 
 		// Request - no file (no change)
 		request = setupFileUploadRequest(widget, TEST_EMPTY_FILE_ITEM);
 		changed = widget.doHandleRequest(request);
 
 		Assert.assertFalse("Request With Empty File - Widget should have not changed", changed);
-		Assert.assertNull("Request With Empty File - Incorrect file item returned", widget.getValue());
+		Assert.assertNull("Request With Empty File - Incorrect file item returned", widget.
+				getValue());
 	}
 
 	@Test
@@ -162,7 +172,8 @@ public class WFileWidget_Test extends AbstractWComponentTestCase {
 
 		// Empty File on the request
 		request = setupFileUploadRequest(widget, TEST_EMPTY_FILE_ITEM);
-		Assert.assertNull("Request with an empty file item should return null", widget.getRequestValue(request));
+		Assert.assertNull("Request with an empty file item should return null", widget.
+				getRequestValue(request));
 	}
 
 	@Test
@@ -189,7 +200,8 @@ public class WFileWidget_Test extends AbstractWComponentTestCase {
 		// Set file on widget
 		widget.setData(TEST_FILE_ITEM_WRAP);
 
-		Assert.assertTrue("Incorrect bytes data", Arrays.equals(TEST_FILE_ITEM.get(), widget.getBytes()));
+		Assert.assertTrue("Incorrect bytes data", Arrays.equals(TEST_FILE_ITEM.get(), widget.
+				getBytes()));
 	}
 
 	@Test
@@ -227,7 +239,8 @@ public class WFileWidget_Test extends AbstractWComponentTestCase {
 
 		// Set file on widget
 		widget.setData(TEST_FILE_ITEM_WRAP);
-		Assert.assertEquals("Incorrect file name returned", TEST_FILE_ITEM.getName(), widget.getFileName());
+		Assert.assertEquals("Incorrect file name returned", TEST_FILE_ITEM.getName(), widget.
+				getFileName());
 	}
 
 	@Test
@@ -239,7 +252,8 @@ public class WFileWidget_Test extends AbstractWComponentTestCase {
 
 		// Set file on widget
 		widget.setData(TEST_FILE_ITEM_WRAP);
-		Assert.assertEquals("Incorrect file item wrap returned", TEST_FILE_ITEM_WRAP, widget.getFile());
+		Assert.assertEquals("Incorrect file item wrap returned", TEST_FILE_ITEM_WRAP, widget.
+				getFile());
 	}
 
 	@Test
@@ -251,7 +265,8 @@ public class WFileWidget_Test extends AbstractWComponentTestCase {
 
 		// Set file on widget
 		widget.setData(TEST_FILE_ITEM_WRAP);
-		Assert.assertEquals("Incorrect file item wrap returned", TEST_FILE_ITEM_WRAP, widget.getValue());
+		Assert.assertEquals("Incorrect file item wrap returned", TEST_FILE_ITEM_WRAP, widget.
+				getValue());
 	}
 
 	/**
@@ -276,7 +291,8 @@ public class WFileWidget_Test extends AbstractWComponentTestCase {
 	 * @param fileItem the file item to include on the request
 	 * @return a request containing the file item for the widget
 	 */
-	private static FileUploadMockRequest setupFileUploadRequest(final WFileWidget widget, final FileItem fileItem) {
+	private static FileUploadMockRequest setupFileUploadRequest(final WFileWidget widget,
+			final FileItem fileItem) {
 		fileItem.setFieldName(widget.getId());
 
 		final FileUploadMockRequest request = new FileUploadMockRequest();

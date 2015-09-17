@@ -25,7 +25,8 @@ public class HideInGroup_Test extends AbstractWComponentTestCase {
 
 		Assert.assertEquals("Value for HideIn should be true", Boolean.TRUE, action.getValue());
 		Assert.assertEquals("Target for HideIn should be the group", group, action.getTarget());
-		Assert.assertEquals("TargetInGroup for HideIn should be the target", target, action.getTargetInGroup());
+		Assert.assertEquals("TargetInGroup for HideIn should be the target", target, action.
+				getTargetInGroup());
 	}
 
 	@Test
@@ -61,7 +62,8 @@ public class HideInGroup_Test extends AbstractWComponentTestCase {
 		WComponentGroup<SubordinateTarget> group = new WComponentGroup<>();
 		group.addToGroup(target);
 		HideInGroup action = new HideInGroup(target, group);
-		Assert.assertEquals("Incorrect Action Type", action.getActionType(), AbstractAction.ActionType.HIDEIN);
+		Assert.assertEquals("Incorrect Action Type", action.getActionType(),
+				AbstractAction.ActionType.HIDEIN);
 	}
 
 	@Test
@@ -77,11 +79,13 @@ public class HideInGroup_Test extends AbstractWComponentTestCase {
 
 		HideInGroup action = new HideInGroup(target2, group);
 		Assert.assertEquals("Incorrect toString for action",
-				"hide MyTarget in WComponentGroup([MyTarget, MyTarget, MyTarget])", action.toString());
+				"hide MyTarget in WComponentGroup([MyTarget, MyTarget, MyTarget])", action.
+				toString());
 
 		new WLabel("test label", target2);
 		Assert.assertEquals("Incorrect toString for action with a label",
-				"hide test label in WComponentGroup([MyTarget, MyTarget, MyTarget])", action.toString());
+				"hide test label in WComponentGroup([MyTarget, MyTarget, MyTarget])", action.
+				toString());
 	}
 
 	/**

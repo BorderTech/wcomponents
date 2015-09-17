@@ -3,8 +3,8 @@ package com.github.bordertech.wcomponents;
 import java.io.Serializable;
 
 /**
- * Encapsulates a component along with a context. This is used to e.g. return lists of components
- * which are being repeated.
+ * Encapsulates a component along with a context. This is used to e.g. return lists of components which are being
+ * repeated.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
