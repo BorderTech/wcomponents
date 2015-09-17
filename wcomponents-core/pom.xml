@@ -18,6 +18,10 @@
 		Core server-side WComponents.
 	</description>
 
+	<properties>
+		<skip.checkstyle>false</skip.checkstyle>
+	</properties>
+	
 	<profiles>
 		<profile>
 		<id>skipOptionalTests</id>

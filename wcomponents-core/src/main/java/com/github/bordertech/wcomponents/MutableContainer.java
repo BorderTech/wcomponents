@@ -6,24 +6,24 @@ package com.github.bordertech.wcomponents;
  * @author Yiannis Paschalidis
  * @since 1.0.0
  */
-public interface MutableContainer extends NamingContextable
-{
-    /**
-     * Adds the given component as a "shared" child of this component.
-     * 
-     * @param component the component to add.
-     */
-    void add(WComponent component);
+public interface MutableContainer extends NamingContextable {
 
-    /**
-     * Removes the given component from this components "shared" list of children.
-     * 
-     * @param aChild the child component to remove
-     */
-    void remove(WComponent aChild);
+	/**
+	 * Adds the given component as a "shared" child of this component.
+	 *
+	 * @param component the component to add.
+	 */
+	void add(WComponent component);
 
-    /**
-     * Removes all the "shared" children from this component.
-     */
-    void removeAll();
+	/**
+	 * Removes the given component from this components "shared" list of children.
+	 *
+	 * @param aChild the child component to remove
+	 */
+	void remove(WComponent aChild);
+
+	/**
+	 * Removes all the "shared" children from this component.
+	 */
+	void removeAll();
 }

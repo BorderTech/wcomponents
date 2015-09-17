@@ -1,83 +1,76 @@
 package com.github.bordertech.wcomponents.subordinate;
 
+import com.github.bordertech.wcomponents.SubordinateTrigger;
+import com.github.bordertech.wcomponents.WLabel;
 import java.util.regex.PatternSyntaxException;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.github.bordertech.wcomponents.SubordinateTrigger;
-import com.github.bordertech.wcomponents.WLabel;
-
 /**
  * A logical condition that tests if the trigger matches the compare value as a regular expression.
- * 
+ *
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class Match extends AbstractCompare
-{
-    /** The logger instance for this class. */
-    private static final Log log = LogFactory.getLog(Match.class);
+public class Match extends AbstractCompare {
 
-    /**
-     * Create a Match condition with a SubordinateTrigger and Compare value.
-     * 
-     * @param trigger the trigger input field.
-     * @param compare the regular expression to be matched.
-     */
-    public Match(final SubordinateTrigger trigger, final String compare)
-    {
-        super(trigger, compare);
-    }
+	/**
+	 * The logger instance for this class.
+	 */
+	private static final Log LOG = LogFactory.getLog(Match.class);
 
-    /**
-     * @return the compare type of Match.
-     */
-    @Override
-    public CompareType getCompareType()
-    {
-        return CompareType.MATCH;
-    }
+	/**
+	 * Create a Match condition with a SubordinateTrigger and Compare value.
+	 *
+	 * @param trigger the trigger input field.
+	 * @param compare the regular expression to be matched.
+	 */
+	public Match(final SubordinateTrigger trigger, final String compare) {
+		super(trigger, compare);
+	}
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected boolean doCompare(final Object aVal, final Object bVal)
-    {
-        // Cannot compare if either value is null (This matches client side logic)
-        if (aVal == null || bVal == null)
-        {
-            return false;
-        }
+	/**
+	 * @return the compare type of Match.
+	 */
+	@Override
+	public CompareType getCompareType() {
+		return CompareType.MATCH;
+	}
 
-        final String aStr = aVal.toString();
-        final String bStr = bVal.toString();
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected boolean doCompare(final Object aVal, final Object bVal) {
+		// Cannot compare if either value is null (This matches client side logic)
+		if (aVal == null || bVal == null) {
+			return false;
+		}
 
-        try
-        {
-            return aStr.matches(bStr);
-        }
-        catch (PatternSyntaxException e)
-        {
-            log.warn("Invalid pattern (" + bStr + "). Will be ignored and condition will be false.");
-            return false;
-        }
-    }
+		final String aStr = aVal.toString();
+		final String bStr = bVal.toString();
 
-    /** {@inheritDoc} */
-    @Override
-    public String toString()
-    {
-        String triggerName = getTrigger().getClass().getSimpleName();
+		try {
+			return aStr.matches(bStr);
+		} catch (PatternSyntaxException e) {
+			LOG.warn("Invalid pattern (" + bStr + "). Will be ignored and condition will be false.");
+			return false;
+		}
+	}
 
-        WLabel label = getTrigger().getLabel();
-        if (label != null)
-        {
-            triggerName = label.getText();
-        }
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String toString() {
+		String triggerName = getTrigger().getClass().getSimpleName();
 
-        return triggerName + " matches \"" + getValue() + "\"";
-    }
+		WLabel label = getTrigger().getLabel();
+		if (label != null) {
+			triggerName = label.getText();
+		}
+
+		return triggerName + " matches \"" + getValue() + "\"";
+	}
 
 }

@@ -1,6 +1,5 @@
 /**
- * Provides an alternative syntax for creating and configuring {@link com.github.bordertech.wcomponents.subordinate.WSubordinateControl subordinate controls}.
- *  
- * <p>TODO: More details here.</p>
+ * Provides an alternative syntax for creating and configuring
+ * {@link com.github.bordertech.wcomponents.subordinate.WSubordinateControl subordinate controls}.
  */
-package com.github.bordertech.wcomponents.subordinate.builder; 
+package com.github.bordertech.wcomponents.subordinate.builder;

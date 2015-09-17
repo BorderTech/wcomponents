@@ -4,42 +4,50 @@ import com.github.bordertech.wcomponents.RenderContext;
 import com.github.bordertech.wcomponents.Renderer;
 import com.github.bordertech.wcomponents.WComponent;
 
-/** 
- * The layout factory for the nil renderer package.
- * This factory produces a renderer which doesn't do anything,
- * and is useful for testing.
- * 
+/**
+ * The layout factory for the nil renderer package. This factory produces a renderer which doesn't
+ * do anything, and is useful for testing.
+ *
  * @author Yiannis Paschalidis
  * @since 1.0.0
  */
-public class RendererFactory implements com.github.bordertech.wcomponents.RendererFactory
-{
-    /** The singleton NullRenderer instance. */
-    private static final Renderer NULL_RENDERER = new NullRenderer();
+public class RendererFactory implements com.github.bordertech.wcomponents.RendererFactory {
 
-    /** {@inheritDoc} */
-    public Renderer getRenderer(final Class<?> clazz)
-    {
-        return NULL_RENDERER;
-    }
-    
-    /** {@inheritDoc} */
-    public Renderer getTemplateRenderer()
-    {
-        return NULL_RENDERER;
-    }
+	/**
+	 * The singleton NullRenderer instance.
+	 */
+	private static final Renderer NULL_RENDERER = new NullRenderer();
 
-    /** A no-op renderer. */
-    private static final class NullRenderer implements Renderer
-    {
-        /**
-         * Doesn't do anything.
-         * @param component ignored.
-         * @param renderContext ignored.
-         */
-        public void render(final WComponent component, final RenderContext renderContext)
-        {
-            // NO-OP
-        }
-    };
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Renderer getRenderer(final Class<?> clazz) {
+		return NULL_RENDERER;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Renderer getTemplateRenderer() {
+		return NULL_RENDERER;
+	}
+
+	/**
+	 * A no-op renderer.
+	 */
+	private static final class NullRenderer implements Renderer {
+
+		/**
+		 * Doesn't do anything.
+		 *
+		 * @param component ignored.
+		 * @param renderContext ignored.
+		 */
+		@Override
+		public void render(final WComponent component, final RenderContext renderContext) {
+			// NO-OP
+		}
+	};
 }
