@@ -55,8 +55,8 @@ define(["wc/dom/initialise",
 				cb = CB_ALONE.findDescendants(form);
 
 				cb = Array.prototype.filter.call(cb, function (next) {
-						return !(shed.isSelected(next) || shed.isDisabled(next));
-					});
+					return !(shed.isSelected(next) || shed.isDisabled(next));
+				});
 
 				cb.forEach(function (next) {
 					formUpdateManager.writeStateField(container, next.name, "");

@@ -203,8 +203,8 @@ define(["wc/dom/attribute",
 				obj.maxText = "${validation.multiSelectPair.i18n.overMax}";
 
 				obj.selectedFunc = function(el) {
-						return el.options || [];
-					};
+					return el.options || [];
+				};
 
 				result = minMax(obj);
 				return result && _required;
