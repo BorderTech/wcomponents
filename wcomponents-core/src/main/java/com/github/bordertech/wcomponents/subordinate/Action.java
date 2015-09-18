@@ -1,59 +1,77 @@
 package com.github.bordertech.wcomponents.subordinate;
 
-import java.io.Serializable;
-
 import com.github.bordertech.wcomponents.SubordinateTarget;
+import java.io.Serializable;
 
 /**
  * This interface marks functions that make changes to the application, such as hiding parts of a page.
- * 
+ *
  * @author Martin Shevchenko
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public interface Action extends Serializable
-{
-    /**
-     * @return the target for this action.
-     */
-    SubordinateTarget getTarget();
+public interface Action extends Serializable {
 
-    /**
-     * Execute the action against the target.
-     */
-    void execute();
+	/**
+	 * @return the target for this action.
+	 */
+	SubordinateTarget getTarget();
 
-    /**
-     * Determine the type of action.
-     * 
-     * @return the action type.
-     */
-    ActionType getActionType();
+	/**
+	 * Execute the action against the target.
+	 */
+	void execute();
 
-    /**
-     * An enumerated class for the types of actions.
-     */
-    enum ActionType
-    {
-        /** Show the target. */
-        SHOW,
-        /** Show the target in a group. */
-        SHOWIN,
-        /** Hide the target. */
-        HIDE,
-        /** Hide the target in a group. */
-        HIDEIN,
-        /** Enable the target. */
-        ENABLE,
-        /** Enable the target in a group. */
-        ENABLEIN,
-        /** Disable the target. */
-        DISABLE,
-        /** Disable the target in a group. */
-        DISABLEIN,
-        /** Make the target optional. */
-        OPTIONAL,
-        /** Make the target mandatory. */
-        MANDATORY
-    }
+	/**
+	 * Determine the type of action.
+	 *
+	 * @return the action type.
+	 */
+	ActionType getActionType();
+
+	/**
+	 * An enumerated class for the types of actions.
+	 */
+	enum ActionType {
+		/**
+		 * Show the target.
+		 */
+		SHOW,
+		/**
+		 * Show the target in a group.
+		 */
+		SHOWIN,
+		/**
+		 * Hide the target.
+		 */
+		HIDE,
+		/**
+		 * Hide the target in a group.
+		 */
+		HIDEIN,
+		/**
+		 * Enable the target.
+		 */
+		ENABLE,
+		/**
+		 * Enable the target in a group.
+		 */
+		ENABLEIN,
+		/**
+		 * Disable the target.
+		 */
+		DISABLE,
+		/**
+		 * Disable the target in a group.
+		 */
+		DISABLEIN,
+		/**
+		 * Make the target optional.
+		 */
+		OPTIONAL,
+		/**
+		 * Make the target mandatory.
+		 */
+		MANDATORY
+	}
 }

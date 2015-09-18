@@ -1,130 +1,126 @@
 package com.github.bordertech.wcomponents.render.webxml;
 
-import java.io.IOException;
-
-import junit.framework.Assert;
-
-import org.custommonkey.xmlunit.exceptions.XpathException;
-import org.junit.Test;
-import org.xml.sax.SAXException;
-
 import com.github.bordertech.wcomponents.ComponentModel;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WNumberField;
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
+import java.io.IOException;
+import junit.framework.Assert;
+import org.custommonkey.xmlunit.exceptions.XpathException;
+import org.junit.Test;
+import org.xml.sax.SAXException;
 
 /**
  * Junit test case for {@link WNumberFieldRenderer}.
- * 
+ *
  * @author Yiannis Paschalidis
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class WNumberFieldRenderer_Test extends AbstractWebXmlRendererTestCase
-{
-    @Test
-    public void testRendererCorrectlyConfigured()
-    {
-        WNumberField numberField = new WNumberField();
-        Assert
-            .assertTrue("Incorrect renderer supplied", getWebXmlRenderer(numberField) instanceof WNumberFieldRenderer);
-    }
+public class WNumberFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 
-    @Test
-    public void testDoPaint() throws IOException, SAXException, XpathException
-    {
-        WNumberField numberField = new WNumberField();
-        WButton button = new WButton("Test");
+	@Test
+	public void testRendererCorrectlyConfigured() {
+		WNumberField numberField = new WNumberField();
+		Assert
+				.assertTrue("Incorrect renderer supplied",
+						getWebXmlRenderer(numberField) instanceof WNumberFieldRenderer);
+	}
 
-        WContainer root = new WContainer();
-        root.add(numberField);
-        root.add(button);
+	@Test
+	public void testDoPaint() throws IOException, SAXException, XpathException {
+		WNumberField numberField = new WNumberField();
+		WButton button = new WButton("Test");
 
-        assertSchemaMatch(numberField);
-        assertXpathEvaluatesTo(numberField.getId(), "//ui:numberField/@id", numberField);
+		WContainer root = new WContainer();
+		root.add(numberField);
+		root.add(button);
 
-        assertXpathNotExists("//ui:numberField/@disabled", numberField);
-        assertXpathNotExists("//ui:numberField/@hidden", numberField);
-        assertXpathNotExists("//ui:numberField/@required", numberField);
-        assertXpathNotExists("//ui:numberField/@readOnly", numberField);
-        assertXpathNotExists("//ui:numberField/@size", numberField);
-        assertXpathNotExists("//ui:numberField/@toolTip", numberField);
-        assertXpathNotExists("//ui:numberField/@accessibleText", numberField);
-        assertXpathNotExists("//ui:numberField/@min", numberField);
-        assertXpathNotExists("//ui:numberField/@max", numberField);
-        assertXpathNotExists("//ui:numberField/@step", numberField);
-        assertXpathNotExists("//ui:numberField/@decimals", numberField);
-        assertXpathNotExists("//ui:numberField/@buttonId", numberField);
+		assertSchemaMatch(numberField);
+		assertXpathEvaluatesTo(numberField.getId(), "//ui:numberField/@id", numberField);
 
-        numberField.setDisabled(true);
-        assertSchemaMatch(numberField);
-        assertXpathEvaluatesTo("true", "//ui:numberField/@disabled", numberField);
+		assertXpathNotExists("//ui:numberField/@disabled", numberField);
+		assertXpathNotExists("//ui:numberField/@hidden", numberField);
+		assertXpathNotExists("//ui:numberField/@required", numberField);
+		assertXpathNotExists("//ui:numberField/@readOnly", numberField);
+		assertXpathNotExists("//ui:numberField/@size", numberField);
+		assertXpathNotExists("//ui:numberField/@toolTip", numberField);
+		assertXpathNotExists("//ui:numberField/@accessibleText", numberField);
+		assertXpathNotExists("//ui:numberField/@min", numberField);
+		assertXpathNotExists("//ui:numberField/@max", numberField);
+		assertXpathNotExists("//ui:numberField/@step", numberField);
+		assertXpathNotExists("//ui:numberField/@decimals", numberField);
+		assertXpathNotExists("//ui:numberField/@buttonId", numberField);
 
-        setFlag(numberField, ComponentModel.HIDE_FLAG, true);
-        assertSchemaMatch(numberField);
-        assertXpathEvaluatesTo("true", "//ui:numberField/@hidden", numberField);
+		numberField.setDisabled(true);
+		assertSchemaMatch(numberField);
+		assertXpathEvaluatesTo("true", "//ui:numberField/@disabled", numberField);
 
-        numberField.setMandatory(true);
-        assertSchemaMatch(numberField);
-        assertXpathEvaluatesTo("true", "//ui:numberField/@required", numberField);
+		setFlag(numberField, ComponentModel.HIDE_FLAG, true);
+		assertSchemaMatch(numberField);
+		assertXpathEvaluatesTo("true", "//ui:numberField/@hidden", numberField);
 
-        numberField.setReadOnly(true);
-        assertSchemaMatch(numberField);
-        assertXpathEvaluatesTo("true", "//ui:numberField/@readOnly", numberField);
+		numberField.setMandatory(true);
+		assertSchemaMatch(numberField);
+		assertXpathEvaluatesTo("true", "//ui:numberField/@required", numberField);
 
-        numberField.setColumns(40);
-        assertSchemaMatch(numberField);
-        assertXpathEvaluatesTo("40", "//ui:numberField/@size", numberField);
+		numberField.setReadOnly(true);
+		assertSchemaMatch(numberField);
+		assertXpathEvaluatesTo("true", "//ui:numberField/@readOnly", numberField);
 
-        numberField.setToolTip("toolTip");
-        assertSchemaMatch(numberField);
-        assertXpathEvaluatesTo(numberField.getToolTip(), "//ui:numberField/@toolTip", numberField);
+		numberField.setColumns(40);
+		assertSchemaMatch(numberField);
+		assertXpathEvaluatesTo("40", "//ui:numberField/@size", numberField);
 
-        numberField.setAccessibleText("accessibleText");
-        assertSchemaMatch(numberField);
-        assertXpathEvaluatesTo(numberField.getAccessibleText(), "//ui:numberField/@accessibleText", numberField);
+		numberField.setToolTip("toolTip");
+		assertSchemaMatch(numberField);
+		assertXpathEvaluatesTo(numberField.getToolTip(), "//ui:numberField/@toolTip", numberField);
 
-        numberField.setMinValue(45);
-        assertSchemaMatch(numberField);
-        assertXpathEvaluatesTo("45", "//ui:numberField/@min", numberField);
+		numberField.setAccessibleText("accessibleText");
+		assertSchemaMatch(numberField);
+		assertXpathEvaluatesTo(numberField.getAccessibleText(), "//ui:numberField/@accessibleText",
+				numberField);
 
-        numberField.setMaxValue(50);
-        assertSchemaMatch(numberField);
-        assertXpathEvaluatesTo("50", "//ui:numberField/@max", numberField);
+		numberField.setMinValue(45);
+		assertSchemaMatch(numberField);
+		assertXpathEvaluatesTo("45", "//ui:numberField/@min", numberField);
 
-        numberField.setStep(0.5);
-        assertSchemaMatch(numberField);
-        assertXpathEvaluatesTo("0.5", "//ui:numberField/@step", numberField);
+		numberField.setMaxValue(50);
+		assertSchemaMatch(numberField);
+		assertXpathEvaluatesTo("50", "//ui:numberField/@max", numberField);
 
-        numberField.setDecimalPlaces(2);
-        assertSchemaMatch(numberField);
-        assertXpathEvaluatesTo("2", "//ui:numberField/@decimals", numberField);
+		numberField.setStep(0.5);
+		assertSchemaMatch(numberField);
+		assertXpathEvaluatesTo("0.5", "//ui:numberField/@step", numberField);
 
-        numberField.setDefaultSubmitButton(button);
-        assertSchemaMatch(numberField);
-        assertXpathEvaluatesTo(button.getId(), "//ui:numberField/@buttonId", numberField);
+		numberField.setDecimalPlaces(2);
+		assertSchemaMatch(numberField);
+		assertXpathEvaluatesTo("2", "//ui:numberField/@decimals", numberField);
 
-        numberField.setNumber(123);
-        assertSchemaMatch(numberField);
-        assertXpathEvaluatesTo("123", "normalize-space(//ui:numberField)", numberField);
-    }
+		numberField.setDefaultSubmitButton(button);
+		assertSchemaMatch(numberField);
+		assertXpathEvaluatesTo(button.getId(), "//ui:numberField/@buttonId", numberField);
 
-    @Test
-    public void testXssEscaping() throws IOException, SAXException, XpathException
-    {
-        WNumberField numberField = new WNumberField();
+		numberField.setNumber(123);
+		assertSchemaMatch(numberField);
+		assertXpathEvaluatesTo("123", "normalize-space(//ui:numberField)", numberField);
+	}
 
-        MockRequest request = new MockRequest();
-        request.setParameter(numberField.getId(), getMaliciousContent());
-        numberField.serviceRequest(request);
+	@Test
+	public void testXssEscaping() throws IOException, SAXException, XpathException {
+		WNumberField numberField = new WNumberField();
 
-        assertSafeContent(numberField);
+		MockRequest request = new MockRequest();
+		request.setParameter(numberField.getId(), getMaliciousContent());
+		numberField.serviceRequest(request);
 
-        numberField.setToolTip(getMaliciousAttribute("ui:numberField"));
-        assertSafeContent(numberField);
+		assertSafeContent(numberField);
 
-        numberField.setAccessibleText(getMaliciousAttribute("ui:numberField"));
-        assertSafeContent(numberField);
-    }
+		numberField.setToolTip(getMaliciousAttribute("ui:numberField"));
+		assertSafeContent(numberField);
+
+		numberField.setAccessibleText(getMaliciousAttribute("ui:numberField"));
+		assertSafeContent(numberField);
+	}
 }

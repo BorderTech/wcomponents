@@ -1,19 +1,17 @@
 package com.github.bordertech.wcomponents.servlet;
 
+import com.github.bordertech.wcomponents.util.Enumerator;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionContext;
-
-import com.github.bordertech.wcomponents.util.Enumerator;
 
 /**
  * <p>
@@ -29,413 +27,395 @@ import com.github.bordertech.wcomponents.util.Enumerator;
  * Invalidated sub-sessions have their data cleared out to minimise session use, but are not removed from the backing
  * HTTP session.
  * </p>
- * 
+ *
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public final class SubSessionHttpServletRequestWrapper extends HttpServletRequestWrapper
-{
+public final class SubSessionHttpServletRequestWrapper extends HttpServletRequestWrapper {
 
-    /** This key is used to store subsessions in the backing HTTP session's attribute map. */
-    private static final String SESSION_MAP_KEY = SubSessionHttpServletRequestWrapper.class.getName() + ".subsessions";
+	/**
+	 * This key is used to store subsessions in the backing HTTP session's attribute map.
+	 */
+	private static final String SESSION_MAP_KEY = SubSessionHttpServletRequestWrapper.class.
+			getName() + ".subsessions";
 
-    /** The requested session id. */
-    private final int sessionId;
+	/**
+	 * The requested session id.
+	 */
+	private final int sessionId;
 
-    /**
-     * Creates a SubSessionHttpServletRequestWrapper.
-     * 
-     * @param backing the backing request.
-     */
-    public SubSessionHttpServletRequestWrapper(final HttpServletRequest backing)
-    {
-        super(backing);
+	/**
+	 * Creates a SubSessionHttpServletRequestWrapper.
+	 *
+	 * @param backing the backing request.
+	 */
+	public SubSessionHttpServletRequestWrapper(final HttpServletRequest backing) {
+		super(backing);
 
-        HttpSession backingSession = backing.getSession();
+		HttpSession backingSession = backing.getSession();
 
-        synchronized (backingSession)
-        {
-            Map<Integer, HttpSubSession> subsessions = (Map<Integer, HttpSubSession>) backingSession
-                .getAttribute(SESSION_MAP_KEY);
+		synchronized (backingSession) {
+			Map<Integer, HttpSubSession> subsessions = (Map<Integer, HttpSubSession>) backingSession
+					.getAttribute(SESSION_MAP_KEY);
 
-            if (subsessions == null)
-            {
-                subsessions = new HashMap<Integer, HttpSubSession>();
-                backingSession.setAttribute(SESSION_MAP_KEY, subsessions);
-            }
+			if (subsessions == null) {
+				subsessions = new HashMap<>();
+				backingSession.setAttribute(SESSION_MAP_KEY, subsessions);
+			}
 
-            int ssid = 0;
+			int ssid = 0;
 
-            try
-            {
-                String param = getParameter("ssid");
+			try {
+				String param = getParameter("ssid");
 
-                if (param == null)
-                {
-                    ssid = subsessions.size();
-                }
-                else
-                {
-                    ssid = Integer.parseInt(param);
+				if (param == null) {
+					ssid = subsessions.size();
+				} else {
+					ssid = Integer.parseInt(param);
 
-                    if (ssid < 0 || ssid >= subsessions.size())
-                    {
-                        ssid = 0;
-                    }
-                }
+					if (ssid < 0 || ssid >= subsessions.size()) {
+						ssid = 0;
+					}
+				}
 
-                if (!subsessions.containsKey(ssid))
-                {
-                    HttpSubSession subsession = new HttpSubSession(backingSession, ssid);
-                    subsessions.put(ssid, subsession);
-                }
-            }
-            catch (NumberFormatException e)
-            {
-                // Someone's been fiddling with HTTP parameters,
-                // ignore it and use the default session
-            }
+				if (!subsessions.containsKey(ssid)) {
+					HttpSubSession subsession = new HttpSubSession(backingSession, ssid);
+					subsessions.put(ssid, subsession);
+				}
+			} catch (NumberFormatException e) {
+				// Someone's been fiddling with HTTP parameters,
+				// ignore it and use the default session
+			}
 
-            this.sessionId = ssid;
-        }
-    }
+			this.sessionId = ssid;
+		}
+	}
 
-    /**
-     * Retrieves the subsession for this request. If there is no existing subsession, a new one is created.
-     * 
-     * @return the subsession for this request.
-     */
-    private synchronized HttpSubSession getSubSession()
-    {
-        HttpSession backingSession = super.getSession();
-        Map<Integer, HttpSubSession> subsessions = (Map<Integer, HttpSubSession>) backingSession
-            .getAttribute(SESSION_MAP_KEY);
+	/**
+	 * Retrieves the subsession for this request. If there is no existing subsession, a new one is created.
+	 *
+	 * @return the subsession for this request.
+	 */
+	private synchronized HttpSubSession getSubSession() {
+		HttpSession backingSession = super.getSession();
+		Map<Integer, HttpSubSession> subsessions = (Map<Integer, HttpSubSession>) backingSession
+				.getAttribute(SESSION_MAP_KEY);
 
-        HttpSubSession subsession = subsessions.get(sessionId);
-        subsession.setLastAccessedTime(System.currentTimeMillis());
+		HttpSubSession subsession = subsessions.get(sessionId);
+		subsession.setLastAccessedTime(System.currentTimeMillis());
 
-        return subsession;
-    }
+		return subsession;
+	}
 
-    /** {@inheritDoc} */
-    @Override
-    public HttpSession getSession()
-    {
-        return getSubSession();
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public HttpSession getSession() {
+		return getSubSession();
+	}
 
-    /** {@inheritDoc} */
-    @Override
-    public HttpSession getSession(final boolean create)
-    {
-        return getSubSession();
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public HttpSession getSession(final boolean create) {
+		return getSubSession();
+	}
 
-    /**
-     * @return the session id
-     */
-    public int getSessionId()
-    {
-        return sessionId;
-    }
+	/**
+	 * @return the session id
+	 */
+	public int getSessionId() {
+		return sessionId;
+	}
 
-    /**
-     * A "sub-session" implementation of a HTTPSession.
-     */
-    public static final class HttpSubSession implements HttpSession, Serializable
-    {
-        /** The map which stores the session attributes. */
-        private Map<String, Object> attributes = new HashMap<String, Object>();
+	/**
+	 * A "sub-session" implementation of a HTTPSession.
+	 */
+	public static final class HttpSubSession implements HttpSession, Serializable {
 
-        /** The maximum interval before a sub-session can be invalidated due to inactivity, specified in milliseconds. */
-        private int maxInactiveInterval;
+		/**
+		 * The map which stores the session attributes.
+		 */
+		private Map<String, Object> attributes = new HashMap<>();
 
-        /** The timestamp when the sub-session was created. */
-        private final long creationTime;
+		/**
+		 * The maximum interval before a sub-session can be invalidated due to inactivity, specified in milliseconds.
+		 */
+		private int maxInactiveInterval;
 
-        /** The timestamp when the sub-session was last accessed by the user. */
-        private long lastAccessedTime;
+		/**
+		 * The timestamp when the sub-session was created.
+		 */
+		private final long creationTime;
 
-        /** The subsession id, unique per user HTTP session. */
-        private final int sessionId;
+		/**
+		 * The timestamp when the sub-session was last accessed by the user.
+		 */
+		private long lastAccessedTime;
 
-        /** A flag indicating whether this sub-session has been invalidated. */
-        private boolean invalid = false;
+		/**
+		 * The subsession id, unique per user HTTP session.
+		 */
+		private final int sessionId;
 
-        /** The backing HTTP session. */
-        private final HttpSession backing;
+		/**
+		 * A flag indicating whether this sub-session has been invalidated.
+		 */
+		private boolean invalid = false;
 
-        /**
-         * Creates an HttpSubSession.
-         * 
-         * @param backing the backing HTTP session.
-         * @param subsessionId the subsession's id.
-         */
-        public HttpSubSession(final HttpSession backing, final int subsessionId)
-        {
-            maxInactiveInterval = backing.getMaxInactiveInterval();
-            creationTime = System.currentTimeMillis();
-            lastAccessedTime = creationTime;
-            this.sessionId = subsessionId;
-            this.backing = backing;
-        }
+		/**
+		 * The backing HTTP session.
+		 */
+		private final HttpSession backing;
 
-        /**
-         * @return Returns the sessionId.
-         */
-        public int getSessionId()
-        {
-            return sessionId;
-        }
+		/**
+		 * Creates an HttpSubSession.
+		 *
+		 * @param backing the backing HTTP session.
+		 * @param subsessionId the subsession's id.
+		 */
+		public HttpSubSession(final HttpSession backing, final int subsessionId) {
+			maxInactiveInterval = backing.getMaxInactiveInterval();
+			creationTime = System.currentTimeMillis();
+			lastAccessedTime = creationTime;
+			this.sessionId = subsessionId;
+			this.backing = backing;
+		}
 
-        /**
-         * Returns the value of the attribute with the specified name.
-         * 
-         * @param name the attribute name.
-         * @return the attribute value, or null if the attribute does not exist.
-         */
-        @Override
-        public Object getAttribute(final String name)
-        {
-            if (invalid)
-            {
-                throw new IllegalStateException("Session has been invalidated");
-            }
+		/**
+		 * @return Returns the sessionId.
+		 */
+		public int getSessionId() {
+			return sessionId;
+		}
 
-            return attributes.get(name);
-        }
+		/**
+		 * Returns the value of the attribute with the specified name.
+		 *
+		 * @param name the attribute name.
+		 * @return the attribute value, or null if the attribute does not exist.
+		 */
+		@Override
+		public Object getAttribute(final String name) {
+			if (invalid) {
+				throw new IllegalStateException("Session has been invalidated");
+			}
 
-        /**
-         * @return an enumeration of the attribute names.
-         */
-        @Override
-        public Enumeration<String> getAttributeNames()
-        {
-            if (invalid)
-            {
-                throw new IllegalStateException("Session has been invalidated");
-            }
+			return attributes.get(name);
+		}
 
-            return getKeys(attributes);
-        }
+		/**
+		 * @return an enumeration of the attribute names.
+		 */
+		@Override
+		public Enumeration<String> getAttributeNames() {
+			if (invalid) {
+				throw new IllegalStateException("Session has been invalidated");
+			}
 
-        /**
-         * Returns the session creation timestamp.
-         * 
-         * @return 0, as this is not implemented.
-         */
-        @Override
-        public long getCreationTime()
-        {
-            if (invalid)
-            {
-                throw new IllegalStateException("Session has been invalidated");
-            }
+			return getKeys(attributes);
+		}
 
-            return creationTime;
-        }
+		/**
+		 * Returns the session creation timestamp.
+		 *
+		 * @return 0, as this is not implemented.
+		 */
+		@Override
+		public long getCreationTime() {
+			if (invalid) {
+				throw new IllegalStateException("Session has been invalidated");
+			}
 
-        /**
-         * Returns the session id.
-         * 
-         * @return the backing session id.
-         */
-        @Override
-        public String getId()
-        {
-            return backing.getId();
-        }
+			return creationTime;
+		}
 
-        /**
-         * Returns the session last accessed timestamp.
-         * 
-         * @return 0, as this is not implemented.
-         */
-        @Override
-        public long getLastAccessedTime()
-        {
-            if (invalid)
-            {
-                throw new IllegalStateException("Session has been invalidated");
-            }
+		/**
+		 * Returns the session id.
+		 *
+		 * @return the backing session id.
+		 */
+		@Override
+		public String getId() {
+			return backing.getId();
+		}
 
-            return lastAccessedTime;
-        }
+		/**
+		 * Returns the session last accessed timestamp.
+		 *
+		 * @return 0, as this is not implemented.
+		 */
+		@Override
+		public long getLastAccessedTime() {
+			if (invalid) {
+				throw new IllegalStateException("Session has been invalidated");
+			}
 
-        /**
-         * @return the session maximum inactive interval.
-         */
-        @Override
-        public int getMaxInactiveInterval()
-        {
-            return maxInactiveInterval;
-        }
+			return lastAccessedTime;
+		}
 
-        /**
-         * Returns the session servlet context.
-         * 
-         * @return the session servlet context..
-         */
-        @Override
-        public ServletContext getServletContext()
-        {
-            return backing.getServletContext();
-        }
+		/**
+		 * @return the session maximum inactive interval.
+		 */
+		@Override
+		public int getMaxInactiveInterval() {
+			return maxInactiveInterval;
+		}
 
-        /** {@inheritDoc} */
-        @Override
-        @Deprecated
-        public HttpSessionContext getSessionContext()
-        {
-            return backing.getSessionContext();
-        }
+		/**
+		 * Returns the session servlet context.
+		 *
+		 * @return the session servlet context..
+		 */
+		@Override
+		public ServletContext getServletContext() {
+			return backing.getServletContext();
+		}
 
-        /**
-         * @param name ignored.
-         * @return null, as this is not implemented.
-         */
-        @Override
-        public Object getValue(final String name)
-        {
-            if (invalid)
-            {
-                throw new IllegalStateException("Session has been invalidated");
-            }
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		@Deprecated
+		public HttpSessionContext getSessionContext() {
+			return backing.getSessionContext();
+		}
 
-            return getAttribute(name);
-        }
+		/**
+		 * @param name ignored.
+		 * @return null, as this is not implemented.
+		 */
+		@Override
+		public Object getValue(final String name) {
+			if (invalid) {
+				throw new IllegalStateException("Session has been invalidated");
+			}
 
-        /**
-         * @return null, as this is not implemented.
-         */
-        @Override
-        public String[] getValueNames()
-        {
-            if (invalid)
-            {
-                throw new IllegalStateException("Session has been invalidated");
-            }
+			return getAttribute(name);
+		}
 
-            List<String> names = new ArrayList<String>();
+		/**
+		 * @return null, as this is not implemented.
+		 */
+		@Override
+		public String[] getValueNames() {
+			if (invalid) {
+				throw new IllegalStateException("Session has been invalidated");
+			}
 
-            for (Enumeration<String> attributeNames = getAttributeNames(); attributeNames.hasMoreElements();)
-            {
-                names.add(attributeNames.nextElement());
-            }
+			List<String> names = new ArrayList<>();
 
-            return names.toArray(new String[names.size()]);
-        }
+			for (Enumeration<String> attributeNames = getAttributeNames(); attributeNames.
+					hasMoreElements();) {
+				names.add(attributeNames.nextElement());
+			}
 
-        /**
-         * No effect.
-         */
-        @Override
-        public void invalidate()
-        {
-            if (invalid)
-            {
-                throw new IllegalStateException("Session has already been invalidated");
-            }
+			return names.toArray(new String[names.size()]);
+		}
 
-            invalid = true;
-            attributes = null;
-        }
+		/**
+		 * No effect.
+		 */
+		@Override
+		public void invalidate() {
+			if (invalid) {
+				throw new IllegalStateException("Session has already been invalidated");
+			}
 
-        /**
-         * Returns whether the session is new.
-         * 
-         * @return false, as this is not implemented.
-         */
-        @Override
-        public boolean isNew()
-        {
-            if (invalid)
-            {
-                throw new IllegalStateException("Session has been invalidated");
-            }
+			invalid = true;
+			attributes = null;
+		}
 
-            return lastAccessedTime == creationTime;
-        }
+		/**
+		 * Returns whether the session is new.
+		 *
+		 * @return false, as this is not implemented.
+		 */
+		@Override
+		public boolean isNew() {
+			if (invalid) {
+				throw new IllegalStateException("Session has been invalidated");
+			}
 
-        /** {@inheritDoc} */
-        @Override
-        @Deprecated
-        public void putValue(final String name, final Object value)
-        {
-            setAttribute(name, value);
-        }
+			return lastAccessedTime == creationTime;
+		}
 
-        /**
-         * Removes the specified attribute.
-         * 
-         * @param name the attribute name.
-         */
-        @Override
-        public void removeAttribute(final String name)
-        {
-            if (invalid)
-            {
-                throw new IllegalStateException("Session has been invalidated");
-            }
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		@Deprecated
+		public void putValue(final String name, final Object value) {
+			setAttribute(name, value);
+		}
 
-            attributes.remove(name);
-        }
+		/**
+		 * Removes the specified attribute.
+		 *
+		 * @param name the attribute name.
+		 */
+		@Override
+		public void removeAttribute(final String name) {
+			if (invalid) {
+				throw new IllegalStateException("Session has been invalidated");
+			}
 
-        /** {@inheritDoc} */
-        @Override
-        @Deprecated
-        public void removeValue(final String name)
-        {
-            removeAttribute(name);
-        }
+			attributes.remove(name);
+		}
 
-        /**
-         * Sets the specified attribute.
-         * 
-         * @param name the attribute name.
-         * @param value the attribute value.
-         */
-        @Override
-        public void setAttribute(final String name, final Object value)
-        {
-            if (invalid)
-            {
-                throw new IllegalStateException("Session has been invalidated");
-            }
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		@Deprecated
+		public void removeValue(final String name) {
+			removeAttribute(name);
+		}
 
-            attributes.put(name, value);
-        }
+		/**
+		 * Sets the specified attribute.
+		 *
+		 * @param name the attribute name.
+		 * @param value the attribute value.
+		 */
+		@Override
+		public void setAttribute(final String name, final Object value) {
+			if (invalid) {
+				throw new IllegalStateException("Session has been invalidated");
+			}
 
-        /**
-         * Sets the maximum inactive interval.
-         * 
-         * @param maxInactiveInterval the maximum inactive interval.
-         */
-        @Override
-        public void setMaxInactiveInterval(final int maxInactiveInterval)
-        {
-            this.maxInactiveInterval = maxInactiveInterval;
-        }
+			attributes.put(name, value);
+		}
 
-        /**
-         * Returns an enumeration of the keys in the specified map.
-         * 
-         * @param map the map to enumerate.
-         * @param <K> the key type
-         * @param <V> the value type
-         * @return an enumeration of the map keys.
-         */
-        private <K, V> Enumeration<K> getKeys(final Map<K, V> map)
-        {
-            return new Enumerator<K>(map.keySet().iterator());
-        }
+		/**
+		 * Sets the maximum inactive interval.
+		 *
+		 * @param maxInactiveInterval the maximum inactive interval.
+		 */
+		@Override
+		public void setMaxInactiveInterval(final int maxInactiveInterval) {
+			this.maxInactiveInterval = maxInactiveInterval;
+		}
 
-        /**
-         * @param lastAccessedTime The lastAccessedTime to set.
-         */
-        public void setLastAccessedTime(final long lastAccessedTime)
-        {
-            this.lastAccessedTime = lastAccessedTime;
-        }
-    }
+		/**
+		 * Returns an enumeration of the keys in the specified map.
+		 *
+		 * @param map the map to enumerate.
+		 * @param <K> the key type
+		 * @param <V> the value type
+		 * @return an enumeration of the map keys.
+		 */
+		private <K, V> Enumeration<K> getKeys(final Map<K, V> map) {
+			return new Enumerator<>(map.keySet().iterator());
+		}
+
+		/**
+		 * @param lastAccessedTime The lastAccessedTime to set.
+		 */
+		public void setLastAccessedTime(final long lastAccessedTime) {
+			this.lastAccessedTime = lastAccessedTime;
+		}
+	}
 }

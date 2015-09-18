@@ -1,11 +1,10 @@
 package com.github.bordertech.wcomponents.subordinate;
 
+import com.github.bordertech.wcomponents.AbstractWComponent;
+import com.github.bordertech.wcomponents.Request;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import com.github.bordertech.wcomponents.AbstractWComponent;
-import com.github.bordertech.wcomponents.Request;
 
 /**
  * <p>
@@ -41,84 +40,78 @@ import com.github.bordertech.wcomponents.Request;
  * <b>WARNING:</b> Use of this control is likely to cause maintenance issues if it is overused. It is recommended that
  * you use it only for simple situations, as overly complex rules become hard to maintain.
  * </p>
- * 
+ *
  * @author Martin Shevchenko
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class WSubordinateControl extends AbstractWComponent
-{
-    /** The list of rules to execute. */
-    private final List<Rule> rules = new ArrayList<Rule>();
+public class WSubordinateControl extends AbstractWComponent {
 
-    /**
-     * Add a Rule to the subordinate control.
-     * 
-     * @param rule the rule to add
-     */
-    public void addRule(final Rule rule)
-    {
-        if (rule == null)
-        {
-            throw new IllegalArgumentException("Rule must not be null.");
-        }
+	/**
+	 * The list of rules to execute.
+	 */
+	private final List<Rule> rules = new ArrayList<>();
 
-        rules.add(rule);
-    }
+	/**
+	 * Add a Rule to the subordinate control.
+	 *
+	 * @param rule the rule to add
+	 */
+	public void addRule(final Rule rule) {
+		if (rule == null) {
+			throw new IllegalArgumentException("Rule must not be null.");
+		}
 
-    /**
-     * Register the Subordinate Control.
-     * 
-     * @param request the request being processed
-     */
-    @Override
-    protected void preparePaintComponent(final Request request)
-    {
-        SubordinateControlHelper.registerSubordinateControl(getId(), request);
-    }
+		rules.add(rule);
+	}
 
-    /**
-     * Run the controls.
-     */
-    public void applyTheControls()
-    {
-        for (Rule rule : getRules())
-        {
-            rule.execute();
-        }
-    }
+	/**
+	 * Register the Subordinate Control.
+	 *
+	 * @param request the request being processed
+	 */
+	@Override
+	protected void preparePaintComponent(final Request request) {
+		SubordinateControlHelper.registerSubordinateControl(getId(), request);
+	}
 
-    /**
-     * Run the controls using values from the Request.
-     * 
-     * @param request the request being responded to.
-     */
-    public void applyTheControls(final Request request)
-    {
-        for (Rule rule : getRules())
-        {
-            rule.execute(request);
-        }
-    }
+	/**
+	 * Run the controls.
+	 */
+	public void applyTheControls() {
+		for (Rule rule : getRules()) {
+			rule.execute();
+		}
+	}
 
-    /**
-     * @return the list of rules.
-     */
-    public List<Rule> getRules()
-    {
-        return Collections.unmodifiableList(rules);
-    }
+	/**
+	 * Run the controls using values from the Request.
+	 *
+	 * @param request the request being responded to.
+	 */
+	public void applyTheControls(final Request request) {
+		for (Rule rule : getRules()) {
+			rule.execute(request);
+		}
+	}
 
-    /** {@inheritDoc} */
-    @Override
-    public String toString()
-    {
-        StringBuffer buf = new StringBuffer();
-        for (Rule rule : getRules())
-        {
-            buf.append("RULE: ");
-            buf.append(rule);
-        }
-        return buf.toString();
-    }
+	/**
+	 * @return the list of rules.
+	 */
+	public List<Rule> getRules() {
+		return Collections.unmodifiableList(rules);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String toString() {
+		StringBuffer buf = new StringBuffer();
+		for (Rule rule : getRules()) {
+			buf.append("RULE: ");
+			buf.append(rule);
+		}
+		return buf.toString();
+	}
 }

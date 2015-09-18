@@ -1,23 +1,22 @@
 package com.github.bordertech.wcomponents.container;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import com.github.bordertech.wcomponents.DebugValidateXML;
 import com.github.bordertech.wcomponents.RenderContext;
 import com.github.bordertech.wcomponents.UIContextHolder;
 import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * <p>
  * An Interceptor used to report any WComponent that has generated HTML/XML that is not well formed.
  * </p>
  * <p>
- * To enable this Interceptor, both "bordertech.wcomponents.debug.enabled" and "bordertech.wcomponents.debug.validateXML.enabled" must be set to true.
+ * To enable this Interceptor, both "bordertech.wcomponents.debug.enabled" and
+ * "bordertech.wcomponents.debug.validateXML.enabled" must be set to true.
  * </p>
  * <p>
  * The Interceptor calls {@link DebugValidateXML} to determine if XML Validation is enabled. If it has been enabled,
@@ -29,95 +28,91 @@ import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class ValidateXMLInterceptor extends InterceptorComponent
-{
-    /** The logger instance for this class. */
-    private static final Log log = LogFactory.getLog(ValidateXMLInterceptor.class);
+public class ValidateXMLInterceptor extends InterceptorComponent {
 
-    /**
-     * Override paint to include XML Validation.
-     *
-     * @param renderContext the renderContext to send the output to.
-     */
-    @Override
-    public void paint(final RenderContext renderContext)
-    {
-        // Check interceptor is enabled
-        if (!DebugValidateXML.isEnabled())
-        {
-            super.paint(renderContext);
-            return;
-        }
+	/**
+	 * The logger instance for this class.
+	 */
+	private static final Log LOG = LogFactory.getLog(ValidateXMLInterceptor.class);
 
-        if (!(renderContext instanceof WebXmlRenderContext))
-        {
-            log.warn("Unable to validate against a " + renderContext);
-            super.paint(renderContext);
-            return;
-        }
+	/**
+	 * Override paint to include XML Validation.
+	 *
+	 * @param renderContext the renderContext to send the output to.
+	 */
+	@Override
+	public void paint(final RenderContext renderContext) {
+		// Check interceptor is enabled
+		if (!DebugValidateXML.isEnabled()) {
+			super.paint(renderContext);
+			return;
+		}
 
-        log.debug("Validate XML Interceptor: Start");
+		if (!(renderContext instanceof WebXmlRenderContext)) {
+			LOG.warn("Unable to validate against a " + renderContext);
+			super.paint(renderContext);
+			return;
+		}
 
-        WebXmlRenderContext webRenderContext = (WebXmlRenderContext) renderContext;
-        PrintWriter writer = webRenderContext.getWriter();
+		LOG.debug("Validate XML Interceptor: Start");
 
-        // Generate XML
-        StringWriter tempBuffer = new StringWriter();
-        PrintWriter tempWriter = new PrintWriter(tempBuffer);
-        WebXmlRenderContext tempContext = new WebXmlRenderContext(tempWriter, UIContextHolder.getCurrent().getLocale());
+		WebXmlRenderContext webRenderContext = (WebXmlRenderContext) renderContext;
+		PrintWriter writer = webRenderContext.getWriter();
 
-        super.paint(tempContext);
-        String xml = tempBuffer.toString();
+		// Generate XML
+		StringWriter tempBuffer = new StringWriter();
+		PrintWriter tempWriter = new PrintWriter(tempBuffer);
+		WebXmlRenderContext tempContext = new WebXmlRenderContext(tempWriter, UIContextHolder.
+				getCurrent().getLocale());
 
-        // If no errors, check against the schema
-        String error = DebugValidateXML.validateXMLAgainstSchema(xml);
+		super.paint(tempContext);
+		String xml = tempBuffer.toString();
 
-        if (error != null)
-        {
-            // XML is NOT valid, so Report Errors and Wrap the original XML
-            log.debug("Validate XML Interceptor: XML Has Errors");
-            writer.println("<div>");
+		// If no errors, check against the schema
+		String error = DebugValidateXML.validateXMLAgainstSchema(xml);
 
-            writer.println("<div>");
-            writer.println("Invalid XML");
-            writer.println("<ul><li>" + WebUtilities.encode(error) + "</li></ul>");
-            writer.println("<br/>");
-            writer.println("</div>");
+		if (error != null) {
+			// XML is NOT valid, so Report Errors and Wrap the original XML
+			LOG.debug("Validate XML Interceptor: XML Has Errors");
+			writer.println("<div>");
 
-            // If a schema error detected, Wrap XML so line numbers reported in validation message are correct
-            String testXML = DebugValidateXML.wrapXMLInRootElement(xml);
-            paintOriginalXML(testXML, writer);
+			writer.println("<div>");
+			writer.println("Invalid XML");
+			writer.println("<ul><li>" + WebUtilities.encode(error) + "</li></ul>");
+			writer.println("<br/>");
+			writer.println("</div>");
 
-            writer.println("</div>");
-        }
-        else
-        {
-            // XML is valid
-            writer.write(xml);
-        }
+			// If a schema error detected, Wrap XML so line numbers reported in validation message are correct
+			String testXML = DebugValidateXML.wrapXMLInRootElement(xml);
+			paintOriginalXML(testXML, writer);
 
-        log.debug("Validate XML Interceptor: Finished");
-    }
+			writer.println("</div>");
+		} else {
+			// XML is valid
+			writer.write(xml);
+		}
 
-    /**
-     * Paint the original XML wrapped in a CDATA Section.
-     *
-     * @param originalXML the original XML
-     * @param writer the output writer
-     */
-    private void paintOriginalXML(final String originalXML, final PrintWriter writer)
-    {
-        // Replace any CDATA Sections embedded in XML
-        String xml = originalXML.replaceAll("<!\\[CDATA\\[", "CDATASTART");
-        xml = xml.replaceAll("\\]\\]>", "CDATAFINISH");
+		LOG.debug("Validate XML Interceptor: Finished");
+	}
 
-        // Paint Output
-        writer.println("<div>");
-        writer.println("<!-- VALIDATE XML ERROR - START XML -->");
-        writer.println("<![CDATA[");
-        writer.println(xml);
-        writer.println("]]>");
-        writer.println("<!-- VALIDATE XML ERROR - END XML -->");
-        writer.println("</div>");
-    }
+	/**
+	 * Paint the original XML wrapped in a CDATA Section.
+	 *
+	 * @param originalXML the original XML
+	 * @param writer the output writer
+	 */
+	private void paintOriginalXML(final String originalXML, final PrintWriter writer) {
+		// Replace any CDATA Sections embedded in XML
+		String xml = originalXML.replaceAll("<!\\[CDATA\\[", "CDATASTART");
+		xml = xml.replaceAll("\\]\\]>", "CDATAFINISH");
+
+		// Paint Output
+		writer.println("<div>");
+		writer.println("<!-- VALIDATE XML ERROR - START XML -->");
+		writer.println("<![CDATA[");
+		writer.println(xml);
+		writer.println("]]>");
+		writer.println("<!-- VALIDATE XML ERROR - END XML -->");
+		writer.println("</div>");
+	}
 }

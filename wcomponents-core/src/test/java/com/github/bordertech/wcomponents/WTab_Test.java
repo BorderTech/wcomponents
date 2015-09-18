@@ -1,364 +1,338 @@
 package com.github.bordertech.wcomponents;
 
-import junit.framework.Assert;
-
-import org.junit.Test;
-
 import com.github.bordertech.wcomponents.WTabSet.TabMode;
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
+import junit.framework.Assert;
+import org.junit.Test;
 
 /**
  * Unit tests for {@link WTab}.
- * 
+ *
  * @author Anthony O'Connor
  * @since 1.0.0
  */
-public class WTab_Test extends AbstractWComponentTestCase
-{
-    /**
-     * error message for constructor - null label - private in class being
-     * tested.
-     */
-    private static final String ILLEGAL_LABEL_ERROR = "A label must be specified";
+public class WTab_Test extends AbstractWComponentTestCase {
 
-    @Test
-    public void testConstructor()
-    {
-        WComponent component = new DefaultWComponent();
-        WDecoratedLabel label = new WDecoratedLabel("label");
-        WTab tab = new WTab(component, label, WTabSet.TabMode.SERVER);
+	/**
+	 * error message for constructor - null label - private in class being tested.
+	 */
+	private static final String ILLEGAL_LABEL_ERROR = "A label must be specified";
 
-        Assert.assertEquals("label should be added as first tab content", label, tab.getChildAt(0));
-        Assert.assertEquals("label should be added as second tab content", component, tab.getChildAt(1));
-    }
+	@Test
+	public void testConstructor() {
+		WComponent component = new DefaultWComponent();
+		WDecoratedLabel label = new WDecoratedLabel("label");
+		WTab tab = new WTab(component, label, WTabSet.TabMode.SERVER);
 
-    @Test
-    public void testConstructorNullLabel()
-    {
-        WComponent component = new DefaultWComponent();
-        WDecoratedLabel label = null;
+		Assert.assertEquals("label should be added as first tab content", label, tab.getChildAt(0));
+		Assert.assertEquals("label should be added as second tab content", component, tab.
+				getChildAt(1));
+	}
 
-        try
-        {
-            WTab tab = new WTab(component, label, WTabSet.TabMode.SERVER);
-            Assert.fail("should throw IllegalArgumentException - not get tab - " + tab.getId());
-        }
-        catch (Exception e)
-        {
-            Assert.assertEquals("should get message expected", ILLEGAL_LABEL_ERROR, e.getMessage());
-        }
-    }
+	@Test
+	public void testConstructorNullLabel() {
+		WComponent component = new DefaultWComponent();
+		WDecoratedLabel label = null;
 
-    /**
-     * Test setContent - set non null content - to existing non null content.
-     */
-    @Test
-    public void testSetContentNonNullToNonNull()
-    {
-        WComponent component = new DefaultWComponent();
-        WDecoratedLabel label = new WDecoratedLabel("label");
-        WTab tab = new WTab(component, label, WTabSet.TabMode.SERVER);
-        Assert.assertEquals("should be content as set in constructor", component, tab.getContent());
+		try {
+			WTab tab = new WTab(component, label, WTabSet.TabMode.SERVER);
+			Assert.fail("should throw IllegalArgumentException - not get tab - " + tab.getId());
+		} catch (Exception e) {
+			Assert.assertEquals("should get message expected", ILLEGAL_LABEL_ERROR, e.getMessage());
+		}
+	}
 
-        WComponent component2 = new DefaultWComponent();
-        tab.setContent(component2);
-        Assert.assertEquals("should be content as set", component2, tab.getContent());
-    }
+	/**
+	 * Test setContent - set non null content - to existing non null content.
+	 */
+	@Test
+	public void testSetContentNonNullToNonNull() {
+		WComponent component = new DefaultWComponent();
+		WDecoratedLabel label = new WDecoratedLabel("label");
+		WTab tab = new WTab(component, label, WTabSet.TabMode.SERVER);
+		Assert.assertEquals("should be content as set in constructor", component, tab.getContent());
 
-    /**
-     * Test setContent - set non null content - to existing null content.
-     */
-    @Test
-    public void testSetContentNonNullToNull()
-    {
-        WComponent component = new DefaultWComponent();
-        WDecoratedLabel label = new WDecoratedLabel("label");
-        WTab tab = new WTab(component, label, WTabSet.TabMode.SERVER);
-        Assert.assertEquals("should be content as set in constructor", component, tab.getContent());
+		WComponent component2 = new DefaultWComponent();
+		tab.setContent(component2);
+		Assert.assertEquals("should be content as set", component2, tab.getContent());
+	}
 
-        tab.setContent(null);
+	/**
+	 * Test setContent - set non null content - to existing null content.
+	 */
+	@Test
+	public void testSetContentNonNullToNull() {
+		WComponent component = new DefaultWComponent();
+		WDecoratedLabel label = new WDecoratedLabel("label");
+		WTab tab = new WTab(component, label, WTabSet.TabMode.SERVER);
+		Assert.assertEquals("should be content as set in constructor", component, tab.getContent());
 
-        WComponent component2 = component;
-        tab.setContent(component2);
-        Assert.assertEquals("should be content as set", component2, tab.getContent());
-    }
+		tab.setContent(null);
 
-    /**
-     * Test setContent - set null content - to existing non null content.
-     */
-    @Test
-    public void testSetContentNullToNonNull()
-    {
-        WComponent component = new DefaultWComponent();
-        WDecoratedLabel label = new WDecoratedLabel("label");
-        WTab tab = new WTab(component, label, WTabSet.TabMode.SERVER);
-        Assert.assertEquals("should be content as set in constructor", component, tab.getContent());
+		WComponent component2 = component;
+		tab.setContent(component2);
+		Assert.assertEquals("should be content as set", component2, tab.getContent());
+	}
 
-        WComponent component2 = null;
-        tab.setContent(component2);
-        Assert.assertEquals("should be content as set", component2, tab.getContent());
-    }
+	/**
+	 * Test setContent - set null content - to existing non null content.
+	 */
+	@Test
+	public void testSetContentNullToNonNull() {
+		WComponent component = new DefaultWComponent();
+		WDecoratedLabel label = new WDecoratedLabel("label");
+		WTab tab = new WTab(component, label, WTabSet.TabMode.SERVER);
+		Assert.assertEquals("should be content as set in constructor", component, tab.getContent());
 
-    /**
-     * Test setContent - set null content - to existing non null content.
-     */
-    @Test
-    public void testSetContentNullToNull()
-    {
-        WComponent component = new DefaultWComponent();
-        WDecoratedLabel label = new WDecoratedLabel("label");
-        WTab tab = new WTab(component, label, WTabSet.TabMode.SERVER);
-        Assert.assertEquals("should be content as set in constructor", component, tab.getContent());
+		WComponent component2 = null;
+		tab.setContent(component2);
+		Assert.assertEquals("should be content as set", component2, tab.getContent());
+	}
 
-        tab.setContent(null);
+	/**
+	 * Test setContent - set null content - to existing non null content.
+	 */
+	@Test
+	public void testSetContentNullToNull() {
+		WComponent component = new DefaultWComponent();
+		WDecoratedLabel label = new WDecoratedLabel("label");
+		WTab tab = new WTab(component, label, WTabSet.TabMode.SERVER);
+		Assert.assertEquals("should be content as set in constructor", component, tab.getContent());
 
-        WComponent component2 = new DefaultWComponent();
-        tab.setContent(component2);
-        Assert.assertEquals("should be content as set", component2, tab.getContent());
-    }
+		tab.setContent(null);
 
-    /**
-     * Test setDisabled.
-     */
-    @Test
-    public void testSetDisabled()
-    {
-        WTab tab = new WTab(new DefaultWComponent(), "tab", WTabSet.TabMode.SERVER);
-        Assert.assertFalse("Should not be disabled by default", tab.isDisabled());
+		WComponent component2 = new DefaultWComponent();
+		tab.setContent(component2);
+		Assert.assertEquals("should be content as set", component2, tab.getContent());
+	}
 
-        tab.setLocked(true);
-        setActiveContext(createUIContext());
-        tab.setDisabled(true);
-        Assert.assertTrue("Should be disabled", tab.isDisabled());
-        
-        resetContext();
-        Assert.assertFalse("Default disabled status should not have changed", tab.isDisabled());
-    }
+	/**
+	 * Test setDisabled.
+	 */
+	@Test
+	public void testSetDisabled() {
+		WTab tab = new WTab(new DefaultWComponent(), "tab", WTabSet.TabMode.SERVER);
+		Assert.assertFalse("Should not be disabled by default", tab.isDisabled());
 
-    /**
-     * Test preparePaintComponent - tabMode LAZY.
-     */
-    @Test
-    public void testPreparePaintComponentLazy()
-    {
-        // Tab - Lazy
-        WComponent component = new WText("this is some text");
-        WTab tab = new WTab(component, "label", WTabSet.TabMode.LAZY);
+		tab.setLocked(true);
+		setActiveContext(createUIContext());
+		tab.setDisabled(true);
+		Assert.assertTrue("Should be disabled", tab.isDisabled());
 
-        WTabSet tabSet = new WTabSet();
-        tabSet.addTab(new WText(), "test", WTabSet.TAB_MODE_CLIENT);
-        tabSet.add(tab);
-        tabSet.addTab(new WText(), "test", WTabSet.TAB_MODE_CLIENT);
+		resetContext();
+		Assert.assertFalse("Default disabled status should not have changed", tab.isDisabled());
+	}
 
-        tab.setLocked(true);
-        setActiveContext(createUIContext());
+	/**
+	 * Test preparePaintComponent - tabMode LAZY.
+	 */
+	@Test
+	public void testPreparePaintComponentLazy() {
+		// Tab - Lazy
+		WComponent component = new WText("this is some text");
+		WTab tab = new WTab(component, "label", WTabSet.TabMode.LAZY);
 
-        // Not Open
-        MockRequest request = new MockRequest();
-        tab.preparePaintComponent(request);
-        Assert.assertFalse("content should have been set to invisible", component.isVisible());
+		WTabSet tabSet = new WTabSet();
+		tabSet.addTab(new WText(), "test", WTabSet.TAB_MODE_CLIENT);
+		tabSet.add(tab);
+		tabSet.addTab(new WText(), "test", WTabSet.TAB_MODE_CLIENT);
 
-        // Open
-        request = new MockRequest();
-        tabSet.setActiveIndex(1);
-        tab.preparePaintComponent(request);
-        Assert.assertTrue("content should have been set to visible", component.isVisible());
+		tab.setLocked(true);
+		setActiveContext(createUIContext());
 
-        // TODO - add assert on result of AjaxHelper.registerComponent
-    }
+		// Not Open
+		MockRequest request = new MockRequest();
+		tab.preparePaintComponent(request);
+		Assert.assertFalse("content should have been set to invisible", component.isVisible());
 
-    /**
-     * Test preparePaintComponent - tabMode DYNAMIC.
-     */
-    @Test
-    public void testPreparePaintComponentDynamic()
-    {
-        // Tab - Dynamic
-        WComponent component = new WText("this is some text");
-        WTab tab = new WTab(component, "label", WTabSet.TabMode.DYNAMIC);
+		// Open
+		request = new MockRequest();
+		tabSet.setActiveIndex(1);
+		tab.preparePaintComponent(request);
+		Assert.assertTrue("content should have been set to visible", component.isVisible());
 
-        WTabSet tabSet = new WTabSet();
-        tabSet.addTab(new WText(), "test", WTabSet.TAB_MODE_CLIENT);
-        tabSet.add(tab);
-        tabSet.addTab(new WText(), "test", WTabSet.TAB_MODE_CLIENT);
+		// TODO - add assert on result of AjaxHelper.registerComponent
+	}
 
-        setActiveContext(createUIContext());
+	/**
+	 * Test preparePaintComponent - tabMode DYNAMIC.
+	 */
+	@Test
+	public void testPreparePaintComponentDynamic() {
+		// Tab - Dynamic
+		WComponent component = new WText("this is some text");
+		WTab tab = new WTab(component, "label", WTabSet.TabMode.DYNAMIC);
 
-        // Not Open
-        MockRequest request = new MockRequest();
-        tab.preparePaintComponent(request);
-        Assert.assertFalse("content should have been set to invisible", component.isVisible());
+		WTabSet tabSet = new WTabSet();
+		tabSet.addTab(new WText(), "test", WTabSet.TAB_MODE_CLIENT);
+		tabSet.add(tab);
+		tabSet.addTab(new WText(), "test", WTabSet.TAB_MODE_CLIENT);
 
-        // Open
-        request = new MockRequest();
-        tabSet.setActiveIndex(1);
-        tab.preparePaintComponent(request);
-        Assert.assertTrue("content should have been set to visible", component.isVisible());
-        // TODO - add assert on result of AjaxHelper.registerComponent
-    }
+		setActiveContext(createUIContext());
 
-    /**
-     * Test preparePaintComponent - tabMode EAGER.
-     */
-    @Test
-    public void testPreparePaintComponentEager()
-    {
-        // Tab - Eager
-        WComponent component = new WText("this is some text");
-        WTab tab = new WTab(component, "label", WTabSet.TabMode.EAGER);
+		// Not Open
+		MockRequest request = new MockRequest();
+		tab.preparePaintComponent(request);
+		Assert.assertFalse("content should have been set to invisible", component.isVisible());
 
-        WTabSet tabSet = new WTabSet();
-        tabSet.addTab(new WText(), "test", WTabSet.TAB_MODE_CLIENT);
-        tabSet.add(tab);
-        tabSet.addTab(new WText(), "test", WTabSet.TAB_MODE_CLIENT);
+		// Open
+		request = new MockRequest();
+		tabSet.setActiveIndex(1);
+		tab.preparePaintComponent(request);
+		Assert.assertTrue("content should have been set to visible", component.isVisible());
+		// TODO - add assert on result of AjaxHelper.registerComponent
+	}
 
-        UIContext uic = createUIContext();
-        setActiveContext(uic);
+	/**
+	 * Test preparePaintComponent - tabMode EAGER.
+	 */
+	@Test
+	public void testPreparePaintComponentEager() {
+		// Tab - Eager
+		WComponent component = new WText("this is some text");
+		WTab tab = new WTab(component, "label", WTabSet.TabMode.EAGER);
 
-        // Not Open
-        MockRequest request = new MockRequest();
-        tab.preparePaintComponent(request);
-        Assert.assertTrue("content should be visible", component.isVisible());
-        
-        // Open (Eager should still be visible)
-        request = new MockRequest();
-        tabSet.setActiveIndex(1);
-        tab.preparePaintComponent(request);
-        Assert.assertTrue("content should be visible", component.isVisible());
+		WTabSet tabSet = new WTabSet();
+		tabSet.addTab(new WText(), "test", WTabSet.TAB_MODE_CLIENT);
+		tabSet.add(tab);
+		tabSet.addTab(new WText(), "test", WTabSet.TAB_MODE_CLIENT);
 
-        // AJAX request but not for this WTab (Eager should be visible)
-        request = new MockRequest();
-        try
-        {
-            // Setup an AJAX operation that is not for this WTab
-            AjaxHelper.setCurrentOperationDetails(new AjaxOperation("testid", "X"), null);
-            tab.preparePaintComponent(request);
-            Assert.assertTrue("content should be visible", component.isVisible());
-        }
-        finally
-        {
-            AjaxHelper.clearCurrentOperationDetails();
-        }
+		UIContext uic = createUIContext();
+		setActiveContext(uic);
 
-        // AJAX request for this WTab (Eager should be visible)
-        request = new MockRequest();
-        try
-        {
-            // Setup an AJAX operation that is not for this WTab
-            AjaxHelper.setCurrentOperationDetails(new AjaxOperation(tab.getId(), "X"), null);
-            tab.preparePaintComponent(request);
-            Assert.assertTrue("content should have been set to visible", component.isVisible());
-        }
-        finally
-        {
-            AjaxHelper.clearCurrentOperationDetails();
-        }
-        
-    }
-    
-    /**
-     * Test preparePaintComponent - tabMode SERVER.
-     */
-    @Test
-    public void testPreparePaintComponentServer()
-    {
-        // Tab - Server
-        WComponent component = new WText("this is some text");
-        WTab tab = new WTab(component, "label", WTabSet.TabMode.SERVER);
+		// Not Open
+		MockRequest request = new MockRequest();
+		tab.preparePaintComponent(request);
+		Assert.assertTrue("content should be visible", component.isVisible());
 
-        WTabSet tabSet = new WTabSet();
-        tabSet.addTab(new WText(), "test", WTabSet.TAB_MODE_CLIENT);
-        tabSet.add(tab);
-        tabSet.addTab(new WText(), "test", WTabSet.TAB_MODE_CLIENT);
+		// Open (Eager should still be visible)
+		request = new MockRequest();
+		tabSet.setActiveIndex(1);
+		tab.preparePaintComponent(request);
+		Assert.assertTrue("content should be visible", component.isVisible());
 
-        setActiveContext(createUIContext());
-        
-        // Not Open
-        MockRequest request = new MockRequest();
-        tab.preparePaintComponent(request);
-        Assert.assertFalse("content should have been set to invisible", component.isVisible());
+		// AJAX request but not for this WTab (Eager should be visible)
+		request = new MockRequest();
+		try {
+			// Setup an AJAX operation that is not for this WTab
+			AjaxHelper.setCurrentOperationDetails(new AjaxOperation("testid", "X"), null);
+			tab.preparePaintComponent(request);
+			Assert.assertTrue("content should be visible", component.isVisible());
+		} finally {
+			AjaxHelper.clearCurrentOperationDetails();
+		}
 
-        // Open
-        request = new MockRequest();
-        tabSet.setActiveIndex(1);
-        tab.preparePaintComponent(request);
-        Assert.assertTrue("content should have been set to visible", component.isVisible());
-    }
+		// AJAX request for this WTab (Eager should be visible)
+		request = new MockRequest();
+		try {
+			// Setup an AJAX operation that is not for this WTab
+			AjaxHelper.setCurrentOperationDetails(new AjaxOperation(tab.getId(), "X"), null);
+			tab.preparePaintComponent(request);
+			Assert.assertTrue("content should have been set to visible", component.isVisible());
+		} finally {
+			AjaxHelper.clearCurrentOperationDetails();
+		}
 
-    /**
-     * Test preparePaintComponent - tabMode CLIENT.
-     */
-    @Test
-    public void testPreparePaintComponentClient()
-    {
-        // Tab - Client
-        WComponent component = new WText("this is some text");
-        WTab tab = new WTab(component, "label", WTabSet.TabMode.CLIENT);
+	}
 
-        WTabSet tabSet = new WTabSet();
-        tabSet.addTab(new WText(), "test", WTabSet.TAB_MODE_CLIENT);
-        tabSet.add(tab);
-        tabSet.addTab(new WText(), "test", WTabSet.TAB_MODE_CLIENT);
+	/**
+	 * Test preparePaintComponent - tabMode SERVER.
+	 */
+	@Test
+	public void testPreparePaintComponentServer() {
+		// Tab - Server
+		WComponent component = new WText("this is some text");
+		WTab tab = new WTab(component, "label", WTabSet.TabMode.SERVER);
 
-        setActiveContext(createUIContext());
+		WTabSet tabSet = new WTabSet();
+		tabSet.addTab(new WText(), "test", WTabSet.TAB_MODE_CLIENT);
+		tabSet.add(tab);
+		tabSet.addTab(new WText(), "test", WTabSet.TAB_MODE_CLIENT);
 
-        // Not Open
-        MockRequest request = new MockRequest();
-        tab.preparePaintComponent(request);
-        Assert.assertTrue("content should have been set to invisible", component.isVisible());
+		setActiveContext(createUIContext());
 
-        // Open
-        request = new MockRequest();
-        tabSet.setActiveIndex(1);
-        tab.preparePaintComponent(request);
-        Assert.assertTrue("content should have been set to visible", component.isVisible());
-    }
+		// Not Open
+		MockRequest request = new MockRequest();
+		tab.preparePaintComponent(request);
+		Assert.assertFalse("content should have been set to invisible", component.isVisible());
 
-    @Test
-    public void testGetTabLabel()
-    {
-        final String labelText = "this is a label";
-        WContainer component = new WContainer();
-        component.add(new WText("this is some text"));
-        WDecoratedLabel label = new WDecoratedLabel(labelText);
-        WTab tab = new WTab(component, label, WTabSet.TabMode.CLIENT);
+		// Open
+		request = new MockRequest();
+		tabSet.setActiveIndex(1);
+		tab.preparePaintComponent(request);
+		Assert.assertTrue("content should have been set to visible", component.isVisible());
+	}
 
-        Assert.assertEquals("should get decorated label set in constructor", label, tab.getTabLabel());
-    }
+	/**
+	 * Test preparePaintComponent - tabMode CLIENT.
+	 */
+	@Test
+	public void testPreparePaintComponentClient() {
+		// Tab - Client
+		WComponent component = new WText("this is some text");
+		WTab tab = new WTab(component, "label", WTabSet.TabMode.CLIENT);
 
-    @Test
-    public void testSetText()
-    {
-        final String labelText = "this is a label";
-        final String labelTextAlt = "this is also a label but different";
+		WTabSet tabSet = new WTabSet();
+		tabSet.addTab(new WText(), "test", WTabSet.TAB_MODE_CLIENT);
+		tabSet.add(tab);
+		tabSet.addTab(new WText(), "test", WTabSet.TAB_MODE_CLIENT);
 
-        WContainer component = new WContainer();
-        component.add(new WText("this is some text"));
-        WDecoratedLabel label = new WDecoratedLabel(labelText);
-        WTab tab = new WTab(component, label, WTabSet.TabMode.CLIENT);
+		setActiveContext(createUIContext());
 
-        setActiveContext(createUIContext());
-        tab.setText(labelTextAlt);
+		// Not Open
+		MockRequest request = new MockRequest();
+		tab.preparePaintComponent(request);
+		Assert.assertTrue("content should have been set to invisible", component.isVisible());
 
-        WDecoratedLabel labelResult = tab.getTabLabel();
-        Assert.assertEquals("Incorrect text", labelTextAlt, labelResult.getText());
-        
-        resetContext();
-        Assert.assertEquals("Default text should not have changed", label, labelResult);
-    }
-    
-    @Test
-    public void testModeAccessors()
-    {
-        WTab tab = new WTab(new WContainer(), "test", WTabSet.TabMode.CLIENT);
-        assertAccessorsCorrect(tab, "mode", TabMode.CLIENT, TabMode.DYNAMIC, TabMode.SERVER);
-    }
+		// Open
+		request = new MockRequest();
+		tabSet.setActiveIndex(1);
+		tab.preparePaintComponent(request);
+		Assert.assertTrue("content should have been set to visible", component.isVisible());
+	}
 
-    @Test
-    public void testAccessKeyAccessors()
-    {
-        WTab tab = new WTab(new WContainer(), "test", WTabSet.TabMode.CLIENT);
-        assertAccessorsCorrect(tab, "accessKey", '\0', 'A', 'B');
-    }
+	@Test
+	public void testGetTabLabel() {
+		final String labelText = "this is a label";
+		WContainer component = new WContainer();
+		component.add(new WText("this is some text"));
+		WDecoratedLabel label = new WDecoratedLabel(labelText);
+		WTab tab = new WTab(component, label, WTabSet.TabMode.CLIENT);
+
+		Assert.assertEquals("should get decorated label set in constructor", label, tab.
+				getTabLabel());
+	}
+
+	@Test
+	public void testSetText() {
+		final String labelText = "this is a label";
+		final String labelTextAlt = "this is also a label but different";
+
+		WContainer component = new WContainer();
+		component.add(new WText("this is some text"));
+		WDecoratedLabel label = new WDecoratedLabel(labelText);
+		WTab tab = new WTab(component, label, WTabSet.TabMode.CLIENT);
+
+		setActiveContext(createUIContext());
+		tab.setText(labelTextAlt);
+
+		WDecoratedLabel labelResult = tab.getTabLabel();
+		Assert.assertEquals("Incorrect text", labelTextAlt, labelResult.getText());
+
+		resetContext();
+		Assert.assertEquals("Default text should not have changed", label, labelResult);
+	}
+
+	@Test
+	public void testModeAccessors() {
+		WTab tab = new WTab(new WContainer(), "test", WTabSet.TabMode.CLIENT);
+		assertAccessorsCorrect(tab, "mode", TabMode.CLIENT, TabMode.DYNAMIC, TabMode.SERVER);
+	}
+
+	@Test
+	public void testAccessKeyAccessors() {
+		WTab tab = new WTab(new WContainer(), "test", WTabSet.TabMode.CLIENT);
+		assertAccessorsCorrect(tab, "accessKey", '\0', 'A', 'B');
+	}
 
 }

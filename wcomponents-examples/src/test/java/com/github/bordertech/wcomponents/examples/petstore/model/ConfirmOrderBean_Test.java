@@ -5,154 +5,147 @@ import org.junit.Test;
 
 /**
  * Unit tests for {@link ConfirmOrderBean}.
- * 
+ *
  * @author Anthony O'Connor
  * @since 1.0.0
  */
-public class ConfirmOrderBean_Test
-{
-    /**
-     * Test empty constructor.
-     */
-    @Test
-    public void testConstructor()
-    {
-        ConfirmOrderBean bean = new ConfirmOrderBean();
+public class ConfirmOrderBean_Test {
 
-        Assert.assertNull("first name should be null", bean.getFirstName());
-        Assert.assertNull("last name should be null", bean.getLastName());
-        Assert.assertNull("home phone should be null", bean.getHomePhone());
-        Assert.assertNull("work phone should be null", bean.getWorkPhone());
-        Assert.assertNull("email address hsould be null", bean.getEmailAddress());
-        Assert.assertNull("payment type should be null", bean.getPaymentType());
+	/**
+	 * Test empty constructor.
+	 */
+	@Test
+	public void testConstructor() {
+		ConfirmOrderBean bean = new ConfirmOrderBean();
 
-        Assert.assertNotNull("address should NOT be null", bean.getAddress());
-        Assert.assertNull("address - line1 - should be null", bean.getAddress().getLine1());
-        Assert.assertNull("address - line2 should be null", bean.getAddress().getLine2());
-        Assert.assertNull("address - suburb should be null", bean.getAddress().getSuburb());
-        Assert.assertNull("address - state should be null", bean.getAddress().getState());
-        Assert.assertNull("address - postcode should be null", bean.getAddress().getPostcode());
-        Assert.assertNull("address - country should be null", bean.getAddress().getCountry());
-    }
+		Assert.assertNull("first name should be null", bean.getFirstName());
+		Assert.assertNull("last name should be null", bean.getLastName());
+		Assert.assertNull("home phone should be null", bean.getHomePhone());
+		Assert.assertNull("work phone should be null", bean.getWorkPhone());
+		Assert.assertNull("email address hsould be null", bean.getEmailAddress());
+		Assert.assertNull("payment type should be null", bean.getPaymentType());
 
-    /**
-     * Test setAddress.
-     */
-    @Test
-    public void testSetAddress()
-    {
-        final AddressBean address = new AddressBean();
-        address.setLine1("timbuktu");
-        address.setCountry("Mali");
+		Assert.assertNotNull("address should NOT be null", bean.getAddress());
+		Assert.assertNull("address - line1 - should be null", bean.getAddress().getLine1());
+		Assert.assertNull("address - line2 should be null", bean.getAddress().getLine2());
+		Assert.assertNull("address - suburb should be null", bean.getAddress().getSuburb());
+		Assert.assertNull("address - state should be null", bean.getAddress().getState());
+		Assert.assertNull("address - postcode should be null", bean.getAddress().getPostcode());
+		Assert.assertNull("address - country should be null", bean.getAddress().getCountry());
+	}
 
-        ConfirmOrderBean bean = new ConfirmOrderBean();
-        bean.setAddress(address);
+	/**
+	 * Test setAddress.
+	 */
+	@Test
+	public void testSetAddress() {
+		final AddressBean address = new AddressBean();
+		address.setLine1("timbuktu");
+		address.setCountry("Mali");
 
-        Assert.assertEquals("should retrieve addressBean set", address, bean.getAddress());
-    }
+		ConfirmOrderBean bean = new ConfirmOrderBean();
+		bean.setAddress(address);
 
-    /**
-     * Test setAddress - null.
-     */
-    @Test
-    public void testSetAddressNull()
-    {
-        ConfirmOrderBean bean = new ConfirmOrderBean();
-        bean.setAddress(null);
+		Assert.assertEquals("should retrieve addressBean set", address, bean.getAddress());
+	}
 
-        AddressBean address = bean.getAddress();
-        Assert.assertNotNull("should retrieve new empty address bean", address);
+	/**
+	 * Test setAddress - null.
+	 */
+	@Test
+	public void testSetAddressNull() {
+		ConfirmOrderBean bean = new ConfirmOrderBean();
+		bean.setAddress(null);
 
-        Assert.assertNull("address - line1 - should be null", address.getLine1());
-        Assert.assertNull("address - line2 should be null", address.getLine2());
-        Assert.assertNull("address - suburb should be null", address.getSuburb());
-        Assert.assertNull("address - state should be null", address.getState());
-        Assert.assertNull("address - postcode should be null", address.getPostcode());
-        Assert.assertNull("address - country should be null", address.getCountry());
-    }
+		AddressBean address = bean.getAddress();
+		Assert.assertNotNull("should retrieve new empty address bean", address);
 
-    /**
-     * Test setFirstName.
-     */
-    @Test
-    public void testSetFirstName()
-    {
-        final String testFirstName = "Fred";
+		Assert.assertNull("address - line1 - should be null", address.getLine1());
+		Assert.assertNull("address - line2 should be null", address.getLine2());
+		Assert.assertNull("address - suburb should be null", address.getSuburb());
+		Assert.assertNull("address - state should be null", address.getState());
+		Assert.assertNull("address - postcode should be null", address.getPostcode());
+		Assert.assertNull("address - country should be null", address.getCountry());
+	}
 
-        ConfirmOrderBean bean = new ConfirmOrderBean();
-        bean.setFirstName(testFirstName);
+	/**
+	 * Test setFirstName.
+	 */
+	@Test
+	public void testSetFirstName() {
+		final String testFirstName = "Fred";
 
-        Assert.assertEquals("should return testFirstName set", testFirstName, bean.getFirstName());
-    }
+		ConfirmOrderBean bean = new ConfirmOrderBean();
+		bean.setFirstName(testFirstName);
 
-    /**
-     * Test setHomePhone.
-     */
-    @Test
-    public void testSetHomePhone()
-    {
-        final String testHomePhone = "0388882222";
+		Assert.assertEquals("should return testFirstName set", testFirstName, bean.getFirstName());
+	}
 
-        ConfirmOrderBean bean = new ConfirmOrderBean();
-        bean.setHomePhone(testHomePhone);
+	/**
+	 * Test setHomePhone.
+	 */
+	@Test
+	public void testSetHomePhone() {
+		final String testHomePhone = "0388882222";
 
-        Assert.assertEquals("should return testHomePhone set", testHomePhone, bean.getHomePhone());
-    }
+		ConfirmOrderBean bean = new ConfirmOrderBean();
+		bean.setHomePhone(testHomePhone);
 
-    /**
-     * Test setLastName.
-     */
-    @Test
-    public void testSetLastName()
-    {
-        final String testLastName = "Flinstone";
+		Assert.assertEquals("should return testHomePhone set", testHomePhone, bean.getHomePhone());
+	}
 
-        ConfirmOrderBean bean = new ConfirmOrderBean();
-        bean.setLastName(testLastName);
+	/**
+	 * Test setLastName.
+	 */
+	@Test
+	public void testSetLastName() {
+		final String testLastName = "Flinstone";
 
-        Assert.assertEquals("should return testLastName set", testLastName, bean.getLastName());
-    }
+		ConfirmOrderBean bean = new ConfirmOrderBean();
+		bean.setLastName(testLastName);
 
-    /**
-     * Test setPaymentType.
-     */
-    @Test
-    public void testSetPaymentType()
-    {
-        final String testPaymentType = "CREDIT CARD";
+		Assert.assertEquals("should return testLastName set", testLastName, bean.getLastName());
+	}
 
-        ConfirmOrderBean bean = new ConfirmOrderBean();
-        bean.setPaymentType(testPaymentType);
+	/**
+	 * Test setPaymentType.
+	 */
+	@Test
+	public void testSetPaymentType() {
+		final String testPaymentType = "CREDIT CARD";
 
-        Assert.assertEquals("should return testPaymentType set", testPaymentType, bean.getPaymentType());
-    }
+		ConfirmOrderBean bean = new ConfirmOrderBean();
+		bean.setPaymentType(testPaymentType);
 
-    /**
-     * Test setWorkPhone.
-     */
-    @Test
-    public void testSetWorkPhone()
-    {
-        final String testWorkPhone = "0355552222";
+		Assert.assertEquals("should return testPaymentType set", testPaymentType, bean.
+				getPaymentType());
+	}
 
-        ConfirmOrderBean bean = new ConfirmOrderBean();
-        bean.setWorkPhone(testWorkPhone);
+	/**
+	 * Test setWorkPhone.
+	 */
+	@Test
+	public void testSetWorkPhone() {
+		final String testWorkPhone = "0355552222";
 
-        Assert.assertEquals("should return testWorkPhone set", testWorkPhone, bean.getWorkPhone());
+		ConfirmOrderBean bean = new ConfirmOrderBean();
+		bean.setWorkPhone(testWorkPhone);
 
-    }
+		Assert.assertEquals("should return testWorkPhone set", testWorkPhone, bean.getWorkPhone());
 
-    /**
-     * Test setEmailAddress.
-     */
-    @Test
-    public void testSetEmailAddress()
-    {
-        final String testEmailAddress = "fred@bedrock.com";
+	}
 
-        ConfirmOrderBean bean = new ConfirmOrderBean();
-        bean.setEmailAddress(testEmailAddress);
+	/**
+	 * Test setEmailAddress.
+	 */
+	@Test
+	public void testSetEmailAddress() {
+		final String testEmailAddress = "fred@bedrock.com";
 
-        Assert.assertEquals("should return testEmailAddress set", testEmailAddress, bean.getEmailAddress());
-    }
+		ConfirmOrderBean bean = new ConfirmOrderBean();
+		bean.setEmailAddress(testEmailAddress);
+
+		Assert.assertEquals("should return testEmailAddress set", testEmailAddress, bean.
+				getEmailAddress());
+	}
 }

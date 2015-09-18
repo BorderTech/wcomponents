@@ -1,192 +1,192 @@
 package com.github.bordertech.wcomponents;
 
 import java.io.IOException;
-
 import junit.framework.Assert;
-
 import org.junit.Test;
-
 
 /**
  * WContentLink_Test - unit tests for {@link WContentLink}.
- * 
+ *
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class WContentLink_Test extends AbstractWComponentTestCase
-{
-    @Test
-    public void testConstructors()
-    {
-        final String text = "WContentLink_Test.testConstructors";
-        final char accessKey = 'W';
+public class WContentLink_Test extends AbstractWComponentTestCase {
 
-        WContentLink contentLink = new WContentLink();
-        Assert.assertNull("Incorrect link text", contentLink.getText());
+	@Test
+	public void testConstructors() {
+		final String text = "WContentLink_Test.testConstructors";
+		final char accessKey = 'W';
 
-        contentLink = new WContentLink(text);
-        Assert.assertEquals("Incorrect link text", text, contentLink.getText());
+		WContentLink contentLink = new WContentLink();
+		Assert.assertNull("Incorrect link text", contentLink.getText());
 
-        contentLink = new WContentLink(text, accessKey);
-        Assert.assertEquals("Incorrect link text", text, contentLink.getText());
-    }
+		contentLink = new WContentLink(text);
+		Assert.assertEquals("Incorrect link text", text, contentLink.getText());
 
-    @Test
-    public void testSetContentAccess()
-    {
-        MockContentAccess content = new MockContentAccess();
+		contentLink = new WContentLink(text, accessKey);
+		Assert.assertEquals("Incorrect link text", text, contentLink.getText());
+	}
 
-        WContentLink contentLink = new WContentLink();
-        contentLink.setLocked(true);
-        
-        setActiveContext(new UIContextImpl());
-        contentLink.setContentAccess(content);
-        Assert.assertSame("Incorrect content access returned", content, contentLink.getContentAccess());
-        
-        resetContext();
-        Assert.assertNull("ContentAccess should be null by default", contentLink.getContentAccess());
-    }
+	@Test
+	public void testSetContentAccess() {
+		MockContentAccess content = new MockContentAccess();
 
-    @Test
-    public void testSetText()
-    {
-        String text1 = "text1";
-        String text2 = "text2";
+		WContentLink contentLink = new WContentLink();
+		contentLink.setLocked(true);
 
-        WContentLink contentLink = new WContentLink();
+		setActiveContext(new UIContextImpl());
+		contentLink.setContentAccess(content);
+		Assert.assertSame("Incorrect content access returned", content, contentLink.
+				getContentAccess());
 
-        contentLink.setText(text1);
-        Assert.assertEquals("Incorrect default text returned", text1, contentLink.getText());
-        
-        contentLink.setLocked(true);
-        setActiveContext(createUIContext());
-        Assert.assertEquals("Incorrect text returned with uic", text1, contentLink.getText());
+		resetContext();
+		Assert.assertNull("ContentAccess should be null by default", contentLink.getContentAccess());
+	}
 
-        contentLink.setText(text2);
-        Assert.assertEquals("Incorrect text returned with uic", text2, contentLink.getText());
+	@Test
+	public void testSetText() {
+		String text1 = "text1";
+		String text2 = "text2";
 
-        resetContext();
-        Assert.assertEquals("Incorrect default text returned", text1, contentLink.getText());
-    }
+		WContentLink contentLink = new WContentLink();
 
-    @Test
-    public void testSetWidth()
-    {
-        int width1 = 123;
-        int width2 = 456;
+		contentLink.setText(text1);
+		Assert.assertEquals("Incorrect default text returned", text1, contentLink.getText());
 
-        WContentLink contentLink = new WContentLink();
+		contentLink.setLocked(true);
+		setActiveContext(createUIContext());
+		Assert.assertEquals("Incorrect text returned with uic", text1, contentLink.getText());
 
-        contentLink.setWidth(width1);
-        Assert.assertEquals("Incorrect width returned", width1, contentLink.getWidth());
+		contentLink.setText(text2);
+		Assert.assertEquals("Incorrect text returned with uic", text2, contentLink.getText());
 
-        contentLink.setWidth(width2);
-        Assert.assertEquals("Incorrect width returned", width2, contentLink.getWidth());
+		resetContext();
+		Assert.assertEquals("Incorrect default text returned", text1, contentLink.getText());
+	}
 
-        contentLink.setLocked(true);
-    }
+	@Test
+	public void testSetWidth() {
+		int width1 = 123;
+		int width2 = 456;
 
-    @Test
-    public void testSetHeight()
-    {
-        int height1 = 123;
-        int height2 = 456;
+		WContentLink contentLink = new WContentLink();
 
-        WContentLink contentLink = new WContentLink();
+		contentLink.setWidth(width1);
+		Assert.assertEquals("Incorrect width returned", width1, contentLink.getWidth());
 
-        contentLink.setHeight(height1);
-        Assert.assertEquals("Incorrect height returned", height1, contentLink.getHeight());
+		contentLink.setWidth(width2);
+		Assert.assertEquals("Incorrect width returned", width2, contentLink.getWidth());
 
-        contentLink.setHeight(height2);
-        Assert.assertEquals("Incorrect height returned", height2, contentLink.getHeight());
-    }
+		contentLink.setLocked(true);
+	}
 
-    @Test
-    public void testSetResizable()
-    {
-        WContentLink contentLink = new WContentLink();
-        Assert.assertTrue("Should be resizable by default", contentLink.isResizable());
+	@Test
+	public void testSetHeight() {
+		int height1 = 123;
+		int height2 = 456;
 
-        contentLink.setResizable(false);
-        Assert.assertFalse("Incorrect value for resizable after setResizable(false) called", contentLink.isResizable());
+		WContentLink contentLink = new WContentLink();
 
-        contentLink.setResizable(true);
-        Assert.assertTrue("Incorrect value for resizable after setResizable(true) called", contentLink.isResizable());
-    }
+		contentLink.setHeight(height1);
+		Assert.assertEquals("Incorrect height returned", height1, contentLink.getHeight());
 
-    @Test
-    public void testSetRenderAsButton()
-    {
-        WContentLink contentLink = new WContentLink();
-        Assert.assertFalse("Should not be RenderAsButton by default", contentLink.isRenderAsButton());
+		contentLink.setHeight(height2);
+		Assert.assertEquals("Incorrect height returned", height2, contentLink.getHeight());
+	}
 
-        contentLink.setRenderAsButton(true);
-        Assert.assertTrue("Incorrect value for RenderAsButton after setRenderAsButton(true) called",
-                          contentLink.isRenderAsButton());
+	@Test
+	public void testSetResizable() {
+		WContentLink contentLink = new WContentLink();
+		Assert.assertTrue("Should be resizable by default", contentLink.isResizable());
 
-        contentLink.setRenderAsButton(false);
-        Assert.assertFalse("Incorrect value for RenderAsButton after setRenderAsButton(false) called",
-                           contentLink.isRenderAsButton());
-    }
+		contentLink.setResizable(false);
+		Assert.assertFalse("Incorrect value for resizable after setResizable(false) called",
+				contentLink.isResizable());
 
-    @Test
-    public void testSetCacheKey() throws IOException
-    {
-        final String defaultKey = "DEFAULT KEY";
-        final String testKey = "TEST KEY";
+		contentLink.setResizable(true);
+		Assert.assertTrue("Incorrect value for resizable after setResizable(true) called",
+				contentLink.isResizable());
+	}
 
-        WContentLink contentLink = new WContentLink();
-        Assert.assertNull("CacheKey should be null by default", contentLink.getCacheKey());
+	@Test
+	public void testSetRenderAsButton() {
+		WContentLink contentLink = new WContentLink();
+		Assert.
+				assertFalse("Should not be RenderAsButton by default", contentLink.
+						isRenderAsButton());
 
-        contentLink.setCacheKey(defaultKey);
-        Assert.assertEquals("Incorrect value returned for default cache key", defaultKey, contentLink.getCacheKey());
+		contentLink.setRenderAsButton(true);
+		Assert.assertTrue("Incorrect value for RenderAsButton after setRenderAsButton(true) called",
+				contentLink.isRenderAsButton());
 
-        contentLink.setLocked(true);
-        setActiveContext(createUIContext());
-        Assert.assertEquals("Incorrect value returned for default cache key with user context", defaultKey,
-                            contentLink.getCacheKey());
+		contentLink.setRenderAsButton(false);
+		Assert.assertFalse(
+				"Incorrect value for RenderAsButton after setRenderAsButton(false) called",
+				contentLink.isRenderAsButton());
+	}
 
-        contentLink.setCacheKey(testKey);
-        Assert.assertEquals("Incorrect value returned for cache key with user context", testKey,
-                            contentLink.getCacheKey());
+	@Test
+	public void testSetCacheKey() throws IOException {
+		final String defaultKey = "DEFAULT KEY";
+		final String testKey = "TEST KEY";
 
-        resetContext();
-        Assert.assertEquals("Incorrect value returned for default cache key", defaultKey, contentLink.getCacheKey());
-    }
+		WContentLink contentLink = new WContentLink();
+		Assert.assertNull("CacheKey should be null by default", contentLink.getCacheKey());
 
-    @Test
-    public void testSetHidden()
-    {
-        WContentLink contentLink = new WContentLink();
-        Assert.assertFalse("Should not be hidden by default", contentLink.isHidden());
+		contentLink.setCacheKey(defaultKey);
+		Assert.assertEquals("Incorrect value returned for default cache key", defaultKey,
+				contentLink.getCacheKey());
 
-        contentLink.setLocked(true);
-        setActiveContext(createUIContext());
-        contentLink.setHidden(true);
-        Assert.assertTrue("Incorrect value for hidden after setHidden(true) called", contentLink.isHidden());
+		contentLink.setLocked(true);
+		setActiveContext(createUIContext());
+		Assert.assertEquals("Incorrect value returned for default cache key with user context",
+				defaultKey,
+				contentLink.getCacheKey());
 
-        contentLink.setHidden(false);
-        Assert.assertFalse("Incorrect value for hidden after setHidden(uic, false) called", contentLink.isHidden());
+		contentLink.setCacheKey(testKey);
+		Assert.assertEquals("Incorrect value returned for cache key with user context", testKey,
+				contentLink.getCacheKey());
 
-        resetContext();
-        Assert.assertFalse("Should not be hidden by default", contentLink.isHidden());
-    }
+		resetContext();
+		Assert.assertEquals("Incorrect value returned for default cache key", defaultKey,
+				contentLink.getCacheKey());
+	}
 
-    @Test
-    public void testSetDisabled()
-    {
-        WContentLink contentLink = new WContentLink();
-        Assert.assertFalse("Should not be disabled by default", contentLink.isDisabled());
-        
-        contentLink.setLocked(true);
-        setActiveContext(createUIContext());
-        contentLink.setDisabled(true);
-        Assert.assertTrue("Incorrect value for disabled after setDisabled(true) called", contentLink.isDisabled());
+	@Test
+	public void testSetHidden() {
+		WContentLink contentLink = new WContentLink();
+		Assert.assertFalse("Should not be hidden by default", contentLink.isHidden());
 
-        contentLink.setDisabled(false);
-        Assert.assertFalse("Incorrect value for disabled after setDisabled(false) called", contentLink.isDisabled());
+		contentLink.setLocked(true);
+		setActiveContext(createUIContext());
+		contentLink.setHidden(true);
+		Assert.assertTrue("Incorrect value for hidden after setHidden(true) called", contentLink.
+				isHidden());
 
-        resetContext();
-        Assert.assertFalse("Should not be disabled by default", contentLink.isDisabled());
-    }
+		contentLink.setHidden(false);
+		Assert.assertFalse("Incorrect value for hidden after setHidden(uic, false) called",
+				contentLink.isHidden());
+
+		resetContext();
+		Assert.assertFalse("Should not be hidden by default", contentLink.isHidden());
+	}
+
+	@Test
+	public void testSetDisabled() {
+		WContentLink contentLink = new WContentLink();
+		Assert.assertFalse("Should not be disabled by default", contentLink.isDisabled());
+
+		contentLink.setLocked(true);
+		setActiveContext(createUIContext());
+		contentLink.setDisabled(true);
+		Assert.assertTrue("Incorrect value for disabled after setDisabled(true) called",
+				contentLink.isDisabled());
+
+		contentLink.setDisabled(false);
+		Assert.assertFalse("Incorrect value for disabled after setDisabled(false) called",
+				contentLink.isDisabled());
+
+		resetContext();
+		Assert.assertFalse("Should not be disabled by default", contentLink.isDisabled());
+	}
 }

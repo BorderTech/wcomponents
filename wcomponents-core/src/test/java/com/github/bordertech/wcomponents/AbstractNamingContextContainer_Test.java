@@ -1,7 +1,6 @@
 package com.github.bordertech.wcomponents;
 
 import junit.framework.Assert;
-
 import org.junit.Test;
 
 /**
@@ -10,31 +9,29 @@ import org.junit.Test;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class AbstractNamingContextContainer_Test extends AbstractWComponentTestCase
-{
-    @Test
-    public void testNamingContextAccessors()
-    {
-        assertAccessorsCorrect(new MyContainer(), "namingContext", false, true, false);
-    }
+public class AbstractNamingContextContainer_Test extends AbstractWComponentTestCase {
 
-    @Test
-    public void testNamingContextIdAccessor()
-    {
-        String id = "test";
+	@Test
+	public void testNamingContextAccessors() {
+		assertAccessorsCorrect(new MyContainer(), "namingContext", false, true, false);
+	}
 
-        AbstractNamingContextContainer container = new MyContainer();
-        container.setIdName(id);
+	@Test
+	public void testNamingContextIdAccessor() {
+		String id = "test";
 
-        Assert.assertEquals("Incorrect component id", id, container.getId());
-        Assert.assertEquals("Naming context should match component id", id, container.getNamingContextId());
-    }
+		AbstractNamingContextContainer container = new MyContainer();
+		container.setIdName(id);
 
-    /**
-     * Test instance of AbstractNamingContextContainer.
-     */
-    private static class MyContainer extends AbstractNamingContextContainer
-    {
-    };
+		Assert.assertEquals("Incorrect component id", id, container.getId());
+		Assert.assertEquals("Naming context should match component id", id, container.
+				getNamingContextId());
+	}
+
+	/**
+	 * Test instance of AbstractNamingContextContainer.
+	 */
+	private static class MyContainer extends AbstractNamingContextContainer {
+	};
 
 }

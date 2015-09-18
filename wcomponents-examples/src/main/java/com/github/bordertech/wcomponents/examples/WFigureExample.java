@@ -7,9 +7,9 @@ import com.github.bordertech.wcomponents.WCheckBox;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WFieldLayout;
 import com.github.bordertech.wcomponents.WFigure;
+import com.github.bordertech.wcomponents.WFigure.FigureMode;
 import com.github.bordertech.wcomponents.WImage;
 import com.github.bordertech.wcomponents.WPanel;
-import com.github.bordertech.wcomponents.WFigure.FigureMode;
 import com.github.bordertech.wcomponents.subordinate.Equal;
 import com.github.bordertech.wcomponents.subordinate.Hide;
 import com.github.bordertech.wcomponents.subordinate.Rule;
@@ -22,62 +22,68 @@ import com.github.bordertech.wcomponents.subordinate.WSubordinateControl;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class WFigureExample extends WContainer
-{
-    /** Default box margin. */
-    private static final Margin DEFAULT_BOX_MARGIN = new Margin(0, 0, 6, 0);
+public class WFigureExample extends WContainer {
 
-    /** Default example margin. */
-    private static final Margin DEFAULT_MARGIN = new Margin(24);
+	/**
+	 * Default box margin.
+	 */
+	private static final Margin DEFAULT_BOX_MARGIN = new Margin(0, 0, 6, 0);
 
-    /** Image resource. */
-    private static final ImageResource IMAGE_RESOURCE = new ImageResource("/com/github/bordertech/wcomponents/examples/portlet-portrait.jpg", "Portrait");
+	/**
+	 * Default example margin.
+	 */
+	private static final Margin DEFAULT_MARGIN = new Margin(24);
 
-    /**
-     * Build example.
-     */
-    public WFigureExample()
-    {
-        WPanel box = new WPanel(WPanel.Type.BOX);
-        box.setMargin(DEFAULT_BOX_MARGIN);
-        add(box);
+	/**
+	 * Image resource.
+	 */
+	private static final ImageResource IMAGE_RESOURCE = new ImageResource(
+			"/com/github/bordertech/wcomponents/examples/portlet-portrait.jpg", "Portrait");
 
-        // Basic Figure
-        WFigure figure = new WFigure(new WImage(IMAGE_RESOURCE), "Basic Figure");
-        box.add(figure);
-        figure.setMargin(DEFAULT_MARGIN);
+	/**
+	 * Build example.
+	 */
+	public WFigureExample() {
+		WPanel box = new WPanel(WPanel.Type.BOX);
+		box.setMargin(DEFAULT_BOX_MARGIN);
+		add(box);
 
-        // Eager Figure
-        box = new WPanel(WPanel.Type.BOX);
-        box.setMargin(DEFAULT_BOX_MARGIN);
-        add(box);
-        figure = new WFigure(new WImage(IMAGE_RESOURCE), "Eager Figure");
-        figure.setMode(FigureMode.EAGER);
-        figure.setMargin(DEFAULT_MARGIN);
-        box.add(figure);
+		// Basic Figure
+		WFigure figure = new WFigure(new WImage(IMAGE_RESOURCE), "Basic Figure");
+		box.add(figure);
+		figure.setMargin(DEFAULT_MARGIN);
 
-        // Lazy Figure
-        box = new WPanel(WPanel.Type.BOX);
-        box.setMargin(DEFAULT_BOX_MARGIN);
-        add(box);
+		// Eager Figure
+		box = new WPanel(WPanel.Type.BOX);
+		box.setMargin(DEFAULT_BOX_MARGIN);
+		add(box);
+		figure = new WFigure(new WImage(IMAGE_RESOURCE), "Eager Figure");
+		figure.setMode(FigureMode.EAGER);
+		figure.setMargin(DEFAULT_MARGIN);
+		box.add(figure);
 
-        WFieldLayout layout = new WFieldLayout(WFieldLayout.LAYOUT_STACKED);
-        box.add(layout);
+		// Lazy Figure
+		box = new WPanel(WPanel.Type.BOX);
+		box.setMargin(DEFAULT_BOX_MARGIN);
+		add(box);
 
-        WCheckBox chb = new WCheckBox();
-        layout.addField("Show and hide lazy figure", chb);
+		WFieldLayout layout = new WFieldLayout(WFieldLayout.LAYOUT_STACKED);
+		box.add(layout);
 
-        figure = new WFigure(new WImage(IMAGE_RESOURCE), "Lazy Figure");
-        figure.setMode(FigureMode.LAZY);
-        figure.setMargin(DEFAULT_MARGIN);
-        box.add(figure);
+		WCheckBox chb = new WCheckBox();
+		layout.addField("Show and hide lazy figure", chb);
 
-        WSubordinateControl control = new WSubordinateControl();
-        box.add(control);
+		figure = new WFigure(new WImage(IMAGE_RESOURCE), "Lazy Figure");
+		figure.setMode(FigureMode.LAZY);
+		figure.setMargin(DEFAULT_MARGIN);
+		box.add(figure);
 
-        control.addRule(new Rule(new Equal(chb, "true"), new Show(figure), new Hide(figure)));
+		WSubordinateControl control = new WSubordinateControl();
+		box.add(control);
 
-        add(new WButton("submit"));
-    }
+		control.addRule(new Rule(new Equal(chb, "true"), new Show(figure), new Hide(figure)));
+
+		add(new WButton("submit"));
+	}
 
 }
