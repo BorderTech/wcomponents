@@ -11,8 +11,8 @@
 (function(g) {
 	"use strict";
 	var noop = function() {
-		debugger;
-	},
+			debugger;
+		},
 		console = "console";  // allow the code to be minified a little better (pointless - we are not present at all in teh minified code!)
 
 	/**
