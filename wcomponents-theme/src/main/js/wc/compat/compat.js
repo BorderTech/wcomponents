@@ -214,9 +214,8 @@
 					if (result) {  // it has defineProperty but does it work?
 						try {
 							g.Object.defineProperty(obj, "id", { get: function() {
-									return "c";
-								}
-							});
+								return "c";
+							}});
 						}
 						catch (ex) {
 							result = false;  // this is not a working defineProperty (i.e. perhaps Safari 5 which does not support defineProperty on DOM objects)
@@ -407,12 +406,12 @@
 			 */
 			if (!(has("global-performance") || has("dom-addeventlistener"))) {
 				window.attachEvent("onload", function() {
-						if (window.requirejs) {
-							window.requirejs.config({config: {"wc/compat/navigationTiming": {
-								"loadEventStart": ((new Date()) * 1),/* NOTE: our polyfill of Date.now() has not yet loaded */
-								"loadEventEnd": ((new Date()) * 1)}}});
-						}
-					});
+					if (window.requirejs) {
+						window.requirejs.config({config: {"wc/compat/navigationTiming": {
+							"loadEventStart": ((new Date()) * 1),/* NOTE: our polyfill of Date.now() has not yet loaded */
+							"loadEventEnd": ((new Date()) * 1)}}});
+					}
+				});
 			}
 
 			result.load = function (id, parentRequire, callback) {
