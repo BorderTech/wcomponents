@@ -4,6 +4,7 @@ import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.Disableable;
 import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WDecoratedLabel;
 import com.github.bordertech.wcomponents.WImage;
 import com.github.bordertech.wcomponents.WMenu;
@@ -20,7 +21,12 @@ import com.github.bordertech.wcomponents.WText;
  * @author Yiannis Paschalidis
  * @since 1.0.0
  */
-public class MenuBarExample extends WPanel {
+public class MenuBarExample extends WContainer {
+
+	/**
+	 * A menu to be used by other examples.
+	 */
+	private WMenu barMenu;
 
 	/**
 	 * Creates a MenuBarExample.
@@ -32,6 +38,22 @@ public class MenuBarExample extends WPanel {
 		content.add(selectedMenuText);
 		add(content);
 		add(buildMenuBar(selectedMenuText));
+	}
+
+	/**
+	 * Create a MenuBaExample with an existing selectedItem reporter.
+	 * @param selectedMenuText The container to report the selected item.
+	 */
+	public MenuBarExample(final WText selectedMenuText) {
+		barMenu = buildMenuBar(selectedMenuText);
+	}
+
+	/**
+	 * Allow an external example to get a menu bar from this example.
+	 * @return the WMenu.
+	 */
+	public WMenu getMenu() {
+		return barMenu;
 	}
 
 	/**
@@ -177,5 +199,4 @@ public class MenuBarExample extends WPanel {
 			}
 		}
 	}
-
 }

@@ -9,6 +9,7 @@ import com.github.bordertech.wcomponents.WDropdown;
 import com.github.bordertech.wcomponents.WLabel;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WText;
+import com.github.bordertech.wcomponents.examples.menu.MenuBarExample;
 import com.github.bordertech.wcomponents.layout.FlowLayout;
 
 /**
@@ -28,6 +29,7 @@ public class WPanelTypeExample extends WContainer {
 	 * Construct the example.
 	 */
 	public WPanelTypeExample() {
+		final WText selectedMenuText = new WText();
 		final WDropdown panelType = new WDropdown();
 		panelType.setOptions(WPanel.Type.values());
 		panelType.setSelected(WPanel.Type.PLAIN);
@@ -56,8 +58,10 @@ public class WPanelTypeExample extends WContainer {
 		//set up the target panel and its contents
 		panel.setTitleText("Panel title");
 		panel.setType(WPanel.Type.PLAIN);
+		panel.add((new MenuBarExample(selectedMenuText)).getMenu());
 		panel.add(new WText("Content of Panel"));
 
 		add(panel);
+		add(selectedMenuText);
 	}
 }

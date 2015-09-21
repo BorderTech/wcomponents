@@ -9,6 +9,7 @@ import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WSection;
 import com.github.bordertech.wcomponents.WSection.SectionMode;
 import com.github.bordertech.wcomponents.WText;
+import com.github.bordertech.wcomponents.examples.menu.MenuBarExample;
 import com.github.bordertech.wcomponents.subordinate.Equal;
 import com.github.bordertech.wcomponents.subordinate.Hide;
 import com.github.bordertech.wcomponents.subordinate.Rule;
@@ -38,13 +39,16 @@ public class WSectionExample extends WContainer {
 	 */
 	public WSectionExample() {
 		// Basic Section
-
+		WText selectedMenuText = new WText();
+		add(selectedMenuText);
 		WPanel box = new WPanel(WPanel.Type.BOX);
 		box.setMargin(DEFAULT_BOX_MARGIN);
 		add(box);
 
 		WSection section = new WSection("Basic Section");
 		box.add(section);
+		MenuBarExample mbEx = new MenuBarExample(selectedMenuText);
+		section.getContent().add(mbEx.getMenu());
 		section.getContent().add(new WText("Hello World"));
 		section.setMargin(DEFAULT_MARGIN);
 
