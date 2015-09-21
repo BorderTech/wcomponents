@@ -1,13 +1,10 @@
 package com.github.bordertech.wcomponents;
 
+import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-
 import junit.framework.Assert;
-
 import org.junit.Test;
-
-import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 
 /**
  * Unit tests for {@link FatalErrorPage}.
@@ -15,40 +12,41 @@ import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
  * @author Anthony O'Connor
  * @since 1.0.0
  */
-public class FatalErrorPage_Test extends AbstractWComponentTestCase
-{
-    @Test
-    public void testPaintComponentNotDeveloperFriendly()
-    {
-        setActiveContext(createUIContext());
+public class FatalErrorPage_Test extends AbstractWComponentTestCase {
 
-        TestSampleException exception = new TestSampleException("sample exception only");
-        FatalErrorPage fatalErrPage = new FatalErrorPage(false, exception);
-        String correctMsg = fatalErrPage.getMessage();
+	@Test
+	public void testPaintComponentNotDeveloperFriendly() {
+		setActiveContext(createUIContext());
 
-        StringWriter strWriter = new StringWriter();
-        PrintWriter writer = new PrintWriter(strWriter);
-        fatalErrPage.paintComponent(new WebXmlRenderContext(writer));
+		TestSampleException exception = new TestSampleException("sample exception only");
+		FatalErrorPage fatalErrPage = new FatalErrorPage(false, exception);
+		String correctMsg = fatalErrPage.getMessage();
 
-        Assert.assertTrue("Should equal the contents of getMessage()", strWriter.toString().equals(correctMsg + System.getProperty("line.separator")));
-    }
+		StringWriter strWriter = new StringWriter();
+		PrintWriter writer = new PrintWriter(strWriter);
+		fatalErrPage.paintComponent(new WebXmlRenderContext(writer));
 
-    @Test
-    public void testPaintComponentDeveloperFriendly()
-    {
-        setActiveContext(createUIContext());
+		Assert.assertTrue("Should equal the contents of getMessage()", strWriter.toString().equals(
+				correctMsg + System.getProperty("line.separator")));
+	}
 
-        TestSampleException exception = new TestSampleException("sample exception only");
-        FatalErrorPage fatalErrPage = new FatalErrorPage(true, exception);
-        String correctMsg = fatalErrPage.getMessage();
+	@Test
+	public void testPaintComponentDeveloperFriendly() {
+		setActiveContext(createUIContext());
 
-        StringWriter strWriter = new StringWriter();
-        PrintWriter writer = new PrintWriter(strWriter);
-        fatalErrPage.paintComponent(new WebXmlRenderContext(writer));
+		TestSampleException exception = new TestSampleException("sample exception only");
+		FatalErrorPage fatalErrPage = new FatalErrorPage(true, exception);
+		String correctMsg = fatalErrPage.getMessage();
 
-        String result = strWriter.toString();
+		StringWriter strWriter = new StringWriter();
+		PrintWriter writer = new PrintWriter(strWriter);
+		fatalErrPage.paintComponent(new WebXmlRenderContext(writer));
 
-        Assert.assertTrue("should contain contents of getMessage()", result.indexOf(correctMsg) != -1);
-        Assert.assertTrue("should contain the name of the Exception", result.indexOf(exception.getClass().getName()) != -1);
-    }
+		String result = strWriter.toString();
+
+		Assert.assertTrue("should contain contents of getMessage()",
+				result.indexOf(correctMsg) != -1);
+		Assert.assertTrue("should contain the name of the Exception", result.indexOf(exception.
+				getClass().getName()) != -1);
+	}
 }

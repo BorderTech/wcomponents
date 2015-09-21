@@ -17,180 +17,180 @@ import com.github.bordertech.wcomponents.subordinate.ShowInGroup;
 /**
  * Describes an action to execute. This class is used by the {@link SubordinateBuilder} class to define what needs to be
  * done when a condition is met.
- * 
+ *
  * @author Yiannis Paschalidis
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public final class Action
-{
-    /** The type of action to perform. */
-    private final com.github.bordertech.wcomponents.subordinate.Action.ActionType type;
+public final class Action {
 
-    /** The object to perform the action on. */
-    private final SubordinateTarget target;
+	/**
+	 * The type of action to perform.
+	 */
+	private final com.github.bordertech.wcomponents.subordinate.Action.ActionType type;
 
-    /** The group of targets that may be used in the action. */
-    private final WComponentGroup<? extends SubordinateTarget> group;
+	/**
+	 * The object to perform the action on.
+	 */
+	private final SubordinateTarget target;
 
-    /**
-     * Creates an action.
-     * 
-     * @param type the type of action to execute.
-     * @param target the target to execute the action on.
-     */
-    public Action(final com.github.bordertech.wcomponents.subordinate.Action.ActionType type, final SubordinateTarget target)
-    {
-        this(type, target, null);
-    }
+	/**
+	 * The group of targets that may be used in the action.
+	 */
+	private final WComponentGroup<? extends SubordinateTarget> group;
 
-    /**
-     * Creates an action.
-     * 
-     * @param type the type of action to execute.
-     * @param target the target to execute the action on.
-     * @param group the group of targets to use on the action.
-     */
-    public Action(final com.github.bordertech.wcomponents.subordinate.Action.ActionType type, final SubordinateTarget target,
-                  final WComponentGroup<? extends SubordinateTarget> group)
-    {
-        if (type == null)
-        {
-            throw new IllegalArgumentException("Action type can not be null");
-        }
+	/**
+	 * Creates an action.
+	 *
+	 * @param type the type of action to execute.
+	 * @param target the target to execute the action on.
+	 */
+	public Action(final com.github.bordertech.wcomponents.subordinate.Action.ActionType type,
+			final SubordinateTarget target) {
+		this(type, target, null);
+	}
 
-        if (target == null)
-        {
-            throw new IllegalArgumentException("Action target can not be null");
-        }
-        
-        if (group == null
-            && (com.github.bordertech.wcomponents.subordinate.Action.ActionType.HIDEIN.equals(type)
-                || com.github.bordertech.wcomponents.subordinate.Action.ActionType.SHOWIN.equals(type)
-                || com.github.bordertech.wcomponents.subordinate.Action.ActionType.ENABLEIN.equals(type) || com.github.bordertech.wcomponents.subordinate.Action.ActionType.DISABLEIN
-                    .equals(type)))
-        {
-            throw new IllegalArgumentException("Group can not be null");
-        }
+	/**
+	 * Creates an action.
+	 *
+	 * @param type the type of action to execute.
+	 * @param target the target to execute the action on.
+	 * @param group the group of targets to use on the action.
+	 */
+	public Action(final com.github.bordertech.wcomponents.subordinate.Action.ActionType type,
+			final SubordinateTarget target,
+			final WComponentGroup<? extends SubordinateTarget> group) {
+		if (type == null) {
+			throw new IllegalArgumentException("Action type can not be null");
+		}
 
-        this.type = type;
-        this.target = target;
-        this.group = group;
-    }
+		if (target == null) {
+			throw new IllegalArgumentException("Action target can not be null");
+		}
 
-    /**
-     * @return the action type.
-     */
-    public com.github.bordertech.wcomponents.subordinate.Action.ActionType getType()
-    {
-        return type;
-    }
+		if (group == null
+				&& (com.github.bordertech.wcomponents.subordinate.Action.ActionType.HIDEIN.equals(
+						type)
+				|| com.github.bordertech.wcomponents.subordinate.Action.ActionType.SHOWIN.equals(
+						type)
+				|| com.github.bordertech.wcomponents.subordinate.Action.ActionType.ENABLEIN.equals(
+						type) || com.github.bordertech.wcomponents.subordinate.Action.ActionType.DISABLEIN.
+				equals(type))) {
+			throw new IllegalArgumentException("Group can not be null");
+		}
 
-    /**
-     * @return the target.
-     */
-    public SubordinateTarget getTarget()
-    {
-        return target;
-    }
+		this.type = type;
+		this.target = target;
+		this.group = group;
+	}
 
-    /**
-     * @return the group.
-     */
-    public WComponentGroup<? extends SubordinateTarget> getGroup()
-    {
-        return group;
-    }
+	/**
+	 * @return the action type.
+	 */
+	public com.github.bordertech.wcomponents.subordinate.Action.ActionType getType() {
+		return type;
+	}
 
-    /**
-     * @return an instance of the subordinate action for this builder action
-     */
-    public com.github.bordertech.wcomponents.subordinate.Action build()
-    {
-        switch (type)
-        {
-            case DISABLE:
-                return new Disable(target);
+	/**
+	 * @return the target.
+	 */
+	public SubordinateTarget getTarget() {
+		return target;
+	}
 
-            case ENABLE:
-                return new Enable(target);
+	/**
+	 * @return the group.
+	 */
+	public WComponentGroup<? extends SubordinateTarget> getGroup() {
+		return group;
+	}
 
-            case HIDE:
-                return new Hide(target);
+	/**
+	 * @return an instance of the subordinate action for this builder action
+	 */
+	public com.github.bordertech.wcomponents.subordinate.Action build() {
+		switch (type) {
+			case DISABLE:
+				return new Disable(target);
 
-            case SHOW:
-                return new Show(target);
+			case ENABLE:
+				return new Enable(target);
 
-            case MANDATORY:
-                return new Mandatory(target);
+			case HIDE:
+				return new Hide(target);
 
-            case OPTIONAL:
-                return new Optional(target);
+			case SHOW:
+				return new Show(target);
 
-            case SHOWIN:
-                return new ShowInGroup(target, group);
+			case MANDATORY:
+				return new Mandatory(target);
 
-            case HIDEIN:
-                return new HideInGroup(target, group);
+			case OPTIONAL:
+				return new Optional(target);
 
-            case ENABLEIN:
-                return new EnableInGroup(target, group);
+			case SHOWIN:
+				return new ShowInGroup(target, group);
 
-            case DISABLEIN:
-                return new DisableInGroup(target, group);
+			case HIDEIN:
+				return new HideInGroup(target, group);
 
-            default:
-                throw new IllegalArgumentException("Unknown action type: " + type);
-        }
+			case ENABLEIN:
+				return new EnableInGroup(target, group);
 
-    }
+			case DISABLEIN:
+				return new DisableInGroup(target, group);
 
-    /** {@inheritDoc} */
-    @Override
-    public String toString()
-    {
-        String targetName = target.getClass().getSimpleName();
+			default:
+				throw new IllegalArgumentException("Unknown action type: " + type);
+		}
 
-        WLabel label = target.getLabel();
-        if (label != null)
-        {
-            targetName = label.getText();
-        }
+	}
 
-        switch (type)
-        {
-            case DISABLE:
-                return "disable " + targetName;
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String toString() {
+		String targetName = target.getClass().getSimpleName();
 
-            case ENABLE:
-                return "enable " + targetName;
+		WLabel label = target.getLabel();
+		if (label != null) {
+			targetName = label.getText();
+		}
 
-            case HIDE:
-                return "hide " + targetName;
+		switch (type) {
+			case DISABLE:
+				return "disable " + targetName;
 
-            case MANDATORY:
-                return "set " + targetName + " mandatory";
+			case ENABLE:
+				return "enable " + targetName;
 
-            case OPTIONAL:
-                return "set " + targetName + " optional";
+			case HIDE:
+				return "hide " + targetName;
 
-            case SHOW:
-                return "show " + targetName;
+			case MANDATORY:
+				return "set " + targetName + " mandatory";
 
-            case SHOWIN:
-                return "show " + targetName + " in " + group;
+			case OPTIONAL:
+				return "set " + targetName + " optional";
 
-            case HIDEIN:
-                return "hide " + targetName + " in " + group;
+			case SHOW:
+				return "show " + targetName;
 
-            case ENABLEIN:
-                return "enable " + targetName + " in " + group;
-            
-            case DISABLEIN:
-                return "disable " + targetName + " in " + group;
-                
-            default:
-                throw new IllegalArgumentException("Unknown type: " + type);
-        }
-    }
+			case SHOWIN:
+				return "show " + targetName + " in " + group;
+
+			case HIDEIN:
+				return "hide " + targetName + " in " + group;
+
+			case ENABLEIN:
+				return "enable " + targetName + " in " + group;
+
+			case DISABLEIN:
+				return "disable " + targetName + " in " + group;
+
+			default:
+				throw new IllegalArgumentException("Unknown type: " + type);
+		}
+	}
 }

@@ -1,97 +1,95 @@
 package com.github.bordertech.wcomponents.examples.petstore.beanprovider;
 
-import java.util.Arrays;
-import java.util.List;
-
-import junit.framework.Assert;
-
-import org.junit.Test;
-
 import com.github.bordertech.wcomponents.BeanProviderBound;
 import com.github.bordertech.wcomponents.WBeanComponent;
 import com.github.bordertech.wcomponents.examples.petstore.model.InventoryBean;
 import com.github.bordertech.wcomponents.examples.petstore.model.PetStoreDao;
+import java.util.Arrays;
+import java.util.List;
+import junit.framework.Assert;
+import org.junit.Test;
 
 /**
  * Unit tests for {@link InventoryBeanProvider}.
- * 
+ *
  * @author Anthony O'Connor
  * @since 1.0.0
  */
-public class InventoryBeanProvider_Test
-{
-    /**
-     * test getInstance.
-     */
-    @Test
-    public void testGetInstance()
-    {
-        Object object = InventoryBeanProvider.getInstance();
-        Assert.assertTrue("should return instance of InventoryBeanProvider", object instanceof InventoryBeanProvider);
-    }
+public class InventoryBeanProvider_Test {
 
-    /**
-     * test getBean - get specific Id.
-     */
-    @Test
-    public void testGetBeanSingleId()
-    {
-        final int testProductId = 1;
+	/**
+	 * test getInstance.
+	 */
+	@Test
+	public void testGetInstance() {
+		Object object = InventoryBeanProvider.getInstance();
+		Assert.assertTrue("should return instance of InventoryBeanProvider",
+				object instanceof InventoryBeanProvider);
+	}
 
-        InventoryBeanProvider provider = InventoryBeanProvider.getInstance();
+	/**
+	 * test getBean - get specific Id.
+	 */
+	@Test
+	public void testGetBeanSingleId() {
+		final int testProductId = 1;
 
-        BeanProviderBound beanProviderBound = new WBeanComponent();
-        beanProviderBound.setBeanId(Integer.valueOf(testProductId));
+		InventoryBeanProvider provider = InventoryBeanProvider.getInstance();
 
-        Object obj = provider.getBean(beanProviderBound);
-        Assert.assertTrue("should return an InventoryBean", obj instanceof InventoryBean);
-        Assert.assertEquals("the inventoryBean should have the requested productId", testProductId, ((InventoryBean) obj)
-            .getProductId());
-    }
+		BeanProviderBound beanProviderBound = new WBeanComponent();
+		beanProviderBound.setBeanId(Integer.valueOf(testProductId));
 
-    /**
-     * test getBean - get sub array of beans.
-     */
-    @Test
-    public void testGetBeanArrayOfIds()
-    {
-        final int[] testProductIds = new int[] { 0, 1, 2 };
+		Object obj = provider.getBean(beanProviderBound);
+		Assert.assertTrue("should return an InventoryBean", obj instanceof InventoryBean);
+		Assert.assertEquals("the inventoryBean should have the requested productId", testProductId,
+				((InventoryBean) obj)
+				.getProductId());
+	}
 
-        InventoryBeanProvider provider = InventoryBeanProvider.getInstance();
+	/**
+	 * test getBean - get sub array of beans.
+	 */
+	@Test
+	public void testGetBeanArrayOfIds() {
+		final int[] testProductIds = new int[]{0, 1, 2};
 
-        BeanProviderBound beanProviderBound = new WBeanComponent();
-        beanProviderBound.setBeanId(testProductIds);
+		InventoryBeanProvider provider = InventoryBeanProvider.getInstance();
 
-        Object obj = provider.getBean(beanProviderBound);
-        Assert.assertTrue("should return an InventoryBean[]", obj instanceof InventoryBean[]);
-        InventoryBean[] beans = (InventoryBean[]) obj;
-        Assert.assertEquals("should return an InventoryBean[] of right length", testProductIds.length, beans.length);
+		BeanProviderBound beanProviderBound = new WBeanComponent();
+		beanProviderBound.setBeanId(testProductIds);
 
-        for (int i = 0; i < testProductIds.length; i++)
-        {
-            Assert.assertEquals("product " + i + "  not match expected", beans[i].getProductId(), testProductIds[i]);
-        }
-    }
+		Object obj = provider.getBean(beanProviderBound);
+		Assert.assertTrue("should return an InventoryBean[]", obj instanceof InventoryBean[]);
+		InventoryBean[] beans = (InventoryBean[]) obj;
+		Assert.assertEquals("should return an InventoryBean[] of right length",
+				testProductIds.length, beans.length);
 
-    /**
-     * test getBean - get array of all beans.
-     */
-    @Test
-    public void testGetBeanArrayOfIdsAllBeans()
-    {
-        InventoryBeanProvider provider = InventoryBeanProvider.getInstance();
+		for (int i = 0; i < testProductIds.length; i++) {
+			Assert.assertEquals("product " + i + "  not match expected", beans[i].getProductId(),
+					testProductIds[i]);
+		}
+	}
 
-        BeanProviderBound beanProviderBound = new WBeanComponent();
-        beanProviderBound.setBeanId(Float.valueOf(42)); // unknown object triggers full list
+	/**
+	 * test getBean - get array of all beans.
+	 */
+	@Test
+	public void testGetBeanArrayOfIdsAllBeans() {
+		InventoryBeanProvider provider = InventoryBeanProvider.getInstance();
 
-        Object obj = provider.getBean(beanProviderBound);
-        Assert.assertTrue("should return a List of InventoryBean", obj instanceof List<?>);
+		BeanProviderBound beanProviderBound = new WBeanComponent();
+		beanProviderBound.setBeanId(Float.valueOf(42)); // unknown object triggers full list
 
-        List<?> allBeansReturned = (List<?>) obj;
-        List<?> allPetStoreBeans = Arrays.asList(PetStoreDao.readInventory());
+		Object obj = provider.getBean(beanProviderBound);
+		Assert.assertTrue("should return a List of InventoryBean", obj instanceof List<?>);
 
-        Assert.assertEquals("should get all of the store beans", allBeansReturned.size(), allPetStoreBeans.size());
-        Assert.assertTrue("provider returned beans contains all beans in the store", allBeansReturned
-            .containsAll(allPetStoreBeans));
-    }
+		List<?> allBeansReturned = (List<?>) obj;
+		List<?> allPetStoreBeans = Arrays.asList(PetStoreDao.readInventory());
+
+		Assert.assertEquals("should get all of the store beans", allBeansReturned.size(),
+				allPetStoreBeans.size());
+		Assert.assertTrue("provider returned beans contains all beans in the store",
+				allBeansReturned
+				.containsAll(allPetStoreBeans));
+	}
 }

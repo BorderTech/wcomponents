@@ -14,51 +14,53 @@ import com.github.bordertech.wcomponents.layout.ListLayout;
  *
  * @author Martin Shevchenko
  */
-public class LinkExamples extends WContainer
-{
-    /** A sample URL to use with the builder. */
-    private static final String URL = "http://www.ubuntu.com/";
+public class LinkExamples extends WContainer {
 
-    /**
-     * Creates a LinKExamples.
-     */
-    public LinkExamples()
-    {
+	/**
+	 * A sample URL to use with the builder.
+	 */
+	private static final String URL = "http://www.ubuntu.com/";
 
-        WMenu menuBar = new WMenu();
+	/**
+	 * Creates a LinKExamples.
+	 */
+	public LinkExamples() {
 
-        // File Menu
-        WSubMenu fileMenu = new WSubMenu("Run", 'R');
+		WMenu menuBar = new WMenu();
 
-        addLink(fileMenu, new WLink.Builder("WLink using builder and with attrs",
-                                             URL).width(200).height(500).scrollbars(true).build());
+		// File Menu
+		WSubMenu fileMenu = new WSubMenu("Run", 'R');
 
-        menuBar.add(fileMenu);
+		addLink(fileMenu, new WLink.Builder("WLink using builder and with attrs",
+				URL).width(200).height(500).scrollbars(true).build());
 
-        add(menuBar);
+		menuBar.add(fileMenu);
 
-        WPanel linkPanel = new WPanel();
-        add(linkPanel);
-        linkPanel.setLayout(new ListLayout(ListLayout.Type.STACKED, ListLayout.Alignment.LEFT, ListLayout.Separator.NONE,
-                false));
+		add(menuBar);
 
-        linkPanel.add(new WLink.Builder("WLink using builder and with attrs", URL)
-            .width(200).height(200).scrollbars(true).build());
-        linkPanel.add(new WLink.Builder("WLink using builder and with attrs duplicate", URL)
-            .width(200).height(200).scrollbars(true).build());
-        linkPanel.add(new WLink.Builder("WLink with builder with no attrs", URL).build());
-        linkPanel.add(new WLink.Builder("WLink with builder with window name", URL)
-            .windowName("wcwindow").build());
-    }
+		WPanel linkPanel = new WPanel();
+		add(linkPanel);
+		linkPanel.setLayout(new ListLayout(ListLayout.Type.STACKED, ListLayout.Alignment.LEFT,
+				ListLayout.Separator.NONE,
+				false));
 
-    /**
-     * Adds a WLink to a sub-menu.
-     * @param subMenu the sub-menu to add the link to
-     * @param link the link to add.
-     */
-    private void addLink(final WSubMenu subMenu, final WLink link)
-    {
-        subMenu.add(new WMenuItem(new WDecoratedLabel(link)));
-    }
+		linkPanel.add(new WLink.Builder("WLink using builder and with attrs", URL)
+				.width(200).height(200).scrollbars(true).build());
+		linkPanel.add(new WLink.Builder("WLink using builder and with attrs duplicate", URL)
+				.width(200).height(200).scrollbars(true).build());
+		linkPanel.add(new WLink.Builder("WLink with builder with no attrs", URL).build());
+		linkPanel.add(new WLink.Builder("WLink with builder with window name", URL)
+				.windowName("wcwindow").build());
+	}
+
+	/**
+	 * Adds a WLink to a sub-menu.
+	 *
+	 * @param subMenu the sub-menu to add the link to
+	 * @param link the link to add.
+	 */
+	private void addLink(final WSubMenu subMenu, final WLink link) {
+		subMenu.add(new WMenuItem(new WDecoratedLabel(link)));
+	}
 
 }

@@ -1,12 +1,10 @@
 package com.github.bordertech.wcomponents.servlet;
 
+import com.github.bordertech.wcomponents.Response;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-
 import javax.servlet.http.HttpServletResponse;
-
-import com.github.bordertech.wcomponents.Response;
 
 /**
  * An implementation of {@link Response} using HttpServletResponse.
@@ -14,53 +12,67 @@ import com.github.bordertech.wcomponents.Response;
  * @author James Gifford
  * @since 1.0.0
  */
-public class ServletResponse implements Response
-{
-    /** The backing HttpServletResponse. */
-    private final HttpServletResponse backing;
+public class ServletResponse implements Response {
 
-    /**
-     * Creates a ServletResponse.
-     * @param backing the backing HttpServletResponse.
-     */
-    public ServletResponse(final HttpServletResponse backing)
-    {
-        this.backing = backing;
-    }
+	/**
+	 * The backing HttpServletResponse.
+	 */
+	private final HttpServletResponse backing;
 
-    /** {@inheritDoc} */
-    public PrintWriter getWriter() throws IOException
-    {
-        return backing.getWriter();
-    }
+	/**
+	 * Creates a ServletResponse.
+	 *
+	 * @param backing the backing HttpServletResponse.
+	 */
+	public ServletResponse(final HttpServletResponse backing) {
+		this.backing = backing;
+	}
 
-    /** {@inheritDoc} */
-    public OutputStream getOutputStream() throws IOException
-    {
-        return backing.getOutputStream();
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public PrintWriter getWriter() throws IOException {
+		return backing.getWriter();
+	}
 
-    /** {@inheritDoc} */
-    public void sendRedirect(final String redirect) throws IOException
-    {
-        backing.sendRedirect(redirect);
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public OutputStream getOutputStream() throws IOException {
+		return backing.getOutputStream();
+	}
 
-    /** {@inheritDoc} */
-    public void setContentType(final String contentType)
-    {
-        backing.setContentType(contentType);
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void sendRedirect(final String redirect) throws IOException {
+		backing.sendRedirect(redirect);
+	}
 
-    /** {@inheritDoc} */
-    public void setHeader(final String name, final String value)
-    {
-        backing.setHeader(name, value);
-    }
-    
-    /** {@inheritDoc} */
-    public void sendError(final int code, final String description) throws IOException
-    {
-        backing.sendError(code, description);
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setContentType(final String contentType) {
+		backing.setContentType(contentType);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setHeader(final String name, final String value) {
+		backing.setHeader(name, value);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void sendError(final int code, final String description) throws IOException {
+		backing.sendError(code, description);
+	}
 }

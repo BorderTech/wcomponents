@@ -732,8 +732,8 @@ define(["wc/has",
 					result += toTag(DT) + "HTML Element" + toTag(DT, true) + toTag(DD) + toTag(BUTTON, false, "type='button' class='" + INFO_BTN_AS_LINK + "' value='" + str + "'") + element.tagName + " (id: " + element.id + ")" + toTag(BUTTON, true) + toTag(DD, true);
 					if ((targetId = element.getAttribute(ATTRIB_HAS_DEBUG_INFO)) && (entries = getRegistryEntriesFor(targetId)) && entries.length) {
 						entries.forEach(function(entry) {
-								result += javaClassTypeInfoToHTML(entry["javaclass"], entry["javatype"]);
-							});
+							result += javaClassTypeInfoToHTML(entry["javaclass"], entry["javatype"]);
+						});
 					}
 				}
 				else {

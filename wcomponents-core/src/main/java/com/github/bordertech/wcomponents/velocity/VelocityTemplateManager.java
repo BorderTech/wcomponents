@@ -7,69 +7,66 @@ import org.apache.commons.logging.LogFactory;
  * @author James Gifford
  * @since 1.0.0
  */
-public final class VelocityTemplateManager
-{
-    /**
-     * Look for templates under this directory in the classpath.
-     */
-    private static final String VELOCITY_PREFIX = "";
+public final class VelocityTemplateManager {
 
-    /**
-     * Remove this prefix from full classnames before appending to the above
-     * prefix.
-     */
-    private static final String PATH_REMOVE = "";
+	/**
+	 * Look for templates under this directory in the classpath.
+	 */
+	private static final String VELOCITY_PREFIX = "";
 
-    /** The logger instance for this class. */
-    private static final Log log = LogFactory.getLog(VelocityTemplateManager.class);
+	/**
+	 * Remove this prefix from full classnames before appending to the above prefix.
+	 */
+	private static final String PATH_REMOVE = "";
 
-    /**
-     * Hide the constructor as there are no instance methods.
-     */
-    private VelocityTemplateManager()
-    {
-    }
+	/**
+	 * The logger instance for this class.
+	 */
+	private static final Log LOG = LogFactory.getLog(VelocityTemplateManager.class);
 
-    /**
-     * Map the given class to a velocity template resource name.
-     * <p/>
-     * For instance, com.github.bordertech.wcomponents.WTextField maps to the template
-     * in com/github/bordertech/wcomponents/WTextField.vm
-     *
-     * @param clazz is the Class to find the resource name for.
-     * @return the template resource name for the given class.
-     */
-    public static String toTemplateResourceName(final Class clazz)
-    {
-        String url = getTemplatePath(clazz);
-        url = url.replace('.', '/');
-        int index = url.lastIndexOf('$');
+	/**
+	 * Hide the constructor as there are no instance methods.
+	 */
+	private VelocityTemplateManager() {
+	}
 
-        if (index != -1)
-        {
-            int first = url.lastIndexOf('/');
-            String classs = url.substring(index + 1, url.length());
-            String dir = url.substring(0, first + 1);
-            url = dir + classs;
-        }
+	/**
+	 * Map the given class to a velocity template resource name.
+	 * <p/>
+	 * For instance, com.github.bordertech.wcomponents.WTextField maps to the template in
+	 * com/github/bordertech/wcomponents/WTextField.vm
+	 *
+	 * @param clazz is the Class to find the resource name for.
+	 * @return the template resource name for the given class.
+	 */
+	public static String toTemplateResourceName(final Class clazz) {
+		String url = getTemplatePath(clazz);
+		url = url.replace('.', '/');
+		int index = url.lastIndexOf('$');
 
-        url = VELOCITY_PREFIX + url + ".vm";
-        // Internalize to avoid having heaps of copies of identical strings around.
-        url = url.intern();
-        log.debug("vm template : " + url);
-        return url;
-    }
+		if (index != -1) {
+			int first = url.lastIndexOf('/');
+			String classs = url.substring(index + 1, url.length());
+			String dir = url.substring(0, first + 1);
+			url = dir + classs;
+		}
 
-    /**
-     * @param clazz a Class from which to retrieve the Class Name
-     * @return String which is the class name without the path
-     */
-    private static String getTemplatePath(final Class clazz)
-    {
-        String name = clazz.getName();
-        log.debug("Full ClassPath : " + name);
-        name = name.substring(PATH_REMOVE.length(), name.length());
-        log.debug("Classname : " + name);
-        return name;
-    }
+		url = VELOCITY_PREFIX + url + ".vm";
+		// Internalize to avoid having heaps of copies of identical strings around.
+		url = url.intern();
+		LOG.debug("vm template : " + url);
+		return url;
+	}
+
+	/**
+	 * @param clazz a Class from which to retrieve the Class Name
+	 * @return String which is the class name without the path
+	 */
+	private static String getTemplatePath(final Class clazz) {
+		String name = clazz.getName();
+		LOG.debug("Full ClassPath : " + name);
+		name = name.substring(PATH_REMOVE.length(), name.length());
+		LOG.debug("Classname : " + name);
+		return name;
+	}
 }

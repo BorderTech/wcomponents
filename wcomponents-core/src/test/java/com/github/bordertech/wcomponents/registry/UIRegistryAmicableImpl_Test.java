@@ -1,13 +1,11 @@
 package com.github.bordertech.wcomponents.registry;
 
-import junit.framework.Assert;
-
-import org.junit.Test;
-
 import com.github.bordertech.wcomponents.DefaultWComponent;
 import com.github.bordertech.wcomponents.FatalErrorPage;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.util.SystemException;
+import junit.framework.Assert;
+import org.junit.Test;
 
 /**
  * Unit tests for {@link UIRegistryAmicableImpl}.
@@ -15,131 +13,123 @@ import com.github.bordertech.wcomponents.util.SystemException;
  * @author Anthony O'Connor
  * @since 1.0.0
  */
-public class UIRegistryAmicableImpl_Test
-{
-    /**
-     * Test register - success.
-     */
-    @Test
-    public void testRegisterSuccess()
-    {
-        final String key = "test123";
-        WComponent component = new DefaultWComponent();
+public class UIRegistryAmicableImpl_Test {
 
-        UIRegistryAmicableImpl reg = new UIRegistryAmicableImpl();
-        reg.register(key, component);
+	/**
+	 * Test register - success.
+	 */
+	@Test
+	public void testRegisterSuccess() {
+		final String key = "test123";
+		WComponent component = new DefaultWComponent();
 
-        Assert.assertTrue("should have been successfully registered", reg.isRegistered(key));
-    }
+		UIRegistryAmicableImpl reg = new UIRegistryAmicableImpl();
+		reg.register(key, component);
 
-    /**
-     * Test register - exception on register with key already in use.
-     */
-    @Test
-    public void testRegisterFail()
-    {
-        final String key = "test123";
-        WComponent component = new DefaultWComponent();
+		Assert.assertTrue("should have been successfully registered", reg.isRegistered(key));
+	}
 
-        UIRegistryAmicableImpl reg = new UIRegistryAmicableImpl();
-        reg.register(key, component);
+	/**
+	 * Test register - exception on register with key already in use.
+	 */
+	@Test
+	public void testRegisterFail() {
+		final String key = "test123";
+		WComponent component = new DefaultWComponent();
 
-        try
-        {
-            reg.register(key, component);
-            Assert.fail("attempted registration with key already used should have thrown an exception");
-        }
-        catch (SystemException e)
-        {
-            String expectedMessage = "Cannot re-register a component. Key = " + key;
-            Assert.assertEquals("exceptions hould have contained message expected", expectedMessage, e.getMessage());
-        }
-    }
+		UIRegistryAmicableImpl reg = new UIRegistryAmicableImpl();
+		reg.register(key, component);
 
-    /**
-     * Test isRegistered - for cases where key - exists, not exist, empty, null.
-     */
-    @Test
-    public void testIsRegistered()
-    {
-        final String keyExists = "test123";
-        final String keyNotExist = "nothingtobefound";
-        final String keyEmpty = "";
-        final String keyNull = null;
-        WComponent component = new DefaultWComponent();
+		try {
+			reg.register(key, component);
+			Assert.fail(
+					"attempted registration with key already used should have thrown an exception");
+		} catch (SystemException e) {
+			String expectedMessage = "Cannot re-register a component. Key = " + key;
+			Assert.assertEquals("exceptions hould have contained message expected", expectedMessage,
+					e.getMessage());
+		}
+	}
 
-        UIRegistryAmicableImpl reg = new UIRegistryAmicableImpl();
-        reg.register(keyExists, component);
+	/**
+	 * Test isRegistered - for cases where key - exists, not exist, empty, null.
+	 */
+	@Test
+	public void testIsRegistered() {
+		final String keyExists = "test123";
+		final String keyNotExist = "nothingtobefound";
+		final String keyEmpty = "";
+		final String keyNull = null;
+		WComponent component = new DefaultWComponent();
 
-        Assert.assertTrue("should find component", reg.isRegistered(keyExists));
-        Assert.assertFalse("should not find component", reg.isRegistered(keyNotExist));
-        Assert.assertFalse("should not find component - key empty", reg.isRegistered(keyEmpty));
-        Assert.assertFalse("should not find component - key null", reg.isRegistered(keyNull));
-    }
+		UIRegistryAmicableImpl reg = new UIRegistryAmicableImpl();
+		reg.register(keyExists, component);
 
-    /**
-     * Test getUI - successfully get a component already registered.
-     */
-    @Test
-    public void testGetUIRegistered()
-    {
-        final String key = "test123";
-        WComponent component = new DefaultWComponent();
+		Assert.assertTrue("should find component", reg.isRegistered(keyExists));
+		Assert.assertFalse("should not find component", reg.isRegistered(keyNotExist));
+		Assert.assertFalse("should not find component - key empty", reg.isRegistered(keyEmpty));
+		Assert.assertFalse("should not find component - key null", reg.isRegistered(keyNull));
+	}
 
-        UIRegistryAmicableImpl reg = new UIRegistryAmicableImpl();
-        reg.register(key, component);
+	/**
+	 * Test getUI - successfully get a component already registered.
+	 */
+	@Test
+	public void testGetUIRegistered() {
+		final String key = "test123";
+		WComponent component = new DefaultWComponent();
 
-        Assert.assertSame("should return component registered", component, reg.getUI(key));
-    }
+		UIRegistryAmicableImpl reg = new UIRegistryAmicableImpl();
+		reg.register(key, component);
 
-    /**
-     * Test getUI - nothing registered - no class creatable from key - returns.
-     * FatalErrorPage
-     */
-    @Test
-    public void testGetUINotRegisteredNoClass()
-    {
-        final String key = "NO_CLASS_BY_THIS_NAME";
-        final String expectedClassName = FatalErrorPage.class.getName();
+		Assert.assertSame("should return component registered", component, reg.getUI(key));
+	}
 
-        UIRegistryAmicableImpl reg = new UIRegistryAmicableImpl();
-        WComponent result = reg.getUI(key);
+	/**
+	 * Test getUI - nothing registered - no class creatable from key - returns. FatalErrorPage
+	 */
+	@Test
+	public void testGetUINotRegisteredNoClass() {
+		final String key = "NO_CLASS_BY_THIS_NAME";
+		final String expectedClassName = FatalErrorPage.class.getName();
 
-        Assert.assertNotNull("should return a fatal error page - when no class found", result);
-        Assert.assertEquals("should be of the expected type", expectedClassName, result.getClass().getName());
-        Assert.assertFalse("should not be cached", reg.isRegistered(key));
-    }
+		UIRegistryAmicableImpl reg = new UIRegistryAmicableImpl();
+		WComponent result = reg.getUI(key);
 
-    /**
-     * Test getUI - nothing registered - class creatable from key - but not a
-     * WComponent.
-     */
-    @Test
-    public void testGetUINotRegisteredNotWComponent()
-    {
-        final String key = "java.lang.String";
-        final String expectedClassName = FatalErrorPage.class.getName();
+		Assert.assertNotNull("should return a fatal error page - when no class found", result);
+		Assert.assertEquals("should be of the expected type", expectedClassName, result.getClass().
+				getName());
+		Assert.assertFalse("should not be cached", reg.isRegistered(key));
+	}
 
-        UIRegistryAmicableImpl reg = new UIRegistryAmicableImpl();
-        WComponent result = reg.getUI(key);
+	/**
+	 * Test getUI - nothing registered - class creatable from key - but not a WComponent.
+	 */
+	@Test
+	public void testGetUINotRegisteredNotWComponent() {
+		final String key = "java.lang.String";
+		final String expectedClassName = FatalErrorPage.class.getName();
 
-        Assert.assertNotNull("should return a fatal error page - when no WComponentclass", result);
-        Assert.assertEquals("should be of the expected type", expectedClassName, result.getClass().getName());
-        Assert.assertFalse("should not be cached", reg.isRegistered(key));
-    }
+		UIRegistryAmicableImpl reg = new UIRegistryAmicableImpl();
+		WComponent result = reg.getUI(key);
 
-    /**
-     * Test getUI - nothing registered - but WComponent creatable from key.
-     */
-    @Test
-    public void testGetUINotRegisteredWComponent()
-    {
-        final String key = "com.github.bordertech.wcomponents.WButton";
-        UIRegistryAmicableImpl reg = new UIRegistryAmicableImpl();
-        WComponent result = reg.getUI(key);
+		Assert.assertNotNull("should return a fatal error page - when no WComponentclass", result);
+		Assert.assertEquals("should be of the expected type", expectedClassName, result.getClass().
+				getName());
+		Assert.assertFalse("should not be cached", reg.isRegistered(key));
+	}
 
-        Assert.assertTrue("should return an instantiated WComponent", result instanceof WComponent);
-        Assert.assertTrue("the WComponent should be in the registry", reg.isRegistered(key));
-        Assert.assertTrue("the WComponent should be locked", result.isLocked());
-    }
+	/**
+	 * Test getUI - nothing registered - but WComponent creatable from key.
+	 */
+	@Test
+	public void testGetUINotRegisteredWComponent() {
+		final String key = "com.github.bordertech.wcomponents.WButton";
+		UIRegistryAmicableImpl reg = new UIRegistryAmicableImpl();
+		WComponent result = reg.getUI(key);
+
+		Assert.assertTrue("should return an instantiated WComponent", result instanceof WComponent);
+		Assert.assertTrue("the WComponent should be in the registry", reg.isRegistered(key));
+		Assert.assertTrue("the WComponent should be locked", result.isLocked());
+	}
 }

@@ -1,219 +1,216 @@
 package com.github.bordertech.wcomponents;
 
-
 /**
  * This component enables a pop up browser window to an arbitrary location. Pop-ups are initially invisible, to display
  * a pop-up, call {@link #setVisible(boolean)}. This will set the pop-up visible for the render cycle only.
- * 
+ *
  * @author Yiannis Paschalidis
  * @since 1.0.0
  */
-public class WPopup extends AbstractWComponent
-{
-    /** Creates a new Window with no URL. */
-    public WPopup()
-    {
-        // change default visibility to false.        
-        getComponentModel().setFlags(ComponentModel.FLAGS_DEFAULT & ~ComponentModel.VISIBLE_FLAG);
-    }
+public class WPopup extends AbstractWComponent {
 
-    /**
-     * Creates a new popup containing the specified content.
-     * 
-     * @param url the popup url.
-     */
-    public WPopup(final String url)
-    {
-        this();
-        getComponentModel().url = url;
-    }
+	/**
+	 * Creates a new Window with no URL.
+	 */
+	public WPopup() {
+		// Change default visibility to false.
+		getComponentModel().setFlags(ComponentModel.FLAGS_DEFAULT & ~ComponentModel.VISIBLE_FLAG);
+	}
 
-    /**
-     * @return The height of the popup window. Default is 600px.
-     */
-    public int getHeight()
-    {
-        return getComponentModel().height;
-    }
+	/**
+	 * Creates a new popup containing the specified content.
+	 *
+	 * @param url the popup url.
+	 */
+	public WPopup(final String url) {
+		this();
+		getComponentModel().url = url;
+	}
 
-    /**
-     * Sets the window height.
-     * 
-     * @param height The height of the popup window.
-     */
-    public void setHeight(final int height)
-    {
-        getOrCreateComponentModel().height = height;
-    }
+	/**
+	 * @return The height of the popup window. Default is 600px.
+	 */
+	public int getHeight() {
+		return getComponentModel().height;
+	}
 
-    /**
-     * @return The width of the popup window. Default is 800px.
-     */
-    public int getWidth()
-    {
-        return getComponentModel().width;
-    }
+	/**
+	 * Sets the window height.
+	 *
+	 * @param height The height of the popup window.
+	 */
+	public void setHeight(final int height) {
+		getOrCreateComponentModel().height = height;
+	}
 
-    /**
-     * Sets the popup window width.
-     * 
-     * @param width The width of the popup window.
-     */
-    public void setWidth(final int width)
-    {
-        getOrCreateComponentModel().width = width;
-    }
+	/**
+	 * @return The width of the popup window. Default is 800px.
+	 */
+	public int getWidth() {
+		return getComponentModel().width;
+	}
 
-    /**
-     * @return true if the popup window is resizable.
-     */
-    public boolean isResizable()
-    {
-        return getComponentModel().resizable;
-    }
+	/**
+	 * Sets the popup window width.
+	 *
+	 * @param width The width of the popup window.
+	 */
+	public void setWidth(final int width) {
+		getOrCreateComponentModel().width = width;
+	}
 
-    /**
-     * Sets whether the popup window is resizable.
-     * 
-     * @param resizable true if the popup window should be resizable, false if not.
-     */
-    public void setResizable(final boolean resizable)
-    {
-        getOrCreateComponentModel().resizable = resizable;
-    }
+	/**
+	 * @return true if the popup window is resizable.
+	 */
+	public boolean isResizable() {
+		return getComponentModel().resizable;
+	}
 
-    /**
-     * @return true if the popup window is scrollable.
-     */
-    public boolean isScrollable()
-    {
-        return getComponentModel().scrollbars;
-    }
+	/**
+	 * Sets whether the popup window is resizable.
+	 *
+	 * @param resizable true if the popup window should be resizable, false if not.
+	 */
+	public void setResizable(final boolean resizable) {
+		getOrCreateComponentModel().resizable = resizable;
+	}
 
-    /**
-     * Sets whether the popup window should have a scroll bar.
-     * 
-     * @param scrollable true if the popup window should have a scroll bar, false if not.
-     */
-    public void setScrollable(final boolean scrollable)
-    {
-        getOrCreateComponentModel().scrollbars = scrollable;
-    }
+	/**
+	 * @return true if the popup window is scrollable.
+	 */
+	public boolean isScrollable() {
+		return getComponentModel().scrollbars;
+	}
 
-    /**
-     * @return the URL.
-     */
-    public String getUrl()
-    {
-        return getComponentModel().url;
-    }
+	/**
+	 * Sets whether the popup window should have a scroll bar.
+	 *
+	 * @param scrollable true if the popup window should have a scroll bar, false if not.
+	 */
+	public void setScrollable(final boolean scrollable) {
+		getOrCreateComponentModel().scrollbars = scrollable;
+	}
 
-    /**
-     * Sets the URL.
-     * 
-     * @param url the URL to set.
-     */
-    public void setUrl(final String url)
-    {
-        getOrCreateComponentModel().url = url;
-    }
+	/**
+	 * @return the URL.
+	 */
+	public String getUrl() {
+		return getComponentModel().url;
+	}
 
-    /**
-     * Retrieves the target window name.
-     * 
-     * @return the target window name.
-     */
-    public String getTargetWindow()
-    {
-        return getComponentModel().targetWindow;
-    }
+	/**
+	 * Sets the URL.
+	 *
+	 * @param url the URL to set.
+	 */
+	public void setUrl(final String url) {
+		getOrCreateComponentModel().url = url;
+	}
 
-    /**
-     * Sets the target window name.
-     * 
-     * @param targetWindow the target window name.
-     */
-    public void setTargetWindow(final String targetWindow)
-    {
-        getOrCreateComponentModel().targetWindow = targetWindow;
-    }
+	/**
+	 * Retrieves the target window name.
+	 *
+	 * @return the target window name.
+	 */
+	public String getTargetWindow() {
+		return getComponentModel().targetWindow;
+	}
 
-    /**
-     * Make the popup not visible after painting.
-     * 
-     * @param renderContext the renderContext to send output to.
-     */
-    @Override
-    protected void afterPaint(final RenderContext renderContext)
-    {
-        super.afterPaint(renderContext);
-        setVisible(false);
-    }
-    
-    /**
-     * @return a String representation of this component, for debugging purposes.
-     */
-    @Override
-    public String toString()
-    {
-        String text = getUrl();
-        text = text == null ? "null" : ('"' + text + '"'); 
-        return toString(text);
-    }
-    
-    // ---------------------------------------------------------------------------
-    // Extrinsic state management
-    // ---------------------------------------------------------------------------
+	/**
+	 * Sets the target window name.
+	 *
+	 * @param targetWindow the target window name.
+	 */
+	public void setTargetWindow(final String targetWindow) {
+		getOrCreateComponentModel().targetWindow = targetWindow;
+	}
 
-    /**
-     * Stores the WPopup state information.
-     * 
-     * @author Yiannis Paschalidis
-     */
-    public static class PopupModel extends ComponentModel
-    {
-        /** The pop-up window width. */
-        private int width = -1;
+	/**
+	 * Make the popup not visible after painting.
+	 *
+	 * @param renderContext the renderContext to send output to.
+	 */
+	@Override
+	protected void afterPaint(final RenderContext renderContext) {
+		super.afterPaint(renderContext);
+		setVisible(false);
+	}
 
-        /** The pop-up window width. */
-        private int height = -1;
+	/**
+	 * @return a String representation of this component, for debugging purposes.
+	 */
+	@Override
+	public String toString() {
+		String text = getUrl();
+		text = text == null ? "null" : ('"' + text + '"');
+		return toString(text);
+	}
 
-        /** Indicates whether the popup windows should allow resizing. */
-        private boolean resizable = true;
+	// ---------------------------------------------------------------------------
+	// Extrinsic state management
+	// ---------------------------------------------------------------------------
+	/**
+	 * Stores the WPopup state information.
+	 *
+	 * @author Yiannis Paschalidis
+	 */
+	public static class PopupModel extends ComponentModel {
 
-        /** Indicates whether the popup windows should allow scrolling. */
-        private boolean scrollbars = false;
+		/**
+		 * The pop-up window width.
+		 */
+		private int width = -1;
 
-        /** The pop-up window URL. */
-        private String url;
+		/**
+		 * The pop-up window width.
+		 */
+		private int height = -1;
 
-        /** The name of the target window to open. */
-        private String targetWindow;
+		/**
+		 * Indicates whether the popup windows should allow resizing.
+		 */
+		private boolean resizable = true;
 
-    }
+		/**
+		 * Indicates whether the popup windows should allow scrolling.
+		 */
+		private boolean scrollbars = false;
 
-    /**
-     * Creates a new component model.
-     * 
-     * @return a new PopupModel.
-     */
-    @Override
-    protected PopupModel newComponentModel()
-    {
-        return new PopupModel();
-    }
+		/**
+		 * The pop-up window URL.
+		 */
+		private String url;
 
-    /** {@inheritDoc} */
-    @Override
-    protected PopupModel getComponentModel()
-    {
-        return (PopupModel) super.getComponentModel();
-    }
+		/**
+		 * The name of the target window to open.
+		 */
+		private String targetWindow;
 
-    /** {@inheritDoc} */
-    @Override
-    protected PopupModel getOrCreateComponentModel()
-    {
-        return (PopupModel) super.getOrCreateComponentModel();
-    }
+	}
+
+	/**
+	 * Creates a new component model.
+	 *
+	 * @return a new PopupModel.
+	 */
+	@Override
+	protected PopupModel newComponentModel() {
+		return new PopupModel();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected PopupModel getComponentModel() {
+		return (PopupModel) super.getComponentModel();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected PopupModel getOrCreateComponentModel() {
+		return (PopupModel) super.getOrCreateComponentModel();
+	}
 }

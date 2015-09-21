@@ -52,8 +52,8 @@ define(["wc/array/toArray", "wc/dom/event", "wc/dom/focus", "wc/dom/initialise",
 				if (controlled) {
 					controlled = controlled.split(" ");
 					candidates = controlled.map(function(next) {
-							return document.getElementById(next);
-						});
+						return document.getElementById(next);
+					});
 				}
 				else {
 					candidates = COLLAPSIBLE.findDescendants(document.body);

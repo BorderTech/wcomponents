@@ -9,94 +9,93 @@ import com.github.bordertech.wcomponents.WDateField;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WStyledText;
 import com.github.bordertech.wcomponents.WTable;
-import com.github.bordertech.wcomponents.WTableColumn;
-import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WTable.ActionConstraint;
 import com.github.bordertech.wcomponents.WTable.SelectMode;
+import com.github.bordertech.wcomponents.WTableColumn;
+import com.github.bordertech.wcomponents.WText;
 
 /**
  * This example demonstrates a simple {@link WTable} that is bean bound and has row selection.
  * <p>
  * Uses {@link SimpleBeanBoundTableModel} to handle the bean binding.
  * </p>
- * 
+ *
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class SimpleSelectableTableExample extends WPanel
-{
-    /** The table for the example. */
-    private final WTable table = new WTable();
+public class SimpleSelectableTableExample extends WPanel {
 
-    /**
-     * Create example.
-     */
-    public SimpleSelectableTableExample()
-    {
-        add(table);
-        table.addColumn(new WTableColumn("First name", new WText()));
-        table.addColumn(new WTableColumn("Last name", new WText()));
-        table.addColumn(new WTableColumn("DOB", new WDateField()));
+	/**
+	 * The table for the example.
+	 */
+	private final WTable table = new WTable();
 
-        // Enable multiple row selection. Use WDataTable.SelectMode.SINGLE for single selection
-        table.setSelectMode(SelectMode.MULTIPLE);
+	/**
+	 * Create example.
+	 */
+	public SimpleSelectableTableExample() {
+		add(table);
+		table.addColumn(new WTableColumn("First name", new WText()));
+		table.addColumn(new WTableColumn("Last name", new WText()));
+		table.addColumn(new WTableColumn("DOB", new WDateField()));
 
-        // Setup model
-        SimpleBeanBoundTableModel model = new SimpleBeanBoundTableModel(new String[] { "firstName", "lastName",
-                                                                                      "dateOfBirth" });
-        model.setSelectable(true);
-        table.setTableModel(model);
+		// Enable multiple row selection. Use WDataTable.SelectMode.SINGLE for single selection
+		table.setSelectMode(SelectMode.MULTIPLE);
 
-        // Add a button to the table for the user to be able to select rows
-        WButton selectButton = new WButton("Select");
-        table.addAction(selectButton);
+		// Setup model
+		SimpleBeanBoundTableModel model = new SimpleBeanBoundTableModel(
+				new String[]{"firstName", "lastName",
+					"dateOfBirth"});
+		model.setSelectable(true);
+		table.setTableModel(model);
 
-        // An action constraint is used so that a row must be selected before using the "Select" button
-        table.addActionConstraint(selectButton, new ActionConstraint(1, 0, true, "One or more rows must be selected"));
+		// Add a button to the table for the user to be able to select rows
+		WButton selectButton = new WButton("Select");
+		table.addAction(selectButton);
 
-        final WStyledText selectionText = new WStyledText();
-        selectionText.setWhitespaceMode(WStyledText.WhitespaceMode.PRESERVE);
+		// An action constraint is used so that a row must be selected before using the "Select" button
+		table.addActionConstraint(selectButton, new ActionConstraint(1, 0, true,
+				"One or more rows must be selected"));
 
-        // The button displays the selected rows in text format.
-        selectButton.setAction(new Action()
-        {
-            public void execute(final ActionEvent event)
-            {
-                StringBuffer buf = new StringBuffer("Selection:\n");
+		final WStyledText selectionText = new WStyledText();
+		selectionText.setWhitespaceMode(WStyledText.WhitespaceMode.PRESERVE);
 
-                for (Object selected : table.getSelectedRows())
-                {
-                    // The Model uses the "bean" as the key
-                    PersonBean person = (PersonBean) selected;
-                    buf.append(person.toString()).append('\n');
-                }
+		// The button displays the selected rows in text format.
+		selectButton.setAction(new Action() {
+			@Override
+			public void execute(final ActionEvent event) {
+				StringBuffer buf = new StringBuffer("Selection:\n");
 
-                selectionText.setText(buf.toString());
-            }
-        });
+				for (Object selected : table.getSelectedRows()) {
+					// The Model uses the "bean" as the key
+					PersonBean person = (PersonBean) selected;
+					buf.append(person.toString()).append('\n');
+				}
 
-        WPanel textPanel = new WPanel();
-        selectButton.setAjaxTarget(textPanel);
-        textPanel.add(selectionText);
-        add(textPanel);
-    }
+				selectionText.setText(buf.toString());
+			}
+		});
 
-    /**
-     * Override preparePaintComponent in order to set up the example data the first time that the example is accessed by
-     * each user.
-     * 
-     * @param request the request being responded to.
-     */
-    @Override
-    protected void preparePaintComponent(final Request request)
-    {
-        super.preparePaintComponent(request);
-        if (!isInitialised())
-        {
-            // Set the data as the bean on the table
-            table.setBean(ExampleDataUtil.createExampleData());
-            setInitialised(true);
-        }
-    }
+		WPanel textPanel = new WPanel();
+		selectButton.setAjaxTarget(textPanel);
+		textPanel.add(selectionText);
+		add(textPanel);
+	}
+
+	/**
+	 * Override preparePaintComponent in order to set up the example data the first time that the example is accessed by
+	 * each user.
+	 *
+	 * @param request the request being responded to.
+	 */
+	@Override
+	protected void preparePaintComponent(final Request request) {
+		super.preparePaintComponent(request);
+		if (!isInitialised()) {
+			// Set the data as the bean on the table
+			table.setBean(ExampleDataUtil.createExampleData());
+			setInitialised(true);
+		}
+	}
 
 }

@@ -1,51 +1,29 @@
 /* wc.ui.section.scss */
 @import 'mixins_common.scss';
 
-.section {
-	> .decoratedLabel {
-		background-color: $wc-ui-color-section-heading-bg;
+.section > .decoratedLabel {
+	background-color: $wc-ui-color-section-heading-bg;
+	color: $wc-ui-color-section-heading-fg;
+
+	> h1 {
 		color: $wc-ui-color-section-heading-fg;
-		display: table;
-		width: 100%;
-
-		> h1,
-		> div {
-			display: table-cell;
-			padding: $hgap-normal;
-		}
-
-		> h1 {
-			color: $wc-ui-color-section-heading-fg;
-			margin: 0;
-			width: 100%;
-		}
-
-		> div {
-			white-space: nowrap;
-			width: 0;
-		}
-
-		// color links, link-like buttons and 'buttonless' buttons to make them visible.
-		.wc_btn_nada,
-		.wc_btn_link,
-		a,
-		a:visited {
-			color: $wc-ui-color-section-heading-fg;
-		}
-
-		// Only change disabled state of a elements.
-		// scss-lint:disable QualifyingElement
-		.wc_btn_nada[disabled],
-		.wc_btn_nada[disabled],
-		a[aria-disabled='true'] {
-			color: $wc-ui-color-section-heading-fg-disabled;
-		}
-		// scss-lint:enable QualifyingElement
 	}
 
-	> .content {
-		@include border;
-		padding: $hgap-normal;
+	// color links, link-like buttons and 'buttonless' buttons to make them visible.
+	.wc_btn_nada,
+	.wc_btn_link,
+	a,
+	a:visited {
+		color: $wc-ui-color-section-heading-fg;
 	}
+
+	// Only change disabled state of a elements.
+	// scss-lint:disable QualifyingElement
+	.wc_btn_nada[disabled],
+	.wc_btn_nada[disabled],
+	a[aria-disabled='true'] {
+		color: $wc-ui-color-section-heading-fg-disabled;
+	}
+	// scss-lint:enable QualifyingElement
 }
 /* end wc.ui.section.scss */

@@ -8,46 +8,44 @@ import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 
 /**
  * {@link Renderer} for the {@link WFieldLayout} component.
- * 
+ *
  * @author Jonathan Austin
  * @since 1.0.0
  */
-final class WFieldLayoutRenderer extends AbstractWebXmlRenderer
-{
-    /**
-     * Paints the given WFieldLayout.
-     * 
-     * @param component the WFieldLayout to paint.
-     * @param renderContext the RenderContext to paint to.
-     */
-    @Override
-    public void doRender(final WComponent component, final WebXmlRenderContext renderContext)
-    {
-        WFieldLayout fieldLayout = (WFieldLayout) component;
-        XmlStringBuilder xml = renderContext.getWriter();
-        int labelWidth = fieldLayout.getLabelWidth();
-        String title = fieldLayout.getTitle();
+final class WFieldLayoutRenderer extends AbstractWebXmlRenderer {
 
-        xml.appendTagOpen("ui:fieldLayout");
-        xml.appendAttribute("id", component.getId());
-        xml.appendOptionalAttribute("track", component.isTracking(), "true");
-        xml.appendOptionalAttribute("hidden", fieldLayout.isHidden(), "true");
-        xml.appendOptionalAttribute("labelWidth", labelWidth > 0, labelWidth);
-        xml.appendAttribute("layout", fieldLayout.getLayoutType());
-        xml.appendOptionalAttribute("title", title);
-        // Ordered layout
-        if (fieldLayout.isOrdered())
-        {
-            xml.appendAttribute("ordered", fieldLayout.getOrderedOffset());
-        }
-        xml.appendClose();
+	/**
+	 * Paints the given WFieldLayout.
+	 *
+	 * @param component the WFieldLayout to paint.
+	 * @param renderContext the RenderContext to paint to.
+	 */
+	@Override
+	public void doRender(final WComponent component, final WebXmlRenderContext renderContext) {
+		WFieldLayout fieldLayout = (WFieldLayout) component;
+		XmlStringBuilder xml = renderContext.getWriter();
+		int labelWidth = fieldLayout.getLabelWidth();
+		String title = fieldLayout.getTitle();
 
-        // Render margin
-        MarginRendererUtil.renderMargin(fieldLayout, renderContext);
+		xml.appendTagOpen("ui:fieldLayout");
+		xml.appendAttribute("id", component.getId());
+		xml.appendOptionalAttribute("track", component.isTracking(), "true");
+		xml.appendOptionalAttribute("hidden", fieldLayout.isHidden(), "true");
+		xml.appendOptionalAttribute("labelWidth", labelWidth > 0, labelWidth);
+		xml.appendAttribute("layout", fieldLayout.getLayoutType());
+		xml.appendOptionalAttribute("title", title);
+		// Ordered layout
+		if (fieldLayout.isOrdered()) {
+			xml.appendAttribute("ordered", fieldLayout.getOrderedOffset());
+		}
+		xml.appendClose();
 
-        // Paint Fields
-        paintChildren(fieldLayout, renderContext);
+		// Render margin
+		MarginRendererUtil.renderMargin(fieldLayout, renderContext);
 
-        xml.appendEndTag("ui:fieldLayout");
-    }
+		// Paint Fields
+		paintChildren(fieldLayout, renderContext);
+
+		xml.appendEndTag("ui:fieldLayout");
+	}
 }

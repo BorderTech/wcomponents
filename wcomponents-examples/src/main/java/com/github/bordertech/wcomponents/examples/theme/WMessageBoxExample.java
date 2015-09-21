@@ -1,8 +1,5 @@
 package com.github.bordertech.wcomponents.examples.theme;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.Request;
@@ -19,154 +16,164 @@ import com.github.bordertech.wcomponents.WTextArea;
 import com.github.bordertech.wcomponents.layout.FlowLayout;
 import com.github.bordertech.wcomponents.layout.FlowLayout.Alignment;
 import com.github.bordertech.wcomponents.util.Util;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This component shows the different usages of the {@link WMessageBox} component.
- * 
+ *
  * @author Ming Gao
  * @author Adam Millard
  * @author Yiannis Paschalidis
  */
-public class WMessageBoxExample extends WPanel
-{
-    /** The message box to demonstrate. */
-    private final WMessageBox messageBox = new WMessageBox(WMessageBox.SUCCESS);
+public class WMessageBoxExample extends WPanel {
 
-    /** The text field used to enter messages. */
-    private final WTextArea txtAdd = new WTextArea();
+	/**
+	 * The message box to demonstrate.
+	 */
+	private final WMessageBox messageBox = new WMessageBox(WMessageBox.SUCCESS);
 
-    /** The list of messages which are being displayed. */
-    private final List<String> messageList = new ArrayList<String>();
+	/**
+	 * The text field used to enter messages.
+	 */
+	private final WTextArea txtAdd = new WTextArea();
 
-    /** The dropdown used to select which message to remove. */
-    private final WDropdown selRemove = new WDropdown();
+	/**
+	 * The list of messages which are being displayed.
+	 */
+	private final List<String> messageList = new ArrayList<>();
 
-    /** The button to remove a single message. */
-    private final WButton btnRemove = new WButton("Remove selected message");
+	/**
+	 * The dropdown used to select which message to remove.
+	 */
+	private final WDropdown selRemove = new WDropdown();
 
-    /** The dropdown used to remove all messages. */
-    private final WButton btnRemoveAll = new WButton("Remove all messages");
+	/**
+	 * The button to remove a single message.
+	 */
+	private final WButton btnRemove = new WButton("Remove selected message");
 
-    /** the radio button select to control the message type. */
-    private final WRadioButtonSelect messageBoxTypeSelect;
+	/**
+	 * The dropdown used to remove all messages.
+	 */
+	private final WButton btnRemoveAll = new WButton("Remove all messages");
 
-    /** check box group to make the message box visible/invisible. */
-    private final WCheckBox cbVisible = new WCheckBox(true);
+	/**
+	 * the radio button select to control the message type.
+	 */
+	private final WRadioButtonSelect messageBoxTypeSelect;
 
-    /**
-     * Creates a WMessageBoxExample.
-     */
-    public WMessageBoxExample()
-    {
-        setLayout(new FlowLayout(Alignment.VERTICAL, 0, 10));
+	/**
+	 * check box group to make the message box visible/invisible.
+	 */
+	private final WCheckBox cbVisible = new WCheckBox(true);
 
-        add(messageBox);
-        add(new WHorizontalRule());
+	/**
+	 * Creates a WMessageBoxExample.
+	 */
+	public WMessageBoxExample() {
+		setLayout(new FlowLayout(Alignment.VERTICAL, 0, 10));
 
-        WFieldSet fieldSet = new WFieldSet("Configuration");
-        WFieldLayout fieldLayout = new WFieldLayout();
-        fieldSet.add(fieldLayout);
+		add(messageBox);
+		add(new WHorizontalRule());
 
-        messageBoxTypeSelect = new WRadioButtonSelect(WMessageBox.Type.values());
-        messageBoxTypeSelect.setSelected(WMessageBox.Type.SUCCESS);
-        messageBoxTypeSelect.setButtonLayout(WRadioButtonSelect.LAYOUT_FLAT);
+		WFieldSet fieldSet = new WFieldSet("Configuration");
+		WFieldLayout fieldLayout = new WFieldLayout();
+		fieldSet.add(fieldLayout);
 
-        fieldLayout.addField("Message Box Type", messageBoxTypeSelect);
-        fieldLayout.addField("Visible", cbVisible);
+		messageBoxTypeSelect = new WRadioButtonSelect(WMessageBox.Type.values());
+		messageBoxTypeSelect.setSelected(WMessageBox.Type.SUCCESS);
+		messageBoxTypeSelect.setButtonLayout(WRadioButtonSelect.LAYOUT_FLAT);
 
-        // Apply Button
-        WButton apply = new WButton("Apply");
-        apply.setAction(new Action()
-        {
-            public void execute(final ActionEvent event)
-            {
-                applySettings();
-            }
-        });
+		fieldLayout.addField("Message Box Type", messageBoxTypeSelect);
+		fieldLayout.addField("Visible", cbVisible);
 
-        fieldSet.add(apply);
-        add(fieldSet);
+		// Apply Button
+		WButton apply = new WButton("Apply");
+		apply.setAction(new Action() {
+			@Override
+			public void execute(final ActionEvent event) {
+				applySettings();
+			}
+		});
 
-        // add message panel.
-        WPanel addPanel = new WPanel();
-        addPanel.setLayout(new FlowLayout(Alignment.LEFT, 5, 0));
-        addPanel.add(txtAdd);
-        WButton btnAddMessage = new WButton("Add new Message");
-        addPanel.add(btnAddMessage, "btnAddMessage");
-        fieldLayout.addField("Add new message", addPanel);
-        btnAddMessage.setAction(new Action()
-        {
-            public void execute(final ActionEvent event)
-            {
-                String txt = txtAdd.getText();
-                if (!Util.empty(txt))
-                {
-                    messageBox.addMessage(txt.trim());
-                    applySettings();
-                }
-            }
-        });
+		fieldSet.add(apply);
+		add(fieldSet);
 
-        WPanel removePanel = new WPanel();
-        removePanel.setLayout(new FlowLayout(Alignment.LEFT, 5, 0));
-        removePanel.add(selRemove);
-        removePanel.add(btnRemove);
-        removePanel.add(btnRemoveAll);
-        fieldLayout.addField("Remove message", removePanel);
+		// add message panel.
+		WPanel addPanel = new WPanel();
+		addPanel.setLayout(new FlowLayout(Alignment.LEFT, 5, 0));
+		addPanel.add(txtAdd);
+		WButton btnAddMessage = new WButton("Add new Message");
+		addPanel.add(btnAddMessage, "btnAddMessage");
+		fieldLayout.addField("Add new message", addPanel);
+		btnAddMessage.setAction(new Action() {
+			@Override
+			public void execute(final ActionEvent event) {
+				String txt = txtAdd.getText();
+				if (!Util.empty(txt)) {
+					messageBox.addMessage(txt.trim());
+					applySettings();
+				}
+			}
+		});
 
-        btnRemove.setAction(new Action()
-        {
-            public void execute(final ActionEvent event)
-            {
-                int sel = messageList.indexOf(selRemove.getSelected());
-                messageBox.removeMessages(sel);
-                applySettings();
-            }
-        });
+		WPanel removePanel = new WPanel();
+		removePanel.setLayout(new FlowLayout(Alignment.LEFT, 5, 0));
+		removePanel.add(selRemove);
+		removePanel.add(btnRemove);
+		removePanel.add(btnRemoveAll);
+		fieldLayout.addField("Remove message", removePanel);
 
-        btnRemoveAll.setAction(new Action()
-        {
-            public void execute(final ActionEvent event)
-            {
-                messageBox.clearMessages();
-                applySettings();
-            }
-        });
-    }
+		btnRemove.setAction(new Action() {
+			@Override
+			public void execute(final ActionEvent event) {
+				int sel = messageList.indexOf(selRemove.getSelected());
+				messageBox.removeMessages(sel);
+				applySettings();
+			}
+		});
 
-    /**
-     * applySettings is used to apply the setting to the various controls on the page.  
-     */
-    public void applySettings()
-    {
-        messageList.clear();
+		btnRemoveAll.setAction(new Action() {
+			@Override
+			public void execute(final ActionEvent event) {
+				messageBox.clearMessages();
+				applySettings();
+			}
+		});
+	}
 
-        for (int i = 1; messageBox.getMessages().size() >= i; i++)
-        {
-            messageList.add(String.valueOf(i));
-        }
+	/**
+	 * applySettings is used to apply the setting to the various controls on the page.
+	 */
+	public void applySettings() {
+		messageList.clear();
 
-        selRemove.setOptions(messageList);
-        selRemove.resetData();
-        btnRemove.setDisabled(messageList.isEmpty());
-        btnRemoveAll.setDisabled(messageList.isEmpty());
-        messageBox.setType((com.github.bordertech.wcomponents.WMessageBox.Type) messageBoxTypeSelect.getSelected());
-        messageBox.setVisible(cbVisible.isSelected());
-    }
+		for (int i = 1; messageBox.getMessages().size() >= i; i++) {
+			messageList.add(String.valueOf(i));
+		}
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected void preparePaintComponent(final Request request)
-    {
-        super.preparePaintComponent(request);
-        if (!isInitialised())
-        {
-            messageBox.addMessage("Message Box Example");
-            applySettings();
-            setInitialised(true);
-        }
-    }
+		selRemove.setOptions(messageList);
+		selRemove.resetData();
+		btnRemove.setDisabled(messageList.isEmpty());
+		btnRemoveAll.setDisabled(messageList.isEmpty());
+		messageBox.setType(
+				(com.github.bordertech.wcomponents.WMessageBox.Type) messageBoxTypeSelect.
+				getSelected());
+		messageBox.setVisible(cbVisible.isSelected());
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected void preparePaintComponent(final Request request) {
+		super.preparePaintComponent(request);
+		if (!isInitialised()) {
+			messageBox.addMessage("Message Box Example");
+			applySettings();
+			setInitialised(true);
+		}
+	}
 
 }

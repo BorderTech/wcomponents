@@ -13,49 +13,49 @@ import com.github.bordertech.wcomponents.WText;
  * <p>
  * Uses {@link SimpleBeanBoundTableModel} to handle the bean binding.
  * </p>
- * 
+ *
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class SimpleTableExample extends WPanel
-{
-    /** The table used in the example. */
-    private final WTable table = new WTable();
+public class SimpleTableExample extends WPanel {
 
-    /**
-     * Create example.
-     */
-    public SimpleTableExample()
-    {
-        add(table);
+	/**
+	 * The table used in the example.
+	 */
+	private final WTable table = new WTable();
 
-        // Columns
-        table.addColumn(new WTableColumn("First name", new WText()));
-        table.addColumn(new WTableColumn("Last name", new WText()));
-        table.addColumn(new WTableColumn("DOB", new WDateField()));
+	/**
+	 * Create example.
+	 */
+	public SimpleTableExample() {
+		add(table);
 
-        // Setup model
-        SimpleBeanBoundTableModel model = new SimpleBeanBoundTableModel(new String[] { "firstName", "lastName",
-                                                                                      "dateOfBirth" });
-        table.setTableModel(model);
-    }
+		// Columns
+		table.addColumn(new WTableColumn("First name", new WText()));
+		table.addColumn(new WTableColumn("Last name", new WText()));
+		table.addColumn(new WTableColumn("DOB", new WDateField()));
 
-    /**
-     * Override preparePaintComponent in order to set up the example data the first time that the example is accessed by
-     * each user.
-     * 
-     * @param request the request being responded to.
-     */
-    @Override
-    protected void preparePaintComponent(final Request request)
-    {
-        super.preparePaintComponent(request);
-        if (!isInitialised())
-        {
-            // Set the data as the bean on the table
-            table.setBean(ExampleDataUtil.createExampleData());
-            setInitialised(true);
-        }
-    }
+		// Setup model
+		SimpleBeanBoundTableModel model = new SimpleBeanBoundTableModel(
+				new String[]{"firstName", "lastName",
+					"dateOfBirth"});
+		table.setTableModel(model);
+	}
+
+	/**
+	 * Override preparePaintComponent in order to set up the example data the first time that the example is accessed by
+	 * each user.
+	 *
+	 * @param request the request being responded to.
+	 */
+	@Override
+	protected void preparePaintComponent(final Request request) {
+		super.preparePaintComponent(request);
+		if (!isInitialised()) {
+			// Set the data as the bean on the table
+			table.setBean(ExampleDataUtil.createExampleData());
+			setInitialised(true);
+		}
+	}
 
 }
