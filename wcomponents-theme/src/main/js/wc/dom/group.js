@@ -16,13 +16,13 @@
  * @module
  * @requires module:wc/dom/tag
  * @requires module:wc/array/toArray
- * @requires module:wc/dom/Widget
  * @requires module:wc/dom/getAncestorOrSelf
  * @requires module:wc/dom/ariaGroup
+ * @requires module:wc/dom/role
  */
-define(["wc/dom/tag", "wc/array/toArray", "wc/dom/Widget", "wc/dom/getAncestorOrSelf", "wc/dom/ariaGroup"],
-	/** @param tag wc/dom/tag @param toArray wc/array/toArray @param Widget wc/dom/Widget @param getAncestorOrSelf wc/dom/getAncestorOrSelf @param ariaGroup wc/dom/ariaGroup @ignore */
-	function(tag, toArray, Widget, getAncestorOrSelf, ariaGroup) {
+define(["wc/dom/tag", "wc/array/toArray",  "wc/dom/getAncestorOrSelf", "wc/dom/ariaGroup", "wc/dom/role"],
+	/** @param tag wc/dom/tag @param toArray wc/array/toArray @param getAncestorOrSelf wc/dom/getAncestorOrSelf @param ariaGroup wc/dom/ariaGroup @param $role wc/dom/role @ignore */
+	function(tag, toArray, getAncestorOrSelf, ariaGroup, $role) {
 		"use strict";
 		/**
 		 * @constructor
@@ -83,7 +83,7 @@ define(["wc/dom/tag", "wc/array/toArray", "wc/dom/Widget", "wc/dom/getAncestorOr
 					}
 				}
 				// if all else fails get an aria based group
-				if (!(group && group.length) && (role = element.getAttribute("role"))) {
+				if (!(group && group.length) && (role = $role.get(element))) {
 					group = ariaGroup.getGroup(element, role, ignoreInnerGroups);
 				}
 

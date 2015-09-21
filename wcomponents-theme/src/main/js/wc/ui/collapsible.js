@@ -14,6 +14,7 @@
  * @requires module:wc/timers
  * @requires module:wc/dom/isEventInLabel
  * @requires module:wc/dom/isAcceptableTarget
+ * @requires module:wc/dom/role
  */
 define(["wc/dom/event",
 		"wc/dom/attribute",
@@ -25,9 +26,10 @@ define(["wc/dom/event",
 		"wc/dom/shed",
 		"wc/timers",
 		"wc/dom/isEventInLabel",
-		"wc/dom/isAcceptableTarget"],
-	/** @param event wc/dom/event @param attribute wc/dom/attribute @param focus wc/dom/focus @param formUpdateManager wc/dom/formUpdateManager @param has wc/has @param initialise wc/dom/initialise @param Widget wc/dom/Widget @param shed wc/dom/shed @param timers wc/timers @param isEventInLabel wc/dom/isEventInLabel @param isAcceptableEventTarget wc/dom/isAcceptableTarget @ignore */
-	function(event, attribute, focus, formUpdateManager, has, initialise, Widget, shed, timers, isEventInLabel, isAcceptableEventTarget) {
+		"wc/dom/isAcceptableTarget",
+		"wc/dom/role"],
+	/** @param event wc/dom/event @param attribute wc/dom/attribute @param focus wc/dom/focus @param formUpdateManager wc/dom/formUpdateManager @param has wc/has @param initialise wc/dom/initialise @param Widget wc/dom/Widget @param shed wc/dom/shed @param timers wc/timers @param isEventInLabel wc/dom/isEventInLabel @param isAcceptableEventTarget wc/dom/isAcceptableTarget @param $role wc/dom/role @ignore */
+	function(event, attribute, focus, formUpdateManager, has, initialise, Widget, shed, timers, isEventInLabel, isAcceptableEventTarget, $role) {
 		"use strict";
 
 		/**
@@ -213,7 +215,7 @@ define(["wc/dom/event",
 							shed.enable(header, true);
 						}
 					}
-					else if (header.getAttribute("role") === "button") {
+					else if ($role.get(header) === "button") {
 						header.setAttribute("aria-expanded", action === shed.actions.EXPAND ? TRUE : FALSE);
 					}
 				}

@@ -31,6 +31,7 @@
  * @requires module:wc/dom/tag
  * @requires module:wc/dom/Widget
  * @requires module:wc/dom/getLabelsForElement
+ * @requires module:wc/dom/role
  *
  * @todo re-order code, document private methods.
  */
@@ -41,9 +42,10 @@ define(["wc/Observer",
 		"wc/dom/disabledLink",
 		"wc/dom/tag",
 		"wc/dom/Widget",
-		"wc/dom/getLabelsForElement"],
-	/** @param Observer wc/Observer @param aria wc/dom/aria @param impliedAria wc/dom/impliedARIA @param classList wc/dom/classList @param disabledLink wc/dom/disabledLink @param tag wc/dom/tag @param Widget wc/dom/Widget @param getLabelsForElement wc/dom/getLabelsForElement @ignore */
-	function(Observer, aria, impliedAria, classList, disabledLink, tag, Widget, getLabelsForElement) {
+		"wc/dom/getLabelsForElement",
+		"wc/dom/role"],
+	/** @param Observer wc/Observer @param aria wc/dom/aria @param impliedAria wc/dom/impliedARIA @param classList wc/dom/classList @param disabledLink wc/dom/disabledLink @param tag wc/dom/tag @param Widget wc/dom/Widget @param getLabelsForElement wc/dom/getLabelsForElement @param $role wc/dom/role @ignore */
+	function(Observer, aria, impliedAria, classList, disabledLink, tag, Widget, getLabelsForElement, $role) {
 		"use strict";
 
 		/**
@@ -93,7 +95,7 @@ define(["wc/Observer",
 				var _nativeState = NATIVE_STATE[STATE],
 					_ariaState = ARIA_STATE[STATE],
 					nativeSupported = impliedAria.supportsNativeState(element, STATE),
-					role = getRole(element),
+					role = $role.get(element, true),
 					supported,
 					ariaSupported,
 					kids,
@@ -139,7 +141,7 @@ define(["wc/Observer",
 							if (!reverse) {
 								element.tabIndex = -1;
 							}
-							else if (element.getAttribute("role")) {
+							else if ($role.get(element)) {
 								element.tabIndex = 0;
 							}
 							else {
@@ -188,18 +190,6 @@ define(["wc/Observer",
 			 */
 			function expandWithOpen(element) {
 				return element.tagName === tag.DETAILS;
-			}
-
-			/**
-			 * Gets a WAI-ARIA role for a given element. This includes implicit roles such as the role of "button" on a
-			 * HTML BUTTON element with no role attribute.
-			 * @function
-			 * @private
-			 * @param {Element} element The element to test.
-			 * @returns {String} A WAI-ARIA role.
-			 */
-			function getRole(element) {
-				return element.getAttribute("role") || impliedAria.getImpliedRole(element);
 			}
 
 			/**
@@ -355,7 +345,7 @@ define(["wc/Observer",
 			function selectHelper(action, element) {
 				var preferred, i, len,
 					supported,
-					role = getRole(element),
+					role = $role.get(element, true),
 					mixed = (action === instance.state.MIXED);
 
 				if (role && !(impliedAria.supportsNativeState(element, ANY_SEL_STATE))) {
@@ -690,7 +680,7 @@ define(["wc/Observer",
 					result = true;
 				}
 				else {
-					role = getRole(element);
+					role = $role.get(element, true);
 					if ((supported = aria.getSupported(role))) {
 						supported = ARIA_STATE[SELECTED].filter(function(attr) {
 							return (supported[attr] === aria.SUPPORTED || supported[attr] === aria.REQUIRED);
@@ -724,7 +714,7 @@ define(["wc/Observer",
 					nextResult,
 					level,
 					supported,
-					role = getRole(element);
+					role = $role.get(element, true);
 				if (role && !(impliedAria.supportsNativeState(element, ANY_SEL_STATE))) {
 					supported = aria.getSupported(role);
 					for (i = (ARIA_STATE[SELECTED].length - 1); i >= 0; i--) {

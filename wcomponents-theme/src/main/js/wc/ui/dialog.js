@@ -23,6 +23,7 @@
  * @requires module:wc/ui/resizeable
  * @requires module:wc/ui/positionable
  * @requires module:wc/ui/draggable
+ * @requires module:wc/dom/role
  *
  * @todo Re-order source, document private members.
  */
@@ -43,10 +44,11 @@ define(["wc/dom/classList",
 		"wc/has",
 		"wc/ui/resizeable",
 		"wc/ui/positionable",
-		"wc/ui/draggable"],
-	/** @param classList wc/dom/classList @param event wc/dom/event @param focus wc/dom/focus @param initialise wc/dom/initialise @param shed wc/dom/shed @param Widget wc/dom/Widget @param i18n wc/i18n/i18n @param loader wc/loader/resource @param sprintf sprintf/sprintf @param ajaxRegion wc/ui/ajaxRegion @param processResponse wc/ui/ajax/processResponse @param modalShim wc/ui/modalShim @param timers wc/timers @param eagerLoader wc/ui/containerload @param has wc/has @param resizeable wc/ui/resizeable @param positionable wc/ui/positionable @ignore */
+		"wc/ui/draggable",
+		"wc/dom/role"],
+	/** @param classList wc/dom/classList @param event wc/dom/event @param focus wc/dom/focus @param initialise wc/dom/initialise @param shed wc/dom/shed @param Widget wc/dom/Widget @param i18n wc/i18n/i18n @param loader wc/loader/resource @param sprintf sprintf/sprintf @param ajaxRegion wc/ui/ajaxRegion @param processResponse wc/ui/ajax/processResponse @param modalShim wc/ui/modalShim @param timers wc/timers @param eagerLoader wc/ui/containerload @param has wc/has @param resizeable wc/ui/resizeable @param positionable wc/ui/positionable @param $role wc/dom/role @ignore */
 	function(classList, event, focus, initialise, shed, Widget, i18n, loader, sprintf, ajaxRegion, processResponse,
-		modalShim, timers, eagerLoader, has, resizeable, positionable) {
+		modalShim, timers, eagerLoader, has, resizeable, positionable, $role) {
 		"use strict";
 
 		/*
@@ -152,7 +154,7 @@ define(["wc/dom/classList",
 			function isModal(dialog) {
 				var content,
 					result = false;
-				if ((content = getContent(dialog)) && content.getAttribute("role") === "alertdialog") {
+				if ((content = getContent(dialog)) && $role.get(content) === "alertdialog") {
 					result = true;
 				}
 				return result;
