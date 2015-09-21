@@ -43,7 +43,6 @@ public class MenuBarExample extends WContainer {
 	/**
 	 * Create a MenuBaExample with an existing selectedItem reporter.
 	 * @param selectedMenuText The container to report the selected item.
-	 *
 	 */
 	public MenuBarExample(final WText selectedMenuText) {
 		barMenu = buildMenuBar(selectedMenuText);

@@ -30,6 +30,7 @@ public class WPanelTypeExample extends WContainer {
 	 */
 	public WPanelTypeExample() {
 		final WText selectedMenuText = new WText();
+
 		final WDropdown panelType = new WDropdown();
 		panelType.setOptions(WPanel.Type.values());
 		panelType.setSelected(WPanel.Type.PLAIN);
