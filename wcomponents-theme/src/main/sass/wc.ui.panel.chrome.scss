@@ -4,35 +4,8 @@
 
 @import 'wc.ui.panel_vars.scss';
 
-.chrome {
-	@include border;
-
-	> h1 {
-		background-color: $wc-ui-color-panel-chrome-header-background;
-		color: $wc-ui-color-panel-chrome-header-foreground;
-		margin: 0;
-		padding: $hgap-normal;
-	}
-
-	> div,
-	> .listLayout {
-		margin: $hgap-normal;
-	}
-
-	// element qualifier for ordered lists only
-	//scss-lint:disable QualifyingElement
-	> .listLayout.dot,
-	> ol.listLayout {
-		margin-left: 2em;
-	}
-	//scss-lint:emable QualifyingElement
-
-	> .listLayout {
-		&.none,
-		&.flat,
-		&.bar {
-			margin-left: $hgap-normal;
-		}
-	}
+.chrome > h1 {
+	background-color: $wc-ui-color-section-heading-bg;
+	color: $wc-ui-color-section-heading-fg;
 }
 /* end wc.ui.panel.chrome.scss */

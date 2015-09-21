@@ -106,7 +106,6 @@ dialog [role='combobox'] > [role='listbox'] {
 		@include border($pos: bottom);
 
 		td:last-child { // container of the close button
-			padding-right: 0;
 			text-align: right;
 		}
 	}

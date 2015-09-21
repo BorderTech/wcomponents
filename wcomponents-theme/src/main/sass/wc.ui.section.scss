@@ -1,35 +1,29 @@
 /* wc.ui.section.scss */
 @import 'mixins_common.scss';
 
-.section {
-	@include border;
+.section > .decoratedLabel {
+	background-color: $wc-ui-color-section-heading-bg;
+	color: $wc-ui-color-section-heading-fg;
 
-	> .decoratedLabel {
-		background-color: $wc-ui-color-border;
-		border-collapse: collapse;
-		display: table;
-		margin: 0;
-		width: 100%;
-
-		> h1,
-		> div {
-			display: table-cell;
-			padding: $hgap-normal;
-		}
-
-		> h1 {
-			margin: 0;
-			width: 100%;
-		}
-
-		> div {
-			white-space: nowrap;
-			width: 0;
-		}
+	> h1 {
+		color: $wc-ui-color-section-heading-fg;
 	}
 
-	> .content {
-		margin: $hgap-normal;
+	// color links, link-like buttons and 'buttonless' buttons to make them visible.
+	.wc_btn_nada,
+	.wc_btn_link,
+	a,
+	a:visited {
+		color: $wc-ui-color-section-heading-fg;
 	}
+
+	// Only change disabled state of a elements.
+	// scss-lint:disable QualifyingElement
+	.wc_btn_nada[disabled],
+	.wc_btn_nada[disabled],
+	a[aria-disabled='true'] {
+		color: $wc-ui-color-section-heading-fg-disabled;
+	}
+	// scss-lint:enable QualifyingElement
 }
 /* end wc.ui.section.scss */
