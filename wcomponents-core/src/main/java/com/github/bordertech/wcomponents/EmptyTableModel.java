@@ -4,44 +4,47 @@ import java.util.List;
 
 /**
  * An empty data model implementation, the default model used by {@link WTable}.
- * 
+ *
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public final class EmptyTableModel extends AbstractTableModel
-{
-    /** The singleton instance. */
-    public static final EmptyTableModel INSTANCE = new EmptyTableModel();
+public final class EmptyTableModel extends AbstractTableModel {
 
-    /** Prevent external instantiation of this class. */
-    private EmptyTableModel()
-    {
-    }
+	/**
+	 * The singleton instance.
+	 */
+	public static final EmptyTableModel INSTANCE = new EmptyTableModel();
 
-    /**
-     * @param row ignored
-     * @param col ignored
-     * @return null
-     */
-    public Object getValueAt(final List<Integer> row, final int col)
-    {
-        return null;
-    }
+	/**
+	 * Prevent external instantiation of this class.
+	 */
+	private EmptyTableModel() {
+	}
 
-    /**
-     * @return 0
-     */
-    public int getRowCount()
-    {
-        return 0;
-    }
+	/**
+	 * @param row ignored
+	 * @param col ignored
+	 * @return null
+	 */
+	@Override
+	public Object getValueAt(final List<Integer> row, final int col) {
+		return null;
+	}
 
-    /**
-     * @param row ignored
-     * @return 0
-     */
-    public int getChildCount(final List<Integer> row)
-    {
-        return 0;
-    }
+	/**
+	 * @return 0
+	 */
+	@Override
+	public int getRowCount() {
+		return 0;
+	}
+
+	/**
+	 * @param row ignored
+	 * @return 0
+	 */
+	@Override
+	public int getChildCount(final List<Integer> row) {
+		return 0;
+	}
 }

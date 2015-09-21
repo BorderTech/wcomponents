@@ -1,19 +1,5 @@
 package com.github.bordertech.wcomponents.test.selenium;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.logging.LogFactory;
-import org.eclipse.jetty.webapp.WebAppContext;
-
 import com.github.bordertech.wcomponents.RenderContext;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.UIContext;
@@ -21,14 +7,24 @@ import com.github.bordertech.wcomponents.UIContextHolder;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.container.InterceptorComponent;
+import com.github.bordertech.wcomponents.lde.TestServlet;
 import com.github.bordertech.wcomponents.servlet.WServlet;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.Config;
 import com.github.bordertech.wcomponents.util.StreamUtil;
 import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.Util;
-
-import com.github.bordertech.wcomponents.lde.TestServlet;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.logging.LogFactory;
+import org.eclipse.jetty.webapp.WebAppContext;
 
 /**
  * An extension of TestServlet to use when running tests in Selenium.
@@ -36,358 +32,336 @@ import com.github.bordertech.wcomponents.lde.TestServlet;
  * @author Yiannis Paschalidis
  * @since 1.0.0
  */
-public class SeleniumTestServlet extends TestServlet
-{
-    /**
-     * A map of UIContext by test case instance identifier.
-     * These are used instead of the UIContext in the HTTP session
-     * so that the jUnit test case has visibility of the UIContext
-     * being used.
-     */
-    private static final Map<String, UIContext> contextMap = new HashMap<String, UIContext>();
+public class SeleniumTestServlet extends TestServlet {
 
-    /** The singleton instance of the test servlet. */
-    private static SeleniumTestServlet servlet = new SeleniumTestServlet();
+	/**
+	 * A map of UIContext by test case instance identifier. These are used instead of the UIContext in the HTTP session
+	 * so that the jUnit test case has visibility of the UIContext being used.
+	 */
+	private static final Map<String, UIContext> CONTEXT_MAP = new HashMap<>();
 
-    /** A count of the number of complete calls to the service method. */
-    private static int serviceCount = 0;
+	/**
+	 * The singleton instance of the test servlet.
+	 */
+	private static final SeleniumTestServlet SERVLET = new SeleniumTestServlet();
 
-    /** Used for synchronization for the service count. */
-    private static final Object LOCK = new Object();
+	/**
+	 * A count of the number of complete calls to the service method.
+	 */
+	private static int serviceCount = 0;
 
-    /** This parameter is sent on each http request to identify the selenium test in use. */
-    protected static final String REQUEST_TEST_CASE_ID_PARAM = "SeleniumTestServlet.seleniumTestId";
+	/**
+	 * Used for synchronization for the service count.
+	 */
+	private static final Object LOCK = new Object();
 
-    /**
-     * Subclasses may override this to register additional servlets with the server.
-     *
-     * @param webapp the webapp to register the servlets with.
-     */
-    @Override
-    protected void registerServlets(final WebAppContext webapp)
-    {
-        webapp.addServlet(getClass().getName(), "/app/*");
-    }
+	/**
+	 * This parameter is sent on each http request to identify the selenium test in use.
+	 */
+	protected static final String REQUEST_TEST_CASE_ID_PARAM = "SeleniumTestServlet.seleniumTestId";
 
-    /**
-     * @return an interceptor chain to use when servicing requests.
-     */
-    @Override
-    public InterceptorComponent createInterceptorChain(final Object httpServletRequest)
-    {
-        InterceptorComponent backing = super.createInterceptorChain(httpServletRequest);
-        HttpServletRequest request = (HttpServletRequest) httpServletRequest;
+	/**
+	 * Subclasses may override this to register additional servlets with the server.
+	 *
+	 * @param webapp the webapp to register the servlets with.
+	 */
+	@Override
+	protected void registerServlets(final WebAppContext webapp) {
+		webapp.addServlet(getClass().getName(), "/app/*");
+	}
 
-        // Only inject the script into normal round-trip requests.
-        if (request.getParameter(DATA_LIST_PARAM_NAME) == null
-            && request.getParameter(AJAX_TRIGGER_PARAM_NAME) == null
-            && request.getParameter(TARGET_ID_PARAM_NAME) == null)
-        {
-            InterceptorComponent seleniumInterceptor = new ScriptInterceptor();
-            seleniumInterceptor.setBackingComponent(backing);
+	/**
+	 * @param httpServletRequest the request being processed
+	 * @return an interceptor chain to use when servicing requests.
+	 */
+	@Override
+	public InterceptorComponent createInterceptorChain(final Object httpServletRequest) {
+		InterceptorComponent backing = super.createInterceptorChain(httpServletRequest);
+		HttpServletRequest request = (HttpServletRequest) httpServletRequest;
 
-            return seleniumInterceptor;
-        }
+		// Only inject the script into normal round-trip requests.
+		if (request.getParameter(DATA_LIST_PARAM_NAME) == null
+				&& request.getParameter(AJAX_TRIGGER_PARAM_NAME) == null
+				&& request.getParameter(TARGET_ID_PARAM_NAME) == null) {
+			InterceptorComponent seleniumInterceptor = new ScriptInterceptor();
+			seleniumInterceptor.setBackingComponent(backing);
 
-        return backing;
-    }
+			return seleniumInterceptor;
+		}
 
-    /**
-     * Override in order to notify listeners when a request has been processed.
-     *
-     * @param req the {@link HttpServletRequest} object that
-     * contains the request the client made of the servlet
-     *
-     * @param res the {@link HttpServletResponse} object that
-     * contains the response the servlet returns to the client
-     */
-    @Override
-    public void service(final ServletRequest req, final ServletResponse res) throws ServletException, IOException
-    {
-        synchronized (LOCK)
-        {
-            super.service(req, res);
-            incrementServiceCount();
-        }
-    }
+		return backing;
+	}
 
-    /**
-     * Increments the service count.
-     */
-    private static void incrementServiceCount()
-    {
-        synchronized (LOCK)
-        {
-            serviceCount++;
-        }
-    }
+	/**
+	 * Override in order to notify listeners when a request has been processed.
+	 *
+	 * @param req the {@link HttpServletRequest} object that contains the request the client made of the servlet
+	 *
+	 * @param res the {@link HttpServletResponse} object that contains the response the servlet returns to the client
+	 *
+	 * @throws ServletException a servlet exception
+	 * @throws IOException an IO exception
+	 */
+	@Override
+	public void service(final ServletRequest req, final ServletResponse res) throws ServletException, IOException {
+		synchronized (LOCK) {
+			super.service(req, res);
+			incrementServiceCount();
+		}
+	}
 
-    /**
-     * Returns the number of times that the service method has been successfully invoked.
-     * @return the service count.
-     */
-    public static int getServiceCount()
-    {
-        synchronized (LOCK)
-        {
-            return serviceCount;
-        }
-    }
+	/**
+	 * Increments the service count.
+	 */
+	private static void incrementServiceCount() {
+		synchronized (LOCK) {
+			serviceCount++;
+		}
+	}
 
-    /**
-     * Sets the UIContext.
-     *
-     * @param identifier the context identifier
-     * @param uic the UIContext to set.
-     */
-    public static synchronized void setUiContext(final String identifier, final UIContext uic)
-    {
-        contextMap.put(identifier, uic);
-    }
+	/**
+	 * Returns the number of times that the service method has been successfully invoked.
+	 *
+	 * @return the service count.
+	 */
+	public static int getServiceCount() {
+		synchronized (LOCK) {
+			return serviceCount;
+		}
+	}
 
-    /**
-     * Removes the UIContext with the given key.
-     * @param identifier the identifier of the context to remove.
-     *
-     * @see #setUiContext(String, UIContext)
-     */
-    public static synchronized void removeUiContext(final String identifier)
-    {
-        contextMap.remove(identifier);
-    }
+	/**
+	 * Sets the UIContext.
+	 *
+	 * @param identifier the context identifier
+	 * @param uic the UIContext to set.
+	 */
+	public static synchronized void setUiContext(final String identifier, final UIContext uic) {
+		CONTEXT_MAP.put(identifier, uic);
+	}
 
-    /**
-     * This method has been overridden to return the configured ui.
-     *
-     * @param httpServletRequest the httpServletRequest being handled.
-     * @return the ui to use.
-     */
-    @Override
-    public WComponent getUI(final Object httpServletRequest)
-    {
-        HttpServletRequest request = (HttpServletRequest) httpServletRequest;
-        String pathInfo = request.getPathInfo();
+	/**
+	 * Removes the UIContext with the given key.
+	 *
+	 * @param identifier the identifier of the context to remove.
+	 *
+	 * @see #setUiContext(String, UIContext)
+	 */
+	public static synchronized void removeUiContext(final String identifier) {
+		CONTEXT_MAP.remove(identifier);
+	}
 
-        if (pathInfo != null)
-        {
-            String testId = pathInfo.substring(pathInfo.lastIndexOf('/') + 1);
-            UIContext uic = contextMap.get(testId);
+	/**
+	 * This method has been overridden to return the configured ui.
+	 *
+	 * @param httpServletRequest the httpServletRequest being handled.
+	 * @return the ui to use.
+	 */
+	@Override
+	public WComponent getUI(final Object httpServletRequest) {
+		HttpServletRequest request = (HttpServletRequest) httpServletRequest;
+		String pathInfo = request.getPathInfo();
 
-            if (uic == null)
-            {
-                throw new SystemException("Failed to get UIContext from map");
-            }
+		if (pathInfo != null) {
+			String testId = pathInfo.substring(pathInfo.lastIndexOf('/') + 1);
+			UIContext uic = CONTEXT_MAP.get(testId);
 
-            return uic.getUI();
-        }
+			if (uic == null) {
+				throw new SystemException("Failed to get UIContext from map");
+			}
 
-        return super.getUI(httpServletRequest);
-    }
+			return uic.getUI();
+		}
 
-    /**
-     * Starts the Servlet.
-     * @throws Exception if there is an error starting the servlet.
-     */
-    public static void startServlet() throws Exception
-    {
-        servlet.run();
-    }
+		return super.getUI(httpServletRequest);
+	}
 
-    /**
-     * Stops the Servlet.
-     * @throws InterruptedException if there is an error stopping the servlet.
-     */
-    public static void stopServlet() throws InterruptedException
-    {
-        servlet.stop();
-    }
+	/**
+	 * Starts the Servlet.
+	 *
+	 * @throws Exception if there is an error starting the servlet.
+	 */
+	public static void startServlet() throws Exception {
+		SERVLET.run();
+	}
 
-    /**
-     * @return the servlet URL.
-     */
-    public static String getServletUrl()
-    {
-        return servlet.getUrl();
-    }
+	/**
+	 * Stops the Servlet.
+	 *
+	 * @throws InterruptedException if there is an error stopping the servlet.
+	 */
+	public static void stopServlet() throws InterruptedException {
+		SERVLET.stop();
+	}
 
-    /**
-     * Starts up Jetty for use in the unit tests.
-     * @throws Exception if there is an error starting the server.
-     */
-    @Override
-    public void run() throws Exception
-    {
-        // Run on a randomly available port.
-        Config.getInstance().setProperty("bordertech.wcomponents.lde.server.port", "0");
-        super.run();
-    }
+	/**
+	 * @return the servlet URL.
+	 */
+	public static String getServletUrl() {
+		return SERVLET.getUrl();
+	}
 
-    /**
-     * Overridden to return a SeleniumServletHelper.
-     *
-     * @param httpServletRequest the current servlet request.
-     * @param httpServletResponse the servlet response for the current request.
-     * @return a servlet helper for the given request/response.
-     */
-    @Override
-    protected WServletHelper createServletHelper(final HttpServletRequest httpServletRequest,
-                                                 final HttpServletResponse httpServletResponse)
-    {
-        return new SeleniumServletHelper(this, httpServletRequest, httpServletResponse);
-    }
+	/**
+	 * Starts up Jetty for use in the unit tests.
+	 *
+	 * @throws Exception if there is an error starting the server.
+	 */
+	@Override
+	public void run() throws Exception {
+		// Run on a randomly available port.
+		Config.getInstance().setProperty("bordertech.wcomponents.lde.server.port", "0");
+		super.run();
+	}
 
+	/**
+	 * Overridden to return a SeleniumServletHelper.
+	 *
+	 * @param httpServletRequest the current servlet request.
+	 * @param httpServletResponse the servlet response for the current request.
+	 * @return a servlet helper for the given request/response.
+	 */
+	@Override
+	protected WServletHelper createServletHelper(final HttpServletRequest httpServletRequest,
+			final HttpServletResponse httpServletResponse) {
+		return new SeleniumServletHelper(this, httpServletRequest, httpServletResponse);
+	}
 
-    /**
-     * <p>This servlet helper passes the request test case ID parameter around
-     * between requests, and also makes it available to the SeleniumTestServlet
-     * as a request attribute.</p>
-     *
-     * <p>The helper also ensures that we are using the test case's UIContext.</p>
-     */
-    private static final class SeleniumServletHelper extends WServletHelper
-    {
-        /**
-         * We need the WComponent request object created immediately so that we can place
-         * the attribute in the request. NOTE: The creation of this request object performs
-         * a destructive read on the servlet input stream when a file has been uploaded.
-         */
-        private final Request request = createRequest();
-        private final String testId;
+	/**
+	 * <p>
+	 * This servlet helper passes the request test case ID parameter around between requests, and also makes it
+	 * available to the SeleniumTestServlet as a request attribute.</p>
+	 *
+	 * <p>
+	 * The helper also ensures that we are using the test case's UIContext.</p>
+	 */
+	private static final class SeleniumServletHelper extends WServletHelper {
 
-        /**
-         * Creates a SeleniumServletHelper.
-         * @param servlet the SeleniumTestServlet instance.
-         * @param httpServletRequest the servlet request being responded to.
-         * @param httpServletResponse the servlet response.
-         */
-        public SeleniumServletHelper(final WServlet servlet, final HttpServletRequest httpServletRequest,
-                                      final HttpServletResponse httpServletResponse)
-        {
-            super(servlet, httpServletRequest, httpServletResponse);
+		/**
+		 * We need the WComponent request object created immediately so that we can place the attribute in the request.
+		 * NOTE: The creation of this request object performs a destructive read on the servlet input stream when a file
+		 * has been uploaded.
+		 */
+		private final Request request = createRequest();
+		private final String testId;
 
-            String pathInfo = httpServletRequest.getPathInfo();
+		/**
+		 * Creates a SeleniumServletHelper.
+		 *
+		 * @param servlet the SeleniumTestServlet instance.
+		 * @param httpServletRequest the servlet request being responded to.
+		 * @param httpServletResponse the servlet response.
+		 */
+		private SeleniumServletHelper(final WServlet servlet, final HttpServletRequest httpServletRequest,
+				final HttpServletResponse httpServletResponse) {
+			super(servlet, httpServletRequest, httpServletResponse);
 
-            if (pathInfo == null)
-            {
-                testId = null;
-            }
-            else
-            {
-                testId = pathInfo.substring(pathInfo.lastIndexOf('/') + 1);
-            }
-        }
+			String pathInfo = httpServletRequest.getPathInfo();
 
-        /**
-         * We want to use the UIContext from the test case
-         * rather than creating and storing it in the HttpSession.
-         *
-         * @return the correct UIContext instance for the current test case.
-         */
-        @Override
-        protected UIContext getUIContext()
-        {
-            UIContext uic = super.getUIContext();
+			if (pathInfo == null) {
+				testId = null;
+			} else {
+				testId = pathInfo.substring(pathInfo.lastIndexOf('/') + 1);
+			}
+		}
 
-            if (uic == null)
-            {
-                uic = contextMap.get(testId);
-                getBackingRequest().getSession().setAttribute(getUiContextSessionKey(), uic);
-            }
+		/**
+		 * We want to use the UIContext from the test case rather than creating and storing it in the HttpSession.
+		 *
+		 * @return the correct UIContext instance for the current test case.
+		 */
+		@Override
+		protected UIContext getUIContext() {
+			UIContext uic = super.getUIContext();
 
-            return uic;
-        }
+			if (uic == null) {
+				uic = CONTEXT_MAP.get(testId);
+				getBackingRequest().getSession().setAttribute(getUiContextSessionKey(), uic);
+			}
 
-        @Override
-        protected Request getRequest()
-        {
-            return request;
-        }
-    }
+			return uic;
+		}
 
-    /**
-     * This interceptor is used to serve up the additional javascript required for Selenium tests.
-     */
-    private static final class ScriptInterceptor extends InterceptorComponent
-    {
-        // A new interceptor chain is created for each request, so it is safe to store state here.
+		@Override
+		protected Request getRequest() {
+			return request;
+		}
+	}
 
-        /** The requested script. */
-        private String scriptRequested = null;
+	/**
+	 * This interceptor is used to serve up the additional javascript required for Selenium tests.
+	 */
+	private static final class ScriptInterceptor extends InterceptorComponent {
+		// A new interceptor chain is created for each request, so it is safe to store state here.
 
-        /** {@inheritDoc} */
-        @Override
-        public void serviceRequest(final Request request)
-        {
-            scriptRequested = request.getParameter("seleniumTestScript");
+		/**
+		 * The requested script.
+		 */
+		private String scriptRequested = null;
 
-            // Same basic sanity checking
-            if (Util.empty(scriptRequested) || scriptRequested.indexOf('/') != -1 || !scriptRequested.endsWith(".js"))
-            {
-                scriptRequested = null;
-            }
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public void serviceRequest(final Request request) {
+			scriptRequested = request.getParameter("seleniumTestScript");
 
-            if (scriptRequested == null)
-            {
-                super.serviceRequest(request);
-            }
-        }
+			// Same basic sanity checking
+			if (Util.empty(scriptRequested) || scriptRequested.indexOf('/') != -1 || !scriptRequested.endsWith(".js")) {
+				scriptRequested = null;
+			}
 
-        /** {@inheritDoc} */
-        @Override
-        public void preparePaint(final Request request)
-        {
-            UIContext uic = UIContextHolder.getCurrent();
+			if (scriptRequested == null) {
+				super.serviceRequest(request);
+			}
+		}
 
-            if (scriptRequested == null)
-            {
-                super.preparePaint(request);
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public void preparePaint(final Request request) {
+			UIContext uic = UIContextHolder.getCurrent();
 
-                StringBuffer path = new StringBuffer(uic.getEnvironment().getPostPath());
-                path.append("?seleniumTestScript=seleniumBefore.js");
+			if (scriptRequested == null) {
+				super.preparePaint(request);
 
-                for (Map.Entry<String, String> entry : uic.getEnvironment().getHiddenParameters().entrySet())
-                {
-                    path.append('&');
-                    path.append(WebUtilities.escapeForUrl(entry.getKey()));
-                    path.append('=');
-                    path.append(WebUtilities.escapeForUrl(entry.getValue()));
-                }
+				StringBuffer path = new StringBuffer(uic.getEnvironment().getPostPath());
+				path.append("?seleniumTestScript=seleniumBefore.js");
 
-                String pathStr = WebUtilities.encode(path.toString());
-                uic.getHeaders().addHeadLine("<script type=\"text/javascript\" src=\"" + pathStr + "\"/>");
-            }
-            else
-            {
-                uic.getHeaders().setContentType("application/x-javascript");
-            }
-        }
+				for (Map.Entry<String, String> entry : uic.getEnvironment().getHiddenParameters().entrySet()) {
+					path.append('&');
+					path.append(WebUtilities.escapeForUrl(entry.getKey()));
+					path.append('=');
+					path.append(WebUtilities.escapeForUrl(entry.getValue()));
+				}
 
-        /** {@inheritDoc} */
-        @Override
-        public void paint(final RenderContext renderContext)
-        {
-            if (scriptRequested == null)
-            {
-                super.paint(renderContext);
-            }
-            else if (renderContext instanceof WebXmlRenderContext)
-            {
-                WebXmlRenderContext webContext = (WebXmlRenderContext) renderContext;
+				String pathStr = WebUtilities.encode(path.toString());
+				uic.getHeaders().addHeadLine("<script type=\"text/javascript\" src=\"" + pathStr + "\"/>");
+			} else {
+				uic.getHeaders().setContentType("application/x-javascript");
+			}
+		}
 
-                try
-                {
-                    InputStream stream = getClass().getResourceAsStream("/com/github/bordertech/wcomponents/test/selenium/" + scriptRequested);
-                    webContext.getWriter().write(new String(StreamUtil.getBytes(stream), "UTF-8"));
-                }
-                catch (Exception e)
-                {
-                    LogFactory.getLog(getClass()).error("Failed to write selenium script", e);
-                }
-            }
-            else
-            {
-                throw new SystemException("Unable to render to " + renderContext);
-            }
-        }
-    }
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public void paint(final RenderContext renderContext) {
+			if (scriptRequested == null) {
+				super.paint(renderContext);
+			} else if (renderContext instanceof WebXmlRenderContext) {
+				WebXmlRenderContext webContext = (WebXmlRenderContext) renderContext;
+
+				try {
+					InputStream stream = getClass().getResourceAsStream(
+							"/com/github/bordertech/wcomponents/test/selenium/" + scriptRequested);
+					webContext.getWriter().write(new String(StreamUtil.getBytes(stream), "UTF-8"));
+				} catch (Exception e) {
+					LogFactory.getLog(getClass()).error("Failed to write selenium script", e);
+				}
+			} else {
+				throw new SystemException("Unable to render to " + renderContext);
+			}
+		}
+	}
 }

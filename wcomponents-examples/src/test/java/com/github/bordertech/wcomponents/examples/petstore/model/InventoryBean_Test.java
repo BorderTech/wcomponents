@@ -5,152 +5,143 @@ import org.junit.Test;
 
 /**
  * Unit tests for {@link InventoryBean}.
- * 
+ *
  * @author Anthony O'Connor
  * @since 1.0.0
  */
-public class InventoryBean_Test
-{
-    /**
-     * Test constructor - empty.
-     */
-    @Test
-    public void testConstructor()
-    {
-        InventoryBean bean = new InventoryBean();
+public class InventoryBean_Test {
 
-        Assert.assertEquals("productId should equal default", 0, bean.getProductId());
-        Assert.assertEquals("status should equal default", 0, bean.getStatus());
-        Assert.assertEquals("count should equal default", 0, bean.getCount());
-        Assert.assertEquals("unitCost should equal default", 0, bean.getUnitCost());
-    }
+	/**
+	 * Test constructor - empty.
+	 */
+	@Test
+	public void testConstructor() {
+		InventoryBean bean = new InventoryBean();
 
-    /**
-     * Test constructor - all params input.
-     */
-    @Test
-    public void testConstructorAll()
-    {
-        final int testProductId = 2;
-        final int testStatus = 55;
-        final int testCount = 3;
-        final int testUnitCost = 23000;
+		Assert.assertEquals("productId should equal default", 0, bean.getProductId());
+		Assert.assertEquals("status should equal default", 0, bean.getStatus());
+		Assert.assertEquals("count should equal default", 0, bean.getCount());
+		Assert.assertEquals("unitCost should equal default", 0, bean.getUnitCost());
+	}
 
-        InventoryBean bean = new InventoryBean(testProductId, testStatus, testCount, testUnitCost);
+	/**
+	 * Test constructor - all params input.
+	 */
+	@Test
+	public void testConstructorAll() {
+		final int testProductId = 2;
+		final int testStatus = 55;
+		final int testCount = 3;
+		final int testUnitCost = 23000;
 
-        Assert.assertEquals("productId should equal value set", testProductId, bean.getProductId());
-        Assert.assertEquals("status should equal value set", testStatus, bean.getStatus());
-        Assert.assertEquals("count should equal value set", testCount, bean.getCount());
-        Assert.assertEquals("unitCost should equal value set", testUnitCost, bean.getUnitCost());
-    }
+		InventoryBean bean = new InventoryBean(testProductId, testStatus, testCount, testUnitCost);
 
-    /**
-     * Test setCount.
-     */
-    @Test
-    public void testSetCount()
-    {
-        final int testCount = 3;
+		Assert.assertEquals("productId should equal value set", testProductId, bean.getProductId());
+		Assert.assertEquals("status should equal value set", testStatus, bean.getStatus());
+		Assert.assertEquals("count should equal value set", testCount, bean.getCount());
+		Assert.assertEquals("unitCost should equal value set", testUnitCost, bean.getUnitCost());
+	}
 
-        InventoryBean bean = new InventoryBean();
-        bean.setCount(testCount);
+	/**
+	 * Test setCount.
+	 */
+	@Test
+	public void testSetCount() {
+		final int testCount = 3;
 
-        Assert.assertEquals("count should equal value set", testCount, bean.getCount());
-    }
+		InventoryBean bean = new InventoryBean();
+		bean.setCount(testCount);
 
-    /**
-     * Test setProductId.
-     */
-    @Test
-    public void testSetProductId()
-    {
-        final int testProductId = 1;
+		Assert.assertEquals("count should equal value set", testCount, bean.getCount());
+	}
 
-        InventoryBean bean = new InventoryBean();
-        bean.setProductId(testProductId);
+	/**
+	 * Test setProductId.
+	 */
+	@Test
+	public void testSetProductId() {
+		final int testProductId = 1;
 
-        Assert.assertEquals("productId should equal value set", testProductId, bean.getProductId());
-    }
+		InventoryBean bean = new InventoryBean();
+		bean.setProductId(testProductId);
 
-    /**
-     * Test setStatus.
-     */
-    @Test
-    public void testSetStatus()
-    {
-        final int testStatus1 = -67;
-        final int testStatus2 = InventoryBean.STATUS_NO_LONGER_AVAILABLE;
-        final int testStatus3 = InventoryBean.STATUS_AVAILABLE;
-        final int testStatus4 = InventoryBean.STATUS_NEW;
-        final int testStatus5 = InventoryBean.STATUS_SPECIAL;
+		Assert.assertEquals("productId should equal value set", testProductId, bean.getProductId());
+	}
 
-        int[] statuses = new int[] { testStatus1, testStatus2, testStatus3, testStatus4, testStatus5 };
+	/**
+	 * Test setStatus.
+	 */
+	@Test
+	public void testSetStatus() {
+		final int testStatus1 = -67;
+		final int testStatus2 = InventoryBean.STATUS_NO_LONGER_AVAILABLE;
+		final int testStatus3 = InventoryBean.STATUS_AVAILABLE;
+		final int testStatus4 = InventoryBean.STATUS_NEW;
+		final int testStatus5 = InventoryBean.STATUS_SPECIAL;
 
-        InventoryBean bean = new InventoryBean();
-        for (int i = 0; i < statuses.length; i++)
-        {
-            bean.setStatus(statuses[i]);
-            Assert.assertEquals("status should equal value set", statuses[i], bean.getStatus());
-        }
-    }
+		int[] statuses = new int[]{testStatus1, testStatus2, testStatus3, testStatus4, testStatus5};
 
-    /**
-     * Test getProduct.
-     */
-    @Test
-    public void testGetProduct()
-    {
-        final int testProductId = 1;
+		InventoryBean bean = new InventoryBean();
+		for (int i = 0; i < statuses.length; i++) {
+			bean.setStatus(statuses[i]);
+			Assert.assertEquals("status should equal value set", statuses[i], bean.getStatus());
+		}
+	}
 
-        InventoryBean bean = new InventoryBean(testProductId, 42, 43, 44);
-        ProductBean product = bean.getProduct();
+	/**
+	 * Test getProduct.
+	 */
+	@Test
+	public void testGetProduct() {
+		final int testProductId = 1;
 
-        Assert.assertEquals("should return product with ID testProductId", testProductId, product.getId());
-    }
+		InventoryBean bean = new InventoryBean(testProductId, 42, 43, 44);
+		ProductBean product = bean.getProduct();
 
-    /**
-     * Test setUnitCost.
-     */
-    @Test
-    public void testSetUnitCost()
-    {
-        final int testUnitCost = 995;
+		Assert.assertEquals("should return product with ID testProductId", testProductId, product.
+				getId());
+	}
 
-        InventoryBean bean = new InventoryBean();
-        bean.setUnitCost(testUnitCost);
+	/**
+	 * Test setUnitCost.
+	 */
+	@Test
+	public void testSetUnitCost() {
+		final int testUnitCost = 995;
 
-        Assert.assertEquals("unitCost should equal value set", testUnitCost, bean.getUnitCost());
-    }
+		InventoryBean bean = new InventoryBean();
+		bean.setUnitCost(testUnitCost);
 
-    /**
-     * Test hashCode.
-     */
-    @Test
-    public void testHashCode()
-    {
-        final int testProductId = 12;
+		Assert.assertEquals("unitCost should equal value set", testUnitCost, bean.getUnitCost());
+	}
 
-        InventoryBean bean = new InventoryBean(testProductId, 42, 43, 44);
+	/**
+	 * Test hashCode.
+	 */
+	@Test
+	public void testHashCode() {
+		final int testProductId = 12;
 
-        Assert.assertEquals("hasCode should be productId", testProductId, bean.hashCode());
-    }
+		InventoryBean bean = new InventoryBean(testProductId, 42, 43, 44);
 
-    /**
-     * Test equals.
-     */
-    @Test
-    public void testEquals()
-    {
-        InventoryBean bean1 = new InventoryBean(1, 42, 43, 44);
-        AddressBean bean2 = new AddressBean();
-        Assert.assertFalse("bean1 not equal bean2", bean1.equals(bean2));
+		Assert.assertEquals("hasCode should be productId", testProductId, bean.hashCode());
+	}
 
-        InventoryBean bean3 = new InventoryBean(1, 42, 43, 44);
-        InventoryBean bean4 = new InventoryBean(2, 62, 63, 64);
-        Assert.assertFalse("bean3 not equal bean4 by ID", bean3.equals(bean4));
+	/**
+	 * Test equals.
+	 */
+	@Test
+	public void testEquals() {
+		InventoryBean bean1 = new InventoryBean(1, 42, 43, 44);
+		AddressBean bean2 = new AddressBean();
+		Assert.assertFalse("bean1 not equal bean2", bean1.equals(bean2));
 
-        InventoryBean bean5 = new InventoryBean(5, 142, 143, 144);
-        InventoryBean bean6 = new InventoryBean(5, 162, 163, 164);
-        Assert.assertEquals("bean3 equals bean4 by ID", bean5, bean6);
-    }
+		InventoryBean bean3 = new InventoryBean(1, 42, 43, 44);
+		InventoryBean bean4 = new InventoryBean(2, 62, 63, 64);
+		Assert.assertFalse("bean3 not equal bean4 by ID", bean3.equals(bean4));
+
+		InventoryBean bean5 = new InventoryBean(5, 142, 143, 144);
+		InventoryBean bean6 = new InventoryBean(5, 162, 163, 164);
+		Assert.assertEquals("bean3 equals bean4 by ID", bean5, bean6);
+	}
 }

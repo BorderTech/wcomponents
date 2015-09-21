@@ -495,8 +495,8 @@ define(["wc/string/escapeRe"], /** @param escapeRe wc/string/escapeRe @ignore */
 		 */
 		this.toString = function() {
 			return Object.keys(store).map(function(group) {
-					return group + ": " + store[group].toString();
-				}).join("\n");
+				return group + ": " + store[group].toString();
+			}).join("\n");
 		};
 
 		/**

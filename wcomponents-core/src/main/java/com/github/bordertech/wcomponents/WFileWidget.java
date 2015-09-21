@@ -1,16 +1,14 @@
 package com.github.bordertech.wcomponents;
 
+import com.github.bordertech.wcomponents.file.FileItemWrap;
+import com.github.bordertech.wcomponents.portlet.context.WFileWidgetCleanup;
+import com.github.bordertech.wcomponents.util.Util;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
 import org.apache.commons.fileupload.FileItem;
-
-import com.github.bordertech.wcomponents.file.FileItemWrap;
-import com.github.bordertech.wcomponents.portlet.context.WFileWidgetCleanup;
-import com.github.bordertech.wcomponents.util.Util;
 
 /**
  * <p>
@@ -42,255 +40,235 @@ import com.github.bordertech.wcomponents.util.Util;
  * @deprecated Use {@link WMultiFileWidget} instead.
  */
 @Deprecated
-public class WFileWidget extends AbstractInput implements AjaxTarget, SubordinateTarget
-{
-    /**
-     * Returns a list of strings that determine the allowable file mime types accepted by the file input. If no types
-     * have been added an empty list is returned. An empty list indicates that all file types are accepted.
-     *
-     * @return The mime types accepted by this file input e.g. "text/plain", "text/html", "application/pdf".
-     */
-    public List<String> getFileTypes()
-    {
-        List<String> fileTypes = getComponentModel().fileTypes;
+public class WFileWidget extends AbstractInput implements AjaxTarget, SubordinateTarget {
 
-        if (fileTypes == null)
-        {
-            return Collections.emptyList();
-        }
+	/**
+	 * Returns a list of strings that determine the allowable file mime types accepted by the file input. If no types
+	 * have been added an empty list is returned. An empty list indicates that all file types are accepted.
+	 *
+	 * @return The mime types accepted by this file input e.g. "text/plain", "text/html", "application/pdf".
+	 */
+	public List<String> getFileTypes() {
+		List<String> fileTypes = getComponentModel().fileTypes;
 
-        return Collections.unmodifiableList(fileTypes);
-    }
+		if (fileTypes == null) {
+			return Collections.emptyList();
+		}
 
-    /**
-     * Set each file type as a valid file mime type to be accepted by the WMultiFileWidget.
-     *
-     * @param types The mime types that will be accepted by the file input.
-     */
-    public void setFileTypes(final String[] types)
-    {
-        if (types == null)
-        {
-            setFileTypes((List<String>) null);
-        }
-        else
-        {
-            setFileTypes(Arrays.asList(types));
-        }
-    }
+		return Collections.unmodifiableList(fileTypes);
+	}
 
-    /**
-     * Set each file type as a valid file mime type to be accepted by the WMultiFileWidget.
-     *
-     * @param types The mime types that will be accepted by the file input.
-     */
-    public void setFileTypes(final List<String> types)
-    {
-        getOrCreateComponentModel().fileTypes = types;
-    }
+	/**
+	 * Set each file type as a valid file mime type to be accepted by the WMultiFileWidget.
+	 *
+	 * @param types The mime types that will be accepted by the file input.
+	 */
+	public void setFileTypes(final String[] types) {
+		if (types == null) {
+			setFileTypes((List<String>) null);
+		} else {
+			setFileTypes(Arrays.asList(types));
+		}
+	}
 
-    /**
-     * Set the maximum file size (in bytes) that will be accepted by the file input. If the user selects a file larger
-     * than this value the client script will tell the user it cannot be uploaded.
-     *
-     * @param bytes The maximum size (in bytes) that can be uploaded by this input.
-     */
-    public void setMaxFileSize(final long bytes)
-    {
-        getOrCreateComponentModel().maxFileSize = bytes;
-    }
+	/**
+	 * Set each file type as a valid file mime type to be accepted by the WMultiFileWidget.
+	 *
+	 * @param types The mime types that will be accepted by the file input.
+	 */
+	public void setFileTypes(final List<String> types) {
+		getOrCreateComponentModel().fileTypes = types;
+	}
 
-    /**
-     * Return the maximum file size (in bytes) that can be accepted by this file input.
-     *
-     * @return The maximum size (in bytes) that can be uploaded by this component.
-     */
-    public long getMaxFileSize()
-    {
-        return getComponentModel().maxFileSize;
-    }
+	/**
+	 * Set the maximum file size (in bytes) that will be accepted by the file input. If the user selects a file larger
+	 * than this value the client script will tell the user it cannot be uploaded.
+	 *
+	 * @param bytes The maximum size (in bytes) that can be uploaded by this input.
+	 */
+	public void setMaxFileSize(final long bytes) {
+		getOrCreateComponentModel().maxFileSize = bytes;
+	}
 
-    /** {@inheritDoc} */
-    @Override
-    protected boolean doHandleRequest(final Request request)
-    {
-        FileItemWrap value = getRequestValue(request);
-        FileItemWrap current = getValue();
+	/**
+	 * Return the maximum file size (in bytes) that can be accepted by this file input.
+	 *
+	 * @return The maximum size (in bytes) that can be uploaded by this component.
+	 */
+	public long getMaxFileSize() {
+		return getComponentModel().maxFileSize;
+	}
 
-        boolean changed = value != null || current != null;
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected boolean doHandleRequest(final Request request) {
+		FileItemWrap value = getRequestValue(request);
+		FileItemWrap current = getValue();
 
-        if (changed)
-        {
-            setData(value);
-        }
+		boolean changed = value != null || current != null;
 
-        return changed;
-    }
+		if (changed) {
+			setData(value);
+		}
 
-    /** {@inheritDoc} */
-    @Override
-    public String getActionCommand()
-    {
-        return getFileName();
-    }
+		return changed;
+	}
 
-    /** {@inheritDoc} */
-    @Override
-    public FileItemWrap getRequestValue(final Request request)
-    {
-        if (isPresent(request))
-        {
-            FileItem value = request.getFileItem(getId());
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getActionCommand() {
+		return getFileName();
+	}
 
-            // No file selected
-            if (Util.empty(value.getName()) && value.getSize() == 0)
-            {
-                return null;
-            }
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public FileItemWrap getRequestValue(final Request request) {
+		if (isPresent(request)) {
+			FileItem value = request.getFileItem(getId());
 
-            FileItemWrap wrapper = new FileItemWrap(value);
-            return wrapper;
-        }
-        else
-        {
-            return getValue();
-        }
-    }
+			// No file selected
+			if (Util.empty(value.getName()) && value.getSize() == 0) {
+				return null;
+			}
 
-    /** * {@inheritDoc} */
-    @Override
-    protected boolean isPresent(final Request request)
-    {
-        return request.getFileItem(getId()) != null;
-    }
+			FileItemWrap wrapper = new FileItemWrap(value);
+			return wrapper;
+		} else {
+			return getValue();
+		}
+	}
 
-    /**
-     * Retrieves the contents of the uploaded file.
-     *
-     * @return the file contents, or null if there was no file uploaded.
-     */
-    public byte[] getBytes()
-    {
-        FileItemWrap wrapper = getValue();
+	/**
+	 * * {@inheritDoc}
+	 */
+	@Override
+	protected boolean isPresent(final Request request) {
+		return request.getFileItem(getId()) != null;
+	}
 
-        if (wrapper != null)
-        {
-            return wrapper.getBytes();
-        }
+	/**
+	 * Retrieves the contents of the uploaded file.
+	 *
+	 * @return the file contents, or null if there was no file uploaded.
+	 */
+	public byte[] getBytes() {
+		FileItemWrap wrapper = getValue();
 
-        return null;
-    }
+		if (wrapper != null) {
+			return wrapper.getBytes();
+		}
 
-    /**
-     * Retrieves an input stream of the uploaded file's contents.
-     *
-     * @return an input stream of the file's contents, or null if there was no file uploaded
-     * @throws IOException if there is an error obtaining the input stream from the uploaded file.
-     */
-    public InputStream getInputStream() throws IOException
-    {
-        FileItemWrap wrapper = getValue();
+		return null;
+	}
 
-        if (wrapper != null)
-        {
-            return wrapper.getInputStream();
-        }
+	/**
+	 * Retrieves an input stream of the uploaded file's contents.
+	 *
+	 * @return an input stream of the file's contents, or null if there was no file uploaded
+	 * @throws IOException if there is an error obtaining the input stream from the uploaded file.
+	 */
+	public InputStream getInputStream() throws IOException {
+		FileItemWrap wrapper = getValue();
 
-        return null;
-    }
+		if (wrapper != null) {
+			return wrapper.getInputStream();
+		}
 
-    /**
-     * @return the size of the uploaded file, or zero if there was no file uploaded
-     */
-    public long getSize()
-    {
-        FileItemWrap wrapper = getValue();
+		return null;
+	}
 
-        if (wrapper != null)
-        {
-            return wrapper.getSize();
-        }
+	/**
+	 * @return the size of the uploaded file, or zero if there was no file uploaded
+	 */
+	public long getSize() {
+		FileItemWrap wrapper = getValue();
 
-        return 0;
-    }
+		if (wrapper != null) {
+			return wrapper.getSize();
+		}
 
-    /**
-     * @return the file name of the uploaded file, or null if there was no file uploaded
-     */
-    public String getFileName()
-    {
-        FileItemWrap wrapper = getValue();
+		return 0;
+	}
 
-        if (wrapper != null)
-        {
-            return wrapper.getName();
-        }
+	/**
+	 * @return the file name of the uploaded file, or null if there was no file uploaded
+	 */
+	public String getFileName() {
+		FileItemWrap wrapper = getValue();
 
-        return null;
-    }
+		if (wrapper != null) {
+			return wrapper.getName();
+		}
 
-    /**
-     * Retrieves the File item that has been uploaded.
-     *
-     * @return the File item that has been uploaded by the client.
-     */
-    public FileItemWrap getFile()
-    {
-        return getValue();
-    }
+		return null;
+	}
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public FileItemWrap getValue()
-    {
-        return (FileItemWrap) getData();
-    }
+	/**
+	 * Retrieves the File item that has been uploaded.
+	 *
+	 * @return the File item that has been uploaded by the client.
+	 */
+	public FileItemWrap getFile() {
+		return getValue();
+	}
 
-    // --------------------------------
-    // Extrinsic state management
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public FileItemWrap getValue() {
+		return (FileItemWrap) getData();
+	}
 
-    /**
-     * Holds the extrinsic state information of a WFileWidget.
-     */
-    public static class FileWidgetModel extends InputModel
-    {
-        /**
-         * The mime types accepted by the file input.
-         */
-        private List<String> fileTypes;
+	// --------------------------------
+	// Extrinsic state management
+	/**
+	 * Holds the extrinsic state information of a WFileWidget.
+	 */
+	public static class FileWidgetModel extends InputModel {
 
-        /**
-         * The maximum size of files uploaded by this component.
-         */
-        private long maxFileSize;
-    }
+		/**
+		 * The mime types accepted by the file input.
+		 */
+		private List<String> fileTypes;
 
-    /**
-     * Creates a new component model appropriate for this component.
-     *
-     * @return a new FileWidgetModel.
-     */
-    @Override
-    protected FileWidgetModel newComponentModel()
-    {
-        return new FileWidgetModel();
-    }
+		/**
+		 * The maximum size of files uploaded by this component.
+		 */
+		private long maxFileSize;
+	}
 
-    /** {@inheritDoc} */
-    @Override
-    // For type safety only
-    protected FileWidgetModel getComponentModel()
-    {
-        return (FileWidgetModel) super.getComponentModel();
-    }
+	/**
+	 * Creates a new component model appropriate for this component.
+	 *
+	 * @return a new FileWidgetModel.
+	 */
+	@Override
+	protected FileWidgetModel newComponentModel() {
+		return new FileWidgetModel();
+	}
 
-    /** {@inheritDoc} */
-    @Override
-    // For type safety only
-    protected FileWidgetModel getOrCreateComponentModel()
-    {
-        return (FileWidgetModel) super.getOrCreateComponentModel();
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	// For type safety only
+	protected FileWidgetModel getComponentModel() {
+		return (FileWidgetModel) super.getComponentModel();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	// For type safety only
+	protected FileWidgetModel getOrCreateComponentModel() {
+		return (FileWidgetModel) super.getOrCreateComponentModel();
+	}
 }

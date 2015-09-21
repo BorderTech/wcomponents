@@ -1,12 +1,5 @@
 package com.github.bordertech.wcomponents.monitor;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-
-import junit.framework.Assert;
-
-import org.junit.Test;
-
 import com.github.bordertech.wcomponents.AbstractWComponentTestCase;
 import com.github.bordertech.wcomponents.RenderContext;
 import com.github.bordertech.wcomponents.UIContext;
@@ -14,6 +7,10 @@ import com.github.bordertech.wcomponents.UIContextImpl;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WLabel;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import junit.framework.Assert;
+import org.junit.Test;
 
 /**
  * Unit tests for {@link ProfileContainer}.
@@ -21,66 +18,77 @@ import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
  * @author Anthony O'Connor
  * @since 1.0.0
  */
-public class ProfileContainer_Test extends AbstractWComponentTestCase
-{
-    /** template for first header line of expected text from afterPaint. */
-    private final static String PROFILER_UIC_HEADER = "<h2>Serialization Profile of UIC</h2>";
+public class ProfileContainer_Test extends AbstractWComponentTestCase {
 
-    /** template for first line of expected text from afterPaint. */
-    private final static String PROFILER_LINE1 = "<dt>Total root wcomponents found in UIC</dt><dd><<NUM_ROOTS>></dd>";
+	/**
+	 * template for first header line of expected text from afterPaint.
+	 */
+	private static final String PROFILER_UIC_HEADER = "<h2>Serialization Profile of UIC</h2>";
 
-    /** template for second line of expected text from afterPaint. */
-    private final static String PROFILER_LINE2 = "<b>Number of components in tree:</b> <<NUM_COMPONENTS>>";
+	/**
+	 * template for first line of expected text from afterPaint.
+	 */
+	private static final String PROFILER_LINE1 = "<dt>Total root wcomponents found in UIC</dt><dd><<NUM_ROOTS>></dd>";
 
-    /** template for third line of expected text from afterPaint. */
-    private final static String PROFILER_LINE3 = "<td><<CLASS_NAME>></td><td>Serializable</td>";
+	/**
+	 * template for second line of expected text from afterPaint.
+	 */
+	private static final String PROFILER_LINE2 = "<b>Number of components in tree:</b> <<NUM_COMPONENTS>>";
 
-    /** template for second header line of expected text from afterPaint. */
-    private final static String PROFILER_PROFILE_HEADER = "<h2>ObjectProfiler - <<CLASS_NAME>>";
+	/**
+	 * template for third line of expected text from afterPaint.
+	 */
+	private static final String PROFILER_LINE3 = "<td><<CLASS_NAME>></td><td>Serializable</td>";
 
-    /**
-     * Test afterPaint.
-     */
-    @Test
-    public void testAfterPaint()
-    {
-        ProfileContainer app = new ProfileContainer();
-        app.setLocked(true);
+	/**
+	 * template for second header line of expected text from afterPaint.
+	 */
+	private static final String PROFILER_PROFILE_HEADER = "<h2>ObjectProfiler - <<CLASS_NAME>>";
 
-        UIContext uic = new UIContextImpl();
-        uic.setUI(app);
-        setActiveContext(uic);
+	/**
+	 * Test afterPaint.
+	 */
+	@Test
+	public void testAfterPaint() {
+		ProfileContainer app = new ProfileContainer();
+		app.setLocked(true);
 
-        WButton button = new WButton("PUSH");
-        app.add(button);
-        WLabel label = new WLabel("HERE");
-        app.add(label);
+		UIContext uic = new UIContextImpl();
+		uic.setUI(app);
+		setActiveContext(uic);
 
-        StringWriter outStr = new StringWriter();
-        PrintWriter writer = new PrintWriter(outStr);
-        RenderContext renderContext = new WebXmlRenderContext(writer);
+		WButton button = new WButton("PUSH");
+		app.add(button);
+		WLabel label = new WLabel("HERE");
+		app.add(label);
 
-        app.afterPaint(renderContext);
+		StringWriter outStr = new StringWriter();
+		PrintWriter writer = new PrintWriter(outStr);
+		RenderContext renderContext = new WebXmlRenderContext(writer);
 
-        // expecting 1 root class, 3 components, class names as shown, profiler
-        // class
-        String profileLine0 = PROFILER_UIC_HEADER;
-        String profileLine1 = PROFILER_LINE1.replaceAll("<<NUM_ROOTS>>", "1");
-        String profileLine2 = PROFILER_LINE2.replaceAll("<<NUM_COMPONENTS>>", "4");
-        String profileLine31 = PROFILER_LINE3.replaceAll("<<CLASS_NAME>>", "com.github.bordertech.wcomponents.WButton");
-        String profileLine32 = PROFILER_LINE3.replaceAll("<<CLASS_NAME>>",
-                                                         "com.github.bordertech.wcomponents.monitor.ProfileContainer");
-        String profileLine33 = PROFILER_LINE3.replaceAll("<<CLASS_NAME>>", "com.github.bordertech.wcomponents.WLabel");
-        String profileLine4 = PROFILER_PROFILE_HEADER.replaceAll("<<CLASS_NAME>>",
-                                                                 "com.github.bordertech.wcomponents.monitor.ProfileContainer");
+		app.afterPaint(renderContext);
 
-        String[] expectedResults = { profileLine0, profileLine1, profileLine2, profileLine31, profileLine32,
-                                    profileLine33, profileLine4 };
+		// expecting 1 root class, 3 components, class names as shown, profiler
+		// class
+		String profileLine0 = PROFILER_UIC_HEADER;
+		String profileLine1 = PROFILER_LINE1.replaceAll("<<NUM_ROOTS>>", "1");
+		String profileLine2 = PROFILER_LINE2.replaceAll("<<NUM_COMPONENTS>>", "4");
+		String profileLine31 = PROFILER_LINE3.replaceAll("<<CLASS_NAME>>",
+				"com.github.bordertech.wcomponents.WButton");
+		String profileLine32 = PROFILER_LINE3.replaceAll("<<CLASS_NAME>>",
+				"com.github.bordertech.wcomponents.monitor.ProfileContainer");
+		String profileLine33 = PROFILER_LINE3.replaceAll("<<CLASS_NAME>>",
+				"com.github.bordertech.wcomponents.WLabel");
+		String profileLine4 = PROFILER_PROFILE_HEADER.replaceAll("<<CLASS_NAME>>",
+				"com.github.bordertech.wcomponents.monitor.ProfileContainer");
 
-        String result = outStr.toString();
-        for (int i = 0; i < expectedResults.length; i++)
-        {
-            Assert.assertTrue("result should contain substring " + i + "  ", result.indexOf(expectedResults[i]) != -1);
-        }
-    }
+		String[] expectedResults = {profileLine0, profileLine1, profileLine2, profileLine31, profileLine32,
+			profileLine33, profileLine4};
+
+		String result = outStr.toString();
+		for (int i = 0; i < expectedResults.length; i++) {
+			Assert.assertTrue("result should contain substring " + i + "  ", result.indexOf(
+					expectedResults[i]) != -1);
+		}
+	}
 }

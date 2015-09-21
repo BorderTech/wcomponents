@@ -16,7 +16,6 @@
 			<directory>../</directory>
 			<includes>
 				<include>wcomponents-theme/</include>
-				<include>products/**</include>
 			</includes>
 			<excludes>
 				<exclude>**/target/**</exclude>

@@ -1,157 +1,148 @@
 package com.github.bordertech.wcomponents.render.webxml;
 
+import com.github.bordertech.wcomponents.Margin;
+import com.github.bordertech.wcomponents.WList;
+import com.github.bordertech.wcomponents.WText;
 import java.io.IOException;
 import java.util.Arrays;
-
 import junit.framework.Assert;
-
 import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
-import com.github.bordertech.wcomponents.Margin;
-import com.github.bordertech.wcomponents.WList;
-import com.github.bordertech.wcomponents.WText;
-
 /**
  * Junit test case for {@link WListRenderer}.
- * 
+ *
  * @author Yiannis Paschalidis
  * @since 1.0.0
  */
-public class WListRenderer_Test extends AbstractWebXmlRendererTestCase
-{
-    @Test
-    public void testLayoutCorrectlyConfigured()
-    {
-        WList component = new WList(WList.Type.STRIPED);
-        Assert.assertTrue("Incorrect layout supplied", getWebXmlRenderer(component) instanceof WListRenderer);
-    }
+public class WListRenderer_Test extends AbstractWebXmlRendererTestCase {
 
-    @Test
-    public void testRenderedFormatEmptyNoBorder() throws IOException, SAXException, XpathException
-    {
-        // empty list, no border
-        WList list = new WList(WList.Type.STRIPED);
-        list.setRepeatedComponent(new WText());
-        assertSchemaMatch(list);
-        assertXpathEvaluatesTo("striped", "//ui:listLayout/@type", list);
-        assertXpathNotExists("//ui:listLayout/@separator", list);
-        assertXpathNotExists("//ui:panel/@type", list);
+	@Test
+	public void testLayoutCorrectlyConfigured() {
+		WList component = new WList(WList.Type.STRIPED);
+		Assert.assertTrue("Incorrect layout supplied",
+				getWebXmlRenderer(component) instanceof WListRenderer);
+	}
 
-        list.setType(WList.Type.FLAT);
-        assertXpathEvaluatesTo("flat", "//ui:listLayout/@type", list);
-        assertXpathNotExists("//ui:listLayout/@separator", list);
-        assertXpathNotExists("//ui:panel/@type", list);
+	@Test
+	public void testRenderedFormatEmptyNoBorder() throws IOException, SAXException, XpathException {
+		// empty list, no border
+		WList list = new WList(WList.Type.STRIPED);
+		list.setRepeatedComponent(new WText());
+		assertSchemaMatch(list);
+		assertXpathEvaluatesTo("striped", "//ui:listLayout/@type", list);
+		assertXpathNotExists("//ui:listLayout/@separator", list);
+		assertXpathNotExists("//ui:panel/@type", list);
 
-        list.setType(WList.Type.STACKED);
-        assertXpathEvaluatesTo("stacked", "//ui:listLayout/@type", list);
-        assertXpathNotExists("//ui:listLayout/@separator", list);
-        assertXpathNotExists("//ui:panel/@type", list);
+		list.setType(WList.Type.FLAT);
+		assertXpathEvaluatesTo("flat", "//ui:listLayout/@type", list);
+		assertXpathNotExists("//ui:listLayout/@separator", list);
+		assertXpathNotExists("//ui:panel/@type", list);
 
-        list.setSeparator(WList.Separator.NONE);
-        assertXpathEvaluatesTo("stacked", "//ui:listLayout/@type", list);
-        assertXpathNotExists("//ui:listLayout/@separator", list);
-        assertXpathNotExists("//ui:panel/@type", list);
+		list.setType(WList.Type.STACKED);
+		assertXpathEvaluatesTo("stacked", "//ui:listLayout/@type", list);
+		assertXpathNotExists("//ui:listLayout/@separator", list);
+		assertXpathNotExists("//ui:panel/@type", list);
 
-        list.setSeparator(WList.Separator.BAR);
-        assertXpathEvaluatesTo("stacked", "//ui:listLayout/@type", list);
-        assertXpathEvaluatesTo("bar", "//ui:listLayout/@separator", list);
-        assertXpathNotExists("//ui:panel/@type", list);
+		list.setSeparator(WList.Separator.NONE);
+		assertXpathEvaluatesTo("stacked", "//ui:listLayout/@type", list);
+		assertXpathNotExists("//ui:listLayout/@separator", list);
+		assertXpathNotExists("//ui:panel/@type", list);
 
-        list.setSeparator(WList.Separator.DOT);
-        assertXpathEvaluatesTo("stacked", "//ui:listLayout/@type", list);
-        assertXpathEvaluatesTo("dot", "//ui:listLayout/@separator", list);
-        assertXpathNotExists("//ui:listLayout[@type='box']", list);
-    }
+		list.setSeparator(WList.Separator.BAR);
+		assertXpathEvaluatesTo("stacked", "//ui:listLayout/@type", list);
+		assertXpathEvaluatesTo("bar", "//ui:listLayout/@separator", list);
+		assertXpathNotExists("//ui:panel/@type", list);
 
-    @Test
-    public void testRenderedFormatEmptyWithBorder() throws IOException, SAXException, XpathException
-    {
-        // empty list, with border
-        WList list = new WList(WList.Type.STRIPED);
-        list.setRenderBorder(true);
-        list.setRepeatedComponent(new WText());
+		list.setSeparator(WList.Separator.DOT);
+		assertXpathEvaluatesTo("stacked", "//ui:listLayout/@type", list);
+		assertXpathEvaluatesTo("dot", "//ui:listLayout/@separator", list);
+		assertXpathNotExists("//ui:listLayout[@type='box']", list);
+	}
 
-        assertSchemaMatch(list);
-        assertXpathEvaluatesTo("striped", "//ui:listLayout/@type", list);
-        assertXpathEvaluatesTo("box", "//ui:panel/@type", list);
-        assertXpathNotExists("//ui:listLayout/@separator", list);
-    }
+	@Test
+	public void testRenderedFormatEmptyWithBorder() throws IOException, SAXException, XpathException {
+		// empty list, with border
+		WList list = new WList(WList.Type.STRIPED);
+		list.setRenderBorder(true);
+		list.setRepeatedComponent(new WText());
 
-    @Test
-    public void testRenderedFormatNoBorder() throws IOException, SAXException
-    {
-        // non-empty list, no border
-        WList list = new WList(WList.Type.STRIPED);
-        list.setRepeatedComponent(new WText());
+		assertSchemaMatch(list);
+		assertXpathEvaluatesTo("striped", "//ui:listLayout/@type", list);
+		assertXpathEvaluatesTo("box", "//ui:panel/@type", list);
+		assertXpathNotExists("//ui:listLayout/@separator", list);
+	}
 
-        setActiveContext(createUIContext());
-        list.setData(Arrays.asList(new String[] { "row1", "row2", "row3" }));
+	@Test
+	public void testRenderedFormatNoBorder() throws IOException, SAXException {
+		// non-empty list, no border
+		WList list = new WList(WList.Type.STRIPED);
+		list.setRepeatedComponent(new WText());
 
-        assertSchemaMatch(list);
-    }
+		setActiveContext(createUIContext());
+		list.setData(Arrays.asList(new String[]{"row1", "row2", "row3"}));
 
-    @Test
-    public void testRenderedFormatWithBorder() throws IOException, SAXException
-    {
-        // non-empty list, no border
-        WList list = new WList(WList.Type.STRIPED);
-        list.setRenderBorder(true);
-        list.setRepeatedComponent(new WText());
-        list.setData(Arrays.asList(new String[] { "row1", "row2", "row3" }));
+		assertSchemaMatch(list);
+	}
 
-        assertSchemaMatch(list);
-    }
+	@Test
+	public void testRenderedFormatWithBorder() throws IOException, SAXException {
+		// non-empty list, no border
+		WList list = new WList(WList.Type.STRIPED);
+		list.setRenderBorder(true);
+		list.setRepeatedComponent(new WText());
+		list.setData(Arrays.asList(new String[]{"row1", "row2", "row3"}));
 
-    @Test
-    public void testRenderedFormatHgapVgap() throws IOException, SAXException, XpathException
-    {
-        // No hgap, vgap
-        WList list = new WList(WList.Type.STRIPED);
-        list.setRepeatedComponent(new WText());
-        list.setData(Arrays.asList(new String[] { "row1", "row2", "row3" }));
-        assertSchemaMatch(list);
-        assertXpathNotExists("//ui:panel/ui:listLayout/@hgap", list);
-        assertXpathNotExists("//ui:panel/ui:listLayout/@vgap", list);
+		assertSchemaMatch(list);
+	}
 
-        // With hgap, vgap
-        list = new WList(WList.Type.STRIPED, 1, 2);
-        list.setRepeatedComponent(new WText());
-        list.setData(Arrays.asList(new String[] { "row1", "row2", "row3" }));
-        assertSchemaMatch(list);
-        assertXpathEvaluatesTo("1", "//ui:panel/ui:listLayout/@hgap", list);
-        assertXpathEvaluatesTo("2", "//ui:panel/ui:listLayout/@vgap", list);
-    }
+	@Test
+	public void testRenderedFormatHgapVgap() throws IOException, SAXException, XpathException {
+		// No hgap, vgap
+		WList list = new WList(WList.Type.STRIPED);
+		list.setRepeatedComponent(new WText());
+		list.setData(Arrays.asList(new String[]{"row1", "row2", "row3"}));
+		assertSchemaMatch(list);
+		assertXpathNotExists("//ui:panel/ui:listLayout/@hgap", list);
+		assertXpathNotExists("//ui:panel/ui:listLayout/@vgap", list);
 
-    @Test
-    public void testRenderedWithMargins() throws IOException, SAXException, XpathException
-    {
-        WList list = new WList(WList.Type.STRIPED);
-        list.setRepeatedComponent(new WText());
-        assertXpathNotExists("//ui:panel/ui:margin", list);
+		// With hgap, vgap
+		list = new WList(WList.Type.STRIPED, 1, 2);
+		list.setRepeatedComponent(new WText());
+		list.setData(Arrays.asList(new String[]{"row1", "row2", "row3"}));
+		assertSchemaMatch(list);
+		assertXpathEvaluatesTo("1", "//ui:panel/ui:listLayout/@hgap", list);
+		assertXpathEvaluatesTo("2", "//ui:panel/ui:listLayout/@vgap", list);
+	}
 
-        Margin margin = new Margin(0);
-        list.setMargin(margin);
-        assertXpathNotExists("//ui:panel/ui:margin", list);
+	@Test
+	public void testRenderedWithMargins() throws IOException, SAXException, XpathException {
+		WList list = new WList(WList.Type.STRIPED);
+		list.setRepeatedComponent(new WText());
+		assertXpathNotExists("//ui:panel/ui:margin", list);
 
-        margin = new Margin(1);
-        list.setMargin(margin);
-        assertSchemaMatch(list);
-        assertXpathEvaluatesTo("1", "//ui:panel/ui:margin/@all", list);
-        assertXpathEvaluatesTo("", "//ui:panel/ui:margin/@north", list);
-        assertXpathEvaluatesTo("", "//ui:panel/ui:margin/@east", list);
-        assertXpathEvaluatesTo("", "//ui:panel/ui:margin/@south", list);
-        assertXpathEvaluatesTo("", "//ui:panel/ui:margin/@west", list);
+		Margin margin = new Margin(0);
+		list.setMargin(margin);
+		assertXpathNotExists("//ui:panel/ui:margin", list);
 
-        margin = new Margin(1, 2, 3, 4);
-        list.setMargin(margin);
-        assertSchemaMatch(list);
-        assertXpathEvaluatesTo("", "//ui:panel/ui:margin/@all", list);
-        assertXpathEvaluatesTo("1", "//ui:panel/ui:margin/@north", list);
-        assertXpathEvaluatesTo("2", "//ui:panel/ui:margin/@east", list);
-        assertXpathEvaluatesTo("3", "//ui:panel/ui:margin/@south", list);
-        assertXpathEvaluatesTo("4", "//ui:panel/ui:margin/@west", list);
-    }
+		margin = new Margin(1);
+		list.setMargin(margin);
+		assertSchemaMatch(list);
+		assertXpathEvaluatesTo("1", "//ui:panel/ui:margin/@all", list);
+		assertXpathEvaluatesTo("", "//ui:panel/ui:margin/@north", list);
+		assertXpathEvaluatesTo("", "//ui:panel/ui:margin/@east", list);
+		assertXpathEvaluatesTo("", "//ui:panel/ui:margin/@south", list);
+		assertXpathEvaluatesTo("", "//ui:panel/ui:margin/@west", list);
+
+		margin = new Margin(1, 2, 3, 4);
+		list.setMargin(margin);
+		assertSchemaMatch(list);
+		assertXpathEvaluatesTo("", "//ui:panel/ui:margin/@all", list);
+		assertXpathEvaluatesTo("1", "//ui:panel/ui:margin/@north", list);
+		assertXpathEvaluatesTo("2", "//ui:panel/ui:margin/@east", list);
+		assertXpathEvaluatesTo("3", "//ui:panel/ui:margin/@south", list);
+		assertXpathEvaluatesTo("4", "//ui:panel/ui:margin/@west", list);
+	}
 
 }

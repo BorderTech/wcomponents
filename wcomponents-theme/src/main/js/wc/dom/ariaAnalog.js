@@ -59,9 +59,9 @@ define(["wc/has",
 
 		/* circular dependencies */
 		require(["wc/dom/getFilteredGroup", "wc/dom/focus"], function($getFilteredGroup, $focus) {
-				getFilteredGroup = $getFilteredGroup;
-				focus = $focus;
-			});
+			getFilteredGroup = $getFilteredGroup;
+			focus = $focus;
+		});
 
 		/**
 		 * Deselect all elements in a group except any defined by the arg except.
@@ -712,8 +712,8 @@ define(["wc/has",
 
 			if (_group && _group.length > 1) {
 				_group.forEach(function(next) {
-									next.tabIndex = "-1";
-								});
+					next.tabIndex = "-1";
+				});
 				element.tabIndex = "0";
 			}
 		};

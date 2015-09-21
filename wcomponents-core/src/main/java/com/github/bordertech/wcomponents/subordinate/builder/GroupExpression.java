@@ -1,252 +1,242 @@
 package com.github.bordertech.wcomponents.subordinate.builder;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import com.github.bordertech.wcomponents.subordinate.And;
 import com.github.bordertech.wcomponents.subordinate.Condition;
 import com.github.bordertech.wcomponents.subordinate.Not;
 import com.github.bordertech.wcomponents.subordinate.Or;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * <p>
  * This class describes a boolean expression. Since an expression evaluates to a boolean result, it may also be treated
  * as a BooleanExpression.
  * </p>
- * 
+ *
  * @author Yiannis Paschalidis
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public final class GroupExpression implements BooleanExpression
-{
-    /** Default serialisation identifier. */
-    private static final long serialVersionUID = 1L;
+public final class GroupExpression implements BooleanExpression {
 
-    /** The list of operands in this expression. */
-    private final List<BooleanExpression> operands = new ArrayList<BooleanExpression>();
+	/**
+	 * Default serialisation identifier.
+	 */
+	private static final long serialVersionUID = 1L;
 
-    /** The type of expression. */
-    private final GroupExpression.Type type;
+	/**
+	 * The list of operands in this expression.
+	 */
+	private final List<BooleanExpression> operands = new ArrayList<>();
 
-    /**
-     * The expression type.
-     */
-    public enum Type
-    {
-        /** An expression where the result is the logical OR of at least two boolean operands. */
-        OR,
-        /** An expression where the result is the logical AND of at least two boolean operands. */
-        AND,
-        /** An expression where the result is the logical NOT of a boolean operand. */
-        NOT
-    }
+	/**
+	 * The type of expression.
+	 */
+	private final GroupExpression.Type type;
 
-    /**
-     * Creates a BooleanExpression.
-     * 
-     * @param type the type of expression.
-     */
-    public GroupExpression(final Type type)
-    {
-        if (type == null)
-        {
-            throw new IllegalArgumentException("Group type can not be null");
-        }
-        this.type = type;
-    }
+	/**
+	 * The expression type.
+	 */
+	public enum Type {
+		/**
+		 * An expression where the result is the logical OR of at least two boolean operands.
+		 */
+		OR,
+		/**
+		 * An expression where the result is the logical AND of at least two boolean operands.
+		 */
+		AND,
+		/**
+		 * An expression where the result is the logical NOT of a boolean operand.
+		 */
+		NOT
+	}
 
-    /**
-     * @return the expression type.
-     */
-    public GroupExpression.Type getType()
-    {
-        return type;
-    }
+	/**
+	 * Creates a BooleanExpression.
+	 *
+	 * @param type the type of expression.
+	 */
+	public GroupExpression(final Type type) {
+		if (type == null) {
+			throw new IllegalArgumentException("Group type can not be null");
+		}
+		this.type = type;
+	}
 
-    /**
-     * Adds an operand to the expression.
-     * 
-     * @param operand the operand to add.
-     */
-    public void add(final BooleanExpression operand)
-    {
-        operands.add(operand);
-    }
+	/**
+	 * @return the expression type.
+	 */
+	public GroupExpression.Type getType() {
+		return type;
+	}
 
-    /**
-     * Removes an operand from the expression.
-     * 
-     * @param operand the operand to remove.
-     */
-    public void remove(final BooleanExpression operand)
-    {
-        operands.remove(operand);
-    }
+	/**
+	 * Adds an operand to the expression.
+	 *
+	 * @param operand the operand to add.
+	 */
+	public void add(final BooleanExpression operand) {
+		operands.add(operand);
+	}
 
-    /**
-     * @return an immutable list of the current operands.
-     */
-    public List<BooleanExpression> getOperands()
-    {
-        return Collections.unmodifiableList(operands);
-    }
+	/**
+	 * Removes an operand from the expression.
+	 *
+	 * @param operand the operand to remove.
+	 */
+	public void remove(final BooleanExpression operand) {
+		operands.remove(operand);
+	}
 
-    /** {@inheritDoc} */
-    public Boolean evaluate()
-    {
-        switch (getType())
-        {
-            case OR:
-            {
-                if (operands.size() < 2)
-                {
-                    throw new IllegalArgumentException("An OR expression must have at least 2 operands");
-                }
+	/**
+	 * @return an immutable list of the current operands.
+	 */
+	public List<BooleanExpression> getOperands() {
+		return Collections.unmodifiableList(operands);
+	}
 
-                for (BooleanExpression operand : operands)
-                {
-                    if (operand.evaluate())
-                    {
-                        return true;
-                    }
-                }
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Boolean evaluate() {
+		switch (getType()) {
+			case OR: {
+				if (operands.size() < 2) {
+					throw new IllegalArgumentException(
+							"An OR expression must have at least 2 operands");
+				}
 
-                return false;
-            }
+				for (BooleanExpression operand : operands) {
+					if (operand.evaluate()) {
+						return true;
+					}
+				}
 
-            case AND:
-            {
-                if (operands.size() < 2)
-                {
-                    throw new IllegalArgumentException("An AND expression must have at least 2 operands");
-                }
+				return false;
+			}
 
-                for (BooleanExpression operand : operands)
-                {
-                    if (!operand.evaluate())
-                    {
-                        return false;
-                    }
-                }
+			case AND: {
+				if (operands.size() < 2) {
+					throw new IllegalArgumentException(
+							"An AND expression must have at least 2 operands");
+				}
 
-                return true;
-            }
+				for (BooleanExpression operand : operands) {
+					if (!operand.evaluate()) {
+						return false;
+					}
+				}
 
-            case NOT:
-            {
-                if (operands.size() != 1)
-                {
-                    throw new IllegalArgumentException("A NOT expression must have 1 operand");
-                }
+				return true;
+			}
 
-                return !operands.get(0).evaluate();
-            }
+			case NOT: {
+				if (operands.size() != 1) {
+					throw new IllegalArgumentException("A NOT expression must have 1 operand");
+				}
 
-            default:
-                throw new IllegalArgumentException("Unknown type: " + type);
-        }
-    }
+				return !operands.get(0).evaluate();
+			}
 
-    /** {@inheritDoc} */
-    public Condition build()
-    {
-        switch (getType())
-        {
-            case OR:
-            {
-                List<Condition> conditions = new ArrayList<Condition>(operands.size());
+			default:
+				throw new IllegalArgumentException("Unknown type: " + type);
+		}
+	}
 
-                for (BooleanExpression operand : operands)
-                {
-                    conditions.add(operand.build());
-                }
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Condition build() {
+		switch (getType()) {
+			case OR: {
+				List<Condition> conditions = new ArrayList<>(operands.size());
 
-                // The subordinate API is a bit nasty, we have to split the list after the first two conditions.
-                if (conditions.size() < 2)
-                {
-                    throw new IllegalArgumentException("An OR expression must include at least two operands.");
-                }
+				for (BooleanExpression operand : operands) {
+					conditions.add(operand.build());
+				}
 
-                List<Condition> extraConditionsList = conditions.subList(2, conditions.size());
-                Condition[] extraConditions = extraConditionsList.toArray(new Condition[extraConditionsList.size()]);
-                return new Or(conditions.get(0), conditions.get(1), extraConditions);
-            }
-            case AND:
-            {
-                List<Condition> conditions = new ArrayList<Condition>(operands.size());
+				// The subordinate API is a bit nasty, we have to split the list after the first two conditions.
+				if (conditions.size() < 2) {
+					throw new IllegalArgumentException(
+							"An OR expression must include at least two operands.");
+				}
 
-                for (BooleanExpression operand : operands)
-                {
-                    conditions.add(operand.build());
-                }
+				List<Condition> extraConditionsList = conditions.subList(2, conditions.size());
+				Condition[] extraConditions = extraConditionsList.toArray(
+						new Condition[extraConditionsList.size()]);
+				return new Or(conditions.get(0), conditions.get(1), extraConditions);
+			}
+			case AND: {
+				List<Condition> conditions = new ArrayList<>(operands.size());
 
-                // The subordinate API is a bit nasty, we have to split the list after the first two conditions.
-                if (conditions.size() < 2)
-                {
-                    throw new IllegalArgumentException("An AND expression must include at least two operands.");
-                }
+				for (BooleanExpression operand : operands) {
+					conditions.add(operand.build());
+				}
 
-                List<Condition> extraConditionsList = conditions.subList(2, conditions.size());
-                Condition[] extraConditions = extraConditionsList.toArray(new Condition[extraConditionsList.size()]);
-                return new And(conditions.get(0), conditions.get(1), extraConditions);
-            }
+				// The subordinate API is a bit nasty, we have to split the list after the first two conditions.
+				if (conditions.size() < 2) {
+					throw new IllegalArgumentException(
+							"An AND expression must include at least two operands.");
+				}
 
-            case NOT:
-                if (operands.size() != 1)
-                {
-                    throw new IllegalArgumentException("A NOT expression must have 1 operand");
-                }
-                BooleanExpression operand = operands.get(0);
-                return new Not(operand.build());
+				List<Condition> extraConditionsList = conditions.subList(2, conditions.size());
+				Condition[] extraConditions = extraConditionsList.toArray(
+						new Condition[extraConditionsList.size()]);
+				return new And(conditions.get(0), conditions.get(1), extraConditions);
+			}
 
-            default:
-                throw new IllegalArgumentException("Unknown action type: " + getType());
-        }
+			case NOT:
+				if (operands.size() != 1) {
+					throw new IllegalArgumentException("A NOT expression must have 1 operand");
+				}
+				BooleanExpression operand = operands.get(0);
+				return new Not(operand.build());
 
-    }
+			default:
+				throw new IllegalArgumentException("Unknown action type: " + getType());
+		}
 
-    /** {@inheritDoc} */
-    @Override
-    public String toString()
-    {
-        switch (getType())
-        {
-            case OR:
-            case AND:
-            {
-                StringBuffer buf = new StringBuffer();
-                buf.append('(');
+	}
 
-                for (int i = 0; i < operands.size(); i++)
-                {
-                    if (i > 0)
-                    {
-                        buf.append(getType() == Type.AND ? " and " : " or ");
-                    }
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String toString() {
+		switch (getType()) {
+			case OR:
+			case AND: {
+				StringBuffer buf = new StringBuffer();
+				buf.append('(');
 
-                    buf.append(operands.get(i));
-                }
+				for (int i = 0; i < operands.size(); i++) {
+					if (i > 0) {
+						buf.append(getType() == Type.AND ? " and " : " or ");
+					}
 
-                buf.append(')');
-                return buf.toString();
-            }
+					buf.append(operands.get(i));
+				}
 
-            case NOT:
-            {
-                StringBuffer buf = new StringBuffer();
-                buf.append("NOT (");
-                if (operands.size() > 0)
-                {
-                    buf.append(operands.get(0)); 
-                }
-                buf.append(')');
-                return buf.toString();
-            }
+				buf.append(')');
+				return buf.toString();
+			}
 
-            default:
-                throw new IllegalArgumentException("Unknown type: " + getType());
-        }
-    }
+			case NOT: {
+				StringBuffer buf = new StringBuffer();
+				buf.append("NOT (");
+				if (operands.size() > 0) {
+					buf.append(operands.get(0));
+				}
+				buf.append(')');
+				return buf.toString();
+			}
+
+			default:
+				throw new IllegalArgumentException("Unknown type: " + getType());
+		}
+	}
 }
