@@ -8,13 +8,5 @@
 	background-color: $wc-ui-color-panel-feature-background;
 	color: $wc-ui-color-panel-feature-foreground;
 	padding: $hgap-normal;
-
-	> .listLayout {
-		&.none,
-		&.flat,
-		&.bar {
-			padding-left: 0;
-		}
-	}
 }
 /* end wc.ui.panel.feature.scss */

@@ -82,6 +82,7 @@ import com.github.bordertech.wcomponents.examples.layout.FlowLayoutExample;
 import com.github.bordertech.wcomponents.examples.layout.GridLayoutExample;
 import com.github.bordertech.wcomponents.examples.layout.GridLayoutOptionsExample;
 import com.github.bordertech.wcomponents.examples.layout.ListLayoutExample;
+import com.github.bordertech.wcomponents.examples.layout.ListLayoutOptionExample;
 import com.github.bordertech.wcomponents.examples.menu.ColumnMenuExample;
 import com.github.bordertech.wcomponents.examples.menu.MenuBarExample;
 import com.github.bordertech.wcomponents.examples.menu.MenuFlyoutExample;
@@ -376,6 +377,7 @@ public final class ExampleData implements Serializable {
 		new ExampleData("Grid layout", GridLayoutExample.class),
 		new ExampleData("Grid layout configuration options", GridLayoutOptionsExample.class),
 		new ExampleData("List layout", ListLayoutExample.class),
+		new ExampleData("List layout options", ListLayoutOptionExample.class),
 		new ExampleData("Margins", MarginExample.class),
 		new ExampleData("WCollapsible", WCollapsibleExample.class),
 		new ExampleData("WCollapsible group", WCollapsibleGroupExample.class),

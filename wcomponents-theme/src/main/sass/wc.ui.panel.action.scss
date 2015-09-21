@@ -11,35 +11,12 @@
 @import 'wc.ui.panel_vars.scss';
 
 .action {
-	@include border($color: $wc-ui-color-panel-action-border);
 	background-color: $wc-ui-color-panel-action-background;
+	border-color: $wc-ui-color-panel-action-border;
 
 	> h1 {
 		background-color: $wc-ui-color-panel-action-header-background;
 		color: $wc-ui-color-panel-action-header-foreground;
-		margin: 0;
-		padding: $hgap-normal;
-	}
-
-	> div,
-	> .listLayout {
-		margin: $hgap-normal;
-	}
-
-	// element qualifier for ordered lists only
-	// scss-lint:disable QualifyingElement
-	> .listLayout.dot,
-	> ol.listLayout {
-		margin-left: 2em;
-	}
-	//scss-lint:enable QualifyingElement
-
-	> .listLayout {
-		&.none,
-		&.flat,
-		&.bar {
-			margin-left: $hgap-normal;
-		}
 	}
 }
 /* end wc.ui.panel.action.scss */
