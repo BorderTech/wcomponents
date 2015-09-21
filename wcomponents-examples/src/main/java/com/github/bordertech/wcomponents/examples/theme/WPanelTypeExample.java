@@ -18,53 +18,6 @@ import com.github.bordertech.wcomponents.layout.FlowLayout;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-<<<<<<< HEAD
-public class WPanelTypeExample extends WContainer
-{
-    /** The Target WPanel. */
-    final WPanel panel = new WPanel();
-    
-    /**
-     * Construct the example.
-     */
-    public WPanelTypeExample()
-    {
-        final WText selectedMenuText = new WText();
-        final WDropdown panelType = new WDropdown();
-        panelType.setOptions(WPanel.Type.values());
-        panelType.setSelected(WPanel.Type.PLAIN);
-        //set up the refresh button
-        WButton button = new WButton("Update");
-        button.setImage("/image/refresh.png");
-        button.getImageHolder().setCacheKey("eg-panelType-refresh");
-        button.setAction(new Action()
-        {
-            public void execute(final ActionEvent event)
-            {
-                panel.setType((WPanel.Type) panelType.getSelected());
-            }
-        });
-        
-        //a holder for the label, dropdown and refresh button
-        WPanel layoutPanel = new WPanel();
-        add(layoutPanel);
-        layoutPanel.setLayout(new FlowLayout(FlowLayout.LEFT,6,0, FlowLayout.ContentAlignment.BASELINE));
-        layoutPanel.setMargin(new Margin(0, 0, 12, 0));
-        WLabel selectLabel = new WLabel("Select a WPanel Type", panelType);
-        layoutPanel.add(selectLabel);
-        layoutPanel.add(panelType);
-        layoutPanel.add(button);
-        
-        //set up the target panel and its contents
-        panel.setTitleText("Panel title");
-        panel.setType(WPanel.Type.PLAIN);
-        panel.add((new MenuBarExample(selectedMenuText)).getMenu());
-        panel.add(new WText("Content of Panel"));
-        
-        add(panel);
-        add(selectedMenuText);
-    }
-=======
 public class WPanelTypeExample extends WContainer {
 
 	/**
@@ -76,6 +29,7 @@ public class WPanelTypeExample extends WContainer {
 	 * Construct the example.
 	 */
 	public WPanelTypeExample() {
+		final WText selectedMenuText = new WText();
 		final WDropdown panelType = new WDropdown();
 		panelType.setOptions(WPanel.Type.values());
 		panelType.setSelected(WPanel.Type.PLAIN);
@@ -104,9 +58,10 @@ public class WPanelTypeExample extends WContainer {
 		//set up the target panel and its contents
 		panel.setTitleText("Panel title");
 		panel.setType(WPanel.Type.PLAIN);
+		panel.add((new MenuBarExample(selectedMenuText)).getMenu());
 		panel.add(new WText("Content of Panel"));
 
 		add(panel);
+		add(selectedMenuText);
 	}
->>>>>>> BorderTech/release2
 }
