@@ -110,4 +110,11 @@ a[name],
 input[type='number'][maxlength] {
 	@include outline($color: $wc-ui-color-error-fg);
 }
+
+
+@include viewport {
+	user-zoom: zoom;
+	width: extend-to-zoom;
+	zoom: 1;
+}
 /* end wc.common.page.scss */
