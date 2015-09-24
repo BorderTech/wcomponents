@@ -54,35 +54,6 @@
 			max-width: none;
 		}
 
-		// Structuring the WDecoratedLabels to make everything fit nice is easy at the top level but needs to override
-		// the menu defaults in wc.ui.menu.barColumn.scss
-		> [role],
-		> [aria-expanded] > button {
-			// Could be cumbersome and error-prone to unpick this selector depth
-			// scss-lint:disable SelectorDepth
-			> .decoratedLabel {
-				display: inline-block;
-				width: auto;
-
-				// Could be cumbersome and error-prone to unpick this nesting depth
-				// scss-lint:disable NestingDepth
-				> .wc_dlbl_seg {
-					display: inline-block;
-					padding-left: 0;
-				}
-
-				> .labelBody {
-					width: auto;
-				}
-				// scss-lint:enable NestingDepth
-			}
-
-			th & { // reduce padding in a table header
-				padding: 0;
-			}
-			// scss-lint:enable SelectorDepth
-		}
-
 		[role='separator'][aria-orientation='vertical'] {// Separators.
 			// Padding is important to override the general zero padding which is important to override all the role paddings.
 			// scss-lint:disable ImportantRule
