@@ -1,6 +1,8 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
 	<xsl:import href="wc.constants.xsl"/>
 	<xsl:import href="wc.ui.root.variables.xsl"/>
+	<xsl:import href="wc.ui.root.n.styleLoaderConfig.xsl"/>
+	<xsl:import href="wc.ui.root.n.localConfig.xsl"/>
 	<!--
 		Constructs the require config which is necessary to commence inclusion
 		and bootstrapping of WComponent JavaScript. This must be included before
@@ -61,9 +63,10 @@
 			<xsl:if test="$isDebug=1">
 				<xsl:text>,debug:1</xsl:text>
 			</xsl:if>
-			<!-- Add style loader config here if needed -->
 			<xsl:call-template name="styleLoaderConfig"/>
-			<xsl:text>}};&#10;</xsl:text>
+			<xsl:text>}</xsl:text>
+			<xsl:call-template name="localConfig" />
+			<xsl:text>};&#10;</xsl:text>
 			<!--
 				The timings must be collected as early as possible in the page lifecycle
 				and since this is the very first script that runs we need to put it here.
