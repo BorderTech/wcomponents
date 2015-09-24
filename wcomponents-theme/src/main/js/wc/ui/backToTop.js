@@ -2,6 +2,11 @@
  * Provides functionality to provide a back to top link which is scroll and viewport size aware. Not functional in IE
  * below 10.
  *
+ * @typedef {Object} module:wc/ui/backToTop.config() Optional module configuration.
+ * @property {?int} scroll The number of pixels of scroll required before the back to top link is displayed. Undefined
+ * or zero results in the link displaying after 1 viewport of scroll.
+ * @default 0
+ *
  * @module
  * @requires module:wc/i18n/i18n
  * @requires module:wc/dom/event
@@ -12,9 +17,9 @@
  * @requires module:wc/dom/Widget
  * @requires module:wc/has
  */
-define(["wc/i18n/i18n", "wc/dom/event", "wc/dom/focus", "wc/dom/initialise", "wc/dom/getViewportSize", "wc/dom/shed", "wc/dom/Widget", "wc/has"],
-	/** @param i18n wc/i18n/i18n @param event wc/dom/event @param focus wc/dom/focus @param initialise wc/dom/initialise @param getViewportSize wc/dom/getViewportSize @param shed wc/dom/shed @param Widget wc/dom/Widget @param has wc/has @ignore */
-	function(i18n, event, focus, initialise, getViewportSize, shed, Widget, has) {
+define(["wc/i18n/i18n", "wc/dom/event", "wc/dom/focus", "wc/dom/initialise", "wc/dom/getViewportSize", "wc/dom/shed", "wc/dom/Widget", "wc/has", "module"],
+	/** @param i18n wc/i18n/i18n @param event wc/dom/event @param focus wc/dom/focus @param initialise wc/dom/initialise @param getViewportSize wc/dom/getViewportSize @param shed wc/dom/shed @param Widget wc/dom/Widget @param has wc/has @param module @ignore */
+	function(i18n, event, focus, initialise, getViewportSize, shed, Widget, has, module) {
 		"use strict";
 
 		if (has("ie")) {
@@ -39,12 +44,15 @@ define(["wc/i18n/i18n", "wc/dom/event", "wc/dom/focus", "wc/dom/initialise", "wc
 				 * This property can be set to a positive integer to force showing the scroll to top link at X pixels of
 				 * scroll. If it is not set (or set to 0) then the scroll to top link will appear when more than one
 				 * viewport height of scroll has occurred.
+				 *
+				 * Can be set in module configuration as property "scroll".
+				 *
 				 * @constant
 				 * @type {int}
 				 * @private
-				 * @default "${wc.ui.backToTop.MIN_SCROLL_BEFORE_SHOW}"
+				 * @default 0
 				 */
-				MIN_SCROLL_BEFORE_SHOW = "${wc.ui.backToTop.MIN_SCROLL_BEFORE_SHOW}",
+				MIN_SCROLL_BEFORE_SHOW = (module.config() ? (module.config().scroll || 0) : 0),
 				/**
 				 * Is the back to top link enabled?
 				 * @var
@@ -152,7 +160,6 @@ define(["wc/i18n/i18n", "wc/dom/event", "wc/dom/focus", "wc/dom/initialise", "wc
 			 *
 			 * @function module:wc/ui/backToTop.initialise
 			 * @public
-			 * @param {Element} element The element being initialised, usually document.body
 			 */
 			this.initialise = function(/* element */) {
 				if (isEnabled) {

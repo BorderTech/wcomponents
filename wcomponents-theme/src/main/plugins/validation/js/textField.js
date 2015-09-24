@@ -2,6 +2,10 @@
  * Provides functionality to undertake client validation for text inputs including WTextField, WEmailField,
  * WPhoneNumberField and WPasswordField.
  *
+ * @typedef {Object} module:w${validation.core.path.name}/textField.config() Optional module configuration.
+ * @property {String} rx The email regular expression as a string.
+ * @default "^(?:\\".+\\"|[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+)@[a-zA-Z0-9-]+(?:\\\\.[a-zA-Z0-9-]+)+$"
+ *
  * @module ${validation.core.path.name}/textField
  * @requires module:wc/dom/initialise
  * @requires module:wc/dom/Widget
@@ -25,9 +29,10 @@ define(["wc/dom/initialise",
 		"wc/ui/dateField",
 		"${validation.core.path.name}/required",
 		"${validation.core.path.name}/validationManager",
-		"wc/ui/textField"],
-	/** @param initialise wc/dom/initialise @param Widget wc/dom/Widget @param i18n wc/i18n/i18n @param attribute wc/dom/attribute @param event wc/dom/event @param getFirstLabelForElement wc/ui/getFirstLabelForElement @param sprintf sprintf/sprintf @param dateField wc/ui/dateField @param required ${validation.core.path.name}/required @param validationManager ${validation.core.path.name}/validationManager @param textField wc/ui/textField @ignore */
-	function(initialise, Widget, i18n, attribute, event, getFirstLabelForElement, sprintf, dateField, required, validationManager, textField) {
+		"wc/ui/textField",
+		"module"],
+	/** @param initialise wc/dom/initialise @param Widget wc/dom/Widget @param i18n wc/i18n/i18n @param attribute wc/dom/attribute @param event wc/dom/event @param getFirstLabelForElement wc/ui/getFirstLabelForElement @param sprintf sprintf/sprintf @param dateField wc/ui/dateField @param required ${validation.core.path.name}/required @param validationManager ${validation.core.path.name}/validationManager @param textField wc/ui/textField @param module @ignore */
+	function(initialise, Widget, i18n, attribute, event, getFirstLabelForElement, sprintf, dateField, required, validationManager, textField, module) {
 		"use strict";
 		/**
 		 * @constructor
@@ -42,7 +47,9 @@ define(["wc/dom/initialise",
 				INPUT_WIDGETS = textField.getWidget(),
 				WITH_PATTERN,
 				PATTERNS,
-				WITH_MIN;
+				WITH_MIN,
+				conf = module.config(),
+				RX_STRING = ((conf && conf.rx) ? conf.rx : "${wc.ui.emailField.regex}");
 
 			/**
 			 * Test for an input which we are interested in.
@@ -100,7 +107,7 @@ define(["wc/dom/initialise",
 					}
 					// pattern (first email)
 					if (EMAIL.isOneOfMe(element)) {
-						regexp = new RegExp("${wc.ui.emailField.regex}");
+						regexp = new RegExp(RX_STRING);
 						patternFlag = i18n.get("${validation.email.i18n.error}");
 					}
 					else if ((mask = element.getAttribute("pattern"))) {

@@ -7,11 +7,10 @@
  * @requires module:wc/dom/initialise
  * @requires module:wc/ui/ajaxRegion
  * @requires module:wc/ui/ajax/processResponse
- * @requires module:wc/dom/tag
  */
-define(["wc/dom/initialise", "wc/ui/ajaxRegion", "wc/ui/ajax/processResponse", "wc/dom/tag"],
-	/** @param initialise wc/dom/initialise @param ajaxRegion wc/ui/ajaxRegion @param processResponse wc/ui/ajax/processResponse @param tag wc/dom/tag @ignore */
-	function(initialise, ajaxRegion, processResponse, tag) {
+define(["wc/dom/initialise", "wc/ui/ajaxRegion", "wc/ui/ajax/processResponse"],
+	/** @param initialise wc/dom/initialise @param ajaxRegion wc/ui/ajaxRegion @param processResponse wc/ui/ajax/processResponse @ignore */
+	function(initialise, ajaxRegion, processResponse) {
 		"use strict";
 
 		/**

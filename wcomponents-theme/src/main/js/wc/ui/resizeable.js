@@ -1,6 +1,12 @@
 /**
  * Provides functionality to implement a resizeable component.
  *
+ * @typedef {Object} module:wc/ui.resizeable.config() Optional module configuration.
+ * @property {?int} min The minimum size, in px, any element is allowed to be.
+ * @default 0
+ * @proprty {?int} step The number of pixels to increase/decrease per keypress when resizing with the arrow keys.
+ * @default 6
+ *
  * @module
  * @requires module:wc/dom/attribute
  * @requires module:wc/dom/classList
@@ -32,9 +38,10 @@ define(["wc/dom/attribute",
 		"wc/dom/uid",
 		"wc/dom/Widget",
 		"wc/has",
-		"wc/ui/ajax/processResponse"],
-	/** @param attribute wc/dom/attribute @param classList wc/dom/classList @param clearSelection wc/dom/clearSelection @param event wc/dom/event @param getMouseEventOffset wc/dom/getEventOffset @param isAcceptableTarget wc/dom/isAcceptableTarget @param getBox wc/dom/getBox @param getStyle wc/dom/getStyle @param initialise wc/dom/initialise @param shed wc/dom/shed @param uid wc/dom/uid @param Widget wc/dom/Widget @param has wc/has @param processResponse wc/ui/ajax/processResponse @ignore */
-	function(attribute, classList, clearSelection, event, getMouseEventOffset, isAcceptableTarget, getBox, getStyle, initialise, shed, uid, Widget, has, processResponse) {
+		"wc/ui/ajax/processResponse",
+		"module"],
+	/** @param attribute wc/dom/attribute @param classList wc/dom/classList @param clearSelection wc/dom/clearSelection @param event wc/dom/event @param getMouseEventOffset wc/dom/getEventOffset @param isAcceptableTarget wc/dom/isAcceptableTarget @param getBox wc/dom/getBox @param getStyle wc/dom/getStyle @param initialise wc/dom/initialise @param shed wc/dom/shed @param uid wc/dom/uid @param Widget wc/dom/Widget @param has wc/has @param processResponse wc/ui/ajax/processResponse @param module @ignore */
+	function(attribute, classList, clearSelection, event, getMouseEventOffset, isAcceptableTarget, getBox, getStyle, initialise, shed, uid, Widget, has, processResponse, module) {
 		"use strict";
 		/**
 		 * @constructor
@@ -49,12 +56,13 @@ define(["wc/dom/attribute",
 				RESIZEABLE_HAS_ANIMATION_CLASS = "wc_resizeflow",
 				CLASS_REMOVED_ATTRIB = "data-wc-resizeableremovedanimation",
 				CLASS_MAX = "wc_max",
-				MIN_SIZE = 0,  // set this to any sensible size but will cause errors in IE if < 0
+				conf = module.config(),
+				MIN_SIZE = ((conf && conf.min) ? conf.min : 0), // set this to any sensible size but will cause errors in IE if < 0
 				resizing,
 				offsetX = {},
 				offsetY = {},
 				UNIT = "px",
-				KEY_RESIZE = parseInt("${wc.ui.resizeable.int.keyboardResizeIncrement}", 10),  // the number of pixels by which a resizable is resized by keyboard
+				KEY_RESIZE = ((conf && conf.step) ? conf.step : 6),  // the number of pixels by which a resizable is resized by keyboard
 				ns = "wc.ui.resizeable",
 				BS = ns + ".inited",
 				MM_EVENT = ns + ".move.inited",

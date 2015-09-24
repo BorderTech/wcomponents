@@ -2,6 +2,12 @@
  * Provides a calendar based date chooser control for use by WDateFields when a native date control is not available
  * and WPartialDateFields in all cases.
  *
+ * @typedef {Object} module:wc/ui/calendar.config() Optional module configuration.
+ * @property {?int} min The minimum year to allow in the date picker.
+ * @default 1000
+ * @property {?int} max The maximum year to allow in the date picker.
+ * @default 9999.
+ *
  * @module
  * @requires module:wc/dom/attribute
  * @requires module:wc/date/addDays
@@ -55,10 +61,12 @@ define(["wc/dom/attribute",
 		"wc/isNumeric",
 		"wc/ui/dateField",
 		"wc/dom/initialise",
-		"wc/timers"],
-/** @param attribute wc/dom/attribute @param addDays wc/date/addDays @param copy wc/date/copy @param dayName wc/date/dayName @param daysInMonth wc/date/daysInMonth @param getDifference wc/date/getDifference @param monthName wc/date/monthName @param today wc/date/today @param interchange wc/date/interchange @param classList wc/dom/classList @param event wc/dom/event @param focus wc/dom/focus @param shed wc/dom/shed @param tag wc/dom/tag @param viewportCollision wc/dom/viewportCollision @param getBox wc/dom/getBox @param Widget wc/dom/Widget @param i18n wc/i18n/i18n @param loader wc/loader/resource @param sprintf sprintf/sprintf @param isNumeric wc/isNumeric @param dateField wc/ui/dateField @param initialise wc/dom/initialise @param timers wc/timers @ignore */
+		"wc/timers",
+		"module"],
+/** @param attribute wc/dom/attribute @param addDays wc/date/addDays @param copy wc/date/copy @param dayName wc/date/dayName @param daysInMonth wc/date/daysInMonth @param getDifference wc/date/getDifference @param monthName wc/date/monthName @param today wc/date/today @param interchange wc/date/interchange @param classList wc/dom/classList @param event wc/dom/event @param focus wc/dom/focus @param shed wc/dom/shed @param tag wc/dom/tag @param viewportCollision wc/dom/viewportCollision @param getBox wc/dom/getBox @param Widget wc/dom/Widget @param i18n wc/i18n/i18n @param loader wc/loader/resource @param sprintf sprintf/sprintf @param isNumeric wc/isNumeric @param dateField wc/ui/dateField @param initialise wc/dom/initialise @param timers wc/timers @param module @ignore */
 function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthName, today, interchange, classList, event,
-		focus, shed, tag, viewportCollision, getBox, Widget, i18n, loader, sprintf, isNumeric, dateField, initialise, timers) {
+		focus, shed, tag, viewportCollision, getBox, Widget, i18n, loader, sprintf, isNumeric, dateField, initialise,
+		timers, module) {
 
 	"use strict";
 
@@ -68,7 +76,8 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 	 * @private
 	 */
 	function Calendar() {
-		var DATE_KEY = "date_key", CONTAINER_ID = "wc-calbox",
+		var DATE_KEY = "date_key",
+			CONTAINER_ID = "wc-calbox",
 			DAY_CONTAINER_ID = "wc-caldaybox",
 			MONTH_SELECT_ID = "wc-calmonth",
 			YEAR_ELEMENT_ID = "wc-calyear",
@@ -87,11 +96,13 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 			CAL_BUTTON = new Widget("button", "wc_wdf_mv"),
 			CLOSE_BUTTON = new Widget("button", "wc_wdf_cls"),
 			isOpening = false,
-			yearChangedTimeout, refocusId,
+			yearChangedTimeout,
+			refocusId,
 			MIN_ATTRIB = "min",
 			MAX_ATTRIB = "max",
-			MIN_YEAR = 1000,
-			MAX_YEAR = 9999;
+			conf = module.config(),
+			MIN_YEAR = ((conf && conf.min) ? conf.min : 1000),
+			MAX_YEAR = ((conf && conf.max) ? conf.max : 9999);
 
 
 		function findMonthSelect() {
