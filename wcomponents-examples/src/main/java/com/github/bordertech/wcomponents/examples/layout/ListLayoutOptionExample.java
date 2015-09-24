@@ -79,7 +79,7 @@ public class ListLayoutOptionExample extends WContainer {
 			@Override
 			public void execute(final ActionEvent event) {
 				panel.setType((WPanel.Type) wdPanelType.getSelected());
-				int gap = wnfGap.getValue().intValue();
+				int gap = wnfGap.getValue() == null ? 0 : wnfGap.getValue().intValue();
 				panel.setLayout(new ListLayout((ListLayout.Type) wdListLayoutType.getSelected(), (ListLayout.Alignment) wdListLayoutAlignment.getSelected(), (ListLayout.Separator) wdListLayoutSeparator.getSelected(), wcIsOrdered.isSelected(), gap, gap));
 
 			}

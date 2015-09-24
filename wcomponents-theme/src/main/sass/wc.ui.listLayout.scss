@@ -1,27 +1,39 @@
 /* wc.ui.listLayout.scss */
-
-// NOTE: we do not output the separator as a class when the list is ordered.
 @import 'mixins_common.scss';
 
 .listLayout {
 	margin: 0;
 	padding: 0;
 
-	&.dot {
+	&.bar,
+	&.flat,
+	&.none {
+		list-style-type: none;
+	}
+
+	// separators
+	// NOTE: we do not output the separator as a class when the list is ordered (except NONE) so all of this is safe.
+	&.bar { // bar bullets
+		> li:before {
+			content: '|';
+			margin-right: $hgap-normal;
+		}
+
+		&.flat > li:first-child:before {
+			content: '';
+		}
+	}
+
+	&.dot { // 'normal' bullets
 		margin-left: $list-layout-dot-spacing;
 
-		&.flat {
+		&.flat,
+		&.right {
 			margin-left: 0;
 		}
 	}
 
-	&.none,
-	&.flat,
-	&.bar {
-		list-style-type: none;
-		margin: 0;
-	}
-
+	// Layouts
 	&.flat { // horizontal list
 		> li {
 			display: inline-block;
@@ -35,34 +47,18 @@
 			+ li {
 				margin-left: $hgap-normal;
 			}
-
-			.bar,
-			&.dot {
-				// It would be cumbersome to unpick this
-				// scss-lint:disable NestingDepth
-				> li + li {
-					margin-left: 0;
-				}
-				// scss-lint:enable NestingDepth
-			}
 		}
 
 		&.dot > li + li:before { // dot bullets should be default but need pseudo-elements for flat lists.
 			content: '\25cf';
-			margin: 0 $hgap-normal;
+			margin-right: $hgap-normal;
 		}
 	}
 
-	&.bar { // bar bullets
-		> li:before {
-			content: '|';
-			margin-right: $hgap-normal;
-		}
-
-		&.flat > li:first-child:before {
-			content: '';
-			margin-right: 0;
-		}
+	&.center,
+	&.right {
+		list-style-position: inside;
+		margin-left: 0;
 	}
 
 	&.striped > :nth-child(odd) {
@@ -74,10 +70,11 @@
 // need qualifiying element to differentiate from unordered listLayout
 // scss-lint:disable QualifyingElement
 ol.listLayout {
-	margin: 0 0 0 $list-layout-ordered-spacing;
+	margin-left: $list-layout-ordered-spacing;
 
 	&.flat { // flat ordered lists use a pseudo-element with a counter
 		counter-reset: li;
+		margin-left: 0;
 
 		> li:before {
 			content: counter(li) '.';
