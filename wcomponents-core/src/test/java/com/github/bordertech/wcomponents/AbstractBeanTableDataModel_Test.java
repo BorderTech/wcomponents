@@ -3,142 +3,138 @@ package com.github.bordertech.wcomponents;
 import org.junit.Assert;
 import org.junit.Test;
 
-
 /**
  * Unit tests for {@link AbstractBeanTableDataModel}.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
  */
-public class AbstractBeanTableDataModel_Test
-{
-    @Test
-    public void testGetBeanDirect()
-    {
-        MyDataModel model = new MyDataModel();
-        model.setBeanProvider(new MyBeanProvider());
+public class AbstractBeanTableDataModel_Test {
 
-        Assert.assertEquals("Should not have any rows (provider has no id)", 0, model.getRowCount());
+	@Test
+	public void testGetBeanDirect() {
+		MyDataModel model = new MyDataModel();
+		model.setBeanProvider(new MyBeanProvider());
 
-        model.setBeanId(2);
-        Assert.assertEquals("Should not have any rows (property not set)", 0, model.getRowCount());
+		Assert.assertEquals("Should not have any rows (provider has no id)", 0, model.getRowCount());
 
-        model.setBeanProperty(".");
-        Assert.assertEquals("Should not have any rows (property incorrect)", 0, model.getRowCount());
+		model.setBeanId(2);
+		Assert.assertEquals("Should not have any rows (property not set)", 0, model.getRowCount());
 
-        model.setBeanProperty("myProperty");
-        Assert.assertEquals("Incorrect number of rows", 2, model.getRowCount());
-        Assert.assertEquals("Incorrect model value", "1", model.getValueAt(0, 0));
-        Assert.assertEquals("Incorrect model value", "2", model.getValueAt(1, 0));
-    }
+		model.setBeanProperty(".");
+		Assert.assertEquals("Should not have any rows (property incorrect)", 0, model.getRowCount());
 
-    @Test
-    public void testGetBeanFromTable()
-    {
-        MyDataModel model = new MyDataModel();
+		model.setBeanProperty("myProperty");
+		Assert.assertEquals("Incorrect number of rows", 2, model.getRowCount());
+		Assert.assertEquals("Incorrect model value", "1", model.getValueAt(0, 0));
+		Assert.assertEquals("Incorrect model value", "2", model.getValueAt(1, 0));
+	}
 
-        WDataTable table = new WDataTable();
-        table.setDataModel(model);
-        table.setBeanProvider(new MyBeanProvider());
+	@Test
+	public void testGetBeanFromTable() {
+		MyDataModel model = new MyDataModel();
 
-        Assert.assertEquals("Should not have any rows (provider has no id)", 0, model.getRowCount());
+		WDataTable table = new WDataTable();
+		table.setDataModel(model);
+		table.setBeanProvider(new MyBeanProvider());
 
-        table.setBeanId(2);
-        Assert.assertEquals("Should not have any rows (property not set)", 0, model.getRowCount());
+		Assert.assertEquals("Should not have any rows (provider has no id)", 0, model.getRowCount());
 
-        table.setBeanProperty(".");
-        Assert.assertEquals("Should not have any rows (property incorrect)", 0, model.getRowCount());
+		table.setBeanId(2);
+		Assert.assertEquals("Should not have any rows (property not set)", 0, model.getRowCount());
 
-        table.setBeanProperty("myProperty");
-        Assert.assertEquals("Incorrect number of rows", 2, model.getRowCount());
-        Assert.assertEquals("Incorrect model value", "1", model.getValueAt(0, 0));
-        Assert.assertEquals("Incorrect model value", "2", model.getValueAt(1, 0));
-    }
+		table.setBeanProperty(".");
+		Assert.assertEquals("Should not have any rows (property incorrect)", 0, model.getRowCount());
 
-    /**
-     * A simple bean provider implementation that
-     * returns different data depending on the bean id.
-     */
-    private static final class MyBeanProvider implements BeanProvider
-    {
-        public Object getBean(final BeanProviderBound beanProviderBound)
-        {
-            Object beanId = beanProviderBound.getBeanId();
+		table.setBeanProperty("myProperty");
+		Assert.assertEquals("Incorrect number of rows", 2, model.getRowCount());
+		Assert.assertEquals("Incorrect model value", "1", model.getValueAt(0, 0));
+		Assert.assertEquals("Incorrect model value", "2", model.getValueAt(1, 0));
+	}
 
-            if (beanId instanceof Integer)
-            {
-                MyBean bean = new MyBean();
+	/**
+	 * A simple bean provider implementation that returns different data depending on the bean id.
+	 */
+	private static final class MyBeanProvider implements BeanProvider {
 
-                int count = (Integer) beanId;
-                String[] data = new String[count];
+		@Override
+		public Object getBean(final BeanProviderBound beanProviderBound) {
+			Object beanId = beanProviderBound.getBeanId();
 
-                for (int i = 0; i < count; i++)
-                {
-                    data[i] = String.valueOf(i + 1);
-                }
+			if (beanId instanceof Integer) {
+				MyBean bean = new MyBean();
 
-                bean.setMyProperty(data);
-                return bean;
-            }
+				int count = (Integer) beanId;
+				String[] data = new String[count];
 
-            return null;
-        }
-    }
+				for (int i = 0; i < count; i++) {
+					data[i] = String.valueOf(i + 1);
+				}
 
-    /**
-     * A simple AbstractBeanTableDataModel implementation with a single column.
-     */
-    private static final class MyDataModel extends AbstractBeanTableDataModel
-    {
-        /** {@inheritDoc} */
-        public Object getValueAt(final int row, final int col)
-        {
-            Object bean = getBean();
+				bean.setMyProperty(data);
+				return bean;
+			}
 
-            if (bean instanceof String[])
-            {
-                return ((String[]) bean)[row];
-            }
+			return null;
+		}
+	}
 
-            return null;
-        }
+	/**
+	 * A simple AbstractBeanTableDataModel implementation with a single column.
+	 */
+	private static final class MyDataModel extends AbstractBeanTableDataModel {
 
-        /** {@inheritDoc} */
-        public int getRowCount()
-        {
-            Object bean = getBean();
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public Object getValueAt(final int row, final int col) {
+			Object bean = getBean();
 
-            if (bean instanceof String[])
-            {
-                return ((String[]) bean).length;
-            }
+			if (bean instanceof String[]) {
+				return ((String[]) bean)[row];
+			}
 
-            return 0;
-        }
-    };
+			return null;
+		}
 
-    /**
-     * An aribitrary bean for testing.
-     */
-    public static final class MyBean
-    {
-        /** An arbitrary bean property. */
-        private String[] myProperty;
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public int getRowCount() {
+			Object bean = getBean();
 
-        /**
-         * @param myProperty the bean property value to set.
-         */
-        public void setMyProperty(final String[] myProperty)
-        {
-            this.myProperty = myProperty;
-        }
+			if (bean instanceof String[]) {
+				return ((String[]) bean).length;
+			}
 
-        /**
-         * @return the bean property value.
-         */
-        public String[] getMyProperty()
-        {
-            return myProperty;
-        }
-    }
+			return 0;
+		}
+	};
+
+	/**
+	 * An aribitrary bean for testing.
+	 */
+	public static final class MyBean {
+
+		/**
+		 * An arbitrary bean property.
+		 */
+		private String[] myProperty;
+
+		/**
+		 * @param myProperty the bean property value to set.
+		 */
+		public void setMyProperty(final String[] myProperty) {
+			this.myProperty = myProperty;
+		}
+
+		/**
+		 * @return the bean property value.
+		 */
+		public String[] getMyProperty() {
+			return myProperty;
+		}
+	}
 }

@@ -88,4 +88,11 @@ a[name],
 input[type="number"][maxlength] {
 	@include outline($color: $wc_ui_color_errorForeground);
 }
-/* end wc.common.page.css */
+
+
+@include viewport {
+	user-zoom: zoom;
+	width: extend-to-zoom;
+	zoom: 1;
+}
+/* end wc.common.page.scss */

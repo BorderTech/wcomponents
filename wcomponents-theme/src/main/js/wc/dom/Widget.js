@@ -105,12 +105,12 @@ define(["wc/dom/getAncestorOrSelf", "wc/dom/uid"], /** @param getAncestorOrSelf 
 			result = qs;
 		if (RX.test(result)) {
 			result = result.replace(RX, function (match, p1, p2) {
-					var res = p2, ESC = "\\";
-					if (p1 !== ESC) {
-						res = ESC + res;
-					}
-					return p1 + res;
-				});
+				var res = p2, ESC = "\\";
+				if (p1 !== ESC) {
+					res = ESC + res;
+				}
+				return p1 + res;
+			});
 		}
 		return result;
 	}

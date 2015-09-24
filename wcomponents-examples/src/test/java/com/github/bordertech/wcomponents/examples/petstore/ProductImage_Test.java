@@ -1,139 +1,137 @@
 package com.github.bordertech.wcomponents.examples.petstore;
 
+import com.github.bordertech.wcomponents.examples.petstore.model.ProductBean;
 import java.awt.Dimension;
-
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.github.bordertech.wcomponents.examples.petstore.model.ProductBean;
-
 /**
  * Unit tests for {@link ProductImage}.
- * 
+ *
  * @author Anthony O'Connor
  * @since 1.0.0
  */
-public class ProductImage_Test
-{
-    /**
-     * Test constructor - bean null.
-     */
-    @Test
-    public void testConstructorBeanNull()
-    {
-        ProductImage image = new ProductImage(null);
-        byte[] bytes = image.getBytes();
+public class ProductImage_Test {
 
-        Assert.assertNull("should be null - no bean to look for bytes", bytes);
+	/**
+	 * Test constructor - bean null.
+	 */
+	@Test
+	public void testConstructorBeanNull() {
+		ProductImage image = new ProductImage(null);
+		byte[] bytes = image.getBytes();
 
-        Assert.assertNull("should have no description set", image.getDescription());
-        Assert.assertNull("should have no mime type set", image.getMimeType());
-    }
+		Assert.assertNull("should be null - no bean to look for bytes", bytes);
 
-    /**
-     * Test constructor - bean not null - name null.
-     */
-    @Test
-    public void testConstructorNameNull()
-    {
-        final int testProductId = 7;
-        final String testTitle = "title";
-        final String testName = null;
-        final String testDescription = "description";
+		Assert.assertNull("should have no description set", image.getDescription());
+		Assert.assertNull("should have no mime type set", image.getMimeType());
+	}
 
-        ProductBean testProduct = new ProductBean(testProductId, testTitle, testName, testDescription);
-        ProductImage image = new ProductImage(testProduct);
-        byte[] bytes = image.getBytes();
+	/**
+	 * Test constructor - bean not null - name null.
+	 */
+	@Test
+	public void testConstructorNameNull() {
+		final int testProductId = 7;
+		final String testTitle = "title";
+		final String testName = null;
+		final String testDescription = "description";
 
-        Assert.assertNull("should be null - no bean/name to look for bytes", bytes);
+		ProductBean testProduct = new ProductBean(testProductId, testTitle, testName,
+				testDescription);
+		ProductImage image = new ProductImage(testProduct);
+		byte[] bytes = image.getBytes();
 
-        Assert.assertEquals("should have description set to testTitle given", testTitle, image.getDescription());
-        Assert.assertNull("should have no mime type set", image.getMimeType());
-    }
+		Assert.assertNull("should be null - no bean/name to look for bytes", bytes);
 
-    /**
-     * Test constructor - bean not null, name not null, name/file not found.
-     */
-    @Test
-    public void testConstructorBytesNotFound()
-    {
-        final int testProductId = 7;
-        final String testTitle = "title";
-        final String testName = "dogXXX.gif"; // this file does not exist in the image directory
-        final String testDescription = "description";
+		Assert.assertEquals("should have description set to testTitle given", testTitle, image.
+				getDescription());
+		Assert.assertNull("should have no mime type set", image.getMimeType());
+	}
 
-        ProductBean testProduct = new ProductBean(testProductId, testTitle, testName, testDescription);
-        ProductImage image = new ProductImage(testProduct);
-        byte[] bytes = image.getBytes();
+	/**
+	 * Test constructor - bean not null, name not null, name/file not found.
+	 */
+	@Test
+	public void testConstructorBytesNotFound() {
+		final int testProductId = 7;
+		final String testTitle = "title";
+		final String testName = "dogXXX.gif"; // this file does not exist in the image directory
+		final String testDescription = "description";
 
-        Assert.assertNull("should be null - bean/name set but no file found", bytes);
+		ProductBean testProduct = new ProductBean(testProductId, testTitle, testName,
+				testDescription);
+		ProductImage image = new ProductImage(testProduct);
+		byte[] bytes = image.getBytes();
 
-        Assert.assertEquals("should have description set to testTitle given", testTitle, image.getDescription());
-        Assert.assertNull("should have no mime type set", image.getMimeType());
-    }
+		Assert.assertNull("should be null - bean/name set but no file found", bytes);
 
-    /**
-     * Test constructor - bean not null, name not null, name/file found.
-     */
-    @Test
-    public void testConstructorBytesFound()
-    {
-        final int testProductId = 7;
-        final String testTitle = "title";
-        final String testName = "dog.gif"; // this file DOES exist in the image directory
-        final String testDescription = "description";
-        final String expectedMimeType = "image/gif";
+		Assert.assertEquals("should have description set to testTitle given", testTitle, image.
+				getDescription());
+		Assert.assertNull("should have no mime type set", image.getMimeType());
+	}
 
-        ProductBean testProduct = new ProductBean(testProductId, testTitle, testName, testDescription);
-        ProductImage image = new ProductImage(testProduct);
-        byte[] bytes = image.getBytes();
+	/**
+	 * Test constructor - bean not null, name not null, name/file found.
+	 */
+	@Test
+	public void testConstructorBytesFound() {
+		final int testProductId = 7;
+		final String testTitle = "title";
+		final String testName = "dog.gif"; // this file DOES exist in the image directory
+		final String testDescription = "description";
+		final String expectedMimeType = "image/gif";
 
-        Assert.assertNotNull("should have found file loaded bytes", bytes);
-        Assert.assertTrue("should have bytes found", bytes.length > 0);
+		ProductBean testProduct = new ProductBean(testProductId, testTitle, testName,
+				testDescription);
+		ProductImage image = new ProductImage(testProduct);
+		byte[] bytes = image.getBytes();
 
-        Assert.assertEquals("should have description set to testTitle given", testTitle, image.getDescription());
-        Assert.assertEquals("should have no mime type set", expectedMimeType, image.getMimeType());
-    }
+		Assert.assertNotNull("should have found file loaded bytes", bytes);
+		Assert.assertTrue("should have bytes found", bytes.length > 0);
 
-    /**
-     * Test setMimeType.
-     */
-    @Test
-    public void testSetMimeType()
-    {
-        final String testMimeType = "text/html";
+		Assert.assertEquals("should have description set to testTitle given", testTitle, image.
+				getDescription());
+		Assert.assertEquals("should have no mime type set", expectedMimeType, image.getMimeType());
+	}
 
-        ProductImage image = new ProductImage(new ProductBean());
-        image.setMimeType(testMimeType);
+	/**
+	 * Test setMimeType.
+	 */
+	@Test
+	public void testSetMimeType() {
+		final String testMimeType = "text/html";
 
-        Assert.assertEquals("should return mime type set", testMimeType, image.getMimeType());
-    }
+		ProductImage image = new ProductImage(new ProductBean());
+		image.setMimeType(testMimeType);
 
-    /**
-     * Test setSize.
-     */
-    @Test
-    public void testSetSize()
-    {
-        final Dimension testDim = new Dimension(20, 40);
+		Assert.assertEquals("should return mime type set", testMimeType, image.getMimeType());
+	}
 
-        ProductImage image = new ProductImage(new ProductBean());
-        image.setSize(testDim);
+	/**
+	 * Test setSize.
+	 */
+	@Test
+	public void testSetSize() {
+		final Dimension testDim = new Dimension(20, 40);
 
-        Assert.assertEquals("should return size set", testDim, image.getSize());
-    }
+		ProductImage image = new ProductImage(new ProductBean());
+		image.setSize(testDim);
 
-    /**
-     * Test setDescription.
-     */
-    @Test
-    public void testSetDescription()
-    {
-        final String testDescription = "this is a description of itself";
+		Assert.assertEquals("should return size set", testDim, image.getSize());
+	}
 
-        ProductImage image = new ProductImage(new ProductBean());
-        image.setDescription(testDescription);
+	/**
+	 * Test setDescription.
+	 */
+	@Test
+	public void testSetDescription() {
+		final String testDescription = "this is a description of itself";
 
-        Assert.assertEquals("should returnd description set", testDescription, image.getDescription());
-    }
+		ProductImage image = new ProductImage(new ProductBean());
+		image.setDescription(testDescription);
+
+		Assert.assertEquals("should returnd description set", testDescription, image.
+				getDescription());
+	}
 }

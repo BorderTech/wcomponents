@@ -6,60 +6,59 @@ import com.github.bordertech.wcomponents.WLabel;
 
 /**
  * An action that shows only one target component within a group of components.
- * 
+ *
  * @author Martin Shevchenko
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class ShowInGroup extends AbstractSetVisible
-{
-    /**
-     * Creates a ShowIn action with the given target.
-     * 
-     * @param target the component to show in the group.
-     * @param group the group containing the target.
-     */
-    public ShowInGroup(final SubordinateTarget target, final WComponentGroup<? extends SubordinateTarget> group)
-    {
-        // Hide everything in the group.
-        super(group, Boolean.FALSE);
-        setTargetInGroup(target);
-    }
+public class ShowInGroup extends AbstractSetVisible {
 
-    /**
-     * Executes the action. Shows the target component and hides everything else in the group.
-     */
-    @Override
-    public void execute()
-    {
-        // Hide everything in the group.
-        super.execute();
+	/**
+	 * Creates a ShowIn action with the given target.
+	 *
+	 * @param target the component to show in the group.
+	 * @param group the group containing the target.
+	 */
+	public ShowInGroup(final SubordinateTarget target,
+			final WComponentGroup<? extends SubordinateTarget> group) {
+		// Hide everything in the group.
+		super(group, Boolean.FALSE);
+		setTargetInGroup(target);
+	}
 
-        // Now show the target
-        applyAction(getTargetInGroup(), Boolean.TRUE);
-    }
+	/**
+	 * Executes the action. Shows the target component and hides everything else in the group.
+	 */
+	@Override
+	public void execute() {
+		// Hide everything in the group.
+		super.execute();
 
-    /**
-     * @return the action type of showIn.
-     */
-    public ActionType getActionType()
-    {
-        return ActionType.SHOWIN;
-    }
+		// Now show the target
+		applyAction(getTargetInGroup(), Boolean.TRUE);
+	}
 
-    /** {@inheritDoc} */
-    @Override
-    public String toString()
-    {
-        String targetInName = getTargetInGroup().getClass().getSimpleName();
+	/**
+	 * @return the action type of showIn.
+	 */
+	@Override
+	public ActionType getActionType() {
+		return ActionType.SHOWIN;
+	}
 
-        WLabel label = getTargetInGroup().getLabel();
-        if (label != null)
-        {
-            targetInName = label.getText();
-        }
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String toString() {
+		String targetInName = getTargetInGroup().getClass().getSimpleName();
 
-        return "show " + targetInName + " in " + getTarget();
-    }
+		WLabel label = getTargetInGroup().getLabel();
+		if (label != null) {
+			targetInName = label.getText();
+		}
+
+		return "show " + targetInName + " in " + getTarget();
+	}
 
 }

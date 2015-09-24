@@ -37,8 +37,8 @@ define(["wc/dom/group",
 			function shedSubscriber(element, action) {
 				if (element && RADIO_BUTTON_SELECT.isOneOfMe(element)) {
 					group.getGroup(element, RADIO).forEach(function (next) {
-							shed[action](next);
-						});
+						shed[action](next);
+					});
 				}
 			}
 

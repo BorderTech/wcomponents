@@ -9,49 +9,47 @@ import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 
 /**
  * The {@link Renderer} for {@link WAjaxControl}.
- * 
+ *
  * @author Jonathan Austin
  * @since 1.0.0
  */
-final class WAjaxControlRenderer extends AbstractWebXmlRenderer
-{
-    /**
-     * Paints the given AjaxControl.
-     * 
-     * @param component the AjaxControl to paint.
-     * @param renderContext the RenderContext to paint to.
-     */
-    @Override
-    public void doRender(final WComponent component, final WebXmlRenderContext renderContext)
-    {
-        WAjaxControl ajaxControl = (WAjaxControl) component;
-        XmlStringBuilder xml = renderContext.getWriter();
-        WComponent trigger = ajaxControl.getTrigger() == null ? ajaxControl : ajaxControl.getTrigger();
-        int loadCount = ajaxControl.getLoadCount();
-        int delay = ajaxControl.getDelay();
+final class WAjaxControlRenderer extends AbstractWebXmlRenderer {
 
-        if (ajaxControl.getTargets() == null || ajaxControl.getTargets().isEmpty())
-        {
-            return;
-        }
+	/**
+	 * Paints the given AjaxControl.
+	 *
+	 * @param component the AjaxControl to paint.
+	 * @param renderContext the RenderContext to paint to.
+	 */
+	@Override
+	public void doRender(final WComponent component, final WebXmlRenderContext renderContext) {
+		WAjaxControl ajaxControl = (WAjaxControl) component;
+		XmlStringBuilder xml = renderContext.getWriter();
+		WComponent trigger = ajaxControl.getTrigger() == null ? ajaxControl : ajaxControl.
+				getTrigger();
+		int loadCount = ajaxControl.getLoadCount();
+		int delay = ajaxControl.getDelay();
 
-        // Start tag
-        xml.appendTagOpen("ui:ajaxTrigger");
-        xml.appendAttribute("triggerId", trigger.getId());
-        xml.appendOptionalAttribute("allowedUses", loadCount > 0, loadCount);
-        xml.appendOptionalAttribute("delay", delay > 0, delay);
-        xml.appendClose();
+		if (ajaxControl.getTargets() == null || ajaxControl.getTargets().isEmpty()) {
+			return;
+		}
 
-        // Targets
-        for (AjaxTarget target : ajaxControl.getTargets())
-        {
-            xml.appendTagOpen("ui:ajaxTargetId");
-            xml.appendAttribute("targetId", target.getId());
-            xml.appendEnd();
-        }
+		// Start tag
+		xml.appendTagOpen("ui:ajaxTrigger");
+		xml.appendAttribute("triggerId", trigger.getId());
+		xml.appendOptionalAttribute("allowedUses", loadCount > 0, loadCount);
+		xml.appendOptionalAttribute("delay", delay > 0, delay);
+		xml.appendClose();
 
-        // End tag
-        xml.appendEndTag("ui:ajaxTrigger");
-    }
+		// Targets
+		for (AjaxTarget target : ajaxControl.getTargets()) {
+			xml.appendTagOpen("ui:ajaxTargetId");
+			xml.appendAttribute("targetId", target.getId());
+			xml.appendEnd();
+		}
+
+		// End tag
+		xml.appendEndTag("ui:ajaxTrigger");
+	}
 
 }

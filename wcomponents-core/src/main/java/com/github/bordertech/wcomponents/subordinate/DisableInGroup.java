@@ -6,59 +6,58 @@ import com.github.bordertech.wcomponents.WLabel;
 
 /**
  * An action that disables only one target component within a group of components.
- * 
+ *
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class DisableInGroup extends AbstractSetEnable
-{
-    /**
-     * Creates a DisableIn action with the given target.
-     * 
-     * @param target the component to disable in the group.
-     * @param group the group containing the target.
-     */
-    public DisableInGroup(final SubordinateTarget target, final WComponentGroup<? extends SubordinateTarget> group)
-    {
-        // Enable everything in the group.
-        super(group, Boolean.TRUE);
-        setTargetInGroup(target);
-    }
+public class DisableInGroup extends AbstractSetEnable {
 
-    /**
-     * Executes the action. Disables the target component and makes everything else enabled in the group.
-     */
-    @Override
-    public void execute()
-    {
-        // Enable everything in the group.
-        super.execute();
+	/**
+	 * Creates a DisableIn action with the given target.
+	 *
+	 * @param target the component to disable in the group.
+	 * @param group the group containing the target.
+	 */
+	public DisableInGroup(final SubordinateTarget target,
+			final WComponentGroup<? extends SubordinateTarget> group) {
+		// Enable everything in the group.
+		super(group, Boolean.TRUE);
+		setTargetInGroup(target);
+	}
 
-        // Now make the target disabled
-        applyAction(getTargetInGroup(), Boolean.FALSE);
-    }
+	/**
+	 * Executes the action. Disables the target component and makes everything else enabled in the group.
+	 */
+	@Override
+	public void execute() {
+		// Enable everything in the group.
+		super.execute();
 
-    /**
-     * @return the action type of DisableIn.
-     */
-    public ActionType getActionType()
-    {
-        return ActionType.DISABLEIN;
-    }
+		// Now make the target disabled
+		applyAction(getTargetInGroup(), Boolean.FALSE);
+	}
 
-    /** {@inheritDoc} */
-    @Override
-    public String toString()
-    {
-        String targetInName = getTargetInGroup().getClass().getSimpleName();
+	/**
+	 * @return the action type of DisableIn.
+	 */
+	@Override
+	public ActionType getActionType() {
+		return ActionType.DISABLEIN;
+	}
 
-        WLabel label = getTargetInGroup().getLabel();
-        if (label != null)
-        {
-            targetInName = label.getText();
-        }
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String toString() {
+		String targetInName = getTargetInGroup().getClass().getSimpleName();
 
-        return "disable " + targetInName + " in " + getTarget();
-    }
+		WLabel label = getTargetInGroup().getLabel();
+		if (label != null) {
+			targetInName = label.getText();
+		}
+
+		return "disable " + targetInName + " in " + getTarget();
+	}
 
 }

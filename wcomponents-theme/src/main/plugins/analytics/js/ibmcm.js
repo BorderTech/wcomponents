@@ -461,11 +461,11 @@ define(["wc/dom/initialise",
 					// get all trackable elements inside the element and
 					TRACKABLES = TRACKABLES || new Widget("", "", {"${analytics.core.attribute.shouldTrack}": TRUE});
 					Array.prototype.forEach.call(TRACKABLES.findDescendants(element), function (next) {
-							var _el, _id = next.id;
-							if (_id && (_el = document.getElementById(_id)) && !(shed.isHidden(_el) || shed.hasHiddenAncestor(_el))) {
-								idArr.push(_id);
-							}
-						});
+						var _el, _id = next.id;
+						if (_id && (_el = document.getElementById(_id)) && !(shed.isHidden(_el) || shed.hasHiddenAncestor(_el))) {
+							idArr.push(_id);
+						}
+					});
 
 					if (idArr.length) {
 						setUpElementTracking(idArr);

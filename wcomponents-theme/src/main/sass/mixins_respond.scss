@@ -60,3 +60,15 @@ $large: 2000px;
 		}
 	}
 }
+
+// create a viewport media rule
+@mixin viewport() {
+	@-ms-viewport {
+		@content
+
+	}
+
+	@viewport {
+		@content
+	}
+}

@@ -5,110 +5,103 @@ import org.junit.Test;
 
 /**
  * Unit tests for {@link AddressBean}.
- * 
+ *
  * @author Anthony O'Connor
  * @since 1.0.0
  */
-public class AddressBean_Test
-{
-    /**
-     * Test constructor.
-     */
-    @Test
-    public void testConstructor()
-    {
-        AddressBean bean = new AddressBean();
+public class AddressBean_Test {
 
-        Assert.assertNull("line1 should be null", bean.getLine1());
-        Assert.assertNull("line2 should be null", bean.getLine2());
-        Assert.assertNull("suburb should be null", bean.getSuburb());
-        Assert.assertNull("state should be null", bean.getState());
-        Assert.assertNull("postcode should be null", bean.getPostcode());
-        Assert.assertNull("country should be null", bean.getCountry());
-    }
+	/**
+	 * Test constructor.
+	 */
+	@Test
+	public void testConstructor() {
+		AddressBean bean = new AddressBean();
 
-    /**
-     * Test setCountry.
-     */
-    @Test
-    public void testSetCountry()
-    {
-        final String testCountry = "Brazil";
+		Assert.assertNull("line1 should be null", bean.getLine1());
+		Assert.assertNull("line2 should be null", bean.getLine2());
+		Assert.assertNull("suburb should be null", bean.getSuburb());
+		Assert.assertNull("state should be null", bean.getState());
+		Assert.assertNull("postcode should be null", bean.getPostcode());
+		Assert.assertNull("country should be null", bean.getCountry());
+	}
 
-        AddressBean bean = new AddressBean();
-        bean.setCountry(testCountry);
+	/**
+	 * Test setCountry.
+	 */
+	@Test
+	public void testSetCountry() {
+		final String testCountry = "Brazil";
 
-        Assert.assertEquals("should retrieve country set", testCountry, bean.getCountry());
-    }
+		AddressBean bean = new AddressBean();
+		bean.setCountry(testCountry);
 
-    /**
-     * Test setLine1.
-     */
-    @Test
-    public void testSetLine1()
-    {
-        final String testLine1 = "this is the first line";
+		Assert.assertEquals("should retrieve country set", testCountry, bean.getCountry());
+	}
 
-        AddressBean bean = new AddressBean();
-        bean.setLine1(testLine1);
+	/**
+	 * Test setLine1.
+	 */
+	@Test
+	public void testSetLine1() {
+		final String testLine1 = "this is the first line";
 
-        Assert.assertEquals("should retrieve line1 set", testLine1, bean.getLine1());
-    }
+		AddressBean bean = new AddressBean();
+		bean.setLine1(testLine1);
 
-    /**
-     * Test setLine2.
-     */
-    @Test
-    public void testSetLine2()
-    {
-        final String testLine2 = "this is the second line";
+		Assert.assertEquals("should retrieve line1 set", testLine1, bean.getLine1());
+	}
 
-        AddressBean bean = new AddressBean();
-        bean.setLine2(testLine2);
+	/**
+	 * Test setLine2.
+	 */
+	@Test
+	public void testSetLine2() {
+		final String testLine2 = "this is the second line";
 
-        Assert.assertEquals("should retrieve line2 set", testLine2, bean.getLine2());
-    }
+		AddressBean bean = new AddressBean();
+		bean.setLine2(testLine2);
 
-    /**
-     * Test setPostcode.
-     */
-    @Test
-    public void testSetPostcode()
-    {
-        final String testPostcode = "6666";
+		Assert.assertEquals("should retrieve line2 set", testLine2, bean.getLine2());
+	}
 
-        AddressBean bean = new AddressBean();
-        bean.setPostcode(testPostcode);
+	/**
+	 * Test setPostcode.
+	 */
+	@Test
+	public void testSetPostcode() {
+		final String testPostcode = "6666";
 
-        Assert.assertEquals("should retrieve postCode set", testPostcode, bean.getPostcode());
-    }
+		AddressBean bean = new AddressBean();
+		bean.setPostcode(testPostcode);
 
-    /**
-     * Test setState.
-     */
-    @Test
-    public void testSetState()
-    {
-        final String testState = "TAS";
+		Assert.assertEquals("should retrieve postCode set", testPostcode, bean.getPostcode());
+	}
 
-        AddressBean bean = new AddressBean();
-        bean.setState(testState);
+	/**
+	 * Test setState.
+	 */
+	@Test
+	public void testSetState() {
+		final String testState = "TAS";
 
-        Assert.assertEquals("should retrieve state set", testState, bean.getState());
-    }
+		AddressBean bean = new AddressBean();
+		bean.setState(testState);
 
-    /**
-     * Test setSuburb.
-     */
-    @Test
-    public void testSetSuburb()
-    {
-        final String testSuburb = "Kensington";
+		Assert.assertEquals("should retrieve state set", testState, bean.getState());
+	}
 
-        AddressBean bean = new AddressBean();
-        bean.setSuburb(testSuburb);
+	/**
+	 * Test setSuburb.
+	 */
+	@Test
+	public void testSetSuburb() {
+		final String testSuburb = "Kensington";
 
-        Assert.assertEquals("should retrieve suburb set", testSuburb, bean.getSuburb());
-    }
+		AddressBean bean = new AddressBean();
+		bean.setSuburb(testSuburb);
+
+		Assert.assertEquals("should retrieve suburb set", testSuburb, bean.getSuburb());
+	}
 
 }

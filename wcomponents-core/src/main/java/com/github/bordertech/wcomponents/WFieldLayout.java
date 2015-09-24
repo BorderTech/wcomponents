@@ -10,265 +10,271 @@ import com.github.bordertech.wcomponents.util.I18nUtilities;
  * <p>
  * It also provides some helpful infrastructure around WComponent validation by supplying helper methods to validate and
  * set error indicators on each of its contained <code>WField</code> components. It is up the the parent
- * <code>ValidatableComponent</code> or a <code>ValidatingAction</code> to call the validate() and showErrorIndicator() 
+ * <code>ValidatableComponent</code> or a <code>ValidatingAction</code> to call the validate() and showErrorIndicator()
  * methods on this component.
  * </p>
- * 
+ *
  * @author Adam Millard
  */
-public class WFieldLayout extends AbstractNamingContextContainer implements AjaxTarget, SubordinateTarget, Marginable
-{
-    /**
-     * The default label width.
-     * 
-     * @deprecated Will be defined by the theme. Set {@link #setLabelWidth(int) labelWidth} &lt;=0 for the default.
-     */
-    @Deprecated
-    public static final int DEFAULT_LABEL_WIDTH = 0;
+public class WFieldLayout extends AbstractNamingContextContainer implements AjaxTarget,
+		SubordinateTarget, Marginable {
 
-    /** Layout type of flat. */
-    public static final String LAYOUT_FLAT = "flat";
-    /** Layout type of stacked. */
-    public static final String LAYOUT_STACKED = "stacked";
+	/**
+	 * The default label width.
+	 *
+	 * @deprecated Will be defined by the theme. Set {@link #setLabelWidth(int) labelWidth} &lt;=0 for the default.
+	 */
+	@Deprecated
+	public static final int DEFAULT_LABEL_WIDTH = 0;
 
-    /**
-     * Creates a WFieldLayout with the default layout type of {@link #LAYOUT_FLAT}.
-     */
-    public WFieldLayout()
-    {
-        this(LAYOUT_FLAT);
-    }
+	/**
+	 * Layout type of flat.
+	 */
+	public static final String LAYOUT_FLAT = "flat";
+	/**
+	 * Layout type of stacked.
+	 */
+	public static final String LAYOUT_STACKED = "stacked";
 
-    /**
-     * Creates a WFieldLayout with the given layout type.
-     * 
-     * @param layout one of {@link #LAYOUT_FLAT} or {@link #LAYOUT_STACKED}.
-     */
-    public WFieldLayout(final String layout)
-    {
-        if ((layout == null) || (layout.length() == 0))
-        {
-            throw new IllegalArgumentException("A layout must be supplied.");
-        }
+	/**
+	 * Creates a WFieldLayout with the default layout type of {@link #LAYOUT_FLAT}.
+	 */
+	public WFieldLayout() {
+		this(LAYOUT_FLAT);
+	}
 
-        if (!(layout.equals(LAYOUT_FLAT) || layout.equals(LAYOUT_STACKED)))
-        {
-            throw new IllegalArgumentException("Unknown layout: " + layout);
-        }
+	/**
+	 * Creates a WFieldLayout with the given layout type.
+	 *
+	 * @param layout one of {@link #LAYOUT_FLAT} or {@link #LAYOUT_STACKED}.
+	 */
+	public WFieldLayout(final String layout) {
+		if ((layout == null) || (layout.length() == 0)) {
+			throw new IllegalArgumentException("A layout must be supplied.");
+		}
 
-        getComponentModel().layoutType = layout;
-    }
-    
-    /**
-     * Set the heading for the field layout.
-     * 
-     * @param heading the text for the heading
-     * @deprecated use {@link #setTitle(String)} instead
-     */
-    @Deprecated
-    public void setHeading(final String heading)
-    {
-        setTitle(heading);
-    }
+		if (!(layout.equals(LAYOUT_FLAT) || layout.equals(LAYOUT_STACKED))) {
+			throw new IllegalArgumentException("Unknown layout: " + layout);
+		}
 
-    /**
-     * Set the title for the field layout.
-     * 
-     * @param title the text for the title
-     */
-    public void setTitle(final String title)
-    {
-        getOrCreateComponentModel().title = title;
-    }
+		getComponentModel().layoutType = layout;
+	}
 
-    /**
-     * Get the title for this field layout.
-     * 
-     * @return the title
-     */
-    public String getTitle()
-    {
-        return I18nUtilities.format(null, getComponentModel().title);
-    }
+	/**
+	 * Set the heading for the field layout.
+	 *
+	 * @param heading the text for the heading
+	 * @deprecated use {@link #setTitle(String)} instead
+	 */
+	@Deprecated
+	public void setHeading(final String heading) {
+		setTitle(heading);
+	}
 
-    /**
-     * Get the type of layout for this field layout.
-     * 
-     * @return the layout type
-     */
-    public String getLayoutType()
-    {
-        return getComponentModel().layoutType;
-    }
+	/**
+	 * Set the title for the field layout.
+	 *
+	 * @param title the text for the title
+	 */
+	public void setTitle(final String title) {
+		getOrCreateComponentModel().title = title;
+	}
 
-    /**
-     * @return Returns the labelWidth.
-     */
-    public int getLabelWidth()
-    {
-        return getComponentModel().labelWidth;
-    }
+	/**
+	 * Get the title for this field layout.
+	 *
+	 * @return the title
+	 */
+	public String getTitle() {
+		return I18nUtilities.format(null, getComponentModel().title);
+	}
 
-    /**
-     * Sets the label width.
-     * 
-     * @param labelWidth the percentage width, or &lt;= 0 to use the default field width.
-     */
-    public void setLabelWidth(final int labelWidth)
-    {
-        if (labelWidth > 100)
-        {
-            throw new IllegalArgumentException("labelWidth (" + labelWidth + ") cannot be greater than 100 percent.");
-        }
-        getOrCreateComponentModel().labelWidth = Math.max(0, labelWidth);
-    }
-    
-    /** {@inheritDoc} */
-    @Override
-    public void setMargin(final Margin margin)
-    {
-        getOrCreateComponentModel().margin = margin;
-    }
+	/**
+	 * Get the type of layout for this field layout.
+	 *
+	 * @return the layout type
+	 */
+	public String getLayoutType() {
+		return getComponentModel().layoutType;
+	}
 
-    /** {@inheritDoc} */
-    @Override
-    public Margin getMargin()
-    {
-        return getComponentModel().margin;
-    }
-    
-    /**
-     * @return true if ordered layout
-     */
-    public boolean isOrdered()
-    {
-        return getComponentModel().ordered;
-    }
+	/**
+	 * @return Returns the labelWidth.
+	 */
+	public int getLabelWidth() {
+		return getComponentModel().labelWidth;
+	}
 
-    /**
-     * Flag a layout to be an ordered list. Used with {@link #setOrderedOffset(int)}.
-     * 
-     * @param ordered true if ordered layout
-     */
-    public void setOrdered(final boolean ordered)
-    {
-        getOrCreateComponentModel().ordered = ordered;
-    }
+	/**
+	 * Sets the label width.
+	 *
+	 * @param labelWidth the percentage width, or &lt;= 0 to use the default field width.
+	 */
+	public void setLabelWidth(final int labelWidth) {
+		if (labelWidth > 100) {
+			throw new IllegalArgumentException(
+					"labelWidth (" + labelWidth + ") cannot be greater than 100 percent.");
+		}
+		getOrCreateComponentModel().labelWidth = Math.max(0, labelWidth);
+	}
 
-    /**
-     * Allows layouts to have its ordered numbering start from an offset. Used with {@link #setOrdered(boolean)}.
-     * 
-     * @return the ordered start offset.
-     */
-    public int getOrderedOffset()
-    {
-        return getComponentModel().orderedOffset;
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setMargin(final Margin margin) {
+		getOrCreateComponentModel().margin = margin;
+	}
 
-    /**
-     * Set the starting offset for an ordered layout. Used with {@link #setOrdered(boolean)}.
-     * 
-     * @param orderedOffset the ordered start offset. Must be 1 or greater.
-     */
-    public void setOrderedOffset(final int orderedOffset)
-    {
-        if (orderedOffset <= 0)
-        {
-            throw new IllegalArgumentException("Ordered start offset (" + orderedOffset + ") must be greater than zero.");
-        }
-        getOrCreateComponentModel().orderedOffset = orderedOffset;
-    }
-    
-    /**
-     * Add a field using the label and components passed in.
-     * 
-     * @param label the label to use for the field
-     * @param field the component to use for the field
-     * @return the field which was added to the layout.
-     */
-    public WField addField(final String label, final WComponent field)
-    {
-        return addField(new WLabel(label), field);
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Margin getMargin() {
+		return getComponentModel().margin;
+	}
 
-    /**
-     * Add a field using the label and components passed in.
-     * 
-     * @param label the label to use for the field
-     * @param field the component to use for the field
-     * @return the field which was added to the layout.
-     */
-    public WField addField(final WLabel label, final WComponent field)
-    {
-        WField wField = new WField(label, field);
-        add(wField);
-        
-        return wField;
-    }
-    
-    /** {@inheritDoc} */
-    @Override // to make public
-    public void remove(final WComponent child)
-    {
-        super.remove(child);
-    }
-    
-    /**
-     * @return a String representation of this component, for debugging purposes.
-     */
-    @Override
-    public String toString()
-    {
-        return toString(getLayoutType());
-    }
-    
-    /**
-     * Creates a new Component model.
-     * @return a new FieldLayoutModel. 
-     */
-    @Override // For type safety only
-    protected FieldLayoutModel newComponentModel()
-    {
-        return new FieldLayoutModel();
-    }
+	/**
+	 * @return true if ordered layout
+	 */
+	public boolean isOrdered() {
+		return getComponentModel().ordered;
+	}
 
-    /** {@inheritDoc} */
-    @Override // For type safety only
-    protected FieldLayoutModel getComponentModel()
-    {
-        return (FieldLayoutModel) super.getComponentModel();
-    }
-    
-    /** {@inheritDoc} */
-    @Override // For type safety only
-    protected FieldLayoutModel getOrCreateComponentModel()
-    {
-        return (FieldLayoutModel) super.getOrCreateComponentModel();
-    }
-    
-    /**
-     * Holds the extrinsic state information of the component.
-     * @author Yiannis Paschalidis
-     */
-    public static class FieldLayoutModel extends ComponentModel
-    {
-        /** Optional title for the field layout. */
-        private String title;
-        
-        /** Width of the labels. */
-        private int labelWidth;
-      
-        /** The type of layout to use for the field layout. */
-        private String layoutType;
-        
-        /** The margins to be used on the section. */
-        private Margin margin;
+	/**
+	 * Flag a layout to be an ordered list. Used with {@link #setOrderedOffset(int)}.
+	 *
+	 * @param ordered true if ordered layout
+	 */
+	public void setOrdered(final boolean ordered) {
+		getOrCreateComponentModel().ordered = ordered;
+	}
 
-        /** Ordered layout. */
-        private boolean ordered;
+	/**
+	 * Allows layouts to have its ordered numbering start from an offset. Used with {@link #setOrdered(boolean)}.
+	 *
+	 * @return the ordered start offset.
+	 */
+	public int getOrderedOffset() {
+		return getComponentModel().orderedOffset;
+	}
 
-        /** Ordered layout starting offset. */
-        private int orderedOffset = 1;
+	/**
+	 * Set the starting offset for an ordered layout. Used with {@link #setOrdered(boolean)}.
+	 *
+	 * @param orderedOffset the ordered start offset. Must be 1 or greater.
+	 */
+	public void setOrderedOffset(final int orderedOffset) {
+		if (orderedOffset <= 0) {
+			throw new IllegalArgumentException(
+					"Ordered start offset (" + orderedOffset + ") must be greater than zero.");
+		}
+		getOrCreateComponentModel().orderedOffset = orderedOffset;
+	}
 
-    }
+	/**
+	 * Add a field using the label and components passed in.
+	 *
+	 * @param label the label to use for the field
+	 * @param field the component to use for the field
+	 * @return the field which was added to the layout.
+	 */
+	public WField addField(final String label, final WComponent field) {
+		return addField(new WLabel(label), field);
+	}
+
+	/**
+	 * Add a field using the label and components passed in.
+	 *
+	 * @param label the label to use for the field
+	 * @param field the component to use for the field
+	 * @return the field which was added to the layout.
+	 */
+	public WField addField(final WLabel label, final WComponent field) {
+		WField wField = new WField(label, field);
+		add(wField);
+
+		return wField;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override // to make public
+	public void remove(final WComponent child) {
+		super.remove(child);
+	}
+
+	/**
+	 * @return a String representation of this component, for debugging purposes.
+	 */
+	@Override
+	public String toString() {
+		return toString(getLayoutType());
+	}
+
+	/**
+	 * Creates a new Component model.
+	 *
+	 * @return a new FieldLayoutModel.
+	 */
+	@Override // For type safety only
+	protected FieldLayoutModel newComponentModel() {
+		return new FieldLayoutModel();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override // For type safety only
+	protected FieldLayoutModel getComponentModel() {
+		return (FieldLayoutModel) super.getComponentModel();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override // For type safety only
+	protected FieldLayoutModel getOrCreateComponentModel() {
+		return (FieldLayoutModel) super.getOrCreateComponentModel();
+	}
+
+	/**
+	 * Holds the extrinsic state information of the component.
+	 *
+	 * @author Yiannis Paschalidis
+	 */
+	public static class FieldLayoutModel extends ComponentModel {
+
+		/**
+		 * Optional title for the field layout.
+		 */
+		private String title;
+
+		/**
+		 * Width of the labels.
+		 */
+		private int labelWidth;
+
+		/**
+		 * The type of layout to use for the field layout.
+		 */
+		private String layoutType;
+
+		/**
+		 * The margins to be used on the section.
+		 */
+		private Margin margin;
+
+		/**
+		 * Ordered layout.
+		 */
+		private boolean ordered;
+
+		/**
+		 * Ordered layout starting offset.
+		 */
+		private int orderedOffset = 1;
+
+	}
 }

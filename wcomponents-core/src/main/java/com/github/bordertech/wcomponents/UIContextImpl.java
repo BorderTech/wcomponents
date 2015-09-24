@@ -1,5 +1,7 @@
 package com.github.bordertech.wcomponents;
 
+import com.github.bordertech.wcomponents.util.Duplet;
+import com.github.bordertech.wcomponents.util.TreeUtil;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -7,517 +9,483 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
-import com.github.bordertech.wcomponents.util.Duplet;
-import com.github.bordertech.wcomponents.util.TreeUtil;
-
 /**
  * UIContextImpl - implementation of {@link UIContext}.
- * 
+ *
  * @author Martin Shevchenko
  * @since 1.0.0
  */
-public class UIContextImpl implements UIContext
-{
-    /** The environment to use when an environment hasn't been supplied. */
-    private static final DummyEnvironment DUMMY = new DummyEnvironment();
-    
-    /** The root component for this context. */
-    private WComponent ui;
-    
-    /** The UIContext's creation time. */
-    private final long creationTime = System.currentTimeMillis();
+public class UIContextImpl implements UIContext {
 
-    /** A map of component models, keyed by the component that they belong to. */
-    private final Map<WebComponent, WebModel> map = new HashMap<WebComponent, WebModel>();
-    
-    /** A map of temporary maps, keyed by the components using them. */
-    private Map<WComponent, Map<Object, Object>> scratchMaps;
-    
-    /** The framework attribute map. */
-    private Map<String, Object> attribMap;
+	/**
+	 * The environment to use when an environment hasn't been supplied.
+	 */
+	private static final DummyEnvironment DUMMY = new DummyEnvironment();
 
-    /** The environment which this context is running in. */
-    private Environment environment;
+	/**
+	 * The root component for this context.
+	 */
+	private WComponent ui;
 
-    /** A list of runnables to invoke later (near the end of processing the current request). */  
-    private transient List<Duplet<UIContext, Runnable>> invokeLaterRunnables;
+	/**
+	 * The UIContext's creation time.
+	 */
+	private final long creationTime = System.currentTimeMillis();
 
-    /** The component which needs to be given focus. */
-    private transient WComponent focussed;
-    
-    /** The locale for this context. */
-    private Locale locale;
+	/**
+	 * A map of component models, keyed by the component that they belong to.
+	 */
+	private final Map<WebComponent, WebModel> map = new HashMap<>();
 
-    /** 
-     * The context of the component which needs to be given focus.
-     * 
-     * This is necessary to cater for repeaters, which used the same
-     * component, but have a different context per row. 
-     */
-    private transient UIContext focussedUIC;
-    
-    /** Indicates whether keyboard focus needs to be set to a particular component. */
-    private transient boolean focusRequired = false;
-    
-    private transient Headers headers;
-    
-    /**
-     * For use by internal framework code only. Sets the top level web component for this context.
-     * @param ui the top level web component for this context.
-     */
-    @Override
-    public void setUI(final WComponent ui)
-    {
-        this.ui = ui;
-    }
+	/**
+	 * A map of temporary maps, keyed by the components using them.
+	 */
+	private Map<WComponent, Map<Object, Object>> scratchMaps;
 
-    /**
-     * @return the top level web component for which is context applies.
-     */
-    @Override
-    public WComponent getUI()
-    {
-        return ui;
-    }
+	/**
+	 * The framework attribute map.
+	 */
+	private Map<String, Object> attribMap;
 
-    /**
-     * Get the extrinsic state information for the given component.
-     * @param component the component to get the model for.
-     * @return the component's model.
-     */
-    @Override
-    public WebModel getModel(final WebComponent component)
-    {
-        return map.get(component);
-    }
+	/**
+	 * The environment which this context is running in.
+	 */
+	private Environment environment;
 
-    /**
-     * Stores the extrinsic state information for the given component.
-     * @param component the component to set the model for.
-     * @param model the model to set.
-     */
-    @Override
-    public void setModel(final WebComponent component, final WebModel model)
-    {
-        map.put(component, model);
-    }
+	/**
+	 * A list of runnables to invoke later (near the end of processing the current request).
+	 */
+	private transient List<Duplet<UIContext, Runnable>> invokeLaterRunnables;
 
-    /**
-     * Removes the extrinsic state information for the given component. 
-     * Note that this is not recursive for the children.
-     * 
-     * @param component the component to remove the model for.
-     */
-    @Override
-    public void removeModel(final WebComponent component)
-    {
-        map.remove(component);
-    }
+	/**
+	 * The component which needs to be given focus.
+	 */
+	private transient WComponent focussed;
 
-    /**
-     * @return the set of WComponents that are storing a model.
-     */
-    @Override
-    public Set<WebComponent> getComponents()
-    {
-        return map.keySet();
-    }
+	/**
+	 * The locale for this context.
+	 */
+	private Locale locale;
 
-    /**
-     * Explicitly set the environment.
-     * @param environment the environment to set.
-     */
-    @Override
-    public void setEnvironment(final Environment environment)
-    {
-        this.environment = environment;
-    }
+	/**
+	 * The context of the component which needs to be given focus.
+	 *
+	 * This is necessary to cater for repeaters, which used the same component, but have a different context per row.
+	 */
+	private transient UIContext focussedUIC;
 
-    /**
-     * If an environment has been set, it is returned. Otherwise a dummy environment is returned.
-     * @return the current environment.
-     */
-    @Override
-    public Environment getEnvironment()
-    {
-        if (environment == null)
-        {
-            return DUMMY;
-        }
-        
-        return environment;
-    }
+	/**
+	 * Indicates whether keyboard focus needs to be set to a particular component.
+	 */
+	private transient boolean focusRequired = false;
 
-    /**
-     * @return true if the current environment is a 'dummy' environment.
-     */
-    @Override
-    public boolean isDummyEnvironment()
-    {
-        return environment == null;
-    }
+	private transient Headers headers;
 
-    /**
-     * Adds a runnable to the list of runnables to be invoked later.
-     * @param runnable the runnable to add
-     */
-    @Override
-    public void invokeLater(final Runnable runnable)
-    {
-        invokeLater(this, runnable);
-    }
-    
-    /**
-     * Adds a runnable to the list of runnables to be invoked later.
-     * 
-     * @param uic the UIContext to invoke the runnable in.
-     * @param runnable the runnable to add
-     */
-    @Override
-    public void invokeLater(final UIContext uic, final Runnable runnable)
-    {
-        if (invokeLaterRunnables == null)
-        {
-            invokeLaterRunnables = new ArrayList<Duplet<UIContext, Runnable>>();
-        }
-        
-        invokeLaterRunnables.add(new Duplet<UIContext, Runnable>(uic, runnable));
-    }
+	/**
+	 * For use by internal framework code only. Sets the top level web component for this context.
+	 *
+	 * @param topUi the top level web component for this context.
+	 */
+	@Override
+	public void setUI(final WComponent topUi) {
+		this.ui = topUi;
+	}
 
-    /**
-     * Runs the runnables that were added using {@link #invokeLater(Runnable)}.
-     */
-    @Override
-    public void doInvokeLaters()
-    {
-        if (invokeLaterRunnables == null)
-        {
-            return;
-        }
-        
-        // The Runnables we are about to run may add their own invoke later
-        // runnables, so
-        // loop to make sure we process them all.
-        while (!invokeLaterRunnables.isEmpty())
-        {
-            List<Duplet<UIContext, Runnable>> runnables = new ArrayList<Duplet<UIContext, Runnable>>();
-            runnables.addAll(invokeLaterRunnables);
-            invokeLaterRunnables.clear();
-            
-            for (Duplet<UIContext, Runnable> run : runnables)
-            {
-                UIContextHolder.pushContext(run.getFirst());
-                
-                try
-                {
-                    run.getSecond().run();
-                }
-                finally
-                {
-                    UIContextHolder.popContext();
-                }
-            }
-        }
-    }
+	/**
+	 * @return the top level web component for which is context applies.
+	 */
+	@Override
+	public WComponent getUI() {
+		return ui;
+	}
 
-    /**
-     * @return the focussed component for this UI.
-     */
-    @Override
-    public WComponent getFocussed()
-    {
-        return focussed;
-    }
+	/**
+	 * Get the extrinsic state information for the given component.
+	 *
+	 * @param component the component to get the model for.
+	 * @return the component's model.
+	 */
+	@Override
+	public WebModel getModel(final WebComponent component) {
+		return map.get(component);
+	}
 
-    /**
-     * Sets the component in this UIC which is to be the focus of the client browser cursor. 
-     * The id of the component is used to find the focussed element in the rendered html.
-     * 
-     * @param component the component that sould be the cursor focus in the rendered UI.
-     */
-    @Override
-    public void setFocussed(final WComponent component)
-    {
-        focussed = component;
-    }
+	/**
+	 * Stores the extrinsic state information for the given component.
+	 *
+	 * @param component the component to set the model for.
+	 * @param model the model to set.
+	 */
+	@Override
+	public void setModel(final WebComponent component, final WebModel model) {
+		map.put(component, model);
+	}
 
-    /**
-     * Sets the component in this UIC which is to be the focus of the client browser cursor. The id of the component is
-     * used to find the focussed element in the rendered html. Since id could be different in different contexts the
-     * context of the component is also needed.
-     * 
-     * @param component - the component that sould be the cursor focus in the rendered UI.
-     * @param uic - the context that the component exists in.
-     */
-    @Override
-    public void setFocussed(final WComponent component, final UIContext uic)
-    {
-        this.focussed = component;
-        this.focussedUIC = uic;
-    }
+	/**
+	 * Removes the extrinsic state information for the given component. Note that this is not recursive for the
+	 * children.
+	 *
+	 * @param component the component to remove the model for.
+	 */
+	@Override
+	public void removeModel(final WebComponent component) {
+		map.remove(component);
+	}
 
-    /**
-     * @return the unique id of the focused component for this UI.
-     */
-    @Override
-    public String getFocussedId()
-    {
-        // No focused
-        if (focussed == null)
-        {
-            return null;
-        }
+	/**
+	 * @return the set of WComponents that are storing a model.
+	 */
+	@Override
+	public Set<WebComponent> getComponents() {
+		return map.keySet();
+	}
 
-        // Check there is an active context and a UI set
-        UIContext cuic = UIContextHolder.getCurrent();
-        if (cuic == null || cuic.getUI() == null)
-        {
-            return null;
-        }
+	/**
+	 * Explicitly set the environment.
+	 *
+	 * @param environment the environment to set.
+	 */
+	@Override
+	public void setEnvironment(final Environment environment) {
+		this.environment = environment;
+	}
 
-        UIContext fuic = (focussedUIC == null) ? this : focussedUIC;
-        boolean differentFocusContext = fuic != cuic;
+	/**
+	 * If an environment has been set, it is returned. Otherwise a dummy environment is returned.
+	 *
+	 * @return the current environment.
+	 */
+	@Override
+	public Environment getEnvironment() {
+		if (environment == null) {
+			return DUMMY;
+		}
 
-        if (differentFocusContext)
-        {
-            UIContextHolder.pushContext(fuic);
-        }
+		return environment;
+	}
 
-        String id;
+	/**
+	 * @return true if the current environment is a 'dummy' environment.
+	 */
+	@Override
+	public boolean isDummyEnvironment() {
+		return environment == null;
+	}
 
-        try
-        {
-            if (focussed.isHidden())
-            {
-                return null;
-            }
-            else if (focussed instanceof Input && ((Input) focussed).isReadOnly())
-            {
-                return null;
-            }
-            else if (focussed instanceof Disableable && ((Disableable) focussed).isDisabled())
-            {
-                return null;
-            }
-            
-            id = focussed.getId();
-        }
-        finally
-        {
-            if (differentFocusContext)
-            {
-                UIContextHolder.popContext();
-            }
-        }
+	/**
+	 * Adds a runnable to the list of runnables to be invoked later.
+	 *
+	 * @param runnable the runnable to add
+	 */
+	@Override
+	public void invokeLater(final Runnable runnable) {
+		invokeLater(this, runnable);
+	}
 
-        // Check id is focusable
-        WComponent root = cuic.getUI();
-        if (TreeUtil.isIdFocusable(root, id))
-        {
-            return id;
-        }
+	/**
+	 * Adds a runnable to the list of runnables to be invoked later.
+	 *
+	 * @param uic the UIContext to invoke the runnable in.
+	 * @param runnable the runnable to add
+	 */
+	@Override
+	public void invokeLater(final UIContext uic, final Runnable runnable) {
+		if (invokeLaterRunnables == null) {
+			invokeLaterRunnables = new ArrayList<>();
+		}
 
-        return null;
-    }
+		invokeLaterRunnables.add(new Duplet<>(uic, runnable));
+	}
 
-    /**
-     * Sets whether a component needs to be given focus.
-     * @param focusRequired true if focus is required, false otherwise.
-     * 
-     * @see #setFocussed(WComponent, UIContext)
-     */
-    @Override
-    public void setFocusRequired(final boolean focusRequired)
-    {
-        this.focusRequired = focusRequired;
-    }
-    
-    /**
-     * Indicates whether a component needs to be given focus.
-     * @return true if focus needs to be set.
-     * 
-     * @see #setFocussed(WComponent, UIContext)
-     */
-    @Override
-    public boolean isFocusRequired()
-    {
-        return focusRequired;
-    }
+	/**
+	 * Runs the runnables that were added using {@link #invokeLater(Runnable)}.
+	 */
+	@Override
+	public void doInvokeLaters() {
+		if (invokeLaterRunnables == null) {
+			return;
+		}
 
-    /**
-     * Reserved for internal framework use.
-     * Retrieves a framework attribute.
-     * 
-     * @param name the attribute name.
-     * @return the framework attribute with the given name. 
-     */
-    @Override
-    public Object getFwkAttribute(final String name)
-    {
-        if (attribMap == null)
-        {
-            return null;
-        }
-        return attribMap.get(name);
-    }
+		// The Runnables we are about to run may add their own invoke later
+		// runnables, so
+		// loop to make sure we process them all.
+		while (!invokeLaterRunnables.isEmpty()) {
+			List<Duplet<UIContext, Runnable>> runnables = new ArrayList<>();
+			runnables.addAll(invokeLaterRunnables);
+			invokeLaterRunnables.clear();
 
-    /**
-     * Reserved for internal framework use.
-     * Sets a framework attribute.
-     * 
-     * @param name the attribute name.
-     * @param value the attribute value.
-     */
-    @Override
-    public void setFwkAttribute(final String name, final Object value)
-    {
-        if (attribMap == null)
-        {
-            attribMap = new HashMap<String, Object>();
-        }
-        
-        attribMap.put(name, value);
-    }
+			for (Duplet<UIContext, Runnable> run : runnables) {
+				UIContextHolder.pushContext(run.getFirst());
 
-    /**
-     * Reserved for internal framework use.
-     * Removes a framework attribute.
-     * 
-     * @param name the attribute name.
-     */
-    @Override
-    public void removeFwkAttribute(final String name)
-    {
-        if (attribMap != null)
-        {
-            attribMap.remove(name);
-        }
-    }
+				try {
+					run.getSecond().run();
+				} finally {
+					UIContextHolder.popContext();
+				}
+			}
+		}
+	}
 
-    /**
-     * Reserved for internal framework use.
-     * @return the names of all attributes bound to this context, or null if there are no attributes.
-     */
-    @Override
-    public Set<String> getFwkAttributeNames()
-    {
-        if (attribMap != null)
-        {
-            return attribMap.keySet();
-        }
-        
-        return null;
-    }
-    
-    /**
-     * Reserved for internal framework use.
-     * Retrieves a scratch area, where data can be temporarily stored.
-     * WComponents must not rely on data being available in the scratch
-     * area after each phase.
-     * 
-     * @param component the component to retrieve the scratch map for.
-     * @return the scratch map for the given component.
-     */
-    @Override
-    public Map<Object, Object> getScratchMap(final WComponent component)
-    {
-        if (scratchMaps == null)
-        {
-            scratchMaps = new HashMap<WComponent, Map<Object, Object>>();
-        }
-        
-        Map<Object, Object> componentScratchMap = scratchMaps.get(component); 
-        
-        if (componentScratchMap == null)
-        {
-            componentScratchMap = new HashMap<Object, Object>(2);
-            scratchMaps.put(component, componentScratchMap);
-        }
-                
-        return componentScratchMap;
-    }
+	/**
+	 * @return the focussed component for this UI.
+	 */
+	@Override
+	public WComponent getFocussed() {
+		return focussed;
+	}
 
-    /**
-     * Reserved for internal framework use.
-     * Clears the scratch map for the given component.
-     * 
-     * @param component the component to clear the scratch map for.
-     */
-    @Override
-    public void clearScratchMap(final WComponent component)
-    {
-        if (scratchMaps != null)
-        {
-            scratchMaps.remove(component); 
-        }
-    }
-    
-    /**
-     * Reserved for internal framework use.
-     * Clears the scratch map.
-     */
-    @Override
-    public void clearScratchMap()
-    {
-        if (scratchMaps != null)
-        {
-            scratchMaps.clear();
-            scratchMaps = null;
-        }
-    }
-    
+	/**
+	 * Sets the component in this UIC which is to be the focus of the client browser cursor. The id of the component is
+	 * used to find the focussed element in the rendered html.
+	 *
+	 * @param component the component that sould be the cursor focus in the rendered UI.
+	 */
+	@Override
+	public void setFocussed(final WComponent component) {
+		focussed = component;
+	}
 
-    /**
-     * @return the creation time of this UIContext.
-     */
-    @Override
-    public long getCreationTime()
-    {
-        return creationTime;
-    }    
-    
-    /**
-     * The DummyEnvironment is used when an environment hasn't been explicitly supplied. 
-     * @author Martin Shevchenko
-     */
-    private static class DummyEnvironment extends AbstractEnvironment
-    {
-        /**
-         * Creates a DummyEnvironment.
-         */
-        public DummyEnvironment()
-        {
-            setPostPath("unknown");
-            setAppHostPath("unknown");
-            setBaseUrl("unknown");
-            setHostFreeBaseUrl("unknown");
-            setUserAgentInfo(new UserAgentInfo());
-        }
-    }
+	/**
+	 * Sets the component in this UIC which is to be the focus of the client browser cursor. The id of the component is
+	 * used to find the focussed element in the rendered html. Since id could be different in different contexts the
+	 * context of the component is also needed.
+	 *
+	 * @param component - the component that sould be the cursor focus in the rendered UI.
+	 * @param uic - the context that the component exists in.
+	 */
+	@Override
+	public void setFocussed(final WComponent component, final UIContext uic) {
+		this.focussed = component;
+		this.focussedUIC = uic;
+	}
 
-    /** @return the WHeaders instance for this context. */
-    @Override
-    public Headers getHeaders()
-    {
-        if (headers == null)
-        {
-            headers = new HeadersImpl();
-        }
-        
-        return headers;
-    }
+	/**
+	 * @return the unique id of the focused component for this UI.
+	 */
+	@Override
+	public String getFocussedId() {
+		// No focused
+		if (focussed == null) {
+			return null;
+		}
 
-    /** {@inheritDoc} */
-    @Override
-    public Locale getLocale()
-    {
-        return locale;
-    }
+		// Check there is an active context and a UI set
+		UIContext cuic = UIContextHolder.getCurrent();
+		if (cuic == null || cuic.getUI() == null) {
+			return null;
+		}
 
-    /** {@inheritDoc} */
-    @Override
-    public void setLocale(final Locale locale)
-    {
-        this.locale = locale;
-    }
+		UIContext fuic = (focussedUIC == null) ? this : focussedUIC;
+		boolean differentFocusContext = fuic != cuic;
+
+		if (differentFocusContext) {
+			UIContextHolder.pushContext(fuic);
+		}
+
+		String id;
+
+		try {
+			if (focussed.isHidden()) {
+				return null;
+			} else if (focussed instanceof Input && ((Input) focussed).isReadOnly()) {
+				return null;
+			} else if (focussed instanceof Disableable && ((Disableable) focussed).isDisabled()) {
+				return null;
+			}
+
+			id = focussed.getId();
+		} finally {
+			if (differentFocusContext) {
+				UIContextHolder.popContext();
+			}
+		}
+
+		// Check id is focusable
+		WComponent root = cuic.getUI();
+		if (TreeUtil.isIdFocusable(root, id)) {
+			return id;
+		}
+
+		return null;
+	}
+
+	/**
+	 * Sets whether a component needs to be given focus.
+	 *
+	 * @param focusRequired true if focus is required, false otherwise.
+	 *
+	 * @see #setFocussed(WComponent, UIContext)
+	 */
+	@Override
+	public void setFocusRequired(final boolean focusRequired) {
+		this.focusRequired = focusRequired;
+	}
+
+	/**
+	 * Indicates whether a component needs to be given focus.
+	 *
+	 * @return true if focus needs to be set.
+	 *
+	 * @see #setFocussed(WComponent, UIContext)
+	 */
+	@Override
+	public boolean isFocusRequired() {
+		return focusRequired;
+	}
+
+	/**
+	 * Reserved for internal framework use. Retrieves a framework attribute.
+	 *
+	 * @param name the attribute name.
+	 * @return the framework attribute with the given name.
+	 */
+	@Override
+	public Object getFwkAttribute(final String name) {
+		if (attribMap == null) {
+			return null;
+		}
+		return attribMap.get(name);
+	}
+
+	/**
+	 * Reserved for internal framework use. Sets a framework attribute.
+	 *
+	 * @param name the attribute name.
+	 * @param value the attribute value.
+	 */
+	@Override
+	public void setFwkAttribute(final String name, final Object value) {
+		if (attribMap == null) {
+			attribMap = new HashMap<>();
+		}
+
+		attribMap.put(name, value);
+	}
+
+	/**
+	 * Reserved for internal framework use. Removes a framework attribute.
+	 *
+	 * @param name the attribute name.
+	 */
+	@Override
+	public void removeFwkAttribute(final String name) {
+		if (attribMap != null) {
+			attribMap.remove(name);
+		}
+	}
+
+	/**
+	 * Reserved for internal framework use.
+	 *
+	 * @return the names of all attributes bound to this context, or null if there are no attributes.
+	 */
+	@Override
+	public Set<String> getFwkAttributeNames() {
+		if (attribMap != null) {
+			return attribMap.keySet();
+		}
+
+		return null;
+	}
+
+	/**
+	 * Reserved for internal framework use. Retrieves a scratch area, where data can be temporarily stored. WComponents
+	 * must not rely on data being available in the scratch area after each phase.
+	 *
+	 * @param component the component to retrieve the scratch map for.
+	 * @return the scratch map for the given component.
+	 */
+	@Override
+	public Map<Object, Object> getScratchMap(final WComponent component) {
+		if (scratchMaps == null) {
+			scratchMaps = new HashMap<>();
+		}
+
+		Map<Object, Object> componentScratchMap = scratchMaps.get(component);
+
+		if (componentScratchMap == null) {
+			componentScratchMap = new HashMap<>(2);
+			scratchMaps.put(component, componentScratchMap);
+		}
+
+		return componentScratchMap;
+	}
+
+	/**
+	 * Reserved for internal framework use. Clears the scratch map for the given component.
+	 *
+	 * @param component the component to clear the scratch map for.
+	 */
+	@Override
+	public void clearScratchMap(final WComponent component) {
+		if (scratchMaps != null) {
+			scratchMaps.remove(component);
+		}
+	}
+
+	/**
+	 * Reserved for internal framework use. Clears the scratch map.
+	 */
+	@Override
+	public void clearScratchMap() {
+		if (scratchMaps != null) {
+			scratchMaps.clear();
+			scratchMaps = null;
+		}
+	}
+
+	/**
+	 * @return the creation time of this UIContext.
+	 */
+	@Override
+	public long getCreationTime() {
+		return creationTime;
+	}
+
+	/**
+	 * The DummyEnvironment is used when an environment hasn't been explicitly supplied.
+	 *
+	 * @author Martin Shevchenko
+	 */
+	private static final class DummyEnvironment extends AbstractEnvironment {
+
+		/**
+		 * Creates a DummyEnvironment.
+		 */
+		private DummyEnvironment() {
+			setPostPath("unknown");
+			setAppHostPath("unknown");
+			setBaseUrl("unknown");
+			setHostFreeBaseUrl("unknown");
+			setUserAgentInfo(new UserAgentInfo());
+		}
+	}
+
+	/**
+	 * @return the WHeaders instance for this context.
+	 */
+	@Override
+	public Headers getHeaders() {
+		if (headers == null) {
+			headers = new HeadersImpl();
+		}
+
+		return headers;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Locale getLocale() {
+		return locale;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setLocale(final Locale locale) {
+		this.locale = locale;
+	}
 }

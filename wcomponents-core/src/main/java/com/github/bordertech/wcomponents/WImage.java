@@ -1,9 +1,8 @@
 package com.github.bordertech.wcomponents;
 
+import com.github.bordertech.wcomponents.util.Util;
 import java.awt.Dimension;
 import java.util.Map;
-
-import com.github.bordertech.wcomponents.util.Util;
 
 /**
  * <p>
@@ -11,11 +10,12 @@ import com.github.bordertech.wcomponents.util.Util;
  * up a pre-defined image which is part of the application, or generate the image dynamically.
  * </p>
  *
- * @example <pre>
+ * <pre>
  * // Example of using a pre-defined image included in the applications class-path
  * new WImage(&quot;/com/mycompany/myapp/somePackage/logo.png&quot;, &quot;Application logo&quot;);
  * </pre>
- * @example <pre>
+ *
+ * <pre>
  * // Example of using a dynamic image
  * WImage image = new WImage();
  * image.setImage(new com.github.bordertech.wcomponents.Image()
@@ -43,306 +43,280 @@ import com.github.bordertech.wcomponents.util.Util;
  *     }
  * });
  * </pre>
+ *
  * @author Kishan Bisht
  * @since 1.0.0
  */
-public class WImage extends WBeanComponent implements Targetable, AjaxTarget
-{
-    /**
-     * Creates a WImage with no content.
-     */
-    public WImage()
-    {
-    }
+public class WImage extends WBeanComponent implements Targetable, AjaxTarget {
 
-    /**
-     * <p>
-     * Creates a WImage with the given static content. This is provided as a convenience method for when the image is
-     * included as static content in the class path rather than in the web application's resources.
-     * </p>
-     * <p>
-     * The mime type for the image is looked up from the "mimeType.*" mapping configuration parameters using the
-     * resource's file extension.
-     * </p>
-     *
-     * @param imageResource the resource path to the image file.
-     * @param description the image description.
-     */
-    public WImage(final String imageResource, final String description)
-    {
-        this(new ImageResource(imageResource, description));
-    }
+	/**
+	 * Creates a WImage with no content.
+	 */
+	public WImage() {
+	}
 
-    /**
-     * Creates a WImage with the given image resource.
-     *
-     * @param image the image resource
-     */
-    public WImage(final ImageResource image)
-    {
-        setImage(image);
-    }
+	/**
+	 * <p>
+	 * Creates a WImage with the given static content. This is provided as a convenience method for when the image is
+	 * included as static content in the class path rather than in the web application's resources.
+	 * </p>
+	 * <p>
+	 * The mime type for the image is looked up from the "mimeType.*" mapping configuration parameters using the
+	 * resource's file extension.
+	 * </p>
+	 *
+	 * @param imageResource the resource path to the image file.
+	 * @param description the image description.
+	 */
+	public WImage(final String imageResource, final String description) {
+		this(new ImageResource(imageResource, description));
+	}
 
-    /**
-     * Creates a dynamic URL that the image can be loaded from. In fact the URL points to the main application servlet,
-     * but includes a non-null for the parameter associated with this WComponent (ie, its label). The handleRequest
-     * method below detects this when the browser requests the image
-     *
-     * @return the url to load the image from
-     */
-    public String getTargetUrl()
-    {
-        if (getImageUrl() != null)
-        {
-            return getImageUrl();
-        }
+	/**
+	 * Creates a WImage with the given image resource.
+	 *
+	 * @param image the image resource
+	 */
+	public WImage(final ImageResource image) {
+		setImage(image);
+	}
 
-        Image image = getImage();
+	/**
+	 * Creates a dynamic URL that the image can be loaded from. In fact the URL points to the main application servlet,
+	 * but includes a non-null for the parameter associated with this WComponent (ie, its label). The handleRequest
+	 * method below detects this when the browser requests the image
+	 *
+	 * @return the url to load the image from
+	 */
+	public String getTargetUrl() {
+		if (getImageUrl() != null) {
+			return getImageUrl();
+		}
 
-        if (image instanceof InternalResource)
-        {
-            return ((InternalResource) image).getTargetUrl();
-        }
+		Image image = getImage();
 
-        Environment env = getEnvironment();
-        Map<String, String> parameters = env.getHiddenParameters();
-        parameters.put(Environment.TARGET_ID, getTargetId());
+		if (image instanceof InternalResource) {
+			return ((InternalResource) image).getTargetUrl();
+		}
 
-        if (Util.empty(getCacheKey()))
-        {
-            // Add some randomness to the URL to prevent caching
-            String random = WebUtilities.generateRandom();
-            parameters.put(Environment.UNIQUE_RANDOM_PARAM, random);
-        }
-        else
-        {
-            // Remove step counter as not required for cached content
-            parameters.remove(Environment.STEP_VARIABLE);
-            parameters.remove(Environment.SESSION_TOKEN_VARIABLE);
-            // Add the cache key
-            parameters.put(Environment.CONTENT_CACHE_KEY, getCacheKey());
-        }
+		Environment env = getEnvironment();
+		Map<String, String> parameters = env.getHiddenParameters();
+		parameters.put(Environment.TARGET_ID, getTargetId());
 
-        // this variable needs to be set in the portlet environment.
-        String url = env.getWServletPath();
+		if (Util.empty(getCacheKey())) {
+			// Add some randomness to the URL to prevent caching
+			String random = WebUtilities.generateRandom();
+			parameters.put(Environment.UNIQUE_RANDOM_PARAM, random);
+		} else {
+			// Remove step counter as not required for cached content
+			parameters.remove(Environment.STEP_VARIABLE);
+			parameters.remove(Environment.SESSION_TOKEN_VARIABLE);
+			// Add the cache key
+			parameters.put(Environment.CONTENT_CACHE_KEY, getCacheKey());
+		}
 
-        return WebUtilities.getPath(url, parameters, true);
-    }
+		// this variable needs to be set in the portlet environment.
+		String url = env.getWServletPath();
 
-    /**
-     * When an img element is included in the html output of a page, the browser will make a second request to get the
-     * image contents. The handleRequest method has been overridden to detect whether the request is the
-     * "image content fetch" request by looking for the parameter that we encode in the image url.
-     *
-     * @param request the request being responded to.
-     */
-    @Override
-    public void handleRequest(final Request request)
-    {
-        super.handleRequest(request);
+		return WebUtilities.getPath(url, parameters, true);
+	}
 
-        String targ = request.getParameter(Environment.TARGET_ID);
-        boolean contentReqested = (targ != null && targ.equals(getTargetId()));
+	/**
+	 * When an img element is included in the html output of a page, the browser will make a second request to get the
+	 * image contents. The handleRequest method has been overridden to detect whether the request is the "image content
+	 * fetch" request by looking for the parameter that we encode in the image url.
+	 *
+	 * @param request the request being responded to.
+	 */
+	@Override
+	public void handleRequest(final Request request) {
+		super.handleRequest(request);
 
-        if (contentReqested)
-        {
-            ContentEscape escape = new ContentEscape(getImage());
-            escape.setCacheable(!Util.empty(getCacheKey()));
-            throw escape;
-        }
-    }
+		String targ = request.getParameter(Environment.TARGET_ID);
+		boolean contentReqested = (targ != null && targ.equals(getTargetId()));
 
-    /**
-     * Sets the image.
-     *
-     * @param image the image to set.
-     */
-    public void setImage(final Image image)
-    {
-        ImageModel model = getOrCreateComponentModel();
-        model.image = image;
-        model.imageUrl = null;
-    }
+		if (contentReqested) {
+			ContentEscape escape = new ContentEscape(getImage());
+			escape.setCacheable(!Util.empty(getCacheKey()));
+			throw escape;
+		}
+	}
 
-    /**
-     * Sets the image to an external URL.
-     *
-     * @param imageUrl the image URL.
-     */
-    public void setImageUrl(final String imageUrl)
-    {
-        ImageModel model = getOrCreateComponentModel();
-        model.imageUrl = imageUrl;
-        model.image = null;
-    }
+	/**
+	 * Sets the image.
+	 *
+	 * @param image the image to set.
+	 */
+	public void setImage(final Image image) {
+		ImageModel model = getOrCreateComponentModel();
+		model.image = image;
+		model.imageUrl = null;
+	}
 
-    /**
-     * @return the image to an external URL.
-     */
-    public String getImageUrl()
-    {
-        return getComponentModel().imageUrl;
-    }
+	/**
+	 * Sets the image to an external URL.
+	 *
+	 * @param imageUrl the image URL.
+	 */
+	public void setImageUrl(final String imageUrl) {
+		ImageModel model = getOrCreateComponentModel();
+		model.imageUrl = imageUrl;
+		model.image = null;
+	}
 
-    /**
-     * Retrieves the current image.
-     *
-     * @return the current image.
-     */
-    public Image getImage()
-    {
-        return getComponentModel().image;
-    }
+	/**
+	 * @return the image to an external URL.
+	 */
+	public String getImageUrl() {
+		return getComponentModel().imageUrl;
+	}
 
-    /**
-     * Retrieves the cache key for this image. This is used to enable caching of the image on the client agent.
-     *
-     * @return the cacheKey
-     */
-    public String getCacheKey()
-    {
-        return getComponentModel().cacheKey;
-    }
+	/**
+	 * Retrieves the current image.
+	 *
+	 * @return the current image.
+	 */
+	public Image getImage() {
+		return getComponentModel().image;
+	}
 
-    /**
-     * A cache key is used to enable the caching of images on the client agent.
-     * <p>
-     * The cache key should be unique for each image.
-     * </p>
-     *
-     * @param cacheKey the cacheKey to set.
-     */
-    public void setCacheKey(final String cacheKey)
-    {
-        getOrCreateComponentModel().cacheKey = cacheKey;
-    }
+	/**
+	 * Retrieves the cache key for this image. This is used to enable caching of the image on the client agent.
+	 *
+	 * @return the cacheKey
+	 */
+	public String getCacheKey() {
+		return getComponentModel().cacheKey;
+	}
 
-    /**
-     * Retrieve the image size.
-     * <p>
-     * Returns the size set via {@link #setSize(Dimension)}. If this has not been set and an image resource is
-     * provideing the image then the size of the image resource is returned. Otherwise return null.
-     * </p>
-     *
-     * @return the size of the image.
-     */
-    public Dimension getSize()
-    {
-        Dimension size = getComponentModel().size;
-        if (size != null)
-        {
-            return size;
-        }
-        Image image = getImage();
-        if (image != null)
-        {
-            return image.getSize();
-        }
-        return null;
-    }
+	/**
+	 * A cache key is used to enable the caching of images on the client agent.
+	 * <p>
+	 * The cache key should be unique for each image.
+	 * </p>
+	 *
+	 * @param cacheKey the cacheKey to set.
+	 */
+	public void setCacheKey(final String cacheKey) {
+		getOrCreateComponentModel().cacheKey = cacheKey;
+	}
 
-    /**
-     * @param size the size of the image.
-     */
-    public void setSize(final Dimension size)
-    {
-        getOrCreateComponentModel().size = size;
-    }
+	/**
+	 * Retrieve the image size.
+	 * <p>
+	 * Returns the size set via {@link #setSize(Dimension)}. If this has not been set and an image resource is
+	 * provideing the image then the size of the image resource is returned. Otherwise return null.
+	 * </p>
+	 *
+	 * @return the size of the image.
+	 */
+	public Dimension getSize() {
+		Dimension size = getComponentModel().size;
+		if (size != null) {
+			return size;
+		}
+		Image image = getImage();
+		if (image != null) {
+			return image.getSize();
+		}
+		return null;
+	}
 
-    /**
-     * Retrieve the alternative text for the image.
-     * <p>
-     * Returns the alternative text set via {@link #setAlternativeText(String)}. If this has not been set and an image
-     * resource is providing the image then the description of the image resource is returned. Otherwise return null.
-     * </p>
-     *
-     * @return the alternative text for the image.
-     */
-    public String getAlternativeText()
-    {
-        String text = getComponentModel().alternativeText;
-        if (text != null)
-        {
-            return text;
-        }
-        Image image = getImage();
-        if (image != null)
-        {
-            return image.getDescription();
-        }
-        return null;
-    }
+	/**
+	 * @param size the size of the image.
+	 */
+	public void setSize(final Dimension size) {
+		getOrCreateComponentModel().size = size;
+	}
 
-    /**
-     * @param text the alternative text for the image
-     */
-    public void setAlternativeText(final String text)
-    {
-        getOrCreateComponentModel().alternativeText = text;
-    }
+	/**
+	 * Retrieve the alternative text for the image.
+	 * <p>
+	 * Returns the alternative text set via {@link #setAlternativeText(String)}. If this has not been set and an image
+	 * resource is providing the image then the description of the image resource is returned. Otherwise return null.
+	 * </p>
+	 *
+	 * @return the alternative text for the image.
+	 */
+	public String getAlternativeText() {
+		String text = getComponentModel().alternativeText;
+		if (text != null) {
+			return text;
+		}
+		Image image = getImage();
+		if (image != null) {
+			return image.getDescription();
+		}
+		return null;
+	}
 
-    /**
-     * Returns the id to use to target this component.
-     *
-     * @return this component's target id.
-     */
-    @Override
-    public String getTargetId()
-    {
-        return getId();
-    }
+	/**
+	 * @param text the alternative text for the image
+	 */
+	public void setAlternativeText(final String text) {
+		getOrCreateComponentModel().alternativeText = text;
+	}
 
-    /**
-     * @return a String representation of this component, for debugging purposes.
-     */
-    @Override
-    public String toString()
-    {
-        Image image = getImage();
-        String text = image == null ? null : image.getDescription();
-        text = text == null ? "null" : ('"' + text + '"');
-        return toString(text, 1, 1);
-    }
+	/**
+	 * Returns the id to use to target this component.
+	 *
+	 * @return this component's target id.
+	 */
+	@Override
+	public String getTargetId() {
+		return getId();
+	}
 
-    // --------------------------------
-    // Extrinsic state management
+	/**
+	 * @return a String representation of this component, for debugging purposes.
+	 */
+	@Override
+	public String toString() {
+		Image image = getImage();
+		String text = image == null ? null : image.getDescription();
+		text = text == null ? "null" : ('"' + text + '"');
+		return toString(text, 1, 1);
+	}
 
-    /**
-     * Creates a new component model appropriate for this component.
-     *
-     * @return a new ImageModel.
-     */
-    @Override
-    protected ImageModel newComponentModel()
-    {
-        return new ImageModel();
-    }
+	// --------------------------------
+	// Extrinsic state management
+	/**
+	 * Creates a new component model appropriate for this component.
+	 *
+	 * @return a new ImageModel.
+	 */
+	@Override
+	protected ImageModel newComponentModel() {
+		return new ImageModel();
+	}
 
-    /** {@inheritDoc} */
-    @Override
-    // For type safety only
-    protected ImageModel getComponentModel()
-    {
-        return (ImageModel) super.getComponentModel();
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	// For type safety only
+	protected ImageModel getComponentModel() {
+		return (ImageModel) super.getComponentModel();
+	}
 
-    /** {@inheritDoc} */
-    @Override
-    // For type safety only
-    protected ImageModel getOrCreateComponentModel()
-    {
-        return (ImageModel) super.getOrCreateComponentModel();
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	// For type safety only
+	protected ImageModel getOrCreateComponentModel() {
+		return (ImageModel) super.getOrCreateComponentModel();
+	}
 
-    /**
-     * Holds the extrinsic state information of a WImage.
-     */
-    public static class ImageModel extends BeanAndProviderBoundComponentModel
-    {
-        private Image image;
-        private String cacheKey;
-        private String imageUrl;
-        private String alternativeText;
-        private Dimension size;
-    }
+	/**
+	 * Holds the extrinsic state information of a WImage.
+	 */
+	public static class ImageModel extends BeanAndProviderBoundComponentModel {
+
+		private Image image;
+		private String cacheKey;
+		private String imageUrl;
+		private String alternativeText;
+		private Dimension size;
+	}
 }
