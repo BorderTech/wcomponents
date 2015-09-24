@@ -16,7 +16,8 @@ body {
 		font-size: 16px;
 		line-height: normal;
 	}
-	@include respond(large) { // make the default (75%) text size bigger on really big screens.
+
+	@include respond($size: large, $test: min-device-width) { // make the default (75%) text size bigger on really big screens.
 		font-size: 100%;
 	}
 }
