@@ -3,15 +3,19 @@
  * {@link module:wc/ui/checkboxAnalog} which is only used to add a grouping container.
  *
  * @module
- * @extends module:wc/ui/checkboxAnalog
+ * @extends module:wc/dom/ariaAnalog
+ *
  * @requires module:wc/dom/Widget
- * @requires module:wc/ui/checkboxAnalog
+ * @requires module:wc/dom/ariaAnalog
  * @requires module:wc/dom/initialise
  * @requires module:wc/ui/radioAnalog
  */
-define(["wc/dom/Widget", "wc/ui/checkboxAnalog", "wc/dom/initialise", "wc/ui/radioAnalog"],
-	/** @param Widget @param checkboxAnalog @param initialise @ignore */
-	function(Widget, checkboxAnalog, initialise) {
+define(["wc/dom/Widget",
+		"wc/dom/ariaAnalog",
+		"wc/dom/initialise",
+		"wc/ui/radioAnalog"],
+	/** @param Widget @param ariaAnalog @param initialise @ignore */
+	function(Widget, ariaAnalog, initialise) {
 		"use strict";
 		/*
 		 * IMPLICIT DEPENDENCIES:
@@ -24,7 +28,7 @@ define(["wc/dom/Widget", "wc/ui/checkboxAnalog", "wc/dom/initialise", "wc/ui/rad
 		 * @constructor
 		 * @alias module:wc/ui/table/rowCheckbox~RowCheckbox
 		 * @private
-		 * @extends module:wc/dom/checkboxAnalog~CheckboxAnalog
+		 * @extends module:wc/dom/ariaAnalog~AriaAnalog
 		 */
 		function RowCheckbox() {
 			/**
@@ -46,6 +50,15 @@ define(["wc/dom/Widget", "wc/ui/checkboxAnalog", "wc/dom/initialise", "wc/ui/rad
 			this.CONTAINER = new Widget("tbody");
 
 			/**
+			 * Enables group selection by storing the start point.
+			 * @var
+			 * @public
+			 * @type {Object}
+			 * @override
+			 */
+			this.lastActivated = {};
+
+			/**
 			 * We have to have an empty write state to prevent the state being written twice. as checkboxAnalog will
 			 * write the state of selected multi-selectable table rows.
 			 * NOTE: formUpdateManager will complain if writeState is anything other than a function.
@@ -53,17 +66,9 @@ define(["wc/dom/Widget", "wc/ui/checkboxAnalog", "wc/dom/initialise", "wc/ui/rad
 			 * @ignore
 			 */
 			this.writeState = function() {};
-
-			/**
-			 * We have to have an empty clickEvent to prevent as checkboxAnalog will handle clicks.
-			 * @todo This may be OK as null rather than as a function.
-			 * @function
-			 * @ignore
-			 */
-			this.clickEvent = function() {};
 		}
 
-		RowCheckbox.prototype = checkboxAnalog;
+		RowCheckbox.prototype = ariaAnalog;
 
 		var /** @alias module:wc/ui/table/rowCheckbox */ instance = new RowCheckbox();
 		instance.constructor = RowCheckbox;
