@@ -635,8 +635,8 @@ define(["wc/has",
 				groupAction = shed.select;
 			}
 			filter = getFilteredGroup.FILTERS.visible | getFilteredGroup.FILTERS.enabled;
-			filtered = getFilteredGroup(element, {filter: (filter | selectedFilter)});
-			unfiltered = getFilteredGroup(element, {filter: filter});
+			filtered = getFilteredGroup(element, {filter: (filter | selectedFilter), containerWd: this.CONTAINER, itemWd: (this.CONTAINER ? this.ITEM : null)});
+			unfiltered = getFilteredGroup(element, {filter: filter, containerWd: this.CONTAINER, itemWd: (this.CONTAINER ? this.ITEM : null)});
 
 			if (filtered && filtered.length) {
 				start = Math.min(unfiltered.indexOf(element), unfiltered.indexOf(lastActivated));

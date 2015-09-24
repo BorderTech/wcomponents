@@ -1,6 +1,10 @@
 /**
  * Provides functionality used to move a component around the screen. Components may be moved using a mouse or keyboard.
  *
+ * @typedef {Object} module:wc/ui/draggable.config() Optional module configuration
+ * @property {int} step The number of pixels to move the draggable element per key press.
+ * @default 6
+ *
  * @module
  * @requires module:wc/dom/attribute
  * @requires module:wc/dom/classList
@@ -30,9 +34,10 @@ define(["wc/dom/attribute",
 		"wc/dom/Widget",
 		"wc/has",
 		"wc/ui/ajax/processResponse",
-		"wc/ui/positionable"],
-	/** @param attribute wc/dom/attribute @param classList wc/dom/classList @param clearSelection wc/dom/clearSelection @param event wc/dom/event @param getMouseEventOffset wc/dom/getEventOffset @param isAcceptableEventTarget wc/dom/isAcceptableTarget @param getBox wc/dom/getBox @param initialise wc/dom/initialise @param shed wc/dom/shed @param uid wc/dom/uid @param Widget wc/dom/Widget @param has wc/has @param processResponse wc/ui/ajax/processResponse @param positionable wc/ui/positionable @ignore */
-	function(attribute, classList, clearSelection, event, getMouseEventOffset, isAcceptableEventTarget, getBox, initialise, shed, uid, Widget, has, processResponse, positionable) {
+		"wc/ui/positionable",
+		"module"],
+	/** @param attribute wc/dom/attribute @param classList wc/dom/classList @param clearSelection wc/dom/clearSelection @param event wc/dom/event @param getMouseEventOffset wc/dom/getEventOffset @param isAcceptableEventTarget wc/dom/isAcceptableTarget @param getBox wc/dom/getBox @param initialise wc/dom/initialise @param shed wc/dom/shed @param uid wc/dom/uid @param Widget wc/dom/Widget @param has wc/has @param processResponse wc/ui/ajax/processResponse @param positionable wc/ui/positionable @param module @ignore */
+	function(attribute, classList, clearSelection, event, getMouseEventOffset, isAcceptableEventTarget, getBox, initialise, shed, uid, Widget, has, processResponse, positionable, module) {
 		"use strict";
 
 		/**
@@ -48,7 +53,8 @@ define(["wc/dom/attribute",
 				dragging,
 				offsetX = {},
 				offsetY = {},
-				KEY_MOVE = parseInt("${wc.ui.draggable.int.keyboardMoveIncrement}", 10),  // the number of pixels by which a draggable is moved by keyboard
+				conf = module.config(),
+				KEY_MOVE = ((conf && conf.step) ? conf.step : 6),  // the number of pixels by which a draggable is moved by keyboard
 				BS = ns + ".inited",
 				MM_EVENT = ns + ".move.inited";
 
