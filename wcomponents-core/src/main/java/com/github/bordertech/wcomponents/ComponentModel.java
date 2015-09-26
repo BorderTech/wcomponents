@@ -434,9 +434,14 @@ public class ComponentModel implements WebModel, Externalizable {
 
 		if (children != null) {
 			isRemoved = children.remove(child);
+                        
+                        // Trim the children
+                        if(isRemoved){
+                            ((ArrayList<?>) children).trimToSize();
+                        }
 		}
 
-		if (children.isEmpty()) {
+		if (children != null && children.isEmpty()) {
 			children = null;
 		}
 
