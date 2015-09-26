@@ -436,17 +436,17 @@ public class ComponentModel implements WebModel, Externalizable {
 			isRemoved = children.remove(child);
                         
                         // Trim the children
-                        if(isRemoved){
+                        if (isRemoved) {
                             ((ArrayList<?>) children).trimToSize();
                         }
-		}
-
-		if (children != null && children.isEmpty()) {
-			children = null;
+                        
+			if (children.isEmpty()) {
+				children = null;	
+			}
 		}
 
 		return isRemoved;
-        }
+	}
 
 	/**
 	 * @return <tt>true</tt> if this component has any child components
@@ -454,10 +454,10 @@ public class ComponentModel implements WebModel, Externalizable {
 	protected boolean hasChildren() {
 		return children != null && !children.isEmpty();
 	}
-        
+
 	/**
 	 * @return an unmodifiable list of the children, or an empty 
-         * list if there are no children.
+	 * list if there are no children.
 	 */
 	protected List<WComponent> getChildren() {
 		return children == null 
@@ -469,7 +469,6 @@ public class ComponentModel implements WebModel, Externalizable {
 	 * @param children The children to set.
 	 */
 	protected void setChildren(final List<WComponent> children) {
-		
 		this.children = new ArrayList<>(children);
 	}
 
