@@ -200,7 +200,7 @@ public class WCardManager extends AbstractMutableContainer {
 	public String toString() {
 		int index = getCardContainer().getIndexOfChild(getVisible());
 		List<WComponent> cards = getCardContainer().getComponentModel().getChildren();
-		WComponent[] children = cards == null ? new WComponent[0] : cards.toArray(
+		WComponent[] children = cards.isEmpty() ? new WComponent[0] : cards.toArray(
 				new WComponent[cards.size()]);
 
 		return toString("active=" + index, -1, -1) + childrenToString(children);
