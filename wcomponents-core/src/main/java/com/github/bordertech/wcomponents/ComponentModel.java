@@ -469,7 +469,9 @@ public class ComponentModel implements WebModel, Externalizable {
 	 * @param children The children to set.
 	 */
 	protected void setChildren(final List<WComponent> children) {
-		this.children = new ArrayList<>(children);
+		this.children = (children == null || children.isEmpty())
+			? null 
+			: new ArrayList<>(children);
 	}
 
 	/**
