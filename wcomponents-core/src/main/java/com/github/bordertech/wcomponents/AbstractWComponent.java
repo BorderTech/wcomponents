@@ -571,18 +571,12 @@ public abstract class AbstractWComponent implements WComponent {
 		if (getComponentModel().hasChildren()) {
 
 			// Prepare its children.
-			final ArrayList<WComponent> children = (ArrayList<WComponent>) getComponentModel().getChildren();
+			final List<WComponent> children = getComponentModel().getChildren();
 			final int size = children.size();
 
 			for (int i = 0; i < size; i++) {
 				children.get(i).preparePaint(request);
 			}
-
-			// Chances are that the WComponent tree is fairly stable now, so take
-			// the opportunity to trim the child list to size if we have one.
-			// This is just a memory optimization - it won't prevent adding more
-			// children later, of course.
-			children.trimToSize();
 		}
 	}
 
