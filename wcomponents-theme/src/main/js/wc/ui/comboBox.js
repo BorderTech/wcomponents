@@ -1,5 +1,14 @@
 /**
  * Provides combo functionality.
+ *
+ * @typedef {Object} module:wc/ui/comboBox.config() Optional module configuration.
+ * @property {?int} min The global (default) minimum number of characters which must be entered before a comboBox will
+ * update its dynamic datalist. This can be over-ridden per instance of WSuggestions.
+ * @default 3
+ * @property {?int} delay The number of milliseconds for which a user must pause before a comboBox's datalist is
+ * updated.
+ * @default 333
+ *
  * @module
  * @requires module:wc/has
  * @requires module:wc/ajax/triggerManager
@@ -35,9 +44,11 @@ define(["wc/has",
 		"wc/ui/ajaxRegion",
 		"wc/ui/ajax/processResponse",
 		"wc/ui/onchangeSubmit",
-		"wc/ui/listboxAnalog"],
-	/** @param has wc/has @param triggerManager wc/ajax/triggerManager @param attribute wc/dom/attribute @param classList wc/dom/classList @param event wc/dom/event @param focus wc/dom/focus @param getFilteredGroup wc/dom/getFilteredGroup @param initialise wc/dom/initialise @param shed wc/dom/shed @param textContent wc/dom/textContent @param Widget wc/dom/Widget @param key wc/key @param timers wc/timers @param ajaxRegion wc/ui/ajaxRegion @param processResponse wc/ui/ajax/processResponse @param onchangeSubmit wc/ui/onchangeSubmit @ignore */
-	function(has, triggerManager, attribute, classList, event, focus, getFilteredGroup, initialise, shed, textContent, Widget, key, timers, ajaxRegion, processResponse, onchangeSubmit) {
+		"wc/ui/listboxAnalog",
+		"module"
+	],
+	/** @param has wc/has @param triggerManager wc/ajax/triggerManager @param attribute wc/dom/attribute @param classList wc/dom/classList @param event wc/dom/event @param focus wc/dom/focus @param getFilteredGroup wc/dom/getFilteredGroup @param initialise wc/dom/initialise @param shed wc/dom/shed @param textContent wc/dom/textContent @param Widget wc/dom/Widget @param key wc/key @param timers wc/timers @param ajaxRegion wc/ui/ajaxRegion @param processResponse wc/ui/ajax/processResponse @param onchangeSubmit wc/ui/onchangeSubmit @param module @ignore */
+	function(has, triggerManager, attribute, classList, event, focus, getFilteredGroup, initialise, shed, textContent, Widget, key, timers, ajaxRegion, processResponse, onchangeSubmit, listboxAnalog, module) {
 		"use strict";
 		// listboxAnalog is required but not used.
 
@@ -63,8 +74,21 @@ define(["wc/has",
 				CLASS_CHATTY = "wc_combo_dyn",
 				CHATTY_COMBO = COMBO.extend(CLASS_CHATTY),
 				updateTimeout,
-				DELAY = 333,  // wait this long before updating the list on keydown
-				DEFAULT_CHARS = 3,  // only update the list if the user has entered at least this number of characters
+				conf = module.config(),
+				/**
+				 * Wait this long before updating the list on keydown.
+				 * @var
+				 * @type Number
+				 * @private
+				 */
+				DELAY = (conf ? (conf.delay || 333) : 333),
+				/**
+				 * Only update the list if the user has entered at least this number of characters.
+				 * @var
+				 * @type Number
+				 * @private
+				 */
+				DEFAULT_CHARS = (conf ? (conf.min || 3) : 3),
 				CHAR_KEYS,  // used in the keydown event handler if we cannot use the input event
 				nothingLeftReg = {};  // last search returned no match, keep the search term for future reference
 
@@ -788,7 +812,7 @@ define(["wc/has",
 			/**
 			 * Set client side list filtering on or off. Public for testing as most of the unit tests require we
 			 * do not do list filtering in the client and therefore no equivalent used internally.
-			 * @function  module:wc/ui/comboBox._setFilter
+			 * @function module:wc/ui/comboBox._setFilter
 			 * @param {boolean} [set] force on (true) or off.
 			 * @ignore
 			 */

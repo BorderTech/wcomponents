@@ -61,7 +61,11 @@ section {
 	// We need to reset the margin-left if the list is ordered so we need element qualifier for ordered lists only
 	// scss-lint:disable QualifyingElement
 	> ol.listLayout {
-		margin-left: $list-layout-ordered-spacing;
+		margin-left: $list-layout-ordered-spacing + $section-content-spacing ;
+
+		&.flat { //except when they are flat
+			margin-left: $section-content-spacing;
+		}
 	}
 	//scss-lint:enable QualifyingElement
 }

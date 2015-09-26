@@ -6,7 +6,7 @@ $small: 640px;
 //and a common/medium screen?
 $medium: 1280px;
 //how about a BIG screen?
-$large: 2000px;
+$large: 1981px;//bigger than 1080p
 
 @mixin respond($size, $test: max-width) {
 	@if($size == phone) { //should cover most modern phones and some smaller/older tablets
