@@ -407,17 +407,65 @@ public class ComponentModel implements WebModel, Externalizable {
 	}
 
 	/**
-	 * @return Returns the children.
+	 * Adds a child to this component.
+         * 
+	 * @param child the child to add to this component.
+	 * @return <tt>true</tt> if child was added
+	 */
+	protected boolean addChild(final WComponent child) {
+
+		if (children == null) {
+			children = new ArrayList<>();
+		}
+
+		return children.add(child);
+	}
+        
+	/**
+	 * Removes a child from this component.
+         * 
+	 * @param child the child to remove from this component.
+	 * @return <tt>true</tt> if this component contained the 
+         * specified child
+	 */
+	protected boolean removeChild(final WComponent child) {
+
+		boolean isRemoved = false;
+
+		if (children != null) {
+			isRemoved = children.remove(child);
+		}
+
+		if (children.isEmpty()) {
+			children = null;
+		}
+
+		return isRemoved;
+        }
+
+	/**
+	 * @return <tt>true</tt> if this component has any child components
+	 */
+	protected boolean hasChildren() {
+		return children != null && !children.isEmpty();
+	}
+        
+	/**
+	 * @return an unmodifiable list of the children, or an empty 
+         * list if there are no children.
 	 */
 	protected List<WComponent> getChildren() {
-		return children;
+		return children == null 
+			? Collections.<WComponent>emptyList()
+			: Collections.unmodifiableList(children);
 	}
 
 	/**
 	 * @param children The children to set.
 	 */
 	protected void setChildren(final List<WComponent> children) {
-		this.children = children;
+		
+		this.children = new ArrayList<>(children);
 	}
 
 	/**
