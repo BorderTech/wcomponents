@@ -140,10 +140,9 @@ public class WDefinitionList extends AbstractNamingContextContainer implements A
 		Map<String, Duplet<String, List<WComponent>>> componentsByTerm = new HashMap<>();
 		List<Duplet<String, List<WComponent>>> result = new ArrayList<>();
 
-		List<WComponent> childList = content.getComponentModel().getChildren();
-
-		if (childList != null) {
-			for (int i = 0; i < childList.size(); i++) {
+		if (content.getComponentModel().hasChildren()) {
+			List<WComponent> childList = content.getComponentModel().getChildren();
+                    for (int i = 0; i < childList.size(); i++) {
 				WComponent child = childList.get(i);
 				String term = child.getTag();
 
@@ -170,10 +169,10 @@ public class WDefinitionList extends AbstractNamingContextContainer implements A
 	 * @return the child components for the given term, may be empty.
 	 */
 	private List<WComponent> getComponentsForTerm(final String term) {
-		List<WComponent> childList = content.getComponentModel().getChildren();
 		List<WComponent> result = new ArrayList<>();
 
-		if (childList != null) {
+		if (content.getComponentModel().hasChildren()) {
+			List<WComponent> childList = content.getComponentModel().getChildren();
 			for (int i = 0; i < childList.size(); i++) {
 				WComponent child = childList.get(i);
 
