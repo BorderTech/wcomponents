@@ -718,7 +718,8 @@ public abstract class AbstractWComponent implements WComponent {
 		if (getComponentModel().hasChildren()) {
 
 			// Validate children
-			List<WComponent> children = getComponentModel().getChildren();			final int size = children.size();
+			List<WComponent> children = getComponentModel().getChildren();
+			final int size = children.size();
 
 			for (int i = 0; i < size; i++) {
 				children.get(i).validate(diags);
@@ -772,7 +773,8 @@ public abstract class AbstractWComponent implements WComponent {
 			if (getComponentModel().hasChildren()) {
 
 				// Show indicators for its children.
-				List<WComponent> children = getComponentModel().getChildren();				final int size = children.size();
+				List<WComponent> children = getComponentModel().getChildren();
+				final int size = children.size();
 
 				for (int i = 0; i < size; i++) {
 					children.get(i).showErrorIndicators(diags);
@@ -1271,7 +1273,7 @@ public abstract class AbstractWComponent implements WComponent {
 	 */
 	int getChildCount() {
 		ComponentModel model = getComponentModel();
-		return (model.hasChildren() ? 0 : model.getChildren().size());
+		return (!model.hasChildren() ? 0 : model.getChildren().size());
 	}
 
 	/**
