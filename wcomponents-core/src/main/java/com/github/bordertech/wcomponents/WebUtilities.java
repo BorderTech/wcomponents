@@ -483,8 +483,14 @@ public final class WebUtilities {
 	 * Updates the bean value with the current value of the component and all its bean-bound children.
 	 *
 	 * @param component the component whose contents need to be copied to the bean.
+	 * @param visibleOnly - whether to include visible components only.
 	 */
-	public static void updateBeanValue(final WComponent component) {
+	public static void updateBeanValue(final WComponent component, final boolean visibleOnly) {
+		// Do not process if component is invisble and ignore visible is true. Will ignore entire branch from this point.
+		if (!component.isVisible() && visibleOnly) {
+			return;
+		}
+
 		if (component instanceof WBeanComponent) {
 			((WBeanComponent) component).updateBeanValue();
 		}
@@ -498,15 +504,25 @@ public final class WebUtilities {
 		if (component instanceof Container) {
 			// Update the rest of the bean
 			for (int i = ((Container) component).getChildCount() - 1; i >= 0; i--) {
-				updateBeanValue(((Container) component).getChildAt(i));
+				updateBeanValue(((Container) component).getChildAt(i), visibleOnly);
 			}
 		}
 	}
 
 	/**
-	 * Renders the given WComponent to a String outside of the context of a Servlet. This is good for getting hold of
-	 * the XML for debugging, unit testing etc. Also it is good for using the WComponent framework as a more generic
-	 * templating framework.
+	 * Updates the bean value with the current value of the component and all its bean-bound
+	 * children. By default this method will only process visible components.
+	 *
+	 * @param component the component whose contents need to be copied to the bean.
+	 */
+	public static void updateBeanValue(final WComponent component) {
+		updateBeanValue(component, true);
+	}
+
+	/**
+	 * Renders the given WComponent to a String outside of the context of a Servlet. This is good
+	 * for getting hold of the XML for debugging, unit testing etc. Also it is good for using the
+	 * WComponent framework as a more generic templating framework.
 	 *
 	 * @param component the root WComponent to render.
 	 * @return the rendered output as a String.
