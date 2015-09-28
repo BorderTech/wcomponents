@@ -8,7 +8,6 @@
          <!--
         var propertiesBoxes= new Array('properties_textArea.xsd', 
 				'properties_textArea', 
-				'properties_textArea_rtf', 
 				'properties_textArea_minLength', 
 				'properties_textArea_maxLength', 
 				'properties_textArea_rows', 
@@ -19,21 +18,17 @@ var usedByBoxes= new Array('usedBy_textArea',
 				'usedBy_textArea_rows', 
 				'usedBy_textArea_cols');
 var sourceBoxes= new Array('source_textArea', 
-				'source_textArea_rtf', 
 				'source_textArea_minLength', 
 				'source_textArea_maxLength', 
 				'source_textArea_rows', 
 				'source_textArea_cols');
-var instanceBoxes= new Array('instance_textArea');
-var diagramBoxes= new Array('diagram_textArea', 
-				'diagram_textArea_rtf');
+var diagramBoxes= new Array('diagram_textArea');
 var annotationBoxes= new Array('annotations_textArea', 
 				'annotations_textArea_minLength', 
 				'annotations_textArea_maxLength', 
 				'annotations_textArea_rows', 
 				'annotations_textArea_cols');
 var attributesBoxes= new Array('attributes_textArea');
-var modelBoxes= new Array('model_textArea');
 
       
         var button_prefix = 'button_';
@@ -289,12 +284,6 @@ var modelBoxes= new Array('model_textArea');
                         <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, diagramBoxes);" class="control" /></span><span class="globalControlName">Diagrams</span></td>
                      </tr>
                      <tr>
-                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, instanceBoxes);" class="control" /></span><span class="globalControlName">Instances</span></td>
-                     </tr>
-                     <tr>
-                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, modelBoxes);" class="control" /></span><span class="globalControlName">Model </span></td>
-                     </tr>
-                     <tr>
                         <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, propertiesBoxes);" class="control" /></span><span class="globalControlName">Properties </span></td>
                      </tr>
                      <tr>
@@ -384,47 +373,31 @@ var modelBoxes= new Array('model_textArea');
                         <td>
                            <div id="annotations_textArea" style="display:block">
                               <div class="annotation">
-                                 				
-                                 <p xmlns="">WTextArea represents an input for multi-line text.</p>
-                                 				
-                                 <p xmlns="">WTextArea expects that the POSTed form data contains:</p>
-                                 				
-                                 <table xmlns="">
-                                    					
-                                    <thead>
-                                       						
-                                       <tr>
-                                          							
-                                          <th>Field name</th>
-                                          							
-                                          <th>Type</th>
-                                          							
-                                          <th>Mandatory</th>
-                                          							
-                                          <th>Value</th>
-                                          						
-                                       </tr>
-                                       					
-                                    </thead>
-                                    					
-                                    <tbody>
-                                       						
-                                       <tr>
-                                          							
-                                          <td>@id</td>
-                                          							
-                                          <td>String</td>
-                                          							
-                                          <td>yes</td>
-                                          							
-                                          <td>value</td>
-                                          						
-                                       </tr>
-                                       					
-                                    </tbody>
-                                    				
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tEl">&lt;p</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">WTextArea represents an input for multi-line text.</span><span class="tEl">&lt;/p&gt;</span><span class="tI">
+</span><span class="tEl">&lt;p</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">WTextArea expects that the POSTed form data contains:</span><span class="tEl">&lt;/p&gt;</span><span class="tI">
+</span><span class="tEl">&lt;table</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;thead</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;tr</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;th</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Field name</span><span class="tEl">&lt;/th&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;th</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Type</span><span class="tEl">&lt;/th&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;th</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Mandatory</span><span class="tEl">&lt;/th&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;th</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Value</span><span class="tEl">&lt;/th&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/tr&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/thead&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;tbody</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;tr</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">@id</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">String</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">yes</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">value</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/tr&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/tbody&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/table&gt;</span><span class="tI">
+</span></pre></td>
+                                    </tr>
                                  </table>
-                                 			
                               </div>
                            </div>
                         </td>
@@ -436,13 +409,16 @@ var modelBoxes= new Array('model_textArea');
                         </td>
                         <td class="diagram">
                            <div id="diagram_textArea" style="display:block"><img alt="Diagram" border="0" src="img/textArea_xsd_Element_ui_textArea.png" usemap="#textArea_xsd_Element_ui_textArea" /><map name="textArea_xsd_Element_ui_textArea" id="textArea_xsd_Element_ui_textArea">
-                                 <area alt="attributeGroups_control_xsd.tmp#submitting.input.attributes" href="attributeGroups_control_xsd.html#submitting.input.attributes" coords="142,43,354,69" />
-                                 <area alt="textArea_xsd.tmp#textArea_minLength" href="textArea_xsd.html#textArea_minLength" coords="139,127,244,151" />
-                                 <area alt="textArea_xsd.tmp#textArea_maxLength" href="textArea_xsd.html#textArea_maxLength" coords="139,204,247,228" />
-                                 <area alt="textArea_xsd.tmp#textArea_rows" href="textArea_xsd.html#textArea_rows" coords="139,281,213,305" />
-                                 <area alt="textArea_xsd.tmp#textArea_cols" href="textArea_xsd.html#textArea_cols" coords="139,371,209,395" />
-                                 <area alt="textArea_xsd.tmp#textArea_rtf" href="textArea_xsd.html#textArea_rtf" coords="196,472,247,496" /></map></div>
+                                 <area alt="attributeGroups_control_xsd.tmp#submitting.input.attributes" href="attributeGroups_control_xsd.html#submitting.input.attributes" coords="138,125,326,151" />
+                                 <area alt="textArea_xsd.tmp#textArea_minLength" href="textArea_xsd.html#textArea_minLength" coords="135,211,234,236" />
+                                 <area alt="textArea_xsd.tmp#textArea_maxLength" href="textArea_xsd.html#textArea_maxLength" coords="135,291,238,316" />
+                                 <area alt="textArea_xsd.tmp#textArea_rows" href="textArea_xsd.html#textArea_rows" coords="135,371,211,396" />
+                                 <area alt="textArea_xsd.tmp#textArea_cols" href="textArea_xsd.html#textArea_cols" coords="135,465,205,490" /></map></div>
                         </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td>extension of <b>xs:string</b></td>
                      </tr>
                      <tr>
                         <td class="firstColumn">
@@ -455,10 +431,6 @@ var modelBoxes= new Array('model_textArea');
                                  <tr>
                                     <td class="firstColumn" style="white-space: nowrap;">content</td>
                                     <td><b>complex</b></td>
-                                 </tr>
-                                 <tr>
-                                    <td class="firstColumn" style="white-space: nowrap;">mixed</td>
-                                    <td><b>true</b></td>
                                  </tr>
                               </table>
                            </div>
@@ -475,34 +447,6 @@ var modelBoxes= new Array('model_textArea');
                                  <tr>
                                     <td class="firstColumn">Element Group </td>
                                     <td><b><a href="contentGroups_xsd.html#contentGroup" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for contentGroups.xsd')">ui:contentGroup</a></b></td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn"><b>Model</b><div class="floatRight"><input id="button_model_textArea" type="image" src="img/btM.gif" value="-" onclick="switchState('model_textArea');" class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="model_textArea" style="display:block"><b><a href="textArea_xsd.html#textArea_rtf" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for textArea.xsd')">ui:rtf{0,1}</a></b></div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn"><b>Children</b></td>
-                        <td><b><a href="textArea_xsd.html#textArea_rtf" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for textArea.xsd')">ui:rtf</a></b></td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Instance</b></div>
-                           <div class="floatRight"><input id="button_instance_textArea" type="image" src="img/btM.gif" value="-" onclick="switchState('instance_textArea');" class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="instance_textArea" style="display:block">
-                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
-                                 <tr>
-                                    <td width="100%"><pre><span class="tEl">&lt;ui:textArea</span><span class="tT"> </span><span class="tAN">accessibleText=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">buttonId=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">cols=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">disabled=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">maxLength=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">minLength=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">readOnly=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">required=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">rows=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">tabIndex=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">toolTip=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xmlns:ui=</span><span class="tAV">"https://github.com/bordertech/wcomponents/namespace/ui/v1.0"</span><span class="tEl">&gt;</span><span class="tI">
-  </span><span class="tEl">&lt;ui:rtf</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,1}</span><span class="tEl">&lt;/ui:rtf&gt;</span><span class="tI">
-</span><span class="tEl">&lt;/ui:textArea&gt;</span></pre></td>
                                  </tr>
                               </table>
                            </div>
@@ -529,7 +473,13 @@ var modelBoxes= new Array('model_textArea');
                                     <td><b>xs:string</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Deprecated. Use toolTip instead.</div>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Deprecated. Use toolTip instead.</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
@@ -537,9 +487,13 @@ var modelBoxes= new Array('model_textArea');
                                     <td><b>xs:NMTOKEN</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">The component id of a WButton which is used as the application submit button if the
-                                          user presses 
-                                          						the ENTER key with this component focussed.
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">The component id of a WButton which is used as the application submit button if the user presses </span><span class="tI">
+</span><span class="tT">the ENTER key with this component focussed.</span></pre></td>
+                                             </tr>
+                                          </table>
                                        </div>
                                     </td>
                                  </tr>
@@ -548,9 +502,12 @@ var modelBoxes= new Array('model_textArea');
                                     <td><b>xs:positiveInteger</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Defines the horizontal size of the text area element in units determined by the user
-                                          agent (not necessarily characters or ems). If not set then the user agent will determine
-                                          the width of the component.
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Defines the horizontal size of the text area element in units determined by the user agent (not necessarily characters or ems). If not set then the user agent will determine the width of the component.</span></pre></td>
+                                             </tr>
+                                          </table>
                                        </div>
                                     </td>
                                  </tr>
@@ -559,7 +516,13 @@ var modelBoxes= new Array('model_textArea');
                                     <td><b>xs:boolean</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">The component will be in a disabled state if "true". Not output if "false".</div>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">The component will be in a disabled state if "true". Not output if "false".</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
@@ -567,7 +530,13 @@ var modelBoxes= new Array('model_textArea');
                                     <td><b>xs:boolean</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">The component will be in a hidden state if "true". Not output if "false".</div>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">The component will be in a hidden state if "true". Not output if "false".</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
@@ -575,7 +544,13 @@ var modelBoxes= new Array('model_textArea');
                                     <td><b>xs:ID</b></td>
                                     <td>required</td>
                                     <td>
-                                       <div class="annotation">The unique identifier for the component.</div>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">The unique identifier for the component.</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
@@ -583,7 +558,13 @@ var modelBoxes= new Array('model_textArea');
                                     <td><b>xs:positiveInteger</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Indicates the maximum number of characters which represents valid input.</div>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Indicates the maximum number of characters which represents valid input.</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
@@ -591,8 +572,12 @@ var modelBoxes= new Array('model_textArea');
                                     <td><b>xs:positiveInteger</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Indicates the minimum number of characters which represents valid input 
-                                          <em xmlns="">if any content is entered at all</em>.
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Indicates the minimum number of characters which represents valid input</span><span class="tEl">&lt;em</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">if any content is entered at all</span><span class="tEl">&lt;/em&gt;</span><span class="tT">.</span></pre></td>
+                                             </tr>
+                                          </table>
                                        </div>
                                     </td>
                                  </tr>
@@ -601,7 +586,13 @@ var modelBoxes= new Array('model_textArea');
                                     <td><b>xs:boolean</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">The component will be in a non-interactive state if "true". Not output if "false".</div>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">The component will be in a non-interactive state if "true". Not output if "false".</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
@@ -609,7 +600,13 @@ var modelBoxes= new Array('model_textArea');
                                     <td><b>xs:boolean</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">The component will be mandatory if "true". Not output if "false".</div>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">The component will be mandatory if "true". Not output if "false".</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
@@ -617,9 +614,12 @@ var modelBoxes= new Array('model_textArea');
                                     <td><b>xs:positiveInteger</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Defines the vertical size of the text area element in units determined by the user
-                                          agent (usually lines of text). If not set then the user agent will determine the height
-                                          of the component.
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Defines the vertical size of the text area element in units determined by the user agent (usually lines of text). If not set then the user agent will determine the height of the component.</span></pre></td>
+                                             </tr>
+                                          </table>
                                        </div>
                                     </td>
                                  </tr>
@@ -628,9 +628,13 @@ var modelBoxes= new Array('model_textArea');
                                     <td><b>xs:int</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Sets the component's position in the tab navigation order. Not implemented by default
-                                          as it may 
-                                          						pose significant accessibility and usability problems.
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Sets the component's position in the tab navigation order. Not implemented by default as it may </span><span class="tI">
+</span><span class="tT">pose significant accessibility and usability problems.</span></pre></td>
+                                             </tr>
+                                          </table>
                                        </div>
                                     </td>
                                  </tr>
@@ -639,10 +643,13 @@ var modelBoxes= new Array('model_textArea');
                                     <td><b>xs:string</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Text to display to the user as optional 'helper' information. Note, however, that
-                                          there are some 
-                                          						accessibility and usability implications of this attribute and it should be
-                                          used with care.
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Text to display to the user as optional 'helper' information. Note, however, that there are some </span><span class="tI">
+</span><span class="tT">accessibility and usability implications of this attribute and it should be used with care.</span></pre></td>
+                                             </tr>
+                                          </table>
                                        </div>
                                     </td>
                                  </tr>
@@ -651,7 +658,13 @@ var modelBoxes= new Array('model_textArea');
                                     <td><b>xs:boolean</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Indicates that the component should take part in web analytics tracking.</div>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Indicates that the component should take part in web analytics tracking.</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
                                     </td>
                                  </tr>
                               </table>
@@ -692,112 +705,35 @@ var modelBoxes= new Array('model_textArea');
       </span><span class="tEl">&lt;/table&gt;</span><span class="tI">
     </span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
   </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
-  </span><span class="tEl">&lt;xs:complexType</span><span class="tAN"> mixed=</span><span class="tAV">"true"</span><span class="tEl">&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;xs:sequence</span><span class="tEl">&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"rtf"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tAN"> maxOccurs=</span><span class="tAV">"1"</span><span class="tEl">/&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;/xs:sequence&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;xs:attributeGroup</span><span class="tAN"> ref=</span><span class="tAV">"ui:submitting.input.attributes"</span><span class="tEl">/&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"minLength"</span><span class="tAN"> type=</span><span class="tAV">"xs:positiveInteger"</span><span class="tEl">&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-        </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Indicates the minimum number of characters which represents valid input</span><span class="tI">
-          </span><span class="tEl">&lt;em</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">if any content is entered at all</span><span class="tEl">&lt;/em&gt;</span><span class="tT" style="white-space:normal">.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"maxLength"</span><span class="tAN"> type=</span><span class="tAV">"xs:positiveInteger"</span><span class="tEl">&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-        </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Indicates the maximum number of characters which represents valid input.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"rows"</span><span class="tAN"> type=</span><span class="tAV">"xs:positiveInteger"</span><span class="tEl">&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-        </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Defines the vertical size of the text area element in units determined by the user agent (usually lines of text). If not set then the user agent will determine the height of the component.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"cols"</span><span class="tAN"> type=</span><span class="tAV">"xs:positiveInteger"</span><span class="tEl">&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-        </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Defines the horizontal size of the text area element in units determined by the user agent (not necessarily characters or ems). If not set then the user agent will determine the width of the component.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:complexType</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:simpleContent</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;xs:extension</span><span class="tAN"> base=</span><span class="tAV">"xs:string"</span><span class="tEl">&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:attributeGroup</span><span class="tAN"> ref=</span><span class="tAV">"ui:submitting.input.attributes"</span><span class="tEl">/&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"minLength"</span><span class="tAN"> type=</span><span class="tAV">"xs:positiveInteger"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Indicates the minimum number of characters which represents valid input</span><span class="tI">
+              </span><span class="tEl">&lt;em</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">if any content is entered at all</span><span class="tEl">&lt;/em&gt;</span><span class="tT" style="white-space:normal">.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"maxLength"</span><span class="tAN"> type=</span><span class="tAV">"xs:positiveInteger"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Indicates the maximum number of characters which represents valid input.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"rows"</span><span class="tAN"> type=</span><span class="tAV">"xs:positiveInteger"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Defines the vertical size of the text area element in units determined by the user agent (usually lines of text). If not set then the user agent will determine the height of the component.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"cols"</span><span class="tAN"> type=</span><span class="tAV">"xs:positiveInteger"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Defines the horizontal size of the text area element in units determined by the user agent (not necessarily characters or ems). If not set then the user agent will determine the width of the component.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;/xs:extension&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/xs:simpleContent&gt;</span><span class="tI">
   </span><span class="tEl">&lt;/xs:complexType&gt;</span><span class="tI">
 </span><span class="tEl">&lt;/xs:element&gt;</span></pre></td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                  </tbody>
-               </table>
-            </td>
-            <td class="rt_lineRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_cornerBottomLeft"></td>
-            <td class="rt_lineBottom"></td>
-            <td class="rt_cornerBottomRight"></td>
-         </tr>
-      </table><a id="textArea_rtf"></a><div class="componentTitle">Element <span class="qname"><b><a href="textArea_xsd.html#textArea" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for textArea.xsd')">ui:textArea</a></b> / ui:rtf</span></div>
-      <table class="rt">
-         <tr>
-            <td class="rt_cornerTopLeft"></td>
-            <td class="rt_lineTop"></td>
-            <td class="rt_cornerTopRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_lineLeft"></td>
-            <td class="rt_content">
-               <table class="component">
-                  <tbody>
-                     <tr>
-                        <td class="firstColumn"><b>Namespace</b></td>
-                        <td>https://github.com/bordertech/wcomponents/namespace/ui/v1.0</td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Diagram</b></div>
-                           <div class="floatRight"><input id="button_diagram_textArea_rtf" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_textArea_rtf');" class="control" /></div>
-                        </td>
-                        <td class="diagram">
-                           <div id="diagram_textArea_rtf" style="display:block"><img alt="Diagram" border="0" src="img/textArea_xsd_Element_ui_rtf.png" /></div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn"><b>Type</b></td>
-                        <td><b>xs:string</b></td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Properties</b></div>
-                           <div class="floatRight"><input id="button_properties_textArea_rtf" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_textArea_rtf');" class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="properties_textArea_rtf" style="display:block">
-                              <table class="propertiesTable">
-                                 <tr>
-                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
-                                    <td><b>simple</b></td>
-                                 </tr>
-                                 <tr>
-                                    <td class="firstColumn" style="white-space: nowrap;">minOccurs</td>
-                                    <td><b>0</b></td>
-                                 </tr>
-                                 <tr>
-                                    <td class="firstColumn" style="white-space: nowrap;">maxOccurs</td>
-                                    <td><b>1</b></td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Source</b></div>
-                           <div class="floatRight"><input id="button_source_textArea_rtf" type="image" src="img/btM.gif" value="-" onclick="switchState('source_textArea_rtf');" class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="source_textArea_rtf" style="display:block">
-                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
-                                 <tr>
-                                    <td width="100%"><pre><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"rtf"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tAN"> maxOccurs=</span><span class="tAV">"1"</span><span class="tEl">/&gt;</span></pre></td>
                                  </tr>
                               </table>
                            </div>
@@ -836,8 +772,12 @@ var modelBoxes= new Array('model_textArea');
                         </td>
                         <td>
                            <div id="annotations_textArea_minLength" style="display:block">
-                              <div class="annotation">Indicates the minimum number of characters which represents valid input 
-                                 <em xmlns="">if any content is entered at all</em>.
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Indicates the minimum number of characters which represents valid input</span><span class="tEl">&lt;em</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">if any content is entered at all</span><span class="tEl">&lt;/em&gt;</span><span class="tT">.</span></pre></td>
+                                    </tr>
+                                 </table>
                               </div>
                            </div>
                         </td>
@@ -931,7 +871,13 @@ var modelBoxes= new Array('model_textArea');
                         </td>
                         <td>
                            <div id="annotations_textArea_maxLength" style="display:block">
-                              <div class="annotation">Indicates the maximum number of characters which represents valid input.</div>
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Indicates the maximum number of characters which represents valid input.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
                            </div>
                         </td>
                      </tr>
@@ -1023,9 +969,12 @@ var modelBoxes= new Array('model_textArea');
                         </td>
                         <td>
                            <div id="annotations_textArea_rows" style="display:block">
-                              <div class="annotation">Defines the vertical size of the text area element in units determined by the user
-                                 agent (usually lines of text). If not set then the user agent will determine the height
-                                 of the component.
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Defines the vertical size of the text area element in units determined by the user agent (usually lines of text). If not set then the user agent will determine the height of the component.</span></pre></td>
+                                    </tr>
+                                 </table>
                               </div>
                            </div>
                         </td>
@@ -1118,9 +1067,12 @@ var modelBoxes= new Array('model_textArea');
                         </td>
                         <td>
                            <div id="annotations_textArea_cols" style="display:block">
-                              <div class="annotation">Defines the horizontal size of the text area element in units determined by the user
-                                 agent (not necessarily characters or ems). If not set then the user agent will determine
-                                 the width of the component.
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Defines the horizontal size of the text area element in units determined by the user agent (not necessarily characters or ems). If not set then the user agent will determine the width of the component.</span></pre></td>
+                                    </tr>
+                                 </table>
                               </div>
                            </div>
                         </td>

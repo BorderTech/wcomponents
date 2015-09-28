@@ -379,68 +379,39 @@ var attributesBoxes= new Array('attributes_dateField');
                         <td>
                            <div id="annotations_dateField" style="display:block">
                               <div class="annotation">
-                                 				
-                                 <p xmlns="">WDateField represents a control for inputting and displaying dates.</p>
-                                 				
-                                 <p xmlns="">Dates are passed between the client and server in the format 
-                                    <code>YYYY-MM-DD</code>, with unknown fields
-                                    					replaced with "?" when allowPartial is set "true". This format is referred to
-                                    as the transfer format.
-                                    					The user-entered text is also sent between the client and server.
-                                 </p>
-                                 				
-                                 <p xmlns="">WDateField expects that the POSTed form data contains:</p>
-                                 				
-                                 <table xmlns="">
-                                    					
-                                    <thead>
-                                       						
-                                       <tr>
-                                          							
-                                          <th>Field name</th>
-                                          							
-                                          <th>Type</th>
-                                          							
-                                          <th>Mandatory</th>
-                                          							
-                                          <th>Value</th>
-                                          						
-                                       </tr>
-                                       					
-                                    </thead>
-                                    					
-                                    <tbody>
-                                       						
-                                       <tr>
-                                          							
-                                          <td>@id</td>
-                                          							
-                                          <td>String</td>
-                                          							
-                                          <td>yes</td>
-                                          							
-                                          <td>value as entered by the user</td>
-                                          						
-                                       </tr>
-                                       						
-                                       <tr>
-                                          							
-                                          <td>@id + "-date"</td>
-                                          							
-                                          <td>String</td>
-                                          							
-                                          <td>yes</td>
-                                          							
-                                          <td>value in  transfer format if the user entered date is able to be parsed to a date
-                                             and then converted to the transfer format, otherwise ""
-                                          </td>
-                                          						
-                                       </tr>
-                                       					
-                                    </tbody>
-                                    				
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tEl">&lt;p</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">WDateField represents a control for inputting and displaying dates.</span><span class="tEl">&lt;/p&gt;</span><span class="tI">
+</span><span class="tEl">&lt;p</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Dates are passed between the client and server in the format</span><span class="tI">
+  </span><span class="tEl">&lt;code</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">YYYY-MM-DD</span><span class="tEl">&lt;/code&gt;</span><span class="tT" style="white-space:normal">, with unknown fields replaced with "?" when allowPartial is set "true". This format is referred to as the transfer format. The user-entered text is also sent between the client and server.</span><span class="tEl">&lt;/p&gt;</span><span class="tI">
+</span><span class="tEl">&lt;p</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">WDateField expects that the POSTed form data contains:</span><span class="tEl">&lt;/p&gt;</span><span class="tI">
+</span><span class="tEl">&lt;table</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;thead</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;tr</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;th</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Field name</span><span class="tEl">&lt;/th&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;th</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Type</span><span class="tEl">&lt;/th&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;th</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Mandatory</span><span class="tEl">&lt;/th&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;th</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Value</span><span class="tEl">&lt;/th&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/tr&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/thead&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;tbody</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;tr</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">@id</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">String</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">yes</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">value as entered by the user</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/tr&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;tr</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">@id + "-date"</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">String</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">yes</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">value in transfer format if the user entered date is able to be parsed to a date and then converted to the transfer format, otherwise ""</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/tr&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/tbody&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/table&gt;</span><span class="tI">
+</span></pre></td>
+                                    </tr>
                                  </table>
-                                 			
                               </div>
                            </div>
                         </td>
@@ -452,11 +423,11 @@ var attributesBoxes= new Array('attributes_dateField');
                         </td>
                         <td class="diagram">
                            <div id="diagram_dateField" style="display:block"><img alt="Diagram" border="0" src="img/dateField_xsd_Element_ui_dateField.png" usemap="#dateField_xsd_Element_ui_dateField" /><map name="dateField_xsd_Element_ui_dateField" id="dateField_xsd_Element_ui_dateField">
-                                 <area alt="attributeGroups_control_xsd.tmp#submitting.input.attributes" href="attributeGroups_control_xsd.html#submitting.input.attributes" coords="144,122,356,148" />
-                                 <area alt="dateField_xsd.tmp#dateField_allowPartial" href="dateField_xsd.html#dateField_allowPartial" coords="141,206,249,230" />
-                                 <area alt="dateField_xsd.tmp#dateField_date" href="dateField_xsd.html#dateField_date" coords="141,296,212,320" />
-                                 <area alt="dateField_xsd.tmp#dateField_min" href="dateField_xsd.html#dateField_min" coords="141,386,209,410" />
-                                 <area alt="dateField_xsd.tmp#dateField_max" href="dateField_xsd.html#dateField_max" coords="141,476,212,500" /></map></div>
+                                 <area alt="attributeGroups_control_xsd.tmp#submitting.input.attributes" href="attributeGroups_control_xsd.html#submitting.input.attributes" coords="139,125,327,151" />
+                                 <area alt="dateField_xsd.tmp#dateField_allowPartial" href="dateField_xsd.html#dateField_allowPartial" coords="136,211,241,236" />
+                                 <area alt="dateField_xsd.tmp#dateField_date" href="dateField_xsd.html#dateField_date" coords="136,291,207,316" />
+                                 <area alt="dateField_xsd.tmp#dateField_min" href="dateField_xsd.html#dateField_min" coords="136,385,206,410" />
+                                 <area alt="dateField_xsd.tmp#dateField_max" href="dateField_xsd.html#dateField_max" coords="136,479,206,504" /></map></div>
                         </td>
                      </tr>
                      <tr>
@@ -516,7 +487,13 @@ var attributesBoxes= new Array('attributes_dateField');
                                     <td><b>xs:string</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Deprecated. Use toolTip instead.</div>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Deprecated. Use toolTip instead.</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
@@ -524,8 +501,12 @@ var attributesBoxes= new Array('attributes_dateField');
                                     <td><b>xs:boolean</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Indicates that the dateField can accept any part of a date, being any combination
-                                          of a date, month and/or year. Not output if "false".
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Indicates that the dateField can accept any part of a date, being any combination of a date, month and/or year. Not output if "false".</span></pre></td>
+                                             </tr>
+                                          </table>
                                        </div>
                                     </td>
                                  </tr>
@@ -534,9 +515,13 @@ var attributesBoxes= new Array('attributes_dateField');
                                     <td><b>xs:NMTOKEN</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">The component id of a WButton which is used as the application submit button if the
-                                          user presses 
-                                          						the ENTER key with this component focussed.
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">The component id of a WButton which is used as the application submit button if the user presses </span><span class="tI">
+</span><span class="tT">the ENTER key with this component focussed.</span></pre></td>
+                                             </tr>
+                                          </table>
                                        </div>
                                     </td>
                                  </tr>
@@ -545,8 +530,12 @@ var attributesBoxes= new Array('attributes_dateField');
                                     <td>restriction of <b>xs:string</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">The initial value of the date field if not empty nor in an invalid state in the transfer
-                                          format described above.
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">The initial value of the date field if not empty nor in an invalid state in the transfer format described above.</span></pre></td>
+                                             </tr>
+                                          </table>
                                        </div>
                                     </td>
                                  </tr>
@@ -555,7 +544,13 @@ var attributesBoxes= new Array('attributes_dateField');
                                     <td><b>xs:boolean</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">The component will be in a disabled state if "true". Not output if "false".</div>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">The component will be in a disabled state if "true". Not output if "false".</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
@@ -563,7 +558,13 @@ var attributesBoxes= new Array('attributes_dateField');
                                     <td><b>xs:boolean</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">The component will be in a hidden state if "true". Not output if "false".</div>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">The component will be in a hidden state if "true". Not output if "false".</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
@@ -571,7 +572,13 @@ var attributesBoxes= new Array('attributes_dateField');
                                     <td><b>xs:ID</b></td>
                                     <td>required</td>
                                     <td>
-                                       <div class="annotation">The unique identifier for the component.</div>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">The unique identifier for the component.</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
@@ -579,9 +586,12 @@ var attributesBoxes= new Array('attributes_dateField');
                                     <td>restriction of <b>xs:string</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">The latest date which constitutes a valid input 
-                                          <em xmlns="">if the user enters any content at all</em>. Defaults to "no maximum" if not specified. Specified using the transfer format described
-                                          above.
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">The latest date which constitutes a valid input</span><span class="tEl">&lt;em</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">if the user enters any content at all</span><span class="tEl">&lt;/em&gt;</span><span class="tT">. Defaults to "no maximum" if not specified. Specified using the transfer format described above.</span></pre></td>
+                                             </tr>
+                                          </table>
                                        </div>
                                     </td>
                                  </tr>
@@ -590,9 +600,12 @@ var attributesBoxes= new Array('attributes_dateField');
                                     <td>restriction of <b>xs:string</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">The earliest date which constitutes a valid input 
-                                          <em xmlns="">if the user enters any content at all</em>. Defaults to "no minimum" if not specified. Specified using the transfer format described
-                                          above.
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">The earliest date which constitutes a valid input</span><span class="tEl">&lt;em</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">if the user enters any content at all</span><span class="tEl">&lt;/em&gt;</span><span class="tT">. Defaults to "no minimum" if not specified. Specified using the transfer format described above.</span></pre></td>
+                                             </tr>
+                                          </table>
                                        </div>
                                     </td>
                                  </tr>
@@ -601,7 +614,13 @@ var attributesBoxes= new Array('attributes_dateField');
                                     <td><b>xs:boolean</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">The component will be in a non-interactive state if "true". Not output if "false".</div>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">The component will be in a non-interactive state if "true". Not output if "false".</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
@@ -609,7 +628,13 @@ var attributesBoxes= new Array('attributes_dateField');
                                     <td><b>xs:boolean</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">The component will be mandatory if "true". Not output if "false".</div>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">The component will be mandatory if "true". Not output if "false".</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
@@ -617,9 +642,13 @@ var attributesBoxes= new Array('attributes_dateField');
                                     <td><b>xs:int</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Sets the component's position in the tab navigation order. Not implemented by default
-                                          as it may 
-                                          						pose significant accessibility and usability problems.
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Sets the component's position in the tab navigation order. Not implemented by default as it may </span><span class="tI">
+</span><span class="tT">pose significant accessibility and usability problems.</span></pre></td>
+                                             </tr>
+                                          </table>
                                        </div>
                                     </td>
                                  </tr>
@@ -628,10 +657,13 @@ var attributesBoxes= new Array('attributes_dateField');
                                     <td><b>xs:string</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Text to display to the user as optional 'helper' information. Note, however, that
-                                          there are some 
-                                          						accessibility and usability implications of this attribute and it should be
-                                          used with care.
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Text to display to the user as optional 'helper' information. Note, however, that there are some </span><span class="tI">
+</span><span class="tT">accessibility and usability implications of this attribute and it should be used with care.</span></pre></td>
+                                             </tr>
+                                          </table>
                                        </div>
                                     </td>
                                  </tr>
@@ -640,7 +672,13 @@ var attributesBoxes= new Array('attributes_dateField');
                                     <td><b>xs:boolean</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Indicates that the component should take part in web analytics tracking.</div>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Indicates that the component should take part in web analytics tracking.</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
                                     </td>
                                  </tr>
                               </table>
@@ -772,8 +810,12 @@ var attributesBoxes= new Array('attributes_dateField');
                         </td>
                         <td>
                            <div id="annotations_dateField_allowPartial" style="display:block">
-                              <div class="annotation">Indicates that the dateField can accept any part of a date, being any combination
-                                 of a date, month and/or year. Not output if "false".
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Indicates that the dateField can accept any part of a date, being any combination of a date, month and/or year. Not output if "false".</span></pre></td>
+                                    </tr>
+                                 </table>
                               </div>
                            </div>
                         </td>
@@ -866,8 +908,12 @@ var attributesBoxes= new Array('attributes_dateField');
                         </td>
                         <td>
                            <div id="annotations_dateField_date" style="display:block">
-                              <div class="annotation">The initial value of the date field if not empty nor in an invalid state in the transfer
-                                 format described above.
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">The initial value of the date field if not empty nor in an invalid state in the transfer format described above.</span></pre></td>
+                                    </tr>
+                                 </table>
                               </div>
                            </div>
                         </td>
@@ -984,9 +1030,12 @@ var attributesBoxes= new Array('attributes_dateField');
                         </td>
                         <td>
                            <div id="annotations_dateField_min" style="display:block">
-                              <div class="annotation">The earliest date which constitutes a valid input 
-                                 <em xmlns="">if the user enters any content at all</em>. Defaults to "no minimum" if not specified. Specified using the transfer format described
-                                 above.
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">The earliest date which constitutes a valid input</span><span class="tEl">&lt;em</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">if the user enters any content at all</span><span class="tEl">&lt;/em&gt;</span><span class="tT">. Defaults to "no minimum" if not specified. Specified using the transfer format described above.</span></pre></td>
+                                    </tr>
+                                 </table>
                               </div>
                            </div>
                         </td>
@@ -1104,9 +1153,12 @@ var attributesBoxes= new Array('attributes_dateField');
                         </td>
                         <td>
                            <div id="annotations_dateField_max" style="display:block">
-                              <div class="annotation">The latest date which constitutes a valid input 
-                                 <em xmlns="">if the user enters any content at all</em>. Defaults to "no maximum" if not specified. Specified using the transfer format described
-                                 above.
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">The latest date which constitutes a valid input</span><span class="tEl">&lt;em</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">if the user enters any content at all</span><span class="tEl">&lt;/em&gt;</span><span class="tT">. Defaults to "no maximum" if not specified. Specified using the transfer format described above.</span></pre></td>
+                                    </tr>
+                                 </table>
                               </div>
                            </div>
                         </td>

@@ -632,133 +632,73 @@ var modelBoxes= new Array('model_table',
                         <td>
                            <div id="annotations_table" style="display:block">
                               <div class="annotation">
-                                 				
-                                 <p xmlns="">WTable represents container for tabular data. It is not a general purpose layout component.</p>
-                                 				
-                                 <p xmlns="">WTable expects that the POSTed form data contains:</p>
-                                 				
-                                 <table xmlns="">
-                                    					
-                                    <thead>
-                                       						
-                                       <tr>
-                                          							
-                                          <th>Field name</th>
-                                          							
-                                          <th>Type</th>
-                                          							
-                                          <th>Mandatory</th>
-                                          							
-                                          <th>Value</th>
-                                          						
-                                       </tr>
-                                       					
-                                    </thead>
-                                    					
-                                    <tbody>
-                                       						
-                                       <tr>
-                                          							
-                                          <td>@id + "-h"</td>
-                                          							
-                                          <td>String</td>
-                                          							
-                                          <td>yes</td>
-                                          							
-                                          <td>"x"</td>
-                                          						
-                                       </tr>
-                                       						
-                                       <tr>
-                                          							
-                                          <td>@id + ".expanded"</td>
-                                          							
-                                          <td>List</td>
-                                          							
-                                          <td>no</td>
-                                          							
-                                          <td>A list of row indices of rows which are expanded.</td>
-                                          						
-                                       </tr>
-                                       						
-                                       <tr>
-                                          							
-                                          <td>@id + ".selected"</td>
-                                          							
-                                          <td>List</td>
-                                          							
-                                          <td>no</td>
-                                          							
-                                          <td>A list of row indices of rows which are selected.</td>
-                                          						
-                                       </tr>
-                                       						
-                                       <tr>
-                                          							
-                                          <td>@id + ".filters"</td>
-                                          							
-                                          <td>List</td>
-                                          							
-                                          <td>no</td>
-                                          							
-                                          <td>A list of filters in effect on the client.</td>
-                                          						
-                                       </tr>
-                                       						
-                                       <tr>
-                                          							
-                                          <td>@id + ".page"</td>
-                                          							
-                                          <td>int</td>
-                                          							
-                                          <td>no</td>
-                                          							
-                                          <td>The current page being displayed (for client or dynamic pagination). Mandatory if
-                                             pagination is enabled.
-                                          </td>
-                                          						
-                                       </tr>
-                                       						
-                                       <tr>
-                                          							
-                                          <td>@id + ".rows"</td>
-                                          							
-                                          <td>int</td>
-                                          							
-                                          <td>no</td>
-                                          							
-                                          <td>The number of rows per page to show.</td>
-                                          						
-                                       </tr>
-                                       						
-                                       <tr>
-                                          							
-                                          <td>@id + ".sort"</td>
-                                          							
-                                          <td>int</td>
-                                          							
-                                          <td>no</td>
-                                          							
-                                          <td>Index of the column being sorted on (if any).</td>
-                                          						
-                                       </tr>
-                                       						
-                                       <tr>
-                                          							
-                                          <td>@id + ".sortDesc"</td>
-                                          							
-                                          <td>Boolean</td>
-                                          							
-                                          <td>no</td>
-                                          							
-                                          <td>If "true", sort is descending. If omitted, "false" is assumed.</td>
-                                          						
-                                       </tr>
-                                       					
-                                    </tbody>
-                                    				
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tEl">&lt;p</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">WTable represents container for tabular data. It is not a general purpose layout component.</span><span class="tEl">&lt;/p&gt;</span><span class="tI">
+</span><span class="tEl">&lt;p</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">WTable expects that the POSTed form data contains:</span><span class="tEl">&lt;/p&gt;</span><span class="tI">
+</span><span class="tEl">&lt;table</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;thead</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;tr</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;th</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Field name</span><span class="tEl">&lt;/th&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;th</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Type</span><span class="tEl">&lt;/th&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;th</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Mandatory</span><span class="tEl">&lt;/th&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;th</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Value</span><span class="tEl">&lt;/th&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/tr&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/thead&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;tbody</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;tr</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">@id + "-h"</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">String</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">yes</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">"x"</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/tr&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;tr</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">@id + ".expanded"</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">List</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">no</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">A list of row indices of rows which are expanded.</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/tr&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;tr</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">@id + ".selected"</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">List</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">no</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">A list of row indices of rows which are selected.</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/tr&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;tr</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">@id + ".filters"</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">List</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">no</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">A list of filters in effect on the client.</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/tr&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;tr</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">@id + ".page"</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">int</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">no</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The current page being displayed (for client or dynamic pagination). Mandatory if pagination is enabled.</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/tr&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;tr</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">@id + ".rows"</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">int</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">no</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The number of rows per page to show.</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/tr&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;tr</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">@id + ".sort"</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">int</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">no</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Index of the column being sorted on (if any).</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/tr&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;tr</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">@id + ".sortDesc"</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Boolean</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">no</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">If "true", sort is descending. If omitted, "false" is assumed.</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/tr&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/tbody&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/table&gt;</span><span class="tI">
+</span></pre></td>
+                                    </tr>
                                  </table>
-                                 			
                               </div>
                            </div>
                         </td>
@@ -770,23 +710,23 @@ var modelBoxes= new Array('model_table',
                         </td>
                         <td class="diagram">
                            <div id="diagram_table" style="display:block"><img alt="Diagram" border="0" src="img/table_xsd_Element_ui_table.png" usemap="#table_xsd_Element_ui_table" /><map name="table_xsd_Element_ui_table" id="table_xsd_Element_ui_table">
-                                 <area alt="attributeGroups_container_xsd.tmp#container.attributes" href="attributeGroups_container_xsd.html#container.attributes" coords="122,43,296,69" />
-                                 <area alt="table_xsd.tmp#table_disabled" href="table_xsd.html#table_disabled" coords="119,114,212,138" />
-                                 <area alt="table_xsd.tmp#table_caption" href="table_xsd.html#table_caption" coords="119,204,207,228" />
-                                 <area alt="table_xsd.tmp#table_summary" href="table_xsd.html#table_summary" coords="119,281,217,305" />
-                                 <area alt="table_xsd.tmp#table_striping" href="table_xsd.html#table_striping" coords="119,345,209,369" />
-                                 <area alt="table_xsd.tmp#table_showRowIndices" href="table_xsd.html#table_showRowIndices" coords="119,422,255,446" />
-                                 <area alt="table_xsd.tmp#table_separators" href="table_xsd.html#table_separators" coords="119,486,225,510" />
-                                 <area alt="table_xsd.tmp#table_type" href="table_xsd.html#table_type" coords="119,550,190,574" />
-                                 <area alt="table_xsd.tmp#table_activeFilters" href="table_xsd.html#table_activeFilters" coords="119,640,231,664" />
-                                 <area alt="margin_xsd.tmp#margin" href="margin_xsd.html#margin" coords="176,711,258,735" />
-                                 <area alt="table_xsd.tmp#table_pagination" href="table_xsd.html#table_pagination" coords="176,788,264,812" />
-                                 <area alt="table_xsd.tmp#table_rowSelection" href="table_xsd.html#table_rowSelection" coords="176,878,275,902" />
-                                 <area alt="table_xsd.tmp#table_rowExpansion" href="table_xsd.html#table_rowExpansion" coords="176,968,283,992" />
-                                 <area alt="table_xsd.tmp#table_sort" href="table_xsd.html#table_sort" coords="176,1058,229,1082" />
-                                 <area alt="table_xsd.tmp#table_thead" href="table_xsd.html#table_thead" coords="176,1148,237,1172" />
-                                 <area alt="table_xsd.tmp#table_tbody" href="table_xsd.html#table_tbody" coords="176,1225,238,1249" />
-                                 <area alt="table_xsd.tmp#table_actions" href="table_xsd.html#table_actions" coords="176,1289,246,1313" /></map></div>
+                                 <area alt="attributeGroups_container_xsd.tmp#container.attributes" href="attributeGroups_container_xsd.html#container.attributes" coords="119,44,278,70" />
+                                 <area alt="table_xsd.tmp#table_disabled" href="table_xsd.html#table_disabled" coords="116,116,206,141" />
+                                 <area alt="table_xsd.tmp#table_caption" href="table_xsd.html#table_caption" coords="116,210,201,235" />
+                                 <area alt="table_xsd.tmp#table_summary" href="table_xsd.html#table_summary" coords="116,290,210,315" />
+                                 <area alt="table_xsd.tmp#table_striping" href="table_xsd.html#table_striping" coords="116,356,201,381" />
+                                 <area alt="table_xsd.tmp#table_showRowIndices" href="table_xsd.html#table_showRowIndices" coords="116,436,251,461" />
+                                 <area alt="table_xsd.tmp#table_separators" href="table_xsd.html#table_separators" coords="116,502,219,527" />
+                                 <area alt="table_xsd.tmp#table_type" href="table_xsd.html#table_type" coords="116,568,187,593" />
+                                 <area alt="table_xsd.tmp#table_activeFilters" href="table_xsd.html#table_activeFilters" coords="116,662,224,687" />
+                                 <area alt="margin_xsd.tmp#margin" href="margin_xsd.html#margin" coords="173,735,247,760" />
+                                 <area alt="table_xsd.tmp#table_pagination" href="table_xsd.html#table_pagination" coords="173,815,253,840" />
+                                 <area alt="table_xsd.tmp#table_rowSelection" href="table_xsd.html#table_rowSelection" coords="173,909,268,934" />
+                                 <area alt="table_xsd.tmp#table_rowExpansion" href="table_xsd.html#table_rowExpansion" coords="173,1003,274,1028" />
+                                 <area alt="table_xsd.tmp#table_sort" href="table_xsd.html#table_sort" coords="173,1097,224,1122" />
+                                 <area alt="table_xsd.tmp#table_thead" href="table_xsd.html#table_thead" coords="173,1191,231,1216" />
+                                 <area alt="table_xsd.tmp#table_tbody" href="table_xsd.html#table_tbody" coords="173,1271,231,1296" />
+                                 <area alt="table_xsd.tmp#table_actions" href="table_xsd.html#table_actions" coords="173,1337,239,1362" /></map></div>
                         </td>
                      </tr>
                      <tr>
@@ -877,7 +817,13 @@ var modelBoxes= new Array('model_table',
                                     <td><b>xs:string</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Deprecated: do not use.</div>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Deprecated: do not use.</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
@@ -885,7 +831,13 @@ var modelBoxes= new Array('model_table',
                                     <td><b>xs:string</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Provides a human readable description of the intent of the table.</div>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Provides a human readable description of the intent of the table.</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
@@ -893,8 +845,12 @@ var modelBoxes= new Array('model_table',
                                     <td><b>xs:boolean</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Indicates that interactive aspects of the table (pagination, rowExpansion, rowSelection
-                                          and sort) should be disabled.
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Indicates that interactive aspects of the table (pagination, rowExpansion, rowSelection and sort) should be disabled.</span></pre></td>
+                                             </tr>
+                                          </table>
                                        </div>
                                     </td>
                                  </tr>
@@ -903,7 +859,13 @@ var modelBoxes= new Array('model_table',
                                     <td><b>xs:boolean</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">The component will be in a hidden state if "true". Not output if "false".</div>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">The component will be in a hidden state if "true". Not output if "false".</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
@@ -911,7 +873,13 @@ var modelBoxes= new Array('model_table',
                                     <td><b>xs:ID</b></td>
                                     <td>required</td>
                                     <td>
-                                       <div class="annotation">The unique identifier for the component.</div>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">The unique identifier for the component.</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
@@ -919,7 +887,13 @@ var modelBoxes= new Array('model_table',
                                     <td>restriction of <b>xs:NMTOKEN</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Provides a flag to show row and/or column borders.</div>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Provides a flag to show row and/or column borders.</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
@@ -927,7 +901,13 @@ var modelBoxes= new Array('model_table',
                                     <td><b>xs:boolean</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">No longer supported.</div>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">No longer supported.</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
@@ -935,7 +915,13 @@ var modelBoxes= new Array('model_table',
                                     <td>restriction of <b>xs:NMTOKEN</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Provides a flag to style alternate rows or columns to improve table usability.</div>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Provides a flag to style alternate rows or columns to improve table usability.</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
@@ -943,7 +929,13 @@ var modelBoxes= new Array('model_table',
                                     <td><b>xs:string</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">No longer supported.</div>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">No longer supported.</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
@@ -951,7 +943,13 @@ var modelBoxes= new Array('model_table',
                                     <td><b>xs:boolean</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Indicates that the component should take part in web analytics tracking.</div>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Indicates that the component should take part in web analytics tracking.</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
@@ -959,9 +957,12 @@ var modelBoxes= new Array('model_table',
                                     <td>restriction of <b>xs:NMTOKEN</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Determines the indentation mode of the table if it has expandable rows. No impact
-                                          if the table does not have a ui:rowExpansion child element or if there are no expandible
-                                          rows in the current view.
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Determines the indentation mode of the table if it has expandable rows. No impact if the table does not have a ui:rowExpansion child element or if there are no expandible rows in the current view.</span></pre></td>
+                                             </tr>
+                                          </table>
                                        </div>
                                     </td>
                                  </tr>
@@ -1458,8 +1459,12 @@ var modelBoxes= new Array('model_table',
                         </td>
                         <td>
                            <div id="annotations_table_pagination" style="display:block">
-                              <div class="annotation">Provides information regarding table pagination. Presence of this element indicates
-                                 that a table is notionally paginable.
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Provides information regarding table pagination. Presence of this element indicates that a table is notionally paginable.</span></pre></td>
+                                    </tr>
+                                 </table>
                               </div>
                            </div>
                         </td>
@@ -1471,11 +1476,11 @@ var modelBoxes= new Array('model_table',
                         </td>
                         <td class="diagram">
                            <div id="diagram_table_pagination" style="display:block"><img alt="Diagram" border="0" src="img/table_xsd_Element_ui_pagination.png" usemap="#table_xsd_Element_ui_pagination" /><map name="table_xsd_Element_ui_pagination" id="table_xsd_Element_ui_pagination">
-                                 <area alt="table_xsd.tmp#table_table_pagination_mode" href="table_xsd.html#table_table_pagination_mode" coords="150,40,228,64" />
-                                 <area alt="table_xsd.tmp#table_table_pagination_rows" href="table_xsd.html#table_table_pagination_rows" coords="150,104,224,128" />
-                                 <area alt="table_xsd.tmp#table_table_pagination_rowsPerPage" href="table_xsd.html#table_table_pagination_rowsPerPage" coords="150,168,266,192" />
-                                 <area alt="table_xsd.tmp#table_table_pagination_currentPage" href="table_xsd.html#table_table_pagination_currentPage" coords="150,245,263,269" />
-                                 <area alt="table_xsd.tmp#table_table_pagination_rowsSelect" href="table_xsd.html#table_table_pagination_rowsSelect" coords="207,333,295,357" /></map></div>
+                                 <area alt="table_xsd.tmp#table_table_pagination_mode" href="table_xsd.html#table_table_pagination_mode" coords="142,41,218,66" />
+                                 <area alt="table_xsd.tmp#table_table_pagination_rows" href="table_xsd.html#table_table_pagination_rows" coords="142,107,218,132" />
+                                 <area alt="table_xsd.tmp#table_table_pagination_rowsPerPage" href="table_xsd.html#table_table_pagination_rowsPerPage" coords="142,173,258,198" />
+                                 <area alt="table_xsd.tmp#table_table_pagination_currentPage" href="table_xsd.html#table_table_pagination_currentPage" coords="142,253,251,278" />
+                                 <area alt="table_xsd.tmp#table_table_pagination_rowsSelect" href="table_xsd.html#table_table_pagination_rowsSelect" coords="199,330,286,355" /></map></div>
                         </td>
                      </tr>
                      <tr>
@@ -1547,7 +1552,13 @@ var modelBoxes= new Array('model_table',
                                     <td><b>xs:unsignedInt</b></td>
                                     <td>required</td>
                                     <td>
-                                       <div class="annotation">Indicates the page index of the page currently being shown.</div>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Indicates the page index of the page currently being shown.</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
@@ -1555,7 +1566,13 @@ var modelBoxes= new Array('model_table',
                                     <td>restriction of <b>xs:NMTOKEN</b></td>
                                     <td>required</td>
                                     <td>
-                                       <div class="annotation">Provides the mode for changing page.</div>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Provides the mode for changing page.</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
@@ -1563,7 +1580,13 @@ var modelBoxes= new Array('model_table',
                                     <td><b>xs:unsignedInt</b></td>
                                     <td>required</td>
                                     <td>
-                                       <div class="annotation">Indicates the total number of rows in the table.</div>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Indicates the total number of rows in the table.</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
@@ -1571,8 +1594,12 @@ var modelBoxes= new Array('model_table',
                                     <td><b>xs:positiveInteger</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Indicates the number of rows to show per page. If not set then show all rows in the
-                                          current view.
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Indicates the number of rows to show per page. If not set then show all rows in the current view.</span></pre></td>
+                                             </tr>
+                                          </table>
                                        </div>
                                     </td>
                                  </tr>
@@ -1692,9 +1719,12 @@ var modelBoxes= new Array('model_table',
                         </td>
                         <td>
                            <div id="annotations_table_table_pagination_rowsSelect" style="display:block">
-                              <div class="annotation">This sub element provides a means for the user to select how many rows per page they
-                                 want to see. This selection is made from a limited list of options. The initial number
-                                 of rows per page is represented in the rowsPerPage attribute of the pagination element.
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">This sub element provides a means for the user to select how many rows per page they want to see. This selection is made from a limited list of options. The initial number of rows per page is represented in the rowsPerPage attribute of the pagination element.</span></pre></td>
+                                    </tr>
+                                 </table>
                               </div>
                            </div>
                         </td>
@@ -1706,7 +1736,7 @@ var modelBoxes= new Array('model_table',
                         </td>
                         <td class="diagram">
                            <div id="diagram_table_table_pagination_rowsSelect" style="display:block"><img alt="Diagram" border="0" src="img/table_xsd_Element_ui_rowsSelect.png" usemap="#table_xsd_Element_ui_rowsSelect" /><map name="table_xsd_Element_ui_rowsSelect" id="table_xsd_Element_ui_rowsSelect">
-                                 <area alt="table_xsd.tmp#table_table_pagination_table_table_pagination_rowsSelect_option" href="table_xsd.html#table_table_pagination_table_table_pagination_rowsSelect_option" coords="228,6,294,30" /></map></div>
+                                 <area alt="table_xsd.tmp#table_table_pagination_table_table_pagination_rowsSelect_option" href="table_xsd.html#table_table_pagination_table_table_pagination_rowsSelect_option" coords="226,6,286,31" /></map></div>
                         </td>
                      </tr>
                      <tr>
@@ -1821,8 +1851,12 @@ var modelBoxes= new Array('model_table',
                         </td>
                         <td>
                            <div id="annotations_table_table_pagination_table_table_pagination_rowsSelect_option" style="display:block">
-                              <div class="annotation">Represents a single choice for showing 'n' rows per page. A value of 0 represents
-                                 show all available rows (since infinity is hard to pin down).
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Represents a single choice for showing 'n' rows per page. A value of 0 represents show all available rows (since infinity is hard to pin down).</span></pre></td>
+                                    </tr>
+                                 </table>
                               </div>
                            </div>
                         </td>
@@ -1834,7 +1868,7 @@ var modelBoxes= new Array('model_table',
                         </td>
                         <td class="diagram">
                            <div id="diagram_table_table_pagination_table_table_pagination_rowsSelect_option" style="display:block"><img alt="Diagram" border="0" src="img/table_xsd_Element_ui_option.png" usemap="#table_xsd_Element_ui_option" /><map name="table_xsd_Element_ui_option" id="table_xsd_Element_ui_option">
-                                 <area alt="table_xsd.tmp#table_table_pagination_table_table_pagination_rowsSelect_table_table_pagination_table_table_pagination_rowsSelect_option_value" href="table_xsd.html#table_table_pagination_table_table_pagination_rowsSelect_table_table_pagination_table_table_pagination_rowsSelect_option_value" coords="128,40,204,64" /></map></div>
+                                 <area alt="table_xsd.tmp#table_table_pagination_table_table_pagination_rowsSelect_table_table_pagination_table_table_pagination_rowsSelect_option_value" href="table_xsd.html#table_table_pagination_table_table_pagination_rowsSelect_table_table_pagination_table_table_pagination_rowsSelect_option_value" coords="122,41,198,66" /></map></div>
                         </td>
                      </tr>
                      <tr>
@@ -1936,8 +1970,12 @@ var modelBoxes= new Array('model_table',
                         </td>
                         <td>
                            <div id="annotations_table_rowSelection" style="display:block">
-                              <div class="annotation">Provides information regarding table row selection. Presence of this element indicates
-                                 that a table may have selectable rows.
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Provides information regarding table row selection. Presence of this element indicates that a table may have selectable rows.</span></pre></td>
+                                    </tr>
+                                 </table>
                               </div>
                            </div>
                         </td>
@@ -1949,10 +1987,10 @@ var modelBoxes= new Array('model_table',
                         </td>
                         <td class="diagram">
                            <div id="diagram_table_rowSelection" style="display:block"><img alt="Diagram" border="0" src="img/table_xsd_Element_ui_rowSelection.png" usemap="#table_xsd_Element_ui_rowSelection" /><map name="table_xsd_Element_ui_rowSelection" id="table_xsd_Element_ui_rowSelection">
-                                 <area alt="table_xsd.tmp#table_table_rowSelection_multiple" href="table_xsd.html#table_table_rowSelection_multiple" coords="161,40,252,64" />
-                                 <area alt="table_xsd.tmp#table_table_rowSelection_groupName" href="table_xsd.html#table_table_rowSelection_groupName" coords="161,130,272,154" />
-                                 <area alt="attributeGroups_control_xsd.tmp#submitOnChange.attributes" href="attributeGroups_control_xsd.html#submitOnChange.attributes" coords="164,223,381,249" />
-                                 <area alt="table_xsd.tmp#table_table_rowSelection_selectAll" href="table_xsd.html#table_table_rowSelection_selectAll" coords="161,264,254,288" /></map></div>
+                                 <area alt="table_xsd.tmp#table_table_rowSelection_multiple" href="table_xsd.html#table_table_rowSelection_multiple" coords="157,41,242,66" />
+                                 <area alt="table_xsd.tmp#table_table_rowSelection_groupName" href="table_xsd.html#table_table_rowSelection_groupName" coords="157,135,262,160" />
+                                 <area alt="attributeGroups_control_xsd.tmp#submitOnChange.attributes" href="attributeGroups_control_xsd.html#submitOnChange.attributes" coords="160,232,356,258" />
+                                 <area alt="table_xsd.tmp#table_table_rowSelection_selectAll" href="table_xsd.html#table_table_rowSelection_selectAll" coords="157,273,248,298" /></map></div>
                         </td>
                      </tr>
                      <tr>
@@ -1996,8 +2034,12 @@ var modelBoxes= new Array('model_table',
                                     <td><b>xs:string</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Provides a link with a WSelectToggle so that the WSelectToggle can include row selection
-                                          in its target group. Only applicable if @multiple is "true".
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Provides a link with a WSelectToggle so that the WSelectToggle can include row selection in its target group. Only applicable if @multiple is "true".</span></pre></td>
+                                             </tr>
+                                          </table>
                                        </div>
                                     </td>
                                  </tr>
@@ -2006,8 +2048,12 @@ var modelBoxes= new Array('model_table',
                                     <td><b>xs:boolean</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Indicates that more than one row may be selected at a time in a manner similar to
-                                          a group of check boxes. Not output if "false".
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Indicates that more than one row may be selected at a time in a manner similar to a group of check boxes. Not output if "false".</span></pre></td>
+                                             </tr>
+                                          </table>
                                        </div>
                                     </td>
                                  </tr>
@@ -2016,8 +2062,12 @@ var modelBoxes= new Array('model_table',
                                     <td>restriction of <b>xs:NMTOKEN</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Indicates that the user should be provided with control(s) to select and deselect
-                                          all selectable rows. Only applicable if @multiple is "true".
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Indicates that the user should be provided with control(s) to select and deselect all selectable rows. Only applicable if @multiple is "true".</span></pre></td>
+                                             </tr>
+                                          </table>
                                        </div>
                                     </td>
                                  </tr>
@@ -2026,11 +2076,13 @@ var modelBoxes= new Array('model_table',
                                     <td><b>xs:boolean</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">This attribute has significant negative accessibility implications and 
-                                          <strong xmlns="">extreme</strong>
-                                          					care should be taken with its implementation. It may be removed completely from
-                                          future versions of
-                                          					WComponents because of these accessibility issues.
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">This attribute has significant negative accessibility implications and</span><span class="tEl">&lt;strong</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">extreme</span><span class="tEl">&lt;/strong&gt;</span><span class="tT">care should be taken with its implementation. It may be removed completely from future versions of</span><span class="tI">
+</span><span class="tT">WComponents because of these accessibility issues.</span></pre></td>
+                                             </tr>
+                                          </table>
                                        </div>
                                     </td>
                                  </tr>
@@ -2122,8 +2174,12 @@ var modelBoxes= new Array('model_table',
                         </td>
                         <td>
                            <div id="annotations_table_rowExpansion" style="display:block">
-                              <div class="annotation">Provides information regarding table row expansion. Presence of this element indicates
-                                 that a table may have expandable rows.
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Provides information regarding table row expansion. Presence of this element indicates that a table may have expandable rows.</span></pre></td>
+                                    </tr>
+                                 </table>
                               </div>
                            </div>
                         </td>
@@ -2135,8 +2191,8 @@ var modelBoxes= new Array('model_table',
                         </td>
                         <td class="diagram">
                            <div id="diagram_table_rowExpansion" style="display:block"><img alt="Diagram" border="0" src="img/table_xsd_Element_ui_rowExpansion.png" usemap="#table_xsd_Element_ui_rowExpansion" /><map name="table_xsd_Element_ui_rowExpansion" id="table_xsd_Element_ui_rowExpansion">
-                                 <area alt="table_xsd.tmp#table_table_rowExpansion_mode" href="table_xsd.html#table_table_rowExpansion_mode" coords="169,40,247,64" />
-                                 <area alt="table_xsd.tmp#table_table_rowExpansion_expandAll" href="table_xsd.html#table_table_rowExpansion_expandAll" coords="169,104,271,128" /></map></div>
+                                 <area alt="table_xsd.tmp#table_table_rowExpansion_mode" href="table_xsd.html#table_table_rowExpansion_mode" coords="163,41,239,66" />
+                                 <area alt="table_xsd.tmp#table_table_rowExpansion_expandAll" href="table_xsd.html#table_table_rowExpansion_expandAll" coords="163,107,261,132" /></map></div>
                         </td>
                      </tr>
                      <tr>
@@ -2180,8 +2236,12 @@ var modelBoxes= new Array('model_table',
                                     <td><b>xs:boolean</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Indicates that a control should be provided to allow the user to expand or collapse
-                                          all available expandable rows.
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Indicates that a control should be provided to allow the user to expand or collapse all available expandable rows.</span></pre></td>
+                                             </tr>
+                                          </table>
                                        </div>
                                     </td>
                                  </tr>
@@ -2190,7 +2250,13 @@ var modelBoxes= new Array('model_table',
                                     <td>restriction of <b>xs:NMTOKEN</b></td>
                                     <td>required</td>
                                     <td>
-                                       <div class="annotation">Provides the mode for expanding rows.</div>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Provides the mode for expanding rows.</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
                                     </td>
                                  </tr>
                               </table>
@@ -2285,9 +2351,12 @@ var modelBoxes= new Array('model_table',
                         </td>
                         <td>
                            <div id="annotations_table_sort" style="display:block">
-                              <div class="annotation">Provides information regarding table column sorting. Presence of this element indicates
-                                 that a table may have sortable columns and optionally is currently sorted on a particular
-                                 column.
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Provides information regarding table column sorting. Presence of this element indicates that a table may have sortable columns and optionally is currently sorted on a particular column.</span></pre></td>
+                                    </tr>
+                                 </table>
                               </div>
                            </div>
                         </td>
@@ -2299,9 +2368,9 @@ var modelBoxes= new Array('model_table',
                         </td>
                         <td class="diagram">
                            <div id="diagram_table_sort" style="display:block"><img alt="Diagram" border="0" src="img/table_xsd_Element_ui_sort.png" usemap="#table_xsd_Element_ui_sort" /><map name="table_xsd_Element_ui_sort" id="table_xsd_Element_ui_sort">
-                                 <area alt="table_xsd.tmp#table_table_sort_mode" href="table_xsd.html#table_table_sort_mode" coords="115,40,193,64" />
-                                 <area alt="table_xsd.tmp#table_table_sort_col" href="table_xsd.html#table_table_sort_col" coords="115,104,183,128" />
-                                 <area alt="table_xsd.tmp#table_table_sort_descending" href="table_xsd.html#table_table_sort_descending" coords="115,181,225,205" /></map></div>
+                                 <area alt="table_xsd.tmp#table_table_sort_mode" href="table_xsd.html#table_table_sort_mode" coords="113,41,189,66" />
+                                 <area alt="table_xsd.tmp#table_table_sort_col" href="table_xsd.html#table_table_sort_col" coords="113,107,183,132" />
+                                 <area alt="table_xsd.tmp#table_table_sort_descending" href="table_xsd.html#table_table_sort_descending" coords="113,187,219,212" /></map></div>
                         </td>
                      </tr>
                      <tr>
@@ -2345,7 +2414,13 @@ var modelBoxes= new Array('model_table',
                                     <td><b>xs:unsignedInt</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">The index of the column on which the table is currently sorted.</div>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">The index of the column on which the table is currently sorted.</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
@@ -2353,7 +2428,13 @@ var modelBoxes= new Array('model_table',
                                     <td><b>xs:boolean</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Indicates that the column sort order is 'descending'. Not output if "false".</div>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Indicates that the column sort order is 'descending'. Not output if "false".</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
@@ -2361,7 +2442,13 @@ var modelBoxes= new Array('model_table',
                                     <td>restriction of <b>xs:NMTOKEN</b></td>
                                     <td>required</td>
                                     <td>
-                                       <div class="annotation">Provides the mode for sorting the table data.</div>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Provides the mode for sorting the table data.</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
                                     </td>
                                  </tr>
                               </table>
@@ -2451,7 +2538,13 @@ var modelBoxes= new Array('model_table',
                         </td>
                         <td>
                            <div id="annotations_table_thead" style="display:block">
-                              <div class="annotation">Represents table head information and holds a set of column headers.</div>
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Represents table head information and holds a set of column headers.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
                            </div>
                         </td>
                      </tr>
@@ -2462,8 +2555,8 @@ var modelBoxes= new Array('model_table',
                         </td>
                         <td class="diagram">
                            <div id="diagram_table_thead" style="display:block"><img alt="Diagram" border="0" src="img/table_xsd_Element_ui_thead.png" usemap="#table_xsd_Element_ui_thead" /><map name="table_xsd_Element_ui_thead" id="table_xsd_Element_ui_thead">
-                                 <area alt="table_xsd.tmp#table_table_thead_hidden" href="table_xsd.html#table_table_thead_hidden" coords="123,40,208,64" />
-                                 <area alt="table_xsd.tmp#table_table_thead_th" href="table_xsd.html#table_table_thead_th" coords="201,85,252,109" /></map></div>
+                                 <area alt="table_xsd.tmp#table_table_thead_hidden" href="table_xsd.html#table_table_thead_hidden" coords="120,41,202,66" />
+                                 <area alt="table_xsd.tmp#table_table_thead_th" href="table_xsd.html#table_table_thead_th" coords="197,87,248,112" /></map></div>
                         </td>
                      </tr>
                      <tr>
@@ -2638,7 +2731,13 @@ var modelBoxes= new Array('model_table',
                         </td>
                         <td>
                            <div id="annotations_table_table_thead_th" style="display:block">
-                              <div class="annotation">Represents a column header.</div>
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Represents a column header.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
                            </div>
                         </td>
                      </tr>
@@ -2649,10 +2748,10 @@ var modelBoxes= new Array('model_table',
                         </td>
                         <td class="diagram">
                            <div id="diagram_table_table_thead_th" style="display:block"><img alt="Diagram" border="0" src="img/table_xsd_Element_ui_th.png" usemap="#table_xsd_Element_ui_th" /><map name="table_xsd_Element_ui_th" id="table_xsd_Element_ui_th">
-                                 <area alt="table_xsd.tmp#table_table_thead_table_table_thead_th_width" href="table_xsd.html#table_table_thead_table_table_thead_th_width" coords="113,40,190,64" />
-                                 <area alt="table_xsd.tmp#table_table_thead_table_table_thead_th_sortable" href="table_xsd.html#table_table_thead_table_table_thead_th_sortable" coords="113,130,205,154" />
-                                 <area alt="table_xsd.tmp#table_table_thead_table_table_thead_th_align" href="table_xsd.html#table_table_thead_table_table_thead_th_align" coords="113,220,187,244" />
-                                 <area alt="decoratedLabel_xsd.tmp#decoratedLabel" href="decoratedLabel_xsd.html#decoratedLabel" coords="170,308,296,332" /></map></div>
+                                 <area alt="table_xsd.tmp#table_table_thead_table_table_thead_th_width" href="table_xsd.html#table_table_thead_table_table_thead_th_width" coords="113,41,190,66" />
+                                 <area alt="table_xsd.tmp#table_table_thead_table_table_thead_th_sortable" href="table_xsd.html#table_table_thead_table_table_thead_th_sortable" coords="113,135,202,160" />
+                                 <area alt="table_xsd.tmp#table_table_thead_table_table_thead_th_align" href="table_xsd.html#table_table_thead_table_table_thead_th_align" coords="113,229,185,254" />
+                                 <area alt="decoratedLabel_xsd.tmp#decoratedLabel" href="decoratedLabel_xsd.html#decoratedLabel" coords="170,320,287,345" /></map></div>
                         </td>
                      </tr>
                      <tr>
@@ -2704,7 +2803,7 @@ var modelBoxes= new Array('model_table',
                               <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
                                  <tr>
                                     <td width="100%"><pre><span class="tEl">&lt;ui:th</span><span class="tT"> </span><span class="tAN">align=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">sortable=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">width=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xmlns:ui=</span><span class="tAV">"https://github.com/bordertech/wcomponents/namespace/ui/v1.0"</span><span class="tEl">&gt;</span><span class="tI">
-  </span><span class="tEl">&lt;ui:decoratedLabel</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:decoratedLabel&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:decoratedLabel</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">type=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:decoratedLabel&gt;</span><span class="tI">
 </span><span class="tEl">&lt;/ui:th&gt;</span></pre></td>
                                  </tr>
                               </table>
@@ -2732,7 +2831,13 @@ var modelBoxes= new Array('model_table',
                                     <td>restriction of <b>xs:token</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Provides the preferred content alignment for the column. If onitted "left" is assumed.</div>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Provides the preferred content alignment for the column. If onitted "left" is assumed.</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
@@ -2740,9 +2845,12 @@ var modelBoxes= new Array('model_table',
                                     <td><b>xs:boolean</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Indicates that the table may be sorted according to the data in this column. Only
-                                          applied if a ui:sort element is a sibling of the ui:thead element parent of this column
-                                          header.
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Indicates that the table may be sorted according to the data in this column. Only applied if a ui:sort element is a sibling of the ui:thead element parent of this column header.</span></pre></td>
+                                             </tr>
+                                          </table>
                                        </div>
                                     </td>
                                  </tr>
@@ -2751,9 +2859,12 @@ var modelBoxes= new Array('model_table',
                                     <td>restriction of <b>xs:int</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Provides a preferred width for the column as a percentage of available space. Honoured
-                                          by all common browsers unless the table content weighting forces the columns to resize
-                                          to a smaller width or if the total width of all columns is greater than 100%.
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Provides a preferred width for the column as a percentage of available space. Honoured by all common browsers unless the table content weighting forces the columns to resize to a smaller width or if the total width of all columns is greater than 100%.</span></pre></td>
+                                             </tr>
+                                          </table>
                                        </div>
                                     </td>
                                  </tr>
@@ -2847,7 +2958,13 @@ var modelBoxes= new Array('model_table',
                         </td>
                         <td>
                            <div id="annotations_table_tbody" style="display:block">
-                              <div class="annotation">A container for content rows.</div>
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">A container for content rows.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
                            </div>
                         </td>
                      </tr>
@@ -2858,9 +2975,9 @@ var modelBoxes= new Array('model_table',
                         </td>
                         <td class="diagram">
                            <div id="diagram_table_tbody" style="display:block"><img alt="Diagram" border="0" src="img/table_xsd_Element_ui_tbody.png" usemap="#table_xsd_Element_ui_tbody" /><map name="table_xsd_Element_ui_tbody" id="table_xsd_Element_ui_tbody">
-                                 <area alt="table_xsd.tmp#table_table_tbody_id" href="table_xsd.html#table_table_tbody_id" coords="124,40,192,64" />
-                                 <area alt="table_xsd.tmp#table_table_tbody_noData" href="table_xsd.html#table_table_tbody_noData" coords="202,81,260,105" />
-                                 <area alt="table_xsd.tmp#table_table_tbody_tr" href="table_xsd.html#table_table_tbody_tr" coords="202,115,253,139" /></map></div>
+                                 <area alt="table_xsd.tmp#table_table_tbody_id" href="table_xsd.html#table_table_tbody_id" coords="120,41,190,66" />
+                                 <area alt="table_xsd.tmp#table_table_tbody_noData" href="table_xsd.html#table_table_tbody_noData" coords="197,83,251,108" />
+                                 <area alt="table_xsd.tmp#table_table_tbody_tr" href="table_xsd.html#table_table_tbody_tr" coords="197,118,248,143" /></map></div>
                         </td>
                      </tr>
                      <tr>
@@ -3080,16 +3197,16 @@ var modelBoxes= new Array('model_table',
                         </td>
                         <td class="diagram">
                            <div id="diagram_table_table_tbody_tr" style="display:block"><img alt="Diagram" border="0" src="img/table_xsd_Element_ui_tr_1.png" usemap="#table_xsd_Element_ui_tr_1" /><map name="table_xsd_Element_ui_tr_1" id="table_xsd_Element_ui_tr_1">
-                                 <area alt="table_xsd.tmp#trType_rowIndex" href="table_xsd.html#trType_rowIndex" coords="107,78,205,102" />
-                                 <area alt="table_xsd.tmp#trType_unselectable" href="table_xsd.html#trType_unselectable" coords="107,112,222,136" />
-                                 <area alt="table_xsd.tmp#trType_selected" href="table_xsd.html#trType_selected" coords="107,146,199,170" />
-                                 <area alt="table_xsd.tmp#trType_disabled" href="table_xsd.html#trType_disabled" coords="107,180,200,204" />
-                                 <area alt="table_xsd.tmp#trType_expandable" href="table_xsd.html#trType_expandable" coords="107,214,217,238" />
-                                 <area alt="table_xsd.tmp#trType_filterValues" href="table_xsd.html#trType_filterValues" coords="107,248,215,272" />
-                                 <area alt="table_xsd.tmp#trType_th" href="table_xsd.html#trType_th" coords="185,289,236,313" />
-                                 <area alt="table_xsd.tmp#trType_td" href="table_xsd.html#trType_td" coords="185,323,236,347" />
-                                 <area alt="table_xsd.tmp#trType_subTr" href="table_xsd.html#trType_subTr" coords="185,357,248,381" />
-                                 <area alt="table_xsd.tmp#trType" href="table_xsd.html#trType" coords="82,3,181,25" /></map></div>
+                                 <area alt="table_xsd.tmp#trType_rowIndex" href="table_xsd.html#trType_rowIndex" coords="107,79,203,104" />
+                                 <area alt="table_xsd.tmp#trType_unselectable" href="table_xsd.html#trType_unselectable" coords="107,114,218,139" />
+                                 <area alt="table_xsd.tmp#trType_selected" href="table_xsd.html#trType_selected" coords="107,149,198,174" />
+                                 <area alt="table_xsd.tmp#trType_disabled" href="table_xsd.html#trType_disabled" coords="107,184,197,209" />
+                                 <area alt="table_xsd.tmp#trType_expandable" href="table_xsd.html#trType_expandable" coords="107,219,213,244" />
+                                 <area alt="table_xsd.tmp#trType_filterValues" href="table_xsd.html#trType_filterValues" coords="107,254,212,279" />
+                                 <area alt="table_xsd.tmp#trType_th" href="table_xsd.html#trType_th" coords="184,296,235,321" />
+                                 <area alt="table_xsd.tmp#trType_td" href="table_xsd.html#trType_td" coords="184,331,235,356" />
+                                 <area alt="table_xsd.tmp#trType_subTr" href="table_xsd.html#trType_subTr" coords="184,366,243,391" />
+                                 <area alt="table_xsd.tmp#trType" href="table_xsd.html#trType" coords="82,3,175,25" /></map></div>
                         </td>
                      </tr>
                      <tr>
@@ -3262,7 +3379,7 @@ var modelBoxes= new Array('model_table',
                         </td>
                         <td class="diagram">
                            <div id="diagram_trType_th" style="display:block"><img alt="Diagram" border="0" src="img/table_xsd_Element_ui_th_1.png" usemap="#table_xsd_Element_ui_th_1" /><map name="table_xsd_Element_ui_th_1" id="table_xsd_Element_ui_th_1">
-                                 <area alt="decoratedLabel_xsd.tmp#decoratedLabel" href="decoratedLabel_xsd.html#decoratedLabel" coords="150,6,276,30" /></map></div>
+                                 <area alt="decoratedLabel_xsd.tmp#decoratedLabel" href="decoratedLabel_xsd.html#decoratedLabel" coords="150,6,267,31" /></map></div>
                         </td>
                      </tr>
                      <tr>
@@ -3310,7 +3427,7 @@ var modelBoxes= new Array('model_table',
                               <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
                                  <tr>
                                     <td width="100%"><pre><span class="tEl">&lt;ui:th</span><span class="tT"> </span><span class="tAN">xmlns:ui=</span><span class="tAV">"https://github.com/bordertech/wcomponents/namespace/ui/v1.0"</span><span class="tEl">&gt;</span><span class="tI">
-  </span><span class="tEl">&lt;ui:decoratedLabel</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,1}</span><span class="tEl">&lt;/ui:decoratedLabel&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:decoratedLabel</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">type=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,1}</span><span class="tEl">&lt;/ui:decoratedLabel&gt;</span><span class="tI">
 </span><span class="tEl">&lt;/ui:th&gt;</span></pre></td>
                                  </tr>
                               </table>
@@ -3462,9 +3579,9 @@ var modelBoxes= new Array('model_table',
                         </td>
                         <td class="diagram">
                            <div id="diagram_trType_subTr" style="display:block"><img alt="Diagram" border="0" src="img/table_xsd_Element_ui_subTr.png" usemap="#table_xsd_Element_ui_subTr" /><map name="table_xsd_Element_ui_subTr" id="table_xsd_Element_ui_subTr">
-                                 <area alt="table_xsd.tmp#trType_trType_subTr_open" href="table_xsd.html#trType_trType_subTr_open" coords="105,40,180,64" />
-                                 <area alt="table_xsd.tmp#trType_trType_subTr_tr" href="table_xsd.html#trType_trType_subTr_tr" coords="183,81,234,105" />
-                                 <area alt="table_xsd.tmp#trType_trType_subTr_content" href="table_xsd.html#trType_trType_subTr_content" coords="183,115,255,139" /></map></div>
+                                 <area alt="table_xsd.tmp#trType_trType_subTr_open" href="table_xsd.html#trType_trType_subTr_open" coords="101,41,175,66" />
+                                 <area alt="table_xsd.tmp#trType_trType_subTr_tr" href="table_xsd.html#trType_trType_subTr_tr" coords="178,83,229,108" />
+                                 <area alt="table_xsd.tmp#trType_trType_subTr_content" href="table_xsd.html#trType_trType_subTr_content" coords="178,118,245,143" /></map></div>
                         </td>
                      </tr>
                      <tr>
@@ -3608,16 +3725,16 @@ var modelBoxes= new Array('model_table',
                         </td>
                         <td class="diagram">
                            <div id="diagram_trType_trType_subTr_tr" style="display:block"><img alt="Diagram" border="0" src="img/table_xsd_Element_ui_tr.png" usemap="#table_xsd_Element_ui_tr" /><map name="table_xsd_Element_ui_tr" id="table_xsd_Element_ui_tr">
-                                 <area alt="table_xsd.tmp#trType_rowIndex" href="table_xsd.html#trType_rowIndex" coords="107,78,205,102" />
-                                 <area alt="table_xsd.tmp#trType_unselectable" href="table_xsd.html#trType_unselectable" coords="107,112,222,136" />
-                                 <area alt="table_xsd.tmp#trType_selected" href="table_xsd.html#trType_selected" coords="107,146,199,170" />
-                                 <area alt="table_xsd.tmp#trType_disabled" href="table_xsd.html#trType_disabled" coords="107,180,200,204" />
-                                 <area alt="table_xsd.tmp#trType_expandable" href="table_xsd.html#trType_expandable" coords="107,214,217,238" />
-                                 <area alt="table_xsd.tmp#trType_filterValues" href="table_xsd.html#trType_filterValues" coords="107,248,215,272" />
-                                 <area alt="table_xsd.tmp#trType_th" href="table_xsd.html#trType_th" coords="185,289,236,313" />
-                                 <area alt="table_xsd.tmp#trType_td" href="table_xsd.html#trType_td" coords="185,323,236,347" />
-                                 <area alt="table_xsd.tmp#trType_subTr" href="table_xsd.html#trType_subTr" coords="185,357,248,381" />
-                                 <area alt="table_xsd.tmp#trType" href="table_xsd.html#trType" coords="82,3,181,25" /></map></div>
+                                 <area alt="table_xsd.tmp#trType_rowIndex" href="table_xsd.html#trType_rowIndex" coords="107,79,203,104" />
+                                 <area alt="table_xsd.tmp#trType_unselectable" href="table_xsd.html#trType_unselectable" coords="107,114,218,139" />
+                                 <area alt="table_xsd.tmp#trType_selected" href="table_xsd.html#trType_selected" coords="107,149,198,174" />
+                                 <area alt="table_xsd.tmp#trType_disabled" href="table_xsd.html#trType_disabled" coords="107,184,197,209" />
+                                 <area alt="table_xsd.tmp#trType_expandable" href="table_xsd.html#trType_expandable" coords="107,219,213,244" />
+                                 <area alt="table_xsd.tmp#trType_filterValues" href="table_xsd.html#trType_filterValues" coords="107,254,212,279" />
+                                 <area alt="table_xsd.tmp#trType_th" href="table_xsd.html#trType_th" coords="184,296,235,321" />
+                                 <area alt="table_xsd.tmp#trType_td" href="table_xsd.html#trType_td" coords="184,331,235,356" />
+                                 <area alt="table_xsd.tmp#trType_subTr" href="table_xsd.html#trType_subTr" coords="184,366,243,391" />
+                                 <area alt="table_xsd.tmp#trType" href="table_xsd.html#trType" coords="82,3,175,25" /></map></div>
                         </td>
                      </tr>
                      <tr>
@@ -3790,7 +3907,7 @@ var modelBoxes= new Array('model_table',
                         </td>
                         <td class="diagram">
                            <div id="diagram_trType_trType_subTr_content" style="display:block"><img alt="Diagram" border="0" src="img/table_xsd_Element_ui_content.png" usemap="#table_xsd_Element_ui_content" /><map name="table_xsd_Element_ui_content" id="table_xsd_Element_ui_content">
-                                 <area alt="table_xsd.tmp#trType_trType_subTr_trType_trType_subTr_content_spanAllCols" href="table_xsd.html#trType_trType_subTr_trType_trType_subTr_content_spanAllCols" coords="114,40,226,64" /></map></div>
+                                 <area alt="table_xsd.tmp#trType_trType_subTr_trType_trType_subTr_content_spanAllCols" href="table_xsd.html#trType_trType_subTr_trType_trType_subTr_content_spanAllCols" coords="109,41,216,66" /></map></div>
                         </td>
                      </tr>
                      <tr>
@@ -3903,8 +4020,12 @@ var modelBoxes= new Array('model_table',
                         </td>
                         <td>
                            <div id="annotations_table_actions" style="display:block">
-                              <div class="annotation">A container for actions which are bound to the table. Some of the options of each
-                                 action are dependant on the table supporting row selection.
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">A container for actions which are bound to the table. Some of the options of each action are dependant on the table supporting row selection.</span></pre></td>
+                                    </tr>
+                                 </table>
                               </div>
                            </div>
                         </td>
@@ -3916,7 +4037,7 @@ var modelBoxes= new Array('model_table',
                         </td>
                         <td class="diagram">
                            <div id="diagram_table_actions" style="display:block"><img alt="Diagram" border="0" src="img/table_xsd_Element_ui_actions.png" usemap="#table_xsd_Element_ui_actions" /><map name="table_xsd_Element_ui_actions" id="table_xsd_Element_ui_actions">
-                                 <area alt="table_xsd.tmp#table_table_actions_action" href="table_xsd.html#table_table_actions_action" coords="210,6,274,30" /></map></div>
+                                 <area alt="table_xsd.tmp#table_table_actions_action" href="table_xsd.html#table_table_actions_action" coords="205,6,265,31" /></map></div>
                         </td>
                      </tr>
                      <tr>
@@ -4076,7 +4197,13 @@ var modelBoxes= new Array('model_table',
                         </td>
                         <td>
                            <div id="annotations_table_table_actions_action" style="display:block">
-                              <div class="annotation">A single command which can be bound to a table's selected row(s).</div>
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">A single command which can be bound to a table's selected row(s).</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
                            </div>
                         </td>
                      </tr>
@@ -4087,9 +4214,9 @@ var modelBoxes= new Array('model_table',
                         </td>
                         <td class="diagram">
                            <div id="diagram_table_table_actions_action" style="display:block"><img alt="Diagram" border="0" src="img/table_xsd_Element_ui_action.png" usemap="#table_xsd_Element_ui_action" /><map name="table_xsd_Element_ui_action" id="table_xsd_Element_ui_action">
-                                 <area alt="table_xsd.tmp#table_table_actions_table_table_actions_action_condition" href="table_xsd.html#table_table_actions_table_table_actions_action_condition" coords="204,2,286,26" />
-                                 <area alt="button_xsd.tmp#button" href="button_xsd.html#button" coords="204,92,284,116" />
-                                 <area alt="ajaxTrigger_xsd.tmp#ajaxTrigger" href="ajaxTrigger_xsd.html#ajaxTrigger" coords="204,126,310,150" /></map></div>
+                                 <area alt="table_xsd.tmp#table_table_actions_table_table_actions_action_condition" href="table_xsd.html#table_table_actions_table_table_actions_action_condition" coords="199,2,273,27" />
+                                 <area alt="button_xsd.tmp#button" href="button_xsd.html#button" coords="199,96,271,121" />
+                                 <area alt="ajaxTrigger_xsd.tmp#ajaxTrigger" href="ajaxTrigger_xsd.html#ajaxTrigger" coords="199,131,295,156" /></map></div>
                         </td>
                      </tr>
                      <tr>
@@ -4246,9 +4373,12 @@ var modelBoxes= new Array('model_table',
                         </td>
                         <td>
                            <div id="annotations_table_table_actions_table_table_actions_action_condition" style="display:block">
-                              <div class="annotation">Provides a rule which determines whether the action may  be processed based on row
-                                 selection. Not applicable if the nearest ancestor ui:table does not have a ui:rowSelection
-                                 child.
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Provides a rule which determines whether the action may  be processed based on row selection. Not applicable if the nearest ancestor ui:table does not have a ui:rowSelection child.</span></pre></td>
+                                    </tr>
+                                 </table>
                               </div>
                            </div>
                         </td>
@@ -4260,10 +4390,10 @@ var modelBoxes= new Array('model_table',
                         </td>
                         <td class="diagram">
                            <div id="diagram_table_table_actions_table_table_actions_action_condition" style="display:block"><img alt="Diagram" border="0" src="img/table_xsd_Element_ui_condition.png" usemap="#table_xsd_Element_ui_condition" /><map name="table_xsd_Element_ui_condition" id="table_xsd_Element_ui_condition">
-                                 <area alt="table_xsd.tmp#table_table_actions_table_table_actions_action_table_table_actions_table_table_actions_action_condition_minSelectedRows" href="table_xsd.html#table_table_actions_table_table_actions_action_table_table_actions_table_table_actions_action_condition_minSelectedRows" coords="144,40,284,64" />
-                                 <area alt="table_xsd.tmp#table_table_actions_table_table_actions_action_table_table_actions_table_table_actions_action_condition_maxSelectedRows" href="table_xsd.html#table_table_actions_table_table_actions_action_table_table_actions_table_table_actions_action_condition_maxSelectedRows" coords="144,117,287,141" />
-                                 <area alt="table_xsd.tmp#table_table_actions_table_table_actions_action_table_table_actions_table_table_actions_action_condition_type" href="table_xsd.html#table_table_actions_table_table_actions_action_table_table_actions_table_table_actions_action_condition_type" coords="144,194,215,218" />
-                                 <area alt="table_xsd.tmp#table_table_actions_table_table_actions_action_table_table_actions_table_table_actions_action_condition_message" href="table_xsd.html#table_table_actions_table_table_actions_action_table_table_actions_table_table_actions_action_condition_message" coords="144,284,239,308" /></map></div>
+                                 <area alt="table_xsd.tmp#table_table_actions_table_table_actions_action_table_table_actions_table_table_actions_action_condition_minSelectedRows" href="table_xsd.html#table_table_actions_table_table_actions_action_table_table_actions_table_table_actions_action_condition_minSelectedRows" coords="136,41,273,66" />
+                                 <area alt="table_xsd.tmp#table_table_actions_table_table_actions_action_table_table_actions_table_table_actions_action_condition_maxSelectedRows" href="table_xsd.html#table_table_actions_table_table_actions_action_table_table_actions_table_table_actions_action_condition_maxSelectedRows" coords="136,121,277,146" />
+                                 <area alt="table_xsd.tmp#table_table_actions_table_table_actions_action_table_table_actions_table_table_actions_action_condition_type" href="table_xsd.html#table_table_actions_table_table_actions_action_table_table_actions_table_table_actions_action_condition_type" coords="136,201,207,226" />
+                                 <area alt="table_xsd.tmp#table_table_actions_table_table_actions_action_table_table_actions_table_table_actions_action_condition_message" href="table_xsd.html#table_table_actions_table_table_actions_action_table_table_actions_table_table_actions_action_condition_message" coords="136,295,230,320" /></map></div>
                         </td>
                      </tr>
                      <tr>
@@ -4311,9 +4441,12 @@ var modelBoxes= new Array('model_table',
                                     <td><b>xs:positiveInteger</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Provides the maximum number of rows which must be selected before the action can be
-                                          successfully invoked. If the ui:rowSelection/@multiple attribute is not true then
-                                          a max of any number greater than one is meaningless.
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Provides the maximum number of rows which must be selected before the action can be successfully invoked. If the ui:rowSelection/@multiple attribute is not true then a max of any number greater than one is meaningless.</span></pre></td>
+                                             </tr>
+                                          </table>
                                        </div>
                                     </td>
                                  </tr>
@@ -4322,7 +4455,13 @@ var modelBoxes= new Array('model_table',
                                     <td><b>xs:string</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">The message to display to the user if the condition is not met.</div>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">The message to display to the user if the condition is not met.</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
@@ -4330,9 +4469,12 @@ var modelBoxes= new Array('model_table',
                                     <td><b>xs:positiveInteger</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Provides the minimum number of rows which must be selected before the action can be
-                                          successfully invoked. If the ui:rowSelection/@multiple attribute is not true then
-                                          a min of any number greater than one is meaningless.
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Provides the minimum number of rows which must be selected before the action can be successfully invoked. If the ui:rowSelection/@multiple attribute is not true then a min of any number greater than one is meaningless.</span></pre></td>
+                                             </tr>
+                                          </table>
                                        </div>
                                     </td>
                                  </tr>
@@ -4341,8 +4483,12 @@ var modelBoxes= new Array('model_table',
                                     <td>restriction of <b>xs:NMTOKEN</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Provides the interruption type which determines whether an action may proceed if the
-                                          condition is not met.
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Provides the interruption type which determines whether an action may proceed if the condition is not met.</span></pre></td>
+                                             </tr>
+                                          </table>
                                        </div>
                                     </td>
                                  </tr>
@@ -4438,7 +4584,13 @@ var modelBoxes= new Array('model_table',
                         </td>
                         <td>
                            <div id="annotations_trType" style="display:block">
-                              <div class="annotation">Describes rows of content cells within the table.</div>
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Describes rows of content cells within the table.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
                            </div>
                         </td>
                      </tr>
@@ -4449,15 +4601,15 @@ var modelBoxes= new Array('model_table',
                         </td>
                         <td class="diagram">
                            <div id="diagram_trType" style="display:block"><img alt="Diagram" border="0" src="img/table_xsd_Complex_Type_ui_trType.png" usemap="#table_xsd_Complex_Type_ui_trType" /><map name="table_xsd_Complex_Type_ui_trType" id="table_xsd_Complex_Type_ui_trType">
-                                 <area alt="table_xsd.tmp#trType_rowIndex" href="table_xsd.html#trType_rowIndex" coords="152,38,250,62" />
-                                 <area alt="table_xsd.tmp#trType_unselectable" href="table_xsd.html#trType_unselectable" coords="152,72,267,96" />
-                                 <area alt="table_xsd.tmp#trType_selected" href="table_xsd.html#trType_selected" coords="152,106,244,130" />
-                                 <area alt="table_xsd.tmp#trType_disabled" href="table_xsd.html#trType_disabled" coords="152,140,245,164" />
-                                 <area alt="table_xsd.tmp#trType_expandable" href="table_xsd.html#trType_expandable" coords="152,174,262,198" />
-                                 <area alt="table_xsd.tmp#trType_filterValues" href="table_xsd.html#trType_filterValues" coords="152,208,260,232" />
-                                 <area alt="table_xsd.tmp#trType_th" href="table_xsd.html#trType_th" coords="230,249,281,273" />
-                                 <area alt="table_xsd.tmp#trType_td" href="table_xsd.html#trType_td" coords="230,283,281,307" />
-                                 <area alt="table_xsd.tmp#trType_subTr" href="table_xsd.html#trType_subTr" coords="230,317,293,341" /></map></div>
+                                 <area alt="table_xsd.tmp#trType_rowIndex" href="table_xsd.html#trType_rowIndex" coords="148,39,244,64" />
+                                 <area alt="table_xsd.tmp#trType_unselectable" href="table_xsd.html#trType_unselectable" coords="148,74,259,99" />
+                                 <area alt="table_xsd.tmp#trType_selected" href="table_xsd.html#trType_selected" coords="148,109,239,134" />
+                                 <area alt="table_xsd.tmp#trType_disabled" href="table_xsd.html#trType_disabled" coords="148,144,238,169" />
+                                 <area alt="table_xsd.tmp#trType_expandable" href="table_xsd.html#trType_expandable" coords="148,179,254,204" />
+                                 <area alt="table_xsd.tmp#trType_filterValues" href="table_xsd.html#trType_filterValues" coords="148,214,253,239" />
+                                 <area alt="table_xsd.tmp#trType_th" href="table_xsd.html#trType_th" coords="225,256,276,281" />
+                                 <area alt="table_xsd.tmp#trType_td" href="table_xsd.html#trType_td" coords="225,291,276,316" />
+                                 <area alt="table_xsd.tmp#trType_subTr" href="table_xsd.html#trType_subTr" coords="225,326,284,351" /></map></div>
                         </td>
                      </tr>
                      <tr>
@@ -4724,7 +4876,13 @@ var modelBoxes= new Array('model_table',
                         </td>
                         <td>
                            <div id="annotations_table_table_pagination_mode" style="display:block">
-                              <div class="annotation">Provides the mode for changing page.</div>
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Provides the mode for changing page.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
                            </div>
                         </td>
                      </tr>
@@ -4760,8 +4918,12 @@ var modelBoxes= new Array('model_table',
                                     <td class="firstColumn">enumeration</td>
                                     <td width="30%"><b>client</b></td>
                                     <td>
-                                       <div class="annotation">The content exists in the page and showing/hiding that content is purely a client-side
-                                          process.
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">The content exists in the page and showing/hiding that content is purely a client-side process.</span></pre></td>
+                                             </tr>
+                                          </table>
                                        </div>
                                     </td>
                                  </tr>
@@ -4769,16 +4931,25 @@ var modelBoxes= new Array('model_table',
                                     <td class="firstColumn">enumeration</td>
                                     <td width="30%"><b>dynamic</b></td>
                                     <td>
-                                       <div class="annotation">The content is fetched from the server using AJAX each time the content is displayed.</div>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">The content is fetched from the server using AJAX each time the content is displayed.</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
                                     <td class="firstColumn">enumeration</td>
                                     <td width="30%"><b>server</b></td>
                                     <td>
-                                       <div class="annotation">Interacting with the pagination controls will result in a full application POST and
-                                          page change is done as a server process. This mode is deprecated and is available
-                                          only for backwards compatibilty with a deprecated form of the table component.
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Interacting with the pagination controls will result in a full application POST and page change is done as a server process. This mode is deprecated and is available only for backwards compatibilty with a deprecated form of the table component.</span></pre></td>
+                                             </tr>
+                                          </table>
                                        </div>
                                     </td>
                                  </tr>
@@ -4873,7 +5044,13 @@ var modelBoxes= new Array('model_table',
                         </td>
                         <td>
                            <div id="annotations_table_table_pagination_rows" style="display:block">
-                              <div class="annotation">Indicates the total number of rows in the table.</div>
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Indicates the total number of rows in the table.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
                            </div>
                         </td>
                      </tr>
@@ -4965,8 +5142,12 @@ var modelBoxes= new Array('model_table',
                         </td>
                         <td>
                            <div id="annotations_table_table_pagination_rowsPerPage" style="display:block">
-                              <div class="annotation">Indicates the number of rows to show per page. If not set then show all rows in the
-                                 current view.
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Indicates the number of rows to show per page. If not set then show all rows in the current view.</span></pre></td>
+                                    </tr>
+                                 </table>
                               </div>
                            </div>
                         </td>
@@ -5059,7 +5240,13 @@ var modelBoxes= new Array('model_table',
                         </td>
                         <td>
                            <div id="annotations_table_table_pagination_currentPage" style="display:block">
-                              <div class="annotation">Indicates the page index of the page currently being shown.</div>
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Indicates the page index of the page currently being shown.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
                            </div>
                         </td>
                      </tr>
@@ -5151,8 +5338,12 @@ var modelBoxes= new Array('model_table',
                         </td>
                         <td>
                            <div id="annotations_table_table_rowSelection_multiple" style="display:block">
-                              <div class="annotation">Indicates that more than one row may be selected at a time in a manner similar to
-                                 a group of check boxes. Not output if "false".
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Indicates that more than one row may be selected at a time in a manner similar to a group of check boxes. Not output if "false".</span></pre></td>
+                                    </tr>
+                                 </table>
                               </div>
                            </div>
                         </td>
@@ -5245,8 +5436,12 @@ var modelBoxes= new Array('model_table',
                         </td>
                         <td>
                            <div id="annotations_table_table_rowSelection_groupName" style="display:block">
-                              <div class="annotation">Provides a link with a WSelectToggle so that the WSelectToggle can include row selection
-                                 in its target group. Only applicable if @multiple is "true".
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Provides a link with a WSelectToggle so that the WSelectToggle can include row selection in its target group. Only applicable if @multiple is "true".</span></pre></td>
+                                    </tr>
+                                 </table>
                               </div>
                            </div>
                         </td>
@@ -5339,8 +5534,12 @@ var modelBoxes= new Array('model_table',
                         </td>
                         <td>
                            <div id="annotations_table_table_rowSelection_selectAll" style="display:block">
-                              <div class="annotation">Indicates that the user should be provided with control(s) to select and deselect
-                                 all selectable rows. Only applicable if @multiple is "true".
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Indicates that the user should be provided with control(s) to select and deselect all selectable rows. Only applicable if @multiple is "true".</span></pre></td>
+                                    </tr>
+                                 </table>
                               </div>
                            </div>
                         </td>
@@ -5377,8 +5576,12 @@ var modelBoxes= new Array('model_table',
                                     <td class="firstColumn">enumeration</td>
                                     <td width="30%"><b>text</b></td>
                                     <td>
-                                       <div class="annotation">Render the controls in a text form as two separate controls: one to select and one
-                                          to deselect.
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Render the controls in a text form as two separate controls: one to select and one to deselect.</span></pre></td>
+                                             </tr>
+                                          </table>
                                        </div>
                                     </td>
                                  </tr>
@@ -5386,7 +5589,13 @@ var modelBoxes= new Array('model_table',
                                     <td class="firstColumn">enumeration</td>
                                     <td width="30%"><b>control</b></td>
                                     <td>
-                                       <div class="annotation">Render the control as a single toggle control.</div>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Render the control as a single toggle control.</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
                                     </td>
                                  </tr>
                               </table>
@@ -5475,7 +5684,13 @@ var modelBoxes= new Array('model_table',
                         </td>
                         <td>
                            <div id="annotations_table_table_rowExpansion_mode" style="display:block">
-                              <div class="annotation">Provides the mode for expanding rows.</div>
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Provides the mode for expanding rows.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
                            </div>
                         </td>
                      </tr>
@@ -5511,8 +5726,12 @@ var modelBoxes= new Array('model_table',
                                     <td class="firstColumn">enumeration</td>
                                     <td width="30%"><b>client</b></td>
                                     <td>
-                                       <div class="annotation">The content exists in the page and showing/hiding that content is purely a client-side
-                                          process.
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">The content exists in the page and showing/hiding that content is purely a client-side process.</span></pre></td>
+                                             </tr>
+                                          </table>
                                        </div>
                                     </td>
                                  </tr>
@@ -5520,15 +5739,25 @@ var modelBoxes= new Array('model_table',
                                     <td class="firstColumn">enumeration</td>
                                     <td width="30%"><b>dynamic</b></td>
                                     <td>
-                                       <div class="annotation">The content is fetched from the server using AJAX each time the content is displayed.</div>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">The content is fetched from the server using AJAX each time the content is displayed.</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
                                     <td class="firstColumn">enumeration</td>
                                     <td width="30%"><b>lazy</b></td>
                                     <td>
-                                       <div class="annotation">The content is fetched from the server the first time the content is displayed then
-                                          remains static for the rest fo the lifecycle of the page.
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">The content is fetched from the server the first time the content is displayed then remains static for the rest fo the lifecycle of the page.</span></pre></td>
+                                             </tr>
+                                          </table>
                                        </div>
                                     </td>
                                  </tr>
@@ -5536,11 +5765,13 @@ var modelBoxes= new Array('model_table',
                                     <td class="firstColumn">enumeration</td>
                                     <td width="30%"><b>server</b></td>
                                     <td>
-                                       <div class="annotation">The content is not part of the page's XML unless it is in a visible (open) state and
-                                          a user action to display the content will result in the entire
-                                          												application POSTing to the server application. This mode is deprecated
-                                          and is available only for backwards compatibilty with a deprecated form of the table
-                                          component.
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">The content is not part of the page's XML unless it is in a visible (open) state and a user action to display the content will result in the entire</span><span class="tI">
+</span><span class="tT">application POSTing to the server application. This mode is deprecated and is available only for backwards compatibilty with a deprecated form of the table component.</span></pre></td>
+                                             </tr>
+                                          </table>
                                        </div>
                                     </td>
                                  </tr>
@@ -5640,8 +5871,12 @@ var modelBoxes= new Array('model_table',
                         </td>
                         <td>
                            <div id="annotations_table_table_rowExpansion_expandAll" style="display:block">
-                              <div class="annotation">Indicates that a control should be provided to allow the user to expand or collapse
-                                 all available expandable rows.
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Indicates that a control should be provided to allow the user to expand or collapse all available expandable rows.</span></pre></td>
+                                    </tr>
+                                 </table>
                               </div>
                            </div>
                         </td>
@@ -5734,7 +5969,13 @@ var modelBoxes= new Array('model_table',
                         </td>
                         <td>
                            <div id="annotations_table_table_sort_mode" style="display:block">
-                              <div class="annotation">Provides the mode for sorting the table data.</div>
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Provides the mode for sorting the table data.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
                            </div>
                         </td>
                      </tr>
@@ -5770,16 +6011,25 @@ var modelBoxes= new Array('model_table',
                                     <td class="firstColumn">enumeration</td>
                                     <td width="30%"><b>dynamic</b></td>
                                     <td>
-                                       <div class="annotation">The sorted table is fetched from the server using AJAX.</div>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">The sorted table is fetched from the server using AJAX.</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
                                     <td class="firstColumn">enumeration</td>
                                     <td width="30%"><b>server</b></td>
                                     <td>
-                                       <div class="annotation">Interacting with the sort controls will result in a full application POST andsorting
-                                          is done as a server process. This mode is deprecated and is available only for backwards
-                                          compatibilty with a deprecated form of the table component.
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Interacting with the sort controls will result in a full application POST andsorting is done as a server process. This mode is deprecated and is available only for backwards compatibilty with a deprecated form of the table component.</span></pre></td>
+                                             </tr>
+                                          </table>
                                        </div>
                                     </td>
                                  </tr>
@@ -5869,7 +6119,13 @@ var modelBoxes= new Array('model_table',
                         </td>
                         <td>
                            <div id="annotations_table_table_sort_col" style="display:block">
-                              <div class="annotation">The index of the column on which the table is currently sorted.</div>
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">The index of the column on which the table is currently sorted.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
                            </div>
                         </td>
                      </tr>
@@ -5961,7 +6217,13 @@ var modelBoxes= new Array('model_table',
                         </td>
                         <td>
                            <div id="annotations_table_table_sort_descending" style="display:block">
-                              <div class="annotation">Indicates that the column sort order is 'descending'. Not output if "false".</div>
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Indicates that the column sort order is 'descending'. Not output if "false".</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
                            </div>
                         </td>
                      </tr>
@@ -6053,9 +6315,12 @@ var modelBoxes= new Array('model_table',
                         </td>
                         <td>
                            <div id="annotations_table_table_thead_table_table_thead_th_width" style="display:block">
-                              <div class="annotation">Provides a preferred width for the column as a percentage of available space. Honoured
-                                 by all common browsers unless the table content weighting forces the columns to resize
-                                 to a smaller width or if the total width of all columns is greater than 100%.
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Provides a preferred width for the column as a percentage of available space. Honoured by all common browsers unless the table content weighting forces the columns to resize to a smaller width or if the total width of all columns is greater than 100%.</span></pre></td>
+                                    </tr>
+                                 </table>
                               </div>
                            </div>
                         </td>
@@ -6180,9 +6445,12 @@ var modelBoxes= new Array('model_table',
                         </td>
                         <td>
                            <div id="annotations_table_table_thead_table_table_thead_th_sortable" style="display:block">
-                              <div class="annotation">Indicates that the table may be sorted according to the data in this column. Only
-                                 applied if a ui:sort element is a sibling of the ui:thead element parent of this column
-                                 header.
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Indicates that the table may be sorted according to the data in this column. Only applied if a ui:sort element is a sibling of the ui:thead element parent of this column header.</span></pre></td>
+                                    </tr>
+                                 </table>
                               </div>
                            </div>
                         </td>
@@ -6275,7 +6543,13 @@ var modelBoxes= new Array('model_table',
                         </td>
                         <td>
                            <div id="annotations_table_table_thead_table_table_thead_th_align" style="display:block">
-                              <div class="annotation">Provides the preferred content alignment for the column. If onitted "left" is assumed.</div>
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Provides the preferred content alignment for the column. If onitted "left" is assumed.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
                            </div>
                         </td>
                      </tr>
@@ -7177,9 +7451,12 @@ var modelBoxes= new Array('model_table',
                         </td>
                         <td>
                            <div id="annotations_table_table_actions_table_table_actions_action_table_table_actions_table_table_actions_action_condition_minSelectedRows" style="display:block">
-                              <div class="annotation">Provides the minimum number of rows which must be selected before the action can be
-                                 successfully invoked. If the ui:rowSelection/@multiple attribute is not true then
-                                 a min of any number greater than one is meaningless.
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Provides the minimum number of rows which must be selected before the action can be successfully invoked. If the ui:rowSelection/@multiple attribute is not true then a min of any number greater than one is meaningless.</span></pre></td>
+                                    </tr>
+                                 </table>
                               </div>
                            </div>
                         </td>
@@ -7272,9 +7549,12 @@ var modelBoxes= new Array('model_table',
                         </td>
                         <td>
                            <div id="annotations_table_table_actions_table_table_actions_action_table_table_actions_table_table_actions_action_condition_maxSelectedRows" style="display:block">
-                              <div class="annotation">Provides the maximum number of rows which must be selected before the action can be
-                                 successfully invoked. If the ui:rowSelection/@multiple attribute is not true then
-                                 a max of any number greater than one is meaningless.
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Provides the maximum number of rows which must be selected before the action can be successfully invoked. If the ui:rowSelection/@multiple attribute is not true then a max of any number greater than one is meaningless.</span></pre></td>
+                                    </tr>
+                                 </table>
                               </div>
                            </div>
                         </td>
@@ -7367,8 +7647,12 @@ var modelBoxes= new Array('model_table',
                         </td>
                         <td>
                            <div id="annotations_table_table_actions_table_table_actions_action_table_table_actions_table_table_actions_action_condition_type" style="display:block">
-                              <div class="annotation">Provides the interruption type which determines whether an action may proceed if the
-                                 condition is not met.
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Provides the interruption type which determines whether an action may proceed if the condition is not met.</span></pre></td>
+                                    </tr>
+                                 </table>
                               </div>
                            </div>
                         </td>
@@ -7405,14 +7689,26 @@ var modelBoxes= new Array('model_table',
                                     <td class="firstColumn">enumeration</td>
                                     <td width="30%"><b>warning</b></td>
                                     <td>
-                                       <div class="annotation">The user will be warned but may choose to continue the action.</div>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">The user will be warned but may choose to continue the action.</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
                                     <td class="firstColumn">enumeration</td>
                                     <td width="30%"><b>error</b></td>
                                     <td>
-                                       <div class="annotation">The action will be prevented and the message displayed to the user.</div>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">The action will be prevented and the message displayed to the user.</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
                                     </td>
                                  </tr>
                               </table>
@@ -7501,7 +7797,13 @@ var modelBoxes= new Array('model_table',
                         </td>
                         <td>
                            <div id="annotations_table_table_actions_table_table_actions_action_table_table_actions_table_table_actions_action_condition_message" style="display:block">
-                              <div class="annotation">The message to display to the user if the condition is not met.</div>
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">The message to display to the user if the condition is not met.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
                            </div>
                         </td>
                      </tr>
@@ -7593,8 +7895,12 @@ var modelBoxes= new Array('model_table',
                         </td>
                         <td>
                            <div id="annotations_table_disabled" style="display:block">
-                              <div class="annotation">Indicates that interactive aspects of the table (pagination, rowExpansion, rowSelection
-                                 and sort) should be disabled.
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Indicates that interactive aspects of the table (pagination, rowExpansion, rowSelection and sort) should be disabled.</span></pre></td>
+                                    </tr>
+                                 </table>
                               </div>
                            </div>
                         </td>
@@ -7687,7 +7993,13 @@ var modelBoxes= new Array('model_table',
                         </td>
                         <td>
                            <div id="annotations_table_caption" style="display:block">
-                              <div class="annotation">Provides a human readable description of the intent of the table.</div>
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Provides a human readable description of the intent of the table.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
                            </div>
                         </td>
                      </tr>
@@ -7779,7 +8091,13 @@ var modelBoxes= new Array('model_table',
                         </td>
                         <td>
                            <div id="annotations_table_summary" style="display:block">
-                              <div class="annotation">No longer supported.</div>
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">No longer supported.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
                            </div>
                         </td>
                      </tr>
@@ -7871,7 +8189,13 @@ var modelBoxes= new Array('model_table',
                         </td>
                         <td>
                            <div id="annotations_table_striping" style="display:block">
-                              <div class="annotation">Provides a flag to style alternate rows or columns to improve table usability.</div>
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Provides a flag to style alternate rows or columns to improve table usability.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
                            </div>
                         </td>
                      </tr>
@@ -7995,7 +8319,13 @@ var modelBoxes= new Array('model_table',
                         </td>
                         <td>
                            <div id="annotations_table_showRowIndices" style="display:block">
-                              <div class="annotation">No longer supported.</div>
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">No longer supported.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
                            </div>
                         </td>
                      </tr>
@@ -8087,7 +8417,13 @@ var modelBoxes= new Array('model_table',
                         </td>
                         <td>
                            <div id="annotations_table_separators" style="display:block">
-                              <div class="annotation">Provides a flag to show row and/or column borders.</div>
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Provides a flag to show row and/or column borders.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
                            </div>
                         </td>
                      </tr>
@@ -8219,9 +8555,12 @@ var modelBoxes= new Array('model_table',
                         </td>
                         <td>
                            <div id="annotations_table_type" style="display:block">
-                              <div class="annotation">Determines the indentation mode of the table if it has expandable rows. No impact
-                                 if the table does not have a ui:rowExpansion child element or if there are no expandible
-                                 rows in the current view.
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Determines the indentation mode of the table if it has expandable rows. No impact if the table does not have a ui:rowExpansion child element or if there are no expandible rows in the current view.</span></pre></td>
+                                    </tr>
+                                 </table>
                               </div>
                            </div>
                         </td>
@@ -8346,7 +8685,13 @@ var modelBoxes= new Array('model_table',
                         </td>
                         <td>
                            <div id="annotations_table_activeFilters" style="display:block">
-                              <div class="annotation">Deprecated: do not use.</div>
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Deprecated: do not use.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
                            </div>
                         </td>
                      </tr>

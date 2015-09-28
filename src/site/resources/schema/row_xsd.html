@@ -392,15 +392,13 @@ var modelBoxes= new Array('model_row',
                         <td>
                            <div id="annotations_row" style="display:block">
                               <div class="annotation">
-                                 				
-                                 <p>WRow provides a single block container which contains a set of columns.</p>
-                                 				
-                                 <p>The height of the bounding box of the row is determined by the height of the child
-                                    column which has a bounding box with the greatest height or, when the child
-                                    					columns wrap due to having a total width in excess of 100%, the height of the
-                                    wrapped elements as determined by the output mechanism renderer.
-                                 </p>
-                                 			
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tEl">&lt;p</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">WRow provides a single block container which contains a set of columns.</span><span class="tEl">&lt;/p&gt;</span><span class="tI">
+</span><span class="tEl">&lt;p</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The height of the bounding box of the row is determined by the height of the child column which has a bounding box with the greatest height or, when the child columns wrap due to having a total width in excess of 100%, the height of the wrapped elements as determined by the output mechanism renderer.</span><span class="tEl">&lt;/p&gt;</span><span class="tI">
+</span></pre></td>
+                                    </tr>
+                                 </table>
                               </div>
                            </div>
                         </td>
@@ -412,10 +410,10 @@ var modelBoxes= new Array('model_row',
                         </td>
                         <td class="diagram">
                            <div id="diagram_row" style="display:block"><img alt="Diagram" border="0" src="img/row_xsd_Element_ui_row.png" usemap="#row_xsd_Element_ui_row" /><map name="row_xsd_Element_ui_row" id="row_xsd_Element_ui_row">
-                                 <area alt="attributeGroups_container_xsd.tmp#container.attributes" href="attributeGroups_container_xsd.html#container.attributes" coords="116,43,290,69" />
-                                 <area alt="row_xsd.tmp#row_hgap" href="row_xsd.html#row_hgap" coords="113,114,188,138" />
-                                 <area alt="margin_xsd.tmp#margin" href="margin_xsd.html#margin" coords="191,211,273,235" />
-                                 <area alt="row_xsd.tmp#row_column" href="row_xsd.html#row_column" coords="191,288,262,312" /></map></div>
+                                 <area alt="attributeGroups_container_xsd.tmp#container.attributes" href="attributeGroups_container_xsd.html#container.attributes" coords="116,44,275,70" />
+                                 <area alt="row_xsd.tmp#row_hgap" href="row_xsd.html#row_hgap" coords="113,116,187,141" />
+                                 <area alt="margin_xsd.tmp#margin" href="margin_xsd.html#margin" coords="190,217,264,242" />
+                                 <area alt="row_xsd.tmp#row_column" href="row_xsd.html#row_column" coords="190,297,255,322" /></map></div>
                         </td>
                      </tr>
                      <tr>
@@ -500,13 +498,15 @@ var modelBoxes= new Array('model_row',
                                     <td><b>xs:positiveInteger</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation"> The hgap attribute is used to provide the horizontal space between each column within
-                                          the row. It is applied only between sibling column
-                                          						elements and is not used to create space between the outermost columns and the
-                                          edge of the row's content box. If not specified then no gap is placed between
-                                          						columns, this is the equivalent of an assumed default of 0. The hgap attribute
-                                          will usually cause a column to have a smaller actual width than the notional
-                                          						width determined by the column's width attribute.
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">The hgap attribute is used to provide the horizontal space between each column within the row. It is applied only between sibling column</span><span class="tI">
+</span><span class="tT">elements and is not used to create space between the outermost columns and the edge of the row's content box. If not specified then no gap is placed between</span><span class="tI">
+</span><span class="tT">columns, this is the equivalent of an assumed default of 0. The hgap attribute will usually cause a column to have a smaller actual width than the notional</span><span class="tI">
+</span><span class="tT">width determined by the column's width attribute.</span></pre></td>
+                                             </tr>
+                                          </table>
                                        </div>
                                     </td>
                                  </tr>
@@ -515,7 +515,13 @@ var modelBoxes= new Array('model_row',
                                     <td><b>xs:boolean</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">The component will be in a hidden state if "true". Not output if "false".</div>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">The component will be in a hidden state if "true". Not output if "false".</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
@@ -523,7 +529,13 @@ var modelBoxes= new Array('model_row',
                                     <td><b>xs:ID</b></td>
                                     <td>required</td>
                                     <td>
-                                       <div class="annotation">The unique identifier for the component.</div>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">The unique identifier for the component.</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
@@ -531,7 +543,13 @@ var modelBoxes= new Array('model_row',
                                     <td><b>xs:boolean</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Indicates that the component should take part in web analytics tracking.</div>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Indicates that the component should take part in web analytics tracking.</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
                                     </td>
                                  </tr>
                               </table>
@@ -648,26 +666,14 @@ var modelBoxes= new Array('model_row',
                         <td>
                            <div id="annotations_row_column" style="display:block">
                               <div class="annotation">
-                                 							
-                                 <p>The column element child of the row element is created from WColumnRenderer and is
-                                    an artifact of WColumn. Each column in a row occupies a segment of
-                                    								the row bounding box.
-                                 </p>
-                                 							
-                                 <p>The width of a column is deemed to be a percentage of the available width of the row.
-                                    If the row has a hgap attribute then the actual width will be
-                                    								decreased to allow for this hgap.
-                                 </p>
-                                 							
-                                 <p>If the total width of all columns in a row exceeds 100% then columns which occur during
-                                    or after the point at which the total width exceeds 100 will
-                                    								wrap and the row's bounding box will increase in height accordingly.
-                                 </p>
-                                 							
-                                 <p>There is no guarantee that each column in a row will have the same height. The bounding
-                                    box of each column is determined by the column's content and
-                                    								is independent of all other columns in the row.
-                                 </p>
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tEl">&lt;p</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The column element child of the row element is created from WColumnRenderer and is an artifact of WColumn. Each column in a row occupies a segment of the row bounding box.</span><span class="tEl">&lt;/p&gt;</span><span class="tI">
+</span><span class="tEl">&lt;p</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The width of a column is deemed to be a percentage of the available width of the row. If the row has a hgap attribute then the actual width will be decreased to allow for this hgap.</span><span class="tEl">&lt;/p&gt;</span><span class="tI">
+</span><span class="tEl">&lt;p</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">If the total width of all columns in a row exceeds 100% then columns which occur during or after the point at which the total width exceeds 100 will wrap and the row's bounding box will increase in height accordingly.</span><span class="tEl">&lt;/p&gt;</span><span class="tI">
+</span><span class="tEl">&lt;p</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">There is no guarantee that each column in a row will have the same height. The bounding box of each column is determined by the column's content and is independent of all other columns in the row.</span><span class="tEl">&lt;/p&gt;</span></pre></td>
+                                    </tr>
+                                 </table>
                               </div>
                            </div>
                         </td>
@@ -679,9 +685,9 @@ var modelBoxes= new Array('model_row',
                         </td>
                         <td class="diagram">
                            <div id="diagram_row_column" style="display:block"><img alt="Diagram" border="0" src="img/row_xsd_Element_ui_column.png" usemap="#row_xsd_Element_ui_column" /><map name="row_xsd_Element_ui_column" id="row_xsd_Element_ui_column">
-                                 <area alt="row_xsd.tmp#row_row_column_id" href="row_xsd.html#row_row_column_id" coords="133,40,201,64" />
-                                 <area alt="row_xsd.tmp#row_row_column_width" href="row_xsd.html#row_row_column_width" coords="133,104,210,128" />
-                                 <area alt="row_xsd.tmp#row_row_column_align" href="row_xsd.html#row_row_column_align" coords="133,194,207,218" /></map></div>
+                                 <area alt="row_xsd.tmp#row_row_column_id" href="row_xsd.html#row_row_column_id" coords="127,41,197,66" />
+                                 <area alt="row_xsd.tmp#row_row_column_width" href="row_xsd.html#row_row_column_width" coords="127,107,204,132" />
+                                 <area alt="row_xsd.tmp#row_row_column_align" href="row_xsd.html#row_row_column_align" coords="127,201,199,226" /></map></div>
                         </td>
                      </tr>
                      <tr>
@@ -740,9 +746,13 @@ var modelBoxes= new Array('model_row',
                                     <td>restriction of <b>xs:token</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation"> The align attribute is used to indicate the ltr alignment of the content of the column.
-                                          If not specified then the default
-                                          									alignment is determined by the theme. 
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">The align attribute is used to indicate the ltr alignment of the content of the column. If not specified then the default</span><span class="tI">
+</span><span class="tT">alignment is determined by the theme.</span></pre></td>
+                                             </tr>
+                                          </table>
                                        </div>
                                     </td>
                                  </tr>
@@ -751,7 +761,13 @@ var modelBoxes= new Array('model_row',
                                     <td><b>xs:ID</b></td>
                                     <td>required</td>
                                     <td>
-                                       <div class="annotation">The unique identifier for the column.</div>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">The unique identifier for the column.</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
@@ -759,9 +775,13 @@ var modelBoxes= new Array('model_row',
                                     <td>restriction of <b>xs:int</b></td>
                                     <td>required</td>
                                     <td>
-                                       <div class="annotation">The width attribute int is deemed to be a percentage where the width of the column
-                                          (not allowing for hgap) is @width% of the width
-                                          									of the row. 
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">The width attribute int is deemed to be a percentage where the width of the column (not allowing for hgap) is @width% of the width</span><span class="tI">
+</span><span class="tT">of the row.</span></pre></td>
+                                             </tr>
+                                          </table>
                                        </div>
                                     </td>
                                  </tr>
@@ -859,7 +879,13 @@ var modelBoxes= new Array('model_row',
                         </td>
                         <td>
                            <div id="annotations_row_row_column_id" style="display:block">
-                              <div class="annotation">The unique identifier for the column.</div>
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">The unique identifier for the column.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
                            </div>
                         </td>
                      </tr>
@@ -951,9 +977,13 @@ var modelBoxes= new Array('model_row',
                         </td>
                         <td>
                            <div id="annotations_row_row_column_width" style="display:block">
-                              <div class="annotation">The width attribute int is deemed to be a percentage where the width of the column
-                                 (not allowing for hgap) is @width% of the width
-                                 									of the row. 
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">The width attribute int is deemed to be a percentage where the width of the column (not allowing for hgap) is @width% of the width</span><span class="tI">
+</span><span class="tT">of the row.</span></pre></td>
+                                    </tr>
+                                 </table>
                               </div>
                            </div>
                         </td>
@@ -1078,9 +1108,13 @@ var modelBoxes= new Array('model_row',
                         </td>
                         <td>
                            <div id="annotations_row_row_column_align" style="display:block">
-                              <div class="annotation"> The align attribute is used to indicate the ltr alignment of the content of the column.
-                                 If not specified then the default
-                                 									alignment is determined by the theme. 
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">The align attribute is used to indicate the ltr alignment of the content of the column. If not specified then the default</span><span class="tI">
+</span><span class="tT">alignment is determined by the theme.</span></pre></td>
+                                    </tr>
+                                 </table>
                               </div>
                            </div>
                         </td>
@@ -1213,13 +1247,15 @@ var modelBoxes= new Array('model_row',
                         </td>
                         <td>
                            <div id="annotations_row_hgap" style="display:block">
-                              <div class="annotation"> The hgap attribute is used to provide the horizontal space between each column within
-                                 the row. It is applied only between sibling column
-                                 						elements and is not used to create space between the outermost columns and the
-                                 edge of the row's content box. If not specified then no gap is placed between
-                                 						columns, this is the equivalent of an assumed default of 0. The hgap attribute
-                                 will usually cause a column to have a smaller actual width than the notional
-                                 						width determined by the column's width attribute.
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">The hgap attribute is used to provide the horizontal space between each column within the row. It is applied only between sibling column</span><span class="tI">
+</span><span class="tT">elements and is not used to create space between the outermost columns and the edge of the row's content box. If not specified then no gap is placed between</span><span class="tI">
+</span><span class="tT">columns, this is the equivalent of an assumed default of 0. The hgap attribute will usually cause a column to have a smaller actual width than the notional</span><span class="tI">
+</span><span class="tT">width determined by the column's width attribute.</span></pre></td>
+                                    </tr>
+                                 </table>
                               </div>
                            </div>
                         </td>

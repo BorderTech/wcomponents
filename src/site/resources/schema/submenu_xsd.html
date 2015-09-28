@@ -396,90 +396,49 @@ var modelBoxes= new Array('model_submenu',
                         <td>
                            <div id="annotations_submenu" style="display:block">
                               <div class="annotation">
-                                 				
-                                 <p xmlns="">WSubMenu provides a grouping mechanism for a set of items with in a WMenu where those
-                                    items have an intrinsic sematic group nature. In practice a submenu is a
-                                    					hideable set of items which is indicated by a label and interacting with the
-                                    label toggles the hidden state of the submenu's content.
-                                 </p>
-                                 				
-                                 <p xmlns="">WSubMenu expects that the POSTed form data contains:</p>
-                                 				
-                                 <table xmlns="">
-                                    					
-                                    <thead>
-                                       						
-                                       <tr>
-                                          							
-                                          <th>Field name</th>
-                                          							
-                                          <th>Type</th>
-                                          							
-                                          <th>Mandatory</th>
-                                          							
-                                          <th>Value</th>
-                                          							
-                                          <th>Notes</th>
-                                          						
-                                       </tr>
-                                       					
-                                    </thead>
-                                    					
-                                    <tbody>
-                                       						
-                                       <tr>
-                                          							
-                                          <td>@id</td>
-                                          							
-                                          <td>String</td>
-                                          							
-                                          <td>no</td>
-                                          							
-                                          <td>"x"</td>
-                                          							
-                                          <td>Value POSTed only if the WSubMenu is the item causing the form submission (using mode
-                                             server or as AJAX).
-                                          </td>
-                                          						
-                                       </tr>
-                                       						
-                                       <tr>
-                                          							
-                                          <td>@id.open</td>
-                                          							
-                                          <td>Boolean</td>
-                                          							
-                                          <td>no</td>
-                                          							
-                                          <td> </td>
-                                          							
-                                          <td>"true" if open, null or "false" if closed.</td>
-                                          						
-                                       </tr>
-                                       						
-                                       <tr>
-                                          							
-                                          <td>@id.selected</td>
-                                          							
-                                          <td>String</td>
-                                          							
-                                          <td>no</td>
-                                          							
-                                          <td>"x"</td>
-                                          							
-                                          <td>Value POSTed only if the WSubMenu is in the selected state.</td>
-                                          						
-                                       </tr>
-                                       					
-                                    </tbody>
-                                    				
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tEl">&lt;p</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">WSubMenu provides a grouping mechanism for a set of items with in a WMenu where those items have an intrinsic sematic group nature. In practice a submenu is a hideable set of items which is indicated by a label and interacting with the label toggles the hidden state of the submenu's content.</span><span class="tEl">&lt;/p&gt;</span><span class="tI">
+</span><span class="tEl">&lt;p</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">WSubMenu expects that the POSTed form data contains:</span><span class="tEl">&lt;/p&gt;</span><span class="tI">
+</span><span class="tEl">&lt;table</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;thead</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;tr</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;th</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Field name</span><span class="tEl">&lt;/th&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;th</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Type</span><span class="tEl">&lt;/th&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;th</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Mandatory</span><span class="tEl">&lt;/th&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;th</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Value</span><span class="tEl">&lt;/th&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;th</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Notes</span><span class="tEl">&lt;/th&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/tr&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/thead&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;tbody</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;tr</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">@id</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">String</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">no</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">"x"</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Value POSTed only if the WSubMenu is the item causing the form submission (using mode server or as AJAX).</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/tr&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;tr</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">@id.open</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Boolean</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">no</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">"true" if open, null or "false" if closed.</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/tr&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;tr</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">@id.selected</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">String</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">no</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">"x"</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Value POSTed only if the WSubMenu is in the selected state.</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/tr&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/tbody&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/table&gt;</span><span class="tI">
+</span><span class="tEl">&lt;p</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;strong</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Note:</span><span class="tEl">&lt;/strong&gt;</span><span class="tT" style="white-space:normal">WSubMenu expect its parent Menu to put the "-h" parameter in the request to indicate the sub-menu and its items have been included in the request.</span><span class="tEl">&lt;/p&gt;</span></pre></td>
+                                    </tr>
                                  </table>
-                                 				
-                                 <p xmlns="">
-                                    <strong>Note:</strong> WSubMenu expect its parent Menu to put the "-h" parameter in the request to indicate
-                                    the sub-menu and its items have been included in the
-                                    					request.
-                                 </p>
                               </div>
                            </div>
                         </td>
@@ -491,14 +450,14 @@ var modelBoxes= new Array('model_submenu',
                         </td>
                         <td class="diagram">
                            <div id="diagram_submenu" style="display:block"><img alt="Diagram" border="0" src="img/submenu_xsd_Element_ui_submenu.png" usemap="#submenu_xsd_Element_ui_submenu" /><map name="submenu_xsd_Element_ui_submenu" id="submenu_xsd_Element_ui_submenu">
-                                 <area alt="attributeGroups_button_xsd.tmp#button.attributes" href="attributeGroups_button_xsd.html#button.attributes" coords="146,43,305,69" />
-                                 <area alt="submenu_xsd.tmp#submenu_open" href="submenu_xsd.html#submenu_open" coords="143,127,218,151" />
-                                 <area alt="submenu_xsd.tmp#submenu_selectable" href="submenu_xsd.html#submenu_selectable" coords="143,217,244,241" />
-                                 <area alt="submenu_xsd.tmp#submenu_selected" href="submenu_xsd.html#submenu_selected" coords="143,307,235,331" />
-                                 <area alt="attributeGroups_common_xsd.tmp#ajax.mode.attributes" href="attributeGroups_common_xsd.html#ajax.mode.attributes" coords="146,387,324,413" />
-                                 <area alt="submenu_xsd.tmp#submenu_selectMode" href="submenu_xsd.html#submenu_selectMode" coords="143,428,251,452" />
-                                 <area alt="decoratedLabel_xsd.tmp#decoratedLabel" href="decoratedLabel_xsd.html#decoratedLabel" coords="200,525,326,549" />
-                                 <area alt="submenu_xsd.tmp#submenu_content" href="submenu_xsd.html#submenu_content" coords="200,615,272,639" /></map></div>
+                                 <area alt="attributeGroups_button_xsd.tmp#button.attributes" href="attributeGroups_button_xsd.html#button.attributes" coords="140,44,284,70" />
+                                 <area alt="submenu_xsd.tmp#submenu_open" href="submenu_xsd.html#submenu_open" coords="137,130,211,155" />
+                                 <area alt="submenu_xsd.tmp#submenu_selectable" href="submenu_xsd.html#submenu_selectable" coords="137,224,236,249" />
+                                 <area alt="submenu_xsd.tmp#submenu_selected" href="submenu_xsd.html#submenu_selected" coords="137,318,228,343" />
+                                 <area alt="attributeGroups_common_xsd.tmp#ajax.mode.attributes" href="attributeGroups_common_xsd.html#ajax.mode.attributes" coords="140,401,303,427" />
+                                 <area alt="submenu_xsd.tmp#submenu_selectMode" href="submenu_xsd.html#submenu_selectMode" coords="137,442,242,467" />
+                                 <area alt="decoratedLabel_xsd.tmp#decoratedLabel" href="decoratedLabel_xsd.html#decoratedLabel" coords="194,543,311,568" />
+                                 <area alt="submenu_xsd.tmp#submenu_content" href="submenu_xsd.html#submenu_content" coords="194,637,261,662" /></map></div>
                         </td>
                      </tr>
                      <tr>
@@ -554,7 +513,7 @@ var modelBoxes= new Array('model_submenu',
                               <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
                                  <tr>
                                     <td width="100%"><pre><span class="tEl">&lt;ui:submenu</span><span class="tT"> </span><span class="tAN">accessKey=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">disabled=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">mode=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">open=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">selectable=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">selected=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">selectMode=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">toolTip=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xmlns:ui=</span><span class="tAV">"https://github.com/bordertech/wcomponents/namespace/ui/v1.0"</span><span class="tEl">&gt;</span><span class="tI">
-  </span><span class="tEl">&lt;ui:decoratedLabel</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:decoratedLabel&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:decoratedLabel</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">type=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:decoratedLabel&gt;</span><span class="tI">
   </span><span class="tEl">&lt;ui:content</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:content&gt;</span><span class="tI">
 </span><span class="tEl">&lt;/ui:submenu&gt;</span></pre></td>
                                  </tr>
@@ -583,18 +542,16 @@ var modelBoxes= new Array('model_submenu',
                                     <td>restriction of <b>xs:string</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Sets a single modified key access key for a control. This attribute should be used
-                                          with caution as: 
-                                          <ul xmlns="">
-                                             						
-                                             <li>some user agents reserve some keys for internal use and do not expose them to the
-                                                client for use as access keys; and
-                                             </li>
-                                             						
-                                             <li>some keys may clash or cause issues with use of various assistive technologies.</li>
-                                             					
-                                          </ul>
-                                          				
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Sets a single modified key access key for a control. This attribute should be used with caution as:</span><span class="tEl">&lt;ul</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;li</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">some user agents reserve some keys for internal use and do not expose them to the client for use as access keys; and</span><span class="tEl">&lt;/li&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;li</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">some keys may clash or cause issues with use of various assistive technologies.</span><span class="tEl">&lt;/li&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/ul&gt;</span><span class="tI">
+</span></pre></td>
+                                             </tr>
+                                          </table>
                                        </div>
                                     </td>
                                  </tr>
@@ -603,7 +560,13 @@ var modelBoxes= new Array('model_submenu',
                                     <td><b>xs:boolean</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">The component will be in a disabled state if "true". Not output if "false".</div>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">The component will be in a disabled state if "true". Not output if "false".</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
@@ -611,7 +574,13 @@ var modelBoxes= new Array('model_submenu',
                                     <td><b>xs:boolean</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">The component will be in a hidden state if "true". Not output if "false".</div>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">The component will be in a hidden state if "true". Not output if "false".</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
@@ -619,7 +588,13 @@ var modelBoxes= new Array('model_submenu',
                                     <td><b>xs:ID</b></td>
                                     <td>required</td>
                                     <td>
-                                       <div class="annotation">The unique identifier for the component.</div>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">The unique identifier for the component.</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
@@ -627,7 +602,13 @@ var modelBoxes= new Array('model_submenu',
                                     <td>restriction of <b>xs:NMTOKEN</b></td>
                                     <td>required</td>
                                     <td>
-                                       <div class="annotation">Indicates the content display mode for the component</div>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Indicates the content display mode for the component</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
@@ -635,9 +616,13 @@ var modelBoxes= new Array('model_submenu',
                                     <td><b>xs:boolean</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">True indicates the sub menu is to be rendered as open. Not output if false. Only supported
-                                          if the nearest ancestor menu has @type set to
-                                          						"tree"
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">True indicates the sub menu is to be rendered as open. Not output if false. Only supported if the nearest ancestor menu has @type set to</span><span class="tI">
+</span><span class="tT">"tree"</span></pre></td>
+                                             </tr>
+                                          </table>
                                        </div>
                                     </td>
                                  </tr>
@@ -646,12 +631,14 @@ var modelBoxes= new Array('model_submenu',
                                     <td>restriction of <b>xs:NMTOKEN</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Indicates that the items in the menu may be "selected". If not present then "none"
-                                          is implied. The selectMode applies 
-                                          <strong xmlns="">only</strong> to
-                                          						the menu items in this submenu and is able to be overridden in a submenu's submenu[s]
-                                          unless the menu @type is tree. Selection is additive with navigation
-                                          						and command invocation.
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Indicates that the items in the menu may be "selected". If not present then "none" is implied. The selectMode applies</span><span class="tEl">&lt;strong</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">only</span><span class="tEl">&lt;/strong&gt;</span><span class="tT">to</span><span class="tI">
+</span><span class="tT">the menu items in this submenu and is able to be overridden in a submenu's submenu[s] unless the menu @type is tree. Selection is additive with navigation</span><span class="tI">
+</span><span class="tT">and command invocation.</span></pre></td>
+                                             </tr>
+                                          </table>
                                        </div>
                                     </td>
                                  </tr>
@@ -660,9 +647,13 @@ var modelBoxes= new Array('model_submenu',
                                     <td><b>xs:boolean</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Indicates that the sub menu may be selected as an entity separate from its contained
-                                          components. Explicitly output if explicitly set "false"
-                                          						to override a parent component's selectMode.
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Indicates that the sub menu may be selected as an entity separate from its contained components. Explicitly output if explicitly set "false"</span><span class="tI">
+</span><span class="tT">to override a parent component's selectMode.</span></pre></td>
+                                             </tr>
+                                          </table>
                                        </div>
                                     </td>
                                  </tr>
@@ -671,7 +662,13 @@ var modelBoxes= new Array('model_submenu',
                                     <td><b>xs:boolean</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">indicates that the submenu is selected. Not output if "false".</div>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">indicates that the submenu is selected. Not output if "false".</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
@@ -679,10 +676,13 @@ var modelBoxes= new Array('model_submenu',
                                     <td><b>xs:string</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Text to display to the user as optional 'helper' information. Note, however, that
-                                          there are some 
-                                          						accessibility and usability implications of this attribute and it should be
-                                          used with care.
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Text to display to the user as optional 'helper' information. Note, however, that there are some </span><span class="tI">
+</span><span class="tT">accessibility and usability implications of this attribute and it should be used with care.</span></pre></td>
+                                             </tr>
+                                          </table>
                                        </div>
                                     </td>
                                  </tr>
@@ -691,7 +691,13 @@ var modelBoxes= new Array('model_submenu',
                                     <td><b>xs:boolean</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Indicates that the component should take part in web analytics tracking.</div>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Indicates that the component should take part in web analytics tracking.</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
                                     </td>
                                  </tr>
                               </table>
@@ -858,7 +864,13 @@ var modelBoxes= new Array('model_submenu',
                         </td>
                         <td>
                            <div id="annotations_submenu_content" style="display:block">
-                              <div class="annotation">Container for the items within the sub menu.</div>
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Container for the items within the sub menu.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
                            </div>
                         </td>
                      </tr>
@@ -869,12 +881,12 @@ var modelBoxes= new Array('model_submenu',
                         </td>
                         <td class="diagram">
                            <div id="diagram_submenu_content" style="display:block"><img alt="Diagram" border="0" src="img/submenu_xsd_Element_ui_content.png" usemap="#submenu_xsd_Element_ui_content" /><map name="submenu_xsd_Element_ui_content" id="submenu_xsd_Element_ui_content">
-                                 <area alt="submenu_xsd.tmp#submenu_submenu_content_id" href="submenu_xsd.html#submenu_submenu_content_id" coords="155,40,223,64" />
-                                 <area alt="menuItem_xsd.tmp#menuItem" href="menuItem_xsd.html#menuItem" coords="297,155,394,179" />
-                                 <area alt="submenu_xsd.tmp#submenu" href="submenu_xsd.html#submenu" coords="297,189,391,213" />
-                                 <area alt="separator_xsd.tmp#separator" href="separator_xsd.html#separator" coords="297,279,382,303" />
-                                 <area alt="menuGroup_xsd.tmp#menuComponentGroup" href="menuGroup_xsd.html#menuComponentGroup" coords="215,114,410,140" />
-                                 <area alt="menuGroup_xsd.tmp#menuGroup" href="menuGroup_xsd.html#menuGroup" coords="212,363,320,387" /></map></div>
+                                 <area alt="submenu_xsd.tmp#submenu_submenu_content_id" href="submenu_xsd.html#submenu_submenu_content_id" coords="149,41,219,66" />
+                                 <area alt="menuItem_xsd.tmp#menuItem" href="menuItem_xsd.html#menuItem" coords="291,158,378,183" />
+                                 <area alt="submenu_xsd.tmp#submenu" href="submenu_xsd.html#submenu" coords="291,193,377,218" />
+                                 <area alt="separator_xsd.tmp#separator" href="separator_xsd.html#separator" coords="291,287,369,312" />
+                                 <area alt="menuGroup_xsd.tmp#menuComponentGroup" href="menuGroup_xsd.html#menuComponentGroup" coords="209,117,385,143" />
+                                 <area alt="menuGroup_xsd.tmp#menuGroup" href="menuGroup_xsd.html#menuGroup" coords="206,374,304,399" /></map></div>
                         </td>
                      </tr>
                      <tr>
@@ -945,7 +957,13 @@ var modelBoxes= new Array('model_submenu',
                                     <td><b>xs:ID</b></td>
                                     <td>required</td>
                                     <td>
-                                       <div class="annotation">The unique identifier for the sub menu.</div>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">The unique identifier for the sub menu.</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
                                     </td>
                                  </tr>
                               </table>
@@ -1015,7 +1033,13 @@ var modelBoxes= new Array('model_submenu',
                         </td>
                         <td>
                            <div id="annotations_submenu_submenu_content_id" style="display:block">
-                              <div class="annotation">The unique identifier for the sub menu.</div>
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">The unique identifier for the sub menu.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
                            </div>
                         </td>
                      </tr>
@@ -1107,9 +1131,13 @@ var modelBoxes= new Array('model_submenu',
                         </td>
                         <td>
                            <div id="annotations_submenu_open" style="display:block">
-                              <div class="annotation">True indicates the sub menu is to be rendered as open. Not output if false. Only supported
-                                 if the nearest ancestor menu has @type set to
-                                 						"tree"
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">True indicates the sub menu is to be rendered as open. Not output if false. Only supported if the nearest ancestor menu has @type set to</span><span class="tI">
+</span><span class="tT">"tree"</span></pre></td>
+                                    </tr>
+                                 </table>
                               </div>
                            </div>
                         </td>
@@ -1202,9 +1230,13 @@ var modelBoxes= new Array('model_submenu',
                         </td>
                         <td>
                            <div id="annotations_submenu_selectable" style="display:block">
-                              <div class="annotation">Indicates that the sub menu may be selected as an entity separate from its contained
-                                 components. Explicitly output if explicitly set "false"
-                                 						to override a parent component's selectMode.
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Indicates that the sub menu may be selected as an entity separate from its contained components. Explicitly output if explicitly set "false"</span><span class="tI">
+</span><span class="tT">to override a parent component's selectMode.</span></pre></td>
+                                    </tr>
+                                 </table>
                               </div>
                            </div>
                         </td>
@@ -1297,7 +1329,13 @@ var modelBoxes= new Array('model_submenu',
                         </td>
                         <td>
                            <div id="annotations_submenu_selected" style="display:block">
-                              <div class="annotation">indicates that the submenu is selected. Not output if "false".</div>
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">indicates that the submenu is selected. Not output if "false".</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
                            </div>
                         </td>
                      </tr>
@@ -1389,12 +1427,14 @@ var modelBoxes= new Array('model_submenu',
                         </td>
                         <td>
                            <div id="annotations_submenu_selectMode" style="display:block">
-                              <div class="annotation">Indicates that the items in the menu may be "selected". If not present then "none"
-                                 is implied. The selectMode applies 
-                                 <strong xmlns="">only</strong> to
-                                 						the menu items in this submenu and is able to be overridden in a submenu's submenu[s]
-                                 unless the menu @type is tree. Selection is additive with navigation
-                                 						and command invocation.
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Indicates that the items in the menu may be "selected". If not present then "none" is implied. The selectMode applies</span><span class="tEl">&lt;strong</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">only</span><span class="tEl">&lt;/strong&gt;</span><span class="tT">to</span><span class="tI">
+</span><span class="tT">the menu items in this submenu and is able to be overridden in a submenu's submenu[s] unless the menu @type is tree. Selection is additive with navigation</span><span class="tI">
+</span><span class="tT">and command invocation.</span></pre></td>
+                                    </tr>
+                                 </table>
                               </div>
                            </div>
                         </td>
@@ -1431,16 +1471,26 @@ var modelBoxes= new Array('model_submenu',
                                     <td class="firstColumn">enumeration</td>
                                     <td width="30%"><b>none</b></td>
                                     <td>
-                                       <div class="annotation">Indicates that selection is not supported. This is the default if not set.</div>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Indicates that selection is not supported. This is the default if not set.</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
                                     <td class="firstColumn">enumeration</td>
                                     <td width="30%"><b>single</b></td>
                                     <td>
-                                       <div class="annotation">Indicates that selection is exclusive and when selecting any selectable child node
-                                          any previously selected nodes will be
-                                          									deselected. This is analogous to a group of radio buttons.
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Indicates that selection is exclusive and when selecting any selectable child node any previously selected nodes will be</span><span class="tI">
+</span><span class="tT">deselected. This is analogous to a group of radio buttons.</span></pre></td>
+                                             </tr>
+                                          </table>
                                        </div>
                                     </td>
                                  </tr>
@@ -1448,9 +1498,13 @@ var modelBoxes= new Array('model_submenu',
                                     <td class="firstColumn">enumeration</td>
                                     <td width="30%"><b>multiple</b></td>
                                     <td>
-                                       <div class="annotation">Indicates that selection is not exclusive and when selecting any selectable child
-                                          node any previously selected nodes will remain
-                                          									selected. This is analogous to a group of check boxes.
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Indicates that selection is not exclusive and when selecting any selectable child node any previously selected nodes will remain</span><span class="tI">
+</span><span class="tT">selected. This is analogous to a group of check boxes.</span></pre></td>
+                                             </tr>
+                                          </table>
                                        </div>
                                     </td>
                                  </tr>

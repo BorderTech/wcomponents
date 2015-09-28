@@ -422,7 +422,13 @@ var modelBoxes= new Array('model_video');
                         </td>
                         <td>
                            <div id="annotations_video" style="display:block">
-                              <div class="annotation">WVideo represents a video widget.</div>
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">WVideo represents a video widget.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
                            </div>
                         </td>
                      </tr>
@@ -433,12 +439,12 @@ var modelBoxes= new Array('model_video');
                         </td>
                         <td class="diagram">
                            <div id="diagram_video" style="display:block"><img alt="Diagram" border="0" src="img/video_xsd_Element_ui_video.png" usemap="#video_xsd_Element_ui_video" /><map name="video_xsd_Element_ui_video" id="video_xsd_Element_ui_video">
-                                 <area alt="attributeGroups_media_xsd.tmp#media.attributes" href="attributeGroups_media_xsd.html#media.attributes" coords="125,43,280,69" />
-                                 <area alt="video_xsd.tmp#video_poster" href="video_xsd.html#video_poster" coords="122,114,205,138" />
-                                 <area alt="video_xsd.tmp#video_height" href="video_xsd.html#video_height" coords="122,191,204,215" />
-                                 <area alt="video_xsd.tmp#video_width" href="video_xsd.html#video_width" coords="122,255,199,279" />
-                                 <area alt="video_xsd.tmp#video_src" href="video_xsd.html#video_src" coords="200,326,251,350" />
-                                 <area alt="video_xsd.tmp#video_track" href="video_xsd.html#video_track" coords="200,403,258,427" /></map></div>
+                                 <area alt="attributeGroups_media_xsd.tmp#media.attributes" href="attributeGroups_media_xsd.html#media.attributes" coords="122,44,264,70" />
+                                 <area alt="video_xsd.tmp#video_poster" href="video_xsd.html#video_poster" coords="119,116,200,141" />
+                                 <area alt="video_xsd.tmp#video_height" href="video_xsd.html#video_height" coords="119,196,198,221" />
+                                 <area alt="video_xsd.tmp#video_width" href="video_xsd.html#video_width" coords="119,262,196,287" />
+                                 <area alt="video_xsd.tmp#video_src" href="video_xsd.html#video_src" coords="196,335,247,360" />
+                                 <area alt="video_xsd.tmp#video_track" href="video_xsd.html#video_track" coords="196,415,251,440" /></map></div>
                         </td>
                      </tr>
                      <tr>
@@ -523,9 +529,13 @@ var modelBoxes= new Array('model_video');
                                     <td><b>xs:string</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Alternative text to display if the media is not able to be rendered or if the component
-                                          supports in-situ images (video poster for
-                                          					example).
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Alternative text to display if the media is not able to be rendered or if the component supports in-situ images (video poster for</span><span class="tI">
+</span><span class="tT">example).</span></pre></td>
+                                             </tr>
+                                          </table>
                                        </div>
                                     </td>
                                  </tr>
@@ -534,8 +544,12 @@ var modelBoxes= new Array('model_video');
                                     <td><b>xs:boolean</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Indicates the media autoplay setting. Not implemented by default due to accessibility
-                                          concerns. Not output if "false".
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Indicates the media autoplay setting. Not implemented by default due to accessibility concerns. Not output if "false".</span></pre></td>
+                                             </tr>
+                                          </table>
                                        </div>
                                     </td>
                                  </tr>
@@ -544,10 +558,13 @@ var modelBoxes= new Array('model_video');
                                     <td>restriction of <b>xs:NMTOKEN</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Indicates what controls to display to the user. May not be implemented depending on
-                                          other factors. In most cases the user agent determines the
-                                          					control set and only "none" has any impact. If absent, "default" is assumed and
-                                          native controls will be used.
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Indicates what controls to display to the user. May not be implemented depending on other factors. In most cases the user agent determines the</span><span class="tI">
+</span><span class="tT">control set and only "none" has any impact. If absent, "default" is assumed and native controls will be used.</span></pre></td>
+                                             </tr>
+                                          </table>
                                        </div>
                                     </td>
                                  </tr>
@@ -556,9 +573,13 @@ var modelBoxes= new Array('model_video');
                                     <td><b>xs:boolean</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">The component will be in a disabled state if "true". Not output if "false". 
-                                          <strong xmlns="">Deprecated:</strong> HTML5 audio and video do not support the
-                                          					disabled state.
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">The component will be in a disabled state if "true". Not output if "false".</span><span class="tEl">&lt;strong</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Deprecated:</span><span class="tEl">&lt;/strong&gt;</span><span class="tT">HTML5 audio and video do not support the</span><span class="tI">
+</span><span class="tT">disabled state.</span></pre></td>
+                                             </tr>
+                                          </table>
                                        </div>
                                     </td>
                                  </tr>
@@ -567,8 +588,12 @@ var modelBoxes= new Array('model_video');
                                     <td><b>xs:positiveInteger</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Indicates the temporal length of the media. Deprecated, not implemented by default
-                                          since WComponents 12.0.001.
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Indicates the temporal length of the media. Deprecated, not implemented by default since WComponents 12.0.001.</span></pre></td>
+                                             </tr>
+                                          </table>
                                        </div>
                                     </td>
                                  </tr>
@@ -577,7 +602,13 @@ var modelBoxes= new Array('model_video');
                                     <td><b>xs:positiveInteger</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">The vertical size of the video player in pixels.</div>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">The vertical size of the video player in pixels.</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
@@ -585,7 +616,13 @@ var modelBoxes= new Array('model_video');
                                     <td><b>xs:boolean</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">The component will be in a hidden state if "true". Not output if "false".</div>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">The component will be in a hidden state if "true". Not output if "false".</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
@@ -593,7 +630,13 @@ var modelBoxes= new Array('model_video');
                                     <td><b>xs:ID</b></td>
                                     <td>required</td>
                                     <td>
-                                       <div class="annotation">The unique identifier for the component.</div>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">The unique identifier for the component.</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
@@ -601,12 +644,14 @@ var modelBoxes= new Array('model_video');
                                     <td><b>xs:boolean</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Indicates that the media should automatically replay at the end. May have considerable
-                                          accessibility implications and should notbe used or used
-                                          					with extreme caution. 
-                                          <strong xmlns="">NOTE:</strong> default implementation of this attribute may be dropped from future releases due
-                                          to these accessibility concerns.
-                                          					Not output if "false".
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Indicates that the media should automatically replay at the end. May have considerable accessibility implications and should notbe used or used</span><span class="tI">
+</span><span class="tT">with extreme caution.</span><span class="tEl">&lt;strong</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">NOTE:</span><span class="tEl">&lt;/strong&gt;</span><span class="tT">default implementation of this attribute may be dropped from future releases due to these accessibility concerns.</span><span class="tI">
+</span><span class="tT">Not output if "false".</span></pre></td>
+                                             </tr>
+                                          </table>
                                        </div>
                                     </td>
                                  </tr>
@@ -615,8 +660,12 @@ var modelBoxes= new Array('model_video');
                                     <td><b>xs:NMTOKEN</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Indicates a group name for a set of media components. Not yet implemented due to low
-                                          levels of user agent support.
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Indicates a group name for a set of media components. Not yet implemented due to low levels of user agent support.</span></pre></td>
+                                             </tr>
+                                          </table>
                                        </div>
                                     </td>
                                  </tr>
@@ -625,7 +674,13 @@ var modelBoxes= new Array('model_video');
                                     <td><b>xs:boolean</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Indicates that the media should be muted on page load. Not output if "false".</div>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Indicates that the media should be muted on page load. Not output if "false".</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
@@ -633,9 +688,13 @@ var modelBoxes= new Array('model_video');
                                     <td><b>xs:anyURI</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">The location of an image file to display in the video player before the user loads
-                                          the 
-                                          						actual video file.
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">The location of an image file to display in the video player before the user loads the </span><span class="tI">
+</span><span class="tT">actual video file.</span></pre></td>
+                                             </tr>
+                                          </table>
                                        </div>
                                     </td>
                                  </tr>
@@ -644,8 +703,12 @@ var modelBoxes= new Array('model_video');
                                     <td>restriction of <b>xs:NMTOKEN</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Indicates the rules for pre-loading the media file(s) by the user agent. If absent,
-                                          "auto" is assumed.
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Indicates the rules for pre-loading the media file(s) by the user agent. If absent, "auto" is assumed.</span></pre></td>
+                                             </tr>
+                                          </table>
                                        </div>
                                     </td>
                                  </tr>
@@ -654,9 +717,13 @@ var modelBoxes= new Array('model_video');
                                     <td><b>xs:string</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Text to display to the user as optional 'helper' information. Note, however, that
-                                          there are some accessibility and usability implications of this
-                                          					attribute and it should be used with care.
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Text to display to the user as optional 'helper' information. Note, however, that there are some accessibility and usability implications of this</span><span class="tI">
+</span><span class="tT">attribute and it should be used with care.</span></pre></td>
+                                             </tr>
+                                          </table>
                                        </div>
                                     </td>
                                  </tr>
@@ -665,7 +732,13 @@ var modelBoxes= new Array('model_video');
                                     <td><b>xs:positiveInteger</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">The horizontal size of the video player in pixels.</div>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">The horizontal size of the video player in pixels.</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
                                     </td>
                                  </tr>
                               </table>
@@ -808,7 +881,13 @@ var modelBoxes= new Array('model_video');
                         </td>
                         <td>
                            <div id="annotations_video_src" style="display:block">
-                              <div class="annotation">This is a list of the same video content in different formats.</div>
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">This is a list of the same video content in different formats.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
                            </div>
                         </td>
                      </tr>
@@ -819,10 +898,10 @@ var modelBoxes= new Array('model_video');
                         </td>
                         <td class="diagram">
                            <div id="diagram_video_src" style="display:block"><img alt="Diagram" border="0" src="img/video_xsd_Element_ui_src.png" usemap="#video_xsd_Element_ui_src" /><map name="video_xsd_Element_ui_src" id="video_xsd_Element_ui_src">
-                                 <area alt="video_xsd.tmp#video_video_src_uri" href="video_xsd.html#video_video_src_uri" coords="113,40,181,64" />
-                                 <area alt="video_xsd.tmp#video_video_src_type" href="video_xsd.html#video_video_src_type" coords="113,104,184,128" />
-                                 <area alt="video_xsd.tmp#video_video_src_height" href="video_xsd.html#video_video_src_height" coords="113,168,195,192" />
-                                 <area alt="video_xsd.tmp#video_video_src_width" href="video_xsd.html#video_video_src_width" coords="113,245,190,269" /></map></div>
+                                 <area alt="video_xsd.tmp#video_video_src_uri" href="video_xsd.html#video_video_src_uri" coords="113,41,183,66" />
+                                 <area alt="video_xsd.tmp#video_video_src_type" href="video_xsd.html#video_video_src_type" coords="113,107,184,132" />
+                                 <area alt="video_xsd.tmp#video_video_src_height" href="video_xsd.html#video_video_src_height" coords="113,173,192,198" />
+                                 <area alt="video_xsd.tmp#video_video_src_width" href="video_xsd.html#video_video_src_width" coords="113,253,190,278" /></map></div>
                         </td>
                      </tr>
                      <tr>
@@ -870,8 +949,12 @@ var modelBoxes= new Array('model_video');
                                     <td><b>xs:positiveInteger</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Vertical size (in pixels when rendered in the user agent) of the video encoded in
-                                          the source file.
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Vertical size (in pixels when rendered in the user agent) of the video encoded in the source file.</span></pre></td>
+                                             </tr>
+                                          </table>
                                        </div>
                                     </td>
                                  </tr>
@@ -880,7 +963,13 @@ var modelBoxes= new Array('model_video');
                                     <td><b>xs:string</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">MIME type of the source file.</div>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">MIME type of the source file.</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
@@ -888,7 +977,13 @@ var modelBoxes= new Array('model_video');
                                     <td><b>xs:anyURI</b></td>
                                     <td>required</td>
                                     <td>
-                                       <div class="annotation">Location of the source file.</div>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Location of the source file.</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
@@ -896,8 +991,12 @@ var modelBoxes= new Array('model_video');
                                     <td><b>xs:positiveInteger</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Horizontal size (in pixels when rendered in the user agent) of the video encoded in
-                                          the source file.
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Horizontal size (in pixels when rendered in the user agent) of the video encoded in the source file.</span></pre></td>
+                                             </tr>
+                                          </table>
                                        </div>
                                     </td>
                                  </tr>
@@ -979,7 +1078,13 @@ var modelBoxes= new Array('model_video');
                         </td>
                         <td>
                            <div id="annotations_video_track" style="display:block">
-                              <div class="annotation">Text tracks to accompany the video to provide closed captions, subtitles etc.</div>
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Text tracks to accompany the video to provide closed captions, subtitles etc.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
                            </div>
                         </td>
                      </tr>
@@ -990,10 +1095,10 @@ var modelBoxes= new Array('model_video');
                         </td>
                         <td class="diagram">
                            <div id="diagram_video_track" style="display:block"><img alt="Diagram" border="0" src="img/video_xsd_Element_ui_track.png" usemap="#video_xsd_Element_ui_track" /><map name="video_xsd_Element_ui_track" id="video_xsd_Element_ui_track">
-                                 <area alt="video_xsd.tmp#video_video_track_src" href="video_xsd.html#video_video_track_src" coords="120,40,188,64" />
-                                 <area alt="video_xsd.tmp#video_video_track_lang" href="video_xsd.html#video_video_track_lang" coords="120,104,191,128" />
-                                 <area alt="video_xsd.tmp#video_video_track_desc" href="video_xsd.html#video_video_track_desc" coords="120,168,193,192" />
-                                 <area alt="video_xsd.tmp#video_video_track_kind" href="video_xsd.html#video_video_track_kind" coords="120,232,191,256" /></map></div>
+                                 <area alt="video_xsd.tmp#video_video_track_src" href="video_xsd.html#video_video_track_src" coords="117,41,187,66" />
+                                 <area alt="video_xsd.tmp#video_video_track_lang" href="video_xsd.html#video_video_track_lang" coords="117,107,187,132" />
+                                 <area alt="video_xsd.tmp#video_video_track_desc" href="video_xsd.html#video_video_track_desc" coords="117,173,191,198" />
+                                 <area alt="video_xsd.tmp#video_video_track_kind" href="video_xsd.html#video_video_track_kind" coords="117,239,187,264" /></map></div>
                         </td>
                      </tr>
                      <tr>
@@ -1041,7 +1146,13 @@ var modelBoxes= new Array('model_video');
                                     <td><b>xs:string</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Description of the contents of the track.</div>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Description of the contents of the track.</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
@@ -1049,7 +1160,13 @@ var modelBoxes= new Array('model_video');
                                     <td>restriction of <b>xs:NMTOKEN</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">The track type indicator as per the HTML5 Video element specification.</div>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">The track type indicator as per the HTML5 Video element specification.</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
@@ -1057,7 +1174,13 @@ var modelBoxes= new Array('model_video');
                                     <td><b>xs:NMTOKEN</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Language code for the track.</div>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Language code for the track.</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
@@ -1065,7 +1188,13 @@ var modelBoxes= new Array('model_video');
                                     <td><b>xs:anyURI</b></td>
                                     <td>required</td>
                                     <td>
-                                       <div class="annotation">Location of the track file.</div>
+                                       <div class="annotation">
+                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                             <tr>
+                                                <td width="100%"><pre><span class="tT">Location of the track file.</span></pre></td>
+                                             </tr>
+                                          </table>
+                                       </div>
                                     </td>
                                  </tr>
                               </table>
@@ -1155,7 +1284,13 @@ var modelBoxes= new Array('model_video');
                         </td>
                         <td>
                            <div id="annotations_video_video_src_uri" style="display:block">
-                              <div class="annotation">Location of the source file.</div>
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Location of the source file.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
                            </div>
                         </td>
                      </tr>
@@ -1247,7 +1382,13 @@ var modelBoxes= new Array('model_video');
                         </td>
                         <td>
                            <div id="annotations_video_video_src_type" style="display:block">
-                              <div class="annotation">MIME type of the source file.</div>
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">MIME type of the source file.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
                            </div>
                         </td>
                      </tr>
@@ -1339,8 +1480,12 @@ var modelBoxes= new Array('model_video');
                         </td>
                         <td>
                            <div id="annotations_video_video_src_height" style="display:block">
-                              <div class="annotation">Vertical size (in pixels when rendered in the user agent) of the video encoded in
-                                 the source file.
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Vertical size (in pixels when rendered in the user agent) of the video encoded in the source file.</span></pre></td>
+                                    </tr>
+                                 </table>
                               </div>
                            </div>
                         </td>
@@ -1433,8 +1578,12 @@ var modelBoxes= new Array('model_video');
                         </td>
                         <td>
                            <div id="annotations_video_video_src_width" style="display:block">
-                              <div class="annotation">Horizontal size (in pixels when rendered in the user agent) of the video encoded in
-                                 the source file.
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Horizontal size (in pixels when rendered in the user agent) of the video encoded in the source file.</span></pre></td>
+                                    </tr>
+                                 </table>
                               </div>
                            </div>
                         </td>
@@ -1527,7 +1676,13 @@ var modelBoxes= new Array('model_video');
                         </td>
                         <td>
                            <div id="annotations_video_video_track_src" style="display:block">
-                              <div class="annotation">Location of the track file.</div>
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Location of the track file.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
                            </div>
                         </td>
                      </tr>
@@ -1619,7 +1774,13 @@ var modelBoxes= new Array('model_video');
                         </td>
                         <td>
                            <div id="annotations_video_video_track_lang" style="display:block">
-                              <div class="annotation">Language code for the track.</div>
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Language code for the track.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
                            </div>
                         </td>
                      </tr>
@@ -1711,7 +1872,13 @@ var modelBoxes= new Array('model_video');
                         </td>
                         <td>
                            <div id="annotations_video_video_track_desc" style="display:block">
-                              <div class="annotation">Description of the contents of the track.</div>
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Description of the contents of the track.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
                            </div>
                         </td>
                      </tr>
@@ -1803,7 +1970,13 @@ var modelBoxes= new Array('model_video');
                         </td>
                         <td>
                            <div id="annotations_video_video_track_kind" style="display:block">
-                              <div class="annotation">The track type indicator as per the HTML5 Video element specification.</div>
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">The track type indicator as per the HTML5 Video element specification.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
                            </div>
                         </td>
                      </tr>
@@ -1951,9 +2124,13 @@ var modelBoxes= new Array('model_video');
                         </td>
                         <td>
                            <div id="annotations_video_poster" style="display:block">
-                              <div class="annotation">The location of an image file to display in the video player before the user loads
-                                 the 
-                                 						actual video file.
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">The location of an image file to display in the video player before the user loads the </span><span class="tI">
+</span><span class="tT">actual video file.</span></pre></td>
+                                    </tr>
+                                 </table>
                               </div>
                            </div>
                         </td>
@@ -2046,7 +2223,13 @@ var modelBoxes= new Array('model_video');
                         </td>
                         <td>
                            <div id="annotations_video_height" style="display:block">
-                              <div class="annotation">The vertical size of the video player in pixels.</div>
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">The vertical size of the video player in pixels.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
                            </div>
                         </td>
                      </tr>
@@ -2138,7 +2321,13 @@ var modelBoxes= new Array('model_video');
                         </td>
                         <td>
                            <div id="annotations_video_width" style="display:block">
-                              <div class="annotation">The horizontal size of the video player in pixels.</div>
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">The horizontal size of the video player in pixels.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
                            </div>
                         </td>
                      </tr>
