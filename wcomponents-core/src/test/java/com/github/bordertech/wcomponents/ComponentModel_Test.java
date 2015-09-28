@@ -19,12 +19,9 @@ public class ComponentModel_Test {
 		final ComponentModel model = new ComponentModel();
 		final WContainer child = new WContainer();
 
-		model.addChild(child);
-
+		Assert.assertTrue("Expected child to be added",model.addChild(child));
 		Assert.assertTrue("Expected model to have children", model.hasChildren());
-
-		model.removeChild(child);
-
+		Assert.assertTrue("Expected child to be removed", model.removeChild(child));
 		Assert.assertFalse("Expected model to have no children", model.hasChildren());
 	}
 
