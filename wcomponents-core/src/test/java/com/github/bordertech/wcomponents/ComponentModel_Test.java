@@ -14,10 +14,10 @@ import org.junit.Test;
 public class ComponentModel_Test {
 
 	@Test    
-	public void testComponentModel_AddAndRemoveChild() {
+	public void testComponentModelAddAndRemoveChild() {
 
 		final ComponentModel model = new ComponentModel();
-                final WContainer child = new WContainer();
+		final WContainer child = new WContainer();
 
 		model.addChild(child);
 
@@ -27,12 +27,12 @@ public class ComponentModel_Test {
 
 		Assert.assertFalse("Expected model to have no children", model.hasChildren());
 	}
-        
+
 	@Test
-	public void testComponentModel_GetChildren() {
+	public void testComponentModelGetChildren() {
 
 		final ComponentModel model = new ComponentModel();
-                final List<WComponent> children = model.getChildren();
+		final List<WComponent> children = model.getChildren();
 
 		Assert.assertTrue("Expected children to be empty", children.isEmpty());
 
@@ -45,10 +45,10 @@ public class ComponentModel_Test {
 	}
 
 	@Test
-	public void testComponentModel_SetChildren() {
+	public void testComponentModelSetChildren() {
 
 		final ComponentModel model = new ComponentModel();
-                final List<WComponent> children = new ArrayList<>();
+		final List<WComponent> children = new ArrayList<>();
 
 		Assert.assertTrue("Expected children to be empty", children.isEmpty());
 
