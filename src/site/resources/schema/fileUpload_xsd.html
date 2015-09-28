@@ -9,49 +9,63 @@
         var propertiesBoxes= new Array('properties_fileUpload.xsd', 
 				'properties_fileUpload', 
 				'properties_fileUpload_file', 
-				'properties_fileUpload_fileUpload_file_index', 
+				'properties_fileUpload_fileUpload_file_id', 
 				'properties_fileUpload_fileUpload_file_name', 
 				'properties_fileUpload_fileUpload_file_type', 
 				'properties_fileUpload_fileUpload_file_size', 
-				'properties_fileUpload_fileUpload_file_selected', 
+				'properties_fileUpload_dropzone', 
 				'properties_fileUpload_acceptedMimeTypes', 
 				'properties_fileUpload_maxFileSize', 
-				'properties_fileUpload_maxFiles');
+				'properties_fileUpload_maxFiles', 
+				'properties_fileUpload_ajax', 
+				'properties_fileUpload_cols', 
+				'properties_fileUpload_async');
 var usedByBoxes= new Array('usedBy_fileUpload', 
-				'usedBy_fileUpload_fileUpload_file_index', 
+				'usedBy_fileUpload_fileUpload_file_id', 
 				'usedBy_fileUpload_fileUpload_file_name', 
 				'usedBy_fileUpload_fileUpload_file_type', 
 				'usedBy_fileUpload_fileUpload_file_size', 
-				'usedBy_fileUpload_fileUpload_file_selected', 
+				'usedBy_fileUpload_dropzone', 
 				'usedBy_fileUpload_acceptedMimeTypes', 
 				'usedBy_fileUpload_maxFileSize', 
-				'usedBy_fileUpload_maxFiles');
+				'usedBy_fileUpload_maxFiles', 
+				'usedBy_fileUpload_ajax', 
+				'usedBy_fileUpload_cols', 
+				'usedBy_fileUpload_async');
 var sourceBoxes= new Array('source_fileUpload', 
 				'source_fileUpload_file', 
-				'source_fileUpload_fileUpload_file_index', 
+				'source_fileUpload_fileUpload_file_id', 
 				'source_fileUpload_fileUpload_file_name', 
 				'source_fileUpload_fileUpload_file_type', 
 				'source_fileUpload_fileUpload_file_size', 
-				'source_fileUpload_fileUpload_file_selected', 
+				'source_fileUpload_dropzone', 
 				'source_fileUpload_acceptedMimeTypes', 
 				'source_fileUpload_maxFileSize', 
-				'source_fileUpload_maxFiles');
-var instanceBoxes= new Array('instance_fileUpload');
+				'source_fileUpload_maxFiles', 
+				'source_fileUpload_ajax', 
+				'source_fileUpload_cols', 
+				'source_fileUpload_async');
+var instanceBoxes= new Array('instance_fileUpload', 
+				'instance_fileUpload_file');
 var diagramBoxes= new Array('diagram_fileUpload', 
 				'diagram_fileUpload_file');
 var annotationBoxes= new Array('annotations_fileUpload', 
 				'annotations_fileUpload_file', 
-				'annotations_fileUpload_fileUpload_file_index', 
+				'annotations_fileUpload_fileUpload_file_id', 
 				'annotations_fileUpload_fileUpload_file_name', 
 				'annotations_fileUpload_fileUpload_file_type', 
 				'annotations_fileUpload_fileUpload_file_size', 
-				'annotations_fileUpload_fileUpload_file_selected', 
+				'annotations_fileUpload_dropzone', 
 				'annotations_fileUpload_acceptedMimeTypes', 
 				'annotations_fileUpload_maxFileSize', 
-				'annotations_fileUpload_maxFiles');
+				'annotations_fileUpload_maxFiles', 
+				'annotations_fileUpload_ajax', 
+				'annotations_fileUpload_cols', 
+				'annotations_fileUpload_async');
 var attributesBoxes= new Array('attributes_fileUpload', 
 				'attributes_fileUpload_file');
-var modelBoxes= new Array('model_fileUpload');
+var modelBoxes= new Array('model_fileUpload', 
+				'model_fileUpload_file');
 
       
         var button_prefix = 'button_';
@@ -402,31 +416,50 @@ var modelBoxes= new Array('model_fileUpload');
                         <td>
                            <div id="annotations_fileUpload" style="display:block">
                               <div class="annotation">
-                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
-                                    <tr>
-                                       <td width="100%"><pre><span class="tEl">&lt;p</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">WFileWidget represents component which can be used to upload zero or one file; WMultiFieldWidget represents a component which is used to upload zero or more files. The component is indicated by the @maxFiles attribute.</span><span class="tEl">&lt;/p&gt;</span><span class="tI">
-</span><span class="tEl">&lt;p</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">WMultiFileWidget expect that the POSTed form data contains:</span><span class="tEl">&lt;/p&gt;</span><span class="tI">
-</span><span class="tEl">&lt;table</span><span class="tEl">&gt;</span><span class="tI">
-  </span><span class="tEl">&lt;thead</span><span class="tEl">&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;tr</span><span class="tEl">&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;th</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Field name</span><span class="tEl">&lt;/th&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;th</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Type</span><span class="tEl">&lt;/th&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;th</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Mandatory</span><span class="tEl">&lt;/th&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;th</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Value</span><span class="tEl">&lt;/th&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;/tr&gt;</span><span class="tI">
-  </span><span class="tEl">&lt;/thead&gt;</span><span class="tI">
-  </span><span class="tEl">&lt;tbody</span><span class="tEl">&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;tr</span><span class="tEl">&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">@id + ".selected"</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">List</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">yes (if maxFiles != 1) otherwise forbidden</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">list of file indices</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;/tr&gt;</span><span class="tI">
-  </span><span class="tEl">&lt;/tbody&gt;</span><span class="tI">
-</span><span class="tEl">&lt;/table&gt;</span><span class="tI">
-</span></pre></td>
-                                    </tr>
+                                 				
+                                 <p xmlns="">WFileWidget represents component which can be used to upload zero or one file; WMultiFieldWidget
+                                    represents a component which is used to upload zero or more
+                                    					files. The component is indicated by the @maxFiles attribute.
+                                 </p>
+                                 				
+                                 <p xmlns="">WMultiFileWidget expect that the POSTed form data contains:</p>
+                                 				
+                                 <table xmlns="">
+                                    					
+                                    <thead>
+                                       						
+                                       <tr>
+                                          							
+                                          <th>Field name</th>
+                                          							
+                                          <th>Type</th>
+                                          							
+                                          <th>Mandatory</th>
+                                          							
+                                          <th>Value</th>
+                                          						
+                                       </tr>
+                                       					
+                                    </thead>
+                                    					
+                                    <tbody>
+                                       						
+                                       <tr>
+                                          							
+                                          <td>@id + ".selected"</td>
+                                          							
+                                          <td>List</td>
+                                          							
+                                          <td>yes (if maxFiles != 1) otherwise forbidden</td>
+                                          							
+                                          <td>list of file indices</td>
+                                          						
+                                       </tr>
+                                       					
+                                    </tbody>
+                                    				
                                  </table>
+                                 			
                               </div>
                            </div>
                         </td>
@@ -438,11 +471,15 @@ var modelBoxes= new Array('model_fileUpload');
                         </td>
                         <td class="diagram">
                            <div id="diagram_fileUpload" style="display:block"><img alt="Diagram" border="0" src="img/fileUpload_xsd_Element_ui_fileUpload.png" usemap="#fileUpload_xsd_Element_ui_fileUpload" /><map name="fileUpload_xsd_Element_ui_fileUpload" id="fileUpload_xsd_Element_ui_fileUpload">
-                                 <area alt="attributeGroups_control_xsd.tmp#input.attributes" href="attributeGroups_control_xsd.html#input.attributes" coords="143,44,280,70" />
-                                 <area alt="fileUpload_xsd.tmp#fileUpload_acceptedMimeTypes" href="fileUpload_xsd.html#fileUpload_acceptedMimeTypes" coords="140,116,289,141" />
-                                 <area alt="fileUpload_xsd.tmp#fileUpload_maxFileSize" href="fileUpload_xsd.html#fileUpload_maxFileSize" coords="140,196,247,221" />
-                                 <area alt="fileUpload_xsd.tmp#fileUpload_maxFiles" href="fileUpload_xsd.html#fileUpload_maxFiles" coords="140,276,232,301" />
-                                 <area alt="fileUpload_xsd.tmp#fileUpload_file" href="fileUpload_xsd.html#fileUpload_file" coords="217,381,268,406" /></map></div>
+                                 <area alt="attributeGroups_control_xsd.tmp#input.attributes" href="attributeGroups_control_xsd.html#input.attributes" coords="150,43,301,69" />
+                                 <area alt="fileUpload_xsd.tmp#fileUpload_dropzone" href="fileUpload_xsd.html#fileUpload_dropzone" coords="147,114,247,138" />
+                                 <area alt="fileUpload_xsd.tmp#fileUpload_acceptedMimeTypes" href="fileUpload_xsd.html#fileUpload_acceptedMimeTypes" coords="147,191,303,215" />
+                                 <area alt="fileUpload_xsd.tmp#fileUpload_maxFileSize" href="fileUpload_xsd.html#fileUpload_maxFileSize" coords="147,268,257,292" />
+                                 <area alt="fileUpload_xsd.tmp#fileUpload_maxFiles" href="fileUpload_xsd.html#fileUpload_maxFiles" coords="147,345,242,369" />
+                                 <area alt="fileUpload_xsd.tmp#fileUpload_ajax" href="fileUpload_xsd.html#fileUpload_ajax" coords="147,435,217,459" />
+                                 <area alt="fileUpload_xsd.tmp#fileUpload_cols" href="fileUpload_xsd.html#fileUpload_cols" coords="147,499,217,523" />
+                                 <area alt="fileUpload_xsd.tmp#fileUpload_async" href="fileUpload_xsd.html#fileUpload_async" coords="147,589,226,613" />
+                                 <area alt="fileUpload_xsd.tmp#fileUpload_file" href="fileUpload_xsd.html#fileUpload_file" coords="225,677,276,701" /></map></div>
                         </td>
                      </tr>
                      <tr>
@@ -497,8 +534,8 @@ var modelBoxes= new Array('model_fileUpload');
                            <div id="instance_fileUpload" style="display:block">
                               <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
                                  <tr>
-                                    <td width="100%"><pre><span class="tEl">&lt;ui:fileUpload</span><span class="tT"> </span><span class="tAN">acceptedMimeTypes=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">accessibleText=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">disabled=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">maxFiles=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">maxFileSize=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">readOnly=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">required=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">tabIndex=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">toolTip=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xmlns:ui=</span><span class="tAV">"https://github.com/bordertech/wcomponents/namespace/ui/v1.0"</span><span class="tEl">&gt;</span><span class="tI">
-  </span><span class="tEl">&lt;ui:file</span><span class="tT"> </span><span class="tAN">index=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">name=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">selected=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">size=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">type=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,unbounded}</span><span class="tEl">&lt;/ui:file&gt;</span><span class="tI">
+                                    <td width="100%"><pre><span class="tEl">&lt;ui:fileUpload</span><span class="tT"> </span><span class="tAN">acceptedMimeTypes=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">accessibleText=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">ajax=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">async=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">cols=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">disabled=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">dropzone=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">maxFiles=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">maxFileSize=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">readOnly=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">required=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">tabIndex=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">toolTip=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xmlns:ui=</span><span class="tAV">"https://github.com/bordertech/wcomponents/namespace/ui/v1.0"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:file</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">name=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">size=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">type=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,unbounded}</span><span class="tEl">&lt;/ui:file&gt;</span><span class="tI">
 </span><span class="tEl">&lt;/ui:fileUpload&gt;</span></pre></td>
                                  </tr>
                               </table>
@@ -526,13 +563,9 @@ var modelBoxes= new Array('model_fileUpload');
                                     <td><b>xs:string</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">
-                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
-                                             <tr>
-                                                <td width="100%"><pre><span class="tT">A list of MIME types which may be uploaded using the fileupload component. If not set then no type constraints will be applied to the uploaded</span><span class="tI">
-</span><span class="tT">file.</span></pre></td>
-                                             </tr>
-                                          </table>
+                                       <div class="annotation">A list of MIME types which may be uploaded using the fileupload component. If not
+                                          set then no type constraints will be applied to the uploaded
+                                          						file.
                                        </div>
                                     </td>
                                  </tr>
@@ -541,12 +574,34 @@ var modelBoxes= new Array('model_fileUpload');
                                     <td><b>xs:string</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">
-                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
-                                             <tr>
-                                                <td width="100%"><pre><span class="tT">Deprecated. Use toolTip instead.</span></pre></td>
-                                             </tr>
-                                          </table>
+                                       <div class="annotation">Deprecated. Use toolTip instead.</div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="fileUpload_xsd.html#fileUpload_ajax" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for fileUpload.xsd')">ajax</a></b></td>
+                                    <td><b>xs:boolean</b></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">Flag if the uploaded files will be AJAX triggers.</div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="fileUpload_xsd.html#fileUpload_async" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for fileUpload.xsd')">async</a></b></td>
+                                    <td><b>xs:boolean</b></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">Flag used to allow us to distinguish between the multi and single file uploader. Default
+                                          is true.
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="fileUpload_xsd.html#fileUpload_cols" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for fileUpload.xsd')">cols</a></b></td>
+                                    <td><b>xs:int</b></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">Number of cols to use when displaying the uploaded files. If not set then the theme
+                                          default will apply.
                                        </div>
                                     </td>
                                  </tr>
@@ -555,13 +610,15 @@ var modelBoxes= new Array('model_fileUpload');
                                     <td><b>xs:boolean</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">
-                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
-                                             <tr>
-                                                <td width="100%"><pre><span class="tT">The component will be in a disabled state if "true". Not output if "false".</span></pre></td>
-                                             </tr>
-                                          </table>
-                                       </div>
+                                       <div class="annotation">The component will be in a disabled state if "true". Not output if "false".</div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="fileUpload_xsd.html#fileUpload_dropzone" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for fileUpload.xsd')">dropzone</a></b></td>
+                                    <td><b>xs:string</b></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">The ID of an element that will receive "drag and dropped" files for this file uploader.</div>
                                     </td>
                                  </tr>
                                  <tr>
@@ -569,13 +626,7 @@ var modelBoxes= new Array('model_fileUpload');
                                     <td><b>xs:boolean</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">
-                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
-                                             <tr>
-                                                <td width="100%"><pre><span class="tT">The component will be in a hidden state if "true". Not output if "false".</span></pre></td>
-                                             </tr>
-                                          </table>
-                                       </div>
+                                       <div class="annotation">The component will be in a hidden state if "true". Not output if "false".</div>
                                     </td>
                                  </tr>
                                  <tr>
@@ -583,13 +634,7 @@ var modelBoxes= new Array('model_fileUpload');
                                     <td><b>xs:ID</b></td>
                                     <td>required</td>
                                     <td>
-                                       <div class="annotation">
-                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
-                                             <tr>
-                                                <td width="100%"><pre><span class="tT">The unique identifier for the component.</span></pre></td>
-                                             </tr>
-                                          </table>
-                                       </div>
+                                       <div class="annotation">The unique identifier for the component.</div>
                                     </td>
                                  </tr>
                                  <tr>
@@ -597,13 +642,9 @@ var modelBoxes= new Array('model_fileUpload');
                                     <td><b>xs:positiveInteger</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">
-                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
-                                             <tr>
-                                                <td width="100%"><pre><span class="tT">The maximum file size (in bytes) which may be uploaded using the fiel upload. If this is not set then no explicit constraint is set but</span><span class="tI">
-</span><span class="tT">implicit constraints may still exist.</span></pre></td>
-                                             </tr>
-                                          </table>
+                                       <div class="annotation">The maximum file size (in bytes) which may be uploaded using the file upload. If this
+                                          is not set then no explicit constraint is set but
+                                          						implicit constraints may still exist.
                                        </div>
                                     </td>
                                  </tr>
@@ -612,13 +653,10 @@ var modelBoxes= new Array('model_fileUpload');
                                     <td><b>xs:positiveInteger</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">
-                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
-                                             <tr>
-                                                <td width="100%"><pre><span class="tT">The maximum number of files which may be uploaded using the file upload. If this is exactly 1 then the component is a simple single file</span><span class="tI">
-</span><span class="tT">upload. If this is not set then no explicit limit is set on the number of files which may be uploaded using the file upload.</span></pre></td>
-                                             </tr>
-                                          </table>
+                                       <div class="annotation">The maximum number of files which may be uploaded using the file upload. If this is
+                                          exactly 1 then the component is a simple single file
+                                          						upload. If this is not set then no explicit limit is set on the number of files
+                                          which may be uploaded using the file upload.
                                        </div>
                                     </td>
                                  </tr>
@@ -627,13 +665,7 @@ var modelBoxes= new Array('model_fileUpload');
                                     <td><b>xs:boolean</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">
-                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
-                                             <tr>
-                                                <td width="100%"><pre><span class="tT">The component will be in a non-interactive state if "true". Not output if "false".</span></pre></td>
-                                             </tr>
-                                          </table>
-                                       </div>
+                                       <div class="annotation">The component will be in a non-interactive state if "true". Not output if "false".</div>
                                     </td>
                                  </tr>
                                  <tr>
@@ -641,13 +673,7 @@ var modelBoxes= new Array('model_fileUpload');
                                     <td><b>xs:boolean</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">
-                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
-                                             <tr>
-                                                <td width="100%"><pre><span class="tT">The component will be mandatory if "true". Not output if "false".</span></pre></td>
-                                             </tr>
-                                          </table>
-                                       </div>
+                                       <div class="annotation">The component will be mandatory if "true". Not output if "false".</div>
                                     </td>
                                  </tr>
                                  <tr>
@@ -655,13 +681,9 @@ var modelBoxes= new Array('model_fileUpload');
                                     <td><b>xs:int</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">
-                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
-                                             <tr>
-                                                <td width="100%"><pre><span class="tT">Sets the component's position in the tab navigation order. Not implemented by default as it may </span><span class="tI">
-</span><span class="tT">pose significant accessibility and usability problems.</span></pre></td>
-                                             </tr>
-                                          </table>
+                                       <div class="annotation">Sets the component's position in the tab navigation order. Not implemented by default
+                                          as it may 
+                                          						pose significant accessibility and usability problems.
                                        </div>
                                     </td>
                                  </tr>
@@ -670,13 +692,10 @@ var modelBoxes= new Array('model_fileUpload');
                                     <td><b>xs:string</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">
-                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
-                                             <tr>
-                                                <td width="100%"><pre><span class="tT">Text to display to the user as optional 'helper' information. Note, however, that there are some </span><span class="tI">
-</span><span class="tT">accessibility and usability implications of this attribute and it should be used with care.</span></pre></td>
-                                             </tr>
-                                          </table>
+                                       <div class="annotation">Text to display to the user as optional 'helper' information. Note, however, that
+                                          there are some 
+                                          						accessibility and usability implications of this attribute and it should be
+                                          used with care.
                                        </div>
                                     </td>
                                  </tr>
@@ -685,13 +704,7 @@ var modelBoxes= new Array('model_fileUpload');
                                     <td><b>xs:boolean</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">
-                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
-                                             <tr>
-                                                <td width="100%"><pre><span class="tT">Indicates that the component should take part in web analytics tracking.</span></pre></td>
-                                             </tr>
-                                          </table>
-                                       </div>
+                                       <div class="annotation">Indicates that the component should take part in web analytics tracking.</div>
                                     </td>
                                  </tr>
                               </table>
@@ -739,9 +752,12 @@ var modelBoxes= new Array('model_fileUpload');
           </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">These represent the list of currently uploaded files for the WMultiFileWidget</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
         </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
         </span><span class="tEl">&lt;xs:complexType</span><span class="tEl">&gt;</span><span class="tI">
-          </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"index"</span><span class="tAN"> type=</span><span class="tAV">"xs:unsignedInt"</span><span class="tAN"> use=</span><span class="tAV">"required"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:sequence</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:element</span><span class="tAN"> ref=</span><span class="tAV">"ui:link"</span><span class="tAN"> minOccurs=</span><span class="tAV">"1"</span><span class="tAN"> maxOccurs=</span><span class="tAV">"1"</span><span class="tEl">/&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:sequence&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"id"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tAN"> use=</span><span class="tAV">"required"</span><span class="tEl">&gt;</span><span class="tI">
             </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-              </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">A system provided list index for the file.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+              </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">A system provided identifier for the file.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
             </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
           </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
           </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"name"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tAN"> use=</span><span class="tAV">"required"</span><span class="tEl">&gt;</span><span class="tI">
@@ -759,15 +775,15 @@ var modelBoxes= new Array('model_fileUpload');
               </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The size of the file in bytes.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
             </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
           </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
-          </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"selected"</span><span class="tAN"> type=</span><span class="tAV">"xs:boolean"</span><span class="tEl">&gt;</span><span class="tI">
-            </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-              </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Indicates that the file's UI representation was in a selected state as at the last transaction. Not output if "false".</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
-            </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
-          </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
         </span><span class="tEl">&lt;/xs:complexType&gt;</span><span class="tI">
       </span><span class="tEl">&lt;/xs:element&gt;</span><span class="tI">
     </span><span class="tEl">&lt;/xs:sequence&gt;</span><span class="tI">
     </span><span class="tEl">&lt;xs:attributeGroup</span><span class="tAN"> ref=</span><span class="tAV">"ui:input.attributes"</span><span class="tEl">/&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"dropzone"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The ID of an element that will receive "drag and dropped" files for this file uploader.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
     </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"acceptedMimeTypes"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">&gt;</span><span class="tI">
       </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
         </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">A list of MIME types which may be uploaded using the fileupload component. If not set then no type constraints will be applied to the uploaded file.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
@@ -775,12 +791,27 @@ var modelBoxes= new Array('model_fileUpload');
     </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
     </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"maxFileSize"</span><span class="tAN"> type=</span><span class="tAV">"xs:positiveInteger"</span><span class="tEl">&gt;</span><span class="tI">
       </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-        </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The maximum file size (in bytes) which may be uploaded using the fiel upload. If this is not set then no explicit constraint is set but implicit constraints may still exist.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The maximum file size (in bytes) which may be uploaded using the file upload. If this is not set then no explicit constraint is set but implicit constraints may still exist.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
       </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
     </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
     </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"maxFiles"</span><span class="tAN"> type=</span><span class="tAV">"xs:positiveInteger"</span><span class="tEl">&gt;</span><span class="tI">
       </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
         </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The maximum number of files which may be uploaded using the file upload. If this is exactly 1 then the component is a simple single file upload. If this is not set then no explicit limit is set on the number of files which may be uploaded using the file upload.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"ajax"</span><span class="tAN"> type=</span><span class="tAV">"xs:boolean"</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Flag if the uploaded files will be AJAX triggers.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"cols"</span><span class="tAN"> type=</span><span class="tAV">"xs:int"</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Number of cols to use when displaying the uploaded files. If not set then the theme default will apply.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"async"</span><span class="tAN"> type=</span><span class="tAV">"xs:boolean"</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Flag used to allow us to distinguish between the multi and single file uploader. Default is true.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
       </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
     </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
   </span><span class="tEl">&lt;/xs:complexType&gt;</span><span class="tI">
@@ -823,13 +854,7 @@ var modelBoxes= new Array('model_fileUpload');
                         </td>
                         <td>
                            <div id="annotations_fileUpload_file" style="display:block">
-                              <div class="annotation">
-                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
-                                    <tr>
-                                       <td width="100%"><pre><span class="tT">These represent the list of currently uploaded files for the WMultiFileWidget</span></pre></td>
-                                    </tr>
-                                 </table>
-                              </div>
+                              <div class="annotation">These represent the list of currently uploaded files for the WMultiFileWidget</div>
                            </div>
                         </td>
                      </tr>
@@ -840,11 +865,11 @@ var modelBoxes= new Array('model_fileUpload');
                         </td>
                         <td class="diagram">
                            <div id="diagram_fileUpload_file" style="display:block"><img alt="Diagram" border="0" src="img/fileUpload_xsd_Element_ui_file.png" usemap="#fileUpload_xsd_Element_ui_file" /><map name="fileUpload_xsd_Element_ui_file" id="fileUpload_xsd_Element_ui_file">
-                                 <area alt="fileUpload_xsd.tmp#fileUpload_fileUpload_file_index" href="fileUpload_xsd.html#fileUpload_fileUpload_file_index" coords="113,41,189,66" />
-                                 <area alt="fileUpload_xsd.tmp#fileUpload_fileUpload_file_name" href="fileUpload_xsd.html#fileUpload_fileUpload_file_name" coords="113,107,189,132" />
-                                 <area alt="fileUpload_xsd.tmp#fileUpload_fileUpload_file_type" href="fileUpload_xsd.html#fileUpload_fileUpload_file_type" coords="113,187,184,212" />
-                                 <area alt="fileUpload_xsd.tmp#fileUpload_fileUpload_file_size" href="fileUpload_xsd.html#fileUpload_fileUpload_file_size" coords="113,253,183,278" />
-                                 <area alt="fileUpload_xsd.tmp#fileUpload_fileUpload_file_selected" href="fileUpload_xsd.html#fileUpload_fileUpload_file_selected" coords="113,319,204,344" /></map></div>
+                                 <area alt="fileUpload_xsd.tmp#fileUpload_fileUpload_file_id" href="fileUpload_xsd.html#fileUpload_fileUpload_file_id" coords="113,40,181,64" />
+                                 <area alt="fileUpload_xsd.tmp#fileUpload_fileUpload_file_name" href="fileUpload_xsd.html#fileUpload_fileUpload_file_name" coords="113,104,190,128" />
+                                 <area alt="fileUpload_xsd.tmp#fileUpload_fileUpload_file_type" href="fileUpload_xsd.html#fileUpload_fileUpload_file_type" coords="113,181,184,205" />
+                                 <area alt="fileUpload_xsd.tmp#fileUpload_fileUpload_file_size" href="fileUpload_xsd.html#fileUpload_fileUpload_file_size" coords="113,245,182,269" />
+                                 <area alt="link_xsd.tmp#link" href="link_xsd.html#link" coords="170,320,233,344" /></map></div>
                         </td>
                      </tr>
                      <tr>
@@ -872,6 +897,34 @@ var modelBoxes= new Array('model_fileUpload');
                         </td>
                      </tr>
                      <tr>
+                        <td class="firstColumn"><b>Model</b><div class="floatRight"><input id="button_model_fileUpload_file" type="image" src="img/btM.gif" value="-" onclick="switchState('model_fileUpload_file');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="model_fileUpload_file" style="display:block"><b><a href="link_xsd.html#link" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for link.xsd')">ui:link</a></b></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Children</b></td>
+                        <td><b><a href="link_xsd.html#link" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for link.xsd')">ui:link</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Instance</b></div>
+                           <div class="floatRight"><input id="button_instance_fileUpload_file" type="image" src="img/btM.gif" value="-" onclick="switchState('instance_fileUpload_file');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="instance_fileUpload_file" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;ui:file</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">name=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">size=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xmlns:ui=</span><span class="tAV">"https://github.com/bordertech/wcomponents/namespace/ui/v1.0"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:link</span><span class="tT"> </span><span class="tAN">accessibleText=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">accessKey=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">disabled=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">imagePosition=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">imageUrl=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">rel=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">tabIndex=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">toolTip=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">url=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:link&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/ui:file&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Attributes</b></div>
                            <div class="floatRight"><input id="button_attributes_fileUpload_file" type="image" src="img/btM.gif" value="-" onclick="switchState('attributes_fileUpload_file');" class="control" /></div>
@@ -888,17 +941,11 @@ var modelBoxes= new Array('model_fileUpload');
                                     </tr>
                                  </thead>
                                  <tr>
-                                    <td class="firstColumn"><b><a href="fileUpload_xsd.html#fileUpload_fileUpload_file_index" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for fileUpload.xsd')">index</a></b></td>
-                                    <td><b>xs:unsignedInt</b></td>
+                                    <td class="firstColumn"><b><a href="fileUpload_xsd.html#fileUpload_fileUpload_file_id" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for fileUpload.xsd')">id</a></b></td>
+                                    <td><b>xs:string</b></td>
                                     <td>required</td>
                                     <td>
-                                       <div class="annotation">
-                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
-                                             <tr>
-                                                <td width="100%"><pre><span class="tT">A system provided list index for the file.</span></pre></td>
-                                             </tr>
-                                          </table>
-                                       </div>
+                                       <div class="annotation">A system provided identifier for the file.</div>
                                     </td>
                                  </tr>
                                  <tr>
@@ -906,28 +953,7 @@ var modelBoxes= new Array('model_fileUpload');
                                     <td><b>xs:string</b></td>
                                     <td>required</td>
                                     <td>
-                                       <div class="annotation">
-                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
-                                             <tr>
-                                                <td width="100%"><pre><span class="tT">The original (a the time of upload) file name for the file.</span></pre></td>
-                                             </tr>
-                                          </table>
-                                       </div>
-                                    </td>
-                                 </tr>
-                                 <tr>
-                                    <td class="firstColumn"><b><a href="fileUpload_xsd.html#fileUpload_fileUpload_file_selected" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for fileUpload.xsd')">selected</a></b></td>
-                                    <td><b>xs:boolean</b></td>
-                                    <td>optional</td>
-                                    <td>
-                                       <div class="annotation">
-                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
-                                             <tr>
-                                                <td width="100%"><pre><span class="tT">Indicates that the file's UI representation was in a selected state as at the last transaction. Not output if</span><span class="tI">
-</span><span class="tT">"false".</span></pre></td>
-                                             </tr>
-                                          </table>
-                                       </div>
+                                       <div class="annotation">The original (a the time of upload) file name for the file.</div>
                                     </td>
                                  </tr>
                                  <tr>
@@ -935,13 +961,7 @@ var modelBoxes= new Array('model_fileUpload');
                                     <td><b>xs:unsignedInt</b></td>
                                     <td>required</td>
                                     <td>
-                                       <div class="annotation">
-                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
-                                             <tr>
-                                                <td width="100%"><pre><span class="tT">The size of the file in bytes.</span></pre></td>
-                                             </tr>
-                                          </table>
-                                       </div>
+                                       <div class="annotation">The size of the file in bytes.</div>
                                     </td>
                                  </tr>
                                  <tr>
@@ -949,13 +969,7 @@ var modelBoxes= new Array('model_fileUpload');
                                     <td><b>xs:string</b></td>
                                     <td>required</td>
                                     <td>
-                                       <div class="annotation">
-                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
-                                             <tr>
-                                                <td width="100%"><pre><span class="tT">The MIME type of the file.</span></pre></td>
-                                             </tr>
-                                          </table>
-                                       </div>
+                                       <div class="annotation">The MIME type of the file.</div>
                                     </td>
                                  </tr>
                               </table>
@@ -976,9 +990,12 @@ var modelBoxes= new Array('model_fileUpload');
     </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">These represent the list of currently uploaded files for the WMultiFileWidget</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
   </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
   </span><span class="tEl">&lt;xs:complexType</span><span class="tEl">&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"index"</span><span class="tAN"> type=</span><span class="tAV">"xs:unsignedInt"</span><span class="tAN"> use=</span><span class="tAV">"required"</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:sequence</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;xs:element</span><span class="tAN"> ref=</span><span class="tAV">"ui:link"</span><span class="tAN"> minOccurs=</span><span class="tAV">"1"</span><span class="tAN"> maxOccurs=</span><span class="tAV">"1"</span><span class="tEl">/&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/xs:sequence&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"id"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tAN"> use=</span><span class="tAV">"required"</span><span class="tEl">&gt;</span><span class="tI">
       </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-        </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">A system provided list index for the file.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">A system provided identifier for the file.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
       </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
     </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
     </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"name"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tAN"> use=</span><span class="tAV">"required"</span><span class="tEl">&gt;</span><span class="tI">
@@ -994,11 +1011,6 @@ var modelBoxes= new Array('model_fileUpload');
     </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"size"</span><span class="tAN"> type=</span><span class="tAV">"xs:unsignedInt"</span><span class="tAN"> use=</span><span class="tAV">"required"</span><span class="tEl">&gt;</span><span class="tI">
       </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
         </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The size of the file in bytes.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"selected"</span><span class="tAN"> type=</span><span class="tAV">"xs:boolean"</span><span class="tEl">&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-        </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Indicates that the file's UI representation was in a selected state as at the last transaction. Not output if "false".</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
       </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
     </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
   </span><span class="tEl">&lt;/xs:complexType&gt;</span><span class="tI">
@@ -1018,7 +1030,7 @@ var modelBoxes= new Array('model_fileUpload');
             <td class="rt_lineBottom"></td>
             <td class="rt_cornerBottomRight"></td>
          </tr>
-      </table><a id="fileUpload_fileUpload_file_index"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="fileUpload_xsd.html#fileUpload" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for fileUpload.xsd')">ui:fileUpload</a></b> / <b><a href="fileUpload_xsd.html#fileUpload_file" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for fileUpload.xsd')">ui:file</a></b> / @index</span></div>
+      </table><a id="fileUpload_fileUpload_file_id"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="fileUpload_xsd.html#fileUpload" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for fileUpload.xsd')">ui:fileUpload</a></b> / <b><a href="fileUpload_xsd.html#fileUpload_file" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for fileUpload.xsd')">ui:file</a></b> / @id</span></div>
       <table class="rt">
          <tr>
             <td class="rt_cornerTopLeft"></td>
@@ -1037,31 +1049,25 @@ var modelBoxes= new Array('model_fileUpload');
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Annotations</b></div>
-                           <div class="floatRight"><input id="button_annotations_fileUpload_fileUpload_file_index" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_fileUpload_fileUpload_file_index');" class="control" /></div>
+                           <div class="floatRight"><input id="button_annotations_fileUpload_fileUpload_file_id" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_fileUpload_fileUpload_file_id');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="annotations_fileUpload_fileUpload_file_index" style="display:block">
-                              <div class="annotation">
-                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
-                                    <tr>
-                                       <td width="100%"><pre><span class="tT">A system provided list index for the file.</span></pre></td>
-                                    </tr>
-                                 </table>
-                              </div>
+                           <div id="annotations_fileUpload_fileUpload_file_id" style="display:block">
+                              <div class="annotation">A system provided identifier for the file.</div>
                            </div>
                         </td>
                      </tr>
                      <tr>
                         <td class="firstColumn"><b>Type</b></td>
-                        <td><b>xs:unsignedInt</b></td>
+                        <td><b>xs:string</b></td>
                      </tr>
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Properties</b></div>
-                           <div class="floatRight"><input id="button_properties_fileUpload_fileUpload_file_index" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_fileUpload_fileUpload_file_index');" class="control" /></div>
+                           <div class="floatRight"><input id="button_properties_fileUpload_fileUpload_file_id" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_fileUpload_fileUpload_file_id');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="properties_fileUpload_fileUpload_file_index" style="display:block">
+                           <div id="properties_fileUpload_fileUpload_file_id" style="display:block">
                               <table class="propertiesTable">
                                  <tr>
                                     <td class="firstColumn" style="white-space: nowrap;">use</td>
@@ -1074,10 +1080,10 @@ var modelBoxes= new Array('model_fileUpload');
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Used by</b></div>
-                           <div class="floatRight"><input id="button_usedBy_fileUpload_fileUpload_file_index" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_fileUpload_fileUpload_file_index');" class="control" /></div>
+                           <div class="floatRight"><input id="button_usedBy_fileUpload_fileUpload_file_id" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_fileUpload_fileUpload_file_id');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="usedBy_fileUpload_fileUpload_file_index" style="display:block">
+                           <div id="usedBy_fileUpload_fileUpload_file_id" style="display:block">
                               <table class="usedByTable">
                                  <tr>
                                     <td class="firstColumn">Element </td>
@@ -1090,15 +1096,15 @@ var modelBoxes= new Array('model_fileUpload');
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Source</b></div>
-                           <div class="floatRight"><input id="button_source_fileUpload_fileUpload_file_index" type="image" src="img/btM.gif" value="-" onclick="switchState('source_fileUpload_fileUpload_file_index');" class="control" /></div>
+                           <div class="floatRight"><input id="button_source_fileUpload_fileUpload_file_id" type="image" src="img/btM.gif" value="-" onclick="switchState('source_fileUpload_fileUpload_file_id');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="source_fileUpload_fileUpload_file_index" style="display:block">
+                           <div id="source_fileUpload_fileUpload_file_id" style="display:block">
                               <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
                                  <tr>
-                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"index"</span><span class="tAN"> type=</span><span class="tAV">"xs:unsignedInt"</span><span class="tAN"> use=</span><span class="tAV">"required"</span><span class="tEl">&gt;</span><span class="tI">
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"id"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tAN"> use=</span><span class="tAV">"required"</span><span class="tEl">&gt;</span><span class="tI">
   </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">A system provided list index for the file.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">A system provided identifier for the file.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
   </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
 </span><span class="tEl">&lt;/xs:attribute&gt;</span></pre></td>
                                  </tr>
@@ -1139,13 +1145,7 @@ var modelBoxes= new Array('model_fileUpload');
                         </td>
                         <td>
                            <div id="annotations_fileUpload_fileUpload_file_name" style="display:block">
-                              <div class="annotation">
-                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
-                                    <tr>
-                                       <td width="100%"><pre><span class="tT">The original (a the time of upload) file name for the file.</span></pre></td>
-                                    </tr>
-                                 </table>
-                              </div>
+                              <div class="annotation">The original (a the time of upload) file name for the file.</div>
                            </div>
                         </td>
                      </tr>
@@ -1237,13 +1237,7 @@ var modelBoxes= new Array('model_fileUpload');
                         </td>
                         <td>
                            <div id="annotations_fileUpload_fileUpload_file_type" style="display:block">
-                              <div class="annotation">
-                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
-                                    <tr>
-                                       <td width="100%"><pre><span class="tT">The MIME type of the file.</span></pre></td>
-                                    </tr>
-                                 </table>
-                              </div>
+                              <div class="annotation">The MIME type of the file.</div>
                            </div>
                         </td>
                      </tr>
@@ -1335,13 +1329,7 @@ var modelBoxes= new Array('model_fileUpload');
                         </td>
                         <td>
                            <div id="annotations_fileUpload_fileUpload_file_size" style="display:block">
-                              <div class="annotation">
-                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
-                                    <tr>
-                                       <td width="100%"><pre><span class="tT">The size of the file in bytes.</span></pre></td>
-                                    </tr>
-                                 </table>
-                              </div>
+                              <div class="annotation">The size of the file in bytes.</div>
                            </div>
                         </td>
                      </tr>
@@ -1410,7 +1398,7 @@ var modelBoxes= new Array('model_fileUpload');
             <td class="rt_lineBottom"></td>
             <td class="rt_cornerBottomRight"></td>
          </tr>
-      </table><a id="fileUpload_fileUpload_file_selected"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="fileUpload_xsd.html#fileUpload" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for fileUpload.xsd')">ui:fileUpload</a></b> / <b><a href="fileUpload_xsd.html#fileUpload_file" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for fileUpload.xsd')">ui:file</a></b> / @selected</span></div>
+      </table><a id="fileUpload_dropzone"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="fileUpload_xsd.html#fileUpload" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for fileUpload.xsd')">ui:fileUpload</a></b> / @dropzone</span></div>
       <table class="rt">
          <tr>
             <td class="rt_cornerTopLeft"></td>
@@ -1429,32 +1417,25 @@ var modelBoxes= new Array('model_fileUpload');
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Annotations</b></div>
-                           <div class="floatRight"><input id="button_annotations_fileUpload_fileUpload_file_selected" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_fileUpload_fileUpload_file_selected');" class="control" /></div>
+                           <div class="floatRight"><input id="button_annotations_fileUpload_dropzone" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_fileUpload_dropzone');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="annotations_fileUpload_fileUpload_file_selected" style="display:block">
-                              <div class="annotation">
-                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
-                                    <tr>
-                                       <td width="100%"><pre><span class="tT">Indicates that the file's UI representation was in a selected state as at the last transaction. Not output if</span><span class="tI">
-</span><span class="tT">"false".</span></pre></td>
-                                    </tr>
-                                 </table>
-                              </div>
+                           <div id="annotations_fileUpload_dropzone" style="display:block">
+                              <div class="annotation">The ID of an element that will receive "drag and dropped" files for this file uploader.</div>
                            </div>
                         </td>
                      </tr>
                      <tr>
                         <td class="firstColumn"><b>Type</b></td>
-                        <td><b>xs:boolean</b></td>
+                        <td><b>xs:string</b></td>
                      </tr>
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Properties</b></div>
-                           <div class="floatRight"><input id="button_properties_fileUpload_fileUpload_file_selected" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_fileUpload_fileUpload_file_selected');" class="control" /></div>
+                           <div class="floatRight"><input id="button_properties_fileUpload_dropzone" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_fileUpload_dropzone');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="properties_fileUpload_fileUpload_file_selected" style="display:block">
+                           <div id="properties_fileUpload_dropzone" style="display:block">
                               <table class="propertiesTable">
                                  <tr>
                                     <td class="firstColumn" style="white-space: nowrap;">content</td>
@@ -1467,14 +1448,14 @@ var modelBoxes= new Array('model_fileUpload');
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Used by</b></div>
-                           <div class="floatRight"><input id="button_usedBy_fileUpload_fileUpload_file_selected" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_fileUpload_fileUpload_file_selected');" class="control" /></div>
+                           <div class="floatRight"><input id="button_usedBy_fileUpload_dropzone" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_fileUpload_dropzone');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="usedBy_fileUpload_fileUpload_file_selected" style="display:block">
+                           <div id="usedBy_fileUpload_dropzone" style="display:block">
                               <table class="usedByTable">
                                  <tr>
                                     <td class="firstColumn">Element </td>
-                                    <td><b><a href="fileUpload_xsd.html#fileUpload_file" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for fileUpload.xsd')">ui:fileUpload/ui:file</a></b></td>
+                                    <td><b><a href="fileUpload_xsd.html#fileUpload" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for fileUpload.xsd')">ui:fileUpload</a></b></td>
                                  </tr>
                               </table>
                            </div>
@@ -1483,15 +1464,15 @@ var modelBoxes= new Array('model_fileUpload');
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Source</b></div>
-                           <div class="floatRight"><input id="button_source_fileUpload_fileUpload_file_selected" type="image" src="img/btM.gif" value="-" onclick="switchState('source_fileUpload_fileUpload_file_selected');" class="control" /></div>
+                           <div class="floatRight"><input id="button_source_fileUpload_dropzone" type="image" src="img/btM.gif" value="-" onclick="switchState('source_fileUpload_dropzone');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="source_fileUpload_fileUpload_file_selected" style="display:block">
+                           <div id="source_fileUpload_dropzone" style="display:block">
                               <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
                                  <tr>
-                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"selected"</span><span class="tAN"> type=</span><span class="tAV">"xs:boolean"</span><span class="tEl">&gt;</span><span class="tI">
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"dropzone"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">&gt;</span><span class="tI">
   </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Indicates that the file's UI representation was in a selected state as at the last transaction. Not output if "false".</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The ID of an element that will receive "drag and dropped" files for this file uploader.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
   </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
 </span><span class="tEl">&lt;/xs:attribute&gt;</span></pre></td>
                                  </tr>
@@ -1532,13 +1513,9 @@ var modelBoxes= new Array('model_fileUpload');
                         </td>
                         <td>
                            <div id="annotations_fileUpload_acceptedMimeTypes" style="display:block">
-                              <div class="annotation">
-                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
-                                    <tr>
-                                       <td width="100%"><pre><span class="tT">A list of MIME types which may be uploaded using the fileupload component. If not set then no type constraints will be applied to the uploaded</span><span class="tI">
-</span><span class="tT">file.</span></pre></td>
-                                    </tr>
-                                 </table>
+                              <div class="annotation">A list of MIME types which may be uploaded using the fileupload component. If not
+                                 set then no type constraints will be applied to the uploaded
+                                 						file.
                               </div>
                            </div>
                         </td>
@@ -1631,13 +1608,9 @@ var modelBoxes= new Array('model_fileUpload');
                         </td>
                         <td>
                            <div id="annotations_fileUpload_maxFileSize" style="display:block">
-                              <div class="annotation">
-                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
-                                    <tr>
-                                       <td width="100%"><pre><span class="tT">The maximum file size (in bytes) which may be uploaded using the fiel upload. If this is not set then no explicit constraint is set but</span><span class="tI">
-</span><span class="tT">implicit constraints may still exist.</span></pre></td>
-                                    </tr>
-                                 </table>
+                              <div class="annotation">The maximum file size (in bytes) which may be uploaded using the file upload. If this
+                                 is not set then no explicit constraint is set but
+                                 						implicit constraints may still exist.
                               </div>
                            </div>
                         </td>
@@ -1689,7 +1662,7 @@ var modelBoxes= new Array('model_fileUpload');
                                  <tr>
                                     <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"maxFileSize"</span><span class="tAN"> type=</span><span class="tAV">"xs:positiveInteger"</span><span class="tEl">&gt;</span><span class="tI">
   </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The maximum file size (in bytes) which may be uploaded using the fiel upload. If this is not set then no explicit constraint is set but implicit constraints may still exist.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The maximum file size (in bytes) which may be uploaded using the file upload. If this is not set then no explicit constraint is set but implicit constraints may still exist.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
   </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
 </span><span class="tEl">&lt;/xs:attribute&gt;</span></pre></td>
                                  </tr>
@@ -1730,13 +1703,10 @@ var modelBoxes= new Array('model_fileUpload');
                         </td>
                         <td>
                            <div id="annotations_fileUpload_maxFiles" style="display:block">
-                              <div class="annotation">
-                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
-                                    <tr>
-                                       <td width="100%"><pre><span class="tT">The maximum number of files which may be uploaded using the file upload. If this is exactly 1 then the component is a simple single file</span><span class="tI">
-</span><span class="tT">upload. If this is not set then no explicit limit is set on the number of files which may be uploaded using the file upload.</span></pre></td>
-                                    </tr>
-                                 </table>
+                              <div class="annotation">The maximum number of files which may be uploaded using the file upload. If this is
+                                 exactly 1 then the component is a simple single file
+                                 						upload. If this is not set then no explicit limit is set on the number of files
+                                 which may be uploaded using the file upload.
                               </div>
                            </div>
                         </td>
@@ -1789,6 +1759,286 @@ var modelBoxes= new Array('model_fileUpload');
                                     <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"maxFiles"</span><span class="tAN"> type=</span><span class="tAV">"xs:positiveInteger"</span><span class="tEl">&gt;</span><span class="tI">
   </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
     </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The maximum number of files which may be uploaded using the file upload. If this is exactly 1 then the component is a simple single file upload. If this is not set then no explicit limit is set on the number of files which may be uploaded using the file upload.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:attribute&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="fileUpload_ajax"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="fileUpload_xsd.html#fileUpload" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for fileUpload.xsd')">ui:fileUpload</a></b> / @ajax</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_fileUpload_ajax" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_fileUpload_ajax');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_fileUpload_ajax" style="display:block">
+                              <div class="annotation">Flag if the uploaded files will be AJAX triggers.</div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:boolean</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_fileUpload_ajax" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_fileUpload_ajax');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_fileUpload_ajax" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_fileUpload_ajax" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_fileUpload_ajax');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_fileUpload_ajax" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="fileUpload_xsd.html#fileUpload" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for fileUpload.xsd')">ui:fileUpload</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_fileUpload_ajax" type="image" src="img/btM.gif" value="-" onclick="switchState('source_fileUpload_ajax');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_fileUpload_ajax" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"ajax"</span><span class="tAN"> type=</span><span class="tAV">"xs:boolean"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Flag if the uploaded files will be AJAX triggers.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:attribute&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="fileUpload_cols"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="fileUpload_xsd.html#fileUpload" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for fileUpload.xsd')">ui:fileUpload</a></b> / @cols</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_fileUpload_cols" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_fileUpload_cols');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_fileUpload_cols" style="display:block">
+                              <div class="annotation">Number of cols to use when displaying the uploaded files. If not set then the theme
+                                 default will apply.
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:int</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_fileUpload_cols" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_fileUpload_cols');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_fileUpload_cols" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_fileUpload_cols" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_fileUpload_cols');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_fileUpload_cols" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="fileUpload_xsd.html#fileUpload" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for fileUpload.xsd')">ui:fileUpload</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_fileUpload_cols" type="image" src="img/btM.gif" value="-" onclick="switchState('source_fileUpload_cols');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_fileUpload_cols" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"cols"</span><span class="tAN"> type=</span><span class="tAV">"xs:int"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Number of cols to use when displaying the uploaded files. If not set then the theme default will apply.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:attribute&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="fileUpload_async"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="fileUpload_xsd.html#fileUpload" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for fileUpload.xsd')">ui:fileUpload</a></b> / @async</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_fileUpload_async" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_fileUpload_async');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_fileUpload_async" style="display:block">
+                              <div class="annotation">Flag used to allow us to distinguish between the multi and single file uploader. Default
+                                 is true.
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:boolean</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_fileUpload_async" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_fileUpload_async');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_fileUpload_async" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_fileUpload_async" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_fileUpload_async');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_fileUpload_async" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="fileUpload_xsd.html#fileUpload" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for fileUpload.xsd')">ui:fileUpload</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_fileUpload_async" type="image" src="img/btM.gif" value="-" onclick="switchState('source_fileUpload_async');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_fileUpload_async" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"async"</span><span class="tAN"> type=</span><span class="tAV">"xs:boolean"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Flag used to allow us to distinguish between the multi and single file uploader. Default is true.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
   </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
 </span><span class="tEl">&lt;/xs:attribute&gt;</span></pre></td>
                                  </tr>
