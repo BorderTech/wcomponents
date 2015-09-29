@@ -390,33 +390,63 @@ var modelBoxes= new Array('model_suggestions');
                         <td>
                            <div id="annotations_suggestions" style="display:block">
                               <div class="annotation">
-                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
-                                    <tr>
-                                       <td width="100%"><pre><span class="tEl">&lt;p</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">WSuggestions represents a device for providing suggested input for a text-like input field. The suggestions may be a static list, derived from a data url or acquired on the fly based on user input into an associated input.</span><span class="tEl">&lt;/p&gt;</span><span class="tI">
-</span><span class="tEl">&lt;p</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">WSuggestions has no effect unless it is associated with a text-like input control such as WTextField. If it is associated with a constrained input (such as WEmailField) then it is expected (but not enforced) that the suggestions would be in line with the associated field's constraints.</span><span class="tEl">&lt;/p&gt;</span><span class="tI">
-</span><span class="tEl">&lt;p</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">It allows for client caching of frequently used lists via a data key or lists that can be produced via AJAX depending on the text entered in the related TextField.</span><span class="tEl">&lt;/p&gt;</span><span class="tI">
-</span><span class="tEl">&lt;p</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">If the suggestion list is populated on-the-fly then an ajax request for suggestions will contain the following:</span><span class="tEl">&lt;/p&gt;</span><span class="tI">
-</span><span class="tEl">&lt;table</span><span class="tEl">&gt;</span><span class="tI">
-  </span><span class="tEl">&lt;thead</span><span class="tEl">&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;tr</span><span class="tEl">&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;th</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Field name</span><span class="tEl">&lt;/th&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;th</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Type</span><span class="tEl">&lt;/th&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;th</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Mandatory</span><span class="tEl">&lt;/th&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;th</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Value</span><span class="tEl">&lt;/th&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;/tr&gt;</span><span class="tI">
-  </span><span class="tEl">&lt;/thead&gt;</span><span class="tI">
-  </span><span class="tEl">&lt;tbody</span><span class="tEl">&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;tr</span><span class="tEl">&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">@id</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">String[]</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">yes</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">the value of the associated input field</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;/tr&gt;</span><span class="tI">
-  </span><span class="tEl">&lt;/tbody&gt;</span><span class="tI">
-</span><span class="tEl">&lt;/table&gt;</span><span class="tI">
-</span></pre></td>
-                                    </tr>
+                                 				
+                                 <p xmlns="">WSuggestions represents a device for providing suggested input for a text-like input
+                                    field. The suggestions may be a static list, derived from a data url or
+                                    					acquired on the fly based on user input into an associated input.
+                                 </p>
+                                 				
+                                 <p xmlns="">WSuggestions has no effect unless it is associated with a text-like input control
+                                    such as WTextField. If it is associated with a constrained input (such as
+                                    					WEmailField) then it is expected (but not enforced) that the suggestions would
+                                    be in line with the associated field's constraints.
+                                 </p>
+                                 				
+                                 <p xmlns="">It allows for client caching of frequently used lists via a data key or lists that
+                                    can be produced via AJAX depending on the text entered in the related
+                                    					TextField. 
+                                 </p>
+                                 				
+                                 <p xmlns="">If the suggestion list is populated on-the-fly then an ajax request for suggestions
+                                    will contain the following:
+                                 </p>
+                                 				
+                                 <table xmlns="">
+                                    					
+                                    <thead>
+                                       						
+                                       <tr>
+                                          							
+                                          <th>Field name</th>
+                                          							
+                                          <th>Type</th>
+                                          							
+                                          <th>Mandatory</th>
+                                          							
+                                          <th>Value</th>
+                                          						
+                                       </tr>
+                                       					
+                                    </thead>
+                                    					
+                                    <tbody>
+                                       						
+                                       <tr>
+                                          							
+                                          <td>@id</td>
+                                          							
+                                          <td>String[]</td>
+                                          							
+                                          <td>yes</td>
+                                          							
+                                          <td>the value of the associated input field</td>
+                                          						
+                                       </tr>
+                                       					
+                                    </tbody>
+                                    				
                                  </table>
+                                 			
                               </div>
                            </div>
                         </td>
@@ -428,11 +458,11 @@ var modelBoxes= new Array('model_suggestions');
                         </td>
                         <td class="diagram">
                            <div id="diagram_suggestions" style="display:block"><img alt="Diagram" border="0" src="img/suggestions_xsd_Element_ui_suggestions.png" usemap="#suggestions_xsd_Element_ui_suggestions" /><map name="suggestions_xsd_Element_ui_suggestions" id="suggestions_xsd_Element_ui_suggestions">
-                                 <area alt="suggestions_xsd.tmp#suggestions_id" href="suggestions_xsd.html#suggestions_id" coords="152,41,222,66" />
-                                 <area alt="suggestions_xsd.tmp#suggestions_ajax" href="suggestions_xsd.html#suggestions_ajax" coords="152,107,222,132" />
-                                 <area alt="suggestions_xsd.tmp#suggestions_min" href="suggestions_xsd.html#suggestions_min" coords="152,187,222,212" />
-                                 <area alt="suggestions_xsd.tmp#suggestions_data" href="suggestions_xsd.html#suggestions_data" coords="152,281,223,306" />
-                                 <area alt="suggestions_xsd.tmp#suggestions_suggestion" href="suggestions_xsd.html#suggestions_suggestion" coords="229,386,313,411" /></map></div>
+                                 <area alt="suggestions_xsd.tmp#suggestions_id" href="suggestions_xsd.html#suggestions_id" coords="159,40,227,64" />
+                                 <area alt="suggestions_xsd.tmp#suggestions_ajax" href="suggestions_xsd.html#suggestions_ajax" coords="159,104,229,128" />
+                                 <area alt="suggestions_xsd.tmp#suggestions_min" href="suggestions_xsd.html#suggestions_min" coords="159,181,227,205" />
+                                 <area alt="suggestions_xsd.tmp#suggestions_data" href="suggestions_xsd.html#suggestions_data" coords="159,271,230,295" />
+                                 <area alt="suggestions_xsd.tmp#suggestions_suggestion" href="suggestions_xsd.html#suggestions_suggestion" coords="237,372,328,396" /></map></div>
                         </td>
                      </tr>
                      <tr>
@@ -516,12 +546,8 @@ var modelBoxes= new Array('model_suggestions');
                                     <td><b>xs:boolean</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">
-                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
-                                             <tr>
-                                                <td width="100%"><pre><span class="tT">Indicates if the suggestions list will be updated via AJAX. Is n/a for data lists.</span></pre></td>
-                                             </tr>
-                                          </table>
+                                       <div class="annotation"> Indicates if the suggestions list will be updated via AJAX. Is n/a for data lists.
+                                          
                                        </div>
                                     </td>
                                  </tr>
@@ -530,13 +556,9 @@ var modelBoxes= new Array('model_suggestions');
                                     <td><b>xs:string</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">
-                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
-                                             <tr>
-                                                <td width="100%"><pre><span class="tT">The key name for a datalist. If set then no individual suggestion elements are included in the source XML but are fetched in a separate</span><span class="tI">
-</span><span class="tT">transaction.</span></pre></td>
-                                             </tr>
-                                          </table>
+                                       <div class="annotation">The key name for a datalist. If set then no individual suggestion elements are included
+                                          in the source XML but are fetched in a separate
+                                          						transaction.
                                        </div>
                                     </td>
                                  </tr>
@@ -545,13 +567,7 @@ var modelBoxes= new Array('model_suggestions');
                                     <td><b>xs:ID</b></td>
                                     <td>required</td>
                                     <td>
-                                       <div class="annotation">
-                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
-                                             <tr>
-                                                <td width="100%"><pre><span class="tT">The unique identifier for the component.</span></pre></td>
-                                             </tr>
-                                          </table>
-                                       </div>
+                                       <div class="annotation">The unique identifier for the component. </div>
                                     </td>
                                  </tr>
                                  <tr>
@@ -559,12 +575,9 @@ var modelBoxes= new Array('model_suggestions');
                                     <td><b>xs:positiveInteger</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">
-                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
-                                             <tr>
-                                                <td width="100%"><pre><span class="tT">Indicates the minimum number of characters entered before refreshing suggestions. Default is theme dependent. Is n/a for data lists.</span></pre></td>
-                                             </tr>
-                                          </table>
+                                       <div class="annotation"> Indicates the minimum number of characters entered before refreshing suggestions.
+                                          Default is theme dependent. Is n/a for data lists.
+                                          					
                                        </div>
                                     </td>
                                  </tr>
@@ -686,12 +699,8 @@ var modelBoxes= new Array('model_suggestions');
                         </td>
                         <td>
                            <div id="annotations_suggestions_suggestion" style="display:block">
-                              <div class="annotation">
-                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
-                                    <tr>
-                                       <td width="100%"><pre><span class="tT">Each suggestion in the suggestions list. Provided when not using a data list key.</span></pre></td>
-                                    </tr>
-                                 </table>
+                              <div class="annotation">Each suggestion in the suggestions list. Provided when not using a data list key.
+                                 
                               </div>
                            </div>
                         </td>
@@ -703,7 +712,7 @@ var modelBoxes= new Array('model_suggestions');
                         </td>
                         <td class="diagram">
                            <div id="diagram_suggestions_suggestion" style="display:block"><img alt="Diagram" border="0" src="img/suggestions_xsd_Element_ui_suggestion.png" usemap="#suggestions_xsd_Element_ui_suggestion" /><map name="suggestions_xsd_Element_ui_suggestion" id="suggestions_xsd_Element_ui_suggestion">
-                                 <area alt="suggestions_xsd.tmp#suggestions_suggestions_suggestion_value" href="suggestions_xsd.html#suggestions_suggestions_suggestion_value" coords="146,41,222,66" /></map></div>
+                                 <area alt="suggestions_xsd.tmp#suggestions_suggestions_suggestion_value" href="suggestions_xsd.html#suggestions_suggestions_suggestion_value" coords="153,40,229,64" /></map></div>
                         </td>
                      </tr>
                      <tr>
@@ -751,13 +760,7 @@ var modelBoxes= new Array('model_suggestions');
                                     <td><b>xs:string</b></td>
                                     <td>required</td>
                                     <td>
-                                       <div class="annotation">
-                                          <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
-                                             <tr>
-                                                <td width="100%"><pre><span class="tT">The suggested value.</span></pre></td>
-                                             </tr>
-                                          </table>
-                                       </div>
+                                       <div class="annotation">The suggested value. </div>
                                     </td>
                                  </tr>
                               </table>
@@ -823,13 +826,7 @@ var modelBoxes= new Array('model_suggestions');
                         </td>
                         <td>
                            <div id="annotations_suggestions_suggestions_suggestion_value" style="display:block">
-                              <div class="annotation">
-                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
-                                    <tr>
-                                       <td width="100%"><pre><span class="tT">The suggested value.</span></pre></td>
-                                    </tr>
-                                 </table>
-                              </div>
+                              <div class="annotation">The suggested value. </div>
                            </div>
                         </td>
                      </tr>
@@ -921,13 +918,7 @@ var modelBoxes= new Array('model_suggestions');
                         </td>
                         <td>
                            <div id="annotations_suggestions_id" style="display:block">
-                              <div class="annotation">
-                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
-                                    <tr>
-                                       <td width="100%"><pre><span class="tT">The unique identifier for the component.</span></pre></td>
-                                    </tr>
-                                 </table>
-                              </div>
+                              <div class="annotation">The unique identifier for the component. </div>
                            </div>
                         </td>
                      </tr>
@@ -1019,12 +1010,8 @@ var modelBoxes= new Array('model_suggestions');
                         </td>
                         <td>
                            <div id="annotations_suggestions_ajax" style="display:block">
-                              <div class="annotation">
-                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
-                                    <tr>
-                                       <td width="100%"><pre><span class="tT">Indicates if the suggestions list will be updated via AJAX. Is n/a for data lists.</span></pre></td>
-                                    </tr>
-                                 </table>
+                              <div class="annotation"> Indicates if the suggestions list will be updated via AJAX. Is n/a for data lists.
+                                 
                               </div>
                            </div>
                         </td>
@@ -1117,12 +1104,9 @@ var modelBoxes= new Array('model_suggestions');
                         </td>
                         <td>
                            <div id="annotations_suggestions_min" style="display:block">
-                              <div class="annotation">
-                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
-                                    <tr>
-                                       <td width="100%"><pre><span class="tT">Indicates the minimum number of characters entered before refreshing suggestions. Default is theme dependent. Is n/a for data lists.</span></pre></td>
-                                    </tr>
-                                 </table>
+                              <div class="annotation"> Indicates the minimum number of characters entered before refreshing suggestions.
+                                 Default is theme dependent. Is n/a for data lists.
+                                 					
                               </div>
                            </div>
                         </td>
@@ -1218,13 +1202,9 @@ var modelBoxes= new Array('model_suggestions');
                         </td>
                         <td>
                            <div id="annotations_suggestions_data" style="display:block">
-                              <div class="annotation">
-                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
-                                    <tr>
-                                       <td width="100%"><pre><span class="tT">The key name for a datalist. If set then no individual suggestion elements are included in the source XML but are fetched in a separate</span><span class="tI">
-</span><span class="tT">transaction.</span></pre></td>
-                                    </tr>
-                                 </table>
+                              <div class="annotation">The key name for a datalist. If set then no individual suggestion elements are included
+                                 in the source XML but are fetched in a separate
+                                 						transaction.
                               </div>
                            </div>
                         </td>
