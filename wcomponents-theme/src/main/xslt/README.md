@@ -122,3 +122,7 @@ extraneous space then this space is a text node and will be copied through. This
 sometimes, and in some browsers, it does. Therefore, if we are applying templates in an element which only have element
 children we prefer to use `<apply-templates select="*"/>` to ensure we do not get these extraneous text nodes. They can
 play havoc with content wrapping in closely styled buttons (such as those in a BAR menu) in Chrome, for example.
+
+## Things to do
+
+* Improve in-file documentation.
