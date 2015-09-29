@@ -2,6 +2,7 @@
 <xsl:stylesheet
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xmlns:x="https://github.com/bordertech/wcomponents/namespace/ui/dummy"
+	xmlns:doc="http://www.oxygenxml.com/ns/doc/xsl"
 	version="2.0">
 <!--**
 build_strip_debug.xsl
@@ -95,4 +96,9 @@ build_strip_debug.xsl
 	<xsl:template match="xsl:text[not(contains(text(),'&amp;'))]">
 		<xsl:value-of select="."/>
 	</xsl:template>
+	
+<!-- 
+	Remove everything in the doc namespace (XSLT documentation)
+-->
+	<xsl:template match="doc:*" />
 </xsl:stylesheet>
