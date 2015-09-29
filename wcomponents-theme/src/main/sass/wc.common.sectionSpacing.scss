@@ -1,4 +1,4 @@
-@import "mixins_common.scss";
+@import 'mixins_common.scss';
 
 // the negative margin must be 0 - the padding of WSection.content which must equal
 $neg-margin: -$section-content-spacing;
@@ -61,7 +61,7 @@ section {
 	// We need to reset the margin-left if the list is ordered so we need element qualifier for ordered lists only
 	// scss-lint:disable QualifyingElement
 	> ol.listLayout {
-		margin-left: $list-layout-ordered-spacing + $section-content-spacing ;
+		margin-left: $list-layout-ordered-spacing + $section-content-spacing;
 
 		&.flat { //except when they are flat
 			margin-left: $section-content-spacing;
@@ -77,7 +77,10 @@ section {
 .section > .content > .panel, //we use the WSection class here so we do not end up with weird multi-depth happenings.
 .chrome,
 .action {
+	// need these deep selectors unfortunately
+	// scss-lint:disable SelectorDepth
 	> .content > .bar:first-child {
 		margin: $neg-margin $neg-margin  $section-content-spacing;
 	}
+	// scss-lint:enable SelectorDepth
 }
