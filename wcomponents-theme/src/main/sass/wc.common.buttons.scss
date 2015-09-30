@@ -25,27 +25,17 @@ button {
 	margin: 0;
 }
 
-
 // CLASS wc_btn_nada has all style stripped. CLASS wc_btn_link is made to look like a link.
 .wc_btn {
 	&_link,
 	&_nada {
 		background-color: transparent;
-		background-image: none;
 		border: 0 none;
-		border-radius: 0;
 		cursor: pointer;
 		font-family: inherit;
 		font-size: inherit;
 		line-height: inherit;
 		padding: 0;
-
-		&[disabled],
-		&:hover,
-		&:focus,
-		&:active {
-			background-image: none;
-		}
 
 		&[disabled] {
 			color: $wc-ui-color-disabled-fg;

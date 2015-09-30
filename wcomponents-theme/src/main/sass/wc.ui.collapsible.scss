@@ -21,16 +21,17 @@ summary {
 	padding: $hgap-normal 0;
 
 	&::before {
-		content: url('../images/next.png');
-		display: inline-block;
-		height: 0;
+		@include make-box();
+		@include background-image-icon('../images/next.png') ;
+		content: ' ';
 		margin-right: $hgap-small;
 		vertical-align: top;
+
+		[open] > & {
+			background-image: url('../images/down.png');
+		}
 	}
 
-	&::-webkit-details-marker { // remove the default summary marker from webkit browsers
-		display: none;
-	}
 	> h1,
 	> h2,
 	> h3,
@@ -48,25 +49,24 @@ summary {
 	}
 }
 
+
 // content of the collapsible NOTE: this is currently wrapped in a div but this could be > * with an override for
 // summary::first-of-type
-details {
-	> div {
+div {
+	details > & {
 		display: none;
 	}
 
-	&[open] {
-		> div {
-			display: block;
+	[open] > & {
+		display: block;
 
-			&[aria-busy='true'] {
-				min-height: 16px;
-			}
-		}
-
-		> summary::before {
-			content: url('../images/down.png');
+		&[aria-busy='true'] {
+			min-height: 16px;
 		}
 	}
+}
+
+::-webkit-details-marker { // remove the default summary marker from webkit browsers
+	display: none;
 }
 /* end wc.ui.collapsible.scss */

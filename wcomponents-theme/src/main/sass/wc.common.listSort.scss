@@ -7,55 +7,38 @@
 	vertical-align: top;
 }
 
-// The excessive depth here is to make this stuff IE8 compatible since we do not have access to nth-child.
-// scss-lint:disable NestingDepth
 .wc_sorter {
+	@include button;
+	@include background-image-icon('../images/top.png');
 	display: block;
-	padding: 3px;
-
-	&:before {
-		content: url('../images/top.png');
-		position: relative;
-		top: 1px;
-	}
-
-	+ .wc_sorter {
-		&:before {
-			content: url('../images/up.png');
-		}
-
-		+ .wc_sorter {
-			&:before {
-				content: url('../images/down.png');
-			}
-
-			+ .wc_sorter:before {
-				content: url('../images/bottom.png');
-			}
-		}
-	}
 
 	&[disabled] {
-		&:before {
-			content: url('../images/top-d.png');
+		background-image: url('../images/top-d.png');
+	}
+
+	// NOTE this will need a .ie8.scss file if your implementation needs to support ie8.
+	&:nth-of-type(2) {
+		background-image: url('../images/up.png');
+
+		&[disabled] {
+			background-image: url('../images/up-d.png');
 		}
+	}
 
-		+ .wc_sorter {
-			&:before {
-				content: url('../images/up-d.png');
-			}
+	&:nth-of-type(3) {
+		background-image: url('../images/down.png');
 
-			+ .wc_sorter {
-				&:before {
-					content: url('../images/down-d.png');
-				}
+		&[disabled] {
+			background-image: url('../images/down-d.png');
+		}
+	}
 
-				+ .wc_sorter:before {
-					content: url('../images/bottom-d.png');
-				}
-			}
+	&:last-of-type {
+		background-image: url('../images/bottom.png');
+
+		&[disabled] {
+			background-image: url('../images/bottom-d.png');
 		}
 	}
 }
-// scss-lint:enable NestingDepth
 /* end wc.common.listSort.scss */

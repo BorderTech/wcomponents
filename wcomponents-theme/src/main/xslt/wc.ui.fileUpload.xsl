@@ -78,11 +78,10 @@
 							<xsl:value-of select="@id"/>
 						</xsl:attribute>
 					</xsl:if>
+					<xsl:attribute name="data-wc-cols">
+						<xsl:value-of select="$cols"/>
+					</xsl:attribute>
 					<xsl:if test="$readOnly!=1">
-						<xsl:attribute name="data-wc-cols">
-							<xsl:value-of select="$cols"/>
-						</xsl:attribute>
-						
 						<xsl:call-template name="makeLegend">
 							<xsl:with-param name="myLabel" select="$myLabel"/>
 						</xsl:call-template>

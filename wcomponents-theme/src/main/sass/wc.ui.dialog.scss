@@ -57,10 +57,8 @@ dialog {
 // dialog close control
 // NOTE: for resize handle and max/restore control see wc.ui.resizeable.scss.
 .wc_dialog_close.wc_btn_nada {
-	background-image: url('../images/dialog-close.sprite.png');
-	height: 16px;
-	width: 16px;
-
+	@include background-image($url: '../images/dialog-close.sprite.png', $height: cover, $width: '', $x: 0, $y: 0);
+	@include make-box;
 	&:focus,
 	&:hover {
 		background-position: 100% 0;

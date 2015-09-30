@@ -1,10 +1,51 @@
 /* wc.ui.fileUpload.scss */
 @import 'mixins_common.scss';
 
+%a-button {
+	display: inline-block;
+	vertical-align: top;
+}
+
 .fileUpload {
+	a {
+		@extend %a-button;
+		@include flex-grow(1);
+		@include flex-shrink(1);
+		max-width: calc(100% - #{$line-size});
+
+		img {
+			max-width: 100%;
+		}
+
+		~ button {
+			@extend %a-button;
+			@include flex-shrink(0);
+			@include button;
+			@include background-image-icon('../images/edit-delete-2.png');
+			margin-left: $hgap-small;
+
+			&[disabled] {
+				background-image: url('../images/edit-delete-2-d.png');
+			}
+		}
+	}
+
+	.file {
+		@include flex($justify: space-between, $align-items: flex-start);
+		@include border;
+		background-color: $wc-ui-color-highlight-bg;
+		color: $wc-ui-color-highlight-fg;
+		padding: $hgap-small;
+		word-wrap: break-word;
+	}
+
 	> .wc_filelist {
 		display: table-cell;  // horrendously wrong no doubt but fixes columns
-		margin-top: $hgap-small;
+		padding-top: $hgap-small;
+
+		.file + .file {
+			margin-top: $vgap-normal;
+		}
 
 		&.wc_list_flat {
 			.file {
@@ -24,10 +65,6 @@
 				width: auto;
 			}
 		}
-
-		> .file + .file {
-			margin-top: $vgap-normal;
-		}
 	}
 
 	&[data-wc-cols] {
@@ -38,42 +75,21 @@
 
 		ul {
 			@include flex-grow(1);
+
+			+ ul {
+				margin-left: $hgap-small;
+			}
+		}
+
+		li + li {
+			margin-top: $hgap-small;
 		}
 	}
 
-	.file {
-		@include border;
-		background-color: $wc-ui-color-highlight-bg;
-		color: $wc-ui-color-highlight-fg;
-		padding: $hgap-normal;
-		white-space: nowrap;
-	}
 
 	&.wc_dragging [type=file] {
 		background-color: $wc-ui-color-invite-bg;  //#c0ffee
 		outline: 2px dotted $wc-ui-color-invite-fg;
-	}
-
-	button {
-		margin-left: $hgap-small;
-
-		&:before {
-			content: url('../images/edit-delete-2.png');
-		}
-
-		&[disabled]:before {
-			content: url('../images/edit-delete-2-d.png');
-		}
-	}
-
-	a,
-	a ~ button {
-		display: inline-block;
-		vertical-align: top;
-	}
-
-	a {
-		width: calc(100% - #{$line-size});
 	}
 }
 /* end wc.ui.fileUpload.scss */

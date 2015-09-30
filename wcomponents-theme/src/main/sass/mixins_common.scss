@@ -22,8 +22,112 @@
 	box-sizing: border-box;
 }
 
-// This mixin makes a square box to put an SVG in.
-@mixin make-box($display: inline-block, $width: $line-size, $height: $line-size) {
+/// Create a button with a transparent background. Handy for holding iconography!
+/// @param {boolean} $border [true] Set false to not include the standard border mixin.
+/// @param {dimension} $height [$line-size] The height of the button. Set -1 to omit this rule.
+/// @param {dimension} $padding [1em] The padding of the button. Set -1 to omit this rule.
+/// @param {position} $text-align [center] The text align for your button. Set '' to omit this rule.
+/// @param {dimension} $width [$line-size] The width of the button. Set -1 to omit this rule.
+@mixin button ($border: true, $height: $line-size, $padding: $hgap-small, $text-align: center, $width: $line-size, $reset-height: 1em, $reset-width: 1em) {
+	@if ($border == true) {
+		@include border;
+	}
+	@else if ($border == 0) {
+		border: 0;
+	}
+	background-color: transparent;
+	// need this for Firefox
+	// scss-lint:disable VendorPrefix
+	-moz-box-sizing: content-box;
+	// scss-lint:enable VendorPrefix
+	box-sizing: content-box;
+	font: inherit; // we really need this to make icon buttons behave
+	@if ($height != -1) {
+		height: $height;
+	}
+	@if ($padding != -1) {
+		padding: $padding;
+	}
+	@if($text-align != '') {
+		text-align: $text-align;
+	}
+	@if ($width != -1) {
+		width: $width;
+	}
+
+	@if($reset-width != -1 or $reset-height != -1) {
+		@include reset-large-screen {
+			@if($reset-height != -1) {
+				height: $reset-height;
+			}
+			@if($reset-width != -1) {
+				width: $reset-width;
+			}
+		}
+	}
+	@content;
+}
+
+/// Add a background-image to almost anything.
+/// @param {string} $url The URL of your image.
+/// @param {dimension} $height [$line-size] The vertical aspect of background-size. Set -1 to omit the background-size rule.
+/// @param {repetition} $repeat [no-repeat] The repeat rule for your image.
+/// @param {dimension} $width [$line-size] The horizontal aspect of background-size. Set -1 to omit the background-size rule.
+/// @param {position|dimension} $x [50%] The x-position aspect of background-position. The background-position rule is
+/// omitted if both $x and $y are 0.
+/// @param {position|dimension} $y [50%] The y-position aspect of background-position. The background-position rule is
+/// omitted if both $x and $y are 0.
+/// @param {boolean|position|dimension} $reset-size [-1]. Include a large screen media query to reset background size.
+/// If true then reset to 1em x 1em as a shorthand for the default size. Omitted if this is -1 or if background-size is not set.
+@mixin background-image ($url, $height: $line-size, $repeat: no-repeat, $width: $line-size, $x: 50%, $y: 50%, $reset-size: -1) {
+	background-image: url($url);
+	@if ($x != 0 or $y != 0) {
+		background-position: $x $y;
+	}
+	@if($repeat != repeat) {
+		background-repeat: $repeat;
+	}
+	@if($height != -1 and $width != -1) {
+		background-size: $width $height;
+		@if($reset-size == true) {
+			@include reset-large-screen {
+				background-size: 1em 1em;
+			}
+		}
+		@else if($reset-size != -1) {
+			@include reset-large-screen {
+				background-size: $reset-size;
+			}
+		}
+	}
+	@content;
+}
+
+
+/// Add a scaled background-image (as an icon).
+/// @param {string} $url The URL of your image.
+/// @param {position|dimension} $x [50%] The x-position aspect of background-position. The background-position rule is
+/// omitted if both $x and $y are 0.
+/// @param {position|dimension} $y [50%] The y-position aspect of background-position. The background-position rule is
+/// omitted if both $x and $y are 0.
+@mixin background-image-icon ($url, $x: 50%, $y: 50%) {
+	background-image: url($url);
+	@if ($x != 0 or $y != 0) {
+		background-position: $x $y;
+	}
+	background-repeat: no-repeat;
+	background-size: $line-size;
+
+	@include reset-large-screen {
+		background-size: 1em;
+	}
+}
+
+// This mixin makes a square box (for exampe to put a 100% scaled SVG in).
+/// @param {display} $display [inline-block] How you want your box to display.
+/// @param {dimension} $height [$line-size] The height of the box. Set auto to omit this rule.
+/// @param {dimension} $width [$line-size] The width of the box. Set auto to omit this rule.
+@mixin make-box($display: inline-block, $height: $line-size, $width: $line-size) {
 	display: $display;
 	@if ($height != auto) {
 		height: $height;
