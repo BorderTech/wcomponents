@@ -1,5 +1,5 @@
 /* wc.ui.collapsibleToggle.scss */
-@import 'vars_all.scss';
+@import 'mixins_common.scss';
 
 .expandCollapseAll {
 	list-style-type: none;
@@ -17,6 +17,11 @@
 			content: '\229e';
 			font-size: 1.25em;
 			line-height: 0;
+
+			@include reset-large-screen {
+				font-size: 1em;
+				line-height: inherit;
+			}
 		}
 
 		[data-wc-value='collapse']:before {

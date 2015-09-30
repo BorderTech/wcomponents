@@ -2,41 +2,30 @@
 @import 'mixins_common.scss';
 
 .wc_msp_btncol button {
-	text-align: center;
+	@include background-image-icon('../images/next.png');
 
-	&:before {
-		content: url('../images/next.png');
-		display: inline-block;
-		vertical-align: middle;
-	}
+	// NOTE this will need a .ie8.scss file if your implementation needs to support ie8.
+	&:nth-of-type(2) {
+		background-image: url('../images/last.png');
 
-	+ button:before {
-		content: url('../images/last.png');
-	}
-
-	+ button + button:before {
-		content: url('../images/previous.png');
-	}
-
-	+ button + button + button:before {
-		content: url('../images/first.png');
-	}
-
-	&[disabled] {
-		&:before {
-			content: url('../images/next-d.png');
+		&[disabled] {
+			background-image: url('../images/last-d.png');
 		}
+	}
 
-		+ [disabled]:before {
-			content: url('../images/last-d.png');
+	&:nth-of-type(3) {
+		background-image: url('../images/previous.png');
+
+		&[disabled] {
+			background-image: url('../images/previous-d.png');
 		}
+	}
 
-		+ [disabled] + [disabled]:before {
-			content: url('../images/previous-d.png');
-		}
+	&:last-of-type {
+		background-image: url('../images/first.png');
 
-		+ [disabled] + [disabled] + [disabled]:before {
-			content: url('../images/first-d.png');
+		&[disabled] {
+			background-image: url('../images/first-d.png');
 		}
 	}
 }

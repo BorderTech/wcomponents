@@ -68,19 +68,17 @@ dialog [role='combobox'] > [role='listbox'] {
 
 // calendar launch button
 .wc_wdf_cal {
+	@include background-image-icon('../images/date.png');
+	@include button($border: 0);
+	@include border($pos: left);
+
 	&:hover,
 	&:focus {
 		background-color: $wc-ui-color-invite-bg;
 	}
 
-	&:before {
-		content: url('../images/date.png');
-		position: relative;
-		top: 2px;
-	}
-
-	&[disabled]:before {
-		content: url('../images/date-d.png');
+	&[disabled] {
+		background-image: url('../images/date-d.png');
 	}
 }
 

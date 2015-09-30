@@ -1,16 +1,23 @@
 /* wc.ui.table.rowExpansion.icons.scss */
-@import 'vars_all.scss';
+@import 'mixins_common.scss';
 
 // ROW EXPANSION iconography and expand/collapse all iconography.
 // .wc_table_rowexp_container is the expandable row's expander holding cell or header
 
 .wc_table_rowexp_container button {
-	&:before {
-		content: url('../images/next.png');
+	@include button($border: 0, $padding: 0);
+	@include background-image-icon('../images/next.png');
+
+	&[disabled] {
+		background-image: url('../images/next-d.png');
 	}
 
-	&[aria-expanded='true']:before {
-		content: url('../images/down.png');
+	&[aria-expanded='true'] {
+		background-image: url('../images/down.png');
+
+		&[disabled] {
+			background-image: url('../images/down-d.png');
+		}
 	}
 }
 /* end wc.ui.table.rowExpansion.icons.scss */

@@ -4,6 +4,6 @@ $wc-ui-color-tooltip-fg: $std-color-primary;
 $wc-ui-color-tooltip-bg: $std-color-tertiary;
 $wc-ui-color-tooltip-border: $std-color-lines;
 
-@mixin accesskey-border() {
+@mixin accesskey-border {
 	@include border($color: $wc-ui-color-tooltip-border);
 }

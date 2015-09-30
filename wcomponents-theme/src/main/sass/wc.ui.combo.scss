@@ -11,12 +11,10 @@ datalist {
 }
 
 input[role='combobox'] {
+	@include background-image($url: '../images/down.png', $height: 1em, $width: 1em, $x: 100%, $y: 0%);
 	@include border;
 	@include border-box;
-	background-image: url('../images/down.png');
-	background-position: 100% 0;
-	background-repeat: no-repeat;
-	padding-right: 17px;
+	padding-right: $line-size;
 
 	&[disabled] {
 		background-image: url('../images/down-d.png');

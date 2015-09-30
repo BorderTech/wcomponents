@@ -15,7 +15,9 @@
 		padding: $vgap-normal $hgap-small;
 
 		&:before {
-			display: inline-block;
+			@include make-box;
+			@include background-image-icon($url: '../images/error.png');
+			content: ' ';
 			margin-right: $hgap-small;
 			vertical-align: text-top;
 		}
@@ -31,10 +33,6 @@
 
 		> h1 {
 			background-color: $wc-ui-color-error-fg;
-
-			&:before {
-				content: url('../images/error.png');
-			}
 		}
 	}
 
@@ -45,7 +43,7 @@
 			background-color: $wc-ui-color-warning-fg;
 
 			&:before {
-				content: url('../images/warning.png');
+				background-image: url('../images/warning.png');
 			}
 		}
 	}
@@ -57,7 +55,7 @@
 			background-color: $wc-ui-color-info-fg;
 
 			&:before {
-				content: url('../images/information.png');
+				background-image: url('../images/information.png');
 			}
 		}
 	}
@@ -69,7 +67,7 @@
 			background-color: $wc-ui-color-success-fg;
 
 			&:before {
-				content: url('../images/success.png');
+				background-image: url('../images/success.png');
 			}
 		}
 	}
