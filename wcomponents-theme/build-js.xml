@@ -62,17 +62,17 @@
 		</copy>
 		<!-- implementation js -->
 		<copy todir="${script.tmp.src.dir}" overwrite="true">
-			<fileset dir="${impl.script.rootdir}" includes="**/*.js"/>
+			<fileset dir="${impl.script.rootdir}" includes="**/*.js" erroronmissingdir="false"/>
 			<filterchain>
 				<expandproperties/>
 			</filterchain>
 		</copy>
-		
+
 		<!-- i18n -->
 <!--		<copy todir="${script.tmp.src.dir}/i18n" overwrite="true">
 			<fileset dir="${i18n.build.target.dir}" includes="*.js"/>
 		</copy>-->
-		
+
 		<!-- default plugins js -->
 		<copy todir="${script.tmp.src.dir}/${plugins.target.dir.name}" overwrite="true">
 			<fileset dir="${common.src.plugin.dir}" includes="**/${plugin.script.dir.name}/**/*.js" erroronmissingdir="false"/>
@@ -87,7 +87,7 @@
 				<expandproperties/>
 			</filterchain>
 		</copy>
-		
+
 		<javascript.lint jsdir="${script.tmp.src.dir}"/>
 		<javascript.lint jsdir="${common.src.plugin.dir}"/><!-- The plugins may not be included and therefore not checked above so check them explicitly here unless the build changes so they are always built -->
 		<if>
@@ -98,7 +98,7 @@
 		</if>
 		<stopwatch name="copySrc" action="total"/>
 	</target>
-	
+
 	<target name="copyLibs">
 		<!--
 			Syncs directories from "scripts" to "scripts_debug".

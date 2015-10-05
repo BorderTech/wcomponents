@@ -49,7 +49,7 @@
 			<param name="includeUrl" expression="${xsl.target.debug.file.name}"/>
 			<regexpmapper from="^(.*)\.xml" to="${xslt.target.file.name}_\1${debug.target.file.name.suffix}.xsl"/>
 		</xslt>
-		
+
 		<!-- Create a "no locale" version of the default locale XSL -->
 		<copy file="${xslt.build.target.dir}/${xslt.target.file.name}_${default.i18n.locale}${debug.target.file.name.suffix}.xsl"
 			  tofile="${xslt.build.target.dir}/${xslt.target.file.name}${debug.target.file.name.suffix}.xsl"
@@ -129,7 +129,7 @@
 			</filterchain>
 		</copy>
 		<copy todir="${xsl.tmp.src.dir}" overwrite="true">
-			<fileset dir="${impl.xsl.src.dir}" includes="*.xsl"/>
+			<fileset dir="${impl.xsl.src.dir}" includes="*.xsl" erroronmissingdir="false"/>
 			<filterchain>
 				<expandproperties/>
 			</filterchain>
