@@ -1,16 +1,18 @@
 /* wc.ui.resizeable.icons.scss */
+@import 'mixins_common.scss';
+
+//this button selector is required to prevent styling a max.restore header bar
 //scss-lint:disable QualifyingElement
 .wc_resize,
-button.wc_maxcont { //this button selector is required to prevent styling a max.restore header bar
-	height: 16px;
-	width: 16px;
+button.wc_maxcont {
+	@include make-box;
 }
 
 .wc_resize {
 	&,
 	&:hover,
 	&:focus {
-		background-image: url('../images/resizeHandle.png');
+		@include background-image-icon('../images/resizeHandle.png', $x: 0, $y: 0);
 	}
 }
 
@@ -18,7 +20,7 @@ button.wc_maxcont {
 	&,
 	&:hover,
 	&:focus {
-		background-image: url('../images/resizeable.sprite.png');
+		@include background-image('../images/resizeable.sprite.png', $height: cover, $width: '', $x: 0, $y: 0);
 	}
 
 	&:hover,

@@ -33,6 +33,10 @@
 	.wc_sortcont,
 	.wc_msp_btncol {
 		padding-top: $line-size;
+
+		button {
+			@include button;
+		}
 	}
 
 	.wc_msp_btncol button { // the add and remove buttons

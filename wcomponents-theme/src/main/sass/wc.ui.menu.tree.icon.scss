@@ -1,12 +1,12 @@
 /* wc.ui.menu.tree.icon.scss */
 // tree menu branch indicators
+@import 'mixins_common.scss';
+
 [role='treeitem'] {
 	&[aria-expanded] {
 		> button {
-			background-image: url('../images/next.png');
-			background-position: 0 50%;
-			background-repeat: no-repeat;
-			padding-left: 19px;
+			@include background-image($url: '../images/next.png', $x: 0, $reset-size: true);
+			padding-left: $line-size;
 		}
 	}
 

@@ -12,12 +12,12 @@
 	-->
 	<xsl:namespace-alias stylesheet-prefix="x" result-prefix="xsl" />
 
-	<!-- The final output is another xslt stylesheet so needs to be xml. The indent is so that the debug version is 
+	<!-- The final output is another xslt stylesheet so needs to be xml. The indent is so that the debug version is
 		human readable.-->
 	<xsl:output method="xml" indent="yes" omit-xml-declaration="no" />
 
 	<!--
-		Used to flag that we should include all xsl:includes in the output. This currently only includes the debug info 
+		Used to flag that we should include all xsl:includes in the output. This currently only includes the debug info
 		xslt but that may change. This should be set explicitly to something other than '1' for building the debug
 		mode XSLT (debug.xsl).
 	-->
@@ -144,7 +144,7 @@
 	-->
 	<xsl:template match="concat">
 		<x:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml"
-					  version="1.0" exclude-result-prefixes="xsl ui html">
+					  version="1.0" exclude-result-prefixes="xsl ui html doc">
 
 			<x:output encoding="UTF-8" indent="no" method="html" doctype-system="about:legacy-compat" omit-xml-declaration="yes" />
 			<x:strip-space elements="*" />

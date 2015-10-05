@@ -61,6 +61,12 @@ $large: 1981px;//bigger than 1080p
 	}
 }
 
+@mixin reset-large-screen {
+	@include respond($size: large, $test: min-device-width) {
+		@content;
+	}
+}
+
 // create a viewport media rule
 @mixin viewport() {
 	@-ms-viewport {

@@ -5,47 +5,43 @@
 .wc_table_pag_cont .wc_ibtn {
 	vertical-align: middle;
 
-	&:before {
-		content: url('../images/first.png');
-		display: block;
-		height: 16px;
-		vertical-align: middle;
+	&::before {
+		@include make-box;
+		@include background-image-icon('../images/first.png');
+		content: ' ';
 	}
 
-	&[disabled]:before {
-		content: url('../images/first-d.png');
+	&[disabled]::before {
+		background-image: url('../images/first-d.png');
 	}
 
-	+ .wc_ibtn {
-		&:before {
-			content: url('../images/previous.png');
+	&:nth-of-type(2) {
+		&::before {
+			background-image: url('../images/previous.png');
 		}
 
-		&[disabled]:before {
-			content: url('../images/previous-d.png');
+		&[disabled]::before {
+			background-image: url('../images/previous-d.png');
+		}
+	}
+
+	&:nth-of-type(3) {
+		&::before {
+			background-image: url('../images/next.png');
 		}
 
-		+ .wc_ibtn {
-			&:before {
-				content: url('../images/next.png');
-			}
+		&[disabled]::before {
+			background-image: url('../images/next-d.png');
+		}
+	}
 
-			&[disabled]:before {
-				content: url('../images/next-d.png');
-			}
+	&:last-of-type {
+		&::before {
+			background-image: url('../images/last.png');
+		}
 
-			+ .wc_ibtn {
-				// need to go this deep to allow for lack of nth-child
-				// scss-lint:disable NestingDepth
-				&:before {
-					content: url('../images/last.png');
-				}
-
-				&[disabled]:before {
-					content: url('../images/last-d.png');
-				}
-				// scss-lint:enable NestingDepth
-			}
+		&[disabled]::before {
+			background-image: url('../images/last-d.png');
 		}
 	}
 }
