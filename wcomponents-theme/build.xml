@@ -282,42 +282,42 @@ chromedriver_cdnurl=${mirror.root}/chromedriver
 					-->
 					<echo>Copying parent implementation files from: ${prototype.dir} to ${merge.impl.dir}</echo>
 					<copy todir="${merge.impl.dir}/src/main/properties/parentImplementation" overwrite="false">
-						<fileset dir="${prototype.dir}/src/main/properties" includes="*">
+						<fileset dir="${prototype.dir}/src/main/properties" includes="*" erroronmissingdir="false">
 							<present present="srconly" targetdir="${merge.impl.dir}/src/main/properties"/>
 						</fileset>
 					</copy>
 					<copy todir="${merge.impl.dir}/src/main/css" overwrite="false">
-						<fileset dir="${prototype.dir}/src/main/css" includes="**/*.css" excludesfile="${impl.src.dir}/excludes.txt">
+						<fileset dir="${prototype.dir}/src/main/css" includes="**/*.css" excludesfile="${impl.src.dir}/excludes.txt" erroronmissingdir="false">
 							<present present="srconly" targetdir="${merge.impl.dir}/src/main/css"/>
 						</fileset>
 					</copy>
 					<copy todir="${merge.impl.dir}/src/main/sass" overwrite="false">
-						<fileset dir="${prototype.dir}/src/main/sass" includes="**/*.scss" excludesfile="${impl.src.dir}/excludes.txt">
+						<fileset dir="${prototype.dir}/src/main/sass" includes="**/*.scss" excludesfile="${impl.src.dir}/excludes.txt" erroronmissingdir="false">
 							<present present="srconly" targetdir="${merge.impl.dir}/src/main/scss"/>
 						</fileset>
 					</copy>
 					<copy todir="${merge.impl.dir}/src/main/xslt" overwrite="false">
-						<fileset dir="${prototype.dir}/src/main/xslt" includes="**/*.xsl" excludesfile="${impl.src.dir}/excludes.txt">
+						<fileset dir="${prototype.dir}/src/main/xslt" includes="**/*.xsl" excludesfile="${impl.src.dir}/excludes.txt" erroronmissingdir="false">
 							<present present="srconly" targetdir="${merge.impl.dir}/src/main/xslt"/>
 						</fileset>
 					</copy>
 					<copy todir="${merge.impl.dir}/src/main/i18n/parentImplementation" overwrite="false">
-						<fileset dir="${prototype.dir}/src/main/i18n" includes="**/*.properties" excludesfile="${impl.src.dir}/excludes.txt">
+						<fileset dir="${prototype.dir}/src/main/i18n" includes="**/*.properties" excludesfile="${impl.src.dir}/excludes.txt" erroronmissingdir="false">
 							<present present="srconly" targetdir="${merge.impl.dir}/src/main/i18n"/>
 						</fileset>
 					</copy>
 					<copy todir="${merge.impl.dir}/src/main/images" overwrite="false">
-							<fileset dir="${prototype.dir}/src/main/images" includes="**/*" excludesfile="${impl.src.dir}/excludes.txt">
+							<fileset dir="${prototype.dir}/src/main/images" includes="**/*" excludesfile="${impl.src.dir}/excludes.txt" erroronmissingdir="false">
 								<present present="srconly" targetdir="${merge.impl.dir}/src/main/images"/>
 							</fileset>
 					</copy>
 					<copy todir="${merge.impl.dir}/src/main/js" overwrite="false">
-						<fileset dir="${prototype.dir}/src/main/js" includes="**/*.js" excludesfile="${impl.src.dir}/excludes.txt">
+						<fileset dir="${prototype.dir}/src/main/js" includes="**/*.js" excludesfile="${impl.src.dir}/excludes.txt" erroronmissingdir="false">
 							<present present="srconly" targetdir="${merge.impl.dir}/src/main/js"/>
 						</fileset>
 					</copy>
 					<copy todir="${merge.impl.dir}/src/main/xml" overwrite="false">
-						<fileset dir="${prototype.dir}/src/main/xml" includes="**/*" excludesfile="${impl.src.dir}/excludes.txt">
+						<fileset dir="${prototype.dir}/src/main/xml" includes="**/*" excludesfile="${impl.src.dir}/excludes.txt" erroronmissingdir="false">
 							<present present="srconly" targetdir="${merge.impl.dir}/src/main/xml"/>
 						</fileset>
 					</copy>
