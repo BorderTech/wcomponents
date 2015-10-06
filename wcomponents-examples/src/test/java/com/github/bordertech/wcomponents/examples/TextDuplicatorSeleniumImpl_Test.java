@@ -36,7 +36,7 @@ public class TextDuplicatorSeleniumImpl_Test extends WComponentSeleniumTestCase 
 		WebDriver driver = getDriver();
 
 		// Enter some text and use the duplicate button
-		String inputFieldName = ((Container) getUi()).getChildAt(1).getId();
+		String inputFieldName = ((Container) getUi()).getChildren().get(1).getId();
 		driver.findElement(By.name(inputFieldName)).sendKeys("dummy");
 		driver.findElement(By.xpath("//button[text()='Duplicate']")).click();
 		Assert.assertEquals("Incorrect text field text after duplicate", "dummydummy",
