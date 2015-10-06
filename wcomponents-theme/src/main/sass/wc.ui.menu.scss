@@ -30,14 +30,17 @@
 
 
 .submenu[role],
-[role='menu'],
-.menu [role='separator'] {
+[role='menu'] {
 	// We need the important here otherwise we have to do a LOT of overriding of roles.
 	// scss-lint:disable ImportantRule
 	padding: 0 !important;
 }
 
 .menu {
+	[role='separator'] {
+		padding: 0;
+	}
+
 	.decoratedLabel {
 		display: table-row;
 		width: 100%;
