@@ -2,6 +2,7 @@ package com.github.bordertech.wcomponents;
 
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import java.io.PrintWriter;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -518,6 +519,15 @@ public class WWindow extends AbstractWComponent implements Container {
 	// to make public
 	public WComponent getChildAt(final int index) {
 		return super.getChildAt(index);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	// to make public
+	public List<WComponent> getChildren() {
+		return super.getChildren();
 	}
 
 	/**
