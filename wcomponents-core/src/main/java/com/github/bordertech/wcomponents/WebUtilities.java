@@ -8,7 +8,9 @@ import com.github.bordertech.wcomponents.util.TreeUtil;
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 import org.apache.commons.configuration.Configuration;
@@ -502,9 +504,14 @@ public final class WebUtilities {
 		}
 
 		if (component instanceof Container) {
+
+			final List<WComponent> children = ((Container) component).getChildren();
+
+			Collections.reverse(children);
+
 			// Update the rest of the bean
-			for (int i = ((Container) component).getChildCount() - 1; i >= 0; i--) {
-				updateBeanValue(((Container) component).getChildAt(i), visibleOnly);
+			for (WComponent child : children) {
+				updateBeanValue(child, visibleOnly);
 			}
 		}
 	}
