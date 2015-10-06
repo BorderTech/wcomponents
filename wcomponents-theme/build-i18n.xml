@@ -16,9 +16,9 @@
 		<property file="${properties.build.constants}"/>
 		<mkdir dir="${i18n.build.target.dir}"/>
 	</target>
-	
+
 	<target name="build" depends="init, buildXmlBundles, buildJsBundles" description="Builds i18n resource bundles">
-		
+
 	</target>
 
 	<target name="buildXmlBundles">
@@ -28,7 +28,7 @@
 		<for param="file">
 			<path>
 				<fileset dir="${i18n.rootdir}" includes="*.properties" excludesfile="${excludesfile}"/>
-				<fileset dir="${impl.i18n.rootdir}" includes="*.properties"/>
+				<fileset dir="${impl.i18n.rootdir}" includes="*.properties" erroronmissingdir="false"/>
 			</path>
 			<sequential>
 				<var name="file.name" unset="true"/>
@@ -59,7 +59,7 @@
 			</sequential>
 		</for>
 	</target>
-	
+
 	<target name="buildJsBundles">
 		<echo>Building JS bundles for dir: ${i18n.build.target.dir}</echo>
 		<wc.xsltjson
@@ -100,7 +100,7 @@
 				<path>
 					<fileset dir="${i18n.rootdir}" includes="*.@{locale}.properties" excludesfile="${excludesfile}"/>
 					<fileset dir="${impl.i18n.rootdir}/parentImplementation" includes="*.@{locale}.properties" erroronmissingdir="false"/>
-					<fileset dir="${impl.i18n.rootdir}" includes="*.@{locale}.properties"/>
+					<fileset dir="${impl.i18n.rootdir}" includes="*.@{locale}.properties" erroronmissingdir="false"/>
 					<!-- plugins -->
 					<fileset dir="${common.src.plugin.dir}" includesfile="${plugin.includesfile}" excludesfile="${excludesfile}" erroronmissingdir="false">
 						<filename name="**/${plugin.i18n.dir.name}/*.@{locale}.properties"/>
@@ -108,7 +108,7 @@
 					<fileset dir="${impl.src.plugin.dir}/parentImplementation" includesfile="${plugin.includesfile}" erroronmissingdir="false">
 						<filename name="**/${plugin.i18n.dir.name}/*.@{locale}.properties"/>
 					</fileset>
-					
+
 					<fileset dir="${impl.src.plugin.dir}" includesfile="${plugin.includesfile}" erroronmissingdir="false">
 						<filename name="**/${plugin.i18n.dir.name}/*.@{locale}.properties"/>
 					</fileset>
@@ -126,7 +126,7 @@
 			<echo append="true" file="@{destfile}">lang=${lang}</echo>
 		</sequential>
 	</macrodef>
-	
+
 
 	<target name="clean" description="Cleans up all artifacts produced by this build">
 		<echo message="Clean from ${ant.file}"/>
