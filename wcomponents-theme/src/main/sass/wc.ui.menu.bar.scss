@@ -11,6 +11,10 @@
 		> [aria-expanded] > button { //top level items
 			padding: $wc-ui-menu-flyout-top-level-item-pad;
 		}
+
+		> [role='separator'][aria-orientation='vertical'] {
+			padding: $wc-ui-menu-flyout-vseparator-pad;
+		}
 	}
 
 	&.bar {
@@ -18,7 +22,14 @@
 		> [aria-expanded] > button {//top level items
 			padding: $wc-ui-menu-bar-column-item-pad;
 		}
+
+		> [role='separator'][aria-orientation='vertical'] {
+			padding: $wc-ui-menu-bar-vseparator-pad;
+		}
+
 	}
+
+
 
 	> [role],
 	> [role] > .decoratedLabel,
