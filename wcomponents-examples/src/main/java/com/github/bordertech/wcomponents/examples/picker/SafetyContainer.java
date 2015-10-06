@@ -65,8 +65,8 @@ final class SafetyContainer extends AbstractMutableContainer {
 			UIContextHolder.pushContext(delegate);
 
 			try {
-				for (int i = 0; i < shim.getChildCount(); i++) {
-					shim.getChildAt(i).serviceRequest(request);
+				for (WComponent child : shim.getChildren()) {
+					child.serviceRequest(request);
 				}
 
 				delegate.doInvokeLaters();
@@ -99,8 +99,8 @@ final class SafetyContainer extends AbstractMutableContainer {
 	protected void preparePaintComponent(final Request request) {
 		if (getAttribute(ERROR_KEY) == null) {
 			try {
-				for (int i = 0; i < shim.getChildCount(); i++) {
-					shim.getChildAt(i).preparePaint(request);
+				for (WComponent child : shim.getChildren()) {
+					child.preparePaint(request);
 				}
 			} catch (final Exception e) {
 				if (isAjaxOrTargetedRequest(request)) {
@@ -135,8 +135,8 @@ final class SafetyContainer extends AbstractMutableContainer {
 				WebXmlRenderContext bufferedContext = new WebXmlRenderContext(new PrintWriter(buf));
 
 				try {
-					for (int i = 0; i < shim.getChildCount(); i++) {
-						shim.getChildAt(i).paint(bufferedContext);
+					for (WComponent child : shim.getChildren()) {
+						child.paint(bufferedContext);
 					}
 
 					webRenderContext.getWriter().write(buf.toString());
@@ -151,8 +151,8 @@ final class SafetyContainer extends AbstractMutableContainer {
 				}
 			} else {
 				try {
-					for (int i = 0; i < shim.getChildCount(); i++) {
-						shim.getChildAt(i).paint(renderContext);
+					for (WComponent child : shim.getChildren()) {
+						child.paint(renderContext);
 					}
 				} catch (final Exception e) {
 					new ErrorComponent("Error during rendering", e).paint(renderContext);
@@ -168,8 +168,7 @@ final class SafetyContainer extends AbstractMutableContainer {
 	 * Resets the contents.
 	 */
 	public void resetContent() {
-		for (int i = 0; i < shim.getChildCount(); i++) {
-			WComponent child = shim.getChildAt(i);
+		for (WComponent child : shim.getChildren()) {
 			child.reset();
 		}
 
