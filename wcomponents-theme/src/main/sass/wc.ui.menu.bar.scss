@@ -29,8 +29,6 @@
 
 	}
 
-
-
 	> [role],
 	> [role] > .decoratedLabel,
 	> [aria-expanded] > button > .decoratedLabel {
@@ -42,6 +40,12 @@
 	> [role] > .decoratedLabel,
 	> [aria-expanded] > button > .decoratedLabel {
 		vertical-align: middle;
+	}
+
+	> [role='separator'][aria-orientation='vertical'] {
+		@include border($pos: left);
+		border-bottom: 0 none;
+		display: inline;
 	}
 
 	[role='menu'] { //sub-menus of a menu bar see wc.ui.menu.barColumn.scss for more
@@ -63,16 +67,6 @@
 
 		[role='menu'].wc_coleast.wc_colwest { //nested submenus which collide both east and west - this is a design flaw and I refuse to cater for it!
 			max-width: none;
-		}
-
-		[role='separator'][aria-orientation='vertical'] {// Separators.
-			// Padding is important to override the general zero padding which is important to override all the role paddings.
-			// scss-lint:disable ImportantRule
-			padding: $wc-ui-menu-item-pad-topbottom 0 !important;
-
-			th & {
-				padding: 0 !important;
-			}
 		}
 	}
 }
