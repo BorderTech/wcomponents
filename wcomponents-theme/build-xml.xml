@@ -29,7 +29,7 @@
 			<fileset dir="${common.src.plugin.dir}" includesfile="${plugin.includesfile}" excludesfile="${excludesfile}" erroronmissingdir="false">
 				<filename name="**/${plugin.xml.dir.name}/*.xml" />
 			</fileset>
-			<fileset dir="${impl.xml.rootdir}" includes="*.xml, *.rdf" />
+			<fileset dir="${impl.xml.rootdir}" includes="*.xml, *.rdf"  erroronmissingdir="false"/>
 			<fileset dir="${impl.src.plugin.dir}" includesfile="${plugin.includesfile}" excludesfile="${excludesfile}" erroronmissingdir="false">
 				<filename name="**/${plugin.xml.dir.name}/*.xml" />
 			</fileset>
@@ -48,7 +48,7 @@
 				<exclude name="*.rdf" />
 				<excludesfile name="${excludesfile}" />
 			</fileset>
-			<fileset dir="${impl.xml.rootdir}" excludes="*.xml, *.rdf">
+			<fileset dir="${impl.xml.rootdir}" excludes="*.xml, *.rdf" erroronmissingdir="false">
 				<include name="*" />
 			</fileset>
 		</copy>

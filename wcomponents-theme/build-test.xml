@@ -24,7 +24,7 @@
 			<fileset dir="${intern.srcdir}" excludesfile="${excludesfile}">
 				<include name="*"/>
 			</fileset>
-			<fileset dir="${impl.intern.srcdir}" excludesfile="${excludesfile}">
+			<fileset dir="${impl.intern.srcdir}" excludesfile="${excludesfile}" erroronmissingdir="false">
 				<include name="*"/>
 			</fileset>
 			<filterset>
@@ -39,14 +39,14 @@
 		<!-- NOTE: the two step copy here is so we do not try to apply filters to binary resources -->
 		<copy todir="${intern.target.dir}/resources">
 			<fileset dir="${intern.srcdir}/resources" excludesfile="${excludesfile}" includes="**/*.xml,**/*.html,**/*.js,**/*.css"/>
-			<fileset dir="${impl.intern.srcdir}/resources" excludesfile="${excludesfile}" includes="**/*.xml,**/*.html,**/*.js,**/*.css"/>
+			<fileset dir="${impl.intern.srcdir}/resources" excludesfile="${excludesfile}" includes="**/*.xml,**/*.html,**/*.js,**/*.css" erroronmissingdir="false"/>
 			<filterchain>
 				<expandproperties/>
 			</filterchain>
 		</copy>
 		<copy todir="${intern.target.dir}/resources">
 			<fileset dir="${intern.srcdir}/resources" excludesfile="${excludesfile}"  excludes="**/*.xml,**/*.html,**/*.js,**/*.css"/>
-			<fileset dir="${impl.intern.srcdir}/resources" excludesfile="${excludesfile}" excludes="**/*.xml,**/*.html,**/*.js,**/*.css"/>
+			<fileset dir="${impl.intern.srcdir}/resources" excludesfile="${excludesfile}" excludes="**/*.xml,**/*.html,**/*.js,**/*.css" erroronmissingdir="false"/>
 		</copy>
 		<javascript.lint jsdir="${intern.target.dir}"/>
 	</target>
