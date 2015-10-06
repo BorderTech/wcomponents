@@ -1,6 +1,7 @@
 package com.github.bordertech.wcomponents;
 
 import junit.framework.Assert;
+import static junit.framework.Assert.fail;
 import org.junit.Test;
 
 /**
@@ -31,8 +32,20 @@ public class WBeanContainer_Test extends AbstractWComponentTestCase {
 		container.remove(child);
 
 		// Check no children
-		Assert.assertEquals("Should have no child count after removing", 0, container.
-				getChildCount());
+		Assert.assertEquals("Should have no child count after removing", 0, container.getChildCount());
+
+		// Check getChildren
+		container.add(child);
+		Assert.assertEquals("Incorrect child count", 1, container.getChildren().size());
+		Assert.assertEquals("Incorrect child index", 0, container.getChildren().indexOf(child));
+		Assert.assertEquals("Incorrect child returned", child, container.getChildren().get(0));
+
+		try {
+			container.getChildren().add(new DefaultWComponent());
+			fail("Expected getChildren() to return unmodifiable List.");
+		} catch (UnsupportedOperationException e) {
+			Assert.assertEquals("Incorrect child count", 1, container.getChildren().size());
+		}
 	}
 
 	@Test
