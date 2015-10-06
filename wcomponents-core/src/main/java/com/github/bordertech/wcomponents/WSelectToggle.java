@@ -139,11 +139,8 @@ public class WSelectToggle extends AbstractWComponent implements Disableable, Aj
 				}
 			}
 		} else if (component instanceof Container) {
-			Container container = (Container) component;
-			final int childCount = container.getChildCount();
 
-			for (int i = 0; i < childCount; i++) {
-				WComponent child = container.getChildAt(i);
+			for (WComponent child : ((Container) component).getChildren()) {
 				setSelections(child, selected);
 			}
 		}
