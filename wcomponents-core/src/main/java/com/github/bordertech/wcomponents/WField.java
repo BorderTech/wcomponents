@@ -100,10 +100,10 @@ public class WField extends AbstractContainer implements AjaxTarget, Subordinate
 	}
 
 	/**
-	 * Finds the first component that can be labelled (if any).
+	 * Finds the first component that can be labeled (if any).
 	 *
 	 * @param component the root of the component hierarchy to check.
-	 * @return the first component that can be labelled, otherwise null.
+	 * @return the first component that can be labeled, otherwise null.
 	 */
 	private WComponent findComponentForLabel(final WComponent component) {
 		if ((component instanceof Input && !(component instanceof RadioButtonGroup)) || component instanceof WFieldSet
@@ -112,11 +112,9 @@ public class WField extends AbstractContainer implements AjaxTarget, Subordinate
 		}
 
 		if (component instanceof Container) {
-			Container container = (Container) component;
-			final int childCount = container.getChildCount();
 
-			for (int i = 0; i < childCount; i++) {
-				WComponent theField = findComponentForLabel(container.getChildAt(i));
+			for (WComponent child : ((Container) component).getChildren()) {
+				WComponent theField = findComponentForLabel(child);
 
 				if (theField != null) {
 					return theField;
