@@ -32,7 +32,7 @@
 			<fileset dir="${images.rootdir}" includes="*.*" excludesfile="${excludesfile}" excludes="*.svg"/>
 		</copy>
 		<copy todir="${images.tmp.src.dir}" overwrite="true">
-			<fileset dir="${impl.images.rootdir}" includes="*.*" excludes="*.svg"/>
+			<fileset dir="${impl.images.rootdir}" includes="*.*" excludes="*.svg" erroronmissingdir="false"/>
 		</copy>
 		<copy todir="${images.tmp.src.dir}" overwrite="true">
 			<fileset dir="${images.rootdir}" includes="*.svg" excludesfile="${excludesfile}"/>
@@ -45,7 +45,7 @@
 			</filterchain>
 		</copy>
 		<copy todir="${images.tmp.src.dir}" overwrite="true">
-			<fileset dir="${impl.images.rootdir}" includes="*.svg"/>
+			<fileset dir="${impl.images.rootdir}" includes="*.svg" erroronmissingdir="false"/>
 			<filterchain>
 				<expandproperties/>
 				<deletecharacters chars="\t"/>
