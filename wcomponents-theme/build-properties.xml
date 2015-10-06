@@ -4,7 +4,7 @@
 		1. All the properties from "common" AND
 		2. All the properties for the specific implementation.
 
-		The properties for the specific implementation will be included in such a way that (in ANT) 
+		The properties for the specific implementation will be included in such a way that (in ANT)
 		they override common properties.
 
 		This build must be called with the name of the implementation rootdir set in property:
@@ -22,11 +22,11 @@
 	<property name="implementation.parent.propeties" location="${tmp.dir}/implementation.parent.properties"/>
 	<property name="core.propeties" location="${tmp.dir}/core.properties"/>
 	<property name="prop.src.dir.name" value="properties"/>
-	
+
 	<target name="build" depends="clean" description="Build the properties">
 		<echo>Building ${implementation.sub.propeties} from ${impl.src.main.dir}/properties</echo>
 		<concat destfile="${implementation.sub.propeties}" fixlastline="yes" ignoreempty="false" overwrite="true">
-			<fileset dir="${impl.src.main.dir}/${prop.src.dir.name}" includes="*.properties"/>
+			<fileset dir="${impl.src.main.dir}/${prop.src.dir.name}" includes="*.properties" erroronmissingdir="false" />
 			<fileset dir="${impl.src.plugin.dir}" includes="**/${prop.src.dir.name}/*.properties" erroronmissingdir="false"/>
 		</concat>
 		<echo>Building ${implementation.parent.propeties} from ${impl.src.main.dir}/properties/parentImplementation</echo>
@@ -39,7 +39,7 @@
 			<fileset dir="${common.src.rootdir}/${prop.src.dir.name}" includes="*.properties" />
 			<fileset dir="${common.src.plugin.dir}" includes="**/${prop.src.dir.name}/*.properties" erroronmissingdir="false"/>
 		</concat>
-		
+
 		<!--
 			We have had unsettling outcomes by simply concatenating the properties
 			files so we use "mergeProperties" to give us a guaranteed result.
