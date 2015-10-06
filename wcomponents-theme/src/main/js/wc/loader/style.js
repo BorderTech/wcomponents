@@ -189,7 +189,7 @@ define(["wc/has", "module"], /** @param has wc/has @param module module @ignore 
 			} */
 			screenStylesToAdd = {};
 			platformCSS.forEach(function(next) {
-				platformCSS[next] = next;
+				screenStylesToAdd[next] = next;
 			});
 		}
 
