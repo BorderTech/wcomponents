@@ -50,11 +50,8 @@ public abstract class AbstractSetEnable extends AbstractAction {
 			target.setValidate(enabled);
 			((Disableable) target).setDisabled(!enabled);
 		} else if (target instanceof Container) {  // Apply to any Disableable children
-			Container cont = (Container) target;
-			final int size = cont.getChildCount();
 
-			for (int i = 0; i < size; i++) {
-				WComponent child = cont.getChildAt(i);
+			for (WComponent child : ((Container) target).getChildren()) {
 				applyEnableAction(child, enabled);
 			}
 		}
