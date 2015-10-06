@@ -198,13 +198,8 @@ public class WCollapsibleToggle extends AbstractWComponent implements AjaxTarget
 		}
 
 		if (comp instanceof Container) {
-			Container container = (Container) comp;
-
-			int size = container.getChildCount();
-
-			for (int i = 0; i < size; i++) {
-				WComponent next = container.getChildAt(i);
-				findAllCollapsibles(next, results);
+			for (WComponent child : ((Container) comp).getChildren()) {
+				findAllCollapsibles(child, results);
 			}
 		}
 
