@@ -293,8 +293,8 @@ public class SerializationPerformance_Test extends AbstractWComponentTestCase {
 		result.add(comp);
 
 		if (comp instanceof Container) {
-			for (int i = 0; i < ((Container) comp).getChildCount(); i++) {
-				findWComponents(((Container) comp).getChildAt(i), result);
+			for (WComponent child : ((Container) comp).getChildren()) {
+				findWComponents(child, result);
 			}
 		}
 	}
