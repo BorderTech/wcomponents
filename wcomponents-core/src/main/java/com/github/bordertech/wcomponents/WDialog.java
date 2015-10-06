@@ -3,6 +3,7 @@ package com.github.bordertech.wcomponents;
 import com.github.bordertech.wcomponents.util.I18nUtilities;
 import java.io.Serializable;
 import java.text.MessageFormat;
+import java.util.List;
 
 /**
  * <p>
@@ -320,6 +321,11 @@ public class WDialog extends AbstractWComponent implements Container, AjaxTarget
 		return super.getIndexOfChild(childComponent);
 	}
 
+	@Override
+	public List<WComponent> getChildren() {
+		return super.getChildren();
+	}
+	
 	/**
 	 * @return a String representation of this component, for debugging purposes.
 	 */
