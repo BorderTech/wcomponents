@@ -12,7 +12,7 @@ button.wc_maxcont {
 	&,
 	&:hover,
 	&:focus {
-		@include background-image-icon('../images/resizeHandle.png', $x: 0, $y: 0);
+		@include background-image-icon('../images/resize-handle.png', $x: 0, $y: 0);
 	}
 }
 
@@ -20,7 +20,7 @@ button.wc_maxcont {
 	&,
 	&:hover,
 	&:focus {
-		@include background-image('../images/resizeable.sprite.png', $height: cover, $x: 0, $y: 0);
+		@include background-image('../images/resize-sprite.png', $height: cover, $x: 0, $y: 0);
 	}
 
 	&:hover,
@@ -37,4 +37,3 @@ button.wc_maxcont {
 		}
 	}
 }
-/* end wc.ui.resizeable.ieAll.scss */

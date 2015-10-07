@@ -2,7 +2,7 @@
 @import 'mixins_common.scss';
 
 .wc_msp_btncol button {
-	@include background-image-icon('../images/next.png');
+	@include background-image('../images/next.png', $height: 1em, $width: 1em);
 
 	// NOTE this will need a .ie8.scss file if your implementation needs to support ie8.
 	&:nth-of-type(2) {

@@ -20,4 +20,28 @@
 		color: $wc-ui-color-panel-header-foreground;
 	}
 }
-/* end wc.ui.panel.header.scss */
+
+@include respond (mobile) {
+	[role='banner'] {
+		> .content {
+			@include flex($direction: row-reverse, $wrap: wrap, $justify: space-between, $align-items: center, $align-content: flex-start);
+
+			> * {
+				@include flex-grow(0);
+				@include flex-shrink(1);
+				padding-left: $hgap-small;
+			}
+
+			> :last-child {
+				padding-right: $hgap-small;
+			}
+		}
+
+		h1 {
+			font-size: 1.25em;
+			font-weight: bold;
+			margin: 0;
+			padding: 0;
+		}
+	}
+}

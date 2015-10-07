@@ -39,3 +39,8 @@
 	-webkit-flex-shrink: $int;
 	flex-shrink: $int;
 }
+
+@mixin flex-direction($direction) {
+	-webkit-flex-direction: $direction;
+	flex-direction: $direction;
+}

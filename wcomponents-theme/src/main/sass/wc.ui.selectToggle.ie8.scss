@@ -1,26 +1,26 @@
-/* wc.ui.selectToggle.ie8.scss */
+/* wc.ui.selectToggle.scss */
 .wc_seltog {
 	&[role='checkbox'] {
 		height: 12px;
 		width: 12px;
 
 		&:before {
-			content: url('../images/checkbox.ie8.png');
+			content: url('../images/checkbox.png');
 			display: inline-block;
 			height: 12px;
 			width: 12px;
 		}
 
 		&[aria-checked='true']:before {
-			content: url('../images/checkbox-s.ie8.png');
+			content: url('../images/checkbox-s.png');
 		}
 
 		&[disabled] {
 			&:before,
 			&[aria-checked]:before {
-				content: url('../images/checkbox-d.ie8.png');
+				content: url('../images/checkbox-d.png');
 			}
 		}
 	}
 }
-/* end wc.ui.selectToggle.ie8.scss */
+/* end wc.ui.selectToggle.scss */

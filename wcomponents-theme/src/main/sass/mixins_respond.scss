@@ -14,7 +14,12 @@ $large: 1981px;//bigger than 1080p
 			@content;
 		}
 	}
-	@else if ($size == small) {
+	@else if($size == mobile) { // most things from small phones to ipad size tablets
+		@media only screen  and (min-device-width : 320px) and (max-device-width : 1034px) {
+			@content;
+		}
+	}
+	@else if($size == small) {
 		@media only screen and (#{$test}: $small) {
 			@content;
 		}

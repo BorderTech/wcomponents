@@ -12,29 +12,32 @@ tr[aria-checked] {
 }
 //scss-lint:enable QualifyingElement
 
-.wc_table_sel_wrapper::before {
-	display: block;
-	height: $line-size;
-	width: 1em;
-
+.wc_table_sel_wrapper {
 	[role='radio'] > & {
-		content: url('../images/radio.svg');
+		@include background-image($url: '../images/radio.png', $width: 1em, $height: 1em);
 	}
 
 	[role='radio'][aria-checked='true'] > & {
-		content: url('../images/radio-s.svg');
+		background-image: url('../images/radio-s.png');
+	}
+
+	[role='radio'][aria-disabled='true'] > & {
+		background-image: url('../images/radio-d.png');
 	}
 
 	[role='checkbox'] > & {
-		content: url('../images/checkbox.svg');
+		@include background-image($url: '../images/checkbox.png', $width: 1em, $height: 1em);
+	}
+
+	[role='checkbox'][aria-disabled='true'] > & {
+		background-image: url('../images/checkbox-d.png');
 	}
 
 	[role='checkbox'][aria-checked='true'] > & {
-		content: url('../images/checkbox-s.svg');
+		background-image: url('../images/checkbox-s.png');
 	}
 
-	[aria-checked][aria-disabled='true'] > & {
-		opacity: $row-disable-opacity;
+	[role='checkbox'][aria-checked='true'][aria-disabled='true'] > & {
+		background-image: url('../images/checkbox-s-d.png');
 	}
 }
-/* end wc.ui.table.rowSelection.scss */

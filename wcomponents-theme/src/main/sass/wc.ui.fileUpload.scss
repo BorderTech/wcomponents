@@ -21,11 +21,11 @@
 			@extend %a-button;
 			@include flex-shrink(0);
 			@include button;
-			@include background-image-icon('../images/edit-delete-2.png');
+			@include background-image-icon('../images/delete.png');
 			margin-left: $hgap-small;
 
 			&[disabled] {
-				background-image: url('../images/edit-delete-2-d.png');
+				background-image: url('../images/delete-d.png');
 			}
 		}
 	}

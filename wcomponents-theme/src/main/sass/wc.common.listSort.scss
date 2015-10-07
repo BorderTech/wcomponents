@@ -9,7 +9,7 @@
 
 .wc_sorter {
 	@include button;
-	@include background-image-icon('../images/top.png');
+	@include background-image('../images/top.png', $height: 1em, $width: 1em);
 	display: block;
 
 	&[disabled] {
