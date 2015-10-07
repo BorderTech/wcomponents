@@ -70,4 +70,25 @@
 		}
 	}
 }
-/* end wc.ui.menu.bar.scss */
+
+@import 'wc.ui.panel_vars.scss'; // for the header foreground color
+
+@include respond(mobile) {
+	[role='banner'] [role='menubar'] {
+		display: inline-block;
+
+		> [role='menuitem']:first-child > button {
+			padding: $hgap-small;
+
+			&::before {
+				@include make-box;
+				content: url('../images/menu.svg');
+				vertical-align: middle;
+			}
+
+			&::after {
+				color: $wc-ui-color-panel-header-foreground;
+			}
+		}
+	}
+}

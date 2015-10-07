@@ -169,7 +169,6 @@
 			</sequential>
 		</for>
 		<buildCSSSets pattern="dt" targetFile="${css.target.file.name}.dt" />
-		<buildCSSSets pattern="mob" targetFile="${css.target.file.name}.mob" />
 		<getPlatformCSS sourceDir="${style.tmp.src.dir}" />
 		<for list="${platform.list}" param="platform">
 			<sequential>

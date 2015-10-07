@@ -6,7 +6,7 @@
 
 .wc_table_rowexp_container button {
 	@include button($border: 0, $padding: 0);
-	@include background-image-icon('../images/next.png');
+	@include background-image('../images/next.png', $height: 1em, $width: 1em);
 
 	&[disabled] {
 		background-image: url('../images/next-d.png');

@@ -1,10 +1,7 @@
 /**
  * Provides a means to load CSS files for particular user agents/platforms etc.
  *
- * The following extensions produce CSS which is always (conditionally) added:
- *
- * * 'mob' if mobile; or
- * * 'dt' if not mobile.
+ * The extension 'dt' produces CSS which is added if not mobile.
  *
  * You may be asking why I split IE out from "screen". It was simply to make changing the defaults easier.
  * For most browsers which aren't IE you only need one (or no) CSS overrides because old versions fall out of
@@ -100,7 +97,6 @@ define(["wc/has", "module"], /** @param has wc/has @param module module @ignore 
 			 *
 			 * <p>Hard coded file name extensions used in WComponents default theme include:
 			 * "dt" for desktop (ie not mobile: included by default, no need to add these);
-			 * "mob" for generic mobile (also included by default);
 			 * "ios" for iOS specific CSS;
 			 * "safari" for Safari; or
 			 * "ff" for Firefox.</p>
@@ -245,11 +241,8 @@ define(["wc/has", "module"], /** @param has wc/has @param module module @ignore 
 				version,
 				_v;  // I hate IE8! All these vars are for the array iteration because I cannot rely on forEach being loaded in time.
 
-			// add generic mobile or desktop styles before browser specific styles
-			if (isMobile) {
-				addStyle(CSS_FILE_NAME + "mob");
-			}
-			else {
+			// add generic desktop styles before browser specific styles
+			if (!isMobile) { // TODO: load this using a media query if possible
 				addStyle(CSS_FILE_NAME + "dt");
 			}
 
