@@ -137,20 +137,15 @@ define(["wc/dom/attribute", "wc/dom/uid", "wc/dom/classList", "wc/dom/event", "w
 				if (className) {
 					classList.add(shimElement, className);
 				}
-				document.body.setAttribute("aria-hidden", "true");
-				if (activeRegion) {  // NOT activeElement!
-					activeRegion.setAttribute("aria-hidden", "false");
-				}
 
-				function disableElement(next) {
+				// remove the accesskey attribute from controls with access keys which are not in the activeRegion
+				Array.prototype.forEach.call(ACCESS_KEY_WD.findDescendants(document), function(next) {
 					var nextId = next.id || (next.id = uid());
 					if (activeRegion && !(activeRegion.compareDocumentPosition(next) & Node.DOCUMENT_POSITION_CONTAINS)) {  // deliberate use of local variable here
 						accessKeyMap[nextId] = next.getAttribute(AKEY);
 						next.removeAttribute(AKEY);
 					}
-				}
-				// remove the accesskey attribute from controls with access keys which are not in the activeRegion
-				Array.prototype.forEach.call(ACCESS_KEY_WD.findDescendants(document), disableElement);
+				});
 			};
 
 			/**
@@ -169,14 +164,10 @@ define(["wc/dom/attribute", "wc/dom/uid", "wc/dom/classList", "wc/dom/event", "w
 								aKeyElement.setAttribute(AKEY, accessKeyMap[key]);
 							}
 						}
-						document.body.removeAttribute("aria-hidden");
 						shed.hide(shimElement, true);
 					}
 				}
 				finally {
-					if (activeElement) {
-						activeElement.removeAttribute("aria-hidden");
-					}
 					activeElement = null;
 					accessKeyMap = {};
 				}
