@@ -7,7 +7,7 @@
 
 	&::before {
 		@include make-box;
-		@include background-image-icon('../images/first.png');
+		@include background-image('../images/first.png', $height: 1em, $width: 1em);
 		content: ' ';
 	}
 

@@ -23,8 +23,8 @@ define(["wc/dom/classList",
 		"wc/dom/getLabelsForElement",
 		"wc/ui/ajax/processResponse",
 		"wc/i18n/i18n",
-		"wc/ui/internalLink",
-		"wc/dom/role"],
+		"wc/dom/role",
+		"wc/ui/internalLink"],
 	/** @param classList wc/dom/classList @param initialise wc/dom/initialise @param shed wc/dom/shed @param tag wc/dom/tag @param Widget wc/dom/Widget @param getLabelsForElement wc/dom/getLabelsForElement @param processResponse wc/ui/ajax/processResponse @param i18n wc/i18n/i18n @param $role wc/dom/role @ignore */
 	function(classList, initialise, shed, tag, Widget, getLabelsForElement, processResponse, i18n, $role) {
 		"use strict";

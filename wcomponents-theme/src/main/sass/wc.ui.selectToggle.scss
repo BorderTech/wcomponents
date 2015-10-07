@@ -21,31 +21,29 @@
 	}
 
 	&[role='checkbox'] { // Graphical representation of state when rendered as a control
-		&::before {
-			@include make-box($width: 1em, $height: 1em);
-			content: url('../images/checkbox.svg');
-			vertical-align: text-top; // ensure that the 1em 'checkbox' analog lines up with any surrounding inline text.
+		@include make-box($width: 1em, $height: 1em);
+		@include background-image($url: '../images/checkbox.png', $height: 1em, $width: 1em);
+		vertical-align: text-top; // ensure that the 1em 'checkbox' analog lines up with any surrounding inline text.
+
+
+		&[aria-checked='true'] {
+			background-image: url('../images/checkbox-s.png');
 		}
 
-		&[aria-checked='true']::before {
-			content: url('../images/checkbox-s.svg');
-		}
-
-		&[aria-checked='mixed']::before {
-			content: url('../images/checkbox-i.svg');
+		&[aria-checked='mixed'] {
+			background-image: url('../images/checkbox-i.png');
 		}
 
 		&[disabled] {
-			&::before {
-				content: url('../images/checkbox-d.svg');
+			background-image: url('../images/checkbox-d.png');
+
+
+			&[aria-checked='mixed'] {
+				background-image: url('../images/checkbox-i-d.png');
 			}
 
-			&[aria-checked='mixed']::before {
-				content: url('../images/checkbox-i-d.svg');
-			}
-
-			&[aria-checked='true']::before {
-				content: url('../images/checkbox-s-d.svg');
+			&[aria-checked='true'] {
+				background-image: url('../images/checkbox-s-d.png');
 			}
 		}
 	}
@@ -54,5 +52,3 @@
 		margin-left: $hgap-small;
 	}
 }
-
-/* end wc.ui.selectToggle.scss */
