@@ -20,7 +20,7 @@ button.wc_maxcont {
 	&,
 	&:hover,
 	&:focus {
-		@include background-image('../images/resizeable.sprite.png', $height: cover, $width: '', $x: 0, $y: 0);
+		@include background-image('../images/resizeable.sprite.png', $height: cover, $x: 0, $y: 0);
 	}
 
 	&:hover,

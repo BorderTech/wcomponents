@@ -1,5 +1,5 @@
 /* wc.ui.messagesBox.scss */
-@import 'mixins_common.scss';
+@import 'wc.ui.messageBox_vars.scss';
 
 .wc_msgbox {
 	@include border;
@@ -9,16 +9,16 @@
 
 	> h1 {
 		color: $std-color-white;
-		font-size: 1.25em;
+		font-size: $msg-box-header-size;
 		font-weight: normal;
 		margin-top: 0;
 		padding: $vgap-normal $hgap-small;
 
 		&:before {
-			@include make-box;
-			@include background-image-icon($url: '../images/error.png');
+			@include make-box($height: $msg-box-header-size, $width: $msg-box-header-size); // Width and height same as font-size for the heading
+			@include background-image($url: '../images/error.png', $height: contain);
 			content: ' ';
-			margin-right: $hgap-small;
+			margin: 0 $hgap-small;
 			vertical-align: text-top;
 		}
 	}
