@@ -4,8 +4,6 @@
 	<xsl:import href="wc.common.listSortControls.xsl"/>
 	<xsl:import href="wc.ui.multiSelectPair.n.multiSelectPairButton.xsl"/>
 	<xsl:import href="wc.common.makeLegend.xsl"/>
-	<xsl:output method="html" doctype-public="XSLT-compat" encoding="UTF-8" indent="no" omit-xml-declaration="yes"/>
-	<xsl:strip-space elements="*"/>
 	<!--
 		Transform for WMultiSelectPair. This component is a mechanism to select 0 or
 		more options from a list. It is presented in a way which puts two lists side by

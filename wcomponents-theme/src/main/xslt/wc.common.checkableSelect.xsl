@@ -3,10 +3,7 @@
 	<xsl:import href="wc.constants.xsl"/>
 	<xsl:import href="wc.common.attributeSets.xsl"/>
 	<xsl:import href="wc.common.readOnly.xsl"/>
-	<xsl:import href="wc.debug.common.contentCategory.xsl"/>
 	<xsl:import href="wc.common.makeLegend.xsl"/>
-	<xsl:output method="html" doctype-public="XSLT-compat" encoding="UTF-8" indent="no" omit-xml-declaration="yes"/>
-	<xsl:strip-space elements="*"/>
 	<!--
 		Checkable selection controls
 

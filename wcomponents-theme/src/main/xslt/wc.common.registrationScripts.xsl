@@ -40,17 +40,6 @@
 				<xsl:if test="$rego!=''">
 					<xsl:value-of select="$rego"/>
 				</xsl:if>
-				<xsl:if test="$isDebug=1">
-					<xsl:if test=".//ui:debug[ui:debugInfo]">
-						<xsl:text>require(["wc/debug/debugInfo"], function(d){d.register([</xsl:text>
-						<xsl:apply-templates select=".//ui:debugInfo"/>
-						<xsl:text>]</xsl:text>
-						<xsl:if test="ancestor::ui:ajaxResponse">
-							<xsl:text>,true</xsl:text>
-						</xsl:if>
-						<xsl:text>);});</xsl:text>
-					</xsl:if>
-				</xsl:if>
 				<xsl:text>}finally{require(["wc/dom/removeElement"],function(r){r("</xsl:text>
 				<xsl:value-of select="$scriptId"/>
 				<xsl:text>",250);});}}});</xsl:text>

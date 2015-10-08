@@ -4,10 +4,7 @@
 	version="1.0">
 
 	<xsl:import href="wc.common.registrationScripts.xsl"/>
-
-	<xsl:output method="html" doctype-public="XSLT-compat" encoding="UTF-8" indent="no" omit-xml-declaration="yes"/>
-	<xsl:strip-space elements="*"/>
-<!--
+	<!--
 		ui:ajaxTarget is a child of ui:ajaxResponse (wc.ui.ajaxResponse.xsl).
 
 		The main point of this template is a simple pass-through to output the contained

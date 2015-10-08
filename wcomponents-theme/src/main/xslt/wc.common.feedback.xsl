@@ -1,6 +1,5 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
 	<xsl:import href="wc.constants.xsl"/>
-	<xsl:import href="wc.debug.common.contentCategory.xsl"/>
 	<!--
 		Feedback comprises ui:messageBox and ui:validationErrors.
 
@@ -22,22 +21,6 @@
 			<xsl:attribute name="id">
 				<xsl:value-of select="@id"/>
 			</xsl:attribute>
-			<xsl:if test="$isDebug=1">
-				<xsl:call-template name="debugAttributes"/>
-				<xsl:call-template name="thisIsNotAllowedHere-debug">
-					<xsl:with-param name="testForPhraseOnly" select="1"/>
-					<xsl:with-param name="testForNoInteractive">
-						<xsl:choose>
-							<xsl:when test="self::ui:validationErrors">
-								<xsl:number value="1"/>
-							</xsl:when>
-							<xsl:otherwise>
-								<xsl:number value="0"/>
-							</xsl:otherwise>
-						</xsl:choose>
-					</xsl:with-param>
-				</xsl:call-template>
-			</xsl:if>
 			<xsl:attribute name="class">
 				<xsl:value-of select="concat(local-name(.), ' wc_msgbox ', $type)"/>
 			</xsl:attribute>

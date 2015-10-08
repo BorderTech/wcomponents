@@ -176,5 +176,4 @@
 		content.
 	-->
 	<xsl:template match="html:form" />
-
 </xsl:stylesheet>

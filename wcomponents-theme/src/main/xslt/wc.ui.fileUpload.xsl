@@ -1,11 +1,8 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
 	<xsl:import href="wc.ui.fileUpload.file.n.fileInput.xsl"/>
 	<xsl:import href="wc.common.readOnly.xsl"/>
-	<xsl:import href="wc.debug.debugInfo.xsl"/>
 	<xsl:import href="wc.common.ajax.xsl"/>
 	<xsl:import href="wc.common.makeLegend.xsl"/>
-	<xsl:output method="html" doctype-public="XSLT-compat" encoding="UTF-8" indent="no" omit-xml-declaration="yes"/>
-	<xsl:strip-space elements="*"/>
 	<!--
 		Transform for WFileWidget and WMultiFileWidget. Should be a pretty simple HTML
 		input element of type file. But it isn't.

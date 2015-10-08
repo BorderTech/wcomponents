@@ -1,14 +1,11 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
-	<xsl:import href="wc.debug.submenu.xsl"/>
 	<xsl:import href="wc.ui.menu.n.hasStickyOpen.xsl"/>
 	<xsl:import href="wc.ui.menu.n.menuRoleIsSelectable.xsl"/>
 	<xsl:import href="wc.ui.menu.n.menuTabIndexHelper.xsl"/>
 	<xsl:import href="wc.common.disabledElement.xsl"/>
 	<xsl:import href="wc.common.accessKey.xsl"/>
-	<xsl:output method="html" doctype-public="XSLT-compat" encoding="UTF-8" indent="no" omit-xml-declaration="yes"/>
-	<xsl:strip-space elements="*"/>
-		<!--
-			WSubMenu is a descendant of WMenu and is used to hold WMenuItems.
+	<!--
+		WSubMenu is a descendant of WMenu and is used to hold WMenuItems.
 
 		HTML output
 
@@ -141,12 +138,6 @@
 			<xsl:if test="$disabledAncestor">
 				<xsl:call-template name="disabledElement">
 					<xsl:with-param name="field" select="$disabledAncestor"/>
-				</xsl:call-template>
-			</xsl:if>
-
-			<xsl:if test="$isDebug=1">
-				<xsl:call-template name="submenu-debug">
-					<xsl:with-param name="stickyOpen" select="$stickyOpen"/>
 				</xsl:call-template>
 			</xsl:if>
 			<!-- This is the submenu opener/label element. -->

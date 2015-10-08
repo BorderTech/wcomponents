@@ -1,5 +1,4 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
-	<xsl:import href="wc.debug.label.xsl"/>
 	<xsl:import href="wc.ui.label.n.labelCommonAttributes.xsl"/>
 	<xsl:import href="wc.ui.label.n.labelClassHelper.xsl"/>
 	<xsl:import href="wc.ui.label.n.labelHintHelper.xsl"/>
@@ -54,14 +53,6 @@
 				<xsl:with-param name="element" select="$forElement"/>
 				<xsl:with-param name="readOnly" select="$readOnly"/>
 			</xsl:call-template>
-
-
-			<xsl:if test="$isDebug=1">
-				<xsl:call-template name="label-debug">
-					<xsl:with-param name="elementType" select="'span'"/>
-					<xsl:with-param name="forElement" select="$forElement"/>
-				</xsl:call-template>
-			</xsl:if>
 
 			<xsl:apply-templates/>
 

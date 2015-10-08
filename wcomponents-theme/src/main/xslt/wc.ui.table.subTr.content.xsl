@@ -2,20 +2,18 @@
 	<xsl:import href="wc.common.hide.xsl"/>
 	<xsl:import href="wc.ui.table.n.xsl"/>
 	<xsl:import href="wc.ui.table.subTr.content.n.WTableAdditionalContentClass.xsl"/>
-	<xsl:output method="html" doctype-public="XSLT-compat" encoding="UTF-8" indent="no" omit-xml-declaration="yes"/>
-	<xsl:strip-space elements="*"/>
-<!--
- Transform for ui:content child of a ui:subTr.
-
- param myTable: The first table ancestor of the current row. This is determined
- at the most efficient point (usually ui:tbody using its parent node) and then
- passed through all subsequent transforms to save constant ancestor::ui:table[1]
- lookups.
-
- param parentIsClosed default 0, if 1 then the element is hidden.
-
- param maxIndent: see notes in transform for ui:table in wc.ui.table.xsl.
--->
+	<!--
+		Transform for ui:content child of a ui:subTr.
+		
+		param myTable: The first table ancestor of the current row. This is determined
+		at the most efficient point (usually ui:tbody using its parent node) and then
+		passed through all subsequent transforms to save constant ancestor::ui:table[1]
+		lookups.
+		
+		param parentIsClosed default 0, if 1 then the element is hidden.
+		
+		param maxIndent: see notes in transform for ui:table in wc.ui.table.xsl.
+	-->
 	<xsl:template match="ui:subTr/ui:content">
 		<xsl:param name="myTable"/>
 		<xsl:param name="parentIsClosed" select="0"/>

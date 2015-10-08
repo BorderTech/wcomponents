@@ -1,7 +1,6 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
 	<xsl:import href="wc.common.inlineError.xsl"/>
 	<xsl:import href="wc.common.accessKey.xsl"/>
-	<xsl:import href="wc.debug.label.xsl"/>
 	<xsl:import href="wc.ui.label.n.labelClassHelper.xsl"/>
 	<xsl:import href="wc.ui.label.n.labelCommonAttributes.xsl"/>
 	<xsl:import href="wc.ui.label.n.labelHintHelper.xsl"/>
@@ -81,14 +80,6 @@
 				<xsl:with-param name="readOnly" select="$readOnly"/>
 				<xsl:with-param name="elementType" select="$elementType"/>
 			</xsl:call-template>
-			
-			<xsl:if test="$isDebug=1">
-				<xsl:call-template name="label-debug">
-					<xsl:with-param name="elementType" select="$elementType"/>
-					<xsl:with-param name="forElement" select="$labelableElement"/>
-					<xsl:with-param name="labelableElement" select="$labelableElement"/>
-				</xsl:call-template>
-			</xsl:if>
 					
 			<xsl:if test="$elementType='label'">
 				<xsl:call-template name="accessKey"/>
@@ -126,7 +117,4 @@
 			</xsl:call-template>
 		</xsl:if>
 	</xsl:template>
-	
-	
-	
 </xsl:stylesheet>
