@@ -1,7 +1,6 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
 	<xsl:import href="wc.constants.xsl"/>
 	<xsl:import href="wc.common.toolTip.xsl"/>
-	<xsl:import href="wc.debug.common.bestPracticeHelpers.xsl"/>
 	<!--
 		Common helper template for generating the attributes for accessKey implementation
 		including the WAI-ARIA property to add extended description information.
@@ -38,9 +37,6 @@
 			<xsl:attribute name="aria-describedby">
 				<xsl:value-of select="concat(@id,'${wc.ui.accesskey.id.suffix}')"/>
 			</xsl:attribute>
-			<xsl:if test="$isDebug=1">
-				<xsl:call-template name="problematicAccessKeys"/>
-			</xsl:if>
 			<xsl:call-template name="tooltip"/>
 		</xsl:if>
 	</xsl:template>

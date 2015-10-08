@@ -145,7 +145,6 @@
 	<xsl:template match="concat">
 		<x:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml"
 					  version="1.0" exclude-result-prefixes="xsl ui html doc">
-
 			<x:output encoding="UTF-8" indent="no" method="html" doctype-system="about:legacy-compat" omit-xml-declaration="yes" />
 			<x:strip-space elements="*" />
 			<xsl:comment>
@@ -155,9 +154,6 @@
 			<xsl:apply-templates select=".//xsl:key[parent::xsl:stylesheet]" />
 			<xsl:apply-templates select=".//xsl:variable[parent::xsl:stylesheet]" />
 			<xsl:call-template name="writeTemplates" />
-			<xsl:if test="$includeIncludes='1'">
-				<x:include href="${xslt.target.debug.file.name}" />
-			</xsl:if>
 		</x:stylesheet>
 	</xsl:template>
 

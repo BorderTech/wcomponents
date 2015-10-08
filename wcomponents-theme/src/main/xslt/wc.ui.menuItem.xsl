@@ -5,11 +5,7 @@
 	<xsl:import href="wc.common.disabledElement.xsl"/>
 	<xsl:import href="wc.common.hide.xsl"/>
 	<xsl:import href="wc.common.accessKey.xsl"/>
-	<xsl:import href="wc.debug.common.contentCategory.xsl"/>
 	<xsl:import href="wc.common.ajax.xsl"/>
-
-	<xsl:output method="html" doctype-public="XSLT-compat" encoding="UTF-8" indent="no" omit-xml-declaration="yes"/>
-	<xsl:strip-space elements="*"/>
 	<!--
 		WMenuItem forms part of a single compound widget with the WMenu at its root.
 
@@ -240,14 +236,6 @@
 							</xsl:if>
 						</xsl:otherwise>
 					</xsl:choose>
-
-					<xsl:if test="$isDebug=1">
-						<xsl:call-template name="debugAttributes"/>
-						<xsl:call-template name="nesting-debug">
-							<xsl:with-param name="testNonPhrase" select="$isButton"/>
-							<xsl:with-param name="testInteractive" select="$isButton"/>
-						</xsl:call-template>
-					</xsl:if>
 					<!--
 					 If the menuItem is not in a submenu then the accesskey attribute will be set
 					 if required and a balloon help tooltip element is created. If there is no context

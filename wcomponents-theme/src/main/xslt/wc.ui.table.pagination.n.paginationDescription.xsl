@@ -1,11 +1,9 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
-	<xsl:output method="html" doctype-public="XSLT-compat" encoding="UTF-8" indent="no" omit-xml-declaration="yes"/>
-	<xsl:strip-space elements="*"/>
 	<!-- 
-	Required by a11y and i18n requirements. very nasty.
-
-	If your implementation takes a more sensible approach to a11y and pagination control
-	labelling then you may not need this, or may have a much simpler template.
+		Required by a11y and i18n requirements. very nasty.
+	
+		If your implementation takes a more sensible approach to a11y and pagination control
+		labelling then you may not need this, or may have a much simpler template.
 	-->
 	<xsl:template name="paginationDescription">
 		<xsl:variable name="rpp" select="@rowsPerPage"/>

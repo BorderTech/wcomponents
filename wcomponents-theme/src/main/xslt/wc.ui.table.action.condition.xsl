@@ -1,16 +1,14 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
-	<xsl:output method="html" doctype-public="XSLT-compat" encoding="UTF-8" indent="no" omit-xml-declaration="yes"/>
-	<xsl:strip-space elements="*"/>
-<!--
-	Guard wrapper for action conditions. these are not output in place but are part
-	of the sibling button's attribute data.
--->
+	<!--
+		Guard wrapper for action conditions. these are not output in place but are part
+		of the sibling button's attribute data.
+	-->
 	<xsl:template match="ui:action/ui:condition"/>
-<!--
-	Outputs a comma spearated list of JSON objects stored in a button
-	attribute which is used to determine whether the action's conditions are met
-	before undertaking the action.
--->
+	<!--
+		Outputs a comma spearated list of JSON objects stored in a button
+		attribute which is used to determine whether the action's conditions are met
+		before undertaking the action.
+	-->
 	<xsl:template match="ui:condition" mode="action">
 		<xsl:text>{"min":"</xsl:text>
 		<xsl:value-of select="@minSelectedRows"/>

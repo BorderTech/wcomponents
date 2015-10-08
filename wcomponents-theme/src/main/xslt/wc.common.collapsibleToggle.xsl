@@ -1,7 +1,5 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
 	<xsl:import href="wc.common.toggleElement.xsl"/>
-	<xsl:import href="wc.debug.common.bestPracticeHelpers.xsl"/>
-	<xsl:import href="wc.debug.common.contentCategory.xsl"/>
 	<xsl:import href="wc.common.ajax.xsl"/>
 	<!-- Key used by collapsibleToggle to get the list of controlled collapsibles -->
 	<xsl:key name="collapsibleGroupKey" match="//ui:collapsible[@groupName]" use="@groupName"/>
@@ -64,16 +62,6 @@
 				</xsl:call-template>
 			</xsl:if>
 			<xsl:call-template name="ajaxTarget"/>
-			<xsl:if test="$isDebug=1 and self::ui:expandCollapseAll">
-				<xsl:call-template name="debugAttributes"/>
-				<xsl:call-template name="thisIsNotAllowedHere-debug">
-					<xsl:with-param name="testForNoInteractive" select="1"/>
-					<xsl:with-param name="testForPhraseOnly" select="1"/>
-				</xsl:call-template>
-				<xsl:if test="$mode='server'">
-					<xsl:call-template name="lameMode"/>
-				</xsl:if>
-			</xsl:if>
 			<li>
 				<xsl:call-template name="toggleElement">
 					<xsl:with-param name="mode" select="$mode"/>

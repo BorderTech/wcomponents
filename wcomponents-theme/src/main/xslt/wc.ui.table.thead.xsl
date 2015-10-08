@@ -1,25 +1,19 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
 	<xsl:import href="wc.ui.table.n.offscreenSpan.xsl"/>
 	<xsl:import href="wc.constants.xsl"/>
-	<xsl:output method="html" doctype-public="XSLT-compat" encoding="UTF-8" indent="no" omit-xml-declaration="yes"/>
-	<xsl:strip-space elements="*"/>
 
-<!--
- Template for ui:thead tests whether the table requires selection and expansion 
- controls and if so applies these in a row. Then outputs the column headers in a
- separate row.
-
- parameters
-    maxIndent and addCols: see comments in transform of ui:table in wc.ui.table.xsl
-
- The thead element is not hidden for a11y reasons. If the hidden attribute is "true"
- then only the row containing the column headers is hidden. In this instance hidden
- means rendered off screen.
-
- See
-    wc.ui.table.thead.th.xsl
-    wc.ui.table.thead.th_td_col.xsl
--->
+	<!--
+		Template for ui:thead tests whether the table requires selection and expansion 
+		controls and if so applies these in a row. Then outputs the column headers in a
+		separate row.
+		
+		parameters
+		maxIndent and addCols: see comments in transform of ui:table in wc.ui.table.xsl
+		
+		The thead element is not hidden for a11y reasons. If the hidden attribute is "true"
+		then only the row containing the column headers is hidden. In this instance hidden
+		means rendered off screen.
+	-->
 	<xsl:template match="ui:thead">
 		<xsl:param name="maxIndent" select="0"/>
 		<xsl:param name="addCols" select="0"/>

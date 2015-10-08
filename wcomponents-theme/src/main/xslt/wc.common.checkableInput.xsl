@@ -8,9 +8,6 @@
 	<xsl:import href="wc.common.readOnly.xsl"/>
 	<xsl:import href="wc.common.required.xsl"/>
 	<xsl:import href="wc.common.missingLabel.xsl"/>
-	<xsl:import href="wc.debug.common.contentCategory.xsl"/>
-	<xsl:output method="html" doctype-public="XSLT-compat" encoding="UTF-8" indent="no" omit-xml-declaration="yes"/>
-	<xsl:strip-space elements="*"/>
 	<!--
 		Checkable input controls
 	
