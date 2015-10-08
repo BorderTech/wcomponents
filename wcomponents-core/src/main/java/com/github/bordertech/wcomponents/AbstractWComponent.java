@@ -16,7 +16,6 @@ import java.io.ObjectStreamException;
 import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -440,8 +439,10 @@ public abstract class AbstractWComponent implements WComponent {
 
 			if (component instanceof Container) {
 
-				for (WComponent child : ((Container) component).getChildren()) {
-					collateVisible(child, list);
+				final int size = ((Container) component).getChildCount();
+
+				for (int i = 0; i < size; i++) {
+					collateVisible(((Container) component).getChildAt(i), list);
 				}
 			}
 
@@ -1279,7 +1280,8 @@ public abstract class AbstractWComponent implements WComponent {
 	 * @return the number of child components currently contained within this component.
 	 */
 	int getChildCount() {
-		return getChildren().size();
+		ComponentModel model = getComponentModel();
+		return (model.getChildren() == null ? 0 : model.getChildren().size());
 	}
 
 	/**
@@ -1289,7 +1291,8 @@ public abstract class AbstractWComponent implements WComponent {
 	 * @return the child component at the given index.
 	 */
 	WComponent getChildAt(final int index) {
-		return getChildren().get(index);
+		ComponentModel model = getComponentModel();
+		return model.getChildren().get(index);
 	}
 
 	/**
@@ -1299,21 +1302,10 @@ public abstract class AbstractWComponent implements WComponent {
 	 * @return the index of the given child component, or -1 if the component is not a child of this component.
 	 */
 	int getIndexOfChild(final WComponent childComponent) {
-		return getChildren().indexOf(childComponent);
-	}
+		ComponentModel model = getComponentModel();
+		List<WComponent> children = model.getChildren();
 
-	/**
-	 * Retrieves the children of this component.
-	 *
-	 * @return the children of this component in an unmodifiable list, or an empty list.
-	 */
-	List<WComponent> getChildren() {
-
-		List<WComponent> children = getComponentModel().getChildren();
-
-		return children != null && !children.isEmpty()
-			? Collections.unmodifiableList(children)
-			: Collections.<WComponent>emptyList();
+		return children == null ? -1 : children.indexOf(childComponent);
 	}
 
 	/**
@@ -1330,7 +1322,12 @@ public abstract class AbstractWComponent implements WComponent {
 		if (parent instanceof AbstractWComponent) {
 			return ((AbstractWComponent) parent).getIndexOfChild(childComponent);
 		} else {
-			parent.getChildren().indexOf(childComponent);
+			// We have to do this the hard way...
+			for (int i = 0; i < parent.getChildCount(); i++) {
+				if (childComponent == parent.getChildAt(i)) {
+					return i;
+				}
+			}
 		}
 
 		return -1;
@@ -1819,7 +1816,7 @@ public abstract class AbstractWComponent implements WComponent {
 			WComponent comp = UIRegistry.getInstance().getUI(repositoryKey);
 
 			for (int i = 0; comp != null && i < nodeLocation.length; i++) {
-				comp = ((Container) comp).getChildren().get(nodeLocation[i]);
+				comp = ((Container) comp).getChildAt(nodeLocation[i]);
 			}
 
 			// Component not found - BAD!
