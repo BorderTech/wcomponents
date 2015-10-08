@@ -135,9 +135,10 @@ public class WRepeater extends WBeanComponent implements Container, AjaxTarget, 
 			// Make sure the repeater's scratch map has not been repopulated by processing its children
 			UIContextHolder.getCurrent().clearScratchMap(node);
 		} else if (node instanceof Container) {
+			Container container = (Container) node;
 
-			for (WComponent child : ((Container) node).getChildren()) {
-				clearScratchMaps(child);
+			for (int i = 0; i < container.getChildCount(); i++) {
+				clearScratchMaps(container.getChildAt(i));
 			}
 		}
 	}

@@ -149,7 +149,11 @@ public class UicStats {
 		statsMap.put(comp, stat);
 
 		if (comp instanceof Container) {
-			for (WComponent child : ((Container) comp).getChildren()) {
+			Container container = (Container) comp;
+			int childCount = container.getChildCount();
+
+			for (int i = 0; i < childCount; i++) {
+				WComponent child = container.getChildAt(i);
 				addStats(statsMap, child);
 			}
 		}

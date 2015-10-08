@@ -340,8 +340,8 @@ public class SimplePicker extends WContainer implements MessageContainer {
 	public Container getCurrentComponent() {
 		Container currentComponent = null;
 
-		if (!((Container) (container.getChildren().get(0))).getChildren().isEmpty()) {
-			currentComponent = (Container) ((Container) container).getChildren().get(0);
+		if (((Container) (container.getChildAt(0))).getChildCount() > 0) {
+			currentComponent = (Container) container.getChildAt(0);
 		}
 
 		return currentComponent;

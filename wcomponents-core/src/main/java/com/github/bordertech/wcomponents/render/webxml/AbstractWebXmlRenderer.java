@@ -42,8 +42,10 @@ public abstract class AbstractWebXmlRenderer implements Renderer {
 	 */
 	protected final void paintChildren(final Container container,
 			final WebXmlRenderContext renderContext) {
+		final int size = container.getChildCount();
 
-		for (WComponent child : container.getChildren()) {
+		for (int i = 0; i < size; i++) {
+			WComponent child = container.getChildAt(i);
 			child.paint(renderContext);
 		}
 	}

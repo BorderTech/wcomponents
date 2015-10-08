@@ -418,7 +418,7 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 			final UIContext rowContext,
 			final List<Integer> rowIndex, final int col, final TableModel model) {
 		// The actual component is wrapped in a renderer wrapper, so we have to fetch it from that
-		WComponent renderer = ((Container) rowRenderer.getRenderer(col)).getChildren().get(0);
+		WComponent renderer = ((Container) rowRenderer.getRenderer(col)).getChildAt(0);
 
 		UIContextHolder.pushContext(rowContext);
 
@@ -459,7 +459,7 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 		}
 
 		// The actual component is wrapped in a renderer wrapper, so we have to fetch it from that
-		WComponent expandInstance = expandWrapper.getChildren().get(0);
+		WComponent expandInstance = expandWrapper.getChildAt(0);
 
 		UIContextHolder.pushContext(rowContext);
 		try {

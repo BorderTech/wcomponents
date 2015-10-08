@@ -418,9 +418,10 @@ public final class TreeUtil {
 					}
 				}
 			} else if (node instanceof Container) {
+				Container container = (Container) node;
 
-				for (WComponent child : ((Container) node).getChildren()) {
-					result = doTraverse(child, visibleOnly, visitor);
+				for (int i = 0; i < container.getChildCount(); i++) {
+					result = doTraverse(container.getChildAt(i), visibleOnly, visitor);
 
 					if (VisitorResult.ABORT.equals(result)) {
 						return VisitorResult.ABORT;

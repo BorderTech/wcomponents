@@ -364,7 +364,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 			for (int col = 0; col < columnCount; col++) {
 				if (model.isCellEditable(row, col)) {
 					// The actual component is wrapped in a renderer wrapper, so we have to fetch it from that
-					WComponent renderer = ((Container) rowRenderer.getRenderer(col)).getChildren().get(0);
+					WComponent renderer = ((Container) rowRenderer.getRenderer(col)).getChildAt(0);
 
 					if (renderer instanceof DataBound) {
 						Object oldValue = model.getValueAt(row, col);

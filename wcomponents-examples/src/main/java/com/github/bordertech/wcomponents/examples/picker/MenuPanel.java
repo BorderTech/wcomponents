@@ -195,8 +195,8 @@ final class MenuPanel extends WPanel {
 				return data;
 			}
 		} else if (node instanceof Container) {
-			for (WComponent child : ((Container) node).getChildren()) {
-				ExampleData result = getMatch(child, name, partial);
+			for (int i = 0; i < ((Container) node).getChildCount(); i++) {
+				ExampleData result = getMatch(((Container) node).getChildAt(i), name, partial);
 
 				if (result != null) {
 					return result;

@@ -341,13 +341,18 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 		}
 
 		// We need to recurse through any sub-menus in this menu/sub-menu
+		final int childCount = component.getChildCount();
 
-		for (WComponent child : component.getChildren()) {
+		for (int i = 0; i < childCount; i++) {
+			WComponent child = component.getChildAt(i);
 
 			if (child instanceof WMenuItemGroup) {
-				for (WComponent groupChild : ((WMenuItemGroup) child).getChildren()) {
-					if (groupChild instanceof WSubMenu) {
-						findSelections(request, (WSubMenu) groupChild, selections);
+				WMenuItemGroup group = (WMenuItemGroup) child;
+				final int groupChildCount = group.getChildCount();
+
+				for (int j = 0; j < groupChildCount; j++) {
+					if (group.getChildAt(j) instanceof WSubMenu) {
+						findSelections(request, (WSubMenu) group.getChildAt(j), selections);
 					}
 				}
 			} else if (child instanceof WSubMenu) {
@@ -365,15 +370,18 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 	 */
 	private List<WComponent> getSelectableChildren(final Container parent,
 			final SelectMode parentSelectMode) {
-		List<WComponent> result = new ArrayList<>(parent.getChildren().size());
+		List<WComponent> result = new ArrayList<>(parent.getChildCount());
 
-		for (WComponent child : parent.getChildren()) {
+		for (int i = 0; i < parent.getChildCount(); i++) {
+			WComponent child = parent.getChildAt(i);
 
 			if (child instanceof WMenuItemGroup) {
+				WMenuItemGroup group = (WMenuItemGroup) child;
 
-				// Grouping doesn't affect selectability.
-				// Groups can not be nested, so just loop through the group's children.
-				for (WComponent groupedChild : ((WMenuItemGroup) child).getChildren()) {
+ 				// Grouping doesn't affect selectability.
+ 				// Groups can not be nested, so just loop through the group's children.
+				for (int j = 0; j < group.getChildCount(); j++) {
+					WComponent groupedChild = group.getChildAt(j);
 
 					if (isSelectable(groupedChild, parentSelectMode)) {
 						result.add(groupedChild);

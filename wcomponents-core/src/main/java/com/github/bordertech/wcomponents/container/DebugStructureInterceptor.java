@@ -81,8 +81,10 @@ public class DebugStructureInterceptor extends InterceptorComponent {
 			} else if (component instanceof WCardManager) {
 				writeDebugInfo(((WCardManager) component).getVisible(), xml);
 			} else if (component instanceof Container) {
-				for (WComponent child : ((Container) component).getChildren()) {
-					writeDebugInfo(child, xml);
+				final int size = ((Container) component).getChildCount();
+
+				for (int i = 0; i < size; i++) {
+					writeDebugInfo(((Container) component).getChildAt(i), xml);
 				}
 			}
 		}

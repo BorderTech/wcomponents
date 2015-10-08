@@ -47,8 +47,11 @@ public abstract class AbstractSetMandatory extends AbstractAction {
 		if (target instanceof Mandatable) {
 			((Mandatable) target).setMandatory(mandatory);
 		} else if (target instanceof Container) { // Apply to the Mandatable children
+			Container cont = (Container) target;
+			final int size = cont.getChildCount();
 
-			for (WComponent child : ((Container) target).getChildren()) {
+			for (int i = 0; i < size; i++) {
+				WComponent child = cont.getChildAt(i);
 				applyMandatoryAction(child, mandatory);
 			}
 		}

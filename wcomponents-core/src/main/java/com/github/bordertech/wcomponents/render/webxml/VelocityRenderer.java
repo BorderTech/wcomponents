@@ -245,8 +245,10 @@ public final class VelocityRenderer implements Renderer {
 		ArrayList<String> children = new ArrayList<>();
 
 		if (component instanceof Container) {
+			Container container = (Container) component;
 
-			for (WComponent child : ((Container) component).getChildren()) {
+			for (int i = 0; i < container.getChildCount(); i++) {
+				WComponent child = container.getChildAt(i);
 				String tag = child.getTag();
 
 				if (tag != null || child.isVisible()) {

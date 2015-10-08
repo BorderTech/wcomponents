@@ -152,9 +152,11 @@ public class WFieldSet extends AbstractMutableContainer implements AjaxTarget, S
 		}
 
 		if (component instanceof Container) {
+			Container container = (Container) component;
+			int childCount = container.getChildCount();
 
-			for (WComponent child : ((Container) component).getChildren()) {
-				boolean hasValue = hasInputWithValue(child);
+			for (int i = 0; i < childCount; i++) {
+				boolean hasValue = hasInputWithValue(container.getChildAt(i));
 
 				if (hasValue) {
 					return true;

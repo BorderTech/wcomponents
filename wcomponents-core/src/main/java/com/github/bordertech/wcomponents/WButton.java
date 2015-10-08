@@ -627,7 +627,7 @@ public class WButton extends WBeanComponent implements Container, Disableable, A
 	@Override
 	// to make public
 	public int getChildCount() {
-		return getChildren().size();
+		return super.getChildCount();
 	}
 
 	/**
@@ -636,7 +636,7 @@ public class WButton extends WBeanComponent implements Container, Disableable, A
 	@Override
 	// to make public
 	public WComponent getChildAt(final int index) {
-		return getChildren().get(index);
+		return super.getChildAt(index);
 	}
 
 	/**
@@ -645,14 +645,13 @@ public class WButton extends WBeanComponent implements Container, Disableable, A
 	@Override
 	// to make public
 	public int getIndexOfChild(final WComponent childComponent) {
-		return getChildren().indexOf(childComponent);
+		return super.getIndexOfChild(childComponent);
 	}
 
 	@Override
 	public List<WComponent> getChildren() {
 		return super.getChildren();
 	}
-
 
 	/**
 	 * @return a String representation of this component, for debugging purposes.

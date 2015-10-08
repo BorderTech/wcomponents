@@ -112,9 +112,11 @@ public class WField extends AbstractContainer implements AjaxTarget, Subordinate
 		}
 
 		if (component instanceof Container) {
+			Container container = (Container) component;
+			final int childCount = container.getChildCount();
 
-			for (WComponent child : ((Container) component).getChildren()) {
-				WComponent theField = findComponentForLabel(child);
+			for (int i = 0; i < childCount; i++) {
+				WComponent theField = findComponentForLabel(container.getChildAt(i));
 
 				if (theField != null) {
 					return theField;
