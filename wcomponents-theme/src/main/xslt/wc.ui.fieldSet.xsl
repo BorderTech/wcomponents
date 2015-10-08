@@ -5,9 +5,6 @@
 	<xsl:import href="wc.common.invalid.xsl"/>
 	<xsl:import href="wc.common.required.xsl"/>
 	<xsl:import href="wc.common.accessKey.xsl"/>
-	<xsl:import href="wc.debug.debugInfo.xsl"/>
-	<xsl:output method="html" doctype-public="XSLT-compat" encoding="UTF-8" indent="no" omit-xml-declaration="yes"/>
-	<xsl:strip-space elements="*"/>
 	<!--
 		Transform for ui:fieldSet which is the XML output of WFieldSet.
 	
@@ -71,9 +68,6 @@
 			<xsl:call-template name="hideElementIfHiddenSet"/>
 			
 			<xsl:call-template name="ajaxTarget"/>
-			<xsl:if test="$isDebug=1">
-				<xsl:call-template name="debugAttributes"/>
-			</xsl:if>
 			<!--
 				The Legend/Label/Heading
 

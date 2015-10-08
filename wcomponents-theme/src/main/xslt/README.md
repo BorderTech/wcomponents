@@ -35,13 +35,21 @@ with apply-templates or apply-imports has resulted in transform times being redu
 milliseconds with one extreme case (admittedly in IE6) being reduced from over 14 minutes to around 600 milliseconds.
 **YES: 14 MINUTES to 600 MILLISECONDS BY REMOVING xsl:for-each**.
 
-## Debug templates, variables and tests
+## Debug  variables and tests
 
-We have extra XSLT for handling extra information when in debug mode. This includes transforms for the WComponents
-ui:debugInfo and a large amount of XSLT to handle our developer diagnostics layer. All of this is stripped from the
-compressed XSLT so long as any test (xsl:if or xsl:when) for debug mode tests the xsl:param $isDebug.
+We have a 'magic' XSL param $isDebug. This is set to 1. You can use this param as part of a xsl:if or xsl:when to
+output content only in debug mode. For example one could choose to output a marker if you are debugging a XSLT issue
+such as:
 
-The $isDebug param is also stripped from the compressed XSLT.
+``` xslt
+<xsl:if test="$isDebug=1">
+	<xsl:comment>
+		<xsl:value-of select="concat('maxIndent is ',$maxIndent,'&#xA;')"/>
+	</xsl:comment>
+</xsl:if>
+```
+
+The $isDebug param and any branch which has it as part of the test is stripped from the compressed XSLT.
 
 ## Coding Standards
 

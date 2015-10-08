@@ -7,9 +7,6 @@
 	<xsl:import href="wc.common.readOnly.xsl"/>
 	<xsl:import href="wc.common.required.xsl"/>
 	<xsl:import href="wc.common.hide.xsl"/>
-	<xsl:import href="wc.debug.common.contentCategory.xsl"/>
-	<xsl:output method="html" doctype-public="XSLT-compat" encoding="UTF-8" indent="no" omit-xml-declaration="yes"/>
-	<xsl:strip-space elements="*"/>
 	<!--
 		This transform is reused by ui:listBox and ui:dropdown.
 		See wc.ui.combo.xsl for ui:dropdown with @type="combo" and not @readOnly="true"
@@ -107,12 +104,6 @@
 					</xsl:if>
 					<xsl:call-template name="hideElementIfHiddenSet"/>
 					<xsl:call-template name="ajaxTarget"/>
-					<xsl:if test="$isDebug=1">
-						<xsl:call-template name="debugAttributes"/>
-						<xsl:call-template name="thisIsNotAllowedHere-debug">
-							<xsl:with-param name="testForPhraseOnly" select="1"/>
-						</xsl:call-template>
-					</xsl:if>
 					<xsl:apply-templates select="ui:option[@selected]|ui:optgroup[ui:option[@selected]]" mode="readOnly">
 						<xsl:with-param name="single" select="0"/>
 					</xsl:apply-templates>

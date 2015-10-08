@@ -1,13 +1,11 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
 	<xsl:import href="wc.ui.table.thead.th.n.tSortControls.xsl"/>
-	<xsl:output method="html" doctype-public="XSLT-compat" encoding="UTF-8" indent="no" omit-xml-declaration="yes"/>
-	<xsl:strip-space elements="*"/>
-<!--
- param maxIndent: default=0
-    This is the number of columns required in the span of the first column to
-    allow for the indentation of child rows throughout the entire table. See
-	comments in transform of ui:table in wc.ui.table.xsl.
--->
+	<!--
+		param maxIndent: default=0
+		    This is the number of columns required in the span of the first column to
+		    allow for the indentation of child rows throughout the entire table. See
+			comments in transform of ui:table in wc.ui.table.xsl.
+	-->
 	<xsl:template match="ui:th" mode="thead">
 		<xsl:param name="maxIndent" select="0"/>
 		<xsl:variable name="tableId" select="../../@id"/>

@@ -129,7 +129,7 @@ define(["wc/has", "wc/ajax/ajax", "wc/xml/xmlString", "wc/xml/xpath", "wc/array/
 								compiledXslCache[xslUri] = xsltProcessor;
 								console.log("Caching compiled XSL: ", xslUri);
 							}
-							if (has("edge")) {
+							if (has("edge") || has("webkit")) { // the webkit test: chrome on iOS and android still needs this, Safari iOS and UC do not but it does them no harm.
 								resolveIncludes(xsl);
 							}
 						}

@@ -60,19 +60,13 @@
 		<delete dir="${xslt.build.target.dir}/${xslt.target.file.name}_"/>
 	</target>
 
-	<target name="buildXslt" depends="buildDebugXslt">
+	<target name="buildXslt">
 		<buildXSLTPattern pattern="*" targetFile="${xsl.target.debug.file.name}"/>
-	</target>
-
-	<!-- build wc/debug/xsl from files in the wc/debug/*.xsl name space -->
-	<target name="buildDebugXslt">
-		<buildXSLTPattern pattern="${common.debugFiles.name.pattern}" targetFile="${xslt.target.debug.file.name}" includeIncludes="0"/>
 	</target>
 
 	<macrodef name="buildXSLTPattern">
 		<attribute name="pattern"/>
 		<attribute name="targetFile"/>
-		<attribute name="includeIncludes" default="1"/>
 		<sequential>
 			<concat destfile="${tmp.dir}/${xsl.target.intermediate.file.name}" fixlastline="yes" ignoreempty="false">
 				<header filtering="no">&lt;concat&gt;</header>
@@ -91,7 +85,6 @@
 					<xslt in="${tmp.dir}/${xsl.target.intermediate.file.name}"
 						out="${xslt.build.target.dir}/@{targetFile}"
 						style="${tmp.dir}/${xsl.meta.xform.file.name}">
-						<param name="includeIncludes" expression="@{includeIncludes}"/>
 						<factory name="net.sf.saxon.TransformerFactoryImpl"/>
 					</xslt>
 				</then>
@@ -144,7 +137,6 @@
 		</copy>
 	</target>
 
-	<!-- note: not going to minify debug.xsl -->
 	<target name="minify" unless="minifiy.resources.off">
 		<taskdef name="xslmin"
 				 classname="com.github.ricksbrown.xslmin.ant.MinifyTask"
