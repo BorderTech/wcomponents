@@ -115,7 +115,10 @@ public class UicProfileButton extends WButton {
 		compDataOverall.total++;
 
 		if (component instanceof Container) {
-			for (WComponent child : ((Container) component).getChildren()) {
+			int count = ((Container) component).getChildCount();
+
+			for (int i = 0; i < count; i++) {
+				WComponent child = ((Container) component).getChildAt(i);
 				tally(child, map, compDataOverall, out);
 			}
 		}
