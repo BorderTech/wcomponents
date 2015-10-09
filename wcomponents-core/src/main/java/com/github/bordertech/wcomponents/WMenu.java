@@ -378,8 +378,8 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 			if (child instanceof WMenuItemGroup) {
 				WMenuItemGroup group = (WMenuItemGroup) child;
 
- 				// Grouping doesn't affect selectability.
- 				// Groups can not be nested, so just loop through the group's children.
+				// Grouping doesn't affect selectability.
+				// Groups can not be nested, so just loop through the group's children.
 				for (int j = 0; j < group.getChildCount(); j++) {
 					WComponent groupedChild = group.getChildAt(j);
 

@@ -152,7 +152,7 @@ final class SafetyContainer extends AbstractMutableContainer {
 			} else {
 				try {
 					for (int i = 0; i < shim.getChildCount(); i++) {
-    						shim.getChildAt(i).paint(renderContext);
+						shim.getChildAt(i).paint(renderContext);
 					}
 				} catch (final Exception e) {
 					new ErrorComponent("Error during rendering", e).paint(renderContext);
