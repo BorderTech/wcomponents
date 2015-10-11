@@ -58,9 +58,6 @@
 					<xsl:value-of select="$maxFiles"/>
 				</xsl:attribute>
 			</xsl:if>
-			<xsl:if test="$isDebug=1">
-				<xsl:call-template name="debugAttributes"/>
-			</xsl:if>
 		</xsl:element>
 	</xsl:template>
 </xsl:stylesheet>

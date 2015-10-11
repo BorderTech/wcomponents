@@ -2,10 +2,6 @@
 	<xsl:import href="wc.common.ajax.xsl"/>
 	<xsl:import href="wc.common.hide.xsl"/>
 	<xsl:import href="wc.constants.xsl"/>
-	<xsl:import href="wc.debug.debugInfo.xsl"/>
-	<xsl:import href="wc.debug.common.contentCategory.xsl"/>
-	<xsl:output method="html" doctype-public="XSLT-compat" encoding="UTF-8" indent="no" omit-xml-declaration="yes"/>
-	<xsl:strip-space elements="*"/>
 	<!--
 		WDecoratedLabel allows a labelling element to contain up to three independently
 		stylable areas. The output element of the label and its children is dependent

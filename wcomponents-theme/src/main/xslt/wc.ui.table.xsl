@@ -5,11 +5,8 @@
 	<xsl:import href="wc.common.inlineError.xsl"/>
 	<xsl:import href="wc.common.hField.xsl"/>
 	<xsl:import href="wc.common.hide.xsl"/>
-	<xsl:import href="wc.debug.table.xsl"/>
 	<xsl:import href="wc.ui.table.n.xsl"/>
-	<xsl:output method="html" doctype-public="XSLT-compat" encoding="UTF-8" indent="no" omit-xml-declaration="yes"/>
-	<xsl:strip-space elements="*"/>
-<!--
+	<!--
 		WTable (and WDataTable)
 	
 		This is long but reasonably straight-forward generation of HTML tables.
@@ -99,10 +96,6 @@
 					<xsl:value-of select="@activeFilters"/>
 				</xsl:attribute>
 			</xsl:if>
-
-			<xsl:if test="$isDebug=1">
-				<xsl:call-template name="table-debug"/>
-			</xsl:if>
 			
 			<xsl:variable name="isHierarchic">
 				<xsl:choose>
@@ -155,11 +148,6 @@
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:variable>
-			<xsl:if test="$isDebug=1">
-				<xsl:comment>
-					<xsl:value-of select="concat('maxIndent is ',$maxIndent,'&#xA;')"/>
-				</xsl:comment>
-			</xsl:if>
 			
 			<xsl:variable name="rowSelection">
 				<xsl:choose>

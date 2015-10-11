@@ -3,7 +3,6 @@
 	version="1.0">
 	<xsl:import href="wc.common.ajax.xsl"/>
 	<xsl:import href="wc.constants.xsl"/>
-	<xsl:import href="wc.debug.debugInfo.xsl"/>
 	<!--
 		Transform for WProgressBar. 
 		This component generates a graphical indicator of static progess, not a timer.
@@ -42,9 +41,6 @@
 			</xsl:if>
 			<xsl:call-template name="ajaxTarget"/>
 			<xsl:call-template name="hideElementIfHiddenSet"/>
-			<xsl:if test="$isDebug=1">
-				<xsl:call-template name="debugAttributes"/>
-			</xsl:if>
 			<xsl:element name="span">
 				<xsl:attribute name="role">
 					<xsl:text>progressbar</xsl:text>

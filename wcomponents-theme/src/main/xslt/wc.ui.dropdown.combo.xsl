@@ -2,8 +2,6 @@
 	<xsl:import href="wc.common.attributeSets.xsl" />
 	<xsl:import href="wc.constants.xsl" />
 	<xsl:import href="wc.common.missingLabel.xsl" />
-	<xsl:output method="html" doctype-public="XSLT-compat" encoding="UTF-8" indent="no" omit-xml-declaration="yes" />
-	<xsl:strip-space elements="*" />
 	<!--
 		ui:dropdown (@type="combo")
 		Transform for WDropdown.COMBO which is a combo-box. See wc.ui.dropdown.xsl.

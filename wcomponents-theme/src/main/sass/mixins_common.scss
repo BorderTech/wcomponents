@@ -87,7 +87,13 @@
 	@if($repeat != repeat) {
 		background-repeat: $repeat;
 	}
-	@if($height != -1 and $width != -1) {
+	@if($height == contain or $width == contain) {
+		background-size: contain;
+	}
+	@else if($height == cover or $width == cover) {
+		background-size: cover;
+	}
+	@else if($height != -1 and $width != -1) {
 		background-size: $width $height;
 		@if($reset-size == true) {
 			@include reset-large-screen {

@@ -1,7 +1,4 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
-	<xsl:import href="wc.debug.common.contentCategory.xsl"/>
-	<xsl:output method="html" doctype-public="XSLT-compat" encoding="UTF-8" indent="no" omit-xml-declaration="yes"/>
-	<xsl:strip-space elements="*"/>
 	<!--
 		WHorizontalRule is merely presentational with no semantic meaning.
 		
@@ -16,11 +13,6 @@
 	-->
 	<xsl:template match="ui:hr|html:hr|hr">
 		<xsl:element name="hr" >
-			<xsl:if test="$isDebug=1">
-				<xsl:call-template name="thisIsNotAllowedHere-debug">
-					<xsl:with-param name="testForPhraseOnly" select="1"/>
-				</xsl:call-template>
-			</xsl:if>
 		</xsl:element>
 	</xsl:template>
 </xsl:stylesheet>

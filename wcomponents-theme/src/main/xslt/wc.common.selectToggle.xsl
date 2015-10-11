@@ -1,8 +1,6 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
 	<xsl:import href="wc.common.toggleElement.xsl"/>
 	<xsl:import href="wc.common.ajax.xsl"/>
-	<xsl:import href="wc.debug.common.contentCategory.xsl"/>
-	<xsl:import href="wc.debug.common.bestPracticeHelpers.xsl"/>
 
 	<!-- Keys used by selectToggle if it is targetted at a single checkbox or group of disparate check boxes rather than at a container or checkBoxSelect-->
 	<xsl:key name="checkboxIdKey" match="//ui:checkBox[@groupName]" use="@id"/>
@@ -119,15 +117,6 @@
 					<xsl:attribute name="id">
 						<xsl:value-of select="$toggleId"/>
 					</xsl:attribute>
-					<xsl:if test="$isDebug=1 and self::ui:selectToggle">
-						<xsl:call-template name="debugAttributes"/>
-						<xsl:call-template name="thisIsNotAllowedHere-debug">
-							<xsl:with-param name="testForNoInteractive" select="1"/>
-						</xsl:call-template>
-						<xsl:if test="$mode='server'">
-							<xsl:call-template name="lameMode"/>
-						</xsl:if>
-					</xsl:if>
 					<xsl:call-template name="ajaxTarget"/>
 					<xsl:attribute name="role">
 						<xsl:text>radiogroup</xsl:text>
@@ -310,15 +299,6 @@
 					</xsl:attribute>
 					<xsl:choose>
 						<xsl:when test="self::ui:selectToggle">
-							<xsl:if test="$isDebug=1">
-								<xsl:call-template name="debugAttributes"/>
-								<xsl:call-template name="thisIsNotAllowedHere-debug">
-									<xsl:with-param name="testForNoInteractive" select="1"/>
-								</xsl:call-template>
-								<xsl:if test="$mode='server'">
-									<xsl:call-template name="lameMode"/>
-								</xsl:if>
-							</xsl:if>
 							<xsl:call-template name="disabledElement">
 								<xsl:with-param name="isControl" select="1"/>
 							</xsl:call-template>

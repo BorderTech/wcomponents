@@ -2,14 +2,12 @@
 	<xsl:import href="wc.ui.table.pagination.n.paginationDescription.xsl"/>
 	<xsl:import href="wc.ui.table.n.xsl"/>
 	<xsl:import href="wc.common.disabledElement.xsl"/>
-	<xsl:output method="html" doctype-public="XSLT-compat" encoding="UTF-8" indent="no" omit-xml-declaration="yes"/>
-	<xsl:strip-space elements="*"/>
-<!--
- This template creates the pagination controls. It is called specifically from 
- the tfoot template. Nothing is output if the table consists of only one page.
- 
- Pagination controls consist of a labelled SELECT element and four buttons.
--->
+	<!--
+		This template creates the pagination controls. It is called specifically from 
+		the tfoot template. Nothing is output if the table consists of only one page.
+		
+		Pagination controls consist of a labelled SELECT element and four buttons.
+	-->
 	<xsl:template match="ui:pagination">
 		<xsl:variable name="tableId" select="../@id"/>
 		<xsl:variable name="name">

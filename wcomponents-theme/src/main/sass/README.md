@@ -10,9 +10,7 @@ we have the following conventions:
 
 * files which are for a particular WComponent are named wc.ui.COMPONENT_NAME.OPTIONAL_PATTERN.scss;
 
-* files which are for several distinct components are named wc.common.FAMILY.OPTIONAL_PATTERN.scss;
-
-* files which are for mobile consumption only are named \*.mob.scss;
+* files which are for several components are named wc.common.FAMILY.OPTIONAL_PATTERN.scss;
 
 * files which are for desktop only consumption are named \*.dt.scss;
 
@@ -86,12 +84,11 @@ CSS file `screen.ff.css` and the CSS loader will be told to load this file if `h
 ## Media rules and specific CSS: when to use which
 
 We want to load the smallest amount of CSS we can whilst still struggling with HTTP 1.1 optimisation by concatenation.
-For this reason we put most platform specific CSS into \*.dt.scss or \*.mob.scss files. THere are times, however, when
+For this reason we put most platform specific CSS into \*.dt.scss or pattern\_\* files. There are times, however, when
 media queries are warranted: one may, for example, want to apply a different appearance on a desktop if the browser
-window has been made small.
+window has been made small or if the monitor is huge or dense. We also add generic mobile CSS into the core Sass files using media queries.
 
-The file mixins_respond.scss has a skeleton mixin for applying some @media based CSS. At the moment it's most common use
-is to make columnar layouts into block layouts on small screens, but it is not intended to be limited to this.
+The file mixins_respond.scss has some skeletal mixins for applying some @media based CSS. Feel free to extend these!
 
 The take-home message of this is: there is no hard and fast rule for when to use @media compared with a platform
 specific file. Just use your common sense and try to keep the amount of CSS sent to the browser to a minimum as there is

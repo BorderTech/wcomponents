@@ -7,8 +7,23 @@ dialog {
 	background: transparent;
 	border: 0 none; // oh chrome, you try so hard to annoy me
 	display: none;
+	margin: 0;
+	padding: 0;
 	position: fixed;
 	z-index: 20;
+
+	@include respond(mobile) {
+		@include border-box;
+		height: 98%;
+		left: 0;
+		margin: 1%;
+		top: 0;
+		width: 98%;
+
+		> header .wc_maxcont {
+			display: none;
+		}
+	}
 
 	&[open] {
 		@include flex($direction: column);
@@ -34,6 +49,7 @@ dialog {
 
 	> header {
 		@include flex($direction: row-reverse, $wrap: wrap, $justify: space-between, $align-items: center);
+		padding: $vgap-small 0 $vgap-small $hgap-small;
 
 		> h1 { // the title
 			@include flex-grow(1);
@@ -57,7 +73,7 @@ dialog {
 // dialog close control
 // NOTE: for resize handle and max/restore control see wc.ui.resizeable.scss.
 .wc_dialog_close.wc_btn_nada {
-	@include background-image($url: '../images/dialog-close.sprite.png', $height: cover, $width: '', $x: 0, $y: 0);
+	@include background-image($url: '../images/dialog-close-sprite.png', $height: cover, $x: 0, $y: 0);
 	@include make-box;
 	&:focus,
 	&:hover {

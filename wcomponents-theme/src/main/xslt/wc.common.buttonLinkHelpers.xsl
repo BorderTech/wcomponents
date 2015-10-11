@@ -4,10 +4,6 @@
 	<xsl:import href="wc.common.disabledElement.xsl"/>
 	<xsl:import href="wc.common.accessKey.xsl"/>
 	<xsl:import href="wc.common.buttonLink.drawButtonImage.xsl"/>
-	<xsl:import href="wc.debug.buttonLinkHelpers.xsl"/>
-	
-	<xsl:output method="html" doctype-public="XSLT-compat" encoding="UTF-8" indent="no" omit-xml-declaration="yes"/>
-	<xsl:strip-space elements="*"/>
 	<!--
 		These templates output common aspects of wc.ui.button.xsl and
 		wc.ui.link.xsl. Most of the attributes of wc.ui.button.xsl and
@@ -40,9 +36,6 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
-		<xsl:if test="$isDebug=1">
-			<xsl:call-template name="buttonLinkCommon-debug"/>
-		</xsl:if>
 		<xsl:choose>
 			<xsl:when test="@disabled">
 				<xsl:call-template name="disabledElement">
@@ -90,4 +83,3 @@
 		</xsl:choose>
 	</xsl:template>
 </xsl:stylesheet>
-

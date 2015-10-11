@@ -1,13 +1,9 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
-	<xsl:import href="wc.debug.submenu.xsl"/>
-	<xsl:output method="html" doctype-public="XSLT-compat" encoding="UTF-8" indent="no" omit-xml-declaration="yes"/>
-	<xsl:strip-space elements="*"/>
-
-<!--
-	This is the transform of the content of a submenu. The template creates a 
-	wrapper element and sets up several attributes which control its behaviour, 
-	style and exposure to assitive technologies.
--->
+	<!--
+		This is the transform of the content of a submenu. The template creates a 
+		wrapper element and sets up several attributes which control its behaviour, 
+		style and exposure to assitive technologies.
+	-->
 	<xsl:template match="ui:content" mode="submenu">
 		<xsl:param name="open" select="0"/>
 		<xsl:variable name="mode" select="../@mode"/>
@@ -62,6 +58,4 @@
 			<xsl:apply-templates select="*"/>
 		</xsl:element>
 	</xsl:template>
-
-
 </xsl:stylesheet>
