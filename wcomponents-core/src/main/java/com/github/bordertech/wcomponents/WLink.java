@@ -548,6 +548,14 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 		return super.getIndexOfChild(childComponent);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public List<WComponent> getChildren() {
+		return super.getChildren();
+	}
+
 	// --------------------------------
 	// Extrinsic state management
 	/**

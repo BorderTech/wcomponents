@@ -1805,6 +1805,11 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 		return super.getIndexOfChild(childComponent);
 	}
 
+	@Override
+	public List<WComponent> getChildren() {
+		return super.getChildren();
+	}
+
 	/**
 	 * @return a String representation of this component, for debugging purposes.
 	 */

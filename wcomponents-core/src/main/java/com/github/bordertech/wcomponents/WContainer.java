@@ -1,5 +1,7 @@
 package com.github.bordertech.wcomponents;
 
+import java.util.List;
+
 /**
  * A default implementation of the {@link Container} interface. This can be used as a generic container for components
  * which do not need to be referenced together. If you need to target a collection of components for use in e.g. AJAX,
@@ -40,6 +42,14 @@ public class WContainer extends WBeanComponent implements MutableContainer {
 	@Override
 	public int getChildCount() {
 		return super.getChildCount();
+	}
+
+	@Override
+	/**
+	 * {@inheritDoc}
+	 */
+	public List<WComponent> getChildren() {
+		return super.getChildren();
 	}
 
 	/**

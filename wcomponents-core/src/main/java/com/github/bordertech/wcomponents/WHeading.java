@@ -1,5 +1,7 @@
 package com.github.bordertech.wcomponents;
 
+import java.util.List;
+
 /**
  * This component is used to render the different types of headings within an application.
  *
@@ -232,6 +234,14 @@ public class WHeading extends WText implements Container, AjaxTarget, Marginable
 	// to make public
 	public int getIndexOfChild(final WComponent childComponent) {
 		return super.getIndexOfChild(childComponent);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public List<WComponent> getChildren() {
+		return super.getChildren();
 	}
 
 	/**
