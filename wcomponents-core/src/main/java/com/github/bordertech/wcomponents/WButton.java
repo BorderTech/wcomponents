@@ -3,6 +3,7 @@ package com.github.bordertech.wcomponents;
 import com.github.bordertech.wcomponents.util.I18nUtilities;
 import java.io.Serializable;
 import java.text.MessageFormat;
+import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -645,6 +646,11 @@ public class WButton extends WBeanComponent implements Container, Disableable, A
 	// to make public
 	public int getIndexOfChild(final WComponent childComponent) {
 		return super.getIndexOfChild(childComponent);
+	}
+
+	@Override
+	public List<WComponent> getChildren() {
+		return super.getChildren();
 	}
 
 	/**

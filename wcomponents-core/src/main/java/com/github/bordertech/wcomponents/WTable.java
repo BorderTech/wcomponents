@@ -2048,6 +2048,15 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 	}
 
 	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	// to make public
+	public List<WComponent> getChildren() {
+		return super.getChildren();
+	}
+
+	/**
 	 * @return a String representation of this component, for debugging purposes.
 	 */
 	@Override

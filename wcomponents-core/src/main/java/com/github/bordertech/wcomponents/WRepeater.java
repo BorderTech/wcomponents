@@ -711,6 +711,14 @@ public class WRepeater extends WBeanComponent implements Container, AjaxTarget, 
 	}
 
 	/**
+	 * {@inheritDoc}
+	 */
+	@Override // to make public
+	public List<WComponent> getChildren() {
+		return super.getChildren();
+	}
+
+	/**
 	 * @return a String representation of this component, for debugging purposes.
 	 */
 	@Override
@@ -932,6 +940,14 @@ public class WRepeater extends WBeanComponent implements Container, AjaxTarget, 
 		@Override // to make public
 		public WComponent getChildAt(final int index) {
 			return super.getChildAt(index);
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override // to make public
+		public List<WComponent> getChildren() {
+			return super.getChildren();
 		}
 
 		/**
