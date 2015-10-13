@@ -188,7 +188,7 @@ define(["wc/date/today",
 
 						// check if year expanded to the future, roll back the
 						// century until we are in the past;
-						if (this.getExpandYearIntoPast()) {
+						if (this.isExpandYearIntoPast()) {
 							today = $today.get();
 							while (check > today) {
 								check = new Date(next.month + SEPARATOR + next.day + SEPARATOR + (next.year = next.year - 100));
@@ -196,7 +196,7 @@ define(["wc/date/today",
 						}
 
 						// check for date rolling
-						if (!this.getRolling()) {
+						if (!this.isRolling()) {
 							rolled = next.day !== check.getDate() || next.month !== (check.getMonth() + 1) || next.year !== check.getFullYear();
 							// dont add this to the list of successful matches
 							if (rolled) {
@@ -234,9 +234,8 @@ define(["wc/date/today",
 			 *
 			 * @function
 			 * @returns {Boolean} true is rolling is enabled.
-			 * @todo This should be refactored to isRolling()
 			 */
-			this.getRolling = function () {
+			this.isRolling = function () {
 				return rolling;
 			};
 
@@ -303,9 +302,8 @@ define(["wc/date/today",
 			 *
 			 * @function
 			 * @returns {Boolean}
-			 * @todo refactor to isExpandYearIntoPast
 			 */
-			this.getExpandYearIntoPast = function () {
+			this.isExpandYearIntoPast = function () {
 				return expandYearIntoPast;
 			};
 		}

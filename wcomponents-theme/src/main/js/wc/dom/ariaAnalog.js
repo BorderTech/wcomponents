@@ -385,15 +385,13 @@ define(["wc/has",
 			var selectedItems,
 				items = this.ITEM.findDescendants(form);
 
-			function writeItemState(next) {
-				if (next.hasAttribute("data-wc-value") && !shed.isDisabled(next)) {
-					formUpdateManager.writeStateField(container, next.getAttribute("data-wc-name"), next.getAttribute("data-wc-value"));
-				}
-			}
-
 			if (items.length) {
 				selectedItems = getFilteredGroup(toArray(items));
-				selectedItems.forEach(writeItemState);
+				selectedItems.forEach(function (next) {
+					if (next.hasAttribute("data-wc-value") && !shed.isDisabled(next)) {
+						formUpdateManager.writeStateField(container, next.getAttribute("data-wc-name"), next.getAttribute("data-wc-value"));
+					}
+				});
 			}
 		};
 
@@ -403,7 +401,6 @@ define(["wc/has",
 		 * @function
 		 * @protected
 		 * @param {Event} $event The focus event.
-		 * @todo Fix up the nested if.
 		 */
 		AriaAnalog.prototype.focusEvent = function($event) {
 			var element = $event.target;

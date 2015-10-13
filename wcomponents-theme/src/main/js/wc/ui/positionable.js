@@ -469,21 +469,12 @@ define(["wc/dom/getViewportSize", "wc/dom/getBox", "wc/dom/uid", "wc/dom/event",
 			};
 
 			/**
-			 * Initialise functionality by wiring up a resize event listener.
-			 * @function module:wc/ui/positionable.initialise
-			 * @public
-			 * @todo This could be merged into postInit with no harmful effects.
-			 */
-			this.initialise = function(/* element */) {
-				event.add(window, event.TYPE.resize, resizeEvent);
-			};
-
-			/**
 			 * late initialisation to add shed HIDE subscriber.
 			 * @function module:wc/ui/positionable.postInit
 			 * @public
 			 */
 			this.postInit = function() {
+				event.add(window, event.TYPE.resize, resizeEvent);
 				shed.subscribe(shed.actions.HIDE, shedSubscriber);
 			};
 

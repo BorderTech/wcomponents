@@ -31,10 +31,11 @@ define(["wc/dom/event", "wc/dom/initialise", "wc/dom/Widget", "wc/dom/shed", "wc
 			/**
 			 * Focus listener to store the state of a radio button on focus.
 			 *
+			 * A MutationObserver may be more effective for this ... if only they worked reliably :(
+			 *
 			 * @function
 			 * @private
 			 * @param {Event} $event The focus event.
-			 * @todo A MutationObserver may be more effective for this...
 			 */
 			function focusEvent($event) {
 				var element = $event.target;
