@@ -314,9 +314,6 @@ define(["wc/has", "module"], /** @param has wc/has @param module module @ignore 
 					}
 				}
 			}
-			if (isDebug) {
-				addStyle("debug", "screen");
-			}
 		};
 	}
 	return /** @alias module:wc/loader/style */ new StyleLoader();
