@@ -136,7 +136,6 @@ define(["wc/date/today", "sprintf/sprintf"],
 			 * @param {module:wc/date/interchange~dateFromValuesObject} obj The object containing values to be
 			 *    converted to a transfer format date.
 			 * @returns {String} The given object's values converted to a transfer date string.
-			 * @todo Allow for year 0 (though we do not condone Pol Pot).
 			 */
 			this.fromValues = function(obj) {
 				var y = obj.year || yPlaceholder,  // there is no year zero

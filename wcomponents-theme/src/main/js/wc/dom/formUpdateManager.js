@@ -119,9 +119,9 @@ define(["wc/dom/event",
 			 * @todo The observer test here means that the encType check will fail if nothing has subscribed. This is
 			 * actually very unlikely in reality but is possible.
 			 * @todo I know why I rewrote form to container and allow the ambiguity with region (mainly for cancelUpdate
-			 * tests and small segment AJAX state writing) but this is not necessarily a good thing so we may want to revisit
-			 * it and just make sure it is sane. Ambiguity is bad. The ignoreForm arg adds to this ambiguity and is used
-			 * by {@link module:wc/dom/convertDynamicContent}.
+			 * tests and small segment AJAX state writing) but this is not necessarily a good thing so we may want to
+			 * revisit it and just make sure it is sane. Ambiguity is bad. The ignoreForm arg adds to this ambiguity and
+			 * is used by {@link module:wc/dom/convertDynamicContent}.
 			 */
 			this.update = function(container, region, ignoreForm) {
 				/*
