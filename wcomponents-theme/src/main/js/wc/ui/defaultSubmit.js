@@ -40,12 +40,12 @@ define(["wc/dom/classList", "wc/dom/event", "wc/dom/initialise", "wc/dom/Widget"
 			 */
 			this.initialise = function(element) {
 				event.add(element, event.TYPE.keypress, keyEvent, -10);
-				if (event.canCapture) {
-					event.add(element, event.TYPE.focus, focusEvent, null, null, true);
-				}
-				else {
-					event.add(element, event.TYPE.focusin, focusEvent);
-				}
+//				if (event.canCapture) {
+//					event.add(element, event.TYPE.focus, focusEvent, null, null, true);
+//				}
+//				else {
+//					event.add(element, event.TYPE.focusin, focusEvent);
+//				}
 			};
 
 			/**
@@ -66,7 +66,7 @@ define(["wc/dom/classList", "wc/dom/event", "wc/dom/initialise", "wc/dom/Widget"
 				}
 			}
 
-			/**
+			/*
 			 * When focusing an element, test if it is a potential submitter and go find its button. If the element is
 			 * not a potential submitting element clear any existing reference. All this does is mark the default
 			 * button with a class name for styling purposes. This class name is not used to find the submitting button
@@ -74,8 +74,7 @@ define(["wc/dom/classList", "wc/dom/event", "wc/dom/initialise", "wc/dom/Widget"
 			 * @function
 			 * @private
 			 * @param {Event} $event The focus event.
-			 * @todo Why do we keep this?
-			 */
+			 *
 			function focusEvent($event) {
 				var element = $event.target, target;
 				if (!$event.defaultPrevented) {
@@ -90,7 +89,7 @@ define(["wc/dom/classList", "wc/dom/event", "wc/dom/initialise", "wc/dom/Widget"
 						clearDefaultSubmit();
 					}
 				}
-			}
+			} */
 
 			/**
 			 * Determine if an element has a default submit behaviour.

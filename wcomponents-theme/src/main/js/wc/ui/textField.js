@@ -7,8 +7,6 @@
  * @requires module:wc/dom/Widget
  * @requires module:wc/i18n/i18n
  *
- * @todo A lot of this is remnants of the (now split out) client side validation code. It could do with a general clean
- * up.
  * @todo Document private members.
  */
 define(["wc/dom/initialise", "wc/dom/shed", "wc/dom/Widget", "wc/i18n/i18n"],
