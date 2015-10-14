@@ -147,6 +147,11 @@ public class ComponentModel implements WebModel, Externalizable {
 	private List<WComponent> children;
 
 	/**
+	 * An unmodifiable view of children.
+	 */
+	private List<WComponent> unmodifiableChildren = Collections.unmodifiableList(children);
+
+	/**
 	 * You can override the parent on a per session basis. When PARENT_OVERRIDDEN_FLAG is not set, we know there is no
 	 * override. This is important because setting the parent to java null is a valid override.
 	 */
@@ -418,6 +423,14 @@ public class ComponentModel implements WebModel, Externalizable {
 	 */
 	protected void setChildren(final List<WComponent> children) {
 		this.children = children;
+		this.unmodifiableChildren = this.children == null
+				? null : Collections.unmodifiableList(children);
+	}
+
+	protected List<WComponent> getUnmodifiableChildren() {
+		return this.children == null
+			? Collections.<WComponent>emptyList()
+			: unmodifiableChildren;
 	}
 
 	/**

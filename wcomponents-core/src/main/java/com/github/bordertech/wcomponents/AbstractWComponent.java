@@ -1315,11 +1315,7 @@ public abstract class AbstractWComponent implements WComponent {
 	 * @return a list containing the children of this component, or an empty list.
 	 */
 	List<WComponent> getChildren() {
-		List<WComponent> children = getComponentModel().getChildren();
-
-		return children != null && !children.isEmpty()
-			? Collections.unmodifiableList(children)
-			: Collections.<WComponent>emptyList();
+		return getComponentModel().getUnmodifiableChildren();
 	}
 
 	/**
