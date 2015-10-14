@@ -320,7 +320,7 @@
 
 			if (!has("function-bind")) {
 				/*
-				 * TODO: this is an ugly fix for an IE8 race condition exacerbated by
+				 * NOTE: this is an ugly fix for an IE8 race condition exacerbated by
 				 * the memory leak issue fixed by a MS hotfix: see KB2032595.
 				 * result.push("wc/ecma5/Function.prototype.bind");
 				 */

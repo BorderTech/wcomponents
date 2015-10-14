@@ -1,8 +1,6 @@
 /**
  * Provides functionality associated with uploading multiple files using a WMultiFileWidget.
  *
- * @todo rename as this is also used by single file uploads (file type and size checks).
- *
  * @module
  * @requires module:wc/dom/attribute
  * @requires module:wc/dom/event

@@ -877,14 +877,13 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		}
 
 		/**
-		 * Actually does the work of the click event listener on a calendar launch button. Shows the calendar if it is
-		 * possible to do so.
+		 * Actually does the work of activating a calendar launch button. Shows the calendar if it is possible to do so.
+		 *
 		 * @function
 		 * @private
 		 * @param {Element} element The launch control button or date input.
-		 * @todo rename me as I am now also used in a chordal keydown ALT + DOWN_ARROW in a date input.
 		 */
-		function doLauncherClick(element) {
+		function doLaunch(element) {
 			try {
 				if (element && !isOpening && !shed.isDisabled(element)) {
 					isOpening = true;
@@ -932,20 +931,6 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 			}
 		}
 
-		/**
-		 * A helper function for body focus. If a focus is not inside a calendar we can close the calendar
-		 * @function
-		 * @private
-		 * @param {Element} element The element receiving focus.
-		 * @todo Delete me - I belong in the focus listener!
-		 */
-		function focusHelper(element) {
-			var calendar = getCal(true);
-			if (calendar && ((element === window || element === document) || !(calendar.compareDocumentPosition(element) & Node.DOCUMENT_POSITION_CONTAINED_BY))) {
-				hideCalendar(true);
-			}
-		}
-
 		/*
 		 * Calendar icon click listener.
 		 */
@@ -953,7 +938,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 			var element;
 			if (!$event.defaultPrevented) {
 				if ((element = LAUNCHER.findAncestor($event.target))) {
-					doLauncherClick(element);
+					doLaunch(element);
 				}
 				else if (getCal(true)) {  // by using getCal(true) we can by-pass a widget descriptor lookup if the calendar has never been opened as document.getElementById is very fast.
 					if ((element = PICKABLE.findAncestor($event.target))) {
@@ -970,9 +955,12 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		}
 
 		function focusEvent($event) {
-			var element;
+			var element, calendar;
 			if (!$event.defaultPrevented && (element = $event.target)) {
-				focusHelper(element);
+				calendar = getCal(true);
+				if (calendar && ((element === window || element === document) || !(calendar.compareDocumentPosition(element) & Node.DOCUMENT_POSITION_CONTAINED_BY))) {
+					hideCalendar(true);
+				}
 			}
 		}
 
@@ -981,7 +969,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 				keyCode = $event.keyCode,
 				launcher;
 			if (keyCode === KeyEvent.DOM_VK_DOWN && ($event.altKey || $event.metaKey) && dateField.isOneOfMe(target, false) && (launcher = LAUNCHER.findDescendant(target.parentNode))) {
-				doLauncherClick(launcher);
+				doLaunch(launcher);
 			}
 		}
 

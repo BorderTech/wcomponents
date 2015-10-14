@@ -3,10 +3,11 @@
 
 // The deep nesting and repition here is necessitated by IE8's (and earlier)) lack of nth-child
 .wc_table_pag_cont .wc_ibtn {
+	padding: $vgap-small;
 	vertical-align: middle;
 
 	&::before {
-		@include make-box;
+		@include make-box($display: block);
 		@include background-image('../images/first.png', $height: 1em, $width: 1em);
 		content: ' ';
 	}

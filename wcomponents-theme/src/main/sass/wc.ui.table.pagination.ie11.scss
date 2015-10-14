@@ -1,6 +1,12 @@
 /* wc.ui.table.pagination.ie11.scss */
+@import 'mixins_common.scss';
+
 .wc_table_pag_cont .wc_ibtn {
-	padding: 0 0.25em;
-	vertical-align: text-bottom;
+	&:before {
+		height: 1em;
+		vertical-align: text-bottom;
+		width: 1em;
+	}
 }
+
 /* end wc.ui.table.pagination.ie11.scss */

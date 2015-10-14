@@ -14,9 +14,6 @@
  * @requires module:wc/dom/storage
  * @requires module:wc/dom/initialise
  * @requires module:wc/isNumeric
- *
- * @todo tidy up the checkApplyFix() structure and return earlier if the fix is not needed.
- * @todo maybe move from wc/compat to wc/fixes.
  */
 define(["wc/has", "wc/dom/event", "wc/dom/storage", "wc/dom/initialise", "wc/isNumeric", "module"],
 	/** @param has wc/has @param event wc/dom/event @param storage wc/dom/storage @param initialise wc/dom/initialise @param isNumeric wc/isNumeric @param module module @ignore */
