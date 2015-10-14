@@ -46,8 +46,10 @@
  * @module
  * @requires module:wc/has
  * @todo Maybe allow load to accept an Object or Object[] arg so it can be called from within another module?
+ * @todo dojo/sniff has been patched to include has("edge") but it not yet released. The include of fixes here is to
+ * include our has test for edge. It can be removed once dojo/sniff is updated.
  */
-define(["wc/has", "module"], /** @param has wc/has @param module module @ignore */ function(has, module) {
+define(["wc/has", "wc/fixes", "module"], /** @param has wc/has @param module module @ignore */ function(has, fixes, module) {
 	"use strict";
 	/**
 	 * @constructor
