@@ -2,8 +2,6 @@
 @import 'mixins_common.scss';
 
 .wc_table_pag_cont .wc_ibtn {
-	padding: $vgap-small;
-
 	&:before {
 		height: 1em;
 		vertical-align: text-bottom;

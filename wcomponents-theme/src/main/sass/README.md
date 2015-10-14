@@ -18,7 +18,7 @@ we have the following conventions:
     * if for Internet Explorer `/^.*\.ie[0-9]+\.scss$/`;
     * otherwise `/^.*\.pattern_[^\.]+\.scss$/`
 
-    These files are loaded using the JavaScript module wc/loader/style so you might want to look at the doco for that!.
+    These files are loaded using the JavaScript module wc/loader/style so you might want to look at the doco for that!
 
 ### Platform/browser patterns
 
@@ -29,25 +29,18 @@ object which can contain much more specialised `has` test and media rules. See t
 For example if your Sass includes a file named `foo.pattern_ff.scss` then the build process will generate a concatenated
 CSS file `screen.ff.css` and the CSS loader will be told to load this file if `has("ff")` is true.
 
+If you need CSS for IE before IE8 I recommend adding a conditional comment in the XSLT rather than relying on the style
+loader as early versions of IE are rubbish at using CSS loaded by JavaScript.
+
 ## Coding Standards
 
 * All Sass must be in SCSS format.
 * Generated CSS **must** comply with the [CSS standards](http://www.w3.org/Style/CSS/) and we use CSS3 except where
-  vendor extensions are **absolutely required** for consistent implementation (e.g. the use of -moz-box-sizing).
+  vendor extensions are **absolutely required** for consistent implementation.
 * The preferred line length is 120 characters but this is flexible within sensible limits - go over by a bit if you have
   to to keep a selector on one line.
-* Sass should be linted. The lint rules are here to make the SCSS more readable for humans and are the defaults for
-  scss-lint with the following exceptions:
-    * CSS comments are allowed only as the file head and tail comment (see below for details);
-    * @else must be placed on a new line;
-    * @import must include the file extension (this is to improve integration with common IDE's auto-complete);
-    * indentation is by **TAB** ONLY - single tab per level of indent;
-    * leading zeros are required (eg 0.5em _not_ .5em);
-    * nesting depth is limited to 4 levels and is under review (some deeper nesting is already locally overridden);
-    * selector depth is limited to 4 levels and is under review (some deeper nesting is already locally overridden);
-    * selector format is disabled to allow for a mix of XML element and attribute local-names (which are often
-      camelCase) and custom class names which are currently in underscore separated lowercase (this is also under
-      review).
+* Sass should be linted. The lint rules are here to make the SCSS more readable for humans and are mostly the defaults
+  for scss-lint; exceptions to which are documented in the included ``.scss-lint.yaml` configuration file.
 * Local variations in scss-lint rules are allowed but must be commented. Most commonly this would be to allow local
   !important rules.
 
@@ -64,22 +57,25 @@ CSS file `screen.ff.css` and the CSS loader will be told to load this file if `h
 * Do not place a CSS style comment inside a declaration block (it causes issues with Safari's developer tools). Sass
   single line comments are permitted inside rule blocks.
 * If a particular selector in a multi-selector rule requires a comment it should be placed on the same line as the
-  selector. If the comment is CSS style then it must precede the comma or opening brace (if it is the last selector).
-  Sass comments must always be at the end of a line (of course).
+  selector.
 
 #### Example
 
-    /* wc.my.component.scss */
-	//scss-lint:disable Comment
-    /* This declaration block does something odd and I need to know about it in debug mode */
-	//scss-lint:enable Comment
-    .foo,
-    .bar > .somelongclassname [aria-selected='true'] > :first-child {
-        ....
-        line-height: -2px; // The line-height declaration is used to ... which is needed for ...
-        ....
+``` scss
+/* wc.my.component.scss */
+@import 'mixins_common.scss';
+
+//scss-lint:disable Comment
+/* This declaration block does something odd and I need to know about it in debug mode */
+//scss-lint:enable Comment
+.foo, // foo class is for all foos!
+.bar > .somelongclassname [aria-selected='true'] > :first-child {
+    // ....
+    line-height: -2px; // This is needed for ...
+    // ....
     }
-    /* end wc.my.component.scss */
+/* end wc.my.component.scss */
+```
 
 ## Media rules and specific CSS: when to use which
 
