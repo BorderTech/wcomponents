@@ -7,7 +7,7 @@
 		@include button($border: 0, $padding: 0);
 		@include background-image-icon('../images/delete.png');
 		margin-left: $hgap-small;
-		vertical-align: text-top;
+		vertical-align: text-bottom;
 
 		&[disabled] {
 			background-image: url('../images/delete-d.png');
@@ -26,4 +26,3 @@
 		vertical-align: top;
 	}
 }
-/* end wc.ui.multiFormComponent.icons.scss */
