@@ -6,8 +6,12 @@
 dialog[open] > [aria-live] {
 	height: -webkit-fit-content; // 100% breaks in safari: weird!
 
-	@include respond($size: phone) {
+	@include respond(mobile) {
 		height: 100%;
 	}
+}
+
+dialog[open].wc_max > [aria-live] {
+	height: 100%;
 }
 /* end wc.ui.dialog.safari.scss */

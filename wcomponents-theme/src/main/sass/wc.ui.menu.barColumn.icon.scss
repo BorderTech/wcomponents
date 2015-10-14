@@ -1,31 +1,43 @@
 /* wc.ui.menu.barColumn.icon.scss */
-//  for WMenu type BAR, type FLYOUT, type COLUMN. The opener iconoiography for mobile uas.
-@import 'mixins_common.scss';
+// The opener iconoiography for WMenu type BAR, type FLYOUT, type COLUMN.
+@import 'wc.ui.menu_vars.scss';
 
-@include respond(mobile) {
-	[aria-expanded] > button {
-		[role='menubar'] > &::after {
-			content: '\25bc';
-			display: inline-block;
-			margin-left: $hgap-small;
-		}
-
-		[role='menu'] & .decoratedLabel::after {
-			content: '\25ba';
-			display: table-cell;
-
-			// This could be unpicked but it would be repetitive and error-prone
-			// scss-lint:disable SelectorDepth
-			[role='banner'] & {
-				display: inline-block;
-				margin-left: 0.25em;
-			}
-			// scss-lint:enable SelectorDepth
-		}
+[role='menubar'] > [aria-expanded] {
+	> button::after {
+		@include make-box;
+		@include background-image($url: '../images/down.png', $height: 1em, $width: 1em, $y: 0);
+		content: ' ';
+		margin-left: $wc-ui-menu-bar-column-opener-indicator-before-after;
+		vertical-align: text-top;
 	}
 
-	.closesubmenu::before {
-		content: '\2039';
-		margin-right: 0.5em;
+	> [disabled]::after {
+		background-image: url('../images/down-d.png');
 	}
+}
+
+[role='menu'] [aria-expanded] {
+	> button .decoratedLabel::after {
+		@include make-box($display: table-cell, $width: 1em, $height: auto);
+		@include background-image($url: '../images/next.png', $height: 1em, $width: 1em);
+		content: ' ';
+		min-width: 1em;
+		padding-left: $wc-ui-menu-bar-column-opener-indicator-before-after;
+	}
+
+	> [disabled] .decoratedLabel::after {
+		background-image: url('../images/next-d.png');
+	}
+}
+
+.closesubmenu::before {
+	@include make-box($width: 1em);
+	@include background-image($url: '../images/previous.png', $height: 1em, $width: 1em, $x: 0);
+	content: ' ';
+	margin-right: 0.5em;
+	vertical-align: text-bottom;
+}
+
+.closesubmenu[disabled]::before {
+	background-image: url('../images/previous-d.png');
 }

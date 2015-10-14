@@ -1,9 +1,18 @@
 // Just a bunch of common (global?) vars.
 
+// font size for small screens (< 1024px - this means mobile these days)
+$mobile-font-size: 100%;
+// font size on really learge, dense monitors (eg Apple cinema and thunderbolt displays) where small fonts become too
+// tiny to be useful.
+$bigscreen-font-size: 100%;
+
+// sizes for screens >= 1024px
 $preferred-font-size-px: 12;
 $preferred-line-size-px: 16; // Your iconography should be this big
 $font-size: $preferred-font-size-px / 16 * 100%;
 $line-height: $preferred-line-size-px / $preferred-font-size-px;
+
+
 
 // This variable is used to construct boxes where the width of the box is equal to the line height of the text.
 $line-size: $line-height * 1em;
