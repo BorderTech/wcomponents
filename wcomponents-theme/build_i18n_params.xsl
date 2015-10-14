@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:x="https://github.com/bordertech/wcomponents/namespace/ui/dummy" version="2.0">
 	<xsl:namespace-alias stylesheet-prefix="x" result-prefix="xsl" />
-	<xsl:output method="xml" indent="yes" omit-xml-declaration="no" />
+	<xsl:output method="xml" indent="yes" omit-xml-declaration="yes" />
 	<xsl:param name="includeUrl" />
 	<!-- To be injected by caller.
 		Do NOT include a querystring - in order to make server side
