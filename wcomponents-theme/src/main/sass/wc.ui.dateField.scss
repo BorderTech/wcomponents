@@ -175,14 +175,12 @@ dialog [role='combobox'] > [role='listbox'] {
 		position: fixed;
 		top: 0;
 		width: 100%;
-
-		table {
-			font-size: 1.5em;
-			height: 100%;
-		}
 	}
 
 	#wc-calendar {
+		font-size: 1.5em;
+		height: 100%;
+
 		thead {
 			tr {
 				vertical-align: middle;
@@ -231,5 +229,13 @@ dialog [role='combobox'] > [role='listbox'] {
 	#wc-caldaybox .wc_wdf_pick {
 		height: 100%;
 		width: 100%;
+	}
+}
+
+// need this AFTER the general mobile respond
+// scss-lint:disable MergeableSelector
+#wc-calendar {
+	@include respond(ipad) { // weird iOS9 bug
+		max-height: 704px;
 	}
 }
