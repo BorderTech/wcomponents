@@ -69,7 +69,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 				observer.subscribe();
 				assert.fail(!null, null, "Expected exception: Subscribing without a subscriber should have failed.");  // should not get here
 			}
-			catch(e) {
+			catch (e) {
 				assert.isTrue(true, "Error expected.");
 			}
 		},
@@ -307,7 +307,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 				observer.unsubscribe();  // Call unsubscribe() with no args
 				assert.fail(!null, null, "Error expected when unsubscribe called withoput args and more than one subscriber in group");
 			}
-			catch(error) {  // expected error
+			catch (error) {  // expected error
 				observer.notify();
 			}
 			finally {
@@ -328,7 +328,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 				observer.unsubscribe();  // Call unsubscribe() with no params does not unsubscribe anything
 				observer.notify();  // should reach here as no error thrown.
 			}
-			catch(error) {
+			catch (error) {
 				assert.fail(error, null, "No error expected when unsubscribe called without params and exactly one subscriber in group");
 			}
 			finally {
@@ -683,7 +683,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 			try {
 				observer.setFilter();  // try to call observer.setFilter with no filter defined should throw an error
 			}
-			catch(e) {
+			catch (e) {
 				observer.notify();
 			}
 			finally {
@@ -707,7 +707,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 			try {
 				observer.setFilter(null);
 			}
-			catch(e) {
+			catch (e) {
 				observer.notify();
 			}
 			finally {
@@ -733,7 +733,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 			try {
 				observer.getGroupAsWildcardFilter(null);
 			}
-			catch(error) {
+			catch (error) {
 				hadError = true;
 			}
 			finally {
@@ -749,7 +749,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 			try {
 				observer.getGroupAsWildcardFilter(filter);  // nonsense filter, even if of the correct 'type', will throw an error
 			}
-			catch(error) {
+			catch (error) {
 				hadError = true;
 			}
 			finally {
@@ -801,7 +801,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 			try {
 				observer.setCallback();  // this call should always result in an error
 			}
-			catch(error) {
+			catch (error) {
 				hadError = true;
 			}
 			finally {
@@ -836,7 +836,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 				observer.subscribe(subscriber);
 				observer.setCallback(null);  // throws an error
 			}
-			catch(e) {
+			catch (e) {
 				observer.notify();
 			}
 			finally {

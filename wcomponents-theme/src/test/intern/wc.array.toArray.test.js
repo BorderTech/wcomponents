@@ -8,11 +8,13 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
 		registerSuite({
 			name: "toArray",
 			setup: function() {
-				return testutils.setupHelper(["wc/array/toArray"], function(obj) {
+				var result = new testutils.LamePromisePolyFill();
+				testutils.setupHelper(["wc/array/toArray"], function(obj) {
 					controller = obj;
 					testHolder = testutils.getTestHolder();
-					testutils.setUpExternalHTML(urlResource, testHolder);
+					testutils.setUpExternalHTML(urlResource, testHolder).then(result._resolve);
 				});
+				return result;
 			},
 			teardown: function() {
 				testHolder.innerHTML = "";
