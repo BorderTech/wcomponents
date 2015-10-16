@@ -7,11 +7,13 @@ define(["intern!object", "intern/chai!assert", "../intern/resources/test.utils"]
 		registerSuite({
 			name: "domGetFirstLabelForElement",
 			setup: function() {
+				var result = new testutils.LamePromisePolyFill();
 				return testutils.setupHelper(["wc/ui/getFirstLabelForElement"], function(obj) {
 					getFirstLabelForElement = obj;
 					testHolder = testutils.getTestHolder();
-					testutils.setUpExternalHTML(urlResource, testHolder);
+					testutils.setUpExternalHTML(urlResource, testHolder).then(result._resolve);
 				});
+				return result;
 			},
 			teardown: function() {
 				testHolder.innerHTML = "";

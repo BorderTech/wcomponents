@@ -11,12 +11,15 @@ define({
 	// A fully qualified URL to the Intern proxy
 	proxyUrl: 'http://localhost:9000/',
 
-	tunnel: 'NullTunnel',
+	tunnel: 'SauceLabsTunnel',
+	tunnelOptions: {
+		verbose: 'true'
+	},
 	environments: [ { browserName: '${test.default.ua}' } ],
 
 	// Configuration options for the module loader; any AMD configuration options supported by the specified AMD loader
 	// can be used here
-	loader: {
+	loaderOptions: {
 		// Packages that should be registered with the loader in each testing environment
 		paths: {
 			wc: '${amd.src.dir}/wc',
