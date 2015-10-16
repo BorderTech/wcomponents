@@ -15,7 +15,7 @@ define({
 	tunnelOptions: {
 		verbose: 'true'
 	},
-	environments: [ { browserName: '${test.default.ua}' } ],
+	environments: [ ${test.environments} ],
 
 	// Configuration options for the module loader; any AMD configuration options supported by the specified AMD loader
 	// can be used here
@@ -25,8 +25,8 @@ define({
 			wc: '${amd.src.dir}/wc',
 			dojo: '${amd.src.dir}/dojo',
 			sprintf: '${amd.src.dir}/sprintf',
-			Promise: 'target/classes/theme/wcomponents-theme/scripts_debug/promise/Promise.min',
-			compat: 'target/classes/theme/wcomponents-theme/scripts_debug/wc/compat'
+			Promise: '${amd.src.dir}/promise/Promise.min',
+			compat: '${amd.src.dir}/wc/compat'
 		}
 	},
 	// A regular expression matching URLs to files that should not be included in code coverage analysis
