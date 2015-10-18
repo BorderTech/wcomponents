@@ -47,11 +47,13 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 	registerSuite({
 		name: TEST_MODULE,
 		setup: function() {
-			return testutils.setupHelper([TEST_MODULE], function(obj) {
+			var result = new testutils.LamePromisePolyFill();
+			testutils.setupHelper([TEST_MODULE], function(obj) {
 				controller = obj;
 				testHolder = testutils.getTestHolder();
-				testutils.setUpExternalHTML(urlResource, testHolder);
+				testutils.setUpExternalHTML(urlResource, testHolder).then(result._resolve);
 			});
+			return result;
 		},
 		beforeEach: function() {
 			if (!groupedElements) {
@@ -182,7 +184,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 				controller.getTarget(makeGroupConfig(), start, controller.MOVE_TO.PARENT);
 				assert.fail(null, !null, "controller.MOVE_TO.PARENT should throw a ReferenceError");
 			}
-			catch(e) {
+			catch (e) {
 				assert.isTrue(true);
 			}
 		},
@@ -192,7 +194,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 				controller.getTarget(makeGroupConfig(), start, controller.MOVE_TO.CHILD);
 				assert.fail(null, !null, "controller.MOVE_TO.CHILD should throw a ReferenceError");
 			}
-			catch(e) {
+			catch (e) {
 				assert.isTrue(true);
 			}
 		},
@@ -202,7 +204,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 				controller.getTarget(makeGroupConfig(), start, controller.MOVE_TO.LAST_CHILD);
 				assert.fail(null, !null, "controller.MOVE_TO.LAST_CHILD should throw a ReferenceError");
 			}
-			catch(e) {
+			catch (e) {
 				assert.isTrue(true);
 			}
 		},
@@ -452,7 +454,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 				controller.getTarget(makeTreeConfig(), start, -1);
 				assert.fail(null, !null, "direction -1 should throw a ReferenceError");
 			}
-			catch(e) {
+			catch (e) {
 				assert.isTrue(true);
 			}
 		}

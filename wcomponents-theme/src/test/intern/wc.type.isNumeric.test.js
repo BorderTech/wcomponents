@@ -1,7 +1,7 @@
 define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
 	function (registerSuite, assert, testutils) {
 		"use strict";
-		/* eslint no-new-wrappers:0 */
+		/* eslint-disable no-new-wrappers */
 		var isNumeric;
 
 		registerSuite({
@@ -80,5 +80,5 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
 				assert.strictEqual(666, arg.valueOf());  // not mutated
 			}
 		});
-		/* eslint no-new-wrappers:1 */
+		/* eslint-enable no-new-wrappers */
 	});
