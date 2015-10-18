@@ -1,4 +1,4 @@
-/* eslint strict:0 */
+/* eslint-disable strict */
 /* These tests cannot run in strict mode due to needing to default "bind" to window */
 define(["intern!object", "intern/chai!assert"], function(registerSuite, assert) {
 
@@ -208,4 +208,4 @@ define(["intern!object", "intern/chai!assert"], function(registerSuite, assert) 
 		}
 	});
 });
-/* eslint strict:1 */
+/* eslint-enable strict */

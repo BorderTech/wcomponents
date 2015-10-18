@@ -26,11 +26,13 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
 		registerSuite({
 			name: "Shed",
 			setup: function() {
-				return testutils.setupHelper(["wc/dom/shed"], function(obj) {
+				var result = new testutils.LamePromisePolyFill();
+				testutils.setupHelper(["wc/dom/shed"], function(obj) {
 					controller = obj;
 					testHolder = testutils.getTestHolder();
-					testutils.setUpExternalHTML(urlResource, testHolder);
+					testutils.setUpExternalHTML(urlResource, testHolder).then(result._resolve);
 				});
+				return result;
 			},
 			teardown: function() {
 				testHolder.innerHTML = "";

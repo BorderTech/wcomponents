@@ -6,12 +6,14 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 	registerSuite({
 		name: "getFilteredGroup",
 		setup: function() {
-			return testutils.setupHelper(["wc/dom/getFilteredGroup", "wc/dom/Widget"], function(g, W) {
+			var result = new testutils.LamePromisePolyFill();
+			testutils.setupHelper(["wc/dom/getFilteredGroup", "wc/dom/Widget"], function(g, W) {
 				getFilteredGroup = g;
 				Widget = W;
 				testHolder = testutils.getTestHolder();
-				testutils.setUpExternalHTML(urlResource, testHolder);
+				testutils.setUpExternalHTML(urlResource, testHolder).then(result._resolve);
 			});
+			return result;
 		},
 		teardown: function() {
 			testHolder.innerHTML = "";
