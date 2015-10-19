@@ -169,7 +169,7 @@
 								<property name="component.rootdir" location="${theme.core.dir}"/>
 								<property name="build.number" value="${project.version}"/>
 								<property name="build.rootdir" location="${theme.target.dir}"/>
-								<property name="theme.skip.tests" value="${skipOptionalTests}"/>
+								<property name="theme.skip.tests" value="true"/>
 								<ant antfile="${theme.core.dir}/build.xml">
 									<target name="build"/>
 								</ant>
@@ -182,7 +182,7 @@
 					<execution>
 						<id>test</id>
 						<phase>test</phase>
-						<configuration>
+						<configuration>`
 							<skip>${theme.skip.antrun}</skip>
 							<target>
 								<echo>Attempting to start ANT test at ${theme.core.dir}</echo>
@@ -193,7 +193,7 @@
 								<property name="component.rootdir" location="${theme.core.dir}"/>
 								<property name="build.number" value="${project.version}"/>
 								<property name="build.rootdir" location="${theme.target.dir}"/>
-								<property name="theme.skip.tests" value="true"/><!-- TODO get tests running on OpenSauce or similar -->
+								<property name="theme.skip.tests" value="${skipOptionalTests}"/>
 								<!--<property name="theme.skip.tests" value="${skipOptionalTests}"/>-->
 								<ant antfile="${theme.core.dir}/build.xml">
 									<target name="test"/>
@@ -217,7 +217,7 @@
 								<property name="component.rootdir" location="${theme.core.dir}"/>
 								<property name="build.number" value="${project.version}"/>
 								<property name="build.rootdir" location="${theme.target.dir}"/>
-								<property name="theme.skip.tests" value="${skipOptionalTests}"/>
+								<property name="theme.skip.tests" value="true"/>
 								<ant antfile="${theme.core.dir}/build.xml">
 									<target name="document"/>
 								</ant>
@@ -298,8 +298,8 @@
 						<phase>generate-resources</phase>
 						<configuration>
 							<skip>${theme.skip.antrun}</skip>
-							<nodeVersion>v0.12.0</nodeVersion>
-							<npmVersion>2.5.1</npmVersion>
+							<nodeVersion>v4.2.1</nodeVersion>
+							<npmVersion>3.3.6</npmVersion>
 							<!--
 								This will only work if the nodejs binaries are unpacked first (see the execution with ID "unpack-nodejs").
 							-->

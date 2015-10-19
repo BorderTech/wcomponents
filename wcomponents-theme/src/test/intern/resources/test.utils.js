@@ -3,7 +3,7 @@ define(["wc/dom/event", "wc/Observer", "wc/compat/compat!"], function(event, Obs
 	function WcTestUtils() {
 		var html5FileSelector,
 			ajax,
-			setupTimeout = 100;
+			setupTimeout = 1000;
 
 		/* If you want to test IE then you must ensure compat is loaded before trying to load ajax. */
 		require(["wc/ajax/ajax", "wc/has", "wc/fixes"], function (a, has) {
@@ -122,8 +122,8 @@ define(["wc/dom/event", "wc/Observer", "wc/compat/compat!"], function(event, Obs
 				testHolder = testHolder || utils.getTestHolder();
 				testHolder.innerHTML = response;
 				window.setTimeout(function() {
-						result._resolve();
-					}, 0);
+					result._resolve();
+				}, 0);
 			}, result._reject);
 			return result;
 

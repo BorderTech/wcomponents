@@ -11,10 +11,10 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 	registerSuite({
 		name: "Widget",
 		setup: function() {
-			return testutils.setupHelper(["wc/dom/Widget"], function(obj) {
+			var result = new testutils.LamePromisePolyFill();
+			testutils.setupHelper(["wc/dom/Widget"], function(obj) {
 				Widget = obj;
 				testHolder = testutils.getTestHolder();
-				testutils.setUpExternalHTML(urlResource, testHolder);
 
 				allDivs = new Widget('div');
 				fooDiv = allDivs.extend('foo');
@@ -63,7 +63,10 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 				mooDivInFooDivImmediate.descendFrom(fooDiv, true);
 				barSpanInMooDivInFooDiv.descendFrom(mooDivInFooDiv);
 				allStaticBartAnchorsWithANameAndImmediateDescendMooInFoo.descendFrom(mooDivInFooDiv, true);
+
+				testutils.setUpExternalHTML(urlResource, testHolder).then(result._resolve);
 			});
+			return result;
 		},
 		teardown: function() {
 			testHolder.innerHTML = "";
@@ -528,9 +531,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 		testCnostructor: function() {
 			var threw = false;
 			try {
-				/* eslint no-new:0 */
-				new Widget('', '');
-				/* eslint no-new:1 */
+				new Widget('', '');  // eslint-disable-line no-new
 			}
 			catch (ex) {
 				threw = true;

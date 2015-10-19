@@ -9,11 +9,13 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
 		registerSuite({
 			name: "domGetAncestorOrSelf",
 			setup: function() {
-				return testutils.setupHelper(["wc/dom/getAncestorOrSelf"], function(obj) {
+				var result = new testutils.LamePromisePolyFill();
+				testutils.setupHelper(["wc/dom/getAncestorOrSelf"], function(obj) {
 					getAncestorOrSelf = obj;
 					testHolder = testutils.getTestHolder();
-					testutils.setUpExternalHTML(urlResource, testHolder);
+					testutils.setUpExternalHTML(urlResource, testHolder).then(result._resolve);
 				});
+				return result;
 			},
 			teardown: function() {
 				testHolder.innerHTML = "";
@@ -109,7 +111,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
 					getAncestorOrSelf(foo, 'p');
 					assert.fail('This line should not be executed');
 				}
-				catch(ex) {
+				catch (ex) {
 					assert.isTrue(true);
 				}
 			},
