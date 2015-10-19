@@ -4,10 +4,8 @@
 	<xsl:import href="wc.ui.panel.n.WPanelAdditionalClass.xsl"/>
 	<xsl:import href="wc.ui.panel.n.WPanelVisiblePanelTitle.xsl"/>
 	<xsl:import href="wc.ui.panel.n.WPanelContentPrep.xsl"/>
-	<xsl:import href="wc.debug.common.contentCategory.xsl"/>
-	<xsl:output method="html" doctype-public="XSLT-compat" encoding="UTF-8" indent="no" omit-xml-declaration="yes"/>
-	<xsl:strip-space elements="*"/>
-<!--
+	<xsl:import href="wc.common.hide.xsl"/>
+	<!--
 		WPanel is the basic layout component in the framework. Genreally output as
 		a "block" container (usually div).
 	
@@ -19,7 +17,7 @@
 			* ui:flowLayout
 			* ui:gridLayout
 			* ui:listLayout
--->
+	-->
 	<xsl:template match="ui:panel">
 		<xsl:variable name="id" select="@id"/>
 		<xsl:variable name="type" select="@type"/>
@@ -32,12 +30,6 @@
 			<xsl:attribute name="id">
 				<xsl:value-of select="$id"/>
 			</xsl:attribute>
-			<xsl:if test="$isDebug=1">
-				<xsl:call-template name="debugAttributes"/>
-				<xsl:call-template name="thisIsNotAllowedHere-debug">
-					<xsl:with-param name="testForPhraseOnly" select="1"/>
-				</xsl:call-template>
-			</xsl:if>
 			<xsl:attribute name="class">
 				<xsl:text>panel</xsl:text>
 				<xsl:if test="$type">

@@ -100,7 +100,7 @@ public class WField extends AbstractContainer implements AjaxTarget, Subordinate
 	}
 
 	/**
-	 * Finds the first component that can be labelled (if any).
+	 * Finds the first component that can be labeled (if any).
 	 *
 	 * @param component the root of the component hierarchy to check.
 	 * @return the first component that can be labelled, otherwise null.

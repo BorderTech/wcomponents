@@ -118,10 +118,11 @@ define(["wc/i18n/i18n!", "wc/i18n/asciify"],
 			 * @alias module:wc/date/monthName.hasAsciiVersion
 			 * @static
 			 * @returns {Boolean} true if there are asciified month names (i.e. the month names differ when asciified).
-			 * @todo do a check on months before calling initialise or use this.get(false, true).
 			 */
 			this.hasAsciiVersion = function() {
-				initialise();
+				if (!months) {
+					initialise();
+				}
 				return !!monthsAscii;
 			};
 		}

@@ -6,7 +6,6 @@
  *
  * @module
  * @requires module:wc/i18n/i18n
- * @todo Research whether the seven days per week assumption is valid.
  */
 define(["wc/i18n/i18n!"],/** @param i18n wc/i18n/i18n @ignore */function(i18n) {
 	"use strict";

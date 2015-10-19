@@ -3,10 +3,7 @@
 	<xsl:import href="wc.common.attributeSets.xsl"/>
 	<xsl:import href="wc.common.readOnly.xsl"/>
 	<xsl:import href="wc.common.missingLabel.xsl"/>
-	<xsl:import href="wc.common.title.xsl"/>		
-	<xsl:import href="wc.debug.debugInfo.xsl"/>
-	<xsl:output method="html" doctype-public="XSLT-compat" encoding="UTF-8" indent="no" omit-xml-declaration="yes"/>
-	<xsl:strip-space elements="*"/>
+	<xsl:import href="wc.common.title.xsl"/>
 	<!--
 		A dateField is a compound control consisting of a text input and a button used
 		to launch a date picker calendar. The text input allows for typeahead to
@@ -102,15 +99,6 @@
 					<xsl:call-template name="disabledElement">
 						<xsl:with-param name="isControl" select="0"/>
 					</xsl:call-template>
-					<xsl:if test="$isDebug=1">
-						<xsl:call-template name="debugAttributes">
-							<xsl:with-param name="id" select="$id"/>
-						</xsl:call-template>
-						<xsl:call-template name="thisIsNotAllowedHere-debug">
-							<xsl:with-param name="testForNoInteractive" select="1"/>
-							<xsl:with-param name="testForPhraseOnly" select="1"/>
-						</xsl:call-template>
-					</xsl:if>
 					<xsl:attribute name="class">
 						<xsl:text>dateField</xsl:text>
 					</xsl:attribute>

@@ -16,7 +16,7 @@
 	padding: 0 $hgap-small;
 }
 
-.mandatory-indicator:after {
+.mandatoryIndicator:after {
 	@include mandatory-indicator;
 	margin-left: $hgap-small;
 }

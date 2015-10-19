@@ -6,23 +6,20 @@
 	<xsl:import href="wc.ui.table.tr.n.containsWords.xsl"/>
 	<xsl:import href="wc.ui.table.tr.n.tableCollapserElement.xsl"/>
 	<xsl:import href="wc.ui.table.tr.n.WTableAdditionalRowClass.xsl"/>
-	<xsl:import href="wc.ui.table.tr.n.trSelectionIndicator.xsl"/>
-	<xsl:output method="html" doctype-public="XSLT-compat" encoding="UTF-8" indent="no" omit-xml-declaration="yes"/>
-	<xsl:strip-space elements="*"/>
-<!--
- Transform for each row in the WTable. The row itself transforms to a HTML
- tr element. It may also output another row if it has a ui:subTr child.
-
- param myTable: The first table ancestor of the current row. This is determined
- at the most efficient point (usually ui:tbody using its parent node) and then
- passed through all subsequent transforms to save constant ancestor::ui:table[1]
- lookups.
-
- param parentIsClosed default 0, 1 indicates that the row's parent row is in a
- collapsed state. Only applicable if the current row is a child of a ui:subTr.
-
- param maxIndent: see notes in transform for ui:table in wc.ui.table.xsl.
--->
+	<!--
+		Transform for each row in the WTable. The row itself transforms to a HTML
+		tr element. It may also output another row if it has a ui:subTr child.
+		
+		param myTable: The first table ancestor of the current row. This is determined
+		at the most efficient point (usually ui:tbody using its parent node) and then
+		passed through all subsequent transforms to save constant ancestor::ui:table[1]
+		lookups.
+		
+		param parentIsClosed default 0, 1 indicates that the row's parent row is in a
+		collapsed state. Only applicable if the current row is a child of a ui:subTr.
+		
+		param maxIndent: see notes in transform for ui:table in wc.ui.table.xsl.
+	-->
 	<xsl:template match="ui:tr">
 		<xsl:param name="myTable"/>
 		<xsl:param name="parentIsClosed" select="0"/>

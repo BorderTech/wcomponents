@@ -4,12 +4,9 @@
 	<xsl:import href="wc.common.inlineError.xsl"/>
 	<xsl:import href="wc.common.readOnly.xsl"/>
 	<xsl:import href="wc.common.title.xsl"/>
-	<xsl:import href="wc.debug.debugInfo.xsl"/>
 	<xsl:import href="wc.ui.multiTextField.n.multiTextFieldContentRenderer.xsl"/>
 	<xsl:import href="wc.ui.multiDropdown.n.multiDropDownContentRenderer.xsl"/>
 	<xsl:import href="wc.common.makeLegend.xsl"/>
-	<xsl:output method="html" doctype-public="XSLT-compat" encoding="UTF-8" indent="no" omit-xml-declaration="yes"/>
-	<xsl:strip-space elements="*"/>
 <!--
 	Transforms for WMultiDropdown and WMultiTextField.
 

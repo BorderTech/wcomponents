@@ -1,5 +1,7 @@
 package com.github.bordertech.wcomponents;
 
+import java.util.List;
+
 /**
  * <p>
  * The interface for WComponents which can contain child WComponents.
@@ -34,4 +36,11 @@ public interface Container extends WComponent {
 	 * @return the index of the given child component, or -1 if the component is not a child of this component.
 	 */
 	int getIndexOfChild(WComponent childComponent);
+
+	/**
+	 * Retrieves a list of this Container's.
+	 *
+         * @return an immutable list of this Container.
+	 */
+	List<WComponent> getChildren();
 }

@@ -23,22 +23,34 @@ dialog {
 		> header .wc_maxcont {
 			display: none;
 		}
-	}
 
-	&[open] {
-		@include flex($direction: column);
-		@include flex-shrink(0);
+		> [aria-live] {
+			height: 100%;
+		}
 	}
 
 	> [aria-live] { // dialog content container
 		@include border;
 		background-color: $wc-ui-color-global-bg;
+		height: auto;
+		// auto breaks in safari: weird!
+		// scss-lint:disable VendorPrefix
+		height: -webkit-fit-content;
 		overflow: auto;
 		padding: $hgap-normal;
 
-		&[aria-busy='true'] { // override usual transparency of busy elements because that's just wierd with a dialog's content.
+		&[aria-busy='true'] { // override usual transparency of busy elements because that's just wrong with a dialog's content.
 			//scss-lint:disable ImportantRule
 			background-color: $wc-ui-color-global-bg !important;
+		}
+	}
+
+	&[open] {
+		@include flex($direction: column);
+		@include flex-shrink(0);
+
+		&.wc_max > [aria-live] {
+			height: 100%;
 		}
 	}
 

@@ -23,19 +23,22 @@
 }
 
 /// Create a button with a transparent background. Handy for holding iconography!
-/// @param {boolean} $border [true] Set false to not include the standard border mixin.
+/// @param {color} $background [transparent] Set the button background. Set -1 to ignore this rule.
+/// @param {boolean} $border [true] Set false to not include the standard border mixin. If you want a non-standard border set false and use the border mixin by itself.
 /// @param {dimension} $height [$line-size] The height of the button. Set -1 to omit this rule.
 /// @param {dimension} $padding [1em] The padding of the button. Set -1 to omit this rule.
 /// @param {position} $text-align [center] The text align for your button. Set '' to omit this rule.
 /// @param {dimension} $width [$line-size] The width of the button. Set -1 to omit this rule.
-@mixin button ($border: true, $height: $line-size, $padding: $hgap-small, $text-align: center, $width: $line-size, $reset-height: 1em, $reset-width: 1em) {
+@mixin button ($background: transparent, $border: true, $height: $line-size, $padding: $hgap-small, $text-align: center, $width: $line-size, $reset-height: 1em, $reset-width: 1em) {
 	@if ($border == true) {
 		@include border;
 	}
 	@else if ($border == 0) {
 		border: 0;
 	}
-	background-color: transparent;
+	@if($background != -1) {
+		background-color: $background;
+	}
 	// need this for Firefox
 	// scss-lint:disable VendorPrefix
 	-moz-box-sizing: content-box;

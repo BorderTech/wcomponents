@@ -502,7 +502,6 @@ public final class WebUtilities {
 		}
 
 		if (component instanceof Container) {
-			// Update the rest of the bean
 			for (int i = ((Container) component).getChildCount() - 1; i >= 0; i--) {
 				updateBeanValue(((Container) component).getChildAt(i), visibleOnly);
 			}

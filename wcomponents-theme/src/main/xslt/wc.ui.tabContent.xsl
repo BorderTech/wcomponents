@@ -3,14 +3,10 @@
 	<xsl:import href="wc.common.disabledElement.xsl"/>
 	<xsl:import href="wc.common.accessKey.xsl"/>
 	<xsl:import href="wc.constants.xsl"/>
-	<xsl:import href="wc.debug.common.contentCategory.xsl"/>
-	<xsl:import href="wc.debug.common.bestPracticeHelpers.xsl"/>
-	<xsl:output method="html" doctype-public="XSLT-compat" encoding="UTF-8" indent="no" omit-xml-declaration="yes"/>
-	<xsl:strip-space elements="*"/>
 
-<!--
- The content of the tab. Wrapped in a DIV element.
--->
+	<!--
+	 The content of the tab. Wrapped in a DIV element.
+	-->
 	<xsl:template match="ui:tabContent">
 		<xsl:param name="open"/>
 		<xsl:variable name="id">

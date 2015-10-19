@@ -2,7 +2,6 @@
 	<xsl:import href="wc.constants.xsl" />
 	<xsl:import href="wc.common.ajax.xsl" />
 	<xsl:import href="wc.common.hide.xsl" />
-	<xsl:import href="wc.debug.debugInfo.xsl" />
 	<xsl:import href="wc.ui.field.n.isCheckRadio.xsl" />
 
 	<!--
@@ -66,9 +65,6 @@
 				</xsl:if>
 				<xsl:call-template name="hideElementIfHiddenSet" />
 				<xsl:call-template name="ajaxTarget" />
-				<xsl:if test="$isDebug=1">
-					<xsl:call-template name="debugAttributes" />
-				</xsl:if>
 				<xsl:if test=" not($layout = 'stacked') and ($isCheckRadio=1 or not(ui:label))">
 					<span class="wc_fld_pl">
 						<xsl:if test="$labelWidth!=''">

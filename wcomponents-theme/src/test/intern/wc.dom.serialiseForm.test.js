@@ -36,13 +36,15 @@ define(["intern!object", "intern/chai!assert", "../intern/resources/test.utils"]
 		registerSuite({
 			name: "wc/dom/serialize",
 			setup: function() {
-				return testutils.setupHelper(["wc/dom/serialize", "wc/dom/Widget"], function(s, W) {
+				var result = new testutils.LamePromisePolyFill();
+				testutils.setupHelper(["wc/dom/serialize", "wc/dom/Widget"], function(s, W) {
 					serialize = s;
 					Widget = W;
 					testHolder = testutils.getTestHolder();
-					testutils.setUpExternalHTML(urlResource, testHolder);
 					INPUTS = new Widget("INPUT", "", { type: "hidden" });
+					testutils.setUpExternalHTML(urlResource, testHolder).then(result._resolve);
 				});
+				return result;
 			},
 			teardown: function() {
 				testHolder.innerHTML = "";

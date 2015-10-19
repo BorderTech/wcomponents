@@ -106,10 +106,7 @@ define(["wc/dom/tag"], /** @param tag wc/dom/tag @ignore */ function(tag) {
 			var role,
 				roleKey;
 			if (element.nodeType === Node.ELEMENT_NODE) {
-				if (!element.hasAttribute("role")) {
-					// if something has an explicit role then implied roles should not be considered
-					// TODO We need a `getRole` utility instead of blindly using the element's role attribute everywhere
-					// because we really should only consider valid roles.
+				if (!element.hasAttribute("role")) { // if something has an explicit role then implied roles should not be considered.
 					roleKey = (element.tagName === tag.INPUT || element.tagName === tag.BUTTON) ? element.type : element.tagName.toLowerCase();
 					role = ROLE_MAP[roleKey];
 				}
