@@ -56,7 +56,7 @@ dt {
 
 	> dt,
 	> dd {
-		@include respond(phone) {
+		@include respond(phonelike) {
 			@include border-box;
 			display: block;
 			margin-left: 0;
