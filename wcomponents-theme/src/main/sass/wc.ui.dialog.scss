@@ -23,6 +23,10 @@ dialog {
 		> header .wc_maxcont {
 			display: none;
 		}
+
+		> [aria-live] {
+			height: 100%;
+		}
 	}
 
 	> [aria-live] { // dialog content container
@@ -34,10 +38,6 @@ dialog {
 		height: -webkit-fit-content;
 		overflow: auto;
 		padding: $hgap-normal;
-
-		@include respond(mobile) {
-			height: 100%;
-		}
 
 		&[aria-busy='true'] { // override usual transparency of busy elements because that's just wrong with a dialog's content.
 			//scss-lint:disable ImportantRule
