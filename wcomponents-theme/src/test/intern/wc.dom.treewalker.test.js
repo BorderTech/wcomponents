@@ -49,10 +49,12 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 	registerSuite({
 		name: "Treewalker",
 		setup: function() {
-			return testutils.setupHelper([], function() {
+			var result = new testutils.LamePromisePolyFill();
+			testutils.setupHelper([], function() {
 				testHolder = testutils.getTestHolder();
-				testutils.setUpExternalHTML(urlResource, testHolder);
+				testutils.setUpExternalHTML(urlResource, testHolder).then(result._resolve);
 			});
+			return result;
 		},
 		teardown: function() {
 			testHolder.innerHTML = "";

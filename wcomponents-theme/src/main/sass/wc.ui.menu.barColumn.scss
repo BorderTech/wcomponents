@@ -17,7 +17,7 @@
 	}
 }
 
-@include respond(mobile) {
+[data-wc-menufixed='true'] {
 	.submenu[aria-expanded='true'] [role='menu'] {
 		@include border-box;
 		// important to override the default for aria-busy areas. Transparent sub-menus help no-one and it may seem that we are not loading.

@@ -11,11 +11,13 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 	registerSuite({
 		name: TEST_MODULE,
 		setup: function() {
-			return testutils.setupHelper([TEST_MODULE], function(obj) {
+			var result = new testutils.LamePromisePolyFill();
+			testutils.setupHelper([TEST_MODULE], function(obj) {
 				controller = obj;
 				testHolder = testutils.getTestHolder();
-				testutils.setUpExternalHTML(urlResource, testHolder);
+				testutils.setUpExternalHTML(urlResource, testHolder).then(result._resolve);
 			});
+			return result;
 		},
 		teardown: function() {
 			testHolder.innerHTML = "";

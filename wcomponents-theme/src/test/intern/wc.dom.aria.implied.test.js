@@ -23,11 +23,13 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
 		registerSuite({
 			name: "impliedARIA",
 			setup: function() {
-				return testutils.setupHelper(["wc/dom/impliedARIA"], function(obj) {
+				var result = new testutils.LamePromisePolyFill();
+				testutils.setupHelper(["wc/dom/impliedARIA"], function(obj) {
 					impliedARIA = obj;
 					testHolder = testutils.getTestHolder();
-					testutils.setUpExternalHTML(urlResource, testHolder);
+					testutils.setUpExternalHTML(urlResource, testHolder).then(result._resolve);
 				});
+				return result;
 			},
 			teardown: function() {
 				if (testHolder) {

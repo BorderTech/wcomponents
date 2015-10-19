@@ -2,22 +2,27 @@
 // Primary styling for the page and preliminary styling of some commonly used basic elements and layout classes.
 @import 'mixins_common.scss';
 
+// We need to have the document body fill the viewport in all browsers to correctly propogate some click events.
+html {
+	height: 100%;
+}
+
 body {
 	background-color: $wc-ui-color-global-bg;
 	color: $wc-ui-color-global-fg;
 	font-family: $default-font;
-	font-size: $font-size;
+	font-size: $mobile-font-size;
+	height: 100%;
 	line-height: $line-height;
 	margin: 0;
 	padding: 0;
 
-	@include respond(phone) {
-		font-size: 16px;
-		line-height: normal;
+	@include respond($size: 1024px, $test: min-device-width) {
+		font-size: $font-size;
 	}
 
 	@include reset-large-screen { // make the default (75%) text size bigger on really big screens.
-		font-size: 100%;
+		font-size: $bigscreen-font-size;
 	}
 }
 

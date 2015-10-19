@@ -12,7 +12,7 @@ button.wc_maxcont {
 	&,
 	&:hover,
 	&:focus {
-		@include background-image-icon('../images/resize-handle.png', $x: 0, $y: 0);
+		@include background-image('../images/resize-handle.png', $height: cover, $x: 0, $y: 0);
 	}
 }
 
