@@ -1,11 +1,12 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+	<xsl:import href="wc.common.accessKey.xsl"/>
 	<xsl:import href="wc.common.ajax.xsl"/>
 	<xsl:import href="wc.common.disabledElement.xsl"/>
-	<xsl:import href="wc.common.accessKey.xsl"/>
+	<xsl:import href="wc.common.title.xsl"/>
 	<xsl:import href="wc.constants.xsl"/>
 	<xsl:import href="wc.ui.tab.n.hideTab.xsl"/>
-	<xsl:import href="wc.ui.tab.n.tabElement.xsl"/>
 	<xsl:import href="wc.ui.tab.n.tabClass.xsl"/>
+	<xsl:import href="wc.ui.tab.n.tabElement.xsl"/>
 	<!--
 		Tranform for WTab. Outputs the tab opener (the tab bit of the tab). If the
 		type is accordion also outputs the content.
@@ -57,6 +58,7 @@
 			<xsl:attribute name="class">
 				<xsl:text>wc_btn_nada</xsl:text>
 			</xsl:attribute>
+			<xsl:call-template name="title"/>
 			<xsl:attribute name="{$expandSelectAttrib}">
 				<xsl:choose>
 					<xsl:when test="$isOpen=1">
