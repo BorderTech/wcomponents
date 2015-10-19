@@ -1,4 +1,8 @@
-/* TODO This is a mess! What's with dojo/Deferred???? Use the damn promises polyfill!*/
+/*
+ * TODO This is a mess! What's with dojo/Deferred???? Use the damn promises polyfill!
+ * Agreed. I got rid of dojo/Deferred but leaving this comment as a flag that this test needs some serious review.
+ *
+ */
 define(["intern!object", "intern/chai!assert", "../intern/resources/test.utils"],
 	function (registerSuite, assert, testutils) {
 		"use strict";
@@ -6,7 +10,7 @@ define(["intern!object", "intern/chai!assert", "../intern/resources/test.utils"]
 		 * NOTE: why are these asynchronous? because even Chrome has trouble selecting a
 		 * range in time to test its selection.
 		 */
-		var Deferred, clearSelection, timers,
+		var clearSelection, timers,
 			TEXT = "This is some known text",
 			testHolder,
 			DELAY = 10,
@@ -26,8 +30,7 @@ define(["intern!object", "intern/chai!assert", "../intern/resources/test.utils"]
 		registerSuite({
 			name: "clearSelection",
 			setup: function() {
-				return testutils.setupHelper(["intern/node_modules/dojo/Deferred", "wc/dom/clearSelection", "wc/timers"], function(D, c, t) {
-					Deferred = D;
+				return testutils.setupHelper(["wc/dom/clearSelection", "wc/timers"], function(c, t) {
 					clearSelection = c;
 					timers = t;
 				});
@@ -71,11 +74,11 @@ define(["intern!object", "intern/chai!assert", "../intern/resources/test.utils"]
 				var dfd = this.async(TIMEOUT);
 				timers.setTimeout(function() {
 					var wait = function(ms) {
-						var waitDfd = new Deferred();
+						var waitDfd = new testutils.LamePromisePolyFill();
 						setTimeout(function() {
-							waitDfd.resolve(getSelectedText());
+							waitDfd._resolve(getSelectedText());
 						}, ms);
-						return waitDfd.promise;
+						return waitDfd;
 					};
 
 					wait(DELAY).then(dfd.callback(function(data) {
@@ -95,11 +98,11 @@ define(["intern!object", "intern/chai!assert", "../intern/resources/test.utils"]
 				var dfd = this.async(TIMEOUT);
 				timers.setTimeout(function() {
 					var wait = function(ms) {
-						var waitDfd = new Deferred();
+						var waitDfd = new testutils.LamePromisePolyFill();
 						setTimeout(function() {
-							waitDfd.resolve(clearSelection());
+							waitDfd._resolve(clearSelection());
 						}, ms);
-						return waitDfd.promise;
+						return waitDfd;
 					};
 
 					wait(DELAY).then(dfd.callback(function() {
@@ -120,11 +123,11 @@ define(["intern!object", "intern/chai!assert", "../intern/resources/test.utils"]
 				var dfd = this.async(TIMEOUT);
 				timers.setTimeout(function() {
 					var wait = function(ms) {
-						var waitDfd = new Deferred();
+						var waitDfd = new testutils.LamePromisePolyFill();
 						setTimeout(function() {
-							waitDfd.resolve(clearSelection());
+							waitDfd._resolve(clearSelection());
 						}, ms);
-						return waitDfd.promise;
+						return waitDfd;
 					};
 
 					wait(DELAY).then(dfd.callback(function() {

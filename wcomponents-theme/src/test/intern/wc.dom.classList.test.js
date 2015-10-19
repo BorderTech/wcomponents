@@ -100,7 +100,7 @@ define(["intern!object", "intern/chai!assert", "../intern/resources/test.utils"]
 					element.classList.contains(className);
 					assert.fail("testing expected with token that contains whitespace should throw an error");
 				}
-				catch(e) {
+				catch (e) {
 					assert.isTrue(true);
 				}
 			},
@@ -112,7 +112,7 @@ define(["intern!object", "intern/chai!assert", "../intern/resources/test.utils"]
 					element.classList.contains(className);
 					assert.fail("testing expected with empty string should throw an error");
 				}
-				catch(e) {
+				catch (e) {
 					assert.isTrue(true);
 				}
 			},
@@ -417,7 +417,7 @@ define(["intern!object", "intern/chai!assert", "../intern/resources/test.utils"]
 					classlist.contains(element, expected);
 					assert.fail("testing expected with empty string should throw an error");
 				}
-				catch(e) {
+				catch (e) {
 					assert.isTrue(true);
 				}
 			},
