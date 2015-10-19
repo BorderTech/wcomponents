@@ -34,6 +34,7 @@ final class WTabRenderer extends AbstractWebXmlRenderer {
 		xml.appendOptionalAttribute("open", tab.isOpen(), "true");
 		xml.appendOptionalAttribute("disabled", tab.isDisabled(), "true");
 		xml.appendOptionalAttribute("hidden", tab.isHidden(), "true");
+		xml.appendOptionalAttribute("toolTip", tab.getToolTip());
 
 		switch (tab.getMode()) {
 			case CLIENT:
