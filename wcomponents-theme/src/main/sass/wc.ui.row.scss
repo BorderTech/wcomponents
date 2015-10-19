@@ -6,7 +6,7 @@
 	display: inline-block;
 	vertical-align: top;
 
-	@include respond(phone) {
+	@include respond(phonelike) {
 		// important to override inline css from XSLT
 		// scss-lint:disable ImportantRule
 		display: block;
