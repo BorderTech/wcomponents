@@ -149,7 +149,7 @@ public class ComponentModel implements WebModel, Externalizable {
 	/**
 	 * An unmodifiable view of children.
 	 */
-	private List<WComponent> unmodifiableChildren = Collections.unmodifiableList(children);
+	private List<WComponent> unmodifiableChildren;
 
 	/**
 	 * You can override the parent on a per session basis. When PARENT_OVERRIDDEN_FLAG is not set, we know there is no
@@ -427,6 +427,10 @@ public class ComponentModel implements WebModel, Externalizable {
 				? null : Collections.unmodifiableList(children);
 	}
 
+	/**
+	 * Returns an unmodifiable view of the model's children.
+	 * @return an unmodifiable view of the model's children
+	 */
 	protected List<WComponent> getUnmodifiableChildren() {
 		return this.children == null
 			? Collections.<WComponent>emptyList()
