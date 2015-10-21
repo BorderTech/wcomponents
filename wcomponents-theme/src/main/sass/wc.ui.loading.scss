@@ -37,11 +37,9 @@
 }
 
 
-// * ajax busy areas
-// min-width and min-height needed to ensure that first load (where we have no content yet) still displays the loading
-// indicator - otherwise we are setting the background image on a container of 0px width and height. We make the
-// background of the busy element transparent and set all of its children to visibility:hidden so the element appears to
-// just vanish and leave its loading indicator You may want to change this (a Cheshire cat maybe?).
+// ajax busy areas
+// We make the background of the busy element transparent and set all of its children to visibility:hidden so the
+// element appears to just vanish and leave its loading indicator You may want to change this (a Cheshire cat maybe?).
 [aria-busy='true'] {
 	// Some of these properties have to be important to over-ride specific component's rules
 	// scss-lint:disable ImportantRule
@@ -59,4 +57,3 @@
 		visibility: hidden;
 	}
 }
-/* end wc.ui.loading.scss */
