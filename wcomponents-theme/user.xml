@@ -40,23 +40,13 @@
 		************************************************************************
 		THEME BUILD CONFIGURATION
 		************************************************************************
-		optimize.with.node:
-			This will use node.js to optimize the javascript code if your 
-			implementation has any required modules in wc.common.js. Even if you
-			do not have these you may find your build will be much quicker with 
-			node.js enabled.
-			
-			NOTE 1:
-				You -almost certainly- absolutely want to have this property set!
-			NOTE 2:
-				You MUST have node.js installed on the build machine before 
-				setting this property. See http://nodejs.org/
-			NOTE 3: 
-				We expect to be able to include node as a maven dependency in 
-				the near future.
-				
-		<property name="optimize.with.node" value="true"/>
-		
+
+		npm.loglevel:
+			Where the build uses NPM to fetch dependencies you can configure the
+			loglevel. See: https://docs.npmjs.com/misc/config#loglevel
+
+		<property name="npm.loglevel" value="verbose"/>
+
 		minifiy.resources.off:
 			Turning off minification speeds up a build slightly for testing 
 			during development but should not be used routinely. Needing to do 
