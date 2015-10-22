@@ -5,12 +5,8 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 		TEST_ID = "testgetBoxElement";
 
 
-	function doSimpleTest(expected, dimension, noReset) {
+	function doSimpleTest(expected, dimension) {
 		var element = document.getElementById(TEST_ID);
-		if (!noReset) {
-			document.body.scrollTop = 0;  // browsers
-			document.documentElement.scrollTop = 0;  // IE
-		}
 		assert.strictEqual(controller(element)[dimension], expected);
 	}
 
@@ -25,6 +21,10 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 		beforeEach: function() {
 			testHolder.innerHTML = '<div id="' + TEST_ID + '" style="position:absolute;left:' + LEFT + 'px;top:' + TOP + 'px;">absolute position</div>';
 			// reset scroll if the test reporting is longer than the viewport height it will cause the simple tests to fail
+			document.body.scrollTop = 0;  // browsers
+			document.documentElement.scrollTop = 0;  // IE
+			document.body.scrollLeft = 0;  // browsers
+			document.documentElement.scrollLeft = 0;  // IE
 		},
 		afterEach: function() {
 			testHolder.innerHTML = "";
@@ -34,6 +34,18 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 		},
 		testGetBoxTop: function() {
 			doSimpleTest(TOP, "top");
+		},
+		testGetBoxTopWithMarginTop: function() {
+			var MARGIN = 60,
+				element = document.getElementById(TEST_ID);
+			element.style.marginTop = MARGIN + "px";
+			doSimpleTest(TOP + MARGIN, "top");
+		},
+		testGetBoxTopWithMarginLeft: function() {
+			var MARGIN = 60,
+				element = document.getElementById(TEST_ID);
+			element.style.marginLeft = MARGIN + "px";
+			doSimpleTest(LEFT + MARGIN, "left");
 		},
 		testGetBoxTopWithVerticalScroll: function() {
 			var SCROLL = 60;
@@ -49,19 +61,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 
 			document.body.scrollLeft = SCROLL;  // broswers
 			document.documentElement.scrollLeft = SCROLL;  // IE
-			doSimpleTest(LEFT - SCROLL, "left");
-		},
-		testGetBoxTopWithMarginTop: function() {
-			var MARGIN = 60,
-				element = document.getElementById(TEST_ID);
-			element.style.marginTop = MARGIN + "px";
-			doSimpleTest(TOP + MARGIN, "top");
-		},
-		testGetBoxTopWithMarginLeft: function() {
-			var MARGIN = 60,
-				element = document.getElementById(TEST_ID);
-			element.style.marginLeft = MARGIN + "px";
-			doSimpleTest(LEFT + MARGIN, "left");
+			doSimpleTest(LEFT - SCROLL, "left", true);
 		}
 	});
 });
