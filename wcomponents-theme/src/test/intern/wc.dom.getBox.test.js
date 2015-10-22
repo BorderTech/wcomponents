@@ -5,8 +5,14 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 		TEST_ID = "testgetBoxElement";
 
 
-	function doSimpleTest(expected, dimension) {
+	function doSimpleTest(expected, dimension, noReset) {
 		var element = document.getElementById(TEST_ID);
+		if (!noReset) {
+			document.body.scrollTop = 0;  // browsers
+			document.documentElement.scrollTop = 0;  // IE
+			document.body.scrollLeft = 0;  // browsers
+			document.documentElement.scrollLeft = 0;  // IE
+		}
 		assert.strictEqual(controller(element)[dimension], expected);
 	}
 
@@ -21,10 +27,6 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 		beforeEach: function() {
 			testHolder.innerHTML = '<div id="' + TEST_ID + '" style="position:absolute;left:' + LEFT + 'px;top:' + TOP + 'px;">absolute position</div>';
 			// reset scroll if the test reporting is longer than the viewport height it will cause the simple tests to fail
-			document.body.scrollTop = 0;  // browsers
-			document.documentElement.scrollTop = 0;  // IE
-			document.body.scrollLeft = 0;  // browsers
-			document.documentElement.scrollLeft = 0;  // IE
 		},
 		afterEach: function() {
 			testHolder.innerHTML = "";
