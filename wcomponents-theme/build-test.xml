@@ -108,7 +108,7 @@
 			<local name="unit.test.src.dir.raw"/>
 			<local name="amd.src.dir"/>
 			<local name="test.baseurl"/>
-			<property name="test.environments" value="{ browserName: 'chrome' }"/>
+			<property name="test.environments" value="{ browserName: 'firefox' }, { browserName: 'internet explorer', version: '11.0', platform: 'Windows 10' }, { browserName: 'chrome' }"/>
 			<property name="amd.src.dir" value="@{relativePathToSource}"/>
 			<property name="unit.test.src.dir.raw" location="@{srcDir}"/>
 			<pathconvert targetos="unix" property="unit.test.src.dir">
