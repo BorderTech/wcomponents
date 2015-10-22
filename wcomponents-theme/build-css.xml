@@ -145,6 +145,10 @@
 	-->
 	<target name="compileScss">
 		<stopwatch name="compileScss" action="start" />
+		<!--
+		<taskdef name="sass" classname="com.cathive.sass.SassTask" classpathref="project.class.path"/>
+		<sass in="${sass.tmp.src.dir}" outdir="${style.tmp.src.dir}"/>
+		-->
 		<property name="sass.executable" location="${basedir}/node_modules/node-sass/bin/node-sass"/>
 		<echo>node ${sass.executable} ${sass.tmp.src.dir} -o ${style.tmp.src.dir}</echo>
 		<nodejs.exec failonerror="true" cwd="${target.rootdir}">

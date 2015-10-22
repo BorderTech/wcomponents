@@ -10,6 +10,12 @@ import com.github.bordertech.wcomponents.lde.PlainLauncher;
  */
 public class PlainLauncherProxy {
 
+	/**
+	 * The entry point to the launcher.
+	 *
+	 * @param args command-line arguments, ignored.
+	 * @throws Exception on error
+	 */
 	public static void main(final String[] args) throws Exception {
 		PlainLauncher.main(args);
 	}

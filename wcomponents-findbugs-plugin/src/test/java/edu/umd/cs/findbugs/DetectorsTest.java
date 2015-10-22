@@ -61,7 +61,7 @@ public class DetectorsTest {
 	/**
 	 * The logger instance for this class.
 	 */
-	private static final Log log = LogFactory.getLog(DetectorsTest.class);
+	private static final Log LOG = LogFactory.getLog(DetectorsTest.class);
 
 	/**
 	 * The detectors to test and the bug types they report.
@@ -109,8 +109,8 @@ public class DetectorsTest {
 		for (BugInstance bug : bugReporter.getBugCollection()) {
 			if (isUnexpectedBug(bug)) {
 				unexpectedBugs.add(bug);
-				log.info(bug.getMessageWithPriorityTypeAbbreviation());
-				log.info("  " + bug.getPrimarySourceLineAnnotation());
+				LOG.info(bug.getMessageWithPriorityTypeAbbreviation());
+				LOG.info("  " + bug.getPrimarySourceLineAnnotation());
 			}
 		}
 
@@ -121,6 +121,7 @@ public class DetectorsTest {
 	}
 
 	/**
+	 * @param unexpectedBugs list of unexpected bugs
 	 * @return a printable String concatenating bug locations.
 	 */
 	private String getBugsLocations(final List<BugInstance> unexpectedBugs) {
@@ -133,8 +134,8 @@ public class DetectorsTest {
 				message.append("\nunexpected ");
 			}
 
-			StringAnnotation pattern = (StringAnnotation) bugInstance.getAnnotations().get(1);
-			message.append(pattern.getValue());
+			BugAnnotation pattern = bugInstance.getAnnotations().get(1);
+			message.append(pattern.getDescription());
 			message.append(' ');
 			message.append(bugInstance.getPrimarySourceLineAnnotation());
 		}
@@ -143,7 +144,8 @@ public class DetectorsTest {
 	}
 
 	/**
-	 * Returns if a bug instance is unexpected for this test.
+	 * @param bug the bug instance to check Returns if a bug instance is unexpected for this test.
+	 * @return true if is unexpected bug
 	 */
 	private boolean isUnexpectedBug(final BugInstance bug) {
 		return FB_MISSING_EXPECTED_WARNING.equals(bug.getType()) || FB_UNEXPECTED_WARNING.equals(
@@ -161,6 +163,8 @@ public class DetectorsTest {
 	/**
 	 * Sets up a FB engine to run on the 'findbugsTestCases' project. It enables all the available detectors and reports
 	 * all the bug categories. Uses a low priority threshold.
+	 *
+	 * @param analyzeMe files to analyse
 	 */
 	private void setUpEngine(final String... analyzeMe) {
 		engine = new FindBugs2();
@@ -176,10 +180,7 @@ public class DetectorsTest {
 
 		engine.setBugReporter(bugReporter);
 		UserPreferences preferences = UserPreferences.createDefaultUserPreferences();
-		DetectorFactory checkExpectedWarnings = detectorFactoryCollection.getFactory(
-				"CheckExpectedWarnings");
 		preferences.enableAllDetectors(false);
-		preferences.enableDetector(checkExpectedWarnings, true);
 		preferences.getFilterSettings().clearAllCategories();
 		engine.setUserPreferences(preferences);
 
@@ -191,12 +192,21 @@ public class DetectorsTest {
 		setUpDetectors(preferences);
 	}
 
+	/**
+	 * @param preferences the user preferences
+	 */
 	private void setUpDetectors(final UserPreferences preferences) {
 		DetectorFactoryCollection detectorFactoryCollection = DetectorFactoryCollection.instance();
 		Plugin plugin = detectorFactoryCollection.getCorePlugin();
 
+		//Add Custom Check Warnings
+		Class checkClass = CheckExpectedWarningsCustom.class;
+		DetectorFactory checkFactory = new DetectorFactory(plugin, checkClass.getSimpleName(), checkClass, true, "fast",
+				"", "");
+		preferences.enableDetector(checkFactory, true);
+
 		for (DetectorInfo info : DETECTORS) {
-			DetectorFactory factory = new DetectorFactory(plugin, info.detector, true, "fast",
+			DetectorFactory factory = new DetectorFactory(plugin, info.detector.getSimpleName(), info.detector, true, "fast",
 					info.reports, "");
 			detectorFactoryCollection.registerDetector(factory);
 			plugin.addDetectorFactory(factory);
@@ -205,11 +215,11 @@ public class DetectorsTest {
 			for (String bugCode : info.reports.split(",")) {
 				bugCode = bugCode.trim();
 				String abbr = bugCode.replaceAll("_.*", "");
-
-				I18N.instance().registerBugCode(new BugCode(abbr, ""));
-				I18N.instance().registerBugPattern(new BugPattern(bugCode, abbr, "", false, "", "",
-						""));
+				detectorFactoryCollection.registerBugCode(new BugCode(bugCode, ""));
+				detectorFactoryCollection.registerBugPattern(new BugPattern(bugCode, abbr, "", false, "", "",
+						"", "", 0));
 			}
+
 		}
 	}
 

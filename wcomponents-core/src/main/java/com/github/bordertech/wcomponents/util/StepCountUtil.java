@@ -1,8 +1,16 @@
 package com.github.bordertech.wcomponents.util;
 
+import com.github.bordertech.wcomponents.ComponentWithContext;
 import com.github.bordertech.wcomponents.Environment;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.UIContext;
+import com.github.bordertech.wcomponents.UIContextHolder;
+import com.github.bordertech.wcomponents.WAudio;
+import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.WContent;
+import com.github.bordertech.wcomponents.WImage;
+import com.github.bordertech.wcomponents.WVideo;
+import com.github.bordertech.wcomponents.WebUtilities;
 
 /**
  * Static utility methods related to working with the step count.
@@ -76,6 +84,48 @@ public final class StepCountUtil {
 	public static boolean isStepOnRequest(final Request request) {
 		String val = request.getParameter(Environment.STEP_VARIABLE);
 		return val != null;
+	}
+
+	/**
+	 * Check if the request is for cached content.
+	 *
+	 * @param request the request being processed
+	 * @return true if content is cached, otherwise false
+	 */
+	public static boolean isCachedContentRequest(final Request request) {
+
+		// Get target id on request
+		String targetId = request.getParameter(Environment.TARGET_ID);
+		if (targetId == null) {
+			return false;
+		}
+
+		// Get target
+		ComponentWithContext targetWithContext = WebUtilities.getComponentById(targetId, true);
+		if (targetWithContext == null) {
+			return false;
+		}
+
+		// Check for caching key
+		WComponent target = targetWithContext.getComponent();
+		UIContextHolder.pushContext(targetWithContext.getContext());
+
+		try {
+			// TODO Look at implementing CacheableTarget interface
+			String key = null;
+			if (target instanceof WContent) {
+				key = ((WContent) target).getCacheKey();
+			} else if (target instanceof WImage) {
+				key = ((WImage) target).getCacheKey();
+			} else if (target instanceof WVideo) {
+				key = ((WVideo) target).getCacheKey();
+			} else if (target instanceof WAudio) {
+				key = ((WAudio) target).getCacheKey();
+			}
+			return !Util.empty(key);
+		} finally {
+			UIContextHolder.popContext();
+		}
 	}
 
 }
