@@ -7,6 +7,7 @@
 	<property name="tmp.dir" location="${theme.tmp.dir}"/>
 	<property name="maven.project.name" value="${project.name}"/>
 	<property name="build.number" value="${project.version}"/>
+	<property name="npm.loglevel" value="warn"/>
 
 	<!-- INPUT PROPERTIES: relating to the artefacts used as inputs by this build -->
 	<property name="theme.src.dir" location="${component.rootdir}/src"/>
@@ -414,7 +415,8 @@
 				<arguments>
 					<arg value="${npmjs.dir}/npm-cli.js"/>
 					<arg-elements />
-					<arg value="--verbose"/>
+					<arg value="--loglevel"/>
+					<arg value="${npm.loglevel}"/>
 				</arguments>
 			</nodejs.exec>
 		</sequential>

@@ -22,6 +22,9 @@
 @import 'vars_all.scss';
 
 button {
+	font-family: inherit;
+	font-size: inherit;
+	line-height: inherit;
 	margin: 0;
 }
 
@@ -32,9 +35,6 @@ button {
 		background-color: transparent;
 		border: 0 none;
 		cursor: pointer;
-		font-family: inherit;
-		font-size: inherit;
-		line-height: inherit;
 		padding: 0;
 
 		&[disabled] {
