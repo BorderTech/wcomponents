@@ -154,7 +154,7 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-antrun-plugin</artifactId>
-				<version>1.7</version>
+				<version>1.8</version>
 				<executions>
 					<execution>
 						<id>compile</id>
@@ -250,7 +250,7 @@
 					<dependency>
 						<groupId>org.apache.ant</groupId>
 						<artifactId>ant</artifactId>
-						<version>1.9.3</version>
+						<version>1.9.6</version>
 					</dependency>
 					<dependency>
 						<groupId>commons-io</groupId>
@@ -262,26 +262,26 @@
 						<artifactId>commons-codec</artifactId>
 						<version>1.4</version>
 					</dependency>
-					<dependency>
+<!--					<dependency>
 						<groupId>rhino</groupId>
 						<artifactId>js</artifactId>
 						<version>1.7R2</version>
-					</dependency>
+					</dependency>-->
 					<dependency>
 						<groupId>net.sf.saxon</groupId>
 						<artifactId>Saxon-HE</artifactId>
 						<version>9.6.0-7</version>
 					</dependency>
-					<dependency>
+<!--					<dependency>
 						<groupId>com.google.javascript</groupId>
 						<artifactId>closure-compiler</artifactId>
 						<version>v20130603</version>
-					</dependency>
-					<dependency>
+					</dependency>-->
+<!--					<dependency>
 						<groupId>com.googlecode.jgenhtml</groupId>
 						<artifactId>jgenhtml</artifactId>
 						<version>1.5</version>
-					</dependency>
+					</dependency>-->
 					<dependency>
 						<groupId>com.github.ricksbrown</groupId>
 						<artifactId>xslmin</artifactId>
