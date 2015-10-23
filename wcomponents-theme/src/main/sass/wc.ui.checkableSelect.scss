@@ -15,16 +15,8 @@
 		display: inline-block;
 		vertical-align: top;
 
-		@include respond(phone) {
-			display: block;
-		}
-
 		+ .column {
 			padding-left: $hgap-large;
-
-			@include respond(phone) {
-				padding-left: 0;
-			}
 		}
 	}
 
@@ -39,6 +31,16 @@
 
 		> :last-of-type {
 			margin-right: 0;
+		}
+	}
+}
+
+@include respond(phonelike) {
+	.wc_chkgrp > .column {
+		display: block;
+
+		+ .column {
+			padding-left: 0;
 		}
 	}
 }

@@ -16,20 +16,8 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package edu.umd.cs.findbugs.detect;
+package edu.umd.cs.findbugs;
 
-import edu.umd.cs.findbugs.BugCollection;
-import edu.umd.cs.findbugs.BugCollectionBugReporter;
-import edu.umd.cs.findbugs.BugInstance;
-import edu.umd.cs.findbugs.BugPattern;
-import edu.umd.cs.findbugs.BugReporter;
-import edu.umd.cs.findbugs.ClassAnnotation;
-import edu.umd.cs.findbugs.Detector2;
-import edu.umd.cs.findbugs.DetectorFactory;
-import edu.umd.cs.findbugs.FieldAnnotation;
-import edu.umd.cs.findbugs.MethodAnnotation;
-import edu.umd.cs.findbugs.NonReportingDetector;
-import edu.umd.cs.findbugs.SystemProperties;
 import edu.umd.cs.findbugs.annotations.ExpectWarning;
 import edu.umd.cs.findbugs.annotations.NoWarning;
 import edu.umd.cs.findbugs.ba.XClass;
@@ -61,7 +49,7 @@ import java.util.StringTokenizer;
  * @author David Hovemeyer
  * @author Yiannis Paschalidis - added warnings for classes and fields as well.
  */
-public class CheckExpectedWarnings implements Detector2, NonReportingDetector {
+public class CheckExpectedWarningsCustom implements Detector2, NonReportingDetector {
 
 	private static final boolean DEBUG = SystemProperties.getBoolean("cew.debug");
 
@@ -75,8 +63,8 @@ public class CheckExpectedWarnings implements Detector2, NonReportingDetector {
 	private ClassDescriptor noWarning;
 	private boolean warned;
 
-	public CheckExpectedWarnings(final BugReporter bugReporter) {
-		BugReporter realBugReporter = bugReporter.getRealBugReporter();
+	public CheckExpectedWarningsCustom(final BugReporter bugReporter) {
+		BugCollection realBugReporter = bugReporter.getBugCollection();
 		if (realBugReporter instanceof BugCollectionBugReporter) {
 			reporter = (BugCollectionBugReporter) realBugReporter;
 			expectWarning = DescriptorFactory.createClassDescriptor(ExpectWarning.class);
@@ -353,7 +341,7 @@ public class CheckExpectedWarnings implements Detector2, NonReportingDetector {
 
 	@Override
 	public String getDetectorClassName() {
-		return CheckExpectedWarnings.class.getName();
+		return CheckExpectedWarningsCustom.class.getName();
 	}
 
 	/**

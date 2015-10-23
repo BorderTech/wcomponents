@@ -17,7 +17,7 @@ ul.fieldLayout {
 
 	> :first-child,
 	> .input {
-		@include respond(phone) {
+		@include respond(phonelike) {
 			// important to override inline CSS from XSLT
 			//scss-lint:disable ImportantRule
 			@include border-box;
@@ -61,12 +61,6 @@ ul.fieldLayout {
 		> .wc_off + .input { // if the label is off screen we need some margin.
 			margin-left: $label-width;
 		}
-
-		> .wc_fld_pl { //this is the placeholder for a null or moved label - moved for checkbox or radio
-			@include respond(phone) {
-				display: none;
-			}
-		}
 	}
 
 	.stacked > & {
@@ -98,6 +92,12 @@ ul.fieldLayout {
 
 	> .dateField[role='combobox'] {
 		width: auto;
+	}
+}
+
+@include respond(phonelike) {
+	.wc_fld_pl { //this is the placeholder for a null or moved label (moved for checkbox or radio). Remove on narrow viewports.
+		display: none;
 	}
 }
 /* end wc.ui.fieldLayout.scss */

@@ -7,7 +7,7 @@
 		@include button($border: 0, $padding: 0);
 		@include background-image-icon('../images/delete.png');
 		margin-left: $hgap-small;
-		vertical-align: text-bottom;
+		vertical-align: middle;
 
 		&[disabled] {
 			background-image: url('../images/delete-d.png');
@@ -20,9 +20,5 @@
 		&[disabled] {
 			background-image: url('../images/add-d.png');
 		}
-	}
-
-	select + button {
-		vertical-align: top;
 	}
 }
