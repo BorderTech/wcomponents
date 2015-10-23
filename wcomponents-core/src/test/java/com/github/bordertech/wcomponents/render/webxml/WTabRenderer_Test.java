@@ -69,6 +69,11 @@ public class WTabRenderer_Test extends AbstractWebXmlRendererTestCase {
 		tab = tabSet.addTab(new WText(tabContent), tabName, TabMode.SERVER, 'X');
 		assertXpathEvaluatesTo("server", "//ui:tab/@mode", tabSet);
 		assertXpathEvaluatesTo(String.valueOf(tab.getAccessKey()), "//ui:tab/@accessKey", tabSet);
+
+		tabSet.remove(tab);
+		tab = tabSet.addTab(new WText(tabContent), tabName, TabMode.CLIENT);
+		tab.setToolTip("Title");
+		assertXpathEvaluatesTo(String.valueOf(tab.getToolTip()), "//ui:tab/@toolTip", tabSet);
 	}
 
 	@Test

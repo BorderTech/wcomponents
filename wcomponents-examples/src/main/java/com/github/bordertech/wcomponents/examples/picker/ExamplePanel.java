@@ -1,9 +1,12 @@
 package com.github.bordertech.wcomponents.examples.picker;
 
+import com.github.bordertech.wcomponents.ImageResource;
 import com.github.bordertech.wcomponents.WApplication;
 import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.WDecoratedLabel;
 import com.github.bordertech.wcomponents.WDefinitionList;
 import com.github.bordertech.wcomponents.WHorizontalRule;
+import com.github.bordertech.wcomponents.WImage;
 import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.WNamingContext;
 import com.github.bordertech.wcomponents.WPanel;
@@ -58,8 +61,11 @@ final class ExamplePanel extends WPanel {
 		context.add(container);
 
 		tabset.addTab(context, "(no selection)", WTabSet.TAB_MODE_CLIENT);
-		tabset.addTab(source, "Source", WTabSet.TAB_MODE_LAZY);
 
+		final ImageResource srcImageResource = new ImageResource("/image/text-x-source.png", "View Source");
+		WImage srcImage = new WImage(srcImageResource);
+		srcImage.setCacheKey("srcTabImage");
+		tabset.addTab(source, new WDecoratedLabel(srcImage), WTabSet.TAB_MODE_LAZY).setToolTip("View Source");
 		container.add(new WText("Select an example from the menu"));
 		add(new AccessibilityWarningPanel());
 	}
