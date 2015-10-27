@@ -1,7 +1,10 @@
 package com.github.bordertech.wcomponents.examples.theme;
 
+import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.Request;
+import com.github.bordertech.wcomponents.WCheckBox;
 import com.github.bordertech.wcomponents.WDecoratedLabel;
+import com.github.bordertech.wcomponents.WFieldLayout;
 import com.github.bordertech.wcomponents.WHeading;
 import com.github.bordertech.wcomponents.WHorizontalRule;
 import com.github.bordertech.wcomponents.WImage;
@@ -11,6 +14,7 @@ import com.github.bordertech.wcomponents.WTabSet;
 import com.github.bordertech.wcomponents.WTabSet.TabMode;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.examples.common.ExplanatoryText;
+import com.github.bordertech.wcomponents.subordinate.builder.SubordinateBuilder;
 import java.util.Date;
 
 /**
@@ -23,7 +27,12 @@ public class WTabExample extends WPanel {
 	/**
 	 * Sample Long Text.
 	 */
-	private static final String LONG_TEXT = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Praesent lectus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Phasellus et turpis. Aenean convallis eleifend elit. Donec venenatis justo id nunc. Sed at purus vel quam mattis elementum. Sed ultrices lobortis orci. Pellentesque enim urna, volutpat at, sagittis id, faucibus sed, lectus. Integer dapibus nulla semper mi. Nunc posuere molestie augue. Aliquam varius libero in tortor. Sed nibh. Nunc erat nunc, pellentesque at, sodales vel, dapibus sit amet, tortor.";
+	private static final String LONG_TEXT = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Praesent lectus."
+			+ " Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Phasellus"
+			+ " et turpis. Aenean convallis eleifend elit. Donec venenatis justo id nunc. Sed at purus vel quam mattis"
+			+ " elementum. Sed ultrices lobortis orci. Pellentesque enim urna, volutpat at, sagittis id, faucibus sed,"
+			+ " lectus. Integer dapibus nulla semper mi. Nunc posuere molestie augue. Aliquam varius libero in tortor."
+			+ " Sed nibh. Nunc erat nunc, pellentesque at, sodales vel, dapibus sit amet, tortor.";
 
 	/**
 	 * a tab with dynamic content.
@@ -56,11 +65,11 @@ public class WTabExample extends WPanel {
 	 */
 	public WTabExample() {
 		super();
-		add(new WHeading(WHeading.MAJOR, "Examples of WTab properties"));
-		add(new WHeading(WHeading.SECTION, "Tab Modes."));
+		add(new WHeading(HeadingLevel.H2, "Examples of WTab properties"));
+		add(new WHeading(HeadingLevel.H3, "Tab Modes."));
 		explanationWithTimeStamp = new ExplanatoryText(
-				"The tabs in the following example each display the time at which the tab content was fetched. The time the page was rendered was " + (new Date()).
-				toString());
+				"The tabs in the following example each display the time at which the tab content was fetched. The time"
+					+ " the page was rendered was " + (new Date()).toString());
 		add(explanationWithTimeStamp);
 
 		WTabSet tabset1 = new WTabSet();
@@ -76,17 +85,18 @@ public class WTabExample extends WPanel {
 		tabset1.setMargin(new com.github.bordertech.wcomponents.Margin(0, 0, 24, 0));
 		add(tabset1);
 
-		add(new WHeading(WHeading.SECTION, "One tab disabled."));
+		add(new WHeading(HeadingLevel.H3, "One tab disabled."));
 		WTabSet tabset2 = new SampleTabSet();
-		/*NOTE: you should do a null check on the tab but we are taking a shortcut knowing the structure of the tabset */
+		/* you should do a null check on the tab but we are taking a shortcut knowing the structure of the tabset */
 		tabset2.getTab(1).setDisabled(true);
 		tabset2.getTab(1).setText("Disabled tab");
 		add(tabset2);
 		add(new WHorizontalRule());
 
-		add(new WHeading(WHeading.SECTION, "Active tab."));
+		add(new WHeading(HeadingLevel.H3, "Active tab."));
 		add(new ExplanatoryText(
-				"If a tab is not set active explicitly then the first visible tab is open by default unless the user has previously set a different tab open in this session."));
+				"If a tab is not set active explicitly then the first visible tab is open by default unless the user "
+					+ "has previously set a different tab open in this session."));
 
 		WTabSet tabset3 = new SampleTabSet(1);
 		add(tabset3);
@@ -95,7 +105,7 @@ public class WTabExample extends WPanel {
 		 * TODO: this is stupid! setActiveTab should use the WTab not its content! */
 		/*tabset3.setActiveTab(tabset3.getTab(1).getContent());*/
 
-		add(new WHeading(WHeading.SECTION, "Active tab disabled."));
+		add(new WHeading(HeadingLevel.H3, "Active tab disabled."));
 		WTabSet tabset4 = new SampleTabSet(1);
 		add(tabset4);
 		tabset4.getTab(tabset4.getActiveIndex()).setDisabled(true);
@@ -104,19 +114,20 @@ public class WTabExample extends WPanel {
 		add(new WHorizontalRule());
 
 		/* NOTE: if the WTabSet is of TYPE_ACCORDION then several tabs may be open at the same time. */
-		add(new WHeading(WHeading.SECTION, "Tabs with access keys"));
+		add(new WHeading(HeadingLevel.H3, "Tabs with access keys"));
 		WTabSet tabset5 = new WTabSet();
 		add(tabset5);
 		tabset5.setMargin(new com.github.bordertech.wcomponents.Margin(0, 0, 24, 0));
-		//It would be normal to use the first letter of the tab text as the access key but 'F' is problematic for some browsers.
+
 		tabset5.addTab(new ExplanatoryText("Some content should go into here."), "First tab",
 				WTabSet.TAB_MODE_CLIENT, 'T');
 		tabset5.addTab(new ExplanatoryText(LONG_TEXT), "Second tab", WTabSet.TAB_MODE_CLIENT, 'S');
+
 		//access key does not have to be in the tab's text label
 		tabset5.addTab(new ExplanatoryText("Some other content should go into here."), "Third tab",
 				WTabSet.TAB_MODE_CLIENT, 'X');
 
-		add(new WHeading(WHeading.SECTION, "Creating a Tab with non-text content."));
+		add(new WHeading(HeadingLevel.H3, "Creating a Tab with non-text content."));
 		WTabSet tabset7 = new WTabSet();
 		add(tabset7);
 
@@ -140,8 +151,40 @@ public class WTabExample extends WPanel {
 		tabset7.addTab(new WText("Some content for the flagged tab"), new WDecoratedLabel(imageTab3,
 				new WText("Flagged Items"), null),
 				WTabSet.TAB_MODE_CLIENT, '3');
+
 		tabset7.addTab(new WText("Some content for the help tab"), new WDecoratedLabel(imageTab4),
 				WTabSet.TAB_MODE_CLIENT, '4');
+
+
+
+		add(new WHorizontalRule());
+
+		add(new WHeading(HeadingLevel.H2, "Using WSubordinateControl"));
+		WTabSet targetTabset = new SampleTabSet();
+		add(targetTabset);
+
+		WTab targetTab = targetTabset.getTab(1);
+
+		WFieldLayout layout = new WFieldLayout(WFieldLayout.LAYOUT_STACKED);
+		add(layout);
+		final WCheckBox disabledControllerCb = new WCheckBox();
+		final WCheckBox hiddenControllerCb = new WCheckBox();
+		layout.addField("disable second tab", disabledControllerCb);
+		layout.addField("hide  second tab", hiddenControllerCb);
+
+
+		// Build & add the subordinate
+		SubordinateBuilder builder = new SubordinateBuilder();
+		builder.condition().equals(hiddenControllerCb, String.valueOf(true));
+		builder.whenTrue().hide(targetTab);
+		builder.whenFalse().show(targetTab);
+		add(builder.build());
+
+		builder = new SubordinateBuilder();
+		builder.condition().equals(disabledControllerCb, String.valueOf(true));
+		builder.whenTrue().disable(targetTab);
+		builder.whenFalse().enable(targetTab);
+		add(builder.build());
 	}
 
 	/**
@@ -149,23 +192,22 @@ public class WTabExample extends WPanel {
 	 */
 	@Override
 	protected void preparePaintComponent(final Request request) {
-		explanationWithTimeStamp.setText("The time the page was rendered was " + (new Date()).
-				toString());
+		explanationWithTimeStamp.setText("The time the page was rendered was " + (new Date()).toString());
 		tabset1TabClient.setContent(new ExplanatoryText(
-				"This content was present when the page first rendered at " + (new Date()).
-				toString()));
+				"This content was present when the page first rendered at " + (new Date()).toString()));
 		tabset1TabServer.setContent(new ExplanatoryText(
-				"This is the content of tab two. It should be noted that mode SERVER is deprecated.\nThis mode poses a number of usability problems and should not be used.\n This content was created at " + (new Date()).
-				toString()));
+				"This is the content of tab two. It should be noted that mode SERVER is deprecated.\nThis mode poses a"
+					+ " number of usability problems and should not be used.\n This content was created at "
+					+ (new Date()).toString()));
 		tabset1TabLazy.setContent(new ExplanatoryText(
-				"This tab content is rendered when the tab opens then remains static. Check the date stamp: " + (new Date()).
-				toString()));
+				"This tab content is rendered when the tab opens then remains static. Check the date stamp: "
+					+ (new Date()).toString()));
 		tabset1TabDynamic.setContent(new ExplanatoryText(
-				"This tab content refreshes each time it is opened. Check the date stamp: " + (new Date()).
-				toString()));
+				"This tab content refreshes each time it is opened. Check the date stamp: "
+					+ (new Date()).toString()));
 		tabset1TabEager.setContent(new ExplanatoryText(
-				"This tab content is fetched once asynchronously then remains static. Check the date stamp: " + (new Date()).
-				toString()));
+				"This tab content is fetched once asynchronously then remains static. Check the date stamp: "
+					+ (new Date()).toString()));
 	}
 
 	/**

@@ -147,6 +147,7 @@ define(["wc/dom/ariaAnalog",
 				}
 			}
 
+
 			/**
 			 * A subscriber to {@link module:wc/dom/shed} to react to these pseudo-events.
 			 *
@@ -157,32 +158,41 @@ define(["wc/dom/ariaAnalog",
 			 * @param {String} action The type of shed event. One of EXPAND, COLLAPSE, SELECT or DESELECT.
 			 */
 			this.shedObserver = function (element, action) {
-				var contentId, content,
+				var contentId,
+					content,
 					CONTENT_ATTRIB = "aria-controls",
 					container,
 					shedFunc,
 					accordion;
 
-				if (element && this.ITEM.isOneOfMe(element)) {
-					if (action === shed.actions.SELECT) {
-						this.constructor.prototype.shedObserver.call(this, element, action);
+				if (element) {
+					if ((action === shed.actions.SELECT || action === shed.actions.DESELECT) && this.ITEM.isOneOfMe(element)) {
+						if (action === shed.actions.SELECT) {
+							this.constructor.prototype.shedObserver.call(this, element, action);
+						}
+						if ((container = this.getGroupContainer(element))) {
+							accordion = getAccordion(container);
+							if (action === shed.actions.EXPAND && accordion && accordion !== "true") {
+								collapseOthers(element);
+							}
+							if ((contentId = element.getAttribute(CONTENT_ATTRIB)) && (content = document.getElementById(contentId))) {
+								if ((action === shed.actions.SELECT && !accordion) || (action === shed.actions.EXPAND && accordion)) {
+									shedFunc = "show";
+								}
+								else if ((action === shed.actions.DESELECT && !accordion) || (action === shed.actions.COLLAPSE && accordion)) {
+									shedFunc = "hide";
+								}
+								if (shedFunc) {
+									shed[shedFunc](content);
+								}
+							}
+						}
 					}
-					if ((container = this.getGroupContainer(element))) {
-						accordion = getAccordion(container);
-						if (action === shed.actions.EXPAND && accordion && accordion !== "true") {
-							collapseOthers(element);
-						}
-						if ((contentId = element.getAttribute(CONTENT_ATTRIB)) && (content = document.getElementById(contentId))) {
-							if ((action === shed.actions.SELECT && !accordion) || (action === shed.actions.EXPAND && accordion)) {
-								shedFunc = "show";
-							}
-							else if ((action === shed.actions.DESELECT && !accordion) || (action === shed.actions.COLLAPSE && accordion)) {
-								shedFunc = "hide";
-							}
-							if (shedFunc) {
-								shed[shedFunc](content);
-							}
-						}
+					else if ((action === shed.actions.DISABLE || action === shed.actions.ENABLE)  && TABLIST.isOneOfMe(element)) {
+						// if the tablist is disabled or enabled, diable/enable all the tabs.
+						Array.prototype.forEach.call(this.ITEM.findDescendants(element), function (next) {
+							shed[action](next);
+						});
 					}
 				}
 			};
@@ -266,6 +276,8 @@ define(["wc/dom/ariaAnalog",
 			this._extendedInitialisation = function() {
 				shed.subscribe(shed.actions.EXPAND, this.shedObserver.bind(this));
 				shed.subscribe(shed.actions.COLLAPSE, this.shedObserver.bind(this));
+				shed.subscribe(shed.actions.ENABLE, this.shedObserver.bind(this));
+				shed.subscribe(shed.actions.DISABLE, this.shedObserver.bind(this));
 			};
 
 			/**
