@@ -11,7 +11,7 @@ import java.text.MessageFormat;
  * @author Yiannis Paschalidis
  * @since 1.0.0
  */
-public class WTab extends AbstractNamingContextContainer implements Disableable {
+public class WTab extends AbstractNamingContextContainer implements Disableable, SubordinateTarget {
 
 	/**
 	 * The tab label.

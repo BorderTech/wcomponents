@@ -7,5 +7,7 @@
 * "WebUtilities.updateBeanValue(component)" changed to ignore invisible components by default. "WebUtilities.updateBeanValue(component, flag)" added to provide this option. (#46)
 
 ## Enhancements
+* WTabSet implements SubordinateTarget. (#159)
+* WTab implements SubordinateTarget. (#158)
 
 ## Bug fixes
