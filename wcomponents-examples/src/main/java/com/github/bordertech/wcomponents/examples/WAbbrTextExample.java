@@ -1,11 +1,12 @@
 package com.github.bordertech.wcomponents.examples;
 
+import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WAbbrText;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WHeading;
 import com.github.bordertech.wcomponents.WPanel;
-import com.github.bordertech.wcomponents.WStyledText;
+import com.github.bordertech.wcomponents.examples.common.ExplanatoryText;
 import com.github.bordertech.wcomponents.layout.ListLayout;
 import com.github.bordertech.wcomponents.util.Factory;
 import com.github.bordertech.wcomponents.util.LookupTable;
@@ -37,22 +38,22 @@ public final class WAbbrTextExample extends WContainer {
 	 * Creates a WAbbrTextExample.
 	 */
 	public WAbbrTextExample() {
-		add(new WHeading(WHeading.SECTION, "Abreviation created from strings"));
-		WAbbrText at1 = new WAbbrText("App Id", "Identification number of the visa application");
+		add(new WHeading(HeadingLevel.H2, "Abreviation created from strings"));
+		WAbbrText at1 = new WAbbrText("App Id", "Identification number of the application");
 		add(at1);
 
-		add(new WHeading(WHeading.SECTION,
+		add(new WHeading(HeadingLevel.H2,
 				"Abreviation created from lookup tables using the code as the text"));
 		crtIcaoPanel.setLayout(new ListLayout(ListLayout.Type.STACKED, ListLayout.Alignment.LEFT,
 				ListLayout.Separator.DOT, false));
 		add(crtIcaoPanel);
 
-		add(new WHeading(WHeading.SECTION,
+		add(new WHeading(HeadingLevel.H2,
 				"Abreviation created from lookup tables using the description as the text"));
-		final WStyledText info = new WStyledText(
-				"This example shows the dangers of doing code-set conversion and confusing the code and description. Obviously the abbreviation here is NOT the abbreviation we want. We would normally expect the reverse as in the example above.");
-		add(info);
-		info.setWhitespaceMode(WStyledText.WhitespaceMode.PARAGRAPHS);
+
+		add(new ExplanatoryText("This example shows the dangers of doing code-set conversion and confusing the code and"
+				+ " description. Obviously the abbreviation here is NOT the abbreviation we want. We would normally"
+				+ " expect the reverse as in the example above."));
 		crtSexPanel.setLayout(new ListLayout(ListLayout.Type.STACKED, ListLayout.Alignment.LEFT,
 				ListLayout.Separator.DOT, false));
 		add(crtSexPanel);
