@@ -28,96 +28,84 @@ public class Address implements Serializable
     /**
      * @return the first street line
      */
-    public String getLine1()
-    {
+    public String getLine1() {
         return line1;
     }
 
     /**
      * @param line1 the first street line to set
      */
-    public void setLine1(final String line1)
-    {
+    public void setLine1(final String line1) {
         this.line1 = line1;
     }
 
     /**
      * @return the second street line
      */
-    public String getLine2()
-    {
+    public String getLine2() {
         return line2;
     }
 
     /**
      * @param line2 second street line to set
      */
-    public void setLine2(final String line2)
-    {
+    public void setLine2(final String line2) {
         this.line2 = line2;
     }
 
     /**
      * @return the city
      */
-    public String getCity()
-    {
+    public String getCity() {
         return city;
     }
 
     /**
      * @param city the city to set
      */
-    public void setCity(final String city)
-    {
+    public void setCity(final String city) {
         this.city = city;
     }
 
     /**
      * @return the state
      */
-    public String getState()
-    {
+    public String getState() {
         return state;
     }
 
     /**
      * @param state the state to set
      */
-    public void setState(final String state)
-    {
+    public void setState(final String state) {
         this.state = state;
     }
 
     /**
      * @return the post code
      */
-    public String getPostcode()
-    {
+    public String getPostcode() {
         return postcode;
     }
 
     /**
      * @param postcode the post code to set
      */
-    public void setPostcode(final String postcode)
-    {
+    public void setPostcode(final String postcode) {
         this.postcode = postcode;
     }
 
     /**
      * @return the country
      */
-    public String getCountry()
-    {
+    public String getCountry() {
         return country;
     }
 
     /**
      * @param country the country to set
      */
-    public void setCountry(final String country)
-    {
+    public void setCountry(final String country) {
         this.country = country;
     }
 }

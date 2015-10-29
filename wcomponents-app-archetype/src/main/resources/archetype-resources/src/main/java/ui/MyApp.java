@@ -4,8 +4,10 @@ import java.util.Date;
 
 import ${package}.model.Customer;
 import ${package}.util.DatabaseUtils;
+import ${package}.util.UiUtils;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
+import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.MessageContainer;
 import com.github.bordertech.wcomponents.WApplication;
 import com.github.bordertech.wcomponents.WCardManager;
@@ -24,7 +26,7 @@ import com.github.bordertech.wcomponents.WebUtilities;
  * method.</p>
  *
  * <p>This component is run from the LDE by setting the configuration
- * parameter <code>bordertech.wcomponents.lde.component.to.launch=${package}</code>
+ * parameter <code>bordertech.wcomponents.lde.component.to.launch=my.test.group</code>
  * in a file named <code>local_app.properties</code> placed in the
  * current working directory.</p>
  */
@@ -44,10 +46,8 @@ public class MyApp extends WApplication implements MessageContainer
     private final NavigationBar navigationBar = new NavigationBar();
 
 	/** The log-in screen. */
-	private final LoginScreen loginScreen = new LoginScreen((new Action()
-    {
-		public void execute(final ActionEvent event)
-		{
+	private final LoginScreen loginScreen = new LoginScreen((new Action() {
+		public void execute(final ActionEvent event) {
 		    doLogin();
 		}
 	}));
@@ -65,14 +65,14 @@ public class MyApp extends WApplication implements MessageContainer
      * public no-args constructor so that it can be
      * instantiated by the UIRegistry.</p>
      */
-    public MyApp()
-    {
+    public MyApp() {
     	// Header
     	WPanel headerPanel = new WPanel(WPanel.Type.HEADER);
-    	headerPanel.add(new WHeading(WHeading.TITLE, "My WComponent Application"));
+    	headerPanel.add(new WHeading(HeadingLevel.H1, "My WComponent Application"));
     	add(headerPanel);
     	add(navigationBar);
     	add(messages);
+		messages.setMargin(UiUtils.getBigMargin());
 
     	// Main screens
         screens.add(loginScreen);
@@ -82,16 +82,14 @@ public class MyApp extends WApplication implements MessageContainer
 
         // Footer
     	WPanel footerPanel = new WPanel(WPanel.Type.FOOTER);
-    	footerPanel.add(new WText()
-    	{
+		footerPanel.setMargin(UiUtils.getMediumMargin());
+    	footerPanel.add(new WText() {
     		@Override
-    		public String getText()
-    		{
+    		public String getText() {
     		    StringBuffer text = new StringBuffer();
     		    String userId = getUserId();
 
-    		    if (userId != null)
-    		    {
+    		    if (userId != null) {
     		        text.append("Welcome ").append(userId).append(". ");
     		    }
 
@@ -112,16 +110,14 @@ public class MyApp extends WApplication implements MessageContainer
      * Implementation of MessageContainer - returns the messages instance.
      * @return the messages instance.
      */
-    public WMessages getMessages()
-    {
+    public WMessages getMessages() {
     	return messages;
     }
 
     /**
      * Performs login actions.
      */
-    private void doLogin()
-    {
+    private void doLogin() {
         ((MyAppModel) getOrCreateComponentModel()).userId = loginScreen.getUserId();
 
         screens.reset();
@@ -134,8 +130,7 @@ public class MyApp extends WApplication implements MessageContainer
      * @return a new MyAppModel.
      */
     @Override
-    protected MyAppModel newComponentModel()
-    {
+    protected MyAppModel newComponentModel() {
         return new MyAppModel();
     }
 
@@ -145,16 +140,14 @@ public class MyApp extends WApplication implements MessageContainer
      *
      * @return the current user's user id, or null if not logged-in.
      */
-    public String getUserId()
-    {
+    public String getUserId() {
         return ((MyAppModel) getComponentModel()).userId;
     }
 
     /**
      * Navigates to the create customer screen.
      */
-    public void navigateToCreateCustomer()
-    {
+    public void navigateToCreateCustomer() {
         screens.reset();
         editScreen.setCustomer(new Customer());
         screens.makeVisible(editScreen);
@@ -163,8 +156,7 @@ public class MyApp extends WApplication implements MessageContainer
     /**
      * Navigates to the search screen.
      */
-    public void navigateToSearch()
-    {
+    public void navigateToSearch() {
         screens.reset();
         screens.makeVisible(searchScreen);
     }
@@ -173,8 +165,7 @@ public class MyApp extends WApplication implements MessageContainer
      * Navigates to the customer details screen.
      * @param customerId the customer to display.
      */
-    public void navigateToEdit(final int customerId)
-    {
+    public void navigateToEdit(final int customerId) {
         screens.reset();
         editScreen.setCustomer(DatabaseUtils.read(customerId));
         screens.makeVisible(editScreen);
@@ -185,16 +176,14 @@ public class MyApp extends WApplication implements MessageContainer
      * @param descendant the component to find the MyApp ancestor of.
      * @return the MyApp ancestor for the given component, or null if not found.
      */
-    public static MyApp getInstance(final WComponent descendant)
-    {
+    public static MyApp getInstance(final WComponent descendant) {
         return (MyApp) WebUtilities.getAncestorOfClass(MyApp.class, descendant);
     }
 
     /**
      * This model holds the application-level state information.
      */
-    public static final class MyAppModel extends WApplicationModel
-    {
+    public static final class MyAppModel extends WApplicationModel {
         /** The id of the currently logged in user. */
         private String userId;
     }

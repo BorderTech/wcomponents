@@ -1,13 +1,13 @@
 # JavaScript Developer Information
 
 ## Code Standards
-The following comprises the expected code standards for the core WComponents theme JavaScript. This is a work in
-progress.
+The following comprises the expected code standards for the core WComponents theme JavaScript. The JavaScript is checked
+using [eslint](http://eslint.org) during build and the build **will** fail if the linter finds errors. You can check the
+applied linter rules by viewing the .eslintrc file in this project.
 
 The JavaScript code standards are based on the [Google JavaScript Style Guide](https://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml)
 but amended where required; note especially that the general rules regarding line length and indentation apply such that
 where the Google guidelines specify 2 spaces it can be read as one TAB and 4 spaces can be read as two TABs.
-
 
 ### Mandatory Requirements
 
@@ -54,39 +54,40 @@ of a module are fully documented.
 ### AMD modules
 The return function of the define should be tagged with the `@module` tag as per
 [JSDoc AMD modules](http://usejsdoc.org/howto-amd-modules.html). This is usually done before the define() declaration;
+``` javascript
+// use this:
+/**
+ * A module representing a foo control.
+ * @module
+ */
+define([....], function(....) {
+	....
+});
 
-    // use this:
-    /**
-     * A module representing a foo control.
-     * @module
-     */
-    define([....], function(....) {
-        ....
-    });
-
-    // rather than
-    define([....], function(....) {
-        /**
-         * A module representing a foo control.
-         * @module
-         */
-        ....
-    });
+// rather than
+define([....], function(....) {
+	/**
+	 * A module representing a foo control.
+	 * @module
+	 */
+	....
+});
+```
 
 When the module returns a function use the `@alias` tag.
-
-    // use this:
-    /**
-     * A module representing a foo control.
-     * @module moduleName
-     */
-    define([....], function(....) {
-        /** @alias module:moduleName */
-        return function() {
-            ....
-        };
-    });
-
+```javascript
+// use this:
+/**
+ * A module representing a foo control.
+ * @module moduleName
+ */
+define([....], function(....) {
+	/** @alias module:moduleName */
+	return function() {
+		....
+	};
+});
+```
 There are some variations on this to make JSDoc3 work with our singleton model. The best approach is to take a look at a
 similar module. One common variation, for example, is for a module which returns a function to declare the function and
 return a reference to that function rather than returning the function directly as the latter has been show to cause
@@ -133,32 +134,33 @@ invoke the function from an existing public function which is also not dependant
 **It is always better to publicise and test than not to test at all!**
 
 A function which is public for testing should be published using an expression which provides the public function with
-the name of the private function preceded by an underscore (_) character. Use the `@ignore` JSDoc tag to prevent the
+the name of the private function preceded by an underscore (\_) character. Use the `@ignore` JSDoc tag to prevent the
 public method from appearing in the documentation. The expressions for these faux-public members should be at the end of
 the class block.
 
 Given a private function foo() which is called internally as foo() then:
+``` javascript
+// Use this
+/**
+ * Usual JSDoc gubbins ...
+ * @function
+ * @private
+ */
+function foo() {
+	....
+}
+/**
+ * Make {@link foo} public for testing only.
+ * @ignore
+ */
+this._foo = foo;
 
-    // Use this
-    /**
-     * Usual JSDoc gubbins ...
-     * @function
-     * @private
-     */
-    function foo() {
-        ....
-    }
-    /**
-     * Make {@link foo} public for testing only.
-     * @ignore
-     */
-    this._foo = foo;
-
-    /* Do not use this as this form allows an internal call to this._foo() and foo()
-      which may result in unexpected or inconsistent results. */
-    this._foo = function foo() {
-        ....
-    };
+/* Do not use this as this form allows an internal call to this._foo() and foo()
+  which may result in unexpected or inconsistent results. */
+this._foo = function foo() {
+	....
+};
+```
 
 ## Source order
 The use of define to create JavaScript "class" style objects generally makes the source order within the define's

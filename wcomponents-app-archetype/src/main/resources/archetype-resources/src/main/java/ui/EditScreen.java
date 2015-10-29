@@ -2,9 +2,10 @@ package ${package}.ui;
 
 import ${package}.model.Customer;
 import ${package}.util.DatabaseUtils;
+import ${package}.util.UiUtils;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
-import com.github.bordertech.wcomponents.WBeanContainer;
+import com.github.bordertech.wcomponents.Margin;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WCancelButton;
 import com.github.bordertech.wcomponents.WDateField;
@@ -20,18 +21,19 @@ import com.github.bordertech.wcomponents.validation.ValidatingAction;
 /**
  * This screen is used to edit customer details.
  */
-public class EditScreen extends WBeanContainer
-{
+public class EditScreen extends WPanel {
     /**
      * Creates an EditScreen.
      */
-    public EditScreen()
-    {
+    public EditScreen() {
+		setMargin(UiUtils.getBigMargin());
+
         // Customer details
         WFieldSet fieldSet = new WFieldSet("Customer details");
         add(fieldSet);
 
         WFieldLayout fieldLayout = new WFieldLayout();
+		fieldLayout.setLabelWidth(UiUtils.LABEL_WIDTH);
         fieldSet.add(fieldLayout);
 
         WTextField customerId = new WTextField();
@@ -55,9 +57,11 @@ public class EditScreen extends WBeanContainer
 
         // Customer address details
         WFieldSet addressFieldSet = new WFieldSet("Customer address");
+		addressFieldSet.setMargin(new Margin(UiUtils.MEDIUM_GAP, 0, 0, 0));
         add(addressFieldSet);
 
         WFieldLayout addressFieldLayout = new WFieldLayout();
+		addressFieldLayout.setLabelWidth(UiUtils.LABEL_WIDTH);
         addressFieldSet.add(addressFieldLayout);
 
         WTextField addressLine1 = new WTextField();
@@ -87,17 +91,16 @@ public class EditScreen extends WBeanContainer
         WButton saveButton = new WButton("Save");
         WCancelButton cancelButton = new WCancelButton("Cancel");
 
-        WPanel buttonPanel = new WPanel();
+        WPanel buttonPanel = new WPanel(WPanel.Type.FEATURE);
+		buttonPanel.setMargin(new Margin(UiUtils.MEDIUM_GAP, 0, 0, 0));
         buttonPanel.setLayout(new BorderLayout());
-        buttonPanel.add(cancelButton, BorderLayout.EAST);
+        buttonPanel.add(cancelButton, BorderLayout.WEST);
         buttonPanel.add(saveButton, BorderLayout.EAST);
         add(buttonPanel);
 
-        saveButton.setAction(new ValidatingAction(WMessages.getInstance(EditScreen.this).getValidationErrors(), EditScreen.this)
-        {
+        saveButton.setAction(new ValidatingAction(WMessages.getInstance(EditScreen.this).getValidationErrors(), EditScreen.this) {
             @Override
-            public void executeOnValid(final ActionEvent event)
-            {
+            public void executeOnValid(final ActionEvent event) {
                 WebUtilities.updateBeanValue(EditScreen.this);
                 Customer customer = (Customer) getBean();
                 DatabaseUtils.save(customer);
@@ -106,10 +109,10 @@ public class EditScreen extends WBeanContainer
             }
         });
 
-        cancelButton.setAction(new Action()
-        {
-            public void execute(final ActionEvent event)
-            {
+		setDefaultSubmitButton(saveButton);
+
+        cancelButton.setAction(new Action() {
+            public void execute(final ActionEvent event) {
                 MyApp.getInstance(EditScreen.this).navigateToSearch();
             }
         });
@@ -119,8 +122,7 @@ public class EditScreen extends WBeanContainer
      * Sets the customer to edit.
      * @param customer the customer to edit.
      */
-    public void setCustomer(final Customer customer)
-    {
+    public void setCustomer(final Customer customer) {
         reset(); // clear out any user data
         setBean(customer);
     }
