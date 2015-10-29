@@ -5,53 +5,60 @@
 	<groupId>${groupId}</groupId>
 	<artifactId>${artifactId}</artifactId>
 	<version>${version}</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 
 	<name>My WComponent App</name>
-	<url>http://www.myorganization.org</url>
+	<url>http://www.example.com</url>
 
 	<properties>
-		<bordertech.wcomponents.version>1.0.0</bordertech.wcomponents.version>
+		<!-- Change this to the version of WComponents you want to use. -->
+		<com.github.bordertech.wcomponents.version>1.0.0</com.github.bordertech.wcomponents.version>
+		<!-- Change this to teh version of JUnit you will use. -->
+		<com.github.bordertech.wcomponents.junit.version>3.8.1</com.github.bordertech.wcomponents.junit.version>
 	</properties>
 
 	<build>
 		<plugins>
-			<!-- 
+			<!--
 			The plugin is redundant when the packaging is set to "war", however
 			there is a bug in Maven that is causing the servlet-api to be included
-			in the built WAR. See http://jira.codehaus.org/browse/MNG-5255 for details. 
+			in the built WAR. See http://jira.codehaus.org/browse/MNG-5255 for details.
 			-->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
+				<version>2.6</version>
 				<configuration>
 					<archiveClasses>true</archiveClasses>
 					<packagingExcludes>WEB-INF/lib/servlet-api-*.jar</packagingExcludes>
 				</configuration>
 			</plugin>
 		</plugins>
-	</build>   
+	</build>
 
 	<dependencies>
-  
+
+		<!--
+			A WComponents application needs WComponents.
+		-->
 		<dependency>
 			<groupId>com.github.bordertech.wcomponents</groupId>
 			<artifactId>wcomponents-core</artifactId>
-			<version>${bordertech.wcomponents.version}</version>
+			<version>${com.github.bordertech.wcomponents.version}</version>
 		</dependency>
 
 		<dependency>
 			<scope>test</scope>
 			<groupId>com.github.bordertech.wcomponents</groupId>
 			<artifactId>wcomponents-test-lib</artifactId>
-			<version>${bordertech.wcomponents.version}</version>
+			<version>${com.github.bordertech.wcomponents.version}</version>
 		</dependency>
 
 		<dependency>
 			<scope>test</scope>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>${wcomponents.junit.version}</version>
+			<version>${com.github.bordertech.wcomponents.junit.version}</version>
 		</dependency>
 
 		<!--  The following runtime dependency is for the stand-alone LDE -->
@@ -59,8 +66,19 @@
 			<scope>provided</scope>
 			<groupId>com.github.bordertech.wcomponents</groupId>
 			<artifactId>wcomponents-lde</artifactId>
-			<version>${bordertech.wcomponents.version}</version>
+			<version>${com.github.bordertech.wcomponents.version}</version>
 		</dependency>
 
+		<!--
+			This dependency is for the WComponents theme. The included groupId,
+			artifactId and version are the default theme for the version of
+			WComponents you want to use. You may change this to any theme
+			compatible with the version of WComponents used by your project.
+		-->
+		<dependency>
+			<groupId>com.github.bordertech.wcomponents</groupId>
+			<artifactId>wcomponents-theme</artifactId>
+			<version>${com.github.bordertech.wcomponents.version}</version>
+		</dependency>
 	</dependencies>
 </project>

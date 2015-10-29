@@ -3,16 +3,17 @@ package ${package}.ui;
 import java.util.List;
 
 import ${package}.util.SecurityUtils;
+import ${package}.util.UiUtils;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WFieldLayout;
 import com.github.bordertech.wcomponents.WFieldSet;
+import com.github.bordertech.wcomponents.WLabel;
 import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WPasswordField;
 import com.github.bordertech.wcomponents.WTextField;
-import com.github.bordertech.wcomponents.layout.FlowLayout;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import com.github.bordertech.wcomponents.validation.ValidatingAction;
 
@@ -35,33 +36,32 @@ public class LoginScreen extends WPanel
     public LoginScreen(final Action loginSuccessAction)
     {
         WPanel panel = new WPanel();
+		panel.setMargin(UiUtils.getBigMargin());
         add(panel);
-
-        panel.setLayout(new FlowLayout(FlowLayout.Alignment.VERTICAL, 5, 5));
 
         WFieldSet fieldSet = new WFieldSet("Login");
         panel.add(fieldSet);
 
         WFieldLayout fieldLayout = new WFieldLayout();
-        fieldLayout.setLabelWidth(20);
+        fieldLayout.setLabelWidth(UiUtils.LABEL_WIDTH);
         fieldSet.add(fieldLayout);
 
         userIdField = new WTextField();
         userIdField.setMandatory(true);
-        fieldLayout.addField("User Name", userIdField).setInputWidth(50);
+		userIdField.setColumns(40);
+        fieldLayout.addField("User Name", userIdField);
 
         passwordField.setMandatory(true);
-        fieldLayout.addField("Password", passwordField).setInputWidth(50);
+		passwordField.setColumns(40);
+        fieldLayout.addField("Password", passwordField);
 
         WButton loginButton = new WButton("Login");
-        fieldLayout.addField("", loginButton);
+        fieldLayout.addField((WLabel) null, loginButton);
         setDefaultSubmitButton(loginButton);
 
-        loginButton.setAction(new ValidatingAction(WMessages.getInstance(this).getValidationErrors(), this)
-        {
+        loginButton.setAction(new ValidatingAction(WMessages.getInstance(this).getValidationErrors(), this) {
             @Override
-            public void executeOnValid(final ActionEvent event)
-            {
+            public void executeOnValid(final ActionEvent event) {
                 loginSuccessAction.execute(event);
             }
         });
@@ -70,8 +70,7 @@ public class LoginScreen extends WPanel
     /**
      * @return The user id which was entered into the text field.
      */
-    protected String getUserId()
-    {
+    protected String getUserId() {
         return userIdField.getText();
     }
 
@@ -80,10 +79,8 @@ public class LoginScreen extends WPanel
      * @param diags the list of diagnostics to add validation errors to.
      */
     @Override
-    protected void validateComponent(final List<Diagnostic> diags)
-    {
-        if (!SecurityUtils.authenticate(userIdField.getText(), passwordField.getText()))
-        {
+    protected void validateComponent(final List<Diagnostic> diags) {
+        if (!SecurityUtils.authenticate(userIdField.getText(), passwordField.getText())) {
             diags.add(createErrorDiagnostic(this, "Invalid user id / password"));
         }
     }

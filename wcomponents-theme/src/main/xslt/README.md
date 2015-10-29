@@ -3,17 +3,18 @@
 ## XSL Element to HTML elements
 
 **READ THIS IF YOU ARE EVEN THINKING ABOUT CHANGING THE XSLT**: WComponents inserts a DOCTYPE definition into the XML to
-allow lazy use of &nbsp; The upshot of this is that IE believes the XML is HTML and this has a flow on effect with some
+allow lazy use of `&nbsp;` The upshot of this is that IE believes the XML is HTML and this has a flow on effect with some
 elements. Any HTML shorttag elements will cause a problem if the XSLT contains a `<shorttag></shorttag>` as IE (at least
 up to IE8) will output `<shorttag></shorttag></shorttag><//shorttag>`.
 
 To mitigate against accidentally doing this we use `<xsl:element>` for element contruction and the build process XSLT
 compression includes a step to reduce the verbosity of this for elements which are not HTML self-closing. So when you
 make any HTML element in XSLT please use:
-
-    <xsl:element name="elementname">
-        <xsl:attribute...> etc
-    </xsl:element>
+``` xml
+<xsl:element name="elementname">
+    <xsl:attribute...> etc
+</xsl:element>
+```
 
 Then the XSLT compressor will make it into `<elementname attribute=".." />` if it is safe to do so.
 
@@ -41,7 +42,7 @@ We have a 'magic' XSL param $isDebug. This is set to 1. You can use this param a
 output content only in debug mode. For example one could choose to output a marker if you are debugging a XSLT issue
 such as:
 
-``` xslt
+``` xml
 <xsl:if test="$isDebug=1">
 	<xsl:comment>
 		<xsl:value-of select="concat('maxIndent is ',$maxIndent,'&#xA;')"/>
@@ -58,31 +59,14 @@ further XSLT to XSLT transform. This allows us to use complete well formed XSLT 
 XSLT aware IDEs do code completion, highlighting and basic validity checking of each source file. It also allows us to
 create more readable XSLT with less concern for the file size of the final XSLT files sent to the end user.
 
-The following standards apply to XSLT:
-
-* [CSS](http://www.w3.org/Style/CSS/),
-* [XSLT](http://www.w3.org/TR/xslt),
-* [XPath](http://www.w3.org/TR/xpath/);
-* [HTML5](https://html.spec.whatwg.org/). **Note:** the HTML5 specification copy republished and amended by the W3C is
-  **not** to be used as it does not accurately reflect the HTML5 specification and provides no easily accessible
-  documentation of the changes made by the W3C to the WHATWG specification. For further details see the
-  [note in the WHATWG specification](https://html.spec.whatwg.org/multipage/introduction.html#is-this-html5?).
-
-### Formatting
-
 * Indentation is by **TAB** one tab per level of indent.
-
 * All variable and template names should be in **camelCase** and descriptive to help with coding and reuse without
   concern for the file size served to the final client - that is what the compressor is for.
-
 * The XSLT file should be well formed including the `<xsl:stylesheet ... />` root element which should itself declare
   all necessary namespaces including html:, xsl: and ui:. This is to assist IDE auto-complete.
-
 * Use xsl:import to reference external source files which are required to define named templates used in any
   `<xsl:call-template ...>` elements (again to assist IDE auto-complete).
-
 * Use xsl:element to output any HTML element which is self closing or shorttag (see above).
-
 * Any variable which is required to create a simple attribute to an output element must be declared before the opening
   tag of the element.
 
@@ -90,35 +74,36 @@ The following standards apply to XSLT:
     used to calculate a value for the 'for' attribute of a label element. This value is then re-used elsewhere so it is
     more efficient to hold it in a variable than calculate it twice. The xsl:variable must appear before the label
     element (or \<xsl:element name="label"\>) output opening tag.
+    ``` xml
+    <!-- use this -->
+    <xsl:variable name="foo">
+        ...
+    </xsl:variable>
+    <xsl:element name="input">
+        <xsl:attribute name="data-bar">
+            <xsl:value-of select="$foo"/>
+        </xsl:attribute>
+    </xsl:element>
 
-        <!-- use this -->
+    <!-- do not use this -->
+    <xsl:element name="input"_
         <xsl:variable name="foo">
             ...
         </xsl:variable>
-        <xsl:element name="input">
-            <xsl:attribute name="data-bar">
-                <xsl:value-of select="$foo"/>
-            </xsl:attribute>
-        </xsl:element>
+        <xsl:attribute name="data-bar">
+            <xsl:value-of select="$foo"/>
+        </xsl:attribute>
+    </xsl:element>
 
-        <!-- do not use this -->
-        <xsl:element name="input"_
-            <xsl:variable name="foo">
-                ...
-            </xsl:variable>
-            <xsl:attribute name="data-bar">
-                <xsl:value-of select="$foo"/>
-            </xsl:attribute>
-        </xsl:element>
+    <!-- but this is acceptable if the value calculated is not to be reused: -->
 
-        <!-- but this is acceptable if the value calculated is not to be reused -->
-        <!-- do not declare the variable foo -->
-        <xsl:element name="input"_
-            <xsl:attribute name="data-bar">
-                <!-- place the calculation of the value here -->
-            </xsl:attribute>
-        </xsl:element>
-
+    <!-- do not declare the variable foo -->
+    <xsl:element name="input"_
+        <xsl:attribute name="data-bar">
+            <!-- place the calculation of the value here -->
+        </xsl:attribute>
+    </xsl:element>
+    ```
 * Never (really: **NEVER**) use `xsl:foreach` in live code. It _may_ be acceptable in debug mode but the reason for its
   use should be included in a comment for each use.
 
@@ -134,3 +119,15 @@ play havoc with content wrapping in closely styled buttons (such as those in a B
 ## Things to do
 
 * Improve in-file documentation.
+
+## References
+
+The following standards apply to XSLT:
+
+* [CSS](http://www.w3.org/Style/CSS/),
+* [XSLT](http://www.w3.org/TR/xslt),
+* [XPath](http://www.w3.org/TR/xpath/);
+* [HTML5](https://html.spec.whatwg.org/). **Note:** the HTML5 specification copy republished and amended by the W3C is
+  **not** to be used as it does not accurately reflect the HTML5 specification and provides no easily accessible
+  documentation of the changes made by the W3C to the WHATWG specification. For further details see the
+  [note in the WHATWG specification](https://html.spec.whatwg.org/multipage/introduction.html#is-this-html5?).
