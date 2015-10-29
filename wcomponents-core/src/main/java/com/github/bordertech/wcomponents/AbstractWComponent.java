@@ -16,7 +16,6 @@ import java.io.ObjectStreamException;
 import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -1315,11 +1314,7 @@ public abstract class AbstractWComponent implements WComponent {
 	 * @return a list containing the children of this component, or an empty list.
 	 */
 	List<WComponent> getChildren() {
-		List<WComponent> children = getComponentModel().getChildren();
-
-		return children != null && !children.isEmpty()
-			? Collections.unmodifiableList(children)
-			: Collections.<WComponent>emptyList();
+		return getComponentModel().getUnmodifiableChildren();
 	}
 
 	/**
