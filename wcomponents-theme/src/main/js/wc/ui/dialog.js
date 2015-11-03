@@ -611,6 +611,7 @@ define(["wc/dom/classList",
 						if (element.style.top) {
 							setRegObjAttribute(element, "top", element.style.top.replace(UNIT, ""));
 						}
+
 						// remove minWidth and minHeight
 						element.style.minWidth = "";
 						element.style.minHeight = "";
@@ -641,12 +642,8 @@ define(["wc/dom/classList",
 						if ((contentDiv = getContent(element))) {
 							// remove the magic button reference (just in case it has not already been removed).
 							contentDiv.removeAttribute(GET_ATTRIB);
-							/*
-							 * When a dialog has content on load it does not have the ajax classes on its content container,
-							 * so we add them here just in case
-							 */
-							classList.add("wc_magic");
-							classList.add("wc_dynamic");
+
+							contentDiv.style.minHeight = "";
 
 							if (emptyOnClose) {
 								contentDiv.innerHTML = "";
@@ -740,6 +737,37 @@ define(["wc/dom/classList",
 					}
 				}
 			}
+
+			/**
+			 * @function module:wc/ui/dialog.getId
+			 * @public
+			 * @returns {String} The id of the dialog wrapper
+			 */
+			this.getId = function() {
+				return DIALOG_ID;
+			};
+
+			/**
+			 * @function module:wc/ui/dialog.getDialog
+			 * @public
+			 * @returns {Element} A dialog, if one exists in the view.
+			 */
+			this.getDialog = function() {
+				return document.getElementById(DIALOG_ID);
+			};
+
+			/**
+			 * @function module:wc/ui/dialog.getDialogContent
+			 * @public
+			 * @returns {Element} The content element of a dialog if a dialog exists in the view.
+			 */
+			this.getDialogContent = function () {
+				var dlg = this.getDialog();
+				if (dlg) {
+					return getContent(dlg);
+				}
+				return null;
+			};
 
 			/**
 			 * Component initialisation simply attaches a click event handler
