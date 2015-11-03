@@ -32,9 +32,10 @@ public final class VelocityTemplateManager {
 
 	/**
 	 * Map the given class to a velocity template resource name.
-	 * <p/>
+	 * <p>
 	 * For instance, com.github.bordertech.wcomponents.WTextField maps to the template in
 	 * com/github/bordertech/wcomponents/WTextField.vm
+	 * </p>
 	 *
 	 * @param clazz is the Class to find the resource name for.
 	 * @return the template resource name for the given class.

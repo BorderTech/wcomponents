@@ -15,7 +15,7 @@
 	<packaging>jar</packaging>
 
 	<properties>
-		<skip.checkstyle>false</skip.checkstyle>
+		<wc.qa.skip>false</wc.qa.skip>
 	</properties>
 
 	<build>

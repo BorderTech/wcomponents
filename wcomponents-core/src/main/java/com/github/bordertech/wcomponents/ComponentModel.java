@@ -24,18 +24,17 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * <p>
  * Holds the extrinsic state information of a WComponent. Subclasses can extend this class and add extra model
- * attributes.</p>
+ * attributes.
  *
  * <p>
  * Subclasses must adhere to the following rules:
+ * </p>
  * <ul>
  * <li>They must define a public no-args constructor (requirement of {@link Externalizable}).</li>
  * <li>They must not contain any final fields (needed for initialising from shared model).</li>
  * <li>They must not contain any non-serializable data.</li>
  * </ul>
- * </p>
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0

@@ -18,7 +18,7 @@ public class WFigure extends AbstractNamingContextContainer implements AjaxTarge
 	/**
 	 * The available types of AJAX mode.
 	 */
-	public static enum FigureMode {
+	public enum FigureMode {
 		/**
 		 * A lazy figure will load its content via AJAX when it is made visible.
 		 */

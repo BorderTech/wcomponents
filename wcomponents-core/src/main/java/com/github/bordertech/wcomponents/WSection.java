@@ -19,7 +19,7 @@ public class WSection extends AbstractNamingContextContainer implements AjaxTarg
 	/**
 	 * The available types of section mode.
 	 */
-	public static enum SectionMode {
+	public enum SectionMode {
 		/**
 		 * A lazy section will load its content via AJAX when it is made visible.
 		 */

@@ -64,7 +64,7 @@ public class WHeading extends WText implements Container, AjaxTarget, Marginable
 	 * @param type the heading type, one of: {@link #TITLE}, {@link #MAJOR}, {@link #SECTION}, {@link #MINOR},
 	 *            {@link #SUB_HEADING}, {@link #SUB_SUB_HEADING}
 	 * @param text the heading text
-	 * @deprecated Use {@link #WHeading(HeadingLevel, String) instead.
+	 * @deprecated Use {@link #WHeading(HeadingLevel, String)} instead.
 	 */
 	@Deprecated
 	public WHeading(final int type, final String text) {
@@ -79,7 +79,7 @@ public class WHeading extends WText implements Container, AjaxTarget, Marginable
 	 * @param type the heading type, one of: {@link #TITLE}, {@link #MAJOR}, {@link #SECTION}, {@link #MINOR},
 	 *            {@link #SUB_HEADING}, {@link #SUB_SUB_HEADING}
 	 * @param label the heading
-	 * @deprecated Use {@link #WHeading(HeadingLevel, WDecoratedLabel) instead.
+	 * @deprecated Use {@link #WHeading(HeadingLevel, WDecoratedLabel)} instead.
 	 */
 	@Deprecated
 	public WHeading(final int type, final WDecoratedLabel label) {

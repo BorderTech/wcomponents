@@ -11,7 +11,7 @@ public class ListLayout implements LayoutManager {
 	/**
 	 * An enumeration of possible values for horizontal alignment of column content.
 	 */
-	public static enum Alignment {
+	public enum Alignment {
 		/**
 		 * Indicates that content should be left-aligned. This is the default alignment.
 		 */
@@ -29,7 +29,7 @@ public class ListLayout implements LayoutManager {
 	/**
 	 * An enumeration of possible values for the list type.
 	 */
-	public static enum Type {
+	public enum Type {
 		/**
 		 * Indicates that content should be arranged horizontally.
 		 */
@@ -47,7 +47,7 @@ public class ListLayout implements LayoutManager {
 	/**
 	 * An enumeration of possible values for the item separator.
 	 */
-	public static enum Separator {
+	public enum Separator {
 		/**
 		 * Indicates that no separator should be used.
 		 */

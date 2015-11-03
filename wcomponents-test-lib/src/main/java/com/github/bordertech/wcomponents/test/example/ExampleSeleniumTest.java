@@ -230,7 +230,7 @@ public class ExampleSeleniumTest extends WComponentSeleniumTestCase {
 	}
 
 	/**
-	 * A re-implementation of the {@link com.github.bordertech.wcomponents.examples.TextDuplicator} example.
+	 * A text duplicator example.
 	 */
 	private static class TextDuplicator extends WContainer {
 

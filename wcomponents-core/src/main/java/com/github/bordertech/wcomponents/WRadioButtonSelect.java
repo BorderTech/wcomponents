@@ -23,7 +23,7 @@ public class WRadioButtonSelect extends AbstractWSingleSelectList implements Aja
 	 *
 	 * @author Yiannis Paschalidis
 	 */
-	public static enum Layout {
+	public enum Layout {
 		/**
 		 * A layout where buttons are placed horizontally.
 		 */
