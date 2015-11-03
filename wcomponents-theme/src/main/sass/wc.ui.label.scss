@@ -18,8 +18,8 @@ span.label {
 // space between a checkable and its label
 [type='radio'] + label,
 [type='checkbox'] + label,
-.checkbox + span.label,
-.radio + span.label {
+[role='checkbox'][aria-readonly='true'] + span.label,
+[role='radio'][aria-readonly='true'] + span.label {
 	margin-left: $hgap-small;
 }
 
