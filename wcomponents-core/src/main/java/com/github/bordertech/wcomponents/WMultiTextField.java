@@ -23,6 +23,7 @@ import org.apache.commons.logging.LogFactory;
  * </p>
  * <p>
  * The following attributes can be set on WMultiTextField:
+ * </p>
  * <ul>
  * <li>MaxInputs: The maximum number of text inputs the user can add to the component. Client-side functionality will
  * stop users adding more than the allowable number of inputs via the UI. This class chops off any excess inputs if an
@@ -30,7 +31,6 @@ import org.apache.commons.logging.LogFactory;
  * <li>MaxLength: The maximum length of the text fields rendered to allow user text entry.</li>
  * <li>Columns: The size of the text fields rendered to allow user text entry.</li>
  * </ul>
- * </p>
  *
  * @author Christina Harris
  * @author Jonathan Austin

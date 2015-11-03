@@ -23,8 +23,7 @@ public interface NamingContextable extends Container {
 	String getNamingContextId();
 
 	/**
-	 * A naming context is only considered active if it has been set active via {@link #setNamingContext(boolean)} and
-	 * also has an id name set via {@link #setIdName(String)}.
+	 * A naming context is only considered active if an Id name has been set.
 	 *
 	 * @return true if active naming context.
 	 */

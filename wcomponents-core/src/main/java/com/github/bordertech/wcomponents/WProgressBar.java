@@ -17,7 +17,7 @@ public class WProgressBar extends WBeanComponent implements AjaxTarget {
 	/**
 	 * Progress bar types.
 	 */
-	public static enum ProgressBarType {
+	public enum ProgressBarType {
 		/**
 		 * A normal progress bar.
 		 */
@@ -31,7 +31,7 @@ public class WProgressBar extends WBeanComponent implements AjaxTarget {
 	/**
 	 * Display unit types.
 	 */
-	public static enum UnitType {
+	public enum UnitType {
 		/**
 		 * Units will be displayed as a fraction, e.g. <code>33/100</code>.
 		 */

@@ -52,7 +52,7 @@ public class TableLoadPerformance extends WApplication {
 	/**
 	 * Table load options.
 	 */
-	private static enum TABLES {
+	private enum TABLES {
 		/**
 		 * Load both tables.
 		 */

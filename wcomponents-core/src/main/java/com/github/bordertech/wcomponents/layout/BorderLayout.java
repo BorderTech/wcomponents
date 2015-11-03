@@ -36,7 +36,7 @@ public class BorderLayout implements LayoutManager {
 	/**
 	 * An enumeration of the possible locations for content within a border layout.
 	 */
-	public static enum BorderLayoutConstraint {
+	public enum BorderLayoutConstraint {
 		/**
 		 * North (top) positioning.
 		 */

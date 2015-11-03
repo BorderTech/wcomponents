@@ -263,7 +263,7 @@ define(["wc/dom/shed",
 					_group = getFilteredGroup(_group, {filter: getFilteredGroup.FILTERS[(state === STATE.ALL) ? "deselected" : "selected"] | getFilteredGroup.FILTERS.enabled | getFilteredGroup.FILTERS.visible});
 					if (_group.length) {
 						_group = _group.filter(function (next) {
-							return !CONTROLLER_WD.isOneOfMe(next);
+							return !(CONTROLLER_WD.isOneOfMe(next) || next.getAttribute("aria-readonly") === "true");
 						});
 					}
 					if (_group.length) {

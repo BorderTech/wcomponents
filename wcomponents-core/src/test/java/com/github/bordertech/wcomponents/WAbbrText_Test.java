@@ -17,7 +17,7 @@ public class WAbbrText_Test extends AbstractWComponentTestCase {
 	public void testDefaultConstructor() {
 		WAbbrText abbr = new WAbbrText();
 		Assert.assertNull("Default text should be null", abbr.getText());
-		Assert.assertNull("Default abbrtext should be null", abbr.getAbbrText());
+		Assert.assertNull("Default abbrtext should be null", abbr.getToolTip());
 	}
 
 	@Test
@@ -26,33 +26,23 @@ public class WAbbrText_Test extends AbstractWComponentTestCase {
 
 		WAbbrText abbr = new WAbbrText(myText);
 		Assert.assertEquals("Incorrect default text", myText, abbr.getText());
-		Assert.assertNull("Default abbrtext should be null", abbr.getAbbrText());
+		Assert.assertNull("Default abbrtext should be null", abbr.getToolTip());
 	}
 
 	@Test
-	public void testTextAbbrConstructor() {
+	public void testTextDescriptionConstructor() {
 		String myText = "WAbbrText_Test.MyText";
-		String myAbbrText = "WAbbrText_Test.MyAbbr";
+		String description = "WAbbrText_Test.MyAbbr";
 
-		WAbbrText abbr = new WAbbrText(myText, myAbbrText);
+		WAbbrText abbr = new WAbbrText(myText, description);
 		Assert.assertEquals("Incorrect default text", myText, abbr.getText());
-		Assert.assertEquals("Incorrect default abbr text", myAbbrText, abbr.getAbbrText());
+		Assert.assertEquals("Incorrect default abbr text", description, abbr.getToolTip());
 	}
 
+	/** @deprecated */
 	@Test
-	public void testSetAbbrText() throws Exception {
-		WAbbrText abbr = new WAbbrText();
-		abbr.setLocked(true);
-
-		String myText = "WAbbrText_Test.MyText";
-
-		// Set test for a users session
-		setActiveContext(createUIContext());
-		abbr.setAbbrText(myText);
-		Assert.assertEquals("Should have session text for session 1", myText, abbr.getAbbrText());
-
-		resetContext();
-		Assert.assertNull("Default text should be null", abbr.getAbbrText());
+	public void testGetSetAbbrText() {
+		assertAccessorsCorrect(new WAbbrText(), "abbrText", null, "toolTip 1", "toolTip 2");
 	}
 
 	@Test
@@ -63,7 +53,7 @@ public class WAbbrText_Test extends AbstractWComponentTestCase {
 
 		abbr.setTextWithDesc(entry);
 		Assert.assertEquals("Incorrect text", entry.getDesc(), abbr.getText());
-		Assert.assertEquals("Incorrect abbr text", entry.getCode(), abbr.getAbbrText());
+		Assert.assertEquals("Incorrect abbr text", entry.getCode(), abbr.getToolTip());
 	}
 
 	@Test
@@ -74,6 +64,6 @@ public class WAbbrText_Test extends AbstractWComponentTestCase {
 
 		abbr.setTextWithCode(entry);
 		Assert.assertEquals("Incorrect text", entry.getCode(), abbr.getText());
-		Assert.assertEquals("Incorrect abbr text", entry.getDesc(), abbr.getAbbrText());
+		Assert.assertEquals("Incorrect abbr text", entry.getDesc(), abbr.getToolTip());
 	}
 }

@@ -13,7 +13,7 @@ public class ColumnLayout implements LayoutManager {
 	/**
 	 * An enumeration of possible values for horizontal alignment of column content.
 	 */
-	public static enum Alignment {
+	public enum Alignment {
 		/**
 		 * Indicates that content should be left-aligned. This is the default alignment.
 		 */

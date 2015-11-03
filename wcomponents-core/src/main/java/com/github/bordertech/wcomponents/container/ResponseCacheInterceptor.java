@@ -29,7 +29,7 @@ public class ResponseCacheInterceptor extends InterceptorComponent {
 	 * individual cache type can be overridden.
 	 * </p>
 	 */
-	public static enum CacheType {
+	public enum CacheType {
 		/**
 		 * Page and AJAX responses no cache.
 		 */

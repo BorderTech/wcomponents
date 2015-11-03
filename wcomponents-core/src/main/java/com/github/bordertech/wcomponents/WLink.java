@@ -38,7 +38,7 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 	/**
 	 * This is used to control the position of the image on the link.
 	 */
-	public static enum ImagePosition {
+	public enum ImagePosition {
 		/**
 		 * Image is in the North position.
 		 */

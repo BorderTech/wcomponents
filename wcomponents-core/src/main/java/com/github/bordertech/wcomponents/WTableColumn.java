@@ -27,7 +27,7 @@ public final class WTableColumn extends AbstractContainer {
 	/**
 	 * An enumeration of possible values for horizontal alignment of table column content.
 	 */
-	public static enum Alignment {
+	public enum Alignment {
 		/**
 		 * Indicates that content should be left-aligned. This is the default alignment.
 		 */

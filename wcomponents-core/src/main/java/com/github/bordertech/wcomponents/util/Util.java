@@ -93,7 +93,7 @@ public final class Util {
 	 * Copies this String removing white space characters from the end of the string.
 	 *
 	 * @param aString the String to trim.
-	 * @return a new String with characters <code><= \\u0020</code> removed from the end
+	 * @return a new String with characters <code>\\u0020</code> removed from the end
 	 */
 	public static String rightTrim(final String aString) {
 		if (aString == null) {
@@ -113,7 +113,7 @@ public final class Util {
 	 * Copies this String removing white space characters from the beginning of the string.
 	 *
 	 * @param aString the String to trim.
-	 * @return a new String with characters <code><= \\u0020</code> removed from the beginning
+	 * @return a new String with characters <code>\\u0020</code> removed from the beginning
 	 */
 	public static String leftTrim(final String aString) {
 		if (aString == null) {

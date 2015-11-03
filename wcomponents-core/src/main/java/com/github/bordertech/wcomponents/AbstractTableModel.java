@@ -46,7 +46,7 @@ public abstract class AbstractTableModel implements TableModel, Serializable {
 
 	/**
 	 * This model does not support the concept of editable cells by default. Subclasses will need to override this
-	 * method and {@link #isCellEditable(int, int)} to support cell editing.
+	 * method and {@link #isCellEditable(java.util.List, int)} to support cell editing.
 	 *
 	 * @param value ignored.
 	 * @param row ignored.
@@ -107,7 +107,7 @@ public abstract class AbstractTableModel implements TableModel, Serializable {
 
 	/**
 	 * This model does not support the concept of editable cells by default. Subclasses will need to override this
-	 * method and {@link #setValueAt(Object, int, int)} to support cell editing.
+	 * method and {@link #setValueAt(java.lang.Object, java.util.List, int)} to support cell editing.
 	 *
 	 * @param row ignored.
 	 * @param col ignored.
