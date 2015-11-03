@@ -820,7 +820,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 					box = getBox(cal);
 					contentBox = getBox(dlgContent);
 					dlgBox = getBox(dlg);
-					if (box.bottom > contentBox.bottom) { //bottom of calendar below bottom of dialog content
+					if (box.bottom > contentBox.bottom) { // bottom of calendar below bottom of dialog content
 						cal.scrollIntoView();
 						box = getBox(cal);
 						if (box.bottom > contentBox.bottom) {
