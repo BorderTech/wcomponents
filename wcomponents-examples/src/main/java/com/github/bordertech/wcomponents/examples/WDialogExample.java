@@ -13,6 +13,7 @@ import com.github.bordertech.wcomponents.WFieldSet;
 import com.github.bordertech.wcomponents.WHeading;
 import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.WPanel;
+import com.github.bordertech.wcomponents.WPartialDateField;
 import com.github.bordertech.wcomponents.WRadioButtonSelect;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WTextField;
@@ -217,8 +218,8 @@ public class WDialogExample extends WPanel implements MessageContainer {
 		 * If not set explicitly, the initial width of a dialog is determined by the UI theme.
 		 */
 		final WDialog dialogWithHeight = new WDialog(new ViewPersonList(), new WButton(
-				"Show dialog with specified height (50px)"));
-		dialogWithHeight.setHeight(50);
+				"Show dialog with specified height (150px)"));
+		dialogWithHeight.setHeight(150);
 		/*
 		 * Make Modal
 		 * If not set explicitly, the initial width of a dialog is determined by the UI theme.
@@ -258,6 +259,13 @@ public class WDialogExample extends WPanel implements MessageContainer {
 		fileUploadDialog.setMode(WDialog.MODAL);
 		fileUploadDialog.setWidth(600);
 		add(fileUploadDialog);
+
+		WFieldLayout dateDlgFldLayout = new WFieldLayout();
+		dateDlgFldLayout.addField("Set a date", new WPartialDateField());
+		WDialog dateDlg = new WDialog(dateDlgFldLayout, new WButton("Select a date in a dialog"));
+		dateDlg.setWidth(450);
+		dateDlg.setMode(WDialog.MODAL);
+		add(dateDlg);
 	}
 
 	/**
