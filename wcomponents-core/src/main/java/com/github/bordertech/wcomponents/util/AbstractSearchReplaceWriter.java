@@ -76,7 +76,7 @@ public abstract class AbstractSearchReplaceWriter extends Writer {
 	/**
 	 * Writes out remaining content and optionally closes the backing writer.
 	 *
-	 * @see #closeBackingOnClose().
+	 * @see #closeBackingOnClose()
 	 * @throws IOException if there is an error closing the underlying buffer.
 	 */
 	@Override

@@ -12,11 +12,12 @@ import java.util.List;
  *
  * <p>
  * Sub Menus may contain the following components:
+ * </p>
  * <ul>
  * <li>Other sub menus.</li>
  * <li>Menu items ({@link WMenuItem})</li>
  * <li>Menu separators (see {@link #addSeparator()})</li>
- * </ul></p>
+ * </ul>
  *
  * <p>
  * Actions on sub-menus are only supported for {@link WMenu.MenuType#COLUMN} menus.</p>
@@ -31,7 +32,7 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 	 *
 	 * @author Yiannis Paschalidis
 	 */
-	public static enum MenuMode {
+	public enum MenuMode {
 		/**
 		 * Indicates that a round-trip should be made whenever the menu is opened.
 		 *

@@ -120,7 +120,8 @@ public final class TreeUtil {
 	/**
 	 * Retrieves the first WComponent by its path in the WComponent tree.
 	 *
-	 * See {@link #findWComponents(WComponent, UIContext, String[])} for a description of paths.
+	 * See {@link #findWComponents(com.github.bordertech.wcomponents.WComponent, java.lang.String[])} for a description
+	 * of paths.
 	 *
 	 * @param component the component to search from.
 	 * @param path the path to the WComponent.

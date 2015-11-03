@@ -54,7 +54,7 @@ The examples project is most easily run from the project view of your IDE.
 For example:
 
 1. Right click the `wcomponents-examples-lde` project.
-2. Select the main class to run: `com.github.bordertech.wcomponents.exampleslde.PlainLauncherProxy`
+2. Select the main class to run: `com.github.bordertech.wcomponents.examples.lde.PlainLauncherProxy`
 
 # Contributing
 Contributions welcome: [Contributing](https://github.com/BorderTech/wcomponents/wiki/Contributing)

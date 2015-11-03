@@ -178,7 +178,7 @@ public abstract class AbstractEnvironment implements Environment {
 	}
 
 	/**
-	 * Sets the application id. The applicationId must not contain {@link WComponent#IDNAME_SEPERATOR}.
+	 * Sets the application id. The applicationId must not contain {@link WComponent#ID_CONTEXT_SEPERATOR}.
 	 *
 	 * @param appId the appId to set.
 	 * @deprecated no longer used. Use {@link WApplication#setIdName(String)} instead.

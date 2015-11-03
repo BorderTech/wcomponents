@@ -27,9 +27,10 @@ public final class DefaultWComponent extends AbstractWComponent {
 	/**
 	 * Associates a velocity template with this component. A simple mapping is applied to the given class to derive the
 	 * name of a velocity template.
-	 * <p/>
+	 * <p>
 	 * For instance, com.github.bordertech.wcomponents.WTextField would map to the template
 	 * com/github/bordertech/wcomponents/WTextField.vm
+	 * </p>
 	 *
 	 * @param clazz the class to use to retrieve the template.
 	 * @deprecated use {@link #setTemplate(String)}.

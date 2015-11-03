@@ -238,7 +238,7 @@ public interface WComponent extends WebComponent {
 	 * <p>
 	 * The shared attributes of a component (and all its children) can be locked, preventing users/developers from
 	 * making further updates. However, attribute values can still be updated on a per session basis.
-	 * <p>
+	 * </p>
 	 * <p>
 	 * This method should normally never be called from application code.
 	 * </p>

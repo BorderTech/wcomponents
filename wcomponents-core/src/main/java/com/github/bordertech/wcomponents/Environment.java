@@ -4,8 +4,7 @@ import java.io.Serializable;
 import java.util.Map;
 
 /**
- * Methods for finding out about the environment in which wcomponents are hosted. Current supported environments are
- * Servlet and Portlet.
+ * Methods for finding out about the environment in which wcomponents are hosted.
  *
  * @author James Gifford
  * @since 1.0.0
@@ -81,8 +80,10 @@ public interface Environment extends Serializable {
 
 	/**
 	 * Gets the relative URL path to which this WComponent application should post its requests.
-	 * <dl>
+	 * <p>
 	 * Examples of what this method may return:
+	 * </p>
+	 * <dl>
 	 * <dt>Servlet</dt><dd>/app</dd>
 	 * </dl>
 	 *
@@ -101,10 +102,11 @@ public interface Environment extends Serializable {
 	 * Gets the URL path for the WComponent support servlets, which handle serving content for Targetable WComponents,
 	 * AJAX and data lists. There needs to be a servlet (WServlet) deployed to serve Targetable content. This method
 	 * returns the URL to that servlet.
-	 * <dl>
+	 * <p>
 	 * Examples of what this method may return:
+	 * </p>
+	 * <dl>
 	 * <dt>Servlet</dt><dd>/app</dd>
-	 * <dt>Portlet</dt><dd>/wps/PA_146ysd34/wservlet</dd>
 	 * </dl>
 	 *
 	 * @return the URL path suitable for serving the content of Targetable wcomponents.
@@ -112,13 +114,10 @@ public interface Environment extends Serializable {
 	String getWServletPath();
 
 	/**
-	 * Gets the base URL under which web applications are hosted. This is for portals where multiple
-	 * applications/portlets are being hosted. This AppHostPath can be used to create url links to applications that
-	 * have been given fixed relative names.
+	 * Gets the base URL under which web applications are hosted. This AppHostPath can be used to create url links to
+	 * applications that have been given fixed relative names. Examples of what this method may return:
 	 * <dl>
-	 * Examples of what this method may return:
 	 * <dt>Servlet</dt><dd></dd>
-	 * <dt>Portlet</dt><dd>/wps/myportal</dd>
 	 * </dl>
 	 *
 	 * @return the base URL under which web applications are hosted.
@@ -128,10 +127,11 @@ public interface Environment extends Serializable {
 	/**
 	 * Gets the base URL under which the web content for the Theme is hosted. Web content is static content such as css,
 	 * js, html, and image files.
-	 * <dl>
+	 * <p>
 	 * Examples of what this method may return:
+	 * </p>
+	 * <dl>
 	 * <dt>Servlet</dt><dd></dd>
-	 * <dt>Portlet</dt><dd>/wps/themes/html/DIMA</dd>
 	 * </dl>
 	 *
 	 * @return the base URL under which the web content for the Theme is hosted.
@@ -142,10 +142,12 @@ public interface Environment extends Serializable {
 	 * Get the base url at which this web application is hosted.
 	 * <p>
 	 * Implementations ensure that this method returns a URL WITHOUT a trailing slash, as in above example.
-	 * <dl>
+	 * </p>
+	 * <p>
 	 * Examples of what this method may return:
-	 * <dt>Servlet</dt>http://localhost:8080<dd></dd>
-	 * <dt>Portlet</dt><dd>/wps/PA_146ysd34</dd>
+	 * </p>
+	 * <dl>
+	 * <dt>Servlet</dt><dd>http://localhost:8080</dd>
 	 * </dl>
 	 *
 	 * @return the base url at which this web application is hosted.
@@ -155,10 +157,11 @@ public interface Environment extends Serializable {
 	/**
 	 * Get the "host-free" part of the base url for this web application. Eg, if the base url is
 	 * http://localhost:8080/visas, then the "host-free" part is "/visas"
-	 * <dl>
+	 * <p>
 	 * Examples of what this method may return:
+	 * </p>
+	 * <dl>
 	 * <dt>Servlet</dt><dd></dd>
-	 * <dt>Portlet</dt><dd>/wps/PA_146ysd34</dd>
 	 * </dl>
 	 *
 	 * @return Get the "host-free" part of the base url for this web application.
@@ -168,7 +171,7 @@ public interface Environment extends Serializable {
 	/**
 	 * Get a unique "app" id. This is intended to help with portals where multiple applications are present in the one
 	 * document. The app id will be a machine generated unique identifier, but must not contain the character
-	 * {@link WComponent#IDNAME_SEPERATOR}.
+	 * {@link WComponent#ID_CONTEXT_SEPERATOR}.
 	 *
 	 * @return the unique application id for this application.
 	 * @deprecated no longer used. Use {@link WApplication#getIdName()} instead.

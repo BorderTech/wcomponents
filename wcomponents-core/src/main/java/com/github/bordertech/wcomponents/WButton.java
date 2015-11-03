@@ -53,7 +53,7 @@ public class WButton extends WBeanComponent implements Container, Disableable, A
 	/**
 	 * This is used to control the position of the image on the button.
 	 */
-	public static enum ImagePosition {
+	public enum ImagePosition {
 		/**
 		 * Image is in the North position.
 		 */
@@ -83,7 +83,8 @@ public class WButton extends WBeanComponent implements Container, Disableable, A
 	 * Creates a WButton with the specified text.
 	 *
 	 * @param text the button text, using {@link MessageFormat} syntax.
-	 * @example <pre>
+	 *
+	 * <pre>
 	 * // Will create a button with the text &quot;Hello world&quot;
 	 * new WButton(&quot;Hello world&quot;);
 	 * </pre>
@@ -271,7 +272,8 @@ public class WButton extends WBeanComponent implements Container, Disableable, A
 	 * Sets the action that you want run if the button is pressed.
 	 *
 	 * @param action the action to execute when the button is pressed.
-	 * @example <pre>
+	 *
+	 * <pre>
 	 * // Causes a message to be printed to the console whenever the button is pressed.
 	 * setAction(new Action()
 	 * {
@@ -316,12 +318,13 @@ public class WButton extends WBeanComponent implements Container, Disableable, A
 	 *
 	 * @param text the button text, using {@link MessageFormat} syntax.
 	 * @param args optional arguments for the button text format string.
-	 * @example <pre>
+	 *
+	 * <pre>
 	 * // Sets the button text to &quot;Hello world&quot;
 	 * myButton.setText(&quot;Hello world&quot;);
 	 * </pre>
 	 *
-	 * @example <pre>
+	 * <pre>
 	 * // Sets the button text to &quot;Secret agent James Bond, 007&quot;
 	 * myButton.setText(&quot;Secret agent {0}, {1,number,000}&quot;, &quot;James Bond&quot;, 7);
 	 * </pre>

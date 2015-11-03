@@ -22,7 +22,7 @@ public class WCollapsible extends AbstractNamingContextContainer implements Ajax
 	 *
 	 * @author Yiannis Paschalidis
 	 */
-	public static enum CollapsibleMode {
+	public enum CollapsibleMode {
 		/**
 		 * Indicates that expanding/collapsing involves a round-trip to the server. The collapsible content will be
 		 * rendered only when the collapsible is open.

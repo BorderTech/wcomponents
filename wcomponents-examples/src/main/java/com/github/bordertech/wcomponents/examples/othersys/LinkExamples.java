@@ -1,4 +1,4 @@
-package com.github.bordertech.wcomponents.othersys.examples;
+package com.github.bordertech.wcomponents.examples.othersys;
 
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WDecoratedLabel;

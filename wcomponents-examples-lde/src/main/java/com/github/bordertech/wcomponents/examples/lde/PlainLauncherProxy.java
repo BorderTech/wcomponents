@@ -1,4 +1,4 @@
-package com.github.bordertech.wcomponents.exampleslde;
+package com.github.bordertech.wcomponents.examples.lde;
 
 import com.github.bordertech.wcomponents.lde.PlainLauncher;
 
