@@ -10,14 +10,14 @@
 	<xsl:import href="wc.common.missingLabel.xsl"/>
 	<!--
 		Checkable input controls
-	
+
 		Transform for WCheckBox and WRadioButton to a HTML input element of type
 		checkbox or radio (if editable) or a non-interactive representation if read-only.
 
 		When @readOnly is true the component will output a non-interactive graphical
 		representation of the control. This will be marked up to provide appropriate
 		text content.
-		
+
 		Checkable inputs currently support @submitOnChange. This is an issue with
 		WCAG 3.2.2 (http://www.w3.org/TR/WCAG20/#consistent-behavior-unpredictable-change).
 		Therefore where submitOnChange is true we must inform users that changing
@@ -52,12 +52,6 @@
 		<xsl:choose>
 			<xsl:when test="@readOnly">
 				<xsl:call-template name="readOnlyControl">
-					<xsl:with-param name="class">
-						<xsl:value-of select="$type"/>
-						<xsl:if test="@selected">
-							<xsl:text> wc_ro_sel</xsl:text>
-						</xsl:if>
-					</xsl:with-param>
 					<xsl:with-param name="toolTip">
 						<xsl:choose>
 							<xsl:when test="@selected">
