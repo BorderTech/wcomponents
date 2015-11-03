@@ -111,7 +111,7 @@ import com.github.bordertech.wcomponents.examples.validation.basic.BasicFieldsVa
 import com.github.bordertech.wcomponents.examples.validation.fields.FieldValidation;
 import com.github.bordertech.wcomponents.monitor.UicStats;
 import com.github.bordertech.wcomponents.monitor.UicStatsAsHtml;
-import com.github.bordertech.wcomponents.othersys.examples.LinkExamples;
+import com.github.bordertech.wcomponents.examples.othersys.LinkExamples;
 import com.github.bordertech.wcomponents.registry.UIRegistry;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.ObjectGraphDump;

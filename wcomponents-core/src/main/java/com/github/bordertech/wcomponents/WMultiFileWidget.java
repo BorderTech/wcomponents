@@ -184,9 +184,9 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxT
 	}
 
 	/**
-	 * Set each file type to be accepted by the WMultiFileWidget. For details on file types {
+	 * Set each file type to be accepted by the WMultiFileWidget.
 	 *
-	 * @see #setFileTypes(Collection<String>)}
+	 * @see #setFileTypes(java.util.Collection) for the file types
 	 *
 	 * @param types The file types that will be accepted by the file input.
 	 */
@@ -251,10 +251,9 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxT
 	}
 
 	/**
-	 * Returns a list of file types accepted by the file input. For a description of what constitutes an allowable file
-	 * type {
+	 * Returns a list of file types accepted by the file input.
 	 *
-	 * @see #setFileTypes(Collection<String>)}}
+	 * @see #setFileTypes(Collection) for a description of what constitutes an allowable file types
 	 *
 	 * If no types have been added an empty list is returned. An empty list indicates that all file types are accepted.
 	 *

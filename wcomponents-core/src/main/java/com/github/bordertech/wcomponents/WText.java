@@ -6,11 +6,8 @@ import java.text.MessageFormat;
 
 /**
  * <p>
- * WText is used to render some basic/raw text.</p>
- *
- * <p>
- * See {@link com.github.bordertech.wcomponents.examples.WTextExample} for example usage, including binding to bean
- * data.</p>
+ * WText is used to render some basic/raw text.
+ * </p>
  *
  * @author Adam Millard
  * @since 1.0.0
@@ -31,12 +28,12 @@ public class WText extends WBeanComponent {
 	 * @param text the text to display, using {@link MessageFormat} syntax.
 	 * @param args optional arguments for the message format string.
 	 *
-	 * @example      <pre>
+	 * <pre>
 	 * // Will display the text "Hello world"
 	 * new WText("Hello world");
 	 * </pre>
 	 *
-	 * @example      <pre>
+	 * <pre>
 	 * // Will display "Secret agent James Bond, 007"
 	 * new WText("Secret agent {0}, {1,number,000}", "James Bond", 7);
 	 * </pre>
@@ -60,17 +57,18 @@ public class WText extends WBeanComponent {
 	 *
 	 * <p>
 	 * NOTE: If the text is dynamically generated, it may be preferable to override {@link #getText()} instead. This
-	 * will reduce the amount of data which is stored in the user session.</p>
+	 * will reduce the amount of data which is stored in the user session.
+	 * </p>
 	 *
 	 * @param text the text to set, using {@link MessageFormat} syntax.
 	 * @param args optional arguments for the message format string.
 	 *
-	 * @example      <pre>
+	 * <pre>
 	 * // Changes the text to "Hello world"
 	 * myText.setText("Hello world");
 	 * </pre>
 	 *
-	 * @example      <pre>
+	 * <pre>
 	 * // Changes the text to "Secret agent James Bond, 007"
 	 * new WText("Secret agent {0}, {1,number,000}", "James Bond", 7);
 	 * </pre>

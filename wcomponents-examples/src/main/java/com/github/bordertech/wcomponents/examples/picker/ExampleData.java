@@ -176,7 +176,7 @@ import com.github.bordertech.wcomponents.examples.validation.ValidationExamples;
 import com.github.bordertech.wcomponents.examples.validation.basic.BasicDiagnosticComponentExample;
 import com.github.bordertech.wcomponents.examples.validation.basic.BasicFieldsValidationExample2;
 import com.github.bordertech.wcomponents.examples.validation.fields.FieldValidation;
-import com.github.bordertech.wcomponents.othersys.examples.LinkExamples;
+import com.github.bordertech.wcomponents.examples.othersys.LinkExamples;
 import com.github.bordertech.wcomponents.util.Util;
 import java.io.Serializable;
 

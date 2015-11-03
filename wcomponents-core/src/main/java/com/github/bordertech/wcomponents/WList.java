@@ -18,7 +18,7 @@ public class WList extends WRepeater implements Marginable {
 	/**
 	 * An enumeration of possible values for the list type.
 	 */
-	public static enum Type {
+	public enum Type {
 		/**
 		 * Indicates that content should be arranged horizontally.
 		 */
@@ -36,7 +36,7 @@ public class WList extends WRepeater implements Marginable {
 	/**
 	 * An enumeration of possible values for the item separator.
 	 */
-	public static enum Separator {
+	public enum Separator {
 		/**
 		 * Indicates that no separator should be used.
 		 */

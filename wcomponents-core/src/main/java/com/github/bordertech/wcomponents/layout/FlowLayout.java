@@ -11,7 +11,7 @@ public class FlowLayout implements LayoutManager {
 	/**
 	 * This is used to control the alignment of the components.
 	 */
-	public static enum Alignment {
+	public enum Alignment {
 		/**
 		 * Each row of components should be left-justified.
 		 */
@@ -33,7 +33,7 @@ public class FlowLayout implements LayoutManager {
 	/**
 	 * This is used to control the alignment of the content in each cell.
 	 */
-	public static enum ContentAlignment {
+	public enum ContentAlignment {
 		/**
 		 * The content should align to the top.
 		 */

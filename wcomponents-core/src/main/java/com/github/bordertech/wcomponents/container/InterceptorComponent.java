@@ -131,7 +131,7 @@ public class InterceptorComponent implements WebComponent {
 	/**
 	 * Subclasses can override. By default it delegates to the next interceptor in the chain.
 	 *
-	 * @see WebComponent#getName().
+	 * @see WebComponent#getName()
 	 *
 	 * @return the name for this component in the given context.
 	 * @deprecated no longer used. use {@link #getId()} instead.
@@ -144,7 +144,7 @@ public class InterceptorComponent implements WebComponent {
 	/**
 	 * Subclasses can override. By default it delegates to the next interceptor in the chain.
 	 *
-	 * @see WebComponent#getId().
+	 * @see WebComponent#getId()
 	 *
 	 * @return the id for this component.
 	 */
@@ -156,7 +156,7 @@ public class InterceptorComponent implements WebComponent {
 	/**
 	 * Subclasses can override. By default it delegates to the next interceptor in the chain.
 	 *
-	 * @see WebComponent#serviceRequest(Request).
+	 * @see WebComponent#serviceRequest(com.github.bordertech.wcomponents.Request)
 	 *
 	 * @param request the request being serviced.
 	 */

@@ -274,7 +274,7 @@ public class AdapterBasicTableModel implements TableModel, Serializable {
 		 * then the implementation of this method needs to return an object that uniquely identifies this row.
 		 * </p>
 		 * <p>
-		 * When rows have been added/removed to the model, the {@link WTable.handleDataChanged} method on WTable needs
+		 * When rows have been added/removed to the model, the {@link WTable#handleDataChanged()} method on WTable needs
 		 * to be called.
 		 * </p>
 		 *

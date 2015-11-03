@@ -9,8 +9,11 @@ import java.util.List;
 /**
  * <p>
  * This component enables rendering of a set of tabbed components.
+ * </p>
  *
+ * <p>
  * A <code>WTabSet</code> WComponent has the following functionality:
+ * </p>
  * <ul>
  * <li>The ability to render as different types of client-side tab controls.</li>
  * <li>The ability to process each tab control on the client side (via JavaScript) or Server side processing.</li>
@@ -24,7 +27,6 @@ import java.util.List;
  * </ul>
  * </li>
  * </ul>
- * </p>
  *
  * <p>
  * <b>NOTE:</b> When setting the tab set type to be LEFT or RIGHT you should make use of the method
@@ -42,7 +44,7 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	 *
 	 * @author Yiannis Paschalidis
 	 */
-	public static enum TabSetType {
+	public enum TabSetType {
 		/**
 		 * Displays the TabSet tabs horizontally, above the tab content area.
 		 */
@@ -70,7 +72,7 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	 *
 	 * @author Yiannis Paschalidis
 	 */
-	public static enum TabMode {
+	public enum TabMode {
 		/**
 		 * Indicates that a round-trip should be made whenever the tab is selected.
 		 *
