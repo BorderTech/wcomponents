@@ -37,7 +37,7 @@ import java.util.List;
  * @since 1.0.0
  */
 public class WTabSet extends AbstractNamingContextContainer implements Disableable, AjaxTarget,
-		Marginable {
+		Marginable, SubordinateTarget {
 
 	/**
 	 * The available types of client-side tab sets.

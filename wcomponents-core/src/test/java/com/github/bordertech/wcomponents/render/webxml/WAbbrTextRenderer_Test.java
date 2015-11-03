@@ -25,17 +25,17 @@ public class WAbbrTextRenderer_Test extends AbstractWebXmlRendererTestCase {
 	@Test
 	public void testDoPaint() throws IOException, SAXException, XpathException {
 		String textString = "abbreviated string";
-		String abbrString = "The really long non-abbreviated string";
+		String description = "The really long non-abbreviated string";
 
 		WAbbrText text = new WAbbrText();
 		text.setText(textString);
-		text.setAbbrText(abbrString);
+		text.setToolTip(description);
 
 		// Test with no abbreviation
 		assertSchemaMatch(text);
 
 		assertXpathEvaluatesTo(textString, "//ui:abbr", text);
-		assertXpathEvaluatesTo(abbrString, "//ui:abbr/@description", text);
+		assertXpathEvaluatesTo(description, "//ui:abbr/@toolTip", text);
 	}
 
 	@Test
@@ -45,7 +45,7 @@ public class WAbbrTextRenderer_Test extends AbstractWebXmlRendererTestCase {
 		text.setText(getMaliciousContent());
 		assertSafeContent(text);
 
-		text.setAbbrText(getMaliciousAttribute("ui:abbr"));
+		text.setToolTip(getMaliciousAttribute("ui:abbr"));
 		assertSafeContent(text);
 	}
 }
