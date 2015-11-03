@@ -1,12 +1,13 @@
 /**
  * Provides ARIA based functionality for items in a tree (role='treeitem")
  *
- * <p><strong>NOTE:</strong>
+ * **NOTE:**
+ * 
  * According to the WAI-ARIA implementation guide, tree items should select on navigate. Tree items in WComponents are a
  * type of WMenuItem and menu items are supposed to do stuff. For this reason we have decided to not try to make them
  * select on navigate. This will need to change.</p>
  *
- * @see {http://www.w3.org/TR/wai-aria-practices/#treeitem}
+ * @see {@link http://www.w3.org/TR/wai-aria-practices/#treeitem}
  * @module
  * @extends module:wc/dom/ariaAnalog
  * @requires module:wc/dom/ariaAnalog

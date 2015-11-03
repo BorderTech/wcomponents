@@ -6,7 +6,6 @@
  * @requires module:wc/dom/aria
  * @requires module:wc/dom/Widget
  * @requires module:wc/dom/role
- * @requires
  *
  * @todo document private members, clean up code.
  */
