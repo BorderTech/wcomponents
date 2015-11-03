@@ -20,17 +20,17 @@ import org.apache.commons.logging.LogFactory;
  * When you have a situation where you have a list of a repeated data type that you want to render or edit, then this ui
  * component can help.
  * <p>
- * Typical usage: <blockquote>
+ * Typical usage:
+ * </p>
  *
+ * <blockquote>
  * <pre>
  * WRepeater repeater = new WRepeater();
  * repeater.setRepeatedComponent(new MyRepeatedComponent());
  * ...
  * repeater.setData(myBeanList);
  * </pre>
- *
  * </blockquote>
- * </p>
  *
  * @author Ming Gao
  * @author Martin Shevchenko

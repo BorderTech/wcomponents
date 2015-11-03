@@ -124,7 +124,7 @@ public abstract class AbstractWFieldIndicator extends AbstractWComponent {
 	/**
 	 * Used to determine the type of field indicator.
 	 */
-	public static enum FieldIndicatorType {
+	public enum FieldIndicatorType {
 		/**
 		 * Information Type.
 		 */

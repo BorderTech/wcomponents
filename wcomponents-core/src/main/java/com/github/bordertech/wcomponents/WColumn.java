@@ -11,7 +11,7 @@ public class WColumn extends AbstractMutableContainer implements AjaxTarget {
 	/**
 	 * Describes how content within a column should be aligned.
 	 */
-	public static enum Alignment {
+	public enum Alignment {
 		/**
 		 * Indicates that content should be left-aligned. This is the default alignment.
 		 */

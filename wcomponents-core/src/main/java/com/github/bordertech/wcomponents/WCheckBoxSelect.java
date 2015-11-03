@@ -22,7 +22,7 @@ public class WCheckBoxSelect extends AbstractWMultiSelectList implements AjaxTri
 	 *
 	 * @author Yiannis Paschalidis
 	 */
-	public static enum Layout {
+	public enum Layout {
 		/**
 		 * A layout where buttons are placed horizontally.
 		 */

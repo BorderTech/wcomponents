@@ -365,9 +365,9 @@ public final class WebUtilities {
 	 * Appends a key/value pair to a query string.</p>
 	 *
 	 * <p>
-	 * A '?' or '&' token will first be appended to the end of the vars StringBuffer, according to the presence of other
-	 * vars. We quote the & using XML character entity, because otherwise the resulting URL will be invalid XML parsed
-	 * character data and so we can't generate XHTML.</p>
+	 * A '{@literal ?}' or '{@literal &}' token will first be appended to the end of the vars StringBuffer, according to
+	 * the presence of other vars. We quote the '{@literal &}' using XML character entity, because otherwise the
+	 * resulting URL will be invalid XML parsed character data and so we can't generate XHTML.</p>
 	 *
 	 * @param key the key to append
 	 * @param value the value to append
@@ -509,8 +509,8 @@ public final class WebUtilities {
 	}
 
 	/**
-	 * Updates the bean value with the current value of the component and all its bean-bound
-	 * children. By default this method will only process visible components.
+	 * Updates the bean value with the current value of the component and all its bean-bound children. By default this
+	 * method will only process visible components.
 	 *
 	 * @param component the component whose contents need to be copied to the bean.
 	 */
@@ -519,9 +519,9 @@ public final class WebUtilities {
 	}
 
 	/**
-	 * Renders the given WComponent to a String outside of the context of a Servlet. This is good
-	 * for getting hold of the XML for debugging, unit testing etc. Also it is good for using the
-	 * WComponent framework as a more generic templating framework.
+	 * Renders the given WComponent to a String outside of the context of a Servlet. This is good for getting hold of
+	 * the XML for debugging, unit testing etc. Also it is good for using the WComponent framework as a more generic
+	 * templating framework.
 	 *
 	 * @param component the root WComponent to render.
 	 * @return the rendered output as a String.
@@ -585,9 +585,7 @@ public final class WebUtilities {
 	/**
 	 * Determine if this component is an active naming context.
 	 * <p>
-	 * A naming context is only considered active if it has been set active via
-	 * {@link NamingContextable#setNamingContext(boolean)} and also has an id name set via
-	 * {@link WComponent#setIdName(String)}.
+	 * Can only be considered active if an id name has been set and flagged as a naming context.
 	 * </p>
 	 *
 	 * @param component the component to test for naming context

@@ -27,7 +27,7 @@ public class WPanel extends WContainer implements AjaxTarget, SubordinateTarget,
 	/**
 	 * An enumeration of available panel types.
 	 */
-	public static enum Type {
+	public enum Type {
 		/**
 		 * A plain panel.
 		 */
@@ -70,7 +70,7 @@ public class WPanel extends WContainer implements AjaxTarget, SubordinateTarget,
 	/**
 	 * The available types of panel mode.
 	 */
-	public static enum PanelMode {
+	public enum PanelMode {
 		/**
 		 * A lazy panel will load its content via AJAX when it is made visible.
 		 */

@@ -75,7 +75,7 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 	/**
 	 * This is used to control how row selection should work.
 	 */
-	public static enum SelectMode {
+	public enum SelectMode {
 		/**
 		 * Indicates that row selection is not available.
 		 */
@@ -93,7 +93,7 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 	/**
 	 * This is used to control how the "select all" function should work.
 	 */
-	public static enum SelectAllType {
+	public enum SelectAllType {
 		/**
 		 * Indicates that the select all/none function should not be available.
 		 */
@@ -111,7 +111,7 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 	/**
 	 * This is used to control how row expansion should work.
 	 */
-	public static enum ExpandMode {
+	public enum ExpandMode {
 		/**
 		 * Indicates that row expansion is not supported.
 		 */
@@ -133,7 +133,7 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 	/**
 	 * This is used to control how pagination should work.
 	 */
-	public static enum PaginationMode {
+	public enum PaginationMode {
 		/**
 		 * Indicates that pagination is not supported, all data will be displayed in the one page.
 		 */
@@ -151,7 +151,7 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 	/**
 	 * This is used to control the type of striping used, if any.
 	 */
-	public static enum StripingType {
+	public enum StripingType {
 		/**
 		 * Indicates that no zebra striping should be used.
 		 */
@@ -169,7 +169,7 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 	/**
 	 * This is used to control the type of striping used, if any.
 	 */
-	public static enum SeparatorType {
+	public enum SeparatorType {
 		/**
 		 * Indicates that no separators should be displayed.
 		 */
@@ -191,7 +191,7 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 	/**
 	 * This is used to control how sorting should work.
 	 */
-	public static enum SortMode {
+	public enum SortMode {
 		/**
 		 * Indicates that sorting should be disabled.
 		 */
@@ -205,7 +205,7 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 	/**
 	 * This is used to control how table data should be displayed.
 	 */
-	public static enum Type {
+	public enum Type {
 		/**
 		 * Indicates that the table should be displayed as a normal table.
 		 */
@@ -397,8 +397,8 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 						updateBeanValueForColumnInRow(rowRenderer, rowContext, rowIndex, col, model);
 					}
 				}
-			} else // Check if this expanded row is editable
-			if (model.isCellEditable(rowIndex, -1)) {
+			} else if (model.isCellEditable(rowIndex, -1)) {
+				// Check if this expanded row is editable
 				updateBeanValueForRowRenderer(rowRenderer, rowContext, expandRenderer);
 			}
 
@@ -657,7 +657,7 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 
 	/**
 	 * The number of rows to display per page. A value of zero, which is only valid when used with
-	 * {@link #setRowsPerPageOptions(List))}, indicates display all rows.
+	 * {@link #setRowsPerPageOptions(java.util.List)}, indicates display all rows.
 	 *
 	 * @return the number of rows to display per page.
 	 */

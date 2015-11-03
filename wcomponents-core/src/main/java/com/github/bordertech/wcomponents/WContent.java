@@ -21,7 +21,7 @@ public class WContent extends AbstractWComponent implements Targetable {
 	/**
 	 * An enumeration of how the content should be provided to the user.
 	 */
-	public static enum DisplayMode {
+	public enum DisplayMode {
 		/**
 		 * Indicates that the content should be displayed in another browser window.
 		 */
