@@ -51,7 +51,7 @@ public class WEmailField extends AbstractInput implements AjaxTrigger, AjaxTarge
 		if (isPresent(request)) {
 			String value = request.getParameter(getId());
 			// An empty string is treated as null
-			return (Util.empty(value)) ? null : value;
+			return Util.empty(value) ? null : value;
 		} else {
 			return getValue();
 		}

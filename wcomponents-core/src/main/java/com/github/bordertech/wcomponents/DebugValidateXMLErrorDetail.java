@@ -62,8 +62,8 @@ public class DebugValidateXMLErrorDetail {
 		}
 
 		DebugValidateXMLErrorDetail other = (DebugValidateXMLErrorDetail) obj;
-		return (other.errorMessage.equals(this.errorMessage) && other.componentDescription.equals(
-				this.componentDescription));
+		return other.errorMessage.equals(this.errorMessage) && other.componentDescription.equals(
+				this.componentDescription);
 	}
 
 	/**
@@ -71,6 +71,7 @@ public class DebugValidateXMLErrorDetail {
 	 */
 	@Override
 	public int hashCode() {
-		return (this.errorMessage + this.componentDescription).hashCode();
+		String hash = this.errorMessage + this.componentDescription;
+		return hash.hashCode();
 	}
 }

@@ -1,7 +1,6 @@
 package com.github.bordertech.wcomponents;
 
 import com.github.bordertech.wcomponents.util.SystemException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
@@ -89,10 +88,8 @@ public final class InternalResourceMap {
 	 * @return a hash of the resource contents.
 	 */
 	public static String computeHash(final InternalResource resource) {
-		InputStream stream = null;
 
-		try {
-			stream = resource.getStream();
+		try (InputStream stream = resource.getStream()) {
 
 			if (stream == null) {
 				return null;
@@ -111,14 +108,6 @@ public final class InternalResourceMap {
 			return Long.toHexString(checksumEngine.getValue());
 		} catch (Exception e) {
 			throw new SystemException("Error calculating resource hash", e);
-		} finally {
-			if (stream != null) {
-				try {
-					stream.close();
-				} catch (IOException e) {
-					LOG.error("Error closing stream", e);
-				}
-			}
 		}
 	}
 }

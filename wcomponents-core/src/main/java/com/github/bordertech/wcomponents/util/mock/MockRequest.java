@@ -128,16 +128,11 @@ public class MockRequest extends AbstractRequest {
 	 */
 	@Override
 	public FileItem[] getFileItems(final String key) {
-		Object file = getFiles().get(key);
-
-		if (file == null) {
-			return null;
-		}
-
-		if (file instanceof FileItem) {
+		FileItem file = getFiles().get(key);
+		if (file != null) {
 			return new FileItem[]{(FileItem) file};
 		}
-		return (FileItem[]) file;
+		return null;
 	}
 
 	/**

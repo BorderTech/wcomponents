@@ -315,8 +315,8 @@ public abstract class TestServlet extends WServlet {
 	 * @param jarname the jar name to add
 	 */
 	public void addIndirectJar(final String jarname) {
-		try {
-			JarFile jarfile = new JarFile(jarname);
+
+		try (JarFile jarfile = new JarFile(jarname)) {
 			Manifest man = jarfile.getManifest();
 			Attributes atts = man.getMainAttributes();
 			String jarlist = atts.getValue("Class-Path");
@@ -367,12 +367,10 @@ public abstract class TestServlet extends WServlet {
 	@Override
 	protected void service(final HttpServletRequest request, final HttpServletResponse response)
 			throws ServletException, IOException {
-		if (request.getSession(false) == null) {
-			// This is a new session, do we want to load a persisted session?
-			if (LdeSessionUtil.isLoadPersistedSessionEnabled()) {
-				getUI(request); // need to ensure that the UI has been loaded
-				LdeSessionUtil.deserializeSessionAttributes(request.getSession(true));
-			}
+		// This is a new session, do we want to load a persisted session?
+		if (request.getSession(false) == null && LdeSessionUtil.isLoadPersistedSessionEnabled()) {
+			getUI(request); // need to ensure that the UI has been loaded
+			LdeSessionUtil.deserializeSessionAttributes(request.getSession(true));
 		}
 
 		super.service(request, response);

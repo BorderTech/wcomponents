@@ -151,7 +151,7 @@ final class WPanelRenderer extends AbstractWebXmlRenderer {
 		Renderer layoutRenderer = null;
 
 		if (layout != null) {
-			layoutRenderer = new RendererFactory().getRenderer(layout.getClass());
+			layoutRenderer = new RendererFactoryImpl().getRenderer(layout.getClass());
 		}
 
 		if (layoutRenderer == null) {

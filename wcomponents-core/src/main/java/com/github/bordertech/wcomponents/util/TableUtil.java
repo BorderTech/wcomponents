@@ -8,6 +8,7 @@ import com.github.bordertech.wcomponents.WTable;
 import com.github.bordertech.wcomponents.WTable.RowIdWrapper;
 import com.github.bordertech.wcomponents.WebUtilities;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -123,6 +124,57 @@ public final class TableUtil {
 		int repeaterIdx = ((SubUIContext) uic).getRowIndex();
 		RowIdWrapper wrapper = table.getRepeater().getBeanList().get(repeaterIdx);
 		return wrapper.getRowIndex();
+	}
+
+	/**
+	 * Sorts the data using the given comparator, using a quick-sort.
+	 *
+	 * @param data the data for the column.
+	 * @param comparator the comparator to use for sorting.
+	 * @param ascending true for an ascending sort, false for descending.
+	 * @param lowIndex the start index for sub-sorting
+	 * @param highIndex the end index for sub-sorting
+	 * @param sortIndices the row indices, which will be updated as a result of the sort
+	 */
+	public static void sortData(final Object[] data, final Comparator<Object> comparator,
+			final boolean ascending,
+			final int lowIndex, final int highIndex, final int[] sortIndices) {
+		if (lowIndex >= highIndex) {
+			return; // 1 element, so sorted already!
+		}
+
+		Object midValue = data[sortIndices[(lowIndex + highIndex) >>> 1]];
+
+		int i = lowIndex - 1;
+		int j = highIndex + 1;
+		int sign = ascending ? 1 : -1;
+
+		for (;;) {
+			do {
+				i++;
+			} while (comparator.compare(data[sortIndices[i]], midValue) * sign < 0);
+
+			do {
+				j--;
+			} while (comparator.compare(data[sortIndices[j]], midValue) * sign > 0);
+
+			if (i >= j) {
+				break; // crossover, good!
+			}
+
+			// Out of order - swap!
+			int temp = sortIndices[i];
+			sortIndices[i] = sortIndices[j];
+			sortIndices[j] = temp;
+		}
+
+		// now determine the split point...
+		if (i > j) {
+			i = j;
+		}
+
+		sortData(data, comparator, ascending, lowIndex, i, sortIndices);
+		sortData(data, comparator, ascending, i + 1, highIndex, sortIndices);
 	}
 
 }

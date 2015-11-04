@@ -13,7 +13,6 @@ import org.junit.Test;
 
 import com.github.bordertech.wcomponents.util.Config;
 import com.github.bordertech.wcomponents.util.SystemException;
-import org.apache.commons.lang.BooleanUtils;
 
 /**
  * WebUtilities_Test - unit tests for {@link WebUtilities}.
@@ -539,68 +538,67 @@ public class WebUtilities_Test extends AbstractWComponentTestCase {
 				WebUtilities.getParentNamingContext(child3));
 	}
 
-	/**
-	 * Set up and execute the updateBeanValue method with the given parameter.
-	 * If the parameter is null then the default updateBeanValue(component) method will be invoked.
-	 *
-	 * @param visibleOnly the parameter to pass to WebUtilities.updateBeanValue(component, visibleOnly).
-	 */
-	private void runUpdateBeanValue(final Boolean visibleOnly) {
-		final String directChild = "directChild";
-		final String grandChild = "grandChild";
-		final String invisibleGrandChild = "invisibleGrandChild";
-		final String childOfInvisibleContainer = "childOfInvisibleContainer";
-
-		Map<String, String> beanMap = new HashMap<>();
-		beanMap.put(directChild, null);
-		beanMap.put(grandChild, null);
-		beanMap.put(invisibleGrandChild, null);
-		beanMap.put(childOfInvisibleContainer, null);
-
-		WContainer root = new WContainer();
-		root.setBean(beanMap);
-		WTextField childTextField = new WTextField();
-		childTextField.setBeanProperty(directChild);
-		root.add(childTextField);
-
-		WContainer childContainer = new WContainer();
-		root.add(childContainer);
-		WTextField grandChildTextField = new WTextField();
-		grandChildTextField.setBeanProperty(grandChild);
-		childContainer.add(grandChildTextField);
-
-		WTextField invisibleGrandChildTextField = new WTextField();
-		invisibleGrandChildTextField.setBeanProperty(invisibleGrandChild);
-		invisibleGrandChildTextField.setVisible(false);
-		childContainer.add(invisibleGrandChildTextField);
-
-		WContainer invisibleContainer = new WContainer();
-		invisibleContainer.setVisible(false);
-		root.add(invisibleContainer);
-		WTextField childOfInivisbleContainerTextField = new WTextField();
-		childOfInivisbleContainerTextField.setBeanProperty(childOfInvisibleContainer);
-		invisibleContainer.add(childOfInivisbleContainerTextField);
-
-		root.setLocked(true);
-		setActiveContext(createUIContext());
-
-		childTextField.setData(directChild);
-		grandChildTextField.setData(grandChild);
-		invisibleGrandChildTextField.setData(invisibleGrandChild);
-		childOfInivisbleContainerTextField.setData(childOfInvisibleContainer);
-
-		if (visibleOnly == null) {
-			WebUtilities.updateBeanValue(root);
-		} else {
-			WebUtilities.updateBeanValue(root, visibleOnly);
-		}
-
-		Assert.assertEquals("updateBeanValue failed to update directChild with visibleOnly=[" + visibleOnly + "]", directChild, beanMap.get(directChild));
-		Assert.assertEquals("updateBeanValue failed to update grandChild with visibleOnly=[" + visibleOnly + "]", grandChild, beanMap.get(grandChild));
-		Assert.assertEquals("updateBeanValue updated an incorrect value for invisibleGrandChild with visibleOnly=[" + visibleOnly + "]", BooleanUtils.isNotFalse(visibleOnly) ? null : invisibleGrandChild, beanMap.get(invisibleGrandChild));
-		Assert.assertEquals("updateBeanValue updated an incorrect value for childOfInvisibleContainer with visibleOnly=[" + visibleOnly + "]", BooleanUtils.isNotFalse(visibleOnly) ? null : childOfInvisibleContainer, beanMap.get(childOfInvisibleContainer));
-	}
-
+//	/**
+//	 * Set up and execute the updateBeanValue method with the given parameter.
+//	 * If the parameter is null then the default updateBeanValue(component) method will be invoked.
+//	 *
+//	 * @param visibleOnly the parameter to pass to WebUtilities.updateBeanValue(component, visibleOnly).
+//	 */
+//	private void runUpdateBeanValue(final Boolean visibleOnly) {
+//		final String directChild = "directChild";
+//		final String grandChild = "grandChild";
+//		final String invisibleGrandChild = "invisibleGrandChild";
+//		final String childOfInvisibleContainer = "childOfInvisibleContainer";
+//
+//		Map<String, String> beanMap = new HashMap<>();
+//		beanMap.put(directChild, null);
+//		beanMap.put(grandChild, null);
+//		beanMap.put(invisibleGrandChild, null);
+//		beanMap.put(childOfInvisibleContainer, null);
+//
+//		WContainer root = new WContainer();
+//		root.setBean(beanMap);
+//		WTextField childTextField = new WTextField();
+//		childTextField.setBeanProperty(directChild);
+//		root.add(childTextField);
+//
+//		WContainer childContainer = new WContainer();
+//		root.add(childContainer);
+//		WTextField grandChildTextField = new WTextField();
+//		grandChildTextField.setBeanProperty(grandChild);
+//		childContainer.add(grandChildTextField);
+//
+//		WTextField invisibleGrandChildTextField = new WTextField();
+//		invisibleGrandChildTextField.setBeanProperty(invisibleGrandChild);
+//		invisibleGrandChildTextField.setVisible(false);
+//		childContainer.add(invisibleGrandChildTextField);
+//
+//		WContainer invisibleContainer = new WContainer();
+//		invisibleContainer.setVisible(false);
+//		root.add(invisibleContainer);
+//		WTextField childOfInivisbleContainerTextField = new WTextField();
+//		childOfInivisbleContainerTextField.setBeanProperty(childOfInvisibleContainer);
+//		invisibleContainer.add(childOfInivisbleContainerTextField);
+//
+//		root.setLocked(true);
+//		setActiveContext(createUIContext());
+//
+//		childTextField.setData(directChild);
+//		grandChildTextField.setData(grandChild);
+//		invisibleGrandChildTextField.setData(invisibleGrandChild);
+//		childOfInivisbleContainerTextField.setData(childOfInvisibleContainer);
+//
+//		if (visibleOnly == null) {
+//			WebUtilities.updateBeanValue(root);
+//		} else {
+//			WebUtilities.updateBeanValue(root, visibleOnly);
+//		}
+//
+//		Assert.assertEquals("updateBeanValue failed to update directChild with visibleOnly=[" + visibleOnly + "]", directChild, beanMap.get(directChild));
+//		Assert.assertEquals("updateBeanValue failed to update grandChild with visibleOnly=[" + visibleOnly + "]", grandChild, beanMap.get(grandChild));
+//		Assert.assertEquals("updateBeanValue updated an incorrect value for invisibleGrandChild with visibleOnly=[" + visibleOnly + "]", BooleanUtils.isNotFalse(visibleOnly) ? null : invisibleGrandChild, beanMap.get(invisibleGrandChild));
+//		Assert.assertEquals("updateBeanValue updated an incorrect value for childOfInvisibleContainer with visibleOnly=[" + visibleOnly + "]", BooleanUtils.isNotFalse(visibleOnly) ? null : childOfInvisibleContainer, beanMap.get(childOfInvisibleContainer));
+//	}
 	/**
 	 * Compare the URLS. The parameters of the URL must be equal but they do not have to be in the same order.
 	 *

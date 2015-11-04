@@ -160,8 +160,8 @@ public final class SelectListUtil {
 	 * @return true if the option and data are a match
 	 */
 	private static boolean isEqualWithMatching(final Object option, final Object data) {
-		return (Util.equals(option, data) || isOptionCodeMatch(option, data) || isLegacyMatch(option,
-				data));
+		return Util.equals(option, data) || isOptionCodeMatch(option, data) || isLegacyMatch(option,
+				data);
 	}
 
 	/**

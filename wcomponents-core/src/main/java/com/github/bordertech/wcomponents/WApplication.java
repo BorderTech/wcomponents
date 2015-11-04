@@ -145,7 +145,7 @@ public class WApplication extends AbstractMutableContainer implements AjaxTarget
 	@Override
 	public String toString() {
 		String text = getTitle();
-		text = text == null ? "null" : ('"' + text + '"');
+		text = text == null ? "null" : '"' + text + '"';
 		return toString(text);
 	}
 

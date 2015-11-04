@@ -70,7 +70,7 @@ public class WField extends AbstractContainer implements AjaxTarget, Subordinate
 			label.setForComponent(labelField);
 
 			// If the labelField is in a nested WField, restore the original label (if set)
-			if ((labelField instanceof AbstractWComponent) && origLabel != null && WebUtilities.
+			if (labelField instanceof AbstractWComponent && origLabel != null && WebUtilities.
 					getAncestorOfClass(WField.class, labelField) != this) {
 				((AbstractWComponent) labelField).setLabel(origLabel);
 			}
@@ -106,8 +106,13 @@ public class WField extends AbstractContainer implements AjaxTarget, Subordinate
 	 * @return the first component that can be labelled, otherwise null.
 	 */
 	private WComponent findComponentForLabel(final WComponent component) {
-		if ((component instanceof Input && !(component instanceof RadioButtonGroup)) || component instanceof WFieldSet
-				|| component instanceof WRadioButton) {
+		// Input (but not a RadioButtonGroup)
+		if (component instanceof Input && !(component instanceof RadioButtonGroup)) {
+			return component;
+		}
+
+		// Fieldset or RadioButton
+		if (component instanceof WFieldSet || component instanceof WRadioButton) {
 			return component;
 		}
 

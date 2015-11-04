@@ -36,9 +36,9 @@ public class WCancelButtonExample extends WPanel implements MessageContainer {
 	 * The "pages" in the wizard-style interface.
 	 */
 	private final List<PanelWithTextField> pages = Arrays.asList(new PanelWithTextField[]{
-		new PanelWithTextField("Page 1/3", "First item"),
-		new PanelWithTextField("Page 2/3", "Second item"),
-		new PanelWithTextField("Page 3/3", "Final item")
+		new PanelWithTextField("First item"),
+		new PanelWithTextField("Second item"),
+		new PanelWithTextField("Final item")
 	});
 
 	/**
@@ -186,10 +186,9 @@ public class WCancelButtonExample extends WPanel implements MessageContainer {
 		/**
 		 * Creates a PanelWithTextField.
 		 *
-		 * @param title the text for the panel title.
 		 * @param fieldLabel the text for the textField's label.
 		 */
-		private PanelWithTextField(final String title, final String fieldLabel) {
+		private PanelWithTextField(final String fieldLabel) {
 			super();
 			WFieldLayout fieldLayout = new WFieldLayout(WFieldLayout.LAYOUT_FLAT);
 			fieldLayout.setLabelWidth(25);

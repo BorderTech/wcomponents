@@ -508,17 +508,15 @@ public class WVideo extends AbstractWComponent implements Targetable, AjaxTarget
 			} else if (request.getParameter(TRACK_INDEX_REQUEST_PARAM_KEY) != null) {
 				handleTrackRequest(request);
 			} else if (request.getParameter(POSTER_REQUEST_PARAM_KEY) != null) {
-				handlePosterRequest(request);
+				handlePosterRequest();
 			}
 		}
 	}
 
 	/**
 	 * Handles a request for the poster.
-	 *
-	 * @param request the request being responded to.
 	 */
-	private void handlePosterRequest(final Request request) {
+	private void handlePosterRequest() {
 		Image poster = getComponentModel().poster;
 
 		if (poster != null) {

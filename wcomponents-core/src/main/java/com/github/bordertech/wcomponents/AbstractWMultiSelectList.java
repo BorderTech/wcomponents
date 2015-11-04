@@ -63,7 +63,7 @@ public abstract class AbstractWMultiSelectList extends AbstractWSelectList {
 	public String getValueAsString() {
 		List<?> selected = getValue();
 
-		if ((selected == null) || selected.isEmpty()) {
+		if (selected == null || selected.isEmpty()) {
 			return null;
 		}
 
@@ -85,7 +85,7 @@ public abstract class AbstractWMultiSelectList extends AbstractWSelectList {
 	@Override
 	public boolean isEmpty() {
 		List<?> selected = getValue();
-		if ((selected == null) || selected.isEmpty()) {
+		if (selected == null || selected.isEmpty()) {
 			return true;
 		}
 
@@ -334,8 +334,7 @@ public abstract class AbstractWMultiSelectList extends AbstractWSelectList {
 			if (!found) {
 				if (isEditable() && selectedOption instanceof String) {
 					validSelections.add(selectedOption);
-				} else // Handle invalid option
-				if (handleInvalid) {
+				} else if (handleInvalid) { // Handle invalid option
 					List<?> valid = doHandleInvalidOption(selectedOption);
 					setSelected(valid);
 					return valid;
@@ -418,7 +417,7 @@ public abstract class AbstractWMultiSelectList extends AbstractWSelectList {
 
 		// Figure out which options have been selected.
 		List<?> options = getOptions();
-		if ((options == null || options.isEmpty())) {
+		if (options == null || options.isEmpty()) {
 			if (!isEditable()) {
 				// User could not have made a selection.
 				return NO_SELECTION;
@@ -502,9 +501,14 @@ public abstract class AbstractWMultiSelectList extends AbstractWSelectList {
 			return Util.equals(list1, list2);
 		}
 
-		return (list1 == null || list1.isEmpty()) && (list2 == null || list2.isEmpty())
-				|| (list1 != null && list2 != null && list1.size() == list2.size() && list1.
-				containsAll(list2));
+		// Empty or null lists
+		if ((list1 == null || list1.isEmpty()) && (list2 == null || list2.isEmpty())) {
+			return true;
+		}
+
+		// Same size and contain same entries
+		return list1 != null && list2 != null && list1.size() == list2.size() && list1.
+				containsAll(list2);
 	}
 
 	/**

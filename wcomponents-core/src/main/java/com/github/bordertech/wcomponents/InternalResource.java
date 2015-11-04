@@ -100,8 +100,8 @@ public class InternalResource implements ContentStreamAccess {
 
 		if (index != -1) {
 			String extension = resourceName.substring(index + 1);
-			String fileMimeType = Config.getInstance().getString(
-					"bordertech.wcomponents.mimeType." + extension.toLowerCase());
+			String key = "bordertech.wcomponents.mimeType." + extension.toLowerCase();
+			String fileMimeType = Config.getInstance().getString(key);
 
 			if (fileMimeType != null) {
 				return fileMimeType;

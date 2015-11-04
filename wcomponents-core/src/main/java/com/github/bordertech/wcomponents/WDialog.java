@@ -332,7 +332,7 @@ public class WDialog extends AbstractWComponent implements Container, AjaxTarget
 	@Override
 	public String toString() {
 		String text = getTitle();
-		text = text == null ? "null" : ('"' + text + '"');
+		text = text == null ? "null" : '"' + text + '"';
 		return toString(text, -1, -1) + childrenToString(getContent());
 	}
 

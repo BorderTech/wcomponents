@@ -206,7 +206,7 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 	 * @param value the value to set.
 	 */
 	public void setNumber(final double value) {
-		setNumber(new BigDecimal(value));
+		setNumber(BigDecimal.valueOf(value));
 	}
 
 	/**
@@ -247,7 +247,7 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 	 * @param minValue the minimum allowable value.
 	 */
 	public void setMinValue(final long minValue) {
-		setMinValue(new BigDecimal(minValue));
+		setMinValue(BigDecimal.valueOf(minValue));
 	}
 
 	/**
@@ -256,7 +256,7 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 	 * @param minValue the minimum allowable value.
 	 */
 	public void setMinValue(final double minValue) {
-		setMinValue(new BigDecimal(minValue));
+		setMinValue(BigDecimal.valueOf(minValue));
 	}
 
 	/**
@@ -284,7 +284,7 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 	 * @param maxValue the maximum allowable value.
 	 */
 	public void setMaxValue(final long maxValue) {
-		setMaxValue(new BigDecimal(maxValue));
+		setMaxValue(BigDecimal.valueOf(maxValue));
 	}
 
 	/**
@@ -293,7 +293,7 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 	 * @param maxValue the maximum allowable value.
 	 */
 	public void setMaxValue(final double maxValue) {
-		setMaxValue(new BigDecimal(maxValue));
+		setMaxValue(BigDecimal.valueOf(maxValue));
 	}
 
 	/**
@@ -321,7 +321,7 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 	 * @param step the step value.
 	 */
 	public void setStep(final long step) {
-		setStep(new BigDecimal(step));
+		setStep(BigDecimal.valueOf(step));
 	}
 
 	/**
@@ -330,7 +330,7 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 	 * @param step the step value.
 	 */
 	public void setStep(final double step) {
-		setStep(new BigDecimal(step));
+		setStep(BigDecimal.valueOf(step));
 	}
 
 	/**

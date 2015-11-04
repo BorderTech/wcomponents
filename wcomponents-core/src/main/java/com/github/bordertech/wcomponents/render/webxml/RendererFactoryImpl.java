@@ -1,6 +1,7 @@
 package com.github.bordertech.wcomponents.render.webxml;
 
 import com.github.bordertech.wcomponents.Renderer;
+import com.github.bordertech.wcomponents.RendererFactory;
 import com.github.bordertech.wcomponents.util.SystemException;
 
 /**
@@ -10,7 +11,7 @@ import com.github.bordertech.wcomponents.util.SystemException;
  * @author Yiannis Paschalidis
  * @since 1.0.0
  */
-public class RendererFactory implements com.github.bordertech.wcomponents.RendererFactory {
+public class RendererFactoryImpl implements RendererFactory {
 
 	/**
 	 * The package prefix for classes which this factory can create.
@@ -20,7 +21,7 @@ public class RendererFactory implements com.github.bordertech.wcomponents.Render
 	/**
 	 * Creates the RendererFactory.
 	 */
-	public RendererFactory() {
+	public RendererFactoryImpl() {
 		String qualifiedClassName = getClass().getName();
 		String packageName = qualifiedClassName.substring(0, qualifiedClassName.lastIndexOf('.'));
 		packagePrefix = packageName + '.';
