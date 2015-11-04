@@ -236,7 +236,6 @@ chromedriver_cdnurl=${mirror.root}/chromedriver
 
 			<var name="prototype.dir" unset="true"/>
 			<var name="merge.impl.dir" unset="true"/>
-			<var name="prototype.src.dir" unset="true"/>
 
 			<if>
 				<isset property="prototype.name"/>
