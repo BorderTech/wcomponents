@@ -230,7 +230,7 @@ public final class UIManager implements PropertyChangeListener {
 
 		if (factory == null) {
 			try {
-				factory = (RendererFactory) Class.forName(packageName + ".RendererFactory").
+				factory = (RendererFactory) Class.forName(packageName + ".RendererFactoryImpl").
 						newInstance();
 				factoriesByPackage.put(packageName, factory);
 			} catch (Exception e) {

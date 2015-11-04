@@ -2,6 +2,7 @@ package com.github.bordertech.wcomponents.render.nil;
 
 import com.github.bordertech.wcomponents.RenderContext;
 import com.github.bordertech.wcomponents.Renderer;
+import com.github.bordertech.wcomponents.RendererFactory;
 import com.github.bordertech.wcomponents.WComponent;
 
 /**
@@ -11,7 +12,7 @@ import com.github.bordertech.wcomponents.WComponent;
  * @author Yiannis Paschalidis
  * @since 1.0.0
  */
-public class RendererFactory implements com.github.bordertech.wcomponents.RendererFactory {
+public final class RendererFactoryImpl implements RendererFactory {
 
 	/**
 	 * The singleton NullRenderer instance.

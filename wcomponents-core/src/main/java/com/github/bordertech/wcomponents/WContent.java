@@ -232,7 +232,7 @@ public class WContent extends AbstractWComponent implements Targetable {
 		// The target parameter is encoded into the url in the javascript that
 		// was rendered by this component to open the new browser window.
 		String targ = request.getParameter(Environment.TARGET_ID);
-		boolean contentReqested = (targ != null && targ.equals(getTargetId()));
+		boolean contentReqested = targ != null && targ.equals(getTargetId());
 
 		if (contentReqested) {
 			ContentEscape escape = new ContentEscape(getContentAccess());
@@ -258,7 +258,7 @@ public class WContent extends AbstractWComponent implements Targetable {
 	@Override
 	public String toString() {
 		ContentAccess content = getContentAccess();
-		return toString(content == null ? "null" : (content.getClass().getSimpleName()));
+		return toString(content == null ? "null" : content.getClass().getSimpleName());
 	}
 
 	// --------------------------------

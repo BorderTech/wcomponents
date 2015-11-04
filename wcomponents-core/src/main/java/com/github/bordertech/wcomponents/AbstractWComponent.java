@@ -987,7 +987,7 @@ public abstract class AbstractWComponent implements WComponent {
 	 * @return the new set of flags.
 	 */
 	private static int switchFlag(final int flags, final int mask, final boolean value) {
-		int newFlags = value ? (flags | mask) : (flags & ~mask);
+		int newFlags = value ? flags | mask : flags & ~mask;
 		return newFlags;
 	}
 
@@ -1218,7 +1218,7 @@ public abstract class AbstractWComponent implements WComponent {
 			// method was initially called has now been reset.
 			// If the component was dynamically added
 			// and the dynamic parent still has this component as a child
-			if ((dynamicParent != null && getParent() != dynamicParent) && getIndexOfChild(
+			if (dynamicParent != null && getParent() != dynamicParent && getIndexOfChild(
 					dynamicParent, this) != -1) {
 				// then re-instate the reference to the dynamic parent.
 				getOrCreateComponentModel().setParent(dynamicParent);
@@ -1696,7 +1696,7 @@ public abstract class AbstractWComponent implements WComponent {
 			buf.append('(').append(details).append(')');
 		}
 
-		if ((this instanceof Container) && childStartIndex >= 0 && childEndIndex < getChildCount()
+		if (this instanceof Container && childStartIndex >= 0 && childEndIndex < getChildCount()
 				&& childStartIndex <= childEndIndex) {
 			WComponent[] children = new WComponent[childEndIndex - childStartIndex + 1];
 

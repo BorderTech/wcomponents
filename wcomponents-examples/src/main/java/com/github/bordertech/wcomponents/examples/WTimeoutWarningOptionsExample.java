@@ -99,11 +99,9 @@ public class WTimeoutWarningOptionsExample extends WContainer {
 				BigDecimal warnValue = warnAtNumberField.getValue();
 				BigDecimal timeoutValue = timeoutNumberField.getValue();
 
-				if (warnValue != null) {
-					if (warnValue.compareTo(timeoutValue) != -1) {
-						diags.add(createErrorDiagnostic(warnAtNumberField,
-								"The warning period must be less than the timeout period."));
-					}
+				if (warnValue != null && warnValue.compareTo(timeoutValue) != -1) {
+					diags.add(createErrorDiagnostic(warnAtNumberField,
+							"The warning period must be less than the timeout period."));
 				}
 			}
 

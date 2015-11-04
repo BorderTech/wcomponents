@@ -474,7 +474,7 @@ public class WNumberField_Test extends AbstractWComponentTestCase {
 		BigDecimal value = new BigDecimal(100);
 
 		// BigDecimal
-		assertAccessorsCorrect(numberField, "number", null, new BigDecimal(1), new BigDecimal(2));
+		assertAccessorsCorrect(numberField, "number", null, BigDecimal.valueOf(1), BigDecimal.valueOf(2));
 
 		// Long Value
 		numberField.setNumber(value.longValue());
@@ -489,7 +489,7 @@ public class WNumberField_Test extends AbstractWComponentTestCase {
 	public void testMinValueAccessors() {
 
 		WNumberField numberField = new WNumberField();
-		assertAccessorsCorrect(numberField, "minValue", null, new BigDecimal(1), new BigDecimal(2));
+		assertAccessorsCorrect(numberField, "minValue", null, BigDecimal.valueOf(1), BigDecimal.valueOf(2));
 
 		BigDecimal value = new BigDecimal(100);
 
@@ -507,7 +507,7 @@ public class WNumberField_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testMaxValueAccessors() {
 		WNumberField numberField = new WNumberField();
-		assertAccessorsCorrect(numberField, "maxValue", null, new BigDecimal(1), new BigDecimal(2));
+		assertAccessorsCorrect(numberField, "maxValue", null, BigDecimal.valueOf(1), BigDecimal.valueOf(2));
 
 		BigDecimal value = new BigDecimal(100);
 
@@ -525,7 +525,7 @@ public class WNumberField_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testStepAccessors() {
 		WNumberField numberField = new WNumberField();
-		assertAccessorsCorrect(numberField, "step", null, new BigDecimal(1), new BigDecimal(2));
+		assertAccessorsCorrect(numberField, "step", null, BigDecimal.valueOf(1), BigDecimal.valueOf(2));
 
 		BigDecimal value = new BigDecimal(100);
 
@@ -692,7 +692,7 @@ public class WNumberField_Test extends AbstractWComponentTestCase {
 		WNumberField numberField = processDoHandleRequestWithValidNumber();
 		Assert.assertEquals("Incorrect text", REQUEST_VALID_NUMBER_TEXT, numberField.getText());
 
-		numberField.setData(new BigDecimal(1));
+		numberField.setData(BigDecimal.valueOf(1));
 		Assert.assertEquals("Text should have been cleared", null, numberField.getText());
 	}
 

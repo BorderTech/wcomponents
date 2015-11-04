@@ -228,11 +228,6 @@ public class WMessageBox extends AbstractWComponent implements AjaxTarget, Subor
 	 */
 	public boolean hasMessages() {
 		List<String> msgs = getMessages();
-
-		if (msgs == null) {
-			return false;
-		}
-
 		return !msgs.isEmpty();
 	}
 

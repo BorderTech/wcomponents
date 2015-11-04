@@ -320,10 +320,8 @@ final class MenuPanel extends WPanel {
 		}
 
 		WComponent selectedItem = menu.getSelectedItem();
-		if (null != selectedItem) {
-			if (null == UIContextHolder.getCurrent().getFocussed()) {
-				selectedItem.setFocussed();
-			}
+		if (selectedItem != null && UIContextHolder.getCurrent().getFocussed() == null) {
+			selectedItem.setFocussed();
 		}
 	}
 

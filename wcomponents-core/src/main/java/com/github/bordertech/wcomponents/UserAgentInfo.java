@@ -68,7 +68,7 @@ public class UserAgentInfo implements Serializable {
 	 * @return true if the browser is some version of IE.
 	 */
 	public boolean isIE() {
-		return (browserVersion == BROWSER_IE || browserVersion == BROWSER_IE6);
+		return browserVersion == BROWSER_IE || browserVersion == BROWSER_IE6;
 	}
 
 	/**

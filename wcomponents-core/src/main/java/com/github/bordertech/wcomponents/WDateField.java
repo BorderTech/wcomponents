@@ -123,7 +123,7 @@ public class WDateField extends AbstractInput implements AjaxTrigger, AjaxTarget
 				sdf.setLenient(lenient);
 				return sdf.parse((String) data);
 			} catch (ParseException e) {
-				// ignored - fall through to system exception below
+				throw new SystemException("Could not convert String data [" + data + "] to a date.");
 			}
 		}
 
@@ -172,7 +172,7 @@ public class WDateField extends AbstractInput implements AjaxTrigger, AjaxTarget
 
 		// Text entered by the user (An empty string is treated as null)
 		String value = request.getParameter(getId());
-		String text = (Util.empty(value)) ? null : value;
+		String text = Util.empty(value) ? null : value;
 
 		// Current Date
 		Date currentDate = getValue();
