@@ -233,15 +233,60 @@ chromedriver_cdnurl=${mirror.root}/chromedriver
 			<property name="impl.src.dir" location="@{rootDir}/@{implName}"/>
 			<var name="prototype.name" unset="true"/>
 			<loadfile property="prototype.name" srcFile="${impl.src.dir}/inherit.txt"/>
+
+			<var name="prototype.dir" unset="true"/>
+			<var name="merge.impl.dir" unset="true"/>
+			<var name="prototype.src.dir" unset="true"/>
+
+			<if>
+				<isset property="prototype.name"/>
+				<then>
+					<if>
+						<and>
+							<available file="${prototype.name}" type="file"/>
+							<matches string="${prototype.name}" pattern="\.zip$" casesensitive="false"/>
+						</and>
+						<then>
+							<echo>Found prototype zip file ${prototype.name}</echo>
+							<delete dir="${tmp.dir}/parent"/>
+							<!-- unzip the zip and set the path -->
+							<unzip src="${prototype.name}" dest="${tmp.dir}/parent" overwrite="true" failOnEmptyArchive="true">
+								<patternset>
+									<include name="*/**"/>
+								</patternset>
+							</unzip>
+							<property name="prototype.dir" location="${tmp.dir}/parent"/>
+						</then>
+						<elseif>
+							<and>
+								<matches string="${prototype.name}" pattern="\/"/>
+								<available file="${prototype.name}" type="dir"/>
+							</and>
+							<then>
+								<echo>Found prototype directory named ${prototype.name}</echo>
+								<property name="prototype.dir" location="${prototype.name}"/>
+							</then>
+						</elseif>
+						<elseif>
+							<available file="${impl.src.rootdir}/${prototype.name}" type="dir"/>
+							<then>
+								<echo>Using simple fallback prototype ${impl.src.rootdir}/${prototype.name}</echo>
+								<property name="prototype.dir" location="${impl.src.rootdir}/${prototype.name}"/>
+							</then>
+						</elseif>
+						<else>
+							<fail message="Could not find prototype implementation ${prototype.name}"/>
+						</else>
+					</if>
+				</then>
+			</if>
+
 			<if>
 				<and>
-					<isset property="prototype.name"/>
-					<available file="${impl.src.rootdir}/${prototype.name}" type="dir"/>
+					<isset property="prototype.dir"/>
+					<available file="${prototype.dir}" type="dir"/>
 				</and>
 				<then>
-					<var name="prototype.dir" unset="true"/>
-					<var name="merge.impl.dir" unset="true"/>
-					<property name="prototype.dir" location="${impl.src.rootdir}/${prototype.name}"/>
 					<property name="merge.impl.dir" location="${sub.impl.dir}/@{implName}"/>
 					<delete dir="${merge.impl.dir}"/>
 					<echo>Copying sub-implementation files from: ${impl.src.dir} to ${merge.impl.dir}</echo>
@@ -307,9 +352,9 @@ chromedriver_cdnurl=${mirror.root}/chromedriver
 						</fileset>
 					</copy>
 					<copy todir="${merge.impl.dir}/src/main/images" overwrite="false">
-							<fileset dir="${prototype.dir}/src/main/images" includes="**/*" excludesfile="${impl.src.dir}/excludes.txt" erroronmissingdir="false">
-								<present present="srconly" targetdir="${merge.impl.dir}/src/main/images"/>
-							</fileset>
+						<fileset dir="${prototype.dir}/src/main/images" includes="**/*" excludesfile="${impl.src.dir}/excludes.txt" erroronmissingdir="false">
+							<present present="srconly" targetdir="${merge.impl.dir}/src/main/images"/>
+						</fileset>
 					</copy>
 					<copy todir="${merge.impl.dir}/src/main/js" overwrite="false">
 						<fileset dir="${prototype.dir}/src/main/js" includes="**/*.js" excludesfile="${impl.src.dir}/excludes.txt" erroronmissingdir="false">
@@ -323,9 +368,12 @@ chromedriver_cdnurl=${mirror.root}/chromedriver
 					</copy>
 					<delete file="${merge.impl.dir}/inherit.txt"/><!-- EEEK! Make sure to prevent infinite looping -->
 				</then>
-				<else>
-					<fail message="Could not find prototype implementation ${prototype.name}"/>
-				</else>
+				<elseif>
+					<isset property="prototype.dir"/>
+					<then>
+						<fail message="Could not find prototype directory ${prototype.dir}"/>
+					</then>
+				</elseif>
 			</if>
 		</sequential>
 	</macrodef>
