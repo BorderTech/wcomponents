@@ -247,14 +247,14 @@ chromedriver_cdnurl=${mirror.root}/chromedriver
 						</and>
 						<then>
 							<echo>Found prototype zip file ${prototype.name}</echo>
-							<delete dir="${tmp.dir}/parent"/>
+							<property name="prototype.dir" location="${tmp.dir}/parent"/>
+							<delete dir="${prototype.dir}"/>
 							<!-- unzip the zip and set the path -->
-							<unzip src="${prototype.name}" dest="${tmp.dir}/parent" overwrite="true" failOnEmptyArchive="true">
+							<unzip src="${prototype.name}" dest="${prototype.dir}" overwrite="true" failOnEmptyArchive="true">
 								<patternset>
 									<include name="*/**"/>
 								</patternset>
 							</unzip>
-							<property name="prototype.dir" location="${tmp.dir}/parent"/>
 						</then>
 						<elseif>
 							<and>
@@ -269,8 +269,8 @@ chromedriver_cdnurl=${mirror.root}/chromedriver
 						<elseif>
 							<available file="${impl.src.rootdir}/${prototype.name}" type="dir"/>
 							<then>
-								<echo>Using simple fallback prototype ${impl.src.rootdir}/${prototype.name}</echo>
 								<property name="prototype.dir" location="${impl.src.rootdir}/${prototype.name}"/>
+								<echo>Using simple fallback prototype ${prototype.dir}</echo>
 							</then>
 						</elseif>
 						<else>
