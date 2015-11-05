@@ -130,7 +130,7 @@ public abstract class AbstractWSingleSelectList extends AbstractWSelectList {
 	@Override
 	public void setData(final Object data) {
 		List<?> options = getOptions();
-		if ((!(isEditable() && data instanceof String)) && (options == null || options.isEmpty())) {
+		if (!(isEditable() && data instanceof String) && (options == null || options.isEmpty())) {
 			throw new IllegalStateException(
 					"Should not set a selection on a list component with no options.");
 		}
@@ -257,7 +257,7 @@ public abstract class AbstractWSingleSelectList extends AbstractWSelectList {
 		// Figure out which option has been selected.
 		List<?> options = getOptions();
 
-		if ((options == null || options.isEmpty())) {
+		if (options == null || options.isEmpty()) {
 			if (!isEditable()) {
 				// User could not have made a selection.
 				return null;

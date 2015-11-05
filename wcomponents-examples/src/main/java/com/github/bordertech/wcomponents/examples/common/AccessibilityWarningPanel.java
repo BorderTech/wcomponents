@@ -13,7 +13,6 @@ public class AccessibilityWarningPanel extends WPanel {
 
 	private static final String WARNING = "This example may contain poor structure or layout which may lead to accessibility problems and should not be used as a guide to best practice for anything other than the explicit example component.";
 	private static final String HEADING = "Warning";
-	private static final String EG_HEADING = "Example";
 
 	/**
 	 * Construct panel.

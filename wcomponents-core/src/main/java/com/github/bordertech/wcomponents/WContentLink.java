@@ -345,7 +345,7 @@ public class WContentLink extends AbstractContainer implements Disableable {
 	@Override
 	public String toString() {
 		String text = getText();
-		text = text == null ? "null" : ('"' + text + '"');
+		text = text == null ? "null" : '"' + text + '"';
 		return toString(text, -1, -1);
 	}
 }

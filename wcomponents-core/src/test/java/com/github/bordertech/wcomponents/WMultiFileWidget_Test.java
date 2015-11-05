@@ -2,9 +2,7 @@ package com.github.bordertech.wcomponents;
 
 import com.github.bordertech.wcomponents.WMultiFileWidget.FileWidgetUpload;
 import com.github.bordertech.wcomponents.file.FileItemWrap;
-import com.github.bordertech.wcomponents.util.RequestUtil;
 import com.github.bordertech.wcomponents.util.mock.MockFileItem;
-import com.github.bordertech.wcomponents.util.mock.MockRequest;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -34,8 +32,6 @@ public class WMultiFileWidget_Test extends AbstractWComponentTestCase {
 	 * Test file item 2.
 	 */
 	private static final FileItem TEST_FILE_ITEM2 = createFileItem("test2.bin", 20);
-
-	private static final FileItem[] TEST_FILE_ITEM_1_2 = new FileItem[]{TEST_FILE_ITEM1, TEST_FILE_ITEM2};
 
 	/**
 	 * File item wrap for file item 1.
@@ -515,48 +511,32 @@ public class WMultiFileWidget_Test extends AbstractWComponentTestCase {
 		fileItem.setName(fileName);
 		return fileItem;
 	}
+//
+//	/**
+//	 * @param widget the widget the file file item is for on the request
+//	 * @param fileItems the file items to include on the request
+//	 * @return a request containing the file item for the widget
+//	 */
+//	private static FileUploadMockRequest setupFileUploadRequest(final WMultiFileWidget widget,
+//			final FileItem[] fileItems) {
+//		final FileUploadMockRequest request = new FileUploadMockRequest();
+//		for (FileItem fileItem : fileItems) {
+//			fileItem.setFieldName(widget.getId());
+//			request.uploadFile(fileItem);
+//		}
+//		return request;
+//	}
 
-	/**
-	 * @param widget the widget the file file item is for on the request
-	 * @param fileItem the file item to include on the request
-	 * @return a request containing the file item for the widget
-	 */
-	private static FileUploadMockRequest setupFileUploadRequest(final WMultiFileWidget widget,
-			final FileItem fileItem) {
-		fileItem.setFieldName(widget.getId());
-
-		final FileUploadMockRequest request = new FileUploadMockRequest();
-		request.uploadFile(fileItem);
-
-		return request;
-	}
-
-	/**
-	 * @param widget the widget the file file item is for on the request
-	 * @param fileItems the file items to include on the request
-	 * @return a request containing the file item for the widget
-	 */
-	private static FileUploadMockRequest setupFileUploadRequest(final WMultiFileWidget widget,
-			final FileItem[] fileItems) {
-		final FileUploadMockRequest request = new FileUploadMockRequest();
-		for (FileItem fileItem : fileItems) {
-			fileItem.setFieldName(widget.getId());
-			request.uploadFile(fileItem);
-		}
-		return request;
-	}
-
-	/**
-	 * Extends MockRequest so that adding a file with a file name is possible.
-	 */
-	private static final class FileUploadMockRequest extends MockRequest {
-
-		/**
-		 * @param item the file item
-		 */
-		private void uploadFile(final FileItem item) {
-			RequestUtil.addFileItem(getFiles(), item.getFieldName(), item);
-		}
-	}
-
+//	/**
+//	 * Extends MockRequest so that adding a file with a file name is possible.
+//	 */
+//	private static final class FileUploadMockRequest extends MockRequest {
+//
+//		/**
+//		 * @param item the file item
+//		 */
+//		private void uploadFile(final FileItem item) {
+//			RequestUtil.addFileItem(getFiles(), item.getFieldName(), item);
+//		}
+//	}
 }

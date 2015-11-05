@@ -684,7 +684,7 @@ public class ComponentModel implements WebModel, Externalizable {
 	 *
 	 * @author Yiannis Paschalidis
 	 */
-	private static final class NoOverride extends Object implements Serializable {
+	private static final class NoOverride implements Serializable {
 
 		/**
 		 * Singleton instance.

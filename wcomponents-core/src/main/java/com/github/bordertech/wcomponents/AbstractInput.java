@@ -350,7 +350,7 @@ public abstract class AbstractInput extends WBeanComponent implements Input {
 	@Override
 	public boolean isEmpty() {
 		String value = getValueAsString();
-		return (value == null) || (value.length() == 0);
+		return value == null || value.length() == 0;
 	}
 
 	/**
@@ -399,7 +399,7 @@ public abstract class AbstractInput extends WBeanComponent implements Input {
 	@Override
 	public String toString() {
 		String text = getValueAsString();
-		text = text == null ? "null" : ('"' + text + '"');
+		text = text == null ? "null" : '"' + text + '"';
 		return toString(text);
 	}
 

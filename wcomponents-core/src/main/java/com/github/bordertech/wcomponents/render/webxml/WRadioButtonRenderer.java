@@ -1,6 +1,5 @@
 package com.github.bordertech.wcomponents.render.webxml;
 
-import com.github.bordertech.wcomponents.RadioButtonGroup;
 import com.github.bordertech.wcomponents.Renderer;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WRadioButton;
@@ -25,7 +24,6 @@ final class WRadioButtonRenderer extends AbstractWebXmlRenderer {
 	@Override
 	public void doRender(final WComponent component, final WebXmlRenderContext renderContext) {
 		WRadioButton button = (WRadioButton) component;
-		RadioButtonGroup group = button.getGroup();
 
 		XmlStringBuilder xml = renderContext.getWriter();
 

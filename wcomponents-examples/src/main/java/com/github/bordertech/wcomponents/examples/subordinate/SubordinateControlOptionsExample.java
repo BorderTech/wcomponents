@@ -81,11 +81,6 @@ public class SubordinateControlOptionsExample extends WContainer {
 	private SubordinateTrigger trigger;
 
 	/**
-	 * Field for trigger.
-	 */
-	private WField triggerField;
-
-	/**
 	 * Target textField.
 	 */
 	private final WTextField targetTextField = new WTextField();
@@ -680,7 +675,7 @@ public class SubordinateControlOptionsExample extends WContainer {
 				rbSet.add(new WText("\u00a0"));
 				rbSet.add(rb3);
 				rbSet.add(new WLabel("C", rb3));
-				triggerField = layout.addField(label, rbSet);
+				layout.addField(label, rbSet);
 				return;
 
 			case CheckBox:
@@ -747,7 +742,7 @@ public class SubordinateControlOptionsExample extends WContainer {
 				throw new SystemException("Trigger type not valid");
 		}
 
-		triggerField = layout.addField(label, trigger);
+		layout.addField(label, trigger);
 	}
 
 	/**
