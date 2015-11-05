@@ -33,6 +33,7 @@
 		</menu>
 		<menu name="Other documentation">
 			<item name="SchemaDoc" href="./schema/schema.html" target="_blank"/>
+			<item name="JSDoc" href="./jsdoc/index.html" target="_blank"/>
 		</menu>
 		<menu ref="reports"/>
 	</body>
