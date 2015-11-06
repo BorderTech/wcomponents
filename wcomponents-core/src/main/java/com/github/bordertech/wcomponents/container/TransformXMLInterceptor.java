@@ -127,8 +127,6 @@ public class TransformXMLInterceptor extends InterceptorComponent {
 	 *
 	 * @param resourceName The name of the XSLT file to load from the classpath.
 	 * @return A new Transformer instance.
-	 * @throws IOException
-	 * @throws TransformerConfigurationException
 	 */
 	private static synchronized Transformer newTransformer(final String resourceName) {
 		Templates templates = CACHE.get(resourceName);
