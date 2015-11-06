@@ -27,6 +27,7 @@ import com.github.bordertech.wcomponents.container.SessionTokenInterceptor;
 import com.github.bordertech.wcomponents.container.SubordinateControlInterceptor;
 import com.github.bordertech.wcomponents.container.TargetableErrorInterceptor;
 import com.github.bordertech.wcomponents.container.TargetableInterceptor;
+import com.github.bordertech.wcomponents.container.TransformXMLInterceptor;
 import com.github.bordertech.wcomponents.container.UIContextDumpInterceptor;
 import com.github.bordertech.wcomponents.container.ValidateXMLInterceptor;
 import com.github.bordertech.wcomponents.container.WWindowInterceptor;
@@ -360,9 +361,9 @@ public final class ServletUtil {
 				new UIContextDumpInterceptor(), new AjaxSetupInterceptor(),
 				new WWindowInterceptor(true), new WrongStepAjaxInterceptor(),
 				new ContextCleanupInterceptor(), new ValidateXMLInterceptor(),
-				new WhitespaceFilterInterceptor(), new SubordinateControlInterceptor(),
-				new AjaxPageShellInterceptor(), new AjaxDebugStructureInterceptor(),
-				new AjaxInterceptor()};
+				new TransformXMLInterceptor(), new WhitespaceFilterInterceptor(),
+				new SubordinateControlInterceptor(), new AjaxPageShellInterceptor(),
+				new AjaxDebugStructureInterceptor(), new AjaxInterceptor()};
 		} else if (request.getParameter(WServlet.TARGET_ID_PARAM_NAME) != null) {
 			chain = new InterceptorComponent[]{new TargetableErrorInterceptor(),
 				new SessionTokenContentInterceptor(), new UIContextDumpInterceptor(),
@@ -373,9 +374,10 @@ public final class ServletUtil {
 				new ResponseCacheInterceptor(CacheType.NO_CACHE),
 				new UIContextDumpInterceptor(), new WWindowInterceptor(true),
 				new WrongStepServerInterceptor(), new ContextCleanupInterceptor(),
-				new ValidateXMLInterceptor(), new WhitespaceFilterInterceptor(),
-				new SubordinateControlInterceptor(), new PageShellInterceptor(),
-				new FormInterceptor(), new DebugStructureInterceptor()};
+				new ValidateXMLInterceptor(), new TransformXMLInterceptor(),
+				new WhitespaceFilterInterceptor(), new SubordinateControlInterceptor(),
+				new PageShellInterceptor(), new FormInterceptor(),
+				new DebugStructureInterceptor()};
 		}
 
 		// Link the interceptors together in a chain.

@@ -1,10 +1,13 @@
 Travis CI: [![Build Status](https://travis-ci.org/BorderTech/wcomponents.svg?branch=master)](https://travis-ci.org/BorderTech/wcomponents)
 
-Frontend Tests: 
+Frontend Tests:
 [![Sauce Test Status](https://saucelabs.com/browser-matrix/javatech.svg)](https://saucelabs.com/u/javatech)
 
 # wcomponents
 Accessible Web UI Framework for Enterprise
+
+Born in 2005
+Open source since August 2015
 
 WComponents is an opinionated Java framework for building accessible web applications for enterprise and government.
 
