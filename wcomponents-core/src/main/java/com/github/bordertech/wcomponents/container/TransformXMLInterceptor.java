@@ -40,6 +40,10 @@ import org.apache.commons.logging.LogFactory;
  * @since 1.0.0
  */
 public class TransformXMLInterceptor extends InterceptorComponent {
+	/**
+	 * The key used to look up the enable flag in the current {@link Config configuration}.
+	 */
+	public static final String PARAMETERS_KEY = "bordertech.wcomponents.xslt.enabled";
 
 	/**
 	 * Cache compiled XSLT stylesheets.
@@ -58,7 +62,7 @@ public class TransformXMLInterceptor extends InterceptorComponent {
 	 */
 	@Override
 	public void paint(final RenderContext renderContext) {
-		boolean doTransform = Config.getInstance().getBoolean("bordertech.wcomponents.xslt.enabled", false);
+		boolean doTransform = Config.getInstance().getBoolean(PARAMETERS_KEY, false);
 		if (!doTransform) {
 			super.paint(renderContext);
 			return;
@@ -85,7 +89,12 @@ public class TransformXMLInterceptor extends InterceptorComponent {
 		WebXmlRenderContext webRenderContext = (WebXmlRenderContext) renderContext;
 		PrintWriter writer = webRenderContext.getWriter();
 
-		// Switch the response content-type to HTML.
+		/*
+		 * Switch the response content-type to HTML.
+		 * In theory the transformation could be to ANYTHING (not just HTML) so perhaps it would make more sense to
+		 *    write a new interceptor "ContentTypeInterceptor" which attempts to sniff payloads and choose the correct
+		 *    content-type. This is exactly the kind of thing IE6 loved to do, so perhaps it's a bad idea.
+		 */
 		Response response = getResponse();
 		response.setContentType(WebUtilities.CONTENT_TYPE_HTML);
 
@@ -94,7 +103,6 @@ public class TransformXMLInterceptor extends InterceptorComponent {
 		transform(xml, uic, writer);
 
 		LOG.debug("Transform XML Interceptor: Finished");
-
 	}
 
 	/**
@@ -133,11 +141,16 @@ public class TransformXMLInterceptor extends InterceptorComponent {
 		try {
 			if (templates == null) {
 				URL xsltURL = ThemeUtil.class.getResource(resourceName);
-				Source xsltSource = new StreamSource(xsltURL.openStream(), xsltURL.toExternalForm());
-				TransformerFactory factory = TransformerFactory.newInstance();
-				templates = factory.newTemplates(xsltSource);
-				CACHE.put(resourceName, templates);
-				LOG.debug("Cached xslt: " + resourceName);
+				if (xsltURL != null) {
+					Source xsltSource = new StreamSource(xsltURL.openStream(), xsltURL.toExternalForm());
+					TransformerFactory factory = TransformerFactory.newInstance();
+					templates = factory.newTemplates(xsltSource);
+					CACHE.put(resourceName, templates);
+					LOG.debug("Cached xslt: " + resourceName);
+				} else {
+					// Perhaps we should disable this interceptor if we end up here and fall back to serving raw XML?
+					throw new IllegalStateException(PARAMETERS_KEY + " true but " + resourceName + " not on classpath");
+				}
 			}
 			return templates.newTransformer();
 		} catch (IOException | TransformerConfigurationException ex) {

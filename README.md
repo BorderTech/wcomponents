@@ -6,8 +6,7 @@ Frontend Tests:
 # wcomponents
 Accessible Web UI Framework for Enterprise
 
-Born in 2005
-Open source since August 2015
+ *<sup>Born in 2005 - Open source since August 2015</sup>*
 
 WComponents is an opinionated Java framework for building accessible web applications for enterprise and government.
 
