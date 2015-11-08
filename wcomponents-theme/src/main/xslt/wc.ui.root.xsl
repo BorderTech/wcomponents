@@ -41,13 +41,11 @@
 				-->
 				<xsl:call-template name="makeRequireConfig"/>
 
-				<xsl:if test="$isIE=1">
-					<!--
-						non-AMD compatible fixes for IE: things that need to be fixed before we can require anything but
-						have to be added after we have included requirejs/require.
-					-->
-					<xsl:call-template name="makeIE8CompatScripts"/>
-				</xsl:if>
+				<!--
+					non-AMD compatible fixes for IE: things that need to be fixed before we can require anything but
+					have to be added after we have included requirejs/require.
+				-->
+				<xsl:call-template name="makeIE8CompatScripts"/>
 
 				<xsl:call-template name="externalScript">
 					<xsl:with-param name="scriptName" select="'requirejs/require'"/>
