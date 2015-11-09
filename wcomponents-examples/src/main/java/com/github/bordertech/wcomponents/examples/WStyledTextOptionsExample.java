@@ -58,7 +58,7 @@ public class WStyledTextOptionsExample extends WPanel {
 				styled.setType((WStyledText.Type) type.getSelected());
 				styled.setWhitespaceMode((WStyledText.WhitespaceMode) mode.getSelected());
 				styled.setText(text.getText());
-				styled.setHtmlClass(useBigTextClass.isSelected() ? "bigTextClass" : "");
+				styled.setHtmlClass(useBigTextClass.isSelected() ? "bigText" : "");
 			}
 		});
 
@@ -73,7 +73,7 @@ public class WStyledTextOptionsExample extends WPanel {
 		setDefaultSubmitButton(button);
 
 
-		WText cssText = new WText("<style type='text/css'>.bigTextClass{font-size:3em;}</style>");
+		WText cssText = new WText("<style type='text/css'>.bigText{font-size:3em;}</style>");
 		cssText.setEncodeText(false);
 		add(cssText);
 	}
