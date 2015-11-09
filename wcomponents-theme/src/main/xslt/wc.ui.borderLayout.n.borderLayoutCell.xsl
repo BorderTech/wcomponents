@@ -14,7 +14,7 @@
 		<xsl:element name="div">
 			<xsl:attribute name="class">
 				<xsl:value-of select="local-name(.)"/>
-				<xsl:if test="$isIE = 1 and (self::ui:west or self::ui:east or self::ui:center)">
+				<xsl:if test="self::ui:west or self::ui:east or self::ui:center">
 					<!-- IE8 needs more help because it does not know about last child -->
 					<xsl:variable name="colCount" select="count(../ui:west|../ui:east|../ui:center)"/>
 					<xsl:choose>

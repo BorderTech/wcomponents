@@ -62,12 +62,11 @@ define(["wc/dom/attribute",
 		"wc/ui/dateField",
 		"wc/dom/initialise",
 		"wc/timers",
-		"wc/ui/dialog",
 		"module"],
-/** @param attribute wc/dom/attribute @param addDays wc/date/addDays @param copy wc/date/copy @param dayName wc/date/dayName @param daysInMonth wc/date/daysInMonth @param getDifference wc/date/getDifference @param monthName wc/date/monthName @param today wc/date/today @param interchange wc/date/interchange @param classList wc/dom/classList @param event wc/dom/event @param focus wc/dom/focus @param shed wc/dom/shed @param tag wc/dom/tag @param viewportCollision wc/dom/viewportCollision @param getBox wc/dom/getBox @param Widget wc/dom/Widget @param i18n wc/i18n/i18n @param loader wc/loader/resource @param sprintf sprintf/sprintf @param isNumeric wc/isNumeric @param dateField wc/ui/dateField @param initialise wc/dom/initialise @param timers wc/timers @param dialog wc/ui/dialog @param module @ignore */
+/** @param attribute wc/dom/attribute @param addDays wc/date/addDays @param copy wc/date/copy @param dayName wc/date/dayName @param daysInMonth wc/date/daysInMonth @param getDifference wc/date/getDifference @param monthName wc/date/monthName @param today wc/date/today @param interchange wc/date/interchange @param classList wc/dom/classList @param event wc/dom/event @param focus wc/dom/focus @param shed wc/dom/shed @param tag wc/dom/tag @param viewportCollision wc/dom/viewportCollision @param getBox wc/dom/getBox @param Widget wc/dom/Widget @param i18n wc/i18n/i18n @param loader wc/loader/resource @param sprintf sprintf/sprintf @param isNumeric wc/isNumeric @param dateField wc/ui/dateField @param initialise wc/dom/initialise @param timers wc/timers @param module @ignore */
 function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthName, today, interchange, classList, event,
 		focus, shed, tag, viewportCollision, getBox, Widget, i18n, loader, sprintf, isNumeric, dateField, initialise,
-		timers, dialog, module) {
+		timers, module) {
 
 	"use strict";
 
@@ -781,7 +780,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 			var collision = viewportCollision(cal),
 				initiallyCollideSouth = collision.s > 0,
 				initiallyCollideWest = collision.w < 0,
-				box, left, dlg, dlgContent, dlgBox, contentBox;
+				box, left;
 
 			/*
 			 * NOTE: default open is below input field and lined up at the right edge of the combo so we do not been to
@@ -807,27 +806,6 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 					left = Math.min(box.left, collision.e);  // we have to move this far left to move the entire calendar into view
 					if (left > 0) {
 						cal.style.left = (-1 * left) + "px";
-					}
-				}
-			}
-			else if ((dlg = dialog.getDialog())) {
-				if (dlg.compareDocumentPosition(cal) & Node.DOCUMENT_POSITION_CONTAINED_BY) {
-					// the calendar is inside the dialog
-					dlgContent = dialog.getDialogContent();
-					if (!dlgContent) {
-						return;
-					}
-					box = getBox(cal);
-					contentBox = getBox(dlgContent);
-					dlgBox = getBox(dlg);
-					if (box.bottom > contentBox.bottom) { // bottom of calendar below bottom of dialog content
-						cal.scrollIntoView();
-						box = getBox(cal);
-						if (box.bottom > contentBox.bottom) {
-							dlg.style.minHeight = (dlgBox.height - contentBox.height + box.height) + "px";
-							dlgContent.style.minHeight = box.height + "px";
-							cal.scrollIntoView();
-						}
 					}
 				}
 			}
@@ -999,7 +977,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 * strip aria- attributes on hide
 		 */
 		function shedSubscriber(element, action) {
-			var cal, input, content;
+			var cal, input;
 			if (element.id === CONTAINER_ID) {
 				if (action === shed.actions.HIDE) {
 					element.removeAttribute(CONTROL_ATTRIBUTE);

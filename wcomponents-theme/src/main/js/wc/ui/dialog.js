@@ -643,8 +643,6 @@ define(["wc/dom/classList",
 							// remove the magic button reference (just in case it has not already been removed).
 							contentDiv.removeAttribute(GET_ATTRIB);
 
-							contentDiv.style.minHeight = "";
-
 							if (emptyOnClose) {
 								contentDiv.innerHTML = "";
 								contentDiv.id = "";
@@ -737,37 +735,6 @@ define(["wc/dom/classList",
 					}
 				}
 			}
-
-			/**
-			 * @function module:wc/ui/dialog.getId
-			 * @public
-			 * @returns {String} The id of the dialog wrapper
-			 */
-			this.getId = function() {
-				return DIALOG_ID;
-			};
-
-			/**
-			 * @function module:wc/ui/dialog.getDialog
-			 * @public
-			 * @returns {Element} A dialog, if one exists in the view.
-			 */
-			this.getDialog = function() {
-				return document.getElementById(DIALOG_ID);
-			};
-
-			/**
-			 * @function module:wc/ui/dialog.getDialogContent
-			 * @public
-			 * @returns {Element} The content element of a dialog if a dialog exists in the view.
-			 */
-			this.getDialogContent = function () {
-				var dlg = this.getDialog();
-				if (dlg) {
-					return getContent(dlg);
-				}
-				return null;
-			};
 
 			/**
 			 * Component initialisation simply attaches a click event handler
