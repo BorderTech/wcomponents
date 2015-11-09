@@ -9,6 +9,7 @@
         var propertiesBoxes= new Array('properties_selectToggle.xsd', 
 				'properties_selectToggle', 
 				'properties_selectToggle_id', 
+				'properties_selectToggle_class', 
 				'properties_selectToggle_disabled', 
 				'properties_selectToggle_target', 
 				'properties_selectToggle_roundTrip', 
@@ -18,6 +19,7 @@ var facetsBoxes= new Array('facets_selectToggle_selected',
 				'facets_selectToggle_renderAs');
 var usedByBoxes= new Array('usedBy_selectToggle', 
 				'usedBy_selectToggle_id', 
+				'usedBy_selectToggle_class', 
 				'usedBy_selectToggle_disabled', 
 				'usedBy_selectToggle_target', 
 				'usedBy_selectToggle_roundTrip', 
@@ -25,6 +27,7 @@ var usedByBoxes= new Array('usedBy_selectToggle',
 				'usedBy_selectToggle_renderAs');
 var sourceBoxes= new Array('source_selectToggle', 
 				'source_selectToggle_id', 
+				'source_selectToggle_class', 
 				'source_selectToggle_disabled', 
 				'source_selectToggle_target', 
 				'source_selectToggle_roundTrip', 
@@ -33,6 +36,7 @@ var sourceBoxes= new Array('source_selectToggle',
 var diagramBoxes= new Array('diagram_selectToggle');
 var annotationBoxes= new Array('annotations_selectToggle', 
 				'annotations_selectToggle_id', 
+				'annotations_selectToggle_class', 
 				'annotations_selectToggle_disabled', 
 				'annotations_selectToggle_target', 
 				'annotations_selectToggle_roundTrip', 
@@ -451,11 +455,12 @@ var attributesBoxes= new Array('attributes_selectToggle');
                         <td class="diagram">
                            <div id="diagram_selectToggle" style="display:block"><img alt="Diagram" border="0" src="img/selectToggle_xsd_Element_ui_selectToggle.png" usemap="#selectToggle_xsd_Element_ui_selectToggle" /><map name="selectToggle_xsd_Element_ui_selectToggle" id="selectToggle_xsd_Element_ui_selectToggle">
                                  <area alt="selectToggle_xsd.tmp#selectToggle_id" href="selectToggle_xsd.html#selectToggle_id" coords="161,40,229,64" />
-                                 <area alt="selectToggle_xsd.tmp#selectToggle_disabled" href="selectToggle_xsd.html#selectToggle_disabled" coords="161,104,254,128" />
-                                 <area alt="selectToggle_xsd.tmp#selectToggle_target" href="selectToggle_xsd.html#selectToggle_target" coords="161,181,241,205" />
-                                 <area alt="selectToggle_xsd.tmp#selectToggle_roundTrip" href="selectToggle_xsd.html#selectToggle_roundTrip" coords="161,258,264,282" />
-                                 <area alt="selectToggle_xsd.tmp#selectToggle_selected" href="selectToggle_xsd.html#selectToggle_selected" coords="161,348,253,372" />
-                                 <area alt="selectToggle_xsd.tmp#selectToggle_renderAs" href="selectToggle_xsd.html#selectToggle_renderAs" coords="161,425,259,449" /></map></div>
+                                 <area alt="selectToggle_xsd.tmp#selectToggle_class" href="selectToggle_xsd.html#selectToggle_class" coords="161,104,236,128" />
+                                 <area alt="selectToggle_xsd.tmp#selectToggle_disabled" href="selectToggle_xsd.html#selectToggle_disabled" coords="161,181,254,205" />
+                                 <area alt="selectToggle_xsd.tmp#selectToggle_target" href="selectToggle_xsd.html#selectToggle_target" coords="161,258,241,282" />
+                                 <area alt="selectToggle_xsd.tmp#selectToggle_roundTrip" href="selectToggle_xsd.html#selectToggle_roundTrip" coords="161,335,264,359" />
+                                 <area alt="selectToggle_xsd.tmp#selectToggle_selected" href="selectToggle_xsd.html#selectToggle_selected" coords="161,425,253,449" />
+                                 <area alt="selectToggle_xsd.tmp#selectToggle_renderAs" href="selectToggle_xsd.html#selectToggle_renderAs" coords="161,502,259,526" /></map></div>
                         </td>
                      </tr>
                      <tr>
@@ -506,6 +511,14 @@ var attributesBoxes= new Array('attributes_selectToggle');
                                        <th>Annotation</th>
                                     </tr>
                                  </thead>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="selectToggle_xsd.html#selectToggle_class" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for selectToggle.xsd')">class</a></b></td>
+                                    <td><b>xs:string</b></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">Provides the ability to pass an HTML class attribute onto the root output element.</div>
+                                    </td>
+                                 </tr>
                                  <tr>
                                     <td class="firstColumn"><b><a href="selectToggle_xsd.html#selectToggle_disabled" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for selectToggle.xsd')">disabled</a></b></td>
                                     <td><b>xs:boolean</b></td>
@@ -602,6 +615,11 @@ var attributesBoxes= new Array('attributes_selectToggle');
     </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"id"</span><span class="tAN"> type=</span><span class="tAV">"xs:ID"</span><span class="tAN"> use=</span><span class="tAV">"required"</span><span class="tEl">&gt;</span><span class="tI">
       </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
         </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The unique identifier for the component.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"class"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Provides the ability to pass an HTML class attribute onto the root output element.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
       </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
     </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
     </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"disabled"</span><span class="tAN"> type=</span><span class="tAV">"xs:boolean"</span><span class="tEl">&gt;</span><span class="tI">
@@ -755,6 +773,98 @@ var attributesBoxes= new Array('attributes_selectToggle');
                                     <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"id"</span><span class="tAN"> type=</span><span class="tAV">"xs:ID"</span><span class="tAN"> use=</span><span class="tAV">"required"</span><span class="tEl">&gt;</span><span class="tI">
   </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
     </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The unique identifier for the component.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:attribute&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="selectToggle_class"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="selectToggle_xsd.html#selectToggle" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for selectToggle.xsd')">ui:selectToggle</a></b> / @class</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_selectToggle_class" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_selectToggle_class');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_selectToggle_class" style="display:block">
+                              <div class="annotation">Provides the ability to pass an HTML class attribute onto the root output element.</div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:string</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_selectToggle_class" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_selectToggle_class');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_selectToggle_class" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_selectToggle_class" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_selectToggle_class');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_selectToggle_class" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="selectToggle_xsd.html#selectToggle" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for selectToggle.xsd')">ui:selectToggle</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_selectToggle_class" type="image" src="img/btM.gif" value="-" onclick="switchState('source_selectToggle_class');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_selectToggle_class" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"class"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Provides the ability to pass an HTML class attribute onto the root output element.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
   </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
 </span><span class="tEl">&lt;/xs:attribute&gt;</span></pre></td>
                                  </tr>

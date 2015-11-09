@@ -8,18 +8,22 @@
          <!--
         var propertiesBoxes= new Array('properties_menuGroup.xsd', 
 				'properties_menuGroup', 
-				'properties_menuGroup_id');
+				'properties_menuGroup_id', 
+				'properties_menuGroup_class');
 var usedByBoxes= new Array('usedBy_menuGroup', 
 				'usedBy_menuGroup_id', 
+				'usedBy_menuGroup_class', 
 				'usedBy_menuComponentGroup');
 var sourceBoxes= new Array('source_menuGroup', 
 				'source_menuGroup_id', 
+				'source_menuGroup_class', 
 				'source_menuComponentGroup');
 var instanceBoxes= new Array('instance_menuGroup');
 var diagramBoxes= new Array('diagram_menuGroup', 
 				'diagram_menuComponentGroup');
 var annotationBoxes= new Array('annotations_menuGroup', 
-				'annotations_menuGroup_id');
+				'annotations_menuGroup_id', 
+				'annotations_menuGroup_class');
 var attributesBoxes= new Array('attributes_menuGroup');
 var modelBoxes= new Array('model_menuGroup', 
 				'model_menuComponentGroup');
@@ -387,11 +391,12 @@ var modelBoxes= new Array('model_menuGroup',
                         <td class="diagram">
                            <div id="diagram_menuGroup" style="display:block"><img alt="Diagram" border="0" src="img/menuGroup_xsd_Element_ui_menuGroup.png" usemap="#menuGroup_xsd_Element_ui_menuGroup" /><map name="menuGroup_xsd_Element_ui_menuGroup" id="menuGroup_xsd_Element_ui_menuGroup">
                                  <area alt="menuGroup_xsd.tmp#menuGroup_id" href="menuGroup_xsd.html#menuGroup_id" coords="157,40,225,64" />
-                                 <area alt="decoratedLabel_xsd.tmp#decoratedLabel" href="decoratedLabel_xsd.html#decoratedLabel" coords="235,124,361,148" />
-                                 <area alt="menuItem_xsd.tmp#menuItem" href="menuItem_xsd.html#menuItem" coords="320,245,417,269" />
-                                 <area alt="submenu_xsd.tmp#submenu" href="submenu_xsd.html#submenu" coords="320,279,414,303" />
-                                 <area alt="separator_xsd.tmp#separator" href="separator_xsd.html#separator" coords="320,369,405,393" />
-                                 <area alt="menuGroup_xsd.tmp#menuComponentGroup" href="menuGroup_xsd.html#menuComponentGroup" coords="238,204,433,230" /></map></div>
+                                 <area alt="menuGroup_xsd.tmp#menuGroup_class" href="menuGroup_xsd.html#menuGroup_class" coords="157,117,232,141" />
+                                 <area alt="decoratedLabel_xsd.tmp#decoratedLabel" href="decoratedLabel_xsd.html#decoratedLabel" coords="235,201,361,225" />
+                                 <area alt="menuItem_xsd.tmp#menuItem" href="menuItem_xsd.html#menuItem" coords="320,322,417,346" />
+                                 <area alt="submenu_xsd.tmp#submenu" href="submenu_xsd.html#submenu" coords="320,356,414,380" />
+                                 <area alt="separator_xsd.tmp#separator" href="separator_xsd.html#separator" coords="320,446,416,470" />
+                                 <area alt="menuGroup_xsd.tmp#menuComponentGroup" href="menuGroup_xsd.html#menuComponentGroup" coords="238,281,433,307" /></map></div>
                         </td>
                      </tr>
                      <tr>
@@ -451,11 +456,11 @@ var modelBoxes= new Array('model_menuGroup',
                            <div id="instance_menuGroup" style="display:block">
                               <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
                                  <tr>
-                                    <td width="100%"><pre><span class="tEl">&lt;ui:menuGroup</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xmlns:ui=</span><span class="tAV">"https://github.com/bordertech/wcomponents/namespace/ui/v1.0"</span><span class="tEl">&gt;</span><span class="tI">
-  </span><span class="tEl">&lt;ui:decoratedLabel</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:decoratedLabel&gt;</span><span class="tI">
-  </span><span class="tEl">&lt;ui:menuItem</span><span class="tT"> </span><span class="tAN">accessKey=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">cancel=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">disabled=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">msg=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">selectable=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">selected=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">submit=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">targetWindow=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">toolTip=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">url=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">validates=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:menuItem&gt;</span><span class="tI">
-  </span><span class="tEl">&lt;ui:submenu</span><span class="tT"> </span><span class="tAN">accessKey=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">disabled=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">mode=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">open=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">selectable=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">selected=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">selectMode=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">toolTip=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:submenu&gt;</span><span class="tI">
-  </span><span class="tEl">&lt;ui:separator</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:separator&gt;</span><span class="tI">
+                                    <td width="100%"><pre><span class="tEl">&lt;ui:menuGroup</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xmlns:ui=</span><span class="tAV">"https://github.com/bordertech/wcomponents/namespace/ui/v1.0"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:decoratedLabel</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:decoratedLabel&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:menuItem</span><span class="tT"> </span><span class="tAN">accessKey=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">cancel=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">disabled=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">msg=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">selectable=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">selected=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">submit=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">targetWindow=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">toolTip=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">url=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">validates=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:menuItem&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:submenu</span><span class="tT"> </span><span class="tAN">accessKey=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">disabled=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">mode=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">open=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">selectable=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">selected=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">selectMode=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">toolTip=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:submenu&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:separator</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:separator&gt;</span><span class="tI">
 </span><span class="tEl">&lt;/ui:menuGroup&gt;</span></pre></td>
                                  </tr>
                               </table>
@@ -478,6 +483,14 @@ var modelBoxes= new Array('model_menuGroup',
                                        <th>Annotation</th>
                                     </tr>
                                  </thead>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="menuGroup_xsd.html#menuGroup_class" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for menuGroup.xsd')">class</a></b></td>
+                                    <td><b>xs:string</b></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">Provides the ability to pass an HTML class attribute onto the root output element.</div>
+                                    </td>
+                                 </tr>
                                  <tr>
                                     <td class="firstColumn"><b><a href="menuGroup_xsd.html#menuGroup_id" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for menuGroup.xsd')">id</a></b></td>
                                     <td><b>xs:ID</b></td>
@@ -515,6 +528,11 @@ var modelBoxes= new Array('model_menuGroup',
     </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"id"</span><span class="tAN"> use=</span><span class="tAV">"required"</span><span class="tAN"> type=</span><span class="tAV">"xs:ID"</span><span class="tEl">&gt;</span><span class="tI">
       </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
         </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Not implemented: no equivalent in WAI-ARIA menu widget descendants.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"class"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Provides the ability to pass an HTML class attribute onto the root output element.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
       </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
     </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
   </span><span class="tEl">&lt;/xs:complexType&gt;</span><span class="tI">
@@ -626,6 +644,98 @@ var modelBoxes= new Array('model_menuGroup',
             <td class="rt_lineBottom"></td>
             <td class="rt_cornerBottomRight"></td>
          </tr>
+      </table><a id="menuGroup_class"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="menuGroup_xsd.html#menuGroup" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for menuGroup.xsd')">ui:menuGroup</a></b> / @class</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_menuGroup_class" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_menuGroup_class');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_menuGroup_class" style="display:block">
+                              <div class="annotation">Provides the ability to pass an HTML class attribute onto the root output element.</div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:string</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_menuGroup_class" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_menuGroup_class');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_menuGroup_class" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_menuGroup_class" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_menuGroup_class');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_menuGroup_class" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="menuGroup_xsd.html#menuGroup" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for menuGroup.xsd')">ui:menuGroup</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_menuGroup_class" type="image" src="img/btM.gif" value="-" onclick="switchState('source_menuGroup_class');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_menuGroup_class" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"class"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Provides the ability to pass an HTML class attribute onto the root output element.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:attribute&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
       </table><a id="menuComponentGroup"></a><div class="componentTitle">Element Group <span class="qname">ui:menuComponentGroup</span></div>
       <table class="rt">
          <tr>
@@ -651,7 +761,7 @@ var modelBoxes= new Array('model_menuGroup',
                            <div id="diagram_menuComponentGroup" style="display:block"><img alt="Diagram" border="0" src="img/menuGroup_xsd_Element_Group_ui_menuComponentGroup.png" usemap="#menuGroup_xsd_Element_Group_ui_menuComponentGroup" /><map name="menuGroup_xsd_Element_Group_ui_menuComponentGroup" id="menuGroup_xsd_Element_Group_ui_menuComponentGroup">
                                  <area alt="menuItem_xsd.tmp#menuItem" href="menuItem_xsd.html#menuItem" coords="281,0,378,24" />
                                  <area alt="submenu_xsd.tmp#submenu" href="submenu_xsd.html#submenu" coords="281,34,375,58" />
-                                 <area alt="separator_xsd.tmp#separator" href="separator_xsd.html#separator" coords="281,124,366,148" /></map></div>
+                                 <area alt="separator_xsd.tmp#separator" href="separator_xsd.html#separator" coords="281,124,377,148" /></map></div>
                         </td>
                      </tr>
                      <tr>

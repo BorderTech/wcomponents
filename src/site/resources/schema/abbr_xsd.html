@@ -8,14 +8,18 @@
          <!--
         var propertiesBoxes= new Array('properties_abbr.xsd', 
 				'properties_abbr', 
-				'properties_abbr_description');
+				'properties_abbr_class', 
+				'properties_abbr_toolTip');
 var usedByBoxes= new Array('usedBy_abbr', 
-				'usedBy_abbr_description');
+				'usedBy_abbr_class', 
+				'usedBy_abbr_toolTip');
 var sourceBoxes= new Array('source_abbr', 
-				'source_abbr_description');
+				'source_abbr_class', 
+				'source_abbr_toolTip');
 var diagramBoxes= new Array('diagram_abbr');
 var annotationBoxes= new Array('annotations_abbr', 
-				'annotations_abbr_description');
+				'annotations_abbr_class', 
+				'annotations_abbr_toolTip');
 var attributesBoxes= new Array('attributes_abbr');
 
       
@@ -371,7 +375,8 @@ var attributesBoxes= new Array('attributes_abbr');
                         </td>
                         <td class="diagram">
                            <div id="diagram_abbr" style="display:block"><img alt="Diagram" border="0" src="img/abbr_xsd_Element_ui_abbr.png" usemap="#abbr_xsd_Element_ui_abbr" /><map name="abbr_xsd_Element_ui_abbr" id="abbr_xsd_Element_ui_abbr">
-                                 <area alt="abbr_xsd.tmp#abbr_description" href="abbr_xsd.html#abbr_description" coords="118,119,227,143" /></map></div>
+                                 <area alt="abbr_xsd.tmp#abbr_class" href="abbr_xsd.html#abbr_class" coords="118,119,193,143" />
+                                 <area alt="abbr_xsd.tmp#abbr_toolTip" href="abbr_xsd.html#abbr_toolTip" coords="118,196,204,220" /></map></div>
                         </td>
                      </tr>
                      <tr>
@@ -427,13 +432,20 @@ var attributesBoxes= new Array('attributes_abbr');
                                     </tr>
                                  </thead>
                                  <tr>
-                                    <td class="firstColumn"><b><a href="abbr_xsd.html#abbr_description" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for abbr.xsd')">description</a></b></td>
+                                    <td class="firstColumn"><b><a href="abbr_xsd.html#abbr_class" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for abbr.xsd')">class</a></b></td>
                                     <td><b>xs:string</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">The description attribute contains the expansion of the abbreviation/acronym. This
-                                          should be required since an
-                                          								abbreviation without an expansion is meaningless.
+                                       <div class="annotation">Provides the ability to pass an HTML class attribute onto the root output element.</div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="abbr_xsd.html#abbr_toolTip" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for abbr.xsd')">toolTip</a></b></td>
+                                    <td><b>xs:string</b></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">Provides the expansion of the abbreviation/acronym. This should be required since
+                                          an abbreviation without an expansion is meaningless.
                                        </div>
                                     </td>
                                  </tr>
@@ -457,9 +469,14 @@ var attributesBoxes= new Array('attributes_abbr');
   </span><span class="tEl">&lt;xs:complexType</span><span class="tEl">&gt;</span><span class="tI">
     </span><span class="tEl">&lt;xs:simpleContent</span><span class="tEl">&gt;</span><span class="tI">
       </span><span class="tEl">&lt;xs:extension</span><span class="tAN"> base=</span><span class="tAV">"xs:string"</span><span class="tEl">&gt;</span><span class="tI">
-        </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"description"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"class"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">&gt;</span><span class="tI">
           </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The description attribute contains the expansion of the abbreviation/acronym. This should be required since an abbreviation without an expansion is meaningless.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Provides the ability to pass an HTML class attribute onto the root output element.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"toolTip"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Provides the expansion of the abbreviation/acronym. This should be required since an abbreviation without an expansion is meaningless.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
           </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
         </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
       </span><span class="tEl">&lt;/xs:extension&gt;</span><span class="tI">
@@ -481,7 +498,7 @@ var attributesBoxes= new Array('attributes_abbr');
             <td class="rt_lineBottom"></td>
             <td class="rt_cornerBottomRight"></td>
          </tr>
-      </table><a id="abbr_description"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="abbr_xsd.html#abbr" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for abbr.xsd')">ui:abbr</a></b> / @description</span></div>
+      </table><a id="abbr_class"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="abbr_xsd.html#abbr" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for abbr.xsd')">ui:abbr</a></b> / @class</span></div>
       <table class="rt">
          <tr>
             <td class="rt_cornerTopLeft"></td>
@@ -500,14 +517,11 @@ var attributesBoxes= new Array('attributes_abbr');
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Annotations</b></div>
-                           <div class="floatRight"><input id="button_annotations_abbr_description" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_abbr_description');" class="control" /></div>
+                           <div class="floatRight"><input id="button_annotations_abbr_class" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_abbr_class');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="annotations_abbr_description" style="display:block">
-                              <div class="annotation">The description attribute contains the expansion of the abbreviation/acronym. This
-                                 should be required since an
-                                 								abbreviation without an expansion is meaningless.
-                              </div>
+                           <div id="annotations_abbr_class" style="display:block">
+                              <div class="annotation">Provides the ability to pass an HTML class attribute onto the root output element.</div>
                            </div>
                         </td>
                      </tr>
@@ -518,10 +532,10 @@ var attributesBoxes= new Array('attributes_abbr');
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Properties</b></div>
-                           <div class="floatRight"><input id="button_properties_abbr_description" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_abbr_description');" class="control" /></div>
+                           <div class="floatRight"><input id="button_properties_abbr_class" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_abbr_class');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="properties_abbr_description" style="display:block">
+                           <div id="properties_abbr_class" style="display:block">
                               <table class="propertiesTable">
                                  <tr>
                                     <td class="firstColumn" style="white-space: nowrap;">content</td>
@@ -534,10 +548,10 @@ var attributesBoxes= new Array('attributes_abbr');
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Used by</b></div>
-                           <div class="floatRight"><input id="button_usedBy_abbr_description" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_abbr_description');" class="control" /></div>
+                           <div class="floatRight"><input id="button_usedBy_abbr_class" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_abbr_class');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="usedBy_abbr_description" style="display:block">
+                           <div id="usedBy_abbr_class" style="display:block">
                               <table class="usedByTable">
                                  <tr>
                                     <td class="firstColumn">Element </td>
@@ -550,15 +564,109 @@ var attributesBoxes= new Array('attributes_abbr');
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Source</b></div>
-                           <div class="floatRight"><input id="button_source_abbr_description" type="image" src="img/btM.gif" value="-" onclick="switchState('source_abbr_description');" class="control" /></div>
+                           <div class="floatRight"><input id="button_source_abbr_class" type="image" src="img/btM.gif" value="-" onclick="switchState('source_abbr_class');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="source_abbr_description" style="display:block">
+                           <div id="source_abbr_class" style="display:block">
                               <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
                                  <tr>
-                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"description"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">&gt;</span><span class="tI">
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"class"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">&gt;</span><span class="tI">
   </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The description attribute contains the expansion of the abbreviation/acronym. This should be required since an abbreviation without an expansion is meaningless.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Provides the ability to pass an HTML class attribute onto the root output element.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:attribute&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="abbr_toolTip"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="abbr_xsd.html#abbr" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for abbr.xsd')">ui:abbr</a></b> / @toolTip</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_abbr_toolTip" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_abbr_toolTip');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_abbr_toolTip" style="display:block">
+                              <div class="annotation">Provides the expansion of the abbreviation/acronym. This should be required since
+                                 an abbreviation without an expansion is meaningless.
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:string</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_abbr_toolTip" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_abbr_toolTip');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_abbr_toolTip" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_abbr_toolTip" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_abbr_toolTip');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_abbr_toolTip" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="abbr_xsd.html#abbr" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for abbr.xsd')">ui:abbr</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_abbr_toolTip" type="image" src="img/btM.gif" value="-" onclick="switchState('source_abbr_toolTip');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_abbr_toolTip" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"toolTip"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Provides the expansion of the abbreviation/acronym. This should be required since an abbreviation without an expansion is meaningless.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
   </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
 </span><span class="tEl">&lt;/xs:attribute&gt;</span></pre></td>
                                  </tr>

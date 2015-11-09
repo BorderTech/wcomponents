@@ -9,21 +9,25 @@
         var propertiesBoxes= new Array('properties_heading.xsd', 
 				'properties_heading', 
 				'properties_heading_id', 
+				'properties_heading_class', 
 				'properties_heading_level', 
 				'properties_heading_accessibleText');
 var facetsBoxes= new Array('facets_heading_level');
 var usedByBoxes= new Array('usedBy_heading', 
 				'usedBy_heading_id', 
+				'usedBy_heading_class', 
 				'usedBy_heading_level', 
 				'usedBy_heading_accessibleText');
 var sourceBoxes= new Array('source_heading', 
 				'source_heading_id', 
+				'source_heading_class', 
 				'source_heading_level', 
 				'source_heading_accessibleText');
 var instanceBoxes= new Array('instance_heading');
 var diagramBoxes= new Array('diagram_heading');
 var annotationBoxes= new Array('annotations_heading', 
 				'annotations_heading_id', 
+				'annotations_heading_class', 
 				'annotations_heading_level', 
 				'annotations_heading_accessibleText');
 var attributesBoxes= new Array('attributes_heading');
@@ -392,10 +396,11 @@ var modelBoxes= new Array('model_heading');
                         <td class="diagram">
                            <div id="diagram_heading" style="display:block"><img alt="Diagram" border="0" src="img/heading_xsd_Element_ui_heading.png" usemap="#heading_xsd_Element_ui_heading" /><map name="heading_xsd_Element_ui_heading" id="heading_xsd_Element_ui_heading">
                                  <area alt="heading_xsd.tmp#heading_id" href="heading_xsd.html#heading_id" coords="136,40,204,64" />
-                                 <area alt="heading_xsd.tmp#heading_level" href="heading_xsd.html#heading_level" coords="136,104,208,128" />
-                                 <area alt="heading_xsd.tmp#heading_accessibleText" href="heading_xsd.html#heading_accessibleText" coords="136,194,263,218" />
-                                 <area alt="margin_xsd.tmp#margin" href="margin_xsd.html#margin" coords="193,278,275,302" />
-                                 <area alt="decoratedLabel_xsd.tmp#decoratedLabel" href="decoratedLabel_xsd.html#decoratedLabel" coords="193,355,319,379" /></map></div>
+                                 <area alt="heading_xsd.tmp#heading_class" href="heading_xsd.html#heading_class" coords="136,104,211,128" />
+                                 <area alt="heading_xsd.tmp#heading_level" href="heading_xsd.html#heading_level" coords="136,181,208,205" />
+                                 <area alt="heading_xsd.tmp#heading_accessibleText" href="heading_xsd.html#heading_accessibleText" coords="136,271,263,295" />
+                                 <area alt="margin_xsd.tmp#margin" href="margin_xsd.html#margin" coords="193,355,275,379" />
+                                 <area alt="decoratedLabel_xsd.tmp#decoratedLabel" href="decoratedLabel_xsd.html#decoratedLabel" coords="193,432,319,456" /></map></div>
                         </td>
                      </tr>
                      <tr>
@@ -454,9 +459,9 @@ var modelBoxes= new Array('model_heading');
                            <div id="instance_heading" style="display:block">
                               <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
                                  <tr>
-                                    <td width="100%"><pre><span class="tEl">&lt;ui:heading</span><span class="tT"> </span><span class="tAN">accessibleText=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">level=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xmlns:ui=</span><span class="tAV">"https://github.com/bordertech/wcomponents/namespace/ui/v1.0"</span><span class="tEl">&gt;</span><span class="tI">
+                                    <td width="100%"><pre><span class="tEl">&lt;ui:heading</span><span class="tT"> </span><span class="tAN">accessibleText=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">level=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xmlns:ui=</span><span class="tAV">"https://github.com/bordertech/wcomponents/namespace/ui/v1.0"</span><span class="tEl">&gt;</span><span class="tI">
   </span><span class="tEl">&lt;ui:margin</span><span class="tT"> </span><span class="tAN">all=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">east=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">north=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">south=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">west=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,1}</span><span class="tEl">&lt;/ui:margin&gt;</span><span class="tI">
-  </span><span class="tEl">&lt;ui:decoratedLabel</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,1}</span><span class="tEl">&lt;/ui:decoratedLabel&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:decoratedLabel</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,1}</span><span class="tEl">&lt;/ui:decoratedLabel&gt;</span><span class="tI">
 </span><span class="tEl">&lt;/ui:heading&gt;</span></pre></td>
                                  </tr>
                               </table>
@@ -488,6 +493,14 @@ var modelBoxes= new Array('model_heading');
                                           users of assistive technologies. Deprecated: do not use;
                                           						all headings should be self labelling in perceptable content.
                                        </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="heading_xsd.html#heading_class" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for heading.xsd')">class</a></b></td>
+                                    <td><b>xs:string</b></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">Provides the ability to pass an HTML class attribute onto the root output element.</div>
                                     </td>
                                  </tr>
                                  <tr>
@@ -536,6 +549,11 @@ var modelBoxes= new Array('model_heading');
     </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"id"</span><span class="tAN"> type=</span><span class="tAV">"xs:ID"</span><span class="tAN"> use=</span><span class="tAV">"required"</span><span class="tEl">&gt;</span><span class="tI">
       </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
         </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The unique identifier for the component.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"class"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Provides the ability to pass an HTML class attribute onto the root output element.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
       </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
     </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
     </span><span class="tC">&lt;!-- level 1 has the highest priority --&gt;</span><span class="tI">
@@ -647,6 +665,98 @@ var modelBoxes= new Array('model_heading');
                                     <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"id"</span><span class="tAN"> type=</span><span class="tAV">"xs:ID"</span><span class="tAN"> use=</span><span class="tAV">"required"</span><span class="tEl">&gt;</span><span class="tI">
   </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
     </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The unique identifier for the component.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:attribute&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="heading_class"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="heading_xsd.html#heading" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for heading.xsd')">ui:heading</a></b> / @class</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_heading_class" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_heading_class');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_heading_class" style="display:block">
+                              <div class="annotation">Provides the ability to pass an HTML class attribute onto the root output element.</div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:string</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_heading_class" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_heading_class');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_heading_class" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_heading_class" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_heading_class');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_heading_class" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="heading_xsd.html#heading" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for heading.xsd')">ui:heading</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_heading_class" type="image" src="img/btM.gif" value="-" onclick="switchState('source_heading_class');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_heading_class" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"class"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Provides the ability to pass an HTML class attribute onto the root output element.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
   </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
 </span><span class="tEl">&lt;/xs:attribute&gt;</span></pre></td>
                                  </tr>
