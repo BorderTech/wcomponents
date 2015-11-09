@@ -19,6 +19,15 @@
 	thead button {
 		min-width: $line-size;
 	}
+
+	dialog & {
+		position: fixed;
+		right:auto;
+
+		#wc-calendar {
+			background-color: $wc-ui-color-global-bg
+		}
+	}
 }
 
 

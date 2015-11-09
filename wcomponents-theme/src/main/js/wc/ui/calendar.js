@@ -964,6 +964,20 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 			}
 		}
 
+
+		/**
+		 * Hide an open calendar on resize.
+		 *
+		 * @function
+		 * @private
+		 */
+		function resizeEvent(/* $event */) {
+			var calendar = getCal(true);
+			if (calendar && !shed.isHidden(calendar)) {
+				hideCalendar();
+			}
+		}
+
 		function keydownEvent($event) {
 			var target = $event.target,
 				keyCode = $event.keyCode,
@@ -1033,6 +1047,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 * @public
 		 */
 		this.postInit = function() {
+			event.add(window, event.TYPE.resize, resizeEvent);
 			shed.subscribe(shed.actions.SHOW, shedSubscriber);
 			shed.subscribe(shed.actions.HIDE, shedSubscriber);
 		};
