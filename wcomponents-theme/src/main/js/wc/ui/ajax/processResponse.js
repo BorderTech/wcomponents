@@ -113,7 +113,12 @@ define(["wc/Observer",
 				var content, targets,
 					next, targetId, element, doc, action, i;
 				if (documentFragment) {
-					doc = documentFragment.firstElementChild;
+					if (documentFragment.querySelector) {
+						doc = documentFragment.querySelector(".wc-ajaxresponse");
+					}
+					else {
+						doc = documentFragment.firstElementChild || documentFragment.firstChild;
+					}
 					if (doc) {
 						targets = doc.querySelectorAll(".wc-ajaxtarget");
 						for (i = 0; i < targets.length; ++i) {
