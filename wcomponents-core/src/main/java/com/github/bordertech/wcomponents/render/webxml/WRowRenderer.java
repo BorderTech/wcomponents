@@ -30,6 +30,7 @@ final class WRowRenderer extends AbstractWebXmlRenderer {
 		if (cols > 0) {
 			xml.appendTagOpen("ui:row");
 			xml.appendAttribute("id", component.getId());
+			xml.appendOptionalAttribute("class", component.getHtmlClass());
 			xml.appendOptionalAttribute("track", component.isTracking(), "true");
 			xml.appendOptionalAttribute("hgap", hgap > 0, hgap);
 			xml.appendClose();

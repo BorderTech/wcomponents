@@ -7,6 +7,9 @@
 			</xsl:attribute>
 			<xsl:attribute name="class">
 				<xsl:text>wc_dragflow wc_resizeflow</xsl:text>
+				<xsl:if test="@class">
+					<xsl:value-of select="concat(' ', @class)"/>
+				</xsl:if>
 			</xsl:attribute>
 			<xsl:element name="${wc.dom.html5.element.header}">
 				<xsl:attribute name="tabindex">

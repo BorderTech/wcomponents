@@ -11,11 +11,15 @@
 			<xsl:attribute name="id">
 				<xsl:value-of select="@id"/>
 			</xsl:attribute>
-			<xsl:if test="$mode='lazy' and @hidden">
-				<xsl:attribute name="class">
+			<xsl:attribute name="class">
+				<xsl:value-of select="local-name()"/>
+				<xsl:if test="$mode='lazy' and @hidden">
 					<xsl:text> wc_magic</xsl:text>
-				</xsl:attribute>
-			</xsl:if>
+				</xsl:if>
+				<xsl:if test="@class">
+					<xsl:value-of select="concat(' ', @class)"/>
+				</xsl:if>
+			</xsl:attribute>
 			<xsl:if test="ui:decoratedLabel">
 				<xsl:attribute name="aria-labelledby">
 					<xsl:value-of select="ui:decoratedLabel/@id"/>

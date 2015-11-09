@@ -38,6 +38,7 @@ class WButtonRenderer extends AbstractWebXmlRenderer {
 
 		xml.appendTagOpen(getTagName(button));
 		xml.appendAttribute("id", component.getId());
+		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
 		xml.appendOptionalAttribute("disabled", button.isDisabled(), "true");
 		xml.appendOptionalAttribute("hidden", button.isHidden(), "true");

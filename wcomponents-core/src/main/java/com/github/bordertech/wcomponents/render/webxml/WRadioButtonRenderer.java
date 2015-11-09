@@ -33,6 +33,7 @@ final class WRadioButtonRenderer extends AbstractWebXmlRenderer {
 
 		xml.appendTagOpen("ui:radioButton");
 		xml.appendAttribute("id", component.getId());
+		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
 		xml.appendAttribute("groupName", button.getGroupName());
 		xml.appendAttribute("value", WebUtilities.encode(value));

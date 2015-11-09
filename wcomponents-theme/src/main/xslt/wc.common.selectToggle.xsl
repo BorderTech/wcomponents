@@ -113,6 +113,9 @@
 				<xsl:element name="span">
 					<xsl:attribute name="class">
 						<xsl:value-of select="$class"/>
+						<xsl:if test="@class">
+							<xsl:value-of select="concat(' ', @class)"/>
+						</xsl:if>
 					</xsl:attribute>
 					<xsl:attribute name="id">
 						<xsl:value-of select="$toggleId"/>
@@ -273,6 +276,9 @@
 					</xsl:if>
 					<xsl:attribute name="class">
 						<xsl:text>wc_seltog wc_btn_nada</xsl:text>
+						<xsl:if test="@class">
+							<xsl:value-of select="concat(' ', @class)"/>
+						</xsl:if>
 					</xsl:attribute>
 					<xsl:attribute name="id">
 						<xsl:value-of select="$toggleId"/>

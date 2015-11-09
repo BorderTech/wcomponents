@@ -23,6 +23,9 @@
 			<xsl:attribute name="id"><xsl:value-of select="@id"/></xsl:attribute>
 			<xsl:attribute name="class">
 				<xsl:value-of select="concat(local-name(),' ', @layout)"/>
+				<xsl:if test="@class">
+					<xsl:value-of select="concat(' ', @class)"/>
+				</xsl:if>
 			</xsl:attribute>
 			<xsl:if test="@ordered and @ordered &gt; 1">
 				<xsl:attribute name="start">

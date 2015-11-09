@@ -27,6 +27,7 @@ final class WFieldSetRenderer extends AbstractWebXmlRenderer {
 
 		xml.appendTagOpen("ui:fieldSet");
 		xml.appendAttribute("id", component.getId());
+		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
 		xml.appendOptionalAttribute("hidden", fieldSet.isHidden(), "true");
 

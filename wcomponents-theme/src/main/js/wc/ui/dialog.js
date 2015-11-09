@@ -77,6 +77,7 @@ define(["wc/dom/classList",
 				HEADER_WD = new Widget("${wc.dom.html5.element.header}"),
 				TITLE_WD = new Widget("h1"),
 				FORM = new Widget("form"),
+				BASE_CLASS = "wc_dragflow wc_resizeflow",
 				registry = {},
 				UNIT = "px",
 				emptyOnClose = true,
@@ -128,6 +129,7 @@ define(["wc/dom/classList",
 				if (id) {
 					registry[id] = {
 						"id": id,
+						"className": dialogObj.className,
 						"formId": dialogObj.form,
 						"width": dialogObj.width,
 						"height": dialogObj.height,
@@ -246,6 +248,7 @@ define(["wc/dom/classList",
 						buildDialog(regObj.formId).then(open);
 					}
 				}
+
 				function open(dialog) {
 					var content,
 						control,
@@ -258,6 +261,13 @@ define(["wc/dom/classList",
 						opening = true;
 						// set up the content receptacle
 						content = getContent(dialog);
+
+						if (regObj.className) {
+							dialog.className = BASE_CLASS = " " + regObj.class;
+						}
+						else {
+							dialog.className = BASE_CLASS;
+						}
 
 						if (content.className) {  // if we have a dialog which has content on load and has not been "closed" it will not have its ajax class names
 							content.id = id;

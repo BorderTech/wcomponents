@@ -28,11 +28,15 @@
 					<xsl:apply-templates select="ui:param" mode="get"/>
 				</xsl:if>
 			</xsl:attribute>
-			<xsl:if test="@unsavedChanges or .//ui:button[@unsavedChanges] or .//ui:menuItem[@unsavedChanges]">
-				<xsl:attribute name="class">
-					<xsl:text>wc_unsaved</xsl:text>
-				</xsl:attribute>
-			</xsl:if>
+			<xsl:attribute name="class">
+				<xsl:value-of select="local-name()"/>
+				<xsl:if test="@class">
+					<xsl:value-of select="concat(' ', @class)"/>
+				</xsl:if>
+				<xsl:if test="@unsavedChanges or .//ui:button[@unsavedChanges] or .//ui:menuItem[@unsavedChanges]">
+					<xsl:text> wc_unsaved</xsl:text>
+				</xsl:if>
+			</xsl:attribute>
 			<!-- this ANT property sets the formnovalidate attribute -->
 			${wc.ui.application.xslt.HTML5clientSideValidation}
 			<xsl:call-template name="ajaxTarget"/>

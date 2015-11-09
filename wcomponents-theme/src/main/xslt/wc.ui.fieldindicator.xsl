@@ -29,6 +29,9 @@
 			</xsl:attribute>
 			<xsl:attribute name="class">
 				<xsl:value-of select="@type"/>
+				<xsl:if test="@class">
+					<xsl:value-of select="concat(' ', @class)"/>
+				</xsl:if>
 			</xsl:attribute>
 			<xsl:apply-templates/>
 		</xsl:element>

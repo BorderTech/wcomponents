@@ -4,11 +4,13 @@ import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.Margin;
 import com.github.bordertech.wcomponents.WButton;
+import com.github.bordertech.wcomponents.WCheckBox;
 import com.github.bordertech.wcomponents.WDropdown;
 import com.github.bordertech.wcomponents.WFieldLayout;
 import com.github.bordertech.wcomponents.WHeading;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WStyledText;
+import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WTextArea;
 
 /**
@@ -36,6 +38,9 @@ public class WStyledTextOptionsExample extends WPanel {
 		final WDropdown mode = new WDropdown(WStyledText.WhitespaceMode.values());
 		layout.addField("Whitespace mode", mode);
 
+		final WCheckBox useBigTextClass = new WCheckBox();
+		layout.addField("Use HTML class 'bigText'", useBigTextClass);
+
 		final WTextArea text = new WTextArea();
 		text.setRows(5);
 		text.setText("Some text");
@@ -53,6 +58,7 @@ public class WStyledTextOptionsExample extends WPanel {
 				styled.setType((WStyledText.Type) type.getSelected());
 				styled.setWhitespaceMode((WStyledText.WhitespaceMode) mode.getSelected());
 				styled.setText(text.getText());
+				styled.setHtmlClass(useBigTextClass.isSelected() ? "bigTextClass" : "");
 			}
 		});
 
@@ -65,6 +71,11 @@ public class WStyledTextOptionsExample extends WPanel {
 		panel.add(styled);
 
 		setDefaultSubmitButton(button);
+
+
+		WText cssText = new WText("<style type='text/css'>.bigTextClass{font-size:3em;}</style>");
+		cssText.setEncodeText(false);
+		add(cssText);
 	}
 
 }

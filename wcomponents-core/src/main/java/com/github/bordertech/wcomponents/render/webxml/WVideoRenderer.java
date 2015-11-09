@@ -58,6 +58,7 @@ final class WVideoRenderer extends AbstractWebXmlRenderer {
 
 		xml.appendTagOpen("ui:video");
 		xml.appendAttribute("id", component.getId());
+		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
 		xml.appendOptionalAttribute("poster", videoComponent.getPosterUrl());
 		xml.appendOptionalAttribute("alt", alternativeText);

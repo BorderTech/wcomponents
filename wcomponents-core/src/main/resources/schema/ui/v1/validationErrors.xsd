@@ -32,6 +32,11 @@ XML schema for validationErrors (WValidationErrors)
 					<xs:documentation>A unique identifier for the validation errors.</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
+			<xs:attribute name="class" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Provides the ability to pass an HTML class attribute onto the root output element.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
 		</xs:complexType>
 	</xs:element>
 </xs:schema>

@@ -54,6 +54,7 @@ final class WAudioRenderer extends AbstractWebXmlRenderer {
 
 		xml.appendTagOpen("ui:audio");
 		xml.appendAttribute("id", component.getId());
+		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
 		xml.appendOptionalAttribute("alt", alternativeText);
 		xml.appendOptionalAttribute("autoplay", audioComponent.isAutoplay(), "true");
