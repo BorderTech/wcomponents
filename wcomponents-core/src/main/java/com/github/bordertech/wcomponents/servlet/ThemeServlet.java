@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * <p>
- * This servlet is designed to servlet up theme files from within the WComponent project or jar file. This saves
+ * This servlet is designed to serve up theme files from within the WComponent project or jar file. This saves
  * developers from having to configure where the webdocs directory is, or extract the theme into their WAR file.
  * </p>
  * <p>

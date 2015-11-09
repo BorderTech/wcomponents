@@ -482,7 +482,7 @@ public class WNumberField_Test extends AbstractWComponentTestCase {
 
 		// Double Value
 		numberField.setNumber(value.doubleValue());
-		Assert.assertEquals("getData should be a BigDecimal value", value, numberField.getData());
+		Assert.assertEquals("getData should be a BigDecimal value", value.setScale(1), numberField.getData());
 	}
 
 	@Test
@@ -500,8 +500,8 @@ public class WNumberField_Test extends AbstractWComponentTestCase {
 
 		// Double Value
 		numberField.setMinValue(value.doubleValue());
-		Assert.assertEquals("getMinValue should be a BigDecimal value", value, numberField.
-				getMinValue());
+		BigDecimal actual = numberField.getMinValue();
+		Assert.assertEquals("getMinValue should be a BigDecimal value", value.setScale(actual.scale()), actual);
 	}
 
 	@Test
@@ -518,8 +518,8 @@ public class WNumberField_Test extends AbstractWComponentTestCase {
 
 		// Double Value
 		numberField.setMaxValue(value.doubleValue());
-		Assert.assertEquals("getMaxValue should be a BigDecimal value", value, numberField.
-				getMaxValue());
+		BigDecimal actual = numberField.getMaxValue();
+		Assert.assertEquals("getMaxValue should be a BigDecimal value", value.setScale(actual.scale()), actual);
 	}
 
 	@Test
@@ -535,7 +535,8 @@ public class WNumberField_Test extends AbstractWComponentTestCase {
 
 		// Double Value
 		numberField.setStep(value.doubleValue());
-		Assert.assertEquals("getStep should be a BigDecimal value", value, numberField.getStep());
+		BigDecimal actual = numberField.getStep();
+		Assert.assertEquals("getStep should be a BigDecimal value", value.setScale(actual.scale()), actual);
 	}
 
 	@Test
