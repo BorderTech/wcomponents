@@ -674,7 +674,8 @@ define(["sprintf/sprintf",
 			 */
 			this.callback = function(response) {
 				// response would be null if the XML has already been transformed to HTML on the server
-				var payload = response || this.responseText;
+				// or in the case of IE it will be an "empty" XML DOM.
+				var payload = (response && response.documentElement) ? response : this.responseText;
 				handleResponse($self, payload, trigger, false);
 			};
 
