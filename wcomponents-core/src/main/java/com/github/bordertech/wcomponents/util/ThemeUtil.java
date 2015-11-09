@@ -129,51 +129,59 @@ public final class ThemeUtil {
 	 */
 	public static String getThemeXslt(final UIContext uic) {
 		String themePath = uic.getEnvironment().getThemePath();
-		boolean hasQueryString = themePath.indexOf('?') != -1;
-		Locale locale = uic.getLocale();
-
 		StringBuffer path = new StringBuffer(themePath.length() + 20);
 
 		// Path
-		if (themePath.length() > 0 && !themePath.endsWith("/") && !themePath.endsWith("=")) {
-			path.append(themePath).append("/xslt/");
-		} else {
-			path.append(themePath).append("xslt/");
+		path.append(themePath);
+		if (themePath.length() > 0 && !themePath.endsWith("/")) {
+			path.append('/');
 		}
+		path.append("xslt/");
+		path.append(getThemeXsltName(uic));
 
-		// Build file name....
-		path.append("all");
+		// Add cache busting suffix
+		String build = getThemeBuild();
+		String themeName = getThemeName();
+
+		path.append("?build=").append(WebUtilities.escapeForUrl(build))
+				.append("&theme=").append(WebUtilities.escapeForUrl(themeName));
+
+		return path.toString();
+	}
+
+	/**
+	 * Get the name of the XSLT file to use taking locale and debug mode into consideration.
+	 * @param uic The UIContext to use to determine factors such as locale.
+	 * @return The name of the XSLT file without any path or cachebuster.
+	 */
+	public static String getThemeXsltName(final UIContext uic) {
+		Locale locale = uic.getLocale();
+		StringBuffer xsltName = new StringBuffer(20);
+
+		// Base file name
+		xsltName.append("all");
 
 		// Locale
 		if (locale != null) {
-			path.append('_').append(locale.getLanguage());
+			xsltName.append('_').append(locale.getLanguage());
 
 			if (!Util.empty(locale.getCountry())) {
-				path.append('-').append(locale.getCountry());
+				xsltName.append('-').append(locale.getCountry());
 
 				if (!Util.empty(locale.getVariant())) {
-					path.append('-').append(locale.getVariant());
+					xsltName.append('-').append(locale.getVariant());
 				}
 			}
 		}
 
 		// Debug
 		if (DebugUtil.isDebugStructureEnabled()) {
-			path.append("_debug");
+			xsltName.append("_debug");
 		}
 
 		// xsl
-		path.append(".xsl");
-
-		// Add cache busting suffix
-		String build = getThemeBuild();
-		String themeName = getThemeName();
-
-		path.append(hasQueryString ? '&' : '?').append("build=").append(WebUtilities.escapeForUrl(
-				build))
-				.append("&theme=").append(WebUtilities.escapeForUrl(themeName));
-
-		return path.toString();
+		xsltName.append(".xsl");
+		return xsltName.toString();
 	}
 
 }

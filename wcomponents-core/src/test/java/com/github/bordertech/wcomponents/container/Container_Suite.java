@@ -22,6 +22,7 @@ import org.junit.runners.Suite;
 	SessionTokenInterceptor_Test.class,
 	SubordinateControlInterceptor_Test.class,
 	TargetableInterceptor_Test.class,
+	TransformXMLInterceptor_Test.class,
 	VelocityInterceptor_Test.class,
 	ValidateXMLInterceptor_Test.class,
 	WhitespaceFilterInterceptor_Test.class,
