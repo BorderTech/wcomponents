@@ -62,7 +62,7 @@ public class TransformXMLInterceptor extends InterceptorComponent {
 	 */
 	@Override
 	public void paint(final RenderContext renderContext) {
-		boolean doTransform = Config.getInstance().getBoolean(PARAMETERS_KEY, false);
+		boolean doTransform = Config.getInstance().getBoolean(PARAMETERS_KEY, true);
 		if (!doTransform) {
 			super.paint(renderContext);
 			return;

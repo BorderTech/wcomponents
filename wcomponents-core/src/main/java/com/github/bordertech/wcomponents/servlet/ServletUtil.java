@@ -360,8 +360,8 @@ public final class ServletUtil {
 				new ResponseCacheInterceptor(CacheType.NO_CACHE),
 				new UIContextDumpInterceptor(), new AjaxSetupInterceptor(),
 				new WWindowInterceptor(true), new WrongStepAjaxInterceptor(),
-				new ContextCleanupInterceptor(), new ValidateXMLInterceptor(),
-				new TransformXMLInterceptor(), new WhitespaceFilterInterceptor(),
+				new ContextCleanupInterceptor(), new TransformXMLInterceptor(),
+				new ValidateXMLInterceptor(), new WhitespaceFilterInterceptor(),
 				new SubordinateControlInterceptor(), new AjaxPageShellInterceptor(),
 				new AjaxDebugStructureInterceptor(), new AjaxInterceptor()};
 		} else if (request.getParameter(WServlet.TARGET_ID_PARAM_NAME) != null) {
@@ -374,7 +374,7 @@ public final class ServletUtil {
 				new ResponseCacheInterceptor(CacheType.NO_CACHE),
 				new UIContextDumpInterceptor(), new WWindowInterceptor(true),
 				new WrongStepServerInterceptor(), new ContextCleanupInterceptor(),
-				new ValidateXMLInterceptor(), new TransformXMLInterceptor(),
+				new TransformXMLInterceptor(), new ValidateXMLInterceptor(),
 				new WhitespaceFilterInterceptor(), new SubordinateControlInterceptor(),
 				new PageShellInterceptor(), new FormInterceptor(),
 				new DebugStructureInterceptor()};
