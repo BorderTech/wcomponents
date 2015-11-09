@@ -16,8 +16,8 @@ dialog {
 
 	&.wc_dragflow,
 	&.wc_resizeflow { // keyboard and resize event initiated drag and resize animation
-		transition-delay: 0s;
-		transition-duration: 1s;
+		transition-delay: $wc-ui-dialog-transition-delay;
+		transition-duration: $wc-ui-dialog-transition-duration;
 		transition-timing-function: ease-in-out;
 	}
 
