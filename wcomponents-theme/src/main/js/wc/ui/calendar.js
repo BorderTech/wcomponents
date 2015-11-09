@@ -781,7 +781,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 			var collision = viewportCollision(cal),
 				initiallyCollideSouth = collision.s > 0,
 				initiallyCollideWest = collision.w < 0,
-				box, left;
+				box, left, top;
 
 			/*
 			 * NOTE: default open is below input field and lined up at the right edge of the combo so we do not need to
@@ -789,8 +789,10 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 			 * it is either fully in viewport OR touches the left edge of the viewport leaving a horizontal scroll.
 			 */
 			if (initiallyCollideSouth) {
-				box = getBox(cal);
-				cal.style.top = (box.top - collision.s) + "px";
+				top = cal.offsetTop;
+				if (!isNaN(top)) {
+					cal.style.top = (top - collision.s) + "px";
+				}
 			}
 			if (initiallyCollideWest) {
 				classList.add(cal, CLASS.WEST);
@@ -958,20 +960,6 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 			}
 		}
 
-
-		/**
-		 * Hide an open calendar on resize.
-		 *
-		 * @function
-		 * @private
-		 */
-		function resizeEvent(/* $event */) {
-			var calendar = getCal(true);
-			if (calendar && !shed.isHidden(calendar)) {
-				hideCalendar();
-			}
-		}
-
 		function keydownEvent($event) {
 			var target = $event.target,
 				keyCode = $event.keyCode,
@@ -1025,7 +1013,9 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 			if (reposTimer) {
 				timers.clearTimeout(reposTimer);
 			}
-			reposTimer = timers.setTimeout(hideCalendar, 100);
+			if (!isOpening) {
+				reposTimer = timers.setTimeout(hideCalendar, 100);
+			}
 		}
 
 		/**
@@ -1033,9 +1023,10 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 * @param {Element} [element] The calendar element (if you already have it, otherwise we'll find it for you).
 		 */
 		function position(element) {
-			var input, box, cal = element || getCal(true);
+			var input, box, cal = element || getCal(true), fixed;
 			if (cal && !shed.isHidden(cal)) {
-				if (window.getComputedStyle && window.getComputedStyle(cal).position === "fixed") {
+				fixed = (window.getComputedStyle && window.getComputedStyle(cal).position === "fixed");
+				if (fixed) {
 					input = getInputForCalendar(cal);
 					if (input) {
 						box = getBox(input);
@@ -1062,7 +1053,6 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 			}
 			event.add(element, event.TYPE.click, clickEvent);
 			event.add(element, event.TYPE.keydown, keydownEvent);
-			event.add(window, event.TYPE.resize, reposEvent);
 		};
 
 		/**
@@ -1071,7 +1061,8 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 * @public
 		 */
 		this.postInit = function() {
-			event.add(window, event.TYPE.resize, resizeEvent);
+			event.add(window, event.TYPE.resize, reposEvent);
+			// event.add(window, event.TYPE.scroll, reposEvent);  // this is bad if opening the calendar causes the page to scroll
 			shed.subscribe(shed.actions.SHOW, shedSubscriber);
 			shed.subscribe(shed.actions.HIDE, shedSubscriber);
 		};
