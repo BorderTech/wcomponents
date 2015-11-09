@@ -29,6 +29,7 @@ final class WFileWidgetRenderer extends AbstractWebXmlRenderer {
 
 		xml.appendTagOpen("ui:fileUpload");
 		xml.appendAttribute("id", component.getId());
+		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
 		xml.appendOptionalAttribute("disabled", fileWidget.isDisabled(), "true");
 		xml.appendOptionalAttribute("hidden", component.isHidden(), "true");

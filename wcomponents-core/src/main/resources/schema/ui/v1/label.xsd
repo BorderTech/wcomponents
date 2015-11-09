@@ -20,6 +20,7 @@
 					</xs:annotation>
 				</xs:group>
 			</xs:sequence>
+
 			<xs:attributeGroup ref="ui:container.key.attributes" />
 
 			<xs:attribute name="for" type="xs:NMTOKEN">

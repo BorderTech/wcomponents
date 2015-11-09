@@ -27,6 +27,7 @@ final class WHeadingRenderer extends AbstractWebXmlRenderer {
 
 		xml.appendTagOpen("ui:heading");
 		xml.appendAttribute("id", component.getId());
+		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
 		xml.appendAttribute("level", heading.getHeadingLevel().getLevel());
 		xml.appendOptionalAttribute("accessibleText", heading.getAccessibleText());

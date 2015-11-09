@@ -64,6 +64,9 @@
 					<xsl:text> wc_unsaved</xsl:text>
 				</xsl:if>
 			</xsl:if>
+			<xsl:if test="@class">
+				<xsl:value-of select="concat(' ', @class)"/>
+			</xsl:if>
 		</xsl:variable>
 
 		<xsl:variable name="isButton">

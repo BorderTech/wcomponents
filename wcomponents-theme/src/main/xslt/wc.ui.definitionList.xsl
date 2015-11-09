@@ -14,11 +14,16 @@
 			<xsl:attribute name="id">
 				<xsl:value-of select="@id"/>
 			</xsl:attribute>
-			<xsl:if test="@type">
-				<xsl:attribute name="class">
-					<xsl:value-of select="@type"/>
-				</xsl:attribute>
-			</xsl:if>
+			<xsl:attribute name="class">
+				<xsl:value-of select="local-name()"/>
+				<xsl:if test="@type">
+					<xsl:value-of select="concat(' ', @type)"/>
+				</xsl:if>
+				<xsl:if test="@class">
+					<xsl:value-of select="concat(' ', @class)"/>
+				</xsl:if>
+			</xsl:attribute>
+			
 			<xsl:apply-templates select="ui:margin"/>
 			<xsl:call-template name="ajaxTarget">
 				<xsl:with-param name="live" select="'off'"/>

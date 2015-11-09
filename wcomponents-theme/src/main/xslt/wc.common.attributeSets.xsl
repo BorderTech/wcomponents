@@ -58,11 +58,17 @@
 		<xsl:if test="$isError and $isError !=''">
 			<xsl:call-template name="invalid"/>
 		</xsl:if>
-		<xsl:if test="@submitOnChange and not(@list)">
-			<xsl:attribute name="class">
-				<xsl:text>wc_soc</xsl:text>
-			</xsl:attribute>
-		</xsl:if>
+		
+		<xsl:variable name="class">
+			<xsl:value-of select="concat(local-name(), ' ', @class)"/>
+			<xsl:if test="@submitOnChange and not(@list)">
+				<xsl:text> wc_soc</xsl:text>
+			</xsl:if>
+		</xsl:variable>
+		<xsl:attribute name="class">
+			<xsl:value-of select="normalize-space($class)"/>
+		</xsl:attribute>
+		
 		<xsl:call-template name="requiredElement"/>
 		<xsl:call-template name="ajaxController">
 			<xsl:with-param name="id">
@@ -125,6 +131,9 @@
 			</xsl:if>
 			<xsl:if test="$class!= ''">
 				<xsl:value-of select="concat(' ', $class)"/>
+			</xsl:if>
+			<xsl:if test="@class">
+				<xsl:value-of select="concat(' ', @class)"/>
 			</xsl:if>
 		</xsl:attribute>
 		<xsl:call-template name="ajaxController">

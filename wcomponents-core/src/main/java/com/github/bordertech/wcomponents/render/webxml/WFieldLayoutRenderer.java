@@ -29,6 +29,7 @@ final class WFieldLayoutRenderer extends AbstractWebXmlRenderer {
 
 		xml.appendTagOpen("ui:fieldLayout");
 		xml.appendAttribute("id", component.getId());
+		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
 		xml.appendOptionalAttribute("hidden", fieldLayout.isHidden(), "true");
 		xml.appendOptionalAttribute("labelWidth", labelWidth > 0, labelWidth);

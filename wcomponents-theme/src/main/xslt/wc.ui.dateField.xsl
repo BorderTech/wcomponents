@@ -48,6 +48,9 @@
 					<xsl:call-template name="commonAttributes"/>
 					<xsl:attribute name="class">
 						<xsl:text>wc_datero wc_ro</xsl:text>
+						<xsl:if test="@class">
+							<xsl:value-of select="concat(' ', @class)"/>
+						</xsl:if>
 					</xsl:attribute>
 					<xsl:if test="$myLabel">
 						<xsl:attribute name="aria-labelledby">
@@ -101,6 +104,9 @@
 					</xsl:call-template>
 					<xsl:attribute name="class">
 						<xsl:text>dateField</xsl:text>
+						<xsl:if test="@class">
+							<xsl:value-of select="concat(' ', @class)"/>
+						</xsl:if>
 					</xsl:attribute>
 					<xsl:attribute name="role">
 						<xsl:text>combobox</xsl:text>

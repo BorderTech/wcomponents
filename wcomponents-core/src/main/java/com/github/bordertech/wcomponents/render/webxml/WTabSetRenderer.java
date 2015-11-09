@@ -28,6 +28,7 @@ final class WTabSetRenderer extends AbstractWebXmlRenderer {
 
 		xml.appendTagOpen("ui:tabset");
 		xml.appendAttribute("id", component.getId());
+		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
 		xml.appendAttribute("type", getTypeAsString(tabSet.getType()));
 		xml.appendOptionalAttribute("disabled", tabSet.isDisabled(), "true");

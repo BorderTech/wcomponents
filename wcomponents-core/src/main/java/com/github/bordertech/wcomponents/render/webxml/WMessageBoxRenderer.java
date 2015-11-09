@@ -28,6 +28,7 @@ final class WMessageBoxRenderer extends AbstractWebXmlRenderer {
 		if (messageBox.hasMessages()) {
 			xml.appendTagOpen("ui:messageBox");
 			xml.appendAttribute("id", component.getId());
+			xml.appendOptionalAttribute("class", component.getHtmlClass());
 			xml.appendOptionalAttribute("track", component.isTracking(), "true");
 
 			switch (messageBox.getType()) {

@@ -38,6 +38,7 @@ final class WMultiSelectPairRenderer extends AbstractWebXmlRenderer {
 
 		xml.appendTagOpen("ui:multiSelectPair");
 		xml.appendAttribute("id", component.getId());
+		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
 		xml.appendAttribute("size", rows < 2 ? WMultiSelectPair.DEFAULT_ROWS : rows);
 		xml.appendOptionalAttribute("disabled", disabled, "true");

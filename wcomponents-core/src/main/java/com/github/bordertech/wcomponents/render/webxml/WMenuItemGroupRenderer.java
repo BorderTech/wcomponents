@@ -26,6 +26,7 @@ final class WMenuItemGroupRenderer extends AbstractWebXmlRenderer {
 
 		xml.appendTagOpen("ui:menuGroup");
 		xml.appendAttribute("id", component.getId());
+		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
 		xml.appendClose();
 

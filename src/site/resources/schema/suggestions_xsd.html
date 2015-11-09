@@ -11,12 +11,14 @@
 				'properties_suggestions_suggestion', 
 				'properties_suggestions_suggestions_suggestion_value', 
 				'properties_suggestions_id', 
+				'properties_suggestions_class', 
 				'properties_suggestions_ajax', 
 				'properties_suggestions_min', 
 				'properties_suggestions_data');
 var usedByBoxes= new Array('usedBy_suggestions', 
 				'usedBy_suggestions_suggestions_suggestion_value', 
 				'usedBy_suggestions_id', 
+				'usedBy_suggestions_class', 
 				'usedBy_suggestions_ajax', 
 				'usedBy_suggestions_min', 
 				'usedBy_suggestions_data');
@@ -24,6 +26,7 @@ var sourceBoxes= new Array('source_suggestions',
 				'source_suggestions_suggestion', 
 				'source_suggestions_suggestions_suggestion_value', 
 				'source_suggestions_id', 
+				'source_suggestions_class', 
 				'source_suggestions_ajax', 
 				'source_suggestions_min', 
 				'source_suggestions_data');
@@ -34,6 +37,7 @@ var annotationBoxes= new Array('annotations_suggestions',
 				'annotations_suggestions_suggestion', 
 				'annotations_suggestions_suggestions_suggestion_value', 
 				'annotations_suggestions_id', 
+				'annotations_suggestions_class', 
 				'annotations_suggestions_ajax', 
 				'annotations_suggestions_min', 
 				'annotations_suggestions_data');
@@ -459,10 +463,11 @@ var modelBoxes= new Array('model_suggestions');
                         <td class="diagram">
                            <div id="diagram_suggestions" style="display:block"><img alt="Diagram" border="0" src="img/suggestions_xsd_Element_ui_suggestions.png" usemap="#suggestions_xsd_Element_ui_suggestions" /><map name="suggestions_xsd_Element_ui_suggestions" id="suggestions_xsd_Element_ui_suggestions">
                                  <area alt="suggestions_xsd.tmp#suggestions_id" href="suggestions_xsd.html#suggestions_id" coords="159,40,227,64" />
-                                 <area alt="suggestions_xsd.tmp#suggestions_ajax" href="suggestions_xsd.html#suggestions_ajax" coords="159,104,229,128" />
-                                 <area alt="suggestions_xsd.tmp#suggestions_min" href="suggestions_xsd.html#suggestions_min" coords="159,181,227,205" />
-                                 <area alt="suggestions_xsd.tmp#suggestions_data" href="suggestions_xsd.html#suggestions_data" coords="159,271,230,295" />
-                                 <area alt="suggestions_xsd.tmp#suggestions_suggestion" href="suggestions_xsd.html#suggestions_suggestion" coords="237,372,328,396" /></map></div>
+                                 <area alt="suggestions_xsd.tmp#suggestions_class" href="suggestions_xsd.html#suggestions_class" coords="159,104,234,128" />
+                                 <area alt="suggestions_xsd.tmp#suggestions_ajax" href="suggestions_xsd.html#suggestions_ajax" coords="159,181,229,205" />
+                                 <area alt="suggestions_xsd.tmp#suggestions_min" href="suggestions_xsd.html#suggestions_min" coords="159,258,227,282" />
+                                 <area alt="suggestions_xsd.tmp#suggestions_data" href="suggestions_xsd.html#suggestions_data" coords="159,348,230,372" />
+                                 <area alt="suggestions_xsd.tmp#suggestions_suggestion" href="suggestions_xsd.html#suggestions_suggestion" coords="237,449,328,473" /></map></div>
                         </td>
                      </tr>
                      <tr>
@@ -517,7 +522,7 @@ var modelBoxes= new Array('model_suggestions');
                            <div id="instance_suggestions" style="display:block">
                               <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
                                  <tr>
-                                    <td width="100%"><pre><span class="tEl">&lt;ui:suggestions</span><span class="tT"> </span><span class="tAN">ajax=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">data=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">min=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xmlns:ui=</span><span class="tAV">"https://github.com/bordertech/wcomponents/namespace/ui/v1.0"</span><span class="tEl">&gt;</span><span class="tI">
+                                    <td width="100%"><pre><span class="tEl">&lt;ui:suggestions</span><span class="tT"> </span><span class="tAN">ajax=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">data=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">min=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xmlns:ui=</span><span class="tAV">"https://github.com/bordertech/wcomponents/namespace/ui/v1.0"</span><span class="tEl">&gt;</span><span class="tI">
   </span><span class="tEl">&lt;ui:suggestion</span><span class="tT"> </span><span class="tAN">value=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,unbounded}</span><span class="tEl">&lt;/ui:suggestion&gt;</span><span class="tI">
 </span><span class="tEl">&lt;/ui:suggestions&gt;</span></pre></td>
                                  </tr>
@@ -549,6 +554,14 @@ var modelBoxes= new Array('model_suggestions');
                                        <div class="annotation"> Indicates if the suggestions list will be updated via AJAX. Is n/a for data lists.
                                           
                                        </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="suggestions_xsd.html#suggestions_class" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for suggestions.xsd')">class</a></b></td>
+                                    <td><b>xs:string</b></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">Provides the ability to pass an HTML class attribute onto the root output element.</div>
                                     </td>
                                  </tr>
                                  <tr>
@@ -639,6 +652,11 @@ var modelBoxes= new Array('model_suggestions');
     </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"id"</span><span class="tAN"> type=</span><span class="tAV">"xs:ID"</span><span class="tAN"> use=</span><span class="tAV">"required"</span><span class="tEl">&gt;</span><span class="tI">
       </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
         </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The unique identifier for the component.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"class"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Provides the ability to pass an HTML class attribute onto the root output element.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
       </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
     </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
     </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"ajax"</span><span class="tAN"> type=</span><span class="tAV">"xs:boolean"</span><span class="tEl">&gt;</span><span class="tI">
@@ -970,6 +988,98 @@ var modelBoxes= new Array('model_suggestions');
                                     <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"id"</span><span class="tAN"> type=</span><span class="tAV">"xs:ID"</span><span class="tAN"> use=</span><span class="tAV">"required"</span><span class="tEl">&gt;</span><span class="tI">
   </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
     </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The unique identifier for the component.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:attribute&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="suggestions_class"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="suggestions_xsd.html#suggestions" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for suggestions.xsd')">ui:suggestions</a></b> / @class</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_suggestions_class" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_suggestions_class');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_suggestions_class" style="display:block">
+                              <div class="annotation">Provides the ability to pass an HTML class attribute onto the root output element.</div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:string</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_suggestions_class" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_suggestions_class');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_suggestions_class" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_suggestions_class" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_suggestions_class');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_suggestions_class" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="suggestions_xsd.html#suggestions" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for suggestions.xsd')">ui:suggestions</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_suggestions_class" type="image" src="img/btM.gif" value="-" onclick="switchState('source_suggestions_class');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_suggestions_class" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"class"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Provides the ability to pass an HTML class attribute onto the root output element.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
   </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
 </span><span class="tEl">&lt;/xs:attribute&gt;</span></pre></td>
                                  </tr>

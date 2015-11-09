@@ -10,9 +10,13 @@
 	<xsl:template match="text()" mode="space">
 		<xsl:param name="space"/>
 		<xsl:param name="type" select="'plain'"/>
+		<xsl:param name="class"/>
 		<xsl:choose>
 			<xsl:when test="$space='paragraphs'">
 				<xsl:element name="p">
+					<xsl:attribute name="class">
+						<xsl:value-of select="$class"/>
+					</xsl:attribute>
 					<xsl:call-template name="WStyledTextContent">
 						<xsl:with-param name="type" select="$type"/>
 						<xsl:with-param name="space" select="$space"/>
