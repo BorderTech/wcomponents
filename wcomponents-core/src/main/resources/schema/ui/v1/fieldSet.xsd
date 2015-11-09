@@ -34,27 +34,33 @@
 					</xs:complexType>
 				</xs:element>
 			</xs:sequence>
-			
+
 			<xs:attribute name="id" type="xs:ID" use="required">
 				<xs:annotation>
 					<xs:documentation>The unique identifier for the component.</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
-			
+
+			<xs:attribute name="class" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Provides the ability to pass an HTML class attribute onto the root output element.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+
 			<xs:attribute name="hidden" type="xs:boolean">
 				<xs:annotation>
 					<xs:documentation>The component will be in a hidden state if "true". Not output if "false".</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
-			
+
 			<xs:attributeGroup ref="ui:accesskey.attributes" />
-			
+
 			<xs:attribute name="required" type="xs:boolean">
 				<xs:annotation>
 					<xs:documentation>The fieldset will require completion of at least one nested component if "true". Not output if "false".</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
-			
+
 			<xs:attribute name="frame">
 				<xs:simpleType>
 					<xs:restriction base="xs:NMTOKEN">

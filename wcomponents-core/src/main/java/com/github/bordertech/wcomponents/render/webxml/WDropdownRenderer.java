@@ -34,6 +34,7 @@ final class WDropdownRenderer extends AbstractWebXmlRenderer {
 		// Start tag
 		xml.appendTagOpen("ui:dropdown");
 		xml.appendAttribute("id", component.getId());
+		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
 		xml.appendOptionalAttribute("data", dataKey != null && !readOnly, dataKey);
 		xml.appendOptionalAttribute("disabled", dropdown.isDisabled(), "true");

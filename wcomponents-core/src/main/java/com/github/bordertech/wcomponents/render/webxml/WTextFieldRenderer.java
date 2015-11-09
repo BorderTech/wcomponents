@@ -39,6 +39,7 @@ final class WTextFieldRenderer extends AbstractWebXmlRenderer {
 
 		xml.appendTagOpen("ui:textField");
 		xml.appendAttribute("id", component.getId());
+		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
 		xml.appendOptionalAttribute("disabled", textField.isDisabled(), "true");
 		xml.appendOptionalAttribute("hidden", component.isHidden(), "true");

@@ -32,6 +32,12 @@
 				</xs:annotation>
 			</xs:attribute>
 
+			<xs:attribute name="class" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Provides the ability to pass an HTML class attribute onto the root output element.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+
 			<xs:attribute name="width" type="xs:positiveInteger">
 				<xs:annotation>
 					<xs:documentation>Provides the dialog's initial width in pixels.</xs:documentation>

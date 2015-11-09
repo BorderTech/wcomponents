@@ -33,6 +33,7 @@ final class WTextAreaRenderer extends AbstractWebXmlRenderer {
 
 		xml.appendTagOpen("ui:textArea");
 		xml.appendAttribute("id", component.getId());
+		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
 		xml.appendOptionalAttribute("disabled", textArea.isDisabled(), "true");
 		xml.appendOptionalAttribute("hidden", textArea.isHidden(), "true");

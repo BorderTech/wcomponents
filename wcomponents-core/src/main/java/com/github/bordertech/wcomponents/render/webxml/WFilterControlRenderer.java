@@ -33,6 +33,7 @@ final class WFilterControlRenderer extends AbstractWebXmlRenderer {
 
 		xml.appendTagOpen("ui:filterControl");
 		xml.appendAttribute("id", component.getId());
+		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
 		xml.appendAttribute("for", filter.getTarget().getId());
 		xml.appendAttribute("value", value == null ? "" : value);

@@ -32,6 +32,7 @@ final class WCheckBoxRenderer extends AbstractWebXmlRenderer {
 
 		xml.appendTagOpen("ui:checkBox");
 		xml.appendAttribute("id", component.getId());
+		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
 		xml.appendOptionalAttribute("groupName", groupName);
 		xml.appendOptionalAttribute("disabled", checkBox.isDisabled(), "true");

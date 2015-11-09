@@ -30,6 +30,7 @@ final class WTabRenderer extends AbstractWebXmlRenderer {
 
 		xml.appendTagOpen("ui:tab");
 		xml.appendAttribute("id", component.getId());
+		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
 		xml.appendOptionalAttribute("open", tab.isOpen(), "true");
 		xml.appendOptionalAttribute("disabled", tab.isDisabled(), "true");

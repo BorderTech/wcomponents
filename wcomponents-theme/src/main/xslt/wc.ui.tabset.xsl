@@ -22,10 +22,13 @@
 			</xsl:attribute>
 
 			<xsl:attribute name="class">
+				<xsl:text>tabset </xsl:text>
 				<xsl:value-of select="$type"/>
-				<xsl:text> tabset</xsl:text>
 				<xsl:if test="$type='left' or $type='right'">
 					<xsl:text> wc_tab_lr</xsl:text><!-- convenience class to reduce CSS -->
+				</xsl:if>
+				<xsl:if test="@class">
+					<xsl:value-of select="concat(' ', @class)"/>
 				</xsl:if>
 				<xsl:call-template name="tabsetAdditionalClass"/>
 			</xsl:attribute>

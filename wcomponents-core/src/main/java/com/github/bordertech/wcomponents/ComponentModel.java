@@ -174,8 +174,14 @@ public class ComponentModel implements WebModel, Externalizable {
 
 	/**
 	 * Adds extra textual information to describe a component. This is intended for screen-readers only.
+	 * @deprecated use toolTip
 	 */
 	private Serializable accessibleText;
+
+	/**
+	 * Adds extra value to the HTML class of the output component.
+	 */
+	private Serializable htmlClass;
 
 	/**
 	 * General placeholder for subclasses of WComponent to place model attributes. This is mostly for convenience so
@@ -506,6 +512,7 @@ public class ComponentModel implements WebModel, Externalizable {
 
 	/**
 	 * @return Returns the accessible text.
+	 * @deprecated use getToolTip
 	 */
 	protected Serializable getAccessibleText() {
 		return accessibleText;
@@ -514,9 +521,25 @@ public class ComponentModel implements WebModel, Externalizable {
 	/**
 	 * @param text The accessible text to set.
 	 * @param args optional message format arguments.
+	 * @deprecated use setToolTip
 	 */
 	protected void setAccessibleText(final String text, final Serializable... args) {
 		this.accessibleText = I18nUtilities.asMessage(text, args);
+	}
+
+	/**
+	 * @return Returns the HTML class.
+	 */
+	protected Serializable getHtmlClass() {
+		return htmlClass;
+	}
+
+	/**
+	 * @param text The HTML class name text to set.
+	 * @param args optional message format arguments.
+	 */
+	protected void setHtmlClass(final String text, final Serializable... args) {
+		this.htmlClass = I18nUtilities.asMessage(text, args);
 	}
 
 	/**

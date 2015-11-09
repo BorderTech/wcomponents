@@ -32,6 +32,7 @@ final class WMultiFileWidgetRenderer extends AbstractWebXmlRenderer {
 
 		xml.appendTagOpen("ui:fileUpload");
 		xml.appendAttribute("id", component.getId());
+		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
 		xml.appendOptionalAttribute("disabled", widget.isDisabled(), "true");
 		xml.appendOptionalAttribute("hidden", widget.isHidden(), "true");

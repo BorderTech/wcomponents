@@ -97,6 +97,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 			CLOSE_BUTTON = new Widget("button", "wc_wdf_cls"),
 			isOpening = false,
 			yearChangedTimeout,
+			reposTimer,
 			refocusId,
 			MIN_ATTRIB = "min",
 			MAX_ATTRIB = "max",
@@ -334,7 +335,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 				else {
 					refocusId = null;
 				}
-
+				cal.removeAttribute("style");  // remove any inline styles
 				shed.hide(cal);
 			}
 		}
@@ -780,28 +781,23 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 			var collision = viewportCollision(cal),
 				initiallyCollideSouth = collision.s > 0,
 				initiallyCollideWest = collision.w < 0,
-				box, left;
+				box, left, top;
 
 			/*
-			 * NOTE: default open is below input field and lined up at the right edge of the combo so we do not been to
-			 * do north collision unless we reset due to a south collision. If a south collision fix causes a north
-			 * collision we just remove the south fix and allow the screen to grow. If fixing a west collision causes an
-			 * east collision we can move the calendar west until it is either fully in viewport OR touches the left
-			 * edge of the viewport leaving a horizontal scroll.
+			 * NOTE: default open is below input field and lined up at the right edge of the combo so we do not need to
+			 * do north collision. If fixing a west collision causes an east collision we can move the calendar west until
+			 * it is either fully in viewport OR touches the left edge of the viewport leaving a horizontal scroll.
 			 */
 			if (initiallyCollideSouth) {
-				classList.add(cal, CLASS.SOUTH);
+				top = cal.offsetTop;
+				if (!isNaN(top)) {
+					cal.style.top = (top - collision.s) + "px";
+				}
 			}
 			if (initiallyCollideWest) {
 				classList.add(cal, CLASS.WEST);
-			}
-			if (initiallyCollideSouth || initiallyCollideWest) {
 				collision = viewportCollision(cal);
-				if (initiallyCollideSouth && collision.n < 0) {
-					classList.remove(cal, CLASS.SOUTH);
-					// console.log("moving the calendar to avoid a south collision causes a north collision");
-				}
-				if (initiallyCollideWest && collision.e > 0) {
+				if (collision.e > 0) {
 					box = getBox(cal);
 					left = Math.min(box.left, collision.e);  // we have to move this far left to move the entire calendar into view
 					if (left > 0) {
@@ -964,20 +960,6 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 			}
 		}
 
-
-		/**
-		 * Hide an open calendar on resize.
-		 *
-		 * @function
-		 * @private
-		 */
-		function resizeEvent(/* $event */) {
-			var calendar = getCal(true);
-			if (calendar && !shed.isHidden(calendar)) {
-				hideCalendar();
-			}
-		}
-
 		function keydownEvent($event) {
 			var target = $event.target,
 				keyCode = $event.keyCode,
@@ -1008,7 +990,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 					}
 				}
 				else if (action === shed.actions.SHOW) {
-					detectCollision(element);
+					position(element);
 					focus.focusFirstTabstop(element);
 				}
 			}
@@ -1020,6 +1002,38 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 						next.parentNode.removeChild(next);
 					});
 				}
+			}
+		}
+
+		/**
+		 * If something causes (or may cause) the calendar to need repositioning the easiest thing to do is simple close it.
+		 * The use can reopen it when they are done messing with the viewport.
+		 */
+		function reposEvent() {
+			if (reposTimer) {
+				timers.clearTimeout(reposTimer);
+			}
+			if (!isOpening) {
+				reposTimer = timers.setTimeout(hideCalendar, 100);
+			}
+		}
+
+		/**
+		 * Positions the calendar relative to its input element.
+		 * @param {Element} [element] The calendar element (if you already have it, otherwise we'll find it for you).
+		 */
+		function position(element) {
+			var input, box, cal = element || getCal(true), fixed;
+			if (cal && !shed.isHidden(cal)) {
+				fixed = (window.getComputedStyle && window.getComputedStyle(cal).position === "fixed");
+				if (fixed) {
+					input = getInputForCalendar(cal);
+					if (input) {
+						box = getBox(input);
+						cal.style.top = box.bottom + "px";
+					}
+				}
+				detectCollision(cal);
 			}
 		}
 
@@ -1047,7 +1061,8 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 * @public
 		 */
 		this.postInit = function() {
-			event.add(window, event.TYPE.resize, resizeEvent);
+			event.add(window, event.TYPE.resize, reposEvent);
+			// event.add(window, event.TYPE.scroll, reposEvent);  // this is bad if opening the calendar causes the page to scroll
 			shed.subscribe(shed.actions.SHOW, shedSubscriber);
 			shed.subscribe(shed.actions.HIDE, shedSubscriber);
 		};

@@ -10,21 +10,25 @@
 				'properties_validationErrors', 
 				'properties_validationErrors_error', 
 				'properties_validationErrors_validationErrors_error_for', 
-				'properties_validationErrors_id');
+				'properties_validationErrors_id', 
+				'properties_validationErrors_class');
 var usedByBoxes= new Array('usedBy_validationErrors', 
 				'usedBy_validationErrors_validationErrors_error_for', 
-				'usedBy_validationErrors_id');
+				'usedBy_validationErrors_id', 
+				'usedBy_validationErrors_class');
 var sourceBoxes= new Array('source_validationErrors', 
 				'source_validationErrors_error', 
 				'source_validationErrors_validationErrors_error_for', 
-				'source_validationErrors_id');
+				'source_validationErrors_id', 
+				'source_validationErrors_class');
 var instanceBoxes= new Array('instance_validationErrors');
 var diagramBoxes= new Array('diagram_validationErrors', 
 				'diagram_validationErrors_error');
 var annotationBoxes= new Array('annotations_validationErrors', 
 				'annotations_validationErrors_error', 
 				'annotations_validationErrors_validationErrors_error_for', 
-				'annotations_validationErrors_id');
+				'annotations_validationErrors_id', 
+				'annotations_validationErrors_class');
 var attributesBoxes= new Array('attributes_validationErrors', 
 				'attributes_validationErrors_error');
 var modelBoxes= new Array('model_validationErrors', 
@@ -390,7 +394,8 @@ var modelBoxes= new Array('model_validationErrors',
                         <td class="diagram">
                            <div id="diagram_validationErrors" style="display:block"><img alt="Diagram" border="0" src="img/validationErrors_xsd_Element_ui_validationErrors.png" usemap="#validationErrors_xsd_Element_ui_validationErrors" /><map name="validationErrors_xsd_Element_ui_validationErrors" id="validationErrors_xsd_Element_ui_validationErrors">
                                  <area alt="validationErrors_xsd.tmp#validationErrors_id" href="validationErrors_xsd.html#validationErrors_id" coords="179,40,247,64" />
-                                 <area alt="validationErrors_xsd.tmp#validationErrors_error" href="validationErrors_xsd.html#validationErrors_error" coords="257,115,316,139" /></map></div>
+                                 <area alt="validationErrors_xsd.tmp#validationErrors_class" href="validationErrors_xsd.html#validationErrors_class" coords="179,104,254,128" />
+                                 <area alt="validationErrors_xsd.tmp#validationErrors_error" href="validationErrors_xsd.html#validationErrors_error" coords="257,192,316,216" /></map></div>
                         </td>
                      </tr>
                      <tr>
@@ -445,7 +450,7 @@ var modelBoxes= new Array('model_validationErrors',
                            <div id="instance_validationErrors" style="display:block">
                               <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
                                  <tr>
-                                    <td width="100%"><pre><span class="tEl">&lt;ui:validationErrors</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xmlns:ui=</span><span class="tAV">"https://github.com/bordertech/wcomponents/namespace/ui/v1.0"</span><span class="tEl">&gt;</span><span class="tI">
+                                    <td width="100%"><pre><span class="tEl">&lt;ui:validationErrors</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xmlns:ui=</span><span class="tAV">"https://github.com/bordertech/wcomponents/namespace/ui/v1.0"</span><span class="tEl">&gt;</span><span class="tI">
   </span><span class="tEl">&lt;ui:error</span><span class="tT"> </span><span class="tAN">for=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,unbounded}</span><span class="tEl">&lt;/ui:error&gt;</span><span class="tI">
 </span><span class="tEl">&lt;/ui:validationErrors&gt;</span></pre></td>
                                  </tr>
@@ -469,6 +474,14 @@ var modelBoxes= new Array('model_validationErrors',
                                        <th>Annotation</th>
                                     </tr>
                                  </thead>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="validationErrors_xsd.html#validationErrors_class" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for validationErrors.xsd')">class</a></b></td>
+                                    <td><b>xs:string</b></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">Provides the ability to pass an HTML class attribute onto the root output element.</div>
+                                    </td>
+                                 </tr>
                                  <tr>
                                     <td class="firstColumn"><b><a href="validationErrors_xsd.html#validationErrors_id" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for validationErrors.xsd')">id</a></b></td>
                                     <td><b>xs:ID</b></td>
@@ -515,6 +528,11 @@ var modelBoxes= new Array('model_validationErrors',
     </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"id"</span><span class="tAN"> type=</span><span class="tAV">"xs:ID"</span><span class="tAN"> use=</span><span class="tAV">"required"</span><span class="tEl">&gt;</span><span class="tI">
       </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
         </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">A unique identifier for the validation errors.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"class"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Provides the ability to pass an HTML class attribute onto the root output element.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
       </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
     </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
   </span><span class="tEl">&lt;/xs:complexType&gt;</span><span class="tI">
@@ -840,6 +858,98 @@ var modelBoxes= new Array('model_validationErrors',
                                     <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"id"</span><span class="tAN"> type=</span><span class="tAV">"xs:ID"</span><span class="tAN"> use=</span><span class="tAV">"required"</span><span class="tEl">&gt;</span><span class="tI">
   </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
     </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">A unique identifier for the validation errors.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:attribute&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="validationErrors_class"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="validationErrors_xsd.html#validationErrors" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for validationErrors.xsd')">ui:validationErrors</a></b> / @class</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_validationErrors_class" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_validationErrors_class');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_validationErrors_class" style="display:block">
+                              <div class="annotation">Provides the ability to pass an HTML class attribute onto the root output element.</div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:string</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_validationErrors_class" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_validationErrors_class');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_validationErrors_class" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_validationErrors_class" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_validationErrors_class');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_validationErrors_class" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="validationErrors_xsd.html#validationErrors" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for validationErrors.xsd')">ui:validationErrors</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_validationErrors_class" type="image" src="img/btM.gif" value="-" onclick="switchState('source_validationErrors_class');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_validationErrors_class" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"class"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Provides the ability to pass an HTML class attribute onto the root output element.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
   </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
 </span><span class="tEl">&lt;/xs:attribute&gt;</span></pre></td>
                                  </tr>

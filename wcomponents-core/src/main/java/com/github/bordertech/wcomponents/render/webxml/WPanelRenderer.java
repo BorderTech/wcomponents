@@ -37,6 +37,7 @@ final class WPanelRenderer extends AbstractWebXmlRenderer {
 
 		xml.appendTagOpen("ui:panel");
 		xml.appendAttribute("id", component.getId());
+		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
 		if (PanelMode.LAZY.equals(panel.getMode())) {
 			xml.appendOptionalAttribute("hidden", !renderChildren, "true");

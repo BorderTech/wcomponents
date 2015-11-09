@@ -34,6 +34,7 @@ final class WMultiTextFieldRenderer extends AbstractWebXmlRenderer {
 
 		xml.appendTagOpen("ui:multiTextField");
 		xml.appendAttribute("id", component.getId());
+		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
 		xml.appendOptionalAttribute("disabled", textField.isDisabled(), "true");
 		xml.appendOptionalAttribute("hidden", textField.isHidden(), "true");

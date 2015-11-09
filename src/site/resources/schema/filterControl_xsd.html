@@ -9,25 +9,29 @@
         var propertiesBoxes= new Array('properties_filterControl.xsd', 
 				'properties_filterControl', 
 				'properties_filterControl_id', 
+				'properties_filterControl_class', 
 				'properties_filterControl_for', 
 				'properties_filterControl_value', 
 				'properties_filterControl_active', 
 				'properties_filterControl_hidden');
 var usedByBoxes= new Array('usedBy_filterControl', 
 				'usedBy_filterControl_id', 
+				'usedBy_filterControl_class', 
 				'usedBy_filterControl_for', 
 				'usedBy_filterControl_value', 
 				'usedBy_filterControl_active', 
 				'usedBy_filterControl_hidden');
 var sourceBoxes= new Array('source_filterControl', 
 				'source_filterControl_id', 
+				'source_filterControl_class', 
 				'source_filterControl_for', 
 				'source_filterControl_value', 
 				'source_filterControl_active', 
 				'source_filterControl_hidden');
 var instanceBoxes= new Array('instance_filterControl');
 var diagramBoxes= new Array('diagram_filterControl');
-var annotationBoxes= new Array('annotations_filterControl');
+var annotationBoxes= new Array('annotations_filterControl', 
+				'annotations_filterControl_class');
 var attributesBoxes= new Array('attributes_filterControl');
 var modelBoxes= new Array('model_filterControl');
 
@@ -391,11 +395,12 @@ var modelBoxes= new Array('model_filterControl');
                         <td class="diagram">
                            <div id="diagram_filterControl" style="display:block"><img alt="Diagram" border="0" src="img/filterControl_xsd_Element_ui_filterControl.png" usemap="#filterControl_xsd_Element_ui_filterControl" /><map name="filterControl_xsd_Element_ui_filterControl" id="filterControl_xsd_Element_ui_filterControl">
                                  <area alt="filterControl_xsd.tmp#filterControl_id" href="filterControl_xsd.html#filterControl_id" coords="159,40,227,64" />
-                                 <area alt="filterControl_xsd.tmp#filterControl_for" href="filterControl_xsd.html#filterControl_for" coords="159,74,227,98" />
-                                 <area alt="filterControl_xsd.tmp#filterControl_value" href="filterControl_xsd.html#filterControl_value" coords="159,108,235,132" />
-                                 <area alt="filterControl_xsd.tmp#filterControl_active" href="filterControl_xsd.html#filterControl_active" coords="159,142,238,166" />
-                                 <area alt="filterControl_xsd.tmp#filterControl_hidden" href="filterControl_xsd.html#filterControl_hidden" coords="159,176,244,200" />
-                                 <area alt="decoratedLabel_xsd.tmp#decoratedLabel" href="decoratedLabel_xsd.html#decoratedLabel" coords="216,221,342,245" /></map></div>
+                                 <area alt="filterControl_xsd.tmp#filterControl_class" href="filterControl_xsd.html#filterControl_class" coords="159,74,234,98" />
+                                 <area alt="filterControl_xsd.tmp#filterControl_for" href="filterControl_xsd.html#filterControl_for" coords="159,151,227,175" />
+                                 <area alt="filterControl_xsd.tmp#filterControl_value" href="filterControl_xsd.html#filterControl_value" coords="159,185,235,209" />
+                                 <area alt="filterControl_xsd.tmp#filterControl_active" href="filterControl_xsd.html#filterControl_active" coords="159,219,238,243" />
+                                 <area alt="filterControl_xsd.tmp#filterControl_hidden" href="filterControl_xsd.html#filterControl_hidden" coords="159,253,244,277" />
+                                 <area alt="decoratedLabel_xsd.tmp#decoratedLabel" href="decoratedLabel_xsd.html#decoratedLabel" coords="216,298,342,322" /></map></div>
                         </td>
                      </tr>
                      <tr>
@@ -450,8 +455,8 @@ var modelBoxes= new Array('model_filterControl');
                            <div id="instance_filterControl" style="display:block">
                               <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
                                  <tr>
-                                    <td width="100%"><pre><span class="tEl">&lt;ui:filterControl</span><span class="tT"> </span><span class="tAN">active=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">for=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">value=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xmlns:ui=</span><span class="tAV">"https://github.com/bordertech/wcomponents/namespace/ui/v1.0"</span><span class="tEl">&gt;</span><span class="tI">
-  </span><span class="tEl">&lt;ui:decoratedLabel</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:decoratedLabel&gt;</span><span class="tI">
+                                    <td width="100%"><pre><span class="tEl">&lt;ui:filterControl</span><span class="tT"> </span><span class="tAN">active=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">for=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">value=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xmlns:ui=</span><span class="tAV">"https://github.com/bordertech/wcomponents/namespace/ui/v1.0"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:decoratedLabel</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:decoratedLabel&gt;</span><span class="tI">
 </span><span class="tEl">&lt;/ui:filterControl&gt;</span></pre></td>
                                  </tr>
                               </table>
@@ -471,7 +476,7 @@ var modelBoxes= new Array('model_filterControl');
                                        <th>QName</th>
                                        <th width="10%">Type</th>
                                        <th width="5%">Use</th>
-                                       <th></th>
+                                       <th>Annotation</th>
                                     </tr>
                                  </thead>
                                  <tr>
@@ -480,6 +485,14 @@ var modelBoxes= new Array('model_filterControl');
                                     <td>optional</td>
                                     <td>
                                        <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="filterControl_xsd.html#filterControl_class" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for filterControl.xsd')">class</a></b></td>
+                                    <td><b>xs:string</b></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">Provides the ability to pass an HTML class attribute onto the root output element.</div>
                                     </td>
                                  </tr>
                                  <tr>
@@ -536,6 +549,11 @@ var modelBoxes= new Array('model_filterControl');
       </span><span class="tEl">&lt;xs:element</span><span class="tAN"> ref=</span><span class="tAV">"ui:decoratedLabel"</span><span class="tEl">/&gt;</span><span class="tI">
     </span><span class="tEl">&lt;/xs:sequence&gt;</span><span class="tI">
     </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"id"</span><span class="tAN"> type=</span><span class="tAV">"xs:ID"</span><span class="tAN"> use=</span><span class="tAV">"required"</span><span class="tEl">/&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"class"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Provides the ability to pass an HTML class attribute onto the root output element.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
     </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"for"</span><span class="tAN"> type=</span><span class="tAV">"xs:IDREF"</span><span class="tAN"> use=</span><span class="tAV">"required"</span><span class="tEl">/&gt;</span><span class="tI">
     </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"value"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tAN"> use=</span><span class="tAV">"required"</span><span class="tEl">/&gt;</span><span class="tI">
     </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"active"</span><span class="tAN"> type=</span><span class="tAV">"xs:boolean"</span><span class="tEl">/&gt;</span><span class="tI">
@@ -619,6 +637,98 @@ var modelBoxes= new Array('model_filterControl');
                               <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
                                  <tr>
                                     <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"id"</span><span class="tAN"> type=</span><span class="tAV">"xs:ID"</span><span class="tAN"> use=</span><span class="tAV">"required"</span><span class="tEl">/&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="filterControl_class"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="filterControl_xsd.html#filterControl" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for filterControl.xsd')">ui:filterControl</a></b> / @class</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_filterControl_class" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_filterControl_class');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_filterControl_class" style="display:block">
+                              <div class="annotation">Provides the ability to pass an HTML class attribute onto the root output element.</div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:string</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_filterControl_class" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_filterControl_class');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_filterControl_class" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_filterControl_class" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_filterControl_class');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_filterControl_class" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="filterControl_xsd.html#filterControl" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for filterControl.xsd')">ui:filterControl</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_filterControl_class" type="image" src="img/btM.gif" value="-" onclick="switchState('source_filterControl_class');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_filterControl_class" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"class"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Provides the ability to pass an HTML class attribute onto the root output element.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:attribute&gt;</span></pre></td>
                                  </tr>
                               </table>
                            </div>

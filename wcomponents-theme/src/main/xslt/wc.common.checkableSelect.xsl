@@ -92,7 +92,6 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
-
 		<xsl:variable name="id">
 			<xsl:value-of select="@id"/>
 		</xsl:variable>

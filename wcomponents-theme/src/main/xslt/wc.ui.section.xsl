@@ -22,6 +22,9 @@
 				<xsl:if test="$mode='lazy' and @hidden">
 					<xsl:text> wc_magic</xsl:text>
 				</xsl:if>
+				<xsl:if test="@class">
+					<xsl:value-of select="concat(' ', @class)"/>
+				</xsl:if>
 				<xsl:call-template name="additionalSectionClass"/>
 			</xsl:attribute>
 			<xsl:apply-templates select="ui:margin"/>

@@ -56,7 +56,14 @@
 				<xsl:text>tab</xsl:text>
 			</xsl:attribute>
 			<xsl:attribute name="class">
-				<xsl:text>wc_btn_nada</xsl:text>
+				<xsl:value-of select="local-name()"/>
+				<xsl:text> wc_btn_nada</xsl:text>
+				<xsl:if test="@class">
+					<xsl:value-of select="concat(' ', @class)"/>
+				</xsl:if>
+				<xsl:call-template name="tabClass">
+					<xsl:with-param name="firstOpenTab" select="$firstOpenTab"/>
+				</xsl:call-template>
 			</xsl:attribute>
 			<xsl:call-template name="title"/>
 			<xsl:attribute name="{$expandSelectAttrib}">
@@ -114,20 +121,6 @@
 			<!-- do not allow the open tab to be hidden (remember firstOpenTab could be empty so use not()) -->
 			<xsl:if test="not($firstOpenTab=.)">
 				<xsl:call-template name="hideTab"/>
-			</xsl:if>
-			<xsl:variable name="class">
-				<!--
-					helper template for putting a class on to a tab. Just to make
-					implementation overrides easier. Aren't we nice?
-				-->
-				<xsl:call-template name="tabClass">
-					<xsl:with-param name="firstOpenTab" select="$firstOpenTab"/>
-				</xsl:call-template>
-			</xsl:variable>
-			<xsl:if test="$class!=''">
-				<xsl:attribute name="class">
-					<xsl:value-of select="normalize-space($class)"/>
-				</xsl:attribute>
 			</xsl:if>
 			<xsl:call-template name="accessKey"/>
 			<xsl:variable name="labelElement">

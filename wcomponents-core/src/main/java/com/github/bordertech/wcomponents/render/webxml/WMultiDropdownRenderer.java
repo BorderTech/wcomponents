@@ -35,6 +35,7 @@ final class WMultiDropdownRenderer extends AbstractWebXmlRenderer {
 
 		xml.appendTagOpen("ui:multiDropdown");
 		xml.appendAttribute("id", component.getId());
+		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
 		xml.appendOptionalAttribute("data", dataKey != null && !readOnly, dataKey);
 		xml.appendOptionalAttribute("disabled", dropdown.isDisabled(), "true");

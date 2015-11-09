@@ -27,6 +27,9 @@
 			<xsl:if test="$readOnly!=1 and $element and $element/@required">
 				<xsl:text> wc_req</xsl:text>
 			</xsl:if>
+			<xsl:if test="@class">
+				<xsl:value-of select="concat(' ', @class)"/>
+			</xsl:if>
 		</xsl:attribute>
 	</xsl:template>
 </xsl:stylesheet>
