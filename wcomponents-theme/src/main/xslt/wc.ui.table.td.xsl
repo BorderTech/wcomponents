@@ -27,8 +27,8 @@
 			<xsl:value-of select="$colHeaderElement/@align"/>
 		</xsl:variable>
 		<xsl:variable name="class">
-			
-			<xsl:if test="$isIE = 1 and $myTable/@striping = 'cols' and position() mod 2 = 0">
+			<!-- IE 8- needs more help with striping -->
+			<xsl:if test="$myTable/@striping = 'cols' and position() mod 2 = 0">
 				<xsl:text> wc_table_stripe</xsl:text>
 			</xsl:if>
 			<xsl:choose>
