@@ -82,33 +82,11 @@
 	XSLT and we do not want it renamed.
 -->
 	<xsl:param name="isDebug" select="1"/>
-<!--
-	This is used to undertake browser specific transformations.
-	Note - this is a param so it can be injected by the transform engine to
-	enable server side transforms.
--->
-	<xsl:param name="xslVendor" select="system-property('xsl:vendor')"/>
 
 <!--
 	Global Variables
-
-	This variable is used as a short hand to determine if the xsl:vendor
-	property is 'Microsoft' which implies Internet Explorer as browser.
-
-	This is still required to provide a means to style some elements by position in IE8.
-
-	TODO: drop this ASAP!
 -->
-	<xsl:variable name="isIE">
-		<xsl:choose>
-			<xsl:when test="$xslVendor='Microsoft'">
-				<xsl:number value="1"/>
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:number value="0"/>
-			</xsl:otherwise>
-		</xsl:choose>
-	</xsl:variable>
+
 <!--
 	This variable is used as a shorthand for testing xs:boolean attribute values
 	as it allows us to further compress the XSLT. We do not need a test for
