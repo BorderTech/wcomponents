@@ -75,8 +75,8 @@ final class WPanelRenderer extends AbstractWebXmlRenderer {
 		// EAGER panels only render content if the panel is the current AJAX trigger
 		if (PanelMode.EAGER.equals(panelMode)) {
 			return AjaxHelper.isCurrentAjaxTrigger(panel);
-		} else if (PanelMode.LAZY.equals(panelMode)) { // LAZY panels render content if the panel is not hidden or it is the current AJAX Trigger (ie content has been
-			// requested)
+		} else if (PanelMode.LAZY.equals(panelMode)) {
+			// LAZY panels render content if the panel is not hidden or it is the current AJAX Trigger (ie content has been requested)
 			return (!panel.isHidden() || AjaxHelper.isCurrentAjaxTrigger(panel));
 		}
 
