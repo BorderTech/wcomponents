@@ -14,7 +14,6 @@
 		"eslint": "~1.7.0",
 		"intern": "^3.0.6",
 		"jsdoc": "~3.3.2",
-		"node-sass": "~3.3.3",
 		"promise-polyfill": "~2.1.0",
 		"requirejs": "~2.1.20",
 		"sprintf-js": "~1.0.3",
