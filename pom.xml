@@ -22,6 +22,7 @@
 		<cpd.skip>${wc.qa.skip}</cpd.skip>
 		<findbugs.skip>${wc.qa.skip}</findbugs.skip>
 		<surefire.version>2.19</surefire.version>
+		<jetty.version>8.1.16.v20140903</jetty.version>
 	</properties>
 
 	<licenses>
