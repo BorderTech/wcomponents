@@ -240,6 +240,7 @@ final class DefaultInternalConfiguration implements Configuration {
 	/**
 	 * Load the backing from the properties file visible to our classloader, plus the filesystem.
 	 */
+	@SuppressWarnings("checkstyle:emptyblock")
 	private void load() {
 		recordMessage("Loading parameters");
 		File cwd = new File(".");
@@ -337,6 +338,7 @@ final class DefaultInternalConfiguration implements Configuration {
 	 *
 	 * @param resourceName the path of the resource to load from.
 	 */
+	@SuppressWarnings("checkstyle:emptyblock")
 	private void loadTop(final String resourceName) {
 		try {
 			resources.push(resourceName);
@@ -412,8 +414,7 @@ final class DefaultInternalConfiguration implements Configuration {
 
 				// Check if we have already loaded this file.
 				if (loadedFiles.keySet().contains(urlContent)) {
-					recordMessage("Skipped url " + url + " - duplicate of " + loadedFiles.get(
-							urlContent));
+					recordMessage("Skipped url " + url + " - duplicate of " + loadedFiles.get(urlContent));
 					continue;
 				}
 

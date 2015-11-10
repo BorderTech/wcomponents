@@ -1767,6 +1767,7 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 	 * @param forUpdate true if building list of row ids to update
 	 * @param editable true if the table is editable
 	 */
+	@SuppressWarnings("checkstyle:parameternumber")
 	private void calcChildrenRowIds(final List<RowIdWrapper> rows, final RowIdWrapper row,
 			final TableModel model,
 			final RowIdWrapper parent, final Set<?> expanded, final ExpandMode mode,

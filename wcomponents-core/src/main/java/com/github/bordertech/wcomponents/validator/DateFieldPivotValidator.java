@@ -69,8 +69,8 @@ public class DateFieldPivotValidator extends AbstractFieldValidator {
 	/**
 	 * Creates a DateFieldPivotValidator. As no "pivot" date is supplied, the operation will be relative to "today".
 	 *
-	 * @param operator the operator which controls how the dates will be compared. Must be one of {@link #BEFORE}, {@link #BEFORE_OR_EQUAL}, {@link #EQUAL},
-	 *         {@link #AFTER_OR_EQUAL} or {@link #AFTER}.
+	 * @param operator the operator which controls how the dates will be compared.
+	 *    Must be one of {@link #BEFORE}, {@link #BEFORE_OR_EQUAL}, {@link #EQUAL}, {@link #AFTER_OR_EQUAL} or {@link #AFTER}.
 	 */
 	public DateFieldPivotValidator(final int operator) {
 		this(operator, (Date) null);
@@ -79,8 +79,8 @@ public class DateFieldPivotValidator extends AbstractFieldValidator {
 	/**
 	 * Creates a DateFieldPivotValidator which compares against the given fixed date.
 	 *
-	 * @param operator the operator which controls how the dates will be compared. Must be one of {@link #BEFORE}, {@link #BEFORE_OR_EQUAL}, {@link #EQUAL},
-	 *         {@link #AFTER_OR_EQUAL} or {@link #AFTER}.
+	 * @param operator the operator which controls how the dates will be compared.
+	 *    Must be one of {@link #BEFORE}, {@link #BEFORE_OR_EQUAL}, {@link #EQUAL}, {@link #AFTER_OR_EQUAL} or {@link #AFTER}.
 	 *
 	 * @param pivot the date to compare against.
 	 */
@@ -92,8 +92,8 @@ public class DateFieldPivotValidator extends AbstractFieldValidator {
 	/**
 	 * Creates a DateFieldPivotValidator which compares against the a variable date.
 	 *
-	 * @param operator the operator which controls how the dates will be compared. Must be one of {@link #BEFORE}, {@link #BEFORE_OR_EQUAL}, {@link #EQUAL},
-	 *         {@link #AFTER_OR_EQUAL} or {@link #AFTER}.
+	 * @param operator the operator which controls how the dates will be compared.
+	 *    Must be one of {@link #BEFORE}, {@link #BEFORE_OR_EQUAL}, {@link #EQUAL}, {@link #AFTER_OR_EQUAL} or {@link #AFTER}.
 	 *
 	 * @param pivot the date field which will supply the date to compare against.
 	 */
@@ -171,8 +171,8 @@ public class DateFieldPivotValidator extends AbstractFieldValidator {
 	/**
 	 * Sets the operator which controls date validation.
 	 *
-	 * @param operator the operator which controls how the dates will be compared. Must be one of {@link #BEFORE}, {@link #BEFORE_OR_EQUAL}, {@link #EQUAL},
-	 *         {@link #AFTER_OR_EQUAL} or {@link #AFTER}.
+	 * @param operator the operator which controls how the dates will be compared.
+	 *    Must be one of {@link #BEFORE}, {@link #BEFORE_OR_EQUAL}, {@link #EQUAL}, {@link #AFTER_OR_EQUAL} or {@link #AFTER}.
 	 */
 	public void setOperator(final int operator) {
 		this.operator = operator;

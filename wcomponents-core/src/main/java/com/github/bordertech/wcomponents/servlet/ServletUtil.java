@@ -312,7 +312,7 @@ public final class ServletUtil {
 
 				resp.setContentType(WebUtilities.getContentType(fileName));
 				resp.setHeader("Cache-Control", CacheType.THEME_CACHE.getSettings());
-				resp.setHeader("Content-Disposition", "filename=" + encodedName);  // added "filename=" to comply with https://tools.ietf.org/html/rfc6266
+				resp.setHeader("Content-Disposition", "filename=" + encodedName);  // "filename=" to comply with https://tools.ietf.org/html/rfc6266
 				resp.setHeader("Expires", "31536000");
 				resp.setHeader("ETag", "\"" + WebUtilities.getProjectVersion() + "\"");
 				// TODO: this is vital but needs a proper date
