@@ -23,6 +23,9 @@
 		<findbugs.skip>${wc.qa.skip}</findbugs.skip>
 		<surefire.version>2.19</surefire.version>
 		<jetty.version>8.1.16.v20140903</jetty.version>
+		<stagingUrl>https://oss.sonatype.org/service/local/staging/deploy/maven2/</stagingUrl>
+		<snapshotUrl>https://oss.sonatype.org/content/repositories/snapshots</snapshotUrl>
+		<stagingId>ossrh</stagingId>
 	</properties>
 
 	<licenses>
@@ -50,6 +53,33 @@
 		<system>TravisCI</system>
 		<url>https://travis-ci.org/BorderTech/wcomponents/</url>
 	</ciManagement>
+	
+	<distributionManagement>
+		<snapshotRepository>
+			<id>${stagingId}</id>
+			<url>${snapshotUrl}</url>
+		</snapshotRepository>
+		<repository>
+			<id>${stagingId}</id>
+			<url>${stagingUrl}</url>
+		</repository>
+		<site>
+			<id>sites</id>
+			<name>sites</name>
+			<url>${sitesUrl}</url>
+		</site>
+	</distributionManagement>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<scope>test</scope>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>${wcomponents.junit.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 	<profiles>
 		<profile>
@@ -64,11 +94,47 @@
 				<skipOptionalTests>true</skipOptionalTests>
 			</properties>
 		</profile>
+		
+		<profile>
+			<!--
+			The build cannot release to maven central without configuring several secrets in settings.xml
+			Read here: https://github.com/BorderTech/wcomponents/wiki/Releasing
+			-->
+			<id>release</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.sonatype.plugins</groupId>
+						<artifactId>nexus-staging-maven-plugin</artifactId>
+						<version>1.6.6</version>
+						<extensions>true</extensions>
+						<configuration>
+							<serverId>${stagingId}</serverId>
+							<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+							<autoReleaseAfterClose>true</autoReleaseAfterClose>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>1.6</version>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
 	</profiles>
 
 	<build>
 		<plugins>
-			
 			<!-- Compile the java source. -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -80,16 +146,10 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
-				<version>2.4</version>
 				<configuration>
 					<includes>
 						<include>**/*.java</include>
 					</includes>
-					<archive>
-						<manifestEntries>
-							<Built-By></Built-By>
-						</manifestEntries>
-					</archive>
 				</configuration>
 				<executions>
 					<execution>
@@ -119,7 +179,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
-				<version>2.6</version>
 				<executions>
 					<execution>
 						<goals>
@@ -130,13 +189,6 @@
 						</configuration>
 					</execution>
 				</executions>
-				<configuration>
-					<archive>
-						<manifestEntries>
-							<Built-By></Built-By>
-						</manifestEntries>
-					</archive>
-				</configuration>
 			</plugin>
 
 			<!-- Generate the site. -->
@@ -281,6 +333,44 @@
 			</plugin>
 
 		</plugins>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<artifactId>maven-assembly-plugin</artifactId>
+					<configuration>
+						<archive>
+							<manifestEntries>
+								<Built-By></Built-By>
+							</manifestEntries>
+						</archive>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-source-plugin</artifactId>
+					<version>2.4</version>
+					<configuration>
+						<archive>
+							<manifestEntries>
+								<Built-By></Built-By>
+							</manifestEntries>
+						</archive>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jar-plugin</artifactId>
+					<version>2.6</version>
+					<configuration>
+						<archive>
+							<manifestEntries>
+								<Built-By></Built-By>
+							</manifestEntries>
+						</archive>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 	</build>
 
 	<reporting>
@@ -474,29 +564,5 @@
 		<module>wcomponents-theme-parent</module>
 		<module>wcomponents-bundle</module>
 	</modules>
-
-	<distributionManagement>
-		<repository>
-			<id>staging-repository</id>
-			<name>staging-repository</name>
-			<url>${stagingUrl}</url>
-		</repository>
-		<site>
-			<id>sites</id>
-			<name>sites</name>
-			<url>${sitesUrl}</url>
-		</site>
-	</distributionManagement>
-
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<scope>test</scope>
-				<groupId>junit</groupId>
-				<artifactId>junit</artifactId>
-				<version>${wcomponents.junit.version}</version>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
 
 </project>
