@@ -153,17 +153,17 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
 				<version>2.17</version>
+				<configuration>
+					<configLocation>../sun_checks_wc.xml</configLocation>
+					<consoleOutput>true</consoleOutput>
+					<failsOnError>true</failsOnError>
+					<linkXRef>false</linkXRef>
+					<includeTestSourceDirectory>false</includeTestSourceDirectory>
+				</configuration>
 				<executions>
 					<execution>
 						<id>checkStyle</id>
 						<phase>verify</phase>
-						<configuration>
-							<configLocation>../sun_checks_wc.xml</configLocation>
-							<consoleOutput>true</consoleOutput>
-							<failsOnError>true</failsOnError>
-							<linkXRef>false</linkXRef>
-							<includeTestSourceDirectory>false</includeTestSourceDirectory>
-						</configuration>
 						<goals>
 							<goal>check</goal>
 						</goals>
@@ -176,16 +176,16 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-pmd-plugin</artifactId>
 				<version>3.5</version>
+				<configuration>
+					<failurePriority>2</failurePriority>
+					<printFailingErrors>true</printFailingErrors>
+					<includeTests>false</includeTests>
+					<format>xml</format>
+				</configuration>
 				<executions>
 					<execution>
 						<id>checkPmd</id>
 						<phase>verify</phase>
-						<configuration>
-							<failurePriority>2</failurePriority>
-							<printFailingErrors>true</printFailingErrors>
-							<includeTests>false</includeTests>
-							<format>xml</format>
-						</configuration>
 						<goals>
 							<goal>check</goal>
 						</goals>
@@ -200,8 +200,8 @@
 				<version>3.0.2</version>
 				<configuration>
 					<effort>Max</effort>
-					<xmlOutput>true</xmlOutput>
-					<testClassFilesDirectory>false</testClassFilesDirectory>
+					<includeTests>false</includeTests>
+					<threshold>Medium</threshold>
 					<excludeFilterFile>../findbugs-exclude-filter.xml</excludeFilterFile>
 				</configuration>
 				<executions>
@@ -214,7 +214,58 @@
 					</execution>
 				</executions>
 			</plugin>
-			
+
+			<!-- Generate Findbugs report (Does not support aggregate reports). -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.7</version>
+				<dependencies>
+					<dependency>
+						<groupId>com.google.code.findbugs</groupId>
+						<artifactId>findbugs</artifactId>
+						<version>3.0.1</version>
+					</dependency>
+				</dependencies>
+				<executions>
+					<execution>
+						<inherited>false</inherited>
+						<id>generateFindbugs</id>
+						<phase>site</phase>
+						<configuration>
+							<target>
+								<property name="plugin_classpath" refid="maven.plugin.classpath" />
+								<path id="project.class.path">
+									<path path="${maven.plugin.classpath}"/>
+								</path>
+								<property name="builddir" value="${project.build.directory}"/>
+								<property name="sitedir" value="${project.reporting.outputDirectory}"/>
+
+								<taskdef name="merge" classname="edu.umd.cs.findbugs.anttask.UnionBugs" classpathref="project.class.path"/>
+								<taskdef name="generate" classname="edu.umd.cs.findbugs.anttask.ConvertXmlToTextTask" classpathref="project.class.path"/>
+								
+								<echo message="Findbugs - Merge findbug results."/>
+								<merge to="${builddir}/findbugs-report.xml">
+									<fileset dir="${basedir}">
+										<include name="**/target/findbugs-rep/findbugsXml.xml" />
+									</fileset>
+								</merge>
+								
+								<echo message="Findbugs - Generate findbugs report." />
+								<generate inputFile="${builddir}/findbugs-report.xml" outputFile="${sitedir}/findbugs-report.html" format="html:plain.xsl" >
+									<classpath path="${plugin_classpath}"/>
+								</generate>
+
+								<echo message="Findbugs - Report complete." />
+							</target>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
 		</plugins>
 	</build>
 
@@ -295,15 +346,16 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
 				<version>2.17</version>
+				<configuration>
+					<configLocation>sun_checks_wc.xml</configLocation>
+					<consoleOutput>true</consoleOutput>
+					<!-- Exclude because of aggregate reports. -->
+					<excludes>**/wcomponents/qa/**/*.java,**/wcomponents/examples/**/*.java</excludes>
+					<headerFile></headerFile>
+				</configuration>
 				<reportSets>
 					<reportSet>
 						<inherited>false</inherited>
-						<configuration>
-							<skip>false</skip>
-							<configLocation>sun_checks_wc.xml</configLocation>
-							<consoleOutput>true</consoleOutput>
-							<excludes>**/wcomponents/qa/**/*.java,**/wcomponents/examples/**/*.java</excludes>
-						</configuration>
 						<reports>
 							<report>checkstyle-aggregate</report>
 						</reports>
@@ -334,18 +386,18 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-pmd-plugin</artifactId>
 				<version>3.5</version>
+				<configuration>
+					<aggregate>true</aggregate>
+					<failurePriority>5</failurePriority>
+					<!-- Exclude because of aggregate reports. -->
+					<excludes>
+						<exclude>**/wcomponents/qa/**/*.java</exclude>
+						<exclude>**/wcomponents/examples/**/*.java</exclude>
+					</excludes>
+				</configuration>
 				<reportSets>
 					<reportSet>
 						<inherited>false</inherited>
-						<configuration>
-							<aggregate>true</aggregate>
-							<failurePriority>5</failurePriority>
-							<skip>false</skip>
-							<excludes>
-								<exclude>**/wcomponents/qa/**/*.java</exclude>
-								<exclude>**/wcomponents/examples/**/*.java</exclude>
-							</excludes>
-						</configuration>
 						<reports>
 							<report>pmd</report>
 							<report>cpd</report>
@@ -354,22 +406,19 @@
 				</reportSets>
 			</plugin>
 
-			<!-- Generate Findbugs report (Does not support aggregate reports). -->
+			<!-- Generate Findbugs reports. (Does not support aggregate.) -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>findbugs-maven-plugin</artifactId>
 				<version>3.0.2</version>
-				<configuration>
-					<failOnError>false</failOnError>
-					<threshold>Low</threshold>
-					<effort>Max</effort>
-					<excludes>
-						<exclude>**/wcomponents/qa/**/*.java</exclude>
-						<exclude>**/wcomponents/examples/**/*.java</exclude>
-					</excludes>
-					<testClassFilesDirectory>false</testClassFilesDirectory>
-					<excludeFilterFile>findbugs-exclude-filter.xml</excludeFilterFile>
-				</configuration>
+						<configuration>
+							<effort>Max</effort>
+							<includeTests>false</includeTests>
+							<excludeFilterFile>findbugs-exclude-filter.xml</excludeFilterFile>
+							<threshold>Low</threshold>
+							<failOnError>false</failOnError>
+							<findbugsXmlOutputDirectory>${project.build.directory}/findbugs-rep</findbugsXmlOutputDirectory>
+						</configuration>
 			</plugin>
 
 			<!-- Generate Cobertura Report. (Aggregate Parameter). -->
