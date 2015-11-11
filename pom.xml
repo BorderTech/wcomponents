@@ -229,6 +229,7 @@
 			</plugin>
 
 			<!-- Generate Findbugs report (Does not support aggregate reports). -->
+			<!-- Run site twice to get Findbugs report.-->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-antrun-plugin</artifactId>
@@ -420,18 +421,19 @@
 			</plugin>
 
 			<!-- Generate Findbugs reports. (Does not support aggregate.) -->
+			<!-- Run site twice to get Findbugs report.-->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>findbugs-maven-plugin</artifactId>
 				<version>3.0.2</version>
-						<configuration>
-							<effort>Max</effort>
-							<includeTests>false</includeTests>
-							<excludeFilterFile>findbugs-exclude-filter.xml</excludeFilterFile>
-							<threshold>Low</threshold>
-							<failOnError>false</failOnError>
-							<findbugsXmlOutputDirectory>${project.build.directory}/findbugs-rep</findbugsXmlOutputDirectory>
-						</configuration>
+				<configuration>
+					<effort>Max</effort>
+					<includeTests>false</includeTests>
+					<excludeFilterFile>findbugs-exclude-filter.xml</excludeFilterFile>
+					<threshold>Low</threshold>
+					<failOnError>false</failOnError>
+					<findbugsXmlOutputDirectory>${project.build.directory}/findbugs-rep</findbugsXmlOutputDirectory>
+				</configuration>
 			</plugin>
 
 			<!-- Generate Cobertura Report. (Aggregate Parameter). -->
