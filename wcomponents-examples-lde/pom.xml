@@ -60,7 +60,7 @@
 					</descriptorRefs>
 					<archive>
 						<manifest>
-							<mainClass>com.github.bordertech.wcomponents.exampleslde.StandaloneLauncherProxy</mainClass>
+							<mainClass>com.github.bordertech.wcomponents.examples.lde.StandaloneLauncherProxy</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
