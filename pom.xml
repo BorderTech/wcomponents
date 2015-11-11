@@ -324,7 +324,19 @@
 					</execution>
 				</executions>
 			</plugin>
-
+			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>2.5.3</version>
+				<configuration>
+					<autoVersionSubmodules>true</autoVersionSubmodules>
+					<useReleaseProfile>false</useReleaseProfile>
+					<!-- need this for gpg plugin to work correctly -->
+					<mavenExecutorId>forked-path</mavenExecutorId>
+					<releaseProfiles>release</releaseProfiles>
+				</configuration>
+			</plugin>
 		</plugins>
 		<pluginManagement>
 			<plugins>
@@ -542,17 +554,6 @@
 				</reportSets>
 			</plugin>
 			-->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-release-plugin</artifactId>
-				<version>2.5.2</version>
-				<configuration>
-					<autoVersionSubmodules>true</autoVersionSubmodules>
-					<useReleaseProfile>false</useReleaseProfile>
-					<!-- need this for gpg plugin to work correctly -->
-					<mavenExecutorId>forked-path</mavenExecutorId>
-				</configuration>
-			</plugin>
 		</plugins>
 	</reporting>
 
