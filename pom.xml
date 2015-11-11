@@ -23,8 +23,9 @@
 		<findbugs.skip>${wc.qa.skip}</findbugs.skip>
 		<surefire.version>2.19</surefire.version>
 		<jetty.version>8.1.16.v20140903</jetty.version>
-		<stagingUrl>https://oss.sonatype.org/service/local/staging/deploy/maven2/</stagingUrl>
-		<snapshotUrl>https://oss.sonatype.org/content/repositories/snapshots</snapshotUrl>
+		<stagingBaseUrl>https://oss.sonatype.org/</stagingBaseUrl>
+		<!--<stagingUrl>${stagingBaseUrl}service/local/staging/deploy/maven2/</stagingUrl>-->
+		<snapshotUrl>${stagingBaseUrl}content/repositories/snapshots</snapshotUrl>
 		<stagingId>ossrh</stagingId>
 	</properties>
 
@@ -59,7 +60,7 @@
 			<id>${stagingId}</id>
 			<url>${snapshotUrl}</url>
 		</snapshotRepository>
-		<repository>
+<!--		<repository>
 			<id>${stagingId}</id>
 			<url>${stagingUrl}</url>
 		</repository>
@@ -67,7 +68,7 @@
 			<id>sites</id>
 			<name>sites</name>
 			<url>${sitesUrl}</url>
-		</site>
+		</site>-->
 	</distributionManagement>
 
 	<dependencyManagement>
@@ -110,7 +111,7 @@
 						<extensions>true</extensions>
 						<configuration>
 							<serverId>${stagingId}</serverId>
-							<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+							<nexusUrl>${stagingBaseUrl}</nexusUrl>
 							<autoReleaseAfterClose>false</autoReleaseAfterClose>
 						</configuration>
 					</plugin>
@@ -549,7 +550,19 @@
 				</reportSets>
 			</plugin>
 			-->
-
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>2.5.3</version>
+				<configuration>
+					<autoVersionSubmodules>true</autoVersionSubmodules>
+					<useReleaseProfile>false</useReleaseProfile>
+					<releaseProfiles>release</releaseProfiles>
+					<goals>deploy</goals>
+					<!-- need this for gpg plugin to work correctly -->
+					<mavenExecutorId>forked-path</mavenExecutorId>
+				</configuration>
+			</plugin>
 		</plugins>
 	</reporting>
 
