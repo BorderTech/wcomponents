@@ -42,6 +42,7 @@ final class WTableRenderer extends AbstractWebXmlRenderer {
 
 		xml.appendTagOpen("ui:table");
 		xml.appendAttribute("id", component.getId());
+		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
 		xml.appendOptionalAttribute("hidden", table.isHidden(), "true");
 		xml.appendOptionalAttribute("caption", table.getCaption());
@@ -86,7 +87,6 @@ final class WTableRenderer extends AbstractWebXmlRenderer {
 			default:
 				throw new SystemException("Unknown separator type: " + table.getSeparatorType());
 		}
-
 		xml.appendClose();
 
 		// Render margin
@@ -113,7 +113,6 @@ final class WTableRenderer extends AbstractWebXmlRenderer {
 					throw new SystemException("Unknown pagination mode: " + table.
 							getPaginationMode());
 			}
-
 			xml.appendClose();
 
 			// Rows per page options
@@ -126,16 +125,13 @@ final class WTableRenderer extends AbstractWebXmlRenderer {
 				}
 				xml.appendEndTag("ui:rowsSelect");
 			}
-
 			xml.appendEndTag("ui:pagination");
 		}
 
 		if (table.getSelectMode() != SelectMode.NONE) {
 			boolean multiple = table.getSelectMode() == SelectMode.MULTIPLE;
-
 			xml.appendTagOpen("ui:rowSelection");
 			xml.appendOptionalAttribute("multiple", multiple, "true");
-
 			if (multiple) {
 				switch (table.getSelectAllMode()) {
 					case CONTROL:
@@ -151,7 +147,6 @@ final class WTableRenderer extends AbstractWebXmlRenderer {
 								getSelectAllMode());
 				}
 			}
-
 			xml.appendEnd();
 		}
 
@@ -175,7 +170,6 @@ final class WTableRenderer extends AbstractWebXmlRenderer {
 			}
 
 			xml.appendOptionalAttribute("expandAll", table.isExpandAll(), "true");
-
 			xml.appendEnd();
 		}
 

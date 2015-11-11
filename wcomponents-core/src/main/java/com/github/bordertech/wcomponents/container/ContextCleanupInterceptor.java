@@ -53,8 +53,7 @@ public class ContextCleanupInterceptor extends InterceptorComponent {
 			LOG.debug("Session usage after paint:\n" + debugWrapper);
 		}
 
-		LOG.debug(
-				"Performing session tidy up of WComponents (but note that any WComponents that are disconnected from the active top component will not be tidied up.");
+		LOG.debug("Performing session tidy up of WComponents (any WComponents disconnected from the active top component will not be tidied up.");
 		getUI().tidyUpUIContextForTree();
 
 		LOG.debug("After paint - Clearing scratch map.");

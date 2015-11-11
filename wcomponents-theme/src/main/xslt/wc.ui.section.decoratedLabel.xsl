@@ -22,6 +22,9 @@
 			</xsl:attribute>
 			<xsl:attribute name="class">
 				<xsl:text>decoratedLabel</xsl:text>
+				<xsl:if test="@class">
+					<xsl:value-of select="concat(' ', @class)"/>
+				</xsl:if>
 			</xsl:attribute>
 			<xsl:call-template name="hideElementIfHiddenSet"/>
 			<xsl:call-template name="ajaxTarget">

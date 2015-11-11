@@ -20,11 +20,9 @@
 					</xs:annotation>
 				</xs:element>
 			</xs:sequence>
-			<xs:attributeGroup ref="ui:button.attributes">
-				<xs:annotation>
-					<xs:documentation>NOTE: attribute toolTip is not implemented before WComponents 14.</xs:documentation>
-				</xs:annotation>
-			</xs:attributeGroup>
+
+			<xs:attributeGroup ref="ui:button.attributes"/>
+
 			<xs:attribute name="open" type="xs:boolean">
 				<xs:annotation>
 					<xs:documentation>True indicates the tab is to be rendered as open. Not output if false. Setting open on a tab requests that it be rendered in the open state

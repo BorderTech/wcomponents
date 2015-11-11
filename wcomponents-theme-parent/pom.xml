@@ -24,7 +24,7 @@
 		<npm.registry.url>https://registry.npmjs.org/</npm.registry.url>
 		<node.download.root>http://nodejs.org/dist/</node.download.root>
 		<npm.download.root>http://registry.npmjs.org/npm/-/</npm.download.root>
-		<node.sass.download.root>https://github.com/sass/node-sass/releases/download</node.sass.download.root>
+		<!--<node.sass.download.root>https://github.com/sass/node-sass/releases/download</node.sass.download.root>-->
 		<phantomjs.download.root>https://repo1.maven.org/maven2/com/github/klieber/phantomjs/2.0.0</phantomjs.download.root>
 
 		<theme.dir>${basedir}</theme.dir>
@@ -229,13 +229,11 @@
 					</execution>
 				</executions>
 				<dependencies>
-					<!--
 					<dependency>
 						<groupId>com.cathive.sass</groupId>
 						<artifactId>sass-java</artifactId>
-						<version>3.2.5.0-SNAPSHOT</version>
+						<version>4.0.0</version>
 					</dependency>
-					-->
 					<dependency>
 						<groupId>ant-contrib</groupId>
 						<artifactId>ant-contrib</artifactId>
@@ -316,9 +314,19 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+				<groupId>org.mortbay.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>${jetty.version}</version>
+				<configuration>
+					<stopPort>9966</stopPort>
+					<stopKey>stopit</stopKey>
+					<webAppSourceDirectory>${basedir}</webAppSourceDirectory>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 	<modules>
-	 <module>../wcomponents-theme</module>
+		<module>../wcomponents-theme</module>
 	</modules>
 </project>

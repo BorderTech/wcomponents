@@ -10,6 +10,8 @@
 				'properties_row', 
 				'properties_row_column', 
 				'properties_row_row_column_id', 
+				'properties_row_row_column_class', 
+				'properties_row_row_column_track', 
 				'properties_row_row_column_width', 
 				'properties_row_row_column_align', 
 				'properties_row_hgap');
@@ -17,12 +19,16 @@ var facetsBoxes= new Array('facets_row_row_column_width',
 				'facets_row_row_column_align');
 var usedByBoxes= new Array('usedBy_row', 
 				'usedBy_row_row_column_id', 
+				'usedBy_row_row_column_class', 
+				'usedBy_row_row_column_track', 
 				'usedBy_row_row_column_width', 
 				'usedBy_row_row_column_align', 
 				'usedBy_row_hgap');
 var sourceBoxes= new Array('source_row', 
 				'source_row_column', 
 				'source_row_row_column_id', 
+				'source_row_row_column_class', 
+				'source_row_row_column_track', 
 				'source_row_row_column_width', 
 				'source_row_row_column_align', 
 				'source_row_hgap');
@@ -32,6 +38,8 @@ var diagramBoxes= new Array('diagram_row',
 var annotationBoxes= new Array('annotations_row', 
 				'annotations_row_column', 
 				'annotations_row_row_column_id', 
+				'annotations_row_row_column_class', 
+				'annotations_row_row_column_track', 
 				'annotations_row_row_column_width', 
 				'annotations_row_row_column_align', 
 				'annotations_row_hgap');
@@ -470,9 +478,9 @@ var modelBoxes= new Array('model_row',
                            <div id="instance_row" style="display:block">
                               <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
                                  <tr>
-                                    <td width="100%"><pre><span class="tEl">&lt;ui:row</span><span class="tT"> </span><span class="tAN">hgap=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xmlns:ui=</span><span class="tAV">"https://github.com/bordertech/wcomponents/namespace/ui/v1.0"</span><span class="tEl">&gt;</span><span class="tI">
+                                    <td width="100%"><pre><span class="tEl">&lt;ui:row</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hgap=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xmlns:ui=</span><span class="tAV">"https://github.com/bordertech/wcomponents/namespace/ui/v1.0"</span><span class="tEl">&gt;</span><span class="tI">
   </span><span class="tEl">&lt;ui:margin</span><span class="tT"> </span><span class="tAN">all=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">east=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">north=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">south=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">west=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,1}</span><span class="tEl">&lt;/ui:margin&gt;</span><span class="tI">
-  </span><span class="tEl">&lt;ui:column</span><span class="tT"> </span><span class="tAN">align=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">width=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,unbounded}</span><span class="tEl">&lt;/ui:column&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:column</span><span class="tT"> </span><span class="tAN">align=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">width=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,unbounded}</span><span class="tEl">&lt;/ui:column&gt;</span><span class="tI">
 </span><span class="tEl">&lt;/ui:row&gt;</span></pre></td>
                                  </tr>
                               </table>
@@ -495,6 +503,14 @@ var modelBoxes= new Array('model_row',
                                        <th>Annotation</th>
                                     </tr>
                                  </thead>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="attributeGroups_container_xsd.html#container.attributes_class" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for attributeGroups.container.xsd')">class</a></b></td>
+                                    <td><b>xs:string</b></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">Provides the ability to pass an HTML class attribute onto the root output element.</div>
+                                    </td>
+                                 </tr>
                                  <tr>
                                     <td class="firstColumn"><b><a href="row_xsd.html#row_hgap" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for row.xsd')">hgap</a></b></td>
                                     <td><b>xs:positiveInteger</b></td>
@@ -573,6 +589,16 @@ var modelBoxes= new Array('model_row',
           </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"id"</span><span class="tAN"> type=</span><span class="tAV">"xs:ID"</span><span class="tAN"> use=</span><span class="tAV">"required"</span><span class="tEl">&gt;</span><span class="tI">
             </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
               </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The unique identifier for the column.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"class"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+              </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Provides the ability to pass an HTML class attribute onto the root output element.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"track"</span><span class="tAN"> type=</span><span class="tAV">"xs:boolean"</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+              </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Indicates that the component should take part in web analytics tracking.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
             </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
           </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
           </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"width"</span><span class="tAN"> use=</span><span class="tAV">"required"</span><span class="tEl">&gt;</span><span class="tI">
@@ -680,8 +706,10 @@ var modelBoxes= new Array('model_row',
                         <td class="diagram">
                            <div id="diagram_row_column" style="display:block"><img alt="Diagram" border="0" src="img/row_xsd_Element_ui_column.png" usemap="#row_xsd_Element_ui_column" /><map name="row_xsd_Element_ui_column" id="row_xsd_Element_ui_column">
                                  <area alt="row_xsd.tmp#row_row_column_id" href="row_xsd.html#row_row_column_id" coords="133,40,201,64" />
-                                 <area alt="row_xsd.tmp#row_row_column_width" href="row_xsd.html#row_row_column_width" coords="133,104,210,128" />
-                                 <area alt="row_xsd.tmp#row_row_column_align" href="row_xsd.html#row_row_column_align" coords="133,194,207,218" /></map></div>
+                                 <area alt="row_xsd.tmp#row_row_column_class" href="row_xsd.html#row_row_column_class" coords="133,104,208,128" />
+                                 <area alt="row_xsd.tmp#row_row_column_track" href="row_xsd.html#row_row_column_track" coords="133,181,208,205" />
+                                 <area alt="row_xsd.tmp#row_row_column_width" href="row_xsd.html#row_row_column_width" coords="133,258,210,282" />
+                                 <area alt="row_xsd.tmp#row_row_column_align" href="row_xsd.html#row_row_column_align" coords="133,348,207,372" /></map></div>
                         </td>
                      </tr>
                      <tr>
@@ -747,11 +775,27 @@ var modelBoxes= new Array('model_row',
                                     </td>
                                  </tr>
                                  <tr>
+                                    <td class="firstColumn"><b><a href="row_xsd.html#row_row_column_class" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for row.xsd')">class</a></b></td>
+                                    <td><b>xs:string</b></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">Provides the ability to pass an HTML class attribute onto the root output element.</div>
+                                    </td>
+                                 </tr>
+                                 <tr>
                                     <td class="firstColumn"><b><a href="row_xsd.html#row_row_column_id" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for row.xsd')">id</a></b></td>
                                     <td><b>xs:ID</b></td>
                                     <td>required</td>
                                     <td>
                                        <div class="annotation">The unique identifier for the column.</div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="row_xsd.html#row_row_column_track" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for row.xsd')">track</a></b></td>
+                                    <td><b>xs:boolean</b></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">Indicates that the component should take part in web analytics tracking.</div>
                                     </td>
                                  </tr>
                                  <tr>
@@ -794,6 +838,16 @@ var modelBoxes= new Array('model_row',
     </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"id"</span><span class="tAN"> type=</span><span class="tAV">"xs:ID"</span><span class="tAN"> use=</span><span class="tAV">"required"</span><span class="tEl">&gt;</span><span class="tI">
       </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
         </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The unique identifier for the column.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"class"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Provides the ability to pass an HTML class attribute onto the root output element.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"track"</span><span class="tAN"> type=</span><span class="tAV">"xs:boolean"</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Indicates that the component should take part in web analytics tracking.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
       </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
     </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
     </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"width"</span><span class="tAN"> use=</span><span class="tAV">"required"</span><span class="tEl">&gt;</span><span class="tI">
@@ -911,6 +965,190 @@ var modelBoxes= new Array('model_row',
                                     <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"id"</span><span class="tAN"> type=</span><span class="tAV">"xs:ID"</span><span class="tAN"> use=</span><span class="tAV">"required"</span><span class="tEl">&gt;</span><span class="tI">
   </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
     </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The unique identifier for the column.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:attribute&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="row_row_column_class"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="row_xsd.html#row" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for row.xsd')">ui:row</a></b> / <b><a href="row_xsd.html#row_column" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for row.xsd')">ui:column</a></b> / @class</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_row_row_column_class" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_row_row_column_class');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_row_row_column_class" style="display:block">
+                              <div class="annotation">Provides the ability to pass an HTML class attribute onto the root output element.</div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:string</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_row_row_column_class" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_row_row_column_class');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_row_row_column_class" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_row_row_column_class" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_row_row_column_class');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_row_row_column_class" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="row_xsd.html#row_column" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for row.xsd')">ui:row/ui:column</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_row_row_column_class" type="image" src="img/btM.gif" value="-" onclick="switchState('source_row_row_column_class');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_row_row_column_class" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"class"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Provides the ability to pass an HTML class attribute onto the root output element.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:attribute&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="row_row_column_track"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="row_xsd.html#row" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for row.xsd')">ui:row</a></b> / <b><a href="row_xsd.html#row_column" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for row.xsd')">ui:column</a></b> / @track</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_row_row_column_track" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_row_row_column_track');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_row_row_column_track" style="display:block">
+                              <div class="annotation">Indicates that the component should take part in web analytics tracking.</div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:boolean</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_row_row_column_track" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_row_row_column_track');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_row_row_column_track" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_row_row_column_track" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_row_row_column_track');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_row_row_column_track" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="row_xsd.html#row_column" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for row.xsd')">ui:row/ui:column</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_row_row_column_track" type="image" src="img/btM.gif" value="-" onclick="switchState('source_row_row_column_track');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_row_row_column_track" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"track"</span><span class="tAN"> type=</span><span class="tAV">"xs:boolean"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Indicates that the component should take part in web analytics tracking.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
   </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
 </span><span class="tEl">&lt;/xs:attribute&gt;</span></pre></td>
                                  </tr>

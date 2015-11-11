@@ -72,6 +72,9 @@
 			</xsl:call-template>
 			<xsl:attribute name="class">
 				<xsl:text>wc_ro</xsl:text>
+				<xsl:if test="@class">
+					<xsl:value-of select="concat(' ', @class)"/>
+				</xsl:if>
 				<xsl:if test="$class != ''">
 					<xsl:value-of select="concat(' ',$class)"/>
 				</xsl:if>

@@ -34,6 +34,7 @@ final class WRadioButtonSelectRenderer extends AbstractWebXmlRenderer {
 
 		xml.appendTagOpen("ui:radioButtonSelect");
 		xml.appendAttribute("id", component.getId());
+		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
 		xml.appendOptionalAttribute("disabled", rbSelect.isDisabled(), "true");
 		xml.appendOptionalAttribute("hidden", rbSelect.isHidden(), "true");

@@ -30,6 +30,7 @@ final class WSubMenuRenderer extends AbstractWebXmlRenderer {
 
 		xml.appendTagOpen("ui:submenu");
 		xml.appendAttribute("id", component.getId());
+		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
 		xml.appendOptionalAttribute("open", menu.isOpen(), "true");
 		xml.appendOptionalAttribute("disabled", menu.isDisabled(), "true");

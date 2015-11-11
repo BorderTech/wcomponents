@@ -64,9 +64,9 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>${surefire.version}</version>
 				<configuration>
-					<excludedGroups>${excludedTestGroups}</excludedGroups>  
+					<excludedGroups>${excludedTestGroups}</excludedGroups>
 					<includes>
-						<include>com/github/bordertech/wcomponents/WComponent_Suite.java</include>
+						<include>com/github/bordertech/wcomponents/WComponentsTest_Suite.java</include>
 					</includes>
 				</configuration>
 			</plugin>
@@ -148,7 +148,23 @@
 			<artifactId>junitperf</artifactId>
 			<version>1.8</version>
 		</dependency>
-
+		
+		<dependency>
+			<!-- Needed for server side XSLT -->
+			<groupId>net.sourceforge.saxon</groupId>
+			<artifactId>saxon</artifactId>
+			<version>9.1.0.8</version>
+			<type>jar</type>
+		</dependency>
+		
+		<dependency>
+			<!-- Needed for server side XSLT -->
+			<groupId>net.sourceforge.saxon</groupId>
+			<artifactId>saxon</artifactId>
+			<version>9.1.0.8</version>
+			<classifier>dom</classifier>
+			<scope>runtime</scope>
+		</dependency>
 	</dependencies>
 
 </project>

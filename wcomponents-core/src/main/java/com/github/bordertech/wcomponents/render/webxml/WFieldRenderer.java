@@ -28,6 +28,7 @@ final class WFieldRenderer extends AbstractWebXmlRenderer {
 
 		xml.appendTagOpen("ui:field");
 		xml.appendAttribute("id", component.getId());
+		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
 		xml.appendOptionalAttribute("hidden", field.isHidden(), "true");
 		xml.appendOptionalAttribute("inputWidth", inputWidth > 0, inputWidth);

@@ -59,7 +59,7 @@ public class WrongStepContentInterceptor extends InterceptorComponent {
 		if (expected == got) {
 			// Process Service Request
 			getBackingComponent().serviceRequest(request);
-		} else if (!StepCountUtil.isStepOnRequest(request) && StepCountUtil.isCachedContentRequest(request)) {  // Check cached content (no step on request)
+		} else if (!StepCountUtil.isStepOnRequest(request) && StepCountUtil.isCachedContentRequest(request)) {  // cached content (no step on request)
 			// Process Service Request
 			getBackingComponent().serviceRequest(request);
 		} else {  // Invalid token

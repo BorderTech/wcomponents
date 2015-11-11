@@ -77,6 +77,7 @@ define(["wc/dom/classList",
 				HEADER_WD = new Widget("${wc.dom.html5.element.header}"),
 				TITLE_WD = new Widget("h1"),
 				FORM = new Widget("form"),
+				BASE_CLASS = "wc_dragflow wc_resizeflow",
 				registry = {},
 				UNIT = "px",
 				emptyOnClose = true,
@@ -128,6 +129,7 @@ define(["wc/dom/classList",
 				if (id) {
 					registry[id] = {
 						"id": id,
+						"className": dialogObj.className,
 						"formId": dialogObj.form,
 						"width": dialogObj.width,
 						"height": dialogObj.height,
@@ -246,6 +248,7 @@ define(["wc/dom/classList",
 						buildDialog(regObj.formId).then(open);
 					}
 				}
+
 				function open(dialog) {
 					var content,
 						control,
@@ -258,6 +261,13 @@ define(["wc/dom/classList",
 						opening = true;
 						// set up the content receptacle
 						content = getContent(dialog);
+
+						if (regObj.className) {
+							dialog.className = BASE_CLASS = " " + regObj.class;
+						}
+						else {
+							dialog.className = BASE_CLASS;
+						}
 
 						if (content.className) {  // if we have a dialog which has content on load and has not been "closed" it will not have its ajax class names
 							content.id = id;
@@ -643,8 +653,6 @@ define(["wc/dom/classList",
 							// remove the magic button reference (just in case it has not already been removed).
 							contentDiv.removeAttribute(GET_ATTRIB);
 
-							contentDiv.style.minHeight = "";
-
 							if (emptyOnClose) {
 								contentDiv.innerHTML = "";
 								contentDiv.id = "";
@@ -737,37 +745,6 @@ define(["wc/dom/classList",
 					}
 				}
 			}
-
-			/**
-			 * @function module:wc/ui/dialog.getId
-			 * @public
-			 * @returns {String} The id of the dialog wrapper
-			 */
-			this.getId = function() {
-				return DIALOG_ID;
-			};
-
-			/**
-			 * @function module:wc/ui/dialog.getDialog
-			 * @public
-			 * @returns {Element} A dialog, if one exists in the view.
-			 */
-			this.getDialog = function() {
-				return document.getElementById(DIALOG_ID);
-			};
-
-			/**
-			 * @function module:wc/ui/dialog.getDialogContent
-			 * @public
-			 * @returns {Element} The content element of a dialog if a dialog exists in the view.
-			 */
-			this.getDialogContent = function () {
-				var dlg = this.getDialog();
-				if (dlg) {
-					return getContent(dlg);
-				}
-				return null;
-			};
 
 			/**
 			 * Component initialisation simply attaches a click event handler

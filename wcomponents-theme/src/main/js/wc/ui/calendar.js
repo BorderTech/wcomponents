@@ -62,12 +62,11 @@ define(["wc/dom/attribute",
 		"wc/ui/dateField",
 		"wc/dom/initialise",
 		"wc/timers",
-		"wc/ui/dialog",
 		"module"],
-/** @param attribute wc/dom/attribute @param addDays wc/date/addDays @param copy wc/date/copy @param dayName wc/date/dayName @param daysInMonth wc/date/daysInMonth @param getDifference wc/date/getDifference @param monthName wc/date/monthName @param today wc/date/today @param interchange wc/date/interchange @param classList wc/dom/classList @param event wc/dom/event @param focus wc/dom/focus @param shed wc/dom/shed @param tag wc/dom/tag @param viewportCollision wc/dom/viewportCollision @param getBox wc/dom/getBox @param Widget wc/dom/Widget @param i18n wc/i18n/i18n @param loader wc/loader/resource @param sprintf sprintf/sprintf @param isNumeric wc/isNumeric @param dateField wc/ui/dateField @param initialise wc/dom/initialise @param timers wc/timers @param dialog wc/ui/dialog @param module @ignore */
+/** @param attribute wc/dom/attribute @param addDays wc/date/addDays @param copy wc/date/copy @param dayName wc/date/dayName @param daysInMonth wc/date/daysInMonth @param getDifference wc/date/getDifference @param monthName wc/date/monthName @param today wc/date/today @param interchange wc/date/interchange @param classList wc/dom/classList @param event wc/dom/event @param focus wc/dom/focus @param shed wc/dom/shed @param tag wc/dom/tag @param viewportCollision wc/dom/viewportCollision @param getBox wc/dom/getBox @param Widget wc/dom/Widget @param i18n wc/i18n/i18n @param loader wc/loader/resource @param sprintf sprintf/sprintf @param isNumeric wc/isNumeric @param dateField wc/ui/dateField @param initialise wc/dom/initialise @param timers wc/timers @param module @ignore */
 function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthName, today, interchange, classList, event,
 		focus, shed, tag, viewportCollision, getBox, Widget, i18n, loader, sprintf, isNumeric, dateField, initialise,
-		timers, dialog, module) {
+		timers, module) {
 
 	"use strict";
 
@@ -98,6 +97,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 			CLOSE_BUTTON = new Widget("button", "wc_wdf_cls"),
 			isOpening = false,
 			yearChangedTimeout,
+			reposTimer,
 			refocusId,
 			MIN_ATTRIB = "min",
 			MAX_ATTRIB = "max",
@@ -335,7 +335,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 				else {
 					refocusId = null;
 				}
-
+				cal.removeAttribute("style");  // remove any inline styles
 				shed.hide(cal);
 			}
 		}
@@ -781,53 +781,27 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 			var collision = viewportCollision(cal),
 				initiallyCollideSouth = collision.s > 0,
 				initiallyCollideWest = collision.w < 0,
-				box, left, dlg, dlgContent, dlgBox, contentBox;
+				box, left, top;
 
 			/*
-			 * NOTE: default open is below input field and lined up at the right edge of the combo so we do not been to
-			 * do north collision unless we reset due to a south collision. If a south collision fix causes a north
-			 * collision we just remove the south fix and allow the screen to grow. If fixing a west collision causes an
-			 * east collision we can move the calendar west until it is either fully in viewport OR touches the left
-			 * edge of the viewport leaving a horizontal scroll.
+			 * NOTE: default open is below input field and lined up at the right edge of the combo so we do not need to
+			 * do north collision. If fixing a west collision causes an east collision we can move the calendar west until
+			 * it is either fully in viewport OR touches the left edge of the viewport leaving a horizontal scroll.
 			 */
 			if (initiallyCollideSouth) {
-				classList.add(cal, CLASS.SOUTH);
+				top = cal.offsetTop;
+				if (!isNaN(top)) {
+					cal.style.top = (top - collision.s) + "px";
+				}
 			}
 			if (initiallyCollideWest) {
 				classList.add(cal, CLASS.WEST);
-			}
-			if (initiallyCollideSouth || initiallyCollideWest) {
 				collision = viewportCollision(cal);
-				if (initiallyCollideSouth && collision.n < 0) {
-					classList.remove(cal, CLASS.SOUTH);
-					// console.log("moving the calendar to avoid a south collision causes a north collision");
-				}
-				if (initiallyCollideWest && collision.e > 0) {
+				if (collision.e > 0) {
 					box = getBox(cal);
 					left = Math.min(box.left, collision.e);  // we have to move this far left to move the entire calendar into view
 					if (left > 0) {
 						cal.style.left = (-1 * left) + "px";
-					}
-				}
-			}
-			else if ((dlg = dialog.getDialog())) {
-				if (dlg.compareDocumentPosition(cal) & Node.DOCUMENT_POSITION_CONTAINED_BY) {
-					// the calendar is inside the dialog
-					dlgContent = dialog.getDialogContent();
-					if (!dlgContent) {
-						return;
-					}
-					box = getBox(cal);
-					contentBox = getBox(dlgContent);
-					dlgBox = getBox(dlg);
-					if (box.bottom > contentBox.bottom) { // bottom of calendar below bottom of dialog content
-						cal.scrollIntoView();
-						box = getBox(cal);
-						if (box.bottom > contentBox.bottom) {
-							dlg.style.minHeight = (dlgBox.height - contentBox.height + box.height) + "px";
-							dlgContent.style.minHeight = box.height + "px";
-							cal.scrollIntoView();
-						}
 					}
 				}
 			}
@@ -999,7 +973,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 * strip aria- attributes on hide
 		 */
 		function shedSubscriber(element, action) {
-			var cal, input, content;
+			var cal, input;
 			if (element.id === CONTAINER_ID) {
 				if (action === shed.actions.HIDE) {
 					element.removeAttribute(CONTROL_ATTRIBUTE);
@@ -1016,7 +990,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 					}
 				}
 				else if (action === shed.actions.SHOW) {
-					detectCollision(element);
+					position(element);
 					focus.focusFirstTabstop(element);
 				}
 			}
@@ -1028,6 +1002,38 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 						next.parentNode.removeChild(next);
 					});
 				}
+			}
+		}
+
+		/**
+		 * If something causes (or may cause) the calendar to need repositioning the easiest thing to do is simple close it.
+		 * The use can reopen it when they are done messing with the viewport.
+		 */
+		function reposEvent() {
+			if (reposTimer) {
+				timers.clearTimeout(reposTimer);
+			}
+			if (!isOpening) {
+				reposTimer = timers.setTimeout(hideCalendar, 100);
+			}
+		}
+
+		/**
+		 * Positions the calendar relative to its input element.
+		 * @param {Element} [element] The calendar element (if you already have it, otherwise we'll find it for you).
+		 */
+		function position(element) {
+			var input, box, cal = element || getCal(true), fixed;
+			if (cal && !shed.isHidden(cal)) {
+				fixed = (window.getComputedStyle && window.getComputedStyle(cal).position === "fixed");
+				if (fixed) {
+					input = getInputForCalendar(cal);
+					if (input) {
+						box = getBox(input);
+						cal.style.top = box.bottom + "px";
+					}
+				}
+				detectCollision(cal);
 			}
 		}
 
@@ -1055,6 +1061,8 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 * @public
 		 */
 		this.postInit = function() {
+			event.add(window, event.TYPE.resize, reposEvent);
+			// event.add(window, event.TYPE.scroll, reposEvent);  // this is bad if opening the calendar causes the page to scroll
 			shed.subscribe(shed.actions.SHOW, shedSubscriber);
 			shed.subscribe(shed.actions.HIDE, shedSubscriber);
 		};

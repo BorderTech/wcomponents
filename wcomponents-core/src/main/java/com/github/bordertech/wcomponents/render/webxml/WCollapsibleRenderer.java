@@ -32,6 +32,7 @@ final class WCollapsibleRenderer extends AbstractWebXmlRenderer {
 
 		xml.appendTagOpen("ui:collapsible");
 		xml.appendAttribute("id", component.getId());
+		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
 		xml.appendAttribute("groupName", collapsible.getGroupName());
 		xml.appendOptionalAttribute("collapsed", collapsed, "true");

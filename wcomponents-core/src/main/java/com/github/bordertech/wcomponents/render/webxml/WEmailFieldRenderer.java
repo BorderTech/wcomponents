@@ -35,6 +35,7 @@ final class WEmailFieldRenderer extends AbstractWebXmlRenderer {
 
 		xml.appendTagOpen("ui:emailField");
 		xml.appendAttribute("id", component.getId());
+		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
 		xml.appendOptionalAttribute("disabled", field.isDisabled(), "true");
 		xml.appendOptionalAttribute("hidden", component.isHidden(), "true");

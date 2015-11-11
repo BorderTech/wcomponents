@@ -26,6 +26,9 @@
 				<xsl:if test="@type">
 					<xsl:value-of select="concat(' ',@type)"/>
 				</xsl:if>
+				<xsl:if test="@class">
+					<xsl:value-of select="concat(' ', @class)"/>
+				</xsl:if>
 			</xsl:attribute>
 			<xsl:call-template name="hideElementIfHiddenSet"/>
 			<xsl:call-template name="ajaxTarget">

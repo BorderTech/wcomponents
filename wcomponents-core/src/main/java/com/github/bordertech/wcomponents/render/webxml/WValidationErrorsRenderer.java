@@ -32,6 +32,7 @@ final class WValidationErrorsRenderer extends AbstractWebXmlRenderer {
 		if (errors.hasErrors()) {
 			xml.appendTagOpen("ui:validationErrors");
 			xml.appendAttribute("id", component.getId());
+		xml.appendOptionalAttribute("class", component.getHtmlClass());
 			xml.appendOptionalAttribute("track", component.isTracking(), "true");
 			xml.appendClose();
 

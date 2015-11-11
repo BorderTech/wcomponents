@@ -79,6 +79,9 @@
 				<xsl:if test="@imagePosition">
 					<xsl:value-of select="concat(' wc_btn_img',@imagePosition)"/>
 				</xsl:if>
+				<xsl:if test="@class">
+					<xsl:value-of select="concat(' ', @class)"/>
+				</xsl:if>
 			</xsl:attribute>
 			
 

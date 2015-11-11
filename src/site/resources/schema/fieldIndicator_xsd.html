@@ -10,16 +10,19 @@
 				'properties_fieldIndicator', 
 				'properties_fieldIndicator_message', 
 				'properties_fieldIndicator_id', 
+				'properties_fieldIndicator_class', 
 				'properties_fieldIndicator_type', 
 				'properties_fieldIndicator_for');
 var facetsBoxes= new Array('facets_fieldIndicator_type');
 var usedByBoxes= new Array('usedBy_fieldIndicator', 
 				'usedBy_fieldIndicator_id', 
+				'usedBy_fieldIndicator_class', 
 				'usedBy_fieldIndicator_type', 
 				'usedBy_fieldIndicator_for');
 var sourceBoxes= new Array('source_fieldIndicator', 
 				'source_fieldIndicator_message', 
 				'source_fieldIndicator_id', 
+				'source_fieldIndicator_class', 
 				'source_fieldIndicator_type', 
 				'source_fieldIndicator_for');
 var instanceBoxes= new Array('instance_fieldIndicator');
@@ -28,6 +31,7 @@ var diagramBoxes= new Array('diagram_fieldIndicator',
 var annotationBoxes= new Array('annotations_fieldIndicator', 
 				'annotations_fieldIndicator_message', 
 				'annotations_fieldIndicator_id', 
+				'annotations_fieldIndicator_class', 
 				'annotations_fieldIndicator_type', 
 				'annotations_fieldIndicator_for');
 var attributesBoxes= new Array('attributes_fieldIndicator');
@@ -396,9 +400,10 @@ var modelBoxes= new Array('model_fieldIndicator');
                         <td class="diagram">
                            <div id="diagram_fieldIndicator" style="display:block"><img alt="Diagram" border="0" src="img/fieldIndicator_xsd_Element_ui_fieldIndicator.png" usemap="#fieldIndicator_xsd_Element_ui_fieldIndicator" /><map name="fieldIndicator_xsd_Element_ui_fieldIndicator" id="fieldIndicator_xsd_Element_ui_fieldIndicator">
                                  <area alt="fieldIndicator_xsd.tmp#fieldIndicator_id" href="fieldIndicator_xsd.html#fieldIndicator_id" coords="164,40,232,64" />
-                                 <area alt="fieldIndicator_xsd.tmp#fieldIndicator_type" href="fieldIndicator_xsd.html#fieldIndicator_type" coords="164,104,235,128" />
-                                 <area alt="fieldIndicator_xsd.tmp#fieldIndicator_for" href="fieldIndicator_xsd.html#fieldIndicator_for" coords="164,181,232,205" />
-                                 <area alt="fieldIndicator_xsd.tmp#fieldIndicator_message" href="fieldIndicator_xsd.html#fieldIndicator_message" coords="242,269,320,293" /></map></div>
+                                 <area alt="fieldIndicator_xsd.tmp#fieldIndicator_class" href="fieldIndicator_xsd.html#fieldIndicator_class" coords="164,104,239,128" />
+                                 <area alt="fieldIndicator_xsd.tmp#fieldIndicator_type" href="fieldIndicator_xsd.html#fieldIndicator_type" coords="164,181,235,205" />
+                                 <area alt="fieldIndicator_xsd.tmp#fieldIndicator_for" href="fieldIndicator_xsd.html#fieldIndicator_for" coords="164,258,232,282" />
+                                 <area alt="fieldIndicator_xsd.tmp#fieldIndicator_message" href="fieldIndicator_xsd.html#fieldIndicator_message" coords="242,346,320,370" /></map></div>
                         </td>
                      </tr>
                      <tr>
@@ -453,7 +458,7 @@ var modelBoxes= new Array('model_fieldIndicator');
                            <div id="instance_fieldIndicator" style="display:block">
                               <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
                                  <tr>
-                                    <td width="100%"><pre><span class="tEl">&lt;ui:fieldIndicator</span><span class="tT"> </span><span class="tAN">for=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xmlns:ui=</span><span class="tAV">"https://github.com/bordertech/wcomponents/namespace/ui/v1.0"</span><span class="tEl">&gt;</span><span class="tI">
+                                    <td width="100%"><pre><span class="tEl">&lt;ui:fieldIndicator</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">for=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xmlns:ui=</span><span class="tAV">"https://github.com/bordertech/wcomponents/namespace/ui/v1.0"</span><span class="tEl">&gt;</span><span class="tI">
   </span><span class="tEl">&lt;ui:message</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,unbounded}</span><span class="tEl">&lt;/ui:message&gt;</span><span class="tI">
 </span><span class="tEl">&lt;/ui:fieldIndicator&gt;</span></pre></td>
                                  </tr>
@@ -477,6 +482,14 @@ var modelBoxes= new Array('model_fieldIndicator');
                                        <th>Annotation</th>
                                     </tr>
                                  </thead>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="fieldIndicator_xsd.html#fieldIndicator_class" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for fieldIndicator.xsd')">class</a></b></td>
+                                    <td><b>xs:string</b></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">Provides the ability to pass an HTML class attribute onto the root output element.</div>
+                                    </td>
+                                 </tr>
                                  <tr>
                                     <td class="firstColumn"><b><a href="fieldIndicator_xsd.html#fieldIndicator_for" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for fieldIndicator.xsd')">for</a></b></td>
                                     <td><b>xs:IDREF</b></td>
@@ -529,6 +542,11 @@ var modelBoxes= new Array('model_fieldIndicator');
     </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"id"</span><span class="tAN"> type=</span><span class="tAV">"xs:ID"</span><span class="tAN"> use=</span><span class="tAV">"required"</span><span class="tEl">&gt;</span><span class="tI">
       </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
         </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The unique identifier of the indicator.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"class"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Provides the ability to pass an HTML class attribute onto the root output element.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
       </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
     </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
     </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"type"</span><span class="tAN"> use=</span><span class="tAV">"required"</span><span class="tEl">&gt;</span><span class="tI">
@@ -733,6 +751,98 @@ var modelBoxes= new Array('model_fieldIndicator');
                                     <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"id"</span><span class="tAN"> type=</span><span class="tAV">"xs:ID"</span><span class="tAN"> use=</span><span class="tAV">"required"</span><span class="tEl">&gt;</span><span class="tI">
   </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
     </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The unique identifier of the indicator.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:attribute&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="fieldIndicator_class"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="fieldIndicator_xsd.html#fieldIndicator" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for fieldIndicator.xsd')">ui:fieldIndicator</a></b> / @class</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_fieldIndicator_class" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_fieldIndicator_class');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_fieldIndicator_class" style="display:block">
+                              <div class="annotation">Provides the ability to pass an HTML class attribute onto the root output element.</div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:string</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_fieldIndicator_class" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_fieldIndicator_class');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_fieldIndicator_class" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_fieldIndicator_class" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_fieldIndicator_class');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_fieldIndicator_class" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="fieldIndicator_xsd.html#fieldIndicator" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for fieldIndicator.xsd')">ui:fieldIndicator</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_fieldIndicator_class" type="image" src="img/btM.gif" value="-" onclick="switchState('source_fieldIndicator_class');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_fieldIndicator_class" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"class"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Provides the ability to pass an HTML class attribute onto the root output element.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
   </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
 </span><span class="tEl">&lt;/xs:attribute&gt;</span></pre></td>
                                  </tr>

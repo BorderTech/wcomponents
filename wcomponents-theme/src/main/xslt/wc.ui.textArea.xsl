@@ -99,7 +99,7 @@
 						-->
 						<xsl:if test="string-length(text()) &gt; @maxLength">
 						<xsl:attribute name="class">
-								<xsl:text>wc_error</xsl:text>
+							<xsl:text>wc_error</xsl:text>
 						</xsl:attribute>
 						</xsl:if>
 					</xsl:element>

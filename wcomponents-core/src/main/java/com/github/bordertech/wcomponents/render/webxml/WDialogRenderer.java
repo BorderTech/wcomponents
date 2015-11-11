@@ -33,6 +33,7 @@ final class WDialogRenderer extends AbstractWebXmlRenderer {
 
 			xml.appendTagOpen("ui:dialog");
 			xml.appendAttribute("id", component.getId());
+			xml.appendOptionalAttribute("class", component.getHtmlClass());
 			xml.appendOptionalAttribute("track", component.isTracking(), "true");
 			xml.appendOptionalAttribute("width", width > 0, width);
 			xml.appendOptionalAttribute("height", height > 0, height);

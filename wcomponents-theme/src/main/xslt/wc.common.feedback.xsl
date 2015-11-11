@@ -23,6 +23,9 @@
 			</xsl:attribute>
 			<xsl:attribute name="class">
 				<xsl:value-of select="concat(local-name(.), ' wc_msgbox ', $type)"/>
+				<xsl:if test="@class">
+					<xsl:value-of select="concat(' ', @class)"/>
+				</xsl:if>
 			</xsl:attribute>
 			<xsl:element name="h1">
 				<xsl:choose>
