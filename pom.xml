@@ -24,9 +24,9 @@
 		<surefire.version>2.19</surefire.version>
 		<jetty.version>8.1.16.v20140903</jetty.version>
 		<stagingBaseUrl>https://oss.sonatype.org/</stagingBaseUrl>
-		<!--<stagingUrl>${stagingBaseUrl}service/local/staging/deploy/maven2/</stagingUrl>-->
+		<stagingUrl>${stagingBaseUrl}service/local/staging/deploy/maven2/</stagingUrl>
 		<snapshotUrl>${stagingBaseUrl}content/repositories/snapshots</snapshotUrl>
-		<stagingId>ossrh</stagingId>
+		<!-- <stagingId>ossrh</stagingId> -->
 	</properties>
 
 	<licenses>
@@ -57,18 +57,20 @@
 
 	<distributionManagement>
 		<snapshotRepository>
-			<id>${stagingId}</id>
+			<id>ossrh</id>
 			<url>${snapshotUrl}</url>
 		</snapshotRepository>
-<!--		<repository>
-			<id>${stagingId}</id>
+		<repository>
+			<id>ossrh</id>
 			<url>${stagingUrl}</url>
 		</repository>
+		<!--
 		<site>
 			<id>sites</id>
 			<name>sites</name>
 			<url>${sitesUrl}</url>
-		</site>-->
+		</site>
+		-->
 	</distributionManagement>
 
 	<dependencyManagement>
@@ -104,17 +106,6 @@
 			<id>release</id>
 			<build>
 				<plugins>
-					<plugin>
-						<groupId>org.sonatype.plugins</groupId>
-						<artifactId>nexus-staging-maven-plugin</artifactId>
-						<version>1.6.6</version>
-						<extensions>true</extensions>
-						<configuration>
-							<serverId>${stagingId}</serverId>
-							<nexusUrl>${stagingBaseUrl}</nexusUrl>
-							<autoReleaseAfterClose>false</autoReleaseAfterClose>
-						</configuration>
-					</plugin>
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-gpg-plugin</artifactId>
@@ -561,6 +552,7 @@
 					<goals>deploy</goals>
 					<!-- need this for gpg plugin to work correctly -->
 					<mavenExecutorId>forked-path</mavenExecutorId>
+					<arguments>-Psonatype-oss-release</arguments>
 				</configuration>
 			</plugin>
 		</plugins>
