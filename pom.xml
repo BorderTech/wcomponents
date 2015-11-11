@@ -53,7 +53,7 @@
 		<system>TravisCI</system>
 		<url>https://travis-ci.org/BorderTech/wcomponents/</url>
 	</ciManagement>
-	
+
 	<distributionManagement>
 		<snapshotRepository>
 			<id>${stagingId}</id>
@@ -94,7 +94,7 @@
 				<skipOptionalTests>true</skipOptionalTests>
 			</properties>
 		</profile>
-		
+
 		<profile>
 			<!--
 			The build cannot release to maven central without configuring several secrets in settings.xml
@@ -111,7 +111,7 @@
 						<configuration>
 							<serverId>${stagingId}</serverId>
 							<nexusUrl>https://oss.sonatype.org/</nexusUrl>
-							<autoReleaseAfterClose>true</autoReleaseAfterClose>
+							<autoReleaseAfterClose>false</autoReleaseAfterClose>
 						</configuration>
 					</plugin>
 					<plugin>
@@ -141,7 +141,7 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.3</version>
 			</plugin>
-			
+
 			<!-- Create jar of the source files. -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -174,7 +174,7 @@
 					</execution>
 				</executions>
 			</plugin>
-			
+
 			<!-- Build jars. -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -235,7 +235,7 @@
 					</execution>
 				</executions>
 			</plugin>
-			
+
 			<!-- PMD Check. -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -257,7 +257,7 @@
 					</execution>
 				</executions>
 			</plugin>
-			
+
 			<!-- Findbugs check. -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
@@ -309,14 +309,14 @@
 
 								<taskdef name="merge" classname="edu.umd.cs.findbugs.anttask.UnionBugs" classpathref="project.class.path"/>
 								<taskdef name="generate" classname="edu.umd.cs.findbugs.anttask.ConvertXmlToTextTask" classpathref="project.class.path"/>
-								
+
 								<echo message="Findbugs - Merge findbug results."/>
 								<merge to="${builddir}/findbugs-report.xml">
 									<fileset dir="${basedir}">
 										<include name="**/target/findbugs-rep/findbugsXml.xml" />
 									</fileset>
 								</merge>
-								
+
 								<echo message="Findbugs - Generate findbugs report." />
 								<generate inputFile="${builddir}/findbugs-report.xml" outputFile="${sitedir}/findbugs-report.html" format="html:plain.xsl" >
 									<classpath path="${plugin_classpath}"/>
@@ -392,7 +392,7 @@
 					</reportSet>
 				</reportSets>
 			</plugin>
-			
+
 			<!-- Self Aggregating. Plugin automatically aggregates the sub modules. -->
 			<!-- Produce a cross-reference of the project's source. (Self Aggregating). -->
 			<plugin>
@@ -417,7 +417,7 @@
 					</reportSet>
 				</reportSets>
 			</plugin>
-			
+
 			<!-- Generate Javadoc. (Self Aggregating)-->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
