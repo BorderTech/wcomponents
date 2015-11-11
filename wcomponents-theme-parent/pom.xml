@@ -1,6 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 
@@ -10,7 +8,7 @@
 	<parent>
 		<groupId>com.github.bordertech.wcomponents</groupId>
 		<artifactId>wcomponents-parent</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
+		<version>1.0.1-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -33,7 +31,7 @@
 		<theme.target.dir>${project.build.directory}</theme.target.dir>
 		<theme.tmp.dir>${java.io.tmpdir}${file.separator}wcomponents-theme-tmp</theme.tmp.dir>
 		<theme.impl.dir>${theme.tmp.dir}/fakeImplRoot</theme.impl.dir>
-		<theme.impl.name></theme.impl.name>
+		<theme.impl.name />
 		<theme.unpack.dir>${project.build.directory}${file.separator}${theme.unpacked.name}</theme.unpack.dir>
 		<nodejs.dist.dir>${project.build.directory}/nodejsdist</nodejs.dist.dir><!-- The nodejs binaries get unpacked to here -->
 		<nodejs.dir>${basedir}/node</nodejs.dir><!-- Where we expect to find Node installed -->
@@ -164,14 +162,14 @@
 							<target>
 								<echo>Attempting to start ANT build at ${theme.core.dir}</echo>
 								<echo>basedir = ${basedir}</echo>
-								<property name="basedir" location="${basedir}"/>
-								<property name="target.dir" location="${project.build.directory}"/>
-								<property name="component.rootdir" location="${theme.core.dir}"/>
-								<property name="build.number" value="${project.version}"/>
-								<property name="build.rootdir" location="${theme.target.dir}"/>
-								<property name="theme.skip.tests" value="true"/>
+								<property name="basedir" location="${basedir}" />
+								<property name="target.dir" location="${project.build.directory}" />
+								<property name="component.rootdir" location="${theme.core.dir}" />
+								<property name="build.number" value="${project.version}" />
+								<property name="build.rootdir" location="${theme.target.dir}" />
+								<property name="theme.skip.tests" value="true" />
 								<ant antfile="${theme.core.dir}/build.xml">
-									<target name="build"/>
+									<target name="build" />
 								</ant>
 							</target>
 						</configuration>
@@ -187,16 +185,16 @@
 							<target>
 								<echo>Attempting to start ANT test at ${theme.core.dir}</echo>
 								<echo>basedir = ${basedir}</echo>
-								<property name="basedir" location="${basedir}"/>
-								<property name="phantomjs.binary" value="${phantomjs.binary}"/>
-								<property name="target.dir" location="${project.build.directory}"/>
-								<property name="component.rootdir" location="${theme.core.dir}"/>
-								<property name="build.number" value="${project.version}"/>
-								<property name="build.rootdir" location="${theme.target.dir}"/>
-								<property name="theme.skip.tests" value="${skipOptionalTests}"/>
-								<!--<property name="theme.skip.tests" value="${skipOptionalTests}"/>-->
+								<property name="basedir" location="${basedir}" />
+								<property name="phantomjs.binary" value="${phantomjs.binary}" />
+								<property name="target.dir" location="${project.build.directory}" />
+								<property name="component.rootdir" location="${theme.core.dir}" />
+								<property name="build.number" value="${project.version}" />
+								<property name="build.rootdir" location="${theme.target.dir}" />
+								<property name="theme.skip.tests" value="${skipOptionalTests}" />
+								<!--<property name="theme.skip.tests" value="${skipOptionalTests}" />-->
 								<ant antfile="${theme.core.dir}/build.xml">
-									<target name="test"/>
+									<target name="test" />
 								</ant>
 							</target>
 						</configuration>
@@ -212,14 +210,14 @@
 							<target>
 								<echo>Attempting to start ANT documentation build at ${theme.core.dir}</echo>
 								<echo>basedir = ${basedir}</echo>
-								<property name="basedir" location="${basedir}"/>
-								<property name="target.dir" location="${project.build.directory}"/>
-								<property name="component.rootdir" location="${theme.core.dir}"/>
-								<property name="build.number" value="${project.version}"/>
-								<property name="build.rootdir" location="${theme.target.dir}"/>
-								<property name="theme.skip.tests" value="true"/>
+								<property name="basedir" location="${basedir}" />
+								<property name="target.dir" location="${project.build.directory}" />
+								<property name="component.rootdir" location="${theme.core.dir}" />
+								<property name="build.number" value="${project.version}" />
+								<property name="build.rootdir" location="${theme.target.dir}" />
+								<property name="theme.skip.tests" value="true" />
 								<ant antfile="${theme.core.dir}/build.xml">
-									<target name="document"/>
+									<target name="document" />
 								</ant>
 							</target>
 						</configuration>

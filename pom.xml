@@ -6,7 +6,7 @@
 
 	<groupId>com.github.bordertech.wcomponents</groupId>
 	<artifactId>wcomponents-parent</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.1-SNAPSHOT</version>
 
 	<packaging>pom</packaging>
 
@@ -295,15 +295,15 @@
 							<target>
 								<property name="plugin_classpath" refid="maven.plugin.classpath" />
 								<path id="project.class.path">
-									<path path="${maven.plugin.classpath}"/>
+									<path path="${maven.plugin.classpath}" />
 								</path>
-								<property name="builddir" value="${project.build.directory}"/>
-								<property name="sitedir" value="${project.reporting.outputDirectory}"/>
+								<property name="builddir" value="${project.build.directory}" />
+								<property name="sitedir" value="${project.reporting.outputDirectory}" />
 
-								<taskdef name="merge" classname="edu.umd.cs.findbugs.anttask.UnionBugs" classpathref="project.class.path"/>
-								<taskdef name="generate" classname="edu.umd.cs.findbugs.anttask.ConvertXmlToTextTask" classpathref="project.class.path"/>
+								<taskdef name="merge" classname="edu.umd.cs.findbugs.anttask.UnionBugs" classpathref="project.class.path" />
+								<taskdef name="generate" classname="edu.umd.cs.findbugs.anttask.ConvertXmlToTextTask" classpathref="project.class.path" />
 
-								<echo message="Findbugs - Merge findbug results."/>
+								<echo message="Findbugs - Merge findbug results." />
 								<merge to="${builddir}/findbugs-report.xml">
 									<fileset dir="${basedir}">
 										<include name="**/target/findbugs-rep/findbugsXml.xml" />
@@ -311,8 +311,8 @@
 								</merge>
 
 								<echo message="Findbugs - Generate findbugs report." />
-								<generate inputFile="${builddir}/findbugs-report.xml" outputFile="${sitedir}/findbugs-report.html" format="html:plain.xsl" >
-									<classpath path="${plugin_classpath}"/>
+								<generate inputFile="${builddir}/findbugs-report.xml" outputFile="${sitedir}/findbugs-report.html" format="html:plain.xsl">
+									<classpath path="${plugin_classpath}" />
 								</generate>
 
 								<echo message="Findbugs - Report complete." />
@@ -345,7 +345,7 @@
 					<configuration>
 						<archive>
 							<manifestEntries>
-								<Built-By></Built-By>
+								<Built-By />
 							</manifestEntries>
 						</archive>
 					</configuration>
@@ -357,7 +357,7 @@
 					<configuration>
 						<archive>
 							<manifestEntries>
-								<Built-By></Built-By>
+								<Built-By />
 							</manifestEntries>
 						</archive>
 					</configuration>
@@ -369,7 +369,7 @@
 					<configuration>
 						<archive>
 							<manifestEntries>
-								<Built-By></Built-By>
+								<Built-By />
 							</manifestEntries>
 						</archive>
 					</configuration>
@@ -460,7 +460,7 @@
 					<consoleOutput>true</consoleOutput>
 					<!-- Exclude because of aggregate reports. -->
 					<excludes>**/wcomponents/qa/**/*.java,**/wcomponents/examples/**/*.java</excludes>
-					<headerFile></headerFile>
+					<headerFile />
 				</configuration>
 				<reportSets>
 					<reportSet>
