@@ -37,6 +37,19 @@
 			<comments>GNU General Public License</comments>
 		</license>
 	</licenses>
+	
+	<!-- description is a required section for Maven Central -->
+	<description>Accessible Web UI Framework for Enterprise</description>
+	
+	<!-- url is a required section for Maven Central -->
+	<url>http://bordertech.github.io/wcomponents/</url>
+	
+	<!-- developers is a required section for Maven Central -->
+	<developers>
+		<developer>
+			<url>https://github.com/BorderTech</url>
+		</developer>
+	</developers>
 
 	<scm>
 		<url>https://github.com/bordertech/wcomponents</url>
@@ -105,7 +118,7 @@
 			-->
 			<id>release</id>
 			<build>
-				<!-- Could move sources generation here, site too -->
+				<!-- Could move sources generation here, javadoc too, site? -->
 				<plugins>
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
@@ -133,6 +146,20 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.3</version>
+			</plugin>
+			
+			<plugin>
+				<!-- A release to Maven Central MUST include javadoc Jars - even if they are dummy jars, they must be there -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 
 			<!-- Create jar of the source files. -->
@@ -372,6 +399,24 @@
 								<Built-By />
 							</manifestEntries>
 						</archive>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-javadoc-plugin</artifactId>
+					<version>2.10.3</version>
+					<configuration>
+						<archive>
+							<manifestEntries>
+								<Built-By />
+							</manifestEntries>
+						</archive>
+						<charset>UTF-8</charset>
+						<encoding>UTF-8</encoding>
+						<docencoding>UTF-8</docencoding>
+						<breakiterator>true</breakiterator>
+						<version>true</version>
+						<keywords>true</keywords>
 					</configuration>
 				</plugin>
 			</plugins>
