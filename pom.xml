@@ -361,6 +361,7 @@
 				<artifactId>maven-checkstyle-plugin</artifactId>
 				<version>2.17</version>
 				<configuration>
+					<skip>false</skip>
 					<configLocation>sun_checks_wc.xml</configLocation>
 					<consoleOutput>true</consoleOutput>
 					<!-- Exclude because of aggregate reports. -->
@@ -402,6 +403,7 @@
 				<version>3.5</version>
 				<configuration>
 					<aggregate>true</aggregate>
+					<skip>false</skip>
 					<failurePriority>5</failurePriority>
 					<!-- Exclude because of aggregate reports. -->
 					<excludes>
@@ -427,6 +429,7 @@
 				<artifactId>findbugs-maven-plugin</artifactId>
 				<version>3.0.2</version>
 				<configuration>
+					<skip>false</skip>
 					<effort>Max</effort>
 					<includeTests>false</includeTests>
 					<excludeFilterFile>findbugs-exclude-filter.xml</excludeFilterFile>
