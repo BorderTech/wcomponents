@@ -8,7 +8,7 @@
 	<parent>
 		<groupId>com.github.bordertech.wcomponents</groupId>
 		<artifactId>wcomponents-parent</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
+		<version>1.0.2-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -60,7 +60,7 @@
 					</descriptorRefs>
 					<archive>
 						<manifest>
-							<mainClass>com.github.bordertech.wcomponents.exampleslde.StandaloneLauncherProxy</mainClass>
+							<mainClass>com.github.bordertech.wcomponents.examples.lde.StandaloneLauncherProxy</mainClass>
 						</manifest>
 					</archive>
 				</configuration>

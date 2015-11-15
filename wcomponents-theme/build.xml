@@ -523,25 +523,18 @@ chromedriver_cdnurl=${mirror.root}/chromedriver
 	<macrodef name="writeVersionInfo">
 		<!--
 			This is largely superfluous and a legacy of debugging builds many years in the past.
+			It used to dump many different properties.
 			HOWEVER one part of it has found new life (in ThemeUtils.java) and therefore this
 			file must continue to:
 
 			1. Be named version.properties
 			2. Dump the "build.number" property.
+			
+			TODO can we ditch this entirely?
 		-->
 		<attribute name="implName"/>
 		<sequential>
-			<var name="build.name" unset="true" value="@{implName}"/>
-			<var name="build.user.name" unset="true" value="${env.USERNAME}"/>
-			<var name="build.user.host" unset="true" value="${env.COMPUTERNAME}"/>
-			<property name="build.name" value="@{implName}"/>
-			<property name="build.user.name" value="${env.USERNAME}"/>
-			<property name="build.user.host" value="${env.COMPUTERNAME}"/>
-			<echoproperties destfile="${output.dir}/@{implName}/version.properties">
-				<propertyset>
-					<propertyref regex="^build\.*"/>
-				</propertyset>
-			</echoproperties>
+			<echo file="${output.dir}/@{implName}/version.properties">build.number=${build.number}</echo>
 		</sequential>
 	</macrodef>
 </project>
