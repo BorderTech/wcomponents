@@ -117,6 +117,7 @@
 
 	<!-- SVG Template. Based on shields.io template. -->
 	<xsl:template name="createsvg">
+		
 		<xsl:param name="SUBJECT.TEXT" select="'Subject'"/>
 		<xsl:param name="STATUS.TEXT" select="'Status'"/>
 		<xsl:param name="STATUS.COLOUR" select="$COLOUR.OK"/>
