@@ -43,7 +43,7 @@ public class WColumnRenderer_Test extends AbstractWebXmlRendererTestCase {
 		column.add(new WLabel("dummy"));
 		assertSchemaMatch(row);
 		assertXpathEvaluatesTo(column.getId(), "//ui:column/@id", row);
-		assertXpathEvaluatesTo("100", "//ui:column/@width", row);
+		assertXpathEvaluatesTo("100%", "//ui:column/@width", row);
 		assertXpathNotExists("//ui:column/@align", row);
 
 		column.setAlignment(WColumn.Alignment.LEFT);

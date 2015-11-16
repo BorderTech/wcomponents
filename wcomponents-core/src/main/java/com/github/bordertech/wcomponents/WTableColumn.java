@@ -119,21 +119,38 @@ public final class WTableColumn extends AbstractContainer {
 	 *
 	 * @return the column width
 	 */
-	public int getWidth() {
+	public String getWidth() {
 		return getComponentModel().width;
 	}
 
 	/**
-	 * Sets the column width.
+	 * Sets the column width as a percent of the table width.
 	 *
-	 * @param width the column width as a percentage, or &lt;= 0 for default width.
+	 * @param width the column width as a percentage, or &lt; 1 for auto width.
 	 */
 	public void setWidth(final int width) {
 		if (width > 100) {
 			throw new IllegalArgumentException(
 					"Width (" + width + ") cannot be greater than 100 percent");
 		}
-		getOrCreateComponentModel().width = Math.max(0, width);
+		if (width < 1) {
+			setWidth(null);
+		} else {
+			setWidth(String.valueOf(Math.max(0, width)) + "%");
+		}
+	}
+
+	/**
+	 * Sets the column width as a CSS dimension.
+	 *
+	 * @param width the column width as a CSS dimension, or "" for auto width.
+	 */
+	public void setWidth(final String width) {
+		if ("auto".equalsIgnoreCase(width) || "".equals(width)) {
+			getOrCreateComponentModel().width = null;
+		} else {
+			getOrCreateComponentModel().width = width;
+		}
 	}
 
 	/**
@@ -204,7 +221,7 @@ public final class WTableColumn extends AbstractContainer {
 	 */
 	public static class WTableColumnModel extends ComponentModel {
 
-		private int width;
+		private String width;
 		private Alignment align;
 	}
 }

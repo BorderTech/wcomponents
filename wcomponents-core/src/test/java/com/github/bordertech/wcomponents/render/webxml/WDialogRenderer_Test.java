@@ -63,8 +63,8 @@ public class WDialogRenderer_Test extends AbstractWebXmlRendererTestCase {
 		dialog.setWidth(width);
 		dialog.setHeight(height);
 		xml = renderDialog(dialog);
-		assertXpathEvaluatesTo(String.valueOf(width), "//ui:dialog/@width", xml);
-		assertXpathEvaluatesTo(String.valueOf(height), "//ui:dialog/@height", xml);
+		assertXpathEvaluatesTo((String.valueOf(width) + "px"), "//ui:dialog/@width", xml);
+		assertXpathEvaluatesTo((String.valueOf(height) + "px"), "//ui:dialog/@height", xml);
 
 		dialog.setMode(WDialog.MODAL);
 		xml = renderDialog(dialog);

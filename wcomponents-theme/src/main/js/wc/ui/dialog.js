@@ -331,23 +331,23 @@ define(["wc/dom/classList",
 							}
 
 							if (regObj.width) {
-								dialog.style.width = regObj.width + UNIT;
+								dialog.style.width = regObj.width;
 							}
 							else {
 								dialog.style.width = "";
 							}
 							if (regObj.height) {
-								dialog.style.height = regObj.height + UNIT;
+								dialog.style.height = regObj.height;
 							}
 							else {
 								dialog.style.height = "";
 							}
 							if (!"${wc.ui.dialog.allowSmallerThanInitial}") {
-								if (regObj.initWidth || regObj.initWidth === 0) {
-									dialog.style.minWidth = regObj.initWidth + UNIT;
+								if (regObj.initWidth) {
+									dialog.style.minWidth = regObj.initWidth;
 								}
-								if (regObj.initHeight || regObj.initHeight === 0) {
-									dialog.style.minHeight = regObj.initHeight + UNIT;
+								if (regObj.initHeight) {
+									dialog.style.minHeight = regObj.initHeight;
 								}
 							}
 							if (regObj.top || regObj.top === 0) {
@@ -409,7 +409,7 @@ define(["wc/dom/classList",
 									removeDragAnimClass = true;
 									classList.remove(dialog, "wc_dragflow");
 								}
-								positionable.setBySize(dialog, {width: regObj.width, height: regObj.height, topOffsetPC: INITIAL_TOP_PROPORTION});
+								positionable.setBySize(dialog, {topOffsetPC: INITIAL_TOP_PROPORTION});
 
 								if (removeResizeAnimClass) {
 									classList.add(dialog, "wc_resizeflow");
@@ -558,9 +558,8 @@ define(["wc/dom/classList",
 						opening = false;
 						// set the initial position
 						if ((regObj = registry[element.id]) && !(regObj.top || regObj.left || regObj.top === 0 || regObj.left === 0)) {
-							reposition(dialog, {width: regObj.width, height: regObj.height, topOffsetPC: INITIAL_TOP_PROPORTION});
+							reposition(dialog, {topOffsetPC: INITIAL_TOP_PROPORTION});
 						}
-
 						if (MAX_BUTTON && (control = MAX_BUTTON.findDescendant(dialog)) && focus.canFocus(control)) {
 							// max restore may be available but hidden
 							focus.setFocusRequest(control);
@@ -610,10 +609,10 @@ define(["wc/dom/classList",
 					try {
 						modalShim.clearModal(element);
 						if (element.style.width) {
-							setRegObjAttribute(element, "width", element.style.width.replace(UNIT, ""));
+							setRegObjAttribute(element, "width", element.style.width);
 						}
 						if (element.style.height) {
-							setRegObjAttribute(element, "height", element.style.height.replace(UNIT, ""));
+							setRegObjAttribute(element, "height", element.style.height);
 						}
 						if (element.style.left) {
 							setRegObjAttribute(element, "left", element.style.left.replace(UNIT, ""));
@@ -828,9 +827,9 @@ define(["wc/dom/classList",
 		 * @typedef {Object} module:wc/ui/dialog~regObject An object which stores information about a dialog.
 		 * @property {String} id The WDialog id.
 		 * @property {String} formId The id of the form the dialog is in (more useful than you may think).
-		 * @property {int} [width] The dialog width in px.
+		 * @property {int} [width] The dialog width.
 		 * @property {int} [height] The dialog height in px.
-		 * @property {int} [initWidth] The dialog width in px as set by the Java. This is used if the theme allows
+		 * @property {int} [initWidth] The dialog width as set by the Java. This is used if the theme allows
 		 *    resizing but prevents a dialog being made smaller than its intial size. This property is not in the
 		 *    registration object passed in to the module.
 		 * @property {int} [initHeight] The dialog height in px as set by the Java. This is used if the theme allows

@@ -144,35 +144,72 @@ public class WDialog extends AbstractWComponent implements Container, AjaxTarget
 	}
 
 	/**
-	 * @return The height of the dialog. The default is 600 pixels.
+	 * @return The height of the dialog.
 	 */
-	public int getHeight() {
+	public String getHeight() {
 		return getComponentModel().height;
 	}
 
 	/**
-	 * Sets the dialog height. A value of &lt;=0 means "unspecified".
+	 * Sets the dialog height in pixels. A value of &lt;=0 means "unspecified".
 	 *
 	 * @param height The height of the dialog, in pixels.
+	 * @deprecated use setHeight(String)
 	 */
 	public void setHeight(final int height) {
-		getOrCreateComponentModel().height = height;
+		if (height < 1) {
+			setHeight(null);
+		} else {
+			setHeight(String.valueOf(height) + "px");
+		}
 	}
+
+
+	/**
+	 * Sets the dialog height as a CSS dimension. An empty string indicates "unspecified".
+	 *
+	 * @param height The height of the dialog as a CSS dimension.
+	 */
+	public void setHeight(final String height) {
+		if ("".equals(height) || "auto".equalsIgnoreCase(height)) {
+			setHeight(null);
+		} else {
+			getOrCreateComponentModel().height = height;
+		}
+	}
+
 
 	/**
 	 * @return The width of the dialog. The default is 800 pixels.
 	 */
-	public int getWidth() {
+	public String getWidth() {
 		return getComponentModel().width;
 	}
 
 	/**
-	 * Sets the dialog width. A value of &lt;=0 means "unspecified".
+	 * Sets the dialog width in pixels. A value of &lt;=0 means "unspecified".
 	 *
 	 * @param width The width of the dialog, in pixels.
+	 * @deprecated use setWidth(String).
 	 */
 	public void setWidth(final int width) {
-		getOrCreateComponentModel().width = width;
+		if (width < 1) {
+			setWidth(null);
+		} else {
+			setWidth(String.valueOf(width) + "px");
+		}
+	}
+
+	/**
+	 * Sets the dialog width to a CSS width expression. An empty string indicates "unspecified".
+	 * @param width the width of the dialog as a CSS width expression.
+	 */
+	public void setWidth(final String width) {
+		if ("".equals(width) || "auto".equals(width)) {
+			setWidth(null);
+		} else {
+			getOrCreateComponentModel().width = width;
+		}
 	}
 
 	/**
@@ -380,14 +417,14 @@ public class WDialog extends AbstractWComponent implements Container, AjaxTarget
 		private Serializable title;
 
 		/**
-		 * The dialog width, in pixels.
+		 * The dialog width as a CSS width expression.
 		 */
-		private int width = 0;
+		private String width;
 
 		/**
-		 * The dialog height, in pixels.
+		 * The dialog height as a CSS dimension.
 		 */
-		private int height = 0;
+		private String height;
 
 		/**
 		 * Indicates whether the dialog should be resizable.

@@ -21,7 +21,7 @@ public final class WTableColumn_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testWidthAccessors() {
-		assertAccessorsCorrect(new WTableColumn("width", WText.class), "width", 0, 1, 2);
+		assertAccessorsCorrect(new WTableColumn("width", WText.class), "width", null, "10%", "200px");
 	}
 
 	@Test
@@ -29,13 +29,27 @@ public final class WTableColumn_Test extends AbstractWComponentTestCase {
 		WTableColumn col = new WTableColumn("width2", WText.class);
 
 		col.setWidth(-1);
-		Assert.assertEquals("Incorrect width percentage from setter -1", 0, col.getWidth());
+		Assert.assertEquals("Incorrect width percentage from setter -1", null, col.getWidth());
 
 		col.setWidth(0);
-		Assert.assertEquals("Incorrect width percentage from setter 0", 0, col.getWidth());
+		Assert.assertEquals("Incorrect width percentage from setter 0", null, col.getWidth());
 
 		col.setWidth(100);
-		Assert.assertEquals("Incorrect width percentage from setter 100", 100, col.getWidth());
+		Assert.assertEquals("Incorrect width percentage from setter 100", "100%", col.getWidth());
+	}
+
+	@Test
+	public void testSetWidthStrRange() {
+		WTableColumn col = new WTableColumn("width3", WText.class);
+
+		col.setWidth("");
+		Assert.assertEquals("Incorrect width from setter ''", null, col.getWidth());
+
+		col.setWidth("auto");
+		Assert.assertEquals("Incorrect width percentage from setter 'auto'", null , col.getWidth());
+
+		col.setWidth("5em");
+		Assert.assertEquals("Incorrect width percentage from setter '5em'", "5em", col.getWidth());
 	}
 
 	@Test(expected = IllegalArgumentException.class)

@@ -11,7 +11,7 @@ import com.github.bordertech.wcomponents.layout.FlowLayout.Alignment;
 
 /**
  * <p>
- * This example demonstrates the {@link WSkiplinks} component.</p>
+ * This example demonstrates the {@link com.github.bordertech.wcomponents.WSkipLinks} component.</p>
  *
  * <p>
  * WSkipLinks is a component which has a heading and a list of internal links. These links will move the cursor point to

@@ -75,7 +75,7 @@
 				</table>
 			</xs:documentation>
 		</xs:annotation>
-		
+
 		<xs:complexType>
 			<xs:sequence>
 				<xs:element ref="ui:margin" minOccurs="0"/>
@@ -184,7 +184,7 @@
 						</xs:attribute>
 					</xs:complexType>
 				</xs:element>
-				
+
 				<!--  Row expansion control -->
 				<xs:element name="rowExpansion" minOccurs="0">
 					<xs:annotation>
@@ -281,17 +281,10 @@
 									<xs:sequence>
 										<xs:element ref="ui:decoratedLabel"/>
 									</xs:sequence>
-									<!-- No width means use default width. -->
-									<xs:attribute name="width">
+									<xs:attribute name="width" type="xs:string">
 										<xs:annotation>
-											<xs:documentation>Provides a preferred width for the column as a percentage of available space. Honoured by all common browsers unless the table content weighting forces the columns to resize to a smaller width or if the total width of all columns is greater than 100%.</xs:documentation>
+											<xs:documentation>Provides a preferred width for the column as a CSS dimension.</xs:documentation>
 										</xs:annotation>
-										<xs:simpleType>
-											<xs:restriction base="xs:int">
-												<xs:minInclusive value="1"></xs:minInclusive>
-												<xs:maxInclusive value="100"></xs:maxInclusive>
-											</xs:restriction>
-										</xs:simpleType>
 									</xs:attribute>
 									<xs:attribute name="sortable" type="xs:boolean">
 										<xs:annotation>
@@ -304,7 +297,7 @@
 										</xs:annotation>
 										<xs:simpleType>
 											<xs:restriction base="xs:token">
-												<xs:enumeration value="left"/> 
+												<xs:enumeration value="left"/>
 												<xs:enumeration value="center"/>
 												<xs:enumeration value="right"/>
 											</xs:restriction>
@@ -485,7 +478,7 @@
 				<!-- Temporary fix to allow for empty subTr. Waiting on fix from T&S in WC6 and then the empty subTr will not need to be rendered. -->
 					<xs:choice minOccurs="0">
 						<xs:element name="tr" type="ui:trType" maxOccurs="unbounded"/>
-						<xs:element name="content"> 
+						<xs:element name="content">
 							<xs:complexType mixed="true">
 								<xs:sequence>
 									<xs:any processContents="lax" minOccurs="0" maxOccurs="unbounded"/>

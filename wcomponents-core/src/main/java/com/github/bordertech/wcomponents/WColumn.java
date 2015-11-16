@@ -29,7 +29,7 @@ public class WColumn extends AbstractMutableContainer implements AjaxTarget {
 	/**
 	 * Creates a WColumn with 1% width.
 	 *
-	 * @deprecated Use {{@link #WColumn(int)} instead as width is required. Will default width to 1%.
+	 * @deprecated Use {{@link #WColumn(String)} instead as width is required. Will default width to 1%.
 	 */
 	@Deprecated
 	public WColumn() {
@@ -46,22 +46,40 @@ public class WColumn extends AbstractMutableContainer implements AjaxTarget {
 	}
 
 	/**
-	 * Sets the relative column width, measured as a percentage of the total available width.
+	 * Creates a WColumn with a width. The width should be a CSS width expression.
 	 *
-	 * @param widthPercent the column width.
+	 * @param strWidth the WColumn's width.
+	 */
+	public WColumn(final String strWidth) {
+		setWidth(strWidth);
+	}
+
+	/**
+	 * Sets the relative column width measured as a percentage of the total available width.
+	 *
+	 * @param widthPercent the column width as a percent of the table width.
 	 */
 	public void setWidth(final int widthPercent) {
 		if (widthPercent < 1 || widthPercent > 100) {
 			throw new IllegalArgumentException(
 					"Width (" + widthPercent + ") must be between 1 and 100 percent");
 		}
-		getOrCreateComponentModel().width = widthPercent;
+		getOrCreateComponentModel().width = String.valueOf(widthPercent) + "%";
+	}
+
+	/**
+	 * Sets the column width to a string. It would be sensible to use a CSS width expression (%, em, px etc).
+	 *
+	 * @param strWidth the column width.
+	 */
+	public void setWidth(final String strWidth) {
+		getOrCreateComponentModel().width = strWidth;
 	}
 
 	/**
 	 * @return the column width as a percentage of the total available width, or zero if it has not been specified.
 	 */
-	public int getWidth() {
+	public String getWidth() {
 		return getComponentModel().width;
 	}
 
@@ -87,7 +105,7 @@ public class WColumn extends AbstractMutableContainer implements AjaxTarget {
 		/**
 		 * The column width.
 		 */
-		private int width;
+		private String width;
 
 		/**
 		 * The alignment of content within the column.
@@ -100,7 +118,7 @@ public class WColumn extends AbstractMutableContainer implements AjaxTarget {
 	 */
 	@Override
 	public String toString() {
-		return toString(String.valueOf(getWidth()) + '%');
+		return getWidth();
 	}
 
 	/**

@@ -38,15 +38,15 @@
 				</xs:annotation>
 			</xs:attribute>
 
-			<xs:attribute name="width" type="xs:positiveInteger">
+			<xs:attribute name="width" type="xs:string">
 				<xs:annotation>
-					<xs:documentation>Provides the dialog's initial width in pixels.</xs:documentation>
+					<xs:documentation>Provides the dialog's initial width as a CSS dimension.</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
 
-			<xs:attribute name="height" type="xs:positiveInteger">
+			<xs:attribute name="height" type="xs:string">
 				<xs:annotation>
-					<xs:documentation>Provides the dialog's initial height in pixels.</xs:documentation>
+					<xs:documentation>Provides the dialog's initial height as a CSS dimension.</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
 

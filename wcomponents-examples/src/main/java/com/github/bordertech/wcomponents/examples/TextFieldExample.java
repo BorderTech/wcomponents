@@ -22,17 +22,14 @@ import com.github.bordertech.wcomponents.validation.WValidationErrors;
  * A {@link WTextField} is a wcomponent used to display a html text input field.
  * </p>
  * <p>
- * WTextField example demonstrates various states of the WTextField
+ * WTextField example demonstrates various states of the WTextField including:
  * </p>
- * <p>
- * including
  * <ul>
  * <li>Default</li>
  * <li>Size limited</li>
  * <li>Read Only</li>
  * <li>Disabled</li>
  * </ul>
- * </p>
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0

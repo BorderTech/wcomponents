@@ -174,6 +174,7 @@ public class ComponentModel implements WebModel, Externalizable {
 
 	/**
 	 * Adds extra textual information to describe a component. This is intended for screen-readers only.
+	 *
 	 * @deprecated use toolTip
 	 */
 	private Serializable accessibleText;

@@ -1,11 +1,11 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
 	<!--
 		This template creates each row and the first column in the row. It then applies
-		templates selecting the following-sibling::ui:cell[position &lt; $cols] to 
+		templates selecting the following-sibling::ui:cell[position &lt; $cols] to
 		build the rest of the columns in the row. The params to this template are
 		for convenience and speed since they could all be derived but it is better to
 		only calculate them once.
- 
+
 		param align: the column align property
 		param width: the width of the first column
 		param hgap: the horizontal space (if any) between columns.
@@ -40,7 +40,7 @@
 				<xsl:attribute name="style">
 					<xsl:text>width:</xsl:text>
 					<xsl:value-of select="$width"/>
-					<xsl:text>%;</xsl:text>
+					<xsl:text>;</xsl:text>
 					<xsl:if test="$hgap != 0">
 						<xsl:text>padding-right:</xsl:text>
 						<xsl:value-of select="$hgap"/>

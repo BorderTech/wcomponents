@@ -31,7 +31,7 @@ public class ColumnLayout implements LayoutManager {
 	/**
 	 * The column widths.
 	 */
-	private final int[] columnWidths;
+	private final String[] columnWidths;
 
 	/**
 	 * The column alignments.
@@ -58,6 +58,15 @@ public class ColumnLayout implements LayoutManager {
 	}
 
 	/**
+	 * Creates a ColumnLayout with the specified String column widths.
+	 *
+	 * @param columnWidths the column widths as CSS width expressions.
+	 */
+	public ColumnLayout(final String[] columnWidths) {
+		this(columnWidths, null, 0, 0);
+	}
+
+	/**
 	 * Creates a ColumnLayout with the specified percentage column widths and column alignments.
 	 *
 	 * @param columnWidths the column widths, in percent units.
@@ -68,7 +77,17 @@ public class ColumnLayout implements LayoutManager {
 	}
 
 	/**
-	 * Creates a ColumnLayout with the specified percentage column widths.
+	 * Creates a ColumnLayout with the specified String column widths and column alignments.
+	 *
+	 * @param columnWidths the column widths as CSS width expressions.
+	 * @param columnAlignments the column alignments
+	 */
+	public ColumnLayout(final String[] columnWidths, final Alignment[] columnAlignments) {
+		this(columnWidths, columnAlignments, 0, 0);
+	}
+
+	/**
+	 * Creates a ColumnLayout with the specified percentage column widths and gaps.
 	 *
 	 * @param columnWidths the column widths, in percent units.
 	 * @param hgap the horizontal gap between the columns, measured in pixels.
@@ -77,6 +96,18 @@ public class ColumnLayout implements LayoutManager {
 	public ColumnLayout(final int[] columnWidths, final int hgap, final int vgap) {
 		this(columnWidths, null, hgap, vgap);
 	}
+
+	/**
+	 * Creates a ColumnLayout with the specified String column widths and gaps.
+	 *
+	 * @param columnWidths the column widths as CSS width expressions.
+	 * @param hgap the horizontal gap between the columns, measured in pixels.
+	 * @param vgap the vertical gap between the rows, measured in pixels.
+	 */
+	public ColumnLayout(final String[] columnWidths, final int hgap, final int vgap) {
+		this(columnWidths, null, hgap, vgap);
+	}
+
 
 	/**
 	 * Creates a ColumnLayout with the specified percentage column widths.
@@ -88,15 +119,70 @@ public class ColumnLayout implements LayoutManager {
 	 */
 	public ColumnLayout(final int[] columnWidths, final Alignment[] columnAlignments, final int hgap,
 			final int vgap) {
+
 		if (columnWidths == null || columnWidths.length == 0) {
 			throw new IllegalArgumentException("ColumnWidths must be provided");
 		}
-
+		
+		final String[] strWidths = new String[columnWidths.length];
 		// Column Definitions
 		for (int col = 0; col < columnWidths.length; col++) {
 			if (columnWidths[col] < 1 || columnWidths[col] > 100) {
 				throw new IllegalArgumentException(
 						"ColumnWidth (" + columnWidths[col] + ") must be between 1 and 100 percent");
+			}
+			strWidths[col] = String.valueOf(columnWidths[col]) + "%";
+		}
+
+
+		if (columnAlignments != null && columnAlignments.length != columnWidths.length) {
+			throw new IllegalArgumentException(
+					"A columnAlignment must be provided for each columnWidth");
+		}
+
+		if (hgap < 0) {
+			throw new IllegalArgumentException("Hgap must be greater than or equal to zero");
+		}
+
+		if (vgap < 0) {
+			throw new IllegalArgumentException("Vgap must be greater than or equal to zero");
+		}
+
+
+		this.columnWidths = strWidths;
+		this.columnAlignments = new Alignment[columnWidths.length];
+
+		if (columnAlignments == null) {
+			Arrays.fill(this.columnAlignments, Alignment.LEFT);
+		} else {
+			for (int i = 0; i < columnAlignments.length; i++) {
+				this.columnAlignments[i] = columnAlignments[i] == null ? Alignment.LEFT : columnAlignments[i];
+			}
+		}
+
+		this.hgap = hgap;
+		this.vgap = vgap;
+	}
+
+
+	/**
+	 * Creates a ColumnLayout with the specified String column widths.
+	 *
+	 * @param columnWidths the column widths as CSS width expressions.
+	 * @param columnAlignments the column alignments
+	 * @param hgap the horizontal gap between the columns, measured in pixels.
+	 * @param vgap the vertical gap between the rows, measured in pixels.
+	 */
+	public ColumnLayout(final String[] columnWidths, final Alignment[] columnAlignments, final int hgap,
+			final int vgap) {
+		if (columnWidths == null || columnWidths.length == 0) {
+			throw new IllegalArgumentException("ColumnWidths must be provided");
+		}
+
+		for (int col = 0; col < columnWidths.length; col++) {
+			if ("".equals(columnWidths[col])) {
+				throw new IllegalArgumentException(
+						"ColumnWidth (" + columnWidths[col] + ") must not be empty");
 			}
 		}
 
@@ -156,7 +242,7 @@ public class ColumnLayout implements LayoutManager {
 	 * @param columnIndex the index of the column to retrieve the width for.
 	 * @return the width of the given column.
 	 */
-	public int getColumnWidth(final int columnIndex) {
+	public String getColumnWidth(final int columnIndex) {
 		return columnWidths[columnIndex];
 	}
 

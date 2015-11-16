@@ -55,6 +55,16 @@ public class WDataTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 	private static final String COL3_HEADING_TEST = "DOB";
 
 	/**
+	 * col 4 heading
+	 */
+	private static final String COL4_HEADING_TEST = "Col 4";
+
+	/**
+	 * col 5 heading
+	 */
+	private static final String COL5_HEADING_TEST = "Col 5";
+
+	/**
 	 * test ActionOne.
 	 */
 	private static final String TEST_ACTION_ONE = "ACTIONONE";
@@ -487,18 +497,24 @@ public class WDataTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		table.addColumn(new WTableColumn(COL1_HEADING_TEST, WTextField.class));
 		table.addColumn(new WTableColumn(COL2_HEADING_TEST, WTextField.class));
 		table.addColumn(new WTableColumn(COL3_HEADING_TEST, WTextField.class));
+		table.addColumn(new WTableColumn(COL4_HEADING_TEST, WTextField.class));
+		table.addColumn(new WTableColumn(COL5_HEADING_TEST, WTextField.class));
 
 		table.getColumn(0).setWidth(0);
-		table.getColumn(1).setWidth(1);
-		table.getColumn(2).setWidth(100);
+		table.getColumn(1).setWidth(10);
+		table.getColumn(2).setWidth("5em");
+		table.getColumn(3).setWidth("auto");
+		table.getColumn(4).setWidth("");
 
 		TableDataModel tableModel = createTableModel();
 		table.setDataModel(tableModel);
 
 		assertSchemaMatch(table);
 		assertXpathNotExists("//ui:table/ui:thead/ui:th[1]/@width", table);
-		assertXpathEvaluatesTo("1", "//ui:table/ui:thead/ui:th[2]/@width", table);
-		assertXpathEvaluatesTo("100", "//ui:table/ui:thead/ui:th[3]/@width", table);
+		assertXpathEvaluatesTo("10%", "//ui:table/ui:thead/ui:th[2]/@width", table);
+		assertXpathEvaluatesTo("5em", "//ui:table/ui:thead/ui:th[3]/@width", table);
+		assertXpathNotExists("//ui:table/ui:thead/ui:th[4]/@width", table);
+		assertXpathNotExists("//ui:table/ui:thead/ui:th[5]/@width", table);
 	}
 
 	@Test
@@ -734,9 +750,9 @@ public class WDataTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 	 * @return a test TableDataModel.
 	 */
 	private TableDataModel createTableModel() {
-		String[][] data = new String[][]{new String[]{"Joe", "Bloggs", "01/02/1973"},
-		new String[]{"Jane", "Bloggs", "04/05/1976"},
-		new String[]{"Kid", "Bloggs", "31/12/1999"}};
+		String[][] data = new String[][]{new String[]{"Joe", "Bloggs", "01/02/1973", "foo", "bar"},
+		new String[]{"Jane", "Bloggs", "04/05/1976", "foo", "bar"},
+		new String[]{"Kid", "Bloggs", "31/12/1999", "foo", "bar"}};
 
 		SimpleTableDataModel model = new SimpleTableDataModel(data);
 		model.setEditable(true);

@@ -19,11 +19,11 @@ import com.github.bordertech.wcomponents.subordinate.WSubordinateControl;
  *
  * <p>
  * In this example a {@link Rule} is created that evaluates the state of check box c.
+ * </p>
  * <ul>
  * <li>if the rule evaluates to true then the {@link Show} action is invoked on the "extra" text field,</li>
  * <li>if the rule evaluates to false then the {@link Hide} action is invoked on the "extra" text field instead.</li>
  * </ul>
- * </p>
  *
  * @author Martin Shevchenko
  */

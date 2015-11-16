@@ -29,7 +29,7 @@
 				</xsl:choose>
 			</xsl:attribute>
 			<xsl:attribute name="style">
-				<xsl:value-of select="concat('width:',$width,'%;')"/>
+				<xsl:value-of select="concat('width:',$width,';')"/>
 				<xsl:if test="$hgap != 0">
 					<xsl:if test="self::ui:cell or position() &gt; 1">
 						<xsl:value-of select="concat('padding-left:',$hgap,';')"/>
