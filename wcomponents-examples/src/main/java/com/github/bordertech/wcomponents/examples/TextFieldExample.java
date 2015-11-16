@@ -26,13 +26,13 @@ import com.github.bordertech.wcomponents.validation.WValidationErrors;
  * </p>
  * <p>
  * including
+ * </p>
  * <ul>
  * <li>Default</li>
  * <li>Size limited</li>
  * <li>Read Only</li>
  * <li>Disabled</li>
  * </ul>
- * </p>
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0

@@ -17,7 +17,7 @@ import com.github.bordertech.wcomponents.subordinate.Show;
 import com.github.bordertech.wcomponents.subordinate.WSubordinateControl;
 
 /**
- * This example demonstrates a {@link WPanel} of type {@link WPanel.Type.LAZY} that loads its content via AJAX when made
+ * This example demonstrates a {@link WPanel} of type {@link PanelMode#LAZY} that loads its content via AJAX when made
  * visible.
  * <p>
  * It uses a {@link WSubordinateControl} on a {@link WRadioButtonSelect} to toggle the visibility of the {@link WPanel}.

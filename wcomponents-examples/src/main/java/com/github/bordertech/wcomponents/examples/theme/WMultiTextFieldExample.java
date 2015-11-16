@@ -9,7 +9,7 @@ import com.github.bordertech.wcomponents.WLabel;
 import com.github.bordertech.wcomponents.WMultiTextField;
 
 /**
- * Examples use of the {@link WDynamicMultiInput} component.
+ * Examples use of the {@link WMultiTextField} component.
  *
  * @author Christina Harris
  * @since 1.0.0

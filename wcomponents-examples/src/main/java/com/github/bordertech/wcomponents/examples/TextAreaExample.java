@@ -24,13 +24,13 @@ import com.github.bordertech.wcomponents.layout.FlowLayout.Alignment;
  * </p>
  * <p>
  * including
+ * </p>
  * <ul>
  * <li>Default</li>
  * <li>Size limited</li>
  * <li>Read Only</li>
  * <li>Disabled</li>
  * </ul>
- * </p>
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0

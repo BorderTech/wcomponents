@@ -18,13 +18,13 @@ import com.github.bordertech.wcomponents.WTextField;
  * </p>
  * <p>
  * The contained examples include:
+ * </p>
  * <ul class="bullets">
  * <li>Labels, links and buttons can be assigned an access key.</li>
  * <li>Labels, links and buttons will highlight the access key character in the label/link/button text.</li>
  * <li>The first matching character in the label/link/button text is highlighted to indicate the access key.</li>
  * <li>If no title is set on component the label/link/button title will be the access key combination.</li>
  * </ul>
- * </p>
  *
  * @author Christina Harris
  * @since 15/04/2009

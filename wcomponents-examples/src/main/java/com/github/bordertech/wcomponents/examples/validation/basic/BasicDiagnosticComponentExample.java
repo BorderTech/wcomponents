@@ -1,6 +1,5 @@
 package com.github.bordertech.wcomponents.examples.validation.basic;
 
-import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.UIContextHolder;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WContainer;
@@ -14,9 +13,9 @@ import java.util.List;
 
 /**
  * <p>
- * An example of the {@link WDiagnosticImpl} class. This type of diagnostic provides a {@link WComponent} that
- * represents the message. The {@link WValidationErrors} component renderes the {@link WComponent} in place of the
- * description (old behaviour).</p>
+ * An example of the {@link DiagnosticImpl} class. This type of diagnostic provides a {@link WComponent} that represents
+ * the message. The {@link WValidationErrors} component renderes the {@link WComponent} in place of the description (old
+ * behaviour).</p>
  *
  * <p>
  * The example diagnostic in this example ({@link LinkDiagnosticImpl}) creates an error message that contains a link
@@ -83,7 +82,7 @@ public class BasicDiagnosticComponentExample extends ValidationContainer {
 
 	/**
 	 * A diagnostic error message component that contains a description of the error and a link. Use
-	 * {@link #setLinkAction(Action)} to set the action for the link to perfrom.
+	 * setLinkAction(Action) to set the action for the link to perform.
 	 *
 	 * @author Christina Harris
 	 */
