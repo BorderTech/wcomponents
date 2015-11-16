@@ -7,7 +7,7 @@ import com.github.bordertech.wcomponents.WTextField;
 import com.github.bordertech.wcomponents.subordinate.builder.SubordinateBuilder;
 
 /**
- * A simple example of {@link SubordinateControlBuilder} usage.
+ * A simple example of {@link SubordinateBuilder} usage.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0

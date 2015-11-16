@@ -25,6 +25,7 @@ import java.util.List;
  * <p>
  * WMultiFileWidget allows user to upload multiple files. File information is rendered for each upload. The file link
  * pops up a window to show the uploaded content.
+ * </p>
  * <ul>
  * <li>Use <code>getSelectedFiles()</code> to get the checked file uploads only.</li>
  * <li>Use <code>getFiles()</code> to get all file uploads.</li>
@@ -32,7 +33,6 @@ import java.util.List;
  * <li>Use <code>setContentType(String[])</code> to set the file types that will be accepted (setting no types implies
  * that all types are accepted).</li>
  * </ul>
- * </p>
  *
  * @author Christina Harris
  * @since 1.0.0
