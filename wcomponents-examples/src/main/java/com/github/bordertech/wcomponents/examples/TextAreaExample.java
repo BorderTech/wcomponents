@@ -20,17 +20,14 @@ import com.github.bordertech.wcomponents.layout.FlowLayout.Alignment;
  * has multiple lines of input.
  * </p>
  * <p>
- * WTextArea example demonstrates various states of the WTextArea
+ * WTextArea example demonstrates various states of the WTextArea including:
  * </p>
- * <p>
- * including
  * <ul>
  * <li>Default</li>
  * <li>Size limited</li>
  * <li>Read Only</li>
  * <li>Disabled</li>
  * </ul>
- * </p>
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0

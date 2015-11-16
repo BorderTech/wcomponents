@@ -54,9 +54,9 @@ public class ColumnLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo("1", "count(//ui:panel/ui:columnLayout)", container);
 		assertXpathEvaluatesTo(String.valueOf(cols.length),
 				"count(//ui:panel/ui:columnLayout/ui:column)", container);
-		assertXpathEvaluatesTo(String.valueOf(cols[0]),
+		assertXpathEvaluatesTo(String.valueOf(cols[0]) + "%",
 				"//ui:panel/ui:columnLayout/ui:column[1]/@width", container);
-		assertXpathEvaluatesTo(String.valueOf(cols[1]),
+		assertXpathEvaluatesTo(String.valueOf(cols[1] + "%"),
 				"//ui:panel/ui:columnLayout/ui:column[2]/@width", container);
 		assertXpathEvaluatesTo(text1, "normalize-space(//ui:panel/ui:columnLayout/ui:cell[1])",
 				container);

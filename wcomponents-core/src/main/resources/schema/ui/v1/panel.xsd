@@ -242,20 +242,14 @@
 										<xs:documentation>Provides information for the rendering of each column in the layout.</xs:documentation>
 									</xs:annotation>
 									<xs:complexType>
-										<xs:attribute name="width" use="required">
+										<xs:attribute name="width" use="required" type="xs:string">
 											<xs:annotation>
-												<xs:documentation>The width of the column as a percentage ofthe available space.</xs:documentation>
+												<xs:documentation>The width of the column as a CSS dimension.</xs:documentation>
 											</xs:annotation>
-											<xs:simpleType>
-												<xs:restriction base="xs:int">
-													<xs:minInclusive value="1" />
-													<xs:maxInclusive value="100" />
-												</xs:restriction>
-											</xs:simpleType>
 										</xs:attribute>
 										<xs:attribute name="align">
 											<xs:annotation>
-												<xs:documentation>The alignment of content in the column. if not set "left" is assumed.</xs:documentation>
+												<xs:documentation>The alignment of content in the column. if not set the theme sets a default alignment.</xs:documentation>
 											</xs:annotation>
 											<xs:simpleType>
 												<xs:restriction base="xs:token">

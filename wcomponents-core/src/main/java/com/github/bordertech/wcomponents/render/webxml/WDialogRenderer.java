@@ -26,8 +26,6 @@ final class WDialogRenderer extends AbstractWebXmlRenderer {
 		int state = dialog.getState();
 
 		if (state == WDialog.ACTIVE_STATE || dialog.getTrigger() != null) {
-			int width = dialog.getWidth();
-			int height = dialog.getHeight();
 			String title = dialog.getTitle();
 			XmlStringBuilder xml = renderContext.getWriter();
 
@@ -35,8 +33,8 @@ final class WDialogRenderer extends AbstractWebXmlRenderer {
 			xml.appendAttribute("id", component.getId());
 			xml.appendOptionalAttribute("class", component.getHtmlClass());
 			xml.appendOptionalAttribute("track", component.isTracking(), "true");
-			xml.appendOptionalAttribute("width", width > 0, width);
-			xml.appendOptionalAttribute("height", height > 0, height);
+			xml.appendOptionalAttribute("width", dialog.getWidth());
+			xml.appendOptionalAttribute("height", dialog.getHeight());
 			xml.appendOptionalAttribute("resizable", dialog.isResizable(), "true");
 			xml.appendOptionalAttribute("modal", dialog.getMode() == WDialog.MODAL, "true");
 			xml.appendOptionalAttribute("open", dialog.getState() == WDialog.ACTIVE_STATE, "true");

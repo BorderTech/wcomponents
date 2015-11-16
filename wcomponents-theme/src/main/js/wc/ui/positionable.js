@@ -360,8 +360,6 @@ define(["wc/dom/getViewportSize", "wc/dom/getBox", "wc/dom/uid", "wc/dom/event",
 					func = "setPosition";
 
 				if (conf) {
-					width = conf.width;
-					height = conf.height;
 					topOffset = (conf.topOffsetPC !== undefined) ? conf.topOffsetPC : topOffset;  // if the top offset is not specified then position the element so that it is at the top of the relative component
 					leftOffset = (conf.leftOffsetPC !== undefined) ? conf.leftOffsetPC : leftOffset;  // if the left offset is not specified then position the element so that it is in the middle of the relative component
 					relativeTo = conf.relativeTo;
@@ -376,22 +374,9 @@ define(["wc/dom/getViewportSize", "wc/dom/getBox", "wc/dom/uid", "wc/dom/event",
 					++positionedBySize.length;
 				}
 
-				if (!(width && height)) {
-					if (_el.style.width) {
-						width = parseFloat(_el.style.width.replace(UNIT, ""));
-					}
-					else {
-						box = getBox(_el);
-						width = box.width;
-					}
-					if (_el.style.height) {
-						height = parseFloat(_el.style.height.replace(UNIT, ""));
-					}
-					else {
-						box = box || getBox(_el);
-						height = box.height;
-					}
-				}
+				box = getBox(_el);
+				width = box.width;
+				height = box.height;
 
 				if (relativeTo) {
 					top = relSize.top + ((relSize.height - height) * topOffset);
@@ -518,8 +503,6 @@ define(["wc/dom/getViewportSize", "wc/dom/getBox", "wc/dom/uid", "wc/dom/event",
 		 *
 		 * @typedef {Object} module:wc/ui/positionable~setBySizeConfig
 		 *
-		 * @property {int} [width] The width of the element being positioned. If not set then this is calculated.
-		 * @property {int} [height] The height of the element being positioned. If not set then this is calculated.
 		 * @property {Element} [relativeTo] If set then position the element relative to this target, otherwise
 		 *    position it relative to the viewport.
 		 * @property {float} [topOffsetPC] If set then the element is positioned such that the top of the element is

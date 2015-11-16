@@ -24,7 +24,7 @@ import java.util.Calendar;
 import java.util.List;
 
 /**
- * A more complex example of {@link SubordinateControlBuilder} usage.
+ * A more complex example of {@link SubordinateBuilder} usage.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0

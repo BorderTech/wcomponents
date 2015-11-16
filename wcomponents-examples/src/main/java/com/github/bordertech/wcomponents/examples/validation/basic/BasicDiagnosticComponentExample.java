@@ -14,7 +14,7 @@ import java.util.List;
 
 /**
  * <p>
- * An example of the {@link WDiagnosticImpl} class. This type of diagnostic provides a {@link WComponent} that
+ * An example of the {@link DiagnosticImpl} class. This type of diagnostic provides a {@link WComponent} that
  * represents the message. The {@link WValidationErrors} component renderes the {@link WComponent} in place of the
  * description (old behaviour).</p>
  *
@@ -82,8 +82,7 @@ public class BasicDiagnosticComponentExample extends ValidationContainer {
 	}
 
 	/**
-	 * A diagnostic error message component that contains a description of the error and a link. Use
-	 * {@link #setLinkAction(Action)} to set the action for the link to perfrom.
+	 * A diagnostic error message component that contains a description of the error and a link.
 	 *
 	 * @author Christina Harris
 	 */

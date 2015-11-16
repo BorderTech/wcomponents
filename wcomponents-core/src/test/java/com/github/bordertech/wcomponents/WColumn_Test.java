@@ -16,19 +16,25 @@ public class WColumn_Test extends AbstractWComponentTestCase {
 	public void testConstructor1() {
 		WColumn col = new WColumn();
 		Assert.
-				assertEquals("Incorrect default width percentage from constructor", 1, col.
+				assertEquals("Incorrect default width percentage from constructor", "1%", col.
 						getWidth());
 	}
 
 	@Test
 	public void testConstructor2() {
 		WColumn col = new WColumn(10);
-		Assert.assertEquals("Incorrect width percentage from constructor", 10, col.getWidth());
+		Assert.assertEquals("Incorrect width percentage from constructor", "10%", col.getWidth());
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testConstructor2Invalid() {
 		new WColumn(0);
+	}
+
+	@Test
+	public void testConstructor3() {
+		WColumn col = new WColumn("10em");
+		Assert.assertEquals("Incorrect width from constructor", "10em", col.getWidth());
 	}
 
 	@Test
@@ -39,7 +45,12 @@ public class WColumn_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testWidthAccessors() {
-		assertAccessorsCorrect(new WColumn(10), "width", 10, 2, 3);
+		assertAccessorsCorrect(new WColumn(10), "width", "10%", "20%", "30%");
+	}
+
+	@Test
+	public void testWidthStringAccessors() {
+		assertAccessorsCorrect(new WColumn("10em"), "width", "10em", "2px", "3px");
 	}
 
 	@Test
@@ -47,10 +58,21 @@ public class WColumn_Test extends AbstractWComponentTestCase {
 		WColumn col = new WColumn(10);
 
 		col.setWidth(1);
-		Assert.assertEquals("Incorrect width percentage from setter 1", 1, col.getWidth());
+		Assert.assertEquals("Incorrect width percentage from setter 1", "1%", col.getWidth());
 
 		col.setWidth(100);
-		Assert.assertEquals("Incorrect width percentage from setter 100", 100, col.getWidth());
+		Assert.assertEquals("Incorrect width percentage from setter 100", "100%", col.getWidth());
+	}
+
+	@Test
+	public void testSetWidthAsStringRange() {
+		WColumn col = new WColumn("10em");
+
+		col.setWidth("20%");
+		Assert.assertEquals("Incorrect width percentage from setter 20%", "20%", col.getWidth());
+
+		col.setWidth("100px");
+		Assert.assertEquals("Incorrect width percentage from setter 100px", "100px", col.getWidth());
 	}
 
 	@Test(expected = IllegalArgumentException.class)

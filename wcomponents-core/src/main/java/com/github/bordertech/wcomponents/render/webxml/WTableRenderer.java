@@ -386,11 +386,11 @@ final class WTableRenderer extends AbstractWebXmlRenderer {
 	private void paintColumnHeading(final WTableColumn col, final boolean sortable,
 			final WebXmlRenderContext renderContext) {
 		XmlStringBuilder xml = renderContext.getWriter();
-		int width = col.getWidth();
+		String width = col.getWidth();
 		Alignment align = col.getAlign();
 
 		xml.appendTagOpen("ui:th");
-		xml.appendOptionalAttribute("width", width > 0, width);
+		xml.appendOptionalAttribute("width", width);
 		xml.appendOptionalAttribute("sortable", sortable, "true");
 
 		if (Alignment.RIGHT.equals(align)) {

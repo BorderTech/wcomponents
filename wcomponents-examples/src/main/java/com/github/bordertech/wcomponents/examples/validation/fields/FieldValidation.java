@@ -18,12 +18,12 @@ import com.github.bordertech.wcomponents.validation.WValidationErrors;
  * validation errors then visibility is given to a simple component to show the success. </p>
  *
  * <p>
- * Note the additional validation
+ * Note the additional validation:
+ * </p>
  * <ul>
  * <li>WTextField will only accept alphabetic characters</li>
  * <li>WDateField ensures that the date enter is before today</li>
  * </ul>
- * </p>
  *
  *
  * @author Adam Millard

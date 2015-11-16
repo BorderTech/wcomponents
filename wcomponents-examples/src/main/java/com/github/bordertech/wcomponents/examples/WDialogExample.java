@@ -221,6 +221,20 @@ public class WDialogExample extends WPanel implements MessageContainer {
 				"Show dialog with specified height (150px)"));
 		dialogWithHeight.setHeight(150);
 		/*
+		 * SET THE WIDTH of a dialog
+		 * If not set explicitly, the initial width of a dialog is determined by the UI theme.
+		 */
+		final WDialog dialogWithWidthStr = new WDialog(new ViewPersonList(), new WButton(
+				"Show dialog with specified width ('30em')"));
+		dialogWithWidthStr.setWidth("30em");
+		/*
+		 * SET THE HEIGHT of a dialog
+		 * If not set explicitly, the initial width of a dialog is determined by the UI theme.
+		 */
+		final WDialog dialogWithHeightStr = new WDialog(new ViewPersonList(), new WButton(
+				"Show dialog with specified height ('15em')"));
+		dialogWithHeightStr.setHeight("15em");
+		/*
 		 * Make Modal
 		 * If not set explicitly, the initial width of a dialog is determined by the UI theme.
 		 */
@@ -234,7 +248,9 @@ public class WDialogExample extends WPanel implements MessageContainer {
 		add(dialogWithTitle);
 		add(fixedSizeDialog);
 		add(dialogWithWidth);
+		add(dialogWithWidthStr);
 		add(dialogWithHeight);
+		add(dialogWithHeightStr);
 		add(dialogWithMode);
 
 		add(new WHeading(WHeading.MAJOR, "Dialogs which open without page reload"));

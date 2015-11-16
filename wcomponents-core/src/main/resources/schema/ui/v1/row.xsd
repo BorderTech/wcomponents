@@ -46,17 +46,10 @@
 								<xs:documentation>Indicates that the component should take part in web analytics tracking.</xs:documentation>
 							</xs:annotation>
 						</xs:attribute>
-						<xs:attribute name="width" use="required">
+						<xs:attribute name="width" use="required" type="xs:string">
 							<xs:annotation>
-								<xs:documentation>The width attribute int is deemed to be a percentage where the width of the column (not allowing for hgap) is @width% of the width
-									of the row. </xs:documentation>
+								<xs:documentation>The width attribute is expected to be a CSS dimension. </xs:documentation>
 							</xs:annotation>
-							<xs:simpleType>
-								<xs:restriction base="xs:int">
-									<xs:minInclusive value="1" />
-									<xs:maxInclusive value="100" />
-								</xs:restriction>
-							</xs:simpleType>
 						</xs:attribute>
 						<xs:attribute name="align">
 							<xs:annotation>

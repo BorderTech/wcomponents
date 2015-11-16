@@ -17,16 +17,19 @@
 		</xsl:choose>
 		<xsl:text>"</xsl:text>
 		<xsl:if test="@class">
-			<xsl:text>,"className":</xsl:text>
+			<xsl:text>,"className":"</xsl:text>
 			<xsl:value-of select="@class"/>
+			<xsl:text>"</xsl:text>
 		</xsl:if>
 		<xsl:if test="@width">
-			<xsl:text>,"width":</xsl:text>
+			<xsl:text>,"width":"</xsl:text>
 			<xsl:value-of select="@width"/>
+			<xsl:text>"</xsl:text>
 		</xsl:if>
 		<xsl:if test="@height">
-			<xsl:text>,"height":</xsl:text>
+			<xsl:text>,"height":"</xsl:text>
 			<xsl:value-of select="@height"/>
+			<xsl:text>"</xsl:text>
 		</xsl:if>
 		<xsl:if test="@resizable">
 			<xsl:text>,"resizable":</xsl:text>

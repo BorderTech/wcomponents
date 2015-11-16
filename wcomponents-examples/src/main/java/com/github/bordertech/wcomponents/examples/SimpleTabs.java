@@ -15,7 +15,7 @@ import com.github.bordertech.wcomponents.WText;
  * displayed in the space below the buttons. Use the addTab method to add a tab to this component.</p>
  *
  * <p>
- * NOTE: If using the theme css &amp javascript, it is better to use a
+ * NOTE: If using the theme css &amp; javascript, it is better to use a
  * {@link com.github.bordertech.wcomponents.WTabSet}.</p>
  *
  * @author Martin Shevchenko
