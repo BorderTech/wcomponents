@@ -6,7 +6,7 @@
 
 	<groupId>com.github.bordertech.wcomponents</groupId>
 	<artifactId>wcomponents-parent</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.2-SNAPSHOT</version>
 
 	<packaging>pom</packaging>
 
@@ -23,6 +23,10 @@
 		<findbugs.skip>${wc.qa.skip}</findbugs.skip>
 		<surefire.version>2.19</surefire.version>
 		<jetty.version>8.1.16.v20140903</jetty.version>
+		<stagingBaseUrl>https://oss.sonatype.org/</stagingBaseUrl>
+		<stagingUrl>${stagingBaseUrl}service/local/staging/deploy/maven2/</stagingUrl>
+		<snapshotUrl>${stagingBaseUrl}content/repositories/snapshots</snapshotUrl>
+		<stagingId>ossrh</stagingId>
 	</properties>
 
 	<licenses>
@@ -33,6 +37,19 @@
 			<comments>GNU General Public License</comments>
 		</license>
 	</licenses>
+	
+	<!-- description is a required section for Maven Central -->
+	<description>Accessible Web UI Framework for Enterprise</description>
+	
+	<!-- url is a required section for Maven Central -->
+	<url>http://bordertech.github.io/wcomponents/</url>
+	
+	<!-- developers is a required section for Maven Central -->
+	<developers>
+		<developer>
+			<url>https://github.com/BorderTech</url>
+		</developer>
+	</developers>
 
 	<scm>
 		<url>https://github.com/bordertech/wcomponents</url>
@@ -51,6 +68,35 @@
 		<url>https://travis-ci.org/BorderTech/wcomponents/</url>
 	</ciManagement>
 
+	<distributionManagement>
+		<snapshotRepository>
+			<id>${stagingId}</id>
+			<url>${snapshotUrl}</url>
+		</snapshotRepository>
+		<repository>
+			<id>${stagingId}</id>
+			<url>${stagingUrl}</url>
+		</repository>
+		<!--
+		<site>
+			<id>sites</id>
+			<name>sites</name>
+			<url>${sitesUrl}</url>
+		</site>
+		-->
+	</distributionManagement>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<scope>test</scope>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>${wcomponents.junit.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
 	<profiles>
 		<profile>
 			<id>skipAllTests</id>
@@ -64,11 +110,37 @@
 				<skipOptionalTests>true</skipOptionalTests>
 			</properties>
 		</profile>
+
+		<profile>
+			<!--
+			The build cannot release to maven central without configuring several secrets in settings.xml
+			Read here: https://github.com/BorderTech/wcomponents/wiki/Releasing
+			-->
+			<id>release</id>
+			<build>
+				<!-- Could move sources generation here, javadoc too, site? -->
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>1.6</version>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
 	</profiles>
 
 	<build>
 		<plugins>
-			
 			<!-- Compile the java source. -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -76,20 +148,28 @@
 				<version>3.3</version>
 			</plugin>
 			
+			<plugin>
+				<!-- A release to Maven Central MUST include javadoc Jars - even if they are dummy jars, they must be there -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
 			<!-- Create jar of the source files. -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
-				<version>2.4</version>
 				<configuration>
 					<includes>
 						<include>**/*.java</include>
 					</includes>
-					<archive>
-						<manifestEntries>
-							<Built-By></Built-By>
-						</manifestEntries>
-					</archive>
 				</configuration>
 				<executions>
 					<execution>
@@ -114,12 +194,11 @@
 					</execution>
 				</executions>
 			</plugin>
-			
+
 			<!-- Build jars. -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
-				<version>2.6</version>
 				<executions>
 					<execution>
 						<goals>
@@ -130,13 +209,6 @@
 						</configuration>
 					</execution>
 				</executions>
-				<configuration>
-					<archive>
-						<manifestEntries>
-							<Built-By></Built-By>
-						</manifestEntries>
-					</archive>
-				</configuration>
 			</plugin>
 
 			<!-- Generate the site. -->
@@ -166,46 +238,46 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
 				<version>2.17</version>
+				<configuration>
+					<configLocation>../sun_checks_wc.xml</configLocation>
+					<consoleOutput>true</consoleOutput>
+					<failsOnError>true</failsOnError>
+					<linkXRef>false</linkXRef>
+					<includeTestSourceDirectory>false</includeTestSourceDirectory>
+				</configuration>
 				<executions>
 					<execution>
 						<id>checkStyle</id>
 						<phase>verify</phase>
-						<configuration>
-							<configLocation>../sun_checks_wc.xml</configLocation>
-							<consoleOutput>true</consoleOutput>
-							<failsOnError>true</failsOnError>
-							<linkXRef>false</linkXRef>
-							<includeTestSourceDirectory>false</includeTestSourceDirectory>
-						</configuration>
 						<goals>
 							<goal>check</goal>
 						</goals>
 					</execution>
 				</executions>
 			</plugin>
-			
+
 			<!-- PMD Check. -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-pmd-plugin</artifactId>
 				<version>3.5</version>
+				<configuration>
+					<failurePriority>2</failurePriority>
+					<printFailingErrors>true</printFailingErrors>
+					<includeTests>false</includeTests>
+					<format>xml</format>
+				</configuration>
 				<executions>
 					<execution>
 						<id>checkPmd</id>
 						<phase>verify</phase>
-						<configuration>
-							<failurePriority>2</failurePriority>
-							<printFailingErrors>true</printFailingErrors>
-							<includeTests>false</includeTests>
-							<format>xml</format>
-						</configuration>
 						<goals>
 							<goal>check</goal>
 						</goals>
 					</execution>
 				</executions>
 			</plugin>
-			
+
 			<!-- Findbugs check. -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
@@ -213,8 +285,8 @@
 				<version>3.0.2</version>
 				<configuration>
 					<effort>Max</effort>
-					<xmlOutput>true</xmlOutput>
-					<testClassFilesDirectory>false</testClassFilesDirectory>
+					<includeTests>false</includeTests>
+					<threshold>Medium</threshold>
 					<excludeFilterFile>../findbugs-exclude-filter.xml</excludeFilterFile>
 				</configuration>
 				<executions>
@@ -227,8 +299,165 @@
 					</execution>
 				</executions>
 			</plugin>
+
+			<!-- Generate Findbugs report (Does not support aggregate reports). -->
+			<!-- Run site twice to get Findbugs report.-->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.7</version>
+				<dependencies>
+					<dependency>
+						<groupId>com.google.code.findbugs</groupId>
+						<artifactId>findbugs</artifactId>
+						<version>3.0.1</version>
+					</dependency>
+				</dependencies>
+				<executions>
+					<execution>
+						<inherited>false</inherited>
+						<id>generateFindbugs</id>
+						<phase>site</phase>
+						<configuration>
+							<target>
+								<property name="plugin_classpath" refid="maven.plugin.classpath" />
+								<path id="project.class.path">
+									<path path="${maven.plugin.classpath}" />
+								</path>
+								<property name="builddir" value="${project.build.directory}" />
+								<property name="sitedir" value="${project.reporting.outputDirectory}" />
+
+								<taskdef name="merge" classname="edu.umd.cs.findbugs.anttask.UnionBugs" classpathref="project.class.path" />
+								<taskdef name="generate" classname="edu.umd.cs.findbugs.anttask.ConvertXmlToTextTask" classpathref="project.class.path" />
+
+								<echo message="Findbugs - Merge findbug results." />
+								<merge to="${builddir}/findbugs-report.xml">
+									<fileset dir="${basedir}">
+										<include name="**/target/findbugs-rep/findbugsXml.xml" />
+									</fileset>
+								</merge>
+
+								<echo message="Findbugs - Generate findbugs report." />
+								<generate inputFile="${builddir}/findbugs-report.xml" outputFile="${sitedir}/findbugs-report.html" format="html:plain.xsl">
+									<classpath path="${plugin_classpath}" />
+								</generate>
+
+								<echo message="Findbugs - Report complete." />
+							</target>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 			
+			<!-- Generate badges. -->
+			<!-- Run site twice for badges. -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>xml-maven-plugin</artifactId>
+				<version>1.0</version>
+				<inherited>false</inherited>
+				<executions>
+					<execution>
+						<phase>site</phase>
+						<goals>
+							<goal>transform</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<transformationSets>
+						<transformationSet>
+							<dir>target</dir>
+							<includes>
+								<include>pmd.xml</include>
+								<include>findbugs-report.xml</include>
+								<include>checkstyle-result.xml</include>
+							</includes>
+							<fileMappers>
+								<fileMapper implementation="org.codehaus.plexus.components.io.filemappers.FileExtensionMapper">
+									<targetExtension>.svg</targetExtension>
+								</fileMapper>
+							</fileMappers>
+							<stylesheet>badges.xsl</stylesheet>
+							<outputDir>target/site/badges</outputDir>
+						</transformationSet>
+					</transformationSets>
+				</configuration>
+			</plugin>
+			
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>2.5.3</version>
+				<configuration>
+					<autoVersionSubmodules>true</autoVersionSubmodules>
+					<useReleaseProfile>false</useReleaseProfile>
+					<!-- need this for gpg plugin to work correctly -->
+					<mavenExecutorId>forked-path</mavenExecutorId>
+					<releaseProfiles>release</releaseProfiles>
+				</configuration>
+			</plugin>
 		</plugins>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<artifactId>maven-assembly-plugin</artifactId>
+					<configuration>
+						<archive>
+							<manifestEntries>
+								<Built-By />
+							</manifestEntries>
+						</archive>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-source-plugin</artifactId>
+					<version>2.4</version>
+					<configuration>
+						<archive>
+							<manifestEntries>
+								<Built-By />
+							</manifestEntries>
+						</archive>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jar-plugin</artifactId>
+					<version>2.6</version>
+					<configuration>
+						<archive>
+							<manifestEntries>
+								<Built-By />
+							</manifestEntries>
+						</archive>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-javadoc-plugin</artifactId>
+					<version>2.10.3</version>
+					<configuration>
+						<archive>
+							<manifestEntries>
+								<Built-By />
+							</manifestEntries>
+						</archive>
+						<charset>UTF-8</charset>
+						<encoding>UTF-8</encoding>
+						<docencoding>UTF-8</docencoding>
+						<breakiterator>true</breakiterator>
+						<version>true</version>
+						<keywords>true</keywords>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 	</build>
 
 	<reporting>
@@ -250,7 +479,7 @@
 					</reportSet>
 				</reportSets>
 			</plugin>
-			
+
 			<!-- Self Aggregating. Plugin automatically aggregates the sub modules. -->
 			<!-- Produce a cross-reference of the project's source. (Self Aggregating). -->
 			<plugin>
@@ -275,7 +504,7 @@
 					</reportSet>
 				</reportSets>
 			</plugin>
-			
+
 			<!-- Generate Javadoc. (Self Aggregating)-->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -302,29 +531,9 @@
 					</reportSet>
 				</reportSets>
 			</plugin>
-
-			<!-- Generate the Checkstyle report. (Self Aggregating) -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-checkstyle-plugin</artifactId>
-				<version>2.17</version>
-				<reportSets>
-					<reportSet>
-						<inherited>false</inherited>
-						<configuration>
-							<skip>false</skip>
-							<configLocation>sun_checks_wc.xml</configLocation>
-							<consoleOutput>true</consoleOutput>
-							<excludes>**/wcomponents/qa/**/*.java,**/wcomponents/examples/**/*.java</excludes>
-						</configuration>
-						<reports>
-							<report>checkstyle-aggregate</report>
-						</reports>
-					</reportSet>
-				</reportSets>
-			</plugin>
-
+			
 			<!-- Generate the web interface version of the test results (Aggregate Parameter). -->
+			<!-- Run site twice to get correct results. -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-report-plugin</artifactId>
@@ -341,24 +550,50 @@
 					</reportSet>
 				</reportSets>
 			</plugin>
+			
+			
+			<!-- QA Reports. -->
+			<!-- Generate the Checkstyle report. (Self Aggregating) -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>2.17</version>
+				<configuration>
+					<skip>false</skip>
+					<configLocation>sun_checks_wc.xml</configLocation>
+					<consoleOutput>true</consoleOutput>
+					<!-- Exclude because of aggregate reports. -->
+					<excludes>**/wcomponents/qa/**/*.java,**/wcomponents/examples/**/*.java</excludes>
+					<headerFile />
+				</configuration>
+				<reportSets>
+					<reportSet>
+						<inherited>false</inherited>
+						<reports>
+							<report>checkstyle-aggregate</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
 
 			<!-- PMD and CPD Reports (Aggregate Parameter). -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-pmd-plugin</artifactId>
 				<version>3.5</version>
+				<configuration>
+					<skip>false</skip>
+					<aggregate>true</aggregate>
+					<failurePriority>5</failurePriority>
+					<!-- Exclude because of aggregate reports. -->
+					<excludes>
+						<exclude>**/wcomponents/qa/**/*.java</exclude>
+						<exclude>**/wcomponents/examples/**/*.java</exclude>
+					</excludes>
+				</configuration>
 				<reportSets>
 					<reportSet>
 						<inherited>false</inherited>
-						<configuration>
-							<aggregate>true</aggregate>
-							<failurePriority>5</failurePriority>
-							<skip>false</skip>
-							<excludes>
-								<exclude>**/wcomponents/qa/**/*.java</exclude>
-								<exclude>**/wcomponents/examples/**/*.java</exclude>
-							</excludes>
-						</configuration>
 						<reports>
 							<report>pmd</report>
 							<report>cpd</report>
@@ -367,47 +602,22 @@
 				</reportSets>
 			</plugin>
 
-			<!-- Generate Findbugs report (Does not support aggregate reports). -->
+			<!-- Generate Findbugs reports. (Does not support aggregate.) -->
+			<!-- Run site twice to get Findbugs report.-->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>findbugs-maven-plugin</artifactId>
 				<version>3.0.2</version>
 				<configuration>
-					<failOnError>false</failOnError>
-					<threshold>Low</threshold>
+					<skip>false</skip>
 					<effort>Max</effort>
-					<excludes>
-						<exclude>**/wcomponents/qa/**/*.java</exclude>
-						<exclude>**/wcomponents/examples/**/*.java</exclude>
-					</excludes>
-					<testClassFilesDirectory>false</testClassFilesDirectory>
+					<includeTests>false</includeTests>
 					<excludeFilterFile>findbugs-exclude-filter.xml</excludeFilterFile>
+					<threshold>Low</threshold>
+					<failOnError>false</failOnError>
+					<findbugsXmlOutputDirectory>${project.build.directory}/findbugs-rep</findbugsXmlOutputDirectory>
 				</configuration>
 			</plugin>
-
-			<!-- Generate Cobertura Report. (Aggregate Parameter). -->
-			<!--
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>cobertura-maven-plugin</artifactId>
-				<version>2.7</version>
-				<reportSets>
-					<reportSet>
-						<id>cobertura</id>
-						<reports>
-							<report>cobertura</report>
-						</reports>
-						<configuration>
-							<aggregate>true</aggregate>
-							<formats>
-								<format>html</format>
-								<format>xml</format>
-							</formats>
-						</configuration>
-					</reportSet>
-				</reportSets>
-			</plugin>
-			-->
 
 		</plugins>
 	</reporting>
@@ -423,29 +633,5 @@
 		<module>wcomponents-theme-parent</module>
 		<module>wcomponents-bundle</module>
 	</modules>
-
-	<distributionManagement>
-		<repository>
-			<id>staging-repository</id>
-			<name>staging-repository</name>
-			<url>${stagingUrl}</url>
-		</repository>
-		<site>
-			<id>sites</id>
-			<name>sites</name>
-			<url>${sitesUrl}</url>
-		</site>
-	</distributionManagement>
-
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<scope>test</scope>
-				<groupId>junit</groupId>
-				<artifactId>junit</artifactId>
-				<version>${wcomponents.junit.version}</version>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
 
 </project>

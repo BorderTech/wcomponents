@@ -6,6 +6,11 @@
 -->
 <FindBugsFilter>
 
+	<!-- Exclude example code. -->
+	<Match>
+		<Class name="~com.github.bordertech.wcomponents.examples.*" />
+	</Match>
+
 	<!-- Standard WComponents ComponentModels must not override equals or hashcode. -->
 	<Match>
 		<Class name="~com.github.bordertech.wcomponents.*\$*Model" />

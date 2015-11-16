@@ -5,13 +5,14 @@ import com.github.bordertech.wcomponents.WHorizontalRule;
 import com.github.bordertech.wcomponents.WLabel;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WProgressBar;
+import com.github.bordertech.wcomponents.WSkipLinks;
 import com.github.bordertech.wcomponents.WTextField;
 import com.github.bordertech.wcomponents.layout.FlowLayout;
 import com.github.bordertech.wcomponents.layout.FlowLayout.Alignment;
 
 /**
  * <p>
- * This example demonstrates the {@link WSkiplinks} component.</p>
+ * This example demonstrates the {@link WSkipLinks} component.</p>
  *
  * <p>
  * WSkipLinks is a component which has a heading and a list of internal links. These links will move the cursor point to
