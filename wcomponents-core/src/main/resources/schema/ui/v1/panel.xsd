@@ -242,7 +242,7 @@
 										<xs:documentation>Provides information for the rendering of each column in the layout.</xs:documentation>
 									</xs:annotation>
 									<xs:complexType>
-										<xs:attribute name="width" use="required">
+										<xs:attribute name="width">
 											<xs:annotation>
 												<xs:documentation>The width of the column as a percentage ofthe available space.</xs:documentation>
 											</xs:annotation>

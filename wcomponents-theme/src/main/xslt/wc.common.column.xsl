@@ -28,8 +28,10 @@
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:attribute>
-			<xsl:attribute name="style">
-				<xsl:value-of select="concat('width:',$width,'%;')"/>
+			<xsl:variable name="style">
+				<xsl:if test="$width and $width != 0">
+					<xsl:value-of select="concat('width:',$width,'%;')"/>
+				</xsl:if>
 				<xsl:if test="$hgap != 0">
 					<xsl:if test="self::ui:cell or position() &gt; 1">
 						<xsl:value-of select="concat('padding-left:',$hgap,';')"/>
@@ -38,7 +40,12 @@
 						<xsl:value-of select="concat('padding-right:',$hgap,';')"/>
 					</xsl:if>
 				</xsl:if>
-			</xsl:attribute>
+			</xsl:variable>
+			<xsl:if test="$style != ''">
+				<xsl:attribute name="style">
+					<xsl:value-of select="$style"/>
+				</xsl:attribute>
+			</xsl:if>
 			<xsl:apply-templates/>
 		</div>
 	</xsl:template>
