@@ -15,7 +15,7 @@
 	<xsl:template match="ui:cell" mode="clRow">
 		<xsl:param name="align"/>
 		<xsl:param name="width"/>
-		<xsl:param name="hgap"/>
+		<xsl:param name="hgap"/> 
 		<xsl:param name="vgap"/>
 		<xsl:param name="cols"/>
 		<div class="{local-name(.)} wc_row">
@@ -37,16 +37,16 @@
 						</xsl:otherwise>
 					</xsl:choose>
 				</xsl:attribute>
-				<xsl:attribute name="style">
-					<xsl:text>width:</xsl:text>
-					<xsl:value-of select="$width"/>
-					<xsl:text>%;</xsl:text>
-					<xsl:if test="$hgap != 0">
-						<xsl:text>padding-right:</xsl:text>
-						<xsl:value-of select="$hgap"/>
-						<xsl:text>;</xsl:text>
-					</xsl:if>
-				</xsl:attribute>
+				<xsl:if test="$width != 0 or $hgap != 0">
+					<xsl:attribute name="style">
+						<xsl:if test="$width != 0">
+							<xsl:value-of select="concat('width:', $width, '%;')"/>
+						</xsl:if>
+						<xsl:if test="$hgap != 0">
+							<xsl:value-of select="concat('padding-right:', $hgap, ';')"/>
+						</xsl:if>
+					</xsl:attribute>
+				</xsl:if>
 				<xsl:apply-templates/>
 			</div>
 			<xsl:if test="$cols &gt; 1">
