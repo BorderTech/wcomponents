@@ -40,7 +40,7 @@ loader as early versions of IE are rubbish at using CSS loaded by JavaScript.
 * The preferred line length is 120 characters but this is flexible within sensible limits - go over by a bit if you have
   to to keep a selector on one line.
 * Sass should be linted. The lint rules are here to make the SCSS more readable for humans and are mostly the defaults
-  for scss-lint; exceptions to which are documented in the included ``.scss-lint.yaml` configuration file.
+  for scss-lint; exceptions to which are documented in the included `.scss-lint.yaml` configuration file.
 * Local variations in scss-lint rules are allowed but must be commented. Most commonly this would be to allow local
   !important rules.
 
@@ -74,7 +74,6 @@ loader as early versions of IE are rubbish at using CSS loaded by JavaScript.
     line-height: -2px; // This is needed for ...
     // ....
     }
-/* end wc.my.component.scss */
 ```
 
 ## Media rules and specific CSS: when to use which
@@ -84,9 +83,9 @@ For this reason we put most platform specific CSS into \*.dt.scss or pattern\_\*
 media queries are warranted: one may, for example, want to apply a different appearance on a desktop if the browser
 window has been made small or if the monitor is huge or dense. We also add generic mobile CSS into the core Sass files using media queries.
 
-The file mixins_respond.scss has some skeletal mixins for applying some @media based CSS. Feel free to extend these!
+The file mixins_respond.scss has some skeletal mixins for applying some `@media` based CSS. Feel free to extend these!
 
-The take-home message of this is: there is no hard and fast rule for when to use @media compared with a platform
+The take-home message of this is: there is no hard and fast rule for when to use `@media` compared with a platform
 specific file. Just use your common sense and try to keep the amount of CSS sent to the browser to a minimum as there is
 already too much of it.
 
