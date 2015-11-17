@@ -14,8 +14,8 @@
 	-->
 	<xsl:template match="ui:cell" mode="clRow">
 		<xsl:param name="align"/>
-		<xsl:param name="width" select="0"/>
-		<xsl:param name="hgap" select="0"/><!-- $hgap may be null so do not remove seemingly superfluous default --> 
+		<xsl:param name="width"/>
+		<xsl:param name="hgap"/> 
 		<xsl:param name="vgap"/>
 		<xsl:param name="cols"/>
 		<div class="{local-name(.)} wc_row">
