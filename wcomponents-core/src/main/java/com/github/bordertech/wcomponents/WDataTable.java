@@ -230,7 +230,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 		add(actions);
 
 		repeater.setRepeatedComponent(new WDataTableRowRenderer(this));
-		repeater.setBeanProvider(new DataModelBeanProvider());
+		repeater.setBeanProvider(new DataModelBeanProvider(this));
 	}
 
 	/**
@@ -314,7 +314,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 		getOrCreateComponentModel().rowIndexMapping = null;
 
 		if (dataModel instanceof BeanTableDataModel) {
-			((BeanTableDataModel) dataModel).setBeanProvider(new DataTableBeanProvider());
+			((BeanTableDataModel) dataModel).setBeanProvider(new DataTableBeanProvider(this));
 			((BeanTableDataModel) dataModel).setBeanProperty(".");
 		}
 
@@ -1440,14 +1440,23 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	/**
 	 * A bean provider implementation which uses the bean bound to the table.
 	 */
-	private final class DataTableBeanProvider implements BeanProvider, Serializable {
+	private static final class DataTableBeanProvider implements BeanProvider, Serializable {
+
+		private final WDataTable table;
+
+		/**
+		 * @param table the parent table
+		 */
+		private DataTableBeanProvider(final WDataTable table) {
+			this.table = table;
+		}
 
 		/**
 		 * {@inheritDoc}
 		 */
 		@Override
 		public Object getBean(final BeanProviderBound beanProviderBound) {
-			return WDataTable.this.getBeanValue();
+			return table.getBeanValue();
 		}
 	}
 
@@ -1455,14 +1464,23 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 * A bean provider implementation which provides beans to the table repeater. This provider takes the table's
 	 * pagination state into account, so that only visible rows are rendered.
 	 */
-	private final class DataModelBeanProvider implements BeanProvider, Serializable {
+	private static final class DataModelBeanProvider implements BeanProvider, Serializable {
+
+		private final WDataTable table;
+
+		/**
+		 * @param table the parent table
+		 */
+		private DataModelBeanProvider(final WDataTable table) {
+			this.table = table;
+		}
 
 		/**
 		 * {@inheritDoc}
 		 */
 		@Override
 		public Object getBean(final BeanProviderBound beanProviderBound) {
-			TableDataModel dataModel = getDataModel();
+			TableDataModel dataModel = table.getDataModel();
 
 			if (dataModel.getRowCount() == 0) {
 				return Collections.emptyList();
@@ -1471,12 +1489,12 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 			int startIndex = 0;
 			int endIndex = dataModel.getRowCount() - 1;
 
-			switch (getPaginationMode()) {
+			switch (table.getPaginationMode()) {
 				case DYNAMIC:
 				case SERVER: {
-					int rowsPerPage = getRowsPerPage();
-					int currentPage = getCurrentPage();
-					int rowCount = getComponentModel().getPaginationRowCount();
+					int rowsPerPage = table.getRowsPerPage();
+					int currentPage = table.getCurrentPage();
+					int rowCount = table.getComponentModel().getPaginationRowCount();
 
 					startIndex = Math.min(currentPage * rowsPerPage,
 							rowCount - (rowCount % rowsPerPage));
@@ -1501,7 +1519,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 				return Collections.EMPTY_LIST;
 			}
 
-			return getRowIds(startIndex, endIndex);
+			return table.getRowIds(startIndex, endIndex);
 		}
 	}
 

@@ -1,4 +1,7 @@
 [![Build Status](https://travis-ci.org/BorderTech/wcomponents.svg?branch=master)](https://travis-ci.org/BorderTech/wcomponents)
+[![PMD](badges/pmd.svg)](pmd.html)
+[![Checkstyle](badges/checkstyle-result.svg)](checkstyle-aggregate.html)
+[![Findbugs](badges/findbugs-report.svg)](findbugs-report.html)
 # wcomponents
 Accessible Web UI Framework for Enterprise
 

@@ -16,6 +16,9 @@
 			</xsl:if>
 			<xsl:attribute name="class">
 				<xsl:value-of select="local-name(.)"/>
+				<xsl:if test="@class">
+					<xsl:value-of select="concat(' ', @class)"/>
+				</xsl:if>
 				<xsl:choose>
 					<xsl:when test="$align">
 						<xsl:value-of select="concat(' ',$align)"/>

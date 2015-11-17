@@ -673,7 +673,10 @@ define(["sprintf/sprintf",
 			 * @param {Object} response The ajax response.
 			 */
 			this.callback = function(response) {
-				handleResponse($self, response, trigger, false);
+				// response would be null if the XML has already been transformed to HTML on the server
+				// or in the case of IE it will be an "empty" XML DOM.
+				var payload = (response && response.documentElement) ? response : this.responseText;
+				handleResponse($self, payload, trigger, false);
 			};
 
 			this.onError = function(response) {

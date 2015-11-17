@@ -30,6 +30,7 @@ final class WDecoratedLabelRenderer extends AbstractWebXmlRenderer {
 
 		xml.appendTagOpen("ui:decoratedLabel");
 		xml.appendAttribute("id", component.getId());
+		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
 		xml.appendOptionalAttribute("hidden", label.isHidden(), "true");
 		xml.appendClose();

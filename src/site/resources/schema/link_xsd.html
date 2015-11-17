@@ -462,7 +462,7 @@ var modelBoxes= new Array('model_link');
                            <div id="instance_link" style="display:block">
                               <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
                                  <tr>
-                                    <td width="100%"><pre><span class="tEl">&lt;ui:link</span><span class="tT"> </span><span class="tAN">accessibleText=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">accessKey=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">disabled=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">imagePosition=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">imageUrl=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">rel=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">tabIndex=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">toolTip=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">url=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xmlns:ui=</span><span class="tAV">"https://github.com/bordertech/wcomponents/namespace/ui/v1.0"</span><span class="tEl">&gt;</span><span class="tI">
+                                    <td width="100%"><pre><span class="tEl">&lt;ui:link</span><span class="tT"> </span><span class="tAN">accessibleText=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">accessKey=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">disabled=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">imagePosition=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">imageUrl=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">rel=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">tabIndex=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">toolTip=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">url=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xmlns:ui=</span><span class="tAV">"https://github.com/bordertech/wcomponents/namespace/ui/v1.0"</span><span class="tEl">&gt;</span><span class="tI">
   </span><span class="tEl">&lt;ui:windowAttributes</span><span class="tT"> </span><span class="tAN">height=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">left=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">name=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">resizable=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">showDirectories=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">showLocation=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">showMenubar=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">showScrollbars=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">showStatus=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">showToolbar=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">top=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">width=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,1}</span><span class="tEl">&lt;/ui:windowAttributes&gt;</span><span class="tI">
 </span><span class="tEl">&lt;/ui:link&gt;</span></pre></td>
                                  </tr>
@@ -512,6 +512,14 @@ var modelBoxes= new Array('model_link');
                                     <td>optional</td>
                                     <td>
                                        <div class="annotation">Deprecated. Use toolTip instead.</div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="attributeGroups_control_xsd.html#interaction.attributes_class" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for attributeGroups.control.xsd')">class</a></b></td>
+                                    <td><b>xs:string</b></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">Provides the ability to pass an HTML class attribute onto the root output element.</div>
                                     </td>
                                  </tr>
                                  <tr>
@@ -568,7 +576,7 @@ var modelBoxes= new Array('model_link');
                                           resource. If not set then there is no special
                                           						relationship between the current document and the linked resource. If this is
                                           set then it should be set as per the HTML specification and limited to any one
-                                          						of, or a space separated list of: 
+                                          						of, or a space separated list of:
                                           						
                                           <ul xmlns="">
                                              							
@@ -1305,7 +1313,7 @@ var modelBoxes= new Array('model_link');
                                  resource. If not set then there is no special
                                  						relationship between the current document and the linked resource. If this is
                                  set then it should be set as per the HTML specification and limited to any one
-                                 						of, or a space separated list of: 
+                                 						of, or a space separated list of:
                                  						
                                  <ul xmlns="">
                                     							

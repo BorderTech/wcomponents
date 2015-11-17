@@ -25,7 +25,7 @@ buildNumber.properties
 nbactions-provisional-build.xml
 nbactions-release-profile.xml
 .netbeans_automatic_build
-nbproject/private/
+nbproject/
 build/
 nbbuild/
 dist/

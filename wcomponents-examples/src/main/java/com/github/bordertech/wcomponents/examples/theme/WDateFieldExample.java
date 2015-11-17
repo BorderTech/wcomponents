@@ -214,7 +214,7 @@ public class WDateFieldExample extends WContainer {
 	/**
 	 * Reflect the value of dateField in the read only version.
 	 *
-	 * @param request
+	 * @param request the request being processed
 	 */
 	@Override
 	protected void preparePaintComponent(final Request request) {

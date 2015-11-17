@@ -30,6 +30,7 @@ final class WProgressBarRenderer extends AbstractWebXmlRenderer {
 
 		xml.appendTagOpen("ui:progressBar");
 		xml.appendAttribute("id", component.getId());
+		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
 		xml.appendOptionalAttribute("hidden", progressBar.isHidden(), "true");
 		xml.appendAttribute("value", progressBar.getValue());

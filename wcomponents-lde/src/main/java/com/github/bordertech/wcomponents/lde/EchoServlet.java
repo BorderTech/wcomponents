@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents.lde;
 
+import com.github.bordertech.wcomponents.WebUtilities;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -48,18 +49,20 @@ public class EchoServlet extends HttpServlet {
 		writer.println("        <h1>Feedback Page</h1>");
 
 		String referer = req.getHeader("referer");
+		String refererUrl = WebUtilities.escapeForUrl(referer);
+
 		String exampleRoot = "";
 		if (referer != null) {
 			writer.println("        <h2>Referred from</h2>");
-			writer.println("        <p><a href='" + referer + "'>" + referer + "</a></p>");
-			exampleRoot = referer.substring(0, referer.lastIndexOf("/") + 1);
-			writer.println("        <p><a href='" + exampleRoot + "'>Back to example list</a></p>");
+			writer.println("        <p><a href='" + refererUrl + "'>" + refererUrl + "</a></p>");
+			exampleRoot = referer.substring(0, referer.lastIndexOf('/') + 1);
+			writer.println("        <p><a href='" + WebUtilities.escapeForUrl(exampleRoot) + "'>Back to example list</a></p>");
 		}
 
 		writer.println("        <h2>Form Method</h2>");
-		writer.println("        <p>" + req.getMethod() + "</p>");
+		writer.println("        <p>" + WebUtilities.encode(req.getMethod()) + "</p>");
 		writer.println("        <h2>Query String</h2>");
-		writer.println("        <p>" + req.getQueryString() + "</p>");
+		writer.println("        <p>" + WebUtilities.encode(req.getQueryString()) + "</p>");
 		writer.println("        <h2>Parameters</h2>");
 
 		Collections.sort(paramKeys);
@@ -68,8 +71,8 @@ public class EchoServlet extends HttpServlet {
 
 		for (String paramKey : paramKeys) {
 			for (String parameterValue : req.getParameterValues(paramKey)) {
-				writer.println("<tr><td>" + paramKey + "</td>");
-				writer.println("<td>" + parameterValue + "</td></tr>");
+				writer.println("<tr><td>" + WebUtilities.encode(paramKey) + "</td>");
+				writer.println("<td>" + WebUtilities.encode(parameterValue) + "</td></tr>");
 			}
 		}
 
@@ -79,7 +82,7 @@ public class EchoServlet extends HttpServlet {
 
 		for (Cookie cookie : req.getCookies()) {
 			writer.println(
-					"<tr><td>" + cookie.getName() + "</td><td>" + cookie.getValue() + "</td></tr>");
+					"<tr><td>" + WebUtilities.encode(cookie.getName()) + "</td><td>" + WebUtilities.encode(cookie.getValue()) + "</td></tr>");
 		}
 
 		writer.println("        </table>");
@@ -87,14 +90,14 @@ public class EchoServlet extends HttpServlet {
 		writer.println("        <table><tr><th>Name</th><th>Value</th></tr>");
 
 		for (String[] header : getRequestHeaders(req)) {
-			writer.println("<tr><td>" + header[0] + "</td>");
-			writer.println("<td>" + header[1] + "</td></tr>");
+			writer.println("<tr><td>" + WebUtilities.encode(header[0]) + "</td>");
+			writer.println("<td>" + WebUtilities.encode(header[1]) + "</td></tr>");
 		}
 
 		writer.println("        </table>");
 
-		if (exampleRoot != "") {
-			writer.println("        <p><a href='" + exampleRoot + "'>Back to example list</a></p>");
+		if (!("".equals(exampleRoot))) {
+			writer.println("        <p><a href='" + WebUtilities.encode(exampleRoot) + "'>Back to example list</a></p>");
 		}
 		writer.println("    </body>");
 		writer.println("</html>");

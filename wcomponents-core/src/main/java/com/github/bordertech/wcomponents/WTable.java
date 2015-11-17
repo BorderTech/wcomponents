@@ -235,7 +235,7 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 		add(actions);
 
 		repeater.setRepeatedComponent(new WTableRowRenderer(this));
-		repeater.setBeanProvider(new RepeaterRowIdBeanProvider());
+		repeater.setBeanProvider(new RepeaterRowIdBeanProvider(this));
 	}
 
 	/**
@@ -297,7 +297,7 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 
 		if (tableModel instanceof BeanBoundTableModel) {
 			((BeanBoundTableModel) tableModel).
-					setBeanProvider(new BeanBoundTableModelBeanProvider());
+					setBeanProvider(new BeanBoundTableModelBeanProvider(this));
 			((BeanBoundTableModel) tableModel).setBeanProperty(".");
 		}
 
@@ -1589,14 +1589,23 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 	/**
 	 * A bean provider implementation which uses the bean bound to the table.
 	 */
-	private final class BeanBoundTableModelBeanProvider implements BeanProvider, Serializable {
+	private static final class BeanBoundTableModelBeanProvider implements BeanProvider, Serializable {
+
+		private final WTable table;
+
+		/**
+		 * @param table the parent table
+		 */
+		private BeanBoundTableModelBeanProvider(final WTable table) {
+			this.table = table;
+		}
 
 		/**
 		 * {@inheritDoc}
 		 */
 		@Override
 		public Object getBean(final BeanProviderBound beanProviderBound) {
-			return WTable.this.getBeanValue();
+			return table.getBeanValue();
 		}
 	}
 
@@ -1604,14 +1613,23 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 	 * A bean provider implementation which provides beans to the table repeater. This provider takes the table's
 	 * pagination state into account, so that only visible rows are rendered.
 	 */
-	private final class RepeaterRowIdBeanProvider implements BeanProvider, Serializable {
+	private static final class RepeaterRowIdBeanProvider implements BeanProvider, Serializable {
+
+		private final WTable table;
+
+		/**
+		 * @param table the parent table
+		 */
+		private RepeaterRowIdBeanProvider(final WTable table) {
+			this.table = table;
+		}
 
 		/**
 		 * {@inheritDoc}
 		 */
 		@Override
 		public Object getBean(final BeanProviderBound beanProviderBound) {
-			TableModel dataModel = getTableModel();
+			TableModel dataModel = table.getTableModel();
 			int rowCount = dataModel.getRowCount();
 
 			if (rowCount == 0) {
@@ -1621,9 +1639,9 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 			int startIndex = 0;
 			int endIndex = rowCount - 1;
 
-			if (PaginationMode.DYNAMIC == getPaginationMode() && isPaginated()) {
-				int rowsPerPage = getRowsPerPage();
-				int currentPage = getCurrentPage();
+			if (PaginationMode.DYNAMIC == table.getPaginationMode() && table.isPaginated()) {
+				int rowsPerPage = table.getRowsPerPage();
+				int currentPage = table.getCurrentPage();
 				// Only render the rows on the current page
 				// If total row count has changed, calc the new last page
 				startIndex = Math.
@@ -1636,7 +1654,7 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 				return Collections.EMPTY_LIST;
 			}
 
-			return getRowIds(startIndex, endIndex, false);
+			return table.getRowIds(startIndex, endIndex, false);
 		}
 	}
 
@@ -1749,6 +1767,7 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 	 * @param forUpdate true if building list of row ids to update
 	 * @param editable true if the table is editable
 	 */
+	@SuppressWarnings("checkstyle:parameternumber")
 	private void calcChildrenRowIds(final List<RowIdWrapper> rows, final RowIdWrapper row,
 			final TableModel model,
 			final RowIdWrapper parent, final Set<?> expanded, final ExpandMode mode,

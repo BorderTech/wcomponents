@@ -8,14 +8,17 @@
          <!--
         var propertiesBoxes= new Array('properties_attributeGroups.container.xsd', 
 				'properties_container.attributes_id', 
+				'properties_container.attributes_class', 
 				'properties_container.attributes_hidden', 
 				'properties_container.attributes_track');
 var usedByBoxes= new Array('usedBy_container.attributes_id', 
+				'usedBy_container.attributes_class', 
 				'usedBy_container.attributes_hidden', 
 				'usedBy_container.attributes_track', 
 				'usedBy_container.attributes', 
 				'usedBy_container.key.attributes');
 var sourceBoxes= new Array('source_container.attributes_id', 
+				'source_container.attributes_class', 
 				'source_container.attributes_hidden', 
 				'source_container.attributes_track', 
 				'source_container.attributes', 
@@ -23,6 +26,7 @@ var sourceBoxes= new Array('source_container.attributes_id',
 var diagramBoxes= new Array('diagram_container.attributes', 
 				'diagram_container.key.attributes');
 var annotationBoxes= new Array('annotations_container.attributes_id', 
+				'annotations_container.attributes_class', 
 				'annotations_container.attributes_hidden', 
 				'annotations_container.attributes_track', 
 				'annotations_container.attributes', 
@@ -441,6 +445,98 @@ var attributesBoxes= new Array('attributes_container.attributes',
             <td class="rt_lineBottom"></td>
             <td class="rt_cornerBottomRight"></td>
          </tr>
+      </table><a id="container.attributes_class"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="attributeGroups_container_xsd.html#container.attributes" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for attributeGroups.container.xsd')">ui:container.attributes</a></b> / @class</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_container.attributes_class" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_container.attributes_class');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_container.attributes_class" style="display:block">
+                              <div class="annotation">Provides the ability to pass an HTML class attribute onto the root output element.</div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:string</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_container.attributes_class" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_container.attributes_class');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_container.attributes_class" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_container.attributes_class" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_container.attributes_class');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_container.attributes_class" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Attribute Group </td>
+                                    <td><b><a href="attributeGroups_container_xsd.html#container.attributes" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for attributeGroups.container.xsd')">ui:container.attributes</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_container.attributes_class" type="image" src="img/btM.gif" value="-" onclick="switchState('source_container.attributes_class');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_container.attributes_class" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"class"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Provides the ability to pass an HTML class attribute onto the root output element.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:attribute&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
       </table><a id="container.attributes_hidden"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="attributeGroups_container_xsd.html#container.attributes" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for attributeGroups.container.xsd')">ui:container.attributes</a></b> / @hidden</span></div>
       <table class="rt">
          <tr>
@@ -660,8 +756,9 @@ var attributesBoxes= new Array('attributes_container.attributes',
                         <td class="diagram">
                            <div id="diagram_container.attributes" style="display:block"><img alt="Diagram" border="0" src="img/attributeGroups_container_xsd_Attribute_Group_ui_container_attributes.png" usemap="#attributeGroups_container_xsd_Attribute_Group_ui_container_attributes" /><map name="attributeGroups_container_xsd_Attribute_Group_ui_container_attributes" id="attributeGroups_container_xsd_Attribute_Group_ui_container_attributes">
                                  <area alt="attributeGroups_container_xsd.tmp#container.attributes_id" href="attributeGroups_container_xsd.html#container.attributes_id" coords="209,0,277,24" />
-                                 <area alt="attributeGroups_container_xsd.tmp#container.attributes_hidden" href="attributeGroups_container_xsd.html#container.attributes_hidden" coords="209,64,294,88" />
-                                 <area alt="attributeGroups_container_xsd.tmp#container.attributes_track" href="attributeGroups_container_xsd.html#container.attributes_track" coords="209,141,284,165" /></map></div>
+                                 <area alt="attributeGroups_container_xsd.tmp#container.attributes_class" href="attributeGroups_container_xsd.html#container.attributes_class" coords="209,64,284,88" />
+                                 <area alt="attributeGroups_container_xsd.tmp#container.attributes_hidden" href="attributeGroups_container_xsd.html#container.attributes_hidden" coords="209,141,294,165" />
+                                 <area alt="attributeGroups_container_xsd.tmp#container.attributes_track" href="attributeGroups_container_xsd.html#container.attributes_track" coords="209,218,284,242" /></map></div>
                         </td>
                      </tr>
                      <tr>
@@ -700,6 +797,14 @@ var attributesBoxes= new Array('attributes_container.attributes',
                                        <th>Annotation</th>
                                     </tr>
                                  </thead>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="attributeGroups_container_xsd.html#container.attributes_class" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for attributeGroups.container.xsd')">class</a></b></td>
+                                    <td><b>xs:string</b></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">Provides the ability to pass an HTML class attribute onto the root output element.</div>
+                                    </td>
+                                 </tr>
                                  <tr>
                                     <td class="firstColumn"><b><a href="attributeGroups_container_xsd.html#container.attributes_hidden" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for attributeGroups.container.xsd')">hidden</a></b></td>
                                     <td><b>xs:boolean</b></td>
@@ -744,6 +849,11 @@ var attributesBoxes= new Array('attributes_container.attributes',
   </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"id"</span><span class="tAN"> type=</span><span class="tAV">"xs:ID"</span><span class="tAN"> use=</span><span class="tAV">"required"</span><span class="tEl">&gt;</span><span class="tI">
     </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
       </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The unique identifier for the component.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"class"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Provides the ability to pass an HTML class attribute onto the root output element.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
     </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
   </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
   </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"hidden"</span><span class="tAN"> type=</span><span class="tAV">"xs:boolean"</span><span class="tEl">&gt;</span><span class="tI">
@@ -809,11 +919,12 @@ var attributesBoxes= new Array('attributes_container.attributes',
                         <td class="diagram">
                            <div id="diagram_container.key.attributes" style="display:block"><img alt="Diagram" border="0" src="img/attributeGroups_container_xsd_Attribute_Group_ui_container_key_attributes.png" usemap="#attributeGroups_container_xsd_Attribute_Group_ui_container_key_attributes" /><map name="attributeGroups_container_xsd_Attribute_Group_ui_container_key_attributes" id="attributeGroups_container_xsd_Attribute_Group_ui_container_key_attributes">
                                  <area alt="attributeGroups_container_xsd.tmp#container.attributes_id" href="attributeGroups_container_xsd.html#container.attributes_id" coords="244,44,312,68" />
-                                 <area alt="attributeGroups_container_xsd.tmp#container.attributes_hidden" href="attributeGroups_container_xsd.html#container.attributes_hidden" coords="244,108,329,132" />
-                                 <area alt="attributeGroups_container_xsd.tmp#container.attributes_track" href="attributeGroups_container_xsd.html#container.attributes_track" coords="244,185,319,209" />
+                                 <area alt="attributeGroups_container_xsd.tmp#container.attributes_class" href="attributeGroups_container_xsd.html#container.attributes_class" coords="244,108,319,132" />
+                                 <area alt="attributeGroups_container_xsd.tmp#container.attributes_hidden" href="attributeGroups_container_xsd.html#container.attributes_hidden" coords="244,185,329,209" />
+                                 <area alt="attributeGroups_container_xsd.tmp#container.attributes_track" href="attributeGroups_container_xsd.html#container.attributes_track" coords="244,262,319,286" />
                                  <area alt="attributeGroups_container_xsd.tmp#container.attributes" href="attributeGroups_container_xsd.html#container.attributes" coords="233,3,407,29" />
-                                 <area alt="attributeGroups_common_xsd.tmp#accesskey.attributes_accessKey" href="attributeGroups_common_xsd.html#accesskey.attributes_accessKey" coords="244,343,347,367" />
-                                 <area alt="attributeGroups_common_xsd.tmp#accesskey.attributes" href="attributeGroups_common_xsd.html#accesskey.attributes" coords="233,302,410,328" /></map></div>
+                                 <area alt="attributeGroups_common_xsd.tmp#accesskey.attributes_accessKey" href="attributeGroups_common_xsd.html#accesskey.attributes_accessKey" coords="244,420,347,444" />
+                                 <area alt="attributeGroups_common_xsd.tmp#accesskey.attributes" href="attributeGroups_common_xsd.html#accesskey.attributes" coords="233,379,410,405" /></map></div>
                         </td>
                      </tr>
                      <tr>
@@ -866,6 +977,14 @@ var attributesBoxes= new Array('attributes_container.attributes',
                                           </ul>
                                           				
                                        </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="attributeGroups_container_xsd.html#container.attributes_class" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for attributeGroups.container.xsd')">class</a></b></td>
+                                    <td><b>xs:string</b></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">Provides the ability to pass an HTML class attribute onto the root output element.</div>
                                     </td>
                                  </tr>
                                  <tr>

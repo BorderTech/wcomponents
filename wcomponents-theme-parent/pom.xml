@@ -1,6 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 
@@ -10,7 +8,7 @@
 	<parent>
 		<groupId>com.github.bordertech.wcomponents</groupId>
 		<artifactId>wcomponents-parent</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
+		<version>1.0.2-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -24,7 +22,7 @@
 		<npm.registry.url>https://registry.npmjs.org/</npm.registry.url>
 		<node.download.root>http://nodejs.org/dist/</node.download.root>
 		<npm.download.root>http://registry.npmjs.org/npm/-/</npm.download.root>
-		<node.sass.download.root>https://github.com/sass/node-sass/releases/download</node.sass.download.root>
+		<!--<node.sass.download.root>https://github.com/sass/node-sass/releases/download</node.sass.download.root>-->
 		<phantomjs.download.root>https://repo1.maven.org/maven2/com/github/klieber/phantomjs/2.0.0</phantomjs.download.root>
 
 		<theme.dir>${basedir}</theme.dir>
@@ -33,7 +31,7 @@
 		<theme.target.dir>${project.build.directory}</theme.target.dir>
 		<theme.tmp.dir>${java.io.tmpdir}${file.separator}wcomponents-theme-tmp</theme.tmp.dir>
 		<theme.impl.dir>${theme.tmp.dir}/fakeImplRoot</theme.impl.dir>
-		<theme.impl.name></theme.impl.name>
+		<theme.impl.name />
 		<theme.unpack.dir>${project.build.directory}${file.separator}${theme.unpacked.name}</theme.unpack.dir>
 		<nodejs.dist.dir>${project.build.directory}/nodejsdist</nodejs.dist.dir><!-- The nodejs binaries get unpacked to here -->
 		<nodejs.dir>${basedir}/node</nodejs.dir><!-- Where we expect to find Node installed -->
@@ -164,14 +162,14 @@
 							<target>
 								<echo>Attempting to start ANT build at ${theme.core.dir}</echo>
 								<echo>basedir = ${basedir}</echo>
-								<property name="basedir" location="${basedir}"/>
-								<property name="target.dir" location="${project.build.directory}"/>
-								<property name="component.rootdir" location="${theme.core.dir}"/>
-								<property name="build.number" value="${project.version}"/>
-								<property name="build.rootdir" location="${theme.target.dir}"/>
-								<property name="theme.skip.tests" value="true"/>
+								<property name="basedir" location="${basedir}" />
+								<property name="target.dir" location="${project.build.directory}" />
+								<property name="component.rootdir" location="${theme.core.dir}" />
+								<property name="build.number" value="${project.version}" />
+								<property name="build.rootdir" location="${theme.target.dir}" />
+								<property name="theme.skip.tests" value="true" />
 								<ant antfile="${theme.core.dir}/build.xml">
-									<target name="build"/>
+									<target name="build" />
 								</ant>
 							</target>
 						</configuration>
@@ -187,16 +185,16 @@
 							<target>
 								<echo>Attempting to start ANT test at ${theme.core.dir}</echo>
 								<echo>basedir = ${basedir}</echo>
-								<property name="basedir" location="${basedir}"/>
-								<property name="phantomjs.binary" value="${phantomjs.binary}"/>
-								<property name="target.dir" location="${project.build.directory}"/>
-								<property name="component.rootdir" location="${theme.core.dir}"/>
-								<property name="build.number" value="${project.version}"/>
-								<property name="build.rootdir" location="${theme.target.dir}"/>
-								<property name="theme.skip.tests" value="${skipOptionalTests}"/>
-								<!--<property name="theme.skip.tests" value="${skipOptionalTests}"/>-->
+								<property name="basedir" location="${basedir}" />
+								<property name="phantomjs.binary" value="${phantomjs.binary}" />
+								<property name="target.dir" location="${project.build.directory}" />
+								<property name="component.rootdir" location="${theme.core.dir}" />
+								<property name="build.number" value="${project.version}" />
+								<property name="build.rootdir" location="${theme.target.dir}" />
+								<property name="theme.skip.tests" value="${skipOptionalTests}" />
+								<!--<property name="theme.skip.tests" value="${skipOptionalTests}" />-->
 								<ant antfile="${theme.core.dir}/build.xml">
-									<target name="test"/>
+									<target name="test" />
 								</ant>
 							</target>
 						</configuration>
@@ -212,14 +210,14 @@
 							<target>
 								<echo>Attempting to start ANT documentation build at ${theme.core.dir}</echo>
 								<echo>basedir = ${basedir}</echo>
-								<property name="basedir" location="${basedir}"/>
-								<property name="target.dir" location="${project.build.directory}"/>
-								<property name="component.rootdir" location="${theme.core.dir}"/>
-								<property name="build.number" value="${project.version}"/>
-								<property name="build.rootdir" location="${theme.target.dir}"/>
-								<property name="theme.skip.tests" value="true"/>
+								<property name="basedir" location="${basedir}" />
+								<property name="target.dir" location="${project.build.directory}" />
+								<property name="component.rootdir" location="${theme.core.dir}" />
+								<property name="build.number" value="${project.version}" />
+								<property name="build.rootdir" location="${theme.target.dir}" />
+								<property name="theme.skip.tests" value="true" />
 								<ant antfile="${theme.core.dir}/build.xml">
-									<target name="document"/>
+									<target name="document" />
 								</ant>
 							</target>
 						</configuration>
@@ -229,13 +227,11 @@
 					</execution>
 				</executions>
 				<dependencies>
-					<!--
 					<dependency>
 						<groupId>com.cathive.sass</groupId>
 						<artifactId>sass-java</artifactId>
-						<version>3.2.5.0-SNAPSHOT</version>
+						<version>4.0.0</version>
 					</dependency>
-					-->
 					<dependency>
 						<groupId>ant-contrib</groupId>
 						<artifactId>ant-contrib</artifactId>
@@ -316,9 +312,19 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+				<groupId>org.mortbay.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>${jetty.version}</version>
+				<configuration>
+					<stopPort>9966</stopPort>
+					<stopKey>stopit</stopKey>
+					<webAppSourceDirectory>${basedir}</webAppSourceDirectory>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 	<modules>
-	 <module>../wcomponents-theme</module>
+		<module>../wcomponents-theme</module>
 	</modules>
 </project>

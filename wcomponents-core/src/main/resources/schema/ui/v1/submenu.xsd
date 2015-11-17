@@ -73,16 +73,11 @@
 				</xs:element>
 			</xs:sequence>
 
-			<xs:attributeGroup ref="ui:button.attributes">
-				<xs:annotation>
-					<xs:documentation><strong>NOTE:</strong> attribute @toolTip is not implemented before WComponents 14.</xs:documentation>
-				</xs:annotation>
-			</xs:attributeGroup>
+			<xs:attributeGroup ref="ui:button.attributes" />
 
 			<xs:attribute name="open" type="xs:boolean">
 				<xs:annotation>
-					<xs:documentation>True indicates the sub menu is to be rendered as open. Not output if false. Only supported if the nearest ancestor menu has @type set to
-						"tree"</xs:documentation>
+					<xs:documentation>True indicates the sub menu is to be rendered as open. Not output if false. Only supported if the nearest ancestor menu has @type set to "tree"</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
 

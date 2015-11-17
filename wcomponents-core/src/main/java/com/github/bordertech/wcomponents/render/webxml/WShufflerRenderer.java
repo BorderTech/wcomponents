@@ -30,6 +30,7 @@ final class WShufflerRenderer extends AbstractWebXmlRenderer {
 		// Start tag
 		xml.appendTagOpen("ui:shuffler");
 		xml.appendAttribute("id", component.getId());
+		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
 		xml.appendOptionalAttribute("disabled", shuffler.isDisabled(), "true");
 		xml.appendOptionalAttribute("hidden", shuffler.isHidden(), "true");

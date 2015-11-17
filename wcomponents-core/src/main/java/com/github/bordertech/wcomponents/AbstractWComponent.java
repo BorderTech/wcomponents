@@ -31,7 +31,7 @@ import org.apache.commons.logging.LogFactory;
  * </p>
  * <p>
  * WComponent trees (UIs) are intended to be shared between sessions in order to reduce their memory footprint. To
- * achive this a class called UIContext has been introduced to store WComponent information specific to an individual
+ * archive this a class called UIContext has been introduced to store WComponent information specific to an individual
  * session. Each session has its own UIContext instance which is passed to the component tree whenever it needs to
  * handle events and paint.
  * </p>
@@ -45,7 +45,7 @@ import org.apache.commons.logging.LogFactory;
  * </p>
  * <p>
  * The shared/private concept makes WComponents very flexible but has the dangerous ramification that it is easy to
- * accidentaly dynamically share attribute values and even whole chunks of UI with everyone. To reduce this risk, it is
+ * accidentally dynamically share attribute values and even whole chunks of UI with everyone. To reduce this risk, it is
  * possible to lock a component and all its children. When the lock is set, it becomes impossible to update a shared
  * value. Trying to update a shared value will result in a runtime exception. The intention is that shared component
  * trees will be held in a registry. Adding a component tree to a registry would be a sensible time to lock it.
@@ -987,7 +987,7 @@ public abstract class AbstractWComponent implements WComponent {
 	 * @return the new set of flags.
 	 */
 	private static int switchFlag(final int flags, final int mask, final boolean value) {
-		int newFlags = value ? (flags | mask) : (flags & ~mask);
+		int newFlags = value ? flags | mask : flags & ~mask;
 		return newFlags;
 	}
 
@@ -1218,7 +1218,7 @@ public abstract class AbstractWComponent implements WComponent {
 			// method was initially called has now been reset.
 			// If the component was dynamically added
 			// and the dynamic parent still has this component as a child
-			if ((dynamicParent != null && getParent() != dynamicParent) && getIndexOfChild(
+			if (dynamicParent != null && getParent() != dynamicParent && getIndexOfChild(
 					dynamicParent, this) != -1) {
 				// then re-instate the reference to the dynamic parent.
 				getOrCreateComponentModel().setParent(dynamicParent);
@@ -1623,6 +1623,7 @@ public abstract class AbstractWComponent implements WComponent {
 
 	/**
 	 * {@inheritDoc}
+	 * @deprecated use setToolTip
 	 */
 	@Override
 	public void setAccessibleText(final String text, final Serializable... args) {
@@ -1632,11 +1633,30 @@ public abstract class AbstractWComponent implements WComponent {
 
 	/**
 	 * {@inheritDoc}
+	 * @deprecated use getToolTip
 	 */
 	@Override
 	public String getAccessibleText() {
 		ComponentModel model = getComponentModel();
 		return I18nUtilities.format(null, model.getAccessibleText());
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setHtmlClass(final String text, final Serializable... args) {
+		ComponentModel model = getOrCreateComponentModel();
+		model.setHtmlClass(text, args);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getHtmlClass() {
+		ComponentModel model = getComponentModel();
+		return I18nUtilities.format(null, model.getHtmlClass());
 	}
 
 	// ================================
@@ -1696,7 +1716,7 @@ public abstract class AbstractWComponent implements WComponent {
 			buf.append('(').append(details).append(')');
 		}
 
-		if ((this instanceof Container) && childStartIndex >= 0 && childEndIndex < getChildCount()
+		if (this instanceof Container && childStartIndex >= 0 && childEndIndex < getChildCount()
 				&& childStartIndex <= childEndIndex) {
 			WComponent[] children = new WComponent[childEndIndex - childStartIndex + 1];
 

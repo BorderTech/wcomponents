@@ -19,11 +19,11 @@ import com.github.bordertech.wcomponents.validation.WValidationErrors;
  *
  * <p>
  * Note the additional validation
+ * </p>
  * <ul>
  * <li>WTextField will only accept alphabetic characters</li>
  * <li>WDateField ensures that the date enter is before today</li>
  * </ul>
- * </p>
  *
  *
  * @author Adam Millard

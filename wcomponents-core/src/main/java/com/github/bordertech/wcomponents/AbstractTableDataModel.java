@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents;
 
+import com.github.bordertech.wcomponents.util.TableUtil;
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.List;
@@ -137,59 +138,8 @@ public abstract class AbstractTableDataModel implements TableDataModel, Serializ
 			sortIndices[i] = i;
 		}
 
-		sort(columnData, comparator, ascending, 0, columnData.length - 1, sortIndices);
+		TableUtil.sortData(columnData, comparator, ascending, 0, columnData.length - 1, sortIndices);
 
 		return sortIndices;
-	}
-
-	/**
-	 * Sorts the data using the given comparator, using a quick-sort.
-	 *
-	 * @param data the data for the column.
-	 * @param comparator the comparator to use for sorting.
-	 * @param ascending true for an ascending sort, false for descending.
-	 * @param lowIndex the start index for sub-sorting
-	 * @param highIndex the end index for sub-sorting
-	 * @param sortIndices the row indices, which will be updated as a result of the sort
-	 */
-	private void sort(final Object[] data, final Comparator<Object> comparator,
-			final boolean ascending,
-			final int lowIndex, final int highIndex, final int[] sortIndices) {
-		if (lowIndex >= highIndex) {
-			return; // 1 element, so sorted already!
-		}
-
-		Object midValue = data[sortIndices[(lowIndex + highIndex) / 2]];
-
-		int i = lowIndex - 1;
-		int j = highIndex + 1;
-		int sign = ascending ? 1 : -1;
-
-		for (;;) {
-			do {
-				i++;
-			} while (comparator.compare(data[sortIndices[i]], midValue) * sign < 0);
-
-			do {
-				j--;
-			} while (comparator.compare(data[sortIndices[j]], midValue) * sign > 0);
-
-			if (i >= j) {
-				break; // crossover, good!
-			}
-
-			// Out of order - swap!
-			int temp = sortIndices[i];
-			sortIndices[i] = sortIndices[j];
-			sortIndices[j] = temp;
-		}
-
-		// now determine the split point...
-		if (i > j) {
-			i = j;
-		}
-
-		sort(data, comparator, ascending, lowIndex, i, sortIndices);
-		sort(data, comparator, ascending, i + 1, highIndex, sortIndices);
 	}
 }

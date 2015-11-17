@@ -60,29 +60,33 @@
 							<xsl:value-of select="ui:windowAttributes/@name"/>
 						</xsl:attribute>
 					</xsl:if>
-					<xsl:if test="@imagePosition">
-						<xsl:attribute name="class">
+					<xsl:attribute name="class">
+						<xsl:value-of select="local-name()"/>
+						<xsl:if test="@imagePosition">
 							<xsl:value-of select="concat('wc_btn_img',@imagePosition)"/>
-						</xsl:attribute>
-					</xsl:if>
+						</xsl:if>
+						<xsl:if test="@class">
+							<xsl:value-of select="concat(' ', @class)"/>
+						</xsl:if>
+					</xsl:attribute>
 				</xsl:when>
 				<xsl:otherwise>
 					<xsl:attribute name="type">
 						<xsl:text>button</xsl:text>
 					</xsl:attribute>
-					<xsl:variable name="class">
+					<xsl:attribute name="class">
+						<xsl:value-of select="local-name()"/>
 						<xsl:if test="not($type='button')">
-							<xsl:text>wc_btn_link</xsl:text>
+							<xsl:text> wc_btn_link</xsl:text>
 						</xsl:if>
 						<xsl:if test="@imagePosition">
 							<xsl:value-of select="concat(' wc_btn_img',@imagePosition)"/>
 						</xsl:if>
-					</xsl:variable>
-					<xsl:if test="$class !=''">
-						<xsl:attribute name="class">
-							<xsl:value-of select="$class"/>
-						</xsl:attribute>
-					</xsl:if>
+						<xsl:if test="@class">
+							<xsl:value-of select="concat(' ', @class)"/>
+						</xsl:if>
+					</xsl:attribute>
+					
 					<xsl:attribute name="${wc.ui.link.attrib.url.standin}">
 						<xsl:value-of select="@url"/>
 					</xsl:attribute>

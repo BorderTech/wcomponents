@@ -20,7 +20,7 @@ public class WAbbrText extends WText {
 
 	/**
 	 * Creates an empty WAbbrText.
-	 * 
+	 *
 	 * An instance of WAbbrText created in this manner must have abbreviated display text and a toolTip (the full text
 	 * represented by the abbreviation) set to be useful.
 	 */
@@ -29,7 +29,7 @@ public class WAbbrText extends WText {
 
 	/**
 	 * Creates a WAbbrText with the specified abbreviated display text.
-	 * 
+	 *
 	 * An instance of WAbbrText created in this manner must have a toolTip (the full text represented by the
 	 * abbreviation) set to be useful.
 	 *
@@ -72,7 +72,7 @@ public class WAbbrText extends WText {
 
 	/**
 	 * Loads the abbreviated text component from the given code reference table entry.
-	 * 
+	 *
 	 * The display (abbreviated) text is set to the table entry's description. The toolTip is set to the table entry's
 	 * code.
 	 *
@@ -84,8 +84,8 @@ public class WAbbrText extends WText {
 	}
 
 	/**
-	 * Loads the abbreviated text component from the given code reference table entry. 
-	 * 
+	 * Loads the abbreviated text component from the given code reference table entry.
+	 *
 	 * The display (abbreviated) text is set to the table entry's code. The toolTip is set to the table entry's
 	 * description.
 	 *
@@ -102,10 +102,10 @@ public class WAbbrText extends WText {
 	@Override
 	public String toString() {
 		String text = getText();
-		text = text == null ? "null" : ('"' + text + '"');
+		text = text == null ? "null" : '"' + text + '"';
 
 		String expandedText = getToolTip();
-		expandedText = expandedText == null ? "null" : ('"' + expandedText + '"');
+		expandedText = expandedText == null ? "null" : '"' + expandedText + '"';
 
 		return toString("text=" + text + ", toolTip=" + expandedText);
 	}

@@ -39,6 +39,7 @@ final class WDateFieldRenderer extends AbstractWebXmlRenderer {
 
 		xml.appendTagOpen("ui:dateField");
 		xml.appendAttribute("id", component.getId());
+		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
 		xml.appendOptionalAttribute("disabled", dateField.isDisabled(), "true");
 		xml.appendOptionalAttribute("hidden", dateField.isHidden(), "true");

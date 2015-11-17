@@ -34,11 +34,15 @@
 					<xsl:value-of select="@toolTip"/>
 				</xsl:attribute>
 			</xsl:if>
-			<xsl:if test="@type">
-				<xsl:attribute name="class">
+			<xsl:attribute name="class">
+				<xsl:value-of select="local-name()"/>
+				<xsl:if test="@type">
 					<xsl:value-of select="@type"/>
-				</xsl:attribute>
-			</xsl:if>
+				</xsl:if>
+				<xsl:if test="@class">
+					<xsl:value-of select="concat(' ', @class)"/>
+				</xsl:if>
+			</xsl:attribute>
 			<xsl:call-template name="ajaxTarget"/>
 			<xsl:call-template name="hideElementIfHiddenSet"/>
 			<xsl:element name="span">

@@ -243,7 +243,7 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxT
 		if (fileType != null && fileType.length() > 1) { // the shortest I can think of would be something like ".h"
 			if (fileType.startsWith(".")) { // assume it's a file extension
 				result = true;
-			} else if (fileType.length() > 2 && fileType.indexOf("/") > 0) { // some imaginary mimetype like "a/*" would be at least 3 characters
+			} else if (fileType.length() > 2 && fileType.indexOf('/') > 0) { // some imaginary mimetype like "a/*" would be at least 3 characters
 				result = true;
 			}
 		}

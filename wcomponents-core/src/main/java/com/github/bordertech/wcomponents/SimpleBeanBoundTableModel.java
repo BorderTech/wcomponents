@@ -367,7 +367,7 @@ public class SimpleBeanBoundTableModel extends AbstractBeanBoundTableModel {
 		}
 
 		// Check iterations
-		if (isIterateFirstLevel() && (getMaxIterations() > -1 && row.size() > getMaxIterations())) {
+		if (isIterateFirstLevel() && getMaxIterations() > -1 && row.size() > getMaxIterations()) {
 			// Reached limit of iterations
 			return 0;
 		}
@@ -600,7 +600,7 @@ public class SimpleBeanBoundTableModel extends AbstractBeanBoundTableModel {
 	 * @author Jonathan Austin
 	 * @since 1.0.0
 	 */
-	public static final class LevelDetails {
+	public static final class LevelDetails implements Serializable {
 
 		/**
 		 * The bean property for this level's data (usually a list of beans).

@@ -60,6 +60,9 @@
 				<xsl:if test="@required">
 					<xsl:text> wc_req</xsl:text>
 				</xsl:if>
+				<xsl:if test="@class">
+					<xsl:value-of select="concat(' ', @class)"/>
+				</xsl:if>
 			</xsl:attribute>
 			<xsl:apply-templates select="ui:margin"/>
 			<xsl:if test="$isError">

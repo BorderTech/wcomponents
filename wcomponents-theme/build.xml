@@ -233,15 +233,59 @@ chromedriver_cdnurl=${mirror.root}/chromedriver
 			<property name="impl.src.dir" location="@{rootDir}/@{implName}"/>
 			<var name="prototype.name" unset="true"/>
 			<loadfile property="prototype.name" srcFile="${impl.src.dir}/inherit.txt"/>
+
+			<var name="prototype.dir" unset="true"/>
+			<var name="merge.impl.dir" unset="true"/>
+
+			<if>
+				<isset property="prototype.name"/>
+				<then>
+					<if>
+						<and>
+							<available file="${prototype.name}" type="file"/>
+							<matches string="${prototype.name}" pattern="\.zip$" casesensitive="false"/>
+						</and>
+						<then>
+							<echo>Found prototype zip file ${prototype.name}</echo>
+							<property name="prototype.dir" location="${tmp.dir}/parent"/>
+							<delete dir="${prototype.dir}"/>
+							<!-- unzip the zip and set the path -->
+							<unzip src="${prototype.name}" dest="${prototype.dir}" overwrite="true" failOnEmptyArchive="true">
+								<patternset>
+									<include name="*/**"/>
+								</patternset>
+							</unzip>
+						</then>
+						<elseif>
+							<and>
+								<matches string="${prototype.name}" pattern="\/"/>
+								<available file="${prototype.name}" type="dir"/>
+							</and>
+							<then>
+								<echo>Found prototype directory named ${prototype.name}</echo>
+								<property name="prototype.dir" location="${prototype.name}"/>
+							</then>
+						</elseif>
+						<elseif>
+							<available file="${impl.src.rootdir}/${prototype.name}" type="dir"/>
+							<then>
+								<property name="prototype.dir" location="${impl.src.rootdir}/${prototype.name}"/>
+								<echo>Using simple fallback prototype ${prototype.dir}</echo>
+							</then>
+						</elseif>
+						<else>
+							<fail message="Could not find prototype implementation ${prototype.name}"/>
+						</else>
+					</if>
+				</then>
+			</if>
+
 			<if>
 				<and>
-					<isset property="prototype.name"/>
-					<available file="${impl.src.rootdir}/${prototype.name}" type="dir"/>
+					<isset property="prototype.dir"/>
+					<available file="${prototype.dir}" type="dir"/>
 				</and>
 				<then>
-					<var name="prototype.dir" unset="true"/>
-					<var name="merge.impl.dir" unset="true"/>
-					<property name="prototype.dir" location="${impl.src.rootdir}/${prototype.name}"/>
 					<property name="merge.impl.dir" location="${sub.impl.dir}/@{implName}"/>
 					<delete dir="${merge.impl.dir}"/>
 					<echo>Copying sub-implementation files from: ${impl.src.dir} to ${merge.impl.dir}</echo>
@@ -307,9 +351,9 @@ chromedriver_cdnurl=${mirror.root}/chromedriver
 						</fileset>
 					</copy>
 					<copy todir="${merge.impl.dir}/src/main/images" overwrite="false">
-							<fileset dir="${prototype.dir}/src/main/images" includes="**/*" excludesfile="${impl.src.dir}/excludes.txt" erroronmissingdir="false">
-								<present present="srconly" targetdir="${merge.impl.dir}/src/main/images"/>
-							</fileset>
+						<fileset dir="${prototype.dir}/src/main/images" includes="**/*" excludesfile="${impl.src.dir}/excludes.txt" erroronmissingdir="false">
+							<present present="srconly" targetdir="${merge.impl.dir}/src/main/images"/>
+						</fileset>
 					</copy>
 					<copy todir="${merge.impl.dir}/src/main/js" overwrite="false">
 						<fileset dir="${prototype.dir}/src/main/js" includes="**/*.js" excludesfile="${impl.src.dir}/excludes.txt" erroronmissingdir="false">
@@ -323,9 +367,12 @@ chromedriver_cdnurl=${mirror.root}/chromedriver
 					</copy>
 					<delete file="${merge.impl.dir}/inherit.txt"/><!-- EEEK! Make sure to prevent infinite looping -->
 				</then>
-				<else>
-					<fail message="Could not find prototype implementation ${prototype.name}"/>
-				</else>
+				<elseif>
+					<isset property="prototype.dir"/>
+					<then>
+						<fail message="Could not find prototype directory ${prototype.dir}"/>
+					</then>
+				</elseif>
 			</if>
 		</sequential>
 	</macrodef>
@@ -476,25 +523,18 @@ chromedriver_cdnurl=${mirror.root}/chromedriver
 	<macrodef name="writeVersionInfo">
 		<!--
 			This is largely superfluous and a legacy of debugging builds many years in the past.
+			It used to dump many different properties.
 			HOWEVER one part of it has found new life (in ThemeUtils.java) and therefore this
 			file must continue to:
 
 			1. Be named version.properties
 			2. Dump the "build.number" property.
+			
+			TODO can we ditch this entirely?
 		-->
 		<attribute name="implName"/>
 		<sequential>
-			<var name="build.name" unset="true" value="@{implName}"/>
-			<var name="build.user.name" unset="true" value="${env.USERNAME}"/>
-			<var name="build.user.host" unset="true" value="${env.COMPUTERNAME}"/>
-			<property name="build.name" value="@{implName}"/>
-			<property name="build.user.name" value="${env.USERNAME}"/>
-			<property name="build.user.host" value="${env.COMPUTERNAME}"/>
-			<echoproperties destfile="${output.dir}/@{implName}/version.properties">
-				<propertyset>
-					<propertyref regex="^build\.*"/>
-				</propertyset>
-			</echoproperties>
+			<echo file="${output.dir}/@{implName}/version.properties">build.number=${build.number}</echo>
 		</sequential>
 	</macrodef>
 </project>

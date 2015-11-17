@@ -101,8 +101,8 @@ public class WBeanComponent extends AbstractWComponent implements DataBound, Bea
 					} else { // Legacy
 						if (parentBeanProperty != null && !".".equals(parentBeanProperty) && parentBeanProperty.
 								contains(".")) {
-							LOG.warn(
-									"Possible bean property logic error with bean property [" + parentBeanProperty + "]. Check runtime parameter " + CORRECT_PARENT_BEAN_LOGIC + ".");
+							LOG.warn("Possible bean property logic error with bean property ["
+									+ parentBeanProperty + "]. Check runtime parameter " + CORRECT_PARENT_BEAN_LOGIC + ".");
 						}
 						bean = parent.getBean();
 					}

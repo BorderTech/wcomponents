@@ -37,6 +37,7 @@ final class WPanelRenderer extends AbstractWebXmlRenderer {
 
 		xml.appendTagOpen("ui:panel");
 		xml.appendAttribute("id", component.getId());
+		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
 		if (PanelMode.LAZY.equals(panel.getMode())) {
 			xml.appendOptionalAttribute("hidden", !renderChildren, "true");
@@ -74,8 +75,8 @@ final class WPanelRenderer extends AbstractWebXmlRenderer {
 		// EAGER panels only render content if the panel is the current AJAX trigger
 		if (PanelMode.EAGER.equals(panelMode)) {
 			return AjaxHelper.isCurrentAjaxTrigger(panel);
-		} else if (PanelMode.LAZY.equals(panelMode)) { // LAZY panels render content if the panel is not hidden or it is the current AJAX Trigger (ie content has been
-			// requested)
+		} else if (PanelMode.LAZY.equals(panelMode)) {
+			// LAZY panels render content if the panel is not hidden or it is the current AJAX Trigger (ie content has been requested)
 			return (!panel.isHidden() || AjaxHelper.isCurrentAjaxTrigger(panel));
 		}
 
@@ -151,7 +152,7 @@ final class WPanelRenderer extends AbstractWebXmlRenderer {
 		Renderer layoutRenderer = null;
 
 		if (layout != null) {
-			layoutRenderer = new RendererFactory().getRenderer(layout.getClass());
+			layoutRenderer = new RendererFactoryImpl().getRenderer(layout.getClass());
 		}
 
 		if (layoutRenderer == null) {

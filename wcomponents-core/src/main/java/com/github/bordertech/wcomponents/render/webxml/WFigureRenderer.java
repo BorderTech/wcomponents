@@ -31,6 +31,7 @@ final class WFigureRenderer extends AbstractWebXmlRenderer {
 
 		xml.appendTagOpen("ui:figure");
 		xml.appendAttribute("id", component.getId());
+		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
 		if (FigureMode.LAZY.equals(figure.getMode())) {
 			xml.appendOptionalAttribute("hidden", !renderChildren, "true");

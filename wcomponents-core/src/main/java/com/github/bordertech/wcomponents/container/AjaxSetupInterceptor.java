@@ -9,8 +9,6 @@ import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.servlet.WServlet;
 import com.github.bordertech.wcomponents.util.SystemException;
 import java.util.Map;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * This interceptor setups the AJAX operation details.
@@ -19,11 +17,6 @@ import org.apache.commons.logging.LogFactory;
  * @since 1.0.0
  */
 public class AjaxSetupInterceptor extends InterceptorComponent {
-
-	/**
-	 * The logger instance for this class.
-	 */
-	private static final Log LOG = LogFactory.getLog(AjaxSetupInterceptor.class);
 
 	/**
 	 * Setup the AJAX operation details.

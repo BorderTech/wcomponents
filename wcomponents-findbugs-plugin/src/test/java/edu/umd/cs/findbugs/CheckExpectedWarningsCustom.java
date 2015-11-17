@@ -63,6 +63,9 @@ public class CheckExpectedWarningsCustom implements Detector2, NonReportingDetec
 	private ClassDescriptor noWarning;
 	private boolean warned;
 
+	/**
+	 * @param bugReporter the bug reporter
+	 */
 	public CheckExpectedWarningsCustom(final BugReporter bugReporter) {
 		BugCollection realBugReporter = bugReporter.getBugCollection();
 		if (realBugReporter instanceof BugCollectionBugReporter) {
@@ -72,6 +75,9 @@ public class CheckExpectedWarningsCustom implements Detector2, NonReportingDetec
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void visitClass(final ClassDescriptor classDescriptor) throws CheckedAnalysisException {
 		if (reporter == null) {
@@ -186,6 +192,11 @@ public class CheckExpectedWarningsCustom implements Detector2, NonReportingDetec
 		check(xclass, noWarning, false);
 	}
 
+	/**
+	 * @param xmethod the method
+	 * @param annotation the annotation
+	 * @param expectWarnings the expected warnings
+	 */
 	private void check(final XMethod xmethod, final ClassDescriptor annotation,
 			final boolean expectWarnings) {
 		AnnotationValue expect = xmethod.getAnnotation(annotation);
@@ -218,6 +229,11 @@ public class CheckExpectedWarningsCustom implements Detector2, NonReportingDetec
 		}
 	}
 
+	/**
+	 * @param field the field
+	 * @param annotation the annotation
+	 * @param expectWarnings the expected warnings
+	 */
 	private void check(final XField field, final ClassDescriptor annotation,
 			final boolean expectWarnings) {
 		AnnotationValue expect = field.getAnnotation(annotation);
@@ -251,6 +267,12 @@ public class CheckExpectedWarningsCustom implements Detector2, NonReportingDetec
 		}
 	}
 
+	/**
+	 *
+	 * @param xclass the class
+	 * @param annotation the annotation
+	 * @param expectWarnings the expected warnings
+	 */
 	private void check(final XClass xclass, final ClassDescriptor annotation,
 			final boolean expectWarnings) {
 		AnnotationValue expect = xclass.getAnnotation(annotation);
@@ -283,6 +305,11 @@ public class CheckExpectedWarningsCustom implements Detector2, NonReportingDetec
 		}
 	}
 
+	/**
+	 * @param methodDescriptor the method descriptor
+	 * @param bugCode the bug code
+	 * @return the number of warnings
+	 */
 	private int countWarnings(final MethodDescriptor methodDescriptor, final String bugCode) {
 		int count = 0;
 		Collection<BugInstance> warnings = warningsByMethod.get(methodDescriptor);
@@ -300,6 +327,11 @@ public class CheckExpectedWarningsCustom implements Detector2, NonReportingDetec
 		return count;
 	}
 
+	/**
+	 * @param fieldDescriptor the field descriptor
+	 * @param bugCode the bug code
+	 * @return the number of warnings
+	 */
 	private int countWarnings(final FieldDescriptor fieldDescriptor, final String bugCode) {
 		int count = 0;
 		Collection<BugInstance> warnings = warningsByField.get(fieldDescriptor);
@@ -317,6 +349,11 @@ public class CheckExpectedWarningsCustom implements Detector2, NonReportingDetec
 		return count;
 	}
 
+	/**
+	 * @param classDescriptor the class descriptor
+	 * @param bugCode the bug code
+	 * @return the number of warnings
+	 */
 	private int countWarnings(final ClassDescriptor classDescriptor, final String bugCode) {
 		int count = 0;
 		Collection<BugInstance> warnings = warningsByClass.get(classDescriptor);

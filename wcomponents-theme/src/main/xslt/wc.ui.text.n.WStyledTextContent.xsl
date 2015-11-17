@@ -8,7 +8,6 @@
 	-->
 	<xsl:template name="WStyledTextContent">
 		<xsl:param name="type"/>
-		<xsl:param name="space"/>
 		<xsl:variable name="innerElem">
 			<xsl:call-template name="WStyledTextGetElementFromType">
 				<xsl:with-param name="type" select="$type"/>
@@ -25,12 +24,6 @@
 					</xsl:attribute>
 					<xsl:value-of select="."/>
 				</xsl:element>
-			</xsl:when>
-			<xsl:when test="$space='paragraphs' or position()=1">
-				<xsl:attribute name="class">
-					<xsl:value-of select="$type"/>
-				</xsl:attribute>
-				<xsl:value-of select="."/>
 			</xsl:when>
 			<xsl:otherwise>
 				<xsl:value-of select="."/>

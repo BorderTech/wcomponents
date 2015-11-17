@@ -71,6 +71,9 @@
 				<xsl:if test="$isError">
 					<xsl:text> wc_error</xsl:text>
 				</xsl:if>
+				<xsl:if test="@class">
+					<xsl:value-of select="concat(' ', @class)"/>
+				</xsl:if>
 				<xsl:call-template name="WTableAdditionalContainerClass"/>
 			</xsl:attribute>
 			<xsl:call-template name="hideElementIfHiddenSet"/>

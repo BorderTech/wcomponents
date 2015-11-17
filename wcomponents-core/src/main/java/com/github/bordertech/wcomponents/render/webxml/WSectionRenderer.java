@@ -31,6 +31,7 @@ final class WSectionRenderer extends AbstractWebXmlRenderer {
 
 		xml.appendTagOpen("ui:section");
 		xml.appendAttribute("id", component.getId());
+		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
 		if (SectionMode.LAZY.equals(section.getMode())) {
 			xml.appendOptionalAttribute("hidden", !renderChildren, "true");

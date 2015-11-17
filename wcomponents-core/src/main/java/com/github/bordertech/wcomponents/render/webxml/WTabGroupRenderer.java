@@ -27,6 +27,7 @@ final class WTabGroupRenderer extends AbstractWebXmlRenderer {
 
 		xml.appendTagOpen("ui:tabGroup");
 		xml.appendAttribute("id", component.getId());
+		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
 		xml.appendOptionalAttribute("disabled", group.isDisabled(), "true");
 		xml.appendClose();

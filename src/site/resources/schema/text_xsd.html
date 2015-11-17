@@ -10,23 +10,27 @@
 				'properties_text', 
 				'properties_text_nl', 
 				'properties_text_type', 
-				'properties_text_space');
+				'properties_text_space', 
+				'properties_text_class');
 var facetsBoxes= new Array('facets_text_type', 
 				'facets_text_space');
 var usedByBoxes= new Array('usedBy_text', 
 				'usedBy_text_type', 
-				'usedBy_text_space');
+				'usedBy_text_space', 
+				'usedBy_text_class');
 var sourceBoxes= new Array('source_text', 
 				'source_text_nl', 
 				'source_text_type', 
-				'source_text_space');
+				'source_text_space', 
+				'source_text_class');
 var instanceBoxes= new Array('instance_text');
 var diagramBoxes= new Array('diagram_text', 
 				'diagram_text_nl');
 var annotationBoxes= new Array('annotations_text', 
 				'annotations_text_nl', 
 				'annotations_text_type', 
-				'annotations_text_space');
+				'annotations_text_space', 
+				'annotations_text_class');
 var attributesBoxes= new Array('attributes_text');
 var modelBoxes= new Array('model_text');
 
@@ -394,7 +398,8 @@ var modelBoxes= new Array('model_text');
                            <div id="diagram_text" style="display:block"><img alt="Diagram" border="0" src="img/text_xsd_Element_ui_text.png" usemap="#text_xsd_Element_ui_text" /><map name="text_xsd_Element_ui_text" id="text_xsd_Element_ui_text">
                                  <area alt="text_xsd.tmp#text_type" href="text_xsd.html#text_type" coords="114,40,185,64" />
                                  <area alt="text_xsd.tmp#text_space" href="text_xsd.html#text_space" coords="114,130,193,154" />
-                                 <area alt="text_xsd.tmp#text_nl" href="text_xsd.html#text_nl" coords="192,205,232,229" /></map></div>
+                                 <area alt="text_xsd.tmp#text_class" href="text_xsd.html#text_class" coords="114,194,189,218" />
+                                 <area alt="text_xsd.tmp#text_nl" href="text_xsd.html#text_nl" coords="192,282,232,306" /></map></div>
                         </td>
                      </tr>
                      <tr>
@@ -453,7 +458,7 @@ var modelBoxes= new Array('model_text');
                            <div id="instance_text" style="display:block">
                               <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
                                  <tr>
-                                    <td width="100%"><pre><span class="tEl">&lt;ui:text</span><span class="tT"> </span><span class="tAN">space=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xmlns:ui=</span><span class="tAV">"https://github.com/bordertech/wcomponents/namespace/ui/v1.0"</span><span class="tEl">&gt;</span><span class="tI">
+                                    <td width="100%"><pre><span class="tEl">&lt;ui:text</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">space=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xmlns:ui=</span><span class="tAV">"https://github.com/bordertech/wcomponents/namespace/ui/v1.0"</span><span class="tEl">&gt;</span><span class="tI">
   </span><span class="tEl">&lt;ui:nl</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,unbounded}</span><span class="tEl">&lt;/ui:nl&gt;</span><span class="tI">
 </span><span class="tEl">&lt;/ui:text&gt;</span></pre></td>
                                  </tr>
@@ -477,6 +482,14 @@ var modelBoxes= new Array('model_text');
                                        <th>Annotation</th>
                                     </tr>
                                  </thead>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="text_xsd.html#text_class" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for text.xsd')">class</a></b></td>
+                                    <td><b>xs:string</b></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">Provides the ability to pass an HTML class attribute onto the root output element.</div>
+                                    </td>
+                                 </tr>
                                  <tr>
                                     <td class="firstColumn"><b><a href="text_xsd.html#text_space" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for text.xsd')">space</a></b></td>
                                     <td>restriction of <b>xs:NMTOKEN</b></td>
@@ -598,6 +611,11 @@ var modelBoxes= new Array('model_text');
           </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
         </span><span class="tEl">&lt;/xs:restriction&gt;</span><span class="tI">
       </span><span class="tEl">&lt;/xs:simpleType&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"class"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Provides the ability to pass an HTML class attribute onto the root output element.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
     </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
   </span><span class="tEl">&lt;/xs:complexType&gt;</span><span class="tI">
 </span><span class="tEl">&lt;/xs:element&gt;</span></pre></td>
@@ -837,7 +855,7 @@ var modelBoxes= new Array('model_text');
                                     <td class="firstColumn">enumeration</td>
                                     <td width="30%"><b>mandatoryIndicator</b></td>
                                     <td>
-                                       <div class="annotation">Provides a wrapper which can be used to include a 'ley' reference to the 
+                                       <div class="annotation">Provides a wrapper which can be used to include a 'ley' reference to the
                                           									mandatory indicator (which is internationalised and styled in theme).
                                        </div>
                                     </td>
@@ -1061,6 +1079,98 @@ var modelBoxes= new Array('model_text');
       </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
     </span><span class="tEl">&lt;/xs:restriction&gt;</span><span class="tI">
   </span><span class="tEl">&lt;/xs:simpleType&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:attribute&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="text_class"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="text_xsd.html#text" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for text.xsd')">ui:text</a></b> / @class</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_text_class" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_text_class');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_text_class" style="display:block">
+                              <div class="annotation">Provides the ability to pass an HTML class attribute onto the root output element.</div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:string</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_text_class" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_text_class');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_text_class" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_text_class" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_text_class');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_text_class" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="text_xsd.html#text" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for text.xsd')">ui:text</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_text_class" type="image" src="img/btM.gif" value="-" onclick="switchState('source_text_class');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_text_class" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"class"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Provides the ability to pass an HTML class attribute onto the root output element.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
 </span><span class="tEl">&lt;/xs:attribute&gt;</span></pre></td>
                                  </tr>
                               </table>

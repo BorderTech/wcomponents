@@ -1103,6 +1103,37 @@ public class AbstractWComponent_Test extends AbstractWComponentTestCase {
 		Assert.assertFalse("Tracking should be false", comp.isTracking());
 	}
 
+	/** @deprecated */
+	@Test
+	public void testAccessibleTextAccessors() {
+		//assertAccessorsCorrect(new SimpleComponent(), "accessibleText", null, "foo", "bar");
+		AbstractWComponent comp = new SimpleComponent();
+		comp.setLocked(true);
+		setActiveContext(createUIContext());
+		String text = "my test text";
+
+		comp.setAccessibleText(text);
+		Assert.assertEquals("Dynamic accessible text incorrect", text, comp.getAccessibleText());
+
+		resetContext();
+		Assert.assertNull("Default accessible text incorrect", comp.getAccessibleText());
+	}
+
+	@Test
+	public void testHtmlClassAccessors() {
+		//assertAccessorsCorrect(new SimpleComponent(), "htmlClass", null, "foo", "bar");
+		AbstractWComponent comp = new SimpleComponent();
+		comp.setLocked(true);
+		setActiveContext(createUIContext());
+		String text = "my test text";
+
+		comp.setHtmlClass(text);
+		Assert.assertEquals("Dynamic accessible text incorrect", text, comp.getHtmlClass());
+
+		resetContext();
+		Assert.assertNull("Default accessible text incorrect", comp.getHtmlClass());
+	}
+
 	/**
 	 * A test component which records if certain methods have been called.
 	 */
