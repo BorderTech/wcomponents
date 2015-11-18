@@ -11,9 +11,11 @@ To mitigate against accidentally doing this we use `<xsl:element>` for element c
 compression includes a step to reduce the verbosity of this for elements which are not HTML self-closing. So when you
 make any HTML element in XSLT please use:
 
-    <xsl:element name="elementname">
-        <xsl:attribute...> etc
-    </xsl:element>
+``` xml
+<xsl:element name="elementname">
+    <xsl:attribute...> etc
+</xsl:element>
+```
 
 Then the XSLT compressor will make it into `<elementname attribute=".." />` if it is safe to do so.
 
@@ -41,11 +43,11 @@ We have a 'magic' XSL param $isDebug. This is set to 1. You can use this param a
 output content only in debug mode. For example one could choose to output a marker if you are debugging a XSLT issue
 such as:
 
-``` xslt
+``` xml
 <xsl:if test="$isDebug=1">
-	<xsl:comment>
-		<xsl:value-of select="concat('maxIndent is ',$maxIndent,'&#xA;')"/>
-	</xsl:comment>
+    <xsl:comment>
+        <xsl:value-of select="concat('maxIndent is ',$maxIndent,'&#xA;')"/>
+    </xsl:comment>
 </xsl:if>
 ```
 
@@ -86,38 +88,38 @@ The following standards apply to XSLT:
 * Any variable which is required to create a simple attribute to an output element must be declared before the opening
   tag of the element.
 
-    This is due to a flaw in the XSLT compression library and requires an example to explain. Assume we have a variable
-    used to calculate a value for the 'for' attribute of a label element. This value is then re-used elsewhere so it is
-    more efficient to hold it in a variable than calculate it twice. The xsl:variable must appear before the label
-    element (or \<xsl:element name="label"\>) output opening tag.
+  This is due to a flaw in the XSLT compression library and requires an example to explain. Assume we have a variable
+  used to calculate a value for the 'for' attribute of a label element. This value is then re-used elsewhere so it is
+  more efficient to hold it in a variable than calculate it twice. The xsl:variable must appear before the label
+  element (or \<xsl:element name="label"\>) output opening tag.
+  ``` xml
+  <!-- use this -->
+  <xsl:variable name="foo">
+    ...
+  </xsl:variable>
+  <xsl:element name="input">
+    <xsl:attribute name="data-bar">
+        <xsl:value-of select="$foo"/>
+    </xsl:attribute>
+  </xsl:element>
+  <!-- do not use this -->
+  <xsl:element name="input"_
+    <xsl:variable name="foo">
+        ...
+    </xsl:variable>
+    <xsl:attribute name="data-bar">
+        <xsl:value-of select="$foo"/>
+    </xsl:attribute>
+  </xsl:element>
 
-        <!-- use this -->
-        <xsl:variable name="foo">
-            ...
-        </xsl:variable>
-        <xsl:element name="input">
-            <xsl:attribute name="data-bar">
-                <xsl:value-of select="$foo"/>
-            </xsl:attribute>
-        </xsl:element>
-
-        <!-- do not use this -->
-        <xsl:element name="input"_
-            <xsl:variable name="foo">
-                ...
-            </xsl:variable>
-            <xsl:attribute name="data-bar">
-                <xsl:value-of select="$foo"/>
-            </xsl:attribute>
-        </xsl:element>
-
-        <!-- but this is acceptable if the value calculated is not to be reused -->
-        <!-- do not declare the variable foo -->
-        <xsl:element name="input"_
-            <xsl:attribute name="data-bar">
-                <!-- place the calculation of the value here -->
-            </xsl:attribute>
-        </xsl:element>
+  <!-- but this is acceptable if the value calculated is not to be reused -->
+  <!-- do not declare the variable foo -->
+  <xsl:element name="input"_
+    <xsl:attribute name="data-bar">
+        <!-- place the calculation of the value here -->
+    </xsl:attribute>
+  </xsl:element>
+  ```
 
 * Never (really: **NEVER**) use `xsl:foreach` in live code. It _may_ be acceptable in debug mode but the reason for its
   use should be included in a comment for each use.
