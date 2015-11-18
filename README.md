@@ -9,6 +9,8 @@ Frontend Tests:
 [![Sauce Test Status](https://saucelabs.com/browser-matrix/javatech.svg)](https://saucelabs.com/u/javatech)
 
 # wcomponents
+
+[![Join the chat at https://gitter.im/BorderTech/wcomponents](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/BorderTech/wcomponents?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 Accessible Web UI Framework for Enterprise
 
  *<sup>Born in 2005 - Open source since August 2015</sup>*
