@@ -68,6 +68,8 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>${surefire.version}</version>
 				<configuration>
+					<!-- Arg set by jacoco. -->
+					<argLine>${surefireArgLine}</argLine>
 					<includes>
 						<include>com/github/bordertech/wcomponents/lde/Lde_Suite.java</include>
 					</includes>

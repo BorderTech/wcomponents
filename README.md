@@ -2,6 +2,7 @@
 [![PMD](http://bordertech.github.io/wcomponents/badges/pmd.svg)](http://bordertech.github.io/wcomponents/pmd.html)
 [![Checkstyle](http://bordertech.github.io/wcomponents/badges/checkstyle-result.svg)](http://bordertech.github.io/wcomponents/checkstyle-aggregate.html)
 [![Findbugs](http://bordertech.github.io/wcomponents/badges/findbugs-report.svg)](http://bordertech.github.io/wcomponents/findbugs-report.html)
+[![Coverage](http://bordertech.github.io/wcomponents/badges/coverage-report.svg)](http://bordertech.github.io/wcomponents/coverage-report/index.html)
 
 Frontend Tests:
 [![Sauce Test Status](https://saucelabs.com/browser-matrix/javatech.svg)](https://saucelabs.com/u/javatech)
