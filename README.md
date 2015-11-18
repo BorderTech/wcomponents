@@ -2,11 +2,15 @@
 [![PMD](http://bordertech.github.io/wcomponents/badges/pmd.svg)](http://bordertech.github.io/wcomponents/pmd.html)
 [![Checkstyle](http://bordertech.github.io/wcomponents/badges/checkstyle-result.svg)](http://bordertech.github.io/wcomponents/checkstyle-aggregate.html)
 [![Findbugs](http://bordertech.github.io/wcomponents/badges/findbugs-report.svg)](http://bordertech.github.io/wcomponents/findbugs-report.html)
+[![Coverage](http://bordertech.github.io/wcomponents/badges/coverage-report.svg)](http://bordertech.github.io/wcomponents/coverage-report/index.html)
+[![Coverity](https://scan.coverity.com/projects/7062/badge.svg)](https://scan.coverity.com/projects/bordertech-wcomponents)
 
 Frontend Tests:
 [![Sauce Test Status](https://saucelabs.com/browser-matrix/javatech.svg)](https://saucelabs.com/u/javatech)
 
 # wcomponents
+
+[![Join the chat at https://gitter.im/BorderTech/wcomponents](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/BorderTech/wcomponents?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 Accessible Web UI Framework for Enterprise
 
  *<sup>Born in 2005 - Open source since August 2015</sup>*

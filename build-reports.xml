@@ -1,0 +1,95 @@
+<project name="BuildReports" default="build" >
+
+	<!-- Build reports for plugins that dont handle aggregate reports. -->
+	<target name="build" depends="init, findbugs, jacoco" />
+
+	<!-- Set properties -->
+	<target name="init">
+
+		<echo message="Reports - Init." />
+
+		<path id="project.class.path">
+			<path path="${maven.plugin.classpath}" />
+		</path>
+
+		<available property="findbugs.present" file="${basedir}/wcomponents-core/target/findbugs-rep/findbugsXml.xml" />
+		<available property="jacoco.present" file="${basedir}/wcomponents-core/target/jacoco.exec" />
+
+		<echo message="Reports - Findbugs Present: ${findbugs.present}" />
+		<echo message="Reports - Jacoco Present: ${jacoco.present}" />
+
+	</target>
+
+	<!-- Findbugs report. -->
+	<target name="findbugs" if="findbugs.present">
+
+		<taskdef name="merge" classname="edu.umd.cs.findbugs.anttask.UnionBugs" classpathref="project.class.path" />
+		<taskdef name="generate" classname="edu.umd.cs.findbugs.anttask.ConvertXmlToTextTask" classpathref="project.class.path" />
+
+		<echo message="Reports - Merge findbug results." />
+
+		<merge to="${build.dir}/findbugs-report.xml">
+			<fileset dir="${basedir}">
+				<include name="**/target/findbugs-rep/findbugsXml.xml" />
+			</fileset>
+		</merge>
+
+		<echo message="Findbugs - Generate findbugs report." />
+
+		<generate inputFile="${build.dir}/findbugs-report.xml" outputFile="${site.dir}/findbugs-report.html" format="html:plain.xsl">
+			<classpath path="${plugin_classpath}" />
+		</generate>
+
+		<echo message="Reports - Report complete." />
+
+	</target>
+
+	<!-- Jacoco coverage report. -->
+	<target name="jacoco" if="jacoco.present">
+
+		<taskdef name="report" classname="org.jacoco.ant.ReportTask" />
+		
+		<echo message="Reports - Create Jacoco Report." />
+
+		<report>
+			<executiondata>
+				<fileset dir="${basedir}/wcomponents-core/target">
+					<include name="jacoco.exec" />
+				</fileset>
+				<fileset dir="${basedir}/wcomponents-lde/target">
+					<include name="jacoco.exec" />
+				</fileset>
+			</executiondata>
+			<structure name="WComponents Coverage">
+				<group name="WComponents">
+					<classfiles>
+						<fileset dir="${basedir}/wcomponents-core/target/classes" />
+						<fileset dir="${basedir}/wcomponents-lde/target/classes" />
+					</classfiles>
+					<sourcefiles encoding="UTF-8">
+						<fileset dir="${basedir}/wcomponents-core/src/main/java" />
+						<fileset dir="${basedir}/wcomponents-lde/src/main/java" />
+					</sourcefiles>
+				</group>
+			</structure>
+			<html destdir="${site.dir}/coverage-report" />
+			<xml destfile="${build.dir}/coverage-report.xml" />
+			<csv destfile="${build.dir}/coverage-report.csv" />
+		</report>
+
+		<echo message="Reports - Renaming Jacoco report resources." />
+		
+		<!-- The jacoco "." files are not handled by the github page server. -->
+		<!-- Rename jacoco ".sessions.html" file.-->
+		<move file="${site.dir}/coverage-report/.sessions.html" tofile="${site.dir}/coverage-report/sessions.html" />
+		<replace dir="${site.dir}/coverage-report" token=".sessions.html" value="sessions.html" />
+
+		<!-- Rename jacoco ".resources" files.-->
+		<move file="${site.dir}/coverage-report/.resources" tofile="${site.dir}/coverage-report/resources" />
+		<replace dir="${site.dir}/coverage-report" token=".resources/" value="resources/" />
+
+		<echo message="Reports - Jacoco report complete." />
+
+	</target>
+
+</project>
