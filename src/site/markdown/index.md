@@ -3,6 +3,8 @@
 [![Checkstyle](badges/checkstyle-result.svg)](checkstyle-aggregate.html)
 [![Findbugs](badges/findbugs-report.svg)](findbugs-report.html)
 [![Coverage](badges/coverage-report.svg)](coverage-report/index.html)
+[![Coverity](https://scan.coverity.com/projects/7062/badge.svg)](https://scan.coverity.com/projects/bordertech-wcomponents)
+
 # wcomponents
 Accessible Web UI Framework for Enterprise
 
