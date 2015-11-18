@@ -1,7 +1,7 @@
 # wcomponents
 Accessible Web UI Framework for Enterprise
 
- *<sup>Born in 2005 - Open source since August 2015</sup>*
+*<sup>Born in 2005 - Open source since August 2015</sup>*
 
 WComponents is an opinionated Java framework for building accessible web applications for enterprise and government.
 
@@ -18,12 +18,10 @@ Its goal is to enable developers to build AJAX enabled, WCAG 2.0 compliant web a
 Frontend Tests:
 [![Sauce Test Status](https://saucelabs.com/browser-matrix/javatech.svg)](https://saucelabs.com/u/javatech)
 
-
 ## Contributing
 Contributions welcome: [Contributing](https://github.com/BorderTech/wcomponents/wiki/Contributing)
 
 [![Join the chat at https://gitter.im/BorderTech/wcomponents](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/BorderTech/wcomponents?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
 
 ## Supported Browsers
 Out of the box WComponents supports all modern desktop and mobile browsers including:
@@ -43,7 +41,7 @@ Out of the box WComponents supports all modern desktop and mobile browsers inclu
 * Microsoft Edge
 * Internet Explorer 8, 9, 10, 11
 
-Because WComponents client side code is extensible and configurable it is perfectly feasible to add support for older browsers not listed above.
+WComponents client side code is extensible and configurable therefore it is perfectly feasible to add support for older browsers not listed above.
 
 ## Building
 If you wish to build WComponents you will need [Apache Maven](https://maven.apache.org/) installed.
