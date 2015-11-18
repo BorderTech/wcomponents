@@ -56,10 +56,10 @@
 				<!-- We want to load up the CSS as soon as we can, so do it immediately after loading require. -->
 				<xsl:variable name="styleLoaderId" select="concat($scriptId,'-styleloader')"/>
 				<script type="text/javascript" id="{$styleLoaderId}">
-					<xsl:text>require(["wc/compat/compat!"], function(){</xsl:text>
+					<xsl:text>require(["wc/compat/compat!"], function() {</xsl:text>
 					<xsl:text>require(["wc/loader/style", "wc/dom/removeElement"</xsl:text>
 					<xsl:if test="$isDebug=1">
-						<xsl:text>,"wc/debug/consoleColor"</xsl:text>
+						<xsl:text>,"wc/debug/consoleColor", "wc/debug/a11y"</xsl:text>
 					</xsl:if>
 					<xsl:text>], function(s, r){try{s.load();}finally{r("</xsl:text>
 					<xsl:value-of select="$styleLoaderId"/>

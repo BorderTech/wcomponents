@@ -4,32 +4,22 @@
 	<xsl:output method="xml" indent="no" omit-xml-declaration="yes" />
 
 	<xsl:variable name="COLOUR.ERROR" select="'#E05D44'"/>
-	<xsl:variable name="COLOUR.OK" select="'#97CA00'"/>
+	<xsl:variable name="COLOUR.OK" select="'#4C1'"/>
 
-	<!-- This template drives the rest of the output -->
+	<!-- This template drives the output -->
 	<xsl:template match="/">
-		<xsl:choose>
-			<xsl:when test="/pmd">
-				<xsl:call-template name="handle_pmd"/>
-			</xsl:when>
-			<xsl:when test="/checkstyle">
-				<xsl:call-template name="handle_checkstyle"/>
-			</xsl:when>
-			<xsl:when test="/BugCollection">
-				<xsl:call-template name="handle_findbugs"/>
-			</xsl:when>
-		</xsl:choose>
+		<xsl:apply-templates select="*"/>
 	</xsl:template>
 
 	<!-- PMD -->
-	<xsl:template name="handle_pmd">
+	<xsl:template match="pmd" >
 
 		<!-- Extract Status -->
-		<xsl:variable name="info" select="count(//pmd//violation[@priority='5'])" />
-		<xsl:variable name="minor" select="count(//pmd//violation[@priority='4'])" />
-		<xsl:variable name="major" select="count(//pmd//violation[@priority='3'])" />
-		<xsl:variable name="critical" select="count(//pmd//violation[@priority='2'])" />
-		<xsl:variable name="blocker" select="count(//pmd//violation[@priority='1'])" />
+		<xsl:variable name="info" select="count(file//violation[@priority='5'])" />
+		<xsl:variable name="minor" select="count(file//violation[@priority='4'])" />
+		<xsl:variable name="major" select="count(file//violation[@priority='3'])" />
+		<xsl:variable name="critical" select="count(file//violation[@priority='2'])" />
+		<xsl:variable name="blocker" select="count(file//violation[@priority='1'])" />
 
 		<!-- Create Status Text. -->
 		<xsl:variable name="status" select="concat('B:', $blocker, ' C:', $critical, ' M:', $major, ' m:', $minor, ' I:', $info)" />
@@ -45,7 +35,7 @@
 			</xsl:otherwise>
 		</xsl:choose>
 		</xsl:variable>
-		
+
 		<!-- Create Badge. -->
 		<xsl:call-template name="createsvg">
 			<xsl:with-param name="SUBJECT.TEXT" select="'PMD'" />
@@ -55,11 +45,11 @@
 	</xsl:template>
 
 	<!-- Checkstyle -->
-	<xsl:template name="handle_checkstyle">
+	<xsl:template match="checkstyle">
 		<!-- Extract Status -->
-		<xsl:variable name="info" select="count(//checkstyle//file//error[@severity='info'])" />
-		<xsl:variable name="warning" select="count(//checkstyle//file//error[@severity='warning'])" />
-		<xsl:variable name="error" select="count(//checkstyle//file//error[@severity='error'])" />
+		<xsl:variable name="info" select="count(file//error[@severity='info'])" />
+		<xsl:variable name="warning" select="count(file//error[@severity='warning'])" />
+		<xsl:variable name="error" select="count(file//error[@severity='error'])" />
 
 		<!-- Create Status Text. -->
 		<xsl:variable name="status" select="concat('E:', $error, ' W:', $warning, ' I:', $info)" />
@@ -75,7 +65,7 @@
 			</xsl:otherwise>
 		</xsl:choose>
 		</xsl:variable>
-		
+
 		<!-- Create Badge. -->
 		<xsl:call-template name="createsvg">
 			<xsl:with-param name="SUBJECT.TEXT" select="'Checkstyle'" />
@@ -85,15 +75,15 @@
 	</xsl:template>
 
 	<!-- Findbugs -->
-	<xsl:template name="handle_findbugs">
+	<xsl:template match="BugCollection">
 		<!-- Extract Status -->
-		<xsl:variable name="low" select="count(//BugCollection//BugInstance[@priority='3'])" />
-		<xsl:variable name="medium" select="count(//BugCollection//BugInstance[@priority='2'])" />
-		<xsl:variable name="high" select="count(//BugCollection//BugInstance[@priority='1'])" />
+		<xsl:variable name="low" select="count(BugInstance[@priority='3'])" />
+		<xsl:variable name="medium" select="count(BugInstance[@priority='2'])" />
+		<xsl:variable name="high" select="count(BugInstance[@priority='1'])" />
 
 		<!-- Create Status Text. -->
 		<xsl:variable name="status" select="concat('H:', $high, ' M:', $medium, ' L:', $low)" />
-		
+
 		<!-- Check Status Colour -->
 		<xsl:variable name="colour">
 		<xsl:choose>
@@ -106,7 +96,6 @@
 		</xsl:choose>
 		</xsl:variable>
 
-				
 		<!-- Create Badge. -->
 		<xsl:call-template name="createsvg">
 			<xsl:with-param name="SUBJECT.TEXT" select="'Findbugs'" />
@@ -115,13 +104,68 @@
 		</xsl:call-template>
 	</xsl:template>
 
+	<!-- Jacoco -->
+	<xsl:template match="report">
+
+		<xsl:variable name="inst_miss" select="counter[@type='INSTRUCTION']/@missed" />
+		<xsl:variable name="inst_cov"  select="counter[@type='INSTRUCTION']/@covered" />
+		<xsl:variable name="brch_miss" select="counter[@type='BRANCH']/@missed" />
+		<xsl:variable name="brch_cov"  select="counter[@type='BRANCH']/@covered" />
+
+		<!-- Instruction percentage. -->
+		<xsl:variable name="inst_per">
+			<xsl:choose>
+				<xsl:when test="$inst_cov &gt; 0">
+					<xsl:value-of select="round($inst_cov div ($inst_miss + $inst_cov) * 100)" />
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="'0'" />
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+
+		<!-- Branch percentage. -->
+		<xsl:variable name="brch_per">
+			<xsl:choose>
+				<xsl:when test="$brch_cov &gt; 0">
+					<xsl:value-of select="round($brch_cov div ($brch_miss + $brch_cov) * 100)" />
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="'0'" />
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+
+		<!-- Create Status Text. -->
+		<xsl:variable name="status" select="concat('I:', $inst_per, '% B:', $brch_per, '%')" />
+
+		<!-- Check Status Colour -->
+		<xsl:variable name="colour">
+			<xsl:choose>
+				<xsl:when test="$inst_per &lt; 80">
+					<xsl:value-of select="$COLOUR.ERROR" />
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="$COLOUR.OK" />
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+
+		<!-- Create Badge. -->
+		<xsl:call-template name="createsvg">
+			<xsl:with-param name="SUBJECT.TEXT" select="'Coverage'" />
+			<xsl:with-param name="STATUS.COLOUR" select="$colour" />
+			<xsl:with-param name="STATUS.TEXT" select="$status" />
+		</xsl:call-template>
+	</xsl:template>
+
 	<!-- SVG Template. Based on shields.io template. -->
 	<xsl:template name="createsvg">
-		
+
 		<xsl:param name="SUBJECT.TEXT" select="'Subject'"/>
 		<xsl:param name="STATUS.TEXT" select="'Status'"/>
 		<xsl:param name="STATUS.COLOUR" select="$COLOUR.OK"/>
-		
+
 		<xsl:variable name="W0" select="string-length($SUBJECT.TEXT) * 8 + 12"/>
 		<xsl:variable name="W1" select="string-length($STATUS.TEXT) * 7.5 + 12 "/>
 		<xsl:variable name="WT" select="$W0 + $W1"/>
