@@ -1,3 +1,13 @@
+# wcomponents
+Accessible Web UI Framework for Enterprise
+
+*<sup>Born in 2005 - Open source since August 2015</sup>*
+
+WComponents is an opinionated Java framework for building accessible web applications for enterprise and government.
+
+Its goal is to enable developers to build AJAX enabled, WCAG 2.0 compliant web applications without the need for expertise in accessibility or client side technologies.
+
+## Status
 [![Build Status](https://travis-ci.org/BorderTech/wcomponents.svg?branch=master)](https://travis-ci.org/BorderTech/wcomponents)
 [![PMD](http://bordertech.github.io/wcomponents/badges/pmd.svg)](http://bordertech.github.io/wcomponents/pmd.html)
 [![Checkstyle](http://bordertech.github.io/wcomponents/badges/checkstyle-result.svg)](http://bordertech.github.io/wcomponents/checkstyle-aggregate.html)
@@ -8,16 +18,10 @@
 Frontend Tests:
 [![Sauce Test Status](https://saucelabs.com/browser-matrix/javatech.svg)](https://saucelabs.com/u/javatech)
 
-# wcomponents
+## Contributing
+Contributions welcome: [Contributing](https://github.com/BorderTech/wcomponents/wiki/Contributing)
 
 [![Join the chat at https://gitter.im/BorderTech/wcomponents](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/BorderTech/wcomponents?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-Accessible Web UI Framework for Enterprise
-
- *<sup>Born in 2005 - Open source since August 2015</sup>*
-
-WComponents is an opinionated Java framework for building accessible web applications for enterprise and government.
-
-Its goal is to enable developers to build AJAX enabled, WCAG 2.0 compliant web applications without the need for expertise in accessibility or client side technologies.
 
 ## Supported Browsers
 Out of the box WComponents supports all modern desktop and mobile browsers including:
@@ -37,7 +41,7 @@ Out of the box WComponents supports all modern desktop and mobile browsers inclu
 * Microsoft Edge
 * Internet Explorer 8, 9, 10, 11
 
-Because WComponents client side code is extensible and configurable it is perfectly feasible to add support for older browsers not listed above.
+WComponents client side code is extensible and configurable therefore it is perfectly feasible to add support for older browsers not listed above.
 
 ## Building
 If you wish to build WComponents you will need [Apache Maven](https://maven.apache.org/) installed.
@@ -64,6 +68,3 @@ For example:
 
 1. Right click the `wcomponents-examples-lde` project.
 2. Select the main class to run: `com.github.bordertech.wcomponents.examples.lde.PlainLauncherProxy`
-
-## Contributing
-Contributions welcome: [Contributing](https://github.com/BorderTech/wcomponents/wiki/Contributing)
