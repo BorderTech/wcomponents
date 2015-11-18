@@ -1,13 +1,21 @@
-define(["axs", "wc/dom/initialise"], function(axs, initialise) {
+define(["axs", "wc/ui/loading"], function(axs, loading) {
 	"use strict";
 
-	initialise.addCallback(a11yTest);
+	loading.done.then(a11yTest);
 
+	/**
+	 * Run the accessbility test on the current page.
+	 */
 	function a11yTest() {
 		var auditConfig, issues;
 		try {
 			auditConfig = new axs.AuditConfiguration();
 			auditConfig.showUnsupportedRulesWarning = false;
+			auditConfig.scope = document.body;
+			/*
+			 * Skip "focusableElementNotVisibleAndNotAriaHidden" because it sets focus and that could be annoying.
+			 */
+			auditConfig.auditRulesToIgnore = ["focusableElementNotVisibleAndNotAriaHidden"];
 			issues = axs.Audit.run(auditConfig);
 			issues.forEach(formatIssue);
 		}
@@ -16,6 +24,11 @@ define(["axs", "wc/dom/initialise"], function(axs, initialise) {
 		}
 	}
 
+	/*
+	 * TODO hook this into a generic "debug messages" mechanism.
+	 * This could be a good place for an experiment such as mustache templates or webcomponents since it only runs when
+	 *    debug is enabled.
+	 */
 	function formatIssue(issue) {
 		var container = document.createElement("div"),
 			list = document.createElement("ul"),
