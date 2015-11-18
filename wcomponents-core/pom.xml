@@ -64,6 +64,8 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>${surefire.version}</version>
 				<configuration>
+					<!-- Arg set by jacoco. -->
+					<argLine>${surefireArgLine}</argLine>
 					<excludedGroups>${excludedTestGroups}</excludedGroups>
 					<includes>
 						<include>com/github/bordertech/wcomponents/WComponentsTest_Suite.java</include>

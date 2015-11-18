@@ -35,6 +35,7 @@
 			<item name="SchemaDoc" href="./schema/schema.html" target="_blank"/>
 			<item name="JSDoc" href="./jsdoc/index.html" target="_blank"/>
 			<item name="Findbugs" href="./findbugs-report.html" target="_blank"/>
+			<item name="Coverage" href="./coverage-report/index.html" target="_blank"/>
 		</menu>
 		<menu ref="reports"/>
 	</body>
