@@ -58,7 +58,7 @@
 		<xsl:if test="$isError and $isError !=''">
 			<xsl:call-template name="invalid"/>
 		</xsl:if>
-		
+
 		<xsl:variable name="class">
 			<xsl:value-of select="concat(local-name(), ' ', @class)"/>
 			<xsl:if test="@submitOnChange and not(@list)">
@@ -68,7 +68,7 @@
 		<xsl:attribute name="class">
 			<xsl:value-of select="normalize-space($class)"/>
 		</xsl:attribute>
-		
+
 		<xsl:call-template name="requiredElement"/>
 		<xsl:call-template name="ajaxController">
 			<xsl:with-param name="id">
@@ -125,7 +125,7 @@
 			<xsl:value-of select="local-name()"/>
 			<xsl:if test="not(@readOnly)">
 				<xsl:text> notext noborder</xsl:text>
-				<xsl:if test="@required and not(self::ui:radioButtonSelect)">
+				<xsl:if test="@required">
 					<xsl:text> wc_req</xsl:text>
 				</xsl:if>
 			</xsl:if>
