@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WProgressBarRenderer.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.render.webxml</a> &gt; <span class="el_source">WProgressBarRenderer.java</span></div><h1>WProgressBarRenderer.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.render.webxml;
+
+import com.github.bordertech.wcomponents.Renderer;
+import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.WProgressBar;
+import com.github.bordertech.wcomponents.WProgressBar.ProgressBarType;
+import com.github.bordertech.wcomponents.WProgressBar.UnitType;
+import com.github.bordertech.wcomponents.XmlStringBuilder;
+import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
+import com.github.bordertech.wcomponents.util.Util;
+
+/**
+ * {@link Renderer} for the {@link WProgressBar} component.
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ */
+<span class="fc" id="L18">final class WProgressBarRenderer extends AbstractWebXmlRenderer {</span>
+
+	/**
+	 * Paints the given WProgressBar.
+	 *
+	 * @param component the WProgressBar to paint.
+	 * @param renderContext the RenderContext to paint to.
+	 */
+	@Override
+	public void doRender(final WComponent component, final WebXmlRenderContext renderContext) {
+<span class="fc" id="L28">		WProgressBar progressBar = (WProgressBar) component;</span>
+<span class="fc" id="L29">		XmlStringBuilder xml = renderContext.getWriter();</span>
+
+<span class="fc" id="L31">		xml.appendTagOpen(&quot;ui:progressBar&quot;);</span>
+<span class="fc" id="L32">		xml.appendAttribute(&quot;id&quot;, component.getId());</span>
+<span class="fc" id="L33">		xml.appendOptionalAttribute(&quot;class&quot;, component.getHtmlClass());</span>
+<span class="fc" id="L34">		xml.appendOptionalAttribute(&quot;track&quot;, component.isTracking(), &quot;true&quot;);</span>
+<span class="fc" id="L35">		xml.appendOptionalAttribute(&quot;hidden&quot;, progressBar.isHidden(), &quot;true&quot;);</span>
+<span class="fc" id="L36">		xml.appendAttribute(&quot;value&quot;, progressBar.getValue());</span>
+<span class="fc" id="L37">		xml.appendAttribute(&quot;max&quot;, progressBar.getMax());</span>
+<span class="fc" id="L38">		xml.appendOptionalAttribute(&quot;toolTip&quot;, progressBar.getToolTip());</span>
+<span class="fc" id="L39">		xml.appendOptionalAttribute(&quot;accessibleText&quot;, progressBar.getAccessibleText());</span>
+
+<span class="fc" id="L41">		ProgressBarType type = progressBar.getProgressBarType();</span>
+<span class="fc bfc" id="L42" title="All 2 branches covered.">		xml.appendOptionalAttribute(&quot;type&quot;, type == ProgressBarType.NORMAL ? null : &quot;small&quot;);</span>
+
+<span class="fc" id="L44">		UnitType unitType = progressBar.getUnitType();</span>
+<span class="fc bfc" id="L45" title="All 2 branches covered.">		xml.appendOptionalAttribute(&quot;output&quot;, unitType == UnitType.FRACTION ? null : &quot;percent&quot;);</span>
+
+<span class="fc" id="L47">		String text = progressBar.getText();</span>
+
+<span class="fc bfc" id="L49" title="All 2 branches covered.">		if (Util.empty(text)) {</span>
+<span class="fc" id="L50">			xml.appendEnd();</span>
+		} else {
+<span class="fc" id="L52">			xml.appendClose();</span>
+<span class="fc" id="L53">			xml.appendEscaped(text);</span>
+<span class="fc" id="L54">			xml.appendEndTag(&quot;ui:progressBar&quot;);</span>
+		}
+<span class="fc" id="L56">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

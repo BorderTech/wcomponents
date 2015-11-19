@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>ForwardException.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">ForwardException.java</span></div><h1>ForwardException.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import java.io.IOException;
+
+/**
+ * This escape is thrown to forward the browser to a different URL rather than rendering the UI.
+ *
+ * @author Martin Shevchenko
+ */
+public class ForwardException extends ActionEscape {
+
+	/**
+	 * The URL to forward to.
+	 */
+	private final String forwardTo;
+
+	/**
+	 * Creates a ForwardException.
+	 *
+	 * @param forwardTo the URL to forward to.
+	 */
+<span class="fc" id="L22">	public ForwardException(final String forwardTo) {</span>
+<span class="fc" id="L23">		this.forwardTo = forwardTo;</span>
+<span class="fc" id="L24">	}</span>
+
+	/**
+	 * @return the URL to forward to.
+	 */
+	public String getForwardTo() {
+<span class="fc" id="L30">		return forwardTo;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void escape() throws IOException {
+<span class="fc" id="L38">		getResponse().sendRedirect(getForwardTo());</span>
+<span class="fc" id="L39">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

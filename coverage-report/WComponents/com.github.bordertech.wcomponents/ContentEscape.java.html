@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>ContentEscape.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">ContentEscape.java</span></div><h1>ContentEscape.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import com.github.bordertech.wcomponents.container.ResponseCacheInterceptor.CacheType;
+import com.github.bordertech.wcomponents.util.StreamUtil;
+import com.github.bordertech.wcomponents.util.SystemException;
+import java.io.IOException;
+import java.io.InputStream;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+/**
+ * An Escape subclass that bypasses the usual request -&amp;gt; paint flow by directly producing the binary document
+ * content.
+ *
+ * @author Martin Shevchenko
+ * @since 1.0.0
+ */
+public class ContentEscape extends ActionEscape {
+
+	/**
+	 * The logger instance for this class.
+	 */
+<span class="fc" id="L23">	private static final Log LOG = LogFactory.getLog(ContentEscape.class);</span>
+
+	/**
+	 * The ContentAccess which will provide the content.
+	 */
+	private final ContentAccess contentAccess;
+
+	/**
+	 * A flag if the content can be cached.
+	 */
+	private boolean cacheable;
+
+	/**
+	 * A flag if the content should be displayed inline, or downloaded.
+	 */
+<span class="fc" id="L38">	private boolean displayInline = true;</span>
+
+	/**
+	 * Creates a ContentEscape.
+	 *
+	 * @param contentAccess the ContentAccess which will provide the content.
+	 */
+<span class="fc" id="L45">	public ContentEscape(final ContentAccess contentAccess) {</span>
+<span class="fc" id="L46">		this.contentAccess = contentAccess;</span>
+<span class="fc" id="L47">	}</span>
+
+	/**
+	 * Writes the content to the response.
+	 *
+	 * @throws IOException if there is an error writing the content.
+	 */
+	@Override
+	public void escape() throws IOException {
+<span class="fc" id="L56">		LOG.debug(&quot;...ContentEscape escape()&quot;);</span>
+
+<span class="fc bfc" id="L58" title="All 2 branches covered.">		if (contentAccess == null) {</span>
+<span class="fc" id="L59">			LOG.warn(&quot;No content to output&quot;);</span>
+		} else {
+<span class="fc" id="L61">			String mimeType = contentAccess.getMimeType();</span>
+
+<span class="fc" id="L63">			Response response = getResponse();</span>
+<span class="fc" id="L64">			response.setContentType(mimeType);</span>
+
+<span class="fc bfc" id="L66" title="All 2 branches covered.">			if (isCacheable()) {</span>
+<span class="fc" id="L67">				getResponse().setHeader(&quot;Cache-Control&quot;, CacheType.CONTENT_CACHE.getSettings());</span>
+			} else {
+<span class="fc" id="L69">				getResponse().setHeader(&quot;Cache-Control&quot;, CacheType.CONTENT_NO_CACHE.getSettings());</span>
+			}
+
+<span class="fc bfc" id="L72" title="All 2 branches covered.">			if (contentAccess.getDescription() != null) {</span>
+<span class="fc" id="L73">				String fileName = WebUtilities.encodeForContentDispositionHeader(contentAccess.</span>
+<span class="fc" id="L74">						getDescription());</span>
+
+<span class="pc bpc" id="L76" title="1 of 2 branches missed.">				if (displayInline) {</span>
+<span class="fc" id="L77">					response.setHeader(&quot;Content-Disposition&quot;, &quot;inline; filename=&quot; + fileName);</span>
+				} else {
+<span class="nc" id="L79">					response.setHeader(&quot;Content-Disposition&quot;, &quot;attachment; filename=&quot; + fileName);</span>
+				}
+			}
+
+<span class="fc bfc" id="L83" title="All 2 branches covered.">			if (contentAccess instanceof ContentStreamAccess) {</span>
+<span class="fc" id="L84">				InputStream stream = null;</span>
+
+				try {
+<span class="fc" id="L87">					stream = ((ContentStreamAccess) contentAccess).getStream();</span>
+
+<span class="pc bpc" id="L89" title="1 of 2 branches missed.">					if (stream == null) {</span>
+<span class="nc" id="L90">						throw new SystemException(</span>
+								&quot;ContentAccess returned null stream, access=&quot; + contentAccess);
+					}
+
+<span class="fc" id="L94">					StreamUtil.copy(stream, response.getOutputStream());</span>
+				} finally {
+<span class="pc" id="L96">					StreamUtil.safeClose(stream);</span>
+<span class="fc" id="L97">				}</span>
+<span class="fc" id="L98">			} else {</span>
+<span class="fc" id="L99">				byte[] bytes = contentAccess.getBytes();</span>
+
+<span class="pc bpc" id="L101" title="1 of 2 branches missed.">				if (bytes == null) {</span>
+<span class="nc" id="L102">					throw new SystemException(</span>
+							&quot;ContentAccess returned null data, access=&quot; + contentAccess);
+				}
+
+<span class="fc" id="L106">				response.getOutputStream().write(bytes);</span>
+			}
+		}
+<span class="fc" id="L109">	}</span>
+
+	/**
+	 * @return true if content can be cached.
+	 */
+	public boolean isCacheable() {
+<span class="fc" id="L115">		return cacheable;</span>
+	}
+
+	/**
+	 * @param cacheable set true if the content can be cached.
+	 */
+	public void setCacheable(final boolean cacheable) {
+<span class="fc" id="L122">		this.cacheable = cacheable;</span>
+<span class="fc" id="L123">	}</span>
+
+	/**
+	 * Indicates whether the content should be displayed inline or downloaded.
+	 *
+	 * @return true if the content should be displayed inline, false if it should be downloaded.
+	 */
+	public boolean isDisplayInline() {
+<span class="nc" id="L131">		return displayInline;</span>
+	}
+
+	/**
+	 * Sets whether the content should be displayed inline or downloaded.
+	 *
+	 * @param displayInline true if the content should be displayed inline, false if it should be downloaded.
+	 */
+	public void setDisplayInline(final boolean displayInline) {
+<span class="fc" id="L140">		this.displayInline = displayInline;</span>
+<span class="fc" id="L141">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

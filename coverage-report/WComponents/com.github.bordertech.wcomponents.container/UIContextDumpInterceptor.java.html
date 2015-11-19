@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>UIContextDumpInterceptor.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.container</a> &gt; <span class="el_source">UIContextDumpInterceptor.java</span></div><h1>UIContextDumpInterceptor.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.container;
+
+import com.github.bordertech.wcomponents.RenderContext;
+import com.github.bordertech.wcomponents.UIContext;
+import com.github.bordertech.wcomponents.UIContextHolder;
+import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.ObjectGraphDump;
+import com.github.bordertech.wcomponents.util.ObjectGraphNode;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+/**
+ * SessionDumpInterceptor is an interceptor that dumps the contents of the session to the log file.
+ *
+ * For local testing/troubleshooting, the filter can be enabled by setting the following property:
+ * com.github.bordertech.wcomponents.container.UIContextDumpInterceptor.enabled=true
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ */
+<span class="fc" id="L21">public class UIContextDumpInterceptor extends InterceptorComponent {</span>
+
+	/**
+	 * The logger instance for this class.
+	 */
+<span class="fc" id="L26">	private static final Log LOG = LogFactory.getLog(UIContextDumpInterceptor.class);</span>
+
+	/**
+	 * The key used to look up the &quot;enabled&quot; flag in the {@link Config WComponent Configuration}.
+	 */
+	private static final String PARAMETERS_ENABLED_KEY
+			= &quot;bordertech.wcomponents.developer.UIContextDump.enabled&quot;;
+
+	/**
+	 * The key used to look up the single flag in the {@link Config WComponent Configuration}.
+	 */
+	private static final String UICONTEXT_TREE_DUMPED_KEY
+			= &quot;com.github.bordertech.wcomponents.container.UIContextDumpInterceptor.treeDumped&quot;;
+
+	/**
+	 * Paints the component.
+	 *
+	 * @param renderContext the renderContext to send the output to.
+	 */
+	@Override
+	public void paint(final RenderContext renderContext) {
+<span class="fc" id="L47">		boolean enabled = Config.getInstance().getBoolean(PARAMETERS_ENABLED_KEY, false);</span>
+
+<span class="fc" id="L49">		super.paint(renderContext);</span>
+
+<span class="pc bpc" id="L51" title="1 of 2 branches missed.">		if (enabled) {</span>
+<span class="nc" id="L52">			UIContext uic = UIContextHolder.getCurrent();</span>
+
+			// We want to dump the shared WComponent tree (UIC) first, so that all the
+			// references from the UI context are shown as such
+<span class="nc" id="L56">			Object[] treeAndSession</span>
+					= new Object[]{
+<span class="nc" id="L58">						uic.getUI(),</span>
+						uic
+					};
+
+			try {
+<span class="nc" id="L63">				ObjectGraphNode root = ObjectGraphDump.dump(treeAndSession);</span>
+
+				// We only want to dump the tree once
+<span class="nc" id="L66">				boolean treeDumped = &quot;true&quot;.equalsIgnoreCase((String) uic.getFwkAttribute(</span>
+						UICONTEXT_TREE_DUMPED_KEY));
+
+<span class="nc bnc" id="L69" title="All 2 branches missed.">				if (!treeDumped) {</span>
+<span class="nc" id="L70">					uic.setFwkAttribute(UICONTEXT_TREE_DUMPED_KEY, &quot;true&quot;);</span>
+
+					// The UI will be the 1st child
+<span class="nc" id="L73">					LOG.info(&quot;UI dump follows:&quot;);</span>
+<span class="nc" id="L74">					LOG.info(((ObjectGraphNode) root.getChildAt(0)).toXml());</span>
+				}
+
+				// The UI context will be the 2nd child
+<span class="nc" id="L78">				LOG.info(&quot;UI Context dump follows:&quot;);</span>
+<span class="nc" id="L79">				LOG.info(((ObjectGraphNode) root.getChildAt(1)).toXml());</span>
+<span class="nc" id="L80">			} catch (Exception e) {</span>
+<span class="nc" id="L81">				LOG.error(&quot;Failed to dump context&quot;, e);</span>
+<span class="nc" id="L82">			}</span>
+		}
+<span class="fc" id="L84">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

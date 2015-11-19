@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>MockRequest.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.util.mock</a> &gt; <span class="el_source">MockRequest.java</span></div><h1>MockRequest.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.util.mock;
+
+import com.github.bordertech.wcomponents.AbstractRequest;
+import com.github.bordertech.wcomponents.UIContext;
+import com.github.bordertech.wcomponents.UIContextHolder;
+import com.github.bordertech.wcomponents.WButton;
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import org.apache.commons.fileupload.FileItem;
+
+/**
+ * A mock request is useful when you want to write junits and the like. Normally the container running the components
+ * handles this, but in the case of junits, you are the container, so you must supply a request. MockRequest fills this
+ * requirement.
+ *
+ * @author Martin Shevchenko
+ * @author Rick Brown
+ * @since 1.0.0
+ */
+<span class="fc" id="L24">public class MockRequest extends AbstractRequest {</span>
+
+	/**
+	 * Stores the mock parameters for this request.
+	 */
+<span class="fc" id="L29">	private final Map&lt;String, Object&gt; parameters = new HashMap&lt;&gt;(0);</span>
+
+	/**
+	 * Stores the mock uploaded files for this request.
+	 */
+<span class="fc" id="L34">	private final Map&lt;String, FileItem&gt; files = new HashMap&lt;&gt;(0);</span>
+
+	/**
+	 * A store of arbitrary, application-defined attributes.
+	 */
+<span class="fc" id="L39">	private final Map&lt;String, Serializable&gt; attributes = new HashMap&lt;&gt;();</span>
+
+	/**
+	 * Since there's no backing HTTP session, the session attributes are just stored in a map.
+	 */
+<span class="fc" id="L44">	private final Map&lt;String, Serializable&gt; sessionAttributes = new HashMap&lt;&gt;();</span>
+
+	/**
+	 * The set of roles which the user has.
+	 */
+<span class="fc" id="L49">	private final Set&lt;String&gt; userRoles = new HashSet&lt;&gt;();</span>
+
+	/**
+	 * The mock request method. Defaults to POST.
+	 */
+<span class="fc" id="L54">	private String method = &quot;POST&quot;;</span>
+
+	/**
+	 * The mock maxInactiveInterval. Defaults to -1 (no timeout)
+	 */
+<span class="fc" id="L59">	private int maxInactiveInterval = -1;</span>
+
+	//=== Start MockRequest specific convenience methods ===
+	/**
+	 * Sets a parameter.
+	 *
+	 * @param key the parameter key.
+	 * @param value the parameter value.
+	 */
+	public void setParameter(final String key, final String value) {
+<span class="fc" id="L69">		parameters.put(key, value);</span>
+<span class="fc" id="L70">	}</span>
+
+	/**
+	 * Sets a parameter.
+	 *
+	 * @param key the parameter key.
+	 * @param value the parameter values.
+	 */
+	public void setParameter(final String key, final String[] value) {
+<span class="fc" id="L79">		parameters.put(key, value);</span>
+<span class="fc" id="L80">	}</span>
+
+	/**
+	 * Convenience method that adds a parameter emulating a button press.
+	 *
+	 * @param uic the current user's UIContext
+	 * @param button the button to add a parameter for.
+	 */
+	public void addParameterForButton(final UIContext uic, final WButton button) {
+<span class="fc" id="L89">		UIContextHolder.pushContext(uic);</span>
+
+		try {
+<span class="fc" id="L92">			parameters.put(button.getId(), &quot;x&quot;);</span>
+		} finally {
+<span class="pc" id="L94">			UIContextHolder.popContext();</span>
+<span class="fc" id="L95">		}</span>
+<span class="fc" id="L96">	}</span>
+
+	/**
+	 * Sets mock file upload contents.
+	 *
+	 * @deprecated Because it appears unused
+	 * @param key the parameter key.
+	 * @param contents the file binary data.
+	 */
+	public void setFileContents(final String key, final byte[] contents) {
+<span class="nc" id="L106">		MockFileItem fileItem = new MockFileItem();</span>
+<span class="nc" id="L107">		fileItem.set(contents);</span>
+
+<span class="nc" id="L109">		files.put(key, fileItem);</span>
+<span class="nc" id="L110">	}</span>
+
+	/**
+	 * Retrieves a mock file for the given parameter name.
+	 *
+	 * @param key the parameter name
+	 * @return the MockFileItem with the given key.
+	 */
+	@Override
+	public FileItem getFileItem(final String key) {
+<span class="fc" id="L120">		return getFiles().get(key);</span>
+	}
+
+	/**
+	 * Retrieves mock files for the given parameter name.
+	 *
+	 * @param key the parameter name
+	 * @return the MockFileItems with the given key.
+	 */
+	@Override
+	public FileItem[] getFileItems(final String key) {
+<span class="nc" id="L131">		FileItem file = getFiles().get(key);</span>
+<span class="nc bnc" id="L132" title="All 2 branches missed.">		if (file != null) {</span>
+<span class="nc" id="L133">			return new FileItem[]{(FileItem) file};</span>
+		}
+<span class="nc" id="L135">		return null;</span>
+	}
+
+	/**
+	 * Retrieves the contents of a mock file for the given parameter name.
+	 *
+	 * @param key the parameter name
+	 * @return FileContents from the MockFileItem with the given key.
+	 */
+	@Override
+	public byte[] getFileContents(final String key) {
+<span class="nc" id="L146">		return getFiles().get(key).get();</span>
+	}
+
+	/**
+	 * Clears all the parameter, file, and attribute values.
+	 */
+	public void clearRequest() {
+<span class="nc" id="L153">		parameters.clear();</span>
+<span class="nc" id="L154">		files.clear();</span>
+<span class="nc" id="L155">		attributes.clear();</span>
+<span class="nc" id="L156">	}</span>
+
+	/**
+	 * Clears the session attributes.
+	 */
+	public void clearSession() {
+<span class="nc" id="L162">		sessionAttributes.clear();</span>
+<span class="nc" id="L163">	}</span>
+
+	/**
+	 * Sets the roles which the user has for this request.
+	 *
+	 * @param userRoles the user roles to add.
+	 */
+	public void setUserRoles(final List&lt;String&gt; userRoles) {
+<span class="nc" id="L171">		this.userRoles.clear();</span>
+<span class="nc" id="L172">		this.userRoles.addAll(userRoles);</span>
+<span class="nc" id="L173">	}</span>
+
+	//=== End   MockRequest specific convenience methods ===
+	/**
+	 * @return the parameter map.
+	 */
+	@Override
+	public Map&lt;String, Object&gt; getParameters() {
+<span class="fc" id="L181">		return parameters;</span>
+	}
+
+	/**
+	 * @return the file upload map.
+	 */
+	@Override
+	public Map&lt;String, FileItem&gt; getFiles() {
+<span class="fc" id="L189">		return files;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Serializable getAttribute(final String key) {
+<span class="nc" id="L197">		return attributes.get(key);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setAttribute(final String key, final Serializable value) {
+<span class="nc" id="L205">		attributes.put(key, value);</span>
+<span class="nc" id="L206">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Serializable getSessionAttribute(final String key) {
+<span class="fc" id="L213">		return sessionAttributes.get(key);</span>
+	}
+
+	/**
+	 * Note that this mock request just maps to the global session.
+	 *
+	 * @param key the attribute key
+	 * @return the value of the session attribute with the given key
+	 */
+	@Override
+	public Serializable getAppSessionAttribute(final String key) {
+<span class="fc" id="L224">		return getSessionAttribute(key);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setSessionAttribute(final String key, final Serializable value) {
+<span class="fc" id="L232">		sessionAttributes.put(key, value);</span>
+<span class="fc" id="L233">	}</span>
+
+	/**
+	 * Note that this mock request just maps to the global session.
+	 *
+	 * @param key the session attribute key
+	 * @param value the value of the session attribute
+	 */
+	@Override
+	public void setAppSessionAttribute(final String key, final Serializable value) {
+<span class="fc" id="L243">		setSessionAttribute(key, value);</span>
+<span class="fc" id="L244">	}</span>
+
+	/**
+	 * Support for Public Render Parameters in Portal. In a Servlet environment, this will be the same as the session.
+	 *
+	 * @param key The key for the parameter.
+	 * @param value The value of the parameter.
+	 * @since 1.0.0
+	 * @deprecated portal specific. user {@link #setSessionAttribute(String, Serializable)}
+	 */
+	@Override
+	public void setRenderParameter(final String key, final Serializable value) {
+<span class="nc" id="L256">		setSessionAttribute(key, value);</span>
+<span class="nc" id="L257">	}</span>
+
+	/**
+	 * Support for Public Render Parameters in Portal. In a Servlet environment, this will be the same as the session.
+	 *
+	 * @param key The key for the parameter.
+	 * @return The value of the parameter.
+	 * @since 1.0.0
+	 * @deprecated portal specific. user {@link #getSessionAttribute(String)}
+	 */
+	@Override
+	public Serializable getRenderParameter(final String key) {
+<span class="nc" id="L269">		return getSessionAttribute(key);</span>
+	}
+
+	/**
+	 * Returns true if the user is in the given role.
+	 *
+	 * @param role a String specifying the name of the role.
+	 * @return true if the user is in the given role, otherwise false.
+	 */
+	@Override
+	public boolean isUserInRole(final String role) {
+<span class="nc" id="L280">		return userRoles.contains(role);</span>
+	}
+
+	/**
+	 * @return the name of the HTTP method with which this request was made, for example, GET, POST, or PUT.
+	 */
+	@Override
+	public String getMethod() {
+<span class="fc" id="L288">		return method;</span>
+	}
+
+	/**
+	 * For a mock request, allow the method to be set.
+	 *
+	 * @param method the name of the HTTP method with which this request was made, for example, GET, POST, or PUT.
+	 */
+	public void setMethod(final String method) {
+<span class="fc" id="L297">		this.method = method;</span>
+<span class="fc" id="L298">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public int getMaxInactiveInterval() {
+<span class="nc" id="L305">		return maxInactiveInterval;</span>
+	}
+
+	/**
+	 * Set the mock maxInactiveInterval.
+	 *
+	 * @param interval the period in seconds to set as the maxInactiveInterval
+	 */
+	public void setMaxInactiveInterval(final int interval) {
+<span class="nc" id="L314">		this.maxInactiveInterval = interval;</span>
+<span class="nc" id="L315">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

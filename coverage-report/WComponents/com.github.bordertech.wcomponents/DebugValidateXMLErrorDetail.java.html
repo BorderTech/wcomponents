@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>DebugValidateXMLErrorDetail.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">DebugValidateXMLErrorDetail.java</span></div><h1>DebugValidateXMLErrorDetail.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+/**
+ * Details of the WComponent and XML Validation Error.
+ *
+ * @author Jonathan Austin
+ * @since 1.0.0
+ */
+public class DebugValidateXMLErrorDetail {
+
+	/**
+	 * The validation error message text.
+	 */
+	private final String errorMessage;
+	/**
+	 * The description of the component which has the validation error.
+	 */
+	private final String componentDescription;
+
+	/**
+	 * Creates a DebugValidateXMLErrorDetail.
+	 *
+	 * @param errorMessage the error message text.
+	 * @param componentDesription the description of the component.
+	 */
+<span class="nc" id="L26">	public DebugValidateXMLErrorDetail(final String errorMessage, final String componentDesription) {</span>
+<span class="nc" id="L27">		this.errorMessage = errorMessage;</span>
+<span class="nc" id="L28">		this.componentDescription = componentDesription;</span>
+<span class="nc" id="L29">	}</span>
+
+	/**
+	 * @return the error message text.
+	 */
+	public String getErrorMessage() {
+<span class="nc" id="L35">		return this.errorMessage;</span>
+	}
+
+	/**
+	 * @return the description of the component.
+	 */
+	public String getComponentDescription() {
+<span class="nc" id="L42">		return this.componentDescription;</span>
+	}
+
+	/**
+	 * Indicates whether this error details is equal to the given object.
+	 *
+	 * Two DebugValidateXMLErrorDetails are considered equal if they have the same error message and component
+	 * description.
+	 *
+	 * @param obj the object to test for equality.
+	 * @return true if the given object is a DebugValidateXMLErrorDetail and is equal to this one, otherwise false.
+	 */
+	@Override
+	public boolean equals(final Object obj) {
+<span class="nc bnc" id="L56" title="All 2 branches missed.">		if (this == obj) {</span>
+<span class="nc" id="L57">			return true;</span>
+		}
+
+<span class="nc bnc" id="L60" title="All 2 branches missed.">		if (!(obj instanceof DebugValidateXMLErrorDetail)) {</span>
+<span class="nc" id="L61">			return false;</span>
+		}
+
+<span class="nc" id="L64">		DebugValidateXMLErrorDetail other = (DebugValidateXMLErrorDetail) obj;</span>
+<span class="nc bnc" id="L65" title="All 4 branches missed.">		return other.errorMessage.equals(this.errorMessage) &amp;&amp; other.componentDescription.equals(</span>
+				this.componentDescription);
+	}
+
+	/**
+	 * @return the hash code for this DebugValidateXMLErrorDetail.
+	 */
+	@Override
+	public int hashCode() {
+<span class="nc" id="L74">		String hash = this.errorMessage + this.componentDescription;</span>
+<span class="nc" id="L75">		return hash.hashCode();</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

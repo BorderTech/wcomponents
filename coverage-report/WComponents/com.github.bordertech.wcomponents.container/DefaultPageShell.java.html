@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>DefaultPageShell.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.container</a> &gt; <span class="el_source">DefaultPageShell.java</span></div><h1>DefaultPageShell.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.container;
+
+import com.github.bordertech.wcomponents.ComponentWithContext;
+import com.github.bordertech.wcomponents.Headers;
+import com.github.bordertech.wcomponents.UIContext;
+import com.github.bordertech.wcomponents.UIContextHolder;
+import com.github.bordertech.wcomponents.WApplication;
+import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.WWindow;
+import com.github.bordertech.wcomponents.WebUtilities;
+import com.github.bordertech.wcomponents.util.XMLUtil;
+import java.io.PrintWriter;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * &lt;p&gt;
+ * A default implementation of the PageShell interface.&lt;/p&gt;
+ *
+ * &lt;p&gt;
+ * This implementation writes the absolute minimum amount of mark-up necessary to support a WComponent application.
+ * There is no visible content written to the headers/footers.&lt;/p&gt;
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ */
+<span class="fc" id="L27">public class DefaultPageShell implements PageShell {</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void openDoc(final PrintWriter writer) {
+<span class="fc" id="L34">		UIContext uic = UIContextHolder.getCurrent();</span>
+<span class="fc" id="L35">		String title = getApplicationTitle(uic);</span>
+
+<span class="fc" id="L37">		writer.write(XMLUtil.getXMLDeclarationWithThemeXslt(uic));</span>
+		// Provide temporary backward compatibility with &amp;nbsp; while
+		// applications convert to be XML compliant.
+<span class="fc" id="L40">		writer.write(XMLUtil.DOC_TYPE);</span>
+<span class="fc" id="L41">		writer.write(</span>
+<span class="fc" id="L42">				&quot;\n&lt;ui:root title=\&quot;&quot; + WebUtilities.encode(title) + &quot;\&quot; &quot; + XMLUtil.STANDARD_NAMESPACES + &quot;&gt;&quot;);</span>
+<span class="fc" id="L43">	}</span>
+
+	/**
+	 * Retrieves the application title for the given context. This mess is required due to WWindow essentially existing
+	 * as a separate UI root. If WWindow is eventually removed, then we can just retrieve the title from the root
+	 * WApplication.
+	 *
+	 * @param uic the context to check.
+	 * @return the current application title.
+	 */
+	private String getApplicationTitle(final UIContext uic) {
+<span class="fc" id="L54">		WComponent root = uic.getUI();</span>
+<span class="fc bfc" id="L55" title="All 2 branches covered.">		String title = root instanceof WApplication ? ((WApplication) root).getTitle() : null;</span>
+
+<span class="fc" id="L57">		Map&lt;String, String&gt; params = uic.getEnvironment().getHiddenParameters();</span>
+<span class="fc" id="L58">		String target = params.get(WWindow.WWINDOW_REQUEST_PARAM_KEY);</span>
+
+<span class="pc bpc" id="L60" title="1 of 2 branches missed.">		if (target != null) {</span>
+<span class="nc" id="L61">			ComponentWithContext targetComp = WebUtilities.getComponentById(target, true);</span>
+
+<span class="nc bnc" id="L63" title="All 4 branches missed.">			if (targetComp != null &amp;&amp; targetComp.getComponent() instanceof WWindow) {</span>
+				try {
+<span class="nc" id="L65">					UIContextHolder.pushContext(targetComp.getContext());</span>
+<span class="nc" id="L66">					title = ((WWindow) targetComp.getComponent()).getTitle();</span>
+				} finally {
+<span class="nc" id="L68">					UIContextHolder.popContext();</span>
+<span class="nc" id="L69">				}</span>
+			}
+		}
+
+<span class="pc bpc" id="L73" title="1 of 2 branches missed.">		return title == null ? &quot;&quot; : title;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void writeHeader(final PrintWriter writer) {
+<span class="fc" id="L81">		UIContext uic = UIContextHolder.getCurrent();</span>
+<span class="fc" id="L82">		addHeadlines(writer, uic.getHeaders().getHeadLines());</span>
+<span class="fc" id="L83">		addJsHeadlines(writer, uic.getHeaders().getHeadLines(Headers.JAVASCRIPT_HEADLINE));</span>
+<span class="fc" id="L84">		addCssHeadlines(writer, uic.getHeaders().getHeadLines(Headers.CSS_HEADLINE));</span>
+<span class="fc" id="L85">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void writeApplicationHeader(final PrintWriter writer) {
+		// This implementation does not write any visible app header
+<span class="nc" id="L93">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void writeApplicationFooter(final PrintWriter writer) {
+		// This implementation does not write any visible app footer
+<span class="nc" id="L101">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void writeFooter(final PrintWriter writer) {
+		// This implementation does not require a footer element
+<span class="fc" id="L109">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void closeDoc(final PrintWriter writer) {
+<span class="fc" id="L116">		writer.write(&quot;&lt;/ui:root&gt;&quot;);</span>
+<span class="fc" id="L117">	}</span>
+
+	/**
+	 * Add a list of html headline entries intended to be added only once to the page.
+	 *
+	 * @param writer the writer to write to.
+	 * @param headlines a list of html entries to be added to the page as a whole.
+	 */
+	private void addHeadlines(final PrintWriter writer, final List headlines) {
+<span class="pc bpc" id="L126" title="3 of 4 branches missed.">		if (headlines == null || headlines.isEmpty()) {</span>
+<span class="fc" id="L127">			return;</span>
+		}
+
+<span class="nc" id="L130">		writer.write(&quot;\n&lt;!-- Start general headlines --&gt;&quot;);</span>
+
+<span class="nc bnc" id="L132" title="All 2 branches missed.">		for (Object line : headlines) {</span>
+<span class="nc" id="L133">			writer.write(&quot;\n&quot; + line);</span>
+<span class="nc" id="L134">		}</span>
+
+<span class="nc" id="L136">		writer.println(&quot;\n&lt;!-- End general headlines --&gt;&quot;);</span>
+<span class="nc" id="L137">	}</span>
+
+	/**
+	 * Add a list of javascript headline entries intended to be added only once to the page.
+	 *
+	 * @param writer the writer to write to.
+	 * @param jsHeadlines a list of javascript entries to be added to the page as a whole.
+	 */
+	private void addJsHeadlines(final PrintWriter writer, final List jsHeadlines) {
+<span class="pc bpc" id="L146" title="3 of 4 branches missed.">		if (jsHeadlines == null || jsHeadlines.isEmpty()) {</span>
+<span class="fc" id="L147">			return;</span>
+		}
+
+<span class="nc" id="L150">		writer.println();</span>
+<span class="nc" id="L151">		writer.write(&quot;\n&lt;!-- Start javascript headlines --&gt;&quot;</span>
+				+ &quot;\n&lt;script type=\&quot;&quot; + WebUtilities.CONTENT_TYPE_JS + &quot;\&quot;&gt;&quot;);
+
+<span class="nc bnc" id="L154" title="All 2 branches missed.">		for (Object line : jsHeadlines) {</span>
+<span class="nc" id="L155">			writer.write(&quot;\n&quot; + line);</span>
+<span class="nc" id="L156">		}</span>
+
+<span class="nc" id="L158">		writer.write(&quot;\n&lt;/script&gt;&quot;</span>
+				+ &quot;\n&lt;!-- End javascript headlines --&gt;&quot;);
+<span class="nc" id="L160">	}</span>
+
+	/**
+	 * Add a list of css headline entries intended to be added only once to the page.
+	 *
+	 * @param writer the writer to write to.
+	 * @param cssHeadlines a list of css entries to be added to the page as a whole.
+	 */
+	private void addCssHeadlines(final PrintWriter writer, final List cssHeadlines) {
+<span class="pc bpc" id="L169" title="3 of 4 branches missed.">		if (cssHeadlines == null || cssHeadlines.isEmpty()) {</span>
+<span class="fc" id="L170">			return;</span>
+		}
+
+<span class="nc" id="L173">		writer.write(&quot;&lt;!-- Start css headlines --&gt;&quot;</span>
+				+ &quot;\n&lt;style type=\&quot;&quot; + WebUtilities.CONTENT_TYPE_CSS + &quot;\&quot; media=\&quot;screen\&quot;&gt;&quot;);
+
+<span class="nc bnc" id="L176" title="All 2 branches missed.">		for (Object line : cssHeadlines) {</span>
+<span class="nc" id="L177">			writer.write(&quot;\n&quot; + line);</span>
+<span class="nc" id="L178">		}</span>
+
+<span class="nc" id="L180">		writer.write(&quot;\n&lt;/style&gt;&quot;</span>
+				+ &quot;&lt;!-- End css headlines --&gt;&quot;);
+<span class="nc" id="L182">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

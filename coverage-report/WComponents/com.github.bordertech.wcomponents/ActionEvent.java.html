@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>ActionEvent.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">ActionEvent.java</span></div><h1>ActionEvent.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import java.util.EventObject;
+
+/**
+ * The object that indicates that a component action occured. It contains information about the event, and is passed to
+ * the Action object that will handle the event.
+ *
+ * @author Martin Shevchenko
+ * @since 1.0.0
+ */
+public class ActionEvent extends EventObject {
+
+	/**
+	 * A string that specifies a command associated with the event.
+	 */
+	private final String actionCommand;
+	/**
+	 * A data object that contains information related to the event.
+	 */
+	private final Object actionObject;
+
+	/**
+	 * @param source the object that originated the event. (Normally a WButton)
+	 * @param command a string that may specify a command associated with the event. (Normally the &quot;actionCommand&quot; from
+	 * the source WButton)
+	 */
+	public ActionEvent(final Object source, final String command) {
+<span class="fc" id="L29">		this(source, command, null);</span>
+<span class="fc" id="L30">	}</span>
+
+	/**
+	 *
+	 * @param source the object that originated the event. (Normally a WButton)
+	 * @param command a string that may specify a command associated with the event. (Normally the &quot;actionCommand&quot; from
+	 * the source WButton)
+	 * @param actionObject a data object that may contain information related to the event. (Normally the &quot;actionObject&quot;
+	 * from the source WButton)
+	 */
+	public ActionEvent(final Object source, final String command, final Object actionObject) {
+<span class="fc" id="L41">		super(source);</span>
+<span class="fc" id="L42">		this.actionCommand = command;</span>
+<span class="fc" id="L43">		this.actionObject = actionObject;</span>
+<span class="fc" id="L44">	}</span>
+
+	/**
+	 * @return The string that specifies a command associated with the event, if set
+	 */
+	public String getActionCommand() {
+<span class="nc" id="L50">		return actionCommand;</span>
+	}
+
+	/**
+	 * @return The data object that contains information related to the event, if set.
+	 */
+	public Object getActionObject() {
+<span class="nc" id="L57">		return actionObject;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

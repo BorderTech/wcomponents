@@ -1,0 +1,2453 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=yes, width=device-width">
+  <title>WComponents wcomponents-theme — Module: wc/Observer</title>
+  <link rel="shortcut icon" href="/favicon.ico">
+
+  <!--[if lt IE 9]>
+  <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link type="text/css" rel="stylesheet" href="styles/sunlight.dark.css">
+
+  <link type="text/css" rel="stylesheet" href="styles/site.oblivion.css">
+</head>
+<body>
+<div class="container-fluid">
+  <div class="navbar navbar-fixed-top navbar-inverse">
+    <div class="navbar-inner">
+      <a class="brand" href="index.html">WComponents wcomponents-theme</a>
+      <ul class="nav">
+        
+        <li class="dropdown">
+          <a href="modules.list.html" class="dropdown-toggle" data-toggle="dropdown">Modules<b
+            class="caret"></b></a>
+
+          <ul class="dropdown-menu ">
+            
+            <li>
+              <a href="module-analytics_core.html">analytics/core</a>
+            </li>
+            
+            <li>
+              <a href="module-analytics_ibmcm.html">analytics/ibmcm</a>
+            </li>
+            
+            <li>
+              <a href="module-validation_ariaAnalog.html">validation/ariaAnalog</a>
+            </li>
+            
+            <li>
+              <a href="module-validation_cancelUpdate.html">validation/cancelUpdate</a>
+            </li>
+            
+            <li>
+              <a href="module-validation_checkBox.html">validation/checkBox</a>
+            </li>
+            
+            <li>
+              <a href="module-validation_checkBoxSelect.html">validation/checkBoxSelect</a>
+            </li>
+            
+            <li>
+              <a href="module-validation_dateField.html">validation/dateField</a>
+            </li>
+            
+            <li>
+              <a href="module-validation_dropdown.html">validation/dropdown</a>
+            </li>
+            
+            <li>
+              <a href="module-validation_fieldset.html">validation/fieldset</a>
+            </li>
+            
+            <li>
+              <a href="module-validation_fileUpload.html">validation/fileUpload</a>
+            </li>
+            
+            <li>
+              <a href="module-validation_isComplete.html">validation/isComplete</a>
+            </li>
+            
+            <li>
+              <a href="module-validation_minMax.html">validation/minMax</a>
+            </li>
+            
+            <li>
+              <a href="module-validation_multiFormComponent.html">validation/multiFormComponent</a>
+            </li>
+            
+            <li>
+              <a href="module-validation_multiSelectPair.html">validation/multiSelectPair</a>
+            </li>
+            
+            <li>
+              <a href="module-validation_numberField.html">validation/numberField</a>
+            </li>
+            
+            <li>
+              <a href="module-validation_radioButtonSelect.html">validation/radioButtonSelect</a>
+            </li>
+            
+            <li>
+              <a href="module-validation_required.html">validation/required</a>
+            </li>
+            
+            <li>
+              <a href="module-validation_textArea.html">validation/textArea</a>
+            </li>
+            
+            <li>
+              <a href="module-validation_textField.html">validation/textField</a>
+            </li>
+            
+            <li>
+              <a href="module-validation_validationManager.html">validation/validationManager</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ajax_ajax.html">wc/ajax/ajax</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ajax_setLoading.html">wc/ajax/setLoading</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ajax_Trigger.html">wc/ajax/Trigger</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ajax_triggerManager.html">wc/ajax/triggerManager</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_array_search.html">wc/array/search</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_array_toArray.html">wc/array/toArray</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_array_unique.html">wc/array/unique</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_date_addDays.html">wc/date/addDays</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_date_copy.html">wc/date/copy</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_date_dayName.html">wc/date/dayName</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_date_daysInMonth.html">wc/date/daysInMonth</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_date_expandYear.html">wc/date/expandYear</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_date_explodeMask.html">wc/date/explodeMask</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_date_Format.html">wc/date/Format</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_date_getDifference.html">wc/date/getDifference</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_date_interchange.html">wc/date/interchange</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_date_isLeapYear.html">wc/date/isLeapYear</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_date_monthName.html">wc/date/monthName</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_date_Parser.html">wc/date/Parser</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_date_pattern.html">wc/date/pattern</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_date_pivot.html">wc/date/pivot</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_date_today.html">wc/date/today</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_debug_consoleColor.html">wc/debug/consoleColor</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_aria.html">wc/dom/aria</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_ariaAnalog.html">wc/dom/ariaAnalog</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_ariaGroup.html">wc/dom/ariaGroup</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_attribute.html">wc/dom/attribute</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_cancelUpdate.html">wc/dom/cancelUpdate</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_cbrShedPublisher.html">wc/dom/cbrShedPublisher</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_classList.html">wc/dom/classList</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_clearSelection.html">wc/dom/clearSelection</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_color.html">wc/dom/color</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_convertDynamicContent.html">wc/dom/convertDynamicContent</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_cookie.html">wc/dom/cookie</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_disabledLink.html">wc/dom/disabledLink</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_event.html">wc/dom/event</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_focus.html">wc/dom/focus</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_formUpdateManager.html">wc/dom/formUpdateManager</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_getAncestorOrSelf.html">wc/dom/getAncestorOrSelf</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_getBox.html">wc/dom/getBox</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_getEventOffset.html">wc/dom/getEventOffset</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_getFilteredGroup.html">wc/dom/getFilteredGroup</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_getLabelsForElement.html">wc/dom/getLabelsForElement</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_getStyle.html">wc/dom/getStyle</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_getViewportSize.html">wc/dom/getViewportSize</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_group.html">wc/dom/group</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_impliedARIA.html">wc/dom/impliedARIA</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_initialise.html">wc/dom/initialise</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_isAcceptableTarget.html">wc/dom/isAcceptableTarget</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_isEventInLabel.html">wc/dom/isEventInLabel</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_isSuccessfulElement.html">wc/dom/isSuccessfulElement</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_keyWalker.html">wc/dom/keyWalker</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_removeElement.html">wc/dom/removeElement</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_role.html">wc/dom/role</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_serialize.html">wc/dom/serialize</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_shed.html">wc/dom/shed</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_storage.html">wc/dom/storage</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_tag.html">wc/dom/tag</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_textContent.html">wc/dom/textContent</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_uid.html">wc/dom/uid</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_viewportCollision.html">wc/dom/viewportCollision</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_Widget.html">wc/dom/Widget</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_file_accepted.html">wc/file/accepted</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_file_getFileSize.html">wc/file/getFileSize</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_file_getMimeType.html">wc/file/getMimeType</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_has.html">wc/has</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_i18n_asciify.html">wc/i18n/asciify</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_i18n_i18n.html">wc/i18n/i18n</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_isNumeric.html">wc/isNumeric</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_key.html">wc/key</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_loader_resource.html">wc/loader/resource</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_loader_style.html">wc/loader/style</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_Observer.html">wc/Observer</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_string_escapeRe.html">wc/string/escapeRe</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_timers.html">wc/timers</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_ajax_delayedTrigger.html">wc/ui/ajax/delayedTrigger</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_ajax_genericSubscriber.html">wc/ui/ajax/genericSubscriber</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_ajax_processResponse.html">wc/ui/ajax/processResponse</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_ajaxRegion.html">wc/ui/ajaxRegion</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_cancelButton.html">wc/ui/cancelButton</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_checkBox.html">wc/ui/checkBox</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_checkboxAnalog.html">wc/ui/checkboxAnalog</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_checkBoxSelect.html">wc/ui/checkBoxSelect</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_collapsible.html">wc/ui/collapsible</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_collapsibleToggle.html">wc/ui/collapsibleToggle</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_comboLoader.html">wc/ui/comboLoader</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_confirm.html">wc/ui/confirm</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_containerload.html">wc/ui/containerload</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_dateField.html">wc/ui/dateField</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_defaultSubmit.html">wc/ui/defaultSubmit</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_dialog.html">wc/ui/dialog</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_dropdown.html">wc/ui/dropdown</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_field.html">wc/ui/field</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_fieldset.html">wc/ui/fieldset</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_fileUpload.html">wc/ui/fileUpload</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_fx.html">wc/ui/fx</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_getFirstLabelForElement.html">wc/ui/getFirstLabelForElement</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_internalLink.html">wc/ui/internalLink</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_label.html">wc/ui/label</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_launchLink.html">wc/ui/launchLink</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_listboxAnalog.html">wc/ui/listboxAnalog</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_listLoader.html">wc/ui/listLoader</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_loading.html">wc/ui/loading</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_mediaplayer.html">wc/ui/mediaplayer</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_menu.html">wc/ui/menu</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_menu_bar.html">wc/ui/menu/bar</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_menu_column.html">wc/ui/menu/column</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_menu_core.html">wc/ui/menu/core</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_menu_menuItem.html">wc/ui/menu/menuItem</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_menu_tree.html">wc/ui/menu/tree</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_menu_treeItem.html">wc/ui/menu/treeItem</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_modalShim.html">wc/ui/modalShim</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_multiFileUploader.html">wc/ui/multiFileUploader</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_multiFormComponent.html">wc/ui/multiFormComponent</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_multiSelectPair.html">wc/ui/multiSelectPair</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_navigationButton.html">wc/ui/navigationButton</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_numberField.html">wc/ui/numberField</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_onchangeSubmit.html">wc/ui/onchangeSubmit</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_popup.html">wc/ui/popup</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_positionable.html">wc/ui/positionable</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_printButton.html">wc/ui/printButton</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_radioAnalog.html">wc/ui/radioAnalog</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_radioButtonSelect.html">wc/ui/radioButtonSelect</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_redirect.html">wc/ui/redirect</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_rtf.html">wc/ui/rtf</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_selectboxSearch.html">wc/ui/selectboxSearch</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_selectLoader.html">wc/ui/selectLoader</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_selectToggle.html">wc/ui/selectToggle</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_shuffler.html">wc/ui/shuffler</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_subordinate.html">wc/ui/subordinate</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_SubordinateAction.html">wc/ui/SubordinateAction</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_table.html">wc/ui/table</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_table_action.html">wc/ui/table/action</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_table_pagination.html">wc/ui/table/pagination</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_table_rowCheckbox.html">wc/ui/table/rowCheckbox</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_table_rowExpansion.html">wc/ui/table/rowExpansion</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_table_sort.html">wc/ui/table/sort</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_tabset.html">wc/ui/tabset</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_textArea.html">wc/ui/textArea</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_textField.html">wc/ui/textField</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_tooltip.html">wc/ui/tooltip</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_urlParser.html">wc/urlParser</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_xml_xmlString.html">wc/xml/xmlString</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_xml_xpath.html">wc/xml/xpath</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_xml_xslTransform.html">wc/xml/xslTransform</a>
+            </li>
+            
+            <li>
+              <a href="wc_ui.resizeable.module_config.html">wc/ui.resizeable.config()</a>
+            </li>
+            
+            <li>
+              <a href="wc_ui.timeoutWarn.module_config.html">wc/ui.timeoutWarn.config()</a>
+            </li>
+            
+            <li>
+              <a href="wc_ui_backToTop.module_config.html">wc/ui/backToTop.config()</a>
+            </li>
+            
+            <li>
+              <a href="wc_ui_calendar.module_config.html">wc/ui/calendar.config()</a>
+            </li>
+            
+            <li>
+              <a href="wc_ui_comboBox.module_config.html">wc/ui/comboBox.config()</a>
+            </li>
+            
+            <li>
+              <a href="wc_ui_draggable.module_config.html">wc/ui/draggable.config()</a>
+            </li>
+            
+            <li>
+              <a href="wc_ui_onloadFocusControl.module_config.html">wc/ui/onloadFocusControl.config()</a>
+            </li>
+            
+
+          </ul>
+        </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  <div class="row-fluid">
+
+    
+    <div class="span3">
+      <div id="toc"></div>
+    </div>
+    
+
+    
+    <div class="span9">
+      
+        <div id="main">
+          
+
+
+	<h1 class="page-title">Module: wc/Observer</h1>
+<section>
+
+<header>
+    <h2>
+    wc/Observer
+    </h2>
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+<dt>
+    <h4 class="name" id="module:wc/Observer"><span class="type-signature"></span>new require("wc/Observer")<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>General purpose Publish/Subscribe implementation.</p>
+<p>After instantiating an observer instance subsribe using <a href="module-wc_Observer.html#subscribe"><code>module:wc/Observer#subscribe</code></a> and publish using
+<a href="module-wc_Observer.html#notify"><code>module:wc/Observer#notify</code></a></p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+
+  
+
+  
+
+  
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">// the simplest usagevar observer = new Observer();observer.subscribe(window.alert);observer.notify(&quot;foo&quot;);  // alerts &quot;foo&quot;</pre>
+
+
+    
+</dd>
+
+    
+
+    
+        
+
+        
+<dl class="details">
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Requires</h3>
+
+        <ul>
+            <li><a href="module-wc_string_escapeRe.html">module:wc/string/escapeRe</a></li>
+        </ul>
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Members</h3>
+
+        <dl>
+            
+<dt class="name" id=".priority">
+    <h4><span class="type-signature">&lt;static> </span>priority<span class="type-signature"> :Object</span></h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>Observer.priority (and/or observer.priority) contains the preferred values
+to be passed to <a href="module-wc_Observer.html#subscribe"><code>module:wc/Observer#subscribe</code></a> in the &quot;config.priority&quot; argument.</p>
+    </div>
+    
+
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">Object</span>
+
+
+            </li>
+        </ul>
+    
+
+    
+<dl class="details">
+  
+
+  <h5 class="subsection-title">Properties:</h5>
+
+  <dl>
+
+<table class="props table table-striped">
+    <thead>
+  <tr>
+    
+    <th>Name</th>
+    
+
+    <th>Type</th>
+
+    
+
+    
+
+    <th class="last">Description</th>
+  </tr>
+  </thead>
+
+  <tbody>
+  
+
+        <tr>
+            
+                <td class="name"><code>HIGH</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">int</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Run first (value is 1)</p></td>
+        </tr>
+
+  
+
+        <tr>
+            
+                <td class="name"><code>MED</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">int</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Run after all HIGHs (value is 0)</p></td>
+        </tr>
+
+  
+
+        <tr>
+            
+                <td class="name"><code>LOW</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">int</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Run last (value is -1)</p></td>
+        </tr>
+
+  
+  </tbody>
+</table>
+</dl>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+    
+</dd>
+
+        </dl>
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        <dl>
+            
+<dt>
+    <h4 class="name" id="getGroupAsWildcardFilter"><span class="type-signature"></span>getGroupAsWildcardFilter<span class="signature">(filter)</span><span class="type-signature"> &rarr; {function}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Get a filter function that can be provided to setFilter to match group names which contain wildcards
+(asterisks).</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+<div class="params-table-container">
+  <table class="params table table-striped">
+      <thead>
+    <tr>
+      
+      <th>Name</th>
+      
+  
+      <th>Type</th>
+  
+      
+  
+      
+  
+      <th class="last">Description</th>
+    </tr>
+    </thead>
+  
+    <tbody>
+    
+  
+          <tr>
+              
+                  <td class="name"><code>filter</code></td>
+              
+  
+              <td class="type">
+              
+                  
+<span class="param-type">string</span>
+
+
+              
+              </td>
+  
+              
+  
+              
+  
+              <td class="description last"><p>The filter to match, honoring any wildcards in group names.</p></td>
+          </tr>
+  
+    
+    </tbody>
+  </table>
+</div>
+
+    
+    
+    
+<dl class="details">
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+
+  
+
+  
+
+  
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>A filter function.</p>
+</div>
+
+
+
+<dl>
+  <dt>
+    Type
+  </dt>
+  <dd>
+    
+<span class="param-type">function</span>
+
+
+  </dd>
+</dl>
+
+
+        
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">var observer = new Observer();observer.subscribe(function() {console.log(&quot;foo.*.bar&quot;);}, {group:&quot;foo.*.bar&quot;});observer.subscribe(function() {console.log(&quot;foo.bar&quot;);}, {group:&quot;foo.bar&quot;});observer.subscribe(function() {console.log(&quot;foo.ultra&quot;);}, {group:&quot;foo.ultra&quot;});observer.setFilter(observer.getGroupAsWildcardFilter(&quot;foo.ultra.bar&quot;));observer.notify();// outputs the following to the console:// foo.*.bar</pre>
+
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="isSubscribed"><span class="type-signature"></span>isSubscribed<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Is a particular subscriber already registered?</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+
+  
+
+  
+  <dt class="tag-see">See:</dt>
+  <dd class="tag-see">
+    <ul>
+      <li><a href="module-wc_Observer-SubscriberRegistry.html#isRegistered">module:wc/Observer~SubscriberRegistry#isRegistered</a></li>
+      </ul>
+  </dd>
+  
+
+  
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="notify"><span class="type-signature"></span>notify<span class="signature">(<span class="optional">args</span>)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Call all subscribers with the arguments passed to notify. The arguments provided will be transparently
+passed on to subscribers.</p>
+<p>By default only subscribers added without a group (i.e. they are part of the DEFAULT_GROUP group) will be
+notified. To notify subscribers from other groups you first need call setFilter.</p>
+<p>Subscribers are notified in order of priority, first &quot;important&quot; then &quot;medium/default&quot; finally &quot;low&quot;.
+Within each priority grouping subscribers are notified in the order they were added.</p>
+<p>After calling notify:</p>
+<ul>
+<li>Any filter set by setFilter will be cleared.</li>
+<li>Any callback set by setCallback will be cleared.</li>
+</ul>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+<div class="params-table-container">
+  <table class="params table table-striped">
+      <thead>
+    <tr>
+      
+      <th>Name</th>
+      
+  
+      <th>Type</th>
+  
+      
+      <th>Argument</th>
+      
+  
+      
+  
+      <th class="last">Description</th>
+    </tr>
+    </thead>
+  
+    <tbody>
+    
+  
+          <tr>
+              
+                  <td class="name"><code>args</code></td>
+              
+  
+              <td class="type">
+              
+                  
+<span class="param-type">*</span>
+
+
+              
+              </td>
+  
+              
+                  <td class="attributes">
+                  
+                      &lt;optional><br>
+                  
+  
+                  
+  
+                  
+                      &lt;repeatable><br>
+                  
+                  </td>
+              
+  
+              
+  
+              <td class="description last"><p>0..n additional arguments to supply to the subscriber.</p></td>
+          </tr>
+  
+    
+    </tbody>
+  </table>
+</div>
+
+    
+    
+    
+<dl class="details">
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+
+  
+
+  
+
+  
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">var observer = new Observer();observer.subscribe(function() {var i=0; while (i &lt; arguments.length)console.log(arguments[i++]);});observer.notify(&quot;moo&quot;, &quot;woof&quot;, &quot;meow&quot;, &quot;hiss&quot;, &quot;tweet&quot;);// outputs the following to the console:// moo// woof// meow// hiss// tweet</pre>
+
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="reset"><span class="type-signature"></span>reset<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Remove all subscribers and reset the publish registry.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+
+  
+
+  
+  <dt class="tag-see">See:</dt>
+  <dd class="tag-see">
+    <ul>
+      <li><a href="module-wc_Observer-SubscriberRegistry.html#reset">module:wc/Observer~SubscriberRegistry#reset</a></li>
+      </ul>
+  </dd>
+  
+
+  
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="setCallback"><span class="type-signature"></span>setCallback<span class="signature">(fn)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Set a callback which will be called after each subscriber is notified and will be passed
+the return value of each subscriber.</p>
+<p>The callback may return true to short-circuit (stop) the notification process.</p>
+<p>The callback function will be cleared after each call to notify and therefore must be set again as required.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+<div class="params-table-container">
+  <table class="params table table-striped">
+      <thead>
+    <tr>
+      
+      <th>Name</th>
+      
+  
+      <th>Type</th>
+  
+      
+  
+      
+  
+      <th class="last">Description</th>
+    </tr>
+    </thead>
+  
+    <tbody>
+    
+  
+          <tr>
+              
+                  <td class="name"><code>fn</code></td>
+              
+  
+              <td class="type">
+              
+                  
+<span class="param-type">function</span>
+
+
+              
+              </td>
+  
+              
+  
+              
+  
+              <td class="description last"><p>This function will be called after each subscriber has been notified.</p></td>
+          </tr>
+  
+    
+    </tbody>
+  </table>
+</div>
+
+    
+    
+    
+<dl class="details">
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+
+  
+
+  
+
+  
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+        <h5>Examples</h5>
+        
+    <pre class="sunlight-highlight-javascript">var observer = new Observer();observer.subscribe(function() {return &quot;android&quot;;});observer.subscribe(function() {return &quot;ios&quot;;});observer.subscribe(function() {return &quot;win8&quot;;});observer.setCallback(function(result) {console.log(result);});observer.notify();// outputs the following to the console:// android// ios// win8</pre>
+
+    <pre class="sunlight-highlight-javascript">var observer = new Observer();observer.subscribe(function() {return &quot;android&quot;;});observer.subscribe(function() {return &quot;ios&quot;;});observer.subscribe(function() {return &quot;win8&quot;;});observer.setCallback(function(result) {if (result==&quot;ios&quot;)return true; console.log(result);});observer.notify();// outputs the following to the console:// android</pre>
+
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="setFilter"><span class="type-signature"></span>setFilter<span class="signature">(arg)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>A filter function should be set before each call to notify if it is desired, as notify will reset the
+filter.</p>
+<p>Filters allow you to have control over which subscriber groups are to be notified.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+<div class="params-table-container">
+  <table class="params table table-striped">
+      <thead>
+    <tr>
+      
+      <th>Name</th>
+      
+  
+      <th>Type</th>
+  
+      
+  
+      
+  
+      <th class="last">Description</th>
+    </tr>
+    </thead>
+  
+    <tbody>
+    
+  
+          <tr>
+              
+                  <td class="name"><code>arg</code></td>
+              
+  
+              <td class="type">
+              
+                  
+<span class="param-type">String</span>
+|
+
+<span class="param-type">function</span>
+
+
+              
+              </td>
+  
+              
+  
+              
+  
+              <td class="description last"><p>A filter function will called during notify, once for each subscriber group.
+   If the function returns true the group is accepted and its listeners will be notified. A string may be
+   passed instead of a function, in which case only the group exactly matching the string will be notified.
+   If you need wildcard matching see <a href="module-wc_Observer.html#getGroupAsWildcardFilter"><code>module:wc/Observer#getGroupAsWildcardFilter</code></a>.</p></td>
+          </tr>
+  
+    
+    </tbody>
+  </table>
+</div>
+
+    
+    
+    
+<dl class="details">
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+
+  
+
+  
+
+  
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+        <h5>Examples</h5>
+        
+    <pre class="sunlight-highlight-javascript">var observer = new Observer();observer.subscribe(function() {console.log(&quot;foo.*.bar&quot;);}, {group:&quot;foo.*.bar&quot;});observer.subscribe(function() {console.log(&quot;foo.bar&quot;);}, {group:&quot;foo.bar&quot;});observer.subscribe(function() {console.log(&quot;foo.ultra&quot;);}, {group:&quot;foo.ultra&quot;});observer.setFilter(function(s) {return(s==&quot;foo.bar&quot;);});observer.notify();// outputs the following to the console:// foo.bar</pre>
+
+    <pre class="sunlight-highlight-javascript">// for simple equality checks the above can be rewritten to:var observer = new Observer();observer.subscribe(function() {console.log(&quot;foo.*.bar&quot;);}, {group:&quot;foo.*.bar&quot;});observer.subscribe(function() {console.log(&quot;foo.bar&quot;);}, {group:&quot;foo.bar&quot;});observer.subscribe(function() {console.log(&quot;foo.ultra&quot;);}, {group:&quot;foo.ultra&quot;});observer.setFilter(&quot;foo.bar&quot;);observer.notify();// outputs the following to the console:// foo.bar</pre>
+
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="subscribe"><span class="type-signature"></span>subscribe<span class="signature">(subscriber, <span class="optional">config</span>)</span><span class="type-signature"> &rarr; {function|Object}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Subscribe to this Observer instance.</p>
+<p>Note that duplicate instances of a subscriber cannot be added to the same &quot;group&quot;
+(see the config.group argument below).</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+<div class="params-table-container">
+  <table class="params table table-striped">
+      <thead>
+    <tr>
+      
+      <th>Name</th>
+      
+  
+      <th>Type</th>
+  
+      
+      <th>Argument</th>
+      
+  
+      
+  
+      <th class="last">Description</th>
+    </tr>
+    </thead>
+  
+    <tbody>
+    
+  
+          <tr>
+              
+                  <td class="name"><code>subscriber</code></td>
+              
+  
+              <td class="type">
+              
+                  
+<span class="param-type">function</span>
+|
+
+<span class="param-type">Object</span>
+
+
+              
+              </td>
+  
+              
+                  <td class="attributes">
+                  
+  
+                  
+  
+                  
+                  </td>
+              
+  
+              
+  
+              <td class="description last"><p>A callback which will be called when the notify method is called or
+an object which provides a public method with the name specified in config.method.</p></td>
+          </tr>
+  
+    
+  
+          <tr>
+              
+                  <td class="name"><code>config</code></td>
+              
+  
+              <td class="type">
+              
+                  
+<span class="param-type">Object</span>
+
+
+              
+              </td>
+  
+              
+                  <td class="attributes">
+                  
+                      &lt;optional><br>
+                  
+  
+                  
+  
+                  
+                  </td>
+              
+  
+              
+  
+              <td class="description last"><p>An object containing configuration option.</p>
+                  <h6>Properties</h6>
+                  
+<div class="params-table-container">
+  <table class="params table table-striped">
+      <thead>
+    <tr>
+      
+      <th>Name</th>
+      
+  
+      <th>Type</th>
+  
+      
+      <th>Argument</th>
+      
+  
+      
+  
+      <th class="last">Description</th>
+    </tr>
+    </thead>
+  
+    <tbody>
+    
+  
+          <tr>
+              
+                  <td class="name"><code>group</code></td>
+              
+  
+              <td class="type">
+              
+                  
+<span class="param-type">String</span>
+
+
+              
+              </td>
+  
+              
+                  <td class="attributes">
+                  
+                      &lt;optional><br>
+                  
+  
+                  
+  
+                  
+                  </td>
+              
+  
+              
+  
+              <td class="description last"><p>Associate the subscriber with the given group. When notify is called the
+   subscribers to be notified can be filtered based on their group. Default value is DEFAULT_GROUP. See
+   <a href="module-wc_Observer.html#setFilter"><code>module:wc/Observer#setFilter</code></a> and <a href="module-wc_Observer.html#notify"><code>module:wc/Observer#notify</code></a> for more info.</p></td>
+          </tr>
+  
+    
+  
+          <tr>
+              
+                  <td class="name"><code>context</code></td>
+              
+  
+              <td class="type">
+              
+                  
+<span class="param-type">Object</span>
+|
+
+<span class="param-type">function</span>
+
+
+              
+              </td>
+  
+              
+                  <td class="attributes">
+                  
+                      &lt;optional><br>
+                  
+  
+                  
+  
+                  
+                  </td>
+              
+  
+              
+  
+              <td class="description last"><p>When the subscriber is called its &quot;this&quot; reference will be the
+   &quot;context&quot; object if provided; otherwise if &quot;method&quot; is set will be &quot;subscriber&quot; else it will be default
+   scope (probably window).</p></td>
+          </tr>
+  
+    
+  
+          <tr>
+              
+                  <td class="name"><code>priority</code></td>
+              
+  
+              <td class="type">
+              
+                  
+<span class="param-type">Object</span>
+
+
+              
+              </td>
+  
+              
+                  <td class="attributes">
+                  
+                      &lt;optional><br>
+                  
+  
+                  
+  
+                  
+                  </td>
+              
+  
+              
+  
+              <td class="description last"><p>When subscribers are being notified all subscribers that were added as important
+   will be notified before non-important subscribers. Default value is observer.priority.LOW. Accepts any of
+   these:
+   <ul>
+       <li>observer.priority.HIGH</li>
+       <li>observer.priority.MED</li>
+       <li>observer.priority.LOW</li>
+   </ul></p></td>
+          </tr>
+  
+    
+  
+          <tr>
+              
+                  <td class="name"><code>method</code></td>
+              
+  
+              <td class="type">
+              
+                  
+<span class="param-type">String</span>
+
+
+              
+              </td>
+  
+              
+                  <td class="attributes">
+                  
+                      &lt;optional><br>
+                  
+  
+                  
+  
+                  
+                  </td>
+              
+  
+              
+  
+              <td class="description last"><p>Name of public method to call on this subscriber (eg if this is set to &quot;bar&quot; will
+   call subscriber.bar()). This allows you to subscribe &quot;dynamic&quot; listeners where the function called can
+   change from that you originally registered (or it need not even exist at the time you registered). As long
+   as the correct interface is present at the time it is called then all's good. Note this is especially
+   useful in that the function does not have to exist on the object itself, it could be anywhere up the
+   prototype chain.</p></td>
+          </tr>
+  
+    
+    </tbody>
+  </table>
+</div>
+
+              </td>
+          </tr>
+  
+    
+    </tbody>
+  </table>
+</div>
+
+    
+    
+    
+<dl class="details">
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+
+  
+
+  
+
+  
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>a reference to the subscriber.</p>
+</div>
+
+
+
+<dl>
+  <dt>
+    Type
+  </dt>
+  <dd>
+    
+<span class="param-type">function</span>
+|
+
+<span class="param-type">Object</span>
+
+
+  </dd>
+</dl>
+
+
+        
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">var dog = {bark:function() {console.log(&quot;woof!&quot;);}},       observer = new Observer();   observer.subscribe(dog, {group: &quot;canine&quot;, context: dog, priority: Observer.priority.HIGH, method: &quot;bark&quot;});</pre>
+
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="subscriberCount"><span class="type-signature"></span>subscriberCount<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Get the number of subscribers to this publisher.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+
+  
+
+  
+  <dt class="tag-see">See:</dt>
+  <dd class="tag-see">
+    <ul>
+      <li><a href="module-wc_Observer-SubscriberRegistry.html#subscriberCount">module:wc/Observer~SubscriberRegistry#subscriberCount</a></li>
+      </ul>
+  </dd>
+  
+
+  
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="toString"><span class="type-signature"></span>toString<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Get the subscriber registry as a string.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+
+  
+
+  
+  <dt class="tag-see">See:</dt>
+  <dd class="tag-see">
+    <ul>
+      <li><a href="module-wc_Observer-SubscriberRegistry.html#toString">module:wc/Observer~SubscriberRegistry#toString</a></li>
+      </ul>
+  </dd>
+  
+
+  
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="unsubscribe"><span class="type-signature"></span>unsubscribe<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Remove a subscriber.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+
+  
+
+  
+  <dt class="tag-see">See:</dt>
+  <dd class="tag-see">
+    <ul>
+      <li><a href="module-wc_Observer-SubscriberRegistry.html#deregister">module:wc/Observer~SubscriberRegistry#deregister</a></li>
+      </ul>
+  </dd>
+  
+
+  
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        </dl>
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+        </div>
+
+        <div class="clearfix"></div>
+        <footer>
+          
+          WComponents wcomponents-theme is powered by <a href='http://vanilla-js.com/' target='_blank'><img src='../../../images/vanillajs.png' alt='Vanilla JS'/></a>.
+          <br />
+          
+          
+    <span class="copyright">
+    WComponents wcomponents-theme is copyright &#xa9; see https://github.com/OpenBorders/wcomponents.
+    </span>
+          <br />
+          
+    <span class="jsdoc-message">
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc" target="_blank">JSDoc 3.3.2</a>
+    on 2015-11-20
+    </span>
+        </footer>
+      </div>
+
+      <br clear="both">
+    </div>
+
+  </div>
+  <!--<script src="scripts/sunlight.js"></script>-->
+  <script src="scripts/docstrap.lib.js"></script>
+  <script src="scripts/bootstrap-dropdown.js"></script>
+  <script src="scripts/toc.js"></script>
+
+  <script>
+    $( function () {
+      $( "[id*='$']" ).each( function () {
+        var $this = $( this );
+
+        $this.attr( "id", $this.attr( "id" ).replace( "$", "__" ) );
+      } );
+
+      $( "#toc" ).toc( {
+        anchorName  : function ( i, heading, prefix ) {
+          return $( heading ).attr( "id" ) || ( prefix + i );
+        },
+        selectors   : "h1,h2,h3,h4",
+        showAndHide : false,
+        scrollTo    : "100px"
+      } );
+
+      $( "#toc>ul" ).addClass( "nav nav-pills nav-stacked" );
+      $( "#main span[id^='toc']" ).addClass( "toc-shim" );
+      $( '.dropdown-toggle' ).dropdown();
+//      $( ".tutorial-section pre, .readme-section pre" ).addClass( "sunlight-highlight-javascript" ).addClass( "linenums" );
+
+      $( ".tutorial-section pre, .readme-section pre" ).each( function () {
+        var $this = $( this );
+
+        var example = $this.find( "code" );
+        exampleText = example.html();
+        var lang = /{@lang (.*?)}/.exec( exampleText );
+        if ( lang && lang[1] ) {
+          exampleText = exampleText.replace( lang[0], "" );
+          example.html( exampleText );
+          lang = lang[1];
+        } else {
+          lang = "javascript";
+        }
+
+        if ( lang ) {
+
+          $this
+            .addClass( "sunlight-highlight-" + lang )
+            .addClass( "linenums" )
+            .html( example.html() );
+
+        }
+      } );
+
+      Sunlight.highlightAll( {
+        lineNumbers : true,
+        showMenu : true,
+        enableDoclinks : true
+      } );
+    } );
+   </script>
+
+
+
+  <!--Navigation and Symbol Display-->
+  
+
+
+  <!--Google Analytics-->
+  
+
+</body>
+</html>

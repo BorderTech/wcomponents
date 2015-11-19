@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>UicStatsAsHtml.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.monitor</a> &gt; <span class="el_source">UicStatsAsHtml.java</span></div><h1>UicStatsAsHtml.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.monitor;
+
+import com.github.bordertech.wcomponents.WComponent;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * A utility class which writes out UicStats statistics in HTML format.
+ *
+ * @author Martin Shevchenko
+ * @since 1.0.0
+ */
+public final class UicStatsAsHtml {
+
+	/**
+	 * No instance methods here.
+	 */
+<span class="nc" id="L23">	private UicStatsAsHtml() {</span>
+<span class="nc" id="L24">	}</span>
+
+	/**
+	 * Writes out the given statistics in HTML format.
+	 *
+	 * @param writer the writer to write to.
+	 * @param stats the stats to write.
+	 */
+	public static void write(final PrintWriter writer, final UicStats stats) {
+<span class="fc" id="L33">		writer.println(&quot;&lt;dl class=\&quot;column\&quot;&gt;&quot;);</span>
+
+<span class="fc" id="L35">		writer.print(&quot;&lt;dt&gt;Total root wcomponents found in UIC&lt;/dt&gt;&quot;);</span>
+<span class="fc" id="L36">		writer.println(&quot;&lt;dd&gt;&quot; + stats.getRootWCs().size() + &quot;&lt;/dd&gt;&quot;);</span>
+
+<span class="fc" id="L38">		writer.print(&quot;&lt;dt&gt;Size of UIC (by serialization)&lt;/dt&gt;&quot;);</span>
+<span class="fc" id="L39">		writer.println(&quot;&lt;dd&gt;&quot; + stats.getOverallSerializedSize() + &quot;&lt;/dd&gt;&quot;);</span>
+
+<span class="fc" id="L41">		writer.print(&quot;&lt;dt&gt;UI&lt;/dt&gt;&quot;);</span>
+<span class="fc" id="L42">		writer.println(&quot;&lt;dd&gt;&quot; + stats.getUI().getClass().getName() + &quot;&lt;/dd&gt;&quot;);</span>
+
+<span class="fc" id="L44">		writer.println(&quot;&lt;/dl&gt;&quot;);</span>
+
+<span class="fc bfc" id="L46" title="All 2 branches covered.">		for (Iterator&lt;WComponent&gt; it = stats.getWCsAnalysed(); it.hasNext();) {</span>
+<span class="fc" id="L47">			WComponent comp = it.next();</span>
+<span class="fc" id="L48">			Map&lt;WComponent, UicStats.Stat&gt; treeStats = stats.getWCTreeStats(comp);</span>
+
+<span class="fc" id="L50">			writer.println(&quot;&lt;br /&gt;&lt;b&gt;Analysed component:&lt;/b&gt; &quot; + comp);</span>
+<span class="fc" id="L51">			writer.println(&quot;&lt;br /&gt;&lt;b&gt;Number of components in tree:&lt;/b&gt; &quot; + treeStats.size());</span>
+
+<span class="fc" id="L53">			writeHeader(writer);</span>
+<span class="fc" id="L54">			writeProfileForTree(writer, treeStats);</span>
+<span class="fc" id="L55">			writeFooter(writer);</span>
+<span class="fc" id="L56">		}</span>
+<span class="fc" id="L57">	}</span>
+
+	/**
+	 * Writes the stats for a single component.
+	 *
+	 * @param writer the writer to write the stats to.
+	 * @param treeStats the stats for the component.
+	 */
+	private static void writeProfileForTree(final PrintWriter writer,
+			final Map&lt;WComponent, UicStats.Stat&gt; treeStats) {
+		// Copy all the stats into a list so we can sort and cull.
+<span class="fc" id="L68">		List&lt;UicStats.Stat&gt; statList = new ArrayList&lt;&gt;(treeStats.values());</span>
+
+<span class="fc" id="L70">		Comparator&lt;UicStats.Stat&gt; comparator = new Comparator&lt;UicStats.Stat&gt;() {</span>
+			@Override
+			public int compare(final UicStats.Stat stat1, final UicStats.Stat stat2) {
+<span class="fc bfc" id="L73" title="All 2 branches covered.">				if (stat1.getModelState() &gt; stat2.getModelState()) {</span>
+<span class="fc" id="L74">					return -1;</span>
+<span class="fc bfc" id="L75" title="All 2 branches covered.">				} else if (stat1.getModelState() &lt; stat2.getModelState()) {</span>
+<span class="fc" id="L76">					return 1;</span>
+				} else {
+<span class="fc" id="L78">					int diff = stat1.getClassName().compareTo(stat2.getClassName());</span>
+
+<span class="pc bpc" id="L80" title="1 of 2 branches missed.">					if (diff == 0) {</span>
+<span class="nc" id="L81">						diff = stat1.getName().compareTo(stat2.getName());</span>
+					}
+
+<span class="fc" id="L84">					return diff;</span>
+				}
+			}
+		};
+
+<span class="fc" id="L89">		Collections.sort(statList, comparator);</span>
+
+<span class="fc bfc" id="L91" title="All 2 branches covered.">		for (int i = 0; i &lt; statList.size(); i++) {</span>
+<span class="fc" id="L92">			UicStats.Stat stat = statList.get(i);</span>
+<span class="fc" id="L93">			writeRow(writer, stat);</span>
+		}
+<span class="fc" id="L95">	}</span>
+
+	/**
+	 * Writes the stats header HTML.
+	 *
+	 * @param writer the writer to write the header to
+	 */
+	private static void writeHeader(final PrintWriter writer) {
+<span class="fc" id="L103">		writer.println(&quot;&lt;table border=\&quot;1\&quot;&gt;&quot;);</span>
+<span class="fc" id="L104">		writer.println(&quot;&lt;thead&gt;&quot;);</span>
+<span class="fc" id="L105">		writer.print(&quot;&lt;tr&gt;&quot;);</span>
+<span class="fc" id="L106">		writer.print(&quot;&lt;th&gt;Class&lt;/th&gt;&quot;);</span>
+<span class="fc" id="L107">		writer.print(&quot;&lt;th&gt;Model&lt;/th&gt;&quot;);</span>
+<span class="fc" id="L108">		writer.print(&quot;&lt;th&gt;Size&lt;/th&gt;&quot;);</span>
+<span class="fc" id="L109">		writer.print(&quot;&lt;th&gt;Ref.&lt;/th&gt;&quot;);</span>
+<span class="fc" id="L110">		writer.print(&quot;&lt;th&gt;Name&lt;/th&gt;&quot;);</span>
+<span class="fc" id="L111">		writer.print(&quot;&lt;th&gt;Comment&lt;/th&gt;&quot;);</span>
+<span class="fc" id="L112">		writer.println(&quot;&lt;/tr&gt;&quot;);</span>
+<span class="fc" id="L113">		writer.println(&quot;&lt;/thead&gt;&quot;);</span>
+<span class="fc" id="L114">	}</span>
+
+	/**
+	 * Writes the stats footer HTML.
+	 *
+	 * @param writer the writer to write the footer to
+	 */
+	private static void writeFooter(final PrintWriter writer) {
+<span class="fc" id="L122">		writer.println(&quot;&lt;/table&gt;&quot;);</span>
+<span class="fc" id="L123">	}</span>
+
+	/**
+	 * Writes a row containing a single stat.
+	 *
+	 * @param writer the writer to write the row to.
+	 * @param stat the stat to write.
+	 */
+	private static void writeRow(final PrintWriter writer, final UicStats.Stat stat) {
+<span class="fc" id="L132">		writer.print(&quot;&lt;tr&gt;&quot;);</span>
+<span class="fc" id="L133">		writer.print(&quot;&lt;td&gt;&quot; + stat.getClassName() + &quot;&lt;/td&gt;&quot;);</span>
+<span class="fc" id="L134">		writer.print(&quot;&lt;td&gt;&quot; + stat.getModelStateAsString() + &quot;&lt;/td&gt;&quot;);</span>
+
+<span class="fc bfc" id="L136" title="All 2 branches covered.">		if (stat.getSerializedSize() &gt; 0) {</span>
+<span class="fc" id="L137">			writer.print(&quot;&lt;td&gt;&quot; + stat.getSerializedSize() + &quot;&lt;/td&gt;&quot;);</span>
+		} else {
+<span class="fc" id="L139">			writer.print(&quot;&lt;td&gt;&amp;#160;&lt;/td&gt;&quot;);</span>
+		}
+
+<span class="fc" id="L142">		writer.print(&quot;&lt;td&gt;&quot; + stat.getRef() + &quot;&lt;/td&gt;&quot;);</span>
+<span class="fc" id="L143">		writer.print(&quot;&lt;td&gt;&quot; + stat.getName() + &quot;&lt;/td&gt;&quot;);</span>
+
+<span class="pc bpc" id="L145" title="1 of 2 branches missed.">		if (stat.getComment() == null) {</span>
+<span class="fc" id="L146">			writer.print(&quot;&lt;td&gt;&amp;#160;&lt;/td&gt;&quot;);</span>
+		} else {
+<span class="nc" id="L148">			writer.print(&quot;&lt;td&gt;&quot; + stat.getComment() + &quot;&lt;/td&gt;&quot;);</span>
+		}
+
+<span class="fc" id="L151">		writer.println(&quot;&lt;/tr&gt;&quot;);</span>
+<span class="fc" id="L152">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

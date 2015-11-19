@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>UserAgentInfo.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">UserAgentInfo.java</span></div><h1>UserAgentInfo.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import java.io.Serializable;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+/**
+ * This server side browser detection code is required as the client side browser detection code doesn't work for
+ * WebSeal's URL re-writing. The client side browser detection uses Microsoft specific code that is embedded in
+ * comments. The comments are ignored by all browsers except Microsoft browsers which secretly parses the comments for
+ * special keywords. WebSeal behaves as any other normal browser and only URL re-writes html code (and ignores comments)
+ * so the screen.css file cannot be located correctly as it's URL doesn't get re-written.
+ *
+ * @author Martin Shevchenko
+ * @since 1.0.0
+ */
+public class UserAgentInfo implements Serializable {
+
+	/**
+	 * Indicates an unknown browser.
+	 */
+	private static final byte BROWSER_UNKNOWN = 0;
+	/**
+	 * Indicates an unspecified version of IE.
+	 */
+	private static final byte BROWSER_IE = 1;
+	/**
+	 * Indicates IE 6.
+	 */
+	private static final byte BROWSER_IE6 = 2;
+
+	/**
+	 * The browser version.
+	 */
+<span class="fc" id="L35">	private byte browserVersion = BROWSER_UNKNOWN;</span>
+
+	/**
+	 * Creates a UserAgentInfo with an unknown browser.
+	 */
+<span class="fc" id="L40">	public UserAgentInfo() {</span>
+<span class="fc" id="L41">	}</span>
+
+	/**
+	 * Creates a UserAgentInfo from the given browser header string.
+	 *
+	 * @param headerStr the browser header String.
+	 */
+<span class="fc" id="L48">	public UserAgentInfo(final String headerStr) {</span>
+<span class="fc bfc" id="L49" title="All 4 branches covered.">		if (headerStr == null || headerStr.length() == 0) {</span>
+<span class="fc" id="L50">			return;</span>
+		}
+
+		// Try to find Microsoft browsers by looking for MSIE.
+<span class="fc" id="L54">		Pattern pattern = Pattern.compile(&quot;MSIE.(\\d+)&quot;);</span>
+<span class="fc" id="L55">		Matcher matcher = pattern.matcher(headerStr);</span>
+
+<span class="fc bfc" id="L57" title="All 2 branches covered.">		if (matcher.find()) {</span>
+<span class="fc" id="L58">			browserVersion = BROWSER_IE;</span>
+<span class="fc" id="L59">			String ieMajorVersion = matcher.group(1);</span>
+
+<span class="fc bfc" id="L61" title="All 2 branches covered.">			if (&quot;6&quot;.equals(ieMajorVersion)) {</span>
+<span class="fc" id="L62">				browserVersion = BROWSER_IE6;</span>
+			}
+		}
+<span class="fc" id="L65">	}</span>
+
+	/**
+	 * @return true if the browser is some version of IE.
+	 */
+	public boolean isIE() {
+<span class="pc bpc" id="L71" title="1 of 4 branches missed.">		return browserVersion == BROWSER_IE || browserVersion == BROWSER_IE6;</span>
+	}
+
+	/**
+	 * @return true if the browser is IE 6.
+	 */
+	public boolean isIE6() {
+<span class="fc bfc" id="L78" title="All 2 branches covered.">		return browserVersion == BROWSER_IE6;</span>
+	}
+
+	/**
+	 * @return true if the browser is unknown.
+	 */
+	public boolean isUnknown() {
+<span class="fc bfc" id="L85" title="All 2 branches covered.">		return browserVersion == BROWSER_UNKNOWN;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

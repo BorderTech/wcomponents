@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>InternalResource.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">InternalResource.java</span></div><h1>InternalResource.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import com.github.bordertech.wcomponents.servlet.WServlet;
+import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.StreamUtil;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+/**
+ * Provides a bridge to static resources which are present in the class path, but not in the web application itself.
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ */
+public class InternalResource implements ContentStreamAccess {
+
+	/**
+	 * The logger instance for this class.
+	 */
+<span class="fc" id="L25">	private static final Log LOG = LogFactory.getLog(InternalResource.class);</span>
+
+	/**
+	 * The resource name.
+	 */
+	private final String resourceName;
+
+	/**
+	 * The description of the resource.
+	 */
+	private final String description;
+
+	/**
+	 * An empty array to use when resource retrieval fails.
+	 */
+<span class="fc" id="L40">	private static final byte[] EMPTY = new byte[0];</span>
+
+	/**
+	 * Creates an InternalResource.
+	 *
+	 * @param resourceName the resource name.
+	 * @param description the description of the resource (e.g. file name).
+	 */
+<span class="fc" id="L48">	public InternalResource(final String resourceName, final String description) {</span>
+<span class="fc" id="L49">		this.resourceName = resourceName;</span>
+<span class="fc" id="L50">		this.description = description;</span>
+<span class="fc" id="L51">		InternalResourceMap.registerResource(this);</span>
+<span class="fc" id="L52">	}</span>
+
+	/**
+	 * @return the data from the resource, or an empty byte array.
+	 */
+	@Override
+	public byte[] getBytes() {
+<span class="fc" id="L59">		InputStream stream = null;</span>
+
+		try {
+<span class="fc" id="L62">			stream = getClass().getResourceAsStream(resourceName);</span>
+<span class="fc" id="L63">			return StreamUtil.getBytes(stream);</span>
+<span class="fc" id="L64">		} catch (Exception e) {</span>
+<span class="fc" id="L65">			LOG.error(&quot;Failed to read resource: &quot; + resourceName, e);</span>
+		} finally {
+<span class="pc" id="L67">			StreamUtil.safeClose(stream);</span>
+<span class="fc" id="L68">		}</span>
+
+<span class="fc" id="L70">		return EMPTY;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public InputStream getStream() throws IOException {
+		try {
+<span class="fc" id="L79">			return getClass().getResourceAsStream(resourceName);</span>
+<span class="nc" id="L80">		} catch (Exception e) {</span>
+<span class="nc" id="L81">			LOG.error(&quot;Failed to read resource: &quot; + resourceName, e);</span>
+<span class="nc" id="L82">			return new ByteArrayInputStream(new byte[0]);</span>
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getDescription() {
+<span class="fc" id="L91">		return description;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getMimeType() {
+<span class="fc" id="L99">		int index = resourceName.indexOf('.');</span>
+
+<span class="pc bpc" id="L101" title="1 of 2 branches missed.">		if (index != -1) {</span>
+<span class="fc" id="L102">			String extension = resourceName.substring(index + 1);</span>
+<span class="fc" id="L103">			String key = &quot;bordertech.wcomponents.mimeType.&quot; + extension.toLowerCase();</span>
+<span class="fc" id="L104">			String fileMimeType = Config.getInstance().getString(key);</span>
+
+<span class="pc bpc" id="L106" title="1 of 2 branches missed.">			if (fileMimeType != null) {</span>
+<span class="fc" id="L107">				return fileMimeType;</span>
+			}
+		}
+
+<span class="nc" id="L111">		return Config.getInstance().getString(&quot;bordertech.wcomponents.mimeType.defaultMimeType&quot;);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String toString() {
+<span class="nc bnc" id="L119" title="All 2 branches missed.">		return getClass().getSimpleName() + (resourceName == null ? &quot;(null)&quot; : &quot;(\&quot;&quot; + resourceName + &quot;\&quot;)&quot;);</span>
+	}
+
+	/**
+	 * @return the name (path) of the resource.
+	 */
+	public String getResourceName() {
+<span class="fc" id="L126">		return resourceName;</span>
+	}
+
+	/**
+	 * @return the URL which can be used to target this resource.
+	 */
+	public String getTargetUrl() {
+<span class="fc" id="L133">		UIContext uic = UIContextHolder.getCurrent();</span>
+
+<span class="pc bpc" id="L135" title="1 of 2 branches missed.">		if (uic == null) {</span>
+<span class="nc" id="L136">			return null;</span>
+		}
+
+<span class="fc" id="L139">		String url = uic.getEnvironment().getWServletPath();</span>
+<span class="fc" id="L140">		Map&lt;String, String&gt; parameters = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L141">		String resourceCacheKey = InternalResourceMap.getResourceCacheKey(resourceName);</span>
+<span class="fc" id="L142">		parameters.put(WServlet.STATIC_RESOURCE_PARAM_NAME, resourceName);</span>
+
+<span class="pc bpc" id="L144" title="1 of 2 branches missed.">		if (resourceCacheKey != null) {</span>
+<span class="fc" id="L145">			parameters.put(&quot;cacheKey&quot;, resourceCacheKey);</span>
+		}
+
+<span class="fc" id="L148">		return WebUtilities.getPath(url, parameters, true);</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

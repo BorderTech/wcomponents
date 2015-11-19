@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>FileWidgetRendererUtil.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.render.webxml</a> &gt; <span class="el_source">FileWidgetRendererUtil.java</span></div><h1>FileWidgetRendererUtil.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.render.webxml;
+
+import com.github.bordertech.wcomponents.WLink.ImagePosition;
+import com.github.bordertech.wcomponents.WMultiFileWidget;
+import com.github.bordertech.wcomponents.WMultiFileWidget.FileWidgetUpload;
+import com.github.bordertech.wcomponents.XmlStringBuilder;
+import com.github.bordertech.wcomponents.util.SystemException;
+
+/**
+ * Utility methods for rendering file element.
+ *
+ * @author Jonathan Austin
+ * @since 1.0.0
+ */
+public final class FileWidgetRendererUtil {
+
+	/**
+	 * Prevent instantiation of utility class.
+	 */
+<span class="nc" id="L20">	private FileWidgetRendererUtil() {</span>
+		// Do nothing
+<span class="nc" id="L22">	}</span>
+
+	/**
+	 * @param widget the multi file widget
+	 * @param xml the xml string builder
+	 * @param file the file to render
+	 * @param idx the index of the file
+	 */
+	public static void renderFileElement(final WMultiFileWidget widget, final XmlStringBuilder xml,
+			final FileWidgetUpload file, final int idx) {
+<span class="fc" id="L32">		xml.appendTagOpen(&quot;ui:file&quot;);</span>
+<span class="fc" id="L33">		xml.appendAttribute(&quot;id&quot;, file.getFileId());</span>
+<span class="fc" id="L34">		xml.appendAttribute(&quot;name&quot;, file.getFile().getName());</span>
+<span class="fc" id="L35">		xml.appendAttribute(&quot;type&quot;, file.getFile().getMimeType());</span>
+<span class="fc" id="L36">		xml.appendAttribute(&quot;size&quot;, String.valueOf(file.getFile().getSize()));</span>
+<span class="fc" id="L37">		xml.appendClose();</span>
+
+		// Link to file
+<span class="fc" id="L40">		xml.appendTagOpen(&quot;ui:link&quot;);</span>
+<span class="fc" id="L41">		xml.appendAttribute(&quot;id&quot;, widget.getId() + &quot;-&quot; + idx);</span>
+<span class="fc" id="L42">		xml.appendAttribute(&quot;url&quot;, widget.getFileUrl(file.getFileId()));</span>
+
+		// Thumb nail (if used)
+<span class="pc bpc" id="L45" title="1 of 2 branches missed.">		if (widget.isUseThumbnails()) {</span>
+<span class="nc" id="L46">			xml.appendAttribute(&quot;imageUrl&quot;, widget.getFileThumbnailUrl(file.getFileId()));</span>
+			// Position (if provided)
+<span class="nc" id="L48">			ImagePosition thumbnailPosition = widget.getThumbnailPosition();</span>
+<span class="nc bnc" id="L49" title="All 2 branches missed.">			if (thumbnailPosition != null) {</span>
+<span class="nc bnc" id="L50" title="All 5 branches missed.">				switch (thumbnailPosition) {</span>
+					case NORTH:
+<span class="nc" id="L52">						xml.appendAttribute(&quot;imagePosition&quot;, &quot;n&quot;);</span>
+<span class="nc" id="L53">						break;</span>
+					case EAST:
+<span class="nc" id="L55">						xml.appendAttribute(&quot;imagePosition&quot;, &quot;e&quot;);</span>
+<span class="nc" id="L56">						break;</span>
+					case SOUTH:
+<span class="nc" id="L58">						xml.appendAttribute(&quot;imagePosition&quot;, &quot;s&quot;);</span>
+<span class="nc" id="L59">						break;</span>
+					case WEST:
+<span class="nc" id="L61">						xml.appendAttribute(&quot;imagePosition&quot;, &quot;w&quot;);</span>
+<span class="nc" id="L62">						break;</span>
+					default:
+<span class="nc" id="L64">						throw new SystemException(&quot;Unknown image position: &quot; + thumbnailPosition);</span>
+				}
+			}
+		}
+<span class="fc" id="L68">		xml.appendClose();</span>
+
+<span class="pc bpc" id="L70" title="1 of 2 branches missed.">		if (widget.getFileAjaxAction() == null) {</span>
+<span class="fc" id="L71">			xml.appendTagOpen(&quot;ui:windowAttributes&quot;);</span>
+<span class="fc" id="L72">			xml.appendAttribute(&quot;name&quot;, &quot;uploadfile&quot;);</span>
+<span class="fc" id="L73">			xml.appendEnd();</span>
+		}
+
+<span class="fc" id="L76">		xml.appendEscaped(file.getFile().getName());</span>
+
+<span class="fc" id="L78">		xml.appendEndTag(&quot;ui:link&quot;);</span>
+<span class="fc" id="L79">		xml.appendEndTag(&quot;ui:file&quot;);</span>
+<span class="fc" id="L80">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

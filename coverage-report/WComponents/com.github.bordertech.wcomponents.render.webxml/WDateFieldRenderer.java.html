@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WDateFieldRenderer.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.render.webxml</a> &gt; <span class="el_source">WDateFieldRenderer.java</span></div><h1>WDateFieldRenderer.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.render.webxml;
+
+import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.WDateField;
+import com.github.bordertech.wcomponents.XmlStringBuilder;
+import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+/**
+ * The Renderer for {@link WDateField}.
+ *
+ * @author Jonathan Austin
+ * @since 1.0.0
+ */
+<span class="fc" id="L16">final class WDateFieldRenderer extends AbstractWebXmlRenderer {</span>
+
+	/**
+	 * This date format is used internally to exchange dates between the client and server.
+	 */
+	private static final String INTERNAL_DATE_FORMAT = &quot;yyyy-MM-dd&quot;;
+
+	/**
+	 * Paints the given WDateField.
+	 *
+	 * @param component the WDateField to paint.
+	 * @param renderContext the RenderContext to paint to.
+	 */
+	@Override
+	public void doRender(final WComponent component, final WebXmlRenderContext renderContext) {
+<span class="fc" id="L31">		WDateField dateField = (WDateField) component;</span>
+<span class="fc" id="L32">		XmlStringBuilder xml = renderContext.getWriter();</span>
+
+<span class="fc" id="L34">		WComponent submitControl = dateField.getDefaultSubmitButton();</span>
+<span class="fc bfc" id="L35" title="All 2 branches covered.">		String submitControlId = submitControl == null ? null : submitControl.getId();</span>
+<span class="fc" id="L36">		Date date = dateField.getDate();</span>
+<span class="fc" id="L37">		Date minDate = dateField.getMinDate();</span>
+<span class="fc" id="L38">		Date maxDate = dateField.getMaxDate();</span>
+
+<span class="fc" id="L40">		xml.appendTagOpen(&quot;ui:dateField&quot;);</span>
+<span class="fc" id="L41">		xml.appendAttribute(&quot;id&quot;, component.getId());</span>
+<span class="fc" id="L42">		xml.appendOptionalAttribute(&quot;class&quot;, component.getHtmlClass());</span>
+<span class="fc" id="L43">		xml.appendOptionalAttribute(&quot;track&quot;, component.isTracking(), &quot;true&quot;);</span>
+<span class="fc" id="L44">		xml.appendOptionalAttribute(&quot;disabled&quot;, dateField.isDisabled(), &quot;true&quot;);</span>
+<span class="fc" id="L45">		xml.appendOptionalAttribute(&quot;hidden&quot;, dateField.isHidden(), &quot;true&quot;);</span>
+<span class="fc" id="L46">		xml.appendOptionalAttribute(&quot;required&quot;, dateField.isMandatory(), &quot;true&quot;);</span>
+<span class="fc" id="L47">		xml.appendOptionalAttribute(&quot;readOnly&quot;, dateField.isReadOnly(), &quot;true&quot;);</span>
+<span class="fc" id="L48">		xml.appendOptionalAttribute(&quot;tabIndex&quot;, dateField.hasTabIndex(), String.valueOf(dateField.</span>
+<span class="fc" id="L49">				getTabIndex()));</span>
+<span class="fc" id="L50">		xml.appendOptionalAttribute(&quot;toolTip&quot;, dateField.getToolTip());</span>
+<span class="fc" id="L51">		xml.appendOptionalAttribute(&quot;accessibleText&quot;, dateField.getAccessibleText());</span>
+<span class="fc" id="L52">		xml.appendOptionalAttribute(&quot;buttonId&quot;, submitControlId);</span>
+
+<span class="fc bfc" id="L54" title="All 2 branches covered.">		if (date != null) {</span>
+<span class="fc" id="L55">			xml.appendAttribute(&quot;date&quot;, new SimpleDateFormat(INTERNAL_DATE_FORMAT).format(date));</span>
+		}
+
+<span class="fc bfc" id="L58" title="All 2 branches covered.">		if (minDate != null) {</span>
+<span class="fc" id="L59">			xml.appendAttribute(&quot;min&quot;, new SimpleDateFormat(INTERNAL_DATE_FORMAT).format(minDate));</span>
+		}
+
+<span class="fc bfc" id="L62" title="All 2 branches covered.">		if (maxDate != null) {</span>
+<span class="fc" id="L63">			xml.appendAttribute(&quot;max&quot;, new SimpleDateFormat(INTERNAL_DATE_FORMAT).format(maxDate));</span>
+		}
+
+<span class="fc" id="L66">		xml.appendClose();</span>
+
+<span class="fc bfc" id="L68" title="All 2 branches covered.">		if (date == null) {</span>
+<span class="fc" id="L69">			xml.appendEscaped(dateField.getText());</span>
+		}
+
+<span class="fc" id="L72">		xml.appendEndTag(&quot;ui:dateField&quot;);</span>
+<span class="fc" id="L73">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

@@ -1,0 +1,717 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WVideo.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">WVideo.java</span></div><h1>WVideo.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import com.github.bordertech.wcomponents.util.Util;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+/**
+ * WVideo is used to display video content on the client.
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ */
+public class WVideo extends AbstractWComponent implements Targetable, AjaxTarget, Disableable {
+
+	/**
+	 * The logger instance for this class.
+	 */
+<span class="fc" id="L21">	private static final Log LOG = LogFactory.getLog(WVideo.class);</span>
+
+	/**
+	 * This request parameter is used to determine which video clip to serve up.
+	 */
+	private static final String VIDEO_INDEX_REQUEST_PARAM_KEY = &quot;WVideo.videoIndex&quot;;
+
+	/**
+	 * This request parameter is used to determine which track to serve up.
+	 */
+	private static final String TRACK_INDEX_REQUEST_PARAM_KEY = &quot;WVideo.trackIndex&quot;;
+
+	/**
+	 * This request parameter is used to request the poster image.
+	 */
+	private static final String POSTER_REQUEST_PARAM_KEY = &quot;WVideo.poster&quot;;
+
+	/**
+	 * This is used to indicate whether pre-loading of content should occur before the clip is played.
+	 */
+<span class="pc" id="L41">	public enum Preload {</span>
+		/**
+		 * Do not pre-load any data.
+		 */
+<span class="fc" id="L45">		NONE,</span>
+		/**
+		 * Preload meta-data only.
+		 */
+<span class="fc" id="L49">		META_DATA,</span>
+		/**
+		 * Let the client determine what to load.
+		 */
+<span class="fc" id="L53">		AUTO</span>
+	}
+
+	/**
+	 * This is used to indicate which playback controls to display for the video.
+	 */
+<span class="pc" id="L59">	public enum Controls {</span>
+		/**
+		 * Do not display any controls - not recommended.
+		 */
+<span class="fc" id="L63">		NONE,</span>
+		/**
+		 * Display all controls.
+		 */
+<span class="fc" id="L67">		ALL,</span>
+		/**
+		 * A combined play/pause button.
+		 */
+<span class="fc" id="L71">		PLAY_PAUSE,</span>
+		/**
+		 * Displays the &quot;default&quot; set of controls for the theme.
+		 */
+<span class="fc" id="L75">		DEFAULT,</span>
+		/**
+		 * Displays the client's native set of controls.
+		 */
+<span class="fc" id="L79">		NATIVE</span>
+	}
+
+	/**
+	 * Creates a WVideo with no video clips. Video clips must be added later by calling one of the setVideo(...)
+	 * methods.
+	 */
+<span class="fc" id="L86">	public WVideo() {</span>
+<span class="fc" id="L87">	}</span>
+
+	/**
+	 * Creates a WVideo with the given video clip.
+	 *
+	 * @param video the video clip.
+	 */
+	public WVideo(final Video video) {
+<span class="fc" id="L95">		this(new Video[]{video});</span>
+<span class="fc" id="L96">	}</span>
+
+	/**
+	 * &lt;p&gt;
+	 * Creates a WVideo with the given static content. This is provided as a convenience method for when the video file
+	 * is included as static content in the class path rather than in the web application's resources.
+	 * &lt;/p&gt;
+	 * &lt;p&gt;
+	 * The mime type for the video clip is looked up from the &quot;mimeType.*&quot; mapping configuration parameters using the
+	 * resource's file extension.
+	 * &lt;/p&gt;
+	 *
+	 * @param resource the resource path to the video file.
+	 */
+	public WVideo(final String resource) {
+<span class="nc" id="L111">		this(new VideoResource(resource));</span>
+<span class="nc" id="L112">	}</span>
+
+	/**
+	 * Creates a WVideo with the given video clip in multiple formats. The client will try to load the first video clip,
+	 * and if it fails or isn't supported, it will move on to the next video clip. Only the first clip which can be
+	 * played on the client will be used.
+	 *
+	 * @param video multiple formats for the same the video clip.
+	 */
+<span class="fc" id="L121">	public WVideo(final Video[] video) {</span>
+<span class="fc" id="L122">		setVideo(video);</span>
+<span class="fc" id="L123">	}</span>
+
+	/**
+	 * Sets the video clip.
+	 *
+	 * @param video the video clip.
+	 */
+	public void setVideo(final Video video) {
+<span class="fc" id="L131">		setVideo(new Video[]{video});</span>
+<span class="fc" id="L132">	}</span>
+
+	/**
+	 * Sets the video clip in multiple formats. The client will try to load the first video clip, and if it fails or
+	 * isn't supported, it will move on to the next video clip. Only the first clip which can be played on the client
+	 * will be used.
+	 *
+	 * @param video multiple formats for the same the video clip.
+	 */
+	public void setVideo(final Video[] video) {
+<span class="pc bpc" id="L142" title="1 of 2 branches missed.">		List&lt;Video&gt; list = video == null ? null : Arrays.asList(video);</span>
+<span class="fc" id="L143">		getOrCreateComponentModel().video = list;</span>
+<span class="fc" id="L144">	}</span>
+
+	/**
+	 * Retrieves the video clips associated with this WVideo.
+	 *
+	 * @return the video clips, may be null.
+	 */
+	public Video[] getVideo() {
+<span class="fc" id="L152">		List&lt;Video&gt; list = getComponentModel().video;</span>
+<span class="fc bfc" id="L153" title="All 2 branches covered.">		return list == null ? null : list.toArray(new Video[]{});</span>
+	}
+
+	/**
+	 * Indicates whether the video component is disabled.
+	 *
+	 * @return true if the component is disabled, otherwise false.
+	 */
+	@Override
+	public boolean isDisabled() {
+<span class="fc" id="L163">		return isFlagSet(ComponentModel.DISABLED_FLAG);</span>
+	}
+
+	/**
+	 * Sets whether the video component is disabled.
+	 *
+	 * @param disabled if true, the component is disabled. If false, it is enabled.
+	 */
+	@Override
+	public void setDisabled(final boolean disabled) {
+<span class="fc" id="L173">		setFlag(ComponentModel.DISABLED_FLAG, disabled);</span>
+<span class="fc" id="L174">	}</span>
+
+	/**
+	 * @return true if the clip should start playing automatically, false for a manual start.
+	 */
+	public boolean isAutoplay() {
+<span class="fc" id="L180">		return getComponentModel().autoplay;</span>
+	}
+
+	/**
+	 * Sets whether the clip should play automatically.
+	 *
+	 * @param autoplay true to start playing automatically, false for a manual start.
+	 */
+	public void setAutoplay(final boolean autoplay) {
+<span class="fc" id="L189">		getOrCreateComponentModel().autoplay = autoplay;</span>
+<span class="fc" id="L190">	}</span>
+
+	/**
+	 * @return the media group name.
+	 */
+	public String getMediaGroup() {
+<span class="fc" id="L196">		return getComponentModel().mediaGroup;</span>
+	}
+
+	/**
+	 * Sets the media group.
+	 *
+	 * @param mediaGroup The media group name.
+	 */
+	public void setMediaGroup(final String mediaGroup) {
+<span class="fc" id="L205">		getOrCreateComponentModel().mediaGroup = mediaGroup;</span>
+<span class="fc" id="L206">	}</span>
+
+	/**
+	 * Indicates whether the video clip playback should loop.
+	 *
+	 * @return true to loop, false to stop at the end.
+	 */
+	public boolean isLoop() {
+<span class="fc" id="L214">		return getComponentModel().loop;</span>
+	}
+
+	/**
+	 * Sets whether the video clip playback should loop or stop at the end.
+	 *
+	 * @param loop true to loop, false to stop at the end.
+	 */
+	public void setLoop(final boolean loop) {
+<span class="fc" id="L223">		getOrCreateComponentModel().loop = loop;</span>
+<span class="fc" id="L224">	}</span>
+
+	/**
+	 * Indicates whether the video's audio should initially be muted.
+	 *
+	 * @return true if muted, false otherwise.
+	 */
+	public boolean isMuted() {
+<span class="fc" id="L232">		return getComponentModel().muted;</span>
+	}
+
+	/**
+	 * Sets whether the video's audio should initially be muted.
+	 *
+	 * @param muted true to mute the audio, false to play normally.
+	 */
+	public void setMuted(final boolean muted) {
+<span class="fc" id="L241">		getOrCreateComponentModel().muted = muted;</span>
+<span class="fc" id="L242">	}</span>
+
+	/**
+	 * Indicates which playback controls (e.g. stop/start/pause) to display on the video component.
+	 *
+	 * @return the playback controls to display.
+	 */
+	public Controls getControls() {
+<span class="fc" id="L250">		return getComponentModel().controls;</span>
+	}
+
+	/**
+	 * Sets which playback controls (e.g. stop/start/pause) to display on the video component. The values of
+	 * {@link Controls#NONE} and {@link Controls#ALL} take precedence over all other values. Passing a null or empty set
+	 * of controls will cause the client's default set of controls to be used.
+	 *
+	 * @param controls the playback controls to display.
+	 */
+	public void setControls(final Controls controls) {
+<span class="fc" id="L261">		getOrCreateComponentModel().controls = controls;</span>
+<span class="fc" id="L262">	}</span>
+
+	/**
+	 * Indicates how pre-loading of content should occur before the clip is played.
+	 *
+	 * @return the pre-loading mode.
+	 */
+	public Preload getPreload() {
+<span class="fc" id="L270">		return getComponentModel().preload;</span>
+	}
+
+	/**
+	 * Sets how pre-loading of content should occur before the clip is played.
+	 *
+	 * @param preload the pre-loading mode.
+	 */
+	public void setPreload(final Preload preload) {
+<span class="fc" id="L279">		getOrCreateComponentModel().preload = preload;</span>
+<span class="fc" id="L280">	}</span>
+
+	/**
+	 * @return alternative text to display when the video clip can not be played.
+	 */
+	public String getAltText() {
+<span class="fc" id="L286">		return getComponentModel().altText;</span>
+	}
+
+	/**
+	 * Sets the alternative text to display when the video clip can not be played.
+	 *
+	 * @param altText the text to set.
+	 */
+	public void setAltText(final String altText) {
+<span class="fc" id="L295">		getOrCreateComponentModel().altText = altText;</span>
+<span class="fc" id="L296">	}</span>
+
+	/**
+	 * @return the width of the video playback region on the client, in pixels.
+	 */
+	public int getWidth() {
+<span class="fc" id="L302">		return getComponentModel().width;</span>
+	}
+
+	/**
+	 * Sets the width of the video playback region on the client.
+	 *
+	 * @param width the width of the video playback region, in pixels.
+	 */
+	public void setWidth(final int width) {
+<span class="fc" id="L311">		getOrCreateComponentModel().width = width;</span>
+<span class="fc" id="L312">	}</span>
+
+	/**
+	 * @return the height of the video playback region on the client, in pixels.
+	 */
+	public int getHeight() {
+<span class="fc" id="L318">		return getComponentModel().height;</span>
+	}
+
+	/**
+	 * Sets the height of the video playback region on the client.
+	 *
+	 * @param height the height of the video playback region, in pixels.
+	 */
+	public void setHeight(final int height) {
+<span class="fc" id="L327">		getOrCreateComponentModel().height = height;</span>
+<span class="fc" id="L328">	}</span>
+
+	/**
+	 * Retrieves the default poster image. The poster image is displayed by the client when the video is not playing.
+	 *
+	 * @return the default poster image.
+	 */
+	public Image getPoster() {
+<span class="nc" id="L336">		return getComponentModel().poster;</span>
+	}
+
+	/**
+	 * Sets the default poster image. The poster image is displayed by the client when the video is not playing.
+	 *
+	 * @param poster the default poster image.
+	 */
+	public void setPoster(final Image poster) {
+<span class="fc" id="L345">		getOrCreateComponentModel().poster = poster;</span>
+<span class="fc" id="L346">	}</span>
+
+	/**
+	 * Sets the tracks for the video. The tracks are used to provide additional information relating to the video, for
+	 * example subtitles.
+	 *
+	 * @param tracks additional tracks relating to the video.
+	 */
+	public void setTracks(final Track[] tracks) {
+<span class="pc bpc" id="L355" title="1 of 2 branches missed.">		List&lt;Track&gt; list = tracks == null ? null : Arrays.asList(tracks);</span>
+<span class="fc" id="L356">		getOrCreateComponentModel().tracks = list;</span>
+<span class="fc" id="L357">	}</span>
+
+	/**
+	 * Retrieves additional tracks associated with the video. The tracks provide additional information relating to the
+	 * video, for example subtitles.
+	 *
+	 * @return the video clips, may be null.
+	 */
+	public Track[] getTracks() {
+<span class="fc" id="L366">		List&lt;Track&gt; list = getComponentModel().tracks;</span>
+<span class="fc bfc" id="L367" title="All 2 branches covered.">		return list == null ? null : list.toArray(new Track[]{});</span>
+	}
+
+	/**
+	 * Creates dynamic URLs that the video clips can be loaded from. In fact the URL points to the main application
+	 * servlet, but includes a non-null for the parameter associated with this WComponent (ie, its label). The
+	 * handleRequest method below detects this when the browser requests a file.
+	 *
+	 * @return the urls to load the video files from, or null if there are no clips defined.
+	 */
+	public String[] getVideoUrls() {
+<span class="fc" id="L378">		Video[] video = getVideo();</span>
+
+<span class="pc bpc" id="L380" title="2 of 4 branches missed.">		if (video == null || video.length == 0) {</span>
+<span class="nc" id="L381">			return null;</span>
+		}
+
+<span class="fc" id="L384">		String[] urls = new String[video.length];</span>
+
+		// this variable needs to be set in the portlet environment.
+<span class="fc" id="L387">		String url = getEnvironment().getWServletPath();</span>
+<span class="fc" id="L388">		Map&lt;String, String&gt; parameters = getBaseParameterMap();</span>
+
+<span class="fc bfc" id="L390" title="All 2 branches covered.">		for (int i = 0; i &lt; urls.length; i++) {</span>
+<span class="fc" id="L391">			parameters.put(VIDEO_INDEX_REQUEST_PARAM_KEY, String.valueOf(i));</span>
+<span class="fc" id="L392">			urls[i] = WebUtilities.getPath(url, parameters, true);</span>
+		}
+
+<span class="fc" id="L395">		return urls;</span>
+	}
+
+	/**
+	 * Creates dynamic URLs that the video clips can be loaded from. In fact the URL points to the main application
+	 * servlet, but includes a non-null for the parameter associated with this WComponent (ie, its label). The
+	 * handleRequest method below detects this when the browser requests a file.
+	 *
+	 * @return the urls to load the video files from, or null if there are no clips defined.
+	 */
+	public String[] getTrackUrls() {
+<span class="fc" id="L406">		Track[] tracks = getTracks();</span>
+
+<span class="pc bpc" id="L408" title="2 of 4 branches missed.">		if (tracks == null || tracks.length == 0) {</span>
+<span class="nc" id="L409">			return null;</span>
+		}
+
+<span class="fc" id="L412">		String[] urls = new String[tracks.length];</span>
+
+		// this variable needs to be set in the portlet environment.
+<span class="fc" id="L415">		String url = getEnvironment().getWServletPath();</span>
+<span class="fc" id="L416">		Map&lt;String, String&gt; parameters = getBaseParameterMap();</span>
+
+<span class="fc bfc" id="L418" title="All 2 branches covered.">		for (int i = 0; i &lt; urls.length; i++) {</span>
+<span class="fc" id="L419">			parameters.put(TRACK_INDEX_REQUEST_PARAM_KEY, String.valueOf(i));</span>
+<span class="fc" id="L420">			urls[i] = WebUtilities.getPath(url, parameters, true);</span>
+		}
+
+<span class="fc" id="L423">		return urls;</span>
+	}
+
+	/**
+	 * Creates a dynamic URL that the poster can be loaded from. In fact the URL points to the main application servlet,
+	 * but includes a non-null for the parameter associated with this WComponent (ie, its label). The handleRequest
+	 * method below detects this when the browser requests a file.
+	 *
+	 * @return the url to load the poster from, or null if there is no poster defined.
+	 */
+	public String getPosterUrl() {
+<span class="fc" id="L434">		Image poster = getComponentModel().poster;</span>
+
+<span class="fc bfc" id="L436" title="All 2 branches covered.">		if (poster == null) {</span>
+<span class="fc" id="L437">			return null;</span>
+		}
+
+		// this variable needs to be set in the portlet environment.
+<span class="fc" id="L441">		String url = getEnvironment().getWServletPath();</span>
+<span class="fc" id="L442">		Map&lt;String, String&gt; parameters = getBaseParameterMap();</span>
+<span class="fc" id="L443">		parameters.put(POSTER_REQUEST_PARAM_KEY, &quot;x&quot;);</span>
+<span class="fc" id="L444">		return WebUtilities.getPath(url, parameters, true);</span>
+	}
+
+	/**
+	 * Retrieves the base parameter map for serving content (videos + tracks).
+	 *
+	 * @return the base map for serving content.
+	 */
+	private Map&lt;String, String&gt; getBaseParameterMap() {
+<span class="fc" id="L453">		Environment env = getEnvironment();</span>
+<span class="fc" id="L454">		Map&lt;String, String&gt; parameters = env.getHiddenParameters();</span>
+<span class="fc" id="L455">		parameters.put(Environment.TARGET_ID, getTargetId());</span>
+
+<span class="pc bpc" id="L457" title="1 of 2 branches missed.">		if (Util.empty(getCacheKey())) {</span>
+			// Add some randomness to the URL to prevent caching
+<span class="nc" id="L459">			String random = WebUtilities.generateRandom();</span>
+<span class="nc" id="L460">			parameters.put(Environment.UNIQUE_RANDOM_PARAM, random);</span>
+<span class="nc" id="L461">		} else {</span>
+			// Remove step counter as not required for cached content
+<span class="fc" id="L463">			parameters.remove(Environment.STEP_VARIABLE);</span>
+<span class="fc" id="L464">			parameters.remove(Environment.SESSION_TOKEN_VARIABLE);</span>
+			// Add the cache key
+<span class="fc" id="L466">			parameters.put(Environment.CONTENT_CACHE_KEY, getCacheKey());</span>
+		}
+
+<span class="fc" id="L469">		return parameters;</span>
+	}
+
+	/**
+	 * Override isVisible to also return false if there are no video clips to play.
+	 *
+	 * @return true if this component is visible in the given context, otherwise false.
+	 */
+	@Override
+	public boolean isVisible() {
+<span class="pc bpc" id="L479" title="1 of 2 branches missed.">		if (!super.isVisible()) {</span>
+<span class="nc" id="L480">			return false;</span>
+		}
+
+<span class="fc" id="L483">		Video[] video = getVideo();</span>
+<span class="pc bpc" id="L484" title="1 of 4 branches missed.">		return video != null &amp;&amp; video.length &gt; 0;</span>
+	}
+
+	/**
+	 * When an video element is rendered to the client, the browser will make a second request to get the video content.
+	 * The handleRequest method has been overridden to detect whether the request is the &quot;content fetch&quot; request by
+	 * looking for the parameter that we encode in the content url.
+	 *
+	 * @param request the request being responded to.
+	 */
+	@Override
+	public void handleRequest(final Request request) {
+<span class="fc" id="L496">		super.handleRequest(request);</span>
+
+<span class="pc bpc" id="L498" title="1 of 2 branches missed.">		if (isDisabled()) {</span>
+<span class="nc" id="L499">			return;</span>
+		}
+
+<span class="fc" id="L502">		String targ = request.getParameter(Environment.TARGET_ID);</span>
+<span class="pc bpc" id="L503" title="1 of 4 branches missed.">		boolean contentReqested = (targ != null &amp;&amp; targ.equals(getTargetId()));</span>
+
+<span class="fc bfc" id="L505" title="All 2 branches covered.">		if (contentReqested) {</span>
+<span class="fc bfc" id="L506" title="All 2 branches covered.">			if (request.getParameter(VIDEO_INDEX_REQUEST_PARAM_KEY) != null) {</span>
+<span class="nc" id="L507">				handleVideoRequest(request);</span>
+<span class="fc bfc" id="L508" title="All 2 branches covered.">			} else if (request.getParameter(TRACK_INDEX_REQUEST_PARAM_KEY) != null) {</span>
+<span class="nc" id="L509">				handleTrackRequest(request);</span>
+<span class="pc bpc" id="L510" title="1 of 2 branches missed.">			} else if (request.getParameter(POSTER_REQUEST_PARAM_KEY) != null) {</span>
+<span class="nc" id="L511">				handlePosterRequest();</span>
+			}
+		}
+<span class="fc" id="L514">	}</span>
+
+	/**
+	 * Handles a request for the poster.
+	 */
+	private void handlePosterRequest() {
+<span class="fc" id="L520">		Image poster = getComponentModel().poster;</span>
+
+<span class="pc bpc" id="L522" title="1 of 2 branches missed.">		if (poster != null) {</span>
+<span class="fc" id="L523">			ContentEscape escape = new ContentEscape(poster);</span>
+<span class="fc bfc" id="L524" title="All 2 branches covered.">			escape.setCacheable(!Util.empty(getCacheKey()));</span>
+<span class="fc" id="L525">			throw escape;</span>
+		} else {
+<span class="nc" id="L527">			LOG.warn(&quot;Client requested non-existant poster&quot;);</span>
+		}
+<span class="nc" id="L529">	}</span>
+
+	/**
+	 * Handles a request for a video.
+	 *
+	 * @param request the request being responded to.
+	 */
+	private void handleVideoRequest(final Request request) {
+<span class="fc" id="L537">		String videoRequested = request.getParameter(VIDEO_INDEX_REQUEST_PARAM_KEY);</span>
+<span class="fc" id="L538">		int videoFileIndex = 0;</span>
+
+		try {
+<span class="fc" id="L541">			videoFileIndex = Integer.parseInt(videoRequested);</span>
+<span class="nc" id="L542">		} catch (NumberFormatException e) {</span>
+<span class="nc" id="L543">			LOG.error(&quot;Failed to parse video index: &quot; + videoFileIndex);</span>
+<span class="fc" id="L544">		}</span>
+
+<span class="fc" id="L546">		Video[] video = getVideo();</span>
+
+<span class="pc bpc" id="L548" title="3 of 6 branches missed.">		if (video != null &amp;&amp; videoFileIndex &gt;= 0 &amp;&amp; videoFileIndex &lt; video.length) {</span>
+<span class="fc" id="L549">			ContentEscape escape = new ContentEscape(video[videoFileIndex]);</span>
+<span class="fc bfc" id="L550" title="All 2 branches covered.">			escape.setCacheable(!Util.empty(getCacheKey()));</span>
+<span class="fc" id="L551">			throw escape;</span>
+		} else {
+<span class="nc" id="L553">			LOG.warn(&quot;Client requested invalid video clip: &quot; + videoFileIndex);</span>
+		}
+<span class="nc" id="L555">	}</span>
+
+	/**
+	 * Handles a request for an auxillary track.
+	 *
+	 * @param request the request being responded to.
+	 */
+	private void handleTrackRequest(final Request request) {
+<span class="fc" id="L563">		String trackRequested = request.getParameter(TRACK_INDEX_REQUEST_PARAM_KEY);</span>
+<span class="fc" id="L564">		int trackIndex = 0;</span>
+
+		try {
+<span class="fc" id="L567">			trackIndex = Integer.parseInt(trackRequested);</span>
+<span class="nc" id="L568">		} catch (NumberFormatException e) {</span>
+<span class="nc" id="L569">			LOG.error(&quot;Failed to parse track index: &quot; + trackIndex);</span>
+<span class="fc" id="L570">		}</span>
+
+<span class="fc" id="L572">		Track[] tracks = getTracks();</span>
+
+<span class="pc bpc" id="L574" title="3 of 6 branches missed.">		if (tracks != null &amp;&amp; trackIndex &gt;= 0 &amp;&amp; trackIndex &lt; tracks.length) {</span>
+<span class="fc" id="L575">			ContentEscape escape = new ContentEscape(tracks[trackIndex]);</span>
+<span class="fc bfc" id="L576" title="All 2 branches covered.">			escape.setCacheable(!Util.empty(getCacheKey()));</span>
+<span class="fc" id="L577">			throw escape;</span>
+		} else {
+<span class="nc" id="L579">			LOG.warn(&quot;Client requested invalid track: &quot; + trackIndex);</span>
+		}
+<span class="nc" id="L581">	}</span>
+
+	/**
+	 * @return the cacheKey
+	 */
+	public String getCacheKey() {
+<span class="fc" id="L587">		return getComponentModel().cacheKey;</span>
+	}
+
+	/**
+	 * @param cacheKey the cacheKey to set.
+	 */
+	public void setCacheKey(final String cacheKey) {
+<span class="fc" id="L594">		getOrCreateComponentModel().cacheKey = cacheKey;</span>
+<span class="fc" id="L595">	}</span>
+
+	/**
+	 * Returns the id to use to target this component.
+	 *
+	 * @return this component's target id.
+	 */
+	@Override
+	public String getTargetId() {
+<span class="fc" id="L604">		return getId();</span>
+	}
+
+	/**
+	 * @return a String representation of this component, for debugging purposes.
+	 */
+	@Override
+	public String toString() {
+<span class="nc" id="L612">		String text = getAltText();</span>
+<span class="nc bnc" id="L613" title="All 2 branches missed.">		return toString(text == null ? null : ('&quot;' + text + '&quot;'));</span>
+	}
+
+	// --------------------------------
+	// Extrinsic state management
+	/**
+	 * Creates a new component model appropriate for this component.
+	 *
+	 * @return a new VideoModel.
+	 */
+	@Override
+	protected VideoModel newComponentModel() {
+<span class="fc" id="L625">		return new VideoModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	// For type safety only
+	protected VideoModel getComponentModel() {
+<span class="fc" id="L634">		return (VideoModel) super.getComponentModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	// For type safety only
+	protected VideoModel getOrCreateComponentModel() {
+<span class="fc" id="L643">		return (VideoModel) super.getOrCreateComponentModel();</span>
+	}
+
+	/**
+	 * Holds the extrinsic state information of a WVideo.
+	 */
+<span class="fc" id="L649">	public static class VideoModel extends ComponentModel {</span>
+
+		/**
+		 * The various video clips.
+		 */
+		private List&lt;Video&gt; video;
+
+		/**
+		 * Additional tracks relating to the video, e.g. subtitles.
+		 */
+		private List&lt;Track&gt; tracks;
+
+		/**
+		 * The cache key used to control client-side caching.
+		 */
+		private String cacheKey;
+
+		/**
+		 * Indicates whether the video should play immediately after page load.
+		 */
+		private boolean autoplay;
+
+		/**
+		 * Indicates whether playback of the video clip should be looped.
+		 */
+		private boolean loop;
+
+		/**
+		 * Indicates whether audio should initially be muted.
+		 */
+		private boolean muted;
+
+		/**
+		 * Indicates which playback controls to display.
+		 */
+		private Controls controls;
+
+		/**
+		 * Indicates whether pre-loading of content should occur before the clip is played.
+		 */
+<span class="fc" id="L689">		private Preload preload = Preload.NONE;</span>
+
+		/**
+		 * Alternate text to display if the video clip can not be played.
+		 */
+		private String altText;
+
+		/**
+		 * The width of the video playback region on the client, in pixels.
+		 */
+		private int width;
+
+		/**
+		 * The height of the video playback region on the client, in pixels.
+		 */
+		private int height;
+
+		/**
+		 * The poster image is displayed in place of the video, until it is loaded.
+		 */
+		private Image poster;
+
+		/**
+		 * This is used to group related media together, for example to synchronize tracks.
+		 */
+		private String mediaGroup;
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

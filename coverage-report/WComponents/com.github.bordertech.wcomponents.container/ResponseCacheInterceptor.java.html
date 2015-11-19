@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>ResponseCacheInterceptor.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.container</a> &gt; <span class="el_source">ResponseCacheInterceptor.java</span></div><h1>ResponseCacheInterceptor.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.container;
+
+import com.github.bordertech.wcomponents.RenderContext;
+import com.github.bordertech.wcomponents.util.Config;
+
+/**
+ * Interceptor that sets the appropriate response headers for caching or not caching the response.
+ *
+ * @author Jonathan Austin
+ * @since 1.0.0
+ */
+public class ResponseCacheInterceptor extends InterceptorComponent {
+
+	/**
+	 * Default cache settings.
+	 */
+	public static final String DEFAULT_CACHE_SETTINGS = &quot;public, max-age=31536000&quot;;
+
+	/**
+	 * Default no cache settings.
+	 */
+	public static final String DEFAULT_NO_CACHE_SETTINGS = &quot;no-cache, no-store, must-revalidate, private&quot;;
+
+	/**
+	 * Cache Type allows different cache settings to be set for different response types, such as page responses,
+	 * content, theme resources and datalists.
+	 * &lt;p&gt;
+	 * All the cache types uses the same default settings. However, the default setting can be overridden or each
+	 * individual cache type can be overridden.
+	 * &lt;/p&gt;
+	 */
+<span class="pc" id="L32">	public enum CacheType {</span>
+		/**
+		 * Page and AJAX responses no cache.
+		 */
+<span class="fc" id="L36">		NO_CACHE(&quot;bordertech.wcomponents.response.header.page.nocache&quot;, false),</span>
+		/**
+		 * Theme cache.
+		 */
+<span class="fc" id="L40">		THEME_CACHE(&quot;bordertech.wcomponents.response.header.theme.cache&quot;, true),</span>
+		/**
+		 * Datalist no cache.
+		 */
+<span class="fc" id="L44">		DATALIST_CACHE(&quot;bordertech.wcomponents.response.header.datalist.cache&quot;, true),</span>
+		/**
+		 * Content cache.
+		 */
+<span class="fc" id="L48">		CONTENT_CACHE(&quot;bordertech.wcomponents.response.header.content.cache&quot;, true),</span>
+		/**
+		 * Content no cache.
+		 */
+<span class="fc" id="L52">		CONTENT_NO_CACHE(&quot;bordertech.wcomponents.response.header.content.nocache&quot;, false);</span>
+
+		/**
+		 * Parameter key.
+		 */
+		private final String param;
+
+		/**
+		 * Caching flag.
+		 */
+		private final boolean cache;
+
+		/**
+		 * @param param the parameter key
+		 * @param cache the caching flag
+		 */
+<span class="fc" id="L68">		CacheType(final String param, final boolean cache) {</span>
+<span class="fc" id="L69">			this.param = param;</span>
+<span class="fc" id="L70">			this.cache = cache;</span>
+<span class="fc" id="L71">		}</span>
+
+		/**
+		 * @return the cache settings
+		 */
+		public String getSettings() {
+<span class="fc" id="L77">			return Config.getInstance().getString(param, getDefaultSettings());</span>
+		}
+
+		/**
+		 * @return true if cache, otherwise false
+		 */
+		public boolean isCache() {
+<span class="fc" id="L84">			return cache;</span>
+		}
+
+		/**
+		 * @return the default settings
+		 */
+		private String getDefaultSettings() {
+<span class="fc bfc" id="L91" title="All 2 branches covered.">			if (isCache()) {</span>
+<span class="fc" id="L92">				return Config.getInstance().getString(</span>
+						&quot;bordertech.wcomponents.response.header.default.cache&quot;,
+						DEFAULT_CACHE_SETTINGS);
+			} else {
+<span class="fc" id="L96">				return Config.getInstance().getString(</span>
+						&quot;bordertech.wcomponents.response.header.default.nocache&quot;,
+						DEFAULT_NO_CACHE_SETTINGS);
+			}
+
+		}
+	}
+
+	/**
+	 * Caching type.
+	 */
+	private final CacheType type;
+
+	/**
+	 * @param type the caching type
+	 */
+<span class="fc" id="L112">	public ResponseCacheInterceptor(final CacheType type) {</span>
+<span class="fc" id="L113">		this.type = type;</span>
+<span class="fc" id="L114">	}</span>
+
+	/**
+	 * Set the appropriate response headers for caching or not caching the response.
+	 *
+	 * @param renderContext the rendering context
+	 */
+	@Override
+	public void paint(final RenderContext renderContext) {
+		// Set headers
+<span class="fc" id="L124">		getResponse().setHeader(&quot;Cache-Control&quot;, type.getSettings());</span>
+
+		// Add extra no cache headers
+<span class="fc bfc" id="L127" title="All 2 branches covered.">		if (!type.isCache()) {</span>
+<span class="fc" id="L128">			getResponse().setHeader(&quot;Pragma&quot;, &quot;no-cache&quot;);</span>
+<span class="fc" id="L129">			getResponse().setHeader(&quot;Expires&quot;, &quot;-1&quot;);</span>
+		}
+
+<span class="fc" id="L132">		super.paint(renderContext);</span>
+<span class="fc" id="L133">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

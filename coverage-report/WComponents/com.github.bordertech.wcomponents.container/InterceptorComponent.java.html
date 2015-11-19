@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>InterceptorComponent.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.container</a> &gt; <span class="el_source">InterceptorComponent.java</span></div><h1>InterceptorComponent.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.container;
+
+import com.github.bordertech.wcomponents.RenderContext;
+import com.github.bordertech.wcomponents.Request;
+import com.github.bordertech.wcomponents.Response;
+import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.WebComponent;
+import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
+/**
+ * &lt;p&gt;
+ * Interceptor components are used to plug in features to a container that is serving WComponents. Interceptor
+ * components can be chained together. The last component in the chain is normally the WComponent (UI) that is being
+ * served up.&lt;/p&gt;
+ *
+ * &lt;p&gt;
+ * A new interceptor chain is created for each request that is served, so interceptors do not need to be thread safe.
+ * Note that in a Portal environment, the action and render phases will have separate interceptor chain instances.&lt;/p&gt;
+ *
+ * @author Martin Shevchenko
+ */
+public class InterceptorComponent implements WebComponent {
+
+	/**
+	 * The top-level WComponent for the UI that is being served.
+	 */
+	private WebComponent backing;
+
+	/**
+	 * The response that can be used by the interceptor, if required.
+	 */
+	private Response response;
+
+	/**
+	 * Creates an InterceptorComponent with no backing component. Set the backing component after construction using
+	 * method {@link #setBackingComponent(WebComponent)}.
+	 */
+	public InterceptorComponent() {
+<span class="fc" id="L41">		super();</span>
+<span class="fc" id="L42">	}</span>
+
+	/**
+	 * Creates an InterceptorComponent with the given backing component.
+	 *
+	 * @param component the backing component.
+	 */
+<span class="fc" id="L49">	public InterceptorComponent(final WebComponent component) {</span>
+<span class="fc" id="L50">		backing = component;</span>
+<span class="fc" id="L51">	}</span>
+
+	/**
+	 * Set the next component to process the request after this one.
+	 *
+	 * @param component the next component
+	 */
+	public void setBackingComponent(final WebComponent component) {
+<span class="fc" id="L59">		this.backing = component;</span>
+<span class="fc" id="L60">	}</span>
+
+	/**
+	 * @return the next component to process the request after this one.
+	 */
+	public WebComponent getBackingComponent() {
+<span class="fc" id="L66">		return backing;</span>
+	}
+
+	/**
+	 * @return the response being processed.
+	 */
+	public Response getResponse() {
+<span class="fc" id="L73">		return response;</span>
+	}
+
+	/**
+	 * @param resp the response being processed
+	 */
+	public void attachResponse(final Response resp) {
+<span class="fc" id="L80">		this.response = resp;</span>
+<span class="fc bfc" id="L81" title="All 2 branches covered.">		if (backing instanceof InterceptorComponent) {</span>
+<span class="fc" id="L82">			((InterceptorComponent) backing).attachResponse(resp);</span>
+		}
+<span class="fc" id="L84">	}</span>
+
+	/**
+	 * Utility method for replacing an individual interceptor within an existing chain.
+	 *
+	 * @param match the type of the interceptor to be replaced.
+	 * @param replacement the new interceptor to be used as a replacement.
+	 * @param chain the existing interceptor chain in which the replacement will take place.
+	 * @return the modified interceptor chain. If no match was found, the existing interceptor chain is returned
+	 * unchanged.
+	 */
+	public static InterceptorComponent replaceInterceptor(final Class match,
+			final InterceptorComponent replacement, final InterceptorComponent chain) {
+<span class="fc bfc" id="L97" title="All 2 branches covered.">		if (chain == null) {</span>
+<span class="fc" id="L98">			return null;</span>
+		}
+
+<span class="fc" id="L101">		InterceptorComponent current = chain;</span>
+<span class="fc" id="L102">		InterceptorComponent previous = null;</span>
+<span class="fc" id="L103">		InterceptorComponent updatedChain = null;</span>
+
+<span class="fc bfc" id="L105" title="All 2 branches covered.">		while (updatedChain == null) {</span>
+<span class="fc bfc" id="L106" title="All 2 branches covered.">			if (match.isInstance(current)) {</span>
+				// Found the interceptor that needs to be replaced.
+<span class="fc" id="L108">				replacement.setBackingComponent(current.getBackingComponent());</span>
+<span class="pc bpc" id="L109" title="1 of 2 branches missed.">				if (previous == null) {</span>
+<span class="nc" id="L110">					updatedChain = replacement;</span>
+				} else {
+<span class="fc" id="L112">					previous.setBackingComponent(replacement);</span>
+<span class="fc" id="L113">					updatedChain = chain;</span>
+				}
+			} else {
+<span class="fc" id="L116">				previous = current;</span>
+<span class="fc" id="L117">				WebComponent next = current.getBackingComponent();</span>
+
+<span class="pc bpc" id="L119" title="1 of 2 branches missed.">				if (next instanceof InterceptorComponent) {</span>
+<span class="fc" id="L120">					current = (InterceptorComponent) next;</span>
+				} else {
+					// Reached the end of the chain. No replacement done.
+<span class="nc" id="L123">					updatedChain = chain;</span>
+				}
+<span class="fc" id="L125">			}</span>
+		}
+
+<span class="fc" id="L128">		return updatedChain;</span>
+	}
+
+	/**
+	 * Subclasses can override. By default it delegates to the next interceptor in the chain.
+	 *
+	 * @see WebComponent#getName()
+	 *
+	 * @return the name for this component in the given context.
+	 * @deprecated no longer used. use {@link #getId()} instead.
+	 */
+	@Override
+	public String getName() {
+<span class="fc" id="L141">		return backing.getName();</span>
+	}
+
+	/**
+	 * Subclasses can override. By default it delegates to the next interceptor in the chain.
+	 *
+	 * @see WebComponent#getId()
+	 *
+	 * @return the id for this component.
+	 */
+	@Override
+	public String getId() {
+<span class="fc" id="L153">		return backing.getId();</span>
+	}
+
+	/**
+	 * Subclasses can override. By default it delegates to the next interceptor in the chain.
+	 *
+	 * @see WebComponent#serviceRequest(com.github.bordertech.wcomponents.Request)
+	 *
+	 * @param request the request being serviced.
+	 */
+	@Override
+	public void serviceRequest(final Request request) {
+<span class="fc" id="L165">		backing.serviceRequest(request);</span>
+<span class="fc" id="L166">	}</span>
+
+	/**
+	 * Subclasses can override. By default it delegates to the next interceptor in the chain.
+	 *
+	 * @see WebComponent#preparePaint(Request)
+	 *
+	 * @param request the request being serviced.
+	 */
+	@Override
+	public void preparePaint(final Request request) {
+<span class="fc" id="L177">		backing.preparePaint(request);</span>
+<span class="fc" id="L178">	}</span>
+
+	/**
+	 * Subclasses can override. By default it delegates to the next interceptor in the chain.
+	 *
+	 * @see WebComponent#paint(RenderContext)
+	 *
+	 * @param renderContext the RenderContext to send the output to.
+	 */
+	@Override
+	public void paint(final RenderContext renderContext) {
+<span class="fc" id="L189">		backing.paint(renderContext);</span>
+<span class="fc" id="L190">	}</span>
+
+	/**
+	 * Renders the given component to a web-XML String and returns it. This occurs outside the context of a Servlet.
+	 *
+	 * @param component the component to render.
+	 * @return the rendered output as a String.
+	 */
+	protected static String render(final WebComponent component) {
+<span class="fc" id="L199">		StringWriter stringWriter = new StringWriter();</span>
+<span class="fc" id="L200">		PrintWriter printWriter = new PrintWriter(stringWriter);</span>
+<span class="fc" id="L201">		component.paint(new WebXmlRenderContext(printWriter));</span>
+<span class="fc" id="L202">		printWriter.flush();</span>
+<span class="fc" id="L203">		String content = stringWriter.toString();</span>
+<span class="fc" id="L204">		return content;</span>
+	}
+
+	/**
+	 * @return The top most WComponent which will be at the end of the interceptor chain.
+	 */
+	public WComponent getUI() {
+<span class="fc bfc" id="L211" title="All 2 branches covered.">		if (backing instanceof WComponent) {</span>
+<span class="fc" id="L212">			return (WComponent) backing;</span>
+		}
+
+<span class="fc bfc" id="L215" title="All 2 branches covered.">		if (backing instanceof InterceptorComponent) {</span>
+<span class="fc" id="L216">			return ((InterceptorComponent) backing).getUI();</span>
+		}
+
+<span class="fc" id="L219">		return null;</span>
+	}
+
+	/**
+	 * Add the WComponent to the end of the interceptor chain.
+	 *
+	 * @param ui the WComponent to add.
+	 */
+	public void attachUI(final WComponent ui) {
+<span class="fc bfc" id="L228" title="All 4 branches covered.">		if (backing == null || backing instanceof WComponent) {</span>
+<span class="fc" id="L229">			backing = ui;</span>
+<span class="fc bfc" id="L230" title="All 2 branches covered.">		} else if (backing instanceof InterceptorComponent) {</span>
+<span class="fc" id="L231">			((InterceptorComponent) backing).attachUI(ui);</span>
+		} else {
+<span class="fc" id="L233">			throw new IllegalStateException(</span>
+					&quot;Unable to attachUI. Unknown type of WebComponent encountered. &quot; + backing.
+<span class="fc" id="L235">					getClass().getName());</span>
+		}
+<span class="fc" id="L237">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>Message.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">Message.java</span></div><h1>Message.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import com.github.bordertech.wcomponents.util.I18nUtilities;
+import com.github.bordertech.wcomponents.util.Util;
+import java.io.Serializable;
+import java.text.MessageFormat;
+import java.util.Arrays;
+
+/**
+ * Message - encapsulates a simple message that is to be displayed to the user.
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ */
+public class Message implements Serializable {
+
+	/**
+	 * A message type that indicates that a message is an &quot;informational message&quot;.
+	 */
+	public static final int INFO_MESSAGE = 0;
+
+	/**
+	 * A message type that indicates that a message is a &quot;warning message&quot;.
+	 */
+	public static final int WARNING_MESSAGE = 1;
+
+	/**
+	 * A message type that indicates that a message is an &quot;error message&quot;.
+	 */
+	public static final int ERROR_MESSAGE = 2;
+
+	/**
+	 * A message type that indicates that a message is a &quot;success message&quot;.
+	 */
+	public static final int SUCCESS_MESSAGE = 3;
+
+	/**
+	 * The content of this message.
+	 */
+	private final String message;
+
+	/**
+	 * The message arguments, if applicable.
+	 */
+	private Serializable[] args;
+
+	/**
+	 * The type of this message. One of ({@link #SUCCESS_MESSAGE}, {@link #INFO_MESSAGE}, {@link #WARNING_MESSAGE} or
+	 * {@link #ERROR_MESSAGE}).
+	 */
+	private int type;
+
+	/**
+	 * Creates an informational message.
+	 *
+	 * @param message the message text, using {@link MessageFormat} syntax.
+	 * @param args optional arguments for the message format string.
+	 */
+	public Message(final String message, final Serializable... args) {
+<span class="fc" id="L60">		this(INFO_MESSAGE, message, args);</span>
+<span class="fc" id="L61">	}</span>
+
+	/**
+	 * Creates a message.
+	 *
+	 * @param type the type of message.
+	 * @param message the message text, using {@link MessageFormat} syntax.
+	 * @param args optional arguments for the message format string.
+	 */
+<span class="fc" id="L70">	public Message(final int type, final String message, final Serializable... args) {</span>
+<span class="fc" id="L71">		setType(type);</span>
+<span class="fc" id="L72">		this.message = message;</span>
+<span class="pc bpc" id="L73" title="1 of 4 branches missed.">		this.args = args == null || args.length == 0 ? null : args;</span>
+<span class="fc" id="L74">	}</span>
+
+	/**
+	 * @return Returns the type.
+	 */
+	public int getType() {
+<span class="fc" id="L80">		return type;</span>
+	}
+
+	/**
+	 * Sets the message format arguments.
+	 *
+	 * @param args the message arguments.
+	 */
+	public void setArgs(final Serializable... args) {
+<span class="pc bpc" id="L89" title="2 of 4 branches missed.">		this.args = args == null || args.length == 0 ? null : args;</span>
+<span class="fc" id="L90">	}</span>
+
+	/**
+	 * @return Returns the message format arguments.
+	 */
+	public Serializable[] getArgs() {
+<span class="fc" id="L96">		return args;</span>
+	}
+
+	/**
+	 * @return Returns the message.
+	 */
+	public String getMessage() {
+<span class="fc" id="L103">		return message;</span>
+	}
+
+	/**
+	 * @param type The type to set.
+	 */
+	public final void setType(final int type) {
+<span class="fc bfc" id="L110" title="All 8 branches covered.">		if (type == INFO_MESSAGE || type == WARNING_MESSAGE || type == ERROR_MESSAGE || type == SUCCESS_MESSAGE) {</span>
+<span class="fc" id="L111">			this.type = type;</span>
+		} else {
+<span class="fc" id="L113">			throw new IllegalArgumentException(&quot;Invalid message type: &quot; + type);</span>
+		}
+<span class="fc" id="L115">	}</span>
+
+	/**
+	 * Returns a string representation of this Message.
+	 *
+	 * @return the message text.
+	 */
+	@Override
+	public String toString() {
+<span class="fc" id="L124">		return I18nUtilities.format(null, this);</span>
+	}
+
+	/**
+	 * Indicates whether this Message is equal to the given object.
+	 *
+	 * @param obj the object to compare against.
+	 * @return true if the supplied object is a Message and is equal to this message.
+	 */
+	@Override
+	public boolean equals(final Object obj) {
+<span class="pc bpc" id="L135" title="1 of 2 branches missed.">		if (!(obj instanceof Message)) {</span>
+<span class="nc" id="L136">			return false;</span>
+		}
+
+<span class="fc" id="L139">		Message other = (Message) obj;</span>
+
+<span class="fc bfc" id="L141" title="All 2 branches covered.">		return type == other.type</span>
+<span class="fc bfc" id="L142" title="All 2 branches covered.">				&amp;&amp; Util.equals(message, other.message)</span>
+<span class="fc bfc" id="L143" title="All 2 branches covered.">				&amp;&amp; Arrays.equals(args, other.args);</span>
+	}
+
+	/**
+	 * @return the message's hash code.
+	 */
+	@Override
+	public int hashCode() {
+<span class="fc" id="L151">		return String.valueOf(message).hashCode();</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

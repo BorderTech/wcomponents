@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>ListLayout.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.layout</a> &gt; <span class="el_source">ListLayout.java</span></div><h1>ListLayout.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.layout;
+
+/**
+ * ListLayout renders out its items in a list.
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ */
+public class ListLayout implements LayoutManager {
+
+	/**
+	 * An enumeration of possible values for horizontal alignment of column content.
+	 */
+<span class="pc" id="L14">	public enum Alignment {</span>
+		/**
+		 * Indicates that content should be left-aligned. This is the default alignment.
+		 */
+<span class="fc" id="L18">		LEFT,</span>
+		/**
+		 * Indicates that content should be horizontally centered in the column.
+		 */
+<span class="fc" id="L22">		CENTER,</span>
+		/**
+		 * Indicates that content should be right-aligned.
+		 */
+<span class="fc" id="L26">		RIGHT</span>
+	}
+
+	/**
+	 * An enumeration of possible values for the list type.
+	 */
+<span class="pc" id="L32">	public enum Type {</span>
+		/**
+		 * Indicates that content should be arranged horizontally.
+		 */
+<span class="fc" id="L36">		FLAT,</span>
+		/**
+		 * Indicates that content should be arranged vertically.
+		 */
+<span class="fc" id="L40">		STACKED,</span>
+		/**
+		 * Indicates that content should be arranged vertically, with highlighting on alternate rows (zebra striping).
+		 */
+<span class="fc" id="L44">		STRIPED</span>
+	}
+
+	/**
+	 * An enumeration of possible values for the item separator.
+	 */
+<span class="pc" id="L50">	public enum Separator {</span>
+		/**
+		 * Indicates that no separator should be used.
+		 */
+<span class="fc" id="L54">		NONE,</span>
+		/**
+		 * Indicates that the separator should be a bar (vertical line).
+		 */
+<span class="fc" id="L58">		BAR,</span>
+		/**
+		 * Indicates that the separator should be a dot.
+		 */
+<span class="fc" id="L62">		DOT</span>
+	}
+
+	/**
+	 * The list alignment.
+	 */
+	private final Alignment alignment;
+
+	/**
+	 * The list type.
+	 */
+	private final Type type;
+
+	/**
+	 * The list separator.
+	 */
+	private final Separator separator;
+
+	/**
+	 * The list alignment.
+	 */
+	private final boolean ordered;
+
+	/**
+	 * The horizontal gap between the list items, measured in pixels.
+	 */
+	private final int hgap;
+
+	/**
+	 * The vertical gap between the list items, measured in pixels.
+	 */
+	private final int vgap;
+
+	/**
+	 * Creates a ListLayout with the specified attributes.
+	 *
+	 * @param type the list type.
+	 * @param alignment the item alignment.
+	 * @param separator the separator to display between items.
+	 * @param ordered whether the list is an ordered list.
+	 */
+	public ListLayout(final Type type, final Alignment alignment, final Separator separator,
+			final boolean ordered) {
+<span class="fc" id="L105">		this(type, alignment, separator, ordered, 0, 0);</span>
+<span class="fc" id="L106">	}</span>
+
+	/**
+	 * Creates a ListLayout with the specified attributes.
+	 *
+	 * @param type the list type.
+	 * @param alignment the item alignment.
+	 * @param separator the separator to display between items.
+	 * @param ordered whether the list is an ordered list.
+	 * @param hgap the horizontal gap between the list items, measured in pixels.
+	 * @param vgap the vertical gap between the list items, measured in pixels.
+	 */
+	public ListLayout(final Type type, final Alignment alignment, final Separator separator,
+<span class="fc" id="L119">			final boolean ordered, final int hgap, final int vgap) {</span>
+<span class="fc" id="L120">		this.type = type;</span>
+<span class="fc" id="L121">		this.alignment = alignment;</span>
+<span class="fc" id="L122">		this.separator = separator;</span>
+<span class="fc" id="L123">		this.ordered = ordered;</span>
+<span class="fc" id="L124">		this.hgap = hgap;</span>
+<span class="fc" id="L125">		this.vgap = vgap;</span>
+<span class="fc" id="L126">	}</span>
+
+	/**
+	 * @return the list alignment.
+	 */
+	public Alignment getAlignment() {
+<span class="fc" id="L132">		return alignment;</span>
+	}
+
+	/**
+	 * @return the list type.
+	 */
+	public Type getType() {
+<span class="fc" id="L139">		return type;</span>
+	}
+
+	/**
+	 * @return the list separator.
+	 */
+	public Separator getSeparator() {
+<span class="fc" id="L146">		return separator;</span>
+	}
+
+	/**
+	 * @return true for an ordered list, false for unordered.
+	 */
+	public boolean isOrdered() {
+<span class="fc" id="L153">		return ordered;</span>
+	}
+
+	/**
+	 * @return the horizontal gap between the list items, measured in pixels.
+	 */
+	public int getHgap() {
+<span class="fc" id="L160">		return hgap;</span>
+	}
+
+	/**
+	 * @return the vertical gap between the list items, measured in pixels.
+	 */
+	public int getVgap() {
+<span class="fc" id="L167">		return vgap;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

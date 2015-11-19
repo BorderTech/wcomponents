@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WFilterText.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">WFilterText.java</span></div><h1>WFilterText.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+/**
+ * WFilterText is an extension of {@link WText} that can be used to replace text. Both the search and replace regular
+ * expressions must be set before text is filtered.
+ *
+ * Example usage for a quick way to replace new lines with paragraphs (Note: Use
+ * {@link com.github.bordertech.wcomponents.WStyledText} for this):
+ *
+ * &lt;pre&gt;
+ *    WFilterText text = new WFilterText(&quot;([^\\n\\r]+)&quot;, &quot;&amp;lt;p&amp;gt;$1&amp;lt;/p&amp;gt;&quot;);
+ *    text.setText(&quot;This text is in a paragraph.\nThis text is in another paragraph.&quot;);
+ * &lt;/pre&gt;
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ */
+public class WFilterText extends WText {
+
+	/**
+	 * Creates an empty WFilterText.
+	 */
+<span class="fc" id="L23">	public WFilterText() {</span>
+<span class="fc" id="L24">	}</span>
+
+	/**
+	 * Creates a WFilterText with the given static text.
+	 *
+	 * @param text the static text.
+	 */
+	public WFilterText(final String text) {
+<span class="fc" id="L32">		super(text);</span>
+<span class="fc" id="L33">	}</span>
+
+	/**
+	 * Creates a WFilterText with the given search/replace strings.
+	 *
+	 * @param search the search string.
+	 * @param replace the replacement string.
+	 */
+<span class="fc" id="L41">	public WFilterText(final String search, final String replace) {</span>
+<span class="fc" id="L42">		FilterTextModel model = getComponentModel();</span>
+<span class="fc" id="L43">		model.search = search;</span>
+<span class="fc" id="L44">		model.replace = replace;</span>
+<span class="fc" id="L45">	}</span>
+
+	/**
+	 * Override in order to filter the encoded text.
+	 *
+	 * @return the filtered encoded text
+	 */
+	@Override
+	public String getText() {
+<span class="fc" id="L54">		String text = super.getText();</span>
+<span class="fc" id="L55">		FilterTextModel model = getComponentModel();</span>
+
+<span class="pc bpc" id="L57" title="1 of 6 branches missed.">		if (text != null &amp;&amp; model.search != null &amp;&amp; model.replace != null) {</span>
+<span class="fc" id="L58">			text = text.replaceAll(model.search, model.replace);</span>
+		}
+
+<span class="fc" id="L61">		return text;</span>
+	}
+
+	/**
+	 * @return Returns the replace.
+	 */
+	public String getReplace() {
+<span class="fc" id="L68">		return getComponentModel().replace;</span>
+	}
+
+	/**
+	 * @param replace The replace to set.
+	 */
+	public void setReplace(final String replace) {
+<span class="fc" id="L75">		getOrCreateComponentModel().replace = replace;</span>
+<span class="fc" id="L76">	}</span>
+
+	/**
+	 * @return Returns the search.
+	 */
+	public String getSearch() {
+<span class="fc" id="L82">		return getComponentModel().search;</span>
+	}
+
+	/**
+	 * @param search The search to set.
+	 */
+	public void setSearch(final String search) {
+<span class="fc" id="L89">		getOrCreateComponentModel().search = search;</span>
+<span class="fc" id="L90">	}</span>
+
+	/**
+	 * Creates a new FilterTextModel.
+	 *
+	 * @return a new FilterTextModel
+	 */
+	@Override
+	protected FilterTextModel newComponentModel() {
+<span class="fc" id="L99">		return new FilterTextModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override // For type safety only
+	protected FilterTextModel getComponentModel() {
+<span class="fc" id="L107">		return (FilterTextModel) super.getComponentModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override // For type safety only
+	protected FilterTextModel getOrCreateComponentModel() {
+<span class="fc" id="L115">		return (FilterTextModel) super.getOrCreateComponentModel();</span>
+	}
+
+	/**
+	 * FilterTextModel holds Extrinsic state management of the component.
+	 */
+<span class="fc" id="L121">	public static class FilterTextModel extends BeanAndProviderBoundComponentModel {</span>
+
+		/**
+		 * The search regexp.
+		 */
+		private String search;
+
+		/**
+		 * The replacement regexp.
+		 */
+		private String replace;
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

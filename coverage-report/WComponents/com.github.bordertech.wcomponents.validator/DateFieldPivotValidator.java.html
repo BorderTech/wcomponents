@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>DateFieldPivotValidator.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.validator</a> &gt; <span class="el_source">DateFieldPivotValidator.java</span></div><h1>DateFieldPivotValidator.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.validator;
+
+import com.github.bordertech.wcomponents.WDateField;
+import com.github.bordertech.wcomponents.util.DateUtilities;
+import com.github.bordertech.wcomponents.util.InternalMessages;
+import com.github.bordertech.wcomponents.util.SystemException;
+import com.github.bordertech.wcomponents.util.Util;
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
+
+/**
+ * This class can be used to validate that a WDateField is &quot;before&quot; or &quot;after&quot; a particular &quot;pivot&quot; date. If no pivot
+ * date is supplied then &quot;today&quot; is used as the default.
+ *
+ * @author Martin Schevchenko
+ * @since 1.0.0
+ */
+public class DateFieldPivotValidator extends AbstractFieldValidator {
+
+	// Available operators
+	/**
+	 * Indicates that the date in the input field must be before the pivot date.
+	 */
+	public static final int BEFORE = 1;
+
+	/**
+	 * Indicates that the date in the input field must be before or equal to the pivot date.
+	 */
+	public static final int BEFORE_OR_EQUAL = 2;
+
+	/**
+	 * Indicates that the date in the input field must be equal to the pivot date.
+	 */
+	public static final int EQUAL = 3;
+
+	/**
+	 * Indicates that the date in the input field must be after or equal to the pivot date.
+	 */
+	public static final int AFTER_OR_EQUAL = 4;
+
+	/**
+	 * Indicates that the date in the input field must be after the pivot date.
+	 */
+	public static final int AFTER = 5;
+
+	/**
+	 * A fixed point in time around which the date field will be compared.
+	 */
+	private Date fixedPivot;
+
+	/**
+	 * A date field which supplies a variable point in time around which the date field will be compared.
+	 */
+	private WDateField variablePivot;
+
+	/**
+	 * The chosen comparison operation.
+	 */
+	private int operator;
+
+	/**
+	 * Creates a DateFieldPivotValidator. The default validation is that the field must be &quot;before or equal to today&quot;.
+	 */
+	public DateFieldPivotValidator() {
+<span class="nc" id="L66">		this(BEFORE_OR_EQUAL);</span>
+<span class="nc" id="L67">	}</span>
+
+	/**
+	 * Creates a DateFieldPivotValidator. As no &quot;pivot&quot; date is supplied, the operation will be relative to &quot;today&quot;.
+	 *
+	 * @param operator the operator which controls how the dates will be compared.
+	 *    Must be one of {@link #BEFORE}, {@link #BEFORE_OR_EQUAL}, {@link #EQUAL}, {@link #AFTER_OR_EQUAL} or {@link #AFTER}.
+	 */
+	public DateFieldPivotValidator(final int operator) {
+<span class="fc" id="L76">		this(operator, (Date) null);</span>
+<span class="fc" id="L77">	}</span>
+
+	/**
+	 * Creates a DateFieldPivotValidator which compares against the given fixed date.
+	 *
+	 * @param operator the operator which controls how the dates will be compared.
+	 *    Must be one of {@link #BEFORE}, {@link #BEFORE_OR_EQUAL}, {@link #EQUAL}, {@link #AFTER_OR_EQUAL} or {@link #AFTER}.
+	 *
+	 * @param pivot the date to compare against.
+	 */
+<span class="fc" id="L87">	public DateFieldPivotValidator(final int operator, final Date pivot) {</span>
+<span class="fc" id="L88">		setOperator(operator);</span>
+<span class="fc" id="L89">		setFixedPivot(pivot);</span>
+<span class="fc" id="L90">	}</span>
+
+	/**
+	 * Creates a DateFieldPivotValidator which compares against the a variable date.
+	 *
+	 * @param operator the operator which controls how the dates will be compared.
+	 *    Must be one of {@link #BEFORE}, {@link #BEFORE_OR_EQUAL}, {@link #EQUAL}, {@link #AFTER_OR_EQUAL} or {@link #AFTER}.
+	 *
+	 * @param pivot the date field which will supply the date to compare against.
+	 */
+	public DateFieldPivotValidator(final int operator, final WDateField pivot) {
+<span class="fc" id="L101">		super(InternalMessages.DEFAULT_VALIDATION_ERROR_INVALID);</span>
+<span class="fc" id="L102">		setOperator(operator);</span>
+<span class="fc" id="L103">		setVariablePivot(pivot);</span>
+<span class="fc" id="L104">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getErrorMessage() {
+<span class="fc" id="L111">		String errorMessage = super.getErrorMessage();</span>
+
+<span class="fc bfc" id="L113" title="All 2 branches covered.">		if (!Util.empty(errorMessage)) {</span>
+<span class="fc" id="L114">			return errorMessage;</span>
+		}
+
+<span class="pc bpc" id="L117" title="1 of 4 branches missed.">		if (variablePivot == null &amp;&amp; fixedPivot == null) {</span>
+<span class="pc bpc" id="L118" title="5 of 6 branches missed.">			switch (operator) {</span>
+				case BEFORE:
+<span class="nc" id="L120">					return InternalMessages.DEFAULT_VALIDATION_ERROR_DATE_BEFORE_TODAY;</span>
+				case BEFORE_OR_EQUAL:
+<span class="nc" id="L122">					return InternalMessages.DEFAULT_VALIDATION_ERROR_DATE_BEFORE_OR_EQUAL_TODAY;</span>
+				case EQUAL:
+<span class="fc" id="L124">					return InternalMessages.DEFAULT_VALIDATION_ERROR_DATE_EQUAL_TODAY;</span>
+				case AFTER_OR_EQUAL:
+<span class="nc" id="L126">					return InternalMessages.DEFAULT_VALIDATION_ERROR_DATE_AFTER_OR_EQUAL_TODAY;</span>
+				case AFTER:
+<span class="nc" id="L128">					return InternalMessages.DEFAULT_VALIDATION_ERROR_DATE_AFTER_TODAY;</span>
+
+				default:
+<span class="nc" id="L131">					throw new SystemException(&quot;Unknown operator. [&quot; + operator + &quot;]&quot;);</span>
+			}
+		} else {
+<span class="pc bpc" id="L134" title="1 of 6 branches missed.">			switch (operator) {</span>
+				case BEFORE:
+<span class="fc" id="L136">					return InternalMessages.DEFAULT_VALIDATION_ERROR_DATE_BEFORE;</span>
+				case BEFORE_OR_EQUAL:
+<span class="fc" id="L138">					return InternalMessages.DEFAULT_VALIDATION_ERROR_DATE_BEFORE_OR_EQUAL;</span>
+				case EQUAL:
+<span class="fc" id="L140">					return InternalMessages.DEFAULT_VALIDATION_ERROR_DATE_EQUAL;</span>
+				case AFTER_OR_EQUAL:
+<span class="fc" id="L142">					return InternalMessages.DEFAULT_VALIDATION_ERROR_DATE_AFTER_OR_EQUAL;</span>
+				case AFTER:
+<span class="fc" id="L144">					return InternalMessages.DEFAULT_VALIDATION_ERROR_DATE_AFTER;</span>
+				default:
+<span class="nc" id="L146">					throw new SystemException(&quot;Unknown operator. [&quot; + operator + &quot;]&quot;);</span>
+			}
+		}
+	}
+
+	/**
+	 * Sets the fixed date which will be compared against.
+	 *
+	 * @param fixedPivot the date.
+	 */
+	public void setFixedPivot(final Date fixedPivot) {
+<span class="fc" id="L157">		this.fixedPivot = fixedPivot;</span>
+<span class="fc" id="L158">		this.variablePivot = null;</span>
+<span class="fc" id="L159">	}</span>
+
+	/**
+	 * Sets a variable date which will be compared against.
+	 *
+	 * @param variablePivot the date field which supplies the date.
+	 */
+	public void setVariablePivot(final WDateField variablePivot) {
+<span class="fc" id="L167">		this.variablePivot = variablePivot;</span>
+<span class="fc" id="L168">		this.fixedPivot = null;</span>
+<span class="fc" id="L169">	}</span>
+
+	/**
+	 * Sets the operator which controls date validation.
+	 *
+	 * @param operator the operator which controls how the dates will be compared.
+	 *    Must be one of {@link #BEFORE}, {@link #BEFORE_OR_EQUAL}, {@link #EQUAL}, {@link #AFTER_OR_EQUAL} or {@link #AFTER}.
+	 */
+	public void setOperator(final int operator) {
+<span class="fc" id="L178">		this.operator = operator;</span>
+<span class="fc" id="L179">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected boolean isValid() {
+		// Get the date we are validating.
+<span class="fc" id="L187">		WDateField dateField = (WDateField) this.getInputField();</span>
+<span class="fc" id="L188">		Date date = dateField.getDate();</span>
+
+<span class="fc bfc" id="L190" title="All 2 branches covered.">		if (date == null) {</span>
+			// No date, so nothing to validate.
+<span class="fc" id="L192">			return true;</span>
+		}
+
+		// Determine the pivot date
+<span class="fc" id="L196">		Date pivot = null;</span>
+
+<span class="fc bfc" id="L198" title="All 2 branches covered.">		if (variablePivot != null) {</span>
+<span class="fc" id="L199">			pivot = variablePivot.getDate();</span>
+
+<span class="pc bpc" id="L201" title="1 of 2 branches missed.">			if (pivot == null) {</span>
+				// No pivot value, so default to true.
+<span class="nc" id="L203">				return true;</span>
+			}
+<span class="pc bpc" id="L205" title="1 of 2 branches missed.">		} else if (fixedPivot != null) {</span>
+<span class="fc" id="L206">			pivot = fixedPivot;</span>
+		}
+
+		// We take a null pivot date as meaning &quot;today&quot;
+<span class="pc bpc" id="L210" title="1 of 2 branches missed.">		if (pivot == null) {</span>
+<span class="nc" id="L211">			pivot = new Date();</span>
+		}
+
+		// Round the dates to nearest day.
+<span class="fc" id="L215">		pivot = DateUtilities.roundToDay(pivot);</span>
+<span class="fc" id="L216">		date = DateUtilities.roundToDay(date);</span>
+
+		// Perform the comparison with the pivot
+<span class="pc bpc" id="L219" title="1 of 6 branches missed.">		switch (operator) {</span>
+			case BEFORE:
+<span class="fc" id="L221">				return date.before(pivot);</span>
+			case BEFORE_OR_EQUAL:
+<span class="fc bfc" id="L223" title="All 2 branches covered.">				return !pivot.before(date);</span>
+			case EQUAL:
+<span class="fc" id="L225">				return date.equals(pivot);</span>
+			case AFTER_OR_EQUAL:
+<span class="fc bfc" id="L227" title="All 2 branches covered.">				return !pivot.after(date);</span>
+			case AFTER:
+<span class="fc" id="L229">				return date.after(pivot);</span>
+			default:
+<span class="nc" id="L231">				throw new SystemException(&quot;Unknown operator. [&quot; + operator + &quot;]&quot;);</span>
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected List&lt;Serializable&gt; getMessageArguments() {
+<span class="fc" id="L240">		List&lt;Serializable&gt; args = super.getMessageArguments();</span>
+
+<span class="fc bfc" id="L242" title="All 2 branches covered.">		if (variablePivot != null) {</span>
+<span class="fc" id="L243">			args.add(variablePivot.getDate());</span>
+<span class="pc bpc" id="L244" title="1 of 2 branches missed.">		} else if (fixedPivot != null) {</span>
+<span class="fc" id="L245">			args.add(fixedPivot);</span>
+		}
+
+<span class="fc" id="L248">		return args;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

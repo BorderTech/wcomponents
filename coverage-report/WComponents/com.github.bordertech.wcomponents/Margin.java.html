@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>Margin.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">Margin.java</span></div><h1>Margin.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import java.io.Serializable;
+
+/**
+ * The margins to be used on a component.
+ * &lt;p&gt;
+ * A default margin size can be set for &quot;all&quot; sides of the panel, or the specific margin sizes can be set for each side
+ * of the panel.
+ * &lt;/p&gt;
+ *
+ * @author Jonathan Austin
+ * @since 1.0.0
+ */
+public class Margin implements Serializable {
+
+	/**
+	 * The size of the margins on all sides of the panel.
+	 */
+	private final int all;
+	/**
+	 * The size of the north margin.
+	 */
+	private final int north;
+	/**
+	 * The size of the east margin.
+	 */
+	private final int east;
+	/**
+	 * The size of the south margin.
+	 */
+	private final int south;
+	/**
+	 * The size of the west margin.
+	 */
+	private final int west;
+
+	/**
+	 * @param all the size of the margin to be used on all sides of the panel.
+	 */
+<span class="fc" id="L41">	public Margin(final int all) {</span>
+<span class="fc bfc" id="L42" title="All 2 branches covered.">		if (all &lt; 0) {</span>
+<span class="fc" id="L43">			throw new IllegalArgumentException(&quot;All must be greater than or equal to zero&quot;);</span>
+		}
+<span class="fc" id="L45">		this.all = all;</span>
+<span class="fc" id="L46">		this.north = -1;</span>
+<span class="fc" id="L47">		this.east = -1;</span>
+<span class="fc" id="L48">		this.south = -1;</span>
+<span class="fc" id="L49">		this.west = -1;</span>
+<span class="fc" id="L50">	}</span>
+
+	/**
+	 * The margin sizes to be used on each side of the panel.
+	 *
+	 * @param north the size of the north margin.
+	 * @param east the size of the east margin.
+	 * @param south the size of the south margin.
+	 * @param west the size of the west margin.
+	 */
+<span class="fc" id="L60">	public Margin(final int north, final int east, final int south, final int west) {</span>
+<span class="fc bfc" id="L61" title="All 2 branches covered.">		if (north &lt; 0) {</span>
+<span class="fc" id="L62">			throw new IllegalArgumentException(&quot;North must be greater than or equal to zero&quot;);</span>
+		}
+
+<span class="fc bfc" id="L65" title="All 2 branches covered.">		if (east &lt; 0) {</span>
+<span class="fc" id="L66">			throw new IllegalArgumentException(&quot;East must be greater than or equal to zero&quot;);</span>
+		}
+
+<span class="fc bfc" id="L69" title="All 2 branches covered.">		if (south &lt; 0) {</span>
+<span class="fc" id="L70">			throw new IllegalArgumentException(&quot;South must be greater than or equal to zero&quot;);</span>
+		}
+
+<span class="fc bfc" id="L73" title="All 2 branches covered.">		if (west &lt; 0) {</span>
+<span class="fc" id="L74">			throw new IllegalArgumentException(&quot;West must be greater than or equal to zero&quot;);</span>
+		}
+
+<span class="fc" id="L77">		this.all = -1;</span>
+<span class="fc" id="L78">		this.north = north;</span>
+<span class="fc" id="L79">		this.east = east;</span>
+<span class="fc" id="L80">		this.south = south;</span>
+<span class="fc" id="L81">		this.west = west;</span>
+<span class="fc" id="L82">	}</span>
+
+	/**
+	 * @return the size of the margin to be used on all sides of the panel, or -1 if it has not been set.
+	 */
+	public int getAll() {
+<span class="fc" id="L88">		return all;</span>
+	}
+
+	/**
+	 * @return the size of the north margin, or -1 if it has not been set.
+	 */
+	public int getNorth() {
+<span class="fc" id="L95">		return north;</span>
+	}
+
+	/**
+	 * @return the size of the east margin, or -1 if it has not been set.
+	 */
+	public int getEast() {
+<span class="fc" id="L102">		return east;</span>
+	}
+
+	/**
+	 * @return the size of the south margin, or -1 if it has not been set.
+	 */
+	public int getSouth() {
+<span class="fc" id="L109">		return south;</span>
+	}
+
+	/**
+	 * @return the size of the west margin, or -1 if it has not been set.
+	 */
+	public int getWest() {
+<span class="fc" id="L116">		return west;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

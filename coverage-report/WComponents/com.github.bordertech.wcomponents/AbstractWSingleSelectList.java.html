@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>AbstractWSingleSelectList.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">AbstractWSingleSelectList.java</span></div><h1>AbstractWSingleSelectList.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import com.github.bordertech.wcomponents.util.Util;
+import java.util.Collections;
+import java.util.List;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+/**
+ * AbstractWSingleSelectList provides the basis for components that allow the user to select a single item from a list.
+ *
+ * @author Jonathan Austin
+ * @since 1.0.0
+ */
+public abstract class AbstractWSingleSelectList extends AbstractWSelectList {
+
+	/**
+	 * The logger instance for this class.
+	 */
+<span class="fc" id="L20">	private static final Log LOG = LogFactory.getLog(AbstractWSingleSelectList.class);</span>
+
+	/**
+	 * Constant for rendering an empty list, to save object churn.
+	 */
+<span class="fc" id="L25">	protected static final Object[] EMPTY = new Object[0];</span>
+
+	/**
+	 * Creates an AbstractWSingleSelectList.
+	 *
+	 * @param options the list's options.
+	 * @param allowNoSelection if true, allow no option to be selected
+	 */
+	public AbstractWSingleSelectList(final List&lt;?&gt; options, final boolean allowNoSelection) {
+<span class="fc" id="L34">		super(options, allowNoSelection);</span>
+<span class="fc" id="L35">	}</span>
+
+	/**
+	 * Creates an AbstractWSingleSelectList.
+	 *
+	 * @param lookupTable the lookup table identifier to obtain the list's options from.
+	 * @param allowNoSelection if true, allow no option to be selected
+	 */
+	public AbstractWSingleSelectList(final Object lookupTable, final boolean allowNoSelection) {
+<span class="fc" id="L44">		super(lookupTable, allowNoSelection);</span>
+<span class="fc" id="L45">	}</span>
+
+	/**
+	 * Returns the selected option for the given user's session.
+	 *
+	 * @return the selected option.
+	 */
+	public Object getSelected() {
+<span class="fc" id="L53">		return getValue();</span>
+	}
+
+	/**
+	 * Set the selected option for this users session.
+	 *
+	 * @param selected the selected option.
+	 */
+	public void setSelected(final Object selected) {
+<span class="fc" id="L62">		setData(selected);</span>
+<span class="fc" id="L63">	}</span>
+
+	/**
+	 * @return true if an option has been selected
+	 */
+	public boolean hasSelection() {
+<span class="fc" id="L69">		Object selection = getValue();</span>
+
+<span class="fc bfc" id="L71" title="All 2 branches covered.">		if (selection == null) {</span>
+			// Check if NULL is an option
+<span class="fc" id="L73">			List&lt;?&gt; options = getOptions();</span>
+<span class="fc" id="L74">			return SelectListUtil.containsOption(options, null);</span>
+		}
+
+<span class="fc" id="L77">		return true;</span>
+	}
+
+	// ================================
+	// DataBound
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected void preparePaintComponent(final Request request) {
+<span class="fc" id="L87">		super.preparePaintComponent(request);</span>
+		// Validate the selected option (allow handle invalid option)
+<span class="fc" id="L89">		findValidOption(getOptions(), getData(), true);</span>
+<span class="fc" id="L90">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Object getValue() {
+		// Validate the selected option (allow handle invalid option)
+<span class="fc" id="L98">		Object validOption = findValidOption(getOptions(), getData(), true);</span>
+<span class="fc" id="L99">		return validOption;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Object getData() {
+<span class="fc" id="L107">		Object data = super.getData();</span>
+
+		// Check if we need to default to the first option
+<span class="fc bfc" id="L110" title="All 4 branches covered.">		if (data == null &amp;&amp; !isAllowNoSelection()) {</span>
+<span class="fc" id="L111">			List&lt;?&gt; options = getOptions();</span>
+<span class="fc bfc" id="L112" title="All 4 branches covered.">			if (options != null &amp;&amp; !options.isEmpty()) {</span>
+				// Check if NULL is an option
+<span class="fc bfc" id="L114" title="All 2 branches covered.">				if (SelectListUtil.containsOption(options, null)) {</span>
+<span class="fc" id="L115">					return null;</span>
+				}
+				// Use the first option
+<span class="fc" id="L118">				Object firstOption = SelectListUtil.getFirstOption(options);</span>
+<span class="fc" id="L119">				return firstOption;</span>
+			}
+<span class="fc" id="L121">			return null;</span>
+		}
+<span class="fc" id="L123">		return data;</span>
+
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setData(final Object data) {
+<span class="fc" id="L132">		List&lt;?&gt; options = getOptions();</span>
+<span class="pc bpc" id="L133" title="1 of 8 branches missed.">		if (!(isEditable() &amp;&amp; data instanceof String) &amp;&amp; (options == null || options.isEmpty())) {</span>
+<span class="fc" id="L134">			throw new IllegalStateException(</span>
+					&quot;Should not set a selection on a list component with no options.&quot;);
+		}
+
+<span class="fc" id="L138">		Object validOption = findValidOption(options, data, false);</span>
+<span class="fc" id="L139">		super.setData(validOption);</span>
+<span class="fc" id="L140">	}</span>
+
+	/**
+	 * Find the valid option for the selected data, allowing for option/code and legacy matching.
+	 *
+	 * @param options the list of options
+	 * @param selected the option to search for
+	 * @param handleInvalid true if allow handle invalid option
+	 * @return the valid option
+	 */
+	private Object findValidOption(final List&lt;?&gt; options, final Object selected,
+			final boolean handleInvalid) {
+
+		// No selection made
+<span class="fc bfc" id="L154" title="All 2 branches covered.">		if (selected == null) {</span>
+			// No Selection required, or no options to select
+<span class="fc bfc" id="L156" title="All 6 branches covered.">			if (isAllowNoSelection() || options == null || options.isEmpty()) {</span>
+<span class="fc" id="L157">				return null;</span>
+			} else { // Selection is required
+				// Check if NULL is an option
+<span class="pc bpc" id="L160" title="1 of 2 branches missed.">				if (SelectListUtil.containsOption(options, null)) {</span>
+<span class="fc" id="L161">					return null;</span>
+				}
+
+				// Must have a selected option
+<span class="nc" id="L165">				throw new IllegalStateException(</span>
+						&quot;A valid option must be selected for lists that require a selected option.&quot;);
+			}
+		}
+
+		// Check we have a valid option and if we find it via Option/Code or Legacy matching, return the matching option
+<span class="fc bfc" id="L171" title="All 2 branches covered.">		if (options != null) {</span>
+<span class="fc" id="L172">			Object option = SelectListUtil.getOptionWithMatching(options, selected);</span>
+<span class="fc bfc" id="L173" title="All 2 branches covered.">			if (option != null) {</span>
+<span class="fc" id="L174">				return option;</span>
+			}
+		}
+
+		// Editable with User Entered Text
+<span class="pc bpc" id="L179" title="1 of 4 branches missed.">		if (isEditable() &amp;&amp; selected instanceof String) {</span>
+<span class="fc" id="L180">			return selected;</span>
+		}
+
+		// Handle invalid option
+<span class="fc bfc" id="L184" title="All 2 branches covered.">		if (handleInvalid) {</span>
+<span class="nc" id="L185">			Object valid = doHandleInvalidOption(selected);</span>
+<span class="nc" id="L186">			setSelected(valid);</span>
+<span class="nc" id="L187">			return valid;</span>
+		} else {
+<span class="fc" id="L189">			throw new IllegalStateException(</span>
+					&quot;The selected option \&quot;&quot; + selected + &quot;\&quot; is not an available option.&quot;);
+		}
+
+	}
+
+	/**
+	 * Handle the situation where a selected option is no longer a valid option.
+	 * &lt;p&gt;
+	 * By default, this method throws an {@link IllegalStateException}.
+	 * &lt;/p&gt;
+	 * &lt;p&gt;
+	 * This method can be overridden to handle an invalid option without throwing the exception. It must return a valid
+	 * option that will be set as the selected option.
+	 * &lt;/p&gt;
+	 *
+	 * @param invalidOption the invalid option
+	 * @return a valid option to be set as the selected option
+	 */
+	protected Object doHandleInvalidOption(final Object invalidOption) {
+<span class="fc" id="L209">		throw new IllegalStateException(&quot;The selected option \&quot;&quot; + invalidOption</span>
+				+ &quot;\&quot; is invalid. It is not an available option.&quot;);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected boolean doHandleRequest(final Request request) {
+		// First we need to figure out if the new selection is the same as the
+		// previous selection.
+<span class="fc" id="L220">		final Object newSelection = getRequestValue(request);</span>
+<span class="fc" id="L221">		final Object priorSelection = getValue();</span>
+
+<span class="fc bfc" id="L223" title="All 2 branches covered.">		boolean changed = !Util.equals(newSelection, priorSelection);</span>
+
+<span class="fc bfc" id="L225" title="All 2 branches covered.">		if (changed) {</span>
+<span class="fc" id="L226">			setData(newSelection);</span>
+		}
+
+<span class="fc" id="L229">		return changed;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Object getRequestValue(final Request request) {
+<span class="fc bfc" id="L237" title="All 2 branches covered.">		if (isPresent(request)) {</span>
+<span class="fc" id="L238">			return getNewSelection(request);</span>
+		} else {
+<span class="fc" id="L240">			return getValue();</span>
+		}
+	}
+
+	/**
+	 * Determines which selection has been included in the given request.
+	 *
+	 * @param request the current request
+	 * @return the selected option in the given request
+	 */
+	protected Object getNewSelection(final Request request) {
+<span class="fc" id="L251">		String paramValue = request.getParameter(getId());</span>
+
+<span class="fc bfc" id="L253" title="All 2 branches covered.">		if (paramValue == null) {</span>
+<span class="fc" id="L254">			return null;</span>
+		}
+
+		// Figure out which option has been selected.
+<span class="fc" id="L258">		List&lt;?&gt; options = getOptions();</span>
+
+<span class="fc bfc" id="L260" title="All 4 branches covered.">		if (options == null || options.isEmpty()) {</span>
+<span class="fc bfc" id="L261" title="All 2 branches covered.">			if (!isEditable()) {</span>
+				// User could not have made a selection.
+<span class="fc" id="L263">				return null;</span>
+			}
+
+<span class="fc" id="L266">			options = Collections.EMPTY_LIST;</span>
+		}
+
+<span class="fc" id="L269">		int optionIndex = 0;</span>
+
+<span class="fc bfc" id="L271" title="All 2 branches covered.">		for (Object option : options) {</span>
+<span class="fc bfc" id="L272" title="All 2 branches covered.">			if (option instanceof OptionGroup) {</span>
+<span class="fc" id="L273">				List&lt;?&gt; groupOptions = ((OptionGroup) option).getOptions();</span>
+<span class="pc bpc" id="L274" title="1 of 2 branches missed.">				if (groupOptions != null) {</span>
+<span class="fc bfc" id="L275" title="All 2 branches covered.">					for (Object nestedOption : groupOptions) {</span>
+<span class="fc bfc" id="L276" title="All 2 branches covered.">						if (paramValue.equals(optionToCode(nestedOption, optionIndex++))) {</span>
+<span class="fc" id="L277">							return nestedOption;</span>
+						}
+<span class="fc" id="L279">					}</span>
+				}
+<span class="fc bfc" id="L281" title="All 2 branches covered.">			} else if (paramValue.equals(optionToCode(option, optionIndex++))) {</span>
+<span class="fc" id="L282">				return option;</span>
+			}
+<span class="fc" id="L284">		}</span>
+
+		// Option not found, but if editable, user entered text
+<span class="fc bfc" id="L287" title="All 2 branches covered.">		if (isEditable()) {</span>
+<span class="fc" id="L288">			return paramValue;</span>
+		}
+
+		// Invalid option. Ignore and use the current selection
+<span class="fc" id="L292">		LOG.warn(</span>
+				&quot;Option \&quot;&quot; + paramValue + &quot;\&quot; on the request is not a valid option. Will be ignored.&quot;);
+<span class="fc" id="L294">		Object currentOption = getValue();</span>
+<span class="fc" id="L295">		return currentOption;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

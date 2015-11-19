@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WFieldSet.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">WFieldSet.java</span></div><h1>WFieldSet.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import com.github.bordertech.wcomponents.util.InternalMessages;
+import com.github.bordertech.wcomponents.validation.Diagnostic;
+import java.util.List;
+
+/**
+ * WFieldSet is used to logically group together input fields. It can be used to optionally render a border and title
+ * around the fields.
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ */
+public class WFieldSet extends AbstractMutableContainer implements AjaxTarget, SubordinateTarget,
+		Mandatable, Marginable, DropZone {
+
+	/**
+	 * Describes how the field set's frame is rendered.
+	 */
+<span class="pc" id="L20">	public enum FrameType {</span>
+		/**
+		 * The field set frame will be rendered with a lined border and the title.
+		 */
+<span class="fc" id="L24">		NORMAL,</span>
+		/**
+		 * The field set frame will be rendered with the title only.
+		 */
+<span class="fc" id="L28">		NO_BORDER,</span>
+		/**
+		 * The field set frame will be rendered with a lined border only.
+		 */
+<span class="fc" id="L32">		NO_TEXT,</span>
+		/**
+		 * The field set frame will not be rendered.
+		 */
+<span class="fc" id="L36">		NONE</span>
+	}
+
+	/**
+	 * The frameset title.
+	 */
+	private final WDecoratedLabel title;
+
+	/**
+	 * Creates a WFieldSet.
+	 *
+	 * @param title the fieldset title.
+	 */
+<span class="fc" id="L49">	public WFieldSet(final String title) {</span>
+<span class="pc bpc" id="L50" title="1 of 2 branches missed.">		this.title = title == null ? new WDecoratedLabel() : new WDecoratedLabel(title);</span>
+
+<span class="fc" id="L52">		add(this.title);</span>
+<span class="fc" id="L53">	}</span>
+
+	/**
+	 * Creates a WFieldSet.
+	 *
+	 * @param title the fieldset title.
+	 */
+<span class="nc" id="L60">	public WFieldSet(final WComponent title) {</span>
+<span class="nc bnc" id="L61" title="All 2 branches missed.">		this.title = title == null ? new WDecoratedLabel() : new WDecoratedLabel(title);</span>
+<span class="nc" id="L62">		add(this.title);</span>
+<span class="nc" id="L63">	}</span>
+
+	/**
+	 * @return Returns the frameType.
+	 */
+	public FrameType getFrameType() {
+<span class="fc" id="L69">		return getComponentModel().frameType;</span>
+	}
+
+	/**
+	 * @param frameType The frameType to set.
+	 */
+	public void setFrameType(final FrameType frameType) {
+<span class="fc" id="L76">		getOrCreateComponentModel().frameType = frameType;</span>
+<span class="fc" id="L77">	}</span>
+
+	/**
+	 * @return Returns the title.
+	 */
+	public WDecoratedLabel getTitle() {
+<span class="fc" id="L83">		return title;</span>
+	}
+
+	/**
+	 * @param title The title to set.
+	 */
+	public void setTitle(final String title) {
+<span class="nc" id="L90">		this.title.setText(title);</span>
+<span class="nc" id="L91">	}</span>
+
+	/**
+	 * @param title The title to set.
+	 */
+	public void setTitle(final WComponent title) {
+<span class="fc" id="L97">		this.title.setBody(title);</span>
+<span class="fc" id="L98">	}</span>
+
+	/**
+	 * Set whether or not this field set is mandatory, and customise the error message that will be displayed.
+	 *
+	 * @param mandatory true for mandatory, false for optional.
+	 * @param message the message to display to the user on mandatory validation failure.
+	 */
+	public void setMandatory(final boolean mandatory, final String message) {
+<span class="nc" id="L107">		setFlag(ComponentModel.MANDATORY_FLAG, mandatory);</span>
+<span class="nc" id="L108">		getOrCreateComponentModel().errorMessage = message;</span>
+<span class="nc" id="L109">	}</span>
+
+	/**
+	 * Set whether or not this field set is mandatory.
+	 *
+	 * @param mandatory if true, the fieldset is mandatory.
+	 */
+	@Override
+	public void setMandatory(final boolean mandatory) {
+<span class="fc" id="L118">		setFlag(ComponentModel.MANDATORY_FLAG, mandatory);</span>
+<span class="fc" id="L119">	}</span>
+
+	/**
+	 * Indicates whether this fieldset is mandatory in the given context.
+	 *
+	 * @return true if this fieldset is mandatory in the given context.
+	 */
+	@Override
+	public boolean isMandatory() {
+<span class="fc" id="L128">		return isFlagSet(ComponentModel.MANDATORY_FLAG);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected void validateComponent(final List&lt;Diagnostic&gt; diags) {
+<span class="nc" id="L136">		super.validateComponent(diags);</span>
+
+<span class="nc bnc" id="L138" title="All 4 branches missed.">		if (isMandatory() &amp;&amp; !hasInputWithValue(this)) {</span>
+<span class="nc" id="L139">			diags.add(createMandatoryDiagnostic());</span>
+		}
+<span class="nc" id="L141">	}</span>
+
+	/**
+	 * Checks at least one input component has a value.
+	 *
+	 * @param component the root of the component hierarchy to check.
+	 * @return true if the component has a value, otherwise false.
+	 */
+	private boolean hasInputWithValue(final WComponent component) {
+<span class="nc bnc" id="L150" title="All 2 branches missed.">		if (component instanceof Input) {</span>
+<span class="nc bnc" id="L151" title="All 2 branches missed.">			return !((Input) component).isEmpty();</span>
+		}
+
+<span class="nc bnc" id="L154" title="All 2 branches missed.">		if (component instanceof Container) {</span>
+<span class="nc" id="L155">			Container container = (Container) component;</span>
+<span class="nc" id="L156">			int childCount = container.getChildCount();</span>
+
+<span class="nc bnc" id="L158" title="All 2 branches missed.">			for (int i = 0; i &lt; childCount; i++) {</span>
+<span class="nc" id="L159">				boolean hasValue = hasInputWithValue(container.getChildAt(i));</span>
+
+<span class="nc bnc" id="L161" title="All 2 branches missed.">				if (hasValue) {</span>
+<span class="nc" id="L162">					return true;</span>
+				}
+			}
+		}
+
+<span class="nc" id="L167">		return false;</span>
+	}
+
+	/**
+	 * &lt;p&gt;
+	 * This method is called by validateComponent to create the mandatory diagnostic error message if the mandatory
+	 * validation check does not pass.
+	 * &lt;/p&gt;
+	 * &lt;p&gt;
+	 * Subclasses may override this method to customise the message, however in most cases it is easier to supply a
+	 * custom error message pattern to the setMandatory method.
+	 * &lt;/p&gt;
+	 *
+	 * @return a new diagnostic for when mandatory validation fails.
+	 */
+	protected Diagnostic createMandatoryDiagnostic() {
+<span class="nc" id="L183">		String errorMessage = getComponentModel().errorMessage;</span>
+<span class="nc bnc" id="L184" title="All 2 branches missed.">		String msg = errorMessage == null ? InternalMessages.DEFAULT_VALIDATION_ERROR_MANDATORY : errorMessage;</span>
+<span class="nc" id="L185">		return createErrorDiagnostic(msg, getTitle().getText());</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setMargin(final Margin margin) {
+<span class="fc" id="L193">		getOrCreateComponentModel().margin = margin;</span>
+<span class="fc" id="L194">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Margin getMargin() {
+<span class="fc" id="L201">		return getComponentModel().margin;</span>
+	}
+
+	/**
+	 * @return a String representation of this component, for debugging purposes.
+	 */
+	@Override
+	public String toString() {
+<span class="nc" id="L209">		String text = getTitle().getText();</span>
+<span class="nc bnc" id="L210" title="All 2 branches missed.">		text = text == null ? &quot;null&quot; : ('&quot;' + text + '&quot;');</span>
+<span class="nc" id="L211">		return toString(text, 1, getChildCount() - 1);</span>
+	}
+
+	/**
+	 * Creates a new Component model.
+	 *
+	 * @return a new FieldSetModel.
+	 */
+	@Override // For type safety only
+	protected FieldSetModel newComponentModel() {
+<span class="fc" id="L221">		return new FieldSetModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override // For type safety only
+	protected FieldSetModel getComponentModel() {
+<span class="fc" id="L229">		return (FieldSetModel) super.getComponentModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override // For type safety only
+	protected FieldSetModel getOrCreateComponentModel() {
+<span class="fc" id="L237">		return (FieldSetModel) super.getOrCreateComponentModel();</span>
+	}
+
+	/**
+	 * Holds the extrinsic state information of the component.
+	 *
+	 * @author Yiannis Paschalidis
+	 */
+<span class="fc" id="L245">	public static class FieldSetModel extends ComponentModel {</span>
+
+		/**
+		 * Controls whether the fieldset should be rendered without a frame.
+		 */
+<span class="fc" id="L250">		private FrameType frameType = FrameType.NORMAL;</span>
+
+		/**
+		 * The error message to display when the input fails the mandatory validation check.
+		 */
+		private String errorMessage;
+
+		/**
+		 * The margins to be used on the fieldset.
+		 */
+		private Margin margin;
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

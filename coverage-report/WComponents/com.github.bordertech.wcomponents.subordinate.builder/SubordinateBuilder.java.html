@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>SubordinateBuilder.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.subordinate.builder</a> &gt; <span class="el_source">SubordinateBuilder.java</span></div><h1>SubordinateBuilder.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.subordinate.builder;
+
+import com.github.bordertech.wcomponents.SubordinateTarget;
+import com.github.bordertech.wcomponents.WComponentGroup;
+import com.github.bordertech.wcomponents.subordinate.Action.ActionType;
+import com.github.bordertech.wcomponents.subordinate.Rule;
+import com.github.bordertech.wcomponents.subordinate.WSubordinateControl;
+import com.github.bordertech.wcomponents.util.SystemException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+/**
+ * &lt;p&gt;
+ * The SubordinateBuilder is a utility class which provides a convenient way to build up simple logic rules so that they
+ * executed on both the client and server. See the {@link WSubordinateControl} documentation for more information.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * Consider a user interface which contains two &quot;yes&quot;/&quot;no&quot; radio button groups and two text inputs. To create a rule
+ * that makes the text inputs mandatory if either &quot;yes&quot; option has been selected:
+ * &lt;/p&gt;
+ *
+ * &lt;pre&gt;
+ * SubordinateBuilder builder = new SubordinateBuilder();
+ *
+ * // Set condition to be: (radioButtonGroup1.getValueAsString().equals(&amp;quot;Yes&amp;quot;) ||
+ * // radioButtonGroup2.getValueAsString().equals(&amp;quot;Yes&amp;quot;)).
+ * builder.condition().equals(radioButtonGroup1, &amp;quot;Yes&amp;quot;).or().equals(radioButtonGroup2, &amp;quot;Yes&amp;quot;);
+ *
+ * // When the condition evaluates to true, we make the fields mandatory.
+ * builder.whenTrue().setMandatory(textInput1, textInput2);
+ *
+ * // When the condition evaluates to false, we need to set the fields back to being optional.
+ * builder.whenFalse().setOptional(textInput1, textInput2);
+ *
+ * // Finally, add the rule to the UI
+ * SubordinateControl control = builder.build();
+ * add(control);
+ * &lt;/pre&gt;
+ *
+ * @author Yiannis Paschalidis
+ * @author Jonathan Austin
+ */
+<span class="fc" id="L44">public final class SubordinateBuilder {</span>
+
+	/**
+	 * The actions to execute when the {@link #condition} evaluates to 'true'.
+	 */
+<span class="fc" id="L49">	private final List&lt;Action&gt; onTrue = new ArrayList&lt;&gt;();</span>
+
+	/**
+	 * The actions to execute when the {@link #condition} evaluates to 'false'.
+	 */
+<span class="fc" id="L54">	private final List&lt;Action&gt; onFalse = new ArrayList&lt;&gt;();</span>
+
+	/**
+	 * The condition controls which actions should be executed.
+	 */
+<span class="fc" id="L59">	private final MutableExpression condition = new MutableExpression();</span>
+
+	/**
+	 * Action builder for on true actions.
+	 */
+<span class="fc" id="L64">	private final ActionBuilder onTrueActionBuilder = new ActionBuilder(onTrue);</span>
+
+	/**
+	 * Action builder for on false actions.
+	 */
+<span class="fc" id="L69">	private final ActionBuilder onFalseActionBuilder = new ActionBuilder(onFalse);</span>
+
+	/**
+	 * Expression builder for the condition.
+	 */
+<span class="fc" id="L74">	private final ExpressionBuilder conditionBuilder = new ExpressionBuilder(condition);</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String toString() {
+<span class="nc" id="L81">		return &quot;if (&quot; + condition + &quot;)\nthen\n   &quot; + onTrue + &quot;\nelse\n   &quot; + onFalse;</span>
+	}
+
+	/**
+	 * This method is used to append actions to execute when the {@link #condition() condition} evaluates to 'true'.
+	 *
+	 * @return a builder used to append actions to the &quot;true&quot; branch.
+	 */
+	public ActionBuilder whenTrue() {
+<span class="fc" id="L90">		return onTrueActionBuilder;</span>
+	}
+
+	/**
+	 * This method is used to append actions to execute when the {@link #condition() condition} evaluates to 'false'.
+	 *
+	 * @return a builder used to append actions to the &quot;false&quot; branch.
+	 */
+	public ActionBuilder whenFalse() {
+<span class="fc" id="L99">		return onFalseActionBuilder;</span>
+	}
+
+	/**
+	 * This method is used to build the conditional statement which controls when the FlowRule should execute.
+	 *
+	 * @return an expression builder to append expressions to the condition.
+	 */
+	public ExpressionBuilder condition() {
+<span class="fc" id="L108">		return conditionBuilder;</span>
+	}
+
+	/**
+	 * @return the condition.
+	 */
+	public BooleanExpression getCondition() {
+<span class="fc" id="L115">		return condition.getExpression();</span>
+	}
+
+	/**
+	 * @return a read-only copy of the actions to execute when the {@link #getCondition() condition} evaluates to true.
+	 */
+	public List&lt;Action&gt; getActionsWhenTrue() {
+<span class="fc" id="L122">		return Collections.unmodifiableList(onTrue);</span>
+	}
+
+	/**
+	 * @return a read-only copy of the actions to execute when the {@link #getCondition() condition} evaluates to false.
+	 */
+	public List&lt;Action&gt; getActionsWhenFalse() {
+<span class="fc" id="L129">		return Collections.unmodifiableList(onFalse);</span>
+	}
+
+	/**
+	 * This builds the SubordinateControl. This method will throw a SystemException if the condition is invalid, or
+	 * there are no actions specified.
+	 *
+	 * @return a SubordinateControl built using this builder.
+	 */
+	public WSubordinateControl build() {
+<span class="fc bfc" id="L139" title="All 2 branches covered.">		if (!condition().validate()) {</span>
+<span class="fc" id="L140">			throw new SystemException(&quot;Invalid condition: &quot; + condition);</span>
+		}
+
+<span class="pc bpc" id="L143" title="1 of 4 branches missed.">		if (getActionsWhenTrue().isEmpty() &amp;&amp; getActionsWhenFalse().isEmpty()) {</span>
+<span class="fc" id="L144">			throw new SystemException(&quot;No actions to execute&quot;);</span>
+		}
+
+<span class="fc" id="L147">		WSubordinateControl subordinate = new WSubordinateControl();</span>
+<span class="fc" id="L148">		Rule rule = new Rule();</span>
+
+<span class="fc" id="L150">		BooleanExpression expression = getCondition();</span>
+<span class="fc" id="L151">		rule.setCondition(expression.build());</span>
+
+<span class="fc bfc" id="L153" title="All 2 branches covered.">		for (Action action : getActionsWhenTrue()) {</span>
+<span class="fc" id="L154">			rule.addActionOnTrue(action.build());</span>
+<span class="fc" id="L155">		}</span>
+
+<span class="fc bfc" id="L157" title="All 2 branches covered.">		for (Action action : getActionsWhenFalse()) {</span>
+<span class="fc" id="L158">			rule.addActionOnFalse(action.build());</span>
+<span class="fc" id="L159">		}</span>
+
+<span class="fc" id="L161">		subordinate.addRule(rule);</span>
+<span class="fc" id="L162">		return subordinate;</span>
+	}
+
+	/**
+	 * Helper class to build the actions to be executed on the subordinate control.
+	 */
+<span class="fc" id="L168">	public static class ActionBuilder {</span>
+
+		/**
+		 * The action list to update.
+		 */
+		private final List&lt;Action&gt; actions;
+
+		/**
+		 * Creates an ActionBuilder.
+		 *
+		 * @param actions the list which actions will be added to.
+		 */
+<span class="fc" id="L180">		public ActionBuilder(final List&lt;Action&gt; actions) {</span>
+<span class="fc" id="L181">			this.actions = actions;</span>
+<span class="fc" id="L182">		}</span>
+
+		/**
+		 * Adds actions which will set the given targets to be mandatory.
+		 *
+		 * @param targets the action targets.
+		 * @return this ActionBuilder.
+		 */
+		public ActionBuilder setMandatory(final SubordinateTarget... targets) {
+<span class="fc bfc" id="L191" title="All 2 branches covered.">			for (SubordinateTarget target : targets) {</span>
+<span class="fc" id="L192">				actions.add(new Action(ActionType.MANDATORY, target));</span>
+			}
+
+<span class="fc" id="L195">			return this;</span>
+		}
+
+		/**
+		 * Adds actions which will set the given targets to be optional.
+		 *
+		 * @param targets the action targets.
+		 * @return this ActionBuilder.
+		 */
+		public ActionBuilder setOptional(final SubordinateTarget... targets) {
+<span class="fc bfc" id="L205" title="All 2 branches covered.">			for (SubordinateTarget target : targets) {</span>
+<span class="fc" id="L206">				actions.add(new Action(ActionType.OPTIONAL, target));</span>
+			}
+
+<span class="fc" id="L209">			return this;</span>
+		}
+
+		/**
+		 * Adds actions which will hide the given targets.
+		 *
+		 * @param targets the action targets.
+		 * @return this ActionBuilder.
+		 */
+		public ActionBuilder hide(final SubordinateTarget... targets) {
+<span class="fc bfc" id="L219" title="All 2 branches covered.">			for (SubordinateTarget target : targets) {</span>
+<span class="fc" id="L220">				actions.add(new Action(ActionType.HIDE, target));</span>
+			}
+
+<span class="fc" id="L223">			return this;</span>
+		}
+
+		/**
+		 * Adds actions which will show the given targets.
+		 *
+		 * @param targets the action targets.
+		 * @return this ActionBuilder.
+		 */
+		public ActionBuilder show(final SubordinateTarget... targets) {
+<span class="fc bfc" id="L233" title="All 2 branches covered.">			for (SubordinateTarget target : targets) {</span>
+<span class="fc" id="L234">				actions.add(new Action(ActionType.SHOW, target));</span>
+			}
+
+<span class="fc" id="L237">			return this;</span>
+		}
+
+		/**
+		 * Adds actions which will disable the given targets.
+		 *
+		 * @param targets the action targets.
+		 * @return this ActionBuilder.
+		 */
+		public ActionBuilder disable(final SubordinateTarget... targets) {
+<span class="fc bfc" id="L247" title="All 2 branches covered.">			for (SubordinateTarget target : targets) {</span>
+<span class="fc" id="L248">				actions.add(new Action(ActionType.DISABLE, target));</span>
+			}
+
+<span class="fc" id="L251">			return this;</span>
+		}
+
+		/**
+		 * Adds actions which will enable the given targets.
+		 *
+		 * @param targets the action targets.
+		 * @return this ActionBuilder.
+		 */
+		public ActionBuilder enable(final SubordinateTarget... targets) {
+<span class="fc bfc" id="L261" title="All 2 branches covered.">			for (SubordinateTarget target : targets) {</span>
+<span class="fc" id="L262">				actions.add(new Action(ActionType.ENABLE, target));</span>
+			}
+
+<span class="fc" id="L265">			return this;</span>
+		}
+
+		/**
+		 * Adds actions which will show the given target in a group of targets.
+		 *
+		 * @param showTarget the target to show in the group
+		 * @param targets the group of targets
+		 * @return this ActionBuilder.
+		 */
+		public ActionBuilder showIn(final SubordinateTarget showTarget,
+				final SubordinateTarget... targets) {
+<span class="nc" id="L277">			WComponentGroup&lt;SubordinateTarget&gt; group = new WComponentGroup&lt;&gt;();</span>
+<span class="nc bnc" id="L278" title="All 2 branches missed.">			for (SubordinateTarget target : targets) {</span>
+<span class="nc" id="L279">				group.addToGroup(target);</span>
+			}
+<span class="nc" id="L281">			actions.add(new Action(ActionType.SHOWIN, showTarget, group));</span>
+
+<span class="nc" id="L283">			return this;</span>
+		}
+
+		/**
+		 * Adds actions which will show the given target in a group of targets.
+		 *
+		 * @param showTarget the target to show in the group
+		 * @param group the group of targets
+		 * @return this ActionBuilder.
+		 */
+		public ActionBuilder showIn(final SubordinateTarget showTarget,
+				final WComponentGroup&lt;SubordinateTarget&gt; group) {
+<span class="fc" id="L295">			actions.add(new Action(ActionType.SHOWIN, showTarget, group));</span>
+
+<span class="fc" id="L297">			return this;</span>
+		}
+
+		/**
+		 * Adds actions which will hide the given target in a group of targets.
+		 *
+		 * @param showTarget the target to hide in the group
+		 * @param targets the group of targets
+		 * @return this ActionBuilder.
+		 */
+		public ActionBuilder hideIn(final SubordinateTarget showTarget,
+				final SubordinateTarget... targets) {
+<span class="nc" id="L309">			WComponentGroup&lt;SubordinateTarget&gt; group = new WComponentGroup&lt;&gt;();</span>
+<span class="nc bnc" id="L310" title="All 2 branches missed.">			for (SubordinateTarget target : targets) {</span>
+<span class="nc" id="L311">				group.addToGroup(target);</span>
+			}
+<span class="nc" id="L313">			actions.add(new Action(ActionType.HIDEIN, showTarget, group));</span>
+
+<span class="nc" id="L315">			return this;</span>
+		}
+
+		/**
+		 * Adds actions which will hide the given target in a group of targets.
+		 *
+		 * @param showTarget the target to hide in the group
+		 * @param group the group of targets
+		 * @return this ActionBuilder.
+		 */
+		public ActionBuilder hideIn(final SubordinateTarget showTarget,
+				final WComponentGroup&lt;SubordinateTarget&gt; group) {
+<span class="fc" id="L327">			actions.add(new Action(ActionType.HIDEIN, showTarget, group));</span>
+
+<span class="fc" id="L329">			return this;</span>
+		}
+
+		/**
+		 * Adds actions which will enable the given target in a group of targets.
+		 *
+		 * @param showTarget the target to enable in the group
+		 * @param targets the group of targets
+		 * @return this ActionBuilder.
+		 */
+		public ActionBuilder enableIn(final SubordinateTarget showTarget,
+				final SubordinateTarget... targets) {
+<span class="nc" id="L341">			WComponentGroup&lt;SubordinateTarget&gt; group = new WComponentGroup&lt;&gt;();</span>
+<span class="nc bnc" id="L342" title="All 2 branches missed.">			for (SubordinateTarget target : targets) {</span>
+<span class="nc" id="L343">				group.addToGroup(target);</span>
+			}
+<span class="nc" id="L345">			actions.add(new Action(ActionType.ENABLEIN, showTarget, group));</span>
+
+<span class="nc" id="L347">			return this;</span>
+		}
+
+		/**
+		 * Adds actions which will enable the given target in a group of targets.
+		 *
+		 * @param showTarget the target to enable in the group
+		 * @param group the group of targets
+		 * @return this ActionBuilder.
+		 */
+		public ActionBuilder enableIn(final SubordinateTarget showTarget,
+				final WComponentGroup&lt;SubordinateTarget&gt; group) {
+<span class="fc" id="L359">			actions.add(new Action(ActionType.ENABLEIN, showTarget, group));</span>
+
+<span class="fc" id="L361">			return this;</span>
+		}
+
+		/**
+		 * Adds actions which will disable the given target in a group of targets.
+		 *
+		 * @param showTarget the target to disable in the group
+		 * @param targets the group of targets
+		 * @return this ActionBuilder.
+		 */
+		public ActionBuilder disableIn(final SubordinateTarget showTarget,
+				final SubordinateTarget... targets) {
+<span class="nc" id="L373">			WComponentGroup&lt;SubordinateTarget&gt; group = new WComponentGroup&lt;&gt;();</span>
+<span class="nc bnc" id="L374" title="All 2 branches missed.">			for (SubordinateTarget target : targets) {</span>
+<span class="nc" id="L375">				group.addToGroup(target);</span>
+			}
+<span class="nc" id="L377">			actions.add(new Action(ActionType.DISABLEIN, showTarget, group));</span>
+
+<span class="nc" id="L379">			return this;</span>
+		}
+
+		/**
+		 * Adds actions which will disable the given target in a group of targets.
+		 *
+		 * @param showTarget the target to disable in the group
+		 * @param group the group of targets
+		 * @return this ActionBuilder.
+		 */
+		public ActionBuilder disableIn(final SubordinateTarget showTarget,
+				final WComponentGroup&lt;SubordinateTarget&gt; group) {
+<span class="fc" id="L391">			actions.add(new Action(ActionType.DISABLEIN, showTarget, group));</span>
+
+<span class="fc" id="L393">			return this;</span>
+		}
+
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

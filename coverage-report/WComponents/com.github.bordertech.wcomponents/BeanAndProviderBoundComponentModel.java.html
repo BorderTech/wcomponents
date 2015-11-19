@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>BeanAndProviderBoundComponentModel.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">BeanAndProviderBoundComponentModel.java</span></div><h1>BeanAndProviderBoundComponentModel.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+/**
+ * The {@link ComponentModel} for components that support binding to a bean either directly or through a BeanProvider. A
+ * direct binding has higher precedence than an indirect binding.
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ */
+<span class="fc" id="L10">public class BeanAndProviderBoundComponentModel extends DataBoundComponentModel {</span>
+
+	/**
+	 * The associated bean.
+	 */
+	private Object bean;
+
+	/**
+	 * The associated bean id.
+	 */
+	private Object beanId;
+
+	/**
+	 * The component's BeanProvider.
+	 */
+	private BeanProvider beanProvider;
+
+	/**
+	 * This bean property that the component is interested in. The property is specified using Jakarta BeanUtils bean
+	 * notation.
+	 */
+	private String beanProperty;
+
+	/**
+	 * Flag if search through ancestors to find bean.
+	 */
+<span class="fc" id="L36">	private boolean searchAncestors = true;</span>
+
+	/**
+	 * @return the bean.
+	 */
+	protected Object getBean() {
+<span class="fc" id="L42">		return bean;</span>
+	}
+
+	/**
+	 * @param bean the bean to set.
+	 */
+	protected void setBean(final Object bean) {
+<span class="fc" id="L49">		this.bean = bean;</span>
+<span class="fc" id="L50">	}</span>
+
+	/**
+	 * @return the bean provider.
+	 */
+	protected BeanProvider getBeanProvider() {
+<span class="fc" id="L56">		return beanProvider;</span>
+	}
+
+	/**
+	 * Sets the bean provider.
+	 *
+	 * @param beanProvider the bean provider to set.
+	 */
+	protected void setBeanProvider(final BeanProvider beanProvider) {
+<span class="fc" id="L65">		this.beanProvider = beanProvider;</span>
+<span class="fc" id="L66">	}</span>
+
+	/**
+	 * @return the bean id.
+	 */
+	protected Object getBeanId() {
+<span class="fc" id="L72">		return beanId;</span>
+	}
+
+	/**
+	 * @param beanId the bean id to set.
+	 */
+	protected void setBeanId(final Object beanId) {
+<span class="fc" id="L79">		this.beanId = beanId;</span>
+<span class="fc" id="L80">	}</span>
+
+	/**
+	 * @return the bean property that the component is interested in.
+	 */
+	public String getBeanProperty() {
+<span class="fc" id="L86">		return beanProperty;</span>
+	}
+
+	/**
+	 * Sets the bean property that the component is interested in. The property is specified using Jakarta BeanUtils
+	 * bean notation.
+	 *
+	 * @param beanProperty The bean property to set.
+	 */
+	public void setBeanProperty(final String beanProperty) {
+<span class="fc" id="L96">		this.beanProperty = beanProperty;</span>
+<span class="fc" id="L97">	}</span>
+
+	/**
+	 * @return true if search ancestors for the components bean
+	 */
+	public boolean isSearchAncestors() {
+<span class="fc" id="L103">		return searchAncestors;</span>
+	}
+
+	/**
+	 * @param search true if search ancestors for the components bean
+	 */
+	public void setSearchAncestors(final boolean search) {
+<span class="nc" id="L110">		this.searchAncestors = search;</span>
+<span class="nc" id="L111">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

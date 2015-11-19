@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WFieldSetRenderer.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.render.webxml</a> &gt; <span class="el_source">WFieldSetRenderer.java</span></div><h1>WFieldSetRenderer.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.render.webxml;
+
+import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.WDecoratedLabel;
+import com.github.bordertech.wcomponents.WFieldSet;
+import com.github.bordertech.wcomponents.XmlStringBuilder;
+import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
+
+/**
+ * The Renderer for {@link WFieldSet}.
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ */
+<span class="fc" id="L15">final class WFieldSetRenderer extends AbstractWebXmlRenderer {</span>
+
+	/**
+	 * Paints the given WFieldSet.
+	 *
+	 * @param component the WFieldSet to paint.
+	 * @param renderContext the RenderContext to paint to.
+	 */
+	@Override
+	public void doRender(final WComponent component, final WebXmlRenderContext renderContext) {
+<span class="fc" id="L25">		WFieldSet fieldSet = (WFieldSet) component;</span>
+<span class="fc" id="L26">		XmlStringBuilder xml = renderContext.getWriter();</span>
+
+<span class="fc" id="L28">		xml.appendTagOpen(&quot;ui:fieldSet&quot;);</span>
+<span class="fc" id="L29">		xml.appendAttribute(&quot;id&quot;, component.getId());</span>
+<span class="fc" id="L30">		xml.appendOptionalAttribute(&quot;class&quot;, component.getHtmlClass());</span>
+<span class="fc" id="L31">		xml.appendOptionalAttribute(&quot;track&quot;, component.isTracking(), &quot;true&quot;);</span>
+<span class="fc" id="L32">		xml.appendOptionalAttribute(&quot;hidden&quot;, fieldSet.isHidden(), &quot;true&quot;);</span>
+
+<span class="pc bfc" id="L34" title="All 4 branches covered.">		switch (fieldSet.getFrameType()) {</span>
+			case NO_BORDER:
+<span class="fc" id="L36">				xml.appendOptionalAttribute(&quot;frame&quot;, &quot;noborder&quot;);</span>
+<span class="fc" id="L37">				break;</span>
+
+			case NO_TEXT:
+<span class="fc" id="L40">				xml.appendOptionalAttribute(&quot;frame&quot;, &quot;notext&quot;);</span>
+<span class="fc" id="L41">				break;</span>
+
+			case NONE:
+<span class="fc" id="L44">				xml.appendOptionalAttribute(&quot;frame&quot;, &quot;none&quot;);</span>
+<span class="fc" id="L45">				break;</span>
+
+			case NORMAL:
+			default:
+<span class="fc" id="L49">				break;</span>
+		}
+
+<span class="fc" id="L52">		xml.appendOptionalAttribute(&quot;required&quot;, fieldSet.isMandatory(), &quot;true&quot;);</span>
+<span class="fc" id="L53">		xml.appendClose();</span>
+
+		// Render margin
+<span class="fc" id="L56">		MarginRendererUtil.renderMargin(fieldSet, renderContext);</span>
+
+		// Label
+<span class="fc" id="L59">		WDecoratedLabel label = fieldSet.getTitle();</span>
+<span class="fc" id="L60">		label.paint(renderContext);</span>
+
+		// Children
+<span class="fc" id="L63">		xml.appendTag(&quot;ui:content&quot;);</span>
+<span class="fc" id="L64">		int size = fieldSet.getChildCount();</span>
+
+<span class="fc bfc" id="L66" title="All 2 branches covered.">		for (int i = 0; i &lt; size; i++) {</span>
+<span class="fc" id="L67">			WComponent child = fieldSet.getChildAt(i);</span>
+
+			// Skip label, as it has already been painted
+<span class="fc bfc" id="L70" title="All 2 branches covered.">			if (child != label) {</span>
+<span class="fc" id="L71">				child.paint(renderContext);</span>
+			}
+		}
+
+<span class="fc" id="L75">		xml.appendEndTag(&quot;ui:content&quot;);</span>
+<span class="fc" id="L76">		xml.appendEndTag(&quot;ui:fieldSet&quot;);</span>
+<span class="fc" id="L77">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

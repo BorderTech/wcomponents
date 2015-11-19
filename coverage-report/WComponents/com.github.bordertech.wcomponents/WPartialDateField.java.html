@@ -1,0 +1,737 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WPartialDateField.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">WPartialDateField.java</span></div><h1>WPartialDateField.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import com.github.bordertech.wcomponents.util.DateUtilities;
+import com.github.bordertech.wcomponents.util.InternalMessages;
+import com.github.bordertech.wcomponents.util.SystemException;
+import com.github.bordertech.wcomponents.util.Util;
+import com.github.bordertech.wcomponents.validation.Diagnostic;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+/**
+ * &lt;p&gt;
+ * This component is a date entry component. Individual themes may add features such as automatic text formatting and
+ * date picker widgets. Convenience methods exist to set and get the value as a java date object.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * &quot;Partial dates&quot; can be specified without day or month components, e.g. &quot;JAN 2001&quot;, or just &quot;2001&quot;.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * When the component is bound to a bean, the bean property must be a string containing the date in the format
+ * &quot;yyyyMMdd&quot;. Parts of the date that do not have a value are padded with space characters by default. The padding
+ * character can be changed using the {@link #setPaddingChar(char)} method. An example of a partial date bean value for
+ * &quot;Mar 2012&quot; would be &quot;201203&quot;. Note, trailing spaces are removed. If a padding character of '@' was specified, then
+ * the bean value would be &quot;201203@@&quot;.
+ * &lt;/p&gt;
+ *
+ * @author Ming Gao
+ * @author Jonathan Austin
+ */
+public class WPartialDateField extends AbstractInput implements AjaxTrigger, AjaxTarget,
+		SubordinateTrigger,
+		SubordinateTarget {
+
+	/**
+	 * The logger instance for this class.
+	 */
+<span class="fc" id="L40">	private static final Log LOG = LogFactory.getLog(WPartialDateField.class);</span>
+
+	/**
+	 * Default character used to pad the partial date value.
+	 */
+	private static final char DEFAULT_PADDING_CHAR = ' ';
+
+	/**
+	 * Character used by the theme to pad the partial date value.
+	 */
+	private static final char THEME_PADDING_CHAR = '?';
+
+	/**
+	 * Year start position.
+	 */
+	private static final int YEAR_START = 0;
+	/**
+	 * Year end position.
+	 */
+	private static final int YEAR_END = 4;
+	/**
+	 * Month start position.
+	 */
+	private static final int MONTH_START = 4;
+	/**
+	 * Month end position.
+	 */
+	private static final int MONTH_END = 6;
+	/**
+	 * Day start position.
+	 */
+	private static final int DAY_START = 6;
+	/**
+	 * Day end position.
+	 */
+	private static final int DAY_END = 8;
+
+	/**
+	 * Internal Format - Year start position.
+	 */
+	private static final int INTERNAL_YEAR_START = 0;
+	/**
+	 * Internal Format - Year end position.
+	 */
+	private static final int INTERNAL_YEAR_END = 4;
+	/**
+	 * Internal Format - Dash 1.
+	 */
+	private static final int INTERNAL_DASH1_POS = 4;
+	/**
+	 * Internal Format - Month start position.
+	 */
+	private static final int INTERNAL_MONTH_START = 5;
+	/**
+	 * Internal Format - Month end position.
+	 */
+	private static final int INTERNAL_MONTH_END = 7;
+	/**
+	 * Internal Format - Dash 2.
+	 */
+	private static final int INTERNAL_DASH2_POS = 7;
+	/**
+	 * Internal Format - Day start position.
+	 */
+	private static final int INTERNAL_DAY_START = 8;
+	/**
+	 * Internal Format - Day end position.
+	 */
+	private static final int INTERNAL_DAY_END = 10;
+	/**
+	 * Internal Format - Number of digits in the date.
+	 */
+	private static final int INTERNAL_DATE_TOTAL_CHARS = 10;
+
+	/**
+	 * Number of digits in the date.
+	 */
+	private static final int DATE_TOTAL_CHARS = 8;
+	/**
+	 * Number of digits in the year.
+	 */
+	private static final int YEAR_DIGITS = 4;
+	/**
+	 * Number of digits in the month.
+	 */
+	private static final int MONTH_DIGITS = 2;
+	/**
+	 * Number of digits in the year.
+	 */
+	private static final int DAY_DIGITS = 2;
+
+	/**
+	 * Maximum value for year.
+	 */
+	private static final int YEAR_MAX = 9999;
+	/**
+	 * Maximum value for month.
+	 */
+	private static final int MONTH_MAX = 12;
+	/**
+	 * Maximum value for day.
+	 */
+	private static final int DAY_MAX = 31;
+
+	/**
+	 * Minimum value for year.
+	 */
+	private static final int YEAR_MIN = 0;
+	/**
+	 * Minimum value for month.
+	 */
+	private static final int MONTH_MIN = 1;
+	/**
+	 * Minimum value for day.
+	 */
+	private static final int DAY_MIN = 1;
+
+	/**
+	 * Creates a WPartialDateField with no date specified.
+	 */
+<span class="fc" id="L160">	public WPartialDateField() {</span>
+		// Do Nothing
+<span class="fc" id="L162">	}</span>
+
+	/**
+	 * Creates a WPartialDateField with the specified date.
+	 *
+	 * @param day A number from 1 to 31 or null if unknown.
+	 * @param month A number from 1 to 12, or null if unknown.
+	 * @param year A number, or null if unknown.
+	 */
+<span class="fc" id="L171">	public WPartialDateField(final Integer day, final Integer month, final Integer year) {</span>
+		// Validate Year
+<span class="fc bfc" id="L173" title="All 2 branches covered.">		if (!isValidYear(year)) {</span>
+<span class="fc" id="L174">			throw new IllegalArgumentException(</span>
+					&quot;Invalid partial year value (&quot; + year + &quot;). Year should be between &quot;
+					+ YEAR_MIN + &quot; to &quot; + YEAR_MAX + &quot;.&quot;);
+		}
+
+		// Validate Month
+<span class="fc bfc" id="L180" title="All 2 branches covered.">		if (!isValidMonth(month)) {</span>
+<span class="fc" id="L181">			throw new IllegalArgumentException(</span>
+					&quot;Invalid partial month value (&quot; + month + &quot;). Month should be between &quot;
+					+ MONTH_MIN + &quot; to &quot; + MONTH_MAX + &quot;.&quot;);
+		}
+
+		// Validate Day
+<span class="fc bfc" id="L187" title="All 2 branches covered.">		if (!isValidDay(day)) {</span>
+<span class="fc" id="L188">			throw new IllegalArgumentException(</span>
+					&quot;Invalid partial day value (&quot; + day + &quot;). Day should be between &quot;
+					+ DAY_MIN + &quot; to &quot; + DAY_MAX + &quot;.&quot;);
+		}
+
+<span class="fc" id="L193">		String formatted = formatPartialDateToString(day, month, year, DEFAULT_PADDING_CHAR);</span>
+
+<span class="fc" id="L195">		getComponentModel().setData(formatted);</span>
+<span class="fc" id="L196">	}</span>
+
+	/**
+	 * Set the WPartialDateField with the given day, month and year. Each of the day, month and year parameters that
+	 * make up the partial date are optional.
+	 *
+	 * @param day A number from 1 to 31 or null if unknown.
+	 * @param month A number from 1 to 12, or null if unknown.
+	 * @param year A number, or null if unknown.
+	 */
+	public void setPartialDate(final Integer day, final Integer month, final Integer year) {
+		// Validate Year
+<span class="fc bfc" id="L208" title="All 2 branches covered.">		if (!isValidYear(year)) {</span>
+<span class="fc" id="L209">			throw new IllegalArgumentException(&quot;Setting invalid partial year value (&quot; + year</span>
+					+ &quot;). Year should be between &quot; + YEAR_MIN + &quot; to &quot; + YEAR_MAX + &quot;.&quot;);
+		}
+
+		// Validate Month
+<span class="fc bfc" id="L214" title="All 2 branches covered.">		if (!isValidMonth(month)) {</span>
+<span class="fc" id="L215">			throw new IllegalArgumentException(&quot;Setting invalid partial month value (&quot; + month</span>
+					+ &quot;). Month should be between &quot; + MONTH_MIN + &quot; to &quot; + MONTH_MAX + &quot;.&quot;);
+		}
+
+		// Validate Day
+<span class="fc bfc" id="L220" title="All 2 branches covered.">		if (!isValidDay(day)) {</span>
+<span class="fc" id="L221">			throw new IllegalArgumentException(&quot;Setting invalid partial day value (&quot; + day</span>
+					+ &quot;). Day should be between &quot; + DAY_MIN + &quot; to &quot; + DAY_MAX + &quot;.&quot;);
+		}
+
+<span class="fc" id="L225">		String formatted = formatPartialDateToString(day, month, year, getPaddingChar());</span>
+
+<span class="fc" id="L227">		setData(formatted);</span>
+<span class="fc" id="L228">		getOrCreateComponentModel().text = null;</span>
+<span class="fc" id="L229">		getOrCreateComponentModel().validDate = true;</span>
+<span class="fc" id="L230">	}</span>
+
+	/**
+	 * @return the padding character used in the partial date value
+	 */
+	public char getPaddingChar() {
+<span class="fc" id="L236">		return getComponentModel().paddingChar;</span>
+	}
+
+	/**
+	 * The padding character used in the partial date value. The default padding character is a space. If the padding
+	 * character is a space, then the date value will be right trimmed to remove the trailing spaces.
+	 *
+	 * @param paddingChar the padding character used in the partial date value.
+	 */
+	public void setPaddingChar(final char paddingChar) {
+<span class="fc bfc" id="L246" title="All 2 branches covered.">		if (Character.isDigit(paddingChar)) {</span>
+<span class="fc" id="L247">			throw new IllegalArgumentException(&quot;Padding character should not be a digit.&quot;);</span>
+		}
+
+<span class="fc" id="L250">		getOrCreateComponentModel().paddingChar = paddingChar;</span>
+<span class="fc" id="L251">	}</span>
+
+	// ================================
+	// Action/Event handling
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected boolean doHandleRequest(final Request request) {
+		// Valid date entered by the user
+<span class="fc" id="L261">		String dateValue = getRequestValue(request);</span>
+		// Text entered by the user (An empty string is treated as null)
+<span class="fc" id="L263">		String value = request.getParameter(getId());</span>
+<span class="fc bfc" id="L264" title="All 2 branches covered.">		String text = (Util.empty(value)) ? null : value;</span>
+
+		// Current date value
+<span class="fc" id="L267">		String currentDate = getValue();</span>
+
+<span class="fc" id="L269">		boolean changed = false;</span>
+
+		// If a &quot;valid&quot; date value has not been entered, then check if the &quot;user text&quot; has changed
+<span class="fc bfc" id="L272" title="All 2 branches covered.">		if (dateValue == null) {</span>
+			// User entered text
+<span class="fc bfc" id="L274" title="All 4 branches covered.">			changed = !Util.equals(text, getText()) || currentDate != null;</span>
+		} else {
+			// Valid Date
+<span class="fc bfc" id="L277" title="All 2 branches covered.">			changed = !Util.equals(dateValue, currentDate);</span>
+		}
+
+<span class="fc bfc" id="L280" title="All 2 branches covered.">		if (changed) {</span>
+<span class="fc" id="L281">			getOrCreateComponentModel().text = text;</span>
+<span class="fc bfc" id="L282" title="All 4 branches covered.">			getOrCreateComponentModel().validDate = dateValue != null || text == null;</span>
+<span class="fc" id="L283">			setData(dateValue);</span>
+		}
+
+<span class="fc" id="L286">		return changed;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getRequestValue(final Request request) {
+<span class="fc bfc" id="L294" title="All 2 branches covered.">		if (isPresent(request)) {</span>
+			// User entered a valid date
+<span class="fc" id="L296">			String dateParam = request.getParameter(getId() + &quot;-date&quot;);</span>
+<span class="fc bfc" id="L297" title="All 2 branches covered.">			if (dateParam == null) {</span>
+<span class="fc" id="L298">				return null;</span>
+			}
+
+			// Validate Transfer Date Format - YYYY-MM-DD
+<span class="fc bfc" id="L302" title="All 4 branches covered.">			if (dateParam.length() != INTERNAL_DATE_TOTAL_CHARS || dateParam.charAt(</span>
+					INTERNAL_DASH1_POS) != '-'
+<span class="fc bfc" id="L304" title="All 2 branches covered.">					|| dateParam.charAt(INTERNAL_DASH2_POS) != '-') {</span>
+<span class="fc" id="L305">				LOG.warn(&quot;Date parameter is not in the format yyyy-MM-dd (&quot; + dateParam</span>
+						+ &quot;) and will be treated as null.&quot;);
+<span class="fc" id="L307">				return null;</span>
+			}
+
+			// Transform YYYY-MM-DD to YYYYMMDD
+<span class="fc" id="L311">			StringBuffer buf = new StringBuffer(DATE_TOTAL_CHARS);</span>
+<span class="fc" id="L312">			buf.append(dateParam.substring(INTERNAL_YEAR_START, INTERNAL_YEAR_END));</span>
+<span class="fc" id="L313">			buf.append(dateParam.substring(INTERNAL_MONTH_START, INTERNAL_MONTH_END));</span>
+<span class="fc" id="L314">			buf.append(dateParam.substring(INTERNAL_DAY_START, INTERNAL_DAY_END));</span>
+
+<span class="fc" id="L316">			String dateFormat = buf.toString();</span>
+
+			// Validate the date
+<span class="fc bfc" id="L319" title="All 2 branches covered.">			if (!isValidPartialDateStringFormat(dateFormat, THEME_PADDING_CHAR)) {</span>
+<span class="fc" id="L320">				LOG.warn(&quot;Date parameter (&quot;</span>
+						+ dateParam
+						+ &quot;) could not be transformed from YYYY-MM-DD to the format YYYYMMDD and will be treated as null.&quot;);
+<span class="fc" id="L323">				return null;</span>
+			}
+
+			// Convert from Theme padding character to the correct padding character
+<span class="fc" id="L327">			return dateFormat.replace(THEME_PADDING_CHAR, getPaddingChar());</span>
+		} else {
+<span class="fc" id="L329">			return getValue();</span>
+		}
+	}
+
+	/**
+	 * Sets the validation error message.
+	 *
+	 * @param message The errorMessage to set, or null to use the default error message.
+	 */
+	public void setInvalidDateErrorMessage(final String message) {
+<span class="fc" id="L339">		getOrCreateComponentModel().errorMessage = message;</span>
+<span class="fc" id="L340">	}</span>
+
+	/**
+	 * Override WInput's validateComponent to perform further validation on the date. A partial date is invalid if there
+	 * was text submitted but no date components were parsed.
+	 *
+	 * @param diags the list into which any validation diagnostics are added.
+	 */
+	@Override
+	protected void validateComponent(final List&lt;Diagnostic&gt; diags) {
+<span class="fc" id="L350">		super.validateComponent(diags);</span>
+
+<span class="fc bfc" id="L352" title="All 2 branches covered.">		if (!isValidDate()) {</span>
+<span class="fc" id="L353">			diags.add(createErrorDiagnostic(getComponentModel().errorMessage, this));</span>
+		}
+<span class="fc" id="L355">	}</span>
+
+	// ================================
+	/**
+	 * Set the WPartialDateField with the given java date.
+	 *
+	 * @param date the date
+	 */
+	public void setDate(final Date date) {
+<span class="fc bfc" id="L364" title="All 2 branches covered.">		if (date == null) {</span>
+<span class="fc" id="L365">			setPartialDate(null, null, null);</span>
+		} else {
+<span class="fc" id="L367">			Calendar cal = Calendar.getInstance();</span>
+<span class="fc" id="L368">			cal.setTime(date);</span>
+<span class="fc" id="L369">			Integer year = cal.get(Calendar.YEAR);</span>
+<span class="fc" id="L370">			Integer month = cal.get(Calendar.MONTH) + 1;</span>
+<span class="fc" id="L371">			Integer day = cal.get(Calendar.DAY_OF_MONTH);</span>
+<span class="fc" id="L372">			setPartialDate(day, month, year);</span>
+		}
+<span class="fc" id="L374">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getValue() {
+<span class="fc" id="L381">		Object data = getData();</span>
+<span class="fc bfc" id="L382" title="All 2 branches covered.">		String value = data == null ? null : data.toString();</span>
+
+		// Empty date is treated as null
+<span class="fc bfc" id="L385" title="All 2 branches covered.">		if (Util.empty(value)) {</span>
+<span class="fc" id="L386">			return null;</span>
+		}
+
+		// Check the format is correct - yyyyMMdd
+<span class="fc bfc" id="L390" title="All 2 branches covered.">		if (!isValidPartialDateStringFormat(value, getPaddingChar())) {</span>
+<span class="fc" id="L391">			throw new SystemException(</span>
+					&quot;PartialDate data value (&quot; + value + &quot;) is not in the format yyyyMMdd&quot;);
+		}
+
+<span class="fc" id="L395">		return value;</span>
+	}
+
+	/**
+	 * Get the partial date as its formatted string.
+	 * &lt;p&gt;
+	 * The expected format of the partial date is &quot;yyyyMMdd&quot;, where parts of the date that do not have a value are
+	 * padded with the padding character.
+	 * &lt;/p&gt;
+	 *
+	 * @return the partial data formatted as a string, or null
+	 */
+	public String getPartialDate() {
+<span class="nc" id="L408">		return getValue();</span>
+	}
+
+	/**
+	 * Returns the day of the month value.
+	 *
+	 * @return the day of the month, or null if unspecified.
+	 */
+	public Integer getDay() {
+<span class="fc" id="L417">		String dateValue = getValue();</span>
+
+<span class="fc bfc" id="L419" title="All 4 branches covered.">		if (dateValue != null &amp;&amp; dateValue.length() == DAY_END) {</span>
+<span class="fc" id="L420">			return parseDateComponent(dateValue.substring(DAY_START, DAY_END), getPaddingChar());</span>
+		} else {
+<span class="fc" id="L422">			return null;</span>
+		}
+	}
+
+	/**
+	 * Returns the month value.
+	 *
+	 * @return the month, or null if unspecified.
+	 */
+	public Integer getMonth() {
+<span class="fc" id="L432">		String dateValue = getValue();</span>
+
+<span class="fc bfc" id="L434" title="All 4 branches covered.">		if (dateValue != null &amp;&amp; dateValue.length() &gt;= MONTH_END) {</span>
+<span class="fc" id="L435">			return parseDateComponent(dateValue.substring(MONTH_START, MONTH_END), getPaddingChar());</span>
+		} else {
+<span class="fc" id="L437">			return null;</span>
+		}
+	}
+
+	/**
+	 * Returns the year value.
+	 *
+	 * @return the year, or null if unspecified.
+	 */
+	public Integer getYear() {
+<span class="fc" id="L447">		String dateValue = getValue();</span>
+
+<span class="pc bpc" id="L449" title="1 of 4 branches missed.">		if (dateValue != null &amp;&amp; dateValue.length() &gt;= YEAR_END) {</span>
+<span class="fc" id="L450">			return parseDateComponent(dateValue.substring(YEAR_START, YEAR_END), getPaddingChar());</span>
+		} else {
+<span class="fc" id="L452">			return null;</span>
+		}
+	}
+
+	/**
+	 * Returns the java date value, else null if the value cannot be parsed.
+	 *
+	 * @return the java date or null
+	 */
+	public Date getDate() {
+<span class="pc bpc" id="L462" title="2 of 6 branches missed.">		if (getYear() != null &amp;&amp; getMonth() != null &amp;&amp; getDay() != null) {</span>
+<span class="fc" id="L463">			return DateUtilities.createDate(getDay(), getMonth(), getYear());</span>
+		}
+
+<span class="fc" id="L466">		return null;</span>
+	}
+
+	/**
+	 * Retrieves the text as entered by the user. This is not necessarily a valid date.
+	 *
+	 * @return the text, as entered by the user.
+	 */
+	public String getText() {
+<span class="fc" id="L475">		return getComponentModel().text;</span>
+	}
+
+	/**
+	 * Indicates whether the text value held in this field is a valid date.
+	 *
+	 * @return true if the field contains text which is a valid date, false otherwise.
+	 */
+	public boolean isValidDate() {
+<span class="fc" id="L484">		return getComponentModel().validDate;</span>
+	}
+
+	/**
+	 * Retrieves a String representation of the date field's value. The date value will be returned using its default
+	 * String representation.
+	 *
+	 * @return the date value, or the text entered by the user if there is no valid date.
+	 */
+	@Override
+	public String getValueAsString() {
+<span class="fc" id="L495">		String dateValue = getValue();</span>
+<span class="fc bfc" id="L496" title="All 2 branches covered.">		return dateValue == null ? getText() : dateValue;</span>
+	}
+
+	/**
+	 * Set the WPartialDateField with the given day, month and year. Each of the day, month and year parameters that
+	 * make up the partial date are optional.
+	 *
+	 * @param day a number from 1 to 31 or null if unknown.
+	 * @param month a number from 1 to 12, or null if unknown.
+	 * @param year a number, or null if unknown.
+	 * @param padding the padding character for the partial date
+	 * @return the formatted partial date, or null if invalid
+	 */
+	private String formatPartialDateToString(final Integer day, final Integer month,
+			final Integer year,
+			final char padding) {
+<span class="fc bfc" id="L512" title="All 6 branches covered.">		if (year == null &amp;&amp; month == null &amp;&amp; day == null) {</span>
+<span class="fc" id="L513">			return null;</span>
+		}
+
+<span class="pc bpc" id="L516" title="3 of 6 branches missed.">		if (!isValidYear(year) || !isValidMonth(month) || !isValidDay(day)) {</span>
+<span class="nc" id="L517">			return null;</span>
+		}
+
+<span class="fc" id="L520">		StringBuffer dateString = new StringBuffer(DATE_TOTAL_CHARS);</span>
+
+<span class="fc" id="L522">		append(dateString, year, YEAR_DIGITS, padding);</span>
+<span class="fc" id="L523">		append(dateString, month, MONTH_DIGITS, padding);</span>
+<span class="fc" id="L524">		append(dateString, day, DAY_DIGITS, padding);</span>
+
+		// TRIM trailing spaces (will only &quot;trim&quot; if the padding character is a space)
+<span class="fc" id="L527">		String trimmed = Util.rightTrim(dateString.toString());</span>
+<span class="fc" id="L528">		return trimmed;</span>
+	}
+
+	/**
+	 * Check if the year component is valid.
+	 *
+	 * @param year A number, or null if unknown.
+	 * @return true if valid, otherwise false
+	 */
+	private boolean isValidYear(final Integer year) {
+<span class="fc bfc" id="L538" title="All 6 branches covered.">		return (year == null || (year &gt;= YEAR_MIN &amp;&amp; year &lt;= YEAR_MAX));</span>
+	}
+
+	/**
+	 * Check if the month component is valid.
+	 *
+	 * @param month a number from 1 to 12, or null if unknown.
+	 * @return true if valid, otherwise false
+	 */
+	private boolean isValidMonth(final Integer month) {
+<span class="fc bfc" id="L548" title="All 6 branches covered.">		return (month == null || (month &gt;= MONTH_MIN &amp;&amp; month &lt;= MONTH_MAX));</span>
+	}
+
+	/**
+	 * Check if the day component is valid.
+	 *
+	 * @param day A number from 1 to 31 or null if unknown.
+	 * @return true if valid, otherwise false
+	 */
+	private boolean isValidDay(final Integer day) {
+<span class="fc bfc" id="L558" title="All 6 branches covered.">		return (day == null || (day &gt;= DAY_MIN &amp;&amp; day &lt;= DAY_MAX));</span>
+	}
+
+	/**
+	 * Parses a component of a partial date.
+	 *
+	 * @param component the date component.
+	 * @param padding the padding character.
+	 * @return the parsed value, may be null.
+	 */
+	private boolean isValidPartialDateStringFormat(final String component, final char padding) {
+		// Empty is not valid
+<span class="pc bpc" id="L570" title="1 of 2 branches missed.">		if (Util.empty(component)) {</span>
+<span class="nc" id="L571">			return false;</span>
+		}
+
+<span class="fc" id="L574">		int length = component.length();</span>
+
+		// Check length YYYY, or YYYYMM, or YYYYMMDD
+<span class="fc bfc" id="L577" title="All 6 branches covered.">		if (length != YEAR_END &amp;&amp; length != MONTH_END &amp;&amp; length != DAY_END) {</span>
+<span class="fc" id="L578">			return false;</span>
+		}
+
+		// Year - ???? or YYYY
+<span class="fc" id="L582">		String year = component.substring(YEAR_START, YEAR_END);</span>
+<span class="pc bpc" id="L583" title="1 of 4 branches missed.">		if (!isValidCharacters(year, padding) || !isValidYear(parseDateComponent(year, padding))) {</span>
+<span class="fc" id="L584">			return false;</span>
+		}
+
+		// Month - ?? or MM
+<span class="fc bfc" id="L588" title="All 2 branches covered.">		if (component.length() &gt;= MONTH_END) {</span>
+<span class="fc" id="L589">			String month = component.substring(MONTH_START, MONTH_END);</span>
+<span class="fc bfc" id="L590" title="All 4 branches covered.">			if (!isValidCharacters(month, padding) || !isValidMonth(parseDateComponent(month,</span>
+					padding))) {
+<span class="fc" id="L592">				return false;</span>
+			}
+		}
+
+		// Day - ?? or DD
+<span class="fc bfc" id="L597" title="All 2 branches covered.">		if (component.length() == DAY_END) {</span>
+<span class="fc" id="L598">			String day = component.substring(DAY_START, DAY_END);</span>
+<span class="pc bpc" id="L599" title="1 of 4 branches missed.">			if (!isValidCharacters(day, padding) || !isValidDay(parseDateComponent(day, padding))) {</span>
+<span class="fc" id="L600">				return false;</span>
+			}
+		}
+
+<span class="fc" id="L604">		return true;</span>
+	}
+
+	/**
+	 * Check the component is either all padding chars or all digit chars.
+	 *
+	 * @param component the date component.
+	 * @param padding the padding character.
+	 * @return true if the component is valid, otherwise false
+	 */
+	private boolean isValidCharacters(final String component, final char padding) {
+		// Check the component is either all padding chars or all digit chars
+<span class="fc" id="L616">		boolean paddingChars = false;</span>
+<span class="fc" id="L617">		boolean digitChars = false;</span>
+<span class="fc bfc" id="L618" title="All 2 branches covered.">		for (int i = 0; i &lt; component.length(); i++) {</span>
+<span class="fc" id="L619">			char chr = component.charAt(i);</span>
+			// Padding
+<span class="fc bfc" id="L621" title="All 2 branches covered.">			if (chr == padding) {</span>
+<span class="fc bfc" id="L622" title="All 2 branches covered.">				if (digitChars) {</span>
+<span class="fc" id="L623">					return false;</span>
+				}
+<span class="fc" id="L625">				paddingChars = true;</span>
+<span class="pc bpc" id="L626" title="1 of 4 branches missed.">			} else if (chr &gt;= '0' &amp;&amp; chr &lt;= '9') {  // Digit</span>
+<span class="fc bfc" id="L627" title="All 2 branches covered.">				if (paddingChars) {</span>
+<span class="fc" id="L628">					return false;</span>
+				}
+<span class="fc" id="L630">				digitChars = true;</span>
+			} else {
+<span class="fc" id="L632">				return false;</span>
+			}
+		}
+
+<span class="fc" id="L636">		return true;</span>
+	}
+
+	/**
+	 * Parses a component of a partial date.
+	 *
+	 * @param component the date component.
+	 * @param padding the padding character.
+	 * @return the parsed value, may be null.
+	 */
+	private Integer parseDateComponent(final String component, final char padding) {
+<span class="pc bpc" id="L647" title="1 of 4 branches missed.">		if (component != null &amp;&amp; component.indexOf(padding) == -1) {</span>
+			try {
+<span class="fc" id="L649">				return Integer.valueOf(component);</span>
+<span class="nc" id="L650">			} catch (NumberFormatException e) {</span>
+<span class="nc" id="L651">				return null;</span>
+			}
+		}
+<span class="fc" id="L654">		return null;</span>
+	}
+
+	/**
+	 * Appends a single date component to the given StringBuffer. Nulls are replaced with the padding char, and numbers
+	 * are padded with zeros.
+	 *
+	 * @param buf the buffer to append to.
+	 * @param num the number to append, may be null.
+	 * @param digits the minimum number of digits to append.
+	 * @param padding the padding character for null values
+	 */
+	private void append(final StringBuffer buf, final Integer num, final int digits,
+			final char padding) {
+<span class="fc bfc" id="L668" title="All 2 branches covered.">		if (num == null) {</span>
+<span class="fc bfc" id="L669" title="All 2 branches covered.">			for (int i = 0; i &lt; digits; i++) {</span>
+<span class="fc" id="L670">				buf.append(padding);</span>
+			}
+		} else {
+<span class="fc bfc" id="L673" title="All 2 branches covered.">			for (int digit = 1, test = 10; digit &lt; digits; digit++, test *= 10) {</span>
+<span class="fc bfc" id="L674" title="All 2 branches covered.">				if (num &lt; test) {</span>
+<span class="fc" id="L675">					buf.append('0');</span>
+				}
+			}
+
+<span class="fc" id="L679">			buf.append(num);</span>
+		}
+<span class="fc" id="L681">	}</span>
+
+	// --------------------------------
+	// Extrinsic state management
+	/**
+	 * Creates a new component model appropriate for this component.
+	 *
+	 * @return a new PartialDateFieldModel.
+	 */
+	@Override
+	protected PartialDateFieldModel newComponentModel() {
+<span class="fc" id="L692">		return new PartialDateFieldModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected PartialDateFieldModel getComponentModel() {
+<span class="fc" id="L700">		return (PartialDateFieldModel) super.getComponentModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected PartialDateFieldModel getOrCreateComponentModel() {
+<span class="fc" id="L708">		return (PartialDateFieldModel) super.getOrCreateComponentModel();</span>
+	}
+
+	/**
+	 * Holds the extrinsic state information of the partial date.
+	 */
+<span class="fc" id="L714">	public static class PartialDateFieldModel extends InputModel {</span>
+
+		/**
+		 * The text entered by the user.
+		 */
+		private String text;
+
+		/**
+		 * Flag to indicate if the text entered is a valid partial date.
+		 */
+<span class="fc" id="L724">		private boolean validDate = true;</span>
+
+		/**
+		 * Character used to pad the partial date value.
+		 */
+<span class="fc" id="L729">		private char paddingChar = DEFAULT_PADDING_CHAR;</span>
+
+		/**
+		 * The error message to display when the input fails the date validation check.
+		 */
+<span class="fc" id="L734">		private String errorMessage = InternalMessages.DEFAULT_VALIDATION_ERROR_INVALID_PARTIAL_DATE;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

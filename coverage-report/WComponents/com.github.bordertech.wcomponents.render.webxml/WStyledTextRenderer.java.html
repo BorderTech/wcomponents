@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WStyledTextRenderer.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.render.webxml</a> &gt; <span class="el_source">WStyledTextRenderer.java</span></div><h1>WStyledTextRenderer.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.render.webxml;
+
+import com.github.bordertech.wcomponents.Renderer;
+import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.WStyledText;
+import com.github.bordertech.wcomponents.WebUtilities;
+import com.github.bordertech.wcomponents.XmlStringBuilder;
+import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
+import com.github.bordertech.wcomponents.util.Util;
+
+/**
+ * {@link Renderer} for the {@link WStyledText} component.
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ */
+<span class="fc" id="L17">final class WStyledTextRenderer extends AbstractWebXmlRenderer {</span>
+
+	/**
+	 * Paints the given WStyledText.
+	 *
+	 * @param component the WStyledText to paint.
+	 * @param renderContext the RenderContext to paint to.
+	 */
+	@Override
+	public void doRender(final WComponent component, final WebXmlRenderContext renderContext) {
+<span class="fc" id="L27">		WStyledText text = (WStyledText) component;</span>
+<span class="fc" id="L28">		XmlStringBuilder xml = renderContext.getWriter();</span>
+<span class="fc" id="L29">		String textString = text.getText();</span>
+
+<span class="fc bfc" id="L31" title="All 4 branches covered.">		if (textString != null &amp;&amp; textString.length() &gt; 0) {</span>
+<span class="fc" id="L32">			xml.appendTagOpen(&quot;ui:text&quot;);</span>
+
+<span class="fc" id="L34">			xml.appendOptionalAttribute(&quot;class&quot;, component.getHtmlClass());</span>
+<span class="pc bfc" id="L35" title="All 10 branches covered.">			switch (text.getType()) {</span>
+				case EMPHASISED:
+<span class="fc" id="L37">					xml.appendAttribute(&quot;type&quot;, &quot;emphasised&quot;);</span>
+<span class="fc" id="L38">					break;</span>
+
+				case HIGH_PRIORITY:
+<span class="fc" id="L41">					xml.appendAttribute(&quot;type&quot;, &quot;highPriority&quot;);</span>
+<span class="fc" id="L42">					break;</span>
+
+				case LOW_PRIORITY:
+<span class="fc" id="L45">					xml.appendAttribute(&quot;type&quot;, &quot;lowPriority&quot;);</span>
+<span class="fc" id="L46">					break;</span>
+
+				case MEDIUM_PRIORITY:
+<span class="fc" id="L49">					xml.appendAttribute(&quot;type&quot;, &quot;mediumPriority&quot;);</span>
+<span class="fc" id="L50">					break;</span>
+
+				case ACTIVE_INDICATOR:
+<span class="fc" id="L53">					xml.appendAttribute(&quot;type&quot;, &quot;activeIndicator&quot;);</span>
+<span class="fc" id="L54">					break;</span>
+
+				case MATCH_INDICATOR:
+<span class="fc" id="L57">					xml.appendAttribute(&quot;type&quot;, &quot;matchIndicator&quot;);</span>
+<span class="fc" id="L58">					break;</span>
+
+				case INSERT:
+<span class="fc" id="L61">					xml.appendAttribute(&quot;type&quot;, &quot;insert&quot;);</span>
+<span class="fc" id="L62">					break;</span>
+
+				case DELETE:
+<span class="fc" id="L65">					xml.appendAttribute(&quot;type&quot;, &quot;delete&quot;);</span>
+<span class="fc" id="L66">					break;</span>
+
+				case MANDATORY_INDICATOR:
+<span class="fc" id="L69">					xml.appendAttribute(&quot;type&quot;, &quot;mandatoryIndicator&quot;);</span>
+<span class="fc" id="L70">					break;</span>
+
+				case PLAIN:
+				default:
+<span class="fc" id="L74">					xml.appendAttribute(&quot;type&quot;, &quot;plain&quot;);</span>
+<span class="fc" id="L75">					break;</span>
+			}
+
+<span class="pc bpc" id="L78" title="1 of 4 branches missed.">			switch (text.getWhitespaceMode()) {</span>
+				case PARAGRAPHS:
+<span class="fc" id="L80">					xml.appendAttribute(&quot;space&quot;, &quot;paragraphs&quot;);</span>
+<span class="fc" id="L81">					break;</span>
+
+				case PRESERVE:
+<span class="fc" id="L84">					xml.appendAttribute(&quot;space&quot;, &quot;preserve&quot;);</span>
+<span class="fc" id="L85">					break;</span>
+
+				case DEFAULT:
+<span class="fc" id="L88">					break;</span>
+
+				default:
+<span class="nc" id="L91">					throw new IllegalArgumentException(&quot;Unknown white space mode: &quot; + text.</span>
+<span class="nc" id="L92">							getWhitespaceMode());</span>
+			}
+
+<span class="fc" id="L95">			xml.appendClose();</span>
+
+<span class="pc bpc" id="L97" title="1 of 3 branches missed.">			switch (text.getWhitespaceMode()) {</span>
+				case PARAGRAPHS:
+<span class="fc" id="L99">					writeParagraphs(WebUtilities.encode(textString), xml);</span>
+<span class="fc" id="L100">					break;</span>
+
+				case PRESERVE:
+				case DEFAULT:
+<span class="fc" id="L104">					xml.append(WebUtilities.encode(textString));</span>
+<span class="fc" id="L105">					break;</span>
+
+				default:
+<span class="nc" id="L108">					throw new IllegalArgumentException(&quot;Unknown white space mode: &quot; + text.</span>
+<span class="nc" id="L109">							getWhitespaceMode());</span>
+			}
+
+<span class="fc" id="L112">			xml.appendEndTag(&quot;ui:text&quot;);</span>
+		}
+<span class="fc" id="L114">	}</span>
+
+	/**
+	 * Writes out paragraph delimted content.
+	 *
+	 * @param text the String content to output.
+	 * @param xml the XmlStringBuilder to paint to.
+	 */
+	private static void writeParagraphs(final String text, final XmlStringBuilder xml) {
+<span class="pc bpc" id="L123" title="1 of 2 branches missed.">		if (!Util.empty(text)) {</span>
+<span class="fc" id="L124">			int start = 0;</span>
+<span class="fc" id="L125">			int end = text.length() - 1;</span>
+
+			// Set the start index to the first non-linebreak, so we don't emit leading ui:nl tags
+<span class="pc bpc" id="L128" title="1 of 2 branches missed.">			for (; start &lt; end; start++) {</span>
+<span class="fc" id="L129">				char c = text.charAt(start);</span>
+
+<span class="pc bpc" id="L131" title="1 of 4 branches missed.">				if (c != '\n' &amp;&amp; c != '\r') {</span>
+<span class="fc" id="L132">					break;</span>
+				}
+			}
+
+			// Set the end index to the last non-linebreak, so we don't emit trailing ui:nl tags
+<span class="pc bpc" id="L137" title="1 of 2 branches missed.">			for (; start &lt; end; end--) {</span>
+<span class="fc" id="L138">				char c = text.charAt(end);</span>
+
+<span class="pc bpc" id="L140" title="1 of 4 branches missed.">				if (c != '\n' &amp;&amp; c != '\r') {</span>
+<span class="fc" id="L141">					break;</span>
+				}
+			}
+
+<span class="fc" id="L145">			char lastChar = 0;</span>
+
+<span class="fc bfc" id="L147" title="All 2 branches covered.">			for (int i = start; i &lt;= end; i++) {</span>
+<span class="fc" id="L148">				char c = text.charAt(i);</span>
+
+<span class="fc bfc" id="L150" title="All 4 branches covered.">				if (c == '\n' || c == '\r') {</span>
+<span class="fc bfc" id="L151" title="All 2 branches covered.">					if (lastChar != 0) {</span>
+<span class="fc" id="L152">						xml.write(&quot;&lt;ui:nl/&gt;&quot;);</span>
+					}
+
+<span class="fc" id="L155">					lastChar = 0;</span>
+				} else {
+<span class="fc" id="L157">					xml.write(c);</span>
+<span class="fc" id="L158">					lastChar = c;</span>
+				}
+			}
+		}
+<span class="fc" id="L162">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

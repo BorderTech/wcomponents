@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WStyledText.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">WStyledText.java</span></div><h1>WStyledText.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+/**
+ * &lt;p&gt;
+ * This component is used to render the different types of text. If the text contains special characters, they will be
+ * escaped automatically, as in {@link WText}.&lt;/p&gt;
+ *
+ * &lt;p&gt;
+ * Note that the visual representation of the different types of text will depend on the current Theme in use.&lt;/p&gt;
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ */
+public class WStyledText extends WText {
+
+	/**
+	 * The available types of text.
+	 *
+	 * @author Yiannis Paschalidis
+	 */
+<span class="pc" id="L21">	public enum Type {</span>
+		/**
+		 * Plain text is not styled differently to normal text.
+		 */
+<span class="fc" id="L25">		PLAIN,</span>
+		/**
+		 * Indicates high priority.
+		 */
+<span class="fc" id="L29">		HIGH_PRIORITY,</span>
+		/**
+		 * Indicates medium priority.
+		 */
+<span class="fc" id="L33">		MEDIUM_PRIORITY,</span>
+		/**
+		 * Indicates low priority.
+		 */
+<span class="fc" id="L37">		LOW_PRIORITY,</span>
+		/**
+		 * The text will be emphasised.
+		 */
+<span class="fc" id="L41">		EMPHASISED,</span>
+		/**
+		 * The text will display as an active indicator.
+		 */
+<span class="fc" id="L45">		ACTIVE_INDICATOR,</span>
+		/**
+		 * The text will display as a match indicator.
+		 */
+<span class="fc" id="L49">		MATCH_INDICATOR,</span>
+		/**
+		 * The text is styled as insert.
+		 */
+<span class="fc" id="L53">		INSERT,</span>
+		/**
+		 * The text is styled as delete.
+		 */
+<span class="fc" id="L57">		DELETE,</span>
+		/**
+		 * The text is styled with mandatory indicator.
+		 */
+<span class="fc" id="L61">		MANDATORY_INDICATOR</span>
+	};
+
+	/**
+	 * Specifies how white-space should be handled.
+	 */
+<span class="pc" id="L67">	public enum WhitespaceMode {</span>
+		/**
+		 * Default whitespace handling. Browser-dependent behaviour, but most likely whitespace will be ignored.
+		 */
+<span class="fc" id="L71">		DEFAULT,</span>
+		/**
+		 * In paragraph mode, new lines are treated as paragraph markers.
+		 */
+<span class="fc" id="L75">		PARAGRAPHS,</span>
+		/**
+		 * This mode attempts to preserve all white-space formatting.
+		 */
+<span class="fc" id="L79">		PRESERVE</span>
+	}
+
+	/**
+	 * Creates a plain WStyledText with no text.
+	 */
+	public WStyledText() {
+<span class="fc" id="L86">		this(null);</span>
+<span class="fc" id="L87">	}</span>
+
+	/**
+	 * Creates a plain WStyledText with the given text.
+	 *
+	 * @param text the text.
+	 */
+	public WStyledText(final String text) {
+<span class="fc" id="L95">		this(text, Type.PLAIN);</span>
+<span class="fc" id="L96">	}</span>
+
+	/**
+	 * Creates a plain WStyledText with the given text and type.
+	 *
+	 * @param text the text.
+	 * @param type the type of styling to use.
+	 */
+<span class="fc" id="L104">	public WStyledText(final String text, final Type type) {</span>
+<span class="fc" id="L105">		getComponentModel().setData(text);</span>
+<span class="fc" id="L106">		getComponentModel().type = type;</span>
+<span class="fc" id="L107">	}</span>
+
+	/**
+	 * @return Returns the type.
+	 */
+	public Type getType() {
+<span class="fc" id="L113">		return getComponentModel().type;</span>
+	}
+
+	/**
+	 * @param type The type to set.
+	 */
+	public void setType(final Type type) {
+<span class="fc" id="L120">		getOrCreateComponentModel().type = type;</span>
+<span class="fc" id="L121">	}</span>
+
+	/**
+	 * @return Returns the white-space mode.
+	 */
+	public WhitespaceMode getWhitespaceMode() {
+<span class="fc" id="L127">		return getComponentModel().whitespaceMode;</span>
+	}
+
+	/**
+	 * @param mode The mode to set.
+	 */
+	public void setWhitespaceMode(final WhitespaceMode mode) {
+<span class="fc" id="L134">		getOrCreateComponentModel().whitespaceMode = mode;</span>
+<span class="fc" id="L135">	}</span>
+
+	/**
+	 * Holds the extrinsic state information of a WStyledText.
+	 *
+	 * @author Yiannis Paschalidis
+	 */
+<span class="fc" id="L142">	public static class StyledTextModel extends BeanAndProviderBoundComponentModel {</span>
+
+		/**
+		 * The type of styling to use.
+		 */
+		private Type type;
+
+		/**
+		 * Indicates how white-space should be handled.
+		 */
+<span class="fc" id="L152">		private WhitespaceMode whitespaceMode = WhitespaceMode.DEFAULT;</span>
+	}
+
+	/**
+	 * Creates a new Component model.
+	 *
+	 * @return a new StyledTextModel.
+	 */
+	@Override
+	protected StyledTextModel newComponentModel() {
+<span class="fc" id="L162">		return new StyledTextModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected StyledTextModel getComponentModel() {
+<span class="fc" id="L170">		return (StyledTextModel) super.getComponentModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected StyledTextModel getOrCreateComponentModel() {
+<span class="fc" id="L178">		return (StyledTextModel) super.getOrCreateComponentModel();</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

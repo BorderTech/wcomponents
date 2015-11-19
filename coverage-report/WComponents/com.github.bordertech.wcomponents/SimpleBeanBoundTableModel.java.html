@@ -1,0 +1,691 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>SimpleBeanBoundTableModel.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">SimpleBeanBoundTableModel.java</span></div><h1>SimpleBeanBoundTableModel.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import com.github.bordertech.wcomponents.util.ComparableComparator;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+/**
+ * A simple table data model that is bound to a list of beans.
+ * &lt;p&gt;
+ * The simplest use of this model is to define the column bean properties for a list of beans that is not expandable,
+ * via the {@link #SimpleBeanBoundTableModel(String[])} constructor.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * The model also allows tree like structures (ie expandable rows) to be defined by using {@link LevelDetails}. Each
+ * {@link LevelDetails} determines which &quot;beanProperty&quot; will be used to expand the next level. The defined
+ * &quot;beanProperty&quot; is usually another list of beans. There are different helper constructors that will help define these
+ * levels based on the bean properties passed in.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * If the data is hierarchic, then the one {@link LevelDetails} can be defined, and the
+ * {@link #setIterateFirstLevel(boolean)} can be set to true. The model will then iterate this level down the bean list
+ * using the level's bean property. The maximum number of iterations can be set via {@link #setMaxIterations(int)}.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * The model supports sorting. A comparator for a particular column can be added via
+ * {@link #setComparator(int, Comparator)}.
+ * &lt;/p&gt;
+ *
+ * @author Jonathan Austin
+ * @since 1.0.0
+ */
+public class SimpleBeanBoundTableModel extends AbstractBeanBoundTableModel {
+
+	/**
+	 * The logger instance for this class.
+	 */
+<span class="fc" id="L44">	private static final Log LOG = LogFactory.getLog(SimpleBeanBoundTableModel.class);</span>
+
+	/**
+	 * A simple comparator that compares comparables, for use in sorting e.g. columns containing Strings.
+	 */
+<span class="fc" id="L49">	public static final ComparableComparator COMPARABLE_COMPARATOR = new ComparableComparator();</span>
+
+	/**
+	 * The comparators used for sorting, keyed by column index.
+	 */
+	private Map&lt;Integer, Comparator&lt;Object&gt;&gt; comparators;
+
+	/**
+	 * Indicates whether this model is globally editable.
+	 */
+	private boolean editable;
+
+	/**
+	 * Indicates whether rows are globally selectable.
+	 */
+	private boolean selectable;
+
+	/**
+	 * Defined levels.
+	 */
+<span class="fc" id="L69">	private final List&lt;LevelDetails&gt; levels = new ArrayList&lt;&gt;();</span>
+
+	/**
+	 * Iterate on the first expandable level.
+	 */
+	private boolean iterateFirstLevel;
+
+	/**
+	 * Maximum iterations.
+	 */
+<span class="fc" id="L79">	private int maxIterations = -1;</span>
+
+	/**
+	 * Define the column bean properties for the top level.
+	 *
+	 * @param columnBeanProperties the column bean properties
+	 */
+<span class="fc" id="L86">	public SimpleBeanBoundTableModel(final String[] columnBeanProperties) {</span>
+<span class="pc bpc" id="L87" title="2 of 4 branches missed.">		if (columnBeanProperties == null || columnBeanProperties.length == 0) {</span>
+<span class="nc" id="L88">			throw new IllegalArgumentException(&quot;ColumnBeanProperties must be provided&quot;);</span>
+		}
+
+		// Top Level
+<span class="fc" id="L92">		this.levels.add(new LevelDetails(&quot;.&quot;, columnBeanProperties));</span>
+<span class="fc" id="L93">	}</span>
+
+	/**
+	 * Define the column bean properties for the top level along with the bean property of the first expandable level.
+	 * &lt;p&gt;
+	 * The expandable level will use the same column bean properties as the top level.
+	 * &lt;/p&gt;
+	 * &lt;p&gt;
+	 * To iterate down multiple levels on this bean property, set {@link #setIterateFirstLevel(boolean)} to true.
+	 * &lt;/p&gt;
+	 *
+	 * @param columnBeanProperties the column bean properties
+	 * @param levelBeanProperty the bean property for the expandable level
+	 */
+	public SimpleBeanBoundTableModel(final String[] columnBeanProperties,
+			final String levelBeanProperty) {
+<span class="nc" id="L109">		this(columnBeanProperties, new LevelDetails(levelBeanProperty, columnBeanProperties));</span>
+<span class="nc" id="L110">	}</span>
+
+	/**
+	 * Define the column bean properties for the top level along with the bean properties and column bean properties of
+	 * the expandable levels.
+	 *
+	 * @param columnBeanProperties the top level column bean properties
+	 * @param levelBeanProperties the bean properties for the expandable levels
+	 * @param levelColumnBeanProperties the column bean properties for the expandable levels
+	 */
+	public SimpleBeanBoundTableModel(final String[] columnBeanProperties,
+			final String[] levelBeanProperties,
+			final String[][] levelColumnBeanProperties) {
+<span class="nc" id="L123">		this(columnBeanProperties);</span>
+<span class="nc bnc" id="L124" title="All 4 branches missed.">		if (levelBeanProperties == null || levelBeanProperties.length == 0) {</span>
+<span class="nc" id="L125">			throw new IllegalArgumentException(&quot;levelBeanProperties must be provided&quot;);</span>
+		}
+<span class="nc bnc" id="L127" title="All 4 branches missed.">		if (levelColumnBeanProperties == null || levelColumnBeanProperties.length == 0) {</span>
+<span class="nc" id="L128">			throw new IllegalArgumentException(&quot;levelColumnBeanProperties must be provided&quot;);</span>
+		}
+<span class="nc bnc" id="L130" title="All 2 branches missed.">		if (levelColumnBeanProperties.length != levelBeanProperties.length) {</span>
+<span class="nc" id="L131">			throw new IllegalArgumentException(&quot;level details must have the same length&quot;);</span>
+		}
+
+<span class="nc bnc" id="L134" title="All 2 branches missed.">		for (int i = 0; i &lt; levelBeanProperties.length; i++) {</span>
+<span class="nc" id="L135">			LevelDetails level = new LevelDetails(levelBeanProperties[i],</span>
+					levelColumnBeanProperties[i]);
+<span class="nc" id="L137">			this.levels.add(level);</span>
+		}
+<span class="nc" id="L139">	}</span>
+
+	/**
+	 * Define the column bean properties for the top level along with the expandable levels.
+	 *
+	 * @param columnBeanProperties the top level column bean properties
+	 * @param levels the expandable levels
+	 */
+	public SimpleBeanBoundTableModel(final String[] columnBeanProperties,
+			final LevelDetails... levels) {
+<span class="fc" id="L149">		this(columnBeanProperties);</span>
+
+		// Expandable Levels
+<span class="fc bfc" id="L152" title="All 2 branches covered.">		for (LevelDetails level : levels) {</span>
+<span class="pc bpc" id="L153" title="1 of 2 branches missed.">			if (level != null) {</span>
+<span class="fc" id="L154">				this.levels.add(level);</span>
+			}
+		}
+
+<span class="fc" id="L158">	}</span>
+
+	/**
+	 * @param row ignored
+	 * @return true if expandable levels defined
+	 */
+	@Override
+	public boolean isExpandable(final List&lt;Integer&gt; row) {
+<span class="pc bpc" id="L166" title="1 of 2 branches missed.">		return levels.size() &gt; 1;</span>
+	}
+
+	/**
+	 * @param row ignored
+	 * @return true if the model is globally selectable, otherwise false
+	 */
+	@Override
+	public boolean isSelectable(final List&lt;Integer&gt; row) {
+<span class="nc" id="L175">		return selectable;</span>
+	}
+
+	/**
+	 * Sets whether the rows are globally selectable.
+	 *
+	 * @param selectable true if the rows are globally selectable, otherwise false
+	 */
+	public void setSelectable(final boolean selectable) {
+<span class="nc" id="L184">		this.selectable = selectable;</span>
+<span class="nc" id="L185">	}</span>
+
+	/**
+	 * @return the maximum iterations on the first level. -1 indicates no limit.
+	 */
+	public int getMaxIterations() {
+<span class="nc" id="L191">		return maxIterations;</span>
+	}
+
+	/**
+	 * @param maxIterations the maximum iterations on the first level. -1 indicates no limit.
+	 */
+	public void setMaxIterations(final int maxIterations) {
+<span class="nc" id="L198">		this.maxIterations = maxIterations;</span>
+<span class="nc" id="L199">	}</span>
+
+	/**
+	 * @return returns true if iterate on the first level
+	 */
+	public boolean isIterateFirstLevel() {
+<span class="fc" id="L205">		return iterateFirstLevel;</span>
+	}
+
+	/**
+	 * @param iterateFirstLevel true if iterate on first level
+	 */
+	public void setIterateFirstLevel(final boolean iterateFirstLevel) {
+<span class="nc" id="L212">		this.iterateFirstLevel = iterateFirstLevel;</span>
+<span class="nc" id="L213">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean isSortable(final int col) {
+<span class="nc bnc" id="L220" title="All 4 branches missed.">		return comparators != null &amp;&amp; comparators.containsKey(col);</span>
+	}
+
+	/**
+	 * Sets the comparator for the given column, to enable sorting.
+	 *
+	 * @param col the column to set the comparator on.
+	 * @param comparator the comparator to set.
+	 */
+	public void setComparator(final int col, final Comparator comparator) {
+<span class="nc" id="L230">		synchronized (this) {</span>
+<span class="nc bnc" id="L231" title="All 2 branches missed.">			if (comparators == null) {</span>
+<span class="nc" id="L232">				comparators = new HashMap&lt;&gt;();</span>
+			}
+<span class="nc" id="L234">		}</span>
+
+<span class="nc bnc" id="L236" title="All 2 branches missed.">		if (comparator == null) {</span>
+<span class="nc" id="L237">			comparators.remove(col);</span>
+		} else {
+<span class="nc" id="L239">			comparators.put(col, comparator);</span>
+		}
+<span class="nc" id="L241">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Object getValueAt(final List&lt;Integer&gt; row, final int col) {
+<span class="fc" id="L248">		Object rowBean = getRowBean(row);</span>
+<span class="pc bpc" id="L249" title="1 of 2 branches missed.">		if (rowBean == null) {</span>
+<span class="nc" id="L250">			return null;</span>
+		}
+
+		// Row has renderer
+<span class="fc bfc" id="L254" title="All 2 branches covered.">		if (col == -1) {</span>
+<span class="fc" id="L255">			return rowBean;</span>
+		}
+
+<span class="fc" id="L258">		int lvlIndex = getLevelIndex(row);</span>
+<span class="fc" id="L259">		LevelDetails level = levels.get(lvlIndex);</span>
+
+<span class="pc bpc" id="L261" title="1 of 2 branches missed.">		if (col &gt;= level.getColumnBeanProperties().length) {</span>
+<span class="nc" id="L262">			LOG.warn(&quot;Requested a col [&quot; + col + &quot;] that is not defined for level with [&quot;</span>
+<span class="nc" id="L263">					+ level.getColumnBeanProperties().length + &quot;] columns&quot;);</span>
+<span class="nc" id="L264">			return null;</span>
+		}
+
+<span class="fc" id="L267">		String property = level.getColumnBeanProperties()[col];</span>
+
+<span class="fc" id="L269">		Object value = getBeanPropertyValue(property, rowBean);</span>
+<span class="fc" id="L270">		return value;</span>
+	}
+
+	/**
+	 * Indicates whether the given cell is editable. This model only supports editability at a global level. See
+	 * {@link #setEditable(boolean)}.
+	 *
+	 * @param row ignored.
+	 * @param col ignored.
+	 * @return true if the given cell is editable, false otherwise.
+	 */
+	@Override
+	public boolean isCellEditable(final List&lt;Integer&gt; row, final int col) {
+<span class="nc" id="L283">		return editable;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setValueAt(final Object value, final List&lt;Integer&gt; row, final int col) {
+<span class="nc bnc" id="L291" title="All 2 branches missed.">		if (!isEditable()) {</span>
+<span class="nc" id="L292">			throw new IllegalStateException(&quot;Attempted to set a value on an uneditable model&quot;);</span>
+		}
+
+<span class="nc" id="L295">		Object rowBean = getRowBean(row);</span>
+<span class="nc bnc" id="L296" title="All 2 branches missed.">		if (rowBean == null) {</span>
+<span class="nc" id="L297">			return;</span>
+		}
+
+<span class="nc" id="L300">		int lvlIndex = getLevelIndex(row);</span>
+<span class="nc" id="L301">		LevelDetails level = levels.get(lvlIndex);</span>
+
+<span class="nc bnc" id="L303" title="All 2 branches missed.">		if (col &gt;= level.getColumnBeanProperties().length) {</span>
+<span class="nc" id="L304">			LOG.warn(&quot;Requested a col [&quot; + col + &quot;] that is not defined for level with [&quot;</span>
+<span class="nc" id="L305">					+ level.getColumnBeanProperties().length + &quot;] columns&quot;);</span>
+<span class="nc" id="L306">			return;</span>
+		}
+
+<span class="nc" id="L309">		String property = level.getColumnBeanProperties()[col];</span>
+
+<span class="nc" id="L311">		setBeanPropertyValue(property, rowBean, (Serializable) value);</span>
+<span class="nc" id="L312">	}</span>
+
+	/**
+	 * Indicates whether the data in this model is editable.
+	 *
+	 * @return true if the data in this model is editable, false otherwise.
+	 */
+	public boolean isEditable() {
+<span class="nc" id="L320">		return editable;</span>
+	}
+
+	/**
+	 * Sets whether the data in this model is editable. By default, the data is not editable.
+	 *
+	 * @param editable true if the data is editable, false if it is read-only.
+	 */
+	public void setEditable(final boolean editable) {
+<span class="nc" id="L329">		this.editable = editable;</span>
+<span class="nc" id="L330">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public int[] sort(final int col, final boolean ascending) {
+<span class="nc bnc" id="L337" title="All 2 branches missed.">		if (!isSortable(col)) {</span>
+<span class="nc" id="L338">			throw new IllegalStateException(</span>
+					&quot;Attempted to sort on column &quot; + col + &quot;, which is not sortable&quot;);
+		}
+
+<span class="nc" id="L342">		return sort(comparators.get(col), col, ascending);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public int getRowCount() {
+<span class="fc" id="L350">		List&lt;?&gt; root = getBeanList();</span>
+<span class="pc bpc" id="L351" title="1 of 2 branches missed.">		return root == null ? 0 : root.size();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public int getChildCount(final List&lt;Integer&gt; row) {
+		// Should not occur
+<span class="pc bpc" id="L360" title="2 of 4 branches missed.">		if (row == null || row.isEmpty()) {</span>
+<span class="nc" id="L361">			return 0;</span>
+		}
+
+		// No expandable levels defined, so always 0
+<span class="pc bpc" id="L365" title="1 of 2 branches missed.">		if (levels.size() == 1) {</span>
+<span class="nc" id="L366">			return 0;</span>
+		}
+
+		// Check iterations
+<span class="pc bpc" id="L370" title="5 of 6 branches missed.">		if (isIterateFirstLevel() &amp;&amp; getMaxIterations() &gt; -1 &amp;&amp; row.size() &gt; getMaxIterations()) {</span>
+			// Reached limit of iterations
+<span class="nc" id="L372">			return 0;</span>
+		}
+
+		// Index for current level
+<span class="fc" id="L376">		int lvlIndex = getLevelIndex(row);</span>
+
+		// Check there is a Next Level
+<span class="pc bpc" id="L379" title="1 of 2 branches missed.">		int nxtIdx = isIterateFirstLevel() ? 1 : lvlIndex + 1;</span>
+<span class="pc bpc" id="L380" title="1 of 2 branches missed.">		if (nxtIdx &gt;= levels.size()) {</span>
+<span class="nc" id="L381">			return 0;</span>
+		}
+<span class="fc" id="L383">		LevelDetails nxtLevel = levels.get(nxtIdx);</span>
+
+		// Get row bean
+<span class="fc" id="L386">		Object rowBean = getRowBean(row);</span>
+<span class="pc bpc" id="L387" title="1 of 2 branches missed.">		if (rowBean == null) {</span>
+<span class="nc" id="L388">			return 0;</span>
+		}
+
+		// Data for next level
+<span class="fc" id="L392">		Object lvlData = getBeanPropertyValue(nxtLevel.getLevelBeanProperty(), rowBean);</span>
+<span class="fc bfc" id="L393" title="All 2 branches covered.">		if (lvlData == null) {</span>
+<span class="fc" id="L394">			return 0;</span>
+		}
+
+		// If row per item, then count children
+<span class="pc bpc" id="L398" title="1 of 2 branches missed.">		if (nxtLevel.isRowPerListItem()) {</span>
+<span class="nc" id="L399">			return getSize(lvlData);</span>
+		} else {
+			// One child
+<span class="fc" id="L402">			return 1;</span>
+		}
+
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Class&lt;? extends WComponent&gt; getRendererClass(final List&lt;Integer&gt; row) {
+<span class="fc" id="L412">		int idx = getLevelIndex(row);</span>
+<span class="fc" id="L413">		LevelDetails level = levels.get(idx);</span>
+<span class="fc" id="L414">		return level.getRenderer();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Object getRowKey(final List&lt;Integer&gt; row) {
+<span class="fc" id="L422">		Object bean = getRowBean(row);</span>
+<span class="fc" id="L423">		return bean;</span>
+	}
+
+	/**
+	 * @param row the row index
+	 * @return the bean for this row
+	 */
+	protected Object getRowBean(final List&lt;Integer&gt; row) {
+		// Should not happen
+<span class="pc bpc" id="L432" title="2 of 4 branches missed.">		if (row == null || row.isEmpty()) {</span>
+<span class="nc" id="L433">			return null;</span>
+		}
+
+		// Get root bean (ie top level)
+<span class="fc" id="L437">		Object rootData = getTopRowBean(row);</span>
+<span class="fc bfc" id="L438" title="All 2 branches covered.">		if (row.size() == 1) {</span>
+<span class="fc" id="L439">			return rootData;</span>
+		}
+
+		// Build bean util request
+<span class="fc" id="L443">		String util = buildBeanUtilString(row);</span>
+
+		// Get value
+<span class="fc" id="L446">		Object value = getBeanPropertyValue(util, rootData);</span>
+
+<span class="fc" id="L448">		return value;</span>
+	}
+
+	/**
+	 * Return the top level bean for this row index.
+	 *
+	 * @param row the row index
+	 * @return the root row bean (ie top level) for this index
+	 */
+	protected Object getTopRowBean(final List&lt;Integer&gt; row) {
+		// Get root level
+<span class="fc" id="L459">		List&lt;?&gt; lvl = getBeanList();</span>
+<span class="pc bpc" id="L460" title="2 of 4 branches missed.">		if (lvl == null || lvl.isEmpty()) {</span>
+<span class="nc" id="L461">			return null;</span>
+		}
+
+		// Get root row bean (ie top level)
+<span class="fc" id="L465">		int rowIdx = row.get(0);</span>
+<span class="fc" id="L466">		Object rowData = lvl.get(rowIdx);</span>
+<span class="fc" id="L467">		return rowData;</span>
+	}
+
+	/**
+	 * @param row the row index
+	 * @return the bean util syntax string to retrieve the row bean
+	 */
+	protected String buildBeanUtilString(final List&lt;Integer&gt; row) {
+<span class="fc" id="L475">		StringBuffer cmd = new StringBuffer();</span>
+
+<span class="fc" id="L477">		boolean append = false;</span>
+
+<span class="pc bpc" id="L479" title="1 of 2 branches missed.">		for (int i = 1; i &lt; row.size(); i++) {</span>
+<span class="pc bpc" id="L480" title="1 of 2 branches missed.">			int idx = isIterateFirstLevel() ? 1 : i;</span>
+<span class="fc" id="L481">			LevelDetails level = levels.get(idx);</span>
+<span class="pc bpc" id="L482" title="1 of 2 branches missed.">			if (append) {</span>
+<span class="nc" id="L483">				cmd.append('.');</span>
+			}
+<span class="fc" id="L485">			cmd.append(level.getLevelBeanProperty());</span>
+<span class="pc bpc" id="L486" title="1 of 2 branches missed.">			if (level.isRowPerListItem()) {</span>
+<span class="nc" id="L487">				int rowIdx = row.get(i);</span>
+<span class="nc" id="L488">				cmd.append('[');</span>
+<span class="nc" id="L489">				cmd.append(rowIdx);</span>
+<span class="nc" id="L490">				cmd.append(']');</span>
+			}
+<span class="fc" id="L492">			append = true;</span>
+			// Level is not a row per list item or has it own renderer
+<span class="pc bpc" id="L494" title="3 of 4 branches missed.">			if (!level.isRowPerListItem() || level.getRenderer() != null) {</span>
+				// Cant have children
+<span class="pc bpc" id="L496" title="1 of 2 branches missed.">				if (i != row.size() - 1) {</span>
+<span class="nc" id="L497">					throw new IllegalStateException(</span>
+							&quot;Invalid row index as it was trying to access children for a level that cannot have children&quot;);
+				}
+				break;
+			}
+		}
+
+<span class="fc" id="L504">		return cmd.toString();</span>
+	}
+
+	/**
+	 * @return the bean data as a list
+	 */
+	public List&lt;?&gt; getBeanList() {
+<span class="fc" id="L511">		return (List&lt;?&gt;) super.getBeanValue();</span>
+	}
+
+	/**
+	 * Get the bean property value.
+	 *
+	 * @param property the bean property
+	 * @param bean the bean
+	 * @return the bean property value
+	 */
+	protected Object getBeanPropertyValue(final String property, final Object bean) {
+<span class="pc bpc" id="L522" title="1 of 2 branches missed.">		if (bean == null) {</span>
+<span class="nc" id="L523">			return null;</span>
+		}
+
+<span class="fc bfc" id="L526" title="All 2 branches covered.">		if (&quot;.&quot;.equals(property)) {</span>
+<span class="fc" id="L527">			return bean;</span>
+		}
+
+		try {
+<span class="fc" id="L531">			Object data = PropertyUtils.getProperty(bean, property);</span>
+<span class="fc" id="L532">			return data;</span>
+<span class="nc" id="L533">		} catch (Exception e) {</span>
+<span class="nc" id="L534">			LOG.error(&quot;Failed to get bean property &quot; + property + &quot; on &quot; + bean, e);</span>
+<span class="nc" id="L535">			return null;</span>
+		}
+	}
+
+	/**
+	 * Set the bean property value.
+	 *
+	 * @param property the bean property
+	 * @param bean the bean
+	 * @param value the value to set
+	 */
+	protected void setBeanPropertyValue(final String property, final Object bean,
+			final Serializable value) {
+<span class="nc bnc" id="L548" title="All 2 branches missed.">		if (bean == null) {</span>
+<span class="nc" id="L549">			return;</span>
+		}
+
+<span class="nc bnc" id="L552" title="All 2 branches missed.">		if (&quot;.&quot;.equals(property)) {</span>
+<span class="nc" id="L553">			LOG.error(&quot;Set of entire bean is not supported by this model&quot;);</span>
+<span class="nc" id="L554">			return;</span>
+		}
+		try {
+<span class="nc" id="L557">			PropertyUtils.setProperty(bean, property, value);</span>
+<span class="nc" id="L558">		} catch (Exception e) {</span>
+<span class="nc" id="L559">			LOG.error(&quot;Failed to set bean property &quot; + property + &quot; on &quot; + bean, e);</span>
+<span class="nc" id="L560">		}</span>
+<span class="nc" id="L561">	}</span>
+
+	/**
+	 * @param data the array or list of beans
+	 * @return the number of beans (ie size)
+	 */
+	protected int getSize(final Object data) {
+<span class="nc bnc" id="L568" title="All 2 branches missed.">		if (data == null) {</span>
+<span class="nc" id="L569">			return 0;</span>
+		}
+
+		// Array
+<span class="nc bnc" id="L573" title="All 2 branches missed.">		if (data instanceof Object[]) {</span>
+<span class="nc" id="L574">			return ((Object[]) data).length;</span>
+<span class="nc bnc" id="L575" title="All 2 branches missed.">		} else if (data instanceof List&lt;?&gt;) { // List</span>
+<span class="nc" id="L576">			return ((List&lt;?&gt;) data).size();</span>
+		}
+
+<span class="nc" id="L579">		return 0;</span>
+	}
+
+	/**
+	 * @param row the row index
+	 * @return the index of the level
+	 */
+	protected int getLevelIndex(final List&lt;Integer&gt; row) {
+<span class="pc bpc" id="L587" title="3 of 4 branches missed.">		int idx = isIterateFirstLevel() &amp;&amp; row.size() &gt; 1 ? 1 : row.size() - 1;</span>
+<span class="fc" id="L588">		return idx;</span>
+	}
+
+	/**
+	 * The details of an expandable level. A level can either have &quot;columns&quot; or a &quot;renderer&quot;.
+	 * &lt;p&gt;
+	 * For levels that have a &quot;renderer&quot;, if the data for the level is a list, then a row can be rendered for &quot;each&quot;
+	 * item in the list. However, if the data is not a list or the renderer will handle rendering the &quot;list&quot; then the
+	 * rowPerListItem flag needs to be set to false via {@link LevelDetails#LevelDetails(String, Class, boolean)}
+	 * constructor.
+	 * &lt;/p&gt;
+	 *
+	 * @author Jonathan Austin
+	 * @since 1.0.0
+	 */
+	public static final class LevelDetails implements Serializable {
+
+		/**
+		 * The bean property for this level's data (usually a list of beans).
+		 */
+		private final String levelBeanProperty;
+		/**
+		 * The column bean properties for the level.
+		 */
+		private final String[] columnBeanProperties;
+		/**
+		 * The custom renderer for this row.
+		 */
+		private final Class&lt;? extends WComponent&gt; renderer;
+		/**
+		 * Indicate if the level has as a row per item in the list.
+		 */
+		private final boolean rowPerListItem;
+
+		/**
+		 * @param levelBeanProperty the bean property for this level's data (usually a list of beans)
+		 * @param columnBeanProperties the column bean properties for the level
+		 */
+<span class="fc" id="L626">		public LevelDetails(final String levelBeanProperty, final String[] columnBeanProperties) {</span>
+<span class="fc" id="L627">			this.levelBeanProperty = levelBeanProperty;</span>
+<span class="fc" id="L628">			this.columnBeanProperties = columnBeanProperties;</span>
+<span class="fc" id="L629">			this.rowPerListItem = true;</span>
+<span class="fc" id="L630">			this.renderer = null;</span>
+<span class="fc" id="L631">		}</span>
+
+		/**
+		 * @param levelBeanProperty the bean property for this level's data (usually a list of beans)
+		 * @param renderer the custom renderer for this level
+		 */
+		public LevelDetails(final String levelBeanProperty,
+				final Class&lt;? extends WComponent&gt; renderer) {
+<span class="nc" id="L639">			this(levelBeanProperty, renderer, true);</span>
+<span class="nc" id="L640">		}</span>
+
+		/**
+		 * @param levelBeanProperty the bean property for this level's data (usually a list of beans)
+		 * @param renderer the custom renderer for this level
+		 * @param rowPerListItem true if row per item in list, otherwise false
+		 */
+		public LevelDetails(final String levelBeanProperty,
+				final Class&lt;? extends WComponent&gt; renderer,
+<span class="fc" id="L649">				final boolean rowPerListItem) {</span>
+<span class="fc" id="L650">			this.levelBeanProperty = levelBeanProperty;</span>
+<span class="fc" id="L651">			this.renderer = renderer;</span>
+<span class="fc" id="L652">			this.rowPerListItem = rowPerListItem;</span>
+<span class="fc" id="L653">			this.columnBeanProperties = null;</span>
+<span class="fc" id="L654">		}</span>
+
+		/**
+		 * @return the bean property for this level's data (usually a list of beans)
+		 */
+		public String getLevelBeanProperty() {
+<span class="fc" id="L660">			return levelBeanProperty;</span>
+		}
+
+		/**
+		 * @return the custom renderer for this level, null if not defined.
+		 */
+		public Class&lt;? extends WComponent&gt; getRenderer() {
+<span class="fc" id="L667">			return renderer;</span>
+		}
+
+		/**
+		 * For levels that have a &quot;renderer&quot;, if the data for the level is a list, then a row can be rendered for &quot;each&quot;
+		 * item in the list. However, if the data is not a list or the renderer will handle rendering the &quot;list&quot; then
+		 * the rowPerListItem will be false.
+		 *
+		 * @return true if row per item in list, otherwise false
+		 */
+		public boolean isRowPerListItem() {
+<span class="fc" id="L678">			return rowPerListItem;</span>
+		}
+
+		/**
+		 * @return the column bean properties for the level, or null if the level has a custom renderer
+		 */
+		public String[] getColumnBeanProperties() {
+<span class="fc" id="L685">			return columnBeanProperties;</span>
+		}
+
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

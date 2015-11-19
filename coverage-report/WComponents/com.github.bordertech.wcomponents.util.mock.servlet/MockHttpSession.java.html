@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>MockHttpSession.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.util.mock.servlet</a> &gt; <span class="el_source">MockHttpSession.java</span></div><h1>MockHttpSession.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.util.mock.servlet;
+
+import com.github.bordertech.wcomponents.util.Enumerator;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSession;
+
+/**
+ * A mock HttpSsession, useful for unit testing.
+ *
+ * Extracted from PortalBridge_Test
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ */
+<span class="fc" id="L18">public class MockHttpSession implements HttpSession {</span>
+
+<span class="fc" id="L20">	private final Map attributes = new HashMap();</span>
+	private int maxInactiveInterval;
+	private boolean invalidated;
+
+	/**
+	 * Returns the value of the attribute with the specified name.
+	 *
+	 * @param name the attribute name.
+	 * @return the attribute value, or null if the attribute does not exist.
+	 */
+	@Override
+	public Object getAttribute(final String name) {
+<span class="fc" id="L32">		return attributes.get(name);</span>
+	}
+
+	/**
+	 * @return an enumeration of the attribute names.
+	 */
+	@Override
+	public Enumeration getAttributeNames() {
+<span class="fc" id="L40">		return getKeys(attributes);</span>
+	}
+
+	/**
+	 * Returns the session creation timestamp.
+	 *
+	 * @return 0, as this is not implemented.
+	 */
+	@Override
+	public long getCreationTime() {
+<span class="nc" id="L50">		return 0;</span>
+	}
+
+	/**
+	 * Returns the session id.
+	 *
+	 * @return 0, as this is not implemented.
+	 */
+	@Override
+	public String getId() {
+<span class="nc" id="L60">		return null;</span>
+	}
+
+	/**
+	 * Returns the session last accessed timestamp.
+	 *
+	 * @return 0, as this is not implemented.
+	 */
+	@Override
+	public long getLastAccessedTime() {
+<span class="nc" id="L70">		return 0;</span>
+	}
+
+	/**
+	 * @return the session maximum inactive interval.
+	 */
+	@Override
+	public int getMaxInactiveInterval() {
+<span class="fc" id="L78">		return maxInactiveInterval;</span>
+	}
+
+	/**
+	 * Returns the session servlet context.
+	 *
+	 * @return null, as this is not implemented.
+	 */
+	@Override
+	public ServletContext getServletContext() {
+<span class="nc" id="L88">		return null;</span>
+	}
+
+	/**
+	 * @deprecated @return null, as this is not implemented.
+	 */
+	@Deprecated
+	@Override
+	public javax.servlet.http.HttpSessionContext getSessionContext() {
+<span class="nc" id="L97">		return null;</span>
+	}
+
+	/**
+	 * @param arg0 ignored.
+	 * @return null, as this is not implemented.
+	 */
+	@Override
+	public Object getValue(final String arg0) {
+<span class="nc" id="L106">		return null;</span>
+	}
+
+	/**
+	 * @return null, as this is not implemented.
+	 */
+	@Override
+	public String[] getValueNames() {
+<span class="nc" id="L114">		return null;</span>
+	}
+
+	/**
+	 * Invalidates the session.
+	 */
+	@Override
+	public void invalidate() {
+<span class="fc" id="L122">		invalidated = true;</span>
+<span class="fc" id="L123">	}</span>
+
+	/**
+	 * @return true if {@link #invalidate()} has been called.
+	 */
+	public boolean isInvalidated() {
+<span class="fc" id="L129">		return invalidated;</span>
+	}
+
+	/**
+	 * Returns whether the session is new.
+	 *
+	 * @return false, as this is not implemented.
+	 */
+	@Override
+	public boolean isNew() {
+<span class="nc" id="L139">		return false;</span>
+	}
+
+	/**
+	 * No effect.
+	 *
+	 * @param arg0 ignored.
+	 * @param arg1 ignored.
+	 */
+	@Override
+	public void putValue(final String arg0, final Object arg1) {
+		// No effect
+<span class="nc" id="L151">	}</span>
+
+	/**
+	 * Removes the specified attribute.
+	 *
+	 * @param name the attribute name.
+	 */
+	@Override
+	public void removeAttribute(final String name) {
+<span class="nc" id="L160">		attributes.remove(name);</span>
+<span class="nc" id="L161">	}</span>
+
+	/**
+	 * No effect.
+	 *
+	 * @param arg0 ignored.
+	 */
+	@Override
+	public void removeValue(final String arg0) {
+		// No effect
+<span class="nc" id="L171">	}</span>
+
+	/**
+	 * Sets the specified attribute.
+	 *
+	 * @param name the attribute name.
+	 * @param value the attribute value.
+	 */
+	@Override
+	public void setAttribute(final String name, final Object value) {
+<span class="fc" id="L181">		attributes.put(name, value);</span>
+<span class="fc" id="L182">	}</span>
+
+	/**
+	 * Sets the maximum inactive interval.
+	 *
+	 * @param maxInactiveInterval the maximum inactive interval.
+	 */
+	@Override
+	public void setMaxInactiveInterval(final int maxInactiveInterval) {
+<span class="nc" id="L191">		this.maxInactiveInterval = maxInactiveInterval;</span>
+<span class="nc" id="L192">	}</span>
+
+	/**
+	 * @return the attributes map.
+	 */
+	public Map getAttributes() {
+<span class="fc" id="L198">		return attributes;</span>
+	}
+
+	/**
+	 * Returns an enumeration of the keys in the specified map.
+	 *
+	 * @param map the map to enumerate.
+	 * @return an enumeration of the map keys.
+	 */
+	private Enumeration getKeys(final Map map) {
+<span class="fc" id="L208">		return new Enumerator(map.keySet().iterator());</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

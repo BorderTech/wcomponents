@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>AbstractCompare.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.subordinate</a> &gt; <span class="el_source">AbstractCompare.java</span></div><h1>AbstractCompare.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.subordinate;
+
+import com.github.bordertech.wcomponents.AbstractWMultiSelectList;
+import com.github.bordertech.wcomponents.AbstractWSelectList;
+import com.github.bordertech.wcomponents.AbstractWSingleSelectList;
+import com.github.bordertech.wcomponents.Disableable;
+import com.github.bordertech.wcomponents.Input;
+import com.github.bordertech.wcomponents.RadioButtonGroup;
+import com.github.bordertech.wcomponents.Request;
+import com.github.bordertech.wcomponents.SelectListUtil;
+import com.github.bordertech.wcomponents.SubordinateTrigger;
+import com.github.bordertech.wcomponents.WDateField;
+import com.github.bordertech.wcomponents.WNumberField;
+import com.github.bordertech.wcomponents.WRadioButton;
+import com.github.bordertech.wcomponents.util.SystemException;
+import com.github.bordertech.wcomponents.util.Util;
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+/**
+ * A logical condition that compares the trigger and its compare value.
+ *
+ * @author Jonathan Austin
+ * @since 1.0.0
+ */
+public abstract class AbstractCompare extends AbstractCondition {
+
+	/**
+	 * The first argument (trigger).
+	 */
+	private final SubordinateTrigger trigger;
+
+	/**
+	 * The second argument (compare value).
+	 */
+	private final Object value;
+
+	/**
+	 * This date format is used internally to exchange dates between the client and server.
+	 */
+	private static final String INTERNAL_DATE_FORMAT = &quot;yyyy-MM-dd&quot;;
+
+	/**
+	 * Create a Compare condition with a trigger and compare value.
+	 *
+	 * @param trigger the trigger input field.
+	 * @param value the value to use in the compare.
+	 */
+<span class="fc" id="L52">	public AbstractCompare(final SubordinateTrigger trigger, final Object value) {</span>
+<span class="fc bfc" id="L53" title="All 2 branches covered.">		if (trigger == null) {</span>
+<span class="fc" id="L54">			throw new IllegalArgumentException(&quot;Trigger cannot be null.&quot;);</span>
+		}
+
+		// Check Date and Number field trigger values
+<span class="fc bfc" id="L58" title="All 4 branches covered.">		if (value != null &amp;&amp; !CompareType.MATCH.equals(getCompareType())) {</span>
+			// WNumberField trigger value must be a BigDecimal
+<span class="fc bfc" id="L60" title="All 4 branches covered.">			if (trigger instanceof WNumberField &amp;&amp; !(value instanceof BigDecimal)) {</span>
+<span class="fc" id="L61">				throw new IllegalArgumentException(</span>
+						&quot;The value for a WNumberField trigger must be null or a BigDecimal.&quot;);
+			}
+
+			// WDateField trigger value must be a Date
+<span class="fc bfc" id="L66" title="All 4 branches covered.">			if (trigger instanceof WDateField &amp;&amp; !(value instanceof Date)) {</span>
+<span class="fc" id="L67">				throw new IllegalArgumentException(</span>
+						&quot;The value for a WDateField trigger must be null or a Date.&quot;);
+			}
+		}
+
+<span class="fc" id="L72">		this.trigger = trigger;</span>
+<span class="fc" id="L73">		this.value = value;</span>
+<span class="fc" id="L74">	}</span>
+
+	/**
+	 * Determine the type of action.
+	 *
+	 * @return the action type.
+	 */
+	public abstract CompareType getCompareType();
+
+	/**
+	 * Compare the trigger and compare value.
+	 *
+	 * @return true if the trigger input's value compares to the compare value, otherwise false
+	 */
+	@Override
+	protected boolean execute() {
+		// Disabled triggers are always false
+<span class="fc bfc" id="L91" title="All 4 branches covered.">		if ((trigger instanceof Disableable) &amp;&amp; ((Disableable) trigger).isDisabled()) {</span>
+<span class="fc" id="L92">			return false;</span>
+		}
+
+<span class="fc" id="L95">		final Object triggerValue = getTriggerValue(null);</span>
+<span class="fc" id="L96">		final Object compareValue = getCompareValue();</span>
+
+<span class="fc" id="L98">		return executeCompare(triggerValue, compareValue);</span>
+	}
+
+	/**
+	 * Compare the trigger value from the request and compare value.
+	 *
+	 * @param request the request being processed.
+	 * @return true if the trigger input's value compares to the compare value, otherwise false
+	 */
+	@Override
+	protected boolean execute(final Request request) {
+		// Disabled triggers are always false
+<span class="pc bpc" id="L110" title="1 of 4 branches missed.">		if ((trigger instanceof Disableable) &amp;&amp; ((Disableable) trigger).isDisabled()) {</span>
+<span class="fc" id="L111">			return false;</span>
+		}
+
+<span class="fc" id="L114">		final Object triggerValue = getTriggerValue(request);</span>
+<span class="fc" id="L115">		final Object compareValue = getCompareValue();</span>
+
+<span class="fc" id="L117">		return executeCompare(triggerValue, compareValue);</span>
+	}
+
+	/**
+	 * @param triggerValue the trigger value
+	 * @param compareValue the compare value
+	 * @return true if the values compare, otherwise false
+	 */
+	private boolean executeCompare(final Object triggerValue, final Object compareValue) {
+		// If the trigger value is a list, check if any option in the list compares
+<span class="fc bfc" id="L127" title="All 2 branches covered.">		if (triggerValue instanceof List&lt;?&gt;) {</span>
+<span class="fc" id="L128">			final List&lt;?&gt; selected = (List&lt;?&gt;) triggerValue;</span>
+<span class="fc bfc" id="L129" title="All 2 branches covered.">			for (Object option : selected) {</span>
+<span class="fc bfc" id="L130" title="All 2 branches covered.">				if (doCompare(option, compareValue)) {</span>
+<span class="fc" id="L131">					return true;</span>
+				}
+<span class="fc" id="L133">			}</span>
+<span class="fc" id="L134">			return false;</span>
+		} else {
+<span class="fc" id="L136">			return doCompare(triggerValue, compareValue);</span>
+		}
+	}
+
+	/**
+	 * Return true if the two values compare.
+	 *
+	 * @param aVal the trigger value
+	 * @param bVal the compare value
+	 * @return true if the values compare, otherwise false
+	 */
+	protected abstract boolean doCompare(final Object aVal, final Object bVal);
+
+	/**
+	 * Get the value for the trigger.
+	 * &lt;p&gt;
+	 * If no request is passed in, the current value of the trigger is used.
+	 * &lt;/p&gt;
+	 * &lt;p&gt;
+	 * It will return the same &quot;value&quot; the client would have used in its subordinate logic.
+	 * &lt;/p&gt;
+	 * &lt;p&gt;
+	 * The trigger value will either be (i) a date formatted String for WDateFields, (ii) a BigDecimal for WNumberFields
+	 * or (iii) a List of String values for MultiSelect components or (iv) a String value.
+	 * &lt;/p&gt;
+	 *
+	 * @param request the request being processed, can be null
+	 * @return the value to be used for the trigger
+	 */
+	protected Object getTriggerValue(final Request request) {
+		// Date Compare (Use Date Formatted String - YYYY-MM-DD)
+<span class="fc bfc" id="L167" title="All 2 branches covered.">		if (trigger instanceof WDateField) {</span>
+<span class="fc" id="L168">			final WDateField input = (WDateField) trigger;</span>
+			Date date;
+<span class="fc bfc" id="L170" title="All 2 branches covered.">			if (request == null) {</span>
+<span class="fc" id="L171">				date = input.getValue();</span>
+			} else {
+<span class="fc" id="L173">				date = input.getRequestValue(request);</span>
+			}
+<span class="fc bfc" id="L175" title="All 2 branches covered.">			return date == null ? null : new SimpleDateFormat(INTERNAL_DATE_FORMAT).format(date);</span>
+<span class="fc bfc" id="L176" title="All 2 branches covered.">		} else if (trigger instanceof WNumberField) { // Number Compare (Use Number Object)</span>
+<span class="fc" id="L177">			final WNumberField input = (WNumberField) trigger;</span>
+<span class="fc bfc" id="L178" title="All 2 branches covered.">			if (request == null) {</span>
+<span class="fc" id="L179">				return input.getValue();</span>
+			} else {
+<span class="fc" id="L181">				return input.getRequestValue(request);</span>
+			}
+<span class="fc bfc" id="L183" title="All 2 branches covered.">		} else if (trigger instanceof AbstractWSingleSelectList) { // String Compare for Single Select Lists (Use the Option's Code)</span>
+<span class="fc" id="L184">			final AbstractWSingleSelectList list = (AbstractWSingleSelectList) trigger;</span>
+			final Object selected;
+<span class="fc bfc" id="L186" title="All 2 branches covered.">			if (request == null) {</span>
+<span class="fc" id="L187">				selected = list.getValue();</span>
+			} else {
+<span class="fc" id="L189">				selected = list.getRequestValue(request);</span>
+			}
+			// Convert selected option to its &quot;code&quot; (Should always have a value)
+<span class="fc" id="L192">			String code = list.optionToCode(selected);</span>
+<span class="fc" id="L193">			return code;</span>
+<span class="fc bfc" id="L194" title="All 2 branches covered.">		} else if (trigger instanceof AbstractWMultiSelectList) { // String Compare for Multi Select Lists (Use the Option's Code)</span>
+<span class="fc" id="L195">			final AbstractWMultiSelectList list = (AbstractWMultiSelectList) trigger;</span>
+			final List&lt;?&gt; selected;
+<span class="fc bfc" id="L197" title="All 2 branches covered.">			if (request == null) {</span>
+<span class="fc" id="L198">				selected = list.getValue();</span>
+			} else {
+<span class="fc" id="L200">				selected = list.getRequestValue(request);</span>
+			}
+			// Empty is treated the same as null
+<span class="pc bpc" id="L203" title="1 of 4 branches missed.">			if (selected == null || selected.isEmpty()) {</span>
+<span class="fc" id="L204">				return null;</span>
+			}
+
+			// Convert selected options to their &quot;code&quot; (Should always have a value)
+<span class="fc" id="L208">			List&lt;String&gt; codes = new ArrayList&lt;&gt;(selected.size());</span>
+<span class="fc bfc" id="L209" title="All 2 branches covered.">			for (Object select : selected) {</span>
+<span class="fc" id="L210">				String code = list.optionToCode(select);</span>
+<span class="fc" id="L211">				codes.add(code);</span>
+<span class="fc" id="L212">			}</span>
+<span class="fc" id="L213">			return codes;</span>
+<span class="fc bfc" id="L214" title="All 2 branches covered.">		} else if (trigger instanceof Input) { // String Compare - Use the String Value of the Input</span>
+<span class="fc" id="L215">			final Input input = (Input) trigger;</span>
+			final Object inputValue;
+<span class="fc bfc" id="L217" title="All 2 branches covered.">			if (request == null) {</span>
+<span class="fc" id="L218">				inputValue = input.getValue();</span>
+			} else {
+<span class="fc" id="L220">				inputValue = input.getRequestValue(request);</span>
+			}
+			// Treat empty the same as null
+<span class="fc bfc" id="L223" title="All 4 branches covered.">			return (inputValue == null || Util.empty(inputValue.toString())) ? null : inputValue.</span>
+<span class="fc" id="L224">					toString();</span>
+		} else {
+<span class="fc" id="L226">			throw new SystemException(&quot;Trigger is not a valid type.&quot;);</span>
+		}
+	}
+
+	/**
+	 * Get the value to use in the compare.
+	 * &lt;p&gt;
+	 * It will return the same &quot;value&quot; the client would have used in its subordinate logic.
+	 * &lt;/p&gt;
+	 * &lt;p&gt;
+	 * The compare value will either be (i) a date formatted String for WDateFields, (ii) a BigDecimal for WNumberFields
+	 * or (iii) a String value.
+	 * &lt;/p&gt;
+	 *
+	 * @return the value to be used for the compare.
+	 */
+	protected Object getCompareValue() {
+		// Date Compare (Use Date Formatted String - YYYY-MM-DD)
+<span class="fc bfc" id="L244" title="All 2 branches covered.">		if (trigger instanceof WDateField) {</span>
+<span class="fc bfc" id="L245" title="All 2 branches covered.">			return value == null ? null : new SimpleDateFormat(INTERNAL_DATE_FORMAT).format(value);</span>
+<span class="fc bfc" id="L246" title="All 2 branches covered.">		} else if (trigger instanceof WNumberField) { // Number Compare (Use Number Object)</span>
+<span class="fc" id="L247">			return value;</span>
+<span class="fc bfc" id="L248" title="All 2 branches covered.">		} else if (trigger instanceof AbstractWSelectList) {  // String Compare - List (Use the Option's Code)</span>
+<span class="fc" id="L249">			final AbstractWSelectList listTrigger = (AbstractWSelectList) trigger;</span>
+<span class="fc" id="L250">			final List&lt;?&gt; options = listTrigger.getOptions();</span>
+
+			// No options, just return the compare value (so that a test against null works correctly)
+<span class="fc bfc" id="L253" title="All 4 branches covered.">			if (options == null || options.isEmpty()) {</span>
+<span class="fc bfc" id="L254" title="All 2 branches covered.">				return value == null ? null : value.toString();</span>
+			}
+
+			// Check if the value is a valid option allowing for &quot;Legacy&quot; matching
+<span class="fc bfc" id="L258" title="All 2 branches covered.">			if (SelectListUtil.containsOptionWithMatching(options, value)) {</span>
+<span class="fc" id="L259">				Object option = SelectListUtil.getOptionWithMatching(options, value);</span>
+<span class="fc" id="L260">				String code = listTrigger.optionToCode(option);</span>
+<span class="fc" id="L261">				return code;</span>
+			}
+
+			// Return the value as a String - Treat empty the same as null
+<span class="fc bfc" id="L265" title="All 4 branches covered.">			return (value == null || Util.empty(value.toString())) ? null : value.toString();</span>
+<span class="fc bfc" id="L266" title="All 4 branches covered.">		} else if (trigger instanceof RadioButtonGroup &amp;&amp; value instanceof WRadioButton) {</span>
+			// String Compare for RadioButtonGroup and value is WRadioButton (Use the button value)
+			// Note - This is only for backward compatibility where projects have used a radio button
+			// in the trigger. Projects should use the value expected, not the radio button.
+			// If the radio button passed into the compare is used in a repeater, then this compare will not work.
+
+<span class="fc" id="L272">			String data = ((WRadioButton) value).getValue();</span>
+			// Treat empty the same as null
+<span class="fc bfc" id="L274" title="All 2 branches covered.">			return Util.empty(data) ? null : data;</span>
+		} else { // String Compare
+			// Treat empty the same as null
+<span class="fc bfc" id="L277" title="All 4 branches covered.">			return (value == null || Util.empty(value.toString())) ? null : value.toString();</span>
+		}
+	}
+
+	/**
+	 * Get the value to paint for the compare value.
+	 *
+	 * @return the value to paint for the compare value.
+	 */
+	public String getComparePaintValue() {
+<span class="fc" id="L287">		Object data = getCompareValue();</span>
+<span class="fc bfc" id="L288" title="All 2 branches covered.">		return data == null ? &quot;&quot; : data.toString();</span>
+	}
+
+	/**
+	 * @return the trigger.
+	 */
+	public SubordinateTrigger getTrigger() {
+<span class="fc" id="L295">		return trigger;</span>
+	}
+
+	/**
+	 * @return the value to use in the compare.
+	 */
+	public Object getValue() {
+<span class="fc" id="L302">		return value;</span>
+	}
+
+	/**
+	 * An enumerated class for the type of compares.
+	 */
+<span class="pc" id="L308">	public enum CompareType {</span>
+		/**
+		 * Equal compare.
+		 */
+<span class="fc" id="L312">		EQUAL,</span>
+		/**
+		 * Not equal compare.
+		 */
+<span class="fc" id="L316">		NOT_EQUAL,</span>
+		/**
+		 * Less than compare.
+		 */
+<span class="fc" id="L320">		LESS_THAN,</span>
+		/**
+		 * Less than or equal compare.
+		 */
+<span class="fc" id="L324">		LESS_THAN_OR_EQUAL,</span>
+		/**
+		 * Greater than compare.
+		 */
+<span class="fc" id="L328">		GREATER_THAN,</span>
+		/**
+		 * Greater than or equal compare.
+		 */
+<span class="fc" id="L332">		GREATER_THAN_OR_EQUAL,</span>
+		/**
+		 * Regular expression compare.
+		 */
+<span class="fc" id="L336">		MATCH</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

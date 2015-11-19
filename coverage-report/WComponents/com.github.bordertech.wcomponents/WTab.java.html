@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WTab.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">WTab.java</span></div><h1>WTab.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import com.github.bordertech.wcomponents.WTabSet.TabMode;
+import java.io.Serializable;
+import java.text.MessageFormat;
+
+/**
+ * WTab encapsulates a tab on a tab set. The contents may or may not be rendered, depending on the tab mode. This class
+ * is not intended to be instantiated outside {@link WTabSet}'s addTab methods.
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ */
+public class WTab extends AbstractNamingContextContainer implements Disableable, SubordinateTarget {
+
+	/**
+	 * The tab label.
+	 */
+	private final WDecoratedLabel label;
+
+	/**
+	 * Creates a new tab.
+	 *
+	 * @param content the tab content
+	 * @param tabName the tab label
+	 * @param mode the {@link TabMode | tab mode}.
+	 */
+	protected WTab(final WComponent content, final String tabName, final TabMode mode) {
+<span class="fc" id="L29">		this(content, tabName, mode, (char) 0);</span>
+<span class="fc" id="L30">	}</span>
+
+	/**
+	 * Creates a new tab.
+	 *
+	 * @param content the tab content
+	 * @param tabName the tab label
+	 * @param mode the {@link TabMode | tab mode}.
+	 * @param accessKey the access key used to activate this tab
+	 */
+	protected WTab(final WComponent content, final String tabName, final TabMode mode,
+			final char accessKey) {
+<span class="fc" id="L42">		this(content, new WDecoratedLabel(tabName), mode, accessKey);</span>
+<span class="fc" id="L43">	}</span>
+
+	/**
+	 * Creates a new tab.
+	 *
+	 * @param content the tab content
+	 * @param label the tab label, which may contain rich content.
+	 * @param mode the {@link TabMode | tab mode}.
+	 */
+	protected WTab(final WComponent content, final WDecoratedLabel label, final TabMode mode) {
+<span class="fc" id="L53">		this(content, label, mode, (char) 0);</span>
+<span class="fc" id="L54">	}</span>
+
+	/**
+	 * Creates a new tab.
+	 *
+	 * @param content the tab content
+	 * @param label the tab label, which may contain rich content.
+	 * @param mode the {@link TabMode | tab mode}.
+	 * @param accessKey the access key used to activate this tab
+	 */
+	protected WTab(final WComponent content, final WDecoratedLabel label, final TabMode mode,
+<span class="fc" id="L65">			final char accessKey) {</span>
+<span class="fc bfc" id="L66" title="All 2 branches covered.">		if (label == null) {</span>
+<span class="fc" id="L67">			throw new IllegalArgumentException(&quot;A label must be specified&quot;);</span>
+		}
+
+<span class="fc" id="L70">		this.label = label;</span>
+
+<span class="fc" id="L72">		add(label);</span>
+<span class="fc" id="L73">		add(content);</span>
+
+<span class="fc" id="L75">		setAccessKey(accessKey);</span>
+<span class="fc" id="L76">		setMode(mode);</span>
+<span class="fc" id="L77">	}</span>
+
+	/**
+	 * Indicates whether this tab is open in the given context.
+	 *
+	 * @return true if this tab is open in the given context, otherwise false.
+	 */
+	public boolean isOpen() {
+<span class="fc" id="L85">		WTabSet tabSet = WebUtilities.getAncestorOfClass(WTabSet.class, this);</span>
+<span class="fc" id="L86">		return tabSet.getActiveTabs().contains(this);</span>
+	}
+
+	/**
+	 * @return the tab content.
+	 */
+	public WComponent getContent() {
+<span class="fc bfc" id="L93" title="All 2 branches covered.">		return getChildCount() == 2 ? getChildAt(1) : null;</span>
+	}
+
+	/**
+	 * Sets the tab content.
+	 *
+	 * @param content the tab content.
+	 */
+	public void setContent(final WComponent content) {
+<span class="fc" id="L102">		WComponent oldContent = getContent();</span>
+
+<span class="fc bfc" id="L104" title="All 2 branches covered.">		if (oldContent != null) {</span>
+<span class="fc" id="L105">			remove(oldContent);</span>
+		}
+
+<span class="fc bfc" id="L108" title="All 2 branches covered.">		if (content != null) {</span>
+<span class="fc" id="L109">			add(content);</span>
+		}
+<span class="fc" id="L111">	}</span>
+
+	/**
+	 * @param mode the tab mode.
+	 */
+	public void setMode(final TabMode mode) {
+<span class="fc" id="L117">		getOrCreateComponentModel().mode = mode;</span>
+<span class="fc" id="L118">	}</span>
+
+	/**
+	 * @return the tab mode.
+	 */
+	public TabMode getMode() {
+<span class="fc" id="L124">		return getComponentModel().mode;</span>
+	}
+
+	/**
+	 * Set the accesskey (shortcut key) that will activate the tab.
+	 *
+	 * @param accesskey The key (in combination with the Alt key) that activates this element.
+	 */
+	public void setAccessKey(final char accesskey) {
+<span class="fc" id="L133">		getOrCreateComponentModel().accessKey = accesskey;</span>
+<span class="fc" id="L134">	}</span>
+
+	/**
+	 * Te accesskey (shortcut key) that will activate the tab.
+	 *
+	 * @return The key that in combination with Alt will focus this input.
+	 */
+	public char getAccessKey() {
+<span class="fc" id="L142">		return getComponentModel().accessKey;</span>
+	}
+
+	/**
+	 * Indicates whether the WTabSet is disabled in the given context.
+	 *
+	 * @return true if the input is disabled, otherwise false.
+	 */
+	@Override
+	public boolean isDisabled() {
+<span class="fc" id="L152">		return isFlagSet(ComponentModel.DISABLED_FLAG);</span>
+	}
+
+	/**
+	 * Sets whether the WTabSet is disabled.
+	 *
+	 * @param disabled true to disable this tab, false to enable.
+	 */
+	@Override
+	public void setDisabled(final boolean disabled) {
+<span class="fc" id="L162">		setFlag(ComponentModel.DISABLED_FLAG, disabled);</span>
+<span class="fc" id="L163">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void handleRequest(final Request request) {
+		// If is LAZY or DYNAMIC and is the current trigger, then process the WTabSet for the correct open/closed tabs
+<span class="nc bnc" id="L171" title="All 4 branches missed.">		if ((TabMode.LAZY.equals(getMode()) || TabMode.DYNAMIC.equals(getMode())) &amp;&amp; AjaxHelper.</span>
+<span class="nc bnc" id="L172" title="All 2 branches missed.">				isCurrentAjaxTrigger(this)) {</span>
+<span class="nc" id="L173">			WTabSet tabSet = (WTabSet) getParent();</span>
+<span class="nc" id="L174">			tabSet.handleRequest(request);</span>
+		}
+<span class="nc" id="L176">	}</span>
+
+	/**
+	 * Override preparePaintComponent in order to correct the visibility of the tab's content before it is rendered.
+	 *
+	 * @param request the request being responded to.
+	 */
+	@Override
+	protected void preparePaintComponent(final Request request) {
+<span class="fc" id="L185">		super.preparePaintComponent(request);</span>
+<span class="fc" id="L186">		WComponent content = getContent();</span>
+
+<span class="pc bpc" id="L188" title="1 of 2 branches missed.">		if (content != null) {</span>
+<span class="pc bpc" id="L189" title="1 of 6 branches missed.">			switch (getMode()) {</span>
+				case EAGER: {
+					// Will always be visible
+<span class="fc" id="L192">					content.setVisible(true);</span>
+<span class="fc" id="L193">					AjaxHelper.registerContainer(getId(), getId() + &quot;-content&quot;, content.getId(),</span>
+							request);
+<span class="fc" id="L195">					break;</span>
+				}
+				case LAZY: {
+<span class="fc" id="L198">					content.setVisible(isOpen());</span>
+<span class="fc bfc" id="L199" title="All 2 branches covered.">					if (!isOpen()) {</span>
+<span class="fc" id="L200">						AjaxHelper.registerContainer(getId(), getId() + &quot;-content&quot;, content.getId(),</span>
+								request);
+					}
+
+					break;
+				}
+				case DYNAMIC: {
+<span class="fc" id="L207">					content.setVisible(isOpen());</span>
+<span class="fc" id="L208">					AjaxHelper.registerContainer(getId(), getId() + &quot;-content&quot;, content.getId(),</span>
+							request);
+<span class="fc" id="L210">					break;</span>
+				}
+				case SERVER: {
+<span class="fc" id="L213">					content.setVisible(isOpen());</span>
+<span class="fc" id="L214">					break;</span>
+				}
+				case CLIENT: {
+					// Will always be visible
+<span class="fc" id="L218">					content.setVisible(true);</span>
+					break;
+				}
+			}
+		}
+<span class="fc" id="L223">	}</span>
+
+	/**
+	 * @return the tab label.
+	 */
+	public WDecoratedLabel getTabLabel() {
+<span class="fc" id="L229">		return label;</span>
+	}
+
+	/**
+	 * A convenience method to set the body text of the decorated label.
+	 *
+	 * @param text the text to set, using {@link MessageFormat} syntax.
+	 * @param args optional arguments for the message format string.
+	 */
+	public void setText(final String text, final Serializable... args) {
+<span class="fc" id="L239">		label.setText(text, args);</span>
+<span class="fc" id="L240">	}</span>
+
+	/**
+	 * @return a String representation of this component, for debugging purposes.
+	 */
+	@Override
+	public String toString() {
+<span class="nc" id="L247">		String text = getTabLabel().getText();</span>
+<span class="nc bnc" id="L248" title="All 2 branches missed.">		text = text == null ? &quot;null&quot; : ('&quot;' + text + '&quot;');</span>
+<span class="nc" id="L249">		return toString(text, 1, 1);</span>
+	}
+
+	// --------------------------------
+	// Extrinsic state management
+	/**
+	 * Creates a new Component model.
+	 *
+	 * @return a new TabSetModel.
+	 */
+	@Override // For type safety only
+	protected TabModel newComponentModel() {
+<span class="fc" id="L261">		return new TabModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override // For type safety only
+	protected TabModel getComponentModel() {
+<span class="fc" id="L269">		return (TabModel) super.getComponentModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override // For type safety only
+	protected TabModel getOrCreateComponentModel() {
+<span class="fc" id="L277">		return (TabModel) super.getOrCreateComponentModel();</span>
+	}
+
+	/**
+	 * Holds the extrinsic state information of a WTab.
+	 */
+<span class="fc" id="L283">	public static class TabModel extends ComponentModel {</span>
+
+		/**
+		 * The key shortcut that activates the tab.
+		 */
+<span class="fc" id="L288">		private char accessKey = '\0';</span>
+
+		/**
+		 * The tab mode.
+		 */
+		private TabMode mode;
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

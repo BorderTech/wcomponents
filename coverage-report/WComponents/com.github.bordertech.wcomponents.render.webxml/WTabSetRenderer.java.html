@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WTabSetRenderer.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.render.webxml</a> &gt; <span class="el_source">WTabSetRenderer.java</span></div><h1>WTabSetRenderer.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.render.webxml;
+
+import com.github.bordertech.wcomponents.Renderer;
+import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.WTabSet;
+import com.github.bordertech.wcomponents.WTabSet.TabSetType;
+import com.github.bordertech.wcomponents.XmlStringBuilder;
+import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
+
+/**
+ * {@link Renderer} for the {@link WTabSet} component.
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ */
+<span class="fc" id="L16">final class WTabSetRenderer extends AbstractWebXmlRenderer {</span>
+
+	/**
+	 * Paints the given WTabSet.
+	 *
+	 * @param component the WTabSet to paint.
+	 * @param renderContext the RenderContext to paint to.
+	 */
+	@Override
+	public void doRender(final WComponent component, final WebXmlRenderContext renderContext) {
+<span class="fc" id="L26">		WTabSet tabSet = (WTabSet) component;</span>
+<span class="fc" id="L27">		XmlStringBuilder xml = renderContext.getWriter();</span>
+
+<span class="fc" id="L29">		xml.appendTagOpen(&quot;ui:tabset&quot;);</span>
+<span class="fc" id="L30">		xml.appendAttribute(&quot;id&quot;, component.getId());</span>
+<span class="fc" id="L31">		xml.appendOptionalAttribute(&quot;class&quot;, component.getHtmlClass());</span>
+<span class="fc" id="L32">		xml.appendOptionalAttribute(&quot;track&quot;, component.isTracking(), &quot;true&quot;);</span>
+<span class="fc" id="L33">		xml.appendAttribute(&quot;type&quot;, getTypeAsString(tabSet.getType()));</span>
+<span class="fc" id="L34">		xml.appendOptionalAttribute(&quot;disabled&quot;, tabSet.isDisabled(), &quot;true&quot;);</span>
+<span class="fc" id="L35">		xml.appendOptionalAttribute(&quot;hidden&quot;, tabSet.isHidden(), &quot;true&quot;);</span>
+<span class="fc" id="L36">		xml.appendOptionalAttribute(&quot;contentHeight&quot;, tabSet.getContentHeight());</span>
+<span class="fc" id="L37">		xml.appendOptionalAttribute(&quot;showHeadOnly&quot;, tabSet.isShowHeadOnly(), &quot;true&quot;);</span>
+<span class="fc" id="L38">		xml.appendOptionalAttribute(&quot;single&quot;,</span>
+<span class="fc bfc" id="L39" title="All 4 branches covered.">				TabSetType.ACCORDION.equals(tabSet.getType()) &amp;&amp; tabSet.isSingle(),</span>
+				&quot;true&quot;);
+<span class="fc" id="L41">		xml.appendClose();</span>
+
+		// Render margin
+<span class="fc" id="L44">		MarginRendererUtil.renderMargin(tabSet, renderContext);</span>
+
+<span class="fc" id="L46">		paintChildren(tabSet, renderContext);</span>
+
+<span class="fc" id="L48">		xml.appendEndTag(&quot;ui:tabset&quot;);</span>
+<span class="fc" id="L49">	}</span>
+
+	/**
+	 * Determines the theme tabset type name for the given TabSetType.
+	 *
+	 * @param type the TabSetType
+	 * @return the theme tabset type name for the given TabSetType.
+	 */
+	public static String getTypeAsString(final WTabSet.TabSetType type) {
+<span class="pc bpc" id="L58" title="1 of 6 branches missed.">		switch (type) {</span>
+			case TOP:
+<span class="fc" id="L60">				return &quot;top&quot;;</span>
+			case LEFT:
+<span class="fc" id="L62">				return &quot;left&quot;;</span>
+			case RIGHT:
+<span class="fc" id="L64">				return &quot;right&quot;;</span>
+			case ACCORDION:
+<span class="fc" id="L66">				return &quot;accordion&quot;;</span>
+			case APPLICATION:
+<span class="fc" id="L68">				return &quot;application&quot;;</span>
+			default:
+<span class="pc" id="L70">				throw new IllegalStateException(&quot;Invalid tab set type: &quot; + type);</span>
+		}
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

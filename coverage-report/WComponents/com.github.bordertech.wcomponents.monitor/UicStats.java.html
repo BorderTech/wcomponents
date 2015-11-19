@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>UicStats.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.monitor</a> &gt; <span class="el_source">UicStats.java</span></div><h1>UicStats.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.monitor;
+
+import com.github.bordertech.wcomponents.AbstractWComponent;
+import com.github.bordertech.wcomponents.ComponentModel;
+import com.github.bordertech.wcomponents.Container;
+import com.github.bordertech.wcomponents.UIContext;
+import com.github.bordertech.wcomponents.UIContextHolder;
+import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.WebUtilities;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+
+/**
+ * UicStats provides methods for analysing a {@link UIContext}.
+ *
+ * @author Martin Shevchenko
+ * @since 1.0.0
+ */
+public class UicStats {
+
+	/**
+	 * The UIContext to analyse.
+	 */
+	private final UIContext uic;
+
+	/**
+	 * The overall serialized size, which contributes to the user session.
+	 */
+	private final int overallSerializedSize;
+
+	/**
+	 * Statistics by WComponent tree.
+	 */
+<span class="fc" id="L42">	private final Map&lt;WComponent, Map&lt;WComponent, Stat&gt;&gt; statsByWCTree = new HashMap&lt;&gt;();</span>
+
+	private Set&lt;WComponent&gt; rootWCsDetected;
+
+	/**
+	 * Creates a UicStats.
+	 *
+	 * @param uic the UIContext to analyse.
+	 */
+<span class="fc" id="L51">	public UicStats(final UIContext uic) {</span>
+<span class="fc" id="L52">		this.uic = uic;</span>
+<span class="fc" id="L53">		overallSerializedSize = this.getSerializationSize(uic);</span>
+
+<span class="fc" id="L55">		detectRootWCs(uic);</span>
+
+		// TODO: Don't forget to detect entries in uic not referenced.
+<span class="fc" id="L58">	}</span>
+
+	/**
+	 * @return the top-level component in the UI.
+	 */
+	public WComponent getUI() {
+<span class="fc" id="L64">		return uic.getUI();</span>
+	}
+
+	/**
+	 * @return the overall serialized size of the UIContext.
+	 */
+	public int getOverallSerializedSize() {
+<span class="fc" id="L71">		return overallSerializedSize;</span>
+	}
+
+	/**
+	 * @return the set of root WComponents in the UIContext.
+	 */
+	public Set&lt;WComponent&gt; getRootWCs() {
+<span class="fc" id="L78">		return rootWCsDetected;</span>
+	}
+
+	/**
+	 * @return an iterator over the wcomponents that have been analysed via &lt;code&gt;createWCTreeStats&lt;/code&gt;.
+	 */
+	public Iterator&lt;WComponent&gt; getWCsAnalysed() {
+<span class="fc" id="L85">		return statsByWCTree.keySet().iterator();</span>
+	}
+
+	/**
+	 * Retrieves the map wchich contains all the WComponent instances that make up the WComponent tree starting from the
+	 * given root component.
+	 *
+	 * @param root the root component.
+	 * @return the map of Stats for the components under the given root component.
+	 */
+	public Map&lt;WComponent, Stat&gt; getWCTreeStats(final WComponent root) {
+<span class="fc" id="L96">		return statsByWCTree.get(root);</span>
+	}
+
+	/**
+	 * Analyses each root WComponent found in the UIContext.
+	 */
+	public void analyseAllRootWCs() {
+<span class="fc bfc" id="L103" title="All 2 branches covered.">		for (WComponent root : rootWCsDetected) {</span>
+<span class="fc" id="L104">			analyseWC(root);</span>
+<span class="fc" id="L105">		}</span>
+<span class="fc" id="L106">	}</span>
+
+	/**
+	 * Creates statistics for the given WComponent within the uicontext being analysed.
+	 *
+	 * @param comp the component to create stats for.
+	 */
+	public void analyseWC(final WComponent comp) {
+<span class="fc bfc" id="L114" title="All 2 branches covered.">		if (comp == null) {</span>
+<span class="fc" id="L115">			return;</span>
+		}
+
+<span class="fc" id="L118">		statsByWCTree.put(comp, createWCTreeStats(comp));</span>
+<span class="fc" id="L119">	}</span>
+
+	/**
+	 * Finds all instances that make up the tree (static and dynamic) and gathers stats.
+	 *
+	 * @param root the root component to start from.
+	 * @return the statistics for components in the given subtree.
+	 */
+	private Map&lt;WComponent, Stat&gt; createWCTreeStats(final WComponent root) {
+<span class="fc" id="L128">		Map&lt;WComponent, Stat&gt; statsMap = new HashMap&lt;&gt;();</span>
+
+<span class="fc" id="L130">		UIContextHolder.pushContext(uic);</span>
+
+		try {
+<span class="fc" id="L133">			addStats(statsMap, root);</span>
+		} finally {
+<span class="pc" id="L135">			UIContextHolder.popContext();</span>
+<span class="fc" id="L136">		}</span>
+
+<span class="fc" id="L138">		return statsMap;</span>
+	}
+
+	/**
+	 * Recursively adds statistics for a component and its children to the stats map.
+	 *
+	 * @param statsMap the stats map to add to.
+	 * @param comp the component to analyse.
+	 */
+	private void addStats(final Map&lt;WComponent, Stat&gt; statsMap, final WComponent comp) {
+<span class="fc" id="L148">		Stat stat = createStat(comp);</span>
+<span class="fc" id="L149">		statsMap.put(comp, stat);</span>
+
+<span class="fc bfc" id="L151" title="All 2 branches covered.">		if (comp instanceof Container) {</span>
+<span class="fc" id="L152">			Container container = (Container) comp;</span>
+<span class="fc" id="L153">			int childCount = container.getChildCount();</span>
+
+<span class="fc bfc" id="L155" title="All 2 branches covered.">			for (int i = 0; i &lt; childCount; i++) {</span>
+<span class="fc" id="L156">				WComponent child = container.getChildAt(i);</span>
+<span class="fc" id="L157">				addStats(statsMap, child);</span>
+			}
+		}
+<span class="fc" id="L160">	}</span>
+
+	/**
+	 * Creates statistics for a component in the given context.
+	 *
+	 * @param comp the component.
+	 * @return the stats for the given component in the given context.
+	 */
+	private Stat createStat(final WComponent comp) {
+<span class="fc" id="L169">		Stat stat = new Stat();</span>
+
+<span class="fc" id="L171">		stat.setClassName(comp.getClass().getName());</span>
+
+<span class="fc" id="L173">		stat.setName(comp.getId());</span>
+<span class="pc bpc" id="L174" title="1 of 2 branches missed.">		if (stat.getName() == null) {</span>
+<span class="nc" id="L175">			stat.setName(&quot;Unknown&quot;);</span>
+		}
+
+<span class="pc bpc" id="L178" title="1 of 2 branches missed.">		if (comp instanceof AbstractWComponent) {</span>
+<span class="fc" id="L179">			Object obj = AbstractWComponent.replaceWComponent((AbstractWComponent) comp);</span>
+
+<span class="pc bpc" id="L181" title="1 of 2 branches missed.">			if (obj instanceof AbstractWComponent.WComponentRef) {</span>
+<span class="nc" id="L182">				stat.setRef(obj.toString());</span>
+			}
+		}
+
+<span class="fc" id="L186">		ComponentModel model = (ComponentModel) uic.getModel(comp);</span>
+
+<span class="fc" id="L188">		stat.setModelState(Stat.MDL_NONE);</span>
+
+<span class="fc bfc" id="L190" title="All 2 branches covered.">		if (model != null) {</span>
+<span class="pc bpc" id="L191" title="1 of 2 branches missed.">			if (comp.isDefaultState()) {</span>
+<span class="nc" id="L192">				stat.setModelState(Stat.MDL_DEFAULT);</span>
+			} else {
+<span class="fc" id="L194">				addSerializationStat(model, stat);</span>
+			}
+		}
+
+<span class="fc" id="L198">		return stat;</span>
+	}
+
+	/**
+	 * Determines the serialized size of an object by serializng it to a byte array.
+	 *
+	 * @param obj the object to find the serialized size of.
+	 * @return the serialized size of the given object, or -1 on error.
+	 */
+	private int getSerializationSize(final Object obj) {
+		try {
+<span class="fc" id="L209">			ByteArrayOutputStream bos = new ByteArrayOutputStream();</span>
+<span class="fc" id="L210">			ObjectOutputStream oos = new ObjectOutputStream(bos);</span>
+<span class="fc" id="L211">			oos.writeObject(obj);</span>
+<span class="fc" id="L212">			oos.close();</span>
+
+<span class="fc" id="L214">			byte[] bytes = bos.toByteArray();</span>
+<span class="fc" id="L215">			return bytes.length;</span>
+<span class="nc" id="L216">		} catch (IOException ex) {</span>
+			// Unable to serialize so cannot determine size.
+<span class="nc" id="L218">			return -1;</span>
+		}
+	}
+
+	/**
+	 * @param model the component model
+	 * @param stat the statistics
+	 */
+	private void addSerializationStat(final ComponentModel model, final Stat stat) {
+		try {
+<span class="fc" id="L228">			ByteArrayOutputStream bos = new ByteArrayOutputStream();</span>
+<span class="fc" id="L229">			ObjectOutputStream oos = new ObjectOutputStream(bos);</span>
+<span class="fc" id="L230">			oos.writeObject(model);</span>
+<span class="fc" id="L231">			oos.close();</span>
+
+<span class="fc" id="L233">			byte[] bytes = bos.toByteArray();</span>
+<span class="fc" id="L234">			stat.setSerializedSize(bytes.length);</span>
+
+<span class="fc" id="L236">			ByteArrayInputStream bis = new ByteArrayInputStream(bytes);</span>
+<span class="fc" id="L237">			ObjectInputStream ois = new ObjectInputStream(bis);</span>
+<span class="fc" id="L238">			ois.readObject();</span>
+
+<span class="fc" id="L240">			stat.setModelState(Stat.MDL_SERIALIZABLE);</span>
+<span class="nc" id="L241">		} catch (Exception ex) {</span>
+<span class="nc" id="L242">			stat.setModelState(Stat.MDL_UN_SERIALIZABLE);</span>
+<span class="nc" id="L243">			stat.setComment(ex.getMessage());</span>
+<span class="fc" id="L244">		}</span>
+<span class="fc" id="L245">	}</span>
+
+	/**
+	 * Stores statistics on a component in a UI context.
+	 *
+	 * @author Martin Shevchenko
+	 */
+<span class="fc" id="L252">	public static class Stat {</span>
+
+		/**
+		 * Indicates that the component has no model (default or session).
+		 */
+		private static final int MDL_NONE = 0;
+		/**
+		 * Indicates that the component has a default model only.
+		 */
+		private static final int MDL_DEFAULT = 1;
+		/**
+		 * Indicates that the component has a serializable session model.
+		 */
+		private static final int MDL_SERIALIZABLE = 2;
+		/**
+		 * Indicates that the component has an unserializable session model (which is BAD).
+		 */
+		private static final int MDL_UN_SERIALIZABLE = 3;
+
+		/**
+		 * An textual enumeration of possible model states.
+		 */
+<span class="fc" id="L274">		private static final String[] MODEL_DESCS = new String[]{&quot;&amp;#160;&quot;, &quot;Default&quot;, &quot;Serializable&quot;, &quot;Un-Serializable&quot;};</span>
+
+		/**
+		 * The component class name.
+		 */
+		private String className;
+		/**
+		 * The component id.
+		 */
+		private String name;
+		/**
+		 * Component reference.
+		 */
+		private String ref;
+		/**
+		 * State of the model.
+		 */
+<span class="fc" id="L291">		private int modelState = MDL_NONE;</span>
+		/**
+		 * Serialization size.
+		 */
+		private int serializedSize;
+		/**
+		 * Comment for the statistic.
+		 */
+		private String comment;
+
+		/**
+		 * @return the component class name
+		 */
+		public String getClassName() {
+<span class="fc" id="L305">			return className;</span>
+		}
+
+		/**
+		 * @param className the component name
+		 */
+		public void setClassName(final String className) {
+<span class="fc" id="L312">			this.className = className;</span>
+<span class="fc" id="L313">		}</span>
+
+		/**
+		 * @return the component id
+		 */
+		public String getName() {
+<span class="fc" id="L319">			return name;</span>
+		}
+
+		/**
+		 * @param name the component id
+		 */
+		public void setName(final String name) {
+<span class="fc" id="L326">			this.name = name;</span>
+<span class="fc" id="L327">		}</span>
+
+		/**
+		 * @return the component reference
+		 */
+		public String getRef() {
+<span class="fc" id="L333">			return ref;</span>
+		}
+
+		/**
+		 * @param ref the component reference
+		 */
+		public void setRef(final String ref) {
+<span class="nc" id="L340">			this.ref = ref;</span>
+<span class="nc" id="L341">		}</span>
+
+		/**
+		 * @return the model state
+		 */
+		public int getModelState() {
+<span class="fc" id="L347">			return modelState;</span>
+		}
+
+		/**
+		 * @param modelState the model state
+		 */
+		public void setModelState(final int modelState) {
+<span class="fc" id="L354">			this.modelState = modelState;</span>
+<span class="fc" id="L355">		}</span>
+
+		/**
+		 * @return the comment
+		 */
+		public String getComment() {
+<span class="fc" id="L361">			return comment;</span>
+		}
+
+		/**
+		 * @param comment the comment
+		 */
+		public void setComment(final String comment) {
+<span class="nc" id="L368">			this.comment = comment;</span>
+<span class="nc" id="L369">		}</span>
+
+		/**
+		 * @return the the serialized size
+		 */
+		public int getSerializedSize() {
+<span class="fc" id="L375">			return serializedSize;</span>
+		}
+
+		/**
+		 * @param serializedSize the serialized size
+		 */
+		public void setSerializedSize(final int serializedSize) {
+<span class="fc" id="L382">			this.serializedSize = serializedSize;</span>
+<span class="fc" id="L383">		}</span>
+
+		/**
+		 * @return the model state as a string
+		 */
+		public String getModelStateAsString() {
+<span class="fc" id="L389">			return MODEL_DESCS[modelState];</span>
+		}
+	}
+
+	/**
+	 * @param uuic the user context
+	 */
+	private void detectRootWCs(final UIContext uuic) {
+<span class="fc" id="L397">		rootWCsDetected = new HashSet&lt;&gt;();</span>
+
+<span class="fc" id="L399">		WComponent root = WebUtilities.getTop(uuic.getUI());</span>
+<span class="fc" id="L400">		rootWCsDetected.add(root);</span>
+
+		// TODO: Should report if the ui is not a root component.
+		// Find any other root components that are storing information in the context.
+<span class="fc bfc" id="L404" title="All 2 branches covered.">		for (Iterator it = uuic.getComponents().iterator(); it.hasNext();) {</span>
+<span class="fc" id="L405">			WComponent wc = (WComponent) it.next();</span>
+<span class="fc" id="L406">			root = WebUtilities.getTop(wc);</span>
+<span class="fc" id="L407">			rootWCsDetected.add(root);</span>
+<span class="fc" id="L408">		}</span>
+<span class="fc" id="L409">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

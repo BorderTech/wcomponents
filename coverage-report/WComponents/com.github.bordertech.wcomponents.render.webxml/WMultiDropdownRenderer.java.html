@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WMultiDropdownRenderer.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.render.webxml</a> &gt; <span class="el_source">WMultiDropdownRenderer.java</span></div><h1>WMultiDropdownRenderer.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.render.webxml;
+
+import com.github.bordertech.wcomponents.OptionGroup;
+import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.WMultiDropdown;
+import com.github.bordertech.wcomponents.XmlStringBuilder;
+import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
+import java.util.List;
+
+/**
+ * The Renderer for {@link WMultiDropdown}.
+ *
+ * @author Yiannis Paschalidis
+ * @author Jonathan Austin
+ * @since 1.0.0
+ */
+<span class="fc" id="L17">final class WMultiDropdownRenderer extends AbstractWebXmlRenderer {</span>
+
+	/**
+	 * Paints the given WMultiDropdown.
+	 *
+	 * @param component the WMultiDropdown to paint.
+	 * @param renderContext the RenderContext to paint to.
+	 */
+	@Override
+	public void doRender(final WComponent component, final WebXmlRenderContext renderContext) {
+<span class="fc" id="L27">		WMultiDropdown dropdown = (WMultiDropdown) component;</span>
+<span class="fc" id="L28">		XmlStringBuilder xml = renderContext.getWriter();</span>
+<span class="fc" id="L29">		String dataKey = dropdown.getListCacheKey();</span>
+<span class="fc" id="L30">		int tabIndex = dropdown.getTabIndex();</span>
+<span class="fc" id="L31">		boolean encode = dropdown.getDescEncode();</span>
+<span class="fc" id="L32">		boolean readOnly = dropdown.isReadOnly();</span>
+<span class="fc" id="L33">		int min = dropdown.getMinSelect();</span>
+<span class="fc" id="L34">		int max = dropdown.getMaxSelect();</span>
+
+<span class="fc" id="L36">		xml.appendTagOpen(&quot;ui:multiDropdown&quot;);</span>
+<span class="fc" id="L37">		xml.appendAttribute(&quot;id&quot;, component.getId());</span>
+<span class="fc" id="L38">		xml.appendOptionalAttribute(&quot;class&quot;, component.getHtmlClass());</span>
+<span class="fc" id="L39">		xml.appendOptionalAttribute(&quot;track&quot;, component.isTracking(), &quot;true&quot;);</span>
+<span class="pc bpc" id="L40" title="1 of 4 branches missed.">		xml.appendOptionalAttribute(&quot;data&quot;, dataKey != null &amp;&amp; !readOnly, dataKey);</span>
+<span class="fc" id="L41">		xml.appendOptionalAttribute(&quot;disabled&quot;, dropdown.isDisabled(), &quot;true&quot;);</span>
+<span class="fc" id="L42">		xml.appendOptionalAttribute(&quot;hidden&quot;, dropdown.isHidden(), &quot;true&quot;);</span>
+<span class="fc" id="L43">		xml.appendOptionalAttribute(&quot;required&quot;, dropdown.isMandatory(), &quot;true&quot;);</span>
+<span class="fc" id="L44">		xml.appendOptionalAttribute(&quot;readOnly&quot;, readOnly, &quot;true&quot;);</span>
+<span class="fc" id="L45">		xml.appendOptionalAttribute(&quot;submitOnChange&quot;, dropdown.isSubmitOnChange(), &quot;true&quot;);</span>
+<span class="fc" id="L46">		xml.appendOptionalAttribute(&quot;tabIndex&quot;, component.hasTabIndex(), tabIndex);</span>
+<span class="fc" id="L47">		xml.appendOptionalAttribute(&quot;toolTip&quot;, component.getToolTip());</span>
+<span class="fc" id="L48">		xml.appendOptionalAttribute(&quot;accessibleText&quot;, component.getAccessibleText());</span>
+<span class="fc bfc" id="L49" title="All 2 branches covered.">		xml.appendOptionalAttribute(&quot;min&quot;, min &gt; 0, min);</span>
+<span class="fc bfc" id="L50" title="All 2 branches covered.">		xml.appendOptionalAttribute(&quot;max&quot;, max &gt; 0, max);</span>
+
+<span class="fc" id="L52">		xml.appendClose();</span>
+
+		// Options
+<span class="fc" id="L55">		List&lt;?&gt; options = dropdown.getOptions();</span>
+<span class="fc bfc" id="L56" title="All 4 branches covered.">		boolean renderSelectionsOnly = dropdown.isReadOnly() || dataKey != null;</span>
+
+<span class="pc bpc" id="L58" title="1 of 2 branches missed.">		if (options != null) {</span>
+<span class="fc" id="L59">			int optionIndex = 0;</span>
+<span class="fc" id="L60">			List&lt;?&gt; selections = dropdown.getSelected();</span>
+
+<span class="fc bfc" id="L62" title="All 2 branches covered.">			for (Object option : options) {</span>
+<span class="fc bfc" id="L63" title="All 2 branches covered.">				if (option instanceof OptionGroup) {</span>
+<span class="fc" id="L64">					xml.appendTagOpen(&quot;ui:optgroup&quot;);</span>
+<span class="fc" id="L65">					xml.appendAttribute(&quot;label&quot;, ((OptionGroup) option).getDesc());</span>
+<span class="fc" id="L66">					xml.appendClose();</span>
+
+<span class="fc bfc" id="L68" title="All 2 branches covered.">					for (Object nestedOption : ((OptionGroup) option).getOptions()) {</span>
+<span class="fc" id="L69">						renderOption(dropdown, nestedOption, optionIndex++, xml, selections,</span>
+								renderSelectionsOnly, encode);
+<span class="fc" id="L71">					}</span>
+
+<span class="fc" id="L73">					xml.appendEndTag(&quot;ui:optgroup&quot;);</span>
+				} else {
+<span class="fc" id="L75">					renderOption(dropdown, option, optionIndex++, xml, selections,</span>
+							renderSelectionsOnly, encode);
+				}
+<span class="fc" id="L78">			}</span>
+		}
+
+		// End tag
+<span class="fc" id="L82">		xml.appendEndTag(&quot;ui:multiDropdown&quot;);</span>
+<span class="fc" id="L83">	}</span>
+
+	/**
+	 * Renders a single option within the dropdown.
+	 *
+	 * @param dropdown the dropdown being rendered.
+	 * @param option the option to render.
+	 * @param optionIndex the index of the option. OptionGroups are not counted.
+	 * @param html the XmlStringBuilder to paint to.
+	 * @param selections the list of selected options.
+	 * @param renderSelectionsOnly true to only render selected options, false to render all options.
+	 * @param encode true if the option description should be encoded, false if not.
+	 */
+	private void renderOption(final WMultiDropdown dropdown, final Object option,
+			final int optionIndex, final XmlStringBuilder html,
+			final List&lt;?&gt; selections, final boolean renderSelectionsOnly,
+			final boolean encode) {
+<span class="pc bpc" id="L100" title="1 of 4 branches missed.">		boolean selected = (selections != null &amp;&amp; selections.contains(option));</span>
+
+<span class="fc bfc" id="L102" title="All 4 branches covered.">		if (selected || !renderSelectionsOnly) {</span>
+			// Get Code and Desc
+<span class="fc" id="L104">			String code = dropdown.getCode(option, optionIndex);</span>
+<span class="fc" id="L105">			String desc = dropdown.getDesc(option, optionIndex);</span>
+
+			// Check for null option (ie null or empty). Match isEmpty() logic.
+<span class="fc bfc" id="L108" title="All 4 branches covered.">			boolean isNull = option == null ? true : (option.toString().length() == 0);</span>
+
+			// Render Option
+<span class="fc" id="L111">			html.appendTagOpen(&quot;ui:option&quot;);</span>
+<span class="fc" id="L112">			html.appendAttribute(&quot;value&quot;, code);</span>
+<span class="fc" id="L113">			html.appendOptionalAttribute(&quot;selected&quot;, selected, &quot;true&quot;);</span>
+<span class="fc" id="L114">			html.appendOptionalAttribute(&quot;isNull&quot;, isNull, &quot;true&quot;);</span>
+<span class="fc" id="L115">			html.appendClose();</span>
+<span class="fc" id="L116">			html.append(desc, encode);</span>
+<span class="fc" id="L117">			html.appendEndTag(&quot;ui:option&quot;);</span>
+		}
+<span class="fc" id="L119">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

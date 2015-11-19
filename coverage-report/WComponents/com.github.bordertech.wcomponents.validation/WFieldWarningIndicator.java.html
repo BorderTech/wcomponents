@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WFieldWarningIndicator.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.validation</a> &gt; <span class="el_source">WFieldWarningIndicator.java</span></div><h1>WFieldWarningIndicator.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.validation;
+
+import com.github.bordertech.wcomponents.WComponent;
+import java.util.List;
+
+/**
+ * &lt;p&gt;
+ * This component is used to render warnings relating to an individual field. Generally, this is placed next to the
+ * input field to help highlight the individual fields that have warnings. An instance of the indicator is automatically
+ * provided when adding a field to a WFieldLayout.&lt;/p&gt;
+ *
+ * @author Christina Harris
+ * @since 1.0.0
+ */
+public class WFieldWarningIndicator extends AbstractWFieldIndicator {
+
+	/**
+	 * Just calls the super classes constructor.
+	 *
+	 * @param relatedField The related field.
+	 */
+	public WFieldWarningIndicator(final WComponent relatedField) {
+<span class="fc" id="L23">		super(relatedField);</span>
+<span class="fc" id="L24">	}</span>
+
+	/**
+	 * Calls {@link #showIndicatorsForComponent(List, int)} with a {@link Diagnostic#WARNING}.
+	 *
+	 * @param diags A List of Diagnostic objects.
+	 */
+	@Override
+	protected void showWarningIndicatorsForComponent(final List&lt;Diagnostic&gt; diags) {
+<span class="fc" id="L33">		showIndicatorsForComponent(diags, Diagnostic.WARNING);</span>
+<span class="fc" id="L34">	}</span>
+
+	/**
+	 * Return the field indicator type of warn.
+	 *
+	 * @return the field indicator type
+	 */
+	@Override
+	public FieldIndicatorType getFieldIndicatorType() {
+<span class="fc" id="L43">		return FieldIndicatorType.WARN;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

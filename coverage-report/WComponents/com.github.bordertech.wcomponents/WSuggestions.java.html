@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WSuggestions.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">WSuggestions.java</span></div><h1>WSuggestions.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.Factory;
+import com.github.bordertech.wcomponents.util.LookupTable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+/**
+ * WSuggestions represents a device for providing suggested input for a text-like input field. The suggestions may be a
+ * static list, derived from a data url or acquired on the fly (via AJAX) based on user input into an associated input.
+ * &lt;p&gt;
+ * WSuggestions has no effect unless it is associated with a text-like input control such as WTextField. If it is
+ * associated with a constrained input (such as WEmailField) then it is expected (but not enforced) that the suggestions
+ * would be in line with the associated field's constraints.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * It allows for client caching of frequently used lists via a data key or lists that can be produced via AJAX depending
+ * on the text entered in the related TextField.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * Suggestions provided via a lookup table are cached on the client and filtered on the client.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * To have a suggestion list dynamically updated via AJAX, do not use a lookup table, but manually set the options and
+ * set a refresh action via {@link #setRefreshAction(Action)}. The text entered by the user that triggered the refresh
+ * is provided by {@link #getAjaxFilter()}.
+ * &lt;/p&gt;
+ *
+ * @author Jonathan Austin
+ * @since 1.0.0
+ */
+public class WSuggestions extends AbstractWComponent implements AjaxTarget {
+
+	/**
+	 * The Application-wide lookup-table to use.
+	 */
+<span class="fc" id="L39">	private static final LookupTable APPLICATION_LOOKUP_TABLE = Factory.newInstance(</span>
+			LookupTable.class);
+
+	/**
+	 * AJAX refresh command.
+	 */
+	public static final String AJAX_REFRESH_ACTION_COMMAND = &quot;Refresh&quot;;
+
+	/**
+	 * Create a WSuggestions.
+	 */
+	public WSuggestions() {
+<span class="fc" id="L51">		super();</span>
+<span class="fc" id="L52">	}</span>
+
+	/**
+	 * Creates a WSuggestions with predefined suggestions.
+	 *
+	 * @param suggestions the list of suggestions.
+	 */
+<span class="fc" id="L59">	public WSuggestions(final List&lt;String&gt; suggestions) {</span>
+<span class="fc" id="L60">		getComponentModel().setSuggestions(suggestions);</span>
+<span class="fc" id="L61">	}</span>
+
+	/**
+	 * Creates a WSuggestions using a lookup table for the suggestions.
+	 *
+	 * @param lookupTable the lookup table identifier to obtain the list of suggestions.
+	 */
+<span class="fc" id="L68">	public WSuggestions(final Object lookupTable) {</span>
+<span class="fc" id="L69">		getComponentModel().setLookupTable(lookupTable);</span>
+<span class="fc" id="L70">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void handleRequest(final Request request) {
+		// Check if this suggestion list is the current AJAX trigger
+<span class="fc bfc" id="L78" title="All 2 branches covered.">		if (AjaxHelper.isCurrentAjaxTrigger(this)) {</span>
+<span class="fc" id="L79">			String filter = request.getParameter(getId());</span>
+<span class="fc" id="L80">			setAjaxFilter(filter);</span>
+<span class="fc" id="L81">			doHandleAjaxRefresh();</span>
+		}
+<span class="fc" id="L83">	}</span>
+
+	/**
+	 * Handle the AJAX refresh request.
+	 */
+	protected void doHandleAjaxRefresh() {
+<span class="fc" id="L89">		final Action action = getRefreshAction();</span>
+<span class="pc bpc" id="L90" title="1 of 2 branches missed.">		if (action == null) {</span>
+<span class="nc" id="L91">			return;</span>
+		}
+
+<span class="fc" id="L94">		final ActionEvent event = new ActionEvent(this, AJAX_REFRESH_ACTION_COMMAND, getAjaxFilter());</span>
+<span class="fc" id="L95">		Runnable later = new Runnable() {</span>
+			@Override
+			public void run() {
+<span class="fc" id="L98">				action.execute(event);</span>
+<span class="fc" id="L99">			}</span>
+		};
+
+<span class="fc" id="L102">		invokeLater(later);</span>
+<span class="fc" id="L103">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected void preparePaintComponent(final Request request) {
+<span class="fc" id="L110">		UIContext uic = UIContextHolder.getCurrent();</span>
+
+		// Register for AJAX if not using a cached list and have a refresh action.
+<span class="pc bpc" id="L113" title="2 of 6 branches missed.">		if (uic.getUI() != null &amp;&amp; getListCacheKey() == null &amp;&amp; getRefreshAction() != null) {</span>
+<span class="fc" id="L114">			AjaxHelper.registerComponentTargetItself(getId(), request);</span>
+		}
+<span class="fc" id="L116">	}</span>
+
+	/**
+	 * Returns the complete list of suggestions available for selection for this user's session.
+	 *
+	 * @return the list of suggestions available for the given user's session.
+	 */
+	public List&lt;String&gt; getSuggestions() {
+		// Lookup table
+<span class="fc" id="L125">		Object table = getLookupTable();</span>
+
+<span class="fc bfc" id="L127" title="All 2 branches covered.">		if (table == null) {</span>
+<span class="fc" id="L128">			SuggestionsModel model = getComponentModel();</span>
+<span class="fc" id="L129">			List&lt;String&gt; suggestions = model.getSuggestions();</span>
+<span class="fc bfc" id="L130" title="All 2 branches covered.">			return suggestions == null ? Collections.EMPTY_LIST : suggestions;</span>
+		} else {
+<span class="fc" id="L132">			List&lt;?&gt; lookupSuggestions = APPLICATION_LOOKUP_TABLE.getTable(table);</span>
+<span class="pc bpc" id="L133" title="2 of 4 branches missed.">			if (lookupSuggestions == null || lookupSuggestions.isEmpty()) {</span>
+<span class="nc" id="L134">				return Collections.EMPTY_LIST;</span>
+			}
+			// Build list of String suggestions
+<span class="fc" id="L137">			List&lt;String&gt; suggestions = new ArrayList&lt;&gt;(lookupSuggestions.size());</span>
+<span class="fc bfc" id="L138" title="All 2 branches covered.">			for (Object suggestion : lookupSuggestions) {</span>
+<span class="fc" id="L139">				String sugg = APPLICATION_LOOKUP_TABLE.getDescription(table, suggestion);</span>
+<span class="pc bpc" id="L140" title="1 of 2 branches missed.">				if (sugg != null) {</span>
+<span class="fc" id="L141">					suggestions.add(sugg);</span>
+				}
+<span class="fc" id="L143">			}</span>
+<span class="fc" id="L144">			return Collections.unmodifiableList(suggestions);</span>
+		}
+	}
+
+	/**
+	 * Retrieves the data list cache key for this component.
+	 *
+	 * @return the cache key if client-side caching is enabled, null otherwise.
+	 */
+	public String getListCacheKey() {
+<span class="fc" id="L154">		Object table = getLookupTable();</span>
+
+<span class="pc bpc" id="L156" title="1 of 4 branches missed.">		if (table != null &amp;&amp; Config.getInstance().getBoolean(</span>
+				AbstractWSelectList.DATALIST_CACHING_PARAM_KEY, false)) {
+<span class="fc" id="L158">			String key = APPLICATION_LOOKUP_TABLE.getCacheKeyForTable(table);</span>
+<span class="fc" id="L159">			return key;</span>
+		}
+
+<span class="fc" id="L162">		return null;</span>
+	}
+
+	/**
+	 * Set the complete list of suggestions available for selection for this user's session.
+	 *
+	 * @param suggestions the list of suggestions available to the user.
+	 */
+	public void setSuggestions(final List&lt;String&gt; suggestions) {
+<span class="fc" id="L171">		SuggestionsModel model = getOrCreateComponentModel();</span>
+<span class="fc" id="L172">		model.setSuggestions(suggestions);</span>
+<span class="fc" id="L173">	}</span>
+
+	/**
+	 * Set the lookupTable for this user's session.
+	 *
+	 * @param lookupTable the lookup table identifier to obtain the suggestions for the list.
+	 */
+	public void setLookupTable(final Object lookupTable) {
+<span class="fc" id="L181">		getOrCreateComponentModel().setLookupTable(lookupTable);</span>
+<span class="fc" id="L182">	}</span>
+
+	/**
+	 * Get the lookupTable for this user's session.
+	 *
+	 * @return the lookupTable for the suggestions
+	 */
+	public Object getLookupTable() {
+<span class="fc" id="L190">		return getComponentModel().getLookupTable();</span>
+	}
+
+	/**
+	 * @param action the refresh action. Ignored if using a lookup table.
+	 */
+	public void setRefreshAction(final Action action) {
+<span class="fc" id="L197">		getOrCreateComponentModel().action = action;</span>
+<span class="fc" id="L198">	}</span>
+
+	/**
+	 * @return the refresh action. Ignored if using a lookup table.
+	 */
+	public Action getRefreshAction() {
+<span class="fc" id="L204">		return getComponentModel().action;</span>
+	}
+
+	/**
+	 * @param filter the refresh filter value passed on the AJAX request.
+	 */
+	protected void setAjaxFilter(final String filter) {
+<span class="fc" id="L211">		getOrCreateComponentModel().filter = filter;</span>
+<span class="fc" id="L212">	}</span>
+
+	/**
+	 * @return the refresh filter value passed on the AJAX request. Ignored if using a lookup table.
+	 */
+	public String getAjaxFilter() {
+<span class="fc" id="L218">		return getComponentModel().filter;</span>
+	}
+
+	/**
+	 * The minimum number of characters entered before refreshing suggestions. A value of zero indicates to use the
+	 * theme default, which is usually 3.
+	 *
+	 * @param min the minimum number of characters entered before refreshing suggestions.
+	 */
+	public void setMinRefresh(final int min) {
+<span class="fc bfc" id="L228" title="All 2 branches covered.">		if (min &lt; 0) {</span>
+<span class="fc" id="L229">			throw new IllegalArgumentException(</span>
+					&quot;Minimum refresh value cannot be less than 0. Where zero indicates use the default value.&quot;);
+		}
+<span class="fc" id="L232">		getOrCreateComponentModel().min = min;</span>
+<span class="fc" id="L233">	}</span>
+
+	/**
+	 * The minimum characters entered before triggering the refresh action.
+	 * &lt;p&gt;
+	 * A value of zero indicates the theme default will be used (usually 3).
+	 * &lt;/p&gt;
+	 *
+	 * @return the minimum characters entered before triggering the refresh action.
+	 */
+	public int getMinRefresh() {
+<span class="fc" id="L244">		return getComponentModel().min;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	// For type safety only
+	protected SuggestionsModel getComponentModel() {
+<span class="fc" id="L253">		return (SuggestionsModel) super.getComponentModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	// For type safety only
+	protected SuggestionsModel getOrCreateComponentModel() {
+<span class="fc" id="L262">		return (SuggestionsModel) super.getOrCreateComponentModel();</span>
+	}
+
+	/**
+	 * Creates a new component model appropriate for this component.
+	 *
+	 * @return a new PanelModel.
+	 */
+	@Override
+	protected SuggestionsModel newComponentModel() {
+<span class="fc" id="L272">		return new SuggestionsModel();</span>
+	}
+
+	/**
+	 * A class used to hold the list of options for this component.
+	 */
+<span class="fc" id="L278">	public static class SuggestionsModel extends ComponentModel {</span>
+
+		/**
+		 * The suggestions for this list.
+		 */
+		private List&lt;String&gt; suggestions;
+
+		/**
+		 * The name of the lookup table which will be used to obtain the list of suggestions.
+		 */
+		private Object lookupTable;
+
+		/**
+		 * Minimum characters entered before refresh suggestions. Zero means use theme default.
+		 */
+<span class="fc" id="L293">		private int min = 0;</span>
+
+		/**
+		 * Action when refresh requested via AJAX.
+		 */
+		private Action action;
+
+		/**
+		 * Filter value passed on the AJAX request.
+		 */
+		private String filter;
+
+		/**
+		 * @return returns the suggestions.
+		 */
+		private List&lt;String&gt; getSuggestions() {
+<span class="fc" id="L309">			return suggestions;</span>
+		}
+
+		/**
+		 * @param suggestions the suggestions to set.
+		 */
+		private void setSuggestions(final List&lt;String&gt; suggestions) {
+<span class="pc bpc" id="L316" title="1 of 2 branches missed.">			this.suggestions = suggestions == null ? null : Collections.</span>
+<span class="fc" id="L317">					unmodifiableList(suggestions);</span>
+<span class="fc" id="L318">			lookupTable = null;</span>
+<span class="fc" id="L319">		}</span>
+
+		/**
+		 * @param lookupTable the lookup table name to set.
+		 */
+		private void setLookupTable(final Object lookupTable) {
+<span class="fc" id="L325">			this.lookupTable = lookupTable;</span>
+<span class="fc" id="L326">			suggestions = null;</span>
+<span class="fc" id="L327">		}</span>
+
+		/**
+		 * @return the lookupTable.
+		 */
+		private Object getLookupTable() {
+<span class="fc" id="L333">			return lookupTable;</span>
+		}
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

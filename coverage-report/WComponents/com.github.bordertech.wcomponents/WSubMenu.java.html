@@ -1,0 +1,616 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WSubMenu.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">WSubMenu.java</span></div><h1>WSubMenu.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import com.github.bordertech.wcomponents.WMenu.SelectMode;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * &lt;p&gt;
+ * This component is used to provide either a dropmenu (when added directly to a {@link WMenu} or nestable sub menus
+ * (when added to another &lt;code&gt;WSubMenu&lt;/code&gt; instance).&lt;/p&gt;
+ *
+ * &lt;p&gt;
+ * Sub Menus may contain the following components:
+ * &lt;/p&gt;
+ * &lt;ul&gt;
+ * &lt;li&gt;Other sub menus.&lt;/li&gt;
+ * &lt;li&gt;Menu items ({@link WMenuItem})&lt;/li&gt;
+ * &lt;li&gt;Menu separators (see {@link #addSeparator()})&lt;/li&gt;
+ * &lt;/ul&gt;
+ *
+ * &lt;p&gt;
+ * Actions on sub-menus are only supported for {@link WMenu.MenuType#COLUMN} menus.&lt;/p&gt;
+ *
+ * @author Adam Millard
+ * @author Yiannis Paschalidis - re-written to not extend WButton.
+ */
+public class WSubMenu extends AbstractNamingContextContainer implements Disableable {
+
+	/**
+	 * The available types of operation.
+	 *
+	 * @author Yiannis Paschalidis
+	 */
+<span class="pc" id="L35">	public enum MenuMode {</span>
+		/**
+		 * Indicates that a round-trip should be made whenever the menu is opened.
+		 *
+		 * @deprecated Use MenuMode DYNAMIC instead as a like-for-like replacement or any other mode if it is more
+		 * appropriate to the individual use case.
+		 */
+<span class="fc" id="L42">		SERVER,</span>
+		/**
+		 * Indicates that an ajax request should be made the first time the menu is opened.
+		 */
+<span class="fc" id="L46">		LAZY,</span>
+		/**
+		 * Indicates that the sub-menu content is always sent to the client.
+		 */
+<span class="fc" id="L50">		CLIENT,</span>
+		/**
+		 * Indicates that an ajax request should be made whenever the menu is opened.
+		 */
+<span class="fc" id="L54">		DYNAMIC,</span>
+		/**
+		 * Indicates that an ajax request should be made immediately after the page is loaded.
+		 */
+<span class="fc" id="L58">		EAGER</span>
+	};
+
+	/**
+	 * The submenu's text label.
+	 */
+	private final WDecoratedLabel label;
+
+	/**
+	 * Creates a WSubMenu with the given text.
+	 *
+	 * @param text the sub menu text.
+	 */
+	public WSubMenu(final String text) {
+<span class="fc" id="L72">		this(new WDecoratedLabel(text));</span>
+<span class="fc" id="L73">	}</span>
+
+	/**
+	 * Creates a WSubMenu with the given text.
+	 *
+	 * @param label the sub menu label.
+	 */
+<span class="fc" id="L80">	public WSubMenu(final WDecoratedLabel label) {</span>
+<span class="fc" id="L81">		this.label = label;</span>
+<span class="fc" id="L82">		add(label);</span>
+<span class="fc" id="L83">	}</span>
+
+	/**
+	 * Creates a WSubMenu with the given text and access key.
+	 *
+	 * @param text the sub menu text.
+	 * @param accessKey the access key.
+	 */
+	public WSubMenu(final String text, final char accessKey) {
+<span class="nc" id="L92">		this(text);</span>
+<span class="nc" id="L93">		setAccessKey(accessKey);</span>
+<span class="nc" id="L94">	}</span>
+
+	/**
+	 * Sets the menu mode.
+	 *
+	 * @param mode the menu mode.
+	 */
+	public void setMode(final MenuMode mode) {
+<span class="fc" id="L102">		getOrCreateComponentModel().mode = mode;</span>
+<span class="fc" id="L103">	}</span>
+
+	/**
+	 * @return the menu mode.
+	 */
+	public MenuMode getMode() {
+<span class="fc" id="L109">		return getComponentModel().mode;</span>
+	}
+
+	/**
+	 * Adds a menu item group to this sub menu.
+	 *
+	 * @param menuItemGroup the menu item group to add.
+	 */
+	public void addMenuItemGroup(final WMenuItemGroup menuItemGroup) {
+<span class="nc" id="L118">		add(menuItemGroup);</span>
+<span class="nc" id="L119">	}</span>
+
+	/**
+	 * Adds a separator to the sub-menu.
+	 */
+	public void addSeparator() {
+<span class="fc" id="L125">		add(new WSeparator());</span>
+<span class="fc" id="L126">	}</span>
+
+	/**
+	 * Indicates whether this is a top-level menu (ie. attached to a menu bar).
+	 *
+	 * @return true if this is a top-level menu.
+	 */
+	public boolean isTopLevelMenu() {
+<span class="fc" id="L134">		return (getParent() instanceof WMenu);</span>
+	}
+
+	/**
+	 * Indicates whether this sub menu is disabled in the given context.
+	 *
+	 * @return true if this sub menu is disabled.
+	 */
+	@Override
+	public boolean isDisabled() {
+<span class="fc" id="L144">		boolean disabled = false;</span>
+<span class="fc" id="L145">		WComponent parent = getParent();</span>
+
+<span class="pc bpc" id="L147" title="1 of 2 branches missed.">		if (parent instanceof WMenuItemGroup) {</span>
+<span class="nc" id="L148">			disabled = ((WMenuItemGroup) parent).isDisabled();</span>
+		}
+
+<span class="pc bpc" id="L151" title="1 of 4 branches missed.">		return disabled || isFlagSet(ComponentModel.DISABLED_FLAG);</span>
+	}
+
+	/**
+	 * Sets whether this sub menu is disabled.
+	 *
+	 * @param disabled true to disable this sub menu, false to enable.
+	 */
+	@Override
+	public void setDisabled(final boolean disabled) {
+<span class="fc" id="L161">		setFlag(ComponentModel.DISABLED_FLAG, disabled);</span>
+<span class="fc" id="L162">	}</span>
+
+	/**
+	 * &lt;p&gt;
+	 * Set the accesskey (shortcut key) that will activate the sub-menu.
+	 * &lt;/p&gt;
+	 *
+	 * @param accesskey The key (in combination with the Alt key) that activates this element.
+	 */
+	public void setAccessKey(final char accesskey) {
+<span class="fc" id="L172">		getOrCreateComponentModel().accesskey = accesskey;</span>
+<span class="fc" id="L173">	}</span>
+
+	/**
+	 * The accesskey is a shortcut key that will focus the input element when used in combination with the Alt key.
+	 *
+	 * @return The key that in combination with Alt will focus this input.
+	 */
+	public char getAccessKey() {
+<span class="fc" id="L181">		return getComponentModel().accesskey;</span>
+	}
+
+	/**
+	 * Returns the accesskey character as a String. If the character is not a letter or digit then &lt;code&gt;null&lt;/code&gt; is
+	 * returned.
+	 *
+	 * @return The accesskey character as a String (may be &lt;code&gt;null&lt;/code&gt;).
+	 */
+	public String getAccessKeyAsString() {
+<span class="fc" id="L191">		char accessKey = getAccessKey();</span>
+
+<span class="fc bfc" id="L193" title="All 2 branches covered.">		if (Character.isLetterOrDigit(accessKey)) {</span>
+<span class="fc" id="L194">			return String.valueOf(accessKey);</span>
+		}
+
+<span class="fc" id="L197">		return null;</span>
+	}
+
+	/**
+	 * @return the sub-menu text.
+	 */
+	public String getText() {
+<span class="fc" id="L204">		return label.getText();</span>
+	}
+
+	/**
+	 * Sets the sub-menu text.
+	 *
+	 * @param text the sub-menu text.
+	 */
+	public void setText(final String text) {
+<span class="fc" id="L213">		label.setText(text);</span>
+<span class="fc" id="L214">	}</span>
+
+	/**
+	 * @return true if this submenu is selectable, false if not, or null if default to its container.
+	 * @deprecated submenus should not be selectable.
+	 */
+	@Deprecated
+	public Boolean isSelectable() {
+<span class="fc" id="L222">		return getComponentModel().selectable;</span>
+	}
+
+	/**
+	 * This methods sets whether this sub-menu is selectable. Note that selectability does not affect other operations,
+	 * for example the ability to expand/collapse a sub-menu.
+	 *
+	 * @param selectable true if this submenu is selectable, false if not, or null if default to the container.
+	 * @deprecated submenus should not be selectable
+	 */
+	@Deprecated
+	public void setSelectable(final Boolean selectable) {
+<span class="fc" id="L234">		getOrCreateComponentModel().selectable = selectable;</span>
+<span class="fc" id="L235">	}</span>
+
+	/**
+	 * @return Returns the multipleSelection.
+	 * @deprecated Use {{@link #getSelectMode()}.
+	 */
+	@Deprecated
+	public boolean isMultipleSelection() {
+<span class="fc" id="L243">		return SelectMode.MULTIPLE.equals(getComponentModel().selectMode);</span>
+	}
+
+	/**
+	 * @param multipleSelection The multipleSelection to set.
+	 * @deprecated Use {{@link #setSelectMode(SelectMode)}.
+	 */
+	@Deprecated
+	public void setMultipleSelection(final boolean multipleSelection) {
+<span class="pc bpc" id="L252" title="1 of 2 branches missed.">		setSelectMode(multipleSelection ? SelectMode.MULTIPLE : SelectMode.NONE);</span>
+<span class="fc" id="L253">	}</span>
+
+	/**
+	 * @return the select mode for the items in this subMenu.
+	 */
+	public SelectMode getSelectMode() {
+<span class="fc" id="L259">		return getComponentModel().selectMode;</span>
+	}
+
+	/**
+	 * @param selectMode the select mode for the items in this subMenu.
+	 */
+	public void setSelectMode(final SelectMode selectMode) {
+<span class="fc" id="L266">		getOrCreateComponentModel().selectMode = selectMode;</span>
+<span class="fc" id="L267">	}</span>
+
+	/**
+	 * @return the sub-menu's action, or null if there is no action specified.
+	 */
+	public Action getAction() {
+<span class="fc" id="L273">		return getComponentModel().action;</span>
+	}
+
+	/**
+	 * Sets the action to execute when the sub-menu is selected. Note that actions are currently only supported for
+	 * {@link WMenu.MenuType#COLUMN} menus.
+	 *
+	 * @param action the menu item's action.
+	 */
+	public void setAction(final Action action) {
+<span class="fc" id="L283">		getOrCreateComponentModel().action = action;</span>
+<span class="fc" id="L284">	}</span>
+
+	/**
+	 * Retrieves this sub-menu's &quot;default&quot; action command.
+	 *
+	 * @return the actionCommand.
+	 */
+	public String getActionCommand() {
+<span class="fc" id="L292">		return getComponentModel().actionCommand;</span>
+	}
+
+	/**
+	 * Sets this sub-menu's action command.
+	 *
+	 * @param actionCommand The actionCommand to set.
+	 */
+	public void setActionCommand(final String actionCommand) {
+<span class="fc" id="L301">		getOrCreateComponentModel().actionCommand = actionCommand;</span>
+<span class="fc" id="L302">	}</span>
+
+	/**
+	 * Retrieves this sub-menu's &quot;default&quot; action object.
+	 *
+	 * @return the actionObject.
+	 */
+	public Serializable getActionObject() {
+<span class="fc" id="L310">		return getComponentModel().actionObject;</span>
+	}
+
+	/**
+	 * Sets this sub-menu's &quot;default&quot; action object.
+	 *
+	 * @param actionObject The actionObject to set.
+	 */
+	public void setActionObject(final Serializable actionObject) {
+<span class="fc" id="L319">		getOrCreateComponentModel().actionObject = actionObject;</span>
+<span class="fc" id="L320">	}</span>
+
+	/**
+	 * Sets whether this menu is open. Only has an effect for some menu types.
+	 *
+	 * @param open true if the menu should be open, false for closed.
+	 */
+	public void setOpen(final boolean open) {
+<span class="fc" id="L328">		getOrCreateComponentModel().open = open;</span>
+<span class="fc" id="L329">	}</span>
+
+	/**
+	 * Indicates whether this sub-menu is open in the given context.
+	 *
+	 * @return true if this menu is open in the given context, false otherwise.
+	 */
+	public boolean isOpen() {
+<span class="fc" id="L337">		return getComponentModel().open;</span>
+	}
+
+	/**
+	 * @return the sub menu's decorated label.
+	 */
+	public WDecoratedLabel getDecoratedLabel() {
+<span class="fc" id="L344">		return label;</span>
+	}
+
+	/**
+	 * Indicates whether this sub-menuis selected (for menu types which support sub-menu selection).
+	 *
+	 * @return true if this sub-menu is selected, false otherwise.
+	 * @deprecated submenus should not be selectable
+	 */
+	@Deprecated
+	public boolean isSelected() {
+<span class="fc" id="L355">		WMenu parent = WebUtilities.getAncestorOfClass(WMenu.class, this);</span>
+
+<span class="pc bpc" id="L357" title="1 of 2 branches missed.">		if (parent != null) {</span>
+<span class="fc" id="L358">			return parent.getSelectedItems().contains(this);</span>
+		}
+
+<span class="nc" id="L361">		return false;</span>
+	}
+
+	/**
+	 * Override handleRequest in order to perform processing for this component. This implementation checks for submenu
+	 * selection and executes the associated action if it has been set.
+	 *
+	 * @param request the request being responded to.
+	 */
+	@Override
+	public void handleRequest(final Request request) {
+<span class="fc bfc" id="L372" title="All 2 branches covered.">		if (isDisabled()) {</span>
+			// Protect against client-side tampering of disabled/read-only fields.
+<span class="fc" id="L374">			return;</span>
+		}
+
+<span class="fc bfc" id="L377" title="All 2 branches covered.">		if (isMenuPresent(request)) {</span>
+			// If current ajax trigger, process menu for current selections
+<span class="pc bpc" id="L379" title="1 of 2 branches missed.">			if (AjaxHelper.isCurrentAjaxTrigger(this)) {</span>
+<span class="nc" id="L380">				WMenu menu = WebUtilities.getAncestorOfClass(WMenu.class, this);</span>
+<span class="nc" id="L381">				menu.handleRequest(request);</span>
+			}
+
+<span class="fc" id="L384">			String requestValue = request.getParameter(getId());</span>
+
+<span class="fc bfc" id="L386" title="All 2 branches covered.">			if (requestValue != null) {</span>
+				// Execute associated action, if set
+<span class="fc" id="L388">				final Action action = getAction();</span>
+
+<span class="fc bfc" id="L390" title="All 2 branches covered.">				if (action != null) {</span>
+<span class="fc" id="L391">					final ActionEvent event = new ActionEvent(this, this.getActionCommand(),</span>
+<span class="fc" id="L392">							this.getActionObject());</span>
+
+<span class="fc" id="L394">					Runnable later = new Runnable() {</span>
+						@Override
+						public void run() {
+<span class="fc" id="L397">							action.execute(event);</span>
+<span class="fc" id="L398">						}</span>
+					};
+
+<span class="fc" id="L401">					invokeLater(later);</span>
+				}
+			}
+
+<span class="fc" id="L405">			boolean openState = &quot;true&quot;.equals(request.getParameter(getId() + &quot;.open&quot;));</span>
+<span class="fc" id="L406">			setOpen(openState);</span>
+		}
+<span class="fc" id="L408">	}</span>
+
+	/**
+	 * Determine if this WMenuItem's parent WMenu is on the Request.
+	 *
+	 * @param request the request being responded to.
+	 * @return true if this WMenuItem's WMenu is on the Request, otherwise return false.
+	 */
+	protected boolean isMenuPresent(final Request request) {
+<span class="fc" id="L417">		WMenu menu = WebUtilities.getAncestorOfClass(WMenu.class, this);</span>
+<span class="pc bpc" id="L418" title="1 of 4 branches missed.">		return menu != null &amp;&amp; menu.isPresent(request);</span>
+	}
+
+	/**
+	 * Override preparePaintComponent in order to correct the visibility of the sub-menu's children before they are
+	 * rendered.
+	 *
+	 * @param request the request being responded to.
+	 */
+	@Override
+	protected void preparePaintComponent(final Request request) {
+<span class="fc" id="L429">		super.preparePaintComponent(request);</span>
+<span class="fc" id="L430">		List&lt;WComponent&gt; children = new ArrayList&lt;&gt;(getChildCount());</span>
+
+<span class="fc bfc" id="L432" title="All 2 branches covered.">		for (int i = 0; i &lt; getChildCount(); i++) {</span>
+<span class="fc" id="L433">			WComponent child = getChildAt(i);</span>
+
+<span class="fc bfc" id="L435" title="All 2 branches covered.">			if (child != label) {</span>
+<span class="fc" id="L436">				children.add(child);</span>
+			}
+		}
+
+		// String of children Ids
+<span class="fc" id="L441">		List&lt;String&gt; childrenIds = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L442" title="All 2 branches covered.">		for (WComponent child : children) {</span>
+<span class="fc" id="L443">			childrenIds.add(child.getId());</span>
+<span class="fc" id="L444">		}</span>
+
+<span class="pc bfc" id="L446" title="All 5 branches covered.">		switch (getComponentModel().mode) {</span>
+			case LAZY: {
+<span class="fc bfc" id="L448" title="All 2 branches covered.">				for (WComponent child : children) {</span>
+<span class="fc" id="L449">					child.setVisible(isOpen());</span>
+<span class="fc" id="L450">				}</span>
+
+<span class="pc bpc" id="L452" title="1 of 2 branches missed.">				if (!isOpen()) {</span>
+<span class="nc" id="L453">					AjaxHelper.</span>
+<span class="nc" id="L454">							registerContainer(getId(), getId() + &quot;-content&quot;, childrenIds, request);</span>
+				}
+
+				break;
+			}
+			case DYNAMIC: {
+<span class="fc" id="L460">				AjaxHelper.registerContainer(getId(), getId() + &quot;-content&quot;, childrenIds, request);</span>
+
+<span class="fc bfc" id="L462" title="All 2 branches covered.">				for (WComponent child : children) {</span>
+<span class="fc" id="L463">					child.setVisible(isOpen());</span>
+<span class="fc" id="L464">				}</span>
+
+<span class="fc" id="L466">				break;</span>
+			}
+			case EAGER: {
+<span class="fc" id="L469">				AjaxHelper.registerContainer(getId(), getId() + &quot;-content&quot;, childrenIds, request);</span>
+				// Will always be visible
+<span class="fc" id="L471">				break;</span>
+			}
+			case SERVER: {
+<span class="fc bfc" id="L474" title="All 2 branches covered.">				for (WComponent child : children) {</span>
+<span class="fc" id="L475">					child.setVisible(isOpen());</span>
+<span class="fc" id="L476">				}</span>
+
+<span class="fc" id="L478">				break;</span>
+			}
+			case CLIENT: {
+				// Will always be visible
+				break;
+			}
+		}
+<span class="fc" id="L485">	}</span>
+
+	/**
+	 * Adds the given menu item as a child of this component.
+	 *
+	 * @param item the item to add.
+	 */
+	public void add(final WMenuItem item) {
+<span class="fc" id="L493">		super.add(item);</span>
+<span class="fc" id="L494">	}</span>
+
+	/**
+	 * Adds the given sub-menu as a child of this component.
+	 *
+	 * @param item the sub-menu to add.
+	 */
+	public void add(final WSubMenu item) {
+<span class="fc" id="L502">		super.add(item);</span>
+<span class="fc" id="L503">	}</span>
+
+	/**
+	 * Adds the given group as a child of this component.
+	 *
+	 * @param item group the group to add.
+	 */
+	public void add(final WMenuItemGroup item) {
+<span class="nc" id="L511">		super.add(item);</span>
+<span class="nc" id="L512">	}</span>
+
+	/**
+	 * Adds the given separator as a child of this component.
+	 *
+	 * @param separator the separator to add.
+	 */
+	public void add(final WSeparator separator) {
+<span class="fc" id="L520">		super.add(separator);</span>
+<span class="fc" id="L521">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override // to make public
+	public void remove(final WComponent child) {
+<span class="nc" id="L528">		super.remove(child);</span>
+<span class="nc" id="L529">	}</span>
+
+	/**
+	 * @return a String representation of this component, for debugging purposes.
+	 */
+	@Override
+	public String toString() {
+<span class="nc" id="L536">		String text = getDecoratedLabel().getText();</span>
+<span class="nc bnc" id="L537" title="All 2 branches missed.">		text = text == null ? &quot;null&quot; : ('&quot;' + text + '&quot;');</span>
+<span class="nc" id="L538">		return toString(text, 1, getChildCount() - 1);</span>
+	}
+
+	/**
+	 * Creates a new component model.
+	 *
+	 * @return a new SubMenuModel.
+	 */
+	@Override
+	protected SubMenuModel newComponentModel() {
+<span class="fc" id="L548">		return new SubMenuModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override // For type safety only
+	protected SubMenuModel getComponentModel() {
+<span class="fc" id="L556">		return (SubMenuModel) super.getComponentModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override // For type safety only
+	protected SubMenuModel getOrCreateComponentModel() {
+<span class="fc" id="L564">		return (SubMenuModel) super.getOrCreateComponentModel();</span>
+	}
+
+	/**
+	 * Holds the extrinsic state information of a WSubMenu.
+	 *
+	 * @author Yiannis Paschalidis
+	 * @since 1.0.0
+	 */
+<span class="fc" id="L573">	public static class SubMenuModel extends ComponentModel {</span>
+
+		/**
+		 * Indicates whether the sub-menu is in an open-state.
+		 */
+		private boolean open;
+
+		/**
+		 * Indicates whether the sub-menu supports selection of multiple menu-items.
+		 */
+<span class="fc" id="L583">		private SelectMode selectMode = SelectMode.NONE;</span>
+
+		/**
+		 * Indicates whether the sub-menu itself can be selected (e.g. for column menus).
+		 */
+		private Boolean selectable;
+
+		/**
+		 * The action to execute when the menu item is selected.
+		 */
+		private Action action;
+
+		/**
+		 * The action command to pass to the action when it is executed.
+		 */
+		private String actionCommand;
+
+		/**
+		 * The action object to pass to the action when it is executed.
+		 */
+		private Serializable actionObject;
+
+		/**
+		 * The key shortcut that activates the menu.
+		 */
+<span class="fc" id="L608">		private char accesskey = '\0';</span>
+
+		/**
+		 * The {@link MenuMode | ajax mode}.
+		 */
+<span class="fc" id="L613">		private MenuMode mode = MenuMode.CLIENT;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

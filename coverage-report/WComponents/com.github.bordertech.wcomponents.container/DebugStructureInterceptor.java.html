@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>DebugStructureInterceptor.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.container</a> &gt; <span class="el_source">DebugStructureInterceptor.java</span></div><h1>DebugStructureInterceptor.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.container;
+
+import com.github.bordertech.wcomponents.Container;
+import com.github.bordertech.wcomponents.RenderContext;
+import com.github.bordertech.wcomponents.UIContext;
+import com.github.bordertech.wcomponents.UIContextHolder;
+import com.github.bordertech.wcomponents.WCardManager;
+import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.WInvisibleContainer;
+import com.github.bordertech.wcomponents.WRepeater;
+import com.github.bordertech.wcomponents.XmlStringBuilder;
+import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
+import com.github.bordertech.wcomponents.util.DebugUtil;
+import java.util.List;
+
+/**
+ * &lt;p&gt;
+ * An Interceptor used to output structural debugging information.&lt;/p&gt;
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ */
+<span class="fc" id="L23">public class DebugStructureInterceptor extends InterceptorComponent {</span>
+
+	/**
+	 * Override paint to render additional information for debugging purposes.
+	 *
+	 * @param renderContext the renderContext to send the output to.
+	 */
+	@Override
+	public void paint(final RenderContext renderContext) {
+<span class="fc" id="L32">		super.paint(renderContext);</span>
+
+<span class="pc bpc" id="L34" title="1 of 4 branches missed.">		if (!DebugUtil.isDebugStructureEnabled() || !(renderContext instanceof WebXmlRenderContext)) {</span>
+<span class="fc" id="L35">			return;</span>
+		}
+
+<span class="fc" id="L38">		XmlStringBuilder xml = ((WebXmlRenderContext) renderContext).getWriter();</span>
+
+<span class="fc" id="L40">		xml.appendTag(&quot;ui:debug&quot;);</span>
+<span class="fc" id="L41">		writeDebugInfo(getUI(), xml);</span>
+<span class="fc" id="L42">		xml.appendEndTag(&quot;ui:debug&quot;);</span>
+<span class="fc" id="L43">	}</span>
+
+	/**
+	 * Writes debugging information for the given component.
+	 *
+	 * @param component the component to write debugging information for.
+	 * @param xml the writer to send the debug output to.
+	 */
+	protected void writeDebugInfo(final WComponent component, final XmlStringBuilder xml) {
+<span class="pc bpc" id="L52" title="4 of 6 branches missed.">		if (component != null &amp;&amp; (component.isVisible() || component instanceof WInvisibleContainer)) {</span>
+<span class="fc" id="L53">			xml.appendTagOpen(&quot;ui:debugInfo&quot;);</span>
+<span class="fc" id="L54">			xml.appendAttribute(&quot;for&quot;, component.getId());</span>
+<span class="fc" id="L55">			xml.appendAttribute(&quot;class&quot;, component.getClass().getName());</span>
+<span class="fc" id="L56">			xml.appendOptionalAttribute(&quot;type&quot;, getType(component));</span>
+<span class="fc" id="L57">			xml.appendClose();</span>
+
+<span class="fc" id="L59">			xml.appendTagOpen(&quot;ui:debugDetail&quot;);</span>
+<span class="fc" id="L60">			xml.appendAttribute(&quot;key&quot;, &quot;defaultState&quot;);</span>
+<span class="fc" id="L61">			xml.appendAttribute(&quot;value&quot;, component.isDefaultState());</span>
+<span class="fc" id="L62">			xml.appendEnd();</span>
+
+<span class="fc" id="L64">			xml.appendEndTag(&quot;ui:debugInfo&quot;);</span>
+
+<span class="pc bpc" id="L66" title="1 of 2 branches missed.">			if (component instanceof WRepeater) {</span>
+				// special case for WRepeaters - we must paint the info for each row.
+<span class="nc" id="L68">				WRepeater repeater = (WRepeater) component;</span>
+
+<span class="nc" id="L70">				List&lt;UIContext&gt; contexts = repeater.getRowContexts();</span>
+
+<span class="nc bnc" id="L72" title="All 2 branches missed.">				for (int i = 0; i &lt; contexts.size(); i++) {</span>
+<span class="nc" id="L73">					UIContextHolder.pushContext(contexts.get(i));</span>
+
+					try {
+<span class="nc" id="L76">						writeDebugInfo(repeater.getRepeatedComponent(i), xml);</span>
+					} finally {
+<span class="nc" id="L78">						UIContextHolder.popContext();</span>
+<span class="nc" id="L79">					}</span>
+				}
+<span class="pc bpc" id="L81" title="1 of 2 branches missed.">			} else if (component instanceof WCardManager) {</span>
+<span class="nc" id="L82">				writeDebugInfo(((WCardManager) component).getVisible(), xml);</span>
+<span class="pc bpc" id="L83" title="1 of 2 branches missed.">			} else if (component instanceof Container) {</span>
+<span class="fc" id="L84">				final int size = ((Container) component).getChildCount();</span>
+
+<span class="pc bpc" id="L86" title="1 of 2 branches missed.">				for (int i = 0; i &lt; size; i++) {</span>
+<span class="nc" id="L87">					writeDebugInfo(((Container) component).getChildAt(i), xml);</span>
+				}
+			}
+		}
+<span class="fc" id="L91">	}</span>
+
+	/**
+	 * Tries to return the type of component.
+	 *
+	 * @param component the component to determine the type of.
+	 * @return the component type, or null if the given component is not a core component.
+	 */
+	private String getType(final WComponent component) {
+<span class="pc bpc" id="L100" title="1 of 2 branches missed.">		for (Class&lt;?&gt; clazz = component.getClass(); clazz != null &amp;&amp; WComponent.class.</span>
+<span class="pc bpc" id="L101" title="1 of 2 branches missed.">				isAssignableFrom(clazz); clazz = clazz.getSuperclass()) {</span>
+<span class="pc bpc" id="L102" title="1 of 2 branches missed.">			if (&quot;com.github.bordertech.wcomponents&quot;.equals(clazz.getPackage().getName())) {</span>
+<span class="fc" id="L103">				return clazz.getName();</span>
+			}
+		}
+
+<span class="nc" id="L107">		return null;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

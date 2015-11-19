@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>FormInterceptor.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.container</a> &gt; <span class="el_source">FormInterceptor.java</span></div><h1>FormInterceptor.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.container;
+
+import com.github.bordertech.wcomponents.RenderContext;
+import com.github.bordertech.wcomponents.Request;
+import com.github.bordertech.wcomponents.UIContext;
+import com.github.bordertech.wcomponents.UIContextHolder;
+import com.github.bordertech.wcomponents.util.Config;
+
+/**
+ * This interceptor is used as the top-level component in both Portlet and Servlet environments.
+ *
+ * @author Martin Shevchenko
+ * @since 1.0.0
+ */
+<span class="fc" id="L15">public class FormInterceptor extends InterceptorComponent {</span>
+
+	/**
+	 * Override serviceRequest in order to perform processing specific to this interceptor.
+	 *
+	 * @param request the request being responded to.
+	 */
+	@Override
+	public void serviceRequest(final Request request) {
+		// Reset the focus for this new request.
+<span class="fc" id="L25">		UIContext uic = UIContextHolder.getCurrent();</span>
+<span class="fc" id="L26">		uic.setFocussed(null, null);</span>
+
+		// We've hit the action phase, so we do want focus on this app.
+<span class="fc" id="L29">		uic.setFocusRequired(true);</span>
+
+<span class="fc" id="L31">		super.serviceRequest(request);</span>
+<span class="fc" id="L32">	}</span>
+
+	/**
+	 * Override preparePaint in order to perform processing specific to this interceptor.
+	 *
+	 * @param request the request being responded to.
+	 */
+	@Override
+	public void preparePaint(final Request request) {
+		// Reset the form encoding type before painting the content.
+<span class="fc" id="L42">		UIContext uic = UIContextHolder.getCurrent();</span>
+<span class="fc" id="L43">		uic.getEnvironment().setFormEncType(null);</span>
+
+<span class="fc" id="L45">		super.preparePaint(request);</span>
+<span class="fc" id="L46">	}</span>
+
+	/**
+	 * Override paint in order to perform processing specific to this interceptor.
+	 *
+	 * @param renderContext the renderContext to send the output to.
+	 */
+	@Override
+	public void paint(final RenderContext renderContext) {
+<span class="fc" id="L55">		getBackingComponent().paint(renderContext);</span>
+
+		// We don't want to remember the focus for the next render because on
+		// a multi portlet page, we'd end up with multiple portlets trying to
+		// set the focus.
+<span class="fc" id="L60">		UIContext uic = UIContextHolder.getCurrent();</span>
+
+<span class="pc bpc" id="L62" title="1 of 2 branches missed.">		if (uic.isFocusRequired()) {</span>
+<span class="fc" id="L63">			boolean sticky = Config.getInstance().getBoolean(&quot;bordertech.wcomponents.stickyFocus&quot;,</span>
+					false);
+
+<span class="pc bpc" id="L66" title="1 of 2 branches missed.">			if (!sticky) {</span>
+<span class="fc" id="L67">				uic.setFocussed(null, null);</span>
+<span class="fc" id="L68">				uic.setFocusRequired(false);</span>
+			}
+		}
+<span class="fc" id="L71">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

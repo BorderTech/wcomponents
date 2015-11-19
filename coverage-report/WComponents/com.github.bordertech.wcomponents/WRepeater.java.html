@@ -1,0 +1,1272 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WRepeater.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">WRepeater.java</span></div><h1>WRepeater.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import com.github.bordertech.wcomponents.util.SystemException;
+import com.github.bordertech.wcomponents.validation.Diagnostic;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+/**
+ * When you have a situation where you have a list of a repeated data type that you want to render or edit, then this ui
+ * component can help.
+ * &lt;p&gt;
+ * Typical usage:
+ * &lt;/p&gt;
+ *
+ * &lt;blockquote&gt;
+ * &lt;pre&gt;
+ * WRepeater repeater = new WRepeater();
+ * repeater.setRepeatedComponent(new MyRepeatedComponent());
+ * ...
+ * repeater.setData(myBeanList);
+ * &lt;/pre&gt;
+ * &lt;/blockquote&gt;
+ *
+ * @author Ming Gao
+ * @author Martin Shevchenko
+ * @since 1.0.0
+ */
+public class WRepeater extends WBeanComponent implements Container, AjaxTarget, NamingContextable {
+
+	/**
+	 * This key is used to access the rowId-to-row-bean mapping table from the scratch map.
+	 */
+	private static final String SCRATCHMAP_DATA_BY_ROW_ID_KEY = &quot;WRepeater.dataByRowId&quot;;
+
+	/**
+	 * The logger instance for this class.
+	 */
+<span class="fc" id="L49">	private static final Log LOG = LogFactory.getLog(WRepeater.class);</span>
+
+	/**
+	 * Row context name pattern. Must contain only letters, digits or underscores.
+	 */
+<span class="fc" id="L54">	private static final Pattern ROW_ID_CONTEXT_NAME_PATTERN = Pattern.compile(&quot;[0-9a-zA-Z_]*&quot;);</span>
+
+	/**
+	 * Creates a WRepeater without any repeated component. The method {@link #setRepeatedComponent(WComponent)} must be
+	 * called to configure the repeater.
+	 */
+<span class="fc" id="L60">	public WRepeater() {</span>
+		// Do nothing
+<span class="fc" id="L62">	}</span>
+
+	/**
+	 * Creates a WRepeater which will repeat the given component.
+	 *
+	 * @param repeatedComponent the component to repeat.
+	 */
+<span class="fc" id="L69">	public WRepeater(final WComponent repeatedComponent) {</span>
+<span class="fc" id="L70">		add(new WRepeatRoot(this, repeatedComponent));</span>
+<span class="fc" id="L71">	}</span>
+
+	/**
+	 * Set the wcomponent instance capable of handling a row. The component must implement at least one of the
+	 * {@link DataBound}, {@link BeanBound} or {@link BeanProviderBound} interfaces. The data entries in the bean list
+	 * passed to this repeater must be compatible with the component.
+	 *
+	 * @param repeatedComponent the component to repeat.
+	 */
+	public void setRepeatedComponent(final WComponent repeatedComponent) {
+<span class="fc" id="L81">		removeAll();</span>
+<span class="fc" id="L82">		add(new WRepeatRoot(this, repeatedComponent));</span>
+<span class="fc" id="L83">	}</span>
+
+	/**
+	 * Remember the list of beans that hold the data object for each row.
+	 *
+	 * @param beanList the list of data objects for each row.
+	 */
+	public void setBeanList(final List beanList) {
+<span class="fc" id="L91">		RepeaterModel model = getOrCreateComponentModel();</span>
+<span class="fc" id="L92">		model.setData(beanList);</span>
+
+		// Clean up any stale data.
+<span class="fc" id="L95">		HashSet rowIds = new HashSet(beanList.size());</span>
+
+<span class="fc bfc" id="L97" title="All 2 branches covered.">		for (Object bean : beanList) {</span>
+<span class="fc" id="L98">			rowIds.add(getRowId(bean));</span>
+<span class="fc" id="L99">		}</span>
+
+<span class="fc" id="L101">		cleanupStaleContexts(rowIds);</span>
+
+		// Clean up cached component IDs
+<span class="fc" id="L104">		UIContext uic = UIContextHolder.getCurrent();</span>
+
+<span class="fc bfc" id="L106" title="All 4 branches covered.">		if (uic != null &amp;&amp; getRepeatRoot() != null) {</span>
+<span class="fc" id="L107">			clearScratchMaps(this);</span>
+		}
+<span class="fc" id="L109">	}</span>
+
+	/**
+	 * Recursively clears cached component scratch maps. This is called when the bean list changes, as the beans may
+	 * have changed.
+	 *
+	 * @param node the component branch to clear cached data in.
+	 */
+	protected void clearScratchMaps(final WComponent node) {
+<span class="fc" id="L118">		UIContextHolder.getCurrent().clearScratchMap(node);</span>
+
+<span class="fc bfc" id="L120" title="All 2 branches covered.">		if (node instanceof WRepeater) {</span>
+<span class="fc" id="L121">			WRepeater repeater = (WRepeater) node;</span>
+<span class="fc" id="L122">			List&lt;UIContext&gt; rowContextList = repeater.getRowContexts();</span>
+<span class="fc" id="L123">			WComponent repeatedComponent = repeater.getRepeatedComponent();</span>
+
+<span class="fc bfc" id="L125" title="All 2 branches covered.">			for (UIContext rowContext : rowContextList) {</span>
+<span class="fc" id="L126">				UIContextHolder.pushContext(rowContext);</span>
+
+				try {
+<span class="fc" id="L129">					clearScratchMaps(repeatedComponent);</span>
+				} finally {
+<span class="pc" id="L131">					UIContextHolder.popContext();</span>
+<span class="fc" id="L132">				}</span>
+<span class="fc" id="L133">			}</span>
+
+			// Make sure the repeater's scratch map has not been repopulated by processing its children
+<span class="fc" id="L136">			UIContextHolder.getCurrent().clearScratchMap(node);</span>
+<span class="fc bfc" id="L137" title="All 2 branches covered.">		} else if (node instanceof Container) {</span>
+<span class="fc" id="L138">			Container container = (Container) node;</span>
+
+<span class="fc bfc" id="L140" title="All 2 branches covered.">			for (int i = 0; i &lt; container.getChildCount(); i++) {</span>
+<span class="fc" id="L141">				clearScratchMaps(container.getChildAt(i));</span>
+			}
+		}
+<span class="fc" id="L144">	}</span>
+
+	/**
+	 * Retrieves the list of dataBeans that holds the data object for each row. The list returned will be the same
+	 * instance as the one supplied via the setBeanList method. Will never return null, but it can return an empty list.
+	 *
+	 * @return the list of dataBeans that holds the data object for each row
+	 */
+	public List getBeanList() {
+<span class="fc" id="L153">		List beanList = (List) getData();</span>
+
+<span class="fc bfc" id="L155" title="All 2 branches covered.">		if (beanList == null) {</span>
+<span class="fc" id="L156">			return Collections.emptyList();</span>
+		}
+
+<span class="fc" id="L159">		return Collections.unmodifiableList(beanList);</span>
+	}
+
+	/**
+	 * Override updateBeanValue to update the bean value for all WBeanComponents Updates the bean value with the value
+	 * returned by {@link #getData()}.
+	 */
+	@Override
+	public void updateBeanValue() {
+<span class="nc" id="L168">		List&lt;?&gt; beanList = this.getBeanList();</span>
+<span class="nc" id="L169">		WComponent renderer = getRepeatedComponent();</span>
+
+<span class="nc bnc" id="L171" title="All 2 branches missed.">		for (int i = 0; i &lt; beanList.size(); i++) {</span>
+<span class="nc" id="L172">			Object rowData = beanList.get(i);</span>
+<span class="nc" id="L173">			UIContext rowContext = getRowContext(rowData, i);</span>
+
+<span class="nc" id="L175">			UIContextHolder.pushContext(rowContext);</span>
+
+			try {
+<span class="nc" id="L178">				WebUtilities.updateBeanValue(renderer);</span>
+			} finally {
+<span class="nc" id="L180">				UIContextHolder.popContext();</span>
+<span class="nc" id="L181">			}</span>
+		}
+<span class="nc" id="L183">	}</span>
+
+	// =========================================================================
+	// === Start implementation of DataBound
+	/**
+	 * Remember the list of dataBeans that holds the data object for each row.
+	 *
+	 * @param dataBean Must be a java.util.List of dataBeans.
+	 */
+	@Override
+	public void setData(final Object dataBean) {
+<span class="fc" id="L194">		setBeanList((List) dataBean);</span>
+<span class="fc" id="L195">	}</span>
+
+	// === End implementation of DataBound
+	// =========================================================================
+	// === Start validation
+	/**
+	 * Validates each row.
+	 *
+	 * @param diags the list of SfpDiagnostics to add to.
+	 */
+	@Override
+	public void validate(final List&lt;Diagnostic&gt; diags) {
+		// Validate each row.
+<span class="fc" id="L208">		List beanList = this.getBeanList();</span>
+<span class="fc" id="L209">		WComponent row = getRepeatedComponent();</span>
+
+<span class="fc bfc" id="L211" title="All 2 branches covered.">		for (int i = 0; i &lt; beanList.size(); i++) {</span>
+<span class="fc" id="L212">			Object rowData = beanList.get(i);</span>
+<span class="fc" id="L213">			UIContext rowContext = getRowContext(rowData, i);</span>
+
+<span class="fc" id="L215">			UIContextHolder.pushContext(rowContext);</span>
+
+			try {
+<span class="fc" id="L218">				row.validate(diags);</span>
+			} finally {
+<span class="pc" id="L220">				UIContextHolder.popContext();</span>
+<span class="fc" id="L221">			}</span>
+		}
+<span class="fc" id="L223">	}</span>
+
+	/**
+	 * Visually marks any fields or blocks that have errors in the given diag list.
+	 *
+	 * @param diags the list of SfpDiagnostics from the last validation pass.
+	 */
+	@Override
+	public void showErrorIndicators(final List&lt;Diagnostic&gt; diags) {
+		// Show error indicators for each row.
+<span class="nc" id="L233">		List beanList = this.getBeanList();</span>
+<span class="nc" id="L234">		WComponent row = getRepeatedComponent();</span>
+
+<span class="nc bnc" id="L236" title="All 2 branches missed.">		for (int i = 0; i &lt; beanList.size(); i++) {</span>
+<span class="nc" id="L237">			Object rowData = beanList.get(i);</span>
+<span class="nc" id="L238">			UIContext rowContext = getRowContext(rowData, i);</span>
+
+<span class="nc" id="L240">			UIContextHolder.pushContext(rowContext);</span>
+
+			try {
+<span class="nc" id="L243">				row.showErrorIndicators(diags);</span>
+			} finally {
+<span class="nc" id="L245">				UIContextHolder.popContext();</span>
+<span class="nc" id="L246">			}</span>
+		}
+<span class="nc" id="L248">	}</span>
+
+	// === End validation
+	// =========================================================================
+	// === Start override methods from WComponent
+	/**
+	 * Override handleRequest to process the request for each row.
+	 *
+	 * @param request the request being responded to.
+	 */
+	@Override
+	public void handleRequest(final Request request) {
+<span class="fc" id="L260">		assertConfigured();</span>
+
+		//
+		// Service the request for each row.
+		//
+<span class="fc" id="L265">		List beanList = getBeanList();</span>
+<span class="fc" id="L266">		HashSet rowIds = new HashSet(beanList.size());</span>
+<span class="fc" id="L267">		WComponent row = getRepeatedComponent();</span>
+
+<span class="fc bfc" id="L269" title="All 2 branches covered.">		for (int i = 0; i &lt; beanList.size(); i++) {</span>
+<span class="fc" id="L270">			Object rowData = beanList.get(i);</span>
+<span class="fc" id="L271">			rowIds.add(getRowId(rowData));</span>
+
+			// Each row has its own context. This is why we can reuse the same
+			// WComponent instance for each row.
+<span class="fc" id="L275">			UIContext rowContext = getRowContext(rowData, i);</span>
+
+			try {
+<span class="fc" id="L278">				UIContextHolder.pushContext(rowContext);</span>
+<span class="fc" id="L279">				row.serviceRequest(request);</span>
+			} finally {
+<span class="pc" id="L281">				UIContextHolder.popContext();</span>
+<span class="fc" id="L282">			}</span>
+		}
+
+<span class="fc" id="L285">		cleanupStaleContexts(rowIds);</span>
+<span class="fc" id="L286">	}</span>
+
+	/**
+	 * Removes any stale contexts from the row context map.
+	 *
+	 * @param rowIds the current set of row Ids.
+	 */
+	protected void cleanupStaleContexts(final Set&lt;?&gt; rowIds) {
+<span class="fc" id="L294">		RepeaterModel model = getOrCreateComponentModel();</span>
+
+<span class="fc bfc" id="L296" title="All 2 branches covered.">		if (model.rowContextMap != null) {</span>
+<span class="fc" id="L297">			for (Iterator&lt;Map.Entry&lt;Object, SubUIContext&gt;&gt; i = model.rowContextMap.entrySet().</span>
+<span class="fc bfc" id="L298" title="All 2 branches covered.">					iterator(); i.hasNext();) {</span>
+<span class="fc" id="L299">				Map.Entry&lt;Object, SubUIContext&gt; entry = i.next();</span>
+<span class="fc" id="L300">				Object rowId = entry.getKey();</span>
+
+<span class="fc bfc" id="L302" title="All 2 branches covered.">				if (!rowIds.contains(rowId)) {</span>
+<span class="fc" id="L303">					i.remove();</span>
+				}
+<span class="fc" id="L305">			}</span>
+<span class="fc bfc" id="L306" title="All 2 branches covered.">			if (model.rowContextMap.isEmpty()) {</span>
+<span class="fc" id="L307">				model.rowContextMap = null;</span>
+			}
+		}
+<span class="fc" id="L310">	}</span>
+
+	/**
+	 * Removes any component models that are in their default state.
+	 * &lt;p&gt;
+	 * The subContexts are held onto as they hold the &quot;render id&quot; for the row. This is needed to be able to match the
+	 * rendered row back to the subcontext.
+	 * &lt;/p&gt;
+	 */
+	@Override
+	public void tidyUpUIContext() {
+<span class="nc" id="L321">		RepeaterModel model = getComponentModel();</span>
+
+<span class="nc bnc" id="L323" title="All 2 branches missed.">		if (model.rowContextMap != null) {</span>
+<span class="nc" id="L324">			for (Iterator&lt;Map.Entry&lt;Object, SubUIContext&gt;&gt; i = model.rowContextMap.entrySet().</span>
+<span class="nc bnc" id="L325" title="All 2 branches missed.">					iterator(); i.hasNext();) {</span>
+<span class="nc" id="L326">				Map.Entry&lt;Object, SubUIContext&gt; entry = i.next();</span>
+<span class="nc" id="L327">				SubUIContext subContext = entry.getValue();</span>
+
+<span class="nc" id="L329">				UIContextHolder.pushContext(subContext);</span>
+
+				try {
+<span class="nc" id="L332">					getRepeatRoot().tidyUpUIContextForTree();</span>
+				} finally {
+<span class="nc" id="L334">					UIContextHolder.popContext();</span>
+<span class="nc" id="L335">				}</span>
+<span class="nc" id="L336">			}</span>
+		}
+
+<span class="nc" id="L339">		super.tidyUpUIContext();</span>
+<span class="nc" id="L340">	}</span>
+
+	/**
+	 * Override preparePaintComponent to prepare each row for painting.
+	 *
+	 * @param request the request being responded to.
+	 */
+	@Override
+	protected void preparePaintComponent(final Request request) {
+<span class="fc" id="L349">		assertConfigured();</span>
+
+<span class="fc" id="L351">		List beanList = getBeanList();</span>
+
+<span class="fc" id="L353">		List&lt;Integer&gt; used = new ArrayList&lt;&gt;();</span>
+
+<span class="fc bfc" id="L355" title="All 2 branches covered.">		for (int i = 0; i &lt; beanList.size(); i++) {</span>
+<span class="fc" id="L356">			Object rowData = beanList.get(i);</span>
+
+			// Each row has its own context. This is why we can reuse the same
+			// WComponent instance for each row.
+<span class="fc" id="L360">			UIContext rowContext = getRowContext(rowData, i);</span>
+
+			// Check the context has not been used for another row
+<span class="fc" id="L363">			Integer subId = ((SubUIContext) rowContext).getContextId();</span>
+<span class="pc bpc" id="L364" title="1 of 2 branches missed.">			if (used.contains(subId)) {</span>
+<span class="nc" id="L365">				Object rowId = ((SubUIContext) rowContext).getRowId();</span>
+<span class="nc" id="L366">				String msg = &quot;The row context for row id [&quot;</span>
+						+ rowId
+						+ &quot;] has already been used for another row. &quot;
+						+ &quot;Either the row ID is not unique or the row bean has not implemented equals/hashcode &quot;
+						+ &quot;or no rowIdBeanProperty set on the repeater that uniquely identifies the row.&quot;;
+<span class="nc" id="L371">				throw new SystemException(msg);</span>
+			}
+<span class="fc" id="L373">			used.add(subId);</span>
+
+<span class="fc" id="L375">			UIContextHolder.pushContext(rowContext);</span>
+
+			try {
+<span class="fc" id="L378">				prepareRow(request, i);</span>
+			} finally {
+<span class="pc" id="L380">				UIContextHolder.popContext();</span>
+<span class="fc" id="L381">			}</span>
+		}
+<span class="fc" id="L383">	}</span>
+
+	/**
+	 * Prepares a single row for painting.
+	 *
+	 * @param request the request being responded to.
+	 * @param rowIndex the row index.
+	 */
+	protected void prepareRow(final Request request, final int rowIndex) {
+<span class="fc" id="L392">		WComponent row = getRepeatedComponent();</span>
+<span class="fc" id="L393">		row.preparePaint(request);</span>
+<span class="fc" id="L394">	}</span>
+
+	/**
+	 * Allows a subclass to provide the ID used in the row naming context.
+	 * &lt;p&gt;
+	 * The returned ID must only contain letters, digits or underscores.
+	 * &lt;/p&gt;
+	 *
+	 * @param rowBean the row's bean
+	 * @param rowId the row id
+	 * @return the unique row id or null to use the row context id
+	 */
+	protected String getRowIdName(final Object rowBean, final Object rowId) {
+<span class="fc" id="L407">		return null;</span>
+	}
+
+	// --------------------------------
+	// Extrinsic state management
+	/**
+	 * Holds the extrinsic state information of a WRepeater.
+	 */
+<span class="fc" id="L415">	public static class RepeaterModel extends BeanAndProviderBoundComponentModel {</span>
+
+		/**
+		 * Map rowIds to their subcontext.
+		 */
+		private Map&lt;Object, SubUIContext&gt; rowContextMap;
+		/**
+		 * Row id property.
+		 */
+		private String rowIdProperty;
+		/**
+		 * Row context id sequence. Give each row context a unique ID.
+		 */
+		private int rowContextIdSequence;
+	}
+
+	/**
+	 * Sets the bean property that can be used to obtain each row's unique id.
+	 *
+	 * @param rowIdProperty the row id property, using jakarta PropertyUtils notation
+	 */
+	public void setRowIdProperty(final String rowIdProperty) {
+<span class="fc" id="L437">		getOrCreateComponentModel().rowIdProperty = rowIdProperty;</span>
+<span class="fc" id="L438">	}</span>
+
+	/**
+	 * Creates a new component model which is appropriate for this component.
+	 *
+	 * @return a new RepeaterModel.
+	 */
+	@Override
+	protected RepeaterModel newComponentModel() {
+<span class="fc" id="L447">		return new RepeaterModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected RepeaterModel getComponentModel() {
+<span class="fc" id="L455">		return (RepeaterModel) super.getComponentModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected RepeaterModel getOrCreateComponentModel() {
+<span class="fc" id="L463">		return (RepeaterModel) super.getOrCreateComponentModel();</span>
+	}
+
+	// --------------------------------
+	/**
+	 * Ensures that the repeater has been correctly configured. A SystemException will be thrown if the repeater is not
+	 * configured correctly.
+	 */
+	private void assertConfigured() {
+<span class="pc bpc" id="L472" title="1 of 2 branches missed.">		if (getRepeatRoot() == null) {</span>
+<span class="nc" id="L473">			throw new SystemException(</span>
+					&quot;WRepeater not configured correctly. No repeated component supplied.&quot;);
+		}
+<span class="fc" id="L476">	}</span>
+
+	/**
+	 * Retrieves the UIContext for a row, where the row index is not known.
+	 *
+	 * @param rowBean the row's bean.
+	 * @return The context for the given row.
+	 */
+	public UIContext getRowContext(final Object rowBean) {
+<span class="fc" id="L485">		return getRowContext(rowBean, getBeanList().indexOf(rowBean));</span>
+	}
+
+	/**
+	 * Retrieves the UIContext for a row.
+	 *
+	 * @param rowBean the row's bean.
+	 * @param rowIndex the row index.
+	 * @return The context for the given row.
+	 */
+	public UIContext getRowContext(final Object rowBean, final int rowIndex) {
+<span class="fc" id="L496">		RepeaterModel model = getOrCreateComponentModel();</span>
+<span class="fc" id="L497">		Object rowId = getRowId(rowBean);</span>
+
+<span class="fc bfc" id="L499" title="All 2 branches covered.">		if (model.rowContextMap == null) {</span>
+<span class="fc" id="L500">			model.rowContextMap = new HashMap&lt;&gt;();</span>
+		}
+
+<span class="fc" id="L503">		SubUIContext rowContext = model.rowContextMap.get(rowId);</span>
+
+<span class="fc bfc" id="L505" title="All 2 branches covered.">		if (rowContext == null) {</span>
+<span class="fc" id="L506">			int seq = model.rowContextIdSequence++;</span>
+
+			// Just for the first row, check rowId has implemented equals/hashcode. Assumes each row will use the same
+			// row id class.
+<span class="fc bfc" id="L510" title="All 2 branches covered.">			if (seq == 0) {</span>
+				try {
+<span class="fc" id="L512">					if (rowId.getClass() != rowId.getClass().getMethod(&quot;equals&quot;, Object.class).</span>
+<span class="fc bfc" id="L513" title="All 2 branches covered.">							getDeclaringClass()</span>
+<span class="fc" id="L514">							|| rowId.getClass() != rowId.getClass().getMethod(&quot;hashCode&quot;).</span>
+<span class="pc bpc" id="L515" title="1 of 2 branches missed.">							getDeclaringClass()) {</span>
+<span class="fc" id="L516">						LOG.warn(&quot;Row id class [&quot;</span>
+<span class="fc" id="L517">								+ rowId.getClass().getName()</span>
+								+ &quot;] has not implemented equals or hashcode. This can cause errors when matching a row context. &quot;
+								+ &quot;Implement equals/hashcode on the row bean or refer to setRowIdBeanProperty method on WRepeater.&quot;);
+					}
+<span class="nc" id="L521">				} catch (Exception e) {</span>
+<span class="nc" id="L522">					LOG.info(</span>
+							&quot;Error checking equals and hashcode implementation on the row id. &quot; + e.
+<span class="nc" id="L524">							getMessage(), e);</span>
+<span class="fc" id="L525">				}</span>
+			}
+
+			// Get the row render id name (used in naming context for each row)
+<span class="fc" id="L529">			String renderId = getRowIdName(rowBean, rowId);</span>
+<span class="pc bpc" id="L530" title="1 of 2 branches missed.">			if (renderId == null) {</span>
+				// Just use the context id as the row naming context
+<span class="fc" id="L532">				rowContext = new SubUIContext(this, seq);</span>
+			} else {
+				// Check ID is properly formed
+				// Must only contain letters, digits and or underscores
+<span class="nc" id="L536">				Matcher matcher = ROW_ID_CONTEXT_NAME_PATTERN.matcher(renderId);</span>
+<span class="nc bnc" id="L537" title="All 2 branches missed.">				if (!matcher.matches()) {</span>
+<span class="nc" id="L538">					throw new IllegalArgumentException(</span>
+							&quot;Row idName [&quot;
+							+ renderId
+							+ &quot;] must start with a letter and followed by letters, digits and or underscores.&quot;);
+				}
+<span class="nc" id="L543">				rowContext = new SubUIContext(this, seq, renderId);</span>
+			}
+<span class="fc" id="L545">			rowContext.setRowId(rowId);</span>
+<span class="fc" id="L546">			model.rowContextMap.put(rowId, rowContext);</span>
+		}
+
+<span class="fc" id="L549">		rowContext.setRowIndex(rowIndex); // just incase it has changed</span>
+<span class="fc" id="L550">		return rowContext;</span>
+	}
+
+	/**
+	 * Returns the row data for the given row context.
+	 *
+	 * @param subContext the row context.
+	 * @return the data bean for the given row context.
+	 */
+	public Object getRowBeanForSubcontext(final SubUIContext subContext) {
+<span class="pc bpc" id="L560" title="1 of 2 branches missed.">		if (subContext.repeatRoot != getRepeatRoot()) {</span>
+			// TODO: Is this still necessary?
+<span class="nc" id="L562">			throw new IllegalArgumentException(&quot;SubUIContext is not for this WRepeater instance.&quot;);</span>
+		}
+
+		// We need to get the list using the parent context
+		// so that e.g. caching in the scratch map works properly.
+<span class="fc" id="L567">		UIContextHolder.pushContext(subContext.getParentContext());</span>
+
+		try {
+<span class="fc" id="L570">			return getRowData(subContext.getRowId());</span>
+		} finally {
+<span class="pc" id="L572">			UIContextHolder.popContext();</span>
+		}
+	}
+
+	/**
+	 * Returns the row data corresponding to the given id.
+	 *
+	 * @param rowId the row id
+	 * @return the row data with the given id, or null if not found.
+	 */
+	private Object getRowData(final Object rowId) {
+		// We cache row id --&gt; row bean mapping per request for performance (to avoid nested loops)
+<span class="fc" id="L584">		Map dataByRowId = (Map) getScratchMap().get(SCRATCHMAP_DATA_BY_ROW_ID_KEY);</span>
+
+<span class="fc bfc" id="L586" title="All 2 branches covered.">		if (dataByRowId == null) {</span>
+<span class="fc" id="L587">			dataByRowId = createRowIdCache();</span>
+		}
+
+<span class="fc" id="L590">		Object data = dataByRowId.get(rowId);</span>
+
+<span class="pc bpc" id="L592" title="1 of 4 branches missed.">		if (data == null &amp;&amp; !dataByRowId.containsKey(rowId)) {</span>
+			// Ok, new data has probably been added. We need to cache the new data.
+<span class="fc" id="L594">			dataByRowId = createRowIdCache();</span>
+<span class="fc" id="L595">			data = dataByRowId.get(rowId);</span>
+		}
+
+<span class="fc" id="L598">		return data;</span>
+	}
+
+	/**
+	 * Creates a temporary cache of mappings from row id to row data. The mappings will be stored in this repeater's
+	 * scratch map under {@link #SCRATCHMAP_DATA_BY_ROW_ID_KEY}.
+	 *
+	 * @return the newly created map
+	 */
+	private Map createRowIdCache() {
+<span class="fc" id="L608">		List&lt;?&gt; data = (List&lt;?&gt;) getData();</span>
+<span class="fc" id="L609">		Map&lt;Object, Object&gt; dataByRowId = new HashMap&lt;&gt;(data.size());</span>
+
+<span class="fc" id="L611">		UIContext uic = UIContextHolder.getCurrent();</span>
+
+<span class="pc bpc" id="L613" title="1 of 2 branches missed.">		if (uic != null) {</span>
+<span class="fc" id="L614">			uic.getScratchMap(this).put(SCRATCHMAP_DATA_BY_ROW_ID_KEY, dataByRowId);</span>
+		}
+
+<span class="fc bfc" id="L617" title="All 2 branches covered.">		for (int i = 0; i &lt; data.size(); i++) {</span>
+<span class="fc" id="L618">			Object bean = data.get(i);</span>
+<span class="fc" id="L619">			dataByRowId.put(getRowId(bean), bean);</span>
+		}
+
+<span class="fc" id="L622">		return dataByRowId;</span>
+	}
+
+	/**
+	 * Retrieves the row id for the given row.
+	 *
+	 * @param rowBean the row's data.
+	 * @return the id for the given row. Defaults to the row data.
+	 */
+	protected Object getRowId(final Object rowBean) {
+<span class="fc" id="L632">		String rowIdProperty = getComponentModel().rowIdProperty;</span>
+
+<span class="pc bpc" id="L634" title="1 of 4 branches missed.">		if (rowIdProperty == null || rowBean == null) {</span>
+<span class="fc" id="L635">			return rowBean;</span>
+		}
+
+		try {
+<span class="fc" id="L639">			return PropertyUtils.getProperty(rowBean, rowIdProperty);</span>
+<span class="nc" id="L640">		} catch (Exception e) {</span>
+<span class="nc" id="L641">			LOG.error(&quot;Failed to read row property \&quot;&quot; + rowIdProperty + &quot;\&quot; on &quot; + rowBean, e);</span>
+<span class="nc" id="L642">			return rowBean;</span>
+		}
+	}
+
+	/**
+	 * Retrieves the row contexts for all rows.
+	 *
+	 * @return A list containing a UIContext for each row. Will never return null, but it can return an empty list.
+	 */
+	public List&lt;UIContext&gt; getRowContexts() {
+<span class="fc" id="L652">		List&lt;?&gt; beanList = this.getBeanList();</span>
+<span class="fc" id="L653">		List&lt;UIContext&gt; contexts = new ArrayList&lt;&gt;(beanList.size());</span>
+
+<span class="fc bfc" id="L655" title="All 2 branches covered.">		for (int i = 0; i &lt; beanList.size(); i++) {</span>
+<span class="fc" id="L656">			Object rowData = beanList.get(i);</span>
+<span class="fc" id="L657">			contexts.add(this.getRowContext(rowData, i));</span>
+		}
+
+<span class="fc" id="L660">		return Collections.unmodifiableList(contexts);</span>
+	}
+
+	/**
+	 * Retrieves the repeat root, creating one if necessary.
+	 *
+	 * @return the repeat root.
+	 */
+	protected WRepeatRoot getRepeatRoot() {
+<span class="fc bfc" id="L669" title="All 2 branches covered.">		return getChildCount() == 0 ? null : (WRepeatRoot) getChildAt(0);</span>
+	}
+
+	/**
+	 * Retrieves the repeated component, that is used to render each row.
+	 *
+	 * @return the repeated component
+	 */
+	public WComponent getRepeatedComponent() {
+<span class="fc" id="L678">		return getRepeatRoot().getRepeatedComponent();</span>
+	}
+
+	/**
+	 * Retrieves the repeated component for the specified row.
+	 *
+	 * @param row the row number.
+	 * @return the repeated component for the specified row.
+	 */
+	public WComponent getRepeatedComponent(final int row) {
+<span class="nc" id="L688">		return getRepeatRoot().getRepeatedComponent();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override // to make public
+	public int getChildCount() {
+<span class="fc" id="L696">		return super.getChildCount();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override // to make public
+	public WComponent getChildAt(final int index) {
+<span class="fc" id="L704">		return super.getChildAt(index);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override // to make public
+	public int getIndexOfChild(final WComponent childComponent) {
+<span class="nc" id="L712">		return super.getIndexOfChild(childComponent);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override // to make public
+	public List&lt;WComponent&gt; getChildren() {
+<span class="nc" id="L720">		return super.getChildren();</span>
+	}
+
+	/**
+	 * @return a String representation of this component, for debugging purposes.
+	 */
+	@Override
+	public String toString() {
+<span class="nc" id="L728">		String text = getBeanList().size() + &quot;x &quot; + getRepeatedComponent().getClass().</span>
+<span class="nc" id="L729">				getSimpleName();</span>
+<span class="nc" id="L730">		return toString(text, -1, -1);</span>
+	}
+
+	/**
+	 * A naming context is only considered active if it has been set active via {@link #setNamingContext(boolean)} and
+	 * also has an id name set via {@link #setIdName(String)}.
+	 *
+	 * @param context set true if this is a naming context.
+	 */
+	public void setNamingContext(final boolean context) {
+<span class="fc" id="L740">		setFlag(ComponentModel.NAMING_CONTEXT_FLAG, context);</span>
+<span class="fc" id="L741">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean isNamingContext() {
+<span class="fc" id="L748">		return isFlagSet(ComponentModel.NAMING_CONTEXT_FLAG);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getNamingContextId() {
+<span class="fc" id="L756">		return getId();</span>
+	}
+
+	/**
+	 * Component to hold the repeated component and provide the correct row data.
+	 */
+	public static class WRepeatRoot extends WBeanComponent implements BeanProvider, Container,
+			NamingContextable {
+
+		/**
+		 * Parent repeater.
+		 */
+		private final WRepeater repeater;
+
+		/**
+		 * Creates a WRepeatRoot.
+		 *
+		 * @param repeater the parent repeater
+		 * @param repeatedComponent the component to repeat.
+		 */
+<span class="fc" id="L776">		public WRepeatRoot(final WRepeater repeater, final WComponent repeatedComponent) {</span>
+<span class="fc" id="L777">			this.repeater = repeater;</span>
+<span class="pc bpc" id="L778" title="1 of 2 branches missed.">			if (repeatedComponent instanceof BeanProviderBound) {</span>
+<span class="fc" id="L779">				((BeanProviderBound) repeatedComponent).setBeanProvider(this);</span>
+<span class="nc bnc" id="L780" title="All 4 branches missed.">			} else if (!(repeatedComponent instanceof DataBound) &amp;&amp; !(repeatedComponent instanceof BeanBound)) {</span>
+<span class="nc" id="L781">				throw new SystemException(</span>
+						&quot;The repeated component created by the factory must implement the &quot;
+						+ &quot;BeanBound, BeanProviderBound or DataBound interface.&quot;);
+			}
+
+<span class="fc" id="L786">			this.add(repeatedComponent);</span>
+<span class="fc" id="L787">		}</span>
+
+		/**
+		 * WRepeatRoot will act as a provider for a provider bound repeated component.
+		 *
+		 * @param beanProviderBound expected to be the repeated component.
+		 * @return the Bean for the provider bound component.
+		 */
+		@Override
+		public Object getBean(final BeanProviderBound beanProviderBound) {
+<span class="fc" id="L797">			UIContext uic = UIContextHolder.getCurrent();</span>
+
+<span class="pc bpc" id="L799" title="1 of 2 branches missed.">			if (uic instanceof SubUIContext) {</span>
+<span class="fc" id="L800">				return repeater.getRowBeanForSubcontext((SubUIContext) uic);</span>
+			} else {
+<span class="nc" id="L802">				LOG.error(&quot;Unable to handle UIContext type: &quot; + uic.getClass().getName());</span>
+<span class="nc" id="L803">				return null;</span>
+			}
+		}
+
+		/**
+		 * @return the component which is being repeated.
+		 */
+		public WComponent getRepeatedComponent() {
+<span class="fc" id="L811">			return getChildAt(0);</span>
+		}
+
+		/**
+		 * Override setData in order to push data to non-{@link BeanProviderBound} renderers each time the data is
+		 * changed.
+		 *
+		 * @param rowData the data for this row.
+		 */
+		@Override
+		public void setData(final Object rowData) {
+<span class="nc" id="L822">			Object renderer = getRepeatedComponent();</span>
+
+<span class="nc bnc" id="L824" title="All 2 branches missed.">			if (!(renderer instanceof BeanProviderBound)) {</span>
+<span class="nc bnc" id="L825" title="All 2 branches missed.">				if (renderer instanceof BeanBound) {</span>
+<span class="nc" id="L826">					((BeanBound) renderer).setBean(rowData);</span>
+				} else {
+					// Renderer *MUST* be databound
+<span class="nc" id="L829">					((DataBound) renderer).setData(rowData);</span>
+				}
+			}
+<span class="nc" id="L832">		}</span>
+
+		/**
+		 * Override WComponent internal id to include a row index.
+		 *
+		 * @return the internal id for this WComponent in the given context.
+		 */
+		@Override
+		public String getInternalId() {
+<span class="fc" id="L841">			UIContext uic = UIContextHolder.getCurrent();</span>
+
+			String repeaterId;
+			String suffix;
+
+<span class="fc bfc" id="L846" title="All 2 branches covered.">			if (uic instanceof SubUIContext) {</span>
+<span class="fc" id="L847">				SubUIContext subContext = (SubUIContext) uic;</span>
+<span class="fc" id="L848">				UIContextHolder.pushContext(subContext.getParentContext());</span>
+				try {
+<span class="fc" id="L850">					repeaterId = repeater.getInternalId();</span>
+<span class="fc" id="L851">					suffix = String.valueOf(subContext.getContextId());</span>
+				} finally {
+<span class="pc" id="L853">					UIContextHolder.popContext();</span>
+<span class="fc" id="L854">				}</span>
+<span class="fc" id="L855">			} else {</span>
+<span class="fc" id="L856">				repeaterId = repeater.getInternalId();</span>
+<span class="fc" id="L857">				suffix = &quot;&quot;;</span>
+			}
+
+<span class="fc" id="L860">			StringBuffer iidBuf = new StringBuffer();</span>
+<span class="fc" id="L861">			iidBuf.append(repeaterId);</span>
+<span class="fc" id="L862">			iidBuf.append(&quot;r&quot;);</span>
+<span class="fc" id="L863">			iidBuf.append(suffix);</span>
+<span class="fc" id="L864">			return iidBuf.toString();</span>
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public String getId() {
+<span class="fc" id="L872">			UIContext uic = UIContextHolder.getCurrent();</span>
+
+			// Parent Id
+<span class="fc" id="L875">			String repeaterId = null;</span>
+<span class="fc bfc" id="L876" title="All 2 branches covered.">			if (uic instanceof SubUIContext) {</span>
+<span class="fc" id="L877">				SubUIContext subContext = (SubUIContext) uic;</span>
+<span class="fc" id="L878">				UIContextHolder.pushContext(subContext.getParentContext());</span>
+				try {
+<span class="fc" id="L880">					repeaterId = repeater.getId();</span>
+				} finally {
+<span class="pc" id="L882">					UIContextHolder.popContext();</span>
+<span class="fc" id="L883">				}</span>
+<span class="fc" id="L884">			} else {</span>
+<span class="fc" id="L885">				repeaterId = repeater.getId();</span>
+			}
+
+			// Row Suffix
+<span class="fc" id="L889">			String suffix = getIdName();</span>
+
+			// Build Id
+<span class="fc" id="L892">			StringBuffer id = new StringBuffer();</span>
+<span class="fc" id="L893">			id.append(repeaterId);</span>
+<span class="fc" id="L894">			id.append(ID_CONTEXT_SEPERATOR);</span>
+<span class="fc" id="L895">			id.append(suffix);</span>
+
+<span class="fc" id="L897">			return id.toString();</span>
+		}
+
+		/**
+		 * Override WComponent name to include a row index.
+		 *
+		 * @return the name for this WComponent in the given context.
+		 */
+		@Override
+		public String getIdName() {
+<span class="fc" id="L907">			UIContext uic = UIContextHolder.getCurrent();</span>
+
+<span class="fc bfc" id="L909" title="All 2 branches covered.">			if (uic instanceof SubUIContext) {</span>
+<span class="fc" id="L910">				SubUIContext subContext = (SubUIContext) uic;</span>
+<span class="fc" id="L911">				StringBuffer nameBuf = new StringBuffer();</span>
+<span class="fc" id="L912">				nameBuf.append(&quot;r&quot;);</span>
+<span class="fc" id="L913">				nameBuf.append(subContext.getRowRenderId());</span>
+<span class="fc" id="L914">				return nameBuf.toString();</span>
+			}
+
+<span class="fc" id="L917">			return &quot;r&quot;;</span>
+		}
+
+		/**
+		 * WRepeatRoot is part of the tree, but we don't want any request handling or painting to be performed on it
+		 * automatically.
+		 *
+		 * @return false
+		 */
+		@Override
+		public boolean isVisible() {
+<span class="fc" id="L928">			return false;</span>
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override // to make public
+		public int getChildCount() {
+<span class="fc" id="L936">			return super.getChildCount();</span>
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override // to make public
+		public WComponent getChildAt(final int index) {
+<span class="fc" id="L944">			return super.getChildAt(index);</span>
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override // to make public
+		public List&lt;WComponent&gt; getChildren() {
+<span class="nc" id="L952">			return super.getChildren();</span>
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override // to make public
+		public int getIndexOfChild(final WComponent childComponent) {
+<span class="fc" id="L960">			return super.getIndexOfChild(childComponent);</span>
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public boolean isNamingContext() {
+<span class="fc" id="L968">			return true;</span>
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public String getNamingContextId() {
+<span class="fc" id="L976">			return getId();</span>
+		}
+	}
+
+	/**
+	 * The SubUIContext stores the state information for the repeated component hierarchy for a single row in the
+	 * repeater.
+	 *
+	 * @author Martin Shevchenko
+	 */
+	public static class SubUIContext extends UIContextDelegate {
+
+		/**
+		 * The row index in the repeater.
+		 */
+<span class="fc" id="L991">		private int rowIndex = -1;</span>
+		/**
+		 * The row render id to keep the ids unique for each sub context and process handle request correctly.
+		 */
+		private final String rowRenderId;
+		/**
+		 * The row bean in the repeater.
+		 */
+		private Object rowId;
+		/**
+		 * The repeater's repeat root.
+		 */
+		private final WRepeatRoot repeatRoot;
+		/**
+		 * The context id.
+		 */
+		private final int contextId;
+
+		/**
+		 * A map of Component models, keyed by the component which they belong to.
+		 */
+<span class="fc" id="L1012">		private final Map&lt;WebComponent, WebModel&gt; componentModels = new HashMap&lt;&gt;();</span>
+
+		/**
+		 * Creates a SubUIContext.
+		 *
+		 * @param repeater the repeater which this SubUIContext belongs to.
+		 * @param contextId the context unique id
+		 */
+		public SubUIContext(final WRepeater repeater, final int contextId) {
+<span class="fc" id="L1021">			this(repeater, contextId, String.valueOf(contextId));</span>
+<span class="fc" id="L1022">		}</span>
+
+		/**
+		 * Creates a SubUIContext.
+		 *
+		 * @param repeater the repeater which this SubUIContext belongs to.
+		 * @param contextId the context unique id
+		 * @param rowRenderId the rows unique render id
+		 */
+		public SubUIContext(final WRepeater repeater, final int contextId, final String rowRenderId) {
+<span class="fc" id="L1032">			super(UIContextHolder.getCurrent());</span>
+<span class="fc" id="L1033">			repeatRoot = repeater.getRepeatRoot();</span>
+<span class="fc" id="L1034">			this.contextId = contextId;</span>
+<span class="fc" id="L1035">			this.rowRenderId = rowRenderId;</span>
+<span class="fc" id="L1036">		}</span>
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public void invokeLater(final Runnable runnable) {
+			// Override to invoke the runnable against this context
+<span class="nc" id="L1044">			getBacking().invokeLater(this, runnable);</span>
+<span class="nc" id="L1045">		}</span>
+
+		/**
+		 * Retrieves the row id for this SubUIContext.
+		 *
+		 * @return the row id
+		 */
+		public Object getRowId() {
+<span class="fc" id="L1053">			return rowId;</span>
+		}
+
+		/**
+		 * @return the parent UIContext.
+		 */
+		protected UIContext getParentContext() {
+<span class="fc" id="L1060">			return getBacking();</span>
+		}
+
+		/**
+		 * Sets the row index, in the case that the repeater has rows added/removed/moved.
+		 *
+		 * @param rowIndex the new row index for this sub context.
+		 */
+		protected void setRowIndex(final int rowIndex) {
+<span class="fc" id="L1069">			this.rowIndex = rowIndex;</span>
+<span class="fc" id="L1070">		}</span>
+
+		/**
+		 * Sets the row bean, in the case that the repeater has rows added/removed/moved.
+		 *
+		 * @param rowId the row id for this sub context.
+		 */
+		protected void setRowId(final Object rowId) {
+<span class="fc" id="L1078">			this.rowId = rowId;</span>
+<span class="fc" id="L1079">		}</span>
+
+		/**
+		 * Retrieves the row index for this SubUIContext.
+		 *
+		 * @return the row index, or -1 if uninitialised.
+		 */
+		public int getRowIndex() {
+<span class="fc" id="L1087">			return rowIndex;</span>
+		}
+
+		/**
+		 * @return the row render id to keep each row unique so that handle request processing is handled correctly.
+		 */
+		public String getRowRenderId() {
+<span class="fc" id="L1094">			return rowRenderId;</span>
+		}
+
+		/**
+		 * @return the context unique id
+		 */
+		public int getContextId() {
+<span class="fc" id="L1101">			return contextId;</span>
+		}
+
+		/**
+		 * Retrieves the component model for the given component.
+		 *
+		 * If the component is not being repeated by the WRepeater, the parent context will be queried for the model.
+		 *
+		 * @param component the component to retrieve the model for.
+		 * @return the component model for the given component.
+		 */
+		@Override
+		public WebModel getModel(final WebComponent component) {
+<span class="fc" id="L1114">			WebModel model = componentModels.get(component);</span>
+
+<span class="fc bfc" id="L1116" title="All 2 branches covered.">			if (model == null) {</span>
+				// Try the parent.
+<span class="fc" id="L1118">				model = getParentContext().getModel(component);</span>
+			}
+
+<span class="fc" id="L1121">			return model;</span>
+		}
+
+		/**
+		 * Sets the component model for the given component.
+		 *
+		 * If the component is not being repeated by the WRepeater, the parent context will be given the model.
+		 *
+		 * @param component the component to set the model for.
+		 * @param model the component model for the given component.
+		 */
+		@Override
+		public void setModel(final WebComponent component, final WebModel model) {
+			// Need to figure out which context should store the model.
+<span class="pc bpc" id="L1135" title="1 of 2 branches missed.">			if (component instanceof WRepeatRoot) {</span>
+				// The repeat root must always be stored locally.
+<span class="nc" id="L1137">				componentModels.put(component, model);</span>
+<span class="fc bfc" id="L1138" title="All 2 branches covered.">			} else if (isInContext(component)) {</span>
+				// The component that we are being asked to store a model for
+				// is inside a repeater and is from this context.
+<span class="fc" id="L1141">				componentModels.put(component, model);</span>
+			} else {
+				// The component is not from this context, so ask the parent
+				// context to store it.
+<span class="fc" id="L1145">				getParentContext().setModel(component, model);</span>
+			}
+<span class="fc" id="L1147">		}</span>
+
+		/**
+		 * Indicates whether the given component is inside this context's repeatRoot.
+		 *
+		 * @param component the component to check
+		 * @return true if the given component belongs in this context, false otherwise.
+		 */
+		protected boolean isInContext(final WebComponent component) {
+
+<span class="fc bfc" id="L1157" title="All 2 branches covered.">			if (component instanceof WRepeatRoot) {</span>
+<span class="pc bpc" id="L1158" title="1 of 2 branches missed.">				if (component == this.repeatRoot) {</span>
+<span class="nc" id="L1159">					return false;</span>
+				}
+<span class="fc bfc" id="L1161" title="All 2 branches covered.">			} else if (component instanceof WRepeater) {</span>
+<span class="fc" id="L1162">				WRepeatRoot root = ((WRepeater) component).getRepeatRoot();</span>
+<span class="fc bfc" id="L1163" title="All 2 branches covered.">				if (root == this.repeatRoot) {</span>
+<span class="fc" id="L1164">					return false;</span>
+				}
+			}
+
+<span class="fc" id="L1168">			UIContextHolder.pushContext(this);</span>
+<span class="fc" id="L1169">			WRepeatRoot root = null;</span>
+
+			try {
+<span class="fc" id="L1172">				root = WebUtilities.getAncestorOfClass(WRepeatRoot.class, (WComponent) component);</span>
+			} finally {
+<span class="pc" id="L1174">				UIContextHolder.popContext();</span>
+<span class="fc" id="L1175">			}</span>
+
+<span class="fc bfc" id="L1177" title="All 4 branches covered.">			return root != null &amp;&amp; root == this.repeatRoot;</span>
+		}
+
+		/**
+		 * Removes the component model for the given component.
+		 *
+		 * If the component is not being repeated by the WRepeater, the parent context will be asked to remove the
+		 * model.
+		 *
+		 * @param component the component to remove the model for.
+		 */
+		@Override
+		public void removeModel(final WebComponent component) {
+<span class="pc bpc" id="L1190" title="1 of 2 branches missed.">			if (componentModels.remove(component) == null) {</span>
+				// Not from this context, better try the parent context.
+<span class="fc" id="L1192">				getParentContext().removeModel(component);</span>
+			}
+<span class="fc" id="L1194">		}</span>
+
+		/**
+		 * @return the components which have models in this SubUIContext.
+		 */
+		@Override
+		public Set getComponents() {
+<span class="nc" id="L1201">			return componentModels.keySet();</span>
+		}
+
+		/**
+		 * Throws an UnsupportedOperationException, as the environment can not be set on a SubUIContext.
+		 *
+		 * @param environment the environment to set.
+		 */
+		@Override
+		public void setEnvironment(final Environment environment) {
+<span class="nc" id="L1211">			throw new UnsupportedOperationException(&quot;Cannot set environment on SubUIContext&quot;);</span>
+		}
+
+		/**
+		 * Retrieves the scratch map for the given component.
+		 *
+		 * The scratch map is stored under one further level of indirection; by this sub-ui context. This allows each
+		 * row to have its own scratch map.
+		 *
+		 * @param component the component to retrieve the scratch map for.
+		 * @return the scratch map for the given component.
+		 */
+		@Override
+		public Map getScratchMap(final WComponent component) {
+<span class="fc bfc" id="L1225" title="All 2 branches covered.">			if (isInContext(component)) {</span>
+<span class="fc" id="L1226">				Map sharedScratchMap = getParentContext().getScratchMap(component);</span>
+<span class="fc" id="L1227">				Map map = (Map) sharedScratchMap.get(this);</span>
+
+<span class="fc bfc" id="L1229" title="All 2 branches covered.">				if (map == null) {</span>
+<span class="fc" id="L1230">					map = new HashMap();</span>
+<span class="fc" id="L1231">					sharedScratchMap.put(this, map);</span>
+				}
+
+<span class="fc" id="L1234">				return map;</span>
+			} else {
+<span class="fc" id="L1236">				return getParentContext().getScratchMap(component);</span>
+			}
+		}
+
+		/**
+		 * Clears the scratch map for the given component.
+		 *
+		 * @param component the component to clear the scratch map for.
+		 */
+		@Override
+		public void clearScratchMap(final WComponent component) {
+<span class="fc bfc" id="L1247" title="All 2 branches covered.">			if (isInContext(component)) {</span>
+<span class="fc" id="L1248">				Map sharedScratchMap = getParentContext().getScratchMap(component);</span>
+<span class="fc" id="L1249">				sharedScratchMap.remove(this);</span>
+<span class="fc" id="L1250">			} else {</span>
+<span class="fc" id="L1251">				getParentContext().clearScratchMap(component);</span>
+			}
+<span class="fc" id="L1253">		}</span>
+
+		/**
+		 * Doesn't do anything - the real UI Context will clear the scratch map.
+		 */
+		@Override
+		public void clearScratchMap() {
+			// Don't do anything - the real UI Context will clear it out
+<span class="nc" id="L1261">		}</span>
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public void setFocussed(final WComponent component) {
+<span class="nc" id="L1268">			super.setFocussed(component, this);</span>
+<span class="nc" id="L1269">		}</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WCheckBoxSelect.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">WCheckBoxSelect.java</span></div><h1>WCheckBoxSelect.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import java.util.Arrays;
+import java.util.List;
+
+/**
+ * &lt;p&gt;
+ * WCheckBoxSelect is a convenience class which presents a group of check boxes for the user to select one or more
+ * options from. Unlike {@link WCheckBox}, the check boxes inside a WCheckBoxSelect will automatically have text labels
+ * associated with them. The visual arrangement of the check boxes can be configured using the
+ * {@link #setButtonLayout(Layout)} method.&lt;/p&gt;
+ *
+ * @author Yiannis Paschalidis
+ * @author Jonathan Austin
+ * @since 1.0.0
+ */
+public class WCheckBoxSelect extends AbstractWMultiSelectList implements AjaxTrigger, AjaxTarget,
+		SubordinateTrigger, SubordinateTarget {
+
+	/**
+	 * An enumeration of button layouts.
+	 *
+	 * @author Yiannis Paschalidis
+	 */
+<span class="pc" id="L25">	public enum Layout {</span>
+		/**
+		 * A layout where buttons are placed horizontally.
+		 */
+<span class="fc" id="L29">		FLAT,</span>
+		/**
+		 * A layout where buttons are placed vertically.
+		 */
+<span class="fc" id="L33">		STACKED,</span>
+		/**
+		 * A layout where buttons are placed in columns.
+		 */
+<span class="fc" id="L37">		COLUMNS</span>
+	};
+
+	/**
+	 * A layout where buttons are placed horizontally. Convenience constant for {@link WCheckBoxSelect.Layout#FLAT}.
+	 */
+<span class="fc" id="L43">	public static final Layout LAYOUT_FLAT = Layout.FLAT;</span>
+	/**
+	 * A layout where buttons are placed vertically. Convenience constant for {@link WCheckBoxSelect.Layout#STACKED}.
+	 */
+<span class="fc" id="L47">	public static final Layout LAYOUT_STACKED = Layout.STACKED;</span>
+	/**
+	 * A layout where buttons are placed in columns. Convenience constant for {@link WCheckBoxSelect.Layout#COLUMNS}.
+	 */
+<span class="fc" id="L51">	public static final Layout LAYOUT_COLUMNS = Layout.COLUMNS;</span>
+
+	/**
+	 * Creates an empty WCheckBoxSelect.
+	 */
+	public WCheckBoxSelect() {
+<span class="fc" id="L57">		this((List) null);</span>
+<span class="fc" id="L58">	}</span>
+
+	/**
+	 * Creates a WCheckBoxSelect with the specified options.
+	 *
+	 * @param options the check box options.
+	 */
+	public WCheckBoxSelect(final Object[] options) {
+<span class="fc" id="L66">		this(Arrays.asList(options));</span>
+<span class="fc" id="L67">	}</span>
+
+	/**
+	 * Creates a WCheckBoxSelect with the specified options.
+	 *
+	 * @param options the check box options.
+	 */
+	public WCheckBoxSelect(final List options) {
+<span class="fc" id="L75">		super(options, true);</span>
+<span class="fc" id="L76">	}</span>
+
+	/**
+	 * Creates a WCheckBoxSelect with the options provided by the given table.
+	 *
+	 * @param table the table to obtain the options from.
+	 */
+	public WCheckBoxSelect(final Object table) {
+<span class="fc" id="L84">		super(table, true);</span>
+<span class="fc" id="L85">	}</span>
+
+	/**
+	 * Sets the layout.
+	 *
+	 * @param layout the layout.
+	 */
+	public void setButtonLayout(final Layout layout) {
+<span class="fc" id="L93">		CheckBoxSelectModel model = getOrCreateComponentModel();</span>
+<span class="fc" id="L94">		model.layout = layout;</span>
+<span class="fc" id="L95">		model.numColumns = 0;</span>
+<span class="fc" id="L96">	}</span>
+
+	/**
+	 * Sets the layout to be a certain number of columns.
+	 *
+	 * @param numColumns the number of columns.
+	 */
+	public void setButtonColumns(final int numColumns) {
+<span class="fc bfc" id="L104" title="All 2 branches covered.">		if (numColumns &lt; 1) {</span>
+<span class="fc" id="L105">			throw new IllegalArgumentException(&quot;Must have one or more columns&quot;);</span>
+		}
+
+<span class="fc" id="L108">		CheckBoxSelectModel model = getOrCreateComponentModel();</span>
+<span class="fc" id="L109">		model.numColumns = numColumns;</span>
+<span class="fc bfc" id="L110" title="All 2 branches covered.">		model.layout = numColumns == 1 ? LAYOUT_STACKED : LAYOUT_COLUMNS;</span>
+<span class="fc" id="L111">	}</span>
+
+	/**
+	 * @return the number of columns for layout. Only applies to LAYOUT_COLUMNS layout.
+	 */
+	public int getButtonColumns() {
+<span class="fc" id="L117">		return getComponentModel().numColumns;</span>
+	}
+
+	/**
+	 * @return the layout;
+	 */
+	public Layout getButtonLayout() {
+<span class="fc" id="L124">		return getComponentModel().layout;</span>
+	}
+
+	/**
+	 * @return true if the frame should not be rendererd.
+	 */
+	public boolean isFrameless() {
+<span class="fc" id="L131">		return getComponentModel().frameless;</span>
+	}
+
+	/**
+	 * @param frameless if true, the frame will not be rendered.
+	 */
+	public void setFrameless(final boolean frameless) {
+<span class="fc" id="L138">		getOrCreateComponentModel().frameless = frameless;</span>
+<span class="fc" id="L139">	}</span>
+
+	/**
+	 * Creates a new Component model.
+	 *
+	 * @return a new CheckBoxSelectModel.
+	 */
+	@Override // For type safety only
+	protected CheckBoxSelectModel newComponentModel() {
+<span class="fc" id="L148">		return new CheckBoxSelectModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override // For type safety only
+	protected CheckBoxSelectModel getComponentModel() {
+<span class="fc" id="L156">		return (CheckBoxSelectModel) super.getComponentModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override // For type safety only
+	protected CheckBoxSelectModel getOrCreateComponentModel() {
+<span class="fc" id="L164">		return (CheckBoxSelectModel) super.getOrCreateComponentModel();</span>
+	}
+
+	/**
+	 * Holds the extrinsic state information of the component.
+	 *
+	 * @author Yiannis Paschalidis
+	 */
+<span class="fc" id="L172">	public static class CheckBoxSelectModel extends MultiSelectionModel {</span>
+
+		/**
+		 * The check box button layout.
+		 */
+<span class="fc" id="L177">		private Layout layout = LAYOUT_STACKED;</span>
+
+		/**
+		 * The number of columns for layout.
+		 */
+<span class="fc" id="L182">		private int numColumns = 0;</span>
+
+		/**
+		 * Indicates whether the check box frame should be visible when rendering.
+		 */
+<span class="fc" id="L187">		private boolean frameless = false;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

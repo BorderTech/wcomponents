@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>ExpressionBuilder.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.subordinate.builder</a> &gt; <span class="el_source">ExpressionBuilder.java</span></div><h1>ExpressionBuilder.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.subordinate.builder;
+
+import com.github.bordertech.wcomponents.SubordinateTrigger;
+import com.github.bordertech.wcomponents.subordinate.AbstractCompare.CompareType;
+import com.github.bordertech.wcomponents.subordinate.builder.GroupExpression.Type;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Stack;
+import org.apache.commons.logging.LogFactory;
+
+/**
+ * The expression builder provides a convenient and more readable API for building conditions than using the various
+ * Expression/Operand classes.
+ *
+ * @author Yiannis Paschalidis
+ * @author Jonathan Austin
+ * @since 1.0.0
+ */
+public final class ExpressionBuilder {
+
+	/**
+	 * The stack of expressions so far. This is used to provide correct operator precedence.
+	 */
+<span class="fc" id="L24">	private final Stack&lt;GroupExpression&gt; stack = new Stack&lt;&gt;();</span>
+
+	/**
+	 * The rule which the expressions will be added to.
+	 */
+	private final MutableExpression expression;
+
+	/**
+	 * The current &quot;left-hand-side&quot; operand in the expression (if applicable).
+	 */
+	private BooleanExpression lhsExpression;
+
+	/**
+	 * Creates an ExpressionBuilder.
+	 */
+	public ExpressionBuilder() {
+<span class="fc" id="L40">		this(new MutableExpression());</span>
+<span class="fc" id="L41">	}</span>
+
+	/**
+	 * Creates an ExpressionBuilder. This method is package protected as developers should be obtaining an
+	 * ExpressionBuilder editor using {@link SubordinateBuilder#condition()}.
+	 *
+	 * @param expression the expression to modify
+	 */
+<span class="fc" id="L49">	ExpressionBuilder(final MutableExpression expression) {</span>
+<span class="fc" id="L50">		this.expression = expression;</span>
+<span class="fc" id="L51">	}</span>
+
+	// ----------------------------------
+	// Compare Expressions
+	//
+	/**
+	 * Appends an equals test to the condition.
+	 *
+	 * @param trigger the trigger field.
+	 * @param compare the value to use in the compare.
+	 * @return this ExpressionBuilder.
+	 */
+	public ExpressionBuilder equals(final SubordinateTrigger trigger, final Object compare) {
+<span class="fc" id="L64">		BooleanExpression exp = new CompareExpression(CompareType.EQUAL, trigger, compare);</span>
+<span class="fc" id="L65">		appendExpression(exp);</span>
+
+<span class="fc" id="L67">		return this;</span>
+	}
+
+	/**
+	 * Appends a not equals test to the condition.
+	 *
+	 * @param trigger the trigger field.
+	 * @param compare the value to use in the compare.
+	 * @return this ExpressionBuilder.
+	 */
+	public ExpressionBuilder notEquals(final SubordinateTrigger trigger, final Object compare) {
+<span class="fc" id="L78">		BooleanExpression exp = new CompareExpression(CompareType.NOT_EQUAL, trigger, compare);</span>
+<span class="fc" id="L79">		appendExpression(exp);</span>
+
+<span class="fc" id="L81">		return this;</span>
+	}
+
+	/**
+	 * Appends a less than test to the condition.
+	 *
+	 * @param trigger the trigger field.
+	 * @param compare the value to use in the compare.
+	 * @return this ExpressionBuilder.
+	 */
+	public ExpressionBuilder lessThan(final SubordinateTrigger trigger, final Object compare) {
+<span class="fc" id="L92">		BooleanExpression exp = new CompareExpression(CompareType.LESS_THAN, trigger, compare);</span>
+<span class="fc" id="L93">		appendExpression(exp);</span>
+
+<span class="fc" id="L95">		return this;</span>
+	}
+
+	/**
+	 * Appends a less than or equals test to the condition.
+	 *
+	 * @param trigger the trigger field.
+	 * @param compare the value to use in the compare.
+	 * @return this ExpressionBuilder.
+	 */
+	public ExpressionBuilder lessThanOrEquals(final SubordinateTrigger trigger, final Object compare) {
+<span class="fc" id="L106">		BooleanExpression exp = new CompareExpression(CompareType.LESS_THAN_OR_EQUAL, trigger,</span>
+				compare);
+<span class="fc" id="L108">		appendExpression(exp);</span>
+
+<span class="fc" id="L110">		return this;</span>
+	}
+
+	/**
+	 * Appends a greater than test to the condition.
+	 *
+	 * @param trigger the trigger field.
+	 * @param compare the value to use in the compare.
+	 * @return this ExpressionBuilder.
+	 */
+	public ExpressionBuilder greaterThan(final SubordinateTrigger trigger, final Object compare) {
+<span class="fc" id="L121">		BooleanExpression exp = new CompareExpression(CompareType.GREATER_THAN, trigger, compare);</span>
+<span class="fc" id="L122">		appendExpression(exp);</span>
+
+<span class="fc" id="L124">		return this;</span>
+	}
+
+	/**
+	 * Appends a greater than or equals test to the condition.
+	 *
+	 * @param trigger the trigger field.
+	 * @param compare the value to use in the compare.
+	 * @return this ExpressionBuilder.
+	 */
+	public ExpressionBuilder greaterThanOrEquals(final SubordinateTrigger trigger,
+			final Object compare) {
+<span class="fc" id="L136">		BooleanExpression exp = new CompareExpression(CompareType.GREATER_THAN_OR_EQUAL, trigger,</span>
+				compare);
+<span class="fc" id="L138">		appendExpression(exp);</span>
+
+<span class="fc" id="L140">		return this;</span>
+	}
+
+	/**
+	 * Appends a matches test to the condition.
+	 *
+	 * @param trigger the trigger field.
+	 * @param compare the value to use in the compare.
+	 * @return this ExpressionBuilder.
+	 */
+	public ExpressionBuilder matches(final SubordinateTrigger trigger, final String compare) {
+<span class="fc" id="L151">		BooleanExpression exp = new CompareExpression(CompareType.MATCH, trigger, compare);</span>
+<span class="fc" id="L152">		appendExpression(exp);</span>
+
+<span class="fc" id="L154">		return this;</span>
+	}
+
+	// ----------------------------------
+	// Group Expressions - OR, AND, NOT
+	//
+	/**
+	 * Appends an OR expression to the RHS of the expression. The current RHS of the expression must be an Operand.
+	 *
+	 * @return this ExpressionBuilder.
+	 */
+	public ExpressionBuilder or() {
+<span class="fc bfc" id="L166" title="All 2 branches covered.">		GroupExpression lastGroupExpression = stack.isEmpty() ? null : stack.peek();</span>
+
+<span class="fc bfc" id="L168" title="All 2 branches covered.">		if (lhsExpression == null) {</span>
+<span class="fc" id="L169">			throw new SyntaxException(&quot;Syntax exception: OR missing LHS operand&quot;);</span>
+<span class="fc bfc" id="L170" title="All 2 branches covered.">		} else if (lastGroupExpression == null) {</span>
+<span class="fc" id="L171">			GroupExpression or = new GroupExpression(GroupExpression.Type.OR);</span>
+<span class="fc" id="L172">			or.add(lhsExpression);</span>
+<span class="fc" id="L173">			stack.push(or);</span>
+<span class="fc" id="L174">			expression.setExpression(or);</span>
+<span class="fc" id="L175">			lhsExpression = null;</span>
+<span class="fc bfc" id="L176" title="All 2 branches covered.">		} else if (lastGroupExpression.getType().equals(GroupExpression.Type.OR)) {</span>
+			// Keep using the existing OR
+<span class="fc" id="L178">			lhsExpression = null;</span>
+<span class="fc" id="L179">			return this;</span>
+<span class="pc bpc" id="L180" title="1 of 2 branches missed.">		} else if (lastGroupExpression.getType().equals(GroupExpression.Type.AND)) {</span>
+			// AND takes precedence over OR, so we wrap the AND
+			// by removing it from any parent expressions and inserting the OR in its place
+
+<span class="fc" id="L184">			GroupExpression and = stack.pop();</span>
+<span class="fc" id="L185">			GroupExpression or = new GroupExpression(GroupExpression.Type.OR);</span>
+
+<span class="fc bfc" id="L187" title="All 2 branches covered.">			if (stack.isEmpty()) {</span>
+<span class="fc" id="L188">				expression.setExpression(or);</span>
+<span class="fc" id="L189">				or.add(and);</span>
+			} else {
+				// need to get at the parent
+<span class="fc" id="L192">				GroupExpression parent = stack.pop();</span>
+<span class="fc" id="L193">				parent.remove(and);</span>
+<span class="fc" id="L194">				parent.add(or);</span>
+<span class="fc" id="L195">				or.add(and);</span>
+			}
+
+<span class="fc" id="L198">			stack.push(and);</span>
+<span class="fc" id="L199">			stack.push(or);</span>
+<span class="fc" id="L200">			lhsExpression = null;</span>
+		}
+
+<span class="fc" id="L203">		return this;</span>
+	}
+
+	/**
+	 * Appends an AND expression to the RHS of the expression. The current RHS of the expression must be an Operand.
+	 *
+	 * @return this ExpressionBuilder.
+	 */
+	public ExpressionBuilder and() {
+<span class="fc bfc" id="L212" title="All 2 branches covered.">		GroupExpression lastGroupExpression = stack.isEmpty() ? null : stack.peek();</span>
+
+<span class="fc bfc" id="L214" title="All 2 branches covered.">		if (lhsExpression == null) {</span>
+<span class="fc" id="L215">			throw new SyntaxException(&quot;Syntax exception: AND missing LHS operand&quot;);</span>
+<span class="fc bfc" id="L216" title="All 2 branches covered.">		} else if (lastGroupExpression == null) {</span>
+<span class="fc" id="L217">			GroupExpression and = new GroupExpression(GroupExpression.Type.AND);</span>
+<span class="fc" id="L218">			and.add(lhsExpression);</span>
+<span class="fc" id="L219">			stack.push(and);</span>
+<span class="fc" id="L220">			expression.setExpression(and);</span>
+<span class="fc" id="L221">			lhsExpression = null;</span>
+<span class="fc bfc" id="L222" title="All 2 branches covered.">		} else if (lastGroupExpression.getType().equals(GroupExpression.Type.AND)) {</span>
+			// Keep using the existing AND
+<span class="fc" id="L224">			lhsExpression = null;</span>
+<span class="fc" id="L225">			return this;</span>
+<span class="pc bpc" id="L226" title="1 of 2 branches missed.">		} else if (lastGroupExpression.getType().equals(GroupExpression.Type.OR)) {</span>
+			// AND takes precedence over OR, so we steal the OR's RHS
+<span class="fc" id="L228">			GroupExpression or = lastGroupExpression;</span>
+<span class="fc" id="L229">			GroupExpression and = new GroupExpression(GroupExpression.Type.AND);</span>
+
+<span class="fc" id="L231">			or.remove(lhsExpression);</span>
+<span class="fc" id="L232">			and.add(lhsExpression);</span>
+<span class="fc" id="L233">			or.add(and);</span>
+<span class="fc" id="L234">			stack.push(and);</span>
+<span class="fc" id="L235">			lhsExpression = null;</span>
+		}
+
+<span class="fc" id="L238">		return this;</span>
+	}
+
+	/**
+	 * Appends an AND expression to this expression.
+	 *
+	 * @param exp the builder containing the expression to AND with the current expression.
+	 * @return this ExpressionBuilder.
+	 */
+	public ExpressionBuilder and(final ExpressionBuilder exp) {
+<span class="fc" id="L248">		and().appendExpression(exp.expression.getExpression());</span>
+<span class="fc" id="L249">		return this;</span>
+	}
+
+	/**
+	 * Appends an OR expression to the RHS of the expression.
+	 *
+	 * @param exp the builder containing the expression to OR with the current expression.
+	 * @return this ExpressionBuilder.
+	 */
+	public ExpressionBuilder or(final ExpressionBuilder exp) {
+<span class="fc" id="L259">		or().appendExpression(exp.expression.getExpression());</span>
+<span class="fc" id="L260">		return this;</span>
+	}
+
+	/**
+	 * Appends a NOT expression to this expression.
+	 *
+	 * @param exp the builder containing the expression to NOT with the current expression.
+	 * @return this ExpressionBuilder.
+	 */
+	public ExpressionBuilder not(final ExpressionBuilder exp) {
+		// Note - NOT Expressions are not added to the stack (like the other group expressions AND and OR) and are
+		// treated the same as a &quot;compare&quot; expression.
+		// It is expected a NOT Expression is used by itself or with an AND or NOT.
+<span class="fc" id="L273">		GroupExpression not = new GroupExpression(Type.NOT);</span>
+<span class="fc" id="L274">		not.add(exp.expression.getExpression());</span>
+
+<span class="fc" id="L276">		appendExpression(not);</span>
+
+<span class="fc" id="L278">		return this;</span>
+	}
+
+	/**
+	 * Appends the given expression to this expression.
+	 *
+	 * @param newExpression the expression to append.
+	 */
+	private void appendExpression(final BooleanExpression newExpression) {
+<span class="fc bfc" id="L287" title="All 2 branches covered.">		if (lhsExpression != null) {</span>
+<span class="fc" id="L288">			throw new SyntaxException(&quot;Syntax exception: use AND or OR to join expressions&quot;);</span>
+		}
+
+<span class="fc" id="L291">		lhsExpression = newExpression;</span>
+
+<span class="fc bfc" id="L293" title="All 2 branches covered.">		GroupExpression currentExpression = stack.isEmpty() ? null : stack.peek();</span>
+
+<span class="fc bfc" id="L295" title="All 2 branches covered.">		if (currentExpression == null) {</span>
+<span class="fc" id="L296">			this.expression.setExpression(newExpression);</span>
+		} else {
+<span class="fc" id="L298">			currentExpression.add(newExpression);</span>
+		}
+<span class="fc" id="L300">	}</span>
+
+	/**
+	 * Returns the built expression if it passes basic validation.
+	 *
+	 * @return the built expression, or null if the expression is invalid.
+	 */
+	protected BooleanExpression build() {
+<span class="fc bfc" id="L308" title="All 2 branches covered.">		if (validate()) {</span>
+<span class="fc" id="L309">			return expression.getExpression();</span>
+		}
+
+<span class="fc" id="L312">		return null;</span>
+	}
+
+	/**
+	 * Determines whether the current expression is syntactically correct.
+	 *
+	 * @return true if the current expression is valid, false if not.
+	 */
+	public boolean validate() {
+		try {
+<span class="fc" id="L322">			BooleanExpression built = expression.getExpression();</span>
+
+<span class="fc bfc" id="L324" title="All 2 branches covered.">			if (built == null) {</span>
+				// nothing to evaluate.
+<span class="fc" id="L326">				return false;</span>
+			}
+
+			// First check the nesting (an expression must not contain itself)
+<span class="fc" id="L330">			checkNesting(built, new ArrayList&lt;BooleanExpression&gt;());</span>
+
+			// If the expression evaluates correctly, the syntax is correct.
+<span class="fc" id="L333">			built.evaluate();</span>
+<span class="fc" id="L334">		} catch (Exception e) {</span>
+<span class="fc" id="L335">			LogFactory.getLog(getClass()).warn(&quot;Invalid expression: &quot; + e.getMessage());</span>
+<span class="fc" id="L336">			return false;</span>
+<span class="fc" id="L337">		}</span>
+
+<span class="fc" id="L339">		return true;</span>
+	}
+
+	/**
+	 * Checks nesting of expressions to ensure we don't end up in an infinite recursive loop during evaluation.
+	 *
+	 * @param expression the expression to check
+	 * @param visitedExpressions a list of expressions which have been visited so far.
+	 */
+	private static void checkNesting(final BooleanExpression expression,
+			final List&lt;BooleanExpression&gt; visitedExpressions) {
+<span class="fc bfc" id="L350" title="All 2 branches covered.">		if (visitedExpressions.contains(expression)) {</span>
+			// Unfortunately, we can't give much more information - even calling toString() will overflow the stack.
+<span class="fc" id="L352">			throw new SyntaxException(&quot;An expression can not contain itself.&quot;);</span>
+		}
+
+<span class="fc" id="L355">		visitedExpressions.add(expression);</span>
+
+<span class="fc bfc" id="L357" title="All 2 branches covered.">		if (expression instanceof GroupExpression) {</span>
+<span class="fc" id="L358">			GroupExpression group = (GroupExpression) expression;</span>
+<span class="fc bfc" id="L359" title="All 2 branches covered.">			for (BooleanExpression operand : group.getOperands()) {</span>
+<span class="fc" id="L360">				checkNesting(operand, visitedExpressions);</span>
+<span class="fc" id="L361">			}</span>
+		}
+<span class="fc" id="L363">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

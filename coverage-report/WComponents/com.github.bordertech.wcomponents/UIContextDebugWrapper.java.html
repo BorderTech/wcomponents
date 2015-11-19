@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>UIContextDebugWrapper.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">UIContextDebugWrapper.java</span></div><h1>UIContextDebugWrapper.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
+
+/**
+ * This class can be used to dump the contents of a UIContext object for debugging purposes.
+ *
+ * @author Martin_Schevchenko
+ * @since 1.0.0
+ */
+public class UIContextDebugWrapper {
+
+	/**
+	 * The UIContext instance being wrapped.
+	 */
+	private final UIContext uic;
+
+	/**
+	 * Creates a UIContextDebugWrapper.
+	 *
+	 * @param uic the object to log.
+	 */
+<span class="fc" id="L27">	public UIContextDebugWrapper(final UIContext uic) {</span>
+<span class="fc" id="L28">		this.uic = uic;</span>
+<span class="fc" id="L29">	}</span>
+
+	/**
+	 * @return the wrapped UIContext.
+	 */
+	protected UIContext getUIContext() {
+<span class="fc" id="L35">		return uic;</span>
+	}
+
+	/**
+	 * Tally up the number of WComponents storing data in the session grouped by object type. Also tally up how many are
+	 * storing data unnecessarily. Also tally how many different top components are referenced by the components stored
+	 * in the UIContext.
+	 *
+	 * @return the debugging information.
+	 */
+	@Override
+	public String toString() {
+<span class="fc" id="L47">		StringBuilder buf = new StringBuilder();</span>
+<span class="fc" id="L48">		UIContext cuic = getUIContext();</span>
+<span class="fc" id="L49">		UIContextHolder.pushContext(cuic);</span>
+
+		try {
+<span class="fc" id="L52">			Set components = cuic.getComponents();</span>
+
+			// Variables that will contain the stats collected.
+<span class="fc" id="L55">			GroupData dataOverall = new GroupData();</span>
+<span class="fc" id="L56">			Map&lt;String, GroupData&gt; tallyByClass = new TreeMap&lt;&gt;();</span>
+<span class="fc" id="L57">			Set&lt;WComponent&gt; topComponents = new HashSet&lt;&gt;();</span>
+
+<span class="fc bfc" id="L59" title="All 2 branches covered.">			for (Iterator iter = components.iterator(); iter.hasNext();) {</span>
+<span class="fc" id="L60">				WComponent comp = (WComponent) iter.next();</span>
+<span class="fc" id="L61">				String className = comp.getClass().getName();</span>
+
+<span class="fc" id="L63">				GroupData dataForClass = tallyByClass.get(className);</span>
+
+<span class="pc bpc" id="L65" title="1 of 2 branches missed.">				if (dataForClass == null) {</span>
+<span class="fc" id="L66">					dataForClass = new GroupData();</span>
+<span class="fc" id="L67">					tallyByClass.put(className, dataForClass);</span>
+				}
+
+<span class="fc" id="L70">				dataForClass.total++;</span>
+<span class="fc" id="L71">				dataOverall.total++;</span>
+
+<span class="pc bpc" id="L73" title="1 of 2 branches missed.">				if (comp.isDefaultState()) {</span>
+<span class="nc" id="L74">					dataForClass.unnecessaryCount++;</span>
+<span class="nc" id="L75">					dataOverall.unnecessaryCount++;</span>
+				}
+
+<span class="fc" id="L78">				WComponent top = WebUtilities.getTop(comp);</span>
+<span class="fc" id="L79">				topComponents.add(top);</span>
+<span class="fc" id="L80">			}</span>
+
+<span class="fc" id="L82">			buf.append(&quot;WComponent session usage overall:\n &quot;);</span>
+<span class="fc" id="L83">			buf.append(dataOverall.total).append(&quot; WComponent(s) storing data in the session.\n&quot;);</span>
+
+<span class="pc bpc" id="L85" title="1 of 2 branches missed.">			if (dataOverall.total &gt; 0) {</span>
+<span class="fc" id="L86">				buf.append(&quot;[&quot;).append(dataOverall.unnecessaryCount).append(</span>
+						&quot;] WComponent(s) in default state. WComponents in default state do not need to store data in the session.\n&quot;);
+<span class="fc" id="L88">				buf.append(&quot; Therefore, only &quot;).append(</span>
+<span class="fc" id="L89">						dataOverall.total - dataOverall.unnecessaryCount).append(</span>
+								&quot; WComponent(s) actually need(s) to store data in the session.\n&quot;);
+
+<span class="fc" id="L92">				buf.append(&quot;WComponent session usage by class:\n&quot;);</span>
+
+<span class="fc bfc" id="L94" title="All 2 branches covered.">				for (Map.Entry&lt;String, GroupData&gt; entry : tallyByClass.entrySet()) {</span>
+<span class="fc" id="L95">					String className = entry.getKey();</span>
+<span class="fc" id="L96">					GroupData dataForClass = entry.getValue();</span>
+<span class="fc" id="L97">					buf.append(' ').append(dataForClass.total).append(&quot; [&quot;).append(</span>
+<span class="fc" id="L98">							dataForClass.unnecessaryCount).append(&quot;] &quot;).append(className).append(</span>
+							'\n');
+<span class="fc" id="L100">				}</span>
+
+<span class="fc" id="L102">				buf.append(&quot;Found &quot;).append(topComponents.size()).append(&quot; top component(s).\n&quot;);</span>
+			}
+		} finally {
+<span class="pc" id="L105">			UIContextHolder.popContext();</span>
+<span class="fc" id="L106">		}</span>
+
+<span class="fc" id="L108">		return buf.toString();</span>
+	}
+
+	/**
+	 * Holds statistics for a single WComponent class.
+	 */
+<span class="fc" id="L114">	private static final class GroupData {</span>
+
+		/**
+		 * The count of instances of the particular WComponent class with a component model in the context/session.
+		 */
+<span class="fc" id="L119">		private int total = 0;</span>
+
+		/**
+		 * The count of instances of the particular WComponent class with a component model in the context/session which
+		 * doesn't need to be there.
+		 */
+<span class="fc" id="L125">		private int unnecessaryCount = 0;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

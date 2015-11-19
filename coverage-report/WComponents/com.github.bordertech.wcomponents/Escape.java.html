@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>Escape.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">Escape.java</span></div><h1>Escape.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import java.io.IOException;
+
+/**
+ * An escape can be thrown during servicing in which case the WComponent's paint will not be used, instead the escape
+ * method will be called, after the setRequest and setResponse methods are called. This can be used to do forwarding,
+ * etc.
+ *
+ * @author Martin Shevchenko
+ */
+<span class="fc" id="L12">public class Escape extends RuntimeException {</span>
+
+	/**
+	 * The request being responded to.
+	 */
+	private Request request;
+
+	/**
+	 * The response to the client.
+	 */
+	private Response response;
+
+	/**
+	 * @return the request being responded to.
+	 */
+	public Request getRequest() {
+<span class="nc" id="L28">		return request;</span>
+	}
+
+	/**
+	 * Sets the request being responded to.
+	 *
+	 * @param request the request to set.
+	 */
+	public void setRequest(final Request request) {
+<span class="fc" id="L37">		this.request = request;</span>
+<span class="fc" id="L38">	}</span>
+
+	/**
+	 * @return the response to the client.
+	 */
+	public Response getResponse() {
+<span class="fc" id="L44">		return response;</span>
+	}
+
+	/**
+	 * Sets the client response.
+	 *
+	 * @param response the response to set.
+	 */
+	public void setResponse(final Response response) {
+<span class="fc" id="L53">		this.response = response;</span>
+<span class="fc" id="L54">	}</span>
+
+	/**
+	 * Subclasses can override this and do whatever they need to.
+	 *
+	 * @throws java.io.IOException IOException
+	 */
+	public void escape() throws IOException {
+		// The default implementation does nothing
+<span class="nc" id="L63">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

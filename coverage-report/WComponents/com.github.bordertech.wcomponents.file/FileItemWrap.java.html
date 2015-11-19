@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>FileItemWrap.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.file</a> &gt; <span class="el_source">FileItemWrap.java</span></div><h1>FileItemWrap.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.file;
+
+import java.io.IOException;
+import java.io.InputStream;
+import org.apache.commons.fileupload.FileItem;
+
+/**
+ * A {@link File} implementation that is backed by a {@link FileItem}.
+ *
+ * @author Christina Harris
+ * @since 1.0.0
+ */
+public class FileItemWrap implements File {
+
+	/**
+	 * The file item backing this instance.
+	 */
+	private final FileItem backing;
+
+	/**
+	 * Constructor. Set the backing FileItem.
+	 *
+	 * @param item The FileItem that backs this DefaultFileImpl.
+	 */
+<span class="fc" id="L25">	public FileItemWrap(final FileItem item) {</span>
+<span class="fc" id="L26">		backing = item;</span>
+<span class="fc" id="L27">	}</span>
+
+	/**
+	 * The name of the file as supplied by the client. Depending on the client this may or may not include the full path
+	 * to the file.
+	 *
+	 * @return The name of the file.
+	 */
+	@Override
+	public String getName() {
+<span class="fc" id="L37">		return backing.getName();</span>
+	}
+
+	/**
+	 * @return the byte content of the file.
+	 */
+	@Override
+	public byte[] getBytes() {
+<span class="fc" id="L45">		return backing.get();</span>
+	}
+
+	/**
+	 * Returns the name of the file.
+	 *
+	 * @return file name.
+	 */
+	@Override
+	public String getDescription() {
+<span class="nc" id="L55">		return backing.getName();</span>
+	}
+
+	/**
+	 * Returns the content type passed by the browser or &lt;code&gt;null&lt;/code&gt; if not defined.
+	 *
+	 * @return The content type passed by the browser or &lt;code&gt;null&lt;/code&gt; if not defined.
+	 */
+	@Override
+	public String getMimeType() {
+<span class="fc" id="L65">		String contentType = backing.getContentType();</span>
+
+		// IE6 (and apparently IE7) are broken and send the MIME type &quot;image/pjpeg&quot;
+		// regardless of whether the image is a progressive jpeg or not. Sending the
+		// incorrect MIME type back can cause display issues. It is always safe to
+		// change it to just be &quot;image/jpeg&quot;.
+<span class="pc bpc" id="L71" title="1 of 2 branches missed.">		if (&quot;image/pjpeg&quot;.equals(contentType)) {</span>
+<span class="nc" id="L72">			contentType = &quot;image/jpeg&quot;;</span>
+		}
+
+<span class="fc" id="L75">		return contentType;</span>
+	}
+
+	/**
+	 * Returns an {@link java.io.InputStream InputStream} that can be used to retrieve the contents of the file.
+	 *
+	 * @return An {@link java.io.InputStream InputStream} that can be used to retrieve the contents of the file.
+	 * @throws IOException unable to access file.
+	 */
+	@Override
+	public InputStream getInputStream() throws IOException {
+<span class="fc" id="L86">		return backing.getInputStream();</span>
+	}
+
+	/**
+	 * Returns the size of the file item.
+	 *
+	 * @return The size of the file item, in bytes.
+	 */
+	@Override
+	public long getSize() {
+<span class="fc" id="L96">		return backing.getSize();</span>
+	}
+
+	/**
+	 * Constructs a {@link java.io.File} instance using the name of the file, and invokes {@link java.io.File#getName()}
+	 * to retrieve the name of the file minus its extension.
+	 *
+	 * @return The name of the file or directory denoted by this abstract pathname, or the empty string if this
+	 * pathname's name sequence is empty
+	 */
+	@Override
+	public String getFileName() {
+<span class="nc" id="L108">		return new java.io.File(getName()).getName();</span>
+	}
+
+	/**
+	 * Returns a string representation of this object.
+	 *
+	 * @return a string representation of this object.
+	 */
+	@Override
+	public String toString() {
+<span class="fc" id="L118">		return &quot;name=&quot; + backing.getName();</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

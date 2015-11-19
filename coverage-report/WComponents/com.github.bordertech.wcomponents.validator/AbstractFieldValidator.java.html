@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>AbstractFieldValidator.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.validator</a> &gt; <span class="el_source">AbstractFieldValidator.java</span></div><h1>AbstractFieldValidator.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.validator;
+
+import com.github.bordertech.wcomponents.Input;
+import com.github.bordertech.wcomponents.WLabel;
+import com.github.bordertech.wcomponents.validation.Diagnostic;
+import com.github.bordertech.wcomponents.validation.DiagnosticImpl;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * This class provides the common functionality required by a {@link FieldValidator} implementation.
+ *
+ * @author Adam Millard
+ */
+public abstract class AbstractFieldValidator implements FieldValidator, Serializable {
+
+	/**
+	 * The input field to validate.
+	 */
+	private Input input;
+
+	/**
+	 * The error message to display on validation failure.
+	 */
+	private String errorMessage;
+
+	/**
+	 * Creates an AbstractFieldValidator with no message.
+	 */
+<span class="fc" id="L31">	public AbstractFieldValidator() {</span>
+<span class="fc" id="L32">	}</span>
+
+	/**
+	 * Creates an AbstractFieldValidator with the given error message.
+	 *
+	 * The format of the error message String must conform to the pattern required by &lt;code&gt;MessageFormat&lt;/code&gt;.
+	 *
+	 * @see java.text.MessageFormat
+	 *
+	 * @param errorMessage the error message.
+	 */
+<span class="fc" id="L43">	public AbstractFieldValidator(final String errorMessage) {</span>
+<span class="fc" id="L44">		this.errorMessage = errorMessage;</span>
+<span class="fc" id="L45">	}</span>
+
+	/**
+	 * Sets the input field.
+	 *
+	 * @param inputField the input field to set.
+	 */
+	@Override
+	public void setInputField(final Input inputField) {
+<span class="fc" id="L54">		this.input = inputField;</span>
+<span class="fc" id="L55">	}</span>
+
+	/**
+	 * @return the input field.
+	 */
+	@Override
+	public Input getInputField() {
+<span class="fc" id="L62">		return input;</span>
+	}
+
+	/**
+	 * Sets the error message to display on validation failure.
+	 *
+	 * This is the format of the error message for a validator. It must conform to the pattern required by
+	 * &lt;code&gt;MessageFormat&lt;/code&gt;.
+	 *
+	 * @see java.text.MessageFormat
+	 *
+	 * @param errorMessage the error message.
+	 */
+	@Override
+	public void setErrorMessage(final String errorMessage) {
+<span class="fc" id="L77">		this.errorMessage = errorMessage;</span>
+<span class="fc" id="L78">	}</span>
+
+	/**
+	 * @return the error message to display on validation failure.
+	 */
+	@Override
+	public String getErrorMessage() {
+<span class="fc" id="L85">		return errorMessage;</span>
+	}
+
+	/**
+	 * Retrieves the input field's value in the given context.
+	 *
+	 * @return the input field's value, as a string.
+	 */
+	public String getInputAsString() {
+<span class="fc" id="L94">		return getInputField().getValueAsString();</span>
+	}
+
+	/**
+	 * Sub classes should remember to call super.getMessageArguments() to ensure that the field label is added to the
+	 * list of arguments.
+	 *
+	 * @return The list of arguments to be applied to the validators error message.
+	 */
+	protected List&lt;Serializable&gt; getMessageArguments() {
+<span class="fc" id="L104">		List&lt;Serializable&gt; args = new ArrayList&lt;&gt;(1);</span>
+<span class="fc" id="L105">		WLabel label = input.getLabel();</span>
+
+<span class="fc bfc" id="L107" title="All 2 branches covered.">		if (label == null) {</span>
+<span class="fc" id="L108">			args.add(&quot;&quot;);</span>
+		} else {
+<span class="fc" id="L110">			args.add(label.getText());</span>
+		}
+
+<span class="fc" id="L113">		return args;</span>
+	}
+
+	/**
+	 * Validates the input field.
+	 *
+	 * @param diags the list of Diagnostics to add validation errors to.
+	 *
+	 * @return the updated list of validation errors.
+	 */
+	@Override
+	public List&lt;Diagnostic&gt; validate(final List&lt;Diagnostic&gt; diags) {
+<span class="fc bfc" id="L125" title="All 2 branches covered.">		if (!isValid()) {</span>
+<span class="fc" id="L126">			List&lt;Serializable&gt; argList = getMessageArguments();</span>
+<span class="fc" id="L127">			Serializable[] args = argList.toArray(new Serializable[argList.size()]);</span>
+
+<span class="fc" id="L129">			diags.add(new DiagnosticImpl(Diagnostic.ERROR, input, getErrorMessage(), args));</span>
+		}
+
+<span class="fc" id="L132">		return diags;</span>
+	}
+
+	/**
+	 * Subclasses should implement this method with the actual validation logic.
+	 *
+	 * @return true if the component is valid.
+	 */
+	protected abstract boolean isValid();
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WPanelRenderer.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.render.webxml</a> &gt; <span class="el_source">WPanelRenderer.java</span></div><h1>WPanelRenderer.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.render.webxml;
+
+import com.github.bordertech.wcomponents.AjaxHelper;
+import com.github.bordertech.wcomponents.Renderer;
+import com.github.bordertech.wcomponents.WButton;
+import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.WPanel;
+import com.github.bordertech.wcomponents.WPanel.PanelMode;
+import com.github.bordertech.wcomponents.XmlStringBuilder;
+import com.github.bordertech.wcomponents.layout.LayoutManager;
+import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
+import com.github.bordertech.wcomponents.util.Util;
+
+/**
+ * The {@link Renderer} for the {@link WPanel} component.
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ */
+<span class="fc" id="L20">final class WPanelRenderer extends AbstractWebXmlRenderer {</span>
+
+	/**
+	 * Paints the given container.
+	 *
+	 * @param component the container to paint.
+	 * @param renderContext the RenderContext to paint to.
+	 */
+	@Override
+	public void doRender(final WComponent component, final WebXmlRenderContext renderContext) {
+<span class="fc" id="L30">		WPanel panel = (WPanel) component;</span>
+<span class="fc" id="L31">		XmlStringBuilder xml = renderContext.getWriter();</span>
+<span class="fc" id="L32">		WButton submitButton = panel.getDefaultSubmitButton();</span>
+<span class="fc bfc" id="L33" title="All 2 branches covered.">		String submitId = submitButton == null ? null : submitButton.getId();</span>
+<span class="fc" id="L34">		String titleText = panel.getTitleText();</span>
+
+<span class="fc" id="L36">		boolean renderChildren = isRenderContent(panel);</span>
+
+<span class="fc" id="L38">		xml.appendTagOpen(&quot;ui:panel&quot;);</span>
+<span class="fc" id="L39">		xml.appendAttribute(&quot;id&quot;, component.getId());</span>
+<span class="fc" id="L40">		xml.appendOptionalAttribute(&quot;class&quot;, component.getHtmlClass());</span>
+<span class="fc" id="L41">		xml.appendOptionalAttribute(&quot;track&quot;, component.isTracking(), &quot;true&quot;);</span>
+<span class="fc bfc" id="L42" title="All 2 branches covered.">		if (PanelMode.LAZY.equals(panel.getMode())) {</span>
+<span class="fc bfc" id="L43" title="All 2 branches covered.">			xml.appendOptionalAttribute(&quot;hidden&quot;, !renderChildren, &quot;true&quot;);</span>
+		} else {
+<span class="fc" id="L45">			xml.appendOptionalAttribute(&quot;hidden&quot;, component.isHidden(), &quot;true&quot;);</span>
+		}
+<span class="fc" id="L47">		xml.appendOptionalAttribute(&quot;buttonId&quot;, submitId);</span>
+<span class="fc" id="L48">		xml.appendOptionalAttribute(&quot;title&quot;, titleText);</span>
+<span class="fc" id="L49">		xml.appendOptionalAttribute(&quot;accessKey&quot;, Util.upperCase(panel.getAccessKeyAsString()));</span>
+<span class="fc" id="L50">		xml.appendOptionalAttribute(&quot;type&quot;, getPanelType(panel));</span>
+<span class="fc" id="L51">		xml.appendOptionalAttribute(&quot;mode&quot;, getPanelMode(panel));</span>
+
+<span class="fc" id="L53">		xml.appendClose();</span>
+
+		// Render margin
+<span class="fc" id="L56">		MarginRendererUtil.renderMargin(panel, renderContext);</span>
+
+<span class="fc bfc" id="L58" title="All 2 branches covered.">		if (renderChildren) {</span>
+<span class="fc" id="L59">			renderChildren(panel, renderContext);</span>
+		} else {
+			// Content will be loaded via AJAX
+<span class="fc" id="L62">			xml.append(&quot;&lt;ui:content/&gt;&quot;);</span>
+		}
+
+<span class="fc" id="L65">		xml.appendEndTag(&quot;ui:panel&quot;);</span>
+<span class="fc" id="L66">	}</span>
+
+	/**
+	 * @param panel the panel to paint.
+	 * @return true if the panel content needs to be rendered
+	 */
+	private boolean isRenderContent(final WPanel panel) {
+<span class="fc" id="L73">		PanelMode panelMode = panel.getMode();</span>
+
+		// EAGER panels only render content if the panel is the current AJAX trigger
+<span class="fc bfc" id="L76" title="All 2 branches covered.">		if (PanelMode.EAGER.equals(panelMode)) {</span>
+<span class="fc" id="L77">			return AjaxHelper.isCurrentAjaxTrigger(panel);</span>
+<span class="fc bfc" id="L78" title="All 2 branches covered.">		} else if (PanelMode.LAZY.equals(panelMode)) {</span>
+			// LAZY panels render content if the panel is not hidden or it is the current AJAX Trigger (ie content has been requested)
+<span class="pc bpc" id="L80" title="1 of 4 branches missed.">			return (!panel.isHidden() || AjaxHelper.isCurrentAjaxTrigger(panel));</span>
+		}
+
+<span class="fc" id="L83">		return true;</span>
+	}
+
+	/**
+	 * @param panel the panel to paint.
+	 * @return the panel mode to be included in the xml
+	 */
+	private String getPanelMode(final WPanel panel) {
+<span class="fc" id="L91">		PanelMode panelMode = panel.getMode();</span>
+
+<span class="fc bfc" id="L93" title="All 2 branches covered.">		if (PanelMode.LAZY.equals(panelMode)) {</span>
+<span class="fc" id="L94">			return &quot;lazy&quot;;</span>
+<span class="fc bfc" id="L95" title="All 2 branches covered.">		} else if (PanelMode.EAGER.equals(panelMode)) {</span>
+<span class="fc" id="L96">			return &quot;eager&quot;;</span>
+		}
+
+<span class="fc" id="L99">		return null;</span>
+	}
+
+	/**
+	 * @param panel the panel to paint.
+	 * @return the panel type to be included in the xml
+	 */
+	private String getPanelType(final WPanel panel) {
+<span class="fc" id="L107">		String type = null;</span>
+
+<span class="pc bpc" id="L109" title="1 of 10 branches missed.">		switch (panel.getType()) {</span>
+			case ACTION:
+<span class="fc" id="L111">				type = &quot;action&quot;;</span>
+<span class="fc" id="L112">				break;</span>
+			case BANNER:
+<span class="fc" id="L114">				type = &quot;banner&quot;;</span>
+<span class="fc" id="L115">				break;</span>
+			case BLOCK:
+<span class="fc" id="L117">				type = &quot;block&quot;;</span>
+<span class="fc" id="L118">				break;</span>
+			case BOX:
+<span class="fc" id="L120">				type = &quot;box&quot;;</span>
+<span class="fc" id="L121">				break;</span>
+			case CHROME:
+<span class="fc" id="L123">				type = &quot;chrome&quot;;</span>
+<span class="fc" id="L124">				break;</span>
+			case FEATURE:
+<span class="fc" id="L126">				type = &quot;feature&quot;;</span>
+<span class="fc" id="L127">				break;</span>
+			case FOOTER:
+<span class="fc" id="L129">				type = &quot;footer&quot;;</span>
+<span class="fc" id="L130">				break;</span>
+			case HEADER:
+<span class="fc" id="L132">				type = &quot;header&quot;;</span>
+<span class="fc" id="L133">				break;</span>
+			case PLAIN:
+<span class="fc" id="L135">				break;</span>
+			default:
+				// None
+<span class="fc" id="L138">				break;</span>
+		}
+
+<span class="fc" id="L141">		return type;</span>
+	}
+
+	/**
+	 * Paints the children contained within the panel. This defers rendering to a layout renderer (if available).
+	 *
+	 * @param panel the panel to paint.
+	 * @param renderContext the RenderContext to paint to.
+	 */
+	private void renderChildren(final WPanel panel, final WebXmlRenderContext renderContext) {
+<span class="fc" id="L151">		LayoutManager layout = panel.getLayout();</span>
+<span class="fc" id="L152">		Renderer layoutRenderer = null;</span>
+
+<span class="fc bfc" id="L154" title="All 2 branches covered.">		if (layout != null) {</span>
+<span class="fc" id="L155">			layoutRenderer = new RendererFactoryImpl().getRenderer(layout.getClass());</span>
+		}
+
+<span class="fc bfc" id="L158" title="All 2 branches covered.">		if (layoutRenderer == null) {</span>
+<span class="fc" id="L159">			renderContext.getWriter().appendTag(&quot;ui:content&quot;);</span>
+<span class="fc" id="L160">			paintChildren(panel, renderContext);</span>
+<span class="fc" id="L161">			renderContext.getWriter().appendEndTag(&quot;ui:content&quot;);</span>
+		} else {
+<span class="fc" id="L163">			layoutRenderer.render(panel, renderContext);</span>
+		}
+<span class="fc" id="L165">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

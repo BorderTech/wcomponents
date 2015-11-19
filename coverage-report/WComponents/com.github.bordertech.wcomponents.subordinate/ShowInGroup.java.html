@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>ShowInGroup.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.subordinate</a> &gt; <span class="el_source">ShowInGroup.java</span></div><h1>ShowInGroup.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.subordinate;
+
+import com.github.bordertech.wcomponents.SubordinateTarget;
+import com.github.bordertech.wcomponents.WComponentGroup;
+import com.github.bordertech.wcomponents.WLabel;
+
+/**
+ * An action that shows only one target component within a group of components.
+ *
+ * @author Martin Shevchenko
+ * @author Jonathan Austin
+ * @since 1.0.0
+ */
+public class ShowInGroup extends AbstractSetVisible {
+
+	/**
+	 * Creates a ShowIn action with the given target.
+	 *
+	 * @param target the component to show in the group.
+	 * @param group the group containing the target.
+	 */
+	public ShowInGroup(final SubordinateTarget target,
+			final WComponentGroup&lt;? extends SubordinateTarget&gt; group) {
+		// Hide everything in the group.
+<span class="fc" id="L25">		super(group, Boolean.FALSE);</span>
+<span class="fc" id="L26">		setTargetInGroup(target);</span>
+<span class="fc" id="L27">	}</span>
+
+	/**
+	 * Executes the action. Shows the target component and hides everything else in the group.
+	 */
+	@Override
+	public void execute() {
+		// Hide everything in the group.
+<span class="fc" id="L35">		super.execute();</span>
+
+		// Now show the target
+<span class="fc" id="L38">		applyAction(getTargetInGroup(), Boolean.TRUE);</span>
+<span class="fc" id="L39">	}</span>
+
+	/**
+	 * @return the action type of showIn.
+	 */
+	@Override
+	public ActionType getActionType() {
+<span class="fc" id="L46">		return ActionType.SHOWIN;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String toString() {
+<span class="fc" id="L54">		String targetInName = getTargetInGroup().getClass().getSimpleName();</span>
+
+<span class="fc" id="L56">		WLabel label = getTargetInGroup().getLabel();</span>
+<span class="fc bfc" id="L57" title="All 2 branches covered.">		if (label != null) {</span>
+<span class="fc" id="L58">			targetInName = label.getText();</span>
+		}
+
+<span class="fc" id="L61">		return &quot;show &quot; + targetInName + &quot; in &quot; + getTarget();</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

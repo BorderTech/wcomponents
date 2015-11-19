@@ -1,0 +1,664 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>TreeUtil.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.util</a> &gt; <span class="el_source">TreeUtil.java</span></div><h1>TreeUtil.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.util;
+
+import com.github.bordertech.wcomponents.ComponentWithContext;
+import com.github.bordertech.wcomponents.Container;
+import com.github.bordertech.wcomponents.NamingContextable;
+import com.github.bordertech.wcomponents.UIContext;
+import com.github.bordertech.wcomponents.UIContextHolder;
+import com.github.bordertech.wcomponents.WCardManager;
+import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.WInvisibleContainer;
+import com.github.bordertech.wcomponents.WRepeater;
+import com.github.bordertech.wcomponents.WRepeater.WRepeatRoot;
+import com.github.bordertech.wcomponents.WWindow;
+import com.github.bordertech.wcomponents.WebUtilities;
+import com.github.bordertech.wcomponents.util.WComponentTreeVisitor.VisitorResult;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Utility methods for navigating WComponent trees.
+ *
+ * @author Yiannis Paschalidis
+ * @author Jonathan Austin
+ * @since 1.0.0
+ */
+public final class TreeUtil {
+
+	/**
+	 * Prevent instantiation of utility class.
+	 */
+<span class="nc" id="L31">	private TreeUtil() {</span>
+<span class="nc" id="L32">	}</span>
+
+	/**
+	 * Obtains a list of components which are visible in the given tree. Repeated components will be returned multiple
+	 * times, one for each row which they are visible in.
+	 *
+	 * @param comp the root component to search from.
+	 * @return a list of components which are visible in the given context.
+	 */
+	public static List&lt;ComponentWithContext&gt; collateVisibles(final WComponent comp) {
+<span class="fc" id="L42">		final List&lt;ComponentWithContext&gt; list = new ArrayList&lt;&gt;();</span>
+
+<span class="fc" id="L44">		WComponentTreeVisitor visitor = new WComponentTreeVisitor() {</span>
+			@Override
+			public VisitorResult visit(final WComponent comp) {
+				// In traversing the tree, special components like WInvisbleContainer, WRepeatRoot are still traversed (so ignore them)
+<span class="fc bfc" id="L48" title="All 2 branches covered.">				if (comp.isVisible()) {</span>
+<span class="fc" id="L49">					list.add(new ComponentWithContext(comp, UIContextHolder.getCurrent()));</span>
+				}
+<span class="fc" id="L51">				return VisitorResult.CONTINUE;</span>
+			}
+		};
+
+<span class="fc" id="L55">		traverseVisible(comp, visitor);</span>
+
+<span class="fc" id="L57">		return list;</span>
+	}
+
+	/**
+	 * Retrieves the root component of a WComponent hierarchy.
+	 *
+	 * @param uic the context to retrieve the root component for.
+	 * @param comp a component in the tree.
+	 * @return the root of the tree.
+	 */
+	public static WComponent getRoot(final UIContext uic, final WComponent comp) {
+<span class="fc" id="L68">		UIContextHolder.pushContext(uic);</span>
+
+		try {
+<span class="fc" id="L71">			return WebUtilities.getTop(comp);</span>
+		} finally {
+<span class="pc" id="L73">			UIContextHolder.popContext();</span>
+		}
+	}
+
+	/**
+	 * Retrieves the component with the given Id.
+	 * &lt;p&gt;
+	 * Searches visible and not visible components.
+	 * &lt;/p&gt;
+	 *
+	 * @param root the root component to search from.
+	 * @param id the id to search for.
+	 * @return the component with the given id, or null if not found.
+	 */
+	public static WComponent getComponentWithId(final WComponent root, final String id) {
+<span class="fc" id="L88">		return getComponentWithId(root, id, false);</span>
+	}
+
+	/**
+	 * Retrieves the component with the given Id.
+	 *
+	 * @param root the root component to search from.
+	 * @param id the id to search for.
+	 * @param visibleOnly true if process visible only
+	 * @return the component with the given id, or null if not found.
+	 */
+	public static WComponent getComponentWithId(final WComponent root, final String id,
+			final boolean visibleOnly) {
+
+<span class="fc" id="L102">		AbstractTreeVisitorWithResult&lt;WComponent&gt; visitor = new AbstractTreeVisitorWithResult&lt;WComponent&gt;() {</span>
+			/**
+			 * {@inheritDoc}
+			 */
+			@Override
+			public VisitorResult visit(final WComponent comp) {
+				// Match
+<span class="fc bfc" id="L109" title="All 2 branches covered.">				if (id.equals(comp.getId())) {</span>
+<span class="fc" id="L110">					setResult(comp);</span>
+<span class="fc" id="L111">					return VisitorResult.ABORT;</span>
+				}
+
+				// Check name context. If different, then never match
+<span class="fc" id="L115">				VisitorResult check = checkCorrectNameContext(comp, id);</span>
+<span class="fc bfc" id="L116" title="All 2 branches covered.">				if (check != null) {</span>
+<span class="fc" id="L117">					return check;</span>
+				}
+
+<span class="fc" id="L120">				return VisitorResult.CONTINUE;</span>
+			}
+		};
+
+<span class="fc" id="L124">		doTraverse(root, visibleOnly, visitor);</span>
+
+<span class="fc" id="L126">		return visitor.getResult();</span>
+	}
+
+	/**
+	 * Retrieves the context for the component with the given Id.
+	 * &lt;p&gt;
+	 * Searches visible and not visible components.
+	 * &lt;/p&gt;
+	 *
+	 * @param root the root component to search from.
+	 * @param id the id to search for.
+	 * @return the context for the component with the given id, or null if not found.
+	 */
+	public static UIContext getContextForId(final WComponent root, final String id) {
+<span class="fc" id="L140">		return getContextForId(root, id, false);</span>
+	}
+
+	/**
+	 * Retrieves the context for the component with the given Id.
+	 *
+	 * @param root the root component to search from.
+	 * @param id the id to search for.
+	 * @param visibleOnly true if process visible only
+	 * @return the context for the component with the given id, or null if not found.
+	 */
+	public static UIContext getContextForId(final WComponent root, final String id,
+			final boolean visibleOnly) {
+<span class="fc" id="L153">		AbstractTreeVisitorWithResult&lt;UIContext&gt; visitor = new AbstractTreeVisitorWithResult&lt;UIContext&gt;() {</span>
+			/**
+			 * {@inheritDoc}
+			 */
+			@Override
+			public VisitorResult visit(final WComponent comp) {
+
+				// Match
+<span class="fc bfc" id="L161" title="All 2 branches covered.">				if (id.equals(comp.getId())) {</span>
+<span class="fc" id="L162">					setResult(UIContextHolder.getCurrent());</span>
+<span class="fc" id="L163">					return VisitorResult.ABORT;</span>
+				}
+
+				// Check name context. If different, then never match
+<span class="fc" id="L167">				VisitorResult check = checkCorrectNameContext(comp, id);</span>
+<span class="fc bfc" id="L168" title="All 2 branches covered.">				if (check != null) {</span>
+<span class="fc" id="L169">					return check;</span>
+				}
+
+<span class="fc" id="L172">				return VisitorResult.CONTINUE;</span>
+			}
+		};
+
+<span class="fc" id="L176">		doTraverse(root, visibleOnly, visitor);</span>
+
+<span class="fc" id="L178">		return visitor.getResult();</span>
+	}
+
+	/**
+	 * Retrieves the context for the component with the given Id.
+	 * &lt;p&gt;
+	 * Searches visible and not visible components.
+	 * &lt;/p&gt;
+	 *
+	 * @param root the root component to search from.
+	 * @param id the id to search for.
+	 * @return the context for the component with the given id, or null if not found.
+	 */
+	public static ComponentWithContext getComponentWithContextForId(final WComponent root,
+			final String id) {
+<span class="nc" id="L193">		return getComponentWithContextForId(root, id, false);</span>
+	}
+
+	/**
+	 * Retrieves the context for the component with the given Id.
+	 *
+	 * @param root the root component to search from.
+	 * @param id the id to search for.
+	 * @param visibleOnly true if process visible only
+	 * @return the context for the component with the given id, or null if not found.
+	 */
+	public static ComponentWithContext getComponentWithContextForId(final WComponent root,
+			final String id,
+			final boolean visibleOnly) {
+<span class="fc" id="L207">		AbstractTreeVisitorWithResult&lt;ComponentWithContext&gt; visitor = new AbstractTreeVisitorWithResult&lt;ComponentWithContext&gt;() {</span>
+			/**
+			 * {@inheritDoc}
+			 */
+			@Override
+			public VisitorResult visit(final WComponent comp) {
+
+				// Match
+<span class="fc bfc" id="L215" title="All 2 branches covered.">				if (id.equals(comp.getId())) {</span>
+<span class="fc" id="L216">					setResult(new ComponentWithContext(comp, UIContextHolder.getCurrent()));</span>
+<span class="fc" id="L217">					return VisitorResult.ABORT;</span>
+				}
+
+				// Check name context. If different, then never match
+<span class="fc" id="L221">				VisitorResult check = checkCorrectNameContext(comp, id);</span>
+<span class="pc bpc" id="L222" title="1 of 2 branches missed.">				if (check != null) {</span>
+<span class="nc" id="L223">					return check;</span>
+				}
+
+<span class="fc" id="L226">				return VisitorResult.CONTINUE;</span>
+			}
+		};
+
+<span class="fc" id="L230">		doTraverse(root, visibleOnly, visitor);</span>
+
+<span class="fc" id="L232">		return visitor.getResult();</span>
+	}
+
+	/**
+	 * Retrieves the closest context for the component with the given Id.
+	 * &lt;p&gt;
+	 * Searches visible and not visible components.
+	 * &lt;/p&gt;
+	 *
+	 * @param root the root component to search from.
+	 * @param id the id to search for.
+	 * @return the closest context for the component with the given id, or null if not found.
+	 */
+	public static UIContext getClosestContextForId(final WComponent root, final String id) {
+<span class="fc" id="L246">		return getClosestContextForId(root, id, false);</span>
+	}
+
+	/**
+	 * Retrieves the closest context for the component with the given Id.
+	 *
+	 * @param root the root component to search from.
+	 * @param id the id to search for.
+	 * @param visibleOnly true if process visible only
+	 * @return the closest context for the component with the given id, or null if not found.
+	 */
+	public static UIContext getClosestContextForId(final WComponent root, final String id,
+			final boolean visibleOnly) {
+<span class="fc" id="L259">		AbstractTreeVisitorWithResult&lt;UIContext&gt; visitor = new AbstractTreeVisitorWithResult&lt;UIContext&gt;() {</span>
+			/**
+			 * {@inheritDoc}
+			 */
+			@Override
+			public VisitorResult visit(final WComponent comp) {
+				// Match
+<span class="fc bfc" id="L266" title="All 2 branches covered.">				if (id.equals(comp.getId())) {</span>
+<span class="fc" id="L267">					setResult(UIContextHolder.getCurrent());</span>
+<span class="fc" id="L268">					return VisitorResult.ABORT;</span>
+				}
+
+				// Check name context. If different, then never match
+<span class="fc" id="L272">				VisitorResult check = checkCorrectNameContext(comp, id);</span>
+<span class="pc bpc" id="L273" title="1 of 2 branches missed.">				if (check != null) {</span>
+<span class="nc" id="L274">					return check;</span>
+				}
+
+				// Save closest UIC as processing tree
+<span class="fc" id="L278">				setResult(UIContextHolder.getCurrent());</span>
+
+<span class="fc" id="L280">				return VisitorResult.CONTINUE;</span>
+			}
+		};
+
+<span class="fc" id="L284">		doTraverse(root, visibleOnly, visitor);</span>
+
+<span class="fc" id="L286">		return visitor.getResult();</span>
+	}
+
+	/**
+	 * Check if this ID is focusable.
+	 * &lt;p&gt;
+	 * Considered focusable if the component and all its ancestors are visible and not hidden.
+	 * &lt;/p&gt;
+	 *
+	 * @param root the root component to search from.
+	 * @param id the id to search for.
+	 * @return the component with context if it is focusable, otherwise null
+	 */
+	public static boolean isIdFocusable(final WComponent root, final String id) {
+		/**
+		 * Visit visible components to find the matching ID and check the components are not hidden.
+		 */
+<span class="fc" id="L303">		AbstractTreeVisitorWithResult&lt;Boolean&gt; visitor = new AbstractTreeVisitorWithResult&lt;Boolean&gt;() {</span>
+			/**
+			 * {@inheritDoc}
+			 */
+			@Override
+			public VisitorResult visit(final WComponent comp) {
+				// Match (Only here if visible)
+<span class="fc bfc" id="L310" title="All 2 branches covered.">				if (id.equals(comp.getId())) {</span>
+<span class="pc bpc" id="L311" title="1 of 2 branches missed.">					setResult(!comp.isHidden());</span>
+<span class="fc" id="L312">					return VisitorResult.ABORT;</span>
+				}
+
+				// Check name context. If different, then never match
+<span class="fc" id="L316">				VisitorResult check = checkCorrectNameContext(comp, id);</span>
+<span class="fc bfc" id="L317" title="All 2 branches covered.">				if (check != null) {</span>
+<span class="fc" id="L318">					return check;</span>
+				}
+
+				// If hidden then abort branch
+<span class="fc bfc" id="L322" title="All 2 branches covered.">				if (comp.isHidden()) {</span>
+<span class="fc" id="L323">					return VisitorResult.ABORT_BRANCH;</span>
+				}
+
+<span class="fc" id="L326">				return VisitorResult.CONTINUE;</span>
+			}
+		};
+
+		// Only traverse visible
+<span class="fc" id="L331">		visitor.setResult(false);</span>
+<span class="fc" id="L332">		doTraverse(root, true, visitor);</span>
+
+<span class="fc" id="L334">		return visitor.getResult();</span>
+	}
+
+	/**
+	 * General utility method to visit every WComponent in the tree, taking repeaters etc. into account.
+	 *
+	 * @param node the node to traverse.
+	 * @param visitor the visitor to notify as the tree is traversed.
+	 */
+	public static void traverse(final WComponent node, final WComponentTreeVisitor visitor) {
+<span class="fc" id="L344">		doTraverse(node, false, visitor);</span>
+<span class="fc" id="L345">	}</span>
+
+	/**
+	 * General utility method to visit every visible WComponent in the tree, taking repeaters etc. into account.
+	 *
+	 * @param node the node to traverse.
+	 * @param visitor the visitor to notify as the tree is traversed.
+	 */
+	public static void traverseVisible(final WComponent node, final WComponentTreeVisitor visitor) {
+<span class="fc" id="L354">		doTraverse(node, true, visitor);</span>
+<span class="fc" id="L355">	}</span>
+
+	/**
+	 * Internal implementation of tree traversal method.
+	 *
+	 * @param node the node to traverse.
+	 * @param visibleOnly if true, only visit visible components.
+	 * @param visitor the visitor to notify as the tree is traversed.
+	 * @return how the traversal should continue.
+	 */
+	private static VisitorResult doTraverse(final WComponent node, final boolean visibleOnly,
+			final WComponentTreeVisitor visitor) {
+<span class="fc bfc" id="L367" title="All 2 branches covered.">		if (visibleOnly) {</span>
+			// Push through Invisible Containers
+			// Certain components have their visibility altered to implement custom processing.
+<span class="fc bfc" id="L370" title="All 2 branches covered.">			if (node instanceof WInvisibleContainer) {</span>
+<span class="fc" id="L371">				WComponent parent = node.getParent();</span>
+				// If inside a CardManager, skip the InvisibleContainer and process the visible card.
+<span class="fc bfc" id="L373" title="All 2 branches covered.">				if (parent instanceof WCardManager) {</span>
+<span class="fc" id="L374">					WComponent visible = ((WCardManager) node.getParent()).getVisible();</span>
+<span class="pc bpc" id="L375" title="1 of 2 branches missed.">					if (visible == null) {</span>
+<span class="nc" id="L376">						return VisitorResult.ABORT_BRANCH;</span>
+					}
+<span class="fc" id="L378">					return doTraverse(visible, visibleOnly, visitor);</span>
+<span class="pc bpc" id="L379" title="1 of 2 branches missed.">				} else if (parent instanceof WWindow) { // If inside a WWindow, only process if it is Active</span>
+					// Abort branch if WWindow is not in ACTIVE state
+<span class="nc bnc" id="L381" title="All 2 branches missed.">					if (((WWindow) parent).getState() != WWindow.ACTIVE_STATE) {</span>
+<span class="nc" id="L382">						return VisitorResult.ABORT_BRANCH;</span>
+					}
+				}
+<span class="fc bfc" id="L385" title="All 2 branches covered.">			} else if (node instanceof WRepeatRoot) {</span>
+				// Let be processed.
+<span class="fc bfc" id="L387" title="All 2 branches covered.">			} else if (!node.isVisible()) {</span>
+				// For most components, we just need to see if they're marked as visible
+<span class="fc" id="L389">				return VisitorResult.ABORT_BRANCH;</span>
+			}
+		}
+
+<span class="fc" id="L393">		VisitorResult result = visitor.visit(node);</span>
+
+<span class="fc bfc" id="L395" title="All 2 branches covered.">		if (VisitorResult.ABORT_BRANCH.equals(result)) {</span>
+			// Continue processing, but not down this branch
+<span class="fc" id="L397">			return VisitorResult.CONTINUE;</span>
+<span class="fc bfc" id="L398" title="All 2 branches covered.">		} else if (VisitorResult.CONTINUE.equals(result)) {</span>
+			// Process repeater rows
+<span class="fc bfc" id="L400" title="All 2 branches covered.">			if (node instanceof WRepeater) {</span>
+				// Get parent repeater
+<span class="fc" id="L402">				WRepeater repeater = (WRepeater) node;</span>
+				// Get row contexts
+<span class="fc" id="L404">				List&lt;UIContext&gt; rowContextList = repeater.getRowContexts();</span>
+<span class="fc" id="L405">				WRepeatRoot repeatRoot = (WRepeatRoot) repeater.getRepeatedComponent().getParent();</span>
+
+<span class="fc bfc" id="L407" title="All 2 branches covered.">				for (UIContext rowContext : rowContextList) {</span>
+<span class="fc" id="L408">					UIContextHolder.pushContext(rowContext);</span>
+
+					try {
+<span class="fc" id="L411">						result = doTraverse(repeatRoot, visibleOnly, visitor);</span>
+					} finally {
+<span class="pc" id="L413">						UIContextHolder.popContext();</span>
+<span class="fc" id="L414">					}</span>
+
+<span class="fc bfc" id="L416" title="All 2 branches covered.">					if (VisitorResult.ABORT.equals(result)) {</span>
+<span class="fc" id="L417">						return VisitorResult.ABORT;</span>
+					}
+<span class="fc" id="L419">				}</span>
+<span class="fc bfc" id="L420" title="All 2 branches covered.">			} else if (node instanceof Container) {</span>
+<span class="fc" id="L421">				Container container = (Container) node;</span>
+
+<span class="fc bfc" id="L423" title="All 2 branches covered.">				for (int i = 0; i &lt; container.getChildCount(); i++) {</span>
+<span class="fc" id="L424">					result = doTraverse(container.getChildAt(i), visibleOnly, visitor);</span>
+
+<span class="fc bfc" id="L426" title="All 2 branches covered.">					if (VisitorResult.ABORT.equals(result)) {</span>
+<span class="fc" id="L427">						return VisitorResult.ABORT;</span>
+					}
+				}
+			}
+
+<span class="fc" id="L432">			return VisitorResult.CONTINUE;</span>
+		} else {
+			// Abort entire traversal
+<span class="fc" id="L435">			return VisitorResult.ABORT;</span>
+		}
+	}
+
+	/**
+	 * Retrieves WComponents by their path in the WComponent tree.
+	 * &lt;p&gt;
+	 * Paths are specified using class names, starting from the furthest ancestor. To reduce the path lengths, class
+	 * names do not need to be fully-qualified. The path does not need to explicitly state intermediate components
+	 * between components, and may include an index suffix to select a particular instance of a component in e.g. a
+	 * repeater or a set of fields. Some example paths are shown below.
+	 * &lt;/p&gt;
+	 * Example paths.
+	 * &lt;dl&gt;
+	 * &lt;dt&gt;&lt;code&gt;{ &quot;MyComponent&quot; }&lt;/code&gt;&lt;/dt&gt;
+	 * &lt;dd&gt;Matches the first instance of MyComponent.&lt;/dd&gt;
+	 * &lt;dt&gt;&lt;code&gt;{ &quot;MyComponent[0]&quot; }&lt;/code&gt;&lt;/dt&gt;
+	 * &lt;dd&gt;Also matches the first instance of MyComponent.&lt;/dd&gt;
+	 * &lt;dt&gt;&lt;code&gt;{ &quot;MyComponent[1]&quot; }&lt;/code&gt;&lt;/dt&gt;
+	 * &lt;dd&gt;Matches the second instance of MyComponent.&lt;/dd&gt;
+	 * &lt;dt&gt;&lt;code&gt;{ &quot;MyPanel&quot;, &quot;MyComponent&quot; }&lt;/code&gt;&lt;/dt&gt;
+	 * &lt;dd&gt;Matches the first instance of MyComponent which is nested anywhere under a MyPanel.&lt;/dd&gt;
+	 * &lt;dt&gt;&lt;code&gt;{ &quot;MyApp&quot;, &quot;MyPanel&quot;, &quot;MyComponent&quot; }&lt;/code&gt;&lt;/dt&gt;
+	 * &lt;dd&gt;Matches the first instance of MyComponent, nested within a MyPanel, which is in turn nested somewhere within
+	 * a MyApp.&lt;/dd&gt;
+	 * &lt;/dl&gt;
+	 *
+	 * @param component the component to search from.
+	 * @param path the path to the WComponent.
+	 * @return the component matching the given path, or null if not found.
+	 */
+	public static ComponentWithContext[] findWComponents(final WComponent component,
+			final String[] path) {
+<span class="fc" id="L468">		List&lt;ComponentWithContext&gt; matchAtLevel = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L469">		matchAtLevel.add(new ComponentWithContext(component, UIContextHolder.getCurrent()));</span>
+
+<span class="fc bfc" id="L471" title="All 2 branches covered.">		for (int i = 0; i &lt; path.length; i++) {</span>
+<span class="fc" id="L472">			List&lt;ComponentWithContext&gt; matchAtLastLevel = matchAtLevel;</span>
+<span class="fc" id="L473">			matchAtLevel = new ArrayList&lt;&gt;();</span>
+
+<span class="fc bfc" id="L475" title="All 2 branches covered.">			for (ComponentWithContext comp : matchAtLastLevel) {</span>
+<span class="fc" id="L476">				String[] parts = path[i].trim().split(&quot;[\\[\\]]&quot;);</span>
+<span class="fc" id="L477">				String className = parts[0].trim();</span>
+<span class="fc bfc" id="L478" title="All 2 branches covered.">				int index = parts.length == 2 ? Integer.parseInt(parts[1]) : -1;</span>
+
+<span class="fc bfc" id="L480" title="All 2 branches covered.">				FindComponentByClassVisitor visitor = new FindComponentByClassVisitor(comp,</span>
+						className, i == 0);
+<span class="fc" id="L482">				UIContextHolder.pushContext(comp.getContext());</span>
+
+				try {
+<span class="fc" id="L485">					TreeUtil.traverse(comp.getComponent(), visitor);</span>
+				} finally {
+<span class="pc" id="L487">					UIContextHolder.popContext();</span>
+<span class="fc" id="L488">				}</span>
+
+<span class="fc bfc" id="L490" title="All 2 branches covered.">				if (index &gt;= 0) {</span>
+<span class="pc bpc" id="L491" title="1 of 2 branches missed.">					if (index &lt; visitor.getResult().size()) {</span>
+<span class="fc" id="L492">						matchAtLevel.add(visitor.getResult().get(index));</span>
+					}
+				} else {
+<span class="fc" id="L495">					matchAtLevel.addAll(visitor.getResult());</span>
+				}
+<span class="fc" id="L497">			}</span>
+		}
+
+<span class="fc" id="L500">		return matchAtLevel.toArray(new ComponentWithContext[matchAtLevel.size()]);</span>
+	}
+
+	/**
+	 * Retrieves the first WComponent by its path in the WComponent tree. See
+	 * {@link #findWComponents(WComponent, String[])} for a description of paths.
+	 *
+	 * @param component the component to search from.
+	 * @param path the path to the WComponent.
+	 * @return the first component matching the given path, or null if not found.
+	 */
+	public static ComponentWithContext findWComponent(final WComponent component,
+			final String[] path) {
+<span class="fc" id="L513">		ComponentWithContext[] components = findWComponents(component, path);</span>
+
+<span class="fc bfc" id="L515" title="All 2 branches covered.">		return components.length == 0 ? null : components[0];</span>
+	}
+
+	/**
+	 * An implementation of WComponentTreeVisitor which can return a result.
+	 *
+	 * @param &lt;T&gt; the result type
+	 */
+<span class="fc" id="L523">	public abstract static class AbstractTreeVisitorWithResult&lt;T&gt; implements WComponentTreeVisitor {</span>
+
+		/**
+		 * Result of tree visit.
+		 */
+		private T result;
+
+		/**
+		 * @param result the result
+		 */
+		protected void setResult(final T result) {
+<span class="fc" id="L534">			this.result = result;</span>
+<span class="fc" id="L535">		}</span>
+
+		/**
+		 * @return the result
+		 */
+		protected T getResult() {
+<span class="fc" id="L541">			return result;</span>
+		}
+
+		/**
+		 * The current context name as processing the tree.
+		 */
+<span class="fc" id="L547">		private String currentContextName = null;</span>
+
+		/**
+		 * @param comp the current node in the tree
+		 * @param id the id to locate in the tree
+		 * @return null if continue or ABORT or ABORT_BRANCH
+		 */
+		protected VisitorResult checkCorrectNameContext(final WComponent comp, final String id) {
+			// Simple check - if ids are a match, then continue
+<span class="fc" id="L556">			String compId = comp.getId();</span>
+<span class="pc bpc" id="L557" title="1 of 2 branches missed.">			if (compId.equals(id)) {</span>
+<span class="nc" id="L558">				return null;</span>
+			}
+
+			// Check if already in a context and it has changed. Dont want to start going down sibling branches to the
+			// current context.
+<span class="pc bpc" id="L563" title="1 of 4 branches missed.">			if (currentContextName != null &amp;&amp; !compId.startsWith(currentContextName)) {</span>
+<span class="nc" id="L564">				return VisitorResult.ABORT;</span>
+			}
+
+			// Check for Name Context
+<span class="fc bfc" id="L568" title="All 2 branches covered.">			if (WebUtilities.isActiveNamingContext(comp)) {</span>
+<span class="fc" id="L569">				String context = ((NamingContextable) comp).getNamingContextId();</span>
+<span class="fc bfc" id="L570" title="All 2 branches covered.">				if (!Util.empty(context)) {</span>
+<span class="fc" id="L571">					context += WComponent.ID_CONTEXT_SEPERATOR;</span>
+				}
+				// Only process branch if ID starts with the name context
+<span class="fc bfc" id="L574" title="All 2 branches covered.">				if (id.startsWith(context)) {</span>
+<span class="fc" id="L575">					currentContextName = context;</span>
+<span class="fc" id="L576">					return null;</span>
+				}
+				// If target id doesn't start with the current component's id, they will never match
+<span class="fc" id="L579">				return VisitorResult.ABORT_BRANCH;</span>
+<span class="pc bpc" id="L580" title="1 of 4 branches missed.">			} else if (comp instanceof WRepeater &amp;&amp; !id.startsWith(compId)) {  // Check for a WRepeater and if we need to check the rows.</span>
+				// Only process the repeater rows if the ID matches its row contexts
+<span class="nc" id="L582">				return VisitorResult.ABORT_BRANCH;</span>
+			}
+<span class="fc" id="L584">			return null;</span>
+		}
+	}
+
+	/**
+	 * A tree visitor implementation which finds components in the tree with a given class.
+	 */
+	private static final class FindComponentByClassVisitor extends
+			AbstractTreeVisitorWithResult&lt;List&lt;ComponentWithContext&gt;&gt; {
+
+		/**
+		 * The root component being searched from.
+		 */
+		private final ComponentWithContext root;
+
+		/**
+		 * The className the class name to search for.
+		 */
+		private final String className;
+
+		/**
+		 * True if the root should be also be tested for a match, false if not.
+		 */
+		private final boolean includeRoot;
+
+		/**
+		 * Creates a FindComponentByClassVisitor.
+		 *
+		 * @param root the root component being searched from.
+		 * @param className the class name to search for. The package name may be omitted for convenience.
+		 * @param includeRoot true if the root should be also be tested for a match, false if not.
+		 */
+		private FindComponentByClassVisitor(final ComponentWithContext root, final String className,
+<span class="fc" id="L617">				final boolean includeRoot) {</span>
+<span class="fc" id="L618">			this.setResult(new ArrayList&lt;ComponentWithContext&gt;());</span>
+<span class="fc" id="L619">			this.className = className;</span>
+<span class="fc" id="L620">			this.root = root;</span>
+<span class="fc" id="L621">			this.includeRoot = includeRoot;</span>
+<span class="fc" id="L622">		}</span>
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public VisitorResult visit(final WComponent comp) {
+<span class="fc bfc" id="L629" title="All 2 branches covered.">			for (Class&lt;?&gt; clazz = comp.getClass(); clazz != null; clazz = clazz.getSuperclass()) {</span>
+<span class="fc bfc" id="L630" title="All 4 branches covered.">				if (classNamesMatch(clazz.getName(), className) &amp;&amp; (includeRoot || comp != root.</span>
+<span class="pc bpc" id="L631" title="1 of 2 branches missed.">						getComponent())) {</span>
+<span class="fc" id="L632">					getResult().add(new ComponentWithContext(comp, UIContextHolder.getCurrent()));</span>
+				}
+			}
+
+<span class="fc" id="L636">			return VisitorResult.CONTINUE;</span>
+		}
+
+		/**
+		 * Tests two class names for equality, taking partical class names (no package given) into account.
+		 *
+		 * @param name1 the first class name to compare.
+		 * @param name2 the second class name to compare.
+		 * @return true if the class names match, false otherwise.
+		 */
+		private boolean classNamesMatch(final String name1, final String name2) {
+<span class="pc bpc" id="L647" title="2 of 4 branches missed.">			if (name1 == null || name2 == null) {</span>
+<span class="nc" id="L648">				return false;</span>
+			}
+
+<span class="fc" id="L651">			int index1 = name1.lastIndexOf('.');</span>
+<span class="fc" id="L652">			int index2 = name2.lastIndexOf('.');</span>
+
+<span class="pc bpc" id="L654" title="3 of 4 branches missed.">			if (index1 == -1 &amp;&amp; index2 != -1) {</span>
+<span class="nc" id="L655">				return Util.equals(name1, name2.substring(index2 + 1));</span>
+<span class="pc bpc" id="L656" title="2 of 4 branches missed.">			} else if (index1 != -1 &amp;&amp; index2 == -1) {</span>
+<span class="fc" id="L657">				return Util.equals(name1.substring(index1 + 1), name2);</span>
+			} else {
+<span class="nc" id="L659">				return Util.equals(name1, name2);</span>
+			}
+		}
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

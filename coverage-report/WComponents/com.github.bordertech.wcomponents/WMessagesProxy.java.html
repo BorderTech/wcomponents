@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WMessagesProxy.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">WMessagesProxy.java</span></div><h1>WMessagesProxy.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import com.github.bordertech.wcomponents.validation.Diagnostic;
+import com.github.bordertech.wcomponents.validation.WValidationErrors;
+import java.util.ArrayList;
+import java.util.List;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+/**
+ * WMessagesProxy - A proxy used by {@link WMessages} when a component does not have an ancestor that implements
+ * MessageContainer when WMessages.getInstance(WComponent) is called.
+ *
+ * The proxy will search for a MessageContainer each time a method is called.
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ */
+class WMessagesProxy extends WMessages {
+
+	/**
+	 * The logger instance for this class.
+	 */
+<span class="fc" id="L24">	private static final Log LOG = LogFactory.getLog(WMessagesProxy.class);</span>
+
+	/**
+	 * The component which this proxy is for.
+	 */
+	private final WComponent component;
+
+	/**
+	 * A proxy for the WValidationErrors contained in WMessages.
+	 */
+	private final WValidationErrorsProxy validationErrorsProxy;
+
+	/**
+	 * Creates a proxy using the given component.
+	 *
+	 * @param component the component that will be used to search for a MessageContainer
+	 */
+<span class="fc" id="L41">	protected WMessagesProxy(final WComponent component) {</span>
+<span class="fc" id="L42">		this.component = component;</span>
+<span class="fc" id="L43">		validationErrorsProxy = new WValidationErrorsProxy();</span>
+<span class="fc" id="L44">	}</span>
+
+	/**
+	 * Utility method that searches for the WMessages instance for the given component. If not found, a warning will be
+	 * logged and null returned.
+	 *
+	 * @return the WMessages instance for the given component, or null if not found.
+	 */
+	private WMessages getWMessageInstance() {
+<span class="fc" id="L53">		MessageContainer container = getMessageContainer(component);</span>
+<span class="fc" id="L54">		WMessages result = null;</span>
+
+<span class="fc bfc" id="L56" title="All 2 branches covered.">		if (container == null) {</span>
+<span class="fc" id="L57">			LOG.warn(&quot;No MessageContainer as ancestor of &quot; + component</span>
+					+ &quot;. Messages will not be added&quot;);
+		} else {
+<span class="fc" id="L60">			result = container.getMessages();</span>
+
+<span class="pc bpc" id="L62" title="1 of 2 branches missed.">			if (result == null) {</span>
+<span class="nc" id="L63">				LOG.warn(&quot;No messages in container of &quot; + component</span>
+						+ &quot;. Messages will not be added&quot;);
+			}
+		}
+
+<span class="fc" id="L68">		return result;</span>
+	}
+
+	/**
+	 * Adds an error message.
+	 *
+	 * @param code the message code.
+	 */
+	@Override
+	public void error(final String code) {
+<span class="fc" id="L78">		WMessages instance = getWMessageInstance();</span>
+
+<span class="fc bfc" id="L80" title="All 2 branches covered.">		if (instance != null) {</span>
+<span class="fc" id="L81">			instance.error(code);</span>
+		}
+<span class="fc" id="L83">	}</span>
+
+	/**
+	 * Adds an error message.
+	 *
+	 * @param code the message code.
+	 * @param field the field for the information message.
+	 */
+	@Override
+	public void error(final String code, final String field) {
+<span class="nc" id="L93">		WMessages instance = getWMessageInstance();</span>
+
+<span class="nc bnc" id="L95" title="All 2 branches missed.">		if (instance != null) {</span>
+<span class="nc" id="L96">			instance.error(code, field);</span>
+		}
+<span class="nc" id="L98">	}</span>
+
+	/**
+	 * @return all error messages for this Messages instance.
+	 */
+	@Override
+	public List&lt;String&gt; getErrorMessages() {
+<span class="nc" id="L105">		WMessages instance = getWMessageInstance();</span>
+
+<span class="nc bnc" id="L107" title="All 2 branches missed.">		if (instance == null) {</span>
+<span class="nc" id="L108">			return new ArrayList&lt;&gt;(0);</span>
+		} else {
+<span class="nc" id="L110">			return instance.getErrorMessages();</span>
+		}
+	}
+
+	/**
+	 * @return all informational messages for this Messages instance.
+	 */
+	@Override
+	public List&lt;String&gt; getInfoMessages() {
+<span class="nc" id="L119">		WMessages instance = getWMessageInstance();</span>
+
+<span class="nc bnc" id="L121" title="All 2 branches missed.">		if (instance == null) {</span>
+<span class="nc" id="L122">			return new ArrayList&lt;&gt;(0);</span>
+		} else {
+<span class="nc" id="L124">			return instance.getInfoMessages();</span>
+		}
+	}
+
+	/**
+	 * @return all success messages for this Messages instance.
+	 */
+	@Override
+	public List&lt;String&gt; getSuccessMessages() {
+<span class="nc" id="L133">		WMessages instance = getWMessageInstance();</span>
+
+<span class="nc bnc" id="L135" title="All 2 branches missed.">		if (instance == null) {</span>
+<span class="nc" id="L136">			return new ArrayList&lt;&gt;(0);</span>
+		} else {
+<span class="nc" id="L138">			return instance.getSuccessMessages();</span>
+		}
+	}
+
+	/**
+	 * @return the validation errors component, for use in e.g. ValidatingActions.
+	 */
+	@Override
+	public WValidationErrors getValidationErrors() {
+<span class="nc" id="L147">		return validationErrorsProxy;</span>
+	}
+
+	/**
+	 * @return all warning messages for this Messages instance.
+	 */
+	@Override
+	public List&lt;String&gt; getWarningMessages() {
+<span class="nc" id="L155">		WMessages instance = getWMessageInstance();</span>
+
+<span class="nc bnc" id="L157" title="All 2 branches missed.">		if (instance == null) {</span>
+<span class="nc" id="L158">			return new ArrayList&lt;&gt;(0);</span>
+		} else {
+<span class="nc" id="L160">			return instance.getWarningMessages();</span>
+		}
+	}
+
+	/**
+	 * Adds an informational message.
+	 *
+	 * @param code the message code.
+	 */
+	@Override
+	public void info(final String code) {
+<span class="fc" id="L171">		WMessages instance = getWMessageInstance();</span>
+
+<span class="fc bfc" id="L173" title="All 2 branches covered.">		if (instance != null) {</span>
+<span class="fc" id="L174">			instance.info(code);</span>
+		}
+<span class="fc" id="L176">	}</span>
+
+	/**
+	 * Adds an informational message.
+	 *
+	 * @param code the message code.
+	 * @param field the field for the information message.
+	 */
+	@Override
+	public void info(final String code, final String field) {
+<span class="nc" id="L186">		WMessages instance = getWMessageInstance();</span>
+
+<span class="nc bnc" id="L188" title="All 2 branches missed.">		if (instance != null) {</span>
+<span class="nc" id="L189">			instance.info(code, field);</span>
+		}
+<span class="nc" id="L191">	}</span>
+
+	/**
+	 * Adds a success message.
+	 *
+	 * @param code the message code.
+	 */
+	@Override
+	public void success(final String code) {
+<span class="fc" id="L200">		WMessages instance = getWMessageInstance();</span>
+
+<span class="fc bfc" id="L202" title="All 2 branches covered.">		if (instance != null) {</span>
+<span class="fc" id="L203">			instance.success(code);</span>
+		}
+<span class="fc" id="L205">	}</span>
+
+	/**
+	 * Adds a success message.
+	 *
+	 * @param code the message code.
+	 * @param field the field for the success message.
+	 */
+	@Override
+	public void success(final String code, final String field) {
+<span class="nc" id="L215">		WMessages instance = getWMessageInstance();</span>
+
+<span class="nc bnc" id="L217" title="All 2 branches missed.">		if (instance != null) {</span>
+<span class="nc" id="L218">			instance.success(code, field);</span>
+		}
+<span class="nc" id="L220">	}</span>
+
+	/**
+	 * Adds a warning message.
+	 *
+	 * @param code the message code.
+	 */
+	@Override
+	public void warn(final String code) {
+<span class="fc" id="L229">		WMessages instance = getWMessageInstance();</span>
+
+<span class="fc bfc" id="L231" title="All 2 branches covered.">		if (instance != null) {</span>
+<span class="fc" id="L232">			instance.warn(code);</span>
+		}
+<span class="fc" id="L234">	}</span>
+
+	/**
+	 * Adds a warning message.
+	 *
+	 * @param code the message code.
+	 * @param field the field for the information message.
+	 */
+	@Override
+	public void warn(final String code, final String field) {
+<span class="nc" id="L244">		WMessages instance = getWMessageInstance();</span>
+
+<span class="nc bnc" id="L246" title="All 2 branches missed.">		if (instance != null) {</span>
+<span class="nc" id="L247">			instance.warn(code, field);</span>
+		}
+<span class="nc" id="L249">	}</span>
+
+	/**
+	 * Provides a proxy for the WValidationErrors exposed by {@link WMessages#getValidationErrors()}. All methods in
+	 * this proxy will delegate to the WValidationErrors instance for the given component, or will have no effect if
+	 * there is no instance found.
+	 *
+	 * @author Yiannis Paschalidis
+	 */
+<span class="fc" id="L258">	private final class WValidationErrorsProxy extends WValidationErrors {</span>
+
+		/**
+		 * @return the WValidationErrors instance for the given component, or null if not found.
+		 */
+		private WValidationErrors getWValidationErrors() {
+<span class="nc" id="L264">			WMessages messages = getWMessageInstance();</span>
+<span class="nc bnc" id="L265" title="All 2 branches missed.">			return messages == null ? null : messages.getValidationErrors();</span>
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public void clearErrors() {
+<span class="nc" id="L273">			WValidationErrors instance = getWValidationErrors();</span>
+
+<span class="nc bnc" id="L275" title="All 2 branches missed.">			if (instance != null) {</span>
+<span class="nc" id="L276">				instance.clearErrors();</span>
+			}
+<span class="nc" id="L278">		}</span>
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public List&lt;Diagnostic&gt; getErrors() {
+<span class="nc" id="L285">			WValidationErrors instance = getWValidationErrors();</span>
+
+<span class="nc bnc" id="L287" title="All 2 branches missed.">			if (instance != null) {</span>
+<span class="nc" id="L288">				return instance.getErrors();</span>
+			}
+
+<span class="nc" id="L291">			return new ArrayList&lt;&gt;(0);</span>
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public List&lt;GroupedDiagnositcs&gt; getGroupedErrors() {
+<span class="nc" id="L299">			WValidationErrors instance = getWValidationErrors();</span>
+
+<span class="nc bnc" id="L301" title="All 2 branches missed.">			if (instance != null) {</span>
+<span class="nc" id="L302">				return instance.getGroupedErrors();</span>
+			}
+
+<span class="nc" id="L305">			return new ArrayList&lt;&gt;(0);</span>
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		protected ValidationErrorsModel getOrCreateComponentModel() {
+<span class="nc" id="L313">			WValidationErrors instance = getWValidationErrors();</span>
+
+<span class="nc bnc" id="L315" title="All 2 branches missed.">			if (instance != null) {</span>
+				// This ugly cast is required because WValidationErrors is in a different package
+<span class="nc" id="L317">				return (ValidationErrorsModel) ((AbstractWComponent) instance).</span>
+<span class="nc" id="L318">						getOrCreateComponentModel();</span>
+			}
+
+<span class="nc" id="L321">			return new ValidationErrorsModel();</span>
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		protected ValidationErrorsModel getComponentModel() {
+<span class="nc" id="L329">			WValidationErrors instance = getWValidationErrors();</span>
+
+<span class="nc bnc" id="L331" title="All 2 branches missed.">			if (instance != null) {</span>
+				// This ugly cast is required because WValidationErrors is in a different package
+<span class="nc" id="L333">				return (ValidationErrorsModel) ((AbstractWComponent) instance).getComponentModel();</span>
+			}
+
+<span class="nc" id="L336">			return new ValidationErrorsModel();</span>
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public boolean hasErrors() {
+<span class="nc" id="L344">			WValidationErrors instance = getWValidationErrors();</span>
+
+<span class="nc bnc" id="L346" title="All 2 branches missed.">			if (instance != null) {</span>
+<span class="nc" id="L347">				return instance.hasErrors();</span>
+			}
+
+<span class="nc" id="L350">			return false;</span>
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public void setErrors(final List&lt;Diagnostic&gt; errors) {
+<span class="nc" id="L358">			WValidationErrors instance = getWValidationErrors();</span>
+
+<span class="nc bnc" id="L360" title="All 2 branches missed.">			if (instance != null) {</span>
+<span class="nc" id="L361">				instance.setErrors(errors);</span>
+			}
+<span class="nc" id="L363">		}</span>
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public void setFocussed() {
+<span class="nc" id="L370">			WValidationErrors instance = getWValidationErrors();</span>
+
+<span class="nc bnc" id="L372" title="All 2 branches missed.">			if (instance != null) {</span>
+<span class="nc" id="L373">				instance.setFocussed();</span>
+			}
+<span class="nc" id="L375">		}</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

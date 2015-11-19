@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>SubSessionHttpServletRequestWrapper.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.servlet</a> &gt; <span class="el_source">SubSessionHttpServletRequestWrapper.java</span></div><h1>SubSessionHttpServletRequestWrapper.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.servlet;
+
+import com.github.bordertech.wcomponents.util.Enumerator;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
+import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpSessionContext;
+
+/**
+ * &lt;p&gt;
+ * This HttpServletRequestWrapper implementation changes the way in which sessions are managed, to allow multiple
+ * &quot;sub-sessions&quot; per HTTP session.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * The standard (cookie) mechanism is used to store the normal HTTP session, and an additional request parameter
+ * (&quot;ssid&quot;) is used to determine which sub-session to use. Using a wrapper approach limits the impact to the WServlet
+ * class only, and doesn't require deployment of additional servlet filters.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * Invalidated sub-sessions have their data cleared out to minimise session use, but are not removed from the backing
+ * HTTP session.
+ * &lt;/p&gt;
+ *
+ * @author Jonathan Austin
+ * @since 1.0.0
+ */
+public final class SubSessionHttpServletRequestWrapper extends HttpServletRequestWrapper {
+
+	/**
+	 * This key is used to store subsessions in the backing HTTP session's attribute map.
+	 */
+<span class="fc" id="L39">	private static final String SESSION_MAP_KEY = SubSessionHttpServletRequestWrapper.class.</span>
+<span class="fc" id="L40">			getName() + &quot;.subsessions&quot;;</span>
+
+	/**
+	 * The requested session id.
+	 */
+	private final int sessionId;
+
+	/**
+	 * Creates a SubSessionHttpServletRequestWrapper.
+	 *
+	 * @param backing the backing request.
+	 */
+	public SubSessionHttpServletRequestWrapper(final HttpServletRequest backing) {
+<span class="fc" id="L53">		super(backing);</span>
+
+<span class="fc" id="L55">		HttpSession backingSession = backing.getSession();</span>
+
+<span class="fc" id="L57">		synchronized (backingSession) {</span>
+<span class="fc" id="L58">			Map&lt;Integer, HttpSubSession&gt; subsessions = (Map&lt;Integer, HttpSubSession&gt;) backingSession</span>
+<span class="fc" id="L59">					.getAttribute(SESSION_MAP_KEY);</span>
+
+<span class="fc bfc" id="L61" title="All 2 branches covered.">			if (subsessions == null) {</span>
+<span class="fc" id="L62">				subsessions = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L63">				backingSession.setAttribute(SESSION_MAP_KEY, subsessions);</span>
+			}
+
+<span class="fc" id="L66">			int ssid = 0;</span>
+
+			try {
+<span class="fc" id="L69">				String param = getParameter(&quot;ssid&quot;);</span>
+
+<span class="fc bfc" id="L71" title="All 2 branches covered.">				if (param == null) {</span>
+<span class="fc" id="L72">					ssid = subsessions.size();</span>
+				} else {
+<span class="fc" id="L74">					ssid = Integer.parseInt(param);</span>
+
+<span class="pc bpc" id="L76" title="2 of 4 branches missed.">					if (ssid &lt; 0 || ssid &gt;= subsessions.size()) {</span>
+<span class="nc" id="L77">						ssid = 0;</span>
+					}
+				}
+
+<span class="fc bfc" id="L81" title="All 2 branches covered.">				if (!subsessions.containsKey(ssid)) {</span>
+<span class="fc" id="L82">					HttpSubSession subsession = new HttpSubSession(backingSession, ssid);</span>
+<span class="fc" id="L83">					subsessions.put(ssid, subsession);</span>
+				}
+<span class="fc" id="L85">			} catch (NumberFormatException e) {</span>
+				// Someone's been fiddling with HTTP parameters,
+				// ignore it and use the default session
+<span class="fc" id="L88">			}</span>
+
+<span class="fc" id="L90">			this.sessionId = ssid;</span>
+<span class="pc" id="L91">		}</span>
+<span class="fc" id="L92">	}</span>
+
+	/**
+	 * Retrieves the subsession for this request. If there is no existing subsession, a new one is created.
+	 *
+	 * @return the subsession for this request.
+	 */
+	private synchronized HttpSubSession getSubSession() {
+<span class="fc" id="L100">		HttpSession backingSession = super.getSession();</span>
+<span class="fc" id="L101">		Map&lt;Integer, HttpSubSession&gt; subsessions = (Map&lt;Integer, HttpSubSession&gt;) backingSession</span>
+<span class="fc" id="L102">				.getAttribute(SESSION_MAP_KEY);</span>
+
+<span class="fc" id="L104">		HttpSubSession subsession = subsessions.get(sessionId);</span>
+<span class="fc" id="L105">		subsession.setLastAccessedTime(System.currentTimeMillis());</span>
+
+<span class="fc" id="L107">		return subsession;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public HttpSession getSession() {
+<span class="nc" id="L115">		return getSubSession();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public HttpSession getSession(final boolean create) {
+<span class="fc" id="L123">		return getSubSession();</span>
+	}
+
+	/**
+	 * @return the session id
+	 */
+	public int getSessionId() {
+<span class="nc" id="L130">		return sessionId;</span>
+	}
+
+	/**
+	 * A &quot;sub-session&quot; implementation of a HTTPSession.
+	 */
+	public static final class HttpSubSession implements HttpSession, Serializable {
+
+		/**
+		 * The map which stores the session attributes.
+		 */
+<span class="fc" id="L141">		private Map&lt;String, Object&gt; attributes = new HashMap&lt;&gt;();</span>
+
+		/**
+		 * The maximum interval before a sub-session can be invalidated due to inactivity, specified in milliseconds.
+		 */
+		private int maxInactiveInterval;
+
+		/**
+		 * The timestamp when the sub-session was created.
+		 */
+		private final long creationTime;
+
+		/**
+		 * The timestamp when the sub-session was last accessed by the user.
+		 */
+		private long lastAccessedTime;
+
+		/**
+		 * The subsession id, unique per user HTTP session.
+		 */
+		private final int sessionId;
+
+		/**
+		 * A flag indicating whether this sub-session has been invalidated.
+		 */
+<span class="fc" id="L166">		private boolean invalid = false;</span>
+
+		/**
+		 * The backing HTTP session.
+		 */
+		private final HttpSession backing;
+
+		/**
+		 * Creates an HttpSubSession.
+		 *
+		 * @param backing the backing HTTP session.
+		 * @param subsessionId the subsession's id.
+		 */
+<span class="fc" id="L179">		public HttpSubSession(final HttpSession backing, final int subsessionId) {</span>
+<span class="fc" id="L180">			maxInactiveInterval = backing.getMaxInactiveInterval();</span>
+<span class="fc" id="L181">			creationTime = System.currentTimeMillis();</span>
+<span class="fc" id="L182">			lastAccessedTime = creationTime;</span>
+<span class="fc" id="L183">			this.sessionId = subsessionId;</span>
+<span class="fc" id="L184">			this.backing = backing;</span>
+<span class="fc" id="L185">		}</span>
+
+		/**
+		 * @return Returns the sessionId.
+		 */
+		public int getSessionId() {
+<span class="nc" id="L191">			return sessionId;</span>
+		}
+
+		/**
+		 * Returns the value of the attribute with the specified name.
+		 *
+		 * @param name the attribute name.
+		 * @return the attribute value, or null if the attribute does not exist.
+		 */
+		@Override
+		public Object getAttribute(final String name) {
+<span class="pc bpc" id="L202" title="1 of 2 branches missed.">			if (invalid) {</span>
+<span class="nc" id="L203">				throw new IllegalStateException(&quot;Session has been invalidated&quot;);</span>
+			}
+
+<span class="fc" id="L206">			return attributes.get(name);</span>
+		}
+
+		/**
+		 * @return an enumeration of the attribute names.
+		 */
+		@Override
+		public Enumeration&lt;String&gt; getAttributeNames() {
+<span class="nc bnc" id="L214" title="All 2 branches missed.">			if (invalid) {</span>
+<span class="nc" id="L215">				throw new IllegalStateException(&quot;Session has been invalidated&quot;);</span>
+			}
+
+<span class="nc" id="L218">			return getKeys(attributes);</span>
+		}
+
+		/**
+		 * Returns the session creation timestamp.
+		 *
+		 * @return 0, as this is not implemented.
+		 */
+		@Override
+		public long getCreationTime() {
+<span class="nc bnc" id="L228" title="All 2 branches missed.">			if (invalid) {</span>
+<span class="nc" id="L229">				throw new IllegalStateException(&quot;Session has been invalidated&quot;);</span>
+			}
+
+<span class="nc" id="L232">			return creationTime;</span>
+		}
+
+		/**
+		 * Returns the session id.
+		 *
+		 * @return the backing session id.
+		 */
+		@Override
+		public String getId() {
+<span class="nc" id="L242">			return backing.getId();</span>
+		}
+
+		/**
+		 * Returns the session last accessed timestamp.
+		 *
+		 * @return 0, as this is not implemented.
+		 */
+		@Override
+		public long getLastAccessedTime() {
+<span class="nc bnc" id="L252" title="All 2 branches missed.">			if (invalid) {</span>
+<span class="nc" id="L253">				throw new IllegalStateException(&quot;Session has been invalidated&quot;);</span>
+			}
+
+<span class="nc" id="L256">			return lastAccessedTime;</span>
+		}
+
+		/**
+		 * @return the session maximum inactive interval.
+		 */
+		@Override
+		public int getMaxInactiveInterval() {
+<span class="nc" id="L264">			return maxInactiveInterval;</span>
+		}
+
+		/**
+		 * Returns the session servlet context.
+		 *
+		 * @return the session servlet context..
+		 */
+		@Override
+		public ServletContext getServletContext() {
+<span class="nc" id="L274">			return backing.getServletContext();</span>
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		@Deprecated
+		public HttpSessionContext getSessionContext() {
+<span class="nc" id="L283">			return backing.getSessionContext();</span>
+		}
+
+		/**
+		 * @param name ignored.
+		 * @return null, as this is not implemented.
+		 */
+		@Override
+		public Object getValue(final String name) {
+<span class="nc bnc" id="L292" title="All 2 branches missed.">			if (invalid) {</span>
+<span class="nc" id="L293">				throw new IllegalStateException(&quot;Session has been invalidated&quot;);</span>
+			}
+
+<span class="nc" id="L296">			return getAttribute(name);</span>
+		}
+
+		/**
+		 * @return null, as this is not implemented.
+		 */
+		@Override
+		public String[] getValueNames() {
+<span class="nc bnc" id="L304" title="All 2 branches missed.">			if (invalid) {</span>
+<span class="nc" id="L305">				throw new IllegalStateException(&quot;Session has been invalidated&quot;);</span>
+			}
+
+<span class="nc" id="L308">			List&lt;String&gt; names = new ArrayList&lt;&gt;();</span>
+
+<span class="nc" id="L310">			for (Enumeration&lt;String&gt; attributeNames = getAttributeNames(); attributeNames.</span>
+<span class="nc bnc" id="L311" title="All 2 branches missed.">					hasMoreElements();) {</span>
+<span class="nc" id="L312">				names.add(attributeNames.nextElement());</span>
+			}
+
+<span class="nc" id="L315">			return names.toArray(new String[names.size()]);</span>
+		}
+
+		/**
+		 * No effect.
+		 */
+		@Override
+		public void invalidate() {
+<span class="nc bnc" id="L323" title="All 2 branches missed.">			if (invalid) {</span>
+<span class="nc" id="L324">				throw new IllegalStateException(&quot;Session has already been invalidated&quot;);</span>
+			}
+
+<span class="nc" id="L327">			invalid = true;</span>
+<span class="nc" id="L328">			attributes = null;</span>
+<span class="nc" id="L329">		}</span>
+
+		/**
+		 * Returns whether the session is new.
+		 *
+		 * @return false, as this is not implemented.
+		 */
+		@Override
+		public boolean isNew() {
+<span class="nc bnc" id="L338" title="All 2 branches missed.">			if (invalid) {</span>
+<span class="nc" id="L339">				throw new IllegalStateException(&quot;Session has been invalidated&quot;);</span>
+			}
+
+<span class="nc bnc" id="L342" title="All 2 branches missed.">			return lastAccessedTime == creationTime;</span>
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		@Deprecated
+		public void putValue(final String name, final Object value) {
+<span class="nc" id="L351">			setAttribute(name, value);</span>
+<span class="nc" id="L352">		}</span>
+
+		/**
+		 * Removes the specified attribute.
+		 *
+		 * @param name the attribute name.
+		 */
+		@Override
+		public void removeAttribute(final String name) {
+<span class="nc bnc" id="L361" title="All 2 branches missed.">			if (invalid) {</span>
+<span class="nc" id="L362">				throw new IllegalStateException(&quot;Session has been invalidated&quot;);</span>
+			}
+
+<span class="nc" id="L365">			attributes.remove(name);</span>
+<span class="nc" id="L366">		}</span>
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		@Deprecated
+		public void removeValue(final String name) {
+<span class="nc" id="L374">			removeAttribute(name);</span>
+<span class="nc" id="L375">		}</span>
+
+		/**
+		 * Sets the specified attribute.
+		 *
+		 * @param name the attribute name.
+		 * @param value the attribute value.
+		 */
+		@Override
+		public void setAttribute(final String name, final Object value) {
+<span class="pc bpc" id="L385" title="1 of 2 branches missed.">			if (invalid) {</span>
+<span class="nc" id="L386">				throw new IllegalStateException(&quot;Session has been invalidated&quot;);</span>
+			}
+
+<span class="fc" id="L389">			attributes.put(name, value);</span>
+<span class="fc" id="L390">		}</span>
+
+		/**
+		 * Sets the maximum inactive interval.
+		 *
+		 * @param maxInactiveInterval the maximum inactive interval.
+		 */
+		@Override
+		public void setMaxInactiveInterval(final int maxInactiveInterval) {
+<span class="nc" id="L399">			this.maxInactiveInterval = maxInactiveInterval;</span>
+<span class="nc" id="L400">		}</span>
+
+		/**
+		 * Returns an enumeration of the keys in the specified map.
+		 *
+		 * @param map the map to enumerate.
+		 * @param &lt;K&gt; the key type
+		 * @param &lt;V&gt; the value type
+		 * @return an enumeration of the map keys.
+		 */
+		private &lt;K, V&gt; Enumeration&lt;K&gt; getKeys(final Map&lt;K, V&gt; map) {
+<span class="nc" id="L411">			return new Enumerator&lt;&gt;(map.keySet().iterator());</span>
+		}
+
+		/**
+		 * @param lastAccessedTime The lastAccessedTime to set.
+		 */
+		public void setLastAccessedTime(final long lastAccessedTime) {
+<span class="fc" id="L418">			this.lastAccessedTime = lastAccessedTime;</span>
+<span class="fc" id="L419">		}</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>SelectListUtil.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">SelectListUtil.java</span></div><h1>SelectListUtil.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import com.github.bordertech.wcomponents.util.Util;
+import java.util.List;
+
+/**
+ * Utility class used by {@link AbstractWSelectList} for processing options and list of options.
+ *
+ * @author Jonathan Austin
+ * @since 1.0.0
+ */
+public final class SelectListUtil {
+
+	/**
+	 * Hide the constructor as there are no instance methods.
+	 */
+<span class="nc" id="L17">	private SelectListUtil() {</span>
+		// Do Nothing
+<span class="nc" id="L19">	}</span>
+
+	/**
+	 * Iterate through the options to determine if an option exists.
+	 *
+	 * @param options the list of options
+	 * @param findOption the option to search for
+	 * @return true if the list of options contains the option
+	 */
+	public static boolean containsOption(final List&lt;?&gt; options, final Object findOption) {
+<span class="pc bpc" id="L29" title="1 of 2 branches missed.">		if (options != null) {</span>
+<span class="fc bfc" id="L30" title="All 2 branches covered.">			for (Object option : options) {</span>
+<span class="fc bfc" id="L31" title="All 2 branches covered.">				if (option instanceof OptionGroup) {</span>
+<span class="fc" id="L32">					List&lt;?&gt; groupOptions = ((OptionGroup) option).getOptions();</span>
+<span class="pc bpc" id="L33" title="1 of 2 branches missed.">					if (groupOptions != null) {</span>
+<span class="fc bfc" id="L34" title="All 2 branches covered.">						for (Object nestedOption : groupOptions) {</span>
+<span class="fc bfc" id="L35" title="All 2 branches covered.">							if (Util.equals(nestedOption, findOption)) {</span>
+<span class="fc" id="L36">								return true;</span>
+							}
+<span class="fc" id="L38">						}</span>
+					}
+<span class="fc bfc" id="L40" title="All 2 branches covered.">				} else if (Util.equals(option, findOption)) {</span>
+<span class="fc" id="L41">					return true;</span>
+				}
+<span class="fc" id="L43">			}</span>
+		}
+<span class="fc" id="L45">		return false;</span>
+	}
+
+	/**
+	 * Iterate through the options to determine if an option exists allowing for Option/Code and Legacy matching.
+	 *
+	 * @param options the list of options
+	 * @param data the test data value
+	 * @return true if the list of options contains the option
+	 */
+	public static boolean containsOptionWithMatching(final List&lt;?&gt; options, final Object data) {
+<span class="pc bpc" id="L56" title="1 of 2 branches missed.">		if (options != null) {</span>
+<span class="fc bfc" id="L57" title="All 2 branches covered.">			for (Object option : options) {</span>
+<span class="fc bfc" id="L58" title="All 2 branches covered.">				if (option instanceof OptionGroup) {</span>
+<span class="fc" id="L59">					List&lt;?&gt; groupOptions = ((OptionGroup) option).getOptions();</span>
+<span class="pc bpc" id="L60" title="1 of 2 branches missed.">					if (groupOptions != null) {</span>
+<span class="fc bfc" id="L61" title="All 2 branches covered.">						for (Object nestedOption : groupOptions) {</span>
+<span class="fc bfc" id="L62" title="All 2 branches covered.">							if (isEqualWithMatching(nestedOption, data)) {</span>
+<span class="fc" id="L63">								return true;</span>
+							}
+<span class="fc" id="L65">						}</span>
+					}
+<span class="fc bfc" id="L67" title="All 2 branches covered.">				} else if (isEqualWithMatching(option, data)) {</span>
+<span class="fc" id="L68">					return true;</span>
+				}
+<span class="fc" id="L70">			}</span>
+		}
+<span class="fc" id="L72">		return false;</span>
+	}
+
+	/**
+	 * Return the option that matches the data allowing for Option/Code and Legacy matching.
+	 * &lt;p&gt;
+	 * This method should be used in conjunction with {@link #containsOptionWithMatching(List, Object)} as this method
+	 * will return null if no match found, but null could be a valid option.
+	 * &lt;/p&gt;
+	 *
+	 * @param options the list of options
+	 * @param data the test data value
+	 * @return the option that matches allowing for Option/Code and Legacy matching, otherwise return null
+	 */
+	public static Object getOptionWithMatching(final List&lt;?&gt; options, final Object data) {
+<span class="pc bpc" id="L87" title="1 of 2 branches missed.">		if (options != null) {</span>
+<span class="fc" id="L88">			boolean legacyMatch = false;</span>
+<span class="fc" id="L89">			Object legacyOption = null;</span>
+
+<span class="fc bfc" id="L91" title="All 2 branches covered.">			for (Object option : options) {</span>
+<span class="fc bfc" id="L92" title="All 2 branches covered.">				if (option instanceof OptionGroup) {</span>
+<span class="fc" id="L93">					List&lt;?&gt; groupOptions = ((OptionGroup) option).getOptions();</span>
+<span class="pc bpc" id="L94" title="1 of 2 branches missed.">					if (groupOptions != null) {</span>
+<span class="fc bfc" id="L95" title="All 2 branches covered.">						for (Object nestedOption : groupOptions) {</span>
+							// Check for match via equals/code
+<span class="pc bpc" id="L97" title="1 of 4 branches missed.">							if (Util.equals(nestedOption, data) || isOptionCodeMatch(nestedOption,</span>
+									data)) {
+<span class="fc" id="L99">								return nestedOption;</span>
+							}
+
+							// Check for legacy match, but continue processing in case of a match via equals/code
+<span class="fc bfc" id="L103" title="All 4 branches covered.">							if (!legacyMatch &amp;&amp; isLegacyMatch(nestedOption, data)) {</span>
+<span class="fc" id="L104">								legacyMatch = true;</span>
+<span class="fc" id="L105">								legacyOption = nestedOption;</span>
+							}
+<span class="fc" id="L107">						}</span>
+					}
+<span class="fc" id="L109">				} else {</span>
+					// Check for match via equals/code
+<span class="fc bfc" id="L111" title="All 4 branches covered.">					if (Util.equals(option, data) || isOptionCodeMatch(option, data)) {</span>
+<span class="fc" id="L112">						return option;</span>
+					}
+
+					// Check for legacy match, but continue processing in case of a match via equals/code
+<span class="fc bfc" id="L116" title="All 4 branches covered.">					if (!legacyMatch &amp;&amp; isLegacyMatch(option, data)) {</span>
+<span class="fc" id="L117">						legacyMatch = true;</span>
+<span class="fc" id="L118">						legacyOption = option;</span>
+					}
+				}
+<span class="fc" id="L121">			}</span>
+
+			// Check if a legacy match was found
+<span class="fc bfc" id="L124" title="All 2 branches covered.">			if (legacyMatch) {</span>
+<span class="fc" id="L125">				return legacyOption;</span>
+			}
+
+		}
+
+<span class="fc" id="L130">		return null;</span>
+	}
+
+	/**
+	 * Retrieve the first option. The first option maybe within an option group.
+	 *
+	 * @param options the list of options
+	 * @return true the first option
+	 */
+	public static Object getFirstOption(final List&lt;?&gt; options) {
+<span class="fc bfc" id="L140" title="All 2 branches covered.">		if (options != null) {</span>
+<span class="pc bpc" id="L141" title="1 of 2 branches missed.">			for (Object option : options) {</span>
+<span class="fc bfc" id="L142" title="All 2 branches covered.">				if (option instanceof OptionGroup) {</span>
+<span class="fc" id="L143">					List&lt;?&gt; groupOptions = ((OptionGroup) option).getOptions();</span>
+<span class="pc bpc" id="L144" title="1 of 4 branches missed.">					if (groupOptions != null &amp;&amp; !groupOptions.isEmpty()) {</span>
+<span class="fc" id="L145">						return groupOptions.get(0);</span>
+					}
+<span class="fc" id="L147">				} else {</span>
+<span class="fc" id="L148">					return option;</span>
+				}
+<span class="fc" id="L150">			}</span>
+		}
+<span class="fc" id="L152">		return null;</span>
+	}
+
+	/**
+	 * Check for a valid option. Allowing for option/code and legacy matching.
+	 *
+	 * @param option the option to test for a match
+	 * @param data the test data value
+	 * @return true if the option and data are a match
+	 */
+	private static boolean isEqualWithMatching(final Object option, final Object data) {
+<span class="pc bpc" id="L163" title="1 of 6 branches missed.">		return Util.equals(option, data) || isOptionCodeMatch(option, data) || isLegacyMatch(option,</span>
+				data);
+	}
+
+	/**
+	 * Check for legacy matching, which supported setSelected using String representations.
+	 *
+	 * @param option the option to test for a match
+	 * @param data the test data value
+	 * @return true if the option is a legacy match
+	 * @deprecated Support for legacy matching will be removed
+	 */
+	@Deprecated
+	private static boolean isLegacyMatch(final Object option, final Object data) {
+		// Support legacy matching, which supported setSelected using String representations...
+<span class="fc" id="L178">		String optionAsString = String.valueOf(option);</span>
+<span class="fc" id="L179">		String matchAsString = String.valueOf(data);</span>
+<span class="fc" id="L180">		boolean equal = Util.equals(optionAsString, matchAsString);</span>
+<span class="fc" id="L181">		return equal;</span>
+	}
+
+	/**
+	 * If the option is an instance of {@link Option}, check if the data value matches the Code value of the option.
+	 *
+	 * @param option the option to test for a match
+	 * @param data the test data value
+	 * @return true if the option and code are a match
+	 */
+	private static boolean isOptionCodeMatch(final Object option, final Object data) {
+		// If the option is an instance of Option, check if the data value is the &quot;CODE&quot; value on the option
+<span class="fc bfc" id="L193" title="All 2 branches covered.">		if (option instanceof Option) {</span>
+<span class="fc" id="L194">			String optionCode = ((Option) option).getCode();</span>
+<span class="fc" id="L195">			String matchAsString = String.valueOf(data);</span>
+<span class="fc" id="L196">			boolean equal = Util.equals(optionCode, matchAsString);</span>
+<span class="fc" id="L197">			return equal;</span>
+		}
+<span class="fc" id="L199">		return false;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

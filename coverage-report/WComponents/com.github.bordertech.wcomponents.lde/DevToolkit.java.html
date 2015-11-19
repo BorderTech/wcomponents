@@ -1,0 +1,462 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>DevToolkit.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.lde</a> &gt; <span class="el_source">DevToolkit.java</span></div><h1>DevToolkit.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.lde;
+
+import com.github.bordertech.wcomponents.UIContext;
+import com.github.bordertech.wcomponents.UIContextDelegate;
+import com.github.bordertech.wcomponents.UIContextHolder;
+import com.github.bordertech.wcomponents.WebUtilities;
+import com.github.bordertech.wcomponents.monitor.UicStats;
+import com.github.bordertech.wcomponents.monitor.UicStatsAsHtml;
+import com.github.bordertech.wcomponents.util.AbstractTreeNode;
+import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.TreeNode;
+import com.github.bordertech.wcomponents.velocity.VelocityEngineFactory;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.Iterator;
+import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import org.apache.commons.configuration.Configuration;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.velocity.Template;
+import org.apache.velocity.VelocityContext;
+
+/**
+ * &lt;p&gt;
+ * This component adds a &quot;Developer Toolkit&quot; to the UI.&lt;/p&gt;
+ *
+ * &lt;p&gt;
+ * This class is WComponent-like, but doesn't use any of the WComponent classes as we don't want it to get in the way
+ * when debugging in the LDE.&lt;/p&gt;
+ *
+ * &lt;p&gt;
+ * &lt;b&gt;NOTE:&lt;/b&gt; The dev toolkit affects the entire VM, so no effort has been made to make it function correctly when
+ * there are multiple users accessing the LDE.&lt;/p&gt;.
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ */
+<span class="fc" id="L43">public final class DevToolkit {</span>
+
+	/**
+	 * The logger instance for this class.
+	 */
+<span class="fc" id="L48">	private static final Log LOG = LogFactory.getLog(DevToolkit.class);</span>
+
+	/**
+	 * Determines whether the toolkit is enabled, based on the application Parameters.
+	 *
+	 * @return true if the toolkit is enabled, false otherwise.
+	 */
+	public static boolean isEnabled() {
+<span class="fc" id="L56">		return Config.getInstance().getBoolean(&quot;bordertech.wcomponents.lde.devToolkit.enabled&quot;,</span>
+				false);
+	}
+
+	/**
+	 * Indicates whether to display the WComponent UI hierarchy tree view.
+	 */
+<span class="fc" id="L63">	private boolean showTree = false;</span>
+	/**
+	 * Indicates whether to display the current WComponent Configuration.
+	 */
+<span class="fc" id="L67">	private boolean showConfig = false;</span>
+	/**
+	 * Indicates whether to display statistics on the active UIContext.
+	 */
+<span class="fc" id="L71">	private boolean showUicStats = false;</span>
+	/**
+	 * Indicates whether to display information about the current HTTP request.
+	 */
+<span class="fc" id="L75">	private boolean showRequest = false;</span>
+	/**
+	 * Indicates whether to display component ids.
+	 */
+<span class="fc" id="L79">	private boolean showIds = false;</span>
+
+	/**
+	 * The current request parameters.
+	 */
+	private String[][] requestParameters;
+	/**
+	 * The current request headers.
+	 */
+	private String[][] requestHeaders;
+	/**
+	 * The current request method (ie. &quot;GET&quot;, &quot;POST&quot;, or &quot;PUT&quot;.
+	 */
+	private String requestMethod;
+
+	/**
+	 * &lt;p&gt;
+	 * Reads the state of the dev toolkit user interface.&lt;/p&gt;
+	 *
+	 * &lt;p&gt;
+	 * The toolkit UI is implemented in a separate form with a hidden field to identify it, so any request to the main
+	 * WComponent application being run in the LDE should skip this processing.&lt;/p&gt;
+	 *
+	 * @param request the current request being responded to
+	 */
+	protected void serviceRequest(final HttpServletRequest request) {
+<span class="fc" id="L105">		requestParameters = null;</span>
+<span class="fc" id="L106">		requestHeaders = null;</span>
+
+<span class="fc bfc" id="L108" title="All 2 branches covered.">		if (!isEnabled()) {</span>
+<span class="fc" id="L109">			return;</span>
+<span class="fc bfc" id="L110" title="All 2 branches covered.">		} else if (request.getParameter(&quot;wc_devToolkit&quot;) == null) {</span>
+			// The request is for the main WComponent application, so
+			// gather information on the HTTP request for display later.
+<span class="pc bpc" id="L113" title="1 of 2 branches missed.">			if (showRequest) {</span>
+<span class="fc" id="L114">				requestParameters = getRequestParameters(request);</span>
+<span class="fc" id="L115">				requestHeaders = getRequestHeaders(request);</span>
+<span class="fc" id="L116">				requestMethod = request.getMethod();</span>
+			}
+
+<span class="fc" id="L119">			return;</span>
+		}
+
+<span class="fc" id="L122">		showTree = &quot;true&quot;.equals(request.getParameter(&quot;devToolkit_showTree&quot;));</span>
+<span class="fc" id="L123">		showConfig = &quot;true&quot;.equals(request.getParameter(&quot;devToolkit_showConfig&quot;));</span>
+<span class="fc" id="L124">		showUicStats = &quot;true&quot;.equals(request.getParameter(&quot;devToolkit_showUicStats&quot;));</span>
+<span class="fc" id="L125">		showRequest = &quot;true&quot;.equals(request.getParameter(&quot;devToolkit_showRequest&quot;));</span>
+<span class="fc" id="L126">		showIds = &quot;true&quot;.equals(request.getParameter(&quot;devToolkit_showIds&quot;));</span>
+
+<span class="fc" id="L128">		boolean whitespaceEnabled = &quot;true&quot;.equals(request.getParameter(</span>
+				&quot;devToolkit_whitespaceFilterEnabled&quot;));
+<span class="fc" id="L130">		Config.getInstance().setProperty(&quot;bordertech.wcomponents.whitespaceFilter.enabled&quot;,</span>
+<span class="fc" id="L131">				whitespaceEnabled);</span>
+
+		// devToolkit_refreshPage is no-op
+<span class="fc bfc" id="L134" title="All 2 branches covered.">		if (request.getParameter(&quot;devToolkit_resetSession&quot;) != null) {</span>
+<span class="fc" id="L135">			HttpSession session = request.getSession(false);</span>
+
+<span class="pc bpc" id="L137" title="1 of 2 branches missed.">			if (session != null) {</span>
+<span class="fc" id="L138">				session.invalidate();</span>
+			}
+		}
+
+<span class="pc bpc" id="L142" title="1 of 2 branches missed.">		if (request.getParameter(&quot;devToolkit_rootComponentSelect&quot;) != null) {</span>
+<span class="nc" id="L143">			Config.getInstance().setProperty(PlainLauncher.COMPONENT_TO_LAUNCH_PARAM_KEY,</span>
+<span class="nc" id="L144">					request.getParameter(</span>
+							&quot;devToolkit_rootComponent&quot;));
+		}
+
+<span class="fc" id="L148">		boolean debug = &quot;true&quot;.equals(request.getParameter(&quot;devToolkit_debugEnabled&quot;));</span>
+<span class="fc" id="L149">		Config.getInstance().setProperty(&quot;bordertech.wcomponents.debug.enabled&quot;, debug);</span>
+<span class="fc" id="L150">		Config.getInstance().setProperty(&quot;bordertech.wcomponents.debug.clientSide.enabled&quot;, debug);</span>
+
+		// If the toolkit has been used, chances are that the WComponent configuration has changed.
+		// Update all configuration listeners.
+<span class="fc" id="L154">		Config.notifyListeners();</span>
+<span class="fc" id="L155">	}</span>
+
+	/**
+	 * Retrieves the headers for the last request. The headers are returned as an array of key-value pairs.
+	 *
+	 * @return the headers for the current request.
+	 */
+	public String[][] getRequestHeaders() {
+<span class="fc" id="L163">		return requestHeaders;</span>
+	}
+
+	/**
+	 * Retrieves the HTTP method for the last request.
+	 *
+	 * @return the HTTP method - &quot;GET&quot;, &quot;POST&quot; or &quot;PUT&quot;.
+	 */
+	public String getRequestMethod() {
+<span class="fc" id="L172">		return requestMethod;</span>
+	}
+
+	/**
+	 * Reads the request headers from the given request.
+	 *
+	 * @param request the request to read the headers from.
+	 * @return an array of header key-value pairs, sorted by key.
+	 */
+	private String[][] getRequestHeaders(final HttpServletRequest request) {
+<span class="fc" id="L182">		List&lt;String&gt; headerKeys = new ArrayList&lt;&gt;();</span>
+
+<span class="fc bfc" id="L184" title="All 2 branches covered.">		for (Enumeration e = request.getHeaderNames(); e.hasMoreElements();) {</span>
+<span class="fc" id="L185">			headerKeys.add((String) e.nextElement());</span>
+		}
+
+<span class="fc" id="L188">		Collections.sort(headerKeys);</span>
+
+<span class="fc" id="L190">		String[][] headers = new String[headerKeys.size()][2];</span>
+
+<span class="fc bfc" id="L192" title="All 2 branches covered.">		for (int i = 0; i &lt; headers.length; i++) {</span>
+<span class="fc" id="L193">			headers[i][0] = headerKeys.get(i);</span>
+<span class="fc" id="L194">			headers[i][1] = request.getHeader(headers[i][0]);</span>
+		}
+
+<span class="fc" id="L197">		return headers;</span>
+	}
+
+	/**
+	 * Retrieves the parameters for the last request. The parameters are returned as an array of key-value pairs. Note
+	 * that this will not return any results for multi-part encoded form data.
+	 *
+	 * @return the parameters for the current request.
+	 */
+	public String[][] getRequestParameters() {
+<span class="fc" id="L207">		return requestParameters;</span>
+	}
+
+	/**
+	 * Reads the request parameters from the given request.
+	 *
+	 * @param request the request to read the parameters from.
+	 * @return an array of parameter key-value pairs, sorted by key.
+	 */
+	private String[][] getRequestParameters(final HttpServletRequest request) {
+<span class="fc" id="L217">		List&lt;String&gt; paramKeys = new ArrayList&lt;&gt;();</span>
+
+<span class="fc bfc" id="L219" title="All 2 branches covered.">		for (Enumeration e = request.getParameterNames(); e.hasMoreElements();) {</span>
+<span class="fc" id="L220">			paramKeys.add((String) e.nextElement());</span>
+		}
+
+<span class="fc" id="L223">		Collections.sort(paramKeys);</span>
+
+<span class="fc" id="L225">		String[][] params = new String[paramKeys.size()][2];</span>
+
+<span class="fc bfc" id="L227" title="All 2 branches covered.">		for (int i = 0; i &lt; params.length; i++) {</span>
+<span class="fc" id="L228">			params[i][0] = paramKeys.get(i);</span>
+<span class="fc" id="L229">			params[i][1] = request.getParameter(params[i][0]);</span>
+		}
+
+<span class="fc" id="L232">		return params;</span>
+	}
+
+	/**
+	 * Retrieves a tree representation of the WComponent UI being served by the LDE, in a format suitable for rendering
+	 * to the UI.
+	 *
+	 * @return a tree representation of the WComponent UI.
+	 */
+	public TreeNode getTree() {
+<span class="nc" id="L242">		UIContext uic = UIContextDelegate.getPrimaryUIContext(UIContextHolder.getCurrent());</span>
+
+<span class="nc" id="L244">		String[] debugTree = uic.getUI().toString().split(&quot;\n&quot;);</span>
+<span class="nc" id="L245">		TreeNode root = new UITreeNode(debugTree[0]);</span>
+<span class="nc" id="L246">		TreeNode parent = root;</span>
+<span class="nc" id="L247">		TreeNode last = root;</span>
+
+<span class="nc bnc" id="L249" title="All 2 branches missed.">		for (int i = 1; i &lt; debugTree.length; i++) {</span>
+<span class="nc" id="L250">			String line = debugTree[i].trim();</span>
+
+<span class="nc bnc" id="L252" title="All 2 branches missed.">			if (line.charAt(0) == '[') {</span>
+<span class="nc" id="L253">				parent = last;</span>
+<span class="nc" id="L254">				TreeNode child = new UITreeNode(debugTree[++i]);</span>
+<span class="nc" id="L255">				parent.add(child);</span>
+<span class="nc" id="L256">				last = child;</span>
+<span class="nc bnc" id="L257" title="All 2 branches missed.">			} else if (line.charAt(0) == ']') {</span>
+<span class="nc" id="L258">				parent = parent.getParent();</span>
+			} else {
+<span class="nc" id="L260">				TreeNode child = new UITreeNode(debugTree[i]);</span>
+<span class="nc" id="L261">				parent.add(child);</span>
+<span class="nc" id="L262">				last = child;</span>
+			}
+		}
+
+<span class="nc" id="L266">		return root;</span>
+	}
+
+	/**
+	 * Retrieves statistics on the active UIContext, in a format suitable for rendering to the UI.
+	 *
+	 * @return statistics on the active UIContext.
+	 */
+	public String getUicStats() {
+<span class="nc" id="L275">		StringWriter writer = new StringWriter();</span>
+<span class="nc" id="L276">		PrintWriter printWriter = new PrintWriter(writer);</span>
+
+<span class="nc" id="L278">		UicStats stats = new UicStats(UIContextHolder.getCurrent());</span>
+<span class="nc" id="L279">		UicStatsAsHtml.write(printWriter, stats);</span>
+
+<span class="nc" id="L281">		printWriter.close();</span>
+
+<span class="nc" id="L283">		return writer.toString();</span>
+	}
+
+	/**
+	 * @return true if the WComponent UI hierarchy tree view should be displayed, false otherwise.
+	 */
+	public boolean isShowTree() {
+<span class="fc" id="L290">		return showTree;</span>
+	}
+
+	/**
+	 * @return true if the current WComponent Configuration should be displayed, false otherwise.
+	 */
+	public boolean isShowConfig() {
+<span class="fc" id="L297">		return showConfig;</span>
+	}
+
+	/**
+	 * @return true if statistics on the active UIContext should be displayed, false otherwise.
+	 */
+	public boolean isShowUicStats() {
+<span class="fc" id="L304">		return showUicStats;</span>
+	}
+
+	/**
+	 * @return true if information about the current HTTP request should be displayed, false otherwise.
+	 */
+	public boolean isShowRequest() {
+<span class="fc" id="L311">		return showRequest;</span>
+	}
+
+	/**
+	 * @return true if the WComponent whitespace filter is enabled.
+	 */
+	public boolean isWhitespaceFilterEnabled() {
+<span class="fc" id="L318">		return Config.getInstance().getBoolean(&quot;bordertech.wcomponents.whitespaceFilter.enabled&quot;);</span>
+	}
+
+	/**
+	 * @return true if component ids should be displayed, false otherwise.
+	 */
+	public boolean isShowIds() {
+<span class="fc" id="L325">		return showIds;</span>
+	}
+
+	/**
+	 * @return the fully qualified class name for the component being served by the LDE.
+	 */
+	public String getRootComponent() {
+<span class="fc" id="L332">		return Config.getInstance().getString(PlainLauncher.COMPONENT_TO_LAUNCH_PARAM_KEY);</span>
+	}
+
+	/**
+	 * @return true if the client-side WComponent debugging features are enabled.
+	 */
+	public boolean isDebugEnabled() {
+<span class="pc bpc" id="L339" title="1 of 2 branches missed.">		return Config.getInstance().getBoolean(&quot;bordertech.wcomponents.debug.enabled&quot;, false)</span>
+<span class="nc" id="L340">				&amp;&amp; Config.getInstance()</span>
+<span class="pc bnc" id="L341" title="All 2 branches missed.">				.getBoolean(&quot;bordertech.wcomponents.debug.clientSide.enabled&quot;, false);</span>
+	}
+
+	/**
+	 * @return the current configuration information as an array of key-value pairs, sorted by key.
+	 */
+	public String[][] getConfig() {
+<span class="fc" id="L348">		List&lt;String&gt; keys = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L349">		Configuration config = Config.getInstance();</span>
+
+<span class="fc bfc" id="L351" title="All 2 branches covered.">		for (Iterator i = config.getKeys(); i.hasNext();) {</span>
+<span class="fc" id="L352">			keys.add((String) i.next());</span>
+		}
+
+<span class="fc" id="L355">		Collections.sort(keys);</span>
+<span class="fc" id="L356">		String[][] configTable = new String[keys.size()][2];</span>
+
+<span class="fc bfc" id="L358" title="All 2 branches covered.">		for (int i = 0; i &lt; keys.size(); i++) {</span>
+<span class="fc" id="L359">			configTable[i][0] = keys.get(i);</span>
+<span class="fc" id="L360">			configTable[i][1] = config.getString(configTable[i][0]);</span>
+		}
+
+<span class="fc" id="L363">		return configTable;</span>
+	}
+
+	/**
+	 * XML-encodes the given input. This is called by the velocity template.
+	 *
+	 * @param input the input to encode.
+	 * @return the encoded input.
+	 */
+	public String encode(final String input) {
+<span class="fc" id="L373">		return WebUtilities.encode(input);</span>
+	}
+
+	/**
+	 * Renders the DevToolkit content which must appear before the main WComponent UI.
+	 *
+	 * @param writer the writer to send the content to.
+	 */
+	public void paintHeader(final PrintWriter writer) {
+<span class="fc" id="L382">		paint(&quot;com/github/bordertech/wcomponents/lde/DevToolkit_header.vm&quot;, writer);</span>
+<span class="fc" id="L383">	}</span>
+
+	/**
+	 * Renders the DevToolkit content which must after before the main WComponent UI.
+	 *
+	 * @param writer the writer to send the content to.
+	 */
+	public void paintFooter(final PrintWriter writer) {
+<span class="fc" id="L391">		paint(&quot;com/github/bordertech/wcomponents/lde/DevToolkit_footer.vm&quot;, writer);</span>
+<span class="fc" id="L392">	}</span>
+
+	/**
+	 * Paints the DevToolkit content.
+	 *
+	 * @param templateName the resource name of the Velocity template to use.
+	 * @param writer the writer to send the content to.
+	 */
+	private void paint(final String templateName, final PrintWriter writer) {
+<span class="fc bfc" id="L401" title="All 2 branches covered.">		if (!isEnabled()) {</span>
+<span class="fc" id="L402">			return;</span>
+		}
+		try {
+<span class="fc" id="L405">			Template template = VelocityEngineFactory.getVelocityEngine().getTemplate(templateName);</span>
+<span class="fc" id="L406">			VelocityContext context = new VelocityContext();</span>
+<span class="fc" id="L407">			context.put(&quot;this&quot;, this);</span>
+<span class="fc" id="L408">			UIContext uic = UIContextDelegate.getPrimaryUIContext(UIContextHolder.getCurrent());</span>
+<span class="fc" id="L409">			context.put(&quot;uic&quot;, uic);</span>
+<span class="fc" id="L410">			context.put(&quot;ui&quot;, uic.getUI());</span>
+<span class="fc" id="L411">			template.merge(context, writer);</span>
+<span class="nc" id="L412">		} catch (Exception e) {</span>
+<span class="nc" id="L413">			LOG.error(&quot;Unable to render dev toolkit&quot;, e);</span>
+<span class="fc" id="L414">		}</span>
+<span class="fc" id="L415">	}</span>
+
+	/**
+	 * Simple node extension for displaying the UI structure.
+	 */
+<span class="fc" id="L420">	public static final class UITreeNode extends AbstractTreeNode {</span>
+
+		/**
+		 * The node text.
+		 */
+		private final String text;
+
+		/**
+		 * Creates a tree node.
+		 *
+		 * @param text the tree node text.
+		 */
+<span class="nc" id="L432">		public UITreeNode(final String text) {</span>
+<span class="nc bnc" id="L433" title="All 2 branches missed.">			if (text.charAt(text.length() - 1) == ',') {</span>
+<span class="nc" id="L434">				this.text = text.substring(0, text.length() - 1).trim();</span>
+			} else {
+<span class="nc" id="L436">				this.text = text.trim();</span>
+			}
+<span class="nc" id="L438">		}</span>
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public String toString() {
+<span class="nc" id="L445">			return WebUtilities.encode(text);</span>
+		}
+
+		/**
+		 * @return the children as an array.
+		 */
+		public TreeNode[] getChildren() {
+<span class="nc" id="L452">			TreeNode[] children = new TreeNode[getChildCount()];</span>
+
+<span class="nc bnc" id="L454" title="All 2 branches missed.">			for (int i = 0; i &lt; children.length; i++) {</span>
+<span class="nc" id="L455">				children[i] = getChildAt(i);</span>
+			}
+
+<span class="nc" id="L458">			return children;</span>
+		}
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

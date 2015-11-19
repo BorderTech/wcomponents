@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>AbstractTableDataModel.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">AbstractTableDataModel.java</span></div><h1>AbstractTableDataModel.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import com.github.bordertech.wcomponents.util.TableUtil;
+import java.io.Serializable;
+import java.util.Comparator;
+import java.util.List;
+
+/**
+ * A skeleton implementation of a simple data model that does not support filtering, sorting, or editability. Subclasses
+ * need only implement the {@link TableDataModel#getRowCount()} and {@link TableDataModel#getValueAt(int, int)} methods.
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ *
+ * @deprecated Use {@link WTable} and {@link AbstractTableModel} instead.
+ */
+@Deprecated
+<span class="fc" id="L18">public abstract class AbstractTableDataModel implements TableDataModel, Serializable {</span>
+
+	/**
+	 * Row header text is not used by default.
+	 *
+	 * @param row ignored.
+	 * @return null.
+	 */
+	@Override
+	public String getRowHeader(final int row) {
+<span class="nc" id="L28">		return null;</span>
+	}
+
+	/**
+	 * This model does not support the concept of sorting by default. Subclasses will need to override this method and
+	 * {@link #isSortable(int)} to support sorting.
+	 *
+	 * @param col ignored.
+	 * @param ascending ignored.
+	 * @return null
+	 */
+	@Override
+	public int[] sort(final int col, final boolean ascending) {
+<span class="nc" id="L41">		return null;</span>
+	}
+
+	/**
+	 * This model does not support the concept of editable cells by default. Subclasses will need to override this
+	 * method and {@link #isCellEditable(int, int)} to support cell editing.
+	 *
+	 * @param value ignored.
+	 * @param row ignored.
+	 * @param col ignored.
+	 */
+	@Override
+	public void setValueAt(final Object value, final int row, final int col) {
+		// NOP
+<span class="nc" id="L55">	}</span>
+
+	/**
+	 * This model does not support the concept of sorting by default. Subclasses will need to override this method and
+	 * {@link #sort(int, boolean)} to support sorting.
+	 *
+	 * @param col ignored.
+	 * @return false.
+	 */
+	@Override
+	public boolean isSortable(final int col) {
+<span class="fc" id="L66">		return false;</span>
+	}
+
+	/**
+	 * This model does not support the concept of row disabling by default. Subclasses will need to override this method
+	 * to support row disabling.
+	 *
+	 * @param row ignored.
+	 * @return false.
+	 */
+	@Override
+	public boolean isDisabled(final int row) {
+<span class="fc" id="L78">		return false;</span>
+	}
+
+	/**
+	 * This model does not support the concept of row selectability by default. Subclasses will need to override this
+	 * method disable selection of specific rows.
+	 *
+	 * @param row ignored.
+	 * @return true.
+	 */
+	@Override
+	public boolean isSelectable(final int row) {
+<span class="fc" id="L90">		return true;</span>
+	}
+
+	/**
+	 * This model does not support the concept of editable cells by default. Subclasses will need to override this
+	 * method and {@link #setValueAt(Object, int, int)} to support cell editing.
+	 *
+	 * @param row ignored.
+	 * @param col ignored.
+	 * @return false.
+	 */
+	@Override
+	public boolean isCellEditable(final int row, final int col) {
+<span class="nc" id="L103">		return false;</span>
+	}
+
+	/**
+	 * This model does not support the concept of row filtering by default. Subclasses will need to override this method
+	 * to support row filtering.
+	 *
+	 * @param row ignored.
+	 * @return false.
+	 */
+	@Override
+	public List&lt;String&gt; getFilterValues(final int row) {
+<span class="fc" id="L115">		return null;</span>
+	}
+
+	/**
+	 * Calculates the sort order for the data, using the given column and comparator.
+	 *
+	 * @param comparator the comparator to use for sorting
+	 * @param col the column to sort on
+	 * @param ascending true for an ascending sort, false for descending.
+	 *
+	 * @return the row indices in sort order.
+	 */
+	protected int[] sort(final Comparator&lt;Object&gt; comparator, final int col, final boolean ascending) {
+		// We cache the column data to avoid repeated and potentially expensive lookups
+<span class="fc" id="L129">		Object[] columnData = new Object[getRowCount()];</span>
+
+<span class="fc bfc" id="L131" title="All 2 branches covered.">		for (int i = getRowCount() - 1; i &gt;= 0; i--) {</span>
+<span class="fc" id="L132">			columnData[i] = getValueAt(i, col);</span>
+		}
+
+<span class="fc" id="L135">		int[] sortIndices = new int[getRowCount()];</span>
+
+<span class="fc bfc" id="L137" title="All 2 branches covered.">		for (int i = 0; i &lt; sortIndices.length; i++) {</span>
+<span class="fc" id="L138">			sortIndices[i] = i;</span>
+		}
+
+<span class="fc" id="L141">		TableUtil.sortData(columnData, comparator, ascending, 0, columnData.length - 1, sortIndices);</span>
+
+<span class="fc" id="L143">		return sortIndices;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

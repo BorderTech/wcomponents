@@ -1,0 +1,505 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WMessages.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">WMessages.java</span></div><h1>WMessages.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import com.github.bordertech.wcomponents.util.Util;
+import com.github.bordertech.wcomponents.validation.WValidationErrors;
+import java.util.List;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+/**
+ * &lt;p&gt;
+ * WMessages provides a convenient wrapper for the WMessageBox and WValidationErrors components, and lets the developer
+ * use a &quot;singleton&quot; WMessages instance per application.
+ * &lt;/p&gt;
+ *
+ * @author Yiannis Paschalidis
+ * @author Jonathan Austin
+ * @since 1.0.0
+ */
+public class WMessages extends WPanel {
+
+	/**
+	 * The logger instance for this class.
+	 */
+<span class="fc" id="L24">	private static final Log LOG = LogFactory.getLog(WMessages.class);</span>
+
+	/**
+	 * The message box used to display &quot;success&quot; messages.
+	 */
+<span class="fc" id="L29">	private final WMessageBox successMessages = new WMessageBox(WMessageBox.SUCCESS);</span>
+
+	/**
+	 * The message box used to display &quot;information&quot; messages.
+	 */
+<span class="fc" id="L34">	private final WMessageBox infoMessages = new WMessageBox(WMessageBox.INFO);</span>
+
+	/**
+	 * The message box used to display &quot;warning&quot; messages.
+	 */
+<span class="fc" id="L39">	private final WMessageBox warningMessages = new WMessageBox(WMessageBox.WARN);</span>
+
+	/**
+	 * The message box used to display &quot;error&quot; messages.
+	 */
+<span class="fc" id="L44">	private final WMessageBox errorMessages = new WMessageBox(WMessageBox.ERROR);</span>
+
+	/**
+	 * The message box used to display validation errors.
+	 */
+<span class="fc" id="L49">	private final WValidationErrors validationErrors = new WValidationErrors();</span>
+
+	/**
+	 * Creates a new WMessages, where only validation messages are persisted between requests.
+	 */
+	public WMessages() {
+<span class="fc" id="L55">		this(false);</span>
+<span class="fc" id="L56">	}</span>
+
+	/**
+	 * Creates a new WMessages.
+	 *
+	 * @param persistent if true, all messages are persisted between requests. If false, only validation messages are
+	 * persisted between requests.
+	 */
+<span class="fc" id="L64">	public WMessages(final boolean persistent) {</span>
+<span class="fc" id="L65">		add(validationErrors);</span>
+
+<span class="pc bpc" id="L67" title="1 of 2 branches missed.">		if (!persistent) {</span>
+			// We don't want the message display components to retain any state information
+<span class="fc" id="L69">			MutableContainer container = new DefaultTransientDataContainer();</span>
+<span class="fc" id="L70">			add(container);</span>
+
+<span class="fc" id="L72">			container.add(errorMessages);</span>
+<span class="fc" id="L73">			container.add(warningMessages);</span>
+<span class="fc" id="L74">			container.add(infoMessages);</span>
+<span class="fc" id="L75">			container.add(successMessages);</span>
+<span class="fc" id="L76">		} else {</span>
+<span class="nc" id="L77">			add(errorMessages);</span>
+<span class="nc" id="L78">			add(warningMessages);</span>
+<span class="nc" id="L79">			add(infoMessages);</span>
+<span class="nc" id="L80">			add(successMessages);</span>
+		}
+<span class="fc" id="L82">	}</span>
+
+	/**
+	 * Retrieves the WMessages instance for the given component. The component tree is searched for an ancestor that
+	 * implements the MessageContainer interface. If not found, a proxy is returned that searches for the
+	 * MessageContainer each time a WMessages method is called. This allows developers to obtain a valid &quot;instance&quot;
+	 * during e.g. constructors, where the component will not have been added to the tree yet.
+	 *
+	 * @param component the component to retrieve the WMessages instance for
+	 * @return the WMessages instance for the given component.
+	 */
+	public static WMessages getInstance(final WComponent component) {
+<span class="fc" id="L94">		MessageContainer container = getMessageContainer(component);</span>
+<span class="fc bfc" id="L95" title="All 2 branches covered.">		WMessages messages = container != null ? container.getMessages() : null;</span>
+
+<span class="fc bfc" id="L97" title="All 2 branches covered.">		if (messages == null) {</span>
+<span class="fc" id="L98">			messages = new WMessagesProxy(component);</span>
+		}
+
+<span class="fc" id="L101">		return messages;</span>
+	}
+
+	/**
+	 * @return true if there are messages to display
+	 */
+	public boolean hasMessages() {
+<span class="fc bfc" id="L108" title="All 4 branches covered.">		return successMessages.hasMessages() || infoMessages.hasMessages() || warningMessages.</span>
+<span class="fc bfc" id="L109" title="All 2 branches covered.">				hasMessages()</span>
+<span class="fc bfc" id="L110" title="All 4 branches covered.">				|| errorMessages.hasMessages() || validationErrors.hasErrors();</span>
+	}
+
+	/**
+	 * Adds a message.
+	 *
+	 * @param message the message to add
+	 */
+	public void addMessage(final Message message) {
+<span class="fc" id="L119">		addMessage(message, true);</span>
+<span class="fc" id="L120">	}</span>
+
+	/**
+	 * Adds a message.
+	 * &lt;p&gt;
+	 * When setting &lt;code&gt;encodeText&lt;/code&gt; to &lt;code&gt;false&lt;/code&gt;, it then becomes the responsibility of the application
+	 * to ensure that the text does not contain any characters which need to be escaped.
+	 * &lt;/p&gt;
+	 * &lt;p&gt;
+	 * &lt;b&gt;WARNING:&lt;/b&gt; If you are using WMessageBox to display &quot;user entered&quot; or untrusted data, use of this method with
+	 * &lt;code&gt;encodeText&lt;/code&gt; set to &lt;code&gt;false&lt;/code&gt; may result in security issues.
+	 * &lt;/p&gt;
+	 *
+	 * @param message the message to add
+	 * @param encodeText true to encode the message, false to leave it unencoded.
+	 */
+	public void addMessage(final Message message, final boolean encodeText) {
+<span class="pc bpc" id="L137" title="1 of 5 branches missed.">		switch (message.getType()) {</span>
+			case Message.SUCCESS_MESSAGE:
+<span class="fc" id="L139">				addMessage(successMessages, message, encodeText);</span>
+<span class="fc" id="L140">				break;</span>
+
+			case Message.INFO_MESSAGE:
+<span class="fc" id="L143">				addMessage(infoMessages, message, encodeText);</span>
+<span class="fc" id="L144">				break;</span>
+
+			case Message.WARNING_MESSAGE:
+<span class="fc" id="L147">				addMessage(warningMessages, message, encodeText);</span>
+<span class="fc" id="L148">				break;</span>
+
+			case Message.ERROR_MESSAGE:
+<span class="fc" id="L151">				addMessage(errorMessages, message, encodeText);</span>
+<span class="fc" id="L152">				break;</span>
+
+			default:
+<span class="nc" id="L155">				LOG.warn(&quot;Unknown message type: &quot; + message.getType());</span>
+		}
+<span class="fc" id="L157">	}</span>
+
+	/**
+	 * Adds a success message.
+	 *
+	 * @param code the message code
+	 */
+	public void success(final String code) {
+<span class="fc" id="L165">		success(code, true);</span>
+<span class="fc" id="L166">	}</span>
+
+	/**
+	 * Adds a success message.
+	 * &lt;p&gt;
+	 * When setting &lt;code&gt;encodeText&lt;/code&gt; to &lt;code&gt;false&lt;/code&gt;, it then becomes the responsibility of the application
+	 * to ensure that the text does not contain any characters which need to be escaped.
+	 * &lt;/p&gt;
+	 * &lt;p&gt;
+	 * &lt;b&gt;WARNING:&lt;/b&gt; If you are using WMessageBox to display &quot;user entered&quot; or untrusted data, use of this method with
+	 * &lt;code&gt;encodeText&lt;/code&gt; set to &lt;code&gt;false&lt;/code&gt; may result in security issues.
+	 * &lt;/p&gt;
+	 *
+	 * @param code the message code
+	 * @param encodeText true to encode the message, false otherwise.
+	 */
+	public void success(final String code, final boolean encodeText) {
+<span class="fc" id="L183">		Message message = new Message(Message.SUCCESS_MESSAGE, code);</span>
+<span class="fc" id="L184">		addMessage(successMessages, message, encodeText);</span>
+<span class="fc" id="L185">	}</span>
+
+	/**
+	 * Adds a success message.
+	 *
+	 * @param code the message code.
+	 * @param field the field for the success message.
+	 */
+	public void success(final String code, final String field) {
+<span class="nc" id="L194">		success(code, field, true);</span>
+<span class="nc" id="L195">	}</span>
+
+	/**
+	 * Adds a success message.
+	 * &lt;p&gt;
+	 * When setting &lt;code&gt;encodeText&lt;/code&gt; to &lt;code&gt;false&lt;/code&gt;, it then becomes the responsibility of the application
+	 * to ensure that the text does not contain any characters which need to be escaped.
+	 * &lt;/p&gt;
+	 * &lt;p&gt;
+	 * &lt;b&gt;WARNING:&lt;/b&gt; If you are using WMessageBox to display &quot;user entered&quot; or untrusted data, use of this method with
+	 * &lt;code&gt;encodeText&lt;/code&gt; set to &lt;code&gt;false&lt;/code&gt; may result in security issues.
+	 * &lt;/p&gt;
+	 *
+	 * @param code the message code.
+	 * @param field the field for the success message.
+	 * @param encodeText true to encode the message, false otherwise.
+	 */
+	public void success(final String code, final String field, final boolean encodeText) {
+<span class="nc" id="L213">		Message message = new Message(Message.SUCCESS_MESSAGE, code, field);</span>
+<span class="nc" id="L214">		addMessage(successMessages, message, encodeText);</span>
+<span class="nc" id="L215">	}</span>
+
+	/**
+	 * Adds an informational message.
+	 *
+	 * @param code the message code.
+	 */
+	public void info(final String code) {
+<span class="fc" id="L223">		info(code, true);</span>
+<span class="fc" id="L224">	}</span>
+
+	/**
+	 * Adds an informational message.
+	 * &lt;p&gt;
+	 * When setting &lt;code&gt;encodeText&lt;/code&gt; to &lt;code&gt;false&lt;/code&gt;, it then becomes the responsibility of the application
+	 * to ensure that the text does not contain any characters which need to be escaped.
+	 * &lt;/p&gt;
+	 * &lt;p&gt;
+	 * &lt;b&gt;WARNING:&lt;/b&gt; If you are using WMessageBox to display &quot;user entered&quot; or untrusted data, use of this method with
+	 * &lt;code&gt;encodeText&lt;/code&gt; set to &lt;code&gt;false&lt;/code&gt; may result in security issues.
+	 * &lt;/p&gt;
+	 *
+	 * @param code the message code.
+	 * @param encodeText true to encode the message, false otherwise.
+	 */
+	public void info(final String code, final boolean encodeText) {
+<span class="fc" id="L241">		Message message = new Message(Message.INFO_MESSAGE, code);</span>
+<span class="fc" id="L242">		addMessage(infoMessages, message, encodeText);</span>
+<span class="fc" id="L243">	}</span>
+
+	/**
+	 * Adds an informational message.
+	 *
+	 * @param code the message code.
+	 * @param field the field for the information message.
+	 */
+	public void info(final String code, final String field) {
+<span class="nc" id="L252">		info(code, field, true);</span>
+<span class="nc" id="L253">	}</span>
+
+	/**
+	 * Adds an informational message.
+	 * &lt;p&gt;
+	 * When setting &lt;code&gt;encodeText&lt;/code&gt; to &lt;code&gt;false&lt;/code&gt;, it then becomes the responsibility of the application
+	 * to ensure that the text does not contain any characters which need to be escaped.
+	 * &lt;/p&gt;
+	 * &lt;p&gt;
+	 * &lt;b&gt;WARNING:&lt;/b&gt; If you are using WMessageBox to display &quot;user entered&quot; or untrusted data, use of this method with
+	 * &lt;code&gt;encodeText&lt;/code&gt; set to &lt;code&gt;false&lt;/code&gt; may result in security issues.
+	 * &lt;/p&gt;
+	 *
+	 * @param code the message code.
+	 * @param field the field for the information message.
+	 * @param encodeText true to encode the message, false otherwise.
+	 */
+	public void info(final String code, final String field, final boolean encodeText) {
+<span class="nc" id="L271">		Message message = new Message(Message.INFO_MESSAGE, code, field);</span>
+<span class="nc" id="L272">		addMessage(infoMessages, message, encodeText);</span>
+<span class="nc" id="L273">	}</span>
+
+	/**
+	 * Adds a warning message.
+	 *
+	 * @param code the message code.
+	 */
+	public void warn(final String code) {
+<span class="fc" id="L281">		warn(code, true);</span>
+<span class="fc" id="L282">	}</span>
+
+	/**
+	 * Adds a warning message.
+	 * &lt;p&gt;
+	 * When setting &lt;code&gt;encodeText&lt;/code&gt; to &lt;code&gt;false&lt;/code&gt;, it then becomes the responsibility of the application
+	 * to ensure that the text does not contain any characters which need to be escaped.
+	 * &lt;/p&gt;
+	 * &lt;p&gt;
+	 * &lt;b&gt;WARNING:&lt;/b&gt; If you are using WMessageBox to display &quot;user entered&quot; or untrusted data, use of this method with
+	 * &lt;code&gt;encodeText&lt;/code&gt; set to &lt;code&gt;false&lt;/code&gt; may result in security issues.
+	 * &lt;/p&gt;
+	 *
+	 * @param code the message code.
+	 * @param encodeText true to encode the message, false otherwise.
+	 */
+	public void warn(final String code, final boolean encodeText) {
+<span class="fc" id="L299">		Message message = new Message(Message.WARNING_MESSAGE, code);</span>
+<span class="fc" id="L300">		addMessage(warningMessages, message, encodeText);</span>
+<span class="fc" id="L301">	}</span>
+
+	/**
+	 * Adds a warning message.
+	 *
+	 * @param code the message code.
+	 * @param field the field for the information message.
+	 */
+	public void warn(final String code, final String field) {
+<span class="nc" id="L310">		warn(code, field, true);</span>
+<span class="nc" id="L311">	}</span>
+
+	/**
+	 * Adds a warning message.
+	 * &lt;p&gt;
+	 * When setting &lt;code&gt;encodeText&lt;/code&gt; to &lt;code&gt;false&lt;/code&gt;, it then becomes the responsibility of the application
+	 * to ensure that the text does not contain any characters which need to be escaped.
+	 * &lt;/p&gt;
+	 * &lt;p&gt;
+	 * &lt;b&gt;WARNING:&lt;/b&gt; If you are using WMessageBox to display &quot;user entered&quot; or untrusted data, use of this method with
+	 * &lt;code&gt;encodeText&lt;/code&gt; set to &lt;code&gt;false&lt;/code&gt; may result in security issues.
+	 * &lt;/p&gt;
+	 *
+	 * @param code the message code.
+	 * @param field the field for the information message.
+	 * @param encodeText true to encode the message, false otherwise.
+	 */
+	public void warn(final String code, final String field, final boolean encodeText) {
+<span class="nc" id="L329">		Message message = new Message(Message.WARNING_MESSAGE, code, field);</span>
+<span class="nc" id="L330">		addMessage(warningMessages, message, encodeText);</span>
+<span class="nc" id="L331">	}</span>
+
+	/**
+	 * Adds an error message.
+	 *
+	 * @param code the message code.
+	 */
+	public void error(final String code) {
+<span class="fc" id="L339">		error(code, true);</span>
+<span class="fc" id="L340">	}</span>
+
+	/**
+	 * Adds an error message.
+	 * &lt;p&gt;
+	 * When setting &lt;code&gt;encodeText&lt;/code&gt; to &lt;code&gt;false&lt;/code&gt;, it then becomes the responsibility of the application
+	 * to ensure that the text does not contain any characters which need to be escaped.
+	 * &lt;/p&gt;
+	 * &lt;p&gt;
+	 * &lt;b&gt;WARNING:&lt;/b&gt; If you are using WMessageBox to display &quot;user entered&quot; or untrusted data, use of this method with
+	 * &lt;code&gt;encodeText&lt;/code&gt; set to &lt;code&gt;false&lt;/code&gt; may result in security issues.
+	 * &lt;/p&gt;
+	 *
+	 * @param code the message code.
+	 * @param encodeText true to encode the message, false otherwise.
+	 */
+	public void error(final String code, final boolean encodeText) {
+<span class="fc" id="L357">		Message message = new Message(Message.ERROR_MESSAGE, code);</span>
+<span class="fc" id="L358">		addMessage(errorMessages, message, encodeText);</span>
+<span class="fc" id="L359">	}</span>
+
+	/**
+	 * Adds an error message.
+	 *
+	 * @param code the message code.
+	 * @param field the field for the information message.
+	 */
+	public void error(final String code, final String field) {
+<span class="nc" id="L368">		error(code, field, true);</span>
+<span class="nc" id="L369">	}</span>
+
+	/**
+	 * Adds an error message.
+	 * &lt;p&gt;
+	 * When setting &lt;code&gt;encodeText&lt;/code&gt; to &lt;code&gt;false&lt;/code&gt;, it then becomes the responsibility of the application
+	 * to ensure that the text does not contain any characters which need to be escaped.
+	 * &lt;/p&gt;
+	 * &lt;p&gt;
+	 * &lt;b&gt;WARNING:&lt;/b&gt; If you are using WMessageBox to display &quot;user entered&quot; or untrusted data, use of this method with
+	 * &lt;code&gt;encodeText&lt;/code&gt; set to &lt;code&gt;false&lt;/code&gt; may result in security issues.
+	 * &lt;/p&gt;
+	 *
+	 * @param code the message code.
+	 * @param field the field for the information message.
+	 * @param encodeText true to encode the message, false otherwise.
+	 */
+	public void error(final String code, final String field, final boolean encodeText) {
+<span class="nc" id="L387">		Message message = new Message(Message.ERROR_MESSAGE, code, field);</span>
+<span class="nc" id="L388">		addMessage(errorMessages, message, encodeText);</span>
+<span class="nc" id="L389">	}</span>
+
+	/**
+	 * Convenience method to add a message to a message box.
+	 *
+	 * @param box the message box to add the message to
+	 * @param message the message to add
+	 * @param encode true to encode the message, false otherwise.
+	 */
+	private void addMessage(final WMessageBox box, final Message message, final boolean encode) {
+<span class="fc" id="L399">		String code = message.getMessage();</span>
+
+<span class="pc bpc" id="L401" title="1 of 2 branches missed.">		if (!Util.empty(code)) {</span>
+<span class="fc" id="L402">			box.addMessage(encode, code, message.getArgs());</span>
+		}
+<span class="fc" id="L404">	}</span>
+
+	/**
+	 * @return all informational messages for this Messages instance.
+	 */
+	public List&lt;String&gt; getInfoMessages() {
+<span class="fc" id="L410">		return getMessages(Message.INFO_MESSAGE);</span>
+	}
+
+	/**
+	 * @return all warning messages for this Messages instance.
+	 */
+	public List&lt;String&gt; getWarningMessages() {
+<span class="fc" id="L417">		return getMessages(Message.WARNING_MESSAGE);</span>
+	}
+
+	/**
+	 * @return all error messages for this Messages instance.
+	 */
+	public List&lt;String&gt; getErrorMessages() {
+<span class="fc" id="L424">		return getMessages(Message.ERROR_MESSAGE);</span>
+	}
+
+	/**
+	 * @return all success messages for this Messages instance.
+	 */
+	public List&lt;String&gt; getSuccessMessages() {
+<span class="fc" id="L431">		return getMessages(Message.SUCCESS_MESSAGE);</span>
+	}
+
+	/**
+	 * @param type the message type (@see Message)
+	 * @return all messages of the given type for this Messages instance.
+	 */
+	public List&lt;String&gt; getMessages(final int type) {
+<span class="pc bpc" id="L439" title="1 of 5 branches missed.">		switch (type) {</span>
+			case Message.SUCCESS_MESSAGE:
+<span class="fc" id="L441">				return successMessages.getMessages();</span>
+			case Message.INFO_MESSAGE:
+<span class="fc" id="L443">				return infoMessages.getMessages();</span>
+			case Message.WARNING_MESSAGE:
+<span class="fc" id="L445">				return warningMessages.getMessages();</span>
+			case Message.ERROR_MESSAGE:
+<span class="fc" id="L447">				return errorMessages.getMessages();</span>
+			default:
+<span class="nc" id="L449">				return null;</span>
+		}
+	}
+
+	/**
+	 * @return the validation errors component, for use in e.g. ValidatingActions.
+	 */
+	public WValidationErrors getValidationErrors() {
+<span class="fc" id="L457">		return validationErrors;</span>
+	}
+
+	/**
+	 * @return the success message box.
+	 */
+	public WMessageBox getSuccessMessageBox() {
+<span class="nc" id="L464">		return successMessages;</span>
+	}
+
+	/**
+	 * @return the warning message box.
+	 */
+	public WMessageBox getWarningMessageBox() {
+<span class="nc" id="L471">		return warningMessages;</span>
+	}
+
+	/**
+	 * @return the error message box.
+	 */
+	public WMessageBox getErrorMessageBox() {
+<span class="nc" id="L478">		return errorMessages;</span>
+	}
+
+	/**
+	 * @return the info message box.
+	 */
+	public WMessageBox getInfoMessageBox() {
+<span class="nc" id="L485">		return infoMessages;</span>
+	}
+
+	/**
+	 * Searches the WComponent tree of the given component for an ancestor that implements the MessageContainer
+	 * interface.
+	 *
+	 * @param component the component to return the Container for
+	 * @return the nearest MessageContainer if found, null otherwise
+	 */
+	protected static MessageContainer getMessageContainer(final WComponent component) {
+<span class="fc bfc" id="L496" title="All 2 branches covered.">		for (WComponent c = component; c != null; c = c.getParent()) {</span>
+<span class="fc bfc" id="L497" title="All 2 branches covered.">			if (c instanceof MessageContainer) {</span>
+<span class="fc" id="L498">				return (MessageContainer) c;</span>
+			}
+		}
+
+<span class="fc" id="L502">		return null;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WLabel.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">WLabel.java</span></div><h1>WLabel.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import com.github.bordertech.wcomponents.util.I18nUtilities;
+import java.io.Serializable;
+import java.text.MessageFormat;
+
+/**
+ * &lt;p&gt;
+ * The WLabel component is used to display a textual label for an input field. A WLabel is associated with an input
+ * field provided in the labels constructor, or via the {@link #setForComponent(WComponent) setForComponent} method.&lt;/p&gt;
+ *
+ * @author James Gifford
+ * @since 1.0.0
+ */
+public class WLabel extends AbstractMutableContainer implements AjaxTarget {
+
+	/**
+	 * Creates a new WLabel. Sets the label text, access key and the component that label is for.
+	 *
+	 * @param text The label text.
+	 * @param accessKey The access key for the label.
+	 * @param forComponent The component that this label is for.
+	 */
+	public WLabel(final String text, final char accessKey, final WComponent forComponent) {
+<span class="nc" id="L25">		this(text, forComponent);</span>
+<span class="nc" id="L26">		getComponentModel().accessKey = accessKey;</span>
+<span class="nc" id="L27">	}</span>
+
+	/**
+	 * Creates a new WLabel with the specified text and component that the label is for.
+	 *
+	 * @param text the label text.
+	 * @param forComponent the component that this label is for.
+	 */
+	public WLabel(final String text, final WComponent forComponent) {
+<span class="fc" id="L36">		this(text);</span>
+<span class="fc" id="L37">		getComponentModel().forComponent = forComponent;</span>
+
+<span class="pc bpc" id="L39" title="1 of 2 branches missed.">		if (forComponent instanceof AbstractWComponent) {</span>
+<span class="fc" id="L40">			((AbstractWComponent) forComponent).setLabel(this);</span>
+		}
+<span class="fc" id="L42">	}</span>
+
+	/**
+	 * Creates a new WLabel with the specified text and access key.
+	 *
+	 * @param text The label text.
+	 * @param accessKey The access key for the label's &lt;code&gt;forComponent&lt;/code&gt;.
+	 */
+	public WLabel(final String text, final char accessKey) {
+<span class="fc" id="L51">		this(text);</span>
+<span class="fc" id="L52">		getComponentModel().accessKey = accessKey;</span>
+<span class="fc" id="L53">	}</span>
+
+	/**
+	 * Creates a new WLabel with the specified text.
+	 *
+	 * @param text The label text.
+	 */
+<span class="fc" id="L60">	public WLabel(final String text) {</span>
+<span class="fc" id="L61">		getComponentModel().text = text;</span>
+<span class="fc" id="L62">	}</span>
+
+	/**
+	 * Creates an empty WLabel.
+	 */
+<span class="fc" id="L67">	public WLabel() {</span>
+<span class="fc" id="L68">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getId() {
+<span class="pc bpc" id="L75" title="2 of 6 branches missed.">		if (getIdName() == null &amp;&amp; getForComponent() != null &amp;&amp; getForComponent().getIdName() != null) {</span>
+<span class="nc" id="L76">			return getForComponent().getId() + ID_FRAMEWORK_ASSIGNED_SEPERATOR + &quot;lbl&quot;;</span>
+		}
+<span class="fc" id="L78">		return super.getId();</span>
+	}
+
+	// ================================
+	// Attributes
+	/**
+	 * @return the label text.
+	 */
+	public String getText() {
+<span class="fc" id="L87">		return I18nUtilities.format(null, getComponentModel().text);</span>
+	}
+
+	/**
+	 * Sets the label's text.
+	 *
+	 * @param text the label text, using {@link MessageFormat} syntax.
+	 * @param args optional arguments for the message format string.
+	 */
+	public void setText(final String text, final Serializable... args) {
+<span class="fc" id="L97">		getOrCreateComponentModel().text = I18nUtilities.asMessage(text, args);</span>
+<span class="fc" id="L98">	}</span>
+
+	/**
+	 * Sets the label &quot;hint&quot; text, which can be used to provide additional information to the user.
+	 *
+	 * @param hint the hint text, using {@link MessageFormat} syntax.
+	 * @param args optional arguments for the message format string.
+	 */
+	public void setHint(final String hint, final Serializable... args) {
+<span class="fc" id="L107">		getOrCreateComponentModel().hint = I18nUtilities.asMessage(hint, args);</span>
+<span class="fc" id="L108">	}</span>
+
+	/**
+	 * @return the label hint text.
+	 */
+	public String getHint() {
+<span class="fc" id="L114">		return I18nUtilities.format(null, getComponentModel().hint);</span>
+	}
+
+	/**
+	 * Sets the component that this label is associated with.
+	 *
+	 * @param forComponent the associated component.
+	 */
+	public void setForComponent(final WComponent forComponent) {
+<span class="fc" id="L123">		getOrCreateComponentModel().forComponent = forComponent;</span>
+
+<span class="pc bpc" id="L125" title="1 of 2 branches missed.">		if (forComponent instanceof AbstractWComponent) {</span>
+<span class="fc" id="L126">			((AbstractWComponent) forComponent).setLabel(this);</span>
+		}
+<span class="fc" id="L128">	}</span>
+
+	/**
+	 * @return the component that this label is associated with.
+	 */
+	public WComponent getForComponent() {
+<span class="fc" id="L134">		return getComponentModel().forComponent;</span>
+	}
+
+	/**
+	 * @return the id of the component that this label is for.
+	 */
+	public String getLabelFor() {
+<span class="fc" id="L141">		WComponent forComponent = getComponentModel().forComponent;</span>
+
+<span class="fc bfc" id="L143" title="All 2 branches covered.">		if (forComponent == null) {</span>
+<span class="fc" id="L144">			return null;</span>
+		}
+
+<span class="fc" id="L147">		return forComponent.getId();</span>
+	}
+
+	// ================================
+	// Access key
+	/**
+	 * &lt;p&gt;
+	 * Set the key (in combination with Alt) that should give focus to this label. The action that occurs when the label
+	 * is focussed depends on the type of component this label is for (the &lt;code&gt;forComponent&lt;/code&gt;). For example,
+	 * WTextField will focus the cursor in the text input, WCheckBox will toggle the check box selection. Access keys
+	 * are not case sensitive.
+	 * &lt;/p&gt;
+	 * &lt;p&gt;
+	 * Note: Setting the access key also sets the shared title of the component to indicate the access key combination.
+	 * &lt;/p&gt;
+	 *
+	 * @param accesskey The key (in combination with the Alt key) that activates this label.
+	 * @since 1.0.0
+	 */
+	public void setAccessKey(final char accesskey) {
+<span class="fc" id="L167">		getOrCreateComponentModel().accessKey = accesskey;</span>
+<span class="fc" id="L168">	}</span>
+
+	/**
+	 * The access key is a shortcut key that will focus the label when used in combination with the Alt key.
+	 *
+	 * @return The key that in combination with Alt will focus this label.
+	 * @since 1.0.0
+	 */
+	public char getAccessKey() {
+<span class="fc" id="L177">		return getComponentModel().accessKey;</span>
+	}
+
+	/**
+	 * Returns the accesskey character as a String. If the character is not a letter or digit then &lt;code&gt;null&lt;/code&gt; is
+	 * returned.
+	 *
+	 * @return The accesskey character as a String (may be &lt;code&gt;null&lt;/code&gt;).
+	 */
+	public String getAccessKeyAsString() {
+<span class="fc" id="L187">		char accessKey = getComponentModel().accessKey;</span>
+
+<span class="fc bfc" id="L189" title="All 2 branches covered.">		if (Character.isLetterOrDigit(accessKey)) {</span>
+<span class="fc" id="L190">			return String.valueOf(accessKey);</span>
+		}
+
+<span class="fc" id="L193">		return null;</span>
+	}
+
+	/**
+	 * Indicates whether the heading text needs to be encoded.
+	 *
+	 * @return true if the text needs to be encoded, false if not.
+	 */
+	public boolean isEncodeText() {
+<span class="fc" id="L202">		return isFlagSet(ComponentModel.ENCODE_TEXT_FLAG);</span>
+	}
+
+	/**
+	 * &lt;p&gt;
+	 * Sets whether the heading text needs to be encoded.&lt;/p&gt;
+	 *
+	 * &lt;p&gt;
+	 * When setting &lt;code&gt;encodeText&lt;/code&gt; to &lt;code&gt;false&lt;/code&gt;, it then becomes the responsibility of the application
+	 * to ensure that the text does not contain any characters which need to be escaped.&lt;/p&gt;
+	 *
+	 * @param encodeText true if the text needs to be encode, false if not.
+	 */
+	public void setEncodeText(final boolean encodeText) {
+<span class="nc" id="L216">		setFlag(ComponentModel.ENCODE_TEXT_FLAG, encodeText);</span>
+<span class="nc" id="L217">	}</span>
+
+	/**
+	 * Sets the client visibility of this label. This method should only ever be called to hide labels which are
+	 * intended for use by screen-readers.
+	 *
+	 * @param hidden true for hidden, false for displayed.
+	 */
+	@Override
+	public void setHidden(final boolean hidden) {
+<span class="nc" id="L227">		super.setHidden(hidden);</span>
+<span class="nc" id="L228">	}</span>
+
+	/**
+	 * @return a String representation of this component, for debugging purposes.
+	 */
+	@Override
+	public String toString() {
+<span class="fc" id="L235">		String text = getText();</span>
+<span class="pc bpc" id="L236" title="1 of 2 branches missed.">		text = text == null ? &quot;null&quot; : ('&quot;' + text + '&quot;');</span>
+<span class="fc" id="L237">		return toString(text, 1, 1);</span>
+	}
+
+	// --------------------------------
+	// Extrinsic state management
+	/**
+	 * Creates a new model appropriate for this component.
+	 *
+	 * @return a new {@link LabelModel}.
+	 */
+	@Override
+	protected LabelModel newComponentModel() {
+<span class="fc" id="L249">		return new LabelModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override // For type safety only
+	protected LabelModel getComponentModel() {
+<span class="fc" id="L257">		return (LabelModel) super.getComponentModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override // For type safety only
+	protected LabelModel getOrCreateComponentModel() {
+<span class="fc" id="L265">		return (LabelModel) super.getOrCreateComponentModel();</span>
+	}
+
+	/**
+	 * Holds the extrinsic state information of a WLabel.
+	 */
+<span class="fc" id="L271">	public static class LabelModel extends ComponentModel {</span>
+
+		/**
+		 * The label text.
+		 */
+		private Serializable text;
+
+		/**
+		 * Provides further hint text to the user, in addition to the label text.
+		 */
+		private Serializable hint;
+
+		/**
+		 * The component which this label is for.
+		 */
+		private WComponent forComponent;
+
+		/**
+		 * The key shortcut that activates the label's &lt;code&gt;forComponent&lt;/code&gt;.
+		 */
+<span class="fc" id="L291">		private char accessKey = '\0';</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

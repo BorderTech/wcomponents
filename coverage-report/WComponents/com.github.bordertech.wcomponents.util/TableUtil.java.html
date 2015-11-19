@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>TableUtil.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.util</a> &gt; <span class="el_source">TableUtil.java</span></div><h1>TableUtil.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.util;
+
+import com.github.bordertech.wcomponents.UIContext;
+import com.github.bordertech.wcomponents.UIContextHolder;
+import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.WRepeater.SubUIContext;
+import com.github.bordertech.wcomponents.WTable;
+import com.github.bordertech.wcomponents.WTable.RowIdWrapper;
+import com.github.bordertech.wcomponents.WebUtilities;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+/**
+ * Static utility methods related to working with {@link WTable}.
+ *
+ * @author Jonathan Austin
+ * @since 1.0.0
+ */
+public final class TableUtil {
+
+	/**
+	 * The logger instance for this class.
+	 */
+<span class="fc" id="L27">	private static final Log LOG = LogFactory.getLog(TableUtil.class);</span>
+
+	/**
+	 * Row index delimiter.
+	 */
+	public static final String INDEX_DELIMITER = &quot;-&quot;;
+
+	/**
+	 * Prevent instantiation of utility class.
+	 */
+<span class="nc" id="L37">	private TableUtil() {</span>
+<span class="nc" id="L38">	}</span>
+
+	/**
+	 * Convert the row index to its string representation.
+	 *
+	 * @param row the row index
+	 * @return the string representation of the row index
+	 */
+	public static String rowIndexListToString(final List&lt;Integer&gt; row) {
+<span class="pc bpc" id="L47" title="2 of 4 branches missed.">		if (row == null || row.isEmpty()) {</span>
+<span class="nc" id="L48">			return null;</span>
+		}
+
+<span class="fc" id="L51">		StringBuffer index = new StringBuffer();</span>
+<span class="fc" id="L52">		boolean addDelimiter = false;</span>
+
+<span class="fc bfc" id="L54" title="All 2 branches covered.">		for (Integer lvl : row) {</span>
+<span class="pc bpc" id="L55" title="1 of 2 branches missed.">			if (addDelimiter) {</span>
+<span class="nc" id="L56">				index.append(INDEX_DELIMITER);</span>
+			}
+<span class="fc" id="L58">			index.append(lvl);</span>
+<span class="fc" id="L59">			addDelimiter = true;</span>
+<span class="fc" id="L60">		}</span>
+
+<span class="fc" id="L62">		return index.toString();</span>
+	}
+
+	/**
+	 * Convert the string representation of a row index to a list.
+	 *
+	 * @param row the string representation of the row index
+	 * @return the row index
+	 */
+	public static List&lt;Integer&gt; rowIndexStringToList(final String row) {
+<span class="pc bpc" id="L72" title="1 of 2 branches missed.">		if (row == null) {</span>
+<span class="nc" id="L73">			return null;</span>
+		}
+
+<span class="fc" id="L76">		List&lt;Integer&gt; rowIndex = new ArrayList&lt;&gt;();</span>
+
+		try {
+
+			// Convert StringId to array
+<span class="fc" id="L81">			String[] rowIdString = row.split(INDEX_DELIMITER);</span>
+<span class="fc bfc" id="L82" title="All 2 branches covered.">			for (int i = 0; i &lt; rowIdString.length; i++) {</span>
+<span class="fc" id="L83">				rowIndex.add(Integer.parseInt(rowIdString[i]));</span>
+			}
+<span class="nc" id="L85">		} catch (NumberFormatException e) {</span>
+<span class="nc" id="L86">			LOG.warn(&quot;Invalid row id: &quot; + row);</span>
+<span class="fc" id="L87">		}</span>
+
+<span class="fc" id="L89">		return rowIndex;</span>
+	}
+
+	/**
+	 * This can be used by column components on a {@link WTable} to determine the current row key.
+	 *
+	 * @return the row key for the current row, or null if no row details
+	 */
+	public static Object getCurrentRowKey() {
+<span class="nc" id="L98">		UIContext uic = UIContextHolder.getCurrent();</span>
+<span class="nc bnc" id="L99" title="All 2 branches missed.">		if (uic instanceof SubUIContext) {</span>
+<span class="nc" id="L100">			return ((SubUIContext) uic).getRowId();</span>
+		}
+<span class="nc" id="L102">		return null;</span>
+	}
+
+	/**
+	 * This can be used by column components on a {@link WTable} to determine the current row index.
+	 *
+	 * @param component the column component
+	 * @return the row index for the current row, or null if no row details
+	 */
+	public static List&lt;Integer&gt; getCurrentRowIndex(final WComponent component) {
+<span class="nc" id="L112">		UIContext uic = UIContextHolder.getCurrent();</span>
+		// Check have correct context
+<span class="nc bnc" id="L114" title="All 2 branches missed.">		if (!(uic instanceof SubUIContext)) {</span>
+<span class="nc" id="L115">			return null;</span>
+		}
+
+		// Find the table
+<span class="nc" id="L119">		WTable table = WebUtilities.getAncestorOfClass(WTable.class, component);</span>
+<span class="nc bnc" id="L120" title="All 2 branches missed.">		if (table == null) {</span>
+<span class="nc" id="L121">			return null;</span>
+		}
+
+<span class="nc" id="L124">		int repeaterIdx = ((SubUIContext) uic).getRowIndex();</span>
+<span class="nc" id="L125">		RowIdWrapper wrapper = table.getRepeater().getBeanList().get(repeaterIdx);</span>
+<span class="nc" id="L126">		return wrapper.getRowIndex();</span>
+	}
+
+	/**
+	 * Sorts the data using the given comparator, using a quick-sort.
+	 *
+	 * @param data the data for the column.
+	 * @param comparator the comparator to use for sorting.
+	 * @param ascending true for an ascending sort, false for descending.
+	 * @param lowIndex the start index for sub-sorting
+	 * @param highIndex the end index for sub-sorting
+	 * @param sortIndices the row indices, which will be updated as a result of the sort
+	 */
+	public static void sortData(final Object[] data, final Comparator&lt;Object&gt; comparator,
+			final boolean ascending,
+			final int lowIndex, final int highIndex, final int[] sortIndices) {
+<span class="fc bfc" id="L142" title="All 2 branches covered.">		if (lowIndex &gt;= highIndex) {</span>
+<span class="fc" id="L143">			return; // 1 element, so sorted already!</span>
+		}
+
+<span class="fc" id="L146">		Object midValue = data[sortIndices[(lowIndex + highIndex) &gt;&gt;&gt; 1]];</span>
+
+<span class="fc" id="L148">		int i = lowIndex - 1;</span>
+<span class="fc" id="L149">		int j = highIndex + 1;</span>
+<span class="fc bfc" id="L150" title="All 2 branches covered.">		int sign = ascending ? 1 : -1;</span>
+
+		for (;;) {
+			do {
+<span class="fc" id="L154">				i++;</span>
+<span class="fc bfc" id="L155" title="All 2 branches covered.">			} while (comparator.compare(data[sortIndices[i]], midValue) * sign &lt; 0);</span>
+
+			do {
+<span class="fc" id="L158">				j--;</span>
+<span class="fc bfc" id="L159" title="All 2 branches covered.">			} while (comparator.compare(data[sortIndices[j]], midValue) * sign &gt; 0);</span>
+
+<span class="fc bfc" id="L161" title="All 2 branches covered.">			if (i &gt;= j) {</span>
+<span class="fc" id="L162">				break; // crossover, good!</span>
+			}
+
+			// Out of order - swap!
+<span class="fc" id="L166">			int temp = sortIndices[i];</span>
+<span class="fc" id="L167">			sortIndices[i] = sortIndices[j];</span>
+<span class="fc" id="L168">			sortIndices[j] = temp;</span>
+<span class="fc" id="L169">		}</span>
+
+		// now determine the split point...
+<span class="fc bfc" id="L172" title="All 2 branches covered.">		if (i &gt; j) {</span>
+<span class="fc" id="L173">			i = j;</span>
+		}
+
+<span class="fc" id="L176">		sortData(data, comparator, ascending, lowIndex, i, sortIndices);</span>
+<span class="fc" id="L177">		sortData(data, comparator, ascending, i + 1, highIndex, sortIndices);</span>
+<span class="fc" id="L178">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

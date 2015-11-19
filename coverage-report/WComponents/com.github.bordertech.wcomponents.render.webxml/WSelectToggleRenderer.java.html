@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WSelectToggleRenderer.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.render.webxml</a> &gt; <span class="el_source">WSelectToggleRenderer.java</span></div><h1>WSelectToggleRenderer.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.render.webxml;
+
+import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.WSelectToggle;
+import com.github.bordertech.wcomponents.WSelectToggle.State;
+import com.github.bordertech.wcomponents.XmlStringBuilder;
+import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
+
+/**
+ * The Renderer for {@link WSelectToggle}.
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ */
+<span class="fc" id="L15">final class WSelectToggleRenderer extends AbstractWebXmlRenderer {</span>
+
+	/**
+	 * Paints the given WSelectToggle.
+	 *
+	 * @param component the WSelectToggle to paint.
+	 * @param renderContext the RenderContext to paint to.
+	 */
+	@Override
+	public void doRender(final WComponent component, final WebXmlRenderContext renderContext) {
+<span class="fc" id="L25">		WSelectToggle toggle = (WSelectToggle) component;</span>
+<span class="fc" id="L26">		XmlStringBuilder xml = renderContext.getWriter();</span>
+
+<span class="fc" id="L28">		xml.appendTagOpen(&quot;ui:selectToggle&quot;);</span>
+<span class="fc" id="L29">		xml.appendAttribute(&quot;id&quot;, component.getId());</span>
+<span class="fc" id="L30">		xml.appendOptionalAttribute(&quot;class&quot;, component.getHtmlClass());</span>
+<span class="fc" id="L31">		xml.appendOptionalAttribute(&quot;track&quot;, component.isTracking(), &quot;true&quot;);</span>
+
+<span class="fc" id="L33">		State state = toggle.getState();</span>
+
+<span class="fc bfc" id="L35" title="All 2 branches covered.">		if (State.ALL.equals(state)) {</span>
+<span class="fc" id="L36">			xml.appendAttribute(&quot;selected&quot;, &quot;all&quot;);</span>
+<span class="fc bfc" id="L37" title="All 2 branches covered.">		} else if (State.NONE.equals(state)) {</span>
+<span class="fc" id="L38">			xml.appendAttribute(&quot;selected&quot;, &quot;none&quot;);</span>
+		} else {
+<span class="fc" id="L40">			xml.appendAttribute(&quot;selected&quot;, &quot;some&quot;);</span>
+		}
+
+<span class="fc" id="L43">		xml.appendOptionalAttribute(&quot;disabled&quot;, toggle.isDisabled(), &quot;true&quot;);</span>
+<span class="fc" id="L44">		xml.appendAttribute(&quot;target&quot;, toggle.getTarget().getId());</span>
+<span class="pc bpc" id="L45" title="1 of 2 branches missed.">		xml.appendAttribute(&quot;renderAs&quot;, toggle.isRenderAsText() ? &quot;text&quot; : &quot;control&quot;);</span>
+<span class="fc bfc" id="L46" title="All 2 branches covered.">		xml.appendOptionalAttribute(&quot;roundTrip&quot;, !toggle.isClientSide(), &quot;true&quot;);</span>
+<span class="fc" id="L47">		xml.appendEnd();</span>
+<span class="fc" id="L48">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

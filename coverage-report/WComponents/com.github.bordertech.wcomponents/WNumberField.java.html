@@ -1,0 +1,513 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WNumberField.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">WNumberField.java</span></div><h1>WNumberField.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import com.github.bordertech.wcomponents.util.InternalMessages;
+import com.github.bordertech.wcomponents.util.SystemException;
+import com.github.bordertech.wcomponents.util.Util;
+import com.github.bordertech.wcomponents.validation.Diagnostic;
+import java.math.BigDecimal;
+import java.util.List;
+
+/**
+ * &lt;p&gt;
+ * A WNumberField is a wcomponent used to display a numeric input field. Use the method &quot;{@link #getValue()}&quot; to get the
+ * number entered into the field by the user.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * Additional methods are available to return the value entered as an integer or decimal value, and there are methods
+ * which can be used to restrict the range of values which are allowed to be entered.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * A number field differs from a text field in the way in which some user agents interact with it. For example,
+ * touchscreen devices may display a numeric data entry pad rather than an alphanumeric keyboard.
+ * &lt;/p&gt;
+ *
+ * @author Yiannis Paschalidis
+ * @author Jonathan Austin
+ * @since 1.0.0
+ */
+<span class="fc" id="L28">public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarget,</span>
+		SubordinateTrigger,
+		SubordinateTarget {
+
+	/**
+	 * @return the number value, or the text entered by the user if there is no valid number.
+	 */
+	@Override
+	public String getValueAsString() {
+<span class="fc" id="L37">		BigDecimal value = getValue();</span>
+<span class="fc bfc" id="L38" title="All 2 branches covered.">		return value == null ? getText() : value.toString();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected boolean doHandleRequest(final Request request) {
+		// Valid Number
+<span class="fc" id="L47">		BigDecimal numberValue = getRequestValue(request);</span>
+
+		// Text entered by the user (An empty string is treated as null)
+<span class="fc" id="L50">		String value = request.getParameter(getId());</span>
+<span class="fc bfc" id="L51" title="All 2 branches covered.">		String text = (Util.empty(value)) ? null : value;</span>
+
+		// Current Value
+<span class="fc" id="L54">		BigDecimal current = getValue();</span>
+
+		boolean changed;
+
+		// If a &quot;valid&quot; number value has not been entered, then check if the &quot;user text&quot; has changed
+<span class="fc bfc" id="L59" title="All 2 branches covered.">		if (numberValue == null) {</span>
+			// User entered text
+<span class="fc bfc" id="L61" title="All 4 branches covered.">			changed = !Util.equals(text, getText()) || current != null;</span>
+		} else {
+			// Valid Number
+<span class="fc bfc" id="L64" title="All 2 branches covered.">			changed = !Util.equals(numberValue, current);</span>
+		}
+
+<span class="fc bfc" id="L67" title="All 2 branches covered.">		if (changed) {</span>
+<span class="fc" id="L68">			setData(numberValue);</span>
+<span class="fc" id="L69">			NumberFieldModel model = getOrCreateComponentModel();</span>
+<span class="fc bfc" id="L70" title="All 4 branches covered.">			model.validNumber = numberValue != null || text == null;</span>
+<span class="fc" id="L71">			model.text = text;</span>
+		}
+
+<span class="fc" id="L74">		return changed;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public BigDecimal getRequestValue(final Request request) {
+<span class="fc bfc" id="L82" title="All 2 branches covered.">		if (isPresent(request)) {</span>
+<span class="fc" id="L83">			String value = request.getParameter(getId());</span>
+			// An empty string is treated as null
+<span class="fc bfc" id="L85" title="All 2 branches covered.">			if (Util.empty(value)) {</span>
+<span class="fc" id="L86">				return null;</span>
+			}
+			// Check number is valid
+			try {
+<span class="fc" id="L90">				return new BigDecimal(value);</span>
+<span class="fc" id="L91">			} catch (NumberFormatException ex) {</span>
+<span class="fc" id="L92">				return null;</span>
+			}
+		} else {
+<span class="fc" id="L95">			return getValue();</span>
+		}
+	}
+
+	/**
+	 * Retrieves the numeric value of this field.
+	 *
+	 * @return the numeric value, or null if the field does not contain a valid number.
+	 */
+	@Override
+	public BigDecimal getValue() {
+<span class="fc" id="L106">		return convertValue(getData());</span>
+	}
+
+	/**
+	 * Attempts to convert a value to a BigDecimal. Throws a SystemException on error.
+	 *
+	 * @param value the value to convert.
+	 * @return the converted value, or null if &lt;code&gt;value&lt;/code&gt; was null/empty.
+	 */
+	private BigDecimal convertValue(final Object value) {
+<span class="fc bfc" id="L116" title="All 2 branches covered.">		if (value == null) {</span>
+<span class="fc" id="L117">			return null;</span>
+<span class="fc bfc" id="L118" title="All 2 branches covered.">		} else if (value instanceof BigDecimal) {</span>
+<span class="fc" id="L119">			return (BigDecimal) value;</span>
+		}
+
+		// Try and convert &quot;String&quot; value
+<span class="fc" id="L123">		String dataString = value.toString();</span>
+<span class="fc bfc" id="L124" title="All 2 branches covered.">		if (Util.empty(dataString)) {</span>
+<span class="fc" id="L125">			return null;</span>
+		}
+
+		try {
+<span class="fc" id="L129">			return new BigDecimal(dataString);</span>
+<span class="fc" id="L130">		} catch (NumberFormatException ex) {</span>
+<span class="fc" id="L131">			throw new SystemException(</span>
+<span class="fc" id="L132">					&quot;Could not convert data of type &quot; + value.getClass() + &quot; with String value &quot;</span>
+					+ dataString + &quot; to BigDecimal&quot;, ex);
+		}
+	}
+
+	// ================================
+	// Attributes
+	/**
+	 * Retrieves the text as entered by the user. This is not necessarily a valid date.
+	 *
+	 * @return the text, as entered by the user.
+	 */
+	public String getText() {
+<span class="fc" id="L145">		return getComponentModel().text;</span>
+	}
+
+	/**
+	 * Indicates whether the text value held in this field is a valid number.
+	 *
+	 * @return true if the field contains text which is a valid number, false otherwise.
+	 */
+	public boolean isValidNumber() {
+<span class="fc" id="L154">		return getComponentModel().validNumber;</span>
+	}
+
+	/**
+	 * Retrieves the numeric value of this field.
+	 *
+	 * @return the numeric value, or null if the field does not contain a valid number.
+	 */
+	public BigDecimal getNumber() {
+<span class="fc" id="L163">		return getValue();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setData(final Object data) {
+		// This override is necessary to maintain other internal state
+<span class="fc" id="L172">		NumberFieldModel model = getOrCreateComponentModel();</span>
+
+		try {
+<span class="fc" id="L175">			super.setData(convertValue(data));</span>
+<span class="fc" id="L176">			model.text = null;</span>
+<span class="fc" id="L177">			model.validNumber = true;</span>
+<span class="fc" id="L178">		} catch (SystemException e) {</span>
+<span class="fc" id="L179">			super.setData(data);</span>
+<span class="fc" id="L180">			model.text = data.toString();</span>
+<span class="fc" id="L181">			model.validNumber = false;</span>
+<span class="fc" id="L182">		}</span>
+<span class="fc" id="L183">	}</span>
+
+	/**
+	 * Sets the value of this number field.
+	 *
+	 * @param value the value to set.
+	 */
+	public void setNumber(final BigDecimal value) {
+<span class="fc" id="L191">		setData(value);</span>
+<span class="fc" id="L192">	}</span>
+
+	/**
+	 * Sets the value of this number field.
+	 *
+	 * @param value the value.
+	 */
+	public void setNumber(final long value) {
+<span class="fc" id="L200">		setNumber(new BigDecimal(value));</span>
+<span class="fc" id="L201">	}</span>
+
+	/**
+	 * Sets the value of this number field.
+	 *
+	 * @param value the value to set.
+	 */
+	public void setNumber(final double value) {
+<span class="fc" id="L209">		setNumber(BigDecimal.valueOf(value));</span>
+<span class="fc" id="L210">	}</span>
+
+	/**
+	 * Sets the value of this number field.
+	 *
+	 * @param value the value.
+	 * @deprecated Use {@link #setNumber(long)}
+	 */
+	@Deprecated
+	public void setValue(final long value) {
+<span class="nc" id="L220">		setNumber(value);</span>
+<span class="nc" id="L221">	}</span>
+
+	/**
+	 * Sets the value of this number field.
+	 *
+	 * @param value the value to set.
+	 * @deprecated Use {@link #setNumber(double)}
+	 */
+	@Deprecated
+	public void setValue(final double value) {
+<span class="nc" id="L231">		setNumber(value);</span>
+<span class="nc" id="L232">	}</span>
+
+	/**
+	 * Retrieves the minimum allowable value for this number field. The minimum value is enforced server-side using the
+	 * WComponent validation framework, and &lt;b&gt;may&lt;/b&gt; be enforced client-side.
+	 *
+	 * @return the minimum allowable value, or null if there is no minimum.
+	 */
+	public BigDecimal getMinValue() {
+<span class="fc" id="L241">		return getComponentModel().minValue;</span>
+	}
+
+	/**
+	 * Sets the minimum allowable value for this number field.
+	 *
+	 * @param minValue the minimum allowable value.
+	 */
+	public void setMinValue(final long minValue) {
+<span class="fc" id="L250">		setMinValue(BigDecimal.valueOf(minValue));</span>
+<span class="fc" id="L251">	}</span>
+
+	/**
+	 * Sets the minimum allowable value for this number field.
+	 *
+	 * @param minValue the minimum allowable value.
+	 */
+	public void setMinValue(final double minValue) {
+<span class="fc" id="L259">		setMinValue(BigDecimal.valueOf(minValue));</span>
+<span class="fc" id="L260">	}</span>
+
+	/**
+	 * Sets the minimum allowable value for this number field.
+	 *
+	 * @param minValue the minimum allowable value, or null for no minimum.
+	 */
+	public void setMinValue(final BigDecimal minValue) {
+<span class="fc" id="L268">		getOrCreateComponentModel().minValue = minValue;</span>
+<span class="fc" id="L269">	}</span>
+
+	/**
+	 * Retrieves the maximum allowable value for this number field. The minimum value is enforced server-side using the
+	 * WComponent validation framework, and &lt;b&gt;may&lt;/b&gt; be enforced client-side.
+	 *
+	 * @return the maximum allowable value, or null if there is no maximum.
+	 */
+	public BigDecimal getMaxValue() {
+<span class="fc" id="L278">		return getComponentModel().maxValue;</span>
+	}
+
+	/**
+	 * Sets the maximum allowable value for this number field.
+	 *
+	 * @param maxValue the maximum allowable value.
+	 */
+	public void setMaxValue(final long maxValue) {
+<span class="fc" id="L287">		setMaxValue(BigDecimal.valueOf(maxValue));</span>
+<span class="fc" id="L288">	}</span>
+
+	/**
+	 * Sets the maximum allowable value for this number field.
+	 *
+	 * @param maxValue the maximum allowable value.
+	 */
+	public void setMaxValue(final double maxValue) {
+<span class="fc" id="L296">		setMaxValue(BigDecimal.valueOf(maxValue));</span>
+<span class="fc" id="L297">	}</span>
+
+	/**
+	 * Sets the maximum allowable value for this number field.
+	 *
+	 * @param maxValue the maximum allowable value, or null for no maximum.
+	 */
+	public void setMaxValue(final BigDecimal maxValue) {
+<span class="fc" id="L305">		getOrCreateComponentModel().maxValue = maxValue;</span>
+<span class="fc" id="L306">	}</span>
+
+	/**
+	 * Retrieves the step value for this number field. The step may be used by some user agents to provide a convenient
+	 * increment/decrement function, such to a spinner control.
+	 *
+	 * @return the step value, or null if there is no step value set.
+	 */
+	public BigDecimal getStep() {
+<span class="fc" id="L315">		return getComponentModel().step;</span>
+	}
+
+	/**
+	 * Sets the step value for this field.
+	 *
+	 * @param step the step value.
+	 */
+	public void setStep(final long step) {
+<span class="fc" id="L324">		setStep(BigDecimal.valueOf(step));</span>
+<span class="fc" id="L325">	}</span>
+
+	/**
+	 * Sets the step value for this field.
+	 *
+	 * @param step the step value.
+	 */
+	public void setStep(final double step) {
+<span class="fc" id="L333">		setStep(BigDecimal.valueOf(step));</span>
+<span class="fc" id="L334">	}</span>
+
+	/**
+	 * Sets the step value for this field.
+	 *
+	 * @param step the step value, or null to use the default step.
+	 */
+	public void setStep(final BigDecimal step) {
+<span class="fc" id="L342">		getOrCreateComponentModel().step = step;</span>
+<span class="fc" id="L343">	}</span>
+
+	/**
+	 * Retrieves the number of decimal places to use for this number field. A value of zero indicates that the fields
+	 * should only accept integer values.
+	 *
+	 * @return the number of decimal places to use.
+	 */
+	public int getDecimalPlaces() {
+<span class="fc" id="L352">		return getComponentModel().decimalPlaces;</span>
+	}
+
+	/**
+	 * Sets the number of decimal places to use for this field.
+	 *
+	 * @param decimalPlaces the number of decimal places.
+	 */
+	public void setDecimalPlaces(final int decimalPlaces) {
+<span class="fc bfc" id="L361" title="All 2 branches covered.">		if (decimalPlaces &lt; 0) {</span>
+<span class="fc" id="L362">			throw new IllegalArgumentException(&quot;Decimal places must be &gt;= 0&quot;);</span>
+		}
+
+<span class="fc" id="L365">		getOrCreateComponentModel().decimalPlaces = decimalPlaces;</span>
+<span class="fc" id="L366">	}</span>
+
+	/**
+	 * @return the width of the input field in characters.
+	 */
+	public int getColumns() {
+<span class="fc" id="L372">		return getComponentModel().columns;</span>
+	}
+
+	/**
+	 * Sets the width of the input field in characters.
+	 *
+	 * @param columns the number of characters to display.
+	 */
+	public void setColumns(final int columns) {
+<span class="fc" id="L381">		getOrCreateComponentModel().columns = columns;</span>
+<span class="fc" id="L382">	}</span>
+
+	/**
+	 * Override WInput's validateComponent to perform futher validation on email addresses.
+	 *
+	 * @param diags the list into which any validation diagnostics are added.
+	 */
+	@Override
+	protected void validateComponent(final List&lt;Diagnostic&gt; diags) {
+<span class="fc" id="L391">		super.validateComponent(diags);</span>
+<span class="pc bpc" id="L392" title="1 of 2 branches missed.">		if (isValidNumber()) {</span>
+<span class="fc" id="L393">			validateNumber(diags);</span>
+		} else {
+<span class="nc" id="L395">			diags.</span>
+<span class="nc" id="L396">					add(createErrorDiagnostic(InternalMessages.DEFAULT_VALIDATION_ERROR_INVALID,</span>
+							this));
+		}
+
+<span class="fc" id="L400">	}</span>
+
+	/**
+	 * &lt;p&gt;
+	 * Performs validation of the number. Validation ensures that the entered text is a valid number, and is between the
+	 * minimum/maximum values (if applicable).
+	 * &lt;/p&gt;
+	 * &lt;p&gt;
+	 * Subclasses can override this method to perform more specific validation.
+	 * &lt;/p&gt;
+	 *
+	 * @param diags the list into which any validation diagnostics are added.
+	 */
+	protected void validateNumber(final List&lt;Diagnostic&gt; diags) {
+<span class="fc" id="L414">		BigDecimal value = getValue();</span>
+<span class="fc bfc" id="L415" title="All 2 branches covered.">		if (value == null) {</span>
+<span class="fc" id="L416">			return;</span>
+		}
+<span class="fc" id="L418">		BigDecimal min = getComponentModel().minValue;</span>
+<span class="fc" id="L419">		BigDecimal max = getComponentModel().maxValue;</span>
+
+<span class="fc" id="L421">		int decimals = getComponentModel().decimalPlaces;</span>
+
+<span class="fc bfc" id="L423" title="All 4 branches covered.">		if (min != null &amp;&amp; value.compareTo(min) &lt; 0) {</span>
+<span class="fc" id="L424">			diags.add(createErrorDiagnostic(InternalMessages.DEFAULT_VALIDATION_ERROR_MIN_VALUE,</span>
+					this, min));
+		}
+
+<span class="fc bfc" id="L428" title="All 4 branches covered.">		if (max != null &amp;&amp; value.compareTo(max) &gt; 0) {</span>
+<span class="fc" id="L429">			diags.add(createErrorDiagnostic(InternalMessages.DEFAULT_VALIDATION_ERROR_MAX_VALUE,</span>
+					this, max));
+		}
+
+<span class="fc bfc" id="L433" title="All 2 branches covered.">		if (value.scale() &gt; decimals) {</span>
+<span class="fc" id="L434">			diags.add(createErrorDiagnostic(</span>
+					InternalMessages.DEFAULT_VALIDATION_ERROR_MAX_DECIMAL_PLACES, this,
+<span class="fc" id="L436">					decimals));</span>
+		}
+
+<span class="fc" id="L439">	}</span>
+
+	/**
+	 * Creates a new NumberFieldModel holds Extrinsic state management of the field.
+	 *
+	 * @return a new NumberFieldModel
+	 */
+	@Override
+	protected NumberFieldModel newComponentModel() {
+<span class="fc" id="L448">		return new NumberFieldModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	// For type safety only
+	protected NumberFieldModel getComponentModel() {
+<span class="fc" id="L457">		return (NumberFieldModel) super.getComponentModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	// For type safety only
+	protected NumberFieldModel getOrCreateComponentModel() {
+<span class="fc" id="L466">		return (NumberFieldModel) super.getOrCreateComponentModel();</span>
+	}
+
+	/**
+	 * NumberFieldModel holds Extrinsic state management of the field.
+	 *
+	 * @author Yiannis Paschalidis
+	 */
+<span class="fc" id="L474">	public static class NumberFieldModel extends InputModel {</span>
+
+		/**
+		 * The number of columns to display for the field.
+		 */
+		private int columns;
+
+		/**
+		 * The minimum value to allow.
+		 */
+		private BigDecimal minValue;
+
+		/**
+		 * The maximum value to allow.
+		 */
+		private BigDecimal maxValue;
+
+		/**
+		 * The &quot;step&quot; value used for increment/decrement.
+		 */
+		private BigDecimal step;
+
+		/**
+		 * The maximum number of decimal places to display/enter, defaults to zero (integer).
+		 */
+		private int decimalPlaces;
+
+		/**
+		 * The text entered by the user.
+		 */
+		private String text;
+
+		/**
+		 * Flag to indicate if the text entered is a valid partial date.
+		 */
+<span class="fc" id="L509">		private boolean validNumber = true;</span>
+
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

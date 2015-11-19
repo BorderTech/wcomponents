@@ -1,0 +1,492 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>UIContextImpl.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">UIContextImpl.java</span></div><h1>UIContextImpl.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import com.github.bordertech.wcomponents.util.Duplet;
+import com.github.bordertech.wcomponents.util.TreeUtil;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
+
+/**
+ * UIContextImpl - implementation of {@link UIContext}.
+ *
+ * @author Martin Shevchenko
+ * @since 1.0.0
+ */
+<span class="fc" id="L18">public class UIContextImpl implements UIContext {</span>
+
+	/**
+	 * The environment to use when an environment hasn't been supplied.
+	 */
+<span class="fc" id="L23">	private static final DummyEnvironment DUMMY = new DummyEnvironment();</span>
+
+	/**
+	 * The root component for this context.
+	 */
+	private WComponent ui;
+
+	/**
+	 * The UIContext's creation time.
+	 */
+<span class="fc" id="L33">	private final long creationTime = System.currentTimeMillis();</span>
+
+	/**
+	 * A map of component models, keyed by the component that they belong to.
+	 */
+<span class="fc" id="L38">	private final Map&lt;WebComponent, WebModel&gt; map = new HashMap&lt;&gt;();</span>
+
+	/**
+	 * A map of temporary maps, keyed by the components using them.
+	 */
+	private Map&lt;WComponent, Map&lt;Object, Object&gt;&gt; scratchMaps;
+
+	/**
+	 * The framework attribute map.
+	 */
+	private Map&lt;String, Object&gt; attribMap;
+
+	/**
+	 * The environment which this context is running in.
+	 */
+	private Environment environment;
+
+	/**
+	 * A list of runnables to invoke later (near the end of processing the current request).
+	 */
+	private transient List&lt;Duplet&lt;UIContext, Runnable&gt;&gt; invokeLaterRunnables;
+
+	/**
+	 * The component which needs to be given focus.
+	 */
+	private transient WComponent focussed;
+
+	/**
+	 * The locale for this context.
+	 */
+	private Locale locale;
+
+	/**
+	 * The context of the component which needs to be given focus.
+	 *
+	 * This is necessary to cater for repeaters, which used the same component, but have a different context per row.
+	 */
+	private transient UIContext focussedUIC;
+
+	/**
+	 * Indicates whether keyboard focus needs to be set to a particular component.
+	 */
+<span class="fc" id="L80">	private transient boolean focusRequired = false;</span>
+
+	private transient Headers headers;
+
+	/**
+	 * For use by internal framework code only. Sets the top level web component for this context.
+	 *
+	 * @param topUi the top level web component for this context.
+	 */
+	@Override
+	public void setUI(final WComponent topUi) {
+<span class="fc" id="L91">		this.ui = topUi;</span>
+<span class="fc" id="L92">	}</span>
+
+	/**
+	 * @return the top level web component for which is context applies.
+	 */
+	@Override
+	public WComponent getUI() {
+<span class="fc" id="L99">		return ui;</span>
+	}
+
+	/**
+	 * Get the extrinsic state information for the given component.
+	 *
+	 * @param component the component to get the model for.
+	 * @return the component's model.
+	 */
+	@Override
+	public WebModel getModel(final WebComponent component) {
+<span class="fc" id="L110">		return map.get(component);</span>
+	}
+
+	/**
+	 * Stores the extrinsic state information for the given component.
+	 *
+	 * @param component the component to set the model for.
+	 * @param model the model to set.
+	 */
+	@Override
+	public void setModel(final WebComponent component, final WebModel model) {
+<span class="fc" id="L121">		map.put(component, model);</span>
+<span class="fc" id="L122">	}</span>
+
+	/**
+	 * Removes the extrinsic state information for the given component. Note that this is not recursive for the
+	 * children.
+	 *
+	 * @param component the component to remove the model for.
+	 */
+	@Override
+	public void removeModel(final WebComponent component) {
+<span class="fc" id="L132">		map.remove(component);</span>
+<span class="fc" id="L133">	}</span>
+
+	/**
+	 * @return the set of WComponents that are storing a model.
+	 */
+	@Override
+	public Set&lt;WebComponent&gt; getComponents() {
+<span class="fc" id="L140">		return map.keySet();</span>
+	}
+
+	/**
+	 * Explicitly set the environment.
+	 *
+	 * @param environment the environment to set.
+	 */
+	@Override
+	public void setEnvironment(final Environment environment) {
+<span class="fc" id="L150">		this.environment = environment;</span>
+<span class="fc" id="L151">	}</span>
+
+	/**
+	 * If an environment has been set, it is returned. Otherwise a dummy environment is returned.
+	 *
+	 * @return the current environment.
+	 */
+	@Override
+	public Environment getEnvironment() {
+<span class="fc bfc" id="L160" title="All 2 branches covered.">		if (environment == null) {</span>
+<span class="fc" id="L161">			return DUMMY;</span>
+		}
+
+<span class="fc" id="L164">		return environment;</span>
+	}
+
+	/**
+	 * @return true if the current environment is a 'dummy' environment.
+	 */
+	@Override
+	public boolean isDummyEnvironment() {
+<span class="fc bfc" id="L172" title="All 2 branches covered.">		return environment == null;</span>
+	}
+
+	/**
+	 * Adds a runnable to the list of runnables to be invoked later.
+	 *
+	 * @param runnable the runnable to add
+	 */
+	@Override
+	public void invokeLater(final Runnable runnable) {
+<span class="fc" id="L182">		invokeLater(this, runnable);</span>
+<span class="fc" id="L183">	}</span>
+
+	/**
+	 * Adds a runnable to the list of runnables to be invoked later.
+	 *
+	 * @param uic the UIContext to invoke the runnable in.
+	 * @param runnable the runnable to add
+	 */
+	@Override
+	public void invokeLater(final UIContext uic, final Runnable runnable) {
+<span class="fc bfc" id="L193" title="All 2 branches covered.">		if (invokeLaterRunnables == null) {</span>
+<span class="fc" id="L194">			invokeLaterRunnables = new ArrayList&lt;&gt;();</span>
+		}
+
+<span class="fc" id="L197">		invokeLaterRunnables.add(new Duplet&lt;&gt;(uic, runnable));</span>
+<span class="fc" id="L198">	}</span>
+
+	/**
+	 * Runs the runnables that were added using {@link #invokeLater(Runnable)}.
+	 */
+	@Override
+	public void doInvokeLaters() {
+<span class="fc bfc" id="L205" title="All 2 branches covered.">		if (invokeLaterRunnables == null) {</span>
+<span class="fc" id="L206">			return;</span>
+		}
+
+		// The Runnables we are about to run may add their own invoke later
+		// runnables, so
+		// loop to make sure we process them all.
+<span class="fc bfc" id="L212" title="All 2 branches covered.">		while (!invokeLaterRunnables.isEmpty()) {</span>
+<span class="fc" id="L213">			List&lt;Duplet&lt;UIContext, Runnable&gt;&gt; runnables = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L214">			runnables.addAll(invokeLaterRunnables);</span>
+<span class="fc" id="L215">			invokeLaterRunnables.clear();</span>
+
+<span class="fc bfc" id="L217" title="All 2 branches covered.">			for (Duplet&lt;UIContext, Runnable&gt; run : runnables) {</span>
+<span class="fc" id="L218">				UIContextHolder.pushContext(run.getFirst());</span>
+
+				try {
+<span class="fc" id="L221">					run.getSecond().run();</span>
+				} finally {
+<span class="fc" id="L223">					UIContextHolder.popContext();</span>
+<span class="fc" id="L224">				}</span>
+<span class="fc" id="L225">			}</span>
+<span class="fc" id="L226">		}</span>
+<span class="fc" id="L227">	}</span>
+
+	/**
+	 * @return the focussed component for this UI.
+	 */
+	@Override
+	public WComponent getFocussed() {
+<span class="fc" id="L234">		return focussed;</span>
+	}
+
+	/**
+	 * Sets the component in this UIC which is to be the focus of the client browser cursor. The id of the component is
+	 * used to find the focussed element in the rendered html.
+	 *
+	 * @param component the component that sould be the cursor focus in the rendered UI.
+	 */
+	@Override
+	public void setFocussed(final WComponent component) {
+<span class="fc" id="L245">		focussed = component;</span>
+<span class="fc" id="L246">	}</span>
+
+	/**
+	 * Sets the component in this UIC which is to be the focus of the client browser cursor. The id of the component is
+	 * used to find the focussed element in the rendered html. Since id could be different in different contexts the
+	 * context of the component is also needed.
+	 *
+	 * @param component - the component that sould be the cursor focus in the rendered UI.
+	 * @param uic - the context that the component exists in.
+	 */
+	@Override
+	public void setFocussed(final WComponent component, final UIContext uic) {
+<span class="fc" id="L258">		this.focussed = component;</span>
+<span class="fc" id="L259">		this.focussedUIC = uic;</span>
+<span class="fc" id="L260">	}</span>
+
+	/**
+	 * @return the unique id of the focused component for this UI.
+	 */
+	@Override
+	public String getFocussedId() {
+		// No focused
+<span class="fc bfc" id="L268" title="All 2 branches covered.">		if (focussed == null) {</span>
+<span class="fc" id="L269">			return null;</span>
+		}
+
+		// Check there is an active context and a UI set
+<span class="fc" id="L273">		UIContext cuic = UIContextHolder.getCurrent();</span>
+<span class="pc bpc" id="L274" title="1 of 4 branches missed.">		if (cuic == null || cuic.getUI() == null) {</span>
+<span class="fc" id="L275">			return null;</span>
+		}
+
+<span class="fc bfc" id="L278" title="All 2 branches covered.">		UIContext fuic = (focussedUIC == null) ? this : focussedUIC;</span>
+<span class="fc bfc" id="L279" title="All 2 branches covered.">		boolean differentFocusContext = fuic != cuic;</span>
+
+<span class="fc bfc" id="L281" title="All 2 branches covered.">		if (differentFocusContext) {</span>
+<span class="fc" id="L282">			UIContextHolder.pushContext(fuic);</span>
+		}
+
+		String id;
+
+		try {
+<span class="fc bfc" id="L288" title="All 2 branches covered.">			if (focussed.isHidden()) {</span>
+<span class="fc" id="L289">				return null;</span>
+<span class="fc bfc" id="L290" title="All 4 branches covered.">			} else if (focussed instanceof Input &amp;&amp; ((Input) focussed).isReadOnly()) {</span>
+<span class="fc" id="L291">				return null;</span>
+<span class="fc bfc" id="L292" title="All 4 branches covered.">			} else if (focussed instanceof Disableable &amp;&amp; ((Disableable) focussed).isDisabled()) {</span>
+<span class="fc" id="L293">				return null;</span>
+			}
+
+<span class="fc" id="L296">			id = focussed.getId();</span>
+		} finally {
+<span class="pc bpc" id="L298" title="5 of 10 branches missed.">			if (differentFocusContext) {</span>
+<span class="pc" id="L299">				UIContextHolder.popContext();</span>
+			}
+		}
+
+		// Check id is focusable
+<span class="fc" id="L304">		WComponent root = cuic.getUI();</span>
+<span class="fc bfc" id="L305" title="All 2 branches covered.">		if (TreeUtil.isIdFocusable(root, id)) {</span>
+<span class="fc" id="L306">			return id;</span>
+		}
+
+<span class="fc" id="L309">		return null;</span>
+	}
+
+	/**
+	 * Sets whether a component needs to be given focus.
+	 *
+	 * @param focusRequired true if focus is required, false otherwise.
+	 *
+	 * @see #setFocussed(WComponent, UIContext)
+	 */
+	@Override
+	public void setFocusRequired(final boolean focusRequired) {
+<span class="fc" id="L321">		this.focusRequired = focusRequired;</span>
+<span class="fc" id="L322">	}</span>
+
+	/**
+	 * Indicates whether a component needs to be given focus.
+	 *
+	 * @return true if focus needs to be set.
+	 *
+	 * @see #setFocussed(WComponent, UIContext)
+	 */
+	@Override
+	public boolean isFocusRequired() {
+<span class="fc" id="L333">		return focusRequired;</span>
+	}
+
+	/**
+	 * Reserved for internal framework use. Retrieves a framework attribute.
+	 *
+	 * @param name the attribute name.
+	 * @return the framework attribute with the given name.
+	 */
+	@Override
+	public Object getFwkAttribute(final String name) {
+<span class="pc bpc" id="L344" title="1 of 2 branches missed.">		if (attribMap == null) {</span>
+<span class="nc" id="L345">			return null;</span>
+		}
+<span class="fc" id="L347">		return attribMap.get(name);</span>
+	}
+
+	/**
+	 * Reserved for internal framework use. Sets a framework attribute.
+	 *
+	 * @param name the attribute name.
+	 * @param value the attribute value.
+	 */
+	@Override
+	public void setFwkAttribute(final String name, final Object value) {
+<span class="fc bfc" id="L358" title="All 2 branches covered.">		if (attribMap == null) {</span>
+<span class="fc" id="L359">			attribMap = new HashMap&lt;&gt;();</span>
+		}
+
+<span class="fc" id="L362">		attribMap.put(name, value);</span>
+<span class="fc" id="L363">	}</span>
+
+	/**
+	 * Reserved for internal framework use. Removes a framework attribute.
+	 *
+	 * @param name the attribute name.
+	 */
+	@Override
+	public void removeFwkAttribute(final String name) {
+<span class="pc bpc" id="L372" title="1 of 2 branches missed.">		if (attribMap != null) {</span>
+<span class="fc" id="L373">			attribMap.remove(name);</span>
+		}
+<span class="fc" id="L375">	}</span>
+
+	/**
+	 * Reserved for internal framework use.
+	 *
+	 * @return the names of all attributes bound to this context, or null if there are no attributes.
+	 */
+	@Override
+	public Set&lt;String&gt; getFwkAttributeNames() {
+<span class="pc bpc" id="L384" title="1 of 2 branches missed.">		if (attribMap != null) {</span>
+<span class="fc" id="L385">			return attribMap.keySet();</span>
+		}
+
+<span class="nc" id="L388">		return null;</span>
+	}
+
+	/**
+	 * Reserved for internal framework use. Retrieves a scratch area, where data can be temporarily stored. WComponents
+	 * must not rely on data being available in the scratch area after each phase.
+	 *
+	 * @param component the component to retrieve the scratch map for.
+	 * @return the scratch map for the given component.
+	 */
+	@Override
+	public Map&lt;Object, Object&gt; getScratchMap(final WComponent component) {
+<span class="fc bfc" id="L400" title="All 2 branches covered.">		if (scratchMaps == null) {</span>
+<span class="fc" id="L401">			scratchMaps = new HashMap&lt;&gt;();</span>
+		}
+
+<span class="fc" id="L404">		Map&lt;Object, Object&gt; componentScratchMap = scratchMaps.get(component);</span>
+
+<span class="fc bfc" id="L406" title="All 2 branches covered.">		if (componentScratchMap == null) {</span>
+<span class="fc" id="L407">			componentScratchMap = new HashMap&lt;&gt;(2);</span>
+<span class="fc" id="L408">			scratchMaps.put(component, componentScratchMap);</span>
+		}
+
+<span class="fc" id="L411">		return componentScratchMap;</span>
+	}
+
+	/**
+	 * Reserved for internal framework use. Clears the scratch map for the given component.
+	 *
+	 * @param component the component to clear the scratch map for.
+	 */
+	@Override
+	public void clearScratchMap(final WComponent component) {
+<span class="fc bfc" id="L421" title="All 2 branches covered.">		if (scratchMaps != null) {</span>
+<span class="fc" id="L422">			scratchMaps.remove(component);</span>
+		}
+<span class="fc" id="L424">	}</span>
+
+	/**
+	 * Reserved for internal framework use. Clears the scratch map.
+	 */
+	@Override
+	public void clearScratchMap() {
+<span class="fc bfc" id="L431" title="All 2 branches covered.">		if (scratchMaps != null) {</span>
+<span class="fc" id="L432">			scratchMaps.clear();</span>
+<span class="fc" id="L433">			scratchMaps = null;</span>
+		}
+<span class="fc" id="L435">	}</span>
+
+	/**
+	 * @return the creation time of this UIContext.
+	 */
+	@Override
+	public long getCreationTime() {
+<span class="fc" id="L442">		return creationTime;</span>
+	}
+
+	/**
+	 * The DummyEnvironment is used when an environment hasn't been explicitly supplied.
+	 *
+	 * @author Martin Shevchenko
+	 */
+<span class="fc" id="L450">	private static final class DummyEnvironment extends AbstractEnvironment {</span>
+
+		/**
+		 * Creates a DummyEnvironment.
+		 */
+<span class="fc" id="L455">		private DummyEnvironment() {</span>
+<span class="fc" id="L456">			setPostPath(&quot;unknown&quot;);</span>
+<span class="fc" id="L457">			setAppHostPath(&quot;unknown&quot;);</span>
+<span class="fc" id="L458">			setBaseUrl(&quot;unknown&quot;);</span>
+<span class="fc" id="L459">			setHostFreeBaseUrl(&quot;unknown&quot;);</span>
+<span class="fc" id="L460">			setUserAgentInfo(new UserAgentInfo());</span>
+<span class="fc" id="L461">		}</span>
+	}
+
+	/**
+	 * @return the WHeaders instance for this context.
+	 */
+	@Override
+	public Headers getHeaders() {
+<span class="fc bfc" id="L469" title="All 2 branches covered.">		if (headers == null) {</span>
+<span class="fc" id="L470">			headers = new HeadersImpl();</span>
+		}
+
+<span class="fc" id="L473">		return headers;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Locale getLocale() {
+<span class="fc" id="L481">		return locale;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setLocale(final Locale locale) {
+<span class="fc" id="L489">		this.locale = locale;</span>
+<span class="fc" id="L490">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

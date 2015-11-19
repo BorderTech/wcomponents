@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WTableColumn.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">WTableColumn.java</span></div><h1>WTableColumn.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+/**
+ * WTableColumn represents a column in a {@link WDataTable}. It only holds configuration and state information relating
+ * to the UI, and does not know about the data model.
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ */
+public final class WTableColumn extends AbstractContainer {
+
+	/**
+	 * The renderer class that will be used to render row data for this column.
+	 */
+	private final Class&lt;? extends WComponent&gt; rendererClass;
+
+	/**
+	 * The renderer that will be used to render row data for this column.
+	 */
+	private final WComponent renderer;
+
+	/**
+	 * The table column heading, which may contain complex content.
+	 */
+	private final WDecoratedLabel label;
+
+	/**
+	 * An enumeration of possible values for horizontal alignment of table column content.
+	 */
+<span class="pc" id="L30">	public enum Alignment {</span>
+		/**
+		 * Indicates that content should be left-aligned. This is the default alignment.
+		 */
+<span class="fc" id="L34">		LEFT,</span>
+		/**
+		 * Indicates that content should be horizontally centered in the column.
+		 */
+<span class="fc" id="L38">		CENTER,</span>
+		/**
+		 * Indicates that content should be right-aligned.
+		 */
+<span class="fc" id="L42">		RIGHT</span>
+	}
+
+	/**
+	 * Creates a WTableColumn.
+	 *
+	 * @param heading the column heading text.
+	 * @param rendererClass the renderer class for rendering row data.
+	 */
+	public WTableColumn(final String heading, final Class&lt;? extends WComponent&gt; rendererClass) {
+<span class="fc" id="L52">		this(new WDecoratedLabel(heading), rendererClass);</span>
+<span class="fc" id="L53">	}</span>
+
+	/**
+	 * Creates a WTableColumn.
+	 *
+	 * @param label the column heading.
+	 * @param rendererClass the renderer class for rendering row data.
+	 */
+<span class="fc" id="L61">	public WTableColumn(final WDecoratedLabel label, final Class&lt;? extends WComponent&gt; rendererClass) {</span>
+<span class="fc" id="L62">		add(label);</span>
+
+<span class="fc" id="L64">		this.label = label;</span>
+<span class="fc" id="L65">		this.rendererClass = rendererClass;</span>
+<span class="fc" id="L66">		this.renderer = null;</span>
+<span class="fc" id="L67">	}</span>
+
+	/**
+	 * Creates a WTableColumn.
+	 *
+	 * @param heading the column heading text.
+	 * @param renderer the component for rendering row data.
+	 */
+	public WTableColumn(final String heading, final WComponent renderer) {
+<span class="fc" id="L76">		this(new WDecoratedLabel(heading), renderer);</span>
+<span class="fc" id="L77">	}</span>
+
+	/**
+	 * Creates a WTableColumn.
+	 *
+	 * @param label the column heading.
+	 * @param renderer the component for rendering row data.
+	 */
+<span class="fc" id="L85">	public WTableColumn(final WDecoratedLabel label, final WComponent renderer) {</span>
+<span class="fc" id="L86">		add(label);</span>
+
+<span class="fc" id="L88">		this.label = label;</span>
+<span class="fc" id="L89">		this.renderer = renderer;</span>
+<span class="fc" id="L90">		this.rendererClass = renderer.getClass();</span>
+<span class="fc" id="L91">	}</span>
+
+	/**
+	 * @return the renderer class that will be used to render row data for this column.
+	 */
+	public Class&lt;? extends WComponent&gt; getRendererClass() {
+<span class="fc" id="L97">		return rendererClass;</span>
+	}
+
+	/**
+	 * @return the renderer that will be used to render row data for this column.
+	 */
+	public WComponent getRenderer() {
+<span class="fc" id="L104">		return renderer;</span>
+	}
+
+	/**
+	 * Returns the heading text for this column, in the case that the heading does not contain complex content.
+	 *
+	 * @return the heading text, if available, otherwise null.
+	 * @see WDecoratedLabel#getText()
+	 */
+	public String getHeadingText() {
+<span class="nc" id="L114">		return label.getText();</span>
+	}
+
+	/**
+	 * Retrieves the column width, if set.
+	 *
+	 * @return the column width
+	 */
+	public int getWidth() {
+<span class="fc" id="L123">		return getComponentModel().width;</span>
+	}
+
+	/**
+	 * Sets the column width.
+	 *
+	 * @param width the column width as a percentage, or &amp;lt;= 0 for default width.
+	 */
+	public void setWidth(final int width) {
+<span class="fc bfc" id="L132" title="All 2 branches covered.">		if (width &gt; 100) {</span>
+<span class="fc" id="L133">			throw new IllegalArgumentException(</span>
+					&quot;Width (&quot; + width + &quot;) cannot be greater than 100 percent&quot;);
+		}
+<span class="fc" id="L136">		getOrCreateComponentModel().width = Math.max(0, width);</span>
+<span class="fc" id="L137">	}</span>
+
+	/**
+	 * Retrieves the column alignment.
+	 *
+	 * @return the column alignment
+	 */
+	public Alignment getAlign() {
+<span class="fc" id="L145">		return getComponentModel().align;</span>
+	}
+
+	/**
+	 * Sets the column alignment.
+	 *
+	 * @param align the column alignment.
+	 */
+	public void setAlign(final Alignment align) {
+<span class="fc" id="L154">		getOrCreateComponentModel().align = align;</span>
+<span class="fc" id="L155">	}</span>
+
+	/**
+	 * @return the label for this column
+	 */
+	public WDecoratedLabel getColumnLabel() {
+<span class="nc" id="L161">		return label;</span>
+	}
+
+	/**
+	 * @return a String representation of this component, for debugging purposes.
+	 */
+	@Override
+	public String toString() {
+<span class="nc" id="L169">		String text = label.getText();</span>
+<span class="nc bnc" id="L170" title="All 2 branches missed.">		text = text == null ? &quot;null&quot; : ('&quot;' + text + '&quot;');</span>
+<span class="nc" id="L171">		return toString(text, -1, -1);</span>
+	}
+
+	/**
+	 * Creates a new Component model appropriate for this component.
+	 *
+	 * @return a new WTableColumnModel.
+	 */
+	@Override
+	protected WTableColumnModel newComponentModel() {
+<span class="fc" id="L181">		return new WTableColumnModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override // For type safety only
+	protected WTableColumnModel getOrCreateComponentModel() {
+<span class="fc" id="L189">		return (WTableColumnModel) super.getOrCreateComponentModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override // For type safety only
+	protected WTableColumnModel getComponentModel() {
+<span class="fc" id="L197">		return (WTableColumnModel) super.getComponentModel();</span>
+	}
+
+	/**
+	 * The component model that holds the column's state.
+	 *
+	 * @author Yiannis Paschalidis
+	 */
+<span class="fc" id="L205">	public static class WTableColumnModel extends ComponentModel {</span>
+
+		private int width;
+		private Alignment align;
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

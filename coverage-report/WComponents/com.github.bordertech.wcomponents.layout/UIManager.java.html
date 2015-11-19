@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>UIManager.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.layout</a> &gt; <span class="el_source">UIManager.java</span></div><h1>UIManager.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.layout;
+
+import com.github.bordertech.wcomponents.AbstractWComponent;
+import com.github.bordertech.wcomponents.RenderContext;
+import com.github.bordertech.wcomponents.Renderer;
+import com.github.bordertech.wcomponents.RendererFactory;
+import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.render.webxml.VelocityRenderer;
+import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
+import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.Duplet;
+import com.github.bordertech.wcomponents.util.NullWriter;
+import com.github.bordertech.wcomponents.util.SystemException;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+/**
+ * The UIManager provides a mechanism for client applications to use different Renderers, without having to specify a
+ * renderer on a per-component basis.
+ *
+ * Renderers are assigned in the following order of preference:
+ * &lt;ol&gt;
+ * &lt;li&gt;
+ * An application-specific renderer for the component. This is configured using application parameters, e.g. for a WText
+ * component a Renderer would be specified as:
+ * &lt;code&gt;bordertech.wcomponents.UIManager.renderer.com.github.bordertech.wcomponents.WText=com.github.myApp.render.MyTextRenderer&lt;/code&gt;
+ * &lt;/li&gt;
+ * &lt;li&gt;
+ * A package implementation for the component, for the current RenderContext in use. This is controlled by the
+ * {@link RenderContext#getRenderPackage()} method, which specifies the package name. The UIManager expects that each
+ * renderer package includes a {@link RendererFactory} implementation which knows how to create a specific renderer for
+ * a component. The RendererFactory class for each package must be named &quot;RendererFactory&quot;.
+ * &lt;/li&gt;
+ * &lt;li&gt;
+ * As for the first two options, but for the class's parent class (then grand-parent etc., repeated until the
+ * {@link WComponent} class is reached).
+ * &lt;/li&gt;
+ * &lt;/ol&gt;
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ */
+public final class UIManager implements PropertyChangeListener {
+
+	/**
+	 * {@link Config Configuration} parameters key prefix for retrieving Renderer overrides.
+	 */
+	private static final String PARAM_KEY_OVERRIDE_PREFIX = &quot;bordertech.wcomponents.UIManager.renderer.&quot;;
+
+	/**
+	 * The logger instance for this class.
+	 */
+<span class="fc" id="L58">	private static final Log LOG = LogFactory.getLog(UIManager.class);</span>
+
+	/**
+	 * Singleton instance.
+	 */
+<span class="fc" id="L63">	private static final UIManager INSTANCE = new UIManager();</span>
+
+	/**
+	 * Marker Layout instance for when no layout was found.
+	 */
+<span class="fc" id="L68">	private static final Renderer NULL_RENDERER = new Renderer() {</span>
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public void render(final WComponent component, final RenderContext renderContext) {
+			// NO-OP
+<span class="nc" id="L75">		}</span>
+	};
+
+	/**
+	 * A cache of component Renderers keyed by WComponent classes. This cache must be flushed if the
+	 * {@link Config configuration} is changed.
+	 */
+<span class="fc" id="L82">	private final Map&lt;Duplet&lt;String, Class&lt;?&gt;&gt;, Renderer&gt; renderers = new HashMap&lt;&gt;();</span>
+
+	/**
+	 * A cache of template Renderers keyed by WComponent classes. This cache must be flushed if the
+	 * {@link Config configuration} is changed.
+	 */
+<span class="fc" id="L88">	private final Map&lt;String, Renderer&gt; templateRenderers = new HashMap&lt;&gt;();</span>
+
+	/**
+	 * A cache of LayoutManagers keyed by WComponent classes. This cache must be flushed if the
+	 * {@link Config configuration} is changed.
+	 */
+<span class="fc" id="L94">	private final Map&lt;String, RendererFactory&gt; factoriesByPackage = new HashMap&lt;&gt;();</span>
+
+	/**
+	 * Prevent instantiation of UIManager.
+	 */
+<span class="fc" id="L99">	private UIManager() {</span>
+		// Listen for configuration changes
+<span class="fc" id="L101">		Config.addPropertyChangeListener(this);</span>
+<span class="fc" id="L102">	}</span>
+
+	/**
+	 * We must invalidate the cached manager lookup when the {@link Config configuration} is reloaded, as the mappings
+	 * may have changed.
+	 *
+	 * @param evt ignored.
+	 */
+	@Override
+	public void propertyChange(final PropertyChangeEvent evt) {
+<span class="fc" id="L112">		LOG.info(&quot;Parameters reloaded, flushing UIManager cache.&quot;);</span>
+<span class="fc" id="L113">		INSTANCE.clearCache();</span>
+<span class="fc" id="L114">	}</span>
+
+	/**
+	 * Retrieves a renderer which can renderer the given component to the context.
+	 *
+	 * @param component the component to retrieve the renderer for.
+	 * @param context the render context.
+	 * @return an appropriate renderer for the component and context, or null if a suitable renderer could not be found.
+	 */
+	public static Renderer getRenderer(final WComponent component, final RenderContext context) {
+<span class="fc" id="L124">		Class&lt;? extends WComponent&gt; clazz = component.getClass();</span>
+
+<span class="fc" id="L126">		Duplet&lt;String, Class&lt;?&gt;&gt; key = new Duplet&lt;String, Class&lt;?&gt;&gt;(context.getRenderPackage(),</span>
+				clazz);
+<span class="fc" id="L128">		Renderer renderer = INSTANCE.renderers.get(key);</span>
+
+<span class="fc bfc" id="L130" title="All 2 branches covered.">		if (renderer == null) {</span>
+<span class="fc" id="L131">			renderer = INSTANCE.findRenderer(component, key);</span>
+<span class="fc bfc" id="L132" title="All 2 branches covered.">		} else if (renderer == NULL_RENDERER) {</span>
+<span class="fc" id="L133">			return null;</span>
+		}
+
+<span class="fc" id="L136">		return renderer;</span>
+	}
+
+	/**
+	 * Retrieves a renderer which can renderer templates for the given context.
+	 *
+	 * @param context the render context.
+	 * @return an appropriate renderer for the component and context, or null if a suitable renderer could not be found.
+	 */
+	public static Renderer getTemplateRenderer(final RenderContext context) {
+<span class="fc" id="L146">		String packageName = context.getRenderPackage();</span>
+<span class="fc" id="L147">		Renderer renderer = INSTANCE.templateRenderers.get(packageName);</span>
+
+<span class="fc bfc" id="L149" title="All 2 branches covered.">		if (renderer == null) {</span>
+<span class="fc" id="L150">			renderer = INSTANCE.findTemplateRenderer(packageName);</span>
+<span class="pc bpc" id="L151" title="1 of 2 branches missed.">		} else if (renderer == NULL_RENDERER) {</span>
+<span class="nc" id="L152">			return null;</span>
+		}
+
+<span class="fc" id="L155">		return renderer;</span>
+	}
+
+	/**
+	 * Retrieves the template renderer for the given package.
+	 *
+	 * @param packageName the package to retrieve the template renderer for.
+	 * @return the template renderer for the given package, or null if the package does not contain a template renderer.
+	 */
+	private synchronized Renderer findTemplateRenderer(final String packageName) {
+<span class="fc" id="L165">		RendererFactory factory = INSTANCE.findRendererFactory(packageName);</span>
+<span class="fc" id="L166">		Renderer renderer = factory.getTemplateRenderer();</span>
+
+<span class="pc bpc" id="L168" title="1 of 2 branches missed.">		if (renderer == null) {</span>
+<span class="nc" id="L169">			templateRenderers.put(packageName, NULL_RENDERER);</span>
+		} else {
+<span class="fc" id="L171">			templateRenderers.put(packageName, renderer);</span>
+		}
+
+<span class="fc" id="L174">		return renderer;</span>
+	}
+
+	/**
+	 * Retrieves the default LayoutManager for the given component. This method must no longer be used, as it will only
+	 * ever return a web-xml renderer.
+	 *
+	 * @param component the component.
+	 * @return the LayoutManager for the given component.
+	 *
+	 * @deprecated use {@link #getRenderer(WComponent, RenderContext)}.
+	 */
+	@Deprecated
+	public static Renderer getDefaultRenderer(final WComponent component) {
+<span class="nc" id="L188">		LOG.warn(&quot;The getDefaultRenderer() method is deprecated. Do not obtain renderers directly.&quot;);</span>
+<span class="nc" id="L189">		return getRenderer(component, new WebXmlRenderContext(new PrintWriter(new NullWriter())));</span>
+	}
+
+	/**
+	 * Clears the lookup caches.
+	 */
+	private synchronized void clearCache() {
+<span class="fc" id="L196">		factoriesByPackage.clear();</span>
+<span class="fc" id="L197">		renderers.clear();</span>
+<span class="fc" id="L198">	}</span>
+
+	/**
+	 * Finds the layout for the given theme and component.
+	 *
+	 * @param component the WComponent class to find a manager for.
+	 * @param key the component key to use for caching the renderer.
+	 * @return the LayoutManager for the component.
+	 */
+	private synchronized Renderer findRenderer(final WComponent component,
+			final Duplet&lt;String, Class&lt;?&gt;&gt; key) {
+<span class="fc" id="L209">		LOG.info(&quot;Looking for layout for &quot; + key.getSecond().getName() + &quot; in &quot; + key.getFirst());</span>
+
+<span class="fc" id="L211">		Renderer renderer = findConfiguredRenderer(component, key.getFirst());</span>
+
+<span class="fc bfc" id="L213" title="All 2 branches covered.">		if (renderer == null) {</span>
+<span class="fc" id="L214">			renderers.put(key, NULL_RENDERER);</span>
+		} else {
+<span class="fc" id="L216">			renderers.put(key, renderer);</span>
+		}
+
+<span class="fc" id="L219">		return renderer;</span>
+	}
+
+	/**
+	 * Finds the renderer factory for the given package.
+	 *
+	 * @param packageName the package name to find the renderer factory for.
+	 * @return the RendererFactory for the given package, or null if not found.
+	 */
+	private synchronized RendererFactory findRendererFactory(final String packageName) {
+<span class="fc" id="L229">		RendererFactory factory = factoriesByPackage.get(packageName);</span>
+
+<span class="fc bfc" id="L231" title="All 2 branches covered.">		if (factory == null) {</span>
+			try {
+<span class="fc" id="L233">				factory = (RendererFactory) Class.forName(packageName + &quot;.RendererFactoryImpl&quot;).</span>
+<span class="fc" id="L234">						newInstance();</span>
+<span class="fc" id="L235">				factoriesByPackage.put(packageName, factory);</span>
+<span class="nc" id="L236">			} catch (Exception e) {</span>
+<span class="nc" id="L237">				throw new SystemException(</span>
+						&quot;Failed to create layout manager factory for &quot; + packageName, e);
+<span class="fc" id="L239">			}</span>
+		}
+
+<span class="fc" id="L242">		return factory;</span>
+	}
+
+	/**
+	 * Attempts to find the configured renderer for the given output format and component.
+	 *
+	 * @param component the component to find a manager for.
+	 * @param rendererPackage the package containing the renderers.
+	 * @return the Renderer for the component, or null if there is no renderer defined.
+	 */
+	private Renderer findConfiguredRenderer(final WComponent component, final String rendererPackage) {
+<span class="fc" id="L253">		Renderer renderer = null;</span>
+
+		// We loop for each WComponent in the class hierarchy, as the
+		// Renderer may have been specified at a higher level.
+<span class="pc bpc" id="L257" title="1 of 4 branches missed.">		for (Class&lt;?&gt; c = component.getClass(); renderer == null &amp;&amp; c != null &amp;&amp; !AbstractWComponent.class.</span>
+<span class="fc bfc" id="L258" title="All 2 branches covered.">				equals(c); c = c.getSuperclass()) {</span>
+<span class="fc" id="L259">			String qualifiedClassName = c.getName();</span>
+
+			// Is there an override for this class?
+<span class="fc" id="L262">			String rendererName = Config.getInstance().getString(</span>
+					PARAM_KEY_OVERRIDE_PREFIX + qualifiedClassName, null);
+
+<span class="pc bpc" id="L265" title="1 of 2 branches missed.">			if (rendererName != null) {</span>
+<span class="nc" id="L266">				renderer = createRenderer(rendererName);</span>
+
+<span class="nc bnc" id="L268" title="All 2 branches missed.">				if (renderer == null) {</span>
+<span class="nc" id="L269">					LOG.warn(</span>
+							&quot;Layout Manager \&quot;&quot; + rendererName + &quot;\&quot; specified for &quot; + qualifiedClassName + &quot; was not found&quot;);
+				} else {
+<span class="nc" id="L272">					return renderer;</span>
+				}
+			}
+
+<span class="fc" id="L276">			renderer = findRendererFactory(rendererPackage).getRenderer(c);</span>
+		}
+
+<span class="fc" id="L279">		return renderer;</span>
+	}
+
+	/**
+	 * Attempts to create a Renderer with the given name.
+	 *
+	 * @param rendererName the name of the Renderer
+	 * @return a Renderer of the given type, or null if the class was not found.
+	 */
+	private static Renderer createRenderer(final String rendererName) {
+<span class="nc bnc" id="L289" title="All 2 branches missed.">		if (rendererName.endsWith(&quot;.vm&quot;)) {</span>
+			// This is a velocity template, so use a VelocityLayout
+<span class="nc" id="L291">			return new VelocityRenderer(rendererName);</span>
+		}
+
+		try {
+<span class="nc" id="L295">			Class&lt;?&gt; managerClass = Class.forName(rendererName);</span>
+<span class="nc" id="L296">			Object manager = managerClass.newInstance();</span>
+
+<span class="nc bnc" id="L298" title="All 2 branches missed.">			if (!(manager instanceof Renderer)) {</span>
+<span class="nc" id="L299">				throw new SystemException(rendererName + &quot; is not a Renderer&quot;);</span>
+			}
+
+<span class="nc" id="L302">			return (Renderer) manager;</span>
+<span class="nc" id="L303">		} catch (ClassNotFoundException e) {</span>
+			// Legal - there might not a manager implementation in a given theme
+<span class="nc" id="L305">			return null;</span>
+<span class="nc" id="L306">		} catch (InstantiationException e) {</span>
+<span class="nc" id="L307">			throw new SystemException(&quot;Failed to instantiate &quot; + rendererName, e);</span>
+<span class="nc" id="L308">		} catch (IllegalAccessException e) {</span>
+<span class="nc" id="L309">			throw new SystemException(&quot;Failed to access &quot; + rendererName, e);</span>
+		}
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

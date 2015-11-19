@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WField.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">WField.java</span></div><h1>WField.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import com.github.bordertech.wcomponents.validation.WFieldErrorIndicator;
+import com.github.bordertech.wcomponents.validation.WFieldWarningIndicator;
+import com.github.bordertech.wcomponents.validator.FieldValidator;
+
+/**
+ * &lt;p&gt;
+ * This component is used to aggregate the common elements that are used to display an editable field (ie, the label,
+ * the field itself and an error indicator). It can only be used by adding instances to a {@link WFieldLayout}
+ * component. If input field is not present then it renders as read only field.
+ * &lt;/p&gt;
+ *
+ * @author Adam Millard
+ * @since 1.0.0
+ */
+public class WField extends AbstractContainer implements AjaxTarget, SubordinateTarget {
+
+	/**
+	 * The label for the field.
+	 */
+	private final WLabel label;
+	/**
+	 * The component for the field.
+	 */
+	private final WComponent field;
+	/**
+	 * The error indicator for the field.
+	 */
+	private final WFieldErrorIndicator errorIndicator;
+	/**
+	 * The warning indicator for the field.
+	 */
+	private final WFieldWarningIndicator warningIndicator;
+
+	/**
+	 * Creates a WField with the specified label text and field.
+	 *
+	 * @param labelText contains the textual label to be displayed next to the input field.
+	 * @param field is the component to be layed out (normally in the right hand column). In order to support
+	 * validation, the given field must be a WInput or a component that contains one WInput as a descendant.
+	 */
+	WField(final String labelText, final WComponent field) {
+<span class="fc" id="L44">		this(new WLabel(labelText), field);</span>
+<span class="fc" id="L45">	}</span>
+
+	/**
+	 * Creates a WField with the specified label and field.
+	 *
+	 * @param label the field label
+	 * @param field the field
+	 */
+<span class="fc" id="L53">	WField(final WLabel label, final WComponent field) {</span>
+<span class="fc" id="L54">		this.label = label;</span>
+<span class="fc" id="L55">		this.field = field;</span>
+
+<span class="pc bpc" id="L57" title="1 of 2 branches missed.">		if (label != null) {</span>
+<span class="fc" id="L58">			add(label);</span>
+		}
+
+<span class="fc" id="L61">		add(field);</span>
+
+		// Find the first component in the field that can be labelled (if any)
+<span class="fc" id="L64">		WComponent labelField = findComponentForLabel(field);</span>
+
+		// Check if we need to associate the label to the labelField
+<span class="pc bpc" id="L67" title="2 of 6 branches missed.">		if (label != null &amp;&amp; label.getForComponent() == null &amp;&amp; labelField != null) {</span>
+			// Save the original label (in case the field is in a nested WField)
+<span class="fc" id="L69">			WLabel origLabel = labelField.getLabel();</span>
+<span class="fc" id="L70">			label.setForComponent(labelField);</span>
+
+			// If the labelField is in a nested WField, restore the original label (if set)
+<span class="pc bpc" id="L73" title="1 of 4 branches missed.">			if (labelField instanceof AbstractWComponent &amp;&amp; origLabel != null &amp;&amp; WebUtilities.</span>
+<span class="pc bpc" id="L74" title="1 of 2 branches missed.">					getAncestorOfClass(WField.class, labelField) != this) {</span>
+<span class="nc" id="L75">				((AbstractWComponent) labelField).setLabel(origLabel);</span>
+			}
+		}
+
+		// If there is a label field, and it is not nested in another WField, then set the error indicators
+<span class="pc bpc" id="L80" title="1 of 4 branches missed.">		if (labelField != null &amp;&amp; WebUtilities.getAncestorOfClass(WField.class, labelField) == this) {</span>
+<span class="fc" id="L81">			errorIndicator = new WFieldErrorIndicator(labelField);</span>
+<span class="fc" id="L82">			add(errorIndicator, &quot;errorIndicator&quot;);</span>
+<span class="fc" id="L83">			warningIndicator = new WFieldWarningIndicator(labelField);</span>
+<span class="fc" id="L84">			add(warningIndicator, &quot;warningIndicator&quot;);</span>
+		} else {
+<span class="fc" id="L86">			errorIndicator = null;</span>
+<span class="fc" id="L87">			warningIndicator = null;</span>
+		}
+<span class="fc" id="L89">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getId() {
+<span class="pc bpc" id="L96" title="3 of 6 branches missed.">		if (getIdName() == null &amp;&amp; field != null &amp;&amp; field.getIdName() != null) {</span>
+<span class="nc" id="L97">			return field.getId() + ID_FRAMEWORK_ASSIGNED_SEPERATOR + &quot;fld&quot;;</span>
+		}
+<span class="fc" id="L99">		return super.getId();</span>
+	}
+
+	/**
+	 * Finds the first component that can be labeled (if any).
+	 *
+	 * @param component the root of the component hierarchy to check.
+	 * @return the first component that can be labelled, otherwise null.
+	 */
+	private WComponent findComponentForLabel(final WComponent component) {
+		// Input (but not a RadioButtonGroup)
+<span class="pc bpc" id="L110" title="1 of 4 branches missed.">		if (component instanceof Input &amp;&amp; !(component instanceof RadioButtonGroup)) {</span>
+<span class="fc" id="L111">			return component;</span>
+		}
+
+		// Fieldset or RadioButton
+<span class="pc bpc" id="L115" title="1 of 4 branches missed.">		if (component instanceof WFieldSet || component instanceof WRadioButton) {</span>
+<span class="fc" id="L116">			return component;</span>
+		}
+
+<span class="fc bfc" id="L119" title="All 2 branches covered.">		if (component instanceof Container) {</span>
+<span class="fc" id="L120">			Container container = (Container) component;</span>
+<span class="fc" id="L121">			final int childCount = container.getChildCount();</span>
+
+<span class="fc bfc" id="L123" title="All 2 branches covered.">			for (int i = 0; i &lt; childCount; i++) {</span>
+<span class="fc" id="L124">				WComponent theField = findComponentForLabel(container.getChildAt(i));</span>
+
+<span class="fc bfc" id="L126" title="All 2 branches covered.">				if (theField != null) {</span>
+<span class="fc" id="L127">					return theField;</span>
+				}
+			}
+		}
+
+<span class="fc" id="L132">		return null;</span>
+	}
+
+	/**
+	 * @return the field label
+	 */
+	@Override
+	public WLabel getLabel() {
+<span class="fc" id="L140">		return label;</span>
+	}
+
+	/**
+	 * @return the field
+	 */
+	public WComponent getField() {
+<span class="fc" id="L147">		return field;</span>
+	}
+
+	/**
+	 * @return the field's error indicator
+	 */
+	public WFieldErrorIndicator getErrorIndicator() {
+<span class="fc" id="L154">		return errorIndicator;</span>
+	}
+
+	/**
+	 * @return the field's warning indicator
+	 */
+	public WFieldWarningIndicator getWarningIndicator() {
+<span class="fc" id="L161">		return warningIndicator;</span>
+	}
+
+	/**
+	 * Sets whether this field is mandatory.
+	 * &lt;p&gt;
+	 * The mandatory flag will only be set if the field is a {@link Input} component or {@link WFieldSet}.
+	 * &lt;/p&gt;
+	 *
+	 * @param mandatory true for mandatory, false for optional
+	 * @deprecated set mandatory directly on the required component.
+	 */
+	@Deprecated
+	public void setMandatory(final boolean mandatory) {
+<span class="fc" id="L175">		setMandatory(mandatory, null);</span>
+<span class="fc" id="L176">	}</span>
+
+	/**
+	 * Sets whether this field is mandatory.
+	 * &lt;p&gt;
+	 * The mandatory flag will only be set if the field is a {@link Input} component or {@link WFieldSet}.
+	 * &lt;/p&gt;
+	 *
+	 * @param mandatory true for mandatory, false for optional
+	 * @param errorMessage the error message to display on validation error.
+	 * @deprecated set mandatory directly on the required component.
+	 */
+	@Deprecated
+	public void setMandatory(final boolean mandatory, final String errorMessage) {
+<span class="fc" id="L190">		WComponent labelField = findComponentForLabel(field);</span>
+
+<span class="pc bpc" id="L192" title="1 of 2 branches missed.">		if (labelField instanceof Mandatable) {</span>
+<span class="fc" id="L193">			((Input) labelField).setMandatory(mandatory, errorMessage);</span>
+<span class="nc bnc" id="L194" title="All 2 branches missed.">		} else if (labelField instanceof WFieldSet) {</span>
+<span class="nc" id="L195">			((WFieldSet) labelField).setMandatory(mandatory, errorMessage);</span>
+		}
+<span class="fc" id="L197">	}</span>
+
+	/**
+	 * Adds a validator to the input field.
+	 * &lt;p&gt;
+	 * The validator will only be added if the field is a {@link Input} component.
+	 * &lt;/p&gt;
+	 *
+	 * @param validator the validator to add.
+	 */
+	public void addValidator(final FieldValidator validator) {
+<span class="fc" id="L208">		WComponent labelField = findComponentForLabel(field);</span>
+
+<span class="pc bpc" id="L210" title="1 of 2 branches missed.">		if (labelField instanceof Input) {</span>
+<span class="fc" id="L211">			((Input) labelField).addValidator(validator);</span>
+		}
+<span class="fc" id="L213">	}</span>
+
+	/**
+	 * Updates the label text (if label exists).
+	 *
+	 * @param text the new label text
+	 */
+	public void setLabelText(final String text) {
+<span class="pc bpc" id="L221" title="1 of 2 branches missed.">		if (label != null) {</span>
+<span class="fc" id="L222">			label.setText(text);</span>
+		}
+<span class="fc" id="L224">	}</span>
+
+	/**
+	 * Gets the label text (if label exists) else returns &lt;code&gt;null&lt;/code&gt;.
+	 *
+	 * @return the text of the label component of this field.
+	 */
+	public String getLabelText() {
+<span class="fc" id="L232">		String text = null;</span>
+
+<span class="pc bpc" id="L234" title="1 of 2 branches missed.">		if (label != null) {</span>
+<span class="fc" id="L235">			text = label.getText();</span>
+		}
+
+<span class="fc" id="L238">		return text;</span>
+	}
+
+	/**
+	 * Indicates the desired width of the input field, as a percentage of the available space.
+	 *
+	 * @return the percentage width, or 0 to use the default field width.
+	 */
+	public int getInputWidth() {
+<span class="fc" id="L247">		return getComponentModel().inputWidth;</span>
+	}
+
+	/**
+	 * Sets the desired width of the input field, as a percentage of the available space.
+	 *
+	 * @param inputWidth the percentage width, or &amp;lt;= 0 to use the default field width.
+	 */
+	public void setInputWidth(final int inputWidth) {
+<span class="fc bfc" id="L256" title="All 2 branches covered.">		if (inputWidth &gt; 100) {</span>
+<span class="fc" id="L257">			throw new IllegalArgumentException(</span>
+					&quot;inputWidth (&quot; + inputWidth + &quot;) cannot be greater than 100 percent.&quot;);
+		}
+<span class="fc" id="L260">		getOrCreateComponentModel().inputWidth = Math.max(0, inputWidth);</span>
+<span class="fc" id="L261">	}</span>
+
+	/**
+	 * @return a String representation of this component, for debugging purposes.
+	 */
+	@Override
+	public String toString() {
+<span class="nc" id="L268">		StringBuffer buf = new StringBuffer(getClass().getSimpleName());</span>
+<span class="nc" id="L269">		String text = getLabelText();</span>
+
+<span class="nc bnc" id="L271" title="All 2 branches missed.">		if (text == null) {</span>
+<span class="nc" id="L272">			buf.append(&quot;(null)&quot;);</span>
+		} else {
+<span class="nc" id="L274">			buf.append(&quot;(\&quot;&quot;).append(text).append(&quot;\&quot;)&quot;);</span>
+		}
+
+<span class="nc" id="L277">		buf.append(childrenToString(field));</span>
+
+<span class="nc" id="L279">		return buf.toString();</span>
+	}
+
+	/**
+	 * Creates a new Component model.
+	 *
+	 * @return a new FieldModel.
+	 */
+	@Override    // For type safety only
+	protected FieldModel newComponentModel() {
+<span class="fc" id="L289">		return new FieldModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override    // For type safety only
+	protected FieldModel getComponentModel() {
+<span class="fc" id="L297">		return (FieldModel) super.getComponentModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override    // For type safety only
+	protected FieldModel getOrCreateComponentModel() {
+<span class="fc" id="L305">		return (FieldModel) super.getOrCreateComponentModel();</span>
+	}
+
+	/**
+	 * Holds the extrinsic state information of the component.
+	 *
+	 * @author Yiannis Paschalidis
+	 */
+<span class="fc" id="L313">	public static class FieldModel extends ComponentModel {</span>
+
+		/**
+		 * Indicates the desired width of the input field, as a percentage of the available space.
+		 */
+		private int inputWidth;
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WDropdownRenderer.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.render.webxml</a> &gt; <span class="el_source">WDropdownRenderer.java</span></div><h1>WDropdownRenderer.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.render.webxml;
+
+import com.github.bordertech.wcomponents.OptionGroup;
+import com.github.bordertech.wcomponents.Renderer;
+import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.WDropdown;
+import com.github.bordertech.wcomponents.XmlStringBuilder;
+import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
+import com.github.bordertech.wcomponents.util.Util;
+import java.util.List;
+
+/**
+ * The {@link Renderer} for {@link WDropdown}.
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ */
+<span class="fc" id="L18">final class WDropdownRenderer extends AbstractWebXmlRenderer {</span>
+
+	/**
+	 * Paints the given WDropdown.
+	 *
+	 * @param component the WDropdown to paint.
+	 * @param renderContext the RenderContext to paint to.
+	 */
+	@Override
+	public void doRender(final WComponent component, final WebXmlRenderContext renderContext) {
+<span class="fc" id="L28">		WDropdown dropdown = (WDropdown) component;</span>
+<span class="fc" id="L29">		XmlStringBuilder xml = renderContext.getWriter();</span>
+<span class="fc" id="L30">		String dataKey = dropdown.getListCacheKey();</span>
+<span class="fc" id="L31">		int optionWidth = dropdown.getOptionWidth();</span>
+<span class="fc" id="L32">		boolean readOnly = dropdown.isReadOnly();</span>
+
+		// Start tag
+<span class="fc" id="L35">		xml.appendTagOpen(&quot;ui:dropdown&quot;);</span>
+<span class="fc" id="L36">		xml.appendAttribute(&quot;id&quot;, component.getId());</span>
+<span class="fc" id="L37">		xml.appendOptionalAttribute(&quot;class&quot;, component.getHtmlClass());</span>
+<span class="fc" id="L38">		xml.appendOptionalAttribute(&quot;track&quot;, component.isTracking(), &quot;true&quot;);</span>
+<span class="fc bfc" id="L39" title="All 4 branches covered.">		xml.appendOptionalAttribute(&quot;data&quot;, dataKey != null &amp;&amp; !readOnly, dataKey);</span>
+<span class="fc" id="L40">		xml.appendOptionalAttribute(&quot;disabled&quot;, dropdown.isDisabled(), &quot;true&quot;);</span>
+<span class="fc" id="L41">		xml.appendOptionalAttribute(&quot;hidden&quot;, dropdown.isHidden(), &quot;true&quot;);</span>
+<span class="fc" id="L42">		xml.appendOptionalAttribute(&quot;required&quot;, dropdown.isMandatory(), &quot;true&quot;);</span>
+<span class="fc" id="L43">		xml.appendOptionalAttribute(&quot;readOnly&quot;, readOnly, &quot;true&quot;);</span>
+<span class="fc" id="L44">		xml.appendOptionalAttribute(&quot;submitOnChange&quot;, dropdown.isSubmitOnChange(), &quot;true&quot;);</span>
+<span class="fc" id="L45">		xml.appendOptionalAttribute(&quot;tabindex&quot;, component.hasTabIndex(), component.getTabIndex());</span>
+<span class="fc" id="L46">		xml.appendOptionalAttribute(&quot;toolTip&quot;, dropdown.getToolTip());</span>
+<span class="fc" id="L47">		xml.appendOptionalAttribute(&quot;accessibleText&quot;, dropdown.getAccessibleText());</span>
+<span class="fc bfc" id="L48" title="All 2 branches covered.">		xml.appendOptionalAttribute(&quot;optionWidth&quot;, optionWidth &gt; 0, optionWidth);</span>
+<span class="fc" id="L49">		xml.appendOptionalAttribute(&quot;type&quot;, getTypeAsString(dropdown.getType()));</span>
+<span class="fc" id="L50">		xml.appendClose();</span>
+
+		// Options
+<span class="fc" id="L53">		List&lt;?&gt; options = dropdown.getOptions();</span>
+<span class="fc" id="L54">		Object selectedOption = dropdown.getSelected();</span>
+
+		// For an editable dropdown (combo box), the selected option may not be in the list.
+<span class="pc bpc" id="L57" title="2 of 6 branches missed.">		if (dropdown.getType() == WDropdown.DropdownType.COMBO</span>
+				&amp;&amp; selectedOption != null
+<span class="fc bfc" id="L59" title="All 2 branches covered.">				&amp;&amp; (options == null || !options.contains(selectedOption))) {</span>
+<span class="fc" id="L60">			xml.appendTagOpen(&quot;ui:option&quot;);</span>
+<span class="fc" id="L61">			xml.appendAttribute(&quot;value&quot;, selectedOption.toString());</span>
+<span class="fc" id="L62">			xml.appendAttribute(&quot;selected&quot;, &quot;true&quot;);</span>
+<span class="fc" id="L63">			xml.appendClose();</span>
+<span class="fc" id="L64">			xml.appendEscaped(selectedOption.toString());</span>
+<span class="fc" id="L65">			xml.appendEndTag(&quot;ui:option&quot;);</span>
+		}
+
+<span class="fc bfc" id="L68" title="All 2 branches covered.">		if (options != null) {</span>
+<span class="fc" id="L69">			int optionIndex = 0;</span>
+<span class="fc" id="L70">			boolean encode = dropdown.getDescEncode();</span>
+<span class="fc bfc" id="L71" title="All 4 branches covered.">			boolean renderSelectionsOnly = readOnly || dataKey != null;</span>
+
+<span class="fc bfc" id="L73" title="All 2 branches covered.">			for (Object option : options) {</span>
+<span class="fc bfc" id="L74" title="All 2 branches covered.">				if (option instanceof OptionGroup) {</span>
+<span class="fc" id="L75">					xml.appendTagOpen(&quot;ui:optgroup&quot;);</span>
+<span class="fc" id="L76">					xml.appendAttribute(&quot;label&quot;, ((OptionGroup) option).getDesc());</span>
+<span class="fc" id="L77">					xml.appendClose();</span>
+
+<span class="fc bfc" id="L79" title="All 2 branches covered.">					for (Object nestedOption : ((OptionGroup) option).getOptions()) {</span>
+<span class="fc" id="L80">						renderOption(dropdown, nestedOption, optionIndex++, xml, selectedOption,</span>
+								renderSelectionsOnly, encode);
+<span class="fc" id="L82">					}</span>
+
+<span class="fc" id="L84">					xml.appendEndTag(&quot;ui:optgroup&quot;);</span>
+				} else {
+<span class="fc" id="L86">					renderOption(dropdown, option, optionIndex++, xml, selectedOption,</span>
+							renderSelectionsOnly, encode);
+				}
+<span class="fc" id="L89">			}</span>
+		}
+
+		// End tag
+<span class="fc" id="L93">		xml.appendEndTag(&quot;ui:dropdown&quot;);</span>
+<span class="fc" id="L94">	}</span>
+
+	/**
+	 * Renders a single option within the dropdown.
+	 *
+	 * @param dropdown the dropdown being rendered.
+	 * @param option the option to render.
+	 * @param optionIndex the index of the option. OptionGroups are not counted.
+	 * @param html the XmlStringBuilder to paint to.
+	 * @param selectedOption the dropdown's selected option.
+	 * @param renderSelectionsOnly true to only render selected options, false to render all options.
+	 * @param encode true if the option description should be encoded, false if not.
+	 */
+	private void renderOption(final WDropdown dropdown, final Object option,
+			final int optionIndex, final XmlStringBuilder html, final Object selectedOption,
+			final boolean renderSelectionsOnly, final boolean encode) {
+<span class="fc" id="L110">		boolean selected = Util.equals(option, selectedOption);</span>
+
+<span class="fc bfc" id="L112" title="All 4 branches covered.">		if (selected || !renderSelectionsOnly) {</span>
+			// Get Code and Desc
+<span class="fc" id="L114">			String code = dropdown.getCode(option, optionIndex);</span>
+<span class="fc" id="L115">			String desc = dropdown.getDesc(option, optionIndex);</span>
+
+			// Check for null option (ie null or empty). Match isEmpty() logic.
+<span class="fc bfc" id="L118" title="All 4 branches covered.">			boolean isNull = option == null ? true : (option.toString().length() == 0);</span>
+
+			// Render option
+<span class="fc" id="L121">			html.appendTagOpen(&quot;ui:option&quot;);</span>
+<span class="fc" id="L122">			html.appendAttribute(&quot;value&quot;, code);</span>
+<span class="fc" id="L123">			html.appendOptionalAttribute(&quot;selected&quot;, selected, &quot;true&quot;);</span>
+<span class="fc" id="L124">			html.appendOptionalAttribute(&quot;isNull&quot;, isNull, &quot;true&quot;);</span>
+<span class="fc" id="L125">			html.appendClose();</span>
+<span class="fc" id="L126">			html.append(desc, encode);</span>
+<span class="fc" id="L127">			html.appendEndTag(&quot;ui:option&quot;);</span>
+		}
+<span class="fc" id="L129">	}</span>
+
+	/**
+	 * Determines the theme tabset type name for the given TabSetType.
+	 *
+	 * @param type the TabSetType
+	 * @return the theme tabset type name for the given TabSetType.
+	 */
+	public static String getTypeAsString(final WDropdown.DropdownType type) {
+<span class="fc bfc" id="L138" title="All 2 branches covered.">		if (type == null) {</span>
+<span class="fc" id="L139">			return null;</span>
+		}
+
+<span class="pc bpc" id="L142" title="2 of 3 branches missed.">		switch (type) {</span>
+			case NATIVE:
+<span class="nc" id="L144">				return null;</span>
+			case COMBO:
+<span class="fc" id="L146">				return &quot;combo&quot;;</span>
+			default:
+<span class="pc" id="L148">				throw new IllegalStateException(&quot;Invalid dropdown type: &quot; + type);</span>
+		}
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

@@ -1,0 +1,485 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WMenu.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">WMenu.java</span></div><h1>WMenu.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+/**
+ * &lt;p&gt;
+ * This component enables rendering of a menuing system for an application. A menu bar consists of a collection of
+ * either &quot;Menu Items&quot; (see {@link WMenuItem} or &quot;Sub Menus&quot; (see {@link WSubMenu}).&lt;/p&gt;
+ *
+ * @author Adam Millard
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ */
+public class WMenu extends AbstractNamingContextContainer implements Disableable, AjaxTarget,
+		Marginable {
+
+	/**
+	 * The available types of client-side menus.
+	 *
+	 * @author Yiannis Paschalidis
+	 */
+<span class="pc" id="L24">	public enum MenuType {</span>
+		/**
+		 * The menu is displayed as a horizontal bar, similar to menu bars in desktop applications.
+		 */
+<span class="fc" id="L28">		BAR,</span>
+		/**
+		 * The menu is displayed as a series of buttons. This is most commonly used to display a single submenu as a
+		 * button.
+		 */
+<span class="fc" id="L33">		FLYOUT,</span>
+		/**
+		 * The menu is displayed as a tree structure.
+		 */
+<span class="fc" id="L37">		TREE,</span>
+		/**
+		 * The menu is displayed columns from left to right. This menu type supports multiple selections of menu items
+		 * and sub-menus.
+		 */
+<span class="fc" id="L42">		COLUMN</span>
+	};
+
+	/**
+	 * The available types of selection mode for the items in a menu.
+	 */
+<span class="pc" id="L48">	public enum SelectMode {</span>
+		/**
+		 * No items can be selected.
+		 */
+<span class="fc" id="L52">		NONE,</span>
+		/**
+		 * A single item can be selected.
+		 */
+<span class="fc" id="L56">		SINGLE,</span>
+		/**
+		 * Multiple items can be selected.
+		 */
+<span class="fc" id="L60">		MULTIPLE</span>
+	};
+
+	/**
+	 * The type of menu.
+	 */
+	private final MenuType type;
+
+	/**
+	 * Creates a WMenu which is displayed as a menu bar.
+	 */
+	public WMenu() {
+<span class="fc" id="L72">		this(MenuType.BAR);</span>
+<span class="fc" id="L73">	}</span>
+
+	/**
+	 * Creates a WMenu of the given type.
+	 *
+	 * @param type the type of WMenu to create.
+	 */
+<span class="fc" id="L80">	public WMenu(final MenuType type) {</span>
+<span class="fc" id="L81">		this.type = type;</span>
+<span class="fc" id="L82">	}</span>
+
+	/**
+	 * @return the menu type.
+	 */
+	public MenuType getType() {
+<span class="fc" id="L88">		return type;</span>
+	}
+
+	/**
+	 * @return the number of rows to display for a column menu.
+	 */
+	public int getRows() {
+<span class="fc" id="L95">		return getComponentModel().rows;</span>
+	}
+
+	/**
+	 * Sets the number of rows to display for a column menu.
+	 *
+	 * @param rows The rows to set.
+	 */
+	public void setRows(final int rows) {
+<span class="fc" id="L104">		getOrCreateComponentModel().rows = rows;</span>
+<span class="fc" id="L105">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setMargin(final Margin margin) {
+<span class="fc" id="L112">		getOrCreateComponentModel().margin = margin;</span>
+<span class="fc" id="L113">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Margin getMargin() {
+<span class="fc" id="L120">		return getComponentModel().margin;</span>
+	}
+
+	/**
+	 * @return the select mode for the items in this subMenu.
+	 */
+	public SelectMode getSelectMode() {
+<span class="fc" id="L127">		return getComponentModel().selectMode;</span>
+	}
+
+	/**
+	 * @param selectMode the select mode for the items in this subMenu.
+	 */
+	public void setSelectMode(final SelectMode selectMode) {
+<span class="fc" id="L134">		getOrCreateComponentModel().selectMode = selectMode;</span>
+<span class="fc" id="L135">	}</span>
+
+	/**
+	 * Adds a separator to the end of the menu.
+	 */
+	public void addSeparator() {
+<span class="fc" id="L141">		add(new WSeparator());</span>
+<span class="fc" id="L142">	}</span>
+
+	/**
+	 * Indicates whether this menu is disabled.
+	 *
+	 * @return true if this menu is disabled.
+	 */
+	@Override
+	public boolean isDisabled() {
+<span class="fc" id="L151">		return isFlagSet(ComponentModel.DISABLED_FLAG);</span>
+	}
+
+	/**
+	 * Sets whether this menu is disabled.
+	 *
+	 * @param disabled if true, the menu will be disabled.
+	 */
+	@Override
+	public void setDisabled(final boolean disabled) {
+<span class="fc" id="L161">		setFlag(ComponentModel.DISABLED_FLAG, disabled);</span>
+<span class="fc" id="L162">	}</span>
+
+	/**
+	 * Adds the given menu item to this component.
+	 *
+	 * @param item the item to add.
+	 */
+	public void add(final WMenuItem item) {
+<span class="fc" id="L170">		super.add(item);</span>
+<span class="fc" id="L171">	}</span>
+
+	/**
+	 * Adds the given sub-menu as a child of this component.
+	 *
+	 * @param item the sub-menu to add.
+	 */
+	public void add(final WSubMenu item) {
+<span class="fc" id="L179">		super.add(item);</span>
+<span class="fc" id="L180">	}</span>
+
+	/**
+	 * Adds the given group as a child of this component.
+	 *
+	 * @param item group the group to add.
+	 */
+	public void add(final WMenuItemGroup item) {
+<span class="fc" id="L188">		super.add(item);</span>
+<span class="fc" id="L189">	}</span>
+
+	/**
+	 * Adds the given separator as a child of this component.
+	 *
+	 * @param separator the separator to add.
+	 */
+	public void add(final WSeparator separator) {
+<span class="fc" id="L197">		super.add(separator);</span>
+<span class="fc" id="L198">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override // to make public
+	public void remove(final WComponent child) {
+<span class="nc" id="L205">		super.remove(child);</span>
+<span class="nc" id="L206">	}</span>
+
+	/**
+	 * Returns the selected item (WMenUItem/WSubMenu, depending on the menu type) in the given context.
+	 *
+	 * @return the selected item, or null if no item has been selected.
+	 */
+	public WComponent getSelectedItem() {
+<span class="fc" id="L214">		List&lt;WComponent&gt; selectedItems = getSelectedItems();</span>
+<span class="fc bfc" id="L215" title="All 2 branches covered.">		if (selectedItems.isEmpty()) {</span>
+<span class="fc" id="L216">			return null;</span>
+		} else {
+<span class="fc" id="L218">			return selectedItems.get(0);</span>
+		}
+	}
+
+	/**
+	 * Returns the selected items (WMenUItems/WSubMenus, depending on the menu type) in the given context.
+	 *
+	 * @return the selected items, or an empty list if nothing is selected.
+	 */
+	public List&lt;WComponent&gt; getSelectedItems() {
+<span class="fc" id="L228">		List&lt;WComponent&gt; selectedItems = getComponentModel().selectedItems;</span>
+
+<span class="fc bfc" id="L230" title="All 2 branches covered.">		if (selectedItems == null) {</span>
+<span class="fc" id="L231">			selectedItems = Collections.emptyList();</span>
+		} else {
+<span class="fc" id="L233">			selectedItems = Collections.unmodifiableList(selectedItems);</span>
+		}
+
+<span class="fc" id="L236">		return selectedItems;</span>
+	}
+
+	/**
+	 * Sets the selected items (WMenuItems or WSubMenus, depending on the menu type).
+	 *
+	 * @param selectedItems the selected items.
+	 */
+	public void setSelectedItems(final List&lt;WComponent&gt; selectedItems) {
+<span class="fc" id="L245">		MenuModel model = getOrCreateComponentModel();</span>
+<span class="fc" id="L246">		model.selectedItems = new ArrayList&lt;&gt;(selectedItems);</span>
+<span class="fc" id="L247">	}</span>
+
+	/**
+	 * Clears an existing list of selected items.
+	 */
+	public void clearSelectedItems() {
+<span class="nc" id="L253">		MenuModel model = getOrCreateComponentModel();</span>
+<span class="nc" id="L254">		model.selectedItems = null;</span>
+<span class="nc" id="L255">	}</span>
+
+	/**
+	 * Sets the selected item (WMenuItem and/or WSubMenu, depending on the menu type).
+	 *
+	 * @param selectedItem the selected item.
+	 */
+	public void setSelectedItem(final WComponent selectedItem) {
+<span class="fc" id="L263">		MenuModel model = getOrCreateComponentModel();</span>
+
+<span class="fc bfc" id="L265" title="All 2 branches covered.">		if (model.selectedItems == null) {</span>
+<span class="fc" id="L266">			model.selectedItems = new ArrayList&lt;&gt;();</span>
+		}
+
+<span class="fc" id="L269">		model.selectedItems.clear();</span>
+<span class="fc" id="L270">		model.selectedItems.add(selectedItem);</span>
+<span class="fc" id="L271">	}</span>
+
+	/**
+	 * Override handleRequest in order to perform processing specific to WMenu.
+	 *
+	 * @param request the request being handled.
+	 */
+	@Override
+	public void handleRequest(final Request request) {
+<span class="fc bfc" id="L280" title="All 2 branches covered.">		if (isDisabled()) {</span>
+			// Protect against client-side tampering of disabled/read-only fields.
+<span class="fc" id="L282">			return;</span>
+		}
+
+<span class="fc bfc" id="L285" title="All 2 branches covered.">		if (isPresent(request)) {</span>
+<span class="fc" id="L286">			List&lt;WComponent&gt; selections = new ArrayList&lt;&gt;();</span>
+			// Unfortunately, we need to recurse through all the menu/sub-menus
+<span class="fc" id="L288">			findSelections(request, this, selections);</span>
+<span class="fc" id="L289">			setSelectedItems(selections);</span>
+		}
+<span class="fc" id="L291">	}</span>
+
+	/**
+	 * Determine if this WMenu is on the Request.
+	 *
+	 * @param request the request being responded to.
+	 * @return true if this WMenu is on the Request, otherwise return false.
+	 */
+	protected boolean isPresent(final Request request) {
+<span class="fc bfc" id="L300" title="All 2 branches covered.">		return request.getParameter(getId() + &quot;-h&quot;) != null;</span>
+	}
+
+	/**
+	 * Finds the selected items in a menu for a request.
+	 *
+	 * @param request the request being handled
+	 * @param component the menu or sub-menu
+	 * @param selections the current set of selections
+	 */
+	private void findSelections(final Request request, final Container component,
+			final List&lt;WComponent&gt; selections) {
+		// Don't bother checking disabled or invisible components
+<span class="pc bpc" id="L313" title="2 of 4 branches missed.">		if (!component.isVisible()</span>
+<span class="fc bfc" id="L314" title="All 2 branches covered.">				|| (component instanceof Disableable &amp;&amp; ((Disableable) component).isDisabled())) {</span>
+<span class="fc" id="L315">			return;</span>
+		}
+
+		final SelectMode selectMode;
+<span class="fc bfc" id="L319" title="All 2 branches covered.">		if (component instanceof WMenu) {</span>
+<span class="fc" id="L320">			selectMode = ((WMenu) component).getSelectMode();</span>
+		} else {
+<span class="fc" id="L322">			selectMode = ((WSubMenu) component).getSelectMode();</span>
+		}
+
+		// Get any selectable children of this menu/sub-menu
+<span class="fc" id="L326">		List&lt;WComponent&gt; selectableChildren = getSelectableChildren(component, selectMode);</span>
+
+		// Now add the selections
+<span class="pc bpc" id="L329" title="1 of 2 branches missed.">		if (selectableChildren != null) {</span>
+<span class="fc bfc" id="L330" title="All 2 branches covered.">			for (WComponent selectableItem : selectableChildren) {</span>
+<span class="pc bpc" id="L331" title="1 of 2 branches missed.">				if (request.getParameter(selectableItem.getId() + &quot;.selected&quot;) != null) {</span>
+<span class="fc" id="L332">					selections.add(selectableItem);</span>
+
+<span class="fc bfc" id="L334" title="All 2 branches covered.">					if (SelectMode.SINGLE.equals(selectMode)) {</span>
+						// Only select the first item at this level.
+						// We still need to check other levels of the menu for selection.
+<span class="fc" id="L337">						break;</span>
+					}
+				}
+<span class="fc" id="L340">			}</span>
+		}
+
+		// We need to recurse through any sub-menus in this menu/sub-menu
+<span class="fc" id="L344">		final int childCount = component.getChildCount();</span>
+
+<span class="fc bfc" id="L346" title="All 2 branches covered.">		for (int i = 0; i &lt; childCount; i++) {</span>
+<span class="fc" id="L347">			WComponent child = component.getChildAt(i);</span>
+
+<span class="pc bpc" id="L349" title="1 of 2 branches missed.">			if (child instanceof WMenuItemGroup) {</span>
+<span class="nc" id="L350">				WMenuItemGroup group = (WMenuItemGroup) child;</span>
+<span class="nc" id="L351">				final int groupChildCount = group.getChildCount();</span>
+
+<span class="nc bnc" id="L353" title="All 2 branches missed.">				for (int j = 0; j &lt; groupChildCount; j++) {</span>
+<span class="nc bnc" id="L354" title="All 2 branches missed.">					if (group.getChildAt(j) instanceof WSubMenu) {</span>
+<span class="nc" id="L355">						findSelections(request, (WSubMenu) group.getChildAt(j), selections);</span>
+					}
+				}
+<span class="pc bfc" id="L358" title="All 2 branches covered.">			} else if (child instanceof WSubMenu) {</span>
+<span class="fc" id="L359">				findSelections(request, (WSubMenu) child, selections);</span>
+			}
+		}
+<span class="fc" id="L362">	}</span>
+
+	/**
+	 * Retrieves the selectable children for the given component.
+	 *
+	 * @param parent the component to search within.
+	 * @param parentSelectMode the select mode of the current menu/sub-menu
+	 * @return the list of selectable children for the given component. May be empty.
+	 */
+	private List&lt;WComponent&gt; getSelectableChildren(final Container parent,
+			final SelectMode parentSelectMode) {
+<span class="fc" id="L373">		List&lt;WComponent&gt; result = new ArrayList&lt;&gt;(parent.getChildCount());</span>
+
+<span class="fc bfc" id="L375" title="All 2 branches covered.">		for (int i = 0; i &lt; parent.getChildCount(); i++) {</span>
+<span class="fc" id="L376">			WComponent child = parent.getChildAt(i);</span>
+
+<span class="pc bpc" id="L378" title="1 of 2 branches missed.">			if (child instanceof WMenuItemGroup) {</span>
+<span class="nc" id="L379">				WMenuItemGroup group = (WMenuItemGroup) child;</span>
+
+				// Grouping doesn't affect selectability.
+				// Groups can not be nested, so just loop through the group's children.
+<span class="nc bnc" id="L383" title="All 2 branches missed.">				for (int j = 0; j &lt; group.getChildCount(); j++) {</span>
+<span class="nc" id="L384">					WComponent groupedChild = group.getChildAt(j);</span>
+
+<span class="nc bnc" id="L386" title="All 2 branches missed.">					if (isSelectable(groupedChild, parentSelectMode)) {</span>
+<span class="nc" id="L387">						result.add(groupedChild);</span>
+					}
+				}
+<span class="pc bfc" id="L390" title="All 2 branches covered.">			} else if (isSelectable(child, parentSelectMode)) {</span>
+<span class="fc" id="L391">				result.add(child);</span>
+			}
+		}
+
+<span class="fc" id="L395">		return result;</span>
+	}
+
+	/**
+	 * Indicates whether the given component is selectable.
+	 *
+	 * @param component the component to check.
+	 * @param parentSelectMode the select mode of the current menu/sub-menu
+	 * @return true if the component is selectable, false otherwise.
+	 */
+	private boolean isSelectable(final WComponent component, final SelectMode parentSelectMode) {
+<span class="pc bpc" id="L406" title="1 of 4 branches missed.">		if (!component.isVisible()</span>
+<span class="fc bfc" id="L407" title="All 2 branches covered.">				|| (component instanceof Disableable &amp;&amp; ((Disableable) component).isDisabled())) {</span>
+<span class="fc" id="L408">			return false;</span>
+		}
+
+<span class="fc bfc" id="L411" title="All 2 branches covered.">		boolean parentSupportsSelection = SelectMode.SINGLE.equals(parentSelectMode)</span>
+<span class="pc bpc" id="L412" title="1 of 2 branches missed.">				|| SelectMode.MULTIPLE.equals(parentSelectMode);</span>
+
+<span class="fc bfc" id="L414" title="All 2 branches covered.">		if (component instanceof WMenuItem) {</span>
+<span class="fc" id="L415">			WMenuItem menuItem = (WMenuItem) component;</span>
+<span class="fc" id="L416">			Boolean itemSelectable = menuItem.isSelectable();</span>
+
+<span class="fc bfc" id="L418" title="All 4 branches covered.">			return Boolean.TRUE.equals(itemSelectable)</span>
+<span class="pc bpc" id="L419" title="1 of 2 branches missed.">					|| (parentSupportsSelection &amp;&amp; !Boolean.FALSE.equals(itemSelectable));</span>
+<span class="pc bpc" id="L420" title="1 of 4 branches missed.">		} else if (component instanceof WSubMenu &amp;&amp; MenuType.COLUMN.equals(type)) { // sub-menus are only selectable in a column menu</span>
+<span class="nc" id="L421">			WSubMenu subMenu = (WSubMenu) component;</span>
+<span class="nc" id="L422">			Boolean itemSelectable = subMenu.isSelectable();</span>
+
+<span class="nc bnc" id="L424" title="All 4 branches missed.">			return Boolean.TRUE.equals(itemSelectable)</span>
+<span class="nc bnc" id="L425" title="All 2 branches missed.">					|| (parentSupportsSelection &amp;&amp; !Boolean.FALSE.equals(itemSelectable));</span>
+		}
+
+<span class="fc" id="L428">		return false;</span>
+	}
+
+	/**
+	 * Creates a new component model.
+	 *
+	 * @return a new MenuModel.
+	 */
+	@Override
+	protected MenuModel newComponentModel() {
+<span class="fc" id="L438">		return new MenuModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected MenuModel getComponentModel() {
+<span class="fc" id="L446">		return (MenuModel) super.getComponentModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected MenuModel getOrCreateComponentModel() {
+<span class="fc" id="L454">		return (MenuModel) super.getOrCreateComponentModel();</span>
+	}
+
+	/**
+	 * Holds the state information for a WMenu.
+	 *
+	 * @author Yiannis Paschalidis
+	 */
+<span class="fc" id="L462">	public static class MenuModel extends ComponentModel {</span>
+
+		/**
+		 * The list of selected items.
+		 */
+		private List&lt;WComponent&gt; selectedItems;
+
+		/**
+		 * The select mode of the menu.
+		 */
+<span class="fc" id="L472">		private SelectMode selectMode = SelectMode.NONE;</span>
+
+		/**
+		 * The number of rows to display for a column menu.
+		 */
+		private int rows;
+
+		/**
+		 * The margins to be used on the menu.
+		 */
+		private Margin margin;
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

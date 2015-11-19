@@ -1,0 +1,633 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WebUtilities.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">WebUtilities.java</span></div><h1>WebUtilities.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import com.github.bordertech.wcomponents.WRepeater.SubUIContext;
+import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
+import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.SystemException;
+import com.github.bordertech.wcomponents.util.TreeUtil;
+import com.github.bordertech.wcomponents.util.mock.MockRequest;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.Date;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicLong;
+import org.apache.commons.configuration.Configuration;
+
+/**
+ * WComponent and HTML related utility methods.
+ *
+ * @author James Gifford
+ * @since 1.0.0
+ */
+public final class WebUtilities {
+
+	/**
+	 * HTML Content Type.
+	 */
+	public static final String CONTENT_TYPE_HTML = &quot;text/html&quot;;
+
+	/**
+	 * Javascript Content Type.
+	 */
+	public static final String CONTENT_TYPE_JS = &quot;application/javascript&quot;;
+
+	/**
+	 * CSS Content Type.
+	 */
+	public static final String CONTENT_TYPE_CSS = &quot;text/css&quot;;
+
+	/**
+	 * XML Content Type.
+	 */
+	public static final String CONTENT_TYPE_XML = &quot;text/xml; charset=utf-8&quot;;
+
+	/**
+	 * JSON Content Type.
+	 */
+	public static final String CONTENT_TYPE_JSON = &quot;application/json&quot;;
+
+	// These are standard XML escape sequences. See
+	// http://www.w3.org/TR/2006/REC-xml-20060816/#dt-escape
+	/**
+	 * The HTML escape sequence for a double quote (&quot;).
+	 */
+	public static final String QUOT_ESCAPE = &quot;&amp;quot;&quot;;
+
+	/**
+	 * The HTML escape sequence for an ampersand (&amp;amp;).
+	 */
+	public static final String AMP_ESCAPE = &quot;&amp;amp;&quot;;
+
+	/**
+	 * The HTML escape sequence for less than (&amp;lt;).
+	 */
+	public static final String LT_ESCAPE = &quot;&amp;lt;&quot;;
+
+	/**
+	 * The HTML escape sequence for greater than (&amp;gt;).
+	 */
+	public static final String GT_ESCAPE = &quot;&amp;gt;&quot;;
+
+	/**
+	 * Counter used in combination with a timestamp to make random string.
+	 */
+<span class="fc" id="L74">	private static final AtomicLong ATOMIC_COUNT = new AtomicLong();</span>
+
+	/**
+	 * The parameter for the current project version.
+	 */
+	private static final String PROJECT_VERSION_PARAMETER_KEY = &quot;bordertech.wcomponents.version&quot;;
+
+	/**
+	 * Prevent instantiation of this class.
+	 */
+<span class="nc" id="L84">	private WebUtilities() {</span>
+<span class="nc" id="L85">	}</span>
+
+	/**
+	 * @return the project version of WComponents.
+	 */
+	public static String getProjectVersion() {
+<span class="fc" id="L91">		String version = Config.getInstance().getString(PROJECT_VERSION_PARAMETER_KEY);</span>
+<span class="fc bfc" id="L92" title="All 2 branches covered.">		if (version == null) {</span>
+<span class="fc" id="L93">			throw new SystemException(&quot;The project version parameter has not been defined.&quot;);</span>
+		}
+<span class="fc" id="L95">		return version;</span>
+	}
+
+	/**
+	 * Retrieves a &quot;path&quot; of component classes from the given component to the root node. The path is formatted with one
+	 * component on each line, with the first line being the root node.
+	 *
+	 * @param component the component to retrieve the path for
+	 * @return a &quot;path&quot; of class names from the component to the root.
+	 */
+	public static String getPathToRoot(final WComponent component) {
+<span class="nc" id="L106">		StringBuffer buf = new StringBuffer();</span>
+
+<span class="nc bnc" id="L108" title="All 2 branches missed.">		for (WComponent node = component; node != null; node = node.getParent()) {</span>
+<span class="nc bnc" id="L109" title="All 2 branches missed.">			if (buf.length() != 0) {</span>
+<span class="nc" id="L110">				buf.insert(0, '\n');</span>
+			}
+
+<span class="nc" id="L113">			buf.insert(0, node.getClass().getName());</span>
+		}
+
+<span class="nc" id="L116">		return buf.toString();</span>
+	}
+
+	/**
+	 * Attempts to find a component which is an ancestor of the given component, and that is assignable to the given
+	 * class.
+	 *
+	 * @param clazz the class to look for
+	 * @param comp the component to start at.
+	 * @return the matching ancestor, if found, otherwise null.
+	 *
+	 * @param &lt;T&gt; the ancestor class
+	 */
+	public static &lt;T&gt; T getAncestorOfClass(final Class&lt;T&gt; clazz, final WComponent comp) {
+<span class="pc bpc" id="L130" title="1 of 4 branches missed.">		if (comp == null || clazz == null) {</span>
+<span class="fc" id="L131">			return null;</span>
+		}
+
+<span class="fc" id="L134">		WComponent parent = comp.getParent();</span>
+<span class="fc bfc" id="L135" title="All 2 branches covered.">		while (parent != null) {</span>
+<span class="fc bfc" id="L136" title="All 2 branches covered.">			if (clazz.isInstance(parent)) {</span>
+<span class="fc" id="L137">				return (T) parent;</span>
+			}
+<span class="fc" id="L139">			parent = parent.getParent();</span>
+		}
+
+<span class="fc" id="L142">		return null;</span>
+	}
+
+	/**
+	 * Attempts to find the nearest component (may be the component itself) that is assignable to the given class.
+	 *
+	 * @param clazz the class to look for
+	 * @param comp the component to start at.
+	 * @return the component or matching ancestor, if found, otherwise null.
+	 *
+	 * @param &lt;T&gt; the class to find
+	 */
+	public static &lt;T&gt; T getClosestOfClass(final Class&lt;T&gt; clazz, final WComponent comp) {
+<span class="fc bfc" id="L155" title="All 2 branches covered.">		if (comp == null) {</span>
+<span class="fc" id="L156">			return null;</span>
+		}
+
+<span class="fc bfc" id="L159" title="All 2 branches covered.">		if (clazz.isInstance(comp)) {</span>
+<span class="fc" id="L160">			return (T) comp;</span>
+		}
+
+<span class="fc" id="L163">		return getAncestorOfClass(clazz, comp);</span>
+	}
+
+	/**
+	 * Retrieves the top-level WComponent in the tree.
+	 *
+	 * @param comp the component branch to start from.
+	 * @return the top-level WComponent in the tree.
+	 */
+	public static WComponent getTop(final WComponent comp) {
+<span class="fc" id="L173">		WComponent top = comp;</span>
+
+<span class="fc bfc" id="L175" title="All 2 branches covered.">		for (WComponent parent = top.getParent(); parent != null; parent = parent.getParent()) {</span>
+<span class="fc" id="L176">			top = parent;</span>
+		}
+
+<span class="fc" id="L179">		return top;</span>
+	}
+
+	/**
+	 * Escapes the given string to make it presentable in a URL. This follows RFC 3986, with some extensions for UTF-8.
+	 *
+	 * @param input the String to escape.
+	 * @return an escaped copy of the string.
+	 */
+	public static String escapeForUrl(final String input) {
+<span class="fc bfc" id="L189" title="All 4 branches covered.">		if (input == null || input.length() == 0) {</span>
+<span class="fc" id="L190">			return input;</span>
+		}
+
+<span class="fc" id="L193">		final StringBuffer buffer = new StringBuffer(input.length() * 2); // worst-case</span>
+
+<span class="fc bfc" id="L195" title="All 2 branches covered.">		for (int i = 0; i &lt; input.length(); ++i) {</span>
+<span class="fc" id="L196">			final char ch = input.charAt(i);</span>
+
+			// Section 2.3 - Unreserved chars
+<span class="pc bpc" id="L199" title="1 of 20 branches missed.">			if ((ch &gt;= 'A' &amp;&amp; ch &lt;= 'Z') || (ch &gt;= 'a' &amp;&amp; ch &lt;= 'z') || (ch &gt;= '0' &amp;&amp; ch &lt;= '9')</span>
+					|| ch == '-' || ch == '_' || ch == '.' || ch == '~') {
+<span class="fc" id="L201">				buffer.append(ch);</span>
+<span class="fc bfc" id="L202" title="All 2 branches covered.">			} else if (ch &lt;= 127) { // Other ASCII characters must be escaped</span>
+<span class="fc" id="L203">				final String hexString = Integer.toHexString(ch);</span>
+
+<span class="pc bpc" id="L205" title="1 of 2 branches missed.">				if (hexString.length() == 1) {</span>
+<span class="nc" id="L206">					buffer.append(&quot;%0&quot;).append(hexString);</span>
+				} else {
+<span class="fc" id="L208">					buffer.append('%').append(hexString);</span>
+				}
+<span class="fc bfc" id="L210" title="All 2 branches covered.">			} else if (ch &lt;= 0x07FF) { // Other non-ASCII chars must be UTF-8 encoded</span>
+<span class="fc" id="L211">				buffer.append('%').append(Integer.toHexString(0xc0 | (ch &gt;&gt; 6)));</span>
+<span class="fc" id="L212">				buffer.append('%').append(Integer.toHexString(0x80 | (ch &amp; 0x3F)));</span>
+			} else {
+<span class="fc" id="L214">				buffer.append('%').append(Integer.toHexString(0xe0 | (ch &gt;&gt; 12)));</span>
+<span class="fc" id="L215">				buffer.append('%').append(Integer.toHexString(0x80 | ((ch &gt;&gt; 6) &amp; 0x3F)));</span>
+<span class="fc" id="L216">				buffer.append('%').append(Integer.toHexString(0x80 | (ch &amp; 0x3F)));</span>
+			}
+		}
+
+<span class="fc" id="L220">		return buffer.toString();</span>
+	}
+
+	/**
+	 * Encode all the special characters found in the given string to their escape sequences according to the XML
+	 * specification, and returns the resultant string. Eg. &quot;cat&amp;amp;dog &amp;gt; ant&quot; becomes &quot;cat&amp;amp;amp;dog &amp;amp;gt;
+	 * ant&quot;.
+	 *
+	 * @param input the String to encode
+	 * @return an encoded copy of the input String.
+	 */
+	public static String encode(final String input) {
+<span class="fc bfc" id="L232" title="All 4 branches covered.">		if (input == null || input.length() == 0) {</span>
+<span class="fc" id="L233">			return input;</span>
+		}
+
+<span class="fc" id="L236">		StringBuffer buffer = new StringBuffer(input.length());</span>
+
+<span class="fc bfc" id="L238" title="All 2 branches covered.">		for (int i = 0; i &lt; input.length(); i++) {</span>
+<span class="fc" id="L239">			char c = input.charAt(i);</span>
+
+<span class="fc bfc" id="L241" title="All 2 branches covered.">			if (c == '&lt;') {</span>
+<span class="fc" id="L242">				buffer.append(LT_ESCAPE);</span>
+<span class="fc bfc" id="L243" title="All 2 branches covered.">			} else if (c == '&gt;') {</span>
+<span class="fc" id="L244">				buffer.append(GT_ESCAPE);</span>
+<span class="fc bfc" id="L245" title="All 2 branches covered.">			} else if (c == '&amp;') {</span>
+<span class="fc" id="L246">				buffer.append(AMP_ESCAPE);</span>
+<span class="fc bfc" id="L247" title="All 2 branches covered.">			} else if (c == '&quot;') {</span>
+<span class="fc" id="L248">				buffer.append(QUOT_ESCAPE);</span>
+<span class="pc bpc" id="L249" title="1 of 8 branches missed.">			} else if (c &gt;= 32 || c == '\n' || c == '\r' || c == '\t') {</span>
+				// All other unicode characters can be sent as is, with the
+				// exception of control codes, which are illegal
+<span class="fc" id="L252">				buffer.append(c);</span>
+			}
+		}
+
+<span class="fc" id="L256">		return buffer.toString();</span>
+	}
+
+	/**
+	 * &lt;p&gt;
+	 * Encodes the given fileName for output in the HTTP Content-Disposition header.&lt;/p&gt;
+	 *
+	 * &lt;p&gt;
+	 * This is a complete mess. There are multiple standards (rfc 2183, rfc 2231, rfc 5987) and some browsers don't even
+	 * adhere to those properly. We take a cautious approach and just replace all extended characters with
+	 * underscores.&lt;/p&gt;
+	 *
+	 * @param fileName the file name to encode.
+	 * @return the encoded file name.
+	 */
+	public static String encodeForContentDispositionHeader(final String fileName) {
+<span class="fc" id="L272">		return fileName.replaceAll(&quot;[^A-Za-z0-9_\\. -]&quot;, &quot;_&quot;);</span>
+	}
+
+	/**
+	 * This method is required on occasion because WebSphere Portal by default escapes &quot;&amp;lt;&quot; and &quot;&amp;gt;&quot; characters for
+	 * security reasons.
+	 *
+	 * Decode any escape sequences to their original character, and return the resultant string.
+	 *
+	 * Eg. &quot;cat&amp;amp;amp;dog &amp;amp;gt; ant&quot; becomes &quot;cat&amp;amp;dog &amp;gt; ant&quot;
+	 *
+	 * @param encoded the String to decode
+	 * @return a decoded copy of the input String.
+	 */
+	public static String decode(final String encoded) {
+<span class="fc bfc" id="L287" title="All 6 branches covered.">		if (encoded == null || encoded.length() == 0 || encoded.indexOf('&amp;') == -1) {</span>
+<span class="fc" id="L288">			return encoded;</span>
+		}
+
+<span class="fc" id="L291">		String decoded = encoded.replaceAll(LT_ESCAPE, &quot;&lt;&quot;)</span>
+<span class="fc" id="L292">				.replaceAll(GT_ESCAPE, &quot;&gt;&quot;)</span>
+<span class="fc" id="L293">				.replaceAll(AMP_ESCAPE, &quot;&amp;&quot;)</span>
+<span class="fc" id="L294">				.replaceAll(QUOT_ESCAPE, &quot;\&quot;&quot;);</span>
+
+<span class="fc" id="L296">		return decoded;</span>
+	}
+
+	/**
+	 * Adds GET parameters to a path.
+	 *
+	 * @param url the existing url path
+	 * @param parameters are put into the URL as get parameters.
+	 * @return the complete url eg http://localhost/app?step=1
+	 */
+	public static String getPath(final String url, final Map&lt;String, String&gt; parameters) {
+<span class="fc" id="L307">		return getPath(url, parameters, false);</span>
+	}
+
+	/**
+	 * Adds GET parameters to a path.
+	 *
+	 * @param url the existing url path
+	 * @param parameters are put into the URL as get parameters.
+	 * @param javascript true if the URL is intended for use within a javascript function
+	 * @return the complete url eg http://localhost/app?step=1
+	 */
+	public static String getPath(final String url, final Map&lt;String, String&gt; parameters,
+			final boolean javascript) {
+		// Have we already got some parameters?
+<span class="fc" id="L321">		int index = url.indexOf('?');</span>
+<span class="fc" id="L322">		boolean hasVars = false;</span>
+
+<span class="fc bfc" id="L324" title="All 2 branches covered.">		if (index != -1) {</span>
+<span class="fc" id="L325">			hasVars = true;</span>
+		}
+
+<span class="fc" id="L328">		StringBuffer vars = new StringBuffer();</span>
+
+<span class="fc bfc" id="L330" title="All 2 branches covered.">		if (parameters != null) {</span>
+<span class="fc bfc" id="L331" title="All 2 branches covered.">			for (Map.Entry&lt;String, String&gt; entry : parameters.entrySet()) {</span>
+<span class="fc" id="L332">				String key = entry.getKey();</span>
+<span class="fc" id="L333">				String value = entry.getValue();</span>
+
+<span class="fc bfc" id="L335" title="All 2 branches covered.">				if (javascript) {</span>
+<span class="fc" id="L336">					appendGetParamForJavascript(key, value, vars, hasVars);</span>
+				} else {
+<span class="fc" id="L338">					appendGetParam(key, value, vars, hasVars);</span>
+				}
+
+<span class="fc" id="L341">				hasVars = true;</span>
+<span class="fc" id="L342">			}</span>
+		}
+
+<span class="fc" id="L345">		return url + vars.toString();</span>
+	}
+
+	/**
+	 * This is a slightly different version of appendGetParam that doesn't encode the ampersand seperator. It is
+	 * intended to be used in urls that are generated for javascript functions.
+	 *
+	 * @param key the key to append
+	 * @param value the value to append
+	 * @param vars the existing query string
+	 * @param existingVars true if there are already existing query string key/value pairs
+	 */
+	public static void appendGetParamForJavascript(final String key, final String value,
+			final StringBuffer vars, final boolean existingVars) {
+<span class="fc bfc" id="L359" title="All 2 branches covered.">		vars.append(existingVars ? '&amp;' : '?');</span>
+<span class="fc" id="L360">		vars.append(key).append('=').append(WebUtilities.escapeForUrl(value));</span>
+<span class="fc" id="L361">	}</span>
+
+	/**
+	 * &lt;p&gt;
+	 * Appends a key/value pair to a query string.&lt;/p&gt;
+	 *
+	 * &lt;p&gt;
+	 * A '{@literal ?}' or '{@literal &amp;}' token will first be appended to the end of the vars StringBuffer, according to
+	 * the presence of other vars. We quote the '{@literal &amp;}' using XML character entity, because otherwise the
+	 * resulting URL will be invalid XML parsed character data and so we can't generate XHTML.&lt;/p&gt;
+	 *
+	 * @param key the key to append
+	 * @param value the value to append
+	 * @param vars the existing query string
+	 * @param existingVars true if there are already existing query string key/value pairs
+	 */
+	public static void appendGetParam(final String key, final String value,
+			final StringBuffer vars, final boolean existingVars) {
+<span class="fc bfc" id="L379" title="All 2 branches covered.">		vars.append(existingVars ? &quot;&amp;amp;&quot; : &quot;?&quot;);</span>
+<span class="fc" id="L380">		vars.append(key).append('=').append(WebUtilities.escapeForUrl(value));</span>
+<span class="fc" id="L381">	}</span>
+
+	/**
+	 * Generates a random String. Can be useful for creating unique URLs by adding the String as a query parameter to
+	 * the URL.
+	 *
+	 * @return a random string
+	 */
+	public static String generateRandom() {
+<span class="fc" id="L390">		long next = ATOMIC_COUNT.incrementAndGet();</span>
+<span class="fc" id="L391">		StringBuffer random = new StringBuffer();</span>
+<span class="fc" id="L392">		random.append(new Date().getTime()).append('-').append(next);</span>
+<span class="fc" id="L393">		return random.toString();</span>
+	}
+
+	/**
+	 * Indicates whether a component is an ancestor of another.
+	 *
+	 * @param component1 a possible ancestor.
+	 * @param component2 the component to check.
+	 * @return true if &lt;code&gt;component1&lt;/code&gt; is an ancestor of &lt;code&gt;component2&lt;/code&gt;, false otherwise.
+	 */
+	public static boolean isAncestor(final WComponent component1, final WComponent component2) {
+<span class="nc bnc" id="L404" title="All 2 branches missed.">		for (WComponent parent = component2.getParent(); parent != null; parent = parent.getParent()) {</span>
+<span class="nc bnc" id="L405" title="All 2 branches missed.">			if (parent == component1) {</span>
+<span class="nc" id="L406">				return true;</span>
+			}
+		}
+
+<span class="nc" id="L410">		return false;</span>
+	}
+
+	/**
+	 * Indicates whether a component is a descendant of another.
+	 *
+	 * @param component1 a possible descendent.
+	 * @param component2 the component to check.
+	 * @return true if &lt;code&gt;component1&lt;/code&gt; is a descendant of &lt;code&gt;component2&lt;/code&gt;, false otherwise.
+	 */
+	public static boolean isDescendant(final WComponent component1, final WComponent component2) {
+<span class="nc" id="L421">		return isAncestor(component2, component1);</span>
+	}
+
+	/**
+	 * Returns the primary context for the given component.
+	 *
+	 * @param uic the current user's UIContext.
+	 * @param component the component to retrieve the primary context for.
+	 * @return the primary context for the given component.
+	 */
+	public static UIContext getPrimaryContext(final UIContext uic, final WComponent component) {
+<span class="fc" id="L432">		UIContext result = uic;</span>
+
+<span class="pc bpc" id="L434" title="3 of 4 branches missed.">		while (result instanceof SubUIContext &amp;&amp; !((SubUIContext) result).isInContext(component)) {</span>
+<span class="nc" id="L435">			result = ((SubUIContext) result).getBacking();</span>
+		}
+
+<span class="fc" id="L438">		return result;</span>
+	}
+
+	/**
+	 * Finds a component by its id.
+	 * &lt;p&gt;
+	 * Searches visible and not visible components.
+	 * &lt;/p&gt;
+	 *
+	 * @param id the id of the component to search for.
+	 * @return the component and context for the given id, or null if not found.
+	 */
+	public static ComponentWithContext getComponentById(final String id) {
+<span class="fc" id="L451">		return getComponentById(id, false);</span>
+	}
+
+	/**
+	 * Finds a component by its id.
+	 *
+	 * @param id the id of the component to search for.
+	 * @param visibleOnly true if process visible only
+	 * @return the component and context for the given id, or null if not found.
+	 */
+	public static ComponentWithContext getComponentById(final String id, final boolean visibleOnly) {
+<span class="fc" id="L462">		UIContext uic = UIContextHolder.getCurrent();</span>
+<span class="fc" id="L463">		WComponent root = uic.getUI();</span>
+<span class="fc" id="L464">		ComponentWithContext comp = TreeUtil.getComponentWithContextForId(root, id, visibleOnly);</span>
+<span class="fc" id="L465">		return comp;</span>
+	}
+
+	/**
+	 * Finds the closest context for the given component id. This handles the case where the component no longer exists
+	 * due to having been removed from the UI, or having a SubUIContext removed.
+	 *
+	 * @param id the id of the component to search for.
+	 * @return the component and context for the given id, or null if not found.
+	 */
+	public static UIContext findClosestContext(final String id) {
+<span class="fc" id="L476">		UIContext uic = UIContextHolder.getCurrent();</span>
+<span class="fc" id="L477">		WComponent root = uic.getUI();</span>
+<span class="fc" id="L478">		UIContext closest = TreeUtil.getClosestContextForId(root, id);</span>
+<span class="fc" id="L479">		return closest;</span>
+	}
+
+	/**
+	 * Updates the bean value with the current value of the component and all its bean-bound children.
+	 *
+	 * @param component the component whose contents need to be copied to the bean.
+	 * @param visibleOnly - whether to include visible components only.
+	 */
+	public static void updateBeanValue(final WComponent component, final boolean visibleOnly) {
+		// Do not process if component is invisble and ignore visible is true. Will ignore entire branch from this point.
+<span class="nc bnc" id="L490" title="All 4 branches missed.">		if (!component.isVisible() &amp;&amp; visibleOnly) {</span>
+<span class="nc" id="L491">			return;</span>
+		}
+
+<span class="nc bnc" id="L494" title="All 2 branches missed.">		if (component instanceof WBeanComponent) {</span>
+<span class="nc" id="L495">			((WBeanComponent) component).updateBeanValue();</span>
+		}
+
+		// These components recursively update bean values themselves,
+		// as they have special requirements due to repeating data.
+<span class="nc bnc" id="L500" title="All 6 branches missed.">		if (component instanceof WDataTable || component instanceof WTable || component instanceof WRepeater) {</span>
+<span class="nc" id="L501">			return;</span>
+		}
+
+<span class="nc bnc" id="L504" title="All 2 branches missed.">		if (component instanceof Container) {</span>
+<span class="nc bnc" id="L505" title="All 2 branches missed.">			for (int i = ((Container) component).getChildCount() - 1; i &gt;= 0; i--) {</span>
+<span class="nc" id="L506">				updateBeanValue(((Container) component).getChildAt(i), visibleOnly);</span>
+			}
+		}
+<span class="nc" id="L509">	}</span>
+
+	/**
+	 * Updates the bean value with the current value of the component and all its bean-bound children. By default this
+	 * method will only process visible components.
+	 *
+	 * @param component the component whose contents need to be copied to the bean.
+	 */
+	public static void updateBeanValue(final WComponent component) {
+<span class="nc" id="L518">		updateBeanValue(component, true);</span>
+<span class="nc" id="L519">	}</span>
+
+	/**
+	 * Renders the given WComponent to a String outside of the context of a Servlet. This is good for getting hold of
+	 * the XML for debugging, unit testing etc. Also it is good for using the WComponent framework as a more generic
+	 * templating framework.
+	 *
+	 * @param component the root WComponent to render.
+	 * @return the rendered output as a String.
+	 */
+	public static String render(final WComponent component) {
+<span class="fc" id="L530">		return render(new MockRequest(), component);</span>
+	}
+
+	/**
+	 * Renders the given WComponent to a String outside of the context of a Servlet. This is good for getting hold of
+	 * the XML for debugging, unit testing etc. Also it is good for using the WComponent framework as a more generic
+	 * templating framework.
+	 *
+	 * @param request the request being responded to.
+	 * @param component the root WComponent to render.
+	 * @return the rendered output as a String.
+	 */
+	public static String render(final Request request, final WComponent component) {
+<span class="pc bpc" id="L543" title="1 of 2 branches missed.">		boolean needsContext = UIContextHolder.getCurrent() == null;</span>
+
+<span class="pc bpc" id="L545" title="1 of 2 branches missed.">		if (needsContext) {</span>
+<span class="nc" id="L546">			UIContextHolder.pushContext(new UIContextImpl());</span>
+		}
+
+		try {
+<span class="fc" id="L550">			StringWriter buffer = new StringWriter();</span>
+
+<span class="fc" id="L552">			component.preparePaint(request);</span>
+<span class="fc" id="L553">			PrintWriter writer = new PrintWriter(buffer);</span>
+<span class="fc" id="L554">			component.paint(new WebXmlRenderContext(writer));</span>
+<span class="fc" id="L555">			writer.close();</span>
+
+<span class="fc" id="L557">			return buffer.toString();</span>
+		} finally {
+<span class="pc bpc" id="L559" title="3 of 4 branches missed.">			if (needsContext) {</span>
+<span class="pc" id="L560">				UIContextHolder.popContext();</span>
+			}
+		}
+	}
+
+	/**
+	 * Attempts to guess the content-type for the given file name.
+	 *
+	 * @param fileName the file name to return the content-type for.
+	 * @return the content-type for the given fileName, or a generic type if unknown.
+	 */
+	public static String getContentType(final String fileName) {
+<span class="fc" id="L572">		Configuration config = Config.getInstance();</span>
+
+<span class="fc" id="L574">		String suffix = fileName.substring(fileName.lastIndexOf('.') + 1).toLowerCase();</span>
+<span class="fc" id="L575">		String mimeType = config.getString(&quot;bordertech.wcomponents.mimeType.&quot; + suffix);</span>
+
+<span class="pc bpc" id="L577" title="1 of 2 branches missed.">		if (mimeType == null) {</span>
+<span class="nc" id="L578">			mimeType = config.getString(&quot;bordertech.wcomponents.mimeType.defaultMimeType&quot;,</span>
+					&quot;application/octet-stream&quot;);
+		}
+
+<span class="fc" id="L582">		return mimeType;</span>
+	}
+
+	/**
+	 * Determine if this component is an active naming context.
+	 * &lt;p&gt;
+	 * Can only be considered active if an id name has been set and flagged as a naming context.
+	 * &lt;/p&gt;
+	 *
+	 * @param component the component to test for naming context
+	 * @return true if component is an active naming context
+	 */
+	public static boolean isActiveNamingContext(final WComponent component) {
+<span class="fc bfc" id="L595" title="All 2 branches covered.">		if (component instanceof NamingContextable) {</span>
+<span class="fc" id="L596">			NamingContextable naming = (NamingContextable) component;</span>
+<span class="fc bfc" id="L597" title="All 4 branches covered.">			boolean active = naming.isNamingContext() &amp;&amp; naming.getIdName() != null;</span>
+<span class="fc" id="L598">			return active;</span>
+		}
+<span class="fc" id="L600">		return false;</span>
+	}
+
+	/**
+	 * Get this component's parent naming context.
+	 *
+	 * @param component the component to process
+	 * @return true the parent naming context or null
+	 */
+	public static NamingContextable getParentNamingContext(final WComponent component) {
+<span class="pc bpc" id="L610" title="1 of 2 branches missed.">		if (component == null) {</span>
+<span class="nc" id="L611">			return null;</span>
+		}
+
+<span class="fc" id="L614">		WComponent child = component;</span>
+<span class="fc" id="L615">		NamingContextable parent = null;</span>
+		while (true) {
+<span class="fc" id="L617">			NamingContextable naming = WebUtilities.getAncestorOfClass(NamingContextable.class,</span>
+					child);
+<span class="fc bfc" id="L619" title="All 2 branches covered.">			if (naming == null) {</span>
+<span class="fc" id="L620">				break;</span>
+			}
+<span class="fc bfc" id="L622" title="All 2 branches covered.">			if (WebUtilities.isActiveNamingContext(naming)) {</span>
+<span class="fc" id="L623">				parent = naming;</span>
+<span class="fc" id="L624">				break;</span>
+			}
+<span class="fc" id="L626">			child = naming;</span>
+<span class="fc" id="L627">		}</span>
+
+<span class="fc" id="L629">		return parent;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

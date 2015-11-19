@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WFileWidget.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">WFileWidget.java</span></div><h1>WFileWidget.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import com.github.bordertech.wcomponents.file.FileItemWrap;
+import com.github.bordertech.wcomponents.portlet.context.WFileWidgetCleanup;
+import com.github.bordertech.wcomponents.util.Util;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import org.apache.commons.fileupload.FileItem;
+
+/**
+ * &lt;p&gt;
+ * The WFileWidget represents a &quot;File Chooser&quot; form widget. The {@link #getBytes() &quot;bytes&quot;} property is updated with the
+ * binary data from the uploaded file. If the user submits a form with no file chosen, the bytes array will be set to
+ * null.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * The current implementation creates a {@link FileItem} which will be written temporarily to disk if the size of the
+ * file reaches a threshold. A reaper thread is started to clean up those temp files no longer being used. When using
+ * this component, developers should include the {@link WFileWidgetCleanup} context listener to their application to
+ * kill this thread when the application is stopped. i.e the web.xml should include:
+ * &lt;/p&gt;
+ *
+ * &lt;pre&gt;
+ *    &amp;lt;listener&amp;gt;
+ *    &amp;lt;listener-class&amp;gt;com.github.bordertech.wcomponents.portlet.context.WFileWidgetCleanup&amp;lt;/listener-class&amp;gt;
+ *    &amp;lt;/listener&amp;gt;
+ * &lt;/pre&gt;
+ * &lt;p&gt;
+ * The WFileWidget allows developers to limit the maximum file size and types of files which can be uploaded.
+ * &lt;/p&gt;
+ *
+ * @author James Gifford
+ * @author Martin Shevchenko
+ * @author Jonathan Austin
+ * @since 1.0.0
+ *
+ * @deprecated Use {@link WMultiFileWidget} instead.
+ */
+@Deprecated
+<span class="fc" id="L43">public class WFileWidget extends AbstractInput implements AjaxTarget, SubordinateTarget {</span>
+
+	/**
+	 * Returns a list of strings that determine the allowable file mime types accepted by the file input. If no types
+	 * have been added an empty list is returned. An empty list indicates that all file types are accepted.
+	 *
+	 * @return The mime types accepted by this file input e.g. &quot;text/plain&quot;, &quot;text/html&quot;, &quot;application/pdf&quot;.
+	 */
+	public List&lt;String&gt; getFileTypes() {
+<span class="fc" id="L52">		List&lt;String&gt; fileTypes = getComponentModel().fileTypes;</span>
+
+<span class="fc bfc" id="L54" title="All 2 branches covered.">		if (fileTypes == null) {</span>
+<span class="fc" id="L55">			return Collections.emptyList();</span>
+		}
+
+<span class="fc" id="L58">		return Collections.unmodifiableList(fileTypes);</span>
+	}
+
+	/**
+	 * Set each file type as a valid file mime type to be accepted by the WMultiFileWidget.
+	 *
+	 * @param types The mime types that will be accepted by the file input.
+	 */
+	public void setFileTypes(final String[] types) {
+<span class="fc bfc" id="L67" title="All 2 branches covered.">		if (types == null) {</span>
+<span class="fc" id="L68">			setFileTypes((List&lt;String&gt;) null);</span>
+		} else {
+<span class="fc" id="L70">			setFileTypes(Arrays.asList(types));</span>
+		}
+<span class="fc" id="L72">	}</span>
+
+	/**
+	 * Set each file type as a valid file mime type to be accepted by the WMultiFileWidget.
+	 *
+	 * @param types The mime types that will be accepted by the file input.
+	 */
+	public void setFileTypes(final List&lt;String&gt; types) {
+<span class="fc" id="L80">		getOrCreateComponentModel().fileTypes = types;</span>
+<span class="fc" id="L81">	}</span>
+
+	/**
+	 * Set the maximum file size (in bytes) that will be accepted by the file input. If the user selects a file larger
+	 * than this value the client script will tell the user it cannot be uploaded.
+	 *
+	 * @param bytes The maximum size (in bytes) that can be uploaded by this input.
+	 */
+	public void setMaxFileSize(final long bytes) {
+<span class="fc" id="L90">		getOrCreateComponentModel().maxFileSize = bytes;</span>
+<span class="fc" id="L91">	}</span>
+
+	/**
+	 * Return the maximum file size (in bytes) that can be accepted by this file input.
+	 *
+	 * @return The maximum size (in bytes) that can be uploaded by this component.
+	 */
+	public long getMaxFileSize() {
+<span class="fc" id="L99">		return getComponentModel().maxFileSize;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected boolean doHandleRequest(final Request request) {
+<span class="fc" id="L107">		FileItemWrap value = getRequestValue(request);</span>
+<span class="fc" id="L108">		FileItemWrap current = getValue();</span>
+
+<span class="fc bfc" id="L110" title="All 4 branches covered.">		boolean changed = value != null || current != null;</span>
+
+<span class="fc bfc" id="L112" title="All 2 branches covered.">		if (changed) {</span>
+<span class="fc" id="L113">			setData(value);</span>
+		}
+
+<span class="fc" id="L116">		return changed;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getActionCommand() {
+<span class="fc" id="L124">		return getFileName();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public FileItemWrap getRequestValue(final Request request) {
+<span class="fc bfc" id="L132" title="All 2 branches covered.">		if (isPresent(request)) {</span>
+<span class="fc" id="L133">			FileItem value = request.getFileItem(getId());</span>
+
+			// No file selected
+<span class="pc bpc" id="L136" title="1 of 4 branches missed.">			if (Util.empty(value.getName()) &amp;&amp; value.getSize() == 0) {</span>
+<span class="fc" id="L137">				return null;</span>
+			}
+
+<span class="fc" id="L140">			FileItemWrap wrapper = new FileItemWrap(value);</span>
+<span class="fc" id="L141">			return wrapper;</span>
+		} else {
+<span class="fc" id="L143">			return getValue();</span>
+		}
+	}
+
+	/**
+	 * * {@inheritDoc}
+	 */
+	@Override
+	protected boolean isPresent(final Request request) {
+<span class="fc bfc" id="L152" title="All 2 branches covered.">		return request.getFileItem(getId()) != null;</span>
+	}
+
+	/**
+	 * Retrieves the contents of the uploaded file.
+	 *
+	 * @return the file contents, or null if there was no file uploaded.
+	 */
+	public byte[] getBytes() {
+<span class="fc" id="L161">		FileItemWrap wrapper = getValue();</span>
+
+<span class="fc bfc" id="L163" title="All 2 branches covered.">		if (wrapper != null) {</span>
+<span class="fc" id="L164">			return wrapper.getBytes();</span>
+		}
+
+<span class="fc" id="L167">		return null;</span>
+	}
+
+	/**
+	 * Retrieves an input stream of the uploaded file's contents.
+	 *
+	 * @return an input stream of the file's contents, or null if there was no file uploaded
+	 * @throws IOException if there is an error obtaining the input stream from the uploaded file.
+	 */
+	public InputStream getInputStream() throws IOException {
+<span class="fc" id="L177">		FileItemWrap wrapper = getValue();</span>
+
+<span class="fc bfc" id="L179" title="All 2 branches covered.">		if (wrapper != null) {</span>
+<span class="fc" id="L180">			return wrapper.getInputStream();</span>
+		}
+
+<span class="fc" id="L183">		return null;</span>
+	}
+
+	/**
+	 * @return the size of the uploaded file, or zero if there was no file uploaded
+	 */
+	public long getSize() {
+<span class="fc" id="L190">		FileItemWrap wrapper = getValue();</span>
+
+<span class="fc bfc" id="L192" title="All 2 branches covered.">		if (wrapper != null) {</span>
+<span class="fc" id="L193">			return wrapper.getSize();</span>
+		}
+
+<span class="fc" id="L196">		return 0;</span>
+	}
+
+	/**
+	 * @return the file name of the uploaded file, or null if there was no file uploaded
+	 */
+	public String getFileName() {
+<span class="fc" id="L203">		FileItemWrap wrapper = getValue();</span>
+
+<span class="fc bfc" id="L205" title="All 2 branches covered.">		if (wrapper != null) {</span>
+<span class="fc" id="L206">			return wrapper.getName();</span>
+		}
+
+<span class="fc" id="L209">		return null;</span>
+	}
+
+	/**
+	 * Retrieves the File item that has been uploaded.
+	 *
+	 * @return the File item that has been uploaded by the client.
+	 */
+	public FileItemWrap getFile() {
+<span class="fc" id="L218">		return getValue();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public FileItemWrap getValue() {
+<span class="fc" id="L226">		return (FileItemWrap) getData();</span>
+	}
+
+	// --------------------------------
+	// Extrinsic state management
+	/**
+	 * Holds the extrinsic state information of a WFileWidget.
+	 */
+<span class="fc" id="L234">	public static class FileWidgetModel extends InputModel {</span>
+
+		/**
+		 * The mime types accepted by the file input.
+		 */
+		private List&lt;String&gt; fileTypes;
+
+		/**
+		 * The maximum size of files uploaded by this component.
+		 */
+		private long maxFileSize;
+	}
+
+	/**
+	 * Creates a new component model appropriate for this component.
+	 *
+	 * @return a new FileWidgetModel.
+	 */
+	@Override
+	protected FileWidgetModel newComponentModel() {
+<span class="fc" id="L254">		return new FileWidgetModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	// For type safety only
+	protected FileWidgetModel getComponentModel() {
+<span class="fc" id="L263">		return (FileWidgetModel) super.getComponentModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	// For type safety only
+	protected FileWidgetModel getOrCreateComponentModel() {
+<span class="fc" id="L272">		return (FileWidgetModel) super.getOrCreateComponentModel();</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

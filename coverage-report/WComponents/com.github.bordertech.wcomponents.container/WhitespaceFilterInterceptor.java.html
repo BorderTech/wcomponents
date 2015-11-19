@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WhitespaceFilterInterceptor.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.container</a> &gt; <span class="el_source">WhitespaceFilterInterceptor.java</span></div><h1>WhitespaceFilterInterceptor.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.container;
+
+import com.github.bordertech.wcomponents.RenderContext;
+import com.github.bordertech.wcomponents.UIContextHolder;
+import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
+import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.WhiteSpaceFilterPrintWriter;
+import java.io.PrintWriter;
+import org.apache.commons.configuration.Configuration;
+
+/**
+ * WhitespaceFilterInterceptor is an interceptor that removes HTML comments and redundant white space from HTML output.
+ *
+ * For local testing/troubleshooting, the filter can be disabled by setting the following {@link Config configuration}
+ * parameter:
+ * &lt;pre&gt;
+ * com.github.bordertech.wcomponents.container.WhitespaceFilterInterceptor.enabled=false
+ * &lt;/pre&gt;
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ */
+<span class="fc" id="L23">public class WhitespaceFilterInterceptor extends InterceptorComponent {</span>
+
+	/**
+	 * The key used to look up the enable flag in the current {@link Config configuration}.
+	 */
+	private static final String PARAMETERS_KEY = &quot;bordertech.wcomponents.whitespaceFilter.enabled&quot;;
+
+	/**
+	 * Paints the component.
+	 *
+	 * @param renderContext the renderContext to send the output to.
+	 */
+	@Override
+	public void paint(final RenderContext renderContext) {
+<span class="fc" id="L37">		Configuration config = Config.getInstance();</span>
+<span class="fc" id="L38">		boolean enabled = &quot;true&quot;.equalsIgnoreCase(config.getString(PARAMETERS_KEY, &quot;true&quot;));</span>
+
+<span class="pc bpc" id="L40" title="1 of 4 branches missed.">		if (enabled &amp;&amp; renderContext instanceof WebXmlRenderContext) {</span>
+<span class="fc" id="L41">			PrintWriter writer = ((WebXmlRenderContext) renderContext).getWriter();</span>
+<span class="fc" id="L42">			writer = new WhiteSpaceFilterPrintWriter(writer);</span>
+
+<span class="fc" id="L44">			WebXmlRenderContext filteredContext = new WebXmlRenderContext(writer, UIContextHolder.</span>
+<span class="fc" id="L45">					getCurrent().getLocale());</span>
+<span class="fc" id="L46">			filteredContext.getWriter().turnIndentingOff();</span>
+<span class="fc" id="L47">			super.paint(filteredContext);</span>
+<span class="fc" id="L48">		} else {</span>
+<span class="fc" id="L49">			super.paint(renderContext);</span>
+		}
+<span class="fc" id="L51">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WTableRepeater.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">WTableRepeater.java</span></div><h1>WTableRepeater.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+/**
+ * This repeater extension is necessary to ensure that tree-tables are painted correctly.
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ * @deprecated Use {@link WTable} instead.
+ */
+@Deprecated
+public class WTableRepeater extends WRepeater {
+
+	/**
+	 * Parent table.
+	 */
+	private final WDataTable table;
+
+	/**
+	 * @param table the parent table.
+	 */
+<span class="fc" id="L21">	public WTableRepeater(final WDataTable table) {</span>
+<span class="fc" id="L22">		this.table = table;</span>
+<span class="fc" id="L23">		setNamingContext(true);</span>
+<span class="fc" id="L24">	}</span>
+
+	/**
+	 * Override paintComponent, as the table renderer does all the work.
+	 *
+	 * @param renderContext the RenderContext to send output to.
+	 */
+	@Override
+	protected void paintComponent(final RenderContext renderContext) {
+		// Do nothing
+<span class="nc" id="L34">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getId() {
+<span class="fc" id="L41">		return table.getId() + ID_CONTEXT_SEPERATOR + getIdName();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getIdName() {
+<span class="fc" id="L49">		return &quot;row&quot;;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

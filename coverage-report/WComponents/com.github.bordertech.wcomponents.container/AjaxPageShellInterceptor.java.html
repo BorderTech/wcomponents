@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>AjaxPageShellInterceptor.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.container</a> &gt; <span class="el_source">AjaxPageShellInterceptor.java</span></div><h1>AjaxPageShellInterceptor.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.container;
+
+import com.github.bordertech.wcomponents.AjaxHelper;
+import com.github.bordertech.wcomponents.AjaxOperation;
+import com.github.bordertech.wcomponents.Headers;
+import com.github.bordertech.wcomponents.RenderContext;
+import com.github.bordertech.wcomponents.Request;
+import com.github.bordertech.wcomponents.UIContext;
+import com.github.bordertech.wcomponents.UIContextHolder;
+import com.github.bordertech.wcomponents.WebUtilities;
+import com.github.bordertech.wcomponents.XmlStringBuilder;
+import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
+import com.github.bordertech.wcomponents.util.SystemException;
+import com.github.bordertech.wcomponents.util.Util;
+import com.github.bordertech.wcomponents.util.XMLUtil;
+
+/**
+ * This {@link InterceptorComponent} provides the XML wrapper necessary for serving up an AJAX response.
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ */
+<span class="fc" id="L23">public class AjaxPageShellInterceptor extends InterceptorComponent {</span>
+
+	/**
+	 * Override to set the content type of the response and reset the headers.
+	 *
+	 * @param request The request being serviced.
+	 */
+	@Override
+	public void preparePaint(final Request request) {
+<span class="fc" id="L32">		UIContext uic = UIContextHolder.getCurrent();</span>
+<span class="fc" id="L33">		Headers headers = uic.getUI().getHeaders();</span>
+<span class="fc" id="L34">		headers.reset();</span>
+<span class="fc" id="L35">		headers.setContentType(WebUtilities.CONTENT_TYPE_XML);</span>
+
+<span class="fc" id="L37">		super.preparePaint(request);</span>
+<span class="fc" id="L38">	}</span>
+
+	/**
+	 * Paints the targeted ajax regions. The format of the response is an agreement between the server and the client
+	 * side handling our AJAX response.
+	 *
+	 * @param renderContext the renderContext to send the output to.
+	 */
+	@Override
+	public void paint(final RenderContext renderContext) {
+<span class="fc" id="L48">		WebXmlRenderContext webRenderContext = (WebXmlRenderContext) renderContext;</span>
+<span class="fc" id="L49">		XmlStringBuilder xml = webRenderContext.getWriter();</span>
+<span class="fc" id="L50">		AjaxOperation operation = AjaxHelper.getCurrentOperation();</span>
+
+<span class="pc bpc" id="L52" title="1 of 2 branches missed.">		if (operation == null) {</span>
+			// the request attribute that we place in the ui contenxt in the action phase can't be null
+<span class="nc" id="L54">			throw new SystemException(</span>
+					&quot;Can't paint AJAX response. Couldn't find the expected reference to the AjaxOperation.&quot;);
+		}
+
+<span class="fc" id="L58">		UIContext uic = UIContextHolder.getCurrent();</span>
+<span class="fc" id="L59">		String focusId = uic.getFocussedId();</span>
+
+<span class="fc" id="L61">		xml.append(XMLUtil.getXMLDeclarationWithThemeXslt(uic));</span>
+<span class="fc" id="L62">		xml.append(XMLUtil.DOC_TYPE);  // It is possible that the AJAX response contains XHTML including &amp;nbsp;</span>
+<span class="fc" id="L63">		xml.appendTagOpen(&quot;ui:ajaxResponse&quot;);</span>
+<span class="fc" id="L64">		xml.append(XMLUtil.STANDARD_NAMESPACES);</span>
+<span class="pc bpc" id="L65" title="2 of 4 branches missed.">		xml.appendOptionalAttribute(&quot;defaultFocusId&quot;, uic.isFocusRequired() &amp;&amp; !Util.empty(focusId),</span>
+				focusId);
+<span class="fc" id="L67">		xml.appendClose();</span>
+
+<span class="fc" id="L69">		getBackingComponent().paint(renderContext);</span>
+
+<span class="fc" id="L71">		xml.appendEndTag(&quot;ui:ajaxResponse&quot;);</span>
+<span class="fc" id="L72">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

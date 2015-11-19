@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WShuffler.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">WShuffler.java</span></div><h1>WShuffler.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import com.github.bordertech.wcomponents.util.Util;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+/**
+ * The WShuffler is a WComponent that allows a list of options to have its order manually shuffled by the user. The
+ * component accepts a list of objects and the toString method is used to render the option in the response.
+ *
+ * @author Jonathan Austin
+ * @since 1.0.0
+ */
+public class WShuffler extends AbstractInput implements AjaxTrigger, AjaxTarget, SubordinateTarget {
+
+	/**
+	 * Creates an empty WShuffler.
+	 */
+	public WShuffler() {
+<span class="fc" id="L21">		this((List&lt;?&gt;) null);</span>
+<span class="fc" id="L22">	}</span>
+
+	/**
+	 * Creates a WShuffler with the specified options.
+	 *
+	 * @param options the shuffler options.
+	 */
+<span class="fc" id="L29">	public WShuffler(final List&lt;?&gt; options) {</span>
+<span class="fc" id="L30">		getOrCreateComponentModel().setData(options);</span>
+<span class="fc" id="L31">	}</span>
+
+	/**
+	 * Sets the shuffler options.
+	 *
+	 * @param options the shuffler options
+	 */
+	public void setOptions(final List&lt;?&gt; options) {
+<span class="fc" id="L39">		setData(options);</span>
+<span class="fc" id="L40">	}</span>
+
+	/**
+	 * Retrieves the shuffler options.
+	 *
+	 * @return the shuffler options
+	 */
+	public List&lt;?&gt; getOptions() {
+<span class="fc" id="L48">		return getValue();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public List&lt;?&gt; getValue() {
+		// Convert data to list (if necessary)
+<span class="fc" id="L57">		Object data = getData();</span>
+<span class="fc bfc" id="L58" title="All 2 branches covered.">		if (data == null) {</span>
+<span class="fc" id="L59">			return null;</span>
+<span class="fc bfc" id="L60" title="All 2 branches covered.">		} else if (data instanceof List) {</span>
+<span class="fc" id="L61">			return (List&lt;?&gt;) data;</span>
+<span class="fc bfc" id="L62" title="All 2 branches covered.">		} else if (data instanceof Object[]) {</span>
+<span class="fc" id="L63">			return Arrays.asList((Object[]) data);</span>
+		} else {
+<span class="fc" id="L65">			return Arrays.asList(new Object[]{data});</span>
+		}
+	}
+
+	/**
+	 * Sets the maximum number of rows that are visible in the list at any one time.
+	 *
+	 * @param rows the number of rows to display.
+	 */
+	public void setRows(final int rows) {
+<span class="fc" id="L75">		getOrCreateComponentModel().rows = rows;</span>
+<span class="fc" id="L76">	}</span>
+
+	/**
+	 * @return the number of rows to display in the list.
+	 */
+	public int getRows() {
+<span class="fc" id="L82">		return getComponentModel().rows;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected boolean doHandleRequest(final Request request) {
+<span class="fc" id="L90">		List&lt;?&gt; values = getRequestValue(request);</span>
+<span class="fc" id="L91">		List&lt;?&gt; current = getOptions();</span>
+
+<span class="fc bfc" id="L93" title="All 2 branches covered.">		boolean changed = !Util.equals(values, current);</span>
+
+<span class="fc bfc" id="L95" title="All 2 branches covered.">		if (changed) {</span>
+<span class="fc" id="L96">			setOptions(values);</span>
+		}
+
+<span class="fc" id="L99">		return changed;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public List&lt;?&gt; getRequestValue(final Request request) {
+<span class="fc bfc" id="L107" title="All 2 branches covered.">		if (isPresent(request)) {</span>
+<span class="fc" id="L108">			return getNewOptions(request.getParameterValues(getId()));</span>
+		} else {
+<span class="fc" id="L110">			return getOptions();</span>
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected boolean isPresent(final Request request) {
+		// Check the number of options have not changed
+<span class="fc" id="L120">		String[] paramValues = request.getParameterValues(getId());</span>
+<span class="pc bpc" id="L121" title="1 of 4 branches missed.">		return (paramValues != null &amp;&amp; getOptions() != null &amp;&amp; paramValues.length == getOptions().</span>
+<span class="fc bfc" id="L122" title="All 2 branches covered.">				size());</span>
+	}
+
+	/**
+	 * Shuffle the options.
+	 *
+	 * @param paramValues the array of option indexes as shuffled by the user
+	 * @return the shuffled options
+	 */
+	private List&lt;?&gt; getNewOptions(final String[] paramValues) {
+<span class="fc" id="L132">		List&lt;?&gt; oldOptions = getOptions();</span>
+
+		// Create a new list to hold the shuffled options
+<span class="fc" id="L135">		List&lt;Object&gt; newOptions = new ArrayList&lt;&gt;(paramValues.length);</span>
+
+		// Process the array of option indexes
+<span class="fc bfc" id="L138" title="All 2 branches covered.">		for (int i = 0; i &lt; paramValues.length; i++) {</span>
+<span class="fc" id="L139">			int idx = Integer.parseInt(paramValues[i]);</span>
+<span class="fc" id="L140">			newOptions.add(oldOptions.get(idx));</span>
+		}
+
+<span class="fc" id="L143">		return newOptions;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected ShufflerModel newComponentModel() {
+<span class="fc" id="L151">		return new ShufflerModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	// For type safety only
+	protected ShufflerModel getComponentModel() {
+<span class="fc" id="L160">		return (ShufflerModel) super.getComponentModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	// For type safety only
+	protected ShufflerModel getOrCreateComponentModel() {
+<span class="fc" id="L169">		return (ShufflerModel) super.getOrCreateComponentModel();</span>
+	}
+
+	/**
+	 * The ShufflerModel holds the state management of the shuffler.
+	 */
+<span class="fc" id="L175">	public static class ShufflerModel extends InputModel {</span>
+
+		/**
+		 * The number of visible rows to display.
+		 */
+		private int rows;
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

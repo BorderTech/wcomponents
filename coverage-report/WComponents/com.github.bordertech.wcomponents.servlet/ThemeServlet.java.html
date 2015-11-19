@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>ThemeServlet.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.servlet</a> &gt; <span class="el_source">ThemeServlet.java</span></div><h1>ThemeServlet.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.servlet;
+
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * &lt;p&gt;
+ * This servlet is designed to serve up theme files from within the WComponent project or jar file. This saves
+ * developers from having to configure where the webdocs directory is, or extract the theme into their WAR file.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * The ThemeServlet expects all static resources to be available in the classpath under &lt;code&gt;/theme/XXXXXX/&lt;/code&gt;.
+ * Where &quot;XXXXX&quot; is the value of the configuration parameter &quot;&lt;code&gt;theme.name&lt;/code&gt;&quot;.
+ * &lt;/p&gt;
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ * @deprecated no longer required. Theme is now available via WServlet.
+ */
+@Deprecated
+<span class="fc" id="L24">public class ThemeServlet extends HttpServlet {</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected void doPost(final HttpServletRequest req, final HttpServletResponse resp) throws
+			ServletException,
+			IOException {
+<span class="nc" id="L33">		doGet(req, resp);</span>
+<span class="nc" id="L34">	}</span>
+
+	/**
+	 * Serves up a file from the theme.
+	 *
+	 * @param req the request with the file name in parameter &quot;f&quot;, or following the servlet path.
+	 * @param resp the response to write to.
+	 * @throws ServletException on error.
+	 * @throws IOException if there is an error reading the file / writing the response.
+	 */
+	@Override
+	protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws
+			ServletException,
+			IOException {
+<span class="fc" id="L48">		ServletUtil.handleThemeResourceRequest(req, resp);</span>
+<span class="fc" id="L49">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

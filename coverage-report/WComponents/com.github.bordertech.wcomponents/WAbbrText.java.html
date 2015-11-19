@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WAbbrText.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">WAbbrText.java</span></div><h1>WAbbrText.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import com.github.bordertech.wcomponents.util.Factory;
+import com.github.bordertech.wcomponents.util.LookupTable;
+
+/**
+ * The WAbbrText component represents an abbreviation or acronym and the full textual description for its (abbreviated)
+ * text content.
+ *
+ * @author Kishan Bisht
+ * @author Mark Reeves
+ * @since 1.0.0
+ */
+public class WAbbrText extends WText {
+
+	/**
+	 * The lookup table instance for this application.
+	 */
+<span class="fc" id="L19">	private static final LookupTable TABLE = Factory.newInstance(LookupTable.class);</span>
+
+	/**
+	 * Creates an empty WAbbrText.
+	 *
+	 * An instance of WAbbrText created in this manner must have abbreviated display text and a toolTip (the full text
+	 * represented by the abbreviation) set to be useful.
+	 */
+<span class="fc" id="L27">	public WAbbrText() {</span>
+<span class="fc" id="L28">	}</span>
+
+	/**
+	 * Creates a WAbbrText with the specified abbreviated display text.
+	 *
+	 * An instance of WAbbrText created in this manner must have a toolTip (the full text represented by the
+	 * abbreviation) set to be useful.
+	 *
+	 * @param text The abbreviated text to display.
+	 */
+	public WAbbrText(final String text) {
+<span class="fc" id="L39">		super(text);</span>
+<span class="fc" id="L40">	}</span>
+
+	/**
+	 * Creates a WAbbrText with the specified abbreviated display text and toolTip full expansion text.
+	 *
+	 * @param text The abbreviated text to display.
+	 * @param description The full text represented by the abbreviation.
+	 */
+	public WAbbrText(final String text, final String description) {
+<span class="fc" id="L49">		this(text);</span>
+<span class="fc" id="L50">		setToolTip(description);</span>
+<span class="fc" id="L51">	}</span>
+
+	//================================
+	// Attributes
+	/**
+	 * @return the expanded text represented by the abbreviation.
+	 * @deprecated use getToolTip instead.
+	 */
+	public String getAbbrText() {
+<span class="fc" id="L60">		return getToolTip();</span>
+	}
+
+	/**
+	 * Sets the full text represented by the abbreviation.
+	 *
+	 * @param abbrText The full text represented by the abbreviation.
+	 * @deprecated use setToolTip instead.
+	 */
+	public void setAbbrText(final String abbrText) {
+<span class="fc" id="L70">		setToolTip(abbrText);</span>
+<span class="fc" id="L71">	}</span>
+
+	/**
+	 * Loads the abbreviated text component from the given code reference table entry.
+	 *
+	 * The display (abbreviated) text is set to the table entry's description. The toolTip is set to the table entry's
+	 * code.
+	 *
+	 * @param entry the CRT entry to use.
+	 */
+	public void setTextWithDesc(final Object entry) {
+<span class="fc" id="L82">		setText(TABLE.getDescription(null, entry));</span>
+<span class="fc" id="L83">		setToolTip(TABLE.getCode(null, entry));</span>
+<span class="fc" id="L84">	}</span>
+
+	/**
+	 * Loads the abbreviated text component from the given code reference table entry.
+	 *
+	 * The display (abbreviated) text is set to the table entry's code. The toolTip is set to the table entry's
+	 * description.
+	 *
+	 * @param entry the CRT entry to use.
+	 */
+	public void setTextWithCode(final Object entry) {
+<span class="fc" id="L95">		setText(TABLE.getCode(null, entry));</span>
+<span class="fc" id="L96">		setToolTip(TABLE.getDescription(null, entry));</span>
+<span class="fc" id="L97">	}</span>
+
+	/**
+	 * @return a String representation of this component, for debugging purposes.
+	 */
+	@Override
+	public String toString() {
+<span class="nc" id="L104">		String text = getText();</span>
+<span class="nc bnc" id="L105" title="All 2 branches missed.">		text = text == null ? &quot;null&quot; : '&quot;' + text + '&quot;';</span>
+
+<span class="nc" id="L107">		String expandedText = getToolTip();</span>
+<span class="nc bnc" id="L108" title="All 2 branches missed.">		expandedText = expandedText == null ? &quot;null&quot; : '&quot;' + expandedText + '&quot;';</span>
+
+<span class="nc" id="L110">		return toString(&quot;text=&quot; + text + &quot;, toolTip=&quot; + expandedText);</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

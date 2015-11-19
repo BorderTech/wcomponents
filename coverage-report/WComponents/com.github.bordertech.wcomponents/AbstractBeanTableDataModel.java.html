@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>AbstractBeanTableDataModel.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">AbstractBeanTableDataModel.java</span></div><h1>AbstractBeanTableDataModel.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+/**
+ * A default implementation of the {@link BeanTableDataModel} interface. This implementation does not support editing,
+ * row selection, filtering etc. Subclasses need only implement the {@link TableDataModel#getRowCount()} and
+ * {@link TableDataModel#getValueAt(int, int)} methods.
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ *
+ * @deprecated Use {@link WTable} and {@link AbstractBeanBoundTableModel} instead.
+ */
+@Deprecated
+<span class="fc" id="L18">public abstract class AbstractBeanTableDataModel extends AbstractTableDataModel implements</span>
+		BeanTableDataModel {
+
+	/**
+	 * The logger instance for this class.
+	 */
+<span class="fc" id="L24">	private static final Log LOG = LogFactory.getLog(AbstractBeanTableDataModel.class);</span>
+
+	/**
+	 * The data model's BeanProvider.
+	 */
+	private BeanProvider beanProvider;
+
+	/**
+	 * The beanId is used to obtain the bean from the provider.
+	 */
+	private Object beanId;
+
+	/**
+	 * This bean property that this component is interested in. The property is specified using Jakarta BeanUtils bean
+	 * notation.
+	 */
+	private String beanProperty;
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setBeanProvider(final BeanProvider beanProvider) {
+<span class="fc" id="L47">		this.beanProvider = beanProvider;</span>
+<span class="fc" id="L48">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setBeanId(final Object beanId) {
+<span class="fc" id="L55">		this.beanId = beanId;</span>
+<span class="fc" id="L56">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Object getBeanId() {
+<span class="fc" id="L63">		return beanId;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setBeanProperty(final String propertyName) {
+<span class="fc" id="L71">		this.beanProperty = propertyName;</span>
+<span class="fc" id="L72">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getBeanProperty() {
+<span class="fc" id="L79">		return beanProperty;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Object getBean() {
+<span class="fc" id="L87">		Object bean = beanProvider.getBean(this);</span>
+
+<span class="fc" id="L89">		Object beanValue = null;</span>
+<span class="fc bfc" id="L90" title="All 2 branches covered.">		if (bean != null) {</span>
+<span class="fc" id="L91">			String property = getBeanProperty();</span>
+<span class="fc bfc" id="L92" title="All 4 branches covered.">			if (property == null || &quot;.&quot;.equals(property)) {</span>
+<span class="fc" id="L93">				beanValue = bean;</span>
+			} else {
+				try {
+<span class="fc" id="L96">					beanValue = PropertyUtils.getProperty(bean, property);</span>
+<span class="nc" id="L97">				} catch (Exception e) {</span>
+<span class="nc" id="L98">					LOG.error(&quot;Failed to read bean property &quot; + property + &quot; from &quot; + bean, e);</span>
+<span class="fc" id="L99">				}</span>
+			}
+		}
+
+<span class="fc" id="L103">		return beanValue;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Object getBeanValue() {
+		// For backward compatibility, the getBean() method actually returns the &quot;bean value&quot;.
+<span class="nc" id="L112">		return getBean();</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

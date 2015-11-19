@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WDefinitionList.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">WDefinitionList.java</span></div><h1>WDefinitionList.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import com.github.bordertech.wcomponents.util.Duplet;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * &lt;p&gt;
+ * WDefinitionList is used to render pair lists of terms/data.&lt;/p&gt;
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ */
+public class WDefinitionList extends AbstractNamingContextContainer implements AjaxTarget,
+		SubordinateTarget, Marginable {
+
+	/**
+	 * The layout options.
+	 */
+<span class="pc" id="L22">	public enum Type {</span>
+		/**
+		 * A layout where elements are placed on the same line.
+		 */
+<span class="fc" id="L26">		FLAT,</span>
+		/**
+		 * A layout where elements are placed vertically.
+		 */
+<span class="fc" id="L30">		STACKED,</span>
+		/**
+		 * A layout where elements are placed in columns.
+		 */
+<span class="fc" id="L34">		COLUMN,</span>
+		/**
+		 * A layout where elements are placed ???.
+		 */
+<span class="fc" id="L38">		NORMAL</span>
+	}
+
+	/**
+	 * Content is added to this hidden container, so nothing can be added to the definition list directly.
+	 */
+<span class="fc" id="L44">	private final WContainer content = new WContainer();</span>
+
+	/**
+	 * Creates an empty WDefinitionList with a {@link Type#NORMAL} layout.
+	 */
+	public WDefinitionList() {
+<span class="fc" id="L50">		this(Type.NORMAL);</span>
+<span class="fc" id="L51">	}</span>
+
+	/**
+	 * Creates an empty WDefinitionList with the given layout type.
+	 *
+	 * @param type the layout type.
+	 */
+<span class="fc" id="L58">	public WDefinitionList(final Type type) {</span>
+<span class="fc" id="L59">		add(content);</span>
+<span class="fc" id="L60">		getComponentModel().type = type;</span>
+<span class="fc" id="L61">	}</span>
+
+	/**
+	 * @return the layout type.
+	 */
+	public Type getType() {
+<span class="fc" id="L67">		return getComponentModel().type;</span>
+	}
+
+	/**
+	 * Sets the layout type.
+	 *
+	 * @param layout The layout to set.
+	 */
+	public void setType(final Type layout) {
+<span class="fc" id="L76">		getOrCreateComponentModel().type = layout;</span>
+<span class="fc" id="L77">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setMargin(final Margin margin) {
+<span class="fc" id="L84">		getOrCreateComponentModel().margin = margin;</span>
+<span class="fc" id="L85">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Margin getMargin() {
+<span class="fc" id="L92">		return getComponentModel().margin;</span>
+	}
+
+	/**
+	 * Adds a term to this definition list. If there is an existing term, the component is added to the list of data for
+	 * the term.
+	 *
+	 * @param term the term to add.
+	 * @param data the term data.
+	 */
+	public void addTerm(final String term, final WComponent... data) {
+<span class="fc bfc" id="L103" title="All 2 branches covered.">		for (WComponent component : data) {</span>
+<span class="pc bpc" id="L104" title="1 of 2 branches missed.">			if (component != null) {</span>
+<span class="fc" id="L105">				content.add(component, term);</span>
+			}
+		}
+
+		// If the term doesn't exist, we may need to add a dummy component
+<span class="fc bfc" id="L110" title="All 2 branches covered.">		if (getComponentsForTerm(term).isEmpty()) {</span>
+<span class="fc" id="L111">			content.add(new DefaultWComponent(), term);</span>
+		}
+<span class="fc" id="L113">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void remove(final WComponent child) {
+<span class="nc" id="L120">		content.remove(child);</span>
+<span class="nc" id="L121">	}</span>
+
+	/**
+	 * Removes a term from the definition list. All data (components) for the term is removed.
+	 *
+	 * @param term the term to remove.
+	 */
+	public void removeTerm(final String term) {
+<span class="fc bfc" id="L129" title="All 2 branches covered.">		for (WComponent child : getComponentsForTerm(term)) {</span>
+<span class="fc" id="L130">			content.remove(child);</span>
+<span class="fc" id="L131">		}</span>
+<span class="fc" id="L132">	}</span>
+
+	/**
+	 * Groups a definition list's child components by their term for rendering.
+	 *
+	 * @return a list of this definition list's children grouped by their terms.
+	 */
+	public List&lt;Duplet&lt;String, List&lt;WComponent&gt;&gt;&gt; getTerms() {
+<span class="fc" id="L140">		Map&lt;String, Duplet&lt;String, List&lt;WComponent&gt;&gt;&gt; componentsByTerm = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L141">		List&lt;Duplet&lt;String, List&lt;WComponent&gt;&gt;&gt; result = new ArrayList&lt;&gt;();</span>
+
+<span class="fc" id="L143">		List&lt;WComponent&gt; childList = content.getComponentModel().getChildren();</span>
+
+<span class="fc bfc" id="L145" title="All 2 branches covered.">		if (childList != null) {</span>
+<span class="fc bfc" id="L146" title="All 2 branches covered.">			for (int i = 0; i &lt; childList.size(); i++) {</span>
+<span class="fc" id="L147">				WComponent child = childList.get(i);</span>
+<span class="fc" id="L148">				String term = child.getTag();</span>
+
+<span class="fc" id="L150">				Duplet&lt;String, List&lt;WComponent&gt;&gt; termComponents = componentsByTerm.get(term);</span>
+
+<span class="fc bfc" id="L152" title="All 2 branches covered.">				if (termComponents == null) {</span>
+<span class="fc" id="L153">					termComponents = new Duplet&lt;String, List&lt;WComponent&gt;&gt;(term,</span>
+							new ArrayList&lt;WComponent&gt;());
+<span class="fc" id="L155">					componentsByTerm.put(term, termComponents);</span>
+<span class="fc" id="L156">					result.add(termComponents);</span>
+				}
+
+<span class="fc" id="L159">				termComponents.getSecond().add(child);</span>
+			}
+		}
+
+<span class="fc" id="L163">		return result;</span>
+	}
+
+	/**
+	 * Retrieves the components for the given term.
+	 *
+	 * @param term the term of the children to be retrieved.
+	 * @return the child components for the given term, may be empty.
+	 */
+	private List&lt;WComponent&gt; getComponentsForTerm(final String term) {
+<span class="fc" id="L173">		List&lt;WComponent&gt; childList = content.getComponentModel().getChildren();</span>
+<span class="fc" id="L174">		List&lt;WComponent&gt; result = new ArrayList&lt;&gt;();</span>
+
+<span class="fc bfc" id="L176" title="All 2 branches covered.">		if (childList != null) {</span>
+<span class="fc bfc" id="L177" title="All 2 branches covered.">			for (int i = 0; i &lt; childList.size(); i++) {</span>
+<span class="fc" id="L178">				WComponent child = childList.get(i);</span>
+
+<span class="fc bfc" id="L180" title="All 2 branches covered.">				if (term.equals(child.getTag())) {</span>
+<span class="fc" id="L181">					result.add(child);</span>
+				}
+			}
+		}
+
+<span class="fc" id="L186">		return result;</span>
+	}
+
+	/**
+	 * Creates a new Component model.
+	 *
+	 * @return a new DefinitionListModel.
+	 */
+	@Override // For type safety only
+	protected DefinitionListModel newComponentModel() {
+<span class="fc" id="L196">		return new DefinitionListModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override // For type safety only
+	protected DefinitionListModel getComponentModel() {
+<span class="fc" id="L204">		return (DefinitionListModel) super.getComponentModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override // For type safety only
+	protected DefinitionListModel getOrCreateComponentModel() {
+<span class="fc" id="L212">		return (DefinitionListModel) super.getOrCreateComponentModel();</span>
+	}
+
+	/**
+	 * Holds the extrinsic state information of the component.
+	 *
+	 * @author Yiannis Paschalidis
+	 */
+<span class="fc" id="L220">	public static class DefinitionListModel extends ComponentModel {</span>
+
+		/**
+		 * The layout.
+		 */
+<span class="fc" id="L225">		private Type type = Type.NORMAL;</span>
+
+		/**
+		 * The margins to be used on the defintion list.
+		 */
+		private Margin margin;
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WContent.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">WContent.java</span></div><h1>WContent.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import com.github.bordertech.wcomponents.util.Util;
+import java.util.Map;
+
+/**
+ * &lt;p&gt;
+ * This wcomponent enables the display of arbitrary document content from a WComponent application. This component does
+ * not by default display anything until the {@link #display()} method is called. It then causes the browser to access
+ * the content through the WContentHelperServlet.&lt;/p&gt;
+ *
+ * &lt;p&gt;
+ * By default, the browser will display the content in a new window, but the {@link #setDisplayMode(DisplayMode)} method
+ * can be used to display the content inline or prompt the user to save the content to a file.&lt;/p&gt;
+ *
+ * @author Martin Shevchenko
+ * @since 1.0.0
+ */
+<span class="fc" id="L19">public class WContent extends AbstractWComponent implements Targetable {</span>
+
+	/**
+	 * An enumeration of how the content should be provided to the user.
+	 */
+<span class="pc" id="L24">	public enum DisplayMode {</span>
+		/**
+		 * Indicates that the content should be displayed in another browser window.
+		 */
+<span class="fc" id="L28">		OPEN_NEW_WINDOW,</span>
+		/**
+		 * Indicates that the content should replace the current page.
+		 */
+<span class="fc" id="L32">		DISPLAY_INLINE,</span>
+		/**
+		 * Indicates that the browser should prompt the user to save the content to a file. Note that for this to work,
+		 * the ContenetAccess MUST have its description set to the file name which the content should be saved as.
+		 */
+<span class="fc" id="L37">		PROMPT_TO_SAVE</span>
+	}
+
+	/**
+	 * This magic parameter is a work-around to the loading indicator becoming &quot;stuck&quot; in certain browsers. It is also
+	 * used by the static resource handler to set the correct headers
+	 *
+	 */
+	public static final String URL_CONTENT_MODE_PARAMETER_KEY = &quot;wc_content&quot;;
+
+	/**
+	 * Supply this component with access to the document content to be displayed.
+	 *
+	 * @param contentAccess the ContentAccess which will supply the content.
+	 */
+	public void setContentAccess(final ContentAccess contentAccess) {
+<span class="fc" id="L53">		getOrCreateComponentModel().contentAccess = contentAccess;</span>
+<span class="fc" id="L54">	}</span>
+
+	/**
+	 * @return the ContentAccess which will supply the content.
+	 */
+	public ContentAccess getContentAccess() {
+<span class="fc" id="L60">		return getComponentModel().contentAccess;</span>
+	}
+
+	/**
+	 * Next time this component is painted, it will output the appropriate script to open a new browser window to
+	 * display the content.
+	 */
+	public void display() {
+<span class="fc" id="L68">		getOrCreateComponentModel().displayRequested = true;</span>
+<span class="fc" id="L69">	}</span>
+
+	/**
+	 * @return The height of the window containing the document content. Default is 600px.
+	 */
+	public String getHeight() {
+<span class="fc" id="L75">		return getComponentModel().height;</span>
+	}
+
+	/**
+	 * @param height The height of the window containing the document content.
+	 */
+	public void setHeight(final String height) {
+<span class="fc" id="L82">		getOrCreateComponentModel().height = height;</span>
+<span class="fc" id="L83">	}</span>
+
+	/**
+	 * @return Returns True if the window is resizable.
+	 */
+	public boolean isResizable() {
+<span class="fc" id="L89">		return getComponentModel().resizable;</span>
+	}
+
+	/**
+	 * @param resizable Should the window be resizable.
+	 */
+	public void setResizable(final boolean resizable) {
+<span class="fc" id="L96">		getOrCreateComponentModel().resizable = resizable;</span>
+<span class="fc" id="L97">	}</span>
+
+	/**
+	 * @return The width of the window containing the document content. Default is 800px.
+	 */
+	public String getWidth() {
+<span class="fc" id="L103">		return getComponentModel().width;</span>
+	}
+
+	/**
+	 * @param width The width of the window containing the document content.
+	 */
+	public void setWidth(final String width) {
+<span class="fc" id="L110">		getOrCreateComponentModel().width = width;</span>
+<span class="fc" id="L111">	}</span>
+
+	/**
+	 * @return Returns the displayMode.
+	 */
+	public DisplayMode getDisplayMode() {
+<span class="fc" id="L117">		return getComponentModel().displayMode;</span>
+	}
+
+	/**
+	 * Sets the content display mode. The default displayMode is {@link DisplayMode#OPEN_NEW_WINDOW}.
+	 *
+	 * @param displayMode The displayMode to set.
+	 */
+	public void setDisplayMode(final DisplayMode displayMode) {
+<span class="pc bpc" id="L126" title="1 of 2 branches missed.">		getOrCreateComponentModel().displayMode = displayMode == null ? DisplayMode.OPEN_NEW_WINDOW : displayMode;</span>
+<span class="fc" id="L127">	}</span>
+
+	/**
+	 * @return the cacheKey
+	 */
+	public String getCacheKey() {
+<span class="fc" id="L133">		return getComponentModel().cacheKey;</span>
+	}
+
+	/**
+	 * @param cacheKey the cacheKey to set.
+	 */
+	public void setCacheKey(final String cacheKey) {
+<span class="fc" id="L140">		getOrCreateComponentModel().cacheKey = cacheKey;</span>
+<span class="fc" id="L141">	}</span>
+
+	/**
+	 * Indicates whether the content should be displayed in the given context.
+	 *
+	 * @return true if the content should be displayed, otherwise false.
+	 */
+	public boolean isDisplayRequested() {
+<span class="fc" id="L149">		return getComponentModel().displayRequested;</span>
+	}
+
+	/**
+	 * Resets the flag used to indicate that the content should be displayed.
+	 */
+	private void resetDisplayRequested() {
+<span class="fc" id="L156">		getOrCreateComponentModel().displayRequested = false;</span>
+<span class="fc" id="L157">	}</span>
+
+	/**
+	 * Implementation of the Targetable interface.
+	 *
+	 * @return the target id for this targetable.
+	 */
+	@Override
+	public String getTargetId() {
+<span class="fc" id="L166">		return getId();</span>
+	}
+
+	/**
+	 * Retrieves a dynamic URL which this targetable component can be accessed from.
+	 *
+	 * @return the URL to access this targetable component.
+	 */
+	public String getUrl() {
+<span class="fc" id="L175">		ContentAccess content = getContentAccess();</span>
+
+<span class="fc bfc" id="L177" title="All 2 branches covered.">		String mode = DisplayMode.PROMPT_TO_SAVE.equals(getDisplayMode()) ? &quot;attach&quot; : &quot;inline&quot;;</span>
+
+		// Check for a &quot;static&quot; resource
+<span class="pc bpc" id="L180" title="1 of 2 branches missed.">		if (content instanceof InternalResource) {</span>
+<span class="nc" id="L181">			String url = ((InternalResource) content).getTargetUrl();</span>
+			// This magic parameter is a work-around to the loading indicator becoming
+			// &quot;stuck&quot; in certain browsers.
+			// It is also used by the static resource handler to set the correct headers
+<span class="nc" id="L185">			url = url + &quot;&amp;&quot; + URL_CONTENT_MODE_PARAMETER_KEY + &quot;=&quot; + mode;</span>
+<span class="nc" id="L186">			return url;</span>
+		}
+
+<span class="fc" id="L189">		Environment env = getEnvironment();</span>
+<span class="fc" id="L190">		Map&lt;String, String&gt; parameters = env.getHiddenParameters();</span>
+<span class="fc" id="L191">		parameters.put(Environment.TARGET_ID, getTargetId());</span>
+
+<span class="pc bpc" id="L193" title="1 of 2 branches missed.">		if (Util.empty(getCacheKey())) {</span>
+			// Add some randomness to the URL to prevent caching
+<span class="nc" id="L195">			String random = WebUtilities.generateRandom();</span>
+<span class="nc" id="L196">			parameters.put(Environment.UNIQUE_RANDOM_PARAM, random);</span>
+<span class="nc" id="L197">		} else {</span>
+			// Remove step counter as not required for cached content
+<span class="fc" id="L199">			parameters.remove(Environment.STEP_VARIABLE);</span>
+<span class="fc" id="L200">			parameters.remove(Environment.SESSION_TOKEN_VARIABLE);</span>
+			// Add the cache key
+<span class="fc" id="L202">			parameters.put(Environment.CONTENT_CACHE_KEY, getCacheKey());</span>
+		}
+
+		// This magic parameter is a work-around to the loading indicator becoming
+		// &quot;stuck&quot; in certain browsers. It is only read by the theme.
+<span class="fc" id="L207">		parameters.put(URL_CONTENT_MODE_PARAMETER_KEY, mode);</span>
+
+		// The targetable path needs to be configured for the portal environment.
+<span class="fc" id="L210">		String url = env.getWServletPath();</span>
+
+		// Note the last parameter. In javascript we don't want to encode &quot;&amp;&quot;.
+<span class="fc" id="L213">		return WebUtilities.getPath(url, parameters, true);</span>
+	}
+
+	/**
+	 * &lt;p&gt;
+	 * Override handleRequest in order to perform processing specific to this component.&lt;/p&gt;
+	 *
+	 * &lt;p&gt;
+	 * When the new browser window for the document content is opened, it will make another request to fetch the
+	 * content. It is that situation we are trying to detect and handle here.&lt;/p&gt;
+	 *
+	 * @param request the request being responded to.
+	 */
+	@Override
+	public void handleRequest(final Request request) {
+<span class="fc" id="L228">		resetDisplayRequested();</span>
+
+		// Has this component been targeted to return the document content?
+		// Look in the request for the target parameter and see if it's for us.
+		// The target parameter is encoded into the url in the javascript that
+		// was rendered by this component to open the new browser window.
+<span class="fc" id="L234">		String targ = request.getParameter(Environment.TARGET_ID);</span>
+<span class="pc bpc" id="L235" title="1 of 4 branches missed.">		boolean contentReqested = targ != null &amp;&amp; targ.equals(getTargetId());</span>
+
+<span class="fc bfc" id="L237" title="All 2 branches covered.">		if (contentReqested) {</span>
+<span class="fc" id="L238">			ContentEscape escape = new ContentEscape(getContentAccess());</span>
+<span class="fc bfc" id="L239" title="All 2 branches covered.">			escape.setCacheable(!Util.empty(getCacheKey()));</span>
+<span class="pc bpc" id="L240" title="1 of 2 branches missed.">			escape.setDisplayInline(getDisplayMode() != DisplayMode.PROMPT_TO_SAVE);</span>
+<span class="fc" id="L241">			throw escape;</span>
+		}
+<span class="fc" id="L243">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected void afterPaint(final RenderContext renderContext) {
+<span class="fc" id="L250">		super.afterPaint(renderContext);</span>
+		// Clear display flag
+<span class="fc" id="L252">		resetDisplayRequested();</span>
+<span class="fc" id="L253">	}</span>
+
+	/**
+	 * @return a String representation of this component, for debugging purposes.
+	 */
+	@Override
+	public String toString() {
+<span class="nc" id="L260">		ContentAccess content = getContentAccess();</span>
+<span class="nc bnc" id="L261" title="All 2 branches missed.">		return toString(content == null ? &quot;null&quot; : content.getClass().getSimpleName());</span>
+	}
+
+	// --------------------------------
+	// Extrinsic state management
+	/**
+	 * Creates a new ComponentModel appropriate for this component.
+	 *
+	 * @return a new ContentModel.
+	 */
+	@Override
+	protected ContentModel newComponentModel() {
+<span class="fc" id="L273">		return new ContentModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected ContentModel getComponentModel() {
+<span class="fc" id="L281">		return (ContentModel) super.getComponentModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected ContentModel getOrCreateComponentModel() {
+<span class="fc" id="L289">		return (ContentModel) super.getOrCreateComponentModel();</span>
+	}
+
+	/**
+	 * Holds the extrinsic state information of a WContent.
+	 */
+<span class="fc" id="L295">	public static class ContentModel extends ComponentModel {</span>
+
+		/**
+		 * Content to display.
+		 */
+		private ContentAccess contentAccess;
+		/**
+		 * Display requested flag.
+		 */
+<span class="fc" id="L304">		private boolean displayRequested = false;</span>
+		/**
+		 * Cache key for the content.
+		 */
+		private String cacheKey;
+
+		/**
+		 * The initial window width.
+		 */
+<span class="fc" id="L313">		private String width = &quot;800px&quot;;</span>
+
+		/**
+		 * The initial window hegiht.
+		 */
+<span class="fc" id="L318">		private String height = &quot;600px&quot;;</span>
+
+		/**
+		 * Whether the window should allow resizing by the user.
+		 */
+<span class="fc" id="L323">		private boolean resizable = true;</span>
+
+		/**
+		 * Indicates how the content should be provided to the user.
+		 */
+<span class="fc" id="L328">		private DisplayMode displayMode = DisplayMode.OPEN_NEW_WINDOW;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

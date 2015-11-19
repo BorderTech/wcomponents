@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>GridLayout.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.layout</a> &gt; <span class="el_source">GridLayout.java</span></div><h1>GridLayout.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.layout;
+
+/**
+ * GridLayout is a {@link LayoutManager} that emulates {@link java.awt.GridLayout}.
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ */
+public class GridLayout implements LayoutManager {
+
+	/**
+	 * The number of rows, or 0 for a dynamic number of rows based on the number of components and columns.
+	 */
+	private final int rows;
+
+	/**
+	 * The number of columns, or 0 for a dynamic number of columns based on the number of components and columns.
+	 */
+	private final int cols;
+
+	/**
+	 * The horizontal gap between the columns, measured in pixels.
+	 */
+	private final int hgap;
+
+	/**
+	 * The vertical gap between the rows, measured in pixels.
+	 */
+	private final int vgap;
+
+	/**
+	 * Creates a grid layout with the specified number of rows and columns.
+	 * &lt;p&gt;
+	 * One, but not both, of &lt;code&gt;rows&lt;/code&gt; and &lt;code&gt;cols&lt;/code&gt; can be zero, which means that any number of objects
+	 * can be placed in a row or in a column.
+	 *
+	 * @param rows the rows, with the value zero meaning any number of rows.
+	 * @param cols the columns, with the value zero meaning any number of columns.
+	 */
+	public GridLayout(final int rows, final int cols) {
+<span class="fc" id="L41">		this(rows, cols, 0, 0);</span>
+<span class="fc" id="L42">	}</span>
+
+	/**
+	 * Creates a grid layout with the specified number of rows and columns.
+	 * &lt;p&gt;
+	 * In addition, the horizontal and vertical gaps are set to the specified values. Horizontal gaps are placed at the
+	 * left and right edges, and between each of the columns. Vertical gaps are placed at the top and bottom edges, and
+	 * between each of the rows.
+	 * &lt;p&gt;
+	 * One, but not both, of &lt;code&gt;rows&lt;/code&gt; and &lt;code&gt;cols&lt;/code&gt; can be zero, which means that any number of objects
+	 * can be placed in a row or in a column.
+	 * &lt;p&gt;
+	 * All &lt;code&gt;GridLayout&lt;/code&gt; constructors defer to this one.
+	 *
+	 * @param rows the rows, with the value zero meaning any number of rows
+	 * @param cols the columns, with the value zero meaning any number of columns
+	 * @param hgap the horizontal gap between the columns, measured in pixels.
+	 * @param vgap the vertical gap between the rows, measured in pixels.
+	 */
+<span class="fc" id="L61">	public GridLayout(final int rows, final int cols, final int hgap, final int vgap) {</span>
+<span class="fc bfc" id="L62" title="All 2 branches covered.">		if (rows &lt; 0) {</span>
+<span class="fc" id="L63">			throw new IllegalArgumentException(&quot;Rows must be greater than or equal to zero&quot;);</span>
+		}
+
+<span class="fc bfc" id="L66" title="All 2 branches covered.">		if (cols &lt; 0) {</span>
+<span class="fc" id="L67">			throw new IllegalArgumentException(&quot;Cols must be greater than or equal to zero&quot;);</span>
+		}
+
+<span class="fc bfc" id="L70" title="All 2 branches covered.">		if (hgap &lt; 0) {</span>
+<span class="fc" id="L71">			throw new IllegalArgumentException(&quot;Hgap must be greater than or equal to zero&quot;);</span>
+		}
+
+<span class="fc bfc" id="L74" title="All 2 branches covered.">		if (vgap &lt; 0) {</span>
+<span class="fc" id="L75">			throw new IllegalArgumentException(&quot;Vgap must be greater than or equal to zero&quot;);</span>
+		}
+
+<span class="fc bfc" id="L78" title="All 4 branches covered.">		if (rows == 0 &amp;&amp; cols == 0) {</span>
+<span class="fc" id="L79">			throw new IllegalArgumentException(&quot;One of rows or cols must be greater than zero&quot;);</span>
+		}
+
+<span class="fc" id="L82">		this.rows = rows;</span>
+<span class="fc" id="L83">		this.cols = cols;</span>
+<span class="fc" id="L84">		this.hgap = hgap;</span>
+<span class="fc" id="L85">		this.vgap = vgap;</span>
+<span class="fc" id="L86">	}</span>
+
+	/**
+	 * @return Returns the horizontal gap between the cells, measured in pixels.
+	 */
+	public int getHgap() {
+<span class="fc" id="L92">		return hgap;</span>
+	}
+
+	/**
+	 * @return Returns the vertical gap between the cells, measured in pixels.
+	 */
+	public int getVgap() {
+<span class="fc" id="L99">		return vgap;</span>
+	}
+
+	/**
+	 * @return the number of rows, or 0 for a dynamic number of rows based on the number of components and columns.
+	 */
+	public int getRows() {
+<span class="fc" id="L106">		return rows;</span>
+	}
+
+	/**
+	 * @return the number of columns, or 0 for a dynamic number of column based on the number of components and rows.
+	 */
+	public int getCols() {
+<span class="fc" id="L113">		return cols;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

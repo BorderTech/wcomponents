@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>Triplet.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.util</a> &gt; <span class="el_source">Triplet.java</span></div><h1>Triplet.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.util;
+
+/**
+ * A type-safe generic collection of three items.
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ *
+ * @param &lt;T1&gt; the type of the first item
+ * @param &lt;T2&gt; the type of the second item
+ * @param &lt;T3&gt; the type of the third item
+ */
+public class Triplet&lt;T1, T2, T3&gt; {
+
+	/**
+	 * The first item.
+	 */
+	private T1 first;
+
+	/**
+	 * The second item.
+	 */
+	private T2 second;
+
+	/**
+	 * The third item.
+	 */
+	private T3 third;
+
+	/**
+	 * Creates an empty duplet.
+	 */
+<span class="fc" id="L33">	public Triplet() {</span>
+<span class="fc" id="L34">	}</span>
+
+	/**
+	 * Creates a duplet with the specified items.
+	 *
+	 * @param first the first item.
+	 * @param second the second item.
+	 * @param third the third item.
+	 */
+<span class="fc" id="L43">	public Triplet(final T1 first, final T2 second, final T3 third) {</span>
+<span class="fc" id="L44">		this.first = first;</span>
+<span class="fc" id="L45">		this.second = second;</span>
+<span class="fc" id="L46">		this.third = third;</span>
+<span class="fc" id="L47">	}</span>
+
+	/**
+	 * @return Returns the first item.
+	 */
+	public T1 getFirst() {
+<span class="fc" id="L53">		return first;</span>
+	}
+
+	/**
+	 * @param first The first item to set.
+	 */
+	public void setFirst(final T1 first) {
+<span class="fc" id="L60">		this.first = first;</span>
+<span class="fc" id="L61">	}</span>
+
+	/**
+	 * @return Returns the second item.
+	 */
+	public T2 getSecond() {
+<span class="fc" id="L67">		return second;</span>
+	}
+
+	/**
+	 * @param second The second item to set.
+	 */
+	public void setSecond(final T2 second) {
+<span class="fc" id="L74">		this.second = second;</span>
+<span class="fc" id="L75">	}</span>
+
+	/**
+	 * @return Returns the third item.
+	 */
+	public T3 getThird() {
+<span class="fc" id="L81">		return third;</span>
+	}
+
+	/**
+	 * @param third The third item to set.
+	 */
+	public void setThird(final T3 third) {
+<span class="fc" id="L88">		this.third = third;</span>
+<span class="fc" id="L89">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public int hashCode() {
+<span class="pc bpc" id="L96" title="1 of 2 branches missed.">		int hash = (first == null ? 0 : first.hashCode());</span>
+<span class="pc bpc" id="L97" title="1 of 2 branches missed.">		hash = hash * 31 + (second == null ? 0 : second.hashCode());</span>
+<span class="pc bpc" id="L98" title="1 of 2 branches missed.">		hash = hash * 31 + (third == null ? 0 : third.hashCode());</span>
+
+<span class="fc" id="L100">		return hash;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean equals(final Object obj) {
+<span class="fc bfc" id="L108" title="All 2 branches covered.">		if (!(obj instanceof Triplet)) {</span>
+<span class="fc" id="L109">			return false;</span>
+		}
+
+<span class="fc" id="L112">		Triplet other = (Triplet) obj;</span>
+
+<span class="pc bpc" id="L114" title="1 of 2 branches missed.">		return Util.equals(first, other.first)</span>
+<span class="fc bfc" id="L115" title="All 2 branches covered.">				&amp;&amp; Util.equals(second, other.second)</span>
+<span class="pc bpc" id="L116" title="1 of 2 branches missed.">				&amp;&amp; Util.equals(third, other.third);</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

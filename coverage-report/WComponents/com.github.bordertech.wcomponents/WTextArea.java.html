@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WTextArea.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">WTextArea.java</span></div><h1>WTextArea.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+/**
+ * &lt;p&gt;
+ * A WTextArea is a wcomponent used to display a html textarea. It is very much like WTextField except that it has
+ * multiple lines of input. Use the &quot;setRows&quot; method to define the number of lines displayed. Since 2015 this component
+ * may also be put into Rich Text Editor mode.
+ * &lt;/p&gt;
+ *
+ * @author James Gifford
+ * @author Jonathan Austin
+ * @author Rick Brown
+ * @since 1.0.0
+ */
+<span class="fc" id="L15">public class WTextArea extends WTextField {</span>
+
+	/**
+	 * @return the number of rows of text that are visible without scrolling.
+	 */
+	public int getRows() {
+<span class="fc" id="L21">		return getComponentModel().rows;</span>
+	}
+
+	/**
+	 * Sets the number of rows of text that are visible without scrolling.
+	 *
+	 * @param rows the number of rows.
+	 */
+	public void setRows(final int rows) {
+<span class="fc" id="L30">		getOrCreateComponentModel().rows = rows;</span>
+<span class="fc" id="L31">	}</span>
+
+	/**
+	 * @return true if the field is in rich text mode.
+	 */
+	public boolean isRichTextArea() {
+<span class="fc" id="L37">		return getComponentModel().richTextArea;</span>
+	}
+
+	/**
+	 * Pass true to put the field into rich text mode.
+	 *
+	 * @param richTextArea the number of rows.
+	 */
+	public void setRichTextArea(final boolean richTextArea) {
+<span class="fc" id="L46">		getOrCreateComponentModel().richTextArea = richTextArea;</span>
+<span class="fc" id="L47">	}</span>
+
+	/**
+	 * Creates a new TextAreaModel.
+	 *
+	 * @return a new TextAreaModel
+	 */
+	@Override
+	protected TextAreaModel newComponentModel() {
+<span class="fc" id="L56">		return new TextAreaModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override // For type safety only
+	protected TextAreaModel getComponentModel() {
+<span class="fc" id="L64">		return (TextAreaModel) super.getComponentModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override // For type safety only
+	protected TextAreaModel getOrCreateComponentModel() {
+<span class="fc" id="L72">		return (TextAreaModel) super.getOrCreateComponentModel();</span>
+	}
+
+	/**
+	 * TextAreaModel holds Extrinsic state management of the field.
+	 *
+	 * @author Yiannis Paschalidis
+	 */
+<span class="fc" id="L80">	public static class TextAreaModel extends TextFieldModel {</span>
+
+		/**
+		 * The number of rows of text that are visible without scrolling.
+		 */
+		private int rows;
+
+		/**
+		 * If true this TextArea will be a Rich Text Field.
+		 */
+		private boolean richTextArea;
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

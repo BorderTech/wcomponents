@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>GroupExpression.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.subordinate.builder</a> &gt; <span class="el_source">GroupExpression.java</span></div><h1>GroupExpression.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.subordinate.builder;
+
+import com.github.bordertech.wcomponents.subordinate.And;
+import com.github.bordertech.wcomponents.subordinate.Condition;
+import com.github.bordertech.wcomponents.subordinate.Not;
+import com.github.bordertech.wcomponents.subordinate.Or;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+/**
+ * &lt;p&gt;
+ * This class describes a boolean expression. Since an expression evaluates to a boolean result, it may also be treated
+ * as a BooleanExpression.
+ * &lt;/p&gt;
+ *
+ * @author Yiannis Paschalidis
+ * @author Jonathan Austin
+ * @since 1.0.0
+ */
+public final class GroupExpression implements BooleanExpression {
+
+	/**
+	 * Default serialisation identifier.
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * The list of operands in this expression.
+	 */
+<span class="fc" id="L31">	private final List&lt;BooleanExpression&gt; operands = new ArrayList&lt;&gt;();</span>
+
+	/**
+	 * The type of expression.
+	 */
+	private final GroupExpression.Type type;
+
+	/**
+	 * The expression type.
+	 */
+<span class="pc" id="L41">	public enum Type {</span>
+		/**
+		 * An expression where the result is the logical OR of at least two boolean operands.
+		 */
+<span class="fc" id="L45">		OR,</span>
+		/**
+		 * An expression where the result is the logical AND of at least two boolean operands.
+		 */
+<span class="fc" id="L49">		AND,</span>
+		/**
+		 * An expression where the result is the logical NOT of a boolean operand.
+		 */
+<span class="fc" id="L53">		NOT</span>
+	}
+
+	/**
+	 * Creates a BooleanExpression.
+	 *
+	 * @param type the type of expression.
+	 */
+<span class="fc" id="L61">	public GroupExpression(final Type type) {</span>
+<span class="fc bfc" id="L62" title="All 2 branches covered.">		if (type == null) {</span>
+<span class="fc" id="L63">			throw new IllegalArgumentException(&quot;Group type can not be null&quot;);</span>
+		}
+<span class="fc" id="L65">		this.type = type;</span>
+<span class="fc" id="L66">	}</span>
+
+	/**
+	 * @return the expression type.
+	 */
+	public GroupExpression.Type getType() {
+<span class="fc" id="L72">		return type;</span>
+	}
+
+	/**
+	 * Adds an operand to the expression.
+	 *
+	 * @param operand the operand to add.
+	 */
+	public void add(final BooleanExpression operand) {
+<span class="fc" id="L81">		operands.add(operand);</span>
+<span class="fc" id="L82">	}</span>
+
+	/**
+	 * Removes an operand from the expression.
+	 *
+	 * @param operand the operand to remove.
+	 */
+	public void remove(final BooleanExpression operand) {
+<span class="fc" id="L90">		operands.remove(operand);</span>
+<span class="fc" id="L91">	}</span>
+
+	/**
+	 * @return an immutable list of the current operands.
+	 */
+	public List&lt;BooleanExpression&gt; getOperands() {
+<span class="fc" id="L97">		return Collections.unmodifiableList(operands);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Boolean evaluate() {
+<span class="pc bpc" id="L105" title="1 of 4 branches missed.">		switch (getType()) {</span>
+			case OR: {
+<span class="fc bfc" id="L107" title="All 2 branches covered.">				if (operands.size() &lt; 2) {</span>
+<span class="fc" id="L108">					throw new IllegalArgumentException(</span>
+							&quot;An OR expression must have at least 2 operands&quot;);
+				}
+
+<span class="fc bfc" id="L112" title="All 2 branches covered.">				for (BooleanExpression operand : operands) {</span>
+<span class="fc bfc" id="L113" title="All 2 branches covered.">					if (operand.evaluate()) {</span>
+<span class="fc" id="L114">						return true;</span>
+					}
+<span class="fc" id="L116">				}</span>
+
+<span class="fc" id="L118">				return false;</span>
+			}
+
+			case AND: {
+<span class="fc bfc" id="L122" title="All 2 branches covered.">				if (operands.size() &lt; 2) {</span>
+<span class="fc" id="L123">					throw new IllegalArgumentException(</span>
+							&quot;An AND expression must have at least 2 operands&quot;);
+				}
+
+<span class="fc bfc" id="L127" title="All 2 branches covered.">				for (BooleanExpression operand : operands) {</span>
+<span class="fc bfc" id="L128" title="All 2 branches covered.">					if (!operand.evaluate()) {</span>
+<span class="fc" id="L129">						return false;</span>
+					}
+<span class="fc" id="L131">				}</span>
+
+<span class="fc" id="L133">				return true;</span>
+			}
+
+			case NOT: {
+<span class="fc bfc" id="L137" title="All 2 branches covered.">				if (operands.size() != 1) {</span>
+<span class="fc" id="L138">					throw new IllegalArgumentException(&quot;A NOT expression must have 1 operand&quot;);</span>
+				}
+
+<span class="fc bfc" id="L141" title="All 2 branches covered.">				return !operands.get(0).evaluate();</span>
+			}
+
+			default:
+<span class="nc" id="L145">				throw new IllegalArgumentException(&quot;Unknown type: &quot; + type);</span>
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Condition build() {
+<span class="pc bpc" id="L154" title="1 of 4 branches missed.">		switch (getType()) {</span>
+			case OR: {
+<span class="fc" id="L156">				List&lt;Condition&gt; conditions = new ArrayList&lt;&gt;(operands.size());</span>
+
+<span class="fc bfc" id="L158" title="All 2 branches covered.">				for (BooleanExpression operand : operands) {</span>
+<span class="fc" id="L159">					conditions.add(operand.build());</span>
+<span class="fc" id="L160">				}</span>
+
+				// The subordinate API is a bit nasty, we have to split the list after the first two conditions.
+<span class="fc bfc" id="L163" title="All 2 branches covered.">				if (conditions.size() &lt; 2) {</span>
+<span class="fc" id="L164">					throw new IllegalArgumentException(</span>
+							&quot;An OR expression must include at least two operands.&quot;);
+				}
+
+<span class="fc" id="L168">				List&lt;Condition&gt; extraConditionsList = conditions.subList(2, conditions.size());</span>
+<span class="fc" id="L169">				Condition[] extraConditions = extraConditionsList.toArray(</span>
+<span class="fc" id="L170">						new Condition[extraConditionsList.size()]);</span>
+<span class="fc" id="L171">				return new Or(conditions.get(0), conditions.get(1), extraConditions);</span>
+			}
+			case AND: {
+<span class="fc" id="L174">				List&lt;Condition&gt; conditions = new ArrayList&lt;&gt;(operands.size());</span>
+
+<span class="fc bfc" id="L176" title="All 2 branches covered.">				for (BooleanExpression operand : operands) {</span>
+<span class="fc" id="L177">					conditions.add(operand.build());</span>
+<span class="fc" id="L178">				}</span>
+
+				// The subordinate API is a bit nasty, we have to split the list after the first two conditions.
+<span class="fc bfc" id="L181" title="All 2 branches covered.">				if (conditions.size() &lt; 2) {</span>
+<span class="fc" id="L182">					throw new IllegalArgumentException(</span>
+							&quot;An AND expression must include at least two operands.&quot;);
+				}
+
+<span class="fc" id="L186">				List&lt;Condition&gt; extraConditionsList = conditions.subList(2, conditions.size());</span>
+<span class="fc" id="L187">				Condition[] extraConditions = extraConditionsList.toArray(</span>
+<span class="fc" id="L188">						new Condition[extraConditionsList.size()]);</span>
+<span class="fc" id="L189">				return new And(conditions.get(0), conditions.get(1), extraConditions);</span>
+			}
+
+			case NOT:
+<span class="fc bfc" id="L193" title="All 2 branches covered.">				if (operands.size() != 1) {</span>
+<span class="fc" id="L194">					throw new IllegalArgumentException(&quot;A NOT expression must have 1 operand&quot;);</span>
+				}
+<span class="fc" id="L196">				BooleanExpression operand = operands.get(0);</span>
+<span class="fc" id="L197">				return new Not(operand.build());</span>
+
+			default:
+<span class="nc" id="L200">				throw new IllegalArgumentException(&quot;Unknown action type: &quot; + getType());</span>
+		}
+
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String toString() {
+<span class="pc bpc" id="L210" title="1 of 3 branches missed.">		switch (getType()) {</span>
+			case OR:
+			case AND: {
+<span class="fc" id="L213">				StringBuffer buf = new StringBuffer();</span>
+<span class="fc" id="L214">				buf.append('(');</span>
+
+<span class="fc bfc" id="L216" title="All 2 branches covered.">				for (int i = 0; i &lt; operands.size(); i++) {</span>
+<span class="fc bfc" id="L217" title="All 2 branches covered.">					if (i &gt; 0) {</span>
+<span class="fc bfc" id="L218" title="All 2 branches covered.">						buf.append(getType() == Type.AND ? &quot; and &quot; : &quot; or &quot;);</span>
+					}
+
+<span class="fc" id="L221">					buf.append(operands.get(i));</span>
+				}
+
+<span class="fc" id="L224">				buf.append(')');</span>
+<span class="fc" id="L225">				return buf.toString();</span>
+			}
+
+			case NOT: {
+<span class="fc" id="L229">				StringBuffer buf = new StringBuffer();</span>
+<span class="fc" id="L230">				buf.append(&quot;NOT (&quot;);</span>
+<span class="fc bfc" id="L231" title="All 2 branches covered.">				if (operands.size() &gt; 0) {</span>
+<span class="fc" id="L232">					buf.append(operands.get(0));</span>
+				}
+<span class="fc" id="L234">				buf.append(')');</span>
+<span class="fc" id="L235">				return buf.toString();</span>
+			}
+
+			default:
+<span class="nc" id="L239">				throw new IllegalArgumentException(&quot;Unknown type: &quot; + getType());</span>
+		}
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>PlainLauncher.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.lde</a> &gt; <span class="el_source">PlainLauncher.java</span></div><h1>PlainLauncher.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.lde;
+
+import com.github.bordertech.wcomponents.WApplication;
+import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.WText;
+import com.github.bordertech.wcomponents.container.InterceptorComponent;
+import com.github.bordertech.wcomponents.container.PageShellInterceptor;
+import com.github.bordertech.wcomponents.monitor.ProfileContainer;
+import com.github.bordertech.wcomponents.registry.UIRegistry;
+import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.Util;
+import java.io.IOException;
+import java.io.PrintWriter;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.configuration.Configuration;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+/**
+ * This class enables easy running of a shared WComponent instance in a Jetty servlet container for development and
+ * testing purposes.
+ * &lt;p&gt;
+ * You need to set the class name of the WComponent you want to run. Do this by setting the parameter
+ * &quot;bordertech.wcomponents.lde.component.to.launch&quot; in your &quot;local_app.properties&quot; file. E.g.
+ *
+ * &lt;pre&gt;
+ * ui.web.component.to.launch = com.github.bordertech.wcomponents.examples.picker.ExamplePicker
+ * &lt;/pre&gt;
+ *
+ * @author Martin Shevchenko
+ * @since 1.0.0
+ */
+<span class="fc" id="L35">public class PlainLauncher extends TestServlet {</span>
+
+	/**
+	 * The logger instance for this class.
+	 */
+<span class="fc" id="L40">	private static final Log LOG = LogFactory.getLog(PlainLauncher.class);</span>
+
+	/**
+	 * The {@link Config configuration} property key for which component to launch.
+	 */
+	public static final String COMPONENT_TO_LAUNCH_PARAM_KEY = &quot;bordertech.wcomponents.lde.component.to.launch&quot;;
+
+	/**
+	 * The {@link Config configuration} property key for whether to display the memory profile.
+	 */
+	protected static final String SHOW_MEMORY_PROFILE_PARAM_KEY = &quot;bordertech.wcomponents.lde.show.memory.profile&quot;;
+
+	/**
+	 * The singleton instance of the UI which is being run by the PlainLauncher.
+	 */
+	private WApplication sharedUI;
+
+	/**
+	 * The fully qualified name of the WComponent class which is being served as the UI.
+	 */
+	private String uiClassName;
+
+	/**
+	 * The dev toolkit instance for this LDE.
+	 */
+<span class="fc" id="L65">	private static final DevToolkit TOOLKIT = new DevToolkit();</span>
+
+	/**
+	 * This method has been overridden to load a WComponent from parameters.
+	 *
+	 * @param httpServletRequest the servlet request being handled.
+	 * @return the top-level WComponent for this servlet.
+	 */
+	@Override
+	public synchronized WComponent getUI(final Object httpServletRequest) {
+<span class="fc" id="L75">		String configuredUIClassName = Config.getInstance()</span>
+<span class="fc" id="L76">				.getString(COMPONENT_TO_LAUNCH_PARAM_KEY);</span>
+
+<span class="pc bpc" id="L78" title="1 of 4 branches missed.">		if (sharedUI == null || !Util.equals(configuredUIClassName, uiClassName)) {</span>
+<span class="fc" id="L79">			uiClassName = configuredUIClassName;</span>
+<span class="fc" id="L80">			WComponent ui = createUI();</span>
+
+<span class="fc bfc" id="L82" title="All 2 branches covered.">			if (ui instanceof WApplication) {</span>
+<span class="fc" id="L83">				sharedUI = (WApplication) ui;</span>
+			} else {
+<span class="fc" id="L85">				LOG.warn(</span>
+						&quot;Top-level component should be a WApplication.&quot;
+						+ &quot; Creating WApplication wrapper...&quot;);
+
+<span class="fc" id="L89">				sharedUI = new WApplication();</span>
+<span class="fc" id="L90">				ui.setLocked(false);</span>
+<span class="fc" id="L91">				sharedUI.add(ui);</span>
+<span class="fc" id="L92">				sharedUI.setLocked(true);</span>
+			}
+
+<span class="pc bpc" id="L95" title="1 of 2 branches missed.">			if (Config.getInstance().getBoolean(SHOW_MEMORY_PROFILE_PARAM_KEY, false)) {</span>
+<span class="nc" id="L96">				ProfileContainer profiler = new ProfileContainer();</span>
+
+<span class="nc" id="L98">				sharedUI.setLocked(false);</span>
+<span class="nc" id="L99">				sharedUI.add(profiler);</span>
+<span class="nc" id="L100">				sharedUI.setLocked(true);</span>
+			}
+		}
+
+<span class="fc" id="L104">		return sharedUI;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected void service(final HttpServletRequest request, final HttpServletResponse response)
+			throws ServletException, IOException {
+		// The toolkit must access the request before any WComponent processing occurs
+<span class="fc" id="L114">		TOOLKIT.serviceRequest(request);</span>
+<span class="fc" id="L115">		super.service(request, response);</span>
+<span class="fc" id="L116">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public InterceptorComponent createInterceptorChain(final Object request) {
+<span class="fc" id="L123">		InterceptorComponent chain = super.createInterceptorChain(request);</span>
+
+		// The toolkit must render itself within the page shell
+		// and wrap the main WComponent output.
+<span class="fc" id="L127">		InterceptorComponent.replaceInterceptor(PageShellInterceptor.class,</span>
+<span class="fc" id="L128">				new PageShellInterceptor() {</span>
+			@Override
+			protected void beforePaint(final PrintWriter writer) {
+<span class="fc" id="L131">				super.beforePaint(writer);</span>
+<span class="fc" id="L132">				TOOLKIT.paintHeader(writer);</span>
+<span class="fc" id="L133">			}</span>
+
+			@Override
+			protected void afterPaint(final PrintWriter writer) {
+<span class="fc" id="L137">				TOOLKIT.paintFooter(writer);</span>
+<span class="fc" id="L138">				super.afterPaint(writer);</span>
+<span class="fc" id="L139">			}</span>
+		}, chain);
+
+<span class="fc" id="L142">		return chain;</span>
+	}
+
+	/**
+	 * Creates the UI which the launcher displays. If there is misconfiguration or error, a UI containing an error
+	 * message is returned.
+	 *
+	 * @return the UI which the launcher displays.
+	 */
+	protected WComponent createUI() {
+		// Check if the parameter COMPONENT_TO_LAUNCH_PARAM_KEY has been
+		// configured with the name of a component to launch.
+
+<span class="fc" id="L155">		WComponent sharedApp = null;</span>
+
+<span class="fc" id="L157">		Configuration config = Config.getInstance();</span>
+<span class="fc" id="L158">		uiClassName = config.getString(COMPONENT_TO_LAUNCH_PARAM_KEY);</span>
+
+<span class="fc bfc" id="L160" title="All 2 branches covered.">		if (uiClassName == null) {</span>
+<span class="fc" id="L161">			sharedApp = new WText(</span>
+					&quot;You need to set the class name of the WComponent you want to run.&lt;br /&gt;&quot;
+					+ &quot;Do this by setting the parameter \&quot;&quot;
+					+ COMPONENT_TO_LAUNCH_PARAM_KEY
+					+ &quot;\&quot; in your \&quot;local_app.properties\&quot; file.&lt;br /&gt;&quot;
+					+ &quot;Eg.  &lt;code&gt;&quot; + COMPONENT_TO_LAUNCH_PARAM_KEY
+					+ &quot;=com.github.bordertech.wcomponents.examples.picker.ExamplePicker&lt;/code&gt;&quot;);
+
+<span class="fc" id="L169">			((WText) sharedApp).setEncodeText(false);</span>
+		} else {
+<span class="fc" id="L171">			UIRegistry registry = UIRegistry.getInstance();</span>
+<span class="fc" id="L172">			sharedApp = registry.getUI(uiClassName);</span>
+
+<span class="pc bpc" id="L174" title="1 of 2 branches missed.">			if (sharedApp == null) {</span>
+<span class="nc" id="L175">				sharedApp = new WText(</span>
+						&quot;Unable to load the component \&quot;&quot;
+						+ uiClassName
+						+ &quot;\&quot;.&lt;br /&gt;&quot;
+						+ &quot;Either the component does not exist as a resource in the classpath,&quot;
+						+ &quot; or is not a WComponent.&lt;br /&gt;&quot;
+						+ &quot;Check that the parameter \&quot;&quot;
+						+ COMPONENT_TO_LAUNCH_PARAM_KEY
+						+ &quot;\&quot; is set correctly.&quot;);
+
+<span class="nc" id="L185">				((WText) sharedApp).setEncodeText(false);</span>
+			}
+		}
+
+<span class="fc" id="L189">		return sharedApp;</span>
+	}
+
+	/**
+	 * The entry point when the launcher is run as a java application.
+	 *
+	 * @param args command-line arguments, ignored.
+	 * @throws Exception on error
+	 */
+	public static void main(final String[] args) throws Exception {
+<span class="nc" id="L199">		PlainLauncher launcher = new PlainLauncher();</span>
+<span class="nc" id="L200">		launcher.run();</span>
+<span class="nc" id="L201">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

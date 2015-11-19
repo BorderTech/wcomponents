@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>Or.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.subordinate</a> &gt; <span class="el_source">Or.java</span></div><h1>Or.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.subordinate;
+
+import com.github.bordertech.wcomponents.Request;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+/**
+ * A logical OR of two other conditions.
+ *
+ * @author Martin Shevchenko
+ * @author Jonathan Austin
+ * @since 1.0.0
+ */
+public class Or extends AbstractCondition {
+
+	/**
+	 * The list of conditions.
+	 */
+<span class="fc" id="L20">	private final List&lt;Condition&gt; conditions = new ArrayList&lt;&gt;(2);</span>
+
+	/**
+	 * Creates an Or condition.
+	 *
+	 * @param condition1 the first condition.
+	 * @param condition2 the second condition.
+	 */
+<span class="fc" id="L28">	public Or(final Condition condition1, final Condition condition2) {</span>
+<span class="fc" id="L29">		conditions.add(condition1);</span>
+<span class="fc" id="L30">		conditions.add(condition2);</span>
+<span class="fc" id="L31">	}</span>
+
+	/**
+	 * Creates an Or condition with 3 or more conditions.
+	 *
+	 * @param condition1 the first condition.
+	 * @param condition2 the second condition.
+	 * @param conditions3 the nth conditions.
+	 */
+<span class="fc" id="L40">	public Or(final Condition condition1, final Condition condition2, final Condition... conditions3) {</span>
+<span class="fc" id="L41">		conditions.add(condition1);</span>
+<span class="fc" id="L42">		conditions.add(condition2);</span>
+
+<span class="fc bfc" id="L44" title="All 2 branches covered.">		for (Condition condition : conditions3) {</span>
+<span class="fc" id="L45">			conditions.add(condition);</span>
+		}
+<span class="fc" id="L47">	}</span>
+
+	/**
+	 * Evaluates the condition. Note that this uses the short-circuit or operator, so condition 'b' will not necessarily
+	 * be evaluated.
+	 *
+	 * @return true if either of the conditions are true, otherwise false
+	 */
+	@Override
+	protected boolean execute() {
+<span class="fc bfc" id="L57" title="All 2 branches covered.">		for (Condition condition : conditions) {</span>
+<span class="fc bfc" id="L58" title="All 2 branches covered.">			if (condition.isTrue()) {</span>
+<span class="fc" id="L59">				return true;</span>
+			}
+<span class="fc" id="L61">		}</span>
+
+<span class="fc" id="L63">		return false;</span>
+	}
+
+	/**
+	 * Evaluates the condition using values on the Request. Note that this uses the short-circuit or operator, so
+	 * condition 'b' will not necessarily be evaluated.
+	 *
+	 * @param request the request being processed.
+	 * @return true if either of the conditions are true, otherwise false
+	 */
+	@Override
+	protected boolean execute(final Request request) {
+<span class="fc bfc" id="L75" title="All 2 branches covered.">		for (Condition condition : conditions) {</span>
+<span class="fc bfc" id="L76" title="All 2 branches covered.">			if (condition.isTrue(request)) {</span>
+<span class="fc" id="L77">				return true;</span>
+			}
+<span class="fc" id="L79">		}</span>
+
+<span class="fc" id="L81">		return false;</span>
+	}
+
+	/**
+	 * @return the conditions which will be combined with a logical OR.
+	 */
+	public List&lt;Condition&gt; getConditions() {
+<span class="fc" id="L88">		return Collections.unmodifiableList(conditions);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String toString() {
+<span class="fc" id="L96">		StringBuffer buf = new StringBuffer();</span>
+<span class="fc" id="L97">		buf.append('(');</span>
+
+<span class="fc" id="L99">		boolean firstCond = true;</span>
+<span class="fc bfc" id="L100" title="All 2 branches covered.">		for (Condition cond : getConditions()) {</span>
+<span class="fc bfc" id="L101" title="All 2 branches covered.">			if (!firstCond) {</span>
+<span class="fc" id="L102">				buf.append(&quot; or &quot;);</span>
+			}
+<span class="fc" id="L104">			buf.append(cond);</span>
+<span class="fc" id="L105">			firstCond = false;</span>
+<span class="fc" id="L106">		}</span>
+
+<span class="fc" id="L108">		buf.append(')');</span>
+<span class="fc" id="L109">		return buf.toString();</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

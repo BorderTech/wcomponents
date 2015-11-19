@@ -1,0 +1,1160 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WLink.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">WLink.java</span></div><h1>WLink.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import com.github.bordertech.wcomponents.util.I18nUtilities;
+import com.github.bordertech.wcomponents.util.SystemException;
+import com.github.bordertech.wcomponents.util.Util;
+import java.io.Serializable;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+/**
+ * Note that WLink is different to WButton rendered as a link because WLink will not post the form, and does not support
+ * Actions. By default it opens up a new browser window and shows the given url. If the new window attributes needs to
+ * be specified then a builder can be used &lt;code&gt;
+ * WLink wLink = new WLink.Builder(&quot;WLink using builder and with attrs&quot;, &quot;http://bordertech.github.io/&quot;).
+ * window(&quot;myWcomponentsWindow&quot;).width(200).height(200).scrollbars(true).build();
+ * &lt;/code&gt; Caution must be taken when specifying attributes so that window name is not same for two links on the same
+ * page. This can occur when window name is not provided with attributes causing same default window name.
+ *
+ * @author Martin Shevchenko
+ * @since 1.0.0
+ */
+public class WLink extends WBeanComponent implements Container, Disableable, AjaxTarget,
+		SubordinateTarget {
+
+	/**
+	 * The logger instance for this class.
+	 */
+<span class="fc" id="L31">	private static final Log LOG = LogFactory.getLog(WLink.class);</span>
+
+	/**
+	 * A holder for a link image, if set.
+	 */
+<span class="fc" id="L36">	private final LinkImage linkImage = new LinkImage(this);</span>
+
+	/**
+	 * This is used to control the position of the image on the link.
+	 */
+<span class="pc" id="L41">	public enum ImagePosition {</span>
+		/**
+		 * Image is in the North position.
+		 */
+<span class="fc" id="L45">		NORTH,</span>
+		/**
+		 * Image is in the East position.
+		 */
+<span class="fc" id="L49">		EAST,</span>
+		/**
+		 * Image is in the South position.
+		 */
+<span class="fc" id="L53">		SOUTH,</span>
+		/**
+		 * Image is in the West position.
+		 */
+<span class="fc" id="L57">		WEST</span>
+	};
+
+	/**
+	 * Creates a WLink.
+	 */
+<span class="fc" id="L63">	public WLink() {</span>
+<span class="fc" id="L64">		add(linkImage);</span>
+<span class="fc" id="L65">	}</span>
+
+	/**
+	 * Creates a WLink with the given text and url.
+	 *
+	 * @param text the link test to display.
+	 * @param url the link url.
+	 */
+	public WLink(final String text, final String url) {
+<span class="fc" id="L74">		this(text, url, null);</span>
+<span class="fc" id="L75">	}</span>
+
+	/**
+	 * Creates a WLink with the given attributes.
+	 *
+	 * @param text the link test to display.
+	 * @param url the link url.
+	 * @param windowAttrs the window attributes.
+	 */
+	private WLink(final String text, final String url, final WindowAttributes windowAttrs) {
+<span class="fc" id="L85">		this();</span>
+<span class="fc" id="L86">		setText(text);</span>
+<span class="fc" id="L87">		setUrl(url);</span>
+<span class="fc" id="L88">		setWindowAttrs(windowAttrs);</span>
+<span class="fc" id="L89">	}</span>
+
+	/**
+	 * The name of the target popup window. Has no meaning when the link is not a popup.
+	 *
+	 * @return the target window name.
+	 */
+	public String getTargetWindowName() {
+<span class="fc" id="L97">		return getComponentModel().targetWindowName;</span>
+	}
+
+	/**
+	 * The name of the target popup window. Has no meaning when the link is not a popup.
+	 *
+	 * @param targetWindowName The targetWindowName to set.
+	 */
+	public void setTargetWindowName(final String targetWindowName) {
+<span class="fc" id="L106">		getOrCreateComponentModel().targetWindowName = targetWindowName;</span>
+<span class="fc" id="L107">	}</span>
+
+	/**
+	 * Return the default text displayed on the link.
+	 * &lt;ul&gt;
+	 * &lt;li&gt;else user text if set&lt;/li&gt;
+	 * &lt;li&gt;else shared text if set&lt;/li&gt;
+	 * &lt;li&gt;user value if set&lt;/li&gt;
+	 * &lt;li&gt;bean value if present&lt;/li&gt;
+	 * &lt;li&gt;else shared value&lt;/li&gt;
+	 * &lt;/ul&gt;
+	 *
+	 * @return the link text.
+	 */
+	public String getText() {
+<span class="fc" id="L122">		Object text = getComponentModel().text;</span>
+
+<span class="fc bfc" id="L124" title="All 2 branches covered.">		if (text == null) {</span>
+<span class="fc" id="L125">			Object value = getData();</span>
+<span class="pc bpc" id="L126" title="1 of 2 branches missed.">			if (value != null) {</span>
+<span class="nc" id="L127">				text = value.toString();</span>
+			}
+		}
+
+<span class="fc" id="L131">		return I18nUtilities.format(null, text);</span>
+	}
+
+	/**
+	 * Sets the text displayed on the link.
+	 *
+	 * @param text the text to set, using {@link MessageFormat} syntax.
+	 * @param args optional arguments for the message format string.
+	 */
+	public void setText(final String text, final Serializable... args) {
+<span class="fc" id="L141">		getOrCreateComponentModel().text = I18nUtilities.asMessage(text, args);</span>
+<span class="fc" id="L142">	}</span>
+
+	/**
+	 * @return the URL.
+	 */
+	public String getUrl() {
+<span class="fc" id="L148">		return getComponentModel().url;</span>
+	}
+
+	/**
+	 * Sets the URL.
+	 *
+	 * @param url the URL to set.
+	 */
+	public void setUrl(final String url) {
+<span class="fc" id="L157">		getOrCreateComponentModel().url = url;</span>
+<span class="fc" id="L158">	}</span>
+
+	// ================================
+	// Access key
+	/**
+	 * The accesskey is a shortcut key that will focus the input element when used in combination with the Alt key.
+	 *
+	 * @return The key that in combination with Alt will focus this input.
+	 */
+	public char getAccessKey() {
+<span class="fc" id="L168">		return getComponentModel().accessKey;</span>
+	}
+
+	/**
+	 * Returns the accesskey character as a String. If the character is not a letter or digit then &lt;code&gt;null&lt;/code&gt; is
+	 * returned.
+	 *
+	 * @return The accesskey character as a String (may be &lt;code&gt;null&lt;/code&gt;).
+	 */
+	public String getAccessKeyAsString() {
+<span class="fc" id="L178">		char accessKey = getAccessKey();</span>
+
+<span class="fc bfc" id="L180" title="All 2 branches covered.">		if (Character.isLetterOrDigit(accessKey)) {</span>
+<span class="fc" id="L181">			return String.valueOf(accessKey);</span>
+		}
+
+<span class="fc" id="L184">		return null;</span>
+	}
+
+	/**
+	 * Set the accesskey (shortcut key) that will activate the link.
+	 *
+	 * @param accessKey The key (in combination with the Alt key) that activates this element.
+	 */
+	public void setAccessKey(final char accessKey) {
+<span class="fc" id="L193">		getOrCreateComponentModel().accessKey = accessKey;</span>
+<span class="fc" id="L194">	}</span>
+
+	/**
+	 * Indicates whether this link is disabled in the given context.
+	 *
+	 * @return true if this link is disabled, otherwise false.
+	 */
+	@Override
+	public boolean isDisabled() {
+<span class="fc" id="L203">		return isFlagSet(ComponentModel.DISABLED_FLAG);</span>
+	}
+
+	/**
+	 * Sets whether this link is disabled by default.
+	 *
+	 * @param disabled true if this link is to disabled by default, false for enabled.
+	 */
+	@Override
+	public void setDisabled(final boolean disabled) {
+<span class="fc" id="L213">		setFlag(ComponentModel.DISABLED_FLAG, disabled);</span>
+<span class="fc" id="L214">	}</span>
+
+	/**
+	 * @return the relationship of the link's target to the current page.
+	 */
+	public String getRel() {
+<span class="fc" id="L220">		return getComponentModel().rel;</span>
+	}
+
+	/**
+	 * Sets the relationship of the link's target to the current page.
+	 *
+	 * @param rel the relationship to set.
+	 * @see
+	 * &lt;a href=&quot;http://www.w3.org/TR/html4/struct/links.html#adef-rel&quot;&gt;Links in html docuemnts&lt;/a&gt;
+	 */
+	public void setRel(final String rel) {
+<span class="fc" id="L231">		getOrCreateComponentModel().rel = rel;</span>
+<span class="fc" id="L232">	}</span>
+
+	/**
+	 * Indicates whether this link should open in a new window.
+	 *
+	 * @return true if the link should open in a new window, false if it should re-use the existing window.
+	 */
+	public boolean getOpenNewWindow() {
+<span class="fc" id="L240">		return getComponentModel().openNewWindow;</span>
+	}
+
+	/**
+	 * Sets whether this link should open in a new window.
+	 *
+	 * @param openNewWindow true to open in a new window, false to re-use the existing window.
+	 */
+	public void setOpenNewWindow(final boolean openNewWindow) {
+<span class="fc" id="L249">		getOrCreateComponentModel().openNewWindow = openNewWindow;</span>
+<span class="fc" id="L250">	}</span>
+
+	/**
+	 * Retrieves the attributes for new windows which are opened.
+	 * &lt;p&gt;
+	 * To change attributes for individual users, set a new {@link WindowAttributes} object for each user.
+	 * &lt;/p&gt;
+	 *
+	 * @return the attributes for new windows.
+	 */
+	public WindowAttributes getWindowAttrs() {
+<span class="fc" id="L261">		return getComponentModel().windowAttrs;</span>
+	}
+
+	/**
+	 * @param windowAttrs the attributes for new windows which are opened.
+	 */
+	public void setWindowAttrs(final WindowAttributes windowAttrs) {
+<span class="fc" id="L268">		LinkModel model = getOrCreateComponentModel();</span>
+
+<span class="fc bfc" id="L270" title="All 2 branches covered.">		if (windowAttrs != null) {</span>
+<span class="pc bpc" id="L271" title="1 of 2 branches missed.">			if (windowAttrs.link != null) {</span>
+<span class="nc" id="L272">				throw new IllegalArgumentException(</span>
+						&quot;WindowAttributes is already being used by another WLink&quot;);
+			}
+
+<span class="fc" id="L276">			windowAttrs.link = this;</span>
+<span class="fc" id="L277">			model.targetWindowName = windowAttrs.getWindowName();</span>
+		}
+
+<span class="fc" id="L280">		model.windowAttrs = windowAttrs;</span>
+<span class="fc" id="L281">	}</span>
+
+	/**
+	 * Indicates whether this link should render as a button.
+	 *
+	 * @return true if this link should render as a button, false for a hyperlink.
+	 */
+	public boolean isRenderAsButton() {
+<span class="fc" id="L289">		return getComponentModel().renderAsButton;</span>
+	}
+
+	/**
+	 * Sets whether this link should render as a button.
+	 *
+	 * @param renderAsButton true if this link should render as a button, false for a hyperlink.
+	 */
+	public void setRenderAsButton(final boolean renderAsButton) {
+<span class="fc" id="L298">		getOrCreateComponentModel().renderAsButton = renderAsButton;</span>
+<span class="fc" id="L299">	}</span>
+
+	// ================================
+	// Action handling
+	/**
+	 * @return the action to execute when the link is pressed.
+	 */
+	public Action getAction() {
+<span class="fc" id="L307">		return getComponentModel().action;</span>
+	}
+
+	/**
+	 * Sets the action that will run if the link is pressed.
+	 * &lt;p&gt;
+	 * The intended use of this action is when the link opens a new window or launches another application such as
+	 * &quot;mailto&quot;.
+	 * &lt;/p&gt;
+	 *
+	 * @param action the action to execute when the link is pressed.
+	 * @param actionTargets the targets to replace when the link is clicked.
+	 */
+	public void setAction(final Action action, final AjaxTarget... actionTargets) {
+<span class="fc" id="L321">		LinkModel model = getOrCreateComponentModel();</span>
+<span class="fc" id="L322">		model.action = action;</span>
+<span class="fc" id="L323">		model.actionTargets = actionTargets;</span>
+<span class="fc" id="L324">	}</span>
+
+	/**
+	 * @return the targets to replace when the link with an action is clicked.
+	 */
+	public AjaxTarget[] getActionTargets() {
+<span class="fc" id="L330">		return getComponentModel().actionTargets;</span>
+	}
+
+	/**
+	 * Retrieves this menu item's action command.
+	 *
+	 * @return the actionCommand.
+	 */
+	public String getActionCommand() {
+<span class="fc" id="L339">		return getComponentModel().actionCommand;</span>
+	}
+
+	/**
+	 * Sets this menu item's action command.
+	 *
+	 * @param actionCommand The actionCommand to set.
+	 */
+	public void setActionCommand(final String actionCommand) {
+<span class="nc" id="L348">		getOrCreateComponentModel().actionCommand = actionCommand;</span>
+<span class="nc" id="L349">	}</span>
+
+	/**
+	 * Returns the data object that has been associated with this button, else null. For convenience, this data object
+	 * is passed to the execute() method of the button's associated Action, in the ActionEvent parameter.
+	 *
+	 * @return the action object.
+	 */
+	public Object getActionObject() {
+<span class="fc" id="L358">		return getComponentModel().actionObject;</span>
+	}
+
+	/**
+	 * Associate this button with a data object that can be easily accessed in the execute() method of the button's
+	 * associated Action.
+	 *
+	 * @param data the action object.
+	 */
+	public void setActionObject(final Serializable data) {
+<span class="nc" id="L368">		getOrCreateComponentModel().actionObject = data;</span>
+<span class="nc" id="L369">	}</span>
+
+	/**
+	 * Override handleRequest in order to perform processing for this component. This implementation checks whether the
+	 * link has been pressed via the current ajax operation.
+	 *
+	 * @param request the request being responded to.
+	 */
+	@Override
+	public void handleRequest(final Request request) {
+		// Check if this link was the AJAX Trigger
+<span class="fc" id="L380">		AjaxOperation operation = AjaxHelper.getCurrentOperation();</span>
+<span class="fc bfc" id="L381" title="All 4 branches covered.">		boolean pressed = (operation != null &amp;&amp; getId().equals(operation.getTriggerId()));</span>
+
+		// Protect against client-side tampering of disabled/read-only fields.
+<span class="pc bpc" id="L384" title="1 of 4 branches missed.">		if (isDisabled() &amp;&amp; pressed) {</span>
+<span class="fc" id="L385">			LOG.warn(&quot;A disabled link has been triggered. &quot; + getText() + &quot;. &quot; + getId());</span>
+<span class="fc" id="L386">			return;</span>
+		}
+
+		// If an action has been supplied then execute it, but only after
+		// handle request has been performed on the entire component tree.
+<span class="fc" id="L391">		final Action action = getAction();</span>
+
+<span class="pc bpc" id="L393" title="1 of 4 branches missed.">		if (pressed &amp;&amp; action != null) {</span>
+<span class="fc" id="L394">			final ActionEvent event = new ActionEvent(this, getActionCommand(), getActionObject());</span>
+
+<span class="fc" id="L396">			Runnable later = new Runnable() {</span>
+				@Override
+				public void run() {
+<span class="fc" id="L399">					action.execute(event);</span>
+<span class="fc" id="L400">				}</span>
+			};
+
+<span class="fc" id="L403">			invokeLater(later);</span>
+		}
+<span class="fc" id="L405">	}</span>
+
+	/**
+	 * Override preparePaintComponent to register an AJAX operation if this link has an action.
+	 *
+	 * @param request the request being responded to.
+	 */
+	@Override
+	protected void preparePaintComponent(final Request request) {
+<span class="fc" id="L414">		super.preparePaintComponent(request);</span>
+<span class="fc" id="L415">		UIContext uic = UIContextHolder.getCurrent();</span>
+
+		// If the link has an action, register it for AJAX
+<span class="fc" id="L418">		final Action action = getAction();</span>
+<span class="fc" id="L419">		final AjaxTarget[] actionTargets = getActionTargets();</span>
+
+<span class="pc bpc" id="L421" title="1 of 4 branches missed.">		if (action != null &amp;&amp; uic.getUI() != null) {</span>
+<span class="nc bnc" id="L422" title="All 4 branches missed.">			if (actionTargets != null &amp;&amp; actionTargets.length &gt; 0) {</span>
+<span class="nc" id="L423">				List&lt;String&gt; targetIds = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L424" title="All 2 branches missed.">				for (AjaxTarget target : actionTargets) {</span>
+<span class="nc" id="L425">					targetIds.add(target.getId());</span>
+				}
+				// Register the action targets
+<span class="nc" id="L428">				AjaxHelper.registerComponents(targetIds, request, getId());</span>
+<span class="nc" id="L429">			} else {</span>
+				// If no action targets set, then register the link itself as the target
+<span class="nc" id="L431">				AjaxHelper.registerComponentTargetItself(this.getId(), request);</span>
+			}
+		}
+<span class="fc" id="L434">	}</span>
+
+	/**
+	 * Return the image to display on the link.
+	 *
+	 * @return the image.
+	 */
+	public Image getImage() {
+<span class="fc" id="L442">		return getComponentModel().image;</span>
+	}
+
+	/**
+	 * Sets the image to display on the link.
+	 *
+	 * @param image the image, or null for no image.
+	 */
+	public void setImage(final Image image) {
+<span class="fc" id="L451">		LinkModel model = getOrCreateComponentModel();</span>
+<span class="fc" id="L452">		model.image = image;</span>
+<span class="fc" id="L453">		model.imageUrl = null;</span>
+<span class="fc" id="L454">	}</span>
+
+	/**
+	 * Sets the image to display on the link. The image will be read from the application's class path rather than from
+	 * its web docs.
+	 *
+	 * @param image the relative path to the image resource, or null for no image.
+	 */
+	public void setImage(final String image) {
+<span class="nc" id="L463">		setImage(new ImageResource(image));</span>
+<span class="nc" id="L464">	}</span>
+
+	/**
+	 * Return the {@link WImage} used by this link to hold the {@link Image} resource.
+	 * &lt;p&gt;
+	 * If the link is not using an Image resource, it will return null.
+	 * &lt;/p&gt;
+	 *
+	 * @return the WImage holding the Image resource, or null if the link is not using an Image resource.
+	 */
+	public WImage getImageHolder() {
+<span class="nc bnc" id="L475" title="All 2 branches missed.">		return getImage() == null ? null : linkImage;</span>
+	}
+
+	/**
+	 * Return the URL of the image to display on the link.
+	 *
+	 * @return the image url.
+	 */
+	public String getImageUrl() {
+<span class="pc bpc" id="L484" title="1 of 2 branches missed.">		return getImage() == null ? getComponentModel().imageUrl : getImageHolder().getTargetUrl();</span>
+	}
+
+	/**
+	 * Sets the URL of the image to display on the link.
+	 *
+	 * @param imageUrl the image url, or null for no image.
+	 */
+	public void setImageUrl(final String imageUrl) {
+<span class="fc" id="L493">		LinkModel model = getOrCreateComponentModel();</span>
+<span class="fc" id="L494">		model.imageUrl = imageUrl;</span>
+<span class="fc" id="L495">		model.image = null;</span>
+<span class="fc" id="L496">	}</span>
+
+	/**
+	 * @return the position of the image
+	 */
+	public ImagePosition getImagePosition() {
+<span class="fc" id="L502">		return getComponentModel().imagePosition;</span>
+	}
+
+	/**
+	 * The position of the image on the link.
+	 *
+	 * @param imagePosition the position of the image
+	 */
+	public void setImagePosition(final ImagePosition imagePosition) {
+<span class="fc" id="L511">		getOrCreateComponentModel().imagePosition = imagePosition;</span>
+<span class="fc" id="L512">	}</span>
+
+	/**
+	 * @return a String representation of this component, for debugging purposes.
+	 */
+	@Override
+	public String toString() {
+<span class="nc" id="L519">		String text = getText();</span>
+<span class="nc bnc" id="L520" title="All 2 branches missed.">		text = text == null ? &quot;null&quot; : ('&quot;' + text + '&quot;');</span>
+<span class="nc" id="L521">		return toString(text, 1, 1);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	// to make public
+	public int getChildCount() {
+<span class="fc" id="L530">		return super.getChildCount();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	// to make public
+	public WComponent getChildAt(final int index) {
+<span class="fc" id="L539">		return super.getChildAt(index);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	// to make public
+	public int getIndexOfChild(final WComponent childComponent) {
+<span class="nc" id="L548">		return super.getIndexOfChild(childComponent);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public List&lt;WComponent&gt; getChildren() {
+<span class="nc" id="L556">		return super.getChildren();</span>
+	}
+
+	// --------------------------------
+	// Extrinsic state management
+	/**
+	 * Creates a new model appropriate for this component.
+	 *
+	 * @return a new {@link LinkModel}.
+	 */
+	@Override
+	protected LinkModel newComponentModel() {
+<span class="fc" id="L568">		return new LinkModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	// For type safety only
+	protected LinkModel getComponentModel() {
+<span class="fc" id="L577">		return (LinkModel) super.getComponentModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	// For type safety only
+	protected LinkModel getOrCreateComponentModel() {
+<span class="fc" id="L586">		return (LinkModel) super.getOrCreateComponentModel();</span>
+	}
+
+	/**
+	 * Holds the extrinsic state information of a WLink.
+	 */
+<span class="fc" id="L592">	public static class LinkModel extends BeanAndProviderBoundComponentModel {</span>
+
+		/**
+		 * The text for the link.
+		 */
+		private Serializable text;
+
+		/**
+		 * The URL for the link.
+		 */
+		private String url;
+
+		/**
+		 * The window name for the link.
+		 */
+<span class="fc" id="L607">		private String targetWindowName = &quot;somename&quot;;</span>
+
+		/**
+		 * Indicates whether the link should open in a new window.
+		 */
+<span class="fc" id="L612">		private boolean openNewWindow = true;</span>
+
+		/**
+		 * The key shortcut which activates the input element.
+		 */
+<span class="fc" id="L617">		private char accessKey = '\0';</span>
+
+		/**
+		 * Relationship to the current page.
+		 */
+		private String rel;
+
+		/**
+		 * Render the link as a button.
+		 */
+<span class="fc" id="L627">		private boolean renderAsButton = false;</span>
+
+		/**
+		 * The attributes of the window if the url will be opened in a new window.
+		 */
+		private WindowAttributes windowAttrs;
+
+		/**
+		 * The action to execute when the link is pressed.
+		 */
+		private Action action;
+
+		/**
+		 * The action command to pass to the link's action when it executes.
+		 */
+		private String actionCommand;
+
+		/**
+		 * The object to include in the action event when the action is triggered.
+		 */
+		private Object actionObject;
+
+		/**
+		 * The targets to replace when the link with an action is pressed.
+		 */
+		private AjaxTarget[] actionTargets;
+
+		/**
+		 * If not null, it will be taken as a URL to use as image.
+		 */
+		private String imageUrl;
+
+		/**
+		 * The position of the image.
+		 */
+		private ImagePosition imagePosition;
+
+		/**
+		 * The image to display on the link.
+		 */
+		private Image image;
+	}
+
+	/**
+	 * This WImage implemention delegates to the link's image and is only used to serve up the image for the link.
+	 */
+	private static final class LinkImage extends WImage {
+
+		/**
+		 * The link containing the link image.
+		 */
+		private final WLink link;
+
+		/**
+		 * Creates a link image.
+		 *
+		 * @param link the owning link.
+		 */
+<span class="fc" id="L685">		private LinkImage(final WLink link) {</span>
+<span class="fc" id="L686">			this.link = link;</span>
+<span class="fc" id="L687">		}</span>
+
+		/**
+		 * Override isVisible to only return true if the link has an image.
+		 *
+		 * @return true if this component is visible, false if invisible.
+		 */
+		@Override
+		public boolean isVisible() {
+<span class="pc bpc" id="L696" title="1 of 2 branches missed.">			return link.getImage() != null;</span>
+		}
+
+		/**
+		 * Override getImage to return the link's image.
+		 *
+		 * @return the link image.
+		 */
+		@Override
+		public Image getImage() {
+<span class="nc" id="L706">			return link.getImage();</span>
+		}
+	};
+
+	/**
+	 * Encapsulates window attributes for new windows which are opened.
+	 *
+	 * @author Yiannis Paschalidis
+	 */
+<span class="fc" id="L715">	public static final class WindowAttributes implements Serializable, Cloneable {</span>
+
+		/**
+		 * The link which these window attributes belong to. Used to enforce locking.
+		 */
+		private WLink link;
+
+		/**
+		 * The name of the window to open.
+		 */
+		private String windowName;
+
+		/**
+		 * Indicates whether the new window should be resizable.
+		 */
+		private boolean resizable;
+
+		/**
+		 * Indicates whether the new window should have scrollbars.
+		 */
+		private boolean scrollbars;
+
+		/**
+		 * Indicates whether the new window should have toolbars.
+		 */
+		private boolean toolbars;
+
+		/**
+		 * Indicates whether the new window should have the location bar.
+		 */
+		private boolean location;
+
+		/**
+		 * Indicates whether the new window should show directory buttons.
+		 */
+		private boolean directories;
+
+		/**
+		 * Indicates whether the new window should show the status bar.
+		 */
+		private boolean status;
+
+		/**
+		 * Indicates whether the new window should show a menu bar.
+		 */
+		private boolean menubar;
+
+		/**
+		 * The x-coordinate of the new window.
+		 */
+<span class="fc" id="L765">		private int left = -1;</span>
+
+		/**
+		 * The y-coordinate of the new window.
+		 */
+<span class="fc" id="L770">		private int top = -1;</span>
+
+		/**
+		 * The width of the new window.
+		 */
+<span class="fc" id="L775">		private int width = -1;</span>
+
+		/**
+		 * The height of the new window.
+		 */
+<span class="fc" id="L780">		private int height = -1;</span>
+
+		/**
+		 * @return Returns the windowName.
+		 */
+		public String getWindowName() {
+<span class="fc" id="L786">			return windowName;</span>
+		}
+
+		/**
+		 * @param windowName The windowName to set.
+		 */
+		public void setWindowName(final String windowName) {
+<span class="fc" id="L793">			this.windowName = windowName;</span>
+<span class="fc" id="L794">		}</span>
+
+		/**
+		 * @return Returns the resizable.
+		 */
+		public boolean isResizable() {
+<span class="fc" id="L800">			return resizable;</span>
+		}
+
+		/**
+		 * @param resizable The resizable to set.
+		 */
+		public void setResizable(final boolean resizable) {
+<span class="fc" id="L807">			this.resizable = resizable;</span>
+<span class="fc" id="L808">		}</span>
+
+		/**
+		 * @return Returns the scrollbars.
+		 */
+		public boolean isScrollbars() {
+<span class="fc" id="L814">			return scrollbars;</span>
+		}
+
+		/**
+		 * @param scrollbars The scrollbars to set.
+		 */
+		public void setScrollbars(final boolean scrollbars) {
+<span class="fc" id="L821">			this.scrollbars = scrollbars;</span>
+<span class="fc" id="L822">		}</span>
+
+		/**
+		 * @return Returns the toolbars.
+		 */
+		public boolean isToolbars() {
+<span class="fc" id="L828">			return toolbars;</span>
+		}
+
+		/**
+		 * @param toolbars The toolbars to set.
+		 */
+		public void setToolbars(final boolean toolbars) {
+<span class="fc" id="L835">			this.toolbars = toolbars;</span>
+<span class="fc" id="L836">		}</span>
+
+		/**
+		 * @return Returns the location.
+		 */
+		public boolean isLocation() {
+<span class="fc" id="L842">			return location;</span>
+		}
+
+		/**
+		 * @param location The location to set.
+		 */
+		public void setLocation(final boolean location) {
+<span class="fc" id="L849">			this.location = location;</span>
+<span class="fc" id="L850">		}</span>
+
+		/**
+		 * @return Returns the directories.
+		 */
+		public boolean isDirectories() {
+<span class="fc" id="L856">			return directories;</span>
+		}
+
+		/**
+		 * @param directories The directories to set.
+		 */
+		public void setDirectories(final boolean directories) {
+<span class="fc" id="L863">			this.directories = directories;</span>
+<span class="fc" id="L864">		}</span>
+
+		/**
+		 * @return Returns the status.
+		 */
+		public boolean isStatus() {
+<span class="fc" id="L870">			return status;</span>
+		}
+
+		/**
+		 * @param status The status to set.
+		 */
+		public void setStatus(final boolean status) {
+<span class="fc" id="L877">			this.status = status;</span>
+<span class="fc" id="L878">		}</span>
+
+		/**
+		 * @return Returns the menubar.
+		 */
+		public boolean isMenubar() {
+<span class="fc" id="L884">			return menubar;</span>
+		}
+
+		/**
+		 * @param menubar The menubar to set.
+		 */
+		public void setMenubar(final boolean menubar) {
+<span class="fc" id="L891">			this.menubar = menubar;</span>
+<span class="fc" id="L892">		}</span>
+
+		/**
+		 * @return Returns the left.
+		 */
+		public int getLeft() {
+<span class="fc" id="L898">			return left;</span>
+		}
+
+		/**
+		 * @param left The left to set.
+		 */
+		public void setLeft(final int left) {
+<span class="fc" id="L905">			this.left = left;</span>
+<span class="fc" id="L906">		}</span>
+
+		/**
+		 * @return Returns the top.
+		 */
+		public int getTop() {
+<span class="fc" id="L912">			return top;</span>
+		}
+
+		/**
+		 * @param top The top to set.
+		 */
+		public void setTop(final int top) {
+<span class="fc" id="L919">			this.top = top;</span>
+<span class="fc" id="L920">		}</span>
+
+		/**
+		 * @return Returns the width.
+		 */
+		public int getWidth() {
+<span class="fc" id="L926">			return width;</span>
+		}
+
+		/**
+		 * @param width The width to set.
+		 */
+		public void setWidth(final int width) {
+<span class="fc" id="L933">			this.width = width;</span>
+<span class="fc" id="L934">		}</span>
+
+		/**
+		 * @return Returns the height.
+		 */
+		public int getHeight() {
+<span class="fc" id="L940">			return height;</span>
+		}
+
+		/**
+		 * @param height The height to set.
+		 */
+		public void setHeight(final int height) {
+<span class="fc" id="L947">			this.height = height;</span>
+<span class="fc" id="L948">		}</span>
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public WindowAttributes clone() throws CloneNotSupportedException {
+<span class="fc" id="L955">			return (WindowAttributes) super.clone();</span>
+		}
+	}
+
+	/**
+	 * This class allows building of WLink in a fluent interface style. It will use a default window name if window name
+	 * is not supplied along with other attributes.
+	 */
+	public static class Builder {
+
+		/**
+		 * Used to quote attributes in the windowAttributes String.
+		 */
+		public static final String QUOTE = &quot;'&quot;;
+		/**
+		 * Used to separate attributes in the windowAttributes String.
+		 */
+		public static final String SEPARATOR = &quot;,&quot;;
+
+		/**
+		 * The link text.
+		 */
+		private final String text;
+
+		/**
+		 * The link's URL.
+		 */
+		private final String url;
+
+		/**
+		 * The link's window attributes.
+		 */
+<span class="fc" id="L987">		private final WindowAttributes windowAttrs = new WindowAttributes();</span>
+
+		/**
+		 * Creates a builder with no attributes set.
+		 */
+		public Builder() {
+<span class="fc" id="L993">			this(null, null);</span>
+<span class="fc" id="L994">		}</span>
+
+		/**
+		 * Creates a builder preconfigured with the given link text and URL.
+		 *
+		 * @param text the link text.
+		 * @param url the link url.
+		 */
+<span class="fc" id="L1002">		public Builder(final String text, final String url) {</span>
+<span class="fc" id="L1003">			this.text = text;</span>
+<span class="fc" id="L1004">			this.url = url;</span>
+<span class="fc" id="L1005">		}</span>
+
+		/**
+		 * Sets the target window name.
+		 *
+		 * @param windowName the target window name.
+		 * @return this builder.
+		 */
+		public Builder windowName(final String windowName) {
+<span class="fc" id="L1014">			windowAttrs.setWindowName(windowName);</span>
+<span class="fc" id="L1015">			return this;</span>
+		}
+
+		/**
+		 * Sets the target window's width.
+		 *
+		 * @param width the window width, in pixels.
+		 * @return this builder.
+		 */
+		public Builder width(final int width) {
+<span class="fc" id="L1025">			windowAttrs.setWidth(width);</span>
+<span class="fc" id="L1026">			return this;</span>
+		}
+
+		/**
+		 * Sets the target window's height.
+		 *
+		 * @param height the window height, in pixels.
+		 * @return this builder.
+		 */
+		public Builder height(final int height) {
+<span class="fc" id="L1036">			windowAttrs.setHeight(height);</span>
+<span class="fc" id="L1037">			return this;</span>
+		}
+
+		/**
+		 * Sets whether the target window should be able to be resized.
+		 *
+		 * @param val true if the window should be resizable, false if not.
+		 * @return this builder.
+		 */
+		public Builder resizable(final boolean val) {
+<span class="fc" id="L1047">			windowAttrs.setResizable(val);</span>
+<span class="fc" id="L1048">			return this;</span>
+		}
+
+		/**
+		 * Sets whether the target window should have scrollbars visible.
+		 *
+		 * @param val true if the window should have scrollbars visible, false if not.
+		 * @return this builder.
+		 */
+		public Builder scrollbars(final boolean val) {
+<span class="fc" id="L1058">			windowAttrs.setScrollbars(val);</span>
+<span class="fc" id="L1059">			return this;</span>
+		}
+
+		/**
+		 * Sets whether the target window should have the browser toolbar visible.
+		 *
+		 * @param val true if the window should have the toolbar visible, false if not.
+		 * @return this builder.
+		 */
+		public Builder toolbar(final boolean val) {
+<span class="fc" id="L1069">			windowAttrs.setToolbars(val);</span>
+<span class="fc" id="L1070">			return this;</span>
+		}
+
+		/**
+		 * Sets whether the target window should have the browser location input field visible.
+		 *
+		 * @param val true if the window should have the location visible, false if not.
+		 * @return this builder.
+		 */
+		public Builder location(final boolean val) {
+<span class="fc" id="L1080">			windowAttrs.setLocation(val);</span>
+<span class="fc" id="L1081">			return this;</span>
+		}
+
+		/**
+		 * Sets whether the target window should contain the standard browser directory buttons.
+		 *
+		 * @param val true the target window should contain the standard browser directory buttons, false if not.
+		 * @return this builder.
+		 */
+		public Builder directories(final boolean val) {
+<span class="fc" id="L1091">			windowAttrs.setDirectories(val);</span>
+<span class="fc" id="L1092">			return this;</span>
+		}
+
+		/**
+		 * Sets whether the target window should have the browser status bar visible.
+		 *
+		 * @param val true if the window should have the status visible, false if not.
+		 * @return this builder.
+		 */
+		public Builder status(final boolean val) {
+<span class="fc" id="L1102">			windowAttrs.setStatus(val);</span>
+<span class="fc" id="L1103">			return this;</span>
+		}
+
+		/**
+		 * Sets whether the target window should have the browser menu bar visible.
+		 *
+		 * @param val true if the window should have the menu bar visible, false if not.
+		 * @return this builder.
+		 */
+		public Builder menubar(final boolean val) {
+<span class="fc" id="L1113">			windowAttrs.setMenubar(val);</span>
+<span class="fc" id="L1114">			return this;</span>
+		}
+
+		/**
+		 * Sets the X-axis location of the browser window.
+		 *
+		 * @param val the location for the left side of the browser window, in pixels.
+		 * @return this builder.
+		 */
+		public Builder left(final int val) {
+<span class="fc" id="L1124">			windowAttrs.setLeft(val);</span>
+<span class="fc" id="L1125">			return this;</span>
+		}
+
+		/**
+		 * Sets the Y-axis location of the browser window.
+		 *
+		 * @param val the location for the top side of the browser window, in pixels.
+		 * @return this builder.
+		 */
+		public Builder top(final int val) {
+<span class="fc" id="L1135">			windowAttrs.setTop(val);</span>
+<span class="fc" id="L1136">			return this;</span>
+		}
+
+		/**
+		 * Build the attributes list for new window.
+		 *
+		 * @return a new WLink, configured with the attributes from this builder.
+		 */
+		public WLink build() {
+			// add a default unique name for the window if not provided
+<span class="fc bfc" id="L1146" title="All 2 branches covered.">			if (Util.empty(windowAttrs.getWindowName())) {</span>
+<span class="fc" id="L1147">				windowName(&quot;myWindow&quot;);</span>
+			}
+
+			try {
+<span class="fc" id="L1151">				return new WLink(text, url, windowAttrs.clone());</span>
+<span class="nc" id="L1152">			} catch (CloneNotSupportedException e) {</span>
+				// Impossible, this class implements cloneable
+<span class="nc" id="L1154">				throw new SystemException(&quot;Failed to clone WLink.Builder&quot;, e);</span>
+			}
+		}
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

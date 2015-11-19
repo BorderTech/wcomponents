@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>LookupTableHelper.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.util</a> &gt; <span class="el_source">LookupTableHelper.java</span></div><h1>LookupTableHelper.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.util;
+
+import com.github.bordertech.wcomponents.Request;
+import com.github.bordertech.wcomponents.UIContext;
+import com.github.bordertech.wcomponents.UIContextDelegate;
+import com.github.bordertech.wcomponents.UIContextHolder;
+
+/**
+ * LookupTableHelper provides convenience methods to register lookup tables for use with the data list servlet.
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ */
+public final class LookupTableHelper {
+
+	/**
+	 * The key we use to store the UIContext in the user's session. The data list servlet will use this key to retrieve
+	 * the UIContext and process the request.
+	 */
+	private static final String DATA_LIST_UIC_SESSION_KEY = &quot;dataList.uic&quot;;
+
+	/**
+	 * Prevent instantiation of this class.
+	 */
+<span class="nc" id="L25">	private LookupTableHelper() {</span>
+<span class="nc" id="L26">	}</span>
+
+	/**
+	 * Registers a data list with the servlet.
+	 *
+	 * @param key the list key.
+	 * @param request the current request being responded to.
+	 */
+	public static void registerList(final String key, final Request request) {
+<span class="fc" id="L35">		UIContext uic = UIContextHolder.getCurrent();</span>
+<span class="fc" id="L36">		request.setSessionAttribute(DATA_LIST_UIC_SESSION_KEY, UIContextDelegate.</span>
+<span class="fc" id="L37">				getPrimaryUIContext(uic));</span>
+<span class="fc" id="L38">	}</span>
+
+	/**
+	 * Retrieves the UIContext for the given data list.
+	 *
+	 * @param key the list key.
+	 * @param request the current request being responded to.
+	 *
+	 * @return the UIContext for the given key.
+	 */
+	public static UIContext getContext(final String key, final Request request) {
+<span class="fc" id="L49">		return (UIContext) request.getSessionAttribute(DATA_LIST_UIC_SESSION_KEY);</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

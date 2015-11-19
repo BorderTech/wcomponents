@@ -1,0 +1,449 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>ServletUtil.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.servlet</a> &gt; <span class="el_source">ServletUtil.java</span></div><h1>ServletUtil.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.servlet;
+
+import com.github.bordertech.wcomponents.AjaxHelper;
+import com.github.bordertech.wcomponents.Environment;
+import com.github.bordertech.wcomponents.InternalResource;
+import com.github.bordertech.wcomponents.InternalResourceMap;
+import com.github.bordertech.wcomponents.UIContext;
+import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.WContent;
+import com.github.bordertech.wcomponents.WebUtilities;
+import com.github.bordertech.wcomponents.container.AjaxDebugStructureInterceptor;
+import com.github.bordertech.wcomponents.container.AjaxErrorInterceptor;
+import com.github.bordertech.wcomponents.container.AjaxInterceptor;
+import com.github.bordertech.wcomponents.container.AjaxPageShellInterceptor;
+import com.github.bordertech.wcomponents.container.AjaxSetupInterceptor;
+import com.github.bordertech.wcomponents.container.ContextCleanupInterceptor;
+import com.github.bordertech.wcomponents.container.DataListInterceptor;
+import com.github.bordertech.wcomponents.container.DebugStructureInterceptor;
+import com.github.bordertech.wcomponents.container.FormInterceptor;
+import com.github.bordertech.wcomponents.container.InterceptorComponent;
+import com.github.bordertech.wcomponents.container.PageShellInterceptor;
+import com.github.bordertech.wcomponents.container.ResponseCacheInterceptor;
+import com.github.bordertech.wcomponents.container.ResponseCacheInterceptor.CacheType;
+import com.github.bordertech.wcomponents.container.SessionTokenAjaxInterceptor;
+import com.github.bordertech.wcomponents.container.SessionTokenContentInterceptor;
+import com.github.bordertech.wcomponents.container.SessionTokenInterceptor;
+import com.github.bordertech.wcomponents.container.SubordinateControlInterceptor;
+import com.github.bordertech.wcomponents.container.TargetableErrorInterceptor;
+import com.github.bordertech.wcomponents.container.TargetableInterceptor;
+import com.github.bordertech.wcomponents.container.TransformXMLInterceptor;
+import com.github.bordertech.wcomponents.container.UIContextDumpInterceptor;
+import com.github.bordertech.wcomponents.container.ValidateXMLInterceptor;
+import com.github.bordertech.wcomponents.container.WWindowInterceptor;
+import com.github.bordertech.wcomponents.container.WhitespaceFilterInterceptor;
+import com.github.bordertech.wcomponents.container.WrongStepAjaxInterceptor;
+import com.github.bordertech.wcomponents.container.WrongStepContentInterceptor;
+import com.github.bordertech.wcomponents.container.WrongStepServerInterceptor;
+import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.I18nUtilities;
+import com.github.bordertech.wcomponents.util.InternalMessages;
+import com.github.bordertech.wcomponents.util.StreamUtil;
+import com.github.bordertech.wcomponents.util.ThemeUtil;
+import com.github.bordertech.wcomponents.util.Util;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Locale;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+/**
+ * Utility class to provide http servlet functionality.
+ *
+ * @author Jonathan Austin
+ * @since 1.0.0
+ */
+public final class ServletUtil {
+
+	/**
+	 * Don't let anyone instantiate this class.
+	 */
+<span class="nc" id="L65">	private ServletUtil() {</span>
+<span class="nc" id="L66">	}</span>
+
+	/**
+	 * The logger instance for this class.
+	 */
+<span class="fc" id="L71">	private static final Log LOG = LogFactory.getLog(ServletUtil.class);</span>
+
+	/**
+	 * Theme resource path parameter.
+	 */
+	private static final String THEME_RESOURCE_PATH_PARAM = &quot;/&quot; + Environment.THEME_RESOURCE_PATH_NAME + &quot;/&quot;;
+
+	/**
+	 * The key used to look up the {@link Config WComponent Configuration} flag for whether we should use enable
+	 * sub-session support.
+	 */
+	public static final String ENABLE_SUBSESSIONS = &quot;bordertech.wcomponents.servlet.subsessions.enabled&quot;;
+
+	/**
+	 * The key used to look up the {@link Config WComponent Configuration} flag for developer mode error handling.
+	 */
+	public static final String DEVELOPER_MODE_ERROR_HANDLING = &quot;bordertech.wcomponents.developer.errorHandling.enabled&quot;;
+
+	/**
+	 * The key used to look up the {@link Config WComponent Configuration} flag for whether we should use the
+	 * ErrorPageFactory.
+	 */
+<span class="fc" id="L93">	public static final String HANDLE_ERROR_WITH_FATAL_ERROR_PAGE_FACTORY = WServlet.class.getName()</span>
+			+ &quot;.handleErrorWithFatalErrorPageFactory&quot;;
+
+	/**
+	 * @return true if enable sub sessions
+	 */
+	public static boolean isEnableSubSessions() {
+<span class="fc" id="L100">		boolean enableSubSessions = Config.getInstance().getBoolean(ENABLE_SUBSESSIONS, false);</span>
+<span class="fc" id="L101">		return enableSubSessions;</span>
+	}
+
+	/**
+	 * Check if the request is for a resource (eg static, theme...).
+	 *
+	 * @param request the http servlet request.
+	 * @param response the http servlet response.
+	 * @return true to continue processing
+	 * @throws ServletException a servlet exception
+	 * @throws IOException an IO Exception
+	 */
+	public static boolean checkResourceRequest(final HttpServletRequest request,
+			final HttpServletResponse response)
+			throws ServletException, IOException {
+		// Static resource
+<span class="pc bpc" id="L117" title="1 of 2 branches missed.">		if (isStaticResourceRequest(request)) {</span>
+<span class="nc" id="L118">			handleStaticResourceRequest(request, response);</span>
+<span class="nc" id="L119">			return false;</span>
+<span class="pc bpc" id="L120" title="1 of 2 branches missed.">		} else if (isThemeResourceRequest(request)) {  // Theme resource</span>
+<span class="nc" id="L121">			handleThemeResourceRequest(request, response);</span>
+<span class="nc" id="L122">			return false;</span>
+		}
+
+<span class="fc" id="L125">		String method = request.getMethod();</span>
+
+<span class="fc bfc" id="L127" title="All 2 branches covered.">		if (&quot;HEAD&quot;.equals(method)) {</span>
+<span class="fc" id="L128">			response.setContentType(WebUtilities.CONTENT_TYPE_XML);</span>
+<span class="fc" id="L129">			return false;</span>
+<span class="fc bfc" id="L130" title="All 4 branches covered.">		} else if (!&quot;POST&quot;.equals(method) &amp;&amp; !&quot;GET&quot;.equals(method)) {</span>
+<span class="fc" id="L131">			response.setStatus(HttpServletResponse.SC_NOT_IMPLEMENTED);</span>
+<span class="fc" id="L132">			return false;</span>
+		}
+
+<span class="fc" id="L135">		return true;</span>
+	}
+
+	/**
+	 * This method does the real work in servicing the http request. It integrates wcomponents into a servlet
+	 * environment via a servlet specific helper class.
+	 *
+	 * @param helper the servlet helper
+	 * @param ui the application ui
+	 * @param interceptorChain the chain of interceptors
+	 * @throws ServletException a servlet exception
+	 * @throws IOException an IO Exception
+	 */
+	public static void processRequest(final HttpServletHelper helper, final WComponent ui,
+			final InterceptorComponent interceptorChain) throws ServletException, IOException {
+
+		// Check if processing AJAX
+<span class="pc bpc" id="L152" title="1 of 2 branches missed.">		boolean ajax = helper.getBackingRequest().getParameter(WServlet.AJAX_TRIGGER_PARAM_NAME) != null;</span>
+
+		try {
+			// Tell the support container about the top most web component
+			// that will service the request/response.
+<span class="pc bpc" id="L157" title="1 of 2 branches missed.">			if (interceptorChain == null) {</span>
+<span class="nc" id="L158">				helper.setWebComponent(ui);</span>
+			} else {
+<span class="fc" id="L160">				interceptorChain.attachUI(ui);</span>
+<span class="fc" id="L161">				helper.setWebComponent(interceptorChain);</span>
+			}
+
+			// Prepare user context
+<span class="fc" id="L165">			UIContext uic = helper.prepareUserContext();</span>
+
+<span class="fc" id="L167">			synchronized (uic) {</span>
+				// Process the action phase.
+<span class="fc" id="L169">				helper.processAction();</span>
+
+				// Process the render phase.
+<span class="fc" id="L172">				helper.render();</span>
+<span class="pc" id="L173">			}</span>
+		} finally {
+			// cleanup
+<span class="pc bpc" id="L176" title="3 of 4 branches missed.">			if (ajax) {</span>
+				// We need to ensure that the AJAX operation is cleared
+				// The interceptors can not guarantee this
+				// TODO: Investigate changing to not use a thread-local
+<span class="nc" id="L180">				AjaxHelper.clearCurrentOperationDetails();</span>
+			}
+		}
+<span class="fc" id="L183">	}</span>
+
+	/**
+	 * @param req the request being processed
+	 * @return true if requesting a static resource
+	 */
+	public static boolean isStaticResourceRequest(final HttpServletRequest req) {
+<span class="pc bpc" id="L190" title="1 of 2 branches missed.">		return req.getParameter(WServlet.STATIC_RESOURCE_PARAM_NAME) != null;</span>
+	}
+
+	/**
+	 * Handles a request for static resources.
+	 *
+	 * @param request the http request.
+	 * @param response the http response.
+	 */
+	public static void handleStaticResourceRequest(final HttpServletRequest request,
+			final HttpServletResponse response) {
+<span class="nc" id="L201">		String staticRequest = request.getParameter(WServlet.STATIC_RESOURCE_PARAM_NAME);</span>
+
+		try {
+<span class="nc" id="L204">			InternalResource staticResource = InternalResourceMap.getResource(staticRequest);</span>
+<span class="nc" id="L205">			boolean headersOnly = &quot;HEAD&quot;.equals(request.getMethod());</span>
+
+<span class="nc bnc" id="L207" title="All 2 branches missed.">			if (staticResource == null) {</span>
+<span class="nc" id="L208">				LOG.warn(&quot;Static resource [&quot; + staticRequest + &quot;] not found.&quot;);</span>
+<span class="nc" id="L209">				response.setStatus(HttpServletResponse.SC_NOT_FOUND);</span>
+<span class="nc" id="L210">				return;</span>
+			}
+
+<span class="nc" id="L213">			InputStream resourceStream = staticResource.getStream();</span>
+<span class="nc bnc" id="L214" title="All 2 branches missed.">			if (resourceStream == null) {</span>
+<span class="nc" id="L215">				LOG.warn(</span>
+						&quot;Static resource [&quot; + staticRequest + &quot;] not found. Stream for content is null.&quot;);
+<span class="nc" id="L217">				response.setStatus(HttpServletResponse.SC_NOT_FOUND);</span>
+<span class="nc" id="L218">				return;</span>
+			}
+
+<span class="nc" id="L221">			int size = resourceStream.available();</span>
+<span class="nc" id="L222">			String fileName = WebUtilities.encodeForContentDispositionHeader(staticRequest.</span>
+<span class="nc" id="L223">					substring(staticRequest</span>
+<span class="nc" id="L224">							.lastIndexOf('/') + 1));</span>
+
+<span class="nc bnc" id="L226" title="All 2 branches missed.">			if (size &gt; 0) {</span>
+<span class="nc" id="L227">				response.setContentLength(size);</span>
+			}
+
+<span class="nc" id="L230">			response.setContentType(WebUtilities.getContentType(staticRequest));</span>
+<span class="nc" id="L231">			response.setHeader(&quot;Cache-Control&quot;, CacheType.CONTENT_CACHE.getSettings());</span>
+
+<span class="nc" id="L233">			String param = request.getParameter(WContent.URL_CONTENT_MODE_PARAMETER_KEY);</span>
+<span class="nc bnc" id="L234" title="All 2 branches missed.">			if (&quot;inline&quot;.equals(param)) {</span>
+<span class="nc" id="L235">				response.setHeader(&quot;Content-Disposition&quot;, &quot;inline; filename=&quot; + fileName);</span>
+<span class="nc bnc" id="L236" title="All 2 branches missed.">			} else if (&quot;attach&quot;.equals(param)) {</span>
+<span class="nc" id="L237">				response.setHeader(&quot;Content-Disposition&quot;, &quot;attachment; filename=&quot; + fileName);</span>
+			} else {
+				// added &quot;filename=&quot; to comply with https://tools.ietf.org/html/rfc6266
+<span class="nc" id="L240">				response.setHeader(&quot;Content-Disposition&quot;, &quot;filename=&quot; + fileName);</span>
+			}
+
+<span class="nc bnc" id="L243" title="All 2 branches missed.">			if (!headersOnly) {</span>
+<span class="nc" id="L244">				StreamUtil.copy(resourceStream, response.getOutputStream());</span>
+			}
+<span class="nc" id="L246">		} catch (IOException e) {</span>
+<span class="nc" id="L247">			LOG.warn(&quot;Could not process static resource [&quot; + staticRequest + &quot;]. &quot;, e);</span>
+<span class="nc" id="L248">			response.reset();</span>
+<span class="nc" id="L249">			response.setStatus(HttpServletResponse.SC_NOT_FOUND);</span>
+<span class="nc" id="L250">		}</span>
+<span class="nc" id="L251">	}</span>
+
+	/**
+	 * @param req the request being processed
+	 * @return true if requesting a theme resource
+	 */
+	public static boolean isThemeResourceRequest(final HttpServletRequest req) {
+<span class="fc" id="L258">		String path = req.getPathInfo();</span>
+<span class="pc bpc" id="L259" title="3 of 4 branches missed.">		return path != null &amp;&amp; path.startsWith(THEME_RESOURCE_PATH_PARAM);</span>
+	}
+
+	/**
+	 * Serves up a file from the theme.
+	 *
+	 * @param req the request with the file name in parameter &quot;f&quot;, or following the servlet path.
+	 * @param resp the response to write to.
+	 * @throws ServletException on error.
+	 * @throws IOException if there is an error reading the file / writing the response.
+	 */
+	public static void handleThemeResourceRequest(final HttpServletRequest req,
+			final HttpServletResponse resp)
+			throws ServletException, IOException {
+
+<span class="pc bpc" id="L274" title="1 of 2 branches missed.">		if (req.getHeader(&quot;If-Modified-Since&quot;) != null) {</span>
+<span class="nc" id="L275">			resp.reset();</span>
+<span class="nc" id="L276">			resp.setStatus(HttpServletResponse.SC_NOT_MODIFIED);</span>
+<span class="nc" id="L277">			return;</span>
+		}
+
+<span class="fc" id="L280">		String fileName = req.getParameter(&quot;f&quot;);</span>
+
+<span class="fc" id="L282">		String path = req.getPathInfo();</span>
+<span class="pc bpc" id="L283" title="1 of 4 branches missed.">		if (fileName == null &amp;&amp; !Util.empty(path)) {</span>
+<span class="pc bpc" id="L284" title="1 of 2 branches missed.">			int offset = path.startsWith(THEME_RESOURCE_PATH_PARAM) ? THEME_RESOURCE_PATH_PARAM.</span>
+<span class="pc" id="L285">					length() : 1;</span>
+<span class="fc" id="L286">			fileName = path.substring(offset);</span>
+		}
+
+<span class="pc bpc" id="L289" title="1 of 4 branches missed.">		if (fileName == null || !checkThemeFile(fileName)) {</span>
+<span class="fc" id="L290">			resp.setStatus(HttpServletResponse.SC_NOT_FOUND);</span>
+<span class="fc" id="L291">			return;</span>
+		}
+
+<span class="fc" id="L294">		String resourceName = &quot;/theme/&quot; + ThemeUtil.getThemeName() + '/' + fileName;</span>
+
+<span class="fc" id="L296">		InputStream resourceStream = null;</span>
+
+		try {
+<span class="fc" id="L299">			resourceStream = ThemeUtil.class.getResourceAsStream(resourceName);</span>
+
+<span class="fc bfc" id="L301" title="All 2 branches covered.">			if (resourceStream == null) {</span>
+<span class="fc" id="L302">				resp.setStatus(HttpServletResponse.SC_NOT_FOUND);</span>
+			} else {
+<span class="fc" id="L304">				int size = resourceStream.available();</span>
+<span class="fc" id="L305">				String encodedName = WebUtilities.encodeForContentDispositionHeader(fileName.</span>
+<span class="fc" id="L306">						substring(fileName</span>
+<span class="fc" id="L307">								.lastIndexOf('/') + 1));</span>
+
+<span class="pc bpc" id="L309" title="1 of 2 branches missed.">				if (size &gt; 0) {</span>
+<span class="fc" id="L310">					resp.setContentLength(size);</span>
+				}
+
+<span class="fc" id="L313">				resp.setContentType(WebUtilities.getContentType(fileName));</span>
+<span class="fc" id="L314">				resp.setHeader(&quot;Cache-Control&quot;, CacheType.THEME_CACHE.getSettings());</span>
+<span class="fc" id="L315">				resp.setHeader(&quot;Content-Disposition&quot;, &quot;filename=&quot; + encodedName);  // &quot;filename=&quot; to comply with https://tools.ietf.org/html/rfc6266</span>
+<span class="fc" id="L316">				resp.setHeader(&quot;Expires&quot;, &quot;31536000&quot;);</span>
+<span class="fc" id="L317">				resp.setHeader(&quot;ETag&quot;, &quot;\&quot;&quot; + WebUtilities.getProjectVersion() + &quot;\&quot;&quot;);</span>
+				// TODO: this is vital but needs a proper date
+<span class="fc" id="L319">				resp.setHeader(&quot;Last-Modified&quot;, &quot;Mon, 02 Jan 2015 01:00:00 GMT&quot;);</span>
+<span class="fc" id="L320">				StreamUtil.copy(resourceStream, resp.getOutputStream());</span>
+			}
+		} finally {
+<span class="pc" id="L323">			StreamUtil.safeClose(resourceStream);</span>
+<span class="fc" id="L324">		}</span>
+<span class="fc" id="L325">	}</span>
+
+	/**
+	 * Performs basic sanity checks on the file being requested.
+	 *
+	 * @param name the file name
+	 * @return true if the requested file name is ok, false if not.
+	 */
+	private static boolean checkThemeFile(final String name) {
+<span class="pc bpc" id="L334" title="1 of 2 branches missed.">		if (Util.empty(name) // name must exist</span>
+<span class="fc bfc" id="L335" title="All 2 branches covered.">				|| name.indexOf(&quot;..&quot;) != -1 // prevent directory traversal</span>
+<span class="fc bfc" id="L336" title="All 2 branches covered.">				|| name.charAt(0) == '/' // all theme references should be relative</span>
+<span class="pc bpc" id="L337" title="1 of 2 branches missed.">				|| name.indexOf('.') == -1 // all files should have a file suffix</span>
+<span class="pc bpc" id="L338" title="1 of 2 branches missed.">				|| name.indexOf(':') != -1 // forbid use of protocols such as jar:, http: etc.</span>
+				) {
+<span class="fc" id="L340">			return false;</span>
+		}
+
+<span class="fc" id="L343">		return true;</span>
+	}
+
+	/**
+	 * Creates a new interceptor chain to handle the given request.
+	 *
+	 * @param request the request to handle
+	 * @return a new interceptor chain for the request.
+	 */
+	public static InterceptorComponent createInterceptorChain(final HttpServletRequest request) {
+
+		InterceptorComponent[] chain;
+
+<span class="pc bpc" id="L356" title="1 of 2 branches missed.">		if (request.getParameter(WServlet.DATA_LIST_PARAM_NAME) != null) {</span>
+<span class="nc" id="L357">			chain = new InterceptorComponent[]{new DataListInterceptor()};</span>
+<span class="pc bpc" id="L358" title="1 of 2 branches missed.">		} else if (request.getParameter(WServlet.AJAX_TRIGGER_PARAM_NAME) != null) {</span>
+<span class="nc" id="L359">			chain = new InterceptorComponent[]{new AjaxErrorInterceptor(), new SessionTokenAjaxInterceptor(),</span>
+				new ResponseCacheInterceptor(CacheType.NO_CACHE),
+				new UIContextDumpInterceptor(), new AjaxSetupInterceptor(),
+				new WWindowInterceptor(true), new WrongStepAjaxInterceptor(),
+				new ContextCleanupInterceptor(), new TransformXMLInterceptor(),
+				new ValidateXMLInterceptor(), new WhitespaceFilterInterceptor(),
+				new SubordinateControlInterceptor(), new AjaxPageShellInterceptor(),
+				new AjaxDebugStructureInterceptor(), new AjaxInterceptor()};
+<span class="pc bpc" id="L367" title="1 of 2 branches missed.">		} else if (request.getParameter(WServlet.TARGET_ID_PARAM_NAME) != null) {</span>
+<span class="nc" id="L368">			chain = new InterceptorComponent[]{new TargetableErrorInterceptor(),</span>
+				new SessionTokenContentInterceptor(), new UIContextDumpInterceptor(),
+				new TargetableInterceptor(), new WWindowInterceptor(false),
+				new WrongStepContentInterceptor()};
+		} else {
+<span class="fc" id="L373">			chain = new InterceptorComponent[]{new SessionTokenInterceptor(),</span>
+				new ResponseCacheInterceptor(CacheType.NO_CACHE),
+				new UIContextDumpInterceptor(), new WWindowInterceptor(true),
+				new WrongStepServerInterceptor(), new ContextCleanupInterceptor(),
+				new TransformXMLInterceptor(), new ValidateXMLInterceptor(),
+				new WhitespaceFilterInterceptor(), new SubordinateControlInterceptor(),
+				new PageShellInterceptor(), new FormInterceptor(),
+				new DebugStructureInterceptor()};
+		}
+
+		// Link the interceptors together in a chain.
+<span class="fc bfc" id="L384" title="All 2 branches covered.">		for (int i = 0; i &lt; chain.length - 1; i++) {</span>
+<span class="fc" id="L385">			chain[i].setBackingComponent(chain[i + 1]);</span>
+		}
+
+		// Return the top of the chain.
+<span class="fc" id="L389">		return chain[0];</span>
+	}
+
+	/**
+	 * Called if a Throwable is caught by the top-level service method. By default we display an error and terminate the
+	 * session.
+	 *
+	 * @param helper the current servlet helper
+	 * @param throwable the throwable
+	 * @throws ServletException a servlet exception
+	 * @throws IOException an IO Exception
+	 */
+	public static void handleError(final HttpServletHelper helper, final Throwable throwable) throws
+			ServletException,
+			IOException {
+<span class="nc" id="L404">		HttpServletRequest httpServletRequest = helper.getBackingRequest();</span>
+<span class="nc" id="L405">		HttpServletResponse httpServletResponse = helper.getBackingResponse();</span>
+
+		// Set error code for AJAX, Content or data requests
+<span class="nc bnc" id="L408" title="All 2 branches missed.">		boolean dataRequest = httpServletRequest.getParameter(WServlet.DATA_LIST_PARAM_NAME) != null;</span>
+<span class="nc" id="L409">		String target = httpServletRequest.getParameter(WServlet.AJAX_TRIGGER_PARAM_NAME);</span>
+<span class="nc bnc" id="L410" title="All 2 branches missed.">		if (target == null) {</span>
+<span class="nc" id="L411">			target = httpServletRequest.getParameter(WServlet.TARGET_ID_PARAM_NAME);</span>
+		}
+<span class="nc bnc" id="L413" title="All 4 branches missed.">		if (target != null || dataRequest) {</span>
+<span class="nc" id="L414">			httpServletResponse.sendError(500, &quot;Internal Error&quot;);</span>
+<span class="nc" id="L415">			return;</span>
+		}
+
+		// Decide whether we should use the ErrorPageFactory.
+<span class="nc" id="L419">		boolean handleErrorWithFatalErrorPageFactory = Config.getInstance()</span>
+<span class="nc" id="L420">				.getBoolean(HANDLE_ERROR_WITH_FATAL_ERROR_PAGE_FACTORY, false);</span>
+
+		// use the new technique and delegate to the ErrorPageFactory.
+<span class="nc bnc" id="L423" title="All 2 branches missed.">		if (handleErrorWithFatalErrorPageFactory) {</span>
+<span class="nc" id="L424">			helper.handleError(throwable);</span>
+<span class="nc" id="L425">			helper.dispose();</span>
+		} else { // use the old technique and just display a raw message.
+			// First, decide whether we are in friendly mode or not.
+<span class="nc" id="L428">			boolean friendly = Config.getInstance().getBoolean(DEVELOPER_MODE_ERROR_HANDLING, false);</span>
+
+<span class="nc" id="L430">			String message = InternalMessages.DEFAULT_SYSTEM_ERROR;</span>
+
+			// If we are unfriendly, terminate the session
+<span class="nc bnc" id="L433" title="All 2 branches missed.">			if (!friendly) {</span>
+<span class="nc" id="L434">				HttpSession session = httpServletRequest.getSession(true);</span>
+<span class="nc" id="L435">				session.invalidate();</span>
+
+<span class="nc" id="L437">				message = InternalMessages.DEFAULT_SYSTEM_ERROR_SEVERE;</span>
+			}
+
+			// Display an error to the user.
+<span class="nc" id="L441">			UIContext uic = helper.getUIContext();</span>
+<span class="nc bnc" id="L442" title="All 2 branches missed.">			Locale locale = uic == null ? null : uic.getLocale();</span>
+<span class="nc" id="L443">			message = I18nUtilities.format(locale, message);</span>
+<span class="nc" id="L444">			httpServletResponse.getWriter().println(message);</span>
+		}
+<span class="nc" id="L446">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

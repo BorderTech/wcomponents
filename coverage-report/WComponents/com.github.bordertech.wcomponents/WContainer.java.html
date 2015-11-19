@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WContainer.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">WContainer.java</span></div><h1>WContainer.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import java.util.List;
+
+/**
+ * A default implementation of the {@link Container} interface. This can be used as a generic container for components
+ * which do not need to be referenced together. If you need to target a collection of components for use in e.g. AJAX,
+ * you should use a {@link WPanel} instead.
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ */
+<span class="fc" id="L13">public class WContainer extends WBeanComponent implements MutableContainer {</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void add(final WComponent component) {
+<span class="fc" id="L20">		super.add(component);</span>
+<span class="fc" id="L21">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void add(final WComponent component, final String tag) {
+<span class="fc" id="L28">		super.add(component, tag);</span>
+<span class="fc" id="L29">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public WComponent getChildAt(final int index) {
+<span class="fc" id="L36">		return super.getChildAt(index);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public int getChildCount() {
+<span class="fc" id="L44">		return super.getChildCount();</span>
+	}
+
+	@Override
+	/**
+	 * {@inheritDoc}
+	 */
+	public List&lt;WComponent&gt; getChildren() {
+<span class="fc" id="L52">		return super.getChildren();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void remove(final WComponent child) {
+<span class="fc" id="L60">		super.remove(child);</span>
+<span class="fc" id="L61">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void removeAll() {
+<span class="fc" id="L68">		super.removeAll();</span>
+<span class="fc" id="L69">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public int getIndexOfChild(final WComponent childComponent) {
+<span class="fc" id="L76">		return super.getIndexOfChild(childComponent);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	// to make public
+	public void setTemplate(final String templateUrl) {
+<span class="fc" id="L85">		super.setTemplate(templateUrl);</span>
+<span class="fc" id="L86">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	// to make public
+	public void setTemplateMarkUp(final String markUp) {
+<span class="nc" id="L94">		super.setTemplateMarkUp(markUp);</span>
+<span class="nc" id="L95">	}</span>
+
+	/**
+	 * Associates a velocity template with this component. A simple mapping is applied to the given class to derive the
+	 * name of a velocity template.
+	 * &lt;p&gt;
+	 * For instance, com.github.bordertech.wcomponents.WTextField would map to the template
+	 * com/github/bordertech/wcomponents/WTextField.vm
+	 * &lt;/p&gt;
+	 *
+	 * @param clazz the class to use to retrieve the template.
+	 * @deprecated use {@link #setTemplate(String)}.
+	 */
+	@Override
+	// to make public
+	@Deprecated
+	public void setTemplate(final Class clazz) {
+<span class="fc" id="L112">		super.setTemplate(clazz);</span>
+<span class="fc" id="L113">	}</span>
+
+	/**
+	 * A naming context is only considered active if it has been set active via {@link #setNamingContext(boolean)} and
+	 * also has an id name set via {@link #setIdName(String)}.
+	 *
+	 * @param context set true if this is a naming context.
+	 */
+	public void setNamingContext(final boolean context) {
+<span class="fc" id="L122">		setFlag(ComponentModel.NAMING_CONTEXT_FLAG, context);</span>
+<span class="fc" id="L123">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean isNamingContext() {
+<span class="fc" id="L130">		return isFlagSet(ComponentModel.NAMING_CONTEXT_FLAG);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getNamingContextId() {
+<span class="fc" id="L138">		return getId();</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>StandaloneLauncher.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.lde</a> &gt; <span class="el_source">StandaloneLauncher.java</span></div><h1>StandaloneLauncher.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.lde;
+
+import com.github.bordertech.wcomponents.util.Config;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.net.URI;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.SwingUtilities;
+import org.apache.commons.configuration.CompositeConfiguration;
+import org.apache.commons.configuration.Configuration;
+import org.apache.commons.configuration.MapConfiguration;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+/**
+ * This launcher is intended to be run in a stand-alone environment, i.e. directly From a jar file rather than through
+ * an IDE. It provides basic controls to interact with the LDE.
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ */
+public final class StandaloneLauncher {
+
+	/**
+	 * The singleton instance of the StandaloneLauncher UI.
+	 */
+<span class="nc" id="L42">	private static final StandaloneLauncher INSTANCE = new StandaloneLauncher();</span>
+
+	/**
+	 * The WComponent LDE launcher.
+	 */
+<span class="nc" id="L47">	private final MyLauncher launcher = new MyLauncher();</span>
+
+	/**
+	 * This text area is used to display the log output.
+	 */
+<span class="nc" id="L52">	private final JTextArea log = new JTextArea();</span>
+
+	/**
+	 * Creates a StandaloneLauncher.
+	 */
+<span class="nc" id="L57">	private StandaloneLauncher() {</span>
+<span class="nc" id="L58">		final JFrame frame = new JFrame(&quot;WComponent stand-alone LDE&quot;);</span>
+<span class="nc" id="L59">		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);</span>
+
+<span class="nc" id="L61">		JPanel content = new JPanel();</span>
+<span class="nc" id="L62">		content.setLayout(new BorderLayout());</span>
+<span class="nc" id="L63">		frame.setContentPane(content);</span>
+
+<span class="nc" id="L65">		content.add(new JLabel(&quot;Log:&quot;), BorderLayout.NORTH);</span>
+
+<span class="nc" id="L67">		log.setColumns(120);</span>
+<span class="nc" id="L68">		log.setRows(30);</span>
+<span class="nc" id="L69">		log.setFont(new Font(&quot;Monospaced&quot;, Font.PLAIN, 12));</span>
+<span class="nc" id="L70">		content.add(new JScrollPane(log, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,</span>
+				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED), BorderLayout.CENTER);
+
+<span class="nc" id="L73">		JPanel buttonPanel = new JPanel();</span>
+<span class="nc" id="L74">		buttonPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 0));</span>
+<span class="nc" id="L75">		content.add(buttonPanel, BorderLayout.SOUTH);</span>
+
+<span class="nc" id="L77">		JButton button = new JButton(&quot;Clear log&quot;);</span>
+<span class="nc" id="L78">		buttonPanel.add(button);</span>
+<span class="nc" id="L79">		button.addActionListener(new ActionListener() {</span>
+			@Override
+			public void actionPerformed(final ActionEvent event) {
+<span class="nc" id="L82">				log.setText(&quot;&quot;);</span>
+<span class="nc" id="L83">			}</span>
+		});
+
+<span class="nc" id="L86">		button = new JButton(&quot;Launch browser&quot;);</span>
+<span class="nc" id="L87">		buttonPanel.add(button);</span>
+<span class="nc" id="L88">		button.addActionListener(new ActionListener() {</span>
+			@Override
+			public void actionPerformed(final ActionEvent event) {
+				// Use of reflections here is required as we still need to compile under java 1.5.
+				//Desktop.getDesktop().open(index);
+				try {
+<span class="nc" id="L94">					Class&lt;?&gt; clazz = Class.forName(&quot;java.awt.Desktop&quot;);</span>
+<span class="nc" id="L95">					Object instance = clazz.getMethod(&quot;getDesktop&quot;).invoke(null);</span>
+<span class="nc" id="L96">					clazz.getMethod(&quot;browse&quot;, URI.class).invoke(instance, new URI(</span>
+<span class="nc" id="L97">							getInstance().launcher.getUrl()));</span>
+<span class="nc" id="L98">				} catch (ClassNotFoundException e) {</span>
+					//Desktop isn't available in Java 1.5, so we'll just use a
+					// windows specific cmdline for now
+<span class="nc" id="L101">					String cmd = &quot;rundll32 url.dll,FileProtocolHandler &quot;</span>
+<span class="nc" id="L102">							+ getInstance().launcher.getUrl();</span>
+
+					try {
+<span class="nc" id="L105">						Runtime.getRuntime().exec(cmd);</span>
+<span class="nc" id="L106">					} catch (Exception e2) {</span>
+<span class="nc" id="L107">						LogFactory.getLog(getClass()).error(&quot;Failed to launch browser&quot;, e);</span>
+<span class="nc" id="L108">					}</span>
+<span class="nc" id="L109">				} catch (Exception e) {</span>
+<span class="nc" id="L110">					LogFactory.getLog(getClass()).error(&quot;Failed to launch browser&quot;, e);</span>
+<span class="nc" id="L111">				}</span>
+<span class="nc" id="L112">			}</span>
+		});
+
+<span class="nc" id="L115">		button = new JButton(&quot;Exit&quot;);</span>
+<span class="nc" id="L116">		buttonPanel.add(button);</span>
+<span class="nc" id="L117">		button.addActionListener(new ActionListener() {</span>
+			@Override
+			public void actionPerformed(final ActionEvent event) {
+				// Trigger closing of the frame rather than forcefully terminating the VM.
+				// This allows clean-up routines registered in window listeners to run.
+<span class="nc" id="L122">				WindowEvent closeEvent = new WindowEvent(frame, WindowEvent.WINDOW_CLOSING);</span>
+<span class="nc" id="L123">				Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(closeEvent);</span>
+<span class="nc" id="L124">			}</span>
+		});
+
+<span class="nc" id="L127">		frame.pack();</span>
+<span class="nc" id="L128">		frame.setVisible(true);</span>
+<span class="nc" id="L129">	}</span>
+
+	/**
+	 * @return the Singleton instance of the StandaloneLauncher.
+	 */
+	public static StandaloneLauncher getInstance() {
+<span class="nc" id="L135">		return INSTANCE;</span>
+	}
+
+	/**
+	 * Logs a message to the console (text area).
+	 *
+	 * @param message the message to log.
+	 */
+	public void log(final String message) {
+<span class="nc bnc" id="L144" title="All 2 branches missed.">		if (!SwingUtilities.isEventDispatchThread()) {</span>
+<span class="nc" id="L145">			SwingUtilities.invokeLater(new Runnable() {</span>
+				@Override
+				public void run() {
+<span class="nc" id="L148">					log(message);</span>
+<span class="nc" id="L149">				}</span>
+			});
+		} else {
+<span class="nc" id="L152">			log.append(message);</span>
+		}
+<span class="nc" id="L154">	}</span>
+
+	/**
+	 * The entry point when the launcher is run as a java application.
+	 *
+	 * @param args command-line arguments, ignored.
+	 * @throws Exception on error
+	 */
+	public static void main(final String[] args) throws Exception {
+		// Set the logger to use the text area logger
+<span class="nc" id="L164">		System.setProperty(&quot;org.apache.commons.logging.Log&quot;,</span>
+				&quot;com.github.bordertech.wcomponents.lde.StandaloneLauncher$TextAreaLogger&quot;);
+
+		// Set the port number to a random port
+<span class="nc" id="L168">		Configuration internalWComponentConfig = Config.getInstance();</span>
+<span class="nc" id="L169">		CompositeConfiguration config = new CompositeConfiguration(new MapConfiguration(</span>
+				new HashMap&lt;String, Object&gt;()));
+<span class="nc" id="L171">		config.addConfiguration(internalWComponentConfig); // Internal WComponent config next</span>
+<span class="nc" id="L172">		config.setProperty(&quot;bordertech.wcomponents.lde.server.port&quot;, 0);</span>
+<span class="nc" id="L173">		Config.setConfiguration(config);</span>
+
+<span class="nc" id="L175">		getInstance().launcher.run();</span>
+<span class="nc" id="L176">		getInstance().log(&quot;LDE now running on &quot; + getInstance().launcher.getUrl() + '\n');</span>
+<span class="nc" id="L177">	}</span>
+
+	/**
+	 * Extension of PlainLauncher to make getUrl() public.
+	 */
+<span class="nc" id="L182">	public static final class MyLauncher extends PlainLauncher {</span>
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public String getUrl() {
+<span class="nc" id="L189">			return super.getUrl();</span>
+		}
+	}
+
+	/**
+	 * A commons-logging Log implementation which logs to the StandaloneLauncher log.
+	 */
+	public static final class TextAreaLogger implements Log {
+
+		/**
+		 * The TRACE log-level should be used to output even more fine-grained information than DEBUG.
+		 */
+		public static final int TRACE = 0;
+		/**
+		 * The DEBUG log-level should be used for fine-grained information useful for debugging an application.
+		 */
+		public static final int DEBUG = 1;
+		/**
+		 * The INFO log-level is used to output application processing at a course level.
+		 */
+		public static final int INFO = 2;
+		/**
+		 * The WARN log-level is used to log information about potentially damaging situations.
+		 */
+		public static final int WARN = 3;
+		/**
+		 * The ERROR log-level is used to log application errors where the application can recover.
+		 */
+		public static final int ERROR = 4;
+		/**
+		 * The FATAL log-level is used to log application errors where the application can not recover.
+		 */
+		public static final int FATAL = 5;
+
+		/**
+		 * The current log level.
+		 */
+<span class="nc" id="L226">		private int logLevel = DEBUG;</span>
+
+		/**
+		 * Creates a TextAreaLogger.
+		 *
+		 * @param name the logger name.
+		 */
+<span class="nc" id="L233">		public TextAreaLogger(final String name) {</span>
+
+<span class="nc" id="L235">		}</span>
+
+		/**
+		 * Sets the log level.
+		 *
+		 * @param level the new log level to set.
+		 */
+		public void setLogLevel(final int level) {
+<span class="nc" id="L243">			logLevel = level;</span>
+<span class="nc" id="L244">		}</span>
+
+		/**
+		 * Logs a message.
+		 *
+		 * @param message the message to log.
+		 * @param throwable the throwable which caused the message to be logged (if applicable).
+		 * @param level the logging level to log the message at.
+		 */
+		private void log(final Object message, final Throwable throwable, final int level) {
+<span class="nc bnc" id="L254" title="All 2 branches missed.">			if (level &lt; logLevel) {</span>
+<span class="nc" id="L255">				return;</span>
+			}
+
+<span class="nc bnc" id="L258" title="All 2 branches missed.">			if (message != null) {</span>
+<span class="nc" id="L259">				String prefix = new SimpleDateFormat(&quot;dd/MM/yy HH:mm:ss&quot;).format(new Date()) + &quot;: &quot;;</span>
+<span class="nc" id="L260">				StandaloneLauncher.getInstance().log(prefix + message.toString() + '\n');</span>
+			}
+
+<span class="nc bnc" id="L263" title="All 2 branches missed.">			if (throwable != null) {</span>
+<span class="nc" id="L264">				StringWriter writer = new StringWriter();</span>
+<span class="nc" id="L265">				PrintWriter printWriter = new PrintWriter(writer);</span>
+<span class="nc" id="L266">				throwable.printStackTrace(printWriter);</span>
+<span class="nc" id="L267">				printWriter.close();</span>
+
+<span class="nc" id="L269">				StandaloneLauncher.getInstance().log(writer.toString());</span>
+			}
+<span class="nc" id="L271">		}</span>
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public void debug(final Object message, final Throwable cause) {
+<span class="nc" id="L278">			log(message, cause, DEBUG);</span>
+<span class="nc" id="L279">		}</span>
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public void debug(final Object message) {
+<span class="nc" id="L286">			log(message, null, DEBUG);</span>
+<span class="nc" id="L287">		}</span>
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public void error(final Object message, final Throwable cause) {
+<span class="nc" id="L294">			log(message, cause, ERROR);</span>
+<span class="nc" id="L295">		}</span>
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public void error(final Object message) {
+<span class="nc" id="L302">			log(message, null, ERROR);</span>
+<span class="nc" id="L303">		}</span>
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public void fatal(final Object message, final Throwable cause) {
+<span class="nc" id="L310">			log(message, cause, FATAL);</span>
+<span class="nc" id="L311">		}</span>
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public void fatal(final Object message) {
+<span class="nc" id="L318">			log(message, null, FATAL);</span>
+<span class="nc" id="L319">		}</span>
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public void info(final Object message, final Throwable cause) {
+<span class="nc" id="L326">			log(message, cause, INFO);</span>
+<span class="nc" id="L327">		}</span>
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public void info(final Object message) {
+<span class="nc" id="L334">			log(message, null, INFO);</span>
+<span class="nc" id="L335">		}</span>
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public void warn(final Object message, final Throwable cause) {
+<span class="nc" id="L342">			log(message, cause, WARN);</span>
+<span class="nc" id="L343">		}</span>
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public void warn(final Object message) {
+<span class="nc" id="L350">			log(message, null, WARN);</span>
+<span class="nc" id="L351">		}</span>
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public boolean isDebugEnabled() {
+<span class="nc bnc" id="L358" title="All 2 branches missed.">			return logLevel &lt;= DEBUG;</span>
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public boolean isErrorEnabled() {
+<span class="nc bnc" id="L366" title="All 2 branches missed.">			return logLevel &lt;= ERROR;</span>
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public boolean isFatalEnabled() {
+<span class="nc bnc" id="L374" title="All 2 branches missed.">			return logLevel &lt;= FATAL;</span>
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public boolean isInfoEnabled() {
+<span class="nc bnc" id="L382" title="All 2 branches missed.">			return logLevel &lt;= INFO;</span>
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public boolean isWarnEnabled() {
+<span class="nc bnc" id="L390" title="All 2 branches missed.">			return logLevel &lt;= WARN;</span>
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public boolean isTraceEnabled() {
+<span class="nc bnc" id="L398" title="All 2 branches missed.">			return logLevel &lt;= TRACE;</span>
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public void trace(final Object message, final Throwable cause) {
+<span class="nc" id="L406">			log(message, cause, TRACE);</span>
+<span class="nc" id="L407">		}</span>
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public void trace(final Object message) {
+<span class="nc" id="L414">			log(message, null, TRACE);</span>
+<span class="nc" id="L415">		}</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

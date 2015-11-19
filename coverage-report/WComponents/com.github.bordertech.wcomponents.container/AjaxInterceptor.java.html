@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>AjaxInterceptor.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.container</a> &gt; <span class="el_source">AjaxInterceptor.java</span></div><h1>AjaxInterceptor.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.container;
+
+import com.github.bordertech.wcomponents.AjaxHelper;
+import com.github.bordertech.wcomponents.AjaxOperation;
+import com.github.bordertech.wcomponents.ComponentWithContext;
+import com.github.bordertech.wcomponents.RenderContext;
+import com.github.bordertech.wcomponents.Request;
+import com.github.bordertech.wcomponents.UIContext;
+import com.github.bordertech.wcomponents.UIContextHolder;
+import com.github.bordertech.wcomponents.WAjaxControl;
+import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.WebUtilities;
+import com.github.bordertech.wcomponents.XmlStringBuilder;
+import com.github.bordertech.wcomponents.servlet.WServlet;
+import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
+import com.github.bordertech.wcomponents.util.SystemException;
+import java.util.List;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+/**
+ * This {@link InterceptorComponent} looks for an ajax 'trigger' parameter in the request. The trigger parameter
+ * identifies the {@link WAjaxControl} to be handled by the request. In the paint phase the interceptor will only paint
+ * the targeted components to the response.
+ *
+ * @see WAjaxControl
+ * @author Christina Harris
+ * @since 1.0.0
+ */
+<span class="fc" id="L30">public class AjaxInterceptor extends InterceptorComponent {</span>
+
+	/**
+	 * The logger instance for this class.
+	 */
+<span class="fc" id="L35">	private static final Log LOG = LogFactory.getLog(AjaxInterceptor.class);</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void serviceRequest(final Request request) {
+<span class="fc" id="L42">		String triggerId = request.getParameter(WServlet.AJAX_TRIGGER_PARAM_NAME);</span>
+
+<span class="fc" id="L44">		AjaxOperation ajaxOperation = AjaxHelper.getCurrentOperation();</span>
+<span class="pc bpc" id="L45" title="1 of 2 branches missed.">		if (ajaxOperation == null) {</span>
+<span class="nc" id="L46">			throw new IllegalStateException(</span>
+					&quot;No AJAX operation available for trigger &quot; + triggerId + &quot;.&quot;);
+		}
+
+<span class="fc" id="L50">		ComponentWithContext triggerWithContext = AjaxHelper.getCurrentTriggerAndContext();</span>
+<span class="pc bpc" id="L51" title="1 of 2 branches missed.">		if (triggerWithContext == null) {</span>
+<span class="nc" id="L52">			throw new IllegalStateException(</span>
+					&quot;No component/context available for AJAX trigger &quot; + triggerId + &quot;.&quot;);
+		}
+
+<span class="fc" id="L56">		UIContext uic = UIContextHolder.getCurrent();</span>
+
+		// Reset the focus for this new request.
+<span class="fc" id="L59">		uic.setFocussed(null, null);</span>
+
+		// We've hit the action phase, so we do want focus on this app.
+<span class="fc" id="L62">		uic.setFocusRequired(true);</span>
+
+		// Process trigger only
+<span class="pc bpc" id="L65" title="1 of 2 branches missed.">		if (isProcessTriggerOnly(triggerWithContext, ajaxOperation)) {</span>
+			// Get user context
+<span class="nc" id="L67">			UIContext tuic = triggerWithContext.getContext();</span>
+<span class="nc" id="L68">			UIContextHolder.pushContext(tuic);</span>
+			try {
+<span class="nc" id="L70">				WComponent trigger = triggerWithContext.getComponent();</span>
+<span class="nc" id="L71">				trigger.serviceRequest(request);</span>
+				// Manually invoke laters as the InvokeLaters in the service request is not run due to the trigger
+				// having a &quot;parent&quot;
+<span class="nc" id="L74">				tuic.doInvokeLaters();</span>
+			} finally {
+<span class="nc" id="L76">				UIContextHolder.popContext();</span>
+<span class="nc" id="L77">			}</span>
+<span class="pc bpc" id="L78" title="1 of 2 branches missed.">		} else if (&quot;GET&quot;.equals(request.getMethod())) { // GET only supports the above scenarios</span>
+<span class="nc" id="L79">			throw new IllegalStateException(</span>
+					&quot;GET is not supported for the AJAX trigger &quot; + triggerId + &quot;.&quot;);
+		} else {
+			// service the request
+<span class="fc" id="L83">			super.serviceRequest(request);</span>
+		}
+<span class="fc" id="L85">	}</span>
+
+	/**
+	 * Paints the targeted ajax regions. The format of the response is an agreement between the server and the client
+	 * side JavaScript handling our ajax response.
+	 *
+	 * @param renderContext the renderContext to send the output to.
+	 */
+	@Override
+	public void paint(final RenderContext renderContext) {
+<span class="fc" id="L95">		AjaxOperation operation = AjaxHelper.getCurrentOperation();</span>
+<span class="pc bpc" id="L96" title="1 of 2 branches missed.">		if (operation == null) {</span>
+			// the request attribute that we place in the ui context in the action phase can't be null
+<span class="nc" id="L98">			throw new SystemException(</span>
+					&quot;Can't paint AJAX response. Couldn't find the expected reference to the AjaxOperation.&quot;);
+		}
+
+<span class="pc bpc" id="L102" title="1 of 2 branches missed.">		if (operation.getTargetContainerId() != null) {</span>
+<span class="nc" id="L103">			paintContainerResponse(renderContext, operation);</span>
+		} else {
+<span class="fc" id="L105">			paintResponse(renderContext, operation);</span>
+		}
+<span class="fc" id="L107">	}</span>
+
+	/**
+	 * Paint the ajax container response.
+	 *
+	 * @param renderContext the render context
+	 * @param operation the ajax operation
+	 */
+	private void paintContainerResponse(final RenderContext renderContext,
+			final AjaxOperation operation) {
+<span class="nc" id="L117">		WebXmlRenderContext webRenderContext = (WebXmlRenderContext) renderContext;</span>
+<span class="nc" id="L118">		XmlStringBuilder xml = webRenderContext.getWriter();</span>
+
+		// Get trigger's context
+<span class="nc" id="L121">		ComponentWithContext trigger = AjaxHelper.getCurrentTriggerAndContext();</span>
+<span class="nc bnc" id="L122" title="All 2 branches missed.">		if (trigger == null) {</span>
+<span class="nc" id="L123">			throw new SystemException(&quot;No context available for trigger &quot; + operation.getTriggerId());</span>
+		}
+
+<span class="nc" id="L126">		xml.appendTagOpen(&quot;ui:ajaxTarget&quot;);</span>
+<span class="nc" id="L127">		xml.appendAttribute(&quot;id&quot;, operation.getTargetContainerId());</span>
+<span class="nc" id="L128">		xml.appendAttribute(&quot;action&quot;, &quot;replaceContent&quot;);</span>
+<span class="nc" id="L129">		xml.appendClose();</span>
+
+		// Paint targets - Assume targets are in the same context as the trigger
+<span class="nc" id="L132">		UIContextHolder.pushContext(trigger.getContext());</span>
+		try {
+<span class="nc bnc" id="L134" title="All 2 branches missed.">			for (String targetId : operation.getTargets()) {</span>
+				ComponentWithContext target;
+<span class="nc bnc" id="L136" title="All 2 branches missed.">				if (targetId.equals(operation.getTriggerId())) {</span>
+<span class="nc" id="L137">					target = trigger;</span>
+				} else {
+<span class="nc" id="L139">					target = WebUtilities.getComponentById(targetId, true);</span>
+<span class="nc bnc" id="L140" title="All 2 branches missed.">					if (target == null) {</span>
+<span class="nc" id="L141">						LOG.warn(&quot;Could not find ajax target to render [&quot; + targetId + &quot;]&quot;);</span>
+<span class="nc" id="L142">						continue;</span>
+					}
+				}
+<span class="nc" id="L145">				target.getComponent().paint(renderContext);</span>
+<span class="nc" id="L146">			}</span>
+		} finally {
+<span class="nc" id="L148">			UIContextHolder.popContext();</span>
+<span class="nc" id="L149">		}</span>
+
+<span class="nc" id="L151">		xml.appendEndTag(&quot;ui:ajaxTarget&quot;);</span>
+<span class="nc" id="L152">	}</span>
+
+	/**
+	 * Paint the ajax response.
+	 *
+	 * @param renderContext the render context
+	 * @param operation the ajax operation
+	 */
+	private void paintResponse(final RenderContext renderContext, final AjaxOperation operation) {
+<span class="fc" id="L161">		WebXmlRenderContext webRenderContext = (WebXmlRenderContext) renderContext;</span>
+<span class="fc" id="L162">		XmlStringBuilder xml = webRenderContext.getWriter();</span>
+
+		// Get trigger's context
+<span class="fc" id="L165">		ComponentWithContext trigger = AjaxHelper.getCurrentTriggerAndContext();</span>
+<span class="pc bpc" id="L166" title="1 of 2 branches missed.">		if (trigger == null) {</span>
+<span class="nc" id="L167">			throw new SystemException(&quot;No context available for trigger &quot; + operation.getTriggerId());</span>
+		}
+
+<span class="fc bfc" id="L170" title="All 2 branches covered.">		for (String targetId : operation.getTargets()) {</span>
+			ComponentWithContext target;
+<span class="pc bpc" id="L172" title="1 of 2 branches missed.">			if (targetId.equals(operation.getTriggerId())) {</span>
+<span class="nc" id="L173">				target = trigger;</span>
+			} else {
+<span class="fc" id="L175">				target = WebUtilities.getComponentById(targetId, true);</span>
+<span class="pc bpc" id="L176" title="1 of 2 branches missed.">				if (target == null) {</span>
+<span class="nc" id="L177">					LOG.warn(&quot;Could not find ajax target to render [&quot; + targetId + &quot;]&quot;);</span>
+<span class="nc" id="L178">					continue;</span>
+				}
+			}
+
+<span class="fc" id="L182">			UIContextHolder.pushContext(target.getContext());</span>
+			try {
+<span class="fc" id="L184">				xml.appendTagOpen(&quot;ui:ajaxTarget&quot;);</span>
+<span class="fc" id="L185">				xml.appendAttribute(&quot;id&quot;, targetId);</span>
+<span class="fc" id="L186">				xml.appendAttribute(&quot;action&quot;, &quot;replace&quot;);</span>
+<span class="fc" id="L187">				xml.appendClose();</span>
+
+<span class="fc" id="L189">				target.getComponent().paint(renderContext);</span>
+
+<span class="fc" id="L191">				xml.appendEndTag(&quot;ui:ajaxTarget&quot;);</span>
+			} finally {
+<span class="pc" id="L193">				UIContextHolder.popContext();</span>
+<span class="fc" id="L194">			}</span>
+<span class="fc" id="L195">		}</span>
+<span class="fc" id="L196">	}</span>
+
+	/**
+	 * Check if process this trigger only.
+	 *
+	 * @param triggerWithContext the trigger with its context
+	 * @param operation current ajax operation
+	 * @return true if process this trigger only
+	 */
+	private boolean isProcessTriggerOnly(final ComponentWithContext triggerWithContext,
+			final AjaxOperation operation) {
+		// Target container implies only process the trigger
+<span class="pc bpc" id="L208" title="1 of 2 branches missed.">		if (operation.getTargetContainerId() != null) {</span>
+<span class="nc" id="L209">			return true;</span>
+		}
+
+<span class="fc" id="L212">		WComponent trigger = triggerWithContext.getComponent();</span>
+
+		// Check if trigger is a polling AJAX control
+<span class="pc bpc" id="L215" title="1 of 2 branches missed.">		if (trigger instanceof WAjaxControl) {</span>
+			// Get user context
+<span class="nc" id="L217">			UIContext uic = triggerWithContext.getContext();</span>
+<span class="nc" id="L218">			UIContextHolder.pushContext(uic);</span>
+			try {
+<span class="nc" id="L220">				WAjaxControl ajax = (WAjaxControl) trigger;</span>
+				// Is a polling region so only process trigger
+<span class="nc bnc" id="L222" title="All 2 branches missed.">				if (ajax.getDelay() &gt; 0) {</span>
+<span class="nc" id="L223">					return true;</span>
+				}
+			} finally {
+<span class="nc" id="L226">				UIContextHolder.popContext();</span>
+<span class="nc" id="L227">			}</span>
+		}
+
+		// Check if the operation only has one target and it is the same as the trigger
+<span class="fc" id="L231">		List&lt;String&gt; targets = operation.getTargets();</span>
+<span class="pc bpc" id="L232" title="3 of 6 branches missed.">		if (targets == null || targets.isEmpty() || targets.size() &gt; 1) {</span>
+<span class="nc" id="L233">			return false;</span>
+		}
+<span class="fc" id="L235">		return operation.getTriggerId().equals(targets.get(0));</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

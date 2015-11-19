@@ -1,0 +1,453 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>HttpServletHelper.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.servlet</a> &gt; <span class="el_source">HttpServletHelper.java</span></div><h1>HttpServletHelper.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.servlet;
+
+import com.github.bordertech.wcomponents.AbstractEnvironment;
+import com.github.bordertech.wcomponents.Environment;
+import com.github.bordertech.wcomponents.Request;
+import com.github.bordertech.wcomponents.Response;
+import com.github.bordertech.wcomponents.UIContext;
+import com.github.bordertech.wcomponents.UserAgentInfo;
+import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.container.AbstractContainerHelper;
+import com.github.bordertech.wcomponents.container.ResponseCacheInterceptor.CacheType;
+import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.SystemException;
+import com.github.bordertech.wcomponents.util.Util;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Map;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+/**
+ * A servlet specific ContainerHelper.
+ * &lt;p&gt;
+ * Chiefly it handles the creation and storage of each users {@link UIContext} in the servlet session, and it maps
+ * servlet requests and responses to wcomponent requests and responses.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * An instance is created each request being processed.
+ * &lt;/p&gt;
+ *
+ * @author Jonathan Austin
+ * @since 1.0.0
+ */
+public class HttpServletHelper extends AbstractContainerHelper {
+
+	/**
+	 * The logger instance for this class.
+	 */
+<span class="fc" id="L45">	private static final Log LOG = LogFactory.getLog(HttpServletHelper.class);</span>
+
+	/**
+	 * The name of the servlet initialisation parameter whose value is used to distinguish &quot;new&quot; sessions from &quot;ongoing&quot;
+	 * sessions.
+	 */
+	public static final String ONGOING_URL_SUFFIX = &quot;suffix&quot;;
+
+	/**
+	 * Flag that update already processed in the action phase.
+	 */
+<span class="fc" id="L56">	private boolean environmentUpdated = false;</span>
+
+	/**
+	 * The servlet which is handling the request.
+	 */
+	private HttpServlet servlet;
+
+	/**
+	 * The request being responded to.
+	 */
+	private HttpServletRequest httpServletRequest;
+
+	/**
+	 * The response for the current request.
+	 */
+	private HttpServletResponse httpServletResponse;
+
+	/**
+	 * The name of a session parameter used to store the UIContext. We try to make the key unique between servlets by
+	 * prefixing it with the class name of this servlet.
+	 */
+	private final String uiContextSessionKey;
+
+	/**
+	 * The ID of the targeted component for an AJAX or content request.
+	 */
+	private final String targetComponentId;
+
+	/**
+	 * Indicates whether the current request is for a data list.
+	 */
+	private final boolean dataRequest;
+
+	/**
+	 * @param servlet the servlet processing the request
+	 * @param httpServletRequest the servlet request being processed
+	 * @param httpServletResponse the servlet response
+	 */
+	public HttpServletHelper(final HttpServlet servlet, final HttpServletRequest httpServletRequest,
+<span class="fc" id="L95">			final HttpServletResponse httpServletResponse) {</span>
+		// The name of a session parameter used to store the UIContext.
+		// We try to make the key unique between servlets by prefixing it
+		// with the name of the servlet.
+<span class="fc" id="L99">		this.uiContextSessionKey = servlet.getClass().getName() + &quot;.servlet.model&quot;;</span>
+
+<span class="fc" id="L101">		this.servlet = servlet;</span>
+<span class="fc" id="L102">		this.httpServletRequest = httpServletRequest;</span>
+<span class="fc" id="L103">		this.httpServletResponse = httpServletResponse;</span>
+
+<span class="pc bpc" id="L105" title="1 of 2 branches missed.">		dataRequest = httpServletRequest.getParameter(WServlet.DATA_LIST_PARAM_NAME) != null;</span>
+
+<span class="fc" id="L107">		String target = httpServletRequest.getParameter(WServlet.AJAX_TRIGGER_PARAM_NAME);</span>
+<span class="pc bpc" id="L108" title="1 of 2 branches missed.">		if (target == null) {</span>
+<span class="fc" id="L109">			target = httpServletRequest.getParameter(WServlet.TARGET_ID_PARAM_NAME);</span>
+		}
+
+<span class="fc" id="L112">		this.targetComponentId = target;</span>
+<span class="fc" id="L113">	}</span>
+
+	/**
+	 * @return the servlet processing this request
+	 */
+	public HttpServlet getServlet() {
+<span class="fc" id="L119">		return servlet;</span>
+	}
+
+	/**
+	 * @return the backing http request.
+	 */
+	public HttpServletRequest getBackingRequest() {
+<span class="fc" id="L126">		return httpServletRequest;</span>
+	}
+
+	/**
+	 * @return the backing http response
+	 */
+	public HttpServletResponse getBackingResponse() {
+<span class="nc" id="L133">		return httpServletResponse;</span>
+	}
+
+	/**
+	 * @return the ui context session key.
+	 */
+	public String getUiContextSessionKey() {
+<span class="nc" id="L140">		return uiContextSessionKey;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected void dispose() {
+<span class="fc" id="L148">		servlet = null;</span>
+<span class="fc" id="L149">		httpServletRequest = null;</span>
+<span class="fc" id="L150">		httpServletResponse = null;</span>
+
+<span class="fc" id="L152">		super.dispose();</span>
+<span class="fc" id="L153">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected UIContext getUIContext() {
+<span class="fc" id="L160">		HttpSession session = httpServletRequest.getSession(false);</span>
+<span class="fc bfc" id="L161" title="All 2 branches covered.">		if (session == null) {</span>
+<span class="fc" id="L162">			return null;</span>
+		}
+<span class="fc" id="L164">		UIContext uic = (UIContext) session.getAttribute(uiContextSessionKey);</span>
+<span class="fc" id="L165">		return uic;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected void setUIContext(final UIContext uiContext) {
+<span class="fc" id="L173">		HttpSession session = httpServletRequest.getSession();</span>
+<span class="fc" id="L174">		session.setAttribute(uiContextSessionKey, uiContext);</span>
+<span class="fc" id="L175">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected UIContext createUIContext() {
+<span class="pc bpc" id="L182" title="1 of 2 branches missed.">		if (targetComponentId != null) {</span>
+<span class="nc" id="L183">			throw new SystemException(&quot;AJAX request for a session with no context set&quot;);</span>
+		}
+<span class="fc" id="L185">		return super.createUIContext();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected Environment createEnvironment() {
+<span class="nc" id="L193">		HttpServletRequest request = getBackingRequest();</span>
+<span class="nc" id="L194">		String postPath = getResponseUrl(request);</span>
+<span class="nc" id="L195">		String baseUrl = getBaseUrl(request);</span>
+<span class="nc" id="L196">		String userAgent = request.getHeader(&quot;user-agent&quot;);</span>
+
+		/**
+		 * Careful - this won't be serializable
+		 */
+<span class="nc" id="L201">		HttpServletEnvironment env = new HttpServletEnvironment(postPath, baseUrl, userAgent);</span>
+<span class="nc bnc" id="L202" title="All 2 branches missed.">		if (request instanceof SubSessionHttpServletRequestWrapper) {</span>
+<span class="nc" id="L203">			env.setSubsessionId(((SubSessionHttpServletRequestWrapper) request).getSessionId());</span>
+		}
+
+<span class="nc" id="L206">		return env;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected void updateEnvironment(final Environment env) {
+		// Check if update already applied (so not applied in render phase)
+<span class="fc bfc" id="L215" title="All 2 branches covered.">		if (!environmentUpdated) {</span>
+<span class="fc" id="L216">			environmentUpdated = true;</span>
+			// Post path may have changed (if mapped with multiple URLs)
+<span class="fc" id="L218">			String postPath = getResponseUrl(httpServletRequest);</span>
+<span class="fc" id="L219">			env.setPostPath(postPath);</span>
+		}
+<span class="fc" id="L221">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected Request createRequest() {
+<span class="fc" id="L228">		Request request = new ServletRequest(httpServletRequest);</span>
+<span class="fc" id="L229">		return request;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected void updateRequest(final Request request) {
+		// Nothing required here.
+<span class="fc" id="L238">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected void setTitle(final String title) {
+		// nop
+<span class="nc" id="L246">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected PrintWriter getPrintWriter() throws IOException {
+<span class="fc" id="L253">		PrintWriter writer = httpServletResponse.getWriter();</span>
+<span class="fc" id="L254">		return writer;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected Response getResponse() {
+<span class="fc" id="L262">		return new ServletResponse(httpServletResponse);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected void invalidateSession() {
+<span class="nc" id="L270">		HttpSession session = httpServletRequest.getSession(true);</span>
+<span class="nc" id="L271">		session.invalidate();</span>
+<span class="nc" id="L272">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected void redirectForLogout() {
+<span class="nc" id="L279">		String url = Config.getInstance().getString(&quot;bordertech.wcomponents.logout.url&quot;, null);</span>
+
+<span class="nc bnc" id="L281" title="All 2 branches missed.">		if (Util.empty(url)) {</span>
+<span class="nc" id="L282">			LOG.warn(&quot;No logout URL specified&quot;);</span>
+
+			try {
+<span class="nc" id="L285">				getResponse().getWriter().write(&quot;Logged out successfully&quot;);</span>
+<span class="nc" id="L286">			} catch (IOException e) {</span>
+<span class="nc" id="L287">				LOG.error(&quot;Failed to send logout message&quot;, e);</span>
+<span class="nc" id="L288">			}</span>
+		} else {
+			try {
+<span class="nc" id="L291">				getResponse().sendRedirect(url);</span>
+<span class="nc" id="L292">			} catch (IOException e) {</span>
+<span class="nc" id="L293">				LOG.error(&quot;Failed to redirect to logout url &quot; + url, e);</span>
+<span class="nc" id="L294">			}</span>
+		}
+<span class="nc" id="L296">	}</span>
+
+	/**
+	 * Get the URL that responses should be directed to (ie, the URL in forms and hyperlinks). This is usually the same
+	 * as the current request URL.
+	 *
+	 * @param request the incoming HttpServletRequest
+	 * @return the URL that will be used in the form's action attribute and also in hyperlinks
+	 */
+	protected String getResponseUrl(final HttpServletRequest request) {
+<span class="fc" id="L306">		String suffix = servlet.getServletConfig().getInitParameter(ONGOING_URL_SUFFIX);</span>
+<span class="fc" id="L307">		String uri = request.getRequestURI();</span>
+
+<span class="pc bpc" id="L309" title="1 of 4 branches missed.">		if (suffix != null &amp;&amp; uri.indexOf(suffix) == -1) {</span>
+<span class="nc" id="L310">			return uri + suffix;</span>
+		} else {
+<span class="fc" id="L312">			return uri;</span>
+		}
+	}
+
+	/**
+	 * Get the base url that corresponds to this request. For instance, if the web application is mounted in the web
+	 * context &quot;evisas&quot; on the server &quot;localhost&quot;, and the request is for the URL
+	 * &quot;http://localhost/evisas/some/thing/page&quot;, then the returned base url will be &quot;http://localhost/evisas&quot;.
+	 *
+	 * @param request the incoming request
+	 * @return the base url for the web application.
+	 */
+	protected String getBaseUrl(final HttpServletRequest request) {
+<span class="pc bpc" id="L325" title="1 of 2 branches missed.">		if (LOG.isDebugEnabled()) {</span>
+<span class="nc" id="L326">			LOG.debug(&quot;Extract base url from &quot; + request);</span>
+		}
+
+<span class="fc" id="L329">		StringBuffer results = new StringBuffer();</span>
+
+<span class="fc" id="L331">		results.append(request.getScheme());</span>
+<span class="fc" id="L332">		results.append(&quot;://&quot;);</span>
+<span class="fc" id="L333">		results.append(request.getServerName());</span>
+
+<span class="pc bpc" id="L335" title="1 of 4 branches missed.">		if ((!(&quot;http&quot;.equals(request.getScheme()) &amp;&amp; (80 == request.getServerPort())))</span>
+<span class="pc bpc" id="L336" title="3 of 4 branches missed.">				&amp;&amp; (!(&quot;https&quot;.equals(request.getScheme()) &amp;&amp; (443 == request.getServerPort())))) {</span>
+<span class="fc" id="L337">			results.append(':');</span>
+<span class="fc" id="L338">			results.append(request.getServerPort());</span>
+		}
+
+<span class="fc" id="L341">		results.append(request.getContextPath());</span>
+		// Make sure to strip any trailing slash
+<span class="pc bpc" id="L343" title="1 of 2 branches missed.">		if (results.charAt(results.length() - 1) == '/') {</span>
+<span class="nc" id="L344">			return results.substring(0, results.length() - 1);</span>
+		}
+
+<span class="fc" id="L347">		return results.toString();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected void addGenericHeaders(final UIContext uic, final WComponent ui) {
+		// Note: This effectively prevents caching of anything served up from a WServlet.
+		// We are ok for WContent and thrown ContentEscapes, as addGenericHeaders will not be called
+<span class="pc bpc" id="L357" title="1 of 2 branches missed.">		if (httpServletRequest instanceof SubSessionHttpServletRequestWrapper) {</span>
+<span class="nc" id="L358">			httpServletResponse.setHeader(&quot;Cache-Control&quot;, CacheType.NO_CACHE.getSettings());</span>
+<span class="nc" id="L359">			httpServletResponse.setHeader(&quot;Pragma&quot;, &quot;no-cache&quot;);</span>
+<span class="nc" id="L360">			httpServletResponse.setHeader(&quot;Expires&quot;, &quot;-1&quot;);</span>
+		}
+<span class="fc" id="L362">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void handleError(final Throwable error) throws IOException {
+<span class="pc bpc" id="L369" title="2 of 4 branches missed.">		if (targetComponentId != null || dataRequest) {</span>
+<span class="nc" id="L370">			getResponse().sendError(500, &quot;Internal Error&quot;);</span>
+		} else {
+<span class="fc" id="L372">			super.handleError(error);</span>
+		}
+<span class="fc" id="L374">	}</span>
+
+	/**
+	 * The HttpServlet implementation of the WEnvironment interface.
+	 */
+	public static class HttpServletEnvironment extends AbstractEnvironment {
+
+		/**
+		 * The subsession id for this environment.
+		 */
+<span class="fc" id="L384">		private int subsessionId = -1;</span>
+
+		/**
+		 * @param postPath the post path
+		 * @param baseUrl the base url
+		 * @param userAgent the user agent string
+		 */
+		public HttpServletEnvironment(final String postPath, final String baseUrl,
+				final String userAgent) {
+<span class="fc" id="L393">			this(postPath, baseUrl, new UserAgentInfo(userAgent));</span>
+<span class="fc" id="L394">			LOG.debug(&quot;user-agent: &quot; + userAgent);</span>
+<span class="fc" id="L395">		}</span>
+
+		/**
+		 * @param postPath the post path
+		 * @param baseUrl the base url
+		 * @param userAgentInfo the user agent info
+		 */
+		public HttpServletEnvironment(final String postPath, final String baseUrl,
+<span class="fc" id="L403">				final UserAgentInfo userAgentInfo) {</span>
+<span class="fc" id="L404">			setPostPath(postPath);</span>
+<span class="fc" id="L405">			setBaseUrl(baseUrl);</span>
+<span class="fc" id="L406">			setUserAgentInfo(userAgentInfo);</span>
+<span class="fc" id="L407">			setAppId(&quot;app&quot;);</span>
+
+			try {
+<span class="fc" id="L410">				URL url = new URL(baseUrl);</span>
+<span class="fc" id="L411">				setHostFreeBaseUrl(url.getPath());</span>
+<span class="fc" id="L412">			} catch (MalformedURLException ex) {</span>
+				// This should not happen
+<span class="fc" id="L414">				LOG.warn(&quot;Invalid base url: &quot; + baseUrl);</span>
+<span class="fc" id="L415">				setHostFreeBaseUrl(baseUrl);</span>
+<span class="fc" id="L416">			}</span>
+<span class="fc" id="L417">		}</span>
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public String getAppHostPath() {
+<span class="nc" id="L424">			return getHostFreeBaseUrl();</span>
+		}
+
+		/**
+		 * Sets the subsession id.
+		 *
+		 * @param subsessionId The sessionId to set.
+		 */
+		public void setSubsessionId(final int subsessionId) {
+<span class="nc" id="L433">			this.subsessionId = subsessionId;</span>
+<span class="nc" id="L434">		}</span>
+
+		/**
+		 * Override getHiddenParameters in order to add the subsession id.
+		 *
+		 * @return the hidden parameter map.
+		 */
+		@Override
+		public Map&lt;String, String&gt; getHiddenParameters() {
+<span class="fc" id="L443">			Map&lt;String, String&gt; params = super.getHiddenParameters();</span>
+
+<span class="pc bpc" id="L445" title="1 of 2 branches missed.">			if (subsessionId &gt;= 0) {</span>
+<span class="nc" id="L446">				params.put(&quot;ssid&quot;, String.valueOf(subsessionId));</span>
+			}
+
+<span class="fc" id="L449">			return params;</span>
+		}
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

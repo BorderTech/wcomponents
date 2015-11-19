@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>NullWriter.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.util</a> &gt; <span class="el_source">NullWriter.java</span></div><h1>NullWriter.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.util;
+
+import java.io.Writer;
+
+/**
+ * A writer that just throws the information in the bit-bucket. This is used in several of the internal unit tests.
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ */
+<span class="fc" id="L11">public final class NullWriter extends Writer {</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void close() {
+		// NO-OP
+<span class="nc" id="L19">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void flush() {
+		// NO-OP
+<span class="nc" id="L27">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void write(final char[] cbuf, final int off, final int len) {
+		// NO-OP
+<span class="nc" id="L35">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void write(final String str) {
+		// NO-OP - Override to save execution time.
+<span class="nc" id="L43">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void write(final String str, final int off, final int len) {
+		// NO-OP - Override to save execution time.
+<span class="fc" id="L51">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void write(final int c) {
+		// NO-OP - Override to save execution time.
+<span class="fc" id="L59">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void write(final char[] cbuf) {
+		// NO-OP - Override to save execution time.
+<span class="nc" id="L67">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

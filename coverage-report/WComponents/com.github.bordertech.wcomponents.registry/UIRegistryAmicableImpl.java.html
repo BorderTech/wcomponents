@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>UIRegistryAmicableImpl.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.registry</a> &gt; <span class="el_source">UIRegistryAmicableImpl.java</span></div><h1>UIRegistryAmicableImpl.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.registry;
+
+import com.github.bordertech.wcomponents.ErrorPage;
+import com.github.bordertech.wcomponents.FatalErrorPageFactory;
+import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.container.AbstractContainerHelper;
+import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.Factory;
+import com.github.bordertech.wcomponents.util.SystemException;
+import java.util.HashMap;
+import java.util.Map;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+/**
+ * &lt;p&gt;
+ * This UIRegistry implementation differs from the UIRegistryClassLoaderImpl in two ways.&lt;/p&gt;
+ *
+ * &lt;p&gt;
+ * 1. If the top level WComponent cannot be loaded, then an ErrorPage WComponent will be returned by
+ * {@link #getUI(String)} instead of a null. The ErrorPage will be generated using the
+ * {@link FatalErrorPageFactory}.&lt;/p&gt;
+ *
+ * &lt;p&gt;
+ * 2. The ErrorPage WComponent will not be cached so that subsequent calls to {@link #getUI(String)} will attempt to
+ * re-load the top level component.&lt;/p&gt;
+ *
+ * @author Darian Bridge
+ * @since 1.0.0
+ */
+<span class="fc" id="L31">public class UIRegistryAmicableImpl extends UIRegistry {</span>
+
+	/**
+	 * The logger instance for this class.
+	 */
+<span class="fc" id="L36">	private static final Log LOG = LogFactory.getLog(UIRegistryAmicableImpl.class);</span>
+
+	/**
+	 * The UI registry map.
+	 */
+<span class="fc" id="L41">	private final Map&lt;String, WComponent&gt; registry = new HashMap&lt;&gt;();</span>
+
+	/**
+	 * Registers the given user interface with the given key.
+	 *
+	 * @param key the registration key.
+	 * @param ui the user interface to register.
+	 */
+	@Override
+	public synchronized void register(final String key, final WComponent ui) {
+<span class="fc bfc" id="L51" title="All 2 branches covered.">		if (isRegistered(key)) {</span>
+<span class="fc" id="L52">			throw new SystemException(&quot;Cannot re-register a component. Key = &quot; + key);</span>
+		}
+
+<span class="fc" id="L55">		registry.put(key, ui);</span>
+<span class="fc" id="L56">	}</span>
+
+	/**
+	 * Is there a user interface registered under the given key.
+	 *
+	 * @param key the registration key.
+	 * @return true if there is a UI registered with the given key.
+	 */
+	@Override
+	public synchronized boolean isRegistered(final String key) {
+<span class="fc" id="L66">		return registry.containsKey(key);</span>
+	}
+
+	/**
+	 * Retrieves the user interface that was registered with the given key. If the UI has not been registered, this
+	 * attempts to load the UI using the key as a class name.
+	 *
+	 * @param key The registration key.
+	 * @return the UI for the given key. The UI may be newly created.
+	 */
+	@Override
+	public synchronized WComponent getUI(final String key) {
+<span class="fc" id="L78">		WComponent ui = registry.get(key);</span>
+
+<span class="fc bfc" id="L80" title="All 2 branches covered.">		if (ui == null) {</span>
+			// Looks like we haven't tried loading this UI yet, so do it now.
+<span class="fc" id="L82">			ui = loadUI(key);</span>
+
+<span class="fc" id="L84">			ui.setLocked(true);</span>
+
+			// Cache the result only if the UI was successfully loaded.
+<span class="fc bfc" id="L87" title="All 2 branches covered.">			if (ui instanceof ErrorPage) {</span>
+<span class="fc" id="L88">				LOG.debug(&quot;Returning non-cached ErrorPage WComponent. Key=&quot; + key);</span>
+			} else {
+<span class="fc" id="L90">				register(key, ui);</span>
+
+<span class="fc" id="L92">				LOG.debug(&quot;Returning cached WComponent. Key=&quot; + key);</span>
+			}
+		} else {
+<span class="fc" id="L95">			LOG.debug(&quot;Returning cached WComponent. Key=&quot; + key);</span>
+		}
+
+<span class="fc" id="L98">		return ui;</span>
+	}
+
+	/**
+	 * Attempts to load a UI using the key as a class name.
+	 *
+	 * @param key The registration key.
+	 * @return A WComponent if one could be loaded from the classpath, else an ErrorPage WComponent containing the
+	 * problem.
+	 */
+	private static WComponent loadUI(final String key) {
+<span class="fc" id="L109">		String classname = key.trim();</span>
+
+		try {
+<span class="fc" id="L112">			Class&lt;?&gt; clas = Class.forName(classname);</span>
+
+<span class="fc bfc" id="L114" title="All 2 branches covered.">			if (WComponent.class.isAssignableFrom(clas)) {</span>
+<span class="fc" id="L115">				WComponent instance = (WComponent) clas.newInstance();</span>
+<span class="fc" id="L116">				LOG.debug(&quot;WComponent successfully loaded with class name \&quot;&quot; + classname + &quot;\&quot;.&quot;);</span>
+<span class="fc" id="L117">				return instance;</span>
+			} else {
+<span class="fc" id="L119">				throw new SystemException(</span>
+						&quot;The resource with the name \&quot;&quot; + classname + &quot;\&quot; is not a WComponent.&quot;);
+			}
+<span class="fc" id="L122">		} catch (Exception ex) {</span>
+<span class="fc" id="L123">			LOG.error(&quot;Unable to load a WComponent using the resource name \&quot;&quot; + classname + &quot;\&quot;&quot;,</span>
+					ex);
+
+			// Are we in developer friendly error mode?
+<span class="fc" id="L127">			boolean friendly = Config.getInstance().getBoolean(</span>
+					AbstractContainerHelper.DEVELOPER_MODE_ERROR_HANDLING, false);
+
+<span class="fc" id="L130">			FatalErrorPageFactory factory = Factory.newInstance(FatalErrorPageFactory.class);</span>
+<span class="fc" id="L131">			WComponent errorPage = factory.createErrorPage(friendly, ex);</span>
+
+<span class="fc" id="L133">			return errorPage;</span>
+		}
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>ServletRequest.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.servlet</a> &gt; <span class="el_source">ServletRequest.java</span></div><h1>ServletRequest.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.servlet;
+
+import com.github.bordertech.wcomponents.AbstractRequest;
+import com.github.bordertech.wcomponents.Request;
+import com.github.bordertech.wcomponents.util.SystemException;
+import java.io.Serializable;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+
+/**
+ * An implementation of {@link Request} using HttpServletRequests.
+ *
+ * @author James Gifford
+ * @since 1.0.0
+ */
+public class ServletRequest extends AbstractRequest {
+
+	/**
+	 * The backing servlet request.
+	 */
+	private final HttpServletRequest backing;
+
+<span class="fc" id="L30">	private final Map parameters = new HashMap();</span>
+<span class="fc" id="L31">	private final Map files = new HashMap();</span>
+
+	/**
+	 * Creates a ServletRequest.
+	 *
+	 * @param aBacking the backing servlet request.
+	 */
+<span class="fc" id="L38">	public ServletRequest(final HttpServletRequest aBacking) {</span>
+<span class="fc" id="L39">		backing = aBacking;</span>
+
+		// Take a copy of the parameter map now, so that we don't depend on the request being stable.
+<span class="fc" id="L42">		getParameterMap(aBacking);</span>
+<span class="fc" id="L43">	}</span>
+
+	@Override
+	public Map getParameters() {
+<span class="fc" id="L47">		return parameters;</span>
+	}
+
+	@Override
+	public Map getFiles() {
+<span class="fc" id="L52">		return files;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Serializable getAttribute(final String key) {
+<span class="fc" id="L60">		return (Serializable) backing.getAttribute(key);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setAttribute(final String key, final Serializable value) {
+<span class="fc" id="L68">		backing.setAttribute(key, value);</span>
+<span class="fc" id="L69">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Serializable getSessionAttribute(final String key) {
+<span class="fc" id="L76">		HttpSession session = backing.getSession(false);</span>
+
+<span class="fc bfc" id="L78" title="All 2 branches covered.">		if (session == null) {</span>
+<span class="fc" id="L79">			return null;</span>
+		}
+
+<span class="fc" id="L82">		return (Serializable) session.getAttribute(key);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Serializable getAppSessionAttribute(final String key) {
+<span class="fc" id="L90">		return getSessionAttribute(key);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setSessionAttribute(final String key, final Serializable value) {
+<span class="fc" id="L98">		HttpSession session = backing.getSession(true);</span>
+<span class="fc" id="L99">		session.setAttribute(key, value);</span>
+<span class="fc" id="L100">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setAppSessionAttribute(final String key, final Serializable value) {
+<span class="fc" id="L107">		setSessionAttribute(key, value);</span>
+<span class="fc" id="L108">	}</span>
+
+	/**
+	 * @param backingReq the backing request
+	 */
+	private void getParameterMap(final HttpServletRequest backingReq) {
+<span class="fc" id="L114">		parameters.clear();</span>
+<span class="fc" id="L115">		files.clear();</span>
+
+<span class="fc" id="L117">		String contentType = backingReq.getContentType();</span>
+
+		// Can't use the HttpServletRequest.getParameterMap because it's not in Servlet 2.2
+<span class="pc bpc" id="L120" title="1 of 4 branches missed.">		boolean isMultipart = (contentType != null &amp;&amp; contentType.toLowerCase().startsWith(</span>
+				&quot;multipart/form-data&quot;));
+
+<span class="fc bfc" id="L123" title="All 2 branches covered.">		if (!isMultipart) {</span>
+<span class="fc bfc" id="L124" title="All 2 branches covered.">			for (Enumeration en = backingReq.getParameterNames(); en.hasMoreElements();) {</span>
+<span class="fc" id="L125">				String key = (String) en.nextElement();</span>
+<span class="fc" id="L126">				String[] values = backingReq.getParameterValues(key);</span>
+
+<span class="pc bpc" id="L128" title="1 of 2 branches missed.">				if (values != null) {</span>
+<span class="pc bpc" id="L129" title="1 of 2 branches missed.">					if (values.length == 1) {</span>
+<span class="fc" id="L130">						parameters.put(key, values[0]);</span>
+					} else {
+<span class="nc" id="L132">						parameters.put(key, values);</span>
+					}
+				}
+<span class="fc" id="L135">			}</span>
+		} else {
+<span class="fc" id="L137">			ServletFileUpload upload = new ServletFileUpload();</span>
+<span class="fc" id="L138">			upload.setFileItemFactory(new DiskFileItemFactory());</span>
+
+			try {
+<span class="fc" id="L141">				List fileItems = upload.parseRequest(backingReq);</span>
+
+<span class="fc" id="L143">				uploadFileItems(fileItems, parameters, files);</span>
+<span class="nc" id="L144">			} catch (FileUploadException ex) {</span>
+<span class="nc" id="L145">				throw new SystemException(ex);</span>
+<span class="fc" id="L146">			}</span>
+			// Include Query String Parameters (only if parameters were not included in the form fields)
+<span class="fc bfc" id="L148" title="All 2 branches covered.">			for (Enumeration en = backingReq.getParameterNames(); en.hasMoreElements();) {</span>
+<span class="fc" id="L149">				String key = (String) en.nextElement();</span>
+<span class="fc" id="L150">				String[] values = backingReq.getParameterValues(key);</span>
+<span class="pc bpc" id="L151" title="2 of 4 branches missed.">				if (values != null &amp;&amp; !parameters.containsKey(key)) {</span>
+<span class="pc bpc" id="L152" title="1 of 2 branches missed.">					if (values.length == 1) {</span>
+<span class="fc" id="L153">						parameters.put(key, values[0]);</span>
+					} else {
+<span class="nc" id="L155">						parameters.put(key, values);</span>
+					}
+				}
+<span class="fc" id="L158">			}</span>
+		}
+<span class="fc" id="L160">	}</span>
+
+	/**
+	 * Support for Public Render Parameters in Portal. In a Servlet environment, this will be the same as the session.
+	 *
+	 * @param key The key for the parameter.
+	 * @param value The value of the parameter.
+	 * @since 1.0.0
+	 * @deprecated portal specific. user {@link #setSessionAttribute(String, Serializable)}
+	 */
+	@Override
+	public void setRenderParameter(final String key, final Serializable value) {
+<span class="fc" id="L172">		setSessionAttribute(key, value);</span>
+<span class="fc" id="L173">	}</span>
+
+	/**
+	 * Support for Public Render Parameters in Portal. In a Servlet environment, this will be the same as the session.
+	 *
+	 * @param key The key for the parameter.
+	 * @return The value of the parameter.
+	 * @since 1.0.0
+	 * @deprecated portal specific. user {@link #getSessionAttribute(String)}
+	 */
+	@Override
+	public Serializable getRenderParameter(final String key) {
+<span class="fc" id="L185">		return getSessionAttribute(key);</span>
+	}
+
+	/**
+	 * Returns a boolean indicating whether the authenticated user is included in the specified logical &quot;role&quot;. Roles
+	 * and role membership can be defined using deployment descriptors. If the user has not been authenticated, the
+	 * method returns false.
+	 *
+	 * @param role a String specifying the name of the role.
+	 * @return a boolean indicating whether the user making this request belongs to a given role; false if the user has
+	 * not been authenticated.
+	 * @since 1.0.0
+	 * @see HttpServletRequest#isUserInRole(String)
+	 */
+	@Override
+	public boolean isUserInRole(final String role) {
+<span class="nc" id="L201">		return backing.isUserInRole(role);</span>
+	}
+
+	/**
+	 * @return the name of the HTTP method with which this request was made, for example, GET, POST, or PUT.
+	 */
+	@Override
+	public String getMethod() {
+<span class="fc" id="L209">		return backing.getMethod();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public int getMaxInactiveInterval() {
+<span class="nc" id="L217">		HttpSession session = backing.getSession(false);</span>
+<span class="nc bnc" id="L218" title="All 2 branches missed.">		if (session == null) {</span>
+<span class="nc" id="L219">			return -1;</span>
+		}
+<span class="nc" id="L221">		return session.getMaxInactiveInterval();</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>InternalMessages.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.util</a> &gt; <span class="el_source">InternalMessages.java</span></div><h1>InternalMessages.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.util;
+
+/**
+ * This class declares constants for internal messages issued by the WComponent framework itself. The default messages
+ * themeselves are contained in a WComponent configuration properties file. Developers who are internationalising an
+ * application should also internationalise these messages.
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ */
+public final class InternalMessages {
+
+	/**
+	 * The key for the mandatory field validation error text.
+	 */
+	public static final String DEFAULT_VALIDATION_ERROR_MANDATORY = &quot;bordertech.wcomponents.message.fieldMandatory&quot;;
+
+	/**
+	 * The key for the default invalid field validation error text.
+	 */
+	public static final String DEFAULT_VALIDATION_ERROR_INVALID = &quot;bordertech.wcomponents.message.fieldInvalid&quot;;
+
+	/**
+	 * The key for the miniumum value validation error text.
+	 */
+	public static final String DEFAULT_VALIDATION_ERROR_MIN_VALUE = &quot;bordertech.wcomponents.message.fieldMinValue&quot;;
+
+	/**
+	 * The key for the miniumum length validation error text.
+	 */
+	public static final String DEFAULT_VALIDATION_ERROR_MIN_LENGTH = &quot;bordertech.wcomponents.message.fieldMinLength&quot;;
+
+	/**
+	 * The key for the maximum value validation error text.
+	 */
+	public static final String DEFAULT_VALIDATION_ERROR_MAX_VALUE = &quot;bordertech.wcomponents.message.fieldMaxValue&quot;;
+
+	/**
+	 * The key for the miniumum length validation error text.
+	 */
+	public static final String DEFAULT_VALIDATION_ERROR_MAX_LENGTH = &quot;bordertech.wcomponents.message.fieldMaxLength&quot;;
+
+	/**
+	 * The key for the maximum decimal places validation error text.
+	 */
+	public static final String DEFAULT_VALIDATION_ERROR_MAX_DECIMAL_PLACES = &quot;bordertech.wcomponents.message.fieldMaxDecimalPlaces&quot;;
+
+	/**
+	 * The key for the default invalid date error text.
+	 */
+	public static final String DEFAULT_VALIDATION_ERROR_INVALID_DATE = &quot;bordertech.wcomponents.message.fieldDateInvalid&quot;;
+
+	/**
+	 * The key for the default invalid partial date error text.
+	 */
+	public static final String DEFAULT_VALIDATION_ERROR_INVALID_PARTIAL_DATE = &quot;bordertech.wcomponents.message.fieldPartialDateInvalid&quot;;
+
+	/**
+	 * The key for the default date before pivot validator error text.
+	 */
+	public static final String DEFAULT_VALIDATION_ERROR_DATE_BEFORE = &quot;bordertech.wcomponents.message.fieldDateBefore&quot;;
+
+	/**
+	 * The key for the default date before or equal to pivot validator error text.
+	 */
+	public static final String DEFAULT_VALIDATION_ERROR_DATE_BEFORE_OR_EQUAL = &quot;bordertech.wcomponents.message.fieldDateBeforeOrEqual&quot;;
+
+	/**
+	 * The key for the default date equal pivot validator error text.
+	 */
+	public static final String DEFAULT_VALIDATION_ERROR_DATE_EQUAL = &quot;bordertech.wcomponents.message.fieldDateEqual&quot;;
+
+	/**
+	 * The key for the default date after or equal to pivot validator error text.
+	 */
+	public static final String DEFAULT_VALIDATION_ERROR_DATE_AFTER_OR_EQUAL = &quot;bordertech.wcomponents.message.fieldDateAfterOrEqual&quot;;
+
+	/**
+	 * The key for the default date after pivot validator error text.
+	 */
+	public static final String DEFAULT_VALIDATION_ERROR_DATE_AFTER = &quot;bordertech.wcomponents.message.fieldDateAfter&quot;;
+
+	/**
+	 * The key for the default date before today pivot validator error text.
+	 */
+	public static final String DEFAULT_VALIDATION_ERROR_DATE_BEFORE_TODAY = &quot;bordertech.wcomponents.message.fieldDateBeforeToday&quot;;
+
+	/**
+	 * The key for the default date before or equal to today pivot validator error text.
+	 */
+	public static final String DEFAULT_VALIDATION_ERROR_DATE_BEFORE_OR_EQUAL_TODAY = &quot;bordertech.wcomponents.message.fieldDateBeforeOrEqualToday&quot;;
+
+	/**
+	 * The key for the default date equal to today pivot validator error text.
+	 */
+	public static final String DEFAULT_VALIDATION_ERROR_DATE_EQUAL_TODAY = &quot;bordertech.wcomponents.message.fieldDateEqualToday&quot;;
+
+	/**
+	 * The key for the default date after or equal to today pivot validator error text.
+	 */
+	public static final String DEFAULT_VALIDATION_ERROR_DATE_AFTER_OR_EQUAL_TODAY = &quot;bordertech.wcomponents.message.fieldDateAfterOrEqualToday&quot;;
+
+	/**
+	 * The key for the default date after today pivot validator error text.
+	 */
+	public static final String DEFAULT_VALIDATION_ERROR_DATE_AFTER_TODAY = &quot;bordertech.wcomponents.message.fieldDateAfterToday&quot;;
+
+	/**
+	 * The key for the minimum select validation error text.
+	 */
+	public static final String DEFAULT_VALIDATION_ERROR_MIN_SELECT = &quot;bordertech.wcomponents.message.fieldMinSelect&quot;;
+
+	/**
+	 * The key for the maximum select validation error text.
+	 */
+	public static final String DEFAULT_VALIDATION_ERROR_MAX_SELECT = &quot;bordertech.wcomponents.message.fieldMaxSelect&quot;;
+
+	/**
+	 * The key for the invalid pattern error text.
+	 */
+	public static final String DEFAULT_VALIDATION_ERROR_INVALID_PATTERN = &quot;bordertech.wcomponents.message.fieldInvalidPattern&quot;;
+
+	/**
+	 * The key for the system error error text.
+	 */
+	public static final String DEFAULT_SYSTEM_ERROR = &quot;bordertech.wcomponents.message.defaultSystemError&quot;;
+
+	/**
+	 * The key for the system error error text, where the session is irrecoverable.
+	 */
+	public static final String DEFAULT_SYSTEM_ERROR_SEVERE = &quot;bordertech.wcomponents.message.defaultSystemErrorSevere&quot;;
+
+	/**
+	 * The key for the missing lookup table message error text.
+	 */
+	public static final String DEFAULT_LOOKUP_TABLE_MESSAGE_ERROR = &quot;bordertech.wcomponents.message.defaultLookupTableMessage&quot;;
+
+	/**
+	 * The key for the step error text.
+	 */
+	public static final String DEFAULT_STEP_ERROR = &quot;bordertech.wcomponents.message.stepError&quot;;
+
+	/**
+	 * The key for the ajax error text.
+	 */
+	public static final String DEFAULT_AJAX_ERROR = &quot;bordertech.wcomponents.message.ajaxError&quot;;
+
+	/**
+	 * The key for the content error text.
+	 */
+	public static final String DEFAULT_CONTENT_ERROR = &quot;bordertech.wcomponents.message.contentError&quot;;
+
+	/**
+	 * The key for the session token error text.
+	 */
+	public static final String DEFAULT_SESSION_TOKEN_ERROR = &quot;bordertech.wcomponents.message.sessionTokenError&quot;;
+
+	/**
+	 * The key for the confirmation prompt text.
+	 */
+	public static final String DEFAULT_CONFIRMATION_PROMPT = &quot;bordertech.wcomponents.message.confirmationPrompt&quot;;
+
+	/**
+	 * The key for the no table data message text.
+	 */
+	public static final String DEFAULT_NO_TABLE_DATA = &quot;bordertech.wcomponents.message.noTableData&quot;;
+
+	/**
+	 * The key for the print button text.
+	 */
+	public static final String DEFAULT_PRINT_BUTTON_TEXT = &quot;bordertech.wcomponents.message.printButton&quot;;
+
+	/**
+	 * The key for the cancel button text.
+	 */
+	public static final String DEFAULT_CANCEL_BUTTON_TEXT = &quot;bordertech.wcomponents.message.cancelButton&quot;;
+
+	/**
+	 * The key for the multi-select-pair options list heading.
+	 */
+	public static final String DEFAULT_MULTI_SELECT_PAIR_OPTIONS_LIST_HEADING = &quot;bordertech.wcomponents.message.multiSelectPair.options&quot;;
+
+	/**
+	 * The key for the multi-select-pair selections list heading.
+	 */
+	public static final String DEFAULT_MULTI_SELECT_PAIR_SELECTIONS_LIST_HEADING = &quot;bordertech.wcomponents.message.multiSelectPair.selections&quot;;
+
+	/**
+	 * Prevent instantiation of this class.
+	 */
+<span class="nc" id="L191">	private InternalMessages() {</span>
+<span class="nc" id="L192">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WRow.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">WRow.java</span></div><h1>WRow.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+/**
+ * This is a layout component, to which you add {@link WColumn} components. The widths of all the columns added to the
+ * row should total 100.
+ *
+ * @author Ming Gao
+ * @author Yiannis Paschalidis
+ */
+public class WRow extends AbstractNamingContextContainer implements AjaxTarget, SubordinateTarget,
+		Marginable {
+
+	/**
+	 * The horizontal gap between the columns in the row, measured in pixels.
+	 */
+	private final int hgap;
+
+	/**
+	 * Creates a WRow.
+	 */
+	public WRow() {
+<span class="fc" id="L22">		this(0);</span>
+<span class="fc" id="L23">	}</span>
+
+	/**
+	 * Creates a WRow with the specified attributes.
+	 *
+	 * @param hgap the horizontal gap between the columns in the row, measured in pixels
+	 */
+<span class="fc" id="L30">	public WRow(final int hgap) {</span>
+<span class="fc" id="L31">		this.hgap = hgap;</span>
+<span class="fc" id="L32">	}</span>
+
+	/**
+	 * Adds the given column as a child of this component.
+	 *
+	 * @param column the column to add.
+	 */
+	public void add(final WColumn column) {
+<span class="fc" id="L40">		super.add(column);</span>
+<span class="fc" id="L41">	}</span>
+
+	/**
+	 * Removes the given column from this components list of children.
+	 *
+	 * @param column the column to remove
+	 */
+	public void remove(final WColumn column) {
+<span class="nc" id="L49">		super.remove(column);</span>
+<span class="nc" id="L50">	}</span>
+
+	/**
+	 * @return the horizontal gap between the columns in the row, measured in pixels
+	 */
+	public int getHgap() {
+<span class="fc" id="L56">		return hgap;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setMargin(final Margin margin) {
+<span class="fc" id="L64">		getOrCreateComponentModel().margin = margin;</span>
+<span class="fc" id="L65">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Margin getMargin() {
+<span class="fc" id="L72">		return getComponentModel().margin;</span>
+	}
+
+	/**
+	 * Creates a new Component model.
+	 *
+	 * @return a new RowModel.
+	 */
+	@Override
+	// For type safety only
+	protected RowModel newComponentModel() {
+<span class="fc" id="L83">		return new RowModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	// For type safety only
+	protected RowModel getComponentModel() {
+<span class="fc" id="L92">		return (RowModel) super.getComponentModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	// For type safety only
+	protected RowModel getOrCreateComponentModel() {
+<span class="fc" id="L101">		return (RowModel) super.getOrCreateComponentModel();</span>
+	}
+
+	/**
+	 * Holds the extrinsic state information of the component.
+	 */
+<span class="fc" id="L107">	public static class RowModel extends ComponentModel {</span>
+
+		/**
+		 * The margins to be used on the section.
+		 */
+		private Margin margin;
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

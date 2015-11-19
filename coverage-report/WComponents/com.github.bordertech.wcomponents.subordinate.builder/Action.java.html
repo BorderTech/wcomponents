@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>Action.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.subordinate.builder</a> &gt; <span class="el_source">Action.java</span></div><h1>Action.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.subordinate.builder;
+
+import com.github.bordertech.wcomponents.SubordinateTarget;
+import com.github.bordertech.wcomponents.WComponentGroup;
+import com.github.bordertech.wcomponents.WLabel;
+import com.github.bordertech.wcomponents.subordinate.Disable;
+import com.github.bordertech.wcomponents.subordinate.DisableInGroup;
+import com.github.bordertech.wcomponents.subordinate.Enable;
+import com.github.bordertech.wcomponents.subordinate.EnableInGroup;
+import com.github.bordertech.wcomponents.subordinate.Hide;
+import com.github.bordertech.wcomponents.subordinate.HideInGroup;
+import com.github.bordertech.wcomponents.subordinate.Mandatory;
+import com.github.bordertech.wcomponents.subordinate.Optional;
+import com.github.bordertech.wcomponents.subordinate.Show;
+import com.github.bordertech.wcomponents.subordinate.ShowInGroup;
+
+/**
+ * Describes an action to execute. This class is used by the {@link SubordinateBuilder} class to define what needs to be
+ * done when a condition is met.
+ *
+ * @author Yiannis Paschalidis
+ * @author Jonathan Austin
+ * @since 1.0.0
+ */
+public final class Action {
+
+	/**
+	 * The type of action to perform.
+	 */
+	private final com.github.bordertech.wcomponents.subordinate.Action.ActionType type;
+
+	/**
+	 * The object to perform the action on.
+	 */
+	private final SubordinateTarget target;
+
+	/**
+	 * The group of targets that may be used in the action.
+	 */
+	private final WComponentGroup&lt;? extends SubordinateTarget&gt; group;
+
+	/**
+	 * Creates an action.
+	 *
+	 * @param type the type of action to execute.
+	 * @param target the target to execute the action on.
+	 */
+	public Action(final com.github.bordertech.wcomponents.subordinate.Action.ActionType type,
+			final SubordinateTarget target) {
+<span class="fc" id="L50">		this(type, target, null);</span>
+<span class="fc" id="L51">	}</span>
+
+	/**
+	 * Creates an action.
+	 *
+	 * @param type the type of action to execute.
+	 * @param target the target to execute the action on.
+	 * @param group the group of targets to use on the action.
+	 */
+	public Action(final com.github.bordertech.wcomponents.subordinate.Action.ActionType type,
+			final SubordinateTarget target,
+<span class="fc" id="L62">			final WComponentGroup&lt;? extends SubordinateTarget&gt; group) {</span>
+<span class="fc bfc" id="L63" title="All 2 branches covered.">		if (type == null) {</span>
+<span class="fc" id="L64">			throw new IllegalArgumentException(&quot;Action type can not be null&quot;);</span>
+		}
+
+<span class="fc bfc" id="L67" title="All 2 branches covered.">		if (target == null) {</span>
+<span class="fc" id="L68">			throw new IllegalArgumentException(&quot;Action target can not be null&quot;);</span>
+		}
+
+<span class="fc bfc" id="L71" title="All 2 branches covered.">		if (group == null</span>
+<span class="fc bfc" id="L72" title="All 2 branches covered.">				&amp;&amp; (com.github.bordertech.wcomponents.subordinate.Action.ActionType.HIDEIN.equals(</span>
+						type)
+<span class="fc bfc" id="L74" title="All 2 branches covered.">				|| com.github.bordertech.wcomponents.subordinate.Action.ActionType.SHOWIN.equals(</span>
+						type)
+<span class="fc bfc" id="L76" title="All 2 branches covered.">				|| com.github.bordertech.wcomponents.subordinate.Action.ActionType.ENABLEIN.equals(</span>
+						type) || com.github.bordertech.wcomponents.subordinate.Action.ActionType.DISABLEIN.
+<span class="fc bfc" id="L78" title="All 2 branches covered.">				equals(type))) {</span>
+<span class="fc" id="L79">			throw new IllegalArgumentException(&quot;Group can not be null&quot;);</span>
+		}
+
+<span class="fc" id="L82">		this.type = type;</span>
+<span class="fc" id="L83">		this.target = target;</span>
+<span class="fc" id="L84">		this.group = group;</span>
+<span class="fc" id="L85">	}</span>
+
+	/**
+	 * @return the action type.
+	 */
+	public com.github.bordertech.wcomponents.subordinate.Action.ActionType getType() {
+<span class="fc" id="L91">		return type;</span>
+	}
+
+	/**
+	 * @return the target.
+	 */
+	public SubordinateTarget getTarget() {
+<span class="fc" id="L98">		return target;</span>
+	}
+
+	/**
+	 * @return the group.
+	 */
+	public WComponentGroup&lt;? extends SubordinateTarget&gt; getGroup() {
+<span class="fc" id="L105">		return group;</span>
+	}
+
+	/**
+	 * @return an instance of the subordinate action for this builder action
+	 */
+	public com.github.bordertech.wcomponents.subordinate.Action build() {
+<span class="pc bpc" id="L112" title="1 of 11 branches missed.">		switch (type) {</span>
+			case DISABLE:
+<span class="fc" id="L114">				return new Disable(target);</span>
+
+			case ENABLE:
+<span class="fc" id="L117">				return new Enable(target);</span>
+
+			case HIDE:
+<span class="fc" id="L120">				return new Hide(target);</span>
+
+			case SHOW:
+<span class="fc" id="L123">				return new Show(target);</span>
+
+			case MANDATORY:
+<span class="fc" id="L126">				return new Mandatory(target);</span>
+
+			case OPTIONAL:
+<span class="fc" id="L129">				return new Optional(target);</span>
+
+			case SHOWIN:
+<span class="fc" id="L132">				return new ShowInGroup(target, group);</span>
+
+			case HIDEIN:
+<span class="fc" id="L135">				return new HideInGroup(target, group);</span>
+
+			case ENABLEIN:
+<span class="fc" id="L138">				return new EnableInGroup(target, group);</span>
+
+			case DISABLEIN:
+<span class="fc" id="L141">				return new DisableInGroup(target, group);</span>
+
+			default:
+<span class="nc" id="L144">				throw new IllegalArgumentException(&quot;Unknown action type: &quot; + type);</span>
+		}
+
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String toString() {
+<span class="fc" id="L154">		String targetName = target.getClass().getSimpleName();</span>
+
+<span class="fc" id="L156">		WLabel label = target.getLabel();</span>
+<span class="fc bfc" id="L157" title="All 2 branches covered.">		if (label != null) {</span>
+<span class="fc" id="L158">			targetName = label.getText();</span>
+		}
+
+<span class="pc bpc" id="L161" title="1 of 11 branches missed.">		switch (type) {</span>
+			case DISABLE:
+<span class="fc" id="L163">				return &quot;disable &quot; + targetName;</span>
+
+			case ENABLE:
+<span class="fc" id="L166">				return &quot;enable &quot; + targetName;</span>
+
+			case HIDE:
+<span class="fc" id="L169">				return &quot;hide &quot; + targetName;</span>
+
+			case MANDATORY:
+<span class="fc" id="L172">				return &quot;set &quot; + targetName + &quot; mandatory&quot;;</span>
+
+			case OPTIONAL:
+<span class="fc" id="L175">				return &quot;set &quot; + targetName + &quot; optional&quot;;</span>
+
+			case SHOW:
+<span class="fc" id="L178">				return &quot;show &quot; + targetName;</span>
+
+			case SHOWIN:
+<span class="fc" id="L181">				return &quot;show &quot; + targetName + &quot; in &quot; + group;</span>
+
+			case HIDEIN:
+<span class="fc" id="L184">				return &quot;hide &quot; + targetName + &quot; in &quot; + group;</span>
+
+			case ENABLEIN:
+<span class="fc" id="L187">				return &quot;enable &quot; + targetName + &quot; in &quot; + group;</span>
+
+			case DISABLEIN:
+<span class="fc" id="L190">				return &quot;disable &quot; + targetName + &quot; in &quot; + group;</span>
+
+			default:
+<span class="nc" id="L193">				throw new IllegalArgumentException(&quot;Unknown type: &quot; + type);</span>
+		}
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

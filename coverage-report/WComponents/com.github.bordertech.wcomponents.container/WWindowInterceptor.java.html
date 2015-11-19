@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WWindowInterceptor.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.container</a> &gt; <span class="el_source">WWindowInterceptor.java</span></div><h1>WWindowInterceptor.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.container;
+
+import com.github.bordertech.wcomponents.ComponentWithContext;
+import com.github.bordertech.wcomponents.Environment;
+import com.github.bordertech.wcomponents.RenderContext;
+import com.github.bordertech.wcomponents.Request;
+import com.github.bordertech.wcomponents.UIContext;
+import com.github.bordertech.wcomponents.UIContextDelegate;
+import com.github.bordertech.wcomponents.UIContextHolder;
+import com.github.bordertech.wcomponents.UserAgentInfo;
+import com.github.bordertech.wcomponents.WWindow;
+import com.github.bordertech.wcomponents.WebUtilities;
+import com.github.bordertech.wcomponents.util.SystemException;
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * &lt;p&gt;
+ * This interceptor temporarily replaces the primary UIContext's {@link Environment} with an Environment suitable for
+ * processing a content request for a WWindow.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * The replacement of the environment is not thread-safe, but the interceptor methods are only ever called from code in
+ * {@link AbstractContainerHelper} which synchronizes on the primary context. This prevents any concurrency issues.
+ * &lt;/p&gt;
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ */
+public class WWindowInterceptor extends InterceptorComponent {
+
+	/**
+	 * The ID of the component being targeted by the content helper servlet.
+	 */
+	private String windowId;
+
+	/**
+	 * Flag if window should be attached to chain.
+	 */
+	private final boolean attachWindow;
+
+	/**
+	 * @param attachWindow true if attach window to interceptor chain
+	 */
+<span class="fc" id="L45">	public WWindowInterceptor(final boolean attachWindow) {</span>
+<span class="fc" id="L46">		this.attachWindow = attachWindow;</span>
+<span class="fc" id="L47">	}</span>
+
+	/**
+	 * Temporarily replaces the environment while the request is being handled.
+	 *
+	 * @param request the request being responded to.
+	 */
+	@Override
+	public void serviceRequest(final Request request) {
+		// Get window id off the request
+<span class="fc" id="L57">		windowId = request.getParameter(WWindow.WWINDOW_REQUEST_PARAM_KEY);</span>
+
+<span class="fc bfc" id="L59" title="All 2 branches covered.">		if (windowId == null) {</span>
+<span class="fc" id="L60">			super.serviceRequest(request);</span>
+		} else {
+			// Get the window component
+<span class="fc" id="L63">			ComponentWithContext target = WebUtilities.getComponentById(windowId, true);</span>
+<span class="pc bpc" id="L64" title="1 of 2 branches missed.">			if (target == null) {</span>
+<span class="nc" id="L65">				throw new SystemException(&quot;No window component for id &quot; + windowId);</span>
+			}
+
+			// Setup the Environment on the context
+<span class="fc" id="L69">			UIContext uic = UIContextDelegate.getPrimaryUIContext(UIContextHolder.getCurrent());</span>
+<span class="fc" id="L70">			Environment originalEnvironment = uic.getEnvironment();</span>
+<span class="fc" id="L71">			uic.setEnvironment(new EnvironmentDelegate(originalEnvironment, windowId, target));</span>
+
+<span class="pc bpc" id="L73" title="1 of 2 branches missed.">			if (attachWindow) {</span>
+<span class="fc" id="L74">				attachUI(target.getComponent());</span>
+			}
+<span class="fc" id="L76">			UIContextHolder.pushContext(target.getContext());</span>
+			try {
+<span class="fc" id="L78">				super.serviceRequest(request);</span>
+			} finally {
+<span class="pc" id="L80">				uic.setEnvironment(originalEnvironment);</span>
+<span class="pc" id="L81">				UIContextHolder.popContext();</span>
+<span class="fc" id="L82">			}</span>
+		}
+<span class="fc" id="L84">	}</span>
+
+	/**
+	 * Temporarily replaces the environment while the UI prepares to render.
+	 *
+	 * @param request the request being responded to.
+	 */
+	@Override
+	public void preparePaint(final Request request) {
+<span class="fc bfc" id="L93" title="All 2 branches covered.">		if (windowId == null) {</span>
+<span class="fc" id="L94">			super.preparePaint(request);</span>
+		} else {
+			// Get the window component
+<span class="fc" id="L97">			ComponentWithContext target = WebUtilities.getComponentById(windowId, true);</span>
+<span class="pc bpc" id="L98" title="1 of 2 branches missed.">			if (target == null) {</span>
+<span class="nc" id="L99">				throw new SystemException(&quot;No window component for id &quot; + windowId);</span>
+			}
+
+<span class="fc" id="L102">			UIContext uic = UIContextDelegate.getPrimaryUIContext(UIContextHolder.getCurrent());</span>
+<span class="fc" id="L103">			Environment originalEnvironment = uic.getEnvironment();</span>
+<span class="fc" id="L104">			uic.setEnvironment(new EnvironmentDelegate(originalEnvironment, windowId, target));</span>
+
+<span class="fc" id="L106">			UIContextHolder.pushContext(target.getContext());</span>
+			try {
+<span class="fc" id="L108">				super.preparePaint(request);</span>
+			} finally {
+<span class="pc" id="L110">				uic.setEnvironment(originalEnvironment);</span>
+<span class="pc" id="L111">				UIContextHolder.popContext();</span>
+<span class="fc" id="L112">			}</span>
+		}
+<span class="fc" id="L114">	}</span>
+
+	/**
+	 * Temporarily replaces the environment while the UI is being rendered.
+	 *
+	 * @param renderContext the context to render to.
+	 */
+	@Override
+	public void paint(final RenderContext renderContext) {
+<span class="fc bfc" id="L123" title="All 2 branches covered.">		if (windowId == null) {</span>
+<span class="fc" id="L124">			super.paint(renderContext);</span>
+		} else {
+			// Get the window component
+<span class="fc" id="L127">			ComponentWithContext target = WebUtilities.getComponentById(windowId, true);</span>
+<span class="pc bpc" id="L128" title="1 of 2 branches missed.">			if (target == null) {</span>
+<span class="nc" id="L129">				throw new SystemException(&quot;No window component for id &quot; + windowId);</span>
+			}
+
+<span class="fc" id="L132">			UIContext uic = UIContextDelegate.getPrimaryUIContext(UIContextHolder.getCurrent());</span>
+<span class="fc" id="L133">			Environment originalEnvironment = uic.getEnvironment();</span>
+<span class="fc" id="L134">			uic.setEnvironment(new EnvironmentDelegate(originalEnvironment, windowId, target));</span>
+
+<span class="fc" id="L136">			UIContextHolder.pushContext(target.getContext());</span>
+			try {
+<span class="fc" id="L138">				super.paint(renderContext);</span>
+			} finally {
+<span class="pc" id="L140">				uic.setEnvironment(originalEnvironment);</span>
+<span class="pc" id="L141">				UIContextHolder.popContext();</span>
+<span class="fc" id="L142">			}</span>
+		}
+<span class="fc" id="L144">	}</span>
+
+	/**
+	 * This Environment implementation delegates all methods to a backing Environment instance, except for methods
+	 * relating to the step counter.
+	 */
+	private static final class EnvironmentDelegate implements Environment {
+
+		/**
+		 * The backing environment instance.
+		 */
+		private final Environment backing;
+
+		/**
+		 * The ID of the component being targeted by the content helper servlet.
+		 */
+		private final String windowId;
+
+		/**
+		 * WWindow with the context.
+		 */
+		private final ComponentWithContext window;
+
+		/**
+		 * Creates an EnvironmentDelegate.
+		 *
+		 * @param backing the backing environment.
+		 * @param windowId the ID of the component being targeted.
+		 * @param window the window with its context
+		 */
+		private EnvironmentDelegate(final Environment backing, final String windowId,
+<span class="fc" id="L175">				final ComponentWithContext window) {</span>
+<span class="fc" id="L176">			this.backing = backing;</span>
+<span class="fc" id="L177">			this.windowId = windowId;</span>
+<span class="fc" id="L178">			this.window = window;</span>
+<span class="fc" id="L179">		}</span>
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public String getSessionToken() {
+<span class="nc" id="L186">			return backing.getSessionToken();</span>
+		}
+
+		/**
+		 * {@inheritDoc}
+		 *
+		 * @deprecated portal specific
+		 */
+		@Deprecated
+		@Override
+		public int getActionStep() {
+<span class="nc" id="L197">			return backing.getActionStep();</span>
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public String getAppHostPath() {
+<span class="nc" id="L205">			return backing.getAppHostPath();</span>
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public String getAppId() {
+<span class="nc" id="L213">			return backing.getAppId();</span>
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public String getBaseUrl() {
+<span class="nc" id="L221">			return backing.getBaseUrl();</span>
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public String getFormEncType() {
+<span class="nc" id="L229">			return backing.getFormEncType();</span>
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public String getHostFreeBaseUrl() {
+<span class="nc" id="L237">			return backing.getHostFreeBaseUrl();</span>
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public String getPostPath() {
+<span class="nc bnc" id="L245" title="All 2 branches missed.">			if (windowId == null) {</span>
+<span class="nc" id="L246">				return backing.getPostPath();</span>
+			} else {
+<span class="nc" id="L248">				Map&lt;String, String&gt; parameters = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L249">				parameters.put(WWindow.WWINDOW_REQUEST_PARAM_KEY, windowId);</span>
+<span class="nc" id="L250">				String url = getWServletPath();</span>
+<span class="nc" id="L251">				return WebUtilities.getPath(url, parameters, true);</span>
+			}
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public String getWServletPath() {
+<span class="nc" id="L260">			return backing.getWServletPath();</span>
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public String getThemePath() {
+<span class="nc" id="L268">			return backing.getThemePath();</span>
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public UserAgentInfo getUserAgentInfo() {
+<span class="nc" id="L276">			return backing.getUserAgentInfo();</span>
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public void setSessionToken(final String token) {
+<span class="nc" id="L284">			backing.setSessionToken(token);</span>
+<span class="nc" id="L285">		}</span>
+
+		/**
+		 * {@inheritDoc}
+		 *
+		 * @deprecated portal specific
+		 */
+		@Deprecated
+		@Override
+		public void setActionStep(final int actionStep) {
+<span class="nc" id="L295">			backing.setActionStep(actionStep);</span>
+<span class="nc" id="L296">		}</span>
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public void setAppId(final String appId) {
+<span class="nc" id="L303">			backing.setAppId(appId);</span>
+<span class="nc" id="L304">		}</span>
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public void setFormEncType(final String enctype) {
+<span class="nc" id="L311">			backing.setFormEncType(enctype);</span>
+<span class="nc" id="L312">		}</span>
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public void setPostPath(final String postPath) {
+<span class="nc" id="L319">			backing.setPostPath(postPath);</span>
+<span class="nc" id="L320">		}</span>
+
+		/**
+		 * The {@link #windowId} will need to be carried through to subsequent requests so that the correct component
+		 * will continue being targeted. The step counter should also be retrieved from a WWindow if one is present.
+		 *
+		 * @return the hidden parameters.
+		 */
+		@Override
+		public Map&lt;String, String&gt; getHiddenParameters() {
+<span class="fc" id="L330">			Map&lt;String, String&gt; map = backing.getHiddenParameters();</span>
+
+<span class="pc bpc" id="L332" title="1 of 2 branches missed.">			if (windowId != null) {</span>
+<span class="fc" id="L333">				map.put(STEP_VARIABLE, String.valueOf(getStep()));</span>
+<span class="fc" id="L334">				map.put(WWindow.WWINDOW_REQUEST_PARAM_KEY, windowId);</span>
+			}
+
+<span class="fc" id="L337">			return map;</span>
+		}
+
+		/**
+		 * Override getStep to retrieve the step from a WWindow if the targeted component is a WWindow or a descendant
+		 * of one.
+		 *
+		 * @return the step count.
+		 */
+		@Override
+		public int getStep() {
+			// WWindows require a special case, as they keep track of their own separate step.
+			// We must check if the request is an AJAX or content target inside a WWindow,
+			// and if so return that WWindow's step. Otherwise, we return the step on the
+			// environment.
+<span class="fc" id="L352">			UIContextHolder.pushContext(window.getContext());</span>
+
+			try {
+<span class="fc" id="L355">				WWindow targetWindow = (WWindow) window.getComponent();</span>
+<span class="fc" id="L356">				return targetWindow.getStep();</span>
+			} finally {
+<span class="pc" id="L358">				UIContextHolder.popContext();</span>
+			}
+		}
+
+		/**
+		 * Override setStep to store the step on a WWindow if the targeted component is a WWindow or a descendant of
+		 * one.
+		 *
+		 * @param step the step count to set.
+		 */
+		@Override
+		public void setStep(final int step) {
+			// WWindows require a special case, as they keep track of their own separate step.
+			// We must check if the request is an AJAX or content target inside a WWindow,
+			// and if so set that WWindow's step. Otherwise, we set the step on the
+			// environment.
+<span class="fc" id="L374">			UIContextHolder.pushContext(window.getContext());</span>
+
+			try {
+<span class="fc" id="L377">				WWindow targetWindow = (WWindow) window.getComponent();</span>
+<span class="fc" id="L378">				targetWindow.setStep(step);</span>
+			} finally {
+<span class="pc" id="L380">				UIContextHolder.popContext();</span>
+<span class="fc" id="L381">			}</span>
+<span class="fc" id="L382">		}</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

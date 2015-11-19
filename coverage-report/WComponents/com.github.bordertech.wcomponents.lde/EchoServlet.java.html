@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>EchoServlet.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.lde</a> &gt; <span class="el_source">EchoServlet.java</span></div><h1>EchoServlet.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.lde;
+
+import com.github.bordertech.wcomponents.WebUtilities;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.List;
+import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * An echo servlet used for internal testing.
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ */
+<span class="nc" id="L22">public class EchoServlet extends HttpServlet {</span>
+
+	@Override
+	protected void service(final HttpServletRequest req, final HttpServletResponse res)
+			throws ServletException, IOException {
+<span class="nc" id="L27">		PrintWriter writer = res.getWriter();</span>
+
+<span class="nc" id="L29">		List&lt;String&gt; paramKeys = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L30" title="All 2 branches missed.">		for (Enumeration e = req.getParameterNames(); e.hasMoreElements();) {</span>
+<span class="nc" id="L31">			paramKeys.add((String) e.nextElement());</span>
+		}
+
+<span class="nc bnc" id="L34" title="All 2 branches missed.">		for (String paramKey : paramKeys) {</span>
+<span class="nc bnc" id="L35" title="All 2 branches missed.">			for (String parameterValue : req.getParameterValues(paramKey)) {</span>
+<span class="nc bnc" id="L36" title="All 2 branches missed.">				if (parameterValue.equals(&quot;coffee&quot;)) {</span>
+<span class="nc" id="L37">					res.sendError(418, &quot;short and stout&quot;);</span>
+<span class="nc" id="L38">					return;</span>
+				}
+			}
+<span class="nc" id="L41">		}</span>
+
+<span class="nc" id="L43">		writer.println(&quot;&lt;!DOCTYPE html&gt;&quot;);</span>
+<span class="nc" id="L44">		writer.println(&quot;&lt;html lang=\&quot;en-AU\&quot;&gt;&quot;);</span>
+<span class="nc" id="L45">		writer.println(&quot;    &lt;head&gt;&quot;);</span>
+<span class="nc" id="L46">		writer.println(&quot;        &lt;title&gt;Feedback Page&lt;/title&gt;&quot;);</span>
+<span class="nc" id="L47">		writer.println(&quot;    &lt;/head&gt;&quot;);</span>
+<span class="nc" id="L48">		writer.println(&quot;    &lt;body&gt;&quot;);</span>
+<span class="nc" id="L49">		writer.println(&quot;        &lt;h1&gt;Feedback Page&lt;/h1&gt;&quot;);</span>
+
+<span class="nc" id="L51">		String referer = req.getHeader(&quot;referer&quot;);</span>
+<span class="nc" id="L52">		String refererUrl = WebUtilities.escapeForUrl(referer);</span>
+
+<span class="nc" id="L54">		String exampleRoot = &quot;&quot;;</span>
+<span class="nc bnc" id="L55" title="All 2 branches missed.">		if (referer != null) {</span>
+<span class="nc" id="L56">			writer.println(&quot;        &lt;h2&gt;Referred from&lt;/h2&gt;&quot;);</span>
+<span class="nc" id="L57">			writer.println(&quot;        &lt;p&gt;&lt;a href='&quot; + refererUrl + &quot;'&gt;&quot; + refererUrl + &quot;&lt;/a&gt;&lt;/p&gt;&quot;);</span>
+<span class="nc" id="L58">			exampleRoot = referer.substring(0, referer.lastIndexOf('/') + 1);</span>
+<span class="nc" id="L59">			writer.println(&quot;        &lt;p&gt;&lt;a href='&quot; + WebUtilities.escapeForUrl(exampleRoot) + &quot;'&gt;Back to example list&lt;/a&gt;&lt;/p&gt;&quot;);</span>
+		}
+
+<span class="nc" id="L62">		writer.println(&quot;        &lt;h2&gt;Form Method&lt;/h2&gt;&quot;);</span>
+<span class="nc" id="L63">		writer.println(&quot;        &lt;p&gt;&quot; + WebUtilities.encode(req.getMethod()) + &quot;&lt;/p&gt;&quot;);</span>
+<span class="nc" id="L64">		writer.println(&quot;        &lt;h2&gt;Query String&lt;/h2&gt;&quot;);</span>
+<span class="nc" id="L65">		writer.println(&quot;        &lt;p&gt;&quot; + WebUtilities.encode(req.getQueryString()) + &quot;&lt;/p&gt;&quot;);</span>
+<span class="nc" id="L66">		writer.println(&quot;        &lt;h2&gt;Parameters&lt;/h2&gt;&quot;);</span>
+
+<span class="nc" id="L68">		Collections.sort(paramKeys);</span>
+
+<span class="nc" id="L70">		writer.println(&quot;&lt;table&gt;&lt;tr&gt;&lt;th&gt;Name&lt;/th&gt;&lt;th&gt;Value&lt;/th&gt;&lt;/tr&gt;&quot;);</span>
+
+<span class="nc bnc" id="L72" title="All 2 branches missed.">		for (String paramKey : paramKeys) {</span>
+<span class="nc bnc" id="L73" title="All 2 branches missed.">			for (String parameterValue : req.getParameterValues(paramKey)) {</span>
+<span class="nc" id="L74">				writer.println(&quot;&lt;tr&gt;&lt;td&gt;&quot; + WebUtilities.encode(paramKey) + &quot;&lt;/td&gt;&quot;);</span>
+<span class="nc" id="L75">				writer.println(&quot;&lt;td&gt;&quot; + WebUtilities.encode(parameterValue) + &quot;&lt;/td&gt;&lt;/tr&gt;&quot;);</span>
+			}
+<span class="nc" id="L77">		}</span>
+
+<span class="nc" id="L79">		writer.println(&quot;        &lt;/table&gt;&quot;);</span>
+<span class="nc" id="L80">		writer.println(&quot;        &lt;h2&gt;Cookies&lt;/h2&gt;&quot;);</span>
+<span class="nc" id="L81">		writer.println(&quot;        &lt;table&gt;&lt;tr&gt;&lt;th&gt;Name&lt;/th&gt;&lt;th&gt;Value&lt;/th&gt;&lt;/tr&gt;&quot;);</span>
+
+<span class="nc bnc" id="L83" title="All 2 branches missed.">		for (Cookie cookie : req.getCookies()) {</span>
+<span class="nc" id="L84">			writer.println(</span>
+<span class="nc" id="L85">					&quot;&lt;tr&gt;&lt;td&gt;&quot; + WebUtilities.encode(cookie.getName()) + &quot;&lt;/td&gt;&lt;td&gt;&quot; + WebUtilities.encode(cookie.getValue()) + &quot;&lt;/td&gt;&lt;/tr&gt;&quot;);</span>
+		}
+
+<span class="nc" id="L88">		writer.println(&quot;        &lt;/table&gt;&quot;);</span>
+<span class="nc" id="L89">		writer.println(&quot;        &lt;h2&gt;Headers&lt;/h2&gt;&quot;);</span>
+<span class="nc" id="L90">		writer.println(&quot;        &lt;table&gt;&lt;tr&gt;&lt;th&gt;Name&lt;/th&gt;&lt;th&gt;Value&lt;/th&gt;&lt;/tr&gt;&quot;);</span>
+
+<span class="nc bnc" id="L92" title="All 2 branches missed.">		for (String[] header : getRequestHeaders(req)) {</span>
+<span class="nc" id="L93">			writer.println(&quot;&lt;tr&gt;&lt;td&gt;&quot; + WebUtilities.encode(header[0]) + &quot;&lt;/td&gt;&quot;);</span>
+<span class="nc" id="L94">			writer.println(&quot;&lt;td&gt;&quot; + WebUtilities.encode(header[1]) + &quot;&lt;/td&gt;&lt;/tr&gt;&quot;);</span>
+		}
+
+<span class="nc" id="L97">		writer.println(&quot;        &lt;/table&gt;&quot;);</span>
+
+<span class="nc bnc" id="L99" title="All 2 branches missed.">		if (!(&quot;&quot;.equals(exampleRoot))) {</span>
+<span class="nc" id="L100">			writer.println(&quot;        &lt;p&gt;&lt;a href='&quot; + WebUtilities.encode(exampleRoot) + &quot;'&gt;Back to example list&lt;/a&gt;&lt;/p&gt;&quot;);</span>
+		}
+<span class="nc" id="L102">		writer.println(&quot;    &lt;/body&gt;&quot;);</span>
+<span class="nc" id="L103">		writer.println(&quot;&lt;/html&gt;&quot;);</span>
+<span class="nc" id="L104">	}</span>
+
+	/**
+	 * Reads the request headers from the given request.
+	 *
+	 * @param request the request to read the headers from.
+	 * @return an array of header key-value pairs, sorted by key.
+	 */
+	private static String[][] getRequestHeaders(final HttpServletRequest request) {
+<span class="nc" id="L113">		List&lt;String&gt; headerKeys = new ArrayList&lt;&gt;();</span>
+
+<span class="nc bnc" id="L115" title="All 2 branches missed.">		for (Enumeration e = request.getHeaderNames(); e.hasMoreElements();) {</span>
+<span class="nc" id="L116">			headerKeys.add((String) e.nextElement());</span>
+		}
+
+<span class="nc" id="L119">		Collections.sort(headerKeys);</span>
+
+<span class="nc" id="L121">		String[][] headers = new String[headerKeys.size()][2];</span>
+
+<span class="nc bnc" id="L123" title="All 2 branches missed.">		for (int i = 0; i &lt; headers.length; i++) {</span>
+<span class="nc" id="L124">			headers[i][0] = headerKeys.get(i);</span>
+<span class="nc" id="L125">			headers[i][1] = request.getHeader(headers[i][0]);</span>
+		}
+
+<span class="nc" id="L128">		return headers;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

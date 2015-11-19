@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WPanel.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">WPanel.java</span></div><h1>WPanel.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import com.github.bordertech.wcomponents.layout.LayoutManager;
+import com.github.bordertech.wcomponents.util.I18nUtilities;
+import java.io.Serializable;
+import java.text.MessageFormat;
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * &lt;p&gt;
+ * A WPanel is used to group components together. It can optionally provide additional styling for the group, for
+ * example to display a titled border. Layouts can be used to arrange components within the panel.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * Users can add a {@link WButton} ({@link #setDefaultSubmitButton(WButton)}) to this component that will submit when
+ * the user hits the Enter key and the cursor is in an input field inside the panel.
+ * &lt;/p&gt;
+ *
+ * @author Christina Harris
+ * @since 1.0.0
+ * @author Yiannis Paschalidis
+ */
+public class WPanel extends WContainer implements AjaxTarget, SubordinateTarget, Marginable,
+		DropZone {
+
+	/**
+	 * An enumeration of available panel types.
+	 */
+<span class="pc" id="L30">	public enum Type {</span>
+		/**
+		 * A plain panel.
+		 */
+<span class="fc" id="L34">		PLAIN,</span>
+		/**
+		 * An action panel is similar to CHROME but with a different appearance. It is intended to be used once per
+		 * screen to highlight the main area of activity.
+		 */
+<span class="fc" id="L39">		ACTION,</span>
+		/**
+		 * A titled panel which is similar to CHROME but with a fancier border.
+		 */
+<span class="fc" id="L43">		BANNER,</span>
+		/**
+		 * A 'block' type panel has padding around the edges.
+		 */
+<span class="fc" id="L47">		BLOCK,</span>
+		/**
+		 * A box panel has a border.
+		 */
+<span class="fc" id="L51">		BOX,</span>
+		/**
+		 * A panel with a title displayed in a border.
+		 */
+<span class="fc" id="L55">		CHROME,</span>
+		/**
+		 * The feature panel is highlighted by a background colour and border.
+		 */
+<span class="fc" id="L59">		FEATURE,</span>
+		/**
+		 * The footer panel is only intended for use at the very bottom of an application.
+		 */
+<span class="fc" id="L63">		FOOTER,</span>
+		/**
+		 * The header panel is only intended for use at the very top of an application.
+		 */
+<span class="fc" id="L67">		HEADER</span>
+	};
+
+	/**
+	 * The available types of panel mode.
+	 */
+<span class="pc" id="L73">	public enum PanelMode {</span>
+		/**
+		 * A lazy panel will load its content via AJAX when it is made visible.
+		 */
+<span class="fc" id="L77">		LAZY,</span>
+		/**
+		 * An eager panel will load its content via AJAX immediately after the page is loaded.
+		 */
+<span class="fc" id="L81">		EAGER</span>
+	};
+
+	/**
+	 * Creates a {@link Type#PLAIN} WPanel.
+	 */
+	public WPanel() {
+<span class="fc" id="L88">		this(Type.PLAIN);</span>
+<span class="fc" id="L89">	}</span>
+
+	/**
+	 * Creates a WPanel of the specified type.
+	 *
+	 * @param type the type of panel to create.
+	 */
+<span class="fc" id="L96">	public WPanel(final Type type) {</span>
+<span class="fc" id="L97">		getComponentModel().type = type;</span>
+<span class="fc" id="L98">	}</span>
+
+	/**
+	 * Sets the button that should be submitted when the user hits enter key and cursor is inside this panel.
+	 *
+	 * @param defaultSubmitButton the default submit button.
+	 */
+	public void setDefaultSubmitButton(final WButton defaultSubmitButton) {
+<span class="fc" id="L106">		getOrCreateComponentModel().defaultSubmitButton = defaultSubmitButton;</span>
+<span class="fc" id="L107">	}</span>
+
+	/**
+	 * @return The button that will be submitted if the user hits the enter key when the cursor is in this field.
+	 */
+	public WButton getDefaultSubmitButton() {
+<span class="fc" id="L113">		return getComponentModel().defaultSubmitButton;</span>
+	}
+
+	/**
+	 * @return the panel type.
+	 */
+	public Type getType() {
+<span class="fc" id="L120">		return getComponentModel().type;</span>
+	}
+
+	/**
+	 * Sets the panel type.
+	 *
+	 * @param type the default panel type.
+	 */
+	public void setType(final Type type) {
+<span class="fc" id="L129">		getOrCreateComponentModel().type = type;</span>
+<span class="fc" id="L130">	}</span>
+
+	/**
+	 * @return this WPanel's mode of operation
+	 */
+	public PanelMode getMode() {
+<span class="fc" id="L136">		return getComponentModel().mode;</span>
+	}
+
+	/**
+	 * Sets this WPanel's mode of operation.
+	 *
+	 * @param mode the mode of operation.
+	 */
+	public void setMode(final PanelMode mode) {
+<span class="fc" id="L145">		getOrCreateComponentModel().mode = mode;</span>
+<span class="fc" id="L146">	}</span>
+
+	/**
+	 * Override preparePaintComponent in order to validate the configuration.
+	 *
+	 * @param request the request being responded to
+	 */
+	@Override
+	protected void preparePaintComponent(final Request request) {
+<span class="fc" id="L155">		UIContext uic = UIContextHolder.getCurrent();</span>
+
+		// Register panel for AJAX
+<span class="fc bfc" id="L158" title="All 4 branches covered.">		if (uic.getUI() != null &amp;&amp; getMode() != null) {</span>
+<span class="fc" id="L159">			AjaxHelper.registerComponentTargetItself(getId(), request);</span>
+		}
+
+<span class="fc" id="L162">	}</span>
+
+	/**
+	 * Set the accesskey (shortcut key) that will activate the panel.
+	 *
+	 * @param accessKey The key which activates this panel.
+	 */
+	public void setAccessKey(final char accessKey) {
+<span class="fc" id="L170">		getOrCreateComponentModel().accessKey = accessKey;</span>
+<span class="fc" id="L171">	}</span>
+
+	/**
+	 * @return the shortcut key that will focus the panel when used.
+	 */
+	public char getAccessKey() {
+<span class="fc" id="L177">		return getComponentModel().accessKey;</span>
+	}
+
+	/**
+	 * Returns the accesskey character as a String. If the character is not a letter or digit then &lt;code&gt;null&lt;/code&gt; is
+	 * returned.
+	 *
+	 * @return The accesskey character as a String (may be &lt;code&gt;null&lt;/code&gt;).
+	 */
+	public String getAccessKeyAsString() {
+<span class="fc" id="L187">		char accessKey = getAccessKey();</span>
+
+<span class="fc bfc" id="L189" title="All 2 branches covered.">		if (Character.isLetterOrDigit(accessKey)) {</span>
+<span class="fc" id="L190">			return String.valueOf(accessKey);</span>
+		}
+
+<span class="fc" id="L193">		return null;</span>
+	}
+
+	/**
+	 * Sets the panel title.
+	 *
+	 * @param title the panel title to set, using {@link MessageFormat} syntax.
+	 * @param args optional arguments for the message format string.
+	 */
+	public void setTitleText(final String title, final Serializable... args) {
+<span class="fc" id="L203">		PanelModel model = getOrCreateComponentModel();</span>
+<span class="fc" id="L204">		model.title = I18nUtilities.asMessage(title, args);</span>
+<span class="fc" id="L205">	}</span>
+
+	/**
+	 * @return the panel title.
+	 */
+	public String getTitleText() {
+<span class="fc" id="L211">		return I18nUtilities.format(null, getComponentModel().title);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setMargin(final com.github.bordertech.wcomponents.Margin margin) {
+<span class="fc" id="L219">		getOrCreateComponentModel().margin = margin;</span>
+<span class="fc" id="L220">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public com.github.bordertech.wcomponents.Margin getMargin() {
+<span class="fc" id="L227">		return getComponentModel().margin;</span>
+	}
+
+	/**
+	 * Sets the panel layout manager.
+	 *
+	 * @param layout the panel layout manager.
+	 */
+	public void setLayout(final LayoutManager layout) {
+<span class="fc" id="L236">		getOrCreateComponentModel().layout = layout;</span>
+<span class="fc" id="L237">	}</span>
+
+	/**
+	 * @return the panel layout manager.
+	 */
+	public LayoutManager getLayout() {
+<span class="fc" id="L243">		return getComponentModel().layout;</span>
+	}
+
+	/**
+	 * &lt;p&gt;
+	 * Adds the given component as a child of this component. The constraints are made available to the
+	 * {@link LayoutManager} if it requires them.&lt;/p&gt;
+	 *
+	 * @param component the component to add.
+	 * @param constraints the layout constraints
+	 */
+	public void add(final WComponent component, final Serializable... constraints) {
+<span class="fc" id="L255">		add(component);</span>
+
+<span class="pc bpc" id="L257" title="2 of 4 branches missed.">		if (constraints != null &amp;&amp; constraints.length &gt; 0) {</span>
+<span class="fc" id="L258">			PanelModel model = getOrCreateComponentModel();</span>
+
+<span class="fc bfc" id="L260" title="All 2 branches covered.">			if (model.layoutConstraints == null) {</span>
+<span class="fc" id="L261">				model.layoutConstraints = new HashMap&lt;&gt;();</span>
+			}
+
+<span class="fc" id="L264">			model.layoutConstraints.put(component, constraints);</span>
+		}
+<span class="fc" id="L266">	}</span>
+
+	/**
+	 * &lt;p&gt;
+	 * Adds the given component as a child of this component. The constraints are made available to the
+	 * {@link LayoutManager} if it requires them.&lt;/p&gt;
+	 *
+	 * @param component the component to add.
+	 * @param constraints the layout constraints
+	 */
+	public void add(final WComponent component, final Serializable constraints) {
+<span class="fc" id="L277">		add(component);</span>
+
+<span class="fc" id="L279">		PanelModel model = getOrCreateComponentModel();</span>
+
+<span class="fc bfc" id="L281" title="All 2 branches covered.">		if (model.layoutConstraints == null) {</span>
+<span class="fc" id="L282">			model.layoutConstraints = new HashMap&lt;&gt;();</span>
+		}
+
+<span class="fc" id="L285">		model.layoutConstraints.put(component, constraints);</span>
+<span class="fc" id="L286">	}</span>
+
+	/**
+	 * Removes the given component from this component's list of children. This method has been overriden to remove any
+	 * associated layout constraints.
+	 *
+	 * @param aChild the child component to remove
+	 */
+	@Override
+	public void remove(final WComponent aChild) {
+<span class="nc" id="L296">		super.remove(aChild);</span>
+<span class="nc" id="L297">		PanelModel model = getOrCreateComponentModel();</span>
+
+<span class="nc bnc" id="L299" title="All 2 branches missed.">		if (model.layoutConstraints == null) {</span>
+<span class="nc" id="L300">			Map&lt;WComponent, Serializable&gt; defaultConstraints = ((PanelModel) getDefaultModel()).layoutConstraints;</span>
+
+<span class="nc bnc" id="L302" title="All 2 branches missed.">			if (defaultConstraints != null) {</span>
+<span class="nc" id="L303">				model.layoutConstraints = new HashMap&lt;&gt;(defaultConstraints);</span>
+			}
+		}
+
+<span class="nc bnc" id="L307" title="All 2 branches missed.">		if (model.layoutConstraints != null) {</span>
+<span class="nc" id="L308">			model.layoutConstraints.remove(aChild);</span>
+
+			// Deallocate constraints list if possible, to reduce session size.
+<span class="nc bnc" id="L311" title="All 2 branches missed.">			if (model.layoutConstraints.isEmpty()) {</span>
+<span class="nc" id="L312">				model.layoutConstraints = null;</span>
+			}
+		}
+<span class="nc" id="L315">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String toString() {
+<span class="nc" id="L322">		Type type = getType();</span>
+<span class="nc bnc" id="L323" title="All 2 branches missed.">		return toString(type == null ? null : type.toString());</span>
+	}
+
+	/**
+	 * Retrieves the layout constraints for the given component, if they have been set.
+	 *
+	 * @param child the child component to retrieve the constraints for.
+	 * @return the layout constraints for the given child, if set.
+	 */
+	public Serializable getLayoutConstraints(final WComponent child) {
+<span class="fc" id="L333">		PanelModel model = getComponentModel();</span>
+
+<span class="fc bfc" id="L335" title="All 2 branches covered.">		if (model.layoutConstraints != null) {</span>
+<span class="fc" id="L336">			return model.layoutConstraints.get(child);</span>
+		}
+
+<span class="fc" id="L339">		return null;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	// For type safety only
+	protected PanelModel getComponentModel() {
+<span class="fc" id="L348">		return (PanelModel) super.getComponentModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	// For type safety only
+	protected PanelModel getOrCreateComponentModel() {
+<span class="fc" id="L357">		return (PanelModel) super.getOrCreateComponentModel();</span>
+	}
+
+	/**
+	 * Creates a new component model appropriate for this component.
+	 *
+	 * @return a new PanelModel.
+	 */
+	@Override
+	protected PanelModel newComponentModel() {
+<span class="fc" id="L367">		return new PanelModel();</span>
+	}
+
+	/**
+	 * A class used to hold the list of options for this component.
+	 *
+	 * @author Jonathan Austin
+	 */
+<span class="fc" id="L375">	public static class PanelModel extends BeanAndProviderBoundComponentModel {</span>
+
+		/**
+		 * The type of panel.
+		 */
+		private Type type;
+
+		/**
+		 * The panel title.
+		 */
+		private Serializable title;
+
+		/**
+		 * Indicates how the panel should operate.
+		 */
+		private PanelMode mode;
+
+		/**
+		 * The key shortcut that activates the panel.
+		 */
+<span class="fc" id="L395">		private char accessKey = '\0';</span>
+
+		/**
+		 * The button to trigger when cursor inside div.
+		 */
+		private WButton defaultSubmitButton;
+
+		/**
+		 * The margins to be used on the panel.
+		 */
+		private com.github.bordertech.wcomponents.Margin margin;
+
+		/**
+		 * The panel's layout manager.
+		 */
+		private LayoutManager layout;
+
+		/**
+		 * A map of Layout constraints by child component.
+		 */
+		private Map&lt;WComponent, Serializable&gt; layoutConstraints;
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

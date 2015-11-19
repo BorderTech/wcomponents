@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>Factory.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.util</a> &gt; <span class="el_source">Factory.java</span></div><h1>Factory.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.util;
+
+import org.apache.commons.configuration.Configuration;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+/**
+ * &lt;p&gt;
+ * Provides a generic mechanism for obtaining objects which implement a requested interface. A new object will be
+ * created each time the newImplementation method is called.&lt;/p&gt;
+ *
+ * &lt;p&gt;
+ * The runtime {@link Config} class is used to look up the implementing class, based on the requested interface's
+ * classname. This is done by prefixing the full interface name with &quot;bordertech.wcomponents.factory.impl.&quot;. For
+ * example, to specify that the com.github.myapp.util.FooImpl implements com.github.myapp.util.Foo interface, the
+ * following should be added to the configuration:&lt;/p&gt;
+ * &lt;pre&gt;
+ * bordertech.wcomponents.factory.impl.com.github.myapp.util.Foo=com.github.myapp.util.FooImpl
+ * &lt;/pre&gt;
+ *
+ * @author James Gifford
+ */
+public final class Factory {
+
+	/**
+	 * The logger instance for this class.
+	 */
+<span class="fc" id="L28">	private static final Log LOG = LogFactory.getLog(Factory.class);</span>
+
+	/**
+	 * Prefix used to look up implementing classes in the {@link Config configuration}.
+	 */
+	public static final String PREFIX = &quot;bordertech.wcomponents.factory.impl.&quot;;
+
+	/**
+	 * Prevent instantiation of this utility class.
+	 */
+<span class="nc" id="L38">	private Factory() {</span>
+<span class="nc" id="L39">	}</span>
+
+	/**
+	 * Given an interface, instantiate a class implementing that interface.
+	 *
+	 * The classname to instantiate is obtained by looking in the runtime {@link Config configuration}, under the
+	 * factory.impl.&amp;lt;interface name&amp;gt; key.
+	 *
+	 * @param &lt;T&gt; the interface type.
+	 * @param interfaz the interface to instantiate an implementation for.
+	 * @return an Object which implements the given interface.
+	 * @throws SystemException if no implementing class is registered in the {@link Config configuration}.
+	 */
+	public static &lt;T&gt; T newInstance(final Class&lt;T&gt; interfaz) {
+<span class="fc" id="L53">		Configuration config = Config.getInstance();</span>
+<span class="fc" id="L54">		String classname = config.getString(PREFIX + interfaz.getName());</span>
+
+<span class="fc bfc" id="L56" title="All 2 branches covered.">		if (classname == null) {</span>
+			// Hmmm - this is bad. For the time being let's dump the parameters.
+<span class="fc" id="L58">			LOG.fatal(&quot;No implementing class for &quot; + interfaz.getName());</span>
+<span class="fc" id="L59">			LOG.fatal(&quot;There needs to be a parameter defined for &quot; + PREFIX + interfaz.getName());</span>
+
+<span class="fc" id="L61">			throw new SystemException(&quot;No implementing class for &quot; + interfaz.getName() + &quot;; &quot;</span>
+<span class="fc" id="L62">					+ &quot;There needs to be a parameter defined for &quot; + PREFIX + interfaz.getName());</span>
+		}
+
+		try {
+<span class="fc" id="L66">			Class&lt;T&gt; clas = (Class&lt;T&gt;) Class.forName(classname.trim());</span>
+<span class="fc" id="L67">			return clas.newInstance();</span>
+<span class="nc" id="L68">		} catch (Exception ex) {</span>
+<span class="nc" id="L69">			throw new SystemException(&quot;Failed to instantiate object of class &quot; + classname, ex);</span>
+		}
+	}
+
+	/**
+	 * Given an interface, determine if an implementation of that interface is available to this factory, see
+	 * newInstance(.) method.
+	 *
+	 * @param interfaz the interface to check for.
+	 * @return true if an implementation of the interface is available to this factory.
+	 */
+	public static boolean implementationExists(final Class&lt;?&gt; interfaz) {
+<span class="fc" id="L81">		Configuration config = Config.getInstance();</span>
+<span class="fc bfc" id="L82" title="All 2 branches covered.">		return !Util.empty(config.getString(PREFIX + interfaz.getName()));</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>Duplet.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.util</a> &gt; <span class="el_source">Duplet.java</span></div><h1>Duplet.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.util;
+
+/**
+ * A type-safe generic collection of two items.
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ *
+ * @param &lt;T1&gt; the type of the first item
+ * @param &lt;T2&gt; the type of the second item
+ */
+public class Duplet&lt;T1, T2&gt; {
+
+	/**
+	 * The first item.
+	 */
+	private T1 first;
+
+	/**
+	 * The second item.
+	 */
+	private T2 second;
+
+	/**
+	 * Creates an empty duplet.
+	 */
+<span class="fc" id="L27">	public Duplet() {</span>
+<span class="fc" id="L28">	}</span>
+
+	/**
+	 * Creates a duplet with the specified items.
+	 *
+	 * @param first the first item.
+	 * @param second the second item.
+	 */
+<span class="fc" id="L36">	public Duplet(final T1 first, final T2 second) {</span>
+<span class="fc" id="L37">		this.first = first;</span>
+<span class="fc" id="L38">		this.second = second;</span>
+<span class="fc" id="L39">	}</span>
+
+	/**
+	 * @return Returns the first item.
+	 */
+	public T1 getFirst() {
+<span class="fc" id="L45">		return first;</span>
+	}
+
+	/**
+	 * @param first The first item to set.
+	 */
+	public void setFirst(final T1 first) {
+<span class="fc" id="L52">		this.first = first;</span>
+<span class="fc" id="L53">	}</span>
+
+	/**
+	 * @return Returns the second item.
+	 */
+	public T2 getSecond() {
+<span class="fc" id="L59">		return second;</span>
+	}
+
+	/**
+	 * @param second The second item to set.
+	 */
+	public void setSecond(final T2 second) {
+<span class="fc" id="L66">		this.second = second;</span>
+<span class="fc" id="L67">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public int hashCode() {
+<span class="pc bpc" id="L74" title="1 of 2 branches missed.">		int hash = (first == null ? 0 : first.hashCode());</span>
+<span class="fc bfc" id="L75" title="All 2 branches covered.">		hash = hash * 31 + (second == null ? 0 : second.hashCode());</span>
+
+<span class="fc" id="L77">		return hash;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean equals(final Object obj) {
+<span class="fc bfc" id="L85" title="All 2 branches covered.">		if (!(obj instanceof Duplet)) {</span>
+<span class="fc" id="L86">			return false;</span>
+		}
+
+<span class="fc" id="L89">		Duplet other = (Duplet) obj;</span>
+
+<span class="fc bfc" id="L91" title="All 2 branches covered.">		return Util.equals(first, other.first)</span>
+<span class="pc bpc" id="L92" title="1 of 2 branches missed.">				&amp;&amp; Util.equals(second, other.second);</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

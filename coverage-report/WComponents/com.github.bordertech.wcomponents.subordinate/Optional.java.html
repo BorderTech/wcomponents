@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>Optional.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.subordinate</a> &gt; <span class="el_source">Optional.java</span></div><h1>Optional.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.subordinate;
+
+import com.github.bordertech.wcomponents.SubordinateTarget;
+import com.github.bordertech.wcomponents.WLabel;
+
+/**
+ * An action that makes a given target optional.
+ *
+ * @author Jonathan Austin
+ * @since 1.0.0
+ */
+public class Optional extends AbstractSetMandatory {
+
+	/**
+	 * Creates an optional action with the given target.
+	 *
+	 * @param target the component to make optional.
+	 */
+	public Optional(final SubordinateTarget target) {
+<span class="fc" id="L20">		super(target, Boolean.FALSE);</span>
+<span class="fc" id="L21">	}</span>
+
+	/**
+	 * @return an action type of optional.
+	 */
+	@Override
+	public ActionType getActionType() {
+<span class="fc" id="L28">		return ActionType.OPTIONAL;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String toString() {
+<span class="fc" id="L36">		String targetName = getTarget().getClass().getSimpleName();</span>
+
+<span class="fc" id="L38">		WLabel label = getTarget().getLabel();</span>
+<span class="fc bfc" id="L39" title="All 2 branches covered.">		if (label != null) {</span>
+<span class="fc" id="L40">			targetName = label.getText();</span>
+		}
+
+<span class="fc" id="L43">		return &quot;set &quot; + targetName + &quot; optional&quot;;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

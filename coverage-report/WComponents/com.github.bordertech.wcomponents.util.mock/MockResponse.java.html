@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>MockResponse.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.util.mock</a> &gt; <span class="el_source">MockResponse.java</span></div><h1>MockResponse.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.util.mock;
+
+import com.github.bordertech.wcomponents.Response;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.HashMap;
+import java.util.Map;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+/**
+ * MockResponse is useful for unit testing.
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ */
+<span class="fc" id="L20">public class MockResponse implements Response {</span>
+
+	/**
+	 * The logger instance for this class.
+	 */
+<span class="fc" id="L25">	private static final Log LOG = LogFactory.getLog(MockResponse.class);</span>
+
+	/**
+	 * The outputStream containing the data which has been written to the response.
+	 */
+<span class="fc" id="L30">	private final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();</span>
+
+	/**
+	 * The writer containing the data which has been written to the response.
+	 */
+<span class="fc" id="L35">	private final StringWriter writer = new StringWriter();</span>
+
+	/**
+	 * The redirect URL, if the sendRedirect method is called.
+	 */
+	private String redirect;
+
+	/**
+	 * The response content type, if the setContentType method is called.
+	 */
+	private String contentType;
+
+	/**
+	 * Contains any response headers which have been set.
+	 */
+<span class="fc" id="L50">	private final Map&lt;String, String&gt; headers = new HashMap&lt;&gt;();</span>
+
+	/**
+	 * The response error code.
+	 */
+	private int errorCode;
+
+	/**
+	 * The response error code.
+	 */
+	private String errorDescription;
+
+	/**
+	 * @return the response {@link OutputStream}.
+	 */
+	@Override
+	public OutputStream getOutputStream() {
+<span class="fc" id="L67">		return outputStream;</span>
+	}
+
+	/**
+	 * @return the response {@link PrintWriter}.
+	 */
+	@Override
+	public PrintWriter getWriter() {
+<span class="fc" id="L75">		LOG.debug(&quot;Getting printwriter&quot;);</span>
+<span class="fc" id="L76">		return new PrintWriter(writer);</span>
+	}
+
+	/**
+	 * Sets the redirect.
+	 *
+	 * @param sendRedirect the URL to redirect to.
+	 */
+	@Override
+	public void sendRedirect(final String sendRedirect) {
+<span class="fc" id="L86">		LOG.debug(&quot;Redirecting to: &quot; + sendRedirect);</span>
+<span class="fc" id="L87">		this.redirect = sendRedirect;</span>
+<span class="fc" id="L88">	}</span>
+
+	/**
+	 * Sets the content type.
+	 *
+	 * @param contentType the content type.
+	 */
+	@Override
+	public void setContentType(final String contentType) {
+<span class="fc" id="L97">		LOG.debug(&quot;Content type: &quot; + contentType);</span>
+<span class="fc" id="L98">		this.contentType = contentType;</span>
+<span class="fc" id="L99">	}</span>
+
+	/**
+	 * Sets a header.
+	 *
+	 * @param name the header name.
+	 * @param value the header value.
+	 */
+	@Override
+	public void setHeader(final String name, final String value) {
+<span class="fc" id="L109">		LOG.debug(&quot;Setting header, &quot; + name + '=' + value);</span>
+<span class="fc" id="L110">		headers.put(name, value);</span>
+<span class="fc" id="L111">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void sendError(final int code, final String description) throws IOException {
+<span class="fc" id="L118">		this.errorCode = code;</span>
+<span class="fc" id="L119">		this.errorDescription = description;</span>
+<span class="fc" id="L120">	}</span>
+
+	/**
+	 * @return the content written to this Response
+	 */
+	public byte[] getOutput() {
+<span class="fc" id="L126">		return outputStream.toByteArray();</span>
+	}
+
+	/**
+	 * @return the content written to this Response
+	 */
+	public String getWriterOutput() {
+<span class="fc" id="L133">		return writer.toString();</span>
+	}
+
+	/**
+	 * @return the redirect if set, otherwise null
+	 */
+	public String getRedirect() {
+<span class="fc" id="L140">		return redirect;</span>
+	}
+
+	/**
+	 * @return the content type if set, otherwise null
+	 */
+	public String getContentType() {
+<span class="fc" id="L147">		return contentType;</span>
+	}
+
+	/**
+	 * @return the headers that were set for this response
+	 */
+	public Map&lt;String, String&gt; getHeaders() {
+<span class="fc" id="L154">		return headers;</span>
+	}
+
+	/**
+	 * @return the error code set using {@link #sendError(int, String)}.
+	 */
+	public int getErrorCode() {
+<span class="fc" id="L161">		return errorCode;</span>
+	}
+
+	/**
+	 * @return the error description set using {@link #sendError(int, String)}.
+	 */
+	public String getErrorDescription() {
+<span class="nc" id="L168">		return errorDescription;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

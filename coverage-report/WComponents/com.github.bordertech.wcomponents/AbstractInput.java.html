@@ -1,0 +1,469 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>AbstractInput.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">AbstractInput.java</span></div><h1>AbstractInput.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import com.github.bordertech.wcomponents.util.EmptyIterator;
+import com.github.bordertech.wcomponents.util.InternalMessages;
+import com.github.bordertech.wcomponents.validation.Diagnostic;
+import com.github.bordertech.wcomponents.validator.FieldValidator;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+/**
+ * Superclass for components that correspond to an input field.
+ *
+ * @author James Gifford, Martin Shevchenko, Jonathan Austin
+ * @since 1.0.0
+ */
+<span class="fc" id="L19">public abstract class AbstractInput extends WBeanComponent implements Input {</span>
+
+	/**
+	 * The logger instance for this class.
+	 */
+<span class="fc" id="L24">	private static final Log LOG = LogFactory.getLog(AbstractInput.class);</span>
+
+	// ================================
+	// Validation
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void addValidator(final FieldValidator validator) {
+<span class="fc" id="L33">		InputModel model = getOrCreateComponentModel();</span>
+
+<span class="pc bpc" id="L35" title="1 of 2 branches missed.">		if (model.validators == null) {</span>
+<span class="fc" id="L36">			model.validators = new ArrayList&lt;&gt;();</span>
+		}
+
+<span class="fc" id="L39">		validator.setInputField(this);</span>
+<span class="fc" id="L40">		model.validators.add(validator);</span>
+<span class="fc" id="L41">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Iterator&lt;FieldValidator&gt; getValidators() {
+<span class="fc" id="L48">		List&lt;FieldValidator&gt; validators = getComponentModel().validators;</span>
+
+<span class="fc bfc" id="L50" title="All 2 branches covered.">		if (validators != null) {</span>
+<span class="fc" id="L51">			return validators.iterator();</span>
+		}
+
+<span class="fc" id="L54">		return new EmptyIterator&lt;&gt;();</span>
+	}
+
+	/**
+	 * Override WComponent's validatorComponent in order to use the validators which have been added to this input
+	 * field. Subclasses may still override this method, but it is suggested to call super.validateComponent to ensure
+	 * that the validators are still used.
+	 *
+	 * @param diags the list into which any validation diagnostics are added.
+	 */
+	@Override
+	protected void validateComponent(final List&lt;Diagnostic&gt; diags) {
+		// Mandatory validation
+<span class="fc bfc" id="L67" title="All 4 branches covered.">		if (isMandatory() &amp;&amp; isEmpty()) {</span>
+<span class="fc" id="L68">			diags.add(createMandatoryDiagnostic());</span>
+		}
+
+		// Other validations
+<span class="fc" id="L72">		List&lt;FieldValidator&gt; validators = getComponentModel().validators;</span>
+
+<span class="fc bfc" id="L74" title="All 2 branches covered.">		if (validators != null) {</span>
+<span class="fc bfc" id="L75" title="All 2 branches covered.">			for (FieldValidator validator : validators) {</span>
+<span class="fc" id="L76">				validator.validate(diags);</span>
+<span class="fc" id="L77">			}</span>
+		}
+<span class="fc" id="L79">	}</span>
+
+	/**
+	 * &lt;p&gt;
+	 * This method is called by validateComponent to create the mandatory diagnostic error message if the mandatory
+	 * validation check does not pass.
+	 * &lt;/p&gt;
+	 * &lt;p&gt;
+	 * Subclasses may override this method to customise the message, however in most cases it is easier to supply a
+	 * custom error message pattern to the setMandatory method.
+	 * &lt;/p&gt;
+	 *
+	 * @return a new diagnostic for when mandatory validation fails.
+	 */
+	protected Diagnostic createMandatoryDiagnostic() {
+<span class="fc" id="L94">		String errorMessage = getComponentModel().errorMessage;</span>
+<span class="fc bfc" id="L95" title="All 2 branches covered.">		String msg = errorMessage == null ? InternalMessages.DEFAULT_VALIDATION_ERROR_MANDATORY : errorMessage;</span>
+<span class="fc" id="L96">		return createErrorDiagnostic(msg, this);</span>
+	}
+
+	// ================================
+	// Action on change
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setActionOnChange(final Action actionOnChange) {
+<span class="fc" id="L106">		getOrCreateComponentModel().actionOnChange = actionOnChange;</span>
+<span class="fc" id="L107">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Action getActionOnChange() {
+<span class="fc" id="L114">		return getComponentModel().actionOnChange;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Object getActionObject() {
+<span class="fc" id="L122">		InputModel model = getComponentModel();</span>
+<span class="fc" id="L123">		return model.actionObject;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setActionObject(final Object data) {
+<span class="fc" id="L131">		InputModel model = getOrCreateComponentModel();</span>
+<span class="fc" id="L132">		model.actionObject = data;</span>
+<span class="fc" id="L133">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getActionCommand() {
+<span class="fc" id="L140">		return getValueAsString();</span>
+	}
+
+	// ================================
+	// Default submit button
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setDefaultSubmitButton(final WButton defaultSubmitButton) {
+<span class="fc" id="L150">		getOrCreateComponentModel().defaultSubmitButton = defaultSubmitButton;</span>
+<span class="fc" id="L151">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public WButton getDefaultSubmitButton() {
+<span class="fc" id="L158">		return getComponentModel().defaultSubmitButton;</span>
+	}
+
+	// ================================
+	// Mandatory flag
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setMandatory(final boolean mandatory, final String message) {
+<span class="fc" id="L168">		setFlag(ComponentModel.MANDATORY_FLAG, mandatory);</span>
+
+		// Developer wants to customise the MandatoryFieldValidator's message.
+<span class="fc" id="L171">		getOrCreateComponentModel().errorMessage = message;</span>
+<span class="fc" id="L172">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setMandatory(final boolean mandatory) {
+<span class="fc" id="L179">		setFlag(ComponentModel.MANDATORY_FLAG, mandatory);</span>
+<span class="fc" id="L180">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean isMandatory() {
+<span class="fc" id="L187">		return isFlagSet(ComponentModel.MANDATORY_FLAG);</span>
+	}
+
+	// ================================
+	// ReadOnly Flag
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean isReadOnly() {
+<span class="fc" id="L197">		return isFlagSet(ComponentModel.READONLY_FLAG);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setReadOnly(final boolean readOnly) {
+<span class="fc" id="L205">		setFlag(ComponentModel.READONLY_FLAG, readOnly);</span>
+<span class="fc" id="L206">	}</span>
+
+	// ================================
+	// Disabled Flag
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean isDisabled() {
+<span class="fc" id="L215">		return isFlagSet(ComponentModel.DISABLED_FLAG);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setDisabled(final boolean disabled) {
+<span class="fc" id="L223">		setFlag(ComponentModel.DISABLED_FLAG, disabled);</span>
+<span class="fc" id="L224">	}</span>
+
+	// ================================
+	// Handle Request
+	/**
+	 * Override handleRequest in order to perform consistent processing for input components.
+	 * &lt;p&gt;
+	 * To protect against client-side tampering of the request, disabled/readonly input fields will not have their
+	 * handle request processing performed.
+	 * &lt;/p&gt;
+	 * &lt;p&gt;
+	 * This method will call {@link #doHandleRequest(Request)} for input components to process the request. If the input
+	 * component has changed, then this method will call {@link #doHandleChanged()} and set the
+	 * {@link #isChangedInLastRequest()} flag.
+	 * &lt;/p&gt;
+	 *
+	 * @param request the request being responded to.
+	 */
+	@Override
+	public final void handleRequest(final Request request) {
+<span class="pc bpc" id="L244" title="1 of 2 branches missed.">		if (!beforeHandleRequest(request)) {</span>
+<span class="nc" id="L245">			return;</span>
+		}
+
+<span class="fc" id="L248">		setChangedInLastRequest(false);</span>
+
+<span class="fc bfc" id="L250" title="All 4 branches covered.">		if (isDisabled() || isReadOnly()) {</span>
+			// Protect against client-side tampering of disabled/read-only fields.
+<span class="fc" id="L252">			return;</span>
+		}
+
+<span class="fc bfc" id="L255" title="All 2 branches covered.">		if (isPresent(request)) {</span>
+
+			// Only process on a POST
+<span class="pc bpc" id="L258" title="1 of 2 branches missed.">			if (!&quot;POST&quot;.equals(request.getMethod())) {</span>
+<span class="nc" id="L259">				LOG.warn(&quot;Input component on a request that is not a POST. Will be ignored.&quot;);</span>
+<span class="nc" id="L260">				return;</span>
+			}
+
+<span class="fc" id="L263">			boolean changed = doHandleRequest(request);</span>
+
+<span class="fc bfc" id="L265" title="All 2 branches covered.">			if (changed) {</span>
+<span class="fc" id="L266">				setChangedInLastRequest(true);</span>
+<span class="fc" id="L267">				doHandleChanged();</span>
+			}
+		}
+<span class="fc" id="L270">	}</span>
+
+	/**
+	 * Handle before handle request processing.
+	 *
+	 * @param request the request being responded to.
+	 * @return true to continue
+	 */
+	protected boolean beforeHandleRequest(final Request request) {
+<span class="fc" id="L279">		return true;</span>
+	}
+
+	/**
+	 * Specific handle request processing for an input component is provided here.
+	 * &lt;p&gt;
+	 * Input components are required to determine if the component has changed in the request, set the component data to
+	 * the new value (if changed) and return the changed flag.
+	 * &lt;/p&gt;
+	 *
+	 * @param request the request being responded to.
+	 * @return true if the input component has changed, otherwise return false
+	 */
+	protected abstract boolean doHandleRequest(final Request request);
+
+	/**
+	 * Perform change logic for this component.
+	 */
+	protected void doHandleChanged() {
+		// If there is an associated action, execute it
+<span class="fc bfc" id="L299" title="All 2 branches covered.">		if (getActionOnChange() != null) {</span>
+<span class="fc" id="L300">			final ActionEvent event = new ActionEvent(this, getActionCommand(), getActionObject());</span>
+<span class="fc" id="L301">			Runnable later = new Runnable() {</span>
+				@Override
+				public void run() {
+<span class="fc" id="L304">					getActionOnChange().execute(event);</span>
+
+<span class="fc bfc" id="L306" title="All 4 branches covered.">					if (isSubmitOnChange() &amp;&amp; UIContextHolder.getCurrent().getFocussed() == null) {</span>
+<span class="fc" id="L307">						setFocussed();</span>
+					}
+<span class="fc" id="L309">				}</span>
+			};
+
+<span class="fc" id="L312">			invokeLater(later);</span>
+<span class="fc bfc" id="L313" title="All 4 branches covered.">		} else if (isSubmitOnChange() &amp;&amp; UIContextHolder.getCurrent().getFocussed() == null) {</span>
+<span class="fc" id="L314">			setFocussed();</span>
+		}
+<span class="fc" id="L316">	}</span>
+
+	/**
+	 * Determine if this component is on the Request.
+	 *
+	 * @param request the request being responded to.
+	 * @return true if this component is on the Request, otherwise return false.
+	 */
+	protected boolean isPresent(final Request request) {
+<span class="fc bfc" id="L325" title="All 2 branches covered.">		return request.getParameter(getId()) != null;</span>
+	}
+
+	// ================================
+	// Input Value
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Object getValue() {
+<span class="fc" id="L335">		return getData();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getValueAsString() {
+<span class="fc" id="L343">		Object data = getValue();</span>
+<span class="fc bfc" id="L344" title="All 2 branches covered.">		return data == null ? null : data.toString();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean isEmpty() {
+<span class="fc" id="L352">		String value = getValueAsString();</span>
+<span class="fc bfc" id="L353" title="All 4 branches covered.">		return value == null || value.length() == 0;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean isChangedInLastRequest() {
+<span class="fc" id="L361">		return getComponentModel().changedInLastRequest;</span>
+	}
+
+	/**
+	 * Set the changed flag to indicate if the component changed in the last request.
+	 *
+	 * @param changed true if the value changed in the request
+	 */
+	protected void setChangedInLastRequest(final boolean changed) {
+<span class="fc bfc" id="L370" title="All 2 branches covered.">		if (isChangedInLastRequest() != changed) {</span>
+<span class="fc" id="L371">			InputModel model = getOrCreateComponentModel();</span>
+<span class="fc" id="L372">			model.changedInLastRequest = changed;</span>
+		}
+<span class="fc" id="L374">	}</span>
+
+	// ================================
+	// Submit On Change
+	/**
+	 * Setting this flag to true will cause this component to post the form to the server when it changes.
+	 *
+	 * @param flag if true, the form is submitted when the component changes.
+	 */
+	void setSubmitOnChange(final boolean flag) {
+<span class="fc" id="L384">		setFlag(ComponentModel.SUBMIT_ON_CHANGE_FLAG, flag);</span>
+<span class="fc" id="L385">	}</span>
+
+	/**
+	 * Indicates whether the form should submit to server when the component's value changes.
+	 *
+	 * @return true if the form is submitted when the value changes.
+	 */
+	boolean isSubmitOnChange() {
+<span class="fc" id="L393">		return isFlagSet(ComponentModel.SUBMIT_ON_CHANGE_FLAG);</span>
+	}
+
+	/**
+	 * @return a String representation of this component, for debugging purposes.
+	 */
+	@Override
+	public String toString() {
+<span class="fc" id="L401">		String text = getValueAsString();</span>
+<span class="pc bpc" id="L402" title="1 of 2 branches missed.">		text = text == null ? &quot;null&quot; : '&quot;' + text + '&quot;';</span>
+<span class="fc" id="L403">		return toString(text);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected InputModel newComponentModel() {
+<span class="fc" id="L411">		return new InputModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	// For type safety only
+	protected InputModel getComponentModel() {
+<span class="fc" id="L420">		return (InputModel) super.getComponentModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	// For type safety only
+	protected InputModel getOrCreateComponentModel() {
+<span class="fc" id="L429">		return (InputModel) super.getOrCreateComponentModel();</span>
+	}
+
+	/**
+	 * InputModel holds Extrinsic state management of the field.
+	 */
+<span class="fc" id="L435">	public static class InputModel extends BeanAndProviderBoundComponentModel {</span>
+
+		/**
+		 * A flag if the input changed in the last request.
+		 */
+		private boolean changedInLastRequest;
+
+		/**
+		 * The action object to use on the change action event.
+		 */
+		private Object actionObject;
+
+		/**
+		 * The list of validators which have been added to this input.
+		 */
+		private List&lt;FieldValidator&gt; validators;
+
+		/**
+		 * The error message to display when the input fails the mandatory validation check.
+		 */
+		private String errorMessage;
+
+		/**
+		 * The submit button associated with this input field.
+		 */
+		private WButton defaultSubmitButton;
+
+		/**
+		 * The action that will be executed when the input field's value is changed by the user.
+		 */
+		private Action actionOnChange;
+
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

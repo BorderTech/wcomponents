@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WPopup.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">WPopup.java</span></div><h1>WPopup.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+/**
+ * This component enables a pop up browser window to an arbitrary location. Pop-ups are initially invisible, to display
+ * a pop-up, call {@link #setVisible(boolean)}. This will set the pop-up visible for the render cycle only.
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ */
+public class WPopup extends AbstractWComponent {
+
+	/**
+	 * Creates a new Window with no URL.
+	 */
+<span class="fc" id="L15">	public WPopup() {</span>
+		// Change default visibility to false.
+<span class="fc" id="L17">		getComponentModel().setFlags(ComponentModel.FLAGS_DEFAULT &amp; ~ComponentModel.VISIBLE_FLAG);</span>
+<span class="fc" id="L18">	}</span>
+
+	/**
+	 * Creates a new popup containing the specified content.
+	 *
+	 * @param url the popup url.
+	 */
+	public WPopup(final String url) {
+<span class="fc" id="L26">		this();</span>
+<span class="fc" id="L27">		getComponentModel().url = url;</span>
+<span class="fc" id="L28">	}</span>
+
+	/**
+	 * @return The height of the popup window. Default is 600px.
+	 */
+	public int getHeight() {
+<span class="fc" id="L34">		return getComponentModel().height;</span>
+	}
+
+	/**
+	 * Sets the window height.
+	 *
+	 * @param height The height of the popup window.
+	 */
+	public void setHeight(final int height) {
+<span class="fc" id="L43">		getOrCreateComponentModel().height = height;</span>
+<span class="fc" id="L44">	}</span>
+
+	/**
+	 * @return The width of the popup window. Default is 800px.
+	 */
+	public int getWidth() {
+<span class="fc" id="L50">		return getComponentModel().width;</span>
+	}
+
+	/**
+	 * Sets the popup window width.
+	 *
+	 * @param width The width of the popup window.
+	 */
+	public void setWidth(final int width) {
+<span class="fc" id="L59">		getOrCreateComponentModel().width = width;</span>
+<span class="fc" id="L60">	}</span>
+
+	/**
+	 * @return true if the popup window is resizable.
+	 */
+	public boolean isResizable() {
+<span class="fc" id="L66">		return getComponentModel().resizable;</span>
+	}
+
+	/**
+	 * Sets whether the popup window is resizable.
+	 *
+	 * @param resizable true if the popup window should be resizable, false if not.
+	 */
+	public void setResizable(final boolean resizable) {
+<span class="fc" id="L75">		getOrCreateComponentModel().resizable = resizable;</span>
+<span class="fc" id="L76">	}</span>
+
+	/**
+	 * @return true if the popup window is scrollable.
+	 */
+	public boolean isScrollable() {
+<span class="fc" id="L82">		return getComponentModel().scrollbars;</span>
+	}
+
+	/**
+	 * Sets whether the popup window should have a scroll bar.
+	 *
+	 * @param scrollable true if the popup window should have a scroll bar, false if not.
+	 */
+	public void setScrollable(final boolean scrollable) {
+<span class="fc" id="L91">		getOrCreateComponentModel().scrollbars = scrollable;</span>
+<span class="fc" id="L92">	}</span>
+
+	/**
+	 * @return the URL.
+	 */
+	public String getUrl() {
+<span class="fc" id="L98">		return getComponentModel().url;</span>
+	}
+
+	/**
+	 * Sets the URL.
+	 *
+	 * @param url the URL to set.
+	 */
+	public void setUrl(final String url) {
+<span class="fc" id="L107">		getOrCreateComponentModel().url = url;</span>
+<span class="fc" id="L108">	}</span>
+
+	/**
+	 * Retrieves the target window name.
+	 *
+	 * @return the target window name.
+	 */
+	public String getTargetWindow() {
+<span class="fc" id="L116">		return getComponentModel().targetWindow;</span>
+	}
+
+	/**
+	 * Sets the target window name.
+	 *
+	 * @param targetWindow the target window name.
+	 */
+	public void setTargetWindow(final String targetWindow) {
+<span class="fc" id="L125">		getOrCreateComponentModel().targetWindow = targetWindow;</span>
+<span class="fc" id="L126">	}</span>
+
+	/**
+	 * Make the popup not visible after painting.
+	 *
+	 * @param renderContext the renderContext to send output to.
+	 */
+	@Override
+	protected void afterPaint(final RenderContext renderContext) {
+<span class="fc" id="L135">		super.afterPaint(renderContext);</span>
+<span class="fc" id="L136">		setVisible(false);</span>
+<span class="fc" id="L137">	}</span>
+
+	/**
+	 * @return a String representation of this component, for debugging purposes.
+	 */
+	@Override
+	public String toString() {
+<span class="nc" id="L144">		String text = getUrl();</span>
+<span class="nc bnc" id="L145" title="All 2 branches missed.">		text = text == null ? &quot;null&quot; : ('&quot;' + text + '&quot;');</span>
+<span class="nc" id="L146">		return toString(text);</span>
+	}
+
+	// ---------------------------------------------------------------------------
+	// Extrinsic state management
+	// ---------------------------------------------------------------------------
+	/**
+	 * Stores the WPopup state information.
+	 *
+	 * @author Yiannis Paschalidis
+	 */
+<span class="fc" id="L157">	public static class PopupModel extends ComponentModel {</span>
+
+		/**
+		 * The pop-up window width.
+		 */
+<span class="fc" id="L162">		private int width = -1;</span>
+
+		/**
+		 * The pop-up window width.
+		 */
+<span class="fc" id="L167">		private int height = -1;</span>
+
+		/**
+		 * Indicates whether the popup windows should allow resizing.
+		 */
+<span class="fc" id="L172">		private boolean resizable = true;</span>
+
+		/**
+		 * Indicates whether the popup windows should allow scrolling.
+		 */
+<span class="fc" id="L177">		private boolean scrollbars = false;</span>
+
+		/**
+		 * The pop-up window URL.
+		 */
+		private String url;
+
+		/**
+		 * The name of the target window to open.
+		 */
+		private String targetWindow;
+
+	}
+
+	/**
+	 * Creates a new component model.
+	 *
+	 * @return a new PopupModel.
+	 */
+	@Override
+	protected PopupModel newComponentModel() {
+<span class="fc" id="L198">		return new PopupModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected PopupModel getComponentModel() {
+<span class="fc" id="L206">		return (PopupModel) super.getComponentModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected PopupModel getOrCreateComponentModel() {
+<span class="fc" id="L214">		return (PopupModel) super.getOrCreateComponentModel();</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

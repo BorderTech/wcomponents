@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>And.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.subordinate</a> &gt; <span class="el_source">And.java</span></div><h1>And.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.subordinate;
+
+import com.github.bordertech.wcomponents.Request;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+/**
+ * A logical AND of two or more conditions.
+ *
+ * @author Martin Shevchenko
+ * @author Jonathan Austin
+ * @since 1.0.0
+ */
+public class And extends AbstractCondition {
+
+	/**
+	 * The list of conditions.
+	 */
+<span class="fc" id="L20">	private final List&lt;Condition&gt; conditions = new ArrayList&lt;&gt;(2);</span>
+
+	/**
+	 * Creates an And condition.
+	 *
+	 * @param condition1 the first condition.
+	 * @param condition2 the second condition.
+	 */
+<span class="fc" id="L28">	public And(final Condition condition1, final Condition condition2) {</span>
+<span class="fc" id="L29">		conditions.add(condition1);</span>
+<span class="fc" id="L30">		conditions.add(condition2);</span>
+<span class="fc" id="L31">	}</span>
+
+	/**
+	 * Create an And condition with 3 or more conditions.
+	 *
+	 * @param condition1 the first condition
+	 * @param condition2 the second condition
+	 * @param conditions3 the nth conditions
+	 */
+	public And(final Condition condition1, final Condition condition2,
+<span class="fc" id="L41">			final Condition... conditions3) {</span>
+<span class="fc" id="L42">		conditions.add(condition1);</span>
+<span class="fc" id="L43">		conditions.add(condition2);</span>
+
+<span class="fc bfc" id="L45" title="All 2 branches covered.">		for (Condition condition : conditions3) {</span>
+<span class="fc" id="L46">			conditions.add(condition);</span>
+		}
+<span class="fc" id="L48">	}</span>
+
+	/**
+	 * Evaluates the condition. Note that this uses the short-circuit and operator, so condition 'b' will not
+	 * necessarily be evaluated.
+	 *
+	 * @return true if all conditions are true, otherwise false
+	 */
+	@Override
+	protected boolean execute() {
+<span class="fc bfc" id="L58" title="All 2 branches covered.">		for (Condition condition : conditions) {</span>
+<span class="fc bfc" id="L59" title="All 2 branches covered.">			if (!condition.isTrue()) {</span>
+<span class="fc" id="L60">				return false;</span>
+			}
+<span class="fc" id="L62">		}</span>
+
+<span class="fc" id="L64">		return true;</span>
+	}
+
+	/**
+	 * Evaluates the condition using values on the Request. Note that this uses the short-circuit and operator, so
+	 * condition 'b' will not necessarily be evaluated.
+	 *
+	 * @param request the request being processed.
+	 * @return true if all conditions are true, otherwise false
+	 */
+	@Override
+	protected boolean execute(final Request request) {
+<span class="fc bfc" id="L76" title="All 2 branches covered.">		for (Condition condition : conditions) {</span>
+<span class="fc bfc" id="L77" title="All 2 branches covered.">			if (!condition.isTrue(request)) {</span>
+<span class="fc" id="L78">				return false;</span>
+			}
+<span class="fc" id="L80">		}</span>
+
+<span class="fc" id="L82">		return true;</span>
+	}
+
+	/**
+	 * @return the conditions which will be combined with a logical AND.
+	 */
+	public List&lt;Condition&gt; getConditions() {
+<span class="fc" id="L89">		return Collections.unmodifiableList(conditions);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String toString() {
+<span class="fc" id="L97">		StringBuffer buf = new StringBuffer();</span>
+<span class="fc" id="L98">		buf.append('(');</span>
+
+<span class="fc" id="L100">		boolean firstCond = true;</span>
+<span class="fc bfc" id="L101" title="All 2 branches covered.">		for (Condition cond : getConditions()) {</span>
+<span class="fc bfc" id="L102" title="All 2 branches covered.">			if (!firstCond) {</span>
+<span class="fc" id="L103">				buf.append(&quot; and &quot;);</span>
+			}
+<span class="fc" id="L105">			buf.append(cond);</span>
+<span class="fc" id="L106">			firstCond = false;</span>
+<span class="fc" id="L107">		}</span>
+
+<span class="fc" id="L109">		buf.append(')');</span>
+<span class="fc" id="L110">		return buf.toString();</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

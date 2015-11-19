@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WMessageBox.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">WMessageBox.java</span></div><h1>WMessageBox.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import com.github.bordertech.wcomponents.util.Duplet;
+import com.github.bordertech.wcomponents.util.I18nUtilities;
+import java.io.Serializable;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+/**
+ * &lt;p&gt;
+ * A &lt;code&gt;WMessageBox&lt;/code&gt; is a component that renders a collection of informational messages. Most commonly placed
+ * near the top of an application's UI.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * The different message types catered for here are:
+ * &lt;/p&gt;
+ * &lt;ul&gt;
+ * &lt;li&gt;Error - For reporting system and application errors.&lt;/li&gt;
+ * &lt;li&gt;Warning - For warning users about the possible consequences of an action. The process may continue.&lt;/li&gt;
+ * &lt;li&gt;Information - For providing general information.&lt;/li&gt;
+ * &lt;li&gt;Success - For reporting on the success of an action or operation.&lt;/li&gt;
+ * &lt;/ul&gt;
+ * &lt;p&gt;
+ * &lt;b&gt;NOTE:&lt;/b&gt; Validation errors should be provided via the component
+ * {@link com.github.bordertech.wcomponents.validation.WValidationErrors}.
+ * &lt;/p&gt;
+ *
+ * @see com.github.bordertech.wcomponents.validation.WValidationErrors
+ * @see com.github.bordertech.wcomponents.WMessages
+ * @author Ming Gao
+ * @author Adam Millard
+ * @author Jonathan Austin
+ */
+public class WMessageBox extends AbstractWComponent implements AjaxTarget, SubordinateTarget {
+
+	/**
+	 * The message box type used to display &quot;success&quot; messages.
+	 */
+<span class="fc" id="L41">	public static final Type SUCCESS = Type.SUCCESS;</span>
+
+	/**
+	 * The message box type used to display informational messages.
+	 */
+<span class="fc" id="L46">	public static final Type INFO = Type.INFO;</span>
+
+	/**
+	 * The message box type used to display warning messages.
+	 */
+<span class="fc" id="L51">	public static final Type WARN = Type.WARN;</span>
+
+	/**
+	 * The message box type used to display error messages.
+	 */
+<span class="fc" id="L56">	public static final Type ERROR = Type.ERROR;</span>
+
+	/**
+	 * An enumeration of message box types.
+	 */
+<span class="pc" id="L61">	public enum Type {</span>
+		/**
+		 * The message box type used to display &quot;success&quot; messages.
+		 */
+<span class="fc" id="L65">		SUCCESS,</span>
+		/**
+		 * The message box type used to display informational messages.
+		 */
+<span class="fc" id="L69">		INFO,</span>
+		/**
+		 * The message box type used to display warning messages.
+		 */
+<span class="fc" id="L73">		WARN,</span>
+		/**
+		 * The message box type used to display error messages.
+		 */
+<span class="fc" id="L77">		ERROR</span>
+	}
+
+	/**
+	 * Holds the extrinsic state information of a WMessageBox.
+	 *
+	 * @author Ming Gao
+	 * @author Adam Millard
+	 */
+<span class="fc" id="L86">	public static class MessageModel extends ComponentModel {</span>
+
+		/**
+		 * Message box type.
+		 */
+		private Type type;
+		/**
+		 * Message with encoding flag.
+		 */
+<span class="fc" id="L95">		private final List&lt;Duplet&lt;Serializable, Boolean&gt;&gt; messages = new ArrayList&lt;&gt;();</span>
+	}
+
+	/**
+	 * Creates a WMessageBox of the given type.
+	 *
+	 * @param type the messageBox type, one of {@link #SUCCESS}, {@link #INFO}, {@link #WARN} or {@link #ERROR}.
+	 */
+<span class="fc" id="L103">	public WMessageBox(final Type type) {</span>
+<span class="fc bfc" id="L104" title="All 2 branches covered.">		if (type == null) {</span>
+<span class="fc" id="L105">			throw new IllegalArgumentException(&quot;Message type cannot be null&quot;);</span>
+		}
+<span class="fc" id="L107">		setType(type);</span>
+<span class="fc" id="L108">	}</span>
+
+	/**
+	 * Creates a WMessageBox of the given type with an initial message.
+	 *
+	 * @param type the messageBox type, one of {@link #SUCCESS}, {@link #INFO}, {@link #WARN} or {@link #ERROR}.
+	 * @param msg the initial message to display, using {@link MessageFormat} syntax.
+	 * @param args optional arguments for the message format string.
+	 */
+	public WMessageBox(final Type type, final String msg, final Serializable... args) {
+<span class="fc" id="L118">		this(type, true, msg, args);</span>
+<span class="fc" id="L119">	}</span>
+
+	/**
+	 * Creates a WMessageBox of the given type with an initial message.
+	 *
+	 * @param type the messageBox type, one of {@link #SUCCESS}, {@link #INFO}, {@link #WARN} or {@link #ERROR}.
+	 * @param encode true to encode the message text, false to leave it unencoded.
+	 * @param msg the initial message to display, using {@link MessageFormat} syntax.
+	 * @param args optional arguments for the message format string.
+	 */
+	public WMessageBox(final Type type, final boolean encode, final String msg,
+			final Serializable... args) {
+<span class="fc" id="L131">		this(type);</span>
+<span class="fc" id="L132">		addMessage(encode, msg, args);</span>
+<span class="fc" id="L133">	}</span>
+
+	/**
+	 * Sets the message box type.
+	 *
+	 * @param type the messageBox type, one of {@link #SUCCESS}, {@link #INFO}, {@link #WARN} or {@link #ERROR}.
+	 */
+	public void setType(final Type type) {
+<span class="fc" id="L141">		getOrCreateComponentModel().type = type;</span>
+<span class="fc" id="L142">	}</span>
+
+	/**
+	 * @return the message box type for the given context.
+	 */
+	public Type getType() {
+<span class="fc" id="L148">		return getComponentModel().type;</span>
+	}
+
+	/**
+	 * Adds a message to the message box.
+	 *
+	 * @param msg the text of the message to add, using {@link MessageFormat} syntax.
+	 * @param args optional arguments for the message format string.
+	 */
+	public void addMessage(final String msg, final Serializable... args) {
+<span class="fc" id="L158">		addMessage(true, msg, args);</span>
+<span class="fc" id="L159">	}</span>
+
+	/**
+	 * Adds a message to the message box.
+	 *
+	 * @param encode true to encode the message text, false to leave it unencoded.
+	 * @param msg the text of the message to add, using {@link MessageFormat} syntax.
+	 * @param args optional arguments for the message format string.
+	 */
+	public void addMessage(final boolean encode, final String msg, final Serializable... args) {
+<span class="fc" id="L169">		MessageModel model = getOrCreateComponentModel();</span>
+<span class="fc" id="L170">		model.messages.add(new Duplet&lt;&gt;(I18nUtilities.asMessage(msg, args), encode));</span>
+<span class="fc" id="L171">	}</span>
+
+	/**
+	 * Removes a message from the message box.
+	 *
+	 * @param index the index of the message to remove.
+	 */
+	public void removeMessage(final int index) {
+<span class="fc" id="L179">		getOrCreateComponentModel().messages.remove(index);</span>
+<span class="fc" id="L180">	}</span>
+
+	/**
+	 * Removes a message from the message box.
+	 *
+	 * @param index the index of the mssage to remove.
+	 */
+	public void removeMessages(final int index) {
+<span class="fc" id="L188">		MessageModel model = getOrCreateComponentModel();</span>
+
+<span class="pc bpc" id="L190" title="1 of 2 branches missed.">		if (model.messages != null) {</span>
+<span class="fc" id="L191">			model.messages.remove(index);</span>
+		}
+<span class="fc" id="L193">	}</span>
+
+	/**
+	 * Removes all messages from the message box.
+	 */
+	public void clearMessages() {
+<span class="fc" id="L199">		MessageModel model = getOrCreateComponentModel();</span>
+
+<span class="pc bpc" id="L201" title="1 of 2 branches missed.">		if (model.messages != null) {</span>
+<span class="fc" id="L202">			model.messages.clear();</span>
+		}
+<span class="fc" id="L204">	}</span>
+
+	/**
+	 * Retrieves the list of messages.
+	 *
+	 * @return the messages for the current context.
+	 */
+	public List&lt;String&gt; getMessages() {
+<span class="fc" id="L212">		MessageModel model = getComponentModel();</span>
+
+<span class="fc" id="L214">		List&lt;String&gt; messages = new ArrayList&lt;&gt;(model.messages.size());</span>
+
+<span class="fc bfc" id="L216" title="All 2 branches covered.">		for (Duplet&lt;Serializable, Boolean&gt; message : model.messages) {</span>
+<span class="fc" id="L217">			String text = I18nUtilities.format(null, message.getFirst());</span>
+<span class="fc bfc" id="L218" title="All 2 branches covered.">			messages.add(message.getSecond() ? WebUtilities.encode(text) : text);</span>
+<span class="fc" id="L219">		}</span>
+
+<span class="fc" id="L221">		return Collections.unmodifiableList(messages);</span>
+	}
+
+	/**
+	 * Indicates whether the message box contains messages in the given context.
+	 *
+	 * @return true if the message box contains at least one message.
+	 */
+	public boolean hasMessages() {
+<span class="fc" id="L230">		List&lt;String&gt; msgs = getMessages();</span>
+<span class="fc bfc" id="L231" title="All 2 branches covered.">		return !msgs.isEmpty();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String toString() {
+<span class="nc" id="L239">		String details = String.valueOf(getType()) + ':' + getMessages();</span>
+<span class="nc" id="L240">		return toString(details);</span>
+	}
+
+	// --------------------------------
+	// Extrinsic state management
+	/**
+	 * Creates a new component model appropriate for this component.
+	 *
+	 * @return a new MessageModel.
+	 */
+	@Override
+	protected ComponentModel newComponentModel() {
+<span class="fc" id="L252">		return new MessageModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	// For type safety only
+	protected MessageModel getComponentModel() {
+<span class="fc" id="L261">		return (MessageModel) super.getComponentModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	// For type safety only
+	protected MessageModel getOrCreateComponentModel() {
+<span class="fc" id="L270">		return (MessageModel) super.getOrCreateComponentModel();</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

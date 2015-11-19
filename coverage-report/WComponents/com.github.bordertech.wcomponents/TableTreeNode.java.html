@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>TableTreeNode.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">TableTreeNode.java</span></div><h1>TableTreeNode.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import com.github.bordertech.wcomponents.util.AbstractTreeNode;
+import com.github.bordertech.wcomponents.util.TreeNode;
+import java.io.Serializable;
+
+/**
+ * &lt;p&gt;
+ * An extension of AbstractTreeNode that supports a data attribute, the concept of being expanded/collapsed and
+ * node-specific renderers.&lt;/p&gt;
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ *
+ * @deprecated Use {@link WTable} and {@link WTable.TableModel} instead.
+ */
+@Deprecated
+public class TableTreeNode extends AbstractTreeNode {
+
+	/**
+	 * Indicates whether this node is in the expanded state.
+	 */
+<span class="fc" id="L23">	private boolean expanded = false;</span>
+
+	/**
+	 * This node's data.
+	 */
+	private final Serializable data;
+
+	/**
+	 * The renderer class for this row.
+	 */
+<span class="fc" id="L33">	private Class&lt;? extends WComponent&gt; rendererClass = null;</span>
+
+	/**
+	 * Indicates whether the {@link #rendererClass custom renderer} spans the entire row.
+	 */
+<span class="fc" id="L38">	private boolean rendererSpansAllCols = true;</span>
+
+	/**
+	 * For quick counting of nodes.
+	 */
+<span class="fc" id="L43">	private int nodeCount = 0;</span>
+
+	/**
+	 * Creates a TableTreeNode with the specified data. The data may be an id or complex data, and should be used in the
+	 * {@link AbstractTreeTableDataModel#getValueAt(TableTreeNode, int)} method.
+	 *
+	 * @param data the data for this node.
+	 */
+<span class="fc" id="L51">	public TableTreeNode(final Serializable data) {</span>
+<span class="fc" id="L52">		this.data = data;</span>
+<span class="fc" id="L53">	}</span>
+
+	/**
+	 * Creates a TableTreeNode with the specified data. The data may be an id or complex data, and should be used in the
+	 * {@link AbstractTreeTableDataModel#getValueAt(TableTreeNode, int)} method.
+	 *
+	 * @param data the data for this node.
+	 * @param rendererClass The renderer class for this row.
+	 * @param rendererSpansAllCols true if the renderer should span all columns, false to only span the first.
+	 */
+	public TableTreeNode(final Serializable data, final Class&lt;? extends WComponent&gt; rendererClass,
+<span class="fc" id="L64">			final boolean rendererSpansAllCols) {</span>
+<span class="fc" id="L65">		this.data = data;</span>
+<span class="fc" id="L66">		this.rendererClass = rendererClass;</span>
+<span class="fc" id="L67">		this.rendererSpansAllCols = rendererSpansAllCols;</span>
+<span class="fc" id="L68">	}</span>
+
+	/**
+	 * @return this node's data.
+	 */
+	public Serializable getData() {
+<span class="fc" id="L74">		return data;</span>
+	}
+
+	/**
+	 * @return the next visible node, in depth-first order.
+	 */
+	public TableTreeNode nextVisible() {
+<span class="pc bpc" id="L81" title="1 of 2 branches missed.">		if (!isVisible()) {</span>
+<span class="nc" id="L82">			return null;</span>
+		}
+
+<span class="fc bfc" id="L85" title="All 4 branches covered.">		if (getChildCount() &gt; 0 &amp;&amp; expanded) {</span>
+<span class="fc" id="L86">			return (TableTreeNode) getChildAt(0);</span>
+<span class="fc bfc" id="L87" title="All 2 branches covered.">		} else if (getParent() != null) {</span>
+<span class="fc bfc" id="L88" title="All 2 branches covered.">			for (TreeNode node = this; node != null; node = node.getParent()) {</span>
+<span class="fc" id="L89">				TableTreeNode sibling = ((TableTreeNode) node).nextSibling();</span>
+
+<span class="fc bfc" id="L91" title="All 2 branches covered.">				if (sibling != null) {</span>
+<span class="fc" id="L92">					return sibling;</span>
+				}
+			}
+		}
+
+<span class="fc" id="L97">		return null;</span>
+	}
+
+	/**
+	 * @return the next node, in depth-first order.
+	 */
+	public TableTreeNode next() {
+<span class="fc bfc" id="L104" title="All 2 branches covered.">		if (getChildCount() &gt; 0) {</span>
+<span class="fc" id="L105">			return (TableTreeNode) getChildAt(0);</span>
+<span class="fc bfc" id="L106" title="All 2 branches covered.">		} else if (getParent() != null) {</span>
+<span class="fc bfc" id="L107" title="All 2 branches covered.">			for (TreeNode node = this; node != null; node = node.getParent()) {</span>
+<span class="fc" id="L108">				TableTreeNode sibling = ((TableTreeNode) node).nextSibling();</span>
+
+<span class="fc bfc" id="L110" title="All 2 branches covered.">				if (sibling != null) {</span>
+<span class="fc" id="L111">					return sibling;</span>
+				}
+			}
+		}
+
+<span class="fc" id="L116">		return null;</span>
+	}
+
+	/**
+	 * Indicates whether this node is currently visible (ie. all ancestors are expanded).
+	 *
+	 * @return true if this node is currently visible, otherwise false.
+	 */
+	private boolean isVisible() {
+		// Root is always visible
+<span class="fc bfc" id="L126" title="All 2 branches covered.">		if (getParent() == null) {</span>
+<span class="fc" id="L127">			return true;</span>
+		}
+
+<span class="fc" id="L130">		TableTreeNode parent = (TableTreeNode) getParent();</span>
+<span class="pc bpc" id="L131" title="2 of 4 branches missed.">		return parent.isVisible() &amp;&amp; parent.isExpanded();</span>
+	}
+
+	/**
+	 * @return the next sibling of this node, or null if there is none.
+	 */
+	protected TableTreeNode nextSibling() {
+<span class="fc" id="L138">		TreeNode parent = getParent();</span>
+
+<span class="fc bfc" id="L140" title="All 2 branches covered.">		if (parent != null) {</span>
+<span class="fc" id="L141">			int index = parent.getIndex(this) + 1;</span>
+<span class="fc" id="L142">			int childCount = parent.getChildCount();</span>
+
+<span class="fc bfc" id="L144" title="All 2 branches covered.">			if (index &lt; childCount) {</span>
+<span class="fc" id="L145">				return (TableTreeNode) parent.getChildAt(index);</span>
+			}
+		}
+
+<span class="fc" id="L149">		return null;</span>
+	}
+
+	/**
+	 * @return the row index of this node.
+	 */
+	public int getRowIndex() {
+<span class="fc" id="L156">		int index = 0;</span>
+<span class="fc" id="L157">		TableTreeNode root = (TableTreeNode) getRoot();</span>
+
+<span class="pc bpc" id="L159" title="1 of 2 branches missed.">		for (TableTreeNode node = root; node != null; node = node.next()) {</span>
+<span class="fc bfc" id="L160" title="All 2 branches covered.">			if (node == this) {</span>
+<span class="fc" id="L161">				return index;</span>
+			}
+
+<span class="fc" id="L164">			index++;</span>
+		}
+
+		// impossible
+<span class="nc" id="L168">		return -1;</span>
+	}
+
+	/**
+	 * @return true if this node is expanded, false otherwise.
+	 */
+	public boolean isExpanded() {
+<span class="fc" id="L175">		return expanded;</span>
+	}
+
+	/**
+	 * Sets whether this node is expanded.
+	 *
+	 * @param expanded true to set this node expanded this node, false for collapsed.
+	 */
+	public void setExpanded(final boolean expanded) {
+<span class="fc" id="L184">		this.expanded = expanded;</span>
+<span class="fc" id="L185">	}</span>
+
+	/**
+	 * Retrieves the custom renderer for this node.
+	 *
+	 * @return the renderer class, or null if the default renderer is to be used.
+	 */
+	public Class&lt;? extends WComponent&gt; getRendererClass() {
+<span class="fc" id="L193">		return rendererClass;</span>
+	}
+
+	/**
+	 * Sets the renderer to be used to render the row for this node. If null, the default table row renderer will be
+	 * used.
+	 *
+	 * @param rendererClass The renderer class to set.
+	 */
+	public void setRendererClass(final Class&lt;? extends WComponent&gt; rendererClass) {
+<span class="fc" id="L203">		this.rendererClass = rendererClass;</span>
+<span class="fc" id="L204">	}</span>
+
+	/**
+	 * Indicates whether the custom renderer, if set, should span all table columns.
+	 *
+	 * @return true if the custom renderer should span all columns, false to only span the first.
+	 */
+	public boolean isRendererSpansAllCols() {
+<span class="fc" id="L212">		return rendererSpansAllCols;</span>
+	}
+
+	/**
+	 * Sets whether the custom renderer should span all table columns.
+	 *
+	 * @param rendererSpansAllCols true to span all columns, false to only span the first.
+	 */
+	public void setRendererSpansAllCols(final boolean rendererSpansAllCols) {
+<span class="fc" id="L221">		this.rendererSpansAllCols = rendererSpansAllCols;</span>
+<span class="fc" id="L222">	}</span>
+
+	/**
+	 * @return the number of nodes contained in this node.
+	 */
+	public int getNodeCount() {
+<span class="fc" id="L228">		return nodeCount;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void add(final TreeNode node) {
+<span class="fc" id="L236">		super.add(node);</span>
+<span class="fc" id="L237">		adjustNodeCount(((TableTreeNode) node).nodeCount + 1);</span>
+<span class="fc" id="L238">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void remove(final TreeNode node) {
+<span class="fc" id="L245">		super.remove(node);</span>
+<span class="fc" id="L246">		adjustNodeCount(-((TableTreeNode) node).nodeCount - 1);</span>
+<span class="fc" id="L247">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void removeAll() {
+<span class="nc" id="L254">		super.removeAll();</span>
+<span class="nc" id="L255">		adjustNodeCount(-nodeCount);</span>
+<span class="nc" id="L256">	}</span>
+
+	/**
+	 * Adjusts the node count of this node and all parent nodes. Called when nodes are being added/removed from the
+	 * tree.
+	 *
+	 * @param delta the change in the node count.
+	 */
+	private void adjustNodeCount(final int delta) {
+<span class="fc bfc" id="L265" title="All 2 branches covered.">		for (TableTreeNode parent = this; parent != null; parent = (TableTreeNode) parent.</span>
+<span class="fc" id="L266">				getParent()) {</span>
+<span class="fc" id="L267">			parent.nodeCount += delta;</span>
+		}
+<span class="fc" id="L269">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

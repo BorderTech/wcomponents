@@ -1,0 +1,824 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WTabSet.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">WTabSet.java</span></div><h1>WTabSet.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import com.github.bordertech.wcomponents.util.Util;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+
+/**
+ * &lt;p&gt;
+ * This component enables rendering of a set of tabbed components.
+ * &lt;/p&gt;
+ *
+ * &lt;p&gt;
+ * A &lt;code&gt;WTabSet&lt;/code&gt; WComponent has the following functionality:
+ * &lt;/p&gt;
+ * &lt;ul&gt;
+ * &lt;li&gt;The ability to render as different types of client-side tab controls.&lt;/li&gt;
+ * &lt;li&gt;The ability to process each tab control on the client side (via JavaScript) or Server side processing.&lt;/li&gt;
+ * &lt;li&gt; The ability to set the active tab(s). By default it is the first in the list and can be set via the following
+ * methods:
+ * &lt;ul&gt;
+ * &lt;li&gt;{@link #setActiveIndex(int)} to set the active tab as the index corresponding to the order of tabs at
+ * construction time.&lt;/li&gt;
+ * &lt;li&gt;{@link #setActiveTab(WComponent)} to set the active tab that matches the WComponent supplied at construction time
+ * (see {@link #addTab(WComponent, String, TabMode)}).&lt;/li&gt;
+ * &lt;/ul&gt;
+ * &lt;/li&gt;
+ * &lt;/ul&gt;
+ *
+ * &lt;p&gt;
+ * &lt;b&gt;NOTE:&lt;/b&gt; When setting the tab set type to be LEFT or RIGHT you should make use of the method
+ * {@link #setContentHeight(String)} to provide a sensible default height for the tab set. Otherwise, it will default to
+ * the height of one tab.&lt;/p&gt;
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ */
+public class WTabSet extends AbstractNamingContextContainer implements Disableable, AjaxTarget,
+		Marginable, SubordinateTarget {
+
+	/**
+	 * The available types of client-side tab sets.
+	 *
+	 * @author Yiannis Paschalidis
+	 */
+<span class="pc" id="L47">	public enum TabSetType {</span>
+		/**
+		 * Displays the TabSet tabs horizontally, above the tab content area.
+		 */
+<span class="fc" id="L51">		TOP,</span>
+		/**
+		 * Displays the TabSet tabs vertically, to the left of the tab content area.
+		 */
+<span class="fc" id="L55">		LEFT,</span>
+		/**
+		 * Displays the TabSet tabs vertically, to the right of the tab content area.
+		 */
+<span class="fc" id="L59">		RIGHT,</span>
+		/**
+		 * A special TabSet display, where Tabs and their content are interleaved vertically.
+		 */
+<span class="fc" id="L63">		ACCORDION,</span>
+		/**
+		 * A styled version of the Left TabSet, where tabs do not contain any content.
+		 */
+<span class="fc" id="L67">		APPLICATION</span>
+	};
+
+	/**
+	 * The available types of tab invocation.
+	 *
+	 * @author Yiannis Paschalidis
+	 */
+<span class="pc" id="L75">	public enum TabMode {</span>
+		/**
+		 * Indicates that a round-trip should be made whenever the tab is selected.
+		 *
+		 * @deprecated Use TabMode DYNAMIC instead as a like-for-like replacement or any other mode if it is more
+		 * appropriate to the individual use case.
+		 */
+<span class="fc" id="L82">		SERVER,</span>
+		/**
+		 * Indicates that an ajax request should be made the first time the tab is selected.
+		 */
+<span class="fc" id="L86">		LAZY,</span>
+		/**
+		 * Indicates that the tab content is always sent to the client.
+		 */
+<span class="fc" id="L90">		CLIENT,</span>
+		/**
+		 * Indicates that an ajax request should be made whenever the tab is selected.
+		 */
+<span class="fc" id="L94">		DYNAMIC,</span>
+		/**
+		 * Indicates that an ajax request should be made immediately after the page is loaded.
+		 */
+<span class="fc" id="L98">		EAGER</span>
+	};
+
+	/**
+	 * A tab-set where tab buttons are placed above the content.
+	 */
+<span class="fc" id="L104">	public static final TabSetType TYPE_TOP = TabSetType.TOP;</span>
+	/**
+	 * A tab-set where tab buttons are placed to the left of the content.
+	 */
+<span class="fc" id="L108">	public static final TabSetType TYPE_LEFT = TabSetType.LEFT;</span>
+	/**
+	 * A tab-set where tab buttons are placed to the right of the content.
+	 */
+<span class="fc" id="L112">	public static final TabSetType TYPE_RIGHT = TabSetType.RIGHT;</span>
+	/**
+	 * An &quot;accordion&quot; type tab-set, that supports having multiple open tabs.
+	 */
+<span class="fc" id="L116">	public static final TabSetType TYPE_ACCORDION = TabSetType.ACCORDION;</span>
+	/**
+	 * An &quot;application&quot; type tab-set, that supports having multiple open tabs.
+	 */
+<span class="fc" id="L120">	public static final TabSetType TYPE_APPLICATION = TabSetType.APPLICATION;</span>
+
+	/**
+	 * A tab mode where invoking the tab will always perform a round-trip to the server.
+	 *
+	 * @deprecated Use TAB_MODE_DYNAMIC instead as a like-for-like replacement or any other mode if it is more
+	 * appropriate to the individual use case.
+	 */
+	@Deprecated
+<span class="fc" id="L129">	public static final TabMode TAB_MODE_SERVER = TabMode.SERVER;</span>
+	/**
+	 * A tab mode where invoking the tab will perform an ajax request the first time the tab is requested.
+	 */
+<span class="fc" id="L133">	public static final TabMode TAB_MODE_LAZY = TabMode.LAZY;</span>
+	/**
+	 * A tab mode where tab content is always rendered, and invoking the tab only results in a client-side switch.
+	 */
+<span class="fc" id="L137">	public static final TabMode TAB_MODE_CLIENT = TabMode.CLIENT;</span>
+	/**
+	 * A tab mode where invoking the tab will perform an ajax request every time the tab is requested.
+	 */
+<span class="fc" id="L141">	public static final TabMode TAB_MODE_DYNAMIC = TabMode.DYNAMIC;</span>
+	/**
+	 * A tab mode where invoking the tab will perform an ajax request immediately after the page is loaded.
+	 */
+<span class="fc" id="L145">	public static final TabMode TAB_MODE_EAGER = TabMode.EAGER;</span>
+
+	/**
+	 * Creates a WTabSet with the tabs positioned on the top.
+	 */
+	public WTabSet() {
+<span class="fc" id="L151">		this(TYPE_TOP);</span>
+<span class="fc" id="L152">	}</span>
+
+	/**
+	 * Creates a WTabSet of the given type.
+	 *
+	 * @param type the tab set type.
+	 */
+<span class="fc" id="L159">	public WTabSet(final TabSetType type) {</span>
+<span class="fc" id="L160">		getComponentModel().type = type;</span>
+<span class="fc" id="L161">	}</span>
+
+	/**
+	 * @return the tab set type.
+	 */
+	public TabSetType getType() {
+<span class="fc" id="L167">		return getComponentModel().type;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setMargin(final Margin margin) {
+<span class="fc" id="L175">		getOrCreateComponentModel().margin = margin;</span>
+<span class="fc" id="L176">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Margin getMargin() {
+<span class="fc" id="L183">		return getComponentModel().margin;</span>
+	}
+
+	/**
+	 * Sets the content height of the tab set. This is primarily used for tab sets where the tabs are positioned on the
+	 * left or right, to limit the height of the tab set.
+	 *
+	 * @param contentHeight the content height, measured in a valid CSS unit, e.g. &quot;10em&quot;.
+	 */
+	public void setContentHeight(final String contentHeight) {
+<span class="fc" id="L193">		getOrCreateComponentModel().contentHeight = contentHeight;</span>
+<span class="fc" id="L194">	}</span>
+
+	/**
+	 * @return the tab set's content height, if set, otherwise null.
+	 */
+	public String getContentHeight() {
+<span class="fc" id="L200">		return getComponentModel().contentHeight;</span>
+	}
+
+	/**
+	 * Adds a tab to the tab set.
+	 *
+	 * @param content the tab set content.
+	 * @param tabName the tab name.
+	 * @param mode the tab mode.
+	 * @return the tab which was added to the tab set.
+	 */
+	public WTab addTab(final WComponent content, final String tabName, final TabMode mode) {
+<span class="fc" id="L212">		WTab tab = new WTab(content, tabName, mode);</span>
+<span class="fc" id="L213">		add(tab);</span>
+
+<span class="fc" id="L215">		return tab;</span>
+	}
+
+	/**
+	 * Adds a tab to the tab set.
+	 *
+	 * @param content the tab set content.
+	 * @param tabName the tab name.
+	 * @param mode the tab mode.
+	 * @param accessKey the access key used to activate the tab.
+	 * @return the tab which was added to the tab set.
+	 */
+	public WTab addTab(final WComponent content, final String tabName, final TabMode mode,
+			final char accessKey) {
+<span class="fc" id="L229">		WTab tab = new WTab(content, tabName, mode, accessKey);</span>
+<span class="fc" id="L230">		add(tab);</span>
+
+<span class="fc" id="L232">		return tab;</span>
+	}
+
+	/**
+	 * Adds a tab to the tab set.
+	 *
+	 * @param content the tab set content.
+	 * @param label the tab's label, which can contain rich content (images or other components).
+	 * @param mode the tab mode.
+	 * @return the tab which was added to the tab set.
+	 */
+	public WTab addTab(final WComponent content, final WDecoratedLabel label, final TabMode mode) {
+<span class="fc" id="L244">		WTab tab = new WTab(content, label, mode);</span>
+<span class="fc" id="L245">		add(tab);</span>
+
+<span class="fc" id="L247">		return tab;</span>
+	}
+
+	/**
+	 * Adds a tab to the tab set.
+	 *
+	 * @param content the tab set content.
+	 * @param label the tab's label, which can contain rich content (images or other components).
+	 * @param mode the tab mode.
+	 * @param accessKey the access key used to activate the tab.
+	 * @return the tab which was added to the tab set.
+	 */
+	public WTab addTab(final WComponent content, final WDecoratedLabel label, final TabMode mode,
+			final char accessKey) {
+<span class="fc" id="L261">		WTab tab = new WTab(content, label, mode, accessKey);</span>
+<span class="fc" id="L262">		add(tab);</span>
+
+<span class="fc" id="L264">		return tab;</span>
+	}
+
+	/**
+	 * Adds a separator to the tab set.
+	 */
+	public void addSeparator() {
+<span class="fc" id="L271">		add(new WSeparator());</span>
+<span class="fc" id="L272">	}</span>
+
+	/**
+	 * Adds a tab to the tab set.
+	 *
+	 * @param tab the tab to add.
+	 * @deprecated use e.g. {@link #addTab(WComponent, String, TabMode)}
+	 */
+	@Deprecated
+	public void add(final WTab tab) {
+<span class="fc" id="L282">		super.add(tab);</span>
+<span class="fc" id="L283">	}</span>
+
+	/**
+	 * Adds a tab group to the tab set.
+	 *
+	 * @param group the group to add.
+	 */
+	public void add(final WTabGroup group) {
+<span class="fc" id="L291">		super.add(group);</span>
+<span class="fc" id="L292">	}</span>
+
+	/**
+	 * Adds a separator to the tab set.
+	 *
+	 * @param separator the separator to add.
+	 */
+	public void add(final WSeparator separator) {
+<span class="fc" id="L300">		super.add(separator);</span>
+<span class="fc" id="L301">	}</span>
+
+	/**
+	 * Retrieves the total number of tabs in this tab set.
+	 *
+	 * @return the number of tabs in this tab set.
+	 */
+	public int getTotalTabs() {
+<span class="fc" id="L309">		return getTabs().size();</span>
+	}
+
+	/**
+	 * Returns the default active index. Note that some tab sets support multiple active tabs, see
+	 * {@link #getActiveIndices()}.
+	 * &lt;p&gt;
+	 * If there are no active tabs, then the first tab will be returned as the default tab.
+	 * &lt;/p&gt;
+	 *
+	 * @return the default active tab index.
+	 */
+	public int getActiveIndex() {
+<span class="fc" id="L322">		List&lt;Integer&gt; activeTabs = getActiveIndices();</span>
+
+<span class="fc bfc" id="L324" title="All 2 branches covered.">		return activeTabs.isEmpty() ? 0 : activeTabs.get(0);</span>
+	}
+
+	/**
+	 * Returns the active indices (as seen by the given context/session).
+	 *
+	 * @return the active tab indices (may be an empty list).
+	 */
+	public List&lt;Integer&gt; getActiveIndices() {
+<span class="fc" id="L333">		TabSetModel model = getOrCreateComponentModel(); // this model may be updated</span>
+<span class="fc" id="L334">		List&lt;Integer&gt; activeTabs = model.activeTabs;</span>
+
+		// Remove invisible tabs from the active tab list
+<span class="fc bfc" id="L337" title="All 2 branches covered.">		if (activeTabs != null) {</span>
+<span class="fc bfc" id="L338" title="All 2 branches covered.">			for (Iterator&lt;Integer&gt; i = activeTabs.iterator(); i.hasNext();) {</span>
+<span class="fc bfc" id="L339" title="All 2 branches covered.">				if (!isTabVisible(i.next())) {</span>
+<span class="fc" id="L340">					i.remove();</span>
+				}
+			}
+
+<span class="fc bfc" id="L344" title="All 2 branches covered.">			if (activeTabs.isEmpty()) {</span>
+<span class="fc" id="L345">				activeTabs = null;</span>
+<span class="fc" id="L346">				model.activeTabs = null;</span>
+			}
+		}
+
+<span class="fc bfc" id="L350" title="All 2 branches covered.">		if (activeTabs == null) {</span>
+<span class="fc bfc" id="L351" title="All 2 branches covered.">			if (getTotalTabs() == 0) {</span>
+<span class="fc" id="L352">				return Collections.emptyList();</span>
+			} else {
+				// If there are no active tabs, then the first visible tab will be returned as the active tab.
+<span class="fc" id="L355">				int idx = findFirstVisibleTab();</span>
+<span class="fc" id="L356">				activeTabs = new ArrayList&lt;&gt;(1);</span>
+<span class="fc" id="L357">				activeTabs.add(idx);</span>
+			}
+		}
+
+<span class="fc" id="L361">		return Collections.unmodifiableList(activeTabs);</span>
+	}
+
+	/**
+	 * Returns the active tab (as seen by the given context/session). Note that some tab sets support multiple active
+	 * tabs, see {@link #getActiveTabs()}.
+	 *
+	 * @return the active tab (as seen by the given context/session).
+	 */
+	public WTab getActiveTab() {
+<span class="fc" id="L371">		List&lt;WTab&gt; activeTabs = getActiveTabs();</span>
+
+<span class="pc bpc" id="L373" title="1 of 2 branches missed.">		return activeTabs.isEmpty() ? null : activeTabs.get(0);</span>
+	}
+
+	/**
+	 * Returns the active tabs (as seen by the given context/session).
+	 *
+	 * @return the active tabs (as seen by the given context/session).
+	 */
+	public List&lt;WTab&gt; getActiveTabs() {
+<span class="fc" id="L382">		List&lt;Integer&gt; activeIndices = getActiveIndices();</span>
+
+<span class="pc bpc" id="L384" title="1 of 2 branches missed.">		if (activeIndices.isEmpty()) {</span>
+<span class="nc" id="L385">			return Collections.emptyList();</span>
+		}
+
+<span class="fc" id="L388">		List&lt;WTab&gt; activeTabs = new ArrayList&lt;&gt;(activeIndices.size());</span>
+<span class="fc" id="L389">		List&lt;WTab&gt; tabs = getTabs();</span>
+
+<span class="fc bfc" id="L391" title="All 2 branches covered.">		for (int index : activeIndices) {</span>
+<span class="fc" id="L392">			activeTabs.add(tabs.get(index));</span>
+<span class="fc" id="L393">		}</span>
+
+<span class="fc" id="L395">		return Collections.unmodifiableList(activeTabs);</span>
+	}
+
+	/**
+	 * Sets the active index(as seen by the given context/session).
+	 *
+	 * @param activeIndex the index of the tab to mark as the active one.
+	 */
+	public void setActiveIndex(final int activeIndex) {
+<span class="fc" id="L404">		setActiveIndices(new int[]{activeIndex});</span>
+<span class="fc" id="L405">	}</span>
+
+	/**
+	 * Sets the active tab indices (as seen by the given context/session).
+	 *
+	 * @param indices the tab indices to set
+	 */
+	public void setActiveIndices(final int[] indices) {
+<span class="fc" id="L413">		TabSetModel model = getOrCreateComponentModel();</span>
+
+<span class="fc bfc" id="L415" title="All 2 branches covered.">		if (model.activeTabs == null) {</span>
+<span class="fc" id="L416">			model.activeTabs = new ArrayList&lt;&gt;(1);</span>
+		}
+
+<span class="fc" id="L419">		model.activeTabs.clear();</span>
+
+<span class="fc bfc" id="L421" title="All 2 branches covered.">		for (int index : indices) {</span>
+<span class="fc" id="L422">			model.activeTabs.add(index);</span>
+		}
+<span class="fc" id="L424">	}</span>
+
+	/**
+	 * Sets the active tab using tab content. TODO: this is stupid! setActiveTab should use the WTab not its content!
+	 *
+	 * @param content the active tab's content.
+	 */
+	public void setActiveTab(final WComponent content) {
+<span class="fc" id="L432">		int index = getTabIndex(content);</span>
+
+<span class="fc bfc" id="L434" title="All 2 branches covered.">		if (index != -1) {</span>
+<span class="fc" id="L435">			setActiveIndex(index);</span>
+		}
+<span class="fc" id="L437">	}</span>
+
+	/**
+	 * Sets the visibility of the tab at the given index.
+	 *
+	 * @param tabIndex the tab index.
+	 * @param visible true to set the tab visible, false to set invisible.
+	 */
+	public void setTabVisible(final int tabIndex, final boolean visible) {
+<span class="fc" id="L446">		getTab(tabIndex).setVisible(visible);</span>
+<span class="fc" id="L447">	}</span>
+
+	/**
+	 * Sets the visibility of the tab which holds the given content.
+	 *
+	 * @param tabContent the tab content.
+	 * @param visible true to set the tab visible, false to set invisible.
+	 */
+	public void setTabVisible(final WComponent tabContent, final boolean visible) {
+<span class="fc" id="L456">		setTabVisible(getTabIndex(tabContent), visible);</span>
+<span class="fc" id="L457">	}</span>
+
+	/**
+	 * Indicates whether the tab at the given index is visible.
+	 *
+	 * @param tabIndex the tab index.
+	 * @return true if the tab at the given index is visible, false if it is invisible.
+	 */
+	public boolean isTabVisible(final int tabIndex) {
+<span class="fc" id="L466">		WTab tab = getTab(tabIndex);</span>
+<span class="fc" id="L467">		Container tabParent = tab.getParent();</span>
+
+<span class="fc bfc" id="L469" title="All 2 branches covered.">		if (tabParent instanceof WTabGroup) {</span>
+<span class="pc bpc" id="L470" title="1 of 4 branches missed.">			return tab.isVisible() &amp;&amp; tabParent.isVisible();</span>
+		} else {
+<span class="fc" id="L472">			return tab.isVisible();</span>
+		}
+	}
+
+	/**
+	 * Indicats whether the tab which holds the given content is visible.
+	 *
+	 * @param tabContent the tab content.
+	 * @return true if the tab at the given index is visible, false if it is invisible.
+	 */
+	public boolean isTabVisible(final WComponent tabContent) {
+<span class="fc" id="L483">		return isTabVisible(getTabIndex(tabContent));</span>
+	}
+
+	/**
+	 * Indicates whether the tab is active (selected).
+	 *
+	 * @param tab the WTab to check.
+	 * @return true if the tab is active, false otherwise.
+	 */
+	public boolean isActive(final WComponent tab) {
+<span class="fc" id="L493">		int activeIndex = getActiveIndex();</span>
+<span class="fc" id="L494">		List&lt;WTab&gt; tabs = getTabs();</span>
+<span class="fc" id="L495">		int tabIndex = tabs.indexOf(tab);</span>
+
+<span class="pc bpc" id="L497" title="1 of 2 branches missed.">		return activeIndex == tabIndex;</span>
+	}
+
+	/**
+	 * Retrieves the tab index for the given tab content.
+	 *
+	 * @param content the tab content
+	 * @return the tab index, or -1 if the content is not in a tab in this tab set.
+	 */
+	public int getTabIndex(final WComponent content) {
+<span class="fc" id="L507">		List&lt;WTab&gt; tabs = getTabs();</span>
+<span class="fc" id="L508">		final int count = tabs.size();</span>
+
+<span class="fc bfc" id="L510" title="All 2 branches covered.">		for (int i = 0; i &lt; count; i++) {</span>
+<span class="fc" id="L511">			WTab tab = tabs.get(i);</span>
+
+<span class="fc bfc" id="L513" title="All 2 branches covered.">			if (content == tab.getContent()) {</span>
+<span class="fc" id="L514">				return i;</span>
+			}
+		}
+
+<span class="fc" id="L518">		return -1;</span>
+	}
+
+	/**
+	 * Returns the tab at the given index. Bounds checking is not performed.
+	 *
+	 * @param index the tab index.
+	 * @return the tab at the selected index.
+	 */
+	public WTab getTab(final int index) {
+<span class="fc" id="L528">		return getTabs().get(index);</span>
+	}
+
+	/**
+	 * @return the list of tabs in this tabset
+	 */
+	private List&lt;WTab&gt; getTabs() {
+<span class="fc" id="L535">		List&lt;WTab&gt; tabs = new ArrayList&lt;&gt;(getChildCount());</span>
+<span class="fc" id="L536">		final int childCount = getChildCount();</span>
+
+<span class="fc bfc" id="L538" title="All 2 branches covered.">		for (int i = 0; i &lt; childCount; i++) {</span>
+<span class="fc" id="L539">			WComponent child = getChildAt(i);</span>
+
+<span class="fc bfc" id="L541" title="All 2 branches covered.">			if (child instanceof WTab) {</span>
+<span class="fc" id="L542">				tabs.add((WTab) child);</span>
+<span class="pc bpc" id="L543" title="1 of 2 branches missed.">			} else if (child instanceof WTabGroup) {</span>
+<span class="fc" id="L544">				final int groupChildCount = ((WTabGroup) child).getChildCount();</span>
+
+<span class="fc bfc" id="L546" title="All 2 branches covered.">				for (int j = 0; j &lt; groupChildCount; j++) {</span>
+<span class="fc" id="L547">					WComponent child2 = ((WTabGroup) child).getChildAt(j);</span>
+
+<span class="fc bfc" id="L549" title="All 2 branches covered.">					if (child2 instanceof WTab) {</span>
+<span class="fc" id="L550">						tabs.add((WTab) child2);</span>
+					}
+				}
+			}
+		}
+
+<span class="fc" id="L556">		return tabs;</span>
+	}
+
+	/**
+	 * Override handleRequest in order to perform processing specific to this component.
+	 *
+	 * @param request the request being responded to.
+	 */
+	@Override
+	public void handleRequest(final Request request) {
+<span class="fc bfc" id="L566" title="All 2 branches covered.">		if (isDisabled()) {</span>
+			// Protect against client-side tampering of disabled/read-only fields.
+<span class="fc" id="L568">			return;</span>
+		}
+
+		// Remember which client side tab we were on.
+<span class="fc" id="L572">		String[] indicesStr = request.getParameterValues(getId());</span>
+
+<span class="pc bpc" id="L574" title="2 of 4 branches missed.">		if (indicesStr != null &amp;&amp; indicesStr.length &gt; 0) {</span>
+<span class="fc" id="L575">			List&lt;Integer&gt; oldIndices = getActiveIndices();</span>
+<span class="fc" id="L576">			List&lt;Integer&gt; changes = new ArrayList&lt;&gt;(1);</span>
+<span class="fc" id="L577">			int[] indices = new int[indicesStr.length];</span>
+
+<span class="pc bpc" id="L579" title="1 of 2 branches missed.">			if (Util.empty(indicesStr[0])) {</span>
+				// Special case - no tab selected
+<span class="nc" id="L581">				int idx = findFirstVisibleTab();</span>
+<span class="nc" id="L582">				indices = new int[idx];</span>
+<span class="nc" id="L583">			} else {</span>
+				// Normal case - one or more tabs selected
+<span class="fc bfc" id="L585" title="All 2 branches covered.">				for (int i = 0; i &lt; indices.length; i++) {</span>
+<span class="fc" id="L586">					int clientIndex = Integer.parseInt(indicesStr[i]);</span>
+<span class="fc" id="L587">					int tabIndex = clientIndexToTabIndex(clientIndex);</span>
+<span class="fc" id="L588">					indices[i] = tabIndex;</span>
+
+<span class="pc bpc" id="L590" title="1 of 2 branches missed.">					if (!oldIndices.contains(tabIndex)) {</span>
+						// Check for a server mode tab and set focus
+<span class="fc" id="L592">						WTab tab = getTab(tabIndex);</span>
+<span class="fc bfc" id="L593" title="All 2 branches covered.">						if (TabMode.SERVER == tab.getMode() &amp;&amp; UIContextHolder.getCurrent().</span>
+<span class="pc bpc" id="L594" title="1 of 2 branches missed.">								getFocussed() == null) {</span>
+<span class="fc" id="L595">							tab.setFocussed();</span>
+						}
+<span class="fc" id="L597">						changes.add(tabIndex);</span>
+					}
+				}
+			}
+
+<span class="fc" id="L602">			setActiveIndices(indices);</span>
+
+			// Invoke action if tab selection has changed
+<span class="fc" id="L605">			final Action action = getActionOnChange();</span>
+
+<span class="pc bpc" id="L607" title="3 of 4 branches missed.">			if (action != null &amp;&amp; !changes.isEmpty()) {</span>
+<span class="nc" id="L608">				final ActionEvent event = new ActionEvent(this, changes.toString(), null);</span>
+
+<span class="nc" id="L610">				Runnable later = new Runnable() {</span>
+					@Override
+					public void run() {
+<span class="nc" id="L613">						action.execute(event);</span>
+<span class="nc" id="L614">					}</span>
+				};
+
+<span class="nc" id="L617">				invokeLater(later);</span>
+			}
+		}
+
+<span class="fc" id="L621">		String showHeadOnlyStr = request.getParameter(getId() + &quot;.showHeadOnly&quot;);</span>
+
+<span class="pc bpc" id="L623" title="1 of 2 branches missed.">		if (showHeadOnlyStr != null) {</span>
+<span class="nc" id="L624">			boolean showHeadOnly = &quot;true&quot;.equals(showHeadOnlyStr);</span>
+<span class="nc" id="L625">			setShowHeadOnly(showHeadOnly);</span>
+		}
+<span class="fc" id="L627">	}</span>
+
+	/**
+	 * The client-side tab indices will differ from the WTabSet's indices when one or more tabs is invisible.
+	 *
+	 * @param clientIndex the client-side index
+	 * @return the WTabSet index corresponding to the given client index
+	 */
+	private int clientIndexToTabIndex(final int clientIndex) {
+<span class="fc" id="L636">		int childCount = getTotalTabs();</span>
+<span class="fc" id="L637">		int serverIndex = clientIndex;</span>
+
+<span class="pc bpc" id="L639" title="1 of 4 branches missed.">		for (int i = 0; i &lt;= serverIndex &amp;&amp; i &lt; childCount; i++) {</span>
+<span class="fc bfc" id="L640" title="All 2 branches covered.">			if (!isTabVisible(i)) {</span>
+<span class="fc" id="L641">				serverIndex++;</span>
+			}
+		}
+
+<span class="fc" id="L645">		return serverIndex;</span>
+	}
+
+	/**
+	 * Find the index of the first visible tab. If there are no visible tabs then return the first tab.
+	 *
+	 * @return the index of the first visible tab
+	 */
+	private int findFirstVisibleTab() {
+<span class="fc bfc" id="L654" title="All 2 branches covered.">		for (int i = 0; i &lt; getTotalTabs(); i++) {</span>
+<span class="fc bfc" id="L655" title="All 2 branches covered.">			if (isTabVisible(i)) {</span>
+<span class="fc" id="L656">				return i;</span>
+			}
+		}
+
+		// If there are no visible tabs, then return the first tab.
+<span class="fc" id="L661">		return 0;</span>
+	}
+
+	/**
+	 * Indicates whether the WTabSet is disabled in the given context.
+	 *
+	 * @return true if the input is disabled, otherwise false.
+	 */
+	@Override
+	public boolean isDisabled() {
+<span class="fc" id="L671">		return isFlagSet(ComponentModel.DISABLED_FLAG);</span>
+	}
+
+	/**
+	 * Sets whether the WTabSet is disabled.
+	 *
+	 * @param disabled if true, the input is disabled. If false, it is enabled.
+	 */
+	@Override
+	public void setDisabled(final boolean disabled) {
+<span class="fc" id="L681">		setFlag(ComponentModel.DISABLED_FLAG, disabled);</span>
+<span class="fc" id="L682">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override // to make public
+	public void remove(final WComponent child) {
+<span class="fc" id="L689">		super.remove(child);</span>
+<span class="fc" id="L690">	}</span>
+
+	/**
+	 * Sets the action to be executed when the tab selection of this &lt;code&gt;tabset&lt;/code&gt; changes.
+	 *
+	 * @param action the action to execute
+	 */
+	public void setActionOnChange(final Action action) {
+<span class="fc" id="L698">		getOrCreateComponentModel().action = action;</span>
+<span class="fc" id="L699">	}</span>
+
+	/**
+	 * Gets the action that is executed when the tab selection of this &lt;code&gt;tabset&lt;/code&gt; changes.
+	 *
+	 * @return The &lt;code&gt;action&lt;/code&gt; associated with this &lt;code&gt;tabset&lt;/code&gt;.
+	 */
+	public Action getActionOnChange() {
+<span class="fc" id="L707">		return getComponentModel().action;</span>
+	}
+
+	/**
+	 * Sets whether only the &quot;head&quot; portion of a tab's decorated label should be visible. At present, this only has a
+	 * visible effect on {@link TabSetType#APPLICATION} tab sets.
+	 *
+	 * @param showHeadOnly true if only the &quot;head&quot; part of the tab label should be shown.
+	 */
+	public void setShowHeadOnly(final boolean showHeadOnly) {
+<span class="fc" id="L717">		getOrCreateComponentModel().showHeadOnly = showHeadOnly;</span>
+<span class="fc" id="L718">	}</span>
+
+	/**
+	 * Indicates whether only the &quot;head&quot; portion of a tab's decorated label should be visible. At present, this only has
+	 * a visible effect on {@link TabSetType#APPLICATION} tab sets.
+	 *
+	 * @return true if only the &quot;head&quot; part of the tab label should be shown.
+	 */
+	public boolean isShowHeadOnly() {
+<span class="fc" id="L727">		return getComponentModel().showHeadOnly;</span>
+	}
+
+	/**
+	 * @param single true if only one tab should be open at a time for an accordion tabset
+	 */
+	public void setSingle(final boolean single) {
+<span class="fc" id="L734">		getOrCreateComponentModel().single = single;</span>
+<span class="fc" id="L735">	}</span>
+
+	/**
+	 * @return true if only one tab should be open at a time for an accordion tabset
+	 */
+	public boolean isSingle() {
+<span class="fc" id="L741">		return getComponentModel().single;</span>
+	}
+
+	/**
+	 * @return a String representation of this component, for debugging purposes.
+	 */
+	@Override
+	public String toString() {
+<span class="nc" id="L749">		String details = &quot;active tab=&quot; + getActiveIndices();</span>
+<span class="nc" id="L750">		return toString(details, 1, 1);</span>
+	}
+
+	// --------------------------------
+	// Extrinsic state management
+	/**
+	 * Creates a new Component model.
+	 *
+	 * @return a new TabSetModel.
+	 */
+	@Override // For type safety only
+	protected TabSetModel newComponentModel() {
+<span class="fc" id="L762">		return new TabSetModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override // For type safety only
+	protected TabSetModel getComponentModel() {
+<span class="fc" id="L770">		return (TabSetModel) super.getComponentModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override // For type safety only
+	protected TabSetModel getOrCreateComponentModel() {
+<span class="fc" id="L778">		return (TabSetModel) super.getOrCreateComponentModel();</span>
+	}
+
+	/**
+	 * Holds the extrinsic state information of a WTabSet.
+	 *
+	 * @author Yiannis Paschalidis
+	 */
+<span class="fc" id="L786">	public static class TabSetModel extends ComponentModel {</span>
+
+		/**
+		 * List of active tabs.
+		 */
+		private List&lt;Integer&gt; activeTabs;
+
+		/**
+		 * Show head only flag.
+		 */
+		private boolean showHeadOnly;
+
+		/**
+		 * The type of TabSet to render as.
+		 */
+		private TabSetType type;
+
+		/**
+		 * The content height, in e.g. EMs to use for e.g. left/right tab-set types.
+		 */
+		private String contentHeight;
+
+		/**
+		 * TabSet action on change.
+		 */
+		private Action action;
+
+		/**
+		 * The margins to be used on the section.
+		 */
+		private Margin margin;
+
+		/**
+		 * Accordion tab only opens one tab at a time.
+		 */
+		private boolean single;
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

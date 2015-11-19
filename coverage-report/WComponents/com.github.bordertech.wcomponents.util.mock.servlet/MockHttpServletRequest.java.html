@@ -1,0 +1,700 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>MockHttpServletRequest.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.util.mock.servlet</a> &gt; <span class="el_source">MockHttpServletRequest.java</span></div><h1>MockHttpServletRequest.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.util.mock.servlet;
+
+import com.github.bordertech.wcomponents.util.Enumerator;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.security.Principal;
+import java.util.Arrays;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletInputStream;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+/**
+ * A mock HTTP Servlet request, useful for unit testing.
+ *
+ * Extracted from PortalBridge_Test
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ */
+public class MockHttpServletRequest implements HttpServletRequest {
+
+	private HttpSession session;
+<span class="fc" id="L30">	private final Map parameters = new HashMap();</span>
+<span class="fc" id="L31">	private final Map attributes = new HashMap();</span>
+<span class="fc" id="L32">	private final Map headers = new HashMap();</span>
+	private int localPort;
+	private int remotePort;
+	private boolean secure;
+	private byte[] content;
+	private String contentType;
+	private String requestURI;
+	private String scheme;
+	private String serverName;
+	private int serverPort;
+	private String pathInfo;
+	private String method;
+
+	/**
+	 * Creates a MockHttpServletRequest without a session.
+	 */
+<span class="fc" id="L48">	public MockHttpServletRequest() {</span>
+		// No session
+<span class="fc" id="L50">	}</span>
+
+	/**
+	 * Creates a MockHttpServletRequest with the given session.
+	 *
+	 * @param session the current session.
+	 */
+<span class="fc" id="L57">	public MockHttpServletRequest(final HttpSession session) {</span>
+<span class="fc" id="L58">		this.session = session;</span>
+<span class="fc" id="L59">	}</span>
+
+	/**
+	 * @return null, as this is unimplemented.
+	 */
+	@Override
+	public String getAuthType() {
+<span class="nc" id="L66">		return null;</span>
+	}
+
+	/**
+	 * @return null, as this is unimplemented.
+	 */
+	@Override
+	public String getContextPath() {
+<span class="fc" id="L74">		return null;</span>
+	}
+
+	/**
+	 * @return null, as this is unimplemented.
+	 */
+	@Override
+	public Cookie[] getCookies() {
+<span class="nc" id="L82">		return null;</span>
+	}
+
+	/**
+	 * Unimplemented.
+	 *
+	 * @param name ignored.
+	 * @return null.
+	 */
+	@Override
+	public long getDateHeader(final String name) {
+<span class="nc" id="L93">		return 0;</span>
+	}
+
+	/**
+	 * Returns the value of the given header.
+	 *
+	 * @param name the header name.
+	 * @return the value of the given header, or null if no header exists with that name.
+	 */
+	@Override
+	public String getHeader(final String name) {
+<span class="fc" id="L104">		return (String) headers.get(name);</span>
+	}
+
+	/**
+	 * Returns the value of the given header.
+	 *
+	 * @param name the header name.
+	 * @param value the header value
+	 */
+	public void setHeader(final String name, final String value) {
+<span class="fc" id="L114">		headers.put(name, value);</span>
+<span class="fc" id="L115">	}</span>
+
+	/**
+	 * @return an enumeration of the header names.
+	 */
+	@Override
+	public Enumeration getHeaderNames() {
+<span class="fc" id="L122">		return new Enumerator(headers.keySet().iterator());</span>
+	}
+
+	/**
+	 * Unimplemented.
+	 *
+	 * @param name ignored.
+	 * @return null.
+	 */
+	@Override
+	public Enumeration getHeaders(final String name) {
+<span class="nc" id="L133">		return null;</span>
+	}
+
+	/**
+	 * Unimplemented.
+	 *
+	 * @param name ignored.
+	 * @return 0.
+	 */
+	@Override
+	public int getIntHeader(final String name) {
+<span class="nc" id="L144">		return 0;</span>
+	}
+
+	/**
+	 * @return the request method, e.g. &quot;GET&quot; or &quot;POST&quot;.
+	 */
+	@Override
+	public String getMethod() {
+<span class="fc" id="L152">		return method;</span>
+	}
+
+	/**
+	 * Sets the request method, e.g. &quot;GET&quot; or &quot;POST&quot;.
+	 *
+	 * @param method the request method.
+	 */
+	public void setMethod(final String method) {
+<span class="fc" id="L161">		this.method = method;</span>
+<span class="fc" id="L162">	}</span>
+
+	/**
+	 * @return the path info.
+	 */
+	@Override
+	public String getPathInfo() {
+<span class="fc" id="L169">		return pathInfo;</span>
+	}
+
+	/**
+	 * Sets the path info.
+	 *
+	 * @param pathInfo the path info.
+	 */
+	public void setPathInfo(final String pathInfo) {
+<span class="fc" id="L178">		this.pathInfo = pathInfo;</span>
+<span class="fc" id="L179">	}</span>
+
+	/**
+	 * @return null, as this is unimplemented.
+	 */
+	@Override
+	public String getPathTranslated() {
+<span class="nc" id="L186">		return null;</span>
+	}
+
+	/**
+	 * @return null, as this is unimplemented.
+	 */
+	@Override
+	public String getQueryString() {
+<span class="nc" id="L194">		return null;</span>
+	}
+
+	/**
+	 * @return null, as this is unimplemented.
+	 */
+	@Override
+	public String getRemoteUser() {
+<span class="nc" id="L202">		return null;</span>
+	}
+
+	/**
+	 * @return null, as this is unimplemented.
+	 */
+	@Override
+	public String getRequestedSessionId() {
+<span class="nc" id="L210">		return null;</span>
+	}
+
+	/**
+	 * Sets the request URI.
+	 *
+	 * @param requestURI the request URI.
+	 */
+	public void setRequestURI(final String requestURI) {
+<span class="fc" id="L219">		this.requestURI = requestURI;</span>
+<span class="fc" id="L220">	}</span>
+
+	/**
+	 * @return the request URI.
+	 */
+	@Override
+	public String getRequestURI() {
+<span class="fc" id="L227">		return requestURI;</span>
+	}
+
+	/**
+	 * @return null, as this is unimplemented.
+	 */
+	@Override
+	public StringBuffer getRequestURL() {
+<span class="nc" id="L235">		return null;</span>
+	}
+
+	/**
+	 * @return null, as this is unimplemented.
+	 */
+	@Override
+	public String getServletPath() {
+<span class="nc" id="L243">		return null;</span>
+	}
+
+	/**
+	 * @return the current HttpSession, may be null.
+	 */
+	@Override
+	public HttpSession getSession() {
+<span class="fc" id="L251">		return session;</span>
+	}
+
+	/**
+	 * Returns the current HttpSession, or creates a new one if there is no current session and the &lt;code&gt;create&lt;/code&gt;
+	 * flag is set.
+	 *
+	 * @param create if true, creates a new session if one does not exist.
+	 * @return the current HttpSession, may be null if the create flag is false.
+	 */
+	@Override
+	public HttpSession getSession(final boolean create) {
+<span class="fc bfc" id="L263" title="All 4 branches covered.">		if (create &amp;&amp; session == null) {</span>
+<span class="fc" id="L264">			session = new MockHttpSession();</span>
+		}
+
+<span class="fc" id="L267">		return session;</span>
+	}
+
+	/**
+	 * @return null, as this is unimplemented.
+	 */
+	@Override
+	public Principal getUserPrincipal() {
+<span class="nc" id="L275">		return null;</span>
+	}
+
+	/**
+	 * @return false, as this is unimplemented.
+	 */
+	@Override
+	public boolean isRequestedSessionIdFromCookie() {
+<span class="nc" id="L283">		return false;</span>
+	}
+
+	/**
+	 * @return false, as this is unimplemented.
+	 */
+	@Override
+	public boolean isRequestedSessionIdFromUrl() {
+<span class="nc" id="L291">		return false;</span>
+	}
+
+	/**
+	 * @return false, as this is unimplemented.
+	 */
+	@Override
+	public boolean isRequestedSessionIdFromURL() {
+<span class="nc" id="L299">		return false;</span>
+	}
+
+	/**
+	 * @return false, as this is unimplemented.
+	 */
+	@Override
+	public boolean isRequestedSessionIdValid() {
+<span class="nc" id="L307">		return false;</span>
+	}
+
+	/**
+	 * Unimplemented.
+	 *
+	 * @param arg0 ignored.
+	 * @return false, as this is unimplemented.
+	 */
+	@Override
+	public boolean isUserInRole(final String arg0) {
+<span class="nc" id="L318">		return false;</span>
+	}
+
+	/**
+	 * Returns the value of the attribute with the specified name.
+	 *
+	 * @param name the attribute name.
+	 * @return the attribute value, or null if it has not been defined.
+	 */
+	@Override
+	public Object getAttribute(final String name) {
+<span class="fc" id="L329">		return attributes.get(name);</span>
+	}
+
+	/**
+	 * @return an enumeration of the defined attribute names.
+	 */
+	@Override
+	public Enumeration getAttributeNames() {
+<span class="nc" id="L337">		return getKeys(attributes);</span>
+	}
+
+	/**
+	 * @return null, as this has not been implemented.
+	 */
+	@Override
+	public String getCharacterEncoding() {
+<span class="fc" id="L345">		return null;</span>
+	}
+
+	/**
+	 * Sets the binary content of the request.
+	 *
+	 * @param content the request content.
+	 */
+	public void setContent(final byte[] content) {
+<span class="fc" id="L354">		this.content = content;</span>
+<span class="fc" id="L355">	}</span>
+
+	/**
+	 * @return the request content length.
+	 */
+	@Override
+	public int getContentLength() {
+<span class="pc bpc" id="L362" title="1 of 2 branches missed.">		return content == null ? 0 : content.length;</span>
+	}
+
+	/**
+	 * @return the request content type.
+	 */
+	@Override
+	public String getContentType() {
+<span class="fc" id="L370">		return contentType;</span>
+	}
+
+	/**
+	 * Sets the request content type.
+	 *
+	 * @param contentType the content type.
+	 */
+	public void setContentType(final String contentType) {
+<span class="fc" id="L379">		this.contentType = contentType;</span>
+<span class="fc" id="L380">	}</span>
+
+	/**
+	 * Returns a stream to read the request content. If the content has not been set previously by
+	 * {@link #setContent(byte[])}, an empty input stream is returned.
+	 *
+	 * @return the request input stream.
+	 */
+	@Override
+	public ServletInputStream getInputStream() {
+<span class="pc bpc" id="L390" title="1 of 2 branches missed.">		byte[] data = content == null ? new byte[0] : content;</span>
+
+<span class="fc" id="L392">		return new MockServletInputStream(new ByteArrayInputStream(data));</span>
+	}
+
+	/**
+	 * @return the default Locale.
+	 */
+	@Override
+	public Locale getLocale() {
+<span class="nc" id="L400">		return Locale.getDefault();</span>
+	}
+
+	/**
+	 * @return an enumeration of the available locales.
+	 */
+	@Override
+	public Enumeration getLocales() {
+<span class="nc" id="L408">		List locales = Arrays.asList(Locale.getAvailableLocales());</span>
+<span class="nc" id="L409">		return new Enumerator(locales.iterator());</span>
+	}
+
+	/**
+	 * Returns the value of the parameter with the specified name.
+	 *
+	 * @see #setParameter(String, String)
+	 *
+	 * @param name the parameter name
+	 * @return the value of the given parameter, or null if it does not exist.
+	 */
+	@Override
+	public String getParameter(final String name) {
+<span class="fc" id="L422">		String[] values = (String[]) parameters.get(name);</span>
+
+<span class="pc bpc" id="L424" title="1 of 4 branches missed.">		if (values == null || values.length == 0) {</span>
+<span class="fc" id="L425">			return null;</span>
+		}
+
+<span class="fc" id="L428">		return values[0];</span>
+	}
+
+	/**
+	 * @return the parameter map
+	 */
+	@Override
+	public Map getParameterMap() {
+<span class="nc" id="L436">		return parameters;</span>
+	}
+
+	/**
+	 * @return an enumeration of the parameter names
+	 */
+	@Override
+	public Enumeration getParameterNames() {
+<span class="fc" id="L444">		return getKeys(parameters);</span>
+	}
+
+	/**
+	 * Returns an enumeration of the keys in the given map.
+	 *
+	 * @param map the map
+	 * @return an enumeration of the map's keys
+	 */
+	private Enumeration getKeys(final Map map) {
+<span class="fc" id="L454">		return new Enumerator(map.keySet().iterator());</span>
+	}
+
+	/**
+	 * Returns the parameter values for the given parameter.
+	 *
+	 * @param name the parameter name
+	 * @return the values of the given parameter, or null if the parameter does not exist.
+	 */
+	@Override
+	public String[] getParameterValues(final String name) {
+<span class="fc" id="L465">		return (String[]) parameters.get(name);</span>
+	}
+
+	/**
+	 * Sets a parameter. If the parameter already exists, another value will be added to the parameter values.
+	 *
+	 * @param name the parameter name
+	 * @param value the parameter value
+	 */
+	public void setParameter(final String name, final String value) {
+<span class="fc" id="L475">		String[] currentValue = (String[]) parameters.get(name);</span>
+
+<span class="pc bpc" id="L477" title="1 of 2 branches missed.">		if (currentValue == null) {</span>
+<span class="fc" id="L478">			currentValue = new String[]{value};</span>
+		} else {
+			// convert the current values into a new array..
+<span class="nc" id="L481">			String[] newValues = new String[currentValue.length + 1];</span>
+<span class="nc" id="L482">			System.arraycopy(currentValue, 0, newValues, 0, currentValue.length);</span>
+<span class="nc" id="L483">			newValues[newValues.length - 1] = value;</span>
+<span class="nc" id="L484">			currentValue = newValues;</span>
+		}
+
+<span class="fc" id="L487">		parameters.put(name, currentValue);</span>
+<span class="fc" id="L488">	}</span>
+
+	/**
+	 * Removes the parameter with the given name.
+	 *
+	 * @param name the name of the parameter to remove.
+	 */
+	public void removeParameter(final String name) {
+<span class="fc" id="L496">		parameters.remove(name);</span>
+<span class="fc" id="L497">	}</span>
+
+	/**
+	 * @return null, as this has not been implemented.
+	 */
+	@Override
+	public String getProtocol() {
+<span class="nc" id="L504">		return null;</span>
+	}
+
+	/**
+	 * @return null, as this has not been implemented.
+	 */
+	@Override
+	public BufferedReader getReader() {
+<span class="nc" id="L512">		return null;</span>
+	}
+
+	/**
+	 * Unimplemented.
+	 *
+	 * @param path ignored.
+	 * @return null, as this has not been implemented.
+	 */
+	@Override
+	public String getRealPath(final String path) {
+<span class="nc" id="L523">		return null;</span>
+	}
+
+	/**
+	 * @return null, as this has not been implemented.
+	 */
+	@Override
+	public String getRemoteAddr() {
+<span class="nc" id="L531">		return null;</span>
+	}
+
+	/**
+	 * @return null, as this has not been implemented.
+	 */
+	@Override
+	public String getRemoteHost() {
+<span class="nc" id="L539">		return null;</span>
+	}
+
+	/**
+	 * Unimplemented.
+	 *
+	 * @param path ignored.
+	 * @return null, as this has not been implemented.
+	 */
+	@Override
+	public RequestDispatcher getRequestDispatcher(final String path) {
+<span class="nc" id="L550">		return null;</span>
+	}
+
+	/**
+	 * @return the URI scheme.
+	 */
+	@Override
+	public String getScheme() {
+<span class="fc" id="L558">		return scheme;</span>
+	}
+
+	/**
+	 * @return the server name.
+	 */
+	@Override
+	public String getServerName() {
+<span class="fc" id="L566">		return serverName;</span>
+	}
+
+	/**
+	 * @return the server port.
+	 */
+	@Override
+	public int getServerPort() {
+<span class="fc" id="L574">		return serverPort;</span>
+	}
+
+	/**
+	 * @param scheme The scheme to set.
+	 */
+	public void setScheme(final String scheme) {
+<span class="nc" id="L581">		this.scheme = scheme;</span>
+<span class="nc" id="L582">	}</span>
+
+	/**
+	 * @param serverName The serverName to set.
+	 */
+	public void setServerName(final String serverName) {
+<span class="nc" id="L588">		this.serverName = serverName;</span>
+<span class="nc" id="L589">	}</span>
+
+	/**
+	 * @param serverPort The serverPort to set.
+	 */
+	public void setServerPort(final int serverPort) {
+<span class="nc" id="L595">		this.serverPort = serverPort;</span>
+<span class="nc" id="L596">	}</span>
+
+	/**
+	 * Sets the secure flag.
+	 *
+	 * @param secure the secure flag.
+	 */
+	public void setSecure(final boolean secure) {
+<span class="nc" id="L604">		this.secure = secure;</span>
+<span class="nc" id="L605">	}</span>
+
+	/**
+	 * @return the secure flag.
+	 */
+	@Override
+	public boolean isSecure() {
+<span class="nc" id="L612">		return secure;</span>
+	}
+
+	/**
+	 * Removes the attribute with the given name.
+	 *
+	 * @param name the attribute name.
+	 */
+	@Override
+	public void removeAttribute(final String name) {
+<span class="nc" id="L622">		attributes.remove(name);</span>
+<span class="nc" id="L623">	}</span>
+
+	/**
+	 * Sets a request attribute.
+	 *
+	 * @param name the attribute name.
+	 * @param value the attribute value.
+	 */
+	@Override
+	public void setAttribute(final String name, final Object value) {
+<span class="pc bpc" id="L633" title="1 of 2 branches missed.">		if (value == null) {</span>
+<span class="nc" id="L634">			removeAttribute(name);</span>
+		} else {
+<span class="fc" id="L636">			attributes.put(name, value);</span>
+		}
+<span class="fc" id="L638">	}</span>
+
+	/**
+	 * Unimplemented.
+	 *
+	 * @param env ignored.
+	 */
+	@Override
+	public void setCharacterEncoding(final String env) {
+		// No effect
+<span class="nc" id="L648">	}</span>
+
+	/**
+	 * @return null, as this has not been implemented.
+	 */
+	@Override
+	public String getLocalAddr() {
+<span class="nc" id="L655">		return null;</span>
+	}
+
+	/**
+	 * @return null, as this has not been implemented.
+	 */
+	@Override
+	public String getLocalName() {
+<span class="nc" id="L663">		return null;</span>
+	}
+
+	/**
+	 * Sets the local port number.
+	 *
+	 * @param localPort the local port number.
+	 */
+	public void setLocalPort(final int localPort) {
+<span class="nc" id="L672">		this.localPort = localPort;</span>
+<span class="nc" id="L673">	}</span>
+
+	/**
+	 * @return the local port number.
+	 */
+	@Override
+	public int getLocalPort() {
+<span class="nc" id="L680">		return localPort;</span>
+	}
+
+	/**
+	 * Sets the remove port number.
+	 *
+	 * @param remotePort the remote port number.
+	 */
+	public void setRemotePort(final int remotePort) {
+<span class="nc" id="L689">		this.remotePort = remotePort;</span>
+<span class="nc" id="L690">	}</span>
+
+	/**
+	 * @return the remote port number.
+	 */
+	@Override
+	public int getRemotePort() {
+<span class="nc" id="L697">		return remotePort;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

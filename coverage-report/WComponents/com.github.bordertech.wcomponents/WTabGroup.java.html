@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WTabGroup.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">WTabGroup.java</span></div><h1>WTabGroup.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import com.github.bordertech.wcomponents.WTabSet.TabMode;
+
+/**
+ * WTabGroup encapsulates a related group of tabs.
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ */
+public class WTabGroup extends AbstractContainer implements Disableable {
+
+	/**
+	 * Creates a WTabGroup.
+	 *
+	 * @param groupName the tab group name.
+	 */
+	public WTabGroup(final String groupName) {
+<span class="fc" id="L19">		this(new WDecoratedLabel(groupName));</span>
+<span class="fc" id="L20">	}</span>
+
+	/**
+	 * Creates a WTabGroup.
+	 *
+	 * @param label the tab group label.
+	 */
+<span class="fc" id="L27">	public WTabGroup(final WDecoratedLabel label) {</span>
+<span class="fc" id="L28">		add(label);</span>
+<span class="fc" id="L29">	}</span>
+
+	/**
+	 * Adds a separator to the tab group.
+	 */
+	public void addSeparator() {
+<span class="fc" id="L35">		add(new WSeparator());</span>
+<span class="fc" id="L36">	}</span>
+
+	/**
+	 * Indicates whether the WTabSet is disabled.
+	 *
+	 * @return true if the input is disabled, otherwise false.
+	 */
+	@Override
+	public boolean isDisabled() {
+<span class="fc" id="L45">		return isFlagSet(ComponentModel.DISABLED_FLAG);</span>
+	}
+
+	/**
+	 * Sets whether the WTabSet is disabled.
+	 *
+	 * @param disabled if true, the input is disabled. If false, it is enabled.
+	 */
+	@Override
+	public void setDisabled(final boolean disabled) {
+<span class="fc" id="L55">		setFlag(ComponentModel.DISABLED_FLAG, disabled);</span>
+<span class="fc" id="L56">	}</span>
+
+	/**
+	 * Adds a tab to the tab set.
+	 *
+	 * @param content the tab set content.
+	 * @param tabName the tab name.
+	 * @param mode the tab mode.
+	 * @return the tab which was added to the group.
+	 */
+	public WTab addTab(final WComponent content, final String tabName, final TabMode mode) {
+<span class="fc" id="L67">		WTab tab = new WTab(content, tabName, mode);</span>
+<span class="fc" id="L68">		add(tab);</span>
+
+<span class="fc" id="L70">		return tab;</span>
+	}
+
+	/**
+	 * Adds a tab to the tab set.
+	 *
+	 * @param content the tab set content.
+	 * @param tabName the tab name.
+	 * @param mode the tab mode.
+	 * @param accessKey the access key used to activate the tab.
+	 * @return the tab which was added to the group.
+	 */
+	public WTab addTab(final WComponent content, final String tabName, final TabMode mode,
+			final char accessKey) {
+<span class="nc" id="L84">		WTab tab = new WTab(content, tabName, mode, accessKey);</span>
+<span class="nc" id="L85">		add(tab);</span>
+
+<span class="nc" id="L87">		return tab;</span>
+	}
+
+	/**
+	 * Adds a tab to the tab set.
+	 *
+	 * @param content the tab set content.
+	 * @param label the tab's label, which can contain rich content (images or other components).
+	 * @param mode the tab mode.
+	 * @return the tab which was added to the group.
+	 */
+	public WTab addTab(final WComponent content, final WDecoratedLabel label, final TabMode mode) {
+<span class="nc" id="L99">		WTab tab = new WTab(content, label, mode);</span>
+<span class="nc" id="L100">		add(tab);</span>
+
+<span class="nc" id="L102">		return tab;</span>
+	}
+
+	/**
+	 * Adds a tab to the tab set.
+	 *
+	 * @param content the tab set content.
+	 * @param label the tab's label, which can contain rich content (images or other components).
+	 * @param mode the tab mode.
+	 * @param accessKey the access key used to activate the tab.
+	 * @return the tab which was added to the group.
+	 */
+	public WTab addTab(final WComponent content, final WDecoratedLabel label, final TabMode mode,
+			final char accessKey) {
+<span class="nc" id="L116">		WTab tab = new WTab(content, label, mode, accessKey);</span>
+<span class="nc" id="L117">		add(tab);</span>
+
+<span class="nc" id="L119">		return tab;</span>
+	}
+
+	/**
+	 * Adds a tab to the tab set.
+	 *
+	 * @param tab the tab to add.
+	 * @deprecated use e.g. {@link #addTab(WComponent, String, TabMode)}
+	 */
+	@Deprecated
+	public void add(final WTab tab) {
+<span class="fc" id="L130">		super.add(tab);</span>
+<span class="fc" id="L131">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override // to make public
+	public void remove(final WComponent child) {
+<span class="nc" id="L138">		super.remove(child);</span>
+<span class="nc" id="L139">	}</span>
+
+	/**
+	 * @return a String representation of this component, for debugging purposes.
+	 */
+	@Override
+	public String toString() {
+<span class="nc" id="L146">		String text = ((WDecoratedLabel) getChildAt(0)).getText();</span>
+<span class="nc bnc" id="L147" title="All 2 branches missed.">		text = text == null ? &quot;null&quot; : ('&quot;' + text + '&quot;');</span>
+<span class="nc" id="L148">		return toString(text, 1, getChildCount() - 1);</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

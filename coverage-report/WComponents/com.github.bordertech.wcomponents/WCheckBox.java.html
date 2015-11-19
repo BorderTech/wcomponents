@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WCheckBox.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">WCheckBox.java</span></div><h1>WCheckBox.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+/**
+ * &lt;p&gt;
+ * A WCheckBox is a wcomponent used to display a checkbox input field. Note that WCheckBox does not render any text. To
+ * display text for the check box, developers should associate a {@link WLabel} with the check box.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * The {@link #isSelected()} method is used to determine if the checkbox has been ticked.
+ * &lt;/p&gt;
+ *
+ * @author James Gifford
+ * @author Jonathan Austin
+ * @since 1.0.0
+ */
+public class WCheckBox extends AbstractInput implements AjaxTrigger, AjaxTarget, SubordinateTrigger,
+		SubordinateTarget {
+
+	/**
+	 * Creates an initially unselected check box with no set text.
+	 */
+	public WCheckBox() {
+<span class="fc" id="L23">		this(false);</span>
+<span class="fc" id="L24">	}</span>
+
+	/**
+	 * Creates a check box with the specified text and selection state.
+	 *
+	 * @param selected if true, the check box is initially selected; otherwise, the check box is initially unselected
+	 */
+<span class="fc" id="L31">	public WCheckBox(final boolean selected) {</span>
+<span class="fc" id="L32">		getComponentModel().setData(selected);</span>
+<span class="fc" id="L33">	}</span>
+
+	/**
+	 * Returns the check box value as a String.
+	 *
+	 * @return &quot;true&quot; if the checkbox is checked, otherwise null.
+	 */
+	@Override
+	public String getValueAsString() {
+<span class="fc bfc" id="L42" title="All 2 branches covered.">		return getValue() ? &quot;true&quot; : null;</span>
+	}
+
+	/**
+	 * Sets the checkbox group. When a single grouped checkbox is targeted with a &lt;code&gt;WSelectToggle&lt;/code&gt;, all
+	 * checkboxes in that group will be updated.
+	 *
+	 * @param group The group to set.
+	 */
+	public void setGroup(final WComponentGroup&lt;WCheckBox&gt; group) {
+<span class="fc" id="L52">		getOrCreateComponentModel().group = group;</span>
+<span class="fc" id="L53">	}</span>
+
+	/**
+	 * @return the check box group.
+	 */
+	public WComponentGroup&lt;WCheckBox&gt; getGroup() {
+<span class="fc" id="L59">		return getComponentModel().group;</span>
+	}
+
+	// ================================
+	// Action/Event handling
+	/**
+	 * &lt;p&gt;
+	 * Override handleRequest in order to perform processing for this component. This implementation checks the checkbox
+	 * state in the request.
+	 * &lt;/p&gt;
+	 *
+	 * @param request the request being responded to.
+	 * @return true if the check box has changed
+	 */
+	@Override
+	protected boolean doHandleRequest(final Request request) {
+<span class="fc" id="L75">		boolean selected = getRequestValue(request);</span>
+<span class="fc" id="L76">		boolean current = getValue();</span>
+
+<span class="fc bfc" id="L78" title="All 2 branches covered.">		boolean changed = current != selected;</span>
+
+<span class="fc bfc" id="L80" title="All 2 branches covered.">		if (changed) {</span>
+<span class="fc" id="L81">			setData(selected);</span>
+		}
+
+<span class="fc" id="L84">		return changed;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Boolean getRequestValue(final Request request) {
+<span class="fc bfc" id="L92" title="All 2 branches covered.">		if (isPresent(request)) {</span>
+<span class="fc" id="L93">			String aText = request.getParameter(getId());</span>
+<span class="fc" id="L94">			return &quot;true&quot;.equals(aText);</span>
+		} else {
+<span class="fc" id="L96">			return getValue();</span>
+		}
+	}
+
+	// ================================
+	// Attributes
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Boolean getValue() {
+<span class="fc" id="L107">		return Boolean.TRUE.equals(getData());</span>
+	}
+
+	/**
+	 * Returns the state of the check box. True if selected, false if not.
+	 *
+	 * @return true if the check box is selected, otherwise false
+	 */
+	public boolean isSelected() {
+<span class="fc" id="L116">		return getValue();</span>
+	}
+
+	/**
+	 * Sets the state of the check box.
+	 *
+	 * @param selected true if the check box is selected, otherwise false
+	 */
+	public void setSelected(final boolean selected) {
+<span class="fc" id="L125">		setData(selected);</span>
+<span class="fc" id="L126">	}</span>
+
+	/**
+	 * Sets whether the form should be submitted when the checkbox is checked/unchecked. This sets the default option
+	 * SubmitOnChange seen by all user sessions.
+	 *
+	 * @param submitOnChange true to submit the form on change.
+	 */
+	@Override
+	public void setSubmitOnChange(final boolean submitOnChange) {
+<span class="fc" id="L136">		super.setSubmitOnChange(submitOnChange);</span>
+<span class="fc" id="L137">	}</span>
+
+	/**
+	 * Indicates whether the form should be submitted when the checkbox is checked/unchecked.
+	 *
+	 * @return true if the form should be submitted on change.
+	 */
+	@Override
+	public boolean isSubmitOnChange() {
+<span class="fc" id="L146">		return super.isSubmitOnChange();</span>
+	}
+
+	/**
+	 * Same as {@link #getName()}. This method exists simply to clarify the relationship between the WCheckBox, its
+	 * Action, and the ActionEvent sent to the execute() method of the Action.
+	 *
+	 * @return this checkbox's name.
+	 */
+	@Override
+	public String getActionCommand() {
+<span class="fc" id="L157">		return getId();</span>
+	}
+
+	/**
+	 * Creates a new Component model.
+	 *
+	 * @return a new CheckBoxModel.
+	 */
+	@Override
+	// For type safety only
+	protected CheckBoxModel newComponentModel() {
+<span class="fc" id="L168">		return new CheckBoxModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	// For type safety only
+	protected CheckBoxModel getComponentModel() {
+<span class="fc" id="L177">		return (CheckBoxModel) super.getComponentModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	// For type safety only
+	protected CheckBoxModel getOrCreateComponentModel() {
+<span class="fc" id="L186">		return (CheckBoxModel) super.getOrCreateComponentModel();</span>
+	}
+
+	/**
+	 * Holds the extrinsic state information of the component.
+	 *
+	 * @author Yiannis Paschalidis
+	 */
+<span class="fc" id="L194">	public static class CheckBoxModel extends InputModel {</span>
+
+		/**
+		 * The check box group.
+		 */
+		private WComponentGroup&lt;WCheckBox&gt; group;
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

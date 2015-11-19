@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>ListLayoutRenderer.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.render.webxml</a> &gt; <span class="el_source">ListLayoutRenderer.java</span></div><h1>ListLayoutRenderer.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.render.webxml;
+
+import com.github.bordertech.wcomponents.Renderer;
+import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.WPanel;
+import com.github.bordertech.wcomponents.XmlStringBuilder;
+import com.github.bordertech.wcomponents.layout.ListLayout;
+import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
+
+/**
+ * This {@link Renderer} renders the children of a {@link WPanel} which have been arranged using a {@link ListLayout}.
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ */
+<span class="fc" id="L16">final class ListLayoutRenderer extends AbstractWebXmlRenderer {</span>
+
+	/**
+	 * Paints the given WPanel's children.
+	 *
+	 * @param component the container to paint.
+	 * @param renderContext the RenderContext to paint to.
+	 */
+	@Override
+	public void doRender(final WComponent component, final WebXmlRenderContext renderContext) {
+<span class="fc" id="L26">		WPanel panel = (WPanel) component;</span>
+<span class="fc" id="L27">		XmlStringBuilder xml = renderContext.getWriter();</span>
+<span class="fc" id="L28">		ListLayout layout = (ListLayout) panel.getLayout();</span>
+<span class="fc" id="L29">		int childCount = panel.getChildCount();</span>
+<span class="fc" id="L30">		int hgap = layout.getHgap();</span>
+<span class="fc" id="L31">		int vgap = layout.getVgap();</span>
+
+<span class="fc" id="L33">		xml.appendTagOpen(&quot;ui:listLayout&quot;);</span>
+
+<span class="pc bpc" id="L35" title="1 of 4 branches missed.">		switch (layout.getType()) {</span>
+			case FLAT:
+<span class="fc" id="L37">				xml.appendAttribute(&quot;type&quot;, &quot;flat&quot;);</span>
+<span class="fc" id="L38">				break;</span>
+
+			case STACKED:
+<span class="fc" id="L41">				xml.appendAttribute(&quot;type&quot;, &quot;stacked&quot;);</span>
+<span class="fc" id="L42">				break;</span>
+
+			case STRIPED:
+<span class="fc" id="L45">				xml.appendAttribute(&quot;type&quot;, &quot;striped&quot;);</span>
+<span class="fc" id="L46">				break;</span>
+
+			default:
+<span class="pc" id="L49">				throw new IllegalArgumentException(&quot;Invalid type: &quot; + layout.getType());</span>
+		}
+
+<span class="pc bpc" id="L52" title="1 of 4 branches missed.">		switch (layout.getAlignment()) {</span>
+			case LEFT:
+				// left is assumed if omitted
+<span class="fc" id="L55">				break;</span>
+
+			case RIGHT:
+<span class="fc" id="L58">				xml.appendAttribute(&quot;align&quot;, &quot;right&quot;);</span>
+<span class="fc" id="L59">				break;</span>
+
+			case CENTER:
+<span class="fc" id="L62">				xml.appendAttribute(&quot;align&quot;, &quot;center&quot;);</span>
+<span class="fc" id="L63">				break;</span>
+
+			default:
+<span class="nc" id="L66">				throw new IllegalArgumentException(&quot;Invalid alignment: &quot; + layout.getAlignment());</span>
+		}
+
+<span class="pc bpc" id="L69" title="2 of 4 branches missed.">		switch (layout.getSeparator()) {</span>
+			case NONE:
+				// none is assumed if omitted
+<span class="fc" id="L72">				break;</span>
+
+			case BAR:
+<span class="nc" id="L75">				xml.appendAttribute(&quot;separator&quot;, &quot;bar&quot;);</span>
+<span class="nc" id="L76">				break;</span>
+
+			case DOT:
+<span class="fc" id="L79">				xml.appendAttribute(&quot;separator&quot;, &quot;dot&quot;);</span>
+<span class="fc" id="L80">				break;</span>
+
+			default:
+<span class="nc" id="L83">				throw new IllegalArgumentException(&quot;Invalid separator: &quot; + layout.getSeparator());</span>
+		}
+
+<span class="fc" id="L86">		xml.appendOptionalAttribute(&quot;ordered&quot;, layout.isOrdered(), &quot;true&quot;);</span>
+
+<span class="fc bfc" id="L88" title="All 2 branches covered.">		xml.appendOptionalAttribute(&quot;hgap&quot;, hgap &gt; 0, hgap);</span>
+<span class="fc bfc" id="L89" title="All 2 branches covered.">		xml.appendOptionalAttribute(&quot;vgap&quot;, vgap &gt; 0, vgap);</span>
+
+<span class="fc" id="L91">		xml.appendClose();</span>
+
+		// Paint children
+<span class="fc bfc" id="L94" title="All 2 branches covered.">		for (int i = 0; i &lt; childCount; i++) {</span>
+<span class="fc" id="L95">			xml.appendTag(&quot;ui:cell&quot;);</span>
+<span class="fc" id="L96">			panel.getChildAt(i).paint(renderContext);</span>
+<span class="fc" id="L97">			xml.appendEndTag(&quot;ui:cell&quot;);</span>
+		}
+
+<span class="fc" id="L100">		xml.appendEndTag(&quot;ui:listLayout&quot;);</span>
+<span class="fc" id="L101">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

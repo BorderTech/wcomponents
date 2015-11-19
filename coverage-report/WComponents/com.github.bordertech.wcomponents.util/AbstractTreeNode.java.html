@@ -1,0 +1,495 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>AbstractTreeNode.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.util</a> &gt; <span class="el_source">AbstractTreeNode.java</span></div><h1>AbstractTreeNode.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.util;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.NoSuchElementException;
+
+/**
+ * A default implementation of the TreeNode interface. This class is abstract, as it doesn't make sense to instantiate a
+ * TreeNode that doesn't contain any data.
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ */
+<span class="fc" id="L16">public abstract class AbstractTreeNode implements TreeNode, Serializable {</span>
+
+	/**
+	 * An iterator for empty lists.
+	 */
+<span class="fc" id="L21">	private static final Iterator&lt;TreeNode&gt; EMPTY_ITERATOR = new EmptyIterator&lt;&gt;();</span>
+
+	/**
+	 * The parent node.
+	 */
+	private TreeNode parent;
+
+	/**
+	 * The child list, lazily initialised.
+	 */
+	private List&lt;TreeNode&gt; children;
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void add(final TreeNode node) {
+<span class="fc bfc" id="L38" title="All 2 branches covered.">		if (node == this) {</span>
+<span class="fc" id="L39">			throw new IllegalArgumentException(&quot;Can't add a node to itself&quot;);</span>
+		}
+
+<span class="fc bfc" id="L42" title="All 2 branches covered.">		if (this.isAncestor(node)) {</span>
+<span class="fc" id="L43">			throw new IllegalArgumentException(&quot;Can't add an ancestor as a child node&quot;);</span>
+		}
+
+<span class="fc bfc" id="L46" title="All 2 branches covered.">		if (node.getParent() != null) {</span>
+<span class="fc" id="L47">			node.getParent().remove(node);</span>
+		}
+
+<span class="fc bfc" id="L50" title="All 2 branches covered.">		if (children == null) {</span>
+<span class="fc" id="L51">			children = new ArrayList&lt;&gt;();</span>
+		}
+
+<span class="fc" id="L54">		children.add(node);</span>
+
+<span class="pc bpc" id="L56" title="1 of 2 branches missed.">		if (node instanceof AbstractTreeNode) {</span>
+<span class="fc" id="L57">			((AbstractTreeNode) node).parent = this;</span>
+		}
+<span class="fc" id="L59">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Iterator&lt;TreeNode&gt; children() {
+<span class="fc bfc" id="L66" title="All 2 branches covered.">		if (children == null) {</span>
+<span class="fc" id="L67">			return EMPTY_ITERATOR;</span>
+		}
+
+<span class="fc" id="L70">		return children.iterator();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Iterator&lt;TreeNode&gt; depthFirst() {
+<span class="fc" id="L78">		return new PostorderIterator(this);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Iterator&lt;TreeNode&gt; breadthFirst() {
+<span class="fc" id="L86">		return new BreadthFirstIterator(this);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public TreeNode getChildAt(final int index) {
+<span class="fc bfc" id="L94" title="All 6 branches covered.">		if (children == null || index &lt; 0 || index &gt;= children.size()) {</span>
+<span class="fc" id="L95">			throw new IndexOutOfBoundsException(&quot;Index out of bounds: &quot; + index);</span>
+		}
+
+<span class="fc" id="L98">		return children.get(index);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public int getIndex(final TreeNode aChild) {
+<span class="fc bfc" id="L106" title="All 2 branches covered.">		if (aChild == null) {</span>
+<span class="fc" id="L107">			throw new IllegalArgumentException(&quot;Can't retrieve index for null node&quot;);</span>
+		}
+
+<span class="pc bpc" id="L110" title="1 of 2 branches missed.">		if (children != null) {</span>
+<span class="fc" id="L111">			return children.indexOf(aChild);</span>
+		}
+
+<span class="nc" id="L114">		return -1;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public int getChildCount() {
+<span class="fc bfc" id="L122" title="All 2 branches covered.">		return children == null ? 0 : children.size();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public TreeNode getParent() {
+<span class="fc" id="L130">		return parent;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void remove(final TreeNode child) {
+<span class="pc bpc" id="L138" title="1 of 2 branches missed.">		if (children != null) {</span>
+<span class="fc" id="L139">			children.remove(child);</span>
+
+<span class="fc bfc" id="L141" title="All 2 branches covered.">			if (child instanceof AbstractTreeNode) {</span>
+<span class="fc" id="L142">				((AbstractTreeNode) child).parent = null;</span>
+			}
+		}
+<span class="fc" id="L145">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void removeAll() {
+<span class="pc bpc" id="L152" title="1 of 2 branches missed.">		if (children != null) {</span>
+<span class="fc bfc" id="L153" title="All 2 branches covered.">			for (int i = 0; i &lt; children.size(); i++) {</span>
+<span class="fc" id="L154">				TreeNode child = children.get(i);</span>
+
+<span class="pc bpc" id="L156" title="1 of 2 branches missed.">				if (child instanceof AbstractTreeNode) {</span>
+<span class="fc" id="L157">					((AbstractTreeNode) child).parent = null;</span>
+				}
+			}
+
+<span class="fc" id="L161">			children = null;</span>
+		}
+<span class="fc" id="L163">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean isDescendant(final TreeNode otherNode) {
+<span class="fc" id="L170">		return this.isAncestor(otherNode);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean isAncestor(final TreeNode otherNode) {
+<span class="pc bpc" id="L178" title="1 of 2 branches missed.">		if (otherNode != null) {</span>
+<span class="fc bfc" id="L179" title="All 2 branches covered.">			for (TreeNode node = getParent(); node != null; node = node.getParent()) {</span>
+<span class="fc bfc" id="L180" title="All 2 branches covered.">				if (node == otherNode) {</span>
+<span class="fc" id="L181">					return true;</span>
+				}
+			}
+		}
+
+<span class="fc" id="L186">		return false;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public int getLevel() {
+<span class="fc" id="L194">		int level = 0;</span>
+
+<span class="fc bfc" id="L196" title="All 2 branches covered.">		for (TreeNode node = this; node.getParent() != null; node = node.getParent()) {</span>
+<span class="fc" id="L197">			level++;</span>
+		}
+
+<span class="fc" id="L200">		return level;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean isLeaf() {
+<span class="fc bfc" id="L208" title="All 2 branches covered.">		return !children().hasNext();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean isRelated(final TreeNode otherNode) {
+<span class="pc bpc" id="L216" title="1 of 4 branches missed.">		return (otherNode != null) &amp;&amp; (getRoot() == otherNode.getRoot());</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public TreeNode getRoot() {
+<span class="fc" id="L224">		TreeNode node = this;</span>
+
+<span class="fc bfc" id="L226" title="All 2 branches covered.">		while (node.getParent() != null) {</span>
+<span class="fc" id="L227">			node = node.getParent();</span>
+		}
+
+<span class="fc" id="L230">		return node;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public TreeNode[] getPath() {
+<span class="fc" id="L238">		return getPathToRoot(this, 0);</span>
+	}
+
+	/**
+	 * Builds the parents of node up to and including the root node, where the original node is the last element in the
+	 * returned array. The length of the returned array gives the node's depth in the tree.
+	 *
+	 * @param aNode the DefaultTreeNode to get the path for
+	 * @param depth an int giving the number of steps already taken towards the root (on recursive calls), used to size
+	 * the returned array
+	 * @return an array of TreeNodes giving the path from the root to the specified node
+	 */
+	private TreeNode[] getPathToRoot(final TreeNode aNode, final int depth) {
+		TreeNode[] retNodes;
+
+		// This method recurses, traversing towards the root in order
+		// size the array. On the way back, it fills in the nodes,
+		// starting from the root and working back to the original node.
+		// Check for null, in case someone passed in a null node, or they passed
+		// in an element that isn't rooted at root.
+<span class="fc bfc" id="L258" title="All 2 branches covered.">		if (aNode == null) {</span>
+<span class="pc bpc" id="L259" title="1 of 2 branches missed.">			if (depth == 0) {</span>
+<span class="nc" id="L260">				return null;</span>
+			} else {
+<span class="fc" id="L262">				retNodes = new TreeNode[depth];</span>
+			}
+		} else {
+<span class="fc" id="L265">			int newDepth = depth + 1;</span>
+<span class="fc" id="L266">			retNodes = getPathToRoot(aNode.getParent(), newDepth);</span>
+<span class="fc" id="L267">			retNodes[retNodes.length - newDepth] = aNode;</span>
+		}
+
+<span class="fc" id="L270">		return retNodes;</span>
+	}
+
+	/**
+	 * An iteration that traverses the subtree rooted at this node in breadth-first order. The first node returned by
+	 * the iteration's &lt;code&gt;nextElement()&lt;/code&gt; method is the initial node.
+	 * &lt;P&gt;
+	 * Adapted from javax.swing.tree.TreeNode.BreadthFirstEnumerator.
+	 *
+	 * @author Yiannis Paschalidis
+	 */
+	private static final class BreadthFirstIterator implements Iterator&lt;TreeNode&gt; {
+
+		private final Queue&lt;Iterator&lt;TreeNode&gt;&gt; queue;
+
+		/**
+		 * Creates a BreadthFirstIterator.
+		 *
+		 * @param rootNode the root node for the iterator.
+		 */
+<span class="fc" id="L290">		private BreadthFirstIterator(final TreeNode rootNode) {</span>
+<span class="fc" id="L291">			List&lt;TreeNode&gt; list = new ArrayList&lt;&gt;(1);</span>
+<span class="fc" id="L292">			list.add(rootNode);</span>
+<span class="fc" id="L293">			queue = new Queue&lt;&gt;();</span>
+<span class="fc" id="L294">			queue.enqueue(list.iterator());</span>
+<span class="fc" id="L295">		}</span>
+
+		/**
+		 * @return true if the iterator has more elements.
+		 */
+		@Override
+		public boolean hasNext() {
+<span class="pc bpc" id="L302" title="1 of 4 branches missed.">			return (!queue.isEmpty() &amp;&amp; queue.firstObject().hasNext());</span>
+		}
+
+		/**
+		 * @return the next element in the iteration.
+		 */
+		@Override
+		public TreeNode next() {
+<span class="fc" id="L310">			Iterator&lt;TreeNode&gt; iterator = queue.firstObject();</span>
+<span class="fc" id="L311">			TreeNode node = iterator.next();</span>
+<span class="fc" id="L312">			Iterator&lt;TreeNode&gt; children = node.children();</span>
+
+<span class="fc bfc" id="L314" title="All 2 branches covered.">			if (!iterator.hasNext()) {</span>
+<span class="fc" id="L315">				queue.dequeue();</span>
+			}
+<span class="fc bfc" id="L317" title="All 2 branches covered.">			if (children.hasNext()) {</span>
+<span class="fc" id="L318">				queue.enqueue(children);</span>
+			}
+<span class="fc" id="L320">			return node;</span>
+		}
+
+		/**
+		 * Throws an UnsupportedOperationException, as remove is not supported.
+		 */
+		@Override
+		public void remove() {
+<span class="nc" id="L328">			throw new UnsupportedOperationException(&quot;Remove not supported&quot;);</span>
+		}
+
+		/**
+		 * A simple queue with a linked list data structure.
+		 *
+		 * @param &lt;T&gt; the queue type
+		 * @author Rob Davis
+		 */
+<span class="fc" id="L337">		private static final class Queue&lt;T&gt; {</span>
+
+			/**
+			 * The head of the queue, null if empty.
+			 */
+			private QNode&lt;T&gt; head;
+			/**
+			 * The tail of the queue, null if empty.
+			 */
+			private QNode&lt;T&gt; tail;
+
+			/**
+			 * Implementation of linked list queue node.
+			 *
+			 * @param &lt;T&gt; the queue node type
+			 * @author Rob Davis
+			 */
+<span class="fc" id="L354">			private static final class QNode&lt;T&gt; {</span>
+
+				/**
+				 * The value being held by the node.
+				 */
+				private final T object;
+				/**
+				 * The next node in the queue, null if end.
+				 */
+				private QNode&lt;T&gt; next;
+
+				/**
+				 * Creates a QNode.
+				 *
+				 * @param object the node's value.
+				 * @param next the next node in the queue.
+				 */
+<span class="fc" id="L371">				private QNode(final T object, final QNode&lt;T&gt; next) {</span>
+<span class="fc" id="L372">					this.object = object;</span>
+<span class="fc" id="L373">					this.next = next;</span>
+<span class="fc" id="L374">				}</span>
+			}
+
+			/**
+			 * Adds an object to the queue.
+			 *
+			 * @param anObject the object to add.
+			 */
+			public void enqueue(final T anObject) {
+<span class="fc bfc" id="L383" title="All 2 branches covered.">				if (head == null) {</span>
+<span class="fc" id="L384">					head = new QNode&lt;&gt;(anObject, null);</span>
+<span class="fc" id="L385">					tail = head;</span>
+				} else {
+<span class="fc" id="L387">					tail.next = new QNode&lt;&gt;(anObject, null);</span>
+<span class="fc" id="L388">					tail = tail.next;</span>
+				}
+<span class="fc" id="L390">			}</span>
+
+			/**
+			 * Removes the first object from the queue.
+			 *
+			 * @return the removed object.
+			 */
+			public Object dequeue() {
+<span class="pc bpc" id="L398" title="1 of 2 branches missed.">				if (head == null) {</span>
+<span class="nc" id="L399">					throw new NoSuchElementException(&quot;No more elements&quot;);</span>
+				}
+
+<span class="fc" id="L402">				Object retval = head.object;</span>
+<span class="fc" id="L403">				QNode&lt;T&gt; oldHead = head;</span>
+<span class="fc" id="L404">				head = head.next;</span>
+<span class="fc bfc" id="L405" title="All 2 branches covered.">				if (head == null) {</span>
+<span class="fc" id="L406">					tail = null;</span>
+				} else {
+<span class="fc" id="L408">					oldHead.next = null;</span>
+				}
+<span class="fc" id="L410">				return retval;</span>
+			}
+
+			/**
+			 * @return the first object on the queue.
+			 */
+			public T firstObject() {
+<span class="pc bpc" id="L417" title="1 of 2 branches missed.">				if (head == null) {</span>
+<span class="nc" id="L418">					throw new NoSuchElementException(&quot;No more elements&quot;);</span>
+				}
+
+<span class="fc" id="L421">				return head.object;</span>
+			}
+
+			/**
+			 * Indicates whether this queue is empty.
+			 *
+			 * @return true if this queue is empty.
+			 */
+			public boolean isEmpty() {
+<span class="fc bfc" id="L430" title="All 2 branches covered.">				return head == null;</span>
+			}
+		}
+	}
+
+	/**
+	 * A Post-order (depth first) iteration for a sub-tree. Adapted from
+	 * javax.swing.tree.TreeNode.PostorderEnumerationation.
+	 *
+	 * @author Yiannis Paschalidis
+	 */
+<span class="fc" id="L441">	private static final class PostorderIterator implements Iterator&lt;TreeNode&gt; {</span>
+
+		private TreeNode root;
+		private final Iterator&lt;TreeNode&gt; children;
+		private Iterator&lt;TreeNode&gt; subtree;
+
+		/**
+		 * Creates a PostorderIterator.
+		 *
+		 * @param rootNode the root node for this iteration.
+		 */
+<span class="fc" id="L452">		private PostorderIterator(final TreeNode rootNode) {</span>
+<span class="fc" id="L453">			root = rootNode;</span>
+<span class="fc" id="L454">			children = root.children();</span>
+<span class="fc" id="L455">			subtree = EMPTY_ITERATOR;</span>
+<span class="fc" id="L456">		}</span>
+
+		/**
+		 * @return true if the iterator has more elements.
+		 */
+		@Override
+		public boolean hasNext() {
+<span class="fc bfc" id="L463" title="All 2 branches covered.">			return root != null;</span>
+		}
+
+		/**
+		 * @return the next element in the iteration.
+		 */
+		@Override
+		public TreeNode next() {
+			TreeNode retval;
+
+<span class="fc bfc" id="L473" title="All 2 branches covered.">			if (subtree.hasNext()) {</span>
+<span class="fc" id="L474">				retval = subtree.next();</span>
+<span class="fc bfc" id="L475" title="All 2 branches covered.">			} else if (children.hasNext()) {</span>
+<span class="fc" id="L476">				subtree = new PostorderIterator(children.next());</span>
+<span class="fc" id="L477">				retval = subtree.next();</span>
+			} else {
+<span class="fc" id="L479">				retval = root;</span>
+<span class="fc" id="L480">				root = null;</span>
+			}
+
+<span class="fc" id="L483">			return retval;</span>
+		}
+
+		/**
+		 * Throws an UnsupportedOperationException, as remove is not supported.
+		 */
+		@Override
+		public void remove() {
+<span class="nc" id="L491">			throw new UnsupportedOperationException(&quot;Remove not supported&quot;);</span>
+		}
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

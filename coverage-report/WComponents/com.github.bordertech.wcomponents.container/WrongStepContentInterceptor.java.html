@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WrongStepContentInterceptor.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.container</a> &gt; <span class="el_source">WrongStepContentInterceptor.java</span></div><h1>WrongStepContentInterceptor.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.container;
+
+import com.github.bordertech.wcomponents.ErrorCodeEscape;
+import com.github.bordertech.wcomponents.Request;
+import com.github.bordertech.wcomponents.UIContext;
+import com.github.bordertech.wcomponents.UIContextHolder;
+import com.github.bordertech.wcomponents.util.I18nUtilities;
+import com.github.bordertech.wcomponents.util.InternalMessages;
+import com.github.bordertech.wcomponents.util.StepCountUtil;
+import com.github.bordertech.wcomponents.util.SystemException;
+import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+/**
+ * &lt;p&gt;
+ * This wrong step interceptor makes sure that content requests are only processed from the most recently rendered view.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * It assumes the correct context has already been set via the {@link WWindowInterceptor}.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * If a step error occurs, then the user, depending on the redirect flag, is either (1) redirected to an error page or
+ * (2) warped to the future so the application is rendered in its current state. When the user is warped to the future,
+ * the handleStepError method is called on WApplication, which allows applications to take the appropriate action for
+ * when a step error has occurred. For content like WImage, an error code is set, rather than trying to do a redirect.
+ * &lt;/p&gt;
+ *
+ * @author Jonathan Austin
+ */
+<span class="fc" id="L31">public class WrongStepContentInterceptor extends InterceptorComponent {</span>
+
+	/**
+	 * The logger instance for this class.
+	 */
+<span class="fc" id="L36">	private static final Log LOG = LogFactory.getLog(WrongStepContentInterceptor.class);</span>
+
+	/**
+	 * Override to check whether the step variable in the incoming request matches what we expect.
+	 *
+	 * @param request the request being serviced.
+	 */
+	@Override
+	public void serviceRequest(final Request request) {
+		// Get expected step count
+<span class="fc" id="L46">		UIContext uic = UIContextHolder.getCurrent();</span>
+<span class="fc" id="L47">		int expected = uic.getEnvironment().getStep();</span>
+
+		// Step should already be set on the session
+<span class="fc bfc" id="L50" title="All 2 branches covered.">		if (expected == 0) {</span>
+<span class="fc" id="L51">			throw new SystemException(</span>
+					&quot;Step count should already be set on the session before content request.&quot;);
+		}
+
+		// Get step count on the request
+<span class="fc" id="L56">		int got = StepCountUtil.getRequestStep(request);</span>
+
+		// Check tokens match (both must be provided)
+<span class="fc bfc" id="L59" title="All 2 branches covered.">		if (expected == got) {</span>
+			// Process Service Request
+<span class="nc" id="L61">			getBackingComponent().serviceRequest(request);</span>
+<span class="pc bpc" id="L62" title="3 of 4 branches missed.">		} else if (!StepCountUtil.isStepOnRequest(request) &amp;&amp; StepCountUtil.isCachedContentRequest(request)) {  // cached content (no step on request)</span>
+			// Process Service Request
+<span class="nc" id="L64">			getBackingComponent().serviceRequest(request);</span>
+		} else {  // Invalid token
+			// Set an error code
+<span class="fc" id="L67">			LOG.warn(</span>
+					&quot;Wrong step detected for content request. Expected step [&quot; + expected + &quot;] but got step [&quot; + got
+					+ &quot;].&quot;);
+<span class="nc" id="L70">			handleError();</span>
+		}
+
+<span class="nc" id="L73">	}</span>
+
+	/**
+	 * Throw the default error code.
+	 */
+	private void handleError() {
+		String msg = I18nUtilities
+<span class="fc" id="L80">				.format(UIContextHolder.getCurrent().getLocale(),</span>
+						InternalMessages.DEFAULT_STEP_ERROR);
+<span class="fc" id="L82">		throw new ErrorCodeEscape(HttpServletResponse.SC_BAD_REQUEST, msg);</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WTableRowRenderer.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">WTableRowRenderer.java</span></div><h1>WTableRowRenderer.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import com.github.bordertech.wcomponents.WRepeater.SubUIContext;
+import com.github.bordertech.wcomponents.WTable.RowIdWrapper;
+import com.github.bordertech.wcomponents.WTable.TableModel;
+import com.github.bordertech.wcomponents.util.Util;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+/**
+ * WTableRowRenderer is used by the table's repeater to render row data. This class is intended for internal use only.
+ *
+ * @author Jonathan Austin
+ * @since 1.0.0
+ */
+public final class WTableRowRenderer extends WDataRenderer {
+
+	/**
+	 * The logger instance for this class.
+	 */
+<span class="fc" id="L24">	private static final Log LOG = LogFactory.getLog(WTableRowRenderer.class);</span>
+
+	/**
+	 * The table that this renderer belongs to.
+	 */
+	private final WTable table;
+
+	/**
+	 * A Map of expanded renderers.
+	 */
+<span class="fc" id="L34">	private final Map&lt;Class&lt;? extends WComponent&gt;, WComponent&gt; expandedRenderers = new HashMap&lt;&gt;();</span>
+
+	/**
+	 * Creates a WTableRowRenderer.
+	 *
+	 * @param table the table that this renderer belongs to.
+	 */
+<span class="fc" id="L41">	protected WTableRowRenderer(final WTable table) {</span>
+<span class="fc" id="L42">		this.table = table;</span>
+<span class="fc" id="L43">	}</span>
+
+	/**
+	 * Retrieves the component that is used to render the given column.
+	 *
+	 * @param columnIndex the column index.
+	 * @return the component used to render the given column.
+	 */
+	public WComponent getRenderer(final int columnIndex) {
+<span class="fc" id="L52">		return getChildAt(columnIndex);</span>
+	}
+
+	/**
+	 * @return the table that this row renderer belongs to.
+	 */
+	public WTable getTable() {
+<span class="fc" id="L59">		return table;</span>
+	}
+
+	/**
+	 * &lt;p&gt;
+	 * The preparePaintComponent method has been overridden to ensure that expanded row renderers have been correctly
+	 * initialised.
+	 * &lt;/p&gt;
+	 * &lt;p&gt;
+	 * Expanded row renderers are lazily instantiated and added to the shared structure as needed. This means for the
+	 * first use of a renderer, it will not have been part of the WComponent tree, and would not have had its
+	 * preparePaintComponent called. We therefore add the renderer to the tree here, and manually call its preparePaint.
+	 * &lt;/p&gt;
+	 *
+	 * @param request the Request being responded to.
+	 */
+	@Override
+	protected void preparePaintComponent(final Request request) {
+<span class="fc" id="L77">		super.preparePaintComponent(request);</span>
+
+<span class="fc" id="L79">		Class&lt;? extends WComponent&gt; rowRendererClass = getRowRendererClass();</span>
+
+<span class="pc bpc" id="L81" title="1 of 4 branches missed.">		if (rowRendererClass != null &amp;&amp; !expandedRenderers.containsKey(rowRendererClass)) {</span>
+<span class="fc" id="L82">			getExpandedTreeNodeRenderer(rowRendererClass).preparePaint(request);</span>
+		}
+<span class="fc" id="L84">	}</span>
+
+	/**
+	 * &lt;p&gt;
+	 * This is called to lazily add expanded renderers as necessary. To save memory, only one instance of a renderer
+	 * class is ever added to the row renderer instance. The RendererWrapper ensures that data binding occurs at the
+	 * right time.
+	 * &lt;/p&gt;
+	 *
+	 * @param rendererClass the renderer class.
+	 * @return the expanded renderer for the given row.
+	 */
+	public WComponent getExpandedTreeNodeRenderer(final Class&lt;? extends WComponent&gt; rendererClass) {
+<span class="pc bpc" id="L97" title="1 of 2 branches missed.">		if (rendererClass == null) {</span>
+<span class="nc" id="L98">			return null;</span>
+		}
+
+		// If we already have an additional renderer for this class, return it.
+		// This is synchronized, as it updates the shared model using locking/unlocking, which is a bit dodgy.
+<span class="fc" id="L103">		synchronized (expandedRenderers) {</span>
+<span class="fc" id="L104">			WComponent renderer = expandedRenderers.get(rendererClass);</span>
+
+<span class="pc bpc" id="L106" title="1 of 2 branches missed.">			if (renderer != null) {</span>
+<span class="nc" id="L107">				return renderer;</span>
+			}
+
+			// Not found, create a new instance of the given class
+<span class="fc" id="L111">			renderer = new RendererWrapper(this, rendererClass, -1);</span>
+<span class="fc" id="L112">			expandedRenderers.put(rendererClass, renderer);</span>
+<span class="fc" id="L113">			setLocked(false);</span>
+<span class="fc" id="L114">			add(renderer);</span>
+<span class="fc" id="L115">			setLocked(true);</span>
+
+<span class="fc" id="L117">			return renderer;</span>
+<span class="nc" id="L118">		}</span>
+	}
+
+	/**
+	 * Retrieves the renderer class for a given row.
+	 *
+	 * @return the renderer class for a given row (if it's an expanded row), otherwise null.
+	 */
+	private Class&lt;? extends WComponent&gt; getRowRendererClass() {
+<span class="fc" id="L127">		RowIdWrapper wrapper = getCurrentRowIdWrapper();</span>
+<span class="pc bpc" id="L128" title="1 of 2 branches missed.">		if (wrapper != null) {</span>
+<span class="fc" id="L129">			return table.getTableModel().getRendererClass(wrapper.getRowIndex());</span>
+		}
+<span class="nc" id="L131">		return null;</span>
+	}
+
+	/**
+	 * Retrieve the current {@link RowIdWrapper}.
+	 * &lt;p&gt;
+	 * Intended for internal use only.
+	 * &lt;/p&gt;
+	 *
+	 * @return the current row id wrapper, or null if not found
+	 */
+	public RowIdWrapper getCurrentRowIdWrapper() {
+<span class="fc" id="L143">		UIContext uic = UIContextHolder.getCurrent();</span>
+<span class="pc bpc" id="L144" title="1 of 2 branches missed.">		if (uic instanceof SubUIContext) {</span>
+<span class="fc" id="L145">			int index = ((SubUIContext) uic).getRowIndex();</span>
+<span class="fc" id="L146">			RowIdWrapper wrapper = table.getRepeater().getBeanList().get(index);</span>
+<span class="fc" id="L147">			return wrapper;</span>
+		}
+<span class="nc" id="L149">		return null;</span>
+	}
+
+	/**
+	 * The renderer wrapper is responsible for ensuring that the renderer is only used when needed (ie. it is only
+	 * involved in processing of certain rows), and ensuring that data is passed to / from the renderer when required.
+	 */
+	private static final class RendererWrapper extends WBeanContainer implements BeanProvider {
+
+		/**
+		 * The table that this wrapper belongs to.
+		 */
+		private final WTableRowRenderer rowRenderer;
+
+		/**
+		 * The actual renderer used to render the column/expanded content.
+		 */
+		private final WComponent renderer;
+
+		/**
+		 * The index of the column which this wrapper renders, or -1 if this is an expanded renderer.
+		 */
+		private final int columnIndex;
+
+		/**
+		 * Creates a RendererWrapper.
+		 *
+		 * @param rowRenderer the row renderer.
+		 * @param rendererClass the column/expanded content renderer class.
+		 * @param columnIndex the index of the column renderer, or -1 if the renderer is for expanded content.
+		 */
+		private RendererWrapper(final WTableRowRenderer rowRenderer,
+				final Class&lt;? extends WComponent&gt; rendererClass,
+<span class="fc" id="L182">				final int columnIndex) {</span>
+<span class="fc" id="L183">			this.rowRenderer = rowRenderer;</span>
+<span class="fc" id="L184">			this.columnIndex = columnIndex;</span>
+<span class="fc" id="L185">			WComponent rendererComponent = null;</span>
+
+			// Not found, create a new instance of the given class
+			try {
+<span class="fc" id="L189">				rendererComponent = rendererClass.newInstance();</span>
+
+<span class="pc bpc" id="L191" title="1 of 2 branches missed.">				if (rendererComponent instanceof BeanProviderBound) {</span>
+<span class="fc" id="L192">					((BeanProviderBound) rendererComponent).setBeanProvider(this);</span>
+				}
+
+<span class="fc" id="L195">				add(rendererComponent);</span>
+<span class="nc" id="L196">			} catch (Exception e) {</span>
+<span class="nc" id="L197">				LOG.error(&quot;Failed to instantiate renderer: &quot; + rendererClass.getName(), e);</span>
+<span class="nc" id="L198">				setVisible(false);</span>
+<span class="fc" id="L199">			}</span>
+
+<span class="fc" id="L201">			renderer = rendererComponent;</span>
+<span class="fc" id="L202">		}</span>
+
+		/**
+		 * Creates a RendererWrapper.
+		 *
+		 * @param rowRenderer the row renderer.
+		 * @param renderer the column/expanded content renderer component.
+		 * @param columnIndex the index of the column renderer, or -1 if the renderer is for expanded content.
+		 */
+		private RendererWrapper(final WTableRowRenderer rowRenderer, final WComponent renderer,
+<span class="fc" id="L212">				final int columnIndex) {</span>
+<span class="fc" id="L213">			this.rowRenderer = rowRenderer;</span>
+<span class="fc" id="L214">			this.columnIndex = columnIndex;</span>
+<span class="fc" id="L215">			this.renderer = renderer;</span>
+
+<span class="pc bpc" id="L217" title="1 of 2 branches missed.">			if (renderer instanceof BeanProviderBound) {</span>
+<span class="fc" id="L218">				((BeanProviderBound) renderer).setBeanProvider(this);</span>
+			}
+
+<span class="fc" id="L221">			add(renderer);</span>
+<span class="fc" id="L222">		}</span>
+
+		/**
+		 * Column Renderers are invisible for expanded rows with an expanded renderer set.
+		 *
+		 * @return true if this component is visible, false if invisible.
+		 */
+		@Override
+		public boolean isVisible() {
+<span class="pc bpc" id="L231" title="1 of 2 branches missed.">			if (!super.isVisible()) {</span>
+<span class="nc" id="L232">				return false;</span>
+			}
+
+<span class="fc" id="L235">			Class&lt;? extends WComponent&gt; rendererClass = rowRenderer.getRowRendererClass();</span>
+
+<span class="fc bfc" id="L237" title="All 2 branches covered.">			if (columnIndex &gt;= 0) {</span>
+				// column renderer
+<span class="fc bfc" id="L239" title="All 2 branches covered.">				return rendererClass == null;</span>
+			} else {
+				// expanded content renderer
+<span class="pc bpc" id="L242" title="1 of 4 branches missed.">				return renderer != null &amp;&amp; Util.equals(renderer.getClass(), rendererClass);</span>
+			}
+		}
+
+		/**
+		 * Provides data to a component rendering a column.
+		 *
+		 * @param beanProviderBound the component rendering the column.
+		 * @return a bean value for component that is rendering the specified row/column
+		 */
+		@Override
+		public Object getBean(final BeanProviderBound beanProviderBound) {
+<span class="fc" id="L254">			UIContext uic = UIContextHolder.getCurrent();</span>
+
+			// Make sure we have the correct uic
+<span class="pc bpc" id="L257" title="2 of 4 branches missed.">			while (uic instanceof SubUIContext &amp;&amp; !((SubUIContext) uic).isInContext(</span>
+					(WComponent) beanProviderBound)) {
+<span class="nc" id="L259">				uic = ((SubUIContext) uic).getParentContext();</span>
+			}
+
+<span class="pc bpc" id="L262" title="1 of 2 branches missed.">			if (!(uic instanceof SubUIContext)) {</span>
+<span class="nc" id="L263">				LOG.error(&quot;Unable to handle UIContext type: &quot; + uic.getClass().getName());</span>
+<span class="nc" id="L264">				return null;</span>
+			}
+
+<span class="fc" id="L267">			RowIdWrapper wrapper = rowRenderer.getCurrentRowIdWrapper();</span>
+<span class="fc" id="L268">			List&lt;Integer&gt; rowIndex = wrapper.getRowIndex();</span>
+
+			// ColunIndex -1 means we have a row renderer
+<span class="fc" id="L271">			return rowRenderer.table.getTableModel().getValueAt(rowIndex, columnIndex);</span>
+
+		}
+
+		/**
+		 * Some renderers may not be bean provider bound, or not bean-aware. We need to make sure that the data is set
+		 * correctly for these columns.
+		 *
+		 * @param request the request being responded to.
+		 */
+		@Override
+		protected void preparePaintComponent(final Request request) {
+<span class="fc" id="L283">			super.preparePaintComponent(request);</span>
+
+<span class="fc" id="L285">			TableModel model = rowRenderer.table.getTableModel();</span>
+<span class="fc" id="L286">			RowIdWrapper wrapper = rowRenderer.getCurrentRowIdWrapper();</span>
+<span class="fc" id="L287">			List&lt;Integer&gt; rowIndex = wrapper.getRowIndex();</span>
+
+			// Update input read-only status
+<span class="fc bfc" id="L290" title="All 2 branches covered.">			if (renderer instanceof Input) {</span>
+<span class="pc bpc" id="L291" title="1 of 2 branches missed.">				boolean readOnly = !rowRenderer.table.isEditable() || !model.</span>
+<span class="pc bnc" id="L292" title="All 2 branches missed.">						isCellEditable(rowIndex, columnIndex);</span>
+<span class="fc" id="L293">				Input input = (Input) renderer;</span>
+<span class="fc bfc" id="L294" title="All 2 branches covered.">				if (input.isReadOnly() != readOnly) {</span>
+<span class="fc" id="L295">					input.setReadOnly(readOnly);</span>
+				}
+			}
+
+<span class="pc bpc" id="L299" title="1 of 2 branches missed.">			if (!(renderer instanceof BeanProviderBound)) {</span>
+				// Column index -1 means row renderer
+<span class="nc" id="L301">				Object bean = model.getValueAt(rowIndex, columnIndex);</span>
+
+<span class="nc bnc" id="L303" title="All 2 branches missed.">				if (renderer instanceof BeanBound) {</span>
+<span class="nc" id="L304">					((BeanBound) renderer).setBean(bean);</span>
+<span class="nc bnc" id="L305" title="All 2 branches missed.">				} else if (renderer instanceof DataBound) {</span>
+<span class="nc" id="L306">					((DataBound) renderer).setData(bean);</span>
+				}
+			}
+<span class="fc" id="L309">		}</span>
+	}
+
+	/**
+	 * Adds a column to the renderer. This method is called by {@link WTable} to keep the renderer's and table's columns
+	 * in sync.
+	 *
+	 * @param column the column to add.
+	 * @param columnIndex the index of the column. Zero based.
+	 */
+	void addColumn(final WTableColumn column, final int columnIndex) {
+<span class="fc" id="L320">		WComponent renderer = column.getRenderer();</span>
+
+<span class="fc bfc" id="L322" title="All 2 branches covered.">		if (renderer == null) {</span>
+<span class="fc" id="L323">			Class&lt;? extends WComponent&gt; rendererClass = column.getRendererClass();</span>
+
+<span class="pc bpc" id="L325" title="1 of 2 branches missed.">			if (!(BeanProviderBound.class.isAssignableFrom(rendererClass))</span>
+<span class="nc bnc" id="L326" title="All 2 branches missed.">					&amp;&amp; !(BeanBound.class.isAssignableFrom(rendererClass))</span>
+<span class="nc bnc" id="L327" title="All 2 branches missed.">					&amp;&amp; !(DataBound.class.isAssignableFrom(rendererClass))) {</span>
+<span class="nc" id="L328">				throw new IllegalArgumentException(</span>
+						&quot;Column renderers must be BeanProvider-, Bean- or Data-Bound&quot;);
+			}
+
+<span class="fc" id="L332">			add(new RendererWrapper(this, rendererClass, columnIndex));</span>
+<span class="fc" id="L333">		} else {</span>
+<span class="pc bpc" id="L334" title="5 of 6 branches missed.">			if (!(renderer instanceof BeanProviderBound) &amp;&amp; !(renderer instanceof BeanBound)</span>
+					&amp;&amp; !(renderer instanceof DataBound)) {
+<span class="nc" id="L336">				throw new IllegalArgumentException(</span>
+						&quot;Column renderers must be BeanProvider-, Bean- or Data-Bound&quot;);
+			}
+
+<span class="fc" id="L340">			add(new RendererWrapper(this, renderer, columnIndex));</span>
+		}
+<span class="fc" id="L342">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

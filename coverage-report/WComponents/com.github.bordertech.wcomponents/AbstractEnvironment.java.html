@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>AbstractEnvironment.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">AbstractEnvironment.java</span></div><h1>AbstractEnvironment.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.Util;
+import java.util.HashMap;
+import java.util.Map;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+/**
+ * A base implementation for WEnvironment.
+ *
+ * @author Martin Shevchenko
+ */
+<span class="fc" id="L15">public abstract class AbstractEnvironment implements Environment {</span>
+
+	/**
+	 * The URL that responses should be directed to.
+	 */
+	private String postPath;
+
+	/**
+	 * The application host path.
+	 */
+	private String appHostPath;
+
+	/**
+	 * The base url. e.g. for &lt;code&gt;&quot;http://localhost:1234/bar/something?a=b&quot;&lt;/code&gt;, it would be
+	 * &lt;code&gt;&quot;http://localhost/bar&quot;&lt;/code&gt;.
+	 */
+	private String baseUrl;
+
+	/**
+	 * The host free part of the base url. e.g. for &lt;code&gt;&quot;http://localhost:1234/bar/something?a=b&quot;&lt;/code&gt;, it would be
+	 * &lt;code&gt;&quot;bar&quot;&lt;/code&gt;.
+	 */
+	private String hostFreeBaseUrl;
+
+	/**
+	 * The application id, used for namespacing component IDs in the UI.
+	 */
+	private String appId;
+
+	/**
+	 * The session token, used for ensuring requests are for the correct session.
+	 */
+	private String sessionToken;
+
+	/**
+	 * The step counter, used for ensuring requests are not processed out of order or multiple times.
+	 */
+	private int step;
+
+	/**
+	 * The action step counter, used for the request being processed is current.
+	 */
+	private int actionStep;
+
+	/**
+	 * An optional form encoding type, for example &quot;multipart/form-data&quot; if files need to be uploaded.
+	 */
+	private String formEncType;
+
+	/**
+	 * The user-agent information passed by the client's browser.
+	 */
+	private UserAgentInfo userAgentInfo;
+
+	/**
+	 * Logger for this class.
+	 */
+<span class="fc" id="L72">	private static final Log LOG = LogFactory.getLog(AbstractEnvironment.class);</span>
+
+	// === Start WEnvironment implementation ===
+	/**
+	 * Construct the path to the support servlet. Web components that need to construct a URL to target this servlet
+	 * will use this method.
+	 *
+	 * @return the path to the AJAX servlet.
+	 */
+	@Override
+	public String getWServletPath() {
+<span class="pc bpc" id="L83" title="1 of 2 branches missed.">		if (Config.getInstance().getString(Environment.SUPPORT_SERVLET_PATH) != null) {</span>
+<span class="nc" id="L84">			return getServletPath(Environment.SUPPORT_SERVLET_PATH);</span>
+		}
+
+<span class="fc" id="L87">		return getPostPath();</span>
+	}
+
+	/**
+	 * Constructs the path to one of the various helper servlets. This is used by the more specific getXXXPath methods.
+	 *
+	 * @param paramName the name of the parameter which holds the relative servlet path.
+	 * @return the path to the servlet corresponding to the given parameter name.
+	 */
+	private String getServletPath(final String paramName) {
+<span class="nc" id="L97">		String relativePath = Config.getInstance().getString(paramName);</span>
+
+<span class="nc bnc" id="L99" title="All 2 branches missed.">		if (relativePath == null) {</span>
+<span class="nc" id="L100">			LOG.error(&quot;The servlet path &quot; + paramName + &quot; has not been defined.&quot;);</span>
+		}
+
+<span class="nc" id="L103">		String context = getHostFreeBaseUrl();</span>
+
+<span class="nc bnc" id="L105" title="All 2 branches missed.">		if (!Util.empty(context)) {</span>
+<span class="nc" id="L106">			return context + relativePath;</span>
+		}
+
+<span class="nc" id="L109">		return relativePath;</span>
+	}
+
+	/**
+	 * @return the theme path.
+	 */
+	@Override
+	public String getThemePath() {
+<span class="fc" id="L117">		String themePath = Config.getInstance().getString(Environment.THEME_CONTENT_PATH);</span>
+
+		// No theme path, so use the main servlet to feed up the theme resources
+<span class="fc bfc" id="L120" title="All 2 branches covered.">		if (Util.empty(themePath)) {</span>
+<span class="fc" id="L121">			String path = getWServletPath() + &quot;/&quot; + Environment.THEME_RESOURCE_PATH_NAME;</span>
+<span class="fc" id="L122">			return path;</span>
+		}
+
+<span class="fc" id="L125">		return themePath;</span>
+	}
+
+	/**
+	 * @return the post path.
+	 */
+	@Override
+	public String getPostPath() {
+<span class="fc" id="L133">		return postPath;</span>
+	}
+
+	/**
+	 * Sets the post path.
+	 *
+	 * @param postPath the post path.
+	 */
+	@Override
+	public void setPostPath(final String postPath) {
+<span class="fc" id="L143">		this.postPath = postPath;</span>
+<span class="fc" id="L144">	}</span>
+
+	/**
+	 * @return the app host path.
+	 */
+	@Override
+	public String getAppHostPath() {
+<span class="nc" id="L151">		return appHostPath;</span>
+	}
+
+	/**
+	 * @return the base url.
+	 */
+	@Override
+	public String getBaseUrl() {
+<span class="fc" id="L159">		return baseUrl;</span>
+	}
+
+	/**
+	 * @return the host name free base url.
+	 */
+	@Override
+	public String getHostFreeBaseUrl() {
+<span class="nc" id="L167">		return hostFreeBaseUrl;</span>
+	}
+
+	/**
+	 * @return the application id.
+	 * @deprecated no longer used. Use {@link WApplication#getIdName()} instead.
+	 */
+	@Override
+	@Deprecated
+	public String getAppId() {
+<span class="nc" id="L177">		return appId;</span>
+	}
+
+	/**
+	 * Sets the application id. The applicationId must not contain {@link WComponent#ID_CONTEXT_SEPERATOR}.
+	 *
+	 * @param appId the appId to set.
+	 * @deprecated no longer used. Use {@link WApplication#setIdName(String)} instead.
+	 */
+	@Override
+	@Deprecated
+	public void setAppId(final String appId) {
+<span class="fc" id="L189">		this.appId = appId;</span>
+<span class="fc" id="L190">	}</span>
+
+	/**
+	 * @return the current session token.
+	 */
+	@Override
+	public String getSessionToken() {
+<span class="fc" id="L197">		return sessionToken;</span>
+	}
+
+	/**
+	 * Sets the current session token.
+	 *
+	 * @param sessionToken the session token to set.
+	 */
+	@Override
+	public void setSessionToken(final String sessionToken) {
+<span class="fc" id="L207">		this.sessionToken = sessionToken;</span>
+<span class="fc" id="L208">	}</span>
+
+	/**
+	 * @return the current step.
+	 */
+	@Override
+	public int getStep() {
+<span class="fc" id="L215">		return step;</span>
+	}
+
+	/**
+	 * Sets the current set.
+	 *
+	 * @param step the step to set.
+	 */
+	@Override
+	public void setStep(final int step) {
+<span class="fc" id="L225">		this.step = step;</span>
+<span class="fc" id="L226">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @deprecated portal specific
+	 */
+	@Deprecated
+	@Override
+	public int getActionStep() {
+<span class="nc" id="L236">		return actionStep;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @deprecated portal specific
+	 */
+	@Deprecated
+	@Override
+	public void setActionStep(final int actionStep) {
+<span class="nc" id="L247">		this.actionStep = actionStep;</span>
+<span class="nc" id="L248">	}</span>
+
+	/**
+	 * @return the hidden parameter map.
+	 */
+	@Override
+	public Map&lt;String, String&gt; getHiddenParameters() {
+<span class="fc" id="L255">		Map&lt;String, String&gt; map = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L256">		map.put(STEP_VARIABLE, String.valueOf(getStep()));</span>
+<span class="fc" id="L257">		map.put(SESSION_TOKEN_VARIABLE, getSessionToken());</span>
+<span class="fc" id="L258">		return map;</span>
+	}
+
+	/**
+	 * @return the form encoding type.
+	 */
+	@Override
+	public String getFormEncType() {
+<span class="nc" id="L266">		return formEncType;</span>
+	}
+
+	/**
+	 * Sets the form encoding type.
+	 *
+	 * @param formEncType the form encoding type.
+	 */
+	@Override
+	public void setFormEncType(final String formEncType) {
+<span class="fc" id="L276">		this.formEncType = formEncType;</span>
+<span class="fc" id="L277">	}</span>
+
+	/**
+	 * @return the user agent info.
+	 */
+	@Override
+	public UserAgentInfo getUserAgentInfo() {
+<span class="nc" id="L284">		return this.userAgentInfo;</span>
+	}
+
+	// === End WEnvironment implementation ===
+	/**
+	 * Sets the app host path.
+	 *
+	 * @param appHostPath the app host path.
+	 */
+	protected void setAppHostPath(final String appHostPath) {
+<span class="fc" id="L294">		this.appHostPath = appHostPath;</span>
+<span class="fc" id="L295">	}</span>
+
+	/**
+	 * Sets the base url.
+	 *
+	 * @param baseUrl the base url
+	 */
+	protected void setBaseUrl(final String baseUrl) {
+<span class="fc" id="L303">		this.baseUrl = baseUrl;</span>
+<span class="fc" id="L304">	}</span>
+
+	/**
+	 * Sets the host free base url.
+	 *
+	 * @param hostFreeBaseUrl the host free base url.
+	 */
+	protected void setHostFreeBaseUrl(final String hostFreeBaseUrl) {
+<span class="fc" id="L312">		this.hostFreeBaseUrl = hostFreeBaseUrl;</span>
+<span class="fc" id="L313">	}</span>
+
+	/**
+	 * Sets the user-agent info.
+	 *
+	 * @param userAgentInfo the user-agent info to set.
+	 */
+	public void setUserAgentInfo(final UserAgentInfo userAgentInfo) {
+<span class="fc" id="L321">		this.userAgentInfo = userAgentInfo;</span>
+<span class="fc" id="L322">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

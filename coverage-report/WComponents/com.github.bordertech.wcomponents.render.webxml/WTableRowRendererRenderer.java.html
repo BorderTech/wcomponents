@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WTableRowRendererRenderer.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.render.webxml</a> &gt; <span class="el_source">WTableRowRendererRenderer.java</span></div><h1>WTableRowRendererRenderer.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.render.webxml;
+
+import com.github.bordertech.wcomponents.Renderer;
+import com.github.bordertech.wcomponents.UIContext;
+import com.github.bordertech.wcomponents.UIContextHolder;
+import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.WRepeater;
+import com.github.bordertech.wcomponents.WTable;
+import com.github.bordertech.wcomponents.WTable.ExpandMode;
+import com.github.bordertech.wcomponents.WTable.RowIdWrapper;
+import com.github.bordertech.wcomponents.WTable.SelectMode;
+import com.github.bordertech.wcomponents.WTable.TableModel;
+import com.github.bordertech.wcomponents.WTableColumn;
+import com.github.bordertech.wcomponents.WTableRowRenderer;
+import com.github.bordertech.wcomponents.XmlStringBuilder;
+import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
+import com.github.bordertech.wcomponents.util.TableUtil;
+import java.util.List;
+
+/**
+ * {@link Renderer} for the {@link WTableRowRenderer} component.
+ *
+ * @author Jonathan Austin
+ * @since 1.0.0
+ */
+<span class="fc" id="L26">final class WTableRowRendererRenderer extends AbstractWebXmlRenderer {</span>
+
+	/**
+	 * Paints the given WTableRowRenderer.
+	 *
+	 * @param component the WTableRowRenderer to paint.
+	 * @param renderContext the RenderContext to paint to.
+	 */
+	@Override
+	public void doRender(final WComponent component, final WebXmlRenderContext renderContext) {
+<span class="fc" id="L36">		WTableRowRenderer renderer = (WTableRowRenderer) component;</span>
+<span class="fc" id="L37">		XmlStringBuilder xml = renderContext.getWriter();</span>
+<span class="fc" id="L38">		WTable table = renderer.getTable();</span>
+<span class="fc" id="L39">		TableModel dataModel = table.getTableModel();</span>
+
+<span class="fc" id="L41">		int[] columnOrder = table.getColumnOrder();</span>
+<span class="pc bpc" id="L42" title="1 of 2 branches missed.">		final int numCols = columnOrder == null ? table.getColumnCount() : columnOrder.length;</span>
+
+		// Get current row details
+<span class="fc" id="L45">		RowIdWrapper wrapper = renderer.getCurrentRowIdWrapper();</span>
+<span class="fc" id="L46">		List&lt;Integer&gt; rowIndex = wrapper.getRowIndex();</span>
+
+<span class="fc bfc" id="L48" title="All 2 branches covered.">		boolean tableSelectable = table.getSelectMode() != SelectMode.NONE;</span>
+<span class="pc bpc" id="L49" title="1 of 4 branches missed.">		boolean rowSelectable = tableSelectable &amp;&amp; dataModel.isSelectable(rowIndex);</span>
+<span class="pc bpc" id="L50" title="1 of 4 branches missed.">		boolean rowSelected = rowSelectable &amp;&amp; table.getSelectedRows().contains(wrapper.getRowKey());</span>
+
+<span class="fc bfc" id="L52" title="All 2 branches covered.">		boolean tableExpandable = table.getExpandMode() != WTable.ExpandMode.NONE;</span>
+<span class="pc bpc" id="L53" title="1 of 4 branches missed.">		boolean rowExpandable = tableExpandable &amp;&amp; dataModel.isExpandable(rowIndex) &amp;&amp; wrapper.</span>
+<span class="pc bnc" id="L54" title="All 2 branches missed.">				hasChildren();</span>
+<span class="pc bpc" id="L55" title="3 of 4 branches missed.">		boolean rowExpanded = rowExpandable &amp;&amp; table.getExpandedRows().contains(wrapper.getRowKey());</span>
+
+<span class="fc" id="L57">		String rowIndexAsString = TableUtil.rowIndexListToString(rowIndex);</span>
+
+<span class="fc" id="L59">		xml.appendTagOpen(&quot;ui:tr&quot;);</span>
+<span class="fc" id="L60">		xml.appendAttribute(&quot;rowIndex&quot;, rowIndexAsString);</span>
+<span class="fc bfc" id="L61" title="All 2 branches covered.">		xml.appendOptionalAttribute(&quot;unselectable&quot;, !rowSelectable, &quot;true&quot;);</span>
+<span class="fc" id="L62">		xml.appendOptionalAttribute(&quot;selected&quot;, rowSelected, &quot;true&quot;);</span>
+<span class="fc" id="L63">		xml.appendOptionalAttribute(&quot;disabled&quot;, dataModel.isDisabled(rowIndex), &quot;true&quot;);</span>
+<span class="pc bpc" id="L64" title="3 of 4 branches missed.">		xml.appendOptionalAttribute(&quot;expandable&quot;, rowExpandable &amp;&amp; !rowExpanded, &quot;true&quot;);</span>
+<span class="fc" id="L65">		xml.appendClose();</span>
+
+<span class="fc bfc" id="L67" title="All 2 branches covered.">		for (int i = 0; i &lt; numCols; i++) {</span>
+<span class="pc bpc" id="L68" title="1 of 2 branches missed.">			int colIndex = columnOrder == null ? i : columnOrder[i];</span>
+<span class="fc" id="L69">			WTableColumn col = table.getColumn(colIndex);</span>
+
+<span class="fc bfc" id="L71" title="All 2 branches covered.">			if (col.isVisible()) {</span>
+<span class="fc" id="L72">				xml.appendTag(&quot;ui:td&quot;);</span>
+<span class="fc" id="L73">				renderer.getRenderer(colIndex).paint(renderContext);</span>
+<span class="fc" id="L74">				xml.appendEndTag(&quot;ui:td&quot;);</span>
+			}
+		}
+
+<span class="pc bpc" id="L78" title="1 of 2 branches missed.">		if (rowExpandable) {</span>
+<span class="nc" id="L79">			xml.appendTagOpen(&quot;ui:subTr&quot;);</span>
+<span class="nc" id="L80">			xml.appendOptionalAttribute(&quot;open&quot;, rowExpanded, &quot;true&quot;);</span>
+<span class="nc" id="L81">			xml.appendClose();</span>
+
+<span class="nc bnc" id="L83" title="All 4 branches missed.">			if (rowExpanded || table.getExpandMode() == ExpandMode.CLIENT) {</span>
+<span class="nc" id="L84">				renderChildren(renderer, renderContext, wrapper.getChildren());</span>
+			}
+
+<span class="nc" id="L87">			xml.appendEndTag(&quot;ui:subTr&quot;);</span>
+		}
+
+<span class="fc" id="L90">		xml.appendEndTag(&quot;ui:tr&quot;);</span>
+<span class="fc" id="L91">	}</span>
+
+	/**
+	 * @param renderer the WTableRowRenderer to paint.
+	 * @param renderContext the RenderContext to paint to.
+	 * @param children the children ids
+	 */
+	private void renderChildren(final WTableRowRenderer renderer,
+			final WebXmlRenderContext renderContext,
+			final List&lt;RowIdWrapper&gt; children) {
+<span class="nc" id="L101">		XmlStringBuilder xml = renderContext.getWriter();</span>
+
+<span class="nc" id="L103">		WTable table = renderer.getTable();</span>
+<span class="nc" id="L104">		WRepeater repeater = table.getRepeater();</span>
+<span class="nc" id="L105">		TableModel dataModel = table.getTableModel();</span>
+
+		// If there is a renderer specified by any child, we only paint content that has a specified renderer
+<span class="nc" id="L108">		boolean rendererPresent = false;</span>
+<span class="nc bnc" id="L109" title="All 2 branches missed.">		for (RowIdWrapper child : children) {</span>
+<span class="nc bnc" id="L110" title="All 2 branches missed.">			if (dataModel.getRendererClass(child.getRowIndex()) != null) {</span>
+<span class="nc" id="L111">				rendererPresent = true;</span>
+<span class="nc" id="L112">				break;</span>
+			}
+<span class="nc" id="L114">		}</span>
+
+		// Paint immediate children only.
+<span class="nc bnc" id="L117" title="All 2 branches missed.">		if (rendererPresent) {</span>
+<span class="nc" id="L118">			xml.appendTagOpen(&quot;ui:content&quot;);</span>
+			// Always span all columns
+<span class="nc" id="L120">			xml.appendAttribute(&quot;spanAllCols&quot;, &quot;true&quot;);</span>
+<span class="nc" id="L121">			xml.appendClose();</span>
+
+<span class="nc bnc" id="L123" title="All 2 branches missed.">			for (RowIdWrapper child : children) {</span>
+<span class="nc" id="L124">				UIContext nodeContext = repeater.getRowContext(child, child.getPosition());</span>
+
+<span class="nc" id="L126">				WComponent expandedRenderer = renderer.getExpandedTreeNodeRenderer(dataModel.</span>
+<span class="nc" id="L127">						getRendererClass(child</span>
+<span class="nc" id="L128">								.getRowIndex()));</span>
+
+<span class="nc bnc" id="L130" title="All 2 branches missed.">				if (expandedRenderer != null) {</span>
+<span class="nc" id="L131">					UIContextHolder.pushContext(nodeContext);</span>
+
+					try {
+<span class="nc" id="L134">						expandedRenderer.paint(renderContext);</span>
+					} finally {
+<span class="nc" id="L136">						UIContextHolder.popContext();</span>
+<span class="nc" id="L137">					}</span>
+				}
+<span class="nc" id="L139">			}</span>
+
+<span class="nc" id="L141">			xml.appendEndTag(&quot;ui:content&quot;);</span>
+		} else {
+<span class="nc bnc" id="L143" title="All 2 branches missed.">			for (RowIdWrapper child : children) {</span>
+<span class="nc" id="L144">				UIContext nodeContext = repeater.getRowContext(child, child.getPosition());</span>
+
+<span class="nc" id="L146">				UIContextHolder.pushContext(nodeContext);</span>
+
+				try {
+<span class="nc" id="L149">					render(renderer, renderContext);</span>
+				} finally {
+<span class="nc" id="L151">					UIContextHolder.popContext();</span>
+<span class="nc" id="L152">				}</span>
+<span class="nc" id="L153">			}</span>
+		}
+
+<span class="nc" id="L156">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

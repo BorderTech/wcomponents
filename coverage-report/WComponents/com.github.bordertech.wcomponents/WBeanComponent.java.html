@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WBeanComponent.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">WBeanComponent.java</span></div><h1>WBeanComponent.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.SystemException;
+import com.github.bordertech.wcomponents.util.Util;
+import java.io.Serializable;
+import java.util.Map;
+import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+/**
+ * WBeanComponent provides a default implementation of a bean-aware component, and is the basis for most bean-aware
+ * WComponents. It can be used as a starting point for custom application bean-aware components.
+ * &lt;p&gt;
+ * A fix has been made to the logic for a bean container, that has a bean property set, to pass the correct bean value
+ * to its child bean components. This fix is an &quot;opt in&quot;. To enable the correct bean container logic set the parameter
+ * &quot;bordertech.wcomponents.bean.logic.correct=true&quot;.
+ * &lt;/p&gt;
+ *
+ * @author Yiannis Paschalidis
+ * @author Jonathan Austin
+ * @since 1.0.0
+ */
+<span class="fc" id="L25">public class WBeanComponent extends AbstractWComponent implements DataBound, BeanBound,</span>
+		BeanProviderBound {
+
+	/**
+	 * Flag for which bean logic will be used.
+	 *
+	 * @deprecated Will be removed and correct logic always used. Projects should set this parameter to true.
+	 */
+	@Deprecated
+<span class="fc" id="L34">	private static final boolean CORRECT_PARENT_BEAN_LOGIC = Config.getInstance().getBoolean(</span>
+			&quot;bordertech.wcomponents.bean.logic.correct&quot;,
+			true);
+
+	/**
+	 * The logger instance for this class.
+	 */
+<span class="fc" id="L41">	private static final Log LOG = LogFactory.getLog(WBeanComponent.class);</span>
+
+	/**
+	 * The key used to cache the bean in the scratch map.
+	 */
+	private static final String SCRATCHMAP_BEAN_KEY = &quot;WBeanComponent.bean&quot;;
+
+	/**
+	 * The key used to cache the bean value in the scratch map.
+	 */
+	private static final String SCRATCHMAP_BEAN_VALUE_KEY = &quot;WBeanComponent.beanValue&quot;;
+
+	/**
+	 * &lt;p&gt;
+	 * Retrieves the bean.&lt;/p&gt;
+	 *
+	 * The following are searched in order:
+	 * &lt;ul&gt;
+	 * &lt;li&gt;A bean set explicitly using &lt;code&gt;setBean&lt;/code&gt;&lt;/li&gt;
+	 * &lt;li&gt;A bean cached in the scratch map&lt;/li&gt;
+	 * &lt;li&gt;A bean provided by a BeanProvider (and subsequently cached in the scratch map)&lt;/li&gt;
+	 * &lt;li&gt;A bean provided by a bean-aware parent component (and subsequently cached in the scratch map)&lt;/li&gt;
+	 * &lt;/ul&gt;
+	 *
+	 * @return this component's bean for the given context.
+	 */
+	@Override
+	public Object getBean() {
+<span class="fc" id="L69">		BeanAndProviderBoundComponentModel model = getComponentModel();</span>
+<span class="fc" id="L70">		Object bean = model.getBean();</span>
+
+<span class="fc bfc" id="L72" title="All 2 branches covered.">		if (bean == null) {</span>
+<span class="fc" id="L73">			Map scratchMap = getScratchMap();</span>
+
+<span class="fc bfc" id="L75" title="All 4 branches covered.">			if (scratchMap != null &amp;&amp; scratchMap.containsKey(SCRATCHMAP_BEAN_KEY)) {</span>
+<span class="fc" id="L76">				return scratchMap.get(SCRATCHMAP_BEAN_KEY);</span>
+			}
+
+<span class="fc" id="L79">			BeanProvider beanProvider = model.getBeanProvider();</span>
+
+<span class="fc bfc" id="L81" title="All 2 branches covered.">			if (beanProvider == null) {</span>
+				// Check if search ancestors for bean
+<span class="pc bpc" id="L83" title="1 of 2 branches missed.">				if (!isSearchAncestors()) {</span>
+<span class="nc" id="L84">					return null;</span>
+				}
+
+				// Search for a bean in a bean aware parent.
+				// We explicitly do not cache the bean, as we can't tell if the parent's
+				// value changes. In any case, it will have been cached by the parent.
+<span class="fc" id="L90">				BeanAware parent = WebUtilities.getAncestorOfClass(BeanAware.class, this);</span>
+
+<span class="fc bfc" id="L92" title="All 2 branches covered.">				if (parent != null) {</span>
+<span class="fc" id="L93">					String parentBeanProperty = parent.getBeanProperty();</span>
+					// Correct
+<span class="pc bpc" id="L95" title="1 of 2 branches missed.">					if (CORRECT_PARENT_BEAN_LOGIC) {</span>
+<span class="nc bnc" id="L96" title="All 4 branches missed.">						if (parentBeanProperty == null || &quot;.&quot;.equals(parentBeanProperty)) {</span>
+<span class="nc" id="L97">							bean = parent.getBean();</span>
+						} else {
+<span class="nc" id="L99">							bean = parent.getBeanValue();</span>
+						}
+					} else { // Legacy
+<span class="pc bpc" id="L102" title="2 of 4 branches missed.">						if (parentBeanProperty != null &amp;&amp; !&quot;.&quot;.equals(parentBeanProperty) &amp;&amp; parentBeanProperty.</span>
+<span class="nc bnc" id="L103" title="All 2 branches missed.">								contains(&quot;.&quot;)) {</span>
+<span class="nc" id="L104">							LOG.warn(&quot;Possible bean property logic error with bean property [&quot;</span>
+									+ parentBeanProperty + &quot;]. Check runtime parameter &quot; + CORRECT_PARENT_BEAN_LOGIC + &quot;.&quot;);
+						}
+<span class="fc" id="L107">						bean = parent.getBean();</span>
+					}
+				}
+<span class="fc" id="L110">			} else {</span>
+				// Get the bean from the provider
+<span class="fc" id="L112">				bean = beanProvider.getBean(this);</span>
+
+				// Cache the value as it may have been the result of an expensive operation.
+<span class="fc bfc" id="L115" title="All 2 branches covered.">				if (scratchMap != null) {</span>
+<span class="fc" id="L116">					scratchMap.put(SCRATCHMAP_BEAN_KEY, bean);</span>
+				}
+			}
+		}
+
+<span class="fc" id="L121">		return bean;</span>
+	}
+
+	/**
+	 * Sets the bean associated with this WBeanComponent. This method of bean association is discouraged, as the bean
+	 * will be stored in the user's session. A better alternative is to provide a BeanProvider and a Bean Id.
+	 *
+	 * @param bean the bean to associate.
+	 */
+	@Override
+	public void setBean(final Object bean) {
+<span class="fc" id="L132">		BeanAndProviderBoundComponentModel model = getOrCreateComponentModel();</span>
+<span class="fc" id="L133">		model.setBean(bean);</span>
+
+<span class="fc bfc" id="L135" title="All 2 branches covered.">		if (getBeanProperty() == null) {</span>
+<span class="fc" id="L136">			setBeanProperty(&quot;.&quot;);</span>
+		}
+
+		// Remove cached value
+<span class="fc" id="L140">		Map scratchMap = getScratchMap();</span>
+
+<span class="pc bpc" id="L142" title="1 of 2 branches missed.">		if (scratchMap != null) {</span>
+<span class="fc" id="L143">			scratchMap.remove(SCRATCHMAP_BEAN_KEY);</span>
+<span class="fc" id="L144">			scratchMap.remove(SCRATCHMAP_BEAN_VALUE_KEY);</span>
+		}
+<span class="fc" id="L146">	}</span>
+
+	/**
+	 * Sets the bean id associated with this WBeanComponent.
+	 *
+	 * This bean id will be used to obtain the bean from the associated {@link BeanProvider} whenever the bean data is
+	 * required.
+	 *
+	 * @see BeanProviderBound
+	 *
+	 * @param beanId the bean id to associate.
+	 */
+	@Override
+	public void setBeanId(final Object beanId) {
+<span class="fc" id="L160">		BeanAndProviderBoundComponentModel model = getOrCreateComponentModel();</span>
+<span class="fc" id="L161">		model.setBeanId(beanId);</span>
+
+		// Remove cached value
+<span class="fc" id="L164">		Map scratchMap = getScratchMap();</span>
+
+<span class="pc bpc" id="L166" title="1 of 2 branches missed.">		if (scratchMap != null) {</span>
+<span class="nc" id="L167">			scratchMap.remove(SCRATCHMAP_BEAN_KEY);</span>
+<span class="nc" id="L168">			scratchMap.remove(SCRATCHMAP_BEAN_VALUE_KEY);</span>
+		}
+<span class="fc" id="L170">	}</span>
+
+	/**
+	 * Retrieves the bean id associated with this component. This method will be used by a {@link BeanProvider} to
+	 * retrieve the bean.
+	 *
+	 * @return the bean Id associated with this component.
+	 */
+	@Override
+	public Object getBeanId() {
+<span class="fc" id="L180">		BeanAndProviderBoundComponentModel model = getComponentModel();</span>
+<span class="fc" id="L181">		return model.getBeanId();</span>
+	}
+
+	/**
+	 * Sets the bean property that this component is interested in. The bean property is expressed in Jakarta
+	 * PropertyUtils bean notation, with an extension of &quot;.&quot; to indicate that the bean itself should be used.
+	 *
+	 * @param propertyName the bean property, in Jakarta PropertyUtils bean notation.
+	 */
+	@Override
+	public void setBeanProperty(final String propertyName) {
+<span class="fc" id="L192">		getOrCreateComponentModel().setBeanProperty(propertyName);</span>
+<span class="fc" id="L193">	}</span>
+
+	/**
+	 * Retrieves the bean property that this component is interested in.
+	 *
+	 * @return the bean property, in Jakarta PropertyUtils bean notation.
+	 */
+	@Override
+	public String getBeanProperty() {
+<span class="fc" id="L202">		return getComponentModel().getBeanProperty();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean isSearchAncestors() {
+<span class="fc" id="L210">		return getComponentModel().isSearchAncestors();</span>
+	}
+
+	/**
+	 * @param search true if search ancestors for the components bean
+	 */
+	public void setSearchAncestors(final boolean search) {
+<span class="nc" id="L217">		getOrCreateComponentModel().setSearchAncestors(search);</span>
+<span class="nc" id="L218">	}</span>
+
+	/**
+	 * Sets the {@link BeanProvider} associated with this WBeanComponent. The bean provider will be called to supply the
+	 * bean whenever necessary.
+	 *
+	 * @param beanProvider the bean provider to associate.
+	 */
+	@Override
+	public void setBeanProvider(final BeanProvider beanProvider) {
+<span class="pc bpc" id="L228" title="5 of 6 branches missed.">		if (isLocked() &amp;&amp; beanProvider != null &amp;&amp; !(beanProvider instanceof Serializable)) {</span>
+<span class="nc" id="L229">			throw new SystemException(</span>
+					&quot;Unable to store bean provider in user's session as it is not serializable: &quot; + beanProvider.
+<span class="nc" id="L231">					getClass());</span>
+		}
+
+<span class="fc" id="L234">		getOrCreateComponentModel().setBeanProvider(beanProvider);</span>
+<span class="fc" id="L235">		String beanProperty = getBeanProperty();</span>
+
+<span class="fc bfc" id="L237" title="All 2 branches covered.">		if (beanProperty == null) {</span>
+<span class="fc" id="L238">			setBeanProperty(&quot;.&quot;);</span>
+		}
+<span class="fc" id="L240">	}</span>
+
+	/**
+	 * Returns the data for this component. The following are searched in order:
+	 * &lt;ul&gt;
+	 * &lt;li&gt;A value set explicitly in the ui context using {@link #setData(Object)}&lt;/li&gt;
+	 * &lt;li&gt;If a bean is available; the bean's value.&lt;/li&gt;
+	 * &lt;li&gt;The value set on the shared model.&lt;/li&gt;
+	 * &lt;/ul&gt;
+	 *
+	 * @return the current value of this component for the given context.
+	 */
+	@Override
+	public Object getData() {
+<span class="fc" id="L254">		BeanAndProviderBoundComponentModel model = getComponentModel();</span>
+<span class="fc" id="L255">		Object data = model.getData();</span>
+<span class="fc" id="L256">		String beanProperty = getBeanProperty();</span>
+
+<span class="fc bfc" id="L258" title="All 2 branches covered.">		if (beanProperty != null) {</span>
+<span class="fc" id="L259">			Object sharedData = ((BeanAndProviderBoundComponentModel) getDefaultModel()).getData();</span>
+
+<span class="pc bpc" id="L261" title="1 of 4 branches missed.">			if (!isFlagSet(ComponentModel.USER_DATA_SET) &amp;&amp; Util.equals(data, sharedData)) {</span>
+<span class="fc" id="L262">				Object bean = getBean();</span>
+
+<span class="fc bfc" id="L264" title="All 2 branches covered.">				if (bean != null) {</span>
+<span class="fc" id="L265">					data = getBeanValue();</span>
+				}
+			}
+		}
+
+<span class="fc" id="L270">		return data;</span>
+	}
+
+	/**
+	 * Retrieves the bean value. The value is (temporarily) cached in the scratch map to speed up subsequent accesses.
+	 *
+	 * @return the bean value, or null if no bean value is available.
+	 */
+	@Override
+	public Object getBeanValue() {
+<span class="fc" id="L280">		Map map = getScratchMap();</span>
+
+		// We have to explicitly check for the presence of a
+		// key rather than a non-null value, as a null value is permitted
+<span class="fc bfc" id="L284" title="All 4 branches covered.">		if (map != null &amp;&amp; map.containsKey(SCRATCHMAP_BEAN_VALUE_KEY)) {</span>
+<span class="fc" id="L285">			return map.get(SCRATCHMAP_BEAN_VALUE_KEY);</span>
+		}
+
+<span class="fc" id="L288">		Object bean = getBean();</span>
+<span class="fc" id="L289">		Object beanValue = null;</span>
+
+<span class="fc bfc" id="L291" title="All 2 branches covered.">		if (bean != null) {</span>
+<span class="fc" id="L292">			String beanProperty = getBeanProperty();</span>
+
+<span class="pc bpc" id="L294" title="1 of 4 branches missed.">			if (beanProperty == null || &quot;.&quot;.equals(beanProperty)) {</span>
+<span class="fc" id="L295">				beanValue = bean;</span>
+			} else {
+				try {
+<span class="fc" id="L298">					beanValue = PropertyUtils.getProperty(bean, beanProperty);</span>
+<span class="nc" id="L299">				} catch (Exception e) {</span>
+<span class="nc" id="L300">					LOG.error(&quot;Failed to read bean property &quot; + beanProperty + &quot; from &quot; + bean, e);</span>
+<span class="fc" id="L301">				}</span>
+			}
+
+			// Only cache the value if the bean is cached.
+			// This avoids caching bean values that are obtained from a parent
+			// WComponent (where we have no way of knowing when the value changes).
+<span class="fc bfc" id="L307" title="All 4 branches covered.">			if (map != null &amp;&amp; map.containsKey(SCRATCHMAP_BEAN_KEY)) {</span>
+<span class="fc" id="L308">				map.put(SCRATCHMAP_BEAN_VALUE_KEY, beanValue);</span>
+			}
+		}
+
+<span class="fc" id="L312">		return beanValue;</span>
+	}
+
+	/**
+	 * Updates the bean value with the value returned by {@link #getData()}.
+	 */
+	public void updateBeanValue() {
+<span class="fc" id="L319">		Object value = getData();</span>
+<span class="fc" id="L320">		doUpdateBeanValue(value);</span>
+<span class="fc" id="L321">	}</span>
+
+	/**
+	 * Updates the bean value with the new value.
+	 *
+	 * @param value the new value to update the bean with
+	 */
+	protected void doUpdateBeanValue(final Object value) {
+<span class="fc" id="L329">		String beanProperty = getBeanProperty();</span>
+<span class="pc bpc" id="L330" title="3 of 6 branches missed.">		if (beanProperty != null &amp;&amp; beanProperty.length() &gt; 0 &amp;&amp; !&quot;.&quot;.equals(beanProperty)) {</span>
+<span class="fc" id="L331">			Object bean = getBean();</span>
+<span class="pc bpc" id="L332" title="1 of 2 branches missed.">			if (bean != null) {</span>
+				try {
+<span class="fc" id="L334">					Object beanValue = getBeanValue();</span>
+<span class="pc bpc" id="L335" title="1 of 2 branches missed.">					if (!Util.equals(beanValue, value)) {</span>
+<span class="fc" id="L336">						PropertyUtils.setProperty(bean, beanProperty, value);</span>
+					}
+<span class="nc" id="L338">				} catch (Exception e) {</span>
+<span class="nc" id="L339">					LOG.error(&quot;Failed to set bean property &quot; + beanProperty + &quot; on &quot; + bean);</span>
+<span class="fc" id="L340">				}</span>
+			}
+		}
+<span class="fc" id="L343">	}</span>
+
+	/**
+	 * Sets the data that this component displays/edits. For bean aware components, this should only be called from
+	 * handleRequest to set user-entered data.
+	 *
+	 * @param data the data to set.
+	 */
+	@Override
+	public void setData(final Object data) {
+<span class="fc" id="L353">		UIContext uic = UIContextHolder.getCurrent();</span>
+
+<span class="fc bfc" id="L355" title="All 2 branches covered.">		if (uic == null) {</span>
+<span class="fc" id="L356">			getComponentModel().setData(data);</span>
+		} else {
+<span class="fc" id="L358">			Object sharedValue = ((BeanAndProviderBoundComponentModel) getDefaultModel()).getData();</span>
+
+<span class="fc bfc" id="L360" title="All 2 branches covered.">			if (getBeanProperty() != null) {</span>
+<span class="fc" id="L361">				sharedValue = getBeanValue();</span>
+			}
+
+<span class="fc" id="L364">			getOrCreateComponentModel().setData(data);</span>
+<span class="fc bfc" id="L365" title="All 2 branches covered.">			setFlag(ComponentModel.USER_DATA_SET, !Util.equals(data, sharedValue));</span>
+		}
+<span class="fc" id="L367">	}</span>
+
+	/**
+	 * Creates a new model appropriate for this component.
+	 *
+	 * @return a new {@link BeanAndProviderBoundComponentModel}.
+	 */
+	@Override
+	protected BeanAndProviderBoundComponentModel newComponentModel() {
+<span class="fc" id="L376">		return new BeanAndProviderBoundComponentModel();</span>
+	}
+
+	/**
+	 * Indicates whether this component's data has changed from the default value.
+	 *
+	 * TODO: This needs to be added to the databound interface after the bulk of the components have been converted.
+	 *
+	 * @return true if this component's current value differs from the default value for the given context.
+	 */
+	public boolean isChanged() {
+<span class="fc" id="L387">		Object currentValue = getData();</span>
+<span class="fc" id="L388">		Object sharedValue = ((BeanAndProviderBoundComponentModel) getDefaultModel()).getData();</span>
+
+<span class="fc bfc" id="L390" title="All 2 branches covered.">		if (getBeanProperty() != null) {</span>
+<span class="fc" id="L391">			sharedValue = getBeanValue();</span>
+		}
+
+<span class="fc bfc" id="L394" title="All 2 branches covered.">		return !Util.equals(currentValue, sharedValue);</span>
+	}
+
+	/**
+	 * Resets the data back to the default value, which may either be from a bean or the shared model.
+	 */
+	public void resetData() {
+<span class="fc" id="L401">		getComponentModel().resetData();</span>
+<span class="fc" id="L402">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override // For type safety only
+	protected BeanAndProviderBoundComponentModel getComponentModel() {
+<span class="fc" id="L409">		return (BeanAndProviderBoundComponentModel) super.getComponentModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override // For type safety only
+	protected BeanAndProviderBoundComponentModel getOrCreateComponentModel() {
+<span class="fc" id="L417">		return (BeanAndProviderBoundComponentModel) super.getOrCreateComponentModel();</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

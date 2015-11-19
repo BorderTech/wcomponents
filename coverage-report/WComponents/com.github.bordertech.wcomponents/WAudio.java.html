@@ -1,0 +1,474 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WAudio.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">WAudio.java</span></div><h1>WAudio.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import com.github.bordertech.wcomponents.util.Util;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+/**
+ * WAudio is used to play audio content on the client.
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ */
+public class WAudio extends AbstractWComponent implements Targetable, AjaxTarget, Disableable {
+
+	/**
+	 * The logger instance for this class.
+	 */
+<span class="fc" id="L21">	private static final Log LOG = LogFactory.getLog(WAudio.class);</span>
+
+	/**
+	 * This request parameter is used to determine which audio clip to serve up.
+	 */
+	private static final String AUDIO_INDEX_REQUEST_PARAM_KEY = &quot;WAudio.index&quot;;
+
+	/**
+	 * This is used to indicate whether pre-loading of content should occur before the clip is played.
+	 */
+<span class="pc" id="L31">	public enum Preload {</span>
+		/**
+		 * Do not pre-load any data.
+		 */
+<span class="fc" id="L35">		NONE,</span>
+		/**
+		 * Preload meta-data only.
+		 */
+<span class="fc" id="L39">		META_DATA,</span>
+		/**
+		 * Let the client determine what to load.
+		 */
+<span class="fc" id="L43">		AUTO</span>
+	}
+
+	/**
+	 * This is used to indicate which playback controls to display for the audio.
+	 */
+<span class="pc" id="L49">	public enum Controls {</span>
+		/**
+		 * Do not display any controls - not recommended.
+		 */
+<span class="fc" id="L53">		NONE,</span>
+		/**
+		 * Display all controls.
+		 */
+<span class="fc" id="L57">		ALL,</span>
+		/**
+		 * A combined play/pause button.
+		 */
+<span class="fc" id="L61">		PLAY_PAUSE,</span>
+		/**
+		 * Displays the &quot;default&quot; set of controls for the theme.
+		 */
+<span class="fc" id="L65">		DEFAULT,</span>
+		/**
+		 * Displays the client's native set of controls.
+		 */
+<span class="fc" id="L69">		NATIVE</span>
+	}
+
+	/**
+	 * Creates a WAudio with no audio clips. Audio clips must be added later by calling one of the setAudio(...)
+	 * methods.
+	 */
+<span class="fc" id="L76">	public WAudio() {</span>
+<span class="fc" id="L77">	}</span>
+
+	/**
+	 * Creates a WAudio with the given audio clip.
+	 *
+	 * @param audio the audio clip.
+	 */
+	public WAudio(final Audio audio) {
+<span class="fc" id="L85">		this(new Audio[]{audio});</span>
+<span class="fc" id="L86">	}</span>
+
+	/**
+	 * &lt;p&gt;
+	 * Creates a WAudio with the given static content. This is provided as a convenience method for when the audio file
+	 * is included as static content in the class path rather than in the web application's resources.&lt;/p&gt;
+	 *
+	 * &lt;p&gt;
+	 * The mime type for the audio clip is looked up from the &quot;mimeType.*&quot; mapping configuration parameters using the
+	 * resource's file extension.&lt;/p&gt;
+	 *
+	 * @param resource the resource path to the audio file.
+	 */
+	public WAudio(final String resource) {
+<span class="nc" id="L100">		this(new AudioResource(resource));</span>
+<span class="nc" id="L101">	}</span>
+
+	/**
+	 * Creates a WAudio with the given audio clip in multiple formats. The client will try to load the first audio clip,
+	 * and if it fails or isn't supported, it will move on to the next audio clip. Only the first clip which can be
+	 * played on the client will be used.
+	 *
+	 * @param audio multiple formats for the same the audio clip.
+	 */
+<span class="fc" id="L110">	public WAudio(final Audio[] audio) {</span>
+<span class="fc" id="L111">		setAudio(audio);</span>
+<span class="fc" id="L112">	}</span>
+
+	/**
+	 * Sets the audio clip for all users.
+	 *
+	 * @param audio the audio clip.
+	 */
+	public void setAudio(final Audio audio) {
+<span class="fc" id="L120">		setAudio(new Audio[]{audio});</span>
+<span class="fc" id="L121">	}</span>
+
+	/**
+	 * Sets the audio clip in multiple formats for all users. The client will try to load the first audio clip, and if
+	 * it fails or isn't supported, it will move on to the next audio clip. Only the first clip which can be played on
+	 * the client will be used.
+	 *
+	 * @param audio multiple formats for the same the audio clip.
+	 */
+	public void setAudio(final Audio[] audio) {
+<span class="pc bpc" id="L131" title="1 of 2 branches missed.">		List&lt;Audio&gt; list = audio == null ? null : Arrays.asList(audio);</span>
+<span class="fc" id="L132">		getOrCreateComponentModel().audio = list;</span>
+<span class="fc" id="L133">	}</span>
+
+	/**
+	 * Retrieves the audio clips associated with this WAudio.
+	 *
+	 * @return the audio clips, may be null.
+	 */
+	public Audio[] getAudio() {
+<span class="fc" id="L141">		List&lt;Audio&gt; list = getComponentModel().audio;</span>
+<span class="fc bfc" id="L142" title="All 2 branches covered.">		return list == null ? null : list.toArray(new Audio[]{});</span>
+	}
+
+	/**
+	 * Indicates whether the audio component is disabled.
+	 *
+	 * @return true if the component is disabled, otherwise false.
+	 */
+	@Override
+	public boolean isDisabled() {
+<span class="fc" id="L152">		return isFlagSet(ComponentModel.DISABLED_FLAG);</span>
+	}
+
+	/**
+	 * Sets whether the audio component is disabled.
+	 *
+	 * @param disabled if true, the component is disabled. If false, it is enabled.
+	 */
+	@Override
+	public void setDisabled(final boolean disabled) {
+<span class="fc" id="L162">		setFlag(ComponentModel.DISABLED_FLAG, disabled);</span>
+<span class="fc" id="L163">	}</span>
+
+	/**
+	 * @return true if the clip should start playing automatically, false for a manual start.
+	 */
+	public boolean isAutoplay() {
+<span class="fc" id="L169">		return getComponentModel().autoplay;</span>
+	}
+
+	/**
+	 * Sets whether the clip should play automatically.
+	 *
+	 * @param autoplay true to start playing automatically, false for a manual start.
+	 */
+	public void setAutoplay(final boolean autoplay) {
+<span class="fc" id="L178">		getOrCreateComponentModel().autoplay = autoplay;</span>
+<span class="fc" id="L179">	}</span>
+
+	/**
+	 * @return the media group name.
+	 */
+	public String getMediaGroup() {
+<span class="fc" id="L185">		return getComponentModel().mediaGroup;</span>
+	}
+
+	/**
+	 * Sets the media group.
+	 *
+	 * @param mediaGroup The media group name.
+	 */
+	public void setMediaGroup(final String mediaGroup) {
+<span class="fc" id="L194">		getOrCreateComponentModel().mediaGroup = mediaGroup;</span>
+<span class="fc" id="L195">	}</span>
+
+	/**
+	 * Indicates whether the audio clip playback should loop.
+	 *
+	 * @return true to loop, false to stop at the end.
+	 */
+	public boolean isLoop() {
+<span class="fc" id="L203">		return getComponentModel().loop;</span>
+	}
+
+	/**
+	 * Sets whether the audio clip playback should loop or stop at the end.
+	 *
+	 * @param loop true to loop, false to stop at the end.
+	 */
+	public void setLoop(final boolean loop) {
+<span class="fc" id="L212">		getOrCreateComponentModel().loop = loop;</span>
+<span class="fc" id="L213">	}</span>
+
+	/**
+	 * Indicates how pre-loading of content should occur before the clip is played.
+	 *
+	 * @return the pre-loading mode.
+	 */
+	public Preload getPreload() {
+<span class="fc" id="L221">		return getComponentModel().preload;</span>
+	}
+
+	/**
+	 * Sets how pre-loading of content should occur before the clip is played.
+	 *
+	 * @param preload the pre-loading mode.
+	 */
+	public void setPreload(final Preload preload) {
+<span class="fc" id="L230">		getOrCreateComponentModel().preload = preload;</span>
+<span class="fc" id="L231">	}</span>
+
+	/**
+	 * @return alternative text to display when the audio clip can not be played.
+	 */
+	public String getAltText() {
+<span class="fc" id="L237">		return getComponentModel().altText;</span>
+	}
+
+	/**
+	 * Sets the alternative text to display when the audio clip can not be played.
+	 *
+	 * @param altText the text to set.
+	 */
+	public void setAltText(final String altText) {
+<span class="fc" id="L246">		getOrCreateComponentModel().altText = altText;</span>
+<span class="fc" id="L247">	}</span>
+
+	/**
+	 * Creates dynamic URLs that the audio clips can be loaded from. In fact the URL points to the main application
+	 * servlet, but includes a non-null for the parameter associated with this WComponent (ie, its label). The
+	 * handleRequest method below detects this when the browser requests a file.
+	 *
+	 * @return the urls to load the audio files from, or null if there are no clips defined.
+	 */
+	public String[] getAudioUrls() {
+<span class="fc" id="L257">		Audio[] audio = getAudio();</span>
+
+<span class="pc bpc" id="L259" title="2 of 4 branches missed.">		if (audio == null || audio.length == 0) {</span>
+<span class="nc" id="L260">			return null;</span>
+		}
+
+<span class="fc" id="L263">		String[] urls = new String[audio.length];</span>
+
+<span class="fc" id="L265">		Environment env = getEnvironment();</span>
+<span class="fc" id="L266">		Map&lt;String, String&gt; parameters = env.getHiddenParameters();</span>
+<span class="fc" id="L267">		parameters.put(Environment.TARGET_ID, getTargetId());</span>
+
+<span class="pc bpc" id="L269" title="1 of 2 branches missed.">		if (Util.empty(getCacheKey())) {</span>
+			// Add some randomness to the URL to prevent caching
+<span class="nc" id="L271">			String random = WebUtilities.generateRandom();</span>
+<span class="nc" id="L272">			parameters.put(Environment.UNIQUE_RANDOM_PARAM, random);</span>
+<span class="nc" id="L273">		} else {</span>
+			// Remove step counter as not required for cached content
+<span class="fc" id="L275">			parameters.remove(Environment.STEP_VARIABLE);</span>
+<span class="fc" id="L276">			parameters.remove(Environment.SESSION_TOKEN_VARIABLE);</span>
+			// Add the cache key
+<span class="fc" id="L278">			parameters.put(Environment.CONTENT_CACHE_KEY, getCacheKey());</span>
+		}
+
+		// this variable needs to be set in the portlet environment.
+<span class="fc" id="L282">		String url = env.getWServletPath();</span>
+
+<span class="fc bfc" id="L284" title="All 2 branches covered.">		for (int i = 0; i &lt; urls.length; i++) {</span>
+<span class="fc" id="L285">			parameters.put(AUDIO_INDEX_REQUEST_PARAM_KEY, String.valueOf(i));</span>
+<span class="fc" id="L286">			urls[i] = WebUtilities.getPath(url, parameters, true);</span>
+		}
+
+<span class="fc" id="L289">		return urls;</span>
+	}
+
+	/**
+	 * Override isVisible to also return false if there are no audio clips to play.
+	 *
+	 * @return true if this component is visible in the given context, otherwise false.
+	 */
+	@Override
+	public boolean isVisible() {
+<span class="pc bpc" id="L299" title="1 of 2 branches missed.">		if (!super.isVisible()) {</span>
+<span class="nc" id="L300">			return false;</span>
+		}
+
+<span class="fc" id="L303">		Audio[] audio = getAudio();</span>
+<span class="pc bpc" id="L304" title="1 of 4 branches missed.">		return audio != null &amp;&amp; audio.length &gt; 0;</span>
+	}
+
+	/**
+	 * When an audio element is rendered to the client, the browser will make a second request to get the audio content.
+	 * The handleRequest method has been overridden to detect whether the request is the &quot;content fetch&quot; request by
+	 * looking for the parameter that we encode in the content url.
+	 *
+	 * @param request the request being responded to.
+	 */
+	@Override
+	public void handleRequest(final Request request) {
+<span class="fc" id="L316">		super.handleRequest(request);</span>
+
+<span class="pc bpc" id="L318" title="1 of 2 branches missed.">		if (isDisabled()) {</span>
+<span class="nc" id="L319">			return;</span>
+		}
+
+<span class="fc" id="L322">		String targ = request.getParameter(Environment.TARGET_ID);</span>
+<span class="fc" id="L323">		String audioFileRequested = request.getParameter(AUDIO_INDEX_REQUEST_PARAM_KEY);</span>
+<span class="pc bpc" id="L324" title="1 of 4 branches missed.">		boolean contentReqested = targ != null &amp;&amp; targ.equals(getTargetId());</span>
+
+<span class="fc bfc" id="L326" title="All 2 branches covered.">		if (contentReqested) {</span>
+<span class="fc" id="L327">			int audioFileIndex = 0;</span>
+
+			try {
+<span class="fc" id="L330">				audioFileIndex = Integer.parseInt(audioFileRequested);</span>
+<span class="nc" id="L331">			} catch (NumberFormatException e) {</span>
+<span class="nc" id="L332">				LOG.error(&quot;Failed to parse audio index: &quot; + audioFileIndex);</span>
+<span class="fc" id="L333">			}</span>
+
+<span class="fc" id="L335">			Audio[] audio = getAudio();</span>
+
+<span class="pc bpc" id="L337" title="3 of 6 branches missed.">			if (audio != null &amp;&amp; audioFileIndex &gt;= 0 &amp;&amp; audioFileIndex &lt; audio.length) {</span>
+<span class="fc" id="L338">				ContentEscape escape = new ContentEscape(audio[audioFileIndex]);</span>
+<span class="fc bfc" id="L339" title="All 2 branches covered.">				escape.setCacheable(!Util.empty(getCacheKey()));</span>
+<span class="fc" id="L340">				throw escape;</span>
+			} else {
+<span class="nc" id="L342">				LOG.error(&quot;Requested invalid audio clip: &quot; + audioFileIndex);</span>
+			}
+		}
+<span class="fc" id="L345">	}</span>
+
+	/**
+	 * @return the cacheKey
+	 */
+	public String getCacheKey() {
+<span class="fc" id="L351">		return getComponentModel().cacheKey;</span>
+	}
+
+	/**
+	 * @param cacheKey the cacheKey to set.
+	 */
+	public void setCacheKey(final String cacheKey) {
+<span class="fc" id="L358">		getOrCreateComponentModel().cacheKey = cacheKey;</span>
+<span class="fc" id="L359">	}</span>
+
+	/**
+	 * Indicates which playback controls (e.g. stop/start/pause) to display on the audio component.
+	 *
+	 * @return the playback controls to display.
+	 */
+	public Controls getControls() {
+<span class="fc" id="L367">		return getComponentModel().controls;</span>
+	}
+
+	/**
+	 * Sets which playback controls (e.g. stop/start/pause) to display on the audio component. The values of
+	 * {@link Controls#NONE} and {@link Controls#ALL} take precedence over all other values. Passing a null or empty set
+	 * of controls will cause the client's default set of controls to be used.
+	 *
+	 * @param controls the playback controls to display.
+	 */
+	public void setControls(final Controls controls) {
+<span class="fc" id="L378">		getOrCreateComponentModel().controls = controls;</span>
+<span class="fc" id="L379">	}</span>
+
+	/**
+	 * Returns the id to use to target this component.
+	 *
+	 * @return this component's target id.
+	 */
+	@Override
+	public String getTargetId() {
+<span class="fc" id="L388">		return getId();</span>
+	}
+
+	/**
+	 * @return a String representation of this component, for debugging purposes.
+	 */
+	@Override
+	public String toString() {
+<span class="nc" id="L396">		String text = getAltText();</span>
+<span class="nc bnc" id="L397" title="All 2 branches missed.">		return toString(text == null ? null : '&quot;' + text + '&quot;');</span>
+	}
+
+	// --------------------------------
+	// Extrinsic state management
+	/**
+	 * Creates a new component model appropriate for this component.
+	 *
+	 * @return a new AudioModel.
+	 */
+	@Override
+	protected AudioModel newComponentModel() {
+<span class="fc" id="L409">		return new AudioModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override // For type safety only
+	protected AudioModel getComponentModel() {
+<span class="fc" id="L417">		return (AudioModel) super.getComponentModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override // For type safety only
+	protected AudioModel getOrCreateComponentModel() {
+<span class="fc" id="L425">		return (AudioModel) super.getOrCreateComponentModel();</span>
+	}
+
+	/**
+	 * Holds the extrinsic state information of a WAudio.
+	 */
+<span class="fc" id="L431">	public static class AudioModel extends ComponentModel {</span>
+
+		/**
+		 * The various audio clips.
+		 */
+		private List&lt;Audio&gt; audio;
+
+		/**
+		 * The cache key used to control client-side caching.
+		 */
+		private String cacheKey;
+
+		/**
+		 * Indicates whether the audio should play immediately after page load.
+		 */
+		private boolean autoplay;
+
+		/**
+		 * Indicates whether playback of the audio clip should be looped.
+		 */
+		private boolean loop;
+
+		/**
+		 * Indicates which playback controls to display.
+		 */
+		private Controls controls;
+
+		/**
+		 * Indicates whether pre-loading of content should occur before the clip is played.
+		 */
+<span class="fc" id="L461">		private Preload preload = Preload.NONE;</span>
+
+		/**
+		 * Alternate text to display if the audio clip can not be played.
+		 */
+		private String altText;
+
+		/**
+		 * This is used to group related media together, for example to synchronize tracks.
+		 */
+		private String mediaGroup;
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

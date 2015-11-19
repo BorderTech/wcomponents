@@ -1,0 +1,661 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WWindow.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">WWindow.java</span></div><h1>WWindow.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
+import java.io.PrintWriter;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * This component enables a pop up browser window with interactive wcomponent content. Be warned that pop up windows can
+ * cause workflow headaches as you can't control where the user goes. Eg. They may not close a pop up window before
+ * going back to the parent window. Later on they may choose to continue working in the pop up window, breaking the
+ * intended flow of the application.
+ *
+ * @author Martin Shevchenko
+ * @author Jonathan Austin
+ * @since 1.0.0
+ */
+public class WWindow extends AbstractWComponent implements Container {
+
+	/**
+	 * Request parameter key for a wwindow.
+	 */
+	public static final String WWINDOW_REQUEST_PARAM_KEY = &quot;wc_wwindow&quot;;
+
+	/**
+	 * This is the &quot;normal&quot; state for the Window component when it's being processed as part of the parent window.
+	 */
+	public static final int INACTIVE_STATE = 0;
+
+	/**
+	 * The component is in this state when a request has been made to display the window. The necessary mark-up to open
+	 * the window will be rendered in this mode.
+	 */
+	public static final int DISPLAY_STATE = 1;
+
+	/**
+	 * This state is when the window is open and the initial render of the content is complete.
+	 */
+	public static final int ACTIVE_STATE = 2;
+
+	/**
+	 * Holder naming context.
+	 */
+<span class="fc" id="L44">	private final WNamingContext holderNamingContext = new WNamingContext(&quot;w&quot;) {</span>
+		@Override
+		public String getNamingContextId() {
+			// Build Id
+<span class="fc" id="L48">			StringBuffer id = new StringBuffer();</span>
+<span class="fc" id="L49">			id.append(WWindow.this.getId());</span>
+<span class="fc" id="L50">			id.append(ID_CONTEXT_SEPERATOR);</span>
+<span class="fc" id="L51">			id.append(getIdName());</span>
+<span class="fc" id="L52">			return id.toString();</span>
+		}
+	};
+
+	/**
+	 * The content holder exists to keep the content hidden from normal requests, yet still have the content attached to
+	 * the wcomponent tree. Being part of the tree enables embedded targetables and other components to be found.
+	 */
+<span class="fc" id="L60">	private final WInvisibleContainer holder = new WInvisibleContainer();</span>
+
+	/**
+	 * Creates a new Window.
+	 */
+<span class="fc" id="L65">	public WWindow() {</span>
+<span class="fc" id="L66">		add(holderNamingContext);</span>
+<span class="fc" id="L67">		holderNamingContext.add(holder);</span>
+<span class="fc" id="L68">	}</span>
+
+	/**
+	 * Creates a new Window containing the specified content.
+	 *
+	 * @param content the window content.
+	 */
+	public WWindow(final WComponent content) {
+<span class="fc" id="L76">		this();</span>
+<span class="fc" id="L77">		setContent(content);</span>
+<span class="fc" id="L78">	}</span>
+
+	/**
+	 * Set the WComponent that will handle the content for this pop up window.
+	 *
+	 * @param content the window content.
+	 */
+	public void setContent(final WComponent content) {
+<span class="fc" id="L86">		WindowModel model = getOrCreateComponentModel();</span>
+
+		// If the previous content had been wrapped, then remove it from the wrapping WApplication.
+<span class="pc bpc" id="L89" title="1 of 4 branches missed.">		if (model.wrappedContent != null &amp;&amp; model.wrappedContent != model.content) {</span>
+<span class="fc" id="L90">			model.wrappedContent.removeAll();</span>
+		}
+
+<span class="fc" id="L93">		model.content = content;</span>
+
+		// Wrap content in a WApplication
+<span class="pc bpc" id="L96" title="1 of 2 branches missed.">		if (content instanceof WApplication) {</span>
+<span class="nc" id="L97">			model.wrappedContent = (WApplication) content;</span>
+		} else {
+<span class="fc" id="L99">			model.wrappedContent = new WApplication();</span>
+<span class="fc" id="L100">			model.wrappedContent.add(content);</span>
+		}
+
+		// There should only be one content.
+<span class="fc" id="L104">		holder.removeAll();</span>
+<span class="fc" id="L105">		holder.add(model.wrappedContent);</span>
+<span class="fc" id="L106">	}</span>
+
+	/**
+	 * @return the component which is the content for this window.
+	 */
+	public WComponent getContent() {
+<span class="fc" id="L112">		return getComponentModel().content;</span>
+	}
+
+	/**
+	 * @return the window title.
+	 */
+	public String getTitle() {
+<span class="nc" id="L119">		return getComponentModel().title;</span>
+	}
+
+	/**
+	 * Sets the window title.
+	 *
+	 * @param title The title to set.
+	 */
+	public void setTitle(final String title) {
+<span class="nc" id="L128">		getOrCreateComponentModel().title = title;</span>
+<span class="nc" id="L129">	}</span>
+
+	/**
+	 * Signals that the pop up window should be opened in the given context.
+	 */
+	public void display() {
+<span class="fc" id="L135">		setState(DISPLAY_STATE);</span>
+<span class="fc" id="L136">	}</span>
+
+	/**
+	 * @return The height of the window. Default is 600px.
+	 */
+	public int getHeight() {
+<span class="fc" id="L142">		return getComponentModel().height;</span>
+	}
+
+	/**
+	 * Sets the window height.
+	 *
+	 * @param height The height of the window.
+	 */
+	public void setHeight(final int height) {
+<span class="fc" id="L151">		getOrCreateComponentModel().height = height;</span>
+<span class="fc" id="L152">	}</span>
+
+	/**
+	 * @return The width of the window. Default is 800px.
+	 */
+	public int getWidth() {
+<span class="fc" id="L158">		return getComponentModel().width;</span>
+	}
+
+	/**
+	 * Sets the window width.
+	 *
+	 * @param width The width of the window.
+	 */
+	public void setWidth(final int width) {
+<span class="fc" id="L167">		getOrCreateComponentModel().width = width;</span>
+<span class="fc" id="L168">	}</span>
+
+	/**
+	 * @return the y-coordinate of the window.
+	 */
+	public int getTop() {
+<span class="fc" id="L174">		return getComponentModel().top;</span>
+	}
+
+	/**
+	 * Sets the y-coordinate of the window.
+	 *
+	 * @param top The y-coordinate of the window, or -1 for default.
+	 */
+	public void setTop(final int top) {
+<span class="nc" id="L183">		getOrCreateComponentModel().top = top;</span>
+<span class="nc" id="L184">	}</span>
+
+	/**
+	 * @return the x-coordinate of the window.
+	 */
+	public int getLeft() {
+<span class="fc" id="L190">		return getComponentModel().left;</span>
+	}
+
+	/**
+	 * Sets the x-coordinate of the window.
+	 *
+	 * @param left The x-coordinate of the window, or -1 for default.
+	 */
+	public void setLeft(final int left) {
+<span class="nc" id="L199">		getOrCreateComponentModel().left = left;</span>
+<span class="nc" id="L200">	}</span>
+
+	/**
+	 * @return true the browser menubar should be shown.
+	 */
+	public boolean isShowMenuBar() {
+<span class="fc" id="L206">		return getComponentModel().showMenuBar;</span>
+	}
+
+	/**
+	 * Sets whether the browser menubar should be shown. It is hidden by default.
+	 *
+	 * @param showMenuBar The showMenuBar to set.
+	 */
+	public void setShowMenuBar(final boolean showMenuBar) {
+<span class="nc" id="L215">		getOrCreateComponentModel().showMenuBar = showMenuBar;</span>
+<span class="nc" id="L216">	}</span>
+
+	/**
+	 * @return true if the browser toolbar should be shown.
+	 */
+	public boolean isShowToolbar() {
+<span class="fc" id="L222">		return getComponentModel().showToolbar;</span>
+	}
+
+	/**
+	 * Sets whether the browser toolbar should be shown. It is hidden by default.
+	 *
+	 * @param showToolbar The showToolbar to set.
+	 */
+	public void setShowToolbar(final boolean showToolbar) {
+<span class="nc" id="L231">		getOrCreateComponentModel().showToolbar = showToolbar;</span>
+<span class="nc" id="L232">	}</span>
+
+	/**
+	 * @return true if the browser location bar should be shown.
+	 */
+	public boolean isShowLocation() {
+<span class="fc" id="L238">		return getComponentModel().showLocation;</span>
+	}
+
+	/**
+	 * Sets whether the browser location bar should be shown. It is hidden by default.
+	 *
+	 * @param showLocation The showLocation to set.
+	 */
+	public void setShowLocation(final boolean showLocation) {
+<span class="nc" id="L247">		getOrCreateComponentModel().showLocation = showLocation;</span>
+<span class="nc" id="L248">	}</span>
+
+	/**
+	 * @return true if the browser status bar should be shown.
+	 */
+	public boolean isShowStatus() {
+<span class="fc" id="L254">		return getComponentModel().showStatus;</span>
+	}
+
+	/**
+	 * Sets whether the browser status bar should be shown. It is hidden by default.
+	 *
+	 * @param showStatus The showStatus to set.
+	 */
+	public void setShowStatus(final boolean showStatus) {
+<span class="nc" id="L263">		getOrCreateComponentModel().showStatus = showStatus;</span>
+<span class="nc" id="L264">	}</span>
+
+	/**
+	 * @return true if the window is resizable.
+	 */
+	public boolean isResizable() {
+<span class="fc" id="L270">		return getComponentModel().resizable;</span>
+	}
+
+	/**
+	 * Sets whether the window is resizable.
+	 *
+	 * @param resizable true if the window should be resizable, false if not.
+	 */
+	public void setResizable(final boolean resizable) {
+<span class="fc" id="L279">		getOrCreateComponentModel().resizable = resizable;</span>
+<span class="fc" id="L280">	}</span>
+
+	/**
+	 * @return true if the window is scrollable.
+	 */
+	public boolean isScrollable() {
+<span class="fc" id="L286">		return getComponentModel().scrollbars;</span>
+	}
+
+	/**
+	 * Sets whether the window should have a scroll bar.
+	 *
+	 * @param scrollable true if the window should have a scroll bar, false if not.
+	 */
+	public void setScrollable(final boolean scrollable) {
+<span class="fc" id="L295">		getOrCreateComponentModel().scrollbars = scrollable;</span>
+<span class="fc" id="L296">	}</span>
+
+	/**
+	 * Retrieves the current state of the window.
+	 *
+	 * @return the current state of this window.
+	 */
+	public int getState() {
+<span class="fc" id="L304">		return getComponentModel().state;</span>
+	}
+
+	/**
+	 * Sets the current state of this component.
+	 *
+	 * @param state the window state to set.
+	 */
+	protected void setState(final int state) {
+<span class="fc" id="L313">		getOrCreateComponentModel().state = state;</span>
+<span class="fc" id="L314">	}</span>
+
+	/**
+	 * Returns a dynamic URL that this wwindow component can be accessed from.
+	 *
+	 * @return the URL to access this wwindow component.
+	 */
+	public String getUrl() {
+<span class="fc" id="L322">		Environment env = getEnvironment();</span>
+<span class="fc" id="L323">		Map&lt;String, String&gt; parameters = env.getHiddenParameters();</span>
+<span class="fc" id="L324">		parameters.put(WWINDOW_REQUEST_PARAM_KEY, getId());</span>
+		// Override the step count with WWindow step
+<span class="fc" id="L326">		parameters.put(Environment.STEP_VARIABLE, String.valueOf(getStep()));</span>
+
+<span class="fc" id="L328">		String url = env.getWServletPath();</span>
+
+<span class="fc" id="L330">		return WebUtilities.getPath(url, parameters, true);</span>
+	}
+
+	// -------------------------------------------------------------
+	// Action and Event Handling
+	// -------------------------------------------------------------
+	/**
+	 * Override handleRequest in order to perform processing specific to this component.
+	 *
+	 * @param request the request being responded to.
+	 */
+	@Override
+	public void handleRequest(final Request request) {
+<span class="fc" id="L343">		super.handleRequest(request);</span>
+
+		// Check if window in request
+<span class="fc" id="L346">		boolean targeted = isPresent(request);</span>
+<span class="fc" id="L347">		setTargeted(targeted);</span>
+
+<span class="pc bpc" id="L349" title="1 of 4 branches missed.">		if (getState() == ACTIVE_STATE &amp;&amp; isTargeted()) {</span>
+<span class="fc" id="L350">			getComponentModel().wrappedContent.serviceRequest(request);</span>
+		}
+<span class="fc" id="L352">	}</span>
+
+	/**
+	 * @param request the request being processed
+	 * @return true if window in request
+	 */
+	private boolean isPresent(final Request request) {
+<span class="fc" id="L359">		String target = request.getParameter(WWINDOW_REQUEST_PARAM_KEY);</span>
+<span class="pc bpc" id="L360" title="1 of 4 branches missed.">		boolean targeted = target != null &amp;&amp; target.equals(getId());</span>
+<span class="fc" id="L361">		return targeted;</span>
+	}
+
+	/**
+	 * When the window is targetted, we need to run the &quot;laters&quot;. If we don't do this, they will not run because a
+	 * targetted request bypasses the root component that would normally have run them.
+	 */
+	@Override
+	protected void invokeLaters() {
+<span class="nc bnc" id="L370" title="All 4 branches missed.">		if (getState() == ACTIVE_STATE &amp;&amp; isTargeted()) {</span>
+<span class="nc" id="L371">			UIContextHolder.getCurrent().doInvokeLaters();</span>
+		} else {
+<span class="nc" id="L373">			super.invokeLaters();</span>
+		}
+<span class="nc" id="L375">	}</span>
+
+	/**
+	 * Override preparePaintComponent to clear the scratch map before the window content is being painted.
+	 *
+	 * @param request the request being responded to.
+	 */
+	@Override
+	protected void preparePaintComponent(final Request request) {
+<span class="nc" id="L384">		super.preparePaintComponent(request);</span>
+
+		// Check if window in request (might not have gone through handle request, eg Step error)
+<span class="nc" id="L387">		boolean targeted = isPresent(request);</span>
+<span class="nc" id="L388">		setTargeted(targeted);</span>
+
+<span class="nc bnc" id="L390" title="All 4 branches missed.">		if (getState() == ACTIVE_STATE &amp;&amp; isTargeted()) {</span>
+<span class="nc" id="L391">			getComponentModel().wrappedContent.preparePaint(request);</span>
+		}
+<span class="nc" id="L393">	}</span>
+
+	/**
+	 * Override paintComponent in order to paint the window or its content, depending on the window state.
+	 *
+	 * @param renderContext the RenderContext to send the output to.
+	 */
+	@Override
+	protected void paintComponent(final RenderContext renderContext) {
+<span class="fc bfc" id="L402" title="All 2 branches covered.">		if (getState() == DISPLAY_STATE) {</span>
+<span class="fc" id="L403">			setState(ACTIVE_STATE);</span>
+<span class="fc" id="L404">			showWindow(renderContext);</span>
+<span class="pc bpc" id="L405" title="1 of 4 branches missed.">		} else if (getState() == ACTIVE_STATE &amp;&amp; isTargeted()) {</span>
+<span class="fc" id="L406">			getComponentModel().wrappedContent.paint(renderContext);</span>
+		}
+<span class="fc" id="L408">	}</span>
+
+	@Override
+	protected void afterPaint(final RenderContext renderContext) {
+<span class="fc" id="L412">		super.afterPaint(renderContext);</span>
+<span class="fc" id="L413">		setTargeted(false);</span>
+<span class="fc" id="L414">	}</span>
+
+	/**
+	 * Emits the mark-up which pops up the window.
+	 *
+	 * @param renderContext the RenderContext to send the output to.
+	 */
+	protected void showWindow(final RenderContext renderContext) {
+		// Get current step
+<span class="fc" id="L423">		int current = UIContextHolder.getCurrent().getEnvironment().getStep();</span>
+		// Get window current step (may have already been launched)
+<span class="fc" id="L425">		int window = getStep();</span>
+		// Combine step counts to make previous window (if still open) invalid
+<span class="fc" id="L427">		setStep(window + current);</span>
+
+		// TODO: This should be in a renderer, not included in this class
+<span class="pc bpc" id="L430" title="1 of 2 branches missed.">		if (renderContext instanceof WebXmlRenderContext) {</span>
+<span class="fc" id="L431">			PrintWriter writer = ((WebXmlRenderContext) renderContext).getWriter();</span>
+
+<span class="fc" id="L433">			writer.print(&quot;\n&lt;ui:popup&quot;);</span>
+<span class="fc" id="L434">			writer.print(&quot; url=\&quot;&quot; + WebUtilities.encode(getUrl()) + '&quot;');</span>
+<span class="fc" id="L435">			writer.print(&quot; width=\&quot;&quot; + getWidth() + '&quot;');</span>
+<span class="fc" id="L436">			writer.print(&quot; height=\&quot;&quot; + getHeight() + '&quot;');</span>
+
+<span class="pc bpc" id="L438" title="1 of 2 branches missed.">			if (isResizable()) {</span>
+<span class="fc" id="L439">				writer.print(&quot; resizable=\&quot;true\&quot;&quot;);</span>
+			}
+
+<span class="pc bpc" id="L442" title="1 of 2 branches missed.">			if (isScrollable()) {</span>
+<span class="fc" id="L443">				writer.print(&quot; showScrollbars=\&quot;true\&quot;&quot;);</span>
+			}
+
+<span class="pc bpc" id="L446" title="1 of 2 branches missed.">			if (isShowMenuBar()) {</span>
+<span class="nc" id="L447">				writer.print(&quot; showMenubar=\&quot;true\&quot;&quot;);</span>
+			}
+
+<span class="pc bpc" id="L450" title="1 of 2 branches missed.">			if (isShowToolbar()) {</span>
+<span class="nc" id="L451">				writer.print(&quot; showToolbar=\&quot;true\&quot;&quot;);</span>
+			}
+
+<span class="pc bpc" id="L454" title="1 of 2 branches missed.">			if (isShowLocation()) {</span>
+<span class="nc" id="L455">				writer.print(&quot; showLocation=\&quot;true\&quot;&quot;);</span>
+			}
+
+<span class="pc bpc" id="L458" title="1 of 2 branches missed.">			if (isShowStatus()) {</span>
+<span class="nc" id="L459">				writer.print(&quot; showStatus=\&quot;true\&quot;&quot;);</span>
+			}
+
+<span class="pc bpc" id="L462" title="1 of 2 branches missed.">			if (getTop() &gt;= 0) {</span>
+<span class="nc" id="L463">				writer.print(&quot; top=\&quot;&quot; + getTop() + '\'');</span>
+			}
+
+<span class="pc bpc" id="L466" title="1 of 2 branches missed.">			if (getLeft() &gt;= 0) {</span>
+<span class="nc" id="L467">				writer.print(&quot; left=\&quot;&quot; + getLeft() + '\'');</span>
+			}
+
+<span class="fc" id="L470">			writer.println(&quot;/&gt;&quot;);</span>
+		}
+<span class="fc" id="L472">	}</span>
+
+	/**
+	 * @return the current step counter.
+	 */
+	protected boolean isTargeted() {
+<span class="fc" id="L478">		return getComponentModel().targeted;</span>
+	}
+
+	/**
+	 * @param targeted true if targeted
+	 */
+	protected void setTargeted(final boolean targeted) {
+<span class="fc" id="L485">		getOrCreateComponentModel().targeted = targeted;</span>
+<span class="fc" id="L486">	}</span>
+
+	/**
+	 * Retrieves the current step counter. This method should only ever be used by internal code.
+	 *
+	 * @return the current step counter.
+	 */
+	public int getStep() {
+<span class="fc" id="L494">		return getComponentModel().step;</span>
+	}
+
+	/**
+	 * Sets the current step counter. This method should only ever be used by internal code.
+	 *
+	 * @param step the step to set.
+	 */
+	public void setStep(final int step) {
+<span class="fc" id="L503">		getOrCreateComponentModel().step = step;</span>
+<span class="fc" id="L504">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	// to make public
+	public int getChildCount() {
+<span class="fc" id="L512">		return super.getChildCount();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	// to make public
+	public WComponent getChildAt(final int index) {
+<span class="fc" id="L521">		return super.getChildAt(index);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	// to make public
+	public List&lt;WComponent&gt; getChildren() {
+<span class="nc" id="L530">		return super.getChildren();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	// to make public
+	public int getIndexOfChild(final WComponent childComponent) {
+<span class="nc" id="L539">		return super.getIndexOfChild(childComponent);</span>
+	}
+
+	/**
+	 * @return a String representation of this component, for debugging purposes.
+	 */
+	@Override
+	public String toString() {
+<span class="nc" id="L547">		String text = getTitle();</span>
+<span class="nc bnc" id="L548" title="All 2 branches missed.">		text = text == null ? &quot;null&quot; : ('&quot;' + text + '&quot;');</span>
+<span class="nc" id="L549">		return toString(text, 1, 1);</span>
+	}
+
+	// ---------------------------------------------------------------------------
+	// Extrinsic state management
+	// ---------------------------------------------------------------------------
+	/**
+	 * Creates a new component model appropriate for this component.
+	 *
+	 * @return a new WindowModel.
+	 */
+	@Override
+	protected WindowModel newComponentModel() {
+<span class="fc" id="L562">		return new WindowModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	// For type safety only
+	protected WindowModel getComponentModel() {
+<span class="fc" id="L571">		return (WindowModel) super.getComponentModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	// For type safety only
+	protected WindowModel getOrCreateComponentModel() {
+<span class="fc" id="L580">		return (WindowModel) super.getOrCreateComponentModel();</span>
+	}
+
+	/**
+	 * Holds the extrinsic state information of a window.
+	 */
+<span class="fc" id="L586">	public static class WindowModel extends ComponentModel {</span>
+
+		/**
+		 * The state of the window controls the behaviour during normal WComponent processing.
+		 */
+<span class="fc" id="L591">		private int state = INACTIVE_STATE;</span>
+
+		// Attributes of window.
+		/**
+		 * The window title.
+		 */
+		private String title;
+		/**
+		 * The window width, in HTML units.
+		 */
+<span class="fc" id="L601">		private int width = 800;</span>
+		/**
+		 * The window height, in HTML units.
+		 */
+<span class="fc" id="L605">		private int height = 600;</span>
+		/**
+		 * The y co-ordinate of the window, in pixels.
+		 */
+<span class="fc" id="L609">		private int top = -1;</span>
+		/**
+		 * The x co-ordinate of the window, in pixels.
+		 */
+<span class="fc" id="L613">		private int left = -1;</span>
+		/**
+		 * Indicates whether the window should be resizable.
+		 */
+<span class="fc" id="L617">		private boolean resizable = true;</span>
+		/**
+		 * Indicates whether the window should have scrollbars.
+		 */
+<span class="fc" id="L621">		private boolean scrollbars = false;</span>
+		/**
+		 * Indicates whether the window should display the menu bar.
+		 */
+<span class="fc" id="L625">		private boolean showMenuBar = false;</span>
+		/**
+		 * Indicates whether the window should display the tool bar.
+		 */
+<span class="fc" id="L629">		private boolean showToolbar = false;</span>
+		/**
+		 * Indicates whether the window should display the location bar.
+		 */
+<span class="fc" id="L633">		private boolean showLocation = false;</span>
+		/**
+		 * Indicates whether the window should display the status bar.
+		 */
+<span class="fc" id="L637">		private boolean showStatus = false;</span>
+
+		/**
+		 * The content to be displayed in the window.
+		 */
+		private WComponent content;
+
+		/**
+		 * The wrapped content.
+		 */
+		private WApplication wrappedContent;
+
+		/**
+		 * The expected step counter. This is kept separate from the Environment step counter to allow separate
+		 * processing to occur in a WWindow.
+		 */
+		private int step;
+
+		/**
+		 * Flag if targeted.
+		 */
+		private boolean targeted;
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

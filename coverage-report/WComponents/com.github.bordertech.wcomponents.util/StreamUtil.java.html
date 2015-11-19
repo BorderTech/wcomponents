@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>StreamUtil.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.util</a> &gt; <span class="el_source">StreamUtil.java</span></div><h1>StreamUtil.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.util;
+
+import java.io.ByteArrayOutputStream;
+import java.io.Closeable;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+/**
+ * Static utility methods related to working with Streams.
+ *
+ * @author Martin Shevchenko
+ */
+public final class StreamUtil {
+
+	/**
+	 * The logger instance for this class.
+	 */
+<span class="fc" id="L21">	private static final Log LOG = LogFactory.getLog(StreamUtil.class);</span>
+
+	/**
+	 * No instance methods here.
+	 */
+<span class="nc" id="L26">	private StreamUtil() {</span>
+<span class="nc" id="L27">	}</span>
+
+	/**
+	 * Default value is 2048.
+	 */
+	public static final int DEFAULT_BUFFER_SIZE = 2048;
+
+	/**
+	 * Copies information from the input stream to the output stream, using the default copy buffer size.
+	 *
+	 * @param in the source stream.
+	 * @param out the destination stream.
+	 * @throws IOException if there is an error reading or writing to the streams.
+	 */
+	public static void copy(final InputStream in, final OutputStream out)
+			throws IOException {
+<span class="fc" id="L43">		copy(in, out, DEFAULT_BUFFER_SIZE);</span>
+<span class="fc" id="L44">	}</span>
+
+	/**
+	 * Copies information from the input stream to the output stream using a specified buffer size.
+	 *
+	 * @param in the source stream.
+	 * @param out the destination stream.
+	 * @param bufferSize the buffer size.
+	 * @throws IOException if there is an error reading or writing to the streams.
+	 */
+	public static void copy(final InputStream in, final OutputStream out, final int bufferSize)
+			throws IOException {
+<span class="fc" id="L56">		final byte[] buf = new byte[bufferSize];</span>
+<span class="fc" id="L57">		int bytesRead = in.read(buf);</span>
+
+<span class="fc bfc" id="L59" title="All 2 branches covered.">		while (bytesRead != -1) {</span>
+<span class="fc" id="L60">			out.write(buf, 0, bytesRead);</span>
+<span class="fc" id="L61">			bytesRead = in.read(buf);</span>
+		}
+
+<span class="fc" id="L64">		out.flush();</span>
+<span class="fc" id="L65">	}</span>
+
+	/**
+	 * Returns a byte array containing all the information contained in the given input stream.
+	 *
+	 * @param in the stream to read from.
+	 * @return the stream contents as a byte array.
+	 * @throws IOException if there is an error reading from the stream.
+	 */
+	public static byte[] getBytes(final InputStream in) throws IOException {
+<span class="fc" id="L75">		ByteArrayOutputStream result = new ByteArrayOutputStream();</span>
+<span class="fc" id="L76">		copy(in, result);</span>
+<span class="fc" id="L77">		result.close();</span>
+<span class="fc" id="L78">		return result.toByteArray();</span>
+	}
+
+	/**
+	 * Closes an OutputStream, logging any exceptions.
+	 *
+	 * @param stream the stream to close.
+	 */
+	public static void safeClose(final Closeable stream) {
+<span class="fc bfc" id="L87" title="All 2 branches covered.">		if (stream != null) {</span>
+			try {
+<span class="fc" id="L89">				stream.close();</span>
+<span class="nc" id="L90">			} catch (IOException e) {</span>
+<span class="nc" id="L91">				LOG.error(&quot;Failed to close resource stream&quot;, e);</span>
+<span class="fc" id="L92">			}</span>
+		}
+<span class="fc" id="L94">	}</span>
+
+	/**
+	 * This method returns the contents of a {@link InputStream} as a byte[].
+	 *
+	 * @param is The {@link InputStream} to be read into a byte[]
+	 * @return A byte[] representing the contents of the given &lt;em&gt;is&lt;/em&gt;.
+	 * @throws IOException If there is an error reading from the &lt;em&gt;is&lt;/em&gt;.
+	 */
+	public static byte[] streamToByteArray(final InputStream is) throws IOException {
+<span class="nc" id="L104">		ByteArrayOutputStream baos = new ByteArrayOutputStream();</span>
+<span class="nc" id="L105">		copy(is, baos);</span>
+<span class="nc" id="L106">		byte[] bytes = baos.toByteArray();</span>
+<span class="nc" id="L107">		return bytes;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

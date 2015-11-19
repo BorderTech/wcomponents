@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WMultiDropdown.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">WMultiDropdown.java</span></div><h1>WMultiDropdown.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import com.github.bordertech.wcomponents.util.Util;
+import java.util.Arrays;
+import java.util.List;
+
+/**
+ * &lt;p&gt;
+ * The WMultiDropdown component allows multiple dropdown elements to be generated dynamically on the client, without
+ * requiring the page to be reloaded. This component takes its appearance and attributes from a regular drop down but
+ * allows for one or more items of text to be entered via the add link adjacent to the right of the input.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * This component is useful in instances where the user needs to select one or more items into the interfaces for a
+ * particular field. For instance, the user may have one or more aliases that need to be entered into the system.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * The following attributes can be set on WMultiDropdown:
+ * &lt;/p&gt;
+ * &lt;ul&gt;
+ * &lt;li&gt;maxInputs: The maximum number of text inputs the user can add to the component. Client-side functionality will
+ * stop users adding more than the allowable number of inputs via the UI. This class chops off any excess inputs if an
+ * attempt is made to add them programmatically.&lt;/li&gt;
+ * &lt;/ul&gt;
+ *
+ * @author Yiannis Paschalidis
+ * @author Jonathan Austin
+ * @since 1.0.0
+ */
+public class WMultiDropdown extends AbstractWMultiSelectList implements AjaxTrigger, AjaxTarget,
+		SubordinateTarget {
+
+	/**
+	 * Creates an empty WMultiDropdown.
+	 */
+	public WMultiDropdown() {
+<span class="fc" id="L37">		this((List) null);</span>
+<span class="fc" id="L38">	}</span>
+
+	/**
+	 * Creates a WMultiDropdown with the specified list of options.
+	 *
+	 * @param aList the list of available options.
+	 */
+	public WMultiDropdown(final List aList) {
+<span class="fc" id="L46">		super(aList, false);</span>
+<span class="fc" id="L47">	}</span>
+
+	/**
+	 * Creates a WMultiDropdown with the specified list of options.
+	 *
+	 * @param options the list of available options.
+	 */
+	public WMultiDropdown(final Object[] options) {
+<span class="fc" id="L55">		super(Arrays.asList(options), false);</span>
+<span class="fc" id="L56">	}</span>
+
+	/**
+	 * Creates a WMultiDropdown with the options provided by the given table.
+	 *
+	 * @param table the table to obtain the list's options from.
+	 */
+	public WMultiDropdown(final Object table) {
+<span class="fc" id="L64">		super(table, false);</span>
+<span class="fc" id="L65">	}</span>
+
+	/**
+	 * Sets the maximum allowable number of inputs.
+	 *
+	 * @param maxInputs the maximum allowable number of inputs, or &amp;lt;=0 for unlimited inputs.
+	 * @deprecated Use {{@link #setMaxSelect(int)} instead
+	 */
+	@Deprecated
+	public void setMaxInputs(final int maxInputs) {
+<span class="fc" id="L75">		setMaxSelect(maxInputs);</span>
+<span class="fc" id="L76">	}</span>
+
+	/**
+	 * @return the maximum allowable number of inputs
+	 * @deprecated Use {{@link #getMaxSelect()} instead
+	 */
+	@Deprecated
+	public int getMaxInputs() {
+<span class="fc" id="L84">		return getMaxSelect();</span>
+	}
+
+	/**
+	 * Override getNewSelections to ensure that the max number of inputs is honoured and that there are no duplicates.
+	 * This should not normally occur, as the client side js should prevent it.
+	 *
+	 * @param request the current request
+	 * @return a list of selections that have been added in the given request.
+	 */
+	@Override
+	protected List getNewSelections(final Request request) {
+<span class="fc" id="L96">		List selections = super.getNewSelections(request);</span>
+
+<span class="pc bpc" id="L98" title="1 of 2 branches missed.">		if (selections != null) {</span>
+			// Ensure that there are no duplicates
+<span class="fc bfc" id="L100" title="All 2 branches covered.">			for (int i = 0; i &lt; selections.size(); i++) {</span>
+<span class="fc" id="L101">				Object selection = selections.get(i);</span>
+
+<span class="fc bfc" id="L103" title="All 2 branches covered.">				for (int j = i + 1; j &lt; selections.size(); j++) {</span>
+<span class="fc bfc" id="L104" title="All 2 branches covered.">					if (Util.equals(selection, selections.get(j))) {</span>
+<span class="fc" id="L105">						selections.remove(j--);</span>
+					}
+				}
+			}
+		}
+
+<span class="fc" id="L111">		return selections;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

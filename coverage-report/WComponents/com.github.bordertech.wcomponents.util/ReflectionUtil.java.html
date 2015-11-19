@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>ReflectionUtil.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.util</a> &gt; <span class="el_source">ReflectionUtil.java</span></div><h1>ReflectionUtil.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.util;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * This class provides helpers for invoking objects using the java.lang.reflect package to invoke objects.
+ *
+ * @author Francis Naoum
+ * @since 1.0.0
+ */
+public final class ReflectionUtil {
+
+	/**
+	 * Don't let anyone instantiate this class.
+	 */
+<span class="nc" id="L21">	private ReflectionUtil() {</span>
+<span class="nc" id="L22">	}</span>
+
+	/**
+	 * Invoke the &lt;code&gt;public&lt;/code&gt; method on the given object.
+	 *
+	 * @param obj is the Object to invoke
+	 * @param methodName is the name of the method to invoke
+	 * @param params are the param to pass to the method
+	 * @param paramTypes are the types of parameters to be passed.
+	 * @return the result of the method call.
+	 */
+	public static Object invokeMethod(final Object obj, final String methodName,
+			final Object[] params, final Class[] paramTypes) {
+<span class="fc" id="L35">		Object res = null;</span>
+
+		try {
+<span class="fc" id="L38">			Class cls = obj.getClass();</span>
+<span class="fc" id="L39">			Method method = cls.getMethod(methodName, paramTypes);</span>
+<span class="fc" id="L40">			res = method.invoke(obj, params);</span>
+<span class="nc" id="L41">		} catch (SecurityException e) {</span>
+<span class="nc" id="L42">			throw new SystemException(e);</span>
+<span class="fc" id="L43">		} catch (NoSuchMethodException e) {</span>
+<span class="fc" id="L44">			throw new SystemException(e);</span>
+<span class="nc" id="L45">		} catch (IllegalAccessException e) {</span>
+<span class="nc" id="L46">			throw new SystemException(e);</span>
+<span class="fc" id="L47">		} catch (InvocationTargetException e) {</span>
+<span class="fc" id="L48">			throw new SystemException(e);</span>
+<span class="fc" id="L49">		}</span>
+
+<span class="fc" id="L51">		return res;</span>
+	}
+
+	/**
+	 * Invoke a &lt;code&gt;public&lt;/code&gt; static method on the given class.
+	 *
+	 * @param cls is the class where the static method lives.
+	 * @param staticMethod is the name of the method to invoke
+	 * @param params are the param to pass to the method
+	 * @param paramTypes are the types of parameters to be passed.
+	 * @return the result of the method call.
+	 */
+	public static Object invokeStaticMethod(final Class cls, final String staticMethod,
+			final Object[] params, final Class[] paramTypes) {
+<span class="fc" id="L65">		Object res = null;</span>
+
+		try {
+<span class="fc" id="L68">			Method method = cls.getMethod(staticMethod, paramTypes);</span>
+<span class="fc" id="L69">			res = method.invoke(null, params);</span>
+<span class="nc" id="L70">		} catch (SecurityException e) {</span>
+<span class="nc" id="L71">			throw new SystemException(e);</span>
+<span class="fc" id="L72">		} catch (NoSuchMethodException e) {</span>
+<span class="fc" id="L73">			throw new SystemException(e);</span>
+<span class="nc" id="L74">		} catch (IllegalArgumentException e) {</span>
+<span class="nc" id="L75">			throw new SystemException(e);</span>
+<span class="nc" id="L76">		} catch (IllegalAccessException e) {</span>
+<span class="nc" id="L77">			throw new SystemException(e);</span>
+<span class="fc" id="L78">		} catch (InvocationTargetException e) {</span>
+<span class="fc" id="L79">			throw new SystemException(e);</span>
+<span class="fc" id="L80">		}</span>
+
+<span class="fc" id="L82">		return res;</span>
+	}
+
+	/**
+	 * Retrieves all the fields contained in the given object and its superclasses.
+	 *
+	 * @param obj the object to examine
+	 * @param excludeStatic if true, static fields will be omitted
+	 * @param excludeTransient if true, transient fields will be omitted
+	 * @return a list of fields for the given object
+	 */
+	public static List getAllFields(final Object obj, final boolean excludeStatic,
+			final boolean excludeTransient) {
+<span class="fc" id="L95">		List fieldList = new ArrayList();</span>
+
+<span class="fc bfc" id="L97" title="All 2 branches covered.">		for (Class clazz = obj.getClass(); clazz != null; clazz = clazz.getSuperclass()) {</span>
+<span class="fc" id="L98">			Field[] declaredFields = clazz.getDeclaredFields();</span>
+
+<span class="fc bfc" id="L100" title="All 2 branches covered.">			for (int i = 0; i &lt; declaredFields.length; i++) {</span>
+<span class="fc" id="L101">				int mods = declaredFields[i].getModifiers();</span>
+
+<span class="pc bpc" id="L103" title="1 of 6 branches missed.">				if ((!excludeStatic || !Modifier.isStatic(mods))</span>
+<span class="fc bfc" id="L104" title="All 2 branches covered.">						&amp;&amp; (!excludeTransient || !Modifier.isTransient(mods))) {</span>
+<span class="fc" id="L105">					declaredFields[i].setAccessible(true);</span>
+<span class="fc" id="L106">					fieldList.add(declaredFields[i]);</span>
+				}
+			}
+		}
+
+<span class="fc" id="L111">		return fieldList;</span>
+	}
+
+	/**
+	 * This method sets a property on an object via reflection.
+	 *
+	 * @param object The object on which the property is to be set.
+	 * @param property The name of the property to be set.
+	 * @param propertyType The type of the property being set.
+	 * @param value The value of the property being set.
+	 */
+	public static void setProperty(final Object object, final String property,
+			final Class propertyType, final Object value) {
+<span class="fc" id="L124">		Class[] paramTypes = new Class[]{propertyType};</span>
+<span class="fc" id="L125">		Object[] params = new Object[]{value};</span>
+<span class="fc" id="L126">		String methodName = &quot;set&quot; + property.substring(0, 1).toUpperCase() + property.substring(1);</span>
+
+<span class="fc" id="L128">		ReflectionUtil.invokeMethod(object, methodName, params, paramTypes);</span>
+<span class="fc" id="L129">	}</span>
+
+	/**
+	 * This method gets a property from an object via reflection.
+	 *
+	 * @param object The object from which the property is to be retrieved.
+	 * @param property The name of the property to be retrieved.
+	 *
+	 * @return The value of the specified &lt;em&gt;property&lt;/em&gt;.
+	 */
+	public static Object getProperty(final Object object, final String property) {
+<span class="fc" id="L140">		Class[] paramTypes = new Class[]{};</span>
+<span class="fc" id="L141">		Object[] params = new Object[]{};</span>
+<span class="fc" id="L142">		String methodName = &quot;get&quot; + property.substring(0, 1).toUpperCase() + property.substring(1);</span>
+
+<span class="fc" id="L144">		return ReflectionUtil.invokeMethod(object, methodName, params, paramTypes);</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

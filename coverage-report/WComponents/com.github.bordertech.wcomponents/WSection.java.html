@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WSection.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">WSection.java</span></div><h1>WSection.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+/**
+ * &lt;p&gt;
+ * The WSection component defines a major discrete section of a screen which is associated with, and described by, a
+ * heading.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * Various {@link SectionMode modes of operation} are supported, which allow developers to tune performance by only
+ * loading content when it is needed.
+ * &lt;/p&gt;
+ *
+ * @author Jonathan Austin
+ * @since 1.0.0
+ */
+public class WSection extends AbstractNamingContextContainer implements AjaxTarget,
+		SubordinateTarget, Marginable, DropZone {
+
+	/**
+	 * The available types of section mode.
+	 */
+<span class="pc" id="L22">	public enum SectionMode {</span>
+		/**
+		 * A lazy section will load its content via AJAX when it is made visible.
+		 */
+<span class="fc" id="L26">		LAZY,</span>
+		/**
+		 * An eager section will load its content via AJAX immediately after the page is loaded.
+		 */
+<span class="fc" id="L30">		EAGER</span>
+	};
+
+	/**
+	 * The label for the section.
+	 */
+	private final WDecoratedLabel label;
+
+	/**
+	 * The content for the section.
+	 */
+	private final WPanel content;
+
+	/**
+	 * Creates a WSection with the given heading.
+	 *
+	 * @param heading the section's heading.
+	 */
+	public WSection(final String heading) {
+<span class="fc" id="L49">		this(new WPanel(), new WDecoratedLabel(heading));</span>
+<span class="fc" id="L50">	}</span>
+
+	/**
+	 * Creates a WSection with the given content and heading.
+	 *
+	 * @param content the content for the section
+	 * @param heading the section's heading.
+	 */
+	public WSection(final WPanel content, final String heading) {
+<span class="fc" id="L59">		this(content, new WDecoratedLabel(heading));</span>
+<span class="fc" id="L60">	}</span>
+
+	/**
+	 * Creates a WSection with the given content and heading.
+	 *
+	 * @param content the content for the section.
+	 * @param label the section's heading.
+	 */
+<span class="fc" id="L68">	public WSection(final WPanel content, final WDecoratedLabel label) {</span>
+<span class="fc bfc" id="L69" title="All 2 branches covered.">		if (content == null) {</span>
+<span class="fc" id="L70">			throw new IllegalArgumentException(&quot;The content of a WSection cannot be null&quot;);</span>
+		}
+
+<span class="fc bfc" id="L73" title="All 2 branches covered.">		if (label == null) {</span>
+<span class="fc" id="L74">			throw new IllegalArgumentException(&quot;The label of a WSection cannot be null&quot;);</span>
+		}
+
+<span class="fc" id="L77">		this.content = content;</span>
+<span class="fc" id="L78">		this.label = label;</span>
+<span class="fc" id="L79">		add(label);</span>
+<span class="fc" id="L80">		add(content);</span>
+<span class="fc" id="L81">	}</span>
+
+	/**
+	 * @return this WSection's mode of operation
+	 */
+	public SectionMode getMode() {
+<span class="fc" id="L87">		return getComponentModel().mode;</span>
+	}
+
+	/**
+	 * Sets this WSection's mode of operation.
+	 *
+	 * @param mode the mode of operation.
+	 */
+	public void setMode(final SectionMode mode) {
+<span class="fc" id="L96">		getOrCreateComponentModel().mode = mode;</span>
+<span class="fc" id="L97">	}</span>
+
+	/**
+	 * @return the content of this section
+	 */
+	public WPanel getContent() {
+<span class="fc" id="L103">		return content;</span>
+	}
+
+	/**
+	 * @return the decorated label that is used to render the section heading.
+	 */
+	public WDecoratedLabel getDecoratedLabel() {
+<span class="fc" id="L110">		return label;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setMargin(final Margin margin) {
+<span class="fc" id="L118">		getOrCreateComponentModel().margin = margin;</span>
+<span class="fc" id="L119">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Margin getMargin() {
+<span class="fc" id="L126">		return getComponentModel().margin;</span>
+	}
+
+	/**
+	 * Override preparePaintComponent in order to toggle the visibility of the content, or to register the appropriate
+	 * ajax operation.
+	 *
+	 * @param request the request being responded to
+	 */
+	@Override
+	protected void preparePaintComponent(final Request request) {
+<span class="fc" id="L137">		super.preparePaintComponent(request);</span>
+
+<span class="fc" id="L139">		UIContext uic = UIContextHolder.getCurrent();</span>
+
+		// Register section for AJAX
+<span class="pc bpc" id="L142" title="1 of 4 branches missed.">		if (uic.getUI() != null &amp;&amp; getMode() != null) {</span>
+<span class="fc" id="L143">			AjaxHelper.registerComponentTargetItself(getId(), request);</span>
+		}
+<span class="fc" id="L145">	}</span>
+
+	/**
+	 * @return a String representation of this component, for debugging purposes.
+	 */
+	@Override
+	public String toString() {
+<span class="nc bnc" id="L152" title="All 2 branches missed.">		String text = label == null ? null : label.getText();</span>
+<span class="nc bnc" id="L153" title="All 2 branches missed.">		text = text == null ? &quot;null&quot; : ('&quot;' + text + '&quot;');</span>
+<span class="nc" id="L154">		return toString(text, 1, 1);</span>
+	}
+
+	/**
+	 * Creates a new component model appropriate for this component.
+	 *
+	 * @return a new SectionModel.
+	 */
+	@Override
+	protected SectionModel newComponentModel() {
+<span class="fc" id="L164">		return new SectionModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	// For type safety only
+	protected SectionModel getComponentModel() {
+<span class="fc" id="L173">		return (SectionModel) super.getComponentModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	// For type safety only
+	protected SectionModel getOrCreateComponentModel() {
+<span class="fc" id="L182">		return (SectionModel) super.getOrCreateComponentModel();</span>
+	}
+
+	/**
+	 * Holds the extrinsic state information of a WSection.
+	 */
+<span class="fc" id="L188">	public static class SectionModel extends ComponentModel {</span>
+
+		/**
+		 * Indicates how the section should operate.
+		 */
+		private SectionMode mode;
+
+		/**
+		 * The margins to be used on the section.
+		 */
+		private Margin margin;
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

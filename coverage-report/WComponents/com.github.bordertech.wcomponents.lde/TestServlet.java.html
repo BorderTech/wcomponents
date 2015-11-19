@@ -1,0 +1,403 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>TestServlet.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.lde</a> &gt; <span class="el_source">TestServlet.java</span></div><h1>TestServlet.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.lde;
+
+import com.github.bordertech.wcomponents.servlet.WServlet;
+import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.SystemException;
+import java.io.IOException;
+import java.net.BindException;
+import java.net.ConnectException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringTokenizer;
+import java.util.jar.Attributes;
+import java.util.jar.JarFile;
+import java.util.jar.Manifest;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.eclipse.jetty.security.HashLoginService;
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.bio.SocketConnector;
+import org.eclipse.jetty.server.handler.HandlerCollection;
+import org.eclipse.jetty.util.resource.Resource;
+import org.eclipse.jetty.util.resource.ResourceCollection;
+import org.eclipse.jetty.webapp.WebAppContext;
+
+/**
+ * Enables WComponents to be run in a LDE environment.
+ *
+ * @author James Gifford
+ * @since 1.0.0
+ */
+<span class="fc" id="L38">public abstract class TestServlet extends WServlet {</span>
+
+	/**
+	 * The logger instance for this class.
+	 */
+<span class="fc" id="L43">	private static final Log LOG = LogFactory.getLog(TestServlet.class);</span>
+
+	/**
+	 * This configuration parameter allows the developer to configure the LDE to use a different set of servlets.
+	 */
+	private static final String WEBDOCS_DIR_PARAM = &quot;bordertech.wcomponents.lde.webdocs.dir&quot;;
+
+	/**
+	 * This configuration parameter allows the developer to configure the LDE to use an external theme.
+	 */
+	private static final String WEBDOCS_THEME_DIR_PARAM = &quot;bordertech.wcomponents.lde.theme.dir&quot;;
+
+	/**
+	 * This configuration parameter allows the developer to configure the LDE to set a resources directory.
+	 */
+	private static final String WEBDOCS_RESOURCE_DIR_PARAM = &quot;bordertech.wcomponents.lde.resource.dir&quot;;
+
+	/**
+	 * This configuration parameter sets which port the LDE runs on.
+	 */
+	private static final String JETTY_PORT_PARAM = &quot;bordertech.wcomponents.lde.server.port&quot;;
+
+	/**
+	 * This configuration parameter sets up the Jetty realm file for authenticated access.
+	 */
+	private static final String JETTY_REALM_FILE_PARAM = &quot;bordertech.wcomponents.lde.server.realm.file&quot;;
+
+	/**
+	 * This configuration parameter sets up the Jetty realm file for authenticated access.
+	 */
+	private static final String ENABLE_SHUTDOWN_PARAM = &quot;bordertech.wcomponents.lde.shutdown.enabled&quot;;
+
+	/**
+	 * This configuration parameter sets the Jetty session timeout interval.
+	 */
+	private static final String SESSION_TIMEOUT_PARAM = &quot;bordertech.wcomponents.lde.session.inactive.interval&quot;;
+
+	/**
+	 * The default port to run the LDE on.
+	 */
+	private static final int DEFAULT_PORT = 8080;
+
+<span class="fc" id="L85">	private final List&lt;Resource&gt; union = new ArrayList&lt;&gt;();</span>
+
+	/**
+	 * The Jetty server instance for this VM. Only one LDE can be run per VM.
+	 */
+	private static Server server;
+
+	/**
+	 * The URL where this servlet can be accessed from.
+	 */
+	private String url;
+
+	/**
+	 * Runs the server.
+	 *
+	 * @throws Exception if the LDE fails to start.
+	 */
+	public void run() throws Exception {
+<span class="fc" id="L103">		synchronized (TestServlet.class) {</span>
+<span class="pc bpc" id="L104" title="1 of 2 branches missed.">			if (server != null) {</span>
+<span class="nc" id="L105">				stop();</span>
+			}
+
+<span class="fc" id="L108">			server = new Server();</span>
+<span class="pc" id="L109">		}</span>
+
+<span class="fc" id="L111">		SocketConnector connector = new SocketConnector();</span>
+<span class="fc" id="L112">		connector.setMaxIdleTime(0);</span>
+<span class="fc" id="L113">		connector.setPort(getLdePort());</span>
+<span class="fc" id="L114">		server.addConnector(connector);</span>
+
+<span class="fc" id="L116">		WebAppContext webapp = createWebApp(server);</span>
+
+		try {
+<span class="fc" id="L119">			server.start();</span>
+<span class="nc" id="L120">		} catch (BindException e) {</span>
+<span class="nc bnc" id="L121" title="All 2 branches missed.">			if (isShutdownEnabled()) {</span>
+				// The port is in use, possibly by another LDE instance.
+				// Attempt to shut down the other LDE and start up again.
+<span class="nc" id="L124">				LOG.info(&quot;Attempting remote shutdown of existing LDE&quot;);</span>
+<span class="nc" id="L125">				shutDown();</span>
+
+<span class="nc" id="L127">				Thread.sleep(100); // give the OS a chance to release the port</span>
+<span class="nc" id="L128">				server.start();</span>
+			} else {
+<span class="nc" id="L130">				throw e;</span>
+			}
+<span class="nc" id="L132">		} catch (Exception e) {</span>
+			// Failed to start the server
+<span class="nc" id="L134">			server = null;</span>
+<span class="nc" id="L135">			throw e;</span>
+<span class="pc" id="L136">		}</span>
+
+		// We have to set the timeout after the server is started, as Jetty reads
+		// the value from webdefault.xml during start-up.
+<span class="fc" id="L140">		int timeout = Config.getInstance().getInt(SESSION_TIMEOUT_PARAM, 0);</span>
+
+<span class="pc bpc" id="L142" title="1 of 2 branches missed.">		if (timeout &gt; 0) {</span>
+<span class="nc" id="L143">			webapp.getSessionHandler().getSessionManager().setMaxInactiveInterval(timeout);</span>
+		}
+
+		// Server started successfully, log the URL for the LDE.
+<span class="fc" id="L147">		url = &quot;http://localhost:&quot; + connector.getLocalPort() + &quot;/app&quot;;</span>
+<span class="fc" id="L148">		LOG.info(&quot;URL  ==&gt;  &quot; + url);</span>
+<span class="fc" id="L149">	}</span>
+
+	@Override
+	public void service(final ServletRequest req, final ServletResponse res) throws ServletException,
+			IOException {
+<span class="pc bpc" id="L154" title="3 of 4 branches missed.">		if (req.getParameter(&quot;lde.shutdown&quot;) != null &amp;&amp; isShutdownEnabled()) {</span>
+<span class="nc" id="L155">			LOG.info(&quot;Received LDE shutdown request, stopping server.&quot;);</span>
+<span class="nc" id="L156">			res.getOutputStream().close();</span>
+
+			try {
+<span class="nc" id="L159">				stop();</span>
+<span class="nc" id="L160">			} catch (InterruptedException e) {</span>
+<span class="nc" id="L161">				LOG.error(&quot;Failed to shut down LDE server&quot;, e);</span>
+<span class="nc" id="L162">			}</span>
+
+<span class="nc" id="L164">			return;</span>
+		}
+
+<span class="fc" id="L167">		super.service(req, res);</span>
+<span class="fc" id="L168">	}</span>
+
+	/**
+	 * Retrieves the port number which the LDE should run on.
+	 *
+	 * @return the LDE port.
+	 */
+	private static int getLdePort() {
+<span class="fc" id="L176">		int port = DEFAULT_PORT;</span>
+
+		try {
+<span class="fc" id="L179">			port = Config.getInstance().getInt(JETTY_PORT_PARAM, DEFAULT_PORT);</span>
+<span class="nc" id="L180">		} catch (Exception ignored) {</span>
+<span class="nc" id="L181">			LOG.error(&quot;Failed to read parameter &quot; + JETTY_PORT_PARAM);</span>
+<span class="fc" id="L182">		}</span>
+
+<span class="fc" id="L184">		return port;</span>
+	}
+
+	/**
+	 * Attempts to shutdown an existing TestServlet, possibly in another VM.
+	 */
+	protected void shutDown() {
+		try {
+<span class="nc" id="L192">			URL shutdownUrl = new URL(&quot;http://localhost:&quot; + getLdePort()</span>
+					+ &quot;/app?lde.shutdown=true&quot;);
+
+<span class="nc" id="L195">			HttpURLConnection conn = (HttpURLConnection) shutdownUrl.openConnection();</span>
+<span class="nc" id="L196">			conn.getResponseCode();</span>
+<span class="nc" id="L197">		} catch (ConnectException expected) {</span>
+			// This will be thrown if either the other LDE is not running,
+			// or it was running and this connection has caused it to terminate.
+<span class="nc" id="L200">			return;</span>
+<span class="nc" id="L201">		} catch (Exception e) {</span>
+<span class="nc" id="L202">			LOG.error(&quot;Failed to shut down other LDE instance&quot;, e);</span>
+<span class="nc" id="L203">		}</span>
+<span class="nc" id="L204">	}</span>
+
+	/**
+	 * Creates the Web app context to use in the LDE. The context will be registered with the given server.
+	 *
+	 * @param srv the Jetty server.
+	 * @return the newly created Web app context.
+	 * @throws Exception an exception
+	 */
+	protected WebAppContext createWebApp(final Server srv) throws Exception {
+<span class="fc" id="L214">		String[] webdocs = getWebdocsDir();</span>
+<span class="fc" id="L215">		String[] themeWebdocs = getThemeWebdocs();</span>
+<span class="fc" id="L216">		String[] resourceDirs = getResourceDir();</span>
+
+<span class="pc bpc" id="L218" title="1 of 2 branches missed.">		if (webdocs != null) {</span>
+<span class="nc bnc" id="L219" title="All 2 branches missed.">			for (int i = 0; i &lt; webdocs.length; i++) {</span>
+<span class="nc" id="L220">				union.add(Resource.newResource(webdocs[i]));</span>
+			}
+		}
+
+<span class="pc bpc" id="L224" title="1 of 2 branches missed.">		if (themeWebdocs != null) {</span>
+<span class="nc bnc" id="L225" title="All 2 branches missed.">			for (int i = 0; i &lt; themeWebdocs.length; i++) {</span>
+<span class="nc" id="L226">				union.add(Resource.newResource(themeWebdocs[i]));</span>
+			}
+		}
+
+<span class="pc bpc" id="L230" title="1 of 2 branches missed.">		if (resourceDirs != null) {</span>
+<span class="nc bnc" id="L231" title="All 2 branches missed.">			for (int i = 0; i &lt; resourceDirs.length; i++) {</span>
+<span class="nc" id="L232">				union.add(Resource.newResource(resourceDirs[i]));</span>
+			}
+		}
+
+<span class="fc" id="L236">		HandlerCollection handlers = new HandlerCollection();</span>
+<span class="fc" id="L237">		WebAppContext webapp = null;</span>
+
+		// If there is no external web.xml override, register the default servlets
+<span class="pc bpc" id="L240" title="1 of 2 branches missed.">		if (webdocs == null) {</span>
+<span class="fc" id="L241">			webapp = new WebAppContext();</span>
+<span class="fc" id="L242">			webapp.setContextPath(&quot;/&quot;);</span>
+<span class="fc" id="L243">			registerServlets(webapp);</span>
+		} else {
+<span class="nc" id="L245">			webapp = new WebAppContext(webdocs[0], &quot;/&quot;);</span>
+		}
+
+		// Must have at least one resource
+<span class="pc bpc" id="L249" title="1 of 2 branches missed.">		if (union.isEmpty()) {</span>
+<span class="fc" id="L250">			webapp.setResourceBase(&quot;.&quot;);</span>
+		} else {
+<span class="nc" id="L252">			webapp.setBaseResource(</span>
+<span class="nc" id="L253">					new ResourceCollection(union.toArray(new Resource[union.size()])));</span>
+		}
+
+<span class="fc" id="L256">		webapp.addServlet(getClass().getName(), &quot;/app/*&quot;);</span>
+
+		// This is required if projects define their own web.xml,
+		// we still need to serve up the theme from inside a jar
+		// file using the theme servlet.
+<span class="pc bpc" id="L261" title="1 of 2 branches missed.">		if (themeWebdocs == null) {</span>
+<span class="fc" id="L262">			WebAppContext themeWebapp = new WebAppContext();</span>
+<span class="fc" id="L263">			themeWebapp.setContextPath(&quot;/theme&quot;);</span>
+<span class="fc" id="L264">			themeWebapp.addServlet(&quot;com.github.bordertech.wcomponents.servlet.ThemeServlet&quot;, &quot;/*&quot;);</span>
+<span class="fc" id="L265">			themeWebapp.setResourceBase(&quot;.&quot;);</span>
+<span class="fc" id="L266">			handlers.addHandler(themeWebapp);</span>
+<span class="fc" id="L267">		} else {</span>
+<span class="nc" id="L268">			WebAppContext themeWebapp = new WebAppContext();</span>
+<span class="nc" id="L269">			themeWebapp.setContextPath(&quot;/theme&quot;);</span>
+<span class="nc" id="L270">			themeWebapp.setResourceBase(themeWebdocs[0]);</span>
+<span class="nc" id="L271">			handlers.addHandler(themeWebapp);</span>
+		}
+
+		// Initialise security
+<span class="fc" id="L275">		String realmFile = Config.getInstance().getString(JETTY_REALM_FILE_PARAM);</span>
+
+<span class="pc bpc" id="L277" title="1 of 2 branches missed.">		if (realmFile != null) {</span>
+<span class="nc" id="L278">			HashLoginService loginService = new HashLoginService(&quot;LdeRunner&quot;, realmFile);</span>
+<span class="nc" id="L279">			webapp.getSecurityHandler().setLoginService(loginService);</span>
+		}
+
+<span class="fc" id="L282">		handlers.addHandler(webapp);</span>
+<span class="fc" id="L283">		srv.setHandler(handlers);</span>
+
+<span class="fc" id="L285">		return webapp;</span>
+	}
+
+	/**
+	 * Stops the server.
+	 *
+	 * @throws java.lang.InterruptedException an interrupted exception
+	 */
+	public void stop() throws InterruptedException {
+<span class="fc" id="L294">		synchronized (TestServlet.class) {</span>
+<span class="fc bfc" id="L295" title="All 2 branches covered.">			if (server != null) {</span>
+				try {
+<span class="fc" id="L297">					server.stop();</span>
+<span class="nc" id="L298">				} catch (Exception e) {</span>
+<span class="nc" id="L299">					LOG.warn(&quot;Failed to stop server&quot;, e);</span>
+<span class="fc" id="L300">				}</span>
+
+<span class="fc" id="L302">				server = null;</span>
+			}
+<span class="pc" id="L304">		}</span>
+<span class="fc" id="L305">	}</span>
+
+	/**
+	 * @return the URL where this servlet can be accessed from.
+	 */
+	protected String getUrl() {
+<span class="fc" id="L311">		return url;</span>
+	}
+
+	/**
+	 * @param jarname the jar name to add
+	 */
+	public void addIndirectJar(final String jarname) {
+
+<span class="nc" id="L319">		try (JarFile jarfile = new JarFile(jarname)) {</span>
+<span class="nc" id="L320">			Manifest man = jarfile.getManifest();</span>
+<span class="nc" id="L321">			Attributes atts = man.getMainAttributes();</span>
+<span class="nc" id="L322">			String jarlist = atts.getValue(&quot;Class-Path&quot;);</span>
+<span class="nc" id="L323">			StringTokenizer tokenizer = new StringTokenizer(jarlist, &quot; &quot;, false);</span>
+<span class="nc bnc" id="L324" title="All 2 branches missed.">			while (tokenizer.hasMoreTokens()) {</span>
+<span class="nc" id="L325">				String tokenUrl = tokenizer.nextToken();</span>
+<span class="nc" id="L326">				union.add(Resource.newResource(&quot;jar:&quot; + tokenUrl + &quot;!/&quot;));</span>
+<span class="nc" id="L327">				LOG.info(&quot;Added webdocs at &quot; + tokenUrl);</span>
+<span class="nc" id="L328">			}</span>
+<span class="nc bnc" id="L329" title="All 8 branches missed.">		} catch (IOException ex) {</span>
+<span class="nc" id="L330">			throw new SystemException(&quot;Could handle indirect jar &quot; + jarname,</span>
+					ex);
+<span class="nc" id="L332">		}</span>
+<span class="nc" id="L333">	}</span>
+
+	/**
+	 * @return the webdocs directory, or null if not defined.
+	 */
+	protected String[] getWebdocsDir() {
+<span class="fc" id="L339">		String[] docs = Config.getInstance().getStringArray(WEBDOCS_DIR_PARAM);</span>
+<span class="pc bpc" id="L340" title="2 of 4 branches missed.">		return docs == null || docs.length == 0 ? null : docs;</span>
+	}
+
+	/**
+	 * @return the theme webdocs directory, or null if not defined.
+	 */
+	protected String[] getThemeWebdocs() {
+<span class="fc" id="L347">		String[] docs = Config.getInstance().getStringArray(WEBDOCS_THEME_DIR_PARAM);</span>
+<span class="pc bpc" id="L348" title="2 of 4 branches missed.">		return docs == null || docs.length == 0 ? null : docs;</span>
+	}
+
+	/**
+	 * @return the resource directory, or null if not defined.
+	 */
+	protected String[] getResourceDir() {
+<span class="fc" id="L355">		String[] docs = Config.getInstance().getStringArray(WEBDOCS_RESOURCE_DIR_PARAM);</span>
+<span class="pc bpc" id="L356" title="2 of 4 branches missed.">		return docs == null || docs.length == 0 ? null : docs;</span>
+	}
+
+	/**
+	 * Override service in order to support persistant sessions.
+	 *
+	 * @param request the request being processed
+	 * @param response the response
+	 * @throws javax.servlet.ServletException a servlet exception
+	 * @throws java.io.IOException an IO exception
+	 */
+	@Override
+	protected void service(final HttpServletRequest request, final HttpServletResponse response)
+			throws ServletException, IOException {
+		// This is a new session, do we want to load a persisted session?
+<span class="pc bpc" id="L371" title="2 of 4 branches missed.">		if (request.getSession(false) == null &amp;&amp; LdeSessionUtil.isLoadPersistedSessionEnabled()) {</span>
+<span class="nc" id="L372">			getUI(request); // need to ensure that the UI has been loaded</span>
+<span class="nc" id="L373">			LdeSessionUtil.deserializeSessionAttributes(request.getSession(true));</span>
+		}
+
+<span class="fc" id="L376">		super.service(request, response);</span>
+
+		// Persist the session if necessary.
+<span class="pc bpc" id="L379" title="1 of 2 branches missed.">		if (LdeSessionUtil.isPersistSessionEnabled()) {</span>
+<span class="nc" id="L380">			LdeSessionUtil.serializeSessionAttributes(request.getSession());</span>
+		}
+<span class="fc" id="L382">	}</span>
+
+	/**
+	 * Subclasses may override this to register additional servlets with the server.
+	 *
+	 * @param webapp the webapp to register the servlets with.
+	 */
+	protected void registerServlets(final WebAppContext webapp) {
+		//webapp.addServlet(&quot;themeServlet&quot;, &quot;/theme/*&quot;,
+		// &quot;com.github.bordertech.wcomponents.lde.LdeThemeServlet&quot;);
+<span class="fc" id="L392">	}</span>
+
+	/**
+	 * Indicates whether remote LDE shutdown is enabled.
+	 *
+	 * @return true if shutdown is enabled, false otherwise.
+	 */
+	protected boolean isShutdownEnabled() {
+<span class="nc" id="L400">		return Config.getInstance().getBoolean(ENABLE_SHUTDOWN_PARAM, false);</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

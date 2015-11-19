@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>SimpleTableDataModel.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">SimpleTableDataModel.java</span></div><h1>SimpleTableDataModel.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import com.github.bordertech.wcomponents.util.ComparableComparator;
+import java.io.Serializable;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * A simple table data model, that takes in tabular data in its constructor. Note that use of this data model is
+ * discouraged, as the table data will be stored in the user's session.
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ *
+ * @deprecated Use {@link WTable} and {@link SimpleTableModel} instead.
+ */
+@Deprecated
+public class SimpleTableDataModel extends AbstractTableDataModel {
+
+	/**
+	 * A simple comparator that compares comparables, for use in sorting e.g. columns containing Strings.
+	 */
+<span class="fc" id="L25">	public static final ComparableComparator COMPARABLE_COMPARATOR = new ComparableComparator();</span>
+
+	/**
+	 * The comparators used for sorting, keyed by column index.
+	 */
+	private Map&lt;Integer, Comparator&lt;Object&gt;&gt; comparators;
+
+	/**
+	 * Indicates whether this model is globally editable.
+	 */
+	private boolean editable;
+
+	/**
+	 * The model's data.
+	 */
+	private final Serializable[][] data;
+
+	/**
+	 * Creates a SimpleTableDataModel containing the given data.
+	 *
+	 * @param data the table data, the outer list containing rows.
+	 */
+<span class="fc" id="L47">	public SimpleTableDataModel(final List&lt;? extends List&lt;? extends Serializable&gt;&gt; data) {</span>
+<span class="fc" id="L48">		this.data = new Serializable[data.size()][];</span>
+
+<span class="fc bfc" id="L50" title="All 2 branches covered.">		for (int i = 0; i &lt; this.data.length; i++) {</span>
+<span class="fc" id="L51">			List&lt;? extends Serializable&gt; row = data.get(i);</span>
+<span class="fc" id="L52">			this.data[i] = row.toArray(new Serializable[row.size()]);</span>
+		}
+<span class="fc" id="L54">	}</span>
+
+	/**
+	 * Creates a SimpleTableDataModel containing the given data.
+	 *
+	 * @param data the table data, the outer array containing rows.
+	 */
+<span class="fc" id="L61">	public SimpleTableDataModel(final Serializable[][] data) {</span>
+<span class="fc" id="L62">		this.data = data;</span>
+<span class="fc" id="L63">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean isSortable(final int col) {
+<span class="fc bfc" id="L70" title="All 4 branches covered.">		return comparators != null &amp;&amp; comparators.containsKey(col);</span>
+	}
+
+	/**
+	 * Sets the comparator for the given column, to enable sorting.
+	 *
+	 * @param col the column to set the comparator on.
+	 * @param comparator the comparator to set.
+	 */
+	public void setComparator(final int col, final Comparator comparator) {
+<span class="fc" id="L80">		synchronized (this) {</span>
+<span class="fc bfc" id="L81" title="All 2 branches covered.">			if (comparators == null) {</span>
+<span class="fc" id="L82">				comparators = new HashMap&lt;&gt;();</span>
+			}
+<span class="pc" id="L84">		}</span>
+
+<span class="pc bpc" id="L86" title="1 of 2 branches missed.">		if (comparator != null) {</span>
+<span class="fc" id="L87">			comparators.put(col, comparator);</span>
+		} else {
+<span class="nc" id="L89">			comparators.remove(col);</span>
+		}
+<span class="fc" id="L91">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public int getRowCount() {
+<span class="fc" id="L98">		return data.length;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Object getValueAt(final int row, final int col) {
+<span class="fc" id="L106">		return data[row][col];</span>
+	}
+
+	/**
+	 * Indicates whether the given cell is editable. This model only supports editability at a global level. See
+	 * {@link #setEditable(boolean)}.
+	 *
+	 * @param row ignored.
+	 * @param col ignored.
+	 * @return true if the given cell is editable, false otherwise.
+	 */
+	@Override
+	public boolean isCellEditable(final int row, final int col) {
+<span class="fc" id="L119">		return editable;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setValueAt(final Object value, final int row, final int col) {
+<span class="fc bfc" id="L127" title="All 2 branches covered.">		if (!isEditable()) {</span>
+<span class="fc" id="L128">			throw new IllegalStateException(&quot;Attempted to set a value on an uneditable model&quot;);</span>
+		}
+
+<span class="fc" id="L131">		data[row][col] = (Serializable) value;</span>
+<span class="fc" id="L132">	}</span>
+
+	/**
+	 * Indicates whether the data in this model is editable.
+	 *
+	 * @return true if the data in this model is editable, false otherwise.
+	 */
+	public boolean isEditable() {
+<span class="fc" id="L140">		return editable;</span>
+	}
+
+	/**
+	 * Sets whether the data in this model is editable. By default, the data is not editable.
+	 *
+	 * @param editable true if the data is editable, false if it is read-only.
+	 */
+	public void setEditable(final boolean editable) {
+<span class="fc" id="L149">		this.editable = editable;</span>
+<span class="fc" id="L150">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public int[] sort(final int col, final boolean ascending) {
+<span class="fc bfc" id="L157" title="All 2 branches covered.">		if (!isSortable(col)) {</span>
+<span class="fc" id="L158">			throw new IllegalStateException(&quot;Attempted to sort on column &quot;</span>
+					+ col + &quot;, which is not sortable&quot;);
+		}
+
+<span class="fc" id="L162">		return sort(comparators.get(col), col, ascending);</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

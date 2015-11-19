@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>MockServletInputStream.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.util.mock.servlet</a> &gt; <span class="el_source">MockServletInputStream.java</span></div><h1>MockServletInputStream.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.util.mock.servlet;
+
+import java.io.IOException;
+import java.io.InputStream;
+import javax.servlet.ServletInputStream;
+
+/**
+ * MockServletInputStream - mock servlet input stream for unit testing.
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ */
+public class MockServletInputStream extends ServletInputStream {
+
+	/**
+	 * The backing input stream to read from.
+	 */
+	private final InputStream backing;
+
+	/**
+	 * Creates a MockServletInputStream with the specified backing.
+	 *
+	 * @param backing the backing stream to read from.
+	 */
+<span class="fc" id="L25">	public MockServletInputStream(final InputStream backing) {</span>
+<span class="fc" id="L26">		this.backing = backing;</span>
+<span class="fc" id="L27">	}</span>
+
+	/**
+	 * Reads the next byte of data from the backing stream. The value byte is returned as an &lt;code&gt;int&lt;/code&gt; in the
+	 * range &lt;code&gt;0&lt;/code&gt; to &lt;code&gt;255&lt;/code&gt;. If no byte is available because the end of the stream has been reached,
+	 * the value &lt;code&gt;-1&lt;/code&gt; is returned. This method blocks until input data is available, the end of the stream is
+	 * detected, or an exception is thrown.
+	 *
+	 * @return the next byte of data, or &lt;code&gt;-1&lt;/code&gt; if the end of the stream is reached.
+	 * @throws IOException if an I/O error occurs.
+	 */
+	@Override
+	public int read() throws IOException {
+<span class="fc" id="L40">		return backing.read();</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

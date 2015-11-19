@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>MockServletOutputStream.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.util.mock.servlet</a> &gt; <span class="el_source">MockServletOutputStream.java</span></div><h1>MockServletOutputStream.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.util.mock.servlet;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import javax.servlet.ServletOutputStream;
+
+/**
+ * MockServletOutputStream - mock Servlet output stream for unit testing.
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ */
+<span class="fc" id="L13">public class MockServletOutputStream extends ServletOutputStream {</span>
+
+	/**
+	 * The backing output stream to write content to, so that it may later be retrieved using {@link #getOutput}.
+	 */
+<span class="fc" id="L18">	private final ByteArrayOutputStream backing = new ByteArrayOutputStream();</span>
+
+	/**
+	 * Writes the specified byte to this output stream. The byte to be written is the eight low-order bits of the
+	 * argument &lt;code&gt;b&lt;/code&gt;. The 24 high-order bits of &lt;code&gt;b&lt;/code&gt; are ignored.
+	 *
+	 * @param byt the &lt;code&gt;byte&lt;/code&gt; to be written.
+	 * @throws IOException if an I/O error occurs.
+	 */
+	@Override
+	public void write(final int byt) throws IOException {
+<span class="fc" id="L29">		backing.write(byt);</span>
+<span class="fc" id="L30">	}</span>
+
+	/**
+	 * Returns the data that has been written to this output stream.
+	 *
+	 * @return the byte data written to the stream. May be empty, but will not be null.
+	 */
+	public byte[] getOutput() {
+<span class="nc" id="L38">		return backing.toByteArray();</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

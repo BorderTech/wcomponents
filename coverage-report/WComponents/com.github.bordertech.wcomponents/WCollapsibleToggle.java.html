@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WCollapsibleToggle.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">WCollapsibleToggle.java</span></div><h1>WCollapsibleToggle.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * This is component can be used to expand or collapse all collapsibles. This component can work as a server-side or a
+ * client-side component. It can also belong to a {@link CollapsibleGroup}, in this case the toggle functionality will
+ * apply to the {@link WCollapsible} components in that group only.
+ *
+ * @author Ming Gao
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ */
+public class WCollapsibleToggle extends AbstractWComponent implements AjaxTarget {
+
+	/**
+	 * Indicates whether processing will occur client-side (true) or server-side (false).
+	 */
+	private final boolean clientSide;
+
+	/**
+	 * Creates a client-side WCollapsibleToggle.
+	 */
+	public WCollapsibleToggle() {
+<span class="fc" id="L26">		this(true);</span>
+<span class="fc" id="L27">	}</span>
+
+	/**
+	 * Creates a WCollapsibleToggle.
+	 *
+	 * @param clientSide if true, the collapse/expand is handled client-side
+	 */
+<span class="fc" id="L34">	public WCollapsibleToggle(final boolean clientSide) {</span>
+<span class="fc" id="L35">		this.clientSide = clientSide;</span>
+<span class="fc" id="L36">	}</span>
+
+	/**
+	 * Creates a WCollapsibleToggle for the given CollapsibleGroup.
+	 *
+	 * @param clientSide if true, the collapse/expand is handled client-side.
+	 * @param group the CollapsibleGroup to create the toggle for.
+	 */
+	public WCollapsibleToggle(final boolean clientSide, final CollapsibleGroup group) {
+<span class="nc" id="L45">		this(clientSide);</span>
+<span class="nc" id="L46">		setGroup(group);</span>
+<span class="nc" id="L47">	}</span>
+
+	/**
+	 * Indicates whether processing will occur client-side.
+	 *
+	 * @return true if processing is handled client-side, or false for server-side.
+	 */
+	public boolean isClientSideToggleable() {
+<span class="fc" id="L55">		return clientSide;</span>
+	}
+
+	/**
+	 * Retrieves the name of the {@link CollapsibleGroup} associated with this toggle. If no group has been associated,
+	 * this component's name is returned.
+	 *
+	 * @return the group name.
+	 */
+	public String getGroupName() {
+<span class="fc" id="L65">		CollapsibleGroup group = getGroup();</span>
+<span class="pc bpc" id="L66" title="1 of 2 branches missed.">		return (group == null ? getId() : group.getGroupName());</span>
+	}
+
+	/**
+	 * Sets the collapsible group that this WCollapsibleToggle can expand/collapse.
+	 *
+	 * @param group the CollapsibleGroup to expand/collapse.
+	 */
+	public void setGroup(final CollapsibleGroup group) {
+<span class="fc" id="L75">		getOrCreateComponentModel().group = group;</span>
+<span class="fc" id="L76">		group.setCollapsibleToggle(this);</span>
+<span class="fc" id="L77">	}</span>
+
+	/**
+	 * @return the CollapsibleGroup that this WCollapsibleToggle can expand/collapse.
+	 */
+	public CollapsibleGroup getGroup() {
+<span class="fc" id="L83">		return getComponentModel().group;</span>
+	}
+
+	/**
+	 * If not running client-side, it is WCollapsibleToggle's responsibility to expand/collapse each individual
+	 * WCollapsible in the group.
+	 *
+	 * @param request the request being responded to
+	 */
+	@Override
+	public void handleRequest(final Request request) {
+<span class="pc bpc" id="L94" title="1 of 2 branches missed.">		if (!isClientSideToggleable()) {</span>
+<span class="fc" id="L95">			String operation = request.getParameter(getId());</span>
+<span class="fc" id="L96">			boolean expand = &quot;expand&quot;.equals(operation);</span>
+<span class="fc" id="L97">			final boolean collapse = &quot;collapse&quot;.equals(operation);</span>
+
+<span class="pc bpc" id="L99" title="1 of 4 branches missed.">			if (expand || collapse) {</span>
+				// We need to invoke a runnable later, as the expand/collapse needs
+				// to occur after the collapsibles' handleRequest has been called.
+<span class="fc" id="L102">				Runnable later = new Runnable() {</span>
+					@Override
+					public void run() {
+<span class="fc" id="L105">						CollapsibleGroup group = getGroup();</span>
+<span class="fc" id="L106">						UIContext uic = UIContextHolder.getCurrent();</span>
+
+						// if no group is defined then just find all the collapsibles in the ui
+<span class="fc bfc" id="L109" title="All 2 branches covered.">						List&lt;WCollapsible&gt; collapsibles = (group == null) ? findAllCollapsibles(</span>
+<span class="fc" id="L110">								uic.getUI(), new ArrayList&lt;WCollapsible&gt;()) : group.</span>
+<span class="fc" id="L111">								getAllCollapsibles();</span>
+
+<span class="fc bfc" id="L113" title="All 2 branches covered.">						for (WCollapsible next : collapsibles) {</span>
+<span class="fc" id="L114">							setCollapsed(next, collapse);</span>
+<span class="fc" id="L115">						}</span>
+
+<span class="pc bpc" id="L117" title="1 of 2 branches missed.">						if (uic.getFocussed() == null) {</span>
+<span class="fc" id="L118">							WCollapsibleToggle.this.setFocussed();</span>
+						}
+<span class="fc" id="L120">					}</span>
+				};
+
+<span class="fc" id="L123">				invokeLater(later);</span>
+			}
+		}
+<span class="fc" id="L126">	}</span>
+
+	/**
+	 * Expands/collapses the given collapsibles, taking into account any repeaters present in the UI hierarchy.
+	 *
+	 * @param collapsible the collapsible whose state will be changed.
+	 * @param collapsed true if the collapsible is to be collapsed, false if it is to be expanded.
+	 */
+	private static void setCollapsed(final WCollapsible collapsible, final boolean collapsed) {
+<span class="fc" id="L135">		List&lt;WRepeater&gt; repeaters = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L136">		findRepeaters(collapsible, repeaters);</span>
+<span class="fc" id="L137">		setCollapsed(repeaters, collapsible, collapsed);</span>
+<span class="fc" id="L138">	}</span>
+
+	/**
+	 * Expands/collapses the given collapsible under the given nested repeaters.
+	 *
+	 * @param collapsible the collapsible whose state will be changed.
+	 * @param repeaters the list of nested repeaters, parent-first.
+	 * @param collapsed true if the collapsible is to be collapsed, false if it is to be expanded.
+	 */
+	private static void setCollapsed(final List&lt;WRepeater&gt; repeaters,
+			final WCollapsible collapsible, final boolean collapsed) {
+<span class="pc bpc" id="L149" title="1 of 2 branches missed.">		if (repeaters.isEmpty()) {</span>
+			// If the collapsible's state differs from the current operation, change it.
+<span class="fc bfc" id="L151" title="All 2 branches covered.">			if (collapsed != collapsible.isCollapsed()) {</span>
+<span class="fc" id="L152">				collapsible.setCollapsed(collapsed);</span>
+			}
+		} else {
+			// Recurse for all rows of the current repeater
+<span class="nc" id="L156">			WRepeater repeater = repeaters.get(0);</span>
+<span class="nc" id="L157">			List&lt;WRepeater&gt; childRepeaters = repeaters.subList(1, repeaters.size());</span>
+
+<span class="nc bnc" id="L159" title="All 2 branches missed.">			for (UIContext subContext : repeater.getRowContexts()) {</span>
+<span class="nc" id="L160">				UIContextHolder.pushContext(subContext);</span>
+
+				try {
+<span class="nc" id="L163">					setCollapsed(childRepeaters, collapsible, collapsed);</span>
+				} finally {
+<span class="nc" id="L165">					UIContextHolder.popContext();</span>
+<span class="nc" id="L166">				}</span>
+<span class="nc" id="L167">			}</span>
+		}
+<span class="fc" id="L169">	}</span>
+
+	/**
+	 * Finds all repeaters in the component hierarchy that are an ancestor of &lt;code&gt;child&lt;/code&gt;. Repeaters are added to
+	 * the list in hierarchical order, parent first.
+	 *
+	 * @param child the child component to start the search from.
+	 * @param repeaters the list to add repeaters to.
+	 */
+	private static void findRepeaters(final WComponent child, final List&lt;WRepeater&gt; repeaters) {
+<span class="fc" id="L179">		WRepeater repeater = WebUtilities.getAncestorOfClass(WRepeater.class, child);</span>
+
+<span class="pc bpc" id="L181" title="1 of 2 branches missed.">		if (repeater != null) {</span>
+<span class="nc" id="L182">			repeaters.add(0, repeater);</span>
+<span class="nc" id="L183">			findRepeaters(repeater, repeaters);</span>
+		}
+<span class="fc" id="L185">	}</span>
+
+	/**
+	 * A utility used by the expand/collapse buttons when no {@link CollapsibleGroup} group is defined for this class.
+	 *
+	 * @param comp the component to search for {@link WCollapsible}s.
+	 * @param results the list to receive all the collapsibles in the ui tree rooted at &lt;code&gt;comp&lt;/code&gt;.
+	 * @return The &lt;code&gt;results&lt;/code&gt; parameter.
+	 */
+	private static List&lt;WCollapsible&gt; findAllCollapsibles(final WComponent comp,
+			final List&lt;WCollapsible&gt; results) {
+<span class="fc bfc" id="L196" title="All 2 branches covered.">		if (comp instanceof WCollapsible) {</span>
+<span class="fc" id="L197">			results.add((WCollapsible) comp);</span>
+		}
+
+<span class="fc bfc" id="L200" title="All 2 branches covered.">		if (comp instanceof Container) {</span>
+<span class="fc" id="L201">			Container container = (Container) comp;</span>
+
+<span class="fc" id="L203">			int size = container.getChildCount();</span>
+
+<span class="fc bfc" id="L205" title="All 2 branches covered.">			for (int i = 0; i &lt; size; i++) {</span>
+<span class="fc" id="L206">				WComponent next = container.getChildAt(i);</span>
+<span class="fc" id="L207">				findAllCollapsibles(next, results);</span>
+			}
+		}
+
+<span class="fc" id="L211">		return results;</span>
+	}
+
+	/**
+	 * Creates a new Component model.
+	 *
+	 * @return a new CollapsibleModel.
+	 */
+	@Override // For type safety only
+	protected CollapsibleModel newComponentModel() {
+<span class="fc" id="L221">		return new CollapsibleModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override // For type safety only
+	protected CollapsibleModel getComponentModel() {
+<span class="fc" id="L229">		return (CollapsibleModel) super.getComponentModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override // For type safety only
+	protected CollapsibleModel getOrCreateComponentModel() {
+<span class="fc" id="L237">		return (CollapsibleModel) super.getOrCreateComponentModel();</span>
+	}
+
+	/**
+	 * Holds the extrinsic state information of the component.
+	 *
+	 * @author Yiannis Paschalidis
+	 */
+<span class="fc" id="L245">	public static class CollapsibleModel extends ComponentModel {</span>
+
+		/**
+		 * The collapsible group to be expanded/collapsed by this collapsible toggle.
+		 */
+		private CollapsibleGroup group;
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

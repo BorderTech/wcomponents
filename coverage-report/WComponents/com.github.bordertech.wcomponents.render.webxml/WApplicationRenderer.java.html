@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WApplicationRenderer.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.render.webxml</a> &gt; <span class="el_source">WApplicationRenderer.java</span></div><h1>WApplicationRenderer.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.render.webxml;
+
+import com.github.bordertech.wcomponents.Renderer;
+import com.github.bordertech.wcomponents.UIContext;
+import com.github.bordertech.wcomponents.UIContextHolder;
+import com.github.bordertech.wcomponents.WApplication;
+import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.XmlStringBuilder;
+import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
+import com.github.bordertech.wcomponents.util.TrackingUtil;
+import com.github.bordertech.wcomponents.util.Util;
+import java.util.Map;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+/**
+ * {@link Renderer} for the {@link WApplication} component.
+ *
+ * @author Jonathan Austin
+ * @since 1.0.0
+ */
+<span class="fc" id="L22">final class WApplicationRenderer extends AbstractWebXmlRenderer {</span>
+
+	/**
+	 * The logger instance for this class.
+	 */
+<span class="fc" id="L27">	private static final Log LOG = LogFactory.getLog(WApplicationRenderer.class);</span>
+
+	/**
+	 * Paints the given WApplication.
+	 *
+	 * @param component the WApplication to paint.
+	 * @param renderContext the RenderContext to paint to.
+	 */
+	@Override
+	public void doRender(final WComponent component, final WebXmlRenderContext renderContext) {
+<span class="fc" id="L37">		WApplication application = (WApplication) component;</span>
+<span class="fc" id="L38">		XmlStringBuilder xml = renderContext.getWriter();</span>
+
+<span class="fc" id="L40">		UIContext uic = UIContextHolder.getCurrent();</span>
+<span class="fc" id="L41">		String focusId = uic.getFocussedId();</span>
+
+		// Check that this is the top level component
+<span class="fc bfc" id="L44" title="All 2 branches covered.">		if (application.getParent() != null) {</span>
+<span class="fc" id="L45">			LOG.warn(&quot;WApplication component should be the top level component.&quot;);</span>
+		}
+
+<span class="fc" id="L48">		xml.appendTagOpen(&quot;ui:application&quot;);</span>
+<span class="fc" id="L49">		xml.appendAttribute(&quot;id&quot;, component.getId());</span>
+<span class="fc" id="L50">		xml.appendOptionalAttribute(&quot;class&quot;, component.getHtmlClass());</span>
+<span class="fc" id="L51">		xml.appendAttribute(&quot;applicationUrl&quot;, uic.getEnvironment().getPostPath());</span>
+<span class="fc" id="L52">		xml.appendAttribute(&quot;ajaxUrl&quot;, uic.getEnvironment().getWServletPath());</span>
+<span class="fc" id="L53">		xml.appendAttribute(&quot;dataUrl&quot;, uic.getEnvironment().getWServletPath()); // TODO: Rationalise this</span>
+<span class="fc" id="L54">		xml.appendOptionalAttribute(&quot;unsavedChanges&quot;, application.hasUnsavedChanges(), &quot;true&quot;);</span>
+<span class="fc" id="L55">		xml.appendOptionalAttribute(&quot;title&quot;, application.getTitle());</span>
+<span class="fc bfc" id="L56" title="All 4 branches covered.">		xml.appendOptionalAttribute(&quot;defaultFocusId&quot;, uic.isFocusRequired() &amp;&amp; !Util.empty(focusId),</span>
+				focusId);
+<span class="fc" id="L58">		xml.appendOptionalAttribute(&quot;icon&quot;, WApplication.getIcon());</span>
+<span class="fc" id="L59">		xml.appendClose();</span>
+
+		// Tracking enabled globally
+<span class="fc bfc" id="L62" title="All 2 branches covered.">		if (TrackingUtil.isTrackingEnabled()) {</span>
+<span class="fc" id="L63">			xml.appendTagOpen(&quot;ui:analytic&quot;);</span>
+<span class="fc" id="L64">			xml.appendAttribute(&quot;clientId&quot;, TrackingUtil.getClientId());</span>
+<span class="fc" id="L65">			xml.appendOptionalAttribute(&quot;cd&quot;, TrackingUtil.getCookieDomain());</span>
+<span class="fc" id="L66">			xml.appendOptionalAttribute(&quot;dcd&quot;, TrackingUtil.getDataCollectionDomain());</span>
+<span class="fc" id="L67">			xml.appendOptionalAttribute(&quot;name&quot;, TrackingUtil.getApplicationName());</span>
+<span class="fc" id="L68">			xml.appendEnd();</span>
+		}
+
+		// Hidden fields
+<span class="fc" id="L72">		Map&lt;String, String&gt; hiddenFields = uic.getEnvironment().getHiddenParameters();</span>
+
+<span class="pc bpc" id="L74" title="1 of 2 branches missed.">		if (hiddenFields != null) {</span>
+<span class="fc bfc" id="L75" title="All 2 branches covered.">			for (Map.Entry&lt;String, String&gt; entry : hiddenFields.entrySet()) {</span>
+<span class="fc" id="L76">				xml.appendTagOpen(&quot;ui:param&quot;);</span>
+<span class="fc" id="L77">				xml.appendAttribute(&quot;name&quot;, entry.getKey());</span>
+<span class="fc" id="L78">				xml.appendAttribute(&quot;value&quot;, entry.getValue());</span>
+<span class="fc" id="L79">				xml.appendEnd();</span>
+<span class="fc" id="L80">			}</span>
+		}
+
+<span class="fc" id="L83">		paintChildren(application, renderContext);</span>
+
+<span class="fc" id="L85">		xml.appendEndTag(&quot;ui:application&quot;);</span>
+<span class="fc" id="L86">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

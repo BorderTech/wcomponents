@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WRadioButtonSelect.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">WRadioButtonSelect.java</span></div><h1>WRadioButtonSelect.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import com.github.bordertech.wcomponents.WSingleSelect.SingleSelectModel;
+import java.util.Arrays;
+import java.util.List;
+
+/**
+ * &lt;p&gt;
+ * WRadioButtonSelect is a convenience class which presents a group of radio buttons for the user to select one option
+ * from. Unlike {@link WRadioButton}, an explicit {@link RadioButtonGroup} and individual labels for the radio buttons
+ * do not need to be provided. The visual arrangement of the radio buttons can be configured using the
+ * {@link #setButtonLayout(Layout)} method.&lt;/p&gt;
+ *
+ * @author Yiannis Paschalidis
+ * @author Jonathan Austin
+ * @since 1.0.0
+ */
+public class WRadioButtonSelect extends AbstractWSingleSelectList implements AjaxTrigger, AjaxTarget,
+		SubordinateTrigger, SubordinateTarget {
+
+	/**
+	 * An enumeration of button layouts.
+	 *
+	 * @author Yiannis Paschalidis
+	 */
+<span class="pc" id="L26">	public enum Layout {</span>
+		/**
+		 * A layout where buttons are placed horizontally.
+		 */
+<span class="fc" id="L30">		FLAT,</span>
+		/**
+		 * A layout where buttons are placed vertically.
+		 */
+<span class="fc" id="L34">		STACKED,</span>
+		/**
+		 * A layout where buttons are placed in columns.
+		 */
+<span class="fc" id="L38">		COLUMNS</span>
+	};
+
+	/**
+	 * A layout where buttons are placed horizontally. Convenience constant for {@link WRadioButtonSelect.Layout#FLAT}.
+	 */
+<span class="fc" id="L44">	public static final Layout LAYOUT_FLAT = Layout.FLAT;</span>
+	/**
+	 * A layout where buttons are placed vertically. Convenience constant for {@link WRadioButtonSelect.Layout#STACKED}.
+	 */
+<span class="fc" id="L48">	public static final Layout LAYOUT_STACKED = Layout.STACKED;</span>
+	/**
+	 * A layout where buttons are placed in columns. Convenience constant for {@link WRadioButtonSelect.Layout#COLUMNS}.
+	 */
+<span class="fc" id="L52">	public static final Layout LAYOUT_COLUMNS = Layout.COLUMNS;</span>
+
+	/**
+	 * Creates an empty WRadioButtonSelect.
+	 */
+	public WRadioButtonSelect() {
+<span class="fc" id="L58">		this((List) null);</span>
+<span class="fc" id="L59">	}</span>
+
+	/**
+	 * Creates a WRadioButtonSelect with the specified options.
+	 *
+	 * @param options the radio button options.
+	 */
+	public WRadioButtonSelect(final Object[] options) {
+<span class="fc" id="L67">		this(Arrays.asList(options));</span>
+<span class="fc" id="L68">	}</span>
+
+	/**
+	 * Creates a WRadioButtonSelect with the specified options.
+	 *
+	 * @param options the radio button options.
+	 */
+	public WRadioButtonSelect(final List options) {
+<span class="fc" id="L76">		super(options, true);</span>
+<span class="fc" id="L77">	}</span>
+
+	/**
+	 * Creates a WRadioButtonSelect with the options provided by the given crt.
+	 *
+	 * @param table the table to obtain the group's options from.
+	 */
+	public WRadioButtonSelect(final Object table) {
+<span class="fc" id="L85">		super(table, true);</span>
+<span class="fc" id="L86">	}</span>
+
+	/**
+	 * Sets the layout.
+	 *
+	 * @param layout the layout.
+	 */
+	public void setButtonLayout(final Layout layout) {
+<span class="fc" id="L94">		RadioButtonSelectModel model = getOrCreateComponentModel();</span>
+<span class="fc" id="L95">		model.layout = layout;</span>
+<span class="fc" id="L96">		model.numColumns = 0;</span>
+<span class="fc" id="L97">	}</span>
+
+	/**
+	 * Sets the layout to be a certain number of columns.
+	 *
+	 * @param numColumns the number of columns.
+	 */
+	public void setButtonColumns(final int numColumns) {
+<span class="fc bfc" id="L105" title="All 2 branches covered.">		if (numColumns &lt; 1) {</span>
+<span class="fc" id="L106">			throw new IllegalArgumentException(&quot;Must have one or more columns&quot;);</span>
+		}
+
+<span class="fc" id="L109">		RadioButtonSelectModel model = getOrCreateComponentModel();</span>
+<span class="fc" id="L110">		model.numColumns = numColumns;</span>
+<span class="fc bfc" id="L111" title="All 2 branches covered.">		model.layout = numColumns == 1 ? LAYOUT_STACKED : LAYOUT_COLUMNS;</span>
+<span class="fc" id="L112">	}</span>
+
+	/**
+	 * @return the number of columns for layout. Only applies to LAYOUT_COLUMNS layout.
+	 */
+	public int getButtonColumns() {
+<span class="fc" id="L118">		return getComponentModel().numColumns;</span>
+	}
+
+	/**
+	 * @return the layout;
+	 */
+	public Layout getButtonLayout() {
+<span class="fc" id="L125">		return getComponentModel().layout;</span>
+	}
+
+	/**
+	 * @return true if the frame should not be rendered.
+	 */
+	public boolean isFrameless() {
+<span class="fc" id="L132">		return getComponentModel().frameless;</span>
+	}
+
+	/**
+	 * @param frameless if true, the frame will not be rendered.
+	 */
+	public void setFrameless(final boolean frameless) {
+<span class="fc" id="L139">		getOrCreateComponentModel().frameless = frameless;</span>
+<span class="fc" id="L140">	}</span>
+
+	/**
+	 * Indicates whether this component is AJAX enabled. A list is an AJAX list if it has a
+	 * {@link #setAjaxTarget(AjaxTarget) target set}.
+	 *
+	 * @return true if this list is AJAX enabled, false otherwise.
+	 */
+	@Override
+	public boolean isAjax() {
+<span class="fc" id="L150">		return super.isAjax();</span>
+	}
+
+	/**
+	 * Sets the default AJAX target for this list. If a target is supplied, an AJAX request is made rather than a
+	 * round-trip to the server. The AJAX response will only contain the (possibly updated) target element rather than
+	 * the entire UI.
+	 *
+	 * @param ajaxTarget the AJAX target.
+	 */
+	@Override
+	public void setAjaxTarget(final AjaxTarget ajaxTarget) {
+<span class="fc" id="L162">		super.setAjaxTarget(ajaxTarget);</span>
+<span class="fc" id="L163">	}</span>
+
+	/**
+	 * Retrieves the default AJAX target.
+	 *
+	 * @return the default AJAX target for this list.
+	 */
+	@Override
+	public AjaxTarget getAjaxTarget() {
+<span class="fc" id="L172">		return super.getAjaxTarget();</span>
+	}
+
+	/**
+	 * Creates a new Component model.
+	 *
+	 * @return a new RadioButtonSelectModel.
+	 */
+	@Override // For type safety only
+	protected RadioButtonSelectModel newComponentModel() {
+<span class="fc" id="L182">		return new RadioButtonSelectModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override // For type safety only
+	protected RadioButtonSelectModel getComponentModel() {
+<span class="fc" id="L190">		return (RadioButtonSelectModel) super.getComponentModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override // For type safety only
+	protected RadioButtonSelectModel getOrCreateComponentModel() {
+<span class="fc" id="L198">		return (RadioButtonSelectModel) super.getOrCreateComponentModel();</span>
+	}
+
+	/**
+	 * Holds the extrinsic state information of the component.
+	 *
+	 * @author Yiannis Paschalidis
+	 */
+<span class="fc" id="L206">	public static class RadioButtonSelectModel extends SingleSelectModel {</span>
+
+		/**
+		 * The button group layout.
+		 */
+<span class="fc" id="L211">		private Layout layout = LAYOUT_STACKED;</span>
+
+		/**
+		 * The number of columns for layout.
+		 */
+<span class="fc" id="L216">		private int numColumns = 0;</span>
+
+		/**
+		 * Indicates whether the radio button select frame should be visible when rendering.
+		 */
+<span class="fc" id="L221">		private boolean frameless = false;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

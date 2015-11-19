@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WMultiSelectPairRenderer.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.render.webxml</a> &gt; <span class="el_source">WMultiSelectPairRenderer.java</span></div><h1>WMultiSelectPairRenderer.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.render.webxml;
+
+import com.github.bordertech.wcomponents.OptionGroup;
+import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.WMultiSelectPair;
+import com.github.bordertech.wcomponents.XmlStringBuilder;
+import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * The Renderer for {@link WMultiSelectPair}.
+ *
+ * @author Yiannis Paschalidis
+ * @author Jonathan Austin
+ * @since 1.0.0
+ */
+<span class="fc" id="L21">final class WMultiSelectPairRenderer extends AbstractWebXmlRenderer {</span>
+
+	/**
+	 * Paints the given WMultiSelectPair.
+	 *
+	 * @param component the WMultiSelectPair to paint.
+	 * @param renderContext the RenderContext to paint to.
+	 */
+	@Override
+	public void doRender(final WComponent component, final WebXmlRenderContext renderContext) {
+<span class="fc" id="L31">		WMultiSelectPair multiSelectPair = (WMultiSelectPair) component;</span>
+<span class="fc" id="L32">		XmlStringBuilder xml = renderContext.getWriter();</span>
+<span class="fc" id="L33">		boolean disabled = multiSelectPair.isDisabled();</span>
+<span class="fc" id="L34">		boolean readOnly = multiSelectPair.isReadOnly();</span>
+<span class="fc" id="L35">		int rows = multiSelectPair.getRows();</span>
+<span class="fc" id="L36">		int min = multiSelectPair.getMinSelect();</span>
+<span class="fc" id="L37">		int max = multiSelectPair.getMaxSelect();</span>
+
+<span class="fc" id="L39">		xml.appendTagOpen(&quot;ui:multiSelectPair&quot;);</span>
+<span class="fc" id="L40">		xml.appendAttribute(&quot;id&quot;, component.getId());</span>
+<span class="fc" id="L41">		xml.appendOptionalAttribute(&quot;class&quot;, component.getHtmlClass());</span>
+<span class="fc" id="L42">		xml.appendOptionalAttribute(&quot;track&quot;, component.isTracking(), &quot;true&quot;);</span>
+<span class="fc bfc" id="L43" title="All 2 branches covered.">		xml.appendAttribute(&quot;size&quot;, rows &lt; 2 ? WMultiSelectPair.DEFAULT_ROWS : rows);</span>
+<span class="fc" id="L44">		xml.appendOptionalAttribute(&quot;disabled&quot;, disabled, &quot;true&quot;);</span>
+<span class="fc" id="L45">		xml.appendOptionalAttribute(&quot;hidden&quot;, multiSelectPair.isHidden(), &quot;true&quot;);</span>
+<span class="fc" id="L46">		xml.appendOptionalAttribute(&quot;required&quot;, multiSelectPair.isMandatory(), &quot;true&quot;);</span>
+<span class="fc" id="L47">		xml.appendOptionalAttribute(&quot;readOnly&quot;, readOnly, &quot;true&quot;);</span>
+<span class="fc" id="L48">		xml.appendOptionalAttribute(&quot;shuffle&quot;, multiSelectPair.isShuffle(), &quot;true&quot;);</span>
+<span class="fc" id="L49">		xml.appendOptionalAttribute(&quot;fromListName&quot;, multiSelectPair.getAvailableListName());</span>
+<span class="fc" id="L50">		xml.appendOptionalAttribute(&quot;toListName&quot;, multiSelectPair.getSelectedListName());</span>
+<span class="fc" id="L51">		xml.appendOptionalAttribute(&quot;accessibleText&quot;, multiSelectPair.getAccessibleText());</span>
+<span class="fc bfc" id="L52" title="All 2 branches covered.">		xml.appendOptionalAttribute(&quot;min&quot;, min &gt; 0, min);</span>
+<span class="fc bfc" id="L53" title="All 2 branches covered.">		xml.appendOptionalAttribute(&quot;max&quot;, max &gt; 0, max);</span>
+<span class="fc" id="L54">		xml.appendClose();</span>
+
+		// Options
+<span class="fc" id="L57">		List&lt;?&gt; options = multiSelectPair.getOptions();</span>
+<span class="fc" id="L58">		boolean encode = multiSelectPair.getDescEncode();</span>
+<span class="fc" id="L59">		boolean renderSelectionsOnly = readOnly;</span>
+
+<span class="fc bfc" id="L61" title="All 2 branches covered.">		if (options != null) {</span>
+<span class="fc bfc" id="L62" title="All 2 branches covered.">			if (multiSelectPair.isShuffle()) {</span>
+				// We need to render the selected options in order
+<span class="fc" id="L64">				renderOrderedOptions(multiSelectPair, options, 0, xml, renderSelectionsOnly, encode);</span>
+			} else {
+<span class="fc" id="L66">				renderUnorderedOptions(multiSelectPair, options, 0, xml, renderSelectionsOnly,</span>
+						encode);
+			}
+		}
+
+<span class="fc" id="L71">		xml.appendEndTag(&quot;ui:multiSelectPair&quot;);</span>
+<span class="fc" id="L72">	}</span>
+
+	/**
+	 * Renders the options in selection order.
+	 *
+	 * @param multiSelectPair the WMultiSelectPair to paint.
+	 * @param options the options to render
+	 * @param startIndex the starting option index
+	 * @param xml the XmlStringBuilder to paint to.
+	 * @param renderSelectionsOnly true to only render selected options, false to render all options.
+	 * @param encode true if the option description should be encoded, false if not.
+	 *
+	 * @return the number of options painted.
+	 *
+	 * TODO: This does not support the legacy allowNull or setSelected using String representations.
+	 */
+	private int renderOrderedOptions(final WMultiSelectPair multiSelectPair, final List&lt;?&gt; options,
+			final int startIndex, final XmlStringBuilder xml,
+			final boolean renderSelectionsOnly, final boolean encode) {
+
+<span class="fc" id="L92">		List&lt;?&gt; selections = multiSelectPair.getSelected();</span>
+<span class="fc" id="L93">		int optionIndex = startIndex;</span>
+
+		// We can't just render all the unselected options followed by the selected ones
+		// in the order they are given to us, as unselected/selected may be intermingled
+		// due to the option groups. We therefore recursively render each group.
+		// For each group, we:
+		// - iterate through the options and
+		//     - render the unselected ones
+		//     - keep track of the selected ones (index within the selection list + index within the option list)
+		// - Once all the unselected items have been rendered, we render the selections
+		// This maps selection indices to option indices for the current group
+<span class="fc" id="L104">		Map&lt;Integer, Integer&gt; currentSelectionIndices = new HashMap&lt;&gt;();</span>
+
+<span class="fc bfc" id="L106" title="All 2 branches covered.">		for (Object option : options) {</span>
+<span class="fc bfc" id="L107" title="All 2 branches covered.">			if (option instanceof OptionGroup) {</span>
+<span class="fc" id="L108">				xml.appendTagOpen(&quot;ui:optgroup&quot;);</span>
+<span class="fc" id="L109">				xml.appendAttribute(&quot;label&quot;, ((OptionGroup) option).getDesc());</span>
+<span class="fc" id="L110">				xml.appendClose();</span>
+
+				// Recurse to render options inside option groups.
+<span class="fc" id="L113">				List&lt;?&gt; nestedOptions = ((OptionGroup) option).getOptions();</span>
+<span class="fc" id="L114">				optionIndex += renderOrderedOptions(multiSelectPair, nestedOptions, optionIndex, xml,</span>
+						renderSelectionsOnly, encode);
+
+<span class="fc" id="L117">				xml.appendEndTag(&quot;ui:optgroup&quot;);</span>
+<span class="fc" id="L118">			} else {</span>
+<span class="fc" id="L119">				int index = selections.indexOf(option);</span>
+
+<span class="fc bfc" id="L121" title="All 2 branches covered.">				if (index == -1) {</span>
+<span class="fc" id="L122">					renderOption(multiSelectPair, option, optionIndex++, xml, selections,</span>
+							renderSelectionsOnly, encode);
+				} else {
+<span class="fc" id="L125">					currentSelectionIndices.put(index, optionIndex++);</span>
+				}
+			}
+<span class="fc" id="L128">		}</span>
+
+<span class="fc bfc" id="L130" title="All 2 branches covered.">		if (!currentSelectionIndices.isEmpty()) {</span>
+			// Now sort the selected item's indices and render them in the correct order.
+<span class="fc" id="L132">			List&lt;Integer&gt; sortedSelectedIndices = new ArrayList&lt;&gt;(currentSelectionIndices.keySet());</span>
+<span class="fc" id="L133">			Collections.sort(sortedSelectedIndices);</span>
+
+<span class="fc bfc" id="L135" title="All 2 branches covered.">			for (int selectionIndex : sortedSelectedIndices) {</span>
+<span class="fc" id="L136">				int selectionOptionIndex = currentSelectionIndices.get(selectionIndex);</span>
+
+<span class="fc" id="L138">				renderOption(multiSelectPair, selections.get(selectionIndex), selectionOptionIndex,</span>
+						xml, selections, renderSelectionsOnly, encode);
+<span class="fc" id="L140">			}</span>
+		}
+
+<span class="fc" id="L143">		return optionIndex - startIndex;</span>
+	}
+
+	/**
+	 * Renders the options in list order.
+	 *
+	 * @param multiSelectPair the WMultiSelectPair to paint.
+	 * @param options the options to render
+	 * @param startIndex the starting option index
+	 * @param xml the XmlStringBuilder to paint to.
+	 * @param renderSelectionsOnly true to only render selected options, false to render all options.
+	 * @param encode true if the option description should be encoded, false if not.
+	 *
+	 * @return the number of options which were rendered.
+	 */
+	private int renderUnorderedOptions(final WMultiSelectPair multiSelectPair, final List&lt;?&gt; options,
+			final int startIndex,
+			final XmlStringBuilder xml, final boolean renderSelectionsOnly, final boolean encode) {
+<span class="fc" id="L161">		List&lt;?&gt; selections = multiSelectPair.getSelected();</span>
+<span class="fc" id="L162">		int optionIndex = startIndex;</span>
+
+<span class="fc bfc" id="L164" title="All 2 branches covered.">		for (Object option : options) {</span>
+<span class="fc bfc" id="L165" title="All 2 branches covered.">			if (option instanceof OptionGroup) {</span>
+<span class="fc" id="L166">				xml.appendTagOpen(&quot;ui:optgroup&quot;);</span>
+<span class="fc" id="L167">				xml.appendAttribute(&quot;label&quot;, ((OptionGroup) option).getDesc());</span>
+<span class="fc" id="L168">				xml.appendClose();</span>
+
+				// Recurse to render options inside option groups.
+<span class="fc" id="L171">				List&lt;?&gt; nestedOptions = ((OptionGroup) option).getOptions();</span>
+<span class="fc" id="L172">				optionIndex += renderUnorderedOptions(multiSelectPair, nestedOptions, optionIndex,</span>
+						xml, renderSelectionsOnly, encode);
+
+<span class="fc" id="L175">				xml.appendEndTag(&quot;ui:optgroup&quot;);</span>
+<span class="fc" id="L176">			} else {</span>
+<span class="fc" id="L177">				renderOption(multiSelectPair, option, optionIndex++, xml, selections,</span>
+						renderSelectionsOnly, encode);
+			}
+<span class="fc" id="L180">		}</span>
+
+<span class="fc" id="L182">		return optionIndex - startIndex;</span>
+	}
+
+	/**
+	 * Renders a single option within the list box.
+	 *
+	 * @param multiSelectPair the multi-select pair being rendered.
+	 * @param option the option to render.
+	 * @param optionIndex the index of the option. OptionGroups are not counted.
+	 * @param html the XmlStringBuilder to paint to.
+	 * @param selections the list of selected options.
+	 * @param renderSelectionsOnly true to only render selected options, false to render all options.
+	 * @param encode true if the option description should be encoded, false if not.
+	 */
+	private void renderOption(final WMultiSelectPair multiSelectPair, final Object option,
+			final int optionIndex, final XmlStringBuilder html, final List&lt;?&gt; selections,
+			final boolean renderSelectionsOnly, final boolean encode) {
+<span class="fc" id="L199">		boolean selected = selections.contains(option);</span>
+
+<span class="fc bfc" id="L201" title="All 4 branches covered.">		if (selected || !renderSelectionsOnly) {</span>
+			// Get Code and Desc
+<span class="fc" id="L203">			String code = multiSelectPair.getCode(option, optionIndex);</span>
+<span class="fc" id="L204">			String desc = multiSelectPair.getDesc(option, optionIndex);</span>
+
+			// Render Option
+<span class="fc" id="L207">			html.appendTagOpen(&quot;ui:option&quot;);</span>
+<span class="fc" id="L208">			html.appendAttribute(&quot;value&quot;, code);</span>
+<span class="fc" id="L209">			html.appendOptionalAttribute(&quot;selected&quot;, selected, &quot;true&quot;);</span>
+<span class="fc" id="L210">			html.appendClose();</span>
+<span class="fc" id="L211">			html.append(desc, encode);</span>
+<span class="fc" id="L212">			html.appendEndTag(&quot;ui:option&quot;);</span>
+		}
+<span class="fc" id="L214">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

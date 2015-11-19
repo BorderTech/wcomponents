@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>TargetableInterceptor.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.container</a> &gt; <span class="el_source">TargetableInterceptor.java</span></div><h1>TargetableInterceptor.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.container;
+
+import com.github.bordertech.wcomponents.ComponentWithContext;
+import com.github.bordertech.wcomponents.Environment;
+import com.github.bordertech.wcomponents.RenderContext;
+import com.github.bordertech.wcomponents.Request;
+import com.github.bordertech.wcomponents.Targetable;
+import com.github.bordertech.wcomponents.UIContextHolder;
+import com.github.bordertech.wcomponents.WebUtilities;
+import com.github.bordertech.wcomponents.util.SystemException;
+
+/**
+ * This interceptor component checks to see if a parameter named {@link Environment#TARGET_ID} exists on the request. If
+ * the parameter is found then this interceptor replaces the top level ui component with the {@link Targetable}
+ * component with the same id as the parameter value.
+ *
+ * @author Christina Harris
+ * @since 1.0.0
+ */
+<span class="fc" id="L20">public class TargetableInterceptor extends InterceptorComponent {</span>
+
+	/**
+	 * The id of the targeted component.
+	 */
+<span class="fc" id="L25">	private String targetId = null;</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void serviceRequest(final Request request) {
+		// Check if this is a targeted request
+<span class="fc" id="L33">		targetId = request.getParameter(Environment.TARGET_ID);</span>
+<span class="fc bfc" id="L34" title="All 2 branches covered.">		if (targetId == null) {</span>
+<span class="fc" id="L35">			throw new SystemException(&quot;No target id request parameter&quot;);</span>
+		}
+
+<span class="fc" id="L38">		ComponentWithContext target = WebUtilities.getComponentById(targetId, true);</span>
+<span class="fc bfc" id="L39" title="All 2 branches covered.">		if (target == null) {</span>
+<span class="fc" id="L40">			throw new SystemException(&quot;No target component found for id &quot; + targetId);</span>
+		}
+
+		// go straight to the target component.
+<span class="fc" id="L44">		attachUI(target.getComponent());</span>
+
+<span class="fc" id="L46">		UIContextHolder.pushContext(target.getContext());</span>
+		try {
+<span class="fc" id="L48">			super.serviceRequest(request);</span>
+		} finally {
+<span class="pc" id="L50">			UIContextHolder.popContext();</span>
+<span class="fc" id="L51">		}</span>
+<span class="fc" id="L52">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void preparePaint(final Request request) {
+<span class="nc" id="L59">		ComponentWithContext target = WebUtilities.getComponentById(targetId, true);</span>
+<span class="nc bnc" id="L60" title="All 2 branches missed.">		if (target == null) {</span>
+<span class="nc" id="L61">			throw new SystemException(&quot;No target component found for id &quot; + targetId);</span>
+		}
+
+<span class="nc" id="L64">		UIContextHolder.pushContext(target.getContext());</span>
+		try {
+<span class="nc" id="L66">			super.preparePaint(request);</span>
+		} finally {
+<span class="nc" id="L68">			UIContextHolder.popContext();</span>
+<span class="nc" id="L69">		}</span>
+<span class="nc" id="L70">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void paint(final RenderContext renderContext) {
+<span class="nc" id="L77">		ComponentWithContext target = WebUtilities.getComponentById(targetId, true);</span>
+<span class="nc bnc" id="L78" title="All 2 branches missed.">		if (target == null) {</span>
+<span class="nc" id="L79">			throw new SystemException(&quot;No target component found for id &quot; + targetId);</span>
+		}
+
+<span class="nc" id="L82">		UIContextHolder.pushContext(target.getContext());</span>
+		try {
+<span class="nc" id="L84">			super.paint(renderContext);</span>
+		} finally {
+<span class="nc" id="L86">			UIContextHolder.popContext();</span>
+<span class="nc" id="L87">		}</span>
+<span class="nc" id="L88">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

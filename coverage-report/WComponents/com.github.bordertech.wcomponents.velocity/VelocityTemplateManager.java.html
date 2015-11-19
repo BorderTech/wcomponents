@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>VelocityTemplateManager.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.velocity</a> &gt; <span class="el_source">VelocityTemplateManager.java</span></div><h1>VelocityTemplateManager.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.velocity;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+/**
+ * @author James Gifford
+ * @since 1.0.0
+ */
+public final class VelocityTemplateManager {
+
+	/**
+	 * Look for templates under this directory in the classpath.
+	 */
+	private static final String VELOCITY_PREFIX = &quot;&quot;;
+
+	/**
+	 * Remove this prefix from full classnames before appending to the above prefix.
+	 */
+	private static final String PATH_REMOVE = &quot;&quot;;
+
+	/**
+	 * The logger instance for this class.
+	 */
+<span class="fc" id="L25">	private static final Log LOG = LogFactory.getLog(VelocityTemplateManager.class);</span>
+
+	/**
+	 * Hide the constructor as there are no instance methods.
+	 */
+<span class="nc" id="L30">	private VelocityTemplateManager() {</span>
+<span class="nc" id="L31">	}</span>
+
+	/**
+	 * Map the given class to a velocity template resource name.
+	 * &lt;p&gt;
+	 * For instance, com.github.bordertech.wcomponents.WTextField maps to the template in
+	 * com/github/bordertech/wcomponents/WTextField.vm
+	 * &lt;/p&gt;
+	 *
+	 * @param clazz is the Class to find the resource name for.
+	 * @return the template resource name for the given class.
+	 */
+	public static String toTemplateResourceName(final Class clazz) {
+<span class="fc" id="L44">		String url = getTemplatePath(clazz);</span>
+<span class="fc" id="L45">		url = url.replace('.', '/');</span>
+<span class="fc" id="L46">		int index = url.lastIndexOf('$');</span>
+
+<span class="fc bfc" id="L48" title="All 2 branches covered.">		if (index != -1) {</span>
+<span class="fc" id="L49">			int first = url.lastIndexOf('/');</span>
+<span class="fc" id="L50">			String classs = url.substring(index + 1, url.length());</span>
+<span class="fc" id="L51">			String dir = url.substring(0, first + 1);</span>
+<span class="fc" id="L52">			url = dir + classs;</span>
+		}
+
+<span class="fc" id="L55">		url = VELOCITY_PREFIX + url + &quot;.vm&quot;;</span>
+		// Internalize to avoid having heaps of copies of identical strings around.
+<span class="fc" id="L57">		url = url.intern();</span>
+<span class="fc" id="L58">		LOG.debug(&quot;vm template : &quot; + url);</span>
+<span class="fc" id="L59">		return url;</span>
+	}
+
+	/**
+	 * @param clazz a Class from which to retrieve the Class Name
+	 * @return String which is the class name without the path
+	 */
+	private static String getTemplatePath(final Class clazz) {
+<span class="fc" id="L67">		String name = clazz.getName();</span>
+<span class="fc" id="L68">		LOG.debug(&quot;Full ClassPath : &quot; + name);</span>
+<span class="fc" id="L69">		name = name.substring(PATH_REMOVE.length(), name.length());</span>
+<span class="fc" id="L70">		LOG.debug(&quot;Classname : &quot; + name);</span>
+<span class="fc" id="L71">		return name;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

@@ -1,0 +1,785 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WhiteSpaceFilterStateMachine.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.util</a> &gt; <span class="el_source">WhiteSpaceFilterStateMachine.java</span></div><h1>WhiteSpaceFilterStateMachine.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.util;
+
+import java.io.UnsupportedEncodingException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+/**
+ * WhiteSpaceFilterOutputStream is a state machine that filters out extraneous whitespace from XHTML content.
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ */
+public class WhiteSpaceFilterStateMachine {
+
+<span class="fc" id="L15">	private static final State STATE_TRIM_WHITESPACE = new State();</span>
+<span class="fc" id="L16">	private static final State STATE_IN_TEXT = new State();</span>
+<span class="fc" id="L17">	private static final State STATE_START_TAG = new State();</span>
+
+<span class="fc" id="L19">	private static final State STATE_START_COMMENT1 = new State();</span>
+<span class="fc" id="L20">	private static final State STATE_START_COMMENT2 = new State();</span>
+<span class="fc" id="L21">	private static final State STATE_IN_COMMENT = new State();</span>
+<span class="fc" id="L22">	private static final State STATE_END_COMMENT1 = new State();</span>
+<span class="fc" id="L23">	private static final State STATE_END_COMMENT2 = new State();</span>
+
+<span class="fc" id="L25">	private static final State STATE_START_CDATA1 = new State();</span>
+<span class="fc" id="L26">	private static final State STATE_START_CDATA2 = new State();</span>
+<span class="fc" id="L27">	private static final State STATE_START_CDATA3 = new State();</span>
+<span class="fc" id="L28">	private static final State STATE_START_CDATA4 = new State();</span>
+<span class="fc" id="L29">	private static final State STATE_START_CDATA5 = new State();</span>
+<span class="fc" id="L30">	private static final State STATE_START_CDATA6 = new State();</span>
+<span class="fc" id="L31">	private static final State STATE_CDATA_TEXT = new State();</span>
+<span class="fc" id="L32">	private static final State STATE_END_CDATA1 = new State();</span>
+<span class="fc" id="L33">	private static final State STATE_END_CDATA2 = new State();</span>
+
+<span class="fc" id="L35">	private static final State STATE_START_SCRIPT1 = new State();</span>
+<span class="fc" id="L36">	private static final State STATE_START_SCRIPT2 = new State();</span>
+<span class="fc" id="L37">	private static final State STATE_START_SCRIPT3 = new State();</span>
+<span class="fc" id="L38">	private static final State STATE_START_SCRIPT4 = new State();</span>
+<span class="fc" id="L39">	private static final State STATE_START_SCRIPT5 = new State();</span>
+<span class="fc" id="L40">	private static final State STATE_START_SCRIPT6 = new State();</span>
+<span class="fc" id="L41">	private static final State STATE_IN_SCRIPT_TAG = new State();</span>
+<span class="fc" id="L42">	private static final State STATE_SCRIPT_ATTR1 = new State();</span>
+<span class="fc" id="L43">	private static final State STATE_SCRIPT_ATTR2 = new State();</span>
+<span class="fc" id="L44">	private static final State STATE_SCRIPT_TEXT = new State();</span>
+<span class="fc" id="L45">	private static final State STATE_END_SCRIPT1 = new State();</span>
+<span class="fc" id="L46">	private static final State STATE_END_SCRIPT2 = new State();</span>
+<span class="fc" id="L47">	private static final State STATE_END_SCRIPT3 = new State();</span>
+<span class="fc" id="L48">	private static final State STATE_END_SCRIPT4 = new State();</span>
+<span class="fc" id="L49">	private static final State STATE_END_SCRIPT5 = new State();</span>
+<span class="fc" id="L50">	private static final State STATE_END_SCRIPT6 = new State();</span>
+<span class="fc" id="L51">	private static final State STATE_END_SCRIPT7 = new State();</span>
+<span class="fc" id="L52">	private static final State STATE_END_SCRIPT8 = new State();</span>
+
+<span class="fc" id="L54">	private static final State STATE_IN_OTHER_TAG = new State();</span>
+<span class="fc" id="L55">	private static final State STATE_OTHER_TAG_ATTR1 = new State();</span>
+<span class="fc" id="L56">	private static final State STATE_OTHER_TAG_ATTR2 = new State();</span>
+
+<span class="fc" id="L58">	private static final State STATE_START_PRE1 = new State();</span>
+<span class="fc" id="L59">	private static final State STATE_START_PRE2 = new State();</span>
+<span class="fc" id="L60">	private static final State STATE_START_PRE3 = new State();</span>
+<span class="fc" id="L61">	private static final State STATE_IN_PRE_TAG = new State();</span>
+<span class="fc" id="L62">	private static final State STATE_PRE_TEXT = new State();</span>
+<span class="fc" id="L63">	private static final State STATE_PRE_TAG_ATTR1 = new State();</span>
+<span class="fc" id="L64">	private static final State STATE_PRE_TAG_ATTR2 = new State();</span>
+<span class="fc" id="L65">	private static final State STATE_END_PRE1 = new State();</span>
+<span class="fc" id="L66">	private static final State STATE_END_PRE2 = new State();</span>
+<span class="fc" id="L67">	private static final State STATE_END_PRE3 = new State();</span>
+<span class="fc" id="L68">	private static final State STATE_END_PRE4 = new State();</span>
+<span class="fc" id="L69">	private static final State STATE_END_PRE5 = new State();</span>
+
+<span class="fc" id="L71">	private static final State STATE_START_TEXTAREA1 = new State();</span>
+<span class="fc" id="L72">	private static final State STATE_START_TEXTAREA2 = new State();</span>
+<span class="fc" id="L73">	private static final State STATE_START_TEXTAREA3 = new State();</span>
+<span class="fc" id="L74">	private static final State STATE_START_TEXTAREA4 = new State();</span>
+<span class="fc" id="L75">	private static final State STATE_START_TEXTAREA5 = new State();</span>
+<span class="fc" id="L76">	private static final State STATE_START_TEXTAREA6 = new State();</span>
+<span class="fc" id="L77">	private static final State STATE_START_TEXTAREA7 = new State();</span>
+<span class="fc" id="L78">	private static final State STATE_START_TEXTAREA8 = new State();</span>
+<span class="fc" id="L79">	private static final State STATE_IN_TEXTAREA_TAG = new State();</span>
+<span class="fc" id="L80">	private static final State STATE_TEXTAREA_TAG_ATTR1 = new State();</span>
+<span class="fc" id="L81">	private static final State STATE_TEXTAREA_TAG_ATTR2 = new State();</span>
+<span class="fc" id="L82">	private static final State STATE_TEXTAREA_TEXT = new State();</span>
+<span class="fc" id="L83">	private static final State STATE_END_TEXTAREA1 = new State();</span>
+<span class="fc" id="L84">	private static final State STATE_END_TEXTAREA2 = new State();</span>
+<span class="fc" id="L85">	private static final State STATE_END_TEXTAREA3 = new State();</span>
+<span class="fc" id="L86">	private static final State STATE_END_TEXTAREA4 = new State();</span>
+<span class="fc" id="L87">	private static final State STATE_END_TEXTAREA5 = new State();</span>
+<span class="fc" id="L88">	private static final State STATE_END_TEXTAREA6 = new State();</span>
+<span class="fc" id="L89">	private static final State STATE_END_TEXTAREA7 = new State();</span>
+<span class="fc" id="L90">	private static final State STATE_END_TEXTAREA8 = new State();</span>
+<span class="fc" id="L91">	private static final State STATE_END_TEXTAREA9 = new State();</span>
+<span class="fc" id="L92">	private static final State STATE_END_TEXTAREA10 = new State();</span>
+
+<span class="fc" id="L94">	private static final State STATE_START_UI1 = new State();</span>
+<span class="fc" id="L95">	private static final State STATE_START_UI2 = new State();</span>
+<span class="fc" id="L96">	private static final State STATE_START_UI3 = new State();</span>
+
+<span class="fc" id="L98">	private static final State STATE_START_UI_TEXT1 = new State();</span>
+<span class="fc" id="L99">	private static final State STATE_START_UI_TEXT2 = new State();</span>
+<span class="fc" id="L100">	private static final State STATE_START_UI_TEXT3 = new State();</span>
+<span class="fc" id="L101">	private static final State STATE_START_UI_TEXT4 = new State();</span>
+<span class="fc" id="L102">	private static final State STATE_IN_UI_TEXT_TAG = new State();</span>
+<span class="fc" id="L103">	private static final State STATE_UI_TEXT_TAG_ATTR1 = new State();</span>
+<span class="fc" id="L104">	private static final State STATE_UI_TEXT_TAG_ATTR2 = new State();</span>
+<span class="fc" id="L105">	private static final State STATE_UI_TEXT_TEXT = new State();</span>
+<span class="fc" id="L106">	private static final State STATE_END_UI_TEXT1 = new State();</span>
+<span class="fc" id="L107">	private static final State STATE_END_UI_TEXT2 = new State();</span>
+<span class="fc" id="L108">	private static final State STATE_END_UI_TEXT3 = new State();</span>
+<span class="fc" id="L109">	private static final State STATE_END_UI_TEXT4 = new State();</span>
+<span class="fc" id="L110">	private static final State STATE_END_UI_TEXT5 = new State();</span>
+<span class="fc" id="L111">	private static final State STATE_END_UI_TEXT6 = new State();</span>
+<span class="fc" id="L112">	private static final State STATE_END_UI_TEXT7 = new State();</span>
+<span class="fc" id="L113">	private static final State STATE_END_UI_TEXT8 = new State();</span>
+<span class="fc" id="L114">	private static final State STATE_END_UI_TEXT9 = new State();</span>
+
+<span class="fc" id="L116">	private static final State STATE_START_UI_TEXTAREA5 = new State();</span>
+<span class="fc" id="L117">	private static final State STATE_START_UI_TEXTAREA6 = new State();</span>
+<span class="fc" id="L118">	private static final State STATE_START_UI_TEXTAREA7 = new State();</span>
+<span class="fc" id="L119">	private static final State STATE_START_UI_TEXTAREA8 = new State();</span>
+<span class="fc" id="L120">	private static final State STATE_IN_UI_TEXTAREA_TAG = new State();</span>
+<span class="fc" id="L121">	private static final State STATE_UI_TEXTAREA_TAG_ATTR1 = new State();</span>
+<span class="fc" id="L122">	private static final State STATE_UI_TEXTAREA_TAG_ATTR2 = new State();</span>
+<span class="fc" id="L123">	private static final State STATE_UI_TEXTAREA_TEXT = new State();</span>
+<span class="fc" id="L124">	private static final State STATE_END_UI_TEXTAREA1 = new State();</span>
+<span class="fc" id="L125">	private static final State STATE_END_UI_TEXTAREA2 = new State();</span>
+<span class="fc" id="L126">	private static final State STATE_END_UI_TEXTAREA3 = new State();</span>
+<span class="fc" id="L127">	private static final State STATE_END_UI_TEXTAREA4 = new State();</span>
+<span class="fc" id="L128">	private static final State STATE_END_UI_TEXTAREA5 = new State();</span>
+<span class="fc" id="L129">	private static final State STATE_END_UI_TEXTAREA6 = new State();</span>
+<span class="fc" id="L130">	private static final State STATE_END_UI_TEXTAREA7 = new State();</span>
+<span class="fc" id="L131">	private static final State STATE_END_UI_TEXTAREA8 = new State();</span>
+<span class="fc" id="L132">	private static final State STATE_END_UI_TEXTAREA9 = new State();</span>
+<span class="fc" id="L133">	private static final State STATE_END_UI_TEXTAREA10 = new State();</span>
+<span class="fc" id="L134">	private static final State STATE_END_UI_TEXTAREA11 = new State();</span>
+<span class="fc" id="L135">	private static final State STATE_END_UI_TEXTAREA12 = new State();</span>
+<span class="fc" id="L136">	private static final State STATE_END_UI_TEXTAREA13 = new State();</span>
+
+<span class="fc" id="L138">	private static final State STATE_START_UI_MESSAGE1 = new State();</span>
+<span class="fc" id="L139">	private static final State STATE_START_UI_MESSAGE2 = new State();</span>
+<span class="fc" id="L140">	private static final State STATE_START_UI_MESSAGE3 = new State();</span>
+<span class="fc" id="L141">	private static final State STATE_START_UI_MESSAGE4 = new State();</span>
+<span class="fc" id="L142">	private static final State STATE_START_UI_MESSAGE5 = new State();</span>
+<span class="fc" id="L143">	private static final State STATE_START_UI_MESSAGE6 = new State();</span>
+<span class="fc" id="L144">	private static final State STATE_START_UI_MESSAGE7 = new State();</span>
+<span class="fc" id="L145">	private static final State STATE_IN_UI_MESSAGE_TAG = new State();</span>
+<span class="fc" id="L146">	private static final State STATE_UI_MESSAGE_TAG_ATTR1 = new State();</span>
+<span class="fc" id="L147">	private static final State STATE_UI_MESSAGE_TAG_ATTR2 = new State();</span>
+<span class="fc" id="L148">	private static final State STATE_UI_MESSAGE_TEXT = new State();</span>
+<span class="fc" id="L149">	private static final State STATE_END_UI_MESSAGE1 = new State();</span>
+<span class="fc" id="L150">	private static final State STATE_END_UI_MESSAGE2 = new State();</span>
+<span class="fc" id="L151">	private static final State STATE_END_UI_MESSAGE3 = new State();</span>
+<span class="fc" id="L152">	private static final State STATE_END_UI_MESSAGE4 = new State();</span>
+<span class="fc" id="L153">	private static final State STATE_END_UI_MESSAGE5 = new State();</span>
+<span class="fc" id="L154">	private static final State STATE_END_UI_MESSAGE6 = new State();</span>
+<span class="fc" id="L155">	private static final State STATE_END_UI_MESSAGE7 = new State();</span>
+<span class="fc" id="L156">	private static final State STATE_END_UI_MESSAGE8 = new State();</span>
+<span class="fc" id="L157">	private static final State STATE_END_UI_MESSAGE9 = new State();</span>
+<span class="fc" id="L158">	private static final State STATE_END_UI_MESSAGE10 = new State();</span>
+<span class="fc" id="L159">	private static final State STATE_END_UI_MESSAGE11 = new State();</span>
+<span class="fc" id="L160">	private static final State STATE_END_UI_MESSAGE12 = new State();</span>
+
+<span class="fc" id="L162">	private static final State STATE_START_UI_ERROR1 = new State();</span>
+<span class="fc" id="L163">	private static final State STATE_START_UI_ERROR2 = new State();</span>
+<span class="fc" id="L164">	private static final State STATE_START_UI_ERROR3 = new State();</span>
+<span class="fc" id="L165">	private static final State STATE_START_UI_ERROR4 = new State();</span>
+<span class="fc" id="L166">	private static final State STATE_START_UI_ERROR5 = new State();</span>
+<span class="fc" id="L167">	private static final State STATE_IN_UI_ERROR_TAG = new State();</span>
+<span class="fc" id="L168">	private static final State STATE_UI_ERROR_TAG_ATTR1 = new State();</span>
+<span class="fc" id="L169">	private static final State STATE_UI_ERROR_TAG_ATTR2 = new State();</span>
+<span class="fc" id="L170">	private static final State STATE_UI_ERROR_TEXT = new State();</span>
+<span class="fc" id="L171">	private static final State STATE_END_UI_ERROR1 = new State();</span>
+<span class="fc" id="L172">	private static final State STATE_END_UI_ERROR2 = new State();</span>
+<span class="fc" id="L173">	private static final State STATE_END_UI_ERROR3 = new State();</span>
+<span class="fc" id="L174">	private static final State STATE_END_UI_ERROR4 = new State();</span>
+<span class="fc" id="L175">	private static final State STATE_END_UI_ERROR5 = new State();</span>
+<span class="fc" id="L176">	private static final State STATE_END_UI_ERROR6 = new State();</span>
+<span class="fc" id="L177">	private static final State STATE_END_UI_ERROR7 = new State();</span>
+<span class="fc" id="L178">	private static final State STATE_END_UI_ERROR8 = new State();</span>
+<span class="fc" id="L179">	private static final State STATE_END_UI_ERROR9 = new State();</span>
+<span class="fc" id="L180">	private static final State STATE_END_UI_ERROR10 = new State();</span>
+
+	/**
+	 * The initial state for the state machine.
+	 */
+<span class="fc" id="L185">	private static final State INITIAL_STATE = STATE_TRIM_WHITESPACE;</span>
+
+<span class="fc" id="L187">	private static final String DEFAULT_MATCH = null;</span>
+	private static final String WHITESPACE_MATCH = &quot; \t\n\r&quot;;
+
+<span class="fc" id="L190">	private static final Boolean TRUE = Boolean.TRUE;</span>
+<span class="fc" id="L191">	private static final Boolean FALSE = Boolean.FALSE;</span>
+
+	static {
+		//Set up state transitions
+		//Data for the state machine is in the form:
+		// current state id, characters to match on input, new state id, suppress character flag, text to output
+<span class="fc" id="L197">		Object[][] stateData</span>
+				= {
+					{STATE_TRIM_WHITESPACE, WHITESPACE_MATCH, STATE_TRIM_WHITESPACE, TRUE, null},
+					{STATE_TRIM_WHITESPACE, &quot;&lt;&quot;, STATE_START_TAG, FALSE, null},
+					{STATE_TRIM_WHITESPACE, DEFAULT_MATCH, STATE_IN_TEXT, FALSE, null},
+					{STATE_IN_TEXT, WHITESPACE_MATCH, STATE_TRIM_WHITESPACE, TRUE, &quot; &quot;},
+					{STATE_IN_TEXT, DEFAULT_MATCH, STATE_IN_TEXT, FALSE, null},
+					{STATE_IN_TEXT, &quot;&lt;&quot;, STATE_START_TAG, FALSE, null},
+					{STATE_START_TAG, &quot;!&quot;, STATE_START_COMMENT1, FALSE, null},
+					{STATE_START_TAG, &quot;Pp&quot;, STATE_START_PRE1, FALSE, null},
+					{STATE_START_TAG, &quot;Ss&quot;, STATE_START_SCRIPT1, FALSE, null},
+					{STATE_START_TAG, &quot;Tt&quot;, STATE_START_TEXTAREA1, FALSE, null},
+					{STATE_START_TAG, &quot;u&quot;, STATE_START_UI1, FALSE, null},
+					{STATE_START_TAG, DEFAULT_MATCH, STATE_IN_OTHER_TAG, FALSE, null},
+					{STATE_START_TAG, WHITESPACE_MATCH, STATE_START_TAG, TRUE, null},
+					{STATE_START_COMMENT1, &quot;-&quot;, STATE_START_COMMENT2, FALSE, null},
+					{STATE_START_COMMENT1, &quot;[&quot;, STATE_START_CDATA1, FALSE, null},
+					{STATE_START_COMMENT1, DEFAULT_MATCH, STATE_IN_OTHER_TAG, FALSE, null},
+					{STATE_START_COMMENT1, &quot;&gt;&quot;, STATE_IN_TEXT, FALSE, null},
+					{STATE_START_COMMENT2, &quot;-&quot;, STATE_IN_COMMENT, FALSE, null},
+					{STATE_START_COMMENT2, DEFAULT_MATCH, STATE_IN_OTHER_TAG, FALSE, null},
+					{STATE_START_COMMENT2, &quot;&gt;&quot;, STATE_IN_TEXT, FALSE, null},
+					{STATE_IN_COMMENT, &quot;-&quot;, STATE_END_COMMENT1, TRUE, null},
+					{STATE_IN_COMMENT, DEFAULT_MATCH, STATE_IN_COMMENT, TRUE, null},
+					{STATE_END_COMMENT1, &quot;-&quot;, STATE_END_COMMENT2, TRUE, null},
+					{STATE_END_COMMENT1, DEFAULT_MATCH, STATE_IN_COMMENT, TRUE, null},
+					{STATE_END_COMMENT2, &quot;&gt;&quot;, STATE_IN_TEXT, TRUE, &quot; --&gt;&quot;},
+					{STATE_END_COMMENT2, DEFAULT_MATCH, STATE_IN_COMMENT, TRUE, null},
+					{STATE_START_CDATA1, &quot;C&quot;, STATE_START_CDATA2, FALSE, null},
+					{STATE_START_CDATA1, DEFAULT_MATCH, STATE_IN_OTHER_TAG, FALSE, null},
+					{STATE_START_CDATA1, &quot;&gt;&quot;, STATE_IN_TEXT, FALSE, null},
+					{STATE_START_CDATA2, &quot;D&quot;, STATE_START_CDATA3, FALSE, null},
+					{STATE_START_CDATA2, DEFAULT_MATCH, STATE_IN_OTHER_TAG, FALSE, null},
+					{STATE_START_CDATA2, &quot;&gt;&quot;, STATE_IN_TEXT, FALSE, null},
+					{STATE_START_CDATA3, &quot;A&quot;, STATE_START_CDATA4, FALSE, null},
+					{STATE_START_CDATA3, DEFAULT_MATCH, STATE_IN_OTHER_TAG, FALSE, null},
+					{STATE_START_CDATA3, &quot;&gt;&quot;, STATE_IN_TEXT, FALSE, null},
+					{STATE_START_CDATA4, &quot;T&quot;, STATE_START_CDATA5, FALSE, null},
+					{STATE_START_CDATA4, DEFAULT_MATCH, STATE_IN_OTHER_TAG, FALSE, null},
+					{STATE_START_CDATA4, &quot;&gt;&quot;, STATE_IN_TEXT, FALSE, null},
+					{STATE_START_CDATA5, &quot;A&quot;, STATE_START_CDATA6, FALSE, null},
+					{STATE_START_CDATA5, DEFAULT_MATCH, STATE_IN_OTHER_TAG, FALSE, null},
+					{STATE_START_CDATA5, &quot;&gt;&quot;, STATE_IN_TEXT, FALSE, null},
+					{STATE_START_CDATA6, &quot;[&quot;, STATE_CDATA_TEXT, FALSE, null},
+					{STATE_START_CDATA6, DEFAULT_MATCH, STATE_IN_OTHER_TAG, FALSE, null},
+					{STATE_START_CDATA6, &quot;&gt;&quot;, STATE_IN_TEXT, FALSE, null},
+					{STATE_CDATA_TEXT, &quot;]&quot;, STATE_END_CDATA1, FALSE, null},
+					{STATE_CDATA_TEXT, DEFAULT_MATCH, STATE_CDATA_TEXT, FALSE, null},
+					{STATE_END_CDATA1, &quot;]&quot;, STATE_END_CDATA2, FALSE, null},
+					{STATE_END_CDATA1, DEFAULT_MATCH, STATE_CDATA_TEXT, FALSE, null},
+					{STATE_END_CDATA2, &quot;&gt;&quot;, STATE_IN_TEXT, FALSE, null},
+					{STATE_END_CDATA2, DEFAULT_MATCH, STATE_CDATA_TEXT, FALSE, null},
+					{STATE_START_PRE1, &quot;Rr&quot;, STATE_START_PRE2, FALSE, null},
+					{STATE_START_PRE1, DEFAULT_MATCH, STATE_IN_OTHER_TAG, FALSE, null},
+					{STATE_START_PRE1, &quot;&gt;&quot;, STATE_IN_TEXT, FALSE, null},
+					{STATE_START_PRE2, &quot;Ee&quot;, STATE_START_PRE3, FALSE, null},
+					{STATE_START_PRE2, DEFAULT_MATCH, STATE_IN_OTHER_TAG, FALSE, null},
+					{STATE_START_PRE2, &quot;&gt;&quot;, STATE_IN_TEXT, FALSE, null},
+					{STATE_START_PRE3, &quot;&gt;&quot;, STATE_PRE_TEXT, FALSE, null},
+					{STATE_START_PRE3, WHITESPACE_MATCH, STATE_IN_PRE_TAG, FALSE, null},
+					{STATE_START_PRE3, DEFAULT_MATCH, STATE_IN_OTHER_TAG, FALSE, null},
+					{STATE_IN_PRE_TAG, &quot;'&quot;, STATE_PRE_TAG_ATTR1, FALSE, null},
+					{STATE_IN_PRE_TAG, &quot;\&quot;&quot;, STATE_PRE_TAG_ATTR2, FALSE, null},
+					{STATE_IN_PRE_TAG, &quot;&gt;&quot;, STATE_PRE_TEXT, FALSE, null},
+					{STATE_IN_PRE_TAG, DEFAULT_MATCH, STATE_IN_PRE_TAG, FALSE, null},
+					{STATE_PRE_TAG_ATTR1, &quot;'&quot;, STATE_IN_PRE_TAG, FALSE, null},
+					{STATE_PRE_TAG_ATTR1, DEFAULT_MATCH, STATE_PRE_TAG_ATTR1, FALSE, null},
+					{STATE_PRE_TAG_ATTR2, &quot;\&quot;&quot;, STATE_IN_PRE_TAG, FALSE, null},
+					{STATE_PRE_TAG_ATTR2, DEFAULT_MATCH, STATE_PRE_TAG_ATTR2, FALSE, null},
+					{STATE_PRE_TEXT, &quot;&lt;&quot;, STATE_END_PRE1, FALSE, null},
+					{STATE_PRE_TEXT, DEFAULT_MATCH, STATE_PRE_TEXT, FALSE, null},
+					{STATE_END_PRE1, &quot;/&quot;, STATE_END_PRE2, FALSE, null},
+					{STATE_END_PRE1, DEFAULT_MATCH, STATE_PRE_TEXT, FALSE, null},
+					{STATE_END_PRE2, &quot;Pp&quot;, STATE_END_PRE3, FALSE, null},
+					{STATE_END_PRE2, DEFAULT_MATCH, STATE_PRE_TEXT, FALSE, null},
+					{STATE_END_PRE3, &quot;Rr&quot;, STATE_END_PRE4, FALSE, null},
+					{STATE_END_PRE3, DEFAULT_MATCH, STATE_PRE_TEXT, FALSE, null},
+					{STATE_END_PRE4, &quot;Ee&quot;, STATE_END_PRE5, FALSE, null},
+					{STATE_END_PRE4, DEFAULT_MATCH, STATE_PRE_TEXT, FALSE, null},
+					{STATE_END_PRE5, &quot;&gt;&quot;, STATE_IN_TEXT, FALSE, null},
+					{STATE_END_PRE5, WHITESPACE_MATCH, STATE_END_PRE5, FALSE, null},
+					{STATE_END_PRE5, DEFAULT_MATCH, STATE_PRE_TEXT, FALSE, null},
+					{STATE_START_SCRIPT1, &quot;Cc&quot;, STATE_START_SCRIPT2, FALSE, null},
+					{STATE_START_SCRIPT1, DEFAULT_MATCH, STATE_IN_OTHER_TAG, FALSE, null},
+					{STATE_START_SCRIPT1, &quot;&gt;&quot;, STATE_IN_TEXT, FALSE, null},
+					{STATE_START_SCRIPT2, &quot;Rr&quot;, STATE_START_SCRIPT3, FALSE, null},
+					{STATE_START_SCRIPT2, DEFAULT_MATCH, STATE_IN_OTHER_TAG, FALSE, null},
+					{STATE_START_SCRIPT2, &quot;&gt;&quot;, STATE_IN_TEXT, FALSE, null},
+					{STATE_START_SCRIPT3, &quot;Ii&quot;, STATE_START_SCRIPT4, FALSE, null},
+					{STATE_START_SCRIPT3, DEFAULT_MATCH, STATE_IN_OTHER_TAG, FALSE, null},
+					{STATE_START_SCRIPT3, &quot;&gt;&quot;, STATE_IN_TEXT, FALSE, null},
+					{STATE_START_SCRIPT4, &quot;Pp&quot;, STATE_START_SCRIPT5, FALSE, null},
+					{STATE_START_SCRIPT4, DEFAULT_MATCH, STATE_IN_OTHER_TAG, FALSE, null},
+					{STATE_START_SCRIPT4, &quot;&gt;&quot;, STATE_IN_TEXT, FALSE, null},
+					{STATE_START_SCRIPT5, &quot;Tt&quot;, STATE_START_SCRIPT6, FALSE, null},
+					{STATE_START_SCRIPT5, DEFAULT_MATCH, STATE_IN_OTHER_TAG, FALSE, null},
+					{STATE_START_SCRIPT5, &quot;&gt;&quot;, STATE_IN_TEXT, FALSE, null},
+					{STATE_START_SCRIPT6, &quot;&gt;&quot;, STATE_SCRIPT_TEXT, FALSE, null},
+					{STATE_START_SCRIPT6, WHITESPACE_MATCH, STATE_IN_SCRIPT_TAG, FALSE, null},
+					{STATE_START_SCRIPT6, DEFAULT_MATCH, STATE_IN_OTHER_TAG, FALSE, null},
+					{STATE_IN_SCRIPT_TAG, &quot;'&quot;, STATE_SCRIPT_ATTR1, FALSE, null},
+					{STATE_IN_SCRIPT_TAG, &quot;\&quot;&quot;, STATE_SCRIPT_ATTR2, FALSE, null},
+					{STATE_IN_SCRIPT_TAG, &quot;&gt;&quot;, STATE_SCRIPT_TEXT, FALSE, null},
+					{STATE_IN_SCRIPT_TAG, DEFAULT_MATCH, STATE_IN_SCRIPT_TAG, FALSE, null},
+					{STATE_SCRIPT_ATTR1, &quot;'&quot;, STATE_IN_SCRIPT_TAG, FALSE, null},
+					{STATE_SCRIPT_ATTR1, DEFAULT_MATCH, STATE_SCRIPT_ATTR1, FALSE, null},
+					{STATE_SCRIPT_ATTR2, &quot;\&quot;&quot;, STATE_IN_SCRIPT_TAG, FALSE, null},
+					{STATE_SCRIPT_ATTR2, DEFAULT_MATCH, STATE_SCRIPT_ATTR2, FALSE, null},
+					{STATE_SCRIPT_TEXT, &quot;&lt;&quot;, STATE_END_SCRIPT1, FALSE, null},
+					{STATE_SCRIPT_TEXT, DEFAULT_MATCH, STATE_SCRIPT_TEXT, FALSE, null},
+					{STATE_END_SCRIPT1, &quot;/&quot;, STATE_END_SCRIPT2, FALSE, null},
+					{STATE_END_SCRIPT1, DEFAULT_MATCH, STATE_SCRIPT_TEXT, FALSE, null},
+					{STATE_END_SCRIPT2, &quot;Ss&quot;, STATE_END_SCRIPT3, FALSE, null},
+					{STATE_END_SCRIPT2, DEFAULT_MATCH, STATE_SCRIPT_TEXT, FALSE, null},
+					{STATE_END_SCRIPT3, &quot;Cc&quot;, STATE_END_SCRIPT4, FALSE, null},
+					{STATE_END_SCRIPT3, DEFAULT_MATCH, STATE_SCRIPT_TEXT, FALSE, null},
+					{STATE_END_SCRIPT4, &quot;Rr&quot;, STATE_END_SCRIPT5, FALSE, null},
+					{STATE_END_SCRIPT4, DEFAULT_MATCH, STATE_SCRIPT_TEXT, FALSE, null},
+					{STATE_END_SCRIPT5, &quot;Ii&quot;, STATE_END_SCRIPT6, FALSE, null},
+					{STATE_END_SCRIPT5, DEFAULT_MATCH, STATE_SCRIPT_TEXT, FALSE, null},
+					{STATE_END_SCRIPT6, &quot;Pp&quot;, STATE_END_SCRIPT7, FALSE, null},
+					{STATE_END_SCRIPT6, DEFAULT_MATCH, STATE_SCRIPT_TEXT, FALSE, null},
+					{STATE_END_SCRIPT7, &quot;Tt&quot;, STATE_END_SCRIPT8, FALSE, null},
+					{STATE_END_SCRIPT7, DEFAULT_MATCH, STATE_SCRIPT_TEXT, FALSE, null},
+					{STATE_END_SCRIPT8, &quot;&gt;&quot;, STATE_IN_TEXT, FALSE, null},
+					{STATE_END_SCRIPT8, WHITESPACE_MATCH, STATE_END_SCRIPT8, FALSE, null},
+					{STATE_END_SCRIPT8, DEFAULT_MATCH, STATE_SCRIPT_TEXT, FALSE, null},
+					{STATE_START_TEXTAREA1, &quot;Ee&quot;, STATE_START_TEXTAREA2, FALSE, null},
+					{STATE_START_TEXTAREA1, DEFAULT_MATCH, STATE_IN_OTHER_TAG, FALSE, null},
+					{STATE_START_TEXTAREA1, &quot;&gt;&quot;, STATE_IN_TEXT, FALSE, null},
+					{STATE_START_TEXTAREA2, &quot;Xx&quot;, STATE_START_TEXTAREA3, FALSE, null},
+					{STATE_START_TEXTAREA2, DEFAULT_MATCH, STATE_IN_OTHER_TAG, FALSE, null},
+					{STATE_START_TEXTAREA2, &quot;&gt;&quot;, STATE_IN_TEXT, FALSE, null},
+					{STATE_START_TEXTAREA3, &quot;Tt&quot;, STATE_START_TEXTAREA4, FALSE, null},
+					{STATE_START_TEXTAREA3, DEFAULT_MATCH, STATE_IN_OTHER_TAG, FALSE, null},
+					{STATE_START_TEXTAREA3, &quot;&gt;&quot;, STATE_IN_TEXT, FALSE, null},
+					{STATE_START_TEXTAREA4, &quot;Aa&quot;, STATE_START_TEXTAREA5, FALSE, null},
+					{STATE_START_TEXTAREA4, DEFAULT_MATCH, STATE_IN_OTHER_TAG, FALSE, null},
+					{STATE_START_TEXTAREA4, &quot;&gt;&quot;, STATE_IN_TEXT, FALSE, null},
+					{STATE_START_TEXTAREA5, &quot;Rr&quot;, STATE_START_TEXTAREA6, FALSE, null},
+					{STATE_START_TEXTAREA5, DEFAULT_MATCH, STATE_IN_OTHER_TAG, FALSE, null},
+					{STATE_START_TEXTAREA5, &quot;&gt;&quot;, STATE_IN_TEXT, FALSE, null},
+					{STATE_START_TEXTAREA6, &quot;Ee&quot;, STATE_START_TEXTAREA7, FALSE, null},
+					{STATE_START_TEXTAREA6, DEFAULT_MATCH, STATE_IN_OTHER_TAG, FALSE, null},
+					{STATE_START_TEXTAREA6, &quot;&gt;&quot;, STATE_IN_TEXT, FALSE, null},
+					{STATE_START_TEXTAREA7, &quot;Aa&quot;, STATE_START_TEXTAREA8, FALSE, null},
+					{STATE_START_TEXTAREA7, DEFAULT_MATCH, STATE_IN_OTHER_TAG, FALSE, null},
+					{STATE_START_TEXTAREA7, &quot;&gt;&quot;, STATE_IN_TEXT, FALSE, null},
+					{STATE_START_TEXTAREA8, &quot;&gt;&quot;, STATE_TEXTAREA_TEXT, FALSE, null},
+					{STATE_START_TEXTAREA8, WHITESPACE_MATCH, STATE_IN_TEXTAREA_TAG, FALSE, null},
+					{STATE_START_TEXTAREA8, DEFAULT_MATCH, STATE_IN_OTHER_TAG, FALSE, null},
+					{STATE_IN_TEXTAREA_TAG, &quot;'&quot;, STATE_TEXTAREA_TAG_ATTR1, FALSE, null},
+					{STATE_IN_TEXTAREA_TAG, &quot;\&quot;&quot;, STATE_TEXTAREA_TAG_ATTR2, FALSE, null},
+					{STATE_IN_TEXTAREA_TAG, &quot;&gt;&quot;, STATE_TEXTAREA_TEXT, FALSE, null},
+					{STATE_IN_TEXTAREA_TAG, DEFAULT_MATCH, STATE_IN_TEXTAREA_TAG, FALSE, null},
+					{STATE_TEXTAREA_TAG_ATTR1, &quot;'&quot;, STATE_IN_TEXTAREA_TAG, FALSE, null},
+					{STATE_TEXTAREA_TAG_ATTR1, DEFAULT_MATCH, STATE_TEXTAREA_TAG_ATTR1, FALSE, null},
+					{STATE_TEXTAREA_TAG_ATTR2, &quot;\&quot;&quot;, STATE_IN_TEXTAREA_TAG, FALSE, null},
+					{STATE_TEXTAREA_TAG_ATTR2, DEFAULT_MATCH, STATE_TEXTAREA_TAG_ATTR2, FALSE, null},
+					{STATE_TEXTAREA_TEXT, &quot;&lt;&quot;, STATE_END_TEXTAREA1, FALSE, null},
+					{STATE_TEXTAREA_TEXT, DEFAULT_MATCH, STATE_TEXTAREA_TEXT, FALSE, null},
+					{STATE_END_TEXTAREA1, &quot;/&quot;, STATE_END_TEXTAREA2, FALSE, null},
+					{STATE_END_TEXTAREA1, DEFAULT_MATCH, STATE_TEXTAREA_TEXT, FALSE, null},
+					{STATE_END_TEXTAREA2, &quot;Tt&quot;, STATE_END_TEXTAREA3, FALSE, null},
+					{STATE_END_TEXTAREA2, DEFAULT_MATCH, STATE_TEXTAREA_TEXT, FALSE, null},
+					{STATE_END_TEXTAREA3, &quot;Ee&quot;, STATE_END_TEXTAREA4, FALSE, null},
+					{STATE_END_TEXTAREA3, DEFAULT_MATCH, STATE_TEXTAREA_TEXT, FALSE, null},
+					{STATE_END_TEXTAREA4, &quot;Xx&quot;, STATE_END_TEXTAREA5, FALSE, null},
+					{STATE_END_TEXTAREA4, DEFAULT_MATCH, STATE_TEXTAREA_TEXT, FALSE, null},
+					{STATE_END_TEXTAREA5, &quot;Tt&quot;, STATE_END_TEXTAREA6, FALSE, null},
+					{STATE_END_TEXTAREA5, DEFAULT_MATCH, STATE_TEXTAREA_TEXT, FALSE, null},
+					{STATE_END_TEXTAREA6, &quot;Aa&quot;, STATE_END_TEXTAREA7, FALSE, null},
+					{STATE_END_TEXTAREA6, DEFAULT_MATCH, STATE_TEXTAREA_TEXT, FALSE, null},
+					{STATE_END_TEXTAREA7, &quot;Rr&quot;, STATE_END_TEXTAREA8, FALSE, null},
+					{STATE_END_TEXTAREA7, DEFAULT_MATCH, STATE_TEXTAREA_TEXT, FALSE, null},
+					{STATE_END_TEXTAREA8, &quot;Ee&quot;, STATE_END_TEXTAREA9, FALSE, null},
+					{STATE_END_TEXTAREA8, DEFAULT_MATCH, STATE_TEXTAREA_TEXT, FALSE, null},
+					{STATE_END_TEXTAREA9, &quot;Aa&quot;, STATE_END_TEXTAREA10, FALSE, null},
+					{STATE_END_TEXTAREA9, DEFAULT_MATCH, STATE_TEXTAREA_TEXT, FALSE, null},
+					{STATE_END_TEXTAREA10, &quot;&gt;&quot;, STATE_IN_TEXT, FALSE, null},
+					{STATE_END_TEXTAREA10, WHITESPACE_MATCH, STATE_END_TEXTAREA10, FALSE, null},
+					{STATE_END_TEXTAREA10, DEFAULT_MATCH, STATE_TEXTAREA_TEXT, FALSE, null},
+					{STATE_START_UI1, &quot;i&quot;, STATE_START_UI2, FALSE, null},
+					{STATE_START_UI1, DEFAULT_MATCH, STATE_IN_OTHER_TAG, FALSE, null},
+					{STATE_START_UI1, &quot;&gt;&quot;, STATE_IN_TEXT, FALSE, null},
+					{STATE_START_UI2, &quot;:&quot;, STATE_START_UI3, FALSE, null},
+					{STATE_START_UI2, DEFAULT_MATCH, STATE_IN_OTHER_TAG, FALSE, null},
+					{STATE_START_UI2, &quot;&gt;&quot;, STATE_IN_TEXT, FALSE, null},
+					{STATE_START_UI3, &quot;t&quot;, STATE_START_UI_TEXT1, FALSE, null},
+					{STATE_START_UI3, &quot;m&quot;, STATE_START_UI_MESSAGE1, FALSE, null},
+					{STATE_START_UI3, &quot;e&quot;, STATE_START_UI_ERROR1, FALSE, null},
+					{STATE_START_UI3, DEFAULT_MATCH, STATE_IN_OTHER_TAG, FALSE, null},
+					{STATE_START_UI3, &quot;&gt;&quot;, STATE_IN_TEXT, FALSE, null},
+					{STATE_START_UI_TEXT1, &quot;e&quot;, STATE_START_UI_TEXT2, FALSE, null},
+					{STATE_START_UI_TEXT1, DEFAULT_MATCH, STATE_IN_OTHER_TAG, FALSE, null},
+					{STATE_START_UI_TEXT1, &quot;&gt;&quot;, STATE_IN_TEXT, FALSE, null},
+					{STATE_START_UI_TEXT2, &quot;x&quot;, STATE_START_UI_TEXT3, FALSE, null},
+					{STATE_START_UI_TEXT2, DEFAULT_MATCH, STATE_IN_OTHER_TAG, FALSE, null},
+					{STATE_START_UI_TEXT2, &quot;&gt;&quot;, STATE_IN_TEXT, FALSE, null},
+					{STATE_START_UI_TEXT3, &quot;t&quot;, STATE_START_UI_TEXT4, FALSE, null},
+					{STATE_START_UI_TEXT3, DEFAULT_MATCH, STATE_IN_OTHER_TAG, FALSE, null},
+					{STATE_START_UI_TEXT3, &quot;&gt;&quot;, STATE_IN_TEXT, FALSE, null},
+					{STATE_START_UI_TEXT4, &quot;A&quot;, STATE_START_UI_TEXTAREA5, FALSE, null},
+					{STATE_START_UI_TEXT4, WHITESPACE_MATCH, STATE_IN_UI_TEXT_TAG, FALSE, null},
+					{STATE_START_UI_TEXT4, DEFAULT_MATCH, STATE_IN_OTHER_TAG, FALSE, null},
+					{STATE_START_UI_TEXT4, &quot;&gt;&quot;, STATE_UI_TEXT_TEXT, FALSE, null},
+					{STATE_IN_UI_TEXT_TAG, &quot;'&quot;, STATE_UI_TEXT_TAG_ATTR1, FALSE, null},
+					{STATE_IN_UI_TEXT_TAG, &quot;\&quot;&quot;, STATE_UI_TEXT_TAG_ATTR2, FALSE, null},
+					{STATE_IN_UI_TEXT_TAG, &quot;&gt;&quot;, STATE_UI_TEXT_TEXT, FALSE, null},
+					{STATE_IN_UI_TEXT_TAG, DEFAULT_MATCH, STATE_IN_UI_TEXT_TAG, FALSE, null},
+					{STATE_UI_TEXT_TAG_ATTR1, &quot;'&quot;, STATE_IN_UI_TEXT_TAG, FALSE, null},
+					{STATE_UI_TEXT_TAG_ATTR1, DEFAULT_MATCH, STATE_UI_TEXT_TAG_ATTR1, FALSE, null},
+					{STATE_UI_TEXT_TAG_ATTR2, &quot;\&quot;&quot;, STATE_IN_UI_TEXT_TAG, FALSE, null},
+					{STATE_UI_TEXT_TAG_ATTR2, DEFAULT_MATCH, STATE_UI_TEXT_TAG_ATTR2, FALSE, null},
+					{STATE_UI_TEXT_TEXT, &quot;&lt;&quot;, STATE_END_UI_TEXT1, FALSE, null},
+					{STATE_UI_TEXT_TEXT, DEFAULT_MATCH, STATE_UI_TEXT_TEXT, FALSE, null},
+					{STATE_END_UI_TEXT1, &quot;/&quot;, STATE_END_UI_TEXT2, FALSE, null},
+					{STATE_END_UI_TEXT1, DEFAULT_MATCH, STATE_UI_TEXT_TEXT, FALSE, null},
+					{STATE_END_UI_TEXT2, &quot;u&quot;, STATE_END_UI_TEXT3, FALSE, null},
+					{STATE_END_UI_TEXT2, DEFAULT_MATCH, STATE_UI_TEXT_TEXT, FALSE, null},
+					{STATE_END_UI_TEXT3, &quot;i&quot;, STATE_END_UI_TEXT4, FALSE, null},
+					{STATE_END_UI_TEXT3, DEFAULT_MATCH, STATE_UI_TEXT_TEXT, FALSE, null},
+					{STATE_END_UI_TEXT4, &quot;:&quot;, STATE_END_UI_TEXT5, FALSE, null},
+					{STATE_END_UI_TEXT4, DEFAULT_MATCH, STATE_UI_TEXT_TEXT, FALSE, null},
+					{STATE_END_UI_TEXT5, &quot;t&quot;, STATE_END_UI_TEXT6, FALSE, null},
+					{STATE_END_UI_TEXT5, DEFAULT_MATCH, STATE_UI_TEXT_TEXT, FALSE, null},
+					{STATE_END_UI_TEXT6, &quot;e&quot;, STATE_END_UI_TEXT7, FALSE, null},
+					{STATE_END_UI_TEXT6, DEFAULT_MATCH, STATE_UI_TEXT_TEXT, FALSE, null},
+					{STATE_END_UI_TEXT7, &quot;x&quot;, STATE_END_UI_TEXT8, FALSE, null},
+					{STATE_END_UI_TEXT7, DEFAULT_MATCH, STATE_UI_TEXT_TEXT, FALSE, null},
+					{STATE_END_UI_TEXT8, &quot;t&quot;, STATE_END_UI_TEXT9, FALSE, null},
+					{STATE_END_UI_TEXT8, DEFAULT_MATCH, STATE_UI_TEXT_TEXT, FALSE, null},
+					{STATE_END_UI_TEXT9, &quot;&gt;&quot;, STATE_IN_TEXT, FALSE, null},
+					{STATE_END_UI_TEXT9, WHITESPACE_MATCH, STATE_END_UI_TEXT9, FALSE, null},
+					{STATE_END_UI_TEXT9, DEFAULT_MATCH, STATE_UI_TEXT_TEXT, FALSE, null},
+					{STATE_START_UI_TEXTAREA5, &quot;r&quot;, STATE_START_UI_TEXTAREA6, FALSE, null},
+					{STATE_START_UI_TEXTAREA5, DEFAULT_MATCH, STATE_IN_OTHER_TAG, FALSE, null},
+					{STATE_START_UI_TEXTAREA5, &quot;&gt;&quot;, STATE_IN_TEXT, FALSE, null},
+					{STATE_START_UI_TEXTAREA6, &quot;e&quot;, STATE_START_UI_TEXTAREA7, FALSE, null},
+					{STATE_START_UI_TEXTAREA6, DEFAULT_MATCH, STATE_IN_OTHER_TAG, FALSE, null},
+					{STATE_START_UI_TEXTAREA6, &quot;&gt;&quot;, STATE_IN_TEXT, FALSE, null},
+					{STATE_START_UI_TEXTAREA7, &quot;a&quot;, STATE_START_UI_TEXTAREA8, FALSE, null},
+					{STATE_START_UI_TEXTAREA7, DEFAULT_MATCH, STATE_IN_OTHER_TAG, FALSE, null},
+					{STATE_START_UI_TEXTAREA7, &quot;&gt;&quot;, STATE_IN_TEXT, FALSE, null},
+					{STATE_START_UI_TEXTAREA8, &quot;&gt;&quot;, STATE_UI_TEXTAREA_TEXT, FALSE, null},
+					{STATE_START_UI_TEXTAREA8, WHITESPACE_MATCH, STATE_IN_UI_TEXTAREA_TAG, FALSE, null},
+					{STATE_START_UI_TEXTAREA8, DEFAULT_MATCH, STATE_IN_OTHER_TAG, FALSE, null},
+					{STATE_IN_UI_TEXTAREA_TAG, &quot;'&quot;, STATE_UI_TEXTAREA_TAG_ATTR1, FALSE, null},
+					{STATE_IN_UI_TEXTAREA_TAG, &quot;\&quot;&quot;, STATE_UI_TEXTAREA_TAG_ATTR2, FALSE, null},
+					{STATE_IN_UI_TEXTAREA_TAG, &quot;&gt;&quot;, STATE_UI_TEXTAREA_TEXT, FALSE, null},
+					{STATE_IN_UI_TEXTAREA_TAG, DEFAULT_MATCH, STATE_IN_UI_TEXTAREA_TAG, FALSE, null},
+					{STATE_UI_TEXTAREA_TAG_ATTR1, &quot;'&quot;, STATE_IN_UI_TEXTAREA_TAG, FALSE, null},
+					{STATE_UI_TEXTAREA_TAG_ATTR1, DEFAULT_MATCH, STATE_UI_TEXTAREA_TAG_ATTR1, FALSE, null},
+					{STATE_UI_TEXTAREA_TAG_ATTR2, &quot;\&quot;&quot;, STATE_IN_UI_TEXTAREA_TAG, FALSE, null},
+					{STATE_UI_TEXTAREA_TAG_ATTR2, DEFAULT_MATCH, STATE_UI_TEXTAREA_TAG_ATTR2, FALSE, null},
+					{STATE_UI_TEXTAREA_TEXT, &quot;&lt;&quot;, STATE_END_UI_TEXTAREA1, FALSE, null},
+					{STATE_UI_TEXTAREA_TEXT, DEFAULT_MATCH, STATE_UI_TEXTAREA_TEXT, FALSE, null},
+					{STATE_END_UI_TEXTAREA1, &quot;/&quot;, STATE_END_UI_TEXTAREA2, FALSE, null},
+					{STATE_END_UI_TEXTAREA1, DEFAULT_MATCH, STATE_UI_TEXTAREA_TEXT, FALSE, null},
+					{STATE_END_UI_TEXTAREA2, &quot;u&quot;, STATE_END_UI_TEXTAREA3, FALSE, null},
+					{STATE_END_UI_TEXTAREA2, DEFAULT_MATCH, STATE_UI_TEXTAREA_TEXT, FALSE, null},
+					{STATE_END_UI_TEXTAREA3, &quot;i&quot;, STATE_END_UI_TEXTAREA4, FALSE, null},
+					{STATE_END_UI_TEXTAREA3, DEFAULT_MATCH, STATE_UI_TEXTAREA_TEXT, FALSE, null},
+					{STATE_END_UI_TEXTAREA4, &quot;:&quot;, STATE_END_UI_TEXTAREA5, FALSE, null},
+					{STATE_END_UI_TEXTAREA4, DEFAULT_MATCH, STATE_UI_TEXTAREA_TEXT, FALSE, null},
+					{STATE_END_UI_TEXTAREA5, &quot;t&quot;, STATE_END_UI_TEXTAREA6, FALSE, null},
+					{STATE_END_UI_TEXTAREA5, DEFAULT_MATCH, STATE_UI_TEXTAREA_TEXT, FALSE, null},
+					{STATE_END_UI_TEXTAREA6, &quot;e&quot;, STATE_END_UI_TEXTAREA7, FALSE, null},
+					{STATE_END_UI_TEXTAREA6, DEFAULT_MATCH, STATE_UI_TEXTAREA_TEXT, FALSE, null},
+					{STATE_END_UI_TEXTAREA7, &quot;x&quot;, STATE_END_UI_TEXTAREA8, FALSE, null},
+					{STATE_END_UI_TEXTAREA7, DEFAULT_MATCH, STATE_UI_TEXTAREA_TEXT, FALSE, null},
+					{STATE_END_UI_TEXTAREA8, &quot;t&quot;, STATE_END_UI_TEXTAREA9, FALSE, null},
+					{STATE_END_UI_TEXTAREA8, DEFAULT_MATCH, STATE_UI_TEXTAREA_TEXT, FALSE, null},
+					{STATE_END_UI_TEXTAREA9, &quot;A&quot;, STATE_END_UI_TEXTAREA10, FALSE, null},
+					{STATE_END_UI_TEXTAREA9, DEFAULT_MATCH, STATE_UI_TEXTAREA_TEXT, FALSE, null},
+					{STATE_END_UI_TEXTAREA10, &quot;r&quot;, STATE_END_UI_TEXTAREA11, FALSE, null},
+					{STATE_END_UI_TEXTAREA10, DEFAULT_MATCH, STATE_UI_TEXTAREA_TEXT, FALSE, null},
+					{STATE_END_UI_TEXTAREA11, &quot;e&quot;, STATE_END_UI_TEXTAREA12, FALSE, null},
+					{STATE_END_UI_TEXTAREA11, DEFAULT_MATCH, STATE_UI_TEXTAREA_TEXT, FALSE, null},
+					{STATE_END_UI_TEXTAREA12, &quot;a&quot;, STATE_END_UI_TEXTAREA13, FALSE, null},
+					{STATE_END_UI_TEXTAREA12, DEFAULT_MATCH, STATE_UI_TEXTAREA_TEXT, FALSE, null},
+					{STATE_END_UI_TEXTAREA13, &quot;&gt;&quot;, STATE_IN_TEXT, FALSE, null},
+					{STATE_END_UI_TEXTAREA13, WHITESPACE_MATCH, STATE_END_UI_TEXTAREA13, FALSE, null},
+					{STATE_END_UI_TEXTAREA13, DEFAULT_MATCH, STATE_UI_TEXTAREA_TEXT, FALSE, null},
+					{STATE_START_UI_MESSAGE1, &quot;e&quot;, STATE_START_UI_MESSAGE2, FALSE, null},
+					{STATE_START_UI_MESSAGE1, DEFAULT_MATCH, STATE_IN_OTHER_TAG, FALSE, null},
+					{STATE_START_UI_MESSAGE1, &quot;&gt;&quot;, STATE_IN_TEXT, FALSE, null},
+					{STATE_START_UI_MESSAGE2, &quot;s&quot;, STATE_START_UI_MESSAGE3, FALSE, null},
+					{STATE_START_UI_MESSAGE2, DEFAULT_MATCH, STATE_IN_OTHER_TAG, FALSE, null},
+					{STATE_START_UI_MESSAGE2, &quot;&gt;&quot;, STATE_IN_TEXT, FALSE, null},
+					{STATE_START_UI_MESSAGE3, &quot;s&quot;, STATE_START_UI_MESSAGE4, FALSE, null},
+					{STATE_START_UI_MESSAGE3, DEFAULT_MATCH, STATE_IN_OTHER_TAG, FALSE, null},
+					{STATE_START_UI_MESSAGE3, &quot;&gt;&quot;, STATE_IN_TEXT, FALSE, null},
+					{STATE_START_UI_MESSAGE4, &quot;a&quot;, STATE_START_UI_MESSAGE5, FALSE, null},
+					{STATE_START_UI_MESSAGE4, DEFAULT_MATCH, STATE_IN_OTHER_TAG, FALSE, null},
+					{STATE_START_UI_MESSAGE4, &quot;&gt;&quot;, STATE_IN_TEXT, FALSE, null},
+					{STATE_START_UI_MESSAGE5, &quot;g&quot;, STATE_START_UI_MESSAGE6, FALSE, null},
+					{STATE_START_UI_MESSAGE5, DEFAULT_MATCH, STATE_IN_OTHER_TAG, FALSE, null},
+					{STATE_START_UI_MESSAGE5, &quot;&gt;&quot;, STATE_IN_TEXT, FALSE, null},
+					{STATE_START_UI_MESSAGE6, &quot;e&quot;, STATE_START_UI_MESSAGE7, FALSE, null},
+					{STATE_START_UI_MESSAGE6, DEFAULT_MATCH, STATE_IN_OTHER_TAG, FALSE, null},
+					{STATE_START_UI_MESSAGE6, &quot;&gt;&quot;, STATE_IN_TEXT, FALSE, null},
+					{STATE_START_UI_MESSAGE7, &quot;&gt;&quot;, STATE_UI_MESSAGE_TEXT, FALSE, null},
+					{STATE_START_UI_MESSAGE7, WHITESPACE_MATCH, STATE_IN_UI_MESSAGE_TAG, FALSE, null},
+					{STATE_START_UI_MESSAGE7, DEFAULT_MATCH, STATE_IN_OTHER_TAG, FALSE, null},
+					{STATE_IN_UI_MESSAGE_TAG, &quot;'&quot;, STATE_UI_MESSAGE_TAG_ATTR1, FALSE, null},
+					{STATE_IN_UI_MESSAGE_TAG, &quot;\&quot;&quot;, STATE_UI_MESSAGE_TAG_ATTR2, FALSE, null},
+					{STATE_IN_UI_MESSAGE_TAG, &quot;&gt;&quot;, STATE_UI_MESSAGE_TEXT, FALSE, null},
+					{STATE_IN_UI_MESSAGE_TAG, DEFAULT_MATCH, STATE_IN_UI_MESSAGE_TAG, FALSE, null},
+					{STATE_UI_MESSAGE_TAG_ATTR1, &quot;'&quot;, STATE_IN_UI_MESSAGE_TAG, FALSE, null},
+					{STATE_UI_MESSAGE_TAG_ATTR1, DEFAULT_MATCH, STATE_UI_MESSAGE_TAG_ATTR1, FALSE, null},
+					{STATE_UI_MESSAGE_TAG_ATTR2, &quot;\&quot;&quot;, STATE_IN_UI_MESSAGE_TAG, FALSE, null},
+					{STATE_UI_MESSAGE_TAG_ATTR2, DEFAULT_MATCH, STATE_UI_MESSAGE_TAG_ATTR2, FALSE, null},
+					{STATE_UI_MESSAGE_TEXT, &quot;&lt;&quot;, STATE_END_UI_MESSAGE1, FALSE, null},
+					{STATE_UI_MESSAGE_TEXT, DEFAULT_MATCH, STATE_UI_MESSAGE_TEXT, FALSE, null},
+					{STATE_END_UI_MESSAGE1, &quot;/&quot;, STATE_END_UI_MESSAGE2, FALSE, null},
+					{STATE_END_UI_MESSAGE1, DEFAULT_MATCH, STATE_UI_MESSAGE_TEXT, FALSE, null},
+					{STATE_END_UI_MESSAGE2, &quot;u&quot;, STATE_END_UI_MESSAGE3, FALSE, null},
+					{STATE_END_UI_MESSAGE2, DEFAULT_MATCH, STATE_UI_MESSAGE_TEXT, FALSE, null},
+					{STATE_END_UI_MESSAGE3, &quot;i&quot;, STATE_END_UI_MESSAGE4, FALSE, null},
+					{STATE_END_UI_MESSAGE3, DEFAULT_MATCH, STATE_UI_MESSAGE_TEXT, FALSE, null},
+					{STATE_END_UI_MESSAGE4, &quot;:&quot;, STATE_END_UI_MESSAGE5, FALSE, null},
+					{STATE_END_UI_MESSAGE4, DEFAULT_MATCH, STATE_UI_MESSAGE_TEXT, FALSE, null},
+					{STATE_END_UI_MESSAGE5, &quot;m&quot;, STATE_END_UI_MESSAGE6, FALSE, null},
+					{STATE_END_UI_MESSAGE5, DEFAULT_MATCH, STATE_UI_MESSAGE_TEXT, FALSE, null},
+					{STATE_END_UI_MESSAGE6, &quot;e&quot;, STATE_END_UI_MESSAGE7, FALSE, null},
+					{STATE_END_UI_MESSAGE6, DEFAULT_MATCH, STATE_UI_MESSAGE_TEXT, FALSE, null},
+					{STATE_END_UI_MESSAGE7, &quot;s&quot;, STATE_END_UI_MESSAGE8, FALSE, null},
+					{STATE_END_UI_MESSAGE7, DEFAULT_MATCH, STATE_UI_MESSAGE_TEXT, FALSE, null},
+					{STATE_END_UI_MESSAGE8, &quot;s&quot;, STATE_END_UI_MESSAGE9, FALSE, null},
+					{STATE_END_UI_MESSAGE8, DEFAULT_MATCH, STATE_UI_MESSAGE_TEXT, FALSE, null},
+					{STATE_END_UI_MESSAGE9, &quot;a&quot;, STATE_END_UI_MESSAGE10, FALSE, null},
+					{STATE_END_UI_MESSAGE9, DEFAULT_MATCH, STATE_UI_MESSAGE_TEXT, FALSE, null},
+					{STATE_END_UI_MESSAGE10, &quot;g&quot;, STATE_END_UI_MESSAGE11, FALSE, null},
+					{STATE_END_UI_MESSAGE10, DEFAULT_MATCH, STATE_UI_MESSAGE_TEXT, FALSE, null},
+					{STATE_END_UI_MESSAGE11, &quot;e&quot;, STATE_END_UI_MESSAGE12, FALSE, null},
+					{STATE_END_UI_MESSAGE11, DEFAULT_MATCH, STATE_UI_MESSAGE_TEXT, FALSE, null},
+					{STATE_END_UI_MESSAGE12, &quot;&gt;&quot;, STATE_IN_TEXT, FALSE, null},
+					{STATE_END_UI_MESSAGE12, WHITESPACE_MATCH, STATE_END_UI_MESSAGE12, FALSE, null},
+					{STATE_END_UI_MESSAGE12, DEFAULT_MATCH, STATE_UI_MESSAGE_TEXT, FALSE, null},
+					{STATE_START_UI_ERROR1, &quot;r&quot;, STATE_START_UI_ERROR2, FALSE, null},
+					{STATE_START_UI_ERROR1, DEFAULT_MATCH, STATE_IN_OTHER_TAG, FALSE, null},
+					{STATE_START_UI_ERROR1, &quot;&gt;&quot;, STATE_IN_TEXT, FALSE, null},
+					{STATE_START_UI_ERROR2, &quot;r&quot;, STATE_START_UI_ERROR3, FALSE, null},
+					{STATE_START_UI_ERROR2, DEFAULT_MATCH, STATE_IN_OTHER_TAG, FALSE, null},
+					{STATE_START_UI_ERROR2, &quot;&gt;&quot;, STATE_IN_TEXT, FALSE, null},
+					{STATE_START_UI_ERROR3, &quot;o&quot;, STATE_START_UI_ERROR4, FALSE, null},
+					{STATE_START_UI_ERROR3, DEFAULT_MATCH, STATE_IN_OTHER_TAG, FALSE, null},
+					{STATE_START_UI_ERROR3, &quot;&gt;&quot;, STATE_IN_TEXT, FALSE, null},
+					{STATE_START_UI_ERROR4, &quot;r&quot;, STATE_START_UI_ERROR5, FALSE, null},
+					{STATE_START_UI_ERROR4, DEFAULT_MATCH, STATE_IN_OTHER_TAG, FALSE, null},
+					{STATE_START_UI_ERROR4, &quot;&gt;&quot;, STATE_IN_TEXT, FALSE, null},
+					{STATE_START_UI_ERROR5, &quot;&gt;&quot;, STATE_UI_ERROR_TEXT, FALSE, null},
+					{STATE_START_UI_ERROR5, WHITESPACE_MATCH, STATE_IN_UI_ERROR_TAG, FALSE, null},
+					{STATE_START_UI_ERROR5, DEFAULT_MATCH, STATE_IN_OTHER_TAG, FALSE, null},
+					{STATE_IN_UI_ERROR_TAG, &quot;'&quot;, STATE_UI_ERROR_TAG_ATTR1, FALSE, null},
+					{STATE_IN_UI_ERROR_TAG, &quot;\&quot;&quot;, STATE_UI_ERROR_TAG_ATTR2, FALSE, null},
+					{STATE_IN_UI_ERROR_TAG, &quot;&gt;&quot;, STATE_UI_ERROR_TEXT, FALSE, null},
+					{STATE_IN_UI_ERROR_TAG, DEFAULT_MATCH, STATE_IN_UI_ERROR_TAG, FALSE, null},
+					{STATE_UI_ERROR_TAG_ATTR1, &quot;'&quot;, STATE_IN_UI_ERROR_TAG, FALSE, null},
+					{STATE_UI_ERROR_TAG_ATTR1, DEFAULT_MATCH, STATE_UI_ERROR_TAG_ATTR1, FALSE, null},
+					{STATE_UI_ERROR_TAG_ATTR2, &quot;\&quot;&quot;, STATE_IN_UI_ERROR_TAG, FALSE, null},
+					{STATE_UI_ERROR_TAG_ATTR2, DEFAULT_MATCH, STATE_UI_ERROR_TAG_ATTR2, FALSE, null},
+					{STATE_UI_ERROR_TEXT, &quot;&lt;&quot;, STATE_END_UI_ERROR1, FALSE, null},
+					{STATE_UI_ERROR_TEXT, DEFAULT_MATCH, STATE_UI_ERROR_TEXT, FALSE, null},
+					{STATE_END_UI_ERROR1, &quot;/&quot;, STATE_END_UI_ERROR2, FALSE, null},
+					{STATE_END_UI_ERROR1, DEFAULT_MATCH, STATE_UI_ERROR_TEXT, FALSE, null},
+					{STATE_END_UI_ERROR2, &quot;u&quot;, STATE_END_UI_ERROR3, FALSE, null},
+					{STATE_END_UI_ERROR2, DEFAULT_MATCH, STATE_UI_ERROR_TEXT, FALSE, null},
+					{STATE_END_UI_ERROR3, &quot;i&quot;, STATE_END_UI_ERROR4, FALSE, null},
+					{STATE_END_UI_ERROR3, DEFAULT_MATCH, STATE_UI_ERROR_TEXT, FALSE, null},
+					{STATE_END_UI_ERROR4, &quot;:&quot;, STATE_END_UI_ERROR5, FALSE, null},
+					{STATE_END_UI_ERROR4, DEFAULT_MATCH, STATE_UI_ERROR_TEXT, FALSE, null},
+					{STATE_END_UI_ERROR5, &quot;e&quot;, STATE_END_UI_ERROR6, FALSE, null},
+					{STATE_END_UI_ERROR5, DEFAULT_MATCH, STATE_UI_ERROR_TEXT, FALSE, null},
+					{STATE_END_UI_ERROR6, &quot;r&quot;, STATE_END_UI_ERROR7, FALSE, null},
+					{STATE_END_UI_ERROR6, DEFAULT_MATCH, STATE_UI_ERROR_TEXT, FALSE, null},
+					{STATE_END_UI_ERROR7, &quot;r&quot;, STATE_END_UI_ERROR8, FALSE, null},
+					{STATE_END_UI_ERROR7, DEFAULT_MATCH, STATE_UI_ERROR_TEXT, FALSE, null},
+					{STATE_END_UI_ERROR8, &quot;o&quot;, STATE_END_UI_ERROR9, FALSE, null},
+					{STATE_END_UI_ERROR8, DEFAULT_MATCH, STATE_UI_ERROR_TEXT, FALSE, null},
+					{STATE_END_UI_ERROR9, &quot;r&quot;, STATE_END_UI_ERROR10, FALSE, null},
+					{STATE_END_UI_ERROR9, DEFAULT_MATCH, STATE_UI_ERROR_TEXT, FALSE, null},
+					{STATE_END_UI_ERROR10, &quot;&gt;&quot;, STATE_IN_TEXT, FALSE, null},
+					{STATE_END_UI_ERROR10, WHITESPACE_MATCH, STATE_END_UI_ERROR10, FALSE, null},
+					{STATE_END_UI_ERROR10, DEFAULT_MATCH, STATE_UI_ERROR_TEXT, FALSE, null},
+					{STATE_IN_OTHER_TAG, &quot;'&quot;, STATE_OTHER_TAG_ATTR1, FALSE, null},
+					{STATE_IN_OTHER_TAG, &quot;\&quot;&quot;, STATE_OTHER_TAG_ATTR2, FALSE, null},
+					{STATE_IN_OTHER_TAG, &quot;&gt;&quot;, STATE_IN_TEXT, FALSE, null},
+					{STATE_IN_OTHER_TAG, DEFAULT_MATCH, STATE_IN_OTHER_TAG, FALSE, null},
+					{STATE_OTHER_TAG_ATTR1, &quot;'&quot;, STATE_IN_OTHER_TAG, FALSE, null},
+					{STATE_OTHER_TAG_ATTR1, DEFAULT_MATCH, STATE_OTHER_TAG_ATTR1, FALSE, null},
+					{STATE_OTHER_TAG_ATTR2, &quot;\&quot;&quot;, STATE_IN_OTHER_TAG, FALSE, null},
+					{STATE_OTHER_TAG_ATTR2, DEFAULT_MATCH, STATE_OTHER_TAG_ATTR2, FALSE, null}
+				};
+
+<span class="fc bfc" id="L593" title="All 2 branches covered.">		for (int i = 0; i &lt; stateData.length; i++) {</span>
+<span class="fc" id="L594">			State state = (State) stateData[i][0];</span>
+<span class="fc" id="L595">			String chars = (String) stateData[i][1];</span>
+<span class="fc" id="L596">			State targetState = (State) stateData[i][2];</span>
+<span class="fc" id="L597">			boolean suppressCurrentChar = ((Boolean) stateData[i][3]).booleanValue();</span>
+<span class="fc" id="L598">			byte[] outputBytes = null;</span>
+
+			try {
+<span class="fc bfc" id="L601" title="All 2 branches covered.">				if (stateData[i][4] != null) {</span>
+<span class="fc" id="L602">					outputBytes = ((String) stateData[i][4]).getBytes(&quot;UTF-8&quot;);</span>
+				}
+<span class="nc" id="L604">			} catch (UnsupportedEncodingException e) {</span>
+				//Ok, this shouldn't ever happen, but we want to do something sensible. Set up a single-state that does nothing
+<span class="nc" id="L606">				Log logger = LogFactory.getLog(WhiteSpaceFilterStateMachine.class);</span>
+<span class="nc" id="L607">				logger.</span>
+<span class="nc" id="L608">						error(&quot;UTF-8 encoding unsupported, white space filtering will be disabled&quot;,</span>
+								e);
+
+<span class="nc" id="L611">				INITIAL_STATE.inputChars = new char[0];</span>
+<span class="nc" id="L612">				INITIAL_STATE.stateChanges = new StateChange[0];</span>
+<span class="nc" id="L613">				INITIAL_STATE.defaultStateChange = new StateChange(INITIAL_STATE, false, null);</span>
+<span class="nc" id="L614">				break;</span>
+<span class="fc" id="L615">			}</span>
+
+<span class="fc" id="L617">			StateChange stateChange = new StateChange(targetState, suppressCurrentChar, outputBytes);</span>
+
+<span class="fc bfc" id="L619" title="All 2 branches covered.">			if (chars == null) {</span>
+<span class="fc" id="L620">				state.setDefaultStateChange(stateChange);</span>
+			} else {
+<span class="fc bfc" id="L622" title="All 2 branches covered.">				for (int j = 0; j &lt; chars.length(); j++) {</span>
+<span class="fc" id="L623">					state.addChange(chars.charAt(j), stateChange);</span>
+				}
+			}
+		}
+<span class="fc" id="L627">	}</span>
+
+	/**
+	 * The current state of the state machine.
+	 */
+	private State currentState;
+
+	/**
+	 * Creates a new WhiteSpaceFilterOutputStream.
+	 */
+<span class="fc" id="L637">	public WhiteSpaceFilterStateMachine() {</span>
+<span class="fc" id="L638">		this.currentState = INITIAL_STATE;</span>
+<span class="fc" id="L639">	}</span>
+
+	/**
+	 * Moves the machine to the next state, based on the input character.
+	 *
+	 * @param c the input character.
+	 * @return the state change.
+	 */
+	public StateChange nextState(final char c) {
+<span class="fc" id="L648">		StateChange change = currentState.getChange(c);</span>
+<span class="fc" id="L649">		currentState = change.getNewState();</span>
+
+<span class="fc" id="L651">		return change;</span>
+	}
+
+	/**
+	 * Represents a state in the state-machine.
+	 */
+	protected static final class State {
+
+		/**
+		 * State changes indexed by character.
+		 */
+		private char[] inputChars;
+
+		/**
+		 * States transitions for each character.
+		 */
+		private StateChange[] stateChanges;
+
+		/**
+		 * The default state transition (when no matching character is found).
+		 */
+		private StateChange defaultStateChange;
+
+		/**
+		 * Creates a state.
+		 */
+<span class="fc" id="L677">		public State() {</span>
+<span class="fc" id="L678">			inputChars = new char[0];</span>
+<span class="fc" id="L679">			stateChanges = new StateChange[0];</span>
+<span class="fc" id="L680">		}</span>
+
+		/**
+		 * Adds a possible state transition.
+		 *
+		 * @param c the character which triggers the change.
+		 * @param change the state to transition to when the character is encountered.
+		 */
+		public void addChange(final char c, final StateChange change) {
+			//Yes, this is inefficient, but it's only going to be done during the static initializer
+<span class="fc" id="L690">			char[] newInputChars = new char[inputChars.length + 1];</span>
+<span class="fc" id="L691">			StateChange[] newStateChanges = new StateChange[stateChanges.length + 1];</span>
+
+<span class="fc" id="L693">			System.arraycopy(inputChars, 0, newInputChars, 0, inputChars.length);</span>
+<span class="fc" id="L694">			System.arraycopy(stateChanges, 0, newStateChanges, 0, stateChanges.length);</span>
+<span class="fc" id="L695">			newInputChars[inputChars.length] = c;</span>
+<span class="fc" id="L696">			newStateChanges[stateChanges.length] = change;</span>
+
+<span class="fc" id="L698">			inputChars = newInputChars;</span>
+<span class="fc" id="L699">			stateChanges = newStateChanges;</span>
+<span class="fc" id="L700">		}</span>
+
+		/**
+		 * Sets the default state change, used when no matching character is found.
+		 *
+		 * @param change the default state change.
+		 */
+		public void setDefaultStateChange(final StateChange change) {
+<span class="fc" id="L708">			this.defaultStateChange = change;</span>
+<span class="fc" id="L709">		}</span>
+
+		/**
+		 * Gets the state change for the given character.
+		 *
+		 * @param c the input character.
+		 * @return the state to transition to.
+		 */
+		public StateChange getChange(final char c) {
+<span class="fc bfc" id="L718" title="All 2 branches covered.">			for (int i = 0; i &lt; inputChars.length; i++) {</span>
+<span class="fc bfc" id="L719" title="All 2 branches covered.">				if (c == inputChars[i]) {</span>
+<span class="fc" id="L720">					return stateChanges[i];</span>
+				}
+			}
+
+<span class="fc" id="L724">			return defaultStateChange;</span>
+		}
+	}
+
+	/**
+	 * Controls what processing occurs on a state transition.
+	 */
+	protected static final class StateChange {
+
+		/**
+		 * The state to transition to.
+		 */
+		private final State newState;
+
+		/**
+		 * Indicates character which triggered the change should be suppressed.
+		 */
+		private final boolean suppressCurrentChar;
+
+		/**
+		 * Data to output on transition to the new state, if applicable.
+		 */
+		private final byte[] outputBytes;
+
+		/**
+		 * Creates a StateChange.
+		 *
+		 * @param newState the new State.
+		 * @param suppressCurrentChar whether the character which triggered the change should be suppressed.
+		 * @param outputBytes the data to output on transition to the new state, or null for no output.
+		 */
+		public StateChange(final State newState, final boolean suppressCurrentChar,
+<span class="fc" id="L756">				final byte[] outputBytes) {</span>
+<span class="fc" id="L757">			this.newState = newState;</span>
+<span class="fc" id="L758">			this.suppressCurrentChar = suppressCurrentChar;</span>
+<span class="fc" id="L759">			this.outputBytes = outputBytes;</span>
+<span class="fc" id="L760">		}</span>
+
+		/**
+		 * @return the new state
+		 */
+		public State getNewState() {
+<span class="fc" id="L766">			return newState;</span>
+		}
+
+		/**
+		 * @return true if suppress current char
+		 */
+		public boolean isSuppressCurrentChar() {
+<span class="fc" id="L773">			return suppressCurrentChar;</span>
+		}
+
+		/**
+		 * @return the output bytes
+		 */
+		public byte[] getOutputBytes() {
+<span class="fc" id="L780">			return outputBytes;</span>
+		}
+
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

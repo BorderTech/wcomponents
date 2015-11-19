@@ -1,0 +1,3638 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=yes, width=device-width">
+  <title>WComponents wcomponents-theme — Module: wc/dom/Widget</title>
+  <link rel="shortcut icon" href="/favicon.ico">
+
+  <!--[if lt IE 9]>
+  <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link type="text/css" rel="stylesheet" href="styles/sunlight.dark.css">
+
+  <link type="text/css" rel="stylesheet" href="styles/site.oblivion.css">
+</head>
+<body>
+<div class="container-fluid">
+  <div class="navbar navbar-fixed-top navbar-inverse">
+    <div class="navbar-inner">
+      <a class="brand" href="index.html">WComponents wcomponents-theme</a>
+      <ul class="nav">
+        
+        <li class="dropdown">
+          <a href="modules.list.html" class="dropdown-toggle" data-toggle="dropdown">Modules<b
+            class="caret"></b></a>
+
+          <ul class="dropdown-menu ">
+            
+            <li>
+              <a href="module-analytics_core.html">analytics/core</a>
+            </li>
+            
+            <li>
+              <a href="module-analytics_ibmcm.html">analytics/ibmcm</a>
+            </li>
+            
+            <li>
+              <a href="module-validation_ariaAnalog.html">validation/ariaAnalog</a>
+            </li>
+            
+            <li>
+              <a href="module-validation_cancelUpdate.html">validation/cancelUpdate</a>
+            </li>
+            
+            <li>
+              <a href="module-validation_checkBox.html">validation/checkBox</a>
+            </li>
+            
+            <li>
+              <a href="module-validation_checkBoxSelect.html">validation/checkBoxSelect</a>
+            </li>
+            
+            <li>
+              <a href="module-validation_dateField.html">validation/dateField</a>
+            </li>
+            
+            <li>
+              <a href="module-validation_dropdown.html">validation/dropdown</a>
+            </li>
+            
+            <li>
+              <a href="module-validation_fieldset.html">validation/fieldset</a>
+            </li>
+            
+            <li>
+              <a href="module-validation_fileUpload.html">validation/fileUpload</a>
+            </li>
+            
+            <li>
+              <a href="module-validation_isComplete.html">validation/isComplete</a>
+            </li>
+            
+            <li>
+              <a href="module-validation_minMax.html">validation/minMax</a>
+            </li>
+            
+            <li>
+              <a href="module-validation_multiFormComponent.html">validation/multiFormComponent</a>
+            </li>
+            
+            <li>
+              <a href="module-validation_multiSelectPair.html">validation/multiSelectPair</a>
+            </li>
+            
+            <li>
+              <a href="module-validation_numberField.html">validation/numberField</a>
+            </li>
+            
+            <li>
+              <a href="module-validation_radioButtonSelect.html">validation/radioButtonSelect</a>
+            </li>
+            
+            <li>
+              <a href="module-validation_required.html">validation/required</a>
+            </li>
+            
+            <li>
+              <a href="module-validation_textArea.html">validation/textArea</a>
+            </li>
+            
+            <li>
+              <a href="module-validation_textField.html">validation/textField</a>
+            </li>
+            
+            <li>
+              <a href="module-validation_validationManager.html">validation/validationManager</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ajax_ajax.html">wc/ajax/ajax</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ajax_setLoading.html">wc/ajax/setLoading</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ajax_Trigger.html">wc/ajax/Trigger</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ajax_triggerManager.html">wc/ajax/triggerManager</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_array_search.html">wc/array/search</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_array_toArray.html">wc/array/toArray</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_array_unique.html">wc/array/unique</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_date_addDays.html">wc/date/addDays</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_date_copy.html">wc/date/copy</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_date_dayName.html">wc/date/dayName</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_date_daysInMonth.html">wc/date/daysInMonth</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_date_expandYear.html">wc/date/expandYear</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_date_explodeMask.html">wc/date/explodeMask</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_date_Format.html">wc/date/Format</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_date_getDifference.html">wc/date/getDifference</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_date_interchange.html">wc/date/interchange</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_date_isLeapYear.html">wc/date/isLeapYear</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_date_monthName.html">wc/date/monthName</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_date_Parser.html">wc/date/Parser</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_date_pattern.html">wc/date/pattern</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_date_pivot.html">wc/date/pivot</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_date_today.html">wc/date/today</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_debug_consoleColor.html">wc/debug/consoleColor</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_aria.html">wc/dom/aria</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_ariaAnalog.html">wc/dom/ariaAnalog</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_ariaGroup.html">wc/dom/ariaGroup</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_attribute.html">wc/dom/attribute</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_cancelUpdate.html">wc/dom/cancelUpdate</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_cbrShedPublisher.html">wc/dom/cbrShedPublisher</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_classList.html">wc/dom/classList</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_clearSelection.html">wc/dom/clearSelection</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_color.html">wc/dom/color</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_convertDynamicContent.html">wc/dom/convertDynamicContent</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_cookie.html">wc/dom/cookie</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_disabledLink.html">wc/dom/disabledLink</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_event.html">wc/dom/event</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_focus.html">wc/dom/focus</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_formUpdateManager.html">wc/dom/formUpdateManager</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_getAncestorOrSelf.html">wc/dom/getAncestorOrSelf</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_getBox.html">wc/dom/getBox</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_getEventOffset.html">wc/dom/getEventOffset</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_getFilteredGroup.html">wc/dom/getFilteredGroup</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_getLabelsForElement.html">wc/dom/getLabelsForElement</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_getStyle.html">wc/dom/getStyle</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_getViewportSize.html">wc/dom/getViewportSize</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_group.html">wc/dom/group</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_impliedARIA.html">wc/dom/impliedARIA</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_initialise.html">wc/dom/initialise</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_isAcceptableTarget.html">wc/dom/isAcceptableTarget</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_isEventInLabel.html">wc/dom/isEventInLabel</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_isSuccessfulElement.html">wc/dom/isSuccessfulElement</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_keyWalker.html">wc/dom/keyWalker</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_removeElement.html">wc/dom/removeElement</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_role.html">wc/dom/role</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_serialize.html">wc/dom/serialize</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_shed.html">wc/dom/shed</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_storage.html">wc/dom/storage</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_tag.html">wc/dom/tag</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_textContent.html">wc/dom/textContent</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_uid.html">wc/dom/uid</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_viewportCollision.html">wc/dom/viewportCollision</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_Widget.html">wc/dom/Widget</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_file_accepted.html">wc/file/accepted</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_file_getFileSize.html">wc/file/getFileSize</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_file_getMimeType.html">wc/file/getMimeType</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_has.html">wc/has</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_i18n_asciify.html">wc/i18n/asciify</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_i18n_i18n.html">wc/i18n/i18n</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_isNumeric.html">wc/isNumeric</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_key.html">wc/key</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_loader_resource.html">wc/loader/resource</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_loader_style.html">wc/loader/style</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_Observer.html">wc/Observer</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_string_escapeRe.html">wc/string/escapeRe</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_timers.html">wc/timers</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_ajax_delayedTrigger.html">wc/ui/ajax/delayedTrigger</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_ajax_genericSubscriber.html">wc/ui/ajax/genericSubscriber</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_ajax_processResponse.html">wc/ui/ajax/processResponse</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_ajaxRegion.html">wc/ui/ajaxRegion</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_cancelButton.html">wc/ui/cancelButton</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_checkBox.html">wc/ui/checkBox</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_checkboxAnalog.html">wc/ui/checkboxAnalog</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_checkBoxSelect.html">wc/ui/checkBoxSelect</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_collapsible.html">wc/ui/collapsible</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_collapsibleToggle.html">wc/ui/collapsibleToggle</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_comboLoader.html">wc/ui/comboLoader</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_confirm.html">wc/ui/confirm</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_containerload.html">wc/ui/containerload</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_dateField.html">wc/ui/dateField</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_defaultSubmit.html">wc/ui/defaultSubmit</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_dialog.html">wc/ui/dialog</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_dropdown.html">wc/ui/dropdown</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_field.html">wc/ui/field</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_fieldset.html">wc/ui/fieldset</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_fileUpload.html">wc/ui/fileUpload</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_fx.html">wc/ui/fx</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_getFirstLabelForElement.html">wc/ui/getFirstLabelForElement</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_internalLink.html">wc/ui/internalLink</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_label.html">wc/ui/label</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_launchLink.html">wc/ui/launchLink</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_listboxAnalog.html">wc/ui/listboxAnalog</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_listLoader.html">wc/ui/listLoader</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_loading.html">wc/ui/loading</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_mediaplayer.html">wc/ui/mediaplayer</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_menu.html">wc/ui/menu</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_menu_bar.html">wc/ui/menu/bar</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_menu_column.html">wc/ui/menu/column</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_menu_core.html">wc/ui/menu/core</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_menu_menuItem.html">wc/ui/menu/menuItem</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_menu_tree.html">wc/ui/menu/tree</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_menu_treeItem.html">wc/ui/menu/treeItem</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_modalShim.html">wc/ui/modalShim</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_multiFileUploader.html">wc/ui/multiFileUploader</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_multiFormComponent.html">wc/ui/multiFormComponent</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_multiSelectPair.html">wc/ui/multiSelectPair</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_navigationButton.html">wc/ui/navigationButton</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_numberField.html">wc/ui/numberField</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_onchangeSubmit.html">wc/ui/onchangeSubmit</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_popup.html">wc/ui/popup</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_positionable.html">wc/ui/positionable</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_printButton.html">wc/ui/printButton</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_radioAnalog.html">wc/ui/radioAnalog</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_radioButtonSelect.html">wc/ui/radioButtonSelect</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_redirect.html">wc/ui/redirect</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_rtf.html">wc/ui/rtf</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_selectboxSearch.html">wc/ui/selectboxSearch</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_selectLoader.html">wc/ui/selectLoader</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_selectToggle.html">wc/ui/selectToggle</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_shuffler.html">wc/ui/shuffler</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_subordinate.html">wc/ui/subordinate</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_SubordinateAction.html">wc/ui/SubordinateAction</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_table.html">wc/ui/table</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_table_action.html">wc/ui/table/action</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_table_pagination.html">wc/ui/table/pagination</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_table_rowCheckbox.html">wc/ui/table/rowCheckbox</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_table_rowExpansion.html">wc/ui/table/rowExpansion</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_table_sort.html">wc/ui/table/sort</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_tabset.html">wc/ui/tabset</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_textArea.html">wc/ui/textArea</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_textField.html">wc/ui/textField</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_tooltip.html">wc/ui/tooltip</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_urlParser.html">wc/urlParser</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_xml_xmlString.html">wc/xml/xmlString</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_xml_xpath.html">wc/xml/xpath</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_xml_xslTransform.html">wc/xml/xslTransform</a>
+            </li>
+            
+            <li>
+              <a href="wc_ui.resizeable.module_config.html">wc/ui.resizeable.config()</a>
+            </li>
+            
+            <li>
+              <a href="wc_ui.timeoutWarn.module_config.html">wc/ui.timeoutWarn.config()</a>
+            </li>
+            
+            <li>
+              <a href="wc_ui_backToTop.module_config.html">wc/ui/backToTop.config()</a>
+            </li>
+            
+            <li>
+              <a href="wc_ui_calendar.module_config.html">wc/ui/calendar.config()</a>
+            </li>
+            
+            <li>
+              <a href="wc_ui_comboBox.module_config.html">wc/ui/comboBox.config()</a>
+            </li>
+            
+            <li>
+              <a href="wc_ui_draggable.module_config.html">wc/ui/draggable.config()</a>
+            </li>
+            
+            <li>
+              <a href="wc_ui_onloadFocusControl.module_config.html">wc/ui/onloadFocusControl.config()</a>
+            </li>
+            
+
+          </ul>
+        </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  <div class="row-fluid">
+
+    
+    <div class="span3">
+      <div id="toc"></div>
+    </div>
+    
+
+    
+    <div class="span9">
+      
+        <div id="main">
+          
+
+
+	<h1 class="page-title">Module: wc/dom/Widget</h1>
+<section>
+
+<header>
+    <h2>
+    wc/dom/Widget
+    </h2>
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+<dt>
+    <h4 class="name" id="module:wc/dom/Widget"><span class="type-signature"></span>new require("wc/dom/Widget")<span class="signature">(<span class="optional">tagName</span>, <span class="optional">className</span>, <span class="optional">attributes</span>)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Provides a mechanism to describe DOM elements as Widgets. A Widget can answer these common DOM problems:</p>
+<ul>
+<li>Is this element &quot;one of me&quot;?</li>
+<li>Is this element contained in &quot;one of me&quot;? If so return the containing &quot;me&quot;.</li>
+<li>Does this element contain &quot;one (or more) of me&quot;? If so return all descendant instances of &quot;me&quot;.</li>
+</ul>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+<div class="params-table-container">
+  <table class="params table table-striped">
+      <thead>
+    <tr>
+      
+      <th>Name</th>
+      
+  
+      <th>Type</th>
+  
+      
+      <th>Argument</th>
+      
+  
+      
+  
+      <th class="last">Description</th>
+    </tr>
+    </thead>
+  
+    <tbody>
+    
+  
+          <tr>
+              
+                  <td class="name"><code>tagName</code></td>
+              
+  
+              <td class="type">
+              
+                  
+<span class="param-type">String</span>
+
+
+              
+              </td>
+  
+              
+                  <td class="attributes">
+                  
+                      &lt;optional><br>
+                  
+  
+                  
+  
+                  
+                  </td>
+              
+  
+              
+  
+              <td class="description last"><p>element tagName that describes this widget</p></td>
+          </tr>
+  
+    
+  
+          <tr>
+              
+                  <td class="name"><code>className</code></td>
+              
+  
+              <td class="type">
+              
+                  
+<span class="param-type">String</span>
+|
+
+<span class="param-type">Array</span>
+
+
+              
+              </td>
+  
+              
+                  <td class="attributes">
+                  
+                      &lt;optional><br>
+                  
+  
+                  
+  
+                  
+                  </td>
+              
+  
+              
+  
+              <td class="description last"><p>className/s that describe this widget - if it's an array then EVERY className
+   must match (i.e. they are ANDed).</p></td>
+          </tr>
+  
+    
+  
+          <tr>
+              
+                  <td class="name"><code>attributes</code></td>
+              
+  
+              <td class="type">
+              
+                  
+<span class="param-type">Object</span>
+
+
+              
+              </td>
+  
+              
+                  <td class="attributes">
+                  
+                      &lt;optional><br>
+                  
+  
+                  
+  
+                  
+                  </td>
+              
+  
+              
+  
+              <td class="description last"><p>A map of attributes that describe this widget, each key is an attribute name, each
+   value is an attribute value. E.g.: {type:'button',checked: null}. Note use null to test for the presence of an
+   attribute without regard to its value. The value, if supplied, is used as part of a contains selector ([~]].</p></td>
+          </tr>
+  
+    
+    </tbody>
+  </table>
+</div>
+
+    
+    
+    
+<dl class="details">
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+
+  
+
+  
+
+  
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    <h5>Throws:</h5>
+    
+            
+
+<dl>
+    <dt>
+        <div class="param-desc">
+        <p>Thrown if none of the optional args are defined: we need at least one!</p>
+        </div>
+    </dt>
+    <dt>
+        <dl>
+            <dt>
+                Type
+            </dt>
+            <dd>
+                
+<span class="param-type">TypeError</span>
+
+
+            </dd>
+        </dl>
+    </dt>
+</dl>
+
+
+        
+    
+    
+    
+    
+        <h5>Examples</h5>
+        
+    <pre class="sunlight-highlight-javascript">var myWidget = new Widget(&quot;input&quot;);// describes any input element</pre>
+
+    <pre class="sunlight-highlight-javascript">var myWidget = new Widget(&quot;input&quot;,&quot;myClass&quot;);// describes any input element with className which includes &#x27;myClass&#x27;</pre>
+
+    <pre class="sunlight-highlight-javascript">var myWidget = new Widget(&quot;input&quot;,&quot;&quot;,{&quot;type&quot;:&quot;radio&quot;});// describes any radio button.</pre>
+
+    <pre class="sunlight-highlight-javascript">var myWidget = new Widget(&quot;&quot;,&quot;&quot;,{&quot;role&quot;:null});// describes any element with a role attribute.</pre>
+
+    <pre class="sunlight-highlight-javascript">var myWidget = new Widget(&quot;input&quot;,&quot;&quot;,{type:&quot;checkbox&quot;,&quot;aria-controls&quot;:&quot;id1&quot;});// describes a checkbox which controls elements including an element with id=&#x27;id1&#x27;</pre>
+
+
+    
+</dd>
+
+    
+
+    
+        
+
+        
+<dl class="details">
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+
+  
+
+  
+
+  
+  <dt class="tag-todo">To Do:</dt>
+  <dd class="tag-todo">
+    <ul>
+      <li>needs to have its functions sorted properly.</li>
+      </ul>
+  </dd>
+  
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Requires</h3>
+
+        <ul>
+            <li><a href="module-wc_dom_getAncestorOrSelf.html">module:wc/dom/getAncestorOrSelf</a></li>
+        
+            <li><a href="module-wc_dom_uid.html">module:wc/dom/uid</a></li>
+        </ul>
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Members</h3>
+
+        <dl>
+            
+<dt class="name" id="attributes">
+    <h4><span class="type-signature">&lt;nullable> </span>attributes<span class="type-signature"> :Object</span></h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>The Widget instance's attribute selector object if set.</p>
+    </div>
+    
+
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">Object</span>
+
+
+            </li>
+        </ul>
+    
+
+    
+<dl class="details">
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+    
+</dd>
+
+        
+            
+<dt class="name" id="className">
+    <h4><span class="type-signature">&lt;nullable> </span>className<span class="type-signature"> :String</span></h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>The Widget instance's class name if set.</p>
+    </div>
+    
+
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">String</span>
+
+
+            </li>
+        </ul>
+    
+
+    
+<dl class="details">
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+    
+</dd>
+
+        
+            
+<dt class="name" id="container">
+    <h4><span class="type-signature">&lt;nullable> </span>container<span class="type-signature"> :Element</span></h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>The Widget instance's start container element. Set per dearch for descendant searches.</p>
+    </div>
+    
+
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">Element</span>
+
+
+            </li>
+        </ul>
+    
+
+    
+<dl class="details">
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+    
+</dd>
+
+        
+            
+<dt class="name" id="immediate">
+    <h4><span class="type-signature"></span>immediate<span class="type-signature"> :Boolean</span></h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>Is this widget instance only interested in immediate child elements of container? Set per search.</p>
+    </div>
+    
+
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">Boolean</span>
+
+
+            </li>
+        </ul>
+    
+
+    
+<dl class="details">
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <dt class="tag-default">Default Value:</dt>
+  <dd class="tag-default">
+    <ul class="dummy">
+      <li>false</li>
+    </ul>
+  </dd>
+  
+
+
+
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+    
+</dd>
+
+        
+            
+<dt class="name" id="tagName">
+    <h4><span class="type-signature">&lt;nullable> </span>tagName<span class="type-signature"> :String</span></h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>The Widget instance's tag name if set.</p>
+    </div>
+    
+
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">String</span>
+
+
+            </li>
+        </ul>
+    
+
+    
+<dl class="details">
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+    
+</dd>
+
+        </dl>
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        <dl>
+            
+<dt>
+    <h4 class="name" id=".findAncestor"><span class="type-signature">&lt;static> </span>findAncestor<span class="signature">(element, widgets, <span class="optional">config</span>)</span><span class="type-signature"> &rarr; {Element|Array}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Find the nearest or outermost ancestor which matches any of an array of descriptors.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+<div class="params-table-container">
+  <table class="params table table-striped">
+      <thead>
+    <tr>
+      
+      <th>Name</th>
+      
+  
+      <th>Type</th>
+  
+      
+      <th>Argument</th>
+      
+  
+      
+  
+      <th class="last">Description</th>
+    </tr>
+    </thead>
+  
+    <tbody>
+    
+  
+          <tr>
+              
+                  <td class="name"><code>element</code></td>
+              
+  
+              <td class="type">
+              
+                  
+<span class="param-type">Element</span>
+
+
+              
+              </td>
+  
+              
+                  <td class="attributes">
+                  
+  
+                  
+  
+                  
+                  </td>
+              
+  
+              
+  
+              <td class="description last"><p>the reference element.</p></td>
+          </tr>
+  
+    
+  
+          <tr>
+              
+                  <td class="name"><code>widgets</code></td>
+              
+  
+              <td class="type">
+              
+                  
+<span class="param-type">Array.&lt;<a href="module-wc_dom_Widget.html">module:wc/dom/Widget</a>></span>
+|
+
+<span class="param-type"><a href="module-wc_dom_Widget.html">module:wc/dom/Widget</a></span>
+
+
+              
+              </td>
+  
+              
+                  <td class="attributes">
+                  
+  
+                  
+  
+                  
+                  </td>
+              
+  
+              
+  
+              <td class="description last"><p>an array of Widgets.</p></td>
+          </tr>
+  
+    
+  
+          <tr>
+              
+                  <td class="name"><code>config</code></td>
+              
+  
+              <td class="type">
+              
+                  
+<span class="param-type">Object</span>
+
+
+              
+              </td>
+  
+              
+                  <td class="attributes">
+                  
+                      &lt;optional><br>
+                  
+  
+                  
+  
+                  
+                  </td>
+              
+  
+              
+  
+              <td class="description last"><p>A configuration object.</p>
+                  <h6>Properties</h6>
+                  
+<div class="params-table-container">
+  <table class="params table table-striped">
+      <thead>
+    <tr>
+      
+      <th>Name</th>
+      
+  
+      <th>Type</th>
+  
+      
+      <th>Argument</th>
+      
+  
+      
+  
+      <th class="last">Description</th>
+    </tr>
+    </thead>
+  
+    <tbody>
+    
+  
+          <tr>
+              
+                  <td class="name"><code>limit</code></td>
+              
+  
+              <td class="type">
+              
+                  
+<span class="param-type">String</span>
+
+
+              
+              </td>
+  
+              
+                  <td class="attributes">
+                  
+                      &lt;optional><br>
+                  
+  
+                  
+  
+                  
+                  </td>
+              
+  
+              
+  
+              <td class="description last"><p>tagName for limit tag.</p></td>
+          </tr>
+  
+    
+  
+          <tr>
+              
+                  <td class="name"><code>tree</code></td>
+              
+  
+              <td class="type">
+              
+                  
+<span class="param-type">Boolean</span>
+
+
+              
+              </td>
+  
+              
+                  <td class="attributes">
+                  
+                      &lt;optional><br>
+                  
+  
+                  
+  
+                  
+                  </td>
+              
+  
+              
+  
+              <td class="description last"><p>return tree from individual widgets.</p></td>
+          </tr>
+  
+    
+  
+          <tr>
+              
+                  <td class="name"><code>outermost</code></td>
+              
+  
+              <td class="type">
+              
+                  
+<span class="param-type">Boolean</span>
+
+
+              
+              </td>
+  
+              
+                  <td class="attributes">
+                  
+                      &lt;optional><br>
+                  
+  
+                  
+  
+                  
+                  </td>
+              
+  
+              
+  
+              <td class="description last"><p>If true returns the outermost matching ancestor from all of the widgets.</p></td>
+          </tr>
+  
+    
+    </tbody>
+  </table>
+</div>
+
+              </td>
+          </tr>
+  
+    
+    </tbody>
+  </table>
+</div>
+
+    
+    
+    
+<dl class="details">
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+
+  
+
+  
+
+  
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>The ancestor element, if any or the ancestor tree array if config.tree is true.</p>
+</div>
+
+
+
+<dl>
+  <dt>
+    Type
+  </dt>
+  <dd>
+    
+<span class="param-type">Element</span>
+|
+
+<span class="param-type">Array</span>
+
+
+  </dd>
+</dl>
+
+
+        
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id=".findDescendant"><span class="type-signature">&lt;static> </span>findDescendant<span class="signature">(element, widgets, <span class="optional">immediate</span>)</span><span class="type-signature"> &rarr; {Element}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Find the first descendant element which matches any of an array of widget descriptors.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+<div class="params-table-container">
+  <table class="params table table-striped">
+      <thead>
+    <tr>
+      
+      <th>Name</th>
+      
+  
+      <th>Type</th>
+  
+      
+      <th>Argument</th>
+      
+  
+      
+  
+      <th class="last">Description</th>
+    </tr>
+    </thead>
+  
+    <tbody>
+    
+  
+          <tr>
+              
+                  <td class="name"><code>element</code></td>
+              
+  
+              <td class="type">
+              
+                  
+<span class="param-type">Element</span>
+
+
+              
+              </td>
+  
+              
+                  <td class="attributes">
+                  
+  
+                  
+  
+                  
+                  </td>
+              
+  
+              
+  
+              <td class="description last"><p>the start element</p></td>
+          </tr>
+  
+    
+  
+          <tr>
+              
+                  <td class="name"><code>widgets</code></td>
+              
+  
+              <td class="type">
+              
+                  
+<span class="param-type">Array.&lt;<a href="module-wc_dom_Widget.html">module:wc/dom/Widget</a>></span>
+|
+
+<span class="param-type"><a href="module-wc_dom_Widget.html">module:wc/dom/Widget</a></span>
+
+
+              
+              </td>
+  
+              
+                  <td class="attributes">
+                  
+  
+                  
+  
+                  
+                  </td>
+              
+  
+              
+  
+              <td class="description last"><p>an array of Widgets.</p></td>
+          </tr>
+  
+    
+  
+          <tr>
+              
+                  <td class="name"><code>immediate</code></td>
+              
+  
+              <td class="type">
+              
+                  
+<span class="param-type">boolean</span>
+
+
+              
+              </td>
+  
+              
+                  <td class="attributes">
+                  
+                      &lt;optional><br>
+                  
+  
+                  
+  
+                  
+                  </td>
+              
+  
+              
+  
+              <td class="description last"><p>If true look only in element's child nodes otherwise look in descendant nodes.</p></td>
+          </tr>
+  
+    
+    </tbody>
+  </table>
+</div>
+
+    
+    
+    
+<dl class="details">
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+
+  
+
+  
+
+  
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>The first matching descendant element.</p>
+</div>
+
+
+
+<dl>
+  <dt>
+    Type
+  </dt>
+  <dd>
+    
+<span class="param-type">Element</span>
+
+
+  </dd>
+</dl>
+
+
+        
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id=".findDescendants"><span class="type-signature">&lt;static> </span>findDescendants<span class="signature">(element, widgets, <span class="optional">immediate</span>)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Find the all descendant elements which matches any of an array of widget descriptors.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+<div class="params-table-container">
+  <table class="params table table-striped">
+      <thead>
+    <tr>
+      
+      <th>Name</th>
+      
+  
+      <th>Type</th>
+  
+      
+      <th>Argument</th>
+      
+  
+      
+  
+      <th class="last">Description</th>
+    </tr>
+    </thead>
+  
+    <tbody>
+    
+  
+          <tr>
+              
+                  <td class="name"><code>element</code></td>
+              
+  
+              <td class="type">
+              
+                  
+<span class="param-type">Element</span>
+
+
+              
+              </td>
+  
+              
+                  <td class="attributes">
+                  
+  
+                  
+  
+                  
+                  </td>
+              
+  
+              
+  
+              <td class="description last"><p>The start element.</p></td>
+          </tr>
+  
+    
+  
+          <tr>
+              
+                  <td class="name"><code>widgets</code></td>
+              
+  
+              <td class="type">
+              
+                  
+<span class="param-type">Array.&lt;<a href="module-wc_dom_Widget.html">module:wc/dom/Widget</a>></span>
+|
+
+<span class="param-type"><a href="module-wc_dom_Widget.html">module:wc/dom/Widget</a></span>
+
+
+              
+              </td>
+  
+              
+                  <td class="attributes">
+                  
+  
+                  
+  
+                  
+                  </td>
+              
+  
+              
+  
+              <td class="description last"><p>an array of Widgets.</p></td>
+          </tr>
+  
+    
+  
+          <tr>
+              
+                  <td class="name"><code>immediate</code></td>
+              
+  
+              <td class="type">
+              
+                  
+<span class="param-type">Boolean</span>
+
+
+              
+              </td>
+  
+              
+                  <td class="attributes">
+                  
+                      &lt;optional><br>
+                  
+  
+                  
+  
+                  
+                  </td>
+              
+  
+              
+  
+              <td class="description last"><p>if true look only in element's child nodes otherwise look in descendant nodes.</p></td>
+          </tr>
+  
+    
+    </tbody>
+  </table>
+</div>
+
+    
+    
+    
+<dl class="details">
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+
+  
+
+  
+
+  
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id=".isOneOfMe"><span class="type-signature">&lt;static> </span>isOneOfMe<span class="signature">(element, widgets)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Test an element against a Widget (or Widget array) to determine if the element is described by a Widget. This
+Allows us to test an element against many Widgets at once rather than having to test individually against many
+instances of Widget.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+<div class="params-table-container">
+  <table class="params table table-striped">
+      <thead>
+    <tr>
+      
+      <th>Name</th>
+      
+  
+      <th>Type</th>
+  
+      
+  
+      
+  
+      <th class="last">Description</th>
+    </tr>
+    </thead>
+  
+    <tbody>
+    
+  
+          <tr>
+              
+                  <td class="name"><code>element</code></td>
+              
+  
+              <td class="type">
+              
+                  
+<span class="param-type">Element</span>
+
+
+              
+              </td>
+  
+              
+  
+              
+  
+              <td class="description last"><p>the element to test.</p></td>
+          </tr>
+  
+    
+  
+          <tr>
+              
+                  <td class="name"><code>widgets</code></td>
+              
+  
+              <td class="type">
+              
+                  
+<span class="param-type">Array.&lt;<a href="module-wc_dom_Widget.html">module:wc/dom/Widget</a>></span>
+|
+
+<span class="param-type"><a href="module-wc_dom_Widget.html">module:wc/dom/Widget</a></span>
+
+
+              
+              </td>
+  
+              
+  
+              
+  
+              <td class="description last"><p>An array of Widgets or a single Widget.</p></td>
+          </tr>
+  
+    
+    </tbody>
+  </table>
+</div>
+
+    
+    
+    
+<dl class="details">
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+
+  
+
+  
+
+  
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>True if the element matches one of the Widget instances in the array.</p>
+</div>
+
+
+
+<dl>
+  <dt>
+    Type
+  </dt>
+  <dd>
+    
+<span class="param-type">Boolean</span>
+
+
+  </dd>
+</dl>
+
+
+        
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="descendFrom"><span class="type-signature"></span>descendFrom<span class="signature">(containerWidget, <span class="optional">immediate</span>)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Reflects the DOM hierarchy in the this Widget. If you have a &quot;container&quot; widget and a &quot;subComponent&quot; widget you
+can use this function to declare that relationship.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+<div class="params-table-container">
+  <table class="params table table-striped">
+      <thead>
+    <tr>
+      
+      <th>Name</th>
+      
+  
+      <th>Type</th>
+  
+      
+      <th>Argument</th>
+      
+  
+      
+  
+      <th class="last">Description</th>
+    </tr>
+    </thead>
+  
+    <tbody>
+    
+  
+          <tr>
+              
+                  <td class="name"><code>containerWidget</code></td>
+              
+  
+              <td class="type">
+              
+                  
+<span class="param-type"><a href="module-wc_dom_Widget.html">module:wc/dom/Widget</a></span>
+
+
+              
+              </td>
+  
+              
+                  <td class="attributes">
+                  
+  
+                  
+  
+                  
+                  </td>
+              
+  
+              
+  
+              <td class="description last"><p>An instance of Widget that &quot;contains&quot; this instance.</p></td>
+          </tr>
+  
+    
+  
+          <tr>
+              
+                  <td class="name"><code>immediate</code></td>
+              
+  
+              <td class="type">
+              
+                  
+<span class="param-type">Boolean</span>
+
+
+              
+              </td>
+  
+              
+                  <td class="attributes">
+                  
+                      &lt;optional><br>
+                  
+  
+                  
+  
+                  
+                  </td>
+              
+  
+              
+  
+              <td class="description last"><p>If true then this widget descends immediately from the containerWidget (ie
+   containerWidget is immediate parent NOT distant ancestor).</p></td>
+          </tr>
+  
+    
+    </tbody>
+  </table>
+</div>
+
+    
+    
+    
+<dl class="details">
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+
+  
+
+  
+
+  
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="extend"><span class="type-signature"></span>extend<span class="signature">(<span class="optional">additionalClassName</span>, <span class="optional">additionalAttributes</span>)</span><span class="type-signature"> &rarr; {<a href="module-wc_dom_Widget.html">module:wc/dom/Widget</a>}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Create &quot;subclass instance&quot; of this widget that adds to the className / attributes.
+This allows you to target the widget in special states, for example when it has a
+class of &quot;invite&quot; on top of the base definition.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+<div class="params-table-container">
+  <table class="params table table-striped">
+      <thead>
+    <tr>
+      
+      <th>Name</th>
+      
+  
+      <th>Type</th>
+  
+      
+      <th>Argument</th>
+      
+  
+      
+  
+      <th class="last">Description</th>
+    </tr>
+    </thead>
+  
+    <tbody>
+    
+  
+          <tr>
+              
+                  <td class="name"><code>additionalClassName</code></td>
+              
+  
+              <td class="type">
+              
+                  
+<span class="param-type">String</span>
+
+
+              
+              </td>
+  
+              
+                  <td class="attributes">
+                  
+                      &lt;optional><br>
+                  
+  
+                  
+  
+                  
+                  </td>
+              
+  
+              
+  
+              <td class="description last"><p>class name/s to add to the parent className/s.</p></td>
+          </tr>
+  
+    
+  
+          <tr>
+              
+                  <td class="name"><code>additionalAttributes</code></td>
+              
+  
+              <td class="type">
+              
+                  
+<span class="param-type">Object</span>
+
+
+              
+              </td>
+  
+              
+                  <td class="attributes">
+                  
+                      &lt;optional><br>
+                  
+  
+                  
+  
+                  
+                  </td>
+              
+  
+              
+  
+              <td class="description last"><p>attribute/s to add to the parent attribute/s.</p></td>
+          </tr>
+  
+    
+    </tbody>
+  </table>
+</div>
+
+    
+    
+    
+<dl class="details">
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+
+  
+
+  
+
+  
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    <h5>Throws:</h5>
+    
+            
+
+<dl>
+    <dt>
+        <div class="param-desc">
+        <p>Thrown if neither optiona attributeis present: we need one to do anything!</p>
+        </div>
+    </dt>
+    <dt>
+        <dl>
+            <dt>
+                Type
+            </dt>
+            <dd>
+                
+<span class="param-type">TypeError</span>
+
+
+            </dd>
+        </dl>
+    </dt>
+</dl>
+
+
+        
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>A &quot;child&quot; instance of this Widget (treat it like any other instance).</p>
+</div>
+
+
+
+<dl>
+  <dt>
+    Type
+  </dt>
+  <dd>
+    
+<span class="param-type"><a href="module-wc_dom_Widget.html">module:wc/dom/Widget</a></span>
+
+
+  </dd>
+</dl>
+
+
+        
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="findAncestor"><span class="type-signature"></span>findAncestor<span class="signature">(element, <span class="optional">limitTagName</span>, <span class="optional">getTree</span>, <span class="optional">outermost</span>)</span><span class="type-signature"> &rarr; {Element}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Find an ancestor element (or self) which matches the descriptor.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+<div class="params-table-container">
+  <table class="params table table-striped">
+      <thead>
+    <tr>
+      
+      <th>Name</th>
+      
+  
+      <th>Type</th>
+  
+      
+      <th>Argument</th>
+      
+  
+      
+  
+      <th class="last">Description</th>
+    </tr>
+    </thead>
+  
+    <tbody>
+    
+  
+          <tr>
+              
+                  <td class="name"><code>element</code></td>
+              
+  
+              <td class="type">
+              
+                  
+<span class="param-type">Element</span>
+
+
+              
+              </td>
+  
+              
+                  <td class="attributes">
+                  
+  
+                  
+  
+                  
+                  </td>
+              
+  
+              
+  
+              <td class="description last"><p>The element whose ancestors we are searching.</p></td>
+          </tr>
+  
+    
+  
+          <tr>
+              
+                  <td class="name"><code>limitTagName</code></td>
+              
+  
+              <td class="type">
+              
+                  
+<span class="param-type">String</span>
+
+
+              
+              </td>
+  
+              
+                  <td class="attributes">
+                  
+                      &lt;optional><br>
+                  
+  
+                  
+  
+                  
+                  </td>
+              
+  
+              
+  
+              <td class="description last"><p>Optionally stop searching if you reach an ancestor with this tagName.</p></td>
+          </tr>
+  
+    
+  
+          <tr>
+              
+                  <td class="name"><code>getTree</code></td>
+              
+  
+              <td class="type">
+              
+                  
+<span class="param-type">Boolean</span>
+
+
+              
+              </td>
+  
+              
+                  <td class="attributes">
+                  
+                      &lt;optional><br>
+                  
+  
+                  
+  
+                  
+                  </td>
+              
+  
+              
+  
+              <td class="description last"><p>if true will return an array where item 0 will be the result for this widget. item 1
+   will be the result for this widget's container and so on...</p></td>
+          </tr>
+  
+    
+  
+          <tr>
+              
+                  <td class="name"><code>outermost</code></td>
+              
+  
+              <td class="type">
+              
+                  
+<span class="param-type">Boolean</span>
+
+
+              
+              </td>
+  
+              
+                  <td class="attributes">
+                  
+                      &lt;optional><br>
+                  
+  
+                  
+  
+                  
+                  </td>
+              
+  
+              
+  
+              <td class="description last"><p>If true then get the matching ancestor which is furthest from element rather than
+   the first matching ancestor.</p></td>
+          </tr>
+  
+    
+    </tbody>
+  </table>
+</div>
+
+    
+    
+    
+<dl class="details">
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+
+  
+
+  
+
+  
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>The ancestor element if found or null (null even if getTree true).</p>
+</div>
+
+
+
+<dl>
+  <dt>
+    Type
+  </dt>
+  <dd>
+    
+<span class="param-type">Element</span>
+
+
+  </dd>
+</dl>
+
+
+        
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="findDescendant"><span class="type-signature"></span>findDescendant<span class="signature">(element, <span class="optional">immediate</span>)</span><span class="type-signature"> &rarr; {Element}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Find the first descendant element which matches the descriptor.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+<div class="params-table-container">
+  <table class="params table table-striped">
+      <thead>
+    <tr>
+      
+      <th>Name</th>
+      
+  
+      <th>Type</th>
+  
+      
+      <th>Argument</th>
+      
+  
+      
+  
+      <th class="last">Description</th>
+    </tr>
+    </thead>
+  
+    <tbody>
+    
+  
+          <tr>
+              
+                  <td class="name"><code>element</code></td>
+              
+  
+              <td class="type">
+              
+                  
+<span class="param-type">Element</span>
+
+
+              
+              </td>
+  
+              
+                  <td class="attributes">
+                  
+  
+                  
+  
+                  
+                  </td>
+              
+  
+              
+  
+              <td class="description last"><p>The element whose descendant we are searching.</p></td>
+          </tr>
+  
+    
+  
+          <tr>
+              
+                  <td class="name"><code>immediate</code></td>
+              
+  
+              <td class="type">
+              
+                  
+<span class="param-type">Boolean</span>
+
+
+              
+              </td>
+  
+              
+                  <td class="attributes">
+                  
+                      &lt;optional><br>
+                  
+  
+                  
+  
+                  
+                  </td>
+              
+  
+              
+  
+              <td class="description last"><p>Only searches immediate child nodes.</p></td>
+          </tr>
+  
+    
+    </tbody>
+  </table>
+</div>
+
+    
+    
+    
+<dl class="details">
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+
+  
+
+  
+
+  
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>The descendant element if found otherwise null.</p>
+</div>
+
+
+
+<dl>
+  <dt>
+    Type
+  </dt>
+  <dd>
+    
+<span class="param-type">Element</span>
+
+
+  </dd>
+</dl>
+
+
+        
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="findDescendants"><span class="type-signature"></span>findDescendants<span class="signature">(element, <span class="optional">immediate</span>)</span><span class="type-signature"> &rarr; {NodeList}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Find all descendant elements which match the descriptor.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+<div class="params-table-container">
+  <table class="params table table-striped">
+      <thead>
+    <tr>
+      
+      <th>Name</th>
+      
+  
+      <th>Type</th>
+  
+      
+      <th>Argument</th>
+      
+  
+      
+  
+      <th class="last">Description</th>
+    </tr>
+    </thead>
+  
+    <tbody>
+    
+  
+          <tr>
+              
+                  <td class="name"><code>element</code></td>
+              
+  
+              <td class="type">
+              
+                  
+<span class="param-type">Element</span>
+
+
+              
+              </td>
+  
+              
+                  <td class="attributes">
+                  
+  
+                  
+  
+                  
+                  </td>
+              
+  
+              
+  
+              <td class="description last"><p>The element whose descendants we are searching.</p></td>
+          </tr>
+  
+    
+  
+          <tr>
+              
+                  <td class="name"><code>immediate</code></td>
+              
+  
+              <td class="type">
+              
+                  
+<span class="param-type">Boolean</span>
+
+
+              
+              </td>
+  
+              
+                  <td class="attributes">
+                  
+                      &lt;optional><br>
+                  
+  
+                  
+  
+                  
+                  </td>
+              
+  
+              
+  
+              <td class="description last"><p>If true only searches immediate child nodes.</p></td>
+          </tr>
+  
+    
+    </tbody>
+  </table>
+</div>
+
+    
+    
+    
+<dl class="details">
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+
+  
+
+  
+
+  
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>Array-like collection of descendants</p>
+</div>
+
+
+
+<dl>
+  <dt>
+    Type
+  </dt>
+  <dd>
+    
+<span class="param-type">NodeList</span>
+
+
+  </dd>
+</dl>
+
+
+        
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="isOneOfMe"><span class="type-signature"></span>isOneOfMe<span class="signature">(element)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Determine if an element is a match for the widget instance.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+<div class="params-table-container">
+  <table class="params table table-striped">
+      <thead>
+    <tr>
+      
+      <th>Name</th>
+      
+  
+      <th>Type</th>
+  
+      
+  
+      
+  
+      <th class="last">Description</th>
+    </tr>
+    </thead>
+  
+    <tbody>
+    
+  
+          <tr>
+              
+                  <td class="name"><code>element</code></td>
+              
+  
+              <td class="type">
+              
+                  
+<span class="param-type">Element</span>
+
+
+              
+              </td>
+  
+              
+  
+              
+  
+              <td class="description last"><p>The element to test</p></td>
+          </tr>
+  
+    
+    </tbody>
+  </table>
+</div>
+
+    
+    
+    
+<dl class="details">
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+
+  
+
+  
+
+  
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>true if element has the requisite form to match the widget.</p>
+</div>
+
+
+
+<dl>
+  <dt>
+    Type
+  </dt>
+  <dd>
+    
+<span class="param-type">Boolean</span>
+
+
+  </dd>
+</dl>
+
+
+        
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">var myWidget = new Widget(&quot;input&quot;,&quot;&quot;,{type:&quot;checkbox&quot;,&quot;aria-controls&quot;:&quot;id1&quot;});// given an element var el representing &lt;input type=&#x27;checkbox&#x27; aria-controls=&#x27;id0 id1 id3&#x27;&gt; thenmyWidget.isOneOfMe(el);  // will return true</pre>
+
+
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="toString"><span class="type-signature"></span>toString<span class="signature">()</span><span class="type-signature"> &rarr; {String}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Get the widget as a meaningful string.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+
+  
+
+  
+
+  
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>The query selector string of the Widget.</p>
+</div>
+
+
+
+<dl>
+  <dt>
+    Type
+  </dt>
+  <dd>
+    
+<span class="param-type">String</span>
+
+
+  </dd>
+</dl>
+
+
+        
+    
+    
+</dd>
+
+        </dl>
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+        </div>
+
+        <div class="clearfix"></div>
+        <footer>
+          
+          WComponents wcomponents-theme is powered by <a href='http://vanilla-js.com/' target='_blank'><img src='../../../images/vanillajs.png' alt='Vanilla JS'/></a>.
+          <br />
+          
+          
+    <span class="copyright">
+    WComponents wcomponents-theme is copyright &#xa9; see https://github.com/OpenBorders/wcomponents.
+    </span>
+          <br />
+          
+    <span class="jsdoc-message">
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc" target="_blank">JSDoc 3.3.2</a>
+    on 2015-11-20
+    </span>
+        </footer>
+      </div>
+
+      <br clear="both">
+    </div>
+
+  </div>
+  <!--<script src="scripts/sunlight.js"></script>-->
+  <script src="scripts/docstrap.lib.js"></script>
+  <script src="scripts/bootstrap-dropdown.js"></script>
+  <script src="scripts/toc.js"></script>
+
+  <script>
+    $( function () {
+      $( "[id*='$']" ).each( function () {
+        var $this = $( this );
+
+        $this.attr( "id", $this.attr( "id" ).replace( "$", "__" ) );
+      } );
+
+      $( "#toc" ).toc( {
+        anchorName  : function ( i, heading, prefix ) {
+          return $( heading ).attr( "id" ) || ( prefix + i );
+        },
+        selectors   : "h1,h2,h3,h4",
+        showAndHide : false,
+        scrollTo    : "100px"
+      } );
+
+      $( "#toc>ul" ).addClass( "nav nav-pills nav-stacked" );
+      $( "#main span[id^='toc']" ).addClass( "toc-shim" );
+      $( '.dropdown-toggle' ).dropdown();
+//      $( ".tutorial-section pre, .readme-section pre" ).addClass( "sunlight-highlight-javascript" ).addClass( "linenums" );
+
+      $( ".tutorial-section pre, .readme-section pre" ).each( function () {
+        var $this = $( this );
+
+        var example = $this.find( "code" );
+        exampleText = example.html();
+        var lang = /{@lang (.*?)}/.exec( exampleText );
+        if ( lang && lang[1] ) {
+          exampleText = exampleText.replace( lang[0], "" );
+          example.html( exampleText );
+          lang = lang[1];
+        } else {
+          lang = "javascript";
+        }
+
+        if ( lang ) {
+
+          $this
+            .addClass( "sunlight-highlight-" + lang )
+            .addClass( "linenums" )
+            .html( example.html() );
+
+        }
+      } );
+
+      Sunlight.highlightAll( {
+        lineNumbers : true,
+        showMenu : true,
+        enableDoclinks : true
+      } );
+    } );
+   </script>
+
+
+
+  <!--Navigation and Symbol Display-->
+  
+
+
+  <!--Google Analytics-->
+  
+
+</body>
+</html>

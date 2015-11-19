@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WApplication.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">WApplication.java</span></div><h1>WApplication.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.I18nUtilities;
+
+/**
+ * &lt;p&gt;
+ * This component must be used as the top level component for an application. It provides application-wide state
+ * information, such as unsaved changes.&lt;/p&gt;
+ *
+ * Applications can not be nested, but multiple applications can be present on a single screen, usually in a Portlet
+ * environment.
+ *
+ * @author Jonathan Austin
+ * @since 1.0.0
+ */
+<span class="fc" id="L17">public class WApplication extends AbstractMutableContainer implements AjaxTarget, DropZone {</span>
+
+	/**
+	 * The application icon url parameter.
+	 */
+<span class="fc" id="L22">	private static final String ICON_URL = Config.getInstance().getString(</span>
+			&quot;bordertech.wcomponents.application.icon.url&quot;);
+
+	/**
+	 * Indicates whether the application has unsaved changes.
+	 *
+	 * @return true if there are unsaved changes, otherwise false.
+	 */
+	public boolean hasUnsavedChanges() {
+<span class="fc" id="L31">		return getComponentModel().unsavedChanges;</span>
+	}
+
+	/**
+	 * &lt;p&gt;
+	 * Sets the unsavedChanges flag.&lt;/p&gt;
+	 *
+	 * &lt;p&gt;
+	 * The unsavedChanges flag is used by the Themes to display a warning message if the user tries to navigate away and
+	 * the flag is set to true.&lt;/p&gt;
+	 *
+	 * @param unsavedChanges true if there are unsavedChanges
+	 */
+	public void setUnsavedChanges(final boolean unsavedChanges) {
+<span class="fc" id="L45">		getOrCreateComponentModel().unsavedChanges = unsavedChanges;</span>
+<span class="fc" id="L46">	}</span>
+
+	/**
+	 * Returns the application's title.
+	 *
+	 * @return the title.
+	 */
+	public String getTitle() {
+<span class="fc" id="L54">		return I18nUtilities.format(null, getComponentModel().title);</span>
+	}
+
+	/**
+	 * Sets the application title.
+	 *
+	 * @param title The title to set.
+	 */
+	public void setTitle(final String title) {
+<span class="fc" id="L63">		getOrCreateComponentModel().title = title;</span>
+<span class="fc" id="L64">	}</span>
+
+	/**
+	 * @return true if append application ID to IDs, otherwise false.
+	 */
+	public boolean isAppendID() {
+<span class="fc" id="L70">		return getComponentModel().appendID;</span>
+	}
+
+	/**
+	 * @param appendID set rue if append application ID to IDs
+	 */
+	public void setAppendID(final boolean appendID) {
+<span class="fc" id="L77">		getOrCreateComponentModel().appendID = appendID;</span>
+<span class="fc" id="L78">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getIdName() {
+<span class="fc" id="L85">		String name = super.getIdName();</span>
+<span class="fc bfc" id="L86" title="All 2 branches covered.">		return name == null ? DEFAULT_APPLICATION_ID : name;</span>
+	}
+
+	/**
+	 * @return true as always a naming context
+	 */
+	@Override
+	public boolean isNamingContext() {
+<span class="fc" id="L94">		return true;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getNamingContextId() {
+<span class="fc" id="L102">		boolean append = isAppendID();</span>
+<span class="fc bfc" id="L103" title="All 2 branches covered.">		if (!append) {</span>
+			// Check if this is the top level name context
+<span class="fc" id="L105">			NamingContextable top = WebUtilities.getParentNamingContext(this);</span>
+<span class="fc bfc" id="L106" title="All 2 branches covered.">			if (top != null) {</span>
+				// Not top context, so always append
+<span class="fc" id="L108">				append = true;</span>
+			}
+		}
+<span class="fc bfc" id="L111" title="All 2 branches covered.">		if (append) {</span>
+<span class="fc" id="L112">			return getId();</span>
+		} else {
+<span class="fc" id="L114">			return &quot;&quot;;</span>
+		}
+	}
+
+	/**
+	 * &lt;p&gt;
+	 * This method is called when a wrong step error has occurred, for example as a result of the user using the
+	 * browser's navigation controls..&lt;/p&gt;
+	 *
+	 * &lt;p&gt;
+	 * The method can be overridden to allow projects to handle the step error in a manner appropriate to their
+	 * Application.&lt;/p&gt;
+	 */
+	public void handleStepError() {
+		// No Action
+<span class="fc" id="L129">	}</span>
+
+	/**
+	 * Returns the closest WApplication instance (ancestor component) from the given base component.
+	 *
+	 * @param base the component from which we start scanning up the tree for a WApplication instance.
+	 * @return the closest WApplication instance from the given base component.
+	 */
+	public static WApplication instance(final WComponent base) {
+<span class="nc" id="L138">		WApplication appl = WebUtilities.getClosestOfClass(WApplication.class, base);</span>
+<span class="nc" id="L139">		return appl;</span>
+	}
+
+	/**
+	 * @return a String representation of this component, for debugging purposes.
+	 */
+	@Override
+	public String toString() {
+<span class="fc" id="L147">		String text = getTitle();</span>
+<span class="pc bpc" id="L148" title="1 of 2 branches missed.">		text = text == null ? &quot;null&quot; : '&quot;' + text + '&quot;';</span>
+<span class="fc" id="L149">		return toString(text);</span>
+	}
+
+	/**
+	 * @return the application icon URL or null if not set
+	 */
+	public static String getIcon() {
+<span class="fc" id="L156">		return ICON_URL;</span>
+	}
+
+	// --------------------------------
+	// Extrinsic state management
+	/**
+	 * Creates a new model appropriate for this component.
+	 *
+	 * @return a new {@link WApplicationModel}.
+	 */
+	@Override
+	protected WApplicationModel newComponentModel() {
+<span class="fc" id="L168">		return new WApplicationModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected WApplicationModel getComponentModel() {
+<span class="fc" id="L176">		return (WApplicationModel) super.getComponentModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected WApplicationModel getOrCreateComponentModel() {
+<span class="fc" id="L184">		return (WApplicationModel) super.getOrCreateComponentModel();</span>
+	}
+
+	/**
+	 * Holds the extrinsic state information of a WApplication.
+	 */
+<span class="fc" id="L190">	public static class WApplicationModel extends ComponentModel {</span>
+
+		/**
+		 * Indicates whether the application has unsaved changes.
+		 */
+		private boolean unsavedChanges;
+
+		/**
+		 * The application title.
+		 */
+		private String title;
+
+		/**
+		 * Flag to append the Application ID to the children IDs.
+		 */
+		private boolean appendID;
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

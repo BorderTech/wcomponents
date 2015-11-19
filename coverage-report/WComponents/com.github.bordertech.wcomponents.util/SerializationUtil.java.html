@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>SerializationUtil.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.util</a> &gt; <span class="el_source">SerializationUtil.java</span></div><h1>SerializationUtil.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.util;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
+/**
+ * Helper methods related to serialization. These are mainly useful for testing framework components.
+ *
+ * @author James Gifford
+ */
+public final class SerializationUtil {
+
+	/**
+	 * No instance methods here.
+	 */
+<span class="nc" id="L18">	private SerializationUtil() {</span>
+<span class="nc" id="L19">	}</span>
+
+	/**
+	 * Takes a copy of an input object via serialization.
+	 *
+	 * @param in the object to copy
+	 * @return the copied object
+	 */
+	public static Object pipe(final Object in) {
+		try {
+<span class="fc" id="L29">			ByteArrayOutputStream bos = new ByteArrayOutputStream();</span>
+<span class="fc" id="L30">			ObjectOutputStream os = new ObjectOutputStream(bos);</span>
+<span class="fc" id="L31">			os.writeObject(in);</span>
+<span class="fc" id="L32">			os.close();</span>
+
+<span class="fc" id="L34">			byte[] bytes = bos.toByteArray();</span>
+<span class="fc" id="L35">			ByteArrayInputStream bis = new ByteArrayInputStream(bytes);</span>
+<span class="fc" id="L36">			ObjectInputStream is = new ObjectInputStream(bis);</span>
+<span class="fc" id="L37">			Object out = is.readObject();</span>
+<span class="fc" id="L38">			return out;</span>
+<span class="nc" id="L39">		} catch (Exception ex) {</span>
+<span class="nc" id="L40">			throw new SystemException(&quot;Failed to pipe &quot; + in, ex);</span>
+		}
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

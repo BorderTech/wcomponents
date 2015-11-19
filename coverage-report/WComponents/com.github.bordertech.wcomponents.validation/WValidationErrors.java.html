@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WValidationErrors.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.validation</a> &gt; <span class="el_source">WValidationErrors.java</span></div><h1>WValidationErrors.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.validation;
+
+import com.github.bordertech.wcomponents.AbstractWComponent;
+import com.github.bordertech.wcomponents.ComponentModel;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+/**
+ * &lt;p&gt;
+ * This component is used to render an error message box (commonly near the top of an application's UI) which contains
+ * all supplied validation errors.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * This provides (in conjuntion with {@link WFieldErrorIndicator} components) the ability to link error messages with
+ * the input field that is in error.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * NOTE: The collection of errors passed to this component must be implementations of {@link Diagnostic}.
+ * &lt;/p&gt;
+ *
+ * @see Diagnostic
+ * @see com.github.bordertech.wcomponents.WMessages
+ *
+ * @author Adam Millard
+ * @since 1.0.0
+ */
+<span class="fc" id="L28">public class WValidationErrors extends AbstractWComponent {</span>
+
+	/**
+	 * Clears the errors for a given user.
+	 */
+	public void clearErrors() {
+<span class="fc" id="L34">		getOrCreateComponentModel().errors.clear();</span>
+<span class="fc" id="L35">	}</span>
+
+	/**
+	 * Sets the errors for a given user.
+	 *
+	 * @param errors the errors to set.
+	 */
+	public void setErrors(final List&lt;Diagnostic&gt; errors) {
+<span class="pc bpc" id="L43" title="1 of 2 branches missed.">		if (errors != null) {</span>
+<span class="fc" id="L44">			ValidationErrorsModel model = getOrCreateComponentModel();</span>
+
+<span class="fc bfc" id="L46" title="All 2 branches covered.">			for (Diagnostic error : errors) {</span>
+<span class="pc bpc" id="L47" title="1 of 2 branches missed.">				if (error.getSeverity() == Diagnostic.ERROR) {</span>
+<span class="fc" id="L48">					model.errors.add(error);</span>
+				}
+<span class="fc" id="L50">			}</span>
+		}
+<span class="fc" id="L52">	}</span>
+
+	/**
+	 * Retrieves the errors for a given user.
+	 *
+	 * @return the list of errors for the given user.
+	 */
+	public List&lt;Diagnostic&gt; getErrors() {
+<span class="fc" id="L60">		return Collections.unmodifiableList(getComponentModel().errors);</span>
+	}
+
+	/**
+	 * Indicates whether there are any validation errors.
+	 *
+	 * @return true if there are validation errors, false otherwise.
+	 */
+	public boolean hasErrors() {
+<span class="fc" id="L69">		ValidationErrorsModel model = getComponentModel();</span>
+<span class="fc bfc" id="L70" title="All 2 branches covered.">		return !model.errors.isEmpty();</span>
+	}
+
+	/**
+	 * Groups the errors by their source field.
+	 *
+	 * @return a list of grouped errors.
+	 */
+	public List&lt;GroupedDiagnositcs&gt; getGroupedErrors() {
+<span class="fc" id="L79">		List&lt;GroupedDiagnositcs&gt; grouped = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L80">		Diagnostic previousError = null;</span>
+<span class="fc" id="L81">		GroupedDiagnositcs group = null;</span>
+
+<span class="fc bfc" id="L83" title="All 2 branches covered.">		for (Diagnostic theError : getErrors()) {</span>
+<span class="fc bfc" id="L84" title="All 2 branches covered.">			boolean isNewField = ((previousError == null) || (previousError.getContext() != theError.</span>
+<span class="pc bpc" id="L85" title="1 of 2 branches missed.">					getContext())</span>
+<span class="fc bfc" id="L86" title="All 2 branches covered.">					|| (previousError.getComponent() != theError.getComponent()));</span>
+
+<span class="fc bfc" id="L88" title="All 4 branches covered.">			if (group == null || isNewField) {</span>
+<span class="fc" id="L89">				group = new GroupedDiagnositcs();</span>
+<span class="fc" id="L90">				grouped.add(group);</span>
+			}
+
+<span class="fc" id="L93">			group.addDiagnostic(theError);</span>
+
+<span class="fc" id="L95">			previousError = theError;</span>
+<span class="fc" id="L96">		}</span>
+
+<span class="fc" id="L98">		return Collections.unmodifiableList(grouped);</span>
+	}
+
+	/**
+	 * Groups a set of related diagnostics.
+	 */
+<span class="fc" id="L104">	public static class GroupedDiagnositcs {</span>
+
+		/**
+		 * The grouped diagnostics.
+		 */
+<span class="fc" id="L109">		private final List&lt;Diagnostic&gt; diags = new ArrayList&lt;&gt;();</span>
+
+		/**
+		 * Adds a diagnostic to this group.
+		 *
+		 * @param diag the diagnostic to add.
+		 */
+		public void addDiagnostic(final Diagnostic diag) {
+<span class="fc" id="L117">			diags.add(diag);</span>
+<span class="fc" id="L118">		}</span>
+
+		/**
+		 * @return the diagnostics contained in this group.
+		 */
+		public List&lt;Diagnostic&gt; getDiagnostics() {
+<span class="fc" id="L124">			return Collections.unmodifiableList(diags);</span>
+		}
+	}
+
+	/**
+	 * @return a String representation of this component, for debugging purposes.
+	 */
+	@Override
+	public String toString() {
+<span class="nc" id="L133">		return getClass().getSimpleName() + '(' + getErrors() + ')';</span>
+	}
+
+	// --------------------------------
+	// Extrinsic state management
+	/**
+	 * Holds the extrinsic state information of a WValidationErrors.
+	 */
+<span class="fc" id="L141">	public static class ValidationErrorsModel extends ComponentModel {</span>
+
+		/**
+		 * The validation errors.
+		 */
+<span class="fc" id="L146">		private final List&lt;Diagnostic&gt; errors = new ArrayList&lt;&gt;();</span>
+	}
+
+	/**
+	 * Creates a new component model appropriate for this component.
+	 *
+	 * @return a new ValidationErrorsModel.
+	 */
+	@Override
+	protected ValidationErrorsModel newComponentModel() {
+<span class="fc" id="L156">		return new ValidationErrorsModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override // For type safety only
+	protected ValidationErrorsModel getComponentModel() {
+<span class="fc" id="L164">		return (ValidationErrorsModel) super.getComponentModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override // For type safety only
+	protected ValidationErrorsModel getOrCreateComponentModel() {
+<span class="fc" id="L172">		return (ValidationErrorsModel) super.getOrCreateComponentModel();</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

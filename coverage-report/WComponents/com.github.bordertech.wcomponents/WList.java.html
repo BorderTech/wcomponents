@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WList.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">WList.java</span></div><h1>WList.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+/**
+ * &lt;p&gt;
+ * This component is an extension of a {@link WRepeater} that is used to render a collection of items as a list.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * The operation of this component is essentially the same as a WRepeater, but it allows for some basic control over how
+ * the repeated components are arranged.
+ * &lt;/p&gt;
+ *
+ * @author Adam Millard
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ */
+public class WList extends WRepeater implements Marginable {
+
+	/**
+	 * An enumeration of possible values for the list type.
+	 */
+<span class="pc" id="L21">	public enum Type {</span>
+		/**
+		 * Indicates that content should be arranged horizontally.
+		 */
+<span class="fc" id="L25">		FLAT,</span>
+		/**
+		 * Indicates that content should be arranged vertically.
+		 */
+<span class="fc" id="L29">		STACKED,</span>
+		/**
+		 * Indicates that content should be arranged vertically, with highlighting on alternate rows (zebra striping).
+		 */
+<span class="fc" id="L33">		STRIPED</span>
+	}
+
+	/**
+	 * An enumeration of possible values for the item separator.
+	 */
+<span class="pc" id="L39">	public enum Separator {</span>
+		/**
+		 * Indicates that no separator should be used.
+		 */
+<span class="fc" id="L43">		NONE,</span>
+		/**
+		 * Indicates that the separator should be a bar (vertical line).
+		 */
+<span class="fc" id="L47">		BAR,</span>
+		/**
+		 * Indicates that the separator should be a dot.
+		 */
+<span class="fc" id="L51">		DOT</span>
+	}
+
+	/**
+	 * The horizontal gap between the list items, measured in pixels.
+	 */
+	private final int hgap;
+	/**
+	 * The vertical gap between the list items, measured in pixels.
+	 */
+	private final int vgap;
+
+	/**
+	 * Creates a WList of the given type.
+	 *
+	 * @param type the list type.
+	 */
+	public WList(final Type type) {
+<span class="fc" id="L69">		this(type, 0, 0);</span>
+<span class="fc" id="L70">	}</span>
+
+	/**
+	 * Creates a WList of the given type.
+	 *
+	 * @param type the list type.
+	 * @param hgap the horizontal gap between the list items, measured in pixels.
+	 * @param vgap the vertical gap between the list items, measured in pixels.
+	 */
+<span class="fc" id="L79">	public WList(final Type type, final int hgap, final int vgap) {</span>
+<span class="fc" id="L80">		getComponentModel().type = type;</span>
+<span class="fc" id="L81">		this.hgap = hgap;</span>
+<span class="fc" id="L82">		this.vgap = vgap;</span>
+<span class="fc" id="L83">	}</span>
+
+	/**
+	 * Sets the list type.
+	 *
+	 * @param type the list type.
+	 */
+	public void setType(final Type type) {
+<span class="fc" id="L91">		getOrCreateComponentModel().type = type;</span>
+<span class="fc" id="L92">	}</span>
+
+	/**
+	 * @return the list type.
+	 */
+	public Type getType() {
+<span class="fc" id="L98">		return getComponentModel().type;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setMargin(final Margin margin) {
+<span class="fc" id="L106">		getOrCreateComponentModel().margin = margin;</span>
+<span class="fc" id="L107">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Margin getMargin() {
+<span class="fc" id="L114">		return getComponentModel().margin;</span>
+	}
+
+	/**
+	 * Sets the separator used to separate items in the list.
+	 *
+	 * @param separator the separator to set.
+	 */
+	public void setSeparator(final Separator separator) {
+<span class="fc" id="L123">		getOrCreateComponentModel().separator = separator;</span>
+<span class="fc" id="L124">	}</span>
+
+	/**
+	 * @return the separator used to separate items in the list.
+	 */
+	public Separator getSeparator() {
+<span class="fc" id="L130">		return getComponentModel().separator;</span>
+	}
+
+	/**
+	 * Sets whether a border should be rendered around the list.
+	 *
+	 * @param renderBorder true to render a border, false otherwise.
+	 */
+	public void setRenderBorder(final boolean renderBorder) {
+<span class="fc" id="L139">		getOrCreateComponentModel().renderBorder = renderBorder;</span>
+<span class="fc" id="L140">	}</span>
+
+	/**
+	 * Indicates whether a border should be rendered around the list.
+	 *
+	 * @return renderBorder true if a border should be rendered, false otherwise.
+	 */
+	public boolean isRenderBorder() {
+<span class="fc" id="L148">		return getComponentModel().renderBorder;</span>
+	}
+
+	/**
+	 * @return Returns the horizontal gap between the cells, measured in pixels.
+	 */
+	public int getHgap() {
+<span class="fc" id="L155">		return hgap;</span>
+	}
+
+	/**
+	 * @return Returns the vertical gap between the cells, measured in pixels.
+	 */
+	public int getVgap() {
+<span class="fc" id="L162">		return vgap;</span>
+	}
+
+	/**
+	 * Creates a new ListModel.
+	 *
+	 * @return a new ListModel
+	 */
+	@Override
+	protected ListModel newComponentModel() {
+<span class="fc" id="L172">		return new ListModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	// For type safety only
+	protected ListModel getComponentModel() {
+<span class="fc" id="L181">		return (ListModel) super.getComponentModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	// For type safety only
+	protected ListModel getOrCreateComponentModel() {
+<span class="fc" id="L190">		return (ListModel) super.getOrCreateComponentModel();</span>
+	}
+
+	/**
+	 * ListModel holds Extrinsic state management of the field.
+	 */
+<span class="fc" id="L196">	public static class ListModel extends RepeaterModel {</span>
+
+		/**
+		 * Indicates whether the border should be shown.
+		 */
+		private boolean renderBorder;
+
+		/**
+		 * The seperator used to separate items in the list.
+		 */
+		private Separator separator;
+
+		/**
+		 * The list type controls the arrangement of items in the list.
+		 */
+		private Type type;
+
+		/**
+		 * The margins to be used on the section.
+		 */
+		private Margin margin;
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

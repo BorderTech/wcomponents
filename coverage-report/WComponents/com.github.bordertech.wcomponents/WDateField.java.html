@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WDateField.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">WDateField.java</span></div><h1>WDateField.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import com.github.bordertech.wcomponents.util.InternalMessages;
+import com.github.bordertech.wcomponents.util.SystemException;
+import com.github.bordertech.wcomponents.util.Util;
+import com.github.bordertech.wcomponents.validation.Diagnostic;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+/**
+ * &lt;p&gt;
+ * This component is a date entry component. Individual themes may add features such as automatic text formatting and
+ * date picker widgets. Convenience methods exist to set and get the value as a java date object.
+ * &lt;/p&gt;
+ *
+ * @author Ming Gao
+ * @author Jonathan Austin
+ * @since 1.0.0
+ */
+public class WDateField extends AbstractInput implements AjaxTrigger, AjaxTarget, SubordinateTrigger,
+		SubordinateTarget {
+
+	/**
+	 * The logger instance for this class.
+	 */
+<span class="fc" id="L31">	private static final Log LOG = LogFactory.getLog(WDateField.class);</span>
+
+	/**
+	 * This date format is used internally to exchange dates between the client and server.
+	 */
+	private static final String INTERNAL_DATE_FORMAT = &quot;yyyy-MM-dd&quot;;
+
+	/**
+	 * Indicates whether date parsing is lenient.
+	 */
+	private final boolean lenient;
+
+	/**
+	 * Creates a WDateField that does not allow lenient parsing.
+	 */
+	public WDateField() {
+<span class="fc" id="L47">		this(false);</span>
+<span class="fc" id="L48">	}</span>
+
+	/**
+	 * Creates a WDateField.
+	 *
+	 * @param lenient If true, date parsing will be lenient.
+	 */
+<span class="fc" id="L55">	public WDateField(final boolean lenient) {</span>
+<span class="fc" id="L56">		this.lenient = lenient;</span>
+<span class="fc" id="L57">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setData(final Object data) {
+		// This override is necessary to maintain other internal state
+<span class="fc" id="L65">		DateFieldModel model = getOrCreateComponentModel();</span>
+
+		try {
+<span class="fc" id="L68">			super.setData(convertDate(data));</span>
+<span class="fc" id="L69">			model.text = null;</span>
+<span class="fc" id="L70">			model.validDate = true;</span>
+<span class="fc" id="L71">		} catch (SystemException e) {</span>
+<span class="fc" id="L72">			super.setData(data);</span>
+<span class="fc" id="L73">			model.text = data.toString();</span>
+<span class="fc" id="L74">			model.validDate = false;</span>
+<span class="fc" id="L75">		}</span>
+<span class="fc" id="L76">	}</span>
+
+	/**
+	 * Set the value of the date field.
+	 *
+	 * @param date the date to set.
+	 */
+	public void setDate(final Date date) {
+<span class="fc" id="L84">		setData(date);</span>
+<span class="fc" id="L85">	}</span>
+
+	/**
+	 * Returns the text entered into the WDateField as a java date. Returns null if the data cannot be converted into a
+	 * java date.
+	 *
+	 * @return the java date or null
+	 */
+	public Date getDate() {
+<span class="fc" id="L94">		return getValue();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Date getValue() {
+<span class="fc" id="L102">		return convertDate(getData());</span>
+	}
+
+	/**
+	 * Attempts to convert the given object to a date. Throws a SystemException on error.
+	 *
+	 * @param data the data to convert.
+	 * @return the converted date, or null if &lt;code&gt;data&lt;/code&gt; was null/empty.
+	 */
+	private Date convertDate(final Object data) {
+<span class="fc bfc" id="L112" title="All 2 branches covered.">		if (data == null) {</span>
+<span class="fc" id="L113">			return null;</span>
+<span class="fc bfc" id="L114" title="All 2 branches covered.">		} else if (data instanceof Date) {</span>
+<span class="fc" id="L115">			return (Date) data;</span>
+<span class="fc bfc" id="L116" title="All 2 branches covered.">		} else if (data instanceof Long) {</span>
+<span class="fc" id="L117">			return new Date((Long) data);</span>
+<span class="fc bfc" id="L118" title="All 2 branches covered.">		} else if (data instanceof Calendar) {</span>
+<span class="fc" id="L119">			return ((Calendar) data).getTime();</span>
+<span class="pc bpc" id="L120" title="1 of 2 branches missed.">		} else if (data instanceof String) {</span>
+			try {
+<span class="nc" id="L122">				SimpleDateFormat sdf = new SimpleDateFormat(INTERNAL_DATE_FORMAT);</span>
+<span class="nc" id="L123">				sdf.setLenient(lenient);</span>
+<span class="nc" id="L124">				return sdf.parse((String) data);</span>
+<span class="nc" id="L125">			} catch (ParseException e) {</span>
+<span class="nc" id="L126">				throw new SystemException(&quot;Could not convert String data [&quot; + data + &quot;] to a date.&quot;);</span>
+			}
+		}
+
+<span class="fc" id="L130">		throw new SystemException(&quot;Cannot convert data type &quot; + data.getClass() + &quot; to a date.&quot;);</span>
+	}
+
+	/**
+	 * Retrieves the text entered into the field by a specific user. This is not necessarily a valid date.
+	 *
+	 * @return the text field's text for the given context.
+	 */
+	public String getText() {
+<span class="fc" id="L139">		return getComponentModel().text;</span>
+	}
+
+	/**
+	 * Indicates whether the text value held in this field is a valid date.
+	 *
+	 * @return true if the field contains text which is a valid date, false otherwise.
+	 */
+	public boolean isParseable() {
+<span class="fc" id="L148">		return getComponentModel().validDate;</span>
+	}
+
+	/**
+	 * Retrieves a String representation of the date field's value. The date value will be returned using its default
+	 * String representation.
+	 *
+	 * @return the date value, or the text entered by the user if there is no valid date.
+	 */
+	@Override
+	public String getValueAsString() {
+<span class="fc" id="L159">		Date date = getValue();</span>
+<span class="fc bfc" id="L160" title="All 2 branches covered.">		return date == null ? getText() : date.toString();</span>
+	}
+
+	// ================================
+	// Action/Event handling
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected boolean doHandleRequest(final Request request) {
+		// Valid Date on the request
+<span class="fc" id="L171">		Date dateValue = getRequestValue(request);</span>
+
+		// Text entered by the user (An empty string is treated as null)
+<span class="fc" id="L174">		String value = request.getParameter(getId());</span>
+<span class="fc bfc" id="L175" title="All 2 branches covered.">		String text = Util.empty(value) ? null : value;</span>
+
+		// Current Date
+<span class="fc" id="L178">		Date currentDate = getValue();</span>
+
+		boolean changed;
+
+		// If a &quot;valid&quot; date value has not been entered, then check if the &quot;user text&quot; has changed
+<span class="fc bfc" id="L183" title="All 2 branches covered.">		if (dateValue == null) {</span>
+			// User entered text
+<span class="fc bfc" id="L185" title="All 4 branches covered.">			changed = !Util.equals(text, getText()) || currentDate != null;</span>
+		} else {
+			// Valid Date
+<span class="fc bfc" id="L188" title="All 2 branches covered.">			changed = !Util.equals(dateValue, currentDate);</span>
+		}
+
+<span class="fc bfc" id="L191" title="All 2 branches covered.">		if (changed) {</span>
+<span class="fc" id="L192">			setData(dateValue);</span>
+<span class="fc" id="L193">			DateFieldModel model = getOrCreateComponentModel();</span>
+<span class="fc bfc" id="L194" title="All 4 branches covered.">			model.validDate = dateValue != null || text == null;</span>
+<span class="fc" id="L195">			model.text = text;</span>
+		}
+
+<span class="fc" id="L198">		return changed;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Date getRequestValue(final Request request) {
+<span class="fc bfc" id="L206" title="All 2 branches covered.">		if (isPresent(request)) {</span>
+			// User entered a valid date
+<span class="fc" id="L208">			String dateParam = request.getParameter(getId() + &quot;-date&quot;);</span>
+<span class="fc bfc" id="L209" title="All 2 branches covered.">			if (dateParam == null) {</span>
+<span class="fc" id="L210">				return null;</span>
+			}
+
+			// Check the date is not empty and correct length
+<span class="fc bfc" id="L214" title="All 4 branches covered.">			if (Util.empty(dateParam) || dateParam.length() != INTERNAL_DATE_FORMAT.length()) {</span>
+<span class="fc" id="L215">				LOG.warn(&quot;Date parameter is not the valid length of &quot; + INTERNAL_DATE_FORMAT.</span>
+<span class="fc" id="L216">						length() + &quot; characters (&quot;</span>
+						+ dateParam + &quot;) and will be treated as null&quot;);
+<span class="fc" id="L218">				return null;</span>
+			}
+
+			// Check it is valid
+			try {
+<span class="fc" id="L223">				SimpleDateFormat sdf = new SimpleDateFormat(INTERNAL_DATE_FORMAT);</span>
+<span class="fc" id="L224">				sdf.setLenient(lenient);</span>
+<span class="fc" id="L225">				return sdf.parse(dateParam);</span>
+<span class="fc" id="L226">			} catch (ParseException e) {</span>
+<span class="fc" id="L227">				LOG.warn(</span>
+						&quot;Date parameter could not be parsed (&quot; + dateParam + &quot;) and will be treated as null&quot;,
+						e);
+<span class="fc" id="L230">				return null;</span>
+			}
+		} else {
+<span class="fc" id="L233">			return getValue();</span>
+		}
+	}
+
+	/**
+	 * Sets the validation error message.
+	 *
+	 * @param errorMessage The errorMessage to set, or null to use the default error message.
+	 */
+	public void setInvalidDateErrorMessage(final String errorMessage) {
+<span class="fc" id="L243">		getOrCreateComponentModel().errorMessage = errorMessage;</span>
+<span class="fc" id="L244">	}</span>
+
+	/**
+	 * Override WInput's validateComponent to perform further validation on the date.
+	 *
+	 * @param diags the list into which any validation diagnostics are added.
+	 */
+	@Override
+	protected void validateComponent(final List&lt;Diagnostic&gt; diags) {
+<span class="fc" id="L253">		super.validateComponent(diags);</span>
+
+<span class="fc bfc" id="L255" title="All 2 branches covered.">		if (isParseable()) {</span>
+<span class="fc" id="L256">			validateDate(diags);</span>
+		} else {
+<span class="fc" id="L258">			diags.add(createErrorDiagnostic(getComponentModel().errorMessage, this));</span>
+		}
+<span class="fc" id="L260">	}</span>
+
+	/**
+	 * &lt;p&gt;
+	 * Performs validation of the date. Validation ensures that the entered date is between the minimum/maximum values
+	 * (if applicable).
+	 * &lt;/p&gt;
+	 * &lt;p&gt;
+	 * Subclasses can override this method to perform more specific validation.
+	 * &lt;/p&gt;
+	 *
+	 * @param diags the list into which any validation diagnostics are added.
+	 */
+	protected void validateDate(final List&lt;Diagnostic&gt; diags) {
+<span class="fc" id="L274">		Date value = getValue();</span>
+<span class="fc bfc" id="L275" title="All 2 branches covered.">		if (value == null) {</span>
+<span class="fc" id="L276">			return;</span>
+		}
+
+<span class="fc" id="L279">		Date min = getMinDate();</span>
+<span class="fc" id="L280">		Date max = getMaxDate();</span>
+
+<span class="fc bfc" id="L282" title="All 4 branches covered.">		if (min != null &amp;&amp; value.compareTo(min) &lt; 0) {</span>
+<span class="fc" id="L283">			diags.add(createErrorDiagnostic(</span>
+					InternalMessages.DEFAULT_VALIDATION_ERROR_DATE_AFTER_OR_EQUAL, this, min));
+		}
+
+<span class="fc bfc" id="L287" title="All 4 branches covered.">		if (max != null &amp;&amp; value.compareTo(max) &gt; 0) {</span>
+<span class="fc" id="L288">			diags.add(createErrorDiagnostic(</span>
+					InternalMessages.DEFAULT_VALIDATION_ERROR_DATE_BEFORE_OR_EQUAL, this, max));
+		}
+<span class="fc" id="L291">	}</span>
+
+	/**
+	 * Retrieves the minimum allowable value for this date field. The minimum value is enforced server-side using the
+	 * WComponent validation framework, and &lt;b&gt;may&lt;/b&gt; be enforced client-side.
+	 *
+	 * @return the minimum allowable value, or null if there is no minimum.
+	 */
+	public Date getMinDate() {
+<span class="fc" id="L300">		return getComponentModel().minDate;</span>
+	}
+
+	/**
+	 * Sets the minimum allowable value for this date field.
+	 *
+	 * @param minDate the minimum allowable value.
+	 */
+	public void setMinDate(final Date minDate) {
+<span class="fc" id="L309">		getOrCreateComponentModel().minDate = minDate;</span>
+<span class="fc" id="L310">	}</span>
+
+	/**
+	 * Retrieves the maximum allowable value for this date field. The maximum value is enforced server-side using the
+	 * WComponent validation framework, and &lt;b&gt;may&lt;/b&gt; be enforced client-side.
+	 *
+	 * @return the maximum allowable value, or null if there is no maximum.
+	 */
+	public Date getMaxDate() {
+<span class="fc" id="L319">		return getComponentModel().maxDate;</span>
+	}
+
+	/**
+	 * Sets the maximum allowable value for this date field.
+	 *
+	 * @param maxDate the maximum allowable value.
+	 */
+	public void setMaxDate(final Date maxDate) {
+<span class="fc" id="L328">		getOrCreateComponentModel().maxDate = maxDate;</span>
+<span class="fc" id="L329">	}</span>
+
+	/**
+	 * Creates a new DateFieldModel holds Extrinsic state management of the field.
+	 *
+	 * @return a new DateFieldModel
+	 */
+	@Override
+	protected DateFieldModel newComponentModel() {
+<span class="fc" id="L338">		return new DateFieldModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	// For type safety only
+	protected DateFieldModel getComponentModel() {
+<span class="fc" id="L347">		return (DateFieldModel) super.getComponentModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	// For type safety only
+	protected DateFieldModel getOrCreateComponentModel() {
+<span class="fc" id="L356">		return (DateFieldModel) super.getOrCreateComponentModel();</span>
+	}
+
+	/**
+	 * DateFieldModel holds Extrinsic state management of the field.
+	 */
+<span class="fc" id="L362">	public static class DateFieldModel extends InputModel {</span>
+
+		/**
+		 * The error message to display when the input fails the date validation check.
+		 */
+<span class="fc" id="L367">		private String errorMessage = InternalMessages.DEFAULT_VALIDATION_ERROR_INVALID_DATE;</span>
+
+		/**
+		 * The user-entered text.
+		 */
+		private String text;
+
+		/**
+		 * Indicates whether the entered date was valid.
+		 */
+<span class="fc" id="L377">		private boolean validDate = true;</span>
+
+		/**
+		 * The minimum date value to allow.
+		 */
+		private Date minDate;
+
+		/**
+		 * The maximum date value to allow.
+		 */
+		private Date maxDate;
+
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

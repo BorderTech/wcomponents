@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WProgressBar.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">WProgressBar.java</span></div><h1>WProgressBar.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+/**
+ * &lt;p&gt;
+ * WProgressBar is a component for displaying progress bars. The number of steps in the progress bar is configurable,
+ * and the progress bar's value can either be set manually, or sourced from an Integer bean.&lt;/p&gt;
+ *
+ * &lt;p&gt;
+ * Methods are available to customise the progress bar's appearance, such as setting its size or whether to display the
+ * progress as a fraction or percentage.&lt;/p&gt;
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ */
+public class WProgressBar extends WBeanComponent implements AjaxTarget {
+
+	/**
+	 * Progress bar types.
+	 */
+<span class="pc" id="L20">	public enum ProgressBarType {</span>
+		/**
+		 * A normal progress bar.
+		 */
+<span class="fc" id="L24">		NORMAL,</span>
+		/**
+		 * A smaller progress bar.
+		 */
+<span class="fc" id="L28">		SMALL</span>
+	}
+
+	/**
+	 * Display unit types.
+	 */
+<span class="pc" id="L34">	public enum UnitType {</span>
+		/**
+		 * Units will be displayed as a fraction, e.g. &lt;code&gt;33/100&lt;/code&gt;.
+		 */
+<span class="fc" id="L38">		FRACTION,</span>
+		/**
+		 * Units will be displayed as a percentage, e.g. &lt;code&gt;33%&lt;/code&gt;.
+		 */
+<span class="fc" id="L42">		PERCENTAGE</span>
+	}
+
+	/**
+	 * Creates a progress bar with the type of &quot;normal&quot; and a fraction unit type.
+	 */
+	public WProgressBar() {
+<span class="fc" id="L49">		this(ProgressBarType.NORMAL, UnitType.FRACTION);</span>
+<span class="fc" id="L50">	}</span>
+
+	/**
+	 * Creates a progress bar with the type of &quot;normal&quot;, a fraction unit type and the given maximum value.
+	 *
+	 * @param max the maximum value
+	 */
+	public WProgressBar(final int max) {
+<span class="fc" id="L58">		this(ProgressBarType.NORMAL, UnitType.FRACTION, max);</span>
+<span class="fc" id="L59">	}</span>
+
+	/**
+	 * Creates a progress bar with the given bar and unit types.
+	 *
+	 * @param type the progress bar type.
+	 * @param unitType the display unit type.
+	 */
+<span class="fc" id="L67">	public WProgressBar(final ProgressBarType type, final UnitType unitType) {</span>
+<span class="fc" id="L68">		setProgressBarType(type);</span>
+<span class="fc" id="L69">		setUnitType(unitType);</span>
+<span class="fc" id="L70">	}</span>
+
+	/**
+	 * Creates a progress bar with the given bar type, unit type and max value.
+	 *
+	 * @param type the progress bar type.
+	 * @param unitType the display unit type.
+	 * @param max the maximum value
+	 */
+<span class="fc" id="L79">	public WProgressBar(final ProgressBarType type, final UnitType unitType, final int max) {</span>
+<span class="fc" id="L80">		setProgressBarType(type);</span>
+<span class="fc" id="L81">		setUnitType(unitType);</span>
+<span class="fc" id="L82">		setMax(max);</span>
+<span class="fc" id="L83">	}</span>
+
+	/**
+	 * @return the maximum value of the progress bar.
+	 */
+	public int getMax() {
+<span class="fc" id="L89">		return getComponentModel().max;</span>
+	}
+
+	/**
+	 * Sets the maximum value of the progress bar.
+	 *
+	 * @param max the maximum allowable value.
+	 */
+	public void setMax(final int max) {
+<span class="fc" id="L98">		getOrCreateComponentModel().max = max;</span>
+<span class="fc" id="L99">	}</span>
+
+	/**
+	 * Sets the value of the progress bar for the given context.
+	 *
+	 * @param value the progress bar value.
+	 */
+	public void setValue(final int value) {
+<span class="nc bnc" id="L107" title="All 2 branches missed.">		setData(value == 0 ? null : value);</span>
+<span class="nc" id="L108">	}</span>
+
+	/**
+	 * Retrieves the value of the progress bar.
+	 *
+	 * @return the progress bar's value for the context.
+	 */
+	public int getValue() {
+<span class="fc" id="L116">		int max = getMax();</span>
+<span class="fc" id="L117">		Integer data = (Integer) getData();</span>
+<span class="fc bfc" id="L118" title="All 2 branches covered.">		return data == null ? 0 : Math.max(0, Math.min(max, data));</span>
+	}
+
+	/**
+	 * @return the progress bar type.
+	 */
+	public ProgressBarType getProgressBarType() {
+<span class="fc" id="L125">		return getComponentModel().barType;</span>
+	}
+
+	/**
+	 * Sets the progress bar type.
+	 *
+	 * @param type the progress bar type.
+	 */
+	public void setProgressBarType(final ProgressBarType type) {
+<span class="fc" id="L134">		getOrCreateComponentModel().barType = type;</span>
+<span class="fc" id="L135">	}</span>
+
+	/**
+	 * Retrieves the display unit type.
+	 *
+	 * @return the unit type.
+	 */
+	public UnitType getUnitType() {
+<span class="fc" id="L143">		return getComponentModel().unitType;</span>
+	}
+
+	/**
+	 * Sets the display unit type.
+	 *
+	 * @param unitType the unit type.
+	 */
+	public void setUnitType(final UnitType unitType) {
+<span class="fc" id="L152">		getOrCreateComponentModel().unitType = unitType;</span>
+<span class="fc" id="L153">	}</span>
+
+	/**
+	 * @return the progress bar text.
+	 */
+	public String getText() {
+<span class="fc" id="L159">		return getComponentModel().text;</span>
+	}
+
+	/**
+	 * Sets the progress bar text.
+	 *
+	 * @param text the text to set.
+	 */
+	public void setText(final String text) {
+<span class="fc" id="L168">		getOrCreateComponentModel().text = text;</span>
+<span class="fc" id="L169">	}</span>
+
+	@Override
+	public String toString() {
+<span class="nc" id="L173">		return toString(String.valueOf(getValue()) + '/' + getMax());</span>
+	}
+
+	/**
+	 * Creates a new Component model appropriate for this component.
+	 *
+	 * @return a new WProgressBarModel.
+	 */
+	@Override
+	protected WProgressBarModel newComponentModel() {
+<span class="fc" id="L183">		return new WProgressBarModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override // For type safety only
+	protected WProgressBarModel getOrCreateComponentModel() {
+<span class="fc" id="L191">		return (WProgressBarModel) super.getOrCreateComponentModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override // For type safety only
+	protected WProgressBarModel getComponentModel() {
+<span class="fc" id="L199">		return (WProgressBarModel) super.getComponentModel();</span>
+	}
+
+	/**
+	 * The component model that holds progress bar's state.
+	 *
+	 * @author Yiannis Paschalidis
+	 */
+<span class="fc" id="L207">	public static final class WProgressBarModel extends BeanAndProviderBoundComponentModel {</span>
+
+		private ProgressBarType barType;
+		private UnitType unitType;
+		private int max;
+		private String text;
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

@@ -1,0 +1,517 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>AbstractWSelectList.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">AbstractWSelectList.java</span></div><h1>AbstractWSelectList.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.Factory;
+import com.github.bordertech.wcomponents.util.I18nUtilities;
+import com.github.bordertech.wcomponents.util.LookupTable;
+import com.github.bordertech.wcomponents.util.LookupTableHelper;
+import com.github.bordertech.wcomponents.util.Util;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+/**
+ * AbstractWSelectList provides the basis for components that allow the user to select an item from a list.
+ *
+ * @author Yiannis Paschalidis
+ * @author Jonathan Austin
+ * @since 1.0.0
+ */
+public abstract class AbstractWSelectList extends AbstractInput {
+
+	/**
+	 * The Application-wide lookup-table to use.
+	 */
+<span class="fc" id="L25">	private static final LookupTable APPLICATION_LOOKUP_TABLE = Factory.newInstance(</span>
+			LookupTable.class);
+
+	/**
+	 * Indicates whether having no selection is allowed.
+	 */
+	private final boolean allowNoSelection;
+
+	/**
+	 * Data list caching parameter key.
+	 */
+	public static final String DATALIST_CACHING_PARAM_KEY = &quot;bordertech.wcomponents.dataListCaching.enabled&quot;;
+
+	/**
+	 * Creates an AbstractWSelectList.
+	 *
+	 * @param options the list's options.
+	 * @param allowNoSelection if true, allow no option to be selected
+	 */
+<span class="fc" id="L44">	public AbstractWSelectList(final List&lt;?&gt; options, final boolean allowNoSelection) {</span>
+<span class="fc" id="L45">		getComponentModel().setOptions(options);</span>
+<span class="fc" id="L46">		this.allowNoSelection = allowNoSelection;</span>
+<span class="fc" id="L47">	}</span>
+
+	/**
+	 * Creates an AbstractWSelectList.
+	 *
+	 * @param lookupTable the lookup table identifier to obtain the list's options from.
+	 * @param allowNoSelection if true, allow no option to be selected
+	 */
+<span class="fc" id="L55">	public AbstractWSelectList(final Object lookupTable, final boolean allowNoSelection) {</span>
+<span class="fc" id="L56">		getComponentModel().setLookupTable(lookupTable);</span>
+<span class="fc" id="L57">		this.allowNoSelection = allowNoSelection;</span>
+<span class="fc" id="L58">	}</span>
+
+	/**
+	 * @return if true, allow no option to be selected
+	 */
+	protected boolean isAllowNoSelection() {
+<span class="fc" id="L64">		return allowNoSelection;</span>
+	}
+
+	/**
+	 * Setting this flag to true will cause this list component to post the form to the server when it's selection is
+	 * changed.
+	 *
+	 * @param flag if true, the form is submitted when the selection changes.
+	 */
+	@Override
+	public void setSubmitOnChange(final boolean flag) {
+<span class="fc" id="L75">		super.setSubmitOnChange(flag);</span>
+<span class="fc" id="L76">	}</span>
+
+	/**
+	 * Indicates whether the form should submit to server when the list component's selection changes.
+	 *
+	 * @return true if the form is submitted when the selection changes.
+	 */
+	@Override
+	public boolean isSubmitOnChange() {
+<span class="fc" id="L85">		return super.isSubmitOnChange();</span>
+	}
+
+	/**
+	 * A flag if set to true the option description will be encoded. Defaults to &lt;code&gt;true&lt;/code&gt;.
+	 *
+	 * @param encode If &lt;code&gt;true&lt;/code&gt;, option descriptions will be encoded.
+	 */
+	public void setDescEncode(final boolean encode) {
+<span class="fc" id="L94">		setFlag(ComponentModel.ENCODE_TEXT_FLAG, encode);</span>
+<span class="fc" id="L95">	}</span>
+
+	/**
+	 * @return Flag indicating if option descriptions are to be encoded.
+	 */
+	public boolean getDescEncode() {
+<span class="fc" id="L101">		return isFlagSet(ComponentModel.ENCODE_TEXT_FLAG);</span>
+	}
+
+	/**
+	 * Retrieves the code for the given option. Will return null if there is no matching option.
+	 *
+	 * @param option the option
+	 * @return the code for the given option, or null if there is no matching option.
+	 */
+	public final String optionToCode(final Object option) {
+<span class="fc" id="L111">		return optionToCode(option, getOptionIndex(option));</span>
+	}
+
+	/**
+	 * Retrieves the code for the given option. Will return null if there is no matching option.
+	 *
+	 * @param option the option
+	 * @param index the index of the option in the list.
+	 * @return the code for the given option, or null if there is no matching option.
+	 */
+	protected String optionToCode(final Object option, final int index) {
+<span class="fc bfc" id="L122" title="All 2 branches covered.">		if (index &lt; 0) {</span>
+<span class="fc" id="L123">			List&lt;?&gt; options = getOptions();</span>
+
+<span class="fc bfc" id="L125" title="All 4 branches covered.">			if (options == null || options.isEmpty()) {</span>
+<span class="fc" id="L126">				Integrity.issue(this, &quot;No options available, so cannot convert the option \&quot;&quot;</span>
+						+ option + &quot;\&quot; to a code.&quot;);
+			} else {
+<span class="fc" id="L129">				StringBuffer message = new StringBuffer();</span>
+<span class="fc" id="L130">				message.append(&quot;The option \&quot;&quot;).append(option).append(</span>
+						&quot;\&quot; is not one of the available options.&quot;);
+<span class="fc" id="L132">				Object firstOption = SelectListUtil.getFirstOption(options);</span>
+
+<span class="pc bpc" id="L134" title="1 of 4 branches missed.">				if (firstOption != null &amp;&amp; option != null &amp;&amp; firstOption.getClass() != option.</span>
+<span class="fc bfc" id="L135" title="All 2 branches covered.">						getClass()) {</span>
+<span class="fc" id="L136">					message.append(&quot; The options in this list component are of type \&quot;&quot;);</span>
+<span class="fc" id="L137">					message.append(firstOption.getClass().getName())</span>
+<span class="fc" id="L138">							.append(&quot;\&quot;, the selection you supplied is of type \&quot;&quot;);</span>
+<span class="fc" id="L139">					message.append(option.getClass().getName()).append(&quot;\&quot;.&quot;);</span>
+				}
+
+<span class="fc" id="L142">				Integrity.issue(this, message.toString());</span>
+			}
+
+<span class="fc" id="L145">			return null;</span>
+<span class="fc bfc" id="L146" title="All 2 branches covered.">		} else if (option instanceof Option) {</span>
+<span class="fc" id="L147">			Option opt = (Option) option;</span>
+<span class="pc bpc" id="L148" title="1 of 2 branches missed.">			return opt.getCode() == null ? &quot;&quot; : opt.getCode();</span>
+		} else {
+<span class="fc" id="L150">			String code = APPLICATION_LOOKUP_TABLE.getCode(getLookupTable(), option);</span>
+
+<span class="pc bpc" id="L152" title="1 of 2 branches missed.">			if (code == null) {</span>
+<span class="fc" id="L153">				return String.valueOf(index + 1);</span>
+			} else {
+<span class="nc" id="L155">				return code;</span>
+			}
+		}
+	}
+
+	/**
+	 * Retrieves the index of the given option. The index is not necessarily the index of the option in the options
+	 * list, as there may be options nested in OptionGroups.
+	 *
+	 * @param option the option
+	 * @return the index of the given option, or -1 if there is no matching option.
+	 */
+	protected int getOptionIndex(final Object option) {
+<span class="fc" id="L168">		int optionCount = 0;</span>
+<span class="fc" id="L169">		List&lt;?&gt; options = getOptions();</span>
+
+<span class="fc bfc" id="L171" title="All 2 branches covered.">		if (options != null) {</span>
+<span class="fc bfc" id="L172" title="All 2 branches covered.">			for (Object obj : getOptions()) {</span>
+<span class="fc bfc" id="L173" title="All 2 branches covered.">				if (obj instanceof OptionGroup) {</span>
+<span class="fc" id="L174">					List&lt;?&gt; groupOptions = ((OptionGroup) obj).getOptions();</span>
+
+<span class="fc" id="L176">					int groupIndex = groupOptions.indexOf(option);</span>
+
+<span class="fc bfc" id="L178" title="All 2 branches covered.">					if (groupIndex != -1) {</span>
+<span class="fc" id="L179">						return optionCount + groupIndex;</span>
+					}
+
+<span class="fc" id="L182">					optionCount += groupOptions.size();</span>
+<span class="fc bfc" id="L183" title="All 2 branches covered.">				} else if (Util.equals(option, obj)) {</span>
+<span class="fc" id="L184">					return optionCount;</span>
+				} else {
+<span class="fc" id="L186">					optionCount++;</span>
+				}
+<span class="fc" id="L188">			}</span>
+		}
+
+<span class="fc" id="L191">		return -1;</span>
+	}
+
+	/**
+	 * Retrieves the data list cache key for this component.
+	 *
+	 * @return the cache key if client-side caching is enabled, null otherwise.
+	 */
+	public String getListCacheKey() {
+<span class="fc" id="L200">		Object table = getLookupTable();</span>
+
+<span class="pc bpc" id="L202" title="1 of 4 branches missed.">		if (table != null &amp;&amp; Config.getInstance().getBoolean(DATALIST_CACHING_PARAM_KEY, false)) {</span>
+<span class="fc" id="L203">			String key = APPLICATION_LOOKUP_TABLE.getCacheKeyForTable(table);</span>
+<span class="fc" id="L204">			return key;</span>
+		}
+
+<span class="fc" id="L207">		return null;</span>
+	}
+
+	/**
+	 * This method converts an option object into a string. List components that need to control the format of the
+	 * string can override this method. By default this method simply calls toString() on the given option object.
+	 *
+	 * @param option the option to return a String representation of.
+	 * @return a String representation of the given option.
+	 */
+	protected String optionToString(final Object option) {
+<span class="pc bpc" id="L218" title="1 of 2 branches missed.">		if (option == null) {</span>
+<span class="nc" id="L219">			return null;</span>
+		}
+<span class="fc" id="L221">		return option.toString();</span>
+	}
+
+	/**
+	 * Returns the complete list of options available for selection for this user's session.
+	 *
+	 * @return the list of options available for the given user's session.
+	 */
+	public List&lt;?&gt; getOptions() {
+<span class="fc bfc" id="L230" title="All 2 branches covered.">		if (getLookupTable() == null) {</span>
+<span class="fc" id="L231">			SelectionModel model = getComponentModel();</span>
+<span class="fc" id="L232">			return model.getOptions();</span>
+		} else {
+<span class="fc" id="L234">			return APPLICATION_LOOKUP_TABLE.getTable(getLookupTable());</span>
+		}
+	}
+
+	/**
+	 * Set the complete list of options available for selection for this user's session.
+	 *
+	 * @param aList the list of options available to the user.
+	 */
+	public void setOptions(final List&lt;?&gt; aList) {
+<span class="fc" id="L244">		SelectionModel model = getOrCreateComponentModel();</span>
+<span class="fc" id="L245">		model.setOptions(aList);</span>
+<span class="fc" id="L246">	}</span>
+
+	/**
+	 * Set the complete list of options available for selection for this users session.
+	 *
+	 * @param aArray the list of options available to the user.
+	 */
+	public void setOptions(final Object[] aArray) {
+<span class="pc bpc" id="L254" title="1 of 2 branches missed.">		setOptions(aArray == null ? null : Arrays.asList(aArray));</span>
+<span class="fc" id="L255">	}</span>
+
+	/**
+	 * Set the lookupTable for this user's session.
+	 *
+	 * @param lookupTable the lookup table identifier to obtain the options for the list.
+	 */
+	public void setLookupTable(final Object lookupTable) {
+<span class="fc" id="L263">		getOrCreateComponentModel().setLookupTable(lookupTable);</span>
+<span class="fc" id="L264">	}</span>
+
+	/**
+	 * Get the lookupTable for this user's session.
+	 *
+	 * @return the lookupTable for the options
+	 */
+	public Object getLookupTable() {
+<span class="fc" id="L272">		return getComponentModel().getLookupTable();</span>
+	}
+
+	/**
+	 * Sets whether users are able to enter in an arbitrary value, rather than having to pick one from the list. This
+	 * method is marked protected, as not all list type controls will support editing. Controls which do support editing
+	 * should override this method and make it public.
+	 *
+	 * @param editable true for editable, false for fixed.
+	 * @deprecated Editable no longer required. WSuggestions and a WTextfield should be used instead
+	 */
+	@Deprecated
+	protected void setEditable(final boolean editable) {
+<span class="fc" id="L285">		getOrCreateComponentModel().editable = editable;</span>
+<span class="fc" id="L286">	}</span>
+
+	/**
+	 * Indicates whether users are able to enter in an arbitrary value, rather than having to pick one from the list.
+	 * This method is marked protected, as not all list type controls will support editing. Controls which do support
+	 * editing should override this method and make it public.
+	 *
+	 * @return true if the user can enter arbitrary values, false if not.
+	 * @deprecated Editable no longer required. WSuggestions and a WTextfield should be used instead
+	 */
+	@Deprecated
+	protected boolean isEditable() {
+<span class="fc" id="L298">		return getComponentModel().editable;</span>
+	}
+
+	/**
+	 * Indicates whether this component is AJAX enabled. A list is an AJAX list if it has a
+	 * {@link #setAjaxTarget(AjaxTarget) target set}.
+	 * &lt;p&gt;
+	 * This method is protected due to this being an abstract class and not all the classes that extend it support AJAX.
+	 * &lt;/p&gt;
+	 *
+	 * @return true if this list is AJAX enabled, false otherwise.
+	 */
+	protected boolean isAjax() {
+<span class="fc bfc" id="L311" title="All 2 branches covered.">		return getComponentModel().ajaxTarget != null;</span>
+	}
+
+	/**
+	 * Retrieves the default AJAX target.
+	 * &lt;p&gt;
+	 * This method is protected due to this being an abstract class and not all the classes that extend it support AJAX.
+	 * &lt;/p&gt;
+	 *
+	 * @return the default AJAX target for this list.
+	 */
+	protected AjaxTarget getAjaxTarget() {
+<span class="fc" id="L323">		return getComponentModel().ajaxTarget;</span>
+	}
+
+	/**
+	 * Sets the AJAX target for the list. If a target is supplied, as an AJAX request is made rather than a round-trip
+	 * to the server. The AJAX response will only contain the (possibly updated) target element rather than the entire
+	 * UI.
+	 * &lt;p&gt;
+	 * This method is protected due to this being an abstract class and not all the classes that extend it support AJAX.
+	 * &lt;/p&gt;
+	 *
+	 * @param ajaxTarget the AJAX target.
+	 */
+	protected void setAjaxTarget(final AjaxTarget ajaxTarget) {
+<span class="fc" id="L337">		getOrCreateComponentModel().ajaxTarget = ajaxTarget;</span>
+<span class="fc" id="L338">	}</span>
+
+	/**
+	 * &lt;p&gt;
+	 * Indicates whether this list was present in the request.
+	 * &lt;/p&gt;
+	 * &lt;p&gt;
+	 * Lists that allow no option to be selected have a hidden input field, whose name is name-h to indicate that it is
+	 * in the request.
+	 * &lt;/p&gt;
+	 *
+	 * @param request the request being responded to.
+	 * @return true if this list was present in the request, false if not.
+	 */
+	@Override
+	protected boolean isPresent(final Request request) {
+<span class="fc bfc" id="L354" title="All 2 branches covered.">		if (isAllowNoSelection()) {</span>
+<span class="fc" id="L355">			String id = getId();</span>
+<span class="fc bfc" id="L356" title="All 2 branches covered.">			return request.getParameter(id + &quot;-h&quot;) != null;</span>
+		} else {
+<span class="fc" id="L358">			return super.isPresent(request);</span>
+		}
+	}
+
+	/**
+	 * Override preparePaintComponent to register an AJAX operation if this list is AJAX enabled.
+	 *
+	 * @param request the request being responded to.
+	 */
+	@Override
+	protected void preparePaintComponent(final Request request) {
+<span class="fc" id="L369">		super.preparePaintComponent(request);</span>
+
+<span class="pc bpc" id="L371" title="1 of 4 branches missed.">		if (isAjax() &amp;&amp; UIContextHolder.getCurrent().getUI() != null) {</span>
+<span class="nc" id="L372">			AjaxTarget target = getAjaxTarget();</span>
+<span class="nc" id="L373">			AjaxHelper.registerComponent(target.getId(), request, getId());</span>
+		}
+
+<span class="fc" id="L376">		String cacheKey = getListCacheKey();</span>
+
+<span class="fc bfc" id="L378" title="All 2 branches covered.">		if (cacheKey != null) {</span>
+<span class="fc" id="L379">			LookupTableHelper.registerList(cacheKey, request);</span>
+		}
+<span class="fc" id="L381">	}</span>
+
+	/**
+	 * Indicates whether the selection be ordered.
+	 *
+	 * @return true if the selection can be ordered, false otherwise.
+	 */
+	protected boolean isSelectionOrderable() {
+<span class="fc" id="L389">		return false;</span>
+	}
+
+	/**
+	 * Creates a new SelectionModel which holds Extrinsic state management of the list.
+	 *
+	 * @return a new SelectionModel
+	 */
+	@Override
+	protected SelectionModel newComponentModel() {
+<span class="fc" id="L399">		return new SelectionModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	// For type safety only
+	protected SelectionModel getComponentModel() {
+<span class="fc" id="L408">		return (SelectionModel) super.getComponentModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	// For type safety only
+	protected SelectionModel getOrCreateComponentModel() {
+<span class="fc" id="L417">		return (SelectionModel) super.getOrCreateComponentModel();</span>
+	}
+
+	/**
+	 * Retrieves the description for the given option. Intended for use by Renderers.
+	 *
+	 * @param option the option to retrieve the description for.
+	 * @param index the option index.
+	 * @return the description for the given option.
+	 */
+	public String getDesc(final Object option, final int index) {
+<span class="fc" id="L428">		String desc = &quot;&quot;;</span>
+
+<span class="fc bfc" id="L430" title="All 2 branches covered.">		if (option instanceof Option) {</span>
+<span class="fc" id="L431">			String optDesc = ((Option) option).getDesc();</span>
+
+<span class="pc bpc" id="L433" title="1 of 2 branches missed.">			if (optDesc != null) {</span>
+<span class="fc" id="L434">				desc = optDesc;</span>
+			}
+<span class="fc" id="L436">		} else {</span>
+<span class="fc" id="L437">			String tableDesc = APPLICATION_LOOKUP_TABLE.getDescription(getLookupTable(), option);</span>
+
+<span class="pc bpc" id="L439" title="1 of 2 branches missed.">			if (tableDesc != null) {</span>
+<span class="nc" id="L440">				desc = tableDesc;</span>
+<span class="fc bfc" id="L441" title="All 2 branches covered.">			} else if (option != null) {</span>
+<span class="fc" id="L442">				desc = option.toString();</span>
+			}
+		}
+
+<span class="fc" id="L446">		return I18nUtilities.format(null, desc);</span>
+	}
+
+	/**
+	 * Retrieves the code for the given option. Intended for use by Renderers.
+	 *
+	 * @param option the option to retrieve the description for.
+	 * @param index the option index.
+	 * @return the description for the given code.
+	 */
+	public String getCode(final Object option, final int index) {
+<span class="fc" id="L457">		return optionToCode(option, index);</span>
+	}
+
+	/**
+	 * Holds the extrinsic state information of the list.
+	 */
+<span class="fc" id="L463">	public static class SelectionModel extends InputModel {</span>
+
+		/**
+		 * The options for this list.
+		 */
+		private List&lt;?&gt; options;
+
+		/**
+		 * The name of the lookup table which will be used to obtain the list options.
+		 */
+		private Object lookupTable;
+
+		/**
+		 * Indicates whether the user is able to enter in an arbitrary value, rather than having to pick one from the
+		 * list.
+		 */
+		private boolean editable;
+
+		/**
+		 * The target component to repaint (via AJAX).
+		 */
+		private AjaxTarget ajaxTarget;
+
+		/**
+		 * @return Returns the options.
+		 */
+		private List&lt;?&gt; getOptions() {
+<span class="fc bfc" id="L490" title="All 2 branches covered.">			return options == null ? null : Collections.unmodifiableList(options);</span>
+		}
+
+		/**
+		 * @param options The options to set.
+		 */
+		private void setOptions(final List&lt;?&gt; options) {
+<span class="fc" id="L497">			this.options = options;</span>
+<span class="fc" id="L498">			lookupTable = null;</span>
+<span class="fc" id="L499">		}</span>
+
+		/**
+		 * @param lookupTable The lookup table name to set.
+		 */
+		private void setLookupTable(final Object lookupTable) {
+<span class="fc" id="L505">			this.lookupTable = lookupTable;</span>
+<span class="fc" id="L506">			options = null;</span>
+<span class="fc" id="L507">		}</span>
+
+		/**
+		 * @return Returns the lookupTable.
+		 */
+		private Object getLookupTable() {
+<span class="fc" id="L513">			return lookupTable;</span>
+		}
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

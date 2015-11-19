@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WDropdown.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">WDropdown.java</span></div><h1>WDropdown.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import java.io.Serializable;
+import java.util.Arrays;
+import java.util.List;
+
+/**
+ * &lt;p&gt;
+ * The WDropdown component is used to let the user select a single option from a drop-down list. The list of options
+ * that can be selected are supplied at construction time as a parameter in the constructor or via the
+ * {@link #setOptions(List)} method. The list of options are java objects that are rendered using their toString() by
+ * default.&lt;/p&gt;
+ *
+ * &lt;p&gt;
+ * Use the {@link #getSelected() getSelected} method to determine which of the list of options was chosen by the user.
+ * Note that getSelected returns one of the object instances supplied in the original list of options.&lt;/p&gt;
+ *
+ * &lt;p&gt;
+ * The WDropdown component supports extensions using the {@link #setType(DropdownType)} method. The
+ * {@link DropdownType#COMBO &quot;combo&quot;} drop-down extension allows the user to enter in a value which was not present in
+ * the original list.&lt;/p&gt;
+ *
+ * @author James Gifford
+ * @author Jonathan Austin
+ * @since 1.0.0
+ */
+public class WDropdown extends AbstractWSingleSelectList implements AjaxTrigger, AjaxTarget,
+		SubordinateTrigger, SubordinateTarget {
+
+	/**
+	 * The type of drop down.
+	 *
+	 * @deprecated COMBO no longer required. WSuggestions and a WTextfield should be used instead
+	 */
+<span class="pc" id="L35">	public enum DropdownType implements Serializable {</span>
+		/**
+		 * A plain drop down.
+		 */
+<span class="fc" id="L39">		NATIVE,</span>
+		/**
+		 * The drop down is a combo box.
+		 *
+		 * @deprecated WSuggestions and a WTextfield should be used instead
+		 */
+<span class="fc" id="L45">		COMBO</span>
+	};
+
+	/**
+	 * Creates an empty WDropdown.
+	 */
+	public WDropdown() {
+<span class="fc" id="L52">		this((List) null);</span>
+<span class="fc" id="L53">	}</span>
+
+	/**
+	 * Creates a WDropdown with the specified options.
+	 *
+	 * @param options the drop down options.
+	 */
+	public WDropdown(final Object[] options) {
+<span class="fc" id="L61">		this(Arrays.asList(options));</span>
+<span class="fc" id="L62">	}</span>
+
+	/**
+	 * Creates a WDropdown with the specified options.
+	 *
+	 * @param options the drop down options.
+	 */
+	public WDropdown(final List options) {
+<span class="fc" id="L70">		super(options, false);</span>
+<span class="fc" id="L71">	}</span>
+
+	/**
+	 * Creates a WDropdown with the options provided by the given table.
+	 *
+	 * @param table the table to obtain the dropdown's options from.
+	 */
+	public WDropdown(final Object table) {
+<span class="fc" id="L79">		super(table, false);</span>
+<span class="fc" id="L80">	}</span>
+
+	/**
+	 * Sets whether the users are able to enter in an arbitrary value, rather than having to pick one from the drop-down
+	 * list.
+	 *
+	 * @param editable true for editable, false for fixed.
+	 * @deprecated editable no longer required. WSuggestions and a WTextfield should be used instead
+	 */
+	@Deprecated
+	@Override
+	public void setEditable(final boolean editable) {
+<span class="fc bfc" id="L92" title="All 2 branches covered.">		setType(editable ? DropdownType.COMBO : DropdownType.NATIVE);</span>
+<span class="fc" id="L93">	}</span>
+
+	/**
+	 * Indicates whether users are able to enter in an arbitrary value, rather than having to pick one from the
+	 * drop-down list.
+	 *
+	 * @return true if the user can enter arbitrary values, false if not.
+	 * @deprecated editable no longer required. WSuggestions and a WTextfield should be used instead
+	 */
+	@Deprecated
+	@Override
+	public boolean isEditable() {
+<span class="fc" id="L105">		return DropdownType.COMBO.equals(getType());</span>
+	}
+
+	/**
+	 * Sets the type of this drop down. If un-set, reverts to the un-editable/native type.
+	 *
+	 * @param type one of native or combo.
+	 * @deprecated No longer required as COMBO will be dropped. WSuggestions and a WTextfield should be used instead
+	 */
+	@Deprecated
+	public void setType(final DropdownType type) {
+<span class="fc" id="L116">		super.setEditable(DropdownType.COMBO.equals(type));</span>
+<span class="fc" id="L117">		getOrCreateComponentModel().type = type;</span>
+<span class="fc" id="L118">	}</span>
+
+	/**
+	 * Indicates the type of this drop down.
+	 *
+	 * @return the drop down type, one of native or combo.
+	 * @deprecated No longer required as COMBO will be dropped. WSuggestions and a WTextfield should be used instead
+	 */
+	@Deprecated
+	public DropdownType getType() {
+<span class="fc" id="L128">		return getComponentModel().type;</span>
+	}
+
+	/**
+	 * Set the width of the selectable options when rendered to screen. Has no effect with a native drop down.
+	 *
+	 * @param optionWidth the option width.
+	 */
+	public void setOptionWidth(final int optionWidth) {
+<span class="fc" id="L137">		getOrCreateComponentModel().optionWidth = optionWidth;</span>
+<span class="fc" id="L138">	}</span>
+
+	/**
+	 * Get the width of the selectable options when rendered to screen. Has no effect with a native drop down.
+	 *
+	 * @return the option width.
+	 */
+	public int getOptionWidth() {
+<span class="fc" id="L146">		return getComponentModel().optionWidth;</span>
+	}
+
+	/**
+	 * Creates a new DropdownModel which holds Extrinsic state management of the drop down.
+	 *
+	 * @return a new DropdownModel.
+	 */
+	@Override
+	protected DropdownModel newComponentModel() {
+<span class="fc" id="L156">		return new DropdownModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override // For type safety only
+	protected DropdownModel getComponentModel() {
+<span class="fc" id="L164">		return (DropdownModel) super.getComponentModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override // For type safety only
+	protected DropdownModel getOrCreateComponentModel() {
+<span class="fc" id="L172">		return (DropdownModel) super.getOrCreateComponentModel();</span>
+	}
+
+	/**
+	 * Holds the extrinsic state information of the drop down.
+	 */
+<span class="fc" id="L178">	public static class DropdownModel extends SelectionModel {</span>
+
+		/**
+		 * The drop down type.
+		 */
+		private DropdownType type;
+
+		/**
+		 * The option width.
+		 */
+		private int optionWidth;
+
+		/**
+		 * @param type the drop down type.
+		 */
+		public void setType(final DropdownType type) {
+<span class="nc" id="L194">			this.type = type;</span>
+<span class="nc" id="L195">		}</span>
+
+		/**
+		 * @return the drop down type.
+		 */
+		public DropdownType getType() {
+<span class="nc" id="L201">			return type;</span>
+		}
+
+		/**
+		 * @param optionWidth the option width.
+		 */
+		public void setOptionWidth(final int optionWidth) {
+<span class="nc" id="L208">			this.optionWidth = optionWidth;</span>
+<span class="nc" id="L209">		}</span>
+
+		/**
+		 * @return the option width.
+		 */
+		public int getOptionWidth() {
+<span class="nc" id="L215">			return optionWidth;</span>
+		}
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

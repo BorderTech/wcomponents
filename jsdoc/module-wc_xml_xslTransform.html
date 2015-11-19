@@ -1,0 +1,1827 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=yes, width=device-width">
+  <title>WComponents wcomponents-theme — Module: wc/xml/xslTransform</title>
+  <link rel="shortcut icon" href="/favicon.ico">
+
+  <!--[if lt IE 9]>
+  <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link type="text/css" rel="stylesheet" href="styles/sunlight.dark.css">
+
+  <link type="text/css" rel="stylesheet" href="styles/site.oblivion.css">
+</head>
+<body>
+<div class="container-fluid">
+  <div class="navbar navbar-fixed-top navbar-inverse">
+    <div class="navbar-inner">
+      <a class="brand" href="index.html">WComponents wcomponents-theme</a>
+      <ul class="nav">
+        
+        <li class="dropdown">
+          <a href="modules.list.html" class="dropdown-toggle" data-toggle="dropdown">Modules<b
+            class="caret"></b></a>
+
+          <ul class="dropdown-menu ">
+            
+            <li>
+              <a href="module-analytics_core.html">analytics/core</a>
+            </li>
+            
+            <li>
+              <a href="module-analytics_ibmcm.html">analytics/ibmcm</a>
+            </li>
+            
+            <li>
+              <a href="module-validation_ariaAnalog.html">validation/ariaAnalog</a>
+            </li>
+            
+            <li>
+              <a href="module-validation_cancelUpdate.html">validation/cancelUpdate</a>
+            </li>
+            
+            <li>
+              <a href="module-validation_checkBox.html">validation/checkBox</a>
+            </li>
+            
+            <li>
+              <a href="module-validation_checkBoxSelect.html">validation/checkBoxSelect</a>
+            </li>
+            
+            <li>
+              <a href="module-validation_dateField.html">validation/dateField</a>
+            </li>
+            
+            <li>
+              <a href="module-validation_dropdown.html">validation/dropdown</a>
+            </li>
+            
+            <li>
+              <a href="module-validation_fieldset.html">validation/fieldset</a>
+            </li>
+            
+            <li>
+              <a href="module-validation_fileUpload.html">validation/fileUpload</a>
+            </li>
+            
+            <li>
+              <a href="module-validation_isComplete.html">validation/isComplete</a>
+            </li>
+            
+            <li>
+              <a href="module-validation_minMax.html">validation/minMax</a>
+            </li>
+            
+            <li>
+              <a href="module-validation_multiFormComponent.html">validation/multiFormComponent</a>
+            </li>
+            
+            <li>
+              <a href="module-validation_multiSelectPair.html">validation/multiSelectPair</a>
+            </li>
+            
+            <li>
+              <a href="module-validation_numberField.html">validation/numberField</a>
+            </li>
+            
+            <li>
+              <a href="module-validation_radioButtonSelect.html">validation/radioButtonSelect</a>
+            </li>
+            
+            <li>
+              <a href="module-validation_required.html">validation/required</a>
+            </li>
+            
+            <li>
+              <a href="module-validation_textArea.html">validation/textArea</a>
+            </li>
+            
+            <li>
+              <a href="module-validation_textField.html">validation/textField</a>
+            </li>
+            
+            <li>
+              <a href="module-validation_validationManager.html">validation/validationManager</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ajax_ajax.html">wc/ajax/ajax</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ajax_setLoading.html">wc/ajax/setLoading</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ajax_Trigger.html">wc/ajax/Trigger</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ajax_triggerManager.html">wc/ajax/triggerManager</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_array_search.html">wc/array/search</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_array_toArray.html">wc/array/toArray</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_array_unique.html">wc/array/unique</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_date_addDays.html">wc/date/addDays</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_date_copy.html">wc/date/copy</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_date_dayName.html">wc/date/dayName</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_date_daysInMonth.html">wc/date/daysInMonth</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_date_expandYear.html">wc/date/expandYear</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_date_explodeMask.html">wc/date/explodeMask</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_date_Format.html">wc/date/Format</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_date_getDifference.html">wc/date/getDifference</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_date_interchange.html">wc/date/interchange</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_date_isLeapYear.html">wc/date/isLeapYear</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_date_monthName.html">wc/date/monthName</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_date_Parser.html">wc/date/Parser</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_date_pattern.html">wc/date/pattern</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_date_pivot.html">wc/date/pivot</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_date_today.html">wc/date/today</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_debug_consoleColor.html">wc/debug/consoleColor</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_aria.html">wc/dom/aria</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_ariaAnalog.html">wc/dom/ariaAnalog</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_ariaGroup.html">wc/dom/ariaGroup</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_attribute.html">wc/dom/attribute</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_cancelUpdate.html">wc/dom/cancelUpdate</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_cbrShedPublisher.html">wc/dom/cbrShedPublisher</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_classList.html">wc/dom/classList</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_clearSelection.html">wc/dom/clearSelection</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_color.html">wc/dom/color</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_convertDynamicContent.html">wc/dom/convertDynamicContent</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_cookie.html">wc/dom/cookie</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_disabledLink.html">wc/dom/disabledLink</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_event.html">wc/dom/event</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_focus.html">wc/dom/focus</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_formUpdateManager.html">wc/dom/formUpdateManager</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_getAncestorOrSelf.html">wc/dom/getAncestorOrSelf</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_getBox.html">wc/dom/getBox</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_getEventOffset.html">wc/dom/getEventOffset</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_getFilteredGroup.html">wc/dom/getFilteredGroup</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_getLabelsForElement.html">wc/dom/getLabelsForElement</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_getStyle.html">wc/dom/getStyle</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_getViewportSize.html">wc/dom/getViewportSize</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_group.html">wc/dom/group</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_impliedARIA.html">wc/dom/impliedARIA</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_initialise.html">wc/dom/initialise</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_isAcceptableTarget.html">wc/dom/isAcceptableTarget</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_isEventInLabel.html">wc/dom/isEventInLabel</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_isSuccessfulElement.html">wc/dom/isSuccessfulElement</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_keyWalker.html">wc/dom/keyWalker</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_removeElement.html">wc/dom/removeElement</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_role.html">wc/dom/role</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_serialize.html">wc/dom/serialize</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_shed.html">wc/dom/shed</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_storage.html">wc/dom/storage</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_tag.html">wc/dom/tag</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_textContent.html">wc/dom/textContent</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_uid.html">wc/dom/uid</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_viewportCollision.html">wc/dom/viewportCollision</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_dom_Widget.html">wc/dom/Widget</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_file_accepted.html">wc/file/accepted</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_file_getFileSize.html">wc/file/getFileSize</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_file_getMimeType.html">wc/file/getMimeType</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_has.html">wc/has</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_i18n_asciify.html">wc/i18n/asciify</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_i18n_i18n.html">wc/i18n/i18n</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_isNumeric.html">wc/isNumeric</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_key.html">wc/key</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_loader_resource.html">wc/loader/resource</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_loader_style.html">wc/loader/style</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_Observer.html">wc/Observer</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_string_escapeRe.html">wc/string/escapeRe</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_timers.html">wc/timers</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_ajax_delayedTrigger.html">wc/ui/ajax/delayedTrigger</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_ajax_genericSubscriber.html">wc/ui/ajax/genericSubscriber</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_ajax_processResponse.html">wc/ui/ajax/processResponse</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_ajaxRegion.html">wc/ui/ajaxRegion</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_cancelButton.html">wc/ui/cancelButton</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_checkBox.html">wc/ui/checkBox</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_checkboxAnalog.html">wc/ui/checkboxAnalog</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_checkBoxSelect.html">wc/ui/checkBoxSelect</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_collapsible.html">wc/ui/collapsible</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_collapsibleToggle.html">wc/ui/collapsibleToggle</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_comboLoader.html">wc/ui/comboLoader</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_confirm.html">wc/ui/confirm</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_containerload.html">wc/ui/containerload</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_dateField.html">wc/ui/dateField</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_defaultSubmit.html">wc/ui/defaultSubmit</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_dialog.html">wc/ui/dialog</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_dropdown.html">wc/ui/dropdown</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_field.html">wc/ui/field</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_fieldset.html">wc/ui/fieldset</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_fileUpload.html">wc/ui/fileUpload</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_fx.html">wc/ui/fx</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_getFirstLabelForElement.html">wc/ui/getFirstLabelForElement</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_internalLink.html">wc/ui/internalLink</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_label.html">wc/ui/label</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_launchLink.html">wc/ui/launchLink</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_listboxAnalog.html">wc/ui/listboxAnalog</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_listLoader.html">wc/ui/listLoader</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_loading.html">wc/ui/loading</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_mediaplayer.html">wc/ui/mediaplayer</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_menu.html">wc/ui/menu</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_menu_bar.html">wc/ui/menu/bar</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_menu_column.html">wc/ui/menu/column</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_menu_core.html">wc/ui/menu/core</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_menu_menuItem.html">wc/ui/menu/menuItem</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_menu_tree.html">wc/ui/menu/tree</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_menu_treeItem.html">wc/ui/menu/treeItem</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_modalShim.html">wc/ui/modalShim</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_multiFileUploader.html">wc/ui/multiFileUploader</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_multiFormComponent.html">wc/ui/multiFormComponent</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_multiSelectPair.html">wc/ui/multiSelectPair</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_navigationButton.html">wc/ui/navigationButton</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_numberField.html">wc/ui/numberField</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_onchangeSubmit.html">wc/ui/onchangeSubmit</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_popup.html">wc/ui/popup</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_positionable.html">wc/ui/positionable</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_printButton.html">wc/ui/printButton</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_radioAnalog.html">wc/ui/radioAnalog</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_radioButtonSelect.html">wc/ui/radioButtonSelect</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_redirect.html">wc/ui/redirect</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_rtf.html">wc/ui/rtf</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_selectboxSearch.html">wc/ui/selectboxSearch</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_selectLoader.html">wc/ui/selectLoader</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_selectToggle.html">wc/ui/selectToggle</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_shuffler.html">wc/ui/shuffler</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_subordinate.html">wc/ui/subordinate</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_SubordinateAction.html">wc/ui/SubordinateAction</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_table.html">wc/ui/table</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_table_action.html">wc/ui/table/action</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_table_pagination.html">wc/ui/table/pagination</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_table_rowCheckbox.html">wc/ui/table/rowCheckbox</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_table_rowExpansion.html">wc/ui/table/rowExpansion</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_table_sort.html">wc/ui/table/sort</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_tabset.html">wc/ui/tabset</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_textArea.html">wc/ui/textArea</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_textField.html">wc/ui/textField</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_ui_tooltip.html">wc/ui/tooltip</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_urlParser.html">wc/urlParser</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_xml_xmlString.html">wc/xml/xmlString</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_xml_xpath.html">wc/xml/xpath</a>
+            </li>
+            
+            <li>
+              <a href="module-wc_xml_xslTransform.html">wc/xml/xslTransform</a>
+            </li>
+            
+            <li>
+              <a href="wc_ui.resizeable.module_config.html">wc/ui.resizeable.config()</a>
+            </li>
+            
+            <li>
+              <a href="wc_ui.timeoutWarn.module_config.html">wc/ui.timeoutWarn.config()</a>
+            </li>
+            
+            <li>
+              <a href="wc_ui_backToTop.module_config.html">wc/ui/backToTop.config()</a>
+            </li>
+            
+            <li>
+              <a href="wc_ui_calendar.module_config.html">wc/ui/calendar.config()</a>
+            </li>
+            
+            <li>
+              <a href="wc_ui_comboBox.module_config.html">wc/ui/comboBox.config()</a>
+            </li>
+            
+            <li>
+              <a href="wc_ui_draggable.module_config.html">wc/ui/draggable.config()</a>
+            </li>
+            
+            <li>
+              <a href="wc_ui_onloadFocusControl.module_config.html">wc/ui/onloadFocusControl.config()</a>
+            </li>
+            
+
+          </ul>
+        </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  <div class="row-fluid">
+
+    
+    <div class="span3">
+      <div id="toc"></div>
+    </div>
+    
+
+    
+    <div class="span9">
+      
+        <div id="main">
+          
+
+
+	<h1 class="page-title">Module: wc/xml/xslTransform</h1>
+<section>
+
+<header>
+    <h2>
+    wc/xml/xslTransform
+    </h2>
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+
+    
+        
+            <div class="description"><p>Executes XSLT on XML.</p>
+<p>The vast majority of this code exists to deal with the nasty bugs and evil complexities of doing
+XSLT in javascript in different browsers.</p>
+<p>Only Firefox &quot;just works&quot; and does not need the majority of the code here.</p></div>
+        
+
+        
+<dl class="details">
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+
+  
+
+  
+
+  
+  <dt class="tag-todo">To Do:</dt>
+  <dd class="tag-todo">
+    <ul>
+      <li>move fix code into "fix classes" for the IE and webkit so it is not loaded at all in Firefox.</li>
+      
+      <li>Document private members.</li>
+      </ul>
+  </dd>
+  
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Requires</h3>
+
+        <ul>
+            <li><a href="module-wc_has.html">module:wc/has</a></li>
+        
+            <li><a href="module-wc_ajax_ajax.html">module:wc/ajax/ajax</a></li>
+        
+            <li><a href="module-wc_xml_xmlString.html">module:wc/xml/xmlString</a></li>
+        
+            <li><a href="module-wc_xml_xpath.html">module:wc/xml/xpath</a></li>
+        
+            <li><a href="module-wc_array_toArray.html">module:wc/array/toArray</a></li>
+        </ul>
+    
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        <dl>
+            
+<dt>
+    <h4 class="name" id=".getXslHrefFromProcessingInstruction"><span class="type-signature">&lt;static> </span>getXslHrefFromProcessingInstruction<span class="signature">(xml)</span><span class="type-signature"> &rarr; {String}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Extract the XSL URI from processing instructions in the given XML document.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+<div class="params-table-container">
+  <table class="params table table-striped">
+      <thead>
+    <tr>
+      
+      <th>Name</th>
+      
+  
+      <th>Type</th>
+  
+      
+  
+      
+  
+      <th class="last">Description</th>
+    </tr>
+    </thead>
+  
+    <tbody>
+    
+  
+          <tr>
+              
+                  <td class="name"><code>xml</code></td>
+              
+  
+              <td class="type">
+              
+                  
+<span class="param-type">Element</span>
+
+
+              
+              </td>
+  
+              
+  
+              
+  
+              <td class="description last"><p>An XML document object.</p></td>
+          </tr>
+  
+    
+    </tbody>
+  </table>
+</div>
+
+    
+    
+    
+<dl class="details">
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+
+  
+
+  
+
+  
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>The url from the href portion of the XSL processing instruction or null</p>
+</div>
+
+
+
+<dl>
+  <dt>
+    Type
+  </dt>
+  <dd>
+    
+<span class="param-type">String</span>
+
+
+  </dd>
+</dl>
+
+
+        
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id=".getXslUrl"><span class="type-signature">&lt;static> </span>getXslUrl<span class="signature">()</span><span class="type-signature"> &rarr; {String}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Get the URL of the core XSLT file.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+
+  
+
+  
+
+  
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>The url.</p>
+</div>
+
+
+
+<dl>
+  <dt>
+    Type
+  </dt>
+  <dd>
+    
+<span class="param-type">String</span>
+
+
+  </dd>
+</dl>
+
+
+        
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id=".htmlToDocumentFragment"><span class="type-signature">&lt;static> </span>htmlToDocumentFragment<span class="signature">(html)</span><span class="type-signature"> &rarr; {DocumentFragment}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Converts an HTML string to a documentFragment.</p>
+<p>This function is highly IE specific. If you need to use it in a browser (unlikely) then you will need to
+create a new version.</p>
+<p>The &quot;sandbox&quot; is required to prevent scripts (which try to execute when being inserted into a
+documentFragment) from doing any harm. This IS necessary, without it stuff will break under some
+conditions that you will not notice for a long time. The rest of this guff, with two document fragments,
+the call to html5Fix and the loop through innerHTML is all here to make IE behave. Don't delete this
+willy-nilly unless you want all your ajax to die in IE.</p>
+<p>NOTE: A chain of IE issues makes this seemingly simple task very problematic.</p>
+<ul>
+<li>Document fragments in IE8 are not documentFragments, they are documents.</li>
+<li><p>IE executes scripts in the documentFragment. This will either:</p>
+<ul>
+<li>If not sandboxed in an iframe: cause unwanted side effects before the dom is ready for the script;</li>
+<li><p>If not sandboxed in an iframe: throw exceptions that can not be caught, making life difficult if
+script debugging is not disabled.</p>
+<p>We can prevent the scripts from executing at all by setting the sandbox iframe to
+&quot;security=restricted&quot; BUT this then poses a whole bunch of new problems, see below.</p>
+</li>
+</ul>
+</li>
+<li>IE requests resources (images) when they are added to the documentFragment. If we create the
+documentFragment using a &quot;security=restricted&quot; iframe IE still tries to load resources (images) but
+without sending any cookies. This can cause major problems on the server side.</li>
+</ul>
+<p>The corner we are backed into is to use a security restricted sandbox BUT to attempt to preload images
+before they are loaded in the sandbox iframe. The assumption is that once the images are loaded into
+cache (with a request that contains cookies) the subsequent request (without cookies) will load the image
+from cache and the server will never know.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+<div class="params-table-container">
+  <table class="params table table-striped">
+      <thead>
+    <tr>
+      
+      <th>Name</th>
+      
+  
+      <th>Type</th>
+  
+      
+  
+      
+  
+      <th class="last">Description</th>
+    </tr>
+    </thead>
+  
+    <tbody>
+    
+  
+          <tr>
+              
+                  <td class="name"><code>html</code></td>
+              
+  
+              <td class="type">
+              
+                  
+<span class="param-type">String</span>
+
+
+              
+              </td>
+  
+              
+  
+              
+  
+              <td class="description last"><p>The html to convert.</p></td>
+          </tr>
+  
+    
+    </tbody>
+  </table>
+</div>
+
+    
+    
+    
+<dl class="details">
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+
+  
+
+  
+
+  
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>A documentFragment.</p>
+</div>
+
+
+
+<dl>
+  <dt>
+    Type
+  </dt>
+  <dd>
+    
+<span class="param-type">DocumentFragment</span>
+
+
+  </dd>
+</dl>
+
+
+        
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id=".transform"><span class="type-signature">&lt;static> </span>transform<span class="signature">(args, <span class="optional">asHtml</span>, <span class="optional">doc</span>)</span><span class="type-signature"> &rarr; {DocumentFragment|String}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Transform the given XML with the given XSL.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+<div class="params-table-container">
+  <table class="params table table-striped">
+      <thead>
+    <tr>
+      
+      <th>Name</th>
+      
+  
+      <th>Type</th>
+  
+      
+      <th>Argument</th>
+      
+  
+      
+  
+      <th class="last">Description</th>
+    </tr>
+    </thead>
+  
+    <tbody>
+    
+  
+          <tr>
+              
+                  <td class="name"><code>args</code></td>
+              
+  
+              <td class="type">
+              
+                  
+<span class="param-type">Object</span>
+
+
+              
+              </td>
+  
+              
+                  <td class="attributes">
+                  
+  
+                  
+  
+                  
+                  </td>
+              
+  
+              
+  
+              <td class="description last"><p>A DTO with one of the following xml and xsl properties (i.e. one each for xsl and xml).</p>
+                  <h6>Properties</h6>
+                  
+<div class="params-table-container">
+  <table class="params table table-striped">
+      <thead>
+    <tr>
+      
+      <th>Name</th>
+      
+  
+      <th>Type</th>
+  
+      
+      <th>Argument</th>
+      
+  
+      
+  
+      <th class="last">Description</th>
+    </tr>
+    </thead>
+  
+    <tbody>
+    
+  
+          <tr>
+              
+                  <td class="name"><code>xmlDoc</code></td>
+              
+  
+              <td class="type">
+              
+                  
+<span class="param-type">Element</span>
+
+
+              
+              </td>
+  
+              
+                  <td class="attributes">
+                  
+                      &lt;optional><br>
+                  
+  
+                  
+  
+                  
+                  </td>
+              
+  
+              
+  
+              <td class="description last"><p>An XML DOM</p></td>
+          </tr>
+  
+    
+  
+          <tr>
+              
+                  <td class="name"><code>xmlString</code></td>
+              
+  
+              <td class="type">
+              
+                  
+<span class="param-type">String</span>
+
+
+              
+              </td>
+  
+              
+                  <td class="attributes">
+                  
+                      &lt;optional><br>
+                  
+  
+                  
+  
+                  
+                  </td>
+              
+  
+              
+  
+              <td class="description last"><p>A well formed XML string</p></td>
+          </tr>
+  
+    
+  
+          <tr>
+              
+                  <td class="name"><code>xmlUri</code></td>
+              
+  
+              <td class="type">
+              
+                  
+<span class="param-type">String</span>
+
+
+              
+              </td>
+  
+              
+                  <td class="attributes">
+                  
+                      &lt;optional><br>
+                  
+  
+                  
+  
+                  
+                  </td>
+              
+  
+              
+  
+              <td class="description last"><p>A URL to an XML file</p></td>
+          </tr>
+  
+    
+  
+          <tr>
+              
+                  <td class="name"><code>xslDoc</code></td>
+              
+  
+              <td class="type">
+              
+                  
+<span class="param-type">Element</span>
+
+
+              
+              </td>
+  
+              
+                  <td class="attributes">
+                  
+                      &lt;optional><br>
+                  
+  
+                  
+  
+                  
+                  </td>
+              
+  
+              
+  
+              <td class="description last"><p>An XSL DOM</p></td>
+          </tr>
+  
+    
+  
+          <tr>
+              
+                  <td class="name"><code>xslString</code></td>
+              
+  
+              <td class="type">
+              
+                  
+<span class="param-type">String</span>
+
+
+              
+              </td>
+  
+              
+                  <td class="attributes">
+                  
+                      &lt;optional><br>
+                  
+  
+                  
+  
+                  
+                  </td>
+              
+  
+              
+  
+              <td class="description last"><p>A well formed XSL string. Warning: href of any xsl:include or xsl:import
+   will be relative to the current page.</p></td>
+          </tr>
+  
+    
+  
+          <tr>
+              
+                  <td class="name"><code>xslUri</code></td>
+              
+  
+              <td class="type">
+              
+                  
+<span class="param-type">String</span>
+
+
+              
+              </td>
+  
+              
+                  <td class="attributes">
+                  
+                      &lt;optional><br>
+                  
+  
+                  
+  
+                  
+                  </td>
+              
+  
+              
+  
+              <td class="description last"><p>A URL to an XSL file. Note that the XSL args may be omitted in which case
+   we try to fetch: <ol>
+   <li>The XSL from a processing instruction in the XML</li>
+   <li>The XSL used to transform the page itself.</li>
+   </ol>
+   Warning! The only truly safe way to load XSL in Internet Explorer is by passing xslUri (or not passing
+   anything and letting this class work out the XSL URL). If you pass xslDoc we will attempt to use it.
+   The main trouble will occur if your XSL contains xsl:include or xsl:import elements. Even then you are
+   not guaranteed to fail (but you are in dangerous waters).</p></td>
+          </tr>
+  
+    
+  
+          <tr>
+              
+                  <td class="name"><code>params</code></td>
+              
+  
+              <td class="type">
+              
+                  
+<span class="param-type">Object</span>
+
+
+              
+              </td>
+  
+              
+                  <td class="attributes">
+                  
+                      &lt;optional><br>
+                  
+  
+                  
+  
+                  
+                  </td>
+              
+  
+              
+  
+              <td class="description last"><p>A &quot;map&quot; of parameters to set. I.E. An object where each property is the
+   name of a param and the property value is the param value. e.g. {xslEngine:'libxslt'}.</p></td>
+          </tr>
+  
+    
+    </tbody>
+  </table>
+</div>
+
+              </td>
+          </tr>
+  
+    
+  
+          <tr>
+              
+                  <td class="name"><code>asHtml</code></td>
+              
+  
+              <td class="type">
+              
+                  
+<span class="param-type">boolean</span>
+
+
+              
+              </td>
+  
+              
+                  <td class="attributes">
+                  
+                      &lt;optional><br>
+                  
+  
+                  
+  
+                  
+                  </td>
+              
+  
+              
+  
+              <td class="description last"><p>If true will return an HTML string TODO implement for non IE</p></td>
+          </tr>
+  
+    
+  
+          <tr>
+              
+                  <td class="name"><code>doc</code></td>
+              
+  
+              <td class="type">
+              
+                  
+<span class="param-type">Document</span>
+
+
+              
+              </td>
+  
+              
+                  <td class="attributes">
+                  
+                      &lt;optional><br>
+                  
+  
+                  
+  
+                  
+                  </td>
+              
+  
+              
+  
+              <td class="description last"><p>Will be used instead of window.document</p></td>
+          </tr>
+  
+    
+    </tbody>
+  </table>
+</div>
+
+    
+    
+    
+<dl class="details">
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+
+  
+
+  
+
+  
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>The result of the XSL Transformation.</p>
+</div>
+
+
+
+<dl>
+  <dt>
+    Type
+  </dt>
+  <dd>
+    
+<span class="param-type">DocumentFragment</span>
+|
+
+<span class="param-type">String</span>
+
+
+  </dd>
+</dl>
+
+
+        
+    
+    
+</dd>
+
+        </dl>
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+        </div>
+
+        <div class="clearfix"></div>
+        <footer>
+          
+          WComponents wcomponents-theme is powered by <a href='http://vanilla-js.com/' target='_blank'><img src='../../../images/vanillajs.png' alt='Vanilla JS'/></a>.
+          <br />
+          
+          
+    <span class="copyright">
+    WComponents wcomponents-theme is copyright &#xa9; see https://github.com/OpenBorders/wcomponents.
+    </span>
+          <br />
+          
+    <span class="jsdoc-message">
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc" target="_blank">JSDoc 3.3.2</a>
+    on 2015-11-20
+    </span>
+        </footer>
+      </div>
+
+      <br clear="both">
+    </div>
+
+  </div>
+  <!--<script src="scripts/sunlight.js"></script>-->
+  <script src="scripts/docstrap.lib.js"></script>
+  <script src="scripts/bootstrap-dropdown.js"></script>
+  <script src="scripts/toc.js"></script>
+
+  <script>
+    $( function () {
+      $( "[id*='$']" ).each( function () {
+        var $this = $( this );
+
+        $this.attr( "id", $this.attr( "id" ).replace( "$", "__" ) );
+      } );
+
+      $( "#toc" ).toc( {
+        anchorName  : function ( i, heading, prefix ) {
+          return $( heading ).attr( "id" ) || ( prefix + i );
+        },
+        selectors   : "h1,h2,h3,h4",
+        showAndHide : false,
+        scrollTo    : "100px"
+      } );
+
+      $( "#toc>ul" ).addClass( "nav nav-pills nav-stacked" );
+      $( "#main span[id^='toc']" ).addClass( "toc-shim" );
+      $( '.dropdown-toggle' ).dropdown();
+//      $( ".tutorial-section pre, .readme-section pre" ).addClass( "sunlight-highlight-javascript" ).addClass( "linenums" );
+
+      $( ".tutorial-section pre, .readme-section pre" ).each( function () {
+        var $this = $( this );
+
+        var example = $this.find( "code" );
+        exampleText = example.html();
+        var lang = /{@lang (.*?)}/.exec( exampleText );
+        if ( lang && lang[1] ) {
+          exampleText = exampleText.replace( lang[0], "" );
+          example.html( exampleText );
+          lang = lang[1];
+        } else {
+          lang = "javascript";
+        }
+
+        if ( lang ) {
+
+          $this
+            .addClass( "sunlight-highlight-" + lang )
+            .addClass( "linenums" )
+            .html( example.html() );
+
+        }
+      } );
+
+      Sunlight.highlightAll( {
+        lineNumbers : true,
+        showMenu : true,
+        enableDoclinks : true
+      } );
+    } );
+   </script>
+
+
+
+  <!--Navigation and Symbol Display-->
+  
+
+
+  <!--Google Analytics-->
+  
+
+</body>
+</html>

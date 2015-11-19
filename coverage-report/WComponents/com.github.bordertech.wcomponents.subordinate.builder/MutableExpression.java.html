@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>MutableExpression.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.subordinate.builder</a> &gt; <span class="el_source">MutableExpression.java</span></div><h1>MutableExpression.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.subordinate.builder;
+
+import com.github.bordertech.wcomponents.subordinate.Condition;
+import java.io.Serializable;
+
+/**
+ * A mutable wrapper for a boolean expression. Used by the {@link ExpressionBuilder}.
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ */
+<span class="fc" id="L12">final class MutableExpression implements BooleanExpression, Serializable {</span>
+
+	/**
+	 * Default serialisation identifier.
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * The wrapped boolean operand.
+	 */
+	private BooleanExpression expression;
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Boolean evaluate() {
+<span class="nc bnc" id="L29" title="All 2 branches missed.">		return expression == null ? Boolean.FALSE : expression.evaluate();</span>
+	}
+
+	/**
+	 * @return Returns the expression.
+	 */
+	public BooleanExpression getExpression() {
+<span class="fc" id="L36">		return expression;</span>
+	}
+
+	/**
+	 * Sets the expression.
+	 *
+	 * @param expression The expression to set.
+	 */
+	public void setExpression(final BooleanExpression expression) {
+<span class="fc" id="L45">		this.expression = expression;</span>
+<span class="fc" id="L46">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String toString() {
+<span class="pc bpc" id="L53" title="1 of 2 branches missed.">		return expression == null ? &quot;&quot; : expression.toString();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Condition build() {
+<span class="nc" id="L61">		return expression.build();</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

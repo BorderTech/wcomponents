@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>AbstractAction.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.subordinate</a> &gt; <span class="el_source">AbstractAction.java</span></div><h1>AbstractAction.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.subordinate;
+
+import com.github.bordertech.wcomponents.SubordinateTarget;
+import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.WComponentGroup;
+
+/**
+ * A class of &quot;action functions&quot; that apply a value to a target, where the target could be an individual component or a
+ * group of components.
+ *
+ * @author Martin Shevchenko
+ * @author Jonathan Austin
+ * @since 1.0.0
+ */
+public abstract class AbstractAction implements Action {
+
+	/**
+	 * The target of the action.
+	 */
+	private final SubordinateTarget target;
+	/**
+	 * The value to be used in the action.
+	 */
+	private final Object value;
+	/**
+	 * The single component within a group that will be act upon.
+	 */
+	private SubordinateTarget targetInGroup;
+
+	/**
+	 * Creates an action with the given target.
+	 *
+	 * @param target the component to disable.
+	 * @param value the value to be used in the action
+	 */
+<span class="fc" id="L36">	public AbstractAction(final SubordinateTarget target, final Object value) {</span>
+<span class="fc bfc" id="L37" title="All 2 branches covered.">		if (target == null) {</span>
+<span class="fc" id="L38">			throw new IllegalArgumentException(&quot;Target cannot be null&quot;);</span>
+		}
+<span class="fc" id="L40">		this.target = target;</span>
+<span class="fc" id="L41">		this.value = value;</span>
+<span class="fc" id="L42">	}</span>
+
+	/**
+	 * @return the target for this action.
+	 */
+	@Override
+	public SubordinateTarget getTarget() {
+<span class="fc" id="L49">		return target;</span>
+	}
+
+	/**
+	 * @return value the value to be used in the action.
+	 */
+	public Object getValue() {
+<span class="fc" id="L56">		return value;</span>
+	}
+
+	/**
+	 * @param targetInGroup the target WComponent in a group.
+	 */
+	public void setTargetInGroup(final SubordinateTarget targetInGroup) {
+<span class="fc" id="L63">		this.targetInGroup = targetInGroup;</span>
+<span class="fc" id="L64">	}</span>
+
+	/**
+	 * Get the target component in a group.
+	 *
+	 * @return the target in a group.
+	 */
+	public SubordinateTarget getTargetInGroup() {
+<span class="fc" id="L72">		return this.targetInGroup;</span>
+	}
+
+	/**
+	 * Execute the action.
+	 */
+	@Override
+	public void execute() {
+<span class="fc bfc" id="L80" title="All 2 branches covered.">		if (target instanceof WComponentGroup&lt;?&gt;) {</span>
+<span class="fc bfc" id="L81" title="All 2 branches covered.">			for (WComponent component : ((WComponentGroup&lt;WComponent&gt;) target).getComponents()) {</span>
+<span class="pc bpc" id="L82" title="1 of 2 branches missed.">				if (component instanceof SubordinateTarget) {</span>
+<span class="fc" id="L83">					applyAction((SubordinateTarget) component, value);</span>
+				}
+<span class="fc" id="L85">			}</span>
+		} else {
+			// Leaf.
+<span class="fc" id="L88">			applyAction(target, value);</span>
+		}
+
+<span class="fc" id="L91">	}</span>
+
+	/**
+	 * Apply the action against the target.
+	 *
+	 * @param aTarget the target of the action
+	 * @param aValue is the evaluated value
+	 */
+	protected abstract void applyAction(SubordinateTarget aTarget, Object aValue);
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

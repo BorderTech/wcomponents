@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>AbstractSetMandatory.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.subordinate</a> &gt; <span class="el_source">AbstractSetMandatory.java</span></div><h1>AbstractSetMandatory.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.subordinate;
+
+import com.github.bordertech.wcomponents.Container;
+import com.github.bordertech.wcomponents.Mandatable;
+import com.github.bordertech.wcomponents.SubordinateTarget;
+import com.github.bordertech.wcomponents.WComponent;
+
+/**
+ * An &quot;action function&quot; that sets the mandatory attribute on a wcomponent or group of wcomponents.
+ *
+ * @author Jonathan Austin
+ * @since 1.0.0
+ */
+public abstract class AbstractSetMandatory extends AbstractAction {
+
+	/**
+	 * Creates a SetMandatory action function with the given target and value.
+	 *
+	 * @param target the component to make mandatory/optional
+	 * @param value the value to make mandatory/optional
+	 */
+	public AbstractSetMandatory(final SubordinateTarget target, final Boolean value) {
+<span class="fc" id="L23">		super(target, value);</span>
+<span class="fc" id="L24">	}</span>
+
+	/**
+	 * Apply the action against the target.
+	 *
+	 * @param target the target of this action
+	 * @param value is the evaluated value
+	 */
+	@Override
+	protected void applyAction(final SubordinateTarget target, final Object value) {
+		// Should always be Boolean, but check anyway
+<span class="pc bpc" id="L35" title="1 of 2 branches missed.">		if (value instanceof Boolean) {</span>
+<span class="fc" id="L36">			applyMandatoryAction(target, ((Boolean) value));</span>
+		}
+<span class="fc" id="L38">	}</span>
+
+	/**
+	 * Apply the mandatory action against the target and its children.
+	 *
+	 * @param target the target of this action
+	 * @param mandatory is the evaluated value
+	 */
+	private void applyMandatoryAction(final WComponent target, final boolean mandatory) {
+<span class="fc bfc" id="L47" title="All 2 branches covered.">		if (target instanceof Mandatable) {</span>
+<span class="fc" id="L48">			((Mandatable) target).setMandatory(mandatory);</span>
+<span class="fc bfc" id="L49" title="All 2 branches covered.">		} else if (target instanceof Container) { // Apply to the Mandatable children</span>
+<span class="fc" id="L50">			Container cont = (Container) target;</span>
+<span class="fc" id="L51">			final int size = cont.getChildCount();</span>
+
+<span class="fc bfc" id="L53" title="All 2 branches covered.">			for (int i = 0; i &lt; size; i++) {</span>
+<span class="fc" id="L54">				WComponent child = cont.getChildAt(i);</span>
+<span class="fc" id="L55">				applyMandatoryAction(child, mandatory);</span>
+			}
+		}
+<span class="fc" id="L58">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

@@ -1,0 +1,528 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WMenuItem.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">WMenuItem.java</span></div><h1>WMenuItem.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import com.github.bordertech.wcomponents.util.I18nUtilities;
+import java.io.Serializable;
+import java.text.MessageFormat;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+/**
+ * This component provides a menu item for use either directly in the top level of a {@link WMenu} or as an item within
+ * a {@link WSubMenu} or {@link WMenuItemGroup}.
+ *
+ * @author Adam Millard
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ */
+public class WMenuItem extends AbstractContainer implements Disableable, AjaxTrigger {
+
+	/**
+	 * The logger instance for this class.
+	 */
+<span class="fc" id="L22">	private static final Log LOG = LogFactory.getLog(WMenuItem.class);</span>
+
+	/**
+	 * The decorated label which holds the menu item's text/icon etc.
+	 */
+	private final WDecoratedLabel label;
+
+	/**
+	 * Creates a WMenuItem with the given label.
+	 *
+	 * @param label the menu item label.
+	 */
+<span class="fc" id="L34">	public WMenuItem(final WDecoratedLabel label) {</span>
+<span class="fc" id="L35">		this.label = label;</span>
+<span class="fc" id="L36">		add(label);</span>
+<span class="fc" id="L37">	}</span>
+
+	/**
+	 * Creates a WMenuItem with the given label and url.
+	 *
+	 * @param label the menu item label.
+	 * @param url the URL to navigate to when the menu item is invoked.
+	 */
+	public WMenuItem(final WDecoratedLabel label, final String url) {
+<span class="nc" id="L46">		this(label);</span>
+<span class="nc" id="L47">		getComponentModel().url = url;</span>
+<span class="nc" id="L48">	}</span>
+
+	/**
+	 * Creates a WMenuItem with the given label and action.
+	 *
+	 * @param label the menu item label.
+	 * @param action the action to execute when the menu item is invoked.
+	 */
+	public WMenuItem(final WDecoratedLabel label, final Action action) {
+<span class="nc" id="L57">		this(label);</span>
+<span class="nc" id="L58">		getComponentModel().action = action;</span>
+<span class="nc" id="L59">		getComponentModel().submit = true;</span>
+<span class="nc" id="L60">	}</span>
+
+	/**
+	 * Creates a WMenuItem with the given text and url.
+	 *
+	 * @param text the menu item text.
+	 * @param url the URL to navigate to when the menu item is invoked.
+	 */
+	public WMenuItem(final String text, final String url) {
+<span class="fc" id="L69">		this(text);</span>
+<span class="fc" id="L70">		getComponentModel().url = url;</span>
+<span class="fc" id="L71">	}</span>
+
+	/**
+	 * Creates a WMenuItem with the given label and action.
+	 *
+	 * @param text the menu item text.
+	 * @param action the action to execute when the menu item is invoked.
+	 */
+	public WMenuItem(final String text, final Action action) {
+<span class="fc" id="L80">		this(text);</span>
+<span class="fc" id="L81">		getComponentModel().action = action;</span>
+<span class="fc" id="L82">		getComponentModel().submit = true;</span>
+<span class="fc" id="L83">	}</span>
+
+	/**
+	 * Creates a new WMenuItem with the specified text.
+	 *
+	 * @param text the menu item's text.
+	 */
+	public WMenuItem(final String text) {
+<span class="fc" id="L91">		this(new WDecoratedLabel());</span>
+<span class="fc" id="L92">		label.setBody(new WText(text));</span>
+<span class="fc" id="L93">	}</span>
+
+	/**
+	 * Creates a new WMenuItem with the specified text and accessKey.
+	 *
+	 * @param text the menu item's text.
+	 * @param accessKey the menu item's access key.
+	 */
+	public WMenuItem(final String text, final char accessKey) {
+<span class="nc" id="L102">		this(text);</span>
+<span class="nc" id="L103">		setAccessKey(accessKey);</span>
+<span class="nc" id="L104">	}</span>
+
+	/**
+	 * Creates a new WMenuItem with the specified text, accessKey and action.
+	 *
+	 * @param text the menu item's text.
+	 * @param accessKey the menu item's access key.
+	 * @param action the action to execute when the menu item is invoked.
+	 */
+	public WMenuItem(final String text, final char accessKey, final Action action) {
+<span class="nc" id="L114">		this(text, accessKey);</span>
+<span class="nc" id="L115">		getComponentModel().action = action;</span>
+<span class="nc" id="L116">		getComponentModel().submit = true;</span>
+<span class="nc" id="L117">	}</span>
+
+	/**
+	 * Sets the action to execute when the menu item is invoked.
+	 *
+	 * @param action the menu item's action.
+	 */
+	public void setAction(final Action action) {
+<span class="fc" id="L125">		MenuItemModel model = getOrCreateComponentModel();</span>
+<span class="fc" id="L126">		model.action = action;</span>
+<span class="fc" id="L127">		model.url = null;</span>
+<span class="fc" id="L128">		model.submit = true;</span>
+<span class="fc" id="L129">	}</span>
+
+	/**
+	 * Override handleRequest in order to perform processing for this component. This implementation checks for
+	 * selection of the menu item, and executes the associated action if it has been set.
+	 *
+	 * @param request the request being responded to.
+	 */
+	@Override
+	public void handleRequest(final Request request) {
+<span class="fc bfc" id="L139" title="All 2 branches covered.">		if (isDisabled()) {</span>
+			// Protect against client-side tampering of disabled/read-only fields.
+<span class="fc" id="L141">			return;</span>
+		}
+
+<span class="fc bfc" id="L144" title="All 2 branches covered.">		if (isMenuPresent(request)) {</span>
+<span class="fc" id="L145">			String requestValue = request.getParameter(getId());</span>
+
+<span class="fc bfc" id="L147" title="All 2 branches covered.">			if (requestValue != null) {</span>
+				// Only process on a POST
+<span class="pc bpc" id="L149" title="1 of 2 branches missed.">				if (!&quot;POST&quot;.equals(request.getMethod())) {</span>
+<span class="nc" id="L150">					LOG.warn(&quot;Menu item on a request that is not a POST. Will be ignored.&quot;);</span>
+<span class="nc" id="L151">					return;</span>
+				}
+
+				// Execute associated action, if set
+<span class="fc" id="L155">				final Action action = getAction();</span>
+
+<span class="pc bpc" id="L157" title="1 of 2 branches missed.">				if (action != null) {</span>
+<span class="fc" id="L158">					final ActionEvent event = new ActionEvent(this, this.getActionCommand(), this.</span>
+<span class="fc" id="L159">							getActionObject());</span>
+
+<span class="fc" id="L161">					Runnable later = new Runnable() {</span>
+						@Override
+						public void run() {
+<span class="fc" id="L164">							action.execute(event);</span>
+<span class="fc" id="L165">						}</span>
+					};
+
+<span class="fc" id="L168">					invokeLater(later);</span>
+				}
+			}
+		}
+<span class="fc" id="L172">	}</span>
+
+	/**
+	 * Determine if this WMenuItem's parent WMenu is on the Request.
+	 *
+	 * @param request the request being responded to.
+	 * @return true if this WMenuItem's WMenu is on the Request, otherwise return false.
+	 */
+	protected boolean isMenuPresent(final Request request) {
+<span class="fc" id="L181">		WMenu menu = WebUtilities.getAncestorOfClass(WMenu.class, this);</span>
+
+<span class="pc bpc" id="L183" title="1 of 2 branches missed.">		if (menu != null) {</span>
+<span class="fc" id="L184">			return menu.isPresent(request);</span>
+		}
+
+<span class="nc" id="L187">		return false;</span>
+	}
+
+	/**
+	 * Indicates whether this menu item is selected (for menu types which support selections).
+	 *
+	 * @return true if this menu item is selected, false otherwise.
+	 */
+	public boolean isSelected() {
+<span class="fc" id="L196">		WMenu parent = WebUtilities.getAncestorOfClass(WMenu.class, this);</span>
+
+<span class="pc bpc" id="L198" title="1 of 2 branches missed.">		if (parent != null) {</span>
+<span class="fc" id="L199">			return parent.getSelectedItems().contains(this);</span>
+		}
+
+<span class="nc" id="L202">		return false;</span>
+	}
+
+	/**
+	 * @return the menu item's action, or null if there is no action specified.
+	 */
+	public Action getAction() {
+<span class="fc" id="L209">		return getComponentModel().action;</span>
+	}
+
+	/**
+	 * Sets the URL to navigate to when the menu item is invoked.
+	 *
+	 * @param url the url to set.
+	 */
+	public void setUrl(final String url) {
+<span class="fc" id="L218">		MenuItemModel model = getOrCreateComponentModel();</span>
+<span class="fc" id="L219">		model.url = url;</span>
+<span class="fc" id="L220">		model.action = null;</span>
+<span class="fc" id="L221">		model.submit = false;</span>
+<span class="fc" id="L222">	}</span>
+
+	/**
+	 * Retrieves the menu item's URL.
+	 *
+	 * @return the menu item's url, or null if there is no url specified.
+	 */
+	public String getUrl() {
+<span class="fc" id="L230">		return getComponentModel().url;</span>
+	}
+
+	/**
+	 * Sets this menu item's target window name.
+	 *
+	 * @param targetWindow the target window name.
+	 */
+	public void setTargetWindow(final String targetWindow) {
+<span class="fc" id="L239">		getOrCreateComponentModel().targetWindow = targetWindow;</span>
+<span class="fc" id="L240">	}</span>
+
+	/**
+	 * Retrieves the target window name.
+	 *
+	 * @return the target window name.
+	 */
+	public String getTargetWindow() {
+<span class="fc" id="L248">		return getComponentModel().targetWindow;</span>
+	}
+
+	/**
+	 * @return true if this item is selectable, false if not, or null if default to its container.
+	 */
+	public Boolean isSelectable() {
+<span class="fc" id="L255">		return getComponentModel().selectable;</span>
+	}
+
+	/**
+	 * @param selectable true if this item is selectable, false if not, or null to default to the container.
+	 */
+	public void setSelectable(final Boolean selectable) {
+<span class="fc" id="L262">		getOrCreateComponentModel().selectable = selectable;</span>
+<span class="fc" id="L263">	}</span>
+
+	/**
+	 * Indicates whether this menu item is disabled in the given context.
+	 *
+	 * @return true if this menu item is disabled, false if it is enabled.
+	 */
+	@Override
+	public boolean isDisabled() {
+<span class="fc" id="L272">		boolean disabled = false;</span>
+<span class="fc" id="L273">		WComponent parent = getParent();</span>
+
+<span class="pc bpc" id="L275" title="1 of 2 branches missed.">		if (parent instanceof WMenuItemGroup) {</span>
+<span class="nc" id="L276">			disabled = ((WMenuItemGroup) parent).isDisabled();</span>
+		}
+
+<span class="pc bpc" id="L279" title="1 of 4 branches missed.">		return disabled || isFlagSet(ComponentModel.DISABLED_FLAG);</span>
+	}
+
+	/**
+	 * &lt;p&gt;
+	 * Indicates whether the form should be submitted when the menu item is selected. By default, the form will only be
+	 * submitted if an action has been set on this item.
+	 * &lt;/p&gt;
+	 * &lt;p&gt;
+	 * Examples of where the form might should not be submitted include if the menu item is within a sub-menu which
+	 * supports multiple selection, or if the menu item points at an external URL.
+	 * &lt;/p&gt;
+	 *
+	 * @return true if the form should be submitted when the menu item is selected.
+	 */
+	public boolean isSubmit() {
+<span class="fc" id="L295">		return getComponentModel().submit;</span>
+	}
+
+	/**
+	 * Sets whether this menu item is disabled.
+	 *
+	 * @param disabled true to set the item disabled, false for enabled.
+	 */
+	@Override
+	public void setDisabled(final boolean disabled) {
+<span class="fc" id="L305">		setFlag(ComponentModel.DISABLED_FLAG, disabled);</span>
+<span class="fc" id="L306">	}</span>
+
+	/**
+	 * @return the decorated label which displays the menu item's text/icon etc.
+	 */
+	public WDecoratedLabel getDecoratedLabel() {
+<span class="fc" id="L312">		return label;</span>
+	}
+
+	/**
+	 * Sets the text of the menu item.
+	 *
+	 * @param text the text to set.
+	 */
+	public void setText(final String text) {
+<span class="fc" id="L321">		label.setText(text);</span>
+<span class="fc" id="L322">	}</span>
+
+	/**
+	 * Retrieves the menu item text.
+	 *
+	 * @return the menu item text
+	 */
+	public String getText() {
+<span class="fc" id="L330">		return label.getText();</span>
+	}
+
+	/**
+	 * Set the accesskey on the menu item button or link. For more information on access keys see
+	 * {@link WButton#setAccessKey(char)}.
+	 *
+	 * @param accesskey The key that will form a keyboard shortcut to the menu item.
+	 */
+	public void setAccessKey(final char accesskey) {
+<span class="fc" id="L340">		getOrCreateComponentModel().accessKey = accesskey;</span>
+<span class="fc" id="L341">	}</span>
+
+	/**
+	 * @return the menu item's accesskey.
+	 */
+	public char getAccessKey() {
+<span class="fc" id="L347">		return getComponentModel().accessKey;</span>
+	}
+
+	/**
+	 * Returns the accesskey character as a String. If the character is not a letter or digit then &lt;code&gt;null&lt;/code&gt; is
+	 * returned.
+	 *
+	 * @return The accesskey character as a String (may be &lt;code&gt;null&lt;/code&gt;).
+	 */
+	public String getAccessKeyAsString() {
+<span class="fc" id="L357">		char accessKey = getAccessKey();</span>
+
+<span class="fc bfc" id="L359" title="All 2 branches covered.">		if (Character.isLetterOrDigit(accessKey)) {</span>
+<span class="fc" id="L360">			return String.valueOf(accessKey);</span>
+		}
+
+<span class="fc" id="L363">		return null;</span>
+	}
+
+	/**
+	 * Retrieves this menu item's action command.
+	 *
+	 * @return the actionCommand.
+	 */
+	public String getActionCommand() {
+<span class="fc" id="L372">		return getComponentModel().actionCommand;</span>
+	}
+
+	/**
+	 * Sets this menu item's action command.
+	 *
+	 * @param actionCommand The actionCommand to set.
+	 */
+	public void setActionCommand(final String actionCommand) {
+<span class="fc" id="L381">		getOrCreateComponentModel().actionCommand = actionCommand;</span>
+<span class="fc" id="L382">	}</span>
+
+	/**
+	 * Retrieves this menu item's action object.
+	 *
+	 * @return the actionObject.
+	 */
+	public Serializable getActionObject() {
+<span class="fc" id="L390">		return getComponentModel().actionObject;</span>
+	}
+
+	/**
+	 * Sets this menu item's action object.
+	 *
+	 * @param actionObject The actionObject to set.
+	 */
+	public void setActionObject(final Serializable actionObject) {
+<span class="fc" id="L399">		getOrCreateComponentModel().actionObject = actionObject;</span>
+<span class="fc" id="L400">	}</span>
+
+	/**
+	 * @return the confirmation message for the menu item.
+	 */
+	public String getMessage() {
+<span class="fc" id="L406">		return I18nUtilities.format(null, getComponentModel().message);</span>
+	}
+
+	/**
+	 * Sets the confirmation message that is to be displayed to the user for this menu item.
+	 *
+	 * @param message the confirmation message to display, using {@link MessageFormat} syntax.
+	 * @param args optional arguments for the message format string.
+	 */
+	public void setMessage(final String message, final Serializable... args) {
+<span class="nc" id="L416">		getOrCreateComponentModel().message = I18nUtilities.asMessage(message, args);</span>
+<span class="nc" id="L417">	}</span>
+
+	/**
+	 * @return true if menu item is a cancel control and will warn the user of unsaved changes, otherwise false
+	 */
+	public boolean isCancel() {
+<span class="fc" id="L423">		return getComponentModel().cancel;</span>
+	}
+
+	/**
+	 * @param cancel true if menu item is a cancel control and will warn the user of unsaved changes, otherwise false
+	 */
+	public void setCancel(final boolean cancel) {
+<span class="nc" id="L430">		getOrCreateComponentModel().cancel = cancel;</span>
+<span class="nc" id="L431">	}</span>
+
+	/**
+	 * @return a String representation of this component, for debugging purposes.
+	 */
+	@Override
+	public String toString() {
+<span class="nc" id="L438">		String text = getText();</span>
+<span class="nc bnc" id="L439" title="All 2 branches missed.">		text = text == null ? &quot;null&quot; : ('&quot;' + text + '&quot;');</span>
+<span class="nc" id="L440">		return toString(text, -1, -1);</span>
+	}
+
+	/**
+	 * Creates a new component model.
+	 *
+	 * @return a new MenuItemModel.
+	 */
+	@Override
+	protected MenuItemModel newComponentModel() {
+<span class="fc" id="L450">		return new MenuItemModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	// For type safety only
+	protected MenuItemModel getComponentModel() {
+<span class="fc" id="L459">		return (MenuItemModel) super.getComponentModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	// For type safety only
+	protected MenuItemModel getOrCreateComponentModel() {
+<span class="fc" id="L468">		return (MenuItemModel) super.getOrCreateComponentModel();</span>
+	}
+
+	/**
+	 * Holds the extrinsic state information of a WMenuItem.
+	 */
+<span class="fc" id="L474">	public static class MenuItemModel extends ComponentModel {</span>
+
+		/**
+		 * Indicates whether the menu item should trigger a form submit.
+		 */
+		private boolean submit;
+
+		/**
+		 * An (external) url to open when the menu item is selected.
+		 */
+		private String url;
+
+		/**
+		 * Used together with the url parameter to launch the url in a new window.
+		 */
+		private String targetWindow;
+
+		/**
+		 * The menu item's access key.
+		 */
+		private char accessKey;
+
+		/**
+		 * The action to execute when the menu item is selected.
+		 */
+		private Action action;
+
+		/**
+		 * The action command to pass to the menu item's action when it executes.
+		 */
+		private String actionCommand;
+
+		/**
+		 * The action object to pass to the menu item's action when it executes.
+		 */
+		private Serializable actionObject;
+
+		/**
+		 * Indicates whether the sub-menu itself can be selected (e.g. for column menus).
+		 */
+		private Boolean selectable;
+
+		/**
+		 * The confirmation message to be shown.
+		 */
+		private Serializable message;
+
+		/**
+		 * Act as a cancel control and warn the user of unsaved changes.
+		 */
+		private boolean cancel;
+
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

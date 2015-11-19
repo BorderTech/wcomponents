@@ -1,0 +1,1956 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>AbstractWComponent.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">AbstractWComponent.java</span></div><h1>AbstractWComponent.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import com.github.bordertech.wcomponents.layout.UIManager;
+import com.github.bordertech.wcomponents.registry.UIRegistry;
+import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.I18nUtilities;
+import com.github.bordertech.wcomponents.util.SystemException;
+import com.github.bordertech.wcomponents.util.Util;
+import com.github.bordertech.wcomponents.validation.Diagnostic;
+import com.github.bordertech.wcomponents.validation.DiagnosticImpl;
+import com.github.bordertech.wcomponents.velocity.VelocityTemplateManager;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.ObjectStreamException;
+import java.io.Serializable;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+/**
+ * &lt;p&gt;
+ * AbstractWComponent is the parent class of all standard WComponents
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * WComponent trees (UIs) are intended to be shared between sessions in order to reduce their memory footprint. To
+ * archive this a class called UIContext has been introduced to store WComponent information specific to an individual
+ * session. Each session has its own UIContext instance which is passed to the component tree whenever it needs to
+ * handle events and paint.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * The attributes of a WComponent have an initial shared value that can be overridden on a per session basis. We call
+ * this a private attribute value. The methods that manipulate a components attributes will normally have two method
+ * signatures. One will manipulate the shared value and does not require a UIContext to be passed. The other will
+ * manipulate the private session based value and will include a UIContext as the first parameter. The methods that
+ * access a components attributes only require one method signature. Accessor methods will include a UIContext as their
+ * first parameter. They will return the private attribute value if one exists else the shared value.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * The shared/private concept makes WComponents very flexible but has the dangerous ramification that it is easy to
+ * accidentally dynamically share attribute values and even whole chunks of UI with everyone. To reduce this risk, it is
+ * possible to lock a component and all its children. When the lock is set, it becomes impossible to update a shared
+ * value. Trying to update a shared value will result in a runtime exception. The intention is that shared component
+ * trees will be held in a registry. Adding a component tree to a registry would be a sensible time to lock it.
+ * &lt;/p&gt;
+ *
+ * @author James Gifford, Martin Shevchenko
+ * @since 1.0.0
+ */
+<span class="fc" id="L57">public abstract class AbstractWComponent implements WComponent {</span>
+
+	/**
+	 * The logger instance for this class.
+	 */
+<span class="fc" id="L62">	private static final Log LOG = LogFactory.getLog(AbstractWComponent.class);</span>
+
+	/**
+	 * Indicates whether this component is locked. Trying to update a shared value will result in a runtime exception
+	 * when a component is locked.
+	 */
+<span class="fc" id="L68">	private boolean locked = false;</span>
+
+	/**
+	 * The shared model for this component.
+	 */
+<span class="fc" id="L73">	private final ComponentModel sharedModel = newComponentModel();</span>
+
+	/**
+	 * ID pattern.
+	 */
+<span class="fc" id="L78">	private static final Pattern ID_PATTERN = Pattern.compile(ID_VALIDATION_PATTERN);</span>
+
+	/**
+	 * This flag controls if component ids should be checked for duplicates. As verifying requires extra resources and
+	 * memory, this can be disabled if required. It is encouraged projects at least have this set true in development
+	 * environment.
+	 */
+<span class="fc" id="L85">	private static final boolean CHECK_DUPLICATE_IDS = Config.getInstance()</span>
+<span class="fc" id="L86">			.getBoolean(&quot;bordertech.wcomponents.check.duplicate.ids.enabled&quot;, true);</span>
+
+	// ================================
+	// Identification
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getInternalId() {
+<span class="fc" id="L95">		String iid = null;</span>
+
+		// As determining the internal id involves a fair bit of tree traversal, it is cached in the scratch map.
+		// Try to retrieve the cached id first.
+<span class="fc" id="L99">		Map scratchMap = getScratchMap();</span>
+
+<span class="fc bfc" id="L101" title="All 2 branches covered.">		if (scratchMap != null) {</span>
+<span class="fc" id="L102">			iid = (String) scratchMap.get(&quot;iid&quot;);</span>
+		}
+
+<span class="fc bfc" id="L105" title="All 2 branches covered.">		if (iid == null) {</span>
+			// An id is a function of a component's position in the component tree.
+			// The id will remain constant so long as the component tree does not
+			// change.
+<span class="fc" id="L109">			Container parent = getParent();</span>
+
+<span class="fc bfc" id="L111" title="All 2 branches covered.">			if (parent == null) {</span>
+<span class="fc" id="L112">				return DEFAULT_INTERNAL_ID;</span>
+			}
+
+<span class="fc" id="L115">			iid = parent.getInternalId();</span>
+<span class="fc" id="L116">			final int nameLen = iid.length();</span>
+<span class="fc" id="L117">			StringBuffer nameBuf = new StringBuffer(nameLen + 3);</span>
+<span class="fc" id="L118">			nameBuf.append(iid);</span>
+<span class="fc" id="L119">			nameBuf.append(getIndexOfChild(parent, this));</span>
+
+<span class="fc bfc" id="L121" title="All 2 branches covered.">			if (iid.charAt(nameLen - 1) &lt;= '9') {</span>
+				// last char was a number, change current to letters
+<span class="fc bfc" id="L123" title="All 2 branches covered.">				for (int i = nameLen; i &lt; nameBuf.length(); i++) {</span>
+<span class="fc" id="L124">					nameBuf.setCharAt(i, (char) (nameBuf.charAt(i) + ('a' - '0')));</span>
+				}
+			}
+
+<span class="fc" id="L128">			iid = nameBuf.toString();</span>
+
+<span class="fc bfc" id="L130" title="All 2 branches covered.">			if (scratchMap != null) {</span>
+<span class="fc" id="L131">				scratchMap.put(&quot;iid&quot;, iid);</span>
+			}
+		}
+
+<span class="fc" id="L135">		return iid;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getIdName() {
+<span class="fc" id="L143">		ComponentModel model = getComponentModel();</span>
+<span class="fc" id="L144">		return model.getIdName();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setIdName(final String idName) {
+		// Not allow empty or null
+<span class="fc bfc" id="L153" title="All 2 branches covered.">		if (Util.empty(idName)) {</span>
+<span class="fc" id="L154">			throw new IllegalArgumentException(&quot;idName cannot be null or empty&quot;);</span>
+		}
+
+		// Must start with a letter and followed by letters, digits and or underscores
+<span class="fc" id="L158">		Matcher matcher = ID_PATTERN.matcher(idName);</span>
+<span class="fc bfc" id="L159" title="All 2 branches covered.">		if (!matcher.matches()) {</span>
+<span class="fc" id="L160">			throw new IllegalArgumentException(</span>
+					&quot;idName &quot;
+					+ idName
+					+ &quot; must start with a letter and followed by letters, digits and or underscores.&quot;);
+		}
+
+<span class="fc" id="L166">		ComponentModel model = getOrCreateComponentModel();</span>
+<span class="fc" id="L167">		model.setIdName(idName);</span>
+<span class="fc" id="L168">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @deprecated no longer used. use {@link #getId()} instead.
+	 */
+	@Override
+	@Deprecated
+	public String getName() {
+<span class="fc" id="L178">		return getId();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getId() {
+		// As determining the name involves a fair bit of tree traversal, it is cached in the scratch map.
+		// Try to retrieve the cached name first.
+<span class="fc" id="L188">		Map scratchMap = getScratchMap();</span>
+<span class="fc bfc" id="L189" title="All 2 branches covered.">		if (scratchMap != null) {</span>
+<span class="fc" id="L190">			String name = (String) scratchMap.get(&quot;name&quot;);</span>
+<span class="fc bfc" id="L191" title="All 2 branches covered.">			if (name != null) {</span>
+<span class="fc" id="L192">				return name;</span>
+			}
+		}
+
+		// Get ID name
+<span class="fc" id="L197">		String idName = getIdName();</span>
+
+		String name;
+		// No ID name, so generate an ID
+<span class="fc bfc" id="L201" title="All 2 branches covered.">		if (idName == null) {</span>
+<span class="fc" id="L202">			name = generateId();</span>
+		} else { // Has ID name, so derive the full context name
+<span class="fc" id="L204">			name = deriveId(idName);</span>
+		}
+
+<span class="fc bfc" id="L207" title="All 2 branches covered.">		if (scratchMap != null) {</span>
+<span class="fc" id="L208">			scratchMap.put(&quot;name&quot;, name);</span>
+		}
+
+		// Log warning if an Active Naming Context has no id name
+<span class="pc bpc" id="L212" title="1 of 6 branches missed.">		if (this instanceof NamingContextable &amp;&amp; ((NamingContextable) this).isNamingContext() &amp;&amp; idName == null) {</span>
+<span class="nc" id="L213">			LOG.warn(</span>
+					&quot;NamingContext [ID:&quot; + name + &quot;] does not have an id name set. Will be ignored.&quot;);
+		}
+
+<span class="fc" id="L217">		return name;</span>
+	}
+
+	/**
+	 * @return the generated unique id
+	 */
+	private String generateId() {
+		// Direct parent
+<span class="fc" id="L225">		Container parent = getParent();</span>
+
+		// No Parent
+<span class="fc bfc" id="L228" title="All 2 branches covered.">		if (parent == null) {</span>
+<span class="fc" id="L229">			return DEFAULT_NO_ID;</span>
+		}
+
+		// Check if parent is an active naming context
+<span class="fc" id="L233">		boolean parentIsNamingContext = WebUtilities.isActiveNamingContext(parent);</span>
+
+		// Get ID prefix
+		String prefix;
+<span class="fc bfc" id="L237" title="All 2 branches covered.">		if (parentIsNamingContext) {</span>
+<span class="fc" id="L238">			prefix = ((NamingContextable) parent).getNamingContextId();</span>
+		} else {
+<span class="fc" id="L240">			prefix = parent.getId();</span>
+		}
+
+		// Setup name buffer
+<span class="fc" id="L244">		int prefixLen = prefix.length();</span>
+<span class="fc" id="L245">		StringBuffer nameBuf = new StringBuffer(prefixLen + 3);</span>
+
+		// Append prefix (if required)
+<span class="fc bfc" id="L248" title="All 2 branches covered.">		if (prefixLen != 0) {</span>
+<span class="fc" id="L249">			nameBuf.append(prefix);</span>
+			// Parent is a NamingContext, so include context separator
+<span class="fc bfc" id="L251" title="All 2 branches covered.">			if (parentIsNamingContext) {</span>
+<span class="fc" id="L252">				nameBuf.append(ID_CONTEXT_SEPERATOR);</span>
+			}
+		}
+
+		// Use the component's position in the tree (ie index) to build a unique ID
+<span class="fc" id="L257">		int idx = getIndexOfChild(parent, this);</span>
+
+		// Parent has a generated ID (ie no id name)
+		// (NamingContexts must have an id name, so never null)
+<span class="fc bfc" id="L261" title="All 2 branches covered.">		if (parent.getIdName() == null) {</span>
+			// Generate ID - Append the index
+<span class="fc" id="L263">			nameBuf.append(idx);</span>
+<span class="fc bfc" id="L264" title="All 2 branches covered.">			if (prefix.charAt(prefixLen - 1) &lt;= '9') {</span>
+				// last char was a number, change current to letters
+<span class="fc bfc" id="L266" title="All 2 branches covered.">				for (int i = prefixLen; i &lt; nameBuf.length(); i++) {</span>
+<span class="fc" id="L267">					nameBuf.setCharAt(i, (char) (nameBuf.charAt(i) + ('a' - '0')));</span>
+				}
+			}
+		} else { // Parent has an id name assigned
+			// Generate ID (with separator)
+<span class="fc" id="L272">			nameBuf.append(ID_FRAMEWORK_ASSIGNED_SEPERATOR);</span>
+<span class="fc" id="L273">			nameBuf.append(idx);</span>
+		}
+
+<span class="fc" id="L276">		return nameBuf.toString();</span>
+	}
+
+	/**
+	 * Derive the full id from its naming context.
+	 *
+	 * @param idName the component id name
+	 * @return the derived id in its context
+	 */
+	private String deriveId(final String idName) {
+		// Find parent naming context
+<span class="fc" id="L287">		NamingContextable parent = WebUtilities.getParentNamingContext(this);</span>
+
+		// No Parent
+<span class="fc bfc" id="L290" title="All 2 branches covered.">		if (parent == null) {</span>
+<span class="fc" id="L291">			return idName;</span>
+		}
+
+		// Get ID prefix
+<span class="fc" id="L295">		String prefix = parent.getNamingContextId();</span>
+
+		// No Prefix, just use id name
+<span class="pc bpc" id="L298" title="1 of 2 branches missed.">		if (prefix.length() == 0) {</span>
+<span class="nc" id="L299">			return idName;</span>
+		}
+
+		// Add Prefix
+<span class="fc" id="L303">		StringBuffer nameBuf = new StringBuffer(prefix.length() + idName.length() + 1);</span>
+<span class="fc" id="L304">		nameBuf.append(prefix);</span>
+<span class="fc" id="L305">		nameBuf.append(ID_CONTEXT_SEPERATOR);</span>
+<span class="fc" id="L306">		nameBuf.append(idName);</span>
+
+<span class="fc" id="L308">		return nameBuf.toString();</span>
+	}
+
+	/**
+	 * Register this component's ID in its naming context.
+	 */
+	void registerInContext() {
+<span class="pc bpc" id="L315" title="1 of 2 branches missed.">		if (!CHECK_DUPLICATE_IDS) {</span>
+<span class="nc" id="L316">			return;</span>
+		}
+
+		// Register Component if it has an ID name set
+<span class="fc bfc" id="L320" title="All 2 branches covered.">		if (getIdName() != null) {</span>
+			// Find parent context
+<span class="fc" id="L322">			NamingContextable context = WebUtilities.getParentNamingContext(this);</span>
+
+<span class="fc bfc" id="L324" title="All 2 branches covered.">			if (context == null) {</span>
+				// If this is the top context, then register itself
+<span class="pc bpc" id="L326" title="1 of 2 branches missed.">				if (WebUtilities.isActiveNamingContext(this)) {</span>
+<span class="fc" id="L327">					this.registerId(this);</span>
+				} else {
+<span class="nc" id="L329">					LOG.warn(&quot;Component with id name [&quot; + getIdName()</span>
+							+ &quot;] is not in a naming context and cannot be verified for duplicate id.&quot;);
+				}
+<span class="fc" id="L332">				return;</span>
+			}
+			// Assume context is AbstractWComponent
+<span class="fc" id="L335">			((AbstractWComponent) context).registerId(this);</span>
+		}
+<span class="fc" id="L337">	}</span>
+
+	/**
+	 * Helper method to be used by a {@link NamingContextable} to register a component.
+	 *
+	 * @param component the component to register
+	 */
+	void registerId(final WComponent component) {
+<span class="pc bpc" id="L345" title="1 of 2 branches missed.">		if (!WebUtilities.isActiveNamingContext(this)) {</span>
+<span class="nc" id="L346">			throw new SystemException(&quot;Can only register a component on an active NamingContext&quot;);</span>
+		}
+
+		// Get registered id names
+<span class="fc" id="L350">		ComponentModel model = getOrCreateComponentModel();</span>
+<span class="fc" id="L351">		Map&lt;String, WComponent&gt; ids = model.getContextIds();</span>
+<span class="fc bfc" id="L352" title="All 2 branches covered.">		if (ids == null) {</span>
+<span class="fc" id="L353">			ids = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L354">			model.setContextIds(ids);</span>
+		}
+
+		// Get id name
+<span class="fc" id="L358">		String idName = component.getIdName();</span>
+
+		// Check if already used
+<span class="fc" id="L361">		WComponent mapped = ids.get(idName);</span>
+
+		// Not in map
+<span class="fc bfc" id="L364" title="All 2 branches covered.">		if (mapped == null) {</span>
+			// Save ID / Component
+<span class="fc" id="L366">			ids.put(idName, component);</span>
+<span class="pc bpc" id="L367" title="1 of 2 branches missed.">		} else if (mapped != component) { // Check is same component</span>
+<span class="fc" id="L368">			String contextName = getId();</span>
+<span class="fc" id="L369">			throw new SystemException(&quot;Duplicate ID. ID \&quot;&quot; + idName + &quot;\&quot; for &quot; + component.</span>
+<span class="fc" id="L370">					getClass().getName()</span>
+<span class="fc" id="L371">					+ &quot; is already in use by &quot; + mapped.getClass().getName() + &quot; in context \&quot;&quot; + contextName + &quot;\&quot;.&quot;);</span>
+		}
+
+<span class="fc" id="L374">	}</span>
+
+	/**
+	 * Clear the ID register.
+	 * &lt;p&gt;
+	 * Usually called when a naming context is being painted. This allows the IDs to be refreshed.
+	 * &lt;/p&gt;
+	 */
+	void clearIdRegister() {
+<span class="fc" id="L383">		ComponentModel model = getOrCreateComponentModel();</span>
+<span class="fc" id="L384">		model.setContextIds(null);</span>
+<span class="fc" id="L385">	}</span>
+
+	/**
+	 * &lt;p&gt;
+	 * Retrieves a short-lived map which can be used to cache data during request processing. This map will be
+	 * guaranteed to be cleared at the end of processing a request, but may also be cleared during request processing.
+	 * Do not rely on the contents of this map to exist at any time.
+	 * &lt;/p&gt;
+	 * &lt;p&gt;
+	 * This method will return &lt;code&gt;null&lt;/code&gt; if called outside of request processing.
+	 * &lt;/p&gt;
+	 *
+	 * @return a map which can be used to temporarily cache data, or null.
+	 */
+	protected Map getScratchMap() {
+<span class="fc" id="L400">		UIContext uic = UIContextHolder.getCurrent();</span>
+<span class="fc bfc" id="L401" title="All 2 branches covered.">		return uic == null ? null : uic.getScratchMap(this);</span>
+	}
+
+	// ================================
+	// Action/Event handling
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final void serviceRequest(final Request request) {
+<span class="fc" id="L411">		ArrayList&lt;WComponent&gt; visibles = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L412">		collateVisible(this, visibles);</span>
+
+<span class="pc bpc" id="L414" title="1 of 2 branches missed.">		if (LOG.isDebugEnabled()) {</span>
+<span class="nc" id="L415">			LOG.debug(&quot;Calling handleRequest for &quot; + visibles.size() + &quot; components&quot;);</span>
+		}
+
+<span class="fc bfc" id="L418" title="All 2 branches covered.">		for (int i = 0; i &lt; visibles.size(); i++) {</span>
+<span class="fc" id="L419">			WComponent next = visibles.get(i);</span>
+
+<span class="pc bpc" id="L421" title="1 of 2 branches missed.">			if (LOG.isDebugEnabled()) {</span>
+<span class="nc" id="L422">				LOG.debug(&quot;Calling handleRequest on &quot; + next.getId() + &quot; &quot; + next.getClass());</span>
+			}
+
+<span class="fc" id="L425">			next.handleRequest(request);</span>
+		}
+
+<span class="fc" id="L428">		invokeLaters();</span>
+<span class="fc" id="L429">	}</span>
+
+	/**
+	 * Collates all the visible components in this branch of the WComponent tree. WComponents are added to the
+	 * &lt;code&gt;list&lt;/code&gt; in depth-first order, as this list is traversed in order during the request handling phase.
+	 *
+	 * @param component the current branch to collate visible items in.
+	 * @param list the list to add the visible components to.
+	 */
+	private static void collateVisible(final WComponent component, final List&lt;WComponent&gt; list) {
+<span class="fc bfc" id="L439" title="All 2 branches covered.">		if (component.isVisible()) {</span>
+
+<span class="fc bfc" id="L441" title="All 2 branches covered.">			if (component instanceof Container) {</span>
+
+<span class="fc" id="L443">				final int size = ((Container) component).getChildCount();</span>
+
+<span class="fc bfc" id="L445" title="All 2 branches covered.">				for (int i = 0; i &lt; size; i++) {</span>
+<span class="fc" id="L446">					collateVisible(((Container) component).getChildAt(i), list);</span>
+				}
+			}
+
+<span class="fc" id="L450">			list.add(component);</span>
+		}
+<span class="fc" id="L452">	}</span>
+
+	/**
+	 * The framework calls this method at the end of the serviceRequest method. The default implementation is that only
+	 * a root wcomponent actually runs them.
+	 */
+	protected void invokeLaters() {
+<span class="fc bfc" id="L459" title="All 2 branches covered.">		if (getParent() == null) {</span>
+<span class="fc" id="L460">			UIContext uic = UIContextHolder.getCurrent();</span>
+
+<span class="fc bfc" id="L462" title="All 2 branches covered.">			if (uic != null) {</span>
+<span class="fc" id="L463">				uic.doInvokeLaters();</span>
+			}
+		}
+<span class="fc" id="L466">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void invokeLater(final Runnable runnable) {
+<span class="fc" id="L473">		UIContext uic = UIContextHolder.getCurrent();</span>
+
+<span class="pc bpc" id="L475" title="1 of 2 branches missed.">		if (uic != null) {</span>
+<span class="fc" id="L476">			uic.invokeLater(runnable);</span>
+		}
+<span class="fc" id="L478">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void handleRequest(final Request request) {
+		// NOP - classes to override.
+<span class="fc" id="L486">	}</span>
+
+	// ---------------------------------
+	// Non-WComponent web interface methods
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void forward(final String url) {
+<span class="fc" id="L495">		invokeLater(new Runnable() {</span>
+			@Override
+			public void run() {
+<span class="fc" id="L498">				throw new ForwardException(url);</span>
+			}
+		});
+<span class="fc" id="L501">	}</span>
+
+	// ================================
+	// Painting
+	/**
+	 * Associates a Velocity template with this component by supplying a resource url.
+	 *
+	 * @param templateUrl the location of the velocity template resource.
+	 */
+	void setTemplate(final String templateUrl) {
+<span class="fc" id="L511">		getOrCreateComponentModel().setTemplateUrl(templateUrl);</span>
+<span class="fc" id="L512">	}</span>
+
+	/**
+	 * Directly associates Velocity mark-up with this component. The mark-up will be used for rendering.
+	 *
+	 * @param markUp Velocity mark-up.
+	 */
+	void setTemplateMarkUp(final String markUp) {
+<span class="nc" id="L520">		getOrCreateComponentModel().setTemplateMarkUp(markUp);</span>
+<span class="nc" id="L521">	}</span>
+
+	/**
+	 * Retrieves Velocity mark-up which has been explicitly associated with this component.
+	 *
+	 * @return the Velocity mark-up, or null if no mark-up has been set explicitly.
+	 */
+	public String getTemplateMarkUp() {
+<span class="fc" id="L529">		return getComponentModel().getTemplateMarkUp();</span>
+	}
+
+	/**
+	 * Retrieves the resource url of the Velocity template associated with this component.
+	 *
+	 * @return the location of the Velocity template resource, or null if there is no template.
+	 */
+	public String getTemplate() {
+<span class="fc" id="L538">		return getComponentModel().getTemplateUrl();</span>
+	}
+
+	/**
+	 * Associates a velocity template with this component. A simple mapping is applied to the given class to derive the
+	 * name of a velocity template.
+	 * &lt;p&gt;
+	 * For instance, com.github.bordertech.wcomponents.WTextField would map to the template
+	 * com/github/bordertech/wcomponents/WTextField.vm
+	 * &lt;/p&gt;
+	 *
+	 * @param clazz the class to use to retrieve the template.
+	 * @deprecated use {@link #setTemplate(String)}.
+	 */
+	@Deprecated
+	void setTemplate(final Class clazz) {
+<span class="fc" id="L554">		setTemplate(VelocityTemplateManager.toTemplateResourceName(clazz));</span>
+<span class="fc" id="L555">	}</span>
+
+	/**
+	 * Prepares this component and all child componenents for painting (e.g. rendering to XML). This implementation
+	 * calls {@link #preparePaintComponent(Request)}, then calls {@link #preparePaint(Request)} on all its children.
+	 * Note that the this component's {@link #preparePaintComponent(Request)} is called before the childrens'
+	 * {@link #preparePaintComponent(Request)} is called.
+	 *
+	 * @param request the request being responded to.
+	 */
+	@Override
+	public final void preparePaint(final Request request) {
+		// Don't prepare if it's invisible.
+<span class="fc bfc" id="L568" title="All 2 branches covered.">		if (!isVisible()) {</span>
+<span class="fc" id="L569">			return;</span>
+		}
+
+		// Prepare this component.
+<span class="fc" id="L573">		preparePaintComponent(request);</span>
+
+		// Prepare its children.
+<span class="fc" id="L576">		final ArrayList&lt;WComponent&gt; children = (ArrayList&lt;WComponent&gt;) getComponentModel().</span>
+<span class="fc" id="L577">				getChildren();</span>
+
+<span class="fc bfc" id="L579" title="All 2 branches covered.">		if (children != null) {</span>
+<span class="fc" id="L580">			final int size = children.size();</span>
+
+<span class="fc bfc" id="L582" title="All 2 branches covered.">			for (int i = 0; i &lt; size; i++) {</span>
+<span class="fc" id="L583">				children.get(i).preparePaint(request);</span>
+			}
+
+			// Chances are that the WComponent tree is fairly stable now, so take
+			// the opportunity to trim the child list to size if we have one.
+			// This is just a memory optimization - it won't prevent adding more
+			// children later, of course.
+<span class="fc" id="L590">			children.trimToSize();</span>
+		}
+<span class="fc" id="L592">	}</span>
+
+	/**
+	 * Subclasses may override this method to place the component in the correct state before it is painted. When
+	 * overriding this method, it is good practice to also call the superclass implementation.
+	 *
+	 * @param request the request being responded to.
+	 */
+	protected void preparePaintComponent(final Request request) {
+		// NOP
+<span class="fc" id="L602">	}</span>
+
+	/**
+	 * Renders the component. If the component is visible then paint calls:
+	 * &lt;ol&gt;
+	 * &lt;li&gt;{@link #beforePaint(RenderContext) beforePaint(...)}&lt;/li&gt;
+	 * &lt;li&gt;{@link #paintComponent(RenderContext) paintComponent(...)}&lt;/li&gt;
+	 * &lt;li&gt;{@link #afterPaint(RenderContext) afterPaint(...)}&lt;/li&gt;
+	 * &lt;/ol&gt;
+	 *
+	 * @param renderContext the RenderContext to send the output to.
+	 */
+	@Override
+	public final void paint(final RenderContext renderContext) {
+<span class="fc bfc" id="L616" title="All 2 branches covered.">		if (isVisible()) {</span>
+			// If painting a NamingContext, reset its registered IDs
+<span class="fc bfc" id="L618" title="All 2 branches covered.">			if (WebUtilities.isActiveNamingContext(this)) {</span>
+<span class="fc" id="L619">				clearIdRegister();</span>
+			}
+
+<span class="fc" id="L622">			registerInContext();</span>
+
+<span class="fc" id="L624">			beforePaint(renderContext);</span>
+<span class="fc" id="L625">			paintComponent(renderContext);</span>
+<span class="fc" id="L626">			afterPaint(renderContext);</span>
+		}
+<span class="fc" id="L628">	}</span>
+
+	/**
+	 * Indicates whether structural debugging info should be output for this component.
+	 *
+	 * @return false debug structure is never enabled for this component.
+	 */
+	protected boolean isDebugStructure() {
+<span class="nc" id="L636">		return false;</span>
+	}
+
+	/**
+	 * Subclasses may override this method to output content before the component has been painted. When overriding this
+	 * method, it is good practice to call the superclass implementation
+	 * &lt;b&gt;after&lt;/b&gt; emitting any additional content.
+	 *
+	 * @param renderContext the context to render to.
+	 */
+	protected void beforePaint(final RenderContext renderContext) {
+		// NOP
+<span class="fc" id="L648">	}</span>
+
+	/**
+	 * Subclasses may override this method to output content after the component has been painted. When overriding this
+	 * method, it is good practice to call the superclass implementation
+	 * &lt;b&gt;before&lt;/b&gt; emitting any additional content.
+	 *
+	 * @param renderContext the context to render to.
+	 */
+	protected void afterPaint(final RenderContext renderContext) {
+		// NOP
+<span class="fc" id="L659">	}</span>
+
+	/**
+	 * This is where most of the painting work is normally done. If a layout has been supplied either directly or by
+	 * supplying a velocity template, then painting is delegated to the layout manager. If there is no layout, the
+	 * default behaviour is to paint the child components in sequence.
+	 *
+	 * @param renderContext the context to render to.
+	 */
+	protected void paintComponent(final RenderContext renderContext) {
+<span class="fc" id="L669">		Renderer renderer = UIManager.getRenderer(this, renderContext);</span>
+
+<span class="pc bpc" id="L671" title="1 of 4 branches missed.">		if (getTemplate() != null || getTemplateMarkUp() != null) {</span>
+<span class="fc" id="L672">			Renderer templateRenderer = UIManager.getTemplateRenderer(renderContext);</span>
+<span class="fc" id="L673">			templateRenderer.render(this, renderContext);</span>
+<span class="fc bfc" id="L674" title="All 2 branches covered.">		} else if (renderer == null) {</span>
+			// Default is juxtaposition
+<span class="fc" id="L676">			List&lt;WComponent&gt; children = getComponentModel().getChildren();</span>
+
+<span class="fc bfc" id="L678" title="All 2 branches covered.">			if (children != null) {</span>
+<span class="fc" id="L679">				final int size = children.size();</span>
+
+<span class="fc bfc" id="L681" title="All 2 branches covered.">				for (int i = 0; i &lt; size; i++) {</span>
+<span class="fc" id="L682">					children.get(i).paint(renderContext);</span>
+				}
+			}
+<span class="fc" id="L685">		} else {</span>
+<span class="fc" id="L686">			renderer.render(this, renderContext);</span>
+		}
+<span class="fc" id="L688">	}</span>
+
+	// ================================
+	// Validation
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void validate(final List&lt;Diagnostic&gt; diags) {
+		// Don't validate if it's invisible.
+<span class="fc bfc" id="L698" title="All 2 branches covered.">		if (!isVisible()) {</span>
+<span class="fc" id="L699">			return;</span>
+		}
+
+		// Also check the validation override flag.
+<span class="fc bfc" id="L703" title="All 2 branches covered.">		if (!isValidate()) {</span>
+<span class="fc" id="L704">			return;</span>
+		}
+
+		// Also don't validate if it's disabled.
+<span class="fc bfc" id="L708" title="All 2 branches covered.">		if (this instanceof Disableable) {</span>
+<span class="fc" id="L709">			Disableable dis = (Disableable) this;</span>
+
+<span class="fc bfc" id="L711" title="All 2 branches covered.">			if (dis.isDisabled()) {</span>
+<span class="fc" id="L712">				return;</span>
+			}
+		}
+
+		// Also don't validate if it's readonly.
+<span class="fc bfc" id="L717" title="All 2 branches covered.">		if (this instanceof Input) {</span>
+<span class="fc" id="L718">			Input input = (Input) this;</span>
+
+<span class="fc bfc" id="L720" title="All 2 branches covered.">			if (input.isReadOnly()) {</span>
+<span class="fc" id="L721">				return;</span>
+			}
+		}
+
+		// Validate this component.
+<span class="fc" id="L726">		validateComponent(diags);</span>
+
+		// Validate children
+<span class="fc" id="L729">		List&lt;WComponent&gt; children = getComponentModel().getChildren();</span>
+
+<span class="fc bfc" id="L731" title="All 2 branches covered.">		if (children != null) {</span>
+<span class="fc" id="L732">			final int size = children.size();</span>
+
+<span class="fc bfc" id="L734" title="All 2 branches covered.">			for (int i = 0; i &lt; size; i++) {</span>
+<span class="fc" id="L735">				children.get(i).validate(diags);</span>
+			}
+		}
+<span class="fc" id="L738">	}</span>
+
+	/**
+	 * Subclasses may override to provide validation.
+	 *
+	 * @param diags the list into which any validation diagnostics are added.
+	 */
+	protected void validateComponent(final List&lt;Diagnostic&gt; diags) {
+		// NOP
+<span class="fc" id="L747">	}</span>
+
+	/**
+	 * Create and return an error diagnostic associated to this WComponent.
+	 *
+	 * @param message the error message, using {@link MessageFormat} syntax.
+	 * @param args optional arguments for the message.
+	 * @return an error diagnostic for this component.
+	 */
+	protected Diagnostic createErrorDiagnostic(final String message, final Serializable... args) {
+<span class="fc" id="L757">		return createErrorDiagnostic(this, message, args);</span>
+	}
+
+	/**
+	 * Create and return an error diagnostic associated to the given error source.
+	 *
+	 * @param source the source of the error.
+	 * @param message the error message, using {@link MessageFormat} syntax.
+	 * @param args optional arguments for the message.
+	 * @return an error diagnostic for this component.
+	 */
+	protected Diagnostic createErrorDiagnostic(final WComponent source, final String message,
+			final Serializable... args) {
+<span class="fc" id="L770">		return new DiagnosticImpl(Diagnostic.ERROR, source, message, args);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void showErrorIndicators(final List&lt;Diagnostic&gt; diags) {
+		// Don't show indicators if it's invisible.
+<span class="fc bfc" id="L779" title="All 2 branches covered.">		if (isVisible()) {</span>
+			// Show indicators for this component.
+<span class="fc" id="L781">			showErrorIndicatorsForComponent(diags);</span>
+
+			// Show indicators for its children.
+<span class="fc" id="L784">			List&lt;WComponent&gt; children = getComponentModel().getChildren();</span>
+
+<span class="fc bfc" id="L786" title="All 2 branches covered.">			if (children != null) {</span>
+<span class="fc" id="L787">				final int size = children.size();</span>
+
+<span class="fc bfc" id="L789" title="All 2 branches covered.">				for (int i = 0; i &lt; size; i++) {</span>
+<span class="fc" id="L790">					children.get(i).showErrorIndicators(diags);</span>
+				}
+			}
+		}
+<span class="fc" id="L794">	}</span>
+
+	/**
+	 * &lt;p&gt;
+	 * This does not affect the diag list at all. The ValidatableComponent should visually mark any fields or blocks
+	 * that have errors in the given diag list.
+	 * &lt;/p&gt;
+	 *
+	 * @param diags the list of diagnostics for this component.
+	 */
+	protected void showErrorIndicatorsForComponent(final List&lt;Diagnostic&gt; diags) {
+		// NOP
+<span class="fc" id="L806">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void showWarningIndicators(final List&lt;Diagnostic&gt; diags) {
+		// Don't show indicators if it's invisible.
+<span class="fc bfc" id="L814" title="All 2 branches covered.">		if (isVisible()) {</span>
+			// Show indicators for this component.
+<span class="fc" id="L816">			showWarningIndicatorsForComponent(diags);</span>
+
+			// Show indicators for its children.
+<span class="fc" id="L819">			List&lt;WComponent&gt; children = getComponentModel().getChildren();</span>
+
+<span class="fc bfc" id="L821" title="All 2 branches covered.">			if (children != null) {</span>
+<span class="fc" id="L822">				final int size = children.size();</span>
+
+<span class="fc bfc" id="L824" title="All 2 branches covered.">				for (int i = 0; i &lt; size; i++) {</span>
+<span class="fc" id="L825">					children.get(i).showWarningIndicators(diags);</span>
+				}
+			}
+		}
+<span class="fc" id="L829">	}</span>
+
+	/**
+	 * &lt;p&gt;
+	 * This does not affect the diag list at all. The ValidatableComponent should visually mark any fields or blocks
+	 * that have warnings in the given diag list.
+	 * &lt;/p&gt;
+	 *
+	 * @param diags the list of diagnostics for this component.
+	 */
+	protected void showWarningIndicatorsForComponent(final List&lt;Diagnostic&gt; diags) {
+		// NOP
+<span class="fc" id="L841">	}</span>
+
+	// ================================
+	// Attributes
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setLocked(final boolean lock) {
+<span class="fc" id="L850">		this.locked = lock;</span>
+
+<span class="fc bfc" id="L852" title="All 2 branches covered.">		for (int i = 0; i &lt; getChildCount(); i++) {</span>
+<span class="fc" id="L853">			getChildAt(i).setLocked(lock);</span>
+		}
+<span class="fc" id="L855">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean isLocked() {
+<span class="fc" id="L862">		return locked;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean isInitialised() {
+<span class="fc" id="L870">		return isFlagSet(ComponentModel.INITIALISED_FLAG);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setInitialised(final boolean flag) {
+<span class="fc" id="L878">		setFlag(ComponentModel.INITIALISED_FLAG, flag);</span>
+<span class="fc" id="L879">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean isValidate() {
+<span class="fc" id="L886">		return isFlagSet(ComponentModel.VALIDATE_FLAG);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setValidate(final boolean flag) {
+<span class="fc" id="L894">		setFlag(ComponentModel.VALIDATE_FLAG, flag);</span>
+<span class="fc" id="L895">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean isVisible() {
+<span class="fc" id="L902">		return isFlagSet(ComponentModel.VISIBLE_FLAG);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setVisible(final boolean visible) {
+<span class="fc" id="L910">		setFlag(ComponentModel.VISIBLE_FLAG, visible);</span>
+<span class="fc" id="L911">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean isHidden() {
+<span class="fc" id="L918">		return isFlagSet(ComponentModel.HIDE_FLAG);</span>
+	}
+
+	/**
+	 * &lt;p&gt;
+	 * Sets the client visibility of this component. Hidden components take part in event handling and painting, but are
+	 * not visible on the client.
+	 * &lt;p&gt;
+	 *
+	 * @param hidden true for hidden, false for displayed.
+	 */
+	void setHidden(final boolean hidden) {
+<span class="fc" id="L930">		setFlag(ComponentModel.HIDE_FLAG, hidden);</span>
+<span class="fc" id="L931">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setTrackingEnabled(final boolean track) {
+<span class="fc" id="L938">		setFlag(ComponentModel.TRACKABLE_FLAG, track);</span>
+<span class="fc" id="L939">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean isTrackingEnabled() {
+<span class="fc" id="L946">		return isFlagSet(ComponentModel.TRACKABLE_FLAG);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean isTracking() {
+<span class="fc bfc" id="L954" title="All 2 branches covered.">		if (isTrackingEnabled()) {</span>
+			// Check if id name set
+<span class="fc" id="L956">			String idName = getIdName();</span>
+<span class="fc bfc" id="L957" title="All 2 branches covered.">			if (idName != null) {</span>
+<span class="fc" id="L958">				return true;</span>
+			}
+<span class="fc" id="L960">			LOG.warn(</span>
+<span class="fc" id="L961">					&quot;Trying to track a component that has no id name set. Tracking will be ignored. [&quot; + getId() + &quot; &quot;</span>
+<span class="fc" id="L962">					+ this.getClass().getName() + &quot;]&quot;);</span>
+		}
+<span class="fc" id="L964">		return false;</span>
+	}
+
+	/**
+	 * Sets or clears one or more component flags in the component model for the given context..
+	 *
+	 * @param mask the bit mask for the flags to set/clear.
+	 * @param flag true to set the flag(s), false to clear.
+	 */
+	protected void setFlag(final int mask, final boolean flag) {
+		// Only store the flag value if it is not the default.
+<span class="fc bfc" id="L975" title="All 2 branches covered.">		if (flag != isFlagSet(mask)) {</span>
+<span class="fc" id="L976">			ComponentModel model = getOrCreateComponentModel();</span>
+<span class="fc" id="L977">			model.setFlags(switchFlag(model.getFlags(), mask, flag));</span>
+		}
+<span class="fc" id="L979">	}</span>
+
+	/**
+	 * A utility method to set or clear one or more bits in the given set of flags.
+	 *
+	 * @param flags the current set of flags.
+	 * @param mask the bit mask for the flags to set/clear.
+	 * @param value true to set the flag(s), false to clear.
+	 * @return the new set of flags.
+	 */
+	private static int switchFlag(final int flags, final int mask, final boolean value) {
+<span class="fc bfc" id="L990" title="All 2 branches covered.">		int newFlags = value ? flags | mask : flags &amp; ~mask;</span>
+<span class="fc" id="L991">		return newFlags;</span>
+	}
+
+	/**
+	 * Indicates whether any of the given flags are set. This is normally used to only check a single flag at a time.
+	 *
+	 * @param mask the bit mask for the flags to check.
+	 * @return true if any flags are set, false otherwise.
+	 */
+	protected boolean isFlagSet(final int mask) {
+<span class="fc" id="L1001">		ComponentModel model = getComponentModel();</span>
+<span class="fc" id="L1002">		return isFlagSet(model.getFlags(), mask);</span>
+	}
+
+	/**
+	 * A utility method check whether any of the given flags are set. This is normally used to only check a single flag
+	 * at a time.
+	 *
+	 * @param flags the current set of flags.
+	 * @param mask the bit mask for the flags to set/clear.
+	 * @return true if any flags are set, false otherwise.
+	 */
+	private static boolean isFlagSet(final int flags, final int mask) {
+<span class="fc bfc" id="L1014" title="All 2 branches covered.">		boolean isSet = (flags &amp; mask) != 0;</span>
+<span class="fc" id="L1015">		return isSet;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean hasTabIndex() {
+<span class="fc" id="L1023">		return false;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public int getTabIndex() {
+		// TODO figure out how this works
+<span class="fc" id="L1032">		return 0;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	void setLabel(final WLabel label) {
+<span class="fc" id="L1039">		getOrCreateComponentModel().setLabel(label);</span>
+<span class="fc" id="L1040">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public WLabel getLabel() {
+<span class="fc" id="L1047">		return getComponentModel().getLabel();</span>
+	}
+
+	// --------------------------------
+	// Focus management
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setFocussed() {
+<span class="fc" id="L1057">		UIContext uic = UIContextHolder.getCurrent();</span>
+
+<span class="fc bfc" id="L1059" title="All 2 branches covered.">		if (uic != null) {</span>
+<span class="fc" id="L1060">			uic.setFocussed(this, uic);</span>
+		}
+<span class="fc" id="L1062">	}</span>
+
+	// --------------------------------
+	// Extrinsic state management
+	/**
+	 * Creates a new model appropriate for the type of component. Subclasses can override, and should narrow the return
+	 * type.
+	 *
+	 * @return a new ComponentModel.
+	 */
+	protected ComponentModel newComponentModel() {
+<span class="fc" id="L1073">		return new ComponentModel();</span>
+	}
+
+	/**
+	 * &lt;p&gt;
+	 * Performs initialisation that is required on this components model, and potentially its children. Subclasses can
+	 * override.
+	 * &lt;/p&gt;
+	 * &lt;p&gt;
+	 * Note that the user's component model will automatically be populated from the shared model.
+	 * &lt;/p&gt;
+	 */
+	protected void initialiseComponentModel() {
+		// NOP
+<span class="fc" id="L1087">	}</span>
+
+	/**
+	 * Check if this component has a model on this user's context.
+	 *
+	 * @param uic the user context
+	 * @return true if has no component model
+	 */
+	protected boolean hasNoComponentModel(final UIContext uic) {
+<span class="fc" id="L1096">		WebModel model = uic.getModel(this);</span>
+<span class="fc bfc" id="L1097" title="All 2 branches covered.">		return model == null;</span>
+	}
+
+	/**
+	 * Returns the effective component model for this component. Subclass may override this method to narrow the return
+	 * type to their specific model type.
+	 *
+	 * @return the effective component model
+	 */
+	protected ComponentModel getComponentModel() {
+<span class="fc" id="L1107">		UIContext effectiveContext = UIContextHolder.getCurrent();</span>
+
+<span class="fc bfc" id="L1109" title="All 2 branches covered.">		if (effectiveContext == null) {</span>
+<span class="fc" id="L1110">			return sharedModel;</span>
+		} else {
+<span class="fc" id="L1112">			ComponentModel model = (ComponentModel) effectiveContext.getModel(this);</span>
+
+<span class="fc bfc" id="L1114" title="All 2 branches covered.">			if (model == null) {</span>
+<span class="fc" id="L1115">				return sharedModel;</span>
+<span class="fc bfc" id="L1116" title="All 2 branches covered.">			} else if (model.getSharedModel() == null) {</span>
+				// The reference to the sharedModel has disappeared,
+				// probably due to session serialization
+<span class="fc" id="L1119">				model.setSharedModel(sharedModel);</span>
+			}
+
+<span class="fc" id="L1122">			return model;</span>
+		}
+	}
+
+	/**
+	 * Returns the shared component model for this component. Subclass may override this method to narrow the return
+	 * type to their specific model type.
+	 *
+	 * @return the shared component model
+	 */
+	protected ComponentModel getDefaultModel() {
+<span class="fc" id="L1133">		return sharedModel;</span>
+	}
+
+	/**
+	 * Retrieves the model for this component so that it can be modified. If this method is called during request
+	 * processing, and a session specific model does not yet exist, then a new model is created. Subclasses may override
+	 * this method to narrow the return type to their specific model type.
+	 *
+	 * @return the model for this component
+	 */
+	protected ComponentModel getOrCreateComponentModel() {
+<span class="fc" id="L1144">		ComponentModel model = getComponentModel();</span>
+
+<span class="fc bfc" id="L1146" title="All 4 branches covered.">		if (locked &amp;&amp; model == sharedModel) {</span>
+<span class="fc" id="L1147">			UIContext effectiveContext = UIContextHolder.getCurrent();</span>
+
+<span class="fc bfc" id="L1149" title="All 2 branches covered.">			if (effectiveContext != null) {</span>
+<span class="fc" id="L1150">				model = newComponentModel();</span>
+<span class="fc" id="L1151">				model.setSharedModel(sharedModel);</span>
+
+<span class="fc" id="L1153">				effectiveContext.setModel(this, model);</span>
+<span class="fc" id="L1154">				initialiseComponentModel();</span>
+			}
+		}
+
+<span class="fc" id="L1158">		return model;</span>
+	}
+
+	/**
+	 * &lt;p&gt;
+	 * Resets this component and its children to their initial state for the given user context / session.
+	 * &lt;/p&gt;
+	 * &lt;p&gt;
+	 * &lt;b&gt;NOTE:&lt;/b&gt; The exception to this rule is if this component has been dynamically added to the UI, then the
+	 * parent component will differ from the initial state.
+	 * &lt;/p&gt;
+	 */
+	@Override
+	public void reset() {
+<span class="fc" id="L1172">		UIContext uic = UIContextHolder.getCurrent();</span>
+
+<span class="fc bfc" id="L1174" title="All 2 branches covered.">		if (uic != null) {</span>
+			// Note: The parent component is stored as a field within AbstractWComponent's
+			// component model, which previously caused problems with code like the following:
+			//
+			// ...
+			// WContainer parent = new WContainer();
+			// WComponent child = new WTextField();
+			// ...
+			// parent.add(uic, child);
+			// ...
+			// child.reset(uic);
+			// ...
+			//
+			// In this scenario, the parent still kept a reference to the child component,
+			// but the child component has lost its reference to the parent, which caused
+			// ancestor lookups to fail, and duplicate IDs to be generated.
+			//
+			// This implementation therefore does a top-down reset, clearing this
+			// component's model before any child models. This allows child components
+			// to correctly check for dynamic parenting in their reset methods and
+			// restore the reference to the parent component if necessary.
+
+<span class="fc" id="L1196">			final int childCount = getChildCount();</span>
+<span class="fc" id="L1197">			List&lt;WComponent&gt; children = null;</span>
+
+<span class="fc bfc" id="L1199" title="All 2 branches covered.">			if (childCount &gt; 0) {</span>
+<span class="fc" id="L1200">				children = new ArrayList&lt;&gt;(getComponentModel().getChildren());</span>
+			}
+
+			// Keep a reference to the current (possibly dynamic) parent before it is potentially lost
+<span class="fc" id="L1204">			Container dynamicParent = getParent();</span>
+
+			// Reset this component's data first.
+<span class="fc" id="L1207">			this.removeComponentModel();</span>
+<span class="fc" id="L1208">			uic.clearScratchMap(this);</span>
+
+			// Now reset all descendant components
+<span class="fc bfc" id="L1211" title="All 2 branches covered.">			if (children != null) {</span>
+<span class="fc bfc" id="L1212" title="All 2 branches covered.">				for (WComponent child : children) {</span>
+<span class="fc" id="L1213">					child.reset();</span>
+<span class="fc" id="L1214">				}</span>
+			}
+
+			// At this point, everything in the sub-tree where the reset
+			// method was initially called has now been reset.
+			// If the component was dynamically added
+			// and the dynamic parent still has this component as a child
+<span class="pc bpc" id="L1221" title="1 of 6 branches missed.">			if (dynamicParent != null &amp;&amp; getParent() != dynamicParent &amp;&amp; getIndexOfChild(</span>
+					dynamicParent, this) != -1) {
+				// then re-instate the reference to the dynamic parent.
+<span class="nc" id="L1224">				getOrCreateComponentModel().setParent(dynamicParent);</span>
+			}
+		}
+<span class="fc" id="L1227">	}</span>
+
+	/**
+	 * Reset this component to its initial state.
+	 */
+	protected void removeComponentModel() {
+<span class="fc" id="L1233">		UIContext uic = UIContextHolder.getCurrent();</span>
+
+<span class="pc bpc" id="L1235" title="1 of 2 branches missed.">		if (uic != null) {</span>
+<span class="fc" id="L1236">			uic.removeModel(this);</span>
+		}
+<span class="fc" id="L1238">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void tidyUpUIContextForTree() {
+<span class="fc" id="L1245">		UIContext uic = UIContextHolder.getCurrent();</span>
+
+<span class="pc bpc" id="L1247" title="1 of 2 branches missed.">		if (uic != null) {</span>
+<span class="fc" id="L1248">			tidyUpUIContext();</span>
+
+<span class="fc" id="L1250">			List&lt;WComponent&gt; children = getComponentModel().getChildren();</span>
+
+<span class="fc bfc" id="L1252" title="All 2 branches covered.">			if (children != null) {</span>
+<span class="fc" id="L1253">				final int size = children.size();</span>
+
+<span class="fc bfc" id="L1255" title="All 2 branches covered.">				for (int i = 0; i &lt; size; i++) {</span>
+<span class="fc" id="L1256">					children.get(i).tidyUpUIContextForTree();</span>
+				}
+			}
+		}
+<span class="fc" id="L1260">	}</span>
+
+	/**
+	 * Removes the user-specific component model if this component is in its default state.
+	 */
+	protected void tidyUpUIContext() {
+<span class="fc bfc" id="L1266" title="All 2 branches covered.">		if (isDefaultState()) {</span>
+<span class="fc" id="L1267">			removeComponentModel();</span>
+		}
+<span class="fc" id="L1269">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean isDefaultState() {
+<span class="fc" id="L1276">		return getComponentModel().equals(sharedModel);</span>
+	}
+
+	// ================================
+	// Structure
+	/**
+	 * @return the number of child components currently contained within this component.
+	 */
+	int getChildCount() {
+<span class="fc" id="L1285">		ComponentModel model = getComponentModel();</span>
+<span class="fc bfc" id="L1286" title="All 2 branches covered.">		return (model.getChildren() == null ? 0 : model.getChildren().size());</span>
+	}
+
+	/**
+	 * Retrieves a child component by its index.
+	 *
+	 * @param index the index of the child component to be retrieved.
+	 * @return the child component at the given index.
+	 */
+	WComponent getChildAt(final int index) {
+<span class="fc" id="L1296">		ComponentModel model = getComponentModel();</span>
+<span class="fc" id="L1297">		return model.getChildren().get(index);</span>
+	}
+
+	/**
+	 * Retrieves the index of the given child.
+	 *
+	 * @param childComponent the child component to retrieve the index for.
+	 * @return the index of the given child component, or -1 if the component is not a child of this component.
+	 */
+	int getIndexOfChild(final WComponent childComponent) {
+<span class="fc" id="L1307">		ComponentModel model = getComponentModel();</span>
+<span class="fc" id="L1308">		List&lt;WComponent&gt; children = model.getChildren();</span>
+
+<span class="fc bfc" id="L1310" title="All 2 branches covered.">		return children == null ? -1 : children.indexOf(childComponent);</span>
+	}
+
+	/**
+	 * Retrieves the children of this component.
+	 *
+	 * @return a list containing the children of this component, or an empty list.
+	 */
+	List&lt;WComponent&gt; getChildren() {
+<span class="fc" id="L1319">		List&lt;WComponent&gt; children = getComponentModel().getChildren();</span>
+
+<span class="pc bpc" id="L1321" title="2 of 4 branches missed.">		return children != null &amp;&amp; !children.isEmpty()</span>
+<span class="fc" id="L1322">				? Collections.unmodifiableList(children)</span>
+<span class="pc" id="L1323">				: Collections.&lt;WComponent&gt;emptyList();</span>
+	}
+
+	/**
+	 * Internal utility method to find the index of a child within a container. This method makes use of the additional
+	 * methods offered by the AbstractWComponent implementation (if available), otherwise it falls back the methods
+	 * declared in the {@link WComponent} interface.
+	 *
+	 * @param parent the container to search for the child in
+	 * @param childComponent the component to search for.
+	 * @return the index of the &lt;code&gt;childComponent&lt;/code&gt; in &lt;code&gt;parent&lt;/code&gt;, or -1 if &lt;code&gt;childComponent&lt;/code&gt;
+	 * is not a child of &lt;code&gt;parent&lt;/code&gt;.
+	 */
+	private static int getIndexOfChild(final Container parent, final WComponent childComponent) {
+<span class="pc bpc" id="L1337" title="1 of 2 branches missed.">		if (parent instanceof AbstractWComponent) {</span>
+<span class="fc" id="L1338">			return ((AbstractWComponent) parent).getIndexOfChild(childComponent);</span>
+		} else {
+			// We have to do this the hard way...
+<span class="nc bnc" id="L1341" title="All 2 branches missed.">			for (int i = 0; i &lt; parent.getChildCount(); i++) {</span>
+<span class="nc bnc" id="L1342" title="All 2 branches missed.">				if (childComponent == parent.getChildAt(i)) {</span>
+<span class="nc" id="L1343">					return i;</span>
+				}
+			}
+		}
+
+<span class="nc" id="L1348">		return -1;</span>
+	}
+
+	/**
+	 * Adds the given component as a child of this component.
+	 *
+	 * @param component the component to add.
+	 */
+	void add(final WComponent component) {
+<span class="fc" id="L1357">		assertAddSupported(component);</span>
+<span class="fc" id="L1358">		assertNotReparenting(component);</span>
+
+<span class="pc bpc" id="L1360" title="1 of 2 branches missed.">		if (!(this instanceof Container)) {</span>
+<span class="nc" id="L1361">			throw new UnsupportedOperationException(&quot;Components can only be added to a container&quot;);</span>
+		}
+
+<span class="fc" id="L1364">		ComponentModel model = getOrCreateComponentModel();</span>
+
+<span class="fc bfc" id="L1366" title="All 2 branches covered.">		if (model.getChildren() == null) {</span>
+<span class="fc" id="L1367">			model.setChildren(new ArrayList&lt;WComponent&gt;(1));</span>
+		}
+
+<span class="fc" id="L1370">		model.getChildren().add(component);</span>
+
+<span class="fc bfc" id="L1372" title="All 2 branches covered.">		if (isLocked()) {</span>
+<span class="fc" id="L1373">			component.setLocked(true);</span>
+		}
+
+<span class="pc bpc" id="L1376" title="1 of 2 branches missed.">		if (component instanceof AbstractWComponent) {</span>
+<span class="fc" id="L1377">			((AbstractWComponent) component).getOrCreateComponentModel().setParent((Container) this);</span>
+<span class="fc" id="L1378">			((AbstractWComponent) component).addNotify();</span>
+		}
+<span class="fc" id="L1380">	}</span>
+
+	/**
+	 * Adds the given component as a child of this component. The tag is used to identify the child in a velocity
+	 * template.
+	 *
+	 * @param component the component to add.
+	 * @param tag the tag used to identify the component.
+	 */
+	void add(final WComponent component, final String tag) {
+<span class="fc" id="L1390">		add(component);</span>
+<span class="fc" id="L1391">		component.setTag(tag);</span>
+<span class="fc" id="L1392">	}</span>
+
+	/**
+	 * Some components may wish to throw an Exception if certain types of components can not be added. This
+	 * implementation does nothing, and is here so that e.g. sub-classes do not have to override multiple add methods.
+	 *
+	 * @param componentToAdd the component being added.
+	 */
+	protected void assertAddSupported(final WComponent componentToAdd) {
+		// NOP
+<span class="fc" id="L1402">	}</span>
+
+	/**
+	 * Removes the given component from this component's list of children.
+	 *
+	 * @param aChild child component
+	 */
+	void remove(final WComponent aChild) {
+<span class="fc" id="L1410">		ComponentModel model = getOrCreateComponentModel();</span>
+
+<span class="pc bpc" id="L1412" title="1 of 2 branches missed.">		if (model.getChildren() == null) {</span>
+<span class="nc" id="L1413">			model.setChildren(copyChildren(getComponentModel().getChildren()));</span>
+		}
+
+<span class="fc bfc" id="L1416" title="All 2 branches covered.">		if (model.getChildren().remove(aChild)) {</span>
+			// Deallocate children list if possible, to reduce session size.
+<span class="fc bfc" id="L1418" title="All 2 branches covered.">			if (model.getChildren().isEmpty()) {</span>
+<span class="fc" id="L1419">				model.setChildren(null);</span>
+			}
+
+			// The child component has been successfully removed so clean up the context.
+<span class="fc" id="L1423">			aChild.reset();</span>
+
+			// If the parent has been set in the shared model, we must override
+			// it in the session model for the component to be considered removed.
+			// This unfortunately means that the model will remain in the user's session.
+<span class="pc bpc" id="L1428" title="1 of 4 branches missed.">			if (aChild.getParent() != null &amp;&amp; aChild instanceof AbstractWComponent) {</span>
+<span class="fc" id="L1429">				((AbstractWComponent) aChild).getOrCreateComponentModel().setParent(null);</span>
+<span class="fc" id="L1430">				((AbstractWComponent) aChild).removeNotify();</span>
+			}
+		}
+<span class="fc" id="L1433">	}</span>
+
+	/**
+	 * Removes all of the children from this component.
+	 */
+	void removeAll() {
+<span class="fc bfc" id="L1439" title="All 2 branches covered.">		while (getChildCount() &gt; 0) {</span>
+<span class="fc" id="L1440">			remove(getChildAt(0));</span>
+		}
+<span class="fc" id="L1442">	}</span>
+
+	/**
+	 * Creates a copy of the given list of components.
+	 *
+	 * @param children the list to copy.
+	 * @return a copy of the list.
+	 */
+	private static List&lt;WComponent&gt; copyChildren(final List&lt;WComponent&gt; children) {
+		ArrayList&lt;WComponent&gt; copy;
+
+<span class="nc bnc" id="L1453" title="All 2 branches missed.">		if (children == null) {</span>
+<span class="nc" id="L1454">			copy = new ArrayList&lt;&gt;(1);</span>
+		} else {
+<span class="nc" id="L1456">			copy = new ArrayList&lt;&gt;(children);</span>
+		}
+
+<span class="nc" id="L1459">		return copy;</span>
+	}
+
+	/**
+	 * Ensure that the given component is not about to be re-parented. If it is then this method throws a runtime
+	 * exception to inform the developer of their mistake.
+	 *
+	 * @param component the component to check.
+	 */
+	private static void assertNotReparenting(final WComponent component) {
+<span class="fc bfc" id="L1469" title="All 2 branches covered.">		if (component.getParent() != null) {</span>
+<span class="nc" id="L1470">			throwReparentingException();</span>
+		}
+<span class="fc" id="L1472">	}</span>
+
+	/**
+	 * Called when an attempt is made to add a component to more than one parent. Throws a runtime exception.
+	 */
+	private static void throwReparentingException() {
+<span class="fc" id="L1478">		String msg = &quot;Reparenting error. A wcomponent instance can only be added as a child to one parent wcomponent.&quot;;</span>
+<span class="fc" id="L1479">		LOG.error(msg);</span>
+<span class="fc" id="L1480">		throw new IllegalStateException(msg);</span>
+	}
+
+	/**
+	 * Notifies this component that it now has a parent component. Subclasses can override this to perform any
+	 * additional processing required. The default implementation does nothing.
+	 */
+	protected void addNotify() {
+		// NOP
+<span class="fc" id="L1489">	}</span>
+
+	/**
+	 * Notifies this component that it no longer has a parent component. Subclasses can override this to perform any
+	 * additional processing required. The default implementation does nothing.
+	 */
+	protected void removeNotify() {
+		// NOP
+<span class="fc" id="L1497">	}</span>
+
+	/**
+	 * @return the current parent of this component.
+	 */
+	@Override
+	public Container getParent() {
+<span class="fc" id="L1504">		ComponentModel model = getComponentModel();</span>
+<span class="fc" id="L1505">		return model.getParent();</span>
+	}
+
+	// ----------------------------
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getTag() {
+<span class="fc" id="L1514">		ComponentModel model = getComponentModel();</span>
+<span class="fc" id="L1515">		return model.getTag();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setTag(final String tag) {
+<span class="fc" id="L1523">		ComponentModel model = getOrCreateComponentModel();</span>
+<span class="fc" id="L1524">		model.setTag(tag);</span>
+<span class="fc" id="L1525">	}</span>
+
+	// ================================
+	// Environment
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Environment getEnvironment() {
+<span class="fc" id="L1534">		UIContext uic = UIContextHolder.getCurrent();</span>
+<span class="pc bpc" id="L1535" title="1 of 2 branches missed.">		return uic == null ? null : uic.getEnvironment();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setEnvironment(final Environment environment) {
+<span class="fc" id="L1543">		UIContext uic = UIContextHolder.getCurrent();</span>
+
+<span class="pc bpc" id="L1545" title="1 of 2 branches missed.">		if (uic != null) {</span>
+<span class="fc" id="L1546">			uic.setEnvironment(environment);</span>
+		}
+<span class="fc" id="L1548">	}</span>
+
+	// ------------------------------
+	// Header support
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Headers getHeaders() {
+<span class="fc" id="L1557">		UIContext uic = UIContextHolder.getCurrent();</span>
+
+<span class="pc bpc" id="L1559" title="1 of 2 branches missed.">		return uic == null ? null : uic.getHeaders();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getBaseUrl() {
+<span class="fc" id="L1567">		Environment env = getEnvironment();</span>
+<span class="fc" id="L1568">		String baseUrl = null;</span>
+
+<span class="pc bpc" id="L1570" title="1 of 2 branches missed.">		if (env != null) {</span>
+<span class="fc" id="L1571">			baseUrl = env.getBaseUrl();</span>
+		}
+
+<span class="fc bfc" id="L1574" title="All 2 branches covered.">		return (baseUrl == null ? &quot;&quot; : baseUrl);</span>
+	}
+
+	// ================================
+	// Component Attributes
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setAttribute(final String key, final Serializable value) {
+<span class="fc" id="L1584">		ComponentModel model = getOrCreateComponentModel();</span>
+<span class="fc" id="L1585">		model.setAttribute(key, value);</span>
+<span class="fc" id="L1586">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Serializable getAttribute(final String key) {
+<span class="fc" id="L1593">		ComponentModel model = getComponentModel();</span>
+<span class="fc" id="L1594">		return model.getAttribute(key);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Serializable removeAttribute(final String key) {
+<span class="fc" id="L1602">		ComponentModel model = getOrCreateComponentModel();</span>
+<span class="fc" id="L1603">		return model.removeAttribute(key);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setToolTip(final String text, final Serializable... args) {
+<span class="fc" id="L1611">		ComponentModel model = getOrCreateComponentModel();</span>
+<span class="fc" id="L1612">		model.setToolTip(text, args);</span>
+<span class="fc" id="L1613">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getToolTip() {
+<span class="fc" id="L1620">		ComponentModel model = getComponentModel();</span>
+<span class="fc" id="L1621">		return I18nUtilities.format(null, model.getToolTip());</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @deprecated use setToolTip
+	 */
+	@Override
+	public void setAccessibleText(final String text, final Serializable... args) {
+<span class="fc" id="L1630">		ComponentModel model = getOrCreateComponentModel();</span>
+<span class="fc" id="L1631">		model.setAccessibleText(text, args);</span>
+<span class="fc" id="L1632">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 * @deprecated use getToolTip
+	 */
+	@Override
+	public String getAccessibleText() {
+<span class="fc" id="L1640">		ComponentModel model = getComponentModel();</span>
+<span class="fc" id="L1641">		return I18nUtilities.format(null, model.getAccessibleText());</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setHtmlClass(final String text, final Serializable... args) {
+<span class="fc" id="L1649">		ComponentModel model = getOrCreateComponentModel();</span>
+<span class="fc" id="L1650">		model.setHtmlClass(text, args);</span>
+<span class="fc" id="L1651">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getHtmlClass() {
+<span class="fc" id="L1658">		ComponentModel model = getComponentModel();</span>
+<span class="fc" id="L1659">		return I18nUtilities.format(null, model.getHtmlClass());</span>
+	}
+
+	// ================================
+	// Debugging
+	/**
+	 * Creates a String representation of this component, for debugging purposes.
+	 *
+	 * @return a String representation of this component.
+	 */
+	@Override
+	public String toString() {
+<span class="fc" id="L1671">		return toString(null);</span>
+	}
+
+	/**
+	 * Creates a String representation of this component, for debugging purposes.
+	 *
+	 * @param details some additional details to display in the output.
+	 * @return a String representation of this component.
+	 */
+	final String toString(final String details) {
+<span class="fc" id="L1681">		return toString(details, 0, getChildCount() - 1);</span>
+	}
+
+	/**
+	 * Creates a String representation of this component, for debugging purposes.
+	 *
+	 * @param details some additional details to display in the output.
+	 * @param childStartIndex the start index of children to include in the output.
+	 * @param childEndIndex the end index of children to include in the output.
+	 * @return a String representation of this component.
+	 */
+	final String toString(final String details, final int childStartIndex, final int childEndIndex) {
+		// The simple class name will be empty for anonymous subclasses,
+		// which is not particularly useful, so we recurse until we find a suitable one.
+<span class="fc" id="L1695">		String className = null;</span>
+
+<span class="pc bpc" id="L1697" title="1 of 4 branches missed.">		for (Class&lt;?&gt; clazz = getClass(); Util.empty(className) &amp;&amp; clazz != null; clazz = clazz.</span>
+<span class="fc" id="L1698">				getSuperclass()) {</span>
+<span class="fc" id="L1699">			className = clazz.getSimpleName();</span>
+		}
+
+<span class="pc bpc" id="L1702" title="1 of 2 branches missed.">		StringBuffer buf = new StringBuffer(className == null ? &quot;?&quot; : className);</span>
+
+<span class="fc bfc" id="L1704" title="All 2 branches covered.">		if (!isDefaultState()) {</span>
+<span class="fc" id="L1705">			buf.append(&quot;&lt;user model&gt;&quot;);</span>
+		}
+
+<span class="pc bpc" id="L1708" title="1 of 2 branches missed.">		buf.append(isVisible() ? &quot;&quot; : &quot;&lt;invisible&gt;&quot;);</span>
+<span class="pc bpc" id="L1709" title="1 of 2 branches missed.">		buf.append(!isHidden() ? &quot;&quot; : &quot;&lt;hidden&gt;&quot;);</span>
+
+<span class="fc bfc" id="L1711" title="All 2 branches covered.">		if (this instanceof Disableable) {</span>
+<span class="pc bpc" id="L1712" title="1 of 2 branches missed.">			buf.append(!((Disableable) this).isDisabled() ? &quot;&quot; : &quot;&lt;disabled&gt;&quot;);</span>
+		}
+
+<span class="fc bfc" id="L1715" title="All 2 branches covered.">		if (details != null) {</span>
+<span class="fc" id="L1716">			buf.append('(').append(details).append(')');</span>
+		}
+
+<span class="pc bpc" id="L1719" title="1 of 8 branches missed.">		if (this instanceof Container &amp;&amp; childStartIndex &gt;= 0 &amp;&amp; childEndIndex &lt; getChildCount()</span>
+				&amp;&amp; childStartIndex &lt;= childEndIndex) {
+<span class="fc" id="L1721">			WComponent[] children = new WComponent[childEndIndex - childStartIndex + 1];</span>
+
+<span class="fc bfc" id="L1723" title="All 2 branches covered.">			for (int i = childStartIndex; i &lt;= childEndIndex; i++) {</span>
+<span class="fc" id="L1724">				children[i - childStartIndex] = getChildAt(i);</span>
+			}
+
+<span class="fc" id="L1727">			buf.append(childrenToString(children));</span>
+		}
+
+<span class="fc" id="L1730">		return buf.toString();</span>
+	}
+
+	/**
+	 * Creates a String representation of a single child component to use with {@link #toString()}..
+	 *
+	 * @param children the children to output
+	 * @return a String representation of the given component.
+	 */
+	final String childrenToString(final WComponent... children) {
+<span class="pc bpc" id="L1740" title="1 of 2 branches missed.">		if (!(this instanceof Container)) {</span>
+<span class="nc" id="L1741">			return &quot;&quot;;</span>
+		}
+
+<span class="pc bpc" id="L1744" title="2 of 4 branches missed.">		if (children == null || children.length == 0) {</span>
+<span class="nc" id="L1745">			return &quot;[]&quot;;</span>
+		}
+
+<span class="fc" id="L1748">		StringBuffer buf = new StringBuffer(&quot;\n[&quot;);</span>
+
+<span class="fc bfc" id="L1750" title="All 2 branches covered.">		for (int i = 0; i &lt; children.length; i++) {</span>
+<span class="fc bfc" id="L1751" title="All 2 branches covered.">			buf.append(i == 0 ? &quot;\n   &quot; : &quot;,\n   &quot;);</span>
+<span class="fc" id="L1752">			buf.append(children[i].toString().replaceAll(&quot;\n&quot;, &quot;\n   &quot;));</span>
+		}
+
+<span class="fc" id="L1755">		buf.append(&quot;\n]&quot;);</span>
+<span class="fc" id="L1756">		return buf.toString();</span>
+	}
+
+	// ================================
+	// Serialization
+	/**
+	 * &lt;p&gt;
+	 * This class is used to hold a reference to the shared singleton instance of a wcomponent for the purpose of
+	 * serialisation. Serialization of WComponent session information is tricky because of the separation of the session
+	 * state data (the UIContext) and the shared application definition (the wcompontent stored in the UIRegistry). When
+	 * serializing a UIContext, we don't want to serialize the entire shared application definition in each users
+	 * session. The problem is that the data stored in the UIContext is keyed using the shared WComponent instances, so
+	 * we must convert them all to references in order to prevent the entire application from being serialized.
+	 * &lt;/p&gt;
+	 * &lt;p&gt;
+	 * This extends WComponent in order to fulfil the readResolve contract, however it overrides writeObject/readObject
+	 * to only write out the data needed to find the shared instance.
+	 * &lt;/p&gt;
+	 *
+	 * @author Yiannis Paschalidis
+	 */
+<span class="fc" id="L1777">	public static final class WComponentRef extends AbstractWComponent {</span>
+
+		/**
+		 * The UIRegistry key under which the UI root component is registered. This is assumed to be the fully qualified
+		 * class name of the root component.
+		 */
+		private String repositoryKey;
+
+		/**
+		 * The location path of the component in the UI tree, specified as child indices.
+		 */
+		private int[] nodeLocation;
+
+		/**
+		 * Creates a WComponentRef.
+		 *
+		 * @param repositoryKey the UIRegistry key under which the UI root component is registered.
+		 * @param nodeLocation the location of the component in the UI tree.
+		 */
+<span class="fc" id="L1796">		public WComponentRef(final String repositoryKey, final int[] nodeLocation) {</span>
+<span class="fc" id="L1797">			this.repositoryKey = repositoryKey;</span>
+<span class="fc" id="L1798">			this.nodeLocation = nodeLocation;</span>
+<span class="fc" id="L1799">		}</span>
+
+		/**
+		 * Implement writeObject to only write out the repositoryKey and nodeLocation fields.
+		 *
+		 * @param out the ObjectOutputStream to write to.
+		 * @throws IOException if there is an error writing to the stream.
+		 * @see java.io.Serializable
+		 */
+		private void writeObject(final ObjectOutputStream out) throws IOException {
+<span class="fc" id="L1809">			out.writeObject(repositoryKey);</span>
+<span class="fc" id="L1810">			out.writeInt(nodeLocation.length);</span>
+
+<span class="fc bfc" id="L1812" title="All 2 branches covered.">			for (int i = 0; i &lt; nodeLocation.length; i++) {</span>
+<span class="fc" id="L1813">				out.writeInt(nodeLocation[i]);</span>
+			}
+<span class="fc" id="L1815">		}</span>
+
+		/**
+		 * Implement readObject to only read in the repositoryKey and nodeLocation fields.
+		 *
+		 * @param in the ObjectInputStream to read from.
+		 * @throws IOException if there is an error reading from the stream.
+		 * @throws ClassNotFoundException if the class can't be found.
+		 * @see java.io.Serializable
+		 */
+		private void readObject(final ObjectInputStream in) throws IOException,
+				ClassNotFoundException {
+<span class="fc" id="L1827">			repositoryKey = (String) in.readObject();</span>
+<span class="fc" id="L1828">			int len = in.readInt();</span>
+<span class="fc" id="L1829">			nodeLocation = new int[len];</span>
+
+<span class="fc bfc" id="L1831" title="All 2 branches covered.">			for (int i = 0; i &lt; nodeLocation.length; i++) {</span>
+<span class="fc" id="L1832">				nodeLocation[i] = in.readInt();</span>
+			}
+<span class="fc" id="L1834">		}</span>
+
+		/**
+		 * Implement readResolve so that on deserialization, the WComponent that is referred to by this WComponentRef is
+		 * returned. The WComponent
+		 *
+		 * @return the WComponent instance that is registered with the registry.
+		 * @throws ObjectStreamException never, but Serializable requires this method signature to declare it.
+		 * @see java.io.Serializable
+		 */
+		private Object readResolve() throws ObjectStreamException {
+<span class="pc bpc" id="L1845" title="2 of 4 branches missed.">			if (repositoryKey == null || nodeLocation == null) {</span>
+				// Should not happen
+<span class="nc" id="L1847">				throw new IllegalStateException(</span>
+						&quot;Unable to resolve component in repository '&quot; + repositoryKey + '\'');
+			}
+
+<span class="fc" id="L1851">			WComponent comp = UIRegistry.getInstance().getUI(repositoryKey);</span>
+
+<span class="pc bpc" id="L1853" title="1 of 4 branches missed.">			for (int i = 0; comp != null &amp;&amp; i &lt; nodeLocation.length; i++) {</span>
+<span class="fc" id="L1854">				comp = ((Container) comp).getChildAt(nodeLocation[i]);</span>
+			}
+
+			// Component not found - BAD!
+<span class="pc bpc" id="L1858" title="1 of 2 branches missed.">			if (comp == null) {</span>
+<span class="nc" id="L1859">				throw new IllegalStateException(&quot;Unable to resolve component: &quot; + toString());</span>
+			}
+
+<span class="fc" id="L1862">			return comp;</span>
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public String toString() {
+<span class="nc" id="L1870">			StringBuffer buf = new StringBuffer();</span>
+<span class="nc" id="L1871">			buf.append(repositoryKey);</span>
+
+<span class="nc bnc" id="L1873" title="All 2 branches missed.">			for (int i = 0; i &lt; nodeLocation.length; i++) {</span>
+<span class="nc" id="L1874">				buf.append(',').append(nodeLocation[i]);</span>
+			}
+
+<span class="nc" id="L1877">			return buf.toString();</span>
+		}
+	}
+
+	/**
+	 * Implement writeReplace so that on serialization, WComponents that are registered in the UIRegistry write a
+	 * reference to the registered component rather than the component itself. This ensures that, on deserialization,
+	 * only one copy of the registered component will be present in the VM.
+	 *
+	 * @return the WComponent instance that is registered with the registry.
+	 * @throws ObjectStreamException never, but Serializable requires this method signature to declare it.
+	 * @see java.io.Serializable
+	 */
+	protected Object writeReplace() throws ObjectStreamException {
+<span class="fc" id="L1891">		WComponent top = WebUtilities.getTop(this);</span>
+<span class="fc" id="L1892">		String repositoryKey = top.getClass().getName();</span>
+
+<span class="fc bfc" id="L1894" title="All 2 branches covered.">		if (UIRegistry.getInstance().isRegistered(repositoryKey)</span>
+<span class="pc bpc" id="L1895" title="1 of 2 branches missed.">				&amp;&amp; top == UIRegistry.getInstance().getUI(repositoryKey)) {</span>
+			// Calculate the node location.
+			// The node location is a list of &quot;shared&quot; child indexes of each
+			// ancestor going right back to the top node.
+<span class="fc" id="L1899">			ArrayList&lt;Integer&gt; reversedIndexList = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L1900">			WComponent node = this;</span>
+<span class="fc" id="L1901">			Container parent = node.getParent();</span>
+
+			try {
+<span class="fc bfc" id="L1904" title="All 2 branches covered.">				while (parent != null) {</span>
+<span class="fc" id="L1905">					int index = getIndexOfChild(parent, node);</span>
+<span class="fc" id="L1906">					reversedIndexList.add(index);</span>
+<span class="fc" id="L1907">					node = parent;</span>
+<span class="fc" id="L1908">					parent = node.getParent();</span>
+<span class="fc" id="L1909">				}</span>
+<span class="nc" id="L1910">			} catch (Exception ex) {</span>
+<span class="nc" id="L1911">				LOG.error(&quot;Unable to determine component index relative to top.&quot;, ex);</span>
+<span class="fc" id="L1912">			}</span>
+
+<span class="fc" id="L1914">			final int depth = reversedIndexList.size();</span>
+<span class="fc" id="L1915">			int[] nodeLocation = new int[depth];</span>
+
+<span class="fc bfc" id="L1917" title="All 2 branches covered.">			for (int i = 0; i &lt; depth; i++) {</span>
+<span class="fc" id="L1918">				Integer index = reversedIndexList.get(depth - i - 1);</span>
+<span class="fc" id="L1919">				nodeLocation[i] = index.intValue();</span>
+			}
+
+<span class="fc" id="L1922">			WComponentRef ref = new WComponentRef(repositoryKey, nodeLocation);</span>
+
+<span class="pc bpc" id="L1924" title="1 of 2 branches missed.">			if (LOG.isDebugEnabled()) {</span>
+<span class="nc" id="L1925">				LOG.debug(</span>
+<span class="nc" id="L1926">						&quot;WComponent converted to reference. Ref = &quot; + ref + &quot;. Component = &quot; + getClass().</span>
+<span class="nc" id="L1927">						getName());</span>
+			}
+
+<span class="fc" id="L1930">			return ref;</span>
+		} else {
+<span class="fc" id="L1932">			LOG.debug(</span>
+					&quot;WComponent not accessible via the repository, so it will be serialised. Component = &quot;
+<span class="fc" id="L1934">					+ getClass().getName());</span>
+
+<span class="fc" id="L1936">			return this;</span>
+		}
+	}
+
+	/**
+	 * A Utility method which returns the (replaced) serialized form of a WComponent. This method is only exposed for
+	 * internal instrumentation (by UicStats).
+	 *
+	 * @param component the component to serialize.
+	 * @return the serialized form of the component.
+	 */
+	public static Object replaceWComponent(final AbstractWComponent component) {
+		try {
+<span class="fc" id="L1949">			return component.writeReplace();</span>
+<span class="nc" id="L1950">		} catch (ObjectStreamException ignored) {</span>
+			// Will not occur, but writeReplace method signature must contain it
+<span class="nc" id="L1952">			return component;</span>
+		}
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

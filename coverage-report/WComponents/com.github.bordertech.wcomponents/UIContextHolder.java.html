@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>UIContextHolder.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">UIContextHolder.java</span></div><h1>UIContextHolder.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import com.github.bordertech.wcomponents.util.DebugUtil;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Stack;
+import java.util.WeakHashMap;
+
+/**
+ * &lt;p&gt;
+ * This class holds the current (active) UIContext.&lt;/p&gt;
+ *
+ * &lt;p&gt;
+ * WComponents store user (session) component models within the UIContext, and the UIContextHolder provides a central
+ * location for components to read from. It is the responsibility of the WComponent container (e.g. Servlet) to
+ * initialise the holder at the start of each WComponent lifecycle, and clean it up afterwards.&lt;/p&gt;
+ *
+ * &lt;p&gt;
+ * Applications should not normally need to use this class directly. If application code needs access to the UIContext,
+ * it must only call {@link #getCurrent()}. Do not call any other method within this class.&lt;/p&gt;
+ *
+ * &lt;p&gt;
+ * The UIContextHolder uses a stack internally, to allow for components which utilise &quot;SubUIContexts&quot;, for repeated
+ * data.&lt;/p&gt;
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ */
+public final class UIContextHolder {
+
+	/**
+	 * Hide the constructor as there are no instance methods.
+	 */
+<span class="nc" id="L36">	private UIContextHolder() {</span>
+		// Do Nothing
+<span class="nc" id="L38">	}</span>
+
+	/**
+	 * The UIContexts are stored on a thread-local. This is safe, as WComponent request processing and rendering are
+	 * single-threaded per user.
+	 */
+<span class="fc" id="L44">	private static final ThreadLocal&lt;Stack&lt;UIContext&gt;&gt; CONTEXT_STACK = new ThreadLocal&lt;&gt;();</span>
+
+	/**
+	 * This is used for debugging only. It contains all UIContexts which are in an active thread.
+	 */
+	//TODO: JDK1.6+ Set&lt;UIContxt&gt; allContexts = Collections.newSetFromMap(new WeakHashMap&lt;UIContext, Boolean&gt;());
+<span class="fc" id="L50">	private static final Map&lt;UIContext, ?&gt; ALL_ACTIVE_CONTEXTS = Collections.synchronizedMap(</span>
+			new WeakHashMap&lt;UIContext, Object&gt;());
+
+	/**
+	 * Pushes a context onto the top of stack. This method is called by internal WComponent containers (e.g. WServlet)
+	 * at the start of processing a request. and by components which repeat content.
+	 *
+	 * @param uic the UIContext to push.
+	 */
+	public static void pushContext(final UIContext uic) {
+<span class="fc bfc" id="L60" title="All 2 branches covered.">		if (DebugUtil.isDebugFeaturesEnabled()) {</span>
+<span class="fc" id="L61">			ALL_ACTIVE_CONTEXTS.put(UIContextDelegate.getPrimaryUIContext(uic), null);</span>
+		}
+
+<span class="fc" id="L64">		getStack().push(uic);</span>
+<span class="fc" id="L65">	}</span>
+
+	/**
+	 * For debugging purposes only - returns all active UIContexts.
+	 *
+	 * @return all active UIContexts within the VM.
+	 */
+	static List&lt;UIContext&gt; getActiveContexts() {
+<span class="nc bnc" id="L73" title="All 2 branches missed.">		if (DebugUtil.isDebugFeaturesEnabled()) {</span>
+<span class="nc" id="L74">			return new ArrayList&lt;&gt;(ALL_ACTIVE_CONTEXTS.keySet());</span>
+		}
+
+<span class="nc" id="L77">		return null;</span>
+	}
+
+	/**
+	 * Removes a context from the top of the stack. This method is only called by components which repeat content.
+	 *
+	 * @return the UIContext which was removed.
+	 */
+	public static UIContext popContext() {
+<span class="fc" id="L86">		return getStack().pop();</span>
+	}
+
+	/**
+	 * Retrieves the current effective UIContext. Note that this method will return null if called from outside normal
+	 * request processing, for example during the intial application UI construction.
+	 *
+	 * @return the current effective UIContext.
+	 */
+	public static UIContext getCurrent() {
+<span class="fc" id="L96">		Stack&lt;UIContext&gt; stack = CONTEXT_STACK.get();</span>
+
+<span class="fc bfc" id="L98" title="All 4 branches covered.">		if (stack == null || stack.isEmpty()) {</span>
+<span class="fc" id="L99">			return null;</span>
+		}
+
+<span class="fc" id="L102">		return getStack().peek();</span>
+	}
+
+	/**
+	 * Retrieves the internal stack, creating it if necessary.
+	 *
+	 * @return the internal stack
+	 */
+	private static Stack&lt;UIContext&gt; getStack() {
+<span class="fc" id="L111">		Stack&lt;UIContext&gt; stack = CONTEXT_STACK.get();</span>
+
+<span class="fc bfc" id="L113" title="All 2 branches covered.">		if (stack == null) {</span>
+<span class="fc" id="L114">			stack = new Stack&lt;&gt;();</span>
+<span class="fc" id="L115">			CONTEXT_STACK.set(stack);</span>
+		}
+
+<span class="fc" id="L118">		return stack;</span>
+	}
+
+	/**
+	 * Clears the UIContext stack. This method is called by internal WComponent containers (e.g. WServlet) after a
+	 * request has been processed.
+	 */
+	public static void reset() {
+<span class="fc bfc" id="L126" title="All 2 branches covered.">		if (DebugUtil.isDebugFeaturesEnabled()) {</span>
+<span class="fc" id="L127">			UIContext context = getCurrent();</span>
+<span class="fc" id="L128">			ALL_ACTIVE_CONTEXTS.remove(context);</span>
+		}
+
+<span class="fc" id="L131">		CONTEXT_STACK.remove();</span>
+<span class="fc" id="L132">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WDataRenderer.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">WDataRenderer.java</span></div><h1>WDataRenderer.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+/**
+ * This class is a convenience WComponent that is bound to a data object. It keeps hold of the data object supplied via
+ * the setData method, and returns that same instance in the getData method. The data object is kept in sync with the
+ * users actions every request/response cycle.
+ *
+ * @author Martin Shevchenko
+ */
+<span class="fc" id="L10">public class WDataRenderer extends WContainer {</span>
+
+	/**
+	 * Subclasses must override this method if they need to keep the data object bound to this wcomponent in sync with
+	 * changes entered by the user. Extensions of this class that act as editors will need to override this method.
+	 *
+	 * &lt;p&gt;
+	 * In terms of the MVC pattern this method copies data from the View into the Model. Note that this method is the
+	 * reverse of updateComponent.
+	 * &lt;/p&gt;
+	 *
+	 * &lt;p&gt;
+	 * NOTE: This method will only be called if {@link #getData()} does not return null.
+	 * &lt;/p&gt;
+	 *
+	 * &lt;pre&gt;
+	 *   public void updateData(Object data)
+	 *   {
+	 *   	SomeDataObject data = (SomeDataObject)data;
+	 *   	data.setX(wcompX.getText());
+	 *   	data.setY(wcompY.getText());
+	 *   }
+	 * &lt;/pre&gt;
+	 *
+	 * @param data the data to update.
+	 */
+	public void updateData(final Object data) {
+		// NOP
+<span class="nc" id="L38">	}</span>
+
+	/**
+	 * Subclasses must override this method if they need to keep this wcomponent in sync with the data object. The data
+	 * object may have been modified by other wcomponents, or control logic.
+	 *
+	 * &lt;p&gt;
+	 * In terms of the MVC pattern this method copies data from the Model into the View. Note that this method is the
+	 * reverse of updateData.
+	 * &lt;p&gt;
+	 *
+	 * &lt;p&gt;
+	 * NOTE: This method will only be called if {@link #getData()} does not return null.
+	 * &lt;/p&gt;
+	 * &lt;pre&gt;
+	 *   public void updateComponent(Object data)
+	 *   {
+	 *      SomeDataObject data = (SomeDataObject)data;
+	 *      wcompX.setText(data.getX());
+	 *      wcompY.setText(data.getY());
+	 *   }
+	 * &lt;/pre&gt;
+	 *
+	 * @param data the data to set on the component.
+	 */
+	public void updateComponent(final Object data) {
+		// NOP
+<span class="fc" id="L65">	}</span>
+
+	/**
+	 * The handleRequest method has been overridden to keep the data object bound to this wcomponent in sync with any
+	 * changes the user has entered.
+	 *
+	 * @param request the Request being responded to.
+	 */
+	@Override
+	public void handleRequest(final Request request) {
+		// Let the wcomponent gather data from the request.
+<span class="nc" id="L76">		super.handleRequest(request);</span>
+
+<span class="nc" id="L78">		Object data = getData();</span>
+
+<span class="nc bnc" id="L80" title="All 2 branches missed.">		if (data != null) {</span>
+			// Now update the data object (bound to this wcomponent) by copying
+			// values from this wcomponent and its children into the data object.
+<span class="nc" id="L83">			updateData(data);</span>
+		}
+<span class="nc" id="L85">	}</span>
+
+	/**
+	 * The preparePaintComponent method has been overridden to keep the data object bound to this wcomponent in sync
+	 * with any changes that control logic (Action implementations) or other wcomponents have made to the data.
+	 *
+	 * @param request the Request being responded to.
+	 */
+	@Override
+	protected void preparePaintComponent(final Request request) {
+		// Let the wcomponent do its own preparation first, if any.
+<span class="fc" id="L96">		super.preparePaintComponent(request);</span>
+
+<span class="fc" id="L98">		Object data = getData();</span>
+
+<span class="pc bpc" id="L100" title="1 of 2 branches missed.">		if (data != null) {</span>
+			// Now update this wcomponent and its children with the data contained
+			// in the data object.
+<span class="fc" id="L103">			updateComponent(data);</span>
+		}
+<span class="fc" id="L105">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

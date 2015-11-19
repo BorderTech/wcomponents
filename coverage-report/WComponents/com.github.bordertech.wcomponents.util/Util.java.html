@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>Util.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.util</a> &gt; <span class="el_source">Util.java</span></div><h1>Util.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.util;
+
+/**
+ * A storage point for utility methods that are generally useful.
+ *
+ * @author James Gifford
+ * @since 1.0.0
+ */
+public final class Util {
+
+	/**
+	 * No instance methods here.
+	 */
+<span class="nc" id="L14">	private Util() {</span>
+<span class="nc" id="L15">	}</span>
+
+	/**
+	 * Determines whether the given string is null or &quot;empty&quot;.
+	 *
+	 * @param aString the string to check.
+	 * @return true if the given String is null or contains only whitespace.
+	 */
+	public static boolean empty(final String aString) {
+<span class="fc bfc" id="L24" title="All 2 branches covered.">		if (aString != null) {</span>
+<span class="fc" id="L25">			final int len = aString.length();</span>
+
+<span class="fc bfc" id="L27" title="All 2 branches covered.">			for (int i = 0; i &lt; len; i++) {</span>
+				// This mirrors String.trim(), which removes ASCII
+				// control characters as well as whitespace.
+<span class="fc bfc" id="L30" title="All 2 branches covered.">				if (aString.charAt(i) &gt; ' ') {</span>
+<span class="fc" id="L31">					return false;</span>
+				}
+			}
+		}
+
+<span class="fc" id="L36">		return true;</span>
+	}
+
+	/**
+	 * Determines if to objects are equal. This method handles null references.
+	 *
+	 * @param obj1 the first object to check.
+	 * @param obj2 the second object to check.
+	 * @return true if the two objects are the same according to Object.equals.
+	 */
+	public static boolean equals(final Object obj1, final Object obj2) {
+<span class="fc bfc" id="L47" title="All 2 branches covered.">		if (obj1 == null) {</span>
+<span class="fc bfc" id="L48" title="All 2 branches covered.">			return obj2 == null;</span>
+<span class="fc bfc" id="L49" title="All 2 branches covered.">		} else if (obj1 == obj2) {</span>
+<span class="fc" id="L50">			return true;</span>
+		}
+
+		// obj1 is not null, obj2 may be
+<span class="fc" id="L54">		return obj1.equals(obj2);</span>
+	}
+
+	/**
+	 * Compares two comparable objects where either may be null. Null is regarded as the smallest value, and 2 nulls are
+	 * considered equal.
+	 *
+	 * @param c1 the first comparable
+	 * @param c2 the second comparable
+	 *
+	 * @return a negative integer, zero, or a positive integer if c1 is less than, equal to, or greater than the c2.
+	 */
+	public static int compareAllowNull(final Comparable c1, final Comparable c2) {
+<span class="fc bfc" id="L67" title="All 4 branches covered.">		if (c1 == null &amp;&amp; c2 == null) {</span>
+<span class="fc" id="L68">			return 0;</span>
+<span class="fc bfc" id="L69" title="All 2 branches covered.">		} else if (c1 == null) {</span>
+<span class="fc" id="L70">			return -1;</span>
+<span class="fc bfc" id="L71" title="All 2 branches covered.">		} else if (c2 == null) {</span>
+<span class="fc" id="L72">			return 1;</span>
+		} else {
+<span class="fc" id="L74">			return c1.compareTo(c2);</span>
+		}
+	}
+
+	/**
+	 * Converts a string to upper case, where the string may be null.
+	 *
+	 * @param aString the string to convert.
+	 * @return the string converted to upper case, or null if the supplied string was null.
+	 */
+	public static String upperCase(final String aString) {
+<span class="fc bfc" id="L85" title="All 2 branches covered.">		if (!empty(aString)) {</span>
+<span class="fc" id="L86">			return aString.toUpperCase();</span>
+		}
+
+<span class="fc" id="L89">		return aString;</span>
+	}
+
+	/**
+	 * Copies this String removing white space characters from the end of the string.
+	 *
+	 * @param aString the String to trim.
+	 * @return a new String with characters &lt;code&gt;\\u0020&lt;/code&gt; removed from the end
+	 */
+	public static String rightTrim(final String aString) {
+<span class="fc bfc" id="L99" title="All 2 branches covered.">		if (aString == null) {</span>
+<span class="fc" id="L100">			return null;</span>
+		}
+<span class="fc" id="L102">		int end = aString.length() - 1;</span>
+<span class="fc bfc" id="L103" title="All 4 branches covered.">		while ((end &gt;= 0) &amp;&amp; (aString.charAt(end) &lt;= ' ')) {</span>
+<span class="fc" id="L104">			end--;</span>
+		}
+<span class="fc bfc" id="L106" title="All 2 branches covered.">		if (end == aString.length() - 1) {</span>
+<span class="fc" id="L107">			return aString;</span>
+		}
+<span class="fc" id="L109">		return aString.substring(0, end + 1);</span>
+	}
+
+	/**
+	 * Copies this String removing white space characters from the beginning of the string.
+	 *
+	 * @param aString the String to trim.
+	 * @return a new String with characters &lt;code&gt;\\u0020&lt;/code&gt; removed from the beginning
+	 */
+	public static String leftTrim(final String aString) {
+<span class="fc bfc" id="L119" title="All 2 branches covered.">		if (aString == null) {</span>
+<span class="fc" id="L120">			return null;</span>
+		}
+<span class="fc" id="L122">		int start = 0;</span>
+<span class="fc bfc" id="L123" title="All 4 branches covered.">		while ((start &lt; aString.length()) &amp;&amp; (aString.charAt(start) &lt;= ' ')) {</span>
+<span class="fc" id="L124">			start++;</span>
+		}
+<span class="fc bfc" id="L126" title="All 2 branches covered.">		if (start == 0) {</span>
+<span class="fc" id="L127">			return aString;</span>
+		}
+<span class="fc" id="L129">		return aString.substring(start);</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

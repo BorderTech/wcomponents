@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>AjaxDebugStructureInterceptor.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.container</a> &gt; <span class="el_source">AjaxDebugStructureInterceptor.java</span></div><h1>AjaxDebugStructureInterceptor.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.container;
+
+import com.github.bordertech.wcomponents.AjaxHelper;
+import com.github.bordertech.wcomponents.AjaxOperation;
+import com.github.bordertech.wcomponents.ComponentWithContext;
+import com.github.bordertech.wcomponents.RenderContext;
+import com.github.bordertech.wcomponents.WebUtilities;
+import com.github.bordertech.wcomponents.XmlStringBuilder;
+import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
+import com.github.bordertech.wcomponents.util.DebugUtil;
+
+/**
+ * &lt;p&gt;
+ * An Interceptor used to output structural debugging information for AJAX requests.&lt;/p&gt;
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ */
+<span class="fc" id="L19">public class AjaxDebugStructureInterceptor extends DebugStructureInterceptor {</span>
+
+	/**
+	 * Override paint to only output the debugging info for the current targets.
+	 *
+	 * @param renderContext the renderContext to send the output to.
+	 */
+	@Override
+	public void paint(final RenderContext renderContext) {
+<span class="pc bpc" id="L28" title="1 of 4 branches missed.">		if (!DebugUtil.isDebugStructureEnabled() || !(renderContext instanceof WebXmlRenderContext)) {</span>
+<span class="fc" id="L29">			getBackingComponent().paint(renderContext);</span>
+<span class="fc" id="L30">			return;</span>
+		}
+
+<span class="fc" id="L33">		AjaxOperation operation = AjaxHelper.getCurrentOperation();</span>
+
+<span class="pc bpc" id="L35" title="1 of 2 branches missed.">		if (operation == null) {</span>
+<span class="nc" id="L36">			getBackingComponent().paint(renderContext);</span>
+<span class="nc" id="L37">			return;</span>
+		}
+
+<span class="fc" id="L40">		getBackingComponent().paint(renderContext);</span>
+
+<span class="fc" id="L42">		XmlStringBuilder xml = ((WebXmlRenderContext) renderContext).getWriter();</span>
+<span class="fc" id="L43">		xml.appendTag(&quot;ui:debug&quot;);</span>
+
+<span class="fc bfc" id="L45" title="All 2 branches covered.">		for (String targetId : operation.getTargets()) {</span>
+<span class="fc" id="L46">			ComponentWithContext target = WebUtilities.getComponentById(targetId, true);</span>
+<span class="pc bpc" id="L47" title="1 of 2 branches missed.">			if (target != null) {</span>
+<span class="fc" id="L48">				writeDebugInfo(target.getComponent(), xml);</span>
+			}
+<span class="fc" id="L50">		}</span>
+
+<span class="fc" id="L52">		xml.appendEndTag(&quot;ui:debug&quot;);</span>
+<span class="fc" id="L53">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

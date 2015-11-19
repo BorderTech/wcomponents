@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WrongStepServerInterceptor.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.container</a> &gt; <span class="el_source">WrongStepServerInterceptor.java</span></div><h1>WrongStepServerInterceptor.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.container;
+
+import com.github.bordertech.wcomponents.ActionEscape;
+import com.github.bordertech.wcomponents.Request;
+import com.github.bordertech.wcomponents.UIContext;
+import com.github.bordertech.wcomponents.UIContextHolder;
+import com.github.bordertech.wcomponents.WApplication;
+import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.util.StepCountUtil;
+import java.io.IOException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+/**
+ * This wrong step interceptor prevents an old request being processed that might have been submitted by a user using
+ * multiple windows.
+ * &lt;p&gt;
+ * If a step error occurs, then the user, depending on the redirect flag, is either (1) redirected to an error page or
+ * (2) warped to the future by the application being rendered in its current state. When the user is warped to the
+ * future, the handleStepError method is called on WApplication, which allows applications to take the appropriate
+ * action for when a step error has occurred.
+ * &lt;/p&gt;
+ *
+ * @author Jonathan Austin
+ */
+<span class="fc" id="L26">public class WrongStepServerInterceptor extends InterceptorComponent {</span>
+
+	/**
+	 * The logger instance for this class.
+	 */
+<span class="fc" id="L31">	private static final Log LOG = LogFactory.getLog(WrongStepServerInterceptor.class);</span>
+
+	/**
+	 * Override to check whether the step variable in the incoming request matches what we expect.
+	 *
+	 * @param request the request being serviced.
+	 */
+	@Override
+	public void serviceRequest(final Request request) {
+
+		// Get expected step count
+<span class="fc" id="L42">		UIContext uic = UIContextHolder.getCurrent();</span>
+<span class="fc" id="L43">		int expected = uic.getEnvironment().getStep();</span>
+
+		// Get step count from the request
+<span class="fc" id="L46">		int got = StepCountUtil.getRequestStep(request);</span>
+
+		// Match (first time, both are zero)
+		// or no Step count and processing a GET
+<span class="pc bpc" id="L50" title="1 of 6 branches missed.">		if (expected == got || (!StepCountUtil.isStepOnRequest(request) &amp;&amp; &quot;GET&quot;.equals(request.</span>
+<span class="fc" id="L51">				getMethod()))) {</span>
+			// Process Service Request
+<span class="fc" id="L53">			getBackingComponent().serviceRequest(request);</span>
+		} else { // Invalid step
+<span class="fc" id="L55">			LOG.warn(</span>
+					&quot;SERVER: Wrong step detected. Expected step &quot; + expected + &quot; but got step &quot; + got);
+
+			// Redirect to error page
+<span class="fc bfc" id="L59" title="All 2 branches covered.">			if (StepCountUtil.isErrorRedirect()) {</span>
+<span class="fc" id="L60">				String url = StepCountUtil.getErrorUrl();</span>
+<span class="fc" id="L61">				LOG.warn(&quot;User will be redirected to an error page. URL: &quot; + url);</span>
+				try {
+<span class="fc" id="L63">					getResponse().sendRedirect(url);</span>
+<span class="nc" id="L64">				} catch (IOException e) {</span>
+<span class="nc" id="L65">					LOG.warn(&quot;Error trying to redirect for wrong step indicator.&quot;);</span>
+<span class="fc" id="L66">				}</span>
+
+				// Make sure the render phase is not processed
+<span class="fc" id="L69">				throw new ActionEscape();</span>
+			} else {  // Warp to the future
+				// Call handle step error
+<span class="fc" id="L72">				WComponent application = getUI();</span>
+<span class="pc bpc" id="L73" title="1 of 2 branches missed.">				if (application instanceof WApplication) {</span>
+<span class="fc" id="L74">					LOG.warn(&quot;The handleStepError method will be called on WApplication.&quot;);</span>
+<span class="fc" id="L75">					((WApplication) application).handleStepError();</span>
+				}
+
+<span class="fc" id="L78">				LOG.warn(&quot;The render phase will warp the user back to the future.&quot;);</span>
+			}
+		}
+<span class="fc" id="L81">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void preparePaint(final Request request) {
+		// Increment the step counter
+<span class="fc" id="L89">		UIContext uic = UIContextHolder.getCurrent();</span>
+<span class="fc" id="L90">		StepCountUtil.incrementSessionStep(uic);</span>
+<span class="fc" id="L91">		super.preparePaint(request);</span>
+<span class="fc" id="L92">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

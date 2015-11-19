@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WMultiSelect.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">WMultiSelect.java</span></div><h1>WMultiSelect.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import java.util.Arrays;
+import java.util.List;
+
+/**
+ * &lt;p&gt;
+ * The WMultiSelect input component allows the user to select one or more options from a list. The list of options that
+ * can be selected are supplied at construction time as a parameter in the constructor or via the
+ * {@link #setOptions(List)} method. The list of options are java objects that are rendered using their toString() by
+ * default.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * Use the {@link #getSelected() getSelected} method to determine which of the list of options were chosen by the user.
+ * Note that getSelectedOptions will return a sub-set of the object instances supplied in the original list of options.
+ * &lt;/p&gt;
+ *
+ * @author Jonathan Austin
+ * @since 1.0.0
+ */
+public class WMultiSelect extends AbstractWMultiSelectList implements AjaxTrigger, AjaxTarget,
+		SubordinateTrigger,
+		SubordinateTarget {
+
+	/**
+	 * Creates an empty WMultiSelect.
+	 */
+	public WMultiSelect() {
+<span class="fc" id="L29">		this((List) null);</span>
+<span class="fc" id="L30">	}</span>
+
+	/**
+	 * Creates a WMultiSelect containing the specified options.
+	 *
+	 * @param options the options to display.
+	 */
+	public WMultiSelect(final Object[] options) {
+<span class="fc" id="L38">		this(Arrays.asList(options));</span>
+<span class="fc" id="L39">	}</span>
+
+	/**
+	 * Creates a WMultiSelect containing the specified options.
+	 *
+	 * @param options the options to display.
+	 */
+	public WMultiSelect(final List options) {
+<span class="fc" id="L47">		super(options, true);</span>
+<span class="fc" id="L48">	}</span>
+
+	/**
+	 * Creates a WMultiSelect with the options provided by the given table.
+	 *
+	 * @param table the table to obtain the list's options from.
+	 */
+	public WMultiSelect(final Object table) {
+<span class="fc" id="L56">		super(table, true);</span>
+<span class="fc" id="L57">	}</span>
+
+	/**
+	 * Sets the maximum number of rows that are visible in the list at any one time. If the number of rows is less than
+	 * two, then the default number of rows will be displayed.
+	 *
+	 * @param rows the number of rows to display.
+	 */
+	public void setRows(final int rows) {
+<span class="fc" id="L66">		getOrCreateComponentModel().rows = rows;</span>
+<span class="fc" id="L67">	}</span>
+
+	/**
+	 * @return the number of rows to display in the list.
+	 */
+	public int getRows() {
+<span class="fc" id="L73">		return getComponentModel().rows;</span>
+	}
+
+	/**
+	 * Creates a new Component model.
+	 *
+	 * @return a new MultiSelectModel.
+	 */
+	@Override // For type safety only
+	protected MultiSelectModel newComponentModel() {
+<span class="fc" id="L83">		return new MultiSelectModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override // For type safety only
+	protected MultiSelectModel getComponentModel() {
+<span class="fc" id="L91">		return (MultiSelectModel) super.getComponentModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override // For type safety only
+	protected MultiSelectModel getOrCreateComponentModel() {
+<span class="fc" id="L99">		return (MultiSelectModel) super.getOrCreateComponentModel();</span>
+	}
+
+	/**
+	 * Holds the extrinsic state information of the component.
+	 *
+	 * @author Yiannis Paschalidis
+	 */
+<span class="fc" id="L107">	public static class MultiSelectModel extends MultiSelectionModel {</span>
+
+		/**
+		 * The number of visible rows to display.
+		 */
+		private int rows;
+
+		/**
+		 * Sets the number of visible rows to display.
+		 *
+		 * @param rows The number of rows to display.
+		 * @deprecated not required. Use setRows on the component.
+		 */
+		@Deprecated
+		protected void setRows(final int rows) {
+<span class="nc" id="L122">			this.rows = rows;</span>
+<span class="nc" id="L123">		}</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

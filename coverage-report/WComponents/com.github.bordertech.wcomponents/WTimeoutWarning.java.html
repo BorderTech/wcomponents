@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WTimeoutWarning.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">WTimeoutWarning.java</span></div><h1>WTimeoutWarning.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import com.github.bordertech.wcomponents.util.Config;
+
+/**
+ * WTimeoutWarning provides a mechanism to pass a session timeout period in seconds to the client. This can then be used
+ * to indicate to the user when their session is about to expire.
+ * &lt;p&gt;
+ * This has two purposes: firstly it provides a means to minimise data loss by users by indicating that they should
+ * submit their work before the session expires; and secondly it is a WCAG requirement that users be given a warning of
+ * the end of a time-limited process and a means to extend that limit.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * If the timeout period is &quot;zero&quot;, then use the http session timeout interval will be used. If a user's session does
+ * not expire then an existing WTimeoutWarning can have its timeout set to -1. This will prevent painting the
+ * WTimeoutWarning. This value is the equivalent of a http session time out value of -1 which indicates that the session
+ * does not time out.
+ * &lt;/p&gt;
+ *
+ * @author Mark Reeves
+ * @since 1.0.0
+ */
+public class WTimeoutWarning extends AbstractWComponent {
+
+	/**
+	 * The number of seconds before timeout in which a warning is shown to the user. The default of 20 is the smallest
+	 * amount of time (in seconds) a warning can be set to according to the WCAG 2.0
+	 */
+	private static final int MINIMUM_WARNING = 20;
+
+	/**
+	 * The default warning period (in seconds).
+	 */
+<span class="nc" id="L34">	private static final int DEFAULT_WARNING_PERIOD = Config.getInstance()</span>
+<span class="nc" id="L35">			.getInt(&quot;bordertech.wcomponents.timeoutWarning.warningPeriod&quot;, 300);</span>
+
+	/**
+	 * The default timeout period (in seconds). If the value is &quot;zero&quot;, then use the http session timeout value.
+	 */
+<span class="nc" id="L40">	private static final int DEFAULT_TIMEOUT_PERIOD = Config.getInstance()</span>
+<span class="nc" id="L41">			.getInt(&quot;bordertech.wcomponents.timeoutWarning.timeoutPeriod&quot;, 0);</span>
+
+	/**
+	 * Creates a WTimeoutWarning using default timeout and warning settings.
+	 */
+<span class="nc" id="L46">	public WTimeoutWarning() {</span>
+		// use the defaults for timeout and warning
+<span class="nc" id="L48">	}</span>
+
+	/**
+	 * Creates a timeout indicator with both a timeout period and warning period
+	 * &lt;p&gt;
+	 * If the timeout period is &quot;zero&quot;, then use the http session timeout interval will be used.
+	 * &lt;/p&gt;
+	 *
+	 * @param timeoutPeriod The timeout in seconds. This should be slightly less than the shortest timeout period in the
+	 * entire application stack, not just the web server session timeout.
+	 * @param warningPeriod The time in seconds before the time out occurs in which the warning indicator should show.
+	 * There is a minimum for this which is determined by the Web Content Accessibility Guidelines 2.0.
+	 */
+<span class="nc" id="L61">	public WTimeoutWarning(final int timeoutPeriod, final int warningPeriod) {</span>
+<span class="nc" id="L62">		setTimeoutPeriod(timeoutPeriod);</span>
+<span class="nc" id="L63">		setWarningPeriod(warningPeriod);</span>
+<span class="nc" id="L64">	}</span>
+
+	/**
+	 * Creates a timeout indicator with a timeout period and uses the default warning period.
+	 * &lt;p&gt;
+	 * If the timeout period is &quot;zero&quot;, then use the http session timeout interval will be used.
+	 * &lt;/p&gt;
+	 *
+	 * @param timeoutPeriod The timeout in seconds.
+	 */
+<span class="nc" id="L74">	public WTimeoutWarning(final int timeoutPeriod) {</span>
+<span class="nc" id="L75">		setTimeoutPeriod(timeoutPeriod);</span>
+<span class="nc" id="L76">	}</span>
+
+	/**
+	 * Set a timeout indicator for a specified number of seconds.
+	 * &lt;p&gt;
+	 * If the timeout period is &quot;zero&quot;, then the session timeout interval will be used.
+	 * &lt;/p&gt;
+	 *
+	 * @param timeoutPeriod the timeout in seconds.
+	 */
+	public void setTimeoutPeriod(final int timeoutPeriod) {
+<span class="nc" id="L87">		getOrCreateComponentModel().timeoutPeriod = timeoutPeriod;</span>
+<span class="nc" id="L88">	}</span>
+
+	/**
+	 * Set a pre-timeout warning to a specified number of seconds. This should be no less than the WCAG minimum of 20.
+	 * &lt;p&gt;
+	 * Setting the warning period to exactly ZERO (0) allows the warning time to be determined in the client layer.
+	 * &lt;/p&gt;
+	 *
+	 * @param warningPeriod The timeout warning will show this many seconds before the timeout as indicated by the
+	 * timeoutPeriod.
+	 */
+	public void setWarningPeriod(final int warningPeriod) {
+<span class="nc bnc" id="L100" title="All 4 branches missed.">		if (0 != warningPeriod &amp;&amp; warningPeriod &lt; MINIMUM_WARNING) {</span>
+<span class="nc" id="L101">			throw new IllegalArgumentException(&quot;Warning period must be at least &quot; + String.valueOf(</span>
+					MINIMUM_WARNING));
+		}
+<span class="nc" id="L104">		getOrCreateComponentModel().warningPeriod = warningPeriod;</span>
+<span class="nc" id="L105">	}</span>
+
+	/**
+	 * Get the indicated timeout period.
+	 *
+	 * @return The timeout period in seconds.
+	 */
+	public int getTimeoutPeriod() {
+<span class="nc" id="L113">		return getComponentModel().timeoutPeriod;</span>
+	}
+
+	/**
+	 * Get the warning period.
+	 *
+	 * @return The warning period in seconds.
+	 */
+	public int getWarningPeriod() {
+<span class="nc" id="L122">		return getComponentModel().warningPeriod;</span>
+	}
+
+	/**
+	 * Initialise by setting the timeout to the HTTPSession maxInactiveInterval if the timeoutPeriod has not yet been
+	 * set. {@inheritDoc}
+	 */
+	@Override
+	protected void preparePaintComponent(final Request request) {
+<span class="nc" id="L131">		super.preparePaintComponent(request);</span>
+
+<span class="nc bnc" id="L133" title="All 2 branches missed.">		if (!isInitialised()) {</span>
+			// If the timeout period is &quot;zero&quot;, then use the session timeout interval.
+<span class="nc bnc" id="L135" title="All 2 branches missed.">			if (getTimeoutPeriod() == 0) {</span>
+<span class="nc" id="L136">				int max = request.getMaxInactiveInterval();</span>
+<span class="nc" id="L137">				this.setTimeoutPeriod(max);</span>
+			}
+<span class="nc" id="L139">			setInitialised(true);</span>
+		}
+<span class="nc" id="L141">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected TimeoutWarningModel newComponentModel() {
+<span class="nc" id="L148">		return new TimeoutWarningModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected TimeoutWarningModel getComponentModel() {
+<span class="nc" id="L156">		return (TimeoutWarningModel) super.getComponentModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected TimeoutWarningModel getOrCreateComponentModel() {
+<span class="nc" id="L164">		return (TimeoutWarningModel) super.getOrCreateComponentModel();</span>
+	}
+
+	/**
+	 * Extends ComponentModel to provide timeout and warning periods to be set.
+	 */
+<span class="nc" id="L170">	public static class TimeoutWarningModel extends ComponentModel {</span>
+
+		/**
+		 * The session timeout in seconds.
+		 */
+<span class="nc" id="L175">		private int timeoutPeriod = DEFAULT_TIMEOUT_PERIOD;</span>
+
+		/**
+		 * The warning period in seconds. If this is set it must be at least 20.
+		 */
+<span class="nc" id="L180">		private int warningPeriod = DEFAULT_WARNING_PERIOD;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

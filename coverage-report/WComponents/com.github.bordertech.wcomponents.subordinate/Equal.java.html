@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>Equal.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.subordinate</a> &gt; <span class="el_source">Equal.java</span></div><h1>Equal.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.subordinate;
+
+import com.github.bordertech.wcomponents.SubordinateTrigger;
+import com.github.bordertech.wcomponents.WLabel;
+import com.github.bordertech.wcomponents.util.Util;
+
+/**
+ * A logical condition that tests if the trigger is equal to the compare value.
+ *
+ * @author Jonathan Austin
+ * @since 1.0.0
+ */
+public class Equal extends AbstractCompare {
+
+	/**
+	 * Create a Equal condition with a SubordinateTrigger and Compare value.
+	 *
+	 * @param trigger the trigger input field.
+	 * @param compare the value to use in the compare.
+	 */
+	public Equal(final SubordinateTrigger trigger, final Object compare) {
+<span class="fc" id="L22">		super(trigger, compare);</span>
+<span class="fc" id="L23">	}</span>
+
+	/**
+	 * @return the compare type of Equal.
+	 */
+	@Override
+	public CompareType getCompareType() {
+<span class="fc" id="L30">		return CompareType.EQUAL;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected boolean doCompare(final Object aVal, final Object bVal) {
+<span class="fc" id="L38">		return Util.equals(aVal, bVal);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String toString() {
+<span class="fc" id="L46">		String triggerName = getTrigger().getClass().getSimpleName();</span>
+
+<span class="fc" id="L48">		WLabel label = getTrigger().getLabel();</span>
+<span class="fc bfc" id="L49" title="All 2 branches covered.">		if (label != null) {</span>
+<span class="fc" id="L50">			triggerName = label.getText();</span>
+		}
+
+<span class="fc" id="L53">		return triggerName + &quot;=\&quot;&quot; + getValue() + &quot;\&quot;&quot;;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

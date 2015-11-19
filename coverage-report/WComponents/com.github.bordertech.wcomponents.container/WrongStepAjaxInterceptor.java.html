@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WrongStepAjaxInterceptor.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.container</a> &gt; <span class="el_source">WrongStepAjaxInterceptor.java</span></div><h1>WrongStepAjaxInterceptor.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.container;
+
+import com.github.bordertech.wcomponents.ActionEscape;
+import com.github.bordertech.wcomponents.AjaxHelper;
+import com.github.bordertech.wcomponents.ComponentWithContext;
+import com.github.bordertech.wcomponents.Environment;
+import com.github.bordertech.wcomponents.ErrorCodeEscape;
+import com.github.bordertech.wcomponents.Request;
+import com.github.bordertech.wcomponents.UIContext;
+import com.github.bordertech.wcomponents.UIContextHolder;
+import com.github.bordertech.wcomponents.WApplication;
+import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.WebUtilities;
+import com.github.bordertech.wcomponents.servlet.WServlet;
+import com.github.bordertech.wcomponents.util.I18nUtilities;
+import com.github.bordertech.wcomponents.util.InternalMessages;
+import com.github.bordertech.wcomponents.util.StepCountUtil;
+import com.github.bordertech.wcomponents.util.SystemException;
+import com.github.bordertech.wcomponents.util.XMLUtil;
+import java.io.IOException;
+import java.io.PrintWriter;
+import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+/**
+ * This wrong step interceptor makes sure that ajax requests are only processed for the most recently rendered view.
+ * &lt;p&gt;
+ * If a step error occurs, then the user, depending on the redirect flag, is either (1)redirected to an error page or
+ * (2) warped to the future by being redirected to the current page so the application is refreshed to the current
+ * state. When the user is warped to the future, the handleStepError method is called on WApplication, which allows
+ * applications to take the appropriate action for when a step error has occurred.
+ * &lt;/p&gt;
+ *
+ * @author Jonathan Austin
+ */
+<span class="fc" id="L37">public class WrongStepAjaxInterceptor extends InterceptorComponent {</span>
+
+	/**
+	 * The logger instance for this class.
+	 */
+<span class="fc" id="L42">	private static final Log LOG = LogFactory.getLog(WrongStepAjaxInterceptor.class);</span>
+
+	/**
+	 * Override to check whether the step variable in the incoming request matches what we expect.
+	 *
+	 * @param request the request being serviced.
+	 */
+	@Override
+	public void serviceRequest(final Request request) {
+		// Get trigger id
+<span class="fc" id="L52">		String triggerId = request.getParameter(WServlet.AJAX_TRIGGER_PARAM_NAME);</span>
+<span class="pc bpc" id="L53" title="1 of 2 branches missed.">		if (triggerId == null) {</span>
+<span class="nc" id="L54">			throw new SystemException(&quot;No AJAX trigger id to check step count&quot;);</span>
+		}
+
+		// Get trigger and its context
+<span class="fc" id="L58">		ComponentWithContext trigger = AjaxHelper.getCurrentTriggerAndContext();</span>
+<span class="pc bpc" id="L59" title="1 of 2 branches missed.">		if (trigger == null) {</span>
+<span class="nc" id="L60">			throw new IllegalStateException(</span>
+					&quot;No component/context available for AJAX trigger &quot; + triggerId + &quot;.&quot;);
+		}
+
+		// Get expected step count
+<span class="fc" id="L65">		UIContext uic = UIContextHolder.getCurrent();</span>
+<span class="fc" id="L66">		int expected = uic.getEnvironment().getStep();</span>
+
+		// Step should already be set on the session
+<span class="pc bpc" id="L69" title="1 of 2 branches missed.">		if (expected == 0) {</span>
+<span class="nc" id="L70">			throw new SystemException(</span>
+					&quot;Step count should already be set on the session before AJAX request.&quot;);
+		}
+
+		// Get step count on the request
+<span class="fc" id="L75">		int got = StepCountUtil.getRequestStep(request);</span>
+
+		// Check we are on the current step
+<span class="fc bfc" id="L78" title="All 2 branches covered.">		if (expected == got) {</span>
+			// Process Service Request
+<span class="fc" id="L80">			getBackingComponent().serviceRequest(request);</span>
+		} else { // Invalid step
+<span class="fc" id="L82">			LOG.</span>
+<span class="fc" id="L83">					warn(&quot;AJAX: Wrong step detected. Expected step &quot; + expected + &quot; but got step &quot; + got);</span>
+
+			// &quot;GET&quot; Ajax requests are just ignored and return an error code
+<span class="pc bpc" id="L86" title="1 of 2 branches missed.">			if (&quot;GET&quot;.equals(request.getMethod())) {</span>
+<span class="nc" id="L87">				LOG.warn(&quot;Error code will be sent in the response for AJAX GET Request.&quot;);</span>
+<span class="nc" id="L88">				handleError();</span>
+<span class="fc bfc" id="L89" title="All 2 branches covered.">			} else if (StepCountUtil.isErrorRedirect()) { // Redirect to error page</span>
+<span class="fc" id="L90">				LOG.warn(&quot;User will be redirected to an error page.&quot;);</span>
+<span class="fc" id="L91">				handleRedirect(UIContextHolder.getCurrent(), StepCountUtil.getErrorUrl(), triggerId);</span>
+			} else {  // Warp to the future by refreshing the page
+<span class="fc" id="L93">				LOG.warn(&quot;Warp the user back to the future by refreshing the page.&quot;);</span>
+<span class="fc" id="L94">				handleWarpToTheFuture(trigger, triggerId);</span>
+			}
+			// Make sure the render phase is not processed
+<span class="fc" id="L97">			throw new ActionEscape();</span>
+		}
+<span class="fc" id="L99">	}</span>
+
+	/**
+	 * Warp the user to the future by replacing the entire page.
+	 *
+	 * @param trigger the trigger for the ajax operation.
+	 * @param triggerId the triggerId
+	 */
+	private void handleWarpToTheFuture(final ComponentWithContext trigger, final String triggerId) {
+		// Get the trigger context
+<span class="fc" id="L109">		UIContext renderUic = trigger.getContext();</span>
+<span class="fc" id="L110">		UIContextHolder.pushContext(renderUic);</span>
+
+		try {
+			// Increment the step counter
+<span class="fc" id="L114">			StepCountUtil.incrementSessionStep(renderUic);</span>
+
+			// Get component at end of chain
+<span class="fc" id="L117">			WComponent application = getUI();</span>
+<span class="fc" id="L118">			String url = buildApplicationUrl(renderUic);</span>
+
+			// Call handle step error on WApplication
+<span class="pc bpc" id="L121" title="1 of 2 branches missed.">			if (application instanceof WApplication) {</span>
+<span class="fc" id="L122">				LOG.warn(&quot;The handleStepError method will be called on WApplication.&quot;);</span>
+<span class="fc" id="L123">				((WApplication) application).handleStepError();</span>
+			}
+
+			// Build redirect response
+<span class="fc" id="L127">			handleRedirect(renderUic, url, triggerId);</span>
+		} finally {
+<span class="pc" id="L129">			UIContextHolder.popContext();</span>
+<span class="fc" id="L130">		}</span>
+<span class="fc" id="L131">	}</span>
+
+	/**
+	 * Redirect the user via the ajax response.
+	 *
+	 * @param uic the current user's UI Context.
+	 * @param url the url to redirect page to.
+	 * @param targetId the targetId to include in the response.
+	 */
+	private void handleRedirect(final UIContext uic, final String url, final String targetId) {
+		try {
+			// Redirect user to error page
+<span class="fc" id="L143">			LOG.warn(&quot;User will be redirected to &quot; + url);</span>
+
+			// Setup response with redirect
+<span class="fc" id="L146">			getResponse().setContentType(WebUtilities.CONTENT_TYPE_XML);</span>
+<span class="fc" id="L147">			PrintWriter writer = getResponse().getWriter();</span>
+
+<span class="fc" id="L149">			writer.write(XMLUtil.getXMLDeclarationWithThemeXslt(uic));</span>
+
+<span class="fc" id="L151">			writer.print(&quot;&lt;ui:ajaxResponse &quot;);</span>
+<span class="fc" id="L152">			writer.print(XMLUtil.UI_NAMESPACE);</span>
+<span class="fc" id="L153">			writer.print(&quot;&gt;&quot;);</span>
+<span class="fc" id="L154">			writer.print(&quot;&lt;ui:ajaxTarget id=\&quot;&quot; + targetId + &quot;\&quot; action=\&quot;replace\&quot;&gt;&quot;);</span>
+
+			// Redirect URL
+<span class="fc" id="L157">			writer.print(&quot;&lt;ui:redirect url=\&quot;&quot; + url + &quot;\&quot; /&gt;&quot;);</span>
+
+<span class="fc" id="L159">			writer.print(&quot;&lt;/ui:ajaxTarget&gt;&quot;);</span>
+<span class="fc" id="L160">			writer.print(&quot;&lt;/ui:ajaxResponse&gt;&quot;);</span>
+<span class="nc" id="L161">		} catch (IOException e) {</span>
+<span class="nc" id="L162">			throw new SystemException(&quot;Error writing redirect for ajax wrong step interceptor&quot;, e);</span>
+<span class="fc" id="L163">		}</span>
+<span class="fc" id="L164">	}</span>
+
+	/**
+	 * Build the url to refresh the application.
+	 *
+	 * @param uic the current user's context
+	 * @return the application url
+	 */
+	private String buildApplicationUrl(final UIContext uic) {
+<span class="fc" id="L173">		Environment env = uic.getEnvironment();</span>
+<span class="fc" id="L174">		return env.getPostPath();</span>
+	}
+
+	/**
+	 * Throw the default error code.
+	 */
+	private void handleError() {
+		String msg = I18nUtilities
+<span class="nc" id="L182">				.format(UIContextHolder.getCurrent().getLocale(),</span>
+						InternalMessages.DEFAULT_STEP_ERROR);
+<span class="nc" id="L184">		throw new ErrorCodeEscape(HttpServletResponse.SC_BAD_REQUEST, msg);</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

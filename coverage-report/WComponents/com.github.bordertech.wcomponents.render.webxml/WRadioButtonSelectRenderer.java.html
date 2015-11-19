@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WRadioButtonSelectRenderer.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.render.webxml</a> &gt; <span class="el_source">WRadioButtonSelectRenderer.java</span></div><h1>WRadioButtonSelectRenderer.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.render.webxml;
+
+import com.github.bordertech.wcomponents.OptionGroup;
+import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.WRadioButtonSelect;
+import com.github.bordertech.wcomponents.XmlStringBuilder;
+import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
+import com.github.bordertech.wcomponents.util.SystemException;
+import com.github.bordertech.wcomponents.util.Util;
+import java.util.List;
+
+/**
+ * The Renderer for {@link WRadioButtonSelect}.
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ */
+<span class="fc" id="L18">final class WRadioButtonSelectRenderer extends AbstractWebXmlRenderer {</span>
+
+	/**
+	 * Paints the given WRadioButtonSelect.
+	 *
+	 * @param component the WRadioButtonSelect to paint.
+	 * @param renderContext the RenderContext to paint to.
+	 */
+	@Override
+	public void doRender(final WComponent component, final WebXmlRenderContext renderContext) {
+<span class="fc" id="L28">		WRadioButtonSelect rbSelect = (WRadioButtonSelect) component;</span>
+<span class="fc" id="L29">		XmlStringBuilder xml = renderContext.getWriter();</span>
+<span class="fc" id="L30">		int tabIndex = rbSelect.getTabIndex();</span>
+<span class="fc" id="L31">		int cols = rbSelect.getButtonColumns();</span>
+<span class="fc" id="L32">		boolean encode = rbSelect.getDescEncode();</span>
+<span class="fc" id="L33">		boolean readOnly = rbSelect.isReadOnly();</span>
+
+<span class="fc" id="L35">		xml.appendTagOpen(&quot;ui:radioButtonSelect&quot;);</span>
+<span class="fc" id="L36">		xml.appendAttribute(&quot;id&quot;, component.getId());</span>
+<span class="fc" id="L37">		xml.appendOptionalAttribute(&quot;class&quot;, component.getHtmlClass());</span>
+<span class="fc" id="L38">		xml.appendOptionalAttribute(&quot;track&quot;, component.isTracking(), &quot;true&quot;);</span>
+<span class="fc" id="L39">		xml.appendOptionalAttribute(&quot;disabled&quot;, rbSelect.isDisabled(), &quot;true&quot;);</span>
+<span class="fc" id="L40">		xml.appendOptionalAttribute(&quot;hidden&quot;, rbSelect.isHidden(), &quot;true&quot;);</span>
+<span class="fc" id="L41">		xml.appendOptionalAttribute(&quot;required&quot;, rbSelect.isMandatory(), &quot;true&quot;);</span>
+<span class="fc" id="L42">		xml.appendOptionalAttribute(&quot;readOnly&quot;, readOnly, &quot;true&quot;);</span>
+<span class="fc" id="L43">		xml.appendOptionalAttribute(&quot;submitOnChange&quot;, rbSelect.isSubmitOnChange(), &quot;true&quot;);</span>
+<span class="fc" id="L44">		xml.appendOptionalAttribute(&quot;tabIndex&quot;, component.hasTabIndex(), String.valueOf(tabIndex));</span>
+<span class="fc" id="L45">		xml.appendOptionalAttribute(&quot;toolTip&quot;, component.getToolTip());</span>
+<span class="fc" id="L46">		xml.appendOptionalAttribute(&quot;accessibleText&quot;, component.getAccessibleText());</span>
+<span class="fc" id="L47">		xml.appendOptionalAttribute(&quot;frameless&quot;, rbSelect.isFrameless(), &quot;true&quot;);</span>
+
+<span class="pc bpc" id="L49" title="1 of 4 branches missed.">		switch (rbSelect.getButtonLayout()) {</span>
+			case COLUMNS:
+<span class="fc" id="L51">				xml.appendAttribute(&quot;layout&quot;, &quot;column&quot;);</span>
+<span class="pc bpc" id="L52" title="1 of 2 branches missed.">				xml.appendOptionalAttribute(&quot;layoutColumnCount&quot;, cols &gt; 0, String.valueOf(cols));</span>
+<span class="fc" id="L53">				break;</span>
+			case FLAT:
+<span class="fc" id="L55">				xml.appendAttribute(&quot;layout&quot;, &quot;flat&quot;);</span>
+<span class="fc" id="L56">				break;</span>
+			case STACKED:
+<span class="fc" id="L58">				xml.appendAttribute(&quot;layout&quot;, &quot;stacked&quot;);</span>
+<span class="fc" id="L59">				break;</span>
+			default:
+<span class="pc" id="L61">				throw new SystemException(&quot;Unknown radio button layout: &quot; + rbSelect.</span>
+<span class="nc" id="L62">						getButtonLayout());</span>
+		}
+
+<span class="fc" id="L65">		xml.appendClose();</span>
+
+		// Options
+<span class="fc" id="L68">		List&lt;?&gt; options = rbSelect.getOptions();</span>
+<span class="fc" id="L69">		boolean renderSelectionsOnly = readOnly;</span>
+
+<span class="fc bfc" id="L71" title="All 2 branches covered.">		if (options != null) {</span>
+<span class="fc" id="L72">			int optionIndex = 0;</span>
+<span class="fc" id="L73">			Object selectedOption = rbSelect.getSelected();</span>
+
+<span class="fc bfc" id="L75" title="All 2 branches covered.">			for (Object option : options) {</span>
+<span class="fc bfc" id="L76" title="All 2 branches covered.">				if (option instanceof OptionGroup) {</span>
+<span class="fc" id="L77">					throw new SystemException(&quot;Option groups not supported in WRadioButtonSelect.&quot;);</span>
+				} else {
+<span class="fc" id="L79">					renderOption(rbSelect, option, optionIndex++, xml, selectedOption,</span>
+							renderSelectionsOnly, encode);
+				}
+<span class="fc" id="L82">			}</span>
+		}
+
+<span class="fc" id="L85">		xml.appendEndTag(&quot;ui:radioButtonSelect&quot;);</span>
+
+<span class="fc bfc" id="L87" title="All 2 branches covered.">		if (rbSelect.isAjax()) {</span>
+<span class="fc" id="L88">			paintAjax(rbSelect, xml);</span>
+		}
+<span class="fc" id="L90">	}</span>
+
+	/**
+	 * Renders a single option within the group.
+	 *
+	 * @param rbSelect the radio button select being rendered.
+	 * @param option the option to render.
+	 * @param optionIndex the index of the option. OptionGroups are not counted.
+	 * @param html the XmlStringBuilder to paint to.
+	 * @param selectedOption the selected option
+	 * @param renderSelectionsOnly true to only render selected options, false to render all options.
+	 * @param encode true if the option description should be encoded, false if not.
+	 */
+	private void renderOption(final WRadioButtonSelect rbSelect, final Object option,
+			final int optionIndex, final XmlStringBuilder html,
+			final Object selectedOption, final boolean renderSelectionsOnly,
+			final boolean encode) {
+<span class="fc" id="L107">		boolean selected = Util.equals(option, selectedOption);</span>
+
+<span class="fc bfc" id="L109" title="All 4 branches covered.">		if (selected || !renderSelectionsOnly) {</span>
+			// Get Code and Desc
+<span class="fc" id="L111">			String code = rbSelect.getCode(option, optionIndex);</span>
+<span class="fc" id="L112">			String desc = rbSelect.getDesc(option, optionIndex);</span>
+
+			// Check for null option (ie null or empty). Match isEmpty() logic.
+<span class="fc bfc" id="L115" title="All 4 branches covered.">			boolean isNull = option == null ? true : (option.toString().length() == 0);</span>
+
+			// Render Option
+<span class="fc" id="L118">			html.appendTagOpen(&quot;ui:option&quot;);</span>
+<span class="fc" id="L119">			html.appendAttribute(&quot;value&quot;, code);</span>
+<span class="fc" id="L120">			html.appendOptionalAttribute(&quot;selected&quot;, selected, &quot;true&quot;);</span>
+<span class="fc" id="L121">			html.appendOptionalAttribute(&quot;isNull&quot;, isNull, &quot;true&quot;);</span>
+<span class="fc" id="L122">			html.appendClose();</span>
+<span class="fc" id="L123">			html.append(desc, encode);</span>
+<span class="fc" id="L124">			html.appendEndTag(&quot;ui:option&quot;);</span>
+		}
+<span class="fc" id="L126">	}</span>
+
+	/**
+	 * Paints the AJAX information for the given WRadioButtonSelect.
+	 *
+	 * @param rbSelect the WRadioButtonSelect to paint.
+	 * @param xml the XmlStringBuilder to paint to.
+	 */
+	private void paintAjax(final WRadioButtonSelect rbSelect, final XmlStringBuilder xml) {
+		// Start tag
+<span class="fc" id="L136">		xml.appendTagOpen(&quot;ui:ajaxTrigger&quot;);</span>
+<span class="fc" id="L137">		xml.appendAttribute(&quot;triggerId&quot;, rbSelect.getId());</span>
+<span class="fc" id="L138">		xml.appendClose();</span>
+
+		// Target
+<span class="fc" id="L141">		xml.appendTagOpen(&quot;ui:ajaxTargetId&quot;);</span>
+<span class="fc" id="L142">		xml.appendAttribute(&quot;targetId&quot;, rbSelect.getAjaxTarget().getId());</span>
+<span class="fc" id="L143">		xml.appendEnd();</span>
+
+		// End tag
+<span class="fc" id="L146">		xml.appendEndTag(&quot;ui:ajaxTrigger&quot;);</span>
+<span class="fc" id="L147">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

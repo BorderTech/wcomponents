@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>AjaxHelper.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">AjaxHelper.java</span></div><h1>AjaxHelper.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import java.util.HashMap;
+import java.util.List;
+
+/**
+ * AjaxHelper provides convenience methods to register components for use with the AJAX servlet.
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ */
+public final class AjaxHelper {
+
+	/**
+	 * The trigger id of the component being serviced. This is necessary because the request is not available in the
+	 * render phase.
+	 */
+<span class="fc" id="L18">	private static final ThreadLocal&lt;AjaxOperation&gt; THREAD_LOCAL_OPERATION = new ThreadLocal&lt;&gt;();</span>
+
+	/**
+	 * Holds the trigger component and its context.
+	 */
+<span class="fc" id="L23">	private static final ThreadLocal&lt;ComponentWithContext&gt; THREAD_LOCAL_COMPONENT_WITH_CONTEXT = new ThreadLocal&lt;&gt;();</span>
+
+	/**
+	 * The key we use to store the operations in the user's session. The ajax servlet will use this key to retrieve the
+	 * UIC and process the request.
+	 */
+	public static final String AJAX_OPERATIONS_SESSION_KEY = &quot;ajax.control.operations&quot;;
+
+	/**
+	 * Prevent instantiation of this class.
+	 */
+<span class="nc" id="L34">	private AjaxHelper() {</span>
+<span class="nc" id="L35">	}</span>
+
+	/**
+	 * @param trigger the AJAX trigger to check
+	 * @return true if this is the current AJAX trigger
+	 */
+	public static boolean isCurrentAjaxTrigger(final WComponent trigger) {
+<span class="pc bpc" id="L42" title="1 of 2 branches missed.">		if (trigger == null) {</span>
+<span class="nc" id="L43">			return false;</span>
+		}
+<span class="fc" id="L45">		AjaxOperation operation = AjaxHelper.getCurrentOperation();</span>
+<span class="fc bfc" id="L46" title="All 4 branches covered.">		return operation != null &amp;&amp; operation.getTriggerId().equals(trigger.getId());</span>
+	}
+
+	/**
+	 * Sets the current AJAX operation details.
+	 *
+	 * @param operation the current AJAX operation.
+	 * @param trigger the current AJAX operation trigger and its context.
+	 */
+	public static void setCurrentOperationDetails(final AjaxOperation operation,
+			final ComponentWithContext trigger) {
+<span class="pc bpc" id="L57" title="1 of 2 branches missed.">		if (operation == null) {</span>
+<span class="nc" id="L58">			THREAD_LOCAL_OPERATION.remove();</span>
+		} else {
+<span class="fc" id="L60">			THREAD_LOCAL_OPERATION.set(operation);</span>
+		}
+
+<span class="fc bfc" id="L63" title="All 2 branches covered.">		if (trigger == null) {</span>
+<span class="fc" id="L64">			THREAD_LOCAL_COMPONENT_WITH_CONTEXT.remove();</span>
+		} else {
+<span class="fc" id="L66">			THREAD_LOCAL_COMPONENT_WITH_CONTEXT.set(trigger);</span>
+		}
+<span class="fc" id="L68">	}</span>
+
+	/**
+	 * @return the current Ajax operation (if any).
+	 */
+	public static AjaxOperation getCurrentOperation() {
+<span class="fc" id="L74">		return THREAD_LOCAL_OPERATION.get();</span>
+	}
+
+	/**
+	 * @return the current AJAX trigger component and its context.
+	 */
+	public static ComponentWithContext getCurrentTriggerAndContext() {
+<span class="fc" id="L81">		return THREAD_LOCAL_COMPONENT_WITH_CONTEXT.get();</span>
+	}
+
+	/**
+	 * Clear the details of the current AJAX operation on the thread.
+	 */
+	public static void clearCurrentOperationDetails() {
+<span class="fc" id="L88">		THREAD_LOCAL_COMPONENT_WITH_CONTEXT.remove();</span>
+<span class="fc" id="L89">		THREAD_LOCAL_OPERATION.remove();</span>
+<span class="fc" id="L90">	}</span>
+
+	/**
+	 * Registers one or more components as being AJAX capable.
+	 *
+	 * @param targetIds the components to register. Each component will be re-painted when the trigger occurs.
+	 * @param request the current request being responded to.
+	 * @param triggerId the id of the trigger that will cause the components to be painted.
+	 * @return the AjaxOperation control configuration object.
+	 */
+	public static AjaxOperation registerComponents(final List&lt;String&gt; targetIds,
+			final Request request,
+			final String triggerId) {
+<span class="fc" id="L103">		AjaxOperation operation = new AjaxOperation(triggerId, targetIds);</span>
+<span class="fc" id="L104">		registerAjaxOperation(operation, request);</span>
+<span class="fc" id="L105">		return operation;</span>
+	}
+
+	/**
+	 * Registers a single component as being AJAX capable.
+	 *
+	 * @param targetId the component to register. The component will be re-painted when the trigger occurs.
+	 * @param request the current request being responded to.
+	 * @param triggerId the id of the trigger that will cause the component to be painted.
+	 * @return the AjaxOperation control configuration object.
+	 */
+	public static AjaxOperation registerComponent(final String targetId, final Request request,
+			final String triggerId) {
+<span class="fc" id="L118">		AjaxOperation operation = new AjaxOperation(triggerId, targetId);</span>
+<span class="fc" id="L119">		registerAjaxOperation(operation, request);</span>
+<span class="fc" id="L120">		return operation;</span>
+	}
+
+	/**
+	 * Registers a single component as being AJAX capable and target itself.
+	 *
+	 * @param triggerId the component to register. The component will be re-painted when the trigger occurs.
+	 * @param request the current request being responded to.
+	 * @return the AjaxOperation control configuration object.
+	 */
+	public static AjaxOperation registerComponentTargetItself(final String triggerId,
+			final Request request) {
+<span class="fc" id="L132">		AjaxOperation operation = new AjaxOperation(triggerId, triggerId);</span>
+<span class="fc" id="L133">		registerAjaxOperation(operation, request);</span>
+<span class="fc" id="L134">		return operation;</span>
+	}
+
+	/**
+	 * This internal method is used to register an arbitrary target container. It must only used by components which
+	 * contain implicit AJAX capability.
+	 *
+	 * @param triggerId the id of the trigger that will cause the component to be painted.
+	 * @param containerId the target container id. This is not necessarily a WComponent id.
+	 * @param containerContentId the container content.
+	 * @param request the current request being responded to.
+	 * @return the AjaxOperation control configuration object.
+	 */
+	static AjaxOperation registerContainer(final String triggerId, final String containerId,
+			final String containerContentId, final Request request) {
+<span class="fc" id="L149">		AjaxOperation operation = new AjaxOperation(triggerId, containerContentId);</span>
+<span class="fc" id="L150">		operation.setTargetContainerId(containerId);</span>
+<span class="fc" id="L151">		registerAjaxOperation(operation, request);</span>
+
+<span class="fc" id="L153">		return operation;</span>
+	}
+
+	/**
+	 * This internal method is used to register an arbitrary target container. It must only used by components which
+	 * contain implicit AJAX capability.
+	 *
+	 * @param triggerId the id of the trigger that will cause the component to be painted.
+	 * @param containerId the target container id. This is not necessarily a WComponent id.
+	 * @param containerContentIds the container content.
+	 * @param request the current request being responded to.
+	 * @return the AjaxOperation control configuration object.
+	 */
+	static AjaxOperation registerContainer(final String triggerId, final String containerId,
+			final List&lt;String&gt; containerContentIds, final Request request) {
+<span class="fc" id="L168">		AjaxOperation operation = new AjaxOperation(triggerId, containerContentIds);</span>
+<span class="fc" id="L169">		operation.setTargetContainerId(containerId);</span>
+<span class="fc" id="L170">		registerAjaxOperation(operation, request);</span>
+
+<span class="fc" id="L172">		return operation;</span>
+	}
+
+	/**
+	 * Retrieves the AjaxOperation that has been registered for the given trigger. This method will return null if there
+	 * is no corresponding operation registered.
+	 *
+	 * @param triggerId the trigger id.
+	 * @param request the current request.
+	 * @return the AjaxOperation corresponding to the trigger id.
+	 */
+	public static AjaxOperation getAjaxOperation(final String triggerId, final Request request) {
+<span class="fc" id="L184">		HashMap&lt;String, AjaxOperation&gt; operations = (HashMap&lt;String, AjaxOperation&gt;) request</span>
+<span class="fc" id="L185">				.getSessionAttribute(AJAX_OPERATIONS_SESSION_KEY);</span>
+
+<span class="pc bpc" id="L187" title="1 of 2 branches missed.">		if (operations != null) {</span>
+<span class="fc" id="L188">			return operations.get(triggerId);</span>
+		}
+
+<span class="nc" id="L191">		return null;</span>
+	}
+
+	/**
+	 * The Ajax servlet needs access to the AjaxOperation Store the operation in the session using the trigger Id, as
+	 * this will be present in the Servlet HttpRequest. agreed key. The ajax id is passed in the url to the servlet so
+	 * it can then access the context.
+	 *
+	 * @param operation the operation to register.
+	 * @param request the request to store the operation under.
+	 */
+	private static void registerAjaxOperation(final AjaxOperation operation, final Request request) {
+		// Add operation to backing session
+<span class="fc" id="L204">		HashMap&lt;String, AjaxOperation&gt; operations = (HashMap&lt;String, AjaxOperation&gt;) request</span>
+<span class="fc" id="L205">				.getSessionAttribute(AJAX_OPERATIONS_SESSION_KEY);</span>
+
+<span class="fc bfc" id="L207" title="All 2 branches covered.">		if (operations == null) {</span>
+<span class="fc" id="L208">			operations = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L209">			request.setSessionAttribute(AJAX_OPERATIONS_SESSION_KEY, operations);</span>
+		}
+
+<span class="fc" id="L212">		operations.put(operation.getTriggerId(), operation);</span>
+<span class="fc" id="L213">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

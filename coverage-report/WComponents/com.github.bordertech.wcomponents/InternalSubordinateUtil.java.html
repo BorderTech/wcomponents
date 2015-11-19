@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>InternalSubordinateUtil.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">InternalSubordinateUtil.java</span></div><h1>InternalSubordinateUtil.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import com.github.bordertech.wcomponents.subordinate.AbstractSetVisible;
+
+/**
+ * &lt;p&gt;
+ * This class is a work-around to having the subordinate classes declared in a different package. It must not be used by
+ * application code.&lt;/p&gt;
+ *
+ * &lt;p&gt;
+ * TODO: When the package hierarchy is renamed, the subordinate classes should be moved to the main package and this
+ * class deleted.&lt;/p&gt;
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ */
+public final class InternalSubordinateUtil {
+
+	/**
+	 * Hide Utility class constructor.
+	 */
+<span class="nc" id="L22">	private InternalSubordinateUtil() {</span>
+<span class="nc" id="L23">	}</span>
+
+	/**
+	 * Applies the hidden flag on behalf of a AbstractSetVisible implementation.
+	 *
+	 * @param action the AbstractSetVisible implementation to apply the flag for.
+	 * @param target the target to apply the flag to.
+	 * @param value the value to apply.
+	 */
+	public static void applyAction(final AbstractSetVisible action, final SubordinateTarget target,
+			final Object value) {
+		// Try and apply the visibility.
+<span class="pc bpc" id="L35" title="3 of 6 branches missed.">		if (action != null &amp;&amp; target instanceof AbstractWComponent &amp;&amp; value instanceof Boolean) {</span>
+<span class="fc" id="L36">			boolean visible = ((Boolean) value);</span>
+<span class="fc" id="L37">			target.setValidate(visible);</span>
+<span class="fc bfc" id="L38" title="All 2 branches covered.">			((AbstractWComponent) target).setHidden(!visible);</span>
+		}
+<span class="fc" id="L40">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

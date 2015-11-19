@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>VideoResource.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">VideoResource.java</span></div><h1>VideoResource.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import java.awt.Dimension;
+
+/**
+ * Provides a bridge to static image resources which are present in the class path, but not in the web application
+ * itself.
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ */
+public class VideoResource extends InternalResource implements Video {
+
+	/**
+	 * The video size, if known.
+	 */
+	private final Dimension size;
+
+	/**
+	 * The video length, if known.
+	 */
+	private int duration;
+
+	/**
+	 * Creates a videoResource.
+	 *
+	 * @param videoResource the resource name.
+	 */
+	public VideoResource(final String videoResource) {
+<span class="fc" id="L30">		this(videoResource, &quot;unknown video&quot;, null);</span>
+<span class="fc" id="L31">	}</span>
+
+	/**
+	 * Creates a videoResource.
+	 *
+	 * @param videoResource the resource name.
+	 * @param description the description of the video.
+	 */
+	public VideoResource(final String videoResource, final String description) {
+<span class="fc" id="L40">		this(videoResource, description, null);</span>
+<span class="fc" id="L41">	}</span>
+
+	/**
+	 * Creates a videoResource.
+	 *
+	 * @param videoResource the resource name.
+	 * @param description the description of the video.
+	 * @param size the video dimensions, or null if unknown.
+	 */
+	public VideoResource(final String videoResource, final String description, final Dimension size) {
+<span class="fc" id="L51">		super(videoResource, description);</span>
+<span class="fc" id="L52">		this.size = size;</span>
+<span class="fc" id="L53">	}</span>
+
+	/**
+	 * @return the video size, or null if unknown.
+	 */
+	@Override
+	public Dimension getSize() {
+<span class="fc" id="L60">		return size;</span>
+	}
+
+	/**
+	 * Retrieves the duration of the video clip. A value of &amp;lt;= 0 indicates that the duration is unknown.
+	 *
+	 * @return the duration of the video clip.
+	 */
+	@Override
+	public int getDuration() {
+<span class="fc" id="L70">		return duration;</span>
+	}
+
+	/**
+	 * Sets the duration of the video clip, A value of &amp;lt;= 0 indicates that the duration is unknown.
+	 *
+	 * @param duration The duration to set.
+	 */
+	public void setDuration(final int duration) {
+<span class="fc" id="L79">		this.duration = duration;</span>
+<span class="fc" id="L80">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

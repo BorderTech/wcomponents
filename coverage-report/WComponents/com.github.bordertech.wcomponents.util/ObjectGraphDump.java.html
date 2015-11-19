@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>ObjectGraphDump.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.util</a> &gt; <span class="el_source">ObjectGraphDump.java</span></div><h1>ObjectGraphDump.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.util;
+
+import com.github.bordertech.wcomponents.ComponentModel;
+import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.IdentityHashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+/**
+ * Dumps an object graph, optionally excluding fields that are static or transient.
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ */
+public final class ObjectGraphDump {
+
+	/**
+	 * The logger instance for this class.
+	 */
+<span class="fc" id="L24">	private static final Log LOG = LogFactory.getLog(ObjectGraphDump.class);</span>
+
+	/**
+	 * Cached instance fields by class.
+	 */
+<span class="fc" id="L29">	private final Map&lt;Class&lt;?&gt;, Field[]&gt; instanceFieldsByClass = new HashMap&lt;&gt;();</span>
+	/**
+	 * Objects that have been visited so far, to stop infinite recursion.
+	 */
+<span class="fc" id="L33">	private final Map&lt;Object, ObjectGraphNode&gt; visitedNodes = new IdentityHashMap&lt;&gt;();</span>
+	/**
+	 * The number of nodes generated so far, used to allocated node ids.
+	 */
+<span class="fc" id="L37">	private int nodeCount = 0;</span>
+	/**
+	 * Whether transient fields should be excluded from the dump.
+	 */
+	private final boolean excludeTransient;
+	/**
+	 * Whether static fields should be excluded from the dump.
+	 */
+	private final boolean excludeStatic;
+
+	/**
+	 * Creates an ObjectGraphDump.
+	 *
+	 * @param excludeTransient if true, transient fields will be omitted from the dump.
+	 * @param excludeStatic if true, static fields will be omitted from the dump.
+	 */
+<span class="fc" id="L53">	private ObjectGraphDump(final boolean excludeTransient, final boolean excludeStatic) {</span>
+<span class="fc" id="L54">		this.excludeTransient = excludeTransient;</span>
+<span class="fc" id="L55">		this.excludeStatic = excludeStatic;</span>
+<span class="fc" id="L56">	}</span>
+
+	/**
+	 * Dumps the contents of the session attributes.
+	 *
+	 * @param obj the object to dump.
+	 * @return the dump of the given object.
+	 */
+	public static ObjectGraphNode dump(final Object obj) {
+<span class="fc" id="L65">		ObjectGraphDump dump = new ObjectGraphDump(false, true);</span>
+<span class="fc" id="L66">		ObjectGraphNode root = new ObjectGraphNode(++dump.nodeCount, null, obj.getClass().getName(),</span>
+				obj);
+<span class="fc" id="L68">		dump.visit(root);</span>
+
+<span class="fc" id="L70">		return root;</span>
+	}
+
+	/**
+	 * Implementation of the tree walk.
+	 *
+	 * @param currentNode the node being visited.
+	 */
+	private void visit(final ObjectGraphNode currentNode) {
+<span class="fc" id="L79">		Object currentValue = currentNode.getValue();</span>
+
+<span class="pc bpc" id="L81" title="1 of 4 branches missed.">		if (currentValue == null</span>
+				|| (currentValue instanceof java.lang.ref.SoftReference)
+<span class="fc bfc" id="L83" title="All 4 branches covered.">				|| currentNode.isPrimitive() || currentNode.isSimpleType()) {</span>
+<span class="fc" id="L84">			return;</span>
+		}
+
+<span class="fc bfc" id="L87" title="All 2 branches covered.">		if (isObjectVisited(currentNode)) {</span>
+<span class="fc" id="L88">			ObjectGraphNode ref = visitedNodes.get(currentValue);</span>
+<span class="fc" id="L89">			currentNode.setRefNode(ref);</span>
+<span class="fc" id="L90">			return;</span>
+		}
+
+<span class="fc" id="L93">		markObjectVisited(currentNode);</span>
+
+<span class="fc bfc" id="L95" title="All 2 branches covered.">		if (currentValue instanceof List) {</span>
+			// ArrayList's elementData is marked transient, and others may be as well, so we have to do this ourselves.
+<span class="fc" id="L97">			visitList(currentNode);</span>
+<span class="fc bfc" id="L98" title="All 2 branches covered.">		} else if (currentValue instanceof Map) {</span>
+			// HashMap's table is marked transient, and others may be as well, so we have to do this ourselves.
+<span class="fc" id="L100">			visitMap(currentNode);</span>
+<span class="fc bfc" id="L101" title="All 2 branches covered.">		} else if (currentValue instanceof ComponentModel) {</span>
+			// Special case for ComponentModel, so we can figure out if any fields are overridden
+<span class="fc" id="L103">			visitComponentModel(currentNode);</span>
+<span class="fc bfc" id="L104" title="All 2 branches covered.">		} else if (currentValue instanceof Field) {</span>
+<span class="fc" id="L105">			visitComplexType(currentNode);</span>
+<span class="fc" id="L106">			summariseNode(currentNode);</span>
+<span class="fc bfc" id="L107" title="All 2 branches covered.">		} else if (currentValue.getClass().isArray()) {</span>
+<span class="fc" id="L108">			visitArray(currentNode);</span>
+		} else {
+<span class="fc" id="L110">			visitComplexType(currentNode);</span>
+		}
+<span class="fc" id="L112">	}</span>
+
+	/**
+	 * Visits all the fields in the given complex object.
+	 *
+	 * @param node the ObjectGraphNode containing the object.
+	 */
+	private void visitComplexType(final ObjectGraphNode node) {
+<span class="fc" id="L120">		Field[] fields = getAllInstanceFields(node.getValue());</span>
+
+<span class="fc bfc" id="L122" title="All 2 branches covered.">		for (int i = 0; i &lt; fields.length; i++) {</span>
+<span class="fc" id="L123">			Object fieldValue = readField(fields[i], node.getValue());</span>
+<span class="fc" id="L124">			String fieldType = fields[i].getType().getName();</span>
+
+<span class="fc" id="L126">			ObjectGraphNode childNode = new ObjectGraphNode(++nodeCount, fields[i].getName(),</span>
+					fieldType, fieldValue);
+<span class="fc" id="L128">			node.add(childNode);</span>
+<span class="fc" id="L129">			visit(childNode);</span>
+		}
+<span class="fc" id="L131">	}</span>
+
+	/**
+	 * Visits all the fields in the given complex object, noting differences.
+	 *
+	 * @param node the ObjectGraphNode containing the object.
+	 * @param otherInstance the other instance to compare to
+	 */
+	private void visitComplexTypeWithDiff(final ObjectGraphNode node, final Object otherInstance) {
+<span class="pc bpc" id="L140" title="1 of 2 branches missed.">		if (otherInstance == null) {</span>
+			// Nothing to compare against, just use the default visit
+<span class="fc" id="L142">			visitComplexType(node);</span>
+		} else {
+<span class="nc" id="L144">			Field[] fields = getAllInstanceFields(node.getValue());</span>
+
+<span class="nc bnc" id="L146" title="All 2 branches missed.">			for (int i = 0; i &lt; fields.length; i++) {</span>
+<span class="nc" id="L147">				Object fieldValue = readField(fields[i], node.getValue());</span>
+<span class="nc" id="L148">				Object otherValue = readField(fields[i], otherInstance);</span>
+<span class="nc" id="L149">				String fieldType = fields[i].getType().getName();</span>
+<span class="nc bnc" id="L150" title="All 2 branches missed.">				String nodeFieldName = fields[i].getName() + (Util.equals(fieldValue, otherValue) ? &quot;&quot; : &quot;*&quot;);</span>
+
+<span class="nc" id="L152">				ObjectGraphNode childNode = new ObjectGraphNode(++nodeCount, nodeFieldName,</span>
+						fieldType, fieldValue);
+<span class="nc" id="L154">				node.add(childNode);</span>
+<span class="nc" id="L155">				visit(childNode);</span>
+			}
+		}
+<span class="fc" id="L158">	}</span>
+
+	/**
+	 * Visits all the fields in the given ComponentModel.
+	 *
+	 * @param node the ObjectGraphNode containing the ComponentModel.
+	 */
+	private void visitComponentModel(final ObjectGraphNode node) {
+<span class="fc" id="L166">		ComponentModel model = (ComponentModel) node.getValue();</span>
+<span class="fc" id="L167">		ComponentModel sharedModel = null;</span>
+
+<span class="fc" id="L169">		List&lt;Field&gt; fieldList = ReflectionUtil.getAllFields(node.getValue(), true, false);</span>
+<span class="fc" id="L170">		Field[] fields = fieldList.toArray(new Field[fieldList.size()]);</span>
+
+<span class="fc bfc" id="L172" title="All 2 branches covered.">		for (int i = 0; i &lt; fields.length; i++) {</span>
+<span class="fc bfc" id="L173" title="All 2 branches covered.">			if (ComponentModel.class.equals(fields[i].getDeclaringClass())</span>
+<span class="fc bfc" id="L174" title="All 2 branches covered.">					&amp;&amp; &quot;sharedModel&quot;.equals(fields[i].getName())) {</span>
+<span class="fc" id="L175">				sharedModel = (ComponentModel) readField(fields[i], model);</span>
+			}
+		}
+
+<span class="fc" id="L179">		visitComplexTypeWithDiff(node, sharedModel);</span>
+<span class="fc" id="L180">	}</span>
+
+	/**
+	 * Reads the contents of a field.
+	 *
+	 * @param field the field definition.
+	 * @param obj the object to read the value from.
+	 * @return the value of the field in the given object.
+	 */
+	private Object readField(final Field field, final Object obj) {
+		try {
+<span class="fc" id="L191">			return field.get(obj);</span>
+<span class="nc" id="L192">		} catch (IllegalAccessException e) {</span>
+			// Should not happen as we've called Field.setAccessible(true).
+<span class="nc" id="L194">			LOG.error(&quot;Failed to read &quot; + field.getName() + &quot; of &quot; + obj.getClass().getName(), e);</span>
+		}
+
+<span class="nc" id="L197">		return null;</span>
+	}
+
+	/**
+	 * Visits all the elements of the given array.
+	 *
+	 * @param node the ObjectGraphNode containing the array.
+	 */
+	private void visitArray(final ObjectGraphNode node) {
+<span class="fc bfc" id="L206" title="All 2 branches covered.">		if (node.getValue() instanceof Object[]) {</span>
+<span class="fc" id="L207">			Object[] array = (Object[]) node.getValue();</span>
+
+<span class="fc bfc" id="L209" title="All 2 branches covered.">			for (int i = 0; i &lt; array.length; i++) {</span>
+<span class="fc bfc" id="L210" title="All 2 branches covered.">				String entryType = array[i] == null ? Object.class.getName() : array[i].getClass().</span>
+<span class="fc" id="L211">						getName();</span>
+
+<span class="fc" id="L213">				ObjectGraphNode childNode = new ObjectGraphNode(++nodeCount, &quot;[&quot; + i + &quot;]&quot;,</span>
+						entryType, array[i]);
+<span class="fc" id="L215">				node.add(childNode);</span>
+<span class="fc" id="L216">				visit(childNode);</span>
+			}
+<span class="fc" id="L218">		} else {</span>
+<span class="fc" id="L219">			ObjectGraphNode childNode = new ObjectGraphNode(++nodeCount, &quot;[primitive array]&quot;, node.</span>
+<span class="fc" id="L220">					getValue().getClass().getName(), node.getValue());</span>
+<span class="fc" id="L221">			node.add(childNode);</span>
+		}
+<span class="fc" id="L223">	}</span>
+
+	/**
+	 * Visits all the elements of the given list.
+	 *
+	 * @param node the ObjectGraphNode containing the list.
+	 */
+	private void visitList(final ObjectGraphNode node) {
+<span class="fc" id="L231">		int index = 0;</span>
+
+<span class="fc bfc" id="L233" title="All 2 branches covered.">		for (Iterator i = ((List) node.getValue()).iterator(); i.hasNext();) {</span>
+<span class="fc" id="L234">			Object entry = i.next();</span>
+<span class="pc bpc" id="L235" title="1 of 2 branches missed.">			String entryType = entry == null ? Object.class.getName() : entry.getClass().getName();</span>
+
+<span class="fc" id="L237">			ObjectGraphNode childNode = new ObjectGraphNode(++nodeCount, &quot;[&quot; + index++ + &quot;]&quot;,</span>
+					entryType, entry);
+<span class="fc" id="L239">			node.add(childNode);</span>
+<span class="fc" id="L240">			visit(childNode);</span>
+<span class="fc" id="L241">		}</span>
+
+<span class="fc" id="L243">		adjustOverhead(node);</span>
+<span class="fc" id="L244">	}</span>
+
+	/**
+	 * For some types, we don't care about their internals, so just summarise the size.
+	 *
+	 * @param node the node to summarise.
+	 */
+	private void summariseNode(final ObjectGraphNode node) {
+<span class="fc" id="L252">		int size = node.getSize();</span>
+<span class="fc" id="L253">		node.removeAll();</span>
+<span class="fc" id="L254">		node.setSize(size);</span>
+<span class="fc" id="L255">	}</span>
+
+	/**
+	 * Adjusts the overhead of the given node, for types where not all data is output (e.g. Lists and Maps).
+	 *
+	 * @param node the node to adjust.
+	 */
+	private void adjustOverhead(final ObjectGraphNode node) {
+<span class="fc" id="L263">		ObjectGraphNode[] originalChildren = new ObjectGraphNode[node.getChildCount()];</span>
+<span class="fc" id="L264">		int dataSize = 0;</span>
+
+<span class="fc bfc" id="L266" title="All 2 branches covered.">		for (int i = 0; i &lt; node.getChildCount(); i++) {</span>
+<span class="fc" id="L267">			ObjectGraphNode childNode = (ObjectGraphNode) node.getChildAt(i);</span>
+<span class="fc" id="L268">			dataSize += childNode.getSize();</span>
+<span class="fc" id="L269">			originalChildren[i] = childNode;</span>
+		}
+
+<span class="fc" id="L272">		node.removeAll();</span>
+
+		// Figure out the list overhead.
+		// All the original children will be included refs, as they have already been visited.
+<span class="fc" id="L276">		visitComplexType(node);</span>
+<span class="fc" id="L277">		node.setSize(node.getSize() - originalChildren.length * ObjectGraphNode.OBJREF_SIZE);</span>
+
+		// re-attach the old children
+<span class="fc" id="L280">		node.removeAll();</span>
+
+<span class="fc bfc" id="L282" title="All 2 branches covered.">		for (int i = 0; i &lt; originalChildren.length; i++) {</span>
+<span class="fc" id="L283">			node.add(originalChildren[i]);</span>
+		}
+<span class="fc" id="L285">	}</span>
+
+	/**
+	 * Visits all the keys and entries of the given map.
+	 *
+	 * @param node the ObjectGraphNode containing the map.
+	 */
+	private void visitMap(final ObjectGraphNode node) {
+<span class="fc" id="L293">		Map map = (Map) node.getValue();</span>
+
+<span class="fc bfc" id="L295" title="All 2 branches covered.">		for (Iterator i = map.entrySet().iterator(); i.hasNext();) {</span>
+<span class="fc" id="L296">			Map.Entry entry = (Map.Entry) i.next();</span>
+<span class="fc" id="L297">			Object key = entry.getKey();</span>
+
+<span class="pc bpc" id="L299" title="1 of 2 branches missed.">			if (key != null) {</span>
+<span class="fc" id="L300">				ObjectGraphNode keyNode = new ObjectGraphNode(++nodeCount, &quot;key&quot;, key.getClass().</span>
+<span class="fc" id="L301">						getName(), key);</span>
+<span class="fc" id="L302">				node.add(keyNode);</span>
+<span class="fc" id="L303">				visit(keyNode);</span>
+<span class="fc" id="L304">			} else {</span>
+<span class="nc" id="L305">				ObjectGraphNode keyNode = new ObjectGraphNode(++nodeCount, &quot;key&quot;, Object.class.</span>
+<span class="nc" id="L306">						getName(), null);</span>
+<span class="nc" id="L307">				node.add(keyNode);</span>
+			}
+
+<span class="fc" id="L310">			Object value = entry.getValue();</span>
+
+<span class="pc bpc" id="L312" title="1 of 2 branches missed.">			if (value != null) {</span>
+<span class="fc" id="L313">				ObjectGraphNode valueNode = new ObjectGraphNode(++nodeCount, &quot;value&quot;, value.</span>
+<span class="fc" id="L314">						getClass().getName(), value);</span>
+<span class="fc" id="L315">				node.add(valueNode);</span>
+<span class="fc" id="L316">				visit(valueNode);</span>
+<span class="fc" id="L317">			} else {</span>
+<span class="nc" id="L318">				ObjectGraphNode valueNode = new ObjectGraphNode(++nodeCount, &quot;value&quot;, Object.class.</span>
+<span class="nc" id="L319">						getName(), null);</span>
+<span class="nc" id="L320">				node.add(valueNode);</span>
+			}
+<span class="fc" id="L322">		}</span>
+
+<span class="fc" id="L324">		adjustOverhead(node);</span>
+<span class="fc" id="L325">	}</span>
+
+	/**
+	 * Marks the given object as having been visited.
+	 *
+	 * @param node the Node containing the object to mark as visited.
+	 */
+	private void markObjectVisited(final ObjectGraphNode node) {
+<span class="fc" id="L333">		visitedNodes.put(node.getValue(), node);</span>
+<span class="fc" id="L334">	}</span>
+
+	/**
+	 * Indicates whether the given object has been visited.
+	 *
+	 * @param node the Node containing the object to check.
+	 * @return true if the object has been visited, false if not.
+	 */
+	private boolean isObjectVisited(final ObjectGraphNode node) {
+<span class="fc" id="L343">		return visitedNodes.containsKey(node.getValue());</span>
+	}
+
+	/**
+	 * Retrieves all the instance fields for the given object.
+	 *
+	 * @param obj the object to examine
+	 * @return an array of instance fields for the given object
+	 */
+	private Field[] getAllInstanceFields(final Object obj) {
+<span class="fc" id="L353">		Field[] fields = instanceFieldsByClass.get(obj.getClass());</span>
+
+<span class="fc bfc" id="L355" title="All 2 branches covered.">		if (fields == null) {</span>
+<span class="fc" id="L356">			List&lt;Field&gt; fieldList = ReflectionUtil.</span>
+<span class="fc" id="L357">					getAllFields(obj, excludeStatic, excludeTransient);</span>
+<span class="fc" id="L358">			fields = fieldList.toArray(new Field[fieldList.size()]);</span>
+
+<span class="fc" id="L360">			instanceFieldsByClass.put(obj.getClass(), fields);</span>
+		}
+
+<span class="fc" id="L363">		return fields;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

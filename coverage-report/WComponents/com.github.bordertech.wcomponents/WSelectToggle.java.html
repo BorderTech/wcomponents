@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WSelectToggle.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">WSelectToggle.java</span></div><h1>WSelectToggle.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import com.github.bordertech.wcomponents.WDataTable.SelectMode;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * &lt;p&gt;
+ * This is component can be used to select all/none within a containing component, for example a {@link WPanel} or
+ * {@link WFieldSet} containing {@link WCheckBox}es, or a {@link WDataTable} with multiple row selection enabled.&lt;/p&gt;
+ *
+ * &lt;p&gt;
+ * Note that the target component must render out with an ID, so a plain {@link WComponent} or {@link WContainer} is not
+ * suitable.&lt;/p&gt;
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ */
+public class WSelectToggle extends AbstractWComponent implements Disableable, AjaxTarget {
+
+	/**
+	 * Describes the tri-state nature of a selectToggle.
+	 */
+<span class="pc" id="L24">	public enum State {</span>
+		/**
+		 * Indicates that all items are selected.
+		 */
+<span class="fc" id="L28">		ALL,</span>
+		/**
+		 * Indicates that some items are selected.
+		 */
+<span class="fc" id="L32">		SOME,</span>
+		/**
+		 * Indicates that no items are selected.
+		 */
+<span class="fc" id="L36">		NONE</span>
+	}
+
+	/**
+	 * Creates a client-side WSelectToggle.
+	 */
+	public WSelectToggle() {
+<span class="fc" id="L43">		this(true);</span>
+<span class="fc" id="L44">	}</span>
+
+	/**
+	 * Creates a WSelectToggle.
+	 *
+	 * @param clientSide if true, selection is handled client-side
+	 */
+<span class="fc" id="L51">	public WSelectToggle(final boolean clientSide) {</span>
+<span class="fc" id="L52">		getComponentModel().clientSide = clientSide;</span>
+<span class="fc" id="L53">	}</span>
+
+	/**
+	 * Creates a WSelectToggle for the given target.
+	 *
+	 * @param clientSide if true, selection is handled client-side.
+	 * @param target the target container.
+	 */
+	public WSelectToggle(final boolean clientSide, final WComponent target) {
+<span class="fc" id="L62">		this(clientSide);</span>
+<span class="fc" id="L63">		getComponentModel().target = target;</span>
+<span class="fc" id="L64">	}</span>
+
+	/**
+	 * Override handleRequest to handle selection toggling if server-side processing is being used.
+	 *
+	 * @param request the request being responded to.
+	 */
+	@Override
+	public void handleRequest(final Request request) {
+<span class="fc bfc" id="L73" title="All 2 branches covered.">		if (!isDisabled()) {</span>
+<span class="fc" id="L74">			final SelectToggleModel model = getComponentModel();</span>
+<span class="fc" id="L75">			String requestParam = request.getParameter(getId());</span>
+
+			final State newValue;
+<span class="fc bfc" id="L78" title="All 2 branches covered.">			if (&quot;all&quot;.equals(requestParam)) {</span>
+<span class="fc" id="L79">				newValue = State.ALL;</span>
+<span class="pc bpc" id="L80" title="1 of 2 branches missed.">			} else if (&quot;none&quot;.equals(requestParam)) {</span>
+<span class="fc" id="L81">				newValue = State.NONE;</span>
+<span class="nc bnc" id="L82" title="All 2 branches missed.">			} else if (&quot;some&quot;.equals(requestParam)) {</span>
+<span class="nc" id="L83">				newValue = State.SOME;</span>
+			} else {
+<span class="nc" id="L85">				newValue = model.state;</span>
+			}
+
+<span class="pc bpc" id="L88" title="1 of 2 branches missed.">			if (!newValue.equals(model.state)) {</span>
+<span class="fc" id="L89">				setState(newValue);</span>
+			}
+<span class="pc bpc" id="L91" title="3 of 6 branches missed.">			if (!model.clientSide &amp;&amp; model.target != null &amp;&amp; !State.SOME.equals(newValue)) {</span>
+				// We need to change the selections *after* all components
+				// Have updated themselves from the request, as they may change
+				// their values when their handleRequest methods are called.
+<span class="fc" id="L95">				invokeLater(new Runnable() {</span>
+					@Override
+					public void run() {
+<span class="fc" id="L98">						setSelections(model.target, State.ALL.equals(newValue));</span>
+<span class="fc" id="L99">					}</span>
+				});
+			}
+		}
+<span class="fc" id="L103">	}</span>
+
+	/**
+	 * Sets the selections for the given context.
+	 *
+	 * @param component the container to modify the selected state for.
+	 * @param selected if true, select everything. If false, deselect everything.
+	 */
+	private static void setSelections(final WComponent component, final boolean selected) {
+<span class="fc bfc" id="L112" title="All 2 branches covered.">		if (component instanceof WCheckBox) {</span>
+<span class="fc" id="L113">			((WCheckBox) component).setSelected(selected);</span>
+<span class="fc bfc" id="L114" title="All 2 branches covered.">		} else if (component instanceof WCheckBoxSelect) {</span>
+<span class="fc" id="L115">			WCheckBoxSelect select = (WCheckBoxSelect) component;</span>
+<span class="fc bfc" id="L116" title="All 2 branches covered.">			select.setSelected(selected ? select.getOptions() : new ArrayList(0));</span>
+<span class="fc bfc" id="L117" title="All 2 branches covered.">		} else if (component instanceof WMultiSelect) {</span>
+<span class="fc" id="L118">			WMultiSelect list = (WMultiSelect) component;</span>
+<span class="fc bfc" id="L119" title="All 2 branches covered.">			list.setSelected(selected ? list.getOptions() : new ArrayList(0));</span>
+<span class="fc bfc" id="L120" title="All 2 branches covered.">		} else if (component instanceof WDataTable) {</span>
+<span class="fc" id="L121">			WDataTable table = (WDataTable) component;</span>
+
+<span class="pc bpc" id="L123" title="1 of 2 branches missed.">			if (table.getSelectMode() == SelectMode.MULTIPLE) {</span>
+<span class="fc bfc" id="L124" title="All 2 branches covered.">				if (selected) {</span>
+<span class="fc" id="L125">					TableDataModel model = table.getDataModel();</span>
+<span class="fc" id="L126">					int rowCount = model.getRowCount();</span>
+
+<span class="fc" id="L128">					List&lt;Integer&gt; indices = new ArrayList&lt;&gt;(rowCount);</span>
+
+<span class="fc bfc" id="L130" title="All 2 branches covered.">					for (int i = 0; i &lt; rowCount; i++) {</span>
+<span class="pc bpc" id="L131" title="1 of 2 branches missed.">						if (model.isSelectable(i)) {</span>
+<span class="fc" id="L132">							indices.add(i);</span>
+						}
+					}
+
+<span class="fc" id="L136">					table.setSelectedRows(indices);</span>
+<span class="fc" id="L137">				} else {</span>
+<span class="fc" id="L138">					table.setSelectedRows(new ArrayList&lt;Integer&gt;(0));</span>
+				}
+			}
+<span class="pc bpc" id="L141" title="1 of 2 branches missed.">		} else if (component instanceof Container) {</span>
+<span class="fc" id="L142">			Container container = (Container) component;</span>
+<span class="fc" id="L143">			final int childCount = container.getChildCount();</span>
+
+<span class="fc bfc" id="L145" title="All 2 branches covered.">			for (int i = 0; i &lt; childCount; i++) {</span>
+<span class="fc" id="L146">				WComponent child = container.getChildAt(i);</span>
+<span class="fc" id="L147">				setSelections(child, selected);</span>
+			}
+		}
+<span class="fc" id="L150">	}</span>
+
+	/**
+	 * Indicates whether the toggle should occur client- or server-side.
+	 *
+	 * @return true if the toggle should occur client-side, false for server-side.
+	 */
+	public boolean isClientSide() {
+<span class="fc" id="L158">		return getComponentModel().clientSide;</span>
+	}
+
+	/**
+	 * Sets whether the toggle should occur client- or server-side.
+	 *
+	 * @param clientSide true for client-side, false for server-side.
+	 */
+	public void setClientSide(final boolean clientSide) {
+<span class="fc" id="L167">		getOrCreateComponentModel().clientSide = clientSide;</span>
+<span class="fc" id="L168">	}</span>
+
+	/**
+	 * @return Returns the target.
+	 */
+	public WComponent getTarget() {
+<span class="fc" id="L174">		return getComponentModel().target;</span>
+	}
+
+	/**
+	 * Sets the target.
+	 *
+	 * @param target The target to set.
+	 */
+	public void setTarget(final WComponent target) {
+<span class="fc" id="L183">		getOrCreateComponentModel().target = target;</span>
+<span class="fc" id="L184">	}</span>
+
+	/**
+	 * Indicates whether the control should render as text.
+	 *
+	 * @return true to render as text, false to render as a checkbox.
+	 */
+	public boolean isRenderAsText() {
+<span class="fc" id="L192">		return getComponentModel().renderAsText;</span>
+	}
+
+	/**
+	 * Sets whether the control should render as text.
+	 *
+	 * @param renderAsText true to render as text, false to render as a checkbox.
+	 */
+	public void setRenderAsText(final boolean renderAsText) {
+<span class="fc" id="L201">		getOrCreateComponentModel().renderAsText = renderAsText;</span>
+<span class="fc" id="L202">	}</span>
+
+	/**
+	 * @return the current state.
+	 */
+	public State getState() {
+<span class="fc" id="L208">		return getComponentModel().state;</span>
+	}
+
+	/**
+	 * Sets the state.
+	 *
+	 * @param state the state to set.
+	 */
+	public void setState(final State state) {
+<span class="fc" id="L217">		getOrCreateComponentModel().state = state;</span>
+<span class="fc" id="L218">	}</span>
+
+	/**
+	 * Indicates whether the select toggle is disabled.
+	 *
+	 * @return true if the toggle is disabled, otherwise false.
+	 */
+	@Override
+	public boolean isDisabled() {
+<span class="fc" id="L227">		return isFlagSet(ComponentModel.DISABLED_FLAG);</span>
+	}
+
+	/**
+	 * Sets whether the select toggle is disabled.
+	 *
+	 * @param disabled if true, the input is disabled. If false, it is enabled.
+	 */
+	@Override
+	public void setDisabled(final boolean disabled) {
+<span class="fc" id="L237">		setFlag(ComponentModel.DISABLED_FLAG, disabled);</span>
+<span class="fc" id="L238">	}</span>
+
+	/**
+	 * Holds the extrinsic state information of a WSelectToggle.
+	 *
+	 * @author Yiannis Paschalidis
+	 */
+<span class="fc" id="L245">	public static class SelectToggleModel extends ComponentModel {</span>
+
+		/**
+		 * Indicates whether toggling should occur on the client or server.
+		 */
+<span class="fc" id="L250">		private boolean clientSide = true;</span>
+		/**
+		 * The target component to toggle selections in.
+		 */
+		private WComponent target;
+		/**
+		 * Indicates whether the control should be rendered as text.
+		 */
+<span class="fc" id="L258">		private boolean renderAsText = false;</span>
+
+<span class="fc" id="L260">		private State state = State.NONE;</span>
+	}
+
+	/**
+	 * Creates a new component model appropriate for this component.
+	 *
+	 * @return a new SelectToggleModel.
+	 */
+	@Override
+	protected ComponentModel newComponentModel() {
+<span class="fc" id="L270">		return new SelectToggleModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected SelectToggleModel getComponentModel() {
+<span class="fc" id="L278">		return (SelectToggleModel) super.getComponentModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected SelectToggleModel getOrCreateComponentModel() {
+<span class="fc" id="L286">		return (SelectToggleModel) super.getOrCreateComponentModel();</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

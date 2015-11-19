@@ -1,0 +1,657 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>AbstractContainerHelper.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.container</a> &gt; <span class="el_source">AbstractContainerHelper.java</span></div><h1>AbstractContainerHelper.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.container;
+
+import com.github.bordertech.wcomponents.ActionEscape;
+import com.github.bordertech.wcomponents.Environment;
+import com.github.bordertech.wcomponents.Escape;
+import com.github.bordertech.wcomponents.FatalErrorPageFactory;
+import com.github.bordertech.wcomponents.Request;
+import com.github.bordertech.wcomponents.Response;
+import com.github.bordertech.wcomponents.UIContext;
+import com.github.bordertech.wcomponents.UIContextDelegate;
+import com.github.bordertech.wcomponents.UIContextHolder;
+import com.github.bordertech.wcomponents.UIContextImpl;
+import com.github.bordertech.wcomponents.WApplication;
+import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.WebComponent;
+import com.github.bordertech.wcomponents.WebUtilities;
+import com.github.bordertech.wcomponents.container.ResponseCacheInterceptor.CacheType;
+import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
+import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.Factory;
+import com.github.bordertech.wcomponents.util.SerializationUtil;
+import com.github.bordertech.wcomponents.util.SystemException;
+import com.github.bordertech.wcomponents.util.mock.MockRequest;
+import java.io.IOException;
+import java.io.PrintWriter;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+/**
+ * &lt;p&gt;
+ * This class exists to enable sharing of features that are common between Servlet and Portlet handling of WComponents.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * Instances of this support class are intended to be short lived. An instance of this class is intended to be created
+ * to help service a single request and then be thrown away.
+ * &lt;/p&gt;
+ *
+ * @author Martin Shevchenko
+ */
+<span class="fc" id="L40">public abstract class AbstractContainerHelper {</span>
+
+	/**
+	 * The logger instance for this class.
+	 */
+<span class="fc" id="L45">	private static final Log LOG = LogFactory.getLog(AbstractContainerHelper.class);</span>
+
+	/**
+	 * The configuration parameter key for the cluster emulation flag.
+	 */
+	private static final String DEVELOPER_MODE_CLUSTER_EMULATION = &quot;bordertech.wcomponents.developer.clusterEmulation.enabled&quot;;
+
+	/**
+	 * The configuration parameter key for the developer mode error-handling flag.
+	 */
+	public static final String DEVELOPER_MODE_ERROR_HANDLING = &quot;bordertech.wcomponents.developer.errorHandling.enabled&quot;;
+
+	/**
+	 * The configuration parameter key for terminate session on error flag.
+	 */
+	public static final String TERMINATE_SESSION_ON_ERROR = &quot;bordertech.wcomponents.terminateSessionOnError&quot;;
+
+	/**
+	 * The default session attribute key for where the UIContext is stored in the underlying session.
+	 *
+	 * @deprecated portal specific
+	 */
+	@Deprecated
+	public static final String UICONTEXT_PORTLET_SESSION_KEY = &quot;UIContext&quot;;
+
+	/**
+	 * The session attribute key for where propogated errors are stored in the underlying session.
+	 */
+<span class="fc" id="L73">	private static final String ACTION_ERROR_KEY = AbstractContainerHelper.class.getName() + &quot;.action.error&quot;;</span>
+
+	/**
+	 * Indicates whether the helper has been disposed. A disposed helper does not take part in action or render
+	 * processing.
+	 */
+<span class="fc" id="L79">	private boolean disposed = false;</span>
+
+	/**
+	 * This flag indicates if we are starting a new session. Starting a new session normally occurs because a new user
+	 * is hitting the application for the first time. It can also be an existing user, but the request sent has
+	 * indicated the desire to start a new session.
+	 */
+<span class="fc" id="L86">	private Boolean newConversation = null;</span>
+
+	private InterceptorComponent interceptor;
+
+<span class="fc" id="L90">	private Request request = null;</span>
+
+	/**
+	 * @param webComponent the web component
+	 */
+	public void setWebComponent(final WebComponent webComponent) {
+<span class="fc bfc" id="L96" title="All 2 branches covered.">		if (webComponent instanceof WComponent) {</span>
+			// No interceptor supplied but we need one to make things simple.
+			// Dummy up a pass-through/do-nothing interceptor.
+<span class="fc" id="L99">			this.interceptor = new InterceptorComponent();</span>
+<span class="fc" id="L100">			this.interceptor.setBackingComponent(webComponent);</span>
+<span class="fc bfc" id="L101" title="All 2 branches covered.">		} else if (webComponent instanceof InterceptorComponent) {</span>
+<span class="fc" id="L102">			this.interceptor = (InterceptorComponent) webComponent;</span>
+		} else {
+<span class="fc" id="L104">			throw new IllegalArgumentException(&quot;Unexpected extension of WebComponent supplied.&quot;);</span>
+		}
+<span class="fc" id="L106">	}</span>
+
+	/**
+	 * @return the interceptor
+	 */
+	public InterceptorComponent getInterceptor() {
+<span class="fc" id="L112">		return interceptor;</span>
+	}
+
+	/**
+	 * @return the WComponent UI which will handle the request.
+	 */
+	public WComponent getUI() {
+<span class="fc" id="L119">		WComponent ui = getInterceptor().getUI();</span>
+<span class="fc" id="L120">		return ui;</span>
+	}
+
+	/**
+	 * Prepare the user context for this request.
+	 * &lt;p&gt;
+	 * This must be called before processAction and render.
+	 * &lt;/p&gt;
+	 *
+	 * @return the user context
+	 */
+	public UIContext prepareUserContext() {
+<span class="fc" id="L132">		UIContext uic = getUIContext();</span>
+<span class="pc bpc" id="L133" title="1 of 4 branches missed.">		if (requestImpliesNew() || uic == null) {</span>
+<span class="fc" id="L134">			LOG.debug(&quot;Preparing a new session&quot;);</span>
+<span class="fc" id="L135">			newConversation = Boolean.TRUE;</span>
+<span class="fc" id="L136">			uic = createUIContext();</span>
+<span class="fc" id="L137">			setUIContext(uic);</span>
+		} else {
+<span class="fc" id="L139">			newConversation = Boolean.FALSE;</span>
+			// In Development mode, simulate running in a cluster
+<span class="fc" id="L141">			cycleUIContext();</span>
+		}
+<span class="fc" id="L143">		return uic;</span>
+	}
+
+	/**
+	 * Support standard processing of the action phase of a request.
+	 *
+	 * @throws IOException if there is an IO error on writing a response.
+	 */
+	public void processAction() throws IOException {
+<span class="fc bfc" id="L152" title="All 2 branches covered.">		if (isDisposed()) {</span>
+<span class="fc" id="L153">			LOG.error(&quot;Skipping action phase. Attempt to reuse disposed ContainerHelper instance&quot;);</span>
+<span class="fc" id="L154">			return;</span>
+		}
+
+		try {
+			// Check user context has been prepared
+<span class="pc bpc" id="L159" title="1 of 2 branches missed.">			if (newConversation == null) {</span>
+<span class="nc" id="L160">				throw new IllegalStateException(</span>
+						&quot;User context has not been prepared before the action phase&quot;);
+			}
+
+<span class="fc" id="L164">			prepareAction();</span>
+
+<span class="fc" id="L166">			UIContext uic = getUIContext();</span>
+<span class="pc bpc" id="L167" title="1 of 2 branches missed.">			if (uic == null) {</span>
+<span class="nc" id="L168">				throw new IllegalStateException(&quot;No user context set for the action phase.&quot;);</span>
+			}
+
+<span class="fc" id="L171">			UIContextHolder.pushContext(uic);</span>
+
+<span class="fc" id="L173">			prepareRequest();</span>
+
+<span class="fc" id="L175">			clearPropogatedError();</span>
+
+<span class="fc" id="L177">			Request req = getRequest();</span>
+<span class="fc" id="L178">			getInterceptor().attachResponse(getResponse());</span>
+<span class="fc" id="L179">			getInterceptor().serviceRequest(req);</span>
+
+<span class="pc bpc" id="L181" title="1 of 2 branches missed.">			if (req.isLogout()) {</span>
+<span class="nc" id="L182">				handleLogout();</span>
+<span class="nc" id="L183">				dispose();</span>
+			}
+<span class="fc" id="L185">		} catch (ActionEscape esc) {</span>
+<span class="fc" id="L186">			LOG.debug(&quot;ActionEscape performed.&quot;);</span>
+			// Action escapes must be handled in the action phase and then
+			// do nothing if they reach the render phase (which they will in
+			// the servlet implementation)
+<span class="fc" id="L190">			handleEscape(esc);</span>
+<span class="fc" id="L191">			dispose();</span>
+<span class="fc" id="L192">		} catch (Escape esc) {</span>
+<span class="fc" id="L193">			LOG.debug(&quot;Escape performed during action phase.&quot;);</span>
+			// We can't handle the escape until the render phase.
+<span class="fc" id="L195">		} catch (Throwable t) {</span>
+			// We try not to let any exception propagate to container.
+<span class="fc" id="L197">			String message = &quot;Caught exception during action phase.&quot;;</span>
+<span class="fc" id="L198">			LOG.error(message, t);</span>
+
+			// We can't handle the error until the render phase.
+<span class="fc" id="L201">			propogateError(t);</span>
+		} finally {
+<span class="pc" id="L203">			UIContextHolder.reset();</span>
+<span class="fc" id="L204">		}</span>
+<span class="fc" id="L205">	}</span>
+
+	/**
+	 * Support standard processing of the render phase of a request.
+	 *
+	 * @throws IOException IO Exception
+	 */
+	public void render() throws IOException {
+<span class="fc bfc" id="L213" title="All 2 branches covered.">		if (isDisposed()) {</span>
+<span class="fc" id="L214">			LOG.debug(&quot;Skipping render phase.&quot;);</span>
+<span class="fc" id="L215">			return;</span>
+		}
+
+		try {
+			// Check user context has been prepared
+<span class="pc bpc" id="L220" title="1 of 2 branches missed.">			if (newConversation == null) {</span>
+<span class="nc" id="L221">				throw new IllegalStateException(</span>
+						&quot;User context has not been prepared before the render phase&quot;);
+			}
+
+<span class="fc" id="L225">			prepareRender();</span>
+
+<span class="fc" id="L227">			UIContext uic = getUIContext();</span>
+<span class="pc bpc" id="L228" title="1 of 2 branches missed.">			if (uic == null) {</span>
+<span class="nc" id="L229">				throw new IllegalStateException(&quot;No user context set for the render phase.&quot;);</span>
+			}
+
+<span class="fc" id="L232">			UIContextHolder.pushContext(uic);</span>
+<span class="fc" id="L233">			prepareRequest();</span>
+
+			// Handle errors from the action phase now.
+<span class="fc bfc" id="L236" title="All 2 branches covered.">			if (havePropogatedError()) {</span>
+<span class="fc" id="L237">				handleError(getPropogatedError());</span>
+<span class="fc" id="L238">				return;</span>
+			}
+
+<span class="fc" id="L241">			WComponent uiComponent = getUI();</span>
+
+<span class="pc bpc" id="L243" title="1 of 2 branches missed.">			if (uiComponent == null) {</span>
+<span class="nc" id="L244">				throw new SystemException(&quot;No UI Component exists.&quot;);</span>
+			}
+
+<span class="fc" id="L247">			Environment environment = uiComponent.getEnvironment();</span>
+
+<span class="pc bpc" id="L249" title="1 of 2 branches missed.">			if (environment == null) {</span>
+<span class="nc" id="L250">				throw new SystemException(&quot;No WEnvironment exists.&quot;);</span>
+			}
+
+<span class="fc" id="L253">			getInterceptor().attachResponse(getResponse());</span>
+<span class="fc" id="L254">			getInterceptor().preparePaint(getRequest());</span>
+
+<span class="fc" id="L256">			String contentType = getUI().getHeaders().getContentType();</span>
+<span class="fc" id="L257">			Response response = getResponse();</span>
+<span class="fc" id="L258">			response.setContentType(contentType);</span>
+
+<span class="fc" id="L260">			addGenericHeaders(uic, getUI());</span>
+
+<span class="fc" id="L262">			PrintWriter writer = getPrintWriter();</span>
+<span class="fc" id="L263">			getInterceptor().paint(new WebXmlRenderContext(writer, uic.getLocale()));</span>
+
+			// The following only matters for a Portal context
+<span class="fc bfc" id="L266" title="All 2 branches covered.">			String title = uiComponent instanceof WApplication ? ((WApplication) uiComponent).</span>
+<span class="fc" id="L267">					getTitle() : null;</span>
+
+<span class="pc bpc" id="L269" title="1 of 2 branches missed.">			if (title != null) {</span>
+<span class="nc" id="L270">				setTitle(title);</span>
+			}
+<span class="nc" id="L272">		} catch (Escape esc) {</span>
+<span class="nc" id="L273">			LOG.debug(&quot;Escape performed during render phase.&quot;);</span>
+<span class="nc" id="L274">			handleEscape(esc);</span>
+<span class="fc" id="L275">		} catch (Throwable t) {</span>
+			// We try not to let any exception propagate to container.
+<span class="fc" id="L277">			String message = &quot;Caught exception during render phase.&quot;;</span>
+<span class="fc" id="L278">			LOG.error(message, t);</span>
+<span class="fc" id="L279">			handleError(t);</span>
+		} finally {
+<span class="pc" id="L281">			UIContextHolder.reset();</span>
+<span class="pc" id="L282">			dispose();</span>
+<span class="pc" id="L283">		}</span>
+<span class="fc" id="L284">	}</span>
+
+	/**
+	 * @return true if the current request signals a restart of the application. Subclasses may override.
+	 */
+	protected boolean requestImpliesNew() {
+<span class="fc" id="L290">		return false;</span>
+	}
+
+	/**
+	 * Creates and initialises a new UIContext.
+	 *
+	 * @return a new UIContext.
+	 */
+	protected UIContext createUIContext() {
+		// Create UIC
+<span class="fc" id="L300">		UIContext uic = new UIContextImpl();</span>
+<span class="fc" id="L301">		uic.setUI(getUI());</span>
+<span class="fc" id="L302">		return uic;</span>
+	}
+
+	/**
+	 * Retrieves the UIContext from session. If the session does not yet exist or the UIContext is not yet created and
+	 * saved, then this method returns null.
+	 *
+	 * @return the UIContext in the session, or null if it does not exist.
+	 */
+	protected abstract UIContext getUIContext();
+
+	/**
+	 * Saves the UIContext in session.
+	 *
+	 * @param uiContext the ui context to save.
+	 */
+	protected abstract void setUIContext(UIContext uiContext);
+
+	/**
+	 * Call this method to simulate what would happen if the UIContext was serialized due to clustering of servers.
+	 */
+	protected void cycleUIContext() {
+<span class="fc" id="L324">		boolean cycleIt = Config.getInstance().getBoolean(DEVELOPER_MODE_CLUSTER_EMULATION, false);</span>
+
+<span class="fc bfc" id="L326" title="All 2 branches covered.">		if (cycleIt) {</span>
+<span class="fc" id="L327">			UIContext uic = getUIContext();</span>
+
+<span class="pc bpc" id="L329" title="1 of 2 branches missed.">			if (uic instanceof UIContextWrap) {</span>
+<span class="fc" id="L330">				LOG.info(&quot;Cycling the UIContext to simulate clustering&quot;);</span>
+<span class="fc" id="L331">				((UIContextWrap) uic).cycle();</span>
+			}
+		}
+<span class="fc" id="L334">	}</span>
+
+	/**
+	 * This class exists because we'd like to simulate clustering while still being able to use the UIContext as the
+	 * synchronization lock when servicing a request.
+	 */
+<span class="fc" id="L340">	public static class UIContextWrap extends UIContextDelegate {</span>
+
+		/**
+		 * Creates a UIContextWrap.
+		 */
+		public UIContextWrap() {
+<span class="fc" id="L346">			super(new UIContextImpl());</span>
+<span class="fc" id="L347">		}</span>
+
+		/**
+		 * Simulates moving between servers in a cluster by copying the UIContext backing using Serialization.
+		 */
+		public void cycle() {
+<span class="fc" id="L353">			setBacking((UIContext) SerializationUtil.pipe(getBacking()));</span>
+<span class="fc" id="L354">		}</span>
+	}
+
+	/**
+	 * Prepare the session for the current request.
+	 */
+	protected void prepareRequest() {
+<span class="fc" id="L361">		LOG.debug(&quot;Preparing for request by adding headers and environment to top wcomponent&quot;);</span>
+
+		// Configure the UIContext to handle this request.
+<span class="fc" id="L364">		UIContext uiContext = getUIContext();</span>
+
+		// Add WEnvironment if not already done.
+		// If the component is new, then it will not have a WEnvironment yet.
+		Environment env;
+
+<span class="fc bfc" id="L370" title="All 2 branches covered.">		if (uiContext.isDummyEnvironment()) {</span>
+<span class="fc" id="L371">			env = createEnvironment();</span>
+<span class="fc" id="L372">			uiContext.setEnvironment(env);</span>
+		} else {
+<span class="fc" id="L374">			env = uiContext.getEnvironment();</span>
+		}
+
+		// Update the environment for the current phase of the request
+		// processing.
+<span class="fc" id="L379">		updateEnvironment(env);</span>
+
+		// Prepare an implementation of a wcomponent Request suitable to the
+		// type of
+		// container we are running in.
+<span class="fc bfc" id="L384" title="All 2 branches covered.">		if (request == null) {</span>
+<span class="fc" id="L385">			request = createRequest();</span>
+		}
+
+		// Update the wcomponent Request for the current phase of the request
+		// processing.
+<span class="fc" id="L390">		updateRequest(request);</span>
+<span class="fc" id="L391">	}</span>
+
+	/**
+	 * Marks the helper as disposed. A disposed helper does not take part in action or render processing.
+	 */
+	protected void dispose() {
+<span class="fc" id="L397">		LOG.debug(&quot;Disposing ContainerHelper instance&quot;);</span>
+
+<span class="fc bfc" id="L399" title="All 2 branches covered.">		if (request != null) {</span>
+<span class="fc" id="L400">			request = null;</span>
+		}
+
+<span class="fc" id="L403">		disposed = true;</span>
+<span class="fc" id="L404">	}</span>
+
+	/**
+	 * Indicates whether the helper has been disposed. A disposed helper does not take part in action or render
+	 * processing.
+	 *
+	 * @return true if the helper is disposed, false otherwise.
+	 */
+	protected boolean isDisposed() {
+<span class="fc" id="L413">		return disposed;</span>
+	}
+
+	/**
+	 * Creates an implementation of WEnvironment suitable for the type of container we are running in.
+	 *
+	 * @return a new WEnvironment instance.
+	 */
+	protected abstract Environment createEnvironment();
+
+	/**
+	 * Updates the environment for the current phase of the request processing.
+	 *
+	 * @param env the environment to update.
+	 */
+	protected abstract void updateEnvironment(Environment env);
+
+	/**
+	 * @return the request for this helper.
+	 */
+	protected Request getRequest() {
+<span class="fc" id="L434">		return request;</span>
+	}
+
+	/**
+	 * Creates an implementation of WComponent Request suitable to the type of container we are running in.
+	 *
+	 * @return a new Request.
+	 */
+	protected abstract Request createRequest();
+
+	/**
+	 * Updates the wcomponent Request for the current phase of the outer containers request processing.
+	 *
+	 * @param request the request to update.
+	 */
+	protected abstract void updateRequest(Request request);
+
+	/**
+	 * Set the title for the application.
+	 *
+	 * @param title the title to set.
+	 */
+	protected abstract void setTitle(String title);
+
+	/**
+	 * Indicates whether this is a new conversation (session).
+	 *
+	 * @return true if a new conversation, false if continuing.
+	 */
+	protected boolean isNewConversation() {
+<span class="fc bfc" id="L464" title="All 2 branches covered.">		if (newConversation == null) {</span>
+<span class="fc" id="L465">			throw new IllegalStateException(&quot;Don't yet know the status of the conversation.&quot;);</span>
+		}
+
+<span class="fc" id="L468">		return newConversation.booleanValue();</span>
+	}
+
+	/**
+	 * Indicates whether this is a continuing conversation (session).
+	 *
+	 * @return true if a continuing conversation, false if new.
+	 */
+	protected boolean isContinuingConversation() {
+<span class="pc bpc" id="L477" title="1 of 2 branches missed.">		return !isNewConversation();</span>
+	}
+
+	/**
+	 * The application can ask the Container to &quot;log out&quot; by setting the logout attribute on the Request. This method is
+	 * called in response to that.
+	 * &lt;p&gt;
+	 * It invalidates the session and redirects the browser to the root of the web application.
+	 * &lt;/p&gt;
+	 */
+	protected void handleLogout() {
+<span class="nc" id="L488">		invalidateSession();</span>
+<span class="nc" id="L489">		redirectForLogout();</span>
+<span class="nc" id="L490">	}</span>
+
+	/**
+	 * @return the response for this helper.
+	 */
+	protected abstract Response getResponse();
+
+	/**
+	 * Invalidates the underlying session.
+	 */
+	protected abstract void invalidateSession();
+
+	/**
+	 * Redirects the client to a URL after the log-out process is complete. The URL is specified by the configuration
+	 * parameter &lt;code&gt;bordertech.wcomponents.logout.url&lt;/code&gt;. Note that this method is called after
+	 * {@link #invalidateSession()}, so there may not be any session information available.
+	 */
+	protected abstract void redirectForLogout();
+
+	/**
+	 * Subclasses can override this method to add extra headers. They can do this by obtaining the top ui component's
+	 * WHeaders object and adding headers to it. Adding generic headers makes sense for servlets but maybe not portlets.
+	 *
+	 * @param uic the current user context
+	 * @param ui the WComponent UI which is handling the request.
+	 */
+	protected void addGenericHeaders(final UIContext uic, final WComponent ui) {
+<span class="fc" id="L517">	}</span>
+
+	/**
+	 * Retrieves the PrintWriter which is used to send data back to the client.
+	 *
+	 * @return the PrintWriter for this helper.
+	 * @throws IOException if there is an error obtaining the PrintWriter.
+	 */
+	protected abstract PrintWriter getPrintWriter() throws IOException;
+
+	// === Escape handling ===
+	/**
+	 * @param esc the escape to process
+	 * @throws IOException IO Exception
+	 */
+	protected void handleEscape(final Escape esc) throws IOException {
+<span class="fc" id="L533">		LOG.debug(&quot;Start handleEscape...&quot;);</span>
+
+<span class="fc" id="L535">		esc.setRequest(getRequest());</span>
+<span class="fc" id="L536">		esc.setResponse(getResponse());</span>
+
+<span class="fc" id="L538">		esc.escape();</span>
+
+<span class="fc" id="L540">		LOG.debug(&quot;End handleEscape&quot;);</span>
+<span class="fc" id="L541">	}</span>
+
+	// === Error handling ===
+	/**
+	 * Propogates an error from the action phase to the render phase.
+	 *
+	 * @param error the error to propogate.
+	 */
+	private void propogateError(final Throwable error) {
+		// Unhandled runtime exceptions from action phase
+		// must be remembered for subsequent renders
+<span class="pc bpc" id="L552" title="1 of 2 branches missed.">		if (getRequest() == null) {</span>
+<span class="nc" id="L553">			LOG.error(&quot;Unable to remember error from action phase beyond this request&quot;);</span>
+		} else {
+<span class="fc" id="L555">			LOG.debug(&quot;Remembering error from action phase&quot;);</span>
+<span class="fc" id="L556">			getRequest().setAppSessionAttribute(ACTION_ERROR_KEY, error);</span>
+		}
+<span class="fc" id="L558">	}</span>
+
+	/**
+	 * Indicates whether there is an error which has been propogated from the action to the render phase.
+	 *
+	 * @return true if there is a propogated escape, false otherwise.
+	 */
+	private boolean havePropogatedError() {
+<span class="fc" id="L566">		Request req = getRequest();</span>
+<span class="pc bpc" id="L567" title="1 of 4 branches missed.">		return req != null &amp;&amp; req.getAppSessionAttribute(ACTION_ERROR_KEY) != null;</span>
+	}
+
+	/**
+	 * Retrieves an error which has been propogated from the action to the render phase.
+	 *
+	 * @return the propogated escape, or null if there isn't one.
+	 */
+	private Throwable getPropogatedError() {
+<span class="fc" id="L576">		Request req = getRequest();</span>
+
+<span class="pc bpc" id="L578" title="1 of 2 branches missed.">		if (req != null) {</span>
+<span class="fc" id="L579">			return (Throwable) req.getAppSessionAttribute(ACTION_ERROR_KEY);</span>
+		}
+
+<span class="nc" id="L582">		return null;</span>
+	}
+
+	/**
+	 * Clear the errors.
+	 */
+	private void clearPropogatedError() {
+<span class="fc" id="L589">		Request req = getRequest();</span>
+
+<span class="pc bpc" id="L591" title="1 of 2 branches missed.">		if (req.getAppSessionAttribute(ACTION_ERROR_KEY) != null) {</span>
+<span class="nc" id="L592">			LOG.debug(&quot;Clearing error remembered from previous action phase&quot;);</span>
+<span class="nc" id="L593">			req.setAppSessionAttribute(ACTION_ERROR_KEY, null);</span>
+		}
+<span class="fc" id="L595">	}</span>
+
+	/**
+	 * Last resort error handling.
+	 *
+	 * @param error the error to handle.
+	 * @throws IOException if there is an error writing the error html.
+	 */
+	public void handleError(final Throwable error) throws IOException {
+<span class="fc" id="L604">		LOG.debug(&quot;Start handleError...&quot;);</span>
+
+		// Should the session be removed upon error?
+<span class="fc" id="L607">		boolean terminate = Config.getInstance().getBoolean(TERMINATE_SESSION_ON_ERROR, false);</span>
+
+		// If we are unfriendly, terminate the session
+<span class="pc bpc" id="L610" title="1 of 2 branches missed.">		if (terminate) {</span>
+<span class="nc" id="L611">			invalidateSession();</span>
+		}
+
+		// Are we in developer friendly error mode?
+<span class="fc" id="L615">		boolean friendly = Config.getInstance().getBoolean(DEVELOPER_MODE_ERROR_HANDLING, false);</span>
+
+<span class="fc" id="L617">		FatalErrorPageFactory factory = Factory.newInstance(FatalErrorPageFactory.class);</span>
+<span class="fc" id="L618">		WComponent errorPage = factory.createErrorPage(friendly, error);</span>
+
+<span class="fc" id="L620">		UIContextHolder.pushContext(new UIContextImpl());</span>
+<span class="fc" id="L621">		String html = null;</span>
+
+		try {
+<span class="fc" id="L624">			html = WebUtilities.render(new MockRequest(), errorPage);</span>
+		} finally {
+<span class="pc" id="L626">			UIContextHolder.popContext();</span>
+<span class="fc" id="L627">		}</span>
+
+<span class="fc" id="L629">		Response response = getResponse();</span>
+
+<span class="fc" id="L631">		response.setContentType(WebUtilities.CONTENT_TYPE_HTML);</span>
+
+		// Make sure not cached
+<span class="fc" id="L634">		getResponse().setHeader(&quot;Cache-Control&quot;, CacheType.NO_CACHE.getSettings());</span>
+<span class="fc" id="L635">		getResponse().setHeader(&quot;Pragma&quot;, &quot;no-cache&quot;);</span>
+<span class="fc" id="L636">		getResponse().setHeader(&quot;Expires&quot;, &quot;-1&quot;);</span>
+
+<span class="fc" id="L638">		getPrintWriter().println(html);</span>
+
+<span class="fc" id="L640">		LOG.debug(&quot;End handleError&quot;);</span>
+<span class="fc" id="L641">	}</span>
+
+	/**
+	 * Perform extra steps before processing action.
+	 */
+	protected void prepareAction() {
+		// Do Nothing
+<span class="fc" id="L648">	}</span>
+
+	/**
+	 * Perform extra steps before rendering.
+	 */
+	protected void prepareRender() {
+		// Do Nothing
+<span class="fc" id="L655">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

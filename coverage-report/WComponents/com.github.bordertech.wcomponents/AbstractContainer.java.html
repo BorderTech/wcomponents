@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>AbstractContainer.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">AbstractContainer.java</span></div><h1>AbstractContainer.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import java.util.List;
+
+/**
+ * This abstract impements the Container interface to expose methods for retrieving the contents of the container. This
+ * class is extended by most WComponents which contain other components
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ */
+<span class="fc" id="L12">public abstract class AbstractContainer extends AbstractWComponent implements Container {</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override // to make public
+	public int getChildCount() {
+<span class="fc" id="L19">		return super.getChildCount();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override // to make public
+	public WComponent getChildAt(final int index) {
+<span class="fc" id="L27">		return super.getChildAt(index);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override // to make public
+	public int getIndexOfChild(final WComponent childComponent) {
+<span class="fc" id="L35">		return super.getIndexOfChild(childComponent);</span>
+	}
+
+	@Override
+	public List&lt;WComponent&gt; getChildren() {
+<span class="fc" id="L40">		return super.getChildren();</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

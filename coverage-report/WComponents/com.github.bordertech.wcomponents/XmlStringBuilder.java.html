@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>XmlStringBuilder.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">XmlStringBuilder.java</span></div><h1>XmlStringBuilder.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import com.github.bordertech.wcomponents.util.I18nUtilities;
+import java.io.PrintWriter;
+import java.io.Writer;
+import java.util.Locale;
+
+/**
+ * &lt;p&gt;
+ * This class is used by the Layout classes to assist with common but primitive html/xml string construction.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * It extends PrintWriter to allow the same instance to be re-used by the old layout classes which use PrintWriters.
+ * &lt;/p&gt;
+ *
+ * @author Martin Shevchenko
+ * @since 1.0.0
+ */
+public final class XmlStringBuilder extends PrintWriter {
+
+	/**
+	 * If true, format XML content by indenting nested tags.
+	 */
+<span class="fc" id="L24">	private boolean indentingOn = true;</span>
+
+	/**
+	 * The current indent level.
+	 */
+<span class="fc" id="L29">	private int indentLevel = -1;</span>
+
+	/**
+	 * Indicates whether an indent has been performed on the current line.
+	 */
+<span class="fc" id="L34">	private boolean newIndentDone = false;</span>
+
+	/**
+	 * The translator used to translate messages.
+	 */
+	private final Locale locale;
+
+	/**
+	 * Creates a XmlStringBuilder with the default capacity and no explicit locale.
+	 *
+	 * @param writer the backing writer.
+	 */
+	public XmlStringBuilder(final Writer writer) {
+<span class="fc" id="L47">		this(writer, null);</span>
+<span class="fc" id="L48">	}</span>
+
+	/**
+	 * Creates a XmlStringBuilder with the default capacity and the given Locale.
+	 *
+	 * @param writer the backing writer.
+	 * @param locale the locale to use for translating messages.
+	 */
+	public XmlStringBuilder(final Writer writer, final Locale locale) {
+<span class="fc" id="L57">		super(writer);</span>
+<span class="fc" id="L58">		this.locale = locale;</span>
+<span class="fc" id="L59">	}</span>
+
+	/**
+	 * &lt;p&gt;
+	 * Adds a starting xml tag to the end of this XmlStringBuilder.
+	 * &lt;/p&gt;
+	 * &lt;p&gt;
+	 * Eg. &amp;lt;name&amp;gt;
+	 * &lt;/p&gt;
+	 *
+	 * @param name the name of the tag to be added.
+	 */
+	public void appendTag(final String name) {
+<span class="fc" id="L72">		incrementIndent();</span>
+<span class="fc" id="L73">		indent();</span>
+<span class="fc" id="L74">		write('&lt;');</span>
+<span class="fc" id="L75">		write(name);</span>
+<span class="fc" id="L76">		write('&gt;');</span>
+<span class="fc" id="L77">	}</span>
+
+	/**
+	 * &lt;p&gt;
+	 * Adds an ending xml tag to the end of this XmlStringBuilder.
+	 * &lt;/p&gt;
+	 * &lt;p&gt;
+	 * Eg. &amp;lt;/name&amp;gt;
+	 * &lt;/p&gt;
+	 *
+	 * @param name the name of the ending tag to be added.
+	 */
+	public void appendEndTag(final String name) {
+<span class="fc" id="L90">		indent();</span>
+<span class="fc" id="L91">		write('&lt;');</span>
+<span class="fc" id="L92">		write('/');</span>
+<span class="fc" id="L93">		write(name);</span>
+<span class="fc" id="L94">		write('&gt;');</span>
+
+<span class="fc" id="L96">		decrementIndent();</span>
+<span class="fc" id="L97">	}</span>
+
+	/**
+	 * &lt;p&gt;
+	 * Adds a starting xml tag (but without the closing angle bracket) to the end of this XmlStringBuilder.
+	 * &lt;/p&gt;
+	 * &lt;p&gt;
+	 * Eg. &amp;lt;name
+	 * &lt;/p&gt;
+	 *
+	 * @param name the name of the tag to be added.
+	 */
+	public void appendTagOpen(final String name) {
+<span class="fc" id="L110">		incrementIndent();</span>
+<span class="fc" id="L111">		indent();</span>
+<span class="fc" id="L112">		write('&lt;');</span>
+<span class="fc" id="L113">		write(name);</span>
+<span class="fc" id="L114">	}</span>
+
+	/**
+	 * &lt;p&gt;
+	 * Adds a closing angle bracket to the end of this XmlStringBuilder.
+	 * &lt;/p&gt;
+	 * &lt;p&gt;
+	 * Eg. &amp;gt;
+	 * &lt;/p&gt;
+	 */
+	public void appendClose() {
+<span class="fc" id="L125">		write('&gt;');</span>
+<span class="fc" id="L126">	}</span>
+
+	/**
+	 * &lt;p&gt;
+	 * Adds a tag end character plus a closing angle bracket to the end of this XmlStringBuilder.
+	 * &lt;/p&gt;
+	 * &lt;p&gt;
+	 * Eg. /&amp;gt;
+	 * &lt;/p&gt;
+	 */
+	public void appendEnd() {
+<span class="fc" id="L137">		write(&quot; /&gt;&quot;);</span>
+<span class="fc" id="L138">		decrementIndent();</span>
+<span class="fc" id="L139">	}</span>
+
+	// === start formatting routines ===
+	/**
+	 * Turns indenting off for further content written to this XmlStringBuilder.
+	 */
+	public void turnIndentingOff() {
+<span class="fc" id="L146">		indentingOn = false;</span>
+<span class="fc" id="L147">	}</span>
+
+	/**
+	 * Turns indenting on for further content written to this XmlStringBuilder.
+	 */
+	public void turnIndentingOn() {
+<span class="nc" id="L153">		indentingOn = true;</span>
+<span class="nc" id="L154">	}</span>
+
+	/**
+	 * Increments the indenting level if indenting is active.
+	 */
+	private void incrementIndent() {
+<span class="fc bfc" id="L160" title="All 2 branches covered.">		if (indentingOn) {</span>
+<span class="fc" id="L161">			indentLevel++;</span>
+<span class="fc" id="L162">			newIndentDone = false;</span>
+		}
+<span class="fc" id="L164">	}</span>
+
+	/**
+	 * Decrements the indenting level if indenting is active.
+	 */
+	private void decrementIndent() {
+<span class="fc bfc" id="L170" title="All 2 branches covered.">		if (indentingOn) {</span>
+<span class="fc" id="L171">			newIndentDone = false;</span>
+
+<span class="fc bfc" id="L173" title="All 2 branches covered.">			if (indentLevel &gt; 0) {</span>
+<span class="fc" id="L174">				indentLevel--;</span>
+			}
+		}
+<span class="fc" id="L177">	}</span>
+
+	/**
+	 * If indenting, outputs an indent for the current indenting level.
+	 */
+	private void indent() {
+<span class="fc bfc" id="L183" title="All 4 branches covered.">		if (indentingOn &amp;&amp; !newIndentDone) {</span>
+<span class="fc" id="L184">			println();</span>
+<span class="fc bfc" id="L185" title="All 2 branches covered.">			for (int i = 0; i &lt; indentLevel; i++) {</span>
+<span class="fc" id="L186">				write('\t');</span>
+			}
+<span class="fc" id="L188">			newIndentDone = true;</span>
+		}
+<span class="fc" id="L190">	}</span>
+
+	// === end formatting routines ===
+	/**
+	 * &lt;p&gt;
+	 * Adds an xml attribute name+value pair to the end of this XmlStringBuilder. All attribute values are escaped to
+	 * prevent malformed XML and XSS attacks.
+	 * &lt;/p&gt;
+	 * &lt;p&gt;
+	 * If the value is null an empty string &quot;&quot; is output.
+	 * &lt;/p&gt;
+	 * &lt;p&gt;
+	 * Eg. name=&quot;value&quot;
+	 * &lt;/p&gt;
+	 *
+	 * @param name the name of the attribute to be added.
+	 * @param value the value of the attribute to be added.
+	 */
+	public void appendAttribute(final String name, final Object value) {
+<span class="fc" id="L209">		write(' ');</span>
+<span class="fc" id="L210">		write(name);</span>
+<span class="fc" id="L211">		write(&quot;=\&quot;&quot;);</span>
+
+<span class="pc bpc" id="L213" title="1 of 2 branches missed.">		if (value instanceof Message) {</span>
+<span class="nc" id="L214">			appendEscaped(translate(value));</span>
+<span class="fc bfc" id="L215" title="All 2 branches covered.">		} else if (value != null) {</span>
+<span class="fc" id="L216">			appendEscaped(value.toString());</span>
+		}
+
+<span class="fc" id="L219">		write('&quot;');</span>
+<span class="fc" id="L220">	}</span>
+
+	/**
+	 * &lt;p&gt;
+	 * Adds an xml attribute name+value pair to the end of this XmlStringBuilder.
+	 * &lt;/p&gt;
+	 * &lt;p&gt;
+	 * Eg. name=&quot;1&quot;
+	 * &lt;/p&gt;
+	 *
+	 * @param name the name of the attribute to be added.
+	 * @param value the value of the attribute to be added.
+	 */
+	public void appendAttribute(final String name, final int value) {
+<span class="fc" id="L234">		write(' ');</span>
+<span class="fc" id="L235">		write(name);</span>
+<span class="fc" id="L236">		write(&quot;=\&quot;&quot;);</span>
+<span class="fc" id="L237">		write(String.valueOf(value));</span>
+<span class="fc" id="L238">		write('&quot;');</span>
+<span class="fc" id="L239">	}</span>
+
+	/**
+	 * &lt;p&gt;
+	 * If the value is not null, add an xml attribute name+value pair to the end of this XmlStringBuilder
+	 * &lt;p&gt;
+	 * Eg. name=&quot;value&quot;
+	 * &lt;/p&gt;
+	 *
+	 * @param name the name of the attribute to be added.
+	 * @param value the value of the attribute.
+	 */
+	public void appendOptionalAttribute(final String name, final Object value) {
+<span class="fc bfc" id="L252" title="All 2 branches covered.">		if (value != null) {</span>
+<span class="fc" id="L253">			appendAttribute(name, value);</span>
+		}
+<span class="fc" id="L255">	}</span>
+
+	/**
+	 * &lt;p&gt;
+	 * If the flag is true, add an xml attribute name+value pair to the end of this XmlStringBuilder
+	 * &lt;p&gt;
+	 * Eg. name=&quot;1&quot;
+	 * &lt;/p&gt;
+	 *
+	 * @param name the name of the boolean attribute to be added.
+	 * @param flag should this attribute be set.
+	 * @param value the value of the attribute.
+	 */
+	public void appendOptionalAttribute(final String name, final boolean flag, final int value) {
+<span class="fc bfc" id="L269" title="All 2 branches covered.">		if (flag) {</span>
+<span class="fc" id="L270">			appendAttribute(name, value);</span>
+		}
+<span class="fc" id="L272">	}</span>
+
+	/**
+	 * &lt;p&gt;
+	 * If the flag is true, add an xml attribute name+value pair to the end of this XmlStringBuilder
+	 * &lt;p&gt;
+	 * Eg. name=&quot;value&quot;
+	 * &lt;/p&gt;
+	 *
+	 * @param name the name of the boolean attribute to be added.
+	 * @param flag should this attribute be set.
+	 * @param value the value of the attribute.
+	 */
+	public void appendOptionalAttribute(final String name, final boolean flag, final Object value) {
+<span class="fc bfc" id="L286" title="All 2 branches covered.">		if (flag) {</span>
+<span class="fc" id="L287">			appendAttribute(name, value);</span>
+		}
+<span class="fc" id="L289">	}</span>
+
+	/**
+	 * If the value in not null, add it to the end of this XmlStringBuilder.
+	 *
+	 * @param value the value
+	 */
+	public void appendOptional(final String value) {
+<span class="fc bfc" id="L297" title="All 2 branches covered.">		if (value != null) {</span>
+<span class="fc" id="L298">			write(value);</span>
+		}
+<span class="fc" id="L300">	}</span>
+
+	/**
+	 * Appends the string to this XmlStringBuilder. XML values are not escaped.
+	 *
+	 * @param string the String to append.
+	 */
+	public void append(final String string) {
+<span class="fc" id="L308">		append(string, false);</span>
+<span class="fc" id="L309">	}</span>
+
+	/**
+	 * Appends the given text to this XmlStringBuilder. XML values are escaped.
+	 *
+	 * @param text the message to append.
+	 */
+	public void append(final Object text) {
+<span class="nc bnc" id="L317" title="All 2 branches missed.">		if (text instanceof Message) {</span>
+<span class="nc" id="L318">			append(translate(text), true);</span>
+<span class="nc bnc" id="L319" title="All 2 branches missed.">		} else if (text != null) {</span>
+<span class="nc" id="L320">			append(text.toString(), true);</span>
+		}
+<span class="nc" id="L322">	}</span>
+
+	/**
+	 * Appends the string to this XmlStringBuilder. XML values are not escaped.
+	 *
+	 * @param string the String to append.
+	 * @param encode true to encode the string before output, false to output as is
+	 */
+	public void append(final String string, final boolean encode) {
+<span class="fc bfc" id="L331" title="All 2 branches covered.">		if (encode) {</span>
+<span class="fc" id="L332">			appendOptional(WebUtilities.encode(string));</span>
+		} else {
+<span class="fc" id="L334">			write(string);</span>
+		}
+<span class="fc" id="L336">	}</span>
+
+	/**
+	 * Appends the integer value to this XmlStringBuilder.
+	 *
+	 * @param value the value to append.
+	 */
+	public void append(final int value) {
+<span class="nc" id="L344">		super.write(String.valueOf(value));</span>
+<span class="nc" id="L345">	}</span>
+
+	/**
+	 * Appends the given character to this XmlStringBuilder. XML values are not escaped.
+	 *
+	 * @param chr the character to append.
+	 * @return this XmlStringBuilder
+	 */
+	@Override
+	public PrintWriter append(final char chr) {
+<span class="nc" id="L355">		super.write(chr);</span>
+<span class="nc" id="L356">		return this;</span>
+	}
+
+	/**
+	 * Appends an XML-escaped copy of the string to this XmlStringBuffer. If the string is null then no text will be
+	 * appended.
+	 *
+	 * @param string the String to append.
+	 */
+	public void appendEscaped(final String string) {
+<span class="fc" id="L366">		append(string, true);</span>
+<span class="fc" id="L367">	}</span>
+
+	/**
+	 * Translates the given message into the appropriate user text. This takes the current locale into consideration, if
+	 * set.
+	 *
+	 * @param messageObject the message to translate.
+	 * @return the translated message.
+	 */
+	private String translate(final Object messageObject) {
+<span class="nc bnc" id="L377" title="All 2 branches missed.">		if (messageObject instanceof Message) {</span>
+<span class="nc" id="L378">			Message message = (Message) messageObject;</span>
+<span class="nc" id="L379">			return I18nUtilities.format(locale, message.getMessage(), (Object[]) message.getArgs());</span>
+<span class="nc bnc" id="L380" title="All 2 branches missed.">		} else if (messageObject != null) {</span>
+<span class="nc" id="L381">			return I18nUtilities.format(locale, messageObject.toString());</span>
+		}
+
+<span class="nc" id="L384">		return null;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

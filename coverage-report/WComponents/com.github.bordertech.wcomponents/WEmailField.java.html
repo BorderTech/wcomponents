@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WEmailField.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">WEmailField.java</span></div><h1>WEmailField.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import com.github.bordertech.wcomponents.util.InternalMessages;
+import com.github.bordertech.wcomponents.util.Util;
+import com.github.bordertech.wcomponents.validation.Diagnostic;
+import java.util.List;
+import java.util.regex.Pattern;
+
+/**
+ * &lt;p&gt;
+ * A WEmailField is a wcomponent used to display an email input field. Use the method &quot;getText&quot; to get the text entered
+ * into the field by the user.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * An email field differs from a text field in the way in which some user agents interact with it. For example,
+ * touchscreen devices may display a different soft keyboard from the default layout. In addition, they may present
+ * email addresses from the user's address book.
+ * &lt;/p&gt;
+ *
+ * @author Yiannis Paschalidis
+ * @author Jonathan Austin
+ * @since 1.0.0
+ */
+<span class="fc" id="L24">public class WEmailField extends AbstractInput implements AjaxTrigger, AjaxTarget,</span>
+		SubordinateTrigger, SubordinateTarget {
+	// ================================
+	// Action/Event handling
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected boolean doHandleRequest(final Request request) {
+<span class="fc" id="L34">		String value = getRequestValue(request);</span>
+<span class="fc" id="L35">		String current = getValue();</span>
+
+<span class="fc bfc" id="L37" title="All 2 branches covered.">		boolean changed = !Util.equals(value, current);</span>
+
+<span class="fc bfc" id="L39" title="All 2 branches covered.">		if (changed) {</span>
+<span class="fc" id="L40">			setData(value);</span>
+		}
+
+<span class="fc" id="L43">		return changed;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getRequestValue(final Request request) {
+<span class="fc bfc" id="L51" title="All 2 branches covered.">		if (isPresent(request)) {</span>
+<span class="fc" id="L52">			String value = request.getParameter(getId());</span>
+			// An empty string is treated as null
+<span class="fc bfc" id="L54" title="All 2 branches covered.">			return Util.empty(value) ? null : value;</span>
+		} else {
+<span class="fc" id="L56">			return getValue();</span>
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getValue() {
+<span class="fc" id="L65">		Object data = getData();</span>
+<span class="fc bfc" id="L66" title="All 2 branches covered.">		if (data == null) {</span>
+<span class="fc" id="L67">			return null;</span>
+		}
+		// An empty string is treated as null
+<span class="fc bfc" id="L70" title="All 2 branches covered.">		return Util.empty(data.toString()) ? null : data.toString();</span>
+	}
+
+	// ================================
+	// Attributes
+	/**
+	 * Retrieves the phone field's text.
+	 *
+	 * @return the phone field's text for the given context.
+	 */
+	public String getText() {
+<span class="fc" id="L81">		return getValue();</span>
+	}
+
+	/**
+	 * Sets the text value to be shown in the input field.
+	 *
+	 * @param text the text to display for the given context.
+	 */
+	public void setText(final String text) {
+<span class="fc" id="L90">		setData(text);</span>
+<span class="fc" id="L91">	}</span>
+
+	/**
+	 * @return the width of the input field in characters.
+	 */
+	public int getColumns() {
+<span class="fc" id="L97">		return getComponentModel().columns;</span>
+	}
+
+	/**
+	 * Sets the width of the input field in characters.
+	 *
+	 * @param columns the number of characters to display.
+	 */
+	public void setColumns(final int columns) {
+<span class="fc" id="L106">		getOrCreateComponentModel().columns = columns;</span>
+<span class="fc" id="L107">	}</span>
+
+	/**
+	 * @return the maximum number of characters that the user can enter into the email field.
+	 */
+	public int getMaxLength() {
+<span class="fc" id="L113">		return getComponentModel().maxLength;</span>
+	}
+
+	/**
+	 * Set the maximum number of characters that the user can enter into the email field.
+	 *
+	 * @param maxLength the maximum number of characters to allow.
+	 */
+	public final void setMaxLength(final int maxLength) {
+<span class="fc" id="L122">		getOrCreateComponentModel().maxLength = maxLength;</span>
+<span class="fc" id="L123">	}</span>
+
+	/**
+	 * @return the {@link WSuggestions} for this email field.
+	 */
+	public WSuggestions getSuggestions() {
+<span class="fc" id="L129">		return getComponentModel().suggestions;</span>
+	}
+
+	/**
+	 * Set the {@link WSuggestions} for this email field.
+	 *
+	 * @param suggestions the {@link WSuggestions} for this email field
+	 */
+	public final void setSuggestions(final WSuggestions suggestions) {
+<span class="fc" id="L138">		getOrCreateComponentModel().suggestions = suggestions;</span>
+<span class="fc" id="L139">	}</span>
+
+	/**
+	 * Override WInput's validateComponent to perform futher validation on email addresses.
+	 *
+	 * @param diags the list into which any validation diagnostics are added.
+	 */
+	@Override
+	protected void validateComponent(final List&lt;Diagnostic&gt; diags) {
+<span class="fc" id="L148">		super.validateComponent(diags);</span>
+<span class="fc" id="L149">		validateEmailAddress(diags);</span>
+<span class="fc" id="L150">	}</span>
+
+	/**
+	 * &lt;p&gt;
+	 * Performs validation of the email address. This only performs very basic validation - an email address must
+	 * contain some text, followed by an '@', and then something which resembles a domain/host name.
+	 * &lt;/p&gt;
+	 * &lt;p&gt;
+	 * Subclasses can override this method to perform more specific validation.
+	 * &lt;/p&gt;
+	 *
+	 * @param diags the list into which any validation diagnostics are added.
+	 */
+	protected void validateEmailAddress(final List&lt;Diagnostic&gt; diags) {
+<span class="fc bfc" id="L164" title="All 2 branches covered.">		if (!isEmpty()) {</span>
+<span class="fc" id="L165">			String value = getValueAsString();</span>
+<span class="fc" id="L166">			String errorMessage = getComponentModel().errorMessage;</span>
+
+			// Email Pattern
+<span class="fc bfc" id="L169" title="All 2 branches covered.">			if (!Pattern.matches(</span>
+					&quot;^(?:\&quot;.+\&quot;|[a-zA-Z0-9.!#$%&amp;'*+/=?^_`{|}~-]+)@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)+$&quot;,
+					value)) {
+<span class="fc" id="L172">				diags.add(createErrorDiagnostic(errorMessage, this));</span>
+			}
+
+			// Maximum Length
+<span class="fc" id="L176">			int max = getMaxLength();</span>
+<span class="fc bfc" id="L177" title="All 4 branches covered.">			if (max &gt; 0 &amp;&amp; value.length() &gt; max) {</span>
+<span class="fc" id="L178">				diags.add(</span>
+<span class="fc" id="L179">						createErrorDiagnostic(InternalMessages.DEFAULT_VALIDATION_ERROR_MAX_LENGTH,</span>
+								this,
+<span class="fc" id="L181">								String.valueOf(max)));</span>
+			}
+		}
+<span class="fc" id="L184">	}</span>
+
+	/**
+	 * Sets the validation error message.
+	 *
+	 * @param message The errorMessage to set, or null to use the default error message.
+	 */
+	public void setInvalidEmailAddressErrorMessage(final String message) {
+<span class="fc" id="L192">		getOrCreateComponentModel().errorMessage = message;</span>
+<span class="fc" id="L193">	}</span>
+
+	/**
+	 * Creates a new EmailFieldModel holds Extrinsic state management of the field.
+	 *
+	 * @return a new EmailFieldModel
+	 */
+	@Override
+	protected EmailFieldModel newComponentModel() {
+<span class="fc" id="L202">		return new EmailFieldModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	// For type safety only
+	protected EmailFieldModel getComponentModel() {
+<span class="fc" id="L211">		return (EmailFieldModel) super.getComponentModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	// For type safety only
+	protected EmailFieldModel getOrCreateComponentModel() {
+<span class="fc" id="L220">		return (EmailFieldModel) super.getOrCreateComponentModel();</span>
+	}
+
+	/**
+	 * EmailFieldModel holds Extrinsic state management of the field.
+	 *
+	 * @author Yiannis Paschalidis
+	 */
+<span class="fc" id="L228">	public static class EmailFieldModel extends InputModel {</span>
+
+		/**
+		 * The maximum text length to allow.
+		 */
+		private int maxLength;
+
+		/**
+		 * The number of columns to display for the field.
+		 */
+		private int columns;
+
+		/**
+		 * The error message to display when the input fails the email address validation check.
+		 */
+<span class="fc" id="L243">		private String errorMessage = InternalMessages.DEFAULT_VALIDATION_ERROR_INVALID;</span>
+
+		/**
+		 * The list of suggestions.
+		 */
+		private WSuggestions suggestions;
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

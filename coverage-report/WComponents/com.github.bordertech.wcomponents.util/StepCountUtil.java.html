@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>StepCountUtil.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.util</a> &gt; <span class="el_source">StepCountUtil.java</span></div><h1>StepCountUtil.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.util;
+
+import com.github.bordertech.wcomponents.ComponentWithContext;
+import com.github.bordertech.wcomponents.Environment;
+import com.github.bordertech.wcomponents.Request;
+import com.github.bordertech.wcomponents.UIContext;
+import com.github.bordertech.wcomponents.UIContextHolder;
+import com.github.bordertech.wcomponents.WAudio;
+import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.WContent;
+import com.github.bordertech.wcomponents.WImage;
+import com.github.bordertech.wcomponents.WVideo;
+import com.github.bordertech.wcomponents.WebUtilities;
+
+/**
+ * Static utility methods related to working with the step count.
+ *
+ * @author Jonathan Austin
+ * @since 1.0.0
+ */
+public final class StepCountUtil {
+
+	/**
+	 * The parameter key for the URL users are redirected to when a step error occurs.
+	 */
+	public static final String STEP_ERROR_URL_PARAMETER_KEY = &quot;bordertech.wcomponents.wrongStep.redirect.url&quot;;
+
+	/**
+	 * Prevent instantiation of utility class.
+	 */
+<span class="nc" id="L31">	private StepCountUtil() {</span>
+<span class="nc" id="L32">	}</span>
+
+	/**
+	 * @return the url users are redirected to when a step error occurs
+	 */
+	public static String getErrorUrl() {
+<span class="fc" id="L38">		String url = Config.getInstance().getString(STEP_ERROR_URL_PARAMETER_KEY);</span>
+<span class="fc" id="L39">		return url;</span>
+	}
+
+	/**
+	 * @return true if users are to be redirected when a step error occurs
+	 */
+	public static boolean isErrorRedirect() {
+<span class="fc bfc" id="L46" title="All 2 branches covered.">		return !Util.empty(getErrorUrl());</span>
+	}
+
+	/**
+	 * Increments the step that is recorded in session.
+	 *
+	 * @param uic the current user's session
+	 */
+	public static void incrementSessionStep(final UIContext uic) {
+<span class="fc" id="L55">		int step = uic.getEnvironment().getStep();</span>
+<span class="fc" id="L56">		uic.getEnvironment().setStep(step + 1);</span>
+<span class="fc" id="L57">	}</span>
+
+	/**
+	 * Retrieves the value of the step variable from the given request.
+	 *
+	 * @param request the request being responded to.
+	 * @return the request step present in the request, or -1 on error.
+	 */
+	public static int getRequestStep(final Request request) {
+<span class="fc" id="L66">		String val = request.getParameter(Environment.STEP_VARIABLE);</span>
+
+<span class="fc bfc" id="L68" title="All 2 branches covered.">		if (val == null) {</span>
+<span class="fc" id="L69">			return 0;</span>
+		}
+		try {
+<span class="fc" id="L72">			return Integer.parseInt(val);</span>
+<span class="nc" id="L73">		} catch (NumberFormatException ex) {</span>
+<span class="nc" id="L74">			return -1;</span>
+		}
+	}
+
+	/**
+	 * Checks if the step count is on the request.
+	 *
+	 * @param request the request being responded to.
+	 * @return true if the step count is on the request
+	 */
+	public static boolean isStepOnRequest(final Request request) {
+<span class="fc" id="L85">		String val = request.getParameter(Environment.STEP_VARIABLE);</span>
+<span class="fc bfc" id="L86" title="All 2 branches covered.">		return val != null;</span>
+	}
+
+	/**
+	 * Check if the request is for cached content.
+	 *
+	 * @param request the request being processed
+	 * @return true if content is cached, otherwise false
+	 */
+	public static boolean isCachedContentRequest(final Request request) {
+
+		// Get target id on request
+<span class="nc" id="L98">		String targetId = request.getParameter(Environment.TARGET_ID);</span>
+<span class="nc bnc" id="L99" title="All 2 branches missed.">		if (targetId == null) {</span>
+<span class="nc" id="L100">			return false;</span>
+		}
+
+		// Get target
+<span class="nc" id="L104">		ComponentWithContext targetWithContext = WebUtilities.getComponentById(targetId, true);</span>
+<span class="nc bnc" id="L105" title="All 2 branches missed.">		if (targetWithContext == null) {</span>
+<span class="nc" id="L106">			return false;</span>
+		}
+
+		// Check for caching key
+<span class="nc" id="L110">		WComponent target = targetWithContext.getComponent();</span>
+<span class="nc" id="L111">		UIContextHolder.pushContext(targetWithContext.getContext());</span>
+
+		try {
+			// TODO Look at implementing CacheableTarget interface
+<span class="nc" id="L115">			String key = null;</span>
+<span class="nc bnc" id="L116" title="All 2 branches missed.">			if (target instanceof WContent) {</span>
+<span class="nc" id="L117">				key = ((WContent) target).getCacheKey();</span>
+<span class="nc bnc" id="L118" title="All 2 branches missed.">			} else if (target instanceof WImage) {</span>
+<span class="nc" id="L119">				key = ((WImage) target).getCacheKey();</span>
+<span class="nc bnc" id="L120" title="All 2 branches missed.">			} else if (target instanceof WVideo) {</span>
+<span class="nc" id="L121">				key = ((WVideo) target).getCacheKey();</span>
+<span class="nc bnc" id="L122" title="All 2 branches missed.">			} else if (target instanceof WAudio) {</span>
+<span class="nc" id="L123">				key = ((WAudio) target).getCacheKey();</span>
+			}
+<span class="nc bnc" id="L125" title="All 2 branches missed.">			return !Util.empty(key);</span>
+		} finally {
+<span class="nc" id="L127">			UIContextHolder.popContext();</span>
+		}
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

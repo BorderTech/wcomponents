@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>AdapterBasicTableModel.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">AdapterBasicTableModel.java</span></div><h1>AdapterBasicTableModel.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import com.github.bordertech.wcomponents.WTable.TableModel;
+import java.io.Serializable;
+import java.util.List;
+
+/**
+ * Adapter to allow classes that implement the {@link BasicTableModel} interface to be used as the model for
+ * {@link WTable}.
+ * &lt;p&gt;
+ * {@link BasicTableModel} provides a basic interface for data that does not have a tree like structure (ie not
+ * expandable). Therefore, for data that is not expandable, it is recommended to use this adapter and
+ * {@link BasicTableModel} interface.
+ * &lt;/p&gt;
+ *
+ * @author Jonathan Austin
+ * @since 1.0.0
+ */
+public class AdapterBasicTableModel implements TableModel, Serializable {
+
+	/**
+	 * The basic table model to adapt for the WTable.
+	 */
+	private final BasicTableModel model;
+
+	/**
+	 * @param model the basic table model to adapt for the {@link WTable}
+	 */
+<span class="fc" id="L29">	public AdapterBasicTableModel(final BasicTableModel model) {</span>
+<span class="fc" id="L30">		this.model = model;</span>
+<span class="fc" id="L31">	}</span>
+
+	/**
+	 * @return the basic table model to adapt for the {@link WTable}
+	 */
+	public BasicTableModel getBacking() {
+<span class="fc" id="L37">		return model;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Object getValueAt(final List&lt;Integer&gt; row, final int col) {
+<span class="fc" id="L45">		return getBacking().getValueAt(getRowIndex(row), col);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean isCellEditable(final List&lt;Integer&gt; row, final int col) {
+<span class="nc" id="L53">		return getBacking().isCellEditable(getRowIndex(row), col);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setValueAt(final Object value, final List&lt;Integer&gt; row, final int col) {
+<span class="nc" id="L61">		getBacking().setValueAt(value, getRowIndex(row), col);</span>
+<span class="nc" id="L62">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean isSortable(final int col) {
+<span class="fc" id="L69">		return getBacking().isSortable(col);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public int[] sort(final int col, final boolean ascending) {
+<span class="fc" id="L77">		return getBacking().sort(col, ascending);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean isDisabled(final List&lt;Integer&gt; row) {
+<span class="fc" id="L85">		return getBacking().isDisabled(getRowIndex(row));</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean isSelectable(final List&lt;Integer&gt; row) {
+<span class="fc" id="L93">		return getBacking().isSelectable(getRowIndex(row));</span>
+	}
+
+	/**
+	 * @param row the row index
+	 * @return false as data is not expandable
+	 */
+	@Override
+	public boolean isExpandable(final List&lt;Integer&gt; row) {
+<span class="fc" id="L102">		return false;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public int getRowCount() {
+<span class="fc" id="L110">		return getBacking().getRowCount();</span>
+	}
+
+	/**
+	 * @param row ignored
+	 * @return false as data is not expandable
+	 */
+	@Override
+	public boolean hasChildren(final List&lt;Integer&gt; row) {
+<span class="nc" id="L119">		return false;</span>
+	}
+
+	/**
+	 * @param row ignored
+	 * @return 0 as data is not expandable
+	 */
+	@Override
+	public int getChildCount(final List&lt;Integer&gt; row) {
+<span class="nc" id="L128">		return 0;</span>
+	}
+
+	/**
+	 * @param row ignored
+	 * @return null as data is not expandable
+	 */
+	@Override
+	public Class&lt;? extends WComponent&gt; getRendererClass(final List&lt;Integer&gt; row) {
+<span class="fc" id="L137">		return null;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Object getRowKey(final List&lt;Integer&gt; row) {
+<span class="fc" id="L145">		return getBacking().getRowKey(getRowIndex(row));</span>
+	}
+
+	/**
+	 * @param row the row index
+	 * @return the first level index as the data is only one level.
+	 */
+	private int getRowIndex(final List&lt;Integer&gt; row) {
+<span class="fc" id="L153">		return row.get(0);</span>
+	}
+
+	/**
+	 * &lt;p&gt;
+	 * BasicTableModel provides a basic interface that can be adapted via {@link AdapterBasicTableModel} for
+	 * {@link WTable}. This model is used for data that is not in a tree like structure (ie not expandable).
+	 * &lt;/p&gt;
+	 * &lt;p&gt;
+	 * As the data is not expandable, the interface only requires a single row index, instead of being like the
+	 * {@link TableModel} interface that uses a list of indexes.
+	 * &lt;/p&gt;
+	 * &lt;p&gt;
+	 * Row and column indices for all methods are zero-based, and TableModels are not expected to perform
+	 * bounds-checking.
+	 * &lt;/p&gt;
+	 *
+	 * @author Jonathan Austin
+	 * @since 1.0.0
+	 */
+	public interface BasicTableModel {
+
+		/**
+		 * Retrieves the value at the given row and column.
+		 *
+		 * @param row - the row index.
+		 * @param col - the column index. Column of -1 indicates row has a renderer.
+		 * @return the value at the given row and column.
+		 */
+		Object getValueAt(int row, int col);
+
+		/**
+		 * Indicates whether the given cell is editable.
+		 *
+		 * @param row - the row index.
+		 * @param col - the column index. Column of -1 indicates row has a renderer.
+		 * @return true if the given cell is editable, false otherwise.
+		 */
+		boolean isCellEditable(int row, int col);
+
+		/**
+		 * Sets the value at the given row and column.
+		 *
+		 * @param value the value to set.
+		 * @param row - the row index.
+		 * @param col - the column index.
+		 */
+		void setValueAt(Object value, int row, int col);
+
+		/**
+		 * Indicates whether the model supports sorting by the given column.
+		 *
+		 * @param col the column index.
+		 * @return true if the model is sortable by the given column, false otherwise.
+		 */
+		boolean isSortable(int col);
+
+		/**
+		 * &lt;p&gt;
+		 * Sorts the data by the given column. Any previous sorting should be disregarded.
+		 * &lt;/p&gt;
+		 * &lt;p&gt;
+		 * Data models must implement sorting in one of two ways.
+		 * &lt;/p&gt;
+		 * &lt;ol&gt;
+		 * &lt;li&gt;
+		 * &lt;p&gt;
+		 * If the data is accessible locally by the data model (ie. a sort won't result in a service call to obtain
+		 * sorted data), then this method should not sort the actual data, but return a row-index mapping which the
+		 * table will use to access the data. Row selection and expansion will be updated to use the new row indices.
+		 * &lt;/p&gt;
+		 * &lt;p&gt;
+		 * For example, if the data for the column is {&quot;a&quot;, &quot;b&quot;, &quot;d&quot;, &quot;c&quot;}, then an ascending sort should return {0, 1,
+		 * 3, 2}, and a descending sort {2, 3, 1, 0}.
+		 * &lt;/p&gt;
+		 * &lt;/li&gt;
+		 * &lt;li&gt;
+		 * &lt;p&gt;
+		 * If the data is not accessible locally by the data model, or the model is otherwise unable to perform a
+		 * mapping between old and new row indices, then the model should sort the actual data, and return null. In this
+		 * case, the table will reset any row selection or expansion.
+		 * &lt;/p&gt;
+		 * &lt;/li&gt;
+		 * &lt;/ol&gt;
+		 *
+		 * @param col the column to sort on
+		 * @param ascending true for an ascending sort, false for descending.
+		 * @return the row indices in sort order, or null if row mappings can not be determined.
+		 */
+		int[] sort(int col, boolean ascending);
+
+		/**
+		 * Indicates whether the given row is disabled.
+		 *
+		 * @param row the row index
+		 * @return true if the row is disabled, false otherwise.
+		 */
+		boolean isDisabled(int row);
+
+		/**
+		 * Indicates whether the given row is selectable.
+		 *
+		 * @param row the row index
+		 * @return true if the row is disabled, false otherwise.
+		 */
+		boolean isSelectable(int row);
+
+		/**
+		 * Retrieves the number of rows.
+		 *
+		 * @return the number of rows in the model for this level.
+		 */
+		int getRowCount();
+
+		/**
+		 * Retrieves the key (ie bean) used to uniquely identify this row.
+		 * &lt;p&gt;
+		 * The usual implementation of this method would just return the row id passed in.
+		 * &lt;/p&gt;
+		 * &lt;p&gt;
+		 * However, if you are required to dynamically add/remove rows in the model, which would change the row index,
+		 * then the implementation of this method needs to return an object that uniquely identifies this row.
+		 * &lt;/p&gt;
+		 * &lt;p&gt;
+		 * When rows have been added/removed to the model, the {@link WTable#handleDataChanged()} method on WTable needs
+		 * to be called.
+		 * &lt;/p&gt;
+		 *
+		 * @param row the row index
+		 * @return the key (ie bean) used to uniquely identify this row
+		 */
+		Object getRowKey(int row);
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

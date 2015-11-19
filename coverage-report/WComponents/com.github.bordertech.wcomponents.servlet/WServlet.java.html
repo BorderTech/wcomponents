@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WServlet.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.servlet</a> &gt; <span class="el_source">WServlet.java</span></div><h1>WServlet.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.servlet;
+
+import com.github.bordertech.wcomponents.Environment;
+import com.github.bordertech.wcomponents.UIContext;
+import com.github.bordertech.wcomponents.UserAgentInfo;
+import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.WLabel;
+import com.github.bordertech.wcomponents.container.InterceptorComponent;
+import com.github.bordertech.wcomponents.servlet.HttpServletHelper.HttpServletEnvironment;
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+/**
+ * This class enables hosting of wcomponents in a servlet container. To get a basic wcomponent application running in a
+ * servlet container:
+ * &lt;ul&gt;
+ * &lt;li&gt;Build your own wcomponent application from other building block wcomponents.&lt;/li&gt;
+ * &lt;li&gt;Extend WServlet, overriding the getUI(Object) method to return your wcomponent application.&lt;/li&gt;
+ * &lt;li&gt;Add your WServlet to your web.xml file.&lt;/li&gt;
+ * &lt;/ul&gt;
+ *
+ * @author James Gifford
+ * @author Martin Shevchenko
+ * @author Yiannis Paschalidis
+ * @author Jonathan Austin
+ * @since 1.0.0
+ */
+<span class="fc" id="L33">public class WServlet extends HttpServlet {</span>
+
+	/**
+	 * The logger instance for this class.
+	 */
+<span class="fc" id="L38">	private static final Log LOG = LogFactory.getLog(WServlet.class);</span>
+
+	/**
+	 * The name of the parameter that will specify the id of the element that triggered the AJAX request.
+	 */
+	public static final String AJAX_TRIGGER_PARAM_NAME = &quot;wc_ajax&quot;;
+
+	/**
+	 * The name of the parameter that will specify the data list to fetch.
+	 */
+	public static final String DATA_LIST_PARAM_NAME = &quot;wc_data&quot;;
+
+	/**
+	 * The name of the parameter that will specify the name of the static resource to fetch.
+	 */
+	public static final String STATIC_RESOURCE_PARAM_NAME = &quot;wc_static&quot;;
+
+	/**
+	 * The URL/Post variable that will identify a specific wcomponent to process the request. A request that includes
+	 * this variable is called a targeted request. Targeted requests are used to return document content such as image
+	 * data and PDFs. It is also used to support AJAX regions. Targeted requests are handled by the
+	 * WContentHelperServlet.
+	 */
+	public static final String TARGET_ID_PARAM_NAME = Environment.TARGET_ID;
+
+	/**
+	 * The component to serve up when no UI has been specified.
+	 */
+<span class="fc" id="L66">	private final WComponent noUI = new WLabel(&quot;You must override the getUI method in &quot; + getClass());</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void init() throws ServletException {
+		// To enable server-side generation of images
+<span class="fc" id="L74">		System.setProperty(&quot;java.awt.headless&quot;, &quot;true&quot;);</span>
+<span class="fc" id="L75">	}</span>
+
+	/**
+	 * Service an HTTP request. The {@link #serviceInt(HttpServletRequest, HttpServletResponse)} method is called to do
+	 * the actual servicing. If the serviceInt method throws an exception, it is caught and the user is shown a generic
+	 * error page using the {@link #handleError(HttpServletRequest, HttpServletResponse, Throwable)} method.
+	 *
+	 * @param httpServletRequest the request being processed
+	 * @param httpServletResponse the servelt response
+	 *
+	 * @throws IOException an IO exception
+	 * @throws ServletException a servlet exception
+	 *
+	 * @see #serviceInt(HttpServletRequest, HttpServletResponse)
+	 * @see #handleError(HttpServletRequest, HttpServletResponse, Throwable)
+	 */
+	@Override
+	protected void service(final HttpServletRequest httpServletRequest,
+			final HttpServletResponse httpServletResponse)
+			throws ServletException, IOException {
+<span class="fc" id="L95">		String path = httpServletRequest.getRequestURI();</span>
+
+		try {
+<span class="fc" id="L98">			LOG.info(&quot;Service called on &quot; + this + &quot;... from &quot; + path);</span>
+
+<span class="fc bfc" id="L100" title="All 2 branches covered.">			if (ServletUtil.isEnableSubSessions()) {</span>
+<span class="fc" id="L101">				SubSessionHttpServletRequestWrapper requestWrapper = new SubSessionHttpServletRequestWrapper(</span>
+						httpServletRequest);
+<span class="fc" id="L103">				serviceInt(requestWrapper, httpServletResponse);</span>
+<span class="fc" id="L104">			} else {</span>
+<span class="fc" id="L105">				serviceInt(httpServletRequest, httpServletResponse);</span>
+			}
+<span class="nc" id="L107">		} catch (Throwable t) {</span>
+			// We don't let any exception propagate to the servlet container.
+<span class="nc" id="L109">			LOG.error(&quot;WServlet caught exception.&quot;, t);</span>
+<span class="nc" id="L110">			handleError(httpServletRequest, httpServletResponse, t);</span>
+		} finally {
+<span class="pc" id="L112">			LOG.info(&quot;...service complete&quot;);</span>
+<span class="pc" id="L113">		}</span>
+<span class="fc" id="L114">	}</span>
+
+	/**
+	 * Service internal. This method does the real work in servicing the http request. It integrates wcomponents into a
+	 * servlet environment via a servlet specific helper class.
+	 *
+	 * @param request the http servlet request.
+	 * @param response the http servlet response.
+	 * @throws IOException an IO exception
+	 * @throws ServletException a servlet exception
+	 */
+	protected void serviceInt(final HttpServletRequest request, final HttpServletResponse response)
+			throws ServletException, IOException {
+		// Check for resource request
+<span class="fc" id="L128">		boolean continueProcess = ServletUtil.checkResourceRequest(request, response);</span>
+<span class="fc bfc" id="L129" title="All 2 branches covered.">		if (!continueProcess) {</span>
+<span class="fc" id="L130">			return;</span>
+		}
+
+		// Create a support class to coordinate the web request.
+<span class="fc" id="L134">		WServletHelper helper = createServletHelper(request, response);</span>
+
+		// Get the interceptors that will be used to plug in features.
+<span class="fc" id="L137">		InterceptorComponent interceptorChain = createInterceptorChain(request);</span>
+
+		// Get the WComponent that represents the application we are serving.
+<span class="fc" id="L140">		WComponent ui = getUI(request);</span>
+
+<span class="fc" id="L142">		ServletUtil.processRequest(helper, ui, interceptorChain);</span>
+<span class="fc" id="L143">	}</span>
+
+	/**
+	 * The interceptor component returned here is used to wrap the html fragment generated by the UI component.
+	 *
+	 * @param nativeRequest the native request being responded to
+	 * @return the top-level interceptor in the chain.
+	 */
+	public InterceptorComponent createInterceptorChain(final Object nativeRequest) {
+<span class="fc" id="L152">		return ServletUtil.createInterceptorChain((HttpServletRequest) nativeRequest);</span>
+	}
+
+	/**
+	 * Subclasses may override this method.
+	 * &lt;p&gt;
+	 * This method will be called internally once per request/response cycle.
+	 * &lt;p&gt;
+	 * It is up to the subclass to determine the life cycle of the returned component. Should the same instance be
+	 * returned and shared by all sessions, or should there be a new instance per session.
+	 * &lt;p&gt;
+	 * A good way to always return the same instance is to use the UIRegistry. E.g.
+	 *
+	 * &lt;pre&gt;
+	 * return UIRegistry.getInstance().getUI(KitchenSink.class.getName());
+	 * &lt;/pre&gt;
+	 *
+	 * @param httpServletRequest the servlet request being handled.
+	 * @return the top-level WComponent for this servlet.
+	 */
+	public WComponent getUI(final Object httpServletRequest) {
+<span class="nc" id="L173">		return noUI;</span>
+	}
+
+	/**
+	 * Create a support class to coordinate the web request.
+	 *
+	 * @param httpServletRequest the request being processed
+	 * @param httpServletResponse the servlet response
+	 *
+	 * @return the servlet helper
+	 */
+	protected WServletHelper createServletHelper(final HttpServletRequest httpServletRequest,
+			final HttpServletResponse httpServletResponse) {
+<span class="fc" id="L186">		LOG.debug(&quot;Creating a new WServletHelper instance&quot;);</span>
+<span class="fc" id="L187">		WServletHelper helper = new WServletHelper(this, httpServletRequest, httpServletResponse);</span>
+<span class="fc" id="L188">		return helper;</span>
+	}
+
+	/**
+	 * Subclasses can override this method to add extra headers. They can do this by obtaining the top ui component's
+	 * WHeaders object and adding headers to it.
+	 *
+	 * @param uic the current user's UIContext.
+	 * @param ui the application UI.
+	 */
+	protected void addGenericHeaders(final UIContext uic, final WComponent ui) {
+		// No headers are added by default
+<span class="fc" id="L200">	}</span>
+
+	/**
+	 * Called if a Throwable is caught by the top-level service method. By default we display an error and terminate the
+	 * session.
+	 *
+	 * @param httpServletRequest the http servlet request.
+	 * @param httpServletResponse the http servlet response.
+	 * @param throwable the throwable
+	 * @throws IOException an IO exception
+	 * @throws ServletException a servlet exception
+	 */
+	protected void handleError(final HttpServletRequest httpServletRequest,
+			final HttpServletResponse httpServletResponse, final Throwable throwable)
+			throws ServletException, IOException {
+<span class="nc" id="L215">		HttpServletHelper helper = createServletHelper(httpServletRequest, httpServletResponse);</span>
+<span class="nc" id="L216">		ServletUtil.handleError(helper, throwable);</span>
+<span class="nc" id="L217">	}</span>
+
+	/**
+	 * A servlet specific ContainerHelper.
+	 * &lt;p&gt;
+	 * Chiefly it handles the creation and storage of each users {@link UIContext} in the servlet session, and it maps
+	 * servlet requests and responses to wcomponent requests and responses.
+	 * &lt;/p&gt;
+	 * &lt;p&gt;
+	 * An instance is created each request being processed.
+	 * &lt;/p&gt;
+	 */
+	public static class WServletHelper extends HttpServletHelper {
+
+		/**
+		 * @param servlet the servlet instance
+		 * @param httpServletRequest the request being processed
+		 * @param httpServletResponse the response being handled
+		 */
+		public WServletHelper(final WServlet servlet, final HttpServletRequest httpServletRequest,
+				final HttpServletResponse httpServletResponse) {
+<span class="fc" id="L238">			super(servlet, httpServletRequest, httpServletResponse);</span>
+<span class="fc" id="L239">		}</span>
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		protected void addGenericHeaders(final UIContext uic, final WComponent ui) {
+<span class="fc" id="L246">			((WServlet) getServlet()).addGenericHeaders(uic, ui);</span>
+<span class="fc" id="L247">			super.addGenericHeaders(uic, ui);</span>
+<span class="fc" id="L248">		}</span>
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		protected Environment createEnvironment() {
+<span class="fc" id="L255">			HttpServletRequest request = getBackingRequest();</span>
+<span class="fc" id="L256">			String postPath = getResponseUrl(request);</span>
+<span class="fc" id="L257">			String baseUrl = getBaseUrl(request);</span>
+<span class="fc" id="L258">			String userAgent = request.getHeader(&quot;user-agent&quot;);</span>
+
+			/**
+			 * Careful - this won't be serializable
+			 */
+<span class="fc" id="L263">			WServletEnvironment env = new WServletEnvironment(postPath, baseUrl, userAgent);</span>
+<span class="pc bpc" id="L264" title="1 of 2 branches missed.">			if (request instanceof SubSessionHttpServletRequestWrapper) {</span>
+<span class="nc" id="L265">				env.setSubsessionId(((SubSessionHttpServletRequestWrapper) request).getSessionId());</span>
+			}
+
+<span class="fc" id="L268">			return env;</span>
+		}
+
+	}
+
+	/**
+	 * The WServlet implementation of the WEnvironment interface.
+	 */
+<span class="fc" id="L276">	public static class WServletEnvironment extends HttpServletEnvironment {</span>
+
+		/**
+		 * @param postPath the post path
+		 * @param baseUrl the base URL
+		 * @param userAgent the user agent
+		 */
+		public WServletEnvironment(final String postPath, final String baseUrl,
+				final String userAgent) {
+<span class="fc" id="L285">			super(postPath, baseUrl, userAgent);</span>
+<span class="fc" id="L286">		}</span>
+
+		/**
+		 * @param postPath the post path
+		 * @param baseUrl the base URL
+		 * @param userAgentInfo the user agent info
+		 */
+		public WServletEnvironment(final String postPath, final String baseUrl,
+				final UserAgentInfo userAgentInfo) {
+<span class="nc" id="L295">			super(postPath, baseUrl, userAgentInfo);</span>
+<span class="nc" id="L296">		}</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

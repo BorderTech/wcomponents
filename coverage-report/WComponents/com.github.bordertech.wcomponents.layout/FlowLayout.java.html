@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>FlowLayout.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.layout</a> &gt; <span class="el_source">FlowLayout.java</span></div><h1>FlowLayout.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.layout;
+
+/**
+ * FlowLayout is a {@link LayoutManager} that emulates {@link java.awt.FlowLayout}.
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ */
+public class FlowLayout implements LayoutManager {
+
+	/**
+	 * This is used to control the alignment of the components.
+	 */
+<span class="pc" id="L14">	public enum Alignment {</span>
+		/**
+		 * Each row of components should be left-justified.
+		 */
+<span class="fc" id="L18">		LEFT,</span>
+		/**
+		 * Each row of components should be centered.
+		 */
+<span class="fc" id="L22">		CENTER,</span>
+		/**
+		 * Each row of components should be right-justified.
+		 */
+<span class="fc" id="L26">		RIGHT,</span>
+		/**
+		 * Each component should be placed on a new row.
+		 */
+<span class="fc" id="L30">		VERTICAL</span>
+	};
+
+	/**
+	 * This is used to control the alignment of the content in each cell.
+	 */
+<span class="pc" id="L36">	public enum ContentAlignment {</span>
+		/**
+		 * The content should align to the top.
+		 */
+<span class="fc" id="L40">		TOP,</span>
+		/**
+		 * The content should align to the middle.
+		 */
+<span class="fc" id="L44">		MIDDLE,</span>
+		/**
+		 * The content should align to the baseline.
+		 */
+<span class="fc" id="L48">		BASELINE,</span>
+		/**
+		 * The content should align to the bottom.
+		 */
+<span class="fc" id="L52">		BOTTOM</span>
+	};
+
+	/**
+	 * This value indicates that each row of components should be left-justified.
+	 */
+<span class="fc" id="L58">	public static final Alignment LEFT = Alignment.LEFT;</span>
+
+	/**
+	 * This value indicates that each row of components should be centered.
+	 */
+<span class="fc" id="L63">	public static final Alignment CENTER = Alignment.CENTER;</span>
+
+	/**
+	 * This value indicates that each row of components should be right-justified.
+	 */
+<span class="fc" id="L68">	public static final Alignment RIGHT = Alignment.RIGHT;</span>
+
+	/**
+	 * This value indicates that each component should be placed on a new row.
+	 */
+<span class="fc" id="L73">	public static final Alignment VERTICAL = Alignment.VERTICAL;</span>
+
+	/**
+	 * The component alignment.
+	 */
+	private final Alignment alignment;
+
+	/**
+	 * The horizontal gap between the cells, measured in pixels.
+	 */
+	private final int hgap;
+
+	/**
+	 * The vertical gap between the cells, measured in pixels.
+	 */
+	private final int vgap;
+
+	/**
+	 * The content alignment in each cell.
+	 */
+	private final ContentAlignment contentAlignment;
+
+	/**
+	 * Constructs a new &lt;code&gt;FlowLayout&lt;/code&gt; with a centered alignment and no horizontal or vertical gap.
+	 */
+	public FlowLayout() {
+<span class="fc" id="L99">		this(Alignment.CENTER, 0, 0, null);</span>
+<span class="fc" id="L100">	}</span>
+
+	/**
+	 * Constructs a new &lt;code&gt;FlowLayout&lt;/code&gt; with the specified alignment and no horizontal or vertical gap.
+	 *
+	 * @param alignment the alignment of the components
+	 */
+	public FlowLayout(final Alignment alignment) {
+<span class="fc" id="L108">		this(alignment, 0, 0, null);</span>
+<span class="fc" id="L109">	}</span>
+
+	/**
+	 * Constructs a new &lt;code&gt;FlowLayout&lt;/code&gt; with the specified alignment (no horizontal or vertical gap) and content
+	 * alignment.
+	 *
+	 * @param alignment the alignment of the components
+	 * @param contentAlignment the alignment of the content in each cell
+	 */
+	public FlowLayout(final Alignment alignment, final ContentAlignment contentAlignment) {
+<span class="fc" id="L119">		this(alignment, 0, 0, contentAlignment);</span>
+<span class="fc" id="L120">	}</span>
+
+	/**
+	 * Creates a new flow layout manager with the indicated alignment and horizontal and vertical gaps.
+	 *
+	 * @param alignment the alignment of the components
+	 * @param hgap the horizontal gap between the cells, measured in pixels.
+	 * @param vgap the vertical gap between the cells, measured in pixels.
+	 */
+	public FlowLayout(final Alignment alignment, final int hgap, final int vgap) {
+<span class="fc" id="L130">		this(alignment, hgap, vgap, null);</span>
+<span class="fc" id="L131">	}</span>
+
+	/**
+	 * Creates a new flow layout manager with the indicated alignment, horizontal and vertical gaps and content
+	 * alignment.
+	 *
+	 * @param alignment the alignment of the components
+	 * @param hgap the horizontal gap between the cells, measured in pixels.
+	 * @param vgap the vertical gap between the cells, measured in pixels.
+	 * @param contentAlignment the alignment of the content in each cell
+	 */
+	public FlowLayout(final Alignment alignment, final int hgap, final int vgap,
+<span class="fc" id="L143">			final ContentAlignment contentAlignment) {</span>
+<span class="fc bfc" id="L144" title="All 2 branches covered.">		if (alignment == null) {</span>
+<span class="fc" id="L145">			throw new IllegalArgumentException(&quot;Alignment must be provided.&quot;);</span>
+		}
+<span class="fc" id="L147">		this.hgap = hgap;</span>
+<span class="fc" id="L148">		this.vgap = vgap;</span>
+<span class="fc" id="L149">		this.alignment = alignment;</span>
+<span class="fc" id="L150">		this.contentAlignment = contentAlignment;</span>
+<span class="fc" id="L151">	}</span>
+
+	/**
+	 * @return the component alignment.
+	 */
+	public Alignment getAlignment() {
+<span class="fc" id="L157">		return alignment;</span>
+	}
+
+	/**
+	 * @return the horizontal gap between the cells, measured in pixels.
+	 */
+	public int getHgap() {
+<span class="fc" id="L164">		return hgap;</span>
+	}
+
+	/**
+	 * @return the vertical gap between the cells, measured in pixels.
+	 */
+	public int getVgap() {
+<span class="fc" id="L171">		return vgap;</span>
+	}
+
+	/**
+	 * @return the alignment of the content in each cell.
+	 */
+	public ContentAlignment getContentAlignment() {
+<span class="fc" id="L178">		return contentAlignment;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

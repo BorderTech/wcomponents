@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>CompareExpression.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.subordinate.builder</a> &gt; <span class="el_source">CompareExpression.java</span></div><h1>CompareExpression.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.subordinate.builder;
+
+import com.github.bordertech.wcomponents.SubordinateTrigger;
+import com.github.bordertech.wcomponents.subordinate.AbstractCompare.CompareType;
+import com.github.bordertech.wcomponents.subordinate.Condition;
+import com.github.bordertech.wcomponents.subordinate.Equal;
+import com.github.bordertech.wcomponents.subordinate.GreaterThan;
+import com.github.bordertech.wcomponents.subordinate.GreaterThanOrEqual;
+import com.github.bordertech.wcomponents.subordinate.LessThan;
+import com.github.bordertech.wcomponents.subordinate.LessThanOrEqual;
+import com.github.bordertech.wcomponents.subordinate.Match;
+import com.github.bordertech.wcomponents.subordinate.NotEqual;
+
+/**
+ * &lt;p&gt;
+ * This class describes a boolean expression that compares a trigger and a value.
+ * &lt;/p&gt;
+ *
+ * @author Yiannis Paschalidis
+ * @author Jonathan Austin
+ * @since 1.0.0
+ */
+public final class CompareExpression implements BooleanExpression {
+
+	/**
+	 * Default serialisation identifier.
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * The compare type for the expression.
+	 */
+	private final CompareType type;
+	/**
+	 * The trigger for the expression.
+	 */
+	private final SubordinateTrigger trigger;
+	/**
+	 * The compare value for the expression.
+	 */
+	private final Object value;
+
+	/**
+	 * @param type the compare type for the expression
+	 * @param trigger the trigger for the expression
+	 * @param value the compare value for the expression
+	 */
+	public CompareExpression(final CompareType type, final SubordinateTrigger trigger,
+<span class="fc" id="L49">			final Object value) {</span>
+<span class="fc bfc" id="L50" title="All 2 branches covered.">		if (type == null) {</span>
+<span class="fc" id="L51">			throw new IllegalArgumentException(&quot;Compare type can not be null&quot;);</span>
+		}
+
+<span class="fc bfc" id="L54" title="All 2 branches covered.">		if (trigger == null) {</span>
+<span class="fc" id="L55">			throw new IllegalArgumentException(&quot;Trigger can not be null&quot;);</span>
+		}
+
+<span class="fc bfc" id="L58" title="All 4 branches covered.">		if (CompareType.MATCH.equals(type) &amp;&amp; !(value instanceof String)) {</span>
+<span class="fc" id="L59">			throw new IllegalArgumentException(&quot;The value for a match compare must be a String&quot;);</span>
+		}
+
+<span class="fc" id="L62">		this.type = type;</span>
+<span class="fc" id="L63">		this.trigger = trigger;</span>
+<span class="fc" id="L64">		this.value = value;</span>
+<span class="fc" id="L65">	}</span>
+
+	/**
+	 * @return the compare type.
+	 */
+	public CompareType getType() {
+<span class="fc" id="L71">		return type;</span>
+	}
+
+	/**
+	 * @return the trigger to use in the expression.
+	 */
+	public SubordinateTrigger getTrigger() {
+<span class="fc" id="L78">		return trigger;</span>
+	}
+
+	/**
+	 * @return the value to use in the expression.
+	 */
+	public Object getValue() {
+<span class="fc" id="L85">		return value;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Boolean evaluate() {
+		// Without re-implementing the subordinate logic, use the subordinate compare to evaluate the value
+<span class="fc" id="L94">		return build().isTrue();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Condition build() {
+<span class="pc bpc" id="L102" title="1 of 8 branches missed.">		switch (type) {</span>
+			case EQUAL:
+<span class="fc" id="L104">				return new Equal(trigger, value);</span>
+
+			case NOT_EQUAL:
+<span class="fc" id="L107">				return new NotEqual(trigger, value);</span>
+
+			case LESS_THAN:
+<span class="fc" id="L110">				return new LessThan(trigger, value);</span>
+
+			case LESS_THAN_OR_EQUAL:
+<span class="fc" id="L113">				return new LessThanOrEqual(trigger, value);</span>
+
+			case GREATER_THAN:
+<span class="fc" id="L116">				return new GreaterThan(trigger, value);</span>
+
+			case GREATER_THAN_OR_EQUAL:
+<span class="fc" id="L119">				return new GreaterThanOrEqual(trigger, value);</span>
+
+			case MATCH:
+<span class="fc" id="L122">				return new Match(trigger, (String) value);</span>
+
+			default:
+<span class="nc" id="L125">				throw new IllegalStateException(&quot;Unknown compare type &quot; + type);</span>
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String toString() {
+<span class="fc" id="L134">		String triggerName = trigger.getClass().getSimpleName();</span>
+
+<span class="fc bfc" id="L136" title="All 2 branches covered.">		if (trigger.getLabel() != null) {</span>
+<span class="fc" id="L137">			triggerName = trigger.getLabel().getText();</span>
+		}
+
+<span class="pc bpc" id="L140" title="1 of 8 branches missed.">		switch (type) {</span>
+			case EQUAL:
+<span class="fc" id="L142">				return triggerName + &quot;=\&quot;&quot; + value + &quot;\&quot;&quot;;</span>
+
+			case NOT_EQUAL:
+<span class="fc" id="L145">				return triggerName + &quot;!=\&quot;&quot; + value + &quot;\&quot;&quot;;</span>
+
+			case LESS_THAN:
+<span class="fc" id="L148">				return triggerName + &quot;&lt;\&quot;&quot; + value + &quot;\&quot;&quot;;</span>
+
+			case LESS_THAN_OR_EQUAL:
+<span class="fc" id="L151">				return triggerName + &quot;&lt;=\&quot;&quot; + value + &quot;\&quot;&quot;;</span>
+
+			case GREATER_THAN:
+<span class="fc" id="L154">				return triggerName + &quot;&gt;\&quot;&quot; + value + &quot;\&quot;&quot;;</span>
+
+			case GREATER_THAN_OR_EQUAL:
+<span class="fc" id="L157">				return triggerName + &quot;&gt;=\&quot;&quot; + value + &quot;\&quot;&quot;;</span>
+
+			case MATCH:
+<span class="fc" id="L160">				return triggerName + &quot; matches \&quot;&quot; + value + &quot;\&quot;&quot;;</span>
+
+			default:
+<span class="nc" id="L163">				throw new IllegalArgumentException(&quot;Unknown type: &quot; + type);</span>
+		}
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

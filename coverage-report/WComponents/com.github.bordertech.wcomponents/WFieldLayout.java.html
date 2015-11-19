@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WFieldLayout.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">WFieldLayout.java</span></div><h1>WFieldLayout.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import com.github.bordertech.wcomponents.util.I18nUtilities;
+
+/**
+ * &lt;p&gt;
+ * This component is used to group together a collection of &lt;code&gt;WField&lt;/code&gt; components to provide a consistent
+ * layout template.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * It also provides some helpful infrastructure around WComponent validation by supplying helper methods to validate and
+ * set error indicators on each of its contained &lt;code&gt;WField&lt;/code&gt; components. It is up the the parent
+ * &lt;code&gt;ValidatableComponent&lt;/code&gt; or a &lt;code&gt;ValidatingAction&lt;/code&gt; to call the validate() and showErrorIndicator()
+ * methods on this component.
+ * &lt;/p&gt;
+ *
+ * @author Adam Millard
+ */
+public class WFieldLayout extends AbstractNamingContextContainer implements AjaxTarget,
+		SubordinateTarget, Marginable {
+
+	/**
+	 * The default label width.
+	 *
+	 * @deprecated Will be defined by the theme. Set {@link #setLabelWidth(int) labelWidth} &amp;lt;=0 for the default.
+	 */
+	@Deprecated
+	public static final int DEFAULT_LABEL_WIDTH = 0;
+
+	/**
+	 * Layout type of flat.
+	 */
+	public static final String LAYOUT_FLAT = &quot;flat&quot;;
+	/**
+	 * Layout type of stacked.
+	 */
+	public static final String LAYOUT_STACKED = &quot;stacked&quot;;
+
+	/**
+	 * Creates a WFieldLayout with the default layout type of {@link #LAYOUT_FLAT}.
+	 */
+	public WFieldLayout() {
+<span class="fc" id="L43">		this(LAYOUT_FLAT);</span>
+<span class="fc" id="L44">	}</span>
+
+	/**
+	 * Creates a WFieldLayout with the given layout type.
+	 *
+	 * @param layout one of {@link #LAYOUT_FLAT} or {@link #LAYOUT_STACKED}.
+	 */
+<span class="fc" id="L51">	public WFieldLayout(final String layout) {</span>
+<span class="pc bpc" id="L52" title="1 of 4 branches missed.">		if ((layout == null) || (layout.length() == 0)) {</span>
+<span class="fc" id="L53">			throw new IllegalArgumentException(&quot;A layout must be supplied.&quot;);</span>
+		}
+
+<span class="fc bfc" id="L56" title="All 4 branches covered.">		if (!(layout.equals(LAYOUT_FLAT) || layout.equals(LAYOUT_STACKED))) {</span>
+<span class="fc" id="L57">			throw new IllegalArgumentException(&quot;Unknown layout: &quot; + layout);</span>
+		}
+
+<span class="fc" id="L60">		getComponentModel().layoutType = layout;</span>
+<span class="fc" id="L61">	}</span>
+
+	/**
+	 * Set the heading for the field layout.
+	 *
+	 * @param heading the text for the heading
+	 * @deprecated use {@link #setTitle(String)} instead
+	 */
+	@Deprecated
+	public void setHeading(final String heading) {
+<span class="nc" id="L71">		setTitle(heading);</span>
+<span class="nc" id="L72">	}</span>
+
+	/**
+	 * Set the title for the field layout.
+	 *
+	 * @param title the text for the title
+	 */
+	public void setTitle(final String title) {
+<span class="fc" id="L80">		getOrCreateComponentModel().title = title;</span>
+<span class="fc" id="L81">	}</span>
+
+	/**
+	 * Get the title for this field layout.
+	 *
+	 * @return the title
+	 */
+	public String getTitle() {
+<span class="fc" id="L89">		return I18nUtilities.format(null, getComponentModel().title);</span>
+	}
+
+	/**
+	 * Get the type of layout for this field layout.
+	 *
+	 * @return the layout type
+	 */
+	public String getLayoutType() {
+<span class="fc" id="L98">		return getComponentModel().layoutType;</span>
+	}
+
+	/**
+	 * @return Returns the labelWidth.
+	 */
+	public int getLabelWidth() {
+<span class="fc" id="L105">		return getComponentModel().labelWidth;</span>
+	}
+
+	/**
+	 * Sets the label width.
+	 *
+	 * @param labelWidth the percentage width, or &amp;lt;= 0 to use the default field width.
+	 */
+	public void setLabelWidth(final int labelWidth) {
+<span class="fc bfc" id="L114" title="All 2 branches covered.">		if (labelWidth &gt; 100) {</span>
+<span class="fc" id="L115">			throw new IllegalArgumentException(</span>
+					&quot;labelWidth (&quot; + labelWidth + &quot;) cannot be greater than 100 percent.&quot;);
+		}
+<span class="fc" id="L118">		getOrCreateComponentModel().labelWidth = Math.max(0, labelWidth);</span>
+<span class="fc" id="L119">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setMargin(final Margin margin) {
+<span class="fc" id="L126">		getOrCreateComponentModel().margin = margin;</span>
+<span class="fc" id="L127">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Margin getMargin() {
+<span class="fc" id="L134">		return getComponentModel().margin;</span>
+	}
+
+	/**
+	 * @return true if ordered layout
+	 */
+	public boolean isOrdered() {
+<span class="fc" id="L141">		return getComponentModel().ordered;</span>
+	}
+
+	/**
+	 * Flag a layout to be an ordered list. Used with {@link #setOrderedOffset(int)}.
+	 *
+	 * @param ordered true if ordered layout
+	 */
+	public void setOrdered(final boolean ordered) {
+<span class="fc" id="L150">		getOrCreateComponentModel().ordered = ordered;</span>
+<span class="fc" id="L151">	}</span>
+
+	/**
+	 * Allows layouts to have its ordered numbering start from an offset. Used with {@link #setOrdered(boolean)}.
+	 *
+	 * @return the ordered start offset.
+	 */
+	public int getOrderedOffset() {
+<span class="fc" id="L159">		return getComponentModel().orderedOffset;</span>
+	}
+
+	/**
+	 * Set the starting offset for an ordered layout. Used with {@link #setOrdered(boolean)}.
+	 *
+	 * @param orderedOffset the ordered start offset. Must be 1 or greater.
+	 */
+	public void setOrderedOffset(final int orderedOffset) {
+<span class="fc bfc" id="L168" title="All 2 branches covered.">		if (orderedOffset &lt;= 0) {</span>
+<span class="fc" id="L169">			throw new IllegalArgumentException(</span>
+					&quot;Ordered start offset (&quot; + orderedOffset + &quot;) must be greater than zero.&quot;);
+		}
+<span class="fc" id="L172">		getOrCreateComponentModel().orderedOffset = orderedOffset;</span>
+<span class="fc" id="L173">	}</span>
+
+	/**
+	 * Add a field using the label and components passed in.
+	 *
+	 * @param label the label to use for the field
+	 * @param field the component to use for the field
+	 * @return the field which was added to the layout.
+	 */
+	public WField addField(final String label, final WComponent field) {
+<span class="fc" id="L183">		return addField(new WLabel(label), field);</span>
+	}
+
+	/**
+	 * Add a field using the label and components passed in.
+	 *
+	 * @param label the label to use for the field
+	 * @param field the component to use for the field
+	 * @return the field which was added to the layout.
+	 */
+	public WField addField(final WLabel label, final WComponent field) {
+<span class="fc" id="L194">		WField wField = new WField(label, field);</span>
+<span class="fc" id="L195">		add(wField);</span>
+
+<span class="fc" id="L197">		return wField;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override // to make public
+	public void remove(final WComponent child) {
+<span class="nc" id="L205">		super.remove(child);</span>
+<span class="nc" id="L206">	}</span>
+
+	/**
+	 * @return a String representation of this component, for debugging purposes.
+	 */
+	@Override
+	public String toString() {
+<span class="nc" id="L213">		return toString(getLayoutType());</span>
+	}
+
+	/**
+	 * Creates a new Component model.
+	 *
+	 * @return a new FieldLayoutModel.
+	 */
+	@Override // For type safety only
+	protected FieldLayoutModel newComponentModel() {
+<span class="fc" id="L223">		return new FieldLayoutModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override // For type safety only
+	protected FieldLayoutModel getComponentModel() {
+<span class="fc" id="L231">		return (FieldLayoutModel) super.getComponentModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override // For type safety only
+	protected FieldLayoutModel getOrCreateComponentModel() {
+<span class="fc" id="L239">		return (FieldLayoutModel) super.getOrCreateComponentModel();</span>
+	}
+
+	/**
+	 * Holds the extrinsic state information of the component.
+	 *
+	 * @author Yiannis Paschalidis
+	 */
+<span class="fc" id="L247">	public static class FieldLayoutModel extends ComponentModel {</span>
+
+		/**
+		 * Optional title for the field layout.
+		 */
+		private String title;
+
+		/**
+		 * Width of the labels.
+		 */
+		private int labelWidth;
+
+		/**
+		 * The type of layout to use for the field layout.
+		 */
+		private String layoutType;
+
+		/**
+		 * The margins to be used on the section.
+		 */
+		private Margin margin;
+
+		/**
+		 * Ordered layout.
+		 */
+		private boolean ordered;
+
+		/**
+		 * Ordered layout starting offset.
+		 */
+<span class="fc" id="L277">		private int orderedOffset = 1;</span>
+
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

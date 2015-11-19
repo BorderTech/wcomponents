@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>UIRegistry.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.registry</a> &gt; <span class="el_source">UIRegistry.java</span></div><h1>UIRegistry.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.registry;
+
+import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.util.Factory;
+
+/**
+ * The UIRegistry enables sharing of UIs between multiple sessions.
+ *
+ * @author Martin Shevchenko
+ * @since 1.0.0
+ */
+<span class="fc" id="L12">public abstract class UIRegistry {</span>
+
+	/**
+	 * The UIRegistry singleton instance.
+	 */
+<span class="fc" id="L17">	private static UIRegistry instance = null;</span>
+
+	/**
+	 * @return the singleton instance of the UIRegistry.
+	 */
+	public static synchronized UIRegistry getInstance() {
+<span class="fc bfc" id="L23" title="All 2 branches covered.">		if (instance == null) {</span>
+<span class="fc" id="L24">			instance = Factory.newInstance(UIRegistry.class);</span>
+		}
+
+<span class="fc" id="L27">		return instance;</span>
+	}
+
+	/**
+	 * Registers the given user interface with the given key.
+	 *
+	 * @param key the registration key.
+	 * @param ui the user interface to register.
+	 */
+	public abstract void register(String key, WComponent ui);
+
+	/**
+	 * Is there a user interface registered under the given key.
+	 *
+	 * @param key the registration key.
+	 * @return true if there is a UI registered with the given key.
+	 */
+	public abstract boolean isRegistered(String key);
+
+	/**
+	 * Retrieves the user interface which was registered with the given key.
+	 *
+	 * @param key the registration key
+	 * @return the user interface which was registered with the given key.
+	 */
+	public abstract WComponent getUI(String key);
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

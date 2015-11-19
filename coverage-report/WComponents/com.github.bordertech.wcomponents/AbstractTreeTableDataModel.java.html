@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>AbstractTreeTableDataModel.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">AbstractTreeTableDataModel.java</span></div><h1>AbstractTreeTableDataModel.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import java.io.Serializable;
+import java.util.List;
+
+/**
+ * A default implementation of the {@link TreeTableDataModel} interface. This implementation does not support editing,
+ * row selection, filtering etc. In this implementation, the root node is never used.
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ *
+ * @deprecated Use {@link WTable} and {@link AbstractTableModel} instead.
+ */
+@Deprecated
+public abstract class AbstractTreeTableDataModel implements TreeTableDataModel, Serializable {
+
+	/**
+	 * The root node for this model.
+	 */
+	private final TableTreeNode root;
+
+	/**
+	 * &lt;p&gt;
+	 * Creates a SimpleTableDataModel containing the given data. Note that applications may wish to create their own
+	 * TableTreeNode extensions that dynamically load data on e.g. the first call to setExpanded(true)
+	 * .&lt;p&gt;
+	 *
+	 * @param root the root node for the table. Must not be null.
+	 */
+<span class="fc" id="L31">	public AbstractTreeTableDataModel(final TableTreeNode root) {</span>
+<span class="fc" id="L32">		this.root = root;</span>
+<span class="fc" id="L33">		root.setExpanded(true);</span>
+<span class="fc" id="L34">	}</span>
+
+	/**
+	 * Returns the node at the given line.
+	 *
+	 * @param row the row index.
+	 * @return the node at the given line, or null if the index is out of bounds.
+	 */
+	@Override
+	public final TableTreeNode getNodeAtLine(final int row) {
+<span class="fc" id="L44">		TableTreeNode node = root.next(); // the root node is never used</span>
+
+<span class="fc bfc" id="L46" title="All 4 branches covered.">		for (int index = 0; node != null &amp;&amp; index &lt; row; index++) {</span>
+<span class="fc" id="L47">			node = node.next();</span>
+		}
+
+<span class="fc" id="L50">		return node;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final int getRowCount() {
+<span class="fc" id="L58">		return root.getNodeCount();</span>
+	}
+
+	/**
+	 * Retrieves the value at the given row and column. This implementation delegates to
+	 * {@link #getValueAt(TableTreeNode, int)}, which subclasses must implement.
+	 *
+	 * @param row the row index
+	 * @param col the column index.
+	 * @return the value for the specified cell.
+	 */
+	@Override
+	public final Object getValueAt(final int row, final int col) {
+<span class="fc" id="L71">		TableTreeNode rowNode = getNodeAtLine(row);</span>
+<span class="fc" id="L72">		return getValueAt(rowNode, col);</span>
+	}
+
+	/**
+	 * Row header text is not used by default.
+	 *
+	 * @param row ignored.
+	 * @return null.
+	 */
+	@Override
+	public String getRowHeader(final int row) {
+<span class="fc" id="L83">		return null;</span>
+	}
+
+	/**
+	 * This model does not support the concept of sorting by default. Subclasses will need to override this method and
+	 * {@link #isSortable(int)} to support sorting.
+	 *
+	 * @param col ignored.
+	 * @param ascending ignored.
+	 * @return null
+	 */
+	@Override
+	public int[] sort(final int col, final boolean ascending) {
+<span class="nc" id="L96">		return null;</span>
+	}
+
+	/**
+	 * This model does not support the concept of editable cells by default. Subclasses will need to override this
+	 * method and {@link #isCellEditable(int, int)} to support cell editing.
+	 *
+	 * @param value ignored.
+	 * @param row ignored.
+	 * @param col ignored.
+	 */
+	@Override
+	public void setValueAt(final Object value, final int row, final int col) {
+		// NOP
+<span class="nc" id="L110">	}</span>
+
+	/**
+	 * This model does not support the concept of sorting by default. Subclasses will need to override this method and
+	 * {@link #sort(int, boolean)} to support sorting.
+	 *
+	 * @param col ignored.
+	 * @return false.
+	 */
+	@Override
+	public boolean isSortable(final int col) {
+<span class="fc" id="L121">		return false;</span>
+	}
+
+	/**
+	 * This model does not support the concept of row disabling by default. Subclasses will need to override this method
+	 * to support row disabling.
+	 *
+	 * @param row ignored.
+	 * @return false.
+	 */
+	@Override
+	public boolean isDisabled(final int row) {
+<span class="fc" id="L133">		return false;</span>
+	}
+
+	/**
+	 * This model does not support the concept of row selectability by default. Subclasses will need to override this
+	 * method disable selection of specific rows.
+	 *
+	 * @param row ignored.
+	 * @return true.
+	 */
+	@Override
+	public boolean isSelectable(final int row) {
+<span class="fc" id="L145">		return true;</span>
+	}
+
+	/**
+	 * This model does not support the concept of editable cells by default. Subclasses will need to override this
+	 * method and {@link #setValueAt(Object, int, int)} to support cell editing.
+	 *
+	 * @param row ignored.
+	 * @param col ignored.
+	 * @return false.
+	 */
+	@Override
+	public boolean isCellEditable(final int row, final int col) {
+<span class="fc" id="L158">		return false;</span>
+	}
+
+	/**
+	 * This model does not support the concept of row filtering by default. Subclasses will need to override this method
+	 * to support row filtering.
+	 *
+	 * @param row ignored.
+	 * @return false.
+	 */
+	@Override
+	public List&lt;String&gt; getFilterValues(final int row) {
+<span class="fc" id="L170">		return null;</span>
+	}
+
+	/**
+	 * @return the table root node.
+	 */
+	protected TableTreeNode getRootNode() {
+<span class="fc" id="L177">		return root;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

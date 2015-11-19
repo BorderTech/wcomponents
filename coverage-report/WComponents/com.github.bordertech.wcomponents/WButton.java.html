@@ -1,0 +1,813 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WButton.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">WButton.java</span></div><h1>WButton.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import com.github.bordertech.wcomponents.util.I18nUtilities;
+import java.io.Serializable;
+import java.text.MessageFormat;
+import java.util.List;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+/**
+ * &lt;p&gt;
+ * A WButton is used to submit the contents of the form to the server. It can be rendered as a plain button, image
+ * button or hyperlink. An {@link Action Action} can be associated with the button to execute application-specific code
+ * when the button is pressed.
+ * &lt;/p&gt;
+ *
+ * &lt;pre&gt;
+ * // Create a button with the text &amp;quot;Submit&amp;quot;.
+ * WButton button = new WButton(&amp;quot;Submit&amp;quot;);
+ *
+ * // Set an action to run when the button is clicked.
+ * button.setAction(new Action()
+ * {
+ *     public void execute(ActionEvent event)
+ *     {
+ *         System.out.println(&amp;quot;The button was clicked at &amp;quot; + new Date());
+ *     }
+ * });
+ * &lt;/pre&gt;
+ *
+ * @author James Gifford
+ * @since 1.0.0
+ */
+public class WButton extends WBeanComponent implements Container, Disableable, AjaxTrigger,
+		AjaxTarget,
+		SubordinateTarget {
+
+	/**
+	 * The logger instance for this class.
+	 */
+<span class="fc" id="L41">	private static final Log LOG = LogFactory.getLog(WButton.class);</span>
+
+	/**
+	 * The default value to use when no value has been explicitly specified.
+	 */
+	protected static final String NO_VALUE = &quot;x&quot;;
+
+	/**
+	 * A holder for a button image, if set.
+	 */
+<span class="fc" id="L51">	private final ButtonImage buttonImage = new ButtonImage(this);</span>
+
+	/**
+	 * This is used to control the position of the image on the button.
+	 */
+<span class="pc" id="L56">	public enum ImagePosition {</span>
+		/**
+		 * Image is in the North position.
+		 */
+<span class="fc" id="L60">		NORTH,</span>
+		/**
+		 * Image is in the East position.
+		 */
+<span class="fc" id="L64">		EAST,</span>
+		/**
+		 * Image is in the South position.
+		 */
+<span class="fc" id="L68">		SOUTH,</span>
+		/**
+		 * Image is in the West position.
+		 */
+<span class="fc" id="L72">		WEST</span>
+	};
+
+	/**
+	 * Creates a WButton with no text or image. The button text or image must be set after construction.
+	 */
+<span class="fc" id="L78">	public WButton() {</span>
+<span class="fc" id="L79">		add(buttonImage);</span>
+<span class="fc" id="L80">	}</span>
+
+	/**
+	 * Creates a WButton with the specified text.
+	 *
+	 * @param text the button text, using {@link MessageFormat} syntax.
+	 *
+	 * &lt;pre&gt;
+	 * // Will create a button with the text &amp;quot;Hello world&amp;quot;
+	 * new WButton(&amp;quot;Hello world&amp;quot;);
+	 * &lt;/pre&gt;
+	 */
+	public WButton(final String text) {
+<span class="fc" id="L93">		this();</span>
+<span class="fc" id="L94">		setText(text);</span>
+<span class="fc" id="L95">	}</span>
+
+	/**
+	 * Constructor. Set the button text and access key. Access keys are not case sensitive.
+	 *
+	 * @param text The button text.
+	 * @param accessKey The shortcut key that activates the button.
+	 */
+	public WButton(final String text, final char accessKey) {
+<span class="fc" id="L104">		this(text);</span>
+<span class="fc" id="L105">		setAccessKey(accessKey);</span>
+<span class="fc" id="L106">	}</span>
+
+	/**
+	 * Indicates whether this button is disabled in the given context.
+	 *
+	 * @return true if this button is disabled, otherwise false.
+	 */
+	@Override
+	public boolean isDisabled() {
+<span class="fc" id="L115">		return isFlagSet(ComponentModel.DISABLED_FLAG);</span>
+	}
+
+	/**
+	 * Sets whether this button is disabled.
+	 *
+	 * @param disabled if true, this button is disabled. If false, it is enabled.
+	 */
+	@Override
+	public void setDisabled(final boolean disabled) {
+<span class="fc" id="L125">		setFlag(ComponentModel.DISABLED_FLAG, disabled);</span>
+<span class="fc" id="L126">	}</span>
+
+	// ================================
+	// Action/Event handling
+	/**
+	 * Override handleRequest in order to perform processing for this component. This implementation checks whether the
+	 * button has been pressed in the request.
+	 *
+	 * @param request the request being responded to.
+	 */
+	@Override
+	public void handleRequest(final Request request) {
+		// Clear pressed
+<span class="fc" id="L139">		clearPressed();</span>
+
+<span class="fc" id="L141">		String requestValue = request.getParameter(getId());</span>
+<span class="fc" id="L142">		boolean pressed = &quot;x&quot;.equals(requestValue);</span>
+
+		// Only process on a POST
+<span class="pc bpc" id="L145" title="1 of 4 branches missed.">		if (pressed &amp;&amp; !&quot;POST&quot;.equals(request.getMethod())) {</span>
+<span class="nc" id="L146">			LOG.warn(&quot;Button pressed on a request that is not a POST. Will be ignored.&quot;);</span>
+<span class="nc" id="L147">			return;</span>
+		}
+
+<span class="fc" id="L150">		setPressed(pressed, request);</span>
+<span class="fc" id="L151">	}</span>
+
+	/**
+	 * Override preparePaintComponent to register an AJAX operation if this button is AJAX enabled.
+	 *
+	 * @param request the request being responded to.
+	 */
+	@Override
+	protected void preparePaintComponent(final Request request) {
+<span class="fc" id="L160">		super.preparePaintComponent(request);</span>
+
+<span class="fc" id="L162">		UIContext uic = UIContextHolder.getCurrent();</span>
+
+<span class="fc bfc" id="L164" title="All 4 branches covered.">		if (isAjax() &amp;&amp; uic.getUI() != null) {</span>
+<span class="fc" id="L165">			AjaxTarget target = getAjaxTarget();</span>
+<span class="fc" id="L166">			AjaxHelper.registerComponent(target.getId(), request, getId());</span>
+		}
+<span class="fc" id="L168">	}</span>
+
+	/**
+	 * Clear button is pressed flag.
+	 */
+	protected void clearPressed() {
+<span class="fc" id="L174">		getOrCreateComponentModel().isPressed = false;</span>
+<span class="fc" id="L175">	}</span>
+
+	/**
+	 * Indicates whether this button has been pressed for the current request.
+	 *
+	 * @return true if this button is pressed, false otherwise.
+	 */
+	public boolean isPressed() {
+<span class="fc" id="L183">		return getComponentModel().isPressed;</span>
+	}
+
+	/**
+	 * Sets whether this button is pressed.
+	 *
+	 * @param pressed true for pressed, false for not pressed.
+	 * @param request the Request that is being responded to.
+	 */
+	protected void setPressed(final boolean pressed, final Request request) {
+<span class="fc bfc" id="L193" title="All 4 branches covered.">		if (pressed &amp;&amp; isDisabled()) {</span>
+			// Protect against client-side tampering of disabled/read-only fields.
+<span class="fc" id="L195">			LOG.warn(&quot;A disabled button has been triggered. &quot; + getText() + &quot;. &quot; + getId());</span>
+<span class="fc" id="L196">			return;</span>
+		}
+
+<span class="fc" id="L199">		getOrCreateComponentModel().isPressed = pressed;</span>
+
+		// If an action has been supplied then execute it, but only after
+		// handle request has been performed on the entire component tree.
+<span class="fc bfc" id="L203" title="All 2 branches covered.">		if (pressed) {</span>
+<span class="fc" id="L204">			final Action action = getAction();</span>
+
+<span class="fc bfc" id="L206" title="All 2 branches covered.">			if (action == null) {</span>
+				// Need to run the &quot;afterActionExecute&quot; as late as possible.
+<span class="fc" id="L208">				Runnable later = new Runnable() {</span>
+					@Override
+					public void run() {
+<span class="nc" id="L211">						focusMe();</span>
+<span class="nc" id="L212">					}</span>
+				};
+<span class="fc" id="L214">				invokeLater(later);</span>
+<span class="fc" id="L215">			} else {</span>
+<span class="fc" id="L216">				final ActionEvent event = new ActionEvent(this, getActionCommand(),</span>
+<span class="fc" id="L217">						getActionObject());</span>
+
+<span class="fc" id="L219">				Runnable later = new Runnable() {</span>
+					@Override
+					public void run() {
+<span class="fc" id="L222">						beforeActionExecute(request);</span>
+<span class="fc" id="L223">						action.execute(event);</span>
+<span class="fc" id="L224">						afterActionExecute(request);</span>
+<span class="fc" id="L225">					}</span>
+				};
+
+<span class="fc" id="L228">				invokeLater(later);</span>
+			}
+		}
+<span class="fc" id="L231">	}</span>
+
+	/**
+	 * Called before the button action is executed. Subclasses may override. Provides an opportunity to do preparation
+	 * work before the action.execute.
+	 *
+	 * @param request the request that is being responded to.
+	 */
+	protected void beforeActionExecute(final Request request) {
+		// By default, do nothing.
+<span class="fc" id="L241">	}</span>
+
+	/**
+	 * Called after the button action has been executed. Subclasses may override. Provides an opportunity to do cleanup
+	 * work after the action.execute.
+	 *
+	 * @param request the request that is being responded to.
+	 */
+	protected void afterActionExecute(final Request request) {
+<span class="fc" id="L250">		focusMe();</span>
+<span class="fc" id="L251">	}</span>
+
+	/**
+	 * Sets the focus back to this button after the round trip to the server, unless explicity set elsewhere.
+	 */
+	protected void focusMe() {
+<span class="fc bfc" id="L257" title="All 2 branches covered.">		if (UIContextHolder.getCurrent().getFocussed() == null) {</span>
+<span class="fc" id="L258">			setFocussed();</span>
+		}
+<span class="fc" id="L260">	}</span>
+
+	// ================================
+	// Attributes
+	/**
+	 * @return the action to execute when the button is pressed.
+	 */
+	public Action getAction() {
+<span class="fc" id="L268">		return getComponentModel().action;</span>
+	}
+
+	/**
+	 * Sets the action that you want run if the button is pressed.
+	 *
+	 * @param action the action to execute when the button is pressed.
+	 *
+	 * &lt;pre&gt;
+	 * // Causes a message to be printed to the console whenever the button is pressed.
+	 * setAction(new Action()
+	 * {
+	 *     public void execute(ActionEvent event)
+	 *     {
+	 *         System.out.println(&amp;quot;The button was clicked at &amp;quot; + new Date());
+	 *     }
+	 * });
+	 * &lt;/pre&gt;
+	 */
+	public void setAction(final Action action) {
+<span class="fc" id="L288">		getOrCreateComponentModel().action = action;</span>
+<span class="fc" id="L289">	}</span>
+
+	/**
+	 * Return the button text. Returns:
+	 * &lt;ul&gt;
+	 * &lt;li&gt;else user text if set&lt;/li&gt;
+	 * &lt;li&gt;else shared text if set&lt;/li&gt;
+	 * &lt;li&gt;user value if set&lt;/li&gt;
+	 * &lt;li&gt;bean value if present&lt;/li&gt;
+	 * &lt;li&gt;else shared value&lt;/li&gt;
+	 * &lt;/ul&gt;
+	 *
+	 * @return the button text.
+	 */
+	public String getText() {
+<span class="fc" id="L304">		Object text = getComponentModel().text;</span>
+
+<span class="fc bfc" id="L306" title="All 2 branches covered.">		if (text == null) {</span>
+<span class="fc" id="L307">			Object value = getData();</span>
+<span class="fc bfc" id="L308" title="All 2 branches covered.">			if (value != null) {</span>
+<span class="fc" id="L309">				text = value.toString();</span>
+			}
+		}
+
+<span class="fc" id="L313">		return I18nUtilities.format(null, text);</span>
+	}
+
+	/**
+	 * Sets the button text.
+	 *
+	 * @param text the button text, using {@link MessageFormat} syntax.
+	 * @param args optional arguments for the button text format string.
+	 *
+	 * &lt;pre&gt;
+	 * // Sets the button text to &amp;quot;Hello world&amp;quot;
+	 * myButton.setText(&amp;quot;Hello world&amp;quot;);
+	 * &lt;/pre&gt;
+	 *
+	 * &lt;pre&gt;
+	 * // Sets the button text to &amp;quot;Secret agent James Bond, 007&amp;quot;
+	 * myButton.setText(&amp;quot;Secret agent {0}, {1,number,000}&amp;quot;, &amp;quot;James Bond&amp;quot;, 7);
+	 * &lt;/pre&gt;
+	 */
+	public void setText(final String text, final Serializable... args) {
+<span class="fc" id="L333">		ButtonModel model = getOrCreateComponentModel();</span>
+<span class="fc" id="L334">		model.text = I18nUtilities.asMessage(text, args);</span>
+<span class="fc" id="L335">	}</span>
+
+	/**
+	 * Return the button value. By default the value is the same as the text placed on the button.
+	 *
+	 * @return the button value.
+	 */
+	public String getValue() {
+<span class="fc" id="L343">		Object value = getData();</span>
+<span class="fc bfc" id="L344" title="All 2 branches covered.">		if (value != null) {</span>
+<span class="fc" id="L345">			return value.toString();</span>
+		}
+
+<span class="fc" id="L348">		String text = getText();</span>
+<span class="fc bfc" id="L349" title="All 2 branches covered.">		return text == null ? NO_VALUE : text;</span>
+	}
+
+	/**
+	 * Set the button value.
+	 *
+	 * @param value the button value.
+	 */
+	public void setValue(final String value) {
+<span class="fc" id="L358">		setData(value);</span>
+<span class="fc" id="L359">	}</span>
+
+	/**
+	 * Same as getValue(). This method exists simply to clarify the relationship between the WButton, its Action, and
+	 * the ActionEvent sent to the execute() method of the Action.
+	 *
+	 * @return the action command.
+	 */
+	public String getActionCommand() {
+<span class="fc" id="L368">		return getValue();</span>
+	}
+
+	/**
+	 * Same as setValue(). This method exists simply to clarify the relationship between the WButton, its Action, and
+	 * the ActionEvent sent to the execute() method of the Action.
+	 *
+	 * @param actionCommand the action command.
+	 */
+	public void setActionCommand(final String actionCommand) {
+<span class="fc" id="L378">		setValue(actionCommand);</span>
+<span class="fc" id="L379">	}</span>
+
+	/**
+	 * Returns the data object that has been associated with this button, else null. For convenience, this data object
+	 * is passed to the execute() method of the button's associated Action, in the ActionEvent parameter.
+	 *
+	 * @return the action object.
+	 */
+	public Object getActionObject() {
+<span class="fc" id="L388">		return getComponentModel().actionObject;</span>
+	}
+
+	/**
+	 * Associate this button with a data object that can be easily accessed in the execute() method of the button's
+	 * associated Action.
+	 *
+	 * @param data the action object.
+	 */
+	public void setActionObject(final Serializable data) {
+<span class="fc" id="L398">		getOrCreateComponentModel().actionObject = data;</span>
+<span class="fc" id="L399">	}</span>
+
+	/**
+	 * Return the image to display on the button.
+	 *
+	 * @return the image.
+	 */
+	public Image getImage() {
+<span class="fc" id="L407">		return getComponentModel().image;</span>
+	}
+
+	/**
+	 * Sets the image to display on the button.
+	 *
+	 * @param image the image, or null for no image.
+	 */
+	public void setImage(final Image image) {
+<span class="nc" id="L416">		ButtonModel model = getOrCreateComponentModel();</span>
+<span class="nc" id="L417">		model.image = image;</span>
+<span class="nc" id="L418">		model.imageUrl = null;</span>
+<span class="nc" id="L419">	}</span>
+
+	/**
+	 * Sets the image to display on the button. The image will be read from the application's class path rather than
+	 * from its web docs.
+	 *
+	 * @param image the relative path to the image resource, or null for no image.
+	 */
+	public void setImage(final String image) {
+<span class="nc" id="L428">		setImage(new ImageResource(image));</span>
+<span class="nc" id="L429">	}</span>
+
+	/**
+	 * Return the {@link WImage} used by this button to hold the {@link Image} resource.
+	 * &lt;p&gt;
+	 * If the button is not using an Image resource, it will return null.
+	 * &lt;/p&gt;
+	 *
+	 * @return the WImage holding the Image resource, or null if the button is not using an Image resource.
+	 */
+	public WImage getImageHolder() {
+<span class="nc bnc" id="L440" title="All 2 branches missed.">		return getImage() == null ? null : buttonImage;</span>
+	}
+
+	/**
+	 * Return the URL of the image to display on the button.
+	 *
+	 * @return the image url.
+	 */
+	public String getImageUrl() {
+<span class="pc bpc" id="L449" title="1 of 2 branches missed.">		return getImage() == null ? getComponentModel().imageUrl : getImageHolder().getTargetUrl();</span>
+	}
+
+	/**
+	 * Sets the URL of the image to display on the button.
+	 *
+	 * @param imageUrl the image url, or null for no image.
+	 */
+	public void setImageUrl(final String imageUrl) {
+<span class="fc" id="L458">		ButtonModel model = getOrCreateComponentModel();</span>
+<span class="fc" id="L459">		model.imageUrl = imageUrl;</span>
+<span class="fc" id="L460">		model.image = null;</span>
+<span class="fc" id="L461">	}</span>
+
+	/**
+	 * @return the position of the image
+	 */
+	public ImagePosition getImagePosition() {
+<span class="fc" id="L467">		return getComponentModel().imagePosition;</span>
+	}
+
+	/**
+	 * The position of the image on the button.
+	 *
+	 * @param imagePosition the position of the image
+	 */
+	public void setImagePosition(final ImagePosition imagePosition) {
+<span class="fc" id="L476">		getOrCreateComponentModel().imagePosition = imagePosition;</span>
+<span class="fc" id="L477">	}</span>
+
+	/**
+	 * @return true if this button should be rendered as a link.
+	 */
+	public boolean isRenderAsLink() {
+<span class="fc" id="L483">		return getComponentModel().renderAsLink;</span>
+	}
+
+	/**
+	 * Sets whether this button should be rendered as a link.
+	 *
+	 * @param renderAsLink true if this button should be rendered as a link.
+	 */
+	public void setRenderAsLink(final boolean renderAsLink) {
+<span class="fc" id="L492">		getOrCreateComponentModel().renderAsLink = renderAsLink;</span>
+<span class="fc" id="L493">	}</span>
+
+	/**
+	 * Indicates whether this button will trigger a WPopup when used.
+	 *
+	 * @return true if this button triggers a popup, false otherwise.
+	 */
+	public boolean isPopupTrigger() {
+<span class="fc" id="L501">		return getComponentModel().popupTrigger;</span>
+	}
+
+	/**
+	 * Sets whether this button will trigger a WPopup when used. This flag is only used to provide information to the
+	 * client on the button's intent. The actual invocation of the WPopup is done elsewhere, e.g. in the button's
+	 * action.
+	 *
+	 * @param popupTrigger The popupTrigger to set.
+	 */
+	public void setPopupTrigger(final boolean popupTrigger) {
+<span class="fc" id="L512">		getOrCreateComponentModel().popupTrigger = popupTrigger;</span>
+<span class="fc" id="L513">	}</span>
+
+	/**
+	 * The accesskey is a shortcut key that will focus the input element when used in combination with the Alt key.
+	 *
+	 * @return The key that in combination with Alt will focus this input.
+	 */
+	public char getAccessKey() {
+<span class="fc" id="L521">		return getComponentModel().accessKey;</span>
+	}
+
+	/**
+	 * Returns the accesskey character as a String. If the character is not a letter or digit then &lt;code&gt;null&lt;/code&gt; is
+	 * returned.
+	 *
+	 * @return The accesskey character as a String (may be &lt;code&gt;null&lt;/code&gt;).
+	 */
+	public String getAccessKeyAsString() {
+<span class="fc" id="L531">		char accessKey = getAccessKey();</span>
+
+<span class="fc bfc" id="L533" title="All 2 branches covered.">		if (Character.isLetterOrDigit(accessKey)) {</span>
+<span class="fc" id="L534">			return String.valueOf(accessKey);</span>
+		}
+
+<span class="fc" id="L537">		return null;</span>
+	}
+
+	/**
+	 * Set the accesskey (shortcut key) that will activate the button.
+	 *
+	 * @param accesskey The key (in combination with the Alt key) that activates this element.
+	 */
+	public void setAccessKey(final char accesskey) {
+<span class="fc" id="L546">		getOrCreateComponentModel().accessKey = accesskey;</span>
+<span class="fc" id="L547">	}</span>
+
+	/**
+	 * Indicates whether this button is AJAX enabled. A button is an AJAX button if it has a
+	 * {@link #setAjaxTarget(AjaxTarget) target set}.
+	 *
+	 * @return true if this button is AJAX enabled, false otherwise.
+	 */
+	public boolean isAjax() {
+<span class="fc bfc" id="L556" title="All 2 branches covered.">		return getAjaxTarget() != null;</span>
+	}
+
+	/**
+	 * @return the default AJAX target for this button.
+	 */
+	public AjaxTarget getAjaxTarget() {
+<span class="fc" id="L563">		return getComponentModel().ajaxTarget;</span>
+	}
+
+	/**
+	 * Sets the AJAX target for the button. If a target is supplied, a an AJAX request is made rather than a round-trip
+	 * to the server. The AJAX response will only contain the (possibly updated) target element rather than the entire
+	 * UI.
+	 *
+	 * @param ajaxTarget the AJAX target.
+	 */
+	public void setAjaxTarget(final AjaxTarget ajaxTarget) {
+<span class="fc" id="L574">		getOrCreateComponentModel().ajaxTarget = ajaxTarget;</span>
+<span class="fc" id="L575">	}</span>
+
+	/**
+	 * Indicates whether there are unsaved changes in the given context.
+	 *
+	 * @return true if there are unsaved changes, false if not.
+	 */
+	public boolean isUnsavedChanges() {
+<span class="fc" id="L583">		return getComponentModel().unsavedChanges;</span>
+	}
+
+	/**
+	 * This feature exists to pass information to the client side javascript to inform it that the server side thinks
+	 * there are unsaved changes.
+	 *
+	 * @param hasUnsavedChanges true if there are unsaved changes, false if not.
+	 */
+	public void setUnsavedChanges(final boolean hasUnsavedChanges) {
+<span class="fc" id="L593">		getOrCreateComponentModel().unsavedChanges = hasUnsavedChanges;</span>
+<span class="fc" id="L594">	}</span>
+
+	/**
+	 * @return the confirmation message for the button.
+	 */
+	public String getMessage() {
+<span class="fc" id="L600">		return I18nUtilities.format(null, getComponentModel().message);</span>
+	}
+
+	/**
+	 * Sets the confirmation message for the button.
+	 *
+	 * @param message the confirmation message to display, using {@link MessageFormat} syntax.
+	 * @param args optional arguments for the message format string.
+	 */
+	public void setMessage(final String message, final Serializable... args) {
+<span class="fc" id="L610">		getOrCreateComponentModel().message = I18nUtilities.asMessage(message, args);</span>
+<span class="fc" id="L611">	}</span>
+
+	/**
+	 * @return true if the button is a cancel control and will warn the user of unsaved changes, otherwise false
+	 */
+	public boolean isCancel() {
+<span class="fc" id="L617">		return getComponentModel().cancel;</span>
+	}
+
+	/**
+	 * @param cancel true if the button is a cancel control and will warn the user of unsaved changes, otherwise false
+	 */
+	public void setCancel(final boolean cancel) {
+<span class="fc" id="L624">		getOrCreateComponentModel().cancel = cancel;</span>
+<span class="fc" id="L625">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	// to make public
+	public int getChildCount() {
+<span class="fc" id="L633">		return super.getChildCount();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	// to make public
+	public WComponent getChildAt(final int index) {
+<span class="fc" id="L642">		return super.getChildAt(index);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	// to make public
+	public int getIndexOfChild(final WComponent childComponent) {
+<span class="fc" id="L651">		return super.getIndexOfChild(childComponent);</span>
+	}
+
+	@Override
+	public List&lt;WComponent&gt; getChildren() {
+<span class="nc" id="L656">		return super.getChildren();</span>
+	}
+
+	/**
+	 * @return a String representation of this component, for debugging purposes.
+	 */
+	@Override
+	public String toString() {
+<span class="fc" id="L664">		String text = getText();</span>
+<span class="pc bpc" id="L665" title="1 of 2 branches missed.">		text = text == null ? &quot;null&quot; : '&quot;' + text + '&quot;';</span>
+<span class="fc" id="L666">		return toString(text, -1, -1);</span>
+	}
+
+	// --------------------------------
+	// Extrinsic state management
+	/**
+	 * Creates a new component model appropriate for this component.
+	 *
+	 * @return a new ButtonModel.
+	 */
+	@Override
+	protected ButtonModel newComponentModel() {
+<span class="fc" id="L678">		return new ButtonModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected ButtonModel getComponentModel() {
+<span class="fc" id="L686">		return (ButtonModel) super.getComponentModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected ButtonModel getOrCreateComponentModel() {
+<span class="fc" id="L694">		return (ButtonModel) super.getOrCreateComponentModel();</span>
+	}
+
+	/**
+	 * Holds the extrinsic state information of a WButton.
+	 */
+<span class="fc" id="L700">	public static class ButtonModel extends BeanAndProviderBoundComponentModel {</span>
+
+		/**
+		 * Indicates whether the button has been pressed in the current request/response cycle.
+		 */
+		private boolean isPressed;
+
+		/**
+		 * The text to display on the button.
+		 */
+		private Serializable text;
+
+		/**
+		 * The object to include in the action event when the action is triggered.
+		 */
+		private Object actionObject;
+
+		/**
+		 * The target component to repaint (via AJAX) when the button is pressed.
+		 */
+		private AjaxTarget ajaxTarget;
+
+		/**
+		 * If not null, it will be taken as a URL to use as image.
+		 */
+		private String imageUrl;
+
+		/**
+		 * The position of the image.
+		 */
+		private ImagePosition imagePosition;
+
+		/**
+		 * The image to display on the button.
+		 */
+		private Image image;
+
+		/**
+		 * The action to execute when the button is pressed.
+		 */
+		private Action action;
+
+		/**
+		 * If true, the button should be rendered as a hyperlink rather than a button.
+		 */
+		private boolean renderAsLink;
+
+		/**
+		 * The key shortcut that activates the button.
+		 */
+<span class="fc" id="L750">		private char accessKey = '\0';</span>
+
+		/**
+		 * Indicates whether the button triggers a WPopup.
+		 */
+		private boolean popupTrigger;
+
+		/**
+		 * Indicates whether there are unsaved changes.
+		 */
+		private boolean unsavedChanges;
+
+		/**
+		 * The confirmation message to be shown.
+		 */
+		private Serializable message;
+
+		/**
+		 * Act as a cancel control and warn the user of unsaved changes.
+		 */
+		private boolean cancel;
+	}
+
+	/**
+	 * This WImage implementation delegates to the button's image and is only used to serve up the image for the button.
+	 */
+	private static final class ButtonImage extends WImage {
+
+		/**
+		 * The button containing the button image.
+		 */
+		private final WButton button;
+
+		/**
+		 * Creates a button image.
+		 *
+		 * @param button the owning button.
+		 */
+<span class="fc" id="L788">		private ButtonImage(final WButton button) {</span>
+<span class="fc" id="L789">			this.button = button;</span>
+<span class="fc" id="L790">		}</span>
+
+		/**
+		 * Override isVisible to only return true if the button has an image.
+		 *
+		 * @return true if this component is visible, false if invisible.
+		 */
+		@Override
+		public boolean isVisible() {
+<span class="pc bpc" id="L799" title="1 of 2 branches missed.">			return button.getImage() != null;</span>
+		}
+
+		/**
+		 * Override getImage to return the button's image.
+		 *
+		 * @return the button image.
+		 */
+		@Override
+		public Image getImage() {
+<span class="nc" id="L809">			return button.getImage();</span>
+		}
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

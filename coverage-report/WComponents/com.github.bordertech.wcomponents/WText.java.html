@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WText.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">WText.java</span></div><h1>WText.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import com.github.bordertech.wcomponents.util.I18nUtilities;
+import java.io.Serializable;
+import java.text.MessageFormat;
+
+/**
+ * &lt;p&gt;
+ * WText is used to render some basic/raw text.
+ * &lt;/p&gt;
+ *
+ * @author Adam Millard
+ * @since 1.0.0
+ *
+ * @author Yiannis Paschalidis - rewritten as a bean aware component in Sfp_Common10
+ */
+public class WText extends WBeanComponent {
+
+	/**
+	 * Creates an empty WText.
+	 */
+<span class="fc" id="L22">	public WText() {</span>
+<span class="fc" id="L23">	}</span>
+
+	/**
+	 * Creates a WText with the given initial text.
+	 *
+	 * @param text the text to display, using {@link MessageFormat} syntax.
+	 * @param args optional arguments for the message format string.
+	 *
+	 * &lt;pre&gt;
+	 * // Will display the text &quot;Hello world&quot;
+	 * new WText(&quot;Hello world&quot;);
+	 * &lt;/pre&gt;
+	 *
+	 * &lt;pre&gt;
+	 * // Will display &quot;Secret agent James Bond, 007&quot;
+	 * new WText(&quot;Secret agent {0}, {1,number,000}&quot;, &quot;James Bond&quot;, 7);
+	 * &lt;/pre&gt;
+	 */
+<span class="fc" id="L41">	public WText(final String text, final Serializable... args) {</span>
+<span class="fc" id="L42">		getComponentModel().setData(I18nUtilities.asMessage(text, args));</span>
+<span class="fc" id="L43">	}</span>
+
+	//================================
+	// Attributes
+	/**
+	 * @return the current text.
+	 */
+	public String getText() {
+<span class="fc" id="L51">		return I18nUtilities.format(null, getData());</span>
+	}
+
+	/**
+	 * &lt;p&gt;
+	 * Sets the text.&lt;/p&gt;
+	 *
+	 * &lt;p&gt;
+	 * NOTE: If the text is dynamically generated, it may be preferable to override {@link #getText()} instead. This
+	 * will reduce the amount of data which is stored in the user session.
+	 * &lt;/p&gt;
+	 *
+	 * @param text the text to set, using {@link MessageFormat} syntax.
+	 * @param args optional arguments for the message format string.
+	 *
+	 * &lt;pre&gt;
+	 * // Changes the text to &quot;Hello world&quot;
+	 * myText.setText(&quot;Hello world&quot;);
+	 * &lt;/pre&gt;
+	 *
+	 * &lt;pre&gt;
+	 * // Changes the text to &quot;Secret agent James Bond, 007&quot;
+	 * new WText(&quot;Secret agent {0}, {1,number,000}&quot;, &quot;James Bond&quot;, 7);
+	 * &lt;/pre&gt;
+	 */
+	public void setText(final String text, final Serializable... args) {
+<span class="fc" id="L77">		setData(I18nUtilities.asMessage(text, args));</span>
+<span class="fc" id="L78">	}</span>
+
+	/**
+	 * Indicates whether the heading text needs to be encoded.
+	 *
+	 * @return true if the text needs to be encoded, false if not.
+	 */
+	public boolean isEncodeText() {
+<span class="fc" id="L86">		return isFlagSet(ComponentModel.ENCODE_TEXT_FLAG);</span>
+	}
+
+	/**
+	 * &lt;p&gt;
+	 * Sets whether the text needs to be encoded.&lt;/p&gt;
+	 *
+	 * &lt;p&gt;
+	 * When setting &lt;code&gt;encodeText&lt;/code&gt; to &lt;code&gt;false&lt;/code&gt;, it then becomes the responsibility of the application
+	 * to ensure that the text does not contain any characters which need to be escaped.&lt;/p&gt;
+	 *
+	 * &lt;p&gt;
+	 * &lt;b&gt;WARNING:&lt;/b&gt; If you are using WText to display &quot;user entered&quot; or untrusted data, use of this method with
+	 * &lt;code&gt;encodeText&lt;/code&gt; set to &lt;code&gt;false&lt;/code&gt; may result in security issues.&lt;/p&gt;
+	 *
+	 * &lt;p&gt;
+	 * &lt;b&gt;WARNING:&lt;/b&gt; Avoid using WText to add excessive amounts of HTML mark-up to the UI. Embedded mark-up is more
+	 * likely to break in future WComponent releases. If you are attempting to use WText for layout purposes, consider
+	 * using a {@link com.github.bordertech.wcomponents.layout.LayoutManager LayoutManager} instead. For example,
+	 * &lt;code&gt;new WText(&quot;&amp;lt;br&amp;gt;&quot;)&lt;/code&gt; could be rewritten to use the
+	 * {@link com.github.bordertech.wcomponents.layout.FlowLayout FlowLayout} layout with a vertical layout
+	 * direction.&lt;/p&gt;
+	 *
+	 * @param encodeText true if the text needs to be encoded, false if not.
+	 */
+	public void setEncodeText(final boolean encodeText) {
+<span class="fc" id="L112">		setFlag(ComponentModel.ENCODE_TEXT_FLAG, encodeText);</span>
+<span class="fc" id="L113">	}</span>
+
+	/**
+	 * @return a String representation of this component, for debugging purposes.
+	 */
+	@Override
+	public String toString() {
+<span class="nc" id="L120">		String text = getText();</span>
+<span class="nc bnc" id="L121" title="All 2 branches missed.">		text = text == null ? &quot;null&quot; : ('&quot;' + text + '&quot;');</span>
+<span class="nc" id="L122">		return toString(text);</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

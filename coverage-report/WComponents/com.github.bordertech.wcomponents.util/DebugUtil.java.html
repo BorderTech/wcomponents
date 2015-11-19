@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>DebugUtil.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.util</a> &gt; <span class="el_source">DebugUtil.java</span></div><h1>DebugUtil.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.util;
+
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
+/**
+ * Utility class used by WComponents for accessing {@link Config configuration} parameters used in debug features.
+ *
+ * @author Jonathan Austin
+ * @since 1.0.0
+ */
+public final class DebugUtil {
+
+	/**
+	 * The flag used to indicate if wComponents is running in debug mode.
+	 */
+	private static boolean debugFeaturesEnabled;
+	/**
+	 * The flag used to indicate if Validate XML is enabled.
+	 */
+	private static boolean validateXMLEnabled;
+	/**
+	 * The flag used to indicate if Debug Structure is enabled.
+	 */
+	private static boolean debugStructureEnabled;
+
+	/**
+	 * When this class is loaded by the application, register a property change listener.
+	 */
+	static {
+<span class="fc" id="L31">		PropertyChangeListener paramChange = new PropertyChangeListener() {</span>
+			@Override
+			public void propertyChange(final PropertyChangeEvent evt) {
+<span class="fc" id="L34">				retrieveDebugParameters();</span>
+<span class="fc" id="L35">			}</span>
+		};
+
+		// register the change listener with the configuration.
+<span class="fc" id="L39">		Config.addPropertyChangeListener(paramChange);</span>
+
+		// set current values
+<span class="fc" id="L42">		retrieveDebugParameters();</span>
+<span class="fc" id="L43">	}</span>
+
+	/**
+	 * Hide the constructor as there are no instance methods.
+	 */
+<span class="nc" id="L48">	private DebugUtil() {</span>
+<span class="nc" id="L49">	}</span>
+
+	/**
+	 * Retrieve the current parameter settings for the debug flags.
+	 */
+	private static void retrieveDebugParameters() {
+<span class="fc" id="L55">		debugFeaturesEnabled = Config.getInstance().getBoolean(</span>
+				&quot;bordertech.wcomponents.debug.enabled&quot;, false);
+<span class="fc" id="L57">		validateXMLEnabled = Config.getInstance().getBoolean(</span>
+				&quot;bordertech.wcomponents.debug.validateXML.enabled&quot;, false);
+<span class="fc" id="L59">		debugStructureEnabled = Config.getInstance().getBoolean(</span>
+				&quot;bordertech.wcomponents.debug.clientSide.enabled&quot;, false);
+<span class="fc" id="L61">	}</span>
+
+	/**
+	 * Determines if WComponents is in debug mode. The debug features will only be enabled if this is true.
+	 *
+	 * @return true or false
+	 */
+	public static boolean isDebugFeaturesEnabled() {
+<span class="fc" id="L69">		return debugFeaturesEnabled;</span>
+	}
+
+	/**
+	 * Determines if Validate XML is enabled.
+	 *
+	 * @return true or false
+	 */
+	public static boolean isValidateXMLEnabled() {
+<span class="pc bpc" id="L78" title="1 of 4 branches missed.">		return (debugFeaturesEnabled &amp;&amp; validateXMLEnabled);</span>
+	}
+
+	/**
+	 * Determines if Debug Structure is enabled.
+	 *
+	 * @return true or false
+	 */
+	public static boolean isDebugStructureEnabled() {
+<span class="pc bpc" id="L87" title="1 of 4 branches missed.">		return (debugFeaturesEnabled &amp;&amp; debugStructureEnabled);</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

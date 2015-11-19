@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>RegExFieldValidator.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.validator</a> &gt; <span class="el_source">RegExFieldValidator.java</span></div><h1>RegExFieldValidator.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.validator;
+
+import com.github.bordertech.wcomponents.util.InternalMessages;
+import java.util.regex.Pattern;
+
+/**
+ * &lt;p&gt;
+ * A &lt;code&gt;FieldValidator&lt;/code&gt; implementation used to match an input fields value with the supplied regular
+ * expression. An error is added if the value does not match the supplied pattern.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * NOTE: When using this validator it is probably a good idea to always provide an error message.
+ * &lt;/p&gt;
+ *
+ * @author Adam Millard
+ * @since 1.0.0
+ */
+public class RegExFieldValidator extends AbstractFieldValidator {
+
+	/**
+	 * The regular expression to validate against.
+	 */
+	private final Pattern pattern;
+
+	/**
+	 * Creates a RegExFieldValidator.
+	 *
+	 * @param pattern the regular expression to validate against.
+	 */
+	public RegExFieldValidator(final String pattern) {
+<span class="fc" id="L31">		this(pattern, InternalMessages.DEFAULT_VALIDATION_ERROR_INVALID);</span>
+<span class="fc" id="L32">	}</span>
+
+	/**
+	 * Creates a RegExFieldValidator.
+	 *
+	 * @param pattern the regular expression to validate against.
+	 * @param errorMessage the error message to display when validation fails.
+	 */
+	public RegExFieldValidator(final String pattern, final String errorMessage) {
+<span class="fc" id="L41">		super(errorMessage);</span>
+<span class="fc" id="L42">		this.pattern = Pattern.compile(pattern);</span>
+<span class="fc" id="L43">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected boolean isValid() {
+<span class="fc" id="L50">		String value = getInputAsString();</span>
+<span class="pc bpc" id="L51" title="1 of 6 branches missed.">		return (value == null) || (value.length() == 0) || (pattern.matcher(value).matches());</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

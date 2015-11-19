@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WDecoratedLabel.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">WDecoratedLabel.java</span></div><h1>WDecoratedLabel.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import java.io.Serializable;
+import java.text.MessageFormat;
+
+/**
+ * &lt;p&gt;
+ * WDecorated is a &quot;decorated label&quot; which is typically displayed inside other components, for example
+ * {@link com.github.bordertech.wcomponents.WTab}. The decorated label allows deveopers to mix text with other content,
+ * e.g. images.&lt;/p&gt;
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ */
+public final class WDecoratedLabel extends AbstractMutableContainer implements AjaxTarget {
+
+	/**
+	 * Creates an initially empty decorated label, with a {@link WText} as the body content.
+	 */
+	public WDecoratedLabel() {
+<span class="fc" id="L21">		this(null, new WText(&quot;&quot;), null, null);</span>
+<span class="fc" id="L22">	}</span>
+
+	/**
+	 * Creates a decorated label with a WText as the body content, containing the given text.
+	 *
+	 * @param text the label's text, using {@link MessageFormat} syntax.
+	 * @param args optional arguments for the message format string.
+	 */
+	public WDecoratedLabel(final String text, final Serializable... args) {
+<span class="fc" id="L31">		this(null, new WText(text, args), null);</span>
+<span class="fc" id="L32">	}</span>
+
+	/**
+	 * Creates a decorated label with the given body.
+	 *
+	 * @param body the label's body content.
+	 */
+	public WDecoratedLabel(final WComponent body) {
+<span class="fc" id="L40">		this(null, body, null);</span>
+<span class="fc" id="L41">	}</span>
+
+	/**
+	 * Creates a decorated label with the given content. The head, body, and tail are usually displayed in that order,
+	 * from left-to-right. At minimum, the body content must not be null.
+	 *
+	 * @param head the label's head content.
+	 * @param body the label's body content.
+	 * @param tail the label's tail content.
+	 */
+<span class="fc" id="L51">	public WDecoratedLabel(final WComponent head, final WComponent body, final WComponent tail) {</span>
+<span class="fc" id="L52">		setHead(head);</span>
+<span class="fc" id="L53">		setBody(body);</span>
+<span class="fc" id="L54">		setTail(tail);</span>
+<span class="fc" id="L55">	}</span>
+
+	/**
+	 * Retrieves the label's head component.
+	 *
+	 * @return the head content, if specified.
+	 */
+	public WComponent getHead() {
+<span class="fc" id="L63">		return getComponentModel().head;</span>
+	}
+
+	/**
+	 * Sets the label head content.
+	 *
+	 * @param head the head content, or null for no content.
+	 */
+	public void setHead(final WComponent head) {
+<span class="fc" id="L72">		DecoratedLabelModel model = getOrCreateComponentModel();</span>
+
+<span class="fc bfc" id="L74" title="All 2 branches covered.">		if (model.head != null) {</span>
+<span class="fc" id="L75">			remove(model.head);</span>
+		}
+
+<span class="fc" id="L78">		model.head = head;</span>
+
+<span class="fc bfc" id="L80" title="All 2 branches covered.">		if (head != null) {</span>
+<span class="fc" id="L81">			add(head);</span>
+		}
+<span class="fc" id="L83">	}</span>
+
+	/**
+	 * Retrieves the label's body component.
+	 *
+	 * @return the body content, if specified.
+	 */
+	public WComponent getBody() {
+<span class="fc" id="L91">		return getComponentModel().body;</span>
+	}
+
+	/**
+	 * Sets the label body content.
+	 *
+	 * @param body the body content, must not be null.
+	 */
+	public void setBody(final WComponent body) {
+<span class="fc" id="L100">		DecoratedLabelModel model = getOrCreateComponentModel();</span>
+
+<span class="fc bfc" id="L102" title="All 2 branches covered.">		if (body == null) {</span>
+<span class="fc" id="L103">			throw new IllegalArgumentException(&quot;Body content must not be null&quot;);</span>
+		}
+
+<span class="fc bfc" id="L106" title="All 2 branches covered.">		if (model.body != null) {</span>
+<span class="fc" id="L107">			remove(model.body);</span>
+		}
+
+<span class="fc" id="L110">		model.body = body;</span>
+<span class="fc" id="L111">		add(body);</span>
+<span class="fc" id="L112">	}</span>
+
+	/**
+	 * Retrieves the label's tail component.
+	 *
+	 * @return the tail content, if specified.
+	 */
+	public WComponent getTail() {
+<span class="fc" id="L120">		return getComponentModel().tail;</span>
+	}
+
+	/**
+	 * Sets the label tail content.
+	 *
+	 * @param tail the tail content, or null for no content.
+	 */
+	public void setTail(final WComponent tail) {
+<span class="fc" id="L129">		DecoratedLabelModel model = getOrCreateComponentModel();</span>
+
+<span class="fc bfc" id="L131" title="All 2 branches covered.">		if (model.tail != null) {</span>
+<span class="fc" id="L132">			remove(model.tail);</span>
+		}
+
+<span class="fc" id="L135">		model.tail = tail;</span>
+
+<span class="fc bfc" id="L137" title="All 2 branches covered.">		if (tail != null) {</span>
+<span class="fc" id="L138">			add(tail);</span>
+		}
+<span class="fc" id="L140">	}</span>
+
+	/**
+	 * Attempts to set the text contained in the body component. This works only for simple components types:
+	 * &lt;ul&gt;
+	 * &lt;li&gt;{@link WButton}&lt;/li&gt;
+	 * &lt;li&gt;{@link WLink}&lt;/li&gt;
+	 * &lt;li&gt;{@link WLabel}&lt;/li&gt;
+	 * &lt;li&gt;{@link WText}&lt;/li&gt;
+	 * &lt;/ul&gt;
+	 *
+	 * @param text the new body text, using {@link MessageFormat} syntax.
+	 * @param args optional arguments for the message format string.
+	 */
+	public void setText(final String text, final Serializable... args) {
+<span class="fc" id="L155">		WComponent body = getBody();</span>
+
+<span class="fc bfc" id="L157" title="All 2 branches covered.">		if (body instanceof WText) {</span>
+<span class="fc" id="L158">			((WText) body).setText(text, args);</span>
+<span class="fc bfc" id="L159" title="All 2 branches covered.">		} else if (body instanceof WLabel) {</span>
+<span class="fc" id="L160">			((WLabel) body).setText(text, args);</span>
+<span class="fc bfc" id="L161" title="All 2 branches covered.">		} else if (body instanceof WButton) {</span>
+<span class="fc" id="L162">			((WButton) body).setText(text, args);</span>
+<span class="pc bpc" id="L163" title="1 of 2 branches missed.">		} else if (body instanceof WLink) {</span>
+<span class="fc" id="L164">			((WLink) body).setText(text, args);</span>
+<span class="nc bnc" id="L165" title="All 2 branches missed.">		} else if (body == null) {</span>
+<span class="nc" id="L166">			setBody(new WText(text, args));</span>
+		}
+<span class="fc" id="L168">	}</span>
+
+	/**
+	 * Attempts to retrieve the text contained in the body component. This works only for simple components types:
+	 * &lt;ul&gt;
+	 * &lt;li&gt;{@link WButton}&lt;/li&gt;
+	 * &lt;li&gt;{@link WLink}&lt;/li&gt;
+	 * &lt;li&gt;{@link WLabel}&lt;/li&gt;
+	 * &lt;li&gt;{@link WText}&lt;/li&gt;
+	 * &lt;/ul&gt;
+	 *
+	 * @return the text contained in the body, or null if not found.
+	 */
+	public String getText() {
+<span class="fc" id="L182">		WComponent body = getComponentModel().body;</span>
+
+<span class="fc bfc" id="L184" title="All 2 branches covered.">		if (body instanceof WText) {</span>
+<span class="fc" id="L185">			return ((WText) body).getText();</span>
+<span class="fc bfc" id="L186" title="All 2 branches covered.">		} else if (body instanceof WLabel) {</span>
+<span class="fc" id="L187">			return ((WLabel) body).getText();</span>
+<span class="fc bfc" id="L188" title="All 2 branches covered.">		} else if (body instanceof WButton) {</span>
+<span class="fc" id="L189">			return ((WButton) body).getText();</span>
+<span class="pc bpc" id="L190" title="1 of 2 branches missed.">		} else if (body instanceof WLink) {</span>
+<span class="fc" id="L191">			return ((WLink) body).getText();</span>
+		}
+
+<span class="nc" id="L194">		return null;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected DecoratedLabelModel getComponentModel() {
+<span class="fc" id="L202">		return (DecoratedLabelModel) super.getComponentModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected DecoratedLabelModel getOrCreateComponentModel() {
+<span class="fc" id="L210">		return (DecoratedLabelModel) super.getOrCreateComponentModel();</span>
+	}
+
+	/**
+	 * Creates a new Component model appropriate for this component.
+	 *
+	 * @return a new DecoratedLabelModel.
+	 */
+	@Override
+	protected DecoratedLabelModel newComponentModel() {
+<span class="fc" id="L220">		return new DecoratedLabelModel();</span>
+	}
+
+	/**
+	 * A class used to hold the type of label for this component.
+	 *
+	 * @author Jonathan Austin
+	 */
+<span class="fc" id="L228">	public static class DecoratedLabelModel extends ComponentModel {</span>
+
+		/**
+		 * The component used in the label head.
+		 */
+		private WComponent head;
+
+		/**
+		 * The component used in the label body.
+		 */
+		private WComponent body;
+
+		/**
+		 * The component used in the label tail.
+		 */
+		private WComponent tail;
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WComponentGroup.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">WComponentGroup.java</span></div><h1>WComponentGroup.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import com.github.bordertech.wcomponents.subordinate.WSubordinateControl;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+/**
+ * Define a group of components that can be used or controlled by other components like {@link WSubordinateControl}.
+ *
+ * @author Jonathan Austin
+ * @since 1.0.0
+ *
+ * @param &lt;T&gt; the type of component which the group contains.
+ */
+<span class="fc" id="L16">public class WComponentGroup&lt;T extends WComponent&gt; extends AbstractWComponent implements</span>
+		SubordinateTarget {
+
+	/**
+	 * Add a component to this group.
+	 *
+	 * @param component the component to add.
+	 */
+	public void addToGroup(final T component) {
+<span class="fc" id="L25">		getOrCreateComponentModel().components.add(component);</span>
+<span class="fc" id="L26">	}</span>
+
+	/**
+	 * Remove a component from this group.
+	 *
+	 * @param component the component to add.
+	 */
+	public void removeFromGroup(final T component) {
+<span class="fc" id="L34">		getOrCreateComponentModel().components.remove(component);</span>
+<span class="fc" id="L35">	}</span>
+
+	/**
+	 * @return the list of WComponents in this group.
+	 */
+	public List&lt;T&gt; getComponents() {
+<span class="fc" id="L41">		return Collections.unmodifiableList((List&lt;T&gt;) getComponentModel().components);</span>
+	}
+
+	/**
+	 * @return a String representation of this component, for debugging purposes.
+	 */
+	@Override
+	public String toString() {
+<span class="fc" id="L49">		StringBuffer buf = new StringBuffer(&quot;[&quot;);</span>
+<span class="fc" id="L50">		List&lt;T&gt; components = getComponents();</span>
+
+<span class="fc bfc" id="L52" title="All 2 branches covered.">		for (int i = 0; i &lt; components.size(); i++) {</span>
+<span class="fc bfc" id="L53" title="All 2 branches covered.">			if (i &gt; 0) {</span>
+<span class="fc" id="L54">				buf.append(&quot;, &quot;);</span>
+			}
+
+<span class="fc" id="L57">			T component = components.get(i);</span>
+<span class="pc bpc" id="L58" title="1 of 2 branches missed.">			buf.append(component == null ? &quot;null&quot; : component.getClass().getSimpleName());</span>
+		}
+
+<span class="fc" id="L61">		buf.append(']');</span>
+
+<span class="fc" id="L63">		return toString(buf.toString());</span>
+	}
+
+	// ---------------------------------------------------------------------------
+	// Extrinsic state management
+	// ---------------------------------------------------------------------------
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected ComponentGroupModel newComponentModel() {
+<span class="fc" id="L74">		return new ComponentGroupModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected ComponentGroupModel getComponentModel() {
+<span class="fc" id="L82">		return (ComponentGroupModel) super.getComponentModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected ComponentGroupModel getOrCreateComponentModel() {
+<span class="fc" id="L90">		return (ComponentGroupModel) super.getOrCreateComponentModel();</span>
+	}
+
+	/**
+	 * A class used to hold the list of components.
+	 *
+	 * @author Jonathan Austin
+	 */
+<span class="fc" id="L98">	public static class ComponentGroupModel extends ComponentModel {</span>
+
+		/**
+		 * The list of WComponents in this group.
+		 */
+<span class="fc" id="L103">		private final List&lt;WComponent&gt; components = new ArrayList&lt;&gt;();</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

@@ -1,0 +1,427 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WMultiTextField.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">WMultiTextField.java</span></div><h1>WMultiTextField.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import com.github.bordertech.wcomponents.util.InternalMessages;
+import com.github.bordertech.wcomponents.util.Util;
+import com.github.bordertech.wcomponents.validation.Diagnostic;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+/**
+ * &lt;p&gt;
+ * The WMultiTextField component allows multiple text input elements to be generated dynamically on the client without
+ * requiring the page to be reloaded. This component takes its appearance and attributes from a regular text input but
+ * allows for one or more items of text to be entered via the add link adjacent to the right of the text input.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * This component is useful in instances where the user needs to enter one or more text items into the interfaces for a
+ * particular field. For instance, the user may have one or more aliases that need to be entered into the system.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * The following attributes can be set on WMultiTextField:
+ * &lt;/p&gt;
+ * &lt;ul&gt;
+ * &lt;li&gt;MaxInputs: The maximum number of text inputs the user can add to the component. Client-side functionality will
+ * stop users adding more than the allowable number of inputs via the UI. This class chops off any excess inputs if an
+ * attempt is made to add them programmatically.&lt;/li&gt;
+ * &lt;li&gt;MaxLength: The maximum length of the text fields rendered to allow user text entry.&lt;/li&gt;
+ * &lt;li&gt;Columns: The size of the text fields rendered to allow user text entry.&lt;/li&gt;
+ * &lt;/ul&gt;
+ *
+ * @author Christina Harris
+ * @author Jonathan Austin
+ * @since 1.0.0
+ */
+public class WMultiTextField extends AbstractInput implements AjaxTrigger, AjaxTarget,
+		SubordinateTarget {
+
+	/**
+	 * The logger instance for this class.
+	 */
+<span class="fc" id="L45">	private static final Log LOG = LogFactory.getLog(WMultiTextField.class);</span>
+
+	/**
+	 * Creates an empty WMultiTextField.
+	 */
+	public WMultiTextField() {
+<span class="fc" id="L51">		this(null);</span>
+<span class="fc" id="L52">	}</span>
+
+	/**
+	 * Creates a WMultiTextField with the default input values.
+	 *
+	 * @param inputs the default set of values.
+	 */
+<span class="fc" id="L59">	public WMultiTextField(final String[] inputs) {</span>
+<span class="fc" id="L60">		getOrCreateComponentModel().setData(inputs);</span>
+<span class="fc" id="L61">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String[] getValue() {
+<span class="fc" id="L68">		Object data = getData();</span>
+<span class="fc bfc" id="L69" title="All 2 branches covered.">		if (data == null) {</span>
+<span class="fc" id="L70">			return null;</span>
+		}
+
+<span class="fc" id="L73">		String[] array = null;</span>
+
+		// Array data
+<span class="fc bfc" id="L76" title="All 2 branches covered.">		if (data instanceof String[]) {</span>
+<span class="fc" id="L77">			array = (String[]) data;</span>
+<span class="fc bfc" id="L78" title="All 2 branches covered.">		} else if (data instanceof List) { // List data</span>
+<span class="fc" id="L79">			List&lt;?&gt; list = (List&lt;?&gt;) data;</span>
+<span class="fc" id="L80">			array = new String[list.size()];</span>
+
+<span class="fc bfc" id="L82" title="All 2 branches covered.">			for (int i = 0; i &lt; list.size(); i++) {</span>
+<span class="fc" id="L83">				Object item = list.get(i);</span>
+<span class="pc bpc" id="L84" title="1 of 2 branches missed.">				array[i] = item == null ? &quot;&quot; : item.toString();</span>
+			}
+<span class="fc" id="L86">		} else { // Object</span>
+<span class="fc" id="L87">			array = new String[]{data.toString()};</span>
+		}
+
+<span class="fc" id="L90">		return removeEmptyStrings(array);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setData(final Object data) {
+<span class="fc" id="L98">		String[] inputs = (String[]) data;</span>
+<span class="fc" id="L99">		String[] parsed = removeEmptyStrings(inputs);</span>
+<span class="fc" id="L100">		int maxInputs = getMaxInputs();</span>
+
+<span class="fc bfc" id="L102" title="All 6 branches covered.">		if (maxInputs &gt; 0 &amp;&amp; parsed != null &amp;&amp; parsed.length &gt; maxInputs) {</span>
+<span class="fc" id="L103">			LOG.warn(&quot;Attempt made to set [&quot; + parsed.length</span>
+					+ &quot;] inputs on WMultiTextField but the maximum allowable is [&quot; + maxInputs + &quot;]. Only the first [&quot;
+					+ maxInputs + &quot;] inputs will be included.&quot;);
+
+<span class="fc" id="L107">			String[] choppedInputs = new String[maxInputs];</span>
+<span class="fc" id="L108">			System.arraycopy(parsed, 0, choppedInputs, 0, maxInputs);</span>
+<span class="fc" id="L109">			super.setData(choppedInputs);</span>
+<span class="fc" id="L110">		} else {</span>
+<span class="fc" id="L111">			super.setData(parsed);</span>
+		}
+<span class="fc" id="L113">	}</span>
+
+	/**
+	 * @return The text inputs of this component.
+	 */
+	public String[] getTextInputs() {
+<span class="fc" id="L119">		return getValue();</span>
+	}
+
+	/**
+	 * Set the text inputs of this component.
+	 *
+	 * @param inputs The text inputs to set.
+	 */
+	public void setTextInputs(final String[] inputs) {
+<span class="fc" id="L128">		setData(inputs);</span>
+<span class="fc" id="L129">	}</span>
+
+	/**
+	 * @return The maximum number of strings that can be associated to this component.
+	 */
+	public int getMaxInputs() {
+<span class="fc" id="L135">		return getComponentModel().maxInputs;</span>
+	}
+
+	/**
+	 * Set the maximum number of strings/inputs that can be associated to this component.
+	 *
+	 * @param max The maximum number of text inputs.
+	 */
+	public void setMaxInputs(final int max) {
+<span class="fc" id="L144">		getOrCreateComponentModel().maxInputs = max;</span>
+<span class="fc" id="L145">	}</span>
+
+	/**
+	 * @return the width of the input field in characters.
+	 */
+	public int getColumns() {
+<span class="fc" id="L151">		return getComponentModel().columns;</span>
+	}
+
+	/**
+	 * Sets the width of the input field in characters.
+	 *
+	 * @param columns the number of characters to display.
+	 */
+	public void setColumns(final int columns) {
+<span class="fc" id="L160">		getOrCreateComponentModel().columns = columns;</span>
+<span class="fc" id="L161">	}</span>
+
+	/**
+	 * @return the minimum number of characters that the user can enter into the multi text field.
+	 */
+	public int getMinLength() {
+<span class="fc" id="L167">		return getComponentModel().minLength;</span>
+	}
+
+	/**
+	 * Set the minimum number of characters that the user can enter into the multi text field.
+	 * &lt;p&gt;
+	 * Setting the minimum number of characters will not make a field mandatory as the validation is only applied once
+	 * the user has entered some text. Use {@link #setMandatory(boolean)} to make a field mandatory, which can be used
+	 * in combination with setMinLength.
+	 * &lt;/p&gt;
+	 *
+	 * @param minLength the minimum number of characters to allow.
+	 */
+	public final void setMinLength(final int minLength) {
+<span class="fc" id="L181">		getOrCreateComponentModel().minLength = minLength;</span>
+<span class="fc" id="L182">	}</span>
+
+	/**
+	 * @return the maximum number of characters that the user can enter into the multi text field.
+	 */
+	public int getMaxLength() {
+<span class="fc" id="L188">		return getComponentModel().maxLength;</span>
+	}
+
+	/**
+	 * Set the maximum number of characters that the user can enter into the multi text field.
+	 *
+	 * @param maxLength the maximum number of characters to allow.
+	 */
+	public final void setMaxLength(final int maxLength) {
+<span class="fc" id="L197">		getOrCreateComponentModel().maxLength = maxLength;</span>
+<span class="fc" id="L198">	}</span>
+
+	/**
+	 * The pattern to validate against.
+	 * &lt;p&gt;
+	 * The pattern must be supported natively by your target user agent (e.g. browser).
+	 * &lt;/p&gt;
+	 * &lt;p&gt;
+	 * It is expected the {@link WLabel} for this component describes the required format of the component.
+	 * &lt;/p&gt;
+	 *
+	 * @param pattern the pattern to validate against.
+	 */
+	public final void setPattern(final String pattern) {
+<span class="pc bpc" id="L212" title="1 of 2 branches missed.">		getOrCreateComponentModel().pattern = pattern == null ? null : Pattern.compile(pattern);</span>
+<span class="fc" id="L213">	}</span>
+
+	/**
+	 * @return the pattern to validate against.
+	 */
+	public String getPattern() {
+<span class="fc" id="L219">		Pattern pattern = getComponentModel().pattern;</span>
+<span class="fc bfc" id="L220" title="All 2 branches covered.">		return pattern == null ? null : pattern.toString();</span>
+	}
+
+	/**
+	 * The string is a comma sperated list of the string inputs.
+	 *
+	 * @return A string concatenation of the string inputs.
+	 */
+	@Override
+	public String getValueAsString() {
+<span class="fc" id="L230">		String result = null;</span>
+
+<span class="fc" id="L232">		String[] inputs = getValue();</span>
+
+<span class="pc bpc" id="L234" title="1 of 4 branches missed.">		if (inputs != null &amp;&amp; inputs.length &gt; 0) {</span>
+<span class="fc" id="L235">			StringBuffer stringValues = new StringBuffer();</span>
+
+<span class="fc bfc" id="L237" title="All 2 branches covered.">			for (int i = 0; i &lt; inputs.length; i++) {</span>
+<span class="fc bfc" id="L238" title="All 2 branches covered.">				if (i &gt; 0) {</span>
+<span class="fc" id="L239">					stringValues.append(&quot;, &quot;);</span>
+				}
+
+<span class="fc" id="L242">				stringValues.append(inputs[i]);</span>
+			}
+
+<span class="fc" id="L245">			result = stringValues.toString();</span>
+
+		}
+
+<span class="fc" id="L249">		return result;</span>
+	}
+
+	/**
+	 * Set the inputs based on the incoming request. The text input values are set as an array of strings on the
+	 * parameter with this name {@link #getName()}. Any empty strings will be ignored.
+	 *
+	 * @param request the current request.
+	 * @return true if the inputs have changed, otherwise return false
+	 */
+	@Override
+	protected boolean doHandleRequest(final Request request) {
+<span class="fc" id="L261">		String[] values = getRequestValue(request);</span>
+<span class="fc" id="L262">		String[] current = getValue();</span>
+
+<span class="fc bfc" id="L264" title="All 2 branches covered.">		boolean changed = !Arrays.equals(values, current);</span>
+
+<span class="fc bfc" id="L266" title="All 2 branches covered.">		if (changed) {</span>
+<span class="fc" id="L267">			setData(values);</span>
+		}
+
+<span class="fc" id="L270">		return changed;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String[] getRequestValue(final Request request) {
+<span class="fc bfc" id="L278" title="All 2 branches covered.">		if (isPresent(request)) {</span>
+<span class="fc" id="L279">			String[] paramValues = request.getParameterValues(getId());</span>
+<span class="fc" id="L280">			return removeEmptyStrings(paramValues);</span>
+		} else {
+<span class="fc" id="L282">			return getValue();</span>
+		}
+	}
+
+	/**
+	 * Helper that removes empty/null string from the &lt;code&gt;original&lt;/code&gt; string array.
+	 * &lt;p&gt;
+	 * Will treat an empty array the same as null.
+	 * &lt;/p&gt;
+	 *
+	 * @param originals The string array from which the null/empty strings should be removed from.
+	 * @return Array of non empty strings from the &lt;code&gt;original&lt;/code&gt; string array.
+	 */
+	private String[] removeEmptyStrings(final String[] originals) {
+<span class="fc bfc" id="L296" title="All 2 branches covered.">		if (originals == null) {</span>
+<span class="fc" id="L297">			return null;</span>
+		} else {
+<span class="fc" id="L299">			List&lt;String&gt; parsed = new ArrayList&lt;&gt;();</span>
+
+<span class="fc bfc" id="L301" title="All 2 branches covered.">			for (String original : originals) {</span>
+<span class="fc bfc" id="L302" title="All 4 branches covered.">				if (original != null &amp;&amp; original.length() &gt; 0) {</span>
+<span class="fc" id="L303">					parsed.add(original);</span>
+				}
+			}
+			// Treat empty the same as null
+<span class="fc bfc" id="L307" title="All 2 branches covered.">			return parsed.isEmpty() ? null : parsed.toArray(new String[parsed.size()]);</span>
+		}
+	}
+
+	/**
+	 * Override validateComponent to perform further validation.
+	 *
+	 * @param diags the list into which any validation diagnostics are added.
+	 */
+	@Override
+	protected void validateComponent(final List&lt;Diagnostic&gt; diags) {
+<span class="fc" id="L318">		super.validateComponent(diags);</span>
+
+<span class="fc" id="L320">		String[] values = getValue();</span>
+
+<span class="fc bfc" id="L322" title="All 2 branches covered.">		if (values != null) {</span>
+<span class="fc" id="L323">			int max = getMaxLength();</span>
+<span class="fc" id="L324">			int min = getMinLength();</span>
+<span class="fc" id="L325">			Pattern pattern = getComponentModel().pattern;</span>
+
+<span class="fc bfc" id="L327" title="All 2 branches covered.">			for (String value : values) {</span>
+<span class="fc" id="L328">				boolean invalid = false;</span>
+
+<span class="pc bpc" id="L330" title="1 of 2 branches missed.">				if (Util.empty(value)) {</span>
+<span class="nc" id="L331">					continue;</span>
+				}
+
+				// Minimum Length
+<span class="fc bfc" id="L335" title="All 4 branches covered.">				if (min &gt; 0 &amp;&amp; value.length() &lt; min) {</span>
+<span class="fc" id="L336">					diags.add(createErrorDiagnostic(</span>
+							InternalMessages.DEFAULT_VALIDATION_ERROR_MIN_LENGTH, this,
+<span class="fc" id="L338">							String.valueOf(min)));</span>
+<span class="fc" id="L339">					invalid = true;</span>
+				}
+
+				// Maximum Length
+<span class="fc bfc" id="L343" title="All 4 branches covered.">				if (max &gt; 0 &amp;&amp; value.length() &gt; max) {</span>
+<span class="fc" id="L344">					diags.add(createErrorDiagnostic(</span>
+							InternalMessages.DEFAULT_VALIDATION_ERROR_MAX_LENGTH, this,
+<span class="fc" id="L346">							String.valueOf(max)));</span>
+<span class="fc" id="L347">					invalid = true;</span>
+				}
+
+				// Pattern
+<span class="fc bfc" id="L351" title="All 2 branches covered.">				if (pattern != null) {</span>
+<span class="fc" id="L352">					Matcher matcher = pattern.matcher(value);</span>
+<span class="fc bfc" id="L353" title="All 2 branches covered.">					if (!matcher.matches()) {</span>
+<span class="fc" id="L354">						diags.add(createErrorDiagnostic(</span>
+								InternalMessages.DEFAULT_VALIDATION_ERROR_INVALID_PATTERN, this));
+<span class="fc" id="L356">						invalid = true;</span>
+					}
+				}
+
+				// Only report the first invalid item
+<span class="fc bfc" id="L361" title="All 2 branches covered.">				if (invalid) {</span>
+<span class="fc" id="L362">					break;</span>
+				}
+			}
+		}
+<span class="fc" id="L366">	}</span>
+
+	/**
+	 * Creates a new MultiTextFieldModel holds Extrinsic state management of the field.
+	 *
+	 * @return a new MultiTextFieldModel
+	 */
+	@Override
+	protected MultiTextFieldModel newComponentModel() {
+<span class="fc" id="L375">		return new MultiTextFieldModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	// For type safety only
+	protected MultiTextFieldModel getComponentModel() {
+<span class="fc" id="L384">		return (MultiTextFieldModel) super.getComponentModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	// For type safety only
+	protected MultiTextFieldModel getOrCreateComponentModel() {
+<span class="fc" id="L393">		return (MultiTextFieldModel) super.getOrCreateComponentModel();</span>
+	}
+
+	/**
+	 * MultiTextFieldModel holds Extrinsic state management of the field.
+	 */
+<span class="fc" id="L399">	public static class MultiTextFieldModel extends InputModel {</span>
+
+		/**
+		 * The maximum text length to allow.
+		 */
+		private int maxLength;
+
+		/**
+		 * The minimum text length to allow.
+		 */
+		private int minLength;
+
+		/**
+		 * The number of columns to display for the field.
+		 */
+		private int columns;
+
+		/**
+		 * The maximum number of text inputs the user can add to the component.
+		 */
+		private int maxInputs;
+
+		/**
+		 * The pattern to allow.
+		 */
+		private Pattern pattern;
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

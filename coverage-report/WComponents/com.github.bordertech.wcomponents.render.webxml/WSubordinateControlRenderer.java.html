@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WSubordinateControlRenderer.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.render.webxml</a> &gt; <span class="el_source">WSubordinateControlRenderer.java</span></div><h1>WSubordinateControlRenderer.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.render.webxml;
+
+import com.github.bordertech.wcomponents.SubordinateTarget;
+import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.WComponentGroup;
+import com.github.bordertech.wcomponents.XmlStringBuilder;
+import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
+import com.github.bordertech.wcomponents.subordinate.AbstractAction;
+import com.github.bordertech.wcomponents.subordinate.AbstractCompare;
+import com.github.bordertech.wcomponents.subordinate.AbstractCompare.CompareType;
+import com.github.bordertech.wcomponents.subordinate.Action;
+import com.github.bordertech.wcomponents.subordinate.Action.ActionType;
+import com.github.bordertech.wcomponents.subordinate.And;
+import com.github.bordertech.wcomponents.subordinate.Condition;
+import com.github.bordertech.wcomponents.subordinate.Not;
+import com.github.bordertech.wcomponents.subordinate.Or;
+import com.github.bordertech.wcomponents.subordinate.Rule;
+import com.github.bordertech.wcomponents.subordinate.WSubordinateControl;
+import com.github.bordertech.wcomponents.util.SystemException;
+
+/**
+ * The Renderer for SubordinateControl.
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ */
+<span class="fc" id="L27">final class WSubordinateControlRenderer extends AbstractWebXmlRenderer {</span>
+
+	/**
+	 * Paints the given SubordinateControl.
+	 *
+	 * @param component the SubordinateControl to paint.
+	 * @param renderContext the RenderContext to paint to.
+	 */
+	@Override
+	public void doRender(final WComponent component, final WebXmlRenderContext renderContext) {
+<span class="fc" id="L37">		WSubordinateControl subordinate = (WSubordinateControl) component;</span>
+<span class="fc" id="L38">		XmlStringBuilder xml = renderContext.getWriter();</span>
+
+<span class="pc bpc" id="L40" title="1 of 2 branches missed.">		if (!subordinate.getRules().isEmpty()) {</span>
+<span class="fc" id="L41">			int seq = 0;</span>
+
+<span class="fc bfc" id="L43" title="All 2 branches covered.">			for (Rule rule : subordinate.getRules()) {</span>
+<span class="fc" id="L44">				xml.appendTagOpen(&quot;ui:subordinate&quot;);</span>
+<span class="fc" id="L45">				xml.appendAttribute(&quot;id&quot;, subordinate.getId() + &quot;-c&quot; + seq++);</span>
+<span class="fc" id="L46">				xml.appendClose();</span>
+<span class="fc" id="L47">				paintRule(rule, xml);</span>
+<span class="fc" id="L48">				xml.appendEndTag(&quot;ui:subordinate&quot;);</span>
+<span class="fc" id="L49">			}</span>
+		}
+<span class="fc" id="L51">	}</span>
+
+	/**
+	 * Paints a single rule.
+	 *
+	 * @param rule the rule to paint.
+	 * @param xml the writer to send the output to
+	 */
+	private void paintRule(final Rule rule, final XmlStringBuilder xml) {
+<span class="pc bpc" id="L60" title="1 of 2 branches missed.">		if (rule.getCondition() == null) {</span>
+<span class="nc" id="L61">			throw new SystemException(&quot;Rule cannot be painted as it has no condition&quot;);</span>
+		}
+
+<span class="fc" id="L64">		paintCondition(rule.getCondition(), xml);</span>
+
+<span class="fc bfc" id="L66" title="All 2 branches covered.">		for (Action action : rule.getOnTrue()) {</span>
+<span class="fc" id="L67">			paintAction(action, &quot;ui:onTrue&quot;, xml);</span>
+<span class="fc" id="L68">		}</span>
+
+<span class="fc bfc" id="L70" title="All 2 branches covered.">		for (Action action : rule.getOnFalse()) {</span>
+<span class="fc" id="L71">			paintAction(action, &quot;ui:onFalse&quot;, xml);</span>
+<span class="fc" id="L72">		}</span>
+<span class="fc" id="L73">	}</span>
+
+	/**
+	 * Paints a condition.
+	 *
+	 * @param condition the condition to paint.
+	 * @param xml the writer to send the output to
+	 */
+	private void paintCondition(final Condition condition, final XmlStringBuilder xml) {
+<span class="fc bfc" id="L82" title="All 2 branches covered.">		if (condition instanceof And) {</span>
+<span class="fc" id="L83">			xml.appendTag(&quot;ui:and&quot;);</span>
+
+<span class="fc bfc" id="L85" title="All 2 branches covered.">			for (Condition operand : ((And) condition).getConditions()) {</span>
+<span class="fc" id="L86">				paintCondition(operand, xml);</span>
+<span class="fc" id="L87">			}</span>
+
+<span class="fc" id="L89">			xml.appendEndTag(&quot;ui:and&quot;);</span>
+<span class="fc bfc" id="L90" title="All 2 branches covered.">		} else if (condition instanceof Or) {</span>
+<span class="fc" id="L91">			xml.appendTag(&quot;ui:or&quot;);</span>
+
+<span class="fc bfc" id="L93" title="All 2 branches covered.">			for (Condition operand : ((Or) condition).getConditions()) {</span>
+<span class="fc" id="L94">				paintCondition(operand, xml);</span>
+<span class="fc" id="L95">			}</span>
+
+<span class="fc" id="L97">			xml.appendEndTag(&quot;ui:or&quot;);</span>
+<span class="pc bpc" id="L98" title="1 of 2 branches missed.">		} else if (condition instanceof Not) {</span>
+<span class="nc" id="L99">			xml.appendTag(&quot;ui:not&quot;);</span>
+<span class="nc" id="L100">			paintCondition(((Not) condition).getCondition(), xml);</span>
+<span class="nc" id="L101">			xml.appendEndTag(&quot;ui:not&quot;);</span>
+<span class="pc bpc" id="L102" title="1 of 2 branches missed.">		} else if (condition instanceof AbstractCompare) {</span>
+<span class="fc" id="L103">			AbstractCompare compare = (AbstractCompare) condition;</span>
+<span class="fc" id="L104">			xml.appendTagOpen(&quot;ui:condition&quot;);</span>
+<span class="fc" id="L105">			xml.appendAttribute(&quot;controller&quot;, compare.getTrigger().getId());</span>
+<span class="fc" id="L106">			xml.appendAttribute(&quot;value&quot;, compare.getComparePaintValue());</span>
+<span class="fc" id="L107">			xml.appendOptionalAttribute(&quot;operator&quot;, getCompareTypeName(compare.getCompareType()));</span>
+<span class="fc" id="L108">			xml.appendEnd();</span>
+<span class="fc" id="L109">		} else {</span>
+<span class="nc" id="L110">			throw new SystemException(&quot;Unknown condition: &quot; + condition);</span>
+		}
+<span class="fc" id="L112">	}</span>
+
+	/**
+	 * Paints an action.
+	 *
+	 * @param action the action to paint
+	 * @param elementName the enclosing element name (&quot;ui:onFalse&quot; or &quot;ui:onTrue&quot;).
+	 * @param xml the writer to send the output to
+	 */
+	private void paintAction(final Action action, final String elementName,
+			final XmlStringBuilder xml) {
+<span class="pc bpc" id="L123" title="1 of 3 branches missed.">		switch (action.getActionType()) {</span>
+			case SHOW:
+			case HIDE:
+			case ENABLE:
+			case DISABLE:
+			case OPTIONAL:
+			case MANDATORY:
+<span class="fc" id="L130">				paintStandardAction(action, elementName, xml);</span>
+<span class="fc" id="L131">				break;</span>
+
+			case SHOWIN:
+			case HIDEIN:
+			case ENABLEIN:
+			case DISABLEIN:
+<span class="fc" id="L137">				paintInGroupAction(action, elementName, xml);</span>
+<span class="fc" id="L138">				break;</span>
+
+			default:
+<span class="fc" id="L141">				break;</span>
+		}
+<span class="fc" id="L143">	}</span>
+
+	/**
+	 * Paint a standard action - where a single item or single group is targeted.
+	 *
+	 * @param action the action to paint
+	 * @param elementName the enclosing element name (&quot;ui:onFalse&quot; or &quot;ui:onTrue&quot;).
+	 * @param xml the output response
+	 */
+	private void paintStandardAction(final Action action, final String elementName,
+			final XmlStringBuilder xml) {
+<span class="fc" id="L154">		xml.appendTagOpen(elementName);</span>
+<span class="fc" id="L155">		xml.appendAttribute(&quot;action&quot;, getActionTypeName(action.getActionType()));</span>
+<span class="fc" id="L156">		xml.appendClose();</span>
+<span class="fc" id="L157">		xml.appendTagOpen(&quot;ui:target&quot;);</span>
+
+<span class="fc" id="L159">		SubordinateTarget target = action.getTarget();</span>
+<span class="fc bfc" id="L160" title="All 2 branches covered.">		if (target instanceof WComponentGroup&lt;?&gt;) {</span>
+<span class="fc" id="L161">			xml.appendAttribute(&quot;groupId&quot;, target.getId());</span>
+		} else {
+<span class="fc" id="L163">			xml.appendAttribute(&quot;id&quot;, target.getId());</span>
+		}
+
+<span class="fc" id="L166">		xml.appendEnd();</span>
+<span class="fc" id="L167">		xml.appendEndTag(elementName);</span>
+<span class="fc" id="L168">	}</span>
+
+	/**
+	 * Paint an inGroup action - where a single item is being targeted out of a group of items.
+	 *
+	 * @param action the action to paint
+	 * @param elementName the enclosing element name (&quot;ui:onFalse&quot; or &quot;ui:onTrue&quot;).
+	 * @param xml the output response
+	 */
+	private void paintInGroupAction(final Action action, final String elementName,
+			final XmlStringBuilder xml) {
+<span class="fc" id="L179">		xml.appendTagOpen(elementName);</span>
+<span class="fc" id="L180">		xml.appendAttribute(&quot;action&quot;, getActionTypeName(action.getActionType()));</span>
+<span class="fc" id="L181">		xml.appendClose();</span>
+<span class="fc" id="L182">		xml.appendTagOpen(&quot;ui:target&quot;);</span>
+<span class="fc" id="L183">		xml.appendAttribute(&quot;groupId&quot;, action.getTarget().getId());</span>
+<span class="fc" id="L184">		xml.appendAttribute(&quot;id&quot;, ((AbstractAction) action).getTargetInGroup().getId());</span>
+<span class="fc" id="L185">		xml.appendEnd();</span>
+<span class="fc" id="L186">		xml.appendEndTag(elementName);</span>
+<span class="fc" id="L187">	}</span>
+
+	/**
+	 * Helper method to determine the compare type name.
+	 *
+	 * @param type the enumerated CompareType
+	 * @return the name of the CompareType
+	 */
+	private String getCompareTypeName(final CompareType type) {
+<span class="fc" id="L196">		String compare = null;</span>
+
+<span class="pc bpc" id="L198" title="1 of 8 branches missed.">		switch (type) {</span>
+			case EQUAL:
+<span class="fc" id="L200">				break;</span>
+			case NOT_EQUAL:
+<span class="fc" id="L202">				compare = &quot;ne&quot;;</span>
+<span class="fc" id="L203">				break;</span>
+			case LESS_THAN:
+<span class="fc" id="L205">				compare = &quot;lt&quot;;</span>
+<span class="fc" id="L206">				break;</span>
+			case LESS_THAN_OR_EQUAL:
+<span class="fc" id="L208">				compare = &quot;le&quot;;</span>
+<span class="fc" id="L209">				break;</span>
+			case GREATER_THAN:
+<span class="fc" id="L211">				compare = &quot;gt&quot;;</span>
+<span class="fc" id="L212">				break;</span>
+			case GREATER_THAN_OR_EQUAL:
+<span class="fc" id="L214">				compare = &quot;ge&quot;;</span>
+<span class="fc" id="L215">				break;</span>
+			case MATCH:
+<span class="fc" id="L217">				compare = &quot;rx&quot;;</span>
+<span class="fc" id="L218">				break;</span>
+			default:
+<span class="nc" id="L220">				throw new SystemException(&quot;Invalid compare type: &quot; + type);</span>
+		}
+
+<span class="fc" id="L223">		return compare;</span>
+	}
+
+	/**
+	 * Helper method to determine the action name.
+	 *
+	 * @param type the enumerated ActionType
+	 * @return the name of the action
+	 */
+	private String getActionTypeName(final ActionType type) {
+<span class="fc" id="L233">		String action = null;</span>
+
+<span class="pc bpc" id="L235" title="1 of 11 branches missed.">		switch (type) {</span>
+			case SHOW:
+<span class="fc" id="L237">				action = &quot;show&quot;;</span>
+<span class="fc" id="L238">				break;</span>
+			case SHOWIN:
+<span class="fc" id="L240">				action = &quot;showIn&quot;;</span>
+<span class="fc" id="L241">				break;</span>
+			case HIDE:
+<span class="fc" id="L243">				action = &quot;hide&quot;;</span>
+<span class="fc" id="L244">				break;</span>
+			case HIDEIN:
+<span class="fc" id="L246">				action = &quot;hideIn&quot;;</span>
+<span class="fc" id="L247">				break;</span>
+			case ENABLE:
+<span class="fc" id="L249">				action = &quot;enable&quot;;</span>
+<span class="fc" id="L250">				break;</span>
+			case ENABLEIN:
+<span class="fc" id="L252">				action = &quot;enableIn&quot;;</span>
+<span class="fc" id="L253">				break;</span>
+			case DISABLE:
+<span class="fc" id="L255">				action = &quot;disable&quot;;</span>
+<span class="fc" id="L256">				break;</span>
+			case DISABLEIN:
+<span class="fc" id="L258">				action = &quot;disableIn&quot;;</span>
+<span class="fc" id="L259">				break;</span>
+			case OPTIONAL:
+<span class="fc" id="L261">				action = &quot;optional&quot;;</span>
+<span class="fc" id="L262">				break;</span>
+			case MANDATORY:
+<span class="fc" id="L264">				action = &quot;mandatory&quot;;</span>
+<span class="fc" id="L265">				break;</span>
+			default:
+				break;
+		}
+
+<span class="fc" id="L270">		return action;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>I18nUtilities.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.util</a> &gt; <span class="el_source">I18nUtilities.java</span></div><h1>I18nUtilities.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.util;
+
+import com.github.bordertech.wcomponents.Message;
+import com.github.bordertech.wcomponents.UIContext;
+import com.github.bordertech.wcomponents.UIContextHolder;
+import java.io.Serializable;
+import java.text.MessageFormat;
+import java.util.HashSet;
+import java.util.Locale;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
+import java.util.Set;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+/**
+ * Internationalisation utility methods.
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ */
+public final class I18nUtilities {
+
+	/**
+	 * The logger instance for this class.
+	 */
+<span class="fc" id="L27">	private static final Log LOG = LogFactory.getLog(I18nUtilities.class);</span>
+
+	/**
+	 * The configuration key used to look up the resource bundle base name.
+	 */
+	public static final String RESOURCE_BUNDLE_BASE_NAME_CONFIG_KEY = &quot;bordertech.wcomponents.i18n.baseName&quot;;
+
+	/**
+	 * A store of bad bundles, to avoid repeated logging of errors when the bundle fails to load.
+	 */
+<span class="fc" id="L37">	private static final Set&lt;Locale&gt; MISSING_RESOURCES = new HashSet&lt;&gt;();</span>
+
+	/**
+	 * Prevent instantiation of this utility class.
+	 */
+<span class="nc" id="L42">	private I18nUtilities() {</span>
+<span class="nc" id="L43">	}</span>
+
+	/**
+	 * Retrieves the resource bundle base name. The base name is looked up using the parameter
+	 * {@link #RESOURCE_BUNDLE_BASE_NAME_CONFIG_KEY}.
+	 *
+	 * @return the resource bundle base name.
+	 */
+	public static String getResourceBundleBaseName() {
+<span class="fc" id="L52">		return Config.getInstance().getString(RESOURCE_BUNDLE_BASE_NAME_CONFIG_KEY);</span>
+	}
+
+	/**
+	 * Converts a message String and optional message arguments to a an appropriate format for internationalisation.
+	 *
+	 * @param text the message text.
+	 * @param args the message arguments.
+	 * @return a message in an appropriate format for internationalisation, may be null.
+	 */
+	public static Serializable asMessage(final String text, final Serializable... args) {
+<span class="fc bfc" id="L63" title="All 2 branches covered.">		if (text == null) {</span>
+<span class="fc" id="L64">			return null;</span>
+<span class="fc bfc" id="L65" title="All 4 branches covered.">		} else if (args == null || args.length == 0) {</span>
+<span class="fc" id="L66">			return text;</span>
+		} else {
+<span class="fc" id="L68">			return new Message(text, args);</span>
+		}
+	}
+
+	/**
+	 * &lt;p&gt;
+	 * Attempts to format the given message for the given locale.&lt;/p&gt;
+	 *
+	 * &lt;p&gt;
+	 * If a locale is provided, this method will attempt to load the text from a resource bundle. If
+	 * &lt;code&gt;message&lt;/code&gt; is a {@link Message} and has format arguments, then {@link MessageFormat} will be used to
+	 * format the final message.&lt;/p&gt;
+	 *
+	 * @param locale the locale to use, or null to use the current UIContext's Locale.
+	 * @param message the message object to format.
+	 * @return the formatted message.
+	 */
+	public static String format(final Locale locale, final Object message) {
+<span class="fc bfc" id="L86" title="All 2 branches covered.">		if (message instanceof Message) {</span>
+<span class="fc" id="L87">			String text = ((Message) message).getMessage();</span>
+<span class="fc" id="L88">			Serializable[] args = ((Message) message).getArgs();</span>
+
+<span class="pc bpc" id="L90" title="1 of 2 branches missed.">			if (text == null) {</span>
+<span class="nc" id="L91">				return null;</span>
+			}
+
+<span class="fc" id="L94">			return format(locale, text, (Object[]) args);</span>
+<span class="fc bfc" id="L95" title="All 2 branches covered.">		} else if (message != null) {</span>
+<span class="fc" id="L96">			return format(locale, message.toString(), (Object[]) null);</span>
+		}
+
+<span class="fc" id="L99">		return null;</span>
+	}
+
+	/**
+	 * Formats the given text, optionally using locale-specific text.
+	 *
+	 * @param locale The locale to use to look up a message, may be null.
+	 * @param text the text / resource bundle key to use.
+	 * @param args the message arguments, may be null.
+	 * @return the formatted text.
+	 */
+	public static String format(final Locale locale, final String text, final Object... args) {
+<span class="pc bpc" id="L111" title="1 of 2 branches missed.">		if (text == null) {</span>
+<span class="nc" id="L112">			return null;</span>
+		}
+
+<span class="fc" id="L115">		String localisedText = getLocalisedText(locale, text);</span>
+<span class="fc bfc" id="L116" title="All 2 branches covered.">		String message = localisedText == null ? text : localisedText;</span>
+
+<span class="fc bfc" id="L118" title="All 2 branches covered.">		if (args != null) {</span>
+			try {
+<span class="fc" id="L120">				return MessageFormat.format(message, args);</span>
+<span class="nc" id="L121">			} catch (IllegalArgumentException e) {</span>
+<span class="nc" id="L122">				LOG.error(&quot;Invalid message format for message &quot; + message, e);</span>
+			}
+		}
+
+<span class="fc" id="L126">		return message;</span>
+	}
+
+	/**
+	 * Attempts to retrieve the localized message for the given text.
+	 *
+	 * @param locale the locale to retrieve the message for, or null for the default locale.
+	 * @param text the text message or id to look up.
+	 * @return the localised text if found, otherwise null.
+	 */
+	public static String getLocalisedText(final Locale locale, final String text) {
+<span class="fc" id="L137">		String message = null;</span>
+<span class="fc" id="L138">		String resourceBundleBaseName = getResourceBundleBaseName();</span>
+
+<span class="fc bfc" id="L140" title="All 2 branches covered.">		if (!Util.empty(resourceBundleBaseName)) {</span>
+<span class="fc" id="L141">			Locale effectiveLocale = locale;</span>
+
+<span class="fc bfc" id="L143" title="All 2 branches covered.">			if (effectiveLocale == null) {</span>
+<span class="fc" id="L144">				UIContext uic = UIContextHolder.getCurrent();</span>
+
+<span class="fc bfc" id="L146" title="All 2 branches covered.">				if (uic != null) {</span>
+<span class="fc" id="L147">					effectiveLocale = uic.getLocale();</span>
+				}
+
+<span class="pc bpc" id="L150" title="1 of 2 branches missed.">				if (effectiveLocale == null) {</span>
+<span class="fc" id="L151">					effectiveLocale = Locale.getDefault();</span>
+				}
+			}
+
+			try {
+				// TODO: This is slow
+<span class="fc" id="L157">				ResourceBundle bundle = ResourceBundle.getBundle(resourceBundleBaseName,</span>
+						effectiveLocale);
+<span class="fc" id="L159">				message = bundle.getString(text);</span>
+<span class="fc" id="L160">			} catch (MissingResourceException e) {</span>
+				// Fall back to the Configuration mechanism for the default internal messages
+<span class="pc bpc" id="L162" title="1 of 4 branches missed.">				if (text != null &amp;&amp; text.startsWith(&quot;bordertech.wcomponents.message.&quot;)) {</span>
+<span class="fc" id="L163">					message = Config.getInstance().getString(text, null);</span>
+				}
+
+<span class="fc bfc" id="L166" title="All 4 branches covered.">				if (message == null &amp;&amp; !MISSING_RESOURCES.contains(locale)) {</span>
+<span class="fc" id="L167">					LOG.error(&quot;Missing resource mapping for locale: &quot; + locale + &quot;, text: &quot; + text);</span>
+<span class="fc" id="L168">					MISSING_RESOURCES.add(locale);</span>
+				}
+<span class="fc" id="L170">			}</span>
+<span class="pc bpc" id="L171" title="1 of 4 branches missed.">		} else if (text != null &amp;&amp; text.startsWith(&quot;bordertech.wcomponents.message.&quot;)) {</span>
+			// Fall back to the Configuration mechanism for the default internal messages
+<span class="fc" id="L173">			message = Config.getInstance().getString(text, null);</span>
+		}
+
+<span class="fc" id="L176">		return message;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

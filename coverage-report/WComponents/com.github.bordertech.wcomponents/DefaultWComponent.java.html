@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>DefaultWComponent.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">DefaultWComponent.java</span></div><h1>DefaultWComponent.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+/**
+ * A trivial implementation of AbstractWComponent. This component has no behaviour or appearance.
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ */
+<span class="fc" id="L9">public final class DefaultWComponent extends AbstractWComponent {</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override // to make public
+	public void setTemplate(final String aUrl) {
+<span class="nc" id="L16">		super.setTemplate(aUrl);</span>
+<span class="nc" id="L17">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override // to make public
+	public void setTemplateMarkUp(final String markUp) {
+<span class="nc" id="L24">		super.setTemplateMarkUp(markUp);</span>
+<span class="nc" id="L25">	}</span>
+
+	/**
+	 * Associates a velocity template with this component. A simple mapping is applied to the given class to derive the
+	 * name of a velocity template.
+	 * &lt;p&gt;
+	 * For instance, com.github.bordertech.wcomponents.WTextField would map to the template
+	 * com/github/bordertech/wcomponents/WTextField.vm
+	 * &lt;/p&gt;
+	 *
+	 * @param clazz the class to use to retrieve the template.
+	 * @deprecated use {@link #setTemplate(String)}.
+	 */
+	@Override // to make public
+	@Deprecated
+	public void setTemplate(final Class clazz) {
+<span class="nc" id="L41">		super.setTemplate(clazz);</span>
+<span class="nc" id="L42">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

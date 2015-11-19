@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>Not.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.subordinate</a> &gt; <span class="el_source">Not.java</span></div><h1>Not.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.subordinate;
+
+import com.github.bordertech.wcomponents.Request;
+
+/**
+ * A NOT condition.
+ *
+ * @author Jonathan Austin
+ * @since 1.0.0
+ */
+public class Not extends AbstractCondition {
+
+	/**
+	 * The list of conditions.
+	 */
+	private final Condition condition;
+
+	/**
+	 * Creates a Not condition.
+	 *
+	 * @param condition the condition to evaluate.
+	 */
+<span class="fc" id="L23">	public Not(final Condition condition) {</span>
+<span class="fc" id="L24">		this.condition = condition;</span>
+<span class="fc" id="L25">	}</span>
+
+	/**
+	 * Evaluates the condition.
+	 *
+	 * @return true if the condition is false, otherwise false
+	 */
+	@Override
+	protected boolean execute() {
+<span class="fc bfc" id="L34" title="All 2 branches covered.">		return !condition.isTrue();</span>
+	}
+
+	/**
+	 * Evaluates the condition using values on the Request.
+	 *
+	 * @param request the request being processed.
+	 * @return true if the condition is false, otherwise false
+	 */
+	@Override
+	protected boolean execute(final Request request) {
+<span class="fc bfc" id="L45" title="All 2 branches covered.">		return !condition.isTrue(request);</span>
+	}
+
+	/**
+	 * @return the condition to evaluate
+	 */
+	public Condition getCondition() {
+<span class="fc" id="L52">		return condition;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String toString() {
+<span class="fc" id="L60">		return &quot;not (&quot; + condition + &quot;)&quot;;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>SessionTokenAjaxInterceptor.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.container</a> &gt; <span class="el_source">SessionTokenAjaxInterceptor.java</span></div><h1>SessionTokenAjaxInterceptor.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.container;
+
+import com.github.bordertech.wcomponents.Environment;
+import com.github.bordertech.wcomponents.ErrorCodeEscape;
+import com.github.bordertech.wcomponents.Request;
+import com.github.bordertech.wcomponents.UIContext;
+import com.github.bordertech.wcomponents.UIContextHolder;
+import com.github.bordertech.wcomponents.util.I18nUtilities;
+import com.github.bordertech.wcomponents.util.InternalMessages;
+import com.github.bordertech.wcomponents.util.SystemException;
+import com.github.bordertech.wcomponents.util.Util;
+import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+/**
+ * This session token interceptor makes sure the ajax request being processed is for the correct session.
+ * &lt;p&gt;
+ * Similar to {@link SessionTokenInterceptor} but sets an error code when a token error is detected.
+ * &lt;/p&gt;
+ *
+ * @author Jonathan Austin
+ * @since 1.0.0
+ */
+<span class="nc" id="L25">public class SessionTokenAjaxInterceptor extends InterceptorComponent {</span>
+
+	/**
+	 * The logger instance for this class.
+	 */
+<span class="nc" id="L30">	private static final Log LOG = LogFactory.getLog(SessionTokenAjaxInterceptor.class);</span>
+
+	/**
+	 * Override to check whether the session token variable in the incoming request matches what we expect.
+	 *
+	 * @param request the request being serviced.
+	 */
+	@Override
+	public void serviceRequest(final Request request) {
+		// Get the expected session token
+<span class="nc" id="L40">		UIContext uic = UIContextHolder.getCurrent();</span>
+<span class="nc" id="L41">		String expected = uic.getEnvironment().getSessionToken();</span>
+
+		// Session token should already be set
+<span class="nc bnc" id="L44" title="All 2 branches missed.">		if (expected == null) {</span>
+<span class="nc" id="L45">			throw new SystemException(</span>
+					&quot;Session token should already be set on the session before AJAX request&quot;);
+		}
+
+		// Get the session token from the request
+<span class="nc" id="L50">		String got = request.getParameter(Environment.SESSION_TOKEN_VARIABLE);</span>
+
+		// Check tokens match (both must be provided)
+<span class="nc bnc" id="L53" title="All 2 branches missed.">		if (Util.equals(expected, got)) {</span>
+			// Process Service Request
+<span class="nc" id="L55">			getBackingComponent().serviceRequest(request);</span>
+		} else { // Invalid token
+<span class="nc" id="L57">			LOG.error(&quot;Wrong session token detected for AJAX request. Expected token [&quot; + expected</span>
+					+ &quot;] but got token [&quot; + got + &quot;].&quot;);
+<span class="nc" id="L59">			handleError();</span>
+		}
+<span class="nc" id="L61">	}</span>
+
+	/**
+	 * Handle the error.
+	 */
+	private void handleError() {
+<span class="nc" id="L67">		String msg = I18nUtilities.format(UIContextHolder.getCurrent().getLocale(),</span>
+				InternalMessages.DEFAULT_SESSION_TOKEN_ERROR);
+<span class="nc" id="L69">		throw new ErrorCodeEscape(HttpServletResponse.SC_BAD_REQUEST, msg);</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

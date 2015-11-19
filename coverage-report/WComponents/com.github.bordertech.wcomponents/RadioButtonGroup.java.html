@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>RadioButtonGroup.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">RadioButtonGroup.java</span></div><h1>RadioButtonGroup.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import com.github.bordertech.wcomponents.util.Util;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+/**
+ * &lt;p&gt;
+ * This class is used to create a group of radio buttons.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * A {@link WRadioButton} can only be created by using the {@link #addRadioButton(Object)} method or
+ * {@link #addRadioButton()} method. Call one of these methods to get an instance of a radio button and then add the
+ * radio button to the required location in the UI component tree.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * If the value of the radio button is known when creating its instance, then use the {@link #addRadioButton(Object)}.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * If a radio button needs to be used in a repeating component and will have different values depending on its context,
+ * then use the {@link #addRadioButton()}. Radio buttons used with a {@link WRepeater} will get their value from the
+ * &quot;bean&quot; associated to the row in the repeater. By default, the bean property for the radio button will be set to &quot;.&quot;,
+ * but this can be overridden by calling {@link #setBeanProperty(String)} on the radio button instance.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * For the radio button group to work correctly, it is important that each radio button in the group has a unique value.
+ * The radio button group uses the {@link String} representation of the radio button's value to identify which button
+ * has been selected. As the string representation of the radio button's value is sent to the client, be mindful that it
+ * should not be too large.
+ * &lt;/p&gt;
+ *
+ * @author Jonathan Austin
+ * @since 1.0.0
+ */
+<span class="fc" id="L35">public class RadioButtonGroup extends AbstractInput implements AjaxTrigger, SubordinateTrigger {</span>
+
+	/**
+	 * The logger instance for this class.
+	 */
+<span class="fc" id="L40">	private static final Log LOG = LogFactory.getLog(RadioButtonGroup.class);</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getValue() {
+<span class="fc" id="L47">		Object data = getData();</span>
+<span class="fc bfc" id="L48" title="All 2 branches covered.">		if (data == null) {</span>
+<span class="fc" id="L49">			return null;</span>
+		}
+		// An empty string is treated as null
+<span class="fc bfc" id="L52" title="All 2 branches covered.">		return Util.empty(data.toString()) ? null : data.toString();</span>
+	}
+
+	/**
+	 * This method will only processes a request where the group is on the request and has no value. If the group has no
+	 * value, then none of the group's radio buttons will be triggered to process the request.
+	 *
+	 * @param request the request being responded to.
+	 * @return true if the group has changed, otherwise false
+	 */
+	@Override
+	protected boolean doHandleRequest(final Request request) {
+		// Check if the group has a value on the Request
+<span class="fc bfc" id="L65" title="All 2 branches covered.">		if (request.getParameter(getId()) != null) {</span>
+			// Allow the handle request to be processed by the radio buttons
+<span class="fc" id="L67">			return false;</span>
+		}
+
+		// If no value, then clear the current value (if required)
+<span class="fc bfc" id="L71" title="All 2 branches covered.">		if (getValue() != null) {</span>
+<span class="fc" id="L72">			setData(null);</span>
+<span class="fc" id="L73">			return true;</span>
+		}
+
+<span class="fc" id="L76">		return false;</span>
+	}
+
+	/**
+	 * This method is to be only called by the {@link WRadioButton} that has its value on the request.
+	 *
+	 * @param request the request being responded to.
+	 * @return true if the group has changed, otherwise false
+	 */
+	boolean handleButtonOnRequest(final Request request) {
+		// Only process on a POST
+<span class="pc bpc" id="L87" title="1 of 2 branches missed.">		if (!&quot;POST&quot;.equals(request.getMethod())) {</span>
+<span class="nc" id="L88">			LOG.warn(&quot;RadioButton on a request that is not a POST. Will be ignored.&quot;);</span>
+<span class="nc" id="L89">			return false;</span>
+		}
+
+<span class="fc" id="L92">		String value = getRequestValue(request);</span>
+<span class="fc" id="L93">		String current = getValue();</span>
+
+<span class="fc bfc" id="L95" title="All 2 branches covered.">		boolean changed = !Util.equals(value, current);</span>
+
+<span class="fc bfc" id="L97" title="All 2 branches covered.">		if (changed) {</span>
+<span class="fc" id="L98">			setChangedInLastRequest(true);</span>
+<span class="fc" id="L99">			setData(value);</span>
+<span class="fc" id="L100">			doHandleChanged();</span>
+		}
+
+<span class="fc" id="L103">		return changed;</span>
+	}
+
+	/**
+	 * The radio button group does not set focus. It allows the radio buttons to set their own focus if they are
+	 * selected.
+	 */
+	@Override
+	public void setFocussed() {
+		// Do Nothing - Allow radio buttons to set the focus if they are selected
+<span class="fc" id="L113">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getRequestValue(final Request request) {
+<span class="fc bfc" id="L120" title="All 2 branches covered.">		if (isPresent(request)) {</span>
+<span class="fc" id="L121">			String value = request.getParameter(getId());</span>
+			// Treat empty as null
+<span class="fc bfc" id="L123" title="All 2 branches covered.">			return Util.empty(value) ? null : value;</span>
+		} else {
+<span class="fc" id="L125">			return getValue();</span>
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected boolean isPresent(final Request request) {
+<span class="fc bfc" id="L134" title="All 2 branches covered.">		return request.getParameter(getId() + &quot;-h&quot;) != null;</span>
+	}
+
+	/**
+	 * Retrieves the selected value for this group.
+	 *
+	 * @return the value of the selected radio button, or null if there is no selection.
+	 */
+	public String getSelectedValue() {
+<span class="fc" id="L143">		return getValue();</span>
+	}
+
+	/**
+	 * Sets the selected value for this group.
+	 *
+	 * @param value the selected value, or null to clear the selection.
+	 */
+	public void setSelectedValue(final String value) {
+<span class="fc" id="L152">		setData(value);</span>
+<span class="fc" id="L153">	}</span>
+
+	/**
+	 * Sets whether the form should be submitted when the selection changes.
+	 *
+	 * @param submitOnChange true to submit the form on change.
+	 */
+	@Override
+	public void setSubmitOnChange(final boolean submitOnChange) {
+<span class="fc" id="L162">		super.setSubmitOnChange(submitOnChange);</span>
+<span class="fc" id="L163">	}</span>
+
+	/**
+	 * Indicates whether the form should be submitted when the selection changes.
+	 *
+	 * @return true if the form should be submitted on change.
+	 */
+	@Override
+	public boolean isSubmitOnChange() {
+<span class="fc" id="L172">		return super.isSubmitOnChange();</span>
+	}
+
+	/**
+	 * This method will add a radio button to the group with the given value. The value must be unique for the group.
+	 * &lt;p&gt;
+	 * The radio button returned by this method must be added to the required location in the UI Component tree.
+	 * &lt;/p&gt;
+	 * &lt;p&gt;
+	 * The radio button group uses the {@link String} representation of the radio button's value to identify which
+	 * button has been selected. As the string representation of the radio button's value is sent to the client, be
+	 * mindful that it should not be too large.
+	 * &lt;/p&gt;
+	 *
+	 * @param value a unique value for the radio button.
+	 * @return the radio button that was added to the group
+	 */
+	public WRadioButton addRadioButton(final Object value) {
+<span class="fc" id="L190">		WRadioButton radioButton = new WRadioButton(this);</span>
+<span class="fc" id="L191">		radioButton.setData(value);</span>
+<span class="fc" id="L192">		return radioButton;</span>
+	}
+
+	/**
+	 * This method will add a radio button to the group.
+	 * &lt;p&gt;
+	 * Unlike {{@link #addRadioButton(Object)}, which requires a value to be passed in, this method has no value passed
+	 * in for the radio button, as it is expected the radio button will be used with a {@link WRepeater} and will get
+	 * its value from a bean. The bean property will default to &quot;.&quot;, but can be set to the appropriate bean property
+	 * after being returned.
+	 * &lt;/p&gt;
+	 * &lt;p&gt;
+	 * The radio button returned by this method must be added to the required location in the UI Component tree.
+	 * &lt;/p&gt;
+	 * &lt;p&gt;
+	 * The radio button group uses the {@link String} representation of the radio button's value to identify which
+	 * button has been selected. As the string representation of the radio button's value is sent to the client, be
+	 * mindful that it should not be too large.
+	 * &lt;/p&gt;
+	 *
+	 * @return the radio button that was added to the group
+	 */
+	public WRadioButton addRadioButton() {
+<span class="fc" id="L215">		WRadioButton radioButton = new WRadioButton(this);</span>
+<span class="fc" id="L216">		radioButton.setBeanProperty(&quot;.&quot;);</span>
+<span class="fc" id="L217">		return radioButton;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

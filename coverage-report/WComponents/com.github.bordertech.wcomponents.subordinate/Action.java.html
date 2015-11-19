@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>Action.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.subordinate</a> &gt; <span class="el_source">Action.java</span></div><h1>Action.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.subordinate;
+
+import com.github.bordertech.wcomponents.SubordinateTarget;
+import java.io.Serializable;
+
+/**
+ * This interface marks functions that make changes to the application, such as hiding parts of a page.
+ *
+ * @author Martin Shevchenko
+ * @author Jonathan Austin
+ * @since 1.0.0
+ */
+public interface Action extends Serializable {
+
+	/**
+	 * @return the target for this action.
+	 */
+	SubordinateTarget getTarget();
+
+	/**
+	 * Execute the action against the target.
+	 */
+	void execute();
+
+	/**
+	 * Determine the type of action.
+	 *
+	 * @return the action type.
+	 */
+	ActionType getActionType();
+
+	/**
+	 * An enumerated class for the types of actions.
+	 */
+<span class="pc" id="L35">	enum ActionType {</span>
+		/**
+		 * Show the target.
+		 */
+<span class="fc" id="L39">		SHOW,</span>
+		/**
+		 * Show the target in a group.
+		 */
+<span class="fc" id="L43">		SHOWIN,</span>
+		/**
+		 * Hide the target.
+		 */
+<span class="fc" id="L47">		HIDE,</span>
+		/**
+		 * Hide the target in a group.
+		 */
+<span class="fc" id="L51">		HIDEIN,</span>
+		/**
+		 * Enable the target.
+		 */
+<span class="fc" id="L55">		ENABLE,</span>
+		/**
+		 * Enable the target in a group.
+		 */
+<span class="fc" id="L59">		ENABLEIN,</span>
+		/**
+		 * Disable the target.
+		 */
+<span class="fc" id="L63">		DISABLE,</span>
+		/**
+		 * Disable the target in a group.
+		 */
+<span class="fc" id="L67">		DISABLEIN,</span>
+		/**
+		 * Make the target optional.
+		 */
+<span class="fc" id="L71">		OPTIONAL,</span>
+		/**
+		 * Make the target mandatory.
+		 */
+<span class="fc" id="L75">		MANDATORY</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

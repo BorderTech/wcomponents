@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>UIContextDelegate.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">UIContextDelegate.java</span></div><h1>UIContextDelegate.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+/**
+ * UIContextDelegate implements UIContext, but delegates all the work to a backing context. This allows us to easily
+ * write UIContext extensions that only need to change the behaviour of a few methods.
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ */
+public class UIContextDelegate implements UIContext {
+
+	/**
+	 * The logger instance for this class.
+	 */
+<span class="fc" id="L21">	private static final Log LOG = LogFactory.getLog(UIContextDelegate.class);</span>
+
+	/**
+	 * The backing context.
+	 */
+	private UIContext backing;
+
+	/**
+	 * Creates a UIContextDelegate. This is marked protected, as it doesn't make sense to create an instance of the
+	 * delegate without changing behaviour.
+	 *
+	 * @param backing the backing context.
+	 */
+<span class="fc" id="L34">	protected UIContextDelegate(final UIContext backing) {</span>
+<span class="fc" id="L35">		this.backing = backing;</span>
+<span class="fc" id="L36">	}</span>
+
+	/**
+	 * Sets the backing context.
+	 *
+	 * @param backing the backing context.
+	 */
+	protected void setBacking(final UIContext backing) {
+<span class="fc" id="L44">		this.backing = backing;</span>
+<span class="fc" id="L45">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void clearScratchMap() {
+<span class="nc" id="L52">		backing.clearScratchMap();</span>
+<span class="nc" id="L53">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void clearScratchMap(final WComponent component) {
+<span class="nc" id="L60">		backing.clearScratchMap(component);</span>
+<span class="nc" id="L61">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void doInvokeLaters() {
+<span class="fc" id="L68">		backing.doInvokeLaters();</span>
+<span class="fc" id="L69">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Set getComponents() {
+<span class="nc" id="L76">		return backing.getComponents();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public long getCreationTime() {
+<span class="nc" id="L84">		return backing.getCreationTime();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Environment getEnvironment() {
+<span class="fc" id="L92">		return backing.getEnvironment();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public WComponent getFocussed() {
+<span class="nc" id="L100">		return backing.getFocussed();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getFocussedId() {
+<span class="nc" id="L108">		return backing.getFocussedId();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Object getFwkAttribute(final String name) {
+<span class="nc" id="L116">		return backing.getFwkAttribute(name);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Set getFwkAttributeNames() {
+<span class="nc" id="L124">		return backing.getFwkAttributeNames();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Headers getHeaders() {
+<span class="fc" id="L132">		return backing.getHeaders();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public WebModel getModel(final WebComponent component) {
+<span class="fc" id="L140">		return backing.getModel(component);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Map getScratchMap(final WComponent component) {
+<span class="fc" id="L148">		return backing.getScratchMap(component);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public WComponent getUI() {
+<span class="nc" id="L156">		return backing.getUI();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void invokeLater(final Runnable runnable) {
+<span class="nc" id="L164">		backing.invokeLater(runnable);</span>
+<span class="nc" id="L165">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void invokeLater(final UIContext uic, final Runnable runnable) {
+<span class="nc" id="L172">		backing.invokeLater(uic, runnable);</span>
+<span class="nc" id="L173">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean isDummyEnvironment() {
+<span class="fc" id="L180">		return backing.isDummyEnvironment();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean isFocusRequired() {
+<span class="nc" id="L188">		return backing.isFocusRequired();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void removeFwkAttribute(final String name) {
+<span class="nc" id="L196">		backing.removeFwkAttribute(name);</span>
+<span class="nc" id="L197">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void removeModel(final WebComponent component) {
+<span class="nc" id="L204">		backing.removeModel(component);</span>
+<span class="nc" id="L205">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setEnvironment(final Environment environment) {
+<span class="fc" id="L212">		backing.setEnvironment(environment);</span>
+<span class="fc" id="L213">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setFocusRequired(final boolean b) {
+<span class="nc" id="L220">		backing.setFocusRequired(b);</span>
+<span class="nc" id="L221">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setFocussed(final WComponent component, final UIContext uic) {
+<span class="fc" id="L228">		backing.setFocussed(component, uic);</span>
+<span class="fc" id="L229">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setFocussed(final WComponent component) {
+<span class="nc" id="L236">		backing.setFocussed(component);</span>
+<span class="nc" id="L237">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setFwkAttribute(final String name, final Object value) {
+<span class="nc" id="L244">		backing.setFwkAttribute(name, value);</span>
+<span class="nc" id="L245">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setModel(final WebComponent component, final WebModel model) {
+<span class="nc" id="L252">		backing.setModel(component, model);</span>
+<span class="nc" id="L253">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setUI(final WComponent ui) {
+<span class="nc" id="L260">		backing.setUI(ui);</span>
+<span class="nc" id="L261">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Locale getLocale() {
+<span class="fc" id="L268">		return backing.getLocale();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setLocale(final Locale locale) {
+<span class="nc" id="L276">		backing.setLocale(locale);</span>
+<span class="nc" id="L277">	}</span>
+
+	/**
+	 * @return the backing context.
+	 */
+	public UIContext getBacking() {
+<span class="fc" id="L283">		return backing;</span>
+	}
+
+	/**
+	 * A utility function to iterate to the primary (top most) context and return it.
+	 *
+	 * @param uic the UIContext to retrieve the primary context for.
+	 * @return the primary context for the given context.
+	 */
+	public static UIContext getPrimaryUIContext(final UIContext uic) {
+<span class="pc bpc" id="L293" title="1 of 2 branches missed.">		if (uic == null) {</span>
+<span class="nc" id="L294">			return null;</span>
+		}
+
+<span class="fc" id="L297">		UIContext primary = null;</span>
+<span class="fc" id="L298">		UIContext current = uic;</span>
+
+<span class="fc bfc" id="L300" title="All 2 branches covered.">		while (primary == null) {</span>
+<span class="pc bpc" id="L301" title="1 of 2 branches missed.">			if (current instanceof UIContextDelegate) {</span>
+<span class="nc" id="L302">				UIContext backing = ((UIContextDelegate) current).getBacking();</span>
+<span class="nc bnc" id="L303" title="All 2 branches missed.">				if (backing != null) {</span>
+<span class="nc" id="L304">					current = backing;</span>
+				} else {
+					// This case should probably never happen.
+<span class="nc" id="L307">					primary = current;</span>
+<span class="nc" id="L308">					LOG.warn(&quot;UIContextDelegate found without a backing context&quot;);</span>
+				}
+<span class="nc" id="L310">			} else {</span>
+<span class="fc" id="L311">				primary = current;</span>
+			}
+		}
+
+<span class="fc" id="L315">		return primary;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

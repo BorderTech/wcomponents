@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WVideoRenderer.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.render.webxml</a> &gt; <span class="el_source">WVideoRenderer.java</span></div><h1>WVideoRenderer.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.render.webxml;
+
+import com.github.bordertech.wcomponents.Renderer;
+import com.github.bordertech.wcomponents.Track;
+import com.github.bordertech.wcomponents.Video;
+import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.WVideo;
+import com.github.bordertech.wcomponents.XmlStringBuilder;
+import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
+import com.github.bordertech.wcomponents.util.I18nUtilities;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+/**
+ * {@link Renderer} for the {@link WVideo} component.
+ *
+ * @author Yiannis Paschalidis
+ * @since 1.0.0
+ */
+<span class="fc" id="L20">final class WVideoRenderer extends AbstractWebXmlRenderer {</span>
+
+	/**
+	 * The logger instance for this class.
+	 */
+<span class="fc" id="L25">	private static final Log LOG = LogFactory.getLog(WVideoRenderer.class);</span>
+
+	/**
+	 * Paints the given WVideo.
+	 *
+	 * @param component the WVideo to paint.
+	 * @param renderContext the RenderContext to paint to.
+	 */
+	@Override
+	public void doRender(final WComponent component, final WebXmlRenderContext renderContext) {
+<span class="fc" id="L35">		WVideo videoComponent = (WVideo) component;</span>
+<span class="fc" id="L36">		XmlStringBuilder xml = renderContext.getWriter();</span>
+<span class="fc" id="L37">		Video[] video = videoComponent.getVideo();</span>
+
+<span class="pc bpc" id="L39" title="2 of 4 branches missed.">		if (video == null || video.length == 0) {</span>
+<span class="nc" id="L40">			return;</span>
+		}
+
+<span class="fc" id="L43">		Track[] tracks = videoComponent.getTracks();</span>
+<span class="fc" id="L44">		WVideo.Controls controls = videoComponent.getControls();</span>
+<span class="fc" id="L45">		int width = videoComponent.getWidth();</span>
+<span class="fc" id="L46">		int height = videoComponent.getHeight();</span>
+<span class="fc" id="L47">		int duration = video[0].getDuration();</span>
+
+		// Check for alternative text
+<span class="fc" id="L50">		String alternativeText = videoComponent.getAltText();</span>
+
+<span class="fc bfc" id="L52" title="All 2 branches covered.">		if (alternativeText == null) {</span>
+<span class="fc" id="L53">			LOG.warn(&quot;Video should have a description.&quot;);</span>
+<span class="fc" id="L54">			alternativeText = null;</span>
+		} else {
+<span class="fc" id="L56">			alternativeText = I18nUtilities.format(null, alternativeText);</span>
+		}
+
+<span class="fc" id="L59">		xml.appendTagOpen(&quot;ui:video&quot;);</span>
+<span class="fc" id="L60">		xml.appendAttribute(&quot;id&quot;, component.getId());</span>
+<span class="fc" id="L61">		xml.appendOptionalAttribute(&quot;class&quot;, component.getHtmlClass());</span>
+<span class="fc" id="L62">		xml.appendOptionalAttribute(&quot;track&quot;, component.isTracking(), &quot;true&quot;);</span>
+<span class="fc" id="L63">		xml.appendOptionalAttribute(&quot;poster&quot;, videoComponent.getPosterUrl());</span>
+<span class="fc" id="L64">		xml.appendOptionalAttribute(&quot;alt&quot;, alternativeText);</span>
+<span class="fc" id="L65">		xml.appendOptionalAttribute(&quot;autoplay&quot;, videoComponent.isAutoplay(), &quot;true&quot;);</span>
+<span class="fc" id="L66">		xml.appendOptionalAttribute(&quot;mediagroup&quot;, videoComponent.getMediaGroup());</span>
+<span class="fc" id="L67">		xml.appendOptionalAttribute(&quot;loop&quot;, videoComponent.isLoop(), &quot;true&quot;);</span>
+<span class="fc" id="L68">		xml.appendOptionalAttribute(&quot;muted&quot;, videoComponent.isMuted(), &quot;true&quot;);</span>
+<span class="fc" id="L69">		xml.appendOptionalAttribute(&quot;hidden&quot;, videoComponent.isHidden(), &quot;true&quot;);</span>
+<span class="fc" id="L70">		xml.appendOptionalAttribute(&quot;disabled&quot;, videoComponent.isDisabled(), &quot;true&quot;);</span>
+<span class="fc" id="L71">		xml.appendOptionalAttribute(&quot;toolTip&quot;, videoComponent.getToolTip());</span>
+<span class="fc bfc" id="L72" title="All 2 branches covered.">		xml.appendOptionalAttribute(&quot;width&quot;, width &gt; 0, width);</span>
+<span class="fc bfc" id="L73" title="All 2 branches covered.">		xml.appendOptionalAttribute(&quot;height&quot;, height &gt; 0, height);</span>
+<span class="fc bfc" id="L74" title="All 2 branches covered.">		xml.appendOptionalAttribute(&quot;duration&quot;, duration &gt; 0, duration);</span>
+
+<span class="pc bpc" id="L76" title="1 of 3 branches missed.">		switch (videoComponent.getPreload()) {</span>
+			case NONE:
+<span class="fc" id="L78">				xml.appendAttribute(&quot;preload&quot;, &quot;none&quot;);</span>
+<span class="fc" id="L79">				break;</span>
+
+			case META_DATA:
+<span class="fc" id="L82">				xml.appendAttribute(&quot;preload&quot;, &quot;metadata&quot;);</span>
+<span class="fc" id="L83">				break;</span>
+
+			case AUTO:
+			default:
+<span class="fc" id="L87">				break;</span>
+		}
+
+<span class="pc bpc" id="L90" title="1 of 4 branches missed.">		if (controls != null &amp;&amp; !WVideo.Controls.NATIVE.equals(controls)) {</span>
+<span class="pc bpc" id="L91" title="1 of 5 branches missed.">			switch (controls) {</span>
+				case NONE:
+<span class="fc" id="L93">					xml.appendAttribute(&quot;controls&quot;, &quot;none&quot;);</span>
+<span class="fc" id="L94">					break;</span>
+
+				case ALL:
+<span class="fc" id="L97">					xml.appendAttribute(&quot;controls&quot;, &quot;all&quot;);</span>
+<span class="fc" id="L98">					break;</span>
+
+				case PLAY_PAUSE:
+<span class="fc" id="L101">					xml.appendAttribute(&quot;controls&quot;, &quot;play&quot;);</span>
+<span class="fc" id="L102">					break;</span>
+
+				case DEFAULT:
+<span class="fc" id="L105">					xml.appendAttribute(&quot;controls&quot;, &quot;default&quot;);</span>
+<span class="fc" id="L106">					break;</span>
+
+				default:
+<span class="nc" id="L109">					LOG.error(&quot;Unknown control type: &quot; + controls);</span>
+			}
+		}
+
+<span class="fc" id="L113">		xml.appendClose();</span>
+
+<span class="fc" id="L115">		String[] urls = videoComponent.getVideoUrls();</span>
+
+<span class="fc bfc" id="L117" title="All 2 branches covered.">		for (int i = 0; i &lt; urls.length; i++) {</span>
+<span class="fc" id="L118">			xml.appendTagOpen(&quot;ui:src&quot;);</span>
+<span class="fc" id="L119">			xml.appendAttribute(&quot;uri&quot;, urls[i]);</span>
+<span class="fc" id="L120">			xml.appendOptionalAttribute(&quot;type&quot;, video[i].getMimeType());</span>
+
+<span class="pc bpc" id="L122" title="1 of 2 branches missed.">			if (video[i].getSize() != null) {</span>
+<span class="pc bpc" id="L123" title="1 of 2 branches missed.">				xml.appendOptionalAttribute(&quot;width&quot;, video[i].getSize().width &gt; 0, video[i].</span>
+<span class="fc" id="L124">						getSize().width);</span>
+<span class="pc bpc" id="L125" title="1 of 2 branches missed.">				xml.appendOptionalAttribute(&quot;height&quot;, video[i].getSize().height &gt; 0, video[i].</span>
+<span class="fc" id="L126">						getSize().height);</span>
+			}
+
+<span class="fc" id="L129">			xml.appendEnd();</span>
+		}
+
+<span class="pc bpc" id="L132" title="1 of 4 branches missed.">		if (tracks != null &amp;&amp; tracks.length &gt; 0) {</span>
+<span class="fc" id="L133">			String[] trackUrls = videoComponent.getTrackUrls();</span>
+
+<span class="fc bfc" id="L135" title="All 2 branches covered.">			for (int i = 0; i &lt; tracks.length; i++) {</span>
+<span class="fc" id="L136">				xml.appendTagOpen(&quot;ui:track&quot;);</span>
+<span class="fc" id="L137">				xml.appendAttribute(&quot;src&quot;, trackUrls[i]);</span>
+<span class="fc" id="L138">				xml.appendOptionalAttribute(&quot;lang&quot;, tracks[i].getLanguage());</span>
+<span class="fc" id="L139">				xml.appendOptionalAttribute(&quot;desc&quot;, tracks[i].getDescription());</span>
+<span class="fc" id="L140">				xml.appendOptionalAttribute(&quot;kind&quot;, trackKindToString(tracks[i].getKind()));</span>
+<span class="fc" id="L141">				xml.appendEnd();</span>
+			}
+		}
+
+<span class="fc" id="L145">		xml.appendEndTag(&quot;ui:video&quot;);</span>
+<span class="fc" id="L146">	}</span>
+
+	/**
+	 * Converts a Track kind to the client track kind identifier.
+	 *
+	 * @param kind the Track Kind to convert.
+	 * @return a client track kind identifier, or null if it could not be converted.
+	 */
+	private String trackKindToString(final Track.Kind kind) {
+<span class="pc bpc" id="L155" title="1 of 2 branches missed.">		if (kind == null) {</span>
+<span class="nc" id="L156">			return null;</span>
+		}
+
+<span class="pc bpc" id="L159" title="1 of 6 branches missed.">		switch (kind) {</span>
+			case SUBTITLES:
+<span class="fc" id="L161">				return &quot;subtitles&quot;;</span>
+
+			case CAPTIONS:
+<span class="fc" id="L164">				return &quot;captions&quot;;</span>
+
+			case DESCRIPTIONS:
+<span class="fc" id="L167">				return &quot;descriptions&quot;;</span>
+
+			case CHAPTERS:
+<span class="fc" id="L170">				return &quot;chapters&quot;;</span>
+
+			case METADATA:
+<span class="fc" id="L173">				return &quot;metadata&quot;;</span>
+
+			default:
+<span class="nc" id="L176">				LOG.error(&quot;Unknown track kind &quot; + kind);</span>
+<span class="nc" id="L177">				return null;</span>
+		}
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

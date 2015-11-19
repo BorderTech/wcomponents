@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>VelocityEngineFactory.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.velocity</a> &gt; <span class="el_source">VelocityEngineFactory.java</span></div><h1>VelocityEngineFactory.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.velocity;
+
+import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.SystemException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.Properties;
+import org.apache.commons.configuration.Configuration;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.runtime.RuntimeConstants;
+
+/**
+ * A wrapper for the creation of a (singleton) VelocityEngine, using runtime {@link Config configuration} parameters for
+ * configuration.
+ *
+ * @author James Gifford
+ * @since 1.0.0
+ */
+public final class VelocityEngineFactory {
+
+	/**
+	 * The logger instance for this class.
+	 */
+<span class="fc" id="L26">	private static final Log LOG = LogFactory.getLog(VelocityEngineFactory.class);</span>
+
+	/**
+	 * If this setting is non-null, velocity templates will be loaded from the given directory. This is good for
+	 * developers, who can point into their source tree directly. Templates will not be cached in this case.
+	 */
+	private static final String FILE_TEMPLATES_KEY = &quot;bordertech.wcomponents.velocity.fileTemplatesDir&quot;;
+
+	/**
+	 * If we are not using fileTemplates, the templates are read from the classpath. This setting governs whether we
+	 * cache these templates or not. For production, we should cache.
+	 */
+	private static final String CACHE_TEMPLATES_KEY = &quot;bordertech.wcomponents.velocity.cacheTemplates.enabled&quot;;
+
+	/**
+	 * The singleton VelocityEngine instance associated with this factory.
+	 */
+	private static VelocityEngine engine;
+
+	/**
+	 * Prevent instantiation of this class.
+	 */
+<span class="nc" id="L48">	private VelocityEngineFactory() {</span>
+<span class="nc" id="L49">	}</span>
+
+	/**
+	 * &lt;p&gt;
+	 * Returns the VelocityEngine associated with this factory. If this is the first time we are using the engine,
+	 * create it and initialise it.&lt;/p&gt;
+	 *
+	 * &lt;p&gt;
+	 * Note that velocity engines are hugely resource intensive, so we don't want too many of them. For the time being
+	 * we have a single instance stored as a static variable. This would only be a problem if the VelocityLayout class
+	 * ever wanted to use different engine configurations (unlikely).&lt;/p&gt;
+	 *
+	 * @return the VelocityEngine associated with this factory.
+	 */
+	public static synchronized VelocityEngine getVelocityEngine() {
+<span class="fc bfc" id="L64" title="All 2 branches covered.">		if (engine == null) {</span>
+<span class="fc" id="L65">			Configuration config = Config.getInstance();</span>
+<span class="fc" id="L66">			String fileTemplates = config.getString(FILE_TEMPLATES_KEY);</span>
+<span class="fc" id="L67">			boolean cacheTemplates = config.getBoolean(CACHE_TEMPLATES_KEY);</span>
+
+<span class="fc" id="L69">			VelocityEngine newEngine = new VelocityEngine();</span>
+<span class="fc" id="L70">			Properties props = new Properties();</span>
+
+			// Configure the velocity template differently according to whether we are in
+			// &quot;source mode&quot; or not
+<span class="pc bpc" id="L74" title="3 of 4 branches missed.">			if (fileTemplates != null &amp;&amp; !&quot;&quot;.equals(fileTemplates)) {</span>
+				// Source mode
+<span class="nc" id="L76">				LOG.info(&quot;Velocity engine running in source mode from &quot; + fileTemplates);</span>
+
+<span class="nc" id="L78">				props.setProperty(&quot;resource.loader&quot;, &quot;file,class&quot;);</span>
+<span class="nc" id="L79">				props.setProperty(&quot;file.resource.loader.path&quot;, fileTemplates);</span>
+<span class="nc" id="L80">				props.setProperty(&quot;file.resource.loader.cache&quot;, &quot;false&quot;);</span>
+<span class="nc" id="L81">				props.setProperty(&quot;file.resource.loader.modificationCheckInterval&quot;, &quot;2&quot;);</span>
+
+<span class="nc" id="L83">				props.setProperty(&quot;class.resource.loader.cache&quot;, &quot;false&quot;);</span>
+<span class="nc" id="L84">				props.setProperty(&quot;class.resource.loader.modificationCheckInterval&quot;, &quot;2&quot;);</span>
+
+<span class="nc" id="L86">				props.setProperty(&quot;class.resource.loader.class&quot;,</span>
+						&quot;org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader&quot;);
+			} else {
+<span class="fc" id="L89">				String cache = String.valueOf(cacheTemplates);</span>
+<span class="fc" id="L90">				props.setProperty(&quot;class.resource.loader.cache&quot;, cache);</span>
+<span class="fc" id="L91">				props.setProperty(&quot;resource.loader&quot;, &quot;class&quot;);</span>
+<span class="fc" id="L92">				props.setProperty(&quot;class.resource.loader.class&quot;,</span>
+						&quot;org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader&quot;);
+			}
+
+			// Setup commons logging for velocity
+<span class="fc" id="L97">			props.setProperty(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS,</span>
+					&quot;com.github.bordertech.wcomponents.velocity.VelocityLogger&quot;);
+
+			// Set up access to the common velocity macros.
+<span class="fc" id="L101">			props.setProperty(RuntimeConstants.VM_LIBRARY, config.getString(</span>
+					&quot;bordertech.wcomponents.velocity.macroLibrary&quot;));
+
+			try {
+<span class="pc bpc" id="L105" title="1 of 2 branches missed.">				if (LOG.isInfoEnabled()) {</span>
+					// Dump properties
+<span class="fc" id="L107">					StringWriter writer = new StringWriter();</span>
+<span class="fc" id="L108">					props.list(new PrintWriter(writer));</span>
+<span class="fc" id="L109">					LOG.info(&quot;Configuring velocity with the following properties...\n&quot; + writer);</span>
+				}
+
+<span class="fc" id="L112">				newEngine.init(props);</span>
+<span class="nc" id="L113">			} catch (Exception ex) {</span>
+<span class="nc" id="L114">				throw new SystemException(&quot;Failed to configure VelocityEngine&quot;, ex);</span>
+<span class="fc" id="L115">			}</span>
+
+<span class="fc" id="L117">			engine = newEngine;</span>
+		}
+
+<span class="fc" id="L120">		return engine;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>
