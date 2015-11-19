@@ -52,6 +52,11 @@
 		<xsl:choose>
 			<xsl:when test="@readOnly">
 				<xsl:call-template name="readOnlyControl">
+					<xsl:with-param name="class">
+						<xsl:if test="@selected">
+							<xsl:text>wc_ro_sel</xsl:text>
+						</xsl:if>
+					</xsl:with-param>
 					<xsl:with-param name="toolTip">
 						<xsl:choose>
 							<xsl:when test="@selected">
@@ -80,7 +85,7 @@
 						<xsl:with-param name="myLabel" select="$myLabel[1]"/>
 					</xsl:call-template>
 					<!-- Fortunately commonControlAttributes will only output a value attribute if
-						the XSL element has a value attribute; so we can add the ui:checkBox value
+						the XML element has a value attribute; so we can add the ui:checkBox value
 						here without changing the called template. -->
 					<xsl:if test="self::ui:checkBox">
 						<xsl:attribute name="value">
