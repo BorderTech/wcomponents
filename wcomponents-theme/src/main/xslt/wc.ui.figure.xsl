@@ -34,7 +34,7 @@
 					</div>
 				</xsl:if>
 				<xsl:element name="${wc.dom.html5.element.figcaption}">
-					<xsl:apply-templates select="ui:decoratedLabel" mode="figure"/>
+					<xsl:apply-templates select="ui:decoratedLabel"/>
 				</xsl:element>
 			</xsl:if>
 		</xsl:element>
