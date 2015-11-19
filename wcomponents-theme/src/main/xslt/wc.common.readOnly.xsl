@@ -96,7 +96,7 @@
 						<xsl:otherwise>radio</xsl:otherwise>
 					</xsl:choose>
 				</xsl:attribute>
-				<xsl:attribute name="aria-readonly">true</xsl:attribute>
+				<xsl:attribute name="aria-readonly">true</xsl:attribute><!-- NOTE: this is ARIA 1.1 -->
 				<xsl:attribute name="aria-checked">
 					<xsl:choose>
 						<xsl:when test="@selected">true</xsl:when>
