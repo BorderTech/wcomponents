@@ -87,8 +87,7 @@ function(attribute, event, initialise, sprintf, has, i18n, getFileSize, accepted
 		 * @param {File[]} [files] A collection of File items to use instead of element.files.
 		 */
 		function checkDoUpload(element) {
-			var maxFileSize, fileSize, result = true,
-				maxFileSizeHR, fileSizeHR, roundTo, units;
+			var maxFileSize, fileSize;
 			if (!element.value) {
 				// nothing to do
 				return;
@@ -97,46 +96,51 @@ function(attribute, event, initialise, sprintf, has, i18n, getFileSize, accepted
 			fileSize = getFileSize(element);
 			if (fileSize && fileSize.length) {
 				fileSize = fileSize[0];
+				if (maxFileSize < fileSize) {
+					handleFileTooLarge(maxFileSize, fileSize);
+					instance.clearInput(element);
+				}
+				else if (!accepted(element)) {
+					showMessage(i18n.get("${wc.ui.multiFileUploader.i18n.wrongtype}", element.accept));
+					instance.clearInput(element);
+				}
+			}
+		}
+
+		/**
+		 * Helper for checkDoUpload, called if the file is too large.
+		 * @function
+		 * @private
+		 * @param {number} maxFileSize The maximum allowed file size in bytes.
+		 * @param {number} fileSize The actual file size in bytes.
+		 */
+		function handleFileTooLarge(maxFileSize, fileSize) {
+			var maxFileSizeHR, fileSizeHR, roundTo, units;
+
+			/* make the units human readable */
+			if (maxFileSize >= GB) {
+				roundTo = GB;
+				units = i18n.get("${wc.ui.multiFileUploader.i18n.fileDesc.size.gb}");
+			}
+			else if (maxFileSize >= MB) {
+				roundTo = MB;
+				units = i18n.get("${wc.ui.multiFileUploader.i18n.fileDesc.size.mb}");
+			}
+			else if (maxFileSize >= KB) {
+				roundTo = KB;
+				units = i18n.get("${wc.ui.multiFileUploader.i18n.fileDesc.size.kb}");
+			}
+
+			if (roundTo) {
+				maxFileSizeHR = round(maxFileSize / roundTo);
+				fileSizeHR = round(fileSize / roundTo);
 			}
 			else {
-				// should never be here but if we cannot get a file size we definitely won't be able to get a type
-				return;
+				maxFileSizeHR = maxFileSize;
+				fileSizeHR = fileSize;
+				units = i18n.get("${wc.ui.multiFileUploader.i18n.fileDesc.size}");
 			}
-
-			if (maxFileSize < fileSize) {
-				/* make the units human readable */
-				if (maxFileSize >= GB) {
-					roundTo = GB;
-					units = i18n.get("${wc.ui.multiFileUploader.i18n.fileDesc.size.gb}");
-				}
-				else if (maxFileSize >= MB) {
-					roundTo = MB;
-					units = i18n.get("${wc.ui.multiFileUploader.i18n.fileDesc.size.mb}");
-				}
-				else if (maxFileSize >= KB) {
-					roundTo = KB;
-					units = i18n.get("${wc.ui.multiFileUploader.i18n.fileDesc.size.kb}");
-				}
-
-				if (roundTo) {
-					maxFileSizeHR = round(maxFileSize / roundTo);
-					fileSizeHR = round(fileSize / roundTo);
-				}
-				else {
-					maxFileSizeHR = maxFileSize;
-					fileSizeHR = fileSize;
-					units = i18n.get("${wc.ui.multiFileUploader.i18n.fileDesc.size}");
-				}
-				showMessage(sprintf.sprintf(i18n.get("${wc.ui.multiFileUploader.i18n.toolarge}"), fileSizeHR, maxFileSizeHR, units));
-				result = false;
-			}
-			else if (!accepted(element)) {
-				showMessage(i18n.get("${wc.ui.multiFileUploader.i18n.wrongtype}", element.accept));
-				result = false;
-			}
-			if (!result) {
-				instance.clearInput(element);
-			}
+			showMessage(sprintf.sprintf(i18n.get("${wc.ui.multiFileUploader.i18n.toolarge}"), fileSizeHR, maxFileSizeHR, units));
 		}
 
 
