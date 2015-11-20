@@ -169,7 +169,7 @@ define(["wc/dom/ariaAnalog",
 							if (start < unfiltered.length) {
 								end = Math.max(unfiltered.indexOf(element), unfiltered.indexOf(lastActivated));
 
-								while (shed.isSelected(unfiltered[end]) === isSelected) {
+								while (end >= 0 && shed.isSelected(unfiltered[end]) === isSelected) {
 									end--;
 								}
 
