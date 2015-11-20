@@ -4,6 +4,7 @@
 [![Findbugs](badges/findbugs-report.svg)](findbugs-report.html)
 [![Coverage](badges/coverage-report.svg)](coverage-report/index.html)
 [![Coverity](https://scan.coverity.com/projects/7062/badge.svg)](https://scan.coverity.com/projects/bordertech-wcomponents)
+[![Codacy](https://api.codacy.com/project/badge/grade/7ba92824eb1f4d60abeddf1e72108bbc)](https://www.codacy.com/app/BorderTech/wcomponents)
 
 # wcomponents
 Accessible Web UI Framework for Enterprise
