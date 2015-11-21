@@ -69,11 +69,11 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
 			testBracketHostUrlSearchArray: function() {
 				var thisParsedUrl = parsedUrls[0];
 				var searchArray = thisParsedUrl.searchArray;
-				assert.strictEqual('devmo', searchArray.q);
+				assert.strictEqual("devmo", searchArray.q);
 			},
 			testBracketHostUrlHashClean: function() {
 				var thisParsedUrl = parsedUrls[0];
-				assert.strictEqual('test', thisParsedUrl.hashClean);
+				assert.strictEqual("test", thisParsedUrl.hashClean);
 			},
 			testBracketHostUrlHostNameArray: function() {
 				var thisParsedUrl = parsedUrls[0];
@@ -89,7 +89,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
 			},
 			testShortSearchUrlHash: function() {
 				var thisParsedUrl = parsedUrls[1];
-				assert.strictEqual('', thisParsedUrl.hash);
+				assert.strictEqual("", thisParsedUrl.hash);
 			},
 			testShortSearchUrlHost: function() {
 				var thisParsedUrl = parsedUrls[1];
@@ -242,7 +242,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
 			},
 			testFTPUrlPort: function() {
 				var thisParsedUrl = parsedUrls[9];
-				assert.strictEqual('', thisParsedUrl.port);
+				assert.strictEqual("", thisParsedUrl.port);
 			},
 			testUrlFunnyAmpSearch: function() {
 				var thisParsedUrl = parsedUrls[10];
@@ -256,7 +256,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
 			testUrlFunnyAmpSearchArray2: function() {
 				var thisParsedUrl = parsedUrls[10];
 				var searchArray = thisParsedUrl.searchArray;
-				assert.strictEqual('4.0', searchArray.arg2);
+				assert.strictEqual("4.0", searchArray.arg2);
 			},
 			testUrlFunnyAmpSearchArray3: function() {
 				var thisParsedUrl = parsedUrls[10];

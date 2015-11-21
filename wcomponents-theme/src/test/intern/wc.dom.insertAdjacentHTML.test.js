@@ -5,7 +5,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 		INSERT_ID = "testInsertAdjacentHTMLContainerinsertedElement",
 		SUB_ID = "testInsertAdjacentHTMLContainerSubcontainer",
 		CONTENT_ID = "testInsertAdjacentHTMLContainerSubContent",
-		htmlToInsert = '<p id="' + INSERT_ID + '">Hello</p>';
+		htmlToInsert = "<p id=\"" + INSERT_ID + "\">Hello</p>";
 
 	registerSuite({
 		name: "insertAdjacentHTML",
@@ -15,7 +15,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 			});
 		},
 		beforeEach: function() {
-			testHolder.innerHTML = '<div id="' + SUB_ID + '"><span id="' + CONTENT_ID + '">Hello</span></div>';
+			testHolder.innerHTML = "<div id=\"" + SUB_ID + "\"><span id=\"" + CONTENT_ID + "\">Hello</span></div>";
 			subContainer = document.getElementById(SUB_ID);
 		},
 		afterEach: function() {
@@ -36,7 +36,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 		testInsertBeforeBegin: function() {
 			var insertedElement;
 
-			subContainer.insertAdjacentHTML('beforeBegin', htmlToInsert);
+			subContainer.insertAdjacentHTML("beforeBegin", htmlToInsert);
 			insertedElement = document.getElementById(INSERT_ID);
 			assert.strictEqual(insertedElement, subContainer.previousSibling);
 		},
@@ -44,7 +44,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 		/* Inserts html after the start of the object */
 		testInsertAfterBegin: function() {
 			var insertedElement;
-			subContainer.insertAdjacentHTML('afterBegin', htmlToInsert);
+			subContainer.insertAdjacentHTML("afterBegin", htmlToInsert);
 			insertedElement = document.getElementById(INSERT_ID);
 			assert.strictEqual(insertedElement, subContainer.firstChild);
 		},
@@ -53,7 +53,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 			var content = document.getElementById(CONTENT_ID),
 				insertedElement;
 
-			subContainer.insertAdjacentHTML('afterBegin', htmlToInsert);
+			subContainer.insertAdjacentHTML("afterBegin", htmlToInsert);
 			insertedElement = document.getElementById(INSERT_ID);
 			assert.strictEqual(insertedElement.nextSibling, content);
 		},
@@ -62,7 +62,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 		testInsertBeforeEnd: function() {
 			var insertedElement;
 
-			subContainer.insertAdjacentHTML('beforeEnd', htmlToInsert);
+			subContainer.insertAdjacentHTML("beforeEnd", htmlToInsert);
 			insertedElement = document.getElementById(INSERT_ID);
 			assert.strictEqual(insertedElement, subContainer.lastChild);
 		},
@@ -71,7 +71,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 			var content = document.getElementById(CONTENT_ID),
 				insertedElement;
 
-			subContainer.insertAdjacentHTML('beforeEnd', htmlToInsert);
+			subContainer.insertAdjacentHTML("beforeEnd", htmlToInsert);
 			insertedElement = document.getElementById(INSERT_ID);
 			assert.strictEqual(insertedElement.previousSibling, content);
 		},
@@ -82,7 +82,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 		testInsertAfterEnd: function() {
 			var insertedElement;
 
-			subContainer.insertAdjacentHTML('afterEnd', htmlToInsert);
+			subContainer.insertAdjacentHTML("afterEnd", htmlToInsert);
 			insertedElement = document.getElementById(INSERT_ID);
 			assert.strictEqual(insertedElement, subContainer.nextSibling);
 		}

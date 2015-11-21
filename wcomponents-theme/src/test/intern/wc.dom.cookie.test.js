@@ -3,8 +3,8 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
 		"use strict";
 
 		var cookie,
-			testProp = 'babyfoot' + (new Date()).getTime(),
-			testVal = 'elephant';
+			testProp = "babyfoot" + (new Date()).getTime(),
+			testVal = "elephant";
 
 		registerSuite({
 			name: "domCookie",
@@ -15,7 +15,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
 			},
 			beforeEach: function() {
 				cookie.erase(testProp);
-				assert.isFalse(!!cookie.read(testProp), 'Tests should start in clean state');
+				assert.isFalse(!!cookie.read(testProp), "Tests should start in clean state");
 			},
 			testPutGet: function() {
 				cookie.create(testProp, testVal, 10);
