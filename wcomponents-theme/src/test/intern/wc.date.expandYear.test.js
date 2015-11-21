@@ -31,27 +31,27 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
 				today.set(new Date(1903, 9, 28));  // fake the date so these tests never go stale
 			},
 			testExpandYear: function() {
-				assert.strictEqual(1918, expandYear('18'));
-				assert.strictEqual(1902, expandYear('02'));
-				assert.strictEqual(1899, expandYear('99'));
+				assert.strictEqual(1918, expandYear("18"));
+				assert.strictEqual(1902, expandYear("02"));
+				assert.strictEqual(1899, expandYear("99"));
 				assert.strictEqual(1918, expandYear(18));
 				assert.strictEqual(1902, expandYear(2));
 				assert.strictEqual(1899, expandYear(99));
 			},
 			testExpandYearPivotOne: function() {
 				pivot.set(1);
-				assert.strictEqual(1818, expandYear('18'));
-				assert.strictEqual(1902, expandYear('02'));
-				assert.strictEqual(1899, expandYear('99'));
+				assert.strictEqual(1818, expandYear("18"));
+				assert.strictEqual(1902, expandYear("02"));
+				assert.strictEqual(1899, expandYear("99"));
 				assert.strictEqual(1818, expandYear(18));
 				assert.strictEqual(1902, expandYear(2));
 				assert.strictEqual(1899, expandYear(99));
 			},
 			testExpandYearPivotOneHundred: function() {
 				pivot.set(100);
-				assert.strictEqual(1918, expandYear('18'));
-				assert.strictEqual(2002, expandYear('02'));
-				assert.strictEqual(1999, expandYear('99'));
+				assert.strictEqual(1918, expandYear("18"));
+				assert.strictEqual(2002, expandYear("02"));
+				assert.strictEqual(1999, expandYear("99"));
 				assert.strictEqual(1918, expandYear(18));
 				assert.strictEqual(2002, expandYear(2));
 				assert.strictEqual(1999, expandYear(99));

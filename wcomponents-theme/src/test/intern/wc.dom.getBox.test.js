@@ -25,7 +25,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 			});
 		},
 		beforeEach: function() {
-			testHolder.innerHTML = '<div id="' + TEST_ID + '" style="position:absolute;left:' + LEFT + 'px;top:' + TOP + 'px;">absolute position</div>';
+			testHolder.innerHTML = "<div id=\"" + TEST_ID + "\" style=\"position:absolute;left:" + LEFT + "px;top:" + TOP + "px;\">absolute position</div>";
 			// reset scroll if the test reporting is longer than the viewport height it will cause the simple tests to fail
 		},
 		afterEach: function() {
