@@ -4,16 +4,16 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
 
 		var event,
 			ids = {
-				TEXTFIELD: 'textField',
-				TEXTFIELD2: 'textField2',
-				RADIO1: 'radio1',
-				RADIO2: 'radio2',
-				CHKBOX: 'chkbox',
-				ANCHOR: 'anchor',
-				PASSWD: 'passwd',
-				TXTAREA: 'txtarea',
-				BUTTONINP: 'btninp',
-				BUTTON: 'btn'
+				TEXTFIELD: "textField",
+				TEXTFIELD2: "textField2",
+				RADIO1: "radio1",
+				RADIO2: "radio2",
+				CHKBOX: "chkbox",
+				ANCHOR: "anchor",
+				PASSWD: "passwd",
+				TXTAREA: "txtarea",
+				BUTTONINP: "btninp",
+				BUTTON: "btn"
 			},
 			urlResource = "../../target/test-classes/wcomponents-theme/intern/resources/domEvent.html",
 			EVENT = "click",
@@ -193,7 +193,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
 					}
 					event.add(element, EVENT, clickEvent);
 					event.fire(element, EVENT);
-					assert.strictEqual((element.checked ? true : false), !checked, 'Checkbox state should be toggled');
+					assert.strictEqual((element.checked ? true : false), !checked, "Checkbox state should be toggled");
 				}
 				finally {
 					event.remove(element, EVENT, clickEvent);
@@ -217,7 +217,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
 				event.fire(element, EVENT);
 				event.remove(element, EVENT, counter);
 				event.fire(element, EVENT);
-				assert.strictEqual(count, 1, 'Event should be fired once and only once');
+				assert.strictEqual(count, 1, "Event should be fired once and only once");
 
 				function counter() {
 					count++;
@@ -234,8 +234,8 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
 					}
 					event.add(element2, EVENT, clickEvent);
 					event.fire(element2, EVENT);
-					assert.notStrictEqual(element.checked, element2.checked, 'Two radio buttons in same group can not both be checked');
-					assert.strictEqual((element2.checked ? true : false), !checked, 'Radio state should be toggled');
+					assert.notStrictEqual(element.checked, element2.checked, "Two radio buttons in same group can not both be checked");
+					assert.strictEqual((element2.checked ? true : false), !checked, "Radio state should be toggled");
 				}
 				finally {
 					event.remove(element2, EVENT, clickEvent);
@@ -268,8 +268,8 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
 				event.remove(element, EVENT, clickEvent);
 				checked = element.checked ? true : false;
 				event.fire(element, EVENT);
-				assert.isFalse(called, 'Event was removed and should not have fired');
-				assert.strictEqual((element.checked ? true : false), !checked, 'Checkbox state should be toggled');
+				assert.isFalse(called, "Event was removed and should not have fired");
+				assert.strictEqual((element.checked ? true : false), !checked, "Checkbox state should be toggled");
 			},
 
 			testAddRemoveEventWithCapture: function() {
@@ -282,8 +282,8 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
 					event.remove(element, EVENT, clickEvent, true);
 					checked = element.checked ? true : false;
 					event.fire(element, EVENT);
-					assert.isFalse(called, 'Event was removed and should not have fired');
-					assert.strictEqual((element.checked ? true : false), !checked, 'Checkbox state should be toggled');
+					assert.isFalse(called, "Event was removed and should not have fired");
+					assert.strictEqual((element.checked ? true : false), !checked, "Checkbox state should be toggled");
 				}
 
 			},
@@ -333,8 +333,8 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
 					called = false;
 					checked = element.checked ? true : false;
 					event.fire(element, EVENT);
-					assert.isFalse(called, 'Event was removed and should not have fired');
-					assert.strictEqual((element.checked ? true : false), !checked, 'Checkbox state should be toggled');
+					assert.isFalse(called, "Event was removed and should not have fired");
+					assert.strictEqual((element.checked ? true : false), !checked, "Checkbox state should be toggled");
 				}
 				finally {
 					event.remove(element, EVENT, clickEventSelfRemoving);  // just in case it fails to remove itself
@@ -352,14 +352,14 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
 				event.fire(element, EVENT);
 				assert.isTrue(called);
 				event.remove(eventContainer, EVENT, clickEventCheckProps);
-				assert.strictEqual(eTarget, element, 'target should be the element we clicked on');
-				assert.strictEqual(eCurrentTarget, eventContainer, 'currentTarget should be the element we listened on');
-				assert.strictEqual(eThis, eCurrentTarget, 'this should be the currentTarget');
-				assert.strictEqual(ePreventDefault.constructor, Function, 'The event should have preventDefault method');
-				assert.strictEqual(eStopProp.constructor, Function, 'The event should have stopPropagation method');
+				assert.strictEqual(eTarget, element, "target should be the element we clicked on");
+				assert.strictEqual(eCurrentTarget, eventContainer, "currentTarget should be the element we listened on");
+				assert.strictEqual(eThis, eCurrentTarget, "this should be the currentTarget");
+				assert.strictEqual(ePreventDefault.constructor, Function, "The event should have preventDefault method");
+				assert.strictEqual(eStopProp.constructor, Function, "The event should have stopPropagation method");
 				if (event.canCapture) {
 					// don't expect older browsers to support this - if we polyfill eventPhase we can test everywhere
-					assert.strictEqual(ePhase, window.Event.BUBBLING_PHASE, 'eventPhase should be bubbling');
+					assert.strictEqual(ePhase, window.Event.BUBBLING_PHASE, "eventPhase should be bubbling");
 				}
 
 
@@ -382,12 +382,12 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
 					event.fire(element, EVENT);
 					assert.isTrue(called);
 					event.remove(eventContainer, EVENT, clickEventCheckProps);
-					assert.strictEqual(eTarget, element, 'target should be the element we clicked on');
-					assert.strictEqual(eCurrentTarget, eventContainer, 'currentTarget should be the element we listened on');
-					assert.strictEqual(eThis, eCurrentTarget, 'this should be the currentTarget');
-					assert.strictEqual(ePreventDefault.constructor, Function, 'The event should have preventDefault method');
-					assert.strictEqual(eStopProp.constructor, Function, 'The event should have stopPropagation method');
-					assert.strictEqual(ePhase, window.Event.CAPTURING_PHASE, 'eventPhase should be capturing');
+					assert.strictEqual(eTarget, element, "target should be the element we clicked on");
+					assert.strictEqual(eCurrentTarget, eventContainer, "currentTarget should be the element we listened on");
+					assert.strictEqual(eThis, eCurrentTarget, "this should be the currentTarget");
+					assert.strictEqual(ePreventDefault.constructor, Function, "The event should have preventDefault method");
+					assert.strictEqual(eStopProp.constructor, Function, "The event should have stopPropagation method");
+					assert.strictEqual(ePhase, window.Event.CAPTURING_PHASE, "eventPhase should be capturing");
 				}
 
 				function clickEventCheckProps($event) {
@@ -409,12 +409,12 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
 					event.fire(element, EVENT);
 					assert.isTrue(called);
 					event.remove(element, EVENT, clickEventCheckProps);
-					assert.strictEqual(eTarget, element, 'target should be the element we clicked on');
-					assert.strictEqual(eCurrentTarget, element, 'currentTarget should be the element we listened on');
-					assert.strictEqual(eThis, eCurrentTarget, 'this should be the currentTarget');
-					assert.strictEqual(ePreventDefault.constructor, Function, 'The event should have preventDefault method');
-					assert.strictEqual(eStopProp.constructor, Function, 'The event should have stopPropagation method');
-					assert.strictEqual(ePhase, window.Event.AT_TARGET, 'eventPhase should be capturing');
+					assert.strictEqual(eTarget, element, "target should be the element we clicked on");
+					assert.strictEqual(eCurrentTarget, element, "currentTarget should be the element we listened on");
+					assert.strictEqual(eThis, eCurrentTarget, "this should be the currentTarget");
+					assert.strictEqual(ePreventDefault.constructor, Function, "The event should have preventDefault method");
+					assert.strictEqual(eStopProp.constructor, Function, "The event should have stopPropagation method");
+					assert.strictEqual(ePhase, window.Event.AT_TARGET, "eventPhase should be capturing");
 				}
 
 				function clickEventCheckProps($event) {
@@ -539,7 +539,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
 				event.fire(element, EVENT);
 				event.remove(eventContainer, EVENT, clickEventCheckCancel);
 				event.remove(eventContainer, EVENT, clickEventCancels);
-				assert.strictEqual(eCancelled, true, 'event should have been cancelled');
+				assert.strictEqual(eCancelled, true, "event should have been cancelled");
 
 				function clickEventCheckCancel($event) {
 					eCancelled = $event.defaultPrevented;
@@ -558,7 +558,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
 				event.fire(element, EVENT);
 				event.remove(eventContainer, EVENT, clickEventCheckCancel);
 				event.remove(eventContainer, EVENT, clickEventCancels);
-				assert.strictEqual(eCancelled, true, 'event should have been cancelled');
+				assert.strictEqual(eCancelled, true, "event should have been cancelled");
 
 
 				function clickEventCheckCancel($event) {
@@ -579,7 +579,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
 				}
 
 				function clickEventCancels($event) {
-					// debug('click handled on element');
+					// debug("click handled on element");
 					$event.preventDefault();
 				}
 
@@ -588,7 +588,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
 				event.fire(element, EVENT);
 				event.remove(eventContainer, EVENT, clickEventCheckCancel);
 				event.remove(element, EVENT, clickEventCancels);
-				assert.strictEqual(eCancelled, true, 'event should have been cancelled');
+				assert.strictEqual(eCancelled, true, "event should have been cancelled");
 
 
 			},
@@ -602,8 +602,8 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
 				event.fire(element, EVENT);
 				event.remove(eventContainer, EVENT, clickEventOuter);
 				event.remove(element, EVENT, clickEventInner);
-				assert.strictEqual(eStopped, true, 'event should have been stopped');
-				assert.strictEqual(called, true, 'event should have been called');
+				assert.strictEqual(eStopped, true, "event should have been stopped");
+				assert.strictEqual(called, true, "event should have been called");
 
 
 				function clickEventOuter() {
@@ -618,7 +618,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
 
 			testEventSetScope: function() {
 				var scope = {
-						gremlin: 'gremlin'
+						gremlin: "gremlin"
 					},
 					element = document.getElementById(ids.BUTTONINP),
 					scopeChecked = false;
