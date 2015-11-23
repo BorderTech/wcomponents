@@ -11,6 +11,8 @@ import org.junit.Test;
  */
 public class Duplet_Test {
 
+	private static final int TESTVAL = 12345;
+
 	@Test
 	public void testNoArgsConstructor() {
 		Duplet<String, Integer> duplet = new Duplet<>();
@@ -49,9 +51,9 @@ public class Duplet_Test {
 
 	@Test
 	public void testEquals() {
-		Duplet<Object, Object> dup1 = new Duplet<Object, Object>(new Long(12345), null);
-		Duplet<Object, Object> dup2 = new Duplet<Object, Object>(new Long(12345), null);
-		Duplet<Object, Object> dup3 = new Duplet<Object, Object>(null, new Long(12345));
+		Duplet<Object, Object> dup1 = new Duplet<Object, Object>(new Long(TESTVAL), null);
+		Duplet<Object, Object> dup2 = new Duplet<Object, Object>(new Long(TESTVAL), null);
+		Duplet<Object, Object> dup3 = new Duplet<Object, Object>(null, new Long(TESTVAL));
 
 		Assert.assertTrue("Duplet should equal itself", dup1.equals(dup1));
 		Assert.assertTrue("Duplet should equal an equivalent duplet", dup1.equals(dup2));
@@ -63,8 +65,8 @@ public class Duplet_Test {
 
 	@Test
 	public void testHashCode() {
-		Duplet<Object, Object> dup1 = new Duplet<Object, Object>(new Long(12345), null);
-		Duplet<Object, Object> dup2 = new Duplet<Object, Object>(new Long(12345), null);
+		Duplet<Object, Object> dup1 = new Duplet<Object, Object>(new Long(TESTVAL), null);
+		Duplet<Object, Object> dup2 = new Duplet<Object, Object>(new Long(TESTVAL), null);
 
 		Assert.assertEquals("Duplet should have same hash as an equivalent duplet", dup1.hashCode(),
 				dup2.hashCode());
