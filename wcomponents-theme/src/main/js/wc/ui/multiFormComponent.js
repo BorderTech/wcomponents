@@ -80,14 +80,6 @@ define(["wc/has",
 				}
 			}
 
-
-			function processNow(idArr) {
-				var id;
-				while ((id = idArr.shift())) {
-					load(id);
-				}
-			}
-
 			/**
 			 * Load data list for cachable WMultiDropdown.
 			 *
@@ -105,6 +97,13 @@ define(["wc/has",
 						var id = next.id;
 						selectLoader.load(id);
 					});
+				}
+			}
+
+			function processNow(idArr) {
+				var id;
+				while ((id = idArr.shift())) {
+					load(id);
 				}
 			}
 

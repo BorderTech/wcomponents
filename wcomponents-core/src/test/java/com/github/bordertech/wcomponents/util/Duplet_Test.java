@@ -56,7 +56,7 @@ public class Duplet_Test {
 		Assert.assertTrue("Duplet should equal itself", dup1.equals(dup1));
 		Assert.assertTrue("Duplet should equal an equivalent duplet", dup1.equals(dup2));
 
-//		Assert.assertFalse("Duplet should not equal null", dup1.equals(null));
+		Assert.assertFalse("Duplet should not equal null", dup1.equals(null));
 		Assert.assertFalse("Duplet should not equal another class", "".equals(dup1));
 		Assert.assertFalse("Duplet should equal a different duplet", dup1.equals(dup3));
 	}
