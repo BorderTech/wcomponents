@@ -134,18 +134,18 @@ define(["wc/dom/ariaAnalog",
 			 * @private
 			 * @param {Element} element The tab being opened.
 			 */
-			function collapseOthers(element) {
-				var i, next, grp,
-					conf = {filter: getFilteredGroup.FILTERS.enabled | getFilteredGroup.FILTERS.expanded, containerWd: TABLIST, itemWd: instance.ITEM};
-				grp = getFilteredGroup(element, conf);
-
-				for (i = grp.length - 1; i >= 0; i--) {
-					next = grp[i];
-					if (next !== element) {
-						shed.collapse(next);
-					}
-				}
-			}
+//			function collapseOthers(element) {
+//				var i, next, grp,
+//					conf = {filter: getFilteredGroup.FILTERS.enabled | getFilteredGroup.FILTERS.expanded, containerWd: TABLIST, itemWd: instance.ITEM};
+//				grp = getFilteredGroup(element, conf);
+//
+//				for (i = grp.length - 1; i >= 0; i--) {
+//					next = grp[i];
+//					if (next !== element) {
+//						shed.collapse(next);
+//					}
+//				}
+//			}
 
 
 			/**
@@ -158,35 +158,9 @@ define(["wc/dom/ariaAnalog",
 			 * @param {String} action The type of shed event. One of EXPAND, COLLAPSE, SELECT or DESELECT.
 			 */
 			this.shedObserver = function (element, action) {
-				var contentId,
-					content,
-					CONTENT_ATTRIB = "aria-controls",
-					container,
-					shedFunc,
-					accordion;
-
 				if (element) {
 					if ((action === shed.actions.SELECT || action === shed.actions.DESELECT) && this.ITEM.isOneOfMe(element)) {
-						if (action === shed.actions.SELECT) {
-							this.constructor.prototype.shedObserver.call(this, element, action);
-						}
-						if ((container = this.getGroupContainer(element))) {
-							accordion = getAccordion(container);
-							if (action === shed.actions.EXPAND && accordion && accordion !== "true") {
-								collapseOthers(element);
-							}
-							if ((contentId = element.getAttribute(CONTENT_ATTRIB)) && (content = document.getElementById(contentId))) {
-								if ((action === shed.actions.SELECT && !accordion) || (action === shed.actions.EXPAND && accordion)) {
-									shedFunc = "show";
-								}
-								else if ((action === shed.actions.DESELECT && !accordion) || (action === shed.actions.COLLAPSE && accordion)) {
-									shedFunc = "hide";
-								}
-								if (shedFunc) {
-									shed[shedFunc](content);
-								}
-							}
-						}
+						onItemSelection(this, action, element);
 					}
 					else if ((action === shed.actions.DISABLE || action === shed.actions.ENABLE)  && TABLIST.isOneOfMe(element)) {
 						// if the tablist is disabled or enabled, diable/enable all the tabs.
@@ -196,6 +170,42 @@ define(["wc/dom/ariaAnalog",
 					}
 				}
 			};
+
+			/**
+			 * Helper for shedObserver, called when there has been a SELECT or DESELECT.
+			 * @param {Tabset} tabset The tabset controller instance.
+			 * @param {string} action either shed.actions.SELECT or shed.actions.DESELECT
+			 * @param {Element} element Guaranteed to pass `this.ITEM.isOneOfMe(element)`
+			 */
+			function onItemSelection(tabset, action, element) {
+				var contentId,
+					content,
+					CONTENT_ATTRIB = "aria-controls",
+					container,
+					shedFunc,
+					accordion;
+
+				if (action === shed.actions.SELECT) {
+					tabset.constructor.prototype.shedObserver.call(tabset, element, action);
+				}
+				container = tabset.getGroupContainer(element);
+				if (container) {
+					if ((contentId = element.getAttribute(CONTENT_ATTRIB)) && (content = document.getElementById(contentId))) {
+						accordion = getAccordion(container);
+						if (!accordion) {
+							if (action === shed.actions.SELECT) {
+								shedFunc = "show";
+							}
+							else if (action === shed.actions.DESELECT) {
+								shedFunc = "hide";
+							}
+							if (shedFunc) {
+								shed[shedFunc](content);
+							}
+						}
+					}
+				}
+			}
 
 			/**
 			 * Tab interaction functionality. Shows the tab's content if the tab is a regular tab. Toggles the
@@ -229,36 +239,8 @@ define(["wc/dom/ariaAnalog",
 			 * @param {Element} stateContainer The element into which the state is being written.
 			 */
 			this.writeState = function(container, stateContainer) {
-				var tabsets = TABLIST.findDescendants(container);
-				/* NOTE:
-				 * next is a tablist. The tabset container element is the tablist's parent element.
-				 * If the tabset is disabled, the parent element has the aria-disabled="true" flag.
-				 */
-				function writeTabState(next) {
-					var tabs, selected, position, config = {asObject: true, filter: getFilteredGroup.FILTERS.enabled}, tabsetName = next.parentNode.id;
-					if (!(shed.isDisabled(next) || shed.isDisabled(next.parentElement))) {
-						if (getAccordion(next)) {
-							config.filter = config.filter | getFilteredGroup.FILTERS.expanded;
-						}
-						else {
-							config.filter = config.filter | getFilteredGroup.FILTERS.selected;
-						}
-						if ((tabs = getFilteredGroup(next, config))) {
-							selected = tabs.filtered;
-							tabs = tabs.unfiltered;
-							if (!selected.length) {
-								// no open tabs (or all individually disabled)
-								formUpdateManager.writeStateField(stateContainer, tabsetName, "");
-							}
-							else {
-								selected.forEach(function(theTab) {
-									position = tabs.indexOf(theTab);
-									formUpdateManager.writeStateField(stateContainer, tabsetName, position);
-								});
-							}
-						}
-					}
-				}
+				var tabsets = TABLIST.findDescendants(container),
+					writeTabState = writeTabStateHelper.bind(this, stateContainer);
 
 				if (tabsets.length) {
 					Array.prototype.forEach.call(tabsets, writeTabState);
@@ -279,6 +261,36 @@ define(["wc/dom/ariaAnalog",
 				shed.subscribe(shed.actions.ENABLE, this.shedObserver.bind(this));
 				shed.subscribe(shed.actions.DISABLE, this.shedObserver.bind(this));
 			};
+
+			/* NOTE:
+			 * next is a tablist. The tabset container element is the tablist's parent element.
+			 * If the tabset is disabled, the parent element has the aria-disabled="true" flag.
+			 */
+			function writeTabStateHelper(stateContainer, next) {
+				var tabs, selected, position, config = {asObject: true, filter: getFilteredGroup.FILTERS.enabled}, tabsetName = next.parentNode.id;
+				if (!(shed.isDisabled(next) || shed.isDisabled(next.parentElement))) {
+					if (getAccordion(next)) {
+						config.filter = config.filter | getFilteredGroup.FILTERS.expanded;
+					}
+					else {
+						config.filter = config.filter | getFilteredGroup.FILTERS.selected;
+					}
+					if ((tabs = getFilteredGroup(next, config))) {
+						selected = tabs.filtered;
+						tabs = tabs.unfiltered;
+						if (!selected.length) {
+							// no open tabs (or all individually disabled)
+							formUpdateManager.writeStateField(stateContainer, tabsetName, "");
+						}
+						else {
+							selected.forEach(function(theTab) {
+								position = tabs.indexOf(theTab);
+								formUpdateManager.writeStateField(stateContainer, tabsetName, position);
+							});
+						}
+					}
+				}
+			}
 
 			/**
 			 * Gets the tab control which is the controller of the tab panel in which a given element exists.
@@ -318,8 +330,8 @@ define(["wc/dom/ariaAnalog",
 			 * @param {Event} $event The wrapped keydown event.
 			*/
 			this.keydownEvent = function($event) {
-				var keyCode,
-					target,
+				var keyCode = $event.keyCode,
+					target = $event.target,
 					tab,
 					targetTab,
 					direction;
@@ -329,13 +341,12 @@ define(["wc/dom/ariaAnalog",
 					return;
 				}
 
-				keyCode = $event.keyCode;
-				target = $event.target;
-
-				if ((keyCode === KeyEvent.DOM_VK_PAGE_UP || keyCode === KeyEvent.DOM_VK_PAGE_DOWN)) {
-					if ((tab = getTabFor(target))) {
+				if (keyCode === KeyEvent.DOM_VK_PAGE_UP || keyCode === KeyEvent.DOM_VK_PAGE_DOWN) {
+					tab = getTabFor(target);
+					if (tab) {
 						direction = (keyCode === KeyEvent.DOM_VK_PAGE_UP ? instance.KEY_DIRECTION.NEXT : instance.KEY_DIRECTION.PREVIOUS);
-						if ((targetTab = instance.navigate(tab, direction))) {
+						targetTab = instance.navigate(tab, direction);
+						if (targetTab) {
 							$event.preventDefault();
 							instance.activate(targetTab, false, true);
 						}

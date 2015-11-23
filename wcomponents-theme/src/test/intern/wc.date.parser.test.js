@@ -7,9 +7,9 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 	 */
 
 	var Parser, pivot, today, now,
-		standardMasks = ['ytm', '+-', 'd M yy', 'd M yyyy', 'd MON yy', 'd MON yyyy', 'ddMMyy', 'ddMMyyyy', 'dMONyy', 'dMONyyyy', 'yyyy-MM-dd', 'yyyyMMdd'],
-		partialMasks = standardMasks.concat([' M y', ' MON y', 'M y', 'MON y', 'MONy', 'MMyy', 'Myyyy', 'y', 'ddMM']),
-		extendedPartialMasks = partialMasks.concat(['d M', 'M', 'd MON', 'd M', 'MON', 'd', 'dd yyyy', 'ddyyyy', 'ddyy', 'dd yy']),
+		standardMasks = ["ytm", "+-", "d M yy", "d M yyyy", "d MON yy", "d MON yyyy", "ddMMyy", "ddMMyyyy", "dMONyy", "dMONyyyy", "yyyy-MM-dd", "yyyyMMdd"],
+		partialMasks = standardMasks.concat([" M y", " MON y", "M y", "MON y", "MONy", "MMyy", "Myyyy", "y", "ddMM"]),
+		extendedPartialMasks = partialMasks.concat(["d M", "M", "d MON", "d M", "MON", "d", "dd yyyy", "ddyyyy", "ddyy", "dd yy"]),
 		pivotVal, realToday;
 
 

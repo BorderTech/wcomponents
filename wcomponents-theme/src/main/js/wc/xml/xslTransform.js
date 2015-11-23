@@ -500,7 +500,7 @@ define(["wc/has", "wc/ajax/ajax", "wc/xml/xmlString", "wc/xml/xpath", "wc/array/
 				if (!document) {
 					document = window.document;
 				}
-				result = document.createDocumentFragment()
+				result = document.createDocumentFragment();
 				/*
 				 * I have removed the lines below and it SEEMS to have no ill effects... Perhaps it used to fail due to another condition that no longer exists?
 				 * Anyway if this needs to be reinstated it will need to be a lot more complicated because the string we are stripping may well exist as part of

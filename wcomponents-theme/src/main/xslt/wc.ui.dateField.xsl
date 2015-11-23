@@ -246,6 +246,9 @@
 						<xsl:attribute name="role">
 							<xsl:text>listbox</xsl:text>
 						</xsl:attribute>
+						<xsl:element name="li"><!-- a listbox must contain an option -->
+							<xsl:attribute name="role">option</xsl:attribute>
+						</xsl:element>
 					</xsl:element>
 				</div>
 				<xsl:call-template name="inlineError">

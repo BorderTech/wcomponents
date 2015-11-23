@@ -11,7 +11,7 @@ define(["intern!object", "intern/chai!assert", "../intern/resources/test.utils"]
 				});
 			},
 			beforeEach: function() {
-				testHolder.innerHTML = "<div id='elephant'>i want a crocodile</div>";
+				testHolder.innerHTML = "<div id=\"elephant\">i want a crocodile</div>";
 			},
 			teardown: function() {
 				testHolder.innerHTML = "";
@@ -40,20 +40,20 @@ define(["intern!object", "intern/chai!assert", "../intern/resources/test.utils"]
 				assert.isDefined(Node.NOTATION_NODE);
 			},
 			testElementNode: function() {
-				var node = document.getElementById('elephant');
+				var node = document.getElementById("elephant");
 				assert.strictEqual(Node.ELEMENT_NODE, node.nodeType);
 			},
 			testAttributeNode: function() {
-				var node = document.getElementById('elephant').getAttributeNode('id');
+				var node = document.getElementById("elephant").getAttributeNode("id");
 				assert.strictEqual(Node.ATTRIBUTE_NODE, node.nodeType);
 			},
 			testTextNode: function() {
-				var node = document.getElementById('elephant').firstChild;
+				var node = document.getElementById("elephant").firstChild;
 				assert.strictEqual(Node.TEXT_NODE, node.nodeType);
 			},
 			testComment: function() {
 				var comment = document.createComment("I want an elephant"),
-					elephant = document.getElementById('elephant'),
+					elephant = document.getElementById("elephant"),
 					node;
 				elephant.parentNode.appendChild(comment);
 				node = elephant.nextSibling;
