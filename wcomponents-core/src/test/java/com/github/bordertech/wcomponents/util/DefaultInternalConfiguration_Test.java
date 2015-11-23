@@ -29,6 +29,11 @@ public class DefaultInternalConfiguration_Test {
 	private static final String MISSING_PROPERTY_KEY = "simple.nonExistantProperty";
 
 	/**
+	 * Used in conjunction with MISSING_PROPERTY_KEY.
+	 */
+	private static final int MISSING_PROPERTY_VAL = 234;
+
+	/**
 	 * The value for this property should be an empty string.
 	 */
 	private static final String EMPTY_PROPERTY_KEY = "simple.emptyPropertyKey";
@@ -39,9 +44,14 @@ public class DefaultInternalConfiguration_Test {
 	private static final String STRING_PROPERTY_KEY = "simple.stringPropertyKey";
 
 	/**
-	 * The value for this property should be an 123.
+	 * The value for this property should be INT_PROPERTY_VAL.
 	 */
 	private static final String INT_PROPERTY_KEY = "simple.intPropertyKey";
+
+	/**
+	 * Used in conjunction with INT_PROPERTY_KEY.
+	 */
+	private static final int INT_PROPERTY_VAL = 123;
 
 	/**
 	 * The value for this property should be "true".
@@ -92,9 +102,10 @@ public class DefaultInternalConfiguration_Test {
 
 	@Test
 	public void testGetSubProperties() {
+		final int propertyCount = 7;
 		// Test without the prefix truncated
 		Properties props = config.getSubProperties("simple.", false);
-		Assert.assertEquals("Incorrect number of properties", 7, props.size());
+		Assert.assertEquals("Incorrect number of properties", propertyCount, props.size());
 		assertPropertyEquals(EMPTY_PROPERTY_KEY, "", props);
 		assertPropertyEquals(STRING_PROPERTY_KEY, "simplePropertyValue", props);
 		assertPropertyEquals(INT_PROPERTY_KEY, "123", props);
@@ -106,7 +117,7 @@ public class DefaultInternalConfiguration_Test {
 
 		// Now test with the prefix truncated
 		props = config.getSubProperties("simple.", true);
-		Assert.assertEquals("Incorrect number of properties", 7, props.size());
+		Assert.assertEquals("Incorrect number of properties", propertyCount, props.size());
 		assertPropertyEquals("emptyPropertyKey", "", props);
 		assertPropertyEquals("stringPropertyKey", "simplePropertyValue", props);
 		assertPropertyEquals("intPropertyKey", "123", props);
@@ -147,17 +158,15 @@ public class DefaultInternalConfiguration_Test {
 
 	@Test
 	public void testGetLong() {
-		Assert.assertEquals("Incorrect long value for " + INT_PROPERTY_KEY,
-				123, config.getLong(INT_PROPERTY_KEY));
+		Assert.assertEquals("Incorrect long value for " + INT_PROPERTY_KEY, INT_PROPERTY_VAL, config.getLong(INT_PROPERTY_KEY));
 
-		Assert.assertEquals("Incorrect long value for missing key", 0,
-				config.getLong(MISSING_PROPERTY_KEY));
+		Assert.assertEquals("Incorrect long value for missing key", 0, config.getLong(MISSING_PROPERTY_KEY));
 
-		Assert.assertEquals("Incorrect default long value for missing key",
-				234, config.getLong(MISSING_PROPERTY_KEY, 234));
+		Assert.assertEquals("Incorrect default long value for missing key", MISSING_PROPERTY_VAL,
+				config.getLong(MISSING_PROPERTY_KEY, MISSING_PROPERTY_VAL));
 
 		Assert.assertEquals("Incorrect default long value for missing key",
-				Long.valueOf(234), config.getLong(MISSING_PROPERTY_KEY, Long.valueOf(234)));
+				Long.valueOf(MISSING_PROPERTY_VAL), config.getLong(MISSING_PROPERTY_KEY, Long.valueOf(MISSING_PROPERTY_VAL)));
 	}
 
 	@Test(expected = ConversionException.class)
@@ -167,17 +176,15 @@ public class DefaultInternalConfiguration_Test {
 
 	@Test
 	public void testGetInt() {
-		Assert.assertEquals("Incorrect int value for " + INT_PROPERTY_KEY,
-				123, config.getInt(INT_PROPERTY_KEY));
+		Assert.assertEquals("Incorrect int value for " + INT_PROPERTY_KEY, INT_PROPERTY_VAL, config.getInt(INT_PROPERTY_KEY));
 
-		Assert.assertEquals("Incorrect int value for missing key",
-				0, config.getInt(MISSING_PROPERTY_KEY));
+		Assert.assertEquals("Incorrect int value for missing key", 0, config.getInt(MISSING_PROPERTY_KEY));
 
-		Assert.assertEquals("Incorrect default int value for missing key",
-				234, config.getInt(MISSING_PROPERTY_KEY, 234));
+		Assert.assertEquals("Incorrect default int value for missing key", MISSING_PROPERTY_VAL,
+				config.getInt(MISSING_PROPERTY_KEY, MISSING_PROPERTY_VAL));
 
 		Assert.assertEquals("Incorrect default integer value for missing key",
-				Integer.valueOf(234), config.getInteger(MISSING_PROPERTY_KEY, Integer.valueOf(234)));
+				Integer.valueOf(MISSING_PROPERTY_VAL), config.getInteger(MISSING_PROPERTY_KEY, Integer.valueOf(MISSING_PROPERTY_VAL)));
 	}
 
 	@Test(expected = ConversionException.class)
@@ -187,18 +194,15 @@ public class DefaultInternalConfiguration_Test {
 
 	@Test
 	public void testGetShort() {
-		Assert.assertEquals("Incorrect short value for " + INT_PROPERTY_KEY,
-				123, config.getShort(INT_PROPERTY_KEY));
+		Assert.assertEquals("Incorrect short value for " + INT_PROPERTY_KEY, INT_PROPERTY_VAL, config.getShort(INT_PROPERTY_KEY));
 
-		Assert.assertEquals("Incorrect short value for missing key",
-				0, config.getShort(MISSING_PROPERTY_KEY));
+		Assert.assertEquals("Incorrect short value for missing key", 0, config.getShort(MISSING_PROPERTY_KEY));
 
-		Assert.assertEquals("Incorrect default short value for missing key",
-				234, config.getShort(MISSING_PROPERTY_KEY, (short) 234));
+		Assert.assertEquals("Incorrect default short value for missing key", MISSING_PROPERTY_VAL, config.getShort(MISSING_PROPERTY_KEY,
+				(short) MISSING_PROPERTY_VAL));
 
 		Assert.assertEquals("Incorrect default short value for missing key",
-				Short.valueOf((short) 234), config.getShort(MISSING_PROPERTY_KEY, Short.valueOf(
-				(short) 234)));
+				Short.valueOf((short) MISSING_PROPERTY_VAL), config.getShort(MISSING_PROPERTY_KEY, Short.valueOf((short) MISSING_PROPERTY_VAL)));
 	}
 
 	@Test(expected = ConversionException.class)
@@ -208,18 +212,16 @@ public class DefaultInternalConfiguration_Test {
 
 	@Test
 	public void testGetByte() {
-		Assert.assertEquals("Incorrect byte value for " + INT_PROPERTY_KEY,
-				123, config.getByte(INT_PROPERTY_KEY));
+		final int expectedVal = 111;
+		Assert.assertEquals("Incorrect byte value for " + INT_PROPERTY_KEY, INT_PROPERTY_VAL, config.getByte(INT_PROPERTY_KEY));
 
-		Assert.assertEquals("Incorrect byte value for missing key",
-				0, config.getByte(MISSING_PROPERTY_KEY));
+		Assert.assertEquals("Incorrect byte value for missing key", 0, config.getByte(MISSING_PROPERTY_KEY));
 
-		Assert.assertEquals("Incorrect default byte value for missing key",
-				111, config.getByte(MISSING_PROPERTY_KEY, (byte) 111));
+		Assert.assertEquals("Incorrect default byte value for missing key", expectedVal, config.getByte(MISSING_PROPERTY_KEY, (byte) expectedVal));
 
 		Assert.assertEquals("Incorrect default byte value for missing key",
-				Byte.valueOf((byte) 111), config.getByte(MISSING_PROPERTY_KEY, Byte.valueOf(
-				(byte) 111)));
+				Byte.valueOf((byte) expectedVal), config.getByte(MISSING_PROPERTY_KEY, Byte.valueOf(
+				(byte) expectedVal)));
 	}
 
 	@Test(expected = ConversionException.class)
@@ -230,14 +232,14 @@ public class DefaultInternalConfiguration_Test {
 	@Test
 	public void testGetBigDecimal() {
 		Assert.assertEquals("Incorrect BigDecimal value for " + INT_PROPERTY_KEY,
-				BigDecimal.valueOf(123), config.getBigDecimal(INT_PROPERTY_KEY));
+				BigDecimal.valueOf(INT_PROPERTY_VAL), config.getBigDecimal(INT_PROPERTY_KEY));
 
 		Assert.assertEquals("Incorrect BigDecimal value for missing key",
 				BigDecimal.valueOf(0.0), config.getBigDecimal(MISSING_PROPERTY_KEY));
 
 		Assert.assertEquals("Incorrect default BigDecimal value for missing key",
-				BigDecimal.valueOf(234), config.getBigDecimal(MISSING_PROPERTY_KEY, BigDecimal.
-				valueOf(234)));
+				BigDecimal.valueOf(MISSING_PROPERTY_VAL), config.getBigDecimal(MISSING_PROPERTY_KEY, BigDecimal.
+				valueOf(MISSING_PROPERTY_VAL)));
 	}
 
 	@Test(expected = ConversionException.class)
@@ -248,14 +250,14 @@ public class DefaultInternalConfiguration_Test {
 	@Test
 	public void testGetBigInteger() {
 		Assert.assertEquals("Incorrect BigInteger value for " + INT_PROPERTY_KEY,
-				BigInteger.valueOf(123), config.getBigInteger(INT_PROPERTY_KEY));
+				BigInteger.valueOf(INT_PROPERTY_VAL), config.getBigInteger(INT_PROPERTY_KEY));
 
 		Assert.assertEquals("Incorrect BigInteger value for missing key",
 				BigInteger.valueOf(0), config.getBigInteger(MISSING_PROPERTY_KEY));
 
 		Assert.assertEquals("Incorrect default BigInteger value for missing key",
-				BigInteger.valueOf(234), config.getBigInteger(MISSING_PROPERTY_KEY, BigInteger.
-				valueOf(234)));
+				BigInteger.valueOf(MISSING_PROPERTY_VAL), config.getBigInteger(MISSING_PROPERTY_KEY, BigInteger.
+				valueOf(MISSING_PROPERTY_VAL)));
 	}
 
 	@Test(expected = ConversionException.class)
@@ -283,6 +285,7 @@ public class DefaultInternalConfiguration_Test {
 
 	@Test
 	public void testGetFloat() {
+		final float expectedVal = 234.0f;
 		Assert.assertEquals("Incorrect float value for " + INT_PROPERTY_KEY,
 				Float.parseFloat("123"), config.getFloat(INT_PROPERTY_KEY), 0.0);
 
@@ -290,10 +293,10 @@ public class DefaultInternalConfiguration_Test {
 				new Float(0.0f), config.getFloat(MISSING_PROPERTY_KEY), 0.0);
 
 		Assert.assertEquals("Incorrect default float value for missing key",
-				234.0f, config.getFloat(MISSING_PROPERTY_KEY, 234.0f), 0.0);
+				expectedVal, config.getFloat(MISSING_PROPERTY_KEY, expectedVal), 0.0);
 
 		Assert.assertEquals("Incorrect default float value for missing key",
-				Float.valueOf(234), config.getFloat(MISSING_PROPERTY_KEY, Float.valueOf(234)));
+				Float.valueOf(MISSING_PROPERTY_VAL), config.getFloat(MISSING_PROPERTY_KEY, Float.valueOf(MISSING_PROPERTY_VAL)));
 	}
 
 	@Test(expected = ConversionException.class)
@@ -303,6 +306,7 @@ public class DefaultInternalConfiguration_Test {
 
 	@Test
 	public void testGetDouble() {
+		final double expectedVal = 234.0;
 		Assert.assertEquals("Incorrect double value for " + INT_PROPERTY_KEY,
 				Double.parseDouble("123"), config.getDouble(INT_PROPERTY_KEY), 0.0);
 
@@ -310,10 +314,10 @@ public class DefaultInternalConfiguration_Test {
 				0.0, config.getDouble(MISSING_PROPERTY_KEY), 0.0);
 
 		Assert.assertEquals("Incorrect default double value for missing key",
-				234.0, config.getDouble(MISSING_PROPERTY_KEY, 234), 0.0);
+				expectedVal, config.getDouble(MISSING_PROPERTY_KEY, MISSING_PROPERTY_VAL), 0.0);
 
 		Assert.assertEquals("Incorrect default double value for missing key",
-				Double.valueOf(234), config.getDouble(MISSING_PROPERTY_KEY, Double.valueOf(234)));
+				Double.valueOf(MISSING_PROPERTY_VAL), config.getDouble(MISSING_PROPERTY_KEY, Double.valueOf(MISSING_PROPERTY_VAL)));
 	}
 
 	@Test(expected = ConversionException.class)
@@ -338,8 +342,9 @@ public class DefaultInternalConfiguration_Test {
 
 	@Test
 	public void testGetProperties() {
+		final int expectedProps = 3;
 		Properties props = config.getProperties("simple.propertiesPropertyKey");
-		Assert.assertEquals("Incorrect number of properties", 3, props.size());
+		Assert.assertEquals("Incorrect number of properties", expectedProps, props.size());
 		assertPropertyEquals("key1", "value1", props);
 		assertPropertyEquals("key2", "value2", props);
 		assertPropertyEquals("key3", "value3", props);
