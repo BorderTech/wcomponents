@@ -15,7 +15,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 			});
 		},
 		testGetFileSize: function() {
-			var element = new testutils.MockFileSelector('', '@HERE@\\resources\\note.txt', 'text/plain', 16);
+			var element = new testutils.MockFileSelector("", "@HERE@\\resources\\note.txt", "text/plain", 16);
 			assert.strictEqual(controller(element)[0], 16);
 		}
 	});

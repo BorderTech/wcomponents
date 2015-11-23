@@ -50,7 +50,7 @@ define(function() {
 			SEARCH_ARRAY = "searchArray",
 			HOST_ARRAY = "hostnameArray",
 			PATH_ARRAY = "pathnameArray",
-			NO_VALUE = "";  // used to be null but browsers use '' in window.location so i think we should too
+			NO_VALUE = "";  // used to be null but browsers use "" in window.location so i think we should too
 
 		/**
 		 * MDC has this really weird, completely invalid, break DNS thing going on where they put [] around a
@@ -64,7 +64,7 @@ define(function() {
 		 * @returns {String} The hostname with the square brackets stripped.
 		 */
 		function mDCHostNameFixer(hostname) {
-			return hostname.replace(/^\[|\]$/g, '');  // strip leading and trailing square brackets [www.google.com]
+			return hostname.replace(/^\[|\]$/g, "");  // strip leading and trailing square brackets [www.google.com]
 		}
 
 		/**
@@ -87,11 +87,11 @@ define(function() {
 				qs = window.location.search.substring(1, window.location.search.length);
 			}
 			if (qs.length > 0) {
-				qs = qs.replace(/\+/g, ' ');
-				args = qs.split('&');
+				qs = qs.replace(/\+/g, " ");
+				args = qs.split("&");
 				pair = name = value = null;
 				for (i = 0; i < args.length; i++) {
-					pair = args[i].split('=');
+					pair = args[i].split("=");
 					name = decodeURIComponent(pair[0]);
 					value = (pair.length === 2) ? decodeURIComponent(pair[1]) : null;
 					result[name] = value;
@@ -175,17 +175,17 @@ define(function() {
 				}
 			}
 			else if (pathnameSeparator === 0) {
-				// we have a server relative URL because it starts with '/' and all we have left is path
+				// we have a server relative URL because it starts with "/" and all we have left is path
 				result[PATH_ARRAY]	=	url.substr(1).split("/");  // split the path without the leading "/" otherwise pathnameArray[0] is always empty
 			}
 			else if (result[PROTOCOL] === "") {
-				// relative URL with complex path and the first character is not a '/'
+				// relative URL with complex path and the first character is not a "/"
 				result[PATH_ARRAY]	=	url.split("/");
 			}
 			else {
 				// the first slash separates the hostname from the path
 				hostname	=	url.substr(0, pathnameSeparator);
-				pathname	=	url.substr(pathnameSeparator);  // Location.pathname includes leading '/'
+				pathname	=	url.substr(pathnameSeparator);  // Location.pathname includes leading "/"
 
 				result[HOST_NAME]	=	mDCHostNameFixer(hostname);
 				mDCSquareBrackets = mDCSquareBracketsRe.test(hostname);
@@ -250,7 +250,7 @@ define(function() {
 		/** @var {String} module:wc/urlParser~ParsedUrl#HASH The value of the url hash (if any).*/
 		ParsedUrl.prototype[HASH] = NO_VALUE;
 
-		/** @var {String} module:wc/urlParser~ParsedUrl#HASH_CLEAN The value of the url hash (if any) with the leading '#' removed.*/
+		/** @var {String} module:wc/urlParser~ParsedUrl#HASH_CLEAN The value of the url hash (if any) with the leading "#" removed.*/
 		ParsedUrl.prototype[HASH_CLEAN] = NO_VALUE;
 
 		/** @var {String[]} module:wc/urlParser~ParsedUrl#HOST_ARRAY The value of the url host segment (if any) as an array split at the DOT separators. */
@@ -305,7 +305,7 @@ define(function() {
 		 * @function module:wc/urlParser.parse
 		 * @param {String} url the URL to parse.
 		 * @returns {module:wc/urlParser~parseObj} the url as an object where each property is generally consistent
-		 *    with the names used in 'window.location' with some additions.
+		 *    with the names used in "window.location" with some additions.
 		 */
 		this.parse = function(url) {
 			if (!url) {
@@ -318,7 +318,7 @@ define(function() {
 
 	/**
 	 * @typedef {Object} module:wc/urlParser~parseObj The object returned from a call to parseUrl.
-	 * @property {String} [protocol] The scheme including ':', eg "http:".
+	 * @property {String} [protocol] The scheme including ":", eg "http:".
 	 * @property {String} [host] The host and port number.
 	 * @property {String} [hostname] The "domain".
 	 * @property {String[]} [hostnameArray] Each sub domain of hostname from left to right, for example hostname
@@ -332,7 +332,7 @@ define(function() {
 	 * @property {String} [search] The query string.
 	 * @property {Object} [searchArray] Each name=value pair of querystring URI decoded but note:
 	 *    <ul>
-	 *        <li>If there is no value but an equals sign you get {name: ''}.</li>
+	 *        <li>If there is no value but an equals sign you get {name: ""}.</li>
 	 *        <li>If there is no value and no equals sign you get {name: null}.</li>
 	 *        <li>If there is an equals sign and a value but no name you get a slap.</li>
 	 *    </ul>

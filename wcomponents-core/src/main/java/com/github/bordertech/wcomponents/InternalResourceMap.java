@@ -6,8 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.zip.CRC32;
 import java.util.zip.Checksum;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * <p>
@@ -24,11 +22,6 @@ import org.apache.commons.logging.LogFactory;
  * @since 1.0.0
  */
 public final class InternalResourceMap {
-
-	/**
-	 * The logger instance for this class.
-	 */
-	private static final Log LOG = LogFactory.getLog(InternalResourceMap.class);
 
 	/**
 	 * The map of internal resources by resource path.
@@ -88,7 +81,7 @@ public final class InternalResourceMap {
 	 * @return a hash of the resource contents.
 	 */
 	public static String computeHash(final InternalResource resource) {
-
+		final int bufferSize = 1024;
 		try (InputStream stream = resource.getStream()) {
 
 			if (stream == null) {
@@ -99,7 +92,7 @@ public final class InternalResourceMap {
 			// TODO: Is a 1 in 2^32 chance of a cache bust fail good enough?
 			// Checksum checksumEngine = new Adler32();
 			Checksum checksumEngine = new CRC32();
-			byte[] buf = new byte[1024];
+			byte[] buf = new byte[bufferSize];
 
 			for (int read = stream.read(buf); read != -1; read = stream.read(buf)) {
 				checksumEngine.update(buf, 0, read);
