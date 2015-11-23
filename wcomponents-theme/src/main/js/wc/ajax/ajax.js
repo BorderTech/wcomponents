@@ -15,39 +15,6 @@
 	/** @param xmlString wc/xml/xmlString @param timers wc/timers @param has wc/has @param uid wc/dom/uid @param require require @ignore */
 	function(xmlString, timers, has, uid, require) {
 
-		var getActiveX,
-			/**
-			 * This constant names an attribute which only exists to make life easier for performance testers.
-			 * @constant {String}
-			 * @private
-			 * @ignore
-			 */
-			PENDING_AJAX_FLAG = "data-wc-ajaxp",
-			W3C_IFACE = "XMLHttpRequest",
-			ieXmlHttpEngine,
-			/**
-			 * AJAX request limit:
-			 *  Exists primarily for Internet Explorer bugs, IE could not handle more than about 8 pending ajax requests.
-			 *  Firefox (15) can also be swamped (but it takes a lot more, can handle about 80). Now applied to all
-			 *  browsers for the sake of consistency.
-			 * @var {int} limit
-			 * @private
-			 */
-			limit = (has("ie") ? 5 : (has("ff") ? 8 : 20)),
-			markProfiles = has("global-performance-marking"),
-			pending = 0,
-			queue = [],
-			/**
-			 * The singleton returned by the module.
-			 * @var
-			 * @type {module:wc/ajax/ajax~Ajax}
-			 * @alias module:wc/ajax/ajax */
-			ajax = new Ajax();
-
-		if (has("activex")) {
-			getActiveX = require("wc/fix/getActiveX_ieAll");  // this can only work if "wc/fix/getActiveX_ieAll" is already loaded - the compat script must ensure that.
-		}
-
 		/**
 		 * @constructor
 		 * @alias module:wc/ajax/ajax~Ajax
@@ -532,7 +499,38 @@
 				return s;
 			};
 		}
+		var getActiveX,
+			/**
+			 * This constant names an attribute which only exists to make life easier for performance testers.
+			 * @constant {String}
+			 * @private
+			 * @ignore
+			 */
+			PENDING_AJAX_FLAG = "data-wc-ajaxp",
+			W3C_IFACE = "XMLHttpRequest",
+			ieXmlHttpEngine,
+			/**
+			 * AJAX request limit:
+			 *  Exists primarily for Internet Explorer bugs, IE could not handle more than about 8 pending ajax requests.
+			 *  Firefox (15) can also be swamped (but it takes a lot more, can handle about 80). Now applied to all
+			 *  browsers for the sake of consistency.
+			 * @var {int} limit
+			 * @private
+			 */
+			limit = (has("ie") ? 5 : (has("ff") ? 8 : 20)),
+			markProfiles = has("global-performance-marking"),
+			pending = 0,
+			queue = [],
+			/**
+			 * The singleton returned by the module.
+			 * @var
+			 * @type {module:wc/ajax/ajax~Ajax}
+			 * @alias module:wc/ajax/ajax */
+			ajax = new Ajax();
 
+		if (has("activex")) {
+			getActiveX = require("wc/fix/getActiveX_ieAll");  // this can only work if "wc/fix/getActiveX_ieAll" is already loaded - the compat script must ensure that.
+		}
 		return ajax;
 
 		/**
