@@ -33,7 +33,7 @@ public class EchoServlet extends HttpServlet {
 
 		for (String paramKey : paramKeys) {
 			for (String parameterValue : req.getParameterValues(paramKey)) {
-				if (parameterValue.equals("coffee")) {
+				if ("coffee".equals(parameterValue)) {
 					res.sendError(418, "short and stout");
 					return;
 				}

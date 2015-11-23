@@ -16,11 +16,11 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
 				testHolder.innerHTML = "";
 			},
 			testGetElementsByNameBasic: function() {
-				var animals = document.getElementsByName('animal');
+				var animals = document.getElementsByName("animal");
 				assert.strictEqual(2, animals.length);
 			},
 			testGetElementsByNameStrict: function() {
-				var dogs = document.getElementsByName('dog1');
+				var dogs = document.getElementsByName("dog1");
 				assert.strictEqual(1, dogs.length);
 			},
 			testSelective: function() {
