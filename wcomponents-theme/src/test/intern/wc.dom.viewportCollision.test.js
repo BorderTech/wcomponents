@@ -75,7 +75,9 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
 					collision = viewportCollision(element),
 					expected = {"n": 0, "e": 0, "s": 0, "w": 0}, o;
 				for (o in expected) {
-					assert.strictEqual(expected[o], collision[o]);
+					if (expected.hasOwnProperty(o)) {
+						assert.strictEqual(expected[o], collision[o]);
+					}
 				}
 			}
 			/* ,
