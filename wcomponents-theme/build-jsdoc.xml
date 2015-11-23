@@ -90,10 +90,10 @@
 	<property name="jsdoc.output.dateFormat" value="YYYY-MM-DD"/>
 
 	<!-- Footer? Empty is acceptable. -->
-	<property name="jsdoc.output.footer" value="${jsdoc.output.systemName} is powered by &lt;a href='http://vanilla-js.com/' target='_blank'&gt;&lt;img src='${jsdoc.to.maven.relative.path}images/vanillajs.png' alt='Vanilla JS'/&gt;&lt;/a&gt;."/>
+	<property name="jsdoc.output.footer" value="${jsdoc.output.systemName} is powered by &lt;a href='http://vanilla-js.com/' target='_blank'&gt;&lt;img src='img/vanillajs.png' alt='Vanilla JS'/&gt;&lt;/a&gt;."/>
 
 	<!-- Copyright notice? Empty is acceptable. -->
-	<property name="jsdoc.output.copyright" value="${jsdoc.output.systemName} is copyright &amp;#xa9; see https://github.com/OpenBorders/wcomponents."/>
+	<property name="jsdoc.output.copyright" value="${jsdoc.output.systemName} is copyright &amp;#xa9; see &lt;a href='https://github.com/BorderTech/wcomponents'&gt;https://github.com/BorderTech/wcomponents&lt;/a&gt;."/>
 
 	<!--
 		A Common inconsistency
@@ -148,7 +148,7 @@
 		"syntaxTheme":"${jsdoc.config.templates.syntax.theme}",
 		"copyright":"${jsdoc.output.copyright}"
 	</property>
-	
+
 	<!--
 		################################################################################################################
 		END SIMPLE CONFIGURATION OPTIONS.
@@ -264,15 +264,15 @@
 			Actually: you REALLY do not want to change this!
 		-->
 		<property name="jsdoc.node.run" value="${basedir}/node_modules/jsdoc/jsdoc.js" />
-		
+
 		<!--
-			Stuff we do not wish to document. 
+			Stuff we do not wish to document.
 			An array of paths to exclude which should always include external (dojo, requirejs etc). This is built from
 			the list of directories in the built source (and obviously excludes the "wc" directory).
 		-->
 		<dirset id="jsdoc.excludes.dirset" dir="${jsdoc.source.dir}" includes="*" excludes="wc, ${plugins.target.dir.name}"/>
 		<pathconvert pathsep="&quot;, &quot;" property="jsdoc.excludes" targetos="unix" refid="jsdoc.excludes.dirset"/>
-		
+
 		<!-- Copy the default config file to expand properties. -->
 		<copy file="${component.rootdir}/unbuilt.jsdoc.json" tofile="${tmp.dir}/jsdoc.json" overwrite="true">
 			<filterchain>

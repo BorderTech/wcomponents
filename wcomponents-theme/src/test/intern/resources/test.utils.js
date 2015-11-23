@@ -15,10 +15,10 @@ define(["wc/dom/event", "wc/Observer", "wc/compat/compat!"], function(event, Obs
 
 		function useHtml5FileSelectors() {
 			var element;
-			if (typeof html5FileSelector === 'undefined') {
-				element = document.createElement('input');
-				element.type = 'file';
-				html5FileSelector = (typeof element.files !== 'undefined');
+			if (typeof html5FileSelector === "undefined") {
+				element = document.createElement("input");
+				element.type = "file";
+				html5FileSelector = (typeof element.files !== "undefined");
 			}
 			return html5FileSelector;
 		}
@@ -109,7 +109,7 @@ define(["wc/dom/event", "wc/Observer", "wc/compat/compat!"], function(event, Obs
 			 * reflect their name attribute properly (they are not picked up
 			 * by getElementsByName OR form[name])
 			 */
-			return form.querySelectorAll('[name="' + name + '"]');
+			return form.querySelectorAll("[name=\"" + name + "\"]");
 		};
 
 		/*
@@ -136,10 +136,10 @@ define(["wc/dom/event", "wc/Observer", "wc/compat/compat!"], function(event, Obs
 		 * HTML5 file input features
 		 */
 		this.MockFileSelector = function(accept, value, mimeType, size) {
-			this.accept = accept || '';
-			this.value = value || '';
+			this.accept = accept || "";
+			this.value = value || "";
 			if (value && !mimeType) {
-				throw new TypeError('If you set the value make sure you set the mimeType accordingly');
+				throw new TypeError("If you set the value make sure you set the mimeType accordingly");
 			}
 			if (useHtml5FileSelectors()) {
 				// Mock file selector using HTML5 features

@@ -237,7 +237,7 @@ define(["wc/array/toArray",
 				var content, component, show, result = false;
 
 				function _showContent(next) {
-					if ((component = document.getElementById(next)) && !TABLE.isOneOfMe(component)) {// do not try to toggle the table wrapper, this is an AJAX mode expander at work!
+					if ((component = document.getElementById(next)) && !TABLE.isOneOfMe(component)) {  // do not try to toggle the table wrapper, this is an AJAX mode expander at work!
 						if (TBL_TRIGGER.isOneOfMe(component)) {
 							if (!ignoreRecursion && show !== TRUE && shed.isExpanded(component)) {
 								toggleRow(component, FALSE);
@@ -277,27 +277,39 @@ define(["wc/array/toArray",
 			}
 
 			function shedObserver(element, action) {
-				var row, trigger, alias;
+				var trigger;
 				if (element) {
 					if (action === shed.actions.EXPAND || action === shed.actions.COLLAPSE) {
-						if (TBL_TRIGGER.isOneOfMe(element) && (row = TBL_EXPANDABLE_ROW.findAncestor(element))) {
-							row.setAttribute("data-wc-expanded", (action === shed.actions.EXPAND ? TRUE : FALSE));
-							if (action === shed.actions.EXPAND && (alias = element.getAttribute("data-wc-ajaxalias"))) {
-								if (element.getAttribute("${wc.ui.table.rowExpansion.attribute.ignoreAjax}") === TRUE) {
-									element.removeAttribute("${wc.ui.table.rowExpansion.attribute.ignoreAjax}");
-								}
-								else {
-									registerTrigger(element, alias);
-								}
-							}
-							// set state of expand/collapse all
-							setExpandCollapseAllState(element, action);
-						}
+						onExpandChange(element, action);
 					}
 					else if (action === shed.actions.HIDE && TBL_EXPANDABLE_ROW.isOneOfMe(element) && (trigger = document.getElementById(element.id + "${wc.ui.table.rowExpansion.id.suffix}")) && shed.isExpanded(trigger)) {
 						// collapse expanded rows on hide
 						toggleRow(trigger, FALSE);
 					}
+				}
+			}
+
+			/**
+			 * Called when the expand state is changed, helper for shedObserver.
+			 * @param element The element which is being expanded or collapsed.
+			 * @param action must be either shed.actions.EXPAND or shed.actions.COLLAPSE
+			 * @function
+			 * @private
+			 */
+			function onExpandChange(element, action) {
+				var row, alias;
+				if (TBL_TRIGGER.isOneOfMe(element) && (row = TBL_EXPANDABLE_ROW.findAncestor(element))) {
+					row.setAttribute("data-wc-expanded", (action === shed.actions.EXPAND ? TRUE : FALSE));
+					if (action === shed.actions.EXPAND && (alias = element.getAttribute("data-wc-ajaxalias"))) {
+						if (element.getAttribute("${wc.ui.table.rowExpansion.attribute.ignoreAjax}") === TRUE) {
+							element.removeAttribute("${wc.ui.table.rowExpansion.attribute.ignoreAjax}");
+						}
+						else {
+							registerTrigger(element, alias);
+						}
+					}
+					// set state of expand/collapse all
+					setExpandCollapseAllState(element, action);
 				}
 			}
 

@@ -63,7 +63,6 @@ define(["wc/dom/classList", "wc/dom/event", "wc/dom/initialise", "wc/dom/shed", 
 			function toggleTooltips(hide) {
 				var tooltips = TOOLTIPS.findDescendants(document),
 					i, next, nextId, len, control,
-					elements = KEYED_ELEMENTS.findDescendants(document),
 					showHide = hide ? "hide" : "show";
 
 				for (i = 0, len = tooltips.length; i < len; ++i) {
@@ -78,15 +77,25 @@ define(["wc/dom/classList", "wc/dom/event", "wc/dom/initialise", "wc/dom/shed", 
 					removeAccessLetter();
 				}
 				else {
-					classList.add(document.body, SHOW_UNDERLINE_CLASS);
-					for (i = 0, len = elements.length; i < len; ++i) {
-						next = elements[i];
-						if (next && !shed.isDisabled(next)) {
-							underlineAccessLetter(next);
-						}
-					}
+					showAllUnderlines();
 				}
 				scheduledCleanup(hide);
+			}
+
+			/**
+			 * Helper for toggleTooltips.
+			 * @private
+			 * @function
+			 */
+			function showAllUnderlines() {
+				var i, next, len, elements = KEYED_ELEMENTS.findDescendants(document);
+				classList.add(document.body, SHOW_UNDERLINE_CLASS);
+				for (i = 0, len = elements.length; i < len; ++i) {
+					next = elements[i];
+					if (next && !shed.isDisabled(next)) {
+						underlineAccessLetter(next);
+					}
+				}
 			}
 
 			function keydownEvent($event) {

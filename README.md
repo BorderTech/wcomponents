@@ -13,7 +13,8 @@ Its goal is to enable developers to build AJAX enabled, WCAG 2.0 compliant web a
 [![Checkstyle](http://bordertech.github.io/wcomponents/badges/checkstyle-result.svg)](http://bordertech.github.io/wcomponents/checkstyle-aggregate.html)
 [![Findbugs](http://bordertech.github.io/wcomponents/badges/findbugs-report.svg)](http://bordertech.github.io/wcomponents/findbugs-report.html)
 [![Coverage](http://bordertech.github.io/wcomponents/badges/coverage-report.svg)](http://bordertech.github.io/wcomponents/coverage-report/index.html)
-[![Coverity](https://scan.coverity.com/projects/7062/badge.svg)](https://scan.coverity.com/projects/bordertech-wcomponents)
+[![Coverity](https://scan.coverity.com/projects/7075/badge.svg)](https://scan.coverity.com/projects/bordertech-wcomponents)
+[![Codacy](https://api.codacy.com/project/badge/grade/7ba92824eb1f4d60abeddf1e72108bbc)](https://www.codacy.com/app/BorderTech/wcomponents)
 
 Frontend Tests:
 [![Sauce Test Status](https://saucelabs.com/browser-matrix/javatech.svg)](https://saucelabs.com/u/javatech)

@@ -71,12 +71,12 @@
 				<xsl:with-param name="title" select="$toolTip"/>
 			</xsl:call-template>
 			<xsl:attribute name="class">
-				<xsl:text>wc_ro</xsl:text>
+				<xsl:value-of select="concat(local-name(), ' wc_ro')"/>
 				<xsl:if test="@class">
 					<xsl:value-of select="concat(' ', @class)"/>
 				</xsl:if>
 				<xsl:if test="$class != ''">
-					<xsl:value-of select="concat(' ',$class)"/>
+					<xsl:value-of select="concat(' ', $class)"/>
 				</xsl:if>
 			</xsl:attribute>
 			<xsl:if test="$style!=''">
@@ -87,21 +87,6 @@
 			<xsl:if test="$label">
 				<xsl:attribute name="aria-labelledby">
 					<xsl:value-of select="$label/@id"/>
-				</xsl:attribute>
-			</xsl:if>
-			<xsl:if test="self::ui:checkBox or self::ui:radioButton">
-				<xsl:attribute name="role">
-					<xsl:choose>
-						<xsl:when test="self::ui:checkBox">checkbox</xsl:when>
-						<xsl:otherwise>radio</xsl:otherwise>
-					</xsl:choose>
-				</xsl:attribute>
-				<xsl:attribute name="aria-readonly">true</xsl:attribute>
-				<xsl:attribute name="aria-checked">
-					<xsl:choose>
-						<xsl:when test="@selected">true</xsl:when>
-						<xsl:otherwise>false</xsl:otherwise>
-					</xsl:choose>
 				</xsl:attribute>
 			</xsl:if>
 			<xsl:if test="$linkWithText=1">

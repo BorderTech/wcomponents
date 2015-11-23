@@ -137,13 +137,6 @@
 							</xsl:if>
 						</xsl:with-param>
 					</xsl:call-template>
-					<xsl:if test="$readOnly=0">
-						<xsl:if test="$inputType = 'radio'">
-							<xsl:call-template name="requiredElement">
-								<xsl:with-param name="useNative" select="0"/>
-							</xsl:call-template>
-						</xsl:if>
-					</xsl:if>
 
 					<xsl:if test="$title!=''">
 						<xsl:attribute name="title">

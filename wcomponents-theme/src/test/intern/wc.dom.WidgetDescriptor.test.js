@@ -16,42 +16,42 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 				Widget = obj;
 				testHolder = testutils.getTestHolder();
 
-				allDivs = new Widget('div');
-				fooDiv = allDivs.extend('foo');
-				barDiv = allDivs.extend('bar');
-				mooDiv = allDivs.extend('moo');
-				staticDiv = allDivs.extend('static');
-				monkeyDiv = allDivs.extend('monkey');
-				barfooDiv = allDivs.extend('barfoo');
-				fooSpan = new Widget('span', 'foo');
-				allAnchors = new Widget('a');
-				allBars = new Widget('', 'bar');
-				allMoos = new Widget('', 'moo');
-				allFooBarDivs = allDivs.extend(['foo', 'bar']);
-				mooDivInFooDiv = allDivs.extend('moo');
-				mooDivInFooDivImmediate = allDivs.extend('moo');
-				barSpanInMooDivInFooDiv = new Widget('span', 'bar');
-				allStaticAnchors = allAnchors.extend('', {
-					rel: 'static'
+				allDivs = new Widget("div");
+				fooDiv = allDivs.extend("foo");
+				barDiv = allDivs.extend("bar");
+				mooDiv = allDivs.extend("moo");
+				staticDiv = allDivs.extend("static");
+				monkeyDiv = allDivs.extend("monkey");
+				barfooDiv = allDivs.extend("barfoo");
+				fooSpan = new Widget("span", "foo");
+				allAnchors = new Widget("a");
+				allBars = new Widget("", "bar");
+				allMoos = new Widget("", "moo");
+				allFooBarDivs = allDivs.extend(["foo", "bar"]);
+				mooDivInFooDiv = allDivs.extend("moo");
+				mooDivInFooDivImmediate = allDivs.extend("moo");
+				barSpanInMooDivInFooDiv = new Widget("span", "bar");
+				allStaticAnchors = allAnchors.extend("", {
+					rel: "static"
 				});
-				allStaticBartAnchors = allStaticAnchors.extend('bart');
-				allStaticBartAnchorsWithAName = allStaticBartAnchors.extend('', {
+				allStaticBartAnchors = allStaticAnchors.extend("bart");
+				allStaticBartAnchorsWithAName = allStaticBartAnchors.extend("", {
 					name: null
 				});
-				allStaticBartAnchorsWithANameAndImmediateDescendMooInFoo = allStaticBartAnchors.extend('', {
+				allStaticBartAnchorsWithANameAndImmediateDescendMooInFoo = allStaticBartAnchors.extend("", {
 					name: null
 				});
-				staticNamedAnchor = new Widget('a', '', {
-					rel: 'static',
+				staticNamedAnchor = new Widget("a", "", {
+					rel: "static",
 					name: null
 				});
-				matchId = new Widget('', '', {
-					id: 'greg'
+				matchId = new Widget("", "", {
+					id: "greg"
 				});
-				allNamedElements = new Widget('', '', {
+				allNamedElements = new Widget("", "", {
 					"name": null
 				});
-				allElementsWithId = new Widget('', '', {
+				allElementsWithId = new Widget("", "", {
 					"id": null
 				});
 				a3Owner = new Widget("", "", {
@@ -86,13 +86,13 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 
 		testDescendantWithTagAndClassName: function() {
 			var result = fooDiv.findDescendant(testHolder),
-				expectedId = 'firstFooDiv';
+				expectedId = "firstFooDiv";
 			assert.strictEqual(result.id, expectedId);
 		},
 
 		testDescendantImmediateWithTagAndClassName: function() {
 			var result = fooDiv.findDescendant(testHolder, true),
-				expectedId = 'firstFooDiv';
+				expectedId = "firstFooDiv";
 			assert.strictEqual(result.id, expectedId);
 		},
 
@@ -123,22 +123,22 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 
 		testDescendantWithTagAndAttributes: function() {
 			var result = allStaticAnchors.findDescendant(testHolder);
-			assert.strictEqual(result.id, 'a1');
+			assert.strictEqual(result.id, "a1");
 		},
 
 		testDescendantWithTagAndMultipleAttributes: function() {
 			var result = staticNamedAnchor.findDescendant(testHolder);
-			assert.strictEqual(result.id, 'a4');
+			assert.strictEqual(result.id, "a4");
 		},
 
 		testDescendantWithTagAndClassNameAndAttributes: function() {
 			var result = allStaticBartAnchors.findDescendant(testHolder);
-			assert.strictEqual(result.id, 'a2');
+			assert.strictEqual(result.id, "a2");
 		},
 
 		testDescendantWithTagAndClassNameAndMultipleAttributes: function() {
 			var result = allStaticBartAnchorsWithAName.findDescendant(testHolder);
-			assert.strictEqual(result.id, 'a2');
+			assert.strictEqual(result.id, "a2");
 		},
 
 		testDescendantsWithTagAndClassNameArray: function() {
@@ -149,7 +149,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 
 		testDescendantWithTagAndClassNameArray: function() {
 			var result = allFooBarDivs.findDescendant(testHolder),
-				expectedId = 'firstFooDiv';
+				expectedId = "firstFooDiv";
 			assert.strictEqual(result.id, expectedId);
 		},
 
@@ -167,7 +167,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 
 		testDescendantWithTagAndClassNameOneOnly: function() {
 			var result = fooSpan.findDescendant(testHolder),
-				expectedId = 'onlyFooSpan';
+				expectedId = "onlyFooSpan";
 			assert.strictEqual(result.id, expectedId);
 		},
 
@@ -190,7 +190,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 
 		testDescendantWithTagName: function() {
 			var result = allAnchors.findDescendant(testHolder),
-				expectedId = 'a1';
+				expectedId = "a1";
 			assert.strictEqual(result.id, expectedId);
 		},
 
@@ -202,13 +202,13 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 
 		testDescendantWithClassName: function() {
 			var result = allBars.findDescendant(testHolder),
-				expectedId = 'firstFooDiv';
+				expectedId = "firstFooDiv";
 			assert.strictEqual(result.id, expectedId);
 		},
 
 		testDescendantWithId: function() {
 			var result = matchId.findDescendant(testHolder),
-				expectedId = 'greg';
+				expectedId = "greg";
 			assert.strictEqual(result.id, expectedId);
 		},
 
@@ -217,144 +217,144 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 			 * Broken in Firefox 10
 			 * Reported to Mozilla 22/03/2012: https://bugzilla.mozilla.org/show_bug.cgi?id=738108
 			 */
-			var result = matchId.findDescendant(document.getElementById('greg'));
+			var result = matchId.findDescendant(document.getElementById("greg"));
 			assert.isNull(result);
 		},
 
 		testAncestorWithTagAndClassName: function() {
-			var element = document.getElementById('cindy'),
+			var element = document.getElementById("cindy"),
 				result = fooDiv.findAncestor(element),
-				expected = 'greg';
+				expected = "greg";
 			assert.strictEqual(result.id, expected);
 		},
 
 		testAncestorWithTagAndClassNameAsTree: function() {
-			var element = document.getElementById('cindy'),
-				result = fooDiv.findAncestor(element, '', true),
-				expected = 'greg';
+			var element = document.getElementById("cindy"),
+				result = fooDiv.findAncestor(element, "", true),
+				expected = "greg";
 			assert.strictEqual(result[0].id, expected);
 		},
 
 		testAncestorWithTagAndClassNameAsTreeNoMatch: function() {
-			var element = document.getElementById('onlyFooSpan'),
-				result = fooDiv.findAncestor(element, '', true);
+			var element = document.getElementById("onlyFooSpan"),
+				result = fooDiv.findAncestor(element, "", true);
 			assert.isNull(result);
 		},
 
 		testAncestorWithContainerAsTree: function() {
-			var element = document.getElementById('a1'),
-				result = mooDivInFooDiv.findAncestor(element, '', true),
-				expected0 = 'moo1',
-				expected1 = 'dd22';
+			var element = document.getElementById("a1"),
+				result = mooDivInFooDiv.findAncestor(element, "", true),
+				expected0 = "moo1",
+				expected1 = "dd22";
 			assert.strictEqual(result[0].id, expected0);
 			assert.strictEqual(result[1].id, expected1);
 		},
 
 		testAncestorWithMultipleContainersAsTree: function() {
-			var element = document.getElementById('a3'),
-				result = barSpanInMooDivInFooDiv.findAncestor(element, '', true),
-				expected0 = 'ss44',
-				expected1 = 'moo3',
-				expected2 = 'cantThinkOfMoreIds';
+			var element = document.getElementById("a3"),
+				result = barSpanInMooDivInFooDiv.findAncestor(element, "", true),
+				expected0 = "ss44",
+				expected1 = "moo3",
+				expected2 = "cantThinkOfMoreIds";
 			assert.strictEqual(result[0].id, expected0);
 			assert.strictEqual(result[1].id, expected1);
 			assert.strictEqual(result[2].id, expected2);
 		},
 
 		testAncestorWithTagAndClassNameAndLimit: function() {
-			var element = document.getElementById('cindy'),
-				result = fooDiv.findAncestor(element, 'P');
+			var element = document.getElementById("cindy"),
+				result = fooDiv.findAncestor(element, "P");
 			assert.isNull(result);
 		},
 
 		testAncestorMatchSelf: function() {
-			var element = document.getElementById('a1'),
+			var element = document.getElementById("a1"),
 				result = allAnchors.findAncestor(element),
-				expected = 'a1';
+				expected = "a1";
 			assert.strictEqual(result.id, expected);
 		},
 
 		testAncestorWithTagAndClassNameNoMatch: function() {
-			var element = document.getElementById('a1'),
+			var element = document.getElementById("a1"),
 				result = fooSpan.findAncestor(element);
 			assert.isNull(result);
 		},
 
 		testAncestorWithClassName: function() {
-			var element = document.getElementById('onlyFooSpan'),
+			var element = document.getElementById("onlyFooSpan"),
 				result = allBars.findAncestor(element),
-				expected = 'dd33';
+				expected = "dd33";
 			assert.strictEqual(result.id, expected);
 		},
 
 		testAncestorWithClassNameArray: function() {
-			var element = document.getElementById('ss11'),
+			var element = document.getElementById("ss11"),
 				result = allFooBarDivs.findAncestor(element),
-				expected = 'firstFooDiv';
+				expected = "firstFooDiv";
 			assert.strictEqual(result.id, expected);
 		},
 
 		testAncestorWithExtends: function() {
-			var element = document.getElementById('omfg3'),
+			var element = document.getElementById("omfg3"),
 				result = allStaticBartAnchorsWithAName.findAncestor(element),
-				expected = 'a2';
+				expected = "a2";
 			assert.strictEqual(result.id, expected);
 		},
 
 		testAncestorWithEverything: function() {
-			var element = document.getElementById('omfg3'),
+			var element = document.getElementById("omfg3"),
 				result = allStaticBartAnchorsWithANameAndImmediateDescendMooInFoo.findAncestor(element),
-				expected = 'a2';
+				expected = "a2";
 			assert.strictEqual(result.id, expected);
 		},
 
 		testIsOneOfMeWithTagAndClassName: function() {
-			var element = document.getElementById('onlyFooSpan');
+			var element = document.getElementById("onlyFooSpan");
 			assert.isTrue(fooSpan.isOneOfMe(element));
 		},
 
 		testIsOneOfMeWithTagAndClassNameNoMatch: function() {
-			var element = document.getElementById('firstFooDiv');
+			var element = document.getElementById("firstFooDiv");
 			assert.isFalse(fooSpan.isOneOfMe(element));
 		},
 
 		testIsOneOfMeWithTagName: function() {
-			var element = document.getElementById('a1');
+			var element = document.getElementById("a1");
 			assert.isTrue(allAnchors.isOneOfMe(element));
 		},
 
 		testIsOneOfMeWithClassName: function() {
-			var element = document.getElementById('a1');
+			var element = document.getElementById("a1");
 			assert.isTrue(allBars.isOneOfMe(element));
 		},
 
 		testIsOneOfMeWithId: function() {
-			var element = document.getElementById('greg');
+			var element = document.getElementById("greg");
 			assert.isTrue(matchId.isOneOfMe(element));
 		},
 
 		testIsOneOfMeWithIdNoMatch: function() {
-			var element = document.getElementById('a1');
+			var element = document.getElementById("a1");
 			assert.isFalse(matchId.isOneOfMe(element));
 		},
 
 		testStaticIsOneOfMeWithSingleInstance: function() {
-			var element = document.getElementById('onlyFooSpan');
+			var element = document.getElementById("onlyFooSpan");
 			assert.isTrue(Widget.isOneOfMe(element, fooSpan));
 		},
 
 		testStaticIsOneOfMeWithArraySIngleInstance: function() {
-			var element = document.getElementById('onlyFooSpan');
+			var element = document.getElementById("onlyFooSpan");
 			assert.isTrue(Widget.isOneOfMe(element, [fooSpan]));
 		},
 
 		testStaticIsOneOfMeWithArrayMultiple: function() {
-			var element = document.getElementById('onlyFooSpan');
+			var element = document.getElementById("onlyFooSpan");
 			assert.isTrue(Widget.isOneOfMe(element, [allAnchors, fooSpan]));
 		},
 
 		testStaticIsOneOfMeWithArrayMultipleNoMatch: function() {
-			var element = document.getElementById('onlyFooSpan');
+			var element = document.getElementById("onlyFooSpan");
 			assert.isFalse(Widget.isOneOfMe(element, [allAnchors, matchId]));
 		},
 
@@ -387,42 +387,42 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 		 * tests as they are not really necessary.
 		 */
 		testToQsWithTagAndClassName: function() {
-			assert.strictEqual(fooDiv.toString(), 'div.foo');
+			assert.strictEqual(fooDiv.toString(), "div.foo");
 		},
 
 		testToQsWithClassName: function() {
-			assert.strictEqual(allBars.toString(), '.bar');
+			assert.strictEqual(allBars.toString(), ".bar");
 		},
 
 		testToQsWithClassNameArray: function() {
-			assert.strictEqual(allFooBarDivs.toString(), 'div.foo.bar');
+			assert.strictEqual(allFooBarDivs.toString(), "div.foo.bar");
 		},
 
 		testToQsWithId: function() {
-			assert.strictEqual(matchId.toString(), '#greg');
+			assert.strictEqual(matchId.toString(), "#greg");
 		},
 
 		testToQsWithTagName: function() {
-			assert.strictEqual(allAnchors.toString(), 'a');
+			assert.strictEqual(allAnchors.toString(), "a");
 		},
 
 		testToQsWithTagNameAndAttributes: function() {
-			assert.strictEqual(allStaticAnchors.toString(), 'a[rel~="static"]', "didn't find expected element");
+			assert.strictEqual(allStaticAnchors.toString(), "a[rel~=\"static\"]", "didn't find expected element");
 		},
 
 		testToQsWithTagNameAndClassNameAndAttributes: function() {
-			assert.strictEqual(allStaticBartAnchors.toString(), 'a.bart[rel~="static"]', "didn't find expected element");
+			assert.strictEqual(allStaticBartAnchors.toString(), "a.bart[rel~=\"static\"]", "didn't find expected element");
 		},
 
 		testToQsWithTagNameAndMultipleAttributes: function() {
 			var qs = allStaticBartAnchorsWithAName.toString(),
-				equals = (qs === 'a.bart[rel~="static"][name]' || qs === 'a.bart[name][rel~="static"]');
+				equals = (qs === "a.bart[rel~=\"static\"][name]" || qs === "a.bart[name][rel~=\"static\"]");
 			assert.isTrue(equals, "query selector not as expected: " + qs);
 		},
 
 		testToQsWithEverything: function() {
 			var qs = allStaticBartAnchorsWithANameAndImmediateDescendMooInFoo.toString(),
-				equals = (qs === 'div.foo div.moo>a.bart[rel~="static"][name]' || qs === 'div.foo div.moo>a.bart[name][rel~="static"]');
+				equals = (qs === "div.foo div.moo>a.bart[rel~=\"static\"][name]" || qs === "div.foo div.moo>a.bart[name][rel~=\"static\"]");
 			assert.isTrue(equals, "query selector not as expected: " + qs);
 		},
 
@@ -432,17 +432,17 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 
 		// END toQs TESTS
 		testExtendClassName: function() {
-			var subClass = fooDiv.extend('bar'),
-				element = document.getElementById('ss11'),
+			var subClass = fooDiv.extend("bar"),
+				element = document.getElementById("ss11"),
 				result = subClass.findAncestor(element),
-				expected = 'firstFooDiv';
+				expected = "firstFooDiv";
 			assert.strictEqual(result.id, expected);
 		},
 
 		testExtendNothing: function() {
 			try {
 				fooDiv.extend();
-				assert.fail(null, !null, 'Shoulda got an exception extending WD with nothing');
+				assert.fail(null, !null, "Shoulda got an exception extending WD with nothing");
 			}
 			catch (ex) {
 				assert.isTrue(true, "Exception expected");  // no op - we expect this failure
@@ -450,21 +450,21 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 		},
 
 		testExtendAttribute: function() {
-			var subClass = fooDiv.extend('', {
-					'aria-disabled': 'false',
+			var subClass = fooDiv.extend("", {
+					"aria-disabled": "false",
 					id: null
 				}),
-				element = document.getElementById('a1'),
+				element = document.getElementById("a1"),
 				result = subClass.findAncestor(element),
-				expected = 'dd22';
+				expected = "dd22";
 			assert.strictEqual(result.id, expected);
 		},
 
 		testExtendAttributeNoMatch: function() {
-			var subClass = fooDiv.extend('', {
-					'aria-disabled': 'false'
+			var subClass = fooDiv.extend("", {
+					"aria-disabled": "false"
 				}),
-				element = document.getElementById('ss11'),
+				element = document.getElementById("ss11"),
 				result = subClass.findAncestor(element);
 			assert.isNull(result);
 		},
@@ -482,42 +482,42 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 		},
 
 		testDescendFromIsOneOfMeTrue: function() {
-			var element = document.getElementById('moo1');
+			var element = document.getElementById("moo1");
 			assert.isTrue(mooDivInFooDiv.isOneOfMe(element));
 		},
 
 		testDescendFromIsOneOfMeFalse: function() {
-			var element = document.getElementById('moo2');
+			var element = document.getElementById("moo2");
 			assert.isFalse(mooDivInFooDiv.isOneOfMe(element));
 		},
 
 		testDescendFromImmediateIsOneOfMeTrue: function() {
-			var element = document.getElementById('marcia');
+			var element = document.getElementById("marcia");
 			assert.isTrue(mooDivInFooDivImmediate.isOneOfMe(element));
 		},
 
 		testDescendFromImmediateIsOneOfMeFalse: function() {
-			var element = document.getElementById('moo1');
+			var element = document.getElementById("moo1");
 			assert.isFalse(mooDivInFooDivImmediate.isOneOfMe(element));
 		},
 
 		testDescendFromAncestor: function() {
-			var element = document.getElementById('a1'),
+			var element = document.getElementById("a1"),
 				result = mooDivInFooDiv.findAncestor(element),
-				expected = 'moo1';
+				expected = "moo1";
 			assert.strictEqual(result.id, expected);
 		},
 
 		testDescendFromAncestorNotFound: function() {
-			var element = document.getElementById('ss33'),
+			var element = document.getElementById("ss33"),
 				result = mooDivInFooDiv.findAncestor(element);
 			assert.isNull(result);
 		},
 
 		testDescendFromAncestorSelf: function() {
-			var element = document.getElementById('moo1'),
+			var element = document.getElementById("moo1"),
 				result = mooDivInFooDiv.findAncestor(element),
-				expected = 'moo1';
+				expected = "moo1";
 			assert.strictEqual(result.id, expected);
 		},
 
@@ -531,7 +531,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 		testCnostructor: function() {
 			var threw = false;
 			try {
-				new Widget('', '');  // eslint-disable-line no-new
+				new Widget("", "");  // eslint-disable-line no-new
 			}
 			catch (ex) {
 				threw = true;
@@ -541,25 +541,25 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 
 		testStaticFindDescendant: function() {
 			var result = Widget.findDescendant(testHolder, [mooDiv, barDiv]),
-				expectedId = 'firstFooDiv';
+				expectedId = "firstFooDiv";
 			assert.strictEqual(result.id, expectedId);
 		},
 
 		testStaticFindDescendantImmediate: function() {
 			var result = Widget.findDescendant(testHolder, [mooDiv, mooDivInFooDivImmediate], true),
-				expectedId = 'marcia';
+				expectedId = "marcia";
 			assert.strictEqual(result.id, expectedId);
 		},
 
 		testStaticFindDescendantNoTag: function() {
 			var result = Widget.findDescendant(testHolder, [fooSpan, mooDivInFooDivImmediate]),
-				expectedId = 'onlyFooSpan';
+				expectedId = "onlyFooSpan";
 			assert.strictEqual(result.id, expectedId);
 		},
 
 		testStaticFindDescendantImmediateNoTag: function() {
 			var result = Widget.findDescendant(testHolder, [fooSpan, mooDivInFooDivImmediate], true),
-				expectedId = 'marcia';
+				expectedId = "marcia";
 			assert.strictEqual(result.id, expectedId);
 		},
 
@@ -703,7 +703,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 
 			inputs = INPUT.map(_mapExtendWidget);
 			for (i = 0; i < inputs.length; ++i) {
-				expected = 'input[required][type~="' + types[i] + '"]';
+				expected = "input[required][type~=\"" + types[i] + "\"]";
 				assert.strictEqual(inputs[i].toString(), expected, "Widget.toString not as expected");
 			}
 		}

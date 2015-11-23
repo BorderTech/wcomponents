@@ -7,15 +7,15 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
 			setup: function() {
 				return testutils.setupHelper(["wc/xml/xmlString"], function(obj) {
 					xmlString = obj;
-					testXmlString = '<?xml version="1.0"?><note><to>Tove</to><from>Jani</from><heading>Reminder</heading><body>Don\'t forget me this weekend!</body></note>';
+					testXmlString = "<?xml version=\"1.0\"?><note><to>Tove</to><from>Jani</from><heading>Reminder</heading><body>Don't forget me this weekend!</body></note>";
 				});
 			},
 			testStringFromXml: function() {
 				/* Convert a String to an XML DOM object with DOM methods etc */
 				var result = xmlString.from(testXmlString),
-					from = result.getElementsByTagName('from')[0];
-				assert.strictEqual('note', result.documentElement.tagName);
-				assert.strictEqual('from', from.tagName);
+					from = result.getElementsByTagName("from")[0];
+				assert.strictEqual("note", result.documentElement.tagName);
+				assert.strictEqual("from", from.tagName);
 			},
 			testStringToXml: function() {
 				/* Convert an XML DOM to a String representation of the XML.
@@ -27,10 +27,10 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
 					result = xmlString.from(testXmlString),
 					expected = testXmlString;
 				result = xmlString.to(result);
-				result = result.replace(whitespaceRe, '');
-				result = result.replace(xmlHeaderRe, '');
-				expected = expected.replace(whitespaceRe, '');
-				expected = expected.replace(xmlHeaderRe, '');
+				result = result.replace(whitespaceRe, "");
+				result = result.replace(xmlHeaderRe, "");
+				expected = expected.replace(whitespaceRe, "");
+				expected = expected.replace(xmlHeaderRe, "");
 				assert.strictEqual(expected, result);
 			}
 		});
