@@ -62,7 +62,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 			observer.subscribe(subscriber);
 			observer.subscribe(subscriber);
 			observer.notify();
-			assert.strictEqual(count, 1, 'Should not be able to subscribe more than once.');
+			assert.strictEqual(count, 1, "Should not be able to subscribe more than once.");
 		},
 		testObserverSubscribeNoParams: function() {
 			try {
@@ -91,7 +91,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 			function subscriber() {}
 			assert.strictEqual(observer.subscribe(subscriber, {group: ns}), subscriber, "Subscribe with a group should return the subscriber.");
 		},
-		/* Tests of Observer context applied to a subscriber. The context supplied by a call to subscribe should be the 'this' of the subscriber when notified. */
+		/* Tests of Observer context applied to a subscriber. The context supplied by a call to subscribe should be the "this" of the subscriber when notified. */
 		testObserverSubscribeWithContext: function() {
 			var actualContext,
 				expectedContext = document.getElementById(containerId) || assert.fail(null, !null, "Cannot get context container.");
@@ -546,7 +546,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 
 			observer.setFilter(ns);
 			observer.notify();
-			assert.isTrue(wasNotified, 'wasNotified should not have been set by subscriber not matching filter.');
+			assert.isTrue(wasNotified, "wasNotified should not have been set by subscriber not matching filter.");
 		},
 		testObserverFilterWildcard: function() {
 
@@ -577,7 +577,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 				observer.notify();
 			}
 			finally {
-				assert.strictEqual(wasNotified, 2, 'wasNotified should only be incremented by each subscriber matching the wildcarded group name.');
+				assert.strictEqual(wasNotified, 2, "wasNotified should only be incremented by each subscriber matching the wildcarded group name.");
 				observer.reset(otherNs);
 				observer.reset(wildNs);
 			}
@@ -620,7 +620,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 			observer.setFilter(filterFn);
 			observer.notify();
 
-			assert.strictEqual(wasNotified, 3, 'wasNotified should be adjusted only by functions in a group matching that set by the filter function');
+			assert.strictEqual(wasNotified, 3, "wasNotified should be adjusted only by functions in a group matching that set by the filter function");
 			observer.reset(localns);
 			observer.reset(otherNs);
 			observer.reset(thirdNs);
@@ -661,7 +661,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 			// we expect JavaScript truthy/falsey not strictly boolean.
 			observer.notify();
 
-			assert.strictEqual(wasNotified, 7, 'wasNotified should be set by everything which does not return a falsey value');
+			assert.strictEqual(wasNotified, 7, "wasNotified should be set by everything which does not return a falsey value");
 			observer.reset(localns);
 			observer.reset(otherNs);
 			observer.reset(thirdNs);
@@ -687,7 +687,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 				observer.notify();
 			}
 			finally {
-				assert.strictEqual(wasNotified, 1, 'Call to notify should call subscribers in GLOBAL group since no filter was set');
+				assert.strictEqual(wasNotified, 1, "Call to notify should call subscribers in GLOBAL group since no filter was set");
 			}
 		},
 		testObserverFilterNotStringOrFunction: function() {
@@ -711,7 +711,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 				observer.notify();
 			}
 			finally {
-				assert.strictEqual(wasNotified, 1, 'Call to notify should call subscribers in GLOBAL group since no filter was set');
+				assert.strictEqual(wasNotified, 1, "Call to notify should call subscribers in GLOBAL group since no filter was set");
 				observer.reset(ns);
 			}
 		},
@@ -747,7 +747,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 				hadError = false;
 
 			try {
-				observer.getGroupAsWildcardFilter(filter);  // nonsense filter, even if of the correct 'type', will throw an error
+				observer.getGroupAsWildcardFilter(filter);  // nonsense filter, even if of the correct "type", will throw an error
 			}
 			catch (error) {
 				hadError = true;

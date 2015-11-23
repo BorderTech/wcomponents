@@ -9,7 +9,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
 				return testutils.setupHelper(["wc/has"], function(obj) {
 					has = obj;
 					testHolder = testutils.getTestHolder();
-					testHolder.innerHTML = '<form><input name="animal" value="woof" /> <input name="animal" value="woof" id="dog1" /><input name="dog1"   value="woof" /></form>';
+					testHolder.innerHTML = "<form><input name='animal' value='woof' /> <input name='animal' value='woof' id='dog1' /><input name='dog1' value='woof' /></form>";
 				});
 			},
 			teardown: function() {
