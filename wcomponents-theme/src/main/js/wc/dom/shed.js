@@ -98,9 +98,6 @@ define(["wc/Observer",
 					role = $role.get(element, true),
 					supported,
 					ariaSupported,
-					kids,
-					i,
-					len,
 					func;
 
 				if (role) {
@@ -159,27 +156,37 @@ define(["wc/Observer",
 					classList[func](element, CLASS_REQUIRED);
 				}
 				else {
-					// cannot set state on the target but may be able to set it on its children. So we go into child tree until we find something to which we can apply the STATE change.
-					if (useChildren || (useChildren !== false && (useChildren = !!element.children))) {
-						kids = element.children;  // FF 3.5, Safari and IE
+					applyStateToChildren(element, STATE, reverse);
+				}
+			}
+
+			/*
+			 * Helper for disabledMandatoryHelper.
+			 * @private
+			 * @function
+			 */
+			function applyStateToChildren(element, STATE, reverse) {
+				var kids, i, len, func;
+				// cannot set state on the target but may be able to set it on its children. So we go into child tree until we find something to which we can apply the STATE change.
+				if (useChildren || (useChildren !== false && (useChildren = !!element.children))) {
+					kids = element.children;  // FF 3.5, Safari and IE
+				}
+				else {
+					kids = element.childNodes;
+				}
+				if (kids && kids.length) {
+					if (STATE === REQUIRED) {
+						func = reverse ? actions.OPTIONAL : actions.MANDATORY;
 					}
 					else {
-						kids = element.childNodes;
+						func = reverse ? actions.ENABLE : actions.DISABLE;
 					}
-					if (kids && kids.length) {
-						if (STATE === REQUIRED) {
-							func = reverse ? actions.OPTIONAL : actions.MANDATORY;
-						}
-						else {
-							func = reverse ? actions.ENABLE : actions.DISABLE;
-						}
-					}
+				}
 
-					for (i = 0, len = kids.length; i < len; i++) {
-						if (useChildren || kids[i].nodeType === Node.ELEMENT_NODE) {
-							// don't try disabling text nodes, comments etc
-							instance[func](kids[i]);
-						}
+				for (i = 0, len = kids.length; i < len; i++) {
+					if (useChildren || kids[i].nodeType === Node.ELEMENT_NODE) {
+						// don't try disabling text nodes, comments etc
+						instance[func](kids[i]);
 					}
 				}
 			}

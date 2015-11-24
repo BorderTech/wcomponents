@@ -165,10 +165,9 @@ define(["wc/dom/attribute",
 					toOptgroup,
 					optgroupWD,
 					orderOptGroup,
-					fromGroupIndex,
-					container;
+					fromGroupIndex;
 
-				if (fromList.options.length && fromList.selectedIndex >= 0) {
+				if (fromList.options.length && fromIndex >= 0) {
 					toList.selectedIndex = -1;
 					while (fromIndex >= 0) {
 						next = fromList.options[fromIndex];
@@ -180,28 +179,21 @@ define(["wc/dom/attribute",
 							fromGroupIndex = selectboxSearch.indexOf(next, parent);
 
 							if ((optgroup = optgroupWD.findDescendant(toList))) {
-								toIndex = originalIndex - fromGroupIndex;
-								if (toIndex < 0) {
-									toIndex = originalIndex;
-								}
+								toIndex = calcToIndex(originalIndex, fromGroupIndex);
 								if (toIndex >= optgroup.children.length) {
 									optgroup.appendChild(next);
-									result = true;
 								}
 								else {
 									optgroup.insertBefore(next, optgroup.children[toIndex]);
-									result = true;
 								}
+								result = true;
 							}
 							else {
 								// we need to make an optgroup in toList, but where?
 								optgroup = document.createElement(tag.OPTGROUP);
 								optgroup.label = parent.label;
 								originalIndex = selectboxSearch.indexOf(next, orderList);
-								toIndex = originalIndex - fromIndex;
-								if (toIndex < 0) {
-									toIndex = originalIndex;
-								}
+								toIndex = calcToIndex(originalIndex, fromIndex);
 								if (toIndex >= toList.options.length) {
 									toList.appendChild(optgroup);
 								}
@@ -225,10 +217,7 @@ define(["wc/dom/attribute",
 						}
 						else {
 							originalIndex = selectboxSearch.indexOf(next, orderList);
-							toIndex = originalIndex - fromIndex;
-							if (toIndex < 0) {
-								toIndex = originalIndex;
-							}
+							toIndex = calcToIndex(originalIndex, fromIndex);
 							if (toIndex >= toList.options.length) {
 								toList.appendChild(next);
 								result = true;
@@ -237,28 +226,50 @@ define(["wc/dom/attribute",
 								toOptgroup = toList.options[toIndex].parentNode;
 								if (OPTGROUP.isOneOfMe(toOptgroup)) {
 									toList.insertBefore(next, toOptgroup);
-									result = true;
 								}
 								else {
 									toList.insertBefore(next, toList.options[toIndex]);
-									result = true;
 								}
+								result = true;
 							}
 						}
 						fromIndex = fromList.selectedIndex;
 					}
+					if (result) {
+						publishSelection(fromList, toList);
+					}
 				}
-				if (result) {
-					if ((container = CONTAINER.findAncestor(toList)) && container.hasAttribute("data-wc-ajaxalias")) {
-						ajaxRegion.requestLoad(container);
-					}
+			}
 
-					if (instance.getListType(fromList) === LIST_TYPE_CHOSEN) {
-						shed.select(toList);  // the list won't actually be selected but the selection will be published
-					}
-					else {
-						shed.deselect(toList);  // moving from chose to available publishes a deselection
-					}
+			/*
+			 * Helper for addRemoveSelected.
+			 * @function
+			 * @private
+			 */
+			function calcToIndex(originalIndex, fromIndex) {
+				var result = originalIndex - fromIndex;
+				if (result < 0) {
+					result = originalIndex;
+				}
+				return result;
+			}
+
+			/*
+			 * Helper for addRemoveSelected.
+			 * @function
+			 * @private
+			 */
+			function publishSelection(fromList, toList) {
+				var container = CONTAINER.findAncestor(toList);
+				if (container && container.hasAttribute("data-wc-ajaxalias")) {
+					ajaxRegion.requestLoad(container);
+				}
+
+				if (instance.getListType(fromList) === LIST_TYPE_CHOSEN) {
+					shed.select(toList);  // the list won't actually be selected but the selection will be published
+				}
+				else {
+					shed.deselect(toList);  // moving from chose to available publishes a deselection
 				}
 			}
 
