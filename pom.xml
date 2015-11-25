@@ -283,7 +283,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>findbugs-maven-plugin</artifactId>
-				<version>3.0.2</version>
+				<version>3.0.3</version>
 				<configuration>
 					<effort>Max</effort>
 					<includeTests>false</includeTests>
@@ -326,7 +326,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-antrun-plugin</artifactId>
-				<version>1.7</version>
+				<version>1.8</version>
 				<dependencies>
 					<dependency>
 						<groupId>com.google.code.findbugs</groupId>
@@ -622,7 +622,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>findbugs-maven-plugin</artifactId>
-				<version>3.0.2</version>
+				<version>3.0.3</version>
 				<configuration>
 					<skip>false</skip>
 					<effort>Max</effort>
