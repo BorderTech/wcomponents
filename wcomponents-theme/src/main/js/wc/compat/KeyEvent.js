@@ -141,7 +141,9 @@ define(["wc/has"], /** @param has wc/has @ignore */ function(has) {
 		result = {};
 
 		for (key in keymap) {
-			result[PREFIX + key] = keymap[key];
+			if (keymap.hasOwnProperty(key)) {
+				result[PREFIX + key] = keymap[key];
+			}
 		}
 		window.KeyEvent = result;
 	}

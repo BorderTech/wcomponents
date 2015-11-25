@@ -38,9 +38,10 @@
 
 		<!-- Create Badge. -->
 		<xsl:call-template name="createsvg">
-			<xsl:with-param name="SUBJECT.TEXT" select="'PMD'" />
+			<xsl:with-param name="SUBJECT.TEXT" select="'pmd'" />
 			<xsl:with-param name="STATUS.COLOUR" select="$colour" />
 			<xsl:with-param name="STATUS.TEXT" select="$status" />
+			<xsl:with-param name="SUBJECT.PADDING" select="'22'" />
 		</xsl:call-template>
 	</xsl:template>
 
@@ -68,7 +69,7 @@
 
 		<!-- Create Badge. -->
 		<xsl:call-template name="createsvg">
-			<xsl:with-param name="SUBJECT.TEXT" select="'Checkstyle'" />
+			<xsl:with-param name="SUBJECT.TEXT" select="'checkstyle'" />
 			<xsl:with-param name="STATUS.COLOUR" select="$colour" />
 			<xsl:with-param name="STATUS.TEXT" select="$status" />
 		</xsl:call-template>
@@ -98,7 +99,7 @@
 
 		<!-- Create Badge. -->
 		<xsl:call-template name="createsvg">
-			<xsl:with-param name="SUBJECT.TEXT" select="'Findbugs'" />
+			<xsl:with-param name="SUBJECT.TEXT" select="'findbugs'" />
 			<xsl:with-param name="STATUS.COLOUR" select="$colour" />
 			<xsl:with-param name="STATUS.TEXT" select="$status" />
 		</xsl:call-template>
@@ -153,9 +154,10 @@
 
 		<!-- Create Badge. -->
 		<xsl:call-template name="createsvg">
-			<xsl:with-param name="SUBJECT.TEXT" select="'Coverage'" />
+			<xsl:with-param name="SUBJECT.TEXT" select="'coverage'" />
 			<xsl:with-param name="STATUS.COLOUR" select="$colour" />
 			<xsl:with-param name="STATUS.TEXT" select="$status" />
+			<xsl:with-param name="STATUS.PADDING" select="'14'" />
 		</xsl:call-template>
 	</xsl:template>
 
@@ -165,9 +167,11 @@
 		<xsl:param name="SUBJECT.TEXT" select="'Subject'"/>
 		<xsl:param name="STATUS.TEXT" select="'Status'"/>
 		<xsl:param name="STATUS.COLOUR" select="$COLOUR.OK"/>
+		<xsl:param name="SUBJECT.PADDING" select="'10'"/>
+		<xsl:param name="STATUS.PADDING" select="'10'"/>
 
-		<xsl:variable name="W0" select="string-length($SUBJECT.TEXT) * 8 + 12"/>
-		<xsl:variable name="W1" select="string-length($STATUS.TEXT) * 7.5 + 12 "/>
+		<xsl:variable name="W0" select="string-length($SUBJECT.TEXT) * 7 + $SUBJECT.PADDING"/>
+		<xsl:variable name="W1" select="string-length($STATUS.TEXT) * 7 + $STATUS.PADDING"/>
 		<xsl:variable name="WT" select="$W0 + $W1"/>
 
 		<xsl:variable name="W2" select="$W0 div 2"/>

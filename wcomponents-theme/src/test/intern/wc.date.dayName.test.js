@@ -30,26 +30,26 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
 				result = day.get(testDate);
 			},
 			testDaySunday: function () {
-				assert.strictEqual('Sunday', result[SUNDAY]);
+				assert.strictEqual("Sunday", result[SUNDAY]);
 			},
 			testDayMonday: function () {
-				assert.strictEqual('Monday', result[MONDAY]);
+				assert.strictEqual("Monday", result[MONDAY]);
 			},
 			testDayTuesday: function () {
-				assert.strictEqual('Tuesday', result[TUESDAY]);
+				assert.strictEqual("Tuesday", result[TUESDAY]);
 			},
 			testDayWednesday: function () {
-				assert.strictEqual('Wednesday', result[WEDNESDAY]);
+				assert.strictEqual("Wednesday", result[WEDNESDAY]);
 			},
 			testDayThursday: function () {
-				assert.strictEqual('Thursday', result[THURSDAY]);
+				assert.strictEqual("Thursday", result[THURSDAY]);
 			},
 			testDayFriday: function () {
-				assert.strictEqual('Friday', result[FRIDAY]);
+				assert.strictEqual("Friday", result[FRIDAY]);
 			},
 			testDaySaturday: function () {
 				var result = day.get(testDate);
-				assert.strictEqual('Saturday', result[SATURDAY]);
+				assert.strictEqual("Saturday", result[SATURDAY]);
 			}
 		});
 	});

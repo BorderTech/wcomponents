@@ -30,11 +30,11 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
 			 * Check that existing fields in the stateContainer are blown away on update
 			 */
 			testStateContainerCleanedOnUpdate: function() {
+				var sContainer, subscriber = function() {},
+					form = document.getElementById(formId),
+					markerElement = document.createElement("input");
 				try {
-					var subscriber = function() {},
-						form = document.getElementById(formId),
-						sContainer = formUpdateManager.getStateContainer(form),
-						markerElement = document.createElement('input');
+					sContainer = formUpdateManager.getStateContainer(form);
 					formUpdateManager.subscribe(subscriber);
 					sContainer.appendChild(markerElement);
 					assert.strictEqual(sContainer, markerElement.parentNode);
@@ -51,7 +51,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
 			testClean: function() {
 				var form = document.getElementById(formId),
 					sContainer = formUpdateManager.getStateContainer(form),
-					markerElement = document.createElement('input');
+					markerElement = document.createElement("input");
 				sContainer.appendChild(markerElement);
 				assert.strictEqual(sContainer, markerElement.parentNode);
 				formUpdateManager.clean(form);

@@ -205,8 +205,8 @@
 					}
 					finally {
 						el = null;
-						return result;
 					}
+					return result;
 				});
 
 				function hasWorkingObjectDefineProperty(g, obj) {

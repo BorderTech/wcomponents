@@ -239,187 +239,275 @@ define(["wc/dom/classList",
 			 */
 			function openDlg(id, _openerId) {
 				var regObj = registry[id],
-					element = document.getElementById(DIALOG_ID);
+					element = document.getElementById(DIALOG_ID),
+					doOpen = function (dialog) {
+						openDlgHelper(dialog, regObj, id, _openerId);
+					};
+
 				if (regObj) {
 					if (element) {
-						open(element);
+						doOpen(element);
 					}
 					else {
-						buildDialog(regObj.formId).then(open);
+						buildDialog(regObj.formId).then(doOpen);
+					}
+				}
+			}
+
+			/**
+			 * Helper for `openDlg`.
+			 * This does the actual heavy lifting of opening a dialog.
+			 *
+			 * @param dialog The dialog container.
+			 * @param regObj The registry item that contains configuration data for this dialog.
+			 * @param id The id of the WDialog being opened.
+			 * @param _openerId The id of the button used to launch the dialog if known.
+			 * @private
+			 * @function
+			 */
+			function openDlgHelper(dialog, regObj, id, _openerId) {
+				var content;
+
+				if (dialog && shed.isHidden(dialog)) {
+					opening = true;
+					// set up the content receptacle
+					content = getContent(dialog);
+
+					reinitializeDialog(dialog, content, regObj, id);
+
+					if (notMobile) {
+						// mobile browsers dialog is auto max'ed and not resizeable or positionable
+						initDialogControls(dialog, regObj);
+						initDialogDimensions(dialog, regObj);
+					}
+
+					setModality(dialog, content, regObj);
+
+					/* TODO: REMOVE THIS BIT IT IS FOR LOCAL STATIC TESTING ONLY */
+					if (TESTING_URL_REG[id]) {
+						content.setAttribute("data-wc-ajaxurl", TESTING_URL_REG[id]);
+					}
+
+					rememberOpener(content, _openerId);
+
+					// content is half magic: it needs to be called specifically because we do not shed.show() it
+					if (content.className) {
+						eagerLoader.load(content, true, false);
+					}
+
+					// show the dialog
+					shed.show(dialog);
+					initDialogPosition(dialog, regObj);
+				}
+			}
+
+			/**
+			 * Helper for `openDlg`.
+			 * Applies the dialog "mode" either modal or non-modal as defined in regObj.
+			 *
+			 * @param dialog The dialog container.
+			 * @param content The dialog content.
+			 * @param regObj The registry item that contains configuration data for this dialog.
+			 * @private
+			 * @function
+			 */
+			function setModality(dialog, content, regObj) {
+				if (regObj.modal) {
+					content.setAttribute("role", "alertdialog");
+					modalShim.setModal(dialog);
+				}
+				else {
+					content.removeAttribute("role");
+				}
+			}
+
+			/**
+			 * Helper for `openDlg`.
+			 * Once the dialog has been built it needs to be configured each time it is opened.
+			 * For example the correct title must be displayed for this specific dialog. CSS classes may need to be set, removed etc.
+			 *
+			 * @param dialog The dialog container.
+			 * @param content The dialog content.
+			 * @param regObj The registry item that contains configuration data for this dialog.
+			 * @param id The id of the WDialog being opened.
+			 * @private
+			 * @function
+			 */
+			function reinitializeDialog(dialog, content, regObj, id) {
+				var title;
+				if (regObj.className) {
+					dialog.className = BASE_CLASS = " " + regObj.class;
+				}
+				else {
+					dialog.className = BASE_CLASS;
+				}
+
+				if (content.className) {  // if we have a dialog which has content on load and has not been "closed" it will not have its ajax class names
+					content.id = id;
+					content.innerHTML = i18n.get("${wc.ui.loading.loadMessage}");
+				}
+				else {
+					// dialog built in XSLT because it has content
+					event.add(dialog, event.TYPE.keydown, keydownEvent);
+				}
+
+				// set the dialog title
+				if ((title = TITLE_WD.findDescendant(dialog))) {
+					title.innerHTML = "";
+					title.innerHTML = regObj.title;
+				}
+			}
+
+			/**
+			 * Helper for `openDlg`.
+			 * Initializes the dialog's control buttons.
+			 * @param dialog The dialog container.
+			 * @param regObj The registry item that contains configuration data for this dialog.
+			 * @private
+			 * @function
+			 */
+			function initDialogControls(dialog, regObj) {
+				var control;
+				FOOTER = FOOTER || new Widget("${wc.dom.html5.element.footer}");
+				if ((control = FOOTER.findDescendant(dialog))) {
+					if (regObj.resizable) {
+						shed.show(control, true);
+					}
+					else {
+						shed.hide(control, true);
+					}
+				}
+				if (RESIZE_WD && (control = RESIZE_WD.findDescendant(dialog))) {
+					if (regObj.resizable) {
+						shed.show(control, true);
+					}
+					else {
+						shed.hide(control, true);
 					}
 				}
 
-				function open(dialog) {
-					var content,
-						control,
-						title,
-						opener,
-						removeDragAnimClass,
-						removeResizeAnimClass;
-
-					if (dialog && shed.isHidden(dialog)) {
-						opening = true;
-						// set up the content receptacle
-						content = getContent(dialog);
-
-						if (regObj.className) {
-							dialog.className = BASE_CLASS = " " + regObj.class;
+				// maximise/restore button
+				if (MAX_BUTTON && (control = MAX_BUTTON.findDescendant(dialog))) {
+					if (regObj.resizable) {
+						shed.show(control, true);
+						if (regObj.max) {
+							shed.select(control);
 						}
-						else {
-							dialog.className = BASE_CLASS;
+					}
+					else {
+						shed.deselect(control);
+						shed.hide(control, true);
+					}
+				}
+				if ((control = HEADER_WD.findDescendant(dialog, true))) {
+					control.setAttribute("data-wc-draggable", "true");
+					control.setAttribute("data-wc-dragfor", DIALOG_ID);
+					// maximise restore double click on header
+					if (regObj.resizable) {
+						resizeable.setMaxBar(control);
+					}
+					else {
+						resizeable.clearMaxBar(control);
+					}
+				}
+			}
+
+			/**
+			 * Helper for `openDlg`.
+			 * Stores information about the button used to launch the dialog.
+			 * @param content The dialog content.
+			 * @param _openerId The id of the button used to open the dialog.
+			 * @private
+			 * @function
+			 */
+			function rememberOpener(content, _openerId) {
+				var opener;
+				if (_openerId) {
+					opener = document.getElementById(_openerId);
+					content.setAttribute(GET_ATTRIB, _openerId + "=" + (opener ? opener.value : "x"));
+				}
+				else {
+					content.removeAttribute(GET_ATTRIB);
+				}
+
+				openerId = _openerId || ((document.activeElement) ? document.activeElement.id : null);
+			}
+
+			/**
+			 * Helper for `openDlg`.
+			 * ets the dialog's width and height ready for opening.
+			 * @param dialog The dialog container.
+			 * @param regObj The registry item that contains configuration data for this dialog.
+			 * @private
+			 * @function
+			 */
+			function initDialogDimensions(dialog, regObj) {
+				if (regObj.width) {
+					dialog.style.width = regObj.width + UNIT;
+				}
+				else {
+					dialog.style.width = "";
+				}
+				if (regObj.height) {
+					dialog.style.height = regObj.height + UNIT;
+				}
+				else {
+					dialog.style.height = "";
+				}
+				if (!"${wc.ui.dialog.allowSmallerThanInitial}") {
+					if (regObj.initWidth || regObj.initWidth === 0) {
+						dialog.style.minWidth = regObj.initWidth + UNIT;
+					}
+					if (regObj.initHeight || regObj.initHeight === 0) {
+						dialog.style.minHeight = regObj.initHeight + UNIT;
+					}
+				}
+				if (regObj.top || regObj.top === 0) {
+					dialog.style.top = regObj.top + UNIT;
+				}
+				else {
+					dialog.style.top = "";
+				}
+				if (regObj.left || regObj.left === 0) {
+					dialog.style.left = regObj.left + UNIT;
+					dialog.style.margin = "0";
+				}
+				else {
+					dialog.style.left = "";
+					dialog.style.margin = "";
+				}
+			}
+
+			/**
+			 * Helper for `openDlg`.
+			 * Positions the dialog immediately after it has been opened.
+			 * @param dialog The dialog container.
+			 * @param regObj The registry item that contains configuration data for this dialog.
+			 * @private
+			 * @function
+			 */
+			function initDialogPosition(dialog, regObj) {
+				var removeDragAnimClass,
+					removeResizeAnimClass;
+				if (notMobile) {
+					// set the initial position
+					if (!(regObj.top || regObj.left || regObj.top === 0 || regObj.left === 0)) {
+						if (regObj.resizable && classList.contains(dialog, "wc_resizeflow")) {
+							removeResizeAnimClass = true;
+							classList.remove(dialog, "wc_resizeflow");
 						}
-
-						if (content.className) {  // if we have a dialog which has content on load and has not been "closed" it will not have its ajax class names
-							content.id = id;
-							content.innerHTML = i18n.get("${wc.ui.loading.loadMessage}");
+						if (classList.contains(dialog, "wc_dragflow")) {
+							removeDragAnimClass = true;
+							classList.remove(dialog, "wc_dragflow");
 						}
-						else {
-							// dialog built in XSLT because it has content
-							event.add(dialog, event.TYPE.keydown, keydownEvent);
+						positionable.setBySize(dialog, {width: regObj.width, height: regObj.height, topOffsetPC: INITIAL_TOP_PROPORTION});
+
+						if (removeResizeAnimClass) {
+							classList.add(dialog, "wc_resizeflow");
 						}
-
-						// set the dialog title
-						if ((title = TITLE_WD.findDescendant(dialog))) {
-							title.innerHTML = "";
-							title.innerHTML = regObj.title;
+						if (removeDragAnimClass) {
+							classList.add(dialog, "wc_dragflow");
 						}
-
-
-						if (notMobile) {
-							// mobile browsers dialog is auto max'ed and not resizeable or positionable
-							FOOTER = FOOTER || new Widget("${wc.dom.html5.element.footer}");
-							if ((control = FOOTER.findDescendant(dialog))) {
-								if (regObj.resizable) {
-									shed.show(control, true);
-								}
-								else {
-									shed.hide(control, true);
-								}
-							}
-							if (RESIZE_WD && (control = RESIZE_WD.findDescendant(dialog))) {
-								if (regObj.resizable) {
-									shed.show(control, true);
-								}
-								else {
-									shed.hide(control, true);
-								}
-							}
-
-							// maximise/restore button
-							if (MAX_BUTTON && (control = MAX_BUTTON.findDescendant(dialog))) {
-								if (regObj.resizable) {
-									shed.show(control, true);
-									if (regObj.max) {
-										shed.select(control);
-									}
-								}
-								else {
-									shed.deselect(control);
-									shed.hide(control, true);
-								}
-							}
-							if ((control = HEADER_WD.findDescendant(dialog, true))) {
-								control.setAttribute("data-wc-draggable", "true");
-								control.setAttribute("data-wc-dragfor", DIALOG_ID);
-								// maximise restore double click on header
-								if (regObj.resizable) {
-									resizeable.setMaxBar(control);
-								}
-								else {
-									resizeable.clearMaxBar(control);
-								}
-							}
-
-							if (regObj.width) {
-								dialog.style.width = regObj.width + UNIT;
-							}
-							else {
-								dialog.style.width = "";
-							}
-							if (regObj.height) {
-								dialog.style.height = regObj.height + UNIT;
-							}
-							else {
-								dialog.style.height = "";
-							}
-							if (!"${wc.ui.dialog.allowSmallerThanInitial}") {
-								if (regObj.initWidth || regObj.initWidth === 0) {
-									dialog.style.minWidth = regObj.initWidth + UNIT;
-								}
-								if (regObj.initHeight || regObj.initHeight === 0) {
-									dialog.style.minHeight = regObj.initHeight + UNIT;
-								}
-							}
-							if (regObj.top || regObj.top === 0) {
-								dialog.style.top = regObj.top + UNIT;
-							}
-							else {
-								dialog.style.top = "";
-							}
-							if (regObj.left || regObj.left === 0) {
-								dialog.style.left = regObj.left + UNIT;
-								dialog.style.margin = "0";
-							}
-							else {
-								dialog.style.left = "";
-								dialog.style.margin = "";
-							}
-						}
-
-
-						if (regObj.modal) {
-							content.setAttribute("role", "alertdialog");
-							modalShim.setModal(dialog);
-						}
-						else {
-							content.removeAttribute("role");
-						}
-
-
-						/* TODO: REMOVE THIS BIT IT IS FOR LOCAL STATIC TESTING ONLY */
-						if (TESTING_URL_REG[id]) {
-							content.setAttribute("data-wc-ajaxurl", TESTING_URL_REG[id]);
-						}
-
-						if (_openerId) {
-							opener = document.getElementById(_openerId);
-							content.setAttribute(GET_ATTRIB, _openerId + "=" + (opener ? opener.value : "x"));
-						}
-						else {
-							content.removeAttribute(GET_ATTRIB);
-						}
-
-						openerId = _openerId || ((document.activeElement) ? document.activeElement.id : null);
-
-						// content is half magic: it needs to be called specifically because we do not shed.show() it
-						if (content.className) {
-							eagerLoader.load(content, true, false);
-						}
-
-						// show the dialog
-						shed.show(dialog);
-						if (notMobile) {
-							// set the initial position
-							if (!(regObj.top || regObj.left || regObj.top === 0 || regObj.left === 0)) {
-								if (regObj.resizable && classList.contains(dialog, "wc_resizeflow")) {
-									removeResizeAnimClass = true;
-									classList.remove(dialog, "wc_resizeflow");
-								}
-								if (classList.contains(dialog, "wc_dragflow")) {
-									removeDragAnimClass = true;
-									classList.remove(dialog, "wc_dragflow");
-								}
-								positionable.setBySize(dialog, {width: regObj.width, height: regObj.height, topOffsetPC: INITIAL_TOP_PROPORTION});
-
-								if (removeResizeAnimClass) {
-									classList.add(dialog, "wc_resizeflow");
-								}
-								if (removeDragAnimClass) {
-									classList.add(dialog, "wc_dragflow");
-								}
-							}
-						}
-
 					}
 				}
 			}

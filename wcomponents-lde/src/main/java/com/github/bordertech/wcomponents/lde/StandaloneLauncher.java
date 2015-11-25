@@ -226,15 +226,6 @@ public final class StandaloneLauncher {
 		private int logLevel = DEBUG;
 
 		/**
-		 * Creates a TextAreaLogger.
-		 *
-		 * @param name the logger name.
-		 */
-		public TextAreaLogger(final String name) {
-
-		}
-
-		/**
 		 * Sets the log level.
 		 *
 		 * @param level the new log level to set.
