@@ -226,52 +226,17 @@ define(["wc/dom/attribute",
 			 * @param {File[]} [files] A collection of File items to use instead of element.files.
 			 */
 			function checkDoUpload(element, files) {
-				var testObj, maxFileInfo, filesToAdd, maxFileSize, fileSizes, result = true,
-					maxFileSizeHR, fileSizeHR, roundTo, units, i, message,
-					fileIsToBig = function(size) {
-						return maxFileSize < size;
-					},
+				var testObj, maxFileInfo, filesToAdd, result = true, message,
 					useFilesArg = (!element.value && (files && files.length > 0));
 				if (element.value || useFilesArg) {
 					testObj = useFilesArg ? {files: files, name: element.name, value: element.value, accept: element.accept} : element;
 					filesToAdd = (testObj.files ? testObj.files.length : 1);
 					maxFileInfo = checkMaxFiles(element, filesToAdd);
 					if (maxFileInfo.valid) {
-						maxFileSize = parseInt(element.getAttribute("data-wc-maxfilesize"), 10);
-						fileSizes = getFileSize(testObj);
-						if (maxFileSize && fileSizes.length > 0 && fileSizes.some(fileIsToBig)) {
-							message = [];
-							for (i = 0; i < fileSizes.length; i++) {
-								if (fileIsToBig(fileSizes[i])) {
-									/* make the units human readable */
-									if (maxFileSize >= GB) {
-										roundTo = GB;
-										units = i18n.get("${wc.ui.multiFileUploader.i18n.fileDesc.size.gb}");
-									}
-									else if (maxFileSize >= MB) {
-										roundTo = MB;
-										units = i18n.get("${wc.ui.multiFileUploader.i18n.fileDesc.size.mb}");
-									}
-									else if (maxFileSize >= KB) {
-										roundTo = KB;
-										units = i18n.get("${wc.ui.multiFileUploader.i18n.fileDesc.size.kb}");
-									}
-
-									if (roundTo) {
-										maxFileSizeHR = round(maxFileSize / roundTo);
-										fileSizeHR = round(fileSizes[i] / roundTo);
-									}
-									else {
-										maxFileSizeHR = maxFileSize;
-										fileSizeHR = fileSizes[i];
-										units = i18n.get("${wc.ui.multiFileUploader.i18n.fileDesc.size}");
-									}
-									message.push(sprintf.sprintf(i18n.get("${wc.ui.multiFileUploader.i18n.toolarge}"), fileSizeHR, maxFileSizeHR, units));
-									result = false;
-								}
-							}
-							message = message.join("\n");
+						message = checkFileSize(element, testObj);
+						if (message) {
 							showMessage(message);
+							result = false;
 						}
 						else {
 							if (!accepted(testObj)) {
@@ -296,6 +261,56 @@ define(["wc/dom/attribute",
 						instance.clearInput(element);
 					}
 				}
+			}
+
+			/**
+			 * Check the file size and return an error message if there is a problem.
+			 * @function
+			 * @private
+			 * @param {Element} element A file input element.
+			 * @param {Object} testObj The pseudo-file element to pass to test functions.
+			 * @return {?string} An error message if there is a problem otherwise falsey.
+			 */
+			function checkFileSize(element, testObj) {
+				var i, message, roundTo, maxFileSizeHR, fileSizeHR, units,
+					maxFileSize = parseInt(element.getAttribute("data-wc-maxfilesize"), 10),
+					fileIsToBig = function(size) {
+						return maxFileSize < size;
+					},
+					fileSizes = getFileSize(testObj);
+				if (maxFileSize && fileSizes.length > 0 && fileSizes.some(fileIsToBig)) {
+					message = [];
+					for (i = 0; i < fileSizes.length; i++) {
+						if (fileIsToBig(fileSizes[i])) {
+							/* make the units human readable */
+							if (maxFileSize >= GB) {
+								roundTo = GB;
+								units = i18n.get("${wc.ui.multiFileUploader.i18n.fileDesc.size.gb}");
+							}
+							else if (maxFileSize >= MB) {
+								roundTo = MB;
+								units = i18n.get("${wc.ui.multiFileUploader.i18n.fileDesc.size.mb}");
+							}
+							else if (maxFileSize >= KB) {
+								roundTo = KB;
+								units = i18n.get("${wc.ui.multiFileUploader.i18n.fileDesc.size.kb}");
+							}
+
+							if (roundTo) {
+								maxFileSizeHR = round(maxFileSize / roundTo);
+								fileSizeHR = round(fileSizes[i] / roundTo);
+							}
+							else {
+								maxFileSizeHR = maxFileSize;
+								fileSizeHR = fileSizes[i];
+								units = i18n.get("${wc.ui.multiFileUploader.i18n.fileDesc.size}");
+							}
+							message.push(sprintf.sprintf(i18n.get("${wc.ui.multiFileUploader.i18n.toolarge}"), fileSizeHR, maxFileSizeHR, units));
+						}
+					}
+					message = message.join("\n");
+				}
+				return message;
 			}
 
 			/**
