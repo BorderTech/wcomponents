@@ -65,11 +65,21 @@ define(function() {
 				pressed[pressed.length] = "DOM_VK_SHIFT";
 			}
 
-			if (keyCode !== KeyEvent.DOM_VK_ALT && keyCode !== KeyEvent.DOM_VK_CONTROL && keyCode !== KeyEvent.DOM_VK_META && keyCode !== KeyEvent.DOM_VK_SHIFT) {
+			if (!this.isMeta(keyCode)) {
 				pressed[pressed.length] = (lookup || (lookup = buildReverseLookup()))[keyCode];
 			}
 			result = pressed.join("+");
 			return result;
+		};
+
+		/**
+		 * Determine if this is a "META" key.
+		 * @param {number} keyCode The pressed key.
+		 * @returns {Boolean} true if the key is either ALT, CTRL, META or SHIFT
+		 */
+		this.isMeta = function(keyCode) {
+			return (keyCode === KeyEvent.DOM_VK_ALT || keyCode === KeyEvent.DOM_VK_CONTROL ||
+						keyCode === KeyEvent.DOM_VK_META || keyCode === KeyEvent.DOM_VK_SHIFT);
 		};
 	}
 	return /** @alias module:wc/key */ new Key();
