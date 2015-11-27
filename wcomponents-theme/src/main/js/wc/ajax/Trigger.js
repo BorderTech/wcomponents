@@ -540,7 +540,7 @@ define(["sprintf/sprintf",
 				element = getElement(this);
 			try {
 				if (this.serialiseForm && element) {
-					result = getFormParams(element);
+					result = getFormParams(element, this);
 				}
 
 				if (this._submitTriggerElement && element) {
@@ -611,18 +611,19 @@ define(["sprintf/sprintf",
 		 * @function
 		 * @private
 		 * @param {Element} element The trigger element.
+		 * @param {Trigger} instance The trigger instance being fired.
 		 * @returns {String} The serialized parameters or "".
 		 */
-		function getFormParams (element) {
+		function getFormParams(element, instance) {
 			var result = "", form, region, stateContainer;
 			if ((form = getForm(element))) {
-				if (typeof this.formRegion !== UNDEFINED) {
-					region = document.getElementById(this.formRegion);
+				if (typeof instance.formRegion !== UNDEFINED) {
+					region = document.getElementById(instance.formRegion);
 				}
 				if (region) {
 					formUpdateManager.update(form, region);
 					stateContainer = formUpdateManager.getStateContainer(form);
-					TAG = TAG || {INPUT: tag.INPUT, SELECT: tag.SELECT, TEXTAREA: tag.TEXTAREA};
+					TAG = TAG || { INPUT: tag.INPUT, SELECT: tag.SELECT, TEXTAREA: tag.TEXTAREA };
 					result = addToQueryString(result, serialize.serialize(region.getElementsByTagName(TAG.INPUT)));
 					result = addToQueryString(result, serialize.serialize(region.getElementsByTagName(TAG.SELECT)));
 					result = addToQueryString(result, serialize.serialize(region.getElementsByTagName(TAG.TEXTAREA)));
