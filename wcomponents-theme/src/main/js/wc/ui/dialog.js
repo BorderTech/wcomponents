@@ -128,16 +128,16 @@ define(["wc/dom/classList",
 				var id = dialogObj.id;
 				if (id) {
 					registry[id] = {
-						"id": id,
-						"className": dialogObj.className,
-						"formId": dialogObj.form,
-						"width": dialogObj.width,
-						"height": dialogObj.height,
-						"initWidth": dialogObj.width,  // useful if we do not allow resize below initial size
-						"initHeight": dialogObj.height,
-						"resizable": dialogObj.resizable || false,
-						"modal": dialogObj.modal || false,
-						"title": dialogObj.title || i18n.get("${wc.ui.dialog.title.noTitle}")
+						id: id,
+						className: dialogObj.className,
+						formId: dialogObj.form,
+						width: dialogObj.width,
+						height: dialogObj.height,
+						initWidth: dialogObj.width,  // useful if we do not allow resize below initial size
+						initHeight: dialogObj.height,
+						resizable: dialogObj.resizable || false,
+						modal: dialogObj.modal || false,
+						title: dialogObj.title || i18n.get("${wc.ui.dialog.title.noTitle}")
 					};
 					if (dialogObj.open) {
 						openThisDialog = id;
