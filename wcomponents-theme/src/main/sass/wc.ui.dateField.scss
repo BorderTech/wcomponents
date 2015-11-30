@@ -142,7 +142,8 @@ dialog [role='combobox'] > [role='listbox'] {
 	cursor: pointer;
 	padding: $vgap-small $hgap-small;
 	text-align: center;
-	width: 100%;
+	width: 3em;
+	min-width: 100%;
 
 	&:hover,
 	&:focus {
