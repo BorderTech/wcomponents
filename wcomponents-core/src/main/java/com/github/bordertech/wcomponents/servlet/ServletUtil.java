@@ -331,16 +331,12 @@ public final class ServletUtil {
 	 * @return true if the requested file name is ok, false if not.
 	 */
 	private static boolean checkThemeFile(final String name) {
-		if (Util.empty(name) // name must exist
+		return !(Util.empty(name) // name must exist
 				|| name.indexOf("..") != -1 // prevent directory traversal
 				|| name.charAt(0) == '/' // all theme references should be relative
 				|| name.indexOf('.') == -1 // all files should have a file suffix
 				|| name.indexOf(':') != -1 // forbid use of protocols such as jar:, http: etc.
-				) {
-			return false;
-		}
-
-		return true;
+				);
 	}
 
 	/**

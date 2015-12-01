@@ -215,130 +215,156 @@ define(["wc/dom/getViewportSize", "wc/dom/getBox", "wc/dom/uid", "wc/dom/event",
 			this.pinTo = function(element, relTo, config) {
 				var pos = config.pos,  // bitwise or of this.POS properties
 					outside = config.outside,  // boolean
-					box, elBox,
 					vOffset = config.vOffset || 0,
-					hOffset = config.hOffset || 0,
-					offsetLeft,
-					offsetTop,
-					vertPos,
-					horizPos,
-					boxVert,
-					boxHoriz,
-					style = element.style,  // ignore netbeans this is used and used rather a lot
-					TOP = "top", RIGHT = "right", BOTTOM = "bottom", LEFT = "left";
+					hOffset = config.hOffset || 0;
 
 				if (!(outside || pos)) {
 					instance.setBySize(element, {relativeTo: relTo});
-					// now offset if necessary
 				}
 				else if (!outside) {
-					if (instance.POS.NW & pos) {
-						vertPos = 0;
-						horizPos = 0;
-					}
-					else if (instance.POS.NE & pos) {
-						vertPos = 0;
-						horizPos = 1;
-					}
-					else if (instance.POS.SE & pos) {
-						vertPos = 1;
-						horizPos = 1;
-					}
-					else if (instance.POS.SW & pos) {
-						vertPos = 1;
-						horizPos = 0;
-					}
-					else {
-						if (instance.POS.NORTH & pos) {
-							vertPos = 0;
-						}
-						else if (instance.POS.SOUTH & pos) {
-							vertPos = 1;
-						}
-
-						if (instance.POS.WEST & pos) {
-							horizPos = 0;
-						}
-						else if (instance.POS.EAST & pos) {
-							horizPos = 1;
-						}
-					}
-					instance.setBySize(element, {topOffsetPC: vertPos, leftOffsetPC: horizPos, relativeTo: relTo});
+					pinInside(element, relTo, config);
 				}
 				else {
-					vertPos = TOP;
-					horizPos = LEFT;
-					// positioning element outside of relTo
-					if (instance.POS.NW & pos) {
-						boxVert = TOP;
-						boxHoriz = LEFT;
-						offsetTop = -1;
-						offsetLeft = -1;
-					}
-					else if (instance.POS.NE & pos) {
-						boxVert = TOP;
-						boxHoriz = RIGHT;
-						offsetTop = -1;
-					}
-					else if (instance.POS.SE & pos) {
-						boxVert = BOTTOM;
-						boxHoriz = RIGHT;
-					}
-					else if (instance.POS.SW & pos) {
-						boxVert = BOTTOM;
-						boxHoriz = LEFT;
-						offsetLeft = -1;
-					}
-					else {
-						if (instance.POS.NORTH & pos) {
-							vertPos = TOP;
-							boxVert = TOP;
-						}
-						else if (instance.POS.SOUTH & pos) {
-							vertPos = TOP;
-							boxVert = BOTTOM;
-							offsetTop = -1;
-						}
-
-						if (instance.POS.WEST & pos) {
-							horizPos = RIGHT;
-							boxHoriz = LEFT;
-							offsetLeft = -1;
-						}
-						else if (instance.POS.EAST & pos) {
-							horizPos = LEFT;
-							boxHoriz = RIGHT;
-						}
-					}
-
-					if (boxVert || boxHoriz) {
-						box = getBox(relTo);
-					}
-
-					if (offsetLeft || offsetTop) {
-						elBox = getBox(element);
-					}
-					if (boxVert && boxHoriz) {
-						// setting both
-						style[vertPos] = (offsetTop ? (elBox.height * offsetTop) : 0) + box[boxVert] + UNIT;
-						style[horizPos] = (offsetLeft ? (elBox.width * offsetLeft) : 0) + box[boxHoriz] + UNIT;
-					}
-					else {
-						// this will center the element
-						instance.setBySize(element, {relativeTo: relTo});
-						// now we just need to move it
-						if (boxVert) {
-							style[vertPos] = (offsetTop ? (elBox.height * offsetTop) : 0) + box[boxVert] + UNIT;
-						}
-						else {
-							// we now know boxHoriz is set
-							style[horizPos] = (offsetLeft ? (elBox.width * offsetLeft) : 0) + box[boxHoriz] + UNIT;
-						}
-					}
+					pinOutside(element, relTo, config);
 				}
 				// now offset if necessary
 				applyOffset(element, vOffset, hOffset);
 			};
+
+			/*
+			 * Positioning element outside of relTo.
+			 * @function
+			 * @private
+			 */
+			function pinOutside(element, relTo, config) {
+				var box, elBox,
+					style = element.style,
+					coords = calculatePos(config.pos);
+
+				if (coords.boxVert || coords.boxHoriz) {
+					box = getBox(relTo);
+				}
+
+				if (coords.offsetLeft || coords.offsetTop) {
+					elBox = getBox(element);
+				}
+				if (coords.boxVert && coords.boxHoriz) {
+					// setting both
+					style[coords.vertPos] = (coords.offsetTop ? (elBox.height * coords.offsetTop) : 0) + box[coords.boxVert] + UNIT;
+					style[coords.horizPos] = (coords.offsetLeft ? (elBox.width * coords.offsetLeft) : 0) + box[coords.boxHoriz] + UNIT;
+				}
+				else {
+					// this will center the element
+					instance.setBySize(element, {relativeTo: relTo});
+					// now we just need to move it
+					if (coords.boxVert) {
+						style[coords.vertPos] = (coords.offsetTop ? (elBox.height * coords.offsetTop) : 0) + box[coords.boxVert] + UNIT;
+					}
+					else {
+						// we now know boxHoriz is set
+						style[coords.horizPos] = (coords.offsetLeft ? (elBox.width * coords.offsetLeft) : 0) + box[coords.boxHoriz] + UNIT;
+					}
+				}
+			}
+
+			/*
+			 *
+			 * @function
+			 * @private
+			 *
+			 * @param pos A bitwise or of this.POS properties
+			 * @returns An object with the following possible properties: boxVert, boxHoriz, offsetTop, offsetLeft, vertPos, horizPos
+			 */
+			function calculatePos(pos) {
+				var TOP = "top", RIGHT = "right", BOTTOM = "bottom", LEFT = "left",
+					result = {
+						vertPos: TOP,
+						horizPos: LEFT
+					};
+				if (instance.POS.NW & pos) {
+					result.boxVert = TOP;
+					result.boxHoriz = LEFT;
+					result.offsetTop = -1;
+					result.offsetLeft = -1;
+				}
+				else if (instance.POS.NE & pos) {
+					result.boxVert = TOP;
+					result.boxHoriz = RIGHT;
+					result.offsetTop = -1;
+				}
+				else if (instance.POS.SE & pos) {
+					result.boxVert = BOTTOM;
+					result.boxHoriz = RIGHT;
+				}
+				else if (instance.POS.SW & pos) {
+					result.boxVert = BOTTOM;
+					result.boxHoriz = LEFT;
+					result.offsetLeft = -1;
+				}
+				else {
+					if (instance.POS.NORTH & pos) {
+						result.vertPos = TOP;
+						result.boxVert = TOP;
+					}
+					else if (instance.POS.SOUTH & pos) {
+						result.vertPos = TOP;
+						result.boxVert = BOTTOM;
+						result.offsetTop = -1;
+					}
+
+					if (instance.POS.WEST & pos) {
+						result.horizPos = RIGHT;
+						result.boxHoriz = LEFT;
+						result.offsetLeft = -1;
+					}
+					else if (instance.POS.EAST & pos) {
+						result.horizPos = LEFT;
+						result.boxHoriz = RIGHT;
+					}
+				}
+				return result;
+			}
+
+			/*
+			 *
+			 * @function
+			 * @private
+			 */
+			function pinInside(element, relTo, config) {
+				var vertPos, horizPos, pos = config.pos;  // bitwise or of this.POS properties;
+				if (instance.POS.NW & pos) {
+					vertPos = 0;
+					horizPos = 0;
+				}
+				else if (instance.POS.NE & pos) {
+					vertPos = 0;
+					horizPos = 1;
+				}
+				else if (instance.POS.SE & pos) {
+					vertPos = 1;
+					horizPos = 1;
+				}
+				else if (instance.POS.SW & pos) {
+					vertPos = 1;
+					horizPos = 0;
+				}
+				else {
+					if (instance.POS.NORTH & pos) {
+						vertPos = 0;
+					}
+					else if (instance.POS.SOUTH & pos) {
+						vertPos = 1;
+					}
+
+					if (instance.POS.WEST & pos) {
+						horizPos = 0;
+					}
+					else if (instance.POS.EAST & pos) {
+						horizPos = 1;
+					}
+				}
+				instance.setBySize(element, {topOffsetPC: vertPos, leftOffsetPC: horizPos, relativeTo: relTo});
+			}
 
 			/**
 			 * Position an element relative to another element or the viewport where the sise of the element being
