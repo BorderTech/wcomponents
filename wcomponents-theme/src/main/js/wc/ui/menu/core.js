@@ -297,16 +297,7 @@ define(["wc/has",
 		function getNavigationTreeWalkerFilter(ignoreClosed, instance, letter) {
 			return function(element) {
 				// treeWalker filter function that provides the core Abstract Tree View of the menu
-				var result = NodeFilter.FILTER_SKIP,
-					branch;
-
-				if (shed.isDisabled(element) || shed.isHidden(element)) {
-					result = NodeFilter.FILTER_REJECT;
-				}
-				else if (isItem(element, instance)) {
-					// branch or leaf
-					result = NodeFilter.FILTER_ACCEPT;
-				}
+				var branch, result = canNavigate(element, instance);
 
 				// skip over closed branches
 				if (ignoreClosed && result !== NodeFilter.FILTER_REJECT && instance._wd.submenu.isOneOfMe(element)) {
@@ -326,6 +317,27 @@ define(["wc/has",
 				}
 				return result;
 			};
+		}
+
+		/**
+		 * Helper for getNavigationTreeWalkerFilter.
+		 * Determines if the current element is navigable, e.g. it is not disabled or hidden etc.
+		 * @param element Anelement, as passed to getNavigationTreeWalkerFilter
+		 * @param instance A menu instance as passed to getNavigationTreeWalkerFilter
+		 * @returns {Number} A NodeFilter value.
+		 * @function
+		 * @private
+		 */
+		function canNavigate(element, instance) {
+			var result = NodeFilter.FILTER_SKIP;
+			if (shed.isDisabled(element) || shed.isHidden(element)) {
+				result = NodeFilter.FILTER_REJECT;
+			}
+			else if (isItem(element, instance)) {
+				// branch or leaf
+				result = NodeFilter.FILTER_ACCEPT;
+			}
+			return result;
 		}
 
 		/**
@@ -1784,37 +1796,52 @@ define(["wc/has",
 		AbstractMenu.prototype._setMenuItemRole = function(component, contextElement) {
 			var _role = this._role.LEAF,
 				result = _role.noSelection,
+				selectMode,
 				branch = contextElement,
 				TRANSIENT_SELECTABLE_ATTRIB = "data-wc-selectable",
 				isSelectable = component.getAttribute(TRANSIENT_SELECTABLE_ATTRIB),
-				selectModeAttrib,
 				FALSE = "false";
 
 			if (isSelectable !== FALSE && !this._isBranch(component)) {
 				if (!(this._isBranch(branch) || this.ROOT.isOneOfMe(branch))) {
 					branch = this._getBranch(contextElement) || this._getRoot(contextElement);
 				}
-
-				if (branch) {
-					selectModeAttrib = branch.getAttribute("data-wc-selectmode");
-
-					if (selectModeAttrib === "single") {
-						result = _role.single;
-					}
-					else if (selectModeAttrib || isSelectable === TRUE) {
-						result = _role.multi;
-					}
-				}
-				else if (isSelectable === TRUE) {
-					result = _role.multi;
+				selectMode = getSelectMode(branch, isSelectable, _role);
+				if (selectMode) {
+					result = selectMode;
+					component.setAttribute("aria-checked", FALSE);
 				}
 			}
 			component.setAttribute(ROLE_ATTRIB, result);
-			if (result !== _role.noSelection) {
-				component.setAttribute("aria-checked", FALSE);
-			}
 			component.removeAttribute(TRANSIENT_SELECTABLE_ATTRIB);
 		};
+
+		/**
+		 * Helper for _setMenuItemRole.
+		 * @param {Element} branch Menu branch element.
+		 * @param {string} isSelectable "true" or "false"
+		 * @param _role LEAF role
+		 * @returns {_role.multi|_role.single}
+		 * @function
+		 * @private
+		 */
+		function getSelectMode(branch, isSelectable, _role) {
+			var result, selectModeAttrib;
+			if (branch) {
+				selectModeAttrib = branch.getAttribute("data-wc-selectmode");
+
+				if (selectModeAttrib === "single") {
+					result = _role.single;
+				}
+				else if (selectModeAttrib || isSelectable === TRUE) {
+					result = _role.multi;
+				}
+			}
+			else if (isSelectable === TRUE) {
+				result = _role.multi;
+			}
+			return result;
+		}
 
 		/**
 		 * Sets the selected state of a menu descendant which was inserted via AJAX.

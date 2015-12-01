@@ -112,42 +112,78 @@ define(["wc/dom/shed",
 			}
 
 
-
+			/**
+			 * Listen to shed events and respond accordingly.
+			 *
+			 * @param element The element being shown or expanded.
+			 * @param action The shed action.
+			 * @private
+			 * @function
+			 */
 			function shedSubscriber(element, action) {
-				var _element, _widgets = [LAME_CONTAINER, MAGIC_CONTAINER];
+				var _widgets = [LAME_CONTAINER, MAGIC_CONTAINER];
 
 				if (action === shed.actions.EXPAND || action === shed.actions.SHOW) {
-					if (action === shed.actions.EXPAND) {
-						// _element = LAME_CONTAINER.isOneOfMe(element) ? element : (LAME_CONTAINER.findDescendant(element, true)||element);
-						_element = Widget.isOneOfMe(element, _widgets) ? element : Widget.findDescendant(element, _widgets, true);
-					}
-					else {
-						_element = element;
-					}
-
-					if (_element && Widget.isOneOfMe(_element, _widgets)) {
-						if (LAME_CONTAINER.isOneOfMe(_element)) {
-							FORM = FORM || new Widget(tag.FORM);
-							if ((_element = FORM.findAncestor(_element))) {
-								timers.setTimeout(event.fire, 0, _element, event.TYPE.submit);
-							}
-						}
-						else {
-							requestLoad(_element, false, true);
-						}
-					}
+					handleExpandOrShow(element, action, _widgets);
 				}
 				else if (action === shed.actions.COLLAPSE || action === shed.actions.HIDE) {
-					_widgets = [LAME_CONTAINER, DYNAMIC_CONTAINER];
-					if (action === shed.actions.COLLAPSE) {
-						 _element = Widget.isOneOfMe(element, _widgets) ? element : (Widget.findDescendant(element, _widgets, true) || element);
+					handleCollapseOrHide(element, action, _widgets);
+				}
+			}
+
+			/**
+			 * Helper for shedSubscriber.
+			 * Deal with an element being expanded or shown.
+			 *
+			 * @param element The element being shown or expanded.
+			 * @param action The action, EXPAND or SHOW.
+			 * @param _widgets Array of "my" widgets.
+			 * @private
+			 * @function
+			 */
+			function handleExpandOrShow(element, action, _widgets) {
+				var _element;
+				if (action === shed.actions.EXPAND) {
+					// _element = LAME_CONTAINER.isOneOfMe(element) ? element : (LAME_CONTAINER.findDescendant(element, true)||element);
+					_element = Widget.isOneOfMe(element, _widgets) ? element : Widget.findDescendant(element, _widgets, true);
+				}
+				else {
+					_element = element;
+				}
+				if (_element && Widget.isOneOfMe(_element, _widgets)) {
+					if (LAME_CONTAINER.isOneOfMe(_element)) {
+						FORM = FORM || new Widget(tag.FORM);
+						if ((_element = FORM.findAncestor(_element))) {
+							timers.setTimeout(event.fire, 0, _element, event.TYPE.submit);
+						}
 					}
 					else {
-						_element = element;
+						requestLoad(_element, false, true);
 					}
-					if (_element && Widget.isOneOfMe(_element, _widgets)) {
-						convertDynamicContent(_element);
-					}
+				}
+			}
+
+			/**
+			 * Helper for shedSubscriber.
+			 * Deal with an element being collapsed or hidden.
+			 *
+			 * @param element The element being collapsed or hidden.
+			 * @param action The action, COLLAPSE or HIDE.
+			 * @param _widgets Array of "my" widgets.
+			 * @private
+			 * @function
+			 */
+			function handleCollapseOrHide(element, action, _widgets) {
+				var _element;
+				_widgets = [LAME_CONTAINER, DYNAMIC_CONTAINER];
+				if (action === shed.actions.COLLAPSE) {
+					 _element = Widget.isOneOfMe(element, _widgets) ? element : (Widget.findDescendant(element, _widgets, true) || element);
+				}
+				else {
+					_element = element;
+				}
+				if (_element && Widget.isOneOfMe(_element, _widgets)) {
+					convertDynamicContent(_element);
 				}
 			}
 
