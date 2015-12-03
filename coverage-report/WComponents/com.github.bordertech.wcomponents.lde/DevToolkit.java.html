@@ -48,35 +48,25 @@ import org.apache.velocity.VelocityContext;
 <span class="fc" id="L48">	private static final Log LOG = LogFactory.getLog(DevToolkit.class);</span>
 
 	/**
-	 * Determines whether the toolkit is enabled, based on the application Parameters.
-	 *
-	 * @return true if the toolkit is enabled, false otherwise.
-	 */
-	public static boolean isEnabled() {
-<span class="fc" id="L56">		return Config.getInstance().getBoolean(&quot;bordertech.wcomponents.lde.devToolkit.enabled&quot;,</span>
-				false);
-	}
-
-	/**
 	 * Indicates whether to display the WComponent UI hierarchy tree view.
 	 */
-<span class="fc" id="L63">	private boolean showTree = false;</span>
+<span class="fc" id="L53">	private boolean showTree = false;</span>
 	/**
 	 * Indicates whether to display the current WComponent Configuration.
 	 */
-<span class="fc" id="L67">	private boolean showConfig = false;</span>
+<span class="fc" id="L57">	private boolean showConfig = false;</span>
 	/**
 	 * Indicates whether to display statistics on the active UIContext.
 	 */
-<span class="fc" id="L71">	private boolean showUicStats = false;</span>
+<span class="fc" id="L61">	private boolean showUicStats = false;</span>
 	/**
 	 * Indicates whether to display information about the current HTTP request.
 	 */
-<span class="fc" id="L75">	private boolean showRequest = false;</span>
+<span class="fc" id="L65">	private boolean showRequest = false;</span>
 	/**
 	 * Indicates whether to display component ids.
 	 */
-<span class="fc" id="L79">	private boolean showIds = false;</span>
+<span class="fc" id="L69">	private boolean showIds = false;</span>
 
 	/**
 	 * The current request parameters.
@@ -90,6 +80,16 @@ import org.apache.velocity.VelocityContext;
 	 * The current request method (ie. &quot;GET&quot;, &quot;POST&quot;, or &quot;PUT&quot;.
 	 */
 	private String requestMethod;
+
+	/**
+	 * Determines whether the toolkit is enabled, based on the application Parameters.
+	 *
+	 * @return true if the toolkit is enabled, false otherwise.
+	 */
+	public static boolean isEnabled() {
+<span class="fc" id="L90">		return Config.getInstance().getBoolean(&quot;bordertech.wcomponents.lde.devToolkit.enabled&quot;,</span>
+				false);
+	}
 
 	/**
 	 * &lt;p&gt;

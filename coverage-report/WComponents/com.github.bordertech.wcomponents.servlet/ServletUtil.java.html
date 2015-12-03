@@ -331,16 +331,12 @@ public final class ServletUtil {
 	 * @return true if the requested file name is ok, false if not.
 	 */
 	private static boolean checkThemeFile(final String name) {
-<span class="pc bpc" id="L334" title="1 of 2 branches missed.">		if (Util.empty(name) // name must exist</span>
+<span class="pc bpc" id="L334" title="1 of 2 branches missed.">		return !(Util.empty(name) // name must exist</span>
 <span class="fc bfc" id="L335" title="All 2 branches covered.">				|| name.indexOf(&quot;..&quot;) != -1 // prevent directory traversal</span>
 <span class="fc bfc" id="L336" title="All 2 branches covered.">				|| name.charAt(0) == '/' // all theme references should be relative</span>
 <span class="pc bpc" id="L337" title="1 of 2 branches missed.">				|| name.indexOf('.') == -1 // all files should have a file suffix</span>
 <span class="pc bpc" id="L338" title="1 of 2 branches missed.">				|| name.indexOf(':') != -1 // forbid use of protocols such as jar:, http: etc.</span>
-				) {
-<span class="fc" id="L340">			return false;</span>
-		}
-
-<span class="fc" id="L343">		return true;</span>
+				);
 	}
 
 	/**
@@ -353,10 +349,10 @@ public final class ServletUtil {
 
 		InterceptorComponent[] chain;
 
-<span class="pc bpc" id="L356" title="1 of 2 branches missed.">		if (request.getParameter(WServlet.DATA_LIST_PARAM_NAME) != null) {</span>
-<span class="nc" id="L357">			chain = new InterceptorComponent[]{new DataListInterceptor()};</span>
-<span class="pc bpc" id="L358" title="1 of 2 branches missed.">		} else if (request.getParameter(WServlet.AJAX_TRIGGER_PARAM_NAME) != null) {</span>
-<span class="nc" id="L359">			chain = new InterceptorComponent[]{new AjaxErrorInterceptor(), new SessionTokenAjaxInterceptor(),</span>
+<span class="pc bpc" id="L352" title="1 of 2 branches missed.">		if (request.getParameter(WServlet.DATA_LIST_PARAM_NAME) != null) {</span>
+<span class="nc" id="L353">			chain = new InterceptorComponent[]{new DataListInterceptor()};</span>
+<span class="pc bpc" id="L354" title="1 of 2 branches missed.">		} else if (request.getParameter(WServlet.AJAX_TRIGGER_PARAM_NAME) != null) {</span>
+<span class="nc" id="L355">			chain = new InterceptorComponent[]{new AjaxErrorInterceptor(), new SessionTokenAjaxInterceptor(),</span>
 				new ResponseCacheInterceptor(CacheType.NO_CACHE),
 				new UIContextDumpInterceptor(), new AjaxSetupInterceptor(),
 				new WWindowInterceptor(true), new WrongStepAjaxInterceptor(),
@@ -364,13 +360,13 @@ public final class ServletUtil {
 				new ValidateXMLInterceptor(), new WhitespaceFilterInterceptor(),
 				new SubordinateControlInterceptor(), new AjaxPageShellInterceptor(),
 				new AjaxDebugStructureInterceptor(), new AjaxInterceptor()};
-<span class="pc bpc" id="L367" title="1 of 2 branches missed.">		} else if (request.getParameter(WServlet.TARGET_ID_PARAM_NAME) != null) {</span>
-<span class="nc" id="L368">			chain = new InterceptorComponent[]{new TargetableErrorInterceptor(),</span>
+<span class="pc bpc" id="L363" title="1 of 2 branches missed.">		} else if (request.getParameter(WServlet.TARGET_ID_PARAM_NAME) != null) {</span>
+<span class="nc" id="L364">			chain = new InterceptorComponent[]{new TargetableErrorInterceptor(),</span>
 				new SessionTokenContentInterceptor(), new UIContextDumpInterceptor(),
 				new TargetableInterceptor(), new WWindowInterceptor(false),
 				new WrongStepContentInterceptor()};
 		} else {
-<span class="fc" id="L373">			chain = new InterceptorComponent[]{new SessionTokenInterceptor(),</span>
+<span class="fc" id="L369">			chain = new InterceptorComponent[]{new SessionTokenInterceptor(),</span>
 				new ResponseCacheInterceptor(CacheType.NO_CACHE),
 				new UIContextDumpInterceptor(), new WWindowInterceptor(true),
 				new WrongStepServerInterceptor(), new ContextCleanupInterceptor(),
@@ -381,12 +377,12 @@ public final class ServletUtil {
 		}
 
 		// Link the interceptors together in a chain.
-<span class="fc bfc" id="L384" title="All 2 branches covered.">		for (int i = 0; i &lt; chain.length - 1; i++) {</span>
-<span class="fc" id="L385">			chain[i].setBackingComponent(chain[i + 1]);</span>
+<span class="fc bfc" id="L380" title="All 2 branches covered.">		for (int i = 0; i &lt; chain.length - 1; i++) {</span>
+<span class="fc" id="L381">			chain[i].setBackingComponent(chain[i + 1]);</span>
 		}
 
 		// Return the top of the chain.
-<span class="fc" id="L389">		return chain[0];</span>
+<span class="fc" id="L385">		return chain[0];</span>
 	}
 
 	/**
@@ -401,49 +397,49 @@ public final class ServletUtil {
 	public static void handleError(final HttpServletHelper helper, final Throwable throwable) throws
 			ServletException,
 			IOException {
-<span class="nc" id="L404">		HttpServletRequest httpServletRequest = helper.getBackingRequest();</span>
-<span class="nc" id="L405">		HttpServletResponse httpServletResponse = helper.getBackingResponse();</span>
+<span class="nc" id="L400">		HttpServletRequest httpServletRequest = helper.getBackingRequest();</span>
+<span class="nc" id="L401">		HttpServletResponse httpServletResponse = helper.getBackingResponse();</span>
 
 		// Set error code for AJAX, Content or data requests
-<span class="nc bnc" id="L408" title="All 2 branches missed.">		boolean dataRequest = httpServletRequest.getParameter(WServlet.DATA_LIST_PARAM_NAME) != null;</span>
-<span class="nc" id="L409">		String target = httpServletRequest.getParameter(WServlet.AJAX_TRIGGER_PARAM_NAME);</span>
-<span class="nc bnc" id="L410" title="All 2 branches missed.">		if (target == null) {</span>
-<span class="nc" id="L411">			target = httpServletRequest.getParameter(WServlet.TARGET_ID_PARAM_NAME);</span>
+<span class="nc bnc" id="L404" title="All 2 branches missed.">		boolean dataRequest = httpServletRequest.getParameter(WServlet.DATA_LIST_PARAM_NAME) != null;</span>
+<span class="nc" id="L405">		String target = httpServletRequest.getParameter(WServlet.AJAX_TRIGGER_PARAM_NAME);</span>
+<span class="nc bnc" id="L406" title="All 2 branches missed.">		if (target == null) {</span>
+<span class="nc" id="L407">			target = httpServletRequest.getParameter(WServlet.TARGET_ID_PARAM_NAME);</span>
 		}
-<span class="nc bnc" id="L413" title="All 4 branches missed.">		if (target != null || dataRequest) {</span>
-<span class="nc" id="L414">			httpServletResponse.sendError(500, &quot;Internal Error&quot;);</span>
-<span class="nc" id="L415">			return;</span>
+<span class="nc bnc" id="L409" title="All 4 branches missed.">		if (target != null || dataRequest) {</span>
+<span class="nc" id="L410">			httpServletResponse.sendError(500, &quot;Internal Error&quot;);</span>
+<span class="nc" id="L411">			return;</span>
 		}
 
 		// Decide whether we should use the ErrorPageFactory.
-<span class="nc" id="L419">		boolean handleErrorWithFatalErrorPageFactory = Config.getInstance()</span>
-<span class="nc" id="L420">				.getBoolean(HANDLE_ERROR_WITH_FATAL_ERROR_PAGE_FACTORY, false);</span>
+<span class="nc" id="L415">		boolean handleErrorWithFatalErrorPageFactory = Config.getInstance()</span>
+<span class="nc" id="L416">				.getBoolean(HANDLE_ERROR_WITH_FATAL_ERROR_PAGE_FACTORY, false);</span>
 
 		// use the new technique and delegate to the ErrorPageFactory.
-<span class="nc bnc" id="L423" title="All 2 branches missed.">		if (handleErrorWithFatalErrorPageFactory) {</span>
-<span class="nc" id="L424">			helper.handleError(throwable);</span>
-<span class="nc" id="L425">			helper.dispose();</span>
+<span class="nc bnc" id="L419" title="All 2 branches missed.">		if (handleErrorWithFatalErrorPageFactory) {</span>
+<span class="nc" id="L420">			helper.handleError(throwable);</span>
+<span class="nc" id="L421">			helper.dispose();</span>
 		} else { // use the old technique and just display a raw message.
 			// First, decide whether we are in friendly mode or not.
-<span class="nc" id="L428">			boolean friendly = Config.getInstance().getBoolean(DEVELOPER_MODE_ERROR_HANDLING, false);</span>
+<span class="nc" id="L424">			boolean friendly = Config.getInstance().getBoolean(DEVELOPER_MODE_ERROR_HANDLING, false);</span>
 
-<span class="nc" id="L430">			String message = InternalMessages.DEFAULT_SYSTEM_ERROR;</span>
+<span class="nc" id="L426">			String message = InternalMessages.DEFAULT_SYSTEM_ERROR;</span>
 
 			// If we are unfriendly, terminate the session
-<span class="nc bnc" id="L433" title="All 2 branches missed.">			if (!friendly) {</span>
-<span class="nc" id="L434">				HttpSession session = httpServletRequest.getSession(true);</span>
-<span class="nc" id="L435">				session.invalidate();</span>
+<span class="nc bnc" id="L429" title="All 2 branches missed.">			if (!friendly) {</span>
+<span class="nc" id="L430">				HttpSession session = httpServletRequest.getSession(true);</span>
+<span class="nc" id="L431">				session.invalidate();</span>
 
-<span class="nc" id="L437">				message = InternalMessages.DEFAULT_SYSTEM_ERROR_SEVERE;</span>
+<span class="nc" id="L433">				message = InternalMessages.DEFAULT_SYSTEM_ERROR_SEVERE;</span>
 			}
 
 			// Display an error to the user.
-<span class="nc" id="L441">			UIContext uic = helper.getUIContext();</span>
-<span class="nc bnc" id="L442" title="All 2 branches missed.">			Locale locale = uic == null ? null : uic.getLocale();</span>
-<span class="nc" id="L443">			message = I18nUtilities.format(locale, message);</span>
-<span class="nc" id="L444">			httpServletResponse.getWriter().println(message);</span>
+<span class="nc" id="L437">			UIContext uic = helper.getUIContext();</span>
+<span class="nc bnc" id="L438" title="All 2 branches missed.">			Locale locale = uic == null ? null : uic.getLocale();</span>
+<span class="nc" id="L439">			message = I18nUtilities.format(locale, message);</span>
+<span class="nc" id="L440">			httpServletResponse.getWriter().println(message);</span>
 		}
-<span class="nc" id="L446">	}</span>
+<span class="nc" id="L442">	}</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

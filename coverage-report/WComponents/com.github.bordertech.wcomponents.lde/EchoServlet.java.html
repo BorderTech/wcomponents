@@ -33,7 +33,7 @@ import javax.servlet.http.HttpServletResponse;
 
 <span class="nc bnc" id="L34" title="All 2 branches missed.">		for (String paramKey : paramKeys) {</span>
 <span class="nc bnc" id="L35" title="All 2 branches missed.">			for (String parameterValue : req.getParameterValues(paramKey)) {</span>
-<span class="nc bnc" id="L36" title="All 2 branches missed.">				if (parameterValue.equals(&quot;coffee&quot;)) {</span>
+<span class="nc bnc" id="L36" title="All 2 branches missed.">				if (&quot;coffee&quot;.equals(parameterValue)) {</span>
 <span class="nc" id="L37">					res.sendError(418, &quot;short and stout&quot;);</span>
 <span class="nc" id="L38">					return;</span>
 				}

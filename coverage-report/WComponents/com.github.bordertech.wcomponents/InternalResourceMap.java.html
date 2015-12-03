@@ -6,8 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.zip.CRC32;
 import java.util.zip.Checksum;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * &lt;p&gt;
@@ -26,26 +24,21 @@ import org.apache.commons.logging.LogFactory;
 public final class InternalResourceMap {
 
 	/**
-	 * The logger instance for this class.
-	 */
-<span class="fc" id="L31">	private static final Log LOG = LogFactory.getLog(InternalResourceMap.class);</span>
-
-	/**
 	 * The map of internal resources by resource path.
 	 */
-<span class="fc" id="L36">	private static final Map&lt;String, InternalResource&gt; RESOURCES = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L29">	private static final Map&lt;String, InternalResource&gt; RESOURCES = new HashMap&lt;&gt;();</span>
 
 	/**
 	 * A map of internal resources cache keys by path. This is used to bust the browser cache when a resource changes
 	 * after a new deployment of the application.
 	 */
-<span class="fc" id="L42">	private static final Map&lt;String, String&gt; RESOURCE_CACHE_KEYS = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L35">	private static final Map&lt;String, String&gt; RESOURCE_CACHE_KEYS = new HashMap&lt;&gt;();</span>
 
 	/**
 	 * Hide utility class constructor.
 	 */
-<span class="nc" id="L47">	private InternalResourceMap() {</span>
-<span class="nc" id="L48">	}</span>
+<span class="nc" id="L40">	private InternalResourceMap() {</span>
+<span class="nc" id="L41">	}</span>
 
 	/**
 	 * Adds a resource to the resource map.
@@ -53,13 +46,13 @@ public final class InternalResourceMap {
 	 * @param resource the resource.
 	 */
 	public static void registerResource(final InternalResource resource) {
-<span class="fc" id="L56">		String resourceName = resource.getResourceName();</span>
+<span class="fc" id="L49">		String resourceName = resource.getResourceName();</span>
 
-<span class="fc bfc" id="L58" title="All 2 branches covered.">		if (!RESOURCES.containsKey(resourceName)) {</span>
-<span class="fc" id="L59">			RESOURCES.put(resourceName, resource);</span>
-<span class="fc" id="L60">			RESOURCE_CACHE_KEYS.put(resourceName, computeHash(resource));</span>
+<span class="fc bfc" id="L51" title="All 2 branches covered.">		if (!RESOURCES.containsKey(resourceName)) {</span>
+<span class="fc" id="L52">			RESOURCES.put(resourceName, resource);</span>
+<span class="fc" id="L53">			RESOURCE_CACHE_KEYS.put(resourceName, computeHash(resource));</span>
 		}
-<span class="fc" id="L62">	}</span>
+<span class="fc" id="L55">	}</span>
 
 	/**
 	 * Retrieves a resource from the resource map.
@@ -68,7 +61,7 @@ public final class InternalResourceMap {
 	 * @return the resource path.
 	 */
 	public static InternalResource getResource(final String path) {
-<span class="nc" id="L71">		return RESOURCES.get(path);</span>
+<span class="nc" id="L64">		return RESOURCES.get(path);</span>
 	}
 
 	/**
@@ -78,7 +71,7 @@ public final class InternalResourceMap {
 	 * @return the resource cache key.
 	 */
 	public static String getResourceCacheKey(final String path) {
-<span class="fc" id="L81">		return RESOURCE_CACHE_KEYS.get(path);</span>
+<span class="fc" id="L74">		return RESOURCE_CACHE_KEYS.get(path);</span>
 	}
 
 	/**
@@ -88,26 +81,26 @@ public final class InternalResourceMap {
 	 * @return a hash of the resource contents.
 	 */
 	public static String computeHash(final InternalResource resource) {
+<span class="fc" id="L84">		final int bufferSize = 1024;</span>
+<span class="pc" id="L85">		try (InputStream stream = resource.getStream()) {</span>
 
-<span class="pc" id="L92">		try (InputStream stream = resource.getStream()) {</span>
-
-<span class="fc bfc" id="L94" title="All 2 branches covered.">			if (stream == null) {</span>
-<span class="fc" id="L95">				return null;</span>
+<span class="fc bfc" id="L87" title="All 2 branches covered.">			if (stream == null) {</span>
+<span class="fc" id="L88">				return null;</span>
 			}
 
 			// Compute CRC-32 checksum
 			// TODO: Is a 1 in 2^32 chance of a cache bust fail good enough?
 			// Checksum checksumEngine = new Adler32();
-<span class="fc" id="L101">			Checksum checksumEngine = new CRC32();</span>
-<span class="fc" id="L102">			byte[] buf = new byte[1024];</span>
+<span class="fc" id="L94">			Checksum checksumEngine = new CRC32();</span>
+<span class="fc" id="L95">			byte[] buf = new byte[bufferSize];</span>
 
-<span class="fc bfc" id="L104" title="All 2 branches covered.">			for (int read = stream.read(buf); read != -1; read = stream.read(buf)) {</span>
-<span class="fc" id="L105">				checksumEngine.update(buf, 0, read);</span>
+<span class="fc bfc" id="L97" title="All 2 branches covered.">			for (int read = stream.read(buf); read != -1; read = stream.read(buf)) {</span>
+<span class="fc" id="L98">				checksumEngine.update(buf, 0, read);</span>
 			}
 
-<span class="fc" id="L108">			return Long.toHexString(checksumEngine.getValue());</span>
-<span class="pc bpc" id="L109" title="9 of 12 branches missed.">		} catch (Exception e) {</span>
-<span class="nc" id="L110">			throw new SystemException(&quot;Error calculating resource hash&quot;, e);</span>
+<span class="fc" id="L101">			return Long.toHexString(checksumEngine.getValue());</span>
+<span class="pc bpc" id="L102" title="9 of 12 branches missed.">		} catch (Exception e) {</span>
+<span class="nc" id="L103">			throw new SystemException(&quot;Error calculating resource hash&quot;, e);</span>
 		}
 	}
 }
