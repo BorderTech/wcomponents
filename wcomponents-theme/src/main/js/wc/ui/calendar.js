@@ -218,80 +218,117 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 */
 		function refresh() {
 			var yearField = findYearField(),
-				monthSelect = findMonthSelect(),
+				input = getInputForCalendar(),
+				limit = getLimits(yearField, input),
 				year = getYearValueAsNumber(yearField),
-				month = monthSelect.selectedIndex,
+				month,
 				current,
-				newDate,
-				days,
-				maxDays,
-				minYear = yearField.getAttribute(MIN_ATTRIB),
-				maxYear = yearField.getAttribute(MAX_ATTRIB),
-				minMonth,
-				maxMonth,
-				minDay,
-				maxDay;
+				newDate;
 
 			// ignore invalid years
 			if (!isNaN(year)) {
 				current = retrieveDate();
-				newDate = copy(current);
-				newDate.setDate(1);  // ALWAYS set date to something less than 29 !!BEFORE!! calling setMonth
-				newDate.setFullYear(year);
 
-				if (minYear === year || maxYear === year) {
-					if (minYear === year) {
-						minMonth = getMinMaxMonthDay(getInputForCalendar());
-						if ((minMonth || minMonth === 0) && minMonth > month) {
-							newDate.setMonth(minMonth);
-							monthSelect.selectedIndex = minMonth;
+				newDate = setYear(current, year);  // YEAR
+				month = setMonth(newDate, year, limit);  // MONTH
+				setDay(current, newDate, year, month, limit);  // DAY
 
-						}
-						else {
-							newDate.setMonth(month);
-						}
-					}
-					if (maxYear === year) {
-						maxMonth = getMinMaxMonthDay(getInputForCalendar(), true);
-						if (maxMonth && maxMonth < month) {
-							newDate.setMonth(maxMonth);
-							monthSelect.selectedIndex = maxMonth;
-						}
-						else {
-							newDate.setMonth(month);
-						}
-					}
-				}
-				else {
-					newDate.setMonth(month);
-				}
-
-				// check if the date was rolled forward
-				// this can happen if we go from, say, 31 march back to feb
-				days = current.getDate();
-				maxDays = daysInMonth(newDate.getFullYear(), newDate.getMonth() + 1);
-
-				if (minYear === year || maxYear === year) {
-					if (minMonth === monthSelect.selectedIndex) {
-						minDay = getMinMaxMonthDay(getInputForCalendar(), false, true);
-						if (minDay > days) {
-							days = minDay;
-						}
-					}
-					else if (maxMonth === monthSelect.selectedIndex) {
-						maxDay = getMinMaxMonthDay(getInputForCalendar(), true, true);
-						if (maxDay < days) {
-							days = maxDay;
-						}
-					}
-				}
-				if (days > maxDays) {
-					newDate.setDate(maxDays);
-				}
-				else {
-					newDate.setDate(days);
-				}
 				setDate(newDate, false);
+			}
+		}
+
+		/*
+		 * Helper for refresh.
+		 * @private
+		 * @function
+		 */
+		function getLimits(yearField, input) {
+			var result = {
+				yearMin: yearField.getAttribute(MIN_ATTRIB),
+				yearMax: yearField.getAttribute(MAX_ATTRIB),
+				monthMin: getMinMaxMonthDay(input),
+				monthMax: getMinMaxMonthDay(input, true),
+				dayMin: getMinMaxMonthDay(input, false, true),
+				dayMax: getMinMaxMonthDay(input, true, true)
+			};
+			return result;
+		}
+
+		/*
+		 * Helper for refresh.
+		 * @private
+		 * @function
+		 */
+		function setYear(date, year) {
+			var newDate = copy(date);
+			newDate.setDate(1);  // ALWAYS set date to something less than 29 !!BEFORE!! calling setMonth
+			newDate.setFullYear(year);
+			return newDate;
+		}
+
+		/*
+		 * Helper for refresh.
+		 * @private
+		 * @function
+		 */
+		function setMonth(date, year, limit) {
+			var monthSelect = findMonthSelect(),
+				month = monthSelect.selectedIndex;
+			if (limit.yearMin === year || limit.yearMax === year) {
+				if (limit.yearMin === year) {
+					if ((limit.monthMin || limit.monthMin === 0) && limit.monthMin > month) {
+						date.setMonth(limit.monthMin);
+						monthSelect.selectedIndex = limit.monthMin;
+					}
+					else {
+						date.setMonth(month);
+					}
+				}
+				if (limit.yearMax === year) {
+					if (limit.monthMax && limit.monthMax < month) {
+						date.setMonth(limit.monthMax);
+						monthSelect.selectedIndex = limit.monthMax;
+					}
+					else {
+						date.setMonth(month);
+					}
+				}
+			}
+			else {
+				date.setMonth(month);
+			}
+			return monthSelect.selectedIndex;
+		}
+
+		/*
+		 * Helper for refresh.
+		 * @private
+		 * @function
+		 */
+		function setDay(current, date, year, month, limit) {
+			// check if the date was rolled forward
+			// this can happen if we go from, say, 31 march back to feb
+			var input, days = current.getDate(),
+				daysMax = daysInMonth(date.getFullYear(), date.getMonth() + 1);
+
+			if (limit.yearMin === year || limit.yearMax === year) {
+				input = getInputForCalendar();
+				if (limit.monthMin === month) {
+					if (limit.dayMin > days) {
+						days = limit.dayMin;
+					}
+				}
+				else if (limit.monthMax === month) {
+					if (limit.dayMax < days) {
+						days = limit.dayMax;
+					}
+				}
+			}
+			if (days > daysMax) {
+				date.setDate(daysMax);
+			}
+			else {
+				date.setDate(days);
 			}
 		}
 
@@ -613,7 +650,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 				}
 			}
 			else {
-				resetMonthPickerOptions();  // make sure all months are enabled if the date field does not have min/max constraints
+				resetMonthPickerOptions();  // make sure all months are enabled if the date field does not have min/max limit
 			}
 
 			// build each week
