@@ -55,37 +55,67 @@ define(["wc/dom/attribute",
 
 				if (value !== "" && !validationManager.isExempt(element)) {
 					if (Widget.isOneOfMe(element, CONSTRAINED)) {
-						if (MIN_FIELD.isOneOfMe(element)) {
-							min = element.getAttribute(MIN);
-							if (isNaN(value)) {
-								message = i18n.get("${validation.numberField.i18n.notNumeric.min}");
-								result = true;
-							}
-							else if ((result = value < parseFloat(min))) {
-								message = i18n.get("${validation.numberField.i18n.underMin}");
-							}
-						}
-						if (MAX_FIELD.isOneOfMe(element)) {
-							max = element.getAttribute(MAX);
-							if (isNaN(value)) {
-								message = min ? i18n.get("${validation.numberField.i18n.notNumeric.minMax}") : i18n.get("${validation.numberField.i18n.notNumeric.max}");
-								result = true;
-							}
-							else if ((result = result || value > parseFloat(max))) {
-								// if value < min it cannot be > max
-								message = min ? i18n.get("${validation.numberField.i18n.outOfRange}") : i18n.get("${validation.numberField.i18n.overMax}");
-							}
+						max = element.getAttribute(MAX);
+						min = element.getAttribute(MIN);
+						message = checkMax(element, value, min, max);
+						if (!message) {
+							message = checkMin(element, value, min);
 						}
 					}
 					else if (isNaN(value)) {
 						message = i18n.get("${validation.numberField.i18n.notNumeric}");
-						result = true;
 					}
-
-					if (result) {
+					if (message) {
+						result = true;
 						label = getFirstLabelForElement(element, true) || element.title || i18n.get("${validation.core.i18n.unlabelledQualifier}");
 						message = sprintf.sprintf(message, label, (min || max), max);
 						validationManager.flagError({element: element, message: message});
+					}
+				}
+				return result;
+			}
+
+			/**
+			 * Check the max constraint.
+			 * @param element The number field.
+			 * @param value The current value of the number field.
+			 * @param min The min constraint.
+			 * @param max The max constraint.
+			 * @private
+			 * @function
+			 * @returns {string} An error message if there is an error.
+			 */
+			function checkMax(element, value, min, max) {
+				var result;
+				if (MAX_FIELD.isOneOfMe(element)) {
+					if (isNaN(value)) {
+						result = min ? i18n.get("${validation.numberField.i18n.notNumeric.minMax}") : i18n.get("${validation.numberField.i18n.notNumeric.max}");
+					}
+					else if (value > parseFloat(max)) {
+						// if value < min it cannot be > max
+						result = min ? i18n.get("${validation.numberField.i18n.outOfRange}") : i18n.get("${validation.numberField.i18n.overMax}");
+					}
+				}
+				return result;
+			}
+
+			/**
+			 * Check the min constraint.
+			 * @param element The number field.
+			 * @param value The current value of the number field.
+			 * @param min The min constraint.
+			 * @private
+			 * @function
+			 * @returns {string} An error message if there is an error.
+			 */
+			function checkMin(element, value, min) {
+				var result;
+				if (MIN_FIELD.isOneOfMe(element)) {
+					if (isNaN(value)) {
+						result = i18n.get("${validation.numberField.i18n.notNumeric.min}");
+					}
+					else if (value < parseFloat(min)) {
+						result = i18n.get("${validation.numberField.i18n.underMin}");
 					}
 				}
 				return result;

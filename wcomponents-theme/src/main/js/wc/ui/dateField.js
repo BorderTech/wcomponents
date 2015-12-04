@@ -23,6 +23,7 @@
  * @requires module:wc/dom/Widget
  * @requires module:wc/i18n/i18n
  * @requires module:wc/timers
+ * @requires module:wc/key
  * @requires module:wc/dom/textContent
  * @requires module:wc/ui/ajaxRegion
  * @requires module:wc/ui/ajax/processResponse
@@ -46,13 +47,13 @@ define(["wc/has",
 		"wc/dom/Widget",
 		"wc/i18n/i18n",
 		"wc/timers",
+		"wc/key",
 		"wc/dom/textContent",
 		"wc/ui/ajaxRegion",
 		"wc/ui/ajax/processResponse",
 		"wc/ui/onchangeSubmit",
 		"wc/ui/listboxAnalog"],
-	/** @param has wc/has @param unique wc/array/unique @param Parser wc/date/Parser @param interchange wc/date/interchange @param Format wc/date/Format @param attribute wc/dom/attribute @param cancelUpdate wc/dom/cancelUpdate @param event wc/dom/event @param focus wc/dom/focus @param formUpdateManager wc/dom/formUpdateManager @param initialise wc/dom/initialise @param shed wc/dom/shed @param tag wc/dom/tag @param Widget wc/dom/Widget @param i18n wc/i18n/i18n @param timers wc/timers @param textContent wc/dom/textContent @param ajaxRegion wc/ui/ajaxRegion @param processResponse wc/ui/ajax/processResponse @param onchangeSubmit wc/ui/onchangeSubmit @ignore */
-	function(has, unique, Parser, interchange, Format, attribute, cancelUpdate, event, focus, formUpdateManager, initialise, shed, tag, Widget, i18n, timers, textContent, ajaxRegion, processResponse, onchangeSubmit) {
+	function(has, unique, Parser, interchange, Format, attribute, cancelUpdate, event, focus, formUpdateManager, initialise, shed, tag, Widget, i18n, timers, key, textContent, ajaxRegion, processResponse, onchangeSubmit) {
 		"use strict";
 
 		/* unused dependencies:
@@ -605,26 +606,7 @@ define(["wc/has",
 							}
 						}
 						else if ((textbox = instance.getTextBox(element))) {
-							switch (action) {
-								case shed.actions.SHOW:
-									func = "show";
-									break;
-								case shed.actions.HIDE:
-									func = "hide";
-									break;
-								case shed.actions.MANDATORY:
-									func = "mandatory";
-									break;
-								case shed.actions.OPTIONAL:
-									func = "optional";
-									break;
-								case shed.actions.ENABLE:
-									func = "enable";
-									break;
-								case shed.actions.DISABLE:
-									func = "disable";
-									break;
-							}
+							func = getFuncForAction(action);
 							if (func) {
 								shed[func](textbox);  // publish this to make changes to the label
 								if ((action === shed.actions.ENABLE || action === shed.actions.DISABLE) && (target = LAUNCHER.findDescendant(element))) {
@@ -634,6 +616,34 @@ define(["wc/has",
 						}
 					}
 				}
+			}
+
+			/*
+			 * Helper for shedSubscriber.
+			 */
+			function getFuncForAction(action) {
+				var func;
+				switch (action) {
+					case shed.actions.SHOW:
+						func = "show";
+						break;
+					case shed.actions.HIDE:
+						func = "hide";
+						break;
+					case shed.actions.MANDATORY:
+						func = "mandatory";
+						break;
+					case shed.actions.OPTIONAL:
+						func = "optional";
+						break;
+					case shed.actions.ENABLE:
+						func = "enable";
+						break;
+					case shed.actions.DISABLE:
+						func = "disable";
+						break;
+				}
+				return func;
 			}
 
 			/**
@@ -783,8 +793,7 @@ define(["wc/has",
 					keyCode = $event.keyCode,
 					target = $event.target,
 					suggestionList,
-					preventDefault,
-					textbox;
+					preventDefault;
 
 				if (instance.isNativeInput(target, true)) {
 					return;
@@ -794,27 +803,12 @@ define(["wc/has",
 				if (!element || shed.isDisabled(element)) {
 					return;
 				}
-				if (keyCode === KeyEvent.DOM_VK_ESCAPE && shed.isExpanded(element)) {
-					// if we ESCAPE when on a SUGGESTION_LIST item focus the textbox
-					if (getSuggestionList(target, 1) && (textbox = instance.getTextBox(element))) {
-						focus.setFocusRequest(textbox, function() {
-							shed.collapse(element);
-						});
-						preventDefault = true;  // so we don't close a dialog which contains the dropdown
-					}
-					else {
-						shed.collapse(element);
-						preventDefault = true;
-					}
-
+				if (keyCode === KeyEvent.DOM_VK_ESCAPE) {
+					preventDefault = handleEscapeKey(element, target);
 				}
-				else if (keyCode === KeyEvent.DOM_VK_RETURN && shed.isExpanded(element)) {
-					if (target.hasAttribute(VALUE_ATTRIB) && getSuggestionList(target, 1)) {
-						preventDefault = true;  // so we don't submit from the suggestion list - yes this is needed I checked.
-						focusAndSetValue(element, target);
-					}
-					else if (isDateInput(target)) {
-						instance.acceptFirstMatch(target);
+				else if (keyCode === KeyEvent.DOM_VK_RETURN) {
+					if (handleEnterKey(element, target)) {
+						preventDefault = true;
 					}
 				}
 				else if ((keyCode === KeyEvent.DOM_VK_DOWN || keyCode === KeyEvent.DOM_VK_UP) && !(getSuggestionList(target, 1))) {
@@ -829,30 +823,75 @@ define(["wc/has",
 					preventDefault = true;  // so we don't cause a page scroll
 				}
 				else if (keyCode === KeyEvent.DOM_VK_TAB) {
-					if (shed.isExpanded(element)) {
-						if (isDateInput(target)) {
-							// accept and update on tab
-							if (filterTimer) {
-								timers.clearTimeout(filterTimer);
-								filterOptions(element, 0);
-							}
-							// tab from textbox in dateField should update by accepting the first match
-							instance.acceptFirstMatch(target);
-						}
-						else if (target.hasAttribute(VALUE_ATTRIB) && getSuggestionList(target, 1)) {
-							// tab from an option should update the dateField
-							setValueFromOption(element, target);
-							shed.collapse(element);
-						}
-					}
+					handleTabKey(element, target);
 				}
-				else if (keyCode !== KeyEvent.DOM_VK_ALT && keyCode !== KeyEvent.DOM_VK_CONTROL && keyCode !== KeyEvent.DOM_VK_META && keyCode !== KeyEvent.DOM_VK_SHIFT && isDateInput(target)) {
+				else if (!key.isMeta(keyCode) && isDateInput(target)) {
 					element.removeAttribute(VALUE_ATTRIB);
 					filterOptions(element);
 				}
 				if (preventDefault) {
 					$event.preventDefault();
 				}
+			}
+
+			/*
+			 * Helper for keydownEvent.
+			 */
+			function handleEnterKey(element, target) {
+				var preventDefault;
+				if (shed.isExpanded(element)) {
+					if (target.hasAttribute(VALUE_ATTRIB) && getSuggestionList(target, 1)) {
+						preventDefault = true;  // so we don't submit from the suggestion list - yes this is needed I checked.
+						focusAndSetValue(element, target);
+					}
+					else if (isDateInput(target)) {
+						instance.acceptFirstMatch(target);
+					}
+				}
+				return preventDefault;
+			}
+
+			/*
+			 * Helper for keydownEvent.
+			 */
+			function handleTabKey(element, target) {
+				if (shed.isExpanded(element)) {
+					if (isDateInput(target)) {
+						// accept and update on tab
+						if (filterTimer) {
+							timers.clearTimeout(filterTimer);
+							filterOptions(element, 0);
+						}
+						// tab from textbox in dateField should update by accepting the first match
+						instance.acceptFirstMatch(target);
+					}
+					else if (target.hasAttribute(VALUE_ATTRIB) && getSuggestionList(target, 1)) {
+						// tab from an option should update the dateField
+						setValueFromOption(element, target);
+						shed.collapse(element);
+					}
+				}
+			}
+
+			/*
+			 * Helper for keydownEvent.
+			 */
+			function handleEscapeKey(element, target) {
+				var preventDefault, textbox;
+				if (shed.isExpanded(element)) {
+					// if we ESCAPE when on a SUGGESTION_LIST item focus the textbox
+					if (getSuggestionList(target, 1) && (textbox = instance.getTextBox(element))) {
+						focus.setFocusRequest(textbox, function() {
+							shed.collapse(element);
+						});
+						preventDefault = true;  // so we don't close a dialog which contains the dropdown
+					}
+					else {
+						shed.collapse(element);
+						preventDefault = true;
+					}
+				}
+				return preventDefault;
 			}
 
 			/**

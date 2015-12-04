@@ -52,53 +52,19 @@ define(function() {
 		 * @throws {ReferenceError} If the value of whichWay is not a known value in {@link module:wc/dom/keyWalker.MOVE_TO}.
 		 */
 		function treeWalkerNavHelper(conf, element, whichWay) {
-			var nextAction,
-				current = element,
+			var action,
 				tw,
 				sibling,
 				result = null;
-			if (whichWay && current && (tw = conf.tw || (conf.tw = document.createTreeWalker(conf.root, NodeFilter.SHOW_ELEMENT, conf.filter, false)))) {
-				tw.currentNode = current;
-				switch (whichWay) {
-					case MOVE_TO.PARENT:
-						nextAction = "parentNode";
-						break;
-					case MOVE_TO.TOP:
-						tw.currentNode = conf.root;
-						nextAction = "firstChild";
-						break;
-					case MOVE_TO.END:
-						tw.currentNode = conf.root;
-						nextAction = "lastChild";
-						break;
-					case MOVE_TO.PREVIOUS:
-						nextAction = conf[OPTIONS.DEPTH_FIRST] ? "previousNode" : "previousSibling";
-						break;
-					case MOVE_TO.NEXT:
-						nextAction = conf[OPTIONS.DEPTH_FIRST] ? "nextNode" : "nextSibling";
-						break;
-					case MOVE_TO.FIRST:
-						current = (tw.currentNode = current.parentNode);
-						nextAction = "firstChild";
-						break;
-					case MOVE_TO.LAST:
-						current = (tw.currentNode = current.parentNode);
-						nextAction = "lastChild";
-						break;
-					case MOVE_TO.CHILD:
-						nextAction = "firstChild";
-						break;
-					case MOVE_TO.LAST_CHILD:
-						nextAction = "lastChild";
-						break;
-					default:
-						throw new ReferenceError("keyWalker.treeWalkerNavHelper cannot move to where you think you want to move to.");
-				}
-				if (nextAction && tw[nextAction]) {
-					sibling = tw[nextAction]();
+			if (whichWay && element) {
+				tw = getTreewalker(conf);
+				tw.currentNode = element;
+				action = getAction(conf, element, whichWay);
+				if (action.next && tw[action.next]) {
+					sibling = tw[action.next]();
 					// we may not have a sibling if we are at the ends of a list so cycle unless specifically prevented
 					if (!sibling && conf[OPTIONS.CYCLE] && (whichWay & (MOVE_TO.PREVIOUS | MOVE_TO.NEXT))) {
-						result = treeWalkerNavHelper(conf, current, ((whichWay === MOVE_TO.PREVIOUS) ? MOVE_TO.LAST : MOVE_TO.FIRST));
+						result = treeWalkerNavHelper(conf, action.current, ((whichWay === MOVE_TO.PREVIOUS) ? MOVE_TO.LAST : MOVE_TO.FIRST));
 					}
 					else {
 						result = sibling;
@@ -106,6 +72,64 @@ define(function() {
 				}
 			}
 			return result;
+		}
+
+		/*
+		 * Helper for treeWalkerNavHelper
+		 * @function
+		 * @private
+		 */
+		function getAction(conf, current, whichWay) {
+			var result = {
+				next: "",
+				current: current
+			};
+			switch (whichWay) {
+				case MOVE_TO.PARENT:
+					result.next = "parentNode";
+					break;
+				case MOVE_TO.TOP:
+					conf.tw.currentNode = conf.root;
+					result.next = "firstChild";
+					break;
+				case MOVE_TO.END:
+					conf.tw.currentNode = conf.root;
+					result.next = "lastChild";
+					break;
+				case MOVE_TO.PREVIOUS:
+					result.next = conf[OPTIONS.DEPTH_FIRST] ? "previousNode" : "previousSibling";
+					break;
+				case MOVE_TO.NEXT:
+					result.next = conf[OPTIONS.DEPTH_FIRST] ? "nextNode" : "nextSibling";
+					break;
+				case MOVE_TO.FIRST:
+					result.current = (conf.tw.currentNode = current.parentNode);
+					result.next = "firstChild";
+					break;
+				case MOVE_TO.LAST:
+					result.current = (conf.tw.currentNode = current.parentNode);
+					result.next = "lastChild";
+					break;
+				case MOVE_TO.CHILD:
+					result.next = "firstChild";
+					break;
+				case MOVE_TO.LAST_CHILD:
+					result.next = "lastChild";
+					break;
+				default:
+					throw new ReferenceError("keyWalker.treeWalkerNavHelper cannot move to where you think you want to move to.");
+			}
+			return result;
+		}
+
+		/*
+		 * Helper for treeWalkerNavHelper
+		 * @function
+		 * @private
+		 */
+		function getTreewalker(conf) {
+			var tw = conf.tw || (conf.tw = document.createTreeWalker(conf.root, NodeFilter.SHOW_ELEMENT, conf.filter, false));
+			return tw;
 		}
 
 		/**

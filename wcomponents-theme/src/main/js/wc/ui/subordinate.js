@@ -367,36 +367,51 @@ define(["wc/dom/tag",
 					triggerVal = getTriggerValue(next, type);
 					compareVal = getCompareValue(testVal, (operator === "rx") ? operator : type);
 					if (compareVal !== null && triggerVal !== null) {
-						switch (operator) {
-							case "le":
-								result = (triggerVal === compareVal);  // strict equality test
-								/* falls through */
-							case "lt":
-								if (!(isEmpty(triggerVal) || isEmpty(compareVal))) {
-									result |= (triggerVal < compareVal);
-								}
-								break;
-							case "ge":
-								result = (triggerVal === compareVal);  // strict equality test
-								/* falls through */
-							case "gt":
-								if (!(isEmpty(triggerVal) || isEmpty(compareVal))) {
-									result |= (triggerVal > compareVal);
-								}
-								break;
-							case "rx":
-								result = compareVal.test(triggerVal);
-								break;
-							case "ne":
-								result = (triggerVal !== compareVal);
-								break;
-							default:
-								result = (triggerVal === compareVal);
-								break;
-						}
+						result = doTest(triggerVal, operator, compareVal);
 					}
 				}
 				while (asGroup && !result && i < elements.length);
+				return result;
+			}
+
+			/**
+			 * Helper for testElementValue, implements the actual test itself.
+			 * @private
+			 * @function
+			 * @param triggerVal The value of the subordinate trigger.
+			 * @param operator The type of test to perform.
+			 * @param compareVal The value to compare against.
+			 * @returns {Boolean} the result of the test.
+			 */
+			function doTest(triggerVal, operator, compareVal) {
+				var result;
+				switch (operator) {
+					case "le":
+						result = (triggerVal === compareVal);  // strict equality test
+						/* falls through */
+					case "lt":
+						if (!(isEmpty(triggerVal) || isEmpty(compareVal))) {
+							result |= (triggerVal < compareVal);
+						}
+						break;
+					case "ge":
+						result = (triggerVal === compareVal);  // strict equality test
+						/* falls through */
+					case "gt":
+						if (!(isEmpty(triggerVal) || isEmpty(compareVal))) {
+							result |= (triggerVal > compareVal);
+						}
+						break;
+					case "rx":
+						result = compareVal.test(triggerVal);
+						break;
+					case "ne":
+						result = (triggerVal !== compareVal);
+						break;
+					default:
+						result = (triggerVal === compareVal);
+						break;
+				}
 				return result;
 			}
 

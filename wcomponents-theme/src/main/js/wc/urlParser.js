@@ -116,42 +116,13 @@ define(function() {
 				pathnameSeparator,
 				hostname,
 				pathname,
-				mDCSquareBrackets = false, // see function mDCHostNameFixer(hostname) below
-				mDCSquareBracketsRe = /^\[.*\]$/,
-				portRe = /:([0-9]*)/, // 0-n digits after a colon. the url http://www.domain.com:/ is invalid but working url
-				userRe = /^(?:([^:]+)?:?([^@]+)?)@/,
-				endRe = /(\?([^#]+))?(#([^#]+))?$/;
+				mDCSquareBrackets = false,  // see function mDCHostNameFixer(hostname) below
+				mDCSquareBracketsRe = /^\[.*\]$/;
 
 			url = url || result[PATH];
-
-			if (userRe.exec(url)) {
-				result[USER] = RegExp.$1;
-				result[PASSWORD] = RegExp.$2;
-				url	= url.replace(userRe, "");
-			}
-
-			/*
-			 * Ports are always numbers and come immediately after a colon
-			 * NOTE: according to rfc1738 there should always be a port but no major browser will return a default
-			 * port value for window.location.port when the URL in the address bar does not have an explicit port.
-			 */
-			if (url.match(portRe)) {
-				result[PORT] = RegExp.$1 || NO_VALUE;
-				url	= url.replace(portRe, "");
-			}
-
-			/*
-			 * The hash, if it exists, is always at the end of a http: URL UNLESS the url simply ends with a hash
-			 * character with nothing after it
-			 */
-			if (endRe.exec(url)) {
-				if ((result[SEARCH] = RegExp.$1)) {
-					result[SEARCH_ARRAY] = parseQuerystring(RegExp.$2);
-				}
-				result[HASH] = RegExp.$3 || NO_VALUE;
-				result[HASH_CLEAN] = RegExp.$4 || NO_VALUE;
-				url	= url.replace(endRe, "");
-			}
+			url = parseUserCreds(url, result);
+			url = parsePort(url, result);
+			url = parseAnchor(url, result);
 
 			/*
 			 * Now we have xyz.domain.tld/abc/def, or server relative url /path..., or relative url
@@ -160,44 +131,112 @@ define(function() {
 			 * The only way we can tell the difference between a relative url and a hostname with no path is by
 			 * testing the protocol. No protocol means a (server-)relative URL
 			 */
-			pathnameSeparator	=	url.indexOf("/");
+			pathnameSeparator = url.indexOf("/");
 			if (pathnameSeparator < 0) {
-				if (result[PROTOCOL]	=== "") {
+				if (result[PROTOCOL] === "") {
 					// no protocol means a relative url like foo.html and all we have is simple path
-					result[PATH_ARRAY]	= [url];
+					result[PATH_ARRAY] = [url];
 				}
 				else {
 					// we have no path and the hostname is all that is left;
-					result[HOST_NAME]	=	mDCHostNameFixer(url);
+					result[HOST_NAME] = mDCHostNameFixer(url);
 					mDCSquareBrackets = mDCSquareBracketsRe.test(url);
-					result[HOST_ARRAY]	=	result[HOST_NAME].split(".");
-					// result[HOST_ARRAY]	=	url.split(result[HOST_NAME]);
+					result[HOST_ARRAY] = result[HOST_NAME].split(".");
+					// result[HOST_ARRAY] = url.split(result[HOST_NAME]);
 				}
 			}
 			else if (pathnameSeparator === 0) {
 				// we have a server relative URL because it starts with "/" and all we have left is path
-				result[PATH_ARRAY]	=	url.substr(1).split("/");  // split the path without the leading "/" otherwise pathnameArray[0] is always empty
+				result[PATH_ARRAY] = url.substr(1).split("/");  // split the path without the leading "/" otherwise pathnameArray[0] is always empty
 			}
 			else if (result[PROTOCOL] === "") {
 				// relative URL with complex path and the first character is not a "/"
-				result[PATH_ARRAY]	=	url.split("/");
+				result[PATH_ARRAY] = url.split("/");
 			}
 			else {
 				// the first slash separates the hostname from the path
-				hostname	=	url.substr(0, pathnameSeparator);
-				pathname	=	url.substr(pathnameSeparator);  // Location.pathname includes leading "/"
+				hostname = url.substr(0, pathnameSeparator);
+				pathname = url.substr(pathnameSeparator);  // Location.pathname includes leading "/"
 
-				result[HOST_NAME]	=	mDCHostNameFixer(hostname);
+				result[HOST_NAME] = mDCHostNameFixer(hostname);
 				mDCSquareBrackets = mDCSquareBracketsRe.test(hostname);
-				result[HOST_ARRAY]	=	result[HOST_NAME].split(".");
-				result[PATH]	=	pathname;
-				result[PATH_ARRAY]	=	pathname.substr(1).split("/");  // split the path without the leading "/" otherwise pathnameArray[0] is always empty
+				result[HOST_ARRAY] = result[HOST_NAME].split(".");
+				result[PATH] = pathname;
+				result[PATH_ARRAY] = pathname.substr(1).split("/");  // split the path without the leading "/" otherwise pathnameArray[0] is always empty
 			}
 			if (result[HOST_NAME] && result[PORT] !== NO_VALUE) {
 				result[HOST] = (mDCSquareBrackets ? "[" : "") + result[HOST_NAME] + (mDCSquareBrackets ? "]" : "") + ":" + result[PORT];
 			}
 			else {
 				result[HOST] = (mDCSquareBrackets ? "[" : "") + result[HOST_NAME] + (mDCSquareBrackets ? "]" : "");
+			}
+			return result;
+		}
+
+		/**
+		 * Parses a specific part of a URL.
+		 * @private
+		 * @function
+		 * @param {string} url The URL to parse
+		 * @param {Object} parsed The object to add the parsed parts to.
+		 * @returns {string} The URL which may be modified to remove the part that was parsed by this routine.
+		 */
+		function parseUserCreds(url, parsed) {
+			var result = url,
+				userRe = /^(?:([^:]+)?:?([^@]+)?)@/;
+			if (userRe.exec(result)) {
+				parsed[USER] = RegExp.$1;
+				parsed[PASSWORD] = RegExp.$2;
+				result = result.replace(userRe, "");
+			}
+			return result;
+		}
+
+		/**
+		 * Parses a specific part of a URL.
+		 * @private
+		 * @function
+		 * @param {string} url The URL to parse
+		 * @param {Object} parsed The object to add the parsed parts to.
+		 * @returns {string} The URL which may be modified to remove the part that was parsed by this routine.
+		 */
+		function parsePort(url, parsed) {
+			var result = url,
+				portRe = /:([0-9]*)/;  // 0-n digits after a colon. the url http://www.domain.com:/ is invalid but working url
+			/*
+			 * Ports are always numbers and come immediately after a colon
+			 * NOTE: according to rfc1738 there should always be a port but no major browser will return a default
+			 * port value for window.location.port when the URL in the address bar does not have an explicit port.
+			 */
+			if (result.match(portRe)) {
+				parsed[PORT] = RegExp.$1 || NO_VALUE;
+				result = result.replace(portRe, "");
+			}
+			return result;
+		}
+
+		/**
+		 * Parses a specific part of a URL.
+		 * @private
+		 * @function
+		 * @param {string} url The URL to parse
+		 * @param {Object} parsed The object to add the parsed parts to.
+		 * @returns {string} The URL which may be modified to remove the part that was parsed by this routine.
+		 */
+		function parseAnchor(url, parsed) {
+			var result = url,
+				endRe = /(\?([^#]+))?(#([^#]+))?$/;
+			/*
+			 * The hash, if it exists, is always at the end of a http: URL UNLESS the url simply ends with a hash
+			 * character with nothing after it
+			 */
+			if (endRe.exec(result)) {
+				if ((parsed[SEARCH] = RegExp.$1)) {
+					parsed[SEARCH_ARRAY] = parseQuerystring(RegExp.$2);
+				}
+				parsed[HASH] = RegExp.$3 || NO_VALUE;
+				parsed[HASH_CLEAN] = RegExp.$4 || NO_VALUE;
+				result = result.replace(endRe, "");
 			}
 			return result;
 		}
