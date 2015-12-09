@@ -11,6 +11,8 @@ import org.junit.Test;
  */
 public class Triplet_Test {
 
+	private static final int TESTVAL = 12345;
+
 	@Test
 	public void testNoArgsConstructor() {
 		Triplet<String, Integer, Boolean> triplet = new Triplet<>();
@@ -64,29 +66,23 @@ public class Triplet_Test {
 
 	@Test
 	public void testEquals() {
-		Triplet<Object, Object, Object> trip1 = new Triplet<Object, Object, Object>("1", new Long(
-				12345), null);
-		Triplet<Object, Object, Object> trip2 = new Triplet<Object, Object, Object>("1", new Long(
-				12345), null);
-		Triplet<Object, Object, Object> trip3 = new Triplet<Object, Object, Object>("1", null,
-				new Long(12345));
+		Triplet<Object, Object, Object> trip1 = new Triplet<Object, Object, Object>("1", new Long(TESTVAL), null);
+		Triplet<Object, Object, Object> trip2 = new Triplet<Object, Object, Object>("1", new Long(TESTVAL), null);
+		Triplet<Object, Object, Object> trip3 = new Triplet<Object, Object, Object>("1", null, new Long(TESTVAL));
 
 		Assert.assertTrue("Triplet should equal itself", trip1.equals(trip1));
 		Assert.assertTrue("Triplet should equal an equivalent triplet", trip1.equals(trip2));
 
 		Assert.assertFalse("Triplet should not equal null", trip1.equals(null));
-		Assert.assertFalse("Triplet should not equal another class", trip1.equals(""));
+		Assert.assertFalse("Triplet should not equal another class", "".equals(trip1));
 		Assert.assertFalse("Triplet should equal a different triplet", trip1.equals(trip3));
 	}
 
 	@Test
 	public void testHashCode() {
-		Triplet<Object, Object, Object> trip1 = new Triplet<Object, Object, Object>("1", new Long(
-				12345), null);
-		Triplet<Object, Object, Object> trip2 = new Triplet<Object, Object, Object>("1", new Long(
-				12345), null);
+		Triplet<Object, Object, Object> trip1 = new Triplet<Object, Object, Object>("1", new Long(TESTVAL), null);
+		Triplet<Object, Object, Object> trip2 = new Triplet<Object, Object, Object>("1", new Long(TESTVAL), null);
 
-		Assert.assertEquals("Triplet should have same hash as an equivalent triplet", trip1.
-				hashCode(), trip2.hashCode());
+		Assert.assertEquals("Triplet should have same hash as an equivalent triplet", trip1.hashCode(), trip2.hashCode());
 	}
 }

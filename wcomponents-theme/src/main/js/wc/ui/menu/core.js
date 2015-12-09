@@ -297,16 +297,7 @@ define(["wc/has",
 		function getNavigationTreeWalkerFilter(ignoreClosed, instance, letter) {
 			return function(element) {
 				// treeWalker filter function that provides the core Abstract Tree View of the menu
-				var result = NodeFilter.FILTER_SKIP,
-					branch;
-
-				if (shed.isDisabled(element) || shed.isHidden(element)) {
-					result = NodeFilter.FILTER_REJECT;
-				}
-				else if (isItem(element, instance)) {
-					// branch or leaf
-					result = NodeFilter.FILTER_ACCEPT;
-				}
+				var branch, result = canNavigate(element, instance);
 
 				// skip over closed branches
 				if (ignoreClosed && result !== NodeFilter.FILTER_REJECT && instance._wd.submenu.isOneOfMe(element)) {
@@ -326,6 +317,27 @@ define(["wc/has",
 				}
 				return result;
 			};
+		}
+
+		/**
+		 * Helper for getNavigationTreeWalkerFilter.
+		 * Determines if the current element is navigable, e.g. it is not disabled or hidden etc.
+		 * @param element Anelement, as passed to getNavigationTreeWalkerFilter
+		 * @param instance A menu instance as passed to getNavigationTreeWalkerFilter
+		 * @returns {Number} A NodeFilter value.
+		 * @function
+		 * @private
+		 */
+		function canNavigate(element, instance) {
+			var result = NodeFilter.FILTER_SKIP;
+			if (shed.isDisabled(element) || shed.isHidden(element)) {
+				result = NodeFilter.FILTER_REJECT;
+			}
+			else if (isItem(element, instance)) {
+				// branch or leaf
+				result = NodeFilter.FILTER_ACCEPT;
+			}
+			return result;
 		}
 
 		/**
@@ -986,34 +998,13 @@ define(["wc/has",
 		function shedSubscriber(element, action) {
 			var opener,
 				root,
-				isTransient,
-				shedFunc,
-				contentId,
-				content,
-				CONTENT_ATTRIB = "aria-controls",
-				subItem;
+				isTransient;
 
 			if (element && (root = this._getRoot(element))) {
 				isTransient = isMenuTransient(root, this);
 
 				if (action === shed.actions.ENABLE || action === shed.actions.DISABLE) {
-					if (this._isBranch(element)) {
-						shedFunc = action === shed.actions.DISABLE ? "disable" : "enable";
-						if (isTransient) {
-							// close the submenu
-							if (action === shed.actions.DISABLE && shed.isExpanded(element)) {
-								shed.collapse(element);  // do not call this[FUNC_MAP.CLOSE] because we don't want all the animate gubbins
-							}
-						}
-						// dis/en-able the opener
-						shed[shedFunc](this._getBranchOpener(element));
-						// disable or re-enable stuff inside the submenu
-						disableInBranch(element, shedFunc, this);
-					}
-					// branches and items when disabled: may have to change default tabstop
-					if (action === shed.actions.DISABLE) {
-						hideDisableHelper(element, root, this);
-					}
+					enableDisable(element, action, root, isTransient, this);
 				}
 				else if (action === shed.actions.HIDE) {
 					hideDisableHelper(element, root, this);
@@ -1021,39 +1012,94 @@ define(["wc/has",
 				else if (isTransient) {
 					// collision detection on branch open
 					if ((action === shed.actions.EXPAND || action === shed.actions.COLLAPSE) && this._isBranch(element) && (opener = this._getBranchOpener(element))) {
-						if (action === shed.actions.EXPAND) {
-							openMenu = root.id;
-							if ((contentId = opener.getAttribute(CONTENT_ATTRIB)) && (content = document.getElementById(contentId))) {
-								if (!this.isMobile) {
-									doCollisionDetection(content, this);
-								}
-								if ((subItem = getFirstAvailableItem(content, this))) {
-									timers.setTimeout(this._focusItem.bind(this), 0, subItem, root);
-								}
-							}
-						}
-						else if (action === shed.actions.COLLAPSE && (contentId = opener.getAttribute(CONTENT_ATTRIB)) && (content = document.getElementById(contentId))) {
-							classList.remove(content, CLASS.DEFAULT_DIRECTION);
-							classList.remove(content, CLASS.AGAINST_DEFAULT);
-							classList.remove(content, CLASS.COLLIDE_SOUTH);
-							content.style.bottom = "";
-							content.removeAttribute("style");
-
-							// if the focus point is inside the branch then refocus to the opener
-							if ((opener !== document.activeElement) && (element.compareDocumentPosition(document.activeElement) & Node.DOCUMENT_POSITION_CONTAINED_BY)) {
-								this._focusItem(opener, root);
-							}
-							else {
-								this._remapKeys(opener, root);
-								// we still have to reset the tabIndex
-								setTabstop(opener, this);
-							}
-						}
+						expandCollapseTransientBranch(element, action, root, opener, this);
 					}
 				}
 				else if (action === shed.actions.COLLAPSE && (opener = this._getBranchOpener(element))) {
 					this._focusItem(opener, root);
 				}
+			}
+		}
+
+		/**
+		 * Gets the content controlled by a menu.
+		 * @param {Element} opener The control that triggers a menu to "open".
+		 * @function
+		 * @private
+		 * @returns {Element} The content controlled by the menu opener if found.
+		 */
+		function getContent(opener) {
+			var content,
+				CONTENT_ATTRIB = "aria-controls",
+				contentId = opener.getAttribute(CONTENT_ATTRIB);
+			if (contentId) {
+				content = document.getElementById(contentId);
+			}
+			return content;
+		}
+
+
+		/*
+		 * Helper for shedSubscriber.
+		 * @function
+		 * @private
+		 */
+		function expandCollapseTransientBranch(element, action, root, opener, instance) {
+			var subItem, content = getContent(opener);
+			if (action === shed.actions.EXPAND) {
+				openMenu = root.id;
+				content = getContent(opener);
+				if (content) {
+					if (!instance.isMobile) {
+						doCollisionDetection(content, instance);
+					}
+					if ((subItem = getFirstAvailableItem(content, instance))) {
+						timers.setTimeout(instance._focusItem.bind(instance), 0, subItem, root);
+					}
+				}
+			}
+			else if (action === shed.actions.COLLAPSE && (content = getContent(opener))) {
+				classList.remove(content, CLASS.DEFAULT_DIRECTION);
+				classList.remove(content, CLASS.AGAINST_DEFAULT);
+				classList.remove(content, CLASS.COLLIDE_SOUTH);
+				content.style.bottom = "";
+				content.removeAttribute("style");
+
+				// if the focus point is inside the branch then refocus to the opener
+				if ((opener !== document.activeElement) && (element.compareDocumentPosition(document.activeElement) & Node.DOCUMENT_POSITION_CONTAINED_BY)) {
+					instance._focusItem(opener, root);
+				}
+				else {
+					instance._remapKeys(opener, root);
+					// we still have to reset the tabIndex
+					setTabstop(opener, instance);
+				}
+			}
+		}
+
+		/*
+		 * Helper for shedSubscriber.
+		 * @function
+		 * @private
+		 */
+		function enableDisable(element, action, root, isTransient, instance) {
+			var shedFunc;
+			if (instance._isBranch(element)) {
+				shedFunc = action === shed.actions.DISABLE ? "disable" : "enable";
+				if (isTransient) {
+					// close the submenu
+					if (action === shed.actions.DISABLE && shed.isExpanded(element)) {
+						shed.collapse(element);  // do not call this[FUNC_MAP.CLOSE] because we don't want all the animate gubbins
+					}
+				}
+				// dis/en-able the opener
+				shed[shedFunc](instance._getBranchOpener(element));
+				// disable or re-enable stuff inside the submenu
+				disableInBranch(element, shedFunc, instance);
+			}
+			// branches and items when disabled: may have to change default tabstop
+			if (action === shed.actions.DISABLE) {
+				hideDisableHelper(element, root, instance);
 			}
 		}
 
@@ -1784,37 +1830,52 @@ define(["wc/has",
 		AbstractMenu.prototype._setMenuItemRole = function(component, contextElement) {
 			var _role = this._role.LEAF,
 				result = _role.noSelection,
+				selectMode,
 				branch = contextElement,
 				TRANSIENT_SELECTABLE_ATTRIB = "data-wc-selectable",
 				isSelectable = component.getAttribute(TRANSIENT_SELECTABLE_ATTRIB),
-				selectModeAttrib,
 				FALSE = "false";
 
 			if (isSelectable !== FALSE && !this._isBranch(component)) {
 				if (!(this._isBranch(branch) || this.ROOT.isOneOfMe(branch))) {
 					branch = this._getBranch(contextElement) || this._getRoot(contextElement);
 				}
-
-				if (branch) {
-					selectModeAttrib = branch.getAttribute("data-wc-selectmode");
-
-					if (selectModeAttrib === "single") {
-						result = _role.single;
-					}
-					else if (selectModeAttrib || isSelectable === TRUE) {
-						result = _role.multi;
-					}
-				}
-				else if (isSelectable === TRUE) {
-					result = _role.multi;
+				selectMode = getSelectMode(branch, isSelectable, _role);
+				if (selectMode) {
+					result = selectMode;
+					component.setAttribute("aria-checked", FALSE);
 				}
 			}
 			component.setAttribute(ROLE_ATTRIB, result);
-			if (result !== _role.noSelection) {
-				component.setAttribute("aria-checked", FALSE);
-			}
 			component.removeAttribute(TRANSIENT_SELECTABLE_ATTRIB);
 		};
+
+		/**
+		 * Helper for _setMenuItemRole.
+		 * @param {Element} branch Menu branch element.
+		 * @param {string} isSelectable "true" or "false"
+		 * @param _role LEAF role
+		 * @returns {_role.multi|_role.single}
+		 * @function
+		 * @private
+		 */
+		function getSelectMode(branch, isSelectable, _role) {
+			var result, selectModeAttrib;
+			if (branch) {
+				selectModeAttrib = branch.getAttribute("data-wc-selectmode");
+
+				if (selectModeAttrib === "single") {
+					result = _role.single;
+				}
+				else if (selectModeAttrib || isSelectable === TRUE) {
+					result = _role.multi;
+				}
+			}
+			else if (isSelectable === TRUE) {
+				result = _role.multi;
+			}
+			return result;
+		}
 
 		/**
 		 * Sets the selected state of a menu descendant which was inserted via AJAX.

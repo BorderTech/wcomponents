@@ -17,6 +17,12 @@
 			</xs:annotation>
 		</xs:attribute>
 
+		<xs:attribute name="class" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>Provides the ability to pass an HTML class attribute onto the root output element.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+
 		<xs:attribute name="disabled" type="xs:boolean">
 			<xs:annotation>
 				<xs:documentation>The component will be in a disabled state if "true". Not output if "false". <strong>Deprecated:</strong> HTML5 audio and video do not support the
@@ -29,7 +35,6 @@
 				<xs:documentation>The component will be in a hidden state if "true". Not output if "false".</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-
 
 		<xs:attribute name="toolTip" type="xs:string">
 			<xs:annotation>

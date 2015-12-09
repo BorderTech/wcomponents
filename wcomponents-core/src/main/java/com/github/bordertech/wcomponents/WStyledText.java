@@ -18,7 +18,7 @@ public class WStyledText extends WText {
 	 *
 	 * @author Yiannis Paschalidis
 	 */
-	public static enum Type {
+	public enum Type {
 		/**
 		 * Plain text is not styled differently to normal text.
 		 */
@@ -64,7 +64,7 @@ public class WStyledText extends WText {
 	/**
 	 * Specifies how white-space should be handled.
 	 */
-	public static enum WhitespaceMode {
+	public enum WhitespaceMode {
 		/**
 		 * Default whitespace handling. Browser-dependent behaviour, but most likely whitespace will be ignored.
 		 */

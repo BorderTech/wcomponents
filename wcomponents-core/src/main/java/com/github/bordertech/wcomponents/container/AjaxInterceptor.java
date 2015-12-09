@@ -138,7 +138,7 @@ public class AjaxInterceptor extends InterceptorComponent {
 				} else {
 					target = WebUtilities.getComponentById(targetId, true);
 					if (target == null) {
-						LOG.warn("Could not find ajax target to render " + target);
+						LOG.warn("Could not find ajax target to render [" + targetId + "]");
 						continue;
 					}
 				}
@@ -174,7 +174,7 @@ public class AjaxInterceptor extends InterceptorComponent {
 			} else {
 				target = WebUtilities.getComponentById(targetId, true);
 				if (target == null) {
-					LOG.warn("Could not find ajax target to render " + target);
+					LOG.warn("Could not find ajax target to render [" + targetId + "]");
 					continue;
 				}
 			}

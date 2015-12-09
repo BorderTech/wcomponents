@@ -47,6 +47,7 @@ final class WApplicationRenderer extends AbstractWebXmlRenderer {
 
 		xml.appendTagOpen("ui:application");
 		xml.appendAttribute("id", component.getId());
+		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendAttribute("applicationUrl", uic.getEnvironment().getPostPath());
 		xml.appendAttribute("ajaxUrl", uic.getEnvironment().getWServletPath());
 		xml.appendAttribute("dataUrl", uic.getEnvironment().getWServletPath()); // TODO: Rationalise this

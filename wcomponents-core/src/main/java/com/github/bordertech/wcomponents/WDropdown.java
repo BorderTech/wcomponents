@@ -32,7 +32,7 @@ public class WDropdown extends AbstractWSingleSelectList implements AjaxTrigger,
 	 *
 	 * @deprecated COMBO no longer required. WSuggestions and a WTextfield should be used instead
 	 */
-	public static enum DropdownType implements Serializable {
+	public enum DropdownType implements Serializable {
 		/**
 		 * A plain drop down.
 		 */

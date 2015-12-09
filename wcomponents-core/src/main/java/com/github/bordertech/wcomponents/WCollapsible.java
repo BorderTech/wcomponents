@@ -22,7 +22,7 @@ public class WCollapsible extends AbstractNamingContextContainer implements Ajax
 	 *
 	 * @author Yiannis Paschalidis
 	 */
-	public static enum CollapsibleMode {
+	public enum CollapsibleMode {
 		/**
 		 * Indicates that expanding/collapsing involves a round-trip to the server. The collapsible content will be
 		 * rendered only when the collapsible is open.
@@ -337,7 +337,7 @@ public class WCollapsible extends AbstractNamingContextContainer implements Ajax
 	@Override
 	public String toString() {
 		String text = label == null ? null : label.getText();
-		text = text == null ? "null" : ('"' + text + '"');
+		text = text == null ? "null" : '"' + text + '"';
 		return toString(text, 1, 1);
 	}
 

@@ -63,7 +63,7 @@ define(["intern!object", "intern/chai!assert"], function(registerSuite, assert) 
 			assert.deepEqual(arr, arrClone, "original array should not be mutated");
 		},
 		testArrayForEach: function() {
-			var arr = ['zero', 'one', 'three'],
+			var arr = ["zero", "one", "three"],
 				test = {
 					zero: -1,
 					one: -1,
@@ -74,14 +74,14 @@ define(["intern!object", "intern/chai!assert"], function(registerSuite, assert) 
 				test[element] = index;
 			}
 			arr.forEach(forEachHelper);
-			assert.strictEqual(test['zero'], 0);
-			assert.strictEqual(test['one'], 1);
-			assert.strictEqual(test['two'], -1);
-			assert.strictEqual(test['three'], 2);
+			assert.strictEqual(test["zero"], 0);
+			assert.strictEqual(test["one"], 1);
+			assert.strictEqual(test["two"], -1);
+			assert.strictEqual(test["three"], 2);
 		},
 		testArrayForEachDoesNotMutateOriginal: function() {
-			var arr = ['zero', 'one', 'three'],
-				arrClone = ['zero', 'one', 'three'],
+			var arr = ["zero", "one", "three"],
+				arrClone = ["zero", "one", "three"],
 				test = {
 					zero: -1,
 					one: -1,

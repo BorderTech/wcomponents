@@ -38,6 +38,7 @@ final class WPhoneNumberFieldRenderer extends AbstractWebXmlRenderer {
 
 		xml.appendTagOpen("ui:phoneNumberField");
 		xml.appendAttribute("id", component.getId());
+		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
 		xml.appendOptionalAttribute("disabled", field.isDisabled(), "true");
 		xml.appendOptionalAttribute("hidden", component.isHidden(), "true");

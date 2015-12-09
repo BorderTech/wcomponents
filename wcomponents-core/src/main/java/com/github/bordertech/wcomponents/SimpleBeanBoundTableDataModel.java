@@ -10,13 +10,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * <p>
  * A simple table data model, that takes in a list of bean properties in its constructor, and is backed by either an
- * array or list of beans which is bound to the table.</p>
- *
- * <p>
- * This data model supports sorting, however, the sort must be cleared out using {@link #clearSort()} whenever the
- * table's data changes.
+ * array or list of beans which is bound to the table.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0

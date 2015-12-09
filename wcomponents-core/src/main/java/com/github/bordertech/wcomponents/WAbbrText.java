@@ -4,10 +4,11 @@ import com.github.bordertech.wcomponents.util.Factory;
 import com.github.bordertech.wcomponents.util.LookupTable;
 
 /**
- * <p>
- * The WAbbrText component shows a further textual description for its (abbreviated) text content.</p>
+ * The WAbbrText component represents an abbreviation or acronym and the full textual description for its (abbreviated)
+ * text content.
  *
  * @author Kishan Bisht
+ * @author Mark Reeves
  * @since 1.0.0
  */
 public class WAbbrText extends WText {
@@ -18,80 +19,81 @@ public class WAbbrText extends WText {
 	private static final LookupTable TABLE = Factory.newInstance(LookupTable.class);
 
 	/**
-	 * Holds the extrinsic state information of a WAbbrText.
-	 */
-	public static class AbbrTextModel extends BeanAndProviderBoundComponentModel {
-
-		/**
-		 * The description for the text.
-		 */
-		private String abbr;
-	}
-
-	/**
 	 * Creates an empty WAbbrText.
+	 *
+	 * An instance of WAbbrText created in this manner must have abbreviated display text and a toolTip (the full text
+	 * represented by the abbreviation) set to be useful.
 	 */
 	public WAbbrText() {
 	}
 
 	/**
-	 * Creates a WAbbrText with the specified text.
+	 * Creates a WAbbrText with the specified abbreviated display text.
 	 *
-	 * @param text the text to display.
+	 * An instance of WAbbrText created in this manner must have a toolTip (the full text represented by the
+	 * abbreviation) set to be useful.
+	 *
+	 * @param text The abbreviated text to display.
 	 */
 	public WAbbrText(final String text) {
 		super(text);
 	}
 
 	/**
-	 * Creates a WAbbrText with the specified text.
+	 * Creates a WAbbrText with the specified abbreviated display text and toolTip full expansion text.
 	 *
-	 * @param text the text to display.
-	 * @param abbr the tool-tip (abbreviation).
+	 * @param text The abbreviated text to display.
+	 * @param description The full text represented by the abbreviation.
 	 */
-	public WAbbrText(final String text, final String abbr) {
+	public WAbbrText(final String text, final String description) {
 		this(text);
-		getComponentModel().abbr = abbr;
+		setToolTip(description);
 	}
 
 	//================================
 	// Attributes
 	/**
-	 * @return the abbreviated text.
+	 * @return the expanded text represented by the abbreviation.
+	 * @deprecated use getToolTip instead.
 	 */
 	public String getAbbrText() {
-		return getComponentModel().abbr;
+		return getToolTip();
 	}
 
 	/**
-	 * Sets the abbreviated text.
+	 * Sets the full text represented by the abbreviation.
 	 *
-	 * @param abbrText the abbreviated text.
+	 * @param abbrText The full text represented by the abbreviation.
+	 * @deprecated use setToolTip instead.
 	 */
 	public void setAbbrText(final String abbrText) {
-		getOrCreateComponentModel().abbr = abbrText;
+		setToolTip(abbrText);
 	}
 
 	/**
-	 * Loads the abbreviated text component from the given code reference table entry. The text is set to the
-	 * description. The abbreviated text is set to the code.
+	 * Loads the abbreviated text component from the given code reference table entry.
+	 *
+	 * The display (abbreviated) text is set to the table entry's description. The toolTip is set to the table entry's
+	 * code.
 	 *
 	 * @param entry the CRT entry to use.
 	 */
 	public void setTextWithDesc(final Object entry) {
 		setText(TABLE.getDescription(null, entry));
-		setAbbrText(TABLE.getCode(null, entry));
+		setToolTip(TABLE.getCode(null, entry));
 	}
 
 	/**
-	 * Loads the abbreviated text component from the given code reference table entry. The text is set to the code. The
-	 * abbreviated text is set to the description.
+	 * Loads the abbreviated text component from the given code reference table entry.
+	 *
+	 * The display (abbreviated) text is set to the table entry's code. The toolTip is set to the table entry's
+	 * description.
 	 *
 	 * @param entry the CRT entry to use.
 	 */
 	public void setTextWithCode(final Object entry) {
 		setText(TABLE.getCode(null, entry));
-		setAbbrText(TABLE.getDescription(null, entry));
+		setToolTip(TABLE.getDescription(null, entry));
 	}
 
 	/**
@@ -100,39 +102,11 @@ public class WAbbrText extends WText {
 	@Override
 	public String toString() {
 		String text = getText();
-		text = text == null ? "null" : ('"' + text + '"');
+		text = text == null ? "null" : '"' + text + '"';
 
-		String abbrText = getAbbrText();
-		abbrText = abbrText == null ? "null" : ('"' + abbrText + '"');
+		String expandedText = getToolTip();
+		expandedText = expandedText == null ? "null" : '"' + expandedText + '"';
 
-		return toString("text=" + text + ", abbrText=" + abbrText);
-	}
-
-	// --------------------------------
-	// Extrinsic state management
-	/**
-	 * Creates a new model appropriate for this component.
-	 *
-	 * @return a new {@link AbbrTextModel}.
-	 */
-	@Override
-	protected AbbrTextModel newComponentModel() {
-		return new AbbrTextModel();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override // For type safety only
-	protected AbbrTextModel getComponentModel() {
-		return (AbbrTextModel) super.getComponentModel();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override // For type safety only
-	protected AbbrTextModel getOrCreateComponentModel() {
-		return (AbbrTextModel) super.getOrCreateComponentModel();
+		return toString("text=" + text + ", toolTip=" + expandedText);
 	}
 }

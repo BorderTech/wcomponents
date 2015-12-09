@@ -13,6 +13,9 @@
 			<xsl:element name="${wc.dom.html5.element.nav}">
 				<xsl:attribute name="class">
 					<xsl:text>skipLinks</xsl:text>
+					<xsl:if test="@class">
+						<xsl:value-of select="concat(' ', @class)"/>
+					</xsl:if>
 				</xsl:attribute>
 				<xsl:apply-templates select="$containerList" mode="skipLinks"/>
 			</xsl:element>

@@ -16,7 +16,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
 				});
 			},
 			beforeEach: function() {
-				testHolder.innerHTML = '<p id = "' + ID_1 + '">this is a test</p><P id = "' + ID_2 + '">this is a test</P>';
+				testHolder.innerHTML = "<p id = \"" + ID_1 + "\">this is a test</p><P id = \"" + ID_2 + "\">this is a test</P>";
 			},
 			afterEach: function() {
 				testHolder.innerHTML = "";
@@ -30,19 +30,19 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
 				assert.strictEqual(tag.P, element.tagName);
 			},
 			testToTag: function() {
-				assert.strictEqual('<input>', tag.toTag('input'));
+				assert.strictEqual("<input>", tag.toTag("input"));
 			},
 			testToTagWithAttributes: function() {
-				assert.strictEqual('<input foo="bar" bar="foo">', tag.toTag('input', false, 'foo="bar" bar="foo"'));
+				assert.strictEqual("<input foo=\"bar\" bar=\"foo\">", tag.toTag("input", false, "foo=\"bar\" bar=\"foo\""));
 			},
 			testToTagClosing: function() {
-				assert.strictEqual('</input>', tag.toTag('input', true));
+				assert.strictEqual("</input>", tag.toTag("input", true));
 			},
 			testToTagClosingWithAttributes: function() {
-				assert.strictEqual('</input>', tag.toTag('input', true, 'foo="bar"'));
+				assert.strictEqual("</input>", tag.toTag("input", true, "foo=\"bar\""));
 			},
 			testToTagSelfClosing: function() {
-				assert.strictEqual('<input/>', tag.toTag('input', false, '', true));
+				assert.strictEqual("<input/>", tag.toTag("input", false, "", true));
 			}
 		});
 	});

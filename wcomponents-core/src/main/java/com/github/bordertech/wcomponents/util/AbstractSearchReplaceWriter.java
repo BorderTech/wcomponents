@@ -76,7 +76,7 @@ public abstract class AbstractSearchReplaceWriter extends Writer {
 	/**
 	 * Writes out remaining content and optionally closes the backing writer.
 	 *
-	 * @see #closeBackingOnClose().
+	 * @see #closeBackingOnClose()
 	 * @throws IOException if there is an error closing the underlying buffer.
 	 */
 	@Override
@@ -138,7 +138,7 @@ public abstract class AbstractSearchReplaceWriter extends Writer {
 		int lastWritePos = 0;
 
 		while (pos < endPos) {
-			searchTerm = findSearchStrings(pos, endPos);
+			searchTerm = findSearchStrings(pos);
 
 			if (searchTerm != null) {
 				if (lastWritePos != pos) {
@@ -167,11 +167,10 @@ public abstract class AbstractSearchReplaceWriter extends Writer {
 	 * Searches for any search strings in the buffer that start between the specified offsets.
 	 *
 	 * @param start the start search offset
-	 * @param end the end search offset
 	 *
 	 * @return the first search String found, or null if none were found.
 	 */
-	private String findSearchStrings(final int start, final int end) {
+	private String findSearchStrings(final int start) {
 		String longestMatch = null;
 
 		// Loop for each string

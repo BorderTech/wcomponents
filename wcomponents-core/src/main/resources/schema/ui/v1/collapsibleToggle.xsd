@@ -35,6 +35,11 @@
 					<xs:documentation>The unique identifier for the component.</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
+			<xs:attribute name="class" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Provides the ability to pass an HTML class attribute onto the root output element.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
 
 			<xs:attribute name="groupName" type="xs:NMTOKEN" use="required">
 				<xs:annotation>

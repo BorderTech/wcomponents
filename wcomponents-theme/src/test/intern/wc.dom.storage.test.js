@@ -3,8 +3,8 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 
 
 
-	var controller, testProp = 'babyfoot' + (new Date()).getTime(),
-		testVal = 'elephant';
+	var controller, testProp = "babyfoot" + (new Date()).getTime(),
+		testVal = "elephant";
 
 
 	registerSuite({
@@ -19,8 +19,8 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 			controller.erase(testProp, false);
 			controller.erase(testProp, true);
 
-			assert.isFalse(!!controller.get(testProp, false), 'Tests should start in clean state');
-			assert.isFalse(!!controller.get(testProp, true, 'Tests should start in clean state'));
+			assert.isFalse(!!controller.get(testProp, false), "Tests should start in clean state");
+			assert.isFalse(!!controller.get(testProp, true, "Tests should start in clean state"));
 		},
 		teardown: function() {
 			controller.erase(testProp, false);

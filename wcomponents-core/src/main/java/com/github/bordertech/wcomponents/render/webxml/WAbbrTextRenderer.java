@@ -26,7 +26,8 @@ final class WAbbrTextRenderer extends AbstractWebXmlRenderer {
 		XmlStringBuilder xml = renderContext.getWriter();
 
 		xml.appendTagOpen("ui:abbr");
-		xml.appendOptionalAttribute("description", abbrText.getAbbrText());
+		xml.appendOptionalAttribute("toolTip", abbrText.getToolTip());
+		xml.appendOptionalAttribute("class", abbrText.getHtmlClass());
 		xml.appendClose();
 
 		xml.appendEscaped(abbrText.getText());

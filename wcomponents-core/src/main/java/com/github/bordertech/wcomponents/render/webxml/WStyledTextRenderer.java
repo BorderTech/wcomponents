@@ -31,6 +31,7 @@ final class WStyledTextRenderer extends AbstractWebXmlRenderer {
 		if (textString != null && textString.length() > 0) {
 			xml.appendTagOpen("ui:text");
 
+			xml.appendOptionalAttribute("class", component.getHtmlClass());
 			switch (text.getType()) {
 				case EMPHASISED:
 					xml.appendAttribute("type", "emphasised");

@@ -70,7 +70,7 @@
 						</xs:enumeration>
 						<xs:enumeration value="mandatoryIndicator">
 							<xs:annotation>
-								<xs:documentation>Provides a wrapper which can be used to include a 'ley' reference to the 
+								<xs:documentation>Provides a wrapper which can be used to include a 'ley' reference to the
 									mandatory indicator (which is internationalised and styled in theme).</xs:documentation>
 							</xs:annotation>
 						</xs:enumeration>
@@ -99,6 +99,11 @@
 				</xs:simpleType>
 			</xs:attribute>
 
+			<xs:attribute name="class" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Provides the ability to pass an HTML class attribute onto the root output element.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
 		</xs:complexType>
 	</xs:element>
 

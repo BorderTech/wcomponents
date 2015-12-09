@@ -30,6 +30,9 @@
 					<xsl:call-template name="title"/>
 					<xsl:attribute name="class">
 						<xsl:text>shuffler wc_list_nb</xsl:text>
+						<xsl:if test="@class">
+							<xsl:value-of select="concat(' ', @class)"/>
+						</xsl:if>
 					</xsl:attribute>
 					<xsl:if test="$myLabel">
 						<xsl:attribute name="aria-labelledby">

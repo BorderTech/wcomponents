@@ -42,8 +42,11 @@
 				the "menu" class and the important stuff on roles.
 			-->
 			<xsl:attribute name="class">
+				<xsl:text>menu </xsl:text>
 				<xsl:value-of select="$type"/>
-				<xsl:text> menu</xsl:text>
+				<xsl:if test="@class">
+					<xsl:value-of select="concat(' ', @class)"/>
+				</xsl:if>
 			</xsl:attribute>
 
 			<!--

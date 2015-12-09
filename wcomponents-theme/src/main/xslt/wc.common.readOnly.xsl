@@ -71,9 +71,12 @@
 				<xsl:with-param name="title" select="$toolTip"/>
 			</xsl:call-template>
 			<xsl:attribute name="class">
-				<xsl:text>wc_ro</xsl:text>
+				<xsl:value-of select="concat(local-name(), ' wc_ro')"/>
+				<xsl:if test="@class">
+					<xsl:value-of select="concat(' ', @class)"/>
+				</xsl:if>
 				<xsl:if test="$class != ''">
-					<xsl:value-of select="concat(' ',$class)"/>
+					<xsl:value-of select="concat(' ', $class)"/>
 				</xsl:if>
 			</xsl:attribute>
 			<xsl:if test="$style!=''">

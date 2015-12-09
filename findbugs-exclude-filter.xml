@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  This file contains some false positive bugs detected by Findbugs. Their
+  false positive nature has been analyzed individually and they have been
+  put here to instruct Findbugs it must ignore them.
+-->
+<FindBugsFilter>
+
+	<!-- Exclude example code. -->
+	<Match>
+		<Class name="~com.github.bordertech.wcomponents.examples.*" />
+	</Match>
+
+	<!-- Standard WComponents ComponentModels must not override equals or hashcode. -->
+	<Match>
+		<Class name="~com.github.bordertech.wcomponents.*\$*Model" />
+		<Bug pattern="EQ_DOESNT_OVERRIDE_EQUALS" />
+	</Match>
+	
+	<Match>
+		<Class name="com.github.bordertech.wcomponents.util.DefaultInternalConfiguration$IncludeProperties" />
+		<Bug pattern="EQ_DOESNT_OVERRIDE_EQUALS" />
+	</Match>
+
+	<!-- Ignore (for now). -->
+	<Match>
+		<Bug pattern="EI_EXPOSE_REP,EI_EXPOSE_REP2,SE_NO_SERIALVERSIONID,UI_INHERITANCE_UNSAFE_GETRESOURCE,DM_DEFAULT_ENCODING,BC_UNCONFIRMED_CAST_OF_RETURN_VALUE" />
+	</Match>
+</FindBugsFilter>

@@ -42,7 +42,11 @@ define(["wc/dom/tag",
 		 * @private
 		 */
 		function Subordinate() {
-			var ruleStore = {},  // stores the rule objects against their rule id
+			var event,
+				dateField,
+				numberField,
+				multiSelectPair,
+				ruleStore = {},  // stores the rule objects against their rule id
 				elementToRuleMap = {},  // maps dom element ids to rule ids
 				regexCache = {},  // cache any dynamically created RegExp instances we may need repeatedly
 				waitingForRules = false,  // flag if we don't add event listeners when dom is loaded
@@ -194,15 +198,15 @@ define(["wc/dom/tag",
 			 * @param {String} id The identifier of the test subject - could be: an element id, or an element name
 			 * @param {*} testValue If the test subject matches this value we return true. What "matches this value" means
 			 * @param {String} [operator] The type of comparison to perform to determine if the condition is true
-			 * really depends on what the test subject is. For example if it is a text input then we return true if the
-			 * value of the input matches the testValue.
+			 *    really depends on what the test subject is. For example if it is a text input then we return true if the
+			 *    value of the input matches the testValue.
 			 * @returns {Boolean} true if the condition is true otherwise false.
 			 */
 			function isConditionTrue(id, testValue, operator) {
 				var result = false,
-					negate = false,
+					testType = getTestType(operator),
 					element = getElement(id),
-					equalityTest, selectedItems;
+					selectedItems;
 				if (element && !shed.isDisabled(element)) {
 					selectedItems = getSelectedOptions(element);
 					if (selectedItems) {
@@ -223,40 +227,8 @@ define(["wc/dom/tag",
 							 * then it would never end up in here because of the way the event listeners / shed
 							 * subscribers are wired up.
 							 */
-							switch (operator) {// work out if we are doing an equality test
-								case "ne":
-									negate = true;
-									/* falls through */
-								case "eq":
-								case "le":
-								case "ge":
-									equalityTest = true;
-									break;
-								default:
-									equalityTest = !operator;
-									break;
-							}
-							if (equalityTest) {
-								/*
-								 * A note on the "special case" values.
-								 * It is possible for legitimate checkbox values to accidentally match one
-								 * of these special cases. This could cause undesired behavior. For example
-								 * if a checkbox has the value "false" and a rule is testing for "false" it will
-								 * ALWAYS be true (true when checked because values match, true when unchecked
-								 * because of the special case).
-								 *
-								 * The way WComponents works this conflict is not going to happen.
-								 */
-								if (selectedItems.length === 0) {
-									if (isEmpty(testValue) || testValue === "false") {// we know element is not selected
-										result = !negate;
-									}
-								}
-								else if (testValue === "true" || testValue === "false") {
-									if ((shed.isSelected(element) + "") === testValue) {
-										result = !negate;
-									}
-								}
+							if (testType.equalityTest) {
+								doEqualityTest(element, testValue, testType.negate, selectedItems);
 							}
 						}
 					}
@@ -267,6 +239,69 @@ define(["wc/dom/tag",
 				}
 				else if (!element) {
 					console.warn("Could not find element ", id);
+				}
+				return result;
+			}
+
+			/**
+			 * Helper for isConditionTrue.
+			 * Performs an equality test when there are selectable options at play.
+			 *
+			 * @param element The test subject.
+			 * @param testValue The test value as passed to `isConditionTrue`.
+			 * @param negate true if the equality test is a "not equal" type.
+			 * @param {NodeList} selectedItems A collection of selected items related to this element.
+			 * @returns {boolean} true if the test passes.
+			 */
+			function doEqualityTest(element, testValue, negate, selectedItems) {
+				var result = false;
+				/*
+				 * A note on the "special case" values.
+				 * It is possible for legitimate checkbox values to accidentally match one
+				 * of these special cases. This could cause undesired behavior. For example
+				 * if a checkbox has the value "false" and a rule is testing for "false" it will
+				 * ALWAYS be true (true when checked because values match, true when unchecked
+				 * because of the special case).
+				 *
+				 * The way WComponents works this conflict is not going to happen.
+				 */
+				if (selectedItems.length === 0) {
+					if (isEmpty(testValue) || testValue === "false") {  // we know element is not selected
+						result = !negate;
+					}
+				}
+				else if (testValue === "true" || testValue === "false") {
+					if ((shed.isSelected(element) + "") === testValue) {
+						result = !negate;
+					}
+				}
+				return result;
+			}
+
+			/**
+			 * Helper for isConditionTrue.
+			 * Determines if this operator is an equlity test and if the result should be negated.
+			 * The result object will have a `negate` property and an `equalityTest` peroperty.
+			 * @param {String} operator
+			 * @function
+			 * @private
+			 */
+			function getTestType(operator) {
+				var result = {
+					negate: false
+				};
+				switch (operator) {  // work out if we are doing an equality test
+					case "ne":
+						result.negate = true;
+						/* falls through */
+					case "eq":
+					case "le":
+					case "ge":
+						result.equalityTest = true;
+						break;
+					default:
+						result.equalityTest = !operator;
+						break;
 				}
 				return result;
 			}
@@ -332,36 +367,51 @@ define(["wc/dom/tag",
 					triggerVal = getTriggerValue(next, type);
 					compareVal = getCompareValue(testVal, (operator === "rx") ? operator : type);
 					if (compareVal !== null && triggerVal !== null) {
-						switch (operator) {
-							case "le":
-								result = (triggerVal === compareVal);  // strict equality test
-								/* falls through */
-							case "lt":
-								if (!(isEmpty(triggerVal) || isEmpty(compareVal))) {
-									result |= (triggerVal < compareVal);
-								}
-								break;
-							case "ge":
-								result = (triggerVal === compareVal);  // strict equality test
-								/* falls through */
-							case "gt":
-								if (!(isEmpty(triggerVal) || isEmpty(compareVal))) {
-									result |= (triggerVal > compareVal);
-								}
-								break;
-							case "rx":
-								result = compareVal.test(triggerVal);
-								break;
-							case "ne":
-								result = (triggerVal !== compareVal);
-								break;
-							default:
-								result = (triggerVal === compareVal);
-								break;
-						}
+						result = doTest(triggerVal, operator, compareVal);
 					}
 				}
 				while (asGroup && !result && i < elements.length);
+				return result;
+			}
+
+			/**
+			 * Helper for testElementValue, implements the actual test itself.
+			 * @private
+			 * @function
+			 * @param triggerVal The value of the subordinate trigger.
+			 * @param operator The type of test to perform.
+			 * @param compareVal The value to compare against.
+			 * @returns {Boolean} the result of the test.
+			 */
+			function doTest(triggerVal, operator, compareVal) {
+				var result;
+				switch (operator) {
+					case "le":
+						result = (triggerVal === compareVal);  // strict equality test
+						/* falls through */
+					case "lt":
+						if (!(isEmpty(triggerVal) || isEmpty(compareVal))) {
+							result |= (triggerVal < compareVal);
+						}
+						break;
+					case "ge":
+						result = (triggerVal === compareVal);  // strict equality test
+						/* falls through */
+					case "gt":
+						if (!(isEmpty(triggerVal) || isEmpty(compareVal))) {
+							result |= (triggerVal > compareVal);
+						}
+						break;
+					case "rx":
+						result = compareVal.test(triggerVal);
+						break;
+					case "ne":
+						result = (triggerVal !== compareVal);
+						break;
+					default:
+						result = (triggerVal === compareVal);
+						break;
+				}
 				return result;
 			}
 
@@ -398,24 +448,46 @@ define(["wc/dom/tag",
 					result = parseRegex(val);
 				}
 				else if (type === "date") {
-					if (val === "" || interchange.isComplete(val)) {
-						result = val;
-					}
-					else {
-						console.warn("Date is not complete", val);
-						result = null;
-					}
+					getDateCompareValue(val);
 				}
 				else if (type === "number") {
-					if (val !== "") {
-						result = parseFloat(val);
-						if (isNaN(result)) {// if the result is NaN we can't use it
-							console.warn("Can not parse to a number", val);
-							result = null;
-						}
-					}
-					else {
-						result = val;
+					result = getNumberCompareValue(val);
+				}
+				else {
+					result = val;
+				}
+				return result;
+			}
+
+			/**
+			 * Helper for getCompareValue.
+			 * @param val The value to convert.
+			 * @returns The correct value when comparing dates.
+			 */
+			function getDateCompareValue(val) {
+				var result;
+				if (val === "" || interchange.isComplete(val)) {
+					result = val;
+				}
+				else {
+					console.warn("Date is not complete", val);
+					result = null;
+				}
+				return result;
+			}
+
+			/**
+			 * Helper for getCompareValue.
+			 * @param val The value to convert.
+			 * @returns The correct value when comparing numbers.
+			 */
+			function getNumberCompareValue(val) {
+				var result;
+				if (val !== "") {
+					result = parseFloat(val);
+					if (isNaN(result)) {// if the result is NaN we can't use it
+						console.warn("Can not parse to a number", val);
+						result = null;
 					}
 				}
 				else {
@@ -669,11 +741,7 @@ define(["wc/dom/tag",
 		}
 
 
-		var event,
-			dateField,
-			numberField,
-			multiSelectPair,
-			/** @alias module:wc/ui/subordinate */ instance = new Subordinate();
+		var /** @alias module:wc/ui/subordinate */ instance = new Subordinate();
 		initialise.register(instance);
 		return instance;
 

@@ -240,6 +240,7 @@ final class DefaultInternalConfiguration implements Configuration {
 	/**
 	 * Load the backing from the properties file visible to our classloader, plus the filesystem.
 	 */
+	@SuppressWarnings("checkstyle:emptyblock")
 	private void load() {
 		recordMessage("Loading parameters");
 		File cwd = new File(".");
@@ -337,6 +338,7 @@ final class DefaultInternalConfiguration implements Configuration {
 	 *
 	 * @param resourceName the path of the resource to load from.
 	 */
+	@SuppressWarnings("checkstyle:emptyblock")
 	private void loadTop(final String resourceName) {
 		try {
 			resources.push(resourceName);
@@ -353,13 +355,9 @@ final class DefaultInternalConfiguration implements Configuration {
 
 				// Now split and process
 				String[] includeAfter = getString(INCLUDE_AFTER).split(",");
-
-				if (includeAfter != null) {
-					backing.remove(INCLUDE_AFTER);
-
-					for (int i = 0; i < includeAfter.length; i++) {
-						loadTop(includeAfter[i]);
-					}
+				backing.remove(INCLUDE_AFTER);
+				for (String after : includeAfter) {
+					loadTop(after);
 				}
 			}
 		} finally {
@@ -416,8 +414,7 @@ final class DefaultInternalConfiguration implements Configuration {
 
 				// Check if we have already loaded this file.
 				if (loadedFiles.keySet().contains(urlContent)) {
-					recordMessage("Skipped url " + url + " - duplicate of " + loadedFiles.get(
-							urlContent));
+					recordMessage("Skipped url " + url + " - duplicate of " + loadedFiles.get(urlContent));
 					continue;
 				}
 
@@ -537,15 +534,16 @@ final class DefaultInternalConfiguration implements Configuration {
 	 */
 	private void load(final Properties properties, final String location,
 			final boolean overwriteOnly) {
-		for (Iterator iter = properties.keySet().iterator(); iter.hasNext();) {
-			String key = (String) iter.next();
+		for (Map.Entry<Object, Object> entry : properties.entrySet()) {
+
+			String key = (String) entry.getKey();
 			String already = get(key);
 
 			if (overwriteOnly && already == null && !INCLUDE.equals(key)) {
 				continue;
 			}
 
-			String value = (String) properties.get(key);
+			String value = (String) entry.getValue();
 			load(key, value, location);
 		}
 	}
@@ -647,7 +645,10 @@ final class DefaultInternalConfiguration implements Configuration {
 
 		int length = prefix.length();
 
-		for (String key : backing.keySet()) {
+		for (Map.Entry<String, Object> entry : backing.entrySet()) {
+
+			String key = entry.getKey();
+
 			if (key.startsWith(prefix)) {
 				// If we are truncating, remove the prefix
 				String newKey = key;
@@ -656,7 +657,7 @@ final class DefaultInternalConfiguration implements Configuration {
 					newKey = key.substring(length);
 				}
 
-				sub.setProperty(newKey, (String) backing.get(key));
+				sub.setProperty(newKey, (String) entry.getValue());
 			}
 		}
 
@@ -778,7 +779,7 @@ final class DefaultInternalConfiguration implements Configuration {
 			}
 
 			// Ahh - got it
-			break;
+			break; // NOPMD
 		}
 
 		return index;
@@ -879,9 +880,9 @@ final class DefaultInternalConfiguration implements Configuration {
 				if (key.endsWith("+")) {
 					key = key.substring(0, key.length() - 1);
 					append = true;
-				} else // If the line contained "key += value" then the Properties will have parsed this as 'key' and '+=
-				// value'
-				if (value != null && value.startsWith("+=")) {
+				} else if (value != null && value.startsWith("+=")) {
+					// If the line contained "key += value" then the Properties will have parsed this as 'key'
+					// and '+= value'
 					value = value.substring(2).trim();
 					append = true;
 				}
@@ -976,7 +977,7 @@ final class DefaultInternalConfiguration implements Configuration {
 				return defaultValue;
 			}
 
-			return new Short(value);
+			return Short.valueOf(value);
 		} catch (NumberFormatException ex) {
 			throw new ConversionException(ex);
 		}
@@ -1133,7 +1134,7 @@ final class DefaultInternalConfiguration implements Configuration {
 				return defaultValue;
 			}
 
-			return new Byte(value);
+			return Byte.valueOf(value);
 		} catch (NumberFormatException ex) {
 			throw new ConversionException(ex);
 		}
@@ -1177,7 +1178,7 @@ final class DefaultInternalConfiguration implements Configuration {
 				return defaultValue;
 			}
 
-			return new Double(value);
+			return Double.valueOf(value);
 		} catch (NumberFormatException ex) {
 			throw new ConversionException(ex);
 		}
@@ -1221,7 +1222,7 @@ final class DefaultInternalConfiguration implements Configuration {
 				return defaultValue;
 			}
 
-			return new Float(value);
+			return Float.valueOf(value);
 		} catch (NumberFormatException ex) {
 			throw new ConversionException(ex);
 		}
@@ -1239,7 +1240,7 @@ final class DefaultInternalConfiguration implements Configuration {
 				return defaultValue;
 			}
 
-			return new Integer(value);
+			return Integer.valueOf(value);
 		} catch (NumberFormatException ex) {
 			throw new ConversionException(ex);
 		}
@@ -1327,7 +1328,7 @@ final class DefaultInternalConfiguration implements Configuration {
 				return defaultValue;
 			}
 
-			return new Long(value);
+			return Long.valueOf(value);
 		} catch (NumberFormatException ex) {
 			throw new ConversionException(ex);
 		}

@@ -36,6 +36,7 @@ button {
 		border: 0 none;
 		cursor: pointer;
 		padding: 0;
+		text-align: inherit;
 
 		&[disabled] {
 			color: $wc-ui-color-disabled-fg;

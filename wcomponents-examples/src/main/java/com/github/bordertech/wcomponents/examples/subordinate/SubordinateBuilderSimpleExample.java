@@ -2,13 +2,12 @@ package com.github.bordertech.wcomponents.examples.subordinate;
 
 import com.github.bordertech.wcomponents.WCheckBox;
 import com.github.bordertech.wcomponents.WContainer;
-import com.github.bordertech.wcomponents.WField;
 import com.github.bordertech.wcomponents.WFieldLayout;
 import com.github.bordertech.wcomponents.WTextField;
 import com.github.bordertech.wcomponents.subordinate.builder.SubordinateBuilder;
 
 /**
- * A simple example of {@link SubordinateControlBuilder} usage.
+ * A simple example of {@link SubordinateBuilder} usage.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -25,7 +24,7 @@ public class SubordinateBuilderSimpleExample extends WContainer {
 		layout.setLabelWidth(25);
 
 		WCheckBox extraInfoRequired = new WCheckBox();
-		WField field = layout.addField("Extra information required", extraInfoRequired);
+		layout.addField("Extra information required", extraInfoRequired);
 
 		WTextField extraField = new WTextField();
 		layout.addField("Extra information", extraField);

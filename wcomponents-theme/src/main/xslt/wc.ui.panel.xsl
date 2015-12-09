@@ -41,6 +41,9 @@
 						<xsl:text> wc_dynamic</xsl:text>
 					</xsl:if>
 				</xsl:if>
+				<xsl:if test="@class">
+					<xsl:value-of select="concat(' ', @class)"/>
+				</xsl:if>
 				<xsl:call-template name="WPanelAdditionalClass"/>
 			</xsl:attribute>
 			<xsl:if test="@buttonId">

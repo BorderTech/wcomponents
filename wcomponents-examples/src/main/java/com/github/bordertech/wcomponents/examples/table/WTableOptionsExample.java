@@ -545,7 +545,7 @@ public class WTableOptionsExample extends WBeanContainer {
 	 * This enum is used as the options in the WShuffler to demonstrate how column orders can be changed.
 	 * </p>
 	 */
-	private static enum COLUMN {
+	private enum COLUMN {
 		/**
 		 * First name.
 		 */

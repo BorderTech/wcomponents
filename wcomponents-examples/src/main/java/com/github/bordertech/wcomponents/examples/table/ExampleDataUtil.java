@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * Utility class to create data for the {@link WTable} examples.
@@ -17,11 +15,6 @@ import org.apache.commons.logging.LogFactory;
  * @since 1.0.0
  */
 public final class ExampleDataUtil {
-
-	/**
-	 * The logger instance for this class.
-	 */
-	private static final Log LOG = LogFactory.getLog(ExampleDataUtil.class);
 
 	/**
 	 * Private constructor.

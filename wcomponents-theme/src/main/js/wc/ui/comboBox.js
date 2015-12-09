@@ -44,11 +44,11 @@ define(["wc/has",
 		"wc/ui/ajaxRegion",
 		"wc/ui/ajax/processResponse",
 		"wc/ui/onchangeSubmit",
-		"wc/ui/listboxAnalog",
-		"module"
+		"module",
+		"wc/ui/listboxAnalog"
 	],
 	/** @param has wc/has @param triggerManager wc/ajax/triggerManager @param attribute wc/dom/attribute @param classList wc/dom/classList @param event wc/dom/event @param focus wc/dom/focus @param getFilteredGroup wc/dom/getFilteredGroup @param initialise wc/dom/initialise @param shed wc/dom/shed @param textContent wc/dom/textContent @param Widget wc/dom/Widget @param key wc/key @param timers wc/timers @param ajaxRegion wc/ui/ajaxRegion @param processResponse wc/ui/ajax/processResponse @param onchangeSubmit wc/ui/onchangeSubmit @param module @ignore */
-	function(has, triggerManager, attribute, classList, event, focus, getFilteredGroup, initialise, shed, textContent, Widget, key, timers, ajaxRegion, processResponse, onchangeSubmit, listboxAnalog, module) {
+	function(has, triggerManager, attribute, classList, event, focus, getFilteredGroup, initialise, shed, textContent, Widget, key, timers, ajaxRegion, processResponse, onchangeSubmit, module) {
 		"use strict";
 		// listboxAnalog is required but not used.
 
@@ -70,7 +70,7 @@ define(["wc/has",
 				openSelect = "",  // the id of the currently open combo (if any)
 				repainter,
 				IETimeout = 0,  // IE cannot update itself fast enough to focus a newly opened list
-				// stuff for chatty combos
+				// stuff for chatty combox
 				CLASS_CHATTY = "wc_combo_dyn",
 				CHATTY_COMBO = COMBO.extend(CLASS_CHATTY),
 				updateTimeout,
@@ -428,72 +428,106 @@ define(["wc/has",
 			 * @param {Event} $event The keydown event.
 			 */
 			function keydownEvent($event) {
-				var combo, keyCode = $event.keyCode, target = $event.target, listbox, keyName,
-					PRINTABLE_RE = /[ -~]/,
-					KEY_NAME_RE = /^DOM_VK_/;
+				var keyCode = $event.keyCode, target = $event.target, listbox;
 				if (!$event.defaultPrevented) {
 					if (COMBO.isOneOfMe(target)) {
-						/* keydown happens when a combo input is focused */
-						if (keyCode === KeyEvent.DOM_VK_TAB) {
-							// TAB out, do nothing, focus will take care of it.
-							return;
-						}
-						if (keyCode === KeyEvent.DOM_VK_ESCAPE) {
-							if (shed.isExpanded(target)) {
-								shed.collapse(target);
-								$event.preventDefault();
-							}
-						}
-						else if (keyCode === KeyEvent.DOM_VK_DOWN) {
-							if (shed.isExpanded(target)) {
-								if ((listbox = getListBox(target))) {
-									focusListbox(listbox);
-								}
-							}
-							else if ($event.altKey) {
-								shed.expand(target);
-							}
-						}
-						else if (keyCode === KeyEvent.DOM_VK_UP) {
-							if (shed.isExpanded(target)) {
-								if ($event.altKey) {
-									shed.collapse(target);
-								}
-								else if ((listbox = getListBox(target))) {
-									focusListbox(listbox);
-								}
-							}
-						}
-						else if (filter && (keyCode !== KeyEvent.DOM_VK_ALT && keyCode !== KeyEvent.DOM_VK_CONTROL && keyCode !== KeyEvent.DOM_VK_META && keyCode !== KeyEvent.DOM_VK_SHIFT) && !CHATTY_COMBO.isOneOfMe(target)) {
-							filterOptions(target);
-						}
-					}
-					else if ((listbox = getListBox(target, 1)) && (combo = getCombo(listbox))) {
-						/* keydown happens when a list item is focussed */
-						if ((keyCode === KeyEvent.DOM_VK_ESCAPE || keyCode === KeyEvent.DOM_VK_RETURN)) {
-							/* ESCAPE closes the combo, RETURN selects the option then collapses the combo.*/
-							if (keyCode === KeyEvent.DOM_VK_RETURN) {
-								setValue(combo, target);
-							}
-							focus.setFocusRequest(combo, function() {
-								shed.collapse(combo);
-							});
+						if (handleKeyCombobox(target, keyCode, $event.altKey)) {
 							$event.preventDefault();
 						}
-						else if (keyCode === KeyEvent.DOM_VK_TAB) {
-							/* TAB to leave the list so select the current option and collapse */
-							setValue(combo, target);
-							shed.collapse(combo);
-						}
-						else if ((keyName = key.getLiteral(keyCode)) && (keyName = keyName.replace(KEY_NAME_RE, "")) && keyName.length === 1 && PRINTABLE_RE.test(keyName)) {
-							/* printable char pressed: find the next matching option */
-							target = getTextTarget(listbox, target, keyName.toLocaleLowerCase());
-							if (target) {
-								focus.setFocusRequest(target);
-							}
+					}
+					else if ((listbox = getListBox(target, 1))) {
+						if (handleKeyListbox(target, listbox, keyCode)) {
+							$event.preventDefault();
 						}
 					}
 				}
+			}
+
+			/**
+			 * Handles a keypress on "listbox".
+			 * @param {Element} target The element that received the key event.
+			 * @param {Element} listbox The listbox.
+			 * @param {number} keyCode The key that was pressed.
+			 * @returns {boolean} true if the key event needs to be cancelled.
+			 */
+			function handleKeyListbox(target, listbox, keyCode) {
+				var keyName, PRINTABLE_RE = /[ -~]/,
+					KEY_NAME_RE = /^DOM_VK_/,
+					combo = getCombo(listbox),
+					preventDefault = false;
+				if (!combo) {
+					return;
+				}
+				/* keydown happens when a list item is focussed */
+				if ((keyCode === KeyEvent.DOM_VK_ESCAPE || keyCode === KeyEvent.DOM_VK_RETURN)) {
+					/* ESCAPE closes the combo, RETURN selects the option then collapses the combo.*/
+					if (keyCode === KeyEvent.DOM_VK_RETURN) {
+						setValue(combo, target);
+					}
+					focus.setFocusRequest(combo, function() {
+						shed.collapse(combo);
+					});
+					preventDefault = true;
+				}
+				else if (keyCode === KeyEvent.DOM_VK_TAB) {
+					/* TAB to leave the list so select the current option and collapse */
+					setValue(combo, target);
+					shed.collapse(combo);
+				}
+				else if ((keyName = key.getLiteral(keyCode)) && (keyName = keyName.replace(KEY_NAME_RE, "")) && keyName.length === 1 && PRINTABLE_RE.test(keyName)) {
+					/* printable char pressed: find the next matching option */
+					target = getTextTarget(listbox, target, keyName.toLocaleLowerCase());
+					if (target) {
+						focus.setFocusRequest(target);
+					}
+				}
+				return preventDefault;
+			}
+
+			/**
+			 * Handles a keypress on "combobox" itself (not the listbox).
+			 * @param {Element} target The combobox
+			 * @param {number} keyCode The key that was pressed.
+			 * @param {boolean} altKey
+			 * @returns {boolean} true if the key event needs to be cancelled.
+			 */
+			function handleKeyCombobox(target, keyCode, altKey) {
+				var listbox, preventDefault = false;
+				/* keydown happens when a combo input is focused */
+				if (keyCode === KeyEvent.DOM_VK_TAB) {
+					// TAB out, do nothing, focus will take care of it.
+					return;
+				}
+				if (keyCode === KeyEvent.DOM_VK_ESCAPE) {
+					if (shed.isExpanded(target)) {
+						shed.collapse(target);
+						preventDefault = true;
+					}
+				}
+				else if (keyCode === KeyEvent.DOM_VK_DOWN) {
+					if (shed.isExpanded(target)) {
+						if ((listbox = getListBox(target))) {
+							focusListbox(listbox);
+						}
+					}
+					else if (altKey) {
+						shed.expand(target);
+					}
+				}
+				else if (keyCode === KeyEvent.DOM_VK_UP) {
+					if (shed.isExpanded(target)) {
+						if (altKey) {
+							shed.collapse(target);
+						}
+						else if ((listbox = getListBox(target))) {
+							focusListbox(listbox);
+						}
+					}
+				}
+				else if (filter && (!key.isMeta(keyCode)) && !CHATTY_COMBO.isOneOfMe(target)) {
+					filterOptions(target);
+				}
+				return preventDefault;
 			}
 
 			/**

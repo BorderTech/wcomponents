@@ -33,6 +33,7 @@ final class WSingleSelectRenderer extends AbstractWebXmlRenderer {
 
 		xml.appendTagOpen("ui:listBox");
 		xml.appendAttribute("id", component.getId());
+		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
 		xml.appendOptionalAttribute("data", dataKey != null && !readOnly, dataKey);
 		xml.appendOptionalAttribute("disabled", listBox.isDisabled(), "true");

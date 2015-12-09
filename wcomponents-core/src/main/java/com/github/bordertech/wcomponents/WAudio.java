@@ -321,7 +321,7 @@ public class WAudio extends AbstractWComponent implements Targetable, AjaxTarget
 
 		String targ = request.getParameter(Environment.TARGET_ID);
 		String audioFileRequested = request.getParameter(AUDIO_INDEX_REQUEST_PARAM_KEY);
-		boolean contentReqested = (targ != null && targ.equals(getTargetId()));
+		boolean contentReqested = targ != null && targ.equals(getTargetId());
 
 		if (contentReqested) {
 			int audioFileIndex = 0;
@@ -394,7 +394,7 @@ public class WAudio extends AbstractWComponent implements Targetable, AjaxTarget
 	@Override
 	public String toString() {
 		String text = getAltText();
-		return toString(text == null ? null : ('"' + text + '"'));
+		return toString(text == null ? null : '"' + text + '"');
 	}
 
 	// --------------------------------

@@ -8,10 +8,6 @@ dialog {
 	min-height: $wc-ui-dialog-min-height;
 	min-width: $wc-ui-dialog-min-width;
 
-	&[open] > [aria-live] { // dialog content container
-		height: 100%;
-	}
-
 	> footer {
 		display: block;
 		line-height: 0;
@@ -20,8 +16,8 @@ dialog {
 
 	&.wc_dragflow,
 	&.wc_resizeflow { // keyboard and resize event initiated drag and resize animation
-		transition-delay: 0s;
-		transition-duration: 1s;
+		transition-delay: $wc-ui-dialog-transition-delay;
+		transition-duration: $wc-ui-dialog-transition-duration;
 		transition-timing-function: ease-in-out;
 	}
 

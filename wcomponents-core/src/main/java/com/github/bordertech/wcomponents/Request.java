@@ -65,7 +65,7 @@ public interface Request {
 	 * @param key the name of the parameter used to pass the file content.
 	 * @return {@link FileItem} representing the updloaded file.
 	 * @since 1.0.0
-	 * @deprecated As of 25/05/2015, replaced by {@link #getFileItems()}
+	 * @deprecated As of 25/05/2015, replaced by {@link #getFileItems(java.lang.String)}
 	 */
 	FileItem getFileItem(String key);
 

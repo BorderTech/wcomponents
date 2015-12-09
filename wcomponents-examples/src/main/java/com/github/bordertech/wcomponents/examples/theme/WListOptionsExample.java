@@ -22,15 +22,16 @@ import java.util.List;
 /**
  * <p>
  * This component shows the various configurations of a {@link WList} component.
- * </p><p>
+ * </p>
+ * <p>
  * <b>note: there are several configurations that just wont render correctly because the combination does not make sense
- * <br/>
  * such as</b>
+ * </p>
  * <ul>
  * <li>field layout with a flat list</li>
  * <li>stacked or striped with bars on a flow layout</li>
  * </ul>
- * </p><p>
+ * <p>
  * also note: as at WComponents 6 the hidden tag has not been implemented in WList this has been raised but as it is has
  * not been raised by a project it has been placed on the todo pile.
  * </p>

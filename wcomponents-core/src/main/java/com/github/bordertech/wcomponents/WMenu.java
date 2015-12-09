@@ -21,7 +21,7 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 	 *
 	 * @author Yiannis Paschalidis
 	 */
-	public static enum MenuType {
+	public enum MenuType {
 		/**
 		 * The menu is displayed as a horizontal bar, similar to menu bars in desktop applications.
 		 */
@@ -45,7 +45,7 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 	/**
 	 * The available types of selection mode for the items in a menu.
 	 */
-	public static enum SelectMode {
+	public enum SelectMode {
 		/**
 		 * No items can be selected.
 		 */

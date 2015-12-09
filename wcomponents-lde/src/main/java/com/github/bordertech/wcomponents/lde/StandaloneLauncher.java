@@ -231,7 +231,7 @@ public final class StandaloneLauncher {
 		 * @param name the logger name.
 		 */
 		public TextAreaLogger(final String name) {
-
+			// Warning, commons logging requires this (currently unused) constructor.
 		}
 
 		/**

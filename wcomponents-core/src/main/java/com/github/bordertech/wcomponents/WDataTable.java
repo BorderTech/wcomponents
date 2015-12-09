@@ -67,7 +67,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	/**
 	 * This is used to control how row selection should work.
 	 */
-	public static enum SelectMode {
+	public enum SelectMode {
 		/**
 		 * Indicates that row selection is not available.
 		 */
@@ -85,7 +85,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	/**
 	 * This is used to control how the "select all" function should work.
 	 */
-	public static enum SelectAllType {
+	public enum SelectAllType {
 		/**
 		 * Indicates that the select all/none function should not be available.
 		 */
@@ -103,7 +103,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	/**
 	 * This is used to control how row expansion should work.
 	 */
-	public static enum ExpandMode {
+	public enum ExpandMode {
 		/**
 		 * Indicates that row expansion is not supported.
 		 */
@@ -129,7 +129,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	/**
 	 * This is used to control how pagination should work.
 	 */
-	public static enum PaginationMode {
+	public enum PaginationMode {
 		/**
 		 * Indicates that pagination is not supported, all data will be displayed in the one page.
 		 */
@@ -151,7 +151,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	/**
 	 * This is used to control the type of striping used, if any.
 	 */
-	public static enum StripingType {
+	public enum StripingType {
 		/**
 		 * Indicates that no zebra striping should be used.
 		 */
@@ -169,7 +169,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	/**
 	 * This is used to control the type of striping used, if any.
 	 */
-	public static enum SeparatorType {
+	public enum SeparatorType {
 		/**
 		 * Indicates that no separators should be displayed.
 		 */
@@ -191,7 +191,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	/**
 	 * This is used to control how sorting should work.
 	 */
-	public static enum SortMode {
+	public enum SortMode {
 		/**
 		 * Indicates that sorting should be disabled.
 		 */
@@ -209,7 +209,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	/**
 	 * This is used to control how table data should be displayed.
 	 */
-	public static enum Type {
+	public enum Type {
 		/**
 		 * Indicates that the table should be displayed as a normal table.
 		 */
@@ -230,7 +230,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 		add(actions);
 
 		repeater.setRepeatedComponent(new WDataTableRowRenderer(this));
-		repeater.setBeanProvider(new DataModelBeanProvider());
+		repeater.setBeanProvider(new DataModelBeanProvider(this));
 	}
 
 	/**
@@ -314,7 +314,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 		getOrCreateComponentModel().rowIndexMapping = null;
 
 		if (dataModel instanceof BeanTableDataModel) {
-			((BeanTableDataModel) dataModel).setBeanProvider(new DataTableBeanProvider());
+			((BeanTableDataModel) dataModel).setBeanProvider(new DataTableBeanProvider(this));
 			((BeanTableDataModel) dataModel).setBeanProperty(".");
 		}
 
@@ -1440,14 +1440,23 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	/**
 	 * A bean provider implementation which uses the bean bound to the table.
 	 */
-	private final class DataTableBeanProvider implements BeanProvider, Serializable {
+	private static final class DataTableBeanProvider implements BeanProvider, Serializable {
+
+		private final WDataTable table;
+
+		/**
+		 * @param table the parent table
+		 */
+		private DataTableBeanProvider(final WDataTable table) {
+			this.table = table;
+		}
 
 		/**
 		 * {@inheritDoc}
 		 */
 		@Override
 		public Object getBean(final BeanProviderBound beanProviderBound) {
-			return WDataTable.this.getBeanValue();
+			return table.getBeanValue();
 		}
 	}
 
@@ -1455,14 +1464,23 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 * A bean provider implementation which provides beans to the table repeater. This provider takes the table's
 	 * pagination state into account, so that only visible rows are rendered.
 	 */
-	private final class DataModelBeanProvider implements BeanProvider, Serializable {
+	private static final class DataModelBeanProvider implements BeanProvider, Serializable {
+
+		private final WDataTable table;
+
+		/**
+		 * @param table the parent table
+		 */
+		private DataModelBeanProvider(final WDataTable table) {
+			this.table = table;
+		}
 
 		/**
 		 * {@inheritDoc}
 		 */
 		@Override
 		public Object getBean(final BeanProviderBound beanProviderBound) {
-			TableDataModel dataModel = getDataModel();
+			TableDataModel dataModel = table.getDataModel();
 
 			if (dataModel.getRowCount() == 0) {
 				return Collections.emptyList();
@@ -1471,12 +1489,12 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 			int startIndex = 0;
 			int endIndex = dataModel.getRowCount() - 1;
 
-			switch (getPaginationMode()) {
+			switch (table.getPaginationMode()) {
 				case DYNAMIC:
 				case SERVER: {
-					int rowsPerPage = getRowsPerPage();
-					int currentPage = getCurrentPage();
-					int rowCount = getComponentModel().getPaginationRowCount();
+					int rowsPerPage = table.getRowsPerPage();
+					int currentPage = table.getCurrentPage();
+					int rowCount = table.getComponentModel().getPaginationRowCount();
 
 					startIndex = Math.min(currentPage * rowsPerPage,
 							rowCount - (rowCount % rowsPerPage));
@@ -1501,7 +1519,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 				return Collections.EMPTY_LIST;
 			}
 
-			return getRowIds(startIndex, endIndex);
+			return table.getRowIds(startIndex, endIndex);
 		}
 	}
 

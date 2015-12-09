@@ -46,9 +46,15 @@ public class CheckComponentModelDefinition_Test {
 	@NoWarning(value = "WCCM")
 	public static final class PublicStaticModelWithDefaultConstructor extends ComponentModel {
 
+		/**
+		 * Default constructor.
+		 */
 		public PublicStaticModelWithDefaultConstructor() {
 		}
 
+		/**
+		 * @param arg argument
+		 */
 		public PublicStaticModelWithDefaultConstructor(final String arg) {
 			setAttribute("arg", arg);
 		}
@@ -60,6 +66,9 @@ public class CheckComponentModelDefinition_Test {
 	@ExpectWarning(value = "WCCM")
 	public static final class PublicStaticModelNoDefaultConstructor extends ComponentModel {
 
+		/**
+		 * @param arg argument
+		 */
 		public PublicStaticModelNoDefaultConstructor(final String arg) {
 			setAttribute("arg", arg);
 		}

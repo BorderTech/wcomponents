@@ -16,12 +16,10 @@ import com.github.bordertech.wcomponents.WTextField;
  * This component demonstrates the usage of the {@link WFieldLayout}, components. These are in the following
  * configurations. </p>
  *
- * <p>
  * <ul>
  * <li>Flat (Default)</li>
  * <li>Stacked</li>
  * </ul>
- * </p>
  *
  * <p>
  * This also demonstrates the behaviour of the {@link WCheckBox} within a {@link WCheckBox}.

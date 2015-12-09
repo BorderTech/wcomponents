@@ -21,7 +21,7 @@ public class WSelectToggle extends AbstractWComponent implements Disableable, Aj
 	/**
 	 * Describes the tri-state nature of a selectToggle.
 	 */
-	public static enum State {
+	public enum State {
 		/**
 		 * Indicates that all items are selected.
 		 */

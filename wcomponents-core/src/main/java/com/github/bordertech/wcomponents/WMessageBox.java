@@ -15,13 +15,13 @@ import java.util.List;
  * </p>
  * <p>
  * The different message types catered for here are:
+ * </p>
  * <ul>
  * <li>Error - For reporting system and application errors.</li>
  * <li>Warning - For warning users about the possible consequences of an action. The process may continue.</li>
  * <li>Information - For providing general information.</li>
  * <li>Success - For reporting on the success of an action or operation.</li>
  * </ul>
- * </p>
  * <p>
  * <b>NOTE:</b> Validation errors should be provided via the component
  * {@link com.github.bordertech.wcomponents.validation.WValidationErrors}.
@@ -58,7 +58,7 @@ public class WMessageBox extends AbstractWComponent implements AjaxTarget, Subor
 	/**
 	 * An enumeration of message box types.
 	 */
-	public static enum Type {
+	public enum Type {
 		/**
 		 * The message box type used to display "success" messages.
 		 */
@@ -228,11 +228,6 @@ public class WMessageBox extends AbstractWComponent implements AjaxTarget, Subor
 	 */
 	public boolean hasMessages() {
 		List<String> msgs = getMessages();
-
-		if (msgs == null) {
-			return false;
-		}
-
 		return !msgs.isEmpty();
 	}
 

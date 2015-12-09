@@ -27,6 +27,7 @@ import com.github.bordertech.wcomponents.container.SessionTokenInterceptor;
 import com.github.bordertech.wcomponents.container.SubordinateControlInterceptor;
 import com.github.bordertech.wcomponents.container.TargetableErrorInterceptor;
 import com.github.bordertech.wcomponents.container.TargetableInterceptor;
+import com.github.bordertech.wcomponents.container.TransformXMLInterceptor;
 import com.github.bordertech.wcomponents.container.UIContextDumpInterceptor;
 import com.github.bordertech.wcomponents.container.ValidateXMLInterceptor;
 import com.github.bordertech.wcomponents.container.WWindowInterceptor;
@@ -311,7 +312,7 @@ public final class ServletUtil {
 
 				resp.setContentType(WebUtilities.getContentType(fileName));
 				resp.setHeader("Cache-Control", CacheType.THEME_CACHE.getSettings());
-				resp.setHeader("Content-Disposition", "filename=" + encodedName);  // added "filename=" to comply with https://tools.ietf.org/html/rfc6266
+				resp.setHeader("Content-Disposition", "filename=" + encodedName);  // "filename=" to comply with https://tools.ietf.org/html/rfc6266
 				resp.setHeader("Expires", "31536000");
 				resp.setHeader("ETag", "\"" + WebUtilities.getProjectVersion() + "\"");
 				// TODO: this is vital but needs a proper date
@@ -330,16 +331,12 @@ public final class ServletUtil {
 	 * @return true if the requested file name is ok, false if not.
 	 */
 	private static boolean checkThemeFile(final String name) {
-		if (Util.empty(name) // name must exist
+		return !(Util.empty(name) // name must exist
 				|| name.indexOf("..") != -1 // prevent directory traversal
 				|| name.charAt(0) == '/' // all theme references should be relative
 				|| name.indexOf('.') == -1 // all files should have a file suffix
 				|| name.indexOf(':') != -1 // forbid use of protocols such as jar:, http: etc.
-				) {
-			return false;
-		}
-
-		return true;
+				);
 	}
 
 	/**
@@ -359,10 +356,10 @@ public final class ServletUtil {
 				new ResponseCacheInterceptor(CacheType.NO_CACHE),
 				new UIContextDumpInterceptor(), new AjaxSetupInterceptor(),
 				new WWindowInterceptor(true), new WrongStepAjaxInterceptor(),
-				new ContextCleanupInterceptor(), new ValidateXMLInterceptor(),
-				new WhitespaceFilterInterceptor(), new SubordinateControlInterceptor(),
-				new AjaxPageShellInterceptor(), new AjaxDebugStructureInterceptor(),
-				new AjaxInterceptor()};
+				new ContextCleanupInterceptor(), new TransformXMLInterceptor(),
+				new ValidateXMLInterceptor(), new WhitespaceFilterInterceptor(),
+				new SubordinateControlInterceptor(), new AjaxPageShellInterceptor(),
+				new AjaxDebugStructureInterceptor(), new AjaxInterceptor()};
 		} else if (request.getParameter(WServlet.TARGET_ID_PARAM_NAME) != null) {
 			chain = new InterceptorComponent[]{new TargetableErrorInterceptor(),
 				new SessionTokenContentInterceptor(), new UIContextDumpInterceptor(),
@@ -373,9 +370,10 @@ public final class ServletUtil {
 				new ResponseCacheInterceptor(CacheType.NO_CACHE),
 				new UIContextDumpInterceptor(), new WWindowInterceptor(true),
 				new WrongStepServerInterceptor(), new ContextCleanupInterceptor(),
-				new ValidateXMLInterceptor(), new WhitespaceFilterInterceptor(),
-				new SubordinateControlInterceptor(), new PageShellInterceptor(),
-				new FormInterceptor(), new DebugStructureInterceptor()};
+				new TransformXMLInterceptor(), new ValidateXMLInterceptor(),
+				new WhitespaceFilterInterceptor(), new SubordinateControlInterceptor(),
+				new PageShellInterceptor(), new FormInterceptor(),
+				new DebugStructureInterceptor()};
 		}
 
 		// Link the interceptors together in a chain.

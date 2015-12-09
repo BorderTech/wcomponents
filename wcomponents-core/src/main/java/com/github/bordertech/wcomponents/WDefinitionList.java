@@ -19,7 +19,7 @@ public class WDefinitionList extends AbstractNamingContextContainer implements A
 	/**
 	 * The layout options.
 	 */
-	public static enum Type {
+	public enum Type {
 		/**
 		 * A layout where elements are placed on the same line.
 		 */

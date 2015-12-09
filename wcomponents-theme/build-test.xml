@@ -140,12 +140,22 @@
 			</copy>
 
 			<property name="intern.executable" location="${basedir}/node_modules/intern/runner.js"/>
-			<echo>Running client side unit tests. If you get errors and need to run them locally the easiest way is to run a local webserver from the theme directory, for example:
-	cd ${implementation.name}
-	python -m SimpleHTTPServer
+			<echo>Running client side unit tests.
+If you get errors and need to run them locally the easiest way is to run a local webserver from the theme directory.
+For your convenience we the WComponents theme comes with a jetty server ready to go. After building the tests run (from the theme project):
+
+	mvn jetty:start
 
 Now open a web browser and visit:
-	http://localhost:8000/node_modules/intern/client.html?config=target/test-classes/${implementation.name}/intern
+
+	http://localhost:8080/target/
+
+Clicky the linky and the tests should run.
+			</echo>
+			<echo file="${build.rootdir}/index.html">
+				<![CDATA[
+					<a href="/node_modules/intern/client.html?config=target/test-classes/${implementation.name}/intern">Unit Tests</a>
+				]]>
 			</echo>
 			<if>
 				<and>
@@ -163,14 +173,14 @@ Now open a web browser and visit:
 				</then>
 				<else>
 					<echo>
-☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠
+☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠
 Skipping unit tests because you have not set environment variables:
 
 SAUCE_USERNAME
 SAUCE_ACCESS_KEY
 
 See: https://theintern.github.io/intern/#hosted-selenium
-☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠
+☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠
 					</echo>
 				</else>
 			</if>

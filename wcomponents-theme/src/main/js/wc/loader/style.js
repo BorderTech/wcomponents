@@ -161,7 +161,15 @@ define(["wc/has", "wc/fixes", "module"], /** @param has wc/has @param module mod
 			 * @type {Node}
 			 * @private
 			 */
-			sibling = mainCss ? mainCss.nextSibling : null;
+			sibling = mainCss ? mainCss.nextSibling : null,
+			/**
+			 * The common file name used to build the CSS files with an additional DOT suffix.
+			 * The individual 'extension' extends this.;
+			 * @var
+			 * @type {String}
+			 * @private
+			 */
+			CSS_FILE_NAME = "${css.target.file.name}.";
 
 		// We want to sort the IE versions so that we apply fixes for older versions AFTER fixes for newer ones.
 		if (ieVersionsToSupport) {
@@ -230,93 +238,109 @@ define(["wc/has", "wc/fixes", "module"], /** @param has wc/has @param module mod
 		 * @function module:wc/loader/style.load
 		 */
 		this.load = function() {
-			var isMobile = has("ios") || has("android") || has("iemobile") || has("operamobi") || has("operamini") || has("bb"),
-				IE_PREFIX = "ie",
-				key,
+
+			// add generic desktop styles before browser specific styles
+			if (!has("device-mobile")) { // TODO: load this using a media query if possible
+				addStyle(CSS_FILE_NAME + "dt");
+			}
+
+			if (has("ie") || has("trident")) {
+				loadIE();
+			}
+			if (screenStylesToAdd) {
+				loadScreen();
+			}
+		};
+
+		/**
+		 * Write link elements for all CSS files required by specific desktop browsers.
+		 * @private
+		 * @function
+		 */
+		function loadScreen() {
+			var key,
 				value,
-				media,
-				CSS_FILE_NAME = "${css.target.file.name}.",// The common file name used to build the CSS files with an additional DOT suffix. The individual 'extension' extends this.
+				media;
+			for (ext in screenStylesToAdd) {
+				key = value = media = null;
+
+				if (typeof screenStylesToAdd[ext] === "string") {
+					if (has(screenStylesToAdd[ext])) {
+						addStyle(CSS_FILE_NAME + ext);
+					}
+				}
+				else {
+					key = screenStylesToAdd[ext].test;
+					value = screenStylesToAdd[ext].version;
+					media = screenStylesToAdd[ext].media;
+					if (value || value === 0) {
+						if (has(key) <= value) {
+							addStyle(CSS_FILE_NAME + ext, media);
+						}
+					}
+					else if (has(key)) {
+						addStyle(CSS_FILE_NAME + ext, media);
+					}
+				}
+			}
+		}
+
+		/**
+		 * Write link elements for all CSS files required by the world's most "special" browser.
+		 * @private
+		 * @function
+		 */
+		function loadIE() {
+			var IE_PREFIX = "ie",
 				i,
 				next,
 				vNum,
 				j,
 				version,
-				_v;  // I hate IE8! All these vars are for the array iteration because I cannot rely on forEach being loaded in time.
-
-			// add generic desktop styles before browser specific styles
-			if (!isMobile) { // TODO: load this using a media query if possible
-				addStyle(CSS_FILE_NAME + "dt");
+				_v;  // I hate IE8! All these vars are for the array iteration because I cannot rely on forEach being loaded in time.;
+			if (module.config && module.config().ie) {
+				ieVersionsToSupport = module.config().ie;
 			}
-
-			if (has("ie") || has("trident")) {
-				if (module.config && module.config().ie) {
-					ieVersionsToSupport = module.config().ie;
-				}
-				/*
-				 * This module is loaded very early via XSLT and we cannot guarantee that IE8 has received, parsed and
-				 * processed the whole compat layer. This makes it hard to catch some things but mostly foreEach is
-				 * unreliable so I had to replace it with a simple iteration.
-				 */
-				for (i = 0; i < ieVersionsToSupport.length; ++i) {
-					next = ieVersionsToSupport[i];
-					vNum = next.match(/[0-9]{1,2}$/);
-					if (vNum) {
-						for (j = 0; j < vNum.length; ++j) {
-							version = vNum[j];
-							if (isNaN(version)) {
-								break;
+			/*
+			 * This module is loaded very early via XSLT and we cannot guarantee that IE8 has received, parsed and
+			 * processed the whole compat layer. This makes it hard to catch some things but mostly foreEach is
+			 * unreliable so I had to replace it with a simple iteration.
+			 */
+			for (i = 0; i < ieVersionsToSupport.length; ++i) {
+				next = ieVersionsToSupport[i];
+				vNum = next.match(/[0-9]{1,2}$/);
+				if (vNum) {
+					for (j = 0; j < vNum.length; ++j) {
+						version = vNum[j];
+						if (isNaN(version)) {
+							break;
+						}
+						_v = version * 1;
+						if (has("ie") && has("ie") <= _v) {
+							addStyle(CSS_FILE_NAME + IE_PREFIX + version);
+						}
+						else if (_v >= 10) {
+							/*
+							 * WARNING... DANGER WILL ROBINSON
+							 * ie10+ use trident version, which is non-linear compared to ieVerion but we are going
+							 * to assume ONLY ie10 and maybe 11 need special CSS... This is a BAD assumption.
+							 *
+							 * Later... turns out to be not so bad since MS Edge does not identify as trident.
+							 */
+							if (has("trident") < 7) {
+								addStyle(CSS_FILE_NAME + IE_PREFIX + "10");
 							}
-							_v = version * 1;
-							if (has("ie") && has("ie") <= _v) {
+							else if (has("trident") <= _v - 4) {
 								addStyle(CSS_FILE_NAME + IE_PREFIX + version);
 							}
-							else if (_v >= 10) {
-								/*
-								 * WARNING... DANGER WILL ROBINSON
-								 * ie10+ use trident version, which is non-linear compared to ieVerion but we are going
-								 * to assume ONLY ie10 and maybe 11 need special CSS... This is a BAD assumption.
-								 *
-								 * Later... turns out to be not so bad since MS Edge does not identify as trident.
-								 */
-								if (has("trident") < 7) {
-									addStyle(CSS_FILE_NAME + IE_PREFIX + "10");
-								}
-								else if (has("trident") <= _v - 4) {
-									addStyle(CSS_FILE_NAME + IE_PREFIX + version);
-								}
-								else if (_v >= 11) {
-									addStyle(CSS_FILE_NAME + IE_PREFIX + "11");
-								}
+							else if (_v >= 11) {
+								addStyle(CSS_FILE_NAME + IE_PREFIX + "11");
 							}
 						}
 					}
 				}
 			}
-			if (screenStylesToAdd) {
-				for (ext in screenStylesToAdd) {
-					key = value = media = null;
-
-					if (typeof screenStylesToAdd[ext] === "string") {
-						if (has(screenStylesToAdd[ext])) {
-							addStyle(CSS_FILE_NAME + ext);
-						}
-					}
-					else {
-						key = screenStylesToAdd[ext].test;
-						value = screenStylesToAdd[ext].version;
-						media = screenStylesToAdd[ext].media;
-						if (value || value === 0) {
-							if (has(key) <= value) {
-								addStyle(CSS_FILE_NAME + ext, media);
-							}
-						}
-						else if (has(key)) {
-							addStyle(CSS_FILE_NAME + ext, media);
-						}
-					}
-				}
-			}
-		};
+		}
 	}
 	return /** @alias module:wc/loader/style */ new StyleLoader();
 

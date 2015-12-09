@@ -88,7 +88,7 @@ define(["intern!object", "intern/chai!assert", "../intern/resources/test.utils"]
 			},
 			testContainsPartialNoMatch: function() {
 				var element = getElementWithNoClass(),
-					testFor = 'foo';
+					testFor = "foo";
 				element.className = "food foot fool";
 				assert.isFalse(element.classList.contains(testFor));
 			},
@@ -168,7 +168,7 @@ define(["intern!object", "intern/chai!assert", "../intern/resources/test.utils"]
 			testAddTwoClasses: function() {
 				var element = getElementWithNoClass(),
 					className = DUMMY_CLASS,
-					className1 = 'HandsallaroundjingjanG';
+					className1 = "HandsallaroundjingjanG";
 				element.classList.add(className);  // add the new class
 				element.classList.add(className1);  // add the new class
 				assert.isTrue(element.classList.contains(className));
@@ -176,7 +176,7 @@ define(["intern!object", "intern/chai!assert", "../intern/resources/test.utils"]
 			testAddTwoClassesHasBoth: function() {
 				var element = getElementWithNoClass(),
 					className = DUMMY_CLASS,
-					className1 = 'HandsallaroundjingjanG';
+					className1 = "HandsallaroundjingjanG";
 				element.classList.add(className);  // add the new class
 				element.classList.add(className1);  // add the new class
 				assert.isTrue(element.classList.contains(className1));
@@ -185,7 +185,7 @@ define(["intern!object", "intern/chai!assert", "../intern/resources/test.utils"]
 				var element = getElementWithClass(false),
 					previous = element.className,
 					className = DUMMY_CLASS,
-					className1 = 'HandsallaroundjingjanG';
+					className1 = "HandsallaroundjingjanG";
 				element.classList.add(className);  // add the new class
 				element.classList.add(className1);  // add the new class
 				assert.isTrue(element.classList.contains(previous), "Expected to hasClass to leave existing class in place");
@@ -256,8 +256,8 @@ define(["intern!object", "intern/chai!assert", "../intern/resources/test.utils"]
 			testLibraryContainsPartialNoMatch: function() {
 				var element = getElementWithNoClass();
 				element.className = "food foot fool";
-				assert.isFalse(classlist.contains(element, 'foo'));
-				assert.isFalse(classlist.contains(element, 'ood'));
+				assert.isFalse(classlist.contains(element, "foo"));
+				assert.isFalse(classlist.contains(element, "ood"));
 			},
 			testLibraryHasClassSimpleNoMatch: function() {
 				var element = getElementWithClass(false),
@@ -312,7 +312,7 @@ define(["intern!object", "intern/chai!assert", "../intern/resources/test.utils"]
 			testLibraryAddTwoClassesConsecutively: function() {
 				var element = getElementWithClass(false),
 					className = DUMMY_CLASS,
-					className1 = 'HandsallaroundjingjanG';
+					className1 = "HandsallaroundjingjanG";
 				classlist.add(element, className);
 				classlist.add(element, className1);
 				assert.isTrue(classlist.contains(element, className1));
@@ -321,7 +321,7 @@ define(["intern!object", "intern/chai!assert", "../intern/resources/test.utils"]
 				var element = getElementWithClass(false),
 					elClass = element.className,
 					className = DUMMY_CLASS,
-					className1 = 'HandsallaroundjingjanG';
+					className1 = "HandsallaroundjingjanG";
 				classlist.add(element, className);  // add the new class
 				classlist.add(element, className1);  // add the new class
 				assert.isTrue(classlist.contains(element, elClass), "Expected to hasClass to leave existing class in place");
@@ -380,7 +380,7 @@ define(["intern!object", "intern/chai!assert", "../intern/resources/test.utils"]
 			testLibraryContainsWithObjectElement: function() {
 				// essential test in IE
 				var element = document.getElementById("obj1");
-				assert.isTrue(classlist.contains(element, 'cowa'));
+				assert.isTrue(classlist.contains(element, "cowa"));
 			},
 			testLibraryLength: function() {
 				var element = getElementWithClass(true),

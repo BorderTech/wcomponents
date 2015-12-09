@@ -8,7 +8,7 @@ import org.junit.Test;
 import org.xml.sax.SAXException;
 
 /**
- * Junit test case for {@link WCancelButtonRenderer}.
+ * Junit test case for {@link WButtonRenderer}.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0

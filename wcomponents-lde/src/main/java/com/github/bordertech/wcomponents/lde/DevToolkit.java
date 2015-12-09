@@ -48,16 +48,6 @@ public final class DevToolkit {
 	private static final Log LOG = LogFactory.getLog(DevToolkit.class);
 
 	/**
-	 * Determines whether the toolkit is enabled, based on the application Parameters.
-	 *
-	 * @return true if the toolkit is enabled, false otherwise.
-	 */
-	public static boolean isEnabled() {
-		return Config.getInstance().getBoolean("bordertech.wcomponents.lde.devToolkit.enabled",
-				false);
-	}
-
-	/**
 	 * Indicates whether to display the WComponent UI hierarchy tree view.
 	 */
 	private boolean showTree = false;
@@ -90,6 +80,16 @@ public final class DevToolkit {
 	 * The current request method (ie. "GET", "POST", or "PUT".
 	 */
 	private String requestMethod;
+
+	/**
+	 * Determines whether the toolkit is enabled, based on the application Parameters.
+	 *
+	 * @return true if the toolkit is enabled, false otherwise.
+	 */
+	public static boolean isEnabled() {
+		return Config.getInstance().getBoolean("bordertech.wcomponents.lde.devToolkit.enabled",
+				false);
+	}
 
 	/**
 	 * <p>

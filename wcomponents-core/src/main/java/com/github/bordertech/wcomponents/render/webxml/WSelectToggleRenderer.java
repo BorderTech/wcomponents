@@ -27,6 +27,7 @@ final class WSelectToggleRenderer extends AbstractWebXmlRenderer {
 
 		xml.appendTagOpen("ui:selectToggle");
 		xml.appendAttribute("id", component.getId());
+		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
 
 		State state = toggle.getState();

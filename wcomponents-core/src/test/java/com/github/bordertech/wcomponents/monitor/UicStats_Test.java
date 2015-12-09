@@ -24,11 +24,6 @@ import org.junit.Test;
 public class UicStats_Test extends AbstractWComponentTestCase {
 
 	/**
-	 * the uic to be studied.
-	 */
-	private UIContext uic;
-
-	/**
 	 * the app for the uic.
 	 */
 	private WApplication app;
@@ -50,6 +45,7 @@ public class UicStats_Test extends AbstractWComponentTestCase {
 
 	@Before
 	public void setUp() {
+		UIContext uic;
 		uic = new UIContextImpl();
 		setActiveContext(uic);
 

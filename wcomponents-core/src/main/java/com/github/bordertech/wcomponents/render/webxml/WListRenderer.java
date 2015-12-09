@@ -34,6 +34,7 @@ final class WListRenderer extends AbstractWebXmlRenderer {
 
 		xml.appendTagOpen("ui:panel");
 		xml.appendAttribute("id", component.getId());
+		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
 		xml.appendOptionalAttribute("type", list.isRenderBorder(), "box");
 		xml.appendClose();

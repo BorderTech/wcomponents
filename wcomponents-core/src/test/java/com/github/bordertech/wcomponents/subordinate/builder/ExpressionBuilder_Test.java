@@ -95,7 +95,8 @@ public class ExpressionBuilder_Test {
 	}
 
 	/**
-	 * Tests for correct operator precedence when there is an AND on the right-hand side of the OR: a || b && c.
+	 * Tests for correct operator precedence when there is an AND on the right-hand side of the OR: a || b
+	 * {@literal &}{@literal &} c.
 	 */
 	@Test
 	public void testAndOperatorPrecedenceRHS() {
@@ -108,7 +109,8 @@ public class ExpressionBuilder_Test {
 	}
 
 	/**
-	 * Tests for correct operator precedence when there is an AND on the left-hand side of the OR: a && b || c.
+	 * Tests for correct operator precedence when there is an AND on the left-hand side of the OR: a
+	 * {@literal &}{@literal &} b || c.
 	 */
 	@Test
 	public void testAndOperatorPrecedenceLHS() {
@@ -121,7 +123,8 @@ public class ExpressionBuilder_Test {
 	}
 
 	/**
-	 * Tests for correct operator precedence when there are ANDs on both sides of the OR: a && b || c && d.
+	 * Tests for correct operator precedence when there are ANDs on both sides of the OR: a {@literal &}{@literal &} b
+	 * || c {@literal &}{@literal &} d.
 	 */
 	@Test
 	public void testAndOperatorPrecedenceBoth() {
@@ -135,7 +138,8 @@ public class ExpressionBuilder_Test {
 	}
 
 	/**
-	 * Tests for correct operator precedence when there are ANDs on both sides of the OR: a || b && c || d.
+	 * Tests for correct operator precedence when there are ANDs on both sides of the OR: a || b
+	 * {@literal &}{@literal &} c || d.
 	 */
 	@Test
 	public void testOrOperatorPrecedenceBoth() {
@@ -177,7 +181,8 @@ public class ExpressionBuilder_Test {
 	}
 
 	/**
-	 * Tests nesting of expression builders to change the order of operations: (a && (b || c) && d).
+	 * Tests nesting of expression builders to change the order of operations: (a {@literal &}{@literal &} (b || c)
+	 * {@literal &}{@literal &} d).
 	 */
 	@Test
 	public void testNesting() {
@@ -193,7 +198,8 @@ public class ExpressionBuilder_Test {
 	}
 
 	/**
-	 * Tests nesting of expression builders to change the order of operations: (a && b) || (c && d).
+	 * Tests nesting of expression builders to change the order of operations: (a {@literal &}{@literal &} b) || (c
+	 * {@literal &}{@literal &} d).
 	 */
 	@Test
 	public void testAndandOrWithExpressions() {

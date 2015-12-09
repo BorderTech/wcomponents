@@ -50,7 +50,7 @@ define(function() {
 			SEARCH_ARRAY = "searchArray",
 			HOST_ARRAY = "hostnameArray",
 			PATH_ARRAY = "pathnameArray",
-			NO_VALUE = "";  // used to be null but browsers use '' in window.location so i think we should too
+			NO_VALUE = "";  // used to be null but browsers use "" in window.location so i think we should too
 
 		/**
 		 * MDC has this really weird, completely invalid, break DNS thing going on where they put [] around a
@@ -64,7 +64,7 @@ define(function() {
 		 * @returns {String} The hostname with the square brackets stripped.
 		 */
 		function mDCHostNameFixer(hostname) {
-			return hostname.replace(/^\[|\]$/g, '');  // strip leading and trailing square brackets [www.google.com]
+			return hostname.replace(/^\[|\]$/g, "");  // strip leading and trailing square brackets [www.google.com]
 		}
 
 		/**
@@ -87,11 +87,11 @@ define(function() {
 				qs = window.location.search.substring(1, window.location.search.length);
 			}
 			if (qs.length > 0) {
-				qs = qs.replace(/\+/g, ' ');
-				args = qs.split('&');
+				qs = qs.replace(/\+/g, " ");
+				args = qs.split("&");
 				pair = name = value = null;
 				for (i = 0; i < args.length; i++) {
-					pair = args[i].split('=');
+					pair = args[i].split("=");
 					name = decodeURIComponent(pair[0]);
 					value = (pair.length === 2) ? decodeURIComponent(pair[1]) : null;
 					result[name] = value;
@@ -116,42 +116,13 @@ define(function() {
 				pathnameSeparator,
 				hostname,
 				pathname,
-				mDCSquareBrackets = false, // see function mDCHostNameFixer(hostname) below
-				mDCSquareBracketsRe = /^\[.*\]$/,
-				portRe = /:([0-9]*)/, // 0-n digits after a colon. the url http://www.domain.com:/ is invalid but working url
-				userRe = /^(?:([^:]+)?:?([^@]+)?)@/,
-				endRe = /(\?([^#]+))?(#([^#]+))?$/;
+				mDCSquareBrackets = false,  // see function mDCHostNameFixer(hostname) below
+				mDCSquareBracketsRe = /^\[.*\]$/;
 
 			url = url || result[PATH];
-
-			if (userRe.exec(url)) {
-				result[USER] = RegExp.$1;
-				result[PASSWORD] = RegExp.$2;
-				url	= url.replace(userRe, "");
-			}
-
-			/*
-			 * Ports are always numbers and come immediately after a colon
-			 * NOTE: according to rfc1738 there should always be a port but no major browser will return a default
-			 * port value for window.location.port when the URL in the address bar does not have an explicit port.
-			 */
-			if (url.match(portRe)) {
-				result[PORT] = RegExp.$1 || NO_VALUE;
-				url	= url.replace(portRe, "");
-			}
-
-			/*
-			 * The hash, if it exists, is always at the end of a http: URL UNLESS the url simply ends with a hash
-			 * character with nothing after it
-			 */
-			if (endRe.exec(url)) {
-				if ((result[SEARCH] = RegExp.$1)) {
-					result[SEARCH_ARRAY] = parseQuerystring(RegExp.$2);
-				}
-				result[HASH] = RegExp.$3 || NO_VALUE;
-				result[HASH_CLEAN] = RegExp.$4 || NO_VALUE;
-				url	= url.replace(endRe, "");
-			}
+			url = parseUserCreds(url, result);
+			url = parsePort(url, result);
+			url = parseAnchor(url, result);
 
 			/*
 			 * Now we have xyz.domain.tld/abc/def, or server relative url /path..., or relative url
@@ -160,44 +131,112 @@ define(function() {
 			 * The only way we can tell the difference between a relative url and a hostname with no path is by
 			 * testing the protocol. No protocol means a (server-)relative URL
 			 */
-			pathnameSeparator	=	url.indexOf("/");
+			pathnameSeparator = url.indexOf("/");
 			if (pathnameSeparator < 0) {
-				if (result[PROTOCOL]	=== "") {
+				if (result[PROTOCOL] === "") {
 					// no protocol means a relative url like foo.html and all we have is simple path
-					result[PATH_ARRAY]	= [url];
+					result[PATH_ARRAY] = [url];
 				}
 				else {
 					// we have no path and the hostname is all that is left;
-					result[HOST_NAME]	=	mDCHostNameFixer(url);
+					result[HOST_NAME] = mDCHostNameFixer(url);
 					mDCSquareBrackets = mDCSquareBracketsRe.test(url);
-					result[HOST_ARRAY]	=	result[HOST_NAME].split(".");
-					// result[HOST_ARRAY]	=	url.split(result[HOST_NAME]);
+					result[HOST_ARRAY] = result[HOST_NAME].split(".");
+					// result[HOST_ARRAY] = url.split(result[HOST_NAME]);
 				}
 			}
 			else if (pathnameSeparator === 0) {
-				// we have a server relative URL because it starts with '/' and all we have left is path
-				result[PATH_ARRAY]	=	url.substr(1).split("/");  // split the path without the leading "/" otherwise pathnameArray[0] is always empty
+				// we have a server relative URL because it starts with "/" and all we have left is path
+				result[PATH_ARRAY] = url.substr(1).split("/");  // split the path without the leading "/" otherwise pathnameArray[0] is always empty
 			}
 			else if (result[PROTOCOL] === "") {
-				// relative URL with complex path and the first character is not a '/'
-				result[PATH_ARRAY]	=	url.split("/");
+				// relative URL with complex path and the first character is not a "/"
+				result[PATH_ARRAY] = url.split("/");
 			}
 			else {
 				// the first slash separates the hostname from the path
-				hostname	=	url.substr(0, pathnameSeparator);
-				pathname	=	url.substr(pathnameSeparator);  // Location.pathname includes leading '/'
+				hostname = url.substr(0, pathnameSeparator);
+				pathname = url.substr(pathnameSeparator);  // Location.pathname includes leading "/"
 
-				result[HOST_NAME]	=	mDCHostNameFixer(hostname);
+				result[HOST_NAME] = mDCHostNameFixer(hostname);
 				mDCSquareBrackets = mDCSquareBracketsRe.test(hostname);
-				result[HOST_ARRAY]	=	result[HOST_NAME].split(".");
-				result[PATH]	=	pathname;
-				result[PATH_ARRAY]	=	pathname.substr(1).split("/");  // split the path without the leading "/" otherwise pathnameArray[0] is always empty
+				result[HOST_ARRAY] = result[HOST_NAME].split(".");
+				result[PATH] = pathname;
+				result[PATH_ARRAY] = pathname.substr(1).split("/");  // split the path without the leading "/" otherwise pathnameArray[0] is always empty
 			}
 			if (result[HOST_NAME] && result[PORT] !== NO_VALUE) {
 				result[HOST] = (mDCSquareBrackets ? "[" : "") + result[HOST_NAME] + (mDCSquareBrackets ? "]" : "") + ":" + result[PORT];
 			}
 			else {
 				result[HOST] = (mDCSquareBrackets ? "[" : "") + result[HOST_NAME] + (mDCSquareBrackets ? "]" : "");
+			}
+			return result;
+		}
+
+		/**
+		 * Parses a specific part of a URL.
+		 * @private
+		 * @function
+		 * @param {string} url The URL to parse
+		 * @param {Object} parsed The object to add the parsed parts to.
+		 * @returns {string} The URL which may be modified to remove the part that was parsed by this routine.
+		 */
+		function parseUserCreds(url, parsed) {
+			var result = url,
+				userRe = /^(?:([^:]+)?:?([^@]+)?)@/;
+			if (userRe.exec(result)) {
+				parsed[USER] = RegExp.$1;
+				parsed[PASSWORD] = RegExp.$2;
+				result = result.replace(userRe, "");
+			}
+			return result;
+		}
+
+		/**
+		 * Parses a specific part of a URL.
+		 * @private
+		 * @function
+		 * @param {string} url The URL to parse
+		 * @param {Object} parsed The object to add the parsed parts to.
+		 * @returns {string} The URL which may be modified to remove the part that was parsed by this routine.
+		 */
+		function parsePort(url, parsed) {
+			var result = url,
+				portRe = /:([0-9]*)/;  // 0-n digits after a colon. the url http://www.domain.com:/ is invalid but working url
+			/*
+			 * Ports are always numbers and come immediately after a colon
+			 * NOTE: according to rfc1738 there should always be a port but no major browser will return a default
+			 * port value for window.location.port when the URL in the address bar does not have an explicit port.
+			 */
+			if (result.match(portRe)) {
+				parsed[PORT] = RegExp.$1 || NO_VALUE;
+				result = result.replace(portRe, "");
+			}
+			return result;
+		}
+
+		/**
+		 * Parses a specific part of a URL.
+		 * @private
+		 * @function
+		 * @param {string} url The URL to parse
+		 * @param {Object} parsed The object to add the parsed parts to.
+		 * @returns {string} The URL which may be modified to remove the part that was parsed by this routine.
+		 */
+		function parseAnchor(url, parsed) {
+			var result = url,
+				endRe = /(\?([^#]+))?(#([^#]+))?$/;
+			/*
+			 * The hash, if it exists, is always at the end of a http: URL UNLESS the url simply ends with a hash
+			 * character with nothing after it
+			 */
+			if (endRe.exec(result)) {
+				if ((parsed[SEARCH] = RegExp.$1)) {
+					parsed[SEARCH_ARRAY] = parseQuerystring(RegExp.$2);
+				}
+				parsed[HASH] = RegExp.$3 || NO_VALUE;
+				parsed[HASH_CLEAN] = RegExp.$4 || NO_VALUE;
+				result = result.replace(endRe, "");
 			}
 			return result;
 		}
@@ -250,7 +289,7 @@ define(function() {
 		/** @var {String} module:wc/urlParser~ParsedUrl#HASH The value of the url hash (if any).*/
 		ParsedUrl.prototype[HASH] = NO_VALUE;
 
-		/** @var {String} module:wc/urlParser~ParsedUrl#HASH_CLEAN The value of the url hash (if any) with the leading '#' removed.*/
+		/** @var {String} module:wc/urlParser~ParsedUrl#HASH_CLEAN The value of the url hash (if any) with the leading "#" removed.*/
 		ParsedUrl.prototype[HASH_CLEAN] = NO_VALUE;
 
 		/** @var {String[]} module:wc/urlParser~ParsedUrl#HOST_ARRAY The value of the url host segment (if any) as an array split at the DOT separators. */
@@ -305,7 +344,7 @@ define(function() {
 		 * @function module:wc/urlParser.parse
 		 * @param {String} url the URL to parse.
 		 * @returns {module:wc/urlParser~parseObj} the url as an object where each property is generally consistent
-		 *    with the names used in 'window.location' with some additions.
+		 *    with the names used in "window.location" with some additions.
 		 */
 		this.parse = function(url) {
 			if (!url) {
@@ -318,7 +357,7 @@ define(function() {
 
 	/**
 	 * @typedef {Object} module:wc/urlParser~parseObj The object returned from a call to parseUrl.
-	 * @property {String} [protocol] The scheme including ':', eg "http:".
+	 * @property {String} [protocol] The scheme including ":", eg "http:".
 	 * @property {String} [host] The host and port number.
 	 * @property {String} [hostname] The "domain".
 	 * @property {String[]} [hostnameArray] Each sub domain of hostname from left to right, for example hostname
@@ -332,7 +371,7 @@ define(function() {
 	 * @property {String} [search] The query string.
 	 * @property {Object} [searchArray] Each name=value pair of querystring URI decoded but note:
 	 *    <ul>
-	 *        <li>If there is no value but an equals sign you get {name: ''}.</li>
+	 *        <li>If there is no value but an equals sign you get {name: ""}.</li>
 	 *        <li>If there is no value and no equals sign you get {name: null}.</li>
 	 *        <li>If there is an equals sign and a value but no name you get a slap.</li>
 	 *    </ul>

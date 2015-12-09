@@ -73,8 +73,6 @@ public class WCollapsibleGroupExample extends WPanel {
 
 		add(new WHorizontalRule());
 
-		CollapsibleGroup group3 = new CollapsibleGroup();
-
 		WText component5 = new WText(
 				"Here is some more text that is collapsible via the client side.");
 		WCollapsible collapsible5 = new WCollapsible(component5, "Collapsible - no group",

@@ -1,6 +1,10 @@
 package com.github.bordertech.wcomponents.examples.theme;
 
+import com.github.bordertech.wcomponents.HeadingLevel;
+import com.github.bordertech.wcomponents.WCheckBox;
+import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WDecoratedLabel;
+import com.github.bordertech.wcomponents.WFieldLayout;
 import com.github.bordertech.wcomponents.WHeading;
 import com.github.bordertech.wcomponents.WHorizontalRule;
 import com.github.bordertech.wcomponents.WImage;
@@ -11,6 +15,7 @@ import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.examples.common.ExplanatoryText;
 import com.github.bordertech.wcomponents.layout.FlowLayout;
 import com.github.bordertech.wcomponents.layout.FlowLayout.Alignment;
+import com.github.bordertech.wcomponents.subordinate.builder.SubordinateBuilder;
 import java.util.Date;
 
 /**
@@ -20,12 +25,17 @@ import java.util.Date;
  * @author Mark Reeves
  * @since 1.0.0
  */
-public class WTabSetExample extends WPanel {
+public class WTabSetExample extends WContainer {
 
 	/**
-	 * Sample Long Text.
+	 * Sample long text for tab content.
 	 */
-	private static final String LONG_TEXT = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Praesent lectus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Phasellus et turpis. Aenean convallis eleifend elit. Donec venenatis justo id nunc. Sed at purus vel quam mattis elementum. Sed ultrices lobortis orci. Pellentesque enim urna, volutpat at, sagittis id, faucibus sed, lectus. Integer dapibus nulla semper mi. Nunc posuere molestie augue. Aliquam varius libero in tortor. Sed nibh. Nunc erat nunc, pellentesque at, sodales vel, dapibus sit amet, tortor.";
+	private static final String LONG_TEXT = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Praesent lectus."
+			+ " Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Phasellus "
+			+ "et turpis. Aenean convallis eleifend elit. Donec venenatis justo id nunc. Sed at purus vel quam mattis "
+			+ "elementum. Sed ultrices lobortis orci. Pellentesque enim urna, volutpat at, sagittis id, faucibus sed, "
+			+ "lectus. Integer dapibus nulla semper mi. Nunc posuere molestie augue. Aliquam varius libero in tortor. "
+			+ "Sed nibh. Nunc erat nunc, pellentesque at, sodales vel, dapibus sit amet, tortor.";
 	/**
 	 * Example content height for tall tabsets.
 	 */
@@ -39,35 +49,41 @@ public class WTabSetExample extends WPanel {
 	 * Construct WTabSet examples.
 	 */
 	public WTabSetExample() {
-		super(Type.PLAIN);
-
-		add(new WHeading(WHeading.MAJOR, "Examples showing TabSet Type property."));
-		add(new WHeading(WHeading.SECTION, "Tabs at the top"));
+		constructExample();
+	}
+	
+	/**
+	 * Helper to do the work of the constructor since we do not really want to call over-rideable methods in a 
+	 * constructor.
+	 */
+	private void constructExample() {
+		add(new WHeading(HeadingLevel.H2, "Examples showing TabSet Type property."));
+		add(new WHeading(HeadingLevel.H3, "Tabs at the top"));
 		WTabSet tabset0 = new SampleWTabset();
 		add(tabset0);
 
-		add(new WHeading(WHeading.SECTION, "Tabs at the top with explicit TYPE"));
+		add(new WHeading(HeadingLevel.H3, "Tabs at the top with explicit TYPE"));
 		/* Explicitly setting TYPE_TOP is superfluous */
 		WTabSet tabset1 = new SampleWTabset(WTabSet.TYPE_TOP);
 		add(tabset1);
 
-		add(new WHeading(WHeading.SECTION, "Tabs on the LEFT"));
+		add(new WHeading(HeadingLevel.H3, "Tabs on the LEFT"));
 		WTabSet tabset1a = new SampleWTabset(WTabSet.TYPE_LEFT);
 		add(tabset1a);
 
-		add(new WHeading(WHeading.SECTION, "Tabs on the RIGHT"));
+		add(new WHeading(HeadingLevel.H3, "Tabs on the RIGHT"));
 		WTabSet tabset1b = new SampleWTabset(WTabSet.TYPE_RIGHT);
 		add(tabset1b);
 
-		add(new WHeading(WHeading.SECTION, "ACCORDION tabs"));
+		add(new WHeading(HeadingLevel.H3, "ACCORDION tabs"));
 		WTabSet tabset1c = new SampleWTabset(TabSetType.ACCORDION);
 		add(tabset1c);
 
 		add(new WHorizontalRule());
 
 		/* Content height */
-		add(new WHeading(WHeading.MAJOR, "Examples showing content height property."));
-		add(new WHeading(WHeading.SECTION, "Tall content."));
+		add(new WHeading(HeadingLevel.H2, "Examples showing content height property."));
+		add(new WHeading(HeadingLevel.H3, "Tall content."));
 		WTabSet htabset1 = new SampleWTabset();
 		htabset1.setContentHeight(TALL_CONTENT);
 		add(htabset1);
@@ -84,7 +100,7 @@ public class WTabSetExample extends WPanel {
 		htabset1c.setContentHeight(TALL_CONTENT);
 		add(htabset1c);
 
-		add(new WHeading(WHeading.SECTION, "Short content."));
+		add(new WHeading(HeadingLevel.H3, "Short content."));
 		WTabSet htabset1d = new SampleWTabset();
 		htabset1d.setContentHeight(SHORT_CONTENT);
 		add(htabset1d);
@@ -102,7 +118,7 @@ public class WTabSetExample extends WPanel {
 		add(htabset1g);
 
 		add(new WHorizontalRule());
-		add(new WHeading(WHeading.MAJOR, "Examples showing disabled property."));
+		add(new WHeading(HeadingLevel.H2, "Examples showing disabled property."));
 
 		/* NOTE: WTabSet does not currently implement SubordinateTarget therefore one cannot create a subordinate
 		 * control to disable/enable a WTabSet.
@@ -115,8 +131,8 @@ public class WTabSetExample extends WPanel {
 
 		/* NOTE: no example of the hidden property because WTabSet is not a subordinate target. This is inconsistent
 		 * with the schema. */
-		add(new WHeading(WHeading.MAJOR, "Setting the initially active tab"));
-		add(new WHeading(WHeading.SECTION,
+		add(new WHeading(HeadingLevel.H2, "Setting the initially active tab"));
+		add(new WHeading(HeadingLevel.H3,
 				"Server side with tabs on the left, with second tab initially active."));
 		WTabSet tabset3 = new WTabSet(WTabSet.TYPE_LEFT);
 		tabset3.setContentHeight("10em");
@@ -142,7 +158,7 @@ public class WTabSetExample extends WPanel {
 		tabset3.setActiveIndex(1);
 		add(tabset3);
 
-		add(new WHeading(WHeading.SECTION,
+		add(new WHeading(HeadingLevel.H3,
 				"Client side with tabs on the right and the third tab initially active."));
 		WText thirdContent = new WText("Some more content should go into here.");
 		WTabSet tabset4 = new WTabSet(WTabSet.TYPE_RIGHT);
@@ -156,7 +172,7 @@ public class WTabSetExample extends WPanel {
 		tabset4.setActiveTab(thirdContent);
 		add(tabset4);
 
-		add(new WHeading(WHeading.SECTION, "Client side with showing lots of tabs."));
+		add(new WHeading(HeadingLevel.H3, "Client side with showing lots of tabs."));
 		add(new ExplanatoryText(
 				"This will effectively show what happens when tabs need to wrap. You should do everything possible to avoid this situation."));
 		WTabSet tabset5 = new WTabSet();
@@ -176,6 +192,34 @@ public class WTabSetExample extends WPanel {
 		tabset5.addTab(new WText("Tab 14."), "Fourteenth tab", WTabSet.TAB_MODE_CLIENT);
 		tabset5.addTab(new WText("Tab 15."), "Fifteenth tab", WTabSet.TAB_MODE_CLIENT);
 		add(tabset5);
+				
+		add(new WHorizontalRule());
+		
+		add(new WHeading(HeadingLevel.H2, "Using WSubordinateControl"));
+		WTabSet targetTabset = new SampleWTabset();
+		add(targetTabset);
+		
+		WFieldLayout layout = new WFieldLayout(WFieldLayout.LAYOUT_STACKED);
+		add(layout);
+		final WCheckBox disabledControllerCb = new WCheckBox();
+		final WCheckBox hiddenControllerCb = new WCheckBox();
+		layout.addField("disable tabset", disabledControllerCb);
+		layout.addField("hide tabset", hiddenControllerCb);
+		
+		
+		// Build & add the subordinate
+		SubordinateBuilder builder = new SubordinateBuilder();
+		builder.condition().equals(hiddenControllerCb, String.valueOf(true));
+		builder.whenTrue().hide(targetTabset);
+		builder.whenFalse().show(targetTabset);
+		add(builder.build());
+		
+		builder = new SubordinateBuilder();
+		builder.condition().equals(disabledControllerCb, String.valueOf(true));
+		builder.whenTrue().disable(targetTabset);
+		builder.whenFalse().enable(targetTabset);
+		add(builder.build());
+		
 	}
 
 	/**

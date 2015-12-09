@@ -537,63 +537,14 @@ define(["sprintf/sprintf",
 		Trigger.prototype.getParams = function () {
 			var result = "",
 				triggerId,
-				element = getElement(this),
-				triggerName,
-				params,
-				form,
-				region,
-				stateContainer;
+				element = getElement(this);
 			try {
 				if (this.serialiseForm && element) {
-					/* Serialise the form (or region of the form if set). If trigger is linked to a DOM element the form
-					 * will be the one the element "belongs to"; otherwise too bad, so sad, you don't get a serialized
-					 * form in the request payload.*/
-					if ((form = getForm(element))) {
-						if (typeof this.formRegion !== UNDEFINED) {
-							region = document.getElementById(this.formRegion);
-						}
-						if (region) {
-							formUpdateManager.update(form, region);
-							stateContainer = formUpdateManager.getStateContainer(form);
-							TAG = TAG || {INPUT: tag.INPUT, SELECT: tag.SELECT, TEXTAREA: tag.TEXTAREA};
-							result = addToQueryString(result, serialize.serialize(region.getElementsByTagName(TAG.INPUT)));
-							result = addToQueryString(result, serialize.serialize(region.getElementsByTagName(TAG.SELECT)));
-							result = addToQueryString(result, serialize.serialize(region.getElementsByTagName(TAG.TEXTAREA)));
-							result = addToQueryString(result, serialize.serialize(stateContainer.getElementsByTagName(TAG.INPUT)));
-						}
-						else {
-							formUpdateManager.update(form);
-							result = serialize.serialize(form);
-						}
-					}
-					else {
-						console.warn("Could not find form");
-					}
+					result = getFormParams(element, this);
 				}
 
 				if (this._submitTriggerElement && element) {
-					/* If the trigger element is a submit control we must add it to the params because the server needs
-					 * to know that the form was "submitted" via this submit element. Remember, when serializing the
-					 * form all buttons of all types will NOT be serialized because a button is only successful when it
-					 * is clicked, that is what we are honoring here.*/
-					triggerName = element.name;
-					if (triggerName) {
-						triggerName = encodeURIComponent(triggerName);
-						if (element.tagName === tag.BUTTON && element.type === "submit") {
-							params = triggerName + "=";
-							params += element.value;
-						}
-						else if ((element.tagName === tag.INPUT && element.type === "submit") || (element.tagName === tag.INPUT && element.type === "image")) {
-							params = triggerName + "=";
-							if (element.hasAttribute && !element.hasAttribute("value")) {
-								params += EMPTY_VALUE;
-							}
-							else {
-								params += element.value;
-							}
-						}
-						result = addToQueryString(result, params);
-					}
+					result = addToQueryString(result, getSubmitButtonParams(element));
 				}
 
 				if (this.getData) {
@@ -622,13 +573,83 @@ define(["sprintf/sprintf",
 		};
 
 		/**
+		 *
+		 * If the trigger element is a submit control we must add it to the params because the server needs
+		 *    to know that the form was "submitted" via this submit element.
+		 * Remember, when serializing the form all buttons of all types will NOT be serialized because a button
+		 *    is only successful when it is clicked, that is what we are honoring here
+		 * @private
+		 * @function
+		 * @param {Element} element The trigger element.
+		 * @returns {String} The serialized parameters or "".
+		 */
+		function getSubmitButtonParams(element) {
+			var params = "", triggerName = element.name;
+			if (triggerName) {
+				triggerName = encodeURIComponent(triggerName);
+				if (element.tagName === tag.BUTTON && element.type === "submit") {
+					params = triggerName + "=";
+					params += element.value;
+				}
+				else if (element.tagName === tag.INPUT && (element.type === "submit" || element.type === "image")) {
+					params = triggerName + "=";
+					if (element.hasAttribute && !element.hasAttribute("value")) {
+						params += EMPTY_VALUE;
+					}
+					else {
+						params += element.value;
+					}
+				}
+			}
+			return params;
+		}
+
+		/**
+		 * Serialise the form (or region of the form if set).
+		 * If trigger is linked to a DOM element the formcwill be the one the element "belongs to";
+		 *    otherwise too bad, so sad, you don't get a serializedcform in the request payload.
+		 * @function
+		 * @private
+		 * @param {Element} element The trigger element.
+		 * @param {Trigger} instance The trigger instance being fired.
+		 * @returns {String} The serialized parameters or "".
+		 */
+		function getFormParams(element, instance) {
+			var result = "", form, region, stateContainer;
+			if ((form = getForm(element))) {
+				if (typeof instance.formRegion !== UNDEFINED) {
+					region = document.getElementById(instance.formRegion);
+				}
+				if (region) {
+					formUpdateManager.update(form, region);
+					stateContainer = formUpdateManager.getStateContainer(form);
+					TAG = TAG || { INPUT: tag.INPUT, SELECT: tag.SELECT, TEXTAREA: tag.TEXTAREA };
+					result = addToQueryString(result, serialize.serialize(region.getElementsByTagName(TAG.INPUT)));
+					result = addToQueryString(result, serialize.serialize(region.getElementsByTagName(TAG.SELECT)));
+					result = addToQueryString(result, serialize.serialize(region.getElementsByTagName(TAG.TEXTAREA)));
+					result = addToQueryString(result, serialize.serialize(stateContainer.getElementsByTagName(TAG.INPUT)));
+				}
+				else {
+					formUpdateManager.update(form);
+					result = serialize.serialize(form);
+				}
+			}
+			else {
+				console.warn("Could not find form");
+			}
+			return result;
+		}
+
+
+		/**
 		 * Map of form methods.
 		 * @constant {Object}
 		 * @property {String} GET "get"
 		 * @property {String} POST "post"
 		 */
-		Trigger.prototype.METHODS = {GET: "get",
-									POST: "post"};
+		Trigger.prototype.METHODS = {
+			GET: "get",
+			POST: "post" };
 
 		/**
 		 * Represents an AJAX request that has been initiated by an instance of Trigger.
@@ -673,7 +694,10 @@ define(["sprintf/sprintf",
 			 * @param {Object} response The ajax response.
 			 */
 			this.callback = function(response) {
-				handleResponse($self, response, trigger, false);
+				// response would be null if the XML has already been transformed to HTML on the server
+				// or in the case of IE it will be an "empty" XML DOM.
+				var payload = (response && response.documentElement) ? response : this.responseText;
+				handleResponse($self, payload, trigger, false);
 			};
 
 			this.onError = function(response) {

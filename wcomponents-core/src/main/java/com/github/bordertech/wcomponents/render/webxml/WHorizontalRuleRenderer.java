@@ -24,6 +24,7 @@ final class WHorizontalRuleRenderer extends AbstractWebXmlRenderer {
 	public void doRender(final WComponent component, final WebXmlRenderContext renderContext) {
 		XmlStringBuilder xml = renderContext.getWriter();
 		xml.appendTagOpen("ui:hr");
+		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendEnd();
 	}
 }

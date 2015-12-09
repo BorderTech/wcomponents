@@ -185,6 +185,10 @@
 					return result;
 				});
 
+				addtest("device-mobile", function() {
+					return has("ios") || has("android") || has("iemobile") || has("operamobi") || has("operamini") || has("bb");
+				});
+
 				addtest("element-datalist", function() {
 					return "list" in document.createElement("input");
 				});
@@ -205,8 +209,8 @@
 					}
 					finally {
 						el = null;
-						return result;
 					}
+					return result;
 				});
 
 				function hasWorkingObjectDefineProperty(g, obj) {

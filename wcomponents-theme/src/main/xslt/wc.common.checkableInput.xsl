@@ -10,14 +10,14 @@
 	<xsl:import href="wc.common.missingLabel.xsl"/>
 	<!--
 		Checkable input controls
-	
+
 		Transform for WCheckBox and WRadioButton to a HTML input element of type
 		checkbox or radio (if editable) or a non-interactive representation if read-only.
 
 		When @readOnly is true the component will output a non-interactive graphical
 		representation of the control. This will be marked up to provide appropriate
 		text content.
-		
+
 		Checkable inputs currently support @submitOnChange. This is an issue with
 		WCAG 3.2.2 (http://www.w3.org/TR/WCAG20/#consistent-behavior-unpredictable-change).
 		Therefore where submitOnChange is true we must inform users that changing
@@ -53,9 +53,8 @@
 			<xsl:when test="@readOnly">
 				<xsl:call-template name="readOnlyControl">
 					<xsl:with-param name="class">
-						<xsl:value-of select="$type"/>
 						<xsl:if test="@selected">
-							<xsl:text> wc_ro_sel</xsl:text>
+							<xsl:text>wc_ro_sel</xsl:text>
 						</xsl:if>
 					</xsl:with-param>
 					<xsl:with-param name="toolTip">
@@ -86,7 +85,7 @@
 						<xsl:with-param name="myLabel" select="$myLabel[1]"/>
 					</xsl:call-template>
 					<!-- Fortunately commonControlAttributes will only output a value attribute if
-						the XSL element has a value attribute; so we can add the ui:checkBox value
+						the XML element has a value attribute; so we can add the ui:checkBox value
 						here without changing the called template. -->
 					<xsl:if test="self::ui:checkBox">
 						<xsl:attribute name="value">

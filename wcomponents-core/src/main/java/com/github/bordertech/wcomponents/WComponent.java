@@ -238,7 +238,7 @@ public interface WComponent extends WebComponent {
 	 * <p>
 	 * The shared attributes of a component (and all its children) can be locked, preventing users/developers from
 	 * making further updates. However, attribute values can still be updated on a per session basis.
-	 * <p>
+	 * </p>
 	 * <p>
 	 * This method should normally never be called from application code.
 	 * </p>
@@ -451,6 +451,7 @@ public interface WComponent extends WebComponent {
 	 *
 	 * @param text the screen reader text, using {@link MessageFormat} syntax.
 	 * @param args optional arguments for the message format string.
+	 * @deprecated use setToolTip
 	 */
 	void setAccessibleText(final String text, Serializable... args);
 
@@ -458,6 +459,7 @@ public interface WComponent extends WebComponent {
 	 * Retrieves the text used by screen readers to describe the component.
 	 *
 	 * @return the screen reader text.
+	 * @deprecated use getToolTip
 	 */
 	String getAccessibleText();
 
@@ -486,5 +488,24 @@ public interface WComponent extends WebComponent {
 	 * @return true if this component should be tracked.
 	 */
 	boolean isTracking();
+
+	/**
+	 * Sets additional HTML class name string for this component. Multiple HTML class names may be added to an instance
+	 * of a component using a space separated string. Some values in the HTML class name attribute are determined in the
+	 * theme and are used for core functionality and styling.
+	 *
+	 * @param className the HTML class attribute's value to add to the component.
+	 * @param args optional arguments for the message format string.
+	 */
+	void setHtmlClass(final String className, Serializable... args);
+
+	/**
+	 * Returns the HTML class name string to apply to a component. Some values in the HTML class name attribute are
+	 * determined in the theme and are used for core functionality and styling. This method will only return class name
+	 * values which are added in the application, it has no knowledge of theme's class names.
+	 *
+	 * @return the value to add to the HTML class attribute of the output component.
+	 */
+	String getHtmlClass();
 
 }

@@ -20,17 +20,17 @@ import org.apache.commons.logging.LogFactory;
  * When you have a situation where you have a list of a repeated data type that you want to render or edit, then this ui
  * component can help.
  * <p>
- * Typical usage: <blockquote>
+ * Typical usage:
+ * </p>
  *
+ * <blockquote>
  * <pre>
  * WRepeater repeater = new WRepeater();
  * repeater.setRepeatedComponent(new MyRepeatedComponent());
  * ...
  * repeater.setData(myBeanList);
  * </pre>
- *
  * </blockquote>
- * </p>
  *
  * @author Ming Gao
  * @author Martin Shevchenko
@@ -366,7 +366,8 @@ public class WRepeater extends WBeanComponent implements Container, AjaxTarget, 
 				String msg = "The row context for row id ["
 						+ rowId
 						+ "] has already been used for another row. "
-						+ "Either the row ID is not unique or the row bean has not implemented equals/hashcode or no rowIdBeanProperty set on the repeater that uniquely identifies the row.";
+						+ "Either the row ID is not unique or the row bean has not implemented equals/hashcode "
+						+ "or no rowIdBeanProperty set on the repeater that uniquely identifies the row.";
 				throw new SystemException(msg);
 			}
 			used.add(subId);
@@ -514,7 +515,8 @@ public class WRepeater extends WBeanComponent implements Container, AjaxTarget, 
 							getDeclaringClass()) {
 						LOG.warn("Row id class ["
 								+ rowId.getClass().getName()
-								+ "] has not implemented equals or hashcode. This can cause errors when matching a row context. Implement equals/hashcode on the row bean or refer to setRowIdBeanProperty method on WRepeater.");
+								+ "] has not implemented equals or hashcode. This can cause errors when matching a row context. "
+								+ "Implement equals/hashcode on the row bean or refer to setRowIdBeanProperty method on WRepeater.");
 					}
 				} catch (Exception e) {
 					LOG.info(

@@ -15,39 +15,6 @@
 	/** @param xmlString wc/xml/xmlString @param timers wc/timers @param has wc/has @param uid wc/dom/uid @param require require @ignore */
 	function(xmlString, timers, has, uid, require) {
 
-		var getActiveX,
-			/**
-			 * This constant names an attribute which only exists to make life easier for performance testers.
-			 * @constant {String}
-			 * @private
-			 * @ignore
-			 */
-			PENDING_AJAX_FLAG = "data-wc-ajaxp",
-			W3C_IFACE = "XMLHttpRequest",
-			ieXmlHttpEngine,
-			/**
-			 * AJAX request limit:
-			 *  Exists primarily for Internet Explorer bugs, IE could not handle more than about 8 pending ajax requests.
-			 *  Firefox (15) can also be swamped (but it takes a lot more, can handle about 80). Now applied to all
-			 *  browsers for the sake of consistency.
-			 * @var {int} limit
-			 * @private
-			 */
-			limit = (has("ie") ? 5 : (has("ff") ? 8 : 20)),
-			markProfiles = has("global-performance-marking"),
-			pending = 0,
-			queue = [],
-			/**
-			 * The singleton returned by the module.
-			 * @var
-			 * @type {module:wc/ajax/ajax~Ajax}
-			 * @alias module:wc/ajax/ajax */
-			ajax = new Ajax();
-
-		if (has("activex")) {
-			getActiveX = require("wc/fix/getActiveX_ieAll");  // this can only work if "wc/fix/getActiveX_ieAll" is already loaded - the compat script must ensure that.
-		}
-
 		/**
 		 * @constructor
 		 * @alias module:wc/ajax/ajax~Ajax
@@ -227,6 +194,112 @@
 			}
 
 			/**
+			 * Called when the readystate of the request changes.
+			 *
+			 * @param request The XHR created vy ajaxRqst
+			 * @param config The config object as passed to ajaxRqst
+			 * @function
+			 * @private
+			 * @return {boolean} true when the request has been received.
+			 */
+			function stateChange(request, config) {
+				// request can be null in some circumstances, don't remove the null check
+				var done = false;
+				if (request && request.readyState === 4) {
+					try {
+						done = true;
+						if (request.status === 200 && config.callback) {
+							config.callback.call(request, request[config.responseType]);
+						}
+						else if (config.onError) {
+							config.onError.call(request, request.responseText || request.statusText);
+						}
+						if (markProfiles) {
+							endProfile(config);
+						}
+					}
+					finally {
+						if (config.async) {
+							updatePending(true);
+						}
+						/*
+						 * check queued requests in a timeout so as to decouple the callback from the next request.
+						 * If you don't do this then the next request will be made from within the call chain of the current request and
+						 *    that is extraordinarily confusing when you are viewing the call stack and trying to work out what is going on.
+						 */
+						timers.setTimeout(checkQueuedRequests, 0);
+					}
+				}
+				return done;
+			}
+
+			/**
+			 * Configure the request before the XHR is 'open'.
+			 *
+			 * @param request The XHR created vy ajaxRqst
+			 * @param config The config object as passed to ajaxRqst
+			 * @function
+			 * @private
+			 */
+			function applyPreOpenConfig(request, config) {
+				var onAbort = (config.onAbort || config.onError),
+					onTimeout = (config.onTimeout || config.onError);
+				config.responseType = config.responseType || ajax.responseType.TEXT;
+				try {
+					if (onAbort) {
+						request.onabort = onAbort;
+					}
+
+					if (onTimeout) {
+						request.ontimeout = onTimeout;
+					}
+
+					if (config.onProgress && request.upload) {
+						request.upload.onprogress = config.onProgress;
+					}
+
+					if (config.forceMime && request.overrideMimeType) {
+						// this allows feature rich browsers to weather the storm when the server gets it wrong
+						request.overrideMimeType(config.forceMime);
+					}
+				}
+				catch (ex) {
+					// comsume errors and try to proceed - this is most likely to happen in legacy IE
+					console.warn(ex);
+				}
+			}
+
+			/**
+			 * Configure the request after the XHR is 'open'.
+			 *
+			 * @param request The XHR created vy ajaxRqst
+			 * @param config The config object as passed to ajaxRqst
+			 * @function
+			 * @private
+			 */
+			function applyPostOpenConfig(request, config) {
+				var trident = has("trident"),
+					allowCaching = config.cache || false;
+				if (trident && trident >= 6 && config.responseType === ajax.responseType.XML) {
+					// IE10 and greater need this to prevent the XML dom that is not an XML dom
+					try {
+						request.responseType = "msxml-document";
+					}
+					catch (ignore) {
+						// Do nothing
+					}
+				}
+				if (!allowCaching) {
+					request.setRequestHeader("If-Modified-Since", "Fri, 31 Dec 1999 23:59:59 GMT");  // added by Rick Brown
+				}
+				if (typeof config.postData === "string") {
+					// we do not want to be here if postData is an instance of FormData
+					request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+					// request.setRequestHeader("Connection", "close");  // removed by RB
+				}
+			}
+
+			/**
 			 * Executes AJAX requests.
 			 *
 			 * @private
@@ -235,102 +308,25 @@
 			 * @returns {XMLHTTPRequest} The XHR instance.
 			 */
 			function ajaxRqst(config) {
-				var trident = has("trident"),
+				var done,
 					request = ajax.getXBrowserRequestFactory()(),
-					allowCaching = config.cache || false,
-					postData = config.postData,
-					onAbort = (config.onAbort || config.onError),
-					onTimeout = (config.onTimeout || config.onError),
-					responseType = config.responseType || ajax.responseType.TEXT,
-					async = (config.async === undefined) ? true : config.async;
-				/**
-				 * Called when the readystate of the request changes.
-				 * @function
-				 * @private
-				 */
-				function stateChange() {
-					// request can be null in some circumstances, don't remove the null check
-					if (request && request.readyState === 4) {
-						try {
-							if (request.status === 200 && config.callback) {
-								config.callback.call(request, request[responseType]);
-							}
-							else if (config.onError) {
-								config.onError.call(request, request.responseText || request.statusText);
-							}
-							if (markProfiles) {
-								endProfile(config);
-							}
-						}
-						finally {
-							if (async) {
-								updatePending(true);
-							}
-							request = config = null;  // helps to clear memory leaks
-							/*
-							 * check queued requests in a timeout so as to decouple the callback
-							 * from the next request. If you don;t do this then the next request
-							 * will be made from within the call chain of the current request and
-							 * that is extraordinarily confusing when you are viewing the call stack
-							 * and trying to work out what is going on.
-							 */
-							timers.setTimeout(function() {
-								checkQueuedRequests();
-							}, 0);
-						}
-					}
-				}
+					onStateChange = function() {
+						done = stateChange(request, config);
+					};
 
 				if (request) {
-					request.onreadystatechange = stateChange;
-					try {
-						if (onAbort) {
-							request.onabort = onAbort;
-						}
+					request.onreadystatechange = onStateChange;
+					applyPreOpenConfig(request, config);
+					request.open(config.postData ? "POST" : "GET", config.url, config.async);
+					applyPostOpenConfig(request, config);
 
-						if (onTimeout) {
-							request.ontimeout = onTimeout;
-						}
-
-						if (config.onProgress && request.upload) {
-							request.upload.onprogress = config.onProgress;
-						}
-
-						if (config.forceMime && request.overrideMimeType) {
-							// this allows feature rich browsers to weather the storm when the server gets it wrong
-							request.overrideMimeType(config.forceMime);
-						}
-					}
-					catch (ex) {
-						// comsume errors and try to proceed - this is most likely to happen in legacy IE
-						console.warn(ex);
-					}
-
-					request.open(postData ? "POST" : "GET", config.url, async);
-					if (trident && trident >= 6 && responseType === "responseXML") {
-						// IE10 and greater need this to prevent the XML dom that is not an XML dom
-						try {
-							request.responseType = "msxml-document";
-						}
-						catch (ignore) {
-							// Do nothing
-						}
-					}
-					if (!allowCaching) {
-						request.setRequestHeader("If-Modified-Since", "Fri, 31 Dec 1999 23:59:59 GMT");  // added by Rick Brown
-					}
-					if (typeof postData === "string") {
-						// we do not want to be here if postData is an instance of FormData
-						request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-						// request.setRequestHeader("Connection", "close");  // removed by RB
-					}
 					console.log("Sending request: ", config.url);
-					request.send(postData || "");
+					request.send(config.postData || "");
 
-					// the test for !async is not strictly necessary but should short ciurcuit unnecessary calls to statechange
-					if (!async && request && request.readyState) {
+					// the test for !async is not strictly necessary but should short-circuit unnecessary calls to statechange
+					if (!config.async && !done && request.readyState) {
 						// this block is for firefox(3.6) where SYNCHRONOUS requests do not fire readystate changes
-						stateChange();
+						onStateChange();
 					}
 					return request;
 				}
@@ -346,12 +342,13 @@
 			 * @returns {XMLHTTPRequest} The XHR instance.
 			*/
 			this.simpleRequest = function(request) {
-				var result, async = (request.async === undefined) ? true : request.async;
+				var result;
+				request.async = (request.async === undefined) ? true : request.async;
 				request.uid = uid();
 				if (markProfiles) {
 					global.performance.mark(request.uid + "_start");
 				}
-				if (!async) {
+				if (!request.async) {
 					result = ajaxRqst(request);
 				}
 				else if (pending < limit) {
@@ -502,7 +499,38 @@
 				return s;
 			};
 		}
+		var getActiveX,
+			/**
+			 * This constant names an attribute which only exists to make life easier for performance testers.
+			 * @constant {String}
+			 * @private
+			 * @ignore
+			 */
+			PENDING_AJAX_FLAG = "data-wc-ajaxp",
+			W3C_IFACE = "XMLHttpRequest",
+			ieXmlHttpEngine,
+			/**
+			 * AJAX request limit:
+			 *  Exists primarily for Internet Explorer bugs, IE could not handle more than about 8 pending ajax requests.
+			 *  Firefox (15) can also be swamped (but it takes a lot more, can handle about 80). Now applied to all
+			 *  browsers for the sake of consistency.
+			 * @var {int} limit
+			 * @private
+			 */
+			limit = (has("ie") ? 5 : (has("ff") ? 8 : 20)),
+			markProfiles = has("global-performance-marking"),
+			pending = 0,
+			queue = [],
+			/**
+			 * The singleton returned by the module.
+			 * @var
+			 * @type {module:wc/ajax/ajax~Ajax}
+			 * @alias module:wc/ajax/ajax */
+			ajax = new Ajax();
 
+		if (has("activex")) {
+			getActiveX = require("wc/fix/getActiveX_ieAll");  // this can only work if "wc/fix/getActiveX_ieAll" is already loaded - the compat script must ensure that.
+		}
 		return ajax;
 
 		/**

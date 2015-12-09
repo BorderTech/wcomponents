@@ -24,18 +24,17 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * <p>
  * Holds the extrinsic state information of a WComponent. Subclasses can extend this class and add extra model
- * attributes.</p>
+ * attributes.
  *
  * <p>
  * Subclasses must adhere to the following rules:
+ * </p>
  * <ul>
  * <li>They must define a public no-args constructor (requirement of {@link Externalizable}).</li>
  * <li>They must not contain any final fields (needed for initialising from shared model).</li>
  * <li>They must not contain any non-serializable data.</li>
  * </ul>
- * </p>
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -175,8 +174,14 @@ public class ComponentModel implements WebModel, Externalizable {
 
 	/**
 	 * Adds extra textual information to describe a component. This is intended for screen-readers only.
+	 * @deprecated use toolTip
 	 */
 	private Serializable accessibleText;
+
+	/**
+	 * Adds extra value to the HTML class of the output component.
+	 */
+	private Serializable htmlClass;
 
 	/**
 	 * General placeholder for subclasses of WComponent to place model attributes. This is mostly for convenience so
@@ -507,6 +512,7 @@ public class ComponentModel implements WebModel, Externalizable {
 
 	/**
 	 * @return Returns the accessible text.
+	 * @deprecated use getToolTip
 	 */
 	protected Serializable getAccessibleText() {
 		return accessibleText;
@@ -515,9 +521,25 @@ public class ComponentModel implements WebModel, Externalizable {
 	/**
 	 * @param text The accessible text to set.
 	 * @param args optional message format arguments.
+	 * @deprecated use setToolTip
 	 */
 	protected void setAccessibleText(final String text, final Serializable... args) {
 		this.accessibleText = I18nUtilities.asMessage(text, args);
+	}
+
+	/**
+	 * @return Returns the HTML class.
+	 */
+	protected Serializable getHtmlClass() {
+		return htmlClass;
+	}
+
+	/**
+	 * @param text The HTML class name text to set.
+	 * @param args optional message format arguments.
+	 */
+	protected void setHtmlClass(final String text, final Serializable... args) {
+		this.htmlClass = I18nUtilities.asMessage(text, args);
 	}
 
 	/**
@@ -685,7 +707,7 @@ public class ComponentModel implements WebModel, Externalizable {
 	 *
 	 * @author Yiannis Paschalidis
 	 */
-	private static final class NoOverride extends Object implements Serializable {
+	private static final class NoOverride implements Serializable {
 
 		/**
 		 * Singleton instance.

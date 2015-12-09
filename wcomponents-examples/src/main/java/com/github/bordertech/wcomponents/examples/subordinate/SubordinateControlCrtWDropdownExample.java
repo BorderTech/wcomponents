@@ -20,12 +20,12 @@ import com.github.bordertech.wcomponents.subordinate.WSubordinateControl;
  *
  * <p>
  * Three rules have been created:
+ * </p>
  * <ol>
  * <li>Hide the "extra" field when no Gender is selected</li>
  * <li>Show the "extra" field when "M" is selected</li>
  * <li>Hide the "extra" field when "F" is selected</li>
  * </ol>
- * </p>
  *
  *
  * @author Martin Shevchenko

@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * <p>
- * WDialog is used to display pop-up content. It uses theme & skin features which keep the dialog associated with its
+ * WDialog is used to display pop-up content. It uses theme and skin features which keep the dialog associated with its
  * parent window. Using a {@link #MODAL} dialog eliminates much of the workflow complication involved when using the
  * {@link WWindow} component.
  * </p>
@@ -325,14 +325,14 @@ public class WDialog extends AbstractWComponent implements Container, AjaxTarget
 	public List<WComponent> getChildren() {
 		return super.getChildren();
 	}
-	
+
 	/**
 	 * @return a String representation of this component, for debugging purposes.
 	 */
 	@Override
 	public String toString() {
 		String text = getTitle();
-		text = text == null ? "null" : ('"' + text + '"');
+		text = text == null ? "null" : '"' + text + '"';
 		return toString(text, -1, -1) + childrenToString(getContent());
 	}
 

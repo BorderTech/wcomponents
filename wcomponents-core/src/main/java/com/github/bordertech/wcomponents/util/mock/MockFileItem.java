@@ -69,9 +69,12 @@ public final class MockFileItem implements FileItem {
 			throw new IllegalStateException("delete() called");
 		}
 
-		byte[] data = new byte[contents.length];
-		System.arraycopy(contents, 0, data, 0, contents.length);
-		return data;
+		if (contents != null) {
+			byte[] data = new byte[contents.length];
+			System.arraycopy(contents, 0, data, 0, contents.length);
+			return data;
+		}
+		return null;
 	}
 
 	/**
@@ -165,7 +168,7 @@ public final class MockFileItem implements FileItem {
 	 */
 	@Override
 	public long getSize() {
-		return contents.length;
+		return contents == null ? 0 : contents.length;
 	}
 
 	/**

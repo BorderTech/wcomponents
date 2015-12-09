@@ -27,6 +27,7 @@ final class WMenuRenderer extends AbstractWebXmlRenderer {
 
 		xml.appendTagOpen("ui:menu");
 		xml.appendAttribute("id", component.getId());
+		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
 
 		switch (menu.getType()) {

@@ -435,23 +435,8 @@ define(["wc/has",
 		AriaAnalog.prototype.keydownEvent = function($event) {
 			var element, keyCode = $event.keyCode, target = $event.target, moveTo, preventDefaultAction = false;
 			if (!$event.defaultPrevented && !$event.altKey && (element = this.getActivableFromTarget(target))) {
-				if (this.groupNavigation && (keyCode === KeyEvent.DOM_VK_HOME || keyCode === KeyEvent.DOM_VK_END || keyCode >= KeyEvent.DOM_VK_LEFT && keyCode <= KeyEvent.DOM_VK_DOWN)) {
-					switch (keyCode) {
-						case KeyEvent.DOM_VK_HOME:
-							moveTo = this.KEY_DIRECTION.FIRST;
-							break;
-						case KeyEvent.DOM_VK_END:
-							moveTo = this.KEY_DIRECTION.LAST;
-							break;
-						case KeyEvent.DOM_VK_LEFT:
-						case KeyEvent.DOM_VK_UP:
-							moveTo = this.KEY_DIRECTION.PREVIOUS;
-							break;
-						case KeyEvent.DOM_VK_RIGHT:
-						case KeyEvent.DOM_VK_DOWN:
-							moveTo = this.KEY_DIRECTION.NEXT;
-							break;
-					}
+				if (this.groupNavigation && isDirectionKey(keyCode)) {
+					moveTo = calcMoveTo(this, keyCode);
 					if (moveTo && (target = this.navigate(element, moveTo))) {
 						if (this.selectOnNavigate && !($event.ctrlKey || $event.metaKey)) {
 							this.activate(target, $event.shiftKey, ($event.ctrlKey || $event.metaKey));
@@ -472,6 +457,49 @@ define(["wc/has",
 				}
 			}
 		};
+
+		/**
+		 * Helper for keydownEvent.
+		 * Determine if the user has pressed an arrow key or similar.
+		 * @param {Number} keyCode The key pressed.
+		 * @returns {boolean} true if it's a direction key
+		 * @function
+		 * @private
+		 */
+		function isDirectionKey(keyCode) {
+			return (keyCode === KeyEvent.DOM_VK_HOME || keyCode === KeyEvent.DOM_VK_END ||
+					keyCode >= KeyEvent.DOM_VK_LEFT && keyCode <= KeyEvent.DOM_VK_DOWN);
+		}
+
+		/**
+		 * Helper for keydownEvent.
+		 * Calculates where to move based on the key pressed by the user.
+		 * @param {AriaAnalog} instance The AriaAnalog controller.
+		 * @param {Number} keyCode The key pressed.
+		 * @returns {instance.KEY_DIRECTION.NEXT|instance.KEY_DIRECTION.LAST|instance.KEY_DIRECTION.FIRST|instance.KEY_DIRECTION.PREVIOUS}
+		 * @function
+		 * @private
+		 */
+		function calcMoveTo(instance, keyCode) {
+			var moveTo;
+			switch (keyCode) {
+				case KeyEvent.DOM_VK_HOME:
+					moveTo = instance.KEY_DIRECTION.FIRST;
+					break;
+				case KeyEvent.DOM_VK_END:
+					moveTo = instance.KEY_DIRECTION.LAST;
+					break;
+				case KeyEvent.DOM_VK_LEFT:
+				case KeyEvent.DOM_VK_UP:
+					moveTo = instance.KEY_DIRECTION.PREVIOUS;
+					break;
+				case KeyEvent.DOM_VK_RIGHT:
+				case KeyEvent.DOM_VK_DOWN:
+					moveTo = instance.KEY_DIRECTION.NEXT;
+					break;
+			}
+			return moveTo;
+		}
 
 		/**
 		 * key navigation for simple linear groups.

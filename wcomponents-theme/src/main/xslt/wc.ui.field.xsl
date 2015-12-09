@@ -53,6 +53,9 @@
 				</xsl:attribute>
 				<xsl:attribute name="class">
 					<xsl:text>field</xsl:text>
+					<xsl:if test="@class">
+						<xsl:value-of select="concat(' ', @class)"/>
+					</xsl:if>
 				</xsl:attribute>
 				<!--
 					If we are part of an ajaxResponse and we don't have a parent ui:fieldLayout we

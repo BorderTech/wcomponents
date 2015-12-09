@@ -16,12 +16,12 @@ import java.util.List;
  * </p>
  * <p>
  * The following attributes can be set on WMultiDropdown:
+ * </p>
  * <ul>
  * <li>maxInputs: The maximum number of text inputs the user can add to the component. Client-side functionality will
  * stop users adding more than the allowable number of inputs via the UI. This class chops off any excess inputs if an
  * attempt is made to add them programmatically.</li>
  * </ul>
- * </p>
  *
  * @author Yiannis Paschalidis
  * @author Jonathan Austin

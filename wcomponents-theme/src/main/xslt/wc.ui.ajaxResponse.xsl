@@ -46,8 +46,14 @@
 	<xsl:template match="ui:ajaxResponse">
 		<xsl:choose>
 			<xsl:when test="ui:ajaxTarget/*[not(self::ui:file)]">
-				<xsl:apply-templates />
-				<xsl:apply-templates select=".//ui:dialog[ui:content][1]" mode="withcontent"/>
+				<xsl:element name="div">
+					<xsl:attribute name="class">wc-ajaxresponse</xsl:attribute>
+					<xsl:if test="@defaultFocusId">
+						<xsl:attribute name="data-focusid"><xsl:value-of select="@defaultFocusId"/></xsl:attribute>
+					</xsl:if>
+					<xsl:apply-templates />
+					<xsl:apply-templates select=".//ui:dialog[ui:content][1]" mode="withcontent"/>
+				</xsl:element>
 			</xsl:when>
 			<xsl:otherwise>
 				<xsl:element name="html">
