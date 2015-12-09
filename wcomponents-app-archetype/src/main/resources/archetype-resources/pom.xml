@@ -15,24 +15,6 @@
         <wcomponents.junit.version>4.8.2</wcomponents.junit.version>
     </properties>
 
-    <!--build>
-        <plugins>
-            <
-            The plugin is redundant when the packaging is set to "war", however
-            there is a bug in Maven that is causing the servlet-api to be included
-            in the built WAR. See http://jira.codehaus.org/browse/MNG-5255 for details.
-            >
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <configuration>
-                    <archiveClasses>true</archiveClasses>
-                    <packagingExcludes>WEB-INF/lib/servlet-api-*.jar</packagingExcludes>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build-->
-
     <dependencies>
 
         <dependency>
