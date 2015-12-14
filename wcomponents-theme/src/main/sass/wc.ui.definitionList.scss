@@ -1,12 +1,12 @@
 /* wc.ui.definitionList.scss */
 @import 'mixins_common.scss';
 
+// NOTE: the dl element is required here to differentiate from WFieldLayout with the same classNames generated from
+// LAYOUT attribute in XML
 dl {
 	margin: 0;
 
 	//type flat
-	// NOTE: the dl element is required here to differentiate from WFieldLayout with the same classNames generated from
-	// LAYOUT attribute in XML
 	&.flat {
 		vertical-align: text-top;
 

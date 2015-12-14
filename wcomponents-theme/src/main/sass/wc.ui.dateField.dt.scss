@@ -22,10 +22,10 @@
 
 	dialog & {
 		position: fixed;
-		right:auto;
+		right: auto;
 
 		#wc-calendar {
-			background-color: $wc-ui-color-global-bg
+			background-color: $wc-ui-color-global-bg;
 		}
 	}
 }
