@@ -16,52 +16,29 @@
     </properties>
 
     <dependencies>
-
         <dependency>
             <groupId>com.github.bordertech.wcomponents</groupId>
             <artifactId>wcomponents-bundle</artifactId>
             <version>${bordertech.wcomponents.version}</version>
         </dependency>
-
         <dependency>
             <scope>test</scope>
             <groupId>com.github.bordertech.wcomponents</groupId>
             <artifactId>wcomponents-test-lib</artifactId>
             <version>${bordertech.wcomponents.version}</version>
         </dependency>
-
         <dependency>
             <scope>test</scope>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>${wcomponents.junit.version}</version>
         </dependency>
-
-        <dependency>
-            <groupId>commons-logging</groupId>
-            <artifactId>commons-logging</artifactId>
-            <version>1.1.1</version>
-        </dependency>
-
-        <dependency>
-            <groupId>commons-configuration</groupId>
-            <artifactId>commons-configuration</artifactId>
-            <version>1.6</version>
-        </dependency>
-
-        <dependency>
-            <groupId>commons-fileupload</groupId>
-            <artifactId>commons-fileupload</artifactId>
-            <version>1.3.1</version>
-        </dependency>
-
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-web-api</artifactId>
             <version>7.0</version>
             <scope>provided</scope>
         </dependency>
-
         <!--  The following runtime dependency is for the stand-alone LDE -->
         <dependency>
             <scope>provided</scope>
@@ -69,6 +46,5 @@
             <artifactId>wcomponents-lde</artifactId>
             <version>${bordertech.wcomponents.version}</version>
         </dependency>
-
     </dependencies>
 </project>
