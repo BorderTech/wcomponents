@@ -1,8 +1,5 @@
 /* wc.ui.label.scss */
 // styles for WLabel and the label emulators
-
-
-
 @import 'wc.ui.label_vars.scss';
 
 .hint {// .hint is additional text for labels that describe other information for the related form element
@@ -18,8 +15,7 @@ span.label {
 // space between a checkable and its label
 [type='radio'] + label,
 [type='checkbox'] + label,
-[role='checkbox'][aria-readonly='true'] + span.label,
-[role='radio'][aria-readonly='true'] + span.label {
+.wc_ro + .label {
 	margin-left: $hgap-small;
 }
 
@@ -38,8 +34,8 @@ span.label {
 
 label.wc_req:after,
 .label.wc_req:after,
-[type='radio'] +.wc_req:before,
-[type='checkbox'] + .wc_req:before {
+input[type='radio'] +.wc_req:before,
+input[type='checkbox'] + .wc_req:before {
 	@include mandatory-indicator;
 }
 

@@ -15,7 +15,7 @@
 }
 //	Accesskey Tooltips
 //	Styling for the callout (shows when ALT is held down to fire an accesskey).
-[role='tooltip'] {
+span[role='tooltip'] {
 	@include accesskey-border;
 	background-color: $wc-ui-color-tooltip-bg;
 	color: $wc-ui-color-tooltip-fg;

@@ -29,21 +29,14 @@ dialog {
 		@include border;
 		background-color: $wc-ui-color-global-bg;
 		height: 100%;
-		// auto breaks in safari: weird!
-		// scss-lint:disable VendorPrefix
-		// height: -webkit-fit-content;
-		// scss-lint:enable VendorPrefix
 		overflow: auto;
 		padding: $hgap-normal;
 
-		//@include respond(mobile) {
-		//	height: 100%;
-		//}
 
-		&[aria-busy='true'] { // override usual transparency of busy elements because that's just wrong with a dialog's content.
-			//scss-lint:disable ImportantRule
+		&[aria-busy='true'] {
+			// override usual transparency of busy elements because that's just wrong with a dialog's content.
+			// scss-lint:disable ImportantRule
 			background-color: $wc-ui-color-global-bg !important;
-			//scss-lint:enable ImportantRule
 		}
 	}
 

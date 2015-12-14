@@ -8,7 +8,7 @@
 // The default file upload in IE is a bit ugly if anything is styled at all. This CSS may be considered lipstick. If we
 // cannot style the pseudo elements (IE9-) then it can remain ugly.
 //scss-lint:disable VendorPrefix
-[type='file'] {
+input[type='file'] {
 	background-color: $wc-ui-color-global-bg;
 	padding: 0;
 
