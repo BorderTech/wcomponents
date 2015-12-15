@@ -9,29 +9,42 @@
 	<!--
 		Transform for each row in the WTable. The row itself transforms to a HTML
 		tr element. It may also output another row if it has a ui:subTr child.
-		
+
 		param myTable: The first table ancestor of the current row. This is determined
 		at the most efficient point (usually ui:tbody using its parent node) and then
 		passed through all subsequent transforms to save constant ancestor::ui:table[1]
 		lookups.
-		
+
 		param parentIsClosed default 0, 1 indicates that the row's parent row is in a
 		collapsed state. Only applicable if the current row is a child of a ui:subTr.
-		
-		param maxIndent: see notes in transform for ui:table in wc.ui.table.xsl.
+
 	-->
 	<xsl:template match="ui:tr">
 		<xsl:param name="myTable"/>
 		<xsl:param name="parentIsClosed" select="0"/>
 		<xsl:param name="topRowIsStriped" select="0"/>
-		<xsl:param name="maxIndent" select="0"/>
+
 		<xsl:variable name="tableId" select="$myTable/@id"/>
+
 		<xsl:variable name="rowId" select="concat($tableId,'-',@rowIndex)"/>
+
 		<xsl:variable name="selectableRow">
 			<xsl:if test="$myTable/ui:rowSelection">
 				<xsl:value-of select="1"/>
 			</xsl:if>
 		</xsl:variable>
+
+		<xsl:variable name="indent">
+			<xsl:choose>
+				<xsl:when test="$myTable/ui:rowExpansion and $myTable/@type='hierarchic' and parent::ui:subTr">
+					<xsl:value-of select="count(ancestor::ui:subTr[ancestor::ui:table[1] = $myTable])"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:number value="0"/>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+
 		<!--
 		Row filtering:
 		* if the table has no active filters then show the row;
@@ -40,7 +53,9 @@
 		table filters.
 		-->
 		<xsl:variable name="tableFilters" select="normalize-space($myTable/@activeFilters)"/>
+
 		<xsl:variable name="rowFilters" select="normalize-space(@filterValues)"/>
+
 		<xsl:variable name="filterThisRow">
 			<xsl:choose>
 				<xsl:when test="not($tableFilters)">
@@ -60,6 +75,7 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
+
 		<!--
 		 Conditions which will result in a row being hidden:
 			* its hidden attribute is "true"; or
@@ -129,17 +145,12 @@
 			</xsl:call-template>
 		</xsl:variable>
 
-		<xsl:element name="tr">
-			<xsl:attribute name="id">
-				<xsl:value-of select="$rowId"/>
-			</xsl:attribute>
-
+		<tr id="{$rowId}" data-wc-rowindex="{@rowIndex}">
 			<xsl:if test="normalize-space($class) != ''">
 				<xsl:attribute name="class">
 					<xsl:value-of select="normalize-space($class)"/>
 				</xsl:attribute>
 			</xsl:if>
-
 			<xsl:if test="ui:subTr">
 				<xsl:attribute name="data-wc-expanded">
 					<xsl:choose>
@@ -156,10 +167,6 @@
 			<xsl:if test="parent::ui:subTr">
 				<xsl:call-template name="setARIALive"/>
 			</xsl:if>
-
-			<xsl:attribute name="data-wc-rowindex">
-				<xsl:value-of select="@rowIndex"/>
-			</xsl:attribute>
 			<!--
 				Row selection
 				 When the table has row selection and when this row is selectable, then we need
@@ -275,12 +282,6 @@
 			 to span the indentation columns which are required before outputting the collapser element.
 			-->
 			<xsl:if test="$myTable/ui:rowExpansion">
-				<xsl:if test="$myTable/@type='hierarchic'">
-					<xsl:call-template name="indentCells">
-						<xsl:with-param name="myTable" select="$myTable"/>
-						<xsl:with-param name="maxIndent" select="$maxIndent"/>
-					</xsl:call-template>
-				</xsl:if>
 				<!-- The rowExpansion cell will hold the expansion control (if any) -->
 				<td class="wc_table_rowexp_container">
 					<xsl:if test="ui:subTr">
@@ -291,11 +292,12 @@
 					</xsl:if>
 				</td>
 			</xsl:if>
+
 			<xsl:apply-templates select="ui:th|ui:td">
 				<xsl:with-param name="myTable" select="$myTable"/>
-				<xsl:with-param name="maxIndent" select="$maxIndent"/>
+				<xsl:with-param name="indent" select="$indent"/>
 			</xsl:apply-templates>
-		</xsl:element>
+		</tr>
 		<!--
 		 The subTr child element is applied after closing the row's tr element as it
 		 is not a child of the row.
@@ -303,7 +305,7 @@
 		<xsl:apply-templates select="ui:subTr">
 			<xsl:with-param name="myTable" select="$myTable"/>
 			<xsl:with-param name="parentIsClosed" select="$removeRow"/>
-			<xsl:with-param name="maxIndent" select="$maxIndent"/>
+			<xsl:with-param name="indent" select="$indent"/>
 			<xsl:with-param name="topRowIsStriped">
 				<xsl:choose>
 					<xsl:when test="$topRowIsStriped=1 or (parent::ui:tbody and $myTable/@striping='rows' and position() mod 2 = 0)">
