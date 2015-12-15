@@ -35,7 +35,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
 			event.remove(element, EVENT, clickEventSelfRemoving);
 		}
 		registerSuite({
-			name: "wc/dom.event",
+			name: "wc/dom/event",
 			setup: function() {
 				var result = new testutils.LamePromisePolyFill();
 				testutils.setupHelper(["wc/dom/event"], function(obj) {

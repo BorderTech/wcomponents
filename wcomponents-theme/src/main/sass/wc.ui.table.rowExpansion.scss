@@ -42,4 +42,9 @@ thead .rowExpansion {
 [aria-disabled='true'] > .wc_table_rowexp_container button:before {
 	opacity: 0.5;
 }
+
+.wc-row-indent {
+	display: inline-block;
+	width: $line-size;
+}
 /* end wc.ui.table.rowExpansion.scss */

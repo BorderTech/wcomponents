@@ -5,16 +5,12 @@
 		ui:table in wc.ui.table.xsl.
 	-->
 	<xsl:template name="firstRowCellIndentationHelper">
-		<xsl:param name="myTable"/>
-		<xsl:param name="maxIndent" select="0"/>
-		<xsl:variable name="myTableId" select="$myTable/@id"/>
-		<xsl:variable name="alreadyIndented">
-			<xsl:value-of select="count(ancestor::ui:subTr[ancestor::ui:table[1]/@id=$myTableId])"/>
-		</xsl:variable>
-		<xsl:if test="$maxIndent &gt; $alreadyIndented">
-			<xsl:attribute name="colspan">
-				<xsl:value-of select="$maxIndent - $alreadyIndented"/>
-			</xsl:attribute>
+		<xsl:param name="indent" select="0"/>
+		<xsl:if test="$indent &gt; 0">
+			<span class="wc-row-indent" aria-hidden="true">&#x0a;</span>
+			<xsl:call-template name="firstRowCellIndentationHelper">
+				<xsl:with-param name="indent" select="$indent - 1"/>
+			</xsl:call-template>
 		</xsl:if>
 	</xsl:template>
 </xsl:stylesheet>

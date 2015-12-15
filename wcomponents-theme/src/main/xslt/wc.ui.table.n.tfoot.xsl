@@ -8,7 +8,6 @@
 		See transform for ui:table in wc.ui.table.xsl for information about the parameters.
 	-->
 	<xsl:template name="tfoot">
-		<xsl:param name="maxIndent" select="0"/>
 		<xsl:param name="addCols" select="0"/>
 		<xsl:if test="ui:pagination or ui:actions">
 			<xsl:variable name="numCols">
@@ -26,7 +25,7 @@
 			</xsl:variable>
 			<!-- NOTE: colspan1 must include all padding columns etc -->
 			<xsl:variable name="colSpan">
-				<xsl:value-of select="$addCols + $maxIndent + $numCols"/>
+				<xsl:value-of select="$addCols + $numCols"/>
 			</xsl:variable>
 			<xsl:element name="tfoot">
 				<xsl:if test="ui:pagination">
