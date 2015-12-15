@@ -2,12 +2,8 @@
 	<xsl:import href="wc.constants.xsl"/>
 <!--
  If the table has single row selection then each selectable row is a radio and the tbody is the grouping element.
-
- parameters
-    maxIndent and addCols: see comments in transform of ui:table in wc.ui.table.xsl
 -->
 	<xsl:template match="ui:tbody">
-		<xsl:param name="maxIndent" select="0"/>
 		<xsl:param name="addCols" select="0"/>
 		<xsl:element name="tbody">
 			<xsl:attribute name="id">
@@ -25,7 +21,6 @@
 			</xsl:if>
 			<xsl:apply-templates select="*">
 				<xsl:with-param name="myTable" select="parent::ui:table"/>
-				<xsl:with-param name="maxIndent" select="$maxIndent"/>
 				<xsl:with-param name="addCols" select="$addCols"/>
 			</xsl:apply-templates>
 		</xsl:element>
