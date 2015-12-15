@@ -12,7 +12,7 @@
 
 		<xs:annotation>
 			<xs:documentation>
-				<p>WSubMenu provides a grouping mechanism for a set of items with in a WMenu where those items have an intrinsic sematic group nature. In practice a submenu is a
+				<p>WSubMenu provides a grouping mechanism for a set of items with in a WMenu where those items have an intrinsic semantic group nature. In practice a submenu is a
 					hideable set of items which is indicated by a label and interacting with the label toggles the hidden state of the submenu's content.</p>
 				<p>WSubMenu expects that the POSTed form data contains:</p>
 				<table>
@@ -26,13 +26,6 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td>@id</td>
-							<td>String</td>
-							<td>no</td>
-							<td>"x"</td>
-							<td>Value POSTed only if the WSubMenu is the item causing the form submission (using mode server or as AJAX).</td>
-						</tr>
 						<tr>
 							<td>@id.open</td>
 							<td>Boolean</td>
