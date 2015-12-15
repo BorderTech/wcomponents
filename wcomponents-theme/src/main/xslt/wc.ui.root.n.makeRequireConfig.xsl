@@ -26,7 +26,8 @@
 					paths: {
 						tinyMCE: "tinymce/tinymce.min",
 						Promise: "promise/Promise.min",
-						axs: "a11y/axs_testing"
+						axs: "a11y/axs_testing",
+						axe: "a11y/axe.min"
 					},
 					shim: {
 						tinyMCE: {
@@ -41,6 +42,9 @@
 						},
 						axs: {
 							exports: "axs"
+						},
+						axe: {
+							exports: "axe"
 						}
 					},
 					deps:[],&#10;
