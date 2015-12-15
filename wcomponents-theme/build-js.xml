@@ -110,6 +110,7 @@
 		</copy>
 		<copy file="${basedir}/node_modules/promise-polyfill/Promise.min.js" tofile="${script.build.target.dir}/promise/Promise.min.js"/>
 		<copy file="${basedir}/node_modules/accessibility-developer-tools/dist/js/axs_testing.js" tofile="${script.build.target.dir}/a11y/axs_testing.js"/>
+		<copy file="${basedir}/node_modules/axe-core/axe.min.js" tofile="${script.build.target.dir}/a11y/axe.min.js"/>
 		<for param="dir">
 			<dirset dir="${script.build.target.dir}">
 				<include name="*"/>
