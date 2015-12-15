@@ -1,66 +1,50 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<groupId>${groupId}</groupId>
-	<artifactId>${artifactId}</artifactId>
-	<version>${version}</version>
-	<packaging>war</packaging>
+    <groupId>${groupId}</groupId>
+    <artifactId>${artifactId}</artifactId>
+    <version>${version}</version>
+    <packaging>war</packaging>
 
-	<name>My WComponent App</name>
-	<url>http://www.myorganization.org</url>
+    <name>My WComponent App</name>
+    <url>http://www.myorganization.org</url>
 
-	<properties>
-		<bordertech.wcomponents.version>1.0.0</bordertech.wcomponents.version>
-	</properties>
+    <properties>
+        <bordertech.wcomponents.version>1.0.2-SNAPSHOT</bordertech.wcomponents.version>
+        <wcomponents.junit.version>4.8.2</wcomponents.junit.version>
+    </properties>
 
-	<build>
-		<plugins>
-			<!-- 
-			The plugin is redundant when the packaging is set to "war", however
-			there is a bug in Maven that is causing the servlet-api to be included
-			in the built WAR. See http://jira.codehaus.org/browse/MNG-5255 for details. 
-			-->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<configuration>
-					<archiveClasses>true</archiveClasses>
-					<packagingExcludes>WEB-INF/lib/servlet-api-*.jar</packagingExcludes>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>   
-
-	<dependencies>
-  
-		<dependency>
-			<groupId>com.github.bordertech.wcomponents</groupId>
-			<artifactId>wcomponents-core</artifactId>
-			<version>${bordertech.wcomponents.version}</version>
-		</dependency>
-
-		<dependency>
-			<scope>test</scope>
-			<groupId>com.github.bordertech.wcomponents</groupId>
-			<artifactId>wcomponents-test-lib</artifactId>
-			<version>${bordertech.wcomponents.version}</version>
-		</dependency>
-
-		<dependency>
-			<scope>test</scope>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>${wcomponents.junit.version}</version>
-		</dependency>
-
-		<!--  The following runtime dependency is for the stand-alone LDE -->
-		<dependency>
-			<scope>provided</scope>
-			<groupId>com.github.bordertech.wcomponents</groupId>
-			<artifactId>wcomponents-lde</artifactId>
-			<version>${bordertech.wcomponents.version}</version>
-		</dependency>
-
-	</dependencies>
+    <dependencies>
+        <dependency>
+            <groupId>com.github.bordertech.wcomponents</groupId>
+            <artifactId>wcomponents-bundle</artifactId>
+            <version>${bordertech.wcomponents.version}</version>
+        </dependency>
+        <dependency>
+            <scope>test</scope>
+            <groupId>com.github.bordertech.wcomponents</groupId>
+            <artifactId>wcomponents-test-lib</artifactId>
+            <version>${bordertech.wcomponents.version}</version>
+        </dependency>
+        <dependency>
+            <scope>test</scope>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${wcomponents.junit.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-web-api</artifactId>
+            <version>7.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <!--  The following runtime dependency is for the stand-alone LDE -->
+        <dependency>
+            <scope>provided</scope>
+            <groupId>com.github.bordertech.wcomponents</groupId>
+            <artifactId>wcomponents-lde</artifactId>
+            <version>${bordertech.wcomponents.version}</version>
+        </dependency>
+    </dependencies>
 </project>

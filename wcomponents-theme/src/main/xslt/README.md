@@ -46,7 +46,7 @@ such as:
 ``` xml
 <xsl:if test="$isDebug=1">
     <xsl:comment>
-        <xsl:value-of select="concat('maxIndent is ',$maxIndent,'&#xA;')"/>
+        <xsl:value-of select="concat('indent is ',$indent,'&#xA;')"/>
     </xsl:comment>
 </xsl:if>
 ```

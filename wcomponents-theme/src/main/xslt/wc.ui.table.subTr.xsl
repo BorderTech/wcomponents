@@ -8,21 +8,12 @@
 		
 		Warning
 		Client mode row expansion and client mode pagination are currently incompatible.
-		
-		param myTable: The first table ancestor of the current row. This is determined
-		at the most efficient point (usually ui:tbody using its parent node) and then
-		passed through all subsequent transforms to save constant ancestor::ui:table[1]
-		lookups.
-		
-		param parentIsClosed default 0, just passed thourgh to descendants.
-		
-		param maxIndent: see notes in transform for ui:table in wc.ui.table.xsl.
 	-->
 	<xsl:template match="ui:subTr">
 		<xsl:param name="myTable"/>
 		<xsl:param name="parentIsClosed" select="0"/>
 		<xsl:param name="topRowIsStriped" select="0"/>
-		<xsl:param name="maxIndent" select="0"/>
+		<xsl:param name="indent" select="0"/>
 		<xsl:variable name="tableId" select="$myTable/@id"/>
 		<!--
 		 We have to output content if:
@@ -40,7 +31,7 @@
 				<xsl:apply-templates select="*">
 					<xsl:with-param name="myTable" select="$myTable"/>
 					<xsl:with-param name="parentIsClosed" select="$parentIsClosed"/>
-					<xsl:with-param name="maxIndent" select="$maxIndent"/>
+					<xsl:with-param name="indent" select="$indent"/>
 					<xsl:with-param name="topRowIsStriped" select="$topRowIsStriped"/>
 				</xsl:apply-templates>
 			</xsl:when>

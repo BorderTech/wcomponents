@@ -11,14 +11,12 @@
 	@include border($pos: top);
 }
 
-// col separators are a bit harder: we have spanned cols in hierarchic tables
 .wc_table_colsep {
 	> col + col {
 		@include border($pos: left);
 	}
 
-	> .wc_table_colauto,
-	> .wc_table_colauto + col { // The first col after the last auto generated col is the first data col and cannot have a left border
+	> .wc_table_colauto { // The first col after the last auto generated col is the first data col and cannot have a left border
 		border-left: 0 none;
 	}
 

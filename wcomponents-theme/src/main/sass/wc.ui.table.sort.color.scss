@@ -7,7 +7,7 @@
 // differentiate col from row.
 // scss-lint:disable QualifyingElement
 col.wc_table_sort_sorted,
-th[aria-sort$='ending'] {
+th[sorted] {
 	background-color: $wc-ui-color-highlight-bg;
 	color: $wc-ui-color-highlight-fg;
 }

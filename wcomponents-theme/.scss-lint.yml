@@ -37,6 +37,12 @@ linters:
     enabled: true
     max_depth: 4 # default 3
 
+  # Allow element qualifiers with attribute selectors. We use a lot of attribute selectors and using an element
+  # qualifier on a pure attribute selector improves CSS performance.
+  QualifyingElement:
+    enabled: true #default true
+    allow_element_with_attribute: true # default false
+
   SelectorDepth:
     enabled: true
     max_depth: 4 # default 3
