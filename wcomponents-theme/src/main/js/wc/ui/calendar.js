@@ -402,9 +402,10 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 * @private
 		 * @param {Element} element the target of the keydown event previously determined as a picker button.
 		 * @param {int} keyCode the keydown event's keyCode.
+		 * @param {Boolean} shiftKey was the SHIFT key down?
 		 * @returns {Boolean} true if the event is to have its default action prevented.
 		 */
-		function keydownHelperDateButton(element, keyCode) {
+		function keydownHelperDateButton(element, keyCode, shiftKey) {
 			switch (keyCode) {
 				case KeyEvent.DOM_VK_LEFT:
 				case KeyEvent.DOM_VK_RIGHT:
@@ -456,7 +457,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 				handled = true;
 			}
 			else if ((element = PICKABLE.findAncestor(element))) {
-				handled = keydownHelperDateButton(element, keyCode);
+				handled = keydownHelperDateButton(element, keyCode, shiftKey);
 			}
 
 			if (handled) {
