@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents;
 
+import com.github.bordertech.wcomponents.MenuSelectContainer.SelectionMode;
 import com.github.bordertech.wcomponents.WMenu.MenuType;
 import com.github.bordertech.wcomponents.WMenu.SelectMode;
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
@@ -38,6 +39,12 @@ public class WMenu_Test extends AbstractWComponentTestCase {
 	public void testSelectModeAccessors() {
 		assertAccessorsCorrect(new WMenu(), "selectMode", SelectMode.NONE, SelectMode.MULTIPLE,
 				SelectMode.SINGLE);
+	}
+
+	@Test
+	public void testSelectionModeAccessors() {
+		assertAccessorsCorrect(new WMenu(), "selectionMode", MenuSelectContainer.SelectionMode.NONE, SelectionMode.MULTIPLE,
+				SelectionMode.SINGLE);
 	}
 
 	@Test
@@ -280,9 +287,7 @@ public class WMenu_Test extends AbstractWComponentTestCase {
 		WSubMenu subMenu = new WSubMenu("submenu");
 		menuBar.add(subMenu);
 
-		Assert.assertTrue("Sub-menu should have been added to menu bar", menuBar.getIndexOfChild(
-				subMenu) != -1);
-		Assert.assertSame("Menu bar should be parent of sub-menu", menuBar, subMenu.getParent());
+		Assert.assertTrue("Sub-menu should have been added to menu bar", menuBar.getMenuItems().contains(subMenu));
 	}
 
 	@Test
@@ -291,9 +296,7 @@ public class WMenu_Test extends AbstractWComponentTestCase {
 		WMenuItem menuItem = new WMenuItem("item");
 		menuBar.add(menuItem);
 
-		Assert.assertTrue("Menu item should have been added to menu bar", menuBar.getIndexOfChild(
-				menuItem) != -1);
-		Assert.assertSame("Menu bar should be parent of menu item", menuBar, menuItem.getParent());
+		Assert.assertTrue("Menu item should have been added to menu bar", menuBar.getMenuItems().contains(menuItem));
 	}
 
 }

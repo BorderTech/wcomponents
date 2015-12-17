@@ -12,9 +12,10 @@ import org.apache.commons.logging.LogFactory;
  *
  * @author Adam Millard
  * @author Yiannis Paschalidis
+ * @author Jonathan Austin
  * @since 1.0.0
  */
-public class WMenuItem extends AbstractContainer implements Disableable, AjaxTrigger {
+public class WMenuItem extends AbstractContainer implements Disableable, AjaxTrigger, MenuItemSelectable {
 
 	/**
 	 * The logger instance for this class.
@@ -188,15 +189,14 @@ public class WMenuItem extends AbstractContainer implements Disableable, AjaxTri
 	}
 
 	/**
-	 * Indicates whether this menu item is selected (for menu types which support selections).
-	 *
-	 * @return true if this menu item is selected, false otherwise.
+	 * {@inheritDoc}
 	 */
+	@Override
 	public boolean isSelected() {
-		WMenu parent = WebUtilities.getAncestorOfClass(WMenu.class, this);
+		WMenu menu = WebUtilities.getAncestorOfClass(WMenu.class, this);
 
-		if (parent != null) {
-			return parent.getSelectedItems().contains(this);
+		if (menu != null) {
+			return menu.getSelectedMenuItems().contains(this);
 		}
 
 		return false;
@@ -249,8 +249,9 @@ public class WMenuItem extends AbstractContainer implements Disableable, AjaxTri
 	}
 
 	/**
-	 * @return true if this item is selectable, false if not, or null if default to its container.
+	 * {@inheritDoc}
 	 */
+	@Override
 	public Boolean isSelectable() {
 		return getComponentModel().selectable;
 	}
@@ -258,6 +259,7 @@ public class WMenuItem extends AbstractContainer implements Disableable, AjaxTri
 	/**
 	 * @param selectable true if this item is selectable, false if not, or null to default to the container.
 	 */
+	@Override
 	public void setSelectable(final Boolean selectable) {
 		getOrCreateComponentModel().selectable = selectable;
 	}
@@ -270,10 +272,10 @@ public class WMenuItem extends AbstractContainer implements Disableable, AjaxTri
 	@Override
 	public boolean isDisabled() {
 		boolean disabled = false;
-		WComponent parent = getParent();
 
-		if (parent instanceof WMenuItemGroup) {
-			disabled = ((WMenuItemGroup) parent).isDisabled();
+		MenuContainer container = (MenuContainer) WebUtilities.getAncestorOfClass(MenuContainer.class, this);
+		if (container instanceof MenuItemGroup && container instanceof Disableable) {
+			disabled = ((Disableable) container).isDisabled();
 		}
 
 		return disabled || isFlagSet(ComponentModel.DISABLED_FLAG);

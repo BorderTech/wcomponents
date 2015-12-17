@@ -221,18 +221,27 @@ public class WSubMenu_Test extends AbstractWComponentTestCase {
 		Assert.assertFalse("Action should not have been called when sub-menu was not selected",
 				action.wasTriggered());
 
-		// Menu in Request but submenu not selected
+		// Menu in Request but submenu not current AJAX Trigger
 		request = new MockRequest();
 		request.setParameter(menu.getId() + "-h", "x");
 		menu.serviceRequest(request);
 		Assert.assertFalse("Action should not have been called when sub-menu was not selected",
 				action.wasTriggered());
 
-		// Menu in Request and submenu selected
+		// Menu in Request and submenu is the current ajax triiger
 		request = new MockRequest();
 		request.setParameter(menu.getId() + "-h", "x");
 		request.setParameter(subMenu.getId(), "x");
-		menu.serviceRequest(request);
+
+		try {
+			// Setup AJAX Operation trigger by the submenu
+			AjaxHelper.setCurrentOperationDetails(new AjaxOperation(subMenu.getId(), subMenu.getId()),
+					null);
+
+			menu.serviceRequest(request);
+		} finally {
+			AjaxHelper.clearCurrentOperationDetails();
+		}
 		Assert.assertTrue("Action should have been called when sub-menu is selected", action.
 				wasTriggered());
 	}

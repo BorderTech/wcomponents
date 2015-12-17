@@ -15,7 +15,6 @@ public class WMenuItemGroup_Test extends AbstractWComponentTestCase {
 	public void testConstructor() {
 		final String heading = "WMenuItemGroup_Test.testConstructor.heading";
 		WMenuItemGroup group = new WMenuItemGroup(heading);
-		Assert.assertEquals("Should only have label as child by default", 1, group.getChildCount());
 		Assert.assertEquals("Incorrect group heading", heading, group.getHeadingText());
 	}
 
@@ -41,11 +40,11 @@ public class WMenuItemGroup_Test extends AbstractWComponentTestCase {
 
 		setActiveContext(createUIContext());
 		group.addSeparator();
-		Assert.assertEquals("Should have added separator child", 2, group.getChildCount());
-		Assert.assertTrue("Should have separator child", group.getChildAt(1) instanceof WSeparator);
+		Assert.assertEquals("Should have added separator child", 1, group.getMenuItems().size());
+		Assert.assertTrue("Should have separator child", group.getMenuItems().get(0) instanceof WSeparator);
 
 		resetContext();
-		Assert.assertEquals("Should only have label as child after reset", 1, group.getChildCount());
+		Assert.assertEquals("Should only have label as child after reset", 0, group.getMenuItems().size());
 	}
 
 	@Test
@@ -56,11 +55,11 @@ public class WMenuItemGroup_Test extends AbstractWComponentTestCase {
 		setActiveContext(createUIContext());
 		WMenuItem menuItem = new WMenuItem("dummyItem");
 		group.addMenuItem(menuItem);
-		Assert.assertEquals("Should have added menu item", 2, group.getChildCount());
-		Assert.assertSame("Incorrect menu item added", menuItem, group.getChildAt(1));
+		Assert.assertEquals("Should have added menu item", 1, group.getMenuItems().size());
+		Assert.assertSame("Incorrect menu item added", menuItem, group.getMenuItems().get(0));
 
 		resetContext();
-		Assert.assertEquals("Should only have label as child after reset", 1, group.getChildCount());
+		Assert.assertEquals("Should only have label as child after reset", 0, group.getMenuItems().size());
 	}
 
 	@Test
@@ -71,10 +70,10 @@ public class WMenuItemGroup_Test extends AbstractWComponentTestCase {
 		setActiveContext(createUIContext());
 		WSubMenu subMenu = new WSubMenu("dummyMenu");
 		group.add(subMenu);
-		Assert.assertEquals("Should have added sub-menu", 2, group.getChildCount());
-		Assert.assertSame("Incorrect sub-menu added", subMenu, group.getChildAt(1));
+		Assert.assertEquals("Should have added sub-menu", 1, group.getMenuItems().size());
+		Assert.assertSame("Incorrect sub-menu added", subMenu, group.getMenuItems().get(0));
 
 		resetContext();
-		Assert.assertEquals("Should only have label as child after reset", 1, group.getChildCount());
+		Assert.assertEquals("Should only have label as child after reset", 0, group.getMenuItems().size());
 	}
 }

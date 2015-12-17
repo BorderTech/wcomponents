@@ -1,15 +1,30 @@
 package com.github.bordertech.wcomponents;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * This component provides a logical grouping of related menu items. The rendered version in the UI usually provides a
  * visual grouping as well, including the menu item group's title.
  *
  * @author Yiannis Paschalidis
+ * @author Jonathan Austin
  * @since 1.0.0
+ *
+ * @deprecated menu groups are not compatible with WCAG 2.0.
  */
-public class WMenuItemGroup extends AbstractContainer implements Disableable {
+public class WMenuItemGroup extends AbstractContainer implements Disableable, MenuItemGroup {
 
+	/**
+	 * Menu item group label.
+	 */
 	private final WDecoratedLabel label;
+
+	/**
+	 * Menu group items.
+	 */
+	private final WContainer content = new WContainer();
 
 	/**
 	 * Creates a new WMenuItem containing the specified button.
@@ -28,22 +43,7 @@ public class WMenuItemGroup extends AbstractContainer implements Disableable {
 	public WMenuItemGroup(final WDecoratedLabel label) {
 		this.label = label;
 		add(label);
-	}
-
-	/**
-	 * Adds a menu item to this group.
-	 *
-	 * @param menuItem the menu item to add.
-	 */
-	public void addMenuItem(final WMenuItem menuItem) {
-		add(menuItem);
-	}
-
-	/**
-	 * Adds a menu item to this group.
-	 */
-	public void addSeparator() {
-		add(new WSeparator());
+		add(content);
 	}
 
 	/**
@@ -90,38 +90,80 @@ public class WMenuItemGroup extends AbstractContainer implements Disableable {
 	}
 
 	/**
-	 * Add the given menu item as a child of this component.
-	 *
-	 * @param item the item to add.
+	 * Adds a separator to this group.
+	 */
+	public void addSeparator() {
+		addMenuItem(new WSeparator());
+	}
+
+	/**
+	 * @param item add a {@link WSeparator}
+	 */
+	public void add(final WSeparator item) {
+		addMenuItem(item);
+	}
+
+	/**
+	 * @param item add a {@link WMenuItem}
 	 */
 	public void add(final WMenuItem item) {
-		super.add(item);
+		addMenuItem(item);
 	}
 
 	/**
-	 * Add the given sub-menu as a child of this component.
-	 *
-	 * @param item the sub-menu to add.
+	 * @param item add a {@link WSubMenu}
 	 */
 	public void add(final WSubMenu item) {
-		super.add(item);
-	}
-
-	/**
-	 * Add the given separator as a child of this component.
-	 *
-	 * @param separator the separator to add.
-	 */
-	public void add(final WSeparator separator) {
-		super.add(separator);
+		addMenuItem(item);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override // to make public
-	void remove(final WComponent child) {
-		super.remove(child);
+	@Override
+	public void addMenuItem(final MenuItem item) {
+		if (item instanceof MenuItemGroup) {
+			throw new IllegalArgumentException("Cannot added a menu gorup to another menu group.");
+		}
+		getContent().add(item);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @deprecated Use {@link #removeMenuItem(com.github.bordertech.wcomponents.MenuItem) instead.
+	 */
+	@Deprecated
+	@Override
+	public void remove(final WComponent item) {
+		if (item instanceof MenuItem) {
+			removeMenuItem((MenuItem) item);
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void removeMenuItem(final MenuItem item) {
+		getContent().remove(item);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void removeAllMenuItems() {
+		getContent().removeAll();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public List<MenuItem> getMenuItems() {
+		List<MenuItem> items = new ArrayList(getContent().getChildren());
+		return Collections.unmodifiableList(items);
 	}
 
 	/**
@@ -129,8 +171,16 @@ public class WMenuItemGroup extends AbstractContainer implements Disableable {
 	 */
 	@Override
 	public String toString() {
-		String text = label.getText();
+		String text = getLabel().getText();
 		text = text == null ? "null" : ('"' + text + '"');
-		return toString(text, 1, getChildCount() - 1);
+		return getContent().toString(text, -1, -1);
 	}
+
+	/**
+	 * @return the container holding the menu items
+	 */
+	private WContainer getContent() {
+		return content;
+	}
+
 }
