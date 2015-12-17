@@ -5,17 +5,10 @@
 	<!--
 		The transform for data cells within the table. These are a 1:1 map with a HTML
 		td element.
-		
-		param myTable: The first table ancestor of the current row. This is determined
-		at the most efficient point (usually ui:tbody using its parent node) and then
-		passed through all subsequent transforms to save constant ancestor::ui:table[1]
-		lookups.
-		
-		param maxIndent: see notes in transform for ui:table in wc.ui.table.xsl.
 	-->
 	<xsl:template match="ui:td">
 		<xsl:param name="myTable"/>
-		<xsl:param name="maxIndent" select="0"/>
+		<xsl:param name="indent" select="0"/>
 		<xsl:variable name="tableId" select="$myTable/@id"/>
 		<xsl:variable name="tbleColPos">
 			<xsl:value-of select="position()"/>
@@ -46,7 +39,7 @@
 				<xsl:with-param name="alignedCol" select="$alignedCol"/>
 			</xsl:call-template>
 		</xsl:variable>
-		<xsl:element name="td">
+		<td>
 			<xsl:if test="normalize-space($class) !=''">
 				<xsl:attribute name="class">
 					<xsl:value-of select="normalize-space($class)"/>
@@ -67,13 +60,12 @@
 					<xsl:value-of select="normalize-space(concat($colHeader,' ',$rowHeader))"/>
 				</xsl:attribute>
 			</xsl:if>
-			<xsl:if test="not(preceding-sibling::*) and $myTable/ui:rowExpansion and $myTable/@type='hierarchic'">
+			<xsl:if test="$indent &gt; 0 and not(preceding-sibling::*)">
 				<xsl:call-template name="firstRowCellIndentationHelper">
-					<xsl:with-param name="myTable" select="$myTable"/>
-					<xsl:with-param name="maxIndent" select="$maxIndent"/>
+					<xsl:with-param name="indent" select="$indent"/>
 				</xsl:call-template>
 			</xsl:if>
 			<xsl:apply-templates/>
-		</xsl:element>
+		</td>
 	</xsl:template>
 </xsl:stylesheet>

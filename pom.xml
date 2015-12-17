@@ -38,13 +38,13 @@
 			<comments>GNU General Public License</comments>
 		</license>
 	</licenses>
-	
+
 	<!-- description is a required section for Maven Central -->
 	<description>Accessible Web UI Framework for Enterprise</description>
-	
+
 	<!-- url is a required section for Maven Central -->
 	<url>http://bordertech.github.io/wcomponents/</url>
-	
+
 	<!-- developers is a required section for Maven Central -->
 	<developers>
 		<developer>
@@ -148,7 +148,7 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.3</version>
 			</plugin>
-			
+
 			<plugin>
 				<!-- A release to Maven Central MUST include javadoc Jars - even if they are dummy jars, they must be there -->
 				<groupId>org.apache.maven.plugins</groupId>
@@ -179,9 +179,6 @@
 						<goals>
 							<goal>jar</goal>
 						</goals>
-						<configuration>
-							<classifier>sources</classifier>
-						</configuration>
 					</execution>
 					<execution>
 						<id>test-sources</id>
@@ -189,9 +186,6 @@
 						<goals>
 							<goal>test-jar</goal>
 						</goals>
-						<configuration>
-							<classifier>sources</classifier>
-						</configuration>
 					</execution>
 				</executions>
 			</plugin>
@@ -205,9 +199,6 @@
 						<goals>
 							<goal>test-jar</goal>
 						</goals>
-						<configuration>
-							<skipIfEmpty>true</skipIfEmpty>
-						</configuration>
 					</execution>
 				</executions>
 			</plugin>
@@ -361,7 +352,7 @@
 				</executions>
 			</plugin>
 
-			
+
 			<!-- Generate badges. -->
 			<!-- Run site twice for badges. -->
 			<plugin>
@@ -415,9 +406,9 @@
 					<releaseProfiles>release</releaseProfiles>
 				</configuration>
 			</plugin>
-			
+
 		</plugins>
-		
+
 		<pluginManagement>
 			<plugins>
 				<plugin>
@@ -547,7 +538,7 @@
 					</reportSet>
 				</reportSets>
 			</plugin>
-			
+
 			<!-- Generate the web interface version of the test results (Aggregate Parameter). -->
 			<!-- Run site twice to get correct results. -->
 			<plugin>
@@ -566,7 +557,7 @@
 					</reportSet>
 				</reportSets>
 			</plugin>
-			
+
 			<!-- QA Reports. -->
 			<!-- Generate the Checkstyle report. (Self Aggregating) -->
 			<plugin>

@@ -133,6 +133,82 @@ define(function() {
 		}
 
 		/**
+		 * Helper for groupBasedNavHelperLoopHelper (so a helper's helper's helper). This is to abstract cycling and
+		 * reduce the paths though what are otherwise extremely complex functions.
+		 *
+		 * @function
+		 * @private
+		 * @param {int} currentIndex A group (array) index - where we are at the moment in the group.
+		 * @param {Boolean} cycled Have we already cycled in this group?
+		 * @param {Boolean} useCycle Does this group support cycling at the extremities?
+		 * @param {Element[]} group The group of elements we are traversing.
+		 * @param {Boolean} next Are we going forwards (true) or backwards?
+		 * @returns {Object} A DTO to transfer info back to the calling function has target, idx and cycled properties.
+		 */
+		function groupNextPreviousHelper(currentIndex, cycled, useCycle, group, next) {
+			var idx = currentIndex,
+				result = {target: null, idx: currentIndex, cycled: cycled},
+				testIndex = next ? group.length - 1 : 0;
+			if (idx === testIndex) {
+				if (useCycle && !cycled) {
+					idx = next ? 0 : group.length - 1;
+					return {target: group[idx], idx: idx, cycled: true};
+				}
+			}
+			else {
+				idx = currentIndex + (next ? 1 : -1);
+				result.target = group[idx];
+				result.idx = idx;
+			}
+			return result;
+		}
+
+		/**
+		 * Helper for groupBasedNavHelper to bring the do loop into a _slightly_ more readable form.
+		 *
+		 * @function
+		 * @private
+		 * @param {Object} conf The keywalker config.
+		 * @param {Element} element The start element.
+		 * @param {int} whichWay The direction to walk.
+		 * @returns {?Element} The key walk target element if any.
+		 */
+		function groupBasedNavHelperLoopHelper(conf, element, whichWay) {
+
+			var target,
+				cycled = false,
+				direction = whichWay, // so as to not change the arg if we are going to an extremity.
+				group = conf.root,
+				currentIndex = Array.prototype.indexOf.call(group, element),
+				moveHelperObj;
+			do {
+				switch (direction) {
+					case MOVE_TO.NEXT:
+					case MOVE_TO.PREVIOUS:
+						moveHelperObj = groupNextPreviousHelper(currentIndex, cycled, conf[OPTIONS.CYCLE], group, (direction === MOVE_TO.NEXT));
+						target = moveHelperObj.target;
+						currentIndex = moveHelperObj.idx;
+						cycled = moveHelperObj.cycled;
+						break;
+					case MOVE_TO.FIRST:
+					case MOVE_TO.TOP:
+						target = group[0];
+						currentIndex = 0;
+						direction = MOVE_TO.NEXT;
+						break;
+					case MOVE_TO.LAST:
+					case MOVE_TO.END:
+						currentIndex = group.length - 1;
+						target = group[currentIndex];
+						direction = MOVE_TO.PREVIOUS;
+						break;
+				}
+			}
+			while (target && conf.filter(target) === NodeFilter.FILTER_REJECT);
+			return target;
+		}
+
+		/**
 		 * Simple walking of linear grouped components such as aria radio groups (see single selectable table rows
 		 * for an example). KeyWalker.MOVE_TO is limited to a single dimension: FIRST, LAST, PREVIOUS, NEXT, TOP,
 		 * END
@@ -146,76 +222,14 @@ define(function() {
 		 * @throws {ReferenceError} If the value of whichWay is one reserved for two domensional navigation.
 		 */
 		function groupBasedNavHelper(conf, element, whichWay) {
-			var target,
-				cycled = false,
-				currentIndex,
-				result = null,
-				direction = whichWay,
-				group = conf.root;
-
-			if (direction === MOVE_TO.PARENT || direction === MOVE_TO.CHILD || direction === MOVE_TO.LAST_CHILD) {
+			if (whichWay === MOVE_TO.PARENT || whichWay === MOVE_TO.CHILD || whichWay === MOVE_TO.LAST_CHILD) {
 				throw new ReferenceError("Groups have no notion of parent or child, you probably don't want to do this!");
 			}
-			else if (direction && group && group.length) {
-				currentIndex = Array.prototype.indexOf.call(group, element);
-				do {
-					switch (direction) {
-						case MOVE_TO.NEXT:
-							/*eslint-disable */  // remove when this bug is fixed https://github.com/eslint/eslint/issues/2248
-							if (currentIndex === group.length - 1) {
-								if (conf[OPTIONS.CYCLE]) {
-									if (!cycled) {
-										cycled = true;
-										target = group[0];
-										currentIndex = 0;
-									}
-									else {
-										target = null;
-									}
-								}
-							}
-							else {
-								target = group[++currentIndex];
-							}
-							break;
-						case MOVE_TO.PREVIOUS:
-							if (currentIndex === 0) {
-								if (conf[OPTIONS.CYCLE]) {
-									if (!cycled) {
-										cycled = true;
-										currentIndex = group.length - 1;
-										target = group[currentIndex];
-									}
-									else {
-										target = null;
-									}
-								}
-							}
-							else {
-								target = group[--currentIndex];
-							}
-							/*eslint-enable */
-							break;
-						case MOVE_TO.FIRST:
-						case MOVE_TO.TOP:
-							target = group[0];
-							currentIndex = 0;
-							direction = MOVE_TO.NEXT;
-							break;
-						case MOVE_TO.LAST:
-						case MOVE_TO.END:
-							currentIndex = group.length - 1;
-							target = group[currentIndex];
-							direction = MOVE_TO.PREVIOUS;
-							break;
-					}
-				}
-				while (target && conf.filter(target) === NodeFilter.FILTER_REJECT);
-				if (target) {
-					result = target;
-				}
+
+			if (whichWay && conf.root && conf.root.length) { // the group we are traversing is defined in conf.root
+				return groupBasedNavHelperLoopHelper(conf, element, whichWay);
 			}
-			return result;
+			return null;
 		}
 
 		/**

@@ -8,14 +8,13 @@
 		separate row.
 		
 		parameters
-		maxIndent and addCols: see comments in transform of ui:table in wc.ui.table.xsl
+		addCols: see comments in transform of ui:table in wc.ui.table.xsl
 		
 		The thead element is not hidden for a11y reasons. If the hidden attribute is "true"
 		then only the row containing the column headers is hidden. In this instance hidden
 		means rendered off screen.
 	-->
 	<xsl:template match="ui:thead">
-		<xsl:param name="maxIndent" select="0"/>
 		<xsl:param name="addCols" select="0"/>
 		<xsl:param name="disabled" select="0"/>
 		<xsl:variable name="tableId" select="../@id"/>
@@ -47,9 +46,8 @@
 				<xsl:variable name="numCols">
 					<xsl:value-of select="count(ui:th)"/>
 				</xsl:variable>
-				<!-- NOTE: colspan1 must include all padding columns etc -->
 				<xsl:variable name="colSpan1">
-					<xsl:value-of select="$addCols + $maxIndent +  floor($numCols div $hasHeaderElements)"/>
+					<xsl:value-of select="$addCols +  floor($numCols div $hasHeaderElements)"/>
 				</xsl:variable>
 				<xsl:element name="tr">
 					<xsl:attribute name="class">
@@ -68,7 +66,7 @@
 							<xsl:attribute name="colspan">
 								<xsl:choose>
 									<xsl:when test="$hasRowSelection = 1">
-										<xsl:value-of select="$numCols + $maxIndent + $addCols - $colSpan1"/>
+										<xsl:value-of select="$numCols + $addCols - $colSpan1"/>
 									</xsl:when>
 									<xsl:otherwise>
 										<xsl:value-of select="$colSpan1"/>
@@ -107,7 +105,7 @@
 						</xsl:choose>
 					</xsl:element>
 				</xsl:if>
-				<xsl:if test="../ui:rowExpansion and $maxIndent = 0">
+				<xsl:if test="../ui:rowExpansion">
 					<xsl:element name="th">
 						<xsl:attribute name="class">
 							<xsl:text>wc_table_rowexp_container</xsl:text>
@@ -117,9 +115,7 @@
 						</xsl:call-template>
 					</xsl:element>
 				</xsl:if>
-				<xsl:apply-templates select="ui:th" mode="thead">
-					<xsl:with-param name="maxIndent" select="$maxIndent"/>
-				</xsl:apply-templates>
+				<xsl:apply-templates select="ui:th" mode="thead"/>
 			</xsl:element>
 		</xsl:element>
 	</xsl:template>

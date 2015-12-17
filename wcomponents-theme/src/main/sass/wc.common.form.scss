@@ -2,15 +2,6 @@
 // This document contains general css styling for generic form components. Custom components have their own css files
 @import 'mixins_common.scss';
 
-@mixin aria-disabled {
-	// important to reset menu button etc rules which are VERY specific
-	// scss-lint:disable ImportantRule
-	color: $wc-ui-color-disabled-fg; // NOTE do not set background-color here for your own sanity
-	cursor: default !important;
-	outline: none !important;
-	text-decoration: none !important;
-}
-
 select,
 %select { //placeholder just to make scss-lint stfu
 	@include border($color: $wc-ui-color-border-form-control); // breaks firefox OS X quite nastily but it is better than the other options with all other browsers
@@ -31,9 +22,11 @@ textarea {
 	padding: 1px;
 }
 
-[type='checkbox'],
-[type='radio'] {
-	border: 0 none;
+input {
+	&[type='checkbox'],
+	&[type='radio'] {
+		border: 0 none;
+	}
 }
 
 [aria-invalid='true'] {
