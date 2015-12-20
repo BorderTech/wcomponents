@@ -18,7 +18,9 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
- * @deprecated no longer required. Theme is now available via WServlet.
+ * @deprecated no longer required. Theme is now available via WServlet.The bordertech.wcomponents.theme.content.path
+ * parameter im wcomponents-app.properties must not be set and there must be servlet-mappings to the
+ * url-patterns "/{my-mapping}"  and "/{my-mapping}/*" where you specify the value of {my-mapping}.
  */
 @Deprecated
 public class ThemeServlet extends HttpServlet {
