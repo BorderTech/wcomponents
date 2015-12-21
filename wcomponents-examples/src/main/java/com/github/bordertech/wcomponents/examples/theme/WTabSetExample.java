@@ -51,9 +51,9 @@ public class WTabSetExample extends WContainer {
 	public WTabSetExample() {
 		constructExample();
 	}
-	
+
 	/**
-	 * Helper to do the work of the constructor since we do not really want to call over-rideable methods in a 
+	 * Helper to do the work of the constructor since we do not really want to call over-rideable methods in a
 	 * constructor.
 	 */
 	private void constructExample() {
@@ -127,6 +127,12 @@ public class WTabSetExample extends WContainer {
 		disabledTabset.setDisabled(true);
 		add(disabledTabset);
 
+
+		add(new WHeading(HeadingLevel.H2, "Examples showing accordion's single property."));
+		WTabSet singleOpenAccordionabset = new SampleWTabset(WTabSet.TYPE_ACCORDION);
+		singleOpenAccordionabset.setSingle(true);
+		add(singleOpenAccordionabset);
+
 		add(new WHorizontalRule());
 
 		/* NOTE: no example of the hidden property because WTabSet is not a subordinate target. This is inconsistent
@@ -192,34 +198,34 @@ public class WTabSetExample extends WContainer {
 		tabset5.addTab(new WText("Tab 14."), "Fourteenth tab", WTabSet.TAB_MODE_CLIENT);
 		tabset5.addTab(new WText("Tab 15."), "Fifteenth tab", WTabSet.TAB_MODE_CLIENT);
 		add(tabset5);
-				
+
 		add(new WHorizontalRule());
-		
+
 		add(new WHeading(HeadingLevel.H2, "Using WSubordinateControl"));
 		WTabSet targetTabset = new SampleWTabset();
 		add(targetTabset);
-		
+
 		WFieldLayout layout = new WFieldLayout(WFieldLayout.LAYOUT_STACKED);
 		add(layout);
 		final WCheckBox disabledControllerCb = new WCheckBox();
 		final WCheckBox hiddenControllerCb = new WCheckBox();
 		layout.addField("disable tabset", disabledControllerCb);
 		layout.addField("hide tabset", hiddenControllerCb);
-		
-		
+
+
 		// Build & add the subordinate
 		SubordinateBuilder builder = new SubordinateBuilder();
 		builder.condition().equals(hiddenControllerCb, String.valueOf(true));
 		builder.whenTrue().hide(targetTabset);
 		builder.whenFalse().show(targetTabset);
 		add(builder.build());
-		
+
 		builder = new SubordinateBuilder();
 		builder.condition().equals(disabledControllerCb, String.valueOf(true));
 		builder.whenTrue().disable(targetTabset);
 		builder.whenFalse().enable(targetTabset);
 		add(builder.build());
-		
+
 	}
 
 	/**
