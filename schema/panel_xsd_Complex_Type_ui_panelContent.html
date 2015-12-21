@@ -1,0 +1,499 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Schema documentation for component ui:panelContent</title>
+      <link rel="stylesheet" href="docHtml.css" type="text/css" /><script type="text/javascript">
+         <!--
+        var propertiesBoxes= new Array('properties_panelContent');
+var usedByBoxes= new Array('usedBy_panelContent');
+var sourceBoxes= new Array('source_panelContent');
+var diagramBoxes= new Array('diagram_panelContent');
+var annotationBoxes= new Array('annotations_panelContent');
+var modelBoxes= new Array('model_panelContent');
+
+      
+        var button_prefix = 'button_';
+        
+        /**
+        * Returns an element in the current HTML document.
+        *
+        * @param elementID Identifier of HTML element
+        * @return               HTML element object
+        */
+        function getElementObject(elementID) {
+            var elemObj = null;
+            if (document.getElementById) {
+                elemObj = document.getElementById(elementID);
+            }
+            return elemObj;
+        }
+        
+        /**
+        * Switches the state of a collapseable box, e.g.
+        * if it's opened, it'll be closed, and vice versa.
+        *
+        * @param boxID Identifier of box
+        */
+        function switchState(boxID) {
+            var boxObj = getElementObject(boxID);
+            var buttonObj = getElementObject(button_prefix + boxID);
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else if (boxObj.style.display == "none") {
+                // Box is closed, so open it
+                openBox(boxObj, buttonObj);
+            } else if (boxObj.style.display == "block") {
+                // Box is opened, so close it
+                closeBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+        * Opens a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function openBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "block";
+                
+                // Change text of button
+                if (boxObj.style.display == "block") {
+                    buttonObj.src = "img/btM.gif";
+                }
+            }
+        }
+        
+        /**
+        * Closes a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function closeBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "none";
+                
+                // Change text of button
+                if (boxObj.style.display == "none") {
+                    buttonObj.src = "img/btP.gif";
+                }
+            }
+        }
+    
+       function switchStateForAll(buttonObj, boxList) {
+            if (buttonObj == null) {
+                // button not found
+            } else if (buttonObj.value == "+") {
+                // Expand all
+                expandAll(boxList);
+                buttonObj.value = "-";
+            } else if (buttonObj.value == "-") {
+                // Collapse all
+                collapseAll(boxList);
+                buttonObj.value = "+";
+            }
+        }
+        
+        /**
+        * Closes all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function collapseAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                closeBox(boxObj, buttonObj);
+            }
+        }
+            
+        /**
+        * Open all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function expandAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                openBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+         * Update the message presented in the title of the html page.
+         * - If the documentation was splited by namespace we present something like: "Documentation for namespace 'ns'"
+         * - If the documentation was splited by location we present somehing like: "Documentation for 'Schema.xsd'"
+         * - If no split we always present: "Documentation for 'MainSchema.xsd'"
+         */
+        function updatePageTitle(message) {
+            top.document.title = message;
+        }
+        
+          
+                    
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function findAndFloat(id, x_displacement, y_displacement){
+
+            var element = getElementObject(id);            
+            
+            window[id + "_obj"] = element;
+            
+            if(document.layers) {
+               element.style = element;
+            }
+            
+            element.current_y = y_displacement;      
+            element.first_time = true;
+         
+            element.floatElement = function(){
+               // It may be closed by an user action.
+                
+               // Target X and Y coordinates.
+               var x, y;
+               
+               var myWidth = 0, myHeight = 0;
+               if( typeof( window.innerWidth ) == 'number' ) {
+                  //Non-IE
+                  myWidth = window.innerWidth;
+                  myHeight = window.innerHeight;
+               } else if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {
+                  //IE 6+ in 'standards compliant mode'
+                  myWidth = document.documentElement.clientWidth;
+                  myHeight = document.documentElement.clientHeight;
+               } else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
+                  //IE 4 compatible
+                  myWidth = document.body.clientWidth;
+                  myHeight = document.body.clientHeight;
+               }
+               
+               
+               x = myWidth - x_displacement;
+               
+               var ns = (navigator.appName.indexOf("Netscape") != -1);               
+               y = ns ? pageYOffset : document.documentElement && document.documentElement.scrollTop ? 
+                  document.documentElement.scrollTop : document.body.scrollTop;               
+               y = y + y_displacement;               
+               
+               // The current y is the current coordinate of the floating element.
+               // This should be at the limit the y target coordinate.
+               this.current_y += (y - this.current_y)/1.25;
+               
+               // Add the pixels constant after the values
+               // and move the element.
+               var px = document.layers ? "" : "px";
+               this.style.left =  x + px;
+               this.style.top =  this.current_y + px;
+                              
+               setTimeout(this.id + "_obj.floatElement()", 100);
+            }
+            
+            element.floatElement();
+            return element;
+          }
+
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function selectTOCGroupBy(id, isChunked, indexFileLocation, indexFileNamespace, indexFileComponent){
+
+            if (!isChunked) {
+             var selectIds = new Array('toc_group_by_namespace', 'toc_group_by_location', 'toc_group_by_component_type');
+             // Make all the tabs invisible.
+               for (i = 0; i < 3; i++){
+                  var tab = getElementObject(selectIds[i]);
+                  tab.style.display = 'none';
+               }
+               var selTab = getElementObject(id);
+               selTab.style.display = 'block';
+            } else {
+             if (id == 'toc_group_by_namespace') {
+               parent.indexFrame.location = indexFileNamespace;
+             } else  if (id == 'toc_group_by_location') {
+               parent.indexFrame.location = indexFileLocation;
+             } else  if (id == 'toc_group_by_component_type') {
+              parent.indexFrame.location = indexFileComponent;
+             }
+            }
+         }
+          
+
+    
+                    //--></script></head>
+   <body>
+      <div id="global_controls" class="globalControls" style="position:absolute;right:0;">
+         <table class="rt">
+            <tr>
+               <td class="rt_cornerTopLeft"></td>
+               <td class="rt_lineTop"></td>
+               <td class="rt_cornerTopRight"></td>
+            </tr>
+            <tr>
+               <td class="rt_lineLeft"></td>
+               <td class="rt_content">
+                  <h3>Showing:</h3>
+                  <table>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, annotationBoxes);" class="control" /></span><span class="globalControlName">Annotations</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, diagramBoxes);" class="control" /></span><span class="globalControlName">Diagrams</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, modelBoxes);" class="control" /></span><span class="globalControlName">Model </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, propertiesBoxes);" class="control" /></span><span class="globalControlName">Properties </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, sourceBoxes);" class="control" /></span><span class="globalControlName">Source</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, usedByBoxes);" class="control" /></span><span class="globalControlName">Used by </span></td>
+                     </tr>
+                  </table>
+                  <div align="right"><span><input type="button" onclick="getElementObject('global_controls').style.display = 'none';" value="Close" /></span></div>
+               </td>
+               <td class="rt_lineRight"></td>
+            </tr>
+            <tr>
+               <td class="rt_cornerBottomLeft"></td>
+               <td class="rt_lineBottom"></td>
+               <td class="rt_cornerBottomRight"></td>
+            </tr>
+         </table>
+      </div><a id="panelContent"></a><div class="componentTitle">Complex Type <span class="qname">ui:panelContent</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>https://github.com/bordertech/wcomponents/namespace/ui/v1.0</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_panelContent" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_panelContent');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_panelContent" style="display:block">
+                              <div class="annotation">Wrapper container for a single component in the layout.</div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_panelContent" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_panelContent');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_panelContent" style="display:block"><img alt="Diagram" border="0" src="img/panel_xsd_Complex_Type_ui_panelContent.png" usemap="#panel_xsd_Complex_Type_ui_panelContent" /><map name="panel_xsd_Complex_Type_ui_panelContent" id="panel_xsd_Complex_Type_ui_panelContent">
+                                 <area alt="abbr_xsd_Element_ui_abbr.tmp#abbr" href="abbr_xsd_Element_ui_abbr.html#abbr" coords="352,44,421,68" />
+                                 <area alt="additionalParameters_xsd_Element_ui_additionalParameters.tmp#additionalParameters" href="additionalParameters_xsd_Element_ui_additionalParameters.html#additionalParameters" coords="352,121,509,145" />
+                                 <area alt="application_xsd_Element_ui_application.tmp#application" href="application_xsd_Element_ui_application.html#application" coords="352,155,455,179" />
+                                 <area alt="ajaxTrigger_xsd_Element_ui_ajaxTrigger.tmp#ajaxTrigger" href="ajaxTrigger_xsd_Element_ui_ajaxTrigger.html#ajaxTrigger" coords="352,245,458,269" />
+                                 <area alt="audio_xsd_Element_ui_audio.tmp#audio" href="audio_xsd_Element_ui_audio.html#audio" coords="352,322,426,346" />
+                                 <area alt="button_xsd_Element_ui_button.tmp#button" href="button_xsd_Element_ui_button.html#button" coords="352,386,432,410" />
+                                 <area alt="checkBox_xsd_Element_ui_checkBox.tmp#checkBox" href="checkBox_xsd_Element_ui_checkBox.html#checkBox" coords="352,420,447,444" />
+                                 <area alt="checkBoxSelect_xsd_Element_ui_checkBoxSelect.tmp#checkBoxSelect" href="checkBoxSelect_xsd_Element_ui_checkBoxSelect.html#checkBoxSelect" coords="352,523,478,547" />
+                                 <area alt="collapsible_xsd_Element_ui_collapsible.tmp#collapsible" href="collapsible_xsd_Element_ui_collapsible.html#collapsible" coords="352,600,453,624" />
+                                 <area alt="comment_xsd_Element_ui_comment.tmp#comment" href="comment_xsd_Element_ui_comment.html#comment" coords="352,690,446,714" />
+                                 <area alt="componentGroup_xsd_Element_ui_componentGroup.tmp#componentGroup" href="componentGroup_xsd_Element_ui_componentGroup.html#componentGroup" coords="352,724,491,748" />
+                                 <area alt="collapsibleToggle_xsd_Element_ui_expandCollapseAll.tmp#expandCollapseAll" href="collapsibleToggle_xsd_Element_ui_expandCollapseAll.html#expandCollapseAll" coords="352,758,496,782" />
+                                 <area alt="dateField_xsd_Element_ui_dateField.tmp#dateField" href="dateField_xsd_Element_ui_dateField.html#dateField" coords="352,835,444,859" />
+                                 <area alt="decoratedLabel_xsd_Element_ui_decoratedLabel.tmp#decoratedLabel" href="decoratedLabel_xsd_Element_ui_decoratedLabel.html#decoratedLabel" coords="352,938,478,962" />
+                                 <area alt="definitionList_xsd_Element_ui_definitionList.tmp#definitionList" href="definitionList_xsd_Element_ui_definitionList.html#definitionList" coords="352,1028,466,1052" />
+                                 <area alt="dialog_xsd_Element_ui_dialog.tmp#dialog" href="dialog_xsd_Element_ui_dialog.html#dialog" coords="352,1105,429,1129" />
+                                 <area alt="dropdown_xsd_Element_ui_dropdown.tmp#dropdown" href="dropdown_xsd_Element_ui_dropdown.html#dropdown" coords="352,1195,451,1219" />
+                                 <area alt="emailField_xsd_Element_ui_emailField.tmp#emailField" href="emailField_xsd_Element_ui_emailField.html#emailField" coords="352,1298,449,1322" />
+                                 <area alt="fieldIndicator_xsd_Element_ui_fieldIndicator.tmp#fieldIndicator" href="fieldIndicator_xsd_Element_ui_fieldIndicator.html#fieldIndicator" coords="352,1401,467,1425" />
+                                 <area alt="fieldLayout_xsd_Element_ui_fieldLayout.tmp#fieldLayout" href="fieldLayout_xsd_Element_ui_fieldLayout.html#fieldLayout" coords="352,1478,455,1502" />
+                                 <area alt="fieldSet_xsd_Element_ui_fieldSet.tmp#fieldSet" href="fieldSet_xsd_Element_ui_fieldSet.html#fieldSet" coords="352,1555,435,1579" />
+                                 <area alt="figure_xsd_Element_ui_figure.tmp#figure" href="figure_xsd_Element_ui_figure.html#figure" coords="352,1632,428,1656" />
+                                 <area alt="fileUpload_xsd_Element_ui_fileUpload.tmp#fileUpload" href="fileUpload_xsd_Element_ui_fileUpload.html#fileUpload" coords="352,1722,450,1746" />
+                                 <area alt="filterControl_xsd_Element_ui_filterControl.tmp#filterControl" href="filterControl_xsd_Element_ui_filterControl.html#filterControl" coords="352,1812,462,1836" />
+                                 <area alt="heading_xsd_Element_ui_heading.tmp#heading" href="heading_xsd_Element_ui_heading.html#heading" coords="352,1876,439,1900" />
+                                 <area alt="hr_xsd_Element_ui_hr.tmp#hr" href="hr_xsd_Element_ui_hr.html#hr" coords="352,1940,408,1964" />
+                                 <area alt="image_xsd_Element_ui_image.tmp#image" href="image_xsd_Element_ui_image.html#image" coords="352,2030,428,2054" />
+                                 <area alt="label_xsd_Element_ui_label.tmp#label" href="label_xsd_Element_ui_label.html#label" coords="352,2120,421,2144" />
+                                 <area alt="link_xsd_Element_ui_link.tmp#link" href="link_xsd_Element_ui_link.html#link" coords="352,2210,415,2234" />
+                                 <area alt="listBox_xsd_Element_ui_listBox.tmp#listBox" href="listBox_xsd_Element_ui_listBox.html#listBox" coords="352,2287,432,2311" />
+                                 <area alt="menu_xsd_Element_ui_menu.tmp#menu" href="menu_xsd_Element_ui_menu.html#menu" coords="352,2377,426,2401" />
+                                 <area alt="messageBox_xsd_Element_ui_messageBox.tmp#messageBox" href="messageBox_xsd_Element_ui_messageBox.html#messageBox" coords="352,2467,463,2491" />
+                                 <area alt="multiDropdown_xsd_Element_ui_multiDropdown.tmp#multiDropdown" href="multiDropdown_xsd_Element_ui_multiDropdown.html#multiDropdown" coords="352,2544,479,2568" />
+                                 <area alt="multiSelectPair_xsd_Element_ui_multiSelectPair.tmp#multiSelectPair" href="multiSelectPair_xsd_Element_ui_multiSelectPair.html#multiSelectPair" coords="352,2634,474,2658" />
+                                 <area alt="multiTextField_xsd_Element_ui_multiTextField.tmp#multiTextField" href="multiTextField_xsd_Element_ui_multiTextField.html#multiTextField" coords="352,2711,472,2735" />
+                                 <area alt="numberField_xsd_Element_ui_numberField.tmp#numberField" href="numberField_xsd_Element_ui_numberField.html#numberField" coords="352,2814,463,2838" />
+                                 <area alt="panel_xsd_Element_ui_panel.tmp#panel" href="panel_xsd_Element_ui_panel.html#panel" coords="352,2930,425,2954" />
+                                 <area alt="passwordField_xsd_Element_ui_passwordField.tmp#passwordField" href="passwordField_xsd_Element_ui_passwordField.html#passwordField" coords="352,3020,473,3044" />
+                                 <area alt="telephoneNumberField_xsd_Element_ui_phoneNumberField.tmp#phoneNumberField" href="telephoneNumberField_xsd_Element_ui_phoneNumberField.html#phoneNumberField" coords="352,3054,498,3078" />
+                                 <area alt="popup_xsd_Element_ui_popup.tmp#popup" href="popup_xsd_Element_ui_popup.html#popup" coords="352,3131,431,3155" />
+                                 <area alt="printButton_xsd_Element_ui_printButton.tmp#printButton" href="printButton_xsd_Element_ui_printButton.html#printButton" coords="352,3221,457,3245" />
+                                 <area alt="progressBar_xsd_Element_ui_progressBar.tmp#progressBar" href="progressBar_xsd_Element_ui_progressBar.html#progressBar" coords="352,3285,462,3309" />
+                                 <area alt="radioButton_xsd_Element_ui_radioButton.tmp#radioButton" href="radioButton_xsd_Element_ui_radioButton.html#radioButton" coords="352,3349,459,3373" />
+                                 <area alt="radioButtonSelect_xsd_Element_ui_radioButtonSelect.tmp#radioButtonSelect" href="radioButtonSelect_xsd_Element_ui_radioButtonSelect.html#radioButtonSelect" coords="352,3439,490,3463" />
+                                 <area alt="redirect_xsd_Element_ui_redirect.tmp#redirect" href="redirect_xsd_Element_ui_redirect.html#redirect" coords="352,3516,438,3540" />
+                                 <area alt="row_xsd_Element_ui_row.tmp#row" href="row_xsd_Element_ui_row.html#row" coords="352,3606,416,3630" />
+                                 <area alt="section_xsd_Element_ui_section.tmp#section" href="section_xsd_Element_ui_section.html#section" coords="352,3709,435,3733" />
+                                 <area alt="selectToggle_xsd_Element_ui_selectToggle.tmp#selectToggle" href="selectToggle_xsd_Element_ui_selectToggle.html#selectToggle" coords="352,3799,464,3823" />
+                                 <area alt="session_xsd_Element_ui_session.tmp#session" href="session_xsd_Element_ui_session.html#session" coords="352,3876,437,3900" />
+                                 <area alt="shuffler_xsd_Element_ui_shuffler.tmp#shuffler" href="shuffler_xsd_Element_ui_shuffler.html#shuffler" coords="352,3910,438,3934" />
+                                 <area alt="skipLinks_xsd_Element_ui_skipLinks.tmp#skipLinks" href="skipLinks_xsd_Element_ui_skipLinks.html#skipLinks" coords="352,4013,446,4037" />
+                                 <area alt="subordinate_xsd_Element_ui_subordinate.tmp#subordinate" href="subordinate_xsd_Element_ui_subordinate.html#subordinate" coords="352,4103,461,4127" />
+                                 <area alt="suggestions_xsd_Element_ui_suggestions.tmp#suggestions" href="suggestions_xsd_Element_ui_suggestions.html#suggestions" coords="352,4193,462,4217" />
+                                 <area alt="tabset_xsd_Element_ui_tabset.tmp#tabset" href="tabset_xsd_Element_ui_tabset.html#tabset" coords="352,4283,429,4307" />
+                                 <area alt="table_xsd_Element_ui_table.tmp#table" href="table_xsd_Element_ui_table.html#table" coords="352,4386,422,4410" />
+                                 <area alt="text_xsd_Element_ui_text.tmp#text" href="text_xsd_Element_ui_text.html#text" coords="352,4489,417,4513" />
+                                 <area alt="textArea_xsd_Element_ui_textArea.tmp#textArea" href="textArea_xsd_Element_ui_textArea.html#textArea" coords="352,4566,442,4590" />
+                                 <area alt="textField_xsd_Element_ui_textField.tmp#textField" href="textField_xsd_Element_ui_textField.html#textField" coords="352,4682,442,4706" />
+                                 <area alt="tracking_xsd_Element_ui_tracking.tmp#tracking" href="tracking_xsd_Element_ui_tracking.html#tracking" coords="352,4798,440,4822" />
+                                 <area alt="validationErrors_xsd_Element_ui_validationErrors.tmp#validationErrors" href="validationErrors_xsd_Element_ui_validationErrors.html#validationErrors" coords="352,4875,482,4899" />
+                                 <area alt="version_xsd_Element_ui_version.tmp#version" href="version_xsd_Element_ui_version.html#version" coords="352,4952,436,4976" />
+                                 <area alt="video_xsd_Element_ui_video.tmp#video" href="video_xsd_Element_ui_video.html#video" coords="352,4986,425,5010" />
+                                 <area alt="contentGroups_xsd_Element_Group_ui_contentGroup.tmp#contentGroup" href="contentGroups_xsd_Element_Group_ui_contentGroup.html#contentGroup" coords="270,3,413,29" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_panelContent" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_panelContent');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_panelContent" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">mixed</td>
+                                    <td><b>true</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_panelContent" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_panelContent');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_panelContent" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Elements </td>
+                                    <td><b><a href="panel_xsd_Element_ui_panel.html#panel_panel_borderLayout_center" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:panel/ui:borderLayout/ui:center')">ui:panel/ui:borderLayout/ui:center</a></b>, <b><a href="panel_xsd_Element_ui_panel.html#panel_panel_borderLayout_east" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:panel/ui:borderLayout/ui:east')">ui:panel/ui:borderLayout/ui:east</a></b>, <b><a href="panel_xsd_Element_ui_panel.html#panel_panel_borderLayout_north" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:panel/ui:borderLayout/ui:north')">ui:panel/ui:borderLayout/ui:north</a></b>, <b><a href="panel_xsd_Element_ui_panel.html#panel_panel_borderLayout_south" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:panel/ui:borderLayout/ui:south')">ui:panel/ui:borderLayout/ui:south</a></b>, <b><a href="panel_xsd_Element_ui_panel.html#panel_panel_borderLayout_west" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:panel/ui:borderLayout/ui:west')">ui:panel/ui:borderLayout/ui:west</a></b>, <b><a href="panel_xsd_Element_ui_panel.html#panel_panel_columnLayout_cell" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:panel/ui:columnLayout/ui:cell')">ui:panel/ui:columnLayout/ui:cell</a></b>, <b><a href="panel_xsd_Element_ui_panel.html#panel_content" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:panel/ui:content')">ui:panel/ui:content</a></b>, <b><a href="panel_xsd_Element_ui_panel.html#panel_panel_flowLayout_cell" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:panel/ui:flowLayout/ui:cell')">ui:panel/ui:flowLayout/ui:cell</a></b>, <b><a href="panel_xsd_Element_ui_panel.html#panel_panel_gridLayout_cell" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:panel/ui:gridLayout/ui:cell')">ui:panel/ui:gridLayout/ui:cell</a></b>, <b><a href="panel_xsd_Element_ui_panel.html#panel_panel_listLayout_cell" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:panel/ui:listLayout/ui:cell')">ui:panel/ui:listLayout/ui:cell</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Model</b><div class="floatRight"><input id="button_model_panelContent" type="image" src="img/btM.gif" value="-" onclick="switchState('model_panelContent');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="model_panelContent" style="display:block">(<b><a href="abbr_xsd_Element_ui_abbr.html#abbr" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:abbr')">ui:abbr</a></b> | <b><a href="additionalParameters_xsd_Element_ui_additionalParameters.html#additionalParameters" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:additionalParameters')">ui:additionalParameters</a></b> | <b><a href="application_xsd_Element_ui_application.html#application" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:application')">ui:application</a></b> | <b><a href="ajaxTrigger_xsd_Element_ui_ajaxTrigger.html#ajaxTrigger" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:ajaxTrigger')">ui:ajaxTrigger</a></b> | <b><a href="audio_xsd_Element_ui_audio.html#audio" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:audio')">ui:audio</a></b> | <b><a href="button_xsd_Element_ui_button.html#button" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:button')">ui:button</a></b> | <b><a href="checkBox_xsd_Element_ui_checkBox.html#checkBox" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:checkBox')">ui:checkBox</a></b> | <b><a href="checkBoxSelect_xsd_Element_ui_checkBoxSelect.html#checkBoxSelect" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:checkBoxSelect')">ui:checkBoxSelect</a></b> | <b><a href="collapsible_xsd_Element_ui_collapsible.html#collapsible" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:collapsible')">ui:collapsible</a></b> | <b><a href="comment_xsd_Element_ui_comment.html#comment" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:comment')">ui:comment</a></b> | <b><a href="componentGroup_xsd_Element_ui_componentGroup.html#componentGroup" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:componentGroup')">ui:componentGroup</a></b> | <b><a href="collapsibleToggle_xsd_Element_ui_expandCollapseAll.html#expandCollapseAll" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:expandCollapseAll')">ui:expandCollapseAll</a></b> | <b><a href="dateField_xsd_Element_ui_dateField.html#dateField" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:dateField')">ui:dateField</a></b> | <b><a href="decoratedLabel_xsd_Element_ui_decoratedLabel.html#decoratedLabel" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:decoratedLabel')">ui:decoratedLabel</a></b> | <b><a href="definitionList_xsd_Element_ui_definitionList.html#definitionList" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:definitionList')">ui:definitionList</a></b> | <b><a href="dialog_xsd_Element_ui_dialog.html#dialog" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:dialog')">ui:dialog</a></b> | <b><a href="dropdown_xsd_Element_ui_dropdown.html#dropdown" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:dropdown')">ui:dropdown</a></b> | <b><a href="emailField_xsd_Element_ui_emailField.html#emailField" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:emailField')">ui:emailField</a></b> | <b><a href="fieldIndicator_xsd_Element_ui_fieldIndicator.html#fieldIndicator" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:fieldIndicator')">ui:fieldIndicator</a></b> | <b><a href="fieldLayout_xsd_Element_ui_fieldLayout.html#fieldLayout" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:fieldLayout')">ui:fieldLayout</a></b> | <b><a href="fieldSet_xsd_Element_ui_fieldSet.html#fieldSet" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:fieldSet')">ui:fieldSet</a></b> | <b><a href="figure_xsd_Element_ui_figure.html#figure" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:figure')">ui:figure</a></b> | <b><a href="fileUpload_xsd_Element_ui_fileUpload.html#fileUpload" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:fileUpload')">ui:fileUpload</a></b> | <b><a href="filterControl_xsd_Element_ui_filterControl.html#filterControl" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:filterControl')">ui:filterControl</a></b> | <b><a href="heading_xsd_Element_ui_heading.html#heading" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:heading')">ui:heading</a></b> | <b><a href="hr_xsd_Element_ui_hr.html#hr" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:hr')">ui:hr</a></b> | <b><a href="image_xsd_Element_ui_image.html#image" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:image')">ui:image</a></b> | <b><a href="label_xsd_Element_ui_label.html#label" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:label')">ui:label</a></b> | <b><a href="link_xsd_Element_ui_link.html#link" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:link')">ui:link</a></b> | <b><a href="listBox_xsd_Element_ui_listBox.html#listBox" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:listBox')">ui:listBox</a></b> | <b><a href="menu_xsd_Element_ui_menu.html#menu" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:menu')">ui:menu</a></b> | <b><a href="messageBox_xsd_Element_ui_messageBox.html#messageBox" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:messageBox')">ui:messageBox</a></b> | <b><a href="multiDropdown_xsd_Element_ui_multiDropdown.html#multiDropdown" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:multiDropdown')">ui:multiDropdown</a></b> | <b><a href="multiSelectPair_xsd_Element_ui_multiSelectPair.html#multiSelectPair" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:multiSelectPair')">ui:multiSelectPair</a></b> | <b><a href="multiTextField_xsd_Element_ui_multiTextField.html#multiTextField" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:multiTextField')">ui:multiTextField</a></b> | <b><a href="numberField_xsd_Element_ui_numberField.html#numberField" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:numberField')">ui:numberField</a></b> | <b><a href="panel_xsd_Element_ui_panel.html#panel" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:panel')">ui:panel</a></b> | <b><a href="passwordField_xsd_Element_ui_passwordField.html#passwordField" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:passwordField')">ui:passwordField</a></b> | <b><a href="telephoneNumberField_xsd_Element_ui_phoneNumberField.html#phoneNumberField" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:phoneNumberField')">ui:phoneNumberField</a></b> | <b><a href="popup_xsd_Element_ui_popup.html#popup" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:popup')">ui:popup</a></b> | <b><a href="printButton_xsd_Element_ui_printButton.html#printButton" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:printButton')">ui:printButton</a></b> | <b><a href="progressBar_xsd_Element_ui_progressBar.html#progressBar" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:progressBar')">ui:progressBar</a></b> | <b><a href="radioButton_xsd_Element_ui_radioButton.html#radioButton" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:radioButton')">ui:radioButton</a></b> | <b><a href="radioButtonSelect_xsd_Element_ui_radioButtonSelect.html#radioButtonSelect" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:radioButtonSelect')">ui:radioButtonSelect</a></b> | <b><a href="redirect_xsd_Element_ui_redirect.html#redirect" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:redirect')">ui:redirect</a></b> | <b><a href="row_xsd_Element_ui_row.html#row" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:row')">ui:row</a></b> | <b><a href="section_xsd_Element_ui_section.html#section" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:section')">ui:section</a></b> | <b><a href="selectToggle_xsd_Element_ui_selectToggle.html#selectToggle" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:selectToggle')">ui:selectToggle</a></b> | <b><a href="session_xsd_Element_ui_session.html#session" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:session')">ui:session</a></b> | <b><a href="shuffler_xsd_Element_ui_shuffler.html#shuffler" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:shuffler')">ui:shuffler</a></b> | <b><a href="skipLinks_xsd_Element_ui_skipLinks.html#skipLinks" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:skipLinks')">ui:skipLinks</a></b> | <b><a href="subordinate_xsd_Element_ui_subordinate.html#subordinate" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:subordinate')">ui:subordinate</a></b> | <b><a href="suggestions_xsd_Element_ui_suggestions.html#suggestions" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:suggestions')">ui:suggestions</a></b> | <b><a href="tabset_xsd_Element_ui_tabset.html#tabset" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:tabset')">ui:tabset</a></b> | <b><a href="table_xsd_Element_ui_table.html#table" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:table')">ui:table</a></b> | <b><a href="text_xsd_Element_ui_text.html#text" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:text')">ui:text</a></b> | <b><a href="textArea_xsd_Element_ui_textArea.html#textArea" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:textArea')">ui:textArea</a></b> | <b><a href="textField_xsd_Element_ui_textField.html#textField" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:textField')">ui:textField</a></b> | <b><a href="tracking_xsd_Element_ui_tracking.html#tracking" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:tracking')">ui:tracking</a></b> | <b><a href="validationErrors_xsd_Element_ui_validationErrors.html#validationErrors" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:validationErrors')">ui:validationErrors</a></b> | <b><a href="version_xsd_Element_ui_version.html#version" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:version')">ui:version</a></b> | <b><a href="video_xsd_Element_ui_video.html#video" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:video')">ui:video</a></b> | <b>ANY element from ANY namespace OTHER than 'https://github.com/bordertech/wcomponents/namespace/ui/v1.0'</b>)
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Children</b></td>
+                        <td><b><a href="abbr_xsd_Element_ui_abbr.html#abbr" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:abbr')">ui:abbr</a></b>, <b><a href="additionalParameters_xsd_Element_ui_additionalParameters.html#additionalParameters" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:additionalParameters')">ui:additionalParameters</a></b>, <b><a href="ajaxTrigger_xsd_Element_ui_ajaxTrigger.html#ajaxTrigger" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:ajaxTrigger')">ui:ajaxTrigger</a></b>, <b><a href="application_xsd_Element_ui_application.html#application" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:application')">ui:application</a></b>, <b><a href="audio_xsd_Element_ui_audio.html#audio" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:audio')">ui:audio</a></b>, <b><a href="button_xsd_Element_ui_button.html#button" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:button')">ui:button</a></b>, <b><a href="checkBox_xsd_Element_ui_checkBox.html#checkBox" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:checkBox')">ui:checkBox</a></b>, <b><a href="checkBoxSelect_xsd_Element_ui_checkBoxSelect.html#checkBoxSelect" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:checkBoxSelect')">ui:checkBoxSelect</a></b>, <b><a href="collapsible_xsd_Element_ui_collapsible.html#collapsible" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:collapsible')">ui:collapsible</a></b>, <b><a href="comment_xsd_Element_ui_comment.html#comment" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:comment')">ui:comment</a></b>, <b><a href="componentGroup_xsd_Element_ui_componentGroup.html#componentGroup" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:componentGroup')">ui:componentGroup</a></b>, <b><a href="dateField_xsd_Element_ui_dateField.html#dateField" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:dateField')">ui:dateField</a></b>, <b><a href="decoratedLabel_xsd_Element_ui_decoratedLabel.html#decoratedLabel" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:decoratedLabel')">ui:decoratedLabel</a></b>, <b><a href="definitionList_xsd_Element_ui_definitionList.html#definitionList" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:definitionList')">ui:definitionList</a></b>, <b><a href="dialog_xsd_Element_ui_dialog.html#dialog" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:dialog')">ui:dialog</a></b>, <b><a href="dropdown_xsd_Element_ui_dropdown.html#dropdown" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:dropdown')">ui:dropdown</a></b>, <b><a href="emailField_xsd_Element_ui_emailField.html#emailField" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:emailField')">ui:emailField</a></b>, <b><a href="collapsibleToggle_xsd_Element_ui_expandCollapseAll.html#expandCollapseAll" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:expandCollapseAll')">ui:expandCollapseAll</a></b>, <b><a href="fieldIndicator_xsd_Element_ui_fieldIndicator.html#fieldIndicator" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:fieldIndicator')">ui:fieldIndicator</a></b>, <b><a href="fieldLayout_xsd_Element_ui_fieldLayout.html#fieldLayout" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:fieldLayout')">ui:fieldLayout</a></b>, <b><a href="fieldSet_xsd_Element_ui_fieldSet.html#fieldSet" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:fieldSet')">ui:fieldSet</a></b>, <b><a href="figure_xsd_Element_ui_figure.html#figure" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:figure')">ui:figure</a></b>, <b><a href="fileUpload_xsd_Element_ui_fileUpload.html#fileUpload" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:fileUpload')">ui:fileUpload</a></b>, <b><a href="filterControl_xsd_Element_ui_filterControl.html#filterControl" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:filterControl')">ui:filterControl</a></b>, <b><a href="heading_xsd_Element_ui_heading.html#heading" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:heading')">ui:heading</a></b>, <b><a href="hr_xsd_Element_ui_hr.html#hr" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:hr')">ui:hr</a></b>, <b><a href="image_xsd_Element_ui_image.html#image" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:image')">ui:image</a></b>, <b><a href="label_xsd_Element_ui_label.html#label" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:label')">ui:label</a></b>, <b><a href="link_xsd_Element_ui_link.html#link" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:link')">ui:link</a></b>, <b><a href="listBox_xsd_Element_ui_listBox.html#listBox" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:listBox')">ui:listBox</a></b>, <b><a href="menu_xsd_Element_ui_menu.html#menu" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:menu')">ui:menu</a></b>, <b><a href="messageBox_xsd_Element_ui_messageBox.html#messageBox" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:messageBox')">ui:messageBox</a></b>, <b><a href="multiDropdown_xsd_Element_ui_multiDropdown.html#multiDropdown" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:multiDropdown')">ui:multiDropdown</a></b>, <b><a href="multiSelectPair_xsd_Element_ui_multiSelectPair.html#multiSelectPair" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:multiSelectPair')">ui:multiSelectPair</a></b>, <b><a href="multiTextField_xsd_Element_ui_multiTextField.html#multiTextField" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:multiTextField')">ui:multiTextField</a></b>, <b><a href="numberField_xsd_Element_ui_numberField.html#numberField" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:numberField')">ui:numberField</a></b>, <b><a href="panel_xsd_Element_ui_panel.html#panel" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:panel')">ui:panel</a></b>, <b><a href="passwordField_xsd_Element_ui_passwordField.html#passwordField" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:passwordField')">ui:passwordField</a></b>, <b><a href="telephoneNumberField_xsd_Element_ui_phoneNumberField.html#phoneNumberField" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:phoneNumberField')">ui:phoneNumberField</a></b>, <b><a href="popup_xsd_Element_ui_popup.html#popup" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:popup')">ui:popup</a></b>, <b><a href="printButton_xsd_Element_ui_printButton.html#printButton" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:printButton')">ui:printButton</a></b>, <b><a href="progressBar_xsd_Element_ui_progressBar.html#progressBar" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:progressBar')">ui:progressBar</a></b>, <b><a href="radioButton_xsd_Element_ui_radioButton.html#radioButton" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:radioButton')">ui:radioButton</a></b>, <b><a href="radioButtonSelect_xsd_Element_ui_radioButtonSelect.html#radioButtonSelect" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:radioButtonSelect')">ui:radioButtonSelect</a></b>, <b><a href="redirect_xsd_Element_ui_redirect.html#redirect" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:redirect')">ui:redirect</a></b>, <b><a href="row_xsd_Element_ui_row.html#row" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:row')">ui:row</a></b>, <b><a href="section_xsd_Element_ui_section.html#section" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:section')">ui:section</a></b>, <b><a href="selectToggle_xsd_Element_ui_selectToggle.html#selectToggle" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:selectToggle')">ui:selectToggle</a></b>, <b><a href="session_xsd_Element_ui_session.html#session" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:session')">ui:session</a></b>, <b><a href="shuffler_xsd_Element_ui_shuffler.html#shuffler" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:shuffler')">ui:shuffler</a></b>, <b><a href="skipLinks_xsd_Element_ui_skipLinks.html#skipLinks" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:skipLinks')">ui:skipLinks</a></b>, <b><a href="subordinate_xsd_Element_ui_subordinate.html#subordinate" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:subordinate')">ui:subordinate</a></b>, <b><a href="suggestions_xsd_Element_ui_suggestions.html#suggestions" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:suggestions')">ui:suggestions</a></b>, <b><a href="table_xsd_Element_ui_table.html#table" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:table')">ui:table</a></b>, <b><a href="tabset_xsd_Element_ui_tabset.html#tabset" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:tabset')">ui:tabset</a></b>, <b><a href="text_xsd_Element_ui_text.html#text" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:text')">ui:text</a></b>, <b><a href="textArea_xsd_Element_ui_textArea.html#textArea" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:textArea')">ui:textArea</a></b>, <b><a href="textField_xsd_Element_ui_textField.html#textField" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:textField')">ui:textField</a></b>, <b><a href="tracking_xsd_Element_ui_tracking.html#tracking" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:tracking')">ui:tracking</a></b>, <b><a href="validationErrors_xsd_Element_ui_validationErrors.html#validationErrors" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:validationErrors')">ui:validationErrors</a></b>, <b><a href="version_xsd_Element_ui_version.html#version" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:version')">ui:version</a></b>, <b><a href="video_xsd_Element_ui_video.html#video" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:video')">ui:video</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_panelContent" type="image" src="img/btM.gif" value="-" onclick="switchState('source_panelContent');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_panelContent" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:complexType</span><span class="tAN"> name=</span><span class="tAV">"panelContent"</span><span class="tAN"> mixed=</span><span class="tAV">"true"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Wrapper container for a single component in the layout.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:sequence</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:group</span><span class="tAN"> ref=</span><span class="tAV">"ui:contentGroup"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tAN"> maxOccurs=</span><span class="tAV">"unbounded"</span><span class="tEl">/&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:sequence&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:complexType&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table>
+      <div class="footer">
+         <hr />
+         <div align="center">XML Schema documentation generated by <a href="http://www.oxygenxml.com" target="_parent"><span class="oXygenLogo"><span class="redX">&lt;</span>o<span class="redX">X</span>ygen<span class="redX">/&gt;</span></span></a><sup>®</sup> XML Editor.
+         </div>
+      </div><script type="text/javascript">
+         <!--
+                     // The namespace is the selected option in the TOC combo.
+                    
+                     // Floats the toolbar.
+                     var globalControls = getElementObject("global_controls"); 
+                     
+                     if(globalControls != null){
+	                     var browser=navigator.appName;
+						 var version = parseFloat(navigator.appVersion.split('MSIE')[1]);
+						 
+						 var IE6 = false;
+						 if ((browser=="Microsoft Internet Explorer") && (version < 7)){
+						 	IE6 = true;
+						 }
+	
+	                     //alert (IE6 + " |V| " + version);
+	                     
+	                     if(IE6){
+	                     	// On IE 6 the 'fixed' property is not supported. We must use javascript. 
+	                         globalControls.style.position='absolute';                         
+	                         // The global controls will do not exist in the TOC frame, when chunking.
+	                         findAndFloat("global_controls", 225, 30);    
+	                     } else {
+	                      	  globalControls.style.position='fixed';                     	
+	                     }
+	                     
+	                     globalControls.style.right='0';                       
+                     }
+                //--></script></body>
+</html>
