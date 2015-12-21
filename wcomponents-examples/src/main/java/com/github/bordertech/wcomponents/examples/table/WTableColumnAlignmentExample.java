@@ -9,13 +9,11 @@ import com.github.bordertech.wcomponents.WTableColumn;
 import com.github.bordertech.wcomponents.WText;
 
 /**
- * This example shows the simplest use of a {@link WTable}, with a two-dimensional array of data.
- * <p>
- * Shows how the {@link BasicTableModel} can be used with the {@link AdapterBasicTableModel}.
- * </p>
+ * This example shows the simplest use of a {@link WTable}, with a two-dimensional array of data and a simple of of
+ * column alignment.
  *
- * @author Jonathan Austin
- * @since 1.0.0
+ * @author Mark Reeves
+ * @since 2015-12-21
  */
 public class WTableColumnAlignmentExample extends WPanel {
 
