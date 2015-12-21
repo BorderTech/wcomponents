@@ -1,0 +1,1141 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Schema documentation for component ui:messageBox</title>
+      <link rel="stylesheet" href="docHtml.css" type="text/css" /><script type="text/javascript">
+         <!--
+        var propertiesBoxes= new Array('properties_messageBox', 
+				'properties_messageBox_message', 
+				'properties_messageBox_id', 
+				'properties_messageBox_class', 
+				'properties_messageBox_type');
+var facetsBoxes= new Array('facets_messageBox_type');
+var usedByBoxes= new Array('usedBy_messageBox', 
+				'usedBy_messageBox_id', 
+				'usedBy_messageBox_class', 
+				'usedBy_messageBox_type');
+var sourceBoxes= new Array('source_messageBox', 
+				'source_messageBox_message', 
+				'source_messageBox_id', 
+				'source_messageBox_class', 
+				'source_messageBox_type');
+var instanceBoxes= new Array('instance_messageBox', 
+				'instance_messageBox_message');
+var diagramBoxes= new Array('diagram_messageBox', 
+				'diagram_messageBox_message');
+var annotationBoxes= new Array('annotations_messageBox', 
+				'annotations_messageBox_message', 
+				'annotations_messageBox_id', 
+				'annotations_messageBox_class', 
+				'annotations_messageBox_type');
+var attributesBoxes= new Array('attributes_messageBox');
+var modelBoxes= new Array('model_messageBox', 
+				'model_messageBox_message');
+
+      
+        var button_prefix = 'button_';
+        
+        /**
+        * Returns an element in the current HTML document.
+        *
+        * @param elementID Identifier of HTML element
+        * @return               HTML element object
+        */
+        function getElementObject(elementID) {
+            var elemObj = null;
+            if (document.getElementById) {
+                elemObj = document.getElementById(elementID);
+            }
+            return elemObj;
+        }
+        
+        /**
+        * Switches the state of a collapseable box, e.g.
+        * if it's opened, it'll be closed, and vice versa.
+        *
+        * @param boxID Identifier of box
+        */
+        function switchState(boxID) {
+            var boxObj = getElementObject(boxID);
+            var buttonObj = getElementObject(button_prefix + boxID);
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else if (boxObj.style.display == "none") {
+                // Box is closed, so open it
+                openBox(boxObj, buttonObj);
+            } else if (boxObj.style.display == "block") {
+                // Box is opened, so close it
+                closeBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+        * Opens a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function openBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "block";
+                
+                // Change text of button
+                if (boxObj.style.display == "block") {
+                    buttonObj.src = "img/btM.gif";
+                }
+            }
+        }
+        
+        /**
+        * Closes a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function closeBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "none";
+                
+                // Change text of button
+                if (boxObj.style.display == "none") {
+                    buttonObj.src = "img/btP.gif";
+                }
+            }
+        }
+    
+       function switchStateForAll(buttonObj, boxList) {
+            if (buttonObj == null) {
+                // button not found
+            } else if (buttonObj.value == "+") {
+                // Expand all
+                expandAll(boxList);
+                buttonObj.value = "-";
+            } else if (buttonObj.value == "-") {
+                // Collapse all
+                collapseAll(boxList);
+                buttonObj.value = "+";
+            }
+        }
+        
+        /**
+        * Closes all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function collapseAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                closeBox(boxObj, buttonObj);
+            }
+        }
+            
+        /**
+        * Open all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function expandAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                openBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+         * Update the message presented in the title of the html page.
+         * - If the documentation was splited by namespace we present something like: "Documentation for namespace 'ns'"
+         * - If the documentation was splited by location we present somehing like: "Documentation for 'Schema.xsd'"
+         * - If no split we always present: "Documentation for 'MainSchema.xsd'"
+         */
+        function updatePageTitle(message) {
+            top.document.title = message;
+        }
+        
+          
+                    
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function findAndFloat(id, x_displacement, y_displacement){
+
+            var element = getElementObject(id);            
+            
+            window[id + "_obj"] = element;
+            
+            if(document.layers) {
+               element.style = element;
+            }
+            
+            element.current_y = y_displacement;      
+            element.first_time = true;
+         
+            element.floatElement = function(){
+               // It may be closed by an user action.
+                
+               // Target X and Y coordinates.
+               var x, y;
+               
+               var myWidth = 0, myHeight = 0;
+               if( typeof( window.innerWidth ) == 'number' ) {
+                  //Non-IE
+                  myWidth = window.innerWidth;
+                  myHeight = window.innerHeight;
+               } else if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {
+                  //IE 6+ in 'standards compliant mode'
+                  myWidth = document.documentElement.clientWidth;
+                  myHeight = document.documentElement.clientHeight;
+               } else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
+                  //IE 4 compatible
+                  myWidth = document.body.clientWidth;
+                  myHeight = document.body.clientHeight;
+               }
+               
+               
+               x = myWidth - x_displacement;
+               
+               var ns = (navigator.appName.indexOf("Netscape") != -1);               
+               y = ns ? pageYOffset : document.documentElement && document.documentElement.scrollTop ? 
+                  document.documentElement.scrollTop : document.body.scrollTop;               
+               y = y + y_displacement;               
+               
+               // The current y is the current coordinate of the floating element.
+               // This should be at the limit the y target coordinate.
+               this.current_y += (y - this.current_y)/1.25;
+               
+               // Add the pixels constant after the values
+               // and move the element.
+               var px = document.layers ? "" : "px";
+               this.style.left =  x + px;
+               this.style.top =  this.current_y + px;
+                              
+               setTimeout(this.id + "_obj.floatElement()", 100);
+            }
+            
+            element.floatElement();
+            return element;
+          }
+
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function selectTOCGroupBy(id, isChunked, indexFileLocation, indexFileNamespace, indexFileComponent){
+
+            if (!isChunked) {
+             var selectIds = new Array('toc_group_by_namespace', 'toc_group_by_location', 'toc_group_by_component_type');
+             // Make all the tabs invisible.
+               for (i = 0; i < 3; i++){
+                  var tab = getElementObject(selectIds[i]);
+                  tab.style.display = 'none';
+               }
+               var selTab = getElementObject(id);
+               selTab.style.display = 'block';
+            } else {
+             if (id == 'toc_group_by_namespace') {
+               parent.indexFrame.location = indexFileNamespace;
+             } else  if (id == 'toc_group_by_location') {
+               parent.indexFrame.location = indexFileLocation;
+             } else  if (id == 'toc_group_by_component_type') {
+              parent.indexFrame.location = indexFileComponent;
+             }
+            }
+         }
+          
+
+    
+                    //--></script></head>
+   <body>
+      <div id="global_controls" class="globalControls" style="position:absolute;right:0;">
+         <table class="rt">
+            <tr>
+               <td class="rt_cornerTopLeft"></td>
+               <td class="rt_lineTop"></td>
+               <td class="rt_cornerTopRight"></td>
+            </tr>
+            <tr>
+               <td class="rt_lineLeft"></td>
+               <td class="rt_content">
+                  <h3>Showing:</h3>
+                  <table>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, annotationBoxes);" class="control" /></span><span class="globalControlName">Annotations</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, attributesBoxes);" class="control" /></span><span class="globalControlName">Attributes </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, diagramBoxes);" class="control" /></span><span class="globalControlName">Diagrams</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, facetsBoxes);" class="control" /></span><span class="globalControlName">Facets </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, instanceBoxes);" class="control" /></span><span class="globalControlName">Instances</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, modelBoxes);" class="control" /></span><span class="globalControlName">Model </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, propertiesBoxes);" class="control" /></span><span class="globalControlName">Properties </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, sourceBoxes);" class="control" /></span><span class="globalControlName">Source</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, usedByBoxes);" class="control" /></span><span class="globalControlName">Used by </span></td>
+                     </tr>
+                  </table>
+                  <div align="right"><span><input type="button" onclick="getElementObject('global_controls').style.display = 'none';" value="Close" /></span></div>
+               </td>
+               <td class="rt_lineRight"></td>
+            </tr>
+            <tr>
+               <td class="rt_cornerBottomLeft"></td>
+               <td class="rt_lineBottom"></td>
+               <td class="rt_cornerBottomRight"></td>
+            </tr>
+         </table>
+      </div><a id="messageBox"></a><div class="componentTitle">Element <span class="qname">ui:messageBox</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>https://github.com/bordertech/wcomponents/namespace/ui/v1.0</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_messageBox" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_messageBox');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_messageBox" style="display:block">
+                              <div class="annotation">WMessageBox provides a container to display messages of a given type to the user.</div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_messageBox" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_messageBox');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_messageBox" style="display:block"><img alt="Diagram" border="0" src="img/messageBox_xsd_Element_ui_messageBox.png" usemap="#messageBox_xsd_Element_ui_messageBox" /><map name="messageBox_xsd_Element_ui_messageBox" id="messageBox_xsd_Element_ui_messageBox">
+                                 <area alt="messageBox_xsd_Element_ui_messageBox.tmp#messageBox_id" href="messageBox_xsd_Element_ui_messageBox.html#messageBox_id" coords="160,40,228,64" />
+                                 <area alt="messageBox_xsd_Element_ui_messageBox.tmp#messageBox_class" href="messageBox_xsd_Element_ui_messageBox.html#messageBox_class" coords="160,104,235,128" />
+                                 <area alt="messageBox_xsd_Element_ui_messageBox.tmp#messageBox_type" href="messageBox_xsd_Element_ui_messageBox.html#messageBox_type" coords="160,181,231,205" />
+                                 <area alt="messageBox_xsd_Element_ui_messageBox.tmp#messageBox_message" href="messageBox_xsd_Element_ui_messageBox.html#messageBox_message" coords="238,256,316,280" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_messageBox" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_messageBox');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_messageBox" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>complex</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_messageBox" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_messageBox');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_messageBox" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element Group </td>
+                                    <td><b><a href="contentGroups_xsd_Element_Group_ui_contentGroup.html#contentGroup" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:contentGroup')">ui:contentGroup</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Model</b><div class="floatRight"><input id="button_model_messageBox" type="image" src="img/btM.gif" value="-" onclick="switchState('model_messageBox');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="model_messageBox" style="display:block"><b><a href="messageBox_xsd_Element_ui_messageBox.html#messageBox_message" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:message*')">ui:message*</a></b></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Children</b></td>
+                        <td><b><a href="messageBox_xsd_Element_ui_messageBox.html#messageBox_message" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:message')">ui:message</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Instance</b></div>
+                           <div class="floatRight"><input id="button_instance_messageBox" type="image" src="img/btM.gif" value="-" onclick="switchState('instance_messageBox');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="instance_messageBox" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;ui:messageBox</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xmlns:ui=</span><span class="tAV">"https://github.com/bordertech/wcomponents/namespace/ui/v1.0"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:message</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,unbounded}</span><span class="tEl">&lt;/ui:message&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/ui:messageBox&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Attributes</b></div>
+                           <div class="floatRight"><input id="button_attributes_messageBox" type="image" src="img/btM.gif" value="-" onclick="switchState('attributes_messageBox');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="attributes_messageBox" style="display:block">
+                              <table class="attributesTable">
+                                 <thead>
+                                    <tr>
+                                       <th>QName</th>
+                                       <th width="10%">Type</th>
+                                       <th width="5%">Use</th>
+                                       <th>Annotation</th>
+                                    </tr>
+                                 </thead>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="messageBox_xsd_Element_ui_messageBox.html#messageBox_class" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component class')">class</a></b></td>
+                                    <td><b>xs:string</b></td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">Provides the ability to pass an HTML class attribute onto the root output element.</div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="messageBox_xsd_Element_ui_messageBox.html#messageBox_id" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component id')">id</a></b></td>
+                                    <td><b>xs:ID</b></td>
+                                    <td>required</td>
+                                    <td>
+                                       <div class="annotation">The unique identifier for the message box.</div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="messageBox_xsd_Element_ui_messageBox.html#messageBox_type" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component type')">type</a></b></td>
+                                    <td>restriction of <b>xs:NMTOKEN</b></td>
+                                    <td>required</td>
+                                    <td>
+                                       <div class="annotation">The type of message(s) being displayed.</div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_messageBox" type="image" src="img/btM.gif" value="-" onclick="switchState('source_messageBox');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_messageBox" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"messageBox"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">WMessageBox provides a container to display messages of a given type to the user.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:complexType</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:sequence</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"message"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tAN"> maxOccurs=</span><span class="tAV">"unbounded"</span><span class="tEl">&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The message represents a single message to the user. It is usually plain text but may contain other components and mark-up.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:complexType</span><span class="tAN"> mixed=</span><span class="tAV">"true"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:sequence</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:group</span><span class="tAN"> ref=</span><span class="tAV">"ui:contentGroup"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tAN"> maxOccurs=</span><span class="tAV">"unbounded"</span><span class="tEl">/&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:sequence&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:complexType&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;/xs:element&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/xs:sequence&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"id"</span><span class="tAN"> type=</span><span class="tAV">"xs:ID"</span><span class="tAN"> use=</span><span class="tAV">"required"</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The unique identifier for the message box.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"class"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Provides the ability to pass an HTML class attribute onto the root output element.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"type"</span><span class="tAN"> use=</span><span class="tAV">"required"</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The type of message(s) being displayed.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;xs:simpleType</span><span class="tEl">&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:restriction</span><span class="tAN"> base=</span><span class="tAV">"xs:NMTOKEN"</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"success"</span><span class="tEl">/&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"info"</span><span class="tEl">/&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"warn"</span><span class="tEl">/&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"error"</span><span class="tEl">/&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:restriction&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;/xs:simpleType&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:complexType&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:element&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="messageBox_message"></a><div class="componentTitle">Element <span class="qname"><b><a href="messageBox_xsd_Element_ui_messageBox.html#messageBox" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:messageBox')">ui:messageBox</a></b> / ui:message</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>https://github.com/bordertech/wcomponents/namespace/ui/v1.0</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_messageBox_message" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_messageBox_message');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_messageBox_message" style="display:block">
+                              <div class="annotation">The message represents a single message to the user. It is usually plain text but
+                                 may contain other components and mark-up.
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_messageBox_message" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_messageBox_message');" class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_messageBox_message" style="display:block"><img alt="Diagram" border="0" src="img/messageBox_xsd_Element_ui_message.png" usemap="#messageBox_xsd_Element_ui_message" /><map name="messageBox_xsd_Element_ui_message" id="messageBox_xsd_Element_ui_message">
+                                 <area alt="abbr_xsd_Element_ui_abbr.tmp#abbr" href="abbr_xsd_Element_ui_abbr.html#abbr" coords="303,46,372,70" />
+                                 <area alt="additionalParameters_xsd_Element_ui_additionalParameters.tmp#additionalParameters" href="additionalParameters_xsd_Element_ui_additionalParameters.html#additionalParameters" coords="303,123,460,147" />
+                                 <area alt="application_xsd_Element_ui_application.tmp#application" href="application_xsd_Element_ui_application.html#application" coords="303,157,406,181" />
+                                 <area alt="ajaxTrigger_xsd_Element_ui_ajaxTrigger.tmp#ajaxTrigger" href="ajaxTrigger_xsd_Element_ui_ajaxTrigger.html#ajaxTrigger" coords="303,247,409,271" />
+                                 <area alt="audio_xsd_Element_ui_audio.tmp#audio" href="audio_xsd_Element_ui_audio.html#audio" coords="303,324,377,348" />
+                                 <area alt="button_xsd_Element_ui_button.tmp#button" href="button_xsd_Element_ui_button.html#button" coords="303,388,383,412" />
+                                 <area alt="checkBox_xsd_Element_ui_checkBox.tmp#checkBox" href="checkBox_xsd_Element_ui_checkBox.html#checkBox" coords="303,422,398,446" />
+                                 <area alt="checkBoxSelect_xsd_Element_ui_checkBoxSelect.tmp#checkBoxSelect" href="checkBoxSelect_xsd_Element_ui_checkBoxSelect.html#checkBoxSelect" coords="303,525,429,549" />
+                                 <area alt="collapsible_xsd_Element_ui_collapsible.tmp#collapsible" href="collapsible_xsd_Element_ui_collapsible.html#collapsible" coords="303,602,404,626" />
+                                 <area alt="comment_xsd_Element_ui_comment.tmp#comment" href="comment_xsd_Element_ui_comment.html#comment" coords="303,692,397,716" />
+                                 <area alt="componentGroup_xsd_Element_ui_componentGroup.tmp#componentGroup" href="componentGroup_xsd_Element_ui_componentGroup.html#componentGroup" coords="303,726,442,750" />
+                                 <area alt="collapsibleToggle_xsd_Element_ui_expandCollapseAll.tmp#expandCollapseAll" href="collapsibleToggle_xsd_Element_ui_expandCollapseAll.html#expandCollapseAll" coords="303,760,447,784" />
+                                 <area alt="dateField_xsd_Element_ui_dateField.tmp#dateField" href="dateField_xsd_Element_ui_dateField.html#dateField" coords="303,837,395,861" />
+                                 <area alt="decoratedLabel_xsd_Element_ui_decoratedLabel.tmp#decoratedLabel" href="decoratedLabel_xsd_Element_ui_decoratedLabel.html#decoratedLabel" coords="303,940,429,964" />
+                                 <area alt="definitionList_xsd_Element_ui_definitionList.tmp#definitionList" href="definitionList_xsd_Element_ui_definitionList.html#definitionList" coords="303,1030,417,1054" />
+                                 <area alt="dialog_xsd_Element_ui_dialog.tmp#dialog" href="dialog_xsd_Element_ui_dialog.html#dialog" coords="303,1107,380,1131" />
+                                 <area alt="dropdown_xsd_Element_ui_dropdown.tmp#dropdown" href="dropdown_xsd_Element_ui_dropdown.html#dropdown" coords="303,1197,402,1221" />
+                                 <area alt="emailField_xsd_Element_ui_emailField.tmp#emailField" href="emailField_xsd_Element_ui_emailField.html#emailField" coords="303,1300,400,1324" />
+                                 <area alt="fieldIndicator_xsd_Element_ui_fieldIndicator.tmp#fieldIndicator" href="fieldIndicator_xsd_Element_ui_fieldIndicator.html#fieldIndicator" coords="303,1403,418,1427" />
+                                 <area alt="fieldLayout_xsd_Element_ui_fieldLayout.tmp#fieldLayout" href="fieldLayout_xsd_Element_ui_fieldLayout.html#fieldLayout" coords="303,1480,406,1504" />
+                                 <area alt="fieldSet_xsd_Element_ui_fieldSet.tmp#fieldSet" href="fieldSet_xsd_Element_ui_fieldSet.html#fieldSet" coords="303,1557,386,1581" />
+                                 <area alt="figure_xsd_Element_ui_figure.tmp#figure" href="figure_xsd_Element_ui_figure.html#figure" coords="303,1634,379,1658" />
+                                 <area alt="fileUpload_xsd_Element_ui_fileUpload.tmp#fileUpload" href="fileUpload_xsd_Element_ui_fileUpload.html#fileUpload" coords="303,1724,401,1748" />
+                                 <area alt="filterControl_xsd_Element_ui_filterControl.tmp#filterControl" href="filterControl_xsd_Element_ui_filterControl.html#filterControl" coords="303,1814,413,1838" />
+                                 <area alt="heading_xsd_Element_ui_heading.tmp#heading" href="heading_xsd_Element_ui_heading.html#heading" coords="303,1878,390,1902" />
+                                 <area alt="hr_xsd_Element_ui_hr.tmp#hr" href="hr_xsd_Element_ui_hr.html#hr" coords="303,1942,359,1966" />
+                                 <area alt="image_xsd_Element_ui_image.tmp#image" href="image_xsd_Element_ui_image.html#image" coords="303,2032,379,2056" />
+                                 <area alt="label_xsd_Element_ui_label.tmp#label" href="label_xsd_Element_ui_label.html#label" coords="303,2122,372,2146" />
+                                 <area alt="link_xsd_Element_ui_link.tmp#link" href="link_xsd_Element_ui_link.html#link" coords="303,2212,366,2236" />
+                                 <area alt="listBox_xsd_Element_ui_listBox.tmp#listBox" href="listBox_xsd_Element_ui_listBox.html#listBox" coords="303,2289,383,2313" />
+                                 <area alt="menu_xsd_Element_ui_menu.tmp#menu" href="menu_xsd_Element_ui_menu.html#menu" coords="303,2379,377,2403" />
+                                 <area alt="messageBox_xsd_Element_ui_messageBox.tmp#messageBox" href="messageBox_xsd_Element_ui_messageBox.html#messageBox" coords="303,2469,414,2493" />
+                                 <area alt="multiDropdown_xsd_Element_ui_multiDropdown.tmp#multiDropdown" href="multiDropdown_xsd_Element_ui_multiDropdown.html#multiDropdown" coords="303,2546,430,2570" />
+                                 <area alt="multiSelectPair_xsd_Element_ui_multiSelectPair.tmp#multiSelectPair" href="multiSelectPair_xsd_Element_ui_multiSelectPair.html#multiSelectPair" coords="303,2636,425,2660" />
+                                 <area alt="multiTextField_xsd_Element_ui_multiTextField.tmp#multiTextField" href="multiTextField_xsd_Element_ui_multiTextField.html#multiTextField" coords="303,2713,423,2737" />
+                                 <area alt="numberField_xsd_Element_ui_numberField.tmp#numberField" href="numberField_xsd_Element_ui_numberField.html#numberField" coords="303,2816,414,2840" />
+                                 <area alt="panel_xsd_Element_ui_panel.tmp#panel" href="panel_xsd_Element_ui_panel.html#panel" coords="303,2932,376,2956" />
+                                 <area alt="passwordField_xsd_Element_ui_passwordField.tmp#passwordField" href="passwordField_xsd_Element_ui_passwordField.html#passwordField" coords="303,3022,424,3046" />
+                                 <area alt="telephoneNumberField_xsd_Element_ui_phoneNumberField.tmp#phoneNumberField" href="telephoneNumberField_xsd_Element_ui_phoneNumberField.html#phoneNumberField" coords="303,3056,449,3080" />
+                                 <area alt="popup_xsd_Element_ui_popup.tmp#popup" href="popup_xsd_Element_ui_popup.html#popup" coords="303,3133,382,3157" />
+                                 <area alt="printButton_xsd_Element_ui_printButton.tmp#printButton" href="printButton_xsd_Element_ui_printButton.html#printButton" coords="303,3223,408,3247" />
+                                 <area alt="progressBar_xsd_Element_ui_progressBar.tmp#progressBar" href="progressBar_xsd_Element_ui_progressBar.html#progressBar" coords="303,3287,413,3311" />
+                                 <area alt="radioButton_xsd_Element_ui_radioButton.tmp#radioButton" href="radioButton_xsd_Element_ui_radioButton.html#radioButton" coords="303,3351,410,3375" />
+                                 <area alt="radioButtonSelect_xsd_Element_ui_radioButtonSelect.tmp#radioButtonSelect" href="radioButtonSelect_xsd_Element_ui_radioButtonSelect.html#radioButtonSelect" coords="303,3441,441,3465" />
+                                 <area alt="redirect_xsd_Element_ui_redirect.tmp#redirect" href="redirect_xsd_Element_ui_redirect.html#redirect" coords="303,3518,389,3542" />
+                                 <area alt="row_xsd_Element_ui_row.tmp#row" href="row_xsd_Element_ui_row.html#row" coords="303,3608,367,3632" />
+                                 <area alt="section_xsd_Element_ui_section.tmp#section" href="section_xsd_Element_ui_section.html#section" coords="303,3711,386,3735" />
+                                 <area alt="selectToggle_xsd_Element_ui_selectToggle.tmp#selectToggle" href="selectToggle_xsd_Element_ui_selectToggle.html#selectToggle" coords="303,3801,415,3825" />
+                                 <area alt="session_xsd_Element_ui_session.tmp#session" href="session_xsd_Element_ui_session.html#session" coords="303,3878,388,3902" />
+                                 <area alt="shuffler_xsd_Element_ui_shuffler.tmp#shuffler" href="shuffler_xsd_Element_ui_shuffler.html#shuffler" coords="303,3912,389,3936" />
+                                 <area alt="skipLinks_xsd_Element_ui_skipLinks.tmp#skipLinks" href="skipLinks_xsd_Element_ui_skipLinks.html#skipLinks" coords="303,4015,397,4039" />
+                                 <area alt="subordinate_xsd_Element_ui_subordinate.tmp#subordinate" href="subordinate_xsd_Element_ui_subordinate.html#subordinate" coords="303,4105,412,4129" />
+                                 <area alt="suggestions_xsd_Element_ui_suggestions.tmp#suggestions" href="suggestions_xsd_Element_ui_suggestions.html#suggestions" coords="303,4195,413,4219" />
+                                 <area alt="tabset_xsd_Element_ui_tabset.tmp#tabset" href="tabset_xsd_Element_ui_tabset.html#tabset" coords="303,4285,380,4309" />
+                                 <area alt="table_xsd_Element_ui_table.tmp#table" href="table_xsd_Element_ui_table.html#table" coords="303,4388,373,4412" />
+                                 <area alt="text_xsd_Element_ui_text.tmp#text" href="text_xsd_Element_ui_text.html#text" coords="303,4491,368,4515" />
+                                 <area alt="textArea_xsd_Element_ui_textArea.tmp#textArea" href="textArea_xsd_Element_ui_textArea.html#textArea" coords="303,4568,393,4592" />
+                                 <area alt="textField_xsd_Element_ui_textField.tmp#textField" href="textField_xsd_Element_ui_textField.html#textField" coords="303,4684,393,4708" />
+                                 <area alt="tracking_xsd_Element_ui_tracking.tmp#tracking" href="tracking_xsd_Element_ui_tracking.html#tracking" coords="303,4800,391,4824" />
+                                 <area alt="validationErrors_xsd_Element_ui_validationErrors.tmp#validationErrors" href="validationErrors_xsd_Element_ui_validationErrors.html#validationErrors" coords="303,4877,433,4901" />
+                                 <area alt="version_xsd_Element_ui_version.tmp#version" href="version_xsd_Element_ui_version.html#version" coords="303,4954,387,4978" />
+                                 <area alt="video_xsd_Element_ui_video.tmp#video" href="video_xsd_Element_ui_video.html#video" coords="303,4988,376,5012" />
+                                 <area alt="contentGroups_xsd_Element_Group_ui_contentGroup.tmp#contentGroup" href="contentGroups_xsd_Element_Group_ui_contentGroup.html#contentGroup" coords="221,5,364,31" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_messageBox_message" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_messageBox_message');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_messageBox_message" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>complex</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">minOccurs</td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">maxOccurs</td>
+                                    <td><b>unbounded</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">mixed</td>
+                                    <td><b>true</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Model</b><div class="floatRight"><input id="button_model_messageBox_message" type="image" src="img/btM.gif" value="-" onclick="switchState('model_messageBox_message');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="model_messageBox_message" style="display:block">(<b><a href="abbr_xsd_Element_ui_abbr.html#abbr" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:abbr')">ui:abbr</a></b> | <b><a href="additionalParameters_xsd_Element_ui_additionalParameters.html#additionalParameters" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:additionalParameters')">ui:additionalParameters</a></b> | <b><a href="application_xsd_Element_ui_application.html#application" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:application')">ui:application</a></b> | <b><a href="ajaxTrigger_xsd_Element_ui_ajaxTrigger.html#ajaxTrigger" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:ajaxTrigger')">ui:ajaxTrigger</a></b> | <b><a href="audio_xsd_Element_ui_audio.html#audio" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:audio')">ui:audio</a></b> | <b><a href="button_xsd_Element_ui_button.html#button" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:button')">ui:button</a></b> | <b><a href="checkBox_xsd_Element_ui_checkBox.html#checkBox" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:checkBox')">ui:checkBox</a></b> | <b><a href="checkBoxSelect_xsd_Element_ui_checkBoxSelect.html#checkBoxSelect" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:checkBoxSelect')">ui:checkBoxSelect</a></b> | <b><a href="collapsible_xsd_Element_ui_collapsible.html#collapsible" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:collapsible')">ui:collapsible</a></b> | <b><a href="comment_xsd_Element_ui_comment.html#comment" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:comment')">ui:comment</a></b> | <b><a href="componentGroup_xsd_Element_ui_componentGroup.html#componentGroup" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:componentGroup')">ui:componentGroup</a></b> | <b><a href="collapsibleToggle_xsd_Element_ui_expandCollapseAll.html#expandCollapseAll" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:expandCollapseAll')">ui:expandCollapseAll</a></b> | <b><a href="dateField_xsd_Element_ui_dateField.html#dateField" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:dateField')">ui:dateField</a></b> | <b><a href="decoratedLabel_xsd_Element_ui_decoratedLabel.html#decoratedLabel" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:decoratedLabel')">ui:decoratedLabel</a></b> | <b><a href="definitionList_xsd_Element_ui_definitionList.html#definitionList" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:definitionList')">ui:definitionList</a></b> | <b><a href="dialog_xsd_Element_ui_dialog.html#dialog" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:dialog')">ui:dialog</a></b> | <b><a href="dropdown_xsd_Element_ui_dropdown.html#dropdown" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:dropdown')">ui:dropdown</a></b> | <b><a href="emailField_xsd_Element_ui_emailField.html#emailField" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:emailField')">ui:emailField</a></b> | <b><a href="fieldIndicator_xsd_Element_ui_fieldIndicator.html#fieldIndicator" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:fieldIndicator')">ui:fieldIndicator</a></b> | <b><a href="fieldLayout_xsd_Element_ui_fieldLayout.html#fieldLayout" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:fieldLayout')">ui:fieldLayout</a></b> | <b><a href="fieldSet_xsd_Element_ui_fieldSet.html#fieldSet" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:fieldSet')">ui:fieldSet</a></b> | <b><a href="figure_xsd_Element_ui_figure.html#figure" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:figure')">ui:figure</a></b> | <b><a href="fileUpload_xsd_Element_ui_fileUpload.html#fileUpload" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:fileUpload')">ui:fileUpload</a></b> | <b><a href="filterControl_xsd_Element_ui_filterControl.html#filterControl" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:filterControl')">ui:filterControl</a></b> | <b><a href="heading_xsd_Element_ui_heading.html#heading" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:heading')">ui:heading</a></b> | <b><a href="hr_xsd_Element_ui_hr.html#hr" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:hr')">ui:hr</a></b> | <b><a href="image_xsd_Element_ui_image.html#image" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:image')">ui:image</a></b> | <b><a href="label_xsd_Element_ui_label.html#label" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:label')">ui:label</a></b> | <b><a href="link_xsd_Element_ui_link.html#link" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:link')">ui:link</a></b> | <b><a href="listBox_xsd_Element_ui_listBox.html#listBox" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:listBox')">ui:listBox</a></b> | <b><a href="menu_xsd_Element_ui_menu.html#menu" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:menu')">ui:menu</a></b> | <b><a href="messageBox_xsd_Element_ui_messageBox.html#messageBox" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:messageBox')">ui:messageBox</a></b> | <b><a href="multiDropdown_xsd_Element_ui_multiDropdown.html#multiDropdown" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:multiDropdown')">ui:multiDropdown</a></b> | <b><a href="multiSelectPair_xsd_Element_ui_multiSelectPair.html#multiSelectPair" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:multiSelectPair')">ui:multiSelectPair</a></b> | <b><a href="multiTextField_xsd_Element_ui_multiTextField.html#multiTextField" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:multiTextField')">ui:multiTextField</a></b> | <b><a href="numberField_xsd_Element_ui_numberField.html#numberField" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:numberField')">ui:numberField</a></b> | <b><a href="panel_xsd_Element_ui_panel.html#panel" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:panel')">ui:panel</a></b> | <b><a href="passwordField_xsd_Element_ui_passwordField.html#passwordField" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:passwordField')">ui:passwordField</a></b> | <b><a href="telephoneNumberField_xsd_Element_ui_phoneNumberField.html#phoneNumberField" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:phoneNumberField')">ui:phoneNumberField</a></b> | <b><a href="popup_xsd_Element_ui_popup.html#popup" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:popup')">ui:popup</a></b> | <b><a href="printButton_xsd_Element_ui_printButton.html#printButton" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:printButton')">ui:printButton</a></b> | <b><a href="progressBar_xsd_Element_ui_progressBar.html#progressBar" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:progressBar')">ui:progressBar</a></b> | <b><a href="radioButton_xsd_Element_ui_radioButton.html#radioButton" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:radioButton')">ui:radioButton</a></b> | <b><a href="radioButtonSelect_xsd_Element_ui_radioButtonSelect.html#radioButtonSelect" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:radioButtonSelect')">ui:radioButtonSelect</a></b> | <b><a href="redirect_xsd_Element_ui_redirect.html#redirect" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:redirect')">ui:redirect</a></b> | <b><a href="row_xsd_Element_ui_row.html#row" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:row')">ui:row</a></b> | <b><a href="section_xsd_Element_ui_section.html#section" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:section')">ui:section</a></b> | <b><a href="selectToggle_xsd_Element_ui_selectToggle.html#selectToggle" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:selectToggle')">ui:selectToggle</a></b> | <b><a href="session_xsd_Element_ui_session.html#session" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:session')">ui:session</a></b> | <b><a href="shuffler_xsd_Element_ui_shuffler.html#shuffler" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:shuffler')">ui:shuffler</a></b> | <b><a href="skipLinks_xsd_Element_ui_skipLinks.html#skipLinks" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:skipLinks')">ui:skipLinks</a></b> | <b><a href="subordinate_xsd_Element_ui_subordinate.html#subordinate" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:subordinate')">ui:subordinate</a></b> | <b><a href="suggestions_xsd_Element_ui_suggestions.html#suggestions" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:suggestions')">ui:suggestions</a></b> | <b><a href="tabset_xsd_Element_ui_tabset.html#tabset" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:tabset')">ui:tabset</a></b> | <b><a href="table_xsd_Element_ui_table.html#table" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:table')">ui:table</a></b> | <b><a href="text_xsd_Element_ui_text.html#text" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:text')">ui:text</a></b> | <b><a href="textArea_xsd_Element_ui_textArea.html#textArea" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:textArea')">ui:textArea</a></b> | <b><a href="textField_xsd_Element_ui_textField.html#textField" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:textField')">ui:textField</a></b> | <b><a href="tracking_xsd_Element_ui_tracking.html#tracking" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:tracking')">ui:tracking</a></b> | <b><a href="validationErrors_xsd_Element_ui_validationErrors.html#validationErrors" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:validationErrors')">ui:validationErrors</a></b> | <b><a href="version_xsd_Element_ui_version.html#version" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:version')">ui:version</a></b> | <b><a href="video_xsd_Element_ui_video.html#video" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:video')">ui:video</a></b> | <b>ANY element from ANY namespace OTHER than 'https://github.com/bordertech/wcomponents/namespace/ui/v1.0'</b>)
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Children</b></td>
+                        <td><b><a href="abbr_xsd_Element_ui_abbr.html#abbr" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:abbr')">ui:abbr</a></b>, <b><a href="additionalParameters_xsd_Element_ui_additionalParameters.html#additionalParameters" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:additionalParameters')">ui:additionalParameters</a></b>, <b><a href="ajaxTrigger_xsd_Element_ui_ajaxTrigger.html#ajaxTrigger" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:ajaxTrigger')">ui:ajaxTrigger</a></b>, <b><a href="application_xsd_Element_ui_application.html#application" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:application')">ui:application</a></b>, <b><a href="audio_xsd_Element_ui_audio.html#audio" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:audio')">ui:audio</a></b>, <b><a href="button_xsd_Element_ui_button.html#button" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:button')">ui:button</a></b>, <b><a href="checkBox_xsd_Element_ui_checkBox.html#checkBox" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:checkBox')">ui:checkBox</a></b>, <b><a href="checkBoxSelect_xsd_Element_ui_checkBoxSelect.html#checkBoxSelect" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:checkBoxSelect')">ui:checkBoxSelect</a></b>, <b><a href="collapsible_xsd_Element_ui_collapsible.html#collapsible" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:collapsible')">ui:collapsible</a></b>, <b><a href="comment_xsd_Element_ui_comment.html#comment" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:comment')">ui:comment</a></b>, <b><a href="componentGroup_xsd_Element_ui_componentGroup.html#componentGroup" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:componentGroup')">ui:componentGroup</a></b>, <b><a href="dateField_xsd_Element_ui_dateField.html#dateField" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:dateField')">ui:dateField</a></b>, <b><a href="decoratedLabel_xsd_Element_ui_decoratedLabel.html#decoratedLabel" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:decoratedLabel')">ui:decoratedLabel</a></b>, <b><a href="definitionList_xsd_Element_ui_definitionList.html#definitionList" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:definitionList')">ui:definitionList</a></b>, <b><a href="dialog_xsd_Element_ui_dialog.html#dialog" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:dialog')">ui:dialog</a></b>, <b><a href="dropdown_xsd_Element_ui_dropdown.html#dropdown" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:dropdown')">ui:dropdown</a></b>, <b><a href="emailField_xsd_Element_ui_emailField.html#emailField" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:emailField')">ui:emailField</a></b>, <b><a href="collapsibleToggle_xsd_Element_ui_expandCollapseAll.html#expandCollapseAll" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:expandCollapseAll')">ui:expandCollapseAll</a></b>, <b><a href="fieldIndicator_xsd_Element_ui_fieldIndicator.html#fieldIndicator" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:fieldIndicator')">ui:fieldIndicator</a></b>, <b><a href="fieldLayout_xsd_Element_ui_fieldLayout.html#fieldLayout" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:fieldLayout')">ui:fieldLayout</a></b>, <b><a href="fieldSet_xsd_Element_ui_fieldSet.html#fieldSet" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:fieldSet')">ui:fieldSet</a></b>, <b><a href="figure_xsd_Element_ui_figure.html#figure" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:figure')">ui:figure</a></b>, <b><a href="fileUpload_xsd_Element_ui_fileUpload.html#fileUpload" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:fileUpload')">ui:fileUpload</a></b>, <b><a href="filterControl_xsd_Element_ui_filterControl.html#filterControl" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:filterControl')">ui:filterControl</a></b>, <b><a href="heading_xsd_Element_ui_heading.html#heading" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:heading')">ui:heading</a></b>, <b><a href="hr_xsd_Element_ui_hr.html#hr" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:hr')">ui:hr</a></b>, <b><a href="image_xsd_Element_ui_image.html#image" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:image')">ui:image</a></b>, <b><a href="label_xsd_Element_ui_label.html#label" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:label')">ui:label</a></b>, <b><a href="link_xsd_Element_ui_link.html#link" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:link')">ui:link</a></b>, <b><a href="listBox_xsd_Element_ui_listBox.html#listBox" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:listBox')">ui:listBox</a></b>, <b><a href="menu_xsd_Element_ui_menu.html#menu" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:menu')">ui:menu</a></b>, <b><a href="messageBox_xsd_Element_ui_messageBox.html#messageBox" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:messageBox')">ui:messageBox</a></b>, <b><a href="multiDropdown_xsd_Element_ui_multiDropdown.html#multiDropdown" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:multiDropdown')">ui:multiDropdown</a></b>, <b><a href="multiSelectPair_xsd_Element_ui_multiSelectPair.html#multiSelectPair" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:multiSelectPair')">ui:multiSelectPair</a></b>, <b><a href="multiTextField_xsd_Element_ui_multiTextField.html#multiTextField" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:multiTextField')">ui:multiTextField</a></b>, <b><a href="numberField_xsd_Element_ui_numberField.html#numberField" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:numberField')">ui:numberField</a></b>, <b><a href="panel_xsd_Element_ui_panel.html#panel" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:panel')">ui:panel</a></b>, <b><a href="passwordField_xsd_Element_ui_passwordField.html#passwordField" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:passwordField')">ui:passwordField</a></b>, <b><a href="telephoneNumberField_xsd_Element_ui_phoneNumberField.html#phoneNumberField" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:phoneNumberField')">ui:phoneNumberField</a></b>, <b><a href="popup_xsd_Element_ui_popup.html#popup" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:popup')">ui:popup</a></b>, <b><a href="printButton_xsd_Element_ui_printButton.html#printButton" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:printButton')">ui:printButton</a></b>, <b><a href="progressBar_xsd_Element_ui_progressBar.html#progressBar" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:progressBar')">ui:progressBar</a></b>, <b><a href="radioButton_xsd_Element_ui_radioButton.html#radioButton" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:radioButton')">ui:radioButton</a></b>, <b><a href="radioButtonSelect_xsd_Element_ui_radioButtonSelect.html#radioButtonSelect" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:radioButtonSelect')">ui:radioButtonSelect</a></b>, <b><a href="redirect_xsd_Element_ui_redirect.html#redirect" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:redirect')">ui:redirect</a></b>, <b><a href="row_xsd_Element_ui_row.html#row" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:row')">ui:row</a></b>, <b><a href="section_xsd_Element_ui_section.html#section" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:section')">ui:section</a></b>, <b><a href="selectToggle_xsd_Element_ui_selectToggle.html#selectToggle" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:selectToggle')">ui:selectToggle</a></b>, <b><a href="session_xsd_Element_ui_session.html#session" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:session')">ui:session</a></b>, <b><a href="shuffler_xsd_Element_ui_shuffler.html#shuffler" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:shuffler')">ui:shuffler</a></b>, <b><a href="skipLinks_xsd_Element_ui_skipLinks.html#skipLinks" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:skipLinks')">ui:skipLinks</a></b>, <b><a href="subordinate_xsd_Element_ui_subordinate.html#subordinate" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:subordinate')">ui:subordinate</a></b>, <b><a href="suggestions_xsd_Element_ui_suggestions.html#suggestions" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:suggestions')">ui:suggestions</a></b>, <b><a href="table_xsd_Element_ui_table.html#table" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:table')">ui:table</a></b>, <b><a href="tabset_xsd_Element_ui_tabset.html#tabset" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:tabset')">ui:tabset</a></b>, <b><a href="text_xsd_Element_ui_text.html#text" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:text')">ui:text</a></b>, <b><a href="textArea_xsd_Element_ui_textArea.html#textArea" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:textArea')">ui:textArea</a></b>, <b><a href="textField_xsd_Element_ui_textField.html#textField" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:textField')">ui:textField</a></b>, <b><a href="tracking_xsd_Element_ui_tracking.html#tracking" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:tracking')">ui:tracking</a></b>, <b><a href="validationErrors_xsd_Element_ui_validationErrors.html#validationErrors" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:validationErrors')">ui:validationErrors</a></b>, <b><a href="version_xsd_Element_ui_version.html#version" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:version')">ui:version</a></b>, <b><a href="video_xsd_Element_ui_video.html#video" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:video')">ui:video</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Instance</b></div>
+                           <div class="floatRight"><input id="button_instance_messageBox_message" type="image" src="img/btM.gif" value="-" onclick="switchState('instance_messageBox_message');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="instance_messageBox_message" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;ui:message</span><span class="tT"> </span><span class="tAN">xmlns:ui=</span><span class="tAV">"https://github.com/bordertech/wcomponents/namespace/ui/v1.0"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:abbr</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">toolTip=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:abbr&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:additionalParameters</span><span class="tT"> </span><span class="tAN">for=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:additionalParameters&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:application</span><span class="tT"> </span><span class="tAN">ajaxUrl=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">applicationUrl=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">dataUrl=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">defaultFocusId=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">icon=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">title=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">unsavedChanges=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:application&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:ajaxTrigger</span><span class="tT"> </span><span class="tAN">allowedUses=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">delay=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">triggerId=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:ajaxTrigger&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:audio</span><span class="tT"> </span><span class="tAN">alt=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">autoplay=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">controls=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">disabled=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">duration=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">loop=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">mediagroup=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">muted=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">preload=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">toolTip=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:audio&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:button</span><span class="tT"> </span><span class="tAN">accessibleText=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">accessKey=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">cancel=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">disabled=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">imagePosition=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">imageUrl=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">msg=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">popup=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">tabIndex=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">toolTip=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">unsavedChanges=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">validates=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:button&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:checkBox</span><span class="tT"> </span><span class="tAN">accessibleText=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">buttonId=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">disabled=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">groupName=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">isNull=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">readOnly=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">required=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">selected=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">submitOnChange=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">tabIndex=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">toolTip=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:checkBox&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:checkBoxSelect</span><span class="tT"> </span><span class="tAN">accessibleText=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">disabled=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">frameless=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">layout=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">layoutColumnCount=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">max=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">min=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">readOnly=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">required=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">submitOnChange=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">tabIndex=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">toolTip=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:checkBoxSelect&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:collapsible</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">collapsed=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">groupName=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">level=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">mode=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:collapsible&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:comment</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:comment&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:componentGroup</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:componentGroup&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:expandCollapseAll</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">groupName=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">roundTrip=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:expandCollapseAll&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:dateField</span><span class="tT"> </span><span class="tAN">accessibleText=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">allowPartial=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">buttonId=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">date=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">disabled=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">max=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">min=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">readOnly=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">required=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">tabIndex=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">toolTip=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:dateField&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:decoratedLabel</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:decoratedLabel&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:definitionList</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">termWidth=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">type=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:definitionList&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:dialog</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">height=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">modal=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">open=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">resizable=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">title=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">width=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:dialog&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:dropdown</span><span class="tT"> </span><span class="tAN">accessibleText=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">data=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">disabled=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">optionWidth=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">readOnly=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">required=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">submitOnChange=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">tabIndex=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">toolTip=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">type=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:dropdown&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:emailField</span><span class="tT"> </span><span class="tAN">accessibleText=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">buttonId=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">disabled=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">list=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">maxLength=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">readOnly=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">required=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">size=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">tabIndex=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">toolTip=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:emailField&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:fieldIndicator</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">for=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">type=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:fieldIndicator&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:fieldLayout</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">labelWidth=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">layout=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">ordered=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">title=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:fieldLayout&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:fieldSet</span><span class="tT"> </span><span class="tAN">accessKey=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">frame=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">required=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:fieldSet&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:figure</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">mode=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:figure&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:fileUpload</span><span class="tT"> </span><span class="tAN">acceptedMimeTypes=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">accessibleText=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">ajax=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">async=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">cols=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">disabled=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">dropzone=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">maxFiles=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">maxFileSize=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">readOnly=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">required=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">tabIndex=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">toolTip=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:fileUpload&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:filterControl</span><span class="tT"> </span><span class="tAN">active=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">for=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">value=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:filterControl&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:heading</span><span class="tT"> </span><span class="tAN">accessibleText=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">level=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:heading&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:hr</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:hr&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:image</span><span class="tT"> </span><span class="tAN">alt=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">height=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">src=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">width=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:image&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:label</span><span class="tT"> </span><span class="tAN">accessibleText=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">accessKey=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">for=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hint=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">toolTip=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:label&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:link</span><span class="tT"> </span><span class="tAN">accessibleText=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">accessKey=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">disabled=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">imagePosition=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">imageUrl=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">rel=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">tabIndex=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">toolTip=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">url=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:link&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:listBox</span><span class="tT"> </span><span class="tAN">accessibleText=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">data=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">disabled=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">max=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">min=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">readOnly=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">required=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">rows=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">single=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">submitOnChange=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">tabIndex=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">toolTip=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:listBox&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:menu</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">disabled=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">rows=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">selectMode=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">type=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:menu&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:messageBox</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">type=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:messageBox&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:multiDropdown</span><span class="tT"> </span><span class="tAN">accessibleText=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">data=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">disabled=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">max=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">min=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">readOnly=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">required=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">submitOnChange=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">tabIndex=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">toolTip=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:multiDropdown&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:multiSelectPair</span><span class="tT"> </span><span class="tAN">accessibleText=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">disabled=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">fromListName=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">max=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">min=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">readOnly=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">required=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">shuffle=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">size=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">tabIndex=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">toListName=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">toolTip=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:multiSelectPair&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:multiTextField</span><span class="tT"> </span><span class="tAN">accessibleText=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">disabled=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">max=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">maxLength=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">minLength=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">pattern=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">readOnly=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">required=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">size=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">tabIndex=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">toolTip=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:multiTextField&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:numberField</span><span class="tT"> </span><span class="tAN">accessibleText=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">buttonId=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">decimals=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">disabled=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">max=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">min=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">readOnly=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">required=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">size=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">step=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">tabIndex=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">toolTip=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:numberField&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:panel</span><span class="tT"> </span><span class="tAN">accessKey=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">buttonId=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">mode=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">title=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">type=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:panel&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:passwordField</span><span class="tT"> </span><span class="tAN">accessibleText=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">buttonId=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">disabled=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">maxLength=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">minLength=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">pattern=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">readOnly=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">required=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">size=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">tabIndex=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">toolTip=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:passwordField&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:phoneNumberField</span><span class="tT"> </span><span class="tAN">accessibleText=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">buttonId=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">disabled=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">list=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">maxLength=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">minLength=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">pattern=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">readOnly=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">required=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">size=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">tabIndex=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">toolTip=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:phoneNumberField&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:popup</span><span class="tT"> </span><span class="tAN">height=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">left=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">resizable=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">showLocation=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">showMenubar=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">showScrollbars=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">showStatus=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">showToolbar=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">targetWindow=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">top=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">url=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">width=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:popup&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:printButton</span><span class="tT"> </span><span class="tAN">accessibleText=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">accessKey=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">cancel=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">disabled=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">imagePosition=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">imageUrl=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">msg=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">popup=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">tabIndex=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">toolTip=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">unsavedChanges=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">validates=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:printButton&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:progressBar</span><span class="tT"> </span><span class="tAN">accessibleText=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">max=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">output=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">toolTip=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">value=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:progressBar&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:radioButton</span><span class="tT"> </span><span class="tAN">accessibleText=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">disabled=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">groupName=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">isNull=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">readOnly=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">required=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">selected=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">submitOnChange=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">tabIndex=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">toolTip=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">value=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:radioButton&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:radioButtonSelect</span><span class="tT"> </span><span class="tAN">accessibleText=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">disabled=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">frameless=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">layout=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">layoutColumnCount=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">readOnly=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">required=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">submitOnChange=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">tabIndex=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">toolTip=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:radioButtonSelect&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:redirect</span><span class="tT"> </span><span class="tAN">url=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:redirect&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:row</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hgap=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:row&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:section</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">mode=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:section&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:selectToggle</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">disabled=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">renderAs=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">roundTrip=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">selected=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">target=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:selectToggle&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:session</span><span class="tT"> </span><span class="tAN">timeout=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">warn=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:session&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:shuffler</span><span class="tT"> </span><span class="tAN">accessibleText=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">disabled=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">readOnly=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">required=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">rows=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">tabIndex=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">toolTip=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:shuffler&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:skipLinks</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:skipLinks&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:subordinate</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:subordinate&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:suggestions</span><span class="tT"> </span><span class="tAN">ajax=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">data=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">min=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:suggestions&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:tabset</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">contentHeight=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">disabled=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">showHeadOnly=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">single=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">type=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:tabset&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:table</span><span class="tT"> </span><span class="tAN">activeFilters=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">caption=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">disabled=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">separators=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">showRowIndices=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">striping=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">summary=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">type=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:table&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:text</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">space=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">type=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:text&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:textArea</span><span class="tT"> </span><span class="tAN">accessibleText=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">buttonId=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">cols=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">disabled=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">maxLength=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">minLength=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">readOnly=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">required=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">rows=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">tabIndex=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">toolTip=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:textArea&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:textField</span><span class="tT"> </span><span class="tAN">accessibleText=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">buttonId=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">disabled=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">list=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">maxLength=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">minLength=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">pattern=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">readOnly=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">required=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">size=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">tabIndex=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">toolTip=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:textField&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:tracking</span><span class="tT"> </span><span class="tAN">cat=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">for=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">name=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:tracking&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:validationErrors</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:validationErrors&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:version</span><span class="tT"> </span><span class="tAN">server=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:version&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:video</span><span class="tT"> </span><span class="tAN">alt=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">autoplay=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">controls=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">disabled=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">duration=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">height=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">loop=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">mediagroup=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">muted=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">poster=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">preload=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">toolTip=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">width=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:video&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/ui:message&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_messageBox_message" type="image" src="img/btM.gif" value="-" onclick="switchState('source_messageBox_message');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_messageBox_message" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"message"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tAN"> maxOccurs=</span><span class="tAV">"unbounded"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The message represents a single message to the user. It is usually plain text but may contain other components and mark-up.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:complexType</span><span class="tAN"> mixed=</span><span class="tAV">"true"</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:sequence</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;xs:group</span><span class="tAN"> ref=</span><span class="tAV">"ui:contentGroup"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tAN"> maxOccurs=</span><span class="tAV">"unbounded"</span><span class="tEl">/&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/xs:sequence&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:complexType&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:element&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="messageBox_id"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="messageBox_xsd_Element_ui_messageBox.html#messageBox" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:messageBox')">ui:messageBox</a></b> / @id</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_messageBox_id" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_messageBox_id');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_messageBox_id" style="display:block">
+                              <div class="annotation">The unique identifier for the message box.</div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:ID</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_messageBox_id" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_messageBox_id');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_messageBox_id" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">use</td>
+                                    <td><b>required</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_messageBox_id" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_messageBox_id');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_messageBox_id" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="messageBox_xsd_Element_ui_messageBox.html#messageBox" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:messageBox')">ui:messageBox</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_messageBox_id" type="image" src="img/btM.gif" value="-" onclick="switchState('source_messageBox_id');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_messageBox_id" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"id"</span><span class="tAN"> type=</span><span class="tAV">"xs:ID"</span><span class="tAN"> use=</span><span class="tAV">"required"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The unique identifier for the message box.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:attribute&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="messageBox_class"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="messageBox_xsd_Element_ui_messageBox.html#messageBox" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:messageBox')">ui:messageBox</a></b> / @class</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_messageBox_class" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_messageBox_class');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_messageBox_class" style="display:block">
+                              <div class="annotation">Provides the ability to pass an HTML class attribute onto the root output element.</div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td><b>xs:string</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_messageBox_class" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_messageBox_class');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_messageBox_class" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_messageBox_class" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_messageBox_class');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_messageBox_class" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="messageBox_xsd_Element_ui_messageBox.html#messageBox" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:messageBox')">ui:messageBox</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_messageBox_class" type="image" src="img/btM.gif" value="-" onclick="switchState('source_messageBox_class');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_messageBox_class" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"class"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Provides the ability to pass an HTML class attribute onto the root output element.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:attribute&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="messageBox_type"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="messageBox_xsd_Element_ui_messageBox.html#messageBox" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:messageBox')">ui:messageBox</a></b> / @type</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>No namespace</td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_messageBox_type" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_messageBox_type');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_messageBox_type" style="display:block">
+                              <div class="annotation">The type of message(s) being displayed.</div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type</b></td>
+                        <td>restriction of <b>xs:NMTOKEN</b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_messageBox_type" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_messageBox_type');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_messageBox_type" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">use</td>
+                                    <td><b>required</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Facets</b></div>
+                           <div class="floatRight"><input id="button_facets_messageBox_type" type="image" src="img/btM.gif" value="-" onclick="switchState('facets_messageBox_type');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="facets_messageBox_type" style="display:block">
+                              <table class="facetsTable">
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>success</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>info</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>warn</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>error</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Used by</b></div>
+                           <div class="floatRight"><input id="button_usedBy_messageBox_type" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_messageBox_type');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="usedBy_messageBox_type" style="display:block">
+                              <table class="usedByTable">
+                                 <tr>
+                                    <td class="firstColumn">Element </td>
+                                    <td><b><a href="messageBox_xsd_Element_ui_messageBox.html#messageBox" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:messageBox')">ui:messageBox</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Source</b></div>
+                           <div class="floatRight"><input id="button_source_messageBox_type" type="image" src="img/btM.gif" value="-" onclick="switchState('source_messageBox_type');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="source_messageBox_type" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"type"</span><span class="tAN"> use=</span><span class="tAV">"required"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The type of message(s) being displayed.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:simpleType</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:restriction</span><span class="tAN"> base=</span><span class="tAV">"xs:NMTOKEN"</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"success"</span><span class="tEl">/&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"info"</span><span class="tEl">/&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"warn"</span><span class="tEl">/&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"error"</span><span class="tEl">/&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/xs:restriction&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;/xs:simpleType&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/xs:attribute&gt;</span></pre></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table>
+      <div class="footer">
+         <hr />
+         <div align="center">XML Schema documentation generated by <a href="http://www.oxygenxml.com" target="_parent"><span class="oXygenLogo"><span class="redX">&lt;</span>o<span class="redX">X</span>ygen<span class="redX">/&gt;</span></span></a><sup>®</sup> XML Editor.
+         </div>
+      </div><script type="text/javascript">
+         <!--
+                     // The namespace is the selected option in the TOC combo.
+                    
+                     // Floats the toolbar.
+                     var globalControls = getElementObject("global_controls"); 
+                     
+                     if(globalControls != null){
+	                     var browser=navigator.appName;
+						 var version = parseFloat(navigator.appVersion.split('MSIE')[1]);
+						 
+						 var IE6 = false;
+						 if ((browser=="Microsoft Internet Explorer") && (version < 7)){
+						 	IE6 = true;
+						 }
+	
+	                     //alert (IE6 + " |V| " + version);
+	                     
+	                     if(IE6){
+	                     	// On IE 6 the 'fixed' property is not supported. We must use javascript. 
+	                         globalControls.style.position='absolute';                         
+	                         // The global controls will do not exist in the TOC frame, when chunking.
+	                         findAndFloat("global_controls", 225, 30);    
+	                     } else {
+	                      	  globalControls.style.position='fixed';                     	
+	                     }
+	                     
+	                     globalControls.style.right='0';                       
+                     }
+                //--></script></body>
+</html>
