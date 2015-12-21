@@ -50,7 +50,15 @@ define(["wc/dom/ariaAnalog",
 				 * @type {module:wc/dom/Widget}
 				 * @private
 				 */
-				TABSET;
+				TABSET,
+
+				/**
+				 * The attribute on a TAB which points to its content tab panel.
+				 * @var
+				 * @type String
+				 * @private
+				 */
+				CONTENT_ATTRIB = "aria-controls";
 
 			/**
 			 * The description of a tab control.
@@ -134,18 +142,53 @@ define(["wc/dom/ariaAnalog",
 			 * @private
 			 * @param {Element} element The tab being opened.
 			 */
-//			function collapseOthers(element) {
-//				var i, next, grp,
-//					conf = {filter: getFilteredGroup.FILTERS.enabled | getFilteredGroup.FILTERS.expanded, containerWd: TABLIST, itemWd: instance.ITEM};
-//				grp = getFilteredGroup(element, conf);
-//
-//				for (i = grp.length - 1; i >= 0; i--) {
-//					next = grp[i];
-//					if (next !== element) {
-//						shed.collapse(next);
-//					}
-//				}
-//			}
+			function collapseOthers(element) {
+				var i, next, grp,
+					conf = {filter: getFilteredGroup.FILTERS.enabled | getFilteredGroup.FILTERS.expanded, containerWd: TABLIST, itemWd: instance.ITEM};
+				grp = getFilteredGroup(element, conf);
+
+				for (i = grp.length - 1; i >= 0; i--) {
+					next = grp[i];
+					if (next !== element) {
+						shed.collapse(next);
+					}
+				}
+			}
+
+
+			/**
+			 * Helper for shedObserver, called when there has been a EXPAND or COLLAPSE.
+			 * @param {Tabset} tabset The tabset controller instance.
+			 * @param {string} action either shed.actions.EXPAND or shed.actions.COLLAPSE
+			 * @param {Element} element Guaranteed to pass `this.ITEM.isOneOfMe(element)`
+			 */
+			function onItemExpansion(tabset, action, element) {
+				var contentId,
+					content,
+					container,
+					shedFunc;
+
+				container = tabset.getGroupContainer(element);
+				if (container) {
+					if ((contentId = element.getAttribute(CONTENT_ATTRIB)) && (content = document.getElementById(contentId))) {
+
+						if (action === shed.actions.EXPAND) {
+							shedFunc = "show";
+						}
+						else if (action === shed.actions.COLLAPSE) {
+							shedFunc = "hide";
+						}
+						if (shedFunc) {
+							shed[shedFunc](content);
+						}
+
+						if (getAccordion(container) === "false" && shedFunc === "show") {
+							collapseOthers(element);
+						}
+					}
+				}
+
+			}
 
 
 			/**
@@ -161,6 +204,9 @@ define(["wc/dom/ariaAnalog",
 				if (element) {
 					if ((action === shed.actions.SELECT || action === shed.actions.DESELECT) && this.ITEM.isOneOfMe(element)) {
 						onItemSelection(this, action, element);
+					}
+					if ((action === shed.actions.EXPAND || action === shed.actions.COLLAPSE) && this.ITEM.isOneOfMe(element)) {
+						onItemExpansion(this, action, element);
 					}
 					else if ((action === shed.actions.DISABLE || action === shed.actions.ENABLE)  && TABLIST.isOneOfMe(element)) {
 						// if the tablist is disabled or enabled, diable/enable all the tabs.
@@ -180,10 +226,8 @@ define(["wc/dom/ariaAnalog",
 			function onItemSelection(tabset, action, element) {
 				var contentId,
 					content,
-					CONTENT_ATTRIB = "aria-controls",
 					container,
-					shedFunc,
-					accordion;
+					shedFunc;
 
 				if (action === shed.actions.SELECT) {
 					tabset.constructor.prototype.shedObserver.call(tabset, element, action);
@@ -191,17 +235,14 @@ define(["wc/dom/ariaAnalog",
 				container = tabset.getGroupContainer(element);
 				if (container) {
 					if ((contentId = element.getAttribute(CONTENT_ATTRIB)) && (content = document.getElementById(contentId))) {
-						accordion = getAccordion(container);
-						if (!accordion) {
-							if (action === shed.actions.SELECT) {
-								shedFunc = "show";
-							}
-							else if (action === shed.actions.DESELECT) {
-								shedFunc = "hide";
-							}
-							if (shedFunc) {
-								shed[shedFunc](content);
-							}
+						if (action === shed.actions.SELECT) {
+							shedFunc = "show";
+						}
+						else if (action === shed.actions.DESELECT) {
+							shedFunc = "hide";
+						}
+						if (shedFunc) {
+							shed[shedFunc](content);
 						}
 					}
 				}
