@@ -47,10 +47,13 @@
 				<xsl:element name="{$tagName}">
 					<xsl:call-template name="commonAttributes"/>
 					<xsl:attribute name="class">
-						<xsl:text>wc_datero wc_ro</xsl:text>
-						<xsl:if test="@class">
-							<xsl:value-of select="concat(' ', @class)"/>
-						</xsl:if>
+						<xsl:attribute name="class">
+							<xsl:value-of select="local-name(.)"/>
+							<xsl:if test="@class">
+								<xsl:value-of select="concat(' ', @class)"/>
+							</xsl:if>
+						</xsl:attribute>
+						<xsl:text> wc_datero wc_ro</xsl:text>
 					</xsl:attribute>
 					<xsl:if test="$myLabel">
 						<xsl:attribute name="aria-labelledby">
@@ -103,7 +106,7 @@
 						<xsl:with-param name="isControl" select="0"/>
 					</xsl:call-template>
 					<xsl:attribute name="class">
-						<xsl:text>dateField</xsl:text>
+						<xsl:value-of select="local-name(.)"/>
 						<xsl:if test="@class">
 							<xsl:value-of select="concat(' ', @class)"/>
 						</xsl:if>

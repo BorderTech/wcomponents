@@ -4,20 +4,17 @@
  in an error state.
 -->
 	<xsl:template match="ui:error">
-		<xsl:element name="li">
-			<xsl:element name="a">
-				<xsl:attribute name="href">
-					<xsl:value-of select="concat('#',@for)"/>
-				</xsl:attribute>
+		<li class="error">
+			<a href="{concat('#',@for)}">
 				<xsl:apply-templates/>
-			</xsl:element>
-		</xsl:element>
+			</a>
+		</li>
 	</xsl:template>
 	
 	<!-- The inline error output for each ui:error for a component in a error state. -->
 	<xsl:template match="ui:error" mode="inline">
-		<xsl:element name="li">
+		<li class="error">
 			<xsl:apply-templates/>
-		</xsl:element>
+		</li>
 	</xsl:template>
 </xsl:stylesheet>

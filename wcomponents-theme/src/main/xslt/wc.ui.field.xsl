@@ -47,12 +47,13 @@
 			<xsl:variable name="isCheckRadio">
 				<xsl:call-template name="fieldIsCheckRadio" />
 			</xsl:variable>
-			<li id="{@id}" class="{local-name()}">
+			<li id="{@id}">
 				<xsl:attribute name="id">
 					<xsl:value-of select="@id" />
 				</xsl:attribute>
+
 				<xsl:attribute name="class">
-					<xsl:text>field</xsl:text>
+					<xsl:value-of select="local-name(.)"/>
 					<xsl:if test="@class">
 						<xsl:value-of select="concat(' ', @class)"/>
 					</xsl:if>
