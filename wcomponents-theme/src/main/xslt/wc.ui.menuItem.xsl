@@ -54,21 +54,6 @@
 			</xsl:choose>
 		</xsl:variable>
 
-		<xsl:variable name="class">
-			<xsl:if test="$type &gt; 0">
-				<xsl:text>wc_btn_nada</xsl:text>
-				<xsl:if test="@cancel">
-					<xsl:text> wc_btn_cancel</xsl:text>
-				</xsl:if>
-				<xsl:if test="@unsavedChanges">
-					<xsl:text> wc_unsaved</xsl:text>
-				</xsl:if>
-			</xsl:if>
-			<xsl:if test="@class">
-				<xsl:value-of select="concat(' ', @class)"/>
-			</xsl:if>
-		</xsl:variable>
-
 		<xsl:variable name="isButton">
 			<xsl:choose>
 				<xsl:when test="$type=0">
@@ -84,11 +69,21 @@
 			<xsl:attribute name="id">
 				<xsl:value-of select="$id"/>
 			</xsl:attribute>
-			<xsl:if test="$class!=''">
-				<xsl:attribute name="class">
-					<xsl:value-of select="normalize-space($class)"/>
-				</xsl:attribute>
-			</xsl:if>
+			<xsl:attribute name="class">
+				<xsl:text>menuItem</xsl:text>
+				<xsl:if test="$type &gt; 0">
+					<xsl:text> wc_btn_nada</xsl:text>
+					<xsl:if test="@cancel">
+						<xsl:text> wc_btn_cancel</xsl:text>
+					</xsl:if>
+					<xsl:if test="@unsavedChanges">
+						<xsl:text> wc_unsaved</xsl:text>
+					</xsl:if>
+				</xsl:if>
+				<xsl:if test="@class">
+					<xsl:value-of select="concat(' ', @class)"/>
+				</xsl:if>
+			</xsl:attribute>
 			<xsl:if test="@toolTip">
 				<xsl:attribute name="title">
 					<xsl:value-of select="normalize-space(@toolTip)"/>
