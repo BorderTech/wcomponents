@@ -39,7 +39,6 @@ The XML schema for a WComponent page.
 			<xs:element ref="ui:fileUpload" />
 			<xs:element ref="ui:filterControl" />
 			<xs:element ref="ui:heading" />
-			<xs:element ref="ui:hr" />
 			<xs:element ref="ui:image" />
 			<xs:element ref="ui:label" />
 			<xs:element ref="ui:link" />
@@ -98,7 +97,7 @@ The XML schema for a WComponent page.
 
 	<!--
 		TODO: consider this for WDecoratedLabel phrase content extension since we are building a <strong>web</strong> application framework here!
-		
+
 	<xs:group name="phraseGroup">
 		<xs:annotation>
 			<xs:documentation>Group of components which represent phrase content components as per the HTML5 specification.</xs:documentation>
