@@ -6,6 +6,12 @@
 	-->
 	<xsl:template match="ui:row">
 		<div id="{@id}" class="{local-name(.)} wc_row">
+			<xsl:attribute name="class">
+				<xsl:text>row wc_row</xsl:text>
+				<xsl:if test="@class">
+					<xsl:value-of select="concat(' ', @class)"/>
+				</xsl:if>
+			</xsl:attribute>
 			<xsl:call-template name="ajaxTarget"/>
 			<xsl:apply-templates select="ui:margin"/>
 			<xsl:apply-templates select="ui:column">
