@@ -10,6 +10,12 @@
 			<xsl:attribute name="id">
 				<xsl:value-of select="@id"/>
 			</xsl:attribute>
+			<xsl:attribute name="class">
+				<xsl:value-of select="local-name(.)"/>
+				<xsl:if test="@class">
+					<xsl:value-of select="concat(' ', @class)"/>
+				</xsl:if>
+			</xsl:attribute>
 			<xsl:attribute name="src">
 				<xsl:value-of select="@src"/>
 			</xsl:attribute>

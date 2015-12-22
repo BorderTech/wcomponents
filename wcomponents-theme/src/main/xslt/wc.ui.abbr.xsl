@@ -7,19 +7,21 @@
 	-->
 	<xsl:template match="ui:abbr">
 		<xsl:if test="text()">
-			<xsl:choose>
-				<xsl:when test="@toolTip">
-					<xsl:element name="abbr">
-						<xsl:attribute name="title">
-							<xsl:value-of select="@toolTip"/>
-						</xsl:attribute>
-						<xsl:value-of select="."/>
-					</xsl:element>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:value-of select="."/>
-				</xsl:otherwise>
-			</xsl:choose>
+			<xsl:variable name="element">
+				<xsl:choose>
+					<xsl:when test="@toolTip">abbr</xsl:when>
+					<xsl:otherwise>span</xsl:otherwise>
+				</xsl:choose>
+			</xsl:variable>
+			<xsl:element name="{$element}">
+				<xsl:attribute name="class">
+					<xsl:value-of select="local-name(.)"/>
+					<xsl:if test="@class">
+						<xsl:value-of select="concat(' ', @class)"/>
+					</xsl:if>
+				</xsl:attribute>
+				<xsl:value-of select="."/>
+			</xsl:element>
 		</xsl:if>
 	</xsl:template>
 </xsl:stylesheet>
