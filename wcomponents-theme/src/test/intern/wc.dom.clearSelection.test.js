@@ -1,6 +1,6 @@
 /*
- * TODO This is a mess! What's with dojo/Deferred???? Use the damn promises polyfill!
- * Agreed. I got rid of dojo/Deferred but leaving this comment as a flag that this test needs some serious review.
+ * TODO This is a mess! What's with lib/dojo/Deferred???? Use the damn promises polyfill!
+ * Agreed. I got rid of lib/dojo/Deferred but leaving this comment as a flag that this test needs some serious review.
  *
  */
 define(["intern!object", "intern/chai!assert", "../intern/resources/test.utils"],

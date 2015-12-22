@@ -11,7 +11,7 @@
  * @requires module:wc/ui/dateField
  * @requires module:${validation.core.path.name}/validationManager
  * @requires module:wc/ui/getFirstLabelForElement
- * @requires external:sprintf/sprintf
+ * @requires external:lib/sprintf
  * @requires module:${validation.core.path.name}/isComplete
  */
 define(["wc/date/interchange",
@@ -23,9 +23,9 @@ define(["wc/date/interchange",
 		"wc/ui/dateField",
 		"${validation.core.path.name}/validationManager",
 		"wc/ui/getFirstLabelForElement",
-		"sprintf/sprintf",
+		"lib/sprintf",
 		"${validation.core.path.name}/isComplete"],
-	/** @param interchange wc/date/interchange @param getDifference wc/date/getDifference @param attribute wc/dom/attribute @param event wc/dom/event @param initialise wc/dom/initialise @param i18n wc/i18n/i18n @param dateField wc/ui/dateField @param validationManager ${validation.core.path.name}/validationManager @param getFirstLabelForElement wc/ui/getFirstLabelForElement @param sprintf sprintf/sprintf @param isComplete ${validation.core.path.name}/isComplete @ignore */
+	/** @param interchange wc/date/interchange @param getDifference wc/date/getDifference @param attribute wc/dom/attribute @param event wc/dom/event @param initialise wc/dom/initialise @param i18n wc/i18n/i18n @param dateField wc/ui/dateField @param validationManager ${validation.core.path.name}/validationManager @param getFirstLabelForElement wc/ui/getFirstLabelForElement @param sprintf lib/sprintf @param isComplete ${validation.core.path.name}/isComplete @ignore */
 	function(interchange, getDifference, attribute, event, initialise, i18n, dateField, validationManager, getFirstLabelForElement, sprintf, isComplete) {
 		"use strict";
 		/**

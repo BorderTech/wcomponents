@@ -2,15 +2,15 @@
  * @module ${validation.core.path.name}/minMax
  * @requires module:wc/ui/getFirstLabelForElement
  * @requires module:wc/i18n/i18n
- * @requires external:sprintf/sprintf
+ * @requires external:lib/sprintf
  * @requires module:${validation.core.path.name}/validationManager
  *
  */
 define(["wc/ui/getFirstLabelForElement",
 		"wc/i18n/i18n",
-		"sprintf/sprintf",
+		"lib/sprintf",
 		"${validation.core.path.name}/validationManager"],
-	/** @param getFirstLabelForElement wc/ui/getFirstLabelForElement @param i18n wc/i18n/i18n @param sprintf sprintf/sprintf @param validationManager ${validation.core.path.name}/validationManager @ignore */
+	/** @param getFirstLabelForElement wc/ui/getFirstLabelForElement @param i18n wc/i18n/i18n @param sprintf lib/sprintf @param validationManager ${validation.core.path.name}/validationManager @ignore */
 	function(getFirstLabelForElement, i18n, sprintf, validationManager) {
 		"use strict";
 

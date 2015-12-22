@@ -5,11 +5,11 @@
  * @module
  * @requires module:wc/Observer
  * @requires module:wc/timers
- * @requires external:dojo/domReady
+ * @requires external:lib/dojo/domReady
  * @todo re-order code, document private members.
  */
-define(["wc/Observer", "wc/timers", "dojo/domReady"],
-	/** @param Observer wc/Observer @param timers wc/timers @param domReady dojo/domReady @ignore */
+define(["wc/Observer", "wc/timers", "lib/dojo/domReady"],
+	/** @param Observer wc/Observer @param timers wc/timers @param domReady lib/dojo/domReady @ignore */
 	function(Observer, timers, domReady) {
 		"use strict";
 

@@ -1,11 +1,11 @@
 /**
  * @module
- * @requires external:sprintf/sprintf
+ * @requires external:lib/sprintf
  * @requires module:wc/xml/xpath
  * @requires module:wc/array/toArray
  */
-define(["sprintf/sprintf", "wc/xml/xpath", "wc/array/toArray", "module"],
-	/** @param sprintf sprintf/sprintf @param xpath wc/xml/xpath @param toArray wc/array/toArray @param module module @ignore */
+define(["lib/sprintf", "wc/xml/xpath", "wc/array/toArray", "module"],
+	/** @param sprintf lib/sprintf @param xpath wc/xml/xpath @param toArray wc/array/toArray @param module module @ignore */
 	function(sprintf, xpath, toArray, module) {
 		"use strict";
 		var instance = new I18n();

@@ -24,10 +24,11 @@
 	var wcconfig, timing,
 		config = {
 					paths: {
-						tinyMCE: "tinymce/tinymce.min",
-						Promise: "promise/Promise.min",
-						axs: "a11y/axs_testing",
-						axe: "a11y/axe.min"
+						tinyMCE: "lib/tinymce/tinymce.min",
+						Promise: "lib/Promise.min",
+						fabric: "lib/fabric",
+						axs: "lib/axs_testing",
+						axe: "lib/axe.min"
 					},
 					shim: {
 						tinyMCE: {
@@ -39,6 +40,9 @@
 						},
 						Promise: {
 							exports: "Promise"
+						},
+						fabric: {
+							exports: "fabric"
 						},
 						axs: {
 							exports: "axs"

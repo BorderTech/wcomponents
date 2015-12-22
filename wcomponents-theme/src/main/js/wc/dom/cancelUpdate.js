@@ -13,7 +13,7 @@
  * @requires module:wc/dom/event
  * @requires module:wc/dom/initialise
  * @requires module:wc/dom/serialize
- * @requires external:sprintf/sprintf
+ * @requires external:lib/sprintf
  * @requires module:wc/dom/Widget
  * @requires module:wc/urlParser
  * @requires module:wc/dom/formUpdateManager
@@ -25,11 +25,11 @@ define(["wc/i18n/i18n",
 		"wc/dom/event",
 		"wc/dom/initialise",
 		"wc/dom/serialize",
-		"sprintf/sprintf",
+		"lib/sprintf",
 		"wc/dom/Widget",
 		"wc/dom/formUpdateManager",
 		"wc/dom/focus"],
-	/** @param i18n wc/i18n/i18n @param triggerManager wc/ajax/triggerManager @param uid wc/dom/uid @param event wc/dom/event @param initialise wc/dom/initialise @param serialize wc/dom/serialize @param sprintf sprintf/sprintf @param Widget wc/dom/Widget @param formUpdateManager wc/dom/formUpdateManager @param focus wc/dom/focus @ignore */
+	/** @param i18n wc/i18n/i18n @param triggerManager wc/ajax/triggerManager @param uid wc/dom/uid @param event wc/dom/event @param initialise wc/dom/initialise @param serialize wc/dom/serialize @param sprintf lib/sprintf @param Widget wc/dom/Widget @param formUpdateManager wc/dom/formUpdateManager @param focus wc/dom/focus @ignore */
 	function(i18n, triggerManager, uid, event, initialise, serialize, sprintf, Widget, formUpdateManager, focus) {
 		"use strict";
 

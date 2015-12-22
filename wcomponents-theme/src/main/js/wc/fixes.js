@@ -16,7 +16,7 @@
 			dua = n.userAgent,
 			addTest = has.add;
 
-		/* Some additions to dojo/sniff*/
+		/* Some additions to lib/dojo/sniff*/
 		if (has("opera")) {
 			if (dua.indexOf("Opera Mini") >= 0) {
 				addTest("operamini", parseFloat(dua.split("Version/")[1]) || undefined);

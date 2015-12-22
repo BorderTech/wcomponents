@@ -8,7 +8,7 @@
  *
  * @module
  *
- * @requires external:sprintf/sprintf
+ * @requires external:lib/sprintf
  * @requires module:wc/dom/tag
  * @requires module:wc/dom/event
  * @requires module:wc/dom/serialize
@@ -22,7 +22,7 @@
  * @requires module:wc/ajax/setLoading
  * @requires module:wc/Observer
  */
-define(["sprintf/sprintf",
+define(["lib/sprintf",
 	"wc/dom/tag",
 	"wc/dom/event",
 	"wc/dom/serialize",
@@ -35,7 +35,7 @@ define(["sprintf/sprintf",
 	"wc/timers",
 	"wc/ajax/setLoading",
 	"wc/Observer"],
-	/** @param sprintf sprintf/sprintf @param tag wc/dom/tag @param event wc/dom/event @param serialize wc/dom/serialize @param Widget wc/dom/Widget @param getAncestorOrSelf wc/dom/getAncestorOrSelf @param ajax wc/ajax/ajax@param formUpdateManager wc/dom/formUpdateManager @param has wc/has @param initialise wc/dom/initialise @param timers wc/timers @param setLoading wc/ajax/setLoading @param Observer wc/Observer @ignore*/
+	/** @param sprintf lib/sprintf @param tag wc/dom/tag @param event wc/dom/event @param serialize wc/dom/serialize @param Widget wc/dom/Widget @param getAncestorOrSelf wc/dom/getAncestorOrSelf @param ajax wc/ajax/ajax@param formUpdateManager wc/dom/formUpdateManager @param has wc/has @param initialise wc/dom/initialise @param timers wc/timers @param setLoading wc/ajax/setLoading @param Observer wc/Observer @ignore*/
 	function(sprintf, tag, event, serialize, Widget, getAncestorOrSelf, ajax, formUpdateManager, has, initialise, timers, setLoading, Observer) {
 		"use strict";
 
