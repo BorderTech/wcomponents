@@ -22,7 +22,7 @@
 	"use strict";
 	define(["wc/has"],
 		function(has) {
-			var result = ["dojo/sniff"];
+			var result = ["lib/dojo/sniff"];
 
 			(function(addtest) {
 				// This block taken from tests from hasjs project. Didn't want to load the whole script.

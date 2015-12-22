@@ -28,7 +28,7 @@
  * @requires module:wc/dom/Widget
  * @requires module:wc/i18n/i18n
  * @requires module:wc/loader/resource
- * @requires external:sprintf/sprintf
+ * @requires external:lib/sprintf
  * @requires module:wc/isNumeric
  * @requires module:wc/ui/dateField
  * @requires module:wc/dom/initialise
@@ -57,13 +57,13 @@ define(["wc/dom/attribute",
 		"wc/dom/Widget",
 		"wc/i18n/i18n",
 		"wc/loader/resource",
-		"sprintf/sprintf",
+		"lib/sprintf",
 		"wc/isNumeric",
 		"wc/ui/dateField",
 		"wc/dom/initialise",
 		"wc/timers",
 		"module"],
-/** @param attribute wc/dom/attribute @param addDays wc/date/addDays @param copy wc/date/copy @param dayName wc/date/dayName @param daysInMonth wc/date/daysInMonth @param getDifference wc/date/getDifference @param monthName wc/date/monthName @param today wc/date/today @param interchange wc/date/interchange @param classList wc/dom/classList @param event wc/dom/event @param focus wc/dom/focus @param shed wc/dom/shed @param tag wc/dom/tag @param viewportCollision wc/dom/viewportCollision @param getBox wc/dom/getBox @param Widget wc/dom/Widget @param i18n wc/i18n/i18n @param loader wc/loader/resource @param sprintf sprintf/sprintf @param isNumeric wc/isNumeric @param dateField wc/ui/dateField @param initialise wc/dom/initialise @param timers wc/timers @param module @ignore */
+/** @param attribute wc/dom/attribute @param addDays wc/date/addDays @param copy wc/date/copy @param dayName wc/date/dayName @param daysInMonth wc/date/daysInMonth @param getDifference wc/date/getDifference @param monthName wc/date/monthName @param today wc/date/today @param interchange wc/date/interchange @param classList wc/dom/classList @param event wc/dom/event @param focus wc/dom/focus @param shed wc/dom/shed @param tag wc/dom/tag @param viewportCollision wc/dom/viewportCollision @param getBox wc/dom/getBox @param Widget wc/dom/Widget @param i18n wc/i18n/i18n @param loader wc/loader/resource @param sprintf lib/sprintf @param isNumeric wc/isNumeric @param dateField wc/ui/dateField @param initialise wc/dom/initialise @param timers wc/timers @param module @ignore */
 function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthName, today, interchange, classList, event,
 		focus, shed, tag, viewportCollision, getBox, Widget, i18n, loader, sprintf, isNumeric, dateField, initialise,
 		timers, module) {

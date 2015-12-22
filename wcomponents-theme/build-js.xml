@@ -43,16 +43,16 @@
 	<target name="copySrc">
 		<!-- Note, this is done in two "copy" steps to work around ANT bugs -->
 		<stopwatch name="copySrc" action="start"/>
-		<copy file="${basedir}/node_modules/requirejs/require.js" tofile="${script.tmp.src.dir}/requirejs/require.js"/>
-		<copy file="${basedir}/node_modules/sprintf-js/src/sprintf.js" tofile="${script.tmp.src.dir}/sprintf/sprintf.js"/>
-		<copy todir="${script.tmp.src.dir}/dojo" overwrite="true">
+		<property name="lib.tmp.src.dir" location="${script.tmp.src.dir}/lib"/>
+		<copy file="${basedir}/node_modules/requirejs/require.js" tofile="${lib.tmp.src.dir}/require.js"/>
+		<copy file="${basedir}/node_modules/sprintf-js/src/sprintf.js" tofile="${lib.tmp.src.dir}/sprintf.js"/>
+		<copy todir="${lib.tmp.src.dir}/dojo" overwrite="true">
 			<fileset dir="${basedir}/node_modules/dojo">
 				<include name="domReady.js"/>
 				<include name="sniff.js"/>
 				<include name="has.js"/>
 			</fileset>
 		</copy>
-		<copy file="${basedir}/node_modules/sprintf-js/src/sprintf.js" tofile="${script.tmp.src.dir}/sprintf/sprintf.js"/>
 		<!-- main js -->
 		<copy todir="${script.tmp.src.dir}" overwrite="true">
 			<fileset dir="${script.rootdir}" includes="**/*.js"/>
@@ -103,16 +103,18 @@
 		<!--
 			Syncs directories from "scripts" to "scripts_debug".
 		-->
-		<copy todir="${script.build.target.dir}/tinymce" >
+		<property name="lib.build.target.dir" location="${script.build.target.dir}/lib"/>
+		<property name="lib.debug.build.target.dir" location="${script.debug.build.target.dir}/lib"/>
+		<copy todir="${lib.build.target.dir}/tinymce" >
 			<fileset dir="${basedir}/node_modules/tinymce" includes="**">
 				<exclude name="*jquery*"/>
 			</fileset>
 		</copy>
-		<copy file="${basedir}/node_modules/promise-polyfill/Promise.min.js" tofile="${script.build.target.dir}/promise/Promise.min.js"/>
-		<copy file="${basedir}/node_modules/accessibility-developer-tools/dist/js/axs_testing.js" tofile="${script.build.target.dir}/a11y/axs_testing.js"/>
-		<copy file="${basedir}/node_modules/axe-core/axe.min.js" tofile="${script.build.target.dir}/a11y/axe.min.js"/>
+		<copy file="${basedir}/node_modules/promise-polyfill/Promise.min.js" tofile="${lib.build.target.dir}/Promise.min.js"/>
+		<copy file="${basedir}/node_modules/accessibility-developer-tools/dist/js/axs_testing.js" tofile="${lib.build.target.dir}/axs_testing.js"/>
+		<copy file="${basedir}/node_modules/axe-core/axe.min.js" tofile="${lib.build.target.dir}/axe.min.js"/>
 		<for param="dir">
-			<dirset dir="${script.build.target.dir}">
+			<dirset dir="${lib.build.target.dir}">
 				<include name="*"/>
 			</dirset>
 			<sequential>
@@ -120,11 +122,30 @@
 				<basename property="dir.name" file="@{dir}"/>
 				<if>
 					<not>
-						<available file="${script.debug.build.target.dir}/${dir.name}" type="dir"/>
+						<available file="${lib.debug.build.target.dir}/${dir.name}" type="dir"/>
 					</not>
 					<then>
-						<copy todir="${script.debug.build.target.dir}/${dir.name}">
+						<copy todir="${lib.debug.build.target.dir}/${dir.name}">
 							<fileset dir="@{dir}"/>
+						</copy>
+					</then>
+				</if>
+			</sequential>
+		</for>
+		<for param="file">
+			<fileset dir="${lib.build.target.dir}">
+				<include name="*"/>
+			</fileset>
+			<sequential>
+				<var name="file.name" unset="true"/>
+				<basename property="file.name" file="@{file}"/>
+				<if>
+					<not>
+						<available file="${lib.debug.build.target.dir}/${file.name}" type="file"/>
+					</not>
+					<then>
+						<copy todir="${lib.debug.build.target.dir}">
+							<fileset file="@{file}"/>
 						</copy>
 					</then>
 				</if>
