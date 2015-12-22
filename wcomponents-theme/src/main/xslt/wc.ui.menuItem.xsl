@@ -69,7 +69,7 @@
 			<xsl:attribute name="id">
 				<xsl:value-of select="$id"/>
 			</xsl:attribute>
-			<xsl:attribute name="classs">
+			<xsl:attribute name="class">
 				<xsl:text>menuItem</xsl:text>
 				<xsl:if test="$type &gt; 0">
 					<xsl:text> wc_btn_nada</xsl:text>
