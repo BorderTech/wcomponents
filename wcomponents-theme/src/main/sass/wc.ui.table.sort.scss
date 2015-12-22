@@ -8,44 +8,20 @@
 // state of the control.
 @import 'mixins_common.scss';
 
-[aria-sort] > .decoratedLabel {
-	display: table-cell;
-	vertical-align: middle;
-}
-
-// sorting controls
-.wc_table_sort_container {
-	display: table-cell;
-	padding-left: $hgap-large;
-	vertical-align: middle;
-
-	button { //sort control buttons
-		@include make-box($display: block);
-		line-height: 1;
-		text-align: center;
-
-		&:before { //up
-			content: '\25b3';
-			height: $line-size;
-			line-height: 1;
-			position: relative;
-			top: 0.25em;
+table[sortable] {
+	th {
+		&[aria-sort] {
+			@include background-image ('../images/down-d.png', $x: 100%);
+			background-position-x: calc(100% - 0.25em);
+			cursor: pointer;
 		}
 
-		+ button:before { //down
-			content: '\25bd';
-			top: -0.25em;
+		&[sorted] {
+			background-image: url('../images/down.png');
+		}
+
+		&[sorted~='reversed'] {
+			background-image: url('../images/up.png');
 		}
 	}
-
-	[aria-pressed]:before { //the single control in a column which is already sorted
-		content: '\25b2'; //sorted asc has a sort desc button
-		top: -0.25em;
-		vertical-align: middle;
-	}
-
-	[aria-pressed='true']:before { //sorted desc has a sort asc button
-		content: '\25bc';
-	}
 }
-/* end wc.ui.table.sort.scss */

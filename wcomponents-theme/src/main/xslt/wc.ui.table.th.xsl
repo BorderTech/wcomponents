@@ -3,22 +3,12 @@
 	<!--
 		Transform of a ui:th element within a ui:tr. This is a row header and is a 1:1 map
 		with a HTML th element.
-		
-		param myTable: The first table ancestor of the current row. This is determined
-		at the most efficient point (usually ui:tbody using its parent node) and then
-		passed through all subsequent transforms to save constant ancestor::ui:table[1]
-		lookups.
-		
-		param maxIndent: see notes in transform for ui:table in wc.ui.table.xsl.
 	-->
 	<xsl:template match="ui:th">
 		<xsl:param name="myTable"/>
-		<xsl:param name="maxIndent" select="0"/>
+		<xsl:param name="indent" select="0"/>
 		<xsl:variable name="tableId" select="$myTable/@id"/>
-		<xsl:element name="th">
-			<xsl:attribute name="id">
-				<xsl:value-of select="concat($tableId,'${wc.ui.table.id.tr.th.suffix}',../@rowIndex)"/>
-			</xsl:attribute>
+		<th id="{concat($tableId,'${wc.ui.table.id.tr.th.suffix}',../@rowIndex)}" scope="row">
 			<xsl:if test="$myTable/ui:thead">
 				<xsl:variable name="myHeader" select="$myTable/ui:thead/ui:th[1]"/>
 				<xsl:if test="$myHeader">
@@ -40,15 +30,14 @@
 					</xsl:choose>
 				</xsl:attribute>
 			</xsl:if>
-			<xsl:if test="$myTable/ui:rowExpansion and $myTable/@type='hierarchic'">
+			<xsl:if test="$indent &gt; 0">
 				<xsl:call-template name="firstRowCellIndentationHelper">
-					<xsl:with-param name="myTable" select="$myTable"/>
-					<xsl:with-param name="maxIndent" select="$maxIndent"/>
+					<xsl:with-param name="indent" select="$indent"/>
 				</xsl:call-template>
 			</xsl:if>
 			<xsl:apply-templates select="ui:decoratedLabel">
 				<xsl:with-param name="output" select="'div'"/>
 			</xsl:apply-templates>
-		</xsl:element>
+		</th>
 	</xsl:template>
 </xsl:stylesheet>

@@ -1,10 +1,6 @@
 /* wc.ui.combo.scss */
 @import 'mixins_common.scss';
 
-//scss-lint:disable QualifyingElement
-// Qualifying elements are important here to distinguish simple combos (input with list attribute) from date/partialDate
-// combos (which are divs with complex content).
-
 // This redundant rule is not as redundant as you might think so just leave it be!
 datalist {
 	display: none;

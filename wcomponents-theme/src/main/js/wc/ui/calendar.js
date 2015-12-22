@@ -377,6 +377,55 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 			}
 		}
 
+
+		/**
+		 * Helper for keydown event listener which handles key presses on year input.
+		 *
+		 * @function
+		 * @private
+		 * @param {Element} element The calendar's year input.
+		 * @param {int} keyCode The keydown event's keyCode.
+		 * @returns {Boolean} true if the event's default action is to be prevented.
+		 */
+		function keydownHelperChangeYear(element, keyCode) {
+			yearChanged(element);
+			if (keyCode === KeyEvent.DOM_VK_RETURN) { // do not submit on enter/return in year field
+				return true;
+			}
+			return false;
+		}
+
+		/**
+		 * Helper for keydown event listener which handles key presses on date pick buttons.
+		 *
+		 * @function
+		 * @private
+		 * @param {Element} element the target of the keydown event previously determined as a picker button.
+		 * @param {int} keyCode the keydown event's keyCode.
+		 * @param {Boolean} shiftKey was the SHIFT key down?
+		 * @returns {Boolean} true if the event is to have its default action prevented.
+		 */
+		function keydownHelperDateButton(element, keyCode, shiftKey) {
+			switch (keyCode) {
+				case KeyEvent.DOM_VK_LEFT:
+				case KeyEvent.DOM_VK_RIGHT:
+				case KeyEvent.DOM_VK_UP:
+				case KeyEvent.DOM_VK_DOWN:
+					navigateDayLeftRightUpDown(element, keyCode);
+					return true;
+				case KeyEvent.DOM_VK_T:
+					setDate(new Date(), true);
+					break;
+				case KeyEvent.DOM_VK_TAB:
+					if (!shiftKey && classList.contains(element, CLASS.LAST)) {  // tabbing fwd past last day
+						focus.setFocusRequest(findMonthSelect());  // move focus to first element
+						return true;
+					}
+					break;
+			}
+			return false;
+		}
+
 		/**
 		 * Key listeners in the calendar: ESC to close the calendar, ARROW and TAB key walking, SPACE & ENTER key
 		 * selection of pickable date, Year change handler is target is the year field.
@@ -390,46 +439,29 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 				shiftKey = $event.shiftKey,
 				keyCode = $event.keyCode,
 				handled = false;
-			if (!$event.defaultPrevented) {
-				if (keyCode === KeyEvent.DOM_VK_ESCAPE) {
-					hideCalendar();
-					handled = true;  // if the date field is in a dialog, do not close dialog
-				}
-				else if (element.id === YEAR_ELEMENT_ID && keyCode !== KeyEvent.DOM_VK_TAB && keyCode !== KeyEvent.DOM_VK_SHIFT) {
-					yearChanged(element);
-					if ($event.keyCode === KeyEvent.DOM_VK_RETURN) {
-						// do not submit on enter/return in year field
-						handled = true;
-					}
-				}
-				else if (keyCode === KeyEvent.DOM_VK_TAB && shiftKey && element === findMonthSelect()) {  // tabbing back past month select
-					buttons = PICKABLE.findDescendants(getCal());
-					focus.setFocusRequest(buttons[buttons.length - 1]);  // move focus to last element
-					handled = true;
-				}
-				else if ((element = PICKABLE.findAncestor(element))) {
-					switch (keyCode) {
-						case KeyEvent.DOM_VK_LEFT:
-						case KeyEvent.DOM_VK_RIGHT:
-						case KeyEvent.DOM_VK_UP:
-						case KeyEvent.DOM_VK_DOWN:
-							navigateDayLeftRightUpDown(element, keyCode);
-							handled = true;
-							break;
-						case KeyEvent.DOM_VK_T:
-							setDate(new Date(), true);
-							break;
-						case KeyEvent.DOM_VK_TAB:
-							if (!shiftKey && classList.contains(element, CLASS.LAST)) {  // tabbing fwd past last day
-								focus.setFocusRequest(findMonthSelect());  // move focus to first element
-								handled = true;
-							}
-							break;
-					}
-				}
-				if (handled) {
-					$event.preventDefault();
-				}
+
+			if ($event.defaultPrevented) {
+				return;
+			}
+
+			if (keyCode === KeyEvent.DOM_VK_ESCAPE) {
+				hideCalendar();
+				handled = true;  // if the date field is in a dialog, do not close dialog
+			}
+			else if (element.id === YEAR_ELEMENT_ID && keyCode !== KeyEvent.DOM_VK_TAB && keyCode !== KeyEvent.DOM_VK_SHIFT) {
+				handled = keydownHelperChangeYear(element, keyCode);
+			}
+			else if (keyCode === KeyEvent.DOM_VK_TAB && shiftKey && element === findMonthSelect()) {  // tabbing back past month select
+				buttons = PICKABLE.findDescendants(getCal());
+				focus.setFocusRequest(buttons[buttons.length - 1]);  // move focus to last element
+				handled = true;
+			}
+			else if ((element = PICKABLE.findAncestor(element))) {
+				handled = keydownHelperDateButton(element, keyCode, shiftKey);
+			}
+
+			if (handled) {
+				$event.preventDefault();
 			}
 		}
 

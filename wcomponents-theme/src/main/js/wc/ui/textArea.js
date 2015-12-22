@@ -76,6 +76,41 @@ define(["wc/dom/attribute",
 			}
 
 			/**
+			 * Get the 'real' length of the string in a textarea including double chrs for new lines.
+			 *
+			 * @function
+			 * @private
+			 * @param {Element} element The textarea to test
+			 * @returns {Number} The 'length' of the value string amended for new lines.
+			 */
+			function getLength(element) {
+				var len = 0, raw = element.value, arr, arrLen;
+				if (!raw) {
+					return 0;
+				}
+				arr = raw.split("\n");
+				arrLen = arr.length;
+				if (arrLen === 1) {
+					return raw.length;
+				}
+				arr.forEach(function(next, idx) {
+					var l = next.length;
+					if (idx < arrLen - 1) {
+						len += l + 2; // add two chars for each new line after an existing line of text
+					}
+					else if (next) { // if the last item in the array is content add its length
+						len += l;
+					}
+					/*
+					else { // if the last member of the array is an empty string then this means the last char entered by the user was a return and its extra chars were counted above.
+
+					}
+					*/
+				});
+				return len;
+			}
+
+			/**
 			 * There has been a change to the field's content, recalculate the maxlength counter.
 			 *
 			 * @function
@@ -86,7 +121,7 @@ define(["wc/dom/attribute",
 				var maxLength, count, counter, ERR = "wc_error";
 				if ((counter = instance.getCounter(element))) {
 					maxLength = instance.getMaxlength(element);
-					count = (maxLength - element.value.length);
+					count = (maxLength - getLength(element));
 					counter.setAttribute("value", count);
 					counter.setAttribute("title", sprintf.sprintf(i18n.get("${wc.ui.maxlength.i18n.message}", count)));
 					if (count < 0) {

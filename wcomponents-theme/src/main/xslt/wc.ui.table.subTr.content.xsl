@@ -4,21 +4,12 @@
 	<xsl:import href="wc.ui.table.subTr.content.n.WTableAdditionalContentClass.xsl"/>
 	<!--
 		Transform for ui:content child of a ui:subTr.
-		
-		param myTable: The first table ancestor of the current row. This is determined
-		at the most efficient point (usually ui:tbody using its parent node) and then
-		passed through all subsequent transforms to save constant ancestor::ui:table[1]
-		lookups.
-		
-		param parentIsClosed default 0, if 1 then the element is hidden.
-		
-		param maxIndent: see notes in transform for ui:table in wc.ui.table.xsl.
 	-->
 	<xsl:template match="ui:subTr/ui:content">
 		<xsl:param name="myTable"/>
 		<xsl:param name="parentIsClosed" select="0"/>
 		<xsl:param name="topRowIsStriped" select="0"/>
-		<xsl:param name="maxIndent" select="0"/>
+		<xsl:param name="indent" select="0"/>
 		<xsl:variable name="tableId" select="$myTable/@id"/>
 		<xsl:variable name="isHeirarchic">
 			<xsl:if test="$myTable/@type='hierarchic'">
@@ -55,12 +46,6 @@
 					<xsl:text>&#x2002;</xsl:text>
 				</xsl:element>
 			</xsl:if>
-			<xsl:if test="$isHeirarchic=1">
-				<xsl:call-template name="indentCells">
-					<xsl:with-param name="myTable" select="$myTable"/>
-					<xsl:with-param name="maxIndent" select="$maxIndent"/>
-				</xsl:call-template>
-			</xsl:if>
 			<xsl:element name="td">
 				<xsl:attribute name="class">
 					<xsl:text>wc_table_rowexp_container</xsl:text>
@@ -68,23 +53,14 @@
 			</xsl:element>
 			<xsl:element name="td">
 				<xsl:if test="@spanAllCols=$t">
-					<xsl:variable name="basicColSpan" select="count(../../ui:td|../../ui:th)"/>
 					<xsl:attribute name="colspan">
-						<xsl:choose>
-							<xsl:when test="$isHeirarchic!=1 or $maxIndent=0">
-								<xsl:value-of select="$basicColSpan"/>
-							</xsl:when>
-							<xsl:otherwise>
-								<xsl:variable name="preCollapserIndent">
-									<xsl:call-template name="getPreCollapserIndent">
-										<xsl:with-param name="maxIndent" select="$maxIndent"/>
-										<xsl:with-param name="myTable" select="$myTable"/>
-									</xsl:call-template>
-								</xsl:variable>
-								<xsl:value-of select="$basicColSpan + $maxIndent - $preCollapserIndent - 1"/>
-							</xsl:otherwise>
-						</xsl:choose>
+						<xsl:value-of select="count(../../ui:td|../../ui:th)"/>
 					</xsl:attribute>
+				</xsl:if>
+				<xsl:if test="$indent &gt; 0">
+					<xsl:call-template name="firstRowCellIndentationHelper">
+						<xsl:with-param name="indent" select="$indent"/>
+					</xsl:call-template>
 				</xsl:if>
 				<xsl:apply-templates/>
 			</xsl:element>
