@@ -1,15 +1,19 @@
-define(["wc/ui/loading"], function(loading) {
+define(["wc/ui/loading", "wc/dom/storage"], function(loading, storage) {
 	"use strict";
-	var GOOGLE = true;  // TODO externalize this
+	var AXE = storage.get("wc.a11y.AXE");  // set this to "true" to use axe-core
 
-	loading.done.then(a11yTest);
+	loading.done.then(window.setTimeout(function() {
+		// kick this off after a few seconds so that RequireJS has (hopefully) finished loading modules
+		console.log("Pending a11y check in 3 seconds");
+		a11yTest();
+	}, 3000));
 
 	/**
 	 * Run the accessbility test on the current page.
 	 */
 	function a11yTest() {
 		console.log("Starting a11y check...");
-		if (GOOGLE) {
+		if (AXE !== "true") {
 			require(["axs"], function(axs) {
 				console.time("a11y_goog");
 				googleA11yDevTools(axs);

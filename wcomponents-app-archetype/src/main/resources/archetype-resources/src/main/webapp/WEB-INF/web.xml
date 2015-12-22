@@ -2,17 +2,11 @@
 <!DOCTYPE web-app PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN" "http://java.sun.com/dtd/web-app_2_3.dtd">
 <web-app id="MyWebApp_ID">
     <display-name>My WebApp</display-name>
-        
+
     <!-- Your extension of WServlet -->
     <servlet>
         <servlet-name>myAppServlet</servlet-name>
         <servlet-class>${package}.servlet.MyAppServlet</servlet-class>
-    </servlet>
-
-    <!-- Serve up the theme resources straight from the JAR rather than extracting them to the WAR. -->
-    <servlet>
-        <servlet-name>themeServlet</servlet-name>
-        <servlet-class>com.github.bordertech.wcomponents.servlet.ThemeServlet</servlet-class>
     </servlet>
 
     <!-- Your servlet's mapping -->
@@ -21,10 +15,8 @@
         <url-pattern>/app</url-pattern>
     </servlet-mapping>
 
-	<!-- Theme servlet mapping. This should match the "bordertech.wcomponents.theme.path" configuration parameter. -->    
     <servlet-mapping>
-        <servlet-name>themeServlet</servlet-name>
-        <url-pattern>/theme/*</url-pattern>
+        <servlet-name>myAppServlet</servlet-name>
+        <url-pattern>/app/*</url-pattern>
     </servlet-mapping>
-
-</web-app>  
+</web-app>

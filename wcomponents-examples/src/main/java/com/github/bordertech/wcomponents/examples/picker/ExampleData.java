@@ -177,6 +177,8 @@ import com.github.bordertech.wcomponents.examples.validation.basic.BasicDiagnost
 import com.github.bordertech.wcomponents.examples.validation.basic.BasicFieldsValidationExample2;
 import com.github.bordertech.wcomponents.examples.validation.fields.FieldValidation;
 import com.github.bordertech.wcomponents.examples.othersys.LinkExamples;
+import com.github.bordertech.wcomponents.examples.table.WTableColumnAlignmentExample;
+import com.github.bordertech.wcomponents.examples.table.WTableColumnWidthExample;
 import com.github.bordertech.wcomponents.util.Util;
 import java.io.Serializable;
 
@@ -300,8 +302,7 @@ public final class ExampleData implements Serializable {
 		new ExampleData("Simple expandable", SimpleExpandableTableExample.class),
 		new ExampleData("Simple expandable content", SimpleExpandableContentTableExample.class),
 		new ExampleData("Simple pagination", SimplePaginationTableExample.class),
-		new ExampleData("Simple pagination with row options",
-		SimplePaginationWithRowOptionsTableExample.class),
+		new ExampleData("Simple pagination with row options", SimplePaginationWithRowOptionsTableExample.class),
 		new ExampleData("Simple selectable", SimpleSelectableTableExample.class),
 		new ExampleData("Simple sorting", SimpleSortingTableExample.class),
 		new ExampleData("Table using a bean provider", TableBeanProviderExample.class),
@@ -311,7 +312,9 @@ public final class ExampleData implements Serializable {
 		new ExampleData("Advanced cell editting with AJAX", TableRowEditingAjaxExample.class),
 		new ExampleData("Options example", WTableOptionsExample.class),
 		new ExampleData("Filtering example", FilterableTableExample.class),
-		new ExampleData("WTable Cell with image content ", TableContentExample.class)
+		new ExampleData("WTable Cell with image content ", TableContentExample.class),
+		new ExampleData("Simple Column Width", WTableColumnWidthExample.class),
+		new ExampleData("Simple Column Alignment", WTableColumnAlignmentExample.class)
 	};
 
 	/**
