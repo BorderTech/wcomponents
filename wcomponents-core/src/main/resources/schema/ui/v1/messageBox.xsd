@@ -35,6 +35,11 @@ XML schema for messageBox (WMessageBox)
 					<xs:documentation>Provides the ability to pass an HTML class attribute onto the root output element.</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
+			<xs:attribute name="title" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>A human readable title for the messageBox.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
 			<xs:attribute name="type" use="required">
 				<xs:annotation>
 					<xs:documentation>The type of message(s) being displayed.</xs:documentation>
