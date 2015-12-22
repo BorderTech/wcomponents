@@ -14,6 +14,7 @@ import java.util.List;
  *
  * @deprecated menu groups are not compatible with WCAG 2.0.
  */
+@Deprecated
 public class WMenuItemGroup extends AbstractContainer implements Disableable, MenuItemGroup {
 
 	/**
@@ -47,17 +48,17 @@ public class WMenuItemGroup extends AbstractContainer implements Disableable, Me
 	}
 
 	/**
-	 * @return returns the group heading text.
-	 */
-	public String getHeadingText() {
-		return label.getText();
-	}
-
-	/**
 	 * @return the decorated label for this menu item group
 	 */
 	public WDecoratedLabel getDecoratedLabel() {
 		return label;
+	}
+
+	/**
+	 * @return returns the group heading text.
+	 */
+	public String getHeadingText() {
+		return getDecoratedLabel().getText();
 	}
 
 	/**
@@ -66,7 +67,7 @@ public class WMenuItemGroup extends AbstractContainer implements Disableable, Me
 	 * @param headingText the heading to set.
 	 */
 	public void setHeadingText(final String headingText) {
-		label.setText(headingText);
+		getDecoratedLabel().setText(headingText);
 	}
 
 	/**
@@ -123,7 +124,7 @@ public class WMenuItemGroup extends AbstractContainer implements Disableable, Me
 	@Override
 	public void addMenuItem(final MenuItem item) {
 		if (item instanceof MenuItemGroup) {
-			throw new IllegalArgumentException("Cannot added a menu gorup to another menu group.");
+			throw new IllegalArgumentException("Cannot add a nested menu group to another menu group.");
 		}
 		getContent().add(item);
 	}

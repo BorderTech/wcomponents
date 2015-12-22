@@ -11,12 +11,12 @@ public interface MenuItemSelectable extends MenuItem {
 	/**
 	 * @return true if this item is selectable, false if not, or null if default to its container.
 	 */
-	Boolean isSelectable();
+	Boolean getSelectability();
 
 	/**
-	 * @param selectable true if this item is selectable, false if not, or null to default to the container.
+	 * @param selectability true if this item is selectable, false if not, or null to default to the container.
 	 */
-	void setSelectable(final Boolean selectable);
+	void setSelectability(final Boolean selectability);
 
 	/**
 	 * @return true if selected, otherwise false

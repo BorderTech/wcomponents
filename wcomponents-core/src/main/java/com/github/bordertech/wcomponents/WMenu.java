@@ -118,16 +118,16 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void setMargin(final Margin margin) {
-		getOrCreateComponentModel().margin = margin;
+	public Margin getMargin() {
+		return getComponentModel().margin;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Margin getMargin() {
-		return getComponentModel().margin;
+	public void setMargin(final Margin margin) {
+		getOrCreateComponentModel().margin = margin;
 	}
 
 	/**
@@ -154,15 +154,19 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 	 */
 	@Deprecated
 	public void setSelectMode(final SelectMode selectMode) {
-		switch (selectMode) {
-			case MULTIPLE:
-				setSelectionMode(SelectionMode.MULTIPLE);
-				break;
-			case SINGLE:
-				setSelectionMode(SelectionMode.SINGLE);
-				break;
-			default:
-				setSelectionMode(SelectionMode.NONE);
+		if (selectMode == null) {
+			setSelectionMode(null);
+		} else {
+			switch (selectMode) {
+				case MULTIPLE:
+					setSelectionMode(SelectionMode.MULTIPLE);
+					break;
+				case SINGLE:
+					setSelectionMode(SelectionMode.SINGLE);
+					break;
+				default:
+					setSelectionMode(SelectionMode.NONE);
+			}
 		}
 	}
 
@@ -179,7 +183,27 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 	 */
 	@Override
 	public void setSelectionMode(final SelectionMode selectionMode) {
-		getOrCreateComponentModel().selectionMode = selectionMode;
+		getOrCreateComponentModel().selectionMode = selectionMode == null ? SelectionMode.NONE : selectionMode;
+	}
+
+	/**
+	 * Indicates whether this menu is disabled.
+	 *
+	 * @return true if this menu is disabled.
+	 */
+	@Override
+	public boolean isDisabled() {
+		return isFlagSet(ComponentModel.DISABLED_FLAG);
+	}
+
+	/**
+	 * Sets whether this menu is disabled.
+	 *
+	 * @param disabled if true, the menu will be disabled.
+	 */
+	@Override
+	public void setDisabled(final boolean disabled) {
+		setFlag(ComponentModel.DISABLED_FLAG, disabled);
 	}
 
 	/**
@@ -207,6 +231,7 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 	 * @param item add a {@link WMenuItemGroup}
 	 * @deprecated menu groups are not compatible with WCAG 2.0.
 	 */
+	@Deprecated
 	public void add(final WMenuItemGroup item) {
 		addMenuItem(item);
 	}
@@ -275,41 +300,6 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 	}
 
 	/**
-	 * @param items the list of menu items
-	 * @param recurse true if recurse into child items that are menu containers
-	 * @param container the current container
-	 */
-	private void getChildMenuItems(final List<MenuItem> items, final boolean recurse, final MenuContainer container) {
-
-		for (MenuItem item : container.getMenuItems()) {
-			items.add(item);
-			if (recurse && item instanceof MenuContainer) {
-				getChildMenuItems(items, recurse, (MenuContainer) item);
-			}
-		}
-	}
-
-	/**
-	 * Indicates whether this menu is disabled.
-	 *
-	 * @return true if this menu is disabled.
-	 */
-	@Override
-	public boolean isDisabled() {
-		return isFlagSet(ComponentModel.DISABLED_FLAG);
-	}
-
-	/**
-	 * Sets whether this menu is disabled.
-	 *
-	 * @param disabled if true, the menu will be disabled.
-	 */
-	@Override
-	public void setDisabled(final boolean disabled) {
-		setFlag(ComponentModel.DISABLED_FLAG, disabled);
-	}
-
-	/**
 	 * Returns the selected item (WMenUItem/WSubMenu, depending on the menu type) in the given context.
 	 *
 	 * @return the selected item, or null if no item has been selected.
@@ -339,16 +329,8 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 	 */
 	@Deprecated
 	public List<WComponent> getSelectedItems() {
-		List<MenuItemSelectable> selectedItems = getSelectedMenuItems();
-		if (selectedItems == null || selectedItems.isEmpty()) {
-			return Collections.emptyList();
-		} else {
-			List<WComponent> items = new ArrayList<>(selectedItems.size());
-			for (MenuItemSelectable item : selectedItems) {
-				items.add(item);
-			}
-			return Collections.unmodifiableList(items);
-		}
+		List<WComponent> items = new ArrayList(getSelectedMenuItems());
+		return Collections.unmodifiableList(items);
 	}
 
 	/**
@@ -362,10 +344,7 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 		if (selectedItems == null || selectedItems.isEmpty()) {
 			setSelectedMenuItems(null);
 		} else {
-			List<MenuItemSelectable> items = new ArrayList<>(selectedItems.size());
-			for (WComponent item : selectedItems) {
-				items.add((MenuItemSelectable) item);
-			}
+			List<MenuItemSelectable> items = new ArrayList(selectedItems);
 			setSelectedMenuItems(items);
 		}
 	}
@@ -571,7 +550,7 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 		}
 
 		// Item is specificially set to selectable/unselectable
-		Boolean itemSelectable = ((MenuItemSelectable) item).isSelectable();
+		Boolean itemSelectable = ((MenuItemSelectable) item).getSelectability();
 		if (itemSelectable != null) {
 			return itemSelectable;
 		}
@@ -582,12 +561,33 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 	}
 
 	/**
+	 * @param items the list of menu items
+	 * @param recurse true if recurse into child items that are menu containers
+	 * @param container the current container
+	 */
+	private void getChildMenuItems(final List<MenuItem> items, final boolean recurse, final MenuContainer container) {
+
+		for (MenuItem item : container.getMenuItems()) {
+			items.add(item);
+			if (recurse && item instanceof MenuContainer) {
+				getChildMenuItems(items, recurse, (MenuContainer) item);
+			}
+		}
+	}
+
+	/**
+	 * @return the container holding the menu items
+	 */
+	private WContainer getContent() {
+		return content;
+	}
+
+	/**
 	 * Creates a new component model.
 	 *
 	 * @return a new MenuModel.
 	 */
 	@Override
-
 	protected MenuModel newComponentModel() {
 		return new MenuModel();
 	}
@@ -606,13 +606,6 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 	@Override
 	protected MenuModel getOrCreateComponentModel() {
 		return (MenuModel) super.getOrCreateComponentModel();
-	}
-
-	/**
-	 * @return the container holding the menu items
-	 */
-	private WContainer getContent() {
-		return content;
 	}
 
 	/**

@@ -297,26 +297,40 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 	}
 
 	/**
-	 * @return true if this submenu is selectable, false if not, or null if default to its container.
-	 * @deprecated submenus should not be selectable.
+	 * @return true if this item is selectable, false if not, or null to default to the container.
+	 * @deprecated Use {@link #getSelectability()} instead.
 	 */
 	@Deprecated
-	@Override
 	public Boolean isSelectable() {
-		return getComponentModel().selectable;
+		return getSelectability();
 	}
 
 	/**
-	 * This methods sets whether this sub-menu is selectable. Note that selectability does not affect other operations,
-	 * for example the ability to expand/collapse a sub-menu.
-	 *
-	 * @param selectable true if this submenu is selectable, false if not, or null if default to the container.
-	 * @deprecated submenus should not be selectable
+	 * @param selectable true if this item is selectable, false if not, or null to default to the container.
+	 * @deprecated Use {@link #setSelectability(java.lang.Boolean)} instead.
 	 */
 	@Deprecated
-	@Override
 	public void setSelectable(final Boolean selectable) {
-		getOrCreateComponentModel().selectable = selectable;
+		setSelectability(selectable);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @deprecated submenus should not be selectable.
+	 */
+	@Override
+	public Boolean getSelectability() {
+		return getComponentModel().selectability;
+	}
+
+	/**
+	 * @param selectability true if this item is selectable, false if not, or null to default to the container.
+	 * @deprecated submenus should not be selectable.
+	 */
+	@Override
+	public void setSelectability(final Boolean selectability) {
+		getOrCreateComponentModel().selectability = selectability;
 	}
 
 	/**
@@ -650,7 +664,7 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 		/**
 		 * Indicates whether the sub-menu itself can be selected (e.g. for column menus).
 		 */
-		private Boolean selectable;
+		private Boolean selectability;
 
 		/**
 		 * The action to execute when the menu item is selected.
