@@ -55,7 +55,13 @@
 		<xsl:variable name="toggleClass">
 			<xsl:value-of select="local-name(.)"/>
 		</xsl:variable>
-		<ul id="{$id}" role="radiogroup" class="{local-name(.)}">
+		<ul id="{$id}" role="radiogroup">
+			<xsl:attribute name="class">
+				<xsl:value-of select="local-name()"/>
+				<xsl:if test="@class">
+					<xsl:value-of select="concat(' ', @class)"/>
+				</xsl:if>
+			</xsl:attribute>
 			<xsl:if test="self::ui:rowExpansion">
 				<xsl:call-template name="disabledElement">
 					<xsl:with-param name="field" select=".."/>

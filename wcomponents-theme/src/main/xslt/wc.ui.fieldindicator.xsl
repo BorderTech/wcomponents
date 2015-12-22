@@ -28,7 +28,7 @@
 				<xsl:value-of select="@id"/>
 			</xsl:attribute>
 			<xsl:attribute name="class">
-				<xsl:value-of select="@type"/>
+				<xsl:value-of select="concat(local-name(), ' ', @type)"/>
 				<xsl:if test="@class">
 					<xsl:value-of select="concat(' ', @class)"/>
 				</xsl:if>

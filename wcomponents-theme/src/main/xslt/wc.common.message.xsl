@@ -14,6 +14,12 @@
 	-->
 	<xsl:template match="ui:message">
 		<xsl:element name="li">
+			<xsl:attribute name="class">
+				<xsl:value-of select="local-name(.)"/>
+				<xsl:if test="@class">
+					<xsl:value-of select="concat(' ', @class)"/>
+				</xsl:if>
+			</xsl:attribute>
 			<xsl:apply-templates/>
 		</xsl:element>
 	</xsl:template>
