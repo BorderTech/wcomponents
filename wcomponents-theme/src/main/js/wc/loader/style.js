@@ -46,8 +46,8 @@
  * @module
  * @requires module:wc/has
  * @todo Maybe allow load to accept an Object or Object[] arg so it can be called from within another module?
- * @todo dojo/sniff has been patched to include has("edge") but it not yet released. The include of fixes here is to
- * include our has test for edge. It can be removed once dojo/sniff is updated.
+ * @todo lib/dojo/sniff has been patched to include has("edge") but it not yet released. The include of fixes here is to
+ * include our has test for edge. It can be removed once lib/dojo/sniff is updated.
  */
 define(["wc/has", "wc/fixes", "module"], /** @param has wc/has @param module module @ignore */ function(has, fixes, module) {
 	"use strict";
@@ -91,7 +91,7 @@ define(["wc/has", "wc/fixes", "module"], /** @param has wc/has @param module mod
 			 * <p><string>DO NOT include IE specific files here</strong>. IE versions (e.g. ie8 or ie9) are included in
 			 * {@link module:wc/loader/style~ieVersionsToSupport}.</p>
 			 *
-			 * <p>Some popular tests (see dojo/sniff for more):</p>
+			 * <p>Some popular tests (see lib/dojo/sniff for more):</p>
 			 * <ul><li>has("ios")</li>
 			 * <li>has("android")</li>
 			 * <li>has("safari")</li>
