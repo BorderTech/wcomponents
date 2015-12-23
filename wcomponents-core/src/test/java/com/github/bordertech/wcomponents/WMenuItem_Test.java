@@ -95,9 +95,8 @@ public class WMenuItem_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testSubmitFlag() {
-		Action action = new TestAction();
 		WMenuItem item = new WMenuItem("");
-		Assert.assertFalse("Submit flag should default to flase when no action provided", item.isSubmit());
+		Assert.assertFalse("Submit flag should default to false when no action provided", item.isSubmit());
 
 		// Set url
 		item.setUrl("A");
@@ -125,6 +124,36 @@ public class WMenuItem_Test extends AbstractWComponentTestCase {
 	}
 
 	@Test
+	public void testSelectableAccessors() {
+		WMenuItem item = new WMenuItem("");
+		Assert.assertNull("Selectable should be null by default", item.isSelectable());
+
+		item.setSelectable(Boolean.FALSE);
+		item.setLocked(true);
+		setActiveContext(createUIContext());
+		item.setSelectable(Boolean.TRUE);
+
+		Assert.assertTrue("Should be selectable in session", item.isSelectable());
+
+		resetContext();
+		Assert.assertFalse("Default should not be selectable", item.isSelectable());
+	}
+
+	@Test
+	public void testIsSelected() {
+		WMenu menu = new WMenu();
+		WMenuItem item = new WMenuItem("");
+		menu.add(item);
+
+		// Not selected
+		Assert.assertFalse("Menu should not be selected by default", item.isSelected());
+
+		// Set as selected
+		menu.setSelectedItem(item);
+		Assert.assertTrue("Menu should be selected by default", item.isSelected());
+	}
+
+	@Test
 	public void testSelectabilityAccessors() {
 		assertAccessorsCorrect(new WMenuItem(""), "selectability", null, true, false);
 	}
@@ -142,13 +171,13 @@ public class WMenuItem_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testGetAccessKeyAsString() {
 		WMenuItem item = new WMenuItem("");
-		Assert.assertEquals("Incorrect acesskey as string", null, item.getAccessKeyAsString());
+		Assert.assertNull("Incorrect acesskey as string", item.getAccessKeyAsString());
 
 		item.setAccessKey('C');
 		Assert.assertEquals("Incorrect acesskey as string", "C", item.getAccessKeyAsString());
 
 		item.setAccessKey('\0');
-		Assert.assertEquals("Incorrect acesskey as string", null, item.getAccessKeyAsString());
+		Assert.assertNull("Incorrect acesskey as string", item.getAccessKeyAsString());
 	}
 
 	@Test
@@ -163,7 +192,7 @@ public class WMenuItem_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testMessageAccessors() {
-		assertAccessorsCorrect(new WMenuItem(""), "message", null, "A", "B", Serializable[].class);
+		assertAccessorsCorrect(new WMenuItem(""), "message", null, "A", "B", new Serializable[]{});
 	}
 
 	@Test

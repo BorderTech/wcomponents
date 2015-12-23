@@ -111,14 +111,18 @@ public class WMenu_Test extends AbstractWComponentTestCase {
 		WMenu menuBar = new WMenu();
 		Assert.assertTrue("Menu item list should be empty by default", menuBar.getMenuItems().isEmpty());
 
-		// Add item
-		WMenuItem menuItem = new WMenuItem("item");
-		menuBar.add(menuItem);
-		Assert.assertTrue("Menu item should have been added to menu bar", menuBar.getMenuItems().contains(menuItem));
+		// Add items
+		WMenuItem item1 = new WMenuItem("item1");
+		WMenuItem item2 = new WMenuItem("item2");
+		menuBar.add(item1);
+		menuBar.add(item2);
+		Assert.assertTrue("Menu item1 should have been added to menu bar", menuBar.getMenuItems().contains(item1));
+		Assert.assertTrue("Menu item2 should have been added to menu bar", menuBar.getMenuItems().contains(item2));
 
 		// Remove item
-		menuBar.removeMenuItem(menuItem);
-		Assert.assertTrue("Menu item list should be empty after remove item", menuBar.getMenuItems().isEmpty());
+		menuBar.removeMenuItem(item1);
+		Assert.assertFalse("Menu item1 should not been in items list after being removed", menuBar.getMenuItems().contains(item1));
+		Assert.assertTrue("Menu item2 should be in the items list", menuBar.getMenuItems().contains(item2));
 	}
 
 	@Test
@@ -127,14 +131,16 @@ public class WMenu_Test extends AbstractWComponentTestCase {
 		WMenu menuBar = new WMenu();
 		Assert.assertTrue("Menu item list should be empty by default", menuBar.getMenuItems().isEmpty());
 
-		// Add item
-		WMenuItem menuItem = new WMenuItem("item");
-		menuBar.add(menuItem);
-		Assert.assertTrue("Menu item should have been added to menu bar", menuBar.getMenuItems().contains(menuItem));
+		// Add items
+		WMenuItem item1 = new WMenuItem("item1");
+		WMenuItem item2 = new WMenuItem("item2");
+		menuBar.add(item1);
+		menuBar.add(item2);
+		Assert.assertEquals("Menu items list should have 2 items", 2, menuBar.getMenuItems().size());
 
-		// Remove all items
+		// Remove item
 		menuBar.removeAllMenuItems();
-		Assert.assertTrue("Menu item list should be empty after remove item", menuBar.getMenuItems().isEmpty());
+		Assert.assertTrue("Menu items should be empty", menuBar.getMenuItems().isEmpty());
 	}
 
 	@Test
@@ -151,7 +157,7 @@ public class WMenu_Test extends AbstractWComponentTestCase {
 
 		Assert.assertEquals("Items list should have two items", 2, menuBar.getMenuItems().size());
 		Assert.assertTrue("Items list should contain the menu item", menuBar.getMenuItems().contains(menuItem));
-		Assert.assertTrue("Items list should contain the sub menu item", menuBar.getMenuItems().contains(menuItem));
+		Assert.assertTrue("Items list should contain the sub menu item", menuBar.getMenuItems().contains(subMenu));
 	}
 
 	@Test
@@ -168,19 +174,19 @@ public class WMenu_Test extends AbstractWComponentTestCase {
 		// Not recursive
 		Assert.assertEquals("Items list should have two items", 2, menuBar.getMenuItems(false).size());
 		Assert.assertTrue("Items list should contain the menu item", menuBar.getMenuItems(false).contains(menuItem));
-		Assert.assertTrue("Items list should contain the sub menu item", menuBar.getMenuItems(false).contains(menuItem));
+		Assert.assertTrue("Items list should contain the sub menu item", menuBar.getMenuItems(false).contains(subMenu));
 
-		// Recursive
+		// Recursive (include submenu children)
 		Assert.assertEquals("Items list should have three items", 3, menuBar.getMenuItems(true).size());
 		Assert.assertTrue("Items list should contain the menu item", menuBar.getMenuItems(true).contains(menuItem));
-		Assert.assertTrue("Items list should contain the sub menu item", menuBar.getMenuItems(true).contains(menuItem));
+		Assert.assertTrue("Items list should contain the sub menu item", menuBar.getMenuItems(true).contains(subMenu));
 		Assert.assertTrue("Items list should contain the sub item", menuBar.getMenuItems(true).contains(subItem));
 
 	}
 
 	@Test
 	public void testSelectedItemsAccessors() {
-		assertAccessorsCorrect(new WMenu(), "selectedItems", Collections.EMPTY_LIST, Arrays.asList(new WMenuItem("")), Arrays.asList(new WMenuItem("")));
+		assertAccessorsCorrect(new WMenu(), "selectedItems", Collections.EMPTY_LIST, Arrays.asList(new WMenuItem("A")), Arrays.asList(new WMenuItem("B")));
 	}
 
 	@Test

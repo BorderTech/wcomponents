@@ -127,16 +127,6 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 	}
 
 	/**
-	 * Adds a menu item group to this sub menu.
-	 *
-	 * @param menuItemGroup the menu item group to add.
-	 * @deprecated menu groups are not compatible with WCAG 2.0.
-	 */
-	public void addMenuItemGroup(final WMenuItemGroup menuItemGroup) {
-		addMenuItem(menuItemGroup);
-	}
-
-	/**
 	 * Adds a separator to the sub-menu.
 	 */
 	public void addSeparator() {
@@ -155,6 +145,16 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 	 */
 	public void add(final WMenuItem item) {
 		addMenuItem(item);
+	}
+
+	/**
+	 * Adds a menu item group to this sub menu.
+	 *
+	 * @param menuItemGroup the menu item group to add.
+	 * @deprecated menu groups are not compatible with WCAG 2.0.
+	 */
+	public void addMenuItemGroup(final WMenuItemGroup menuItemGroup) {
+		addMenuItem(menuItemGroup);
 	}
 
 	/**
