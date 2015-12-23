@@ -130,4 +130,20 @@ public class WMessageBox_Test extends AbstractWComponentTestCase {
 		messageBox.clearMessages();
 		Assert.assertFalse("Dynamic clear Assert.failed", messageBox.hasMessages());
 	}
+
+
+	@Test
+	public void testTitleTextAccessors() {
+		//assertAccessorsCorrect(new SimpleComponent(), "htmlClass", null, "foo", "bar");
+		WMessageBox comp = new WMessageBox(WMessageBox.INFO);
+		comp.setLocked(true);
+		setActiveContext(createUIContext());
+		String text = "my test text";
+
+		comp.setTitleText(text);
+		Assert.assertEquals("Dynamic accessible text incorrect", text, comp.getTitleText());
+
+		resetContext();
+		Assert.assertNull("Default accessible text incorrect", comp.getTitleText());
+	}
 }

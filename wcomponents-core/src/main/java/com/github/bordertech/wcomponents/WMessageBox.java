@@ -82,6 +82,7 @@ public class WMessageBox extends AbstractWComponent implements AjaxTarget, Subor
 	 *
 	 * @author Ming Gao
 	 * @author Adam Millard
+	 * @author Mark Reeves
 	 */
 	public static class MessageModel extends ComponentModel {
 
@@ -93,6 +94,11 @@ public class WMessageBox extends AbstractWComponent implements AjaxTarget, Subor
 		 * Message with encoding flag.
 		 */
 		private final List<Duplet<Serializable, Boolean>> messages = new ArrayList<>();
+
+		/**
+		 * The message box title text.
+		 */
+		private Serializable title;
 	}
 
 	/**
@@ -146,6 +152,24 @@ public class WMessageBox extends AbstractWComponent implements AjaxTarget, Subor
 	 */
 	public Type getType() {
 		return getComponentModel().type;
+	}
+
+	/**
+	 * Sets the message box title.
+	 *
+	 * @param title the message box title to set, using {@link MessageFormat} syntax.
+	 * @param args optional arguments for the message format string.
+	 */
+	public void setTitleText(final String title, final Serializable... args) {
+		MessageModel model = getOrCreateComponentModel();
+		model.title = I18nUtilities.asMessage(title, args);
+	}
+
+	/**
+	 * @return the message box title.
+	 */
+	public String getTitleText() {
+		return I18nUtilities.format(null, getComponentModel().title);
 	}
 
 	/**
