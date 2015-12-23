@@ -15,7 +15,7 @@
  * @default 60
  *
  * @module
- * @requires external:sprintf/sprintf
+ * @requires external:lib/sprintf
  * @requires module:wc/xml/xslTransform
  * @requires module:wc/dom/event
  * @requires module:wc/dom/Widget
@@ -26,8 +26,8 @@
  *
  * @todo Document private members, check source order.
  */
-define(["sprintf/sprintf", "wc/xml/xslTransform", "wc/dom/event", "wc/dom/Widget", "wc/i18n/i18n", "wc/loader/resource", "wc/dom/shed", "wc/timers", "module"],
-	/** @param sprintf sprintf/sprintf @param xslTransform wc/xml/xslTransform @param event wc/dom/event @param Widget wc/dom/Widget @param i18n wc/i18n/i18n @param loader wc/loader/resource @param shed wc/dom/shed @param timers wc/timers @param module @ignore */
+define(["lib/sprintf", "wc/xml/xslTransform", "wc/dom/event", "wc/dom/Widget", "wc/i18n/i18n", "wc/loader/resource", "wc/dom/shed", "wc/timers", "module"],
+	/** @param sprintf lib/sprintf @param xslTransform wc/xml/xslTransform @param event wc/dom/event @param Widget wc/dom/Widget @param i18n wc/i18n/i18n @param loader wc/loader/resource @param shed wc/dom/shed @param timers wc/timers @param module @ignore */
 	function(sprintf, xslTransform, event, Widget, i18n, loader, shed, timers, module) {
 		"use strict";
 		/**

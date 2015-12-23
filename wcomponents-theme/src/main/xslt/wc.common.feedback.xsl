@@ -29,6 +29,9 @@
 			</xsl:attribute>
 			<xsl:element name="h1">
 				<xsl:choose>
+					<xsl:when test="@title">
+						<xsl:value-of select="@title"/>
+					</xsl:when>
 					<xsl:when test="$type='error'">
 						<xsl:value-of select="$$${wc.ui.messageBox.title.error}"/>
 					</xsl:when>

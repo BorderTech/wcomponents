@@ -10,7 +10,7 @@
  * @requires module:${validation.core.path.name}/validationManager
  * @requires module:${validation.core.path.name}/required
  * @requires module:wc/ui/getFirstLabelForElement
- * @requires external:sprintf/sprintf
+ * @requires external:lib/sprintf
  * @requires module:wc/ui/numberField
  */
 define(["wc/dom/attribute",
@@ -21,9 +21,9 @@ define(["wc/dom/attribute",
 		"${validation.core.path.name}/validationManager",
 		"${validation.core.path.name}/required",
 		"wc/ui/getFirstLabelForElement",
-		"sprintf/sprintf",
+		"lib/sprintf",
 		"wc/ui/numberField"],
-	/** @param attribute wc/dom/attribute @param initialise wc/dom/initialise @param event wc/dom/event @param Widget wc/dom/Widget @param i18n wc/i18n/i18n @param validationManager ${validation.core.path.name}/validationManager @param required ${validation.core.path.name}/required @param getFirstLabelForElement wc/ui/getFirstLabelForElement @param sprintf sprintf/sprintf @param numberField wc/ui/numberField @ignore */
+	/** @param attribute wc/dom/attribute @param initialise wc/dom/initialise @param event wc/dom/event @param Widget wc/dom/Widget @param i18n wc/i18n/i18n @param validationManager ${validation.core.path.name}/validationManager @param required ${validation.core.path.name}/required @param getFirstLabelForElement wc/ui/getFirstLabelForElement @param sprintf lib/sprintf @param numberField wc/ui/numberField @ignore */
 	function(attribute, initialise, event, Widget, i18n, validationManager, required, getFirstLabelForElement, sprintf, numberField) {
 		"use strict";
 		/**

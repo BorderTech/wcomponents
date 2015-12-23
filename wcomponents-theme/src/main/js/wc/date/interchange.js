@@ -17,11 +17,11 @@
  *
  * @module
  * @requires module:wc/date/today
- * @requires external:sprintf/sprintf
+ * @requires external:lib/sprintf
  * @todo port all of our date utils to work with xfer date strings unless they exclusively work with full dates only.
  */
-define(["wc/date/today", "sprintf/sprintf"],
-	/** @param $today wc/date/today @param sprintf sprintf/sprintf @ignore */
+define(["wc/date/today", "lib/sprintf"],
+	/** @param $today wc/date/today @param sprintf lib/sprintf @ignore */
 	function($today, sprintf) {
 		"use strict";
 

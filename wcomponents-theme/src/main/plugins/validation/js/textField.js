@@ -13,7 +13,7 @@
  * @requires module:wc/dom/attribute
  * @requires module:wc/dom/event
  * @requires module:wc/ui/getFirstLabelForElement
- * @requires external:sprintf/sprintf
+ * @requires external:lib/sprintf
  * @requires module:wc/ui/dateField
  * @requires module:${validation.core.path.name}/required
  * @requires module:${validation.core.path.name}/validationManager
@@ -25,13 +25,13 @@ define(["wc/dom/initialise",
 		"wc/dom/attribute",
 		"wc/dom/event",
 		"wc/ui/getFirstLabelForElement",
-		"sprintf/sprintf",
+		"lib/sprintf",
 		"wc/ui/dateField",
 		"${validation.core.path.name}/required",
 		"${validation.core.path.name}/validationManager",
 		"wc/ui/textField",
 		"module"],
-	/** @param initialise wc/dom/initialise @param Widget wc/dom/Widget @param i18n wc/i18n/i18n @param attribute wc/dom/attribute @param event wc/dom/event @param getFirstLabelForElement wc/ui/getFirstLabelForElement @param sprintf sprintf/sprintf @param dateField wc/ui/dateField @param required ${validation.core.path.name}/required @param validationManager ${validation.core.path.name}/validationManager @param textField wc/ui/textField @param module @ignore */
+	/** @param initialise wc/dom/initialise @param Widget wc/dom/Widget @param i18n wc/i18n/i18n @param attribute wc/dom/attribute @param event wc/dom/event @param getFirstLabelForElement wc/ui/getFirstLabelForElement @param sprintf lib/sprintf @param dateField wc/ui/dateField @param required ${validation.core.path.name}/required @param validationManager ${validation.core.path.name}/validationManager @param textField wc/ui/textField @param module @ignore */
 	function(initialise, Widget, i18n, attribute, event, getFirstLabelForElement, sprintf, dateField, required, validationManager, textField, module) {
 		"use strict";
 		/**

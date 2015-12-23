@@ -11,7 +11,7 @@
  * @requires module:wc/dom/tag
  * @requires module:wc/dom/Widget
  * @requires module:wc/Observer
- * @requires external:sprintf/sprintf
+ * @requires external:lib/sprintf
  * @requires module:wc/i18n/i18n
  */
 define(["wc/dom/classList",
