@@ -142,6 +142,7 @@ define(["wc/dom/attribute",
 				var fileInfo, container, trigger, proceed,
 					element = $event.target;
 				if (!$event.defaultPrevented) {
+					initialiseFileInput(element);
 					fileInfo = fileInfoWd.findAncestor(element);
 					if (fileInfo) {
 						if (removeButtonWd.isOneOfMe(element)) {
