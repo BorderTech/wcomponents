@@ -50,6 +50,8 @@ final class WMessageBoxRenderer extends AbstractWebXmlRenderer {
 					break;
 			}
 
+			xml.appendOptionalAttribute("title", messageBox.getTitleText());
+
 			xml.appendClose();
 
 			for (String message : messageBox.getMessages()) {
