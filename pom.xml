@@ -22,7 +22,8 @@
 		<cpd.skip>${wc.qa.skip}</cpd.skip>
 		<findbugs.skip>${wc.qa.skip}</findbugs.skip>
 		<jacoco.skip>${wc.qa.skip}</jacoco.skip>
-		<surefire.version>2.19</surefire.version>
+		<!-- Surefire 2.19 has issues with netbeans. -->
+		<surefire.version>2.18</surefire.version>
 		<jetty.version>8.1.16.v20140903</jetty.version>
 		<stagingBaseUrl>https://oss.sonatype.org/</stagingBaseUrl>
 		<stagingUrl>${stagingBaseUrl}service/local/staging/deploy/maven2/</stagingUrl>
