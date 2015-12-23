@@ -3,13 +3,7 @@
  Output an A element linking to a track file.
 -->
 	<xsl:template match="ui:track" mode="link">
-		<xsl:element name="a">
-			<xsl:attribute name="href">
-				<xsl:value-of select="@src"/>
-			</xsl:attribute>
-			<xsl:attribute name="class">
-				<xsl:text>track</xsl:text>
-			</xsl:attribute>
+		<a href="{@src}" class="track">
 			<xsl:if test="@lang">
 				<xsl:attribute name="lang">
 					<xsl:value-of select="@lang"/>
@@ -26,7 +20,7 @@
 				<xsl:value-of select="@kind"/>
 				<xsl:text> )</xsl:text>
 			</xsl:if>
-		</xsl:element>
+		</a>
 		<xsl:if test="position()!=last()">
 			<xsl:value-of select="' '"/>
 		</xsl:if>

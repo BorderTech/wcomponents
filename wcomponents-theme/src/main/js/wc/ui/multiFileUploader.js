@@ -8,7 +8,7 @@
  * @requires module:wc/dom/uid
  * @requires module:wc/ajax/Trigger
  * @requires module:wc/dom/classList
- * @requires external:sprintf/sprintf
+ * @requires external:lib/sprintf
  * @requires module:wc/has
  * @requires module:wc/i18n/i18n
  * @requires module:wc/file/getFileSize
@@ -30,7 +30,7 @@ define(["wc/dom/attribute",
 		"wc/dom/uid",
 		"wc/ajax/Trigger",
 		"wc/dom/classList",
-		"sprintf/sprintf",
+		"lib/sprintf",
 		"wc/has",
 		"wc/i18n/i18n",
 		"wc/file/getFileSize",
@@ -44,7 +44,7 @@ define(["wc/dom/attribute",
 		"wc/dom/focus",
 		"wc/isNumeric",
 		"wc/ui/ajaxRegion"],
-	/** @param attribute wc/dom/attribute @param event wc/dom/event @param initialise wc/dom/initialise @param uid wc/dom/uid @param Trigger wc/ajax/Trigger @param classList wc/dom/classList @param sprintf sprintf/sprintf @param has wc/has @param i18n wc/i18n/i18n @param getFileSize wc/file/getFileSize @param accepted wc/file/accepted @param Widget wc/dom/Widget @param formUpdateManager wc/file/formUpdateManager @param filedrop wc/file/filedrop @param ajax wc/ajax/ajax @param xslTransform wc/xml/xslTransform @param timers wc/timers @param focus wc/dom/focus @param isNumeric wc/isNumeric @param ajaxRegion wc/ui/ajaxRegion @ignore */
+	/** @param attribute wc/dom/attribute @param event wc/dom/event @param initialise wc/dom/initialise @param uid wc/dom/uid @param Trigger wc/ajax/Trigger @param classList wc/dom/classList @param sprintf lib/sprintf @param has wc/has @param i18n wc/i18n/i18n @param getFileSize wc/file/getFileSize @param accepted wc/file/accepted @param Widget wc/dom/Widget @param formUpdateManager wc/file/formUpdateManager @param filedrop wc/file/filedrop @param ajax wc/ajax/ajax @param xslTransform wc/xml/xslTransform @param timers wc/timers @param focus wc/dom/focus @param isNumeric wc/isNumeric @param ajaxRegion wc/ui/ajaxRegion @ignore */
 	function(attribute, event, initialise, uid, Trigger, classList, sprintf, has, i18n, getFileSize,
 			accepted, Widget, formUpdateManager, filedrop, ajax, xslTransform, timers, focus, isNumeric, ajaxRegion) {
 		"use strict";
@@ -142,6 +142,7 @@ define(["wc/dom/attribute",
 				var fileInfo, container, trigger, proceed,
 					element = $event.target;
 				if (!$event.defaultPrevented) {
+					initialiseFileInput(element);
 					fileInfo = fileInfoWd.findAncestor(element);
 					if (fileInfo) {
 						if (removeButtonWd.isOneOfMe(element)) {

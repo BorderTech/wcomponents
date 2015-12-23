@@ -21,18 +21,19 @@
 				<xsl:text>tabpanel</xsl:text>
 			</xsl:attribute>
 			<xsl:attribute name="class">
+				<xsl:text>tabContent</xsl:text>
 				<xsl:if test="$mode='server'">
-					<xsl:text>wc_lame </xsl:text>
+					<xsl:text> wc_lame</xsl:text>
 				</xsl:if>
 				<xsl:choose>
 					<xsl:when test="$open=1">
 						<xsl:if test="$mode='dynamic'">
-							<xsl:text>wc_magic wc_dynamic</xsl:text>
+							<xsl:text> wc_magic wc_dynamic</xsl:text>
 						</xsl:if>
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:if test="($mode='lazy') or ($mode='eager') or ($mode='dynamic')">
-							<xsl:text>wc_magic</xsl:text>
+							<xsl:text> wc_magic</xsl:text>
 							<xsl:if test="$mode='dynamic'">
 								<xsl:text> wc_dynamic</xsl:text>
 							</xsl:if>

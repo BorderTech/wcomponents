@@ -23,12 +23,13 @@ define({
 		// Packages that should be registered with the loader in each testing environment
 		paths: {
 			wc: '${amd.src.dir}/wc',
-			dojo: '${amd.src.dir}/dojo',
-			sprintf: '${amd.src.dir}/sprintf',
-			Promise: '${amd.src.dir}/promise/Promise.min',
+			lib: '${amd.src.dir}/lib',
+			dojo: '${amd.src.dir}/lib/dojo',
+			sprintf: '${amd.src.dir}/lib/sprintf',
+			Promise: '${amd.src.dir}/lib/Promise.min',
 			compat: '${amd.src.dir}/wc/compat'
 		}
 	},
 	// A regular expression matching URLs to files that should not be included in code coverage analysis
-	excludeInstrumentation: /^(?:.*\${file.separator}test\-classes|.*\${file.separator}node_modules|.*\${file.separator}dojo|.*\${file.separator}sprintf)\${file.separator}/
+	excludeInstrumentation: /^(?:.*\${file.separator}test\-classes|.*\${file.separator}node_modules|.*\${file.separator}lib)\${file.separator}/
 });

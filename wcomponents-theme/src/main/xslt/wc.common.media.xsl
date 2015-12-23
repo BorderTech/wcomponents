@@ -22,6 +22,12 @@
 			</xsl:choose>
 		</xsl:variable>
 		<span id="{@id}">
+			<xsl:attribute name="class">
+				<xsl:value-of select="local-name(.)"/>
+				<xsl:if test="@class">
+					<xsl:value-of select="concat(' ', @class)"/>
+				</xsl:if>
+			</xsl:attribute>
 			<xsl:if test="@toolTip">
 				<xsl:attribute name="title">
 					<xsl:value-of select="normalize-space(@toolTip)"/>
