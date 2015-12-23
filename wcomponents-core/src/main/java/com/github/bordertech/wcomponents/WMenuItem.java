@@ -12,9 +12,10 @@ import org.apache.commons.logging.LogFactory;
  *
  * @author Adam Millard
  * @author Yiannis Paschalidis
+ * @author Jonathan Austin
  * @since 1.0.0
  */
-public class WMenuItem extends AbstractContainer implements Disableable, AjaxTrigger {
+public class WMenuItem extends AbstractContainer implements Disableable, AjaxTrigger, MenuItemSelectable {
 
 	/**
 	 * The logger instance for this class.
@@ -56,7 +57,6 @@ public class WMenuItem extends AbstractContainer implements Disableable, AjaxTri
 	public WMenuItem(final WDecoratedLabel label, final Action action) {
 		this(label);
 		getComponentModel().action = action;
-		getComponentModel().submit = true;
 	}
 
 	/**
@@ -79,7 +79,6 @@ public class WMenuItem extends AbstractContainer implements Disableable, AjaxTri
 	public WMenuItem(final String text, final Action action) {
 		this(text);
 		getComponentModel().action = action;
-		getComponentModel().submit = true;
 	}
 
 	/**
@@ -113,7 +112,20 @@ public class WMenuItem extends AbstractContainer implements Disableable, AjaxTri
 	public WMenuItem(final String text, final char accessKey, final Action action) {
 		this(text, accessKey);
 		getComponentModel().action = action;
-		getComponentModel().submit = true;
+	}
+
+	/**
+	 * @return the decorated label which displays the menu item's text/icon etc.
+	 */
+	public WDecoratedLabel getDecoratedLabel() {
+		return label;
+	}
+
+	/**
+	 * @return the menu item's action, or null if there is no action specified.
+	 */
+	public Action getAction() {
+		return getComponentModel().action;
 	}
 
 	/**
@@ -125,100 +137,6 @@ public class WMenuItem extends AbstractContainer implements Disableable, AjaxTri
 		MenuItemModel model = getOrCreateComponentModel();
 		model.action = action;
 		model.url = null;
-		model.submit = true;
-	}
-
-	/**
-	 * Override handleRequest in order to perform processing for this component. This implementation checks for
-	 * selection of the menu item, and executes the associated action if it has been set.
-	 *
-	 * @param request the request being responded to.
-	 */
-	@Override
-	public void handleRequest(final Request request) {
-		if (isDisabled()) {
-			// Protect against client-side tampering of disabled/read-only fields.
-			return;
-		}
-
-		if (isMenuPresent(request)) {
-			String requestValue = request.getParameter(getId());
-
-			if (requestValue != null) {
-				// Only process on a POST
-				if (!"POST".equals(request.getMethod())) {
-					LOG.warn("Menu item on a request that is not a POST. Will be ignored.");
-					return;
-				}
-
-				// Execute associated action, if set
-				final Action action = getAction();
-
-				if (action != null) {
-					final ActionEvent event = new ActionEvent(this, this.getActionCommand(), this.
-							getActionObject());
-
-					Runnable later = new Runnable() {
-						@Override
-						public void run() {
-							action.execute(event);
-						}
-					};
-
-					invokeLater(later);
-				}
-			}
-		}
-	}
-
-	/**
-	 * Determine if this WMenuItem's parent WMenu is on the Request.
-	 *
-	 * @param request the request being responded to.
-	 * @return true if this WMenuItem's WMenu is on the Request, otherwise return false.
-	 */
-	protected boolean isMenuPresent(final Request request) {
-		WMenu menu = WebUtilities.getAncestorOfClass(WMenu.class, this);
-
-		if (menu != null) {
-			return menu.isPresent(request);
-		}
-
-		return false;
-	}
-
-	/**
-	 * Indicates whether this menu item is selected (for menu types which support selections).
-	 *
-	 * @return true if this menu item is selected, false otherwise.
-	 */
-	public boolean isSelected() {
-		WMenu parent = WebUtilities.getAncestorOfClass(WMenu.class, this);
-
-		if (parent != null) {
-			return parent.getSelectedItems().contains(this);
-		}
-
-		return false;
-	}
-
-	/**
-	 * @return the menu item's action, or null if there is no action specified.
-	 */
-	public Action getAction() {
-		return getComponentModel().action;
-	}
-
-	/**
-	 * Sets the URL to navigate to when the menu item is invoked.
-	 *
-	 * @param url the url to set.
-	 */
-	public void setUrl(final String url) {
-		MenuItemModel model = getOrCreateComponentModel();
-		model.url = url;
-		model.action = null;
-		model.submit = false;
 	}
 
 	/**
@@ -231,52 +149,14 @@ public class WMenuItem extends AbstractContainer implements Disableable, AjaxTri
 	}
 
 	/**
-	 * Sets this menu item's target window name.
+	 * Sets the URL to navigate to when the menu item is invoked.
 	 *
-	 * @param targetWindow the target window name.
+	 * @param url the url to set.
 	 */
-	public void setTargetWindow(final String targetWindow) {
-		getOrCreateComponentModel().targetWindow = targetWindow;
-	}
-
-	/**
-	 * Retrieves the target window name.
-	 *
-	 * @return the target window name.
-	 */
-	public String getTargetWindow() {
-		return getComponentModel().targetWindow;
-	}
-
-	/**
-	 * @return true if this item is selectable, false if not, or null if default to its container.
-	 */
-	public Boolean isSelectable() {
-		return getComponentModel().selectable;
-	}
-
-	/**
-	 * @param selectable true if this item is selectable, false if not, or null to default to the container.
-	 */
-	public void setSelectable(final Boolean selectable) {
-		getOrCreateComponentModel().selectable = selectable;
-	}
-
-	/**
-	 * Indicates whether this menu item is disabled in the given context.
-	 *
-	 * @return true if this menu item is disabled, false if it is enabled.
-	 */
-	@Override
-	public boolean isDisabled() {
-		boolean disabled = false;
-		WComponent parent = getParent();
-
-		if (parent instanceof WMenuItemGroup) {
-			disabled = ((WMenuItemGroup) parent).isDisabled();
-		}
-
-		return disabled || isFlagSet(ComponentModel.DISABLED_FLAG);
+	public void setUrl(final String url) {
+		MenuItemModel model = getOrCreateComponentModel();
+		model.url = url;
+		model.action = null;
 	}
 
 	/**
@@ -292,7 +172,108 @@ public class WMenuItem extends AbstractContainer implements Disableable, AjaxTri
 	 * @return true if the form should be submitted when the menu item is selected.
 	 */
 	public boolean isSubmit() {
-		return getComponentModel().submit;
+		return getAction() != null;
+	}
+
+	/**
+	 * Retrieves the menu item text.
+	 *
+	 * @return the menu item text
+	 */
+	public String getText() {
+		return getDecoratedLabel().getText();
+	}
+
+	/**
+	 * Sets the text of the menu item.
+	 *
+	 * @param text the text to set.
+	 */
+	public void setText(final String text) {
+		getDecoratedLabel().setText(text);
+	}
+
+	/**
+	 * Retrieves the target window name.
+	 *
+	 * @return the target window name.
+	 */
+	public String getTargetWindow() {
+		return getComponentModel().targetWindow;
+	}
+
+	/**
+	 * Sets this menu item's target window name.
+	 *
+	 * @param targetWindow the target window name.
+	 */
+	public void setTargetWindow(final String targetWindow) {
+		getOrCreateComponentModel().targetWindow = targetWindow;
+	}
+
+	/**
+	 * @return true if this item is selectable, false if not, or null to default to the container.
+	 * @deprecated Use {@link #getSelectability()} instead.
+	 */
+	@Deprecated
+	public Boolean isSelectable() {
+		return getSelectability();
+	}
+
+	/**
+	 * @param selectable true if this item is selectable, false if not, or null to default to the container.
+	 * @deprecated Use {@link #setSelectability(java.lang.Boolean)} instead.
+	 */
+	@Deprecated
+	public void setSelectable(final Boolean selectable) {
+		setSelectability(selectable);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean isSelected() {
+		WMenu menu = WebUtilities.getAncestorOfClass(WMenu.class, this);
+
+		if (menu != null) {
+			return menu.getSelectedMenuItems().contains(this);
+		}
+
+		return false;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Boolean getSelectability() {
+		return getComponentModel().selectability;
+	}
+
+	/**
+	 * @param selectability true if this item is selectable, false if not, or null to default to the container.
+	 */
+	@Override
+	public void setSelectability(final Boolean selectability) {
+		getOrCreateComponentModel().selectability = selectability;
+	}
+
+	/**
+	 * Indicates whether this menu item is disabled in the given context.
+	 *
+	 * @return true if this menu item is disabled, false if it is enabled.
+	 */
+	@Override
+	public boolean isDisabled() {
+		boolean disabled = false;
+
+		MenuContainer container = (MenuContainer) WebUtilities.getAncestorOfClass(MenuContainer.class, this);
+		if (container instanceof MenuItemGroup && container instanceof Disableable) {
+			disabled = ((Disableable) container).isDisabled();
+		}
+
+		return disabled || isFlagSet(ComponentModel.DISABLED_FLAG);
 	}
 
 	/**
@@ -306,28 +287,10 @@ public class WMenuItem extends AbstractContainer implements Disableable, AjaxTri
 	}
 
 	/**
-	 * @return the decorated label which displays the menu item's text/icon etc.
+	 * @return the menu item's accesskey.
 	 */
-	public WDecoratedLabel getDecoratedLabel() {
-		return label;
-	}
-
-	/**
-	 * Sets the text of the menu item.
-	 *
-	 * @param text the text to set.
-	 */
-	public void setText(final String text) {
-		label.setText(text);
-	}
-
-	/**
-	 * Retrieves the menu item text.
-	 *
-	 * @return the menu item text
-	 */
-	public String getText() {
-		return label.getText();
+	public char getAccessKey() {
+		return getComponentModel().accessKey;
 	}
 
 	/**
@@ -338,13 +301,6 @@ public class WMenuItem extends AbstractContainer implements Disableable, AjaxTri
 	 */
 	public void setAccessKey(final char accesskey) {
 		getOrCreateComponentModel().accessKey = accesskey;
-	}
-
-	/**
-	 * @return the menu item's accesskey.
-	 */
-	public char getAccessKey() {
-		return getComponentModel().accessKey;
 	}
 
 	/**
@@ -431,6 +387,65 @@ public class WMenuItem extends AbstractContainer implements Disableable, AjaxTri
 	}
 
 	/**
+	 * Override handleRequest in order to perform processing for this component. This implementation checks for
+	 * selection of the menu item, and executes the associated action if it has been set.
+	 *
+	 * @param request the request being responded to.
+	 */
+	@Override
+	public void handleRequest(final Request request) {
+		if (isDisabled()) {
+			// Protect against client-side tampering of disabled/read-only fields.
+			return;
+		}
+
+		if (isMenuPresent(request)) {
+			String requestValue = request.getParameter(getId());
+
+			if (requestValue != null) {
+				// Only process on a POST
+				if (!"POST".equals(request.getMethod())) {
+					LOG.warn("Menu item on a request that is not a POST. Will be ignored.");
+					return;
+				}
+
+				// Execute associated action, if set
+				final Action action = getAction();
+
+				if (action != null) {
+					final ActionEvent event = new ActionEvent(this, this.getActionCommand(), this.
+							getActionObject());
+
+					Runnable later = new Runnable() {
+						@Override
+						public void run() {
+							action.execute(event);
+						}
+					};
+
+					invokeLater(later);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Determine if this WMenuItem's parent WMenu is on the Request.
+	 *
+	 * @param request the request being responded to.
+	 * @return true if this WMenuItem's WMenu is on the Request, otherwise return false.
+	 */
+	protected boolean isMenuPresent(final Request request) {
+		WMenu menu = WebUtilities.getAncestorOfClass(WMenu.class, this);
+
+		if (menu != null) {
+			return menu.isPresent(request);
+		}
+
+		return false;
+	}
+
+	/**
 	 * @return a String representation of this component, for debugging purposes.
 	 */
 	@Override
@@ -474,11 +489,6 @@ public class WMenuItem extends AbstractContainer implements Disableable, AjaxTri
 	public static class MenuItemModel extends ComponentModel {
 
 		/**
-		 * Indicates whether the menu item should trigger a form submit.
-		 */
-		private boolean submit;
-
-		/**
 		 * An (external) url to open when the menu item is selected.
 		 */
 		private String url;
@@ -511,7 +521,7 @@ public class WMenuItem extends AbstractContainer implements Disableable, AjaxTri
 		/**
 		 * Indicates whether the sub-menu itself can be selected (e.g. for column menus).
 		 */
-		private Boolean selectable;
+		private Boolean selectability;
 
 		/**
 		 * The confirmation message to be shown.
