@@ -14,30 +14,117 @@ import org.junit.Test;
 public class WMenuItem_Test extends AbstractWComponentTestCase {
 
 	@Test
-	public void testActionAccessors() {
-		Action initAction = new TestAction();
-		Action defaultAction = new TestAction();
-		Action userAction = new TestAction();
-
-		WMenuItem menuItem = new WMenuItem("");
-		assertAccessorsCorrect(menuItem, "action", null, defaultAction, userAction);
-
-		menuItem = new WMenuItem("", initAction);
-		assertAccessorsCorrect(menuItem, "action", initAction, defaultAction, userAction);
-
-		menuItem = new WMenuItem("", "http://localhost/");
-		Assert.assertNotNull("URL should be set", menuItem.getUrl());
-		Assert.assertNull("Action should be null", menuItem.getAction());
-		Assert.assertFalse("Submit flag should be false", menuItem.isSubmit());
-
-		menuItem.setAction(new TestAction());
-		Assert.assertNull("Url should be null", menuItem.getUrl());
-		Assert.assertNotNull("Action should not be null", menuItem.getAction());
-		Assert.assertTrue("Submit flag should be true", menuItem.isSubmit());
+	public void testConstructor1() {
+		WDecoratedLabel lbl = new WDecoratedLabel("test");
+		WMenuItem item = new WMenuItem(lbl);
+		Assert.assertEquals("Incorrect label set by constructor", lbl, item.getDecoratedLabel());
 	}
 
 	@Test
-	public void testSetSelectable() {
+	public void testConstructor2() {
+		WDecoratedLabel lbl = new WDecoratedLabel("test");
+		String url = "A";
+		WMenuItem item = new WMenuItem(lbl, url);
+		Assert.assertEquals("Incorrect label set by constructor", lbl, item.getDecoratedLabel());
+		Assert.assertEquals("Incorrect url set by constructor", url, item.getUrl());
+	}
+
+	@Test
+	public void testConstructor3() {
+		WDecoratedLabel lbl = new WDecoratedLabel("test");
+		Action action = new TestAction();
+		WMenuItem item = new WMenuItem(lbl, action);
+		Assert.assertEquals("Incorrect label set by constructor", lbl, item.getDecoratedLabel());
+		Assert.assertEquals("Incorrect action set by constructor", action, item.getAction());
+	}
+
+	@Test
+	public void testConstructor4() {
+		String text = "A";
+		String url = "B";
+		WMenuItem item = new WMenuItem(text, url);
+		Assert.assertEquals("Incorrect text set by constructor", text, item.getText());
+		Assert.assertEquals("Incorrect url set by constructor", url, item.getUrl());
+	}
+
+	@Test
+	public void testConstructor5() {
+		String text = "A";
+		Action action = new TestAction();
+		WMenuItem item = new WMenuItem(text, action);
+		Assert.assertEquals("Incorrect text set by constructor", text, item.getText());
+		Assert.assertEquals("Incorrect action set by constructor", action, item.getAction());
+	}
+
+	@Test
+	public void testConstructor6() {
+		String text = "A";
+		WMenuItem item = new WMenuItem(text);
+		Assert.assertEquals("Incorrect text set by constructor", text, item.getText());
+	}
+
+	@Test
+	public void testConstructor7() {
+		String text = "A";
+		char key = 'K';
+		WMenuItem item = new WMenuItem(text, key);
+		Assert.assertEquals("Incorrect text set by constructor", text, item.getText());
+		Assert.assertEquals("Incorrect accesskey set by constructor", key, item.getAccessKey());
+	}
+
+	@Test
+	public void testConstructor8() {
+		String text = "A";
+		char key = 'K';
+		Action action = new TestAction();
+		WMenuItem item = new WMenuItem(text, key, action);
+		Assert.assertEquals("Incorrect text set by constructor", text, item.getText());
+		Assert.assertEquals("Incorrect accesskey set by constructor", key, item.getAccessKey());
+		Assert.assertEquals("Incorrect action set by constructor", action, item.getAction());
+	}
+
+	@Test
+	public void testActionAccessors() {
+		assertAccessorsCorrect(new WMenuItem(""), "action", null, new TestAction(), new TestAction());
+	}
+
+	@Test
+	public void testUrlAccessors() {
+		assertAccessorsCorrect(new WMenuItem(""), "url", null, "A", "B");
+	}
+
+	@Test
+	public void testSubmitFlag() {
+		WMenuItem item = new WMenuItem("");
+		Assert.assertFalse("Submit flag should default to false when no action provided", item.isSubmit());
+
+		// Set url
+		item.setUrl("A");
+		Assert.assertFalse("Submit flag should be false when a URL set", item.isSubmit());
+
+		// Set action
+		item.setAction(new TestAction());
+		Assert.assertTrue("Submit flag should be true when an action is set", item.isSubmit());
+		Assert.assertNull("Url should be null if Action set", item.getUrl());
+
+		// Set URL
+		item.setUrl("A");
+		Assert.assertFalse("Submit flag should be false if URL set or action set null", item.isSubmit());
+		Assert.assertNull("Action should be null if url set", item.getAction());
+	}
+
+	@Test
+	public void testTextAccessors() {
+		assertAccessorsCorrect(new WMenuItem("test"), "text", "test", "A", "B");
+	}
+
+	@Test
+	public void testTargetWindowAccessors() {
+		assertAccessorsCorrect(new WMenuItem(""), "targetWindow", null, "A", "B");
+	}
+
+	@Test
+	public void testSelectableAccessors() {
 		WMenuItem item = new WMenuItem("");
 		Assert.assertNull("Selectable should be null by default", item.isSelectable());
 
@@ -53,93 +140,64 @@ public class WMenuItem_Test extends AbstractWComponentTestCase {
 	}
 
 	@Test
-	public void testDisabled() {
-		WMenuItem menuItem = new WMenuItem("");
-		assertAccessorsCorrect(menuItem, "disabled", false, true, false);
-	}
-
-	@Test
-	public void testTextAccessors() {
-		String initText = "WSubMenu_Test.testTextAccessors.initText";
-		String defaultText = "WSubMenu_Test.testTextAccessors.defaultText";
-		String userText = "WSubMenu_Test.testTextAccessors.userText";
-
-		WMenuItem menuItem = new WMenuItem(initText);
-		assertAccessorsCorrect(menuItem, "text", initText, defaultText, userText);
-
-		//Test nulls
-		menuItem.setText("");
-		Assert.assertEquals("text should be empty string", "", menuItem.getText());
-		menuItem.setText(null);
-		Assert.assertNull("text should be null", menuItem.getText());
-	}
-
-	@Test
-	public void testTargetWindowAccessors() {
-		String defaultWindow = "WSubMenu_Test.testTargetWindowAccessors.defaultWindow";
-		String userWindow = "WSubMenu_Test.testTargetWindowAccessors.userWindow";
-
-		WMenuItem menuItem = new WMenuItem("");
-		assertAccessorsCorrect(menuItem, "targetWindow", null, defaultWindow, userWindow);
-	}
-
-	@Test
-	public void testUrlAccessors() {
-		String defaultUrl = "http://localhost/WSubMenu_Test.testUrlAccessors.defaultUrl";
-		String userUrl = "http://localhost/WSubMenu_Test.testUrlAccessors.userUrl";
-
-		WMenuItem menuItem = new WMenuItem("");
-		assertAccessorsCorrect(menuItem, "url", null, defaultUrl, userUrl);
-
-		menuItem = new WMenuItem("", new TestAction());
-		Assert.assertNull("Url should be null", menuItem.getUrl());
-		Assert.assertNotNull("Action should not be null", menuItem.getAction());
-		Assert.assertTrue("Submit flag should be true", menuItem.isSubmit());
-
-		menuItem.setUrl(defaultUrl);
-		Assert.assertEquals("Incorrect URL", defaultUrl, menuItem.getUrl());
-		Assert.assertNull("Action should be null", menuItem.getAction());
-		Assert.assertFalse("Submit flag should be false", menuItem.isSubmit());
-	}
-
-	@Test
-	public void testActionCommandAccessors() {
-		String defaultValue = "WSubMenu_Test.testActionCommandAccessors.defaultValue";
-		String userValue = "WSubMenu_Test.testActionCommandAccessors.userValue";
-
+	public void testIsSelected() {
+		WMenu menu = new WMenu();
 		WMenuItem item = new WMenuItem("");
-		assertAccessorsCorrect(item, "actionCommand", null, defaultValue, userValue);
+		menu.add(item);
+
+		// Not selected
+		Assert.assertFalse("Menu should not be selected by default", item.isSelected());
+
+		// Set as selected
+		menu.setSelectedItem(item);
+		Assert.assertTrue("Menu should be selected by default", item.isSelected());
 	}
 
 	@Test
-	public void testActionObjectAccessors() {
-		Serializable defaultValue = "WSubMenu_Test.testActionObjectAccessors.defaultValue";
-		Serializable userValue = "WSubMenu_Test.testActionObjectAccessors.userValue";
+	public void testSelectabilityAccessors() {
+		assertAccessorsCorrect(new WMenuItem(""), "selectability", null, true, false);
+	}
 
-		WMenuItem item = new WMenuItem("");
-		assertAccessorsCorrect(item, "actionObject", null, defaultValue, userValue);
+	@Test
+	public void testDisabledAccessors() {
+		assertAccessorsCorrect(new WMenuItem(""), "disabled", false, true, false);
 	}
 
 	@Test
 	public void testAccessKeyAccessors() {
-		Character initValue = new Character('\0');
-		Character defaultValue = 'A';
-		Character userValue = 'B';
-
-		WMenuItem item = new WMenuItem("");
-		assertAccessorsCorrect(item, "accessKey", initValue, defaultValue, userValue);
+		assertAccessorsCorrect(new WMenuItem(""), "accessKey", '\0', 'A', 'B');
 	}
 
 	@Test
 	public void testGetAccessKeyAsString() {
 		WMenuItem item = new WMenuItem("");
-		Assert.assertEquals("Incorrect acesskey as string", null, item.getAccessKeyAsString());
+		Assert.assertNull("Incorrect acesskey as string", item.getAccessKeyAsString());
 
 		item.setAccessKey('C');
 		Assert.assertEquals("Incorrect acesskey as string", "C", item.getAccessKeyAsString());
 
 		item.setAccessKey('\0');
-		Assert.assertEquals("Incorrect acesskey as string", null, item.getAccessKeyAsString());
+		Assert.assertNull("Incorrect acesskey as string", item.getAccessKeyAsString());
+	}
+
+	@Test
+	public void testActionCommandAccessors() {
+		assertAccessorsCorrect(new WMenuItem(""), "actionCommand", null, "A", "B");
+	}
+
+	@Test
+	public void testActionObjectAccessors() {
+		assertAccessorsCorrect(new WMenuItem(""), "actionObject", null, "A", "B");
+	}
+
+	@Test
+	public void testMessageAccessors() {
+		assertAccessorsCorrect(new WMenuItem(""), "message", null, "A", "B", new Serializable[]{});
+	}
+
+	@Test
+	public void testCancelAccessors() {
+		assertAccessorsCorrect(new WMenuItem(""), "cancel", false, true, false);
 	}
 
 	@Test
