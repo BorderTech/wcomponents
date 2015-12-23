@@ -4,7 +4,7 @@
 	elementFormDefault="qualified" targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
 	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns="http://www.w3.org/1999/xhtml">
 
-	<!-- 
+	<!--
 	  A collection of all the top-level elements in the schema.
 	  This is imported by schema.xsd.
 	  -->
@@ -27,14 +27,13 @@
 	<xs:include schemaLocation="dialog.xsd" />
 	<xs:include schemaLocation="dropdown.xsd" />
 	<xs:include schemaLocation="emailField.xsd" />
-	<xs:include schemaLocation="fieldIndicator.xsd" />	
+	<xs:include schemaLocation="fieldIndicator.xsd" />
 	<xs:include schemaLocation="fieldLayout.xsd" />
 	<xs:include schemaLocation="fieldSet.xsd" />
 	<xs:include schemaLocation="figure.xsd" />
 	<xs:include schemaLocation="fileUpload.xsd" />
 	<xs:include schemaLocation="filterControl.xsd" />
 	<xs:include schemaLocation="heading.xsd" />
-	<xs:include schemaLocation="hr.xsd" />
 	<xs:include schemaLocation="image.xsd" />
 	<xs:include schemaLocation="label.xsd" />
 	<xs:include schemaLocation="link.xsd" />

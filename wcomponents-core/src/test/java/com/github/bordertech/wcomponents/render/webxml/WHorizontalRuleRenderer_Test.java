@@ -25,7 +25,6 @@ public class WHorizontalRuleRenderer_Test extends AbstractWebXmlRendererTestCase
 	@Test
 	public void testDoPaint() throws IOException, SAXException, XpathException {
 		WHorizontalRule horizontalRule = new WHorizontalRule();
-		assertSchemaMatch(horizontalRule);
-		assertXpathExists("//ui:hr", horizontalRule);
+		assertXpathExists("//html:hr", horizontalRule); /* The html namespace is required. */
 	}
 }
