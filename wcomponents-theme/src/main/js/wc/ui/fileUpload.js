@@ -5,7 +5,7 @@
  * @requires module:wc/dom/attribute
  * @requires module:wc/dom/event
  * @requires module:wc/dom/initialise
- * @requires external:sprintf/sprintf
+ * @requires external:lib/sprintf
  * @requires module:wc/has
  * @requires module:wc/i18n/i18n
  * @requires module:wc/file/getFileSize
@@ -17,7 +17,7 @@
 define(["wc/dom/attribute",
 		"wc/dom/event",
 		"wc/dom/initialise",
-		"sprintf/sprintf",
+		"lib/sprintf",
 		"wc/has",
 		"wc/i18n/i18n",
 		"wc/file/getFileSize",

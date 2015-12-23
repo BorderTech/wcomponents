@@ -28,7 +28,7 @@
  * @requires module:wc/dom/shed
  * @requires module:wc/dom/Widget
  * @requires module:wc/i18n/i18n
- * @requires external:sprintf/sprintf
+ * @requires external:lib/sprintf
  * @requires module:wc/timers
  *
  * @todo Document private members, fix source order.
@@ -40,9 +40,9 @@ define(["wc/dom/attribute",
 		"wc/dom/shed",
 		"wc/dom/Widget",
 		"wc/i18n/i18n",
-		"sprintf/sprintf",
+		"lib/sprintf",
 		"wc/timers"],
-	/** @param attribute wc/dom/attribute @param classList wc/dom/classList @param event wc/dom/event @param initialise wc/dom/initialise @param shed wc/dom/shed @param Widget wc/dom/Widget @param i18n wc/i18n/i18n @param sprintf sprintf/sprintf @param timers wc/timers @ignore */
+	/** @param attribute wc/dom/attribute @param classList wc/dom/classList @param event wc/dom/event @param initialise wc/dom/initialise @param shed wc/dom/shed @param Widget wc/dom/Widget @param i18n wc/i18n/i18n @param sprintf lib/sprintf @param timers wc/timers @ignore */
 	function(attribute, classList, event, initialise, shed, Widget, i18n, sprintf, timers) {
 		"use strict";
 

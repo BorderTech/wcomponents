@@ -337,10 +337,7 @@
 }
 </echo>
 			<echo file="${jshintignore}" force="true"># Only ignore third-party scripts
-**/dojo/**
-**/sprintf/**
-**/requirejs/**
-**/hasjs/**
+**/lib/**
 </echo>
 			<echo>
 				If the build fails here it means static analysis has detected Javascript issues.
