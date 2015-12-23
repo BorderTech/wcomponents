@@ -65,7 +65,7 @@ final class WSubMenuRenderer extends AbstractWebXmlRenderer {
 				throw new SystemException("Unknown menu mode: " + menu.getMode());
 		}
 
-		switch (menu.getSelectMode()) {
+		switch (menu.getSelectionMode()) {
 			case NONE:
 				break;
 
@@ -95,14 +95,8 @@ final class WSubMenuRenderer extends AbstractWebXmlRenderer {
 
 		// Render content if not EAGER Mode or is EAGER and is the current AJAX request
 		if (mode != MenuMode.EAGER || AjaxHelper.isCurrentAjaxTrigger(menu)) {
-			// Skip label, as it has already been painted
-			int size = menu.getChildCount();
-
-			// Visibility of children set in prepare paint
-			for (int i = 1; i < size; i++) {
-				WComponent child = menu.getChildAt(i);
-				child.paint(renderContext);
-			}
+			// Visibility of content set in prepare paint
+			menu.paintMenuItems(renderContext);
 		}
 
 		xml.appendEndTag("ui:content");

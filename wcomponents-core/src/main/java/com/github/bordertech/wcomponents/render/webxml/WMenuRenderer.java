@@ -55,7 +55,7 @@ final class WMenuRenderer extends AbstractWebXmlRenderer {
 		xml.appendOptionalAttribute("hidden", menu.isHidden(), "true");
 		xml.appendOptionalAttribute("rows", rows > 0, rows);
 
-		switch (menu.getSelectMode()) {
+		switch (menu.getSelectionMode()) {
 			case NONE:
 				break;
 

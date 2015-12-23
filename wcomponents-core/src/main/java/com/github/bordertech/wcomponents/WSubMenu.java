@@ -3,6 +3,7 @@ package com.github.bordertech.wcomponents;
 import com.github.bordertech.wcomponents.WMenu.SelectMode;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -25,7 +26,7 @@ import java.util.List;
  * @author Adam Millard
  * @author Yiannis Paschalidis - re-written to not extend WButton.
  */
-public class WSubMenu extends AbstractNamingContextContainer implements Disableable {
+public class WSubMenu extends AbstractNamingContextContainer implements Disableable, MenuSelectContainer, MenuItemSelectable {
 
 	/**
 	 * The available types of operation.
@@ -64,6 +65,11 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 	private final WDecoratedLabel label;
 
 	/**
+	 * Hold the submenu's items.
+	 */
+	private final WContainer content = new WContainer();
+
+	/**
 	 * Creates a WSubMenu with the given text.
 	 *
 	 * @param text the sub menu text.
@@ -80,6 +86,7 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 	public WSubMenu(final WDecoratedLabel label) {
 		this.label = label;
 		add(label);
+		add(content);
 	}
 
 	/**
@@ -110,28 +117,104 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 	}
 
 	/**
-	 * Adds a menu item group to this sub menu.
+	 * Indicates whether this is a top-level menu (ie. attached to a menu bar).
 	 *
-	 * @param menuItemGroup the menu item group to add.
+	 * @return true if this is a top-level menu.
 	 */
-	public void addMenuItemGroup(final WMenuItemGroup menuItemGroup) {
-		add(menuItemGroup);
+	public boolean isTopLevelMenu() {
+		MenuContainer container = (MenuContainer) WebUtilities.getAncestorOfClass(MenuContainer.class, this);
+		return container instanceof WMenu;
 	}
 
 	/**
 	 * Adds a separator to the sub-menu.
 	 */
 	public void addSeparator() {
-		add(new WSeparator());
+		addMenuItem(new WSeparator());
 	}
 
 	/**
-	 * Indicates whether this is a top-level menu (ie. attached to a menu bar).
-	 *
-	 * @return true if this is a top-level menu.
+	 * @param item add a {@link WSeparator}
 	 */
-	public boolean isTopLevelMenu() {
-		return (getParent() instanceof WMenu);
+	public void add(final WSeparator item) {
+		addMenuItem(item);
+	}
+
+	/**
+	 * @param item add a {@link WMenuItem}
+	 */
+	public void add(final WMenuItem item) {
+		addMenuItem(item);
+	}
+
+	/**
+	 * Adds a menu item group to this sub menu.
+	 *
+	 * @param menuItemGroup the menu item group to add.
+	 * @deprecated menu groups are not compatible with WCAG 2.0.
+	 */
+	public void addMenuItemGroup(final WMenuItemGroup menuItemGroup) {
+		addMenuItem(menuItemGroup);
+	}
+
+	/**
+	 * @param item add a {@link WMenuItemGroup}
+	 */
+	public void add(final WMenuItemGroup item) {
+		addMenuItem(item);
+	}
+
+	/**
+	 * @param item add a {@link WSubMenu}
+	 */
+	public void add(final WSubMenu item) {
+		addMenuItem(item);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void addMenuItem(final MenuItem item) {
+		getContent().add(item);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @deprecated Use {@link #removeMenuItem(com.github.bordertech.wcomponents.MenuItem) instead.
+	 */
+	@Deprecated
+	@Override
+	public void remove(final WComponent item) {
+		if (item instanceof MenuItem) {
+			removeMenuItem((MenuItem) item);
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void removeMenuItem(final MenuItem item) {
+		getContent().remove(item);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void removeAllMenuItems() {
+		getContent().removeAll();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public List<MenuItem> getMenuItems() {
+		List<MenuItem> items = new ArrayList(getContent().getChildren());
+		return Collections.unmodifiableList(items);
 	}
 
 	/**
@@ -142,10 +225,10 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 	@Override
 	public boolean isDisabled() {
 		boolean disabled = false;
-		WComponent parent = getParent();
 
-		if (parent instanceof WMenuItemGroup) {
-			disabled = ((WMenuItemGroup) parent).isDisabled();
+		MenuContainer container = (MenuContainer) WebUtilities.getAncestorOfClass(MenuContainer.class, this);
+		if (container instanceof MenuItemGroup && container instanceof Disableable) {
+			disabled = ((Disableable) container).isDisabled();
 		}
 
 		return disabled || isFlagSet(ComponentModel.DISABLED_FLAG);
@@ -214,24 +297,40 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 	}
 
 	/**
-	 * @return true if this submenu is selectable, false if not, or null if default to its container.
-	 * @deprecated submenus should not be selectable.
+	 * @return true if this item is selectable, false if not, or null to default to the container.
+	 * @deprecated Use {@link #getSelectability()} instead.
 	 */
 	@Deprecated
 	public Boolean isSelectable() {
-		return getComponentModel().selectable;
+		return getSelectability();
 	}
 
 	/**
-	 * This methods sets whether this sub-menu is selectable. Note that selectability does not affect other operations,
-	 * for example the ability to expand/collapse a sub-menu.
-	 *
-	 * @param selectable true if this submenu is selectable, false if not, or null if default to the container.
-	 * @deprecated submenus should not be selectable
+	 * @param selectable true if this item is selectable, false if not, or null to default to the container.
+	 * @deprecated Use {@link #setSelectability(java.lang.Boolean)} instead.
 	 */
 	@Deprecated
 	public void setSelectable(final Boolean selectable) {
-		getOrCreateComponentModel().selectable = selectable;
+		setSelectability(selectable);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @deprecated submenus should not be selectable.
+	 */
+	@Override
+	public Boolean getSelectability() {
+		return getComponentModel().selectability;
+	}
+
+	/**
+	 * @param selectability true if this item is selectable, false if not, or null to default to the container.
+	 * @deprecated submenus should not be selectable.
+	 */
+	@Override
+	public void setSelectability(final Boolean selectability) {
+		getOrCreateComponentModel().selectability = selectability;
 	}
 
 	/**
@@ -240,7 +339,7 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 	 */
 	@Deprecated
 	public boolean isMultipleSelection() {
-		return SelectMode.MULTIPLE.equals(getComponentModel().selectMode);
+		return SelectionMode.MULTIPLE.equals(getSelectionMode());
 	}
 
 	/**
@@ -249,21 +348,56 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 	 */
 	@Deprecated
 	public void setMultipleSelection(final boolean multipleSelection) {
-		setSelectMode(multipleSelection ? SelectMode.MULTIPLE : SelectMode.NONE);
+		setSelectionMode(multipleSelection ? SelectionMode.MULTIPLE : SelectionMode.NONE);
 	}
 
 	/**
-	 * @return the select mode for the items in this subMenu.
+	 * @return the selection mode of the container
+	 * @deprecated Use {@link #getSelectionMode()} instead.
 	 */
 	public SelectMode getSelectMode() {
-		return getComponentModel().selectMode;
+		switch (getSelectionMode()) {
+			case MULTIPLE:
+				return SelectMode.MULTIPLE;
+			case SINGLE:
+				return SelectMode.SINGLE;
+			default:
+				return SelectMode.NONE;
+		}
 	}
 
 	/**
-	 * @param selectMode the select mode for the items in this subMenu.
+	 * @param selectMode the selection mode for the items in this menu container.
+	 *
+	 * @deprecated Use {@link #setSelectionMode(com.github.bordertech.wcomponents.MenuSelectContainer.SelectionMode) instead.
 	 */
 	public void setSelectMode(final SelectMode selectMode) {
-		getOrCreateComponentModel().selectMode = selectMode;
+		switch (selectMode) {
+			case MULTIPLE:
+				setSelectionMode(SelectionMode.MULTIPLE);
+				break;
+			case SINGLE:
+				setSelectionMode(SelectionMode.SINGLE);
+				break;
+			default:
+				setSelectionMode(SelectionMode.NONE);
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public SelectionMode getSelectionMode() {
+		return getComponentModel().selectionMode;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setSelectionMode(final SelectionMode selectionMode) {
+		getOrCreateComponentModel().selectionMode = selectionMode;
 	}
 
 	/**
@@ -351,11 +485,12 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 	 * @deprecated submenus should not be selectable
 	 */
 	@Deprecated
+	@Override
 	public boolean isSelected() {
-		WMenu parent = WebUtilities.getAncestorOfClass(WMenu.class, this);
+		WMenu menu = WebUtilities.getAncestorOfClass(WMenu.class, this);
 
-		if (parent != null) {
-			return parent.getSelectedItems().contains(this);
+		if (menu != null) {
+			return menu.getSelectedMenuItems().contains(this);
 		}
 
 		return false;
@@ -379,11 +514,7 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 			if (AjaxHelper.isCurrentAjaxTrigger(this)) {
 				WMenu menu = WebUtilities.getAncestorOfClass(WMenu.class, this);
 				menu.handleRequest(request);
-			}
 
-			String requestValue = request.getParameter(getId());
-
-			if (requestValue != null) {
 				// Execute associated action, if set
 				final Action action = getAction();
 
@@ -427,54 +558,30 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 	@Override
 	protected void preparePaintComponent(final Request request) {
 		super.preparePaintComponent(request);
-		List<WComponent> children = new ArrayList<>(getChildCount());
 
-		for (int i = 0; i < getChildCount(); i++) {
-			WComponent child = getChildAt(i);
-
-			if (child != label) {
-				children.add(child);
-			}
-		}
-
-		// String of children Ids
-		List<String> childrenIds = new ArrayList<>();
-		for (WComponent child : children) {
-			childrenIds.add(child.getId());
-		}
+		String targetId = getContent().getId();
+		String contentId = getId() + "-content";
 
 		switch (getComponentModel().mode) {
 			case LAZY: {
-				for (WComponent child : children) {
-					child.setVisible(isOpen());
-				}
-
+				getContent().setVisible(isOpen());
 				if (!isOpen()) {
-					AjaxHelper.
-							registerContainer(getId(), getId() + "-content", childrenIds, request);
+					AjaxHelper.registerContainer(getId(), contentId, targetId, request);
 				}
-
 				break;
 			}
 			case DYNAMIC: {
-				AjaxHelper.registerContainer(getId(), getId() + "-content", childrenIds, request);
-
-				for (WComponent child : children) {
-					child.setVisible(isOpen());
-				}
-
+				AjaxHelper.registerContainer(getId(), contentId, targetId, request);
+				getContent().setVisible(isOpen());
 				break;
 			}
 			case EAGER: {
-				AjaxHelper.registerContainer(getId(), getId() + "-content", childrenIds, request);
+				AjaxHelper.registerContainer(getId(), contentId, targetId, request);
 				// Will always be visible
 				break;
 			}
 			case SERVER: {
-				for (WComponent child : children) {
-					child.setVisible(isOpen());
-				}
-
+				getContent().setVisible(isOpen());
 				break;
 			}
 			case CLIENT: {
@@ -485,47 +592,12 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 	}
 
 	/**
-	 * Adds the given menu item as a child of this component.
+	 * Paint the menu items.
 	 *
-	 * @param item the item to add.
+	 * @param renderContext the render context
 	 */
-	public void add(final WMenuItem item) {
-		super.add(item);
-	}
-
-	/**
-	 * Adds the given sub-menu as a child of this component.
-	 *
-	 * @param item the sub-menu to add.
-	 */
-	public void add(final WSubMenu item) {
-		super.add(item);
-	}
-
-	/**
-	 * Adds the given group as a child of this component.
-	 *
-	 * @param item group the group to add.
-	 */
-	public void add(final WMenuItemGroup item) {
-		super.add(item);
-	}
-
-	/**
-	 * Adds the given separator as a child of this component.
-	 *
-	 * @param separator the separator to add.
-	 */
-	public void add(final WSeparator separator) {
-		super.add(separator);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override // to make public
-	public void remove(final WComponent child) {
-		super.remove(child);
+	public void paintMenuItems(final RenderContext renderContext) {
+		getContent().paint(renderContext);
 	}
 
 	/**
@@ -533,9 +605,16 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 	 */
 	@Override
 	public String toString() {
-		String text = getDecoratedLabel().getText();
+		String text = getText();
 		text = text == null ? "null" : ('"' + text + '"');
-		return toString(text, 1, getChildCount() - 1);
+		return getContent().toString(text, -1, -1);
+	}
+
+	/**
+	 * @return the container holding the menu items
+	 */
+	private WContainer getContent() {
+		return content;
 	}
 
 	/**
@@ -580,12 +659,12 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 		/**
 		 * Indicates whether the sub-menu supports selection of multiple menu-items.
 		 */
-		private SelectMode selectMode = SelectMode.NONE;
+		private SelectionMode selectionMode = SelectionMode.NONE;
 
 		/**
 		 * Indicates whether the sub-menu itself can be selected (e.g. for column menus).
 		 */
-		private Boolean selectable;
+		private Boolean selectability;
 
 		/**
 		 * The action to execute when the menu item is selected.

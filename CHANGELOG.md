@@ -11,5 +11,8 @@
 ## Enhancements
 * WTabSet implements SubordinateTarget. (#159)
 * WTab implements SubordinateTarget. (#158)
+* WMenu API allows for getItems(boolean recursive). (#262)
 
 ## Bug fixes
+* Fixed loading WSubMenus via AJAX. Items can now be dynamically added when the WSubMenu is opened. (#250)
+* AbstractWComponentTestCase now works with variable arguments on setter methods (#188)

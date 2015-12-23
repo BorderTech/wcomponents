@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents.examples.menu;
 
+import com.github.bordertech.wcomponents.MenuItem;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WMenu;
@@ -225,16 +226,16 @@ public class ColumnMenuExample extends WPanel {
 			if (text.equals(subMenu.getText())) {
 				return subMenu;
 			}
-			for (int i = 0; i < subMenu.getChildCount(); i++) {
-				WSubMenu result = getSubMenuByText(text, subMenu.getChildAt(i));
+			for (MenuItem item : subMenu.getMenuItems()) {
+				WSubMenu result = getSubMenuByText(text, item);
 				if (result != null) {
 					return result;
 				}
 			}
 		} else if (node instanceof WMenu) {
 			WMenu menu = (WMenu) node;
-			for (int i = 0; i < menu.getChildCount(); i++) {
-				WSubMenu result = getSubMenuByText(text, menu.getChildAt(i));
+			for (MenuItem item : menu.getMenuItems()) {
+				WSubMenu result = getSubMenuByText(text, item);
 				if (result != null) {
 					return result;
 				}
