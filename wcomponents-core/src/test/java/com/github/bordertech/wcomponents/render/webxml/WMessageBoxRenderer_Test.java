@@ -61,6 +61,11 @@ public class WMessageBoxRenderer_Test extends AbstractWebXmlRendererTestCase {
 		messageBox.setType(WMessageBox.ERROR);
 		assertSchemaMatch(messageBox);
 		assertXpathEvaluatesTo("error", "//ui:messageBox/@type", messageBox);
+
+		String title = "WMEssageBoxTitle";
+		messageBox.setTitleText(title);
+		assertSchemaMatch(messageBox);
+		assertXpathEvaluatesTo(title, "//ui:messageBox/@title", messageBox);
 	}
 
 	@Test
