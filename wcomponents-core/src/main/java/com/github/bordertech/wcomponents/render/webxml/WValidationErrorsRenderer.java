@@ -14,6 +14,7 @@ import com.github.bordertech.wcomponents.validation.WValidationErrors.GroupedDia
  * The Renderer for the {@link WValidationErrors} component.
  *
  * @author Jonathan Austin
+ * @author Mark Reeves
  * @since 1.0.0
  */
 final class WValidationErrorsRenderer extends AbstractWebXmlRenderer {
@@ -34,6 +35,7 @@ final class WValidationErrorsRenderer extends AbstractWebXmlRenderer {
 			xml.appendAttribute("id", component.getId());
 		xml.appendOptionalAttribute("class", component.getHtmlClass());
 			xml.appendOptionalAttribute("track", component.isTracking(), "true");
+			xml.appendOptionalAttribute("title", errors.getTitleText());
 			xml.appendClose();
 
 			for (GroupedDiagnositcs nextGroup : errors.getGroupedErrors()) {

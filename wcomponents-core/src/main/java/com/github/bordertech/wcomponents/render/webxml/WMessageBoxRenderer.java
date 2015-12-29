@@ -10,6 +10,7 @@ import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
  *
  * @author Yiannis Paschalidis
  * @author Jonathan Austin
+ * @author Mark Reeves
  * @since 1.0.0
  */
 final class WMessageBoxRenderer extends AbstractWebXmlRenderer {

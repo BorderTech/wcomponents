@@ -8,6 +8,7 @@ import org.junit.Test;
  * WMessageBox_Test - Unit tests for {@link WMessageBox}.
  *
  * @author Yiannis Paschalidis
+ * @author Mark Reeves
  * @since 1.0.0
  */
 public class WMessageBox_Test extends AbstractWComponentTestCase {

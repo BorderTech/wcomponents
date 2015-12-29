@@ -3,28 +3,37 @@
 
 .wc_msgbox {
 	@include border;
+	@include flex;
 	background-color: $wc-ui-color-global-bg;
 	min-height: 0;
-	padding: 0 0 $vgap-normal;
 
 	> h1 {
 		color: $std-color-white;
 		font-size: $msg-box-header-size;
 		font-weight: normal;
 		margin-top: 0;
-		padding: $vgap-normal $hgap-small;
+		padding: $vgap-normal;
+		width: $line-size;
 
 		&:before {
 			@include make-box($height: $msg-box-header-size, $width: $msg-box-header-size); // Width and height same as font-size for the heading
 			@include background-image($url: '../images/error.png', $height: contain);
 			content: ' ';
-			margin: 0 $hgap-small;
 			vertical-align: text-top;
+		}
+
+		> span {
+			@include offscreen;
 		}
 	}
 
 	> button {
 		padding: $vgap-normal $hgap-small;
+	}
+
+	> ul {
+		padding-right: $hgap-small;
+		margin: $vgap-small 0;
 	}
 
 	// message types - there can only be one type per box
