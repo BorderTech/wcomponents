@@ -27,28 +27,30 @@
 					<xsl:value-of select="concat(' ', @class)"/>
 				</xsl:if>
 			</xsl:attribute>
-			<xsl:element name="h1">
-				<xsl:choose>
-					<xsl:when test="@title">
-						<xsl:value-of select="@title"/>
-					</xsl:when>
-					<xsl:when test="$type='error'">
-						<xsl:value-of select="$$${wc.ui.messageBox.title.error}"/>
-					</xsl:when>
-					<xsl:when test="$type='warn'">
-						<xsl:value-of select="$$${wc.ui.messageBox.title.warn}"/>
-					</xsl:when>
-					<xsl:when test="$type='info'">
-						<xsl:value-of select="$$${wc.ui.messageBox.title.info}"/>
-					</xsl:when>
-					<xsl:when test="$type='success'">
-						<xsl:value-of select="$$${wc.ui.messageBox.title.success}"/>
-					</xsl:when>
-				</xsl:choose>
-			</xsl:element>
-			<xsl:element name="ul">
+			<h1>
+				<span>
+					<xsl:choose>
+						<xsl:when test="@title">
+							<xsl:value-of select="@title"/>
+						</xsl:when>
+						<xsl:when test="$type='error'">
+							<xsl:value-of select="$$${wc.ui.messageBox.title.error}"/>
+						</xsl:when>
+						<xsl:when test="$type='warn'">
+							<xsl:value-of select="$$${wc.ui.messageBox.title.warn}"/>
+						</xsl:when>
+						<xsl:when test="$type='info'">
+							<xsl:value-of select="$$${wc.ui.messageBox.title.info}"/>
+						</xsl:when>
+						<xsl:when test="$type='success'">
+							<xsl:value-of select="$$${wc.ui.messageBox.title.success}"/>
+						</xsl:when>
+					</xsl:choose>
+				</span>
+			</h1>
+			<ul>
 				<xsl:apply-templates/>
-			</xsl:element>
+			</ul>
 		</xsl:element>
 	</xsl:template>
 </xsl:stylesheet>

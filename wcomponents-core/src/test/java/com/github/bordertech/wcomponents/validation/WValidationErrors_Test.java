@@ -15,6 +15,7 @@ import org.junit.Test;
  * WValidationErrors_Test - unit tests for {@link WValidationErrors}.
  *
  * @author Yiannis Paschalidis
+ * @author Mark Reeves
  * @since 1.0.0
  */
 public class WValidationErrors_Test extends AbstractWComponentTestCase {
@@ -135,5 +136,21 @@ public class WValidationErrors_Test extends AbstractWComponentTestCase {
 				getDiagnostics().get(0));
 		Assert.assertSame("Incorrect diagnostic in group 2", component2Error2, group2.
 				getDiagnostics().get(1));
+	}
+
+
+
+	@Test
+	public void testTitleTextAccessors() {
+		wValidationErrors.setErrors(errors);
+		wValidationErrors.setLocked(true);
+		setActiveContext(createUIContext());
+		String text = "my test text";
+
+		wValidationErrors.setTitleText(text);
+		Assert.assertEquals("Dynamic accessible text incorrect", text, wValidationErrors.getTitleText());
+
+		resetContext();
+		Assert.assertNull("Default accessible text incorrect", wValidationErrors.getTitleText());
 	}
 }
