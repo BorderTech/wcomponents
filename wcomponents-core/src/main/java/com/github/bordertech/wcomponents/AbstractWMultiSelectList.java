@@ -166,7 +166,6 @@ public abstract class AbstractWMultiSelectList extends AbstractWSelectList {
 	 * </p>
 	 *
 	 * @return the selected options in the given UI context.
-	 * @throws IllegalArgumentException
 	 */
 	@Override
 	public List<?> getValue() {
@@ -246,7 +245,7 @@ public abstract class AbstractWMultiSelectList extends AbstractWSelectList {
 	 * </p>
 	 *
 	 * @param data the data to set which is usually a List containing the selected options or null for no selection.
-	 * @throws IllegalArgumentException
+	 * @throws IllegalArgumentException if the data Object is not null but the options List is null or empty.
 	 */
 	@Override
 	public void setData(final Object data) {
