@@ -46,7 +46,7 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 	/**
 	 * The available types of selection mode for the items in a menu.
 	 *
-	 * @deprecated Use {@link MenuSelectContainer#SelectionMode} instead.
+	 * @deprecated Use {@link MenuSelectContainer#getSelectionMode()} instead.
 	 */
 	@Deprecated
 	public enum SelectMode {
@@ -150,7 +150,7 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 	/**
 	 * @param selectMode the selection mode for the items in this menu container.
 	 *
-	 * @deprecated Use {@link #setSelectionMode(com.github.bordertech.wcomponents.MenuSelectContainer.SelectionMode) instead.
+	 * @deprecated Use {@link #setSelectionMode(com.github.bordertech.wcomponents.MenuSelectContainer.SelectionMode)} instead.
 	 */
 	@Deprecated
 	public void setSelectMode(final SelectMode selectMode) {
@@ -254,7 +254,7 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 	/**
 	 * {@inheritDoc}
 	 *
-	 * @deprecated Use {@link #removeMenuItem(com.github.bordertech.wcomponents.MenuItem) instead.
+	 * @deprecated Use {@link #removeMenuItem(com.github.bordertech.wcomponents.MenuItem)} instead.
 	 */
 	@Deprecated
 	@Override
@@ -314,7 +314,7 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 	 * Sets the selected item (WMenuItem and/or WSubMenu, depending on the menu type).
 	 *
 	 * @param selectedItem the selected item.
-	 * @deprecated Use {@link #setSelectedMenuItem(com.github.bordertech.wcomponents.MenuItemSelectable) instead.
+	 * @deprecated Use {@link #setSelectedMenuItem(com.github.bordertech.wcomponents.MenuItemSelectable)} instead.
 	 */
 	@Deprecated
 	public void setSelectedItem(final WComponent selectedItem) {
@@ -337,7 +337,7 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 	 * Sets the selected items (WMenuItems or WSubMenus, depending on the menu type).
 	 *
 	 * @param selectedItems the selected items.
-	 * @deprecated Use {@link #setSelectedMenuItems(java.util.List) instead.
+	 * @deprecated Use {@link #setSelectedMenuItems(java.util.List)} instead.
 	 */
 	@Deprecated
 	public void setSelectedItems(final List<WComponent> selectedItems) {
