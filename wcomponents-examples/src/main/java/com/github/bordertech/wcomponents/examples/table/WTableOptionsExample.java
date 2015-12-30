@@ -139,6 +139,11 @@ public class WTableOptionsExample extends WBeanContainer {
 	private final WCheckBox chbRowsPerPageOptions = new WCheckBox();
 
 	/**
+	 * Caption text.
+	 */
+	private final WTextField tfCaption = new WTextField();
+
+	/**
 	 * Construct the example.
 	 */
 	public WTableOptionsExample() {
@@ -178,6 +183,7 @@ public class WTableOptionsExample extends WBeanContainer {
 		layout.addField("Column order", columnOrder);
 		WField fieldRows = layout.addField("Rows per page", numRowsPerPage);
 		WField fieldRowsOptions = layout.addField("Rows per page options", chbRowsPerPageOptions);
+		layout.addField("Caption", tfCaption);
 
 		WSubordinateControl pagRowsPerPage = new WSubordinateControl();
 		Rule rule = new Rule();
@@ -433,6 +439,13 @@ public class WTableOptionsExample extends WBeanContainer {
 		table.setShowColumnHeaders(showColHeaders.isSelected());
 		table.setExpandAll(expandAll.isSelected());
 		table.setEditable(chbEditable.isSelected());
+
+		// Caption
+		if(null != tfCaption.getText()) {
+			table.setCaption(tfCaption.getText());
+		} else {
+			table.setCaption("");
+		}
 
 		// Pagination
 		table.setPaginationMode(rbsPaging.getSelected());

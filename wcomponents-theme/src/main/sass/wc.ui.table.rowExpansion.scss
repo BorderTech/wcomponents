@@ -1,12 +1,16 @@
 /* wc.ui.table.rowExpansion.scss */
 @import 'mixins_common.scss';
 
-thead .rowExpansion {
+.rowExpansion {
 	&[role='radiogroup'] {
 		list-style-type: none;
 		margin: 0;
 		padding: 0;
 		text-align: right;
+
+		@include respond(phonelike) {
+			text-align: left;
+		}
 	}
 
 	> li {
@@ -18,24 +22,24 @@ thead .rowExpansion {
 		}
 
 	}
-}
 
-// ROW EXPANSION iconography and expand/collapse all iconography.
-// .wc_table_rowexp_container is the expandable row's expander holding cell or header*/
-.rowExpansion button {
-	&:before {
-		@include use-symbol-font;
-		content: '\229e';
-		font-size: 1.25em;
-		line-height: 0;
+	// ROW EXPANSION iconography and expand/collapse all iconography.
+	// .wc_table_rowexp_container is the expandable row's expander holding cell or header
+	button {
+		&:before {
+			@include use-symbol-font;
+			content: '\229e';
+			font-size: 1.25em;
+			line-height: 0;
 
-		@include reset-large-screen {
-			font-size: 1em;
+			@include reset-large-screen {
+				font-size: 1em;
+			}
 		}
-	}
 
-	&[data-wc-value='collapse']:before {
-		content: '\229f';
+		&[data-wc-value='collapse']:before {
+			content: '\229f';
+		}
 	}
 }
 
