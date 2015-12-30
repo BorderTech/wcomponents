@@ -7,6 +7,7 @@
 	<xsl:import href="wc.common.hide.xsl"/>
 	<xsl:import href="wc.ui.table.n.xsl"/>
 	<xsl:import href="wc.ui.table.n.caption.xsl"/>
+	<xsl:import href="wc.ui.table.n.topControls.xsl"/>
 	<!--
 		WTable (and WDataTable)
 
@@ -39,12 +40,6 @@
 	<xsl:template match="ui:table">
 		<xsl:variable name="id" select="@id"/>
 		<xsl:variable name="isError" select="key('errorKey',$id)"/>
-
-		<xsl:variable name="disabled">
-			<xsl:if test="@disabled">
-				<xsl:number value="1"/>
-			</xsl:if>
-		</xsl:variable>
 
 		<xsl:element name="div">
 			<xsl:attribute name="id">
@@ -92,17 +87,6 @@
 				</xsl:attribute>
 			</xsl:if>
 
-			<xsl:variable name="isHierarchic">
-				<xsl:choose>
-					<xsl:when test="@type='hierarchic'">
-						<xsl:number value="1"/>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:number value="0"/>
-					</xsl:otherwise>
-				</xsl:choose>
-			</xsl:variable>
-
 			<xsl:variable name="rowExpansion">
 				<xsl:choose>
 					<xsl:when test="ui:rowExpansion">
@@ -110,17 +94,6 @@
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:value-of select="0"/>
-					</xsl:otherwise>
-				</xsl:choose>
-			</xsl:variable>
-
-			<xsl:variable name="hierarchicWithExpansion">
-				<xsl:choose>
-					<xsl:when test="($isHierarchic + $rowExpansion = 2)  and .//ui:subTr[ancestor::ui:table[1]/@id=$id]">
-						<xsl:number value="1"/>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:number value="0"/>
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:variable>
@@ -135,16 +108,14 @@
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:variable>
-
-			<xsl:variable name="staticCols">
-				<xsl:value-of select="$rowSelection + $rowExpansion"/>
-			</xsl:variable>
-
-			<xsl:variable name="firstDataColSorted">
-				<xsl:if test="ui:sort[@col = '0']">
-					<xsl:number value="1"/>
-				</xsl:if>
-			</xsl:variable>
+			
+			<!-- THIS IS WHERE THE DIV's CONTENT STARTS NO MORE ATTRIBUTES AFTER THIS POINT THANK YOU! -->
+			
+			<!--
+				Add table controls which do not form part of the table structure but which controls and reference the
+				table. 
+			-->
+			<xsl:call-template name="topControls"/>
 
 			<!-- The table element is then the basic functional component.-->
 			<table>
@@ -152,7 +123,7 @@
 					<xsl:if test="ui:thead/ui:th[@width]">
 						<xsl:text>wc_table_fix</xsl:text>
 					</xsl:if>
-					<xsl:if test="$isHierarchic=1">
+					<xsl:if test="@type='hierarchic'">
 						<xsl:text> hierarchic</xsl:text>
 					</xsl:if>
 				</xsl:variable>
@@ -177,30 +148,9 @@
 					<xsl:attribute name="sortable">sortable</xsl:attribute>
 				</xsl:if>
 				
-				<xsl:call-template name="caption">
-					<xsl:with-param name="hasExpandAll">
-						<xsl:choose>
-							<xsl:when test="ui:rowExpansion/@expandAll=$t and .//ui:subTr[ancestor::ui:table[1]/@id=$id]">
-								<xsl:value-of select="1"/>
-							</xsl:when>
-							<xsl:otherwise>
-								<xsl:value-of select="0"/>
-							</xsl:otherwise>
-						</xsl:choose>
-					</xsl:with-param>
-					<xsl:with-param name="hasRowSelection">
-						<xsl:choose>
-							<xsl:when test="ui:rowSelection[@selectAll='text'] and ..//ui:tr[not(@unselectable=$t) and ancestor::ui:table[1]/@id=$id]">
-								<xsl:value-of select="1"/>
-							</xsl:when>
-							<xsl:otherwise>
-								<xsl:value-of select="0"/>
-							</xsl:otherwise>
-						</xsl:choose>
-					</xsl:with-param>
-				</xsl:call-template>
-
-				<xsl:element name="colgroup">
+				<xsl:call-template name="caption" />
+				
+				<colgroup>
 					<xsl:if test="@separators='both' or @separators='vertical'">
 						<xsl:attribute name="class">
 							<xsl:text>wc_table_colsep</xsl:text>
@@ -208,28 +158,19 @@
 					</xsl:if>
 
 					<xsl:if test="$rowSelection=1">
-						<xsl:element name="col">
-							<xsl:attribute name="class">
-								<xsl:text>wc_table_colauto</xsl:text>
-								<xsl:if test="$firstDataColSorted=1 and $hierarchicWithExpansion=1">
-									<xsl:text> wc_table_sort_nxt</xsl:text>
-								</xsl:if>
-							</xsl:attribute>
+						<col class="wc_table_colauto">
 							<xsl:if test="$isDebug=1">
 								<xsl:comment>row selection column</xsl:comment>
 							</xsl:if>
-						</xsl:element>
+						</col>
 					</xsl:if>
 
 					<xsl:if test="$rowExpansion=1">
-						<xsl:element name="col">
-							<xsl:attribute name="class">
-								<xsl:text>wc_table_colauto</xsl:text>
-							</xsl:attribute>
+						<col class="wc_table_colauto">
 							<xsl:if test="$isDebug=1">
 								<xsl:comment>row expansion column</xsl:comment>
 							</xsl:if>
-						</xsl:element>
+						</col>
 					</xsl:if>
 
 					<xsl:choose>
@@ -254,10 +195,19 @@
 							</xsl:apply-templates>
 						</xsl:otherwise>
 					</xsl:choose>
-				</xsl:element>
-
+				</colgroup>
 				<xsl:apply-templates select="ui:thead"/>
 
+				<xsl:variable name="staticCols">
+					<xsl:value-of select="$rowSelection + $rowExpansion"/>
+				</xsl:variable>
+
+				<xsl:variable name="disabled">
+					<xsl:if test="@disabled">
+						<xsl:number value="1"/>
+					</xsl:if>
+				</xsl:variable>
+				
 				<xsl:apply-templates select="ui:tbody">
 					<xsl:with-param name="addCols" select="$staticCols"/>
 					<xsl:with-param name="disabled" select="$disabled"/>

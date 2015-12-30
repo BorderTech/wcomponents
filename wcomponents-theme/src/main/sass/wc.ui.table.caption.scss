@@ -1,28 +1,9 @@
 /* wc.ui.table.caption.scss */
+// NOTE: this is a stub - override it as you see fit.
+
 @import 'mixins_common.scss';
 
 caption {
-
-	// > span {
-	// 	//this is the actual caption if any is set.
-	// 	text-align: center; //Chrome default for captions
-	// }
-
-	> div { //row contaier for select all and expand all controls.
-		text-align: left;
-
-		> div {
-			width: 50%;
-
-			&:first-child:last-child { // only one of the control sets is needed.
-				width: 100%;
-			}
-		}
-	}
-}
-
-@include respond(phonelike) {
-	caption > div > div {
-		width: 100%;
-	}
+	margin-bottom: $hgap-normal;
+	text-align: left;
 }
