@@ -37,7 +37,8 @@
 			</xsl:choose>
 		</xsl:variable>
 			
-		<xsl:if test="$hasExpandAll + $hasRowSelection + $hasPagination &gt; 0">
+		<!-- xsl:if test="$hasExpandAll + $hasRowSelection + $hasPagination &gt; 0" -->
+		<xsl:if test="$hasExpandAll + $hasRowSelection &gt; 0">
 			<div class="wc_table_top_controls">
 				<xsl:if test="$hasRowSelection = 1">
 					<div class="wc_table_sel_cont">
