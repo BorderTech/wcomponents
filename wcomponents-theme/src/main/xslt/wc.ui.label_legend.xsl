@@ -2,15 +2,15 @@
 	<xsl:import href="wc.common.accessKey.xsl"/>
 	<xsl:import href="wc.constants.xsl"/>
 	<xsl:import href="wc.ui.label.n.WLabelHint.xsl"/>
-	
+
 	<!--
-		This is used to generate a legend for a component which has a fieldset wrapper. The component element is passed 
+		This is used to generate a legend for a component which has a fieldset wrapper. The component element is passed
 		in as the forElement. This is not called if the component is in a read only state.
-		
+
 		The ui:label is aso transformed in-situ as a faux-label so we MUST NOT output the label ID in this legend. We do
 		output accessKey because accesskey is an allowed and functional attribute on a legend element.
-		
-		param: labelableELement: the component being labelled. This is always known and does not need to be calculated 
+
+		param: labelableELement: the component being labelled. This is always known and does not need to be calculated
 		so it is MUCH cheaper to pass it in as a param.
 	-->
 	<xsl:template match="ui:label" mode="legend">
@@ -43,9 +43,11 @@
 				<xsl:with-param name="submitNotAjaxTrigger" select="$submitNotAjaxTrigger"/>
 			</xsl:call-template>
 			<xsl:if test="$labelableElement and $labelableElement/@required">
-				<span class="wc_off">
-					<xsl:value-of select="$$${wc.common.i18n.requiredPlaceholder}"/>
-				</span>
+				<xsl:call-template name="offscreenSpan">
+					<xsl:with-param name="text">
+						<xsl:value-of select="$$${wc.common.i18n.requiredPlaceholder}"/>
+					</xsl:with-param>
+				</xsl:call-template>
 			</xsl:if>
 		</legend>
 	</xsl:template>

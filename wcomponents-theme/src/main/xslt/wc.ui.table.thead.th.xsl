@@ -21,7 +21,6 @@
 			</xsl:attribute>
 			
 			<xsl:if test="@sortable=$t">
-				
 				<xsl:variable name="sortControl" select="../../ui:sort"/>
 				
 				<xsl:if test="$sortControl">

@@ -6,6 +6,7 @@
 	<xsl:import href="wc.common.hField.xsl"/>
 	<xsl:import href="wc.common.hide.xsl"/>
 	<xsl:import href="wc.ui.table.n.xsl"/>
+	<xsl:import href="wc.ui.table.n.caption.xsl"/>
 	<!--
 		WTable (and WDataTable)
 
@@ -18,11 +19,7 @@
 
 		The HTML TABLE element is actually wrapped in a DIV. This is to provide
 		somewhere to attach messages as a WTable can be in an error state (yes, really).
-
-
-		This is the base transform for WTable. The component root HTML element is a DIV.
-		This allows us to add error messaging to the component.
-
+		
 		Common XSLT parameters
 
 		Individual element transforms may require to reference the ancestor table. To
@@ -179,11 +176,29 @@
 				<xsl:if test="ui:sort">
 					<xsl:attribute name="sortable">sortable</xsl:attribute>
 				</xsl:if>
-				<xsl:if test="@caption">
-					<xsl:element name="caption">
-						<xsl:value-of select="@caption"/>
-					</xsl:element>
-				</xsl:if>
+				
+				<xsl:call-template name="caption">
+					<xsl:with-param name="hasExpandAll">
+						<xsl:choose>
+							<xsl:when test="ui:rowExpansion/@expandAll=$t and .//ui:subTr[ancestor::ui:table[1]/@id=$id]">
+								<xsl:value-of select="1"/>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:value-of select="0"/>
+							</xsl:otherwise>
+						</xsl:choose>
+					</xsl:with-param>
+					<xsl:with-param name="hasRowSelection">
+						<xsl:choose>
+							<xsl:when test="ui:rowSelection[@selectAll='text'] and ..//ui:tr[not(@unselectable=$t) and ancestor::ui:table[1]/@id=$id]">
+								<xsl:value-of select="1"/>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:value-of select="0"/>
+							</xsl:otherwise>
+						</xsl:choose>
+					</xsl:with-param>
+				</xsl:call-template>
 
 				<xsl:element name="colgroup">
 					<xsl:if test="@separators='both' or @separators='vertical'">
@@ -241,10 +256,7 @@
 					</xsl:choose>
 				</xsl:element>
 
-				<xsl:apply-templates select="ui:thead">
-					<xsl:with-param name="addCols" select="$staticCols"/>
-					<xsl:with-param name="disabled" select="$disabled"/>
-				</xsl:apply-templates>
+				<xsl:apply-templates select="ui:thead"/>
 
 				<xsl:apply-templates select="ui:tbody">
 					<xsl:with-param name="addCols" select="$staticCols"/>
