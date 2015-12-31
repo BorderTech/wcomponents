@@ -74,6 +74,32 @@ define(["wc/dom/attribute",
 			SELECTOR.descendFrom(PAGINATION_CONTAINER);
 			PAGINATION_BUTTON.descendFrom(PAGINATION_CONTAINER);
 
+
+			/**
+			 * Given one page selection dropdown find the other (if the table has two).
+			 *
+			 * @function
+			 * @private
+			 * @param {Element} selector a page selection dropdown.
+			 * @returns {?Element} the other pagination dropdown.
+			 */
+			function getOtherSelector(selector) {
+				var i,
+					wrapper = TABLE_WRAPPER.findAncestor(selector),
+					selectors = (PAGINATION_SELECTOR.isOneOfMe(selector) ? PAGINATION_SELECTOR.findDescendants(wrapper) : RPP_SELECTOR.findDescendants(wrapper)); // this could include selectors in nested tables
+				if (selectors && selectors.length > 1) {
+					for (i = 0; i < selectors.length; ++i) {
+						if (selectors[i] === selector) {
+							continue;
+						}
+						if (wrapper === TABLE_WRAPPER.findAncestor(selectors[i])) {
+							return selectors[i];
+						}
+					}
+				}
+				return null;
+			}
+
 			/**
 			 * Gets the TYPE of a given button.
 			 *
@@ -103,7 +129,8 @@ define(["wc/dom/attribute",
 					buttonType,
 					oldIndex,
 					newIndex,
-					selector = PAGINATION_SELECTOR.findDescendant(paginationContainer);
+					selector = PAGINATION_SELECTOR.findDescendant(paginationContainer),
+					otherSelector;
 
 				if (selector && !shed.isDisabled(selector)) {// don't do anything if selector disabled
 					len = selector.options.length;
@@ -123,6 +150,10 @@ define(["wc/dom/attribute",
 					}
 					if (newIndex >= 0 && newIndex !== oldIndex) {
 						selector.selectedIndex = newIndex;
+						if ((otherSelector = getOtherSelector(selector))) {
+							otherSelector.selectedIndex = newIndex;
+						}
+
 						if (PAGINATION_BUTTON_CLIENT.isOneOfMe(button)) {  // no point changing page if we are submitting
 							requestPageChange(selector, button);
 						}
@@ -301,10 +332,17 @@ define(["wc/dom/attribute",
 			 * @param {Event} $event The change event.
 			 */
 			function changeEvent($event) {
-				var element = $event.target;
+				var element = $event.target,
+					alternateSelector;
 
 				if ($event.defaultPrevented || shed.isDisabled(element)) {
 					return;
+				}
+
+				// if the table has two pagination/rows per page selectors they have to be kept in sync but do not fire
+				// change events on the alternate.
+				if (SELECTOR.isOneOfMe(element) && (alternateSelector = getOtherSelector(element))) {
+					alternateSelector.selectedIndex = element.selectedIndex;
 				}
 
 				if (SELECTOR.isOneOfMe(element) && element.hasAttribute("data-wc-ajaxalias")) {
