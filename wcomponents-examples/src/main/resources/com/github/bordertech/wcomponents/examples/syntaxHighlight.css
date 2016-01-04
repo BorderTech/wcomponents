@@ -9,18 +9,18 @@
 }
 
 span.javaSourceKeyword {
-	color: blue;
+	color: #009;
 	font-weight: bold;
 }
 
 span.javaSourceComment {
-	color: green;
+	color: #060;
 }
 
 span.javaSourceJavadoc {
-	color: gray;
+	color: #767676;
 }
 
 span.javaSourceString {
-	color: red;
+	color: #c00;
 }
