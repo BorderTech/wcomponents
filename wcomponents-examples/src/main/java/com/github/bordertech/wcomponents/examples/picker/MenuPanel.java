@@ -5,6 +5,7 @@ import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.UIContextHolder;
 import com.github.bordertech.wcomponents.WAbbrText;
 import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WDecoratedLabel;
 import com.github.bordertech.wcomponents.WMenu;
 import com.github.bordertech.wcomponents.WMenuItem;
@@ -273,11 +274,15 @@ final class MenuPanel extends WPanel {
 	 * Updates the entries in the "Recent" sub-menu.
 	 */
 	private void updateRecentMenu() {
-		for (int i = recentMenu.getChildCount() - 1; i >= 0; i--) {
-			WComponent child = recentMenu.getChildAt(i);
+		WComponent itemContainerComponent = recentMenu.getChildAt(recentMenu.getChildCount() - 1);
+		if(itemContainerComponent instanceof WContainer) {
+			WContainer itemContainer = (WContainer) itemContainerComponent;
+			for (int i = itemContainer.getChildCount() - 1; i >= 0; i--) {
+				WComponent child = itemContainer.getChildAt(i);
 
-			if (child instanceof WMenuItem) {
-				recentMenu.remove(child);
+				if (child instanceof WMenuItem) {
+					recentMenu.removeMenuItem((WMenuItem) child);
+				}
 			}
 		}
 
