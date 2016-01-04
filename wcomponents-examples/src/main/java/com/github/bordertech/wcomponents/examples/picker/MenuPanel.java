@@ -5,7 +5,6 @@ import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.UIContextHolder;
 import com.github.bordertech.wcomponents.WAbbrText;
 import com.github.bordertech.wcomponents.WComponent;
-import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WDecoratedLabel;
 import com.github.bordertech.wcomponents.WMenu;
 import com.github.bordertech.wcomponents.WMenuItem;
