@@ -13,6 +13,7 @@ import com.github.bordertech.wcomponents.WMessageBox;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WRadioButtonSelect;
 import com.github.bordertech.wcomponents.WTextArea;
+import com.github.bordertech.wcomponents.WTextField;
 import com.github.bordertech.wcomponents.layout.FlowLayout;
 import com.github.bordertech.wcomponents.layout.FlowLayout.Alignment;
 import com.github.bordertech.wcomponents.util.Util;
@@ -69,6 +70,11 @@ public class WMessageBoxExample extends WPanel {
 	private final WCheckBox cbVisible = new WCheckBox(true);
 
 	/**
+	 * Text field to set the message box title.
+	 */
+	private final WTextField tfTitle = new WTextField();
+
+	/**
 	 * Creates a WMessageBoxExample.
 	 */
 	public WMessageBoxExample() {
@@ -87,6 +93,7 @@ public class WMessageBoxExample extends WPanel {
 
 		fieldLayout.addField("Message Box Type", messageBoxTypeSelect);
 		fieldLayout.addField("Visible", cbVisible);
+		fieldLayout.addField("Title", tfTitle);
 
 		// Apply Button
 		WButton apply = new WButton("Apply");
@@ -161,6 +168,13 @@ public class WMessageBoxExample extends WPanel {
 				(com.github.bordertech.wcomponents.WMessageBox.Type) messageBoxTypeSelect.
 				getSelected());
 		messageBox.setVisible(cbVisible.isSelected());
+
+		if (tfTitle.getText() != null) {
+			messageBox.setTitleText(tfTitle.getText());
+		}
+		else {
+			messageBox.setTitleText("");
+		}
 	}
 
 	/**
