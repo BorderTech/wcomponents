@@ -274,12 +274,7 @@ final class MenuPanel extends WPanel {
 	 * Updates the entries in the "Recent" sub-menu.
 	 */
 	private void updateRecentMenu() {
-
-		Object[] menuItems = recentMenu.getMenuItems().toArray();
-
-		for (int i = menuItems.length - 1; i >= 0; i--) {
-			recentMenu.removeMenuItem((WMenuItem) menuItems[i]);
-		}
+		recentMenu.removeAllMenuItems();
 
 		int index = 1;
 

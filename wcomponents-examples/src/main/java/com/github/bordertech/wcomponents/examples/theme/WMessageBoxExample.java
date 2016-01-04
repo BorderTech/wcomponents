@@ -169,7 +169,7 @@ public class WMessageBoxExample extends WPanel {
 				getSelected());
 		messageBox.setVisible(cbVisible.isSelected());
 
-		if(tfTitle.getText()!= null) {
+		if (tfTitle.getText() != null) {
 			messageBox.setTitleText(tfTitle.getText());
 		}
 		else {
