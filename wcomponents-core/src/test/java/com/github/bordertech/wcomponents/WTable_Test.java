@@ -3,6 +3,7 @@ package com.github.bordertech.wcomponents;
 import com.github.bordertech.wcomponents.WRepeater.SubUIContext;
 import com.github.bordertech.wcomponents.WTable.ExpandMode;
 import com.github.bordertech.wcomponents.WTable.PaginationMode;
+import com.github.bordertech.wcomponents.WTable.PaginationLocation;
 import com.github.bordertech.wcomponents.WTable.RowIdWrapper;
 import com.github.bordertech.wcomponents.WTable.SelectAllType;
 import com.github.bordertech.wcomponents.WTable.SelectMode;
@@ -105,6 +106,13 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 		assertAccessorsCorrect(new WTable(), "paginationMode", PaginationMode.NONE,
 				PaginationMode.CLIENT,
 				PaginationMode.DYNAMIC);
+	}
+
+	@Test
+	public void testPaginationLocationAccessors() {
+		assertAccessorsCorrect(new WTable(), "paginationLocation", PaginationLocation.AUTO,
+				PaginationLocation.TOP,
+				PaginationLocation.BOTH);
 	}
 
 	@Test

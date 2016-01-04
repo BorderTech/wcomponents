@@ -9,7 +9,18 @@
 	-->
 	<xsl:template name="tfoot">
 		<xsl:param name="addCols" select="0"/>
-		<xsl:if test="ui:pagination or ui:actions">
+
+		<xsl:variable name="showPagination">
+			<xsl:choose>
+				<xsl:when test="ui:pagination and not(ui:pagination/@controls='top')">
+					<xsl:number value="1"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:number value="0"/>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:if test="ui:actions or $showPagination=1">
 			<xsl:variable name="numCols">
 				<xsl:choose>
 					<xsl:when test="ui:thead/ui:th">
@@ -23,35 +34,25 @@
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:variable>
-			<!-- NOTE: colspan1 must include all padding columns etc -->
 			<xsl:variable name="colSpan">
 				<xsl:value-of select="$addCols + $numCols"/>
 			</xsl:variable>
-			<xsl:element name="tfoot">
-				<xsl:if test="ui:pagination">
-					<xsl:element name="tr">
-						<xsl:element name="td">
-							<xsl:attribute name="class">
-								<xsl:text>wc_table_pag_cont right</xsl:text>
-							</xsl:attribute>
-							<xsl:attribute name="colspan">
-								<xsl:value-of select="$colSpan"/>
-							</xsl:attribute>
+			<tfoot>
+				<xsl:if test="$showPagination=1">
+					<tr>
+						<td class="wc_table_pag_cont" colspan="{$colSpan}">
 							<xsl:apply-templates select="ui:pagination"/>
-						</xsl:element>
-					</xsl:element>
+						</td>
+					</tr>
 				</xsl:if>
 				<xsl:if test="ui:actions">
-					<xsl:element name="tr">
-						<xsl:element name="td">
-							<xsl:attribute name="colspan">
-								<xsl:value-of select="$colSpan"/>
-							</xsl:attribute>
+					<tr>
+						<td colspan="{$colSpan}">
 							<xsl:apply-templates select="ui:actions"/>
-						</xsl:element>
-					</xsl:element>
+						</td>
+					</tr>
 				</xsl:if>
-			</xsl:element>
+			</tfoot>
 		</xsl:if>
 	</xsl:template>
 </xsl:stylesheet>

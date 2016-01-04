@@ -8,6 +8,7 @@ import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WTable;
 import com.github.bordertech.wcomponents.WTable.ActionConstraint;
 import com.github.bordertech.wcomponents.WTable.ExpandMode;
+import com.github.bordertech.wcomponents.WTable.PaginationLocation;
 import com.github.bordertech.wcomponents.WTable.PaginationMode;
 import com.github.bordertech.wcomponents.WTable.SortMode;
 import com.github.bordertech.wcomponents.WTable.TableModel;
@@ -240,6 +241,13 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo((new Integer(tableModel.getRowCount())).toString(),
 				"//ui:table/ui:pagination/@rows",
 				component);
+
+		assertXpathNotExists("//ui:table/ui:pagination/@controls", component);
+
+		component.setPaginationLocation(PaginationLocation.BOTTOM);
+		assertSchemaMatch(component);
+
+		assertXpathEvaluatesTo("bottom", "//ui:table/ui:pagination/@controls", component);
 
 	}
 

@@ -113,6 +113,23 @@ final class WTableRenderer extends AbstractWebXmlRenderer {
 					throw new SystemException("Unknown pagination mode: " + table.
 							getPaginationMode());
 			}
+
+			if (table.getPaginationLocation() != WTable.PaginationLocation.AUTO) {
+				switch (table.getPaginationLocation()) {
+					case TOP:
+						xml.appendAttribute("controls", "top");
+						break;
+					case BOTTOM:
+						xml.appendAttribute("controls", "bottom");
+						break;
+					case BOTH:
+						xml.appendAttribute("controls", "both");
+						break;
+					default:
+						throw new SystemException("Unknown pagination control location: " + table.getPaginationLocation());
+				}
+			}
+
 			xml.appendClose();
 
 			// Rows per page options

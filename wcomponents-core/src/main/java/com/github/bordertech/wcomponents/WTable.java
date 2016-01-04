@@ -149,6 +149,28 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 	};
 
 	/**
+	 * This is used to control where in the table the pagination controls appear.
+	 */
+	public enum PaginationLocation {
+		/**
+		 * Indicates that pagination controls appear in a location determined solely by the theme.
+		 */
+		AUTO,
+		/**
+		 * Indicates the pagination controls appear at the top of the table.
+		 */
+		TOP,
+		/**
+		 * Indicates the pagination controls appear at the bottom of the table.
+		 */
+		BOTTOM,
+		/**
+		 * Indicates that the pagination controls should be placed both at the top and at the bottom of the table.
+		 */
+		BOTH
+	};
+
+	/**
 	 * This is used to control the type of striping used, if any.
 	 */
 	public enum StripingType {
@@ -732,6 +754,22 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 	 */
 	public boolean isPaginated() {
 		return getPaginationMode() != PaginationMode.NONE && getRowsPerPage() > 0;
+	}
+
+	/**
+	 * @return the location for the pagination controls
+	 */
+	public PaginationLocation getPaginationLocation() {
+		return getComponentModel().paginationLocation;
+	}
+
+	/**
+	 * Sets the location in the table to show the pagination controls.
+	 *
+	 * @param location the PaginationLocation to set.
+	 */
+	public void setPaginationLocation(final PaginationLocation location) {
+		getOrCreateComponentModel().paginationLocation = location == null ? PaginationLocation.AUTO : location;
 	}
 
 	/**
@@ -1934,6 +1972,11 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 		 * Stores the current page index.
 		 */
 		private int currentPage;
+
+		/**
+		 * Stores the location to show the pagination controls.
+		 */
+		private PaginationLocation paginationLocation = PaginationLocation.AUTO;
 
 		// Selection
 		/**
