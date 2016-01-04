@@ -105,6 +105,10 @@ public class WTableOptionsExample extends WBeanContainer {
 	 */
 	private final WNumberField numRowsPerPage = new WNumberField();
 	/**
+	 * Location of pagination controls.
+	 */
+	private final EnumerationRadioButtonSelect<WTable.PaginationLocation> paginationControlsLocation;
+	/**
 	 * Striping Options.
 	 */
 	private final EnumerationRadioButtonSelect<WTable.StripingType> rbsStriping;
@@ -157,6 +161,7 @@ public class WTableOptionsExample extends WBeanContainer {
 		rbsSorting = createRadioButtonGroup(WTable.SortMode.values());
 		numRowsPerPage.setNumber(DEFAULT_ROWS_PER_PAGE);
 		numRowsPerPage.setMinValue(1);
+		paginationControlsLocation = createRadioButtonGroup(WTable.PaginationLocation.values());
 
 		columnOrder.setSelected(columnOrder.getOptions());
 		columnOrder.setMinSelect(1);
@@ -183,6 +188,7 @@ public class WTableOptionsExample extends WBeanContainer {
 		layout.addField("Column order", columnOrder);
 		WField fieldRows = layout.addField("Rows per page", numRowsPerPage);
 		WField fieldRowsOptions = layout.addField("Rows per page options", chbRowsPerPageOptions);
+		WField fieldPaginationLocation = layout.addField("Location of pagination controls", paginationControlsLocation);
 		layout.addField("Caption", tfCaption);
 
 		WSubordinateControl pagRowsPerPage = new WSubordinateControl();
@@ -190,8 +196,10 @@ public class WTableOptionsExample extends WBeanContainer {
 		rule.setCondition(new Equal(rbsPaging, WTable.PaginationMode.NONE));
 		rule.addActionOnTrue(new Hide(fieldRows));
 		rule.addActionOnTrue(new Hide(fieldRowsOptions));
+		rule.addActionOnTrue(new Hide(fieldPaginationLocation));
 		rule.addActionOnFalse(new Show(fieldRows));
 		rule.addActionOnFalse(new Show(fieldRowsOptions));
+		rule.addActionOnFalse(new Show(fieldPaginationLocation));
 		pagRowsPerPage.addRule(rule);
 		add(pagRowsPerPage);
 
@@ -370,6 +378,7 @@ public class WTableOptionsExample extends WBeanContainer {
 			rbsSeparator.setSelected(WTable.SeparatorType.NONE);
 			rbsSorting.setSelected(WTable.SortMode.NONE);
 			showColHeaders.setSelected(true);
+			paginationControlsLocation.setSelected(WTable.PaginationLocation.AUTO);
 			applySettings();
 
 			// Set the data used by the tables
@@ -452,6 +461,7 @@ public class WTableOptionsExample extends WBeanContainer {
 		if (rbsPaging.getSelected() == PaginationMode.NONE) {
 			table.setRowsPerPage(DEFAULT_ROWS_PER_PAGE);
 			table.setRowsPerPageOptions(null);
+			table.setPaginationLocation(WTable.PaginationLocation.AUTO);
 		} else {
 			// Options
 			table.setRowsPerPageOptions(
@@ -468,6 +478,7 @@ public class WTableOptionsExample extends WBeanContainer {
 				}
 			}
 			table.setRowsPerPage(rows);
+			table.setPaginationLocation(paginationControlsLocation.getSelected());
 		}
 
 		List<COLUMN> cols = (List<COLUMN>) columnOrder.getSelected();

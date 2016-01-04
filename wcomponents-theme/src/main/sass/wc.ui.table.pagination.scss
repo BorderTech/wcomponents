@@ -11,6 +11,13 @@
 	}
 }
 
+// This rule applies when the pagination controls are at teh bottom of the table.
+// scss-lint:disable QualifyingElement
+td.wc_table_pag_cont {
+	text-align: right;
+}
+// scss-lint:enable QualifyingElement
+
 .wc_table_pag_socbtn {
 	line-height: 1;
 	margin-left: $hgap-small;
