@@ -135,7 +135,10 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 		 */
 		NONE,
 		/**
-		 * Indicates that pagination occurs using a rount-trip to the server.
+		 * Indicates that pagination occurs using a round-trip to the server (no longer implemented). NOTE: no longer
+		 * supported in theme as it causes an a11y failure. Setting this mode will, in effect, set
+		 * PaginationMode.DYNAMIC.
+		 * @deprecated user PaginationMode.DYNAMIC
 		 */
 		SERVER,
 		/**
