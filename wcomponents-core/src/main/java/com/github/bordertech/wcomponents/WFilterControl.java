@@ -1,11 +1,13 @@
 package com.github.bordertech.wcomponents;
 
 /**
- * The WFilterControl lets the user filter data within another (table) component. The filtering occurs client-side,
+ * The WFilterControl lets the user filter data within a {@link WDataTable} component. The filtering occurs client-side,
  * based on text matching.
  *
  * @author Jonathan Austin
  * @since 1.0.0
+ * @deprecated WDataTable is deprecated. WFilterControl does not apply to WTable which _must_ be filtered using AJAX if
+ *   filtering is required; WDataTable filtering _should_ be done using AJAX.
  */
 public class WFilterControl extends AbstractContainer implements AjaxTarget {
 

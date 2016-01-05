@@ -168,7 +168,7 @@
 	<!--
 		Build browser and platform dependent CSS.
 	-->
-	<target name="buildBrowserCss" depends="buildDebugCss">
+	<target name="buildBrowserCss"><!-- depends="buildDebugCss" -->
 		<gatherIeVersionInfo sourceDir="${style.tmp.src.dir}" sourceFileExt=".css" nameOfLowestVersionPropToSet="ie.support.lowest.css.version" />
 		<for list="${ie.version.list}" param="version">
 			<sequential>
@@ -185,9 +185,9 @@
 		<!-- <buildCSSSets pattern="print" targetFile="${css.target.file.name.print}"/>-->
 	</target>
 
-	<target name="buildDebugCss">
+<!--	<target name="buildDebugCss">
 		<buildCSSSets pattern="${common.debugFiles.name.pattern}" targetFile="${css.target.file.name.debug}" />
-	</target>
+	</target>-->
 
 	<!--
 		Trawl the copied (and transpiled) source and find files with pattern_X in their names. Make a list of all
