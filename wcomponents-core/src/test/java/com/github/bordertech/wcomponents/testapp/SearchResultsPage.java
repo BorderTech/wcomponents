@@ -30,7 +30,7 @@ public class SearchResultsPage extends WContainer {
 		setTemplate(SearchResultsPage.class);
 
 		resultsTable = new WDataTable();
-		resultsTable.setPaginationMode(PaginationMode.SERVER);
+		resultsTable.setPaginationMode(PaginationMode.DYNAMIC);
 		resultsTable.setRowsPerPage(SearchCriteriaPage.DEFAULT_ROWS_PER_PAGE);
 
 		add(resultsTable, "resultsTable");

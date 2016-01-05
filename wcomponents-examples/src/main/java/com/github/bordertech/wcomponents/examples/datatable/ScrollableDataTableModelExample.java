@@ -42,7 +42,7 @@ public class ScrollableDataTableModelExample extends WPanel {
 		table.addColumn(new WTableColumn("First name", WText.class));
 		table.addColumn(new WTableColumn("Last name", WText.class));
 		table.addColumn(new WTableColumn("DOB", WText.class));
-		table.setPaginationMode(PaginationMode.SERVER);
+		table.setPaginationMode(PaginationMode.DYNAMIC);
 		table.setRowsPerPage(1);
 
 		table.setDataModel(createTableModel());

@@ -177,7 +177,7 @@ public final class WDataTable_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testPaginationModeAccessors() {
 		WDataTable table = new WDataTable();
-		WDataTable.PaginationMode mode1 = WDataTable.PaginationMode.SERVER;
+		WDataTable.PaginationMode mode1 = WDataTable.PaginationMode.CLIENT;
 		WDataTable.PaginationMode mode2 = WDataTable.PaginationMode.DYNAMIC;
 
 		Assert.assertEquals("Incorrect default pagination mode", WDataTable.PaginationMode.NONE,
@@ -568,7 +568,7 @@ public final class WDataTable_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testHandlePaginationRequest() {
 		WDataTable table = new WDataTable();
-		table.setPaginationMode(WDataTable.PaginationMode.SERVER);
+		table.setPaginationMode(WDataTable.PaginationMode.DYNAMIC);
 		table.setDataModel(new SimpleTableDataModel(new String[100][1]));
 		table.setRowsPerPage(10);
 
@@ -590,7 +590,7 @@ public final class WDataTable_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testHandleExpansionRequest() {
 		WDataTable table = new WDataTable();
-		table.setExpandMode(WDataTable.ExpandMode.SERVER);
+		table.setExpandMode(WDataTable.ExpandMode.DYNAMIC);
 		table.setDataModel(new SimpleTableDataModel(new String[100][1]));
 
 		table.setLocked(true);
@@ -681,7 +681,7 @@ public final class WDataTable_Test extends AbstractWComponentTestCase {
 	public void testMultipleHandleSelectionSortedDataRequest() {
 		WDataTable table = new WDataTable();
 		table.setSelectMode(WDataTable.SelectMode.MULTIPLE);
-		table.setPaginationMode(PaginationMode.SERVER);
+		table.setPaginationMode(PaginationMode.DYNAMIC);
 		table.setRowsPerPage(3);
 
 		SimpleBeanBoundTableDataModel model = new SimpleBeanBoundTableDataModel(new String[]{"."});

@@ -42,7 +42,7 @@
 		<xsl:variable name="numberPlaceHolder1" select="'${wc.ui.table.string.pagination.label.numberPlaceHolder1}'"/>
 		<xsl:variable name="numberPlaceHolder2" select="'${wc.ui.table.string.pagination.label.numberPlaceHolder2}'"/>
 		<xsl:variable name="numberPlaceHolder3" select="'${wc.ui.table.string.pagination.label.numberPlaceHolder3}'"/>
-		<xsl:element name="span">
+		<span class="wc_table_pag_rows">
 			<xsl:choose>
 				<xsl:when test="@rows = 1">
 					<xsl:value-of select="$$${wc.ui.table.string.pagination.label.concat.oneRow}"/>
@@ -50,12 +50,9 @@
 				<xsl:when test="$rpp = 1">
 					<xsl:variable name="oneRowPerPageString" select="$$${wc.ui.table.string.pagination.label.concat.oneRowPerPage}"/>
 					<xsl:value-of select="substring-before($oneRowPerPageString,$numberPlaceHolder1)"/>
-					<xsl:element name="span">
-						<xsl:attribute name="class">
-							<xsl:text>wc_table_pag_rowstart</xsl:text>
-						</xsl:attribute>
+					<span class="wc_table_pag_rowstart">
 						<xsl:value-of select="$startRow"/>
-					</xsl:element>
+					</span>
 					<xsl:variable name="subString1" select="substring-after($oneRowPerPageString,$numberPlaceHolder1)"/>
 					<xsl:value-of select="substring-before($subString1,$numberPlaceHolder3)"/>
 					<xsl:value-of select="@rows"/>
@@ -64,26 +61,20 @@
 				<xsl:otherwise>
 					<xsl:variable name="manyRowsPerPageString" select="$$${wc.ui.table.string.pagination.label.concat.manyRowsPerPage}"/>
 					<xsl:value-of select="substring-before($manyRowsPerPageString,$numberPlaceHolder1)"/>
-					<xsl:element name="span">
-						<xsl:attribute name="class">
-							<xsl:text>wc_table_pag_rowstart</xsl:text>
-						</xsl:attribute>
-					<xsl:value-of select="$startRow"/>
-					</xsl:element>
+					<span class="wc_table_pag_rowstart">
+						<xsl:value-of select="$startRow"/>
+					</span>
 					<xsl:variable name="subString2a" select="substring-after($manyRowsPerPageString,$numberPlaceHolder1)"/>
 					<xsl:value-of select="substring-before($subString2a,$numberPlaceHolder2)"/>
-					<xsl:element name="span">
-						<xsl:attribute name="class">
-							<xsl:text>wc_table_pag_rowend</xsl:text>
-						</xsl:attribute>
+					<span class="wc_table_pag_rowend">
 						<xsl:value-of select="$endRow"/>
-					</xsl:element>
+					</span>
 					<xsl:variable name="subString2b" select="substring-after($subString2a,$numberPlaceHolder2)"/>
 					<xsl:value-of select="substring-before($subString2b,$numberPlaceHolder3)"/>
 					<xsl:value-of select="@rows"/>
 					<xsl:value-of select="substring-after($subString2b,$numberPlaceHolder3)"/>
 				</xsl:otherwise>
 			</xsl:choose>
-		</xsl:element>
+		</span>
 	</xsl:template>
 </xsl:stylesheet>

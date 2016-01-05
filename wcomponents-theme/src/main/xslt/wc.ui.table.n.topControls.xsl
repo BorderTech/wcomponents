@@ -17,12 +17,9 @@
 			</xsl:choose>
 		</xsl:variable>
 		
-		<xsl:variable name="hasPagination">
+		<xsl:variable name="hasRowSelection">
 			<xsl:choose>
-				<xsl:when test="not(ui:pagination) or not(ui:pagination/@controls) or ui:pagination/@controls = 'bottom'">
-					<xsl:number value="0"/>
-				</xsl:when>
-				<xsl:when test="ui:pagination">
+				<xsl:when test="ui:rowSelection[@selectAll='text'] and ..//ui:tr[not(@unselectable=$t) and ancestor::ui:table[1]/@id=$id]">
 					<xsl:number value="1"/>
 				</xsl:when>
 				<xsl:otherwise>
@@ -31,9 +28,12 @@
 			</xsl:choose>
 		</xsl:variable>
 		
-		<xsl:variable name="hasRowSelection">
+		<xsl:variable name="hasPagination">
 			<xsl:choose>
-				<xsl:when test="ui:rowSelection[@selectAll='text'] and ..//ui:tr[not(@unselectable=$t) and ancestor::ui:table[1]/@id=$id]">
+				<xsl:when test="not(ui:pagination) or not(ui:pagination/@controls) or ui:pagination/@controls = 'bottom'">
+					<xsl:number value="0"/>
+				</xsl:when>
+				<xsl:when test="ui:pagination">
 					<xsl:number value="1"/>
 				</xsl:when>
 				<xsl:otherwise>
@@ -49,16 +49,16 @@
 						<xsl:apply-templates select="ui:rowSelection"/>
 					</div>
 				</xsl:if>
+				<xsl:if test="$hasExpandAll = 1">
+					<div class="wc_table_exp_cont">
+						<xsl:apply-templates select="ui:rowExpansion"/>
+					</div>
+				</xsl:if>
 				<xsl:if test="$hasPagination = 1">
 					<div class="wc_table_pag_cont">
 						<xsl:apply-templates select="ui:pagination">
 							<xsl:with-param name="idSuffix" select="'top'"/>
 						</xsl:apply-templates>
-					</div>
-				</xsl:if>
-				<xsl:if test="$hasExpandAll = 1">
-					<div class="wc_table_exp_cont">
-						<xsl:apply-templates select="ui:rowExpansion"/>
 					</div>
 				</xsl:if>
 			</div>

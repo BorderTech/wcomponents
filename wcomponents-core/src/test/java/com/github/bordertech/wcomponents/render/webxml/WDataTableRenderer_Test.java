@@ -273,12 +273,12 @@ public class WDataTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		component.setDataModel(tableModel);
 		component.setVisible(true);
 
-		component.setPaginationMode(PaginationMode.SERVER);
+		component.setPaginationMode(PaginationMode.DYNAMIC);
 
 		setActiveContext(createUIContext());
 		assertSchemaMatch(component);
 
-		assertXpathEvaluatesTo("server", "//ui:table/ui:pagination/@mode", component);
+		assertXpathEvaluatesTo("dynamic", "//ui:table/ui:pagination/@mode", component);
 		assertXpathEvaluatesTo((new Integer(component.getCurrentPage())).toString(),
 				"//ui:table/ui:pagination/@currentPage", component);
 		assertXpathEvaluatesTo((new Integer(component.getRowsPerPage())).toString(),
@@ -511,7 +511,7 @@ public class WDataTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		component.setDataModel(tableModel);
 		component.setVisible(true);
 
-		component.setSortMode(SortMode.SERVER); // sort mode SERVER
+		component.setSortMode(SortMode.SERVER);
 
 		assertSchemaMatch(component);
 		assertXpathEvaluatesTo("server", "//ui:table/ui:sort/@mode", component);

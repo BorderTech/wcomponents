@@ -114,10 +114,8 @@ final class WDataTableRenderer extends AbstractWebXmlRenderer {
 					xml.appendAttribute("mode", "client");
 					break;
 				case DYNAMIC:
-					xml.appendAttribute("mode", "dynamic");
-					break;
 				case SERVER:
-					xml.appendAttribute("mode", "server");
+					xml.appendAttribute("mode", "dynamic");
 					break;
 				case NONE:
 					break;

@@ -2,7 +2,7 @@
 @import 'mixins_common.scss';
 
 .wc_table_top_controls { //row container for select all and expand all controls.
-	@include flex($justify: space-between); // ($direction: row, $wrap: nowrap, $justify: flex-start, $align-items: stretch, $align-content: stretch)
+	@include flex($wrap: wrap, $justify: space-between, $align-items: baseline); // ($direction: row, $wrap: nowrap, $justify: flex-start, $align-items: stretch, $align-content: stretch)
 	margin-bottom: $hgap-small;
 
 	> div {
@@ -12,7 +12,11 @@
 		&:last-child {
 			@include flex-justify-content(flex-end);
 			text-align: right;
+
+			// do not use > div:first-child:last-child as we want the pagination and expand controls on the right if they
+			// are last even if they are first. Instead make the selection controls left aligned if they are last.
 		}
+
 	}
 
 	> .wc_table_sel_cont:last-child {

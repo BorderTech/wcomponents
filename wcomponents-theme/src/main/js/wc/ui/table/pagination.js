@@ -57,7 +57,6 @@ define(["wc/dom/attribute",
 				},
 				TABLE_WRAPPER = new Widget("div", "table"),
 				SELECTOR = new Widget("select"),
-				SERVER_MODE_BUTTON = new Widget("input", "wc_table_pag_socbtn", {type: "submit"}),
 				PAGINATION_SELECTOR = SELECTOR.extend("wc_table_pag_select"),
 				RPP_SELECTOR = SELECTOR.extend("wc_table_pag_rpp"),
 				PAGE = new Widget("tbody"),
@@ -65,7 +64,6 @@ define(["wc/dom/attribute",
 				PAGINATION_CONTAINER = new Widget("", "wc_table_pag_cont"),
 				TABLE = new Widget("TABLE"),
 				PAGINATION_BUTTON = new Widget("button"),
-				PAGINATION_BUTTON_CLIENT = PAGINATION_BUTTON.extend("", {type: "button"}),
 				START_ELEMENT,
 				END_ELEMENT,
 				updateQueue,
@@ -153,10 +151,7 @@ define(["wc/dom/attribute",
 						if ((otherSelector = getOtherSelector(selector))) {
 							otherSelector.selectedIndex = newIndex;
 						}
-
-						if (PAGINATION_BUTTON_CLIENT.isOneOfMe(button)) {  // no point changing page if we are submitting
-							requestPageChange(selector, button);
-						}
+						requestPageChange(selector, button);
 					}
 				}
 			}
@@ -351,14 +346,7 @@ define(["wc/dom/attribute",
 					requestAjaxLoad(element);
 				}
 				else if (PAGINATION_SELECTOR.isOneOfMe(element)) {
-					if (SERVER_MODE_BUTTON.findDescendant(element.parentNode)) {
-						// server mode
-						return;
-					}
-					else {
-						// client mode
-						requestPageChange(element);
-					}
+					requestPageChange(element);
 				}
 			}
 

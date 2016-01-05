@@ -2,12 +2,18 @@
 @import 'mixins_common.scss';
 
 .wc_table_pag_cont {
-	white-space: nowrap;
-
-	label,
-	select,
-	.wc_ibtn:first-of-type {
+	> span,
+	> label {
 		margin-left: $hgap-large;
+		white-space: nowrap;
+
+		&:first-child {
+			margin-left: 0;
+		}
+	}
+
+	label > select {
+		margin-left: $hgap-small;
 	}
 }
 
@@ -17,9 +23,4 @@ td.wc_table_pag_cont {
 	text-align: right;
 }
 // scss-lint:enable QualifyingElement
-
-.wc_table_pag_socbtn {
-	line-height: 1;
-	margin-left: $hgap-small;
-}
 /* end wc.ui.table.pagination.scss */
