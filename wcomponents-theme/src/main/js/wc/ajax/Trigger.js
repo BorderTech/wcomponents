@@ -234,8 +234,8 @@ define(["lib/sprintf",
 				this.alias = (typeof obj.alias === UNDEFINED) ? null : obj.alias;
 				this.successful = (typeof obj.successful === UNDEFINED) ? null : obj.successful;
 				this.formRegion = obj.formRegion;
-				this.callback = onsuccess;
-				this.onerror = onerror;
+				this._callback = onsuccess;
+				this._onerror = onerror;
 				this.urlFromForm = (typeof obj.urlFromForm === UNDEFINED) ? null : obj.urlFromForm;
 				this.url = (typeof obj.url === UNDEFINED) ? null : obj.url;
 				this.getData = obj.getData;
@@ -482,37 +482,53 @@ define(["lib/sprintf",
 		 *
 		 * @function
 		 * @public
-		 * @returns {Boolean} true if the trigger queued a request, false if the trigger was not able to queue a request
-		 *	 (i.e. it was a oneshot trigger with no shots left). By the way, I really just put the return value in for
-		 *	 unit testing purposes...
 		 */
 		Trigger.prototype.fire = function () {
-			var result = !!this.oneShot,
+			var promise,
+				trigger = this,
 				endOfQueue,
 				request;
 
-			if (result) {  // will be a negative number if it is not oneshot, therefore will equate to true
-				if (this.oneShot > 0) {
-					this.oneShot--;
-				}
-				// queueRequest();
-				endOfQueue = (requestBuffer.length - 1);
-				this.profile.fired = Date.now();
-				request = new Request(this);
-				if (!requestBuffer[endOfQueue] || requestBuffer[endOfQueue].trigger.id !== this.id) {  // yes, use id for equality
-					requestBuffer.push(request);
-					setLoading(request);  // do this AFTER the form has been serialized (because it will disable stuff)
-				}
-				else {
-					requestBuffer[endOfQueue] = request;
-					console.log("Cancelling consecutive request for ", this.id);
-				}
-				this.scheduleQueueProcessing();
+			if (trigger.oneShot) {  // will be a negative number if it is not oneshot, therefore will equate to true
+				promise = new Promise(function(resolve, reject) {
+					trigger.callback = function() {
+						var scope = this, cbresult;
+						if (trigger._callback) {
+							cbresult = trigger._callback.apply(scope, arguments);
+						}
+						// The purpose of the Promise.resolve here is to WAIT for the callback to complete, ESPECIALLY if the callback returns a promise itself
+						return Promise.resolve(cbresult).then(function() {
+							resolve.apply(scope, arguments);
+						});
+					};
+					trigger.onerror = function() {
+						if (trigger._onerror) {
+							trigger._onerror.apply(this, arguments);
+						}
+						reject.apply(this, arguments);
+					};
+					if (trigger.oneShot > 0) {
+						trigger.oneShot--;
+					}
+					// queueRequest();
+					endOfQueue = (requestBuffer.length - 1);
+					trigger.profile.fired = Date.now();
+					request = new Request(trigger);
+					if (!requestBuffer[endOfQueue] || requestBuffer[endOfQueue].trigger.id !== trigger.id) {  // yes, use id for equality
+						requestBuffer.push(request);
+						setLoading(request);  // do this AFTER the form has been serialized (because it will disable stuff)
+					}
+					else {
+						requestBuffer[endOfQueue] = request;
+						console.log("Cancelling consecutive request for ", trigger.id);
+					}
+					trigger.scheduleQueueProcessing();
+				});
 			}
 			else {
-				console.info("Trigger has no more shots left", this.id);
+				promise = Promise.reject("Trigger has no more shots left: " + trigger.id);
 			}
-			return result;
+			return promise;
 		};
 
 		/**
@@ -706,7 +722,9 @@ define(["lib/sprintf",
 		}
 
 		function handleResponse($self, response, trigger, isError) {
-			var idx;
+			var idx, cbresult, done = function() {
+					setLoading($self, true);
+				};
 			console.log("Got response for trigger", trigger.id);
 			if (!unloading) {
 				try {
@@ -723,14 +741,16 @@ define(["lib/sprintf",
 					else {
 						console.warn("Got response for trigger that was not in pending queue", trigger.id);
 					}
-					setLoading($self, true);
 					try {
 						if (!isError) {
-							trigger.callback(response, trigger);
+							cbresult = trigger.callback(response, trigger);
 						}
 						else if (trigger.onerror) {
-							trigger.onerror(response, trigger);
+							cbresult = trigger.onerror(response, trigger);
 						}
+						// Remove "aria-busy" AFTER the new content is loaded to avoid collapsing to zero pixels
+						// The Promise.resolve call allows us to "wait" for callbacks that return a promise.
+						Promise.resolve(cbresult).then(done);
 					}
 					catch (ex) {
 						console.error(ex);
