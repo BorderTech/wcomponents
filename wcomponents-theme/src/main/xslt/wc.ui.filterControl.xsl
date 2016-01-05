@@ -2,13 +2,13 @@
 	<xsl:import href="wc.common.hide.xsl"/>
 	<xsl:import href="wc.constants.xsl"/>
 	<!--
-			TO BE DELETED PLEASE DO NOT USE:
-			HERE FOR BACKWARDS COMPATIBILITY AND WILL BE REMOVED WITHOUT NOTICE!!!
+		TO BE DELETED PLEASE DO NOT USE:
+		HERE FOR BACKWARDS COMPATIBILITY AND WILL BE REMOVED WITHOUT NOTICE!!!
 
 		WFilter control undertakes client side table row filtering. When a filter is
 		enabled only rows with a filter value containing (whole word) the filter
 		controls filter will be shown. A more appropriate mechanism for table content
-		filtering is to use ajax to filter on the server. WDropdown or similar could then
+		filtering is to use ajax to filter on the server. WMenu or similar could then
 		be used to filter by actual column content.
 	-->
 	<xsl:template match="ui:filterControl">

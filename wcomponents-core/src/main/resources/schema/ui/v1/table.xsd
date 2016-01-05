@@ -45,7 +45,7 @@
 							<td>@id + ".filters"</td>
 							<td>List</td>
 							<td>no</td>
-							<td>A list of filters in effect on the client.</td>
+							<td>A list of filters in effect on the client. WDataTable only. Will be removed.</td>
 						</tr>
 						<tr>
 							<td>@id + ".page"</td>
