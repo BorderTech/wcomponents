@@ -3,11 +3,10 @@
  * to improve encapsulation.
  *
  * @module
- * @requires module:wc/dom/getBox
+ * @requires module:wc/dom/getStyle
  */
-define(["wc/dom/getBox"],
-	/** @param getBox wc/dom/getBox @ignore */
-	function(getBox) {
+define(["wc/dom/getStyle"],
+	function(getStyle) {
 		"use strict";
 		var /**
 			 * @constant {String} OLD_HEIGHT The name of the attribute used to hold the pre-ajax height of a target
@@ -65,33 +64,44 @@ define(["wc/dom/getBox"],
 		 * @param {Element} element The element being made busy.
 		 */
 		function removeContent(element) {
-			var box, width, height, PX = "px", child;
-
-			if (element.getAttribute(UPDATE_SIZE)) {  // already targeted (ie: a conflict) therefore nothing to do
-				return;
-			}
-			box = getBox(element);
-			if (box.width && box.height) {  // no point playing with custom sizes if the target has no size
-				element.setAttribute(UPDATE_SIZE, "x");
-
-				if ((width = element.style.width)) {
-					element.setAttribute(OLD_WIDTH, width);
+			var child;
+			if (setLoading.fixSize(element)) {
+				while ((child = element.firstChild)) {
+					element.removeChild(child);
 				}
-				else if (box.width) {
-					element.style.width = box.width + PX;
-				}
-
-				if ((height = element.style.height)) {
-					element.setAttribute(OLD_HEIGHT, height);
-				}
-				else if (box.height) {
-					element.style.height = box.height + PX;
-				}
-			}
-			while ((child = element.firstChild)) {
-				element.removeChild(child);
 			}
 		}
+
+		setLoading.clearSize = clearCustomSize;
+
+		setLoading.fixSize = function(element) {
+			var result = false, width, height, oldWidth, oldHeight;
+
+			if (!element.getAttribute(UPDATE_SIZE)) {  // already targeted (ie: a conflict) therefore nothing to do
+				width = getStyle(element, "width", true, true);
+				height = getStyle(element, "height", true, true);
+				if (width && height) {  // no point playing with custom sizes if the target has no size
+					result = true;
+					element.setAttribute(UPDATE_SIZE, "x");
+					oldWidth = element.style.width;
+
+					if (oldWidth) {
+						element.setAttribute(OLD_WIDTH, oldWidth);
+					}
+					else {
+						element.style.width = width;
+					}
+					oldHeight = element.style.height;
+					if (oldHeight) {
+						element.setAttribute(OLD_HEIGHT, oldHeight);
+					}
+					else {
+						element.style.height = height;
+					}
+				}
+			}
+			return result;
+		};
 
 		/**
 		 * Call when a trigger has been fired to set the busy state of the elements it targets. Call when a response is

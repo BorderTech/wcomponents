@@ -1,3 +1,8 @@
+
+## Enhancements
+* Improved AJAX updates so "busy" regions maintain their dimensions and do not collapse to 0px.
+
+# Release 1.0.2
 ## API Changes
 * Updated WAbbrText, WAbbrTextRenderer and associated tests (#157)
     * Removed WAbbrText.AbbrTextModel This custom component model is completely superfluous. The refactoring of WAbbrText brings the component into line with other WComponents and standardises API calls. **NOTE** If you have extended this model (well stop it you will go blind) you will now have to implement your own component model.
