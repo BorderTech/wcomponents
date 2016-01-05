@@ -9,15 +9,18 @@
  * @requires module:wc/dom/initialise
  * @requires module:wc/dom/shed
  * @requires module:wc/dom/Widget
+ * @requires module:wc/ui/containerload
+ * @requires module:wc/ajax/setLoading
  */
 define(["wc/dom/ariaAnalog",
 		"wc/dom/formUpdateManager",
 		"wc/dom/getFilteredGroup",
 		"wc/dom/initialise",
 		"wc/dom/shed",
-		"wc/dom/Widget"],
-	/** @param ariaAnalog wc/dom/ariaAnalog @param formUpdateManager wc/dom/formUpdateManager @param getFilteredGroup wc/dom/getFilteredGroup @param initialise wc/dom/initialise @param shed wc/dom/shed @param Widget wc/dom/Widget @ignore */
-	function(ariaAnalog, formUpdateManager, getFilteredGroup, initialise, shed, Widget) {
+		"wc/dom/Widget",
+		"wc/ui/containerload",
+		"wc/ajax/setLoading"],
+	function(ariaAnalog, formUpdateManager, getFilteredGroup, initialise, shed, Widget, containerload, setLoading) {
 		"use strict";
 
 		/**
@@ -165,25 +168,20 @@ define(["wc/dom/ariaAnalog",
 			function onItemExpansion(tabset, action, element) {
 				var contentId,
 					content,
-					container,
-					shedFunc;
+					container;
 
 				container = tabset.getGroupContainer(element);
 				if (container) {
 					if ((contentId = element.getAttribute(CONTENT_ATTRIB)) && (content = document.getElementById(contentId))) {
-
 						if (action === shed.actions.EXPAND) {
-							shedFunc = "show";
+							shed.show(content);
+							if (getAccordion(container) === "false") {
+								collapseOthers(element);
+							}
 						}
 						else if (action === shed.actions.COLLAPSE) {
-							shedFunc = "hide";
-						}
-						if (shedFunc) {
-							shed[shedFunc](content);
-						}
+							shed.hide(content);
 
-						if (getAccordion(container) === "false" && shedFunc === "show") {
-							collapseOthers(element);
 						}
 					}
 				}
@@ -226,8 +224,8 @@ define(["wc/dom/ariaAnalog",
 			function onItemSelection(tabset, action, element) {
 				var contentId,
 					content,
-					container,
-					shedFunc;
+					contentContainer,
+					container;
 
 				if (action === shed.actions.SELECT) {
 					tabset.constructor.prototype.shedObserver.call(tabset, element, action);
@@ -235,14 +233,20 @@ define(["wc/dom/ariaAnalog",
 				container = tabset.getGroupContainer(element);
 				if (container) {
 					if ((contentId = element.getAttribute(CONTENT_ATTRIB)) && (content = document.getElementById(contentId))) {
+						if (!getAccordion(container)) {
+							contentContainer = content.parentNode;
+						}
 						if (action === shed.actions.SELECT) {
-							shedFunc = "show";
+							shed.show(content, true);
+							containerload.onshow(content).then(function() {
+								setLoading.clearSize(contentContainer);
+							});
 						}
 						else if (action === shed.actions.DESELECT) {
-							shedFunc = "hide";
-						}
-						if (shedFunc) {
-							shed[shedFunc](content);
+							if (contentContainer) {
+								setLoading.fixSize(contentContainer);  // TODO only do this if it's an AJAX tab
+							}
+							shed.hide(content);
 						}
 					}
 				}

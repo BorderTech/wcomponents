@@ -22,9 +22,10 @@ define(["wc/dom/shed",
 		"wc/ajax/triggerManager",
 		"wc/ui/ajaxRegion", "wc/dom/initialise", "wc/dom/uid", "wc/dom/Widget",
 		"wc/dom/classList", "wc/dom/convertDynamicContent", "wc/timers", "wc/dom/tag", "wc/dom/event"],
-	/** @param shed wc/dom/shed @param triggerManager wc/ajax/triggerManager @param ajaxRegion wc/ui/ajaxRegion @param initialise wc/dom/initialise @param uid wc/dom/uid @param Widget wc/dom/Widget @param classList wc/dom/classList @param convertDynamicContent wc/dom/convertDynamicContent @param timers wc/timers @param tag wc/dom/tag @param event wc/dom/event @ignore */
 	function(shed, triggerManager, ajaxRegion, initialise, uid, Widget, classList, convertDynamicContent, timers, tag, event) {
 		"use strict";
+
+		var instance = new Container();
 
 		/**
 		 * @constructor
@@ -85,50 +86,41 @@ define(["wc/dom/shed",
 			 * @param {boolean} get true to use GET rather than POST which is useful for eager panels.
 			 */
 			function requestLoad(element, eager, get) {
-				var trigger;
+				var trigger, promise;
 				if (element) {
-					registerTrigger(element, eager, get);
-					trigger = triggerManager.getTrigger(element.id);
-					if (trigger) {
-						/* If dynamic we MUST remove the trigger otherwise the panel becomes clickable and will
-						 * reload itself on every click in the panel.
-						 * If not dynamic (e.g. lazy) we MUST NOT remove the trigger, otherwise we lose the
-						 * "one shot" state and a new trigger will be created which always has one shot left
-						 * (so lazy effectively becomes dynamic).
-						 */
-						if (DYNAMIC_CONTAINER.isOneOfMe(element)) {
-							triggerManager.removeTrigger(element.id);
+					promise = new Promise(function(resolve, reject) {
+						registerTrigger(element, eager, get);
+						trigger = triggerManager.getTrigger(element.id);
+						if (trigger) {
+							/* If dynamic we MUST remove the trigger otherwise the panel becomes clickable and will
+							 * reload itself on every click in the panel.
+							 * If not dynamic (e.g. lazy) we MUST NOT remove the trigger, otherwise we lose the
+							 * "one shot" state and a new trigger will be created which always has one shot left
+							 * (so lazy effectively becomes dynamic).
+							 */
+							if (DYNAMIC_CONTAINER.isOneOfMe(element)) {
+								triggerManager.removeTrigger(element.id);
+							}
+							/* if not dynamic remove the magic class, otherwise we will reload every time we open
+							 * because we build a new trigger for each AJAX load just in case it is closed/hidden
+							 * inside a dynamic ancestor */
+							else {
+								classList.remove(element, MAGIC_CLASS);
+							}
+							// Fire in a timeout to ensure controls have set state for form serialisation
+							timers.setTimeout(function() {
+								trigger.fire().then(resolve, reject);
+							}, 0);
 						}
-						/* if not dynamic remove the magic class, otherwise we will reload every time we open
-						 * because we build a new trigger for each AJAX load just in case it is closed/hidden
-						 * inside a dynamic ancestor */
 						else {
-							classList.remove(element, MAGIC_CLASS);
+							reject();
 						}
-						// Fire in a timeout to ensure controls have set state for form serialisation
-						timers.setTimeout(trigger.fire.bind(trigger), 0);
-					}
+					});
 				}
-			}
-
-
-			/**
-			 * Listen to shed events and respond accordingly.
-			 *
-			 * @param element The element being shown or expanded.
-			 * @param action The shed action.
-			 * @private
-			 * @function
-			 */
-			function shedSubscriber(element, action) {
-				var _widgets = [LAME_CONTAINER, MAGIC_CONTAINER];
-
-				if (action === shed.actions.EXPAND || action === shed.actions.SHOW) {
-					handleExpandOrShow(element, action, _widgets);
+				else {
+					promise = Promise.resolve();
 				}
-				else if (action === shed.actions.COLLAPSE || action === shed.actions.HIDE) {
-					handleCollapseOrHide(element, action, _widgets);
-				}
+				return promise;
 			}
 
 			/**
@@ -136,31 +128,23 @@ define(["wc/dom/shed",
 			 * Deal with an element being expanded or shown.
 			 *
 			 * @param element The element being shown or expanded.
-			 * @param action The action, EXPAND or SHOW.
-			 * @param _widgets Array of "my" widgets.
 			 * @private
 			 * @function
 			 */
-			function handleExpandOrShow(element, action, _widgets) {
-				var _element;
-				if (action === shed.actions.EXPAND) {
-					// _element = LAME_CONTAINER.isOneOfMe(element) ? element : (LAME_CONTAINER.findDescendant(element, true)||element);
-					_element = Widget.isOneOfMe(element, _widgets) ? element : Widget.findDescendant(element, _widgets, true);
-				}
-				else {
-					_element = element;
-				}
-				if (_element && Widget.isOneOfMe(_element, _widgets)) {
-					if (LAME_CONTAINER.isOneOfMe(_element)) {
+			function handleExpandOrShow(element) {
+				var promise, form;
+				if (element) {
+					if (LAME_CONTAINER.isOneOfMe(element)) {
 						FORM = FORM || new Widget(tag.FORM);
-						if ((_element = FORM.findAncestor(_element))) {
-							timers.setTimeout(event.fire, 0, _element, event.TYPE.submit);
+						if ((form = FORM.findAncestor(element))) {
+							timers.setTimeout(event.fire, 0, form, event.TYPE.submit);
 						}
 					}
-					else {
-						requestLoad(_element, false, true);
+					else if (MAGIC_CONTAINER.isOneOfMe(element)) {
+						promise = requestLoad(element, false, true);
 					}
 				}
+				return promise || Promise.resolve();
 			}
 
 			/**
@@ -169,13 +153,11 @@ define(["wc/dom/shed",
 			 *
 			 * @param element The element being collapsed or hidden.
 			 * @param action The action, COLLAPSE or HIDE.
-			 * @param _widgets Array of "my" widgets.
 			 * @private
 			 * @function
 			 */
-			function handleCollapseOrHide(element, action, _widgets) {
-				var _element;
-				_widgets = [LAME_CONTAINER, DYNAMIC_CONTAINER];
+			function handleCollapseOrHide(element, action) {
+				var _element, _widgets = [LAME_CONTAINER, DYNAMIC_CONTAINER];
 				if (action === shed.actions.COLLAPSE) {
 					 _element = Widget.isOneOfMe(element, _widgets) ? element : (Widget.findDescendant(element, _widgets, true) || element);
 				}
@@ -190,10 +172,10 @@ define(["wc/dom/shed",
 			function init() {
 				if (!inited) {
 					inited = true;
-					shed.subscribe(shed.actions.EXPAND, shedSubscriber);
-					shed.subscribe(shed.actions.COLLAPSE, shedSubscriber);
-					shed.subscribe(shed.actions.SHOW, shedSubscriber);
-					shed.subscribe(shed.actions.HIDE, shedSubscriber);
+					shed.subscribe(shed.actions.EXPAND, instance.onexpand);
+					shed.subscribe(shed.actions.COLLAPSE, handleCollapseOrHide);
+					shed.subscribe(shed.actions.SHOW, instance.onshow);
+					shed.subscribe(shed.actions.HIDE, handleCollapseOrHide);
 				}
 			}
 
@@ -229,8 +211,8 @@ define(["wc/dom/shed",
 			initialise.addCallback(init);
 
 			/**
-			 * Load a container. This allows any other container component to actively call an ajax load. Used primarily
-			 * by {@link module:wc/dom/dialog}.
+			 * Load a container. This allows any other container component to actively call an ajax load.
+			 * Used primarily by {@link module:wc/dom/dialog}.
 			 * @function module:wc/ui/containerload.load
 			 * @public
 			 * @param {Element} element the container to load
@@ -241,6 +223,27 @@ define(["wc/dom/shed",
 				init();
 				requestLoad(element, eager, get);
 			};
+
+			/**
+			 * To be called when a candidate element is made visible.
+			 *
+			 * @param {Element} element The element being made visisble.
+			 */
+			this.onshow = function(element) {
+				return handleExpandOrShow(element);
+			};
+
+			/**
+			 * To be called when a candidate element is expanded.
+			 *
+			 * @param {Element} element The element being expanded.
+			 */
+			this.onexpand = function(element) {
+				var _widgets = [LAME_CONTAINER, MAGIC_CONTAINER],
+					_element = Widget.isOneOfMe(element, _widgets) ? element : Widget.findDescendant(element, _widgets, true);
+				return handleExpandOrShow(_element);
+			};
+
 			/**
 			 * Set up the initialisation process for components in the current payload. This is called from the page
 			 * setup (XSLT).
@@ -256,5 +259,5 @@ define(["wc/dom/shed",
 				}
 			};
 		}
-		return /** @alias module:wc/ui/containerload */ new Container();
+		return /** @alias module:wc/ui/containerload */ instance;
 	});
