@@ -6,7 +6,6 @@
 		list-style-type: none;
 		margin: 0;
 		padding: 0;
-		text-align: right;
 
 		@include respond(phonelike) {
 			text-align: left;
