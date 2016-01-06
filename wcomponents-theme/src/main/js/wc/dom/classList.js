@@ -124,89 +124,64 @@
 	 * @alias module:wc/dom/classList~ClassList
 	 * @constructor
 	 * @private
-	 * @todo Fix up the public members and then add the relevant JSDoc.
+	 * @todo Add the relevant JSDoc.
 	 * @param {Function} $classListGetter A factory that returns classList polyfills for browsers that don't support it natively.
 	 *
 	 * @ignore
 	 */
 	function ClassList($classListGetter) {
 		var $this = this;
-		$this.getLength = getLength;
-		$this.item = item;
-		$this.contains = contains;
-		$this.add = add;
-		$this.remove = remove;
-		$this.toggle = toggle;
-		$this.toString = toString;
-
-		function getLength(element) {
-			var result;
-			if (nativeClassList) {
-				result = element.classList.length;
-			}
-			else {
-				result = $classListGetter.call(element, null).length;
-			}
-			return result;
-		}
-
-		function item(element, index) {
-			var result;
-			if (nativeClassList) {
-				result = element.classList.item(index);
-			}
-			else {
-				result = $classListGetter.call(element, null).item(index);
-			}
-			return result;
-		}
-
-		function toString(element) {
-			var result;
-			if (nativeClassList) {
-				result = element.classList.toString();
-			}
-			else {
-				result = $classListGetter.call(element, null).toString();
-			}
-			return result;
-		}
-
-		function contains(element, token) {
-			return proxyHelper("contains", element, token);
-		}
-
-		function add(element, token) {
-			return proxyHelper("add", element, token);
-		}
-
-		function remove(element, token) {
-			return proxyHelper("remove", element, token);
-		}
-
-		function toggle(element, token) {
-			return proxyHelper("toggle", element, token);
-		}
 
 		function proxyHelper(command, element, token) {
-			var result;
 			if (nativeClassList) {
 				/*
 				 * classList will be undefined if we hit an XML node in an HTML page
 				 * we could consider checking namespaceURI instead
 				 */
 				if (typeof element.classList !== "undefined") {
-					result = element.classList[command](token);
+					return element.classList[command](token);
 				}
-				else {
-					result = false;
-				}
+				return false;
 			}
-			else {
-				result = $classListGetter.call(element, null)[command](token);
-			}
-			return result;
+			return $classListGetter.call(element, null)[command](token);
 		}
+
+		$this.getLength = function (element) {
+			if (nativeClassList) {
+				return element.classList.length;
+			}
+			return $classListGetter.call(element, null).length;
+		};
+
+		$this.item = function (element, index) {
+			if (nativeClassList) {
+				return element.classList.item(index);
+			}
+			return $classListGetter.call(element, null).item(index);
+		};
+
+		$this.contains = function (element, token) {
+			return proxyHelper("contains", element, token);
+		};
+
+		$this.add = function (element, token) {
+			return proxyHelper("add", element, token);
+		};
+
+		$this.remove = function (element, token) {
+			return proxyHelper("remove", element, token);
+		};
+
+		$this.toggle = function (element, token) {
+			return proxyHelper("toggle", element, token);
+		};
+
+		$this.toString = function (element) {
+			if (nativeClassList) {
+				return element.classList.toString();
+			}
+			return $classListGetter.call(element, null).toString();
+		};
 	}
 
 })(this);

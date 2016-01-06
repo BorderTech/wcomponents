@@ -237,9 +237,7 @@ define(["wc/has",
 					if (element.value.indexOf(nothingLeftReg[id]) === 0) {
 						return;  // there was nothing left last time we did this search
 					}
-					else {
-						delete nothingLeftReg[id];
-					}
+					delete nothingLeftReg[id];
 				}
 				load(element);
 			}
@@ -760,19 +758,17 @@ define(["wc/has",
 							shed.hide(element, true);
 						}
 					}
-					else {
-						if (combo) {
-							if (!shed.isExpanded(combo)) {
-								shed.expand(combo);
-							}
-							else {
-								element.style.minWidth = combo.clientWidth + "px";
-								shed.show(element, true);
-							}
+					else if (combo) {
+						if (!shed.isExpanded(combo)) {
+							shed.expand(combo);
 						}
 						else {
-							shed.hide(element, true);
+							element.style.minWidth = combo.clientWidth + "px";
+							shed.show(element, true);
 						}
+					}
+					else {
+						shed.hide(element, true);
 					}
 				}
 			}

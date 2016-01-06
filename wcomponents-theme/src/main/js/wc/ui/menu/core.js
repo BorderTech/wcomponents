@@ -1679,9 +1679,7 @@ define(["wc/has",
 				if (this[action]) {
 					return this[action](item);
 				}
-				else {
-					target = this._getTargetItem(item, action, root);
-				}
+				target = this._getTargetItem(item, action, root);
 			}
 			else if (keyName && (keyName = keyName.replace(KEY_NAME_RE, "")) && keyName.length === 1 && LETTER.test(keyName)) {
 				target = getTextTarget(item, keyName, root, this);

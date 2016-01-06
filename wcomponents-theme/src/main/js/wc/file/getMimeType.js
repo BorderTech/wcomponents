@@ -55,9 +55,7 @@ define(["wc/xml/xpath", "wc/loader/resource"],
 			if (extension && extension.length) {
 				return extension[1].toLowerCase();
 			}
-			else {
-				return "";
-			}
+			return "";
 		}
 
 		/**

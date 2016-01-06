@@ -73,9 +73,7 @@ define(["wc/has"], /** @param has wc/has @ignore */ function(has) {
 					this.from = useDomParser;
 					return useDomParser(xmlstring);
 				}
-				else {
-					return null;
-				}
+				return null;
 			}
 			finally {
 				xmlstring = null;

@@ -397,9 +397,7 @@
 				if (asPromise) {
 					return loadXmlDocAsync(request, callback, asText);
 				}
-				else {
-					return loadXmlDocSync(request, callback, asText);
-				}
+				return loadXmlDocSync(request, callback, asText);
 			};
 
 			function loadXmlDocAsync(request, callback, asText) {

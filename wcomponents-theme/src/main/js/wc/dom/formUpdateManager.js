@@ -220,17 +220,15 @@ define(["wc/dom/event",
 						event[func](el, event.TYPE.keypress, genericEventCancel, true);
 					}
 				}
+				else  if (add) {
+					event[func](el, event.TYPE.click, genericEventCancel, -1);
+					event[func](el, event.TYPE.keydown, genericEventCancel, -1);
+					event[func](el, event.TYPE.keypress, genericEventCancel, -1);
+				}
 				else {
-					if (add) {
-						event[func](el, event.TYPE.click, genericEventCancel, -1);
-						event[func](el, event.TYPE.keydown, genericEventCancel, -1);
-						event[func](el, event.TYPE.keypress, genericEventCancel, -1);
-					}
-					else {
-						event[func](el, event.TYPE.click, genericEventCancel);
-						event[func](el, event.TYPE.keydown, genericEventCancel);
-						event[func](el, event.TYPE.keypress, genericEventCancel);
-					}
+					event[func](el, event.TYPE.click, genericEventCancel);
+					event[func](el, event.TYPE.keydown, genericEventCancel);
+					event[func](el, event.TYPE.keypress, genericEventCancel);
 				}
 			}
 

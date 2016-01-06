@@ -905,37 +905,29 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 							monthList.selectedIndex = numberOfMonths - 1;
 						}
 					}
-					else {
-						if ((minYear = yearBox.getAttribute(MIN_ATTRIB)) && minYear === yearBox.value) {
-							if (getMinMaxMonthDay(getInputForCalendar()) < monthList.selectedIndex) {
-								monthList.selectedIndex = monthList.selectedIndex - 1;
-							}
-						}
-						else {
+					else if ((minYear = yearBox.getAttribute(MIN_ATTRIB)) && minYear === yearBox.value) {
+						if (getMinMaxMonthDay(getInputForCalendar()) < monthList.selectedIndex) {
 							monthList.selectedIndex = monthList.selectedIndex - 1;
 						}
 					}
+					else {
+						monthList.selectedIndex = monthList.selectedIndex - 1;
+					}
+				}
+				else if (monthList.selectedIndex === numberOfMonths - 1) { // go to next month
+					// change the year first. If we do not have a year set then default to this year then change
+					if (!(maxYear = yearBox.getAttribute(MAX_ATTRIB)) || parseInt(maxYear, 10) > yearBox.value) {
+						yearBox.value = currentYear + 1;
+						monthList.selectedIndex = 0;
+					}
+				}
+				else  if ((maxYear = yearBox.getAttribute(MAX_ATTRIB)) && maxYear === yearBox.value) { // if we have a max on the year input we have a max date, so we need to get the max month if the current year is equal to the max year
+					if (getMinMaxMonthDay(getInputForCalendar(), true) > monthList.selectedIndex) {
+						monthList.selectedIndex = monthList.selectedIndex + 1;
+					}
 				}
 				else {
-					// go to next month
-					if (monthList.selectedIndex === numberOfMonths - 1) {
-						// change the year first. If we do not have a year set then default to this year then change
-						if (!(maxYear = yearBox.getAttribute(MAX_ATTRIB)) || parseInt(maxYear, 10) > yearBox.value) {
-							yearBox.value = currentYear + 1;
-							monthList.selectedIndex = 0;
-						}
-					}
-					else {
-						// if we have a max on the year input we have a max date, so we need to get the max month if the current year is equal to the max year
-						if ((maxYear = yearBox.getAttribute(MAX_ATTRIB)) && maxYear === yearBox.value) {
-							if (getMinMaxMonthDay(getInputForCalendar(), true) > monthList.selectedIndex) {
-								monthList.selectedIndex = monthList.selectedIndex + 1;
-							}
-						}
-						else {
-							monthList.selectedIndex = monthList.selectedIndex + 1;
-						}
-					}
+					monthList.selectedIndex = monthList.selectedIndex + 1;
 				}
 				refresh();
 			}
