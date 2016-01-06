@@ -42,7 +42,10 @@ dialog {
 
 	&[open] {
 		@include flex($direction: column);
-		@include flex-shrink(0);
+
+		> [aria-live] {
+			@include flex-grow(1);
+		}
 
 		&.wc_max > [aria-live] {
 			height: 100%;
@@ -51,6 +54,8 @@ dialog {
 
 	> header,
 	> footer { // top and bottom bars of dialog
+		@include flex-grow(0);
+		@include flex-shrink(0);
 		background-color: $wc-ui-color-dialog-head-bg;
 	}
 
