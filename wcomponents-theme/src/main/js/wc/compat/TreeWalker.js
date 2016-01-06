@@ -127,16 +127,13 @@
 					if (filterResult === null) {
 						filterResult = 0; // case for first time run - filterResult is null
 					}
-					else {
-						// if this nodeType matches whatToShow then we pass it through the filter function
-						if (nodeTypeMap[node.nodeType] & whatToShow) {
-							filterResult = filter ? filter.acceptNode(node) : FILTER_ACCEPT;
-						}
-						else { // 'hop' over/into this node
-							filterResult = FILTER_SKIP;
-						}
-						// TODO typeheck filterResult
+					else if (nodeTypeMap[node.nodeType] & whatToShow) { // if this nodeType matches whatToShow then we pass it through the filter function
+						filterResult = filter ? filter.acceptNode(node) : FILTER_ACCEPT;
 					}
+					else { // 'hop' over/into this node
+						filterResult = FILTER_SKIP;
+					}
+					// TODO typecheck filterResult
 
 					// isLastChild and previousSibling stop traversing when a parentNode is accepted
 					if (!isPreviousNode && parent) {

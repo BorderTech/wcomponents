@@ -428,14 +428,12 @@ define(["lib/sprintf",
 					if (conflict.length) {
 						return false;
 					}
-					else {
-						next = document.getElementById(ids[i]);
-						if (next) {
-							busy = busyWd.findAncestor(next) || busyWd.findDescendant(next);
-							if (busy && busy !== next) {  // the element itself will ALWAYS be busy
-								// this element is contained in or contains a "busy" region
-								return false;
-							}
+					next = document.getElementById(ids[i]);
+					if (next) {
+						busy = busyWd.findAncestor(next) || busyWd.findDescendant(next);
+						if (busy && busy !== next) {  // the element itself will ALWAYS be busy
+							// this element is contained in or contains a "busy" region
+							return false;
 						}
 					}
 				}
