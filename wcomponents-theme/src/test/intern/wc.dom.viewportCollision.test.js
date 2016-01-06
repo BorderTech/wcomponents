@@ -3,26 +3,56 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
 		"use strict";
 		var viewportCollision,
 			getViewportSize,
-			HEIGHT,
-			WIDTH,
-			DIV_WIDTH,
-			DIV_HEIGHT,
-			OFFSET = -100,
 			PX = "px",
-			vps,
 			testHolder;
 
-		function setSizeAndPosition(element, collide) {
-			element.style.width = DIV_WIDTH + PX;
-			element.style.height = DIV_HEIGHT + PX;
+		/**
+		 * This function runs the single direction collision tests which test a particular absolutely positioned
+		 * element which is known to be outside of viewport.
+		 *
+		 * It is important that the viewport is "neutralized" by resetting its scroll before calculating the collision
+		 *
+		 * @function
+		 * @private
+		 * @param {String} position The CSS dimension in which we are colliding.
+		 * @param {String} collDirection the viewportCollision object's property we want to investigate for a particular collision.
+		 * @param {boolean} expectGreater Indicates if we expect the collision value to be greater or less than 0.
+		 */
+		function doCollisionTest (position, collDirection, expectGreater) {
+			var vps,
+				msg = "Expected that the element would collide in direction " + position + ", with collision property " + collDirection,
+				element = document.getElementById("collide") || assert.isTrue(false, "where did my element go?"),
+				collision;
 
+			// reset the element's position styles - just incase they were set.
 			element.style.top = "";
 			element.style.bottom = "";
 			element.style.left = "";
 			element.style.right = "";
 
-			if (collide) {
-				element.style[collide] = OFFSET + PX;
+			 // There is a chance that the viewport could be resized between tests so we recalculate dimensions for the test at the last possible moment.
+			vps = getViewportSize(true);
+
+			// Reset the element dimensions so it is smaller than the viewport.
+			element.style.width = Math.floor(vps.width / 2) + PX;
+			element.style.height = Math.floor(vps.height / 2) + PX;
+
+			// Position the element to cause a viewport collision.
+			element.style[position] = "-100px";
+
+			// Reset all scrolls
+			document.body.scrollTop = 0;  // browsers
+			document.documentElement.scrollTop = 0;  // IE
+			document.body.scrollLeft = 0;  // browsers
+			document.documentElement.scrollLeft = 0;  // IE
+			// Immediately get the viewport collision - Intern may scroll again!
+			collision = viewportCollision(element);
+
+			if (expectGreater) {
+				assert.isTrue(collision[collDirection] > 0, msg);
+			}
+			else {
+				assert.isTrue(collision[collDirection] < 0, msg);
 			}
 		}
 
@@ -36,70 +66,74 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
 					testHolder.innerHTML = '<div id = "collide" style = "position:absolute;">colliding</div><div id = "nocollide">OK</div>';
 				});
 			},
-			beforeEach: function() {
-				/**
-				 * There is a chance that the viewport could be resized between tests so I
-				 * want to recalculate some appropriate dimensions for the test elements during setup.
-				 */
-				vps = getViewportSize(true);
-				HEIGHT = vps.height;
-				WIDTH = vps.width;
-				DIV_WIDTH = Math.round(WIDTH / 2);
-				DIV_HEIGHT = Math.round(HEIGHT / 2);
-			},
 			teardown: function() {
 				testHolder.innerHTML = "";
 			},
 			testCollideRight: function() {
-				var element = document.getElementById("collide");
-				setSizeAndPosition(element, "right");
-				assert.isTrue(viewportCollision(element).e > 0);
+				doCollisionTest("right", "e", true);
 			},
-			/* testCollideBottom: function() {
-				var element = document.getElementById("collide");
-				setSizeAndPosition(element, "bottom");
-				assert.isTrue(viewportCollision(element).s > 0);
-			},*/
+			testCollideBottom: function() {
+				doCollisionTest("bottom", "s", true);
+			},
 			testCollideLeft: function() {
-				var element = document.getElementById("collide");
-				setSizeAndPosition(element, "left");
-				assert.isTrue(viewportCollision(element).w < 0);
+				doCollisionTest("left", "w", false);
 			},
 			testCollideTop: function() {
-				var element = document.getElementById("collide");
-				setSizeAndPosition(element, "top");
-				assert.isTrue(viewportCollision(element).n < 0);
+				doCollisionTest("top", "n", false);
 			},
 			testNoCollide: function() {
-				var element = document.getElementById("nocollide"),
-					collision = viewportCollision(element),
-					expected = {"n": 0, "e": 0, "s": 0, "w": 0}, o;
+				var element = document.getElementById("nocollide")|| assert.isTrue(false, "element gone again?"),
+					expected = {"n": 0, "e": 0, "s": 0, "w": 0}, o, collision;
+
+				// Reset all scrolls
+				document.body.scrollTop = 0;  // browsers
+				document.documentElement.scrollTop = 0;  // IE
+				document.body.scrollLeft = 0;  // browsers
+				document.documentElement.scrollLeft = 0;  // IE
+				collision = viewportCollision(element);
+
 				for (o in expected) {
 					if (expected.hasOwnProperty(o)) {
-						assert.strictEqual(expected[o], collision[o]);
+						// Reset all scrolls
+						assert.strictEqual(expected[o], collision[o], "Did not expect a static positioned element to collide on " + o);
+					}
+				}
+			},
+			testNoCollideAbsolutelyPositioned: function() {
+				var element,
+					collision,
+					expected = {"n": 0, "e": 0, "s": 0, "w": 0},
+					o,
+					vps;
+
+				element = document.getElementById("collide")|| assert.isTrue(false, "where did my element go?");
+
+
+				// calculate the viewport size as late as possible
+				vps = getViewportSize(true);
+
+				// make sure element is smaller than viewport
+				element.style.width = Math.floor(vps.width / 2) + PX;
+				element.style.height = Math.floor(vps.height / 2) + PX;
+
+				// reset the element's position styles - just incase they were set but make top and left both 0 so there is no collision.
+				element.style.top = 0 + PX;
+				element.style.bottom = "";
+				element.style.left = 0 + PX;
+				element.style.right = "";
+				// Reset all scrolls
+				document.body.scrollTop = 0;  // browsers
+				document.documentElement.scrollTop = 0;  // IE
+				document.body.scrollLeft = 0;  // browsers
+				document.documentElement.scrollLeft = 0;  // IE
+				collision = viewportCollision(element);
+
+				for (o in expected) {
+					if (expected.hasOwnProperty(o)) {
+						assert.strictEqual(expected[o], collision[o], "Did not expect a collision on " + o);
 					}
 				}
 			}
-			/* ,
-			testNoCollideAbsolutelyPositioned: function() {
-				var element = document.getElementById("collide"),
-					collision,
-					expected = {"n": 0, "e": 0, "s": 0, "w": 0}, o;
-				// recalculate these as a belt and braces no-one-is-playing-silly-buggers measure
-				vps = getViewportSize(true);
-				HEIGHT = vps.height;
-				WIDTH = vps.width;
-				DIV_WIDTH = Math.round(WIDTH / 2);
-				DIV_HEIGHT = Math.round(HEIGHT / 2);
-				element.style.width = DIV_WIDTH + PX;
-				element.style.height = DIV_HEIGHT + PX;
-				element.style.left = 0 + PX;
-				element.style.top = 0 + PX;
-				collision = viewportCollision(element);
-				for (o in expected) {
-					assert.strictEqual(expected[o], collision[o]);
-				}
-			}*/
 
 		});
 	});
