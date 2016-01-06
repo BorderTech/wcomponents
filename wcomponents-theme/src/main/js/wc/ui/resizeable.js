@@ -96,10 +96,8 @@ define(["wc/dom/attribute",
 					else if (size.indexOf("em")) {
 						return (16 * _s);
 					}
-					else {
-						// if you are going to set your default font size in points, picas or exes you deserve what you get
-						return _s;
-					}
+					// if you are going to set your default font size in points, picas or exes you deserve what you get
+					return _s;
 				}
 				return size;
 			}

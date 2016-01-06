@@ -157,9 +157,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 					if (el.getAttribute("aria-hidden") === "true" || el.getAttribute("aria-disabled") === "true") {
 						return NodeFilter.FILTER_REJECT;
 					}
-					else {
-						return NodeFilter.FILTER_ACCEPT;
-					}
+					return NodeFilter.FILTER_ACCEPT;
 				},
 				actual = controller.getTarget(makeGroupConfig(false, _filter), start, controller.MOVE_TO.LAST);
 			assert.strictEqual(actual, expected, "getTarget LAST with filter should skip the filtered items.");

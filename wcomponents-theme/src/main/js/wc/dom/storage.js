@@ -51,13 +51,11 @@ define(["wc/has", "wc/dom/cookie"],
 							cookie.create(key, value);
 						}
 					}
+					else if (hasLocalStorage) {
+						window.localStorage[key] = value;
+					}
 					else {
-						if (hasLocalStorage) {
-							window.localStorage[key] = value;
-						}
-						else {
-							cookie.create(key, value, 365);
-						}
+						cookie.create(key, value, 365);
 					}
 				}
 			};

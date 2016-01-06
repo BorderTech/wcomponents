@@ -239,18 +239,16 @@ define(["wc/dom/attribute",
 							showMessage(message);
 							result = false;
 						}
-						else {
-							if (!accepted(testObj)) {
-								message = i18n.get("${wc.ui.multiFileUploader.i18n.wrongtype}", element.accept);
-								showMessage(message);
-								result = false;
-							}
-							else if (inputElementWd.isOneOfMe(element)) {
-								commenceUpload({
-									element: element,
-									files: files
-								});
-							}
+						else  if (!accepted(testObj)) {
+							message = i18n.get("${wc.ui.multiFileUploader.i18n.wrongtype}", element.accept);
+							showMessage(message);
+							result = false;
+						}
+						else if (inputElementWd.isOneOfMe(element)) {
+							commenceUpload({
+								element: element,
+								files: files
+							});
 						}
 					}
 					else {
