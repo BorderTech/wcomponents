@@ -3,8 +3,10 @@
 
 .checkBox, // 'readOnly' WCheckBox
 .radioButton {
-	@include background-image($url: '../images/checkbox-ro.png', $height: 1em, $width: 1em);
-	@include make-box($width: 1em, $height: 1em);
+	&.wc_ro {
+		@include background-image($url: '../images/checkbox-ro.png', $height: 1em, $width: 1em);
+		@include make-box($width: 1em, $height: 1em);
+	}
 }
 
 .checkBox.wc_ro_sel {
@@ -12,7 +14,7 @@
 }
 
 
-.radioButton { // 'readOnly' WRadioButton
+.radioButton.wc_ro { // 'readOnly' WRadioButton
 	background-image: url('../images/radio-ro.png');
 
 	&.wc_ro_sel {
