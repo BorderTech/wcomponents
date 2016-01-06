@@ -81,24 +81,6 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
 			testCollideTop: function() {
 				doCollisionTest("top", "n", false);
 			},
-			testNoCollide: function() {
-				var element = document.getElementById("nocollide")|| assert.isTrue(false, "element gone again?"),
-					expected = {"n": 0, "e": 0, "s": 0, "w": 0}, o, collision;
-
-				// Reset all scrolls
-				document.body.scrollTop = 0;  // browsers
-				document.documentElement.scrollTop = 0;  // IE
-				document.body.scrollLeft = 0;  // browsers
-				document.documentElement.scrollLeft = 0;  // IE
-				collision = viewportCollision(element);
-
-				for (o in expected) {
-					if (expected.hasOwnProperty(o)) {
-						// Reset all scrolls
-						assert.strictEqual(expected[o], collision[o], "Did not expect a static positioned element to collide on " + o);
-					}
-				}
-			},
 			testNoCollideAbsolutelyPositioned: function() {
 				var element,
 					collision,
