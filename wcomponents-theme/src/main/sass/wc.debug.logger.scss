@@ -1,4 +1,4 @@
-/* wc.ui.logger.scss */
+/* wc.debug.logger.scss */
 
 // These colors have been inverted to create a DRAMATIC change when there
 // is a warning or an error. This is necessary since colorblind users may not
@@ -16,4 +16,3 @@ body {
 		background-color: $wc-ui-color-error-fg;
 	}
 }
-/* end wc.ui.logger.scss */
