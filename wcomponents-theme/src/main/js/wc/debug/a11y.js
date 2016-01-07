@@ -84,8 +84,7 @@ define(["wc/ui/loading", "wc/dom/storage"], function(loading, storage) {
 	 *    debug is enabled.
 	 */
 	function formatIssue(issue) {
-		var container = document.createElement("section"),
-			heading = document.createElement("h1"),
+		var container = document.createElement("div"),
 			list = document.createElement("ul"),
 			link = document.createElement("a");
 		link.href = issue.url;
@@ -111,8 +110,7 @@ define(["wc/ui/loading", "wc/dom/storage"], function(loading, storage) {
 		else {
 			container.classList.add("warning");
 		}
-		container.appendChild(heading);
-		heading.appendChild(link);
+		container.appendChild(link);
 		container.appendChild(list);
 		document.body.appendChild(container);
 	}
