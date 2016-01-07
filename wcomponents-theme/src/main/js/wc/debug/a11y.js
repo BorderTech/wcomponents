@@ -104,7 +104,7 @@ define(["wc/ui/loading", "wc/dom/storage"], function(loading, storage) {
 			}
 			// html = html.replace(/</g, "&lt;");
 			// html = html.replace(/>/g, "&gt;");
-			html = html.match(/\<([^>]+)>/)[1]; // just get the content of the element's opening tag
+			html = html.match(/<([^>]+)>/)[1]; // just get the content of the element's opening tag
 			listItem.innerHTML = html;
 			list.appendChild(listItem);
 		});
