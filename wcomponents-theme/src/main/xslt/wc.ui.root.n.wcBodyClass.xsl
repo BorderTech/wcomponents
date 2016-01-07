@@ -5,7 +5,7 @@
 	-->
 	<xsl:template name="wcBodyClass">
 		<xsl:if test="$isDebug=1">
-			<xsl:text>debug</xsl:text>
+			<xsl:text>wc_debug</xsl:text>
 		</xsl:if>
 	</xsl:template>
 </xsl:stylesheet>
