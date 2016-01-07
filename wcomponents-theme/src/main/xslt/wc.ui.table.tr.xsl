@@ -187,56 +187,55 @@
 				 These attributes are used in place of name and value attributes to report the
 				 selected state of the row back to the server.
 			-->
-			<xsl:choose>
-				<xsl:when test="$selectableRow=1 and not(@unselectable=$t)">
-					<xsl:attribute name="role">
-						<xsl:choose>
-							<xsl:when test="$selectableRow=1 and $myTable/ui:rowSelection/@multiple=$t">
-								<xsl:text>checkbox</xsl:text>
-							</xsl:when>
-							<xsl:otherwise>
-								<xsl:text>radio</xsl:text>
-							</xsl:otherwise>
-						</xsl:choose>
-					</xsl:attribute>
-					<xsl:attribute name="aria-checked">
-						<xsl:choose>
-							<xsl:when test="@selected=$t">
-								<xsl:copy-of select="$t"/>
-							</xsl:when>
-							<xsl:otherwise>
-								<xsl:text>false</xsl:text>
-							</xsl:otherwise>
-						</xsl:choose>
-					</xsl:attribute>
-					<xsl:attribute name="tabindex">
-						<xsl:text>0</xsl:text>
-					</xsl:attribute>
-
-					<xsl:attribute name="data-wc-name">
-						<xsl:value-of select="concat($tableId,'${wc.ui.table.rowSelect.state.suffix}')"/>
-					</xsl:attribute>
-					<xsl:attribute name="data-wc-value">
-						<xsl:value-of select="@rowIndex"/>
-					</xsl:attribute>
-					<!-- WDataTable still needs disabled support -->
+			<xsl:if test="$selectableRow=1 and not(@unselectable=$t)">
+				<xsl:attribute name="role">
 					<xsl:choose>
-						<xsl:when test="@disabled">
-							<xsl:call-template name="disabledElement"/>
+						<xsl:when test="$selectableRow=1 and $myTable/ui:rowSelection/@multiple=$t">
+							<xsl:text>checkbox</xsl:text>
 						</xsl:when>
-						<xsl:when test="$myTable and $myTable/@disabled">
-							<xsl:call-template name="disabledElement">
-								<xsl:with-param name="field" select="$myTable"/>
-							</xsl:call-template>
-						</xsl:when>
+						<xsl:otherwise>
+							<xsl:text>radio</xsl:text>
+						</xsl:otherwise>
 					</xsl:choose>
-				</xsl:when>
-				<xsl:when test="ui:subTr or parent::ui:subTr">
-					<xsl:attribute name="aria-level">
-						<xsl:value-of select="count(ancestor::ui:subTr[ancestor::ui:table[1]/@id=$tableId]) + 1"/>
-					</xsl:attribute>
-				</xsl:when>
-			</xsl:choose>
+				</xsl:attribute>
+				<xsl:attribute name="aria-checked">
+					<xsl:choose>
+						<xsl:when test="@selected=$t">
+							<xsl:copy-of select="$t"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:text>false</xsl:text>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:attribute>
+				<xsl:attribute name="tabindex">
+					<xsl:text>0</xsl:text>
+				</xsl:attribute>
+
+				<xsl:attribute name="data-wc-name">
+					<xsl:value-of select="concat($tableId,'${wc.ui.table.rowSelect.state.suffix}')"/>
+				</xsl:attribute>
+				<xsl:attribute name="data-wc-value">
+					<xsl:value-of select="@rowIndex"/>
+				</xsl:attribute>
+				<!-- WDataTable still needs disabled support -->
+				<xsl:choose>
+					<xsl:when test="@disabled">
+						<xsl:call-template name="disabledElement"/>
+					</xsl:when>
+					<xsl:when test="$myTable and $myTable/@disabled">
+						<xsl:call-template name="disabledElement">
+							<xsl:with-param name="field" select="$myTable"/>
+						</xsl:call-template>
+					</xsl:when>
+				</xsl:choose>
+			</xsl:if>
+
+			<xsl:if test="ui:subTr or parent::ui:subTr">
+				<xsl:attribute name="aria-level">
+					<xsl:value-of select="count(ancestor::ui:subTr[ancestor::ui:table[1]/@id=$tableId]) + 1"/>
+				</xsl:attribute>
+			</xsl:if>
 
 			<xsl:if test="$removeRow=1">
 				<xsl:call-template name="hiddenElement"/>
