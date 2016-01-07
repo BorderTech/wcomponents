@@ -1,27 +1,18 @@
 /* wc.ui.table.sort.scss */
-
-// Column sorting relate to the sorting of data in sortable tables.
-// This css covers control elements in the heading cells and the rendering of
-// sorted columns.
-
-// TODO: the direction of sort is an attribute of the th element now so it should be used instead of the aria-pressed
-// state of the control.
 @import 'mixins_common.scss';
 
-table[sortable] {
-	th {
-		&[aria-sort] {
-			@include background-image ('../images/down-d.png', $x: 100%);
-			background-position-x: calc(100% - 0.25em);
-			cursor: pointer;
-		}
+th {
+	&[aria-sort] {
+		@include background-image ('../images/down-d.png', $x: 100%);
+		background-position-x: calc(100% - 0.25em);
+		cursor: pointer;
+	}
 
-		&[sorted] {
-			background-image: url('../images/down.png');
-		}
+	&[sorted] {
+		background-image: url('../images/down.png');
+	}
 
-		&[sorted~='reversed'] {
-			background-image: url('../images/up.png');
-		}
+	&[sorted~='reversed'] {
+		background-image: url('../images/up.png');
 	}
 }
