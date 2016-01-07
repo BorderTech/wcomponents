@@ -9,7 +9,7 @@
 		<thead>
 			<tr>
 				<xsl:if test="../ui:rowSelection">
-					<th class="wc_table_sel_wrapper" scope="col">
+					<th class="wc_table_sel_wrapper" scope="col" aria-hidden="true">
 						<xsl:choose>
 							<xsl:when test="../ui:rowSelection/@selectAll = 'control'">
 								<xsl:apply-templates select="../ui:rowSelection"/>

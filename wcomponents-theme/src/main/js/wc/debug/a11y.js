@@ -59,6 +59,8 @@ define(["wc/ui/loading", "wc/dom/storage"], function(loading, storage) {
 			 * Skip "focusableElementNotVisibleAndNotAriaHidden" because it sets focus and that could be annoying.
 			 */
 			auditConfig.auditRulesToIgnore = ["focusableElementNotVisibleAndNotAriaHidden"];
+			auditConfig.ignoreSelectors('elementsWithMeaningfulBackgroundImage', '[title]'); // this is an error in the testing tool
+
 			issues = axs.Audit.run(auditConfig);
 			issues.forEach(function(issue) {
 				var obj, isFail = issue.result === axs.constants.AuditResult.FAIL;
@@ -66,6 +68,7 @@ define(["wc/ui/loading", "wc/dom/storage"], function(loading, storage) {
 					obj = {
 						isWarning: issue.rule.severity === axs.constants.Severity.WARNING,
 						url: issue.rule.url,
+						name: issue.rule.name,
 						description: issue.rule.heading,
 						nodes: issue.elements
 					};
@@ -89,7 +92,8 @@ define(["wc/ui/loading", "wc/dom/storage"], function(loading, storage) {
 			link = document.createElement("a");
 		link.href = issue.url;
 		link.target = "_blank";
-		link.innerHTML = issue.description;
+		link.innerHTML = issue.description + (issue.name ? " (" + issue.name + ")" : "");
+
 		issue.nodes.forEach(function(element) {
 			var html, listItem = document.createElement("li");
 			if (element.html) {
@@ -98,8 +102,9 @@ define(["wc/ui/loading", "wc/dom/storage"], function(loading, storage) {
 			else {
 				html = element.outerHTML;
 			}
-			html = html.replace(/</g, "&lt;");
-			html = html.replace(/>/g, "&gt;");
+			// html = html.replace(/</g, "&lt;");
+			// html = html.replace(/>/g, "&gt;");
+			html = html.match(/<([^>]+)>/)[1]; // just get the content of the element's opening tag
 			listItem.innerHTML = html;
 			list.appendChild(listItem);
 		});
