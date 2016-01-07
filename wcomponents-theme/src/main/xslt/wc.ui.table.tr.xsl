@@ -271,7 +271,7 @@
 			 the row selection mechanism and state indicators.
 			-->
 			<xsl:if test="$selectableRow=1">
-				<td class="wc_table_sel_wrapper">
+				<td class="wc_table_sel_wrapper" aria-hidden="true">
 				</td>
 			</xsl:if>
 			<!--
