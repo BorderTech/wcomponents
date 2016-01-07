@@ -23,9 +23,6 @@
 			<xsl:if test="$parentIsClosed=1 or ancestor::ui:subTr[not(@open) or @open='false']">
 				<xsl:call-template name="hiddenElement"/>
 			</xsl:if>
-			<xsl:attribute name="aria-level">
-				<xsl:value-of select="count(ancestor::ui:subTr[ancestor::ui:table/@id=$tableId]) + 1"/>
-			</xsl:attribute>
 			<xsl:variable name="class">
 				<xsl:if test="$topRowIsStriped=1">
 					<xsl:text>wc_table_stripe </xsl:text>

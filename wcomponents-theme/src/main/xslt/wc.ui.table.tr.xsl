@@ -231,12 +231,6 @@
 				</xsl:choose>
 			</xsl:if>
 
-			<xsl:if test="ui:subTr or parent::ui:subTr">
-				<xsl:attribute name="aria-level">
-					<xsl:value-of select="count(ancestor::ui:subTr[ancestor::ui:table[1]/@id=$tableId]) + 1"/>
-				</xsl:attribute>
-			</xsl:if>
-
 			<xsl:if test="$removeRow=1">
 				<xsl:call-template name="hiddenElement"/>
 			</xsl:if>

@@ -40,9 +40,6 @@
 					<xsl:attribute name="id">
 						<xsl:value-of select="concat($tableId,'${wc.ui.table.id.subTr.suffix}',../@rowIndex)"/>
 					</xsl:attribute>
-					<xsl:attribute name="aria-level">
-						<xsl:value-of select="count(ancestor::ui:subTr[ancestor::ui:table[1]/@id=$tableId]) + 2"/>
-					</xsl:attribute>
 					<xsl:call-template name="hiddenElement"/>
 				</xsl:element>
 			</xsl:otherwise>
