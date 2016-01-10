@@ -92,7 +92,7 @@ public class TreePicker extends WPanel implements MessageContainer {
 		/* The utility bar contains the example selector and a bunch of buttons */
 		WPanel utilityBar = new WPanel();
 		headerPanel.add(utilityBar);
-		utilityBar.setLayout(new ListLayout(ListLayout.Type.FLAT, ListLayout.Alignment.RIGHT,
+		utilityBar.setLayout(new ListLayout(ListLayout.Type.FLAT, Alignment.RIGHT,
 				ListLayout.Separator.NONE, false, COL_HGAP, 0));
 
 		// Add an image for the banner

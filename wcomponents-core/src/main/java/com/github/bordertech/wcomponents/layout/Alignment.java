@@ -5,8 +5,7 @@ package com.github.bordertech.wcomponents.layout;
  *
  * @author John McGuinness
  */
-public enum Alignment
-{
+public enum Alignment {
 	/**
 	 * Components should be left aligned.
 	 */

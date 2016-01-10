@@ -7,6 +7,7 @@ import com.github.bordertech.wcomponents.WMenu;
 import com.github.bordertech.wcomponents.WMenuItem;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WSubMenu;
+import com.github.bordertech.wcomponents.layout.Alignment;
 import com.github.bordertech.wcomponents.layout.ListLayout;
 
 /**
@@ -40,7 +41,7 @@ public class LinkExamples extends WContainer {
 
 		WPanel linkPanel = new WPanel();
 		add(linkPanel);
-		linkPanel.setLayout(new ListLayout(ListLayout.Type.STACKED, ListLayout.Alignment.LEFT,
+		linkPanel.setLayout(new ListLayout(ListLayout.Type.STACKED, Alignment.LEFT,
 				ListLayout.Separator.NONE,
 				false));
 

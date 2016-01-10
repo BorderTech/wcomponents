@@ -5,8 +5,7 @@ package com.github.bordertech.wcomponents.layout;
  *
  * @author John McGuinness
  */
-public enum Orientation
-{
+public enum Orientation {
 	/**
 	 * Components should be vertically oriented.
 	 */
