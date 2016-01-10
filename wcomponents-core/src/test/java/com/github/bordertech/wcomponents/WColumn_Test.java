@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents;
 
-import com.github.bordertech.wcomponents.WColumn.Alignment;
+import com.github.bordertech.wcomponents.layout.Alignment;
 import junit.framework.Assert;
 import org.junit.Test;
 

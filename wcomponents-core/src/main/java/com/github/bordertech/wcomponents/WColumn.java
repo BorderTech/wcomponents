@@ -1,5 +1,7 @@
 package com.github.bordertech.wcomponents;
 
+import com.github.bordertech.wcomponents.layout.Alignment;
+
 /**
  * This is a layout component to be used in conjunction with WRow.
  *
@@ -7,24 +9,6 @@ package com.github.bordertech.wcomponents;
  * @since 1.0.0
  */
 public class WColumn extends AbstractMutableContainer implements AjaxTarget {
-
-	/**
-	 * Describes how content within a column should be aligned.
-	 */
-	public enum Alignment {
-		/**
-		 * Indicates that content should be left-aligned. This is the default alignment.
-		 */
-		LEFT,
-		/**
-		 * Indicates that content should be horizontally centered in the column.
-		 */
-		CENTER,
-		/**
-		 * Indicates that content should be right-aligned.
-		 */
-		RIGHT
-	}
 
 	/**
 	 * Creates a WColumn with 1% width.
