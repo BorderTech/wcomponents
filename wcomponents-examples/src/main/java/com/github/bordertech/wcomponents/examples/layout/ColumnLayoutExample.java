@@ -5,7 +5,7 @@ import com.github.bordertech.wcomponents.WHeading;
 import com.github.bordertech.wcomponents.WHorizontalRule;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.layout.ColumnLayout;
-import com.github.bordertech.wcomponents.layout.ColumnLayout.Alignment;
+import com.github.bordertech.wcomponents.layout.Alignment;
 
 /**
  * Example showing how to use the {@link ColumnLayout} component.

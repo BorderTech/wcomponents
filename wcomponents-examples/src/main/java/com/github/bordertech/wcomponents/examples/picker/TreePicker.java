@@ -11,6 +11,7 @@ import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WSkipLinks;
 import com.github.bordertech.wcomponents.WTextField;
+import com.github.bordertech.wcomponents.layout.Alignment;
 import com.github.bordertech.wcomponents.layout.ColumnLayout;
 import com.github.bordertech.wcomponents.layout.ListLayout;
 import com.github.bordertech.wcomponents.util.Util;
@@ -72,7 +73,7 @@ public class TreePicker extends WPanel implements MessageContainer {
 	/**
 	 * column allignment.
 	 */
-	private static final ColumnLayout.Alignment[] COL_ALIGN = {ColumnLayout.Alignment.LEFT, ColumnLayout.Alignment.LEFT};
+	private static final Alignment[] COL_ALIGN = {Alignment.LEFT, Alignment.LEFT};
 	/**
 	 * column hgap.
 	 */
