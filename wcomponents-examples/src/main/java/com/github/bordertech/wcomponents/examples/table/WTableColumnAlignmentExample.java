@@ -7,6 +7,7 @@ import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WTable;
 import com.github.bordertech.wcomponents.WTableColumn;
 import com.github.bordertech.wcomponents.WText;
+import com.github.bordertech.wcomponents.layout.Alignment;
 
 /**
  * This example shows the simplest use of a {@link WTable}, with a two-dimensional array of data and a simple of of
@@ -34,9 +35,9 @@ public class WTableColumnAlignmentExample extends WPanel {
 		WTableColumn columnSName = new WTableColumn("Last name (center)", new WText());
 		WTableColumn columnDoB = new WTableColumn("DOB (right)", new WText());
 
-		columnFName.setAlign(WTableColumn.Alignment.LEFT);
-		columnSName.setAlign(WTableColumn.Alignment.CENTER);
-		columnDoB.setAlign(WTableColumn.Alignment.RIGHT);
+		columnFName.setAlign(Alignment.LEFT);
+		columnSName.setAlign(Alignment.CENTER);
+		columnDoB.setAlign(Alignment.RIGHT);
 
 		table.addColumn(columnFName);
 		table.addColumn(columnSName);

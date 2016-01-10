@@ -14,7 +14,7 @@ import com.github.bordertech.wcomponents.WDataTable.PaginationMode;
 import com.github.bordertech.wcomponents.WDataTable.SelectMode;
 import com.github.bordertech.wcomponents.WRepeater;
 import com.github.bordertech.wcomponents.WTableColumn;
-import com.github.bordertech.wcomponents.WTableColumn.Alignment;
+import com.github.bordertech.wcomponents.layout.Alignment;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.I18nUtilities;

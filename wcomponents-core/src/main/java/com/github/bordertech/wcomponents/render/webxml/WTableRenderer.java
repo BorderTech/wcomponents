@@ -13,7 +13,7 @@ import com.github.bordertech.wcomponents.WTable.SelectMode;
 import com.github.bordertech.wcomponents.WTable.TableModel;
 import com.github.bordertech.wcomponents.WTable.TableRepeater;
 import com.github.bordertech.wcomponents.WTableColumn;
-import com.github.bordertech.wcomponents.WTableColumn.Alignment;
+import com.github.bordertech.wcomponents.layout.Alignment;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.I18nUtilities;
