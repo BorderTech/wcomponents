@@ -11,24 +11,6 @@ import java.util.Arrays;
 public class ColumnLayout implements LayoutManager {
 
 	/**
-	 * An enumeration of possible values for horizontal alignment of column content.
-	 */
-	public enum Alignment {
-		/**
-		 * Indicates that content should be left-aligned. This is the default alignment.
-		 */
-		LEFT,
-		/**
-		 * Indicates that content should be horizontally centered in the column.
-		 */
-		CENTER,
-		/**
-		 * Indicates that content should be right-aligned.
-		 */
-		RIGHT
-	}
-
-	/**
 	 * The column widths.
 	 */
 	private final int[] columnWidths;

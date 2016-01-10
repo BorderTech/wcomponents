@@ -2,8 +2,8 @@ package com.github.bordertech.wcomponents.render.webxml;
 
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WText;
+import com.github.bordertech.wcomponents.layout.Alignment;
 import com.github.bordertech.wcomponents.layout.ColumnLayout;
-import com.github.bordertech.wcomponents.layout.ColumnLayout.Alignment;
 import java.io.IOException;
 import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
