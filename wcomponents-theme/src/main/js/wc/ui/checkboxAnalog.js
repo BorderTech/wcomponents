@@ -12,9 +12,9 @@
  * @requires module:wc/dom/shed
  * @requires module:wc/dom/formUpdateManager
  */
-define(["wc/dom/ariaAnalog", "wc/dom/initialise", "wc/dom/Widget", "wc/dom/shed", "wc/dom/formUpdateManager", "wc/ui/table/rowCheckbox"],
-	/** @param ariaAnalog wc/dom/ariaAnalog @param initialise wc/dom/initialise @param Widget wc/dom/Widget @param shed wc/dom/shed @param formUpdateManager wc/dom/formUpdateManager @param rowCheckbox @ignore */
-	function(ariaAnalog, initialise, Widget, shed, formUpdateManager, rowCheckbox) {
+define(["wc/dom/ariaAnalog", "wc/dom/initialise", "wc/dom/Widget", "wc/dom/shed", "wc/dom/formUpdateManager"],
+	/** @param ariaAnalog wc/dom/ariaAnalog @param initialise wc/dom/initialise @param Widget wc/dom/Widget @param shed wc/dom/shed @param formUpdateManager wc/dom/formUpdateManager*/
+	function(ariaAnalog, initialise, Widget, shed, formUpdateManager) {
 		"use strict";
 
 		/**
@@ -52,24 +52,6 @@ define(["wc/dom/ariaAnalog", "wc/dom/initialise", "wc/dom/Widget", "wc/dom/shed"
 							formUpdateManager.writeStateField(container, next.getAttribute("data-wc-name"), next.getAttribute("data-wc-value"));
 						}
 					});
-				}
-			};
-
-			/**
-			 * Click handler to deal with ambiguity of table row check boxes and other fake checkboxes.
-			 * @function
-			 * @public
-			 * @override
-			 * @param {Event} $event A click event.
-			 * @todo Do this better without the leaky abstraction!
-			 */
-			this.clickEvent = function($event) {
-				var target = $event.target, element;
-				if (!$event.defaultPrevented && (element = this.getActivableFromTarget(target))) {
-					if (rowCheckbox.ITEM.isOneOfMe(element)) {
-						return;
-					}
-					this.constructor.prototype.clickEvent.call(this, $event);
 				}
 			};
 		}

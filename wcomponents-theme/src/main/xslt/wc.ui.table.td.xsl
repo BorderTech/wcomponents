@@ -1,6 +1,6 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
 	<xsl:import href="wc.ui.table.td.n.WTableAdditionalCellClass.xsl"/>
-	<xsl:import href="wc.ui.table.n.firstRowCellIndentationHelper.xsl"/>
+	<xsl:import href="wc.ui.table.n.cellIndentationHelper.xsl"/>
 	<xsl:import href="wc.constants.xsl"/>
 	<!--
 		The transform for data cells within the table. These are a 1:1 map with a HTML
@@ -9,6 +9,8 @@
 	<xsl:template match="ui:td">
 		<xsl:param name="myTable"/>
 		<xsl:param name="indent" select="0"/>
+		<xsl:param name="hasRole" select="0"/>
+		
 		<xsl:variable name="tableId" select="$myTable/@id"/>
 		<xsl:variable name="tbleColPos">
 			<xsl:value-of select="position()"/>
@@ -40,6 +42,9 @@
 			</xsl:call-template>
 		</xsl:variable>
 		<td>
+			<xsl:if test="$hasRole &gt; 0">
+				<xsl:attribute name="role">gridcell</xsl:attribute>
+			</xsl:if>
 			<xsl:if test="normalize-space($class) !=''">
 				<xsl:attribute name="class">
 					<xsl:value-of select="normalize-space($class)"/>
@@ -61,7 +66,7 @@
 				</xsl:attribute>
 			</xsl:if>
 			<xsl:if test="$indent &gt; 0 and not(preceding-sibling::*)">
-				<xsl:call-template name="firstRowCellIndentationHelper">
+				<xsl:call-template name="cellIndentationHelper">
 					<xsl:with-param name="indent" select="$indent"/>
 				</xsl:call-template>
 			</xsl:if>

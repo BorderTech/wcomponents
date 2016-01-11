@@ -15,6 +15,7 @@
  *
  */
 define(["wc/dom/shed",
+		"wc/dom/tag",
 		"wc/dom/getFilteredGroup",
 		"wc/array/toArray",
 		"wc/dom/formUpdateManager",
@@ -22,8 +23,8 @@ define(["wc/dom/shed",
 		"wc/dom/initialise",
 		"wc/ui/checkboxAnalog",
 		"wc/ui/radioAnalog"],
-	/** @param shed wc/dom/shed @param getFilteredGroup wc/dom/getFilteredGroup @param toArray wc/array/toArray @param formUpdateManager wc/dom/formUpdateManager @param Widget wc/dom/Widget @param initialise wc/dom/initialise @ignore */
-	function(shed, getFilteredGroup, toArray, formUpdateManager, Widget, initialise) {
+	/** @param shed wc/dom/shed @param tag wc/dom.tag @param getFilteredGroup wc/dom/getFilteredGroup @param toArray wc/array/toArray @param formUpdateManager wc/dom/formUpdateManager @param Widget wc/dom/Widget @param initialise wc/dom/initialise @ignore */
+	function(shed, tag, getFilteredGroup, toArray, formUpdateManager, Widget, initialise) {
 		"use strict";
 
 		/**
@@ -43,9 +44,8 @@ define(["wc/dom/shed",
 				ACTIVE_CONTROLLER_WD = SUBCONTROLLER_WD.extend("", {"aria-checked": "true"}),
 				CHECKBOX_WD = new Widget("input", "", {"type": "checkbox"}),
 				ARIA_CB_WD = new Widget("", "", {"role": "checkbox"}),
-				ROW_WD = new Widget("tr", "", {"role": "checkbox"}),
-				ALL_CB = [CHECKBOX_WD, ARIA_CB_WD],
-				SELECTABLE_THEAD = new Widget("THEAD"),
+				ROW_WD = new Widget("tr", "", {"role": "row", "aria-selected": null}),
+				ALL_CB = [CHECKBOX_WD, ARIA_CB_WD, ROW_WD],
 				TABLE_WRAPPER = new Widget("div", "table"),
 				STATE = {ALL: "all",
 						NONE: "none",
@@ -77,10 +77,31 @@ define(["wc/dom/shed",
 			 * @returns {Boolean} true if the element is a table row selection controller.
 			 */
 			function isTableRowSelectToggle(element) {
-				if ((SELECTABLE_THEAD.findAncestor(element))) {
-					return true;
+				var table,
+					_element = element,
+					controlId;
+
+				if (CONTROLLER_LIST_WD.isOneOfMe(element)) {
+					_element = SUBCONTROLLER_WD.findDescendant(element);
 				}
-				return false;
+
+				controlId = _element.getAttribute("aria-controls");
+				if (!controlId) {
+					return false;
+				}
+
+				// table rowSelectionControls only control their table
+				if (controlId.split(/\s+/).length > 1) {
+					return false;
+				}
+
+				table = document.getElementById(controlId);
+
+				if (!table) {
+					return false;
+				}
+
+				return table.tagName === tag.TBODY;
 			}
 
 			/**

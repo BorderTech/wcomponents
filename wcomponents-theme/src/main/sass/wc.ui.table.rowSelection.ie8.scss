@@ -8,38 +8,3 @@
 	text-align: left;
 	width: 0.25em;
 }
-
-[role='radio'] {
-	> .wc_table_sel_wrapper:before {
-		content: url('../images/radio.png');
-	}
-
-	&[aria-checked='true'] > .wc_table_sel_wrapper:before {
-		content: url('../images/radio-s.png');
-	}
-
-	&[aria-disabled='true'] > .wc_table_sel_wrapper:before { //note: no selected disabled radio indicator
-		content: url('../images/radio-d.png');
-	}
-}
-
-[role='checkbox'] {
-	> .wc_table_sel_wrapper:before {
-		content: url('../images/checkbox.png');
-	}
-
-	&[aria-checked='true'] > .wc_table_sel_wrapper:before {
-		content: url('../images/checkbox-s.png');
-	}
-
-	&[aria-disabled='true'] {
-		> .wc_table_sel_wrapper:before {
-			content: url('../images/checkbox-d.png');
-		}
-
-		&[aria-checked='true'] > .wc_table_sel_wrapper:before {
-			content: url('../images/checkbox-s-d.png');
-		}
-	}
-}
-/* end wc.ui.table.rowSelection.scss */

@@ -10,57 +10,60 @@
 		<xsl:param name="parentIsClosed" select="0"/>
 		<xsl:param name="topRowIsStriped" select="0"/>
 		<xsl:param name="indent" select="0"/>
+		
 		<xsl:variable name="tableId" select="$myTable/@id"/>
-		<xsl:variable name="isHeirarchic">
-			<xsl:if test="$myTable/@type='hierarchic'">
-				<xsl:value-of select="1"/>
-			</xsl:if>
-		</xsl:variable>	
-		<xsl:element name="tr">
-			<xsl:attribute name="id">
-				<xsl:value-of select="concat($tableId,'${wc.ui.table.id.subTr.content.suffix}',../../@rowIndex)"/>
-			</xsl:attribute>
+
+		<tr id="{concat($tableId,'${wc.ui.table.id.subTr.content.suffix}',../../@rowIndex)}">
 			<xsl:if test="$parentIsClosed=1 or ancestor::ui:subTr[not(@open) or @open='false']">
 				<xsl:call-template name="hiddenElement"/>
 			</xsl:if>
-			<xsl:variable name="class">
+			<xsl:attribute name="role">row</xsl:attribute>
+			<xsl:attribute name="aria-level">
+				<xsl:value-of select="count(ancestor::ui:subTr) + 1"/><!-- Minimum is going to be level 2 -->
+			</xsl:attribute>
+			<xsl:attribute name="class">
+				<xsl:text>content</xsl:text>
 				<xsl:if test="$topRowIsStriped=1">
-					<xsl:text>wc_table_stripe </xsl:text>
+					<xsl:text> wc_table_stripe</xsl:text>
 				</xsl:if>
 				<xsl:call-template name="WTableAdditionalContentClass">
 					<xsl:with-param name="myTable" select="$myTable"/>
 					<xsl:with-param name="parentIsClosed" select="$parentIsClosed"/>
 					<xsl:with-param name="topRowIsStriped" select="$topRowIsStriped"/>
 				</xsl:call-template>
-			</xsl:variable>
-			<xsl:if test="$class !=''">
-				<xsl:attribute name="class">
-					<xsl:value-of select="normalize-space($class)"/>
-				</xsl:attribute>
-			</xsl:if>
+			</xsl:attribute>
+			
+			<!-- 
+				subTr content is never individually selectable but must have the placeholder if the table has row
+				selection.
+			-->
 			<xsl:if test="$myTable/ui:rowSelection">
-				<xsl:element name="td">
+				<td role="gridcell">
 					<xsl:text>&#x2002;</xsl:text>
-				</xsl:element>
+				</td>
 			</xsl:if>
-			<xsl:element name="td">
-				<xsl:attribute name="class">
-					<xsl:text>wc_table_rowexp_container</xsl:text>
-				</xsl:attribute>
-			</xsl:element>
-			<xsl:element name="td">
+			
+			<!-- 
+				subTr content is not itself expandable but must have the placeholder to position it correctly relative
+				to its parent row.
+			-->
+			<td class="wc_table_rowexp_container" role="gridcell">
+				<xsl:text>&#x2002;</xsl:text>
+			</td>
+
+			<td role="gridcell">
 				<xsl:if test="@spanAllCols=$t">
 					<xsl:attribute name="colspan">
 						<xsl:value-of select="count(../../ui:td|../../ui:th)"/>
 					</xsl:attribute>
 				</xsl:if>
 				<xsl:if test="$indent &gt; 0">
-					<xsl:call-template name="firstRowCellIndentationHelper">
+					<xsl:call-template name="cellIndentationHelper">
 						<xsl:with-param name="indent" select="$indent"/>
 					</xsl:call-template>
 				</xsl:if>
 				<xsl:apply-templates/>
-			</xsl:element>
-		</xsl:element>
+			</td>
+		</tr>
 	</xsl:template>
 </xsl:stylesheet>
