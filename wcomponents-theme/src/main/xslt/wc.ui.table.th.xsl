@@ -1,5 +1,5 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
-	<xsl:import href="wc.ui.table.n.firstRowCellIndentationHelper.xsl"/>
+	<xsl:import href="wc.ui.table.n.cellIndentationHelper.xsl"/>
 	<!--
 		Transform of a ui:th element within a ui:tr. This is a row header and is a 1:1 map
 		with a HTML th element.
@@ -7,8 +7,16 @@
 	<xsl:template match="ui:th">
 		<xsl:param name="myTable"/>
 		<xsl:param name="indent" select="0"/>
+		<xsl:param name="hasRole" select="0"/>
+		
 		<xsl:variable name="tableId" select="$myTable/@id"/>
+		
 		<th id="{concat($tableId,'${wc.ui.table.id.tr.th.suffix}',../@rowIndex)}" scope="row">
+			<xsl:if test="$hasRole &gt; 0">
+				<xsl:attribute name="role">
+					<xsl:text>rowheader</xsl:text>
+				</xsl:attribute>
+			</xsl:if>
 			<xsl:if test="$myTable/ui:thead">
 				<xsl:variable name="myHeader" select="$myTable/ui:thead/ui:th[1]"/>
 				<xsl:if test="$myHeader">
@@ -31,7 +39,7 @@
 				</xsl:attribute>
 			</xsl:if>
 			<xsl:if test="$indent &gt; 0">
-				<xsl:call-template name="firstRowCellIndentationHelper">
+				<xsl:call-template name="cellIndentationHelper">
 					<xsl:with-param name="indent" select="$indent"/>
 				</xsl:call-template>
 			</xsl:if>

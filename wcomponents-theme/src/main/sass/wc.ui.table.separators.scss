@@ -19,13 +19,5 @@
 	> .wc_table_colauto { // The first col after the last auto generated col is the first data col and cannot have a left border
 		border-left: 0 none;
 	}
-
-	+ thead td + td { // override the col border in header row used for controls not in header row used for headings.
-		@include border($pos: left, $color: $wc-ui-color-table-head-bg);
-	}
-
-	+ tfoot td + td {
-		@include border($pos: left, $color: $wc-ui-color-table-foot-bg);
-	}
 }
 /* end wc.ui.table.separators.scss */

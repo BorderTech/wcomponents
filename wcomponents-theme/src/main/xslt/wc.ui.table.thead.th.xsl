@@ -1,11 +1,18 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
 	<xsl:import href="wc.ui.table.n.xsl"/>
 	<xsl:import href="wc.constants.xsl"/>
+	
 	<xsl:template match="ui:th" mode="thead">
+		<xsl:param name="hasRole" select="0"/>
+
 		<xsl:variable name="tableId" select="../../@id"/>
 		
-		
 		<th id="{concat($tableId,'${wc.ui.table.id.thead.th.suffix}', position())}" scope="col">
+			<xsl:if test="$hasRole &gt; 0">
+				<xsl:attribute name="role">
+					<xsl:text>columnheader</xsl:text>
+				</xsl:attribute>
+			</xsl:if>
 			<xsl:attribute name="class">
 				<xsl:choose>
 					<xsl:when test="@align">

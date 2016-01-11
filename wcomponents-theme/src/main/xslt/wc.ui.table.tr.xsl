@@ -2,6 +2,7 @@
 	<xsl:import href="wc.common.aria.live.xsl"/>
 	<xsl:import href="wc.common.disabledElement.xsl"/>
 	<xsl:import href="wc.common.hide.xsl"/>
+	<xsl:import href="wc.common.offscreenSpan.xsl"/>
 	<xsl:import href="wc.ui.table.n.xsl"/>
 	<xsl:import href="wc.ui.table.tr.n.containsWords.xsl"/>
 	<xsl:import href="wc.ui.table.tr.n.tableCollapserElement.xsl"/>
@@ -21,11 +22,11 @@
 	-->
 	<xsl:template match="ui:tr">
 		<xsl:param name="myTable"/>
+		<xsl:param name="hasRole" select="0"/>
 		<xsl:param name="parentIsClosed" select="0"/>
 		<xsl:param name="topRowIsStriped" select="0"/>
 
 		<xsl:variable name="tableId" select="$myTable/@id"/>
-
 		<xsl:variable name="rowId" select="concat($tableId,'-',@rowIndex)"/>
 
 		<xsl:variable name="selectableRow">
@@ -33,10 +34,16 @@
 				<xsl:value-of select="1"/>
 			</xsl:if>
 		</xsl:variable>
+		
+		<xsl:variable name="hasRowExpansion">
+			<xsl:if test="$myTable/ui:rowExpansion">
+				<xsl:value-of select="1"/>
+			</xsl:if>
+		</xsl:variable>
 
 		<xsl:variable name="indent">
 			<xsl:choose>
-				<xsl:when test="$myTable/ui:rowExpansion and $myTable/@type='hierarchic' and parent::ui:subTr">
+				<xsl:when test="$hasRowExpansion=1 and $myTable/@type='hierarchic' and parent::ui:subTr">
 					<xsl:value-of select="count(ancestor::ui:subTr[ancestor::ui:table[1] = $myTable])"/>
 				</xsl:when>
 				<xsl:otherwise>
@@ -146,27 +153,91 @@
 		</xsl:variable>
 
 		<tr id="{$rowId}" data-wc-rowindex="{@rowIndex}">
+			<xsl:if test="$hasRole &gt; 0">
+				<xsl:attribute name="role">row</xsl:attribute>
+			</xsl:if>
+			
 			<xsl:if test="normalize-space($class) != ''">
 				<xsl:attribute name="class">
 					<xsl:value-of select="normalize-space($class)"/>
 				</xsl:attribute>
 			</xsl:if>
-			<xsl:if test="ui:subTr">
-				<xsl:attribute name="data-wc-expanded">
-					<xsl:choose>
-						<xsl:when test="ui:subTr/@open=$t">
-							<xsl:copy-of select="$t"/>
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:text>false</xsl:text>
-						</xsl:otherwise>
-					</xsl:choose>
+			
+			<xsl:if test="$hasRowExpansion=1">
+				<xsl:if test="ui:subTr">
+					<xsl:attribute name="aria-expanded">
+						<xsl:choose>
+							<xsl:when test="ui:subTr/@open=$t">
+								<xsl:copy-of select="$t"/>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:text>false</xsl:text>
+							</xsl:otherwise>
+						</xsl:choose>
+					</xsl:attribute>
+					
+					<xsl:variable name="expMode" select="$myTable/ui:rowExpansion/@mode"/>
+					
+					<xsl:variable name="isOpen">
+						<xsl:if test="ui:subTr/@open=$t">
+							<xsl:value-of select="1"/>
+						</xsl:if>
+					</xsl:variable>
+					
+					<xsl:attribute name="aria-controls">
+						<xsl:choose>
+							<xsl:when test="ui:subTr/ui:tr">
+								<xsl:apply-templates select="ui:subTr/ui:tr" mode="subRowControlIdentifier">
+									<xsl:with-param name="tableId" select="$tableId"/>
+								</xsl:apply-templates>
+							</xsl:when>
+							<xsl:when test="ui:subTr/ui:content">
+								<xsl:value-of select="concat($tableId,'${wc.ui.table.id.subTr.content.suffix}',@rowIndex)"/>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:value-of select="concat($tableId,'${wc.ui.table.id.subTr.suffix}',@rowIndex)"/>
+							</xsl:otherwise>
+						</xsl:choose>
+					</xsl:attribute>
+					
+					<xsl:variable name="expansionMode">
+						<xsl:choose>
+							<xsl:when test="($expMode='lazy' or $expMode='eager') and $isOpen=1">
+								<xsl:text>client</xsl:text>
+							</xsl:when>
+							<xsl:when test="$expMode='eager'">
+								<xsl:text>lazy</xsl:text>
+							</xsl:when>
+							<xsl:when test="$expMode">
+								<xsl:value-of select="$expMode"/>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:text>client</xsl:text>
+							</xsl:otherwise>
+						</xsl:choose>
+					</xsl:variable>
+					
+					<xsl:if test="$expansionMode='lazy' or $expansionMode='dynamic'">
+						<xsl:attribute name="data-wc-ajaxalias">
+							<xsl:value-of select="$tableId"/>
+						</xsl:attribute>
+						<xsl:if test="$expansionMode='lazy'">
+							<xsl:attribute name="data-wc-expmode">
+								<xsl:value-of select="$expansionMode"/>
+							</xsl:attribute>
+						</xsl:if>
+					</xsl:if>
+				</xsl:if>
+			
+				<xsl:if test="parent::ui:subTr">
+					<xsl:call-template name="setARIALive"/>
+				</xsl:if>
+			
+				<xsl:attribute name="aria-level">
+					<xsl:value-of select="count(ancestor::ui:subTr[ancestor::ui:table[1]/@id=$tableId]) + 1"/>
 				</xsl:attribute>
 			</xsl:if>
-
-			<xsl:if test="parent::ui:subTr">
-				<xsl:call-template name="setARIALive"/>
-			</xsl:if>
+			
 			<!--
 				Row selection
 				 When the table has row selection and when this row is selectable, then we need
@@ -188,17 +259,7 @@
 				 selected state of the row back to the server.
 			-->
 			<xsl:if test="$selectableRow=1 and not(@unselectable=$t)">
-				<xsl:attribute name="role">
-					<xsl:choose>
-						<xsl:when test="$selectableRow=1 and $myTable/ui:rowSelection/@multiple=$t">
-							<xsl:text>checkbox</xsl:text>
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:text>radio</xsl:text>
-						</xsl:otherwise>
-					</xsl:choose>
-				</xsl:attribute>
-				<xsl:attribute name="aria-checked">
+				<xsl:attribute name="aria-selected">
 					<xsl:choose>
 						<xsl:when test="@selected=$t">
 							<xsl:copy-of select="$t"/>
@@ -208,6 +269,7 @@
 						</xsl:otherwise>
 					</xsl:choose>
 				</xsl:attribute>
+				
 				<xsl:attribute name="tabindex">
 					<xsl:text>0</xsl:text>
 				</xsl:attribute>
@@ -215,9 +277,11 @@
 				<xsl:attribute name="data-wc-name">
 					<xsl:value-of select="concat($tableId,'${wc.ui.table.rowSelect.state.suffix}')"/>
 				</xsl:attribute>
+				
 				<xsl:attribute name="data-wc-value">
 					<xsl:value-of select="@rowIndex"/>
 				</xsl:attribute>
+				
 				<!-- WDataTable still needs disabled support -->
 				<xsl:choose>
 					<xsl:when test="@disabled">
@@ -251,21 +315,17 @@
 					<xsl:value-of select="$rowFilters"/>
 				</xsl:attribute>
 			</xsl:if>
+			<!-- END OF TR ATTRIBUTES -->
+			
+			
 			<!--
-			functional cells
-
-			 These td elements are used to place functional controls: selection indicators
-			 and expansion controls; the rowIndex and any indentation columns which may be
-			 required.
-
 			rowSelection indicator wrapper
 
 			 This cell is actually an empty cell which is used as a placeholder to display
 			 the row selection mechanism and state indicators.
 			-->
 			<xsl:if test="$selectableRow=1">
-				<td class="wc_table_sel_wrapper" aria-hidden="true">
-				</td>
+				<td class="wc_table_sel_wrapper" aria-hidden="true"></td>
 			</xsl:if>
 			<!--
 			 row expansion controls
@@ -278,9 +338,15 @@
 				<!-- The rowExpansion cell will hold the expansion control (if any) -->
 				<td class="wc_table_rowexp_container">
 					<xsl:if test="ui:subTr">
-						<xsl:call-template name="tableCollapserElement">
-							<xsl:with-param name="myTable" select="$myTable"/>
-							<xsl:with-param name="id" select="$rowId"/>
+						<xsl:attribute name="role">button</xsl:attribute>
+						<xsl:attribute name="aria-controls">
+							<xsl:value-of select="$rowId"/>
+						</xsl:attribute>
+						<xsl:attribute name="tabindex">0</xsl:attribute>
+						<xsl:call-template name="offscreenSpan">
+							<xsl:with-param name="text">
+								<xsl:value-of select="$$${wc.ui.table.rowExpansion.message.collapser}"/>
+							</xsl:with-param>
 						</xsl:call-template>
 					</xsl:if>
 				</td>
@@ -289,6 +355,7 @@
 			<xsl:apply-templates select="ui:th|ui:td">
 				<xsl:with-param name="myTable" select="$myTable"/>
 				<xsl:with-param name="indent" select="$indent"/>
+				<xsl:with-param name="hasRole" select="$hasRole"/>
 			</xsl:apply-templates>
 		</tr>
 		<!--
@@ -309,6 +376,7 @@
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:with-param>
+			<xsl:with-param name="hasRole" select="$hasRole"/>
 		</xsl:apply-templates>
 	</xsl:template>
 </xsl:stylesheet>

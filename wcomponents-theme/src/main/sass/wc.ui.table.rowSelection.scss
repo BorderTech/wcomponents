@@ -1,43 +1,49 @@
 /* wc.ui.table.rowSelection.scss */
 @import 'wc.ui.table.rowSelection_vars.scss';
 
-// only want to style ara-checked rows, nothing else!
-// scss-lint:disable QualifyingElement
-tr[aria-checked] {
+// only want to style aria-selected rows, nothing else
+tr[aria-selected] {
 	&:hover,
 	&:focus {
 		@include row-invite;
 		cursor: pointer;
 	}
+
+	> .wc_table_sel_wrapper {
+		@include background-image($url: '../images/radio.png', $width: 1em, $height: 1em);
+   }
 }
-//scss-lint:enable QualifyingElement
 
 .wc_table_sel_wrapper {
-	[role='radio'] > & {
-		@include background-image($url: '../images/radio.png', $width: 1em, $height: 1em);
-	}
-
-	[role='radio'][aria-checked='true'] > & {
+	tr[aria-selected='true'] > & {
 		background-image: url('../images/radio-s.png');
 	}
 
-	[role='radio'][aria-disabled='true'] > & {
+	tr[aria-disabled='true'] > & {
 		background-image: url('../images/radio-d.png');
 	}
+}
 
-	[role='checkbox'] > & {
-		@include background-image($url: '../images/checkbox.png', $width: 1em, $height: 1em);
-	}
+[aria-multiselectable='true'] > tbody {
+	> tr {
+		&[aria-selected] {
+			> .wc_table_sel_wrapper {
+				background-image: url('../images/checkbox.png');
+			}
 
-	[role='checkbox'][aria-disabled='true'] > & {
-		background-image: url('../images/checkbox-d.png');
-	}
+			&[aria-disabled='true'] > .wc_table_sel_wrapper {
+				background-image: url('../images/checkbox-d.png');
+			}
+		}
 
-	[role='checkbox'][aria-checked='true'] > & {
-		background-image: url('../images/checkbox-s.png');
-	}
+		&[aria-selected='true'] {
+			> .wc_table_sel_wrapper {
+				background-image: url('../images/checkbox-s.png');
+			}
 
-	[role='checkbox'][aria-checked='true'][aria-disabled='true'] > & {
-		background-image: url('../images/checkbox-s-d.png');
+			&[aria-disabled='true'] > .wc_table_sel_wrapper {
+				background-image: url('../images/checkbox-s-d.png');
+			}
+		}
 	}
 }
