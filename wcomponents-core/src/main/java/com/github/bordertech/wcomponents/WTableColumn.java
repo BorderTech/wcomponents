@@ -26,24 +26,6 @@ public final class WTableColumn extends AbstractContainer {
 	 */
 	private final WDecoratedLabel label;
 
-//	/**
-//	 * An enumeration of possible values for horizontal alignment of table column content.
-//	 */
-//	public enum Alignment {
-//		/**
-//		 * Indicates that content should be left-aligned. This is the default alignment.
-//		 */
-//		LEFT,
-//		/**
-//		 * Indicates that content should be horizontally centered in the column.
-//		 */
-//		CENTER,
-//		/**
-//		 * Indicates that content should be right-aligned.
-//		 */
-//		RIGHT
-//	}
-
 	/**
 	 * Creates a WTableColumn.
 	 *
