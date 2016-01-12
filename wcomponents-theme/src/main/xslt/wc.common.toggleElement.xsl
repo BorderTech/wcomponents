@@ -28,12 +28,7 @@
 		 
 		param text: The text description of the purpose of the button.
 		
-		param selected: The current selected state used by selectToggle to indicate the 
-			aria-checked state of the button
-		 
-		param tabIndex: The tabIndex to apply to the button
-			NOTE: tabIndex is no longer applied in WComponents and it is recommended
-			that tabIndex not be manipulated unless you really know what you are doing.
+		param selected: The current selected state used by selectToggle to indicate the aria-checked state of the button.
 	-->
 	<xsl:template name="toggleElement">
 		<xsl:param name="mode"/>
@@ -45,17 +40,15 @@
 		<xsl:param name="text"/>
 		<xsl:param name="selected"/>
 		<xsl:param name="labelId"/>
-		<xsl:param name="tabIndex"/>
+	
 		<xsl:variable name="localClass">
 			<xsl:text>wc_btn_nada</xsl:text>
 			<xsl:if test="$class!=''">
 				<xsl:value-of select="concat(' ',$class)"/>
 			</xsl:if>
 		</xsl:variable>
-		<xsl:element name="button">
-			<xsl:attribute name="id">
-				<xsl:value-of select="$id"/>
-			</xsl:attribute>
+
+		<button id="{$id}" role="radio" class="{$localClass}" data-wc-value="{$value}">
 			<xsl:if test="$name !=''">
 				<xsl:attribute name="data-wc-name">
 					<xsl:value-of select="$name"/>
@@ -70,17 +63,6 @@
 						<xsl:text>submit</xsl:text>
 					</xsl:otherwise>
 				</xsl:choose>
-			</xsl:attribute>
-			<xsl:attribute name="class">
-				<xsl:value-of select="$localClass"/>
-			</xsl:attribute>
-			<xsl:if test="$tabIndex!=''">
-				<xsl:attribute name="tabindex">
-					<xsl:value-of select="$tabIndex"/>
-				</xsl:attribute>
-			</xsl:if>
-			<xsl:attribute name="role">
-				<xsl:text>radio</xsl:text>
 			</xsl:attribute>
 			<xsl:if test="$labelId != ''">
 				<xsl:attribute name="aria-labelledby">
@@ -102,33 +84,35 @@
 					<xsl:value-of select="$for"/>
 				</xsl:attribute>
 			</xsl:if>
-			<xsl:if test="$mode='dynamic' or $mode='lazy'">
-				<xsl:attribute name="data-wc-ajaxalias">
-					<xsl:value-of select="$for"/>
-				</xsl:attribute>
-			</xsl:if>
-			<xsl:attribute name="data-wc-value">
-				<xsl:value-of select="$value"/>
-			</xsl:attribute>
-			<xsl:if test="$mode='server'">
-				<xsl:attribute name="formnovalidate">
-					<xsl:text>formnovalidate</xsl:text>
-				</xsl:attribute>
-			</xsl:if>
+			<xsl:choose>
+				<xsl:when test="$mode='dynamic' or $mode='lazy'">
+					<xsl:attribute name="data-wc-ajaxalias">
+						<xsl:value-of select="$for"/>
+					</xsl:attribute>
+				</xsl:when>
+				<xsl:when test="$mode='server'">
+					<xsl:attribute name="formnovalidate">
+						<xsl:text>formnovalidate</xsl:text>
+					</xsl:attribute>
+				</xsl:when>
+			</xsl:choose>
 			<xsl:choose>
 				<xsl:when test="self::ui:rowSelection or self::ui:rowExpansion">
+					<!--
+						TODO: this applies only to WDataTable's intrinsic disabled mode. It is on the list to remove.
+					-->	
 					<xsl:call-template name="disabledElement">
 						<xsl:with-param name="isControl" select="1"/>
 						<xsl:with-param name="field" select="parent::ui:table"/>
 					</xsl:call-template>
 				</xsl:when>
-				<xsl:otherwise>
+				<xsl:when test="self::ui:selectToggle"><!-- WCollapsibleToggle does not have a disabled state. -->
 					<xsl:call-template name="disabledElement">
 						<xsl:with-param name="isControl" select="1"/>
 					</xsl:call-template>
-				</xsl:otherwise>
+				</xsl:when>
 			</xsl:choose>
 			<xsl:value-of select="$text"/>
-		</xsl:element>
+		</button>
 	</xsl:template>
 </xsl:stylesheet>

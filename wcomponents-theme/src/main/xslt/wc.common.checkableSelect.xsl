@@ -7,54 +7,13 @@
 	<!--
 		Checkable selection controls
 
-		Transforms for WRadioButtonSelect and WCheckBoxSelect to generate radio buttons
-		or checkboxes output in lists
-
-		Top level element:
-		An editable checkable group in HTML is output wrapped in a FIELDSET element.
-		When there is a WLabel for the checkable group (as there should always be) then
-		it is used to generate the content of the FIELDSET's LEGEND. When @readOnly
-		is "true" the top level element is a DIV and the component has no heading
-		element.
-
-		Heading element:
-		A fieldset has a mandatory legend child element. If the component is read only
-		then no heading element is used.
-		The content of the heading element is calculated thus:
-			* if there is a WLabel "for" the component then the heading content is that
-			label; else
-			* if the component has its toolTip attribute set then the heading content is
-			that text; else
-			* if the component has its accessibleText attribute set then the heading
-			content is that text; otherwise
-			the heading text will consist of a warning message
-
-		Columns:
-		Only applied when @layout = "column". The @layoutColumnCount attribute is
-		used to attempt to place the elements into columns. Where the number of options
-		is greater than the number of columns the options are ordered down then across
-		with the number of options per column being the ceiling of options/columns.
-		This row conversion is what is passed into the option templates.
-
-		Checkable groups currently support @submitOnChange. This is an issue with
-		WCAG 3.2.2 (http://www.w3.org/TR/WCAG20/#consistent-behavior-unpredictable-change).
-		Therefore where submitOnChange is true we must inform users that changing
-		selection will cause the form to submit. This must be done for all users.
-		It is strongly recommended that @submitOnChange never be used with one of
-		these components.
-
-		Child elements: ui:option
+		Transforms for WRadioButtonSelect and WCheckBoxSelect to generate radio buttons or checkboxes output in lists.
 
 		NOTE: optgroups
-		Due to an unfortunate assumption in the JAVA API it appears that WCheckBoxSelect
-		and WRadioButtonSelect support optgroup child elements.  However, these make
-		no sense in the context of a group of radio buttons or checkboxen so we are
-		not going to support them in the default theme. If you use optgroup in this
-		context prepare for this XSLT to fail. This API issue is an error which
-		will be rectified in a future release. Until then we can only remind our JAVA
-		application developers that WCheckBoxSelect and WRadioButtonSelect do not support
-		optgroups.
-
+		Due to an unfortunate assumption in the JAVA API it appears that WCheckBoxSelect and WRadioButtonSelect support 
+		optgroup child elements.  However, these make no sense in the context of a group of radio buttons or checkboxen 
+		so we are not going to support them in the default theme. If you use optgroup in this context prepare for this 
+		XSLT to fail. This API issue is an error which will be rectified in a future release.
 
 
 		This template creates the outer containing HTML element for the checkableGroup

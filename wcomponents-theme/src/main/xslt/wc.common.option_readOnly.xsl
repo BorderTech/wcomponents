@@ -12,20 +12,20 @@
 				<xsl:value-of select="."/>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:element name="li">
-					<xsl:variable name="class">
-						<xsl:if test="parent::ui:optgroup">wc_inoptgroup</xsl:if>
-						<xsl:if test="$className!=''">
-							<xsl:value-of select="concat(' ',$className)"/>
-						</xsl:if>
-					</xsl:variable>
+				<xsl:variable name="class">
+					<xsl:if test="parent::ui:optgroup">wc_inoptgroup</xsl:if>
+					<xsl:if test="$className!=''">
+						<xsl:value-of select="concat(' ',$className)"/>
+					</xsl:if>
+				</xsl:variable>
+				<li>
 					<xsl:if test="$class!=''">
 						<xsl:attribute name="class">
 							<xsl:value-of select="normalize-space($class)"/>
 						</xsl:attribute>
 					</xsl:if>
 					<xsl:value-of select="."/>
-				</xsl:element>
+				</li>
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>

@@ -5,7 +5,7 @@
 	-->
 	<xsl:template match="ui:option" mode="selectableList">
 		<xsl:variable name="value" select="@value"/>
-		<xsl:element name="option">
+		<option>
 			<xsl:attribute name="value">
 				<xsl:choose>
 					<xsl:when test="$value">
@@ -25,6 +25,6 @@
 				</xsl:attribute>
 			</xsl:if>
 			<xsl:value-of select="."/>
-		</xsl:element>
+		</option>
 	</xsl:template>
 </xsl:stylesheet>

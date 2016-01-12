@@ -24,20 +24,10 @@
 		<xsl:param name="for" select="@id"/>
 		<xsl:param name="force" select="0"/>
 		<xsl:if test="not(@toolTip or @accessibleText or ancestor::ui:ajaxTarget or ancestor::ui:label[not(@for)]) and (force=1 or not(key('labelKey',$id))) ">
-			<xsl:element name="label">
-				<xsl:attribute name="class">
-					<xsl:text>wc_error</xsl:text>
-				</xsl:attribute>
-				<!-- We give these labels an id so that they will be cleaned up by the AJAX duplicate id checker.-->
-				<xsl:attribute name="id">
-					<xsl:value-of select="$for"/>
-					<xsl:text>-dlbl</xsl:text>
-				</xsl:attribute>
-				<xsl:attribute name="for">
-					<xsl:value-of select="$for"/>
-				</xsl:attribute>
+			<!-- We give these labels an id so that they will be cleaned up by the AJAX duplicate id checker.-->
+			<label class="wc_error" id="{concat($for,'dlbl')}" for="{$for}">
 				<xsl:value-of select="$$${wc.common.i18n.requiredLabel}"/>
-			</xsl:element>
+			</label>
 		</xsl:if>
 	</xsl:template>
 </xsl:stylesheet>

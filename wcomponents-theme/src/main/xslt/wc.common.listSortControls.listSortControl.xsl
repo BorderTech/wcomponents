@@ -12,25 +12,10 @@
 		<xsl:param name="id"/>
 		<xsl:param name="value"/>
 		<xsl:param name="toolTip"/>
-		<xsl:element name="button">
-			<xsl:attribute name="class">
-				<xsl:text>wc_sorter wc_ibtn</xsl:text>
-			</xsl:attribute>
-			<xsl:attribute name="type">
-				<xsl:text>button</xsl:text>
-			</xsl:attribute>
-			<xsl:attribute name="value">
-				<xsl:value-of select="$value"/>
-			</xsl:attribute>
-			<xsl:attribute name="aria-controls">
-				<xsl:value-of select="$id"/>
-			</xsl:attribute>
-			<xsl:attribute name="title">
-				<xsl:value-of select="$toolTip"/>
-			</xsl:attribute>
+		<button class="wc_sorter wc_ibtn" type="button" value="{$value}" aria-controls="{$id}" title="{$toolTip}">
 			<xsl:call-template name="disabledElement">
 				<xsl:with-param name="isControl" select="1"/>
 			</xsl:call-template>
-		</xsl:element>
+		</button>
 	</xsl:template>
 </xsl:stylesheet>

@@ -2,7 +2,7 @@
 	<xsl:import href="wc.common.ajax.xsl"/>
 	<xsl:import href="wc.common.inlineError.xsl"/>
 	<xsl:import href="wc.common.popups.xsl"/>
-	<xsl:import href="wc.common.buttonLinkHelpers.xsl"/>
+	<xsl:import href="wc.common.buttonLinkCommon.xsl"/>
 	<!--
 		Transform for WLink and WInternalLink. This should be a simple transform to a HTML
 		anchor element. However, as usual things are not that simple.

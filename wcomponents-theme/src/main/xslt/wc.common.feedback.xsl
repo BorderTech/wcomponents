@@ -3,8 +3,8 @@
 	<!--
 		Feedback comprises ui:messageBox and ui:validationErrors.
 
-		Generates the feedback container/message box, its title and the message list
-		container then applies templates to generate the message list item(s).
+		Generates the feedback container/message box, its title and the message list container then applies templates to
+		generate the message list item(s).
 	-->
 	<xsl:template match="ui:messageBox|ui:validationErrors">
 		<xsl:variable name="type">
@@ -49,7 +49,7 @@
 				</span>
 			</h1>
 			<ul>
-				<xsl:apply-templates/>
+				<xsl:apply-templates />
 			</ul>
 		</xsl:element>
 	</xsl:template>
