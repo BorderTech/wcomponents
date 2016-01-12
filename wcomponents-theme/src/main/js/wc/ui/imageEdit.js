@@ -1,5 +1,6 @@
-define(["wc/ui/modalShim", "wc/has", "wc/dom/event", "wc/dom/uid", "wc/dom/classList", "wc/timers", "wc/loader/resource", "fabric"],
-function(modalShim, has, event, uid, classList, timers, loader, fabric) {
+define(["wc/ui/modalShim", "wc/has", "wc/dom/event", "wc/dom/uid", "wc/dom/classList", "wc/timers",
+	"wc/loader/resource", "wc/i18n/i18n", "lib/sprintf", "fabric"],
+function(modalShim, has, event, uid, classList, timers, loader, i18n, sprintf, fabric) {
 	var imageEdit = new ImageEdit();
 
 	/**
@@ -188,9 +189,7 @@ function(modalShim, has, event, uid, classList, timers, loader, fabric) {
 		 * Callback invoked when a FileReader instance has loaded.
 		 */
 		function filereaderLoaded($event) {
-			var imgObj = new Image();
-			imgObj.src = $event.target.result;
-			imgObj.onload = imageLoaded;
+			loadImageFromDataUrl($event.target.result);
 		}
 
 		/*
@@ -198,6 +197,16 @@ function(modalShim, has, event, uid, classList, timers, loader, fabric) {
 		 */
 		function imageLoaded($event) {
 			renderImage($event.target);
+		}
+
+		/**
+		 * Loads an image from a data URL into the editor.
+		 * @param {string} dataUrl An image encoded into a data url.
+		 */
+		function loadImageFromDataUrl(dataUrl) {
+			var imgObj = new Image();
+			imgObj.src = dataUrl;
+			imgObj.onload = imageLoaded;
 		}
 
 		/*
@@ -228,6 +237,7 @@ function(modalShim, has, event, uid, classList, timers, loader, fabric) {
 				fbImage.scaleToHeight(height).setCoords();
 			}
 			overlay = fbCanvas.overlayImage;
+			stateStack.length = 0;
 			fbCanvas.clear();
 			fbCanvas.add(fbImage);
 			if (overlayUrl) {
@@ -268,8 +278,26 @@ function(modalShim, has, event, uid, classList, timers, loader, fabric) {
 				var container = document.body.appendChild(document.createElement("div"));
 				container.className = container.id = "wc_img_editor";
 				loader.load("imageEdit.xml", true, true).then(function(html) {
-					var eventConfig;
-					container.innerHTML = html;
+					var eventConfig,
+						editorHtml = sprintf.sprintf(html,
+							i18n.get("${wc.ui.imageEdit.rotate}"),
+							i18n.get("${wc.ui.imageEdit.rotate.left}"),
+							i18n.get("${wc.ui.imageEdit.rotate.right}"),
+							i18n.get("${wc.ui.imageEdit.move}"),
+							i18n.get("${wc.ui.imageEdit.move.left}"),
+							i18n.get("${wc.ui.imageEdit.move.right}"),
+							i18n.get("${wc.ui.imageEdit.move.up}"),
+							i18n.get("${wc.ui.imageEdit.move.down}"),
+							i18n.get("${wc.ui.imageEdit.zoom}"),
+							i18n.get("${wc.ui.imageEdit.zoom.in}"),
+							i18n.get("${wc.ui.imageEdit.zoom.out}"),
+							i18n.get("${wc.ui.imageEdit.action.reset}"),
+							i18n.get("${wc.ui.imageEdit.action.cancel}"),
+							i18n.get("${wc.ui.imageEdit.action.save}"),
+							i18n.get("${wc.ui.imageEdit.action.snap}"),
+							i18n.get("${wc.ui.imageEdit.action.speed}"));
+
+					container.innerHTML = editorHtml;
 					modalShim.setModal(container);
 					eventConfig = attachEventHandlers(container);
 					zoomControls(eventConfig);
@@ -484,6 +512,7 @@ function(modalShim, has, event, uid, classList, timers, loader, fabric) {
 		function saveImage(editor, callbacks, cancel, file) {
 			var overlay, result, done = function() {
 					fbCanvas = fbImage = null;
+					imageCapture.stop();
 					editor.parentNode.removeChild(editor);
 				};
 			try {
@@ -497,9 +526,15 @@ function(modalShim, has, event, uid, classList, timers, loader, fabric) {
 					if (overlay) {
 						fbCanvas.overlayImage.visible = false;  // remove the overlay
 					}
-					result = fbCanvas.toDataURL();
-					result = dataURItoBlob(result);
-					result = blobToFile(result, file);
+					if (file && !hasChanged()) {
+						console.log("No changes made, using original file");
+						result = file;  // if the user has made no changes simply pass thru the original file.
+					}
+					else {
+						result = fbCanvas.toDataURL();
+						result = dataURItoBlob(result);
+						result = blobToFile(result, file);
+					}
 					done();
 					callbacks.win(result);
 				}
@@ -510,24 +545,40 @@ function(modalShim, has, event, uid, classList, timers, loader, fabric) {
 		}
 
 		/**
+		 * Determine if the user has actually made any changes to the image in the editor.
+		 * @returns {boolean} true if the user has made changes.
+		 */
+		function hasChanged() {
+			var currentState, originalState = stateStack[0];
+			fbImage.saveState();
+			currentState = JSON.stringify(fbImage.originalState);
+			return currentState !== originalState;
+		}
+
+		/**
 		 * Converts an img element to a File blob.
 		 * @param {Element} element An img element.
 		 * @returns {File} The image as a binary File.
 		 */
 		function imgToFile(element) {
-			var file, img, dataUrl, blob, config = {
+			var file, fbImageTemp, dataUrl, blob, config = {
 					name: element.id
 				};
 			if (element && element.src) {
-				img = new fabric.Image(element);
-				dataUrl = img.toDataURL();
+				fbImageTemp = new fabric.Image(element);
+				dataUrl = fbImageTemp.toDataURL();
 				blob = dataURItoBlob(dataUrl);
 				file = blobToFile(blob, config);
 			}
 			return file;
 		}
 
-
+		/**
+		 * Converts a generic binary blob to a File blob.
+		 * @param {Blob} blob
+		 * @param {Object} [config] Attempt to set some of the file properties such as "type", "name"
+		 * @returns {File} The File blob.
+		 */
 		function blobToFile(blob, config) {
 			var name,
 				filePropertyBag = {
@@ -574,10 +625,14 @@ function(modalShim, has, event, uid, classList, timers, loader, fabric) {
 
 		/**
 		 * Encapsulates the image capture functionality.
+		 *
+		 * TODO allow user to select video source or rely on platform to provide this?
+		 *
 		 * @constructor
 		 */
 		function ImageCapture() {
-			var streaming,
+			var _stream,
+				streaming,
 				hasUserMedia,
 				VIDEO_ID = "wc_img_video";
 
@@ -590,9 +645,13 @@ function(modalShim, has, event, uid, classList, timers, loader, fabric) {
 				if (hasUserMedia) {
 					click.snap = {
 						func: function() {
-							var video = document.getElementById(VIDEO_ID);
+							var dataUrl,
+								fbImageTemp,
+								video = document.getElementById(VIDEO_ID);
 							if (video) {
-								renderImage(video);
+								fbImageTemp = new fabric.Image(video);
+								dataUrl = fbImageTemp.toDataURL();
+								loadImageFromDataUrl(dataUrl);
 							}
 						}
 					};
@@ -600,6 +659,12 @@ function(modalShim, has, event, uid, classList, timers, loader, fabric) {
 				return hasUserMedia;
 			};
 
+			/**
+			 * Initialize the video element.
+			 * Provide the width and the video height will be scaled to fit.
+			 * @param {number} width The width used to scale the video.
+			 * @param {number} [_height] Not used under normal circumstances.
+			 */
 			this.initialize = function(width, _height) {
 				var video = document.getElementById(VIDEO_ID);
 				video.setAttribute("width", width);
@@ -616,6 +681,7 @@ function(modalShim, has, event, uid, classList, timers, loader, fabric) {
 
 						video.setAttribute("width", width);
 						video.setAttribute("height", height);
+
 						streaming = true;
 					}
 				}, false);
@@ -625,8 +691,6 @@ function(modalShim, has, event, uid, classList, timers, loader, fabric) {
 			 * Wraps the call to getUserMedia to hide the turmoil.
 			 * Has the same signature and return as the native getUserMedia call EXCEPT if you call it with no args it's basically a feature test
 			 * and returns truthy if GUM is supported.
-			 *
-			 * TODO this should probably be tidied up and be its own module.
 			 */
 			function gumWrapper(constraints, playCb, errCb) {
 				var i, next, props = ["getUserMedia", "webkitGetUserMedia", "mozGetUserMedia", "msGetUserMedia"];
@@ -648,29 +712,59 @@ function(modalShim, has, event, uid, classList, timers, loader, fabric) {
 				return false;
 			};
 
+			function playCb(stream) {
+				var vendorURL, video = document.getElementById(VIDEO_ID);
+				_stream = stream;
+				if (navigator.mozGetUserMedia) {
+					video.mozSrcObject = stream;
+				}
+				else {
+					vendorURL = window.URL || window.webkitURL;
+					video.src = vendorURL.createObjectURL(stream);
+				}
+				video.play();
+			}
+
+			function errCb(err) {
+				console.log("An error occured! " + err);
+			}
+
+			/**
+			 * Close the web camera video stream.
+			 */
+			this.stop = function() {
+				var i, track, tracks, video = document.getElementById(VIDEO_ID);
+				if (video) {
+					video.src = "";
+				}
+				if (_stream) {
+					if (_stream.getTracks) {
+						tracks = _stream.getTracks();
+						for (i = 0; i < tracks.length; i++) {
+							track = tracks[i];
+							if (track.stop) {
+								track.stop();
+							}
+						}
+					}
+					else if (_stream.stop) {
+						_stream.stop();
+					}
+					_stream = null;
+				}
+			};
+
+			/**
+			 * Start the web camera video stream.
+			 */
 			this.play = function() {
-				var video = document.getElementById(VIDEO_ID),
-					constraints = {
-						video: true,
-						audio: false
-					},
-					playCb = function(stream) {
-						if (navigator.mozGetUserMedia) {
-							video.mozSrcObject = stream;
-						}
-						else {
-							var vendorURL = window.URL || window.webkitURL;
-							video.src = vendorURL.createObjectURL(stream);
-						}
-						video.play();
-					},
-					errCb = function(err) {
-						console.log("An error occured! " + err);
-					};
+				var constraints = {
+					video: true,// { facingMode: "user" },
+					audio: false
+				};
 				if (hasUserMedia) {
 					gumWrapper(constraints, playCb, errCb);
 				}
-
 			};
 		}
 	}

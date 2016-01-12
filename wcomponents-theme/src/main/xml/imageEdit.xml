@@ -5,29 +5,29 @@
 		</div>
 		<div class="wc_img_controls">
 			<fieldset>
-				<legend>Rotate Image</legend>
-				<button type="button" class="anticlock">Left</button>
-				<button type="button" class="clock">Right</button>
+				<legend>%1$s</legend>
+				<button type="button" class="anticlock">%2$s</button>
+				<button type="button" class="clock">%3$s</button>
 			</fieldset>
 			<fieldset>
-				<legend>Zoom Image</legend>
-				<button type="button" class="in">In</button>
-				<button type="button" class="out">Out</button>
+				<legend>%9$s</legend>
+				<button type="button" class="in">%10$s</button>
+				<button type="button" class="out">%11$s</button>
 			</fieldset>
 			<fieldset>
-				<legend>Move Image</legend>
-				<button type="button" class="up">Up</button>
-				<button type="button" class="left">Left</button>
-				<button type="button" class="right">Right</button>
-				<button type="button" class="down">Down</button>
+				<legend>%4$s</legend>
+				<button type="button" class="up">%7$s</button>
+				<button type="button" class="left">%5$s</button>
+				<button type="button" class="right">%6$s</button>
+				<button type="button" class="down">%8$s</button>
 			</fieldset>
 			<div>
-				<button class="reset">Reset</button>
-				<button class="cancel">Cancel</button>
-				<button class="save">Save</button>
+				<button class="reset">%12$s</button>
+				<button class="cancel">%13$s</button>
+				<button class="save">%14$s</button>
 			</div>
 			<div>
-				<label for="wc_img_speed" title="How quickly the buttons affect the image">Button Speed</label>
+				<label for="wc_img_speed" title="How quickly the buttons affect the image">%16$s</label>
 				<input type="range" min="0.5" max="5" value="1" step="0.5" id="wc_img_speed"/>
 			</div>
 		</div>
@@ -36,7 +36,7 @@
 		<div>
 			<video id="wc_img_video">Video stream not available.</video>
 		</div>
-		<button type="button" class="snap">Snap</button>
+		<button type="button" class="snap">%15$s</button>
 	</div>
 	<div class="wc_img_nocap">
 		<p>Your browser does not support image capture.</p>
