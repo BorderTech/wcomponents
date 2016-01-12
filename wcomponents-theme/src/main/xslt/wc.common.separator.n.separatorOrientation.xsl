@@ -29,8 +29,8 @@
 	</xsl:template>
 	
 	<!--
-		If you replace support for ui:separator in tabsets (dumb idea) then you
-		might want to use the following transform instead.
+		If you really want to return support for ui:separator in tabsets then you might want to use the following 
+		transform instead:
 	-\->
 		
 	<xsl:template name="separatorOrientation">

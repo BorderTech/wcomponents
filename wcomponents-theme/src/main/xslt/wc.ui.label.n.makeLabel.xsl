@@ -78,7 +78,6 @@
 			<xsl:call-template name="labelClassHelper">
 				<xsl:with-param name="element" select="$labelableElement"/>
 				<xsl:with-param name="readOnly" select="$readOnly"/>
-				<xsl:with-param name="elementType" select="$elementType"/>
 			</xsl:call-template>
 
 			<xsl:if test="$elementType='label'">
