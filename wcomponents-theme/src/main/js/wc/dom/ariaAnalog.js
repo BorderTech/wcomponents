@@ -55,6 +55,7 @@ define(["wc/has",
 			getFilteredGroup,
 			focus,
 			genericAnalog,
+			gridWidgets,
 			keyWalkerConfig;  // we only need one keywalker for all group based walking with aria-analogs
 
 		/* circular dependencies */
@@ -286,6 +287,16 @@ define(["wc/has",
 		AriaAnalog.prototype.ctrlAllowsDeselect = false;
 
 		/**
+		 * This property indicates that a particular type of mixed-mode multi selectable thing works like a check box
+		 * rather than an option. This is currently only implemented in row.
+		 * @var
+		 * @type Boolean
+		 * @default false
+		 * @protected
+		 */
+		AriaAnalog.prototype.simpleSelection = false;
+
+		/**
 		 * Allow subclasses to add extended initialisation.
 		 *
 		 * @var
@@ -317,7 +328,7 @@ define(["wc/has",
 		 * @param {String} action The select or deselect action.
 		 */
 		AriaAnalog.prototype.shedObserver = function(element, action) {
-			var _group, container, deselectOthers = false;
+			var _group, container, deselectOthers = false, config;
 			if (action === shed.actions.SELECT && this.ITEM.isOneOfMe(element)) {
 				if (this.exclusiveSelect === this.SELECT_MODE.SINGLE) {
 					deselectOthers = true;
@@ -330,7 +341,10 @@ define(["wc/has",
 					}
 				}
 				if (deselectOthers) {
-					if ((_group = getFilteredGroup(element)) && _group.length) {
+					if (this.CONTAINER) {
+						config = {"itemWd": this.ITEM, "containerWd": this.CONTAINER};
+					}
+					if ((_group = getFilteredGroup(element, config)) && _group.length) {
 						deselect(_group, element, container, this);
 					}
 				}
@@ -586,7 +600,7 @@ define(["wc/has",
 				isMultiSelect = container ? container.getAttribute("aria-multiselectable") : false;
 				if (this.exclusiveSelect === this.SELECT_MODE.MIXED && isMultiSelect === "true") {
 					selectMode = this.exclusiveSelect;
-					if (SHIFT || CTRL) {
+					if (this.simpleSelection || SHIFT || CTRL) {
 						this.exclusiveSelect = this.SELECT_MODE.MULTIPLE;
 					}
 					else {
@@ -595,11 +609,11 @@ define(["wc/has",
 				}
 
 				if (this.exclusiveSelect === this.SELECT_MODE.SINGLE || ((this.exclusiveSelect === this.SELECT_MODE.MIXED && isMultiSelect !== "true"))) {
-					if (CTRL && this.ctrlAllowsDeselect) {
+					if (this.simpleSelection || (CTRL && this.ctrlAllowsDeselect)) {
 						shed.toggle(element, shed.actions.SELECT);
 					}
 					else {
-						shed.select(element);
+						shed.select(element, shed.isSelected(element)); // do not publish a failed deselect.
 					}
 				}
 				else if (SHIFT && container) {
@@ -709,17 +723,34 @@ define(["wc/has",
 		 * @returns {Boolean} true if the item is the first active analog found in the ancestor tree.
 		 */
 		AriaAnalog.prototype.isActiveAnalog = function(target, item) {
-			var firstAnalog,
+			var firstAnalog, gridContainer,
 				IGNORE_ROLES = ["presentation", "banner", "application",
 					"alert", "tablist", "tabpanel",
-					"group", "heading", "row",
-					"separator"],
-				ROLE_ATTRIB = "role";
+					"group", "heading", "rowheading", "columnheading",
+					"separator"], skip = false;
 
 			firstAnalog = genericAnalog.findAncestor(target);
+			if (firstAnalog === null || firstAnalog === item) {
+				return true;
+			}
 
-			while (firstAnalog && ~IGNORE_ROLES.indexOf(firstAnalog.getAttribute(ROLE_ATTRIB)) && firstAnalog.parentNode) {
-				firstAnalog = genericAnalog.findAncestor(firstAnalog.parentNode);
+			while (firstAnalog && firstAnalog.parentNode) {
+				skip = false;
+				if (IGNORE_ROLES.indexOf(firstAnalog.getAttribute("role")) > -1 || firstAnalog.getAttribute("aria-readonly") === "true" || shed.isDisabled(firstAnalog)) {
+					skip = true;
+				}
+
+				// ignore role gridcell if the nearest containing grid/treegid is aria-readonly as this state is inherited.
+				gridWidgets = gridWidgets || [new Widget("","",{"role": "grid"}), new Widget("","",{"role": "treegrid"})];
+				if (firstAnalog.getAttribute("role") === "gridcell" && (gridContainer = Widget.findAncestor(firstAnalog, gridWidgets)) && gridContainer.getAttribute("aria-readonly") === "true") {
+					skip = true;
+				}
+
+				if (skip) {
+					firstAnalog = genericAnalog.findAncestor(firstAnalog.parentNode);
+					continue;
+				}
+				break;
 			}
 			return (firstAnalog === null || firstAnalog === item);
 		};

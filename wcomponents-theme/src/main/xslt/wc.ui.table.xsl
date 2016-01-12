@@ -20,7 +20,7 @@
 
 		The HTML TABLE element is actually wrapped in a DIV. This is to provide
 		somewhere to attach messages as a WTable can be in an error state (yes, really).
-		
+
 		Common XSLT parameters
 
 		Individual element transforms may require to reference the ancestor table. To
@@ -39,20 +39,22 @@
 	-->
 	<xsl:template match="ui:table">
 		<xsl:variable name="id" select="@id"/>
+		<!--
+			NOTE: Error state
+
+			Now it is pretty plain that a table cannot be in an error mode. The table is not, after all, intrinsically
+			interactive. The error indicator is used to provide visual indication that there is an error somewhere in
+			the table. As such it is pretty appalling!
+		-->
 		<xsl:variable name="isError" select="key('errorKey',$id)"/>
 
-		<xsl:element name="div">
-			<xsl:attribute name="id">
-				<xsl:value-of select="$id"/>
-			</xsl:attribute>
-			<!--
-				Error state
+		<xsl:variable name="disabled">
+			<xsl:if test="@disabled">
+				<xsl:number value="1"/>
+			</xsl:if>
+		</xsl:variable>
 
-				Now it is pretty plain that a table cannot be in an error mode. The table is
-				not, after all, intrinsically interactive. The error indicator is used to
-				provide visual indication that there is an error somewhere in the table. As
-				such it is pretty appalling!
-			-->
+		<div id="{$id}">
 			<xsl:attribute name="class">
 				<xsl:text>table</xsl:text>
 				<xsl:if test="$isError">
@@ -63,10 +65,13 @@
 				</xsl:if>
 				<xsl:call-template name="WTableAdditionalContainerClass"/>
 			</xsl:attribute>
+
 			<xsl:call-template name="hideElementIfHiddenSet"/>
+
 			<xsl:if test="ui:pagination[@mode='dynamic' or @mode='client'] or ui:rowExpansion[@mode='lazy' or @mode='dynamic'] or ui:sort[@mode='dynamic'] or key('targetKey',$id) or parent::ui:ajaxTarget[@action='replace']">
 				<xsl:call-template name="setARIALive"/>
 			</xsl:if>
+
 			<xsl:apply-templates select="ui:margin"/>
 			<!--
 				Disabled state
@@ -76,6 +81,7 @@
 				disable table functionality: actions, rowExpansion, sorting and rowSelection.
 			-->
 			<xsl:call-template name="disabledElement"/>
+
 			<!--
 				This is a hook to the on load filters applied to a table. A filter applied to
 				a table will show (on the client) only those rows with a matching filter
@@ -87,141 +93,170 @@
 				</xsl:attribute>
 			</xsl:if>
 
-			<xsl:variable name="rowExpansion">
-				<xsl:choose>
-					<xsl:when test="ui:rowExpansion">
-						<xsl:value-of select="1"/>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:value-of select="0"/>
-					</xsl:otherwise>
-				</xsl:choose>
-			</xsl:variable>
-
-			<xsl:variable name="rowSelection">
-				<xsl:choose>
-					<xsl:when test="ui:rowSelection">
-						<xsl:value-of select="1"/>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:value-of select="0"/>
-					</xsl:otherwise>
-				</xsl:choose>
-			</xsl:variable>
-			
 			<!-- THIS IS WHERE THE DIV's CONTENT STARTS NO MORE ATTRIBUTES AFTER THIS POINT THANK YOU! -->
-			
-			<!--
-				Add table controls which do not form part of the table structure but which controls and reference the
-				table. 
-			-->
-			<xsl:call-template name="topControls"/>
 
-			<!-- The table element is then the basic functional component.-->
-			<table>
-				<xsl:variable name="class">
-					<xsl:if test="ui:thead/ui:th[@width]">
-						<xsl:text>wc_table_fix</xsl:text>
-					</xsl:if>
-					<xsl:if test="@type='hierarchic'">
-						<xsl:text> hierarchic</xsl:text>
-					</xsl:if>
-				</xsl:variable>
-				<xsl:if test="$class != ''">
-					<xsl:attribute name="class">
-						<xsl:value-of select="normalize-space($class)"/>
-					</xsl:attribute>
-				</xsl:if>
-				<xsl:if test="ui:pagination">
-					<xsl:attribute name="data-wc-rpp">
+			<xsl:choose>
+				<xsl:when test="ui:tbody/ui:noData">
+					<!-- short-circuit a whole pile of pain if we have nothing to show. -->
+					<xsl:apply-templates select="ui:tbody/ui:noData"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:variable name="rowExpansion">
 						<xsl:choose>
-							<xsl:when test="ui:pagination/@rowsPerPage">
-								<xsl:value-of select="ui:pagination/@rowsPerPage"/>
+							<xsl:when test="ui:rowExpansion">
+								<xsl:value-of select="1"/>
 							</xsl:when>
 							<xsl:otherwise>
-								<xsl:value-of select="ui:pagination/@rows"/>
+								<xsl:value-of select="0"/>
 							</xsl:otherwise>
 						</xsl:choose>
-					</xsl:attribute>
-				</xsl:if>
-				<xsl:if test="ui:sort">
-					<xsl:attribute name="sortable">sortable</xsl:attribute>
-				</xsl:if>
-				
-				<xsl:call-template name="caption" />
-				
-				<colgroup>
-					<xsl:if test="@separators='both' or @separators='vertical'">
-						<xsl:attribute name="class">
-							<xsl:text>wc_table_colsep</xsl:text>
-						</xsl:attribute>
-					</xsl:if>
+					</xsl:variable>
 
-					<xsl:if test="$rowSelection=1">
-						<col class="wc_table_colauto">
-							<xsl:if test="$isDebug=1">
-								<xsl:comment>row selection column</xsl:comment>
+					<xsl:variable name="rowSelection">
+						<xsl:choose>
+							<xsl:when test="ui:rowSelection">
+								<xsl:value-of select="1"/>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:value-of select="0"/>
+							</xsl:otherwise>
+						</xsl:choose>
+					</xsl:variable>
+
+					<xsl:variable name="hasRole" select="$rowExpansion + $rowSelection"/>
+
+
+					<!--
+						Add table controls which do not form part of the table structure but which controls and reference the
+						table.
+					-->
+					<xsl:call-template name="topControls"/>
+
+					<xsl:variable name="class">
+						<xsl:if test="ui:thead/ui:th[@width]">
+							<xsl:text>wc_table_fix</xsl:text>
+						</xsl:if>
+						<xsl:if test="@type='hierarchic'">
+							<xsl:text> hierarchic</xsl:text>
+						</xsl:if>
+					</xsl:variable>
+
+					<table>
+						<xsl:if test="$hasRole &gt; 0">
+							<xsl:attribute name="role">
+								<xsl:choose>
+									<xsl:when test="$rowExpansion=1">
+										<xsl:text>treegrid</xsl:text>
+									</xsl:when>
+									<xsl:otherwise>
+										<xsl:text>grid</xsl:text>
+									</xsl:otherwise>
+								</xsl:choose>
+							</xsl:attribute>
+							<xsl:attribute name="aria-readonly">true</xsl:attribute>
+							<xsl:if test="$rowSelection=1">
+								<xsl:attribute name="aria-multiselectable">
+									<xsl:choose>
+										<xsl:when test="ui:rowSelection/@multiple">
+											<xsl:text>true</xsl:text>
+										</xsl:when>
+										<xsl:otherwise>
+											<xsl:text>false</xsl:text>
+										</xsl:otherwise>
+									</xsl:choose>
+								</xsl:attribute>
 							</xsl:if>
-						</col>
-					</xsl:if>
+						</xsl:if>
+						<xsl:if test="$class != ''">
+							<xsl:attribute name="class">
+								<xsl:value-of select="normalize-space($class)"/>
+							</xsl:attribute>
+						</xsl:if>
+						<xsl:if test="ui:pagination">
+							<xsl:attribute name="data-wc-rpp">
+								<xsl:choose>
+									<xsl:when test="ui:pagination/@rowsPerPage">
+										<xsl:value-of select="ui:pagination/@rowsPerPage"/>
+									</xsl:when>
+									<xsl:otherwise>
+										<xsl:value-of select="ui:pagination/@rows"/>
+									</xsl:otherwise>
+								</xsl:choose>
+							</xsl:attribute>
+						</xsl:if>
+						<xsl:if test="ui:sort">
+							<xsl:attribute name="sortable">sortable</xsl:attribute>
+						</xsl:if>
 
-					<xsl:if test="$rowExpansion=1">
-						<col class="wc_table_colauto">
-							<xsl:if test="$isDebug=1">
-								<xsl:comment>row expansion column</xsl:comment>
+						<xsl:call-template name="caption" />
+
+						<colgroup>
+							<xsl:if test="@separators='both' or @separators='vertical'">
+								<xsl:attribute name="class">
+									<xsl:text>wc_table_colsep</xsl:text>
+								</xsl:attribute>
 							</xsl:if>
-						</col>
-					</xsl:if>
 
-					<xsl:choose>
-						<xsl:when test="ui:thead/ui:th">
-							<xsl:apply-templates select="ui:thead/ui:th" mode="col">
-								<xsl:with-param name="stripe">
-									<xsl:if test="@striping='cols'">
-										<xsl:value-of select="1"/>
+							<xsl:if test="$rowSelection=1">
+								<col class="wc_table_colauto">
+									<xsl:if test="$isDebug=1">
+										<xsl:comment>row selection column</xsl:comment>
 									</xsl:if>
-								</xsl:with-param>
-								<xsl:with-param name="sortCol" select="ui:sort/@col"/>
-							</xsl:apply-templates>
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:apply-templates select="ui:tbody/ui:tr[1]/ui:th|ui:tbody/ui:tr[1]/ui:td" mode="col">
-								<xsl:with-param name="stripe">
-									<xsl:if test="@striping='cols'">
-										<xsl:value-of select="1"/>
+								</col>
+							</xsl:if>
+
+							<xsl:if test="$rowExpansion=1">
+								<col class="wc_table_colauto">
+									<xsl:if test="$isDebug=1">
+										<xsl:comment>row expansion column</xsl:comment>
 									</xsl:if>
-								</xsl:with-param>
-								<xsl:with-param name="sortCol" select="ui:sort/@col"/>
-							</xsl:apply-templates>
-						</xsl:otherwise>
-					</xsl:choose>
-				</colgroup>
-				<xsl:apply-templates select="ui:thead"/>
+								</col>
+							</xsl:if>
 
-				<xsl:variable name="staticCols">
-					<xsl:value-of select="$rowSelection + $rowExpansion"/>
-				</xsl:variable>
+							<xsl:choose>
+								<xsl:when test="ui:thead/ui:th">
+									<xsl:apply-templates select="ui:thead/ui:th" mode="col">
+										<xsl:with-param name="stripe">
+											<xsl:if test="@striping='cols'">
+												<xsl:value-of select="1"/>
+											</xsl:if>
+										</xsl:with-param>
+										<xsl:with-param name="sortCol" select="ui:sort/@col"/>
+									</xsl:apply-templates>
+								</xsl:when>
+								<xsl:otherwise>
+									<xsl:apply-templates select="ui:tbody/ui:tr[1]/ui:th|ui:tbody/ui:tr[1]/ui:td" mode="col">
+										<xsl:with-param name="stripe">
+											<xsl:if test="@striping='cols'">
+												<xsl:value-of select="1"/>
+											</xsl:if>
+										</xsl:with-param>
+										<xsl:with-param name="sortCol" select="ui:sort/@col"/>
+									</xsl:apply-templates>
+								</xsl:otherwise>
+							</xsl:choose>
+						</colgroup>
+						<xsl:apply-templates select="ui:thead">
+							<xsl:with-param name="hasRole" select="$hasRole"/>
+						</xsl:apply-templates>
 
-				<xsl:variable name="disabled">
-					<xsl:if test="@disabled">
-						<xsl:number value="1"/>
-					</xsl:if>
-				</xsl:variable>
-				
-				<xsl:apply-templates select="ui:tbody">
-					<xsl:with-param name="addCols" select="$staticCols"/>
-					<xsl:with-param name="disabled" select="$disabled"/>
-				</xsl:apply-templates>
 
-				<xsl:call-template name="tfoot">
-					<xsl:with-param name="addCols" select="$staticCols"/>
-					<xsl:with-param name="disabled" select="$disabled"/>
-				</xsl:call-template>
-			</table>
+						<xsl:apply-templates select="ui:tbody">
+							<xsl:with-param name="hasRole" select="$hasRole"/>
+							<xsl:with-param name="disabled" select="$disabled"/>
+						</xsl:apply-templates>
+					</table>
+
+					<xsl:call-template name="tableBottomControls">
+						<xsl:with-param name="addCols" select="$hasRole"/>
+						<xsl:with-param name="disabled" select="$disabled"/>
+					</xsl:call-template>
+					<xsl:call-template name="hField"/>
+				</xsl:otherwise>
+			</xsl:choose>
 			<xsl:call-template name="inlineError">
 				<xsl:with-param name="errors" select="$isError"/>
 			</xsl:call-template>
-			<xsl:call-template name="hField"/>
-		</xsl:element>
+		</div>
 	</xsl:template>
 </xsl:stylesheet>

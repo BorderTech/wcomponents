@@ -6,27 +6,11 @@
 		param addCols see notes in transform for ui:table in wc.ui.table.xsl.
 	-->
 	<xsl:template match="ui:noData">
-		<xsl:param name="addCols" select="0"/>
-		<xsl:variable name="numCols">
-			<xsl:choose>
-				<xsl:when test="../../ui:thead/ui:th">
-					<xsl:value-of select="count(../../ui:thead/ui:th)"/>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:value-of select="1"/>
-				</xsl:otherwise>
-			</xsl:choose>
-		</xsl:variable>
-		<xsl:element name="tr">
-			<xsl:element name="td">
-				<xsl:attribute name="colspan">
-					<xsl:value-of select="$addCols + $numCols"/>
-				</xsl:attribute>
-				<xsl:value-of select="."/>
-				<xsl:if test="not(node())">
-					<xsl:value-of select="$$${wc.ui.table.string.noData}"/>
-				</xsl:if>
-			</xsl:element>
-		</xsl:element>
+		<div class="noData">
+			<xsl:value-of select="."/>
+			<xsl:if test="not(node())">
+				<xsl:value-of select="$$${wc.ui.table.string.noData}"/>
+			</xsl:if>
+		</div>
 	</xsl:template>
 </xsl:stylesheet>

@@ -6,39 +6,47 @@
 		columns these are added then the ui:th elements are applied.
 	-->
 	<xsl:template match="ui:thead">
+		<xsl:param name="hasRole" select="0"/>
 		<thead>
 			<tr>
+				<xsl:if test="$hasRole &gt; 0">
+					<xsl:attribute name="role">
+						<xsl:text>row</xsl:text>
+					</xsl:attribute>
+				</xsl:if>
 				<xsl:if test="../ui:rowSelection">
-					<th class="wc_table_sel_wrapper" scope="col" aria-hidden="true">
+					<th class="wc_table_sel_wrapper" scope="col">
+						<xsl:if test="$hasRole &gt; 0">
+							<xsl:attribute name="role">
+								<xsl:text>columnheader</xsl:text>
+							</xsl:attribute>
+						</xsl:if>
 						<xsl:choose>
 							<xsl:when test="../ui:rowSelection/@selectAll = 'control'">
 								<xsl:apply-templates select="../ui:rowSelection"/>
 							</xsl:when>
 							<xsl:otherwise>
-								<xsl:call-template name="offscreenSpan">
-									<xsl:with-param name="text">
-										<xsl:choose>
-											<xsl:when test="../ui:rowSelection/@multiple">
-												<xsl:value-of select="$$${wc.ui.table.rowSelect.multiselect.message}"/>
-											</xsl:when>
-											<xsl:otherwise>
-												<xsl:value-of select="$$${wc.ui.table.rowSelect.singleselect.message}"/>
-											</xsl:otherwise>
-										</xsl:choose>
-									</xsl:with-param>
-								</xsl:call-template>
+								<xsl:attribute name="aria-hidden">true</xsl:attribute>
+								<xsl:text>&#xa0;</xsl:text>
 							</xsl:otherwise>
 						</xsl:choose>
 					</th>
 				</xsl:if>
 				<xsl:if test="../ui:rowExpansion">
 					<th class="wc_table_rowexp_container" scope="col">
+						<xsl:if test="$hasRole &gt; 0">
+							<xsl:attribute name="role">
+								<xsl:text>columnheader</xsl:text>
+							</xsl:attribute>
+						</xsl:if>
 						<xsl:call-template name="offscreenSpan">
 							<xsl:with-param name="text" select="$$${wc.ui.table.string.expandCollapse}"/>
 						</xsl:call-template>
 					</th>
 				</xsl:if>
-				<xsl:apply-templates select="ui:th" mode="thead"/>
+				<xsl:apply-templates select="ui:th" mode="thead">
+					<xsl:with-param name="hasRole" select="$hasRole"/>
+				</xsl:apply-templates>
 			</tr>
 		</thead>
 	</xsl:template>
