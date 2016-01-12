@@ -4,11 +4,11 @@
 		transforms of ui:td and ui:th. For info re params see transform of
 		ui:table in wc.ui.table.xsl.
 	-->
-	<xsl:template name="firstRowCellIndentationHelper">
+	<xsl:template name="cellIndentationHelper">
 		<xsl:param name="indent" select="0"/>
 		<xsl:if test="$indent &gt; 0">
 			<span class="wc-row-indent" aria-hidden="true">&#x0a;</span>
-			<xsl:call-template name="firstRowCellIndentationHelper">
+			<xsl:call-template name="cellIndentationHelper">
 				<xsl:with-param name="indent" select="$indent - 1"/>
 			</xsl:call-template>
 		</xsl:if>

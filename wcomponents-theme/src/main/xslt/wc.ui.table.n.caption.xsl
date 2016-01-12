@@ -3,7 +3,7 @@
 		Creates a caption element if required. Called from the transform for ui:table.
 	-->
 	<xsl:template name="caption">
-		<xsl:if test="@caption">
+		<xsl:if test="@caption and not(@caption='')">
 			<caption>
 				<xsl:value-of select="@caption"/>	
 			</caption>

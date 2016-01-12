@@ -18,8 +18,8 @@
 	-->
 	<xsl:template name="requiredLibraries">
 		<xsl:variable name="libs">
-			<!-- 
-				These are very expensive lookups, especially in poorly optimized processors such as the default 
+			<!--
+				These are very expensive lookups, especially in poorly optimized processors such as the default
 				processor used by IE. For this reason the first group are lookups which for most sensible purposes would
 				be included in wc.common.js for all screens.
 			-->
@@ -104,7 +104,7 @@
 					<xsl:text>"wc/ui/table/action",</xsl:text>
 				</xsl:if>
 				<xsl:if test=".//ui:rowSelection">
-					<xsl:text>"wc/ui/table/rowCheckbox",</xsl:text>
+					<xsl:text>"wc/ui/rowAnalog",</xsl:text>
 				</xsl:if>
 				<xsl:if test=".//ui:rowExpansion">
 					<xsl:text>"wc/ui/table/rowExpansion",</xsl:text>

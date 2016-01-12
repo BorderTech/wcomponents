@@ -1,9 +1,27 @@
 /* wc.ui.table.caption.scss */
 @import 'mixins_common.scss';
 
-.wc_table_top_controls { //row container for select all and expand all controls.
+.table > div:first-child { //row container for select all and expand all controls.
 	@include flex($wrap: wrap, $justify: space-between, $align-items: baseline); // ($direction: row, $wrap: nowrap, $justify: flex-start, $align-items: stretch, $align-content: stretch)
 	margin-bottom: $hgap-small;
+
+	@include respond(phonelike) {
+		display: block;
+
+		> div {
+			display: block;
+			text-align: left;
+			width: 100%;
+
+			+ div {
+				margin-top: $hgap-small;
+			}
+		}
+
+		> .wc_table_exp_cont {
+			text-align: left;
+		}
+	}
 
 	> div {
 		@include flex-grow(1);
@@ -31,24 +49,5 @@
 	//> .wc_table_exp_cont {
 	//
 	//}
-}
 
-@include respond(phonelike) {
-	.wc_table_top_controls {
-		display: block;
-
-		> div {
-			display: block;
-			text-align: left;
-			width: 100%;
-
-			+ div {
-				margin-top: $hgap-small;
-			}
-		}
-
-		> .wc_table_exp_cont {
-			text-align: left;
-		}
-	}
 }
