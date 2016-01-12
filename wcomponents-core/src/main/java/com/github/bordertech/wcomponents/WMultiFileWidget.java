@@ -329,6 +329,28 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxT
 	}
 
 	/**
+	 * Registers an image editor with this file upload widget so that the user will be prompted to edit (crop, rotate etc).
+	 * This obviously only makes sense if this widget is configured to only allow image file types.
+	 * It is probably also a logical idea to set max files to one.
+	 *
+	 *
+	 * @param editor The image editor.
+	 */
+	public void setEditor(final WImageEditor editor) {
+		getOrCreateComponentModel().editor = editor;
+	}
+
+	/**
+	 * Return the image editor associated with this file input.
+	 *
+	 * @return The editor or null if not set.
+	 */
+	public WImageEditor getEditor() {
+		return getComponentModel().editor;
+	}
+
+
+	/**
 	 * The AJAX action used when an uploaded file has been selected.
 	 * <p>
 	 * Setting this action causes the uploaded file links to act as AJAX triggers. The file id of the selected file is
@@ -901,6 +923,11 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxT
 		 * The component that will receive drag and dropped files on behalf of this widget.
 		 */
 		private DropZone dropzone;
+
+		/**
+		 * The image editor to associate with this instance.
+		 */
+		private WImageEditor editor;
 
 		/**
 		 * File ajax action.

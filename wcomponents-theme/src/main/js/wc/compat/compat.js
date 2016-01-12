@@ -122,6 +122,11 @@
 					return ("createTreeWalker" in d);
 				});
 
+				addtest("dom-canvas", function(g, d) {
+					var e = d.createElement("canvas");
+					return !!(e.getContext && e.getContext("2d"));
+				});
+
 				addtest("dom-comparedocumentposition", function(g, d, el) {
 					return ("compareDocumentPosition" in el);
 				});
