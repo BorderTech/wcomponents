@@ -1,5 +1,5 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
-	<xsl:import href="wc.common.buttonLinkHelpers.xsl"/>
+	<xsl:import href="wc.common.buttonLinkCommon.xsl"/>
 	<!--
 		This is a group transform for WButton (including WConfirmationButton and
 		WCancelButton) and WPrintButton.
@@ -35,12 +35,14 @@
 		
 		A WPrintButton has only client side behaviour and will never POST the 
 		form.
+		
+		
+			
+		The value of s button is a fixed value for all buttons and its purpose is only to inform WComponents which 
+		button was used in a submission.	
 	-->
 	<xsl:template match="ui:button|ui:printButton">
-		<xsl:element name="button">
-			<xsl:attribute name="name">
-				<xsl:value-of select="@id"/>
-			</xsl:attribute>
+		<button name="{@id}" value="x">
 			<xsl:attribute name="type">
 				<xsl:choose>
 					<xsl:when test="self::ui:printButton or parent::ui:dialog">
@@ -52,14 +54,6 @@
 				</xsl:choose>
 			</xsl:attribute>
 			
-			<!--
-				This is a fixed value for all buttons and its purpose is only to
-				inform WComponents which button was used in a submission.
-			-->
-			<xsl:attribute name="value">
-				<xsl:text>x</xsl:text>
-			</xsl:attribute>
-
 			<xsl:attribute name="class">
 				<xsl:value-of select="local-name(.)"/>
 				<xsl:if test="self::ui:button">
@@ -99,7 +93,7 @@
 					* Ajax Triggers (unless the validates attribute is set specifically).
 				-->
 				<xsl:choose>
-					<xsl:when test="@cancel or (self::ui:button and parent::ui:action)">
+					<xsl:when test="@cancel or parent::ui:action">
 						<xsl:attribute name="formnovalidate">
 							<xsl:text>formnovalidate</xsl:text>
 						</xsl:attribute>
@@ -110,12 +104,13 @@
 						</xsl:attribute>
 					</xsl:when>
 					<xsl:when test="key('triggerKey',@id)">
+						<!-- do not merge this with the top when as we _do_ validate on AJAX if the validates attribute is set. -->
 						<xsl:attribute name="formnovalidate">
 							<xsl:text>formnovalidate</xsl:text>
 						</xsl:attribute>
 					</xsl:when>
 				</xsl:choose>
-				<xsl:if test="@popup">
+				<xsl:if test="@popup or parent::ui:dialog">
 					<xsl:attribute name="aria-haspopup">
 						<xsl:copy-of select="$t"/>
 					</xsl:attribute>
@@ -124,9 +119,6 @@
 					<xsl:when test="parent::ui:dialog">
 						<xsl:attribute name="data-wc-dialogconf">
 							<xsl:value-of select="parent::ui:dialog/@id"/>
-						</xsl:attribute>
-						<xsl:attribute name="aria-haspopup">
-							<xsl:copy-of select="$t"/>
 						</xsl:attribute>
 					</xsl:when>
 					<xsl:when test="parent::ui:action">
@@ -144,6 +136,6 @@
 				</xsl:choose>
 			</xsl:if>
 			<xsl:call-template name="buttonLinkCommon"/>
-		</xsl:element>
+		</button>
 	</xsl:template>
 </xsl:stylesheet>

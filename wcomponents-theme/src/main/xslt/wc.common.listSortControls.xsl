@@ -11,10 +11,7 @@
 	-->
 	<xsl:template name="listSortControls">
 		<xsl:param name="id" select="@id"/>
-		<xsl:element name="span">
-			<xsl:attribute name="class">
-				<xsl:text>wc_sortcont</xsl:text>
-			</xsl:attribute>
+		<span class="wc_sortcont">
 			<xsl:call-template name="listSortControl">
 				<xsl:with-param name="id" select="$id"/>
 				<xsl:with-param name="value" select="'top'"/>
@@ -35,6 +32,6 @@
 				<xsl:with-param name="value" select="'bottom'"/>
 				<xsl:with-param name="toolTip" select="$$${wc.common.listSort.i18n.bottom}"/>
 			</xsl:call-template>
-		</xsl:element>
+		</span>
 	</xsl:template>
 </xsl:stylesheet>

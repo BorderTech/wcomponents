@@ -19,12 +19,9 @@
 	<xsl:template match="ui:optgroup" mode="readOnly">
 		<xsl:param name="showOptions" select="'selected'"/>
 		<xsl:param name="className"/>
-		<xsl:element name="li">
-			<xsl:attribute name="class">
-				<xsl:text>wc_optgroup</xsl:text>
-			</xsl:attribute>
+		<li class="wc_optgroup">
 			<xsl:value-of select="@label"/>
-		</xsl:element>
+		</li>
 		<xsl:choose>
 			<xsl:when test="$showOptions='all'">
 				<xsl:apply-templates select="ui:option" mode="readOnly">
