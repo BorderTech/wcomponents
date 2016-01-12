@@ -8,7 +8,7 @@
 		<xsl:param name="text"/>
 		<xsl:param name="class"/>
 		<xsl:if test="$text!=''">
-			<xsl:element name="span">
+			<span>
 				<xsl:attribute name="class">
 					<xsl:text>wc_off</xsl:text>
 					<xsl:if test="$class!=''">
@@ -16,7 +16,7 @@
 					</xsl:if>
 				</xsl:attribute>
 				<xsl:value-of select="concat(' ',$text)"/>
-			</xsl:element>
+			</span>
 		</xsl:if>
 	</xsl:template>
 </xsl:stylesheet>

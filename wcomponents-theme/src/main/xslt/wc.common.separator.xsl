@@ -5,7 +5,7 @@
 		separators in menus (wc.ui.separator.xsl).
 	-->
 	<xsl:template name="separator">
-		<xsl:element name="hr">
+		<xsl:element name="hr"><!-- remember IE! -->
 			<xsl:attribute name="role">
 				<xsl:text>separator</xsl:text>
 			</xsl:attribute>

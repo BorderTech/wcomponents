@@ -2,31 +2,23 @@
 	<!--
 		Helper template to draw an img element in a WButton or WLink.
 		
-		If the component has an imageUrl attribute but no imagePosition then the img
-		element will need an alt attribute. This is set to the text content. If this is 
-		not set then we will not be able to determine an appropriate alt attribute 
-		programatically and therefore we will be in an error mode for debug/diagnostic 
-		purposes. 
+		If the component has an imageUrl attribute but no imagePosition then the img element will need an alt attribute.
+		This is set to the text content. If this is	not set then we will not be able to determine an appropriate alt 
+		attribute programatically and will be potentially inaccessible. NOTE: it is not appropriate to use the control's
+		toolTip property as the alt text of an image as this serves a different purpose.
 		
-		NOTE: it is not appropriate to use the control's toolTip property as the
-		alt text of an image as this serves a different purpose.
+		When the control contains a text node and has @imagePosition set then the alt attribute will be an empty string 
+		as the text node will explain the control and the image is deemed to be decorative.
 		
-		When the control contains a text node and has @imagePosition set then the alt 
-		attribute will be an empty string as the text node will explain the control and
-		the image is deemed to be decorative.
-		
-		The determination of the images alt attribute is currently problematic as it may
-		result in an inappropriate alt attribute. There is an outstanding item to add 
-		an explicit alt attribute to WButton and WLink (and subclasses) when an 
-		imageUrl is specified.  For more information on appropriate values of the alt
-		attribute see http://www.w3.org/TR/html5/embedded-content-0.html#alt
+		For more information on appropriate values of the alt attribute see 
+		http://www.w3.org/TR/html5/embedded-content-0.html#alt
 	-->
 	<xsl:template name="drawButtonImage">
 		<xsl:param name="imageAltText" select="''"/>
 		<xsl:variable name="text">
 			<xsl:value-of select="text()"/>
 		</xsl:variable>
-		<xsl:element name="img">
+		<xsl:element name="img"><!-- shorttag, do not simplify -->
 			<xsl:attribute name="src">
 				<xsl:value-of select="@imageUrl"/>
 			</xsl:attribute>
