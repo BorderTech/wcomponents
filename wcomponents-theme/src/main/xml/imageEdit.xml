@@ -1,0 +1,44 @@
+<div>
+	<div class="wc_img_editpane">
+		<div class="wc_img_canvas">
+			<canvas id="wc_img_canvas"></canvas>
+		</div>
+		<div class="wc_img_controls">
+			<fieldset>
+				<legend>Rotate Image</legend>
+				<button type="button" class="anticlock">Left</button>
+				<button type="button" class="clock">Right</button>
+			</fieldset>
+			<fieldset>
+				<legend>Zoom Image</legend>
+				<button type="button" class="in">In</button>
+				<button type="button" class="out">Out</button>
+			</fieldset>
+			<fieldset>
+				<legend>Move Image</legend>
+				<button type="button" class="up">Up</button>
+				<button type="button" class="left">Left</button>
+				<button type="button" class="right">Right</button>
+				<button type="button" class="down">Down</button>
+			</fieldset>
+			<div>
+				<button class="reset">Reset</button>
+				<button class="cancel">Cancel</button>
+				<button class="save">Save</button>
+			</div>
+			<div>
+				<label for="wc_img_speed" title="How quickly the buttons affect the image">Button Speed</label>
+				<input type="range" min="0.5" max="5" value="1" step="0.5" id="wc_img_speed"/>
+			</div>
+		</div>
+	</div>
+	<div class="wc_img_cap">
+		<div>
+			<video id="wc_img_video">Video stream not available.</video>
+		</div>
+		<button type="button" class="snap">Snap</button>
+	</div>
+	<div class="wc_img_nocap">
+		<p>Your browser does not support image capture.</p>
+	</div>
+</div>
