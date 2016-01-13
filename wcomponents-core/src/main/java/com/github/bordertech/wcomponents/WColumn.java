@@ -29,9 +29,9 @@ public class WColumn extends AbstractMutableContainer implements AjaxTarget {
 
 	/**
 	 * Creates a WColumn with undefined width.
-	 *
 	 */
-	public WColumn() {}
+	public WColumn() {
+	}
 
 	/**
 	 * Creates a WColumn with the width specified as a percentage of the total available width.
