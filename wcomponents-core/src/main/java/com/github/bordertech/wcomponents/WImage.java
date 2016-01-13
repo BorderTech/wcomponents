@@ -258,28 +258,6 @@ public class WImage extends WBeanComponent implements Targetable, AjaxTarget {
 	}
 
 	/**
-	 * Allows the user to edit and upload modifications to this image by means of the associated file upload widget.
-	 * Make sure the WMultiFileWidget has been associated with an image editor. The user will then be able to edit this
-	 * image and any ammendments will be returned through the uploader.
-	 *
-	 * The filename of the uploaded image will be the ID of the WImage.
-	 *
-	 * @param editor The image editor.
-	 */
-	public void setEditor(final WMultiFileWidget editor) {
-		getOrCreateComponentModel().editor = editor;
-	}
-
-	/**
-	 * Return the WMultiFileWidget associated with this file input.
-	 *
-	 * @return The editor or null if not set.
-	 */
-	public WMultiFileWidget getEditor() {
-		return getComponentModel().editor;
-	}
-
-	/**
 	 * Returns the id to use to target this component.
 	 *
 	 * @return this component's target id.
@@ -340,6 +318,5 @@ public class WImage extends WBeanComponent implements Targetable, AjaxTarget {
 		private String imageUrl;
 		private String alternativeText;
 		private Dimension size;
-		private WMultiFileWidget editor;
 	}
 }
