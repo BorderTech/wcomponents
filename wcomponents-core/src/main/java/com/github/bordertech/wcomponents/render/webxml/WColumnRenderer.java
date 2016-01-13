@@ -29,7 +29,8 @@ final class WColumnRenderer extends AbstractWebXmlRenderer {
 		xml.appendAttribute("id", component.getId());
 		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
-		xml.appendAttribute("width", col.getWidth());
+		int width = col.getWidth();
+		xml.appendOptionalAttribute("width", width > 0, width);
 
 		switch (col.getAlignment()) {
 			case LEFT:
