@@ -1,0 +1,60 @@
+/* wc.ui.imageEdit.scss */
+@import 'mixins_common.scss';
+
+div.wc_img_editor {
+	background-color: $wc-ui-color-global-bg;
+	position: fixed;
+	top: 5%;
+	left: 5%;
+	z-index: 999;
+	padding: 1em;
+}
+
+div.wc_img_editor .wc_img_controls {
+	float: left;
+}
+
+div.wc_img_editor fieldset {
+	margin-bottom: 1em;
+	margin-top: 1em;
+}
+
+div.wc_img_editor button {
+	@include button;
+	min-width: 4em;
+	margin-left: 1em;
+}
+
+div.wc_img_editor button.up, div.wc_img_editor button.down{
+	margin-left: 3em;
+	display: block;
+}
+
+div.wc_img_editor .wc_img_canvas, div.wc_img_editor .wc_img_cap {
+	@include border;
+	margin: 1em;
+	float: left;
+}
+
+div.wc_img_editor.nocap .wc_img_cap {
+	display: none;
+}
+
+div.wc_img_editor .wc_img_editpane {
+	@include border;
+	padding: 1em;
+	float: left;
+}
+
+div.wc_img_editor .wc_img_editpane {
+	@include border;
+}
+
+div.wc_img_editor .wc_img_nocap, div.wc_img_editor .wc_img_cap.cantplay {
+	display: none;
+}
+
+div.wc_img_editor .wc_img_nocap.cantplay {
+	display: block;
+}
+/* end wc.ui.imageEdit.scss */

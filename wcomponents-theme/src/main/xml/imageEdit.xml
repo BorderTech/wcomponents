@@ -1,0 +1,44 @@
+<div>
+	<div class="wc_img_editpane">
+		<div class="wc_img_canvas">
+			<canvas id="wc_img_canvas"></canvas>
+		</div>
+		<div class="wc_img_controls">
+			<fieldset>
+				<legend>{{heading.rotate}}</legend>
+				<button title="{{message.rotateLeft}}" type="button" class="anticlock">{{action.rotateLeft}}</button>
+				<button title="{{message.rotateRight}}" type="button" class="clock">{{action.rotateRight}}</button>
+			</fieldset>
+			<fieldset>
+				<legend>{{heading.zoom}}</legend>
+				<button title="{{message.zoomIn}}" type="button" class="in">{{action.zoomIn}}</button>
+				<button title="{{message.zoomOut}}" type="button" class="out">{{action.zoomOut}}</button>
+			</fieldset>
+			<fieldset>
+				<legend>{{heading.move}}</legend>
+				<button title="{{message.moveUp}}" type="button" class="up">{{action.moveUp}}</button>
+				<button title="{{message.moveLeft}}" type="button" class="left">{{action.moveLeft}}</button>
+				<button title="{{message.moveRight}}" type="button" class="right">{{action.moveRight}}</button>
+				<button title="{{message.moveDown}}" type="button" class="down">{{action.moveDown}}</button>
+			</fieldset>
+			<div>
+				<button title="{{message.reset}}" class="reset">{{action.reset}}</button>
+				<button title="{{message.cancel}}" class="cancel">{{action.cancel}}</button>
+				<button title="{{message.save}}" class="save">{{action.save}}</button>
+			</div>
+			<div>
+				<label title="{{message.speed}}" for="wc_img_speed">{{action.speed}}</label>
+				<input title="{{message.speed}}" type="range" min="{{value.speedMin}}" max="{{value.speedMax}}" value="{{value.speedNow}}" step="0.5" id="wc_img_speed"/>
+			</div>
+		</div>
+	</div>
+	<div class="wc_img_cap">
+		<div>
+			<video id="wc_img_video">{{message.novideo}}</video>
+		</div>
+		<button title="{{message.snap}}" type="button" class="snap">{{action.snap}}</button>
+	</div>
+	<div class="wc_img_nocap">
+		<p>{{message.nocapture}}</p>
+	</div>
+</div>
