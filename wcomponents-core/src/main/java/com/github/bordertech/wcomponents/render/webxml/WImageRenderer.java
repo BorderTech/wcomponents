@@ -56,6 +56,11 @@ final class WImageRenderer extends AbstractWebXmlRenderer {
 		xml.appendAttribute("alt", alternativeText);
 		xml.appendOptionalAttribute("hidden", component.isHidden(), "true");
 
+		WComponent editor = imageComponent.getEditor();
+		if (editor != null) {
+			xml.appendAttribute("editor", editor.getId());
+		}
+
 		// Check for size information on the image
 		Dimension size = imageComponent.getSize();
 		if (size != null) {

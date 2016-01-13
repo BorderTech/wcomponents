@@ -2,19 +2,22 @@
 	<thead>
 		<tr>
 			<td colspan="6">
-				<select id="wc-calmonth" title="%4$s"><!-- DON'T GIVE NAME! -->
-					<option>%1$s</option>
+				<select id="wc-calmonth" title="{{monthLabel}}"><!-- DON'T GIVE NAME! -->
+				{{#monthName}}
+					<option>{{.}}</option>
+				{{/monthName}}
 				</select>
-				<input id="wc-calyear" value="%2$s" autocomplete="off" type="number" title="%5$s" min="1000" max="9999"/><!-- DON'T GIVE NAME! -->
-				<button type="button" class="wc_wdf_mv" value="-1" title="%6$s"> </button>
-				<button type="button" class="wc_wdf_mv" value="t" title="%7$s"> </button>
-				<button type="button" class="wc_wdf_mv" value="1" title="%8$s"> </button>
+				<input id="wc-calyear" value="{{fullYear}}" autocomplete="off" type="number" title="{{yearLabel}}" min="1000" max="9999"/><!-- DON'T GIVE NAME! -->
+
+				<button type="button" class="wc_wdf_mv" value="-1" title="{{lastMonth}}"> </button>
+				<button type="button" class="wc_wdf_mv" value="t" title="{{today}}"> </button>
+				<button type="button" class="wc_wdf_mv" value="1" title="{{nextMonth}}"> </button>
 			</td>
 			<td>
-				<button type="button" class="wc_wdf_cls" title="%9$s"></button>
+				<button type="button" class="wc_wdf_cls" title="{{closeLabel}}"></button>
 			</td>
 		</tr>
-		<tr>%3$s</tr>
+		<tr>{{{daysOfWeek}}}</tr>
 	</thead>
 	<tbody id="wc-caldaybox">
 		<tr>

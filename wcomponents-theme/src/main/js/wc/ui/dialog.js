@@ -24,6 +24,7 @@
  * @requires module:wc/ui/positionable
  * @requires module:wc/ui/draggable
  * @requires module:wc/dom/role
+ * @requires module:Mustache
  *
  * @todo Re-order source, document private members.
  */
@@ -35,7 +36,6 @@ define(["wc/dom/classList",
 		"wc/dom/Widget",
 		"wc/i18n/i18n",
 		"wc/loader/resource",
-		"lib/sprintf",
 		"wc/ui/ajaxRegion",
 		"wc/ui/ajax/processResponse",
 		"wc/ui/modalShim",
@@ -45,10 +45,11 @@ define(["wc/dom/classList",
 		"wc/ui/resizeable",
 		"wc/ui/positionable",
 		"wc/dom/role",
+		"Mustache",
 		"wc/ui/draggable"],
-	/** @param classList wc/dom/classList @param event wc/dom/event @param focus wc/dom/focus @param initialise wc/dom/initialise @param shed wc/dom/shed @param Widget wc/dom/Widget @param i18n wc/i18n/i18n @param loader wc/loader/resource @param sprintf lib/sprintf @param ajaxRegion wc/ui/ajaxRegion @param processResponse wc/ui/ajax/processResponse @param modalShim wc/ui/modalShim @param timers wc/timers @param eagerLoader wc/ui/containerload @param has wc/has @param resizeable wc/ui/resizeable @param positionable wc/ui/positionable @param $role wc/dom/role @ignore */
-	function(classList, event, focus, initialise, shed, Widget, i18n, loader, sprintf, ajaxRegion, processResponse,
-		modalShim, timers, eagerLoader, has, resizeable, positionable, $role) {
+
+	function(classList, event, focus, initialise, shed, Widget, i18n, loader, ajaxRegion, processResponse,
+		modalShim, timers, eagerLoader, has, resizeable, positionable, $role, Mustache) {
 		"use strict";
 
 		/*
@@ -520,7 +521,7 @@ define(["wc/dom/classList",
 			 * @returns {Promise} resolved with {Element} dialog The dialog element.
 			 */
 			function buildDialog(formId) {
-				return loader.load("dialog.xml", true, true).then(function(html) {
+				return loader.load("dialog.xml", true, true).then(function(template) {
 					/*
 					 * sprintf replacements
 					 * 1: maximise button title ${wc.ui.dialog.title.maxRestore}
@@ -533,10 +534,16 @@ define(["wc/dom/classList",
 						resizeHandle,
 						headerTitle,
 						resizeHandleTitle,
-						dialogHTML = sprintf.sprintf(html,
-							i18n.get("${wc.ui.dialog.title.maxRestore}"),
-							i18n.get("${wc.ui.dialog.title.close}"),
-							i18n.get("${wc.ui.loading.loadMessage}"));
+						dialogProps = {
+							heading :{
+								maxRestore: i18n.get("${wc.ui.dialog.title.maxRestore}"),
+								close: i18n.get("${wc.ui.dialog.title.close}")
+							},
+							message: {
+								loading: i18n.get("${wc.ui.loading.loadMessage}")
+							}
+						},
+						dialogHTML = Mustache.to_html(template, dialogProps);
 
 					if (formId && (form = document.getElementById(formId)) && !FORM.isOneOfMe(form)) {
 						form = FORM.findAncestor(form);

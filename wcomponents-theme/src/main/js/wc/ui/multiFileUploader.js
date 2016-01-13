@@ -49,7 +49,7 @@ define(["wc/dom/attribute",
 			accepted, Widget, formUpdateManager, filedrop, ajax, xslTransform, timers, focus, isNumeric, ajaxRegion) {
 		"use strict";
 
-		var /** @alias module:wc/ui/multiFileUpload */ instance = new MultiFileUploader(),
+		var /** @alias module:wc/ui/multiFileUploader */ instance = new MultiFileUploader(),
 			CLASS_NAME = "fileUpload",
 			AJAX_ATTR = "data-wc-ajaxalias",
 			COL_ATTR = "data-wc-cols",
@@ -220,44 +220,82 @@ define(["wc/dom/attribute",
 			}
 
 			/**
+			 * This allows other code to request a file upload using a WMultiFileWidget.
+			 * For example file dropzones and imageedit.
+			 * @param {Element} element A file input or an element that contains a file input.
+			 * @param {File[]} files Binary file data.
+			 * @param {boolean} [suppressEdit] true if image editing should be bypassed regardless of whether it is configured or not.
+			 */
+			this.upload = function(element, files, suppressEdit) {
+				var input = inputElementWd.isOneOfMe(element) ? element : inputElementWd.findDescendant(element);
+				if (input) {
+					focus.setFocusRequest(input, function() {
+						/*
+						 * The focus is primarily necesary to bootstrap the file widget.
+						 * This is critical if the file widget is needs to be wired up by
+						 * other controllers such as ajax trigger.
+						 */
+						checkDoUpload(input, files, suppressEdit);
+					});
+				}
+			};
+			/**
 			 * Validate the file chosen and commence the asynchronous upload if all is well.
 			 * @function
 			 * @private
 			 * @param {Element} element A file input element.
 			 * @param {File[]} [files] A collection of File items to use instead of element.files.
+			 * @param {boolean} [suppressEdit] true if image editing should be bypassed regardless of whether it is configured or not.
 			 */
-			function checkDoUpload(element, files) {
-				var testObj, maxFileInfo, filesToAdd, result = true, message,
-					useFilesArg = (!element.value && (files && files.length > 0));
+			function checkDoUpload(element, files, suppressEdit) {
+				var editorId, testObj, maxFileInfo, filesToAdd, message,
+					useFilesArg = (!element.value && (files && files.length > 0)),
+					done = function() {
+						instance.clearInput(element);
+					},
+					checkAndUpload = function(files) {
+						try {
+							message = checkFileSize(element, testObj);
+							if (message) {
+								showMessage(message);
+							}
+							else {
+								if (!accepted(testObj)) {
+									message = i18n.get("${wc.ui.multiFileUploader.i18n.wrongtype}", element.accept);
+									showMessage(message);
+								}
+								else if (inputElementWd.isOneOfMe(element)) {
+									commenceUpload({
+										element: element,
+										files: files
+									});
+								}
+							}
+						}
+						finally {
+							done();
+						}
+					};
 				if (element.value || useFilesArg) {
 					testObj = useFilesArg ? {files: files, name: element.name, value: element.value, accept: element.accept} : element;
 					filesToAdd = (testObj.files ? testObj.files.length : 1);
 					maxFileInfo = checkMaxFiles(element, filesToAdd);
 					if (maxFileInfo.valid) {
-						message = checkFileSize(element, testObj);
-						if (message) {
-							showMessage(message);
-							result = false;
-						}
-						else  if (!accepted(testObj)) {
-							message = i18n.get("${wc.ui.multiFileUploader.i18n.wrongtype}", element.accept);
-							showMessage(message);
-							result = false;
-						}
-						else if (inputElementWd.isOneOfMe(element)) {
-							commenceUpload({
-								element: element,
-								files: files
+						editorId = element.getAttribute("data-editor");
+						if (!suppressEdit && editorId) {
+							require(["wc/ui/imageEdit"], function(imageEdit) {
+								testObj.editorId = editorId;
+								imageEdit.editFiles(testObj).then(checkAndUpload, done);
 							});
+						}
+						else {
+							checkAndUpload(testObj.files);
 						}
 					}
 					else {
 						message = i18n.get("${wc.ui.multiFileUploader.i18n.toomany}", filesToAdd, maxFileInfo.max, maxFileInfo.before);
 						showMessage(message);
-						result = false;
-					}
-					if (!result) {
-						instance.clearInput(element);
+						done();
 					}
 				}
 			}
@@ -558,19 +596,10 @@ define(["wc/dom/attribute",
 					if (dropzoneId) {
 						input = null;
 						filedrop.register(dropzoneId, function(type, files) {
-							var input, className = "wc_dragging";
+							var className = "wc_dragging";
 							if (type === "drop") {
-								if ((input = inputElementWd.findDescendant(element))) {
-									focus.setFocusRequest(input, function() {
-										/*
-										 * The focus is primarily necesary to bootstrap the file widget.
-										 * This is critical if the file widget is needs to be wired up by
-										 * other controllers such as ajax trigger.
-										 */
-										checkDoUpload(input, files);
-										element.classList.remove(className);
-									});
-								}
+								instance.upload(element, files);
+								element.classList.remove(className);
 							}
 							else if (type === "dragstart") {
 								element.classList.add(className);
@@ -867,7 +896,7 @@ define(["wc/dom/attribute",
 					for (i = 0; i < dto.files.length; i++) {
 						file = dto.files[i];
 						id = instance.createFileInfo(container, file.name);
-						sendFile(dto.url, uploadName, id, dto.files[i], callbackWrapper(dto));
+						sendFile(dto.url, uploadName, id, file, callbackWrapper(dto));
 					}
 				}
 				finally {
