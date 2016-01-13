@@ -5,9 +5,9 @@
 		WRow is used to make rows (yep, really) and it contains ui:column.
 	-->
 	<xsl:template match="ui:row">
-		<div id="{@id}" class="{local-name(.)} wc_row">
+		<div id="{@id}">
 			<xsl:attribute name="class">
-				<xsl:text>row wc_row</xsl:text>
+				<xsl:text>row</xsl:text>
 				<xsl:if test="@class">
 					<xsl:value-of select="concat(' ', @class)"/>
 				</xsl:if>

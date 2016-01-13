@@ -7,13 +7,14 @@
 		<xsl:param name="align" select="@align"/>
 		<xsl:param name="width" select="@width"/>
 		<xsl:param name="hgap" select="0"/>
+		<xsl:param name="ignoreLeftGap" select="0" />
 	
 		<xsl:variable name="style">
 			<xsl:if test="$width and $width != 0">
 				<xsl:value-of select="concat('width:',$width,'%;')"/>
 			</xsl:if>
 			<xsl:if test="$hgap != 0">
-				<xsl:if test="self::ui:cell or position() &gt; 1">
+				<xsl:if test="(self::ui:cell and $ignoreLeftGap = 0) or (self:: ui:column and position() &gt; 1)">
 					<xsl:value-of select="concat('padding-left:',$hgap,';')"/>
 				</xsl:if>
 				<xsl:if test="position() != last()">

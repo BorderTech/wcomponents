@@ -48,10 +48,12 @@ public class ColumnLayout implements LayoutManager {
 	 */
 	private final int vgap;
 
+
 	/**
-	 * Creates a ColumnLayout with the specified percentage column widths.
+	 * Creates a ColumnLayout with the specified percentage column widths. Using a column width of 0 will make the width
+	 * undefined in the UI. This may then be used for application level styling with CSS for responsive design.
 	 *
-	 * @param columnWidths the column widths, in percent units.
+	 * @param columnWidths the column widths, in percent units, 0 for undefined.
 	 */
 	public ColumnLayout(final int[] columnWidths) {
 		this(columnWidths, null, 0, 0);
@@ -60,7 +62,7 @@ public class ColumnLayout implements LayoutManager {
 	/**
 	 * Creates a ColumnLayout with the specified percentage column widths and column alignments.
 	 *
-	 * @param columnWidths the column widths, in percent units.
+	 * @param columnWidths the column widths, in percent units, 0 for undefined.
 	 * @param columnAlignments the column alignments
 	 */
 	public ColumnLayout(final int[] columnWidths, final Alignment[] columnAlignments) {
@@ -70,7 +72,7 @@ public class ColumnLayout implements LayoutManager {
 	/**
 	 * Creates a ColumnLayout with the specified percentage column widths.
 	 *
-	 * @param columnWidths the column widths, in percent units.
+	 * @param columnWidths the column widths, in percent units, 0 for undefined.
 	 * @param hgap the horizontal gap between the columns, measured in pixels.
 	 * @param vgap the vertical gap between the rows, measured in pixels.
 	 */
@@ -81,7 +83,7 @@ public class ColumnLayout implements LayoutManager {
 	/**
 	 * Creates a ColumnLayout with the specified percentage column widths.
 	 *
-	 * @param columnWidths the column widths, in percent units.
+	 * @param columnWidths the column widths, in percent units, 0 for undefined.
 	 * @param columnAlignments the column alignments
 	 * @param hgap the horizontal gap between the columns, measured in pixels.
 	 * @param vgap the vertical gap between the rows, measured in pixels.
@@ -94,9 +96,9 @@ public class ColumnLayout implements LayoutManager {
 
 		// Column Definitions
 		for (int col = 0; col < columnWidths.length; col++) {
-			if (columnWidths[col] < 1 || columnWidths[col] > 100) {
+			if (columnWidths[col] < 0 || columnWidths[col] > 100) {
 				throw new IllegalArgumentException(
-						"ColumnWidth (" + columnWidths[col] + ") must be between 1 and 100 percent");
+						"ColumnWidth (" + columnWidths[col] + ") must be between 0 and 100 percent");
 			}
 		}
 
