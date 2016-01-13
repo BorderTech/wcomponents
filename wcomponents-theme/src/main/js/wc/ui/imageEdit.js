@@ -3,7 +3,6 @@ define(["wc/ui/modalShim", "wc/has", "wc/dom/event", "wc/dom/uid", "wc/dom/class
 function(modalShim, has, event, uid, classList, timers, loader, i18n, fabric, Mustache) {
 	var imageEdit = new ImageEdit();
 
-	console.log("Mustache", Mustache);
 	/**
 	 * This provides a mechanism to allow the user to edit images during the upload process.
 	 * It may also be used to edit static images after they have been uploaded as long as a file uploader is configured to take the edited images.
