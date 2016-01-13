@@ -1,8 +1,9 @@
 define(["wc/ui/modalShim", "wc/has", "wc/dom/event", "wc/dom/uid", "wc/dom/classList", "wc/timers",
-	"wc/loader/resource", "wc/i18n/i18n", "lib/sprintf", "fabric"],
-function(modalShim, has, event, uid, classList, timers, loader, i18n, sprintf, fabric) {
+	"wc/loader/resource", "wc/i18n/i18n", "fabric", "Mustache"],
+function(modalShim, has, event, uid, classList, timers, loader, i18n, fabric, Mustache) {
 	var imageEdit = new ImageEdit();
 
+	console.log("Mustache", Mustache);
 	/**
 	 * This provides a mechanism to allow the user to edit images during the upload process.
 	 * It may also be used to edit static images after they have been uploaded as long as a file uploader is configured to take the edited images.
@@ -277,25 +278,52 @@ function(modalShim, has, event, uid, classList, timers, loader, i18n, sprintf, f
 			var promise = new Promise(function(resolve, reject) {
 				var container = document.body.appendChild(document.createElement("div"));
 				container.className = container.id = "wc_img_editor";
-				loader.load("imageEdit.xml", true, true).then(function(html) {
-					var eventConfig,
-						editorHtml = sprintf.sprintf(html,
-							i18n.get("${wc.ui.imageEdit.rotate}"),
-							i18n.get("${wc.ui.imageEdit.rotate.left}"),
-							i18n.get("${wc.ui.imageEdit.rotate.right}"),
-							i18n.get("${wc.ui.imageEdit.move}"),
-							i18n.get("${wc.ui.imageEdit.move.left}"),
-							i18n.get("${wc.ui.imageEdit.move.right}"),
-							i18n.get("${wc.ui.imageEdit.move.up}"),
-							i18n.get("${wc.ui.imageEdit.move.down}"),
-							i18n.get("${wc.ui.imageEdit.zoom}"),
-							i18n.get("${wc.ui.imageEdit.zoom.in}"),
-							i18n.get("${wc.ui.imageEdit.zoom.out}"),
-							i18n.get("${wc.ui.imageEdit.action.reset}"),
-							i18n.get("${wc.ui.imageEdit.action.cancel}"),
-							i18n.get("${wc.ui.imageEdit.action.save}"),
-							i18n.get("${wc.ui.imageEdit.action.snap}"),
-							i18n.get("${wc.ui.imageEdit.action.speed}"));
+				loader.load("imageEdit.xml", true, true).then(function(template) {
+					var eventConfig, editorHtml, i18nProps = {
+							heading: {
+								rotate: i18n.get("${wc.ui.imageEdit.rotate}"),
+								move: i18n.get("${wc.ui.imageEdit.move}"),
+								zoom: i18n.get("${wc.ui.imageEdit.zoom}")
+							},
+							action: {
+								rotateLeft: i18n.get("${wc.ui.imageEdit.rotate.left}"),
+								rotateRight: i18n.get("${wc.ui.imageEdit.rotate.right}"),
+								moveLeft: i18n.get("${wc.ui.imageEdit.move.left}"),
+								moveRight: i18n.get("${wc.ui.imageEdit.move.right}"),
+								moveUp: i18n.get("${wc.ui.imageEdit.move.up}"),
+								moveDown: i18n.get("${wc.ui.imageEdit.move.down}"),
+								zoomIn: i18n.get("${wc.ui.imageEdit.zoom.in}"),
+								zoomOut: i18n.get("${wc.ui.imageEdit.zoom.out}"),
+								reset: i18n.get("${wc.ui.imageEdit.action.reset}"),
+								cancel: i18n.get("${wc.ui.imageEdit.action.cancel}"),
+								save: i18n.get("${wc.ui.imageEdit.action.save}"),
+								snap: i18n.get("${wc.ui.imageEdit.action.snap}"),
+								speed: i18n.get("${wc.ui.imageEdit.action.speed}")
+							},
+							message: {
+								novideo: "Video stream not available.",
+								nocapture: "Your browser does not support image capture.",
+								rotateLeft: "Rotate the image anti-clockwise",
+								rotateRight: "Rotate the image clockwise",
+								moveLeft: "Move the image to the left",
+								moveRight: "Move the image to the right",
+								moveUp: "Move the image to the up",
+								moveDown: "Move the image to the down",
+								zoomIn: "Zoom in",
+								zoomOut: "Zoom out",
+								reset: "Undo all changes to the image",
+								cancel: "Abort image editing",
+								save: "Save the image",
+								snap: "Take a snapshot from the video stream",
+								speed: "How quickly the buttons affect the image"
+							},
+							value: {
+								speedNow: 1.5,
+								speedMin: 0.5,
+								speedMax: 5
+							}
+						};
+					editorHtml = Mustache.to_html(template, i18nProps);
 
 					container.innerHTML = editorHtml;
 					modalShim.setModal(container);

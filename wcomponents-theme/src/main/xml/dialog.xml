@@ -1,13 +1,13 @@
 <${wc.dom.html5.element.dialog} id="${wc.ui.dialog.id}" role="dialog" class="wc_dragflow wc_resizeflow">
 <${wc.dom.html5.element.header} tabindex="0">
 <span>
-<button class="wc_maxcont wc_btn_nada" type="button" title="%1$s" aria-pressed="false" data-wc-resize="${wc.ui.dialog.id}"> </button>
-<button class="wc_dialog_close wc_btn_nada" type="button" title="%2$s"> </button>
+<button class="wc_maxcont wc_btn_nada" type="button" title="{{heading.maxRestore}}" aria-pressed="false" data-wc-resize="${wc.ui.dialog.id}"> </button>
+<button class="wc_dialog_close wc_btn_nada" type="button" title="{{heading.close}}"> </button>
 </span>
 <h1>&#x2002;</h1>
 </${wc.dom.html5.element.header}>
 <div class="wc_magic wc_dynamic" aria-live="assertive">
-	%3$s
+	{{message.loading}}
 </div>
 <${wc.dom.html5.element.footer}>
 <button class="wc_btn_nada wc_resize" data-wc-resize="${wc.ui.dialog.id}" type="button">&#x2002;</button>

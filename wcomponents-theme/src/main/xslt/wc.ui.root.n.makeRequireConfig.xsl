@@ -27,6 +27,7 @@
 						tinyMCE: "lib/tinymce/tinymce.min",
 						Promise: "lib/Promise.min",
 						fabric: "lib/fabric",
+						Mustache: "lib/mustache/mustache.min",
 						axs: "lib/axs_testing",
 						axe: "lib/axe.min"
 					},
