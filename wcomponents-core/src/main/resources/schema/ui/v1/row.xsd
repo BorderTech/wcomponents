@@ -49,11 +49,11 @@
 						<xs:attribute name="width">
 							<xs:annotation>
 								<xs:documentation>The width attribute int is deemed to be a percentage where the width of the column (not allowing for hgap) is @width% of the width
-									of the row. </xs:documentation>
+									of the row. A width of 0 is not output but means the column width is defined elsewhere (hopefully in application specific CSS).</xs:documentation>
 							</xs:annotation>
 							<xs:simpleType>
 								<xs:restriction base="xs:int">
-									<xs:minInclusive value="1" />
+									<xs:minInclusive value="0" />
 									<xs:maxInclusive value="100" />
 								</xs:restriction>
 							</xs:simpleType>

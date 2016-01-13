@@ -39,7 +39,8 @@ final class ColumnLayoutRenderer extends AbstractWebXmlRenderer {
 		// Column Definitions
 		for (int col = 0; col < cols; col++) {
 			xml.appendTagOpen("ui:column");
-			xml.appendAttribute("width", layout.getColumnWidth(col));
+			int width = layout.getColumnWidth(col);
+			xml.appendOptionalAttribute("width", width > 0, width);
 
 			switch (layout.getColumnAlignment(col)) {
 				case LEFT:

@@ -13,6 +13,7 @@ import com.github.bordertech.wcomponents.WFieldLayout;
 import com.github.bordertech.wcomponents.WFigure;
 import com.github.bordertech.wcomponents.WHeading;
 import com.github.bordertech.wcomponents.WImage;
+import com.github.bordertech.wcomponents.WImageEditor;
 import com.github.bordertech.wcomponents.WMultiFileWidget;
 import com.github.bordertech.wcomponents.WMultiFileWidget.FileWidgetUpload;
 import com.github.bordertech.wcomponents.WNumberField;
@@ -111,6 +112,12 @@ public class WMultiFileWidgetAjaxExample extends WContainer {
 		widget.setFileTypes(new String[]{"image/*"});
 
 		layout.addField("Upload", widget);
+		WImageEditor editor = new WImageEditor();
+		editor.setSize(new Dimension(300, 400));
+		editor.setUseCamera(true);
+		// editor.setOverlayUrl("/overlay.png");
+		widget.setEditor(editor);
+		add(editor);
 
 		previewHeight.setActionOnChange(new Action() {
 			@Override
@@ -209,6 +216,7 @@ public class WMultiFileWidgetAjaxExample extends WContainer {
 				image.setAlternativeText(file.getFile().getDescription());
 				image.setImageUrl(url);
 				image.setAttribute("image-fileid", fileId);
+				image.setEditor(widget);
 
 				if (imageHolder.getDecoratedLabel() != null) {
 					if (!"".equals(image.getAlternativeText())) {

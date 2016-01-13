@@ -1,19 +1,22 @@
 /* wc.ui.row.scss */
 @import 'mixins_common.scss';
 
-.wc_row > div {
-	@include border-box;
-	display: inline-block;
-	vertical-align: top;
+.row {
+	@include flex($justify: space-between, $align-items: baseline);
+}
 
-	@include respond(phonelike) {
-		// important to override inline css from XSLT
-		// scss-lint:disable ImportantRule
+@include respond(phonelike) {
+	.row {
 		display: block;
-		max-width: none !important;
-		padding-left: 0 !important;
-		padding-right: 0 !important;
-		width: 100% !important;
+
+		> div {
+			// important to override inline css from XSLT
+			// scss-lint:disable ImportantRule
+			display: block;
+			max-width: none !important;
+			padding-left: 0 !important;
+			padding-right: 0 !important;
+			width: 100% !important;
+		}
 	}
 }
-/* end wc.ui.row.scss */
