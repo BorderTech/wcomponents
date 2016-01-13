@@ -9,6 +9,7 @@ import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WCheckBox;
 import com.github.bordertech.wcomponents.WContainer;
+import com.github.bordertech.wcomponents.WEditableImage;
 import com.github.bordertech.wcomponents.WFieldLayout;
 import com.github.bordertech.wcomponents.WFigure;
 import com.github.bordertech.wcomponents.WHeading;
@@ -176,7 +177,7 @@ public class WMultiFileWidgetAjaxExample extends WContainer {
 
 		contentPanel.add(new WHeading(HeadingLevel.H2, "File View"));
 
-		final WImage image = new WImage() {
+		final WImage image = new WEditableImage(widget) {
 			@Override
 			public String getImageUrl() {
 				String fileId = (String) getAttribute("image-fileid");
@@ -216,7 +217,6 @@ public class WMultiFileWidgetAjaxExample extends WContainer {
 				image.setAlternativeText(file.getFile().getDescription());
 				image.setImageUrl(url);
 				image.setAttribute("image-fileid", fileId);
-				image.setEditor(widget);
 
 				if (imageHolder.getDecoratedLabel() != null) {
 					if (!"".equals(image.getAlternativeText())) {
