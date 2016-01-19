@@ -4,21 +4,21 @@
 	<xsl:import href="wc.common.hide.xsl"/>
 	<xsl:import href="wc.common.offscreenSpan.xsl"/>
 	<xsl:import href="wc.ui.table.n.xsl"/>
-	<xsl:import href="wc.ui.table.tr.n.containsWords.xsl"/>
+	<!--
+	TODO: remove this when WFilterControl is no longer part of the Java API
+	<xsl:import href="wc.ui.table.tr.n.containsWords.xsl"/>-->
 	<xsl:import href="wc.ui.table.tr.n.tableCollapserElement.xsl"/>
 	<xsl:import href="wc.ui.table.tr.n.WTableAdditionalRowClass.xsl"/>
+	<xsl:import href="wc.ui.table.tr.n.clientRowClosedHelper.xsl"/>
 	<!--
-		Transform for each row in the WTable. The row itself transforms to a HTML
-		tr element. It may also output another row if it has a ui:subTr child.
+		Transform for each row in the WTable. The row itself transforms to a HTML tr element. It may also output another
+		row if it has a ui:subTr child.
 
-		param myTable: The first table ancestor of the current row. This is determined
-		at the most efficient point (usually ui:tbody using its parent node) and then
-		passed through all subsequent transforms to save constant ancestor::ui:table[1]
-		lookups.
+		param myTable: The first table ancestor of the current row. This is determined at the most efficient point
+		(usually ui:tbody using its parent node) and then passed through all subsequent transforms to save constant
+		ancestor::ui:table[1] lookups.
 
-		param parentIsClosed default 0, 1 indicates that the row's parent row is in a
-		collapsed state. Only applicable if the current row is a child of a ui:subTr.
-
+		param parentIsClosed default 0, 1 indicates that the row's parent row exists and is in a collapsed state.
 	-->
 	<xsl:template match="ui:tr">
 		<xsl:param name="myTable"/>
@@ -34,7 +34,7 @@
 				<xsl:value-of select="1"/>
 			</xsl:if>
 		</xsl:variable>
-		
+
 		<xsl:variable name="hasRowExpansion">
 			<xsl:if test="$myTable/ui:rowExpansion">
 				<xsl:value-of select="1"/>
@@ -53,12 +53,14 @@
 		</xsl:variable>
 
 		<!--
-		Row filtering:
-		* if the table has no active filters then show the row;
-		* if the table has active Filters and the row has no filter values then hide the row;
-		* otherwise test if the row contains a filterValue which is also one of the
-		table filters.
-		-->
+			Row filtering:
+			* if the table has no active filters then show the row;
+			* if the table has active Filters and the row has no filter values then hide the row;
+			* otherwise test if the row contains a filterValue which is also one of the
+			table filters.
+
+			TODO: remove this when WFilterControl is no longer part of the Java API
+
 		<xsl:variable name="tableFilters" select="normalize-space($myTable/@activeFilters)"/>
 
 		<xsl:variable name="rowFilters" select="normalize-space(@filterValues)"/>
@@ -82,45 +84,23 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
-
-		<!--
-		 Conditions which will result in a row being hidden:
-			* its hidden attribute is "true"; or
-			* it is a child row and its parent row (actually grandparent element) is
-			closed for any reason; or
-			* there is filtering and the current row doesn't match the current filter; or
-			* it is a child row and its parent subTr is not open; or
-			* it is a child row and any ancestor subTr is not open; or
-			* if there is client pagination and the current row is not in the active
-			page.
 		-->
+
 		<xsl:variable name="removeRow">
 			<xsl:choose>
-				<xsl:when test="$parentIsClosed=1 or @hidden=$t or $filterThisRow=1 or parent::ui:subTr[not(@open=$t)] or (ancestor::ui:subTr[not(@open=$t) and ancestor::ui:table[1]/@id=$tableId])">
+				<!--
+					TODO: remove this when WFilterControl is no longer part of the Java API.
+
+					If your implementation requires WDataTabe and WFilterControl support then you must add
+					`$filterThisRow=1 or ` to the beginning of the test attribute of the following xsl:when:
+				-->
+				<xsl:when test="$parentIsClosed=1 or @hidden=$t or parent::ui:subTr[not(@open=$t)] or (ancestor::ui:subTr[not(@open=$t) and ancestor::ui:table[1]/@id=$tableId])">
 					<xsl:value-of select="1"/>
 				</xsl:when>
 				<xsl:when test="parent::ui:tbody and $myTable/ui:pagination/@mode = 'client'">
-					<xsl:variable name="clientPaginationRows">
-						<xsl:choose>
-							<xsl:when test="$myTable/ui:pagination/@rowsPerPage">
-								<xsl:value-of select="$myTable/ui:pagination/@rowsPerPage"/>
-							</xsl:when>
-							<xsl:otherwise>
-								<xsl:value-of select="$myTable/ui:pagination/@rows"/>
-							</xsl:otherwise>
-						</xsl:choose>
-					</xsl:variable>
-					<xsl:variable name="tableCurrentPage" select="$myTable/ui:pagination/@currentPage"/>
-					<xsl:variable name="myPosition" select="count(preceding-sibling::ui:tr) + 1"/>
-					<xsl:variable name="activeStart" select="($clientPaginationRows * $tableCurrentPage) + 1"/>
-					<xsl:choose>
-						<xsl:when test="(($myPosition &lt; $activeStart) or ($myPosition >= ($activeStart + $clientPaginationRows)))">
-							<xsl:value-of select="1"/>
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:value-of select="0"/>
-						</xsl:otherwise>
-					</xsl:choose>
+					<xsl:call-template name="clientRowClosedHelper">
+						<xsl:with-param name="myTable" select="$myTable"/>
+					</xsl:call-template>
 				</xsl:when>
 				<xsl:otherwise>
 					<xsl:value-of select="0"/>
@@ -156,13 +136,13 @@
 			<xsl:if test="$hasRole &gt; 0">
 				<xsl:attribute name="role">row</xsl:attribute>
 			</xsl:if>
-			
+
 			<xsl:if test="normalize-space($class) != ''">
 				<xsl:attribute name="class">
 					<xsl:value-of select="normalize-space($class)"/>
 				</xsl:attribute>
 			</xsl:if>
-			
+
 			<xsl:if test="$hasRowExpansion=1">
 				<xsl:if test="ui:subTr">
 					<xsl:attribute name="aria-expanded">
@@ -175,15 +155,15 @@
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:attribute>
-					
+
 					<xsl:variable name="expMode" select="$myTable/ui:rowExpansion/@mode"/>
-					
+
 					<xsl:variable name="isOpen">
 						<xsl:if test="ui:subTr/@open=$t">
 							<xsl:value-of select="1"/>
 						</xsl:if>
 					</xsl:variable>
-					
+
 					<xsl:attribute name="aria-controls">
 						<xsl:choose>
 							<xsl:when test="ui:subTr/ui:tr">
@@ -199,7 +179,7 @@
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:attribute>
-					
+
 					<xsl:variable name="expansionMode">
 						<xsl:choose>
 							<xsl:when test="($expMode='lazy' or $expMode='eager') and $isOpen=1">
@@ -216,7 +196,7 @@
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:variable>
-					
+
 					<xsl:if test="$expansionMode='lazy' or $expansionMode='dynamic'">
 						<xsl:attribute name="data-wc-ajaxalias">
 							<xsl:value-of select="$tableId"/>
@@ -228,16 +208,16 @@
 						</xsl:if>
 					</xsl:if>
 				</xsl:if>
-			
+
 				<xsl:if test="parent::ui:subTr">
 					<xsl:call-template name="setARIALive"/>
 				</xsl:if>
-			
+
 				<xsl:attribute name="aria-level">
 					<xsl:value-of select="count(ancestor::ui:subTr[ancestor::ui:table[1]/@id=$tableId]) + 1"/>
 				</xsl:attribute>
 			</xsl:if>
-			
+
 			<!--
 				Row selection
 				 When the table has row selection and when this row is selectable, then we need
@@ -269,7 +249,7 @@
 						</xsl:otherwise>
 					</xsl:choose>
 				</xsl:attribute>
-				
+
 				<xsl:attribute name="tabindex">
 					<xsl:text>0</xsl:text>
 				</xsl:attribute>
@@ -277,11 +257,11 @@
 				<xsl:attribute name="data-wc-name">
 					<xsl:value-of select="concat($tableId,'${wc.ui.table.rowSelect.state.suffix}')"/>
 				</xsl:attribute>
-				
+
 				<xsl:attribute name="data-wc-value">
 					<xsl:value-of select="@rowIndex"/>
 				</xsl:attribute>
-				
+
 				<!-- WDataTable still needs disabled support -->
 				<xsl:choose>
 					<xsl:when test="@disabled">
@@ -310,14 +290,17 @@
 				</xsl:otherwise>
 			</xsl:choose>
 
+			<!--
+				TODO: remove this when WFilterControl is no longer part of the Java API
 			<xsl:if test="$rowFilters!=''">
-				<xsl:attribute name="${wc.ui.filterControl.attribute.rowFilter}">
+				<xsl:attribute name="data-wc-filters">
 					<xsl:value-of select="$rowFilters"/>
 				</xsl:attribute>
 			</xsl:if>
+			-->
 			<!-- END OF TR ATTRIBUTES -->
-			
-			
+
+
 			<!--
 			rowSelection indicator wrapper
 

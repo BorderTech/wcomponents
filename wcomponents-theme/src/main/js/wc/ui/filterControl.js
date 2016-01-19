@@ -6,7 +6,16 @@
  * screen will be hidden and pagination isn't dynamically updated to show the requested number of filtered rows
  *
  * NOTE 2: applying or removing a filter from a table will show all rows in the table no matter how they were hidden
- * (filter clearing overrides hidden on rows)
+ * (filter clearing overrides hidden on rows).
+ *
+ * The XSLT to create WFilterControl artefacts and to apply row filters to WDataTable are in place but commented out.
+ * This file will never be included unless you hunt down all of the following in the XSLT and uncomment them:
+ *
+ * * all uses of `ui:filterControl`;
+ * * all uses of `data-wc-filter` and `data-wc-filters`;
+ * * The parts of wc.ui.table.tr.xsl which are commented out with the remark "TODO: remove this when WFilterControl is
+ *   no longer part of the Java API";
+ * * both templates in wc.ui.table.tr.n.containsWords.xsl.
  *
  *
  * @module
@@ -16,7 +25,9 @@
  * @requires module:wc/dom/Widget
  * @requires module:wc/dom/formUpdateManager
  * @requires module:wc/timers
+ *
  * @deprecated No longer supported: to be removed.
+ *
  * @todo Delete me!
  * @ignore
  */
@@ -76,7 +87,7 @@ define(["wc/dom/event", "wc/dom/initialise", "wc/dom/shed", "wc/dom/Widget", "wc
 				var controllerWd, controllers, targetId, value;
 				if (FILTERS.isOneOfMe(element)) {
 					targetId = element.getAttribute("aria-controls");
-					value = element.getAttribute("${wc.ui.filterControl.attribute.filter}");
+					value = element.getAttribute("data-wc-filter");
 					controllerWd = FILTERS.extend("", {"aria-controls": targetId});
 					controllers = controllerWd.findDescendants(document.body);
 
@@ -123,7 +134,7 @@ define(["wc/dom/event", "wc/dom/initialise", "wc/dom/shed", "wc/dom/Widget", "wc
 					for (i = 0; i < rows.length; i++) {
 						changed = false;
 						row = rows[i];
-						rowFilterValues = row.getAttribute("${wc.ui.filterControl.attribute.rowFilter}");
+						rowFilterValues = row.getAttribute("data-wc-filters");
 						if (rowFilterValues) {
 							rowFilterValues = rowFilterValues.split(" ");
 						}
