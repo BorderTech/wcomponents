@@ -86,6 +86,7 @@ public class AjaxReplaceControllerExample extends WPanel {
 		// add the ajax control for the controller
 		add(new WAjaxControl(controller3, textField));
 		final WMultiSelectPair controller4 = new WMultiSelectPair(DATA);
+		controller4.setShuffle(true);
 		controller4.setActionOnChange(new Action() {
 
 			@Override
