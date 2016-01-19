@@ -1,6 +1,7 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
 	<xsl:import href="wc.common.toggleElement.xsl"/>
 	<xsl:import href="wc.common.ajax.xsl"/>
+	<xsl:import href="wc.common.n.className.xsl"/>
 
 	<!-- Keys used by selectToggle if it is targetted at a single checkbox or group of disparate check boxes rather than at a container or checkBoxSelect-->
 	<xsl:key name="checkboxIdKey" match="//ui:checkBox[@groupName]" use="@id"/>
@@ -108,16 +109,14 @@
 		
 		<xsl:choose>
 			<xsl:when test="$type='text'">
-				<xsl:variable name="class">
+				<xsl:variable name="subClass">
 					<xsl:value-of select="local-name(.)"/>
 					<xsl:text> wc_seltog</xsl:text>
 				</xsl:variable>
 				<span id="{$toggleId}" role="radiogroup">
 					<xsl:attribute name="class">
-						<xsl:value-of select="$class"/>
-						<xsl:if test="@class">
-							<xsl:value-of select="concat(' ', @class)"/>
-						</xsl:if>
+						<xsl:call-template name="commonClassHelper"/>
+						<xsl:text> wc_seltog</xsl:text>
 					</xsl:attribute>
 					<xsl:call-template name="ajaxTarget"/>
 					<xsl:if test="$isCheckboxTarget">
@@ -174,7 +173,7 @@
 						<xsl:with-param name="for" select="$targetList"/>
 						<xsl:with-param name="name" select="$name"/>
 						<xsl:with-param name="value" select="'all'"/>
-						<xsl:with-param name="class" select="$class"/>
+						<xsl:with-param name="class" select="$subClass"/>
 						<xsl:with-param name="text" select="$$${wc.common.toggles.i18n.selectAll}"/>
 						<xsl:with-param name="selected">
 							<xsl:if test="$selected='all'">
@@ -190,7 +189,7 @@
 						<xsl:with-param name="for" select="$targetList"/>
 						<xsl:with-param name="name" select="$name"/>
 						<xsl:with-param name="value" select="'none'"/>
-						<xsl:with-param name="class" select="$class"/>
+						<xsl:with-param name="class" select="$subClass"/>
 						<xsl:with-param name="text" select="$$${wc.common.toggles.i18n.selectNone}"/>
 						<xsl:with-param name="selected">
 							<xsl:if test="$selected='none'">
@@ -242,11 +241,8 @@
 						</xsl:attribute>
 					</xsl:if>
 					<xsl:attribute name="class">
-						<xsl:value-of select="local-name()"/>
+						<xsl:call-template name="commonClassHelper"/>
 						<xsl:text> wc_seltog wc_btn_nada</xsl:text>
-						<xsl:if test="@class">
-							<xsl:value-of select="concat(' ', @class)"/>
-						</xsl:if>
 					</xsl:attribute>
 					<xsl:attribute name="title">
 						<xsl:choose>
@@ -256,15 +252,11 @@
 							<xsl:when test="self::ui:rowSelection">
 								<xsl:value-of select="$$${wc.common.toggles.i18n.selectAll.a11y}"/>
 							</xsl:when>
+							<xsl:when test="$myLabel">
+								<xsl:apply-templates select="$myLabel" mode="selectToggle"/>
+							</xsl:when>
 							<xsl:otherwise>
-								<xsl:choose>
-									<xsl:when test="$myLabel">
-										<xsl:apply-templates select="$myLabel" mode="selectToggle"/>
-									</xsl:when>
-									<xsl:otherwise>
-										<xsl:value-of select="$$${wc.common.toggles.i18n.selectAll.a11y}"/>
-									</xsl:otherwise>
-								</xsl:choose>
+								<xsl:value-of select="$$${wc.common.toggles.i18n.selectAll.a11y}"/>
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:attribute>

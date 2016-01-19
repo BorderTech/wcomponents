@@ -2,6 +2,7 @@
 	<xsl:import href="wc.constants.xsl"/>
 	<xsl:import href="wc.ui.text.n.WStyledTextGetElementFromType.xsl"/>
 	<xsl:import href="wc.ui.text.n.WStyledTextContent.xsl"/>
+	<xsl:import href="wc.common.n.className.xsl"/>
 	<!--
 		WStyledText
 	
@@ -16,10 +17,7 @@
 		<xsl:variable name="type" select="@type"/>
 		
 		<xsl:variable name="class">
-			<xsl:value-of select="local-name()"/>
-			<xsl:if test="@class">
-				<xsl:value-of select="concat(' ', @class)"/>
-			</xsl:if>
+			<xsl:call-template name="commonClassHelper"/>
 		</xsl:variable>
 		<xsl:choose>
 			<xsl:when test="@space='paragraphs'">

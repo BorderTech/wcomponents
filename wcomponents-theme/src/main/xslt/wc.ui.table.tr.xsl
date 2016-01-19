@@ -2,13 +2,13 @@
 	<xsl:import href="wc.common.aria.live.xsl"/>
 	<xsl:import href="wc.common.disabledElement.xsl"/>
 	<xsl:import href="wc.common.hide.xsl"/>
+	<xsl:import href="wc.common.n.className.xsl"/>
 	<xsl:import href="wc.common.offscreenSpan.xsl"/>
 	<xsl:import href="wc.ui.table.n.xsl"/>
 	<!--
 	TODO: remove this when WFilterControl is no longer part of the Java API
 	<xsl:import href="wc.ui.table.tr.n.containsWords.xsl"/>-->
 	<xsl:import href="wc.ui.table.tr.n.tableCollapserElement.xsl"/>
-	<xsl:import href="wc.ui.table.tr.n.WTableAdditionalRowClass.xsl"/>
 	<xsl:import href="wc.ui.table.tr.n.clientRowClosedHelper.xsl"/>
 	<!--
 		Transform for each row in the WTable. The row itself transforms to a HTML tr element. It may also output another
@@ -109,27 +109,6 @@
 		</xsl:variable>
 
 		<xsl:variable name="class">
-			<xsl:choose>
-				<xsl:when test="parent::ui:tbody">
-					<xsl:if test="$myTable/@striping='rows' and position() mod 2 = 0">
-						<xsl:text>wc_table_stripe </xsl:text>
-					</xsl:if>
-					<xsl:if test="$myTable/ui:pagination">
-						<xsl:text>wc_table_pag_row </xsl:text>
-					</xsl:if>
-				</xsl:when>
-				<xsl:when test="$topRowIsStriped=1">
-					<xsl:text>wc_table_stripe </xsl:text>
-				</xsl:when>
-			</xsl:choose>
-
-			<!-- allow for overrides, pass through the complex calculations for efficiency -->
-			<xsl:call-template name="WTableAdditionalRowClass">
-				<xsl:with-param name="myTable" select="$myTable"/>
-				<xsl:with-param name="parentIsClosed" select="$parentIsClosed"/>
-				<xsl:with-param name="topRowIsStriped" select="$topRowIsStriped"/>
-				<xsl:with-param name="removeRow" select="$removeRow"/>
-			</xsl:call-template>
 		</xsl:variable>
 
 		<tr id="{$rowId}" data-wc-rowindex="{@rowIndex}">
@@ -137,11 +116,23 @@
 				<xsl:attribute name="role">row</xsl:attribute>
 			</xsl:if>
 
-			<xsl:if test="normalize-space($class) != ''">
-				<xsl:attribute name="class">
-					<xsl:value-of select="normalize-space($class)"/>
+			<xsl:attribute name="class">
+				<xsl:call-template name="commonClassHelper"/>
+				<xsl:choose>
+					<xsl:when test="parent::ui:tbody">
+						<xsl:if test="$myTable/@striping='rows' and position() mod 2 = 0">
+							<xsl:text> wc_table_stripe</xsl:text>
+						</xsl:if>
+						<xsl:if test="$myTable/ui:pagination">
+							<xsl:text> wc_table_pag_row</xsl:text>
+						</xsl:if>
+					</xsl:when>
+					<xsl:when test="$topRowIsStriped=1">
+						<xsl:text> wc_table_stripe</xsl:text>
+					</xsl:when>
+				</xsl:choose>
 				</xsl:attribute>
-			</xsl:if>
+			
 
 			<xsl:if test="$hasRowExpansion=1">
 				<xsl:if test="ui:subTr">

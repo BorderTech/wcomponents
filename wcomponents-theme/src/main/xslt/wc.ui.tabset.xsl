@@ -3,7 +3,7 @@
 	<xsl:import href="wc.common.disabledElement.xsl"/>
 	<xsl:import href="wc.common.hide.xsl"/>
 	<xsl:import href="wc.constants.xsl"/>
-	<xsl:import href="wc.ui.tabset.n.tabsetAdditionalClass.xsl"/>
+	<xsl:import href="wc.ui.tabset.n.WTabsetClass.xsl"/>
 	<xsl:import href="wc.ui.tabset.n.doTabList.xsl"/>
 	<xsl:import href="wc.ui.tabset.n.tabsAfterContent.xsl"/>
 	<!--
@@ -12,48 +12,39 @@
 		type.
 	-->
 	<xsl:template match="ui:tabset">
-		<xsl:variable name="id" select="@id"/>
-		<xsl:variable name="type" select="@type"/>
 		<xsl:variable name="firstOpenTab" select="(ui:tab[@open=$t]|ui:tabGroup/ui:tab[@open=$t])[1]"/>
+		
+		<xsl:variable name="tabsAfterContent">
+			<xsl:call-template name="tabsAfterContent"/>
+		</xsl:variable>
 
-		<xsl:element name="div">
-			<xsl:attribute name="id">
-				<xsl:value-of select="$id"/>
-			</xsl:attribute>
-
+		<div id="{@id}">
 			<xsl:attribute name="class">
-				<xsl:text>tabset </xsl:text>
-				<xsl:value-of select="$type"/>
-				<xsl:if test="$type='left' or $type='right'">
-					<xsl:text> wc_tab_lr</xsl:text><!-- convenience class to reduce CSS -->
-				</xsl:if>
-				<xsl:if test="@class">
-					<xsl:value-of select="concat(' ', @class)"/>
-				</xsl:if>
-				<xsl:call-template name="tabsetAdditionalClass"/>
+				<xsl:call-template name="WTabsetClass"/>
 			</xsl:attribute>
 
 			<xsl:call-template name="disabledElement"/>
 			<xsl:call-template name="hideElementIfHiddenSet"/>
 			<xsl:call-template name="ajaxTarget"/>
+			
 			<xsl:apply-templates select="ui:margin"/>
-			<xsl:variable name="tabsAfterContent">
-				<xsl:call-template name="tabsAfterContent"/>
-			</xsl:variable>
+			
+			
 			<xsl:if test="$tabsAfterContent!=1">
 				<xsl:call-template name="doTabList">
 					<xsl:with-param name="firstOpenTab" select="$firstOpenTab"/>
 				</xsl:call-template>
 			</xsl:if>
-			<xsl:if test="not($type='accordion')">
+			
+			<xsl:if test="not(@type='accordion')">
 				<xsl:element name="div">
 					<xsl:attribute name="role">
 						<xsl:text>presentation</xsl:text>
 					</xsl:attribute>
 					<xsl:apply-templates select="ui:tab|ui:tabGroup/ui:tab" mode="content">
 						<xsl:with-param name="tabset" select="."/>
-						<xsl:with-param name="tabsetId" select="$id"/>
-						<xsl:with-param name="type" select="$type"/>
+						<xsl:with-param name="tabsetId" select="@id"/>
+						<xsl:with-param name="type" select="@type"/>
 						<xsl:with-param name="firstOpenTab" select="$firstOpenTab"/>
 					</xsl:apply-templates>
 				</xsl:element>
@@ -63,6 +54,6 @@
 					<xsl:with-param name="firstOpenTab" select="$firstOpenTab"/>
 				</xsl:call-template>
 			</xsl:if>
-		</xsl:element>
+		</div>
 	</xsl:template>
 </xsl:stylesheet>

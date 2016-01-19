@@ -2,6 +2,7 @@
 	<xsl:import href="wc.common.ajax.xsl"/>
 	<xsl:import href="wc.common.hide.xsl"/>
 	<xsl:import href="wc.constants.xsl"/>
+	<xsl:import href="wc.common.n.className.xsl"/>
 	<!--
 		WDecoratedLabel allows a labelling element to contain up to three independently
 		stylable areas. The output element of the label and its children is dependent
@@ -22,12 +23,9 @@
 				<xsl:value-of select="@id"/>
 			</xsl:attribute>
 			<xsl:attribute name="class">
-				<xsl:text>decoratedLabel</xsl:text>
+				<xsl:call-template name="commonClassHelper"/>
 				<xsl:if test="@type">
 					<xsl:value-of select="concat(' ',@type)"/>
-				</xsl:if>
-				<xsl:if test="@class">
-					<xsl:value-of select="concat(' ', @class)"/>
 				</xsl:if>
 			</xsl:attribute>
 			<xsl:call-template name="hideElementIfHiddenSet"/>

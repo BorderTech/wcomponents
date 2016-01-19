@@ -4,6 +4,7 @@
 	<xsl:import href="wc.ui.menu.n.menuTabIndexHelper.xsl"/>
 	<xsl:import href="wc.common.disabledElement.xsl"/>
 	<xsl:import href="wc.common.accessKey.xsl"/>
+	<xsl:import href="wc.common.n.className.xsl"/>
 	<!--
 		WSubMenu is a descendant of WMenu and is used to hold WMenuItems.
 
@@ -81,12 +82,7 @@
 				This <<may>> change so you should try not to rely on this class for too much and
 				certainly avoid it for automated testing.
 			-->
-			<xsl:attribute name="class">
-				<xsl:text>submenu</xsl:text>
-				<xsl:if test="@class">
-					<xsl:value-of select="concat(' ', @class)"/>
-				</xsl:if>
-			</xsl:attribute>
+			<xsl:call-template name="makeCommonClass"/>
 			<xsl:attribute name="aria-expanded">
 				<xsl:choose>
 					<xsl:when test="$open=1">
