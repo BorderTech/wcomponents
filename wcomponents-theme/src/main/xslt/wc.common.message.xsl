@@ -1,4 +1,5 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+	<xsl:import href="wc.common.n.className.xsl"/>
 	<!--
 		Transform for ui:message.
 		
@@ -14,12 +15,7 @@
 	-->
 	<xsl:template match="ui:message">
 		<li>
-			<xsl:attribute name="class">
-				<xsl:text>message</xsl:text>
-				<xsl:if test="@class">
-					<xsl:value-of select="concat(' ', @class)"/>
-				</xsl:if>
-			</xsl:attribute>
+			<xsl:call-template name="makeCommonClass"/>
 			<xsl:apply-templates/>
 		</li>
 	</xsl:template>

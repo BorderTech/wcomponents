@@ -10,6 +10,7 @@
 	<xsl:import href="wc.common.required.xsl"/>
 	<xsl:import href="wc.common.title.xsl"/>
 	<xsl:import href="wc.common.aria.label.xsl"/>
+	<xsl:import href="wc.common.n.className.xsl"/>
 
 	<!--
 		TODO: these need a good clean up.
@@ -59,14 +60,11 @@
 			<xsl:call-template name="invalid"/>
 		</xsl:if>
 
-		<xsl:variable name="class">
-			<xsl:value-of select="concat(local-name(), ' ', @class)"/>
+		<xsl:attribute name="class">
+			<xsl:call-template name="commonClassHelper"/>
 			<xsl:if test="@submitOnChange and not(@list)">
 				<xsl:text> wc_soc</xsl:text>
 			</xsl:if>
-		</xsl:variable>
-		<xsl:attribute name="class">
-			<xsl:value-of select="normalize-space($class)"/>
 		</xsl:attribute>
 
 		<xsl:call-template name="requiredElement"/>
@@ -122,7 +120,7 @@
 			<xsl:with-param name="isWrapper" select="1"/>
 		</xsl:call-template>
 		<xsl:attribute name="class">
-			<xsl:value-of select="local-name()"/>
+			<xsl:call-template name="commonClassHelper"/>
 			<xsl:if test="not(@readOnly)">
 				<xsl:text> notext noborder</xsl:text>
 				<xsl:if test="@required">
@@ -131,9 +129,6 @@
 			</xsl:if>
 			<xsl:if test="$class!= ''">
 				<xsl:value-of select="concat(' ', $class)"/>
-			</xsl:if>
-			<xsl:if test="@class">
-				<xsl:value-of select="concat(' ', @class)"/>
 			</xsl:if>
 		</xsl:attribute>
 		<xsl:call-template name="ajaxController">

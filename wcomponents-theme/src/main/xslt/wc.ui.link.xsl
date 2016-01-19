@@ -3,6 +3,7 @@
 	<xsl:import href="wc.common.inlineError.xsl"/>
 	<xsl:import href="wc.common.popups.xsl"/>
 	<xsl:import href="wc.common.buttonLinkCommon.xsl"/>
+	<xsl:import href="wc.common.n.className.xsl"/>
 	<!--
 		Transform for WLink and WInternalLink. This should be a simple transform to a HTML
 		anchor element. However, as usual things are not that simple.
@@ -61,12 +62,9 @@
 						</xsl:attribute>
 					</xsl:if>
 					<xsl:attribute name="class">
-						<xsl:value-of select="local-name()"/>
+						<xsl:call-template name="commonClassHelper"/>
 						<xsl:if test="@imagePosition">
 							<xsl:value-of select="concat(' wc_btn_img',@imagePosition)"/>
-						</xsl:if>
-						<xsl:if test="@class">
-							<xsl:value-of select="concat(' ', @class)"/>
 						</xsl:if>
 					</xsl:attribute>
 				</xsl:when>
@@ -75,15 +73,12 @@
 						<xsl:text>button</xsl:text>
 					</xsl:attribute>
 					<xsl:attribute name="class">
-						<xsl:value-of select="local-name()"/>
+						<xsl:call-template name="commonClassHelper"/>
 						<xsl:if test="not($type='button')">
 							<xsl:text> wc_btn_link</xsl:text>
 						</xsl:if>
 						<xsl:if test="@imagePosition">
 							<xsl:value-of select="concat(' wc_btn_img',@imagePosition)"/>
-						</xsl:if>
-						<xsl:if test="@class">
-							<xsl:value-of select="concat(' ', @class)"/>
 						</xsl:if>
 					</xsl:attribute>
 					

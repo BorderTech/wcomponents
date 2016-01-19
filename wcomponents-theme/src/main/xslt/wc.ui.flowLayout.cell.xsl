@@ -25,13 +25,11 @@ param vgap: the vertical space between cells in a vertical flow (if any).
 							<xsl:text>;</xsl:text>
 						</xsl:if>
 					</xsl:when>
-					<xsl:otherwise>
-						<xsl:if test="$hgap !=0">
-							<xsl:text>margin-left:</xsl:text>
-							<xsl:value-of select="$hgap"/>
-							<xsl:text>;</xsl:text>
-						</xsl:if>
-					</xsl:otherwise>
+					<xsl:when test="$hgap != 0">
+						<xsl:text>margin-left:</xsl:text>
+						<xsl:value-of select="$hgap"/>
+						<xsl:text>;</xsl:text>
+					</xsl:when>
 				</xsl:choose>
 			</xsl:if>
 		</xsl:variable>

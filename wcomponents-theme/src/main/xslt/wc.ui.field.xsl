@@ -3,6 +3,7 @@
 	<xsl:import href="wc.common.ajax.xsl" />
 	<xsl:import href="wc.common.hide.xsl" />
 	<xsl:import href="wc.ui.field.n.isCheckRadio.xsl" />
+	<xsl:import href="wc.common.n.className.xsl"/>
 
 	<!--
 		Transform for WField. It is used to represent a label:control pair. WField is a
@@ -52,12 +53,7 @@
 					<xsl:value-of select="@id" />
 				</xsl:attribute>
 
-				<xsl:attribute name="class">
-					<xsl:value-of select="local-name(.)"/>
-					<xsl:if test="@class">
-						<xsl:value-of select="concat(' ', @class)"/>
-					</xsl:if>
-				</xsl:attribute>
+				<xsl:call-template name="makeCommonClass"/>
 				<!--
 					If we are part of an ajaxResponse and we don't have a parent ui:fieldLayout we
 					need to add a transient attribute to act as a flag for the ajax subscriber

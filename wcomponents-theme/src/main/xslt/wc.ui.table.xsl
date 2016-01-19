@@ -7,7 +7,10 @@
 	<xsl:import href="wc.common.hide.xsl"/>
 	<xsl:import href="wc.ui.table.n.xsl"/>
 	<xsl:import href="wc.ui.table.n.caption.xsl"/>
+	<xsl:import href="wc.ui.table.n.tfoot.xsl"/>
 	<xsl:import href="wc.ui.table.n.topControls.xsl"/>
+	
+	<xsl:import href="wc.ui.table.n.WTableContainerClass.xsl"/>
 	<!--
 		WTable (and WDataTable)
 
@@ -56,14 +59,9 @@
 
 		<div id="{$id}">
 			<xsl:attribute name="class">
-				<xsl:text>table</xsl:text>
-				<xsl:if test="$isError">
-					<xsl:text> wc_error</xsl:text>
-				</xsl:if>
-				<xsl:if test="@class">
-					<xsl:value-of select="concat(' ', @class)"/>
-				</xsl:if>
-				<xsl:call-template name="WTableAdditionalContainerClass"/>
+				<xsl:call-template name="WTableContainerClass">
+					<xsl:with-param name="isError" select="$isError"/>
+				</xsl:call-template>
 			</xsl:attribute>
 
 			<xsl:call-template name="hideElementIfHiddenSet"/>
