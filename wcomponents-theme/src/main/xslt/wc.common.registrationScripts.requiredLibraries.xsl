@@ -49,9 +49,15 @@
 			<xsl:if test=".//ui:fileUpload">
 				<xsl:text>"wc/ui/multiFileUploader","wc/ui/fileUpload",</xsl:text>
 			</xsl:if>
+			<!-- 
+				WFilterControl only works on WDataTable and both are in the process of being removed. If you require
+				WFilterControl you will need to uncomment the following piece of XSLT.
+				
+				TODO: this should be deleted when WFilterControl is removed from the Java API.
 			<xsl:if test=".//ui:filterControl">
 				<xsl:text>"wc/ui/filterControl",</xsl:text>
 			</xsl:if>
+			-->
 			<xsl:if test=".//ui:listBox[not(@readOnly)]">
 				<xsl:text>"wc/ui/dropdown",</xsl:text>
 			</xsl:if>
