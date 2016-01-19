@@ -1,42 +1,44 @@
-<div>
+<div class="row">
 	<div class="wc_img_editpane">
 		<div class="wc_img_canvas">
 			<canvas id="wc_img_canvas"></canvas>
 		</div>
-		<div class="wc_img_controls">
-			<fieldset>
-				<legend>{{heading.rotate}}</legend>
-				<button title="{{message.rotateLeft}}" type="button" class="anticlock">{{action.rotateLeft}}</button>
-				<button title="{{message.rotateRight}}" type="button" class="clock">{{action.rotateRight}}</button>
-			</fieldset>
-			<fieldset>
-				<legend>{{heading.zoom}}</legend>
-				<button title="{{message.zoomIn}}" type="button" class="in">{{action.zoomIn}}</button>
-				<button title="{{message.zoomOut}}" type="button" class="out">{{action.zoomOut}}</button>
-			</fieldset>
-			<fieldset>
-				<legend>{{heading.move}}</legend>
-				<button title="{{message.moveUp}}" type="button" class="up">{{action.moveUp}}</button>
-				<button title="{{message.moveLeft}}" type="button" class="left">{{action.moveLeft}}</button>
-				<button title="{{message.moveRight}}" type="button" class="right">{{action.moveRight}}</button>
-				<button title="{{message.moveDown}}" type="button" class="down">{{action.moveDown}}</button>
-			</fieldset>
-			<div>
-				<button title="{{message.reset}}" class="reset">{{action.reset}}</button>
-				<button title="{{message.cancel}}" class="cancel">{{action.cancel}}</button>
-				<button title="{{message.save}}" class="save">{{action.save}}</button>
-			</div>
-			<div>
-				<label title="{{message.speed}}" for="wc_img_speed">{{action.speed}}</label>
-				<input title="{{message.speed}}" type="range" min="{{value.speedMin}}" max="{{value.speedMax}}" value="{{value.speedNow}}" step="0.5" id="wc_img_speed"/>
-			</div>
+	</div>
+	<div class="wc_img_controls">
+		<fieldset>
+			<legend>{{heading.rotate}}</legend>
+			<button title="{{message.rotateLeft90}}" type="button" class="anticlock90"><span class="wc_off">{{action.rotateLeft90}}</span></button>
+			<button title="{{message.rotateLeft}}" type="button" class="anticlock"><span class="wc_off">{{action.rotateLeft}}</span></button>
+			<button title="{{message.rotateRight}}" type="button" class="clock"><span class="wc_off">{{action.rotateRight}}</span></button>
+			<button title="{{message.rotateRight90}}" type="button" class="clock90"><span class="wc_off">{{action.rotateRight90}}</span></button>
+		</fieldset>
+		<fieldset>
+			<legend>{{heading.zoom}}</legend>
+			<button title="{{message.zoomIn}}" type="button" class="in"><span class="wc_off">{{action.zoomIn}}</span></button>
+			<button title="{{message.zoomOut}}" type="button" class="out"><span class="wc_off">{{action.zoomOut}}</span></button>
+		</fieldset>
+		<fieldset class="wc_img_buttons">
+			<legend>{{heading.move}}</legend>
+			<button title="{{message.moveUp}}" type="button" class="up"><span class="wc_off">{{action.moveUp}}</span></button>
+			<button title="{{message.moveLeft}}" type="button" class="left"><span class="wc_off">{{action.moveLeft}}</span></button>
+			<button title="{{message.moveRight}}" type="button" class="right"><span class="wc_off">{{action.moveRight}}</span></button>
+			<button title="{{message.moveDown}}" type="button" class="down"><span class="wc_off">{{action.moveDown}}</span></button>
+		</fieldset>
+		<div>
+			<label title="{{message.speed}}" for="wc_img_speed">{{action.speed}}</label>
+			<input title="{{message.speed}}" type="range" min="{{value.speedMin}}" max="{{value.speedMax}}" value="{{value.speedNow}}" step="0.5" id="wc_img_speed"/>
+		</div>
+		<div>
+			<button title="{{message.reset}}" type="button" class="reset"><span class="wc_off">{{action.reset}}</span></button>
+			<button title="{{message.cancel}}" type="button" class="cancel"><span class="wc_off">{{action.cancel}}</span></button>
+			<button title="{{message.save}}" type="button" class="save"><span class="wc_off">{{action.save}}</span></button>
 		</div>
 	</div>
 	<div class="wc_img_cap">
 		<div>
 			<video id="wc_img_video">{{message.novideo}}</video>
 		</div>
-		<button title="{{message.snap}}" type="button" class="snap">{{action.snap}}</button>
+		<button title="{{message.snap}}" type="button" class="snap"><span class="wc_off">{{action.snap}}</span></button>
 	</div>
 	<div class="wc_img_nocap">
 		<p>{{message.nocapture}}</p>

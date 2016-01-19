@@ -2,7 +2,7 @@
 @import 'mixins_common.scss';
 
 .row {
-	@include flex($justify: space-between, $align-items: baseline);
+	@include flex($justify: space-between);
 }
 
 @include respond(phonelike) {
