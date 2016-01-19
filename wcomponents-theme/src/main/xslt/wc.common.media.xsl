@@ -2,6 +2,7 @@
 	<xsl:import href="wc.common.ajax.xsl"/>
 	<xsl:import href="wc.common.hide.xsl"/>
 	<xsl:import href="wc.common.media.n.mediaUnsupportedContent.xsl"/>
+	<xsl:import href="wc.common.n.className.xsl"/>
 	<!--
 		Transforms for ui:audio from WAudio and ui:video from WVideo and their children.
 		
@@ -22,12 +23,7 @@
 			</xsl:choose>
 		</xsl:variable>
 		<span id="{@id}">
-			<xsl:attribute name="class">
-				<xsl:value-of select="local-name(.)"/>
-				<xsl:if test="@class">
-					<xsl:value-of select="concat(' ', @class)"/>
-				</xsl:if>
-			</xsl:attribute>
+			<xsl:call-template name="makeCommonClass"/>
 			<xsl:if test="@toolTip">
 				<xsl:attribute name="title">
 					<xsl:value-of select="normalize-space(@toolTip)"/>

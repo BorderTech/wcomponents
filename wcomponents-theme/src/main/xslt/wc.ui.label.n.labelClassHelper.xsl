@@ -1,5 +1,6 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
 	<xsl:import href="wc.constants.xsl"/>
+	<xsl:import href="wc.common.n.className.xsl"/>
 	<!--
 		ui:label making helper. 
 		This helper provides a class attribute. 
@@ -13,7 +14,7 @@
 		<xsl:param name="element"/>
 		<xsl:param name="readOnly" select="0"/>
 		<xsl:attribute name="class">
-			<xsl:text>label</xsl:text>
+			<xsl:call-template name="commonClassHelper"/>
 			<xsl:if test="@hidden">
 				<!--
 				If a WLabel has its @hidden attribute set "true" it will not be hidden but moved out of viewport. A 
@@ -25,9 +26,6 @@
 			</xsl:if>
 			<xsl:if test="$readOnly!=1 and $element and $element/@required">
 				<xsl:text> wc_req</xsl:text>
-			</xsl:if>
-			<xsl:if test="@class">
-				<xsl:value-of select="concat(' ', @class)"/>
 			</xsl:if>
 		</xsl:attribute>
 	</xsl:template>

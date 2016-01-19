@@ -1,6 +1,7 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
 	<xsl:import href="wc.common.hide.xsl"/>
 	<xsl:import href="wc.constants.xsl"/>
+	<xsl:import href="wc.common.n.className.xsl"/>
 	<!--
 		TO BE DELETED PLEASE DO NOT USE:
 		HERE FOR BACKWARDS COMPATIBILITY AND WILL BE REMOVED WITHOUT NOTICE!!!
@@ -19,10 +20,8 @@
 	<xsl:template match="ui:filterControl">
 		<button id="{@id}" type="button" aria-control="{@for}" data-wc-filter="{@value}">
 			<xsl:attribute name="class">
-				<xsl:text>filterControl wc_btn_link</xsl:text>
-				<xsl:if test="@class">
-					<xsl:value-of select="concat(' ', @class)"/>
-				</xsl:if>
+				<xsl:call-template name="commonClassHelper"/>
+				<xsl:text> wc_btn_link</xsl:text>
 			</xsl:attribute>
 			<xsl:attribute name="aria-pressed">
 				<xsl:choose>

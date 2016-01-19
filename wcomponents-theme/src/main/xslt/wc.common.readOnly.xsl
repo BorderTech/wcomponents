@@ -1,6 +1,7 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
 	<xsl:import href="wc.common.attributeSets.xsl"/>
 	<xsl:import href="wc.common.title.xsl"/>
+	<xsl:import href="wc.common.n.className.xsl"/>
 	<!--
 		Common helper template to output the readOnly state of many form control components.
 		This template must never be excluded.
@@ -71,10 +72,8 @@
 				<xsl:with-param name="title" select="$toolTip"/>
 			</xsl:call-template>
 			<xsl:attribute name="class">
-				<xsl:value-of select="concat(local-name(), ' wc_ro')"/>
-				<xsl:if test="@class">
-					<xsl:value-of select="concat(' ', @class)"/>
-				</xsl:if>
+				<xsl:call-template name="commonClassHelper"/>
+				<xsl:text> wc_ro</xsl:text>
 				<xsl:if test="$class != ''">
 					<xsl:value-of select="concat(' ', $class)"/>
 				</xsl:if>

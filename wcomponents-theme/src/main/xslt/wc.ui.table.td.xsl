@@ -1,10 +1,9 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
-	<xsl:import href="wc.ui.table.td.n.WTableAdditionalCellClass.xsl"/>
+	<xsl:import href="wc.common.n.className.xsl" />
 	<xsl:import href="wc.ui.table.n.cellIndentationHelper.xsl"/>
 	<xsl:import href="wc.constants.xsl"/>
 	<!--
-		The transform for data cells within the table. These are a 1:1 map with a HTML
-		td element.
+		The transform for data cells within the table. These are a 1:1 map with a HTML td element.
 	-->
 	<xsl:template match="ui:td">
 		<xsl:param name="myTable"/>
@@ -18,38 +17,29 @@
 		<xsl:variable name="colHeaderElement" select="$myTable/ui:thead/ui:th[position()=$tbleColPos]"/>
 		<xsl:variable name="rowHeaderElement" select="../ui:th[1]"/>
 		<!-- the one is redundant -->
-		<xsl:variable name="alignedCol">
-			<xsl:value-of select="$colHeaderElement/@align"/>
-		</xsl:variable>
-		<xsl:variable name="class">
-			<!-- IE 8- needs more help with striping -->
-			<xsl:if test="$myTable/@striping = 'cols' and position() mod 2 = 0">
-				<xsl:text> wc_table_stripe</xsl:text>
-			</xsl:if>
-			<xsl:choose>
-				<xsl:when test="$alignedCol!=''">
-					<xsl:value-of select="concat(' ',$alignedCol)"/>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:text> ${wc.common.align.std}</xsl:text>
-				</xsl:otherwise>
-			</xsl:choose>
-			<xsl:call-template name="WTableAdditionalCellClass">
-				<xsl:with-param name="myTable" select="$myTable"/>
-				<xsl:with-param name="tbleColPos" select="$tbleColPos"/>
-				<xsl:with-param name="rowHeaderElement" select="$rowHeaderElement"/>
-				<xsl:with-param name="alignedCol" select="$alignedCol"/>
-			</xsl:call-template>
-		</xsl:variable>
 		<td>
 			<xsl:if test="$hasRole &gt; 0">
 				<xsl:attribute name="role">gridcell</xsl:attribute>
 			</xsl:if>
-			<xsl:if test="normalize-space($class) !=''">
-				<xsl:attribute name="class">
-					<xsl:value-of select="normalize-space($class)"/>
-				</xsl:attribute>
-			</xsl:if>
+			<xsl:attribute name="class">
+				<xsl:call-template name="commonClassHelper"/>
+				<!-- IE 8- needs more help with striping -->
+				<xsl:if test="$myTable/@striping = 'cols' and position() mod 2 = 0">
+					<xsl:text> wc_table_stripe</xsl:text>
+				</xsl:if>
+				<xsl:variable name="alignedCol">
+					<xsl:value-of select="$colHeaderElement/@align"/>
+				</xsl:variable>
+				<xsl:choose>
+					<xsl:when test="$alignedCol!=''">
+						<xsl:value-of select="concat(' ',$alignedCol)"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:text> ${wc.common.align.std}</xsl:text>
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:attribute>
+			
 			<xsl:if test="$colHeaderElement or $rowHeaderElement">
 				<xsl:attribute name="headers">
 					<xsl:variable name="colHeader">

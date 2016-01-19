@@ -1,7 +1,8 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
 	<xsl:import href="wc.common.hide.xsl"/>
+	<xsl:import href="wc.common.n.className.xsl" />
 	<xsl:import href="wc.ui.table.n.xsl"/>
-	<xsl:import href="wc.ui.table.subTr.content.n.WTableAdditionalContentClass.xsl"/>
+	<xsl:import href="wc.ui.table.subTr.content.n.WTableSubTrContentClass.xsl"/>
 	<!--
 		Transform for ui:content child of a ui:subTr.
 	-->
@@ -12,25 +13,16 @@
 		<xsl:param name="indent" select="0"/>
 		
 		<xsl:variable name="tableId" select="$myTable/@id"/>
-
-		<tr id="{concat($tableId,'${wc.ui.table.id.subTr.content.suffix}',../../@rowIndex)}">
+		<!--NOTE: aria-level the minimum is going to be level 2 -->
+		<tr id="{concat($tableId,'${wc.ui.table.id.subTr.content.suffix}',../../@rowIndex)}" role="row" aria-level="{count(ancestor::ui:subTr[ancestor::ui:table[1]/@id=$tableId]) + 1}">
 			<xsl:if test="$parentIsClosed=1 or ancestor::ui:subTr[not(@open) or @open='false']">
 				<xsl:call-template name="hiddenElement"/>
 			</xsl:if>
-			<xsl:attribute name="role">row</xsl:attribute>
-			<xsl:attribute name="aria-level">
-				<xsl:value-of select="count(ancestor::ui:subTr) + 1"/><!-- Minimum is going to be level 2 -->
-			</xsl:attribute>
 			<xsl:attribute name="class">
-				<xsl:text>content</xsl:text>
+				<xsl:call-template name="commonClassHelper"/>
 				<xsl:if test="$topRowIsStriped=1">
 					<xsl:text> wc_table_stripe</xsl:text>
 				</xsl:if>
-				<xsl:call-template name="WTableAdditionalContentClass">
-					<xsl:with-param name="myTable" select="$myTable"/>
-					<xsl:with-param name="parentIsClosed" select="$parentIsClosed"/>
-					<xsl:with-param name="topRowIsStriped" select="$topRowIsStriped"/>
-				</xsl:call-template>
 			</xsl:attribute>
 			
 			<!-- 
@@ -54,7 +46,7 @@
 			<td role="gridcell">
 				<xsl:if test="@spanAllCols=$t">
 					<xsl:attribute name="colspan">
-						<xsl:value-of select="count(../../ui:td|../../ui:th)"/>
+						<xsl:value-of select="count(../../*) -1"/><!-- -1 because we do not count the ui:subTr -->
 					</xsl:attribute>
 				</xsl:if>
 				<xsl:if test="$indent &gt; 0">

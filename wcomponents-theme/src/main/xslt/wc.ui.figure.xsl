@@ -2,6 +2,7 @@
 	<xsl:import href="wc.common.hide.xsl"/>
 	<xsl:import href="wc.common.aria.live.xsl"/>
 	<xsl:import href="wc.constants.xsl"/>
+	<xsl:import href="wc.common.n.className.xsl"/>
 	<!--
 		Transform for WFigure. Direct map to Figure element. THe WDecoratedLabel child maps to Figcaption element.
 	-->
@@ -12,12 +13,9 @@
 				<xsl:value-of select="@id"/>
 			</xsl:attribute>
 			<xsl:attribute name="class">
-				<xsl:value-of select="local-name()"/>
+				<xsl:call-template name="commonClassHelper"/>
 				<xsl:if test="$mode='lazy' and @hidden">
 					<xsl:text> wc_magic</xsl:text>
-				</xsl:if>
-				<xsl:if test="@class">
-					<xsl:value-of select="concat(' ', @class)"/>
 				</xsl:if>
 			</xsl:attribute>
 			<xsl:if test="ui:decoratedLabel">
