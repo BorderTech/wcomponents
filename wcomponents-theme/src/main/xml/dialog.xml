@@ -6,7 +6,7 @@
 </span>
 <h1>&#x2002;</h1>
 </${wc.dom.html5.element.header}>
-<div class="wc_magic wc_dynamic" aria-live="assertive">
+<div class="content" aria-live="assertive">
 	{{message.loading}}
 </div>
 <${wc.dom.html5.element.footer}>
