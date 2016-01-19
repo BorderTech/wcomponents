@@ -1,60 +1,148 @@
 /* wc.ui.imageEdit.scss */
 @import 'mixins_common.scss';
 
-div.wc_img_editor {
+.wc_img_editor {
 	background-color: $wc-ui-color-global-bg;
-	position: fixed;
-	top: 5%;
-	left: 5%;
-	z-index: 999;
-	padding: 1em;
+
+	.wc_img_canvas,
+	.wc_img_cap,
+	.wc_img_editpane {
+		@include border;
+	}
+
+	.wc_img_nocap,
+	.wc_img_cap.cantplay {
+		display: none;
+	}
+
+	.wc_img_nocap.cantplay {
+		display: block;
+	}
+
+	&.nocap .wc_img_cap {
+		display: none;
+	}
+
+	button {
+		@include button;
+		@include background-image('../images/up.png', $height: 1em, $width: 1em);
+
+		margin: 0 $hgap-small;
+		// min-width: 4em;
+
+		&:first-of-type {
+			margin-left: 0;
+		}
+
+		&:last-of-type {
+			margin-right: 0;
+		}
+
+		&.up,
+		&.down {
+			display: block;
+		}
+
+		&.up {
+			margin: 0 auto $hgap-small;
+		}
+
+		&.down {
+			background-image: url('../images/down.png');
+			margin: $hgap-small auto 0;
+		}
+
+		&.left {
+			background-image: url('../images/previous.png');
+		}
+
+		&.right {
+			background-image: url('../images/next.png');
+		}
+
+		&.in {
+			background-image: url('../images/zoom-in.png');
+		}
+
+		&.out {
+			background-image: url('../images/zoom-out.png');
+		}
+
+		&.anticlock {
+			background-image: url('../images/arrow-rotate-anticlockwise.png');
+		}
+
+		&.clock {
+			background-image: url('../images/arrow-rotate-clockwise.png');
+		}
+
+		&.anticlock90 {
+			background-image: url('../images/rotate-left.png');
+		}
+
+		&.clock90 {
+			background-image: url('../images/rotate-right.png');
+		}
+
+		&.snap {
+			background-image: url('../images/camera-add.png');
+			display: block;
+			margin: $hgap-small auto 0;
+		}
+
+		&.reset {
+			background-image: url('../images/undo.png');
+		}
+
+		&.cancel {
+			background-image: url('../images/delete.png');
+		}
+
+		&.save {
+			background-image: url('../images/save.png');
+		}
+	}
+
+	.wc_img_controls {
+		> div,
+		> fieldset {
+			margin: $hgap-normal $hgap-small;
+			text-align: center;
+		}
+
+		> :first-child {
+			margin-top: 0;
+		}
+
+	}
+
+	input[type='range'] {
+		margin-left: $hgap-small;
+		vertical-align: middle;
+	}
 }
 
-div.wc_img_editor .wc_img_controls {
-	float: left;
-}
+@include respond(phonelike) {
+	.wc_img_editor {
+		.row > div {
+			text-align: center;
+		}
 
-div.wc_img_editor fieldset {
-	margin-bottom: 1em;
-	margin-top: 1em;
-}
+		.wc_img_controls {
+			@include flex($wrap: wrap, $align-content: space-between);
 
-div.wc_img_editor button {
-	@include button;
-	min-width: 4em;
-	margin-left: 1em;
-}
+			> div,
+			> fieldset {
+				margin: $hgap-small;
 
-div.wc_img_editor button.up, div.wc_img_editor button.down{
-	margin-left: 3em;
-	display: block;
-}
+				&:first-child {
+					margin-left: 0;
+				}
 
-div.wc_img_editor .wc_img_canvas, div.wc_img_editor .wc_img_cap {
-	@include border;
-	margin: 1em;
-	float: left;
+				&:last-child {
+					margin-right: 0;
+				}
+			}
+		}
+	}
 }
-
-div.wc_img_editor.nocap .wc_img_cap {
-	display: none;
-}
-
-div.wc_img_editor .wc_img_editpane {
-	@include border;
-	padding: 1em;
-	float: left;
-}
-
-div.wc_img_editor .wc_img_editpane {
-	@include border;
-}
-
-div.wc_img_editor .wc_img_nocap, div.wc_img_editor .wc_img_cap.cantplay {
-	display: none;
-}
-
-div.wc_img_editor .wc_img_nocap.cantplay {
-	display: block;
-}
-/* end wc.ui.imageEdit.scss */

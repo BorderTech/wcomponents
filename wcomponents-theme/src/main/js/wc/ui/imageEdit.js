@@ -1,6 +1,6 @@
-define(["wc/ui/modalShim", "wc/has", "wc/dom/event", "wc/dom/uid", "wc/dom/classList", "wc/timers",
-	"wc/loader/resource", "wc/i18n/i18n", "fabric", "Mustache"],
-function(modalShim, has, event, uid, classList, timers, loader, i18n, fabric, Mustache) {
+define(["wc/has", "wc/dom/event", "wc/dom/uid", "wc/dom/classList", "wc/timers",
+	"wc/loader/resource", "wc/i18n/i18n", "fabric", "Mustache", "wc/ui/dialogFrame"],
+function(has, event, uid, classList, timers, loader, i18n, fabric, Mustache, dialogFrame) {
 	var imageEdit = new ImageEdit();
 
 	/**
@@ -20,7 +20,17 @@ function(modalShim, has, event, uid, classList, timers, loader, i18n, fabric, Mu
 			},
 			stateStack = [],
 			registeredIds = {},
-			fbCanvas, fbImage;
+			fbCanvas, fbImage, frameConfig;
+
+
+		function getDialogFrameConfig() {
+			return {
+				id: "wc_img_editor",
+				modal: true,
+				resizable: true,
+				title: i18n.get("${wc.ui.imageEdit.title}")
+			};
+		}
 
 		/**
 		 * Registers a configuration object against a unique ID to specificy variables such as overlay image URL, width, height etc.
@@ -265,6 +275,7 @@ function(modalShim, has, event, uid, classList, timers, loader, i18n, fabric, Mu
 			}
 		}
 
+
 		/**
 		 * Builds the editor DOM and displays it to the user.
 		 * @param {Object} callbacks An object with two callbacks: "win" and "lose".
@@ -274,9 +285,11 @@ function(modalShim, has, event, uid, classList, timers, loader, i18n, fabric, Mu
 		 * @private
 		 */
 		function getEditor(callbacks, file) {
+			frameConfig = frameConfig || getDialogFrameConfig();
 			var promise = new Promise(function(resolve, reject) {
 				var container = document.body.appendChild(document.createElement("div"));
-				container.className = container.id = "wc_img_editor";
+				container.className = "wc_img_editor";
+
 				loader.load("imageEdit.xml", true, true).then(function(template) {
 					var eventConfig, editorHtml, i18nProps = {
 							heading: {
@@ -287,6 +300,8 @@ function(modalShim, has, event, uid, classList, timers, loader, i18n, fabric, Mu
 							action: {
 								rotateLeft: i18n.get("${wc.ui.imageEdit.rotate.left}"),
 								rotateRight: i18n.get("${wc.ui.imageEdit.rotate.right}"),
+								rotateLeft90: i18n.get("${wc.ui.imageEdit.rotate.left90}"),
+								rotateRight90: i18n.get("${wc.ui.imageEdit.rotate.right90}"),
 								moveLeft: i18n.get("${wc.ui.imageEdit.move.left}"),
 								moveRight: i18n.get("${wc.ui.imageEdit.move.right}"),
 								moveUp: i18n.get("${wc.ui.imageEdit.move.up}"),
@@ -304,6 +319,8 @@ function(modalShim, has, event, uid, classList, timers, loader, i18n, fabric, Mu
 								nocapture: "Your browser does not support image capture.",
 								rotateLeft: "Rotate the image anti-clockwise",
 								rotateRight: "Rotate the image clockwise",
+								rotateLeft90: "Rotate anti-clockwise to next multiple of 90º",
+								rotateRight90: "Rotate clockwise to next multiple of 90º",
 								moveLeft: "Move the image to the left",
 								moveRight: "Move the image to the right",
 								moveUp: "Move the image to the up",
@@ -325,7 +342,6 @@ function(modalShim, has, event, uid, classList, timers, loader, i18n, fabric, Mu
 					editorHtml = Mustache.to_html(template, i18nProps);
 
 					container.innerHTML = editorHtml;
-					modalShim.setModal(container);
 					eventConfig = attachEventHandlers(container);
 					zoomControls(eventConfig);
 					moveControls(eventConfig);
@@ -342,7 +358,17 @@ function(modalShim, has, event, uid, classList, timers, loader, i18n, fabric, Mu
 					resolve(container);
 				}, reject);
 			});
-			return promise;
+
+			return Promise.all([promise, dialogFrame.open(frameConfig)]).then(function(values) {
+				var dialogContent = dialogFrame.getContent(),
+					container = values[0];
+
+				if (dialogContent && container) {
+					dialogContent.innerHTML = "";
+					dialogContent.appendChild(container);
+					dialogFrame.reposition();
+				}
+			});
 		}
 
 		/**
@@ -366,7 +392,7 @@ function(modalShim, has, event, uid, classList, timers, loader, i18n, fabric, Mu
 				var config = getEventConfig($event.target, "click");
 				if (config) {
 					timers.clearTimeout(timer);
-					timer = timers.setTimeout(config.func, 0);
+					timer = timers.setTimeout(config.func, 0, config);
 				}
 			}
 
@@ -398,19 +424,52 @@ function(modalShim, has, event, uid, classList, timers, loader, i18n, fabric, Mu
 		}
 
 		/*
+		 * Get the angle to set when we want to rotate an image (which may already be rotated) to the next multiple
+		 * of step.
+		 *
+		 * @param {Number} currentValue The current angle of rotation.
+		 * @param {Number} step The angle of unit rotation, eg 90 or 45 (or Math.PI if you are really odd).
+		 * @returns {Number} The number of degrees to which we want to set the item being rotated.
+		 */
+		function rotateToStepHelper(currentValue, step) {
+			var interim;
+
+			if (!step) {
+				return currentValue; // no step why are you calling me?
+			}
+
+			if (!currentValue) { // start at 0
+				return step;
+			}
+
+			if (currentValue % step === 0) { // current value is already a multiple of step so everything is easy.
+				return currentValue + step;
+			}
+
+			interim = currentValue + step; // this is a simple rotate by step, now we need to work out where we should be.
+			return Math.floor(interim / step) * step;
+		}
+
+		/*
 		 * Helper for features that change numeric properties of the image on the canvas.
 		 */
 		function numericProp(config) {
-			var newValue, currentValue, getter = config.getter || ("get" + config.prop),
+			var newValue,
+				currentValue,
+				getter = config.getter || ("get" + config.prop),
 				setter = config.setter || ("set" + config.prop),
-				speed = document.getElementById("wc_img_speed");
+				speed = document.getElementById("wc_img_speed"),
+				step = config.step || 1; // do not allow step to be 0
 			if (fbImage) {
 				currentValue = fbImage[getter]();
-				if (speed) {
-					newValue = currentValue + (config.step * speed.value);
+				if (config.exact) {
+					newValue = rotateToStepHelper(currentValue, step);
+				}
+				else if (speed) {
+					newValue = currentValue + (step * speed.value);
 				}
 				else {
-					newValue = currentValue + config.step;
+					newValue = currentValue + step;
 				}
 				fbImage[setter](newValue);
 				fbCanvas.renderAll();
@@ -497,6 +556,21 @@ function(modalShim, has, event, uid, classList, timers, loader, i18n, fabric, Mu
 				prop: "Angle",
 				step: -1
 			};
+
+			var click = eventConfig.click;
+			click.clock90 = {
+				func: numericProp,
+				prop: "Angle",
+				step: 90,
+				exact: true
+			};
+
+			click.anticlock90 = {
+				func: numericProp,
+				prop: "Angle",
+				step: -90,
+				exact: true
+			};
 		}
 
 		/*
@@ -567,7 +641,8 @@ function(modalShim, has, event, uid, classList, timers, loader, i18n, fabric, Mu
 				}
 			}
 			finally {
-				modalShim.clearModal();
+				dialogFrame.close();
+				dialogFrame.resetContent();
 			}
 		}
 

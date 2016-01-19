@@ -91,5 +91,18 @@
 		background-color: $wc-ui-color-invite-bg;  //#c0ffee
 		outline: 2px dotted $wc-ui-color-invite-fg;
 	}
+
+	.wc_btn_camera {
+		@include button($width: 1em, $height: 1em);
+		@include background-image($url: '../images/camera-web.png', $height: 1em, $width: 1em);
+	}
+
+	input[type='file'][data-editor] {
+		max-width: calc(100% - 2em); // leave room for the edit button.
+
+		&,
+		+ button {
+			vertical-align: bottom;
+		}
+	}
 }
-/* end wc.ui.fileUpload.scss */
