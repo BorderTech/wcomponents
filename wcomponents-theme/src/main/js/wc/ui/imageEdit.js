@@ -384,9 +384,12 @@ function(has, event, uid, classList, timers, loader, i18n, fabric, Mustache, dia
 					click: {}
 				};
 			event.add(container, "mousedown", pressStart);
+			event.add(container, "touchstart", pressStart);
 			event.add(container, "mouseout", pressEnd);
 			event.add(container, "click", clickEvent);
 			event.add(document.body, "mouseup", pressEnd);
+			event.add(document.body, "touchcancel", pressEnd);
+			event.add(container, "touchend", pressEnd);
 
 			function clickEvent($event) {
 				var config = getEventConfig($event.target, "click");
