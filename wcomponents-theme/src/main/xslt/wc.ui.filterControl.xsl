@@ -11,25 +11,18 @@
 		filtering is to use ajax to filter on the server. WMenu or similar could then
 		be used to filter by actual column content.
 	-->
+	<xsl:template match="ui:filterControl"/>
+	<!-- 
+	
+		If your theme needs to retain support for WDataTable and WFilterControl you will need the following:
+		
 	<xsl:template match="ui:filterControl">
-		<xsl:element name="button">
-			<xsl:attribute name="id">
-				<xsl:value-of select="@id"/>
-			</xsl:attribute>
+		<button id="{@id}" type="button" aria-control="{@for}" data-wc-filter="{@value}">
 			<xsl:attribute name="class">
 				<xsl:text>filterControl wc_btn_link</xsl:text>
 				<xsl:if test="@class">
 					<xsl:value-of select="concat(' ', @class)"/>
 				</xsl:if>
-			</xsl:attribute>
-			<xsl:attribute name="type">
-				<xsl:text>button</xsl:text>
-			</xsl:attribute>
-			<xsl:attribute name="aria-controls">
-				<xsl:value-of select="@for"/>
-			</xsl:attribute>
-			<xsl:attribute name="${wc.ui.filterControl.attribute.filter}">
-				<xsl:value-of select="@value"/>
 			</xsl:attribute>
 			<xsl:attribute name="aria-pressed">
 				<xsl:choose>
@@ -39,6 +32,7 @@
 			</xsl:attribute>
 			<xsl:call-template name="hideElementIfHiddenSet"/>
 			<xsl:apply-templates select="ui:decoratedLabel"/>
-		</xsl:element>
+		</button>
 	</xsl:template>
+	-->
 </xsl:stylesheet>

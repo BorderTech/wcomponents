@@ -1,5 +1,8 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
 	<!--
+
+		TODO: remove this when WFilterControl is no longer part of the Java API
+
 		Test if a string contains all words in any order. You may want to normalize-space
 		on the strings before you call this.
 
@@ -7,7 +10,7 @@
 		param testWords: A space separated list of words, these are the words we are
 		looking for in the testString
 		return 1 if testString contains all of the words in testWords, otherwise 0
-	-->
+
 	<xsl:template name="containsWords">
 		<xsl:param name="testString"/>
 		<xsl:param name="testWords"/>
@@ -49,7 +52,8 @@
 		</xsl:choose>
 	</xsl:template>
 
-	<!--
+
+
 		Test if a string contains a word as a word, not a word form or fragment.
 
 		eg testString = "bar foobar"\
@@ -57,10 +61,9 @@
 		testWord = "bar" returns 1\
 		eg2 testString = "not_met" testWord = "met" returns 0
 
-	   param testString: The string to test (usually a class name or filter list)
-	   param testWord: A single word - that is one which contains no spaces
-	   return 1 if testString contains testWord, otherwise 0
-	-->
+		param testString: The string to test (usually a class name or filter list)
+		param testWord: A single word - that is one which contains no spaces
+		return 1 if testString contains testWord, otherwise 0
 	<xsl:template name="containsWord">
 		<xsl:param name="testString"/>
 		<xsl:param name="testWord"/>
@@ -82,4 +85,5 @@
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
+	-->
 </xsl:stylesheet>
