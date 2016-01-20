@@ -58,6 +58,20 @@ final class WApplicationRenderer extends AbstractWebXmlRenderer {
 		xml.appendOptionalAttribute("icon", WApplication.getIcon());
 		xml.appendClose();
 
+		// Custom JavaScript Resources (if any)
+		for (WApplication.ApplicationResource resource : application.getJavaScript()) {
+			xml.appendTagOpen("ui:js");
+			xml.appendAttribute("url", resource.getTargetUrl());
+			xml.appendClose();
+		}
+
+		// Custom CSS Resources (if any)
+		for (WApplication.ApplicationResource resource : application.getCss()) {
+			xml.appendTagOpen("ui:css");
+			xml.appendAttribute("url", resource.getTargetUrl());
+			xml.appendClose();
+		}
+
 		// Tracking enabled globally
 		if (TrackingUtil.isTrackingEnabled()) {
 			xml.appendTagOpen("ui:analytic");
