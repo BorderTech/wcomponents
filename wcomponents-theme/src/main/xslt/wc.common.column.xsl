@@ -18,7 +18,7 @@
 				<xsl:if test="(self::ui:cell and $ignoreLeftGap = 0) or (self:: ui:column and position() &gt; 1)">
 					<xsl:value-of select="concat('padding-left:',$hgap,';')"/>
 				</xsl:if>
-				<xsl:if test="position() != last()">
+				<xsl:if test="(self::ui:cell and $ignoreLeftGap = 1) or position() != last()">
 					<xsl:value-of select="concat('padding-right:',$hgap,';')"/>
 				</xsl:if>
 			</xsl:if>
