@@ -697,8 +697,15 @@ function(has, event, uid, classList, timers, loader, i18n, fabric, Mustache, dia
 				name = config.name;
 			}
 			name = name || uid();
-			var file = new File([blob], name, filePropertyBag);
-			return file;
+
+
+//			if (typeof File === "function") {
+//				return new File([blob], name, filePropertyBag);
+//			}
+
+			blob.lastModified = new Date();
+			blob.name = name;
+			return blob;
 		}
 
 		/**
