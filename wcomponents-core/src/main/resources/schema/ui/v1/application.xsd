@@ -17,6 +17,8 @@
 					</xs:annotation>
 				</xs:element>
 				<xs:element name="param" type="ui:param" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element name="css" type="ui:linkedResource" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="js" type="ui:linkedResource" minOccurs="0" maxOccurs="unbounded"/>
 				<xs:group ref="ui:contentGroup" minOccurs="0" maxOccurs="unbounded"/>
 			</xs:sequence>
 
@@ -86,5 +88,12 @@
 
 		<xs:attribute name="name" use="required" type="xs:string" />
 		<xs:attribute name="value" use="required" type="xs:string" />
+	</xs:complexType>
+	
+	<xs:complexType name="linkedResource">
+		<xs:annotation>
+			<xs:documentation>Links to an application's custom CSS and JavaScript file(s).</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="url" use="required" type="xs:string" />
 	</xs:complexType>
 </xs:schema>
