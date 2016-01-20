@@ -3,11 +3,8 @@
 		Tranforms the optgroups of a list into HTML optgroup elements.
 	-->
 	<xsl:template match="ui:optgroup" mode="selectableList">
-		<xsl:element name="optgroup">
-			<xsl:attribute name="label">
-				<xsl:value-of select="@label"/>
-			</xsl:attribute>
+		<optgroup label="{@label}">
 			<xsl:apply-templates mode="selectableList"/>
-		</xsl:element>
+		</optgroup>
 	</xsl:template>
 </xsl:stylesheet>

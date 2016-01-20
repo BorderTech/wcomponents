@@ -2,6 +2,9 @@ package com.github.bordertech.wcomponents.validation;
 
 import com.github.bordertech.wcomponents.AbstractWComponent;
 import com.github.bordertech.wcomponents.ComponentModel;
+import com.github.bordertech.wcomponents.util.I18nUtilities;
+import java.io.Serializable;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -23,6 +26,7 @@ import java.util.List;
  * @see com.github.bordertech.wcomponents.WMessages
  *
  * @author Adam Millard
+ * @author Mark Reeves
  * @since 1.0.0
  */
 public class WValidationErrors extends AbstractWComponent {
@@ -133,6 +137,26 @@ public class WValidationErrors extends AbstractWComponent {
 		return getClass().getSimpleName() + '(' + getErrors() + ')';
 	}
 
+
+
+	/**
+	 * Sets the message box title.
+	 *
+	 * @param title the message box title to set, using {@link MessageFormat} syntax.
+	 * @param args optional arguments for the message format string.
+	 */
+	public void setTitleText(final String title, final Serializable... args) {
+		ValidationErrorsModel model = getOrCreateComponentModel();
+		model.title = I18nUtilities.asMessage(title, args);
+	}
+
+	/**
+	 * @return the message box title.
+	 */
+	public String getTitleText() {
+		return I18nUtilities.format(null, getComponentModel().title);
+	}
+
 	// --------------------------------
 	// Extrinsic state management
 	/**
@@ -144,6 +168,11 @@ public class WValidationErrors extends AbstractWComponent {
 		 * The validation errors.
 		 */
 		private final List<Diagnostic> errors = new ArrayList<>();
+
+		/**
+		 * The validation title text.
+		 */
+		private Serializable title;
 	}
 
 	/**

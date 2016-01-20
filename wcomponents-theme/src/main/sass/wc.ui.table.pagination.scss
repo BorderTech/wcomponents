@@ -2,18 +2,25 @@
 @import 'mixins_common.scss';
 
 .wc_table_pag_cont {
-	text-align: right;
-	white-space: nowrap;
-
-	label,
-	select,
-	.wc_ibtn:first-of-type {
+	> span,
+	> label {
 		margin-left: $hgap-large;
+		white-space: nowrap;
+
+		&:first-child {
+			margin-left: 0;
+		}
+	}
+
+	label > select {
+		margin-left: $hgap-small;
 	}
 }
 
-.wc_table_pag_socbtn {
-	line-height: 1;
-	margin-left: $hgap-small;
+// This rule applies when the pagination controls are at the bottom of the table.
+// scss-lint:disable QualifyingElement
+table + div  > .wc_table_pag_cont {
+	text-align: right; 
 }
+// scss-lint:enable QualifyingElement
 /* end wc.ui.table.pagination.scss */

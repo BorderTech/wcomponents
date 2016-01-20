@@ -7,6 +7,7 @@
 	<xsl:import href="wc.ui.tab.n.hideTab.xsl"/>
 	<xsl:import href="wc.ui.tab.n.tabClass.xsl"/>
 	<xsl:import href="wc.ui.tab.n.tabElement.xsl"/>
+	<xsl:import href="wc.common.n.className.xsl"/>
 	<!--
 		Tranform for WTab. Outputs the tab opener (the tab bit of the tab). If the
 		type is accordion also outputs the content.
@@ -56,14 +57,8 @@
 				<xsl:text>tab</xsl:text>
 			</xsl:attribute>
 			<xsl:attribute name="class">
-				<xsl:value-of select="local-name()"/>
+				<xsl:call-template name="commonClassHelper"/>
 				<xsl:text> wc_btn_nada</xsl:text>
-				<xsl:if test="@class">
-					<xsl:value-of select="concat(' ', @class)"/>
-				</xsl:if>
-				<xsl:call-template name="tabClass">
-					<xsl:with-param name="firstOpenTab" select="$firstOpenTab"/>
-				</xsl:call-template>
 			</xsl:attribute>
 			<xsl:call-template name="title"/>
 			<xsl:attribute name="{$expandSelectAttrib}">

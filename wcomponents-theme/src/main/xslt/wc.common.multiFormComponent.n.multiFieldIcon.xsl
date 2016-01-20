@@ -11,6 +11,7 @@
 	<xsl:template name="multiFieldIcon">
 		<xsl:param name="isSingular"/>
 		<xsl:param name="myLabel"/>
+		
 		<xsl:variable name="id">
 			<xsl:choose>
 				<xsl:when test="self::ui:multiTextField">
@@ -21,6 +22,7 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
+		
 		<xsl:variable name="toolTip">
 			<xsl:choose>
 				<xsl:when test="$isSingular=1 or position() = 1">
@@ -34,13 +36,8 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
-		<xsl:element name="button">
-			<xsl:attribute name="type">
-				<xsl:text>button</xsl:text>
-			</xsl:attribute>
-			<xsl:attribute name="title">
-				<xsl:value-of select="$toolTip"/>
-			</xsl:attribute>
+		
+		<button type="button" title="{$toolTip}">
 			<xsl:attribute name="aria-controls">
 				<xsl:choose>
 					<xsl:when test="self::ui:multiTextField or position() = 1">
@@ -64,6 +61,6 @@
 					</xsl:call-template>
 				</xsl:otherwise>
 			</xsl:choose>
-		</xsl:element>
+		</button>
 	</xsl:template>
 </xsl:stylesheet>

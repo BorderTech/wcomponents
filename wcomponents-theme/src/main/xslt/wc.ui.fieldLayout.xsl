@@ -2,6 +2,7 @@
 	<xsl:import href="wc.common.ajax.xsl"/>
 	<xsl:import href="wc.common.hide.xsl"/>
 	<xsl:import href="wc.constants.xsl"/>
+	<xsl:import href="wc.common.n.className.xsl"/>
 	<!--
 		WFieldLayout is intended for all layout of fields.
 
@@ -22,10 +23,8 @@
 		<xsl:element name="{$element}">
 			<xsl:attribute name="id"><xsl:value-of select="@id"/></xsl:attribute>
 			<xsl:attribute name="class">
-				<xsl:value-of select="concat(local-name(),' ', @layout)"/>
-				<xsl:if test="@class">
-					<xsl:value-of select="concat(' ', @class)"/>
-				</xsl:if>
+				<xsl:call-template name="commonClassHelper"/>
+				<xsl:value-of select="concat(' ', @layout)"/>
 			</xsl:attribute>
 			<xsl:if test="@ordered and @ordered &gt; 1">
 				<xsl:attribute name="start">

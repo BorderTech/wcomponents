@@ -1,9 +1,0 @@
-/* wc.debug.decoratedLabel.scss */
-// NOTE: we only need to style the decoratedLabel outer element here, not each segment.
-
-// scss-lint:disable QualifyingElement The div qualifyer is required.
-div.decoratedLabel[data-wc-debugerr],
-div.decoratedLabel[data-wc-debugwarn] {
-	display: inline-block;
-}
-/* end wc.debug.decoratedLabel.scss */

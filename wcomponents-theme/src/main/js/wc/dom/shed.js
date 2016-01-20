@@ -110,13 +110,11 @@ define(["wc/Observer",
 						element.removeAttribute(_nativeState);
 						element.removeAttribute(_ariaState);
 					}
-					else {
-						if (nativeSupported) {
-							element.setAttribute(_nativeState, _nativeState);
-						}
-						else if (ariaSupported) {
-							element.setAttribute(_ariaState, "true");
-						}
+					else if (nativeSupported) {
+						element.setAttribute(_nativeState, _nativeState);
+					}
+					else if (ariaSupported) {
+						element.setAttribute(_ariaState, "true");
 					}
 					if (STATE === DISABLED) {
 						/*

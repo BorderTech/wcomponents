@@ -1,6 +1,7 @@
 package com.github.bordertech.wcomponents.render.webxml;
 
 import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.WImageEditor;
 import com.github.bordertech.wcomponents.WMultiFileWidget;
 import com.github.bordertech.wcomponents.WMultiFileWidget.FileWidgetUpload;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
@@ -29,6 +30,7 @@ final class WMultiFileWidgetRenderer extends AbstractWebXmlRenderer {
 		long maxFileSize = widget.getMaxFileSize();
 		int maxFiles = widget.getMaxFiles();
 		WComponent dropzone = widget.getDropzone();
+		WImageEditor editor = widget.getEditor();
 
 		xml.appendTagOpen("ui:fileUpload");
 		xml.appendAttribute("id", component.getId());
@@ -49,6 +51,12 @@ final class WMultiFileWidgetRenderer extends AbstractWebXmlRenderer {
 		}
 		if (dropzone != null) {
 			xml.appendAttribute("dropzone", dropzone.getId());
+		}
+		if (editor != null) {
+			xml.appendAttribute("editor", editor.getId());
+			if (editor.getUseCamera()) {
+				xml.appendAttribute("camera", true);
+			}
 		}
 		if (widget.getFileAjaxAction() != null) {
 			xml.appendAttribute("ajax", "true");

@@ -1,18 +1,20 @@
 /* wc.common.checkRadio.scss */
 @import 'mixins_common.scss';
 
-.checkbox, // 'readOnly' WCheckBox
-.radio {
-	@include background-image($url: '../images/checkbox-ro.png', $height: 1em, $width: 1em);
-	@include make-box($width: 1em, $height: 1em);
+.checkBox, // 'readOnly' WCheckBox
+.radioButton {
+	&.wc_ro {
+		@include background-image($url: '../images/checkbox-ro.png', $height: 1em, $width: 1em);
+		@include make-box($width: 1em, $height: 1em);
+	}
 }
 
-.checkbox.wc_ro_sel {
+.checkBox.wc_ro_sel {
 	background-image: url('../images/checkbox-s-ro.png');
 }
 
 
-.radio { // 'readOnly' WRadioButton
+.radioButton.wc_ro { // 'readOnly' WRadioButton
 	background-image: url('../images/radio-ro.png');
 
 	&.wc_ro_sel {

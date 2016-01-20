@@ -72,8 +72,8 @@ public class ColumnLayout_Test {
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testInvalidColumnWidthLessOne() {
-		new ColumnLayout(new int[]{0});
+	public void testInvalidColumnWidthLessZero() {
+		new ColumnLayout(new int[]{-1});
 	}
 
 	@Test(expected = IllegalArgumentException.class)

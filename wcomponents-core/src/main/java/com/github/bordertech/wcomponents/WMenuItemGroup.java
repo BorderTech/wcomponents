@@ -132,7 +132,7 @@ public class WMenuItemGroup extends AbstractContainer implements Disableable, Me
 	/**
 	 * {@inheritDoc}
 	 *
-	 * @deprecated Use {@link #removeMenuItem(com.github.bordertech.wcomponents.MenuItem) instead.
+	 * @deprecated Use {@link #removeMenuItem(com.github.bordertech.wcomponents.MenuItem)} instead.
 	 */
 	@Deprecated
 	@Override

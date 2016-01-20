@@ -57,7 +57,6 @@ define(["wc/dom/attribute",
 				},
 				TABLE_WRAPPER = new Widget("div", "table"),
 				SELECTOR = new Widget("select"),
-				SERVER_MODE_BUTTON = new Widget("input", "wc_table_pag_socbtn", {type: "submit"}),
 				PAGINATION_SELECTOR = SELECTOR.extend("wc_table_pag_select"),
 				RPP_SELECTOR = SELECTOR.extend("wc_table_pag_rpp"),
 				PAGE = new Widget("tbody"),
@@ -65,7 +64,6 @@ define(["wc/dom/attribute",
 				PAGINATION_CONTAINER = new Widget("", "wc_table_pag_cont"),
 				TABLE = new Widget("TABLE"),
 				PAGINATION_BUTTON = new Widget("button"),
-				PAGINATION_BUTTON_CLIENT = PAGINATION_BUTTON.extend("", {type: "button"}),
 				START_ELEMENT,
 				END_ELEMENT,
 				updateQueue,
@@ -73,6 +71,32 @@ define(["wc/dom/attribute",
 
 			SELECTOR.descendFrom(PAGINATION_CONTAINER);
 			PAGINATION_BUTTON.descendFrom(PAGINATION_CONTAINER);
+
+
+			/**
+			 * Given one page selection dropdown find the other (if the table has two).
+			 *
+			 * @function
+			 * @private
+			 * @param {Element} selector a page selection dropdown.
+			 * @returns {?Element} the other pagination dropdown.
+			 */
+			function getOtherSelector(selector) {
+				var i,
+					wrapper = TABLE_WRAPPER.findAncestor(selector),
+					selectors = (PAGINATION_SELECTOR.isOneOfMe(selector) ? PAGINATION_SELECTOR.findDescendants(wrapper) : RPP_SELECTOR.findDescendants(wrapper)); // this could include selectors in nested tables
+				if (selectors && selectors.length > 1) {
+					for (i = 0; i < selectors.length; ++i) {
+						if (selectors[i] === selector) {
+							continue;
+						}
+						if (wrapper === TABLE_WRAPPER.findAncestor(selectors[i])) {
+							return selectors[i];
+						}
+					}
+				}
+				return null;
+			}
 
 			/**
 			 * Gets the TYPE of a given button.
@@ -103,7 +127,8 @@ define(["wc/dom/attribute",
 					buttonType,
 					oldIndex,
 					newIndex,
-					selector = PAGINATION_SELECTOR.findDescendant(paginationContainer);
+					selector = PAGINATION_SELECTOR.findDescendant(paginationContainer),
+					otherSelector;
 
 				if (selector && !shed.isDisabled(selector)) {// don't do anything if selector disabled
 					len = selector.options.length;
@@ -123,9 +148,10 @@ define(["wc/dom/attribute",
 					}
 					if (newIndex >= 0 && newIndex !== oldIndex) {
 						selector.selectedIndex = newIndex;
-						if (PAGINATION_BUTTON_CLIENT.isOneOfMe(button)) {  // no point changing page if we are submitting
-							requestPageChange(selector, button);
+						if ((otherSelector = getOtherSelector(selector))) {
+							otherSelector.selectedIndex = newIndex;
 						}
+						requestPageChange(selector, button);
 					}
 				}
 			}
@@ -215,10 +241,10 @@ define(["wc/dom/attribute",
 					i++;
 					if (nextHide || nextShow) {
 						if (nextHide) {
-							shed.hide(nextHide, true);
+							shed.hide(nextHide);
 						}
 						if (nextShow) {
-							shed.show(nextShow, true);
+							shed.show(nextShow);
 						}
 					}
 					else {
@@ -245,7 +271,7 @@ define(["wc/dom/attribute",
 					// ajaxRegion.requestLoad(element);
 					requestAjaxLoad(element);
 				}
-				else if ((paginatedTable = TABLE.findAncestor(element))) {
+				else if ((paginatedTable = TABLE_WRAPPER.findAncestor(element)) && (paginatedTable = TABLE.findDescendant(paginatedTable, true))) {
 					page = PAGE.findDescendant(paginatedTable, /* immediate= */true);
 					if (page) {
 						rows = ROW.findDescendants(page, true);
@@ -301,10 +327,17 @@ define(["wc/dom/attribute",
 			 * @param {Event} $event The change event.
 			 */
 			function changeEvent($event) {
-				var element = $event.target;
+				var element = $event.target,
+					alternateSelector;
 
 				if ($event.defaultPrevented || shed.isDisabled(element)) {
 					return;
+				}
+
+				// if the table has two pagination/rows per page selectors they have to be kept in sync but do not fire
+				// change events on the alternate.
+				if (SELECTOR.isOneOfMe(element) && (alternateSelector = getOtherSelector(element))) {
+					alternateSelector.selectedIndex = element.selectedIndex;
 				}
 
 				if (SELECTOR.isOneOfMe(element) && element.hasAttribute("data-wc-ajaxalias")) {
@@ -313,14 +346,7 @@ define(["wc/dom/attribute",
 					requestAjaxLoad(element);
 				}
 				else if (PAGINATION_SELECTOR.isOneOfMe(element)) {
-					if (SERVER_MODE_BUTTON.findDescendant(element.parentNode)) {
-						// server mode
-						return;
-					}
-					else {
-						// client mode
-						requestPageChange(element);
-					}
+					requestPageChange(element);
 				}
 			}
 

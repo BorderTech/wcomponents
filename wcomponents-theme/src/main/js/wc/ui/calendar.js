@@ -33,6 +33,7 @@
  * @requires module:wc/ui/dateField
  * @requires module:wc/dom/initialise
  * @requires module:wc/timers
+ * @requires module:Mustache
  *
  * @see {@link module:wc/ui/datefield}
  *
@@ -62,11 +63,12 @@ define(["wc/dom/attribute",
 		"wc/ui/dateField",
 		"wc/dom/initialise",
 		"wc/timers",
+		"Mustache",
 		"module"],
-/** @param attribute wc/dom/attribute @param addDays wc/date/addDays @param copy wc/date/copy @param dayName wc/date/dayName @param daysInMonth wc/date/daysInMonth @param getDifference wc/date/getDifference @param monthName wc/date/monthName @param today wc/date/today @param interchange wc/date/interchange @param classList wc/dom/classList @param event wc/dom/event @param focus wc/dom/focus @param shed wc/dom/shed @param tag wc/dom/tag @param viewportCollision wc/dom/viewportCollision @param getBox wc/dom/getBox @param Widget wc/dom/Widget @param i18n wc/i18n/i18n @param loader wc/loader/resource @param sprintf lib/sprintf @param isNumeric wc/isNumeric @param dateField wc/ui/dateField @param initialise wc/dom/initialise @param timers wc/timers @param module @ignore */
+
 function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthName, today, interchange, classList, event,
 		focus, shed, tag, viewportCollision, getBox, Widget, i18n, loader, sprintf, isNumeric, dateField, initialise,
-		timers, module) {
+		timers, Mustache, module) {
 
 	"use strict";
 
@@ -118,6 +120,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 * get the empty calendar sprintf base string
 		 */
 		function getEmptyCalendar() {
+			// TODO this needs to be made async
 			return loader.load("wc.ui.dateField.calendar.xml", true);
 		}
 
@@ -496,7 +499,9 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 				dayCellTemplate = "<th><abbr title=\"%s\">%1$.1s</abbr></th>",
 				daysOfWeek = [],
 				container,
-				calendar = getEmptyCalendar(),
+				calendarProps,
+				calendar,
+				template = getEmptyCalendar(),
 				i = 1;
 
 			// build a string containing the html for the days of week row
@@ -504,18 +509,19 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 				daysOfWeek[daysOfWeek.length] = sprintf.sprintf(dayCellTemplate, days[i %= 7]);
 			}
 			while (i++);
-			daysOfWeek = daysOfWeek.join("");
-			// put it all together
-			calendar = sprintf.sprintf(calendar,
-			/* 1 */(monthName.get()).join("</option><option>"),
-			/* 2 */_today.getFullYear(),
-			/* 3 */daysOfWeek,
-			/* 4 */i18n.get("${wc.ui.dateField.i18n.calendarMonthLabel}"),
-			/* 5 */i18n.get("${wc.ui.dateField.i18n.calendarYearLabel}"),
-			/* 6 */i18n.get("${wc.ui.dateField.i18n.lastMonth}"),
-			/* 7 */i18n.get("${wc.ui.dateField.i18n.today}"),
-			/* 8 */i18n.get("${wc.ui.dateField.i18n.nextMonth}"),
-			/* 9 */i18n.get("${wc.ui.dateField.i18n.close}"));
+			calendarProps = {
+				daysOfWeek: daysOfWeek.join(""),
+				monthName: monthName.get(),
+				fullYear: _today.getFullYear(),
+				monthLabel: i18n.get("${wc.ui.dateField.i18n.calendarMonthLabel}"),
+				yearLabel: i18n.get("${wc.ui.dateField.i18n.calendarYearLabel}"),
+				lastMonth: i18n.get("${wc.ui.dateField.i18n.lastMonth}"),
+				today: i18n.get("${wc.ui.dateField.i18n.today}"),
+				nextMonth: i18n.get("${wc.ui.dateField.i18n.nextMonth}"),
+				closeLabel: i18n.get("${wc.ui.dateField.i18n.close}")
+			};
+
+			calendar = Mustache.to_html(template, calendarProps);
 
 			container = document.createElement("div");
 			container.id = CONTAINER_ID;
@@ -905,37 +911,29 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 							monthList.selectedIndex = numberOfMonths - 1;
 						}
 					}
-					else {
-						if ((minYear = yearBox.getAttribute(MIN_ATTRIB)) && minYear === yearBox.value) {
-							if (getMinMaxMonthDay(getInputForCalendar()) < monthList.selectedIndex) {
-								monthList.selectedIndex = monthList.selectedIndex - 1;
-							}
-						}
-						else {
+					else if ((minYear = yearBox.getAttribute(MIN_ATTRIB)) && minYear === yearBox.value) {
+						if (getMinMaxMonthDay(getInputForCalendar()) < monthList.selectedIndex) {
 							monthList.selectedIndex = monthList.selectedIndex - 1;
 						}
 					}
+					else {
+						monthList.selectedIndex = monthList.selectedIndex - 1;
+					}
+				}
+				else if (monthList.selectedIndex === numberOfMonths - 1) { // go to next month
+					// change the year first. If we do not have a year set then default to this year then change
+					if (!(maxYear = yearBox.getAttribute(MAX_ATTRIB)) || parseInt(maxYear, 10) > yearBox.value) {
+						yearBox.value = currentYear + 1;
+						monthList.selectedIndex = 0;
+					}
+				}
+				else  if ((maxYear = yearBox.getAttribute(MAX_ATTRIB)) && maxYear === yearBox.value) { // if we have a max on the year input we have a max date, so we need to get the max month if the current year is equal to the max year
+					if (getMinMaxMonthDay(getInputForCalendar(), true) > monthList.selectedIndex) {
+						monthList.selectedIndex = monthList.selectedIndex + 1;
+					}
 				}
 				else {
-					// go to next month
-					if (monthList.selectedIndex === numberOfMonths - 1) {
-						// change the year first. If we do not have a year set then default to this year then change
-						if (!(maxYear = yearBox.getAttribute(MAX_ATTRIB)) || parseInt(maxYear, 10) > yearBox.value) {
-							yearBox.value = currentYear + 1;
-							monthList.selectedIndex = 0;
-						}
-					}
-					else {
-						// if we have a max on the year input we have a max date, so we need to get the max month if the current year is equal to the max year
-						if ((maxYear = yearBox.getAttribute(MAX_ATTRIB)) && maxYear === yearBox.value) {
-							if (getMinMaxMonthDay(getInputForCalendar(), true) > monthList.selectedIndex) {
-								monthList.selectedIndex = monthList.selectedIndex + 1;
-							}
-						}
-						else {
-							monthList.selectedIndex = monthList.selectedIndex + 1;
-						}
-					}
+					monthList.selectedIndex = monthList.selectedIndex + 1;
 				}
 				refresh();
 			}

@@ -9,12 +9,11 @@
 	-->
 	<xsl:template name="doTabList">
 		<xsl:param name="firstOpenTab"/>
-		<xsl:variable name="type" select="@type"/>
 		<xsl:element name="div">
 			<xsl:attribute name="role">
 				<xsl:text>tablist</xsl:text>
 			</xsl:attribute>
-			<xsl:if test="$type='accordion'">
+			<xsl:if test="@type='accordion'">
 				<xsl:attribute name="aria-multiselectable">
 					<xsl:choose>
 						<xsl:when test="@single">false</xsl:when>

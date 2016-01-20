@@ -85,28 +85,34 @@ define(["wc/Observer",
 			 * @param {module:wc/ajax/Trigger} trigger The trigger which triggered the ajax request.
 			 */
 			this.processResponseXml = function(response, trigger) {
-				var content, doc;
+				var promise;
 				if (response) {
-					if (typeof response === "string") {
-						doc = xslTransform.htmlToDocumentFragment(response);
-						processResponseHtml(doc, trigger);
-					}
-					else {
-						doc = response.documentElement;
-						if (doc) {
-							content = getPayload(doc);
-							content.then(function(df) {
-								processResponseHtml(df, trigger);
-							}, logError);
+					promise = new Promise(function(resolve, reject) {
+						var content, doc;
+						if (typeof response === "string") {
+							doc = xslTransform.htmlToDocumentFragment(response);
+							processResponseHtml(doc, trigger);
+							resolve();
 						}
 						else {
-							console.warn("Response XML does not appear well formed");
+							doc = response.documentElement;
+							if (doc) {
+								content = getPayload(doc);
+								content.then(function(df) {
+									processResponseHtml(df, trigger);
+									resolve();
+								}, logError);
+							}
+							else {
+								reject("Response XML does not appear well formed");
+							}
 						}
-					}
+					});
 				}
 				else {
-					console.warn("Response XML is empty");
+					promise = Promise.reject("Response XML is empty");
 				}
+				return promise;
 			};
 
 			function processResponseHtml(documentFragment, trigger) {

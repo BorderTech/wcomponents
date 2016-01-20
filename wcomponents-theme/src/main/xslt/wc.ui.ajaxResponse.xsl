@@ -45,7 +45,7 @@
 	-->
 	<xsl:template match="ui:ajaxResponse">
 		<xsl:choose>
-			<xsl:when test="ui:ajaxTarget/*[not(self::ui:file)]">
+			<xsl:when test="ui:ajaxTarget/node()[not(self::ui:file)]">
 				<xsl:element name="div">
 					<xsl:attribute name="class">wc-ajaxresponse</xsl:attribute>
 					<xsl:if test="@defaultFocusId">

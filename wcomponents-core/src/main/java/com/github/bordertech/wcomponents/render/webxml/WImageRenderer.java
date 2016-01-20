@@ -24,15 +24,16 @@ final class WImageRenderer extends AbstractWebXmlRenderer {
 	private static final Log LOG = LogFactory.getLog(WImageRenderer.class);
 
 	/**
-	 * Paints the given {@link WImage}.
+	 * Builds the "open tag" part of the XML, that is the tagname and attributes.
 	 *
-	 * @param component the WImage to paint.
-	 * @param renderContext the RenderContext to paint to.
+	 * E.g. &lt;ui:image src="example.png" alt="some alt txt"
+	 *
+	 * The caller may then append any additional attributes and then close the XML tag.
+	 *
+	 * @param imageComponent The WImage to render.
+	 * @param xml The buffer to render the XML into.
 	 */
-	@Override
-	public void doRender(final WComponent component, final WebXmlRenderContext renderContext) {
-		WImage imageComponent = (WImage) component;
-		XmlStringBuilder xml = renderContext.getWriter();
+	protected static void renderTagOpen(final WImage imageComponent, final XmlStringBuilder xml) {
 
 		// No image set
 		if (imageComponent.getImage() == null && imageComponent.getImageUrl() == null) {
@@ -49,12 +50,12 @@ final class WImageRenderer extends AbstractWebXmlRenderer {
 		}
 
 		xml.appendTagOpen("ui:image");
-		xml.appendAttribute("id", component.getId());
-		xml.appendOptionalAttribute("class", component.getHtmlClass());
-		xml.appendOptionalAttribute("track", component.isTracking(), "true");
+		xml.appendAttribute("id", imageComponent.getId());
+		xml.appendOptionalAttribute("class", imageComponent.getHtmlClass());
+		xml.appendOptionalAttribute("track", imageComponent.isTracking(), "true");
 		xml.appendAttribute("src", imageComponent.getTargetUrl());
 		xml.appendAttribute("alt", alternativeText);
-		xml.appendOptionalAttribute("hidden", component.isHidden(), "true");
+		xml.appendOptionalAttribute("hidden", imageComponent.isHidden(), "true");
 
 		// Check for size information on the image
 		Dimension size = imageComponent.getSize();
@@ -67,7 +68,19 @@ final class WImageRenderer extends AbstractWebXmlRenderer {
 				xml.appendAttribute("width", size.width);
 			}
 		}
+	}
 
+	/**
+	 * Paints the given {@link WImage}.
+	 *
+	 * @param component the WImage to paint.
+	 * @param renderContext the RenderContext to paint to.
+	 */
+	@Override
+	public void doRender(final WComponent component, final WebXmlRenderContext renderContext) {
+		WImage imageComponent = (WImage) component;
+		XmlStringBuilder xml = renderContext.getWriter();
+		renderTagOpen(imageComponent, xml);
 		xml.appendEnd();
 	}
 }

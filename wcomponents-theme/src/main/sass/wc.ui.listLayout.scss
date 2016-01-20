@@ -14,13 +14,30 @@
 	// separators
 	// NOTE: we do not output the separator as a class when the list is ordered (except NONE) so all of this is safe.
 	&.bar { // bar bullets
-		> li:before {
-			content: '|';
-			margin-right: $hgap-normal;
+		> li {
+			> * {
+				display: inline-block; // otherwise the marker wraps
+				vertical-align: middle;
+				width: calc(100% - #{$hgap-normal} - 0.5em);
+			}
+
+			&:before {
+				content: '|';
+				display: inline-block;
+				margin-right: $hgap-normal;
+				text-align: right;
+				width: 0.5em;
+			}
 		}
 
-		&.flat > li:first-child:before {
-			content: '';
+		&.flat > li {
+			&:before {
+				display: inline;
+			}
+
+			&:first-child:before {
+				content: '';
+			}
 		}
 	}
 

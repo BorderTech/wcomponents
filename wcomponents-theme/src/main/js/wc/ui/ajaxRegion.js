@@ -129,23 +129,29 @@ define(["wc/dom/event",
 			 * @function module:wc/ui/ajaxRegion.requestLoad
 			 * @public
 			 * @param {Element} element The element which is being changed.
+			 * @param {Object} [obj] A trigger definition dto.
 			 */
-			this.requestLoad = function(element) {
+			this.requestLoad = function(element, obj) {
 				var trigger,
 					alias,
 					loads,
-					id = element.id;
+					id;
 				if (element.hasAttribute("aria-controls")) {
-					alias = element.getAttribute(ALIAS);
 					trigger = triggerManager.getTrigger(element);
 
 					if (!trigger) {
-						loads = element.getAttribute("aria-controls").split(" ");
-
-						this.register({
-							id: id,
-							loads: loads,
-							alias: alias});
+						if (obj) {
+							this.register(obj);
+						}
+						else {
+							id = element.id;
+							alias = element.getAttribute(ALIAS);
+							loads = element.getAttribute("aria-controls").split(" ");
+							this.register({
+								id: id,
+								loads: loads,
+								alias: alias});
+						}
 
 						trigger = triggerManager.getTrigger(element);
 					}

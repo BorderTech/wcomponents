@@ -22,7 +22,7 @@
 						<xsl:with-param name="force" select="1"/>
 					</xsl:call-template>
 				</xsl:if>
-				<xsl:element name="select">
+				<select>
 					<xsl:call-template name="commonControlAttributes">
 						<xsl:with-param name="isError" select="$isError"/>
 						<xsl:with-param name="name" select="$id"/>
@@ -62,7 +62,7 @@
 						</xsl:attribute>
 					</xsl:if>
 					<xsl:apply-templates mode="selectableList"/>
-				</xsl:element>
+				</select>
 				<xsl:call-template name="inlineError">
 					<xsl:with-param name="errors" select="$isError"/>
 				</xsl:call-template>
@@ -90,13 +90,7 @@
 				</xsl:call-template>
 			</xsl:when>
 			<xsl:when test=".//ui:option[@selected]">
-				<xsl:element name="ul">
-					<xsl:attribute name="id">
-						<xsl:value-of select="$id"/>
-					</xsl:attribute>
-					<xsl:attribute name="class">
-						<xsl:text>wc_list_nb</xsl:text>
-					</xsl:attribute>
+				<ul id="{$id}" class="wc_list_nb">
 					<xsl:if test="$myLabel">
 						<xsl:attribute name="aria-labelledby">
 							<xsl:value-of select="$myLabel/@id"/>
@@ -107,7 +101,7 @@
 					<xsl:apply-templates select="ui:option[@selected]|ui:optgroup[ui:option[@selected]]" mode="readOnly">
 						<xsl:with-param name="single" select="0"/>
 					</xsl:apply-templates>
-				</xsl:element>
+				</ul>
 			</xsl:when>
 			<xsl:otherwise>
 				<!--  read only and no selected options -->

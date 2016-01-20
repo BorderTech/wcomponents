@@ -116,11 +116,9 @@
 
 .tabset > [role='presentation'] {
 	@include border;
-	border-top: 0 none;
 }
 
 [role='tabpanel'] {
-	@include border($pos: top);
 	padding: $hgap-normal;
 
 	&[aria-busy='true'] {

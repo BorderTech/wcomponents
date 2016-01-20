@@ -3,6 +3,8 @@
 	version="1.0">
 	<xsl:import href="wc.common.ajax.xsl"/>
 	<xsl:import href="wc.constants.xsl"/>
+	<xsl:import href="wc.common.n.className.xsl"/>
+	<xsl:import href="wc.common.hide.xsl"/>
 	<!--
 		Transform for WProgressBar. 
 		This component generates a graphical indicator of static progess, not a timer.
@@ -35,12 +37,9 @@
 				</xsl:attribute>
 			</xsl:if>
 			<xsl:attribute name="class">
-				<xsl:value-of select="local-name()"/>
+				<xsl:call-template name="commonClassHelper"/>
 				<xsl:if test="@type">
-					<xsl:value-of select="@type"/>
-				</xsl:if>
-				<xsl:if test="@class">
-					<xsl:value-of select="concat(' ', @class)"/>
+					<xsl:value-of select="concat(' ', @type)"/>
 				</xsl:if>
 			</xsl:attribute>
 			<xsl:call-template name="ajaxTarget"/>

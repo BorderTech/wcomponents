@@ -32,6 +32,7 @@ import java.util.List;
  * @author Ming Gao
  * @author Adam Millard
  * @author Jonathan Austin
+ * @author Mark Reeves
  */
 public class WMessageBox extends AbstractWComponent implements AjaxTarget, SubordinateTarget {
 

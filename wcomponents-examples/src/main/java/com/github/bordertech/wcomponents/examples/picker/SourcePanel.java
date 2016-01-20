@@ -39,7 +39,8 @@ public class SourcePanel extends WPanel {
 		if (sourceText == null) {
 			formattedSource = "";
 		} else {
-			formattedSource = sourceText.replace(' ', '\u00a0'); // nbsp
+			formattedSource = sourceText.replaceAll("\t", "    ");
+			formattedSource = formattedSource.replace(' ', '\u00a0'); // nbsp
 			formattedSource = WebUtilities.encode(formattedSource); // escape content
 			formattedSource = formattedSource.replaceAll("\\r?\\n", "<br/>");
 		}

@@ -1,6 +1,7 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
 	<xsl:import href="wc.common.ajax.xsl"/>
 	<xsl:import href="wc.constants.xsl"/>
+	<xsl:import href="wc.common.n.className.xsl"/>
 	<!--
 		ui:application is the base component of each application. A screen may, however,
 		contain 0 - n applications (though a screen with no applications is pretty
@@ -29,10 +30,7 @@
 				</xsl:if>
 			</xsl:attribute>
 			<xsl:attribute name="class">
-				<xsl:value-of select="local-name()"/>
-				<xsl:if test="@class">
-					<xsl:value-of select="concat(' ', @class)"/>
-				</xsl:if>
+				<xsl:call-template name="commonClassHelper"/>
 				<xsl:if test="@unsavedChanges or .//ui:button[@unsavedChanges] or .//ui:menuItem[@unsavedChanges]">
 					<xsl:text> wc_unsaved</xsl:text>
 				</xsl:if>

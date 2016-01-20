@@ -1,10 +1,12 @@
 package com.github.bordertech.wcomponents.examples.theme;
 
+import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.WColumn;
 import com.github.bordertech.wcomponents.WHeading;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WRow;
 import com.github.bordertech.wcomponents.WText;
+import com.github.bordertech.wcomponents.examples.common.ExplanatoryText;
 import com.github.bordertech.wcomponents.layout.FlowLayout;
 import com.github.bordertech.wcomponents.layout.FlowLayout.Alignment;
 
@@ -22,7 +24,7 @@ public class WRowExample extends WPanel {
 	public WRowExample() {
 		setLayout(new FlowLayout(Alignment.VERTICAL, 0, 5));
 
-		add(new WHeading(WHeading.SECTION, "WRow / WCol"));
+		add(new WHeading(HeadingLevel.H2, "WRow / WCol"));
 
 		add(createRow(0, new int[]{10, 90}));
 		add(createRow(0, new int[]{20, 80}));
@@ -37,10 +39,13 @@ public class WRowExample extends WPanel {
 		add(createRow(0, new int[]{25, 25, 25, 25}));
 		add(createRow(0, new int[]{20, 20, 20, 20, 20}));
 
-		add(new WHeading(WHeading.SECTION, "WRow / WCol with hgap=5"));
+		add(new WHeading(HeadingLevel.H2, "WRow / WCol with hgap=5"));
 		add(createRow(5, new int[]{33, 33, 33}));
 		add(createRow(5, new int[]{25, 25, 25, 25}));
 		add(createRow(5, new int[]{20, 20, 20, 20, 20}));
+		add(new WHeading(HeadingLevel.H2, "WRow / WCol undefined width"));
+		add(createRow(0, new int[]{0, 0, 0}));
+		addAppLevelCSSExample();
 	}
 
 	/**
@@ -62,5 +67,59 @@ public class WRowExample extends WPanel {
 		}
 
 		return row;
+	}
+
+	/**
+	 * Build an example with undefined column widths then use application-level CSS and a htmlClass property to define the widths.
+	 *
+	 */
+	private void addAppLevelCSSExample() {
+		String htmlClass = "my_local_class";
+		add(new WHeading(HeadingLevel.H2, "App defined widths"));
+		add(new ExplanatoryText("This example shows the use of a htmlClass and app-specific CSS (in this case inline) to style the columns including responsive widths" +
+				" which kick in at 1000px and 900px"));
+
+		WRow row = new WRow();
+		row.setHtmlClass(htmlClass);
+		add(row);
+
+		WColumn col1 = new WColumn();
+		String col1HtmlClass = "my_col1";
+		col1.setHtmlClass(col1HtmlClass);
+		col1.add(new ExplanatoryText("This is some text content in the first column."));
+		row.add(col1);
+
+		WColumn col2 = new WColumn();
+		String col2HtmlClass = "my_col2";
+		col2.setHtmlClass(col2HtmlClass);
+		col2.add(new ExplanatoryText("Some content in column 2."));
+		row.add(col2);
+
+		WColumn col3 = new WColumn();
+		col3.add(new ExplanatoryText("Some content in column 3."));
+		row.add(col3);
+
+		String rowSelector = "." + htmlClass;
+		String columnSelector =  rowSelector + " > .column"; // .column is the local name of WColumn's XML element and is part of the client side API.
+		String css = columnSelector + " {width: 20%; background-color: #f0f0f0; padding: 0.5em;}" +
+				columnSelector + " + .column {margin-left: 0.5em}" +
+ 				columnSelector + "." + col2.getHtmlClass() + " {width: 60%;}" +
+				"@media only screen and (max-width: 1000px) {" + //when the screen goes below 1000px wide
+				rowSelector + " {display: block;}" +
+				columnSelector + " {display: inline-block; box-sizing: border-box;}" +
+				columnSelector + " + .column {margin-left: 0}" +
+				columnSelector + "." + col1.getHtmlClass() + " {display: block; width: 100%; margin-bottom: 0.5em;} " +
+				columnSelector + " ~ .column {width: calc(50% - 0.25em); background-color: #f0f000}" +
+				"." + col2.getHtmlClass() + " {margin-right: 0.25em}" +
+				"." + col2.getHtmlClass() + " + .column {margin-left: 0.25em;}" +
+				"}"+
+				"@media only screen and (max-width: 900px) {" + //when the screen goes below 900px wide;
+				columnSelector + " {width: 100% !important; margin-left: 0 !important; margin-right: 0 !important; background-color: #ff0 !important;}" + //the importants are becauseI am lazy
+				"." + col2.getHtmlClass() + " {margin-bottom: 0.5em;}" +
+				"}";
+
+		WText cssText = new WText("<style type='text/css'>" + css + "</style>");
+		cssText.setEncodeText(false);
+		add(cssText);
 	}
 }

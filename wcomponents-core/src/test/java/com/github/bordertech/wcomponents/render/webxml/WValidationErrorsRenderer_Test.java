@@ -18,6 +18,7 @@ import org.xml.sax.SAXException;
  * Junit test case for {@link WValidationErrorsRenderer}.
  *
  * @author Jonathan Austin
+ * @author Mark Reeves
  * @since 1.0.0
  */
 public class WValidationErrorsRenderer_Test extends AbstractWebXmlRendererTestCase {
@@ -57,6 +58,11 @@ public class WValidationErrorsRenderer_Test extends AbstractWebXmlRendererTestCa
 		assertSchemaMatch(root);
 		assertXpathEvaluatesTo(text1.getId(), "//ui:validationErrors/ui:error/@for", root);
 		assertXpathEvaluatesTo("Test Error1", "//ui:validationErrors/ui:error", root);
+
+		String title = "WValidationErrorsTitle";
+		errors.setTitleText(title);
+		assertSchemaMatch(root);
+		assertXpathEvaluatesTo(title, "//ui:validationErrors/@title", root);
 
 		// Check for error message with no associated component
 		setActiveContext(createUIContext());

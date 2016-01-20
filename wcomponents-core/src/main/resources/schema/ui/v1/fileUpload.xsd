@@ -75,6 +75,12 @@
 					<xs:documentation>The ID of an element that will receive "drag and dropped" files for this file uploader.</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
+			
+			<xs:attribute name="editor" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>The ID of a image editor component.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
 
 			<xs:attribute name="acceptedMimeTypes" type="xs:string">
 				<xs:annotation>

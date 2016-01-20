@@ -6,6 +6,8 @@
 	<xsl:import href="wc.common.inlineError.xsl"/>
 	<xsl:import href="wc.common.invalid.xsl"/>
 	<xsl:import href="wc.common.hField.xsl"/>
+	<xsl:import href="wc.common.hide.xsl"/>
+	<xsl:import href="wc.common.n.className.xsl"/>
 	<!--
 		Transform for WMenu. Makes bar, tree and column menus.
 
@@ -42,11 +44,8 @@
 				the "menu" class and the important stuff on roles.
 			-->
 			<xsl:attribute name="class">
-				<xsl:text>menu </xsl:text>
-				<xsl:value-of select="$type"/>
-				<xsl:if test="@class">
-					<xsl:value-of select="concat(' ', @class)"/>
-				</xsl:if>
+				<xsl:call-template name="commonClassHelper"/>
+				<xsl:value-of select="concat(' ', @type)"/>
 			</xsl:attribute>
 
 			<!--
@@ -57,7 +56,7 @@
 			-->
 			<xsl:attribute name="role">
 				<xsl:choose>
-					<xsl:when test="$type='tree'">
+					<xsl:when test="@type='tree'">
 						<xsl:text>tree</xsl:text>
 					</xsl:when>
 					<xsl:when test="$isBarFlyout=1">
@@ -70,7 +69,7 @@
 			</xsl:attribute>
 			<xsl:if test="@selectMode">
 				<xsl:choose>
-					<xsl:when test="$type='tree'">
+					<xsl:when test="@type='tree'">
 						<xsl:attribute name="aria-multiselectable">
 							<xsl:choose>
 								<xsl:when test="@selectMode='multiple'">

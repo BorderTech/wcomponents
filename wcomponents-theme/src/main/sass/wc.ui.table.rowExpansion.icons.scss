@@ -4,20 +4,31 @@
 // ROW EXPANSION iconography and expand/collapse all iconography.
 // .wc_table_rowexp_container is the expandable row's expander holding cell or header
 
-.wc_table_rowexp_container button {
-	@include button($border: 0, $padding: 0);
-	@include background-image('../images/next.png', $height: 1em, $width: 1em);
+tr[role='row'] {
+	> td[role='button'] {
+		@include button($border: 0, $padding: 0);
+		@include background-image('../images/next.png', $height: 1em, $width: 1em);
 
-	&[disabled] {
-		background-image: url('../images/next-d.png');
+		&[aria-disabled='true'] {
+			background-image: url('../images/next-d.png');
+		}
+
+		&[aria-pressed='true'] {
+			background-image: url('../images/down.png');
+
+			&[aria-disabled='true'] {
+				background-image: url('../images/down-d.png');
+			}
+		}
 	}
 
 	&[aria-expanded='true'] {
-		background-image: url('../images/down.png');
+		> td[role='button'] {
+			background-image: url('../images/down.png');
+		}
 
-		&[disabled] {
+		&[aria-disabled='true']> td[role='button'] {
 			background-image: url('../images/down-d.png');
 		}
 	}
 }
-/* end wc.ui.table.rowExpansion.icons.scss */

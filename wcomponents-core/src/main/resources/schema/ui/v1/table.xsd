@@ -45,7 +45,7 @@
 							<td>@id + ".filters"</td>
 							<td>List</td>
 							<td>no</td>
-							<td>A list of filters in effect on the client.</td>
+							<td>A list of filters in effect on the client. WDataTable only. Will be removed.</td>
 						</tr>
 						<tr>
 							<td>@id + ".page"</td>
@@ -75,7 +75,7 @@
 				</table>
 			</xs:documentation>
 		</xs:annotation>
-		
+
 		<xs:complexType>
 			<xs:sequence>
 				<xs:element ref="ui:margin" minOccurs="0"/>
@@ -143,6 +143,30 @@
 								<xs:documentation>Indicates the page index of the page currently being shown.</xs:documentation>
 							</xs:annotation>
 						</xs:attribute>
+						<xs:attribute name="controls">
+							<xs:annotation>
+								<xs:documentation>Indicates the location of the pagination controls if they are required.</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:NMTOKEN">
+									<xs:enumeration value="top">
+										<xs:annotation>
+											<xs:documentation>The pagination controls should appear at the top of the table.</xs:documentation>
+										</xs:annotation>
+									</xs:enumeration>
+									<xs:enumeration value="bottom">
+										<xs:annotation>
+											<xs:documentation>The pagination controls should appear at the bottom of the table.</xs:documentation>
+										</xs:annotation>
+									</xs:enumeration>
+									<xs:enumeration value="both">
+										<xs:annotation>
+											<xs:documentation>The pagination controls should appear at both the top and the bottom of the table.</xs:documentation>
+										</xs:annotation>
+									</xs:enumeration>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
 					</xs:complexType>
 				</xs:element>
 
@@ -184,7 +208,7 @@
 						</xs:attribute>
 					</xs:complexType>
 				</xs:element>
-				
+
 				<!--  Row expansion control -->
 				<xs:element name="rowExpansion" minOccurs="0">
 					<xs:annotation>
@@ -304,7 +328,7 @@
 										</xs:annotation>
 										<xs:simpleType>
 											<xs:restriction base="xs:token">
-												<xs:enumeration value="left"/> 
+												<xs:enumeration value="left"/>
 												<xs:enumeration value="center"/>
 												<xs:enumeration value="right"/>
 											</xs:restriction>
@@ -485,7 +509,7 @@
 				<!-- Temporary fix to allow for empty subTr. Waiting on fix from T&S in WC6 and then the empty subTr will not need to be rendered. -->
 					<xs:choice minOccurs="0">
 						<xs:element name="tr" type="ui:trType" maxOccurs="unbounded"/>
-						<xs:element name="content"> 
+						<xs:element name="content">
 							<xs:complexType mixed="true">
 								<xs:sequence>
 									<xs:any processContents="lax" minOccurs="0" maxOccurs="unbounded"/>

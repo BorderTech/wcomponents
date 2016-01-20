@@ -48,7 +48,7 @@
 	background-position: 50% 50%;
 	background-repeat: no-repeat;
 	background-size: $line-size $line-size !important;
-	border-color: transparent !important;
+	// border-color: transparent !important; busy stuff should keep borders - we should ensure they keep the same dimensions too so it doesn't look stupid
 	color: $wc-ui-color-disabled-fg;
 
 	// Make any interactive child element of a busy region invisible. We want them to take up their space but not be

@@ -34,7 +34,7 @@
 			<xsl:attribute name="class">
 				<xsl:value-of select="normalize-space(concat('listLayout ',@type,' ', @align))"/>
 				<xsl:if test="not(@align)">
-					<xsl:text>${wc.common.align.std}</xsl:text>
+					<xsl:text> ${wc.common.align.std}</xsl:text>
 				</xsl:if>
 				<xsl:choose>
 					<xsl:when test="@ordered=$t and (not(@separator) or @separator='none')">

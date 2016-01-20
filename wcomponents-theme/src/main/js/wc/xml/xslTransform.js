@@ -89,13 +89,11 @@ define(["wc/has", "wc/ajax/ajax", "wc/xml/xmlString", "wc/xml/xpath", "wc/array/
 							}
 							processor.removeParameter(null, key);
 						}
+						else if (ieMode) {
+							processor.addParameter(key, params[key]);
+						}
 						else {
-							if (ieMode) {
-								processor.addParameter(key, params[key]);
-							}
-							else {
-								processor.setParameter(null, key, params[key]);
-							}
+							processor.setParameter(null, key, params[key]);
 						}
 					}
 				}
@@ -353,9 +351,7 @@ define(["wc/has", "wc/ajax/ajax", "wc/xml/xmlString", "wc/xml/xpath", "wc/array/
 							return result;
 						});
 					}
-					else {
-						return Promise.resolve(result);
-					}
+					return Promise.resolve(result);
 				}
 
 				if (args) {

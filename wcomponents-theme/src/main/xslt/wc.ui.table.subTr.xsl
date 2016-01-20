@@ -14,7 +14,8 @@
 		<xsl:param name="parentIsClosed" select="0"/>
 		<xsl:param name="topRowIsStriped" select="0"/>
 		<xsl:param name="indent" select="0"/>
-		<xsl:variable name="tableId" select="$myTable/@id"/>
+		<xsl:param name="hasRole" select="0"/>
+		
 		<!--
 		 We have to output content if:
 		 
@@ -33,18 +34,12 @@
 					<xsl:with-param name="parentIsClosed" select="$parentIsClosed"/>
 					<xsl:with-param name="indent" select="$indent"/>
 					<xsl:with-param name="topRowIsStriped" select="$topRowIsStriped"/>
+					<xsl:with-param name="hasRole" select="$hasRole" />
 				</xsl:apply-templates>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:element name="tr">
-					<xsl:attribute name="id">
-						<xsl:value-of select="concat($tableId,'${wc.ui.table.id.subTr.suffix}',../@rowIndex)"/>
-					</xsl:attribute>
-					<xsl:attribute name="aria-level">
-						<xsl:value-of select="count(ancestor::ui:subTr[ancestor::ui:table[1]/@id=$tableId]) + 2"/>
-					</xsl:attribute>
-					<xsl:call-template name="hiddenElement"/>
-				</xsl:element>
+				<xsl:variable name="tableId" select="$myTable/@id"/>
+				<tr id="{concat($tableId,'${wc.ui.table.id.subTr.suffix}',../@rowIndex)}" hidden="hidden"></tr>
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>

@@ -2,6 +2,7 @@
 	<xsl:import href="wc.common.hide.xsl"/>
 	<xsl:import href="wc.common.aria.live.xsl"/>
 	<xsl:import href="wc.constants.xsl"/>
+	<xsl:import href="wc.common.n.className.xsl"/>
 <!--
 	WCollapsible is a container with hideable content.
 
@@ -21,12 +22,7 @@
 			<xsl:attribute name="id">
 				<xsl:value-of select="@id"/>
 			</xsl:attribute>
-			<xsl:attribute name="class">
-				<xsl:value-of select="local-name(.)"/>
-				<xsl:if test="@class">
-					<xsl:value-of select="concat(' ', @class)"/>
-				</xsl:if>
-			</xsl:attribute>
+			<xsl:call-template name="makeCommonClass"/>
 			<xsl:if test="$collapsed != 1">
 				<xsl:attribute name="open">
 					<xsl:text>open</xsl:text>

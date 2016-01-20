@@ -96,7 +96,7 @@ ul.fieldLayout {
 }
 
 @include respond(phonelike) {
-	.wc_fld_pl { //this is the placeholder for a null or moved label (moved for checkbox or radio). Remove on narrow viewports.
+	.flat > .field > .wc_fld_pl { //this is the placeholder for a null or moved label (moved for checkbox or radio). Remove on narrow viewports.
 		display: none;
 	}
 }

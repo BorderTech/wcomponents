@@ -1,15 +1,14 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
 	<xsl:import href="wc.constants.xsl"/>
+	<xsl:import href="wc.common.n.className.xsl"/>
 	<xsl:template match="ui:dialog" mode="withcontent">
 		<xsl:element name="${wc.dom.html5.element.dialog}">
 			<xsl:attribute name="id">
 				<xsl:text>${wc.ui.dialog.id}</xsl:text>
 			</xsl:attribute>
 			<xsl:attribute name="class">
+				<xsl:call-template name="commonClassHelper"/>
 				<xsl:text>wc_dragflow wc_resizeflow</xsl:text>
-				<xsl:if test="@class">
-					<xsl:value-of select="concat(' ', @class)"/>
-				</xsl:if>
 			</xsl:attribute>
 			<xsl:element name="${wc.dom.html5.element.header}">
 				<xsl:attribute name="tabindex">

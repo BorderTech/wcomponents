@@ -200,6 +200,42 @@ define(["wc/has", "wc/fixes", "module"], /** @param has wc/has @param module mod
 		}
 
 		/**
+		 * Create a link element for a CSS file in the head element unless we already have one for this URL.
+		 *
+		 * @function
+		 * @private
+		 * @param {String} url The CSS url to add.
+		 * @param {String} [media] A CSS media query for the link element.
+		 */
+		function addLinkElement(url, media) {
+			var head = document.head || document.getElementsByTagName("head")[0],
+				el;
+			if (!head) { // you gotta be kidding me ...
+				return;
+			}
+
+			if (document.querySelector && document.querySelector("link[href='url']")) {
+				// Do not add the same link element twice. If the browser does not support querySelector then we do not
+				// really care if we add the link more than once but it is better to not do so.
+				return;
+			}
+
+			el = document.createElement("link");
+			el.type = "text/css";
+			el.setAttribute("rel", "stylesheet");
+			if (media) {
+				el.setAttribute("media", media);
+			}
+			el.setAttribute("href", url);
+			if (sibling) {
+				head.insertBefore(el, sibling);
+			}
+			else {
+				head.appendChild(el);
+			}
+		}
+
+		/**
 		 * Create a link element for a particular stylesheet.
 		 * @function
 		 * @private
@@ -207,50 +243,8 @@ define(["wc/has", "wc/fixes", "module"], /** @param has wc/has @param module mod
 		 * @param {String} [media] An optional media query.
 		 */
 		function addStyle(shortName, media) {
-			var id = "${wc_css_link_id_prefix}" + shortName,
-				el,
-				head;
-
-			if (!document.getElementById(id)) {
-				head = document.head || document.getElementsByTagName("head")[0];
-				if (!head) { // you gotta be kidding me...
-					return;
-				}
-				el = document.createElement("link");
-				el.id = id;
-				el.type = "text/css";
-				el.setAttribute("rel", "stylesheet");
-				if (media) {
-					el.setAttribute("media", media);
-				}
-				el.setAttribute("href", CSS_BASE_URL + shortName + cssFileNameAndUrlExtension);
-				if (sibling) {
-					head.insertBefore(el, sibling);
-				}
-				else {
-					head.appendChild(el);
-				}
-			}
+			addLinkElement(CSS_BASE_URL + shortName + cssFileNameAndUrlExtension, media);
 		}
-
-		/**
-		 * Write link elements for all required CSS files.
-		 * @function module:wc/loader/style.load
-		 */
-		this.load = function() {
-
-			// add generic desktop styles before browser specific styles
-			if (!has("device-mobile")) { // TODO: load this using a media query if possible
-				addStyle(CSS_FILE_NAME + "dt");
-			}
-
-			if (has("ie") || has("trident")) {
-				loadIE();
-			}
-			if (screenStylesToAdd) {
-				loadScreen();
-			}
-		};
 
 		/**
 		 * Write link elements for all CSS files required by specific desktop browsers.
@@ -341,6 +335,72 @@ define(["wc/has", "wc/fixes", "module"], /** @param has wc/has @param module mod
 				}
 			}
 		}
+
+		/**
+		 * Write link elements for all required CSS files. Should only be called from ui:root XSLT. To add CSS from a
+		 * module use {@link module:wc/loader/style.add}.
+		 *
+		 * @function module:wc/loader/style.load
+		 * @public
+		 */
+		this.load = function() {
+			// add generic desktop styles before browser specific styles
+			if (!has("device-mobile")) { // TODO: load this using a media query if possible
+				addStyle(CSS_FILE_NAME + "dt");
+			}
+
+			if (has("ie") || has("trident")) {
+				loadIE();
+			}
+
+			if (screenStylesToAdd) {
+				loadScreen();
+			}
+
+			if (isDebug) {
+				// load the debug css
+				addStyle("${css.target.file.name.debug}");
+			}
+		};
+
+		/**
+		 * Allow any module to load a CSS file. If your module wants to add custom CSS use this function.
+		 *
+		 * @function module:wc/loader/style.add
+		 * @public
+		 * @param {String} nameOrUrl The file name (with or without extension) or URL to a CSS file.
+		 *
+		 *   1. Supported URLs are of the form "//blah", "/blah", "http[s]://blah" or ".[.]/blah".
+		 *   2. If the String is not in one of the URL patterns we assume you are getting a CSS file built from yhour
+		 *     theme in the /style/ directory.
+		 *     1. If the String contains ".css" we do not add the extension or cache-buster.
+		 *     2. If the file name is not a URL and does not contain .css we add the extension (including the debug
+		 *       name extension if in debug mode) and the cache-buster.
+		 *
+		 *   Therefore we suggest using a URL (and _I recommend_ the `//blah` form) or a simple file name if you are
+		 *   building CSS files which are not able to be implemented using the _pattern and auto-loader mechanisms
+		 *   (including the ability to override the style loadre config). So in reality this is almost always going to
+		 *   be a URL unless you are particularly odd. Being particularly odd I tested this function using the debug CSS
+		 *   and loading it from {@link module:wc/debug/a11y}.
+		 *
+		 * @param {String} [media] A CSS media query appropriate to the link element.
+		 */
+		this.add = function(nameOrUrl, media) {
+			var isUrl = nameOrUrl.indexOf("/") === 0 || nameOrUrl.indexOf("http") === 0 || nameOrUrl.indexOf(".") === 0;
+
+			if (isUrl) {
+				// Huzzah we have a URL! Simply write the link element.
+				addLinkElement(nameOrUrl, media);
+			}
+			else if (nameOrUrl.indexOf(".css") > 0) {
+				// Name already has extension so we cannot add it using addStyle; it still needs the path though.
+				addLinkElement(CSS_BASE_URL + nameOrUrl, media);
+			}
+			else {
+				addStyle(nameOrUrl, media);
+			}
+
+		};
 	}
 	return /** @alias module:wc/loader/style */ new StyleLoader();
 

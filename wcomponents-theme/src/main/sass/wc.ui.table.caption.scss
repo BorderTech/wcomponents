@@ -1,0 +1,9 @@
+/* wc.ui.table.caption.scss */
+// NOTE: this is a stub - override it as you see fit.
+
+@import 'mixins_common.scss';
+
+caption {
+	margin-bottom: $hgap-normal;
+	text-align: left;
+}
