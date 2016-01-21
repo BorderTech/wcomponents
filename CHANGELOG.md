@@ -11,11 +11,13 @@ These are backwards-compatible API changes which are transparent for all current
 * Improved AJAX updates so "busy" regions maintain their dimensions and do not collapse to 0px.
 * `WTable` API allows for setting the location of the pagination controls using `setPaginationLocation(WTable.PaginationLocation location)` (#297).
 * `WMessageBox` API allows for setting message box title string using `setTitleText(String title)` (#280).
+* `WApplication` API allows for custom `js` and `css` resources to be easily loaded (#172).
 
 ## Major Bug fixes
 For all bug fixes see [GitHub Issues](https://github.com/BorderTech/wcomponents/issues?q=is%3Aissue+is%3Aclosed+label%3Abug)
 
 * Fixed WTabSet ACCORDION interactions (#277).
+* Fixed `WShuffler` to work correctly when used as an `AjaxTrigger` (#323). 
 
 # Release 1.0.2
 ## API Changes
