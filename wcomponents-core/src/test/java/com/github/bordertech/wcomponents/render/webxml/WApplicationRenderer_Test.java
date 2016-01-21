@@ -216,4 +216,30 @@ public class WApplicationRenderer_Test extends AbstractWebXmlRendererTestCase {
 		}
 	}
 
+	@Test
+	public void testJsResources() throws IOException, SAXException, XpathException {
+		// No resource
+		WApplication application = new WApplication();
+		assertSchemaMatch(application);
+		assertXpathNotExists("//ui:application/ui:js", application);
+
+		// Add URL resource
+		application.addJsUrl("URL");
+		assertSchemaMatch(application);
+		assertXpathEvaluatesTo("URL", "//ui:application/ui:js/@url", application);
+	}
+
+	@Test
+	public void testCssResources() throws IOException, SAXException, XpathException {
+		// No resource
+		WApplication application = new WApplication();
+		assertSchemaMatch(application);
+		assertXpathNotExists("//ui:application/ui:css", application);
+
+		// Add URL resource
+		application.addCssUrl("URL");
+		assertSchemaMatch(application);
+		assertXpathEvaluatesTo("URL", "//ui:application/ui:css/@url", application);
+	}
+
 }

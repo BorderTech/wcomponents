@@ -129,15 +129,23 @@ public class WShuffler extends AbstractInput implements AjaxTrigger, AjaxTarget,
 	 * @return the shuffled options
 	 */
 	private List<?> getNewOptions(final String[] paramValues) {
-		List<?> oldOptions = getOptions();
+		// Take a copy of the old options
+		List<?> copyOldOptions = new ArrayList(getOptions());
 
 		// Create a new list to hold the shuffled options
 		List<Object> newOptions = new ArrayList<>(paramValues.length);
 
-		// Process the array of option indexes
-		for (int i = 0; i < paramValues.length; i++) {
-			int idx = Integer.parseInt(paramValues[i]);
-			newOptions.add(oldOptions.get(idx));
+		// Process the option parameters
+		for (String param : paramValues) {
+			for (Object oldOption : copyOldOptions) {
+				// Match the string value of the option
+				String stringOldOption = String.valueOf(oldOption);
+				if (Util.equals(stringOldOption, param)) {
+					newOptions.add(oldOption);
+					copyOldOptions.remove(oldOption);
+					break;
+				}
+			}
 		}
 
 		return newOptions;
@@ -179,4 +187,5 @@ public class WShuffler extends AbstractInput implements AjaxTrigger, AjaxTarget,
 		 */
 		private int rows;
 	}
+
 }

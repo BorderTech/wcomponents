@@ -58,20 +58,6 @@ final class WApplicationRenderer extends AbstractWebXmlRenderer {
 		xml.appendOptionalAttribute("icon", WApplication.getIcon());
 		xml.appendClose();
 
-		// Custom JavaScript Resources (if any)
-		for (WApplication.ApplicationResource resource : application.getJavaScript()) {
-			xml.appendTagOpen("ui:js");
-			xml.appendAttribute("url", resource.getTargetUrl());
-			xml.appendClose();
-		}
-
-		// Custom CSS Resources (if any)
-		for (WApplication.ApplicationResource resource : application.getCss()) {
-			xml.appendTagOpen("ui:css");
-			xml.appendAttribute("url", resource.getTargetUrl());
-			xml.appendClose();
-		}
-
 		// Tracking enabled globally
 		if (TrackingUtil.isTrackingEnabled()) {
 			xml.appendTagOpen("ui:analytic");
@@ -90,6 +76,25 @@ final class WApplicationRenderer extends AbstractWebXmlRenderer {
 				xml.appendTagOpen("ui:param");
 				xml.appendAttribute("name", entry.getKey());
 				xml.appendAttribute("value", entry.getValue());
+				xml.appendEnd();
+			}
+		}
+		// Custom CSS Resources (if any)
+		for (WApplication.ApplicationResource resource : application.getCssResources()) {
+			String url = resource.getTargetUrl();
+			if (!Util.empty(url)) {
+				xml.appendTagOpen("ui:css");
+				xml.appendAttribute("url", url);
+				xml.appendEnd();
+			}
+		}
+
+		// Custom JavaScript Resources (if any)
+		for (WApplication.ApplicationResource resource : application.getJsResources()) {
+			String url = resource.getTargetUrl();
+			if (!Util.empty(url)) {
+				xml.appendTagOpen("ui:js");
+				xml.appendAttribute("url", url);
 				xml.appendEnd();
 			}
 		}
