@@ -59,7 +59,7 @@ public class AjaxReplaceControllerExample extends WPanel {
 
 			@Override
 			public void execute(final ActionEvent event) {
-				textField.setText(controller.getValueAsString());
+				textField.setText("WShuffler: " + controller.getValueAsString());
 			}
 		});
 		// add the ajax control for the controller
@@ -70,7 +70,7 @@ public class AjaxReplaceControllerExample extends WPanel {
 
 			@Override
 			public void execute(final ActionEvent event) {
-				textField.setText(controller2.getValueAsString());
+				textField.setText("WMultiSelect: " + controller2.getValueAsString());
 			}
 		});
 		// add the ajax control for the controller
@@ -80,7 +80,7 @@ public class AjaxReplaceControllerExample extends WPanel {
 
 			@Override
 			public void execute(final ActionEvent event) {
-				textField.setText(controller3.getValueAsString());
+				textField.setText("WSingleSelect: " + controller3.getValueAsString());
 			}
 		});
 		// add the ajax control for the controller
@@ -91,7 +91,7 @@ public class AjaxReplaceControllerExample extends WPanel {
 
 			@Override
 			public void execute(final ActionEvent event) {
-				textField.setText(controller4.getValueAsString());
+				textField.setText("WMultiSelectPair: " + controller4.getValueAsString());
 			}
 		});
 		// add the ajax control for the controller
@@ -102,7 +102,7 @@ public class AjaxReplaceControllerExample extends WPanel {
 
 			@Override
 			public void execute(final ActionEvent event) {
-				textField.setText(controller5.getValueAsString());
+				textField.setText("WMultiDropdown: " + controller5.getValueAsString());
 			}
 		});
 		// add the ajax control for the controller
@@ -113,7 +113,7 @@ public class AjaxReplaceControllerExample extends WPanel {
 
 			@Override
 			public void execute(final ActionEvent event) {
-				textField.setText(controller6.getValueAsString());
+				textField.setText("WRadioButtonSelect: " + controller6.getValueAsString());
 			}
 		});
 		// add the ajax control for the controller
@@ -124,7 +124,7 @@ public class AjaxReplaceControllerExample extends WPanel {
 
 			@Override
 			public void execute(final ActionEvent event) {
-				textField.setText(controller7.getValueAsString());
+				textField.setText("WCheckBoxSelect: " + controller7.getValueAsString());
 			}
 		});
 		// add the ajax control for the controller
@@ -135,7 +135,7 @@ public class AjaxReplaceControllerExample extends WPanel {
 
 			@Override
 			public void execute(final ActionEvent event) {
-				textField.setText(controller8.getValueAsString());
+				textField.setText("WDropdown: " + controller8.getValueAsString());
 			}
 		});
 		// add the ajax control for the controller
@@ -146,7 +146,7 @@ public class AjaxReplaceControllerExample extends WPanel {
 
 			@Override
 			public void execute(final ActionEvent event) {
-				textField.setText(controller9.getValueAsString());
+				textField.setText("WMultiTextField: " + controller9.getValueAsString());
 			}
 		});
 		// add the ajax control for the controller
@@ -157,7 +157,7 @@ public class AjaxReplaceControllerExample extends WPanel {
 
 			@Override
 			public void execute(final ActionEvent event) {
-				textField.setText(controller10.getValueAsString());
+				textField.setText("WDateField: " + controller10.getValueAsString());
 			}
 		});
 		// add the ajax control for the controller

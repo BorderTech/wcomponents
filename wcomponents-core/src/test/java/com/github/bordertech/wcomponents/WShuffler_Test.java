@@ -121,7 +121,7 @@ public class WShuffler_Test extends AbstractWComponentTestCase {
 		// Request with Options in same order (No Change)
 		setActiveContext(createUIContext());
 		request = new MockRequest();
-		request.setParameter(shuffler.getId(), new String[]{"0", "1", "2"});
+		request.setParameter(shuffler.getId(), OPTIONS.toArray(new String[]{}));
 		changed = shuffler.doHandleRequest(request);
 
 		Assert.assertFalse("Same Request - Options should not have changed", changed);
@@ -131,7 +131,7 @@ public class WShuffler_Test extends AbstractWComponentTestCase {
 		// Shuffle options via a request (change)
 		setActiveContext(createUIContext());
 		request = new MockRequest();
-		request.setParameter(shuffler.getId(), new String[]{"2", "0", "1"});
+		request.setParameter(shuffler.getId(), new String[]{OPTION_C, OPTION_A, OPTION_B});
 		changed = shuffler.doHandleRequest(request);
 
 		Assert.assertTrue("Shuffled Request - Options should not have changed", changed);
@@ -164,7 +164,7 @@ public class WShuffler_Test extends AbstractWComponentTestCase {
 
 		// Shuffle options on the request
 		request = new MockRequest();
-		request.setParameter(shuffler.getId(), new String[]{"2", "0", "1"});
+		request.setParameter(shuffler.getId(), new String[]{OPTION_C, OPTION_A, OPTION_B});
 		Assert.assertNotNull("Request Value should not be null", shuffler.getRequestValue(request));
 		Assert.
 				assertEquals("Invalid number of options", 3, shuffler.getRequestValue(request).
@@ -189,13 +189,13 @@ public class WShuffler_Test extends AbstractWComponentTestCase {
 
 		// Shuffler on the request (but options are different)
 		request = new MockRequest();
-		request.setParameter(shuffler.getId(), new String[]{"0", "1"});
+		request.setParameter(shuffler.getId(), new String[]{OPTION_A, OPTION_B});
 		Assert.assertFalse("IsPresent should return false when options have changed", shuffler.
 				isPresent(request));
 
 		// Shuffler on the request (Same options)
 		request = new MockRequest();
-		request.setParameter(shuffler.getId(), new String[]{"2", "0", "1"});
+		request.setParameter(shuffler.getId(), new String[]{OPTION_C, OPTION_A, OPTION_B});
 		Assert.assertTrue("IsPresent should return true", shuffler.isPresent(request));
 	}
 
