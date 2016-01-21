@@ -36,3 +36,4 @@ For all bug fixes see [GitHub Issues](https://github.com/BorderTech/wcomponents/
 ## Major Bug fixes
 * Fixed loading `WSubMenu` via AJAX. Items can now be dynamically added when the `WSubMenu` is opened. (#250)
 * `AbstractWComponentTestCase` now works with variable arguments on setter methods (#188)
+* Fixed 'WShuffler' to work correctly when used as an 'AjaxTrigger' (#323) 
