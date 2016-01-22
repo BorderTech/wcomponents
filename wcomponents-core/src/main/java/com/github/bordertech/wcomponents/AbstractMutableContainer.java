@@ -27,7 +27,9 @@ public abstract class AbstractMutableContainer extends AbstractNamingContextCont
 	 *
 	 * @param component the component to add.
 	 * @param tag the tag used to identify the component.
+	 * @deprecated Use {@link WTemplate} instead
 	 */
+	@Deprecated
 	@Override
 	public void add(final WComponent component, final String tag) {
 		super.add(component, tag);

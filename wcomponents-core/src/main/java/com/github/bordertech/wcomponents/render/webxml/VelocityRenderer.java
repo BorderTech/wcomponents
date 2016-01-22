@@ -7,6 +7,7 @@ import com.github.bordertech.wcomponents.Renderer;
 import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.UIContextHolder;
 import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.WTemplate;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.Config;
 import com.github.bordertech.wcomponents.util.SystemException;
@@ -57,7 +58,9 @@ import org.apache.velocity.exception.ResourceNotFoundException;
  *
  * @author James Gifford
  * @since 1.0.0
+ * @deprecated USe {@link WTemplate} instead.
  */
+@Deprecated
 public final class VelocityRenderer implements Renderer {
 
 	private static final String NO_TEMPLATE_LAYOUT = "com/github/bordertech/wcomponents/velocity/NoTemplateLayout.vm";
