@@ -1,13 +1,9 @@
 package com.github.bordertech.wcomponents.examples.picker;
 
-import com.github.bordertech.wcomponents.InternalResource;
 import com.github.bordertech.wcomponents.Message;
 import com.github.bordertech.wcomponents.Request;
-import com.github.bordertech.wcomponents.UIContext;
-import com.github.bordertech.wcomponents.UIContextHolder;
 import com.github.bordertech.wcomponents.WApplication;
 import com.github.bordertech.wcomponents.WComponent;
-import com.github.bordertech.wcomponents.WContent;
 import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.util.Config;
@@ -49,20 +45,14 @@ public class ExamplePicker extends WApplication {
 	private final WMessages messages = new WMessages();
 
 	/**
-	 * Additional Javascript used to provide syntax-highlighting client-side.
-	 */
-	private final WContent javascript = new WContent();
-
-	/**
-	 * Additional CSS used to provide syntax-highlighting client-side.
-	 */
-	private final WContent css = new WContent();
-
-	/**
 	 * Construct the example picker.
 	 */
 	public ExamplePicker() {
 		add(messages);
+
+		// Syntax highlighting
+		addCssFile("/com/github/bordertech/wcomponents/examples/syntaxHighlight.css");
+		addJsFile("/com/github/bordertech/wcomponents/examples/syntaxHighlight.js");
 
 		String className = Config.getInstance().getString(PARAM_KEY, TreePicker.class.getName());
 
@@ -73,13 +63,6 @@ public class ExamplePicker extends WApplication {
 		} catch (Exception e) {
 			add(new ErrorComponent("Unable to load picker ui " + className, e));
 		}
-
-		String version = Config.getInstance().getString("wcomponents-examples.version");
-		javascript.setCacheKey("wc.examplepicker.js." + version);
-		css.setCacheKey("wc.examplepicker.css." + version);
-
-		add(javascript);
-		add(css);
 	}
 
 	/**
@@ -113,21 +96,8 @@ public class ExamplePicker extends WApplication {
 
 				messages.addMessage(new Message(Message.ERROR_MESSAGE, msg));
 			}
-
-			javascript.setContentAccess(new InternalResource(
-					"/com/github/bordertech/wcomponents/examples/syntaxHighlight.js",
-					"syntaxHighlight.js"));
-			css.setContentAccess(new InternalResource(
-					"/com/github/bordertech/wcomponents/examples/syntaxHighlight.css",
-					"syntaxHighlight.css"));
 			setInitialised(true);
 		}
-
-		UIContext uic = UIContextHolder.getCurrent();
-		uic.getHeaders().addUniqueHeadLine("<script type='text/javascript' src='" + WebUtilities.
-				encode(javascript.getUrl()) + "'></script>");
-		uic.getHeaders().addUniqueHeadLine(
-				"<link type='text/css' rel='stylesheet' href='" + WebUtilities.encode(css.getUrl()) + "'></link>");
 
 	}
 }

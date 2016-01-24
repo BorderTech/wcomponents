@@ -3,6 +3,6 @@
 	<xsl:template match="ui:js"/>
 
 	<xsl:template match="ui:js" mode="inHead">
-		<script type="text/javascript" defer="defer" src="{@url}"></script>
+		<script type="text/javascript" src="{@url}"></script>
 	</xsl:template>
 </xsl:stylesheet>
