@@ -25,6 +25,12 @@ input[role='combobox'] {
 		max-width: 100%;
 		padding: 0;
 		position: absolute;
+		z-index: 2;
+
+		dialog & {
+			z-index: 22;
+		}
+
 		&[aria-busy='true'] { // we do not want dynamic suggestion lists to go transparent when busy
 			// scss-lint:disable ImportantRule
 			background-color: $wc-ui-color-global-bg !important;
