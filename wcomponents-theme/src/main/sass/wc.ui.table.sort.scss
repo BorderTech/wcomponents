@@ -6,6 +6,7 @@ th {
 		@include background-image ('../images/down-d.png', $x: 100%);
 		background-position-x: calc(100% - 0.25em);
 		cursor: pointer;
+		padding-right: calc(16px + 0.5em);//allow for 16px image, image position and 0.25em between text and image.
 	}
 
 	&[sorted] {
