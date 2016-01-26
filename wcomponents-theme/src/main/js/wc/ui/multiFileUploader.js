@@ -947,7 +947,12 @@ define(["wc/dom/attribute",
 					onAbort = abortHandlerFactory(fileId);
 				formData.append("wc_target", uploadName);
 				formData.append("wc_fileid", fileId);
-				formData.append(uploadName, file);
+				/*
+				 * On the line below we specify the file name because some browsers do not support the File constructor.
+				 * In this case the file object is actually a Blob with the same duck type as a File.
+				 * The name, however, is a readonly property of blob and while we may appear to have overridden the value we probably haven't.
+				 */
+				formData.append(uploadName, file, file.name);
 
 				request = {
 					url: uri,
