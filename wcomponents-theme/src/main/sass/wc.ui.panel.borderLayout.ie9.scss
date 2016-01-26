@@ -2,25 +2,25 @@
 .wc_borderLayout_middle {
 	> div {
 		box-sizing: border-box;
+		display: inline-block;
 		vertical-align: text-top;
-	}
 
-	> .wc_borderLayout_middle {
-		&25 {
-			width: 25%;
-		}
+		&.wc_borderLayout_middle {
+			&25 {
+				width: 25%;
+			}
 
-		&50 {
-			width: 50%;
-		}
+			&50 {
+				width: 50%;
+			}
 
-		&75 {
-			width: 75%;
-		}
+			&75 {
+				width: 75%;
+			}
 
-		&100 {
-			width: 100%;
+			&100 {
+				width: 100%;
+			}
 		}
 	}
 }
-/* end wc.ui.panel.borderLayout.ie9.scss */
