@@ -516,7 +516,7 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 	 *
 	 * @param toggleSubRowSelection true to turn on this feature.
 	 */
-	public void setToggleSubRowSelection(boolean toggleSubRowSelection) {
+	public void setToggleSubRowSelection(final boolean toggleSubRowSelection) {
 		getOrCreateComponentModel().toggleSubRowSelection = toggleSubRowSelection;
 	}
 
@@ -525,7 +525,7 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 	 *
 	 * @return true if this feature is enabled.
 	 */
-	public boolean getToggleSubRowSelection() {
+	public boolean isToggleSubRowSelection() {
 		return getComponentModel().toggleSubRowSelection;
 	}
 

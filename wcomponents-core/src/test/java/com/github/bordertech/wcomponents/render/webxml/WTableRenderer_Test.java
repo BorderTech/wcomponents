@@ -384,6 +384,7 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		component.setSelectMode(WTable.SelectMode.MULTIPLE);
 		component.setToggleSubRowSelection(true);
+		component.setExpandMode(ExpandMode.CLIENT);
 
 		assertSchemaMatch(component);
 
