@@ -702,8 +702,11 @@ function(has, event, uid, classList, timers, loader, i18n, fabric, Mustache, dia
 //			if (typeof File === "function") {
 //				return new File([blob], name, filePropertyBag);
 //			}
-
-			blob.lastModified = new Date();
+			if (!blob.type) {
+				blob.type = filePropertyBag.type;
+			}
+			blob.lastModifiedDate = filePropertyBag.lastModified;
+			blob.lastModified = filePropertyBag.lastModified.getTime();
 			blob.name = name;
 			return blob;
 		}
