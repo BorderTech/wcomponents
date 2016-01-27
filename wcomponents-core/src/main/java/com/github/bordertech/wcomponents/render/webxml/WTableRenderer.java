@@ -149,6 +149,10 @@ final class WTableRenderer extends AbstractWebXmlRenderer {
 			boolean multiple = table.getSelectMode() == SelectMode.MULTIPLE;
 			xml.appendTagOpen("ui:rowSelection");
 			xml.appendOptionalAttribute("multiple", multiple, "true");
+
+			boolean toggleSubRows = multiple && table.isToggleSubRowSelection()
+					&& WTable.ExpandMode.NONE != table.getExpandMode();
+			xml.appendOptionalAttribute("toggle", toggleSubRows, "true");
 			if (multiple) {
 				switch (table.getSelectAllMode()) {
 					case CONTROL:

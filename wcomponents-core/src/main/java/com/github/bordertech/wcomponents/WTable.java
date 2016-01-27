@@ -511,6 +511,25 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 	}
 
 	/**
+	 * Sets whether the de/selection of a row with sub rows should de/select the sub rows. This is a client-side only
+	 * feature.
+	 *
+	 * @param toggleSubRowSelection true to turn on this feature.
+	 */
+	public void setToggleSubRowSelection(final boolean toggleSubRowSelection) {
+		getOrCreateComponentModel().toggleSubRowSelection = toggleSubRowSelection;
+	}
+
+	/**
+	 * Indicates whether de/selecting a row with sub row(s) will de/select the sub row(s).
+	 *
+	 * @return true if this feature is enabled.
+	 */
+	public boolean isToggleSubRowSelection() {
+		return getComponentModel().toggleSubRowSelection;
+	}
+
+	/**
 	 * @return the striping type used to highlight alternate rows or columns
 	 */
 	public StripingType getStripingType() {
@@ -1993,6 +2012,11 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 		 * Holds the keys of the currently selected rows.
 		 */
 		private Set<?> selectedRows;
+
+		/**
+		 * Indicates that de/selecting a row with sub rows will de/select the sub rows.
+		 */
+		private boolean toggleSubRowSelection = false;
 
 		// Row expansion
 		/**

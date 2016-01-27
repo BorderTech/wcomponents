@@ -206,6 +206,11 @@
 								</xs:restriction>
 							</xs:simpleType>
 						</xs:attribute>
+						<xs:attribute name="toggle" type="xs:boolean">
+							<xs:annotation>
+								<xs:documentation>Indicates that a selectable row with selectable sub-rows should act as a select toggle for the sub-rows.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
 					</xs:complexType>
 				</xs:element>
 
