@@ -72,6 +72,10 @@ function(has, event, uid, classList, timers, loader, i18n, fabric, Mustache, dia
 										name: element.getAttribute("data-editor")
 									}).then(function(files) {
 										multiFileUploader.upload(uploader, files, true);
+									}, function(message) {
+										if (message) {
+											alert(message);
+										}
 									});
 								}
 							}
@@ -127,7 +131,12 @@ function(has, event, uid, classList, timers, loader, i18n, fabric, Mustache, dia
 							}
 						}
 						else if (config.camera) {
-							promise = editFile(config, null).then(saveEditedFile, reject);
+							if (has("rtc-gum")) {
+								promise = editFile(config, null).then(saveEditedFile, reject);
+							}
+							else {
+								reject(i18n.get("${wc.ui.imageEdit.message.nortcgum}"));
+							}
 						}
 					}
 					catch (ex) {
@@ -352,7 +361,10 @@ function(has, event, uid, classList, timers, loader, i18n, fabric, Mustache, dia
 					if (file) {
 						classList.add(container, "nocap");
 					}
-					else if (!imageCapture.snapshotControl(eventConfig)) {
+					else if (has("rtc-gum")) {
+						imageCapture.snapshotControl(eventConfig);
+					}
+					else {
 						classList.add(container, "cantplay");
 					}
 					resolve(container);
@@ -748,16 +760,18 @@ function(has, event, uid, classList, timers, loader, i18n, fabric, Mustache, dia
 		function ImageCapture() {
 			var _stream,
 				streaming,
-				hasUserMedia,
 				VIDEO_ID = "wc_img_video";
+
+			has.add("rtc-gum", function() {
+				return (gumWrapper());
+			});
 
 			/*
 			 * Wires up the "take photo" feature.
 			 */
 			this.snapshotControl = function (eventConfig) {
 				var click = eventConfig.click;
-				hasUserMedia = gumWrapper();
-				if (hasUserMedia) {
+				if (has("rtc-gum")) {
 					click.snap = {
 						func: function() {
 							var dataUrl,
@@ -771,7 +785,6 @@ function(has, event, uid, classList, timers, loader, i18n, fabric, Mustache, dia
 						}
 					};
 				}
-				return hasUserMedia;
 			};
 
 			/**
@@ -877,7 +890,7 @@ function(has, event, uid, classList, timers, loader, i18n, fabric, Mustache, dia
 					video: true,// { facingMode: "user" },
 					audio: false
 				};
-				if (hasUserMedia) {
+				if (has("rtc-gum")) {
 					gumWrapper(constraints, playCb, errCb);
 				}
 			};
