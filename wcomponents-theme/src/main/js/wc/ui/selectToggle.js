@@ -45,8 +45,10 @@ define(["wc/dom/shed",
 				CHECKBOX_WD = new Widget("input", "", {"type": "checkbox"}),
 				ARIA_CB_WD = new Widget("", "", {"role": "checkbox"}),
 				ROW_WD = new Widget("tr", "", {"role": "row", "aria-selected": null}),
+				ROW_SUB_ROW_CONTROLLER = ROW_WD.extend(CLASS_TOGGLE),
 				ALL_CB = [CHECKBOX_WD, ARIA_CB_WD, ROW_WD],
 				TABLE_WRAPPER = new Widget("div", "table"),
+				ARIA_CONTROLS = "aria-controls",
 				STATE = {ALL: "all",
 						NONE: "none",
 						MIXED: "some",
@@ -85,7 +87,7 @@ define(["wc/dom/shed",
 					_element = SUBCONTROLLER_WD.findDescendant(element);
 				}
 
-				controlId = _element.getAttribute("aria-controls");
+				controlId = _element.getAttribute(ARIA_CONTROLS);
 				if (!controlId) {
 					return false;
 				}
@@ -170,6 +172,26 @@ define(["wc/dom/shed",
 				return null;
 			}
 
+
+			function getSubRowController (element) {
+				var sibling, idList;
+
+				if (element.getAttribute("aria-level") > 1) {
+					sibling = element;
+					while ((sibling = sibling.previousSibling)) {
+						if (sibling.nodeType === Node.ELEMENT_NODE) {
+							if (ROW_SUB_ROW_CONTROLLER.isOneOfMe(sibling) && (idList = sibling.getAttribute(ARIA_CONTROLS))) {
+								idList = idList.split(/\s/);
+								if (idList.indexOf(element.id) >= 0) {
+									return sibling;
+								}
+							}
+						}
+					}
+				}
+				return null;
+			}
+
 			/**
 			 * Find the registry object of the nearest ancestor container which is controlled by a selectToggle. Test to
 			 * make sure we have a controller:element type match because a tableRowSelect can only control table row
@@ -190,7 +212,8 @@ define(["wc/dom/shed",
 				// whilst a table row selection control can only select rows a row can be selected by a WSelectToggle.
 				// Therefore it is not sufficient to find the table row selection controller or return null here.
 				if (ROW_WD.isOneOfMe(element)) {
-					if ((table = TABLE_WRAPPER.findAncestor(element))) {
+					controller = getSubRowController(element);
+					if (!controller && (table = TABLE_WRAPPER.findAncestor(element))) {
 						controller = CONTROLLER_WD.findDescendant(table);
 					}
 				}
@@ -226,14 +249,16 @@ define(["wc/dom/shed",
 			 * @returns {Element[]} The elements in the group as an Array not as a nodeList or null if no group found.
 			 */
 			function getGroup(controller) {
-				var result = null,
+				var result,
 					groupName,
 					container,
 					namedGroupWd,
-					SPACE = /\s+/,
-					ARIA_CONTROLS = "aria-controls";
+					SPACE = /\s+/;
 
-				if ((groupName = controller.getAttribute("data-wc-cbgroup"))) {
+				if (ROW_SUB_ROW_CONTROLLER.isOneOfMe(controller)) {
+					groupName = controller.getAttribute(ARIA_CONTROLS);
+				}
+				else if ((groupName = controller.getAttribute("data-wc-cbgroup"))) {
 					namedGroupWd = [CHECKBOX_WD.extend("", {"data-wc-cbgroup": groupName}), ARIA_CB_WD.extend("", {"data-wc-name": groupName})];
 					result = toArray(Widget.findDescendants(document, namedGroupWd));
 				}
@@ -250,13 +275,17 @@ define(["wc/dom/shed",
 						return document.getElementById(next);
 					});
 				}
-				if (!result) {
-					container = document.getElementById(groupName);
-					if (container && isTableRowSelectToggle(controller)) {
-						result = toArray(ROW_WD.findDescendants(container, true));  // group.get(container);
-					}
-					else if (container) {
-						result = toArray(Widget.findDescendants(container, ALL_CB));
+				if (!result && groupName) {
+					if ((container = document.getElementById(groupName))) {
+						if (Widget.isOneOfMe(container, ALL_CB)) {
+							result = [container];
+						}
+						else if (isTableRowSelectToggle(controller)) {
+							result = toArray(ROW_WD.findDescendants(container, true));  // group.get(container);
+						}
+						else  {
+							result = toArray(Widget.findDescendants(container, ALL_CB));
+						}
 					}
 					else {
 						namedGroupWd = [CHECKBOX_WD.extend("", { "name": groupName }), ARIA_CB_WD.extend("", { "data-wc-name": groupName })];
@@ -278,13 +307,13 @@ define(["wc/dom/shed",
 				var _group, state;
 
 				if ((_group = getGroup(trigger)) && _group.length) {
-					if (CONTROLLER_CHECKBOX_WD.isOneOfMe(trigger) || !(state = trigger.getAttribute("data-wc-value"))) {
+					if (CONTROLLER_CHECKBOX_WD.isOneOfMe(trigger) || ROW_SUB_ROW_CONTROLLER.isOneOfMe(trigger) || !(state = trigger.getAttribute("data-wc-value"))) {
 						state = shed.isSelected(trigger) === shed.state.DESELECTED ? STATE.NONE : STATE.ALL;
 					}
 					_group = getFilteredGroup(_group, {filter: getFilteredGroup.FILTERS[(state === STATE.ALL) ? "deselected" : "selected"] | getFilteredGroup.FILTERS.enabled | getFilteredGroup.FILTERS.visible});
 					if (_group.length) {
 						_group = _group.filter(function (next) {
-							return !(CONTROLLER_WD.isOneOfMe(next) || next.getAttribute("aria-readonly") === "true");
+							return ROW_SUB_ROW_CONTROLLER.isOneOfMe(next) || !(CONTROLLER_WD.isOneOfMe(next) || next.getAttribute("aria-readonly") === "true");
 						});
 					}
 					if (_group.length) {
@@ -309,7 +338,19 @@ define(["wc/dom/shed",
 					return;
 				}
 
-				if (CONTROLLER_CHECKBOX_WD.isOneOfMe(controller)) {
+				if (ROW_SUB_ROW_CONTROLLER.isOneOfMe(controller)) { // role row with aria-selected cannot have state mixed.
+					if (status === STATE.ALL) {
+						if (!shed.isSelected (controller)) {
+							shed.select(controller);
+						}
+					}
+					else if (shed.isSelected(controller)) {
+						shed.deselect(controller, status === STATE.MIXED); // do not publish the deselect on mix.
+					}
+
+					// we have to find the next controller up and
+				}
+				else if (CONTROLLER_CHECKBOX_WD.isOneOfMe(controller)) {
 					if (status === STATE.ALL && shed.isSelected(controller) !== shed.state.SELECTED) {
 						shed.select(controller);
 					}
@@ -340,42 +381,76 @@ define(["wc/dom/shed",
 			 * @param {String} action shed.SELECT or shed.DESELECT.
 			 */
 			function shedObserver(element, action) {
-				var _group,
-					selected,
-					controller,
-					groupState;
+				var controller;
 
 				if (!element) {
 					return;
 				}
-
 				if ((action === shed.actions.SELECT && SUBCONTROLLER_WD.isOneOfMe(element)) ||
-					((action === shed.actions.SELECT || action === shed.actions.DESELECT) && CONTROLLER_CHECKBOX_WD.isOneOfMe(element))) {
+					((action === shed.actions.SELECT || action === shed.actions.DESELECT) && (CONTROLLER_CHECKBOX_WD.isOneOfMe(element))) || ROW_SUB_ROW_CONTROLLER.isOneOfMe(element)) {
 					activateClick(element);
 				}
 
 				if (Widget.isOneOfMe(element, ALL_CB) && (controller = getController(element))) {
-					_group = getGroup(controller);
-
-					if (!_group && _group.length) {
-						// no grouped items means no controller to set state on.
-						return;
+					if (ROW_SUB_ROW_CONTROLLER.isOneOfMe(controller)) {
+						do {
+							controlStatusHelper(controller);
+						}
+						while ((controller = getController(controller)) && (ROW_SUB_ROW_CONTROLLER.isOneOfMe(controller) || isTableRowSelectToggle(controller)));
 					}
-
-					selected = getFilteredGroup(_group);
-					groupState = STATE.MIXED;
-
-					if (_group.length === selected.length) {
-						groupState = STATE.ALL;
+					else {
+						controlStatusHelper(controller);
 					}
-					else if (selected.length === 0) {
-						groupState = STATE.NONE;
-					}
-
-					setControllerStatus(controller, groupState);
 				}
 			}
 
+
+			function controlStatusHelper(controller) {
+				var _group= getGroup(controller),
+					selected,
+					groupState;
+
+				if (!_group) {
+					// no grouped items means no controller to set state on.
+					return;
+				}
+				selected = getFilteredGroup(_group);
+				groupState = STATE.MIXED;
+
+				if (_group.length === 0) {
+					groupState = STATE.NONE;
+				}
+				else if (_group.length === selected.length) {
+					groupState = STATE.ALL;
+				}
+				else if (selected.length === 0) {
+					groupState = STATE.NONE;
+				}
+				setControllerStatus(controller, groupState);
+			}
+
+
+			/**
+			 * shed.show observer for table rows.
+			 * A table row which controls its children may be selected if all children are hidden. If a child is
+			 * then shown and it is not selected then we must reset the "parent" selected state.
+			 *
+			 * This is needed to make the behaviour consistent over AJAX and client expansion.
+			 *
+			 * @function
+			 * @private
+			 * @param {Element} element The element being shown.
+			 */
+			function resetStatusOnShow(element) {
+				var controller;
+				if (element && ROW_WD.isOneOfMe (element) && !shed.isSelected(element) && element.getAttribute("aria-level") > 1) {
+					controller = getController (element);
+
+					if (controller && ROW_SUB_ROW_CONTROLLER.isOneOfMe(controller) && shed.isSelected(controller)) {
+						shed.deselect(controller);
+					}
+				}
+			}
 
 			/**
 			 * Late initialisation to addd {@link module:wc/dom/shed} and {@link module:wc/dom/formUpdateManager}
@@ -388,6 +463,7 @@ define(["wc/dom/shed",
 				shed.subscribe(shed.actions.SELECT, shedObserver);
 				shed.subscribe(shed.actions.DESELECT, shedObserver);
 				shed.subscribe(shed.actions.MIX, shedObserver);
+				shed.subscribe(shed.actions.SHOW, resetStatusOnShow);
 				formUpdateManager.subscribe(writeState);
 			};
 		}

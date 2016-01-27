@@ -8,7 +8,6 @@
 	<!--
 	TODO: remove this when WFilterControl is no longer part of the Java API
 	<xsl:import href="wc.ui.table.tr.n.containsWords.xsl"/>-->
-	<xsl:import href="wc.ui.table.tr.n.tableCollapserElement.xsl"/>
 	<xsl:import href="wc.ui.table.tr.n.clientRowClosedHelper.xsl"/>
 	<!--
 		Transform for each row in the WTable. The row itself transforms to a HTML tr element. It may also output another
@@ -107,8 +106,11 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
-
-		<xsl:variable name="class">
+		
+		<xsl:variable name="isSelectToggle">
+			<xsl:if test="$hasRowExpansion + $selectableRow = 2 and $myTable/ui:rowSelection/@toggle and ui:subTr/ui:tr[not(@unselectable)]">
+				<xsl:number value="1"/>
+			</xsl:if>
 		</xsl:variable>
 
 		<tr id="{$rowId}" data-wc-rowindex="{@rowIndex}">
@@ -131,8 +133,10 @@
 						<xsl:text> wc_table_stripe</xsl:text>
 					</xsl:when>
 				</xsl:choose>
-				</xsl:attribute>
-			
+				<xsl:if test="$isSelectToggle = 1">
+					<xsl:text> wc_seltog</xsl:text>
+				</xsl:if>
+			</xsl:attribute>
 
 			<xsl:if test="$hasRowExpansion=1">
 				<xsl:if test="ui:subTr">
@@ -232,7 +236,11 @@
 			<xsl:if test="$selectableRow=1 and not(@unselectable=$t)">
 				<xsl:attribute name="aria-selected">
 					<xsl:choose>
-						<xsl:when test="@selected=$t">
+						<xsl:when test="$isSelectToggle=1 and .//ui:subTr[ancestor::ui:table[1]/@id = $tableId]/ui:tr[not(@unselectable or @selected)]">
+							<!-- If I am a select toggle row for my 'descendant' rows and one or more of these are not selected then I am not selected. -->
+							<xsl:text>false</xsl:text>
+						</xsl:when>
+						<xsl:when test="$isSelectToggle = 1 or @selected = $t">
 							<xsl:copy-of select="$t"/>
 						</xsl:when>
 						<xsl:otherwise>
@@ -252,13 +260,19 @@
 				<xsl:attribute name="data-wc-value">
 					<xsl:value-of select="@rowIndex"/>
 				</xsl:attribute>
+				
+				<!--<xsl:if test="ui:subTr/ui:tr and $myTable/ui:rowSelection/@toggle">
+					<xsl:attribute name="wc-data-toggle">
+						<xsl:text>1</xsl:text>
+					</xsl:attribute>
+				</xsl:if>-->
 
 				<!-- WDataTable still needs disabled support -->
 				<xsl:choose>
 					<xsl:when test="@disabled">
 						<xsl:call-template name="disabledElement"/>
 					</xsl:when>
-					<xsl:when test="$myTable and $myTable/@disabled">
+					<xsl:when test="$myTable/@disabled">
 						<xsl:call-template name="disabledElement">
 							<xsl:with-param name="field" select="$myTable"/>
 						</xsl:call-template>
