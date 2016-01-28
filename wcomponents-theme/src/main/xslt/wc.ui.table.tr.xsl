@@ -322,7 +322,7 @@
 						<div class="menu flyout" role="menubar" id="{$subRowToggleControlId}">
 							<div class="submenu" role="menuitem" aria-expanded="false">
 								<button type="button" aria-haspopup="true" class="wc_btn_nada" id="{$subRowToggleControlButtonId}" aria-controls="{$subRowToggleControlContentId}">
-									<span class="wc_off">Show select all / none controls.</span>
+									<span class="wc_off"><xsl:value-of select="$$${wc.ui.table.string.rowSelection.label}"/></span>
 								</button>
 								<div class="submenucontent wc_seltog" role="menu" id="{$subRowToggleControlContentId}" aria-labelledby="{$subRowToggleControlButtonId}">
 									<xsl:variable name="allSelectableSubRows" select="count(.//ui:subTr[ancestor::ui:table[1]/@id = $tableId]/ui:tr[not(@unselectable)])"/>
@@ -344,8 +344,8 @@
 												</xsl:otherwise>
 											</xsl:choose>
 										</xsl:attribute>
-										<span class="wc_off">Select </span>
-										<xsl:text>all</xsl:text>
+										<span class="wc_off"><xsl:value-of select="$$${wc.common.toggles.i18n.select.label}"/> </span>
+										<xsl:value-of select="$$${wc.common.toggles.i18n.selectAll}"/>
 									</button>
 									<button type="button" role="menuitemradio" class="menuitem wc_seltog wc_btn_nada" aria-controls="{$subRowControlList}"  data-wc-value="none">
 										<xsl:attribute name="aria-checked">
@@ -358,8 +358,8 @@
 												</xsl:otherwise>
 											</xsl:choose>
 										</xsl:attribute>
-										<span class="wc_off">Select </span>
-										<xsl:text>none</xsl:text>
+										<span class="wc_off"><xsl:valie-of select="$$${wc.common.toggles.i18n.select.label}"/> </span>
+										<xsl:value-of select="$$${wc.common.toggles.i18n.selectNone}"/>
 									</button>
 								</div>
 							</div>
