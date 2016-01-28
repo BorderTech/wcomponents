@@ -28,7 +28,6 @@
  * @requires module:wc/dom/Widget
  * @requires module:wc/i18n/i18n
  * @requires module:wc/loader/resource
- * @requires external:lib/sprintf
  * @requires module:wc/isNumeric
  * @requires module:wc/ui/dateField
  * @requires module:wc/dom/initialise
@@ -58,7 +57,6 @@ define(["wc/dom/attribute",
 		"wc/dom/Widget",
 		"wc/i18n/i18n",
 		"wc/loader/resource",
-		"lib/sprintf",
 		"wc/isNumeric",
 		"wc/ui/dateField",
 		"wc/dom/initialise",
@@ -67,7 +65,7 @@ define(["wc/dom/attribute",
 		"module"],
 
 function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthName, today, interchange, classList, event,
-		focus, shed, tag, viewportCollision, getBox, Widget, i18n, loader, sprintf, isNumeric, dateField, initialise,
+		focus, shed, tag, viewportCollision, getBox, Widget, i18n, loader, isNumeric, dateField, initialise,
 		timers, Mustache, module) {
 
 	"use strict";
@@ -362,7 +360,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 * in order to bootstrap the field.
 		 */
 		function hideCalendar(ignoreFocusReset) {
-			var cal = getCal(true),
+			var cal = getCal(),
 				input;
 
 			// touching = null;
@@ -438,6 +436,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 */
 		function _calendarKeydownEvent($event) {
 			var buttons,
+				cal,
 				element = $event.target,
 				shiftKey = $event.shiftKey,
 				keyCode = $event.keyCode,
@@ -455,7 +454,8 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 				handled = keydownHelperChangeYear(element, keyCode);
 			}
 			else if (keyCode === KeyEvent.DOM_VK_TAB && shiftKey && element === findMonthSelect()) {  // tabbing back past month select
-				buttons = PICKABLE.findDescendants(getCal());
+				cal = cal || (getCal() || create());
+				buttons = PICKABLE.findDescendants(cal);
 				focus.setFocusRequest(buttons[buttons.length - 1]);  // move focus to last element
 				handled = true;
 			}
@@ -494,23 +494,20 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 * Builds the actual HTML calendar component
 		 */
 		function create() {
-			var days = dayName.get(),
-				_today = today.get(),
-				dayCellTemplate = "<th><abbr title=\"%s\">%1$.1s</abbr></th>",
-				daysOfWeek = [],
+			var _today = today.get(),
 				container,
 				calendarProps,
 				calendar,
-				template = getEmptyCalendar(),
-				i = 1;
+				template = getEmptyCalendar();
 
-			// build a string containing the html for the days of week row
-			do {
-				daysOfWeek[daysOfWeek.length] = sprintf.sprintf(dayCellTemplate, days[i %= 7]);
-			}
-			while (i++);
 			calendarProps = {
-				daysOfWeek: daysOfWeek.join(""),
+				firstChar: function() {
+					/* Template helper, first character of text. */
+					return function(text, render) {
+						return render(text)[0];
+					};
+				},
+				dayName: dayName.get(),
 				monthName: monthName.get(),
 				fullYear: _today.getFullYear(),
 				monthLabel: i18n.get("${wc.ui.dateField.i18n.calendarMonthLabel}"),
@@ -537,23 +534,18 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 
 		/**
 		 * Get the calendar's containing element.
-		 *
-		 * @param {Boolean} doNotCreate If true do not create the calendar if it is not found.
 		 * @returns {?Element} The calendar.
 		 */
-		function getCal(doNotCreate) {
-			var rval = document.getElementById(CONTAINER_ID);
-			if (!(rval || doNotCreate)) {
-				rval = create();
-			}
-			return rval;
+		function getCal() {
+			return document.getElementById(CONTAINER_ID);
 		}
 
 		/*
 		 * retrieve a stored date for a picker. If one has not been stored return the current date @returns a date object
 		 */
 		function retrieveDate() {
-			var millis = attribute.get(getCal(), DATE_KEY),
+			var cal = (getCal() || create()),
+				millis = attribute.get(cal, DATE_KEY),
 				dateObj;
 			if (millis || millis === 0) {
 				dateObj = new Date(millis);
@@ -564,7 +556,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 
 
 		function getInputForCalendar($cal) {
-			var cal = $cal || getCal(true),
+			var cal = ($cal || getCal()),
 				inputId,
 				result;
 			if (cal && (inputId = cal.getAttribute(CONTROL_ATTRIBUTE))) {
@@ -578,13 +570,14 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 * the date object to store
 		 */
 		function storeDate(dateObj) {
-			var millis;
+			var millis, cal;
 			if (!dateObj || dateObj.constructor !== Date) {
 				throw new TypeError("storeDate expects a date object");
 			}
 			millis = dateObj.getTime();
 			console.log("storing date", new Date(millis));
-			attribute.set(getCal(), DATE_KEY, millis);
+			cal = getCal() || create();
+			attribute.set(cal, DATE_KEY, millis);
 		}
 
 		/*
@@ -594,7 +587,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 * [setSelected] true to set the date as the current selection
 		 */
 		function setDate(date, setFocus, setSelected) {
-			var cal = getCal(),
+			var cal = (getCal() || create()),
 				_date = copy(date),  // do not change date
 				_today = new Date(),
 				monthIndex = _date.getMonth(),
@@ -802,7 +795,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 				selectDate = false,
 				constrained;
 
-			cal = getCal();
+			cal = getCal() || create();
 			cal.setAttribute(CONTROL_ATTRIBUTE, input);
 
 			// get the date to use as the default. If there is a date in the input we use that,
@@ -965,7 +958,8 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 * @param {Element} dayElement The selected day.
 		 */
 		function selectDay(dayElement) {
-			var calendar = getCal(), day, date, sb, newValue, input = getInputForCalendar(calendar);
+			var calendar = (getCal() || create()),
+				day, date, sb, newValue, input = getInputForCalendar(calendar);
 
 			if (input && !shed.isDisabled(input)) {
 				day = dayElement.value;
@@ -1003,7 +997,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 				if ((element = LAUNCHER.findAncestor($event.target))) {
 					doLaunch(element);
 				}
-				else if (getCal(true)) {  // by using getCal(true) we can by-pass a widget descriptor lookup if the calendar has never been opened as document.getElementById is very fast.
+				else if (getCal()) {  // by using getCal() we can by-pass a widget descriptor lookup if the calendar has never been opened as document.getElementById is very fast.
 					if ((element = PICKABLE.findAncestor($event.target))) {
 						selectDay(element);
 					}
@@ -1020,7 +1014,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		function focusEvent($event) {
 			var element, calendar;
 			if (!$event.defaultPrevented && (element = $event.target)) {
-				calendar = getCal(true);
+				calendar = getCal();
 				if (calendar && ((element === window || element === document) || !(calendar.compareDocumentPosition(element) & Node.DOCUMENT_POSITION_CONTAINED_BY))) {
 					hideCalendar(true);
 				}
@@ -1061,7 +1055,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 					focus.focusFirstTabstop(element);
 				}
 			}
-			else if (action === shed.actions.HIDE && ((cal = getCal(true)) && !!(element.compareDocumentPosition(cal) & Node.DOCUMENT_POSITION_CONTAINS))) {  // if we are hiding something inside the calendar it is probably a row
+			else if (action === shed.actions.HIDE && ((cal = getCal()) && !!(element.compareDocumentPosition(cal) & Node.DOCUMENT_POSITION_CONTAINS))) {  // if we are hiding something inside the calendar it is probably a row
 				ROW = ROW || new Widget("tr");
 				if (ROW.isOneOfMe(element)) {
 					// we have to remove the pickable elements from any dates which are no longer in the visible calendar
@@ -1090,7 +1084,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 * @param {Element} [element] The calendar element (if you already have it, otherwise we'll find it for you).
 		 */
 		function position(element) {
-			var input, box, cal = element || getCal(true), fixed;
+			var input, box, cal = element || getCal(), fixed;
 			if (cal && !shed.isHidden(cal)) {
 				fixed = (window.getComputedStyle && window.getComputedStyle(cal).position === "fixed");
 				if (fixed) {
