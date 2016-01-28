@@ -358,7 +358,7 @@
 												</xsl:otherwise>
 											</xsl:choose>
 										</xsl:attribute>
-										<span class="wc_off"><xsl:valie-of select="$$${wc.common.toggles.i18n.select.label}"/> </span>
+										<span class="wc_off"><xsl:value-of select="$$${wc.common.toggles.i18n.select.label}"/> </span>
 										<xsl:value-of select="$$${wc.common.toggles.i18n.selectNone}"/>
 									</button>
 								</div>
