@@ -17,7 +17,13 @@
 				<button type="button" class="wc_wdf_cls" title="{{closeLabel}}"></button>
 			</td>
 		</tr>
-		<tr>{{{daysOfWeek}}}</tr>
+		<tr>
+			{{#dayName}}
+			<th>
+				<abbr title="{{.}}">{{#firstChar}}{{.}}{{/firstChar}}</abbr>
+			</th>
+			{{/dayName}}
+		</tr>
 	</thead>
 	<tbody id="wc-caldaybox">
 		<tr>
