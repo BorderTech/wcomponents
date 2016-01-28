@@ -1,0 +1,10 @@
+/* wc.ui.table.rowSelection.pattern_ff.scss */
+.wc_table_sel_wrapper {
+	[role='menuitem'][aria-expanded] > button {
+		top: 4px;
+
+		&::after {
+			background-position: 50% 0;
+		}
+	}
+}
