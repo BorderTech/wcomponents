@@ -56,6 +56,12 @@
 				<xsl:number value="1"/>
 			</xsl:if>
 		</xsl:variable>
+		
+		<xsl:variable name="hasToggleSelectMode">
+			<xsl:if test="ui:rowSelection[@toggle and @multiple] and ui:rowExpansion and ui:tbody/ui:tr/ui:subTr">
+				<xsl:number value="1"/>
+			</xsl:if>
+		</xsl:variable>
 
 		<div id="{$id}">
 			<xsl:attribute name="class">
@@ -137,6 +143,9 @@
 						<xsl:if test="@type='hierarchic'">
 							<xsl:text> hierarchic</xsl:text>
 						</xsl:if>
+						<xsl:if test="$hasToggleSelectMode = 1">
+							<xsl:text> wc_table_hastoggleselect</xsl:text>
+						</xsl:if>
 					</xsl:variable>
 
 					<table>
@@ -196,7 +205,13 @@
 							</xsl:if>
 
 							<xsl:if test="$rowSelection=1">
-								<col class="wc_table_colauto">
+								<col>
+									<xsl:attribute name="class">
+										<xsl:text>wc_table_colauto</xsl:text>
+										<xsl:if test="$hasToggleSelectMode = 1">
+											<xsl:text> wc_table_col_hasmenu</xsl:text>
+										</xsl:if>
+									</xsl:attribute>
 									<xsl:if test="$isDebug=1">
 										<xsl:comment>row selection column</xsl:comment>
 									</xsl:if>

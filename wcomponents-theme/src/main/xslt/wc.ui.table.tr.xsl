@@ -133,9 +133,9 @@
 						<xsl:text> wc_table_stripe</xsl:text>
 					</xsl:when>
 				</xsl:choose>
-				<xsl:if test="$isSelectToggle = 1">
+				<!--<xsl:if test="$isSelectToggle = 1">
 					<xsl:text> wc_seltog</xsl:text>
-				</xsl:if>
+				</xsl:if>-->
 			</xsl:attribute>
 
 			<xsl:if test="$hasRowExpansion=1">
@@ -313,7 +313,59 @@
 			 the row selection mechanism and state indicators.
 			-->
 			<xsl:if test="$selectableRow=1">
-				<td class="wc_table_sel_wrapper" aria-hidden="true"></td>
+				<td class="wc_table_sel_wrapper" aria-hidden="true">
+					<xsl:if test="$isSelectToggle=1">
+						<xsl:variable name="subRowToggleControlId" select="concat($rowId, '_toggleController')"/>
+						<xsl:variable name="subRowToggleControlButtonId" select="concat($subRowToggleControlId, '_showbtn')"/>
+						<xsl:variable name="subRowToggleControlContentId" select="concat($subRowToggleControlId, '_content')"/>
+						
+						<div class="menu flyout" role="menubar" id="{$subRowToggleControlId}">
+							<div class="submenu" role="menuitem" aria-expanded="false">
+								<button type="button" aria-haspopup="true" class="wc_btn_nada" id="{$subRowToggleControlButtonId}" aria-controls="{$subRowToggleControlContentId}">
+									<span class="wc_off">Show select all / none controls.</span>
+								</button>
+								<div class="submenucontent wc_seltog" role="menu" id="{$subRowToggleControlContentId}" aria-labelledby="{$subRowToggleControlButtonId}">
+									<xsl:variable name="allSelectableSubRows" select="count(.//ui:subTr[ancestor::ui:table[1]/@id = $tableId]/ui:tr[not(@unselectable)])"/>
+									<xsl:variable name="allUnselectedSubRows" select="count(.//ui:subTr[ancestor::ui:table[1]/@id = $tableId]/ui:tr[not(@unselectable or @selected)])"/>
+									<xsl:variable name="subRowControlList">
+										<xsl:value-of select="concat($rowId, ' ')"/><!-- these controllers control this row too -->
+										<xsl:apply-templates select="ui:subTr/ui:tr" mode="subRowControlIdentifier">
+											<xsl:with-param name="tableId" select="$tableId"/>
+										</xsl:apply-templates>
+									</xsl:variable>
+									<button type="button" role="menuitemradio" class="menuitem wc_seltog wc_btn_nada" aria-controls="{$subRowControlList}" data-wc-value="all">
+										<xsl:attribute name="aria-checked">
+											<xsl:choose>
+												<xsl:when test="$allUnselectedSubRows = 0">
+													<xsl:text>true</xsl:text>
+												</xsl:when>
+												<xsl:otherwise>
+													<xsl:text>false</xsl:text>
+												</xsl:otherwise>
+											</xsl:choose>
+										</xsl:attribute>
+										<span class="wc_off">Select </span>
+										<xsl:text>all</xsl:text>
+									</button>
+									<button type="button" role="menuitemradio" class="menuitem wc_seltog wc_btn_nada" aria-controls="{$subRowControlList}"  data-wc-value="none">
+										<xsl:attribute name="aria-checked">
+											<xsl:choose>
+												<xsl:when test="$allSelectableSubRows = $allUnselectedSubRows">
+													<xsl:text>true</xsl:text>
+												</xsl:when>
+												<xsl:otherwise>
+													<xsl:text>false</xsl:text>
+												</xsl:otherwise>
+											</xsl:choose>
+										</xsl:attribute>
+										<span class="wc_off">Select </span>
+										<xsl:text>none</xsl:text>
+									</button>
+								</div>
+							</div>
+						</div>
+					</xsl:if>
+				</td>
 			</xsl:if>
 			<!--
 			 row expansion controls
