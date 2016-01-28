@@ -2,7 +2,6 @@
 <project name="WComponents" xmlns="http://maven.apache.org/DECORATION/1.6.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<body>
 		<menu name="Themes">
-			<item name="Introduction" href="index.html"/>
 			<item name="JSDoc" href="jsdoc/${project.name}/${project.version}/index.html"/>
 		</menu>
 	</body>
