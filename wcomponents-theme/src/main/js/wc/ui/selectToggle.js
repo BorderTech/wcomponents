@@ -304,13 +304,58 @@ define(["wc/dom/shed",
 			 * @param {Element} trigger The select toggle trigger element.
 			 */
 			function activateClick(trigger) {
-				var _group, state;
+				var _group, state, triggerIsSelected = shed.isSelected(trigger), groupFilter;
 
 				if ((_group = getGroup(trigger)) && _group.length) {
 					if (CONTROLLER_CHECKBOX_WD.isOneOfMe(trigger) || ROW_SUB_ROW_CONTROLLER.isOneOfMe(trigger) || !(state = trigger.getAttribute("data-wc-value"))) {
-						state = shed.isSelected(trigger) === shed.state.DESELECTED ? STATE.NONE : STATE.ALL;
+						state = triggerIsSelected === shed.state.DESELECTED ? STATE.NONE : STATE.ALL;
 					}
-					_group = getFilteredGroup(_group, {filter: getFilteredGroup.FILTERS[(state === STATE.ALL) ? "deselected" : "selected"] | getFilteredGroup.FILTERS.enabled | getFilteredGroup.FILTERS.visible});
+
+					/*
+					 * Why the filter variation?
+					 *
+					 * We normally do not allow users to interact with controls they are not able to perceive. This
+					 * complies with normal usability guidelines and keeps "client mode" controls in sync with ajax
+					 * modes of the same controls
+					 *
+					 * Example with row selection
+					 *
+					 * * When table also has row expansion:
+					 *   * in client mode all sub rows are present so could be "selectable" by a select toggle;
+					 *   * in lazy or dynamic mode only the descendants of opened rows are available.
+					 * * When "select all" is invoked if we allowed hidden rows to be selected
+					 *   * in client rows the newly visible rows would be selected;
+					 *   * in lazy/dynamic mode the newly visible rows would not be selected.
+					 *   This leads to an inconsistent user experience so we do not allow interaction with controls
+					 *   which are not visible.
+					 *
+					 * HOWEVER
+					 * * If a row is expanded, then "select all" is invoked the sub row(s) will be selected.
+					 * * If the row is then collapsed and "deselect all" is invoked the sub row(s) will not be
+					 *   deselected as we do not allow interaction with hidden controls.
+					 *
+					 * SO:
+					 * * If the expand mode is ajax and some other control then refreshes the view (or part thereof
+					 *   containing the table)
+					 *   * the closed row does not have children, if it is then expanded again
+					 *   * the table state does not include "selected" for the child rows as they are not present
+					 *   * therefore the newly visible rows will not be selected
+					 *
+					 * * If the expand mode is client the rows are always present so when the table is refreshed
+					 *   * the closed row still has its children, if it is expanded again
+					 *   * the table does not send its state to the server and the child rows are not changed
+					 *   * therefore the newly visible rows will remain selected which is inconsistent with the above.
+					 *
+					 * THEREFORE we must allow a selectToggle to **deselect** hidden controls.
+					 *
+					 * That is why we have a filter variation.
+					 */
+					groupFilter = getFilteredGroup.FILTERS[(state === STATE.ALL) ? "deselected" : "selected"] | getFilteredGroup.FILTERS.enabled;
+					if (triggerIsSelected !== shed.state.DESELECTED) { // we have to allow "hidden" controls to be deslected but not selected.
+						groupFilter = groupFilter | getFilteredGroup.FILTERS.visible;
+					}
+					_group = getFilteredGroup(_group, {filter: groupFilter});
+
 					if (_group.length) {
 						_group = _group.filter(function (next) {
 							return ROW_SUB_ROW_CONTROLLER.isOneOfMe(next) || !(CONTROLLER_WD.isOneOfMe(next) || next.getAttribute("aria-readonly") === "true");
