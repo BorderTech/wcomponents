@@ -4,11 +4,11 @@
 
 [role='menu'] { //this role is any part of a COLUMN menu and submenus of a BAR or FLYOUT
 	> [role],
-	> [aria-expanded] > button {
+	> .submenu[role] > button {
 		padding: $wc-ui-menu-bar-column-item-pad;
 	}
 
-	.submenu[aria-expanded='true'] > & {
+	&[aria-expanded='true'] {
 		z-index: 5;
 
 		dialog & {
@@ -29,9 +29,10 @@
 		position: fixed;
 		top: 0;
 		width: 100%;
+
+		> [role] {
+			font-size: 1.25em;
+		}
 	}
 
-	> [aria-expanded] > [role='menu'] > [role] {
-		font-size: 1.25em;
-	}
 }
