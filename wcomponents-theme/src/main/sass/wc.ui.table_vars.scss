@@ -8,4 +8,6 @@ $wc-ui-color-table-foot-bg: $std-color-primary;
 $wc-ui-color-table-foot-fg: $std-color-primary-accent;
 $wc-color-table-foot-disabled: $wc-ui-color-disabled-fg;
 // all cells
-$table-cell-padding: $hgap-small;
+$table-cell-padding-top-bottom: $hgap-small;
+$table-cell-padding-left-right: $hgap-small;
+$table-cell-padding: $table-cell-padding-top-bottom;

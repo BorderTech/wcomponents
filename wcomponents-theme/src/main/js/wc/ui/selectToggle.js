@@ -325,8 +325,6 @@ define(["wc/dom/shed",
 					subController,
 					container,
 					namedGroupWd,
-					myGroup,
-					fullGroup,
 					SPACE = /\s+/;
 
 				if (!controller) {
@@ -350,42 +348,19 @@ define(["wc/dom/shed",
 
 				if (SPACE.test(groupName)) {
 					groupName = groupName.split(SPACE);
-					myGroup = groupName.map(function (next) {
+					return groupName.map(function (next) {
 						return document.getElementById(next);
 					});
 				}
-				else if ((container = document.getElementById(groupName))) {
+				if ((container = document.getElementById(groupName))) {
 					if (Widget.isOneOfMe(container, ALL_CB)) {
-						myGroup = [container];
+						return [container];
 					}
-					else if (isTableRowSelectToggle(controller)) {
+
+					if (isTableRowSelectToggle(controller)) {
 						return toArray(ROW_WD.findDescendants(container, true));
 					}
-					else {
-						return toArray(Widget.findDescendants(container, ALL_CB));
-					}
-				}
-
-				if (myGroup) {
-					fullGroup = myGroup;
-					// If I am a table sub-row controller I only "know" about my immediate children, but they may have
-					// their own sub-rows which are part of my "group".
-					if (isSubRowController(controller)) {
-						myGroup.forEach(function (next) {
-							var nextController = getSubRowController(next, true),
-								nextGroup;
-							if (nextController) {
-								if (nextController === controller) { // each row is in its own controller's group.
-									return;
-								}
-
-								if ((nextGroup = getGroup(nextController)) && nextGroup.length) {
-									fullGroup = fullGroup.concat(nextGroup);
-								}
-							}
-						});
-					}
-					return fullGroup;
+					return toArray(Widget.findDescendants(container, ALL_CB));
 				}
 				return null;
 			}
@@ -540,12 +515,13 @@ define(["wc/dom/shed",
 						}
 					}
 				}
+				/*
 				else if ((action === shed.actions.SELECT || action === shed.actions.DESELECT) && ROW_WD.isOneOfMe(element)) {
 					if ((controller = getSubRowController(element, true))) {
 						setControllerStatus(controller, action === shed.actions.SELECT ? STATE.ALL : STATE.NONE);
 					}
 				}
-
+				*/
 				if (Widget.isOneOfMe(element, ALL_CB) && (controller = getController(element))) {
 					if (isSubRowController(controller)) {
 						do {
