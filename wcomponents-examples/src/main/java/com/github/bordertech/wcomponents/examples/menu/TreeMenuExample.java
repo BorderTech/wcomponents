@@ -152,6 +152,7 @@ public class TreeMenuExample extends WPanel {
 		WDecoratedLabel dLabel = new WDecoratedLabel(null, new WText("Settings Menu"), new WImage(
 				"/image/settings.png", "settings"));
 		WSubMenu settings = new WSubMenu(dLabel);
+		settings.setMode(WSubMenu.MenuMode.LAZY);
 		menu.add(settings);
 		settings.add(new WMenuItem(new WDecoratedLabel(null, new WText("Account Settings"),
 				new WImage("/image/user-properties.png", "user properties"))));
@@ -159,6 +160,7 @@ public class TreeMenuExample extends WPanel {
 				new WImage("/image/user.png", "user"))));
 		WSubMenu addressSub = new WSubMenu(new WDecoratedLabel(null, new WText("Address Details"),
 				new WImage("/image/address-book-open.png", "address book")));
+		addressSub.setMode(WSubMenu.MenuMode.LAZY);
 		settings.add(addressSub);
 		addressSub.add(new WMenuItem(new WDecoratedLabel(null, new WText("Home Address"),
 				new WImage("/image/home.png", "home"))));

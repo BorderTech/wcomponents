@@ -21,7 +21,7 @@
 [role='menuitemradio'],
 [role='menuitemcheckbox'],
 [role='treeitem'],
-.menu [aria-expanded] > button {
+.submenu > button {
 	@include border-box;
 	display: block;
 	text-align: $preferred-alignment;
@@ -60,10 +60,8 @@
 	}
 }
 
-.submenu[aria-expanded='false'] {
-	> [role='menu'],
-	> [role='group'] {
-		display: none;
-	}
+.submenu[aria-expanded='false'] >  [role='group'],
+.submenu > [role='menu'][aria-expanded='false'] {
+	display: none;
 }
 /* end wc.ui.menu.scss */
