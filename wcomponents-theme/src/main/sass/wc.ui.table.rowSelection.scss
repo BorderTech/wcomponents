@@ -33,15 +33,16 @@ tr[aria-selected] {
 		display: none;
 	}
 
-	[role='menuitem'].submenu > button { // the is the submenu opener emulator for the sub-row toggle control
-		@include button($background: $wc-ui-color-menu-bg, $height: 1em, $padding: 0, $width: 1em, $reset-height: -1, $reset-width: -1);
+	[role='menubar'] .submenu > button { // the is the submenu opener emulator for the sub-row toggle control
+		@include button($background: $wc-ui-color-menu-bg, $height: -1, $padding: 0, $width: 1em, $reset-height: -1, $reset-width: -1);
+		height: calc(1em - 2px);
 		position: relative;
 		top: 2px;
 
 		&::after {
 			background-position: 50% 50%;
 			background-size: 0.667em;
-			height: 1em;
+			height: calc(1em - 2px); // allow for the border
 			margin-left: 0; // remove submenu opener indicator margin
 			width: 1em;
 		}

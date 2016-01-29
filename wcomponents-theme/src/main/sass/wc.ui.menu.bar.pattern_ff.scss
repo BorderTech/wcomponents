@@ -6,11 +6,11 @@ $wc-ff-vseparator-pad-top: $wc-ui-menu-item-pad-topbottom * 2;
 .menu[role='menubar'] {
 	> [role],
 	> [role] > .decoratedLabel,
-	> .submenu[role] > button > .decoratedLabel {
-		vertical-align: top;// Firefox honours inter-node whitespace even when the XSLT has indent off so this is required to make bar menus look reasonable.
+	> .submenu > button > .decoratedLabel {
+		vertical-align: top; // Firefox honours inter-node whitespace even when the XSLT has indent off so this is required to make bar menus look reasonable.
 	}
 
-	> div[role] {// buttons, even with no border, no margin, no padding still occupy 2px more vertical space in FF than divs
+	> div[role] { // buttons, even with no border, no margin, no padding still occupy 2px more vertical space in FF than divs
 		padding-bottom: calc(#{$wc-ui-menu-item-pad-topbottom} + 1px);
 		padding-top: calc(#{$wc-ui-menu-item-pad-topbottom} + 1px);
 	}
@@ -20,16 +20,16 @@ $wc-ff-vseparator-pad-top: $wc-ui-menu-item-pad-topbottom * 2;
 		padding-top: 0;
 	}
 
-	> .submenu[role] > button::after {
+	> .submenu > button::after {
 		position: static;
 	}
 }
 
-[role='menubar'].bar > .submenu[role] > button { //top level submenu openers
+[role='menubar'].bar > .submenu > button { //top level submenu openers
 	padding-bottom: 0;
 }
 
-.submenu > [role='menu'][aria-expanded='true'] {
+.submenu > [role="menu"][aria-expanded="true"] {
 	// FF cannot correctly calculate the width of a container if it is absolutely positioned
 	// scss-lint:disable VendorPrefix
 	width: -moz-max-content;

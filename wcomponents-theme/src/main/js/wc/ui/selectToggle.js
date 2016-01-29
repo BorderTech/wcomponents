@@ -515,12 +515,13 @@ define(["wc/dom/shed",
 						}
 					}
 				}
+				/*
 				else if ((action === shed.actions.SELECT || action === shed.actions.DESELECT) && ROW_WD.isOneOfMe(element)) {
 					if ((controller = getSubRowController(element, true))) {
 						setControllerStatus(controller, action === shed.actions.SELECT ? STATE.ALL : STATE.NONE);
 					}
 				}
-
+				*/
 				if (Widget.isOneOfMe(element, ALL_CB) && (controller = getController(element))) {
 					if (isSubRowController(controller)) {
 						do {
