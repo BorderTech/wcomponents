@@ -33,7 +33,7 @@ tr[aria-selected] {
 		display: none;
 	}
 
-	[role='menuitem'][aria-expanded] > button { // the is the submenu opener emulator for the sub-row toggle control
+	[role='menuitem'].submenu > button { // the is the submenu opener emulator for the sub-row toggle control
 		@include button($background: $wc-ui-color-menu-bg, $height: 1em, $padding: 0, $width: 1em, $reset-height: -1, $reset-width: -1);
 		position: relative;
 		top: 2px;
