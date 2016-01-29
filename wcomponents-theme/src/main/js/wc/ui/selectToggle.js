@@ -199,7 +199,6 @@ define(["wc/dom/shed",
 				return null;
 			}
 
-
 			/**
 			 * Get the sub-row controlling 'menu' controller which controls a row. A row which is itself both a
 			 * selectable sub-row and a row with selectable sub-rows will be controlled by both its 'parent' row's
@@ -213,7 +212,6 @@ define(["wc/dom/shed",
 			 */
 			function getSubRowController(element, inMe) {
 				var sibling, idList, cell;
-
 
 				if (inMe) {
 					if ((cell = CELL_WD.findDescendant(element, true))) {
@@ -242,7 +240,7 @@ define(["wc/dom/shed",
 			 * @param {boolean} element The element to text
 			 * @returns {Boolean} true if element is a sub-row toggler.
 			 */
-			function isSubRowControllerSubController (element) {
+			function isSubRowController (element) {
 				return !!CONTROLLER_MENU_WD.isOneOfMe(element);
 			}
 
@@ -284,7 +282,7 @@ define(["wc/dom/shed",
 				if (ROW_WD.isOneOfMe(element)) {
 					controller = (getSubRowController(element, true) || getSubRowController(element)) || getTableSelectToggleController(element);
 				}
-				else if (isSubRowControllerSubController(element)) {
+				else if (isSubRowController(element)) {
 					parent = ROW_WD.findAncestor(element);
 					// do not look inside the row if we start on a controller - we have already done that.
 					controller = getSubRowController(parent) || getTableSelectToggleController(parent);
@@ -327,6 +325,8 @@ define(["wc/dom/shed",
 					subController,
 					container,
 					namedGroupWd,
+					myGroup,
+					fullGroup,
 					SPACE = /\s+/;
 
 				if (!controller) {
@@ -350,24 +350,44 @@ define(["wc/dom/shed",
 
 				if (SPACE.test(groupName)) {
 					groupName = groupName.split(SPACE);
-					return groupName.map(function (next) {
+					myGroup = groupName.map(function (next) {
 						return document.getElementById(next);
 					});
 				}
-
-				if ((container = document.getElementById(groupName))) {
+				else if ((container = document.getElementById(groupName))) {
 					if (Widget.isOneOfMe(container, ALL_CB)) {
-						return [container];
+						myGroup = [container];
 					}
-					if (isTableRowSelectToggle(controller)) {
-						return toArray(ROW_WD.findDescendants(container, true));  // group.get(container);
+					else if (isTableRowSelectToggle(controller)) {
+						return toArray(ROW_WD.findDescendants(container, true));
 					}
-					return toArray(Widget.findDescendants(container, ALL_CB));
+					else {
+						return toArray(Widget.findDescendants(container, ALL_CB));
+					}
 				}
 
-				namedGroupWd = [CHECKBOX_WD.extend("", { "name": groupName }), ARIA_CB_WD.extend("", { "data-wc-name": groupName })];
-				return toArray(Widget.findDescendants(document, namedGroupWd));
+				if (myGroup) {
+					fullGroup = myGroup;
+					// If I am a table sub-row controller I only "know" about my immediate children, but they may have
+					// their own sub-rows which are part of my "group".
+					if (isSubRowController(controller)) {
+						myGroup.forEach(function (next) {
+							var nextController = getSubRowController(next, true),
+								nextGroup;
+							if (nextController) {
+								if (nextController === controller) { // each row is in its own controller's group.
+									return;
+								}
 
+								if ((nextGroup = getGroup(nextController)) && nextGroup.length) {
+									fullGroup = fullGroup.concat(nextGroup);
+								}
+							}
+						});
+					}
+					return fullGroup;
+				}
+				return null;
 			}
 
 			/**
@@ -515,11 +535,11 @@ define(["wc/dom/shed",
 				}
 
 				if (Widget.isOneOfMe(element, ALL_CB) && (controller = getController(element))) {
-					if (isSubRowControllerSubController(controller)) {
+					if (isSubRowController(controller)) {
 						do {
 							controlStatusHelper(controller);
 						}
-						while ((controller = getController(controller)) && (isSubRowControllerSubController(controller) || isTableRowSelectToggle(controller)));
+						while ((controller = getController(controller)) && (isSubRowController(controller) || isTableRowSelectToggle(controller)));
 					}
 					else {
 						controlStatusHelper(controller);
@@ -573,11 +593,11 @@ define(["wc/dom/shed",
 				if (element && ROW_WD.isOneOfMe (element) && !shed.isSelected(element) && element.getAttribute("aria-level") > 1) {
 					controller = getController (element);
 
-					if (isSubRowControllerSubController(controller)) {
+					if (isSubRowController(controller)) {
 						do {
 							controlStatusHelper(controller);
 						}
-						while ((controller = getController(controller)) && (isSubRowControllerSubController(controller) || isTableRowSelectToggle(controller)));
+						while ((controller = getController(controller)) && (isSubRowController(controller) || isTableRowSelectToggle(controller)));
 					}
 				}
 			}
