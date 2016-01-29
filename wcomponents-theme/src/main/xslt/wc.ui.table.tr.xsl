@@ -320,16 +320,16 @@
 						<xsl:variable name="subRowToggleControlContentId" select="concat($subRowToggleControlId, '_content')"/>
 						
 						<div class="menu flyout" role="menubar" id="{$subRowToggleControlId}">
-							<div class="submenu" role="menuitem" aria-expanded="false">
+							<div class="submenu" role="menuitem">
 								<button type="button" aria-haspopup="true" class="wc_btn_nada" id="{$subRowToggleControlButtonId}" aria-controls="{$subRowToggleControlContentId}">
 									<span class="wc_off"><xsl:value-of select="$$${wc.ui.table.string.rowSelection.label}"/></span>
 								</button>
-								<div class="submenucontent wc_seltog" role="menu" id="{$subRowToggleControlContentId}" aria-labelledby="{$subRowToggleControlButtonId}">
+								<div class="submenucontent wc_seltog" role="menu" aria-expanded="false" id="{$subRowToggleControlContentId}" aria-labelledby="{$subRowToggleControlButtonId}">
 									<xsl:variable name="allSelectableSubRows" select="count(.//ui:subTr[ancestor::ui:table[1]/@id = $tableId]/ui:tr[not(@unselectable)])"/>
 									<xsl:variable name="allUnselectedSubRows" select="count(.//ui:subTr[ancestor::ui:table[1]/@id = $tableId]/ui:tr[not(@unselectable or @selected)])"/>
 									<xsl:variable name="subRowControlList">
 										<xsl:value-of select="concat($rowId, ' ')"/><!-- these controllers control this row too -->
-										<xsl:apply-templates select="ui:subTr/ui:tr" mode="subRowControlIdentifier">
+										<xsl:apply-templates select="ui:subTr//ui:tr[ancestor::ui:table[1]/@id = $tableId]" mode="subRowControlIdentifier">
 											<xsl:with-param name="tableId" select="$tableId"/>
 										</xsl:apply-templates>
 									</xsl:variable>

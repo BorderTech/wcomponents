@@ -1,5 +1,6 @@
 /* wc.ui.table.rowSelection.scss */
 @import 'wc.ui.table.rowSelection_vars.scss';
+@import 'wc.ui.menu_vars.scss';
 
 // only want to style aria-selected rows, nothing else
 tr[aria-selected] {
@@ -13,8 +14,8 @@ tr[aria-selected] {
 		@include background-image($url: '../images/radio.png', $width: 1em, $height: 1em);
 
 		.wc_table_hastoggleselect & {
-			background-position: $table-cell-padding 50%;
-			padding-left: $table-cell-padding + 1em;
+			background-position: $table-cell-padding-left-right 50%;
+			padding-left: $table-cell-padding-left-right + 1em;
 		}
    }
 }
@@ -31,8 +32,6 @@ tr[aria-selected] {
 	.wc_seltog  button + button::before { // remove select toggle list separator
 		display: none;
 	}
-
-	@import 'wc.ui.menu_vars.scss';
 
 	[role='menuitem'][aria-expanded] > button { // the is the submenu opener emulator for the sub-row toggle control
 		@include button($background: $wc-ui-color-menu-bg, $height: 1em, $padding: 0, $width: 1em, $reset-height: -1, $reset-width: -1);
