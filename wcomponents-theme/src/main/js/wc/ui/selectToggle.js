@@ -317,7 +317,7 @@ define(["wc/dom/shed",
 			 *
 			 * @function
 			 * @private
-			 * @param {Element} controller The selectToggle
+			 * @param {Element} controller The selectToggle.
 			 * @returns {Element[]} The elements in the group as an Array not as a nodeList or null if no group found.
 			 */
 			function getGroup(controller) {
@@ -397,13 +397,15 @@ define(["wc/dom/shed",
 			 * @function
 			 * @private
 			 * @param {Element} trigger The select toggle trigger element.
+			 * @return {?number} The number of items affected by this activation. This is needed to prevent a double
+			 * activation of a SUB_CONTROLLER from erroneously setting the sub-controllers state.
 			 */
-			function activateClick(trigger) {
-				var _group, state, triggerIsSelected = shed.isSelected(trigger), groupFilter;
+			function activateTrigger(trigger) {
+				var _group, state, groupFilter;
 
 				if ((_group = getGroup(trigger)) && _group.length) {
 					if (CONTROLLER_CHECKBOX_WD.isOneOfMe(trigger) || !(state = trigger.getAttribute("data-wc-value"))) {
-						state = triggerIsSelected === shed.state.DESELECTED ? STATE.NONE : STATE.ALL;
+						state = shed.isSelected(trigger) === shed.state.DESELECTED ? STATE.NONE : STATE.ALL;
 					}
 
 					/*
@@ -446,22 +448,22 @@ define(["wc/dom/shed",
 					 * That is why we have a filter variation.
 					 */
 					groupFilter = getFilteredGroup.FILTERS[(state === STATE.ALL) ? "deselected" : "selected"] | getFilteredGroup.FILTERS.enabled;
-					if (triggerIsSelected !== shed.state.DESELECTED) { // we have to allow "hidden" controls to be deslected but not selected.
+					if (state === STATE.ALL) { // we have to allow "hidden" controls to be deslected but not selected.
 						groupFilter = groupFilter | getFilteredGroup.FILTERS.visible;
 					}
 					_group = getFilteredGroup(_group, {filter: groupFilter});
 
-					if (_group.length) {
-						_group = _group.filter(function (next) {
-							return !(CONTROLLER_WD.isOneOfMe(next) || next.getAttribute("aria-readonly") === "true");
-						});
-					}
-					if (_group.length) {
-						_group.forEach(function (next) {
-							shed[(state === STATE.ALL) ? "select" : "deselect"](next);
-						});
-					}
+					_group = _group.filter(function (next) {
+						return !(CONTROLLER_WD.isOneOfMe(next) || next.getAttribute("aria-readonly") === "true");
+					});
+
+					_group.forEach(function (next) {
+						shed[(state === STATE.ALL) ? "select" : "deselect"](next);
+					});
+
+					return _group.length;
 				}
+				return null; // do not return 0 as this means we got a group which after filtering was zero length.
 			}
 
 			/**
@@ -512,7 +514,7 @@ define(["wc/dom/shed",
 			 * @param {String} action shed.SELECT or shed.DESELECT.
 			 */
 			function shedObserver(element, action) {
-				var controller;
+				var controller, done;
 
 				if (!element) {
 					return;
@@ -524,12 +526,22 @@ define(["wc/dom/shed",
 
 				if ((action === shed.actions.SELECT && Widget.isOneOfMe(element, SUBCONTROLLER_WD)) ||
 					((action === shed.actions.SELECT || action === shed.actions.DESELECT) && (CONTROLLER_CHECKBOX_WD.isOneOfMe(element)))) {
-					activateClick(element);
+					done = activateTrigger(element);
+					/* If activateTrigger returns exactly 0 we did not change the state of any controls so we won't
+					 * have set the state of the controller and if it was a sub controller then it may be in the
+					 * incorrect state. This _will_ be the case if, for example, someone clicks a "select all" sub
+					 * controller which controls only selected and hidden components. Nothing will be selected in
+					 * activateTigger so the state of the controller will not have been updated by this shed observer
+					 * and it will remain in an erroneous selected state (the controller should be mixed). */
+					if (done === 0 && Widget.isOneOfMe(element, SUBCONTROLLER_WD) && shed.isSelected(element)) {
+						 // could merge but it is getting a bit long ...
+						if ((controller = Widget.findAncestor(element, [CONTROLLER_LIST_WD, CONTROLLER_MENU_WD]))) {
+							controlStatusHelper(controller);
+						}
+					}
 				}
 				else if ((action === shed.actions.SELECT || action === shed.actions.DESELECT) && ROW_WD.isOneOfMe(element)) {
-					controller = getSubRowController(element, true);
-
-					if (controller) {
+					if ((controller = getSubRowController(element, true))) {
 						setControllerStatus(controller, action === shed.actions.SELECT ? STATE.ALL : STATE.NONE);
 					}
 				}
@@ -572,36 +584,6 @@ define(["wc/dom/shed",
 				setControllerStatus(controller, groupState);
 			}
 
-
-			/**
-			 * shed.show observer for table rows.
-			 * A table row which controls its children may be selected if all children are hidden. If a child is
-			 * then shown and it is not selected then we must reset the "parent" selected state.
-			 *
-			 * This is needed to make the behaviour consistent over AJAX and client expansion.
-			 *
-			 * @function
-			 * @private
-			 * @param {Element} element The element being shown.
-			 */
-			function resetStatusOnShow(element) {
-				var controller;
-
-				if (!inited) {
-					initialiseControllers();
-				}
-				if (element && ROW_WD.isOneOfMe (element) && !shed.isSelected(element) && element.getAttribute("aria-level") > 1) {
-					controller = getController (element);
-
-					if (isSubRowController(controller)) {
-						do {
-							controlStatusHelper(controller);
-						}
-						while ((controller = getController(controller)) && (isSubRowController(controller) || isTableRowSelectToggle(controller)));
-					}
-				}
-			}
-
 			/**
 			 * Late initialisation to addd {@link module:wc/dom/shed} and {@link module:wc/dom/formUpdateManager}
 			 * subscribers.
@@ -613,7 +595,6 @@ define(["wc/dom/shed",
 				shed.subscribe(shed.actions.SELECT, shedObserver);
 				shed.subscribe(shed.actions.DESELECT, shedObserver);
 				shed.subscribe(shed.actions.MIX, shedObserver);
-				shed.subscribe(shed.actions.SHOW, resetStatusOnShow);
 				formUpdateManager.subscribe(writeState);
 			};
 
