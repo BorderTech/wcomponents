@@ -30,8 +30,8 @@
 [role='menuitemradio'][aria-checked='true'],
 [role='menuitemcheckbox'][aria-checked='true'],
 [role='treeitem'][aria-selected='true'],
-.submenu[aria-selected='true'][aria-expanded] > button,
-.submenu[aria-checked='true'][aria-expanded] > button {
+.submenu[aria-selected='true'] > button,
+.submenu[aria-checked='true'] > button {
 	background-color: $wc-ui-color-invite-bg;
 	color: $wc-ui-color-invite-fg;
 }

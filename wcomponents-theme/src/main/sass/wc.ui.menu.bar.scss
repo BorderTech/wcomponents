@@ -8,7 +8,7 @@
 		display: inline-block;
 
 		> [role],
-		> [aria-expanded] > button { //top level items
+		> .submenu[role] > button { //top level items
 			padding: $wc-ui-menu-flyout-top-level-item-pad;
 		}
 
@@ -19,7 +19,7 @@
 
 	&.bar {
 		> [role],
-		> [aria-expanded] > button {//top level items
+		> .submenu[role] > button {//top level items
 			padding: $wc-ui-menu-bar-column-item-pad;
 		}
 
@@ -31,14 +31,14 @@
 
 	> [role],
 	> [role] > .decoratedLabel,
-	> [aria-expanded] > button > .decoratedLabel {
+	> .submenu[role] > button > .decoratedLabel {
 		display: inline-block;
 		white-space: nowrap;
 		width: auto;
 	}
 
 	> [role] > .decoratedLabel,
-	> [aria-expanded] > button > .decoratedLabel {
+	> .submenu[role] > button > .decoratedLabel {
 		vertical-align: middle;
 	}
 

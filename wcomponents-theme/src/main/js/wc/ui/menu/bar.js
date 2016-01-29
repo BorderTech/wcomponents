@@ -160,7 +160,7 @@ define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "
 						item = this._getBranch(item);
 					}
 					if (this._isBranch(item)) {
-						if (shed.isExpanded(item)) {
+						if (shed.isExpanded(this._getBranchExpandableElement(item))) {
 							this._keyMap[VK_UP] = keyWalker.MOVE_TO.LAST_CHILD;  // "lastChildItem";
 							this._keyMap[VK_DOWN] = keyWalker.MOVE_TO.CHILD;
 						}
