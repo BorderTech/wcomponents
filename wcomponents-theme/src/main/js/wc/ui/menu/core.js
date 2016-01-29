@@ -62,6 +62,7 @@ define(["wc/has",
 			ROLE_ATTRIB = "role",
 			AJAX_CONTEXTLESS_ITEM,
 			postAjaxTimer,
+			focusTimer,
 			TRUE = "true",
 			fixedWidgets,
 			CLASS = {
@@ -927,7 +928,11 @@ define(["wc/has",
 						doCollisionDetection(element, this);
 					}
 					if ((subItem = getFirstAvailableItem(element, this))) {
-						this._focusItem(subItem, root);
+						if (focusTimer) {
+							timers.clearTimeout(focusTimer);
+							focusTimer = null;
+						}
+						timers.setTimeout(this._focusItem.bind(this), 0, subItem, root);
 					}
 				}
 				/* last thing to do: make sure we have not lost focus by replacing the focused element. */
@@ -942,7 +947,7 @@ define(["wc/has",
 								focus.focusFirstTabstop(element);
 							}
 						}
-					}, 100);
+					}, 150);
 				}
 			}
 		}
@@ -998,6 +1003,8 @@ define(["wc/has",
 		function shedSubscriber(element, action) {
 			var opener,
 				root,
+				expandable,
+				branch,
 				isTransient;
 
 			if (element && (root = this._getRoot(element))) {
@@ -1011,11 +1018,25 @@ define(["wc/has",
 				}
 				else if (isTransient) {
 					// collision detection on branch open
-					if ((action === shed.actions.EXPAND || action === shed.actions.COLLAPSE) && this._isBranch(element) && (opener = this._getBranchOpener(element))) {
-						expandCollapseTransientBranch(element, action, root, opener, this);
+					if (action === shed.actions.EXPAND || action === shed.actions.COLLAPSE) {
+						if (this._isBranch(element)) { // tree
+							branch = element;
+							opener = this._getBranchOpener(branch);
+						}
+						else if (this._wd.submenu.isOneOfMe(element) && (branch = this._getBranch(element))) {
+							opener = this._getBranchOpener(branch);
+						}
+
+						expandCollapseTransientBranch(branch, action, root, opener, this);
 					}
 				}
-				else if (action === shed.actions.COLLAPSE && (opener = this._getBranchOpener(element))) {
+				else if (action === shed.actions.COLLAPSE) {
+					if (this._isBranch(element)) { // tree
+						opener = this._getBranchOpener(element);
+					}
+					else if (this._wd.submenu.isOneOfMe(element) && (branch = this._getBranch(element))) {
+						opener = this._getBranchOpener(branch);
+					}
 					this._focusItem(opener, root);
 				}
 			}
