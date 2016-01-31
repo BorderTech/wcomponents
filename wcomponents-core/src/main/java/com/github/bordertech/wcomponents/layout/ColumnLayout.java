@@ -179,7 +179,7 @@ public class ColumnLayout implements LayoutManager {
 		this.columnAlignments = new CellAlignment[columnWidths.length];
 
 		if (columnAlignments == null) {
-			Arrays.fill(this.columnAlignments, Alignment.LEFT);
+			Arrays.fill(this.columnAlignments, CellAlignment.LEFT);
 		} else {
 			for (int i = 0; i < columnAlignments.length; i++) {
 				this.columnAlignments[i] = columnAlignments[i] == null ? CellAlignment.LEFT : columnAlignments[i];
