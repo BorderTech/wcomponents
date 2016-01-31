@@ -241,10 +241,10 @@ define(["wc/dom/attribute",
 					i++;
 					if (nextHide || nextShow) {
 						if (nextHide) {
-							shed.hide(nextHide, true);
+							shed.hide(nextHide);
 						}
 						if (nextShow) {
-							shed.show(nextShow, true);
+							shed.show(nextShow);
 						}
 					}
 					else {
@@ -271,7 +271,7 @@ define(["wc/dom/attribute",
 					// ajaxRegion.requestLoad(element);
 					requestAjaxLoad(element);
 				}
-				else if ((paginatedTable = TABLE.findAncestor(element))) {
+				else if ((paginatedTable = TABLE_WRAPPER.findAncestor(element)) && (paginatedTable = TABLE.findDescendant(paginatedTable, true))) {
 					page = PAGE.findDescendant(paginatedTable, /* immediate= */true);
 					if (page) {
 						rows = ROW.findDescendants(page, true);

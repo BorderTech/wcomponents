@@ -20,17 +20,9 @@
 		<xsl:param name="ttAccessKey" select="@accessKey"/>
 		<xsl:param name="id" select="@id"/>
 		<xsl:if test="$ttAccessKey!=''">
-			<xsl:element name="span">
-				<xsl:attribute name="id">
-					<xsl:value-of select="$id"/>
-					<xsl:text>${wc.ui.accesskey.id.suffix}</xsl:text>
-				</xsl:attribute>
-				<xsl:attribute name="role">
-					<xsl:text>tooltip</xsl:text>
-				</xsl:attribute>
-				<xsl:call-template name="hiddenElement"/>
+			<span id="{concat($id,'${wc.ui.accesskey.id.suffix}')}" role="tooltip" hidden="hidden">
 				<xsl:value-of select="$ttAccessKey"/>
-			</xsl:element>
+			</span>
 		</xsl:if>
 	</xsl:template>
 </xsl:stylesheet>

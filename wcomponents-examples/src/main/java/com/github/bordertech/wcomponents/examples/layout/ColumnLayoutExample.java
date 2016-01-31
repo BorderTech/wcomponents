@@ -5,7 +5,7 @@ import com.github.bordertech.wcomponents.WHeading;
 import com.github.bordertech.wcomponents.WHorizontalRule;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.layout.ColumnLayout;
-import com.github.bordertech.wcomponents.layout.Alignment;
+import com.github.bordertech.wcomponents.layout.CellAlignment;
 
 /**
  * Example showing how to use the {@link ColumnLayout} component.
@@ -106,7 +106,7 @@ public class ColumnLayoutExample extends WContainer {
 		add(new WHeading(WHeading.SECTION, "Column Alignments: Left, Center, Right"));
 		WPanel panel = new WPanel();
 		panel.setLayout(new ColumnLayout(new int[]{33, 33, 33},
-				new Alignment[]{Alignment.LEFT, Alignment.CENTER, Alignment.RIGHT}));
+				new CellAlignment[]{CellAlignment.LEFT, CellAlignment.CENTER, CellAlignment.RIGHT}));
 		add(panel);
 		panel.add(new BoxComponent("Left"));
 		panel.add(new BoxComponent("Center"));

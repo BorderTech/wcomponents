@@ -13,6 +13,12 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 	min-width: 100%;
+
+	+ div {
+		// background-color: $wc-ui-color-table-foot-bg;
+		// color: $wc-ui-color-table-foot-fg;
+		padding: $hgap-small 0;
+   }
 }
 
 // fix the layout of tables where column width is applied
@@ -20,37 +26,15 @@ table {
 	table-layout: fixed;
 }
 
-thead {
+thead th {
 	background-color: $wc-ui-color-table-head-bg;
 	color: $wc-ui-color-table-head-fg;
-
-	[disabled] {
-		// override normal disabled state this important is needed to override the wc_btn_nada class
-		// scss-lint:disable ImportantRule
-		color: $wc-ui-color-table-head-disabled !important;
-	}
-}
-
-tfoot {
-	background-color: $wc-ui-color-table-foot-bg;
-	color: $wc-ui-color-table-foot-fg;
-
-	// Disabled overrides not really needed in tfoot as we do not use 'buttonless' buttons here.
-	//[disabled] {
-	//	color: $wc-ui-color-table-foot-disabled;
-	//}
 }
 
 th,
 td {
 	padding: $table-cell-padding;
-}
-
-tbody {
-	td,
-	th {
-		vertical-align: top;
-	}
+	vertical-align: top;
 }
 
 .wc_table_rowexp_container,

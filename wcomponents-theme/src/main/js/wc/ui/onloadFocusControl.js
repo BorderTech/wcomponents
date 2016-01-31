@@ -75,8 +75,12 @@ define(["wc/dom/focus", "wc/dom/initialise", "wc/ui/ajax/processResponse", "wc/t
 					if (focus.canFocus(element)) {
 						focus.setFocusRequest(element, focusCallback);
 					}
-					else if (element.children && element.children.length) {  // yep children, not childNodes
+					else if (focus.canFocusInside(element)) { // try focusing inside the target
 						focus.focusFirstTabstop(element, focusCallback);
+					}
+					// as a last resort try focusing the nearest focusable ancestor of element if element has no dimensions
+					else if (element.clientHeight === 0 && element.clientWidth === 0 && (element = focus.getFocusableAncestor(element))) {
+						focus.setFocusRequest(element, focusCallback);
 					}
 				}
 			}
