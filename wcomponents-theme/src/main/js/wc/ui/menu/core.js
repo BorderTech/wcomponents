@@ -1003,7 +1003,6 @@ define(["wc/has",
 		function shedSubscriber(element, action) {
 			var opener,
 				root,
-				expandable,
 				branch,
 				isTransient;
 
