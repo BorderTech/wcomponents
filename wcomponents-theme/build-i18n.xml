@@ -62,10 +62,14 @@
 
 	<target name="buildJsBundles">
 		<echo>Building JS bundles for dir: ${i18n.build.target.dir}</echo>
-		<wc.xsltjson
+		<xslt basedir="${i18n.build.target.dir}" destdir="${i18n.build.target.dir}" style="${component.rootdir}/build-i18n-json.xsl">
+			<factory name="net.sf.saxon.TransformerFactoryImpl"/>
+			<regexpmapper from="^(.*)\.xml" to="\1.json"/>
+		</xslt>
+<!--		<wc.xsltjson
 			xsltjsonDir="target/xsltjson"
 			xmlDir="${i18n.build.target.dir}"
-			jsonDir="${i18n.build.target.dir}" />
+			jsonDir="${i18n.build.target.dir}" />-->
 		<for param="file">
 			<path>
 				<fileset dir="${i18n.build.target.dir}" includes="*.json"/>
