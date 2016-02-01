@@ -1,12 +1,12 @@
 /**
  * @module
  * @requires external:lib/sprintf
- * @requires module:wc/xml/xpath
  * @requires module:wc/array/toArray
+ * @requires module:wc/array/unique
  */
-define(["lib/sprintf", "wc/xml/xpath", "wc/array/toArray", "module"],
-	/** @param sprintf lib/sprintf @param xpath wc/xml/xpath @param toArray wc/array/toArray @param module module @ignore */
-	function(sprintf, xpath, toArray, module) {
+define(["lib/sprintf", "wc/array/toArray", "wc/array/unique", "module"],
+
+	function(sprintf, toArray, unique, module) {
 		"use strict";
 		var instance = new I18n();
 		/**
@@ -15,39 +15,12 @@ define(["lib/sprintf", "wc/xml/xpath", "wc/array/toArray", "module"],
 		 *
 		 * Manages the loading of i18n "messages" from the relevant i18n "resource bundle".
 		 *
-		 * You may notice the "resource bundle" is actually the "wrapper" xsl stylesheet, and you may wonder why... Well
-		 * here's the reasoning behind it:
-		 *
-		 * 1. The XSL will already be in cache. Since it was used to load the page in the browser by the time this
-		 *    javascript needs it we can be sure it will be a "free" call straight to the browser cache.
-		 * 2. The "resource bundle" would, regardless of whether we use the XSL, be a data structure of some kind,
-		 *    either XML or JSON. Since the XSL wrapper is simply a small XML file why bother reformatting it into
-		 *    something else? If we did do that it would be a separate resource we would have to load, increasing the
-		 *    weight of the overall webapp and decreasing performance (particularly when the bundle had not been
-		 *    cached).
-		 *
 		 * @constructor
 		 * @alias module:wc/i18n/i18n~I18n
 		 * @private
 		 */
 		function I18n() {
-			/*
-			 * EXPRESSION: the xpath is carefully crafted to extract the text from either of these structures:
-			 * <xsl:param name="mnth0">January</xsl:param> OR <xsl:param name="mnth0"><xsl:text>January</xsl:text></xsl:param>
-			 * We expect these parameters to always be coded using the <xsl:text> element however this is currently stripped by one of
-			 * our xsl minification routines. While we could get rid of that routine it does make sense and could easily be reinstated
-			 * down the track.
-			 */
-			var NOT_FOUND_RETURN_VALUE = "",
-				// EXPRESSION = "//xsl:param[@name='%s']/descendant-or-self::*[last()]/text()",  // see notes above
-				/*
-				 * The commented out XPath above is great, but older versions of MSXML do not support "last()" (and many others) as
-				 * well as baulking at the double colon ::.
-				 * The less elegant xpath below is specially crafted to work in MSXML ActiveX versions from 3.0 up.
-				 */
-				EXPRESSION = "//xsl:param[@name='%s']/xsl:text/text()|//xsl:param[@name='%1$s' and not(xsl:text)]/text()",
-				cache = {},  // cache messages when they are first resolved, for the lifespan of the page
-				bundle;
+			var bundle, NOT_FOUND_RETURN_VALUE = "";
 
 			/**
 			 * Look up a particular key.
@@ -57,80 +30,97 @@ define(["lib/sprintf", "wc/xml/xpath", "wc/array/toArray", "module"],
 			 * @returns {string} The message value, i.e. the value of an i18n key/value pair.
 			 */
 			function lookup(key) {
-				var result = cache[key];
-				if (!result) {
-					result = xpath.query(sprintf.sprintf(EXPRESSION, key), true, bundle);
-					if (result) {
-						result = (cache[key] = result.nodeValue);
-					}
-					else {
-						// console.warn("Can not find match for key: ", key);
-						result = NOT_FOUND_RETURN_VALUE;
-					}
+				if (bundle && key in bundle) {
+					return bundle[key];
 				}
-				return result;
+				return NOT_FOUND_RETURN_VALUE;
 			}
 
-//			/**
-//			 * Look up a particular key.
-//			 * @function
-//			 * @private
-//			 * @param {string} key A message key, i.e. the key of an i18n key/value pair.
-//			 * @returns {string} The message value, i.e. the value of an i18n key/value pair.
-//			 */
-//			function lookup(key) {
-//				var i, next, arr = bundle.properties.property, result = cache[key];
-//				if (!result) {
-//					for (i = 0; i < arr.length; i++) {
-//						next = arr[i];
-//						if (next.name === key) {
-//							return (cache[key] = next.value);
-//						}
-//					}
-//				}
-//				return NOT_FOUND_RETURN_VALUE;
-//			}
 			/*
-			 * Handles the requirejs plugin lifecycle.
-			 * For information {@see http://requirejs.org/docs/plugins.html#apiload}
+			 * Loads a resource bundle containing messages for the given locale.
+			 * Will attempt to fall back to default locales if possible.
 			 */
-//			function loadJson(id, parentRequire, callback, config) {
-//				var locale, i18nConfig;
-//				if (id) {
-//					locale = id;
-//				}
-//				else if (config && config.config && (i18nConfig = config.config[module.id])) {
-//					locale = i18nConfig.locale || "en";
-//				}
-//				else {
-//					locale = "en";
-//				}
-//				parentRequire(["i18n/" + locale], function(obj) {
-//					bundle = obj;
-//					callback(this);
-//				});
-//			}
-
-			/*
-			 * Handles the requirejs plugin lifecycle.
-			 * For information {@see http://requirejs.org/docs/plugins.html#apiload}
-			 */
-			function loadXml(id, parentRequire, callback, config) {
-				var url, idx, i18nConfig;
-				if (config && config.config && (i18nConfig = config.config[module.id])) {
-					url = i18nConfig.i18nBundleUrl;
-				}
-				else {
-					idx = module.uri.indexOf(module.id);
-					url = module.uri.substring(0, idx);
-					url = url.replace(/\/[^\/]+\/$/, "/xslt/all.xsl");  // TODO, come up with a better default
-				}
-				parentRequire(["wc/ajax/ajax"], function(ajax) {
-					ajax.loadXmlDoc(url, null, false, true).then(function(obj) {
+			function loadJs(id, parentRequire, callback, config) {
+				var i18nConfig,
+					attempted = [],
+					locales =[],
+					win = function(obj) {
 						bundle = obj;
 						callback(instance);
-					});
-				}, callback);
+					},
+					tryLoadNext = function(locale) {
+						var nextLocale;
+						attempted.push(locale);
+						if (locales.length) {
+							nextLocale = locales.shift();
+							console.log("Attempting to load locale", nextLocale);
+							loadLocale(parentRequire, nextLocale).then(win, tryLoadNext);
+						}
+						else {
+							console.error("Could not find any i18n resource bundles", attempted.join());
+						}
+					};
+				if (id) {
+					locales.push(id);
+				}
+				if (config && config.config && (i18nConfig = config.config[module.id]) && i18nConfig.locale) {
+					locales.push(i18nConfig.locale);
+				}
+				addDefaultLocales(locales);
+				if (locales.length > 1) {
+					locales = unique(locales);
+				}
+				tryLoadNext();
+			}
+
+			/**
+			 * Adds default locale/s to the array of locales provided.
+			 * Default locales will be added to the end of the array.
+			 * Note that this may result in duplicates being added to the array.
+			 * @param {string[]} locales
+			 */
+			function addDefaultLocales(locales) {
+				var i, next, defaultLocales = ["${default.i18n.locale}", (navigator.language || navigator.browserLanguage)];
+				if (navigator.languages) {
+					defaultLocales = defaultLocales.concat(navigator.languages);
+				}
+				defaultLocales = unique(defaultLocales);
+				for (i = 0; i < defaultLocales.length; i++) {
+					next = defaultLocales[i];
+					if (next) {
+						locales.push(next);
+					}
+				}
+			}
+
+			/**
+			 * Attempts to load  a resource bundle for the given locale.
+			 *
+			 * @param {Function} parentRequire The require loader to use to load the resource.
+			 * @param {string} locale The locale name.
+			 * @returns {Promise} resolved with the resource bundle if found. Rejected if not found.
+			 */
+			function loadLocale(parentRequire, locale) {
+				var promise = new Promise(function(resolve, reject) {
+					var lose = function() {
+						console.info("Could not find i18n bundle for ", locale);
+						reject(locale);
+					};
+					if (locale) {
+						parentRequire(["wc/i18n/" + locale], function(obj) {
+							if (obj) {
+								resolve(obj);
+							}
+							else {
+								lose();
+							}
+						}, lose);
+					}
+					else {
+						reject("Can not load null locale");
+					}
+				});
+				return promise;
 			}
 
 			/**
@@ -161,9 +151,8 @@ define(["lib/sprintf", "wc/xml/xpath", "wc/array/toArray", "module"],
 			 * For information {@see http://requirejs.org/docs/plugins.html#apiload}
 			 */
 			this.load = function (id, parentRequire, callback, config) {
-				// loadJson(id, parentRequire, callback, config);
 				if (!config || !config.isBuild) {
-					loadXml(id, parentRequire, callback, config);
+					loadJs(id, parentRequire, callback, config);
 				}
 				else {
 					callback();
