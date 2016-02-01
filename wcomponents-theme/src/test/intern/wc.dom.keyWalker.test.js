@@ -169,9 +169,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 					if (el.id === "domKeyWalkerGroupR1") {
 						return NodeFilter.FILTER_REJECT;
 					}
-					else {
-						return NodeFilter.FILTER_ACCEPT;
-					}
+					return NodeFilter.FILTER_ACCEPT;
 				},
 				actual = controller.getTarget(makeGroupConfig(false, _filter), start, controller.MOVE_TO.FIRST);
 			assert.strictEqual(actual, expected, "getTarget LAST with filter should skip the filtered items.");

@@ -309,11 +309,10 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		function setDay(current, date, year, month, limit) {
 			// check if the date was rolled forward
 			// this can happen if we go from, say, 31 march back to feb
-			var input, days = current.getDate(),
+			var days = current.getDate(),
 				daysMax = daysInMonth(date.getFullYear(), date.getMonth() + 1);
 
 			if (limit.yearMin === year || limit.yearMax === year) {
-				input = getInputForCalendar();
 				if (limit.monthMin === month) {
 					if (limit.dayMin > days) {
 						days = limit.dayMin;
