@@ -159,7 +159,7 @@ public class ColumnLayoutExample extends WContainer {
 		panel.add(new BoxComponent("Right"));
 
 		String rowSelector = "." + htmlClass + " > .columnLayout > .row"; // .columnLayout is the local name of ColumnLayout and is guranteed, row is now part of hte WComponents CSS API but _may_ change.
-		String columnSelector =  rowSelector + " > cell";
+		String columnSelector =  rowSelector + " > .cell";
 		String css = columnSelector + " {width: 20%}" +
 				columnSelector + ":first-child {width: 50%}" + // the first column in the layout
 				columnSelector + ":last-child {width: 30%;}" + // the last column in the layout
