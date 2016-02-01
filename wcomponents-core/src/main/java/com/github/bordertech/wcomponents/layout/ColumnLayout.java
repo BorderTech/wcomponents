@@ -30,35 +30,57 @@ public class ColumnLayout implements LayoutManager {
 		 */
 		RIGHT(CellAlignment.RIGHT);
 
+		/**
+		 * Alignment constructor.
+		 *
+		 * @param cellAlignment the corresponding {@link CellAlignment}
+		 */
 		Alignment(final CellAlignment cellAlignment) {
 			this.cellAlignment = cellAlignment;
 		}
 
+		/**
+		 * The {@link CellAlignment} that corresponds to this {@link Alignment}.
+		 */
 		private final CellAlignment cellAlignment;
 
+		/**
+		 * Converts an array of {@link Alignment}s to an array of {@link CellAlignment}s.
+		 * @param alignments the array of {@link Alignment}s to convert.
+		 * @return cellAlignments an array of {@link CellAlignment}s corresponding
+		 *         to the passed in {@link Alignment} values
+		 */
 		private static CellAlignment[] toCellAlignments(final Alignment[] alignments) {
 
 			final CellAlignment[] cellAlignemnts = new CellAlignment[alignments.length];
 
-			for(int i = 0; i < alignments.length; i++) {
+			for (int i = 0; i < alignments.length; i++) {
 				cellAlignemnts[i] = alignments[i].toCellAlignment();
 			}
 
 			return cellAlignemnts;
 		}
 
+		/**
+		 * Converts a {@link CellAlignment} to an {@link Alignment}.
+		 *
+		 * @param cellAlignment the {@link CellAlignment} to convert from.
+		 * @return alignment the converted {@link Alignment} value.
+		 */
 		private static Alignment fromCellAlignment(final CellAlignment cellAlignment) {
-			switch(cellAlignment) {
+			switch (cellAlignment) {
 				case LEFT: return Alignment.LEFT;
 				case CENTER: return Alignment.CENTER;
 				case RIGHT: return Alignment.RIGHT;
+				default: return null;
 			}
-
-			return null;
 		}
 
-		private CellAlignment toCellAlignment()
-		{
+		/**
+		 * Converts this {@link Alignment} to a {@link CellAlignment}.
+		 * @return the converted {@link CellAlignment} value.
+		 */
+		private CellAlignment toCellAlignment() {
 			return this.cellAlignment;
 		}
 	}
@@ -88,7 +110,7 @@ public class ColumnLayout implements LayoutManager {
 	 * @param columnWidths the column widths, in percent units.
 	 */
 	public ColumnLayout(final int[] columnWidths) {
-		this(columnWidths, (CellAlignment[])null, 0, 0);
+		this(columnWidths, (CellAlignment[]) null, 0, 0);
 	}
 
 	/**
@@ -121,7 +143,7 @@ public class ColumnLayout implements LayoutManager {
 	 * @param vgap the vertical gap between the rows, measured in pixels.
 	 */
 	public ColumnLayout(final int[] columnWidths, final int hgap, final int vgap) {
-		this(columnWidths, (CellAlignment[])null, hgap, vgap);
+		this(columnWidths, (CellAlignment[]) null, hgap, vgap);
 	}
 
 	/**
