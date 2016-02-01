@@ -3,7 +3,7 @@ package com.github.bordertech.wcomponents.render.webxml;
 import com.github.bordertech.wcomponents.WColumn;
 import com.github.bordertech.wcomponents.WLabel;
 import com.github.bordertech.wcomponents.WRow;
-import com.github.bordertech.wcomponents.layout.Alignment;
+import com.github.bordertech.wcomponents.layout.CellAlignment;
 import java.io.IOException;
 import junit.framework.Assert;
 import org.custommonkey.xmlunit.exceptions.XpathException;
@@ -47,15 +47,15 @@ public class WColumnRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo("100", "//ui:column/@width", row);
 		assertXpathNotExists("//ui:column/@align", row);
 
-		column.setAlignment(Alignment.LEFT);
+		column.setAlignment(CellAlignment.LEFT);
 		assertSchemaMatch(row);
 		assertXpathNotExists("//ui:column/@align", row);
 
-		column.setAlignment(Alignment.CENTER);
+		column.setAlignment(CellAlignment.CENTER);
 		assertSchemaMatch(row);
 		assertXpathEvaluatesTo("center", "//ui:column/@align", row);
 
-		column.setAlignment(Alignment.RIGHT);
+		column.setAlignment(CellAlignment.RIGHT);
 		assertSchemaMatch(row);
 		assertXpathEvaluatesTo("right", "//ui:column/@align", row);
 	}
