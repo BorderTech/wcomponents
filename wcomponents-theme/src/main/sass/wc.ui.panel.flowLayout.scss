@@ -1,0 +1,39 @@
+/* wc.ui.panel.flowLayout.scss */
+@import 'wc.ui.panel_vars.scss';
+
+.flowLayout {
+	@include flex($wrap: wrap, $justify: flex-start, $align-items: flex-start, $align-content: flex-start);
+
+	&.baseline {
+		@include flex-align-items(baseline);
+	}
+
+	&.bottom {
+		@include flex-align-items(flex-end);
+	}
+
+	&.center {
+		@include flex-justify-content(center);
+		text-align: $preferred-alignment;
+	}
+
+	&.middle { // vertical align middle of the flow
+		@include flex-align-items(center);
+	}
+
+	&.right {
+		@include flex-justify-content(flex-end);
+	}
+
+	&.vertical {
+		&,
+		& > div {
+			display: block;
+		}
+	}
+
+	> div {
+		display: inline-block;
+		max-width: 100%;
+	}
+}

@@ -1,5 +1,6 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
 	<xsl:import href="wc.common.buttonLinkCommon.xsl"/>
+	<xsl:import href="wc.common.n.className.xsl"/>
 	<!--
 		This is a group transform for WButton (including WConfirmationButton and
 		WCancelButton) and WPrintButton.
@@ -55,7 +56,7 @@
 			</xsl:attribute>
 			
 			<xsl:attribute name="class">
-				<xsl:value-of select="local-name(.)"/>
+				<xsl:call-template name="commonClassHelper"/>
 				<xsl:if test="self::ui:button">
 					<xsl:if test="@unsavedChanges">
 						<xsl:text> wc_unsaved</xsl:text>
@@ -72,9 +73,6 @@
 				</xsl:if>
 				<xsl:if test="@imagePosition">
 					<xsl:value-of select="concat(' wc_btn_img',@imagePosition)"/>
-				</xsl:if>
-				<xsl:if test="@class">
-					<xsl:value-of select="concat(' ', @class)"/>
 				</xsl:if>
 			</xsl:attribute>
 			

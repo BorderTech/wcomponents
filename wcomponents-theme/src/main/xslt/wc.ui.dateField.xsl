@@ -4,6 +4,7 @@
 	<xsl:import href="wc.common.readOnly.xsl"/>
 	<xsl:import href="wc.common.missingLabel.xsl"/>
 	<xsl:import href="wc.common.title.xsl"/>
+	<xsl:import href="wc.common.n.className.xsl"/>
 	<!--
 		A dateField is a compound control consisting of a text input and a button used
 		to launch a date picker calendar. The text input allows for typeahead to
@@ -47,10 +48,7 @@
 				<xsl:element name="{$tagName}">
 					<xsl:call-template name="commonAttributes"/>
 					<xsl:attribute name="class">
-						<xsl:value-of select="local-name(.)"/>
-						<xsl:if test="@class">
-							<xsl:value-of select="concat(' ', @class)"/>
-						</xsl:if>
+						<xsl:call-template name="commonClassHelper"/>
 						<xsl:text> wc_datero wc_ro</xsl:text>
 					</xsl:attribute>
 					<xsl:if test="$myLabel">
@@ -103,12 +101,7 @@
 					<xsl:call-template name="disabledElement">
 						<xsl:with-param name="isControl" select="0"/>
 					</xsl:call-template>
-					<xsl:attribute name="class">
-						<xsl:value-of select="local-name(.)"/>
-						<xsl:if test="@class">
-							<xsl:value-of select="concat(' ', @class)"/>
-						</xsl:if>
-					</xsl:attribute>
+					<xsl:call-template name="makeCommonClass"/>
 					<xsl:attribute name="role">
 						<xsl:text>combobox</xsl:text>
 					</xsl:attribute>

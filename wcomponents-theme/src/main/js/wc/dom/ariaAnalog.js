@@ -682,8 +682,10 @@ define(["wc/has",
 				end = Math.max(unfiltered.indexOf(element), unfiltered.indexOf(lastActivated));
 				for (i = 0; i < unfiltered.length; ++i) {
 					next = unfiltered[i];
-					if (start <= unfiltered.indexOf(next) && end >= unfiltered.indexOf(next) && ~filtered.indexOf(next)) {
-						groupAction(next);
+					if (start <= unfiltered.indexOf(next) && end >= unfiltered.indexOf(next)) {
+						if (~filtered.indexOf(next)) {
+							groupAction(next);
+						}
 					}
 					else if (!CTRL && selectedFilter === getFilteredGroup.FILTERS.deselected && next !== lastActivated && shed.isSelected(next)) {
 						shed.deselect(next);

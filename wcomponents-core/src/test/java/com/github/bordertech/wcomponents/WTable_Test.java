@@ -135,6 +135,11 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 	}
 
 	@Test
+	public void testToggleSubRowSelectionAccessors() {
+		assertAccessorsCorrect(new WTable(), "toggleSubRowSelection", false, true, false);
+	}
+
+	@Test
 	public void testSummaryAccessors() {
 		assertAccessorsCorrect(new WTable(), "summary", null, "summary1", "summary2");
 	}

@@ -1,6 +1,7 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
 	<xsl:import href="wc.common.toggleElement.xsl"/>
 	<xsl:import href="wc.common.ajax.xsl"/>
+	<xsl:import href="wc.common.n.className.xsl"/>
 	<!-- Key used by collapsibleToggle to get the list of controlled collapsibles -->
 	<xsl:key name="collapsibleGroupKey" match="//ui:collapsible[@groupName]" use="@groupName"/>
 
@@ -57,12 +58,7 @@
 			<xsl:value-of select="local-name(.)"/>
 		</xsl:variable>
 		<ul id="{$id}" role="radiogroup">
-			<xsl:attribute name="class">
-				<xsl:value-of select="local-name()"/>
-				<xsl:if test="@class">
-					<xsl:value-of select="concat(' ', @class)"/>
-				</xsl:if>
-			</xsl:attribute>
+			<xsl:call-template name="makeCommonClass"/>
 			<xsl:call-template name="ajaxTarget"/>
 			<li>
 				<xsl:call-template name="toggleElement">

@@ -2,6 +2,9 @@
 @import 'mixins_flex.scss';//flex layouts
 @import 'mixins_respond.scss';//responsive design media queries
 
+// Allow Vendor Prefix in mixins
+//scss-lint:disable VendorPrefix
+
 @mixin align($align: $preferred-alignment) {
 	text-align: $align;
 }
@@ -158,6 +161,32 @@
 @mixin mandatory-indicator {
 	color: $wc-ui-color-required-marker;
 	content: '*';
+}
+
+// Allow duplicate width declarations
+// scss-lint:disable DuplicateProperty
+@mixin fit-content {
+	width: auto;
+	width: -webkit-fit-content;
+	width: -moz-fit-content;
+	width: fit-content;
+}
+
+// Allow duplicate width declarations
+// scss-lint:disable DuplicateProperty
+@mixin max-content {
+	width: auto;
+	width: -webkit-max-content;
+	width: -moz-max-content;
+	width: max-content;
+}
+// Allow duplicate width declarations
+// scss-lint:disable DuplicateProperty
+@mixin min-content {
+	width: auto;
+	width: -webkit-min-content;
+	width: -moz-min-content;
+	width: min-content;
 }
 
 @mixin offscreen {

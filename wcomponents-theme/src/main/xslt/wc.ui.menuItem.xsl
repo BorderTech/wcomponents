@@ -6,6 +6,7 @@
 	<xsl:import href="wc.common.hide.xsl"/>
 	<xsl:import href="wc.common.accessKey.xsl"/>
 	<xsl:import href="wc.common.ajax.xsl"/>
+	<xsl:import href="wc.common.n.className.xsl"/>
 	<!--
 		WMenuItem forms part of a single compound widget with the WMenu at its root.
 
@@ -29,7 +30,7 @@
 			</xsl:if>
 		</xsl:variable>
 
-		<xsl:variable name="type">
+		<xsl:variable name="actionType">
 			<xsl:choose>
 				<xsl:when test="@url">
 					<xsl:number value="1"/>
@@ -45,7 +46,7 @@
 
 		<xsl:variable name="menuItemElement">
 			<xsl:choose>
-				<xsl:when test="$type=0">
+				<xsl:when test="$actionType=0">
 					<xsl:text>div</xsl:text>
 				</xsl:when>
 				<xsl:otherwise>
@@ -56,7 +57,7 @@
 
 		<xsl:variable name="isButton">
 			<xsl:choose>
-				<xsl:when test="$type=0">
+				<xsl:when test="$actionType=0">
 					<xsl:number value="0"/>
 				</xsl:when>
 				<xsl:otherwise>
@@ -70,8 +71,8 @@
 				<xsl:value-of select="$id"/>
 			</xsl:attribute>
 			<xsl:attribute name="class">
-				<xsl:text>menuItem</xsl:text>
-				<xsl:if test="$type &gt; 0">
+				<xsl:call-template name="commonClassHelper"/>
+				<xsl:if test="$actionType &gt; 0">
 					<xsl:text> wc_btn_nada</xsl:text>
 					<xsl:if test="@cancel">
 						<xsl:text> wc_btn_cancel</xsl:text>
@@ -80,9 +81,6 @@
 						<xsl:text> wc_unsaved</xsl:text>
 					</xsl:if>
 				</xsl:if>
-				<xsl:if test="@class">
-					<xsl:value-of select="concat(' ', @class)"/>
-				</xsl:if>
 			</xsl:attribute>
 			<xsl:if test="@toolTip">
 				<xsl:attribute name="title">
@@ -90,7 +88,7 @@
 				</xsl:attribute>
 			</xsl:if>
 			<xsl:choose>
-				<xsl:when test="$type=1">
+				<xsl:when test="$actionType=1">
 					<xsl:attribute name="type">
 						<xsl:text>button</xsl:text>
 					</xsl:attribute>
@@ -106,7 +104,7 @@
 						</xsl:attribute>
 					</xsl:if>
 				</xsl:when>
-				<xsl:when test="$type=2">
+				<xsl:when test="$actionType=2">
 					<xsl:attribute name="type">
 						<xsl:text>submit</xsl:text>
 					</xsl:attribute>

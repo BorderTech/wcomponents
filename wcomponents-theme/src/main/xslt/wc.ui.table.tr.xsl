@@ -2,23 +2,22 @@
 	<xsl:import href="wc.common.aria.live.xsl"/>
 	<xsl:import href="wc.common.disabledElement.xsl"/>
 	<xsl:import href="wc.common.hide.xsl"/>
+	<xsl:import href="wc.common.n.className.xsl"/>
 	<xsl:import href="wc.common.offscreenSpan.xsl"/>
 	<xsl:import href="wc.ui.table.n.xsl"/>
-	<xsl:import href="wc.ui.table.tr.n.containsWords.xsl"/>
-	<xsl:import href="wc.ui.table.tr.n.tableCollapserElement.xsl"/>
-	<xsl:import href="wc.ui.table.tr.n.WTableAdditionalRowClass.xsl"/>
 	<!--
-		Transform for each row in the WTable. The row itself transforms to a HTML
-		tr element. It may also output another row if it has a ui:subTr child.
+	TODO: remove this when WFilterControl is no longer part of the Java API
+	<xsl:import href="wc.ui.table.tr.n.containsWords.xsl"/>-->
+	<xsl:import href="wc.ui.table.tr.n.clientRowClosedHelper.xsl"/>
+	<!--
+		Transform for each row in the WTable. The row itself transforms to a HTML tr element. It may also output another
+		row if it has a ui:subTr child.
 
-		param myTable: The first table ancestor of the current row. This is determined
-		at the most efficient point (usually ui:tbody using its parent node) and then
-		passed through all subsequent transforms to save constant ancestor::ui:table[1]
-		lookups.
+		param myTable: The first table ancestor of the current row. This is determined at the most efficient point
+		(usually ui:tbody using its parent node) and then passed through all subsequent transforms to save constant
+		ancestor::ui:table[1] lookups.
 
-		param parentIsClosed default 0, 1 indicates that the row's parent row is in a
-		collapsed state. Only applicable if the current row is a child of a ui:subTr.
-
+		param parentIsClosed default 0, 1 indicates that the row's parent row exists and is in a collapsed state.
 	-->
 	<xsl:template match="ui:tr">
 		<xsl:param name="myTable"/>
@@ -34,7 +33,7 @@
 				<xsl:value-of select="1"/>
 			</xsl:if>
 		</xsl:variable>
-		
+
 		<xsl:variable name="hasRowExpansion">
 			<xsl:if test="$myTable/ui:rowExpansion">
 				<xsl:value-of select="1"/>
@@ -53,12 +52,14 @@
 		</xsl:variable>
 
 		<!--
-		Row filtering:
-		* if the table has no active filters then show the row;
-		* if the table has active Filters and the row has no filter values then hide the row;
-		* otherwise test if the row contains a filterValue which is also one of the
-		table filters.
-		-->
+			Row filtering:
+			* if the table has no active filters then show the row;
+			* if the table has active Filters and the row has no filter values then hide the row;
+			* otherwise test if the row contains a filterValue which is also one of the
+			table filters.
+
+			TODO: remove this when WFilterControl is no longer part of the Java API
+
 		<xsl:variable name="tableFilters" select="normalize-space($myTable/@activeFilters)"/>
 
 		<xsl:variable name="rowFilters" select="normalize-space(@filterValues)"/>
@@ -82,87 +83,61 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
-
-		<!--
-		 Conditions which will result in a row being hidden:
-			* its hidden attribute is "true"; or
-			* it is a child row and its parent row (actually grandparent element) is
-			closed for any reason; or
-			* there is filtering and the current row doesn't match the current filter; or
-			* it is a child row and its parent subTr is not open; or
-			* it is a child row and any ancestor subTr is not open; or
-			* if there is client pagination and the current row is not in the active
-			page.
 		-->
+
 		<xsl:variable name="removeRow">
 			<xsl:choose>
-				<xsl:when test="$parentIsClosed=1 or @hidden=$t or $filterThisRow=1 or parent::ui:subTr[not(@open=$t)] or (ancestor::ui:subTr[not(@open=$t) and ancestor::ui:table[1]/@id=$tableId])">
+				<!--
+					TODO: remove this when WFilterControl is no longer part of the Java API.
+
+					If your implementation requires WDataTabe and WFilterControl support then you must add
+					`$filterThisRow=1 or ` to the beginning of the test attribute of the following xsl:when:
+				-->
+				<xsl:when test="$parentIsClosed=1 or @hidden=$t or parent::ui:subTr[not(@open=$t)] or (ancestor::ui:subTr[not(@open=$t) and ancestor::ui:table[1]/@id=$tableId])">
 					<xsl:value-of select="1"/>
 				</xsl:when>
 				<xsl:when test="parent::ui:tbody and $myTable/ui:pagination/@mode = 'client'">
-					<xsl:variable name="clientPaginationRows">
-						<xsl:choose>
-							<xsl:when test="$myTable/ui:pagination/@rowsPerPage">
-								<xsl:value-of select="$myTable/ui:pagination/@rowsPerPage"/>
-							</xsl:when>
-							<xsl:otherwise>
-								<xsl:value-of select="$myTable/ui:pagination/@rows"/>
-							</xsl:otherwise>
-						</xsl:choose>
-					</xsl:variable>
-					<xsl:variable name="tableCurrentPage" select="$myTable/ui:pagination/@currentPage"/>
-					<xsl:variable name="myPosition" select="count(preceding-sibling::ui:tr) + 1"/>
-					<xsl:variable name="activeStart" select="($clientPaginationRows * $tableCurrentPage) + 1"/>
-					<xsl:choose>
-						<xsl:when test="(($myPosition &lt; $activeStart) or ($myPosition >= ($activeStart + $clientPaginationRows)))">
-							<xsl:value-of select="1"/>
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:value-of select="0"/>
-						</xsl:otherwise>
-					</xsl:choose>
+					<xsl:call-template name="clientRowClosedHelper">
+						<xsl:with-param name="myTable" select="$myTable"/>
+					</xsl:call-template>
 				</xsl:when>
 				<xsl:otherwise>
 					<xsl:value-of select="0"/>
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
-
-		<xsl:variable name="class">
-			<xsl:choose>
-				<xsl:when test="parent::ui:tbody">
-					<xsl:if test="$myTable/@striping='rows' and position() mod 2 = 0">
-						<xsl:text>wc_table_stripe </xsl:text>
-					</xsl:if>
-					<xsl:if test="$myTable/ui:pagination">
-						<xsl:text>wc_table_pag_row </xsl:text>
-					</xsl:if>
-				</xsl:when>
-				<xsl:when test="$topRowIsStriped=1">
-					<xsl:text>wc_table_stripe </xsl:text>
-				</xsl:when>
-			</xsl:choose>
-
-			<!-- allow for overrides, pass through the complex calculations for efficiency -->
-			<xsl:call-template name="WTableAdditionalRowClass">
-				<xsl:with-param name="myTable" select="$myTable"/>
-				<xsl:with-param name="parentIsClosed" select="$parentIsClosed"/>
-				<xsl:with-param name="topRowIsStriped" select="$topRowIsStriped"/>
-				<xsl:with-param name="removeRow" select="$removeRow"/>
-			</xsl:call-template>
+		
+		<xsl:variable name="isSelectToggle">
+			<xsl:if test="$hasRowExpansion + $selectableRow = 2 and $myTable/ui:rowSelection/@toggle and ui:subTr/ui:tr[not(@unselectable)]">
+				<xsl:number value="1"/>
+			</xsl:if>
 		</xsl:variable>
 
 		<tr id="{$rowId}" data-wc-rowindex="{@rowIndex}">
 			<xsl:if test="$hasRole &gt; 0">
 				<xsl:attribute name="role">row</xsl:attribute>
 			</xsl:if>
-			
-			<xsl:if test="normalize-space($class) != ''">
-				<xsl:attribute name="class">
-					<xsl:value-of select="normalize-space($class)"/>
-				</xsl:attribute>
-			</xsl:if>
-			
+
+			<xsl:attribute name="class">
+				<xsl:call-template name="commonClassHelper"/>
+				<xsl:choose>
+					<xsl:when test="parent::ui:tbody">
+						<xsl:if test="$myTable/@striping='rows' and position() mod 2 = 0">
+							<xsl:text> wc_table_stripe</xsl:text>
+						</xsl:if>
+						<xsl:if test="$myTable/ui:pagination">
+							<xsl:text> wc_table_pag_row</xsl:text>
+						</xsl:if>
+					</xsl:when>
+					<xsl:when test="$topRowIsStriped=1">
+						<xsl:text> wc_table_stripe</xsl:text>
+					</xsl:when>
+				</xsl:choose>
+				<!--<xsl:if test="$isSelectToggle = 1">
+					<xsl:text> wc_seltog</xsl:text>
+				</xsl:if>-->
+			</xsl:attribute>
+
 			<xsl:if test="$hasRowExpansion=1">
 				<xsl:if test="ui:subTr">
 					<xsl:attribute name="aria-expanded">
@@ -175,15 +150,15 @@
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:attribute>
-					
+
 					<xsl:variable name="expMode" select="$myTable/ui:rowExpansion/@mode"/>
-					
+
 					<xsl:variable name="isOpen">
 						<xsl:if test="ui:subTr/@open=$t">
 							<xsl:value-of select="1"/>
 						</xsl:if>
 					</xsl:variable>
-					
+
 					<xsl:attribute name="aria-controls">
 						<xsl:choose>
 							<xsl:when test="ui:subTr/ui:tr">
@@ -199,7 +174,7 @@
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:attribute>
-					
+
 					<xsl:variable name="expansionMode">
 						<xsl:choose>
 							<xsl:when test="($expMode='lazy' or $expMode='eager') and $isOpen=1">
@@ -216,7 +191,7 @@
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:variable>
-					
+
 					<xsl:if test="$expansionMode='lazy' or $expansionMode='dynamic'">
 						<xsl:attribute name="data-wc-ajaxalias">
 							<xsl:value-of select="$tableId"/>
@@ -228,16 +203,16 @@
 						</xsl:if>
 					</xsl:if>
 				</xsl:if>
-			
+
 				<xsl:if test="parent::ui:subTr">
 					<xsl:call-template name="setARIALive"/>
 				</xsl:if>
-			
+
 				<xsl:attribute name="aria-level">
 					<xsl:value-of select="count(ancestor::ui:subTr[ancestor::ui:table[1]/@id=$tableId]) + 1"/>
 				</xsl:attribute>
 			</xsl:if>
-			
+
 			<!--
 				Row selection
 				 When the table has row selection and when this row is selectable, then we need
@@ -261,7 +236,11 @@
 			<xsl:if test="$selectableRow=1 and not(@unselectable=$t)">
 				<xsl:attribute name="aria-selected">
 					<xsl:choose>
-						<xsl:when test="@selected=$t">
+						<xsl:when test="$isSelectToggle=1 and .//ui:subTr[ancestor::ui:table[1]/@id = $tableId]/ui:tr[not(@unselectable or @selected)]">
+							<!-- If I am a select toggle row for my 'descendant' rows and one or more of these are not selected then I am not selected. -->
+							<xsl:text>false</xsl:text>
+						</xsl:when>
+						<xsl:when test="$isSelectToggle = 1 or @selected = $t">
 							<xsl:copy-of select="$t"/>
 						</xsl:when>
 						<xsl:otherwise>
@@ -269,7 +248,7 @@
 						</xsl:otherwise>
 					</xsl:choose>
 				</xsl:attribute>
-				
+
 				<xsl:attribute name="tabindex">
 					<xsl:text>0</xsl:text>
 				</xsl:attribute>
@@ -277,17 +256,23 @@
 				<xsl:attribute name="data-wc-name">
 					<xsl:value-of select="concat($tableId,'${wc.ui.table.rowSelect.state.suffix}')"/>
 				</xsl:attribute>
-				
+
 				<xsl:attribute name="data-wc-value">
 					<xsl:value-of select="@rowIndex"/>
 				</xsl:attribute>
 				
+				<!--<xsl:if test="ui:subTr/ui:tr and $myTable/ui:rowSelection/@toggle">
+					<xsl:attribute name="wc-data-toggle">
+						<xsl:text>1</xsl:text>
+					</xsl:attribute>
+				</xsl:if>-->
+
 				<!-- WDataTable still needs disabled support -->
 				<xsl:choose>
 					<xsl:when test="@disabled">
 						<xsl:call-template name="disabledElement"/>
 					</xsl:when>
-					<xsl:when test="$myTable and $myTable/@disabled">
+					<xsl:when test="$myTable/@disabled">
 						<xsl:call-template name="disabledElement">
 							<xsl:with-param name="field" select="$myTable"/>
 						</xsl:call-template>
@@ -310,14 +295,17 @@
 				</xsl:otherwise>
 			</xsl:choose>
 
+			<!--
+				TODO: remove this when WFilterControl is no longer part of the Java API
 			<xsl:if test="$rowFilters!=''">
-				<xsl:attribute name="${wc.ui.filterControl.attribute.rowFilter}">
+				<xsl:attribute name="data-wc-filters">
 					<xsl:value-of select="$rowFilters"/>
 				</xsl:attribute>
 			</xsl:if>
+			-->
 			<!-- END OF TR ATTRIBUTES -->
-			
-			
+
+
 			<!--
 			rowSelection indicator wrapper
 
@@ -325,7 +313,59 @@
 			 the row selection mechanism and state indicators.
 			-->
 			<xsl:if test="$selectableRow=1">
-				<td class="wc_table_sel_wrapper" aria-hidden="true"></td>
+				<td class="wc_table_sel_wrapper" aria-hidden="true">
+					<xsl:if test="$isSelectToggle=1">
+						<xsl:variable name="subRowToggleControlId" select="concat($rowId, '_toggleController')"/>
+						<xsl:variable name="subRowToggleControlButtonId" select="concat($subRowToggleControlId, '_showbtn')"/>
+						<xsl:variable name="subRowToggleControlContentId" select="concat($subRowToggleControlId, '_content')"/>
+						
+						<div class="menu flyout" role="menubar" id="{$subRowToggleControlId}">
+							<div class="submenu" role="menuitem">
+								<button type="button" aria-haspopup="true" class="wc_btn_nada" id="{$subRowToggleControlButtonId}" aria-controls="{$subRowToggleControlContentId}">
+									<span class="wc_off"><xsl:value-of select="$$${wc.ui.table.string.rowSelection.label}"/></span>
+								</button>
+								<div class="submenucontent wc_seltog" role="menu" aria-expanded="false" id="{$subRowToggleControlContentId}" aria-labelledby="{$subRowToggleControlButtonId}">
+									<xsl:variable name="allSelectableSubRows" select="count(.//ui:subTr[ancestor::ui:table[1]/@id = $tableId]/ui:tr[not(@unselectable)])"/>
+									<xsl:variable name="allUnselectedSubRows" select="count(.//ui:subTr[ancestor::ui:table[1]/@id = $tableId]/ui:tr[not(@unselectable or @selected)])"/>
+									<xsl:variable name="subRowControlList">
+										<xsl:value-of select="concat($rowId, ' ')"/><!-- these controllers control this row too -->
+										<xsl:apply-templates select="ui:subTr//ui:tr[ancestor::ui:table[1]/@id = $tableId]" mode="subRowControlIdentifier">
+											<xsl:with-param name="tableId" select="$tableId"/>
+										</xsl:apply-templates>
+									</xsl:variable>
+									<button type="button" role="menuitemradio" class="menuitem wc_seltog wc_btn_nada" aria-controls="{$subRowControlList}" data-wc-value="all">
+										<xsl:attribute name="aria-checked">
+											<xsl:choose>
+												<xsl:when test="$allUnselectedSubRows = 0">
+													<xsl:text>true</xsl:text>
+												</xsl:when>
+												<xsl:otherwise>
+													<xsl:text>false</xsl:text>
+												</xsl:otherwise>
+											</xsl:choose>
+										</xsl:attribute>
+										<span class="wc_off"><xsl:value-of select="$$${wc.common.toggles.i18n.select.label}"/> </span>
+										<xsl:value-of select="$$${wc.common.toggles.i18n.selectAll}"/>
+									</button>
+									<button type="button" role="menuitemradio" class="menuitem wc_seltog wc_btn_nada" aria-controls="{$subRowControlList}"  data-wc-value="none">
+										<xsl:attribute name="aria-checked">
+											<xsl:choose>
+												<xsl:when test="$allSelectableSubRows = $allUnselectedSubRows">
+													<xsl:text>true</xsl:text>
+												</xsl:when>
+												<xsl:otherwise>
+													<xsl:text>false</xsl:text>
+												</xsl:otherwise>
+											</xsl:choose>
+										</xsl:attribute>
+										<span class="wc_off"><xsl:value-of select="$$${wc.common.toggles.i18n.select.label}"/> </span>
+										<xsl:value-of select="$$${wc.common.toggles.i18n.selectNone}"/>
+									</button>
+								</div>
+							</div>
+						</div>
+					</xsl:if>
+				</td>
 			</xsl:if>
 			<!--
 			 row expansion controls

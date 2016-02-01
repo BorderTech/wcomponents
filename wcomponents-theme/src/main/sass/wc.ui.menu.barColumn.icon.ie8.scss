@@ -1,5 +1,5 @@
 /* wc.ui.menu.barColumn.icon.ie8.scss */
-[role='menubar'] > [aria-expanded] > button {
+[role='menubar'] > .submenu > button {
 	> .decoratedLabel {
 		background-image: url('../images/down.png');
 		background-position: 100% 50%;
@@ -14,7 +14,7 @@
 	}
 }
 
-[role='menu'] [aria-expanded] > button {
+[role='menu'] .submenu > button {
 	> .decoratedLabel {
 		background-image: url('../images/next.png');
 		background-position: 100% 50%;

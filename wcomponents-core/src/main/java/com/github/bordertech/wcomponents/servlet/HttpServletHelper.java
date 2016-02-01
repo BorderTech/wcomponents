@@ -359,6 +359,10 @@ public class HttpServletHelper extends AbstractContainerHelper {
 			httpServletResponse.setHeader("Pragma", "no-cache");
 			httpServletResponse.setHeader("Expires", "-1");
 		}
+		// This is to prevent clickjacking. It can also be set to "DENY" to prevent embedding in a frames at all or
+		// "ALLOW-FROM uri" to allow embedding in a frame within a particular site.
+		// The default will allow WComponents applications in a frame on the same origin.
+		httpServletResponse.setHeader("X-Frame-Options", "SAMEORIGIN");
 	}
 
 	/**

@@ -6,8 +6,8 @@ package com.github.bordertech.wcomponents;
  *
  * @author Jonathan Austin
  * @since 1.0.0
- * @deprecated WDataTable is deprecated. WFilterControl does not apply to WTable which _must_ be filtered using AJAX if
- *   filtering is required; WDataTable filtering _should_ be done using AJAX.
+ * @deprecated {@link WDataTable} is deprecated, WFilterControl does not apply to {@link WTable} which _must_ be
+ *  filtered using AJAX if filtering is required; {@link WDataTable} filtering _should_ be done using AJAX.
  */
 public class WFilterControl extends AbstractContainer implements AjaxTarget {
 

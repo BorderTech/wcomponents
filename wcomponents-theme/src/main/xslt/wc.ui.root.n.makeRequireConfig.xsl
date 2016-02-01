@@ -27,6 +27,7 @@
 						tinyMCE: "lib/tinymce/tinymce.min",
 						Promise: "lib/Promise.min",
 						fabric: "lib/fabric",
+						Mustache: "lib/mustache/mustache.min",
 						axs: "lib/axs_testing",
 						axe: "lib/axe.min"
 					},
@@ -60,7 +61,6 @@
 			<!-- Used for testing purposes -->
 			<xsl:value-of select="concat('xslUrl:&quot;', normalize-space($xslPath), '&quot;')"/>
 			<xsl:text>},&#10;"wc/i18n/i18n": {</xsl:text>
-			<xsl:value-of select="concat('i18nBundleUrl:&quot;', normalize-space($xslPath), '&quot;,')"/>
 			<xsl:value-of select="concat('locale:&quot;', normalize-space($locale), '&quot;')"/>
 			<xsl:text>},&#10;"wc/loader/resource": {</xsl:text>
 			<xsl:value-of select="concat('xmlBaseUrl:&quot;', normalize-space($resourceRoot), '${xml.target.dir.name}/&quot;,&#10;')"/>

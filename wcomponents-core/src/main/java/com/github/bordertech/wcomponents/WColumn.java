@@ -6,6 +6,7 @@ import com.github.bordertech.wcomponents.layout.CellAlignment;
  * This is a layout component to be used in conjunction with WRow.
  *
  * @author Ming Gao
+ * @author Mark Reeves
  * @since 1.0.0
  */
 public class WColumn extends AbstractMutableContainer implements AjaxTarget {
@@ -74,19 +75,15 @@ public class WColumn extends AbstractMutableContainer implements AjaxTarget {
 	}
 
 	/**
-	 * Creates a WColumn with 1% width.
-	 *
-	 * @deprecated Use {{@link #WColumn(int)} instead as width is required. Will default width to 1%.
+	 * Creates a WColumn with undefined width.
 	 */
-	@Deprecated
 	public WColumn() {
-		setWidth(1);
 	}
 
 	/**
 	 * Creates a WColumn with the width specified as a percentage of the total available width.
 	 *
-	 * @param widthPercentage the percentage width.
+	 * @param widthPercentage the percentage width, 0 for undefined.
 	 */
 	public WColumn(final int widthPercentage) {
 		setWidth(widthPercentage);
@@ -95,12 +92,12 @@ public class WColumn extends AbstractMutableContainer implements AjaxTarget {
 	/**
 	 * Sets the relative column width, measured as a percentage of the total available width.
 	 *
-	 * @param widthPercent the column width.
+	 * @param widthPercent the column width, 0 for undefined.
 	 */
 	public void setWidth(final int widthPercent) {
-		if (widthPercent < 1 || widthPercent > 100) {
+		if (widthPercent < 0 || widthPercent > 100) {
 			throw new IllegalArgumentException(
-					"Width (" + widthPercent + ") must be between 1 and 100 percent");
+					"Width (" + widthPercent + ") must be between 0 and 100 percent");
 		}
 		getOrCreateComponentModel().width = widthPercent;
 	}
@@ -152,7 +149,7 @@ public class WColumn extends AbstractMutableContainer implements AjaxTarget {
 		/**
 		 * The column width.
 		 */
-		private int width;
+		private int width = 0;
 
 		/**
 		 * The alignment of content within the column.

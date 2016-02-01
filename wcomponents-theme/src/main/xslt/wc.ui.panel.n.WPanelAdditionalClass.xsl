@@ -1,9 +1,0 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
-	<!--
-		This template is used to add extra className(s) of a panel in an implementation.
-		It is called from matched template for ui:panel in wc.ui.panel.xsl.
-		
-		NOTE: the output string should start with a single white space.
-	-->
-	<xsl:template name="WPanelAdditionalClass"/>
-</xsl:stylesheet>

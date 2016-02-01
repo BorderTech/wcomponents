@@ -2,7 +2,7 @@
 	<xsl:import href="wc.common.hide.xsl"/>
 	<xsl:import href="wc.common.aria.live.xsl"/>
 	<xsl:import href="wc.constants.xsl"/>
-	<xsl:import href="wc.ui.section.n.additionalSectionClass.xsl"/>
+	<xsl:import href="wc.ui.section.n.WSectionClass.xsl"/>
 	<!--
 		Transform for WSection. It is simply a major content container with an exposed heading.
 		
@@ -18,14 +18,7 @@
 				<xsl:value-of select="@id"/>
 			</xsl:attribute>
 			<xsl:attribute name="class">
-				<xsl:text>section</xsl:text>
-				<xsl:if test="$mode='lazy' and @hidden">
-					<xsl:text> wc_magic</xsl:text>
-				</xsl:if>
-				<xsl:if test="@class">
-					<xsl:value-of select="concat(' ', @class)"/>
-				</xsl:if>
-				<xsl:call-template name="additionalSectionClass"/>
+				<xsl:call-template name="WSectionClass"/>
 			</xsl:attribute>
 			<xsl:apply-templates select="ui:margin"/>
 			<xsl:call-template name="hideElementIfHiddenSet"/>

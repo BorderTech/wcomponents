@@ -50,7 +50,6 @@ define(["wc/dom/initialise",
 				SORT_ATTRIB = "sorted",
 				ARIA_SORT_ATTRIB = "aria-sort",
 				SORTED_COL = SORT_CONTROL.extend("", {"sorted": null}),
-				ACTIVE_CONTROL_ID,
 				FORM;
 
 			THEAD.descendFrom(SORTABLE_TABLE, true);
@@ -98,7 +97,6 @@ define(["wc/dom/initialise",
 					sorted,
 					controlGroup;
 				if (element === target || (!isEventInLabel(target) && isAcceptableEventTarget(element, target))) {
-					ACTIVE_CONTROL_ID = id;
 					sorted = element.getAttribute(SORT_ATTRIB);
 
 					if (!sorted || sorted.indexOf("reversed") > -1) {
@@ -141,14 +139,12 @@ define(["wc/dom/initialise",
 
 			function clickEvent($event) {
 				var element;
-				ACTIVE_CONTROL_ID = null;
 				if (!$event.defaultPrevented && (element = SORT_CONTROL.findAncestor($event.target))) {
 					toggleEventHelper($event, element);
 				}
 			}
 
 			function keydownEvent($event) {
-				ACTIVE_CONTROL_ID = null;
 				if ($event.defaultPrevented) {
 					return;
 				}

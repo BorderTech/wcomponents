@@ -31,14 +31,12 @@
 							<xsl:text> wc_magic wc_dynamic</xsl:text>
 						</xsl:if>
 					</xsl:when>
-					<xsl:otherwise>
-						<xsl:if test="($mode='lazy') or ($mode='eager') or ($mode='dynamic')">
-							<xsl:text> wc_magic</xsl:text>
-							<xsl:if test="$mode='dynamic'">
-								<xsl:text> wc_dynamic</xsl:text>
-							</xsl:if>
+					<xsl:when test="($mode='lazy') or ($mode='eager') or ($mode='dynamic')">
+						<xsl:text> wc_magic</xsl:text>
+						<xsl:if test="$mode='dynamic'">
+							<xsl:text> wc_dynamic</xsl:text>
 						</xsl:if>
-					</xsl:otherwise>
+					</xsl:when>
 				</xsl:choose>
 			</xsl:attribute>
 			<xsl:if test="$open!=1">

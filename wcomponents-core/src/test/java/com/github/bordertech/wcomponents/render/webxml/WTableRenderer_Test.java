@@ -368,6 +368,29 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathExists("//ui:table/ui:rowSelection", component);
 		assertXpathEvaluatesTo(TRUE, "//ui:table/ui:rowSelection/@multiple", component);
 		assertXpathEvaluatesTo("control", "//ui:table/ui:rowSelection/@selectAll", component);
+		// toggle not available by default
+		assertXpathNotExists("//ui:table/ui:rowSelection/@toggle", component);
+	}
+
+	@Test
+	public void testDoPaintToggleSubRowSelection() throws IOException, SAXException,
+			XpathException {
+		WTable component = new WTable();
+		component.addColumn(new WTableColumn(COL1_HEADING_TEST, WTextField.class));
+		component.addColumn(new WTableColumn(COL2_HEADING_TEST, WTextField.class));
+		component.addColumn(new WTableColumn(COL3_HEADING_TEST, WTextField.class));
+		TableModel tableModel = createTableModel();
+		component.setTableModel(tableModel);
+		component.setVisible(true);
+
+		component.setSelectMode(WTable.SelectMode.MULTIPLE);
+		component.setToggleSubRowSelection(true);
+		component.setExpandMode(ExpandMode.CLIENT);
+
+		assertSchemaMatch(component);
+
+		assertXpathExists("//ui:table/ui:rowSelection", component);
+		assertXpathEvaluatesTo(TRUE, "//ui:table/ui:rowSelection/@toggle", component);
 	}
 
 	@Test
