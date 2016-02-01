@@ -8,7 +8,7 @@
 		position: relative;
 	}
 
-	&[aria-expanded='true'] > [role='menu'] {
+	> [role='menu'][aria-expanded='true'] {
 		@include border;
 		box-shadow: 3px 3px 3px $wc-ui-color-shadow;
 		min-width: 100%;
@@ -54,4 +54,3 @@
 		top: auto;
 	}
 }
-/* end wc.ui.menu.barColumn.dt.scss */

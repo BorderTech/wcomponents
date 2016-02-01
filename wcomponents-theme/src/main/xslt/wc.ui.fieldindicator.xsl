@@ -1,5 +1,6 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
 	<xsl:import href="wc.constants.xsl"/>
+	<xsl:import href="wc.common.n.className.xsl"/>
 	<!--
 		Transform for ui:fieldIndicator which is output of WFieldErrorIndicator and
 		WFieldWarningIndicator. This is normally output to provide inline messaging in
@@ -23,18 +24,13 @@
 	
 	-->
 	<xsl:template match="ui:fieldIndicator">
-		<xsl:element name="ul">
-			<xsl:attribute name="id">
-				<xsl:value-of select="@id"/>
-			</xsl:attribute>
+		<ul id="{@id}">
 			<xsl:attribute name="class">
-				<xsl:value-of select="concat(local-name(), ' ', @type)"/>
-				<xsl:if test="@class">
-					<xsl:value-of select="concat(' ', @class)"/>
-				</xsl:if>
+				<xsl:call-template name="commonClassHelper"/>
+				<xsl:value-of select="concat(' ', @type)"/>
 			</xsl:attribute>
 			<xsl:apply-templates/>
-		</xsl:element>
+		</ul>
 	</xsl:template>
 	<!--
 		Currently there is a consistency problem with the use of WFieldErrorIndicator

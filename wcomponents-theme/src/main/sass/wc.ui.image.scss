@@ -1,0 +1,26 @@
+/* wc.ui.image.scss */
+@import 'mixins_common.scss';
+
+$reset-button-size: 1em;
+$button-neg-margin-normal: -1 * ($line-size + 2 * $hgap-small);
+$button-neg-margin-large: -1 * ($reset-button-size + 2 * $hgap-small);
+$double-border-width: 2 * $border-width;
+
+button[data-img][data-editor] {
+	@include button($reset-width: -1, $reset-height: -1);
+	@include background-image($url: '../images/image-edit.png');
+	margin-left: calc(#{$button-neg-margin-normal} - #{$double-border-width});
+
+	@include reset-large-screen {
+		height: $reset-button-size;
+		margin-left: calc(#{$button-neg-margin-large} - #{$double-border-width});
+		width: $reset-button-size;
+	}
+}
+
+figure img {
+	&,
+	+ button {
+		vertical-align: bottom;
+	}
+}

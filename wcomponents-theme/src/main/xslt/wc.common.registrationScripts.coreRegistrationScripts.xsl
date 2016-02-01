@@ -33,10 +33,16 @@
 		<xsl:variable name="eagerness" select="//*[@mode='eager']"/>
 		<xsl:variable name="hasAjaxTriggers" select=".//ui:ajaxTrigger"/>
 		<xsl:variable name="timeoutWarn" select=".//ui:session[1]"/>
+		<xsl:variable name="editors" select=".//html:wc-imageedit"/>
 
 		<xsl:if test="$componentGroups">
 			<xsl:text>require(["wc/ui/subordinate"], function(c){c.registerGroups([</xsl:text>
 			<xsl:apply-templates select="$componentGroups" mode="JS"/>
+			<xsl:text>]);});</xsl:text>
+		</xsl:if>
+		<xsl:if test="$editors">
+			<xsl:text>require(["wc/ui/imageEdit"], function(c){c.register([</xsl:text>
+			<xsl:apply-templates select="$editors" mode="JS"/>
 			<xsl:text>]);});</xsl:text>
 		</xsl:if>
 		<xsl:if test="$dialogs">

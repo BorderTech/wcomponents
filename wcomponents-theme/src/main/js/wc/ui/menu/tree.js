@@ -34,7 +34,8 @@ define(["wc/ui/menu/core",
 		 * @extends module:wc/ui/menu/core~AbstractMenu
 		 * @private */
 		function Tree() {
-			var SUBMENU_CONTENT;
+			var SUBMENU_CONTENT,
+				DUMMY_ITEM;
 
 			if (has("ie") === 8) {
 				// IE8 fails to repaint tree branch closes in a timely manner when closing if the repainter is not included explicitly.
@@ -149,7 +150,9 @@ define(["wc/ui/menu/core",
 			};
 
 			/**
-			 * Fix the role and other attributes in a submenu which has been inserted via AJAX.
+			 * Fix the role and other attributes in a submenu which has been inserted via AJAX. We default all the XSLT
+			 * to menu-like properties if we do not have the top level menu context because menus are more common than
+			 * trees.
 			 *
 			 * @function
 			 * @protected
@@ -157,16 +160,31 @@ define(["wc/ui/menu/core",
 			 * @param {DocumentFragment} container The documentFragment returned from the ajax subsystem.
 			 */
 			this._fixSubmenuContentInAjaxResponse = function(container) {
+				var EXP_ATTRIB = "aria-expanded";
 				// generic (role-less) submenu content container is needed because the role is still incorrect
 				SUBMENU_CONTENT = SUBMENU_CONTENT || new Widget("", "submenucontent");
 
 				Array.prototype.forEach.call(SUBMENU_CONTENT.findDescendants(container), function (nextSubmenuContent) {
-					var branch, opener;
+					var branch, opener, isOpen;
+
+					// fix up the submenu content wrapper element attributes
+					DUMMY_ITEM = DUMMY_ITEM || new Widget("", "wc_menuitem_dummy");
+
 					nextSubmenuContent.setAttribute("role", this._role.SUBMENU);
+					isOpen = nextSubmenuContent.getAttribute(EXP_ATTRIB) || "false"; // we need this for the branch ...
+					nextSubmenuContent.removeAttribute(EXP_ATTRIB);
+					// now remove the dummy items which are needed for menus but not for trees
+					Array.prototype.forEach.call(DUMMY_ITEM.findDescendants(nextSubmenuContent), function(nextDummy) {
+						nextDummy.parentNode.removeChild(nextDummy);
+					});
+					// now fix up the branch container
 					if ((branch = this._getBranch(nextSubmenuContent))) {
 						branch.removeAttribute("data-wc-selectmode");
 						if ((opener = this._getBranchOpener(branch))) {
 							opener.removeAttribute("aria-haspopup");
+						}
+						if (!branch.getAttribute(EXP_ATTRIB)) {
+							branch.setAttribute(EXP_ATTRIB, isOpen);
 						}
 					}
 				}, this);
@@ -196,10 +214,11 @@ define(["wc/ui/menu/core",
 			 * @function
 			 * @protected
 			 * @override
-			 * @param {Element} item The item which has focus.
+			 * @param {Element} _item The item which has focus.
 			 */
-			this._remapKeys = function(item) {
+			this._remapKeys = function(_item) {
 				var isOpener,
+					item = _item,
 					VK_LEFT = "DOM_VK_LEFT",
 					VK_RIGHT = "DOM_VK_RIGHT";
 
@@ -212,7 +231,7 @@ define(["wc/ui/menu/core",
 						item = this._getBranch(item);
 					}
 					if (item) {
-						if (shed.isExpanded(item)) {
+						if (shed.isExpanded(this._getBranchExpandableElement(item))) {
 							this._keyMap[VK_LEFT] = this._FUNC_MAP.CLOSE;
 							this._keyMap[VK_RIGHT] = null;
 						}
@@ -290,6 +309,33 @@ define(["wc/ui/menu/core",
 				else {
 					component.removeAttribute("data-wc-selected");
 				}
+			};
+
+			/**
+			 * Get the menu element which is able to be "aria-expanded". This is the WSubMenu's content in most menus but
+			 * is the WSubMenu itself in trees.
+			 *
+			 * @function
+			 * @override
+			 * @param {Element} item The start point for the search. This will normally be a 'branch'.
+			 * @returns {?Element} The "expandable" element. This is usually the branch content but is the branch in trees.
+			 */
+			this._getBranchExpandableElement = function (item) {
+				var myBranch;
+
+				if (!item) {
+					throw new TypeError("Item must not be falsey.");
+				}
+
+				if (this._isBranch(item)) {
+					return item;
+				}
+
+				if ((this._wd.submenu.isOneOfMe(item) || this._isOpener(item)) && (myBranch = this._getBranch(item))) {
+					return myBranch;
+				}
+
+				throw new TypeError("Item must be a branch, submenu or branch opener element.");
 			};
 		}
 

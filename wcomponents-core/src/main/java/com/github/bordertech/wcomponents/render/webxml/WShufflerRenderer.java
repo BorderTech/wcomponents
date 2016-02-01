@@ -46,10 +46,11 @@ final class WShufflerRenderer extends AbstractWebXmlRenderer {
 
 		if (options != null && !options.isEmpty()) {
 			for (int i = 0; i < options.size(); i++) {
+				String stringOption = String.valueOf(options.get(i));
 				xml.appendTagOpen("ui:option");
-				xml.appendAttribute("value", i);
+				xml.appendAttribute("value", stringOption);
 				xml.appendClose();
-				xml.appendEscaped(String.valueOf(options.get(i)));
+				xml.appendEscaped(stringOption);
 				xml.appendEndTag("ui:option");
 			}
 		}

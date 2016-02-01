@@ -4,6 +4,7 @@
 	<xsl:import href="wc.ui.menu.n.menuTabIndexHelper.xsl"/>
 	<xsl:import href="wc.common.disabledElement.xsl"/>
 	<xsl:import href="wc.common.accessKey.xsl"/>
+	<xsl:import href="wc.common.n.className.xsl"/>
 	<!--
 		WSubMenu is a descendant of WMenu and is used to hold WMenuItems.
 
@@ -81,29 +82,25 @@
 				This <<may>> change so you should try not to rely on this class for too much and
 				certainly avoid it for automated testing.
 			-->
-			<xsl:attribute name="class">
-				<xsl:text>submenu</xsl:text>
-				<xsl:if test="@class">
-					<xsl:value-of select="concat(' ', @class)"/>
-				</xsl:if>
-			</xsl:attribute>
-			<xsl:attribute name="aria-expanded">
-				<xsl:choose>
-					<xsl:when test="$open=1">
-						<xsl:copy-of select="$t"/>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:text>false</xsl:text>
-					</xsl:otherwise>
-				</xsl:choose>
-			</xsl:attribute>
+			<xsl:call-template name="makeCommonClass"/>
+			<xsl:if test="$type='tree'">
+				<xsl:attribute name="aria-expanded">
+					<xsl:choose>
+						<xsl:when test="$open=1">
+							<xsl:copy-of select="$t"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:text>false</xsl:text>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:attribute>
+			</xsl:if>
 			<xsl:if test="@selectMode and not($type='tree')">
 				<xsl:attribute name="data-wc-selectmode">
 					<xsl:value-of select="@selectMode"/>
 				</xsl:attribute>
 			</xsl:if>
 			<xsl:call-template name="hideElementIfHiddenSet"/>
-
 			<xsl:attribute name="role">
 				<xsl:choose>
 					<xsl:when test="$type='tree'"><!-- this will only be met if we can get to the ancestor menu -->
@@ -207,6 +204,7 @@
 			</xsl:element>
 			<xsl:apply-templates select="ui:content" mode="submenu">
 				<xsl:with-param name="open" select="$open"/>
+				<xsl:with-param name="type" select="$type"/>
 			</xsl:apply-templates>
 		</xsl:element>
 	</xsl:template>

@@ -35,6 +35,9 @@
 						<xsl:value-of select="$cacheBuster"/>
 					</xsl:attribute>
 				</link>
+				
+				<xsl:apply-templates select="ui:application/ui:css" mode="inHead"/>
+				<xsl:apply-templates select=".//html:link[@rel='stylesheet']" mode="inHead"/>
 
 				<!--
 					We need to set up the require config very early.
@@ -72,7 +75,8 @@
 					We grab all base, meta and link elements from the content and place
 					them in the head where they belong.
 				-->
-				<xsl:apply-templates select=".//html:base|.//html:link[not(@rel='icon' or @rel='shortcut icon')]|.//html:meta" mode="inHead"/>
+				<xsl:apply-templates select="ui:application/ui:js" mode="inHead"/>
+				<xsl:apply-templates select=".//html:base|.//html:link[not(@rel='icon' or @rel='shortcut icon' or @rel='stylesheet')]|.//html:meta" mode="inHead"/>
 			</head>
 			<xsl:variable name="bodyClass">
 				<xsl:call-template name="wcBodyClass"/>

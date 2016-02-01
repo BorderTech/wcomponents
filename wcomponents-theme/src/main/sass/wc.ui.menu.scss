@@ -21,15 +21,14 @@
 [role='menuitemradio'],
 [role='menuitemcheckbox'],
 [role='treeitem'],
-.menu [aria-expanded] > button {
+.submenu > button {
 	@include border-box;
 	display: block;
 	text-align: $preferred-alignment;
 	width: 100%;
 }
 
-
-.submenu[role],
+.submenu,
 [role='menu'] {
 	// We need the important here otherwise we have to do a LOT of overriding of roles.
 	// scss-lint:disable ImportantRule
@@ -60,10 +59,8 @@
 	}
 }
 
-.submenu[aria-expanded='false'] {
-	> [role='menu'],
-	> [role='group'] {
-		display: none;
-	}
+.submenu[aria-expanded='false'] >  [role='group'],
+.submenu > [role='menu'][aria-expanded='false'] {
+	display: none;
 }
 /* end wc.ui.menu.scss */

@@ -79,6 +79,25 @@ final class WApplicationRenderer extends AbstractWebXmlRenderer {
 				xml.appendEnd();
 			}
 		}
+		// Custom CSS Resources (if any)
+		for (WApplication.ApplicationResource resource : application.getCssResources()) {
+			String url = resource.getTargetUrl();
+			if (!Util.empty(url)) {
+				xml.appendTagOpen("ui:css");
+				xml.appendAttribute("url", url);
+				xml.appendEnd();
+			}
+		}
+
+		// Custom JavaScript Resources (if any)
+		for (WApplication.ApplicationResource resource : application.getJsResources()) {
+			String url = resource.getTargetUrl();
+			if (!Util.empty(url)) {
+				xml.appendTagOpen("ui:js");
+				xml.appendAttribute("url", url);
+				xml.appendEnd();
+			}
+		}
 
 		paintChildren(application, renderContext);
 

@@ -1,5 +1,6 @@
 /* wc.ui.table.rowSelection.scss */
 @import 'wc.ui.table.rowSelection_vars.scss';
+@import 'wc.ui.menu_vars.scss';
 
 // only want to style aria-selected rows, nothing else
 tr[aria-selected] {
@@ -11,6 +12,11 @@ tr[aria-selected] {
 
 	> .wc_table_sel_wrapper {
 		@include background-image($url: '../images/radio.png', $width: 1em, $height: 1em);
+
+		.wc_table_hastoggleselect & {
+			background-position: $table-cell-padding-left-right 50%;
+			padding-left: $table-cell-padding-left-right + 1em;
+		}
    }
 }
 
@@ -21,6 +27,25 @@ tr[aria-selected] {
 
 	tr[aria-disabled='true'] > & {
 		background-image: url('../images/radio-d.png');
+	}
+
+	.wc_seltog  button + button::before { // remove select toggle list separator
+		display: none;
+	}
+
+	[role='menubar'] .submenu > button { // the is the submenu opener emulator for the sub-row toggle control
+		@include button($background: $wc-ui-color-menu-bg, $height: -1, $padding: 0, $width: 1em, $reset-height: -1, $reset-width: -1);
+		height: calc(1em - 2px);
+		position: relative;
+		top: 2px;
+
+		&::after {
+			background-position: 50% 50%;
+			background-size: 0.667em;
+			height: calc(1em - 2px); // allow for the border
+			margin-left: 0; // remove submenu opener indicator margin
+			width: 1em;
+		}
 	}
 }
 
@@ -46,4 +71,9 @@ tr[aria-selected] {
 			}
 		}
 	}
+}
+
+.wc_table_col_hasmenu {
+	// text-align: right;
+	width: 2em;
 }

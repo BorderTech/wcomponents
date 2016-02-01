@@ -7,7 +7,10 @@
 	<xsl:import href="wc.common.hide.xsl"/>
 	<xsl:import href="wc.ui.table.n.xsl"/>
 	<xsl:import href="wc.ui.table.n.caption.xsl"/>
+	<xsl:import href="wc.ui.table.n.tfoot.xsl"/>
 	<xsl:import href="wc.ui.table.n.topControls.xsl"/>
+	
+	<xsl:import href="wc.ui.table.n.WTableContainerClass.xsl"/>
 	<!--
 		WTable (and WDataTable)
 
@@ -53,17 +56,18 @@
 				<xsl:number value="1"/>
 			</xsl:if>
 		</xsl:variable>
+		
+		<xsl:variable name="hasToggleSelectMode">
+			<xsl:if test="ui:rowSelection[@toggle and @multiple] and ui:rowExpansion and ui:tbody/ui:tr/ui:subTr">
+				<xsl:number value="1"/>
+			</xsl:if>
+		</xsl:variable>
 
 		<div id="{$id}">
 			<xsl:attribute name="class">
-				<xsl:text>table</xsl:text>
-				<xsl:if test="$isError">
-					<xsl:text> wc_error</xsl:text>
-				</xsl:if>
-				<xsl:if test="@class">
-					<xsl:value-of select="concat(' ', @class)"/>
-				</xsl:if>
-				<xsl:call-template name="WTableAdditionalContainerClass"/>
+				<xsl:call-template name="WTableContainerClass">
+					<xsl:with-param name="isError" select="$isError"/>
+				</xsl:call-template>
 			</xsl:attribute>
 
 			<xsl:call-template name="hideElementIfHiddenSet"/>
@@ -139,6 +143,9 @@
 						<xsl:if test="@type='hierarchic'">
 							<xsl:text> hierarchic</xsl:text>
 						</xsl:if>
+						<xsl:if test="$hasToggleSelectMode = 1">
+							<xsl:text> wc_table_hastoggleselect</xsl:text>
+						</xsl:if>
 					</xsl:variable>
 
 					<table>
@@ -198,7 +205,13 @@
 							</xsl:if>
 
 							<xsl:if test="$rowSelection=1">
-								<col class="wc_table_colauto">
+								<col>
+									<xsl:attribute name="class">
+										<xsl:text>wc_table_colauto</xsl:text>
+										<xsl:if test="$hasToggleSelectMode = 1">
+											<xsl:text> wc_table_col_hasmenu</xsl:text>
+										</xsl:if>
+									</xsl:attribute>
 									<xsl:if test="$isDebug=1">
 										<xsl:comment>row selection column</xsl:comment>
 									</xsl:if>

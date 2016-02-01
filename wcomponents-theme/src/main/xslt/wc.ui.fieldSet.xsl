@@ -6,6 +6,7 @@
 	<xsl:import href="wc.common.required.xsl"/>
 	<xsl:import href="wc.common.accessKey.xsl"/>
 	<xsl:import href="wc.common.offscreenSpan.xsl"/>
+	<xsl:import href="wc.common.n.className.xsl"/>
 	<!--
 		Transform for ui:fieldSet which is the XML output of WFieldSet.
 
@@ -51,7 +52,7 @@
 				<xsl:value-of select="@id"/>
 			</xsl:attribute>
 			<xsl:attribute name="class">
-				<xsl:text>fieldSet</xsl:text>
+				<xsl:call-template name="commonClassHelper"/>
 				<xsl:if test="$frame='noborder' or $frame='none'">
 					<xsl:text> noborder</xsl:text>
 				</xsl:if>
@@ -60,9 +61,6 @@
 				</xsl:if>
 				<xsl:if test="@required">
 					<xsl:text> wc_req</xsl:text>
-				</xsl:if>
-				<xsl:if test="@class">
-					<xsl:value-of select="concat(' ', @class)"/>
 				</xsl:if>
 			</xsl:attribute>
 			<xsl:apply-templates select="ui:margin"/>

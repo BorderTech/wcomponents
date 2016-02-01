@@ -1,0 +1,8 @@
+/* wc.ui.row.ie10.scss */
+@import 'mixins_common.scss';
+
+.row > div {
+	@include border-box;
+	display: inline-block; // with implied width auto
+	vertical-align: top;
+}

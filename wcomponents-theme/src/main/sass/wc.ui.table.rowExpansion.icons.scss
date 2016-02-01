@@ -12,14 +12,6 @@ tr[role='row'] {
 		&[aria-disabled='true'] {
 			background-image: url('../images/next-d.png');
 		}
-
-		&[aria-pressed='true'] {
-			background-image: url('../images/down.png');
-
-			&[aria-disabled='true'] {
-				background-image: url('../images/down-d.png');
-			}
-		}
 	}
 
 	&[aria-expanded='true'] {

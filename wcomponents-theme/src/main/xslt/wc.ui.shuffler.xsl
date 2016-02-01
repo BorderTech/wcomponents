@@ -9,6 +9,7 @@
 	<xsl:import href="wc.common.missingLabel.xsl"/>
 	<xsl:import href="wc.common.title.xsl"/>
 	<xsl:import href="wc.common.makeLegend.xsl"/>
+	<xsl:import href="wc.common.n.className.xsl"/>
 	<!--
 		WShuffler is a component designed to allow a fixed list of options to have their order changed.
 
@@ -29,10 +30,8 @@
 					</xsl:attribute>
 					<xsl:call-template name="title"/>
 					<xsl:attribute name="class">
-						<xsl:text>shuffler wc_list_nb</xsl:text>
-						<xsl:if test="@class">
-							<xsl:value-of select="concat(' ', @class)"/>
-						</xsl:if>
+						<xsl:call-template name="commonClassHelper"/>
+						<xsl:text> wc_list_nb</xsl:text>
 					</xsl:attribute>
 					<xsl:if test="$myLabel">
 						<xsl:attribute name="aria-labelledby">
