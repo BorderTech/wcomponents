@@ -24,8 +24,10 @@ import com.github.bordertech.wcomponents.WTableColumn;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WTextField;
 import com.github.bordertech.wcomponents.examples.table.PersonBean.TravelDoc;
+import com.github.bordertech.wcomponents.subordinate.And;
 import com.github.bordertech.wcomponents.subordinate.Equal;
 import com.github.bordertech.wcomponents.subordinate.Hide;
+import com.github.bordertech.wcomponents.subordinate.NotEqual;
 import com.github.bordertech.wcomponents.subordinate.Rule;
 import com.github.bordertech.wcomponents.subordinate.Show;
 import com.github.bordertech.wcomponents.subordinate.WSubordinateControl;
@@ -148,6 +150,11 @@ public class WTableOptionsExample extends WBeanContainer {
 	private final WTextField tfCaption = new WTextField();
 
 	/**
+	 * Sub row select toggle.
+	 */
+	private final WCheckBox cbToggleSubRowSelection = new WCheckBox();
+
+	/**
 	 * Construct the example.
 	 */
 	public WTableOptionsExample() {
@@ -176,14 +183,34 @@ public class WTableOptionsExample extends WBeanContainer {
 		layout.setLabelWidth(30);
 
 		layout.addField("Select Mode", rbsSelect);
-		layout.addField("Select All Type", rbsSelectAll);
+		WField fieldSelectAll = layout.addField("Select All Type", rbsSelectAll);
 		layout.addField("Expand Mode", rbsExpand);
 		layout.addField("Paging Mode", rbsPaging);
 		layout.addField("Striping Type", rbsStriping);
 		layout.addField("Separator Type", rbsSeparator);
 		layout.addField("Sort Mode", rbsSorting);
 		layout.addField("Show col headers", showColHeaders);
-		layout.addField("Expand all", expandAll);
+		WField fieldExpandAll = layout.addField("Expand all", expandAll);
+		WField fieldToggleSubRowSelection = layout.addField("Parent row selection controls sub row selection", cbToggleSubRowSelection);
+
+		/* show and hide the row selection sub-options */
+		WSubordinateControl subShowSelectOptions = new WSubordinateControl();
+		Rule rule = new Rule();
+		rule.setCondition(new Equal(rbsSelect, WTable.SelectMode.MULTIPLE));
+		rule.addActionOnTrue(new Show(fieldSelectAll));
+		rule.addActionOnFalse(new Hide(fieldSelectAll));
+		subShowSelectOptions.addRule(rule);
+		add(subShowSelectOptions);
+
+		/* show and hide the row expansion sub-options */
+		WSubordinateControl subShowExpandOptions = new WSubordinateControl();
+		rule = new Rule();
+		rule.setCondition(new Equal(rbsExpand, WTable.ExpandMode.NONE));
+		rule.addActionOnTrue(new Hide(fieldExpandAll));
+		rule.addActionOnFalse(new Show(fieldExpandAll));
+		subShowExpandOptions.addRule(rule);
+		add(subShowExpandOptions);
+
 		layout.addField("Editable", chbEditable);
 		layout.addField("Column order", columnOrder);
 		WField fieldRows = layout.addField("Rows per page", numRowsPerPage);
@@ -192,7 +219,7 @@ public class WTableOptionsExample extends WBeanContainer {
 		layout.addField("Caption", tfCaption);
 
 		WSubordinateControl pagRowsPerPage = new WSubordinateControl();
-		Rule rule = new Rule();
+		rule = new Rule();
 		rule.setCondition(new Equal(rbsPaging, WTable.PaginationMode.NONE));
 		rule.addActionOnTrue(new Hide(fieldRows));
 		rule.addActionOnTrue(new Hide(fieldRowsOptions));
@@ -202,6 +229,14 @@ public class WTableOptionsExample extends WBeanContainer {
 		rule.addActionOnFalse(new Show(fieldPaginationLocation));
 		pagRowsPerPage.addRule(rule);
 		add(pagRowsPerPage);
+
+		WSubordinateControl subToggler = new WSubordinateControl();
+		rule = new Rule();
+		rule.setCondition(new And(new Equal(rbsSelect, WTable.SelectMode.MULTIPLE), new NotEqual(rbsExpand, WTable.ExpandMode.NONE)));
+		rule.addActionOnTrue(new Show(fieldToggleSubRowSelection));
+		rule.addActionOnFalse(new Hide(fieldToggleSubRowSelection));
+		subToggler.addRule(rule);
+		add(subToggler);
 
 		// Apply Button
 		WButton apply = new WButton("Apply");
@@ -448,6 +483,10 @@ public class WTableOptionsExample extends WBeanContainer {
 		table.setShowColumnHeaders(showColHeaders.isSelected());
 		table.setExpandAll(expandAll.isSelected());
 		table.setEditable(chbEditable.isSelected());
+		table.setToggleSubRowSelection(table.getType() == WTable.Type.HIERARCHIC &&
+				cbToggleSubRowSelection.isSelected() &&
+				rbsExpand.getSelected() != WTable.ExpandMode.NONE &&
+				rbsSelect.getSelected() == WTable.SelectMode.MULTIPLE);
 
 		// Caption
 		if(null != tfCaption.getText()) {

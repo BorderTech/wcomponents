@@ -1,0 +1,11 @@
+/* wc.ui.table.rowSelection.pattern_ff.scss */
+.wc_table_sel_wrapper {
+	[role='menubar'] .submenu > button {
+		top: 6px;
+
+		&::after {
+			background-position: 50% 0;
+			vertical-align: top;
+		}
+	}
+}

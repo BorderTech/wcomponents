@@ -39,6 +39,8 @@
 		This is the phase where we replace properties etc.
 		Most importantly, this also allows the implementation files to overwrite the core files
 		of the same name so the rest of the build script doesn't need to worry about that.
+
+		NOTE: we are copying some externals here so that they are available when building the layer wc/common.
 	-->
 	<target name="copySrc">
 		<!-- Note, this is done in two "copy" steps to work around ANT bugs -->
@@ -51,6 +53,11 @@
 				<include name="domReady.js"/>
 				<include name="sniff.js"/>
 				<include name="has.js"/>
+			</fileset>
+		</copy>
+		<copy todir="${lib.tmp.src.dir}/mustache" overwrite="true">
+			<fileset dir="${basedir}/node_modules/mustache" includes="**/*.js">
+				<exclude name="*wrappers*"/>
 			</fileset>
 		</copy>
 		<!-- main js -->
@@ -69,9 +76,9 @@
 		</copy>
 
 		<!-- i18n -->
-<!--		<copy todir="${script.tmp.src.dir}/i18n" overwrite="true">
+		<copy todir="${script.tmp.src.dir}/wc/i18n" overwrite="true">
 			<fileset dir="${i18n.build.target.dir}" includes="*.js"/>
-		</copy>-->
+		</copy>
 
 		<!-- default plugins js -->
 		<copy todir="${script.tmp.src.dir}/${plugins.target.dir.name}" overwrite="true">
@@ -200,6 +207,10 @@
 		<stopwatch name="optimizeJS" action="total"/>
 	</target>
 
+	<!--
+	Why are some of the paths "empty:"? They are used in debug mode (therefore never need to be added to the layer) or
+	are polyfills which should never be added to the layer.
+	-->
 	<macrodef name="writeRjsConfig">
 		<attribute name="optimizer"/>
 		<sequential>
@@ -214,7 +225,15 @@
 	dir: "${optimized.script.tmp.src.dir.unix}",
 	modules: [{
 		name: "wc/common"
-	}]
+	}],
+	paths: {
+		tinyMCE: "lib/tinymce/tinymce.min",
+		Promise: "empty:",
+		fabric: "lib/fabric",
+		Mustache: "lib/mustache/mustache.min",
+		axs: "empty:",
+		axe: "empty:"
+		}
 })
 			</echo>
 		</sequential>

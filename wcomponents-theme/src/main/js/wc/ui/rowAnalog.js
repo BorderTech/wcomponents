@@ -6,10 +6,18 @@
  * @requires module:wc/dom/initialise
  * @requires module:wc/dom/Widget
  */
-define(["wc/dom/ariaAnalog", "wc/dom/initialise", "wc/dom/Widget"],
+define(["wc/dom/ariaAnalog", "wc/dom/initialise", "wc/dom/Widget", "wc/ui/selectToggle"],
 	/** @param ariaAnalog wc/dom/ariaAnalog @param initialise wc/dom/initialise @param Widget wc/dom/Widget @ignore */
 	function(ariaAnalog, initialise, Widget) {
 		"use strict";
+
+		/*
+		 * Unused dependencies
+		 * The table row selection Select All/None control(s) and sub-row toggle controls both require selectToggle
+		 * but row itself does not use it. This saves us another expensive lookup in XSLT for a quite small module.
+		 * @returns {rowAnalog_L11.RowAnalog}
+		 */
+
 		/**
 		 * @constructor
 		 * @alias module:wc/ui/RowAnalog~RowAnalog

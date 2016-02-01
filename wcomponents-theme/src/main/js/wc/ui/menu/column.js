@@ -51,11 +51,12 @@ define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "
 			 * @function
 			 * @protected
 			 * @override
-			 * @param {Element} element The menu item which has focus.
+			 * @param {Element} _element The menu item which has focus.
 			 */
-			this._remapKeys = function(element) {
+			this._remapKeys = function(_element) {
+				var element = _element;
 				if (this._isBranchOrOpener(element)) {
-					element = this._getBranch(element);
+					element = this._getBranchExpandableElement(element);
 					if (!shed.isExpanded(element)) {
 						this._keyMap["DOM_VK_RIGHT"] = this._FUNC_MAP.ACTION;
 					}

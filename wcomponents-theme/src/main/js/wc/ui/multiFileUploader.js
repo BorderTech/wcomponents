@@ -259,17 +259,15 @@ define(["wc/dom/attribute",
 							if (message) {
 								showMessage(message);
 							}
-							else {
-								if (!accepted(testObj)) {
-									message = i18n.get("${wc.ui.multiFileUploader.i18n.wrongtype}", element.accept);
-									showMessage(message);
-								}
-								else if (inputElementWd.isOneOfMe(element)) {
-									commenceUpload({
-										element: element,
-										files: files
-									});
-								}
+							else if (!accepted(testObj)) {
+								message = i18n.get("${wc.ui.multiFileUploader.i18n.wrongtype}", element.accept);
+								showMessage(message);
+							}
+							else if (inputElementWd.isOneOfMe(element)) {
+								commenceUpload({
+									element: element,
+									files: files
+								});
 							}
 						}
 						finally {
@@ -947,7 +945,12 @@ define(["wc/dom/attribute",
 					onAbort = abortHandlerFactory(fileId);
 				formData.append("wc_target", uploadName);
 				formData.append("wc_fileid", fileId);
-				formData.append(uploadName, file);
+				/*
+				 * On the line below we specify the file name because some browsers do not support the File constructor.
+				 * In this case the file object is actually a Blob with the same duck type as a File.
+				 * The name, however, is a readonly property of blob and while we may appear to have overridden the value we probably haven't.
+				 */
+				formData.append(uploadName, file, file.name);
 
 				request = {
 					url: uri,

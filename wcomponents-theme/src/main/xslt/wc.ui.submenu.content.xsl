@@ -1,4 +1,5 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+	<xsl:import href="wc.constants.xsl"/>
 	<!--
 		This is the transform of the content of a submenu. The template creates a 
 		wrapper element and sets up several attributes which control its behaviour, 
@@ -6,6 +7,7 @@
 	-->
 	<xsl:template match="ui:content" mode="submenu">
 		<xsl:param name="open" select="0"/>
+		<xsl:param name="type"/>
 		<xsl:variable name="mode" select="../@mode"/>
 		
 		<xsl:variable name="isAjaxMode">
@@ -47,7 +49,7 @@
 			</xsl:if>
 			<xsl:attribute name="role">
 				<xsl:choose>
-					<xsl:when test="ancestor::ui:menu[1]/@type='tree'">
+					<xsl:when test="$type='tree'">
 						<xsl:text>group</xsl:text>
 					</xsl:when>
 					<xsl:otherwise>
@@ -55,6 +57,26 @@
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:attribute>
+			<xsl:if test="not($type='tree')">
+				<xsl:attribute name="aria-expanded">
+					<xsl:choose>
+						<xsl:when test="$open=1">
+							<xsl:copy-of select="$t"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:text>false</xsl:text>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:attribute>
+				<xsl:if test="not(*)">
+					<!-- make a dummy menu item.
+						Why?
+						We have to keep the menu role on the content wrapper to make the menu function but role menu
+						must have at least one descendant role menuitem[(?:radio)|(?:checkbox)]?
+					-->
+					<span role="menuitem" class="wc_menuitem_dummy" hidden="hidden"></span>
+				</xsl:if>
+			</xsl:if>
 			<xsl:apply-templates select="*"/>
 		</xsl:element>
 	</xsl:template>
