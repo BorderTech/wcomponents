@@ -50,7 +50,6 @@ define(["wc/dom/classList",
 				UNIT = "px",
 				repositionTimer,
 				notMobile = !has("device-mobile"),
-				FORM,
 				REJECT = {
 					ALREADY_OPEN: "Cannot open a dialog whilst another dialog is open",
 					CANNOT_BUILD: "Cannot create the dialog frame",
@@ -97,10 +96,7 @@ define(["wc/dom/classList",
 					else if ((formId = candidate.form)) {
 						return document.getElementById(formId);
 					}
-					else {
-						FORM = FORM || new Widget("form");
-						return FORM.getAncestor(candidate);
-					}
+					return FORM.getAncestor(candidate);
 				}
 				else { // no clue to the form get the last form in the view
 					forms = document.getElementsByTagName("form");

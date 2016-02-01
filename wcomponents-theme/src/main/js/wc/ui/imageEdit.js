@@ -233,8 +233,7 @@ function(has, event, uid, classList, timers, loader, i18n, fabric, Mustache, dia
 		 * @param {Element} img An image element.
 		 */
 		function renderImage(img) {
-			var overlay,
-				width = fbCanvas.getWidth(),
+			var width = fbCanvas.getWidth(),
 				height = fbCanvas.getHeight(),
 				imageWidth, imageHeight;
 			fbImage = new fabric.Image(img);
@@ -255,7 +254,6 @@ function(has, event, uid, classList, timers, loader, i18n, fabric, Mustache, dia
 			else {
 				fbImage.scaleToHeight(height).setCoords();
 			}
-			overlay = fbCanvas.overlayImage;
 			stateStack.length = 0;
 			fbCanvas.clear();
 			fbCanvas.add(fbImage);
@@ -601,7 +599,7 @@ function(has, event, uid, classList, timers, loader, i18n, fabric, Mustache, dia
 		/*
 		 * Wires up the "cancel" feature.
 		 */
-		function cancelControl(eventConfig, editor, callbacks, file) {
+		function cancelControl(eventConfig, editor, callbacks/* , file */) {
 			var click = eventConfig.click;
 			click.cancel = {
 				func: saveImage.bind(null, editor, callbacks, true)
