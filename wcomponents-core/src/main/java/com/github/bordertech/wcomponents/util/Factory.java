@@ -42,7 +42,7 @@ public final class Factory {
 	 * Given an interface, instantiate a class implementing that interface.
 	 *
 	 * The classname to instantiate is obtained by looking in the runtime {@link Config configuration}, under the
-	 * factory.impl.&lt;interface name&gt; key.
+	 * bordertech.wcomponents.factory.impl.&lt;interface name&gt; key.
 	 *
 	 * @param <T> the interface type.
 	 * @param interfaz the interface to instantiate an implementation for.

@@ -5,15 +5,11 @@ import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.UIContextHolder;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WTemplate;
-import static com.github.bordertech.wcomponents.render.webxml.VelocityRenderer.LIST_SUFFIX;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.template.TemplateRenderer;
 import com.github.bordertech.wcomponents.template.TemplateRendererFactory;
-import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.Util;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -40,91 +36,55 @@ final class WTemplateRenderer extends AbstractWebXmlRenderer {
 		fillContext(template, context, componentsByKey);
 
 		// Get template renderer
-		String templateName = template.getTemplateName();
-		String engine = template.getTemplateEngineClassName();
+		String engine = template.getEngineName();
 		if (Util.empty(engine)) {
-			engine = TemplateRendererFactory.DEFAULT_FACTORY;
+			engine = TemplateRendererFactory.DEFAULT_ENGINE_NAME;
 		}
 		TemplateRenderer templateRenderer = TemplateRendererFactory.newInstance(engine);
 
-		// Render the template
-		templateRenderer.render(templateName, context, componentsByKey, renderContext.getWriter(), true);
+		// Render
+		if (!Util.empty(template.getTemplateName())) {
+			// Render the template
+			templateRenderer.renderTemplate(template.getTemplateName(), context, componentsByKey, renderContext.getWriter(), template.getEngineOptions());
+		} else if (!Util.empty(template.getInlineTemplate())) {
+			// Render inline
+			templateRenderer.renderInline(template.getInlineTemplate(), context, componentsByKey, renderContext.getWriter(), template.getEngineOptions());
+		}
 	}
 
 	/**
-	 * Fills the given velocity context with data from the component which is being rendered. A map of components is
-	 * also built up, in order to support deferred rendering.
+	 * Fills the given context with data from the component which is being rendered. A map of components is also built
+	 * up, in order to support deferred rendering.
 	 *
 	 * @param component the current component being rendered.
-	 * @param context the velocity context to modify.
+	 * @param context the context to modify.
 	 * @param componentsByKey a map to store components for deferred rendering.
 	 */
-	private void fillContext(final WTemplate component,
+	protected void fillContext(final WTemplate component,
 			final Map<String, Object> context, final Map<String, WComponent> componentsByKey) {
 
-		// Also make the component available under the "this" key.
-		context.put("this", component);
+		// Make the component available under the "this" key.
+		context.put("wc", component);
 
-		// Make the UIContext available under the "uicontext" key.
+		// Make the UIContext available under the "uic" key.
 		UIContext uic = UIContextHolder.getCurrent();
-		context.put("uicontext", uic);
 		context.put("uic", uic);
 
 		// Load any extra parameters
 		context.putAll(component.getParameters());
 
-		// As well as going into their own named slots, visible children are also
-		// placed into a list called children
-		ArrayList<String> children = new ArrayList<>();
-
 		Map<WComponent, String> tags = component.getTaggedComponents();
 
+		// Replace each component tag with the key so it can be used in the replace writer
 		for (WComponent child : component.getChildren()) {
 			String tag = tags.get(child);
 
-			// The key needs to be something which would never be output by a Velocity template.
+			// The key needs to be something which would never be output by a Template.
 			String key = "<TemplateLayout" + child.getId() + "/>";
 			componentsByKey.put(key, child);
-
-			addToContext(context, tag, key);
-
-			if (child.isVisible()) {
-				children.add(key);
-			}
+			context.put(tag, key);
 		}
-		context.put("children", children);
 
-		// Put the context in the context
 		context.put("context", context);
 	}
-
-	/**
-	 * Adds a name/value pair to the Velocity context. If the name parameter ends with {@link #LIST_SUFFIX}
-	 *
-	 * @param context the context to add to.
-	 * @param name the name
-	 * @param value the value
-	 */
-	private void addToContext(final Map<String, Object> context, final String name, final Object value) {
-		if (name.endsWith(LIST_SUFFIX)) {
-			// We want to use lists
-			Object already = context.get(name);
-			if (already != null && !(already instanceof List)) {
-				throw new SystemException(
-						"VelocityContext contained " + already + " instead of List under " + name);
-			}
-
-			List list = (List) context.get(name);
-
-			if (list == null) {
-				list = new ArrayList();
-				context.put(name, list);
-			}
-
-			list.add(value);
-		} else {
-			context.put(name, value);
-		}
-	}
-
 }

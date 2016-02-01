@@ -1,22 +1,18 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.github.bordertech.wcomponents.template;
 
 import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.UIContextHolder;
 import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.util.Config;
 import com.github.bordertech.wcomponents.util.SystemException;
-import com.github.bordertech.wcomponents.velocity.VelocityEngineFactory;
-import java.io.PrintWriter;
 import java.io.Writer;
 import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
+import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.runtime.RuntimeConstants;
 
 /**
  *
@@ -29,47 +25,121 @@ public class VelocityRendererImpl implements TemplateRenderer {
 	 */
 	private static final Log LOG = LogFactory.getLog(VelocityRendererImpl.class);
 
-	@Override
-	public void render(final String templateName, final Map<String, Object> context, final Map<String, WComponent> componentsByKey, final PrintWriter writer, final boolean debugLayout) {
-
-		if (debugLayout) {
-			writer.println("<!-- Start " + templateName + " -->");
-			renderTemplate(templateName, context, componentsByKey, writer);
-			writer.println("<!-- End   " + templateName + " -->");
-		} else {
-			renderTemplate(templateName, context, componentsByKey, writer);
-		}
-	}
+	/**
+	 * The singleton VelocityEngine instance associated with this factory.
+	 */
+	private static VelocityEngine engine;
 
 	/**
-	 * Paints the component in XML using the Velocity Template.
-	 *
-	 * @param component the component to paint.
-	 * @param writer the writer to send the HTML output to.
+	 * {@inheritDoc}
 	 */
-	protected void renderTemplate(String templateName, Map<String, Object> componentContext, Map<String, WComponent> componentsByKey, Writer writer) {
-		LOG.debug("Rendering template " + templateName);
+	@Override
+	public void renderTemplate(final String templateName, final Map<String, Object> context, final Map<String, WComponent> componentsByKey, final Writer writer, final Map<String, Object> options) {
+
+		LOG.debug("Rendering velocity template [" + templateName + "].");
+
+		// Velocity uses a ClassLoader so dont use an absolute path.
+		String name = templateName.startsWith("/") ? templateName.substring(1) : templateName;
 
 		try {
 
 			// Load template
-			Template template = VelocityEngineFactory.getVelocityEngine().getTemplate(templateName);
+			Template template = getVelocityEngine().getTemplate(name);
 
 			// Setup context
 			VelocityContext velocityContext = new VelocityContext();
-			for (Map.Entry<String, Object> entry : componentContext.entrySet()) {
+			for (Map.Entry<String, Object> entry : context.entrySet()) {
 				velocityContext.put(entry.getKey(), entry.getValue());
 			}
 
-			// Apply template
+			// Write template
 			UIContext uic = UIContextHolder.getCurrent();
 			try (TemplateWriter velocityWriter = new TemplateWriter(writer, componentsByKey, uic)) {
 				template.merge(velocityContext, velocityWriter);
 			}
 
 		} catch (Exception e) {
-			throw new SystemException("Problems with velocity [" + templateName + "]. " + e.getMessage(), e);
+			throw new SystemException("Problems with velocity template [" + templateName + "]. " + e.getMessage(), e);
 		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void renderInline(final String templateInline, final Map<String, Object> context, final Map<String, WComponent> componentsByKey, final Writer writer, final Map<String, Object> options) {
+
+		LOG.debug("Rendering inline velocity template.");
+
+		try {
+
+			// Setup context
+			VelocityContext velocityContext = new VelocityContext();
+			for (Map.Entry<String, Object> entry : context.entrySet()) {
+				velocityContext.put(entry.getKey(), entry.getValue());
+			}
+
+			// Write inline template
+			UIContext uic = UIContextHolder.getCurrent();
+			try (TemplateWriter velocityWriter = new TemplateWriter(writer, componentsByKey, uic)) {
+				getVelocityEngine().evaluate(velocityContext, velocityWriter, templateInline, templateInline);
+			}
+
+		} catch (Exception e) {
+			throw new SystemException("Problems with inline velocity template." + e.getMessage(), e);
+		}
+	}
+
+	/**
+	 * <p>
+	 * Returns the VelocityEngine associated with this factory. If this is the first time we are using the engine,
+	 * create it and initialise it.</p>
+	 *
+	 * <p>
+	 * Note that velocity engines are hugely resource intensive, so we don't want too many of them. For the time being
+	 * we have a single instance stored as a static variable. This would only be a problem if the VelocityLayout class
+	 * ever wanted to use different engine configurations (unlikely).</p>
+	 *
+	 * @return the VelocityEngine associated with this factory.
+	 */
+	public static synchronized VelocityEngine getVelocityEngine() {
+		if (engine == null) {
+			VelocityEngine newEngine = new VelocityEngine();
+
+			// Class Loader
+			newEngine.addProperty("resource.loader", "class");
+			newEngine.addProperty("class.resource.loader.class",
+					"org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
+
+			// Caching
+			if (isCaching()) {
+				newEngine.addProperty("class.resource.loader.cache", "true");
+				newEngine.addProperty(RuntimeConstants.RESOURCE_MANAGER_CACHE_CLASS,
+						"com.github.bordertech.wcomponents.template.VelocityCacheImpl");
+			} else {
+				newEngine.addProperty("class.resource.loader.cache", "false");
+			}
+
+			// Logging
+			newEngine.addProperty(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS,
+					"com.github.bordertech.wcomponents.velocity.VelocityLogger");
+
+			try {
+				newEngine.init();
+			} catch (Exception ex) {
+				throw new SystemException("Failed to configure VelocityEngine", ex);
+			}
+			engine = newEngine;
+		}
+
+		return engine;
+	}
+
+	/**
+	 * @return true if use caching
+	 */
+	public static boolean isCaching() {
+		return Config.getInstance().getBoolean("bordertech.wcomponents.velocity.cache.enabled", Boolean.TRUE);
 	}
 
 }

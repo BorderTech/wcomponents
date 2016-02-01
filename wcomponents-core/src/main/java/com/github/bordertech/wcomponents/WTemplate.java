@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents;
 
+import com.github.bordertech.wcomponents.template.TemplateRendererFactory;
 import com.github.bordertech.wcomponents.util.Util;
 import java.util.Collections;
 import java.util.HashMap;
@@ -13,20 +14,42 @@ import java.util.Map;
 public class WTemplate extends WBeanComponent implements Container, NamingContextable {
 
 	/**
+	 * Construct WTemplate.
+	 */
+	public WTemplate() {
+	}
+
+	/**
 	 * @param templateName the template file name
 	 */
 	public WTemplate(final String templateName) {
+		this(templateName, (String) null);
+	}
+
+	/**
+	 * @param templateName the template file name
+	 * @param engine the template engine
+	 */
+	public WTemplate(final String templateName, final TemplateRendererFactory.TemplateEngine engine) {
+		this(templateName, engine.getEngineName());
+	}
+
+	/**
+	 * @param templateName the template file name
+	 * @param engineName the template engine
+	 */
+	public WTemplate(final String templateName, final String engineName) {
 		setTemplateName(templateName);
+		setEngineName(engineName);
 	}
 
 	/**
 	 * @param templateName the template file name
 	 */
 	public void setTemplateName(final String templateName) {
-		if (Util.empty(templateName)) {
-			throw new IllegalArgumentException("A template file name must be provded.");
-		}
-		getOrCreateComponentModel().templateName = templateName;
+		TemplateModel model = getOrCreateComponentModel();
+		model.templateName = templateName;
+		model.inlineTemplate = null;
 	}
 
 	/**
@@ -36,22 +59,53 @@ public class WTemplate extends WBeanComponent implements Container, NamingContex
 		return getComponentModel().templateName;
 	}
 
+	/**
+	 * @param inlineTemplate the inline template
+	 */
+	public void setInlineTemplate(final String inlineTemplate) {
+		TemplateModel model = getOrCreateComponentModel();
+		model.inlineTemplate = inlineTemplate;
+		model.templateName = null;
+	}
+
+	/**
+	 * @return the inline template
+	 */
+	public String getInlineTemplate() {
+		return getComponentModel().inlineTemplate;
+	}
+
+	/**
+	 * @param component the component to add
+	 * @param tag the tag for this component in the template
+	 */
 	public void addTagged(final WComponent component, final String tag) {
 		if (component == null) {
-			throw new IllegalArgumentException("A component must be provided");
+			throw new IllegalArgumentException("A component must be provided.");
 		}
 		if (Util.empty(tag)) {
-			throw new IllegalArgumentException("A tag must be provided");
+			throw new IllegalArgumentException("A tag must be provided.");
 		}
 
 		TemplateModel model = getOrCreateComponentModel();
 		if (model.componentTags == null) {
 			model.componentTags = new HashMap<>();
+		} else {
+			if (model.componentTags.containsKey(component)) {
+				throw new IllegalArgumentException("Component has already been added.");
+			}
+			if (model.componentTags.containsValue(tag)) {
+				throw new IllegalArgumentException("The tag [" + tag + "] has already been added.");
+			}
 		}
 		model.componentTags.put(component, tag);
 		add(component);
 	}
 
+	/**
+	 *
+	 * @param component the tagged component to remove
+	 */
 	public void removeTagged(final WComponent component) {
 		TemplateModel model = getOrCreateComponentModel();
 		if (model.componentTags != null) {
@@ -63,12 +117,19 @@ public class WTemplate extends WBeanComponent implements Container, NamingContex
 		remove(component);
 	}
 
+	/**
+	 * Remove all tagged components.
+	 */
 	public void removeAllTagged() {
 		TemplateModel model = getOrCreateComponentModel();
 		model.componentTags = null;
 		removeAll();
 	}
 
+	/**
+	 *
+	 * @return the list of tagged components
+	 */
 	public Map<WComponent, String> getTaggedComponents() {
 		Map<WComponent, String> tagged = getComponentModel().componentTags;
 		if (tagged == null) {
@@ -78,6 +139,11 @@ public class WTemplate extends WBeanComponent implements Container, NamingContex
 		}
 	}
 
+	/**
+	 *
+	 * @param tag the tag for the parameter
+	 * @param value the value for the parameter
+	 */
 	public void addParameter(final String tag, final Object value) {
 		if (Util.empty(tag)) {
 			throw new IllegalArgumentException("A tag must be provided");
@@ -90,6 +156,10 @@ public class WTemplate extends WBeanComponent implements Container, NamingContex
 		model.parameters.put(tag, value);
 	}
 
+	/**
+	 *
+	 * @param tag the tag of the parameter to remove
+	 */
 	public void removeParamter(final String tag) {
 		TemplateModel model = getOrCreateComponentModel();
 		if (model.parameters != null) {
@@ -100,12 +170,19 @@ public class WTemplate extends WBeanComponent implements Container, NamingContex
 		}
 	}
 
+	/**
+	 * Remove all parameters.
+	 */
 	public void removeAllParamters() {
 		TemplateModel model = getOrCreateComponentModel();
 		model.parameters = null;
 		removeAll();
 	}
 
+	/**
+	 *
+	 * @return a list of the parameters
+	 */
 	public Map<String, Object> getParameters() {
 		Map<String, Object> params = getComponentModel().parameters;
 		if (params == null) {
@@ -118,17 +195,59 @@ public class WTemplate extends WBeanComponent implements Container, NamingContex
 	/**
 	 * Can override the default template engine.
 	 *
-	 * @param templateEngineClassName the template engine class name
+	 * @param templateEngine the template engine
 	 */
-	public void setTemplateEngineClassName(final String templateEngineClassName) {
-		getOrCreateComponentModel().templateEngineClassName = templateEngineClassName;
+	public void setEngineName(final TemplateRendererFactory.TemplateEngine templateEngine) {
+		setEngineName(templateEngine.getEngineName());
+	}
+
+	/**
+	 * Can override the default template engine.
+	 *
+	 * @param engineName the template engine class name
+	 */
+	public void setEngineName(final String engineName) {
+		getOrCreateComponentModel().engineName = engineName;
 	}
 
 	/**
 	 * @return the template engine class name
 	 */
-	public String getTemplateEngineClassName() {
-		return getComponentModel().templateEngineClassName;
+	public String getEngineName() {
+		return getComponentModel().engineName;
+	}
+
+	public void addEngineOption(final String key, final Object value) {
+		TemplateModel model = getComponentModel();
+		if (model.engineOptions == null) {
+			model.engineOptions = new HashMap<>();
+		}
+		model.engineOptions.put(key, value);
+	}
+
+	public void removeEngineOption(final String key) {
+		TemplateModel model = getComponentModel();
+		if (model.engineOptions != null) {
+			model.engineOptions.remove(key);
+		}
+	}
+
+	public void removeAllEngineOptions() {
+		TemplateModel model = getComponentModel();
+		model.engineOptions = null;
+	}
+
+	public void setEngineOptions(final Map<String, Object> engineOptions) {
+		getOrCreateComponentModel().engineOptions = engineOptions;
+	}
+
+	public Map<String, Object> getEngineOptions() {
+		TemplateModel model = getComponentModel();
+		if (model.engineOptions == null) {
+			return Collections.EMPTY_MAP;
+		} else {
+			return Collections.unmodifiableMap(model.engineOptions);
+		}
 	}
 
 	/**
@@ -227,9 +346,16 @@ public class WTemplate extends WBeanComponent implements Container, NamingContex
 		private String templateName;
 
 		/**
+		 * Inline template.
+		 */
+		private String inlineTemplate;
+
+		/**
 		 * Template engine class name.
 		 */
-		private String templateEngineClassName;
+		private String engineName;
+
+		private Map<String, Object> engineOptions;
 
 		/**
 		 * Map of component tags.

@@ -30,7 +30,7 @@ public class TemplateWriter extends AbstractSearchReplaceWriter {
 	private final UIContext uic;
 
 	/**
-	 * Creates a VelocityWriter.
+	 * Creates a TemplateWriter/.
 	 *
 	 * @param backing the underlying writer where output will be sent to.
 	 * @param componentsByKey a map of WComponents, keyed by a marker that will be output by the template.
