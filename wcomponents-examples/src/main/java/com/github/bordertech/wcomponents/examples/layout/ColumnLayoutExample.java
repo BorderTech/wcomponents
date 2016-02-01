@@ -144,8 +144,8 @@ public class ColumnLayoutExample extends WContainer {
 	private void addAppLevelCSSExample() {
 		String htmlClass = "my_local_class";
 		add(new WHeading(HeadingLevel.H2, "Automatic (app defined) widths"));
-		add(new ExplanatoryText("This example shows the use of a htmlClass and app-specific CSS (in this case inline) to style the columns.\n" +
-				"In this case the columns are: 20% and left, 50% and center, 30% and right; and the columns break to full width and are forced to left aligned at 1000px."));
+		add(new ExplanatoryText("This example shows the use of a htmlClass and app-specific CSS (in this case inline) to style the columns.\n"
+				+ "In this case the columns are: 20% and left, 50% and center, 30% and right; and the columns break to full width and are forced to left aligned at 1000px."));
 		WPanel panel = new WPanel();
 		panel.setHtmlClass(htmlClass);
 		panel.setLayout(new ColumnLayout(new int[]{0, 0, 0},
@@ -160,13 +160,19 @@ public class ColumnLayoutExample extends WContainer {
 
 		String rowSelector = "." + htmlClass + " > .columnLayout > .row"; // .columnLayout is the local name of ColumnLayout and is guranteed, row is now part of hte WComponents CSS API but _may_ change.
 		String columnSelector =  rowSelector + " > .cell";
-		String css = columnSelector + " {width: 20%}" +
-				columnSelector + ":first-child {width: 50%}" + // the first column in the layout
-				columnSelector + ":last-child {width: 30%;}" + // the last column in the layout
-				rowSelector +  " + .row {margin-top: 0.5em;}" + // sibling rows in the column layout
-				"@media only screen and (max-width: 1000px) {" + //when the screen goes below 100px wide
-				columnSelector + " {display: block; width: 100%; text-align: left;} " +
-				columnSelector + " + .cell {margin-top: 0.25em;}}";
+		String css = columnSelector
+				+ " {width: 20%}"
+				+ columnSelector
+				+ ":first-child {width: 50%}" // the first column in the layout
+				+ columnSelector
+				+ ":last-child {width: 30%;}" // the last column in the layout
+				+ rowSelector
+				+  " + .row {margin-top: 0.5em;}"  // sibling rows in the column layout
+				+ "@media only screen and (max-width: 1000px) {"  //when the screen goes below 100px wide
+				+ columnSelector
+				+ " {display: block; width: 100%; text-align: left;} "
+				+ columnSelector
+				+ " + .cell {margin-top: 0.25em;}}";
 
 		WText cssText = new WText("<style type='text/css'>" + css + "</style>");
 		cssText.setEncodeText(false);
