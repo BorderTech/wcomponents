@@ -79,13 +79,11 @@ define(["wc/has", "wc/dom/cookie"],
 							result = cookie.read(key);
 						}
 					}
+					else if (hasLocalStorage) {
+						result = window.localStorage[key];
+					}
 					else {
-						if (hasLocalStorage) {
-							result = window.localStorage[key];
-						}
-						else {
-							result = cookie.read(key);
-						}
+						result = cookie.read(key);
 					}
 				}
 				return result;
