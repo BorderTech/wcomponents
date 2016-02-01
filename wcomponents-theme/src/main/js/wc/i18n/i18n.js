@@ -80,11 +80,10 @@ define(["lib/sprintf", "wc/array/toArray", "wc/array/unique", "module"],
 			 * @param {string[]} locales
 			 */
 			function addDefaultLocales(locales) {
-				var i, next, defaultLocales = [(navigator.language || navigator.browserLanguage)];
+				var i, next, defaultLocales = ["${default.i18n.locale}", (navigator.language || navigator.browserLanguage)];
 				if (navigator.languages) {
 					defaultLocales = defaultLocales.concat(navigator.languages);
 				}
-				defaultLocales.push("${default.i18n.locale}");  // adding this at the end gives priority to user specified settings
 				defaultLocales = unique(defaultLocales);
 				for (i = 0; i < defaultLocales.length; i++) {
 					next = defaultLocales[i];
