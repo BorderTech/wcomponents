@@ -14,7 +14,7 @@ import com.github.bordertech.wcomponents.WDataTable.PaginationMode;
 import com.github.bordertech.wcomponents.WDataTable.SelectMode;
 import com.github.bordertech.wcomponents.WRepeater;
 import com.github.bordertech.wcomponents.WTableColumn;
-import com.github.bordertech.wcomponents.layout.Alignment;
+import com.github.bordertech.wcomponents.layout.CellAlignment;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.I18nUtilities;
@@ -379,15 +379,15 @@ final class WDataTableRenderer extends AbstractWebXmlRenderer {
 			final WebXmlRenderContext renderContext) {
 		XmlStringBuilder xml = renderContext.getWriter();
 		int width = col.getWidth();
-		Alignment align = col.getAlign();
+		CellAlignment align = col.getCellAlignment();
 
 		xml.appendTagOpen("ui:th");
 		xml.appendOptionalAttribute("width", width > 0, width);
 		xml.appendOptionalAttribute("sortable", sortable, "true");
 
-		if (Alignment.RIGHT.equals(align)) {
+		if (CellAlignment.RIGHT.equals(align)) {
 			xml.appendAttribute("align", "right");
-		} else if (Alignment.CENTER.equals(align)) {
+		} else if (CellAlignment.CENTER.equals(align)) {
 			xml.appendAttribute("align", "center");
 		}
 

@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents;
 
-import com.github.bordertech.wcomponents.layout.Alignment;
+import com.github.bordertech.wcomponents.layout.CellAlignment;
 
 /**
  * WTableColumn represents a column in a {@link WDataTable}. It only holds configuration and state information relating
@@ -25,6 +25,64 @@ public final class WTableColumn extends AbstractContainer {
 	 * The table column heading, which may contain complex content.
 	 */
 	private final WDecoratedLabel label;
+
+	public enum Alignment {
+		/**
+		 * Indicates that content should be left-aligned. This is the default alignment.
+		 */
+		LEFT(CellAlignment.LEFT),
+		/**
+		 * Indicates that content should be horizontally centered in the column.
+		 */
+		CENTER(CellAlignment.CENTER),
+		/**
+		 * Indicates that content should be right-aligned.
+		 */
+		RIGHT(CellAlignment.RIGHT);
+
+		/**
+		 * Alignment constructor.
+		 *
+		 * @param cellAlignment the corresponding {@link CellAlignment}
+		 */
+		Alignment(final CellAlignment cellAlignment) {
+			this.cellAlignment = cellAlignment;
+		}
+
+		/**
+		 * The {@link CellAlignment} that corresponds to this {@link Alignment}.
+		 */
+		private final CellAlignment cellAlignment;
+
+		/**
+		 * Converts a {@link CellAlignment} to an {@link Alignment}.
+		 *
+		 * @param cellAlignment the {@link CellAlignment} to convert from.
+		 * @return alignment the converted {@link Alignment} value.
+		 */
+		private static Alignment fromCellAlignment(final CellAlignment cellAlignment) {
+
+			if (cellAlignment == null ) {
+				return null;
+			}
+
+			switch (cellAlignment) {
+				case LEFT: return Alignment.LEFT;
+				case CENTER: return Alignment.CENTER;
+				case RIGHT: return Alignment.RIGHT;
+				default: return null;
+			}
+		}
+
+		/**
+		 * Converts this {@link Alignment} to a {@link CellAlignment}.
+		 * @return the converted {@link CellAlignment} value.
+		 */
+		private CellAlignment toCellAlignment() {
+			return this.cellAlignment;
+		}
+
+	}
 
 	/**
 	 * Creates a WTableColumn.
@@ -125,7 +183,7 @@ public final class WTableColumn extends AbstractContainer {
 	 *
 	 * @return the column alignment
 	 */
-	public Alignment getAlign() {
+	public CellAlignment getCellAlignment() {
 		return getComponentModel().align;
 	}
 
@@ -134,8 +192,30 @@ public final class WTableColumn extends AbstractContainer {
 	 *
 	 * @param align the column alignment.
 	 */
-	public void setAlign(final Alignment align) {
+	public void setCellAlignment(final CellAlignment align) {
 		getOrCreateComponentModel().align = align;
+	}
+
+	/**
+	 * Retrieves the column alignment.
+	 *
+	 * @return the column alignment
+	 *
+	 * @deprecated Use {@link WTableColumn#getCellAlignment() } instead.
+	 */
+	public Alignment getAlign() {
+		return Alignment.fromCellAlignment(getCellAlignment());
+	}
+
+	/**
+	 * Sets the column alignment.
+	 *
+	 * @param align the column alignment.
+	 *
+	 * @deprecated Use {@link WTableColumn#setCellAlignment(CellAlignment) } instead.
+	 */
+	public void setAlign(final Alignment align) {
+		setCellAlignment(align == null ? null : align.toCellAlignment());
 	}
 
 	/**
@@ -189,6 +269,6 @@ public final class WTableColumn extends AbstractContainer {
 	public static class WTableColumnModel extends ComponentModel {
 
 		private int width;
-		private Alignment align;
+		private CellAlignment align;
 	}
 }
