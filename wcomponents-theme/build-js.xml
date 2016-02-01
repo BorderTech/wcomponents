@@ -76,9 +76,9 @@
 		</copy>
 
 		<!-- i18n -->
-<!--		<copy todir="${script.tmp.src.dir}/i18n" overwrite="true">
+		<copy todir="${script.tmp.src.dir}/wc/i18n" overwrite="true">
 			<fileset dir="${i18n.build.target.dir}" includes="*.js"/>
-		</copy>-->
+		</copy>
 
 		<!-- default plugins js -->
 		<copy todir="${script.tmp.src.dir}/${plugins.target.dir.name}" overwrite="true">
