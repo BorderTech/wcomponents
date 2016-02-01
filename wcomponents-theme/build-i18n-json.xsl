@@ -2,9 +2,12 @@
 <!--
 	This transform takes an Java Properties XML file and creates a simple JSON object where each property
 	name is the key and value is the value.
+	
+	Note that this is not a true XML > JSON conversion because EVERY value is treated as a STRING no matter what type it may actually be.
 -->
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="xs" version="2.0">
-	<xsl:output method="text"/>
+	<xsl:output method="text" encoding="UTF-8" />
+	
 	<xsl:template match="/">
 		<xsl:text>{</xsl:text>
 		<xsl:apply-templates/>
@@ -31,6 +34,9 @@
 		</xsl:if>
 	</xsl:template>
 
+	<!--
+		Double quotes must be escaped with a backslash and therefore backslashes must also be escaped... first.
+	-->
 	<xsl:template name="escapeJson">
 		<xsl:param name="text"/>
 		<xsl:variable name="textNewline">
