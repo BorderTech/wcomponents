@@ -5,7 +5,7 @@ import com.github.bordertech.wcomponents.WHeading;
 import com.github.bordertech.wcomponents.WHorizontalRule;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WText;
-import com.github.bordertech.wcomponents.layout.Alignment;
+import com.github.bordertech.wcomponents.layout.CellAlignment;
 import com.github.bordertech.wcomponents.layout.ListLayout;
 
 /**
@@ -26,34 +26,34 @@ public class ListLayoutExample extends WContainer {
 	 */
 	public ListLayoutExample() {
 		addExample("Stacked, Left Align", new ListLayout(ListLayout.Type.STACKED,
-				Alignment.LEFT, ListLayout.Separator.NONE, false));
+				CellAlignment.LEFT, ListLayout.Separator.NONE, false));
 		addExample("Stacked, Center Align", new ListLayout(ListLayout.Type.STACKED,
-				Alignment.CENTER, ListLayout.Separator.NONE, false));
+				CellAlignment.CENTER, ListLayout.Separator.NONE, false));
 		addExample("Stacked, Right Align", new ListLayout(ListLayout.Type.STACKED,
-				Alignment.RIGHT, ListLayout.Separator.NONE, false));
+				CellAlignment.RIGHT, ListLayout.Separator.NONE, false));
 		addExample("Flat, Left Align", new ListLayout(ListLayout.Type.FLAT,
-				Alignment.LEFT, ListLayout.Separator.NONE, false));
+				CellAlignment.LEFT, ListLayout.Separator.NONE, false));
 		addExample("Flat, Center Align", new ListLayout(ListLayout.Type.FLAT,
-				Alignment.CENTER, ListLayout.Separator.NONE, false));
+				CellAlignment.CENTER, ListLayout.Separator.NONE, false));
 		addExample("Flat, Right Align", new ListLayout(ListLayout.Type.FLAT,
-				Alignment.RIGHT, ListLayout.Separator.NONE, false));
+				CellAlignment.RIGHT, ListLayout.Separator.NONE, false));
 		addExample("Striped, Left Align", new ListLayout(ListLayout.Type.STRIPED,
-				Alignment.LEFT, ListLayout.Separator.NONE, false));
+				CellAlignment.LEFT, ListLayout.Separator.NONE, false));
 		addExample("Striped, Center Align", new ListLayout(ListLayout.Type.STRIPED,
-				Alignment.CENTER, ListLayout.Separator.NONE, false));
+				CellAlignment.CENTER, ListLayout.Separator.NONE, false));
 		addExample("Striped, Right Align", new ListLayout(ListLayout.Type.STRIPED,
-				Alignment.RIGHT, ListLayout.Separator.NONE, false));
+				CellAlignment.RIGHT, ListLayout.Separator.NONE, false));
 		addExample("Stacked, Bar Separator", new ListLayout(ListLayout.Type.STACKED,
-				Alignment.LEFT, ListLayout.Separator.BAR, false));
+				CellAlignment.LEFT, ListLayout.Separator.BAR, false));
 		addExample("Stacked, Dot Separator", new ListLayout(ListLayout.Type.STACKED,
-				Alignment.LEFT, ListLayout.Separator.DOT, false));
+				CellAlignment.LEFT, ListLayout.Separator.DOT, false));
 		addExample("Flat, Bar Separator", new ListLayout(ListLayout.Type.FLAT,
-				Alignment.LEFT, ListLayout.Separator.BAR, false));
+				CellAlignment.LEFT, ListLayout.Separator.BAR, false));
 		addExample("Flat, Dot Separator", new ListLayout(ListLayout.Type.FLAT,
-				Alignment.LEFT, ListLayout.Separator.DOT, false));
+				CellAlignment.LEFT, ListLayout.Separator.DOT, false));
 		addExample("Stacked, vgap=12", new ListLayout(ListLayout.Type.STACKED,
-				Alignment.LEFT, ListLayout.Separator.NONE, false, 0, 12));
-		addExample("Flat, hgap=12", new ListLayout(ListLayout.Type.FLAT, Alignment.LEFT,
+				CellAlignment.LEFT, ListLayout.Separator.NONE, false, 0, 12));
+		addExample("Flat, hgap=12", new ListLayout(ListLayout.Type.FLAT, CellAlignment.LEFT,
 				ListLayout.Separator.NONE, false, 12, 0));
 	}
 

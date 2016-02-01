@@ -49,7 +49,7 @@ final class ListLayoutRenderer extends AbstractWebXmlRenderer {
 				throw new IllegalArgumentException("Invalid type: " + layout.getType());
 		}
 
-		switch (layout.getAlignment()) {
+		switch (layout.getCellAlignment()) {
 			case LEFT:
 				// left is assumed if omitted
 				break;
@@ -63,7 +63,7 @@ final class ListLayoutRenderer extends AbstractWebXmlRenderer {
 				break;
 
 			default:
-				throw new IllegalArgumentException("Invalid alignment: " + layout.getAlignment());
+				throw new IllegalArgumentException("Invalid alignment: " + layout.getCellAlignment());
 		}
 
 		switch (layout.getSeparator()) {
