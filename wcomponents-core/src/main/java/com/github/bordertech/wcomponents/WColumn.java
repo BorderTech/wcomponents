@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents;
 
-import com.github.bordertech.wcomponents.layout.Alignment;
+import com.github.bordertech.wcomponents.layout.CellAlignment;
 
 /**
  * This is a layout component to be used in conjunction with WRow.
@@ -9,6 +9,69 @@ import com.github.bordertech.wcomponents.layout.Alignment;
  * @since 1.0.0
  */
 public class WColumn extends AbstractMutableContainer implements AjaxTarget {
+
+	/**
+	 * Describes how content within a column should be aligned.
+	 *
+	 * @deprecated Use {@link CellAlignment} instead.
+	 */
+	public enum Alignment {
+		/**
+		 * Indicates that content should be left-aligned. This is the default alignment.
+		 */
+		LEFT(CellAlignment.LEFT),
+		/**
+		 * Indicates that content should be horizontally centered in the column.
+		 */
+		CENTER(CellAlignment.CENTER),
+		/**
+		 * Indicates that content should be right-aligned.
+		 */
+		RIGHT(CellAlignment.RIGHT);
+
+		/**
+		 * Alignment constructor.
+		 *
+		 * @param cellAlignment the {@link CellAlignment} corresponding to this {@link Alignment}.
+		 */
+		Alignment(final CellAlignment cellAlignment) {
+			this.cellAlignment = cellAlignment;
+		}
+
+		/**
+		 * The {@link CellAlignment} that corresponds to this {@link Alignment}.
+		 */
+		private final CellAlignment cellAlignment;
+
+		/**
+		 * Converts a {@link CellAlignment} to an {@link Alignment}.
+		 *
+		 * @param cellAlignment the {@link CellAlignment} to convert from.
+		 * @return alignment the converted {@link Alignment} value.
+		 */
+		private static Alignment fromCellAlignment(final CellAlignment cellAlignment) {
+
+			if (cellAlignment == null) {
+				return null;
+			}
+
+			switch (cellAlignment) {
+				case LEFT: return Alignment.LEFT;
+				case CENTER: return Alignment.CENTER;
+				case RIGHT: return Alignment.RIGHT;
+				default: return null;
+			}
+		}
+
+		/**
+		 * Converts this {@link Alignment} to a {@link CellAlignment}.
+		 * @return the converted {@link CellAlignment} value.
+		 */
+		private CellAlignment toCellAlignment() {
+			return this.cellAlignment;
+		}
+
+	}
 
 	/**
 	 * Creates a WColumn with 1% width.
@@ -52,15 +115,33 @@ public class WColumn extends AbstractMutableContainer implements AjaxTarget {
 	/**
 	 * @return Returns the alignment.
 	 */
-	public Alignment getAlignment() {
+	public CellAlignment getCellAlignment() {
 		return getComponentModel().alignment;
+	}
+
+	/**
+	 * @return Returns the alignment.
+	 *
+	 * @deprecated Use {@link WColumn#getCellAlignment() } instead.
+	 */
+	public Alignment getAlignment() {
+		return Alignment.fromCellAlignment(getCellAlignment());
 	}
 
 	/**
 	 * @param alignment The alignment to set.
 	 */
+	public void setCellAlignment(final CellAlignment alignment) {
+		getOrCreateComponentModel().alignment = alignment == null ? CellAlignment.LEFT : alignment;
+	}
+
+	/**
+	 * @param alignment The alignment to set.
+	 *
+	 * @deprecated Use {@link WColumn#setCellAlignment(CellAlignment) } instead.
+	 */
 	public void setAlignment(final Alignment alignment) {
-		getOrCreateComponentModel().alignment = alignment == null ? Alignment.LEFT : alignment;
+		setCellAlignment(alignment == null ? null : alignment.toCellAlignment());
 	}
 
 	/**
@@ -76,7 +157,7 @@ public class WColumn extends AbstractMutableContainer implements AjaxTarget {
 		/**
 		 * The alignment of content within the column.
 		 */
-		private Alignment alignment = Alignment.LEFT;
+		private CellAlignment alignment = CellAlignment.LEFT;
 	}
 
 	/**

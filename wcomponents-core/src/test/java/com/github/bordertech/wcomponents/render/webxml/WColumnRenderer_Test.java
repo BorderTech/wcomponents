@@ -47,15 +47,15 @@ public class WColumnRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo("100", "//ui:column/@width", row);
 		assertXpathNotExists("//ui:column/@align", row);
 
-		column.setAlignment(CellAlignment.LEFT);
+		column.setCellAlignment(CellAlignment.LEFT);
 		assertSchemaMatch(row);
 		assertXpathNotExists("//ui:column/@align", row);
 
-		column.setAlignment(CellAlignment.CENTER);
+		column.setCellAlignment(CellAlignment.CENTER);
 		assertSchemaMatch(row);
 		assertXpathEvaluatesTo("center", "//ui:column/@align", row);
 
-		column.setAlignment(CellAlignment.RIGHT);
+		column.setCellAlignment(CellAlignment.RIGHT);
 		assertSchemaMatch(row);
 		assertXpathEvaluatesTo("right", "//ui:column/@align", row);
 	}
