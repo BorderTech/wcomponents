@@ -26,6 +26,12 @@ public final class WTableColumn extends AbstractContainer {
 	 */
 	private final WDecoratedLabel label;
 
+	/**
+	 * An enumeration of possible values for horizontal alignment of column content.
+	 *
+	 * @deprecated Use {@link com.github.bordertech.wcomponents.layout.CellAlignment}
+	 *             instead of {@link com.github.bordertech.wcomponents.WTableColumn.Alignment}.
+	 */
 	public enum Alignment {
 		/**
 		 * Indicates that content should be left-aligned. This is the default alignment.
@@ -62,7 +68,7 @@ public final class WTableColumn extends AbstractContainer {
 		 */
 		private static Alignment fromCellAlignment(final CellAlignment cellAlignment) {
 
-			if (cellAlignment == null ) {
+			if (cellAlignment == null) {
 				return null;
 			}
 
