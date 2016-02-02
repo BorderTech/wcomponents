@@ -96,7 +96,7 @@ define(["wc/dom/classList",
 					else if ((formId = candidate.form)) {
 						return document.getElementById(formId);
 					}
-					return FORM.getAncestor(candidate);
+					return FORM.findAncestor(candidate);
 				}
 				else { // no clue to the form get the last form in the view
 					forms = document.getElementsByTagName("form");
