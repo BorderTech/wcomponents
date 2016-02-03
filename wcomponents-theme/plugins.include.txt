@@ -1,1 +1,3 @@
-#To_include_a_plugin_remove_this_line_and_replace_it_with_an_ant_selector
+##To_include_a_plugin_remove_this_line_and_replace_it_with_an_ant_selector
+##For example to include the client validation plugin use:
+# validation/**
