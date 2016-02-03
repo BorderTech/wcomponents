@@ -163,7 +163,7 @@ define([
 						result = Widget.findDescendants(container, reqWidget);
 					}
 				}
-				if (result && result.length) {
+				if (result) {
 					result = Array.prototype.filter.call(result, _filter);
 				}
 				return result || [];
