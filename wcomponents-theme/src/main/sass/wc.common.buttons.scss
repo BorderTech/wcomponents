@@ -50,6 +50,10 @@ button {
 	&_link {
 		color: $wc-ui-color-link;
 		text-decoration: underline;
+
+		&.wc_btn_img {
+			text-decoration: none;
+		}
 	}
 }
 
@@ -61,4 +65,3 @@ button {
 		cursor: auto;
 	}
 }
-/* end wc.common.buttons.scss */

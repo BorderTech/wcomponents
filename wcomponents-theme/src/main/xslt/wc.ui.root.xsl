@@ -62,7 +62,7 @@
 					<xsl:text>require(["wc/compat/compat!"], function() {</xsl:text>
 					<xsl:text>require(["wc/loader/style", "wc/dom/removeElement"</xsl:text>
 					<xsl:if test="$isDebug=1">
-						<xsl:text>,"wc/debug/consoleColor", "wc/debug/a11y"</xsl:text>
+						<xsl:text>,"wc/debug/consoleColor", "wc/debug/a11y", "wc/debug/indicator"</xsl:text>
 					</xsl:if>
 					<xsl:text>], function(s, r){try{s.load();}finally{r("</xsl:text>
 					<xsl:value-of select="$styleLoaderId"/>
