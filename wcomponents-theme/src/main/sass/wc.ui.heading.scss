@@ -12,6 +12,19 @@ h6 {
 	margin: $vgap-normal 0;
 }
 
+h1,
+h2,
+h3,
+h4 {
+	.wc_btn_img {
+		vertical-align: text-bottom;
+
+		img {
+			vertical-align: middle;
+		}
+	}
+}
+
 section {
 	> h1,
 	> header h1 {
@@ -19,4 +32,3 @@ section {
 		font-weight: normal;
 	}
 }
-/* end wc.ui.heading.scss */

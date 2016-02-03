@@ -44,6 +44,12 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
+		<xsl:variable name="class">
+			<xsl:call-template name="commonClassHelper"/>
+			<xsl:if test="@imagePosition">
+				<xsl:value-of select="concat(' wc_btn_img',@imagePosition)"/>
+			</xsl:if>
+		</xsl:variable>
 		<xsl:element name="{$elementType}">
 			<xsl:choose>
 				<xsl:when test="$elementType='a'">
@@ -62,10 +68,7 @@
 						</xsl:attribute>
 					</xsl:if>
 					<xsl:attribute name="class">
-						<xsl:call-template name="commonClassHelper"/>
-						<xsl:if test="@imagePosition">
-							<xsl:value-of select="concat(' wc_btn_img',@imagePosition)"/>
-						</xsl:if>
+						<xsl:value-of select="$class"/>
 					</xsl:attribute>
 				</xsl:when>
 				<xsl:otherwise>
@@ -73,12 +76,12 @@
 						<xsl:text>button</xsl:text>
 					</xsl:attribute>
 					<xsl:attribute name="class">
-						<xsl:call-template name="commonClassHelper"/>
+						<xsl:value-of select="$class"/>
 						<xsl:if test="not($type='button')">
 							<xsl:text> wc_btn_link</xsl:text>
 						</xsl:if>
-						<xsl:if test="@imagePosition">
-							<xsl:value-of select="concat(' wc_btn_img',@imagePosition)"/>
+						<xsl:if test="@imageUrl and not(@imagePosition)">
+							<xsl:text> wc_btn_img</xsl:text>
 						</xsl:if>
 					</xsl:attribute>
 					
