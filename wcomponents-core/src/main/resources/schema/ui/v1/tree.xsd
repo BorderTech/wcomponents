@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" 
+	targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
+	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0">
+
+	<xs:include schemaLocation="attributeGroups.control.xsd"/>
+	<xs:include schemaLocation="treeItem.xsd"/>
+	<xs:include schemaLocation="margin.xsd"/>
+
+	<xs:element name="tree">
+		<xs:annotation>
+			<xs:documentation>
+				<p>WTree represents a tree view tool. You should note that a tree view tool is a selection toolas per 
+					<a href="http://www.w3.org/TR/2011/CR-wai-aria-20110118/roles#tree">WAI-ARIA Tree role</a>. It
+					is directly analogous to a HTML select element with the added enhancement of being able to support
+					nested groups of options.</p>
+				<table>
+					<caption>WTree expects that the POSTed form data contains</caption>
+					<thead>
+						<tr>
+							<th>Field name</th>
+							<th>Type</th>
+							<th>Mandatory</th>
+							<th>Value</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>@id + "-h"</td>
+							<td>String</td>
+							<td>yes</td>
+							<td>"x"</td>
+						</tr>
+					</tbody>
+				</table>
+			</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="ui:margin" minOccurs="0"/>
+				<xs:element ref="ui:treeItem" maxOccurs="unbounded"/>
+			</xs:sequence>
+
+			<xs:attributeGroup ref="ui:interaction.attributes"/>
+
+			<xs:attribute name="htree" type="xs:boolean" default="false">
+				<xs:annotation>
+					<xs:documentation>
+						"true" indicates that the tree represents a horizontal tree.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="rows" type="xs:positiveInteger">
+				<xs:annotation>
+					<xs:documentation>
+						The number of rows to display for a htree. Ignored if htree is not "true".
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="selectMode" default="single">
+				<xs:annotation>
+					<xs:documentation>
+						Indicates the manner in which the items in the tree may be "selected". Only applies if @htree is
+						not "true" as a horizontal tree is <strong>always</strong> multi-select.
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="single">
+							<xs:annotation>
+								<xs:documentation>
+									Indicates that selection is exclusive and when selecting any selectable descendant 
+									node any previously selected nodes will be deselected. This is analogous to a HTML
+									select element in the single select state.
+								</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="multiple">
+							<xs:annotation>
+								<xs:documentation>
+									Indicates that selection is not exclusive and multiple child treeItem elements may 
+									be selected. This is analogous to a HTML select element in a multiple select state.
+								</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

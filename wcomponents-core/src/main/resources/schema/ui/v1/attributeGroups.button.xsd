@@ -1,52 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" 
+	targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
 	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0">
-	<!--
-		Attribute groups for buttons and button-like controls
-	-->
+	
 	<xs:include schemaLocation="attributeGroups.control.xsd" />
-
-
+	<!--
+		Attribute groups for buttons and button-like controls.
+	-->
 	<xs:attributeGroup name="button.attributes">
 		<xs:annotation>
-			<xs:documentation>Common attributes for components which have a button nature to provide user interactivity.</xs:documentation>
+			<xs:documentation>
+				Common attributes for components which have a button nature to provide user interactivity.
+			</xs:documentation>
 		</xs:annotation>
+
 		<xs:attributeGroup ref="ui:control.attributes" />
 		<xs:attributeGroup ref="ui:accesskey.attributes" />
 	</xs:attributeGroup>
 
 
+
 	<xs:attributeGroup name="button.link.attributes">
 		<xs:annotation>
-			<xs:documentation>Common attributes for button and link components.</xs:documentation>
+			<xs:documentation>
+				Common attributes for button and link components.
+			</xs:documentation>
 		</xs:annotation>
 
 		<xs:attributeGroup ref="ui:button.attributes" />
 
 		<xs:attribute name="tabIndex" type="xs:int">
 			<xs:annotation>
-				<xs:documentation>Sets the component's position in the tab navigation order. Not implemented by default as it may pose significant accessibility and usability
-					problems.</xs:documentation>
+				<xs:documentation>
+					Sets the component's position in the tab navigation order. Not implemented by default as it may pose
+					significant accessibility and usability problems. Under review: may be removed.
+				</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-
 		<xs:attribute name="accessibleText" type="xs:string">
 			<xs:annotation>
-				<xs:documentation>Deprecated. Use toolTip instead.</xs:documentation>
+				<xs:documentation>
+					Deprecated. Use toolTip instead.
+				</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-
 		<xs:attribute name="imageUrl" type="xs:anyURI">
 			<xs:annotation>
-				<xs:documentation>The location of an image to display in the control.</xs:documentation>
+				<xs:documentation>
+					The location of an image to display in the control.
+				</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-
 		<xs:attribute name="imagePosition">
 			<xs:annotation>
-				<xs:documentation>The position of the image specified in the imageUrl attribute relative to any text content in the control. If imageUrl is not set then this
-					attribute is ignored. If imageUrl is set and this attribute is not set then the component will not output the text content (if any) of the
-					component.</xs:documentation>
+				<xs:documentation>
+					The position of the image specified in the imageUrl attribute relative to any text content in the
+					control. If imageUrl is not set then this attribute is ignored.
+				</xs:documentation>
 			</xs:annotation>
 			<xs:simpleType>
 				<xs:restriction base="xs:NMTOKEN">
@@ -57,11 +67,12 @@
 				</xs:restriction>
 			</xs:simpleType>
 		</xs:attribute>
-
 		<xs:attribute name="type">
 			<xs:annotation>
-				<xs:documentation>indicates the rendered appearance of the component. The default is the native output of the control (button for buttons, link for
-					links).</xs:documentation>
+				<xs:documentation>
+					Indicates the rendered appearance of the component. The default is the native output of the control
+					(button for buttons, link for links).
+				</xs:documentation>
 			</xs:annotation>
 			<xs:simpleType>
 				<xs:restriction base="xs:NMTOKEN">
@@ -72,28 +83,35 @@
 		</xs:attribute>
 	</xs:attributeGroup>
 
+
+
 	<xs:attributeGroup name="button.menu.attributes">
 		<xs:annotation>
-			<xs:documentation>Common attributes used by buttons and menu items to implement cancel, confirm and validation region behaviour.</xs:documentation>
+			<xs:documentation>
+				Common attributes used by buttons and menu items to implement cancel, confirm and validation region
+				behaviour.
+			</xs:documentation>
 		</xs:annotation>
-
-		<xs:attribute name="cancel" type="xs:boolean">
+		<xs:attribute name="cancel" type="xs:boolean" default="false">
 			<xs:annotation>
-				<xs:documentation>If true then the component acts as a cancel control and the user will be warned of unsaved changes.</xs:documentation>
+				<xs:documentation>
+					If true then the component acts as a cancel control and the user will be warned of unsaved changes.
+				</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-
 		<xs:attribute name="msg" type="xs:string">
 			<xs:annotation>
-				<xs:documentation>If set then the component will require confirmation before submission. This can be used to add a custom unsaved changes warning if @cancel is
-					true.</xs:documentation>
+				<xs:documentation>
+					If set then the component will require confirmation before submission. This can be used to add a
+					custom unsaved changes warning if @cancel is "true".
+				</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-
 		<xs:attribute name="validates" type="xs:NMTOKEN">
 			<xs:annotation>
-				<xs:documentation>Used in conjunction with client side validation (WComponents plugin since v14.0.001). If client side validation is enabled and "validates" not
-					defined, then the entire form will be validated client side by any interaction <strong>unless</strong> the cancel property is set "true".</xs:documentation>
+				<xs:documentation>
+					Indicates the region of the view which will be validated by the control's validating action.
+				</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
 	</xs:attributeGroup>
