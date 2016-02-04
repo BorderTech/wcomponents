@@ -18,10 +18,13 @@ define(["wc/loader/resource", "wc/xml/xpath"], /** @param loader wc/loader/resou
 	 */
 	function AriaWrapper() {
 		var $this = this,
+			FILE_NAME = "aria-1.rdf",
 			i,
 			aria,
 			next,
 			methods = ["getScope", "getMustContain", "getSupported", "getScopedTo", "getScopedBy"];
+
+		loader.preload(FILE_NAME);
 
 		for (i = 0; i < methods.length; i++) {
 			next = methods[i];
@@ -39,7 +42,7 @@ define(["wc/loader/resource", "wc/xml/xpath"], /** @param loader wc/loader/resou
 			return function() {
 				if (!aria) {
 					aria = new ARIA({
-						loadXml: loader.load.bind(loader, "aria-1.rdf"),
+						loadXml: loader.load.bind(loader, FILE_NAME),
 						query: xpath.query
 					});
 					$this.SUPPORTED = aria.SUPPORTED;
