@@ -1,230 +1,295 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" 
+	targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
+	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0">
 	<!--
 		Attribute groups used by interactive controls.
 	-->
 	<xs:include schemaLocation="attributeGroups.common.xsd"/>
-	
+
 	<xs:attributeGroup name="interaction.attributes">
 		<xs:annotation>
-			<xs:documentation>Common attributes for interactive components.</xs:documentation>
+			<xs:documentation>
+				Common attributes for interactive components.
+			</xs:documentation>
 		</xs:annotation>
 		<xs:attribute name="id" type="xs:ID" use="required">
 			<xs:annotation>
-				<xs:documentation>The unique identifier for the component.</xs:documentation>
+				<xs:documentation>
+					The unique identifier for the component.
+				</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
 		<xs:attribute name="class" type="xs:string">
 			<xs:annotation>
-				<xs:documentation>Provides the ability to pass an HTML class attribute onto the root output element.</xs:documentation>
+				<xs:documentation>
+					Provides the ability to pass an HTML class attribute onto the root output element.
+				</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-		<xs:attribute name="disabled" type="xs:boolean">
+		<xs:attribute name="disabled" type="xs:boolean" default="false">
 			<xs:annotation>
-				<xs:documentation>The component will be in a disabled state if "true". Not output if "false".</xs:documentation>
+				<xs:documentation>
+					The component will be in a disabled state if "true".
+				</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-		<xs:attribute name="hidden" type="xs:boolean">
+		<xs:attribute name="hidden" type="xs:boolean" default="false">
 			<xs:annotation>
-				<xs:documentation>The component will be in a hidden state if "true". Not output if "false".</xs:documentation>
+				<xs:documentation>
+					The component will be in a hidden state if "true".
+				</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-		<xs:attribute name="track" type="xs:boolean">
+		<xs:attribute name="track" type="xs:boolean" default="false">
 			<xs:annotation>
-				<xs:documentation>Indicates that the component should take part in web analytics tracking.</xs:documentation>
+				<xs:documentation>
+					Indicates that the component should take part in web analytics tracking.
+				</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
 	</xs:attributeGroup>
-	
-	
-	
+
+
+
 	<xs:attributeGroup name="control.attributes">
 		<xs:annotation>
-			<xs:documentation>Common attributes for form controls.</xs:documentation>
+			<xs:documentation>
+				Common attributes for form controls.
+			</xs:documentation>
 		</xs:annotation>
-		
+
 		<xs:attributeGroup ref="ui:interaction.attributes"/>
-		
+
 		<xs:attribute name="toolTip" type="xs:string">
 			<xs:annotation>
-				<xs:documentation>Text to display to the user as optional 'helper' information. Note, however, that there are some 
-						accessibility and usability implications of this attribute and it should be used with care.</xs:documentation>
+				<xs:documentation>
+					Text to display to the user as optional 'helper' information. Note, however, that there are some 
+					accessibility and usability implications of this attribute and it should be used with care.
+				</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
 	</xs:attributeGroup>
-	
-	
-	
+
+
+
 	<xs:attributeGroup name="input.attributes">
 		<xs:annotation>
-			<xs:documentation>Common attributes for data input controls.</xs:documentation>
+			<xs:documentation>
+				Common attributes for data input controls.
+			</xs:documentation>
 		</xs:annotation>
-		
+
 		<xs:attributeGroup ref="ui:control.attributes"/>
-		
-		<xs:attribute name="required" type="xs:boolean">
+
+		<xs:attribute name="required" type="xs:boolean" default="false">
 			<xs:annotation>
-				<xs:documentation>The component will be mandatory if "true". Not output if "false".</xs:documentation>
+				<xs:documentation>
+					The component will be mandatory if "true".
+				</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-		
-		<xs:attribute name="readOnly" type="xs:boolean">
+		<xs:attribute name="readOnly" type="xs:boolean" default="false">
 			<xs:annotation>
-				<xs:documentation>The component will be in a non-interactive state if "true". Not output if "false".</xs:documentation>
+				<xs:documentation>
+					The component will be in a non-interactive state if "true".
+				</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-		
 		<xs:attribute name="tabIndex" type="xs:int">
 			<xs:annotation>
-				<xs:documentation>Sets the component's position in the tab navigation order. Not implemented by default as it may 
-						pose significant accessibility and usability problems.</xs:documentation>
+				<xs:documentation>
+					Sets the component's position in the tab navigation order. Not implemented by default as it may pose
+					significant accessibility and usability problems.
+				</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-		
 		<xs:attribute name="accessibleText" type="xs:string">
 			<xs:annotation>
-				<xs:documentation>Deprecated. Use toolTip instead.</xs:documentation>
+				<xs:documentation>
+					Deprecated. Use toolTip instead.
+				</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
 	</xs:attributeGroup>
-	
+
+
+
 	<xs:attributeGroup name="submitting.input.attributes">
 		<xs:annotation>
-			<xs:documentation>Common attributes for data input components which provide support for form submission using the ENTER key.</xs:documentation>
+			<xs:documentation>
+				Common attributes for data input components which provide support for form submission using the ENTER 
+				key.
+			</xs:documentation>
 		</xs:annotation>
 		
 		<xs:attributeGroup ref="ui:input.attributes"/>
 		
 		<xs:attribute name="buttonId" type="xs:NMTOKEN">
 			<xs:annotation>
-				<xs:documentation>The component id of a WButton which is used as the application submit button if the user presses 
-						the ENTER key with this component focussed.</xs:documentation>
+				<xs:documentation>
+					The component id of a WButton which is used as the application submit button if the user presses the
+					ENTER key with this component focussed.
+				</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
 	</xs:attributeGroup>
-	
-	
-	
+
+
+
 	<xs:attributeGroup name="text.input.attributes">
 		<xs:annotation>
-			<xs:documentation>Common attributes for text input components.</xs:documentation>
+			<xs:documentation>
+				Common attributes for text input components.
+			</xs:documentation>
 		</xs:annotation>
-		
+
 		<xs:attribute name="size" type="xs:positiveInteger">
 			<xs:annotation>
-				<xs:documentation>The visible size of the text input widget as determined by the renderer.</xs:documentation>
+				<xs:documentation>
+					The visible size of the text input widget as determined by the renderer.
+				</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-		
 		<xs:attribute name="minLength" type="xs:positiveInteger">
 			<xs:annotation>
-				<xs:documentation>The minimum number of characters which constitute valid input <em>if the user makes any input at 
-						all</em>. If not set then no minimum is required.</xs:documentation>
+				<xs:documentation>
+					The minimum number of characters which constitute valid input <em>if the user makes any input at
+					all</em>. If not set then no minimum is required.
+				</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-		
 		<xs:attribute name="maxLength" type="xs:positiveInteger">
 			<xs:annotation>
-				<xs:documentation>The maximum number of characters which constitute valid input <em>if the user makes any input at 
-						all</em>. If not set then no maximum is set but one may be implied by the user agent.</xs:documentation>
+				<xs:documentation>
+					The maximum number of characters which constitute valid input <em>if the user makes any input at
+					all</em>. If not set then no maximum is set but one may be implied by the user agent.
+				</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-		
 		<xs:attribute name="pattern" type="xs:string">
 			<xs:annotation>
-				<xs:documentation>A <a href="http://www.w3.org/TR/html5/forms.html#attr-input-pattern" target="_blank">HTML5 regular
-						expression pattern</a> which applies to the content of the input as a whole.</xs:documentation>
+				<xs:documentation>
+					A <a href="http://www.w3.org/TR/html5/forms.html#attr-input-pattern" target="_blank">HTML5 regular
+					expression pattern</a> which applies to the content of the input as a whole.
+				</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-		
 	</xs:attributeGroup>
-	
-	
-	
+
+
+
 	<xs:attributeGroup name="submitOnChange.attributes">
 		<xs:attribute name="submitOnChange" type="xs:boolean">
 			<xs:annotation>
-				<xs:documentation>This attribute has significant negative accessibility implications and <strong>extreme</strong>
-					care should be taken with its implementation. It may be removed completely from future versions of
-					WComponents because of these accessibility issues.</xs:documentation>
+				<xs:documentation>
+					This attribute has significant negative accessibility implications and <strong>extreme</strong> care
+					should be taken with its implementation. It may be removed completely from future versions of 
+					WComponents because of these accessibility issues.
+				</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
 	</xs:attributeGroup>
-	
-	
-	
-	
+
+
+
 	<xs:attributeGroup name="multiSelect.constraints.attributes">
 		<xs:attribute name="min" type="xs:positiveInteger">
 			<xs:annotation>
-				<xs:documentation>indicates the minimum number of selected options which represents a valid input <em>if any selection is made at all</em>. If not set then there is no minimum constraint.</xs:documentation>
+				<xs:documentation>
+					Indicates the minimum number of selected options which represents a valid input <em>if any selection
+					is made at all</em>. If not set then there is no minimum constraint.
+				</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-		
 		<xs:attribute name="max" type="xs:positiveInteger">
 			<xs:annotation>
-				<xs:documentation>indicates the maximum number of selected options which represents a valid input <em>if any selection is made at all</em>. If not set then there is no maximum constraint.</xs:documentation>
+				<xs:documentation>
+					Indicates the maximum number of selected options which represents a valid input <em>if any selection
+					is made at all</em>. If not set then there is no maximum constraint.
+				</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
 	</xs:attributeGroup>
-	
+
+
+
 	<xs:attributeGroup name="selectList.attributes">
 		<xs:attributeGroup ref="ui:input.attributes" />
 		<xs:attributeGroup ref="ui:submitOnChange.attributes" />
+
 		<xs:attribute name="data" type="xs:string">
 			<xs:annotation>
-				<xs:documentation>The key name for the datalist. If set then only the selected option[s] is/are included in the source XML and all options and optgroups are
-					fetched in a separate transaction.</xs:documentation>
+				<xs:documentation>
+					The key name for the datalist. If set then only the selected option[s] is/are included in the source
+					XML and all options and optgroups are fetched in a separate transaction.
+				</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
 	</xs:attributeGroup>
-	
+
+
+
 	<xs:attributeGroup name="selectionWidgetWithLayout.attributes">
 		<xs:attributeGroup ref="ui:input.attributes"/>
 		<xs:attributeGroup ref="ui:submitOnChange.attributes"/>
+
 		<xs:attribute name="layout" use="required">
 			<xs:annotation>
-				<xs:documentation>Indicated the playout pattern for the options in the component.</xs:documentation>
+				<xs:documentation>
+					Indicates the layout pattern for the options in the component.
+				</xs:documentation>
 			</xs:annotation>
 			<xs:simpleType>
 				<xs:restriction base="xs:NMTOKEN">
 					<xs:enumeration value="flat">
 						<xs:annotation>
-							<xs:documentation>Each option widget and its label is rendered in line with all others. Wrap points are determined by the user agent.</xs:documentation>
+							<xs:documentation>
+								Each option widget and its label is rendered in line with all others. Wrap points are
+								determined by the user agent.
+							</xs:documentation>
 						</xs:annotation>
 					</xs:enumeration>
 					<xs:enumeration value="stacked">
 						<xs:annotation>
-							<xs:documentation>Each option widget and its label is rendered on an individual line forming a single column of label:input pairs.</xs:documentation>
+							<xs:documentation>
+								Each option widget and its label is rendered on an individual line forming a single
+								column of label:input pairs.
+							</xs:documentation>
 						</xs:annotation>
 					</xs:enumeration>
 					<xs:enumeration value="column">
 						<xs:annotation>
-							<xs:documentation><p>Each option widget and its label is rendered in a column so that the complete control 
-								contains the number of columns of option-widget:label pairs indicated by the 
-								layoutColumnCount attribute.</p>
+							<xs:documentation>
+								<p>Each option widget and its label is rendered in a column so that the complete control
+									contains the number of columns of option-widget:label pairs indicated by the
+									layoutColumnCount attribute.</p>
 								<p><strong>NOTE:</strong> some rounding may cause there to be one fewer columns than
 									indicated depending on the number of option widgets in the group. When the readOnly 
 									attribute is set then only selected option widgets in the component are output which
 									may result in fewer columns. In all cases there will be no more than the
-									requested number of columns.</p></xs:documentation>
+									requested number of columns.</p>
+							</xs:documentation>
 						</xs:annotation>
 					</xs:enumeration>
 					<!-- add new layouts here -->
 				</xs:restriction>
 			</xs:simpleType>
 		</xs:attribute>
-		
 		<xs:attribute name="layoutColumnCount" type="xs:positiveInteger">
 			<xs:annotation>
-				<xs:documentation>The maximum number of columns to render when the layout attribute is "column". Ignored if
-					the layout attribute is not "column".</xs:documentation>
+				<xs:documentation>
+					The maximum number of columns to render when the layout attribute is "column". Ignored if the layout
+					attribute is not "column".
+				</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-		
-		<xs:attribute name="frameless" type="xs:boolean">
+		<xs:attribute name="frameless" type="xs:boolean" default="false">
 			<xs:annotation>
-				<xs:documentation>indicates that the wrapper element of the component (normally a HTML Fieldset) should be rendered without a border. Not output if false.</xs:documentation>
+				<xs:documentation>
+					Indicates that the wrapper element of the component (normally a HTML Fieldset) should be rendered
+					without a border.
+				</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
 	</xs:attributeGroup>

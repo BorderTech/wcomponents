@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" 
+	targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
 	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0">
 	<!--
 		Common attributes for various components.
@@ -15,8 +16,11 @@
 	<xs:attributeGroup name="accesskey.attributes">
 		<xs:attribute name="accessKey">
 			<xs:annotation>
-				<xs:documentation>Sets a single modified key access key for a control. This attribute should be used with caution as: <ul>
-						<li>some user agents reserve some keys for internal use and do not expose them to the client for use as access keys; and</li>
+				<xs:documentation>
+					Sets a single modified key access key for a control. This attribute should be used with caution as:
+					<ul>
+						<li>some user agents reserve some keys for internal use and do not expose them to the client for
+							use as access keys; and</li>
 						<li>some keys may clash or cause issues with use of various assistive technologies.</li>
 					</ul>
 				</xs:documentation>
@@ -36,62 +40,87 @@
 	<xs:attributeGroup name="ajax.mode.attributes">
 		<xs:attribute name="mode" use="required">
 			<xs:annotation>
-				<xs:documentation>Indicates the content display mode for the component</xs:documentation>
+				<xs:documentation>
+					Indicates the content display mode for the component.
+				</xs:documentation>
 			</xs:annotation>
 			<xs:simpleType>
 				<xs:restriction base="xs:NMTOKEN">
 					<xs:enumeration value="client">
 						<xs:annotation>
-							<xs:documentation>The content exists in the page and showing/hiding that content is purely a client-side process.</xs:documentation>
+							<xs:documentation>
+								The content exists in the page and showing/hiding that content is purely a client-side
+								process.
+							</xs:documentation>
 						</xs:annotation>
 					</xs:enumeration>
 					<xs:enumeration value="dynamic">
 						<xs:annotation>
-							<xs:documentation>The content is fetched from the server using AJAX each time the content is displayed.</xs:documentation>
+							<xs:documentation>
+								The content is fetched from the server using AJAX each time the content is displayed.
+							</xs:documentation>
 						</xs:annotation>
 					</xs:enumeration>
 					<xs:enumeration value="eager">
 						<xs:annotation>
-							<xs:documentation>The content is not part of the underlying page XML but is fetched from the server using AJAX as the browser renders the page.</xs:documentation>
+							<xs:documentation>
+								The content is not part of the underlying page XML but is fetched from the server using
+								AJAX as the browser renders the page.
+							</xs:documentation>
 						</xs:annotation>
 					</xs:enumeration>
 					<xs:enumeration value="lazy">
 						<xs:annotation>
-							<xs:documentation>The content is fetched from the server the first time the content is displayed then remains static for the rest fo the lifecycle of the page.</xs:documentation>
+							<xs:documentation>
+								The content is fetched from the server the first time the content is displayed then
+								remains static for the rest fo the lifecycle of the page.
+							</xs:documentation>
 						</xs:annotation>
 					</xs:enumeration>
 					<xs:enumeration value="server">
 						<xs:annotation>
-							<xs:documentation>The content is not part of the page's XML unless it is in a visible (open) state and a user action to display the content will result in the entire
-								application POSTing to the server application. This mode is deprecated for all implementing components and should be avoided as it poses significant
-								user interaction problems.</xs:documentation>
+							<xs:documentation>
+								The content is not part of the page's XML unless it is in a visible (open) state and a
+								user action to display the content will result in the entire application POSTing to the
+								server application. This mode is deprecated for all implementing components and should
+								be avoided as it poses significant user interaction problems.
+							</xs:documentation>
 						</xs:annotation>
 					</xs:enumeration>
 				</xs:restriction>
 			</xs:simpleType>
 		</xs:attribute>
 	</xs:attributeGroup>
-	
+
+
+
 	<xs:attributeGroup name="ajax.mode.simple.attributes">
 		<xs:attribute name="mode">
 			<xs:annotation>
-				<xs:documentation>Indicates the content display mode for the component</xs:documentation>
+				<xs:documentation>
+					Indicates the content display mode for the component.
+				</xs:documentation>
 			</xs:annotation>
 			<xs:simpleType>
 				<xs:restriction base="xs:NMTOKEN">
 					<xs:enumeration value="eager">
 						<xs:annotation>
-							<xs:documentation>The content is not part of the underlying page XML but is fetched from the server using AJAX as the browser renders the page.</xs:documentation>
+							<xs:documentation>
+								The content is not part of the underlying page XML but is fetched from the server using
+								AJAX as the browser renders the page.
+							</xs:documentation>
 						</xs:annotation>
 					</xs:enumeration>
 					<xs:enumeration value="lazy">
 						<xs:annotation>
-							<xs:documentation>The content is fetched from the server the first time the content is displayed then remains static for the rest fo the lifecycle of the page.</xs:documentation>
+							<xs:documentation>
+								The content is fetched from the server the first time the content is displayed then
+								remains static for the rest fo the lifecycle of the page.
+							</xs:documentation>
 						</xs:annotation>
 					</xs:enumeration>
 				</xs:restriction>
 			</xs:simpleType>
 		</xs:attribute>
 	</xs:attributeGroup>
-	
 </xs:schema>
