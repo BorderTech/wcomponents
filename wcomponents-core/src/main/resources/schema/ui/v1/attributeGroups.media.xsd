@@ -1,84 +1,100 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+	targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
 	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0">
 	<!--
 		Attribute groups for audio and video controls
 	-->
 
-
 	<xs:attributeGroup name="media.attributes">
 		<xs:annotation>
-			<xs:documentation>Common attributes for audio and video components.</xs:documentation>
+			<xs:documentation>
+				Common attributes for audio and video components.
+			</xs:documentation>
 		</xs:annotation>
-
 		<xs:attribute name="id" type="xs:ID" use="required">
 			<xs:annotation>
-				<xs:documentation>The unique identifier for the component.</xs:documentation>
+				<xs:documentation>
+					The unique identifier for the component.
+				</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-
 		<xs:attribute name="class" type="xs:string">
 			<xs:annotation>
-				<xs:documentation>Provides the ability to pass an HTML class attribute onto the root output element.</xs:documentation>
+				<xs:documentation>
+					Provides the ability to pass an HTML class attribute onto the root output element.
+				</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-
-		<xs:attribute name="disabled" type="xs:boolean">
+		<xs:attribute name="disabled" type="xs:boolean" default="false">
 			<xs:annotation>
-				<xs:documentation>The component will be in a disabled state if "true". Not output if "false". <strong>Deprecated:</strong> HTML5 audio and video do not support the
-					disabled state.</xs:documentation>
+				<xs:documentation>
+					The component will be in a disabled state if "true". <strong>Deprecated:</strong> HTML5 audio and
+					video do not support the disabled state.
+				</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-
-		<xs:attribute name="hidden" type="xs:boolean">
+		<xs:attribute name="hidden" type="xs:boolean" default="false">
 			<xs:annotation>
-				<xs:documentation>The component will be in a hidden state if "true". Not output if "false".</xs:documentation>
+				<xs:documentation>
+					The component will be in a hidden state if "true".
+				</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-
 		<xs:attribute name="toolTip" type="xs:string">
 			<xs:annotation>
-				<xs:documentation>Text to display to the user as optional 'helper' information. Note, however, that there are some accessibility and usability implications of this
-					attribute and it should be used with care.</xs:documentation>
+				<xs:documentation>
+					Text to display to the user as optional 'helper' information. Note, however, that there are some
+					accessibility and usability implications of this attribute and it should be used with care.
+				</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-
 		<xs:attribute name="alt" type="xs:string">
 			<xs:annotation>
-				<xs:documentation>Alternative text to display if the media is not able to be rendered or if the component supports in-situ images (video poster for
-					example).</xs:documentation>
+				<xs:documentation>
+					Alternative text to display if the media is not able to be rendered or if the component supports 
+					in-situ images (video poster for example).
+				</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-
-		<xs:attribute name="preload">
+		<xs:attribute name="preload" default="auto">
 			<xs:annotation>
-				<xs:documentation>Indicates the rules for pre-loading the media file(s) by the user agent. If absent, "auto" is assumed.</xs:documentation>
+				<xs:documentation>
+					Indicates the rules for pre-loading the media file(s) by the user agent.
+				</xs:documentation>
 			</xs:annotation>
 			<xs:simpleType>
 				<xs:restriction base="xs:NMTOKEN">
 					<xs:enumeration value="none">
 						<xs:annotation>
-							<xs:documentation>Do not preload anything.</xs:documentation>
+							<xs:documentation>
+								Do not preload anything.
+							</xs:documentation>
 						</xs:annotation>
 					</xs:enumeration>
 					<xs:enumeration value="metadata">
 						<xs:annotation>
-							<xs:documentation>Pre-load only the media's meta data.</xs:documentation>
+							<xs:documentation>
+								Pre-load only the media's meta data.
+							</xs:documentation>
 						</xs:annotation>
 					</xs:enumeration>
 					<xs:enumeration value="auto">
 						<xs:annotation>
-							<xs:documentation>Allow the user agent to determine what to pre-load.</xs:documentation>
+							<xs:documentation>
+								Allow the user agent to determine what to pre-load.
+							</xs:documentation>
 						</xs:annotation>
 					</xs:enumeration>
 				</xs:restriction>
 			</xs:simpleType>
 		</xs:attribute>
-
-		<xs:attribute name="controls">
+		<xs:attribute name="controls" default="default">
 			<xs:annotation>
-				<xs:documentation>Indicates what controls to display to the user. May not be implemented depending on other factors. In most cases the user agent determines the
-					control set and only "none" has any impact. If absent, "default" is assumed and native controls will be used.</xs:documentation>
+				<xs:documentation>
+					Indicates what controls to display to the user. May not be implemented depending on other factors.
+					In most cases the user agent determines the control set and only "none" has any impact.
+				</xs:documentation>
 			</xs:annotation>
 			<xs:simpleType>
 				<xs:restriction base="xs:NMTOKEN">
@@ -89,39 +105,43 @@
 				</xs:restriction>
 			</xs:simpleType>
 		</xs:attribute>
-
-		<xs:attribute name="autoplay" type="xs:boolean">
+		<xs:attribute name="autoplay" type="xs:boolean" default="false">
 			<xs:annotation>
-				<xs:documentation>Indicates the media autoplay setting. Not implemented by default due to accessibility concerns. Not output if "false".</xs:documentation>
+				<xs:documentation>
+					Indicates the media autoplay setting. Not implemented by default in wcomponents-theme due to
+					accessibility concerns.
+				</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-
 		<xs:attribute name="mediagroup" type="xs:NMTOKEN">
 			<xs:annotation>
-				<xs:documentation>Indicates a group name for a set of media components. Not yet implemented due to low levels of user agent support.</xs:documentation>
+				<xs:documentation>
+					Indicates a group name for a set of media components. Not yet implemented due to low levels of user
+					agent support.
+				</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-
-		<xs:attribute name="loop" type="xs:boolean">
+		<xs:attribute name="loop" type="xs:boolean" default="false">
 			<xs:annotation>
-				<xs:documentation>Indicates that the media should automatically replay at the end. May have considerable accessibility implications and should notbe used or used
-					with extreme caution. <strong>NOTE:</strong> default implementation of this attribute may be dropped from future releases due to these accessibility concerns.
-					Not output if "false".</xs:documentation>
+				<xs:documentation>
+					Indicates that the media should automatically replay at the end. May have considerable accessibility
+					implications and should no tbe used. Not supported by default in wcomponents-theme.
+				</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-
-		<xs:attribute name="muted" type="xs:boolean">
+		<xs:attribute name="muted" type="xs:boolean" default="false">
 			<xs:annotation>
-				<xs:documentation>Indicates that the media should be muted on page load. Not output if "false".</xs:documentation>
+				<xs:documentation>
+					Indicates that the media should be muted on page load.
+				</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-
 		<xs:attribute name="duration" type="xs:positiveInteger">
 			<xs:annotation>
-				<xs:documentation>Indicates the temporal length of the media. Deprecated, not implemented by default since WComponents 12.0.001.</xs:documentation>
+				<xs:documentation>
+					Indicates the temporal length of the media. Not implemented by default in wcomponents-theme.
+				</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-
-
 	</xs:attributeGroup>
 </xs:schema>

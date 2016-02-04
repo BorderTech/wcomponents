@@ -12,10 +12,11 @@
 
 		<xs:annotation>
 			<xs:documentation>
-				<p>WSubMenu provides a grouping mechanism for a set of items with in a WMenu where those items have an intrinsic semantic group nature. In practice a submenu is a
-					hideable set of items which is indicated by a label and interacting with the label toggles the hidden state of the submenu's content.</p>
-				<p>WSubMenu expects that the POSTed form data contains:</p>
+				<p>WSubMenu provides a grouping mechanism for a set of items with in a WMenu where those items have an 
+					intrinsic semantic group nature. In practice a submenu is a hideable set of items which is indicated
+					by a label and interacting with the label toggles the hidden state of the submenu's content.</p>
 				<table>
+					<caption>WSubMenu expects that the POSTed form data contains these items.</caption>
 					<thead>
 						<tr>
 							<th>Field name</th>

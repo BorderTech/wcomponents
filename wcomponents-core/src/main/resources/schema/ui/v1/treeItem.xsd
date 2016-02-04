@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" 
+	targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
+	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0">
+	<xs:include schemaLocation="attributeGroups.button.xsd" />
+	<xs:element name="treeItem">
+		<xs:complexType>
+			<xs:annotation>
+				<xs:documentation>
+					<p>WTreeItem provides a single intem within a WTree. The item can be used to invoke commands or 
+						provide a selection mechanism, or both. If the tree item contains other tree items it also acts
+						as a control to show/hide these child elements.</p>
+					<table>
+						<caption>WTreeItem expects that the POSTed form data contains:</caption>
+						<thead>
+							<tr>
+								<th>Field name</th>
+								<th>Type</th>
+								<th>Mandatory</th>
+								<th>Value</th>
+								<th>Notes</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>@id</td>
+								<td>String</td>
+								<td>yes</td>
+								<td>"x"</td>
+								<td>Value POSTed only if the WTreeItem is the item causing the form submission.</td>
+							</tr>
+							<tr>
+								<td>@id.selected</td>
+								<td>String</td>
+								<td>no</td>
+								<td>"x"</td>
+								<td>Value POSTed only if the WTreeItem is in the selected state.</td>
+							</tr>
+							<tr>
+								<td>@id.open</td>
+								<td>String</td>
+								<td>no</td>
+								<td>"true"</td>
+								<td>Value POSTed only if the WTreeItem has children and is in the expanded state.</td>
+							</tr>
+						</tbody>
+					</table>
+				</xs:documentation>
+			</xs:annotation>
+
+			<xs:sequence>
+				<xs:element ref="ui:treeItem" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+
+			<xs:attributeGroup ref="ui:control.attributes" />
+			<xs:attributeGroup ref="ui:button.menu.attributes" />
+			<xs:attribute name="label" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>
+						The text label of the tree item.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="imageUrl" type="xs:anyURI">
+				<xs:annotation>
+					<xs:documentation>The location of an image to display in the control.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="url" type="xs:anyURI">
+				<xs:annotation>
+					<xs:documentation>
+						Setting a url indicates that actioning this item should trigger navigation. This attribute and 
+						@submit are mutually exclusive.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="targetWindow" type="xs:NMTOKEN">
+				<xs:annotation>
+					<xs:documentation>
+						Provides a machine-readable reference to a browser window. If set, and the @url attribute is 
+						set, then the link to the @url value will open in a new window with this as its window name. 
+						There are some implementation issues caused by long standing bugs in some common user agents and
+						some keywords in the HTML specification.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="submit" type="xs:boolean" default="false">
+				<xs:annotation>
+					<xs:documentation>
+						Setting submit indicates that actioning this item should trigger a form submit. This attribute
+						and @url are mutually exclusive.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="selected" type="xs:boolean" default="false">
+				<xs:annotation>
+					<xs:documentation>
+						"true" indicates that the submenu is selected.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="expanded" type="xs:boolean" default="false">
+				<xs:annotation>
+					<xs:documentation>
+						"true" indicates that the submenu is expanded. Not output if "false". Only valid if the treeItem
+						has one or more child elements.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
