@@ -4,6 +4,8 @@
 
 ## Enhancements
 
+* In wcomponents-theme: Added a new class attribute value `wc_btn_img` to the HTML output element of `WLink` and `WButton` where the element contains an image without text (i.e. in XML `@imageUrl` is set and` @imagePosition` is not set). This allows more granular control of the styling of these buttons which are generally intended to be iconic.
+
 ## Major Bug fixes
 For all bug fixes see [GitHub Issues](https://github.com/BorderTech/wcomponents/issues?q=is%3Aissue+is%3Aclosed+label%3Abug)
 
