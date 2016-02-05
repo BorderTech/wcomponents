@@ -74,6 +74,9 @@
 				<xsl:if test="@imagePosition">
 					<xsl:value-of select="concat(' wc_btn_img',@imagePosition)"/>
 				</xsl:if>
+				<xsl:if test="@imageUrl and not(@imagePosition)">
+					<xsl:text> wc_btn_img</xsl:text>
+				</xsl:if>
 			</xsl:attribute>
 			
 

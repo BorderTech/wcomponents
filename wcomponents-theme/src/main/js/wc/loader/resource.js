@@ -1,10 +1,10 @@
 /**
  * @module
  * @requires module:wc/ajax/ajax
+ * @requires module:wc/loader/prefetch
  */
-define(["wc/ajax/ajax", "module"],
-	/** @param ajax wc/ajax/ajax @param module module @ignore */
-	function(ajax, module) {
+define(["wc/ajax/ajax", "wc/loader/prefetch", "module"],
+	function(ajax, prefetch, module) {
 		"use strict";
 		/**
 		 * @constructor
@@ -13,6 +13,17 @@ define(["wc/ajax/ajax", "module"],
 		 */
 		function Loader() {
 			var baseUrl;
+
+			/**
+			 * Politely suggest to the browser that it may wish to prefetch this resource if it finds a convenient moment.
+			 * This will help perceived performance by attempting to load this resource into the browser cache before it is explicitly
+			 * required by the suer.
+			 * @param {String} fileName The file name of the resource to load.
+			 */
+			this.preload = function(fileName) {
+				var url = getUrl(fileName);
+				prefetch.request(url);
+			};
 
 			/**
 			 * Loads static XML resources from the xml directory in the "theme". This allows large data structures to be excluded
@@ -33,6 +44,12 @@ define(["wc/ajax/ajax", "module"],
 			 * @returns {?Document|Promise} The loaded file or a Promise resolved with the loaded file if async is true.
 			 */
 			this.load = function(fileName, asText, async) {
+				var url = getUrl(fileName);
+				console.log("Loading " + url);
+				return ajax.loadXmlDoc(url, null, asText, async);
+			};
+
+			function getUrl(fileName) {
 				var path, idx, cachebuster;
 				if (module && module.config) {
 					path = module.config().xmlBaseUrl;
@@ -46,9 +63,8 @@ define(["wc/ajax/ajax", "module"],
 
 				baseUrl = baseUrl || path || "";  // ${xml.target.dir.name}/";
 				var url = baseUrl + fileName + "?" + cachebuster;
-				console.log("Loading " + url);
-				return ajax.loadXmlDoc(url, null, asText, async);
-			};
+				return url;
+			}
 		}
 		return /** @alias module:wc/loader/resource */ new Loader();
 	});
