@@ -9,6 +9,7 @@ import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.UIContextHolder;
 import com.github.bordertech.wcomponents.WAjaxControl;
+import com.github.bordertech.wcomponents.WApplication;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WCheckBoxSelect;
 import com.github.bordertech.wcomponents.WContainer;
@@ -16,7 +17,6 @@ import com.github.bordertech.wcomponents.WDataRenderer;
 import com.github.bordertech.wcomponents.WDecoratedLabel;
 import com.github.bordertech.wcomponents.WFieldLayout;
 import com.github.bordertech.wcomponents.WHeading;
-import com.github.bordertech.wcomponents.WHorizontalRule;
 import com.github.bordertech.wcomponents.WLabel;
 import com.github.bordertech.wcomponents.WNamingContext;
 import com.github.bordertech.wcomponents.WPanel;
@@ -225,6 +225,11 @@ public class RepeaterExampleWithStaticIDs extends WContainer {
 		if (!this.isInitialised()) {
 			// Give the repeater the list of data to display.
 			repeater.setData(fetchDataList());
+
+
+
+
+
 
 			// THIS IS THE BIT YOUSHOULD NEVER EVER DO SO LOOK AWAY NOW...
 			WNamingContext nc = (WNamingContext) WebUtilities.getAncestorOfClass(WNamingContext.class, this);
