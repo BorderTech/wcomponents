@@ -76,8 +76,9 @@ public class WRowExample extends WPanel {
 	private void addAppLevelCSSExample() {
 		String htmlClass = "my_local_class";
 		add(new WHeading(HeadingLevel.H2, "App defined widths"));
-		add(new ExplanatoryText("This example shows the use of a htmlClass and app-specific CSS (in this case inline) to style the columns including responsive widths" +
-				" which kick in at 1000px and 900px"));
+		add(new ExplanatoryText("This example shows the use of a htmlClass and app-specific CSS (in this case inline)"
+				+ " to style the columns including responsive widths"
+				+ " which kick in at 1000px and 900px"));
 
 		WRow row = new WRow();
 		row.setHtmlClass(htmlClass);
@@ -101,22 +102,20 @@ public class WRowExample extends WPanel {
 
 		String rowSelector = "." + htmlClass;
 		String columnSelector =  rowSelector + " > .column"; // .column is the local name of WColumn's XML element and is part of the client side API.
-		String css = columnSelector + " {width: 20%; background-color: #f0f0f0; padding: 0.5em;}" +
-				columnSelector + " + .column {margin-left: 0.5em}" +
- 				columnSelector + "." + col2.getHtmlClass() + " {width: 60%;}" +
-				"@media only screen and (max-width: 1000px) {" + //when the screen goes below 1000px wide
-				rowSelector + " {display: block;}" +
-				columnSelector + " {display: inline-block; box-sizing: border-box;}" +
-				columnSelector + " + .column {margin-left: 0}" +
-				columnSelector + "." + col1.getHtmlClass() + " {display: block; width: 100%; margin-bottom: 0.5em;} " +
-				columnSelector + " ~ .column {width: calc(50% - 0.25em); background-color: #f0f000}" +
-				"." + col2.getHtmlClass() + " {margin-right: 0.25em}" +
-				"." + col2.getHtmlClass() + " + .column {margin-left: 0.25em;}" +
-				"}"+
-				"@media only screen and (max-width: 900px) {" + //when the screen goes below 900px wide;
-				columnSelector + " {width: 100% !important; margin-left: 0 !important; margin-right: 0 !important; background-color: #ff0 !important;}" + //the importants are becauseI am lazy
-				"." + col2.getHtmlClass() + " {margin-bottom: 0.5em;}" +
-				"}";
+		String css = columnSelector + " {width: 20%; background-color: #f0f0f0; padding: 0.5em;}"
+				+ columnSelector + " + .column {margin-left: 0.5em}"
+ 				+ columnSelector + "." + col2.getHtmlClass() + " {width: 60%;}"
+				+ "@media only screen and (max-width: 1000px) {"  //when the screen goes below 1000px wide
+				+ rowSelector + " {display: block;}"
+				+ columnSelector + " {display: inline-block; box-sizing: border-box;}"
+				+ columnSelector + " + .column {margin-left: 0}"
+				+ columnSelector + "." + col1.getHtmlClass() + " {display: block; width: 100%; margin-bottom: 0.5em;} "
+				+ columnSelector + " ~ .column {width: calc(50% - 0.25em); background-color: #f0f000}"
+				+ "." + col2.getHtmlClass() + " {margin-right: 0.25em}"
+				+ "." + col2.getHtmlClass() + " + .column {margin-left: 0.25em;}"
+				+ "}\n@media only screen and (max-width: 900px) {"  //when the screen goes below 900px wide;
+				+ columnSelector + " {width: 100% !important; margin-left: 0 !important; margin-right: 0 !important; background-color: #ff0 !important;}" //the importants are becauseI am lazy
+				+ "." + col2.getHtmlClass() + " {margin-bottom: 0.5em;}\n}";
 
 		WText cssText = new WText("<style type='text/css'>" + css + "</style>");
 		cssText.setEncodeText(false);

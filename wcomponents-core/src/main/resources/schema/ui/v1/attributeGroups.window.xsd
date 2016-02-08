@@ -9,78 +9,92 @@
 	-->
 	<xs:attributeGroup name="popupAttributes">
 		<xs:annotation>
-			<xs:documentation>Attribute group for controls which open a new browser window</xs:documentation>
+			<xs:documentation>
+				Attribute group for controls which open a new browser window. 
+			</xs:documentation>
 		</xs:annotation>
 
 		<xs:attribute name="top" type="xs:unsignedInt">
 			<xs:annotation>
-				<xs:documentation>The position in pixels for the top of the new window relative to the screen. Not widely supported.</xs:documentation>
+				<xs:documentation>
+					The position in pixels for the top of the new window relative to the screen. Not universally
+					supported.
+				</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-
 		<xs:attribute name="left" type="xs:unsignedInt">
 			<xs:annotation>
-				<xs:documentation>The position in pixels for the left edge of the new window relative to the screen. Not widely supported.</xs:documentation>
+				<xs:documentation>
+					The position in pixels for the left edge of the new window relative to the screen. Not universally
+					supported.
+				</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-
 		<xs:attribute name="width" type="xs:positiveInteger">
 			<xs:annotation>
-				<xs:documentation>The size in pixels for the width new window. Not universally supported.</xs:documentation>
+				<xs:documentation>
+					The size in pixels for the width new window. Not universally supported.
+				</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-
 		<xs:attribute name="height" type="xs:positiveInteger">
 			<xs:annotation>
-				<xs:documentation>The size in pixels for the height new window. Not universally supported.</xs:documentation>
+				<xs:documentation>
+					The size in pixels for the height new window. Not universally supported.
+				</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-
-		<xs:attribute name="resizable" type="xs:boolean">
+		<xs:attribute name="resizable" type="xs:boolean" default="false">
 			<xs:annotation>
-				<xs:documentation>Indicates that the user should be allowed to resize the new window. This should generally be set "true" if any of the linked attributes are set to
-					any explicit value as a window which cannot be resized may cause significant usability and accessibility issues. Not universally supported and may be overridden
-					by user settings. Not output if "false".</xs:documentation>
+				<xs:documentation>
+					Indicates that the user should be allowed to resize the new window. This should generally be set 
+					"true" if any of the linked attributes are set to any explicit value as a window which cannot be
+					resized may cause significant usability and accessibility issues. Not universally supported and may
+					be overridden by user settings.
+				</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-
-		<xs:attribute name="showMenubar" type="xs:boolean">
+		<xs:attribute name="showMenubar" type="xs:boolean" default="false">
 			<xs:annotation>
-				<xs:documentation>Indicates that the new window should show browser menu bars. Not universally supported and may be overridden by user settings. Not output if
-					"false".</xs:documentation>
+				<xs:documentation>
+					Indicates that the new window should show browser menu bars. Not universally supported and may be
+					overridden by user settings.
+				</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-
-		<xs:attribute name="showToolbar" type="xs:boolean">
+		<xs:attribute name="showToolbar" type="xs:boolean" default="false">
 			<xs:annotation>
-				<xs:documentation>Indicates that the new window should show browser tool bars. Not universally supported and may be overridden by user settings. Not output if
-					"false".</xs:documentation>
+				<xs:documentation>
+					Indicates that the new window should show browser tool bars. Not universally supported and may be
+					overridden by user settings.
+				</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-
-		<xs:attribute name="showLocation" type="xs:boolean">
+		<xs:attribute name="showLocation" type="xs:boolean" default="false">
 			<xs:annotation>
-				<xs:documentation>Indicates that the new window should show browser address/location bar. Not universally supported and may be overridden by user settings. Not
-					output if "false".</xs:documentation>
+				<xs:documentation>
+					Indicates that the new window should show browser address/location bar. Not universally supported
+					and may be overridden by user settings.
+				</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-
-		<xs:attribute name="showStatus" type="xs:boolean">
+		<xs:attribute name="showStatus" type="xs:boolean" default="false">
 			<xs:annotation>
-				<xs:documentation>Indicates that the new window should the show browser status bar. Not universally supported and may be overridden by user settings. Not output if
-					"false".</xs:documentation>
+				<xs:documentation>
+					Indicates that the new window should the show browser status bar. Not universally supported and may
+					be overridden by user settings.
+				</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-
-		<xs:attribute name="showScrollbars" type="xs:boolean">
+		<xs:attribute name="showScrollbars" type="xs:boolean" default="false">
 			<xs:annotation>
-				<xs:documentation>Indicates that the new window should show browser scroll bars when needed. Not universally supported and may be overridden by user settings. This
-					should generally be set "true" if any of the linked attributes are set to any explicit value as a window which cannot be scrolled may cause significant
-					usability and accessibility issues. Not output if "false".</xs:documentation>
+				<xs:documentation>
+					Indicates that the new window should show browser scroll bars when needed. Not universally supported
+					and may be overridden by user settings. This should generally be set "true" if any of the linked
+					attributes are set to any explicit value as a window which cannot be scrolled may cause significant
+					usability and accessibility issues.
+				</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-
 	</xs:attributeGroup>
-
-
 </xs:schema>

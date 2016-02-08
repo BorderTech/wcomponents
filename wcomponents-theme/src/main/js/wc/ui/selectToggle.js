@@ -82,12 +82,12 @@ define(["wc/dom/shed",
 					return next.extend("", {"aria-checked": "true"});
 				});
 
-				CHECKBOX_WD = CHECKBOX_WD || new Widget("input", "", {"type": CHECKBOX}),
-				ARIA_CB_WD = ARIA_CB_WD || new Widget("", "", {"role": CHECKBOX}),
-				ROW_WD = ROW_WD || new Widget("tr", "", {"role": "row", "aria-selected": null}),
-				CELL_WD = CELL_WD || new Widget("td", "wc_table_sel_wrapper"),
-				ALL_CB = ALL_CB || [CHECKBOX_WD, ARIA_CB_WD, ROW_WD],
-				TABLE_WRAPPER = TABLE_WRAPPER || new Widget("div", "table"),
+				CHECKBOX_WD = CHECKBOX_WD || new Widget("input", "", {"type": CHECKBOX});
+				ARIA_CB_WD = ARIA_CB_WD || new Widget("", "", {"role": CHECKBOX});
+				ROW_WD = ROW_WD || new Widget("tr", "", {"role": "row", "aria-selected": null});
+				CELL_WD = CELL_WD || new Widget("td", "wc_table_sel_wrapper");
+				ALL_CB = ALL_CB || [CHECKBOX_WD, ARIA_CB_WD, ROW_WD];
+				TABLE_WRAPPER = TABLE_WRAPPER || new Widget("div", "table");
 
 				inited = true;
 			}

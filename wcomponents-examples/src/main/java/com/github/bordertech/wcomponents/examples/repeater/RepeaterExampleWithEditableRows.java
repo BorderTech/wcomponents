@@ -2,7 +2,10 @@ package com.github.bordertech.wcomponents.examples.repeater;
 
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
+import com.github.bordertech.wcomponents.AjaxTarget;
+import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.Request;
+import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WCheckBoxSelect;
 import com.github.bordertech.wcomponents.WContainer;
@@ -11,17 +14,18 @@ import com.github.bordertech.wcomponents.WFieldLayout;
 import com.github.bordertech.wcomponents.WHeading;
 import com.github.bordertech.wcomponents.WLabel;
 import com.github.bordertech.wcomponents.WRepeater;
-import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WTextArea;
 import com.github.bordertech.wcomponents.WTextField;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
  * An example demonstrating a WRepeater with editable fields.
  *
  * @author Martin Shevchenko
+ * @author Mark Reeves
  * @since 1.0.0
  */
 public class RepeaterExampleWithEditableRows extends WContainer {
@@ -45,14 +49,22 @@ public class RepeaterExampleWithEditableRows extends WContainer {
 	 * Creates a RepeaterExampleWithEditableRows.
 	 */
 	public RepeaterExampleWithEditableRows() {
-		add(new WHeading(WHeading.MAJOR, "Contacts"));
-
 		repeater = new WRepeater();
 		repeater.setRepeatedComponent(new PhoneNumberEditPanel());
-
 		newNameField = new WTextField();
-		WLabel nameLabel = new WLabel("New contact name", newNameField);
+		console = new WTextArea();
+		console.setColumns(60);
+		console.setRows(5);
+		createExampleUi();
+	}
 
+	/**
+	 * Add all the required UI artefacts for this example.
+	 */
+	private void createExampleUi() {
+		add(new WHeading(HeadingLevel.H2, "Contacts"));
+
+		add(repeater);
 		WButton addBtn = new WButton("Add");
 		addBtn.setAction(new Action() {
 			@Override
@@ -60,10 +72,7 @@ public class RepeaterExampleWithEditableRows extends WContainer {
 				addNewContact();
 			}
 		});
-
-		console = new WTextArea();
-		console.setColumns(60);
-		console.setRows(5);
+		newNameField.setDefaultSubmitButton(addBtn);
 
 		WButton printBtn = new WButton("Print");
 		printBtn.setAction(new Action() {
@@ -73,27 +82,16 @@ public class RepeaterExampleWithEditableRows extends WContainer {
 			}
 		});
 
-		add(repeater);
+		WFieldLayout layout = new WFieldLayout();
+		add(layout);
+		layout.addField("New contact name", newNameField);
+		layout.addField((WLabel) null, addBtn);
+		layout.addField("Print output", console);
+		layout.addField((WLabel) null, printBtn);
 
-		// TODO: This is bad - use a layout instead
-		WText lineBreak = new WText("<br />");
-		lineBreak.setEncodeText(false);
-		add(lineBreak);
-
-		add(nameLabel);
-		add(newNameField);
-		add(addBtn);
-
-		// TODO: This is bad - use a layout instead
-		lineBreak = new WText("<br />");
-		lineBreak.setEncodeText(false);
-		add(lineBreak);
-		lineBreak = new WText("<br />");
-		lineBreak.setEncodeText(false);
-		add(lineBreak);
-
-		add(console);
-		add(printBtn);
+		// Ajax controls to make things zippier
+		add(new WAjaxControl(addBtn, new AjaxTarget[]{repeater, newNameField}));
+		add(new WAjaxControl(printBtn, console));
 	}
 
 	/**
@@ -110,7 +108,7 @@ public class RepeaterExampleWithEditableRows extends WContainer {
 	 * Write the list of contacts into the textarea console. Any modified phone numbers should be printed out.
 	 */
 	private void printEditedDetails() {
-		StringBuffer buf = new StringBuffer();
+		StringBuilder buf = new StringBuilder();
 
 		for (Object contact : repeater.getBeanList()) {
 			buf.append(contact).append('\n');
@@ -140,6 +138,7 @@ public class RepeaterExampleWithEditableRows extends WContainer {
 	 * up to date.
 	 *
 	 * @author Martin Shevchenko
+	 * @author Mark Reeves
 	 */
 	public static class PhoneNumberEditPanel extends WDataRenderer {
 
@@ -158,15 +157,19 @@ public class RepeaterExampleWithEditableRows extends WContainer {
 		 */
 		public PhoneNumberEditPanel() {
 			roleSelect.setButtonLayout(WCheckBoxSelect.LAYOUT_FLAT);
-			roleSelect.setToolTip("Role options");
 			roleSelect.setFrameless(true);
+			createUI();
+		}
 
-			WHeading contactName = new WHeading(WHeading.SECTION, "");
+		/**
+		 * Adds the UI artefacts for this PhoneNumberEditPanel.
+		 */
+		private void createUI() {
+			WHeading contactName = new WHeading(HeadingLevel.H3, "");
 			contactName.setBeanProperty("name");
 			add(contactName);
 
 			WFieldLayout fieldLayout = new WFieldLayout();
-			fieldLayout.setLabelWidth(10);
 			fieldLayout.addField("Phone", phoneNumField);
 			fieldLayout.addField("Roles", roleSelect);
 			add(fieldLayout);
@@ -211,6 +214,7 @@ public class RepeaterExampleWithEditableRows extends WContainer {
 	 * A simple data object.
 	 *
 	 * @author Martin Shevchenko
+	 * @author Mark Reeves
 	 */
 	public static class ContactDetails implements Serializable {
 
@@ -237,11 +241,7 @@ public class RepeaterExampleWithEditableRows extends WContainer {
 		public ContactDetails(final String name, final String phoneNumber, final String[] roles) {
 			this.name = name;
 			this.phoneNumber = phoneNumber;
-			this.roles = new ArrayList<>();
-
-			for (int i = 0; i < roles.length; i++) {
-				this.roles.add(roles[i]);
-			}
+			this.roles = new ArrayList<>(Arrays.asList(roles));
 		}
 
 		/**
@@ -297,8 +297,7 @@ public class RepeaterExampleWithEditableRows extends WContainer {
 		 */
 		@Override
 		public String toString() {
-			StringBuffer buf = new StringBuffer();
-			buf.append(name);
+			StringBuilder buf = new StringBuilder(name);
 			buf.append(": ");
 			buf.append(phoneNumber == null ? "" : phoneNumber);
 			buf.append(": ");
@@ -308,7 +307,7 @@ public class RepeaterExampleWithEditableRows extends WContainer {
 					buf.append(',');
 				}
 
-				buf.append(roles.get(i).toString());
+				buf.append(roles.get(i));
 			}
 
 			return buf.toString();

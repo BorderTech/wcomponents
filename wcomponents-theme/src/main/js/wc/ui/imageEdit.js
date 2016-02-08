@@ -12,6 +12,7 @@ function(has, event, uid, classList, timers, loader, i18n, fabric, Mustache, dia
 	function ImageEdit() {
 
 		var inited,
+			TEMPLATE_NAME = "imageEdit.xml",
 			imageCapture = new ImageCapture(),
 			overlayUrl,
 			defaults = {
@@ -82,6 +83,7 @@ function(has, event, uid, classList, timers, loader, i18n, fabric, Mustache, dia
 						}
 					}
 				});
+				loader.preload(TEMPLATE_NAME);
 			}
 		};
 
@@ -297,7 +299,7 @@ function(has, event, uid, classList, timers, loader, i18n, fabric, Mustache, dia
 				var container = document.body.appendChild(document.createElement("div"));
 				container.className = "wc_img_editor";
 
-				loader.load("imageEdit.xml", true, true).then(function(template) {
+				loader.load(TEMPLATE_NAME, true, true).then(function(template) {
 					var eventConfig, editorHtml, i18nProps = {
 							heading: {
 								rotate: i18n.get("${wc.ui.imageEdit.rotate}"),
