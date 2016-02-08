@@ -44,7 +44,6 @@ final class WDropdownRenderer extends AbstractWebXmlRenderer {
 		xml.appendOptionalAttribute("submitOnChange", dropdown.isSubmitOnChange(), "true");
 		xml.appendOptionalAttribute("tabindex", component.hasTabIndex(), component.getTabIndex());
 		xml.appendOptionalAttribute("toolTip", dropdown.getToolTip());
-		xml.appendOptionalAttribute("accessibleText", dropdown.getAccessibleText());
 		xml.appendOptionalAttribute("optionWidth", optionWidth > 0, optionWidth);
 		xml.appendOptionalAttribute("type", getTypeAsString(dropdown.getType()));
 		xml.appendClose();

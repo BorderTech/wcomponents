@@ -45,7 +45,6 @@ final class WCheckBoxSelectRenderer extends AbstractWebXmlRenderer {
 		xml.appendOptionalAttribute("submitOnChange", select.isSubmitOnChange(), "true");
 		xml.appendOptionalAttribute("tabIndex", component.hasTabIndex(), tabIndex);
 		xml.appendOptionalAttribute("toolTip", component.getToolTip());
-		xml.appendOptionalAttribute("accessibleText", component.getAccessibleText());
 		xml.appendOptionalAttribute("frameless", select.isFrameless(), "true");
 
 		switch (select.getButtonLayout()) {

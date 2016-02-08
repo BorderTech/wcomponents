@@ -30,7 +30,6 @@ final class WHeadingRenderer extends AbstractWebXmlRenderer {
 		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
 		xml.appendAttribute("level", heading.getHeadingLevel().getLevel());
-		xml.appendOptionalAttribute("accessibleText", heading.getAccessibleText());
 		xml.appendClose();
 
 		// Render margin

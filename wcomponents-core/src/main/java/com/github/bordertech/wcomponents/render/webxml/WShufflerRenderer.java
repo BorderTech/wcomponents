@@ -37,7 +37,7 @@ final class WShufflerRenderer extends AbstractWebXmlRenderer {
 		xml.appendOptionalAttribute("readOnly", shuffler.isReadOnly(), "true");
 		xml.appendOptionalAttribute("tabindex", component.hasTabIndex(), component.getTabIndex());
 		xml.appendOptionalAttribute("toolTip", shuffler.getToolTip());
-		xml.appendOptionalAttribute("accessibleText", shuffler.getAccessibleText());
+//		xml.appendOptionalAttribute("accessibleText", shuffler.getAccessibleText());
 		xml.appendOptionalAttribute("rows", rows > 0, rows);
 		xml.appendClose();
 

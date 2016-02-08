@@ -43,7 +43,7 @@ final class WTextAreaRenderer extends AbstractWebXmlRenderer {
 		xml.appendOptionalAttribute("maxLength", maxLength > 0, maxLength);
 		xml.appendOptionalAttribute("tabIndex", textArea.hasTabIndex(), textArea.getTabIndex());
 		xml.appendOptionalAttribute("toolTip", textArea.getToolTip());
-		xml.appendOptionalAttribute("accessibleText", textArea.getAccessibleText());
+//		xml.appendOptionalAttribute("accessibleText", textArea.getAccessibleText());
 		xml.appendOptionalAttribute("rows", rows > 0, rows);
 		xml.appendOptionalAttribute("cols", cols > 0, cols);
 		xml.appendOptionalAttribute("buttonId", submitControlId);

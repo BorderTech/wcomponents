@@ -34,7 +34,6 @@ final class WInternalLinkRenderer extends AbstractWebXmlRenderer {
 		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
 		xml.appendOptionalAttribute("toolTip", link.getToolTip());
-		xml.appendOptionalAttribute("accessibleText", link.getAccessibleText());
 		xml.appendAttribute("url", "#" + link.getReference().getId());
 		xml.appendClose();
 		xml.appendEscaped(link.getText());

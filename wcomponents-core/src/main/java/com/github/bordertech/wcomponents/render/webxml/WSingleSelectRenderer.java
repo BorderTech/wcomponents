@@ -43,7 +43,7 @@ final class WSingleSelectRenderer extends AbstractWebXmlRenderer {
 		xml.appendOptionalAttribute("submitOnChange", listBox.isSubmitOnChange(), "true");
 		xml.appendOptionalAttribute("tabIndex", component.hasTabIndex(), listBox.getTabIndex());
 		xml.appendOptionalAttribute("toolTip", component.getToolTip());
-		xml.appendOptionalAttribute("accessibleText", component.getAccessibleText());
+//		xml.appendOptionalAttribute("accessibleText", component.getAccessibleText());
 		xml.appendOptionalAttribute("rows", rows >= 2, rows);
 		xml.appendAttribute("single", "true");
 

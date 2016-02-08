@@ -48,7 +48,6 @@ final class WMultiSelectPairRenderer extends AbstractWebXmlRenderer {
 		xml.appendOptionalAttribute("shuffle", multiSelectPair.isShuffle(), "true");
 		xml.appendOptionalAttribute("fromListName", multiSelectPair.getAvailableListName());
 		xml.appendOptionalAttribute("toListName", multiSelectPair.getSelectedListName());
-		xml.appendOptionalAttribute("accessibleText", multiSelectPair.getAccessibleText());
 		xml.appendOptionalAttribute("min", min > 0, min);
 		xml.appendOptionalAttribute("max", max > 0, max);
 		xml.appendClose();

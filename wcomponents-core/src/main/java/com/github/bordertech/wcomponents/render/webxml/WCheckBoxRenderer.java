@@ -43,7 +43,6 @@ final class WCheckBoxRenderer extends AbstractWebXmlRenderer {
 		xml.appendOptionalAttribute("submitOnChange", checkBox.isSubmitOnChange(), "true");
 		xml.appendOptionalAttribute("tabIndex", component.hasTabIndex(), component.getTabIndex());
 		xml.appendOptionalAttribute("toolTip", checkBox.getToolTip());
-		xml.appendOptionalAttribute("accessibleText", checkBox.getAccessibleText());
 		xml.appendOptionalAttribute("buttonId", submitControlId);
 		xml.appendEnd();
 	}

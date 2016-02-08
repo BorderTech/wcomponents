@@ -48,7 +48,6 @@ final class WPhoneNumberFieldRenderer extends AbstractWebXmlRenderer {
 		xml.appendOptionalAttribute("maxLength", maxLength > 0, maxLength);
 		xml.appendOptionalAttribute("tabIndex", field.hasTabIndex(), field.getTabIndex());
 		xml.appendOptionalAttribute("toolTip", field.getToolTip());
-		xml.appendOptionalAttribute("accessibleText", field.getAccessibleText());
 		xml.appendOptionalAttribute("size", cols > 0, cols);
 		xml.appendOptionalAttribute("buttonId", submitControlId);
 		xml.appendOptionalAttribute("pattern", !Util.empty(pattern), pattern);

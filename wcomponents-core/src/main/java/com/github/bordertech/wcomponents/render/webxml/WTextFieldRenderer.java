@@ -49,7 +49,7 @@ final class WTextFieldRenderer extends AbstractWebXmlRenderer {
 		xml.appendOptionalAttribute("maxLength", maxLength > 0, maxLength);
 		xml.appendOptionalAttribute("tabIndex", textField.hasTabIndex(), textField.getTabIndex());
 		xml.appendOptionalAttribute("toolTip", textField.getToolTip());
-		xml.appendOptionalAttribute("accessibleText", textField.getAccessibleText());
+//		xml.appendOptionalAttribute("accessibleText", textField.getAccessibleText());
 		xml.appendOptionalAttribute("size", cols > 0, cols);
 		xml.appendOptionalAttribute("buttonId", submitControlId);
 		xml.appendOptionalAttribute("pattern", !Util.empty(pattern), pattern);
