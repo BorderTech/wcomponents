@@ -73,14 +73,12 @@ public class ConfirmOrderPanel extends WBeanContainer {
 		// Address
 		fieldPanel = new FieldPanel();
 		WTextField addressLine1 = new WTextField();
-		addressLine1.setAccessibleText("Street address line 1");
 		addressLine1.setMandatory(true);
 		addressLine1.setMaxLength(60);
 		addressLine1.setBeanProperty("address.line1");
 		fieldPanel.add("Street address", addressLine1);
 
 		WTextField addressLine2 = new WTextField();
-		addressLine2.setAccessibleText("Street address line 2");
 		addressLine2.setMaxLength(60);
 		addressLine2.setBeanProperty("address.line2");
 		fieldPanel.add((String) null, addressLine2);

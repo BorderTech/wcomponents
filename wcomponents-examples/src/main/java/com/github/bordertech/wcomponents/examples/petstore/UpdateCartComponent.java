@@ -26,12 +26,7 @@ public class UpdateCartComponent extends WBeanContainer {
 	/**
 	 * The entry field used to enter the quantity of items they wish to purchase.
 	 */
-	private final WTextField amount = new WTextField() {
-		@Override
-		public String getAccessibleText() {
-			return "Order amount for " + getItemDescription();
-		}
-	};
+	private final WTextField amount = new WTextField();
 
 	/**
 	 * Creates an UpdateCartComponent.

@@ -37,17 +37,14 @@ public class SimpleEditableTableExample extends WPanel {
 
 		// Column - First name
 		WTextField textField = new WTextField();
-		textField.setAccessibleText("First name");
 		table.addColumn(new WTableColumn("First name", textField));
 
 		// Column - Last name
 		textField = new WTextField();
-		textField.setAccessibleText("Last name");
 		table.addColumn(new WTableColumn("Last name", textField));
 
 		// Column - Date field
 		WDateField dateField = new WDateField();
-		dateField.setAccessibleText("Date of birth");
 		table.addColumn(new WTableColumn("Date of birth", dateField));
 
 		// Editable
