@@ -172,12 +172,6 @@ public class ComponentModel implements WebModel, Externalizable {
 	 */
 	private Serializable toolTip;
 
-//	/**
-//	 * Adds extra textual information to describe a component. This is intended for screen-readers only.
-//	 * @deprecated use toolTip
-//	 */
-//	private Serializable accessibleText;
-
 	/**
 	 * Adds extra value to the HTML class of the output component.
 	 */

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" 
-	targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+	targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
 	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0">
 	<!--
 		Attribute groups used by interactive controls.
@@ -64,7 +64,7 @@
 		<xs:attribute name="toolTip" type="xs:string">
 			<xs:annotation>
 				<xs:documentation>
-					Text to display to the user as optional 'helper' information. Note, however, that there are some 
+					Text to display to the user as optional 'helper' information. Note, however, that there are some
 					accessibility and usability implications of this attribute and it should be used with care.
 				</xs:documentation>
 			</xs:annotation>
@@ -104,13 +104,6 @@
 				</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-		<xs:attribute name="accessibleText" type="xs:string">
-			<xs:annotation>
-				<xs:documentation>
-					Deprecated. Use toolTip instead.
-				</xs:documentation>
-			</xs:annotation>
-		</xs:attribute>
 	</xs:attributeGroup>
 
 
@@ -118,13 +111,13 @@
 	<xs:attributeGroup name="submitting.input.attributes">
 		<xs:annotation>
 			<xs:documentation>
-				Common attributes for data input components which provide support for form submission using the ENTER 
+				Common attributes for data input components which provide support for form submission using the ENTER
 				key.
 			</xs:documentation>
 		</xs:annotation>
-		
+
 		<xs:attributeGroup ref="ui:input.attributes"/>
-		
+
 		<xs:attribute name="buttonId" type="xs:NMTOKEN">
 			<xs:annotation>
 				<xs:documentation>
@@ -184,7 +177,7 @@
 			<xs:annotation>
 				<xs:documentation>
 					This attribute has significant negative accessibility implications and <strong>extreme</strong> care
-					should be taken with its implementation. It may be removed completely from future versions of 
+					should be taken with its implementation. It may be removed completely from future versions of
 					WComponents because of these accessibility issues.
 				</xs:documentation>
 			</xs:annotation>
@@ -265,7 +258,7 @@
 									contains the number of columns of option-widget:label pairs indicated by the
 									layoutColumnCount attribute.</p>
 								<p><strong>NOTE:</strong> some rounding may cause there to be one fewer columns than
-									indicated depending on the number of option widgets in the group. When the readOnly 
+									indicated depending on the number of option widgets in the group. When the readOnly
 									attribute is set then only selected option widgets in the component are output which
 									may result in fewer columns. In all cases there will be no more than the
 									requested number of columns.</p>
