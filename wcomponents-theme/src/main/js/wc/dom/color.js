@@ -9,6 +9,9 @@ define(["wc/loader/resource", "wc/xml/xpath"],
 	/** @param loader wc/loader/resource @param xpath wc/xml/xpath @ignore */
 	function(loader, xpath) {
 		"use strict";
+		var FILE_NAME = "colormap.xml";
+
+		loader.preload(FILE_NAME);
 		/**
 		 * Models color manipulation and conversion.
 		 *
@@ -37,7 +40,7 @@ define(["wc/loader/resource", "wc/xml/xpath"],
 					colormap,
 					match;
 				if (c) {
-					colormap = loader.load("colormap.xml");
+					colormap = loader.load(FILE_NAME);
 					if (colormap) {
 						match = xpath.query("//color[@name='" + c + "']", true, colormap);
 						if (match) {

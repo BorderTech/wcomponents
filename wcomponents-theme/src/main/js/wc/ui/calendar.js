@@ -76,7 +76,8 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 	 * @private
 	 */
 	function Calendar() {
-		var DATE_KEY = "date_key",
+		var TEMPLATE_NAME = "wc.ui.dateField.calendar.xml",
+			DATE_KEY = "date_key",
 			CONTAINER_ID = "wc-calbox",
 			DAY_CONTAINER_ID = "wc-caldaybox",
 			MONTH_SELECT_ID = "wc-calmonth",
@@ -119,7 +120,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 */
 		function getEmptyCalendar() {
 			// TODO this needs to be made async
-			return loader.load("wc.ui.dateField.calendar.xml", true);
+			return loader.load(TEMPLATE_NAME, true);
 		}
 
 		function resetMonthPickerOptions(disable) {
@@ -1125,6 +1126,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 			// event.add(window, event.TYPE.scroll, reposEvent);  // this is bad if opening the calendar causes the page to scroll
 			shed.subscribe(shed.actions.SHOW, shedSubscriber);
 			shed.subscribe(shed.actions.HIDE, shedSubscriber);
+			loader.preload(TEMPLATE_NAME);
 		};
 
 		/**
