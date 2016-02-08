@@ -447,23 +447,6 @@ public interface WComponent extends WebComponent {
 	String getToolTip();
 
 	/**
-	 * Sets the text used by screen readers to describe the component.
-	 *
-	 * @param text the screen reader text, using {@link MessageFormat} syntax.
-	 * @param args optional arguments for the message format string.
-	 * @deprecated use setToolTip
-	 */
-	void setAccessibleText(final String text, Serializable... args);
-
-	/**
-	 * Retrieves the text used by screen readers to describe the component.
-	 *
-	 * @return the screen reader text.
-	 * @deprecated use getToolTip
-	 */
-	String getAccessibleText();
-
-	/**
 	 * Sets the flag if tracking is enabled for this component. This flag is used by {@link #isTracking()}.
 	 *
 	 * @param track set true if tracking is enabled for this component.
