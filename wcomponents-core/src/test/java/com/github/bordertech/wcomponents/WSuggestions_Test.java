@@ -92,6 +92,11 @@ public class WSuggestions_Test extends AbstractWComponentTestCase {
 	}
 
 	@Test
+	public void testAutocompleteAccessors() {
+		assertAccessorsCorrect(new WSuggestions(), "autocomplete", WSuggestions.Autocomplete.BOTH, WSuggestions.Autocomplete.LIST, WSuggestions.Autocomplete.BOTH);
+	}
+
+	@Test
 	public void testMinRefreshAccessors() {
 		assertAccessorsCorrect(new WSuggestions(), "minRefresh", 0, 1, 2);
 	}
