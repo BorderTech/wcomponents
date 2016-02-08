@@ -86,8 +86,5 @@ public class WLabelRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		label.setToolTip(getMaliciousAttribute("ui:label"));
 		assertSafeContent(label);
-
-		label.setAccessibleText(getMaliciousAttribute("ui:label"));
-		assertSafeContent(label);
 	}
 }

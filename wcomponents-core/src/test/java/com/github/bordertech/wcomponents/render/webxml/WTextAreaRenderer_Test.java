@@ -43,7 +43,6 @@ public class WTextAreaRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathNotExists("//ui:textArea/@minLength", field);
 		assertXpathNotExists("//ui:textArea/@maxLength", field);
 		assertXpathNotExists("//ui:textArea/@toolTip", field);
-		assertXpathNotExists("//ui:textArea/@accessibleText", field);
 		assertXpathNotExists("//ui:textArea/@rows", field);
 		assertXpathNotExists("//ui:textArea/@cols", field);
 		assertXpathNotExists("//ui:textArea/ui:rtf", field);
@@ -75,10 +74,6 @@ public class WTextAreaRenderer_Test extends AbstractWebXmlRendererTestCase {
 		field.setToolTip("tooltip");
 		assertSchemaMatch(field);
 		assertXpathEvaluatesTo(field.getToolTip(), "//ui:textArea/@toolTip", field);
-
-		field.setAccessibleText("accessible");
-		assertSchemaMatch(field);
-		assertXpathEvaluatesTo(field.getAccessibleText(), "//ui:textArea/@accessibleText", field);
 
 		field.setRows(20);
 		assertSchemaMatch(field);
@@ -122,9 +117,6 @@ public class WTextAreaRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertSafeContent(textArea);
 
 		textArea.setToolTip(getMaliciousAttribute("ui:textArea"));
-		assertSafeContent(textArea);
-
-		textArea.setAccessibleText(getMaliciousAttribute("ui:textArea"));
 		assertSafeContent(textArea);
 	}
 }

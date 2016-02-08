@@ -47,7 +47,6 @@ public class WTextFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathNotExists("//ui:textField/@minLength", textField);
 		assertXpathNotExists("//ui:textField/@maxLength", textField);
 		assertXpathNotExists("//ui:textField/@toolTip", textField);
-		assertXpathNotExists("//ui:textField/@accessibleText", textField);
 		assertXpathNotExists("//ui:textField/@size", textField);
 		assertXpathNotExists("//ui:textField/@buttonId", textField);
 		assertXpathNotExists("//ui:textField/@pattern", textField);
@@ -80,11 +79,6 @@ public class WTextFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 		textField.setToolTip("tooltip");
 		assertSchemaMatch(textField);
 		assertXpathEvaluatesTo(textField.getToolTip(), "//ui:textField/@toolTip", textField);
-
-		textField.setAccessibleText("accessible");
-		assertSchemaMatch(textField);
-		assertXpathEvaluatesTo(textField.getAccessibleText(), "//ui:textField/@accessibleText",
-				textField);
 
 		textField.setColumns(40);
 		assertSchemaMatch(textField);
@@ -119,9 +113,6 @@ public class WTextFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertSafeContent(textField);
 
 		textField.setToolTip(getMaliciousAttribute("ui:textField"));
-		assertSafeContent(textField);
-
-		textField.setAccessibleText(getMaliciousAttribute("ui:textField"));
 		assertSafeContent(textField);
 	}
 }

@@ -109,9 +109,6 @@ public class DiagnosticImpl implements Diagnostic {
 						}
 					}
 
-					if (text == null) {
-						text = input.getAccessibleText();
-					}
 				} finally {
 					UIContextHolder.popContext();
 				}

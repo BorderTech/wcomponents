@@ -63,7 +63,6 @@ public class WCheckBoxSelectRenderer_Test extends AbstractWebXmlRendererTestCase
 		wcbTest.setReadOnly(true);
 		wcbTest.setSubmitOnChange(true);
 		wcbTest.setToolTip("tool tip");
-		wcbTest.setAccessibleText("accessible text");
 		wcbTest.setFrameless(true);
 		wcbTest.setMinSelect(1);
 		wcbTest.setMaxSelect(2);
@@ -77,7 +76,6 @@ public class WCheckBoxSelectRenderer_Test extends AbstractWebXmlRendererTestCase
 		assertXpathEvaluatesTo("true", "//ui:checkBoxSelect/@readOnly", wcbTest);
 		assertXpathEvaluatesTo("true", "//ui:checkBoxSelect/@submitOnChange", wcbTest);
 		assertXpathEvaluatesTo("tool tip", "//ui:checkBoxSelect/@toolTip", wcbTest);
-		assertXpathEvaluatesTo("accessible text", "//ui:checkBoxSelect/@accessibleText", wcbTest);
 		assertXpathEvaluatesTo("true", "//ui:checkBoxSelect/@frameless", wcbTest);
 		assertXpathEvaluatesTo("1", "//ui:checkBoxSelect/@min", wcbTest);
 		assertXpathEvaluatesTo("2", "//ui:checkBoxSelect/@max", wcbTest);
@@ -114,9 +112,6 @@ public class WCheckBoxSelectRenderer_Test extends AbstractWebXmlRendererTestCase
 		assertSafeContent(wcb);
 
 		wcb.setToolTip(getMaliciousAttribute("ui:checkBoxSelect"));
-		assertSafeContent(wcb);
-
-		wcb.setAccessibleText(getMaliciousAttribute("ui:checkBoxSelect"));
 		assertSafeContent(wcb);
 	}
 }

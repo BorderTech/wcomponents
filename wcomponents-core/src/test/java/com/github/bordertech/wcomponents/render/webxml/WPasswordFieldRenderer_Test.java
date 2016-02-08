@@ -46,7 +46,6 @@ public class WPasswordFieldRenderer_Test extends AbstractWebXmlRendererTestCase 
 		assertXpathNotExists("//ui:passwordField/@minLength", field);
 		assertXpathNotExists("//ui:passwordField/@maxLength", field);
 		assertXpathNotExists("//ui:passwordField/@toolTip", field);
-		assertXpathNotExists("//ui:passwordField/@accessibleText", field);
 		assertXpathNotExists("//ui:passwordField/@size", field);
 		assertXpathNotExists("//ui:passwordField/@buttonId", field);
 
@@ -78,11 +77,6 @@ public class WPasswordFieldRenderer_Test extends AbstractWebXmlRendererTestCase 
 		assertSchemaMatch(field);
 		assertXpathEvaluatesTo(field.getToolTip(), "//ui:passwordField/@toolTip", field);
 
-		field.setAccessibleText("accessible");
-		assertSchemaMatch(field);
-		assertXpathEvaluatesTo(field.getAccessibleText(), "//ui:passwordField/@accessibleText",
-				field);
-
 		field.setColumns(40);
 		assertSchemaMatch(field);
 		assertXpathEvaluatesTo("40", "//ui:passwordField/@size", field);
@@ -101,9 +95,6 @@ public class WPasswordFieldRenderer_Test extends AbstractWebXmlRendererTestCase 
 		WPasswordField field = new WPasswordField();
 
 		field.setToolTip(getMaliciousAttribute("ui:passwordField"));
-		assertSafeContent(field);
-
-		field.setAccessibleText(getMaliciousAttribute("ui:passwordField"));
 		assertSafeContent(field);
 	}
 }

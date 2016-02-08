@@ -53,11 +53,6 @@ public class DiagnosticImpl_Test {
 		Assert.assertEquals("Incorrect description text", "The field '' is required", diag.
 				getDescription());
 
-		// Test with formatting with accessible text set
-		input.setAccessibleText("a");
-		Assert.assertEquals("Incorrect description text", "The field 'a' is required", diag.
-				getDescription());
-
 		// Test with label set
 		WLabel label = new WLabel("bc", input);
 		Assert.assertEquals("Incorrect description text", "The field 'bc' is required", diag.

@@ -60,8 +60,5 @@ public class WProgressBarRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		progressBar.setToolTip(getMaliciousAttribute("ui:progressBar"));
 		assertSafeContent(progressBar);
-
-		progressBar.setAccessibleText(getMaliciousAttribute("ui:progressBar"));
-		assertSafeContent(progressBar);
 	}
 }

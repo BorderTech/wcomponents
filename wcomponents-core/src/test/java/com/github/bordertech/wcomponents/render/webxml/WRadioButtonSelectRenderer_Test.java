@@ -102,9 +102,6 @@ public class WRadioButtonSelectRenderer_Test extends AbstractWebXmlRendererTestC
 
 		group.setToolTip(getMaliciousAttribute("ui:radioButtonSelect"));
 		assertSafeContent(group);
-
-		group.setAccessibleText(getMaliciousAttribute("ui:radioButtonSelect"));
-		assertSafeContent(group);
 	}
 
 	@Test

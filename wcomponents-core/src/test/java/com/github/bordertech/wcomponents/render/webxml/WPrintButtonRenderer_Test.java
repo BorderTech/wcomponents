@@ -37,8 +37,5 @@ public class WPrintButtonRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		button.setToolTip(getMaliciousAttribute("ui:printButton"));
 		assertSafeContent(button);
-
-		button.setAccessibleText(getMaliciousAttribute("ui:printButton"));
-		assertSafeContent(button);
 	}
 }

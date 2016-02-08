@@ -88,9 +88,6 @@ public class WShufflerRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		shuffler.setToolTip(getMaliciousAttribute("ui:shuffler"));
 		assertSafeContent(shuffler);
-
-		shuffler.setAccessibleText(getMaliciousAttribute("ui:shuffler"));
-		assertSafeContent(shuffler);
 	}
 
 	@Test

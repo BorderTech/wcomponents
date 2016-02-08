@@ -111,8 +111,5 @@ public class WHeadingRenderer_Test extends AbstractWebXmlRendererTestCase {
 		WHeading heading = new WHeading(WHeading.TITLE, new WDecoratedLabel(new WText("dummy")));
 
 		assertSafeContent(heading);
-
-		heading.setAccessibleText(getMaliciousAttribute("ui:heading"));
-		assertSafeContent(heading);
 	}
 }

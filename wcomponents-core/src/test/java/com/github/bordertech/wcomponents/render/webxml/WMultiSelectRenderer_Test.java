@@ -61,7 +61,6 @@ public class WMultiSelectRenderer_Test extends AbstractWebXmlRendererTestCase {
 	@Test
 	public void testDoPaintOptions() throws IOException, SAXException, XpathException {
 		String tooltip = "test tooltip";
-		String accessible = "test accessible text";
 		int rows = 2;
 
 		WMultiSelect multi = new WMultiSelect(new String[]{"a", "b", "c"});
@@ -72,7 +71,6 @@ public class WMultiSelectRenderer_Test extends AbstractWebXmlRendererTestCase {
 		multi.setReadOnly(true);
 		multi.setSubmitOnChange(true);
 		multi.setToolTip(tooltip);
-		multi.setAccessibleText(accessible);
 		multi.setRows(rows);
 		multi.setMinSelect(1);
 		multi.setMaxSelect(2);
@@ -86,7 +84,6 @@ public class WMultiSelectRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo("true", "//ui:listBox/@readOnly", multi);
 		assertXpathEvaluatesTo("true", "//ui:listBox/@submitOnChange", multi);
 		assertXpathEvaluatesTo(tooltip, "//ui:listBox/@toolTip", multi);
-		assertXpathEvaluatesTo(accessible, "//ui:listBox/@accessibleText", multi);
 		assertXpathEvaluatesTo(Integer.toString(rows), "//ui:listBox/@rows", multi);
 		assertXpathEvaluatesTo("", "//ui:listBox/@single", multi);
 		assertXpathEvaluatesTo("1", "//ui:listBox/@min", multi);
@@ -163,9 +160,6 @@ public class WMultiSelectRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertSafeContent(multi);
 
 		multi.setToolTip(getMaliciousAttribute("ui:listBox"));
-		assertSafeContent(multi);
-
-		multi.setAccessibleText(getMaliciousAttribute("ui:listBox"));
 		assertSafeContent(multi);
 	}
 }

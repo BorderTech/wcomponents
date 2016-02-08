@@ -42,9 +42,6 @@ public class WConfirmationButtonRenderer_Test extends AbstractWebXmlRendererTest
 		button.setToolTip(getMaliciousAttribute("ui:button"));
 		assertSafeContent(button);
 
-		button.setAccessibleText(getMaliciousAttribute("ui:button"));
-		assertSafeContent(button);
-
 		button.setMessage(getMaliciousAttribute("ui:button"));
 		assertSafeContent(button);
 	}

@@ -85,8 +85,5 @@ public class WTabRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		tab.setToolTip(getMaliciousAttribute("ui:tab"));
 		assertSafeContent(tabSet);
-
-		tab.setAccessibleText(getMaliciousAttribute("ui:tab"));
-		assertSafeContent(tabSet);
 	}
 }

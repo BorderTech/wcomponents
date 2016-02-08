@@ -102,9 +102,6 @@ public class WLinkRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		link.setToolTip(getMaliciousAttribute("ui:link"));
 		assertSafeContent(link);
-
-		link.setAccessibleText(getMaliciousAttribute("ui:link"));
-		assertSafeContent(link);
 	}
 
 	@Test
