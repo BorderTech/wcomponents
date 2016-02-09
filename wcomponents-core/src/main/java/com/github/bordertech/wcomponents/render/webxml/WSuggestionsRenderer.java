@@ -40,6 +40,10 @@ final class WSuggestionsRenderer extends AbstractWebXmlRenderer {
 				getMinRefresh());
 		xml.appendOptionalAttribute("ajax", useAjax, "true");
 		xml.appendOptionalAttribute("data", dataKey);
+		WSuggestions.Autocomplete autocomplete = suggestions.getAutocomplete();
+		if (autocomplete == WSuggestions.Autocomplete.LIST) {
+			xml.appendOptionalAttribute("autocomplete", "list");
+		}
 		xml.appendClose();
 
 		// Check if this is the current AJAX trigger
@@ -57,5 +61,4 @@ final class WSuggestionsRenderer extends AbstractWebXmlRenderer {
 		// End tag
 		xml.appendEndTag("ui:suggestions");
 	}
-
 }
