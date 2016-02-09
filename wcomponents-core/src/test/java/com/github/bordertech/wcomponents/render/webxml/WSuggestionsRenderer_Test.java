@@ -41,6 +41,7 @@ public class WSuggestionsRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathNotExists("//ui:suggestions/@ajax", field);
 		assertXpathNotExists("//ui:suggestions/@min", field);
 		assertXpathNotExists("//ui:suggestions/@data", field);
+		assertXpathNotExists("//ui:suggestions/@autocomplete", field);
 		assertXpathNotExists("//ui:suggestions/suggestion", field);
 
 		// Set min
@@ -128,6 +129,20 @@ public class WSuggestionsRenderer_Test extends AbstractWebXmlRendererTestCase {
 		} finally {
 			AjaxHelper.clearCurrentOperationDetails();
 		}
+	}
+
+
+	@Test
+	public void testDoPaintAutocomplete() throws IOException, SAXException, XpathException {
+		List<String> options = Arrays.asList("A", "B", "C");
+		WSuggestions field = new WSuggestions(options);
+
+		assertSchemaMatch(field);
+		assertXpathNotExists("//ui:suggestions/@autocomplete", field);
+		field.setAutocomplete(WSuggestions.Autocomplete.LIST);
+		assertXpathEvaluatesTo("list", "//ui:suggestions/@autocomplete", field);
+		field.setAutocomplete(WSuggestions.Autocomplete.BOTH);
+		assertXpathNotExists("//ui:suggestions/@autocomplete", field);
 	}
 
 }

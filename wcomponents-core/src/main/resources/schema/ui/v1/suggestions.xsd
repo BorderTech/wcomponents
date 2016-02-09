@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" 
+	targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
 	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0">
 	<xs:element name="suggestions">
 		<xs:annotation>
 			<xs:documentation>
-				<p>WSuggestions represents a device for providing suggested input for a text-like input field. The suggestions may be a static list, derived from a data url or
-					acquired on the fly based on user input into an associated input.</p>
-				<p>WSuggestions has no effect unless it is associated with a text-like input control such as WTextField. If it is associated with a constrained input (such as
-					WEmailField) then it is expected (but not enforced) that the suggestions would be in line with the associated field's constraints.</p>
-				<p>It allows for client caching of frequently used lists via a data key or lists that can be produced via AJAX depending on the text entered in the related
-					TextField. </p>
-				<p>If the suggestion list is populated on-the-fly then an ajax request for suggestions will contain the following:</p>
+				<p>WSuggestions represents a device for providing suggested input for a text-like input field. The
+					suggestions may be a static list, derived from a data url or acquired on the fly based on user input
+					into an associated input.</p>
+				<p>WSuggestions has no effect unless it is associated with a text-like input control such as WTextField.
+					If it is associated with a constrained input (such as WEmailField) then it is expected (but not
+					enforced) that the suggestions would be in line with the associated field's constraints.</p>
+				<p>It allows for client caching of frequently used lists via a data key or lists that can be produced
+					via AJAX depending on the text entered in the related WTextField. </p>
+				<p>If the suggestion list is populated on-the-fly then an ajax request for suggestions will contain the
+					following:</p>
 				<table>
 					<thead>
 						<tr>
@@ -35,12 +39,16 @@
 			<xs:sequence>
 				<xs:element name="suggestion" minOccurs="0" maxOccurs="unbounded">
 					<xs:annotation>
-						<xs:documentation>Each suggestion in the suggestions list. Provided when not using a data list key. </xs:documentation>
+						<xs:documentation>
+							Each suggestion in the suggestions list. Provided when not using a data list key.
+						</xs:documentation>
 					</xs:annotation>
 					<xs:complexType>
 						<xs:attribute name="value" type="xs:string" use="required">
 							<xs:annotation>
-								<xs:documentation>The suggested value. </xs:documentation>
+								<xs:documentation>
+									The suggested value.
+								</xs:documentation>
 							</xs:annotation>
 						</xs:attribute>
 					</xs:complexType>
@@ -48,22 +56,30 @@
 			</xs:sequence>
 			<xs:attribute name="id" type="xs:ID" use="required">
 				<xs:annotation>
-					<xs:documentation>The unique identifier for the component. </xs:documentation>
+					<xs:documentation>
+						The unique identifier for the component.
+					</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
 			<xs:attribute name="class" type="xs:string">
 				<xs:annotation>
-					<xs:documentation>Provides the ability to pass an HTML class attribute onto the root output element.</xs:documentation>
+					<xs:documentation>
+						Provides the ability to pass an HTML class attribute onto the root output element.
+					</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
 			<xs:attribute name="ajax" type="xs:boolean">
 				<xs:annotation>
-					<xs:documentation> Indicates if the suggestions list will be updated via AJAX. Is n/a for data lists. </xs:documentation>
+					<xs:documentation>
+						Indicates if the suggestions list will be updated via AJAX. Is n/a for data lists.
+					</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
 			<xs:attribute name="min">
 				<xs:annotation>
-					<xs:documentation> Indicates the minimum number of characters entered before refreshing suggestions. Default is theme dependent. Is n/a for data lists.
+					<xs:documentation>
+						Indicates the minimum number of characters entered before refreshing suggestions. Default is
+						theme dependent. Is n/a for data lists.
 					</xs:documentation>
 				</xs:annotation>
 				<xs:simpleType>
@@ -72,9 +88,47 @@
 			</xs:attribute>
 			<xs:attribute name="data" type="xs:string">
 				<xs:annotation>
-					<xs:documentation>The key name for a datalist. If set then no individual suggestion elements are included in the source XML but are fetched in a separate
-						transaction.</xs:documentation>
+					<xs:documentation>
+						The key name for a datalist. If set then no individual suggestion elements are included in the
+						source XML but are fetched in a separate transaction.
+					</xs:documentation>
 				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="autocomplete" default="both">
+				<xs:annotation>
+					<xs:documentation>
+						How should suggestion(s) be displayed to the client? See
+						<a href="https://www.w3.org/TR/wai-aria/states_and_properties#aria-autocomplete">https://www.w3.org/TR/wai-aria/states_and_properties#aria-autocomplete</a>.
+						Note, however, there is no implementation of 'none' as there is no reason to have suggestions 
+						if no suggestions are provided!
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="inline">
+							<xs:annotation>
+								<xs:documentation>
+									The system provides text after the caret as a suggestion for how to complete the
+									field.
+								</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="list">
+							<xs:annotation>
+								<xs:documentation>
+									A list of choices appears from which the user can choose.
+								</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="both">
+							<xs:annotation>
+								<xs:documentation>
+									A list of choices appears and the currently selected suggestion also appears inline.
+								</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+					</xs:restriction>
+				</xs:simpleType>
 			</xs:attribute>
 		</xs:complexType>
 	</xs:element>
