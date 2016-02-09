@@ -45,6 +45,23 @@ public class WSuggestions extends AbstractWComponent implements AjaxTarget {
 	public static final String AJAX_REFRESH_ACTION_COMMAND = "Refresh";
 
 	/**
+	 * The way in which the suggestion is provided to and selected by the user. Defaults to BOTH and should remain as
+	 * this for combobox implementations. LIST should be used for implementations which enforce selection of an
+	 * existing value. We may want to consider INLINE in the future but I see no reason for NONE since then it would
+	 * not be a combo.
+	 */
+	public enum Autocomplete {
+		/**
+		 * Indicates that autocomplete may be from the textbox or from the suggestion list.
+		 */
+		BOTH,
+		/**
+		 * Indicates the autocomplete must only be from the suggestion list.
+		 */
+		LIST
+	};
+
+	/**
 	 * Create a WSuggestions.
 	 */
 	public WSuggestions() {
@@ -219,6 +236,20 @@ public class WSuggestions extends AbstractWComponent implements AjaxTarget {
 	}
 
 	/**
+	 * @param autocomplete The Autocomplete to set for this instance.
+	 */
+	public void setAutocomplete(final Autocomplete autocomplete) {
+		getOrCreateComponentModel().autocomplete = autocomplete;
+	}
+
+	/**
+	 * @return The autocomplete for this instance.
+	 */
+	public Autocomplete getAutocomplete() {
+		return getComponentModel().autocomplete;
+	}
+
+	/**
 	 * The minimum number of characters entered before refreshing suggestions. A value of zero indicates to use the
 	 * theme default, which is usually 3.
 	 *
@@ -308,6 +339,11 @@ public class WSuggestions extends AbstractWComponent implements AjaxTarget {
 		private List<String> getSuggestions() {
 			return suggestions;
 		}
+
+		/**
+		 * The autocomplete model for the suggestions.
+		 */
+		private Autocomplete autocomplete = Autocomplete.BOTH;
 
 		/**
 		 * @param suggestions the suggestions to set.

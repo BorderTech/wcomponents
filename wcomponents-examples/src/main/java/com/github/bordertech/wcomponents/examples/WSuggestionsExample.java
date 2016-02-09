@@ -2,6 +2,7 @@ package com.github.bordertech.wcomponents.examples;
 
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
+import com.github.bordertech.wcomponents.WCheckBox;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WEmailField;
 import com.github.bordertech.wcomponents.WFieldLayout;
@@ -29,7 +30,6 @@ public class WSuggestionsExample extends WContainer {
 
 		add(layout);
 
-		// Cached suggestions
 		WSuggestions suggestions = new WSuggestions("icao");
 		add(suggestions);
 		WTextField text = new WTextField();
@@ -67,6 +67,14 @@ public class WSuggestionsExample extends WContainer {
 		layout.addField("Dynamic email", email);
 		suggestions.setRefreshAction(new AjaxAction("Email - "));
 
+		// Dynamic suggestions with force selection
+		suggestions = new WSuggestions();
+		suggestions.setAutocomplete(WSuggestions.Autocomplete.LIST);
+		add(suggestions);
+		text = new WTextField();
+		text.setSuggestions(suggestions);
+		layout.addField("Force selection from list", text);
+		suggestions.setRefreshAction(new AjaxAction(""));
 	}
 
 	/**

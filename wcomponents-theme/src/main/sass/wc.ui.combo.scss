@@ -18,11 +18,13 @@ input[role='combobox'] {
 
 	~ [role='listbox'] {
 		@include border;
-		background-color: $wc-ui-color-global-bg;
+		background-color: $wc-ui-color-highlight-bg;
 		display: block;
 		list-style-type: none;
 		margin: 0;
+		max-height: (7 * ($line-size + (2 * $hgap-small))); // allow for up to seven visible options.
 		max-width: 100%;
+		overflow: auto;
 		padding: 0;
 		position: absolute;
 		z-index: 2;
@@ -33,12 +35,13 @@ input[role='combobox'] {
 
 		&[aria-busy='true'] { // we do not want dynamic suggestion lists to go transparent when busy
 			// scss-lint:disable ImportantRule
-			background-color: $wc-ui-color-global-bg !important;
+			background-color: $wc-ui-color-highlight-bg !important;
 		}
 	}
 }
 
 li[role='option'] {
+	color: $wc-ui-color-highlight-fg;
 	margin: 0;
 	min-height: 1em;
 	padding: $hgap-small;
@@ -46,8 +49,7 @@ li[role='option'] {
 	&:hover,
 	&:focus {
 		background-color: $wc-ui-color-invite-bg;
+		color: $wc-ui-color-invite-fg;
 		cursor: pointer;
 	}
 }
-
-/* end wc.ui.combo.scss */
