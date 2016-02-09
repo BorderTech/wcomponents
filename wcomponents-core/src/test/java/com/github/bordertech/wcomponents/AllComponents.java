@@ -65,7 +65,6 @@ public class AllComponents extends WApplication {
 		add(createFieldLayout());
 		add(new WFieldSet("Field set title"));
 		add(new WFileWidget());
-		//add(new WFilterControl(new WDecoratedLabel("Filter control label"))); // TODO: Needs target component
 		add(new WFilterText("search", "replace"));
 		add(new WHeading(WHeading.SECTION, "WHeading title"));
 		add(new WHorizontalRule());
