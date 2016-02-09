@@ -4,14 +4,18 @@
 The XML schema for a WComponent page.
 
 -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" 
+	targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
 	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0">
 
 	<xs:include schemaLocation="all.xsd" />
 
 	<xs:group name="contentGroup">
 		<xs:annotation>
-			<xs:documentation>A group of stand-alone components: those which are able to be added directly to a WApplication or a content container.</xs:documentation>
+			<xs:documentation>
+				A group of stand-alone components: those which are able to be added directly to a WApplication or a
+				content container.
+			</xs:documentation>
 		</xs:annotation>
 		<xs:choice>
 			<xs:element ref="ui:abbr" />
@@ -37,7 +41,6 @@ The XML schema for a WComponent page.
 			<xs:element ref="ui:fieldSet" />
 			<xs:element ref="ui:figure" />
 			<xs:element ref="ui:fileUpload" />
-			<xs:element ref="ui:filterControl" />
 			<xs:element ref="ui:heading" />
 			<xs:element ref="ui:image" />
 			<xs:element ref="ui:label" />
@@ -82,8 +85,11 @@ The XML schema for a WComponent page.
 
 	<xs:group name="ajaxContentGroup">
 		<xs:annotation>
-			<xs:documentation>The components which are allowed within an ajax response as a descendant of ui:ajaxTarget. This group extends contentGroup to include some elements
-				which are not explicitly stand-along components but which are able to be individually targetted by AJAX requests.</xs:documentation>
+			<xs:documentation>
+				The components which are allowed within an ajax response as a descendant of ui:ajaxTarget. This group
+				extends contentGroup to include some elements which are not explicitly stand-along components but which
+				are able to be individually targetted by AJAX requests.
+			</xs:documentation>
 		</xs:annotation>
 		<xs:choice>
 			<xs:group ref="ui:contentGroup" />
@@ -94,47 +100,4 @@ The XML schema for a WComponent page.
 			<xs:element ref="ui:field" />
 		</xs:choice>
 	</xs:group>
-
-	<!--
-		TODO: consider this for WDecoratedLabel phrase content extension since we are building a <strong>web</strong> application framework here!
-
-	<xs:group name="phraseGroup">
-		<xs:annotation>
-			<xs:documentation>Group of components which represent phrase content components as per the HTML5 specification.</xs:documentation>
-		</xs:annotation>
-		<xs:choice>
-			<xs:element ref="ui:abbr"/>
-			<xs:element ref="ui:additionalParameters" />
-			<xs:element ref="ui:application" />
-			<xs:element ref="ui:ajaxTrigger" />
-			<xs:element ref="ui:audio"/>
-			<xs:element ref="ui:button" />
-			<xs:element ref="ui:checkBox" />
-			<xs:element ref="ui:comment" />
-			<xs:element ref="ui:componentGroup" />
-			<xs:element ref="ui:decoratedLabel"/>
-			<xs:element ref="ui:dropdown" />
-			<xs:element ref="ui:emailField" />
-			<xs:element ref="ui:fieldIndicator" />
-			<xs:element ref="ui:fileUpload" />
-			<xs:element ref="ui:filterControl" />
-			<xs:element ref="ui:image" />
-			<xs:element ref="ui:label" />
-			<xs:element ref="ui:link" />
-			<xs:element ref="ui:listBox" />
-			<xs:element ref="ui:numberField" />
-			<xs:element ref="ui:passwordField" />
-			<xs:element ref="ui:phoneNumberField" />
-			<xs:element ref="ui:popup" />
-			<xs:element ref="ui:printButton" />
-			<xs:element ref="ui:progressBar" />
-			<xs:element ref="ui:radioButton" />
-			<xs:element ref="ui:redirect" />
-			<xs:element ref="ui:subordinate" />
-			<xs:element ref="ui:text" />
-			<xs:element ref="ui:textArea" />
-			<xs:element ref="ui:textField" />
-		</xs:choice>
-	</xs:group>-->
-
 </xs:schema>
