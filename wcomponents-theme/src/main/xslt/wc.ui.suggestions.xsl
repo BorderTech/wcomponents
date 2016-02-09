@@ -27,7 +27,19 @@
 					<xsl:value-of select="1"/>
 				</xsl:attribute>
 			</xsl:if>
-			<xsl:apply-templates />
+			<xsl:if test="not(*)">
+				<xsl:choose>
+					<xsl:when test="not(@ajax) or parent::ui:ajaxTarget">
+						<li role="option" hidden="hidden"></li>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:attribute name="aria-busy">
+							<xsl:copy-of select="$t"/>
+						</xsl:attribute>
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:if>
+			<xsl:apply-templates select="*"/>
 		</ul>
 	</xsl:template>
 

@@ -7,7 +7,7 @@
  * @default 3
  * @property {?int} delay The number of milliseconds for which a user must pause before a comboBox's datalist is
  * updated.
- * @default 333
+ * @default 250
  *
  * @module
  * @requires module:wc/has
@@ -44,13 +44,12 @@ define(["wc/has",
 		"wc/ui/ajaxRegion",
 		"wc/ui/ajax/processResponse",
 		"wc/ui/onchangeSubmit",
-		"module",
-		"wc/ui/listboxAnalog"
+		"wc/ui/listboxAnalog",
+		"module"
 	],
-	/** @param has wc/has @param triggerManager wc/ajax/triggerManager @param attribute wc/dom/attribute @param classList wc/dom/classList @param event wc/dom/event @param focus wc/dom/focus @param getFilteredGroup wc/dom/getFilteredGroup @param initialise wc/dom/initialise @param shed wc/dom/shed @param textContent wc/dom/textContent @param Widget wc/dom/Widget @param key wc/key @param timers wc/timers @param ajaxRegion wc/ui/ajaxRegion @param processResponse wc/ui/ajax/processResponse @param onchangeSubmit wc/ui/onchangeSubmit @param module @ignore */
-	function(has, triggerManager, attribute, classList, event, focus, getFilteredGroup, initialise, shed, textContent, Widget, key, timers, ajaxRegion, processResponse, onchangeSubmit, module) {
+	/** @param has wc/has @param triggerManager wc/ajax/triggerManager @param attribute wc/dom/attribute @param classList wc/dom/classList @param event wc/dom/event @param focus wc/dom/focus @param getFilteredGroup wc/dom/getFilteredGroup @param initialise wc/dom/initialise @param shed wc/dom/shed @param textContent wc/dom/textContent @param Widget wc/dom/Widget @param key wc/key @param timers wc/timers @param ajaxRegion wc/ui/ajaxRegion @param processResponse wc/ui/ajax/processResponse @param onchangeSubmit wc/ui/onchangeSubmit @param listboxAnalog @param module @ignore */
+	function(has, triggerManager, attribute, classList, event, focus, getFilteredGroup, initialise, shed, textContent, Widget, key, timers, ajaxRegion, processResponse, onchangeSubmit, listboxAnalog, module) {
 		"use strict";
-		// listboxAnalog is required but not used.
 
 		/**
 		 * @constructor
@@ -59,14 +58,14 @@ define(["wc/has",
 		 */
 		function ComboBox() {
 			var COMBO = new Widget("input", "", {"role": "combobox", "aria-owns": null}),
-				LISTBOX = new Widget("ul", "", {"role": "listbox"}),
-				OPTION = new Widget("li", "", {"role": "option"}),
+				LISTBOX = listboxAnalog.CONTAINER,
+				OPTION = listboxAnalog.ITEM,
 				CONTROLS = "aria-controls",
 				filterTimer,
 				filter = true,
 				optionVal = {},
 				touching,
-				INITED = "wc/ui/comboBox.init",
+				INITED = "wc.ui.comboBox.init",
 				openSelect = "",  // the id of the currently open combo (if any)
 				repainter,
 				IETimeout = 0,  // IE cannot update itself fast enough to focus a newly opened list
@@ -74,6 +73,7 @@ define(["wc/has",
 				CLASS_CHATTY = "wc_combo_dyn",
 				CHATTY_COMBO = COMBO.extend(CLASS_CHATTY),
 				updateTimeout,
+				VALUE_ATTRIB = "data-wc-value",
 				conf = module.config(),
 				/**
 				 * Wait this long before updating the list on keydown.
@@ -81,7 +81,7 @@ define(["wc/has",
 				 * @type Number
 				 * @private
 				 */
-				DELAY = (conf ? (conf.delay || 333) : 333),
+				DELAY = (conf ? (conf.delay || 250) : 250),
 				/**
 				 * Only update the list if the user has entered at least this number of characters.
 				 * @var
@@ -162,10 +162,10 @@ define(["wc/has",
 							list = getListBox(combo),
 							options = OPTION.findDescendants(list),
 							setTabIndexOn = -1;
-						value = value.toLowerCase();
+						value = value.toLocaleLowerCase();
 						for (i = 0, len = options.length; i < len; i++) {
 							next = options[i];
-							optval = textContent.get(next).toLowerCase();
+							optval = textContent.get(next).toLocaleLowerCase();
 							if (!value || optval.indexOf(value) >= 0) {
 								shed.show(next, true);
 								if (setTabIndexOn === -1) {
@@ -189,7 +189,7 @@ define(["wc/has",
 					}
 
 					if (!(_delay || delay === 0)) {
-						_delay = 250;
+						_delay = DELAY;
 					}
 					if (filterTimer) {
 						timers.clearTimeout(filterTimer);
@@ -256,12 +256,11 @@ define(["wc/has",
 				}
 
 				min = list.getAttribute("${wc.ui.combo.list.attrib.minChars}") || DEFAULT_CHARS;
-
 				if (element.value.length >= min) {
+					if (!shed.isExpanded(element)) {
+						shed.expand(element);
+					}
 					updateTimeout = timers.setTimeout(getNewOptions, DELAY, element);
-				}
-				else if (list) {
-					shed.collapse(element);
 				}
 			}
 
@@ -296,6 +295,11 @@ define(["wc/has",
 				return result;
 			}
 
+			function getSuggestionValue (element, getLowerCase) {
+				var txt = element.hasAttribute(VALUE_ATTRIB) ? element.getAttribute(VALUE_ATTRIB) : textContent.get(element);
+				return getLowerCase ? txt.toLocaleLowerCase() : txt;
+			}
+
 			/**
 			 * Update the value of the combo based on interaction with an option. NOTE: native combos in HTML5 do
 			 * not update on select of the options! This is why we do not have a shed.SELECT subscriber to do this.
@@ -306,11 +310,10 @@ define(["wc/has",
 			 * @param {Element} option The option which caused the update.
 			 */
 			function setValue(combo, option) {
-				var listbox = getListBox(combo), value,
-					VALUE_ATTRIB = "data-wc-value";
+				var listbox = getListBox(combo), value;
 
 				if (listbox) {
-					value = option.hasAttribute(VALUE_ATTRIB) ? option.getAttribute(VALUE_ATTRIB) : textContent.get(option);
+					value = getSuggestionValue(option);
 					combo.value = value;
 				}
 			}
@@ -383,9 +386,10 @@ define(["wc/has",
 						}
 					}
 					else if (action === shed.actions.COLLAPSE && !shed.isExpanded(element)) {
+						onchangeSubmit.clearIgnoreChange();
+						acceptFirstMatch(element);
 						shed.hide(listbox);
 						openSelect = "";
-						onchangeSubmit.clearIgnoreChange();
 						if (optionVal[(element.id)] !== element.value) {
 							timers.setTimeout(event.fire, 0, element, event.TYPE.change);
 						}
@@ -741,35 +745,93 @@ define(["wc/has",
 			 * @param {Element} element The AJAX target element in the DOM after the AJAX action.
 			 */
 			function postAjaxSubscriber(element) {
-				var combo;
+				var combo, option;
 				if (element && (LISTBOX.isOneOfMe(element))) {
 					combo = getCombo(element);
-					if (!OPTION.findDescendant(element)) {
-						if (combo) {
-							nothingLeftReg[combo.id] = combo.value;
-							if (shed.isExpanded(combo)) {
-								shed.collapse(combo);
-							}
-							else {
-								shed.hide(element, true);
-							}
-						}
-						else {
-							shed.hide(element, true);
-						}
+
+					if (!combo) { // this would be a disaster.
+						shed.hide(element, true);
+						return;
 					}
-					else if (combo) {
-						if (!shed.isExpanded(combo)) {
-							shed.expand(combo);
+
+					option = OPTION.findDescendant(element);
+
+					if (!option) {
+						nothingLeftReg[combo.id] = combo.value;
+						if (shed.isExpanded(combo)) {
+							shed.collapse(combo);
+							return;
 						}
-						else {
-							element.style.minWidth = combo.clientWidth + "px";
-							shed.show(element, true);
+						return;
+					}
+
+					/*
+					 * TODO: we need to make an implementation of aria-autocomplete = "inline" combos but not this one.
+					if (combo.getAttribute("aria-autocomplete") === "inline") {
+						// set the textbox value to the first suggestion value.
+						setValue (combo, option);
+						shed.hide(element, true);
+						if (shed.isExpanded(combo)) {
+							shed.collapse(combo);
 						}
+						return;
+					}
+					*/
+
+					if (!shed.isExpanded(combo)) {
+						shed.expand(combo);
 					}
 					else {
-						shed.hide(element, true);
+						element.style.minWidth = combo.clientWidth + "px";
+						shed.show(element, true);
 					}
+				}
+			}
+
+			/**
+			 * This allows another function to force the value of the given element to be parsed according to its parser
+			 * and the first resulting match (if any) to be chosen.
+			 * @function module:wc/ui/comboBox.acceptFirstMatch
+			 * @public
+			 * @param {Element} element An input element, either full or partial date.
+			 */
+			function acceptFirstMatch(element) {
+				var listbox, candidates,
+					value = element.value.toLocaleLowerCase(),
+					match, txtMatch;
+
+				// we only want to force a match if we have a value and aria-autocomplete === "list".
+				if (!value || element.getAttribute("aria-autocomplete") !== "list") {
+					return;
+				}
+
+				listbox = getListBox(element);
+				if (!listbox || shed.isHidden(listbox)) { // listbox should always be available.
+					return;
+				}
+
+				candidates = getFilteredGroup(listbox, {filter: getFilteredGroup.FILTERS.visible, containerWd: LISTBOX, itemWd: OPTION});
+
+				if (candidates && candidates.length) {
+					if (candidates.some(function (next) {
+						var optVal = getSuggestionValue(next, true);
+						return optVal === value;
+					})) {
+						// we have entered a matching value so do nothing.
+						return;
+					}
+					match = candidates[0];
+					// there is a chance, though it would be unusual, that the textbox value was updated and the ajax suggesion mechanism did not take.
+					// in this case we may have not reset the filtered suggestions for the new input. I can force this to occur if I am very sneaky.
+					txtMatch = getSuggestionValue(match, true);
+					if (txtMatch.indexOf(value) === -1) {
+						element.value = ""; // If I am very sneaky I deserve to suffer.
+						return;
+					}
+					setValue(element, match);
+				}
+				else {
+					element.value = "";
 				}
 			}
 

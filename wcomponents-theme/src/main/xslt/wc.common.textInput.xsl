@@ -78,19 +78,28 @@
 							<xsl:value-of select="$$${wc.common.i18n.requiredPlaceholder}"/>
 						</xsl:attribute>
 					</xsl:if>
-					<xsl:if test="@list">
+					<xsl:variable name="list" select="@list"/>
+					<xsl:if test="$list">
 						<xsl:attribute name="role">
 							<xsl:text>combobox</xsl:text>
-						</xsl:attribute>
-						<xsl:attribute name="aria-autocomplete">
-							<xsl:text>both</xsl:text>
 						</xsl:attribute>
 						<!-- every input that implements combo should have autocomplete turned off -->
 						<xsl:attribute name="autocomplete">
 							<xsl:text>off</xsl:text>
 						</xsl:attribute>
 						<xsl:attribute name="aria-owns">
-							<xsl:value-of select="@list"/>
+							<xsl:value-of select="$list"/>
+						</xsl:attribute>
+						<xsl:variable name="suggestionList" select="//ui:suggestions[@id=$list]"/>
+						<xsl:attribute name="aria-autocomplete">
+							<xsl:choose>
+								<xsl:when test="$suggestionList and $suggestionList/@autocomplete">
+									<xsl:value-of select="$suggestionList/@autocomplete"/>
+								</xsl:when>
+								<xsl:otherwise>
+									<xsl:text>both</xsl:text>
+								</xsl:otherwise>
+							</xsl:choose>
 						</xsl:attribute>
 					</xsl:if>
 					<xsl:attribute name="type">
@@ -106,15 +115,13 @@
 					</xsl:if>
 					<xsl:if test="self::ui:numberField">
 						<!--
-							Turning off autocomplete is CRITICAL in Internet Explorer (8, others untested,
-							but those with a native HTML5 number field are probably going to be OK).
-							It tooks me days to find this after tearing apart the entire framework.
-							Here's the issue:
-								In Internet Explorer the autocomplete feature on an input field
-								causes the keydown event to be cancelled once there is something in
-								the autocomplete list, i.e. once you have entered something into that field.
-								So your event listeners are called with a cancelled event but you can find no
-								code that cancels the event - very tricky to track down.
+							Turning off autocomplete is CRITICAL in Internet Explorer (8, others untested, but those
+							with a native HTML5 number field are probably going to be OK). It tooks me days to find this
+							after tearing apart the entire framework. Here's the issue:
+								In Internet Explorer the autocomplete feature on an input field causes the keydown event
+								to be cancelled once there is something in the autocomplete list, i.e. once you have
+								entered something into that field. So your event listeners are called with a cancelled
+								event but you can find no code that cancels the event - very tricky to track down.
 						-->
 						<xsl:attribute name="autocomplete">
 							<xsl:text>off</xsl:text>
