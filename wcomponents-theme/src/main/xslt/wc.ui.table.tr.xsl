@@ -5,9 +5,6 @@
 	<xsl:import href="wc.common.n.className.xsl"/>
 	<xsl:import href="wc.common.offscreenSpan.xsl"/>
 	<xsl:import href="wc.ui.table.n.xsl"/>
-	<!--
-	TODO: remove this when WFilterControl is no longer part of the Java API
-	<xsl:import href="wc.ui.table.tr.n.containsWords.xsl"/>-->
 	<xsl:import href="wc.ui.table.tr.n.clientRowClosedHelper.xsl"/>
 	<!--
 		Transform for each row in the WTable. The row itself transforms to a HTML tr element. It may also output another
@@ -51,48 +48,9 @@
 			</xsl:choose>
 		</xsl:variable>
 
-		<!--
-			Row filtering:
-			* if the table has no active filters then show the row;
-			* if the table has active Filters and the row has no filter values then hide the row;
-			* otherwise test if the row contains a filterValue which is also one of the
-			table filters.
-
-			TODO: remove this when WFilterControl is no longer part of the Java API
-
-		<xsl:variable name="tableFilters" select="normalize-space($myTable/@activeFilters)"/>
-
-		<xsl:variable name="rowFilters" select="normalize-space(@filterValues)"/>
-
-		<xsl:variable name="filterThisRow">
-			<xsl:choose>
-				<xsl:when test="not($tableFilters)">
-					<xsl:value-of select="0"/>
-				</xsl:when>
-				<xsl:when test="not($rowFilters)">
-					<xsl:value-of select="1"/>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:variable name="matchedFilters">
-						<xsl:call-template name="containsWords">
-							<xsl:with-param name="testString" select="$rowFilters"/>
-							<xsl:with-param name="testWords" select="$tableFilters"/>
-						</xsl:call-template>
-					</xsl:variable>
-					<xsl:value-of select="1-$matchedFilters"/>
-				</xsl:otherwise>
-			</xsl:choose>
-		</xsl:variable>
-		-->
-
+		
 		<xsl:variable name="removeRow">
 			<xsl:choose>
-				<!--
-					TODO: remove this when WFilterControl is no longer part of the Java API.
-
-					If your implementation requires WDataTabe and WFilterControl support then you must add
-					`$filterThisRow=1 or ` to the beginning of the test attribute of the following xsl:when:
-				-->
 				<xsl:when test="$parentIsClosed=1 or @hidden=$t or parent::ui:subTr[not(@open=$t)] or (ancestor::ui:subTr[not(@open=$t) and ancestor::ui:table[1]/@id=$tableId])">
 					<xsl:value-of select="1"/>
 				</xsl:when>
@@ -294,15 +252,6 @@
 					</xsl:call-template>
 				</xsl:otherwise>
 			</xsl:choose>
-
-			<!--
-				TODO: remove this when WFilterControl is no longer part of the Java API
-			<xsl:if test="$rowFilters!=''">
-				<xsl:attribute name="data-wc-filters">
-					<xsl:value-of select="$rowFilters"/>
-				</xsl:attribute>
-			</xsl:if>
-			-->
 			<!-- END OF TR ATTRIBUTES -->
 
 

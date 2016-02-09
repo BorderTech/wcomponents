@@ -102,7 +102,6 @@ import org.junit.runners.Suite;
 	WField_Test.class,
 	WFieldSet_Test.class,
 	WFigure_Test.class,
-	WFilterControl_Test.class,
 	WHeading_Test.class,
 	WMessageBox_Test.class,
 	WMenu_Test.class,
