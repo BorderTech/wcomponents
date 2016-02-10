@@ -182,6 +182,33 @@ public class AbstractWMultiSelectList_Test extends AbstractWComponentTestCase {
 	}
 
 	@Test
+	public void testGetUnselectedNoSelection() {
+		AbstractWMultiSelectList multi = new MyWMultiSelectList(OPTIONS, true);
+		// Nothing selected, all should be are deselected
+		Assert.assertEquals("Expect all options to be unselected", OPTIONS, multi.getNotSelected());
+	}
+
+	@Test
+	public void testGetUnselectedSomeSelection() {
+		AbstractWMultiSelectList multi = new MyWMultiSelectList(OPTIONS, true);
+		multi.setSelected(Arrays.asList(OPTION_C));
+		Assert.assertEquals("Expect a nd b to be unselected", SELECTED_A_B, multi.getNotSelected());
+	}
+
+	@Test
+	public void testGetUnselectedAllSelected() {
+		AbstractWMultiSelectList multi = new MyWMultiSelectList(OPTIONS, true);
+		multi.setSelected(OPTIONS);
+		Assert.assertEquals("Expect all options to be selected", EMPTY_LIST, multi.getNotSelected());
+	}
+
+	@Test
+	public void testGetUnselectedNoData() {
+		AbstractWMultiSelectList multi = new MyWMultiSelectList(null, true);
+		Assert.assertEquals("Expect unselected to be an empty collection", Collections.EMPTY_LIST, multi.getNotSelected());
+	}
+
+	@Test
 	public void testGetValueConvertDataToList() {
 		// =======================
 		// ALLOW NONE - TRUE

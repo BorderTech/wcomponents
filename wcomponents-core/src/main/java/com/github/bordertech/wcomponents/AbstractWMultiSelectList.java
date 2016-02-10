@@ -140,6 +140,22 @@ public abstract class AbstractWMultiSelectList extends AbstractWSelectList {
 		return getValue().toArray();
 	}
 
+	/**
+	 * Returns the options which are not selected.
+	 *
+	 * @return The unselected options(s).
+	 */
+	public List<?> getNotSelected() {
+		List options = getOptions();
+		if (options == null || options.isEmpty()) {
+			return Collections.EMPTY_LIST;
+		}
+
+		List notSelected = new ArrayList(options);
+		notSelected.removeAll(getSelected());
+		return Collections.unmodifiableList(notSelected);
+	}
+
 	// ================================
 	// DataBound
 	/**
