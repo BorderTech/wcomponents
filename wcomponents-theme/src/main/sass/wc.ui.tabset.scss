@@ -94,8 +94,7 @@
 	//accordion tabs are expanded
 	&[aria-expanded] {
 		// selector order to turn off default borders then set only bottom border.
-		//scss-lint:disable DeclarationOrder
-		border: 0 none;
+		@include border($width: 0);
 		@include border($pos: bottom);
 		//scss-lint:enable DeclarationOrder
 		display: block;

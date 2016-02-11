@@ -1,8 +1,5 @@
 @import 'mixins_common.scss';
 
-// the negative margin must be 0 - the padding of WSection.content which must equal
-$neg-margin: -$section-content-spacing;
-
 section {
 	@include border;
 
@@ -69,6 +66,9 @@ section {
 	}
 	//scss-lint:enable QualifyingElement
 }
+
+// the negative margin must be 0 - the padding of WSection.content.
+$neg-margin: -$section-content-spacing;
 
 // Docking a Bar menu
 // If you have a WPanel of type CHROME or ACTION or a WSection containing a plain WPanel and the WPanel does not have a

@@ -13,12 +13,12 @@ input[type='file'] {
 	padding: 0;
 
 	&::-ms-browse { // pseudo-element ::-ms-browse on its own has detrimental effects on all buttons!!
-		border: 0 none;
+		@include border($width: 0);
 	}
 
 	&::-ms-value {
+		@include border($width: 0);
 		background-color: inherit;
-		border: 0 none;
 		margin: 0;
 	}
 

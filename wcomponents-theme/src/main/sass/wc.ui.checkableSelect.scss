@@ -11,15 +11,6 @@
 		}
 	}
 
-	> .column {
-		display: inline-block;
-		vertical-align: top;
-
-		+ .column {
-			padding-left: $hgap-large;
-		}
-	}
-
 	// For flat layouts we do not control the wrap point so we use a right margin because it stops the odd left margin effect
 	// on wrap. The inline block display is to keep the input with its label at wrap points.
 	> .flat {
@@ -34,14 +25,3 @@
 		}
 	}
 }
-
-@include respond(phonelike) {
-	.wc_chkgrp > .column {
-		display: block;
-
-		+ .column {
-			padding-left: 0;
-		}
-	}
-}
-/* end wc.ui.checkableSelect.scss */

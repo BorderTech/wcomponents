@@ -9,6 +9,5 @@
 	position: fixed;
 	right: 0;
 	width: 35em;
-	z-index: 100; // z-index needs to be above dialogs
+	z-index: $z-index-unloading-message; // z-index needs to be above dialogs, unloading shims etc
 }
-/* end wc.ui.timeoutWarn.scss */

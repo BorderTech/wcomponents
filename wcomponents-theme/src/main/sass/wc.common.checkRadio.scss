@@ -1,7 +1,8 @@
 /* wc.common.checkRadio.scss */
 @import 'mixins_common.scss';
 
-.checkBox, // 'readOnly' WCheckBox
+/// WCheckBox and WRadioButton in read-only mode.
+.checkBox,
 .radioButton {
 	&.wc_ro {
 		@include background-image($url: '../images/checkbox-ro.png', $height: 1em, $width: 1em);
@@ -9,14 +10,17 @@
 	}
 }
 
+/// Selected, read-only WCheckBox.
 .checkBox.wc_ro_sel {
 	background-image: url('../images/checkbox-s-ro.png');
 }
 
 
-.radioButton.wc_ro { // 'readOnly' WRadioButton
+/// read-only WRadioButton.
+.radioButton.wc_ro {
 	background-image: url('../images/radio-ro.png');
 
+	/// selected, read-only WRadioButton.
 	&.wc_ro_sel {
 		background-image: url('../images/radio-s-ro.png');
 	}

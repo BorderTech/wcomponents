@@ -21,7 +21,7 @@
 			@extend %a-button;
 			@include flex-shrink(0);
 			@include button;
-			@include background-image-icon('../images/delete.png');
+			@include background-image($url: '../images/delete.png', $reset-size: 1em);
 			margin-left: $hgap-small;
 
 			&[disabled] {

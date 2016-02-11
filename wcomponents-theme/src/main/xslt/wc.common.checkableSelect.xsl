@@ -188,13 +188,15 @@
 							</xsl:apply-templates>
 						</xsl:when>
 						<xsl:when test="$readOnly=1">
-							<xsl:apply-templates select="ui:option[@selected][position() mod $rows = 1]" mode="checkableGroup">
-								<xsl:with-param name="firstItemAccessKey" select="$firstItemAccessKey"/>
-								<xsl:with-param name="inputName" select="$id"/>
-								<xsl:with-param name="type" select="$inputType"/>
-								<xsl:with-param name="readOnly" select="$readOnly"/>
-								<xsl:with-param name="rows" select="$rows"/>
-							</xsl:apply-templates>
+							<div class="row">
+								<xsl:apply-templates select="ui:option[@selected][position() mod $rows = 1]" mode="checkableGroup">
+									<xsl:with-param name="firstItemAccessKey" select="$firstItemAccessKey"/>
+									<xsl:with-param name="inputName" select="$id"/>
+									<xsl:with-param name="type" select="$inputType"/>
+									<xsl:with-param name="readOnly" select="$readOnly"/>
+									<xsl:with-param name="rows" select="$rows"/>
+								</xsl:apply-templates>
+							</div>
 						</xsl:when>
 						<xsl:when test="$rows=0 and ui:option">
 							<xsl:element name="div">
@@ -219,13 +221,15 @@
 							</xsl:apply-templates>
 						</xsl:when>
 						<xsl:when test="ui:option">
-							<xsl:apply-templates select="ui:option[position() mod $rows = 1]" mode="checkableGroup">
-								<xsl:with-param name="firstItemAccessKey" select="$firstItemAccessKey"/>
-								<xsl:with-param name="inputName" select="$id"/>
-								<xsl:with-param name="type" select="$inputType"/>
-								<xsl:with-param name="readOnly" select="$readOnly"/>
-								<xsl:with-param name="rows" select="$rows"/>
-							</xsl:apply-templates>
+							<div class="row">
+								<xsl:apply-templates select="ui:option[position() mod $rows = 1]" mode="checkableGroup">
+									<xsl:with-param name="firstItemAccessKey" select="$firstItemAccessKey"/>
+									<xsl:with-param name="inputName" select="$id"/>
+									<xsl:with-param name="type" select="$inputType"/>
+									<xsl:with-param name="readOnly" select="$readOnly"/>
+									<xsl:with-param name="rows" select="$rows"/>
+								</xsl:apply-templates>
+							</div>
 						</xsl:when>
 					</xsl:choose>
 					<xsl:if test="$readOnly=0">
