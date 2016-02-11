@@ -182,7 +182,7 @@ define(["wc/dom/classList",
 						}
 						classList.add(content, "wc_magic");
 						classList.add(content, "wc_dynamic");
-						eagerLoader.load(content, false, true);
+						eagerLoader.load(content, false, false);
 					}
 					else {
 						console.warn("Could not find dialog content wrapper.");
