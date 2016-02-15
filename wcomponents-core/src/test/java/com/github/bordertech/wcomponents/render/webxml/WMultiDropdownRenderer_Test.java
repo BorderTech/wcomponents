@@ -32,32 +32,32 @@ public class WMultiDropdownRenderer_Test extends AbstractWebXmlRendererTestCase 
 		setActiveContext(createUIContext());
 
 		assertSchemaMatch(dropdown);
-		assertXpathEvaluatesTo("3", "count(//ui:multiDropdown/ui:option)", dropdown);
-		assertXpathNotExists("//ui:multiDropdown/@rows", dropdown);
+		assertXpathEvaluatesTo("3", "count(//ui:multidropdown/ui:option)", dropdown);
+		assertXpathNotExists("//ui:multidropdown/@rows", dropdown);
 
 		// Check selected (default to first option)
 		assertXpathEvaluatesTo("a",
-				"normalize-space(//ui:multiDropdown/ui:option[@selected='true'])", dropdown);
+				"normalize-space(//ui:multidropdown/ui:option[@selected='true'])", dropdown);
 
 		setActiveContext(createUIContext());
 		dropdown.setSelected(Arrays.asList(new String[]{"b"}));
 		assertSchemaMatch(dropdown);
-		assertXpathEvaluatesTo("3", "count(//ui:multiDropdown/ui:option)", dropdown);
+		assertXpathEvaluatesTo("3", "count(//ui:multidropdown/ui:option)", dropdown);
 		assertXpathEvaluatesTo("b",
-				"normalize-space(//ui:multiDropdown/ui:option[@selected='true'])", dropdown);
+				"normalize-space(//ui:multidropdown/ui:option[@selected='true'])", dropdown);
 
 		// Check Readonly - only render selected option
 		dropdown.setReadOnly(true);
 		assertSchemaMatch(dropdown);
-		assertXpathEvaluatesTo("true", "//ui:multiDropdown/@readOnly", dropdown);
-		assertXpathEvaluatesTo("1", "count(//ui:multiDropdown/ui:option)", dropdown);
+		assertXpathEvaluatesTo("true", "//ui:multidropdown/@readOnly", dropdown);
+		assertXpathEvaluatesTo("1", "count(//ui:multidropdown/ui:option)", dropdown);
 		assertXpathEvaluatesTo("b",
-				"normalize-space(//ui:multiDropdown/ui:option[@selected='true'])", dropdown);
+				"normalize-space(//ui:multidropdown/ui:option[@selected='true'])", dropdown);
 
 		// Check max inputs
 		dropdown.setMaxInputs(123);
 		assertSchemaMatch(dropdown);
-		assertXpathEvaluatesTo("123", "//ui:multiDropdown/@max", dropdown);
+		assertXpathEvaluatesTo("123", "//ui:multidropdown/@max", dropdown);
 	}
 
 	@Test
@@ -76,16 +76,16 @@ public class WMultiDropdownRenderer_Test extends AbstractWebXmlRendererTestCase 
 
 		assertSchemaMatch(dropdown);
 
-		assertXpathEvaluatesTo(dropdown.getId(), "//ui:multiDropdown/@id", dropdown);
-		assertXpathEvaluatesTo("true", "//ui:multiDropdown/@disabled", dropdown);
-		assertXpathEvaluatesTo("true", "//ui:multiDropdown/@hidden", dropdown);
-		assertXpathEvaluatesTo("true", "//ui:multiDropdown/@required", dropdown);
-		assertXpathEvaluatesTo("true", "//ui:multiDropdown/@readOnly", dropdown);
-		assertXpathEvaluatesTo("true", "//ui:multiDropdown/@submitOnChange", dropdown);
-		assertXpathEvaluatesTo("tool tip", "//ui:multiDropdown/@toolTip", dropdown);
-		assertXpathEvaluatesTo("accessible text", "//ui:multiDropdown/@accessibleText", dropdown);
-		assertXpathEvaluatesTo("1", "//ui:multiDropdown/@min", dropdown);
-		assertXpathEvaluatesTo("2", "//ui:multiDropdown/@max", dropdown);
+		assertXpathEvaluatesTo(dropdown.getId(), "//ui:multidropdown/@id", dropdown);
+		assertXpathEvaluatesTo("true", "//ui:multidropdown/@disabled", dropdown);
+		assertXpathEvaluatesTo("true", "//ui:multidropdown/@hidden", dropdown);
+		assertXpathEvaluatesTo("true", "//ui:multidropdown/@required", dropdown);
+		assertXpathEvaluatesTo("true", "//ui:multidropdown/@readOnly", dropdown);
+		assertXpathEvaluatesTo("true", "//ui:multidropdown/@submitOnChange", dropdown);
+		assertXpathEvaluatesTo("tool tip", "//ui:multidropdown/@toolTip", dropdown);
+		assertXpathEvaluatesTo("accessible text", "//ui:multidropdown/@accessibleText", dropdown);
+		assertXpathEvaluatesTo("1", "//ui:multidropdown/@min", dropdown);
+		assertXpathEvaluatesTo("2", "//ui:multidropdown/@max", dropdown);
 	}
 
 	@Test
@@ -100,10 +100,10 @@ public class WMultiDropdownRenderer_Test extends AbstractWebXmlRendererTestCase 
 		String desc = dropdown.getDesc(dropdown.getOptions().get(0), 0);
 
 		assertSchemaMatch(dropdown);
-		assertXpathEvaluatesTo("1", "count(//ui:multiDropdown/ui:option)", dropdown);
-		assertXpathEvaluatesTo(desc, "//ui:multiDropdown/ui:option[@value='" + code + "']/text()",
+		assertXpathEvaluatesTo("1", "count(//ui:multidropdown/ui:option)", dropdown);
+		assertXpathEvaluatesTo(desc, "//ui:multidropdown/ui:option[@value='" + code + "']/text()",
 				dropdown);
-		assertXpathEvaluatesTo(dropdown.getListCacheKey(), "//ui:multiDropdown/@data", dropdown);
+		assertXpathEvaluatesTo(dropdown.getListCacheKey(), "//ui:multidropdown/@data", dropdown);
 	}
 
 	@Test
@@ -115,10 +115,10 @@ public class WMultiDropdownRenderer_Test extends AbstractWebXmlRendererTestCase 
 
 		assertSafeContent(drop);
 
-		drop.setToolTip(getMaliciousAttribute("ui:multiDropdown"));
+		drop.setToolTip(getMaliciousAttribute("ui:multidropdown"));
 		assertSafeContent(drop);
 
-		drop.setAccessibleText(getMaliciousAttribute("ui:multiDropdown"));
+		drop.setAccessibleText(getMaliciousAttribute("ui:multidropdown"));
 		assertSafeContent(drop);
 	}
 
@@ -128,23 +128,23 @@ public class WMultiDropdownRenderer_Test extends AbstractWebXmlRendererTestCase 
 
 		WMultiDropdown drop = new WMultiDropdown(options);
 		assertSchemaMatch(drop);
-		assertXpathEvaluatesTo("5", "count(//ui:multiDropdown/ui:option)", drop);
+		assertXpathEvaluatesTo("5", "count(//ui:multidropdown/ui:option)", drop);
 
-		assertXpathEvaluatesTo("", "//ui:multiDropdown/ui:option[@value='']/text()", drop);
+		assertXpathEvaluatesTo("", "//ui:multidropdown/ui:option[@value='']/text()", drop);
 
 		for (int i = 0; i < options.length; i++) {
 			String code = drop.optionToCode(options[i]);
 			String option = options[i];
 			if (option == null || option.equals("")) {
 				assertXpathEvaluatesTo("",
-						"//ui:multiDropdown/ui:option[@value='" + code + "']/text()", drop);
+						"//ui:multidropdown/ui:option[@value='" + code + "']/text()", drop);
 				assertXpathEvaluatesTo("true",
-						"//ui:multiDropdown/ui:option[@value='" + code + "']/@isNull", drop);
+						"//ui:multidropdown/ui:option[@value='" + code + "']/@isNull", drop);
 			} else {
 				assertXpathEvaluatesTo(option,
-						"//ui:multiDropdown/ui:option[@value='" + code + "']/text()", drop);
+						"//ui:multidropdown/ui:option[@value='" + code + "']/text()", drop);
 				assertXpathEvaluatesTo("",
-						"//ui:multiDropdown/ui:option[@value='" + code + "']/@isNull", drop);
+						"//ui:multidropdown/ui:option[@value='" + code + "']/@isNull", drop);
 			}
 		}
 	}

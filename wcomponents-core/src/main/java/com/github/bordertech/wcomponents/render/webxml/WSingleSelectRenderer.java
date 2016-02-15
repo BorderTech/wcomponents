@@ -31,7 +31,7 @@ final class WSingleSelectRenderer extends AbstractWebXmlRenderer {
 		boolean readOnly = listBox.isReadOnly();
 		int rows = listBox.getRows();
 
-		xml.appendTagOpen("ui:listBox");
+		xml.appendTagOpen("ui:listbox");
 		xml.appendAttribute("id", component.getId());
 		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
@@ -76,7 +76,7 @@ final class WSingleSelectRenderer extends AbstractWebXmlRenderer {
 			}
 		}
 
-		xml.appendEndTag("ui:listBox");
+		xml.appendEndTag("ui:listbox");
 	}
 
 	/**

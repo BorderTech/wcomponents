@@ -1,7 +1,7 @@
 /* wc.ui.multiSelectPair.scss */
 @import 'mixins_common.scss';
 
-.multiSelectPair {
+.wc-multiselectpair {
 	white-space: nowrap;
 
 	> span {// The containers for the parts of the multiSelectPair
@@ -47,4 +47,3 @@
 		}
 	}
 }
-/* end wc.ui.multiSelectPair.scss */

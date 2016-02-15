@@ -101,7 +101,7 @@ public class WSubordinateControlRenderer_Test extends AbstractWebXmlRendererTest
 		assertXpathEvaluatesTo(actionTarget.getId(), "//ui:subordinate/ui:onFalse/ui:target/@id",
 				root);
 		// Check action target
-		assertXpathEvaluatesTo("true", "//ui:textField/@hidden", root);
+		assertXpathEvaluatesTo("true", "//ui:textfield/@hidden", root);
 	}
 
 	@Test
@@ -170,11 +170,11 @@ public class WSubordinateControlRenderer_Test extends AbstractWebXmlRendererTest
 		assertXpathEvaluatesTo(actionTarget3.getId(),
 				"//ui:componentGroup/ui:component[position()=3]/@id", root);
 		// Check action target
-		assertXpathEvaluatesTo("true", "//ui:textField[@id='" + actionTarget1.getId() + "']/@hidden",
+		assertXpathEvaluatesTo("true", "//ui:textfield[@id='" + actionTarget1.getId() + "']/@hidden",
 				root);
-		assertXpathEvaluatesTo("true", "//ui:textField[@id='" + actionTarget2.getId() + "']/@hidden",
+		assertXpathEvaluatesTo("true", "//ui:textfield[@id='" + actionTarget2.getId() + "']/@hidden",
 				root);
-		assertXpathEvaluatesTo("true", "//ui:textField[@id='" + actionTarget3.getId() + "']/@hidden",
+		assertXpathEvaluatesTo("true", "//ui:textfield[@id='" + actionTarget3.getId() + "']/@hidden",
 				root);
 	}
 
@@ -310,13 +310,13 @@ public class WSubordinateControlRenderer_Test extends AbstractWebXmlRendererTest
 				root);
 		assertXpathEvaluatesTo("", "//ui:subordinate/ui:onFalse[position()=2]/ui:target/@id", root);
 		// Check action target
-		assertXpathEvaluatesTo("true", "//ui:textField[@id='" + actionTarget.getId() + "']/@hidden",
+		assertXpathEvaluatesTo("true", "//ui:textfield[@id='" + actionTarget.getId() + "']/@hidden",
 				root);
-		assertXpathEvaluatesTo("true", "//ui:textField[@id='" + actionTarget1.getId() + "']/@hidden",
+		assertXpathEvaluatesTo("true", "//ui:textfield[@id='" + actionTarget1.getId() + "']/@hidden",
 				root);
-		assertXpathEvaluatesTo("true", "//ui:textField[@id='" + actionTarget2.getId() + "']/@hidden",
+		assertXpathEvaluatesTo("true", "//ui:textfield[@id='" + actionTarget2.getId() + "']/@hidden",
 				root);
-		assertXpathEvaluatesTo("true", "//ui:textField[@id='" + actionTarget3.getId() + "']/@hidden",
+		assertXpathEvaluatesTo("true", "//ui:textfield[@id='" + actionTarget3.getId() + "']/@hidden",
 				root);
 	}
 
@@ -393,13 +393,13 @@ public class WSubordinateControlRenderer_Test extends AbstractWebXmlRendererTest
 		assertXpathEvaluatesTo("", "//ui:subordinate/ui:onFalse[position()=2]/ui:target/@id", root);
 		// Check action target
 		assertXpathEvaluatesTo("true",
-				"//ui:textField[@id='" + actionTarget.getId() + "']/@disabled", root);
+				"//ui:textfield[@id='" + actionTarget.getId() + "']/@disabled", root);
 		assertXpathEvaluatesTo("true",
-				"//ui:textField[@id='" + actionTarget1.getId() + "']/@disabled", root);
+				"//ui:textfield[@id='" + actionTarget1.getId() + "']/@disabled", root);
 		assertXpathEvaluatesTo("true",
-				"//ui:textField[@id='" + actionTarget2.getId() + "']/@disabled", root);
+				"//ui:textfield[@id='" + actionTarget2.getId() + "']/@disabled", root);
 		assertXpathEvaluatesTo("true",
-				"//ui:textField[@id='" + actionTarget3.getId() + "']/@disabled", root);
+				"//ui:textfield[@id='" + actionTarget3.getId() + "']/@disabled", root);
 	}
 
 	@Test
@@ -476,13 +476,13 @@ public class WSubordinateControlRenderer_Test extends AbstractWebXmlRendererTest
 		assertXpathEvaluatesTo("", "//ui:subordinate/ui:onFalse[position()=2]/ui:target/@id", root);
 		// Check action target
 		assertXpathEvaluatesTo("true",
-				"//ui:textField[@id='" + actionTarget.getId() + "']/@required", root);
+				"//ui:textfield[@id='" + actionTarget.getId() + "']/@required", root);
 		assertXpathEvaluatesTo("true",
-				"//ui:textField[@id='" + actionTarget1.getId() + "']/@required", root);
+				"//ui:textfield[@id='" + actionTarget1.getId() + "']/@required", root);
 		assertXpathEvaluatesTo("true",
-				"//ui:textField[@id='" + actionTarget2.getId() + "']/@required", root);
+				"//ui:textfield[@id='" + actionTarget2.getId() + "']/@required", root);
 		assertXpathEvaluatesTo("true",
-				"//ui:textField[@id='" + actionTarget3.getId() + "']/@required", root);
+				"//ui:textfield[@id='" + actionTarget3.getId() + "']/@required", root);
 	}
 
 	@Test
@@ -541,11 +541,11 @@ public class WSubordinateControlRenderer_Test extends AbstractWebXmlRendererTest
 				root);
 
 		// Check action target (Target 1 should be hidden)
-		assertXpathEvaluatesTo("true", "//ui:textField[@id='" + actionTarget1.getId() + "']/@hidden",
+		assertXpathEvaluatesTo("true", "//ui:textfield[@id='" + actionTarget1.getId() + "']/@hidden",
 				root);
-		assertXpathEvaluatesTo("", "//ui:textField[@id='" + actionTarget2.getId() + "']/@hidden",
+		assertXpathEvaluatesTo("", "//ui:textfield[@id='" + actionTarget2.getId() + "']/@hidden",
 				root);
-		assertXpathEvaluatesTo("", "//ui:textField[@id='" + actionTarget3.getId() + "']/@hidden",
+		assertXpathEvaluatesTo("", "//ui:textfield[@id='" + actionTarget3.getId() + "']/@hidden",
 				root);
 	}
 
@@ -606,10 +606,10 @@ public class WSubordinateControlRenderer_Test extends AbstractWebXmlRendererTest
 
 		// Check action target (Target 1 should be disabled)
 		assertXpathEvaluatesTo("true",
-				"//ui:textField[@id='" + actionTarget1.getId() + "']/@disabled", root);
-		assertXpathEvaluatesTo("", "//ui:textField[@id='" + actionTarget2.getId() + "']/@disabled",
+				"//ui:textfield[@id='" + actionTarget1.getId() + "']/@disabled", root);
+		assertXpathEvaluatesTo("", "//ui:textfield[@id='" + actionTarget2.getId() + "']/@disabled",
 				root);
-		assertXpathEvaluatesTo("", "//ui:textField[@id='" + actionTarget3.getId() + "']/@disabled",
+		assertXpathEvaluatesTo("", "//ui:textfield[@id='" + actionTarget3.getId() + "']/@disabled",
 				root);
 	}
 
@@ -657,7 +657,7 @@ public class WSubordinateControlRenderer_Test extends AbstractWebXmlRendererTest
 		assertXpathEvaluatesTo(condTrigger3.getId(),
 				"//ui:subordinate/ui:and/ui:condition[position()=3]/@controller", root);
 		// Check action target
-		assertXpathEvaluatesTo("true", "//ui:textField/@hidden", root);
+		assertXpathEvaluatesTo("true", "//ui:textfield/@hidden", root);
 	}
 
 	@Test
@@ -707,7 +707,7 @@ public class WSubordinateControlRenderer_Test extends AbstractWebXmlRendererTest
 				"//ui:subordinate/ui:or/ui:condition[position()=3]/@controller",
 				root);
 		// Check action target
-		assertXpathEvaluatesTo("true", "//ui:textField/@hidden", root);
+		assertXpathEvaluatesTo("true", "//ui:textfield/@hidden", root);
 
 	}
 
@@ -752,7 +752,7 @@ public class WSubordinateControlRenderer_Test extends AbstractWebXmlRendererTest
 		assertXpathEvaluatesTo("1", "count(//ui:subordinate/ui:and/ui:and/ui:or)", root);
 		assertXpathEvaluatesTo("2", "count(//ui:subordinate/ui:and/ui:and/ui:or/ui:condition)", root);
 		// Check action target
-		assertXpathEvaluatesTo("true", "//ui:textField/@hidden", root);
+		assertXpathEvaluatesTo("true", "//ui:textfield/@hidden", root);
 	}
 
 	@Test
@@ -786,7 +786,7 @@ public class WSubordinateControlRenderer_Test extends AbstractWebXmlRendererTest
 		// Check Condition Value is the "Code Value"
 		assertXpathEvaluatesTo("2", "//ui:subordinate/ui:condition/@value", root);
 		// Check action target
-		assertXpathEvaluatesTo("true", "//ui:textField/@hidden", root);
+		assertXpathEvaluatesTo("true", "//ui:textfield/@hidden", root);
 	}
 
 	@Test
@@ -827,7 +827,7 @@ public class WSubordinateControlRenderer_Test extends AbstractWebXmlRendererTest
 		// Check Condition Value is the Radio Button Value
 		assertXpathEvaluatesTo(button2.getValue(), "//ui:subordinate/ui:condition/@value", root);
 		// Check action target
-		assertXpathEvaluatesTo("true", "//ui:textField/@hidden", root);
+		assertXpathEvaluatesTo("true", "//ui:textfield/@hidden", root);
 	}
 
 	@Test

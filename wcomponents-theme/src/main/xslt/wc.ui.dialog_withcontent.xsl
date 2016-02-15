@@ -8,45 +8,21 @@
 			</xsl:attribute>
 			<xsl:attribute name="class">
 				<xsl:call-template name="commonClassHelper"/>
-				<xsl:text>wc_dragflow wc_resizeflow</xsl:text>
+				<xsl:text> wc_dragflow wc_resizeflow</xsl:text>
 			</xsl:attribute>
 			<xsl:element name="${wc.dom.html5.element.header}">
 				<xsl:attribute name="tabindex">
 					<xsl:text>0</xsl:text>
 				</xsl:attribute>
-				<xsl:element name="span">
-					<xsl:element name="button">
-						<xsl:attribute name="class">
-							<xsl:text>wc_maxcont wc_btn_nada</xsl:text>
-						</xsl:attribute>
-						<xsl:attribute name="type">
-							<xsl:text>button</xsl:text>
-						</xsl:attribute>
-						<xsl:attribute name="title">
-							<xsl:value-of select="$$${wc.ui.dialog.title.maxRestore}"/>
-						</xsl:attribute>
-						<xsl:attribute name="aria-pressed">
-							<xsl:text>false</xsl:text>
-						</xsl:attribute>
-						<xsl:attribute name="data-wc-resize">
-							<xsl:text>${wc.ui.dialog.id}</xsl:text>
-						</xsl:attribute>
+				<span>
+					<button class="wc_maxcont wc_btn_nada" type="button" title="{$$${wc.ui.dialog.title.maxRestore}}" aria-pressed="false" data-wc-resize="${wc.ui.dialog.id}">
 						<xsl:text>&#xa0;</xsl:text>
-					</xsl:element>
-					<xsl:element name="button">
-						<xsl:attribute name="class">
-							<xsl:text>wc_dialog_close wc_btn_nada</xsl:text>
-						</xsl:attribute>
-						<xsl:attribute name="type">
-							<xsl:text>button</xsl:text>
-						</xsl:attribute>
-						<xsl:attribute name="title">
-							<xsl:value-of select="$$${wc.ui.dialog.title.close}"/>
-						</xsl:attribute>
+					</button>
+					<button class="wc_dialog_close wc_btn_nada" type="button" title="{$$${wc.ui.dialog.title.close}}">
 						<xsl:text>&#xa0;</xsl:text>
-					</xsl:element>
-				</xsl:element>
-				<xsl:element name="h1">
+					</button>
+				</span>
+				<h1>
 					<xsl:choose>
 						<xsl:when test="@title">
 							<xsl:value-of select="@title"/>
@@ -55,30 +31,15 @@
 							<xsl:value-of select="$$${wc.ui.dialog.title.noTitle}"/>
 						</xsl:otherwise>
 					</xsl:choose>
-				</xsl:element>
+				</h1>
 			</xsl:element>
-			<xsl:element name="div">
-				<xsl:attribute name="aria-live">
-					<xsl:text>assertive</xsl:text>
-				</xsl:attribute>
-				<xsl:attribute name="id">
-					<xsl:value-of select="@id"/>
-				</xsl:attribute>
+			<div aria-live="assertive" id="{@id}">
 				<xsl:apply-templates select="ui:content"/>
-			</xsl:element>
+			</div>
 			<xsl:element name="${wc.dom.html5.element.footer}">
-				<xsl:element name="button">
-					<xsl:attribute name="class">
-						<xsl:text>wc_resize wc_btn_nada</xsl:text>
-					</xsl:attribute>
-					<xsl:attribute name="data-wc-resize">
-						<xsl:text>${wc.ui.dialog.id}</xsl:text>
-					</xsl:attribute>
-					<xsl:attribute name="type">
-						<xsl:text>button</xsl:text>
-					</xsl:attribute>
+				<button class="wc_resize wc_btn_nada" data-wc-resize="${wc.ui.dialog.id}" type="button">
 					<xsl:text>&#xa0;</xsl:text>
-				</xsl:element>
+				</button>
 			</xsl:element>
 		</xsl:element>
 	</xsl:template>

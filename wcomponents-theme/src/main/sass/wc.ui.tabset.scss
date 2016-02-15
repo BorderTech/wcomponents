@@ -109,11 +109,11 @@
 
 
 [role='tabpanel'],
-.tabset > [role='presentation'] {
+.wc-tabset > [role='presentation'] {
 	background-color: $wc-ui-color-global-bg;
 }
 
-.tabset > [role='presentation'] {
+.wc-tabset > [role='presentation'] {
 	@include border;
 }
 
@@ -151,4 +151,3 @@
 		}
 	}
 }
-/* end wc.ui.tabset.scss */

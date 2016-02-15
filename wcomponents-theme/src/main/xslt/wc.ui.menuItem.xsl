@@ -13,12 +13,12 @@
 		The transform for WMenuItem. In general this is pretty straightforwards. The
 		menuItem is rendered as a single control.
 	-->
-	<xsl:template match="ui:menuItem">
+	<xsl:template match="ui:menuitem">
 		<xsl:variable name="myAncestorMenu" select="ancestor::ui:menu[1]"/>
 		<xsl:variable name="myAncestorSubmenu" select="ancestor::ui:submenu[ancestor::ui:menu[1]=$myAncestorMenu or not($myAncestorMenu)][1]"/>
 		<xsl:variable name="id" select="@id"/>
 		<xsl:variable name="menuType" select="$myAncestorMenu/@type"/>
-		<!-- this is a test for ui:menuItem in an ajax response without its context menu -->
+		<!-- this is a test for ui:menuitem in an ajax response without its context menu -->
 		<xsl:variable name="noContextMenu">
 			<xsl:if test="not($myAncestorMenu)">
 				<xsl:number value="1"/>
@@ -278,7 +278,7 @@
 					</xsl:if>
 				</xsl:otherwise>
 			</xsl:choose>
-			<xsl:apply-templates select="ui:decoratedLabel">
+			<xsl:apply-templates select="ui:decoratedlabel">
 				<xsl:with-param name="output">
 					<xsl:choose>
 						<xsl:when test="$isButton=1">

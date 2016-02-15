@@ -12,7 +12,7 @@
 		type.
 	-->
 	<xsl:template match="ui:tabset">
-		<xsl:variable name="firstOpenTab" select="(ui:tab[@open=$t]|ui:tabGroup/ui:tab[@open=$t])[1]"/>
+		<xsl:variable name="firstOpenTab" select="(ui:tab[@open=$t]|ui:tabgroup/ui:tab[@open=$t])[1]"/>
 		
 		<xsl:variable name="tabsAfterContent">
 			<xsl:call-template name="tabsAfterContent"/>
@@ -41,7 +41,7 @@
 					<xsl:attribute name="role">
 						<xsl:text>presentation</xsl:text>
 					</xsl:attribute>
-					<xsl:apply-templates select="ui:tab|ui:tabGroup/ui:tab" mode="content">
+					<xsl:apply-templates select="ui:tab|ui:tabgroup/ui:tab" mode="content">
 						<xsl:with-param name="tabset" select="."/>
 						<xsl:with-param name="tabsetId" select="@id"/>
 						<xsl:with-param name="type" select="@type"/>

@@ -2,8 +2,8 @@
 @import 'mixins_common.scss';
 
 /// WCheckBox and WRadioButton in read-only mode.
-.checkBox,
-.radioButton {
+.wc-checkbox,
+.wc-radiobutton {
 	&.wc_ro {
 		@include background-image($url: '../images/checkbox-ro.png', $height: 1em, $width: 1em);
 		@include make-box($width: 1em, $height: 1em);
@@ -11,13 +11,13 @@
 }
 
 /// Selected, read-only WCheckBox.
-.checkBox.wc_ro_sel {
+.wc-checkbox.wc_ro_sel {
 	background-image: url('../images/checkbox-s-ro.png');
 }
 
 
 /// read-only WRadioButton.
-.radioButton.wc_ro {
+.wc-radiobutton.wc_ro {
 	background-image: url('../images/radio-ro.png');
 
 	/// selected, read-only WRadioButton.

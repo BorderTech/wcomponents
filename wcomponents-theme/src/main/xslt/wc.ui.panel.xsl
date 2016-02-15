@@ -11,12 +11,12 @@
 	
 		Child elements
 		optional ui:margin and exactly one of:
-			* ui:borderLayout
-			* ui:columnLayout
+			* ui:borderlayout
+			* ui:columnlayout
 			* ui:content
-			* ui:flowLayout
-			* ui:gridLayout
-			* ui:listLayout
+			* ui:flowlayout
+			* ui:gridlayout
+			* ui:listlayout
 	-->
 	<xsl:template match="ui:panel">
 		<xsl:variable name="id" select="@id"/>

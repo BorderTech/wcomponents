@@ -92,7 +92,8 @@ define(["wc/has",
 			TRANSIENT_SELECTED_ATTRIB = "data-wc-selected",
 			BUTTON = "button",
 			CLOSE_BUTTON,
-			MENU_ROLE_CLASS = "menu",
+			MENU_ROLE = "menu",
+			MENU_CLASS = "wc-menu",
 			MENUITEM_ROLE = "menuitem",
 			DEFAULT_CLOSE_LABEL,
 			/**
@@ -116,12 +117,12 @@ define(["wc/has",
 		 * @returns {Object} an object containing properties the values of which are Widgets.
 		 */
 		function setupFixedWidgets() {
-			var branchWidget = new Widget("", "submenu"),
+			var branchWidget = new Widget("", "wc-submenu"),
 				branchTriggerWidget = new Widget(BUTTON);
 			branchTriggerWidget.descendFrom(branchWidget, true);
 			return {
 				TABSTOP: new Widget("", "", { "tabIndex": "0" }),  // used to get the current tabstop in any menu
-				GENERIC_ROOT: new Widget("", MENU_ROLE_CLASS),
+				GENERIC_ROOT: new Widget("", MENU_CLASS),
 				BRANCH_TRIGGER: branchTriggerWidget,
 				BRANCH: branchWidget,
 				OFFSCREEN: new Widget("", "wc_off")
@@ -138,7 +139,7 @@ define(["wc/has",
 			var o,
 				leaf = instance._role.LEAF;
 			fixedWidgets = fixedWidgets || setupFixedWidgets();
-			instance._wd.submenu = new Widget("", "submenucontent", { "role": instance._role.SUBMENU });
+			instance._wd.submenu = new Widget("", "wc_submenucontent", { "role": instance._role.SUBMENU });
 			instance._wd.leaf = [];
 			for (o in leaf) {
 				instance._wd.leaf[instance._wd.leaf.length] = new Widget("", "", { "role": leaf[o] });
@@ -1330,13 +1331,13 @@ define(["wc/has",
 		 * @protected
 		 */
 		AbstractMenu.prototype._role = {
-			MENU: MENU_ROLE_CLASS,
+			MENU: MENU_ROLE,
 			LEAF: {
 				noSelection: MENUITEM_ROLE,
 				single: "menuitemradio",
 				multi: "menuitemcheckbox"
 			},
-			SUBMENU: MENU_ROLE_CLASS
+			SUBMENU: MENU_ROLE
 		};
 
 		/**

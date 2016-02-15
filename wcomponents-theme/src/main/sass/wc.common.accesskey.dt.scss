@@ -57,7 +57,7 @@ span[role='tooltip'] {
 	// because we cannot guarantee that the hidden selector is more specific.
 	//TODO: check this is still the case!
 	&,
-	.menu [role] & {
+	.wc-menu [role] & {
 		display: inline-block;
 	}
 }

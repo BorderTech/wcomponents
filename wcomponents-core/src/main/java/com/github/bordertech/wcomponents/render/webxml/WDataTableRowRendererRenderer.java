@@ -87,7 +87,7 @@ final class WDataTableRowRendererRenderer extends AbstractWebXmlRenderer {
 			if (!node.isLeaf()) {
 				// TODO Do not paint empty subtr. Made temporary change to table.xsd to allow empty subtr. Waiting for a
 				// fix in T&S in WC6.
-				xml.appendTagOpen("ui:subTr");
+				xml.appendTagOpen("ui:subtr");
 				xml.appendOptionalAttribute("open", node.isExpanded(), "true");
 				xml.appendClose();
 
@@ -149,7 +149,7 @@ final class WDataTableRowRendererRenderer extends AbstractWebXmlRenderer {
 					}
 				}
 
-				xml.appendEndTag("ui:subTr");
+				xml.appendEndTag("ui:subtr");
 			}
 		}
 

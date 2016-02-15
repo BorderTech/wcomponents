@@ -26,7 +26,7 @@ public class WPrintButtonRenderer_Test extends AbstractWebXmlRendererTestCase {
 	public void testDoPaint() throws IOException, SAXException, XpathException {
 		WPrintButton button = new WPrintButton("Print");
 		assertSchemaMatch(button);
-		assertXpathExists("//ui:printButton", button);
+		assertXpathExists("//ui:printbutton", button);
 	}
 
 	@Test
@@ -35,10 +35,10 @@ public class WPrintButtonRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		assertSafeContent(button);
 
-		button.setToolTip(getMaliciousAttribute("ui:printButton"));
+		button.setToolTip(getMaliciousAttribute("ui:printbutton"));
 		assertSafeContent(button);
 
-		button.setAccessibleText(getMaliciousAttribute("ui:printButton"));
+		button.setAccessibleText(getMaliciousAttribute("ui:printbutton"));
 		assertSafeContent(button);
 	}
 }

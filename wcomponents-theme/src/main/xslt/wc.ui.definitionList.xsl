@@ -10,7 +10,7 @@
 		attribute. The default block layout is changed to inline-block if the type is
 		flat or column.
 	-->
-	<xsl:template match="ui:definitionList">
+	<xsl:template match="ui:definitionlist">
 		<xsl:element name="dl">
 			<xsl:attribute name="id">
 				<xsl:value-of select="@id"/>

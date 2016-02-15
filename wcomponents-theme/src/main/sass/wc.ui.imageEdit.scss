@@ -124,7 +124,7 @@
 
 @include respond(phonelike) {
 	.wc_img_editor {
-		.row > div {
+		.wc-row > div {
 			text-align: center;
 		}
 

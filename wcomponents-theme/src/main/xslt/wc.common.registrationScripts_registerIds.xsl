@@ -6,7 +6,7 @@
 		<xsl:text>"</xsl:text>
 		<xsl:choose>
 			<xsl:when test="self::ui:tab">
-				<xsl:value-of select="ui:tabContent/@id"/>
+				<xsl:value-of select="ui:tabcontent/@id"/>
 			</xsl:when>
 			<xsl:when test="self::ui:collapsible or self::ui:submenu">
 				<xsl:value-of select="ui:content/@id"/>

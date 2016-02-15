@@ -33,7 +33,7 @@ final class WEmailFieldRenderer extends AbstractWebXmlRenderer {
 		WComponent submitControl = field.getDefaultSubmitButton();
 		String submitControlId = submitControl == null ? null : submitControl.getId();
 
-		xml.appendTagOpen("ui:emailField");
+		xml.appendTagOpen("ui:emailfield");
 		xml.appendAttribute("id", component.getId());
 		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
@@ -52,6 +52,6 @@ final class WEmailFieldRenderer extends AbstractWebXmlRenderer {
 
 		xml.appendEscaped(field.getText());
 
-		xml.appendEndTag("ui:emailField");
+		xml.appendEndTag("ui:emailfield");
 	}
 }

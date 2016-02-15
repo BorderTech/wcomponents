@@ -52,12 +52,12 @@ public class WPartialDateFieldRenderer_Test extends AbstractWebXmlRendererTestCa
 		assertSchemaMatch(dateField);
 
 		// defaults
-		assertXpathExists("//ui:dateField", dateField);
-		assertXpathEvaluatesTo(dateField.getId(), "//ui:dateField/@id", dateField);
-		assertXpathEvaluatesTo("true", "//ui:dateField/@allowPartial", dateField);
+		assertXpathExists("//ui:datefield", dateField);
+		assertXpathEvaluatesTo(dateField.getId(), "//ui:datefield/@id", dateField);
+		assertXpathEvaluatesTo("true", "//ui:datefield/@allowPartial", dateField);
 
 		// actual date value not set
-		assertXpathEvaluatesTo("", "//ui:dateField", dateField);
+		assertXpathEvaluatesTo("", "//ui:datefield", dateField);
 	}
 
 	/**
@@ -79,23 +79,23 @@ public class WPartialDateFieldRenderer_Test extends AbstractWebXmlRendererTestCa
 		assertSchemaMatch(dateField);
 
 		// Defaults
-		assertXpathExists("//ui:dateField", dateField);
-		assertXpathEvaluatesTo(dateField.getId(), "//ui:dateField/@id", dateField);
-		assertXpathEvaluatesTo("true", "//ui:dateField/@allowPartial", dateField);
+		assertXpathExists("//ui:datefield", dateField);
+		assertXpathEvaluatesTo(dateField.getId(), "//ui:datefield/@id", dateField);
+		assertXpathEvaluatesTo("true", "//ui:datefield/@allowPartial", dateField);
 
 		// Optionals
-		assertXpathEvaluatesTo("true", "//ui:dateField/@disabled", dateField);
-		assertXpathEvaluatesTo("true", "//ui:dateField/@hidden", dateField);
-		assertXpathEvaluatesTo("true", "//ui:dateField/@required", dateField);
-		assertXpathEvaluatesTo("true", "//ui:dateField/@readOnly", dateField);
-		assertXpathEvaluatesTo(TEST_TITLE, "//ui:dateField/@toolTip", dateField);
-		assertXpathEvaluatesTo(TEST_ALT_TEXT, "//ui:dateField/@accessibleText", dateField);
+		assertXpathEvaluatesTo("true", "//ui:datefield/@disabled", dateField);
+		assertXpathEvaluatesTo("true", "//ui:datefield/@hidden", dateField);
+		assertXpathEvaluatesTo("true", "//ui:datefield/@required", dateField);
+		assertXpathEvaluatesTo("true", "//ui:datefield/@readOnly", dateField);
+		assertXpathEvaluatesTo(TEST_TITLE, "//ui:datefield/@toolTip", dateField);
+		assertXpathEvaluatesTo(TEST_ALT_TEXT, "//ui:datefield/@accessibleText", dateField);
 		assertXpathEvaluatesTo(String.valueOf(dateField.getDefaultSubmitButton().getId()),
-				"//ui:dateField/@buttonId",
+				"//ui:datefield/@buttonId",
 				dateField);
 
 		// Actual date value not set
-		assertXpathEvaluatesTo("", "//ui:dateField", dateField);
+		assertXpathEvaluatesTo("", "//ui:datefield", dateField);
 	}
 
 	/**
@@ -111,12 +111,12 @@ public class WPartialDateFieldRenderer_Test extends AbstractWebXmlRendererTestCa
 		assertSchemaMatch(dateField);
 
 		// Defaults
-		assertXpathExists("//ui:dateField", dateField);
-		assertXpathEvaluatesTo(dateField.getId(), "//ui:dateField/@id", dateField);
-		assertXpathEvaluatesTo("true", "//ui:dateField/@allowPartial", dateField);
+		assertXpathExists("//ui:datefield", dateField);
+		assertXpathEvaluatesTo(dateField.getId(), "//ui:datefield/@id", dateField);
+		assertXpathEvaluatesTo("true", "//ui:datefield/@allowPartial", dateField);
 
 		// Actual date value
-		assertXpathEvaluatesTo("2000-01-??", "//ui:dateField/@date", dateField);
+		assertXpathEvaluatesTo("2000-01-??", "//ui:datefield/@date", dateField);
 	}
 
 	/**
@@ -132,12 +132,12 @@ public class WPartialDateFieldRenderer_Test extends AbstractWebXmlRendererTestCa
 		assertSchemaMatch(dateField);
 
 		// Defaults
-		assertXpathExists("//ui:dateField", dateField);
-		assertXpathEvaluatesTo(dateField.getId(), "//ui:dateField/@id", dateField);
-		assertXpathEvaluatesTo("true", "//ui:dateField/@allowPartial", dateField);
+		assertXpathExists("//ui:datefield", dateField);
+		assertXpathEvaluatesTo(dateField.getId(), "//ui:datefield/@id", dateField);
+		assertXpathEvaluatesTo("true", "//ui:datefield/@allowPartial", dateField);
 
 		// Actual date value
-		assertXpathEvaluatesTo("2000-02-01", "//ui:dateField/@date", dateField);
+		assertXpathEvaluatesTo("2000-02-01", "//ui:datefield/@date", dateField);
 	}
 
 	@Test
@@ -154,10 +154,10 @@ public class WPartialDateFieldRenderer_Test extends AbstractWebXmlRendererTestCa
 		}
 
 		dateField.setData(null);
-		dateField.setToolTip(getMaliciousAttribute("ui:dateField"));
+		dateField.setToolTip(getMaliciousAttribute("ui:datefield"));
 		assertSafeContent(dateField);
 
-		dateField.setAccessibleText(getMaliciousAttribute("ui:dateField"));
+		dateField.setAccessibleText(getMaliciousAttribute("ui:datefield"));
 		assertSafeContent(dateField);
 	}
 }

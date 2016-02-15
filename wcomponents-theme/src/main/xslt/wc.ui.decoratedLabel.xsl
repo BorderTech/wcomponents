@@ -9,14 +9,14 @@
 		upon the content model of the containing element and defaults to span.
 	
 		Child elements
-		* ui:labelHead (0..1)
-		* ui:labelBody (required, exactly 1)
-		* ui:labelTail (0..1)
+		* ui:labelhead (0..1)
+		* ui:labelbody (required, exactly 1)
+		* ui:labeltail (0..1)
 
 		Output the WDecoratedLabel
 		param output: A HTML element name. Default 'span'
 	-->
-	<xsl:template match="ui:decoratedLabel">
+	<xsl:template match="ui:decoratedlabel">
 		<xsl:param name="output" select="'span'"/>
 		<xsl:element name="{$output}">
 			<xsl:attribute name="id">

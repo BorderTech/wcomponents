@@ -2,7 +2,7 @@
 	<xsl:import href="wc.constants.xsl"/>
 	<xsl:import href="wc.common.n.className.xsl"/>
 	<!--
-		Transform for ui:fieldIndicator which is output of WFieldErrorIndicator and
+		Transform for ui:fieldindicator which is output of WFieldErrorIndicator and
 		WFieldWarningIndicator. This is normally output to provide inline messaging in
 		a WField.
 	
@@ -23,7 +23,7 @@
 		component for which it is providing feedback.
 	
 	-->
-	<xsl:template match="ui:fieldIndicator">
+	<xsl:template match="ui:fieldindicator">
 		<ul id="{@id}">
 			<xsl:attribute name="class">
 				<xsl:call-template name="commonClassHelper"/>
@@ -35,10 +35,10 @@
 	<!--
 		Currently there is a consistency problem with the use of WFieldErrorIndicator
 		which results in a possible double-up of error messages. Therefore we
-		currently do not output ui:fieldIndicator of type 'error' and output
+		currently do not output ui:fieldindicator of type 'error' and output
 		the ui:error children of WValidationErrors instead.
 
 		This is under investigation.
 	-->
-	<xsl:template match="ui:fieldIndicator[@type='error']"/>
+	<xsl:template match="ui:fieldindicator[@type='error']"/>
 </xsl:stylesheet>

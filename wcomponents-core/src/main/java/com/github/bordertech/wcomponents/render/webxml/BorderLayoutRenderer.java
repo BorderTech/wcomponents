@@ -33,7 +33,7 @@ final class BorderLayoutRenderer extends AbstractWebXmlRenderer {
 		int hgap = layout.getHgap();
 		int vgap = layout.getVgap();
 
-		xml.appendTagOpen("ui:borderLayout");
+		xml.appendTagOpen("ui:borderlayout");
 
 		xml.appendOptionalAttribute("hgap", hgap > 0, hgap);
 		xml.appendOptionalAttribute("vgap", vgap > 0, vgap);
@@ -56,7 +56,7 @@ final class BorderLayoutRenderer extends AbstractWebXmlRenderer {
 		paintChildrenWithConstraint(children, renderContext, BorderLayout.WEST);
 		paintChildrenWithConstraint(children, renderContext, BorderLayout.CENTER);
 
-		xml.appendEndTag("ui:borderLayout");
+		xml.appendEndTag("ui:borderlayout");
 	}
 
 	/**

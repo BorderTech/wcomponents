@@ -30,7 +30,7 @@ final class WCheckBoxRenderer extends AbstractWebXmlRenderer {
 		WComponentGroup<WCheckBox> group = checkBox.getGroup();
 		String groupName = group == null ? null : group.getId();
 
-		xml.appendTagOpen("ui:checkBox");
+		xml.appendTagOpen("ui:checkbox");
 		xml.appendAttribute("id", component.getId());
 		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");

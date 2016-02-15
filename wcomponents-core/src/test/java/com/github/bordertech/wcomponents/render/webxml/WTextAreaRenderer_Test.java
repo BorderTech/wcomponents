@@ -35,83 +35,83 @@ public class WTextAreaRenderer_Test extends AbstractWebXmlRendererTestCase {
 		root.add(button);
 
 		assertSchemaMatch(field);
-		assertXpathEvaluatesTo(field.getId(), "//ui:textArea/@id", field);
-		assertXpathNotExists("//ui:textArea/@disabled", field);
-		assertXpathNotExists("//ui:textArea/@hidden", field);
-		assertXpathNotExists("//ui:textArea/@required", field);
-		assertXpathNotExists("//ui:textArea/@readOnly", field);
-		assertXpathNotExists("//ui:textArea/@minLength", field);
-		assertXpathNotExists("//ui:textArea/@maxLength", field);
-		assertXpathNotExists("//ui:textArea/@toolTip", field);
-		assertXpathNotExists("//ui:textArea/@accessibleText", field);
-		assertXpathNotExists("//ui:textArea/@rows", field);
-		assertXpathNotExists("//ui:textArea/@cols", field);
-		assertXpathNotExists("//ui:textArea/ui:rtf", field);
+		assertXpathEvaluatesTo(field.getId(), "//ui:textarea/@id", field);
+		assertXpathNotExists("//ui:textarea/@disabled", field);
+		assertXpathNotExists("//ui:textarea/@hidden", field);
+		assertXpathNotExists("//ui:textarea/@required", field);
+		assertXpathNotExists("//ui:textarea/@readOnly", field);
+		assertXpathNotExists("//ui:textarea/@minLength", field);
+		assertXpathNotExists("//ui:textarea/@maxLength", field);
+		assertXpathNotExists("//ui:textarea/@toolTip", field);
+		assertXpathNotExists("//ui:textarea/@accessibleText", field);
+		assertXpathNotExists("//ui:textarea/@rows", field);
+		assertXpathNotExists("//ui:textarea/@cols", field);
+		assertXpathNotExists("//ui:textarea/ui:rtf", field);
 
 		field.setDisabled(true);
 		assertSchemaMatch(field);
-		assertXpathEvaluatesTo("true", "//ui:textArea/@disabled", field);
+		assertXpathEvaluatesTo("true", "//ui:textarea/@disabled", field);
 
 		setFlag(field, ComponentModel.HIDE_FLAG, true);
 		assertSchemaMatch(field);
-		assertXpathEvaluatesTo("true", "//ui:textArea/@hidden", field);
+		assertXpathEvaluatesTo("true", "//ui:textarea/@hidden", field);
 
 		field.setMandatory(true);
 		assertSchemaMatch(field);
-		assertXpathEvaluatesTo("true", "//ui:textArea/@required", field);
+		assertXpathEvaluatesTo("true", "//ui:textarea/@required", field);
 
 		field.setReadOnly(true);
 		assertSchemaMatch(field);
-		assertXpathEvaluatesTo("true", "//ui:textArea/@readOnly", field);
+		assertXpathEvaluatesTo("true", "//ui:textarea/@readOnly", field);
 
 		field.setMinLength(45);
 		assertSchemaMatch(field);
-		assertXpathEvaluatesTo("45", "//ui:textArea/@minLength", field);
+		assertXpathEvaluatesTo("45", "//ui:textarea/@minLength", field);
 
 		field.setMaxLength(50);
 		assertSchemaMatch(field);
-		assertXpathEvaluatesTo("50", "//ui:textArea/@maxLength", field);
+		assertXpathEvaluatesTo("50", "//ui:textarea/@maxLength", field);
 
 		field.setToolTip("tooltip");
 		assertSchemaMatch(field);
-		assertXpathEvaluatesTo(field.getToolTip(), "//ui:textArea/@toolTip", field);
+		assertXpathEvaluatesTo(field.getToolTip(), "//ui:textarea/@toolTip", field);
 
 		field.setAccessibleText("accessible");
 		assertSchemaMatch(field);
-		assertXpathEvaluatesTo(field.getAccessibleText(), "//ui:textArea/@accessibleText", field);
+		assertXpathEvaluatesTo(field.getAccessibleText(), "//ui:textarea/@accessibleText", field);
 
 		field.setRows(20);
 		assertSchemaMatch(field);
-		assertXpathEvaluatesTo("20", "//ui:textArea/@rows", field);
+		assertXpathEvaluatesTo("20", "//ui:textarea/@rows", field);
 
 		field.setColumns(40);
 		assertSchemaMatch(field);
-		assertXpathEvaluatesTo("40", "//ui:textArea/@cols", field);
+		assertXpathEvaluatesTo("40", "//ui:textarea/@cols", field);
 
 		field.setRichTextArea(false);
 		assertSchemaMatch(field);
-		assertXpathNotExists("//ui:textArea/ui:rtf", field);
+		assertXpathNotExists("//ui:textarea/ui:rtf", field);
 
 		field.setRichTextArea(true);
 		assertSchemaMatch(field);
-		assertXpathExists("//ui:textArea/ui:rtf", field);
+		assertXpathExists("//ui:textarea/ui:rtf", field);
 
 		field.setDefaultSubmitButton(button);
 		assertSchemaMatch(field);
-		assertXpathEvaluatesTo(button.getId(), "//ui:textArea/@buttonId", field);
+		assertXpathEvaluatesTo(button.getId(), "//ui:textarea/@buttonId", field);
 
 		field.setPattern("");
 		assertSchemaMatch(field);
-		assertXpathNotExists("//ui:textArea/@pattern", field);
+		assertXpathNotExists("//ui:textarea/@pattern", field);
 
 		// Pattern is not supported on the client for TextArea, and will not be rendered
 		field.setPattern("test[123]");
 		assertSchemaMatch(field);
-		assertXpathNotExists("//ui:textArea/@pattern", field);
+		assertXpathNotExists("//ui:textarea/@pattern", field);
 
 		field.setText("Hello");
 		assertSchemaMatch(field);
-		assertXpathEvaluatesTo(field.getText(), "normalize-space(//ui:textArea)", field);
+		assertXpathEvaluatesTo(field.getText(), "normalize-space(//ui:textarea)", field);
 	}
 
 	@Test
@@ -121,10 +121,10 @@ public class WTextAreaRenderer_Test extends AbstractWebXmlRendererTestCase {
 		textArea.setText(getMaliciousContent());
 		assertSafeContent(textArea);
 
-		textArea.setToolTip(getMaliciousAttribute("ui:textArea"));
+		textArea.setToolTip(getMaliciousAttribute("ui:textarea"));
 		assertSafeContent(textArea);
 
-		textArea.setAccessibleText(getMaliciousAttribute("ui:textArea"));
+		textArea.setAccessibleText(getMaliciousAttribute("ui:textarea"));
 		assertSafeContent(textArea);
 	}
 }

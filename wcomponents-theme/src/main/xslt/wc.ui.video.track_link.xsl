@@ -3,7 +3,7 @@
  Output an A element linking to a track file.
 -->
 	<xsl:template match="ui:track" mode="link">
-		<a href="{@src}" class="track">
+		<a href="{@src}" class="wc-track">
 			<xsl:if test="@lang">
 				<xsl:attribute name="lang">
 					<xsl:value-of select="@lang"/>

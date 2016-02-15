@@ -161,8 +161,8 @@ public class WhiteSpaceFilterPrintWriter_Test {
 		String input = "<ui:root><ui:text>  foo  foo  <ui:text></ui:root>";
 		Assert.assertEquals(ERROR_MESSAGE + input + '"', input, filter(input));
 
-		// ui:textArea - Whitespace should NOT be stripped
-		input = "<ui:root><ui:textArea>  foo  foo  <ui:textArea></ui:root>";
+		// ui:textarea - Whitespace should NOT be stripped
+		input = "<ui:root><ui:textarea>  foo  foo  <ui:textarea></ui:root>";
 		Assert.assertEquals(ERROR_MESSAGE + input + '"', input, filter(input));
 
 		// ui:message - Whitespace should NOT be stripped
@@ -206,8 +206,8 @@ public class WhiteSpaceFilterPrintWriter_Test {
 		String input = "<ui:root><ui:text>  foo  \n \t \r \" '  foo  <ui:text></ui:root>";
 		Assert.assertEquals(ERROR_MESSAGE + input + '"', input, filter(input));
 
-		// ui:textArea - Whitespace should NOT be stripped
-		input = "<ui:root><ui:textArea>  foo  \n \t \r \" '  foo  <ui:textArea></ui:root>";
+		// ui:textarea - Whitespace should NOT be stripped
+		input = "<ui:root><ui:textarea>  foo  \n \t \r \" '  foo  <ui:textarea></ui:root>";
 		Assert.assertEquals(ERROR_MESSAGE + input + '"', input, filter(input));
 
 		// ui:message - Whitespace should NOT be stripped
@@ -226,8 +226,8 @@ public class WhiteSpaceFilterPrintWriter_Test {
 
 	@Test
 	public void testUiElementsWithAttributesAndElements() {
-		// ui:textArea - Whitespace should NOT be stripped
-		String input = "<ui:root><ui:textArea a1='1  '   a2=\"2  \" >  foo  \n \t \r \" '  foo  <other>other text \n </other>  <ui:textArea></ui:root>";
+		// ui:textarea - Whitespace should NOT be stripped
+		String input = "<ui:root><ui:textarea a1='1  '   a2=\"2  \" >  foo  \n \t \r \" '  foo  <other>other text \n </other>  <ui:textarea></ui:root>";
 		Assert.assertEquals(ERROR_MESSAGE + input + '"', input, filter(input));
 
 		// ui:text - Whitespace should NOT be stripped

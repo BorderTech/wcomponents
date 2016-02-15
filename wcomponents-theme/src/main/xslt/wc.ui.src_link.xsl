@@ -3,13 +3,7 @@
 		Outputs an A element linking to a source file.
 	-->
 	<xsl:template match="ui:src" mode="link">
-		<xsl:element name="a">
-			<xsl:attribute name="href">
-				<xsl:value-of select="@uri"/>
-			</xsl:attribute>
-			<xsl:attribute name="class">
-				<xsl:text>src</xsl:text>
-			</xsl:attribute>
+		<a href="{@uri}" class="wc-src">
 			<xsl:attribute name="${wc.common.attrib.attach}">
 				<xsl:text>${wc.common.attrib.attach}</xsl:text>
 			</xsl:attribute>
@@ -38,7 +32,7 @@
 					<xsl:value-of select="@uri"/>
 				</xsl:otherwise>
 			</xsl:choose>
-		</xsl:element>
+		</a>
 		<xsl:if test="position()!=last()">
 			<xsl:text>&#x2002;</xsl:text>
 		</xsl:if>

@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-
-XML schema for validationErrors (WValidationErrors)
-
--->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0">
-	<xs:element name="validationErrors">
+	<xs:element name="validationerrors">
 		<xs:annotation>
 			<xs:documentation>WValidationErrors provides an output mechanism for error messages.</xs:documentation>
 		</xs:annotation>
@@ -40,7 +35,7 @@ XML schema for validationErrors (WValidationErrors)
 
 			<xs:attribute name="title" type="xs:string">
 				<xs:annotation>
-					<xs:documentation>A human readable title for the validationErrors container.</xs:documentation>
+					<xs:documentation>A human readable title for the validation errors container.</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
 		</xs:complexType>

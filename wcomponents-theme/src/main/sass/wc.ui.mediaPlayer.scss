@@ -2,8 +2,8 @@
 // styles for WAudio and WVideo when the media is not able to be handled by the user agent natively. */
 @import 'mixins_common.scss';
 
-.src,
-.track {
+.wc-src,
+.wc-track {
 	display: inline-block;
 
 	&:before {
@@ -15,7 +15,7 @@
 }
 
 .wc_av_play,
-.src:before {
+.wc-src:before {
 	@include background-image($url: '../images/play.png', $reset-size: 1em);
 }
 
@@ -28,11 +28,11 @@
 }
 
 
-.track:before {
+.wc-track:before {
 	@include background-image($url: '../images/application-smil.png', $reset-size: 1em);
 }
 
-.track + .track,
-.src + .src {
+.wc-track + .wc-track,
+.wc-src + .wc-src {
 	margin-left: $hgap-normal;
 }

@@ -28,7 +28,7 @@ final class WDecoratedLabelRenderer extends AbstractWebXmlRenderer {
 		WComponent body = label.getBody();
 		WComponent tail = label.getTail();
 
-		xml.appendTagOpen("ui:decoratedLabel");
+		xml.appendTagOpen("ui:decoratedlabel");
 		xml.appendAttribute("id", component.getId());
 		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
@@ -36,28 +36,28 @@ final class WDecoratedLabelRenderer extends AbstractWebXmlRenderer {
 		xml.appendClose();
 
 		if (head != null && head.isVisible()) {
-			xml.appendTagOpen("ui:labelHead");
+			xml.appendTagOpen("ui:labelhead");
 			xml.appendAttribute("id", label.getId() + "-head");
 			xml.appendClose();
 			head.paint(renderContext);
-			xml.appendEndTag("ui:labelHead");
+			xml.appendEndTag("ui:labelhead");
 		}
 
-		xml.appendTagOpen("ui:labelBody");
+		xml.appendTagOpen("ui:labelbody");
 		xml.appendAttribute("id", label.getId() + "-body");
 		xml.appendClose();
 		body.paint(renderContext);
-		xml.appendEndTag("ui:labelBody");
+		xml.appendEndTag("ui:labelbody");
 
 		if (tail != null && tail.isVisible()) {
-			xml.appendTagOpen("ui:labelTail");
+			xml.appendTagOpen("ui:labeltail");
 			xml.appendAttribute("id", label.getId() + "-tail");
 			xml.appendClose();
 			tail.paint(renderContext);
-			xml.appendEndTag("ui:labelTail");
+			xml.appendEndTag("ui:labeltail");
 		}
 
-		xml.appendEndTag("ui:decoratedLabel");
+		xml.appendEndTag("ui:decoratedlabel");
 	}
 
 }

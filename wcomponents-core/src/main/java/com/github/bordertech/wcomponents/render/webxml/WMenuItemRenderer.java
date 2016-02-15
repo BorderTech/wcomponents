@@ -25,7 +25,7 @@ final class WMenuItemRenderer extends AbstractWebXmlRenderer {
 		WMenuItem item = (WMenuItem) component;
 		XmlStringBuilder xml = renderContext.getWriter();
 
-		xml.appendTagOpen("ui:menuItem");
+		xml.appendTagOpen("ui:menuitem");
 		xml.appendAttribute("id", component.getId());
 		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
@@ -50,6 +50,6 @@ final class WMenuItemRenderer extends AbstractWebXmlRenderer {
 
 		item.getDecoratedLabel().paint(renderContext);
 
-		xml.appendEndTag("ui:menuItem");
+		xml.appendEndTag("ui:menuitem");
 	}
 }

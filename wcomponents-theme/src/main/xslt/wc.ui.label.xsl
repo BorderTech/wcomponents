@@ -14,8 +14,8 @@
 		field's input child. This makes labels even more complicated.
 
 		In some cases the ui:label should be output as part of another transform and not putput at all in-situ. The
-		current components which pull the ui:label are ui:radioButton, ui:checkBox and
-		ui:selectToggle[@renderAs='control'].
+		current components which pull the ui:label are ui:radiobutton, ui:checkbox and
+		ui:selecttoggle[@renderAs='control'].
 
 		param style: passed in ultimately from the transform for ui:field. See wc.ui.field.xsl.
 	-->
@@ -30,7 +30,7 @@
 				<xsl:choose>
 					<xsl:when test="$labelableElement">
 						<!-- this test is for components which MUST NOT allow the ui:label to be rendered in-situ -->
-						<xsl:if test="not(local-name($labelableElement)='checkBox' or local-name($labelableElement)='radioButton' or local-name($labelableElement)='selectToggle')">
+						<xsl:if test="not(local-name($labelableElement)='checkbox' or local-name($labelableElement)='radiobutton' or local-name($labelableElement)='selecttoggle')">
 							<xsl:call-template name="makeLabel">
 								<xsl:with-param name="labelableElement" select="$labelableElement"/>
 								<xsl:with-param name="style" select="$style"/>
@@ -66,7 +66,7 @@
 					a very little used calculation.
 					TODO: do some profiling to compare this to a key for typical use cases.
 				-->
-				<xsl:variable name="labelableDescendant" select=".//ui:button|.//ui:checkBox|.//ui:dateField|.//ui:dropdown|.//ui:emailField|.//ui:fileUpload[@async='false']|.//ui:listBox|.//ui:numberField|.//ui:passwordField|.//ui:phoneNumberField|.//ui:printButton|.//ui:progressBar|.//ui:radioButton|.//ui:textArea|.//ui:textField"/>
+				<xsl:variable name="labelableDescendant" select=".//ui:button|.//ui:checkbox|.//ui:datefield|.//ui:dropdown|.//ui:emailfield|.//ui:fileupload[@async='false']|.//ui:listbox|.//ui:numberfield|.//ui:passwordfield|.//ui:phonenumberfield|.//ui:printbutton|.//ui:progressbar|.//ui:radiobutton|.//ui:textarea|.//ui:textfield"/>
 				<xsl:choose>
 					<xsl:when test="count($labelableDescendant)=1">
 						<xsl:call-template name="makeLabel">

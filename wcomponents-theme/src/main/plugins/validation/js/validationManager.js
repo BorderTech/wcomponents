@@ -57,13 +57,13 @@ define(["wc/dom/classList",
 				 * @private */
 				LABEL_ATTRIB = "aria-labelledby",
 				/**
-				 * The class used to indicate an error: the type attribute of the ui:messageBox for errors.
+				 * The class used to indicate an error: the type attribute of the ui:messagebox for errors.
 				 * @constant
 				 * @type {String}
 				 * @private */
 				ERROR = "error",
 				/**
-				 * The class used to indicate a success: the type attribute of the ui:messageBox for success.
+				 * The class used to indicate a success: the type attribute of the ui:messagebox for success.
 				 * @constant
 				 * @type {String}
 				 * @private */

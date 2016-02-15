@@ -5,8 +5,7 @@
 // applications a way to control overflow without having internal scroll bars on random text areas.
 
 //scss-lint:disable QualifyingElement
-.input.inputWidth > pre.wc_ro {
+.wc-input.wc_inputwidth > pre.wc_ro {
 	display: block;
 	overflow: auto;
 }
-/* end wc.ui.fieldLayout.ie11.scss */

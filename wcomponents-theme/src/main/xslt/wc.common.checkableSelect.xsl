@@ -20,10 +20,10 @@
 		and where necessary the header element. It then sets up the structures for
 		applying the options dependent upon the read only status and number of columns.
 	-->
-	<xsl:template match="ui:checkBoxSelect|ui:radioButtonSelect">
+	<xsl:template match="ui:checkboxselect|ui:radiobuttonselect">
 		<xsl:variable name="inputType">
 			<xsl:choose>
-				<xsl:when test="self::ui:checkBoxSelect">
+				<xsl:when test="self::ui:checkboxselect">
 					<xsl:text>checkbox</xsl:text>
 				</xsl:when>
 				<xsl:otherwise>
@@ -71,7 +71,7 @@
 						<xsl:when test="@toolTip ">
 							<xsl:value-of select="normalize-space(@toolTip)"/>
 						</xsl:when>
-						<xsl:when test="@required and self::ui:checkBoxSelect">
+						<xsl:when test="@required and self::ui:checkboxselect">
 							<xsl:value-of select="$$${wc.ui.checkBoxSelect.defaultRequiredTooltip}"/>
 						</xsl:when>
 						<xsl:when test="@required">
@@ -188,7 +188,7 @@
 							</xsl:apply-templates>
 						</xsl:when>
 						<xsl:when test="$readOnly=1">
-							<div class="row">
+							<div class="wc-row">
 								<xsl:apply-templates select="ui:option[@selected][position() mod $rows = 1]" mode="checkableGroup">
 									<xsl:with-param name="firstItemAccessKey" select="$firstItemAccessKey"/>
 									<xsl:with-param name="inputName" select="$id"/>
@@ -221,7 +221,7 @@
 							</xsl:apply-templates>
 						</xsl:when>
 						<xsl:when test="ui:option">
-							<div class="row">
+							<div class="wc-row">
 								<xsl:apply-templates select="ui:option[position() mod $rows = 1]" mode="checkableGroup">
 									<xsl:with-param name="firstItemAccessKey" select="$firstItemAccessKey"/>
 									<xsl:with-param name="inputName" select="$id"/>

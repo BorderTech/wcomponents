@@ -49,11 +49,11 @@
 				<xsl:choose>
 					<xsl:when test="@level">
 						<xsl:element name="h{@level}">
-							<xsl:apply-templates select="ui:decoratedLabel"/>
+							<xsl:apply-templates select="ui:decoratedlabel"/>
 						</xsl:element>
 					</xsl:when>
 					<xsl:otherwise>
-						<xsl:apply-templates select="ui:decoratedLabel"/>
+						<xsl:apply-templates select="ui:decoratedlabel"/>
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:element>

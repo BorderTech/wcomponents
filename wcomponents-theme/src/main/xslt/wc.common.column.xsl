@@ -42,7 +42,7 @@
 					</xsl:otherwise>
 				</xsl:choose>
 				<xsl:if test="not(self::ui:column)">
-					<xsl:text> column</xsl:text>
+					<xsl:text> wc-column</xsl:text>
 				</xsl:if>
 			</xsl:attribute>
 			<xsl:if test="$style != ''">

@@ -11,7 +11,7 @@
 	Key to find all ajaxTriggers to determine if a control is an ajaxTrigger so that
 	it can be marked up with appropriate WAI-ARIA properties.
 -->
-	<xsl:key name="triggerKey" match="//ui:ajaxTrigger" use="@triggerId"/>
+	<xsl:key name="triggerKey" match="//ui:ajaxtrigger" use="@triggerId"/>
 	
 <!--
 	Creates an aria-controls attribute for any element which is an AJAX trigger.

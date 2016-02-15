@@ -6,14 +6,14 @@ XML schema for ajax triggers
 -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
 	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0">
-	<xs:element name="ajaxTrigger">
+	<xs:element name="ajaxtrigger">
 		<xs:annotation>
 			<xs:documentation>Ajax triggers are used to identify a component as being able to make an asynchronous HTTP request.</xs:documentation>
 		</xs:annotation>
 
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="ajaxTargetId" minOccurs="1" maxOccurs="unbounded">
+				<xs:element name="ajaxtargetid" minOccurs="1" maxOccurs="unbounded">
 					<xs:annotation>
 						<xs:documentation> Used to identify the components which will be targetted by the AJAX request's response. This is required before the request is made so
 							that the targets can be identified as WAI-ARIA live regions for improved accessibilty. </xs:documentation>

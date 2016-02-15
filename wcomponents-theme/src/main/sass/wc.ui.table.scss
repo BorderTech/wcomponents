@@ -4,7 +4,7 @@
 @import 'wc.ui.table_vars.scss';
 @import 'mixins_common.scss';
 
-.table.wc_error {
+.wc-table.wc_error {
 	@include outline($color: $wc-ui-color-error-fg, $offset: -1px);
 }
 

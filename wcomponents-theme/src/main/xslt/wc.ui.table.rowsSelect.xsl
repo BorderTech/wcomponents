@@ -3,7 +3,7 @@
 	<xsl:import href="wc.ui.table.n.xsl"/>
 	<xsl:import href="wc.common.disabledElement.xsl"/>
 	
-	<xsl:template match="ui:rowsSelect">
+	<xsl:template match="ui:rowsselect">
 		<xsl:param name="tableId"/>
 		<xsl:param name="idSuffix"/>
 		<xsl:variable name="rppChooserName">

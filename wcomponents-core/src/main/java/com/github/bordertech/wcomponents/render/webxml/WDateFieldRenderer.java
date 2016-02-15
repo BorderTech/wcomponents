@@ -37,7 +37,7 @@ final class WDateFieldRenderer extends AbstractWebXmlRenderer {
 		Date minDate = dateField.getMinDate();
 		Date maxDate = dateField.getMaxDate();
 
-		xml.appendTagOpen("ui:dateField");
+		xml.appendTagOpen("ui:datefield");
 		xml.appendAttribute("id", component.getId());
 		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
@@ -69,6 +69,6 @@ final class WDateFieldRenderer extends AbstractWebXmlRenderer {
 			xml.appendEscaped(dateField.getText());
 		}
 
-		xml.appendEndTag("ui:dateField");
+		xml.appendEndTag("ui:datefield");
 	}
 }

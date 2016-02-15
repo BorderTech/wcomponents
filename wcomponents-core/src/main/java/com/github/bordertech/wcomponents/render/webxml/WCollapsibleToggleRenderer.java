@@ -24,7 +24,7 @@ final class WCollapsibleToggleRenderer extends AbstractWebXmlRenderer {
 		WCollapsibleToggle toggle = (WCollapsibleToggle) component;
 		XmlStringBuilder xml = renderContext.getWriter();
 
-		xml.appendTagOpen("ui:expandCollapseAll");
+		xml.appendTagOpen("ui:collapsibletoggle");
 		xml.appendAttribute("id", component.getId());
 		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");

@@ -39,61 +39,61 @@ public class WEmailFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 		root.add(suggestions);
 
 		assertSchemaMatch(field);
-		assertXpathEvaluatesTo(field.getId(), "//ui:emailField/@id", field);
-		assertXpathNotExists("//ui:emailField/@disabled", field);
-		assertXpathNotExists("//ui:emailField/@hidden", field);
-		assertXpathNotExists("//ui:emailField/@required", field);
-		assertXpathNotExists("//ui:emailField/@readOnly", field);
-		assertXpathNotExists("//ui:emailField/@maxLength", field);
-		assertXpathNotExists("//ui:emailField/@toolTip", field);
-		assertXpathNotExists("//ui:emailField/@accessibleText", field);
-		assertXpathNotExists("//ui:emailField/@size", field);
-		assertXpathNotExists("//ui:emailField/@buttonId", field);
-		assertXpathNotExists("//ui:emailField/@list", field);
+		assertXpathEvaluatesTo(field.getId(), "//ui:emailfield/@id", field);
+		assertXpathNotExists("//ui:emailfield/@disabled", field);
+		assertXpathNotExists("//ui:emailfield/@hidden", field);
+		assertXpathNotExists("//ui:emailfield/@required", field);
+		assertXpathNotExists("//ui:emailfield/@readOnly", field);
+		assertXpathNotExists("//ui:emailfield/@maxLength", field);
+		assertXpathNotExists("//ui:emailfield/@toolTip", field);
+		assertXpathNotExists("//ui:emailfield/@accessibleText", field);
+		assertXpathNotExists("//ui:emailfield/@size", field);
+		assertXpathNotExists("//ui:emailfield/@buttonId", field);
+		assertXpathNotExists("//ui:emailfield/@list", field);
 
 		field.setDisabled(true);
 		assertSchemaMatch(field);
-		assertXpathEvaluatesTo("true", "//ui:emailField/@disabled", field);
+		assertXpathEvaluatesTo("true", "//ui:emailfield/@disabled", field);
 
 		setFlag(field, ComponentModel.HIDE_FLAG, true);
 		assertSchemaMatch(field);
-		assertXpathEvaluatesTo("true", "//ui:emailField/@hidden", field);
+		assertXpathEvaluatesTo("true", "//ui:emailfield/@hidden", field);
 
 		field.setMandatory(true);
 		assertSchemaMatch(field);
-		assertXpathEvaluatesTo("true", "//ui:emailField/@required", field);
+		assertXpathEvaluatesTo("true", "//ui:emailfield/@required", field);
 
 		field.setReadOnly(true);
 		assertSchemaMatch(field);
-		assertXpathEvaluatesTo("true", "//ui:emailField/@readOnly", field);
+		assertXpathEvaluatesTo("true", "//ui:emailfield/@readOnly", field);
 
 		field.setMaxLength(50);
 		assertSchemaMatch(field);
-		assertXpathEvaluatesTo("50", "//ui:emailField/@maxLength", field);
+		assertXpathEvaluatesTo("50", "//ui:emailfield/@maxLength", field);
 
 		field.setToolTip("tooltip");
 		assertSchemaMatch(field);
-		assertXpathEvaluatesTo(field.getToolTip(), "//ui:emailField/@toolTip", field);
+		assertXpathEvaluatesTo(field.getToolTip(), "//ui:emailfield/@toolTip", field);
 
 		field.setAccessibleText("accessible");
 		assertSchemaMatch(field);
-		assertXpathEvaluatesTo(field.getAccessibleText(), "//ui:emailField/@accessibleText", field);
+		assertXpathEvaluatesTo(field.getAccessibleText(), "//ui:emailfield/@accessibleText", field);
 
 		field.setColumns(40);
 		assertSchemaMatch(field);
-		assertXpathEvaluatesTo("40", "//ui:emailField/@size", field);
+		assertXpathEvaluatesTo("40", "//ui:emailfield/@size", field);
 
 		field.setDefaultSubmitButton(button);
 		assertSchemaMatch(field);
-		assertXpathEvaluatesTo(button.getId(), "//ui:emailField/@buttonId", field);
+		assertXpathEvaluatesTo(button.getId(), "//ui:emailfield/@buttonId", field);
 
 		field.setText("nobody@wc.test"); // RFC 2606
 		assertSchemaMatch(field);
-		assertXpathEvaluatesTo(field.getText(), "normalize-space(//ui:emailField)", field);
+		assertXpathEvaluatesTo(field.getText(), "normalize-space(//ui:emailfield)", field);
 
 		field.setSuggestions(suggestions);
 		assertSchemaMatch(field);
-		assertXpathEvaluatesTo(suggestions.getId(), "//ui:emailField/@list", field);
+		assertXpathEvaluatesTo(suggestions.getId(), "//ui:emailfield/@list", field);
 	}
 
 	@Test
@@ -103,10 +103,10 @@ public class WEmailFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 		field.setText(getMaliciousContent());
 		assertSafeContent(field);
 
-		field.setToolTip(getMaliciousAttribute("ui:emailField"));
+		field.setToolTip(getMaliciousAttribute("ui:emailfield"));
 		assertSafeContent(field);
 
-		field.setAccessibleText(getMaliciousAttribute("ui:emailField"));
+		field.setAccessibleText(getMaliciousAttribute("ui:emailfield"));
 		assertSafeContent(field);
 	}
 }

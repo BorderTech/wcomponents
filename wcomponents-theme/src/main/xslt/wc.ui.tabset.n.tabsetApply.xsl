@@ -14,7 +14,7 @@
 	-->
 	<xsl:template name="tabsetApply">
 		<xsl:param name="firstOpenTab"/>
-		<xsl:apply-templates select="ui:tab|ui:tabGroup/ui:tab">
+		<xsl:apply-templates select="ui:tab|ui:tabgroup/ui:tab">
 			<xsl:with-param name="tabset" select="."/>
 			<xsl:with-param name="firstOpenTab" select="$firstOpenTab"/>
 		</xsl:apply-templates>

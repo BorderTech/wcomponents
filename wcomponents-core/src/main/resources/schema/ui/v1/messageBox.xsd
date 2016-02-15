@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<!--
-
-XML schema for messageBox (WMessageBox)
-
--->
-
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0">
 	<xs:include schemaLocation="contentGroups.xsd"/>
-	<xs:element name="messageBox">
+	<xs:element name="messagebox">
 		<xs:annotation>
 			<xs:documentation>WMessageBox provides a container to display messages of a given type to the user.</xs:documentation>
 		</xs:annotation>

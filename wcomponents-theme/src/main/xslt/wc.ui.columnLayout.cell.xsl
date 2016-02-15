@@ -19,7 +19,7 @@
 		<xsl:param name="hgap"/>
 		<xsl:param name="vgap"/>
 		<xsl:param name="cols"/>
-		<div class="row">
+		<div class="wc-row">
 			<xsl:if test="position() &gt; 1 and $vgap !=0">
 				<xsl:attribute name="style">
 					<xsl:text>margin-top:</xsl:text>

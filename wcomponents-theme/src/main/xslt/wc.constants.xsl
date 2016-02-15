@@ -42,7 +42,7 @@
 	Key to find all ajax targets to determine if a control is an ajaxTarget so
 	that it can be marked up with appropriate WAI-ARIA properties.
 -->
-	<xsl:key name="targetKey" match="//ui:ajaxTargetId" use="@targetId"/>
+	<xsl:key name="targetKey" match="//ui:ajaxtargetid" use="@targetId"/>
 
 	<!--
 		Generic utility templates

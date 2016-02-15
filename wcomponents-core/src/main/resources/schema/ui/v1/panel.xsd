@@ -14,7 +14,7 @@
 			<xs:sequence>
 				<xs:element ref="ui:margin" minOccurs="0" />
 				<xs:choice>
-					<xs:element name="gridLayout">
+					<xs:element name="gridlayout">
 						<xs:annotation>
 							<xs:documentation>Provides a layout mechanism for WPanel which attempts to apply a regular grid to the components in the panel.</xs:documentation>
 						</xs:annotation>
@@ -40,7 +40,7 @@
 							<xs:attributeGroup ref="ui:gaps.attributes" />
 						</xs:complexType>
 					</xs:element>
-					<xs:element name="flowLayout">
+					<xs:element name="flowlayout">
 						<xs:annotation>
 							<xs:documentation>Provides a layout mechanism for WPanel which attempts to apply a consisten vertical or horizontal flow of the components in the
 								panel.</xs:documentation>
@@ -117,7 +117,7 @@
 						</xs:complexType>
 					</xs:element>
 
-					<xs:element name="listLayout">
+					<xs:element name="listlayout">
 						<xs:annotation>
 							<xs:documentation>Provides a layout mechanism for WPanel which creates a list out of components in the panel. This layout should <strong>only</strong>
 								be used when each of the panel's content components is part of a single semantic group.</xs:documentation>
@@ -213,7 +213,7 @@
 						</xs:complexType>
 					</xs:element>
 
-					<xs:element name="borderLayout">
+					<xs:element name="borderlayout">
 						<xs:annotation>
 							<xs:documentation>Provides a layout mechanism for WPanel which attempts to apply a layout consisting of up to four edge regions and a central
 								region.</xs:documentation>
@@ -230,7 +230,7 @@
 						</xs:complexType>
 					</xs:element>
 
-					<xs:element name="columnLayout">
+					<xs:element name="columnlayout">
 						<xs:annotation>
 							<xs:documentation>Provides a layout mechanism for WPanel which attempts to apply a consistent row and column set to the components in the panel. This
 								differs from a grid layout in that the columns are not constrained to a uniform width or horizontal alignment of content.</xs:documentation>

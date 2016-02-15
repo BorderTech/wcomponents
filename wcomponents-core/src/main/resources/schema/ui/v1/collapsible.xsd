@@ -3,7 +3,7 @@
 	<xs:include schemaLocation="attributeGroups.container.xsd"/>
 	
 	<xs:include schemaLocation="margin.xsd"/>
-	<xs:include schemaLocation="decoratedLabel.xsd"/>
+	<xs:include schemaLocation="decoratedlabel.xsd"/>
 	<xs:include schemaLocation="mixedContentWithId.xsd"/>
 	
 	<xs:element name="collapsible">
@@ -35,7 +35,7 @@
 		<xs:complexType>
 			<xs:sequence>
 				<xs:element ref="ui:margin" minOccurs="0"/>
-				<xs:element ref="ui:decoratedLabel"/>
+				<xs:element ref="ui:decoratedlabel"/>
 				<xs:element name="content" type="ui:mixedContentWithId"/>
 			</xs:sequence>
 			

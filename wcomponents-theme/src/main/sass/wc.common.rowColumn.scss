@@ -1,21 +1,21 @@
 /* wc.ui.row.scss */
 @import 'mixins_common.scss';
 
-.row {
+.wc-row {
 	@include flex($justify: space-between);
 }
 
-.column {
+.wc-column {
 	@include flex-grow(1);
 	@include flex-shrink(1);
 }
 
 @include respond(phonelike) {
-	.row {
+	.wc-row {
 		display: block;
 	}
 
-	.column {
+	.wc-column {
 		// important to override inline css from XSLT
 		// scss-lint:disable ImportantRule
 		display: block;
