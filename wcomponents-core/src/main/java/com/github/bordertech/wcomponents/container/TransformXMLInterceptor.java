@@ -114,7 +114,7 @@ public class TransformXMLInterceptor extends InterceptorComponent {
 	 */
 	private void transform(final String xml, final UIContext uic, final PrintWriter writer) {
 		String xsltName = ThemeUtil.getThemeXsltName(uic);
-		String resourceName = "/theme/" + ThemeUtil.getThemeName() + "/xslt/" + xsltName;
+		String resourceName = ThemeUtil.getThemeBase() + "xslt/" + xsltName;
 		Transformer transformer = newTransformer(resourceName);
 		Source inputXml;
 		try {
