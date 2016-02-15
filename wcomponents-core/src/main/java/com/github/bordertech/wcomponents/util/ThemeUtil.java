@@ -46,12 +46,20 @@ public final class ThemeUtil {
 	 */
 	private static final String THEME_WC_BUILD_NUMBER_PARAM = "wc.project.version";
 
+	private static final String THEME_NAME;
+
+	/**
+	 * The base
+	 * This assumes theme names do not change on the fly and a restart is acceptable if they do.
+	 */
+	private static final String THEME_BASE;
+
 	static {
-		// Get theme name
-		String name = getThemeName();
+		THEME_NAME = Config.getInstance().getString(THEME_PARAM);
+		THEME_BASE = "/theme/" + THEME_NAME + '/';
 
 		// Load theme build (depends on the theme name)
-		String resourceName = "/theme/" + name + '/' + THEME_VERSION_FILE_NAME;
+		String resourceName = THEME_BASE + THEME_VERSION_FILE_NAME;
 
 		// Get theme version property file (if in classpath)
 		InputStream resourceStream = null;
@@ -83,7 +91,7 @@ public final class ThemeUtil {
 			THEME_BUILD = themeBuild;
 		}
 
-		LOG.info("Using theme \"" + name + "\"" + " build \"" + THEME_BUILD + "\"");
+		LOG.info("Using theme \"" + THEME_NAME + "\"" + " build \"" + THEME_BUILD + "\"");
 
 		// Check the theme wcomponent version against the project wcomponent version
 		if (themeWcVersion != null) {
@@ -102,10 +110,12 @@ public final class ThemeUtil {
 	}
 
 	/**
+	 * The theme name as determined on instantiation.
+	 * Changes require a restart.
 	 * @return the current theme name
 	 */
 	public static String getThemeName() {
-		return Config.getInstance().getString(THEME_PARAM);
+		return THEME_NAME;
 	}
 
 	/**
@@ -113,6 +123,15 @@ public final class ThemeUtil {
 	 */
 	public static String getThemeBuild() {
 		return THEME_BUILD;
+	}
+
+	/**
+	 * Gets the base path of the theme resources.
+	 * Note that this path will end with a forward slash.
+	 * @return The theme resource path.
+	 */
+	public static String getThemeBase() {
+		return THEME_BASE;
 	}
 
 	/**
@@ -140,11 +159,8 @@ public final class ThemeUtil {
 		path.append(getThemeXsltName(uic));
 
 		// Add cache busting suffix
-		String build = getThemeBuild();
-		String themeName = getThemeName();
-
-		path.append("?build=").append(WebUtilities.escapeForUrl(build))
-				.append("&theme=").append(WebUtilities.escapeForUrl(themeName));
+		path.append("?build=").append(WebUtilities.escapeForUrl(THEME_BUILD))
+				.append("&theme=").append(WebUtilities.escapeForUrl(THEME_NAME));
 
 		return path.toString();
 	}
