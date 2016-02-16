@@ -151,9 +151,9 @@
 									</xs:restriction>
 								</xs:simpleType>
 							</xs:attribute>
-							<xs:attribute name="align">
+							<xs:attribute name="align" default="left">
 								<xs:annotation>
-									<xs:documentation>Indicates the alignment of content in the cells. If not set then "left" is assumed.</xs:documentation>
+									<xs:documentation>Indicates the alignment of content in the cells.</xs:documentation>
 								</xs:annotation>
 								<xs:simpleType>
 									<xs:restriction base="xs:NMTOKEN">
@@ -178,10 +178,9 @@
 									</xs:restriction>
 								</xs:simpleType>
 							</xs:attribute>
-							<xs:attribute name="separator">
+							<xs:attribute name="separator" default="none">
 								<xs:annotation>
-									<xs:documentation>Indicates the list item separator to be used. If onitted then no separator is used. May be overridden in the
-										theme.</xs:documentation>
+									<xs:documentation>Indicates the list item separator to be used. If omitted then no separator is used.</xs:documentation>
 								</xs:annotation>
 								<xs:simpleType>
 									<xs:restriction base="xs:NMTOKEN">
