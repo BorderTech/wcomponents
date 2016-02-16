@@ -335,76 +335,10 @@
 									screen.</xs:documentation>
 							</xs:annotation>
 						</xs:enumeration>
-						<xs:enumeration value="group-select">
-							<xs:annotation>
-								<xs:documentation>Deprecated: do not use.</xs:documentation>
-							</xs:annotation>
-						</xs:enumeration>
 						<xs:enumeration value="header">
 							<xs:annotation>
 								<xs:documentation>Indicates the panel is used as a page header. This is a restricted type and should only be applied once in any
 									screen.</xs:documentation>
-							</xs:annotation>
-						</xs:enumeration>
-						<!-- Application-specific panel types -->
-						<xs:enumeration value="app-summary-panel">
-							<xs:annotation>
-								<xs:documentation>Available for interpretation by theme. No specific semantics or style.</xs:documentation>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="app-container">
-							<xs:annotation>
-								<xs:documentation>Available for interpretation by theme. No specific semantics or style.</xs:documentation>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="app-tab-menu">
-							<xs:annotation>
-								<xs:documentation>Deprecated: do not use</xs:documentation>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="app-content">
-							<xs:annotation>
-								<xs:documentation>Available for interpretation by theme. No specific semantics or style.</xs:documentation>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="app-assessment-content">
-							<xs:annotation>
-								<xs:documentation>Deprecated: do not use</xs:documentation>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="progress-details-panel">
-							<xs:annotation>
-								<xs:documentation>Deprecated: do not use</xs:documentation>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="app-data-controls">
-							<xs:annotation>
-								<xs:documentation>Available for interpretation by theme. No specific semantics or style.</xs:documentation>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="app-data-sub-controls">
-							<xs:annotation>
-								<xs:documentation>Available for interpretation by theme. No specific semantics or style.</xs:documentation>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="app-accordion">
-							<xs:annotation>
-								<xs:documentation>Deprecated: do not use</xs:documentation>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="app-accordion-client">
-							<xs:annotation>
-								<xs:documentation>Deprecated: do not use</xs:documentation>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="app-accordion-clients">
-							<xs:annotation>
-								<xs:documentation>Deprecated: do not use</xs:documentation>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="app-accordion-actions">
-							<xs:annotation>
-								<xs:documentation>Deprecated: do not use</xs:documentation>
 							</xs:annotation>
 						</xs:enumeration>
 					</xs:restriction>

@@ -470,7 +470,7 @@
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
-			<xs:attribute name="type">
+			<xs:attribute name="type" default="table">
 				<xs:annotation>
 					<xs:documentation>Determines the indentation mode of the table if it has expandable rows. No impact if the table does not have a ui:rowexpansion child element or if there are no expandible rows in the current view.</xs:documentation>
 				</xs:annotation>
