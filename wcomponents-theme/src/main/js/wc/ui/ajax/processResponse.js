@@ -134,7 +134,7 @@ define(["wc/Observer",
 								targetId = next.getAttribute("data-id");
 								element = document.getElementById(targetId);
 								if (element) {
-									/* Since the ui:ajaxResponse is essentially thrown away we need to move any of its interesting attributes to the target element.
+									/* Since the ui:ajaxresponse is essentially thrown away we need to move any of its interesting attributes to the target element.
 									 * In reality this is to catch the onLoadFocusId attribute but we'll try to pretend it's generic. */
 									mergeAttributes(doc, next);
 									action = next.getAttribute("data-action");

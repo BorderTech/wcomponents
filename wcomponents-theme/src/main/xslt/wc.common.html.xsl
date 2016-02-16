@@ -20,10 +20,10 @@
 	<xsl:template match="html:link|html:base|html:meta"/>
 
 	<!--
-		html:link can appear in a ui:ajaxTarget and in this case cannot be moved to a HEAD element so we just output it 
+		html:link can appear in a ui:ajaxtarget and in this case cannot be moved to a HEAD element so we just output it 
 		in-situ.
 	-->
-	<xsl:template match="html:link[ancestor::ui:ajaxTarget]">
+	<xsl:template match="html:link[ancestor::ui:ajaxtarget]">
 		<xsl:copy-of select="."/>
 	</xsl:template>
 

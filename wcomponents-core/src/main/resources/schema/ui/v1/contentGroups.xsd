@@ -87,7 +87,7 @@ The XML schema for a WComponent page.
 	<xs:group name="ajaxContentGroup">
 		<xs:annotation>
 			<xs:documentation>
-				The components which are allowed within an ajax response as a descendant of ui:ajaxTarget. This group
+				The components which are allowed within an ajax response as a descendant of ui:ajaxtarget. This group
 				extends contentGroup to include some elements which are not explicitly stand-along components but which
 				are able to be individually targetted by AJAX requests.
 			</xs:documentation>

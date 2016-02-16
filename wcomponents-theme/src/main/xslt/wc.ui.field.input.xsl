@@ -4,16 +4,15 @@
 	<!--
 		The input part of WField is a wrapper for other components. FieldIndicators
 		should be output after the functional content of the input.
-		 
+
 		param parentLayout (length 1)
 		Used to determine if the WField has a parent WFieldLayout (which may not be true
-		if the WField is in an {{{./wc.ui.ajaxResponse.html}AJAX response}}). We have to
-		calculate this in ui:field so we may as well pass it in.
-		
+		if the WField is in an AJAX response. We have to calculate this in ui:field so we may as well pass it in.
+
 		param labelWidth
 		The labelWidth property of the parent WFieldLayout (if known). We have to
 		calculate this in ui:field so we may as well pass it in.
-		
+
 		param isCheckRadio (1/0)
 		Indicates whether the WField is a container for a WCheckBox, WRadioButton
 		or a WSelectToggle (renderAs not control) as the primary input control,

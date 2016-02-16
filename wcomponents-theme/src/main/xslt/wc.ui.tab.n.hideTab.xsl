@@ -5,8 +5,8 @@
 	-->
 	<xsl:template name="hideTab">
 		<xsl:choose>
-			<xsl:when test="parent::ui:ajaxTarget">
-				<!-- if a tab is the child of a ui:ajaxTarget then it is being replaced. Do not allow a tab to be hidden if it is open -->
+			<xsl:when test="parent::ui:ajaxtarget">
+				<!-- if a tab is the child of a ui:ajaxtarget then it is being replaced. Do not allow a tab to be hidden if it is open -->
 				<xsl:if test="not(@open)">
 					<xsl:call-template name="hideElementIfHiddenSet"/>
 				</xsl:if>

@@ -41,7 +41,7 @@
 					<xsl:text>banner</xsl:text>
 				</xsl:attribute>
 			</xsl:if>
-			<xsl:if test="@mode or key('targetKey',$id) or parent::ui:ajaxTarget[@action='replace']">
+			<xsl:if test="@mode or key('targetKey',$id) or parent::ui:ajaxtarget[@action='replace']">
 				<xsl:call-template name="setARIALive"/>
 				<xsl:if test="@mode">
 					<xsl:attribute name="data-wc-ajaxalias">

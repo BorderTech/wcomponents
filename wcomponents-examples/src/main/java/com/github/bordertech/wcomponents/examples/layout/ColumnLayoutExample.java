@@ -158,8 +158,8 @@ public class ColumnLayoutExample extends WContainer {
 		panel.add(new BoxComponent("Center"));
 		panel.add(new BoxComponent("Right"));
 
-		String rowSelector = "." + htmlClass + " > .columnLayout > .row"; // .columnLayout is the local name of ColumnLayout and is guranteed, row is now part of hte WComponents CSS API but _may_ change.
-		String columnSelector =  rowSelector + " > .cell";
+		String rowSelector = "." + htmlClass + " > .wc-columnlayout > .wc-row"; // .columnLayout is the local name of ColumnLayout and is guranteed, row is now part of hte WComponents CSS API but _may_ change.
+		String columnSelector =  rowSelector + " > .wc-column";
 		String css = columnSelector
 				+ " {width: 20%}"
 				+ columnSelector
@@ -167,12 +167,14 @@ public class ColumnLayoutExample extends WContainer {
 				+ columnSelector
 				+ ":last-child {width: 30%;}" // the last column in the layout
 				+ rowSelector
-				+  " + .row {margin-top: 0.5em;}"  // sibling rows in the column layout
-				+ "@media only screen and (max-width: 1000px) {"  //when the screen goes below 100px wide
+				+ " + .wc-row {margin-top: 0.5em;}"  // sibling rows in the column layout
+				+ "@media only screen and (max-width: 1000px) {"  //when the screen goes below 1000px wide
+				+ rowSelector
+				+ " {display: block;}"
+				+ columnSelector + ", " + columnSelector + ":first-child, " + columnSelector + ":last-child "
+				+ " {display: inline-block; box-sizing: border-box; width: 100%; text-align: left;} "
 				+ columnSelector
-				+ " {display: block; width: 100%; text-align: left;} "
-				+ columnSelector
-				+ " + .cell {margin-top: 0.25em;}}";
+				+ " + .wc-column {margin-top: 0.25em;}}";
 
 		WText cssText = new WText("<style type='text/css'>" + css + "</style>");
 		cssText.setEncodeText(false);

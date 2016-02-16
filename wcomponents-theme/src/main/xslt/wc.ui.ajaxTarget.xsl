@@ -5,14 +5,14 @@
 
 	<xsl:import href="wc.common.registrationScripts.xsl"/>
 	<!--
-		ui:ajaxTarget is a child of ui:ajaxResponse (wc.ui.ajaxResponse.xsl).
+		ui:ajaxtarget is a child of ui:ajaxresponse (wc.ui.ajaxResponse.xsl).
 
 		The main point of this template is a simple pass-through to output the contained
 		elements. The order of application is important here. We have to apply all
 		templates then build any included dialogs and then run the registration scripts
 		to wire up new onload functionality.
 	-->
-	<xsl:template match="ui:ajaxTarget">
+	<xsl:template match="ui:ajaxtarget">
 		<xsl:element name="div">
 			<xsl:attribute name="class">wc-ajaxtarget</xsl:attribute>
 			<xsl:attribute name="data-id"><xsl:value-of select="@id"/></xsl:attribute>
@@ -27,7 +27,7 @@
 		is only required to pass through to output the contained elements. You
 		may want to take a look at wc.ui.fileUpload.xsl and wc.ui.fileUpload.js
 	-->
-	<xsl:template match="ui:ajaxTarget" mode="pseudoAjax">
+	<xsl:template match="ui:ajaxtarget" mode="pseudoAjax">
 		<xsl:apply-templates />
 	</xsl:template>
 </xsl:stylesheet>

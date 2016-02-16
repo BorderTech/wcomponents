@@ -15,7 +15,7 @@
 		
 		We do not output a ui:field or its content if it is incorrectly parented. A
 		WField must be a child of a WFieldLayout and a ui:field must, therefore, be
-		either a child of a ui:fieldlayout or a child of a ui:ajaxTarget.
+		either a child of a ui:fieldlayout or a child of a ui:ajaxtarget.
 		
 		
 		
@@ -37,7 +37,7 @@
 	<xsl:template match="ui:field">
 		<xsl:param name="labelWidth" select="../@labelWidth" />
 		<xsl:param name="layout" select="../@layout" />
-		<xsl:if test="parent::ui:fieldlayout or parent::ui:ajaxTarget">
+		<xsl:if test="parent::ui:fieldlayout or parent::ui:ajaxtarget">
 			<!-- do not output a WField if it is incorrectly parented -->
 			<xsl:variable name="hasParentLayout" select="parent::ui:fieldlayout" />
 			<!--

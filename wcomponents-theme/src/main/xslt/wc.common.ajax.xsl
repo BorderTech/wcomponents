@@ -48,7 +48,7 @@
 	<xsl:template name="ajaxTarget">
 		<xsl:param name="id" select="@id"/>
 		<xsl:param name="live" select="'polite'"/>
-		<xsl:if test="key('targetKey',$id) or parent::ui:ajaxTarget[@action='replace']">
+		<xsl:if test="key('targetKey',$id) or parent::ui:ajaxtarget[@action='replace']">
 			<xsl:call-template name="setARIALive">
 				<xsl:with-param name="live" select="$live"/>
 			</xsl:call-template>
