@@ -1,17 +1,15 @@
 package com.github.bordertech.wcomponents.examples.picker;
 
-import com.github.bordertech.wcomponents.RenderContext;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WebUtilities;
-import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
-import java.io.PrintWriter;
 
 /**
  * <p>
  * This component displays the java source code for the WComponent examples.
  *
  * @author Yiannis Paschalidis
+ * @author Mark Reeves
  */
 public class SourcePanel extends WPanel {
 
@@ -25,7 +23,15 @@ public class SourcePanel extends WPanel {
 	 */
 	public SourcePanel() {
 		source.setEncodeText(false);
-		add(source);
+		setUp();
+	}
+
+	/**
+	 * Set up the source panel. No over-rideable methods in my constructors but I am neurotic!.
+	 */
+	private void setUp() {
+		setTemplate("com/github/bordertech/wcomponents/examples/picker/sourceView.vm");
+		add(source, "src");
 	}
 
 	/**
@@ -39,30 +45,9 @@ public class SourcePanel extends WPanel {
 		if (sourceText == null) {
 			formattedSource = "";
 		} else {
-			formattedSource = sourceText.replaceAll("\t", "    ");
-			formattedSource = formattedSource.replace(' ', '\u00a0'); // nbsp
-			formattedSource = WebUtilities.encode(formattedSource); // escape content
-			formattedSource = formattedSource.replaceAll("\\r?\\n", "<br/>");
+			formattedSource = WebUtilities.encode(sourceText); // XML escape content
 		}
 
 		source.setText(formattedSource);
-	}
-
-	/**
-	 * Override afterPaint in order to render the additional mark-up required for client-side syntax highligthing.
-	 *
-	 * @param renderContext the renderContext to send output to.
-	 */
-	@Override
-	protected void afterPaint(final RenderContext renderContext) {
-		super.afterPaint(renderContext);
-
-		if (renderContext instanceof WebXmlRenderContext) {
-			PrintWriter writer = ((WebXmlRenderContext) renderContext).getWriter();
-
-			// Kick of the syntax highlighting
-			writer.write(
-					"<script type='text/javascript'>if (window.doHighlighting) doHighlighting('" + getId() + "');</script>");
-		}
 	}
 }
