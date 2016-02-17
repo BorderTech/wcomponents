@@ -4,6 +4,15 @@
 			<canvas id="wc_img_canvas"></canvas>
 		</div>
 	</div>
+	<div class="wc_img_cap">
+		<div>
+			<video id="wc_img_video">{{message.novideo}}</video>
+		</div>
+		<button title="{{message.snap}}" type="button" class="snap"><span class="wc_off">{{action.snap}}</span></button>
+	</div>
+	<div class="wc_img_nocap">
+		<p>{{message.nocapture}}</p>
+	</div>
 	<div class="wc_img_controls">
 		<fieldset>
 			<legend>{{heading.rotate}}</legend>
@@ -25,22 +34,13 @@
 			<button title="{{message.moveDown}}" type="button" class="down"><span class="wc_off">{{action.moveDown}}</span></button>
 		</fieldset>
 		<div>
-			<label title="{{message.speed}}" for="wc_img_speed">{{action.speed}}</label>
-			<input title="{{message.speed}}" type="range" min="{{value.speedMin}}" max="{{value.speedMax}}" value="{{value.speedNow}}" step="0.5" id="wc_img_speed"/>
-		</div>
-		<div>
 			<button title="{{message.reset}}" type="button" class="reset"><span class="wc_off">{{action.reset}}</span></button>
 			<button title="{{message.cancel}}" type="button" class="cancel"><span class="wc_off">{{action.cancel}}</span></button>
 			<button title="{{message.save}}" type="button" class="save"><span class="wc_off">{{action.save}}</span></button>
 		</div>
-	</div>
-	<div class="wc_img_cap">
 		<div>
-			<video id="wc_img_video">{{message.novideo}}</video>
+			<button title="{{message.camera}}" type="button" class="wc_btn_camera"><span class="wc_off">{{action.camera}}</span></button>
+			<button title="{{message.face}}" type="button" class="wc_btn_face"><span class="wc_off">{{action.face}}</span></button>
 		</div>
-		<button title="{{message.snap}}" type="button" class="snap"><span class="wc_off">{{action.snap}}</span></button>
-	</div>
-	<div class="wc_img_nocap">
-		<p>{{message.nocapture}}</p>
 	</div>
 </div>

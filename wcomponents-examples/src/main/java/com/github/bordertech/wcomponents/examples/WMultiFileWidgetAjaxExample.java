@@ -3,6 +3,8 @@ package com.github.bordertech.wcomponents.examples;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.HeadingLevel;
+import com.github.bordertech.wcomponents.ImageResource;
+import com.github.bordertech.wcomponents.InternalResource;
 import com.github.bordertech.wcomponents.Margin;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WAjaxControl;
@@ -116,7 +118,8 @@ public class WMultiFileWidgetAjaxExample extends WContainer {
 		WImageEditor editor = new WImageEditor();
 		editor.setSize(new Dimension(300, 400));
 		editor.setUseCamera(true);
-		// editor.setOverlayUrl("/overlay.png");
+		InternalResource overlay = new ImageResource("/image/overlay.png", "Overlay image shows visible guidlines");
+		editor.setOverlayUrl(overlay.getTargetUrl());
 		widget.setEditor(editor);
 		add(editor);
 

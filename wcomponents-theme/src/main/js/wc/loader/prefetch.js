@@ -2,7 +2,7 @@
  * @module
  */
 define(function() {
-
+	"use strict";
 	/*
 	 * Helper for public request method.
 	 * @private
@@ -48,6 +48,35 @@ define(function() {
 			try {
 				addLink(href, as);
 				addLink(href, as, "subresource");
+			}
+			catch (ex) {
+				console.warn(ex);  // don't die on prefetch exceptions, log 'em and move on
+			}
+		},
+		/**
+		 * Does the same as the "request" method but specifically for JS modules.
+		 *
+		 * Note that calling this for a module which is included in a layer file is a waste. Save it for modules that are unlikely to be inlcuded in a layer.
+		 * With HTTP/2 this is likely to be EVERY module so I wouldn't sweat it too much.
+		 *
+		 * Why not just call "require(moduleId)"? Well you could BUT that is different because:
+		 * - Require is not a "polite" request, the script WILL be fetched regardless of how much other activity is going on.
+		 * - Require will actually execute the script.
+		 * - Require will also fetch the script's dependencies.
+		 * Most of the time you want require.
+		 *
+		 * @param moduleId The module (exactly as you would pass to the loader).
+		 */
+		jsModule: function(moduleId) {
+			try {
+				var href, scriptPath;
+				if (moduleId && window.require && window.require.toUrl) {
+					scriptPath = /.+\.js$/.test(moduleId) ? moduleId : moduleId + ".js";  // Add ".js" to the moduleId if it is not already present.
+					href = window.require.toUrl(scriptPath);
+					if (href) {
+						this.request(href, "script");
+					}
+				}
 			}
 			catch (ex) {
 				console.warn(ex);  // don't die on prefetch exceptions, log 'em and move on
