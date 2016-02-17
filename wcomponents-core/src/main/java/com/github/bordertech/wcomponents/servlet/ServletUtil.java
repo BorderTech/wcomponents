@@ -43,6 +43,8 @@ import com.github.bordertech.wcomponents.util.ThemeUtil;
 import com.github.bordertech.wcomponents.util.Util;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.Locale;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -261,6 +263,9 @@ public final class ServletUtil {
 
 	/**
 	 * Serves up a file from the theme.
+	 * In practice it is generally a bad idea to use this servlet to serve up static resources.
+	 * Instead it would make more sense to move CSS, JS, HTML resources to a CDN or similar.
+	 *
 	 *
 	 * @param req the request with the file name in parameter "f", or following the servlet path.
 	 * @param resp the response to write to.
@@ -291,32 +296,42 @@ public final class ServletUtil {
 			return;
 		}
 
-		String resourceName = "/theme/" + ThemeUtil.getThemeName() + '/' + fileName;
-
 		InputStream resourceStream = null;
 
 		try {
-			resourceStream = ThemeUtil.class.getResourceAsStream(resourceName);
+			String resourceName = ThemeUtil.getThemeBase() + fileName;
+			URL url = ServletUtil.class.getResource(resourceName);
 
-			if (resourceStream == null) {
+			if (url == null) {
 				resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
 			} else {
+				URLConnection connection = url.openConnection();
+				resourceStream = connection.getInputStream();
 				int size = resourceStream.available();
-				String encodedName = WebUtilities.encodeForContentDispositionHeader(fileName.
-						substring(fileName
-								.lastIndexOf('/') + 1));
-
 				if (size > 0) {
 					resp.setContentLength(size);
 				}
 
+				/*
+				I have commented out the setting of the Content-Disposition on static theme resources because, well why is it there?
+				If this needs to be reinstated please provide a thorough justification comment here so the reasons are clear.
+
+				Note that setting this header breaks Polymer 1.0 when it is present on HTML imports.
+
+				String encodedName = WebUtilities.encodeForContentDispositionHeader(fileName.
+						substring(fileName
+								.lastIndexOf('/') + 1));
+				resp.setHeader("Content-Disposition", "filename=" + encodedName);  // "filename=" to comply with https://tools.ietf.org/html/rfc6266
+				*/
+
 				resp.setContentType(WebUtilities.getContentType(fileName));
 				resp.setHeader("Cache-Control", CacheType.THEME_CACHE.getSettings());
-				resp.setHeader("Content-Disposition", "filename=" + encodedName);  // "filename=" to comply with https://tools.ietf.org/html/rfc6266
+
 				resp.setHeader("Expires", "31536000");
 				resp.setHeader("ETag", "\"" + WebUtilities.getProjectVersion() + "\"");
-				// TODO: this is vital but needs a proper date
-				resp.setHeader("Last-Modified", "Mon, 02 Jan 2015 01:00:00 GMT");
+				// resp.setHeader("Last-Modified", "Mon, 02 Jan 2015 01:00:00 GMT");
+				long modified = connection.getLastModified();
+				resp.setDateHeader("Last-Modified", modified);
 				StreamUtil.copy(resourceStream, resp.getOutputStream());
 			}
 		} finally {
@@ -332,7 +347,7 @@ public final class ServletUtil {
 	 */
 	private static boolean checkThemeFile(final String name) {
 		return !(Util.empty(name) // name must exist
-				|| name.indexOf("..") != -1 // prevent directory traversal
+				|| name.contains("..") // prevent directory traversal
 				|| name.charAt(0) == '/' // all theme references should be relative
 				|| name.indexOf('.') == -1 // all files should have a file suffix
 				|| name.indexOf(':') != -1 // forbid use of protocols such as jar:, http: etc.

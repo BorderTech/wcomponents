@@ -36,6 +36,9 @@ define(["wc/dom/classList",
 				CONTENT_BASE_CLASS = "content",
 				INITIAL_TOP_PROPORTION = 0.33,  // when setting the initial position offset the dialog so that the gap at the top is this proportion of the difference between the dialog size and viewport size
 				openerId,
+				subscriber ={
+					close: null
+				},
 				DIALOG = new Widget("${wc.dom.html5.element.dialog}"),
 				DIALOG_CONTENT_WRAPPER = new Widget("div", CONTENT_BASE_CLASS, {"aria-live": "assertive"}),
 				BUTTON = new Widget("button"),
@@ -220,6 +223,7 @@ define(["wc/dom/classList",
 					title.innerHTML = ""; // ??? This _cannot_ really still be needed?
 					title.innerHTML = (obj && obj.title) ? obj.title : i18n.get("${wc.ui.dialog.title.noTitle}");
 				}
+				subscriber.close = obj.onclose;
 
 			}
 
@@ -531,7 +535,7 @@ define(["wc/dom/classList",
 			 * @param {Element} element The element being hidden.
 			 */
 			function shedHideSubscriber(element) {
-				var control;
+				var control, callback;
 				try {
 					if (element && element.id === DIALOG_ID) {
 						modalShim.clearModal(element);
@@ -550,6 +554,16 @@ define(["wc/dom/classList",
 
 						if (openerId && (control = document.getElementById(openerId))) {
 							focus.setFocusRequest(control);
+						}
+						if (subscriber.close) {
+							try {
+								callback = subscriber.close;
+								subscriber.close = null;
+								callback();
+							}
+							catch (ex) {
+								console.warn(ex);
+							}
 						}
 					}
 				}
