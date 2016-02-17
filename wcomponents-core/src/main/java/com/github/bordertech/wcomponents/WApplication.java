@@ -4,9 +4,9 @@ import com.github.bordertech.wcomponents.util.Config;
 import com.github.bordertech.wcomponents.util.I18nUtilities;
 import com.github.bordertech.wcomponents.util.Util;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 /**
  * <p>
@@ -185,7 +185,9 @@ public class WApplication extends AbstractMutableContainer implements AjaxTarget
 	public void addJsResource(final ApplicationResource resource) {
 		WApplicationModel model = getOrCreateComponentModel();
 		if (model.jsResources == null) {
-			model.jsResources = new HashSet<>();
+			model.jsResources = new ArrayList<>();
+		} else if (model.jsResources.contains(resource)) {
+			return;
 		}
 		model.jsResources.add(resource);
 	}
@@ -212,12 +214,12 @@ public class WApplication extends AbstractMutableContainer implements AjaxTarget
 	/**
 	 * @return the set of custom javaScript application resources
 	 */
-	public Set<ApplicationResource> getJsResources() {
+	public List<ApplicationResource> getJsResources() {
 		WApplicationModel model = getComponentModel();
 		if (model.jsResources == null) {
-			return Collections.EMPTY_SET;
+			return Collections.EMPTY_LIST;
 		}
-		return Collections.unmodifiableSet(model.jsResources);
+		return Collections.unmodifiableList(model.jsResources);
 	}
 
 	/**
@@ -259,7 +261,9 @@ public class WApplication extends AbstractMutableContainer implements AjaxTarget
 	public void addCssResource(final ApplicationResource resource) {
 		WApplicationModel model = getOrCreateComponentModel();
 		if (model.cssResources == null) {
-			model.cssResources = new HashSet<>();
+			model.cssResources = new ArrayList<>();
+		} else if (model.cssResources.contains(resource)) {
+			return;
 		}
 		model.cssResources.add(resource);
 	}
@@ -286,12 +290,12 @@ public class WApplication extends AbstractMutableContainer implements AjaxTarget
 	/**
 	 * @return the list of custom CSS resources
 	 */
-	public Set<ApplicationResource> getCssResources() {
+	public List<ApplicationResource> getCssResources() {
 		WApplicationModel model = getComponentModel();
 		if (model.cssResources == null) {
-			return Collections.EMPTY_SET;
+			return Collections.EMPTY_LIST;
 		}
-		return Collections.unmodifiableSet(model.cssResources);
+		return Collections.unmodifiableList(model.cssResources);
 	}
 
 	/**
@@ -360,14 +364,14 @@ public class WApplication extends AbstractMutableContainer implements AjaxTarget
 		private boolean appendID;
 
 		/**
-		 * Set of custom javaScript resources.
+		 * List of custom javaScript resources.
 		 */
-		private Set<ApplicationResource> jsResources;
+		private ArrayList<ApplicationResource> jsResources;
 
 		/**
-		 * Set of custom CSS resources.
+		 * List of custom CSS resources.
 		 */
-		private Set<ApplicationResource> cssResources;
+		private ArrayList<ApplicationResource> cssResources;
 	}
 
 	/**
