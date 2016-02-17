@@ -1,4 +1,4 @@
-define(["wc/has", "wc/dom/event", "wc/dom/uid", "wc/dom/classList", "wc/timers",
+define(["wc/has", "wc/dom/event", "wc/dom/uid", "wc/dom/classList", "wc/timers", "wc/dom/shed",
 	"wc/loader/resource", "wc/i18n/i18n", "fabric", "Mustache", "wc/ui/dialogFrame"],
 function(has, event, uid, classList, timers, shed, loader, i18n, fabric, Mustache, dialogFrame) {
 	var imageEdit = new ImageEdit();
@@ -798,7 +798,7 @@ function(has, event, uid, classList, timers, shed, loader, i18n, fabric, Mustach
 								if (rect) {
 									zoomFace(rect);
 								}
-								done()
+								done();
 							}, done);
 						}
 					};
