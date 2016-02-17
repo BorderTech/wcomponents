@@ -1,6 +1,6 @@
-define(["wc/has", "wc/dom/event", "wc/dom/uid", "wc/dom/classList", "wc/timers",
+define(["wc/has", "wc/dom/event", "wc/dom/uid", "wc/dom/classList", "wc/timers", "wc/dom/shed",
 	"wc/loader/resource", "wc/i18n/i18n", "fabric", "Mustache", "wc/ui/dialogFrame"],
-function(has, event, uid, classList, timers, loader, i18n, fabric, Mustache, dialogFrame) {
+function(has, event, uid, classList, timers, shed, loader, i18n, fabric, Mustache, dialogFrame) {
 	var imageEdit = new ImageEdit();
 
 	/**
@@ -14,6 +14,7 @@ function(has, event, uid, classList, timers, loader, i18n, fabric, Mustache, dia
 		var inited,
 			TEMPLATE_NAME = "imageEdit.xml",
 			imageCapture = new ImageCapture(),
+			faceDetection = new FaceDetection(),
 			overlayUrl,
 			defaults = {
 				width: 300,
@@ -21,11 +22,12 @@ function(has, event, uid, classList, timers, loader, i18n, fabric, Mustache, dia
 			},
 			stateStack = [],
 			registeredIds = {},
-			fbCanvas, fbImage, frameConfig;
+			fbCanvas, fbImage;
 
 
-		function getDialogFrameConfig() {
+		function getDialogFrameConfig(onclose) {
 			return {
+				onclose: onclose,
 				id: "wc_img_editor",
 				modal: true,
 				resizable: true,
@@ -186,7 +188,7 @@ function(has, event, uid, classList, timers, loader, i18n, fabric, Mustache, dia
 					win: resolve.bind(promise),
 					lose: reject.bind(promise)
 				};
-				getEditor(callbacks, file).then(function() {
+				getEditor(config, callbacks, file).then(function() {
 					var fileReader;
 					fbCanvas = new fabric.Canvas("wc_img_canvas");
 					fbCanvas.setWidth(config.width || defaults.width);
@@ -287,20 +289,24 @@ function(has, event, uid, classList, timers, loader, i18n, fabric, Mustache, dia
 
 		/**
 		 * Builds the editor DOM and displays it to the user.
+		 * @param {Object} config Map of configuration properties.
 		 * @param {Object} callbacks An object with two callbacks: "win" and "lose".
 		 * @param {File} file The file being edited.
 		 * @returns {Promise} Resolved with the top level editor DOM element when it is ready.
 		 * @function
 		 * @private
 		 */
-		function getEditor(callbacks, file) {
-			frameConfig = frameConfig || getDialogFrameConfig();
+		function getEditor(config, callbacks, file) {
 			var promise = new Promise(function(resolve, reject) {
 				var container = document.body.appendChild(document.createElement("div"));
 				container.className = "wc_img_editor";
 
 				loader.load(TEMPLATE_NAME, true, true).then(function(template) {
 					var eventConfig, editorHtml, i18nProps = {
+							style: {
+								width: config.width || defaults.width,
+								height: config.height || defaults.height
+							},
 							heading: {
 								rotate: i18n.get("${wc.ui.imageEdit.rotate}"),
 								move: i18n.get("${wc.ui.imageEdit.move}"),
@@ -321,7 +327,8 @@ function(has, event, uid, classList, timers, loader, i18n, fabric, Mustache, dia
 								cancel: i18n.get("${wc.ui.imageEdit.action.cancel}"),
 								save: i18n.get("${wc.ui.imageEdit.action.save}"),
 								snap: i18n.get("${wc.ui.imageEdit.action.snap}"),
-								speed: i18n.get("${wc.ui.imageEdit.action.speed}")
+								camera: "Camera",
+								face: "Detect Face"
 							},
 							message: {
 								novideo: "Video stream not available.",
@@ -340,12 +347,8 @@ function(has, event, uid, classList, timers, loader, i18n, fabric, Mustache, dia
 								cancel: "Abort image editing",
 								save: "Save the image",
 								snap: "Take a snapshot from the video stream",
-								speed: "How quickly the buttons affect the image"
-							},
-							value: {
-								speedNow: 1.5,
-								speedMin: 0.5,
-								speedMax: 5
+								camera: "Take a photo from your webcam",
+								face: "Attempt to detect and center facial image"
 							}
 						};
 					editorHtml = Mustache.to_html(template, i18nProps);
@@ -358,20 +361,23 @@ function(has, event, uid, classList, timers, loader, i18n, fabric, Mustache, dia
 					cancelControl(eventConfig, container, callbacks, file);
 					saveControl(eventConfig, container, callbacks, file);
 					rotationControls(eventConfig);
-					if (file) {
-						classList.add(container, "nocap");
-					}
-					else if (has("rtc-gum")) {
-						imageCapture.snapshotControl(eventConfig);
-					}
-					else {
-						classList.add(container, "cantplay");
+					// if (config.face) {
+					faceDetection.initControls(eventConfig, container);
+					// }
+					if (!file) {
+						if (has("rtc-gum")) {
+							classList.add(container, "wc_showcam");
+							imageCapture.snapshotControl(eventConfig, container);
+						}
+						else {
+							classList.add(container, "wc_nortc");
+						}
 					}
 					resolve(container);
 				}, reject);
 			});
 
-			return Promise.all([promise, dialogFrame.open(frameConfig)]).then(function(values) {
+			return Promise.all([promise, dialogFrame.open(getDialogFrameConfig(callbacks.lose))]).then(function(values) {
 				var dialogContent = dialogFrame.getContent(),
 					container = values[0];
 
@@ -391,7 +397,12 @@ function(has, event, uid, classList, timers, loader, i18n, fabric, Mustache, dia
 		 * @private`
 		 */
 		function attachEventHandlers(container) {
-			var timer, eventConfig = {
+			var timer,
+				MAX_SPEED = 10,
+				MIN_SPEED = 0.5,
+				START_SPEED = 1.5,
+				speed = START_SPEED,
+				eventConfig = {
 					press: {},
 					click: {}
 				};
@@ -404,15 +415,24 @@ function(has, event, uid, classList, timers, loader, i18n, fabric, Mustache, dia
 			event.add(container, "touchend", pressEnd);
 
 			function clickEvent($event) {
-				var config = getEventConfig($event.target, "click");
+				var element = $event.target,
+					config = getEventConfig(element, "click");
 				if (config) {
-					timers.clearTimeout(timer);
+					pressEnd();
 					timer = timers.setTimeout(config.func, 0, config);
 				}
 			}
 
 			function callbackWrapper(config) {
-				config.func(config);
+				config.func(config, speed);
+				// Speed up while the button is being held down
+				speed += (speed * 0.1);
+				if (speed < MIN_SPEED) {
+					speed = MIN_SPEED;
+				}
+				else if (speed > MAX_SPEED) {
+					speed = MAX_SPEED;
+				}
 				timer = timers.setTimeout(callbackWrapper, 100, config);
 			}
 
@@ -424,6 +444,7 @@ function(has, event, uid, classList, timers, loader, i18n, fabric, Mustache, dia
 			}
 
 			function pressEnd() {
+				speed = START_SPEED;
 				timers.clearTimeout(timer);
 			}
 
@@ -468,12 +489,11 @@ function(has, event, uid, classList, timers, loader, i18n, fabric, Mustache, dia
 		/*
 		 * Helper for features that change numeric properties of the image on the canvas.
 		 */
-		function numericProp(config) {
+		function numericProp(config, speed) {
 			var newValue,
 				currentValue,
 				getter = config.getter || ("get" + config.prop),
 				setter = config.setter || ("set" + config.prop),
-				speed = document.getElementById("wc_img_speed"),
 				step = config.step || 1; // do not allow step to be 0
 			if (fbImage) {
 				currentValue = fbImage[getter]();
@@ -481,10 +501,13 @@ function(has, event, uid, classList, timers, loader, i18n, fabric, Mustache, dia
 					newValue = rotateToStepHelper(currentValue, step);
 				}
 				else if (speed) {
-					newValue = currentValue + (step * speed.value);
+					newValue = currentValue + (step * speed);
 				}
 				else {
 					newValue = currentValue + step;
+				}
+				if (config.min) {
+					newValue = Math.max(config.min, newValue);
 				}
 				fbImage[setter](newValue);
 				fbCanvas.renderAll();
@@ -551,7 +574,8 @@ function(has, event, uid, classList, timers, loader, i18n, fabric, Mustache, dia
 				func: numericProp,
 				getter: "getScaleX",
 				setter: "scale",
-				step: -0.05
+				step: -0.05,
+				min: 0.1
 			};
 		}
 
@@ -751,6 +775,82 @@ function(has, event, uid, classList, timers, loader, i18n, fabric, Mustache, dia
 		}
 
 		/**
+		 * Encapsulates the face detection functionality.
+		 *
+		 * @constructor
+		 */
+		function FaceDetection() {
+
+			this.initControls = function(eventConfig, container) {
+				require(["wc/ui/facetracking"], function(facetracking) {
+					eventConfig.click.wc_btn_face = {
+						func: function() {
+							var button = container.querySelector(".wc_btn_face"),
+								done = function() {
+									if (button) {
+										shed.enable(button);
+									}
+								};
+							if (button) {
+								shed.disable(button);
+							}
+							facetracking.track(fbImage.getElement()).then(function(rect) {
+								if (rect) {
+									zoomFace(rect);
+								}
+								done()
+							}, done);
+						}
+					};
+				});
+			};
+
+			/**
+			 * Attempts to zoom in on a face in the image.
+			 * @param {Object} rect Coordinates of the face to zoom.
+			 */
+			function zoomFace(rect) {
+				var newLeft, newTop,
+					totalWidth = fbCanvas.getWidth(),
+					ZOOM_TO_PC = 0.8,
+					totalPadPc = Math.max(0, 1 - ZOOM_TO_PC),
+					totalPadPixels = totalWidth * totalPadPc,
+					targetWidthPixels = totalWidth * ZOOM_TO_PC,
+					targetScale = targetWidthPixels / rect.width;
+				fbImage.scale(targetScale);
+				newLeft = (totalPadPixels / 2) - (rect.x * targetScale);
+				newTop = totalPadPixels - (rect.y * targetScale);  // The face is lower on the head so it probably needs more padding...
+				fbImage.setLeft(newLeft);
+				fbImage.setTop(newTop);
+				fbCanvas.renderAll();
+			};
+
+	//		function markFace(rect) {
+	//			var leftOffset = fbImage.getLeft(),
+	//				topOffset = fbImage.getTop(),
+	//				div = document.createElement("div"),
+	//				container = document.querySelector(".canvas-container");
+	//			div.style.position = "relative";
+	//			div.style.border = "1px lime dashed";
+	//			div.addEventListener("click", function() {
+	//				container.removeChild(div);
+	//			}, false);
+	//			div.style.width = rect.width + "px";
+	//			div.style.height = rect.height + "px";
+	//			div.style.top = (rect.y + topOffset) + "px";
+	//			div.style.left = (rect.x + leftOffset) + "px";
+	//			container.appendChild(div);
+	//
+	//			if (container) {
+	//				var divs = container.querySelectorAll("div");
+	//				for (var i = 0; i < divs.length; i++) {
+	//					divs[i].parentNode.removeChild(divs[i]);
+	//				}
+	//			}
+	//		}
+		}
+
+		/**
 		 * Encapsulates the image capture functionality.
 		 *
 		 * TODO allow user to select video source or rely on platform to provide this?
@@ -769,7 +869,7 @@ function(has, event, uid, classList, timers, loader, i18n, fabric, Mustache, dia
 			/*
 			 * Wires up the "take photo" feature.
 			 */
-			this.snapshotControl = function (eventConfig) {
+			this.snapshotControl = function (eventConfig, container) {
 				var click = eventConfig.click;
 				if (has("rtc-gum")) {
 					click.snap = {
@@ -781,6 +881,8 @@ function(has, event, uid, classList, timers, loader, i18n, fabric, Mustache, dia
 								fbImageTemp = new fabric.Image(video);
 								dataUrl = fbImageTemp.toDataURL();
 								loadImageFromDataUrl(dataUrl);
+								classList.remove(container, "wc_showcam");
+								imageCapture.stop();
 							}
 						}
 					};

@@ -117,6 +117,9 @@
 				<exclude name="*jquery*"/>
 			</fileset>
 		</copy>
+		<copy todir="${lib.build.target.dir}/tracking" >
+			<fileset dir="${basedir}/node_modules/tracking" includes="build/**"/>
+		</copy>
 		<copy todir="${lib.build.target.dir}/mustache" >
 			<fileset dir="${basedir}/node_modules/mustache" includes="**">
 				<exclude name="*wrappers*"/>
