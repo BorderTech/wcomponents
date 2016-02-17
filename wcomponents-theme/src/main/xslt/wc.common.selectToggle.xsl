@@ -4,8 +4,8 @@
 	<xsl:import href="wc.common.n.className.xsl"/>
 
 	<!-- Keys used by selectToggle if it is targetted at a single checkbox or group of disparate check boxes rather than at a container or checkBoxSelect-->
-	<xsl:key name="checkboxIdKey" match="//ui:checkBox[@groupName]" use="@id"/>
-	<xsl:key name="checkboxGroupKey" match="//ui:checkBox[@groupName]" use="@groupName"/>
+	<xsl:key name="checkboxIdKey" match="//ui:checkbox[@groupName]" use="@id"/>
+	<xsl:key name="checkboxGroupKey" match="//ui:checkbox[@groupName]" use="@groupName"/>
 	<!--
 		Builds selectToggle/rowSelection controls.
 			wc.ui.selectToggle.xsl
@@ -29,8 +29,8 @@
 			on the server, otherwise the selection is client side.
 		
 		param label
-			A text label to apply to the selectToggle. This is only set for ui:rowSelection in 
-			ui:table. It is generally empty. For ui:selectToggle and we look up 
+			A text label to apply to the selectToggle. This is only set for ui:rowselection in 
+			ui:table. It is generally empty. For ui:selecttoggle and we look up 
 			the label by looking for a WLabel which is "for" the WSelectToggle.
 		
 		param type: 
@@ -46,12 +46,12 @@
 		<xsl:param name="for"/>
 		<xsl:param name="selected"/>
 		<xsl:param name="roundTrip"/>
-		<xsl:param name="label"/><!--not set for ui:selectToggle -->
+		<xsl:param name="label"/><!--not set for ui:selecttoggle -->
 		<xsl:param name="type" select="'text'"/>
 	
 		<xsl:variable name="toggleId">
 			<xsl:value-of select="$id"/>
-			<xsl:if test="not(self::ui:selectToggle)">
+			<xsl:if test="not(self::ui:selecttoggle)">
 				<xsl:text>${wc.ui.selectToggle.id.suffix}</xsl:text>
 			</xsl:if>
 		</xsl:variable>
@@ -125,7 +125,7 @@
 						</xsl:attribute>
 					</xsl:if>
 					<xsl:choose>
-						<xsl:when test="self::ui:rowSelection">
+						<xsl:when test="self::ui:rowselection">
 							<xsl:call-template name="disabledElement">
 								<xsl:with-param name="field" select=".."/>
 							</xsl:call-template>
@@ -144,7 +144,7 @@
 							<xsl:when test="$label!=''">
 								<xsl:value-of select="$label"/>
 							</xsl:when>
-							<xsl:when test="self::ui:rowSelection">
+							<xsl:when test="self::ui:rowselection">
 								<xsl:value-of select="$$${wc.common.toggles.i18n.select.label}"/>
 							</xsl:when>
 							<xsl:when test="not($myLabel)">
@@ -155,7 +155,7 @@
 					
 					<xsl:variable name="labelId">
 						<xsl:choose>
-							<xsl:when test="self::ui:rowSelection">
+							<xsl:when test="self::ui:rowselection">
 								<xsl:value-of select="$defaultLabelId"/>
 							</xsl:when>
 							<xsl:when test="$myLabel">
@@ -249,7 +249,7 @@
 							<xsl:when test="$label!=''">
 								<xsl:value-of select="$label"/>
 							</xsl:when>
-							<xsl:when test="self::ui:rowSelection">
+							<xsl:when test="self::ui:rowselection">
 								<xsl:value-of select="$$${wc.common.toggles.i18n.selectAll.a11y}"/>
 							</xsl:when>
 							<xsl:when test="$myLabel">
@@ -261,7 +261,7 @@
 						</xsl:choose>
 					</xsl:attribute>
 					<xsl:choose>
-						<xsl:when test="self::ui:selectToggle">
+						<xsl:when test="self::ui:selecttoggle">
 							<xsl:call-template name="disabledElement">
 								<xsl:with-param name="isControl" select="1"/>
 							</xsl:call-template>

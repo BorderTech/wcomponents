@@ -16,7 +16,7 @@
 				</xs:element>
 			</xs:sequence>
 
-			<xs:attribute name="type">
+			<xs:attribute name="type" default="plain">
 				<xs:annotation>
 					<xs:documentation>Used to indicate the output type of the text. Should have some semantic meaning rather than be merely styled.</xs:documentation>
 				</xs:annotation>
@@ -24,7 +24,7 @@
 					<xs:restriction base="xs:NMTOKEN">
 						<xs:enumeration value="plain">
 							<xs:annotation>
-								<xs:documentation>Plain text, this is the default if not set.</xs:documentation>
+								<xs:documentation>Plain text.</xs:documentation>
 							</xs:annotation>
 						</xs:enumeration>
 						<xs:enumeration value="highPriority">

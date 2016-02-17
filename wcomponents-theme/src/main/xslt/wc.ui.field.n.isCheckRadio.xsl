@@ -2,7 +2,7 @@
 	<!--
  		If the child of the ui:input is a WCheckBox or WRadioButton then
  		the label must be placed after the control and any
- 		ui:fieldIndicator placed after the label.
+ 		ui:fieldindicator placed after the label.
 	-->
 	<xsl:template name="fieldIsCheckRadio">
 		<xsl:variable name="labelFor" select="ui:label/@for"/>
@@ -12,7 +12,7 @@
 			</xsl:if>
 		</xsl:variable>
 		<xsl:choose>
-			<xsl:when test="$labelledElementLocalName='radioButton' or $labelledElementLocalName='checkBox' or $labelledElementLocalName='selectToggle'">
+			<xsl:when test="$labelledElementLocalName='radiobutton' or $labelledElementLocalName='checkbox' or $labelledElementLocalName='selecttoggle'">
 				<xsl:number value="1"/>
 			</xsl:when>
 			<xsl:otherwise>

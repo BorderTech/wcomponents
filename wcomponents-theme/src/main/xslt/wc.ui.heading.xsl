@@ -7,7 +7,7 @@
 		H# element where the WHeading @level sets the #
 	
 		Child elements
-		* ui:decoratedLabel (minOccurs 0)
+		* ui:decoratedlabel (minOccurs 0)
 		If the heading does not have a WDecoratedLabel then its text content is used
 		as the text in the HTML heading element. If the content is mixed only the
 		WDecoratedLabel	is output (this is actually not possible in the Java API so
@@ -22,8 +22,8 @@
 			<xsl:call-template name="ajaxTarget"/>
 			<xsl:apply-templates select="ui:margin"/>
 			<xsl:choose>
-				<xsl:when test="ui:decoratedLabel">
-					<xsl:apply-templates select="ui:decoratedLabel"/>
+				<xsl:when test="ui:decoratedlabel">
+					<xsl:apply-templates select="ui:decoratedlabel"/>
 				</xsl:when>
 				<xsl:otherwise>
 					<xsl:value-of select="."/>

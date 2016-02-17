@@ -8,7 +8,7 @@
 	<!--
 		Output expand all and collapse all buttons. 
 		
-		Called from ui:rowExpansion and ui:expandCollapseAll.
+		Called from ui:rowexpansion and ui:collapsibletoggle.
 		
 		param id: the id of the collapsing control's grouping component. Default @id.
 		
@@ -45,7 +45,7 @@
 				<xsl:when test="$mode='server'"><!--server mode does not need a target list, the expansion is done on the server -->
 					<xsl:value-of select="''"/>
 				</xsl:when>
-				<xsl:when test="self::ui:rowExpansion"><!-- a table's rowExpansion always targets the table -->
+				<xsl:when test="self::ui:rowexpansion"><!-- a table's rowExpansion always targets the table -->
 					<xsl:value-of select="$for"/>
 				</xsl:when>
 				<xsl:when test="$group">

@@ -51,7 +51,7 @@ public class WFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 		// Check Label
 		assertXpathEvaluatesTo("label1", "//ui:field/ui:label", field);
 		// Check Input
-		assertXpathEvaluatesTo("text1", "//ui:field/ui:input/ui:textField", field);
+		assertXpathEvaluatesTo("text1", "//ui:field/ui:input/ui:textfield", field);
 
 		// Test Hidden
 		setFlag(field, ComponentModel.HIDE_FLAG, true);
@@ -108,12 +108,12 @@ public class WFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 		// Check Label
 		assertXpathEvaluatesTo("label1", "//ui:field/ui:label", field);
 		// Check Input
-		assertXpathEvaluatesTo("text1", "//ui:field/ui:input/ui:textField", field);
+		assertXpathEvaluatesTo("text1", "//ui:field/ui:input/ui:textfield", field);
 		// Check Indicator
 		assertXpathEvaluatesTo("Test Error",
-				"//ui:field/ui:input/ui:fieldIndicator[@type='error']/ui:message", field);
+				"//ui:field/ui:input/ui:fieldindicator[@type='error']/ui:message", field);
 		assertXpathEvaluatesTo("Test Warning",
-				"//ui:field/ui:input/ui:fieldIndicator[@type='warn']/ui:message", field);
+				"//ui:field/ui:input/ui:fieldindicator[@type='warn']/ui:message", field);
 	}
 
 }

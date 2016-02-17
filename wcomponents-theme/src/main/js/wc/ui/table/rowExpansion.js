@@ -30,9 +30,10 @@ define(["wc/array/toArray",
 		"wc/ui/ajax/processResponse",
 		"wc/ui/onloadFocusControl",
 		"wc/ui/rowAnalog",
+		"wc/ui/table/common",
 		"wc/ui/radioAnalog"],
 	/** @param toArray @param attribute @param event @param focus @param formUpdateManager @param initialise @param shed @param tag @param Widget @param ajaxRegion @param timers @param processResponse @param onloadFocusControl @param rowAnalog @ignore */
-	function(toArray, attribute, event, focus, formUpdateManager, initialise, shed, tag, Widget, ajaxRegion, timers, processResponse, onloadFocusControl, rowAnalog) {
+	function(toArray, attribute, event, focus, formUpdateManager, initialise, shed, tag, Widget, ajaxRegion, timers, processResponse, onloadFocusControl, rowAnalog, common) {
 		"use strict";
 		/*
 		 * IMPLICIT DEPENDENCIES:
@@ -47,11 +48,11 @@ define(["wc/array/toArray",
 		 * @private
 		 */
 		function RowExpansion() {
-			var TABLE_WRAPPER = new Widget("div", "table"),
-				TBL_TRIGGER = new Widget("td", "wc_table_rowexp_container", {"role": "button"}),
-				TBL_EXPANDABLE_ROW = new Widget("tr", "", {"role": "row", "aria-expanded": null}),
-				TABLE = new Widget("TABLE", "", {"role": "treegrid"}),
-				EXPAND_COLLAPSE_ALL = new Widget("button", "rowExpansion"),
+			var TABLE_WRAPPER = common.WRAPPER,
+				TBL_TRIGGER = common.TD.extend("", {"role": "button"}),
+				TBL_EXPANDABLE_ROW = common.ROW.extend("", {"aria-expanded": null}),
+				TABLE = common.TABLE.extend("", {"role": "treegrid"}),
+				EXPAND_COLLAPSE_ALL = new Widget("button", "rowexpansion"),
 				BOOTSTRAPPED = "wc.ui.table.rowExpansion.bootStrapped",
 				TRUE = "true",
 				FALSE = "false";
@@ -169,7 +170,7 @@ define(["wc/array/toArray",
 
 				if (element && (tableWrapper = TABLE_WRAPPER.findAncestor(element)) && (table = TABLE.findDescendant(tableWrapper, true))) {
 					open = (element.getAttribute("data-wc-value") === "expand") ? true : false;
-					rowWidget = new Widget("tr", "", {"role": "row", "aria-expanded": (open ? FALSE : TRUE)});
+					rowWidget = common.ROW.extend("", {"aria-expanded": (open ? FALSE : TRUE)});
 					candidates = getExpandableRows(table, rowWidget);
 
 					if (!candidates && candidates.length) {

@@ -100,7 +100,7 @@ public class WButtonRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo(button.getAccessKeyAsString(), "//ui:button/@accessKey", button);
 		assertXpathEvaluatesTo("true", "//ui:button/@popup", button);
 		assertXpathEvaluatesTo(validationComponent.getId(), "//ui:button/@validates", button);
-		assertXpathEvaluatesTo(button.getId(), "//ui:ajaxTrigger/@triggerId", button);
+		assertXpathEvaluatesTo(button.getId(), "//ui:ajaxtrigger/@triggerId", button);
 
 		button.setImagePosition(ImagePosition.NORTH);
 		assertXpathEvaluatesTo("n", "//ui:button/@imagePosition", button);

@@ -7,7 +7,7 @@
 	<!--
 	 The content of the tab. Wrapped in a DIV element.
 	-->
-	<xsl:template match="ui:tabContent">
+	<xsl:template match="ui:tabcontent">
 		<xsl:param name="open"/>
 		<xsl:variable name="id">
 			<xsl:value-of select="@id"/>
@@ -21,7 +21,7 @@
 				<xsl:text>tabpanel</xsl:text>
 			</xsl:attribute>
 			<xsl:attribute name="class">
-				<xsl:text>tabContent</xsl:text>
+				<xsl:text>wc-tabcontent</xsl:text>
 				<xsl:if test="$mode='server'">
 					<xsl:text> wc_lame</xsl:text>
 				</xsl:if>

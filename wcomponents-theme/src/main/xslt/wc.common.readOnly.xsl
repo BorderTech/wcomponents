@@ -44,13 +44,13 @@
 		<xsl:param name="label"/>
 
 		<xsl:variable name="linkWithText">
-			<xsl:if test="text() and (self::ui:phoneNumberField or self::ui:emailField)">
+			<xsl:if test="text() and (self::ui:phonenumberfield or self::ui:emailfield)">
 				<xsl:number value="1"/>
 			</xsl:if>
 		</xsl:variable>
 		<xsl:variable name="elementName">
 			<xsl:choose>
-				<xsl:when test="self::ui:textArea">
+				<xsl:when test="self::ui:textarea">
 					<!--
 						This is really only needed by IE due to it stripping whitepace in other elements when we use
 						htmlToDocumentElement in JavaScript. See wc/xml/xslTransform.js, PRE does not cause issues in
@@ -91,7 +91,7 @@
 			<xsl:if test="$linkWithText=1">
 				<xsl:attribute name="href">
 					<xsl:choose>
-						<xsl:when test="self::ui:emailField">
+						<xsl:when test="self::ui:emailfield">
 							<xsl:text>mailto:</xsl:text>
 						</xsl:when>
 						<xsl:otherwise>

@@ -32,7 +32,7 @@ final class WMultiSelectRenderer extends AbstractWebXmlRenderer {
 		int min = listBox.getMinSelect();
 		int max = listBox.getMaxSelect();
 
-		xml.appendTagOpen("ui:listBox");
+		xml.appendTagOpen("ui:listbox");
 		xml.appendAttribute("id", component.getId());
 		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
@@ -76,7 +76,7 @@ final class WMultiSelectRenderer extends AbstractWebXmlRenderer {
 			}
 		}
 
-		xml.appendEndTag("ui:listBox");
+		xml.appendEndTag("ui:listbox");
 	}
 
 	/**

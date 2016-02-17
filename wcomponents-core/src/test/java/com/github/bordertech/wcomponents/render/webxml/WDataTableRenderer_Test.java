@@ -86,7 +86,7 @@ public class WDataTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		setActiveContext(createUIContext());
 		assertSchemaMatch(component);
-		assertXpathEvaluatesTo(component.getNoDataMessage(), "//ui:table/ui:tbody/ui:noData",
+		assertXpathEvaluatesTo(component.getNoDataMessage(), "//ui:table/ui:tbody/ui:nodata",
 				component);
 	}
 
@@ -197,7 +197,7 @@ public class WDataTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		String[] colHeaders = {COL1_HEADING_TEST, COL2_HEADING_TEST, COL3_HEADING_TEST};
 		for (int i = 0; i < component.getColumnCount(); i++) {
 			assertXpathEvaluatesTo(colHeaders[i], "//ui:table/ui:thead/ui:th[" + (i + 1)
-					+ "]/ui:decoratedLabel/ui:labelBody", component);
+					+ "]/ui:decoratedlabel/ui:labelbody", component);
 		}
 
 		// check table content
@@ -205,7 +205,7 @@ public class WDataTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 			for (int j = 0; j < component.getColumnCount(); j++) {
 				assertXpathEvaluatesTo((String) tableModel.getValueAt(i, j),
 						"//ui:table/ui:tbody/ui:tr[" + (i + 1)
-						+ "]/ui:td[" + (j + 1) + "]/ui:textField",
+						+ "]/ui:td[" + (j + 1) + "]/ui:textfield",
 						component);
 			}
 		}
@@ -302,7 +302,7 @@ public class WDataTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		assertSchemaMatch(component);
 
-		assertXpathExists("//ui:table/ui:rowSelection", component);
+		assertXpathExists("//ui:table/ui:rowselection", component);
 	}
 
 	@Test
@@ -321,9 +321,9 @@ public class WDataTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		assertSchemaMatch(component);
 
-		assertXpathExists("//ui:table/ui:rowSelection", component);
-		assertXpathEvaluatesTo(TRUE, "//ui:table/ui:rowSelection/@multiple", component);
-		assertXpathEvaluatesTo("text", "//ui:table/ui:rowSelection/@selectAll", component);
+		assertXpathExists("//ui:table/ui:rowselection", component);
+		assertXpathEvaluatesTo(TRUE, "//ui:table/ui:rowselection/@multiple", component);
+		assertXpathEvaluatesTo("text", "//ui:table/ui:rowselection/@selectAll", component);
 	}
 
 	@Test
@@ -342,9 +342,9 @@ public class WDataTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		assertSchemaMatch(component);
 
-		assertXpathExists("//ui:table/ui:rowSelection", component);
-		assertXpathEvaluatesTo(TRUE, "//ui:table/ui:rowSelection/@multiple", component);
-		assertXpathEvaluatesTo("control", "//ui:table/ui:rowSelection/@selectAll", component);
+		assertXpathExists("//ui:table/ui:rowselection", component);
+		assertXpathEvaluatesTo(TRUE, "//ui:table/ui:rowselection/@multiple", component);
+		assertXpathEvaluatesTo("control", "//ui:table/ui:rowselection/@selectAll", component);
 	}
 
 	@Test
@@ -367,12 +367,12 @@ public class WDataTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		setActiveContext(createUIContext());
 		assertSchemaMatch(component);
 
-		assertXpathExists("//ui:table/ui:rowSelection", component);
-		assertXpathEvaluatesTo(TRUE, "//ui:table/ui:rowSelection/@multiple", component);
-		assertXpathEvaluatesTo("control", "//ui:table/ui:rowSelection/@selectAll", component);
-		assertXpathEvaluatesTo(component.getSelectGroup(), "//ui:table/ui:rowSelection/@groupName",
+		assertXpathExists("//ui:table/ui:rowselection", component);
+		assertXpathEvaluatesTo(TRUE, "//ui:table/ui:rowselection/@multiple", component);
+		assertXpathEvaluatesTo("control", "//ui:table/ui:rowselection/@selectAll", component);
+		assertXpathEvaluatesTo(component.getSelectGroup(), "//ui:table/ui:rowselection/@groupName",
 				component);
-		assertXpathEvaluatesTo(TRUE, "//ui:table/ui:rowSelection/@submitOnChange", component);
+		assertXpathEvaluatesTo(TRUE, "//ui:table/ui:rowselection/@submitOnChange", component);
 	}
 
 	@Test
@@ -388,7 +388,7 @@ public class WDataTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		component.setExpandMode(ExpandMode.CLIENT);
 
 		assertSchemaMatch(component);
-		assertXpathEvaluatesTo("client", "//ui:table/ui:rowExpansion/@mode", component);
+		assertXpathEvaluatesTo("client", "//ui:table/ui:rowexpansion/@mode", component);
 	}
 
 	@Test
@@ -404,7 +404,7 @@ public class WDataTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		component.setExpandMode(ExpandMode.SERVER);
 
 		assertSchemaMatch(component);
-		assertXpathEvaluatesTo("server", "//ui:table/ui:rowExpansion/@mode", component);
+		assertXpathEvaluatesTo("server", "//ui:table/ui:rowexpansion/@mode", component);
 	}
 
 	@Test
@@ -420,7 +420,7 @@ public class WDataTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		component.setExpandMode(ExpandMode.LAZY);
 
 		assertSchemaMatch(component);
-		assertXpathEvaluatesTo("lazy", "//ui:table/ui:rowExpansion/@mode", component);
+		assertXpathEvaluatesTo("lazy", "//ui:table/ui:rowexpansion/@mode", component);
 	}
 
 	@Test
@@ -436,7 +436,7 @@ public class WDataTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		component.setExpandMode(ExpandMode.DYNAMIC);
 
 		assertSchemaMatch(component);
-		assertXpathEvaluatesTo("dynamic", "//ui:table/ui:rowExpansion/@mode", component);
+		assertXpathEvaluatesTo("dynamic", "//ui:table/ui:rowexpansion/@mode", component);
 	}
 
 	@Test
@@ -679,21 +679,21 @@ public class WDataTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		// column headers - only COL1 and COL3 showing - in positions 1 and 2 respectively - only 2 cols
 		assertXpathEvaluatesTo(COL1_HEADING_TEST,
-				"//ui:table/ui:thead/ui:th[1]/ui:decoratedLabel/ui:labelBody", component);
+				"//ui:table/ui:thead/ui:th[1]/ui:decoratedlabel/ui:labelbody", component);
 		assertXpathEvaluatesTo(COL3_HEADING_TEST,
-				"//ui:table/ui:thead/ui:th[2]/ui:decoratedLabel/ui:labelBody", component);
-		assertXpathNotExists("//ui:table/ui:thead/ui:th[3]/ui:decoratedLabel/ui:labelBody",
+				"//ui:table/ui:thead/ui:th[2]/ui:decoratedlabel/ui:labelbody", component);
+		assertXpathNotExists("//ui:table/ui:thead/ui:th[3]/ui:decoratedlabel/ui:labelbody",
 				component);
 
 		// first row - col1 and col3 from model in positions 1 and 2 respectively - only 2 cols showing
 		String firstName = (String) tableDataModel.getValueAt(0, 0);
 		String entryDate = (String) tableDataModel.getValueAt(0, 2);
 
-		assertXpathEvaluatesTo(firstName, "//ui:table/ui:tbody/ui:tr[1]/ui:td[1]/ui:textField",
+		assertXpathEvaluatesTo(firstName, "//ui:table/ui:tbody/ui:tr[1]/ui:td[1]/ui:textfield",
 				component);
-		assertXpathEvaluatesTo(entryDate, "//ui:table/ui:tbody/ui:tr[1]/ui:td[2]/ui:textField",
+		assertXpathEvaluatesTo(entryDate, "//ui:table/ui:tbody/ui:tr[1]/ui:td[2]/ui:textfield",
 				component);
-		assertXpathNotExists("//ui:table/ui:tbody/ui:tr[1]/ui:td[3]/ui:textField", component);
+		assertXpathNotExists("//ui:table/ui:tbody/ui:tr[1]/ui:td[3]/ui:textfield", component);
 	}
 
 	@Test
@@ -724,7 +724,7 @@ public class WDataTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		table.setSummary(getMaliciousAttribute("ui:table"));
 		assertSafeContent(table);
 
-		table.setSelectGroup(getMaliciousAttribute("ui:rowSelection"));
+		table.setSelectGroup(getMaliciousAttribute("ui:rowselection"));
 		assertSafeContent(table);
 
 		table.setActiveFilters(Arrays.asList(new String[]{getMaliciousAttribute("ui:table")}));

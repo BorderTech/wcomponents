@@ -11,7 +11,7 @@
 		state. This is true when the control has been invoked. A callback from each
 		controlled WCollapsible can also update this state.
 	-->
-	<xsl:template match="ui:expandCollapseAll">
+	<xsl:template match="ui:collapsibletoggle">
 		<xsl:call-template name="collapsibleToggle"/>
 	</xsl:template>
 </xsl:stylesheet>

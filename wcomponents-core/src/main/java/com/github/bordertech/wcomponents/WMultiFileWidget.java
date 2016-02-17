@@ -677,18 +677,18 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxT
 
 		xml.append(XMLUtil.getXMLDeclarationWithThemeXslt(uic));
 
-		xml.appendTagOpen("ui:ajaxResponse");
+		xml.appendTagOpen("ui:ajaxresponse");
 		xml.append(XMLUtil.STANDARD_NAMESPACES);
 		xml.appendClose();
-		xml.appendTagOpen("ui:ajaxTarget");
+		xml.appendTagOpen("ui:ajaxtarget");
 		xml.appendAttribute("id", getId());
 		xml.appendAttribute("action", "replace");
 		xml.appendClose();
 
 		FileWidgetRendererUtil.renderFileElement(this, xml, file, idx);
 
-		xml.appendEndTag("ui:ajaxTarget");
-		xml.appendEndTag("ui:ajaxResponse");
+		xml.appendEndTag("ui:ajaxtarget");
+		xml.appendEndTag("ui:ajaxresponse");
 
 		FileUploadXMLResponse content = new FileUploadXMLResponse(writer.getBuffer().toString());
 		ContentEscape escape = new ContentEscape(content);

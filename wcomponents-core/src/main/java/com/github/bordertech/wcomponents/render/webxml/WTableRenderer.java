@@ -134,20 +134,20 @@ final class WTableRenderer extends AbstractWebXmlRenderer {
 
 			// Rows per page options
 			if (table.getRowsPerPageOptions() != null) {
-				xml.appendTag("ui:rowsSelect");
+				xml.appendTag("ui:rowsselect");
 				for (Integer option : table.getRowsPerPageOptions()) {
 					xml.appendTagOpen("ui:option");
 					xml.appendAttribute("value", option);
 					xml.appendEnd();
 				}
-				xml.appendEndTag("ui:rowsSelect");
+				xml.appendEndTag("ui:rowsselect");
 			}
 			xml.appendEndTag("ui:pagination");
 		}
 
 		if (table.getSelectMode() != SelectMode.NONE) {
 			boolean multiple = table.getSelectMode() == SelectMode.MULTIPLE;
-			xml.appendTagOpen("ui:rowSelection");
+			xml.appendTagOpen("ui:rowselection");
 			xml.appendOptionalAttribute("multiple", multiple, "true");
 
 			boolean toggleSubRows = multiple && table.isToggleSubRowSelection()
@@ -172,7 +172,7 @@ final class WTableRenderer extends AbstractWebXmlRenderer {
 		}
 
 		if (table.getExpandMode() != ExpandMode.NONE) {
-			xml.appendTagOpen("ui:rowExpansion");
+			xml.appendTagOpen("ui:rowexpansion");
 
 			switch (table.getExpandMode()) {
 				case CLIENT:
@@ -313,9 +313,9 @@ final class WTableRenderer extends AbstractWebXmlRenderer {
 		xml.appendClose();
 
 		if (model.getRowCount() == 0) {
-			xml.appendTag("ui:noData");
+			xml.appendTag("ui:nodata");
 			xml.appendEscaped(table.getNoDataMessage());
-			xml.appendEndTag("ui:noData");
+			xml.appendEndTag("ui:nodata");
 		} else {
 			// If has at least one visible col, paint the rows.
 			final int columnCount = table.getColumnCount();

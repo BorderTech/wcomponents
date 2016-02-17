@@ -16,20 +16,19 @@
 		right: auto;
 	}
 
-	thead button {
-		min-width: $line-size;
-	}
-
 	dialog & {
 		position: fixed;
 		right: auto;
-
-		#wc-calendar {
-			background-color: $wc-ui-color-global-bg;
-		}
 	}
 }
 
+#wc-calendar {
+	background-color: $wc-ui-color-global-bg;
+
+	thead button {
+		min-width: $line-size;
+	}
+}
 
 .wc_wdf_mv {
 	&:before {
@@ -52,4 +51,3 @@
 .wc_wdf_cls {
 	display: none;
 }
-/* end wc.ui.dateField.dt.scss */

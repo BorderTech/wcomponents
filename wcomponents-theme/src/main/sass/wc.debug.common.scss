@@ -6,22 +6,22 @@
 // ### **DON'T** ###
 // Really, just don't otherwise you will have to put some of it back again and that is a PITA.
 @import 'mixins_common.scss';
-
-// next used only in debug mode
 $wc-ui-color-debug-fg: $std-color-primary;
 
-// body element required to differentiate from other elements in a debug state or type
-// scss-lint:disable QualifyingElement
-body.wc_debug:before {
-	background-color: $wc-ui-color-highlight-bg;
-	color: $wc-ui-color-highlight-fg;
-	content: 'Client debug/diagnostic mode is on.';
-	display: block;
-	padding: 0.5em;
-}
+body {
+	&::before { // I no longer care about IE8.
+		background-color: $wc-ui-color-highlight-bg;
+		color: $wc-ui-color-highlight-fg;
+		content: 'Client debug/diagnostic mode: document has ' attr(data-wc-nodeCount) ' elements.';
+		display: block;
+		padding: 0.5em;
+	}
 
-// The attribute inclusion here doesn't work in IE8 so there is no point including it in the :before
-body.wc_debug::before {
-	content: 'Client debug/diagnostic mode: document has ' attr(data-wc-nodeCount) ' elements.';
+	&.wc_loggedwarn {
+		background-color: $wc-ui-color-warning-fg;
+	}
+
+	&.wc_loggederror { //the error style MUST TRUMP the warn style
+		background-color: $wc-ui-color-error-fg;
+	}
 }
-// scss-lint:enable QualifyingElement

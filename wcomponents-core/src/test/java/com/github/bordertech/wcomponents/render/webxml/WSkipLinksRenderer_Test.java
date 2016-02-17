@@ -26,6 +26,6 @@ public class WSkipLinksRenderer_Test extends AbstractWebXmlRendererTestCase {
 	public void testDoPaint() throws IOException, SAXException, XpathException {
 		WSkipLinks skipLinks = new WSkipLinks();
 		assertSchemaMatch(skipLinks);
-		assertXpathExists("//ui:skipLinks", skipLinks);
+		assertXpathExists("//ui:skiplinks", skipLinks);
 	}
 }

@@ -3,17 +3,17 @@
 	<xsl:import href="wc.common.n.className.xsl"/>
 	<!--
 		"Skip links" are a set of links designed to improve aplication accessibilty by
-		providing keyboard shortcuts to various parts of an application. The skipLinks 
-		in WComponents are links to and WPanel with both an accessKey and title. The 
-		accessKey sets the skipLink shortcut key and the title provides the content of 
+		providing keyboard shortcuts to various parts of an application. The skiplinks
+		in WComponents are links to and WPanel with both an accessKey and title. The
+		accessKey sets the skipLink shortcut key and the title provides the content of
 		the actual link.
 	-->
-	<xsl:template match="ui:skipLinks">
+	<xsl:template match="ui:skiplinks">
 		<xsl:variable name="containerList" select="ancestor::ui:application[1]//ui:panel[@accessKey and @title]"/>
 		<xsl:if test="$containerList">
 			<xsl:element name="${wc.dom.html5.element.nav}">
 				<xsl:call-template name="makeCommonClass"/>
-				<xsl:apply-templates select="$containerList" mode="skipLinks"/>
+				<xsl:apply-templates select="$containerList" mode="skiplinks"/>
 			</xsl:element>
 		</xsl:if>
 	</xsl:template>

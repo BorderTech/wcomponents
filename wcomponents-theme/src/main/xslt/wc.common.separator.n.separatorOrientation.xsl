@@ -8,13 +8,13 @@
 		<xsl:variable name="sepV" select="'vertical'"/>
 		<xsl:variable name="orientation">
 			<!-- note: 
-				ui:menuGroup cannot be an immediate child of ui:menuGroup so 
+				ui:menugroup cannot be an immediate child of ui:menugroup so 
 				the separator is at the top level of a menu if
 				1. it is a WSeparator and its parent is a WMenu; or
-				2. if it is called from ui:menuGroup and that WMenuGroup's parent is a WMenu or
+				2. if it is called from ui:menugroup and that WMenuGroup's parent is a WMenu or
 				3. it is a WSeparator with a WMenuGroup parent and that WMenuGroup's parent is a WMenu.
 			-->
-			<xsl:if test="parent::ui:menu or parent::ui:menuGroup[parent::ui:menu]">
+			<xsl:if test="parent::ui:menu or parent::ui:menugroup[parent::ui:menu]">
 				<xsl:variable name="menuType" select="ancestor::ui:menu[1]/@type"/>
 				<xsl:if test="$menuType='bar' or $menuType='flyout'">
 					<xsl:value-of select="$sepV"/>
@@ -38,21 +38,21 @@
 		<xsl:variable name="orientation">
 			<xsl:choose>
 				<!-\-
-					note: ui:tabGroup can contain only ui:tab or ui:separator so 
+					note: ui:tabgroup can contain only ui:tab or ui:separator so 
 					the separator is at the top level of a tabset if
 					1. it is a WSeparator and its parent is a WTabSet or WTabGroup;
 				-\->
-				<xsl:when test="parent::ui:tabset/@type='top' or parent::ui:tabGroup[../@type='top']">
+				<xsl:when test="parent::ui:tabset/@type='top' or parent::ui:tabgroup[../@type='top']">
 					<xsl:value-of select="$sepV"/>
 				</xsl:when>
 				<!-\- note: 
-					ui:menuGroup cannot be an immediate child of ui:menuGroup so 
+					ui:menugroup cannot be an immediate child of ui:menugroup so 
 					the separator is at the top level of a menu if
 					1. it is a WSeparator and its parent is a WMenu; or
-					2. if it is called from ui:menuGroup and that WMenuGroup's parent is a WMenu or
+					2. if it is called from ui:menugroup and that WMenuGroup's parent is a WMenu or
 					3. it is a WSeparator with a WMenuGroup parent and that WMenuGroup's parent is a WMenu.
 				-\->
-				<xsl:when test="parent::ui:menu or parent::ui:menuGroup[parent::ui:menu]">
+				<xsl:when test="parent::ui:menu or parent::ui:menugroup[parent::ui:menu]">
 					<xsl:variable name="menuType" select="ancestor::ui:menu[1]/@type"/>
 					<xsl:if test="$menuType='bar' or $menuType='flyout'">
 						<xsl:value-of select="$sepV"/>

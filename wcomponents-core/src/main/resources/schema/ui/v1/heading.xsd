@@ -12,7 +12,7 @@
 		<xs:complexType mixed="true">
 			<xs:sequence>
 				<xs:element ref="ui:margin" minOccurs="0" />
-				<xs:element ref="ui:decoratedLabel" minOccurs="0" />
+				<xs:element ref="ui:decoratedlabel" minOccurs="0" />
 			</xs:sequence>
 
 			<xs:attribute name="id" type="xs:ID" use="required">

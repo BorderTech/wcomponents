@@ -29,7 +29,7 @@
 				<xsl:text>${wc.ui.menu.submenu.openerIdSuffix}</xsl:text>
 			</xsl:attribute>
 			<xsl:attribute name="class">
-				<xsl:text>submenucontent</xsl:text>
+				<xsl:text>wc_submenucontent</xsl:text>
 				<xsl:choose>
 					<xsl:when test="$isAjaxMode=1">
 						<xsl:text> wc_magic</xsl:text>

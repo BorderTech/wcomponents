@@ -26,7 +26,7 @@
 		attachment.
 		
 	-->
-	<xsl:template match="ui:dateField">
+	<xsl:template match="ui:datefield">
 		<xsl:variable name="id" select="@id"/>
 		<xsl:variable name="pickId">
 			<xsl:value-of select="concat('${wc.ui.dateField.id.prefix.picker}', $id)"/>

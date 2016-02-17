@@ -31,7 +31,7 @@ abstract class AbstractWFieldIndicatorRenderer extends AbstractWebXmlRenderer {
 		List<Diagnostic> diags = fieldIndicator.getDiagnostics();
 
 		if (diags != null && !diags.isEmpty()) {
-			xml.appendTagOpen("ui:fieldIndicator");
+			xml.appendTagOpen("ui:fieldindicator");
 			xml.appendAttribute("id", component.getId());
 			xml.appendOptionalAttribute("track", component.isTracking(), "true");
 
@@ -63,7 +63,7 @@ abstract class AbstractWFieldIndicatorRenderer extends AbstractWebXmlRenderer {
 				xml.appendEndTag("ui:message");
 			}
 
-			xml.appendEndTag("ui:fieldIndicator");
+			xml.appendEndTag("ui:fieldindicator");
 		}
 	}
 }

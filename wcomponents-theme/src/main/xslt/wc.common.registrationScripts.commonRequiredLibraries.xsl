@@ -31,7 +31,7 @@
 		for snarks).
 	-->
 	<xsl:template name="commonRequiredLibraries">
-		<xsl:if test=".//ui:dateField">
+		<xsl:if test=".//ui:datefield">
 			<!--
 				calendar uses dateField, dateField does not use calendar, I might fix that one day. The calendar 
 				polyfill uses number field.
@@ -43,28 +43,28 @@
 			<xsl:text>"wc/ui/dropdown","wc/ui/selectboxSearch",</xsl:text>
 		</xsl:if>
 		
-		<!-- In this test I have tested for ui:skipLinks before ui:link even thoug ui:link is more common because of
+		<!-- In this test I have tested for ui:skiplinks before ui:link even thoug ui:link is more common because of
 			the extra processing of the predicate. It is probably a negligible overhead. -->
-		<xsl:if test=".//ui:error or .//ui:skipLinks or .//ui:link[substring(@url, 1, 1)='#']">
+		<xsl:if test=".//ui:error or .//ui:skiplinks or .//ui:link[substring(@url, 1, 1)='#']">
 			<xsl:text>"wc/ui/internalLink",</xsl:text>
 		</xsl:if>
 		
-		<xsl:if test=".//ui:fieldLayout">
+		<xsl:if test=".//ui:fieldlayout">
 			<xsl:text>"wc/ui/field",</xsl:text>
 		</xsl:if>
 		
 		<!-- If you have any sense then these are in your wc.common.js. Labels are ubiquitous. This is why we test 
-			ui:label before ui:fieldSet simple because it is more likly to get one early in source order.
+			ui:label before ui:fieldset simple because it is more likly to get one early in source order.
 		-->
-		<xsl:if test=".//ui:label or .//ui:fieldSet">
+		<xsl:if test=".//ui:label or .//ui:fieldset">
 			<xsl:text>"wc/ui/label",</xsl:text>
 		</xsl:if>
 		
-		<xsl:if test=".//ui:numberField[not(@readOnly)]">
+		<xsl:if test=".//ui:numberfield[not(@readOnly)]">
 			<xsl:text>"wc/ui/numberField",</xsl:text>
 		</xsl:if>
 		
-		<xsl:if test=".//ui:textArea[not(@readOnly)]">
+		<xsl:if test=".//ui:textarea[not(@readOnly)]">
 			<xsl:text>"wc/ui/textArea",</xsl:text>
 		</xsl:if>
 		
@@ -72,7 +72,7 @@
 			These are in order of 'likelihood'. We use or rather than | as most decent processors will stop after the 
 			first successful nodeset is found. You REALLY want wc/ui/textField in your wc.common.js though.
 		-->
-		<xsl:if test=".//ui:textField[not(@readOnly)] or .//ui:numberField[not(@readOnly)] or .//ui:emailField[not(@readOnly)] or .//ui:passwordField[not(@readOnly)] or .//ui:phoneNumberField[not(@readOnly)]">
+		<xsl:if test=".//ui:textfield[not(@readOnly)] or .//ui:numberfield[not(@readOnly)] or .//ui:emailfield[not(@readOnly)] or .//ui:passwordfield[not(@readOnly)] or .//ui:phonenumberfield[not(@readOnly)]">
 			<xsl:text>"wc/ui/textField",</xsl:text>
 		</xsl:if>
 		

@@ -29,7 +29,7 @@ final class FlowLayoutRenderer extends AbstractWebXmlRenderer {
 		int hgap = layout.getHgap();
 		int vgap = layout.getVgap();
 
-		xml.appendTagOpen("ui:flowLayout");
+		xml.appendTagOpen("ui:flowlayout");
 
 		xml.appendOptionalAttribute("hgap", hgap > 0, hgap);
 		xml.appendOptionalAttribute("vgap", vgap > 0, vgap);
@@ -92,6 +92,6 @@ final class FlowLayoutRenderer extends AbstractWebXmlRenderer {
 			xml.appendEndTag("ui:cell");
 		}
 
-		xml.appendEndTag("ui:flowLayout");
+		xml.appendEndTag("ui:flowlayout");
 	}
 }

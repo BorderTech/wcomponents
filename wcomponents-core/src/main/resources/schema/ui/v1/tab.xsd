@@ -13,8 +13,8 @@
 					means to toggle the open state of the content.</xs:documentation>
 			</xs:annotation>
 			<xs:sequence>
-				<xs:element ref="ui:decoratedLabel" />
-				<xs:element name="tabContent" type="ui:mixedContentWithId">
+				<xs:element ref="ui:decoratedlabel" />
+				<xs:element name="tabcontent" type="ui:mixedContentWithId">
 					<xs:annotation>
 						<xs:documentation>If tabContent is omitted, then this is a server-side tab.</xs:documentation>
 					</xs:annotation>
@@ -25,8 +25,10 @@
 
 			<xs:attribute name="open" type="xs:boolean">
 				<xs:annotation>
-					<xs:documentation>True indicates the tab is to be rendered as open. Not output if false. Setting open on a tab requests that it be rendered in the open state
-						when first loaded. For left, right and top tabsets, only one tab should be open. For accordion tabsets, more than one tab may be open.</xs:documentation>
+					<xs:documentation>
+						True indicates the tab is to be rendered as open. Not output if false. Setting open on a tab requests that it be rendered in the open state
+						when first loaded. For left, right and top tabsets, only one tab should be open. For accordion tabsets, more than one tab may be open.
+					</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
 			<xs:attributeGroup ref="ui:ajax.mode.attributes" />

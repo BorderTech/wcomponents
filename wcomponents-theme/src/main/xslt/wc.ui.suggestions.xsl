@@ -29,7 +29,7 @@
 			</xsl:if>
 			<xsl:if test="not(*)">
 				<xsl:choose>
-					<xsl:when test="not(@ajax) or parent::ui:ajaxTarget">
+					<xsl:when test="not(@ajax) or parent::ui:ajaxtarget">
 						<li role="option" hidden="hidden"></li>
 					</xsl:when>
 					<xsl:otherwise>

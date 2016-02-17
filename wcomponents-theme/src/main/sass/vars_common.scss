@@ -24,3 +24,24 @@ $border-style: solid;
 $border-width: 1px;
 
 $preferred-alignment: left;
+
+/// z-index settings
+/// We have a number of transient elements which have a z-index (eg the calendar in WPartialDateField's output widget).
+/// Many of these require the z-index to be _below_ the modal shim z-index but then have an override to make them _above_
+/// the dialog z-index if they are in a dialog.
+/// The z-index common is the lowest z-index we should ever apply to a normal transient artefact. This _could_ be 1 and
+/// _must_ be at least 2 less than z-index-modal-shim as we need transient elements to be below the modal shim. I
+/// recommend this be greater than 1 just in case an application needs a local over-ride due to unusual design or theme
+/// overrides.
+$z-index-common: 5;
+/// z-index-modal-shim
+/// THis is the z-index of the modal shim. Every z-index should be below this except dialogs and transient elements with
+/// a z-index when they are found in a dialog.
+$z-index-modal-shim: 20;
+/// The z-index-dialog is the z-index of the dialog element. It must be above z-index-modal-shim.
+$z-index-dialog: $z-index-modal-shim + 1;
+/// The z-index common to most components in a dialog
+$z-index-common-in-dialog: $z-index-common + $z-index-dialog;
+/// The unloading shim must be over everything including things in dialogs.
+$z-index-unloading-shim: 99;
+$z-index-unloading-message: $z-index-unloading-shim + 1;

@@ -1,20 +1,24 @@
 /* wc.common.accesskey.dt.scss */
+@import 'wc.common.accesskey_vars.scss';
 // Provides the styling for the accesskey indicator for componentd which implement the @accessKey XML attribute.
 
-// The accesskey character and callout will be in a label, legend, link or button. The accesskey character will be the
-// first text character which is a case insensitive match for the accessKey attribute. The callout is placed as the
-// first child of the element (where possible) or immediately preceding the element.
+// The accesskey character and callout will be in a label, legend, link or button.
+// * The accesskey character will be the first text character which is a case insensitive match for the accessKey attribute.
+// * The callout is placed as the first child of the element (where possible) or immediately preceding the element.
+//   NOTE: Collision detection
+//   The callout position is fixed and, by default, is above the item to which it points. Collision detection is very
+//   low priority since most application use a banner of some kind and the access keys live below this banner.
 
-// NOTE: Collision detection
-// The callout position is fixed and, by default, is above the item to which it points. Collision detection is very low
-// priority since most application use a banner of some kind and the access keys live below this banner.
-@import 'wc.common.accesskey_vars.scss';
-
+/// The accesskey character in a labelling element (note: will be the element itself in the case of a link or button)
+/// is underlined only when the ALT key is pressed.
+/// Pressing the ALT key attaches the wc_alt class to the body element. This class is removed as part of the accesskey
+/// cleanup method.
 .wc_alt .wc_accesskey { //the character in a string corresponding to the control's access key is underlined
 	text-decoration: underline;
 }
-//	Accesskey Tooltips
-//	Styling for the callout (shows when ALT is held down to fire an accesskey).
+
+///	Accesskey Tooltips
+///	Styling for the callout (shows when ALT is held down).
 span[role='tooltip'] {
 	@include accesskey-border;
 	background-color: $wc-ui-color-tooltip-bg;
@@ -51,9 +55,9 @@ span[role='tooltip'] {
 
 	// Callout display needs a particularly explicit selector to override menu [role] position but cannot use !important
 	// because we cannot guarantee that the hidden selector is more specific.
+	//TODO: check this is still the case!
 	&,
-	.menu [role] & {
+	.wc-menu [role] & {
 		display: inline-block;
 	}
 }
-/* end wc.common.accesskey.dt.scss */

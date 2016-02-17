@@ -20,10 +20,10 @@ XML schema for section (WFigure)
 				<xs:element ref="ui:margin" minOccurs="0" />
 				<xs:sequence minOccurs="0">
 					<xs:annotation>
-						<xs:documentation> The ui:decoratedLabel and content elements are both required if the section has content. They are both omitted if the section has
+						<xs:documentation> The ui:decoratedlabel and content elements are both required if the section has content. They are both omitted if the section has
 							attribute mode set to any value and attribute hidden="true". </xs:documentation>
 					</xs:annotation>
-					<xs:element ref="ui:decoratedLabel" />
+					<xs:element ref="ui:decoratedlabel" />
 					<xs:element name="content" type="ui:mixedContentWithId"/>
 				</xs:sequence>
 			</xs:sequence>

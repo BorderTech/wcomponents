@@ -22,16 +22,16 @@
 		<xsl:variable name="componentGroups" select=".//ui:componentGroup"/>
 		<xsl:variable name="dialogs" select=".//ui:dialog"/>
 		<xsl:variable name="dataListCombos" select=".//ui:dropdown[@data and @type and not(@readOnly)]|.//ui:suggestions[@data]"/>
-		<xsl:variable name="dataListComponents" select=".//ui:dropdown[@data and not(@type) and not(@readOnly)]|.//ui:listBox[@data and not(@readOnly)]|.//ui:shuffler[@data and not(@readOnly)]"/>
-		<xsl:variable name="filedrops" select=".//ui:fileUpload[not(@readOnly)]"/>
-		<xsl:variable name="multiDDData" select=".//ui:multiDropdown[@data and not(@readOnly)]"/>
+		<xsl:variable name="dataListComponents" select=".//ui:dropdown[@data and not(@type) and not(@readOnly)]|.//ui:listbox[@data and not(@readOnly)]|.//ui:shuffler[@data and not(@readOnly)]"/>
+		<xsl:variable name="filedrops" select=".//ui:fileupload[not(@readOnly)]"/>
+		<xsl:variable name="multiDDData" select=".//ui:multidropdown[@data and not(@readOnly)]"/>
 		<xsl:variable name="popups" select=".//ui:popup"/>
 		<xsl:variable name="redirects" select=".//ui:redirect"/>
-		<xsl:variable name="rtfs" select=".//ui:textArea[ui:rtf]"/>
-		<xsl:variable name="selectToggles" select=".//ui:selectToggle|.//ui:rowSelection[@selectAll]"/>
+		<xsl:variable name="rtfs" select=".//ui:textarea[ui:rtf]"/>
+		<xsl:variable name="selectToggles" select=".//ui:selecttoggle|.//ui:rowselection[@selectAll]"/>
 		<xsl:variable name="subordinates" select=".//ui:subordinate"/>
 		<xsl:variable name="eagerness" select="//*[@mode='eager']"/>
-		<xsl:variable name="hasAjaxTriggers" select=".//ui:ajaxTrigger"/>
+		<xsl:variable name="hasAjaxTriggers" select=".//ui:ajaxtrigger"/>
 		<xsl:variable name="timeoutWarn" select=".//ui:session[1]"/>
 		<xsl:variable name="editors" select=".//html:wc-imageedit"/>
 
@@ -115,7 +115,7 @@
 			<xsl:text>require(["wc/ui/ajaxRegion","wc/ui/ajax/genericSubscriber"], function(c, s){c.register([</xsl:text>
 			<xsl:apply-templates select="$hasAjaxTriggers" mode="JS"/>
 			<xsl:text>]);});</xsl:text>
-			<xsl:variable name="hasDelayedAjaxTriggers" select=".//ui:ajaxTrigger[@delay]"/>
+			<xsl:variable name="hasDelayedAjaxTriggers" select=".//ui:ajaxtrigger[@delay]"/>
 			<xsl:if test="$hasDelayedAjaxTriggers">
 				<xsl:text>require(["wc/ui/ajax/delayedTrigger"], function(c){c.register([</xsl:text>
 				<xsl:apply-templates select="$hasDelayedAjaxTriggers" mode="JSdelay"/>

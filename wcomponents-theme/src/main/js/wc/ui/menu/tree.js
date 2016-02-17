@@ -162,7 +162,7 @@ define(["wc/ui/menu/core",
 			this._fixSubmenuContentInAjaxResponse = function(container) {
 				var EXP_ATTRIB = "aria-expanded";
 				// generic (role-less) submenu content container is needed because the role is still incorrect
-				SUBMENU_CONTENT = SUBMENU_CONTENT || new Widget("", "submenucontent");
+				SUBMENU_CONTENT = SUBMENU_CONTENT || new Widget("", "wc_submenucontent");
 
 				Array.prototype.forEach.call(SUBMENU_CONTENT.findDescendants(container), function (nextSubmenuContent) {
 					var branch, opener, isOpen;

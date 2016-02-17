@@ -17,9 +17,9 @@
 		It is recommended that when grouping menu items of type menuitemradio that 
 		they all be grouped together preceding or following a separator."
 	-->
-	<xsl:template match="ui:menuGroup">
+	<xsl:template match="ui:menugroup">
 		<xsl:call-template name="separator"/>
-		<xsl:apply-templates select="*[not(self::ui:decoratedLabel)]"/>
+		<xsl:apply-templates select="*[not(self::ui:decoratedlabel)]"/>
 		<xsl:call-template name="separator"/>
 	</xsl:template>
 </xsl:stylesheet>

@@ -37,63 +37,63 @@ public class WMenuItemRenderer_Test extends AbstractWebXmlRendererTestCase {
 		setActiveContext(createUIContext());
 
 		assertSchemaMatch(wrapped);
-		assertXpathExists("//ui:menuItem", wrapped);
-		assertXpathEvaluatesTo(itemText, "normalize-space(//ui:menuItem/ui:decoratedLabel)", item);
-		assertXpathEvaluatesTo(item.getId(), "//ui:menuItem/@id", item);
-		assertXpathNotExists("//ui:menuItem/@url", item);
-		assertXpathNotExists("//ui:menuItem/@submit", item);
-		assertXpathNotExists("//ui:menuItem/@disabled", item);
-		assertXpathNotExists("//ui:menuItem/@accessKey", item);
-		assertXpathNotExists("//ui:menuItem/@targetWindow", item);
-		assertXpathNotExists("//ui:menuItem/@selectable", item);
+		assertXpathExists("//ui:menuitem", wrapped);
+		assertXpathEvaluatesTo(itemText, "normalize-space(//ui:menuitem/ui:decoratedlabel)", item);
+		assertXpathEvaluatesTo(item.getId(), "//ui:menuitem/@id", item);
+		assertXpathNotExists("//ui:menuitem/@url", item);
+		assertXpathNotExists("//ui:menuitem/@submit", item);
+		assertXpathNotExists("//ui:menuitem/@disabled", item);
+		assertXpathNotExists("//ui:menuitem/@accessKey", item);
+		assertXpathNotExists("//ui:menuitem/@targetWindow", item);
+		assertXpathNotExists("//ui:menuitem/@selectable", item);
 
 		item.setDisabled(true);
-		assertXpathEvaluatesTo("true", "//ui:menuItem/@disabled", item);
+		assertXpathEvaluatesTo("true", "//ui:menuitem/@disabled", item);
 
 		// Test with URL
 		item = new WMenuItem(itemText, url);
 		wrapped = wrapMenuItem(item);
 		assertSchemaMatch(wrapped);
-		assertXpathEvaluatesTo(itemText, "normalize-space(//ui:menuItem/ui:decoratedLabel)", item);
-		assertXpathEvaluatesTo(url, "//ui:menuItem/@url", item);
-		assertXpathNotExists("//ui:menuItem/@submit", item);
+		assertXpathEvaluatesTo(itemText, "normalize-space(//ui:menuitem/ui:decoratedlabel)", item);
+		assertXpathEvaluatesTo(url, "//ui:menuitem/@url", item);
+		assertXpathNotExists("//ui:menuitem/@submit", item);
 
 		// Test with action
 		item = new WMenuItem(itemText, new TestAction());
 
 		wrapped = wrapMenuItem(item);
 		assertSchemaMatch(wrapped);
-		assertXpathEvaluatesTo(itemText, "normalize-space(//ui:menuItem/ui:decoratedLabel)", item);
-		assertXpathNotExists("//ui:menuItem/@url", item);
-		assertXpathEvaluatesTo("true", "//ui:menuItem/@submit", item);
+		assertXpathEvaluatesTo(itemText, "normalize-space(//ui:menuitem/ui:decoratedlabel)", item);
+		assertXpathNotExists("//ui:menuitem/@url", item);
+		assertXpathEvaluatesTo("true", "//ui:menuitem/@submit", item);
 
 		// Test with target window
 		item = new WMenuItem(itemText, url);
 		item.setTargetWindow(targetWindow);
 		wrapped = wrapMenuItem(item);
 		assertSchemaMatch(wrapped);
-		assertXpathEvaluatesTo(itemText, "normalize-space(//ui:menuItem/ui:decoratedLabel)", item);
-		assertXpathEvaluatesTo(targetWindow, "//ui:menuItem/@targetWindow", item);
+		assertXpathEvaluatesTo(itemText, "normalize-space(//ui:menuitem/ui:decoratedlabel)", item);
+		assertXpathEvaluatesTo(targetWindow, "//ui:menuitem/@targetWindow", item);
 
 		// Test selection
 		item = new WMenuItem(itemText, url);
 		wrapped = wrapMenuItem(item);
-		assertXpathNotExists("//ui:menuItem/@selected", item);
-		assertXpathNotExists("//ui:menuItem/@selected", item);
+		assertXpathNotExists("//ui:menuitem/@selected", item);
+		assertXpathNotExists("//ui:menuitem/@selected", item);
 
 		wrapped.setSelectedItem(item);
 		assertSchemaMatch(wrapped);
-		assertXpathEvaluatesTo("true", "//ui:menuItem/@selected", item);
+		assertXpathEvaluatesTo("true", "//ui:menuitem/@selected", item);
 
 		item.setAccessKey('A');
 		item.setDisabled(true);
 		setFlag(item, ComponentModel.HIDE_FLAG, true);
 		item.setSelectable(true);
 		assertSchemaMatch(wrapped);
-		assertXpathEvaluatesTo("A", "//ui:menuItem/@accessKey", item);
-		assertXpathEvaluatesTo("true", "//ui:menuItem/@disabled", item);
-		assertXpathEvaluatesTo("true", "//ui:menuItem/@hidden", item);
-		assertXpathEvaluatesTo("true", "//ui:menuItem/@selectable", item);
+		assertXpathEvaluatesTo("A", "//ui:menuitem/@accessKey", item);
+		assertXpathEvaluatesTo("true", "//ui:menuitem/@disabled", item);
+		assertXpathEvaluatesTo("true", "//ui:menuitem/@hidden", item);
+		assertXpathEvaluatesTo("true", "//ui:menuitem/@selectable", item);
 
 	}
 

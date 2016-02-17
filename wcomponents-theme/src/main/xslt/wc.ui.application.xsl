@@ -31,7 +31,7 @@
 			</xsl:attribute>
 			<xsl:attribute name="class">
 				<xsl:call-template name="commonClassHelper"/>
-				<xsl:if test="@unsavedChanges or .//ui:button[@unsavedChanges] or .//ui:menuItem[@unsavedChanges]">
+				<xsl:if test="@unsavedChanges or .//ui:button[@unsavedChanges] or .//ui:menuitem[@unsavedChanges]">
 					<xsl:text> wc_unsaved</xsl:text>
 				</xsl:if>
 			</xsl:attribute>

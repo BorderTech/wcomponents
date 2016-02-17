@@ -61,7 +61,7 @@
 							<xsl:value-of select="@for"/>
 							<!-- special cases for dateField -->
 							<xsl:choose>
-								<xsl:when test="name($labelableElement) = 'ui:dateField'">
+								<xsl:when test="name($labelableElement) = 'ui:datefield'">
 									<xsl:text>${wc.ui.dateField.id.input.suffix}</xsl:text>
 								</xsl:when>
 							</xsl:choose>
@@ -111,7 +111,7 @@
 			label for those element types whereas they are normally output after the actual
 			control.
 		-->
-		<xsl:if test="name($labelableElement) = 'ui:checkBox' or name($labelableElement) = 'ui:radioButton'">
+		<xsl:if test="name($labelableElement) = 'ui:checkbox' or name($labelableElement) = 'ui:radiobutton'">
 			<xsl:call-template name="inlineError">
 				<xsl:with-param name="errors" select="key('errorKey',@for)"/>
 				<xsl:with-param name="id" select="@for"/>

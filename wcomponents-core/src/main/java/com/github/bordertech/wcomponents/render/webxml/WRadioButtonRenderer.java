@@ -31,7 +31,7 @@ final class WRadioButtonRenderer extends AbstractWebXmlRenderer {
 		// Check for null option (ie null or empty). Match isEmpty() logic.
 		boolean isNull = value == null ? true : (value.length() == 0);
 
-		xml.appendTagOpen("ui:radioButton");
+		xml.appendTagOpen("ui:radiobutton");
 		xml.appendAttribute("id", component.getId());
 		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");

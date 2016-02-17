@@ -32,7 +32,7 @@ final class WMultiTextFieldRenderer extends AbstractWebXmlRenderer {
 		String pattern = textField.getPattern();
 		String[] values = textField.getTextInputs();
 
-		xml.appendTagOpen("ui:multiTextField");
+		xml.appendTagOpen("ui:multitextfield");
 		xml.appendAttribute("id", component.getId());
 		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
@@ -58,6 +58,6 @@ final class WMultiTextFieldRenderer extends AbstractWebXmlRenderer {
 			}
 		}
 
-		xml.appendEndTag("ui:multiTextField");
+		xml.appendEndTag("ui:multitextfield");
 	}
 }

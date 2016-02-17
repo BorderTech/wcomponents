@@ -9,7 +9,7 @@
 		
 		The name of a HTML element to use instead of the default element. This will
 		only override the default element not the element produced by Type.HEADER,
-		Type.FOOTER, Type.CHROME, Type.ACTION or child element ui:listLayout as these 
+		Type.FOOTER, Type.CHROME, Type.ACTION or child element ui:listlayout as these 
 		have mandatory element types based on HTML5 structure or intended WAI-ARIA
 		landmark roles. 
 		

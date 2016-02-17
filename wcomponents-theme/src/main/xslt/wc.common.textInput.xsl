@@ -21,23 +21,23 @@
 		being transformed. The majority of the transform for each of these components
 		is identical, hence their agglomeration here.
    -->
-	<xsl:template match="ui:textField|ui:phoneNumberField|ui:emailField|ui:numberField|ui:passwordField">
+	<xsl:template match="ui:textfield|ui:phonenumberfield|ui:emailfield|ui:numberfield|ui:passwordfield">
 		<xsl:variable name="id" select="@id"/>
 		<xsl:variable name="type">
 			<xsl:choose>
-				<xsl:when test="self::ui:textField">
+				<xsl:when test="self::ui:textfield">
 					<xsl:text>text</xsl:text>
 				</xsl:when>
-				<xsl:when test="self::ui:numberField">
+				<xsl:when test="self::ui:numberfield">
 					<xsl:text>number</xsl:text>
 				</xsl:when>
-				<xsl:when test="self::ui:passwordField">
+				<xsl:when test="self::ui:passwordfield">
 					<xsl:text>password</xsl:text>
 				</xsl:when>
-				<xsl:when test="self::ui:emailField">
+				<xsl:when test="self::ui:emailfield">
 					<xsl:text>email</xsl:text>
 				</xsl:when>
-				<xsl:when test="self::ui:phoneNumberField">
+				<xsl:when test="self::ui:phonenumberfield">
 					<xsl:text>tel</xsl:text>
 				</xsl:when>
 			</xsl:choose>
@@ -108,12 +108,12 @@
 					<xsl:attribute name="value">
 						<xsl:value-of select="."/>
 					</xsl:attribute>
-					<xsl:if test="@size and not(self::ui:numberField)">
+					<xsl:if test="@size and not(self::ui:numberfield)">
 						<xsl:attribute name="size">
 							<xsl:value-of select="@size"/>
 						</xsl:attribute>
 					</xsl:if>
-					<xsl:if test="self::ui:numberField">
+					<xsl:if test="self::ui:numberfield">
 						<!--
 							Turning off autocomplete is CRITICAL in Internet Explorer (8, others untested, but those
 							with a native HTML5 number field are probably going to be OK). It tooks me days to find this

@@ -8,7 +8,7 @@
 	<xs:include schemaLocation="decoratedLabel.xsd" />
 	<xs:include schemaLocation="margin.xsd" />
 
-	<xs:element name="fieldSet">
+	<xs:element name="fieldset">
 		<xs:annotation>
 			<xs:documentation>WFieldSet provides a mechanism to group a set of input components into a semantic unit.</xs:documentation>
 		</xs:annotation>
@@ -16,7 +16,7 @@
 			<xs:sequence>
 				<xs:element ref="ui:margin" minOccurs="0" />
 
-				<xs:element ref="ui:decoratedLabel">
+				<xs:element ref="ui:decoratedlabel">
 					<xs:annotation>
 						<xs:documentation>The label for the fieldset. It should contain a human readable indication of the purpose and/or content of the
 							fieldset.</xs:documentation>

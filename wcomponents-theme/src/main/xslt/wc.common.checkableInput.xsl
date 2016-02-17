@@ -24,10 +24,10 @@
 		selection will cause the form to submit. This must be done for all users. It is
 		strongly recommended that @submitOnChange never be used with one of	these components.
 	-->
-	<xsl:template match="ui:checkBox|ui:radioButton">
+	<xsl:template match="ui:checkbox|ui:radiobutton">
 		<xsl:variable name="type">
 			<xsl:choose>
-				<xsl:when test="self::ui:checkBox or not(@groupName)">
+				<xsl:when test="self::ui:checkbox or not(@groupName)">
 					<xsl:text>checkbox</xsl:text>
 				</xsl:when>
 				<xsl:otherwise>
@@ -40,7 +40,7 @@
 		</xsl:variable>
 		<xsl:variable name="name">
 			<xsl:choose>
-				<xsl:when test="@groupName and self::ui:radioButton">
+				<xsl:when test="@groupName and self::ui:radiobutton">
 					<xsl:value-of select="@groupName"/>
 				</xsl:when>
 				<xsl:otherwise>
@@ -85,9 +85,9 @@
 						<xsl:with-param name="myLabel" select="$myLabel[1]"/>
 					</xsl:call-template>
 					<!-- Fortunately commonControlAttributes will only output a value attribute if
-						the XML element has a value attribute; so we can add the ui:checkBox value
+						the XML element has a value attribute; so we can add the ui:checkbox value
 						here without changing the called template. -->
-					<xsl:if test="self::ui:checkBox">
+					<xsl:if test="self::ui:checkbox">
 						<xsl:attribute name="value">
 							<xsl:copy-of select="$t"/>
 						</xsl:attribute>
@@ -95,7 +95,7 @@
 							<xsl:text>x</xsl:text>
 						</xsl:attribute>
 					</xsl:if>
-					<xsl:if test="@groupName and self::ui:checkBox">
+					<xsl:if test="@groupName and self::ui:checkbox">
 						<xsl:attribute name="data-wc-cbgroup">
 							<xsl:value-of select="@groupName"/>
 						</xsl:attribute>
@@ -118,7 +118,7 @@
 						</xsl:call-template>
 					</xsl:otherwise>
 				</xsl:choose>
-				<xsl:if test="self::ui:radioButton">
+				<xsl:if test="self::ui:radiobutton">
 					<xsl:call-template name="hField">
 						<xsl:with-param name="name" select="$name"/>
 					</xsl:call-template>

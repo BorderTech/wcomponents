@@ -1,7 +1,7 @@
 /* wc.ui.listLayout.scss */
 @import 'mixins_common.scss';
 
-.listLayout {
+.wc-listlayout {
 	margin: 0;
 	padding: 0;
 
@@ -86,7 +86,7 @@
 
 // need qualifiying element to differentiate from unordered listLayout
 // scss-lint:disable QualifyingElement
-ol.listLayout {
+ol.wc-listlayout {
 	margin-left: $list-layout-ordered-spacing;
 
 	&.flat { // flat ordered lists use a pseudo-element with a counter
@@ -104,4 +104,3 @@ ol.listLayout {
 		}
 	}
 }
-/* end wc.ui.listLayout.scss */

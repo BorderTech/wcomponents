@@ -2,8 +2,8 @@
 // styles for WAudio and WVideo when the media is not able to be handled by the user agent natively. */
 @import 'mixins_common.scss';
 
-.src,
-.track {
+.wc-src,
+.wc-track {
 	display: inline-block;
 
 	&:before {
@@ -14,25 +14,25 @@
 	}
 }
 
+.wc_av_play,
+.wc-src:before {
+	@include background-image($url: '../images/play.png', $reset-size: 1em);
+}
+
 .wc_av_play {
 	@include button;
-	@include background-image-icon('../images/play.png');
 
 	&[aria-pressed='true'] {
 		background-image: url('../images/pause.png');
 	}
 }
 
-.src:before {
-	@include background-image-icon($url: '../images/play.png');
+
+.wc-track:before {
+	@include background-image($url: '../images/application-smil.png', $reset-size: 1em);
 }
 
-.track:before {
-	@include background-image-icon($url: '../images/application-smil.png');
-}
-
-.track + .track,
-.src + .src {
+.wc-track + .wc-track,
+.wc-src + .wc-src {
 	margin-left: $hgap-normal;
 }
-/* end wc.ui.media.player.scss */

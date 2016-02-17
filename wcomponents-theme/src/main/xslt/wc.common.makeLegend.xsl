@@ -50,7 +50,7 @@
 					</xsl:with-param>
 				</xsl:call-template>
 			</xsl:when>
-			<xsl:when test="not(ancestor::ui:ajaxTarget)">
+			<xsl:when test="not(ancestor::ui:ajaxtarget)">
 				<xsl:call-template name="makeTextLegend">
 					<xsl:with-param name="content">
 						<xsl:value-of select="$$${wc.common.i18n.requiredLabel}"/>

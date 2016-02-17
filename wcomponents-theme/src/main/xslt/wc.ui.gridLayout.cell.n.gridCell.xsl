@@ -33,7 +33,7 @@
 				</xsl:if>
 			</xsl:if>
 		</xsl:variable>
-		<div class="{local-name(.)}">
+		<div class="{local-name(.)} wc-column">
 			<xsl:if test="$style!=''">
 				<xsl:attribute name="style">
 					<xsl:value-of select="$style"/>
