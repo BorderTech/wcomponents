@@ -10,16 +10,20 @@
 		@include border;
 	}
 
-	.wc_img_nocap,
-	.wc_img_cap.cantplay {
+	.wc_img_cap,
+	.wc_img_nocap {
 		display: none;
 	}
-
-	.wc_img_nocap.cantplay {
+	
+	&.wc_nortc .wc_img_nocap {
 		display: block;
 	}
-
-	&.nocap .wc_img_cap {
+	
+	&.wc_showcam .wc_img_cap {
+		display: block;
+	}
+	
+	&.wc_showcam .wc_img_canvas {
 		display: none;
 	}
 
@@ -100,6 +104,18 @@
 
 		&.save {
 			background-image: url('../images/save.png');
+		}
+		
+		&.camera {
+			background-image: url('../images/camera-web.png');
+		}
+		
+		&.wc_btn_face {
+			background-image: url('../images/person.png');
+		}
+		
+		&.wc_btn_face[disabled] {
+			background-image: url('../images/person-d.png');
 		}
 	}
 

@@ -27,6 +27,7 @@
 						tinyMCE: "lib/tinymce/tinymce.min",
 						Promise: "lib/Promise.min",
 						fabric: "lib/fabric",
+						tracking: "lib/tracking/build/tracking-min",
 						Mustache: "lib/mustache/mustache.min",
 						axs: "lib/axs_testing",
 						axe: "lib/axe.min"
@@ -38,6 +39,9 @@
 								this.tinyMCE.DOM.events.domLoaded = true;
 								return this.tinyMCE;
 							}
+						},
+						tracking: {
+							exports: "tracking"
 						},
 						Promise: {
 							exports: "Promise"
