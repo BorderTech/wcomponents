@@ -22,13 +22,26 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
+ * Handlebars template renderer.
  *
- * @author jonathan
+ * @author Jonathan Austin
+ * @since 1.0.3
  */
 public class HandlebarsRendererImpl implements TemplateRenderer {
 
+	/**
+	 * Pretty print option.
+	 */
 	public static final String PRETTY_PRINT = "PRETTY_PRINT";
+
+	/**
+	 * Markdown option.
+	 */
 	public static final String MARKDOWN = "MARKDOWN";
+
+	/**
+	 * Escaping strategy option.
+	 */
 	public static final String ESCAPING_STRATEGY = "ESCAPING_STRATEGY";
 
 	/**
@@ -36,17 +49,23 @@ public class HandlebarsRendererImpl implements TemplateRenderer {
 	 */
 	private static final Log LOG = LogFactory.getLog(HandlebarsRendererImpl.class);
 
+	/**
+	 * The handlebars cache instance.
+	 */
 	private static final TemplateCache CACHE = new HandlebarsCacheImpl();
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void renderTemplate(final String templateName, final Map<String, Object> context, final Map<String, WComponent> componentsByKey, final Writer writer, final Map<String, Object> options) {
+	public void renderTemplate(final String templateName, final Map<String, Object> context, final Map<String, WComponent> taggedComponents, final Writer writer, final Map<String, Object> options) {
 
 		LOG.debug("Rendering handlebars template " + templateName);
 
 		try {
+
+			// Map the tagged components to be used in the replace writer
+			Map<String, WComponent> componentsByKey = TemplateUtil.mapTaggedComponents(context, taggedComponents);
 
 			// Get Engine
 			Handlebars handlebars = getHandlebarsEngine(options);
@@ -69,11 +88,14 @@ public class HandlebarsRendererImpl implements TemplateRenderer {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void renderInline(final String templateInline, final Map<String, Object> context, final Map<String, WComponent> componentsByKey, final Writer writer, Map<String, Object> options) {
+	public void renderInline(final String templateInline, final Map<String, Object> context, final Map<String, WComponent> taggedComponents, final Writer writer, final Map<String, Object> options) {
 
 		LOG.debug("Rendering handlebars inline template.");
 
 		try {
+
+			// Map the tagged components to be used in the replace writer
+			Map<String, WComponent> componentsByKey = TemplateUtil.mapTaggedComponents(context, taggedComponents);
 
 			// Get Engine
 			Handlebars handlebars = getHandlebarsEngine(options);

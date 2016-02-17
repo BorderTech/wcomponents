@@ -5,8 +5,20 @@ import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.Util;
 
 /**
+ * Return the {@link TemplateRenderer} implementation for a given template engine.
  *
- * @author jonathan
+ * <p>
+ * The {@link TemplateRenderer} implementation for an engine is determined by the parameter
+ * "bordertech.wcomponents.template.renderer" suffixed with the engine name. For example:-
+ * <code>bordertech.wcomponents.template.renderer.myengine = my.package.MyEngineRendererImpl</code>
+ * </p>
+ * <p>
+ * The default template engine is set via the parameter "bordertech.wcomponents.template.renderer". For example:-
+ * <code>bordertech.wcomponents.template.renderer=myengine</code>
+ * </p>
+ *
+ * @author Jonathan Austin
+ * @since 1.0.3
  */
 public final class TemplateRendererFactory {
 

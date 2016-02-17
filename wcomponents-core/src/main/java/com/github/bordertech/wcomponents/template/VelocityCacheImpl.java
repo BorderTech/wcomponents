@@ -1,6 +1,7 @@
 package com.github.bordertech.wcomponents.template;
 
 import java.util.Iterator;
+import java.util.concurrent.TimeUnit;
 import javax.cache.Cache;
 import javax.cache.CacheManager;
 import javax.cache.Caching;
@@ -12,15 +13,17 @@ import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.runtime.resource.ResourceCache;
 
 /**
+ * Velocity caching implementation.
  *
- * @author jonathan
+ * @author Jonathan Austin
+ * @since 1.0.3
  */
 public class VelocityCacheImpl implements ResourceCache {
 
 	/**
 	 * Cache name.
 	 */
-	private static final String CACHE_NAME = "velocity-templates";
+	private static final String CACHE_NAME = "wc-velocity-templates";
 
 	/**
 	 * {@inheritDoc}
@@ -72,7 +75,7 @@ public class VelocityCacheImpl implements ResourceCache {
 			final CacheManager mgr = Caching.getCachingProvider().getCacheManager();
 			MutableConfiguration<Object, Resource> config = new MutableConfiguration<>();
 			config.setTypes(Object.class, Resource.class);
-			config.setExpiryPolicyFactory(AccessedExpiryPolicy.factoryOf(Duration.ONE_HOUR));
+			config.setExpiryPolicyFactory(AccessedExpiryPolicy.factoryOf(new Duration(TimeUnit.HOURS, 12)));
 			// Velocity template classes are not serializable so use by ref.
 			config.setStoreByValue(false);
 			cache = mgr.createCache(CACHE_NAME, config);

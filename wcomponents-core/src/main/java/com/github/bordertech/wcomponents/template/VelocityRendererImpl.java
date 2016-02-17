@@ -15,8 +15,10 @@ import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.runtime.RuntimeConstants;
 
 /**
+ * Velocity template renderer.
  *
- * @author jonathan
+ * @author Jonathan Austin
+ * @since 1.0.3
  */
 public class VelocityRendererImpl implements TemplateRenderer {
 
@@ -34,7 +36,7 @@ public class VelocityRendererImpl implements TemplateRenderer {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void renderTemplate(final String templateName, final Map<String, Object> context, final Map<String, WComponent> componentsByKey, final Writer writer, final Map<String, Object> options) {
+	public void renderTemplate(final String templateName, final Map<String, Object> context, final Map<String, WComponent> taggedComponents, final Writer writer, final Map<String, Object> options) {
 
 		LOG.debug("Rendering velocity template [" + templateName + "].");
 
@@ -45,6 +47,9 @@ public class VelocityRendererImpl implements TemplateRenderer {
 
 			// Load template
 			Template template = getVelocityEngine().getTemplate(name);
+
+			// Map the tagged components to be used in the replace writer
+			Map<String, WComponent> componentsByKey = TemplateUtil.mapTaggedComponents(context, taggedComponents);
 
 			// Setup context
 			VelocityContext velocityContext = new VelocityContext();
@@ -67,11 +72,14 @@ public class VelocityRendererImpl implements TemplateRenderer {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void renderInline(final String templateInline, final Map<String, Object> context, final Map<String, WComponent> componentsByKey, final Writer writer, final Map<String, Object> options) {
+	public void renderInline(final String templateInline, final Map<String, Object> context, final Map<String, WComponent> taggedComponents, final Writer writer, final Map<String, Object> options) {
 
 		LOG.debug("Rendering inline velocity template.");
 
 		try {
+
+			// Map the tagged components to be used in the replace writer
+			Map<String, WComponent> componentsByKey = TemplateUtil.mapTaggedComponents(context, taggedComponents);
 
 			// Setup context
 			VelocityContext velocityContext = new VelocityContext();

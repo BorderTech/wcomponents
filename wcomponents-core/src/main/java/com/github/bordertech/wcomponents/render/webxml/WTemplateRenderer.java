@@ -1,8 +1,6 @@
 package com.github.bordertech.wcomponents.render.webxml;
 
 import com.github.bordertech.wcomponents.Renderer;
-import com.github.bordertech.wcomponents.UIContext;
-import com.github.bordertech.wcomponents.UIContextHolder;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WTemplate;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
@@ -15,8 +13,8 @@ import java.util.Map;
 /**
  * {@link Renderer} for the {@link WTemplate} component.
  *
- * @author Yiannis Paschalidis
- * @since 1.0.0
+ * @author Jonathan Austin
+ * @since 1.0.3
  */
 final class WTemplateRenderer extends AbstractWebXmlRenderer {
 
@@ -32,8 +30,10 @@ final class WTemplateRenderer extends AbstractWebXmlRenderer {
 
 		// Setup the context
 		Map<String, Object> context = new HashMap<>();
-		Map<String, WComponent> componentsByKey = new HashMap<>();
-		fillContext(template, context, componentsByKey);
+		// Make the component available under the "wc" key.
+		context.put("wc", template);
+		// Load the parameters
+		context.putAll(template.getParameters());
 
 		// Get template renderer
 		String engine = template.getEngineName();
@@ -45,46 +45,11 @@ final class WTemplateRenderer extends AbstractWebXmlRenderer {
 		// Render
 		if (!Util.empty(template.getTemplateName())) {
 			// Render the template
-			templateRenderer.renderTemplate(template.getTemplateName(), context, componentsByKey, renderContext.getWriter(), template.getEngineOptions());
+			templateRenderer.renderTemplate(template.getTemplateName(), context, template.getTaggedComponents(), renderContext.getWriter(), template.getEngineOptions());
 		} else if (!Util.empty(template.getInlineTemplate())) {
 			// Render inline
-			templateRenderer.renderInline(template.getInlineTemplate(), context, componentsByKey, renderContext.getWriter(), template.getEngineOptions());
+			templateRenderer.renderInline(template.getInlineTemplate(), context, template.getTaggedComponents(), renderContext.getWriter(), template.getEngineOptions());
 		}
 	}
 
-	/**
-	 * Fills the given context with data from the component which is being rendered. A map of components is also built
-	 * up, in order to support deferred rendering.
-	 *
-	 * @param component the current component being rendered.
-	 * @param context the context to modify.
-	 * @param componentsByKey a map to store components for deferred rendering.
-	 */
-	protected void fillContext(final WTemplate component,
-			final Map<String, Object> context, final Map<String, WComponent> componentsByKey) {
-
-		// Make the component available under the "this" key.
-		context.put("wc", component);
-
-		// Make the UIContext available under the "uic" key.
-		UIContext uic = UIContextHolder.getCurrent();
-		context.put("uic", uic);
-
-		// Load any extra parameters
-		context.putAll(component.getParameters());
-
-		Map<WComponent, String> tags = component.getTaggedComponents();
-
-		// Replace each component tag with the key so it can be used in the replace writer
-		for (WComponent child : component.getChildren()) {
-			String tag = tags.get(child);
-
-			// The key needs to be something which would never be output by a Template.
-			String key = "<TemplateLayout" + child.getId() + "/>";
-			componentsByKey.put(key, child);
-			context.put(tag, key);
-		}
-
-		context.put("context", context);
-	}
 }

@@ -5,6 +5,7 @@ import com.github.jknack.handlebars.Template;
 import com.github.jknack.handlebars.cache.TemplateCache;
 import com.github.jknack.handlebars.io.TemplateSource;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 import javax.cache.Cache;
 import javax.cache.CacheManager;
 import javax.cache.Caching;
@@ -13,15 +14,17 @@ import javax.cache.expiry.AccessedExpiryPolicy;
 import javax.cache.expiry.Duration;
 
 /**
+ * Handlebars caching implementation.
  *
- * @author jonathan
+ * @author Jonathan Austin
+ * @since 1.0.3
  */
 public class HandlebarsCacheImpl implements TemplateCache {
 
 	/**
 	 * Cache name.
 	 */
-	private static final String CACHE_NAME = "handlebars-templates";
+	private static final String CACHE_NAME = "wc-handlebars-templates";
 
 	/**
 	 * {@inheritDoc}
@@ -70,7 +73,7 @@ public class HandlebarsCacheImpl implements TemplateCache {
 			final CacheManager mgr = Caching.getCachingProvider().getCacheManager();
 			MutableConfiguration<TemplateSource, Template> config = new MutableConfiguration<>();
 			config.setTypes(TemplateSource.class, Template.class);
-			config.setExpiryPolicyFactory(AccessedExpiryPolicy.factoryOf(Duration.ONE_HOUR));
+			config.setExpiryPolicyFactory(AccessedExpiryPolicy.factoryOf(new Duration(TimeUnit.HOURS, 12)));
 			// Handlebars template classes are not serializable so use by ref.
 			config.setStoreByValue(false);
 			cache = mgr.createCache(CACHE_NAME, config);

@@ -8,8 +8,13 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * Allows custom templates.
+ * <p>
+ * Can be used by projects to layout components, insert custom css and javascript.
+ * </p>
  *
- * @author jonathan
+ * @author Jonathan Austin
+ * @since 1.0.3
  */
 public class WTemplate extends WBeanComponent implements Container, NamingContextable {
 
@@ -91,30 +96,32 @@ public class WTemplate extends WBeanComponent implements Container, NamingContex
 		if (model.componentTags == null) {
 			model.componentTags = new HashMap<>();
 		} else {
-			if (model.componentTags.containsKey(component)) {
-				throw new IllegalArgumentException("Component has already been added.");
-			}
-			if (model.componentTags.containsValue(tag)) {
+			if (model.componentTags.containsKey(tag)) {
 				throw new IllegalArgumentException("The tag [" + tag + "] has already been added.");
 			}
+			if (model.componentTags.containsValue(component)) {
+				throw new IllegalArgumentException("Component has already been added.");
+			}
 		}
-		model.componentTags.put(component, tag);
+		model.componentTags.put(tag, component);
 		add(component);
 	}
 
 	/**
 	 *
-	 * @param component the tagged component to remove
+	 * @param tag the tagged component to remove
 	 */
-	public void removeTagged(final WComponent component) {
+	public void removeTagged(final String tag) {
 		TemplateModel model = getOrCreateComponentModel();
 		if (model.componentTags != null) {
-			model.componentTags.remove(component);
+			WComponent component = model.componentTags.remove(tag);
 			if (model.componentTags.isEmpty()) {
 				model.componentTags = null;
 			}
+			if (component != null) {
+				remove(component);
+			}
 		}
-		remove(component);
 	}
 
 	/**
@@ -128,10 +135,10 @@ public class WTemplate extends WBeanComponent implements Container, NamingContex
 
 	/**
 	 *
-	 * @return the list of tagged components
+	 * @return the tagged components
 	 */
-	public Map<WComponent, String> getTaggedComponents() {
-		Map<WComponent, String> tagged = getComponentModel().componentTags;
+	public Map<String, WComponent> getTaggedComponents() {
+		Map<String, WComponent> tagged = getComponentModel().componentTags;
 		if (tagged == null) {
 			return Collections.EMPTY_MAP;
 		} else {
@@ -160,7 +167,7 @@ public class WTemplate extends WBeanComponent implements Container, NamingContex
 	 *
 	 * @param tag the tag of the parameter to remove
 	 */
-	public void removeParamter(final String tag) {
+	public void removeParameter(final String tag) {
 		TemplateModel model = getOrCreateComponentModel();
 		if (model.parameters != null) {
 			model.parameters.remove(tag);
@@ -173,15 +180,14 @@ public class WTemplate extends WBeanComponent implements Container, NamingContex
 	/**
 	 * Remove all parameters.
 	 */
-	public void removeAllParamters() {
+	public void removeAllParameters() {
 		TemplateModel model = getOrCreateComponentModel();
 		model.parameters = null;
-		removeAll();
 	}
 
 	/**
 	 *
-	 * @return a list of the parameters
+	 * @return the parameters
 	 */
 	public Map<String, Object> getParameters() {
 		Map<String, Object> params = getComponentModel().parameters;
@@ -204,19 +210,25 @@ public class WTemplate extends WBeanComponent implements Container, NamingContex
 	/**
 	 * Can override the default template engine.
 	 *
-	 * @param engineName the template engine class name
+	 * @param engineName the template engine name
 	 */
 	public void setEngineName(final String engineName) {
 		getOrCreateComponentModel().engineName = engineName;
 	}
 
 	/**
-	 * @return the template engine class name
+	 * @return the template engine name
 	 */
 	public String getEngineName() {
 		return getComponentModel().engineName;
 	}
 
+	/**
+	 * Pass configuration options to the template engine.
+	 *
+	 * @param key the engine option key
+	 * @param value the engine option value
+	 */
 	public void addEngineOption(final String key, final Object value) {
 		TemplateModel model = getComponentModel();
 		if (model.engineOptions == null) {
@@ -225,6 +237,10 @@ public class WTemplate extends WBeanComponent implements Container, NamingContex
 		model.engineOptions.put(key, value);
 	}
 
+	/**
+	 *
+	 * @param key the engine option to remove
+	 */
 	public void removeEngineOption(final String key) {
 		TemplateModel model = getComponentModel();
 		if (model.engineOptions != null) {
@@ -232,15 +248,18 @@ public class WTemplate extends WBeanComponent implements Container, NamingContex
 		}
 	}
 
+	/**
+	 * Remove all engine options.
+	 */
 	public void removeAllEngineOptions() {
 		TemplateModel model = getComponentModel();
 		model.engineOptions = null;
 	}
 
-	public void setEngineOptions(final Map<String, Object> engineOptions) {
-		getOrCreateComponentModel().engineOptions = engineOptions;
-	}
-
+	/**
+	 *
+	 * @return the engine options
+	 */
 	public Map<String, Object> getEngineOptions() {
 		TemplateModel model = getComponentModel();
 		if (model.engineOptions == null) {
@@ -274,6 +293,9 @@ public class WTemplate extends WBeanComponent implements Container, NamingContex
 		return super.getIndexOfChild(childComponent);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public List<WComponent> getChildren() {
 		return super.getChildren();
@@ -351,16 +373,19 @@ public class WTemplate extends WBeanComponent implements Container, NamingContex
 		private String inlineTemplate;
 
 		/**
-		 * Template engine class name.
+		 * Template engine name.
 		 */
 		private String engineName;
 
+		/**
+		 * Engine options.
+		 */
 		private Map<String, Object> engineOptions;
 
 		/**
 		 * Map of component tags.
 		 */
-		private Map<WComponent, String> componentTags;
+		private Map<String, WComponent> componentTags;
 
 		/**
 		 * Map of template parameters.

@@ -8,6 +8,7 @@ import com.github.bordertech.wcomponents.util.SystemException;
 import java.io.InputStream;
 import java.io.Writer;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import javax.cache.Cache;
 import javax.cache.CacheManager;
 import javax.cache.Caching;
@@ -18,10 +19,17 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
+ * Plain text template renderer.
  *
- * @author jonathan
+ * @author Jonathan Austin
+ * @since 1.0.3
  */
 public class PlainTextRendererImpl implements TemplateRenderer {
+
+	/**
+	 * Cache name.
+	 */
+	private static final String CACHE_NAME = "wc-plaintext-templates";
 
 	/**
 	 * XML encode the text option.
@@ -37,7 +45,7 @@ public class PlainTextRendererImpl implements TemplateRenderer {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void renderTemplate(final String templateName, final Map<String, Object> context, final Map<String, WComponent> componentsByKey, final Writer writer, final Map<String, Object> options) {
+	public void renderTemplate(final String templateName, final Map<String, Object> context, final Map<String, WComponent> taggedComponents, final Writer writer, final Map<String, Object> options) {
 
 		LOG.debug("Rendering plain text template " + templateName);
 
@@ -80,7 +88,7 @@ public class PlainTextRendererImpl implements TemplateRenderer {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void renderInline(final String templateInline, final Map<String, Object> context, final Map<String, WComponent> componentsByKey, final Writer writer, final Map<String, Object> options) {
+	public void renderInline(final String templateInline, final Map<String, Object> context, final Map<String, WComponent> taggedComponents, final Writer writer, final Map<String, Object> options) {
 
 		LOG.debug("Rendering inline plain text template.");
 
@@ -101,16 +109,15 @@ public class PlainTextRendererImpl implements TemplateRenderer {
 	 * @return the cache instance
 	 */
 	protected synchronized Cache<String, String> getCache() {
-		String cacheName = "plaintext-templates";
-		Cache<String, String> cache = Caching.getCache(cacheName, String.class, String.class);
+		Cache<String, String> cache = Caching.getCache(CACHE_NAME, String.class, String.class);
 		if (cache == null) {
 			final CacheManager mgr = Caching.getCachingProvider().getCacheManager();
 			MutableConfiguration<String, String> config = new MutableConfiguration<>();
 			config.setTypes(String.class, String.class);
-			config.setExpiryPolicyFactory(AccessedExpiryPolicy.factoryOf(Duration.ONE_HOUR));
+			config.setExpiryPolicyFactory(AccessedExpiryPolicy.factoryOf(new Duration(TimeUnit.HOURS, 12)));
 			// No need to serialize the result
 			config.setStoreByValue(false);
-			cache = mgr.createCache(cacheName, config);
+			cache = mgr.createCache(CACHE_NAME, config);
 		}
 		return cache;
 	}
