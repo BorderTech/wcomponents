@@ -76,7 +76,7 @@ final class WTableRowRendererRenderer extends AbstractWebXmlRenderer {
 		}
 
 		if (rowExpandable) {
-			xml.appendTagOpen("ui:subTr");
+			xml.appendTagOpen("ui:subtr");
 			xml.appendOptionalAttribute("open", rowExpanded, "true");
 			xml.appendClose();
 
@@ -84,7 +84,7 @@ final class WTableRowRendererRenderer extends AbstractWebXmlRenderer {
 				renderChildren(renderer, renderContext, wrapper.getChildren());
 			}
 
-			xml.appendEndTag("ui:subTr");
+			xml.appendEndTag("ui:subtr");
 		}
 
 		xml.appendEndTag("ui:tr");

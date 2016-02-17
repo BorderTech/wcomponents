@@ -42,7 +42,7 @@ final class WListRenderer extends AbstractWebXmlRenderer {
 		// Render margin
 		MarginRendererUtil.renderMargin(list, renderContext);
 
-		xml.appendTagOpen("ui:listLayout");
+		xml.appendTagOpen("ui:listlayout");
 		xml.appendOptionalAttribute("hgap", hgap > 0, hgap);
 		xml.appendOptionalAttribute("vgap", vgap > 0, vgap);
 
@@ -87,7 +87,7 @@ final class WListRenderer extends AbstractWebXmlRenderer {
 
 		paintRows(list, renderContext);
 
-		xml.appendEndTag("ui:listLayout");
+		xml.appendEndTag("ui:listlayout");
 		xml.appendEndTag("ui:panel");
 	}
 

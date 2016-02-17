@@ -60,7 +60,7 @@
 			</label>
 			
 			<!-- rows per page chooser -->
-			<xsl:apply-templates select="ui:rowsSelect">
+			<xsl:apply-templates select="ui:rowsselect">
 				<xsl:with-param name="tableId" select="$tableId"/>
 				<xsl:with-param name="idSuffix" select="$idSuffix"/>
 			</xsl:apply-templates>

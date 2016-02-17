@@ -34,7 +34,7 @@ final class WNumberFieldRenderer extends AbstractWebXmlRenderer {
 		BigDecimal value = field.getValue();
 		String userText = field.getText();
 
-		xml.appendTagOpen("ui:numberField");
+		xml.appendTagOpen("ui:numberfield");
 		xml.appendAttribute("id", component.getId());
 		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
@@ -55,6 +55,6 @@ final class WNumberFieldRenderer extends AbstractWebXmlRenderer {
 		xml.appendClose();
 
 		xml.appendEscaped(value == null ? userText : value.toString());
-		xml.appendEndTag("ui:numberField");
+		xml.appendEndTag("ui:numberfield");
 	}
 }

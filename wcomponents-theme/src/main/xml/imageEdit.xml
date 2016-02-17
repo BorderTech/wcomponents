@@ -1,19 +1,19 @@
-<div class="row">
-	<div class="wc_img_editpane">
+<div class="wc-row">
+	<div class="wc_img_editpane wc-column">
 		<div class="wc_img_canvas">
 			<canvas id="wc_img_canvas"></canvas>
 		</div>
 	</div>
-	<div class="wc_img_cap">
+	<div class="wc_img_cap wc-column">
 		<div>
 			<video id="wc_img_video">{{message.novideo}}</video>
 		</div>
 		<button title="{{message.snap}}" type="button" class="snap"><span class="wc_off">{{action.snap}}</span></button>
 	</div>
-	<div class="wc_img_nocap">
+	<div class="wc_img_nocap wc-column">
 		<p>{{message.nocapture}}</p>
 	</div>
-	<div class="wc_img_controls">
+	<div class="wc_img_controls wc-column">
 		<fieldset>
 			<legend>{{heading.rotate}}</legend>
 			<button title="{{message.rotateLeft90}}" type="button" class="anticlock90"><span class="wc_off">{{action.rotateLeft90}}</span></button>

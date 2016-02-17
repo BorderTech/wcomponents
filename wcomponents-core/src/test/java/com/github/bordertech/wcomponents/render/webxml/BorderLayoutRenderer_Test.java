@@ -22,14 +22,14 @@ public class BorderLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {
 		container.setLayout(new BorderLayout());
 		assertSchemaMatch(container);
 
-		assertXpathExists("//ui:panel/ui:borderLayout", container);
-		assertXpathNotExists("//ui:panel/ui:borderLayout/@hgap", container);
-		assertXpathNotExists("//ui:panel/ui:borderLayout/@vgap", container);
-		assertXpathNotExists("//ui:panel/ui:borderLayout/ui:north", container);
-		assertXpathNotExists("//ui:panel/ui:borderLayout/ui:south", container);
-		assertXpathNotExists("//ui:panel/ui:borderLayout/ui:east", container);
-		assertXpathNotExists("//ui:panel/ui:borderLayout/ui:west", container);
-		assertXpathNotExists("//ui:panel/ui:borderLayout/ui:center", container);
+		assertXpathExists("//ui:panel/ui:borderlayout", container);
+		assertXpathNotExists("//ui:panel/ui:borderlayout/@hgap", container);
+		assertXpathNotExists("//ui:panel/ui:borderlayout/@vgap", container);
+		assertXpathNotExists("//ui:panel/ui:borderlayout/ui:north", container);
+		assertXpathNotExists("//ui:panel/ui:borderlayout/ui:south", container);
+		assertXpathNotExists("//ui:panel/ui:borderlayout/ui:east", container);
+		assertXpathNotExists("//ui:panel/ui:borderlayout/ui:west", container);
+		assertXpathNotExists("//ui:panel/ui:borderlayout/ui:center", container);
 	}
 
 	@Test
@@ -44,36 +44,36 @@ public class BorderLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {
 		container.setLayout(new BorderLayout(3, 4));
 		assertSchemaMatch(container);
 
-		assertXpathEvaluatesTo("3", "//ui:panel/ui:borderLayout/@hgap", container);
-		assertXpathEvaluatesTo("4", "//ui:panel/ui:borderLayout/@vgap", container);
-		assertXpathNotExists("//ui:panel/ui:borderLayout/ui:north", container);
-		assertXpathNotExists("//ui:panel/ui:borderLayout/ui:south", container);
-		assertXpathNotExists("//ui:panel/ui:borderLayout/ui:east", container);
-		assertXpathNotExists("//ui:panel/ui:borderLayout/ui:west", container);
-		assertXpathNotExists("//ui:panel/ui:borderLayout/ui:center", container);
+		assertXpathEvaluatesTo("3", "//ui:panel/ui:borderlayout/@hgap", container);
+		assertXpathEvaluatesTo("4", "//ui:panel/ui:borderlayout/@vgap", container);
+		assertXpathNotExists("//ui:panel/ui:borderlayout/ui:north", container);
+		assertXpathNotExists("//ui:panel/ui:borderlayout/ui:south", container);
+		assertXpathNotExists("//ui:panel/ui:borderlayout/ui:east", container);
+		assertXpathNotExists("//ui:panel/ui:borderlayout/ui:west", container);
+		assertXpathNotExists("//ui:panel/ui:borderlayout/ui:center", container);
 
 		container.add(new WText(northText), BorderLayout.NORTH);
 		container.add(new WText(westText), BorderLayout.WEST);
-		assertXpathEvaluatesTo(northText, "normalize-space(//ui:panel/ui:borderLayout/ui:north)",
+		assertXpathEvaluatesTo(northText, "normalize-space(//ui:panel/ui:borderlayout/ui:north)",
 				container);
-		assertXpathNotExists("//ui:panel/ui:borderLayout/ui:south", container);
-		assertXpathNotExists("//ui:panel/ui:borderLayout/ui:east", container);
-		assertXpathEvaluatesTo(westText, "normalize-space(//ui:panel/ui:borderLayout/ui:west)",
+		assertXpathNotExists("//ui:panel/ui:borderlayout/ui:south", container);
+		assertXpathNotExists("//ui:panel/ui:borderlayout/ui:east", container);
+		assertXpathEvaluatesTo(westText, "normalize-space(//ui:panel/ui:borderlayout/ui:west)",
 				container);
-		assertXpathNotExists("//ui:panel/ui:borderLayout/ui:center", container);
+		assertXpathNotExists("//ui:panel/ui:borderlayout/ui:center", container);
 
 		container.add(new WText(southText), BorderLayout.SOUTH);
 		container.add(new WText(eastText), BorderLayout.EAST);
 		container.add(new WText(centerText));
-		assertXpathEvaluatesTo(northText, "normalize-space(//ui:panel/ui:borderLayout/ui:north)",
+		assertXpathEvaluatesTo(northText, "normalize-space(//ui:panel/ui:borderlayout/ui:north)",
 				container);
-		assertXpathEvaluatesTo(westText, "normalize-space(//ui:panel/ui:borderLayout/ui:west)",
+		assertXpathEvaluatesTo(westText, "normalize-space(//ui:panel/ui:borderlayout/ui:west)",
 				container);
-		assertXpathEvaluatesTo(southText, "normalize-space(//ui:panel/ui:borderLayout/ui:south)",
+		assertXpathEvaluatesTo(southText, "normalize-space(//ui:panel/ui:borderlayout/ui:south)",
 				container);
-		assertXpathEvaluatesTo(eastText, "normalize-space(//ui:panel/ui:borderLayout/ui:east)",
+		assertXpathEvaluatesTo(eastText, "normalize-space(//ui:panel/ui:borderlayout/ui:east)",
 				container);
-		assertXpathEvaluatesTo(centerText, "normalize-space(//ui:panel/ui:borderLayout/ui:center)",
+		assertXpathEvaluatesTo(centerText, "normalize-space(//ui:panel/ui:borderlayout/ui:center)",
 				container);
 	}
 }

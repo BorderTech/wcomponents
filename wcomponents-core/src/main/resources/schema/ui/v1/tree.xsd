@@ -39,7 +39,7 @@
 		<xs:complexType>
 			<xs:sequence>
 				<xs:element ref="ui:margin" minOccurs="0"/>
-				<xs:element ref="ui:treeItem" maxOccurs="unbounded"/>
+				<xs:element ref="ui:treeitem" maxOccurs="unbounded"/>
 			</xs:sequence>
 
 			<xs:attributeGroup ref="ui:interaction.attributes"/>

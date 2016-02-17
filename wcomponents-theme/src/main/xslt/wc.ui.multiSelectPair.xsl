@@ -18,7 +18,7 @@
 		buttons to move options between the visible lists; and optionally a set of
 		buttons to change the order of selected options.
 	-->
-	<xsl:template match="ui:multiSelectPair">
+	<xsl:template match="ui:multiselectpair">
 		<xsl:variable name="id">
 			<xsl:value-of select="@id"/>
 		</xsl:variable>

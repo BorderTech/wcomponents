@@ -15,7 +15,7 @@
 		<xsl:param name="isSingular"/>
 		<xsl:param name="myLabel"/>
 		<xsl:variable name="option" select="."/>
-		<xsl:variable name="ancestorMDD" select="ancestor::ui:multiDropdown"/>
+		<xsl:variable name="ancestorMDD" select="ancestor::ui:multidropdown"/>
 		<xsl:variable name="id" select="$ancestorMDD/@id"/>
 		<li>
 			<xsl:element name="select">

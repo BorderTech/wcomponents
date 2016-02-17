@@ -18,7 +18,7 @@ define(["wc/dom/event", "wc/dom/initialise", "wc/dom/Widget", "wc/dom/shed"],
 		 * @private
 		 */
 		function PrintButton() {
-			var PRINT = new Widget("button", "printButton");
+			var PRINT = new Widget("button", "wc-printbutton");
 
 			/**
 			 * Click listener to invoke the print dialog. Kill me now!

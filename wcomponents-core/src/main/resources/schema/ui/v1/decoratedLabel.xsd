@@ -3,7 +3,7 @@
 	<xs:include schemaLocation="attributeGroups.container.xsd"/>
 	<xs:include schemaLocation="mixedContentWithId.xsd"/>
 
-	<xs:element name="decoratedLabel">
+	<xs:element name="decoratedlabel">
 		<xs:annotation>
 			<xs:documentation>WDecoratedLabel represents a piece of (usually descriptive) information which may contain other WComponents.
 			It is used both as a stand-alone element and as a labelling element within other components. The implementation
@@ -12,19 +12,19 @@
 		
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="labelHead" minOccurs="0" type="ui:mixedContentWithId">
+				<xs:element name="labelhead" minOccurs="0" type="ui:mixedContentWithId">
 					<xs:annotation>
 						<xs:documentation>The labelHead places its content at the start of the label area.</xs:documentation>
 					</xs:annotation>
 				</xs:element>
 				
-				<xs:element name="labelBody" type="ui:mixedContentWithId">
+				<xs:element name="labelbody" type="ui:mixedContentWithId">
 					<xs:annotation>
 						<xs:documentation>The labelBody places its content to fill the label area not occupied by labelHead or labelTail.</xs:documentation>
 					</xs:annotation>
 				</xs:element>
 				
-				<xs:element name="labelTail" minOccurs="0" type="ui:mixedContentWithId">
+				<xs:element name="labeltail" minOccurs="0" type="ui:mixedContentWithId">
 					<xs:annotation>
 						<xs:documentation>The labelTail places its content at the end of the label area.</xs:documentation>
 					</xs:annotation>

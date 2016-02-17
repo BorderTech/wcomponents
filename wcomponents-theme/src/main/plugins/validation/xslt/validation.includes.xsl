@@ -43,40 +43,40 @@
 
 	<xsl:template name="plugin_validation_includes">
 		<xsl:text>require([</xsl:text>
-		<xsl:if test=".//ui:checkBox[not(@readOnly)]">
+		<xsl:if test=".//ui:checkbox[not(@readOnly)]">
 			<xsl:text>"${validation.core.path.name}/checkBox",</xsl:text>
 		</xsl:if>
-		<xsl:if test=".//ui:checkBoxSelect[not(@readOnly)]">
+		<xsl:if test=".//ui:checkboxselect[not(@readOnly)]">
 			<xsl:text>"${validation.core.path.name}/checkBoxSelect",</xsl:text>
 		</xsl:if>
-		<xsl:if test=".//ui:dateField[not(@readOnly)]">
+		<xsl:if test=".//ui:datefield[not(@readOnly)]">
 			<xsl:text>"${validation.core.path.name}/dateField",</xsl:text>
 		</xsl:if>
 		<xsl:if test=".//ui:dropdown[not(@readOnly)]">
 			<xsl:text>"${validation.core.path.name}/dropdown","${validation.core.path.name}/textField",</xsl:text>
 		</xsl:if>
-		<xsl:if test=".//ui:fieldSet">
+		<xsl:if test=".//ui:fieldset">
 			<xsl:text>"${validation.core.path.name}/fieldset",</xsl:text>
 		</xsl:if>
-		<xsl:if test=".//ui:fileUpload[not(@readOnly)]">
+		<xsl:if test=".//ui:fileupload[not(@readOnly)]">
 			<xsl:text>"${validation.core.path.name}/fileUpload",</xsl:text>
 		</xsl:if>
-		<xsl:if test=".//ui:multiDropdown[not(@readOnly)] or .//ui:multiTextField[not(@readOnly)]">
+		<xsl:if test=".//ui:multidropdown[not(@readOnly)] or .//ui:multitextfield[not(@readOnly)]">
 			<xsl:text>"${validation.core.path.name}/multiFormComponent",</xsl:text>
 		</xsl:if>
-		<xsl:if test=".//ui:multiSelectPair[not(@readOnly)]">
+		<xsl:if test=".//ui:multiselectpair[not(@readOnly)]">
 			<xsl:text>"${validation.core.path.name}/multiSelectPair",</xsl:text>
 		</xsl:if>
-		<xsl:if test=".//ui:numberField[not(@readOnly)]">
+		<xsl:if test=".//ui:numberfield[not(@readOnly)]">
 			<xsl:text>"${validation.core.path.name}/numberField",</xsl:text>
 		</xsl:if>
-		<xsl:if test=".//ui:radioButtonSelect[not(@readOnly)]">
+		<xsl:if test=".//ui:radiobuttonselect[not(@readOnly)]">
 			<xsl:text>"${validation.core.path.name}/radioButtonSelect",</xsl:text>
 		</xsl:if>
-		<xsl:if test=".//ui:textArea[not(@readOnly)]">
+		<xsl:if test=".//ui:textarea[not(@readOnly)]">
 			<xsl:text>"${validation.core.path.name}/textArea",</xsl:text>
 		</xsl:if>
-		<xsl:if test=".//ui:textField[not(@readOnly)] or .//ui:emailField[not(@readOnly)] or .//ui:phoneNumberField[not(@readOnly)]">
+		<xsl:if test=".//ui:textfield[not(@readOnly)] or .//ui:emailfield[not(@readOnly)] or .//ui:phonenumberfield[not(@readOnly)]">
 			<xsl:text>"${validation.core.path.name}/textField",</xsl:text>
 		</xsl:if>
 		<xsl:if test=".//*[@required='true']">
@@ -109,7 +109,7 @@
 		Include some very common things, test for others.
 
 		This optimisation assumes we always want to include mandatory field testing (pretty common) and that most
-		screens will include ui:textField or its extensions (also really very common). I have included an untested
+		screens will include ui:textfield or its extensions (also really very common). I have included an untested
 		require for fieldsets as well as many compound controls use a fieldset as a wrapper and a properly structured
 		accessible application will use fieldsets quite commonly.
 
@@ -119,34 +119,34 @@
 	 -->
 	<xsl:template name="plugin_validation_includes">
 		<xsl:text>require([</xsl:text>
-		<xsl:if test=".//ui:checkBox[not(@readOnly)]">
+		<xsl:if test=".//ui:checkbox[not(@readOnly)]">
 			<xsl:text>"${validation.core.path.name}/checkBox",</xsl:text>
 		</xsl:if>
-		<xsl:if test=".//ui:checkBoxSelect[not(@readOnly)]">
+		<xsl:if test=".//ui:checkboxselect[not(@readOnly)]">
 			<xsl:text>"${validation.core.path.name}/checkBoxSelect",</xsl:text>
 		</xsl:if>
-		<xsl:if test=".//ui:dateField[not(@readOnly)]">
+		<xsl:if test=".//ui:datefield[not(@readOnly)]">
 			<xsl:text>"${validation.core.path.name}/dateField",</xsl:text>
 		</xsl:if>
 		<xsl:if test=".//ui:dropdown[not(@readOnly)]">
 			<xsl:text>"${validation.core.path.name}/dropdown",</xsl:text>
 		</xsl:if>
-		<xsl:if test=".//ui:fileUpload[not(@readOnly)]">
+		<xsl:if test=".//ui:fileupload[not(@readOnly)]">
 			<xsl:text>"${validation.core.path.name}/fileUpload",</xsl:text>
 		</xsl:if>
-		<xsl:if test=".//ui:multiDropdown[not(@readOnly)] or .//ui:multiTextField[not(@readOnly)]">
+		<xsl:if test=".//ui:multidropdown[not(@readOnly)] or .//ui:multitextfield[not(@readOnly)]">
 			<xsl:text>"${validation.core.path.name}/multiFormComponent",</xsl:text>
 		</xsl:if>
-		<xsl:if test=".//ui:multiSelectPair[not(@readOnly)]">
+		<xsl:if test=".//ui:multiselectpair[not(@readOnly)]">
 			<xsl:text>"${validation.core.path.name}/multiSelectPair",</xsl:text>
 		</xsl:if>
-		<xsl:if test=".//ui:numberField[not(@readOnly)]">
+		<xsl:if test=".//ui:numberfield[not(@readOnly)]">
 			<xsl:text>"${validation.core.path.name}/numberField",</xsl:text>
 		</xsl:if>
-		<xsl:if test=".//ui:radioButtonSelect[not(@readOnly)]">
+		<xsl:if test=".//ui:radiobuttonselect[not(@readOnly)]">
 			<xsl:text>"${validation.core.path.name}/radioButtonSelect",</xsl:text>
 		</xsl:if>
-		<xsl:if test=".//ui:textArea[not(@readOnly)]">
+		<xsl:if test=".//ui:textarea[not(@readOnly)]">
 			<xsl:text>"${validation.core.path.name}/textArea",</xsl:text>
 		</xsl:if>
 		<xsl:text>"${validation.core.path.name}/cancelUpdate","${validation.core.path.name}/fieldset","${validation.core.path.name}/required","${validation.core.path.name}/textField"]);</xsl:text>

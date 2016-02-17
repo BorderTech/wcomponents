@@ -36,7 +36,7 @@ final class WMultiSelectPairRenderer extends AbstractWebXmlRenderer {
 		int min = multiSelectPair.getMinSelect();
 		int max = multiSelectPair.getMaxSelect();
 
-		xml.appendTagOpen("ui:multiSelectPair");
+		xml.appendTagOpen("ui:multiselectpair");
 		xml.appendAttribute("id", component.getId());
 		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
@@ -68,7 +68,7 @@ final class WMultiSelectPairRenderer extends AbstractWebXmlRenderer {
 			}
 		}
 
-		xml.appendEndTag("ui:multiSelectPair");
+		xml.appendEndTag("ui:multiselectpair");
 	}
 
 	/**

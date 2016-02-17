@@ -31,7 +31,7 @@ final class GridLayoutRenderer extends AbstractWebXmlRenderer {
 		int rows = layout.getRows();
 		int cols = layout.getCols();
 
-		xml.appendTagOpen("ui:gridLayout");
+		xml.appendTagOpen("ui:gridlayout");
 
 		xml.appendAttribute("rows", rows > 0 ? String.valueOf(rows) : "0");
 		xml.appendAttribute("cols", cols > 0 ? String.valueOf(cols) : "0");
@@ -49,6 +49,6 @@ final class GridLayoutRenderer extends AbstractWebXmlRenderer {
 			xml.appendEndTag("ui:cell");
 		}
 
-		xml.appendEndTag("ui:gridLayout");
+		xml.appendEndTag("ui:gridlayout");
 	}
 }

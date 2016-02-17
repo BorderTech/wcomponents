@@ -1,8 +1,5 @@
 @import 'mixins_common.scss';
 
-// the negative margin must be 0 - the padding of WSection.content which must equal
-$neg-margin: -$section-content-spacing;
-
 section {
 	@include border;
 
@@ -41,7 +38,7 @@ section {
 	}
 
 	// WPanel layouts
-	> .listLayout { // we need to fix the listLayout default margin
+	> .wc-listlayout { // we need to fix the list layout default margin
 		&,
 		&.none,
 		&.flat,
@@ -60,7 +57,7 @@ section {
 
 	// We need to reset the margin-left if the list is ordered so we need element qualifier for ordered lists only
 	// scss-lint:disable QualifyingElement
-	> ol.listLayout {
+	> ol.wc-listlayout {
 		margin-left: $list-layout-ordered-spacing + $section-content-spacing;
 
 		&.flat { //except when they are flat
@@ -70,11 +67,14 @@ section {
 	//scss-lint:enable QualifyingElement
 }
 
+// the negative margin must be 0 - the padding of WSection.content.
+$neg-margin: -$section-content-spacing;
+
 // Docking a Bar menu
 // If you have a WPanel of type CHROME or ACTION or a WSection containing a plain WPanel and the WPanel does not have a
 // layout then add a WMenu Type BAR to the content of the WPanel then we can 'dock' the menu to the panel/section
 // header.
-.section > .content > .panel, //we use the WSection class here so we do not end up with weird multi-depth happenings.
+.wc-section > .content > .wc-panel, //we use the WSection class here so we do not end up with weird multi-depth happenings.
 .chrome,
 .action {
 	// need these deep selectors unfortunately

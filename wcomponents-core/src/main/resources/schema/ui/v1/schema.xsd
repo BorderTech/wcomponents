@@ -1,9 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-
-The XML schema for a WComponent page.
-
--->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
 	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0">
 
@@ -27,13 +22,13 @@ The XML schema for a WComponent page.
 		</xs:complexType>
 	</xs:element>
 
-	<xs:element name="ajaxResponse">
+	<xs:element name="ajaxresponse">
 		<xs:annotation>
 			<xs:documentation>The root element of the response to an AJAX request.</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="ajaxTarget" minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="ajaxtarget" minOccurs="0" maxOccurs="unbounded">
 					<xs:annotation>
 						<xs:documentation>Represents each targetted component in an ajax response.</xs:documentation>
 					</xs:annotation>
@@ -52,12 +47,12 @@ The XML schema for a WComponent page.
 								<xs:restriction base="xs:NMTOKEN">
 									<xs:enumeration value="replace">
 										<xs:annotation>
-											<xs:documentation>Indicates that the target element identified by the @id attribute should be completely replaced with a new instance of that element which will be the single child of the ui:ajaxTarget element.</xs:documentation>
+											<xs:documentation>Indicates that the target element identified by the @id attribute should be completely replaced with a new instance of that element which will be the single child of the ui:ajaxtarget element.</xs:documentation>
 										</xs:annotation>
 									</xs:enumeration>
 									<xs:enumeration value="replaceContent">
 										<xs:annotation>
-											<xs:documentation>Indicates that the target element identified by the @id attribute should have its content replaced with the child(ren) of the ui:ajaxTarget element.</xs:documentation>
+											<xs:documentation>Indicates that the target element identified by the @id attribute should have its content replaced with the child(ren) of the ui:ajaxtarget element.</xs:documentation>
 										</xs:annotation>
 									</xs:enumeration>
 								</xs:restriction>

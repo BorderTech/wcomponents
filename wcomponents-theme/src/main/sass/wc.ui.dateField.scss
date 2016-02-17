@@ -6,7 +6,7 @@
 //scss-lint:disable IdSelector
 @import 'mixins_common.scss';
 
-.dateField {
+.wc-datefield {
 	display: inline-block;
 	position: relative;
 
@@ -25,6 +25,11 @@
 }
 
 [role='combobox'] {
+	/// The whole combo is invalid but we only want to apply the background color to the textbox.
+	&[aria-invalid='true'] > input {
+		background-color: $wc-ui-color-error-bg;
+	}
+
 	> input {
 		// important to remove invalid state border
 		// scss-lint:disable ImportantRule
@@ -32,7 +37,7 @@
 	}
 
 	> [role='listbox'] {
-		@include border;
+		// @include border;
 		background-color: $wc-ui-color-global-bg;
 		left: $border-width * -1;
 		list-style-type: none;
@@ -40,20 +45,22 @@
 		min-width: 100%;
 		padding: 0;
 		position: absolute;
-		z-index: 2;
+		z-index: $z-index-common;
+
+		dialog & {
+			z-index: $z-index-common-in-dialog;
+		}
 	}
 
 	&[aria-expanded='false'] > [role='listbox'] {
 		display: none;
 	}
 
-	li {
+	[role='option'] {
 		margin: 0;
 		min-height: 1em;
 		padding: 1px $hgap-small;
-	}
 
-	[role='option'] {
 		&:hover,
 		&:focus {
 			background-color: $wc-ui-color-invite-bg;
@@ -62,13 +69,9 @@
 	}
 }
 
-dialog [role='combobox'] > [role='listbox'] {
-	z-index: 22;
-}
-
 // calendar launch button
 .wc_wdf_cal {
-	@include background-image-icon('../images/date.png');
+	@include background-image($url: '../images/date.png', $reset-size: 1em);
 	@include button($border: 0);
 	@include border($pos: left);
 
@@ -86,7 +89,7 @@ dialog [role='combobox'] > [role='listbox'] {
 #wc-calbox {
 	background-color: $wc-ui-color-global-bg;
 	white-space: nowrap;
-	z-index: 2;
+	z-index: $z-index-common;
 
 	&[hidden] { // override of override
 		//scss-lint:disable ImportantRule
@@ -94,7 +97,7 @@ dialog [role='combobox'] > [role='listbox'] {
 	}
 
 	dialog & {
-		z-index: 22;
+		z-index: $z-index-common-in-dialog;
 	}
 }
 
@@ -140,10 +143,10 @@ dialog [role='combobox'] > [role='listbox'] {
 .wc_wdf_pick {
 	color: $wc-ui-color-global-fg;
 	cursor: pointer;
+	min-width: 100%;
 	padding: $vgap-small $hgap-small;
 	text-align: center;
 	width: 3em;
-	min-width: 100%;
 
 	&:hover,
 	&:focus {
@@ -192,8 +195,8 @@ dialog [role='combobox'] > [role='listbox'] {
 			}
 
 			button {
+				@include border($width: 0);
 				background-color: transparent;
-				border: 0 none;
 				margin-left: $hgap-normal;
 				padding: 0;
 				vertical-align: middle;

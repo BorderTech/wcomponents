@@ -4,7 +4,7 @@
 	<xs:include schemaLocation="attributeGroups.control.xsd"/>
 	<xs:include schemaLocation="optgroup.xsd"/>
 	
-	<xs:element name="checkBoxSelect">
+	<xs:element name="checkboxselect">
 		<xs:annotation>
 			<xs:documentation>
 				<p>WCheckBoxSelect represents a group of individually toggleable selection devices using common checkbox widgets.</p>

@@ -2,8 +2,9 @@
 // This document contains general css styling for generic form components. Custom components have their own css files
 @import 'mixins_common.scss';
 
+input,
 select,
-%select { //placeholder just to make scss-lint stfu
+textarea {
 	@include border($color: $wc-ui-color-border-form-control); // breaks firefox OS X quite nastily but it is better than the other options with all other browsers
 	font-family: inherit;
 	font-size: inherit;
@@ -14,37 +15,7 @@ select,
 	&[aria-invalid='true'] {
 		background-color: $wc-ui-color-error-bg;
 	}
-}
 
-input,
-textarea {
-	@extend %select;
-	padding: 1px;
-}
-
-input {
-	&[type='checkbox'],
-	&[type='radio'] {
-		border: 0 none;
-	}
-}
-
-[aria-invalid='true'] {
-	@include outline($color: $wc-ui-color-error-fg);
-}
-
-[role='combobox'][aria-invalid='true'] > input {
-	background-color: $wc-ui-color-error-bg;
-}
-
-// DISABLED
-[aria-disabled='true'] {
-	@include aria-disabled;
-}
-
-input,
-select,
-textarea {
 	&[disabled] {
 		@include aria-disabled;
 		background-color: $wc-ui-color-disabled-bg;
@@ -52,11 +23,35 @@ textarea {
 	}
 }
 
-// Read-only: box sizing is to make them the same as the editable element (input, textarea or select).
+input,
+textarea {
+	padding: 1px;
+}
+
+input {
+	&[type='checkbox'],
+	&[type='radio'] {
+		@include border($width: 0);
+	}
+}
+
+/// Form control WAI-ARIA analogs and some containers can have states which are not controlled by native semantics so
+/// require aria-* attribtues.
+/// Invalid
+[aria-invalid='true'] {
+	@include outline($color: $wc-ui-color-error-fg);
+}
+
+/// Disabled.
+[aria-disabled='true'] {
+	@include aria-disabled;
+}
+
+/// Read-only
+/// Display and box sizing is to make them the more akin to the editable element (input, textarea or select).
 .wc_ro {
 	@include border-box;
 	display: inline-block;
 	max-width: 100%;
 	word-wrap: break-word;
 }
-/* end wc.common.form.scss */

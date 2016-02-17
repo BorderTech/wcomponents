@@ -4,7 +4,7 @@
 	<!--
 		Generate the + and - buttons
 
-		param isSingular: 1 if the template is called from a ui:multiTextField
+		param isSingular: 1 if the template is called from a ui:multitextfield
 			with no values. This allows us to determine the target element for
 			some attribute and variable computation.
 	-->
@@ -14,7 +14,7 @@
 		
 		<xsl:variable name="id">
 			<xsl:choose>
-				<xsl:when test="self::ui:multiTextField">
+				<xsl:when test="self::ui:multitextfield">
 					<xsl:value-of select="@id"/>
 				</xsl:when>
 				<xsl:otherwise>
@@ -40,7 +40,7 @@
 		<button type="button" title="{$toolTip}">
 			<xsl:attribute name="aria-controls">
 				<xsl:choose>
-					<xsl:when test="self::ui:multiTextField or position() = 1">
+					<xsl:when test="self::ui:multitextfield or position() = 1">
 						<xsl:value-of select="$id"/>
 					</xsl:when>
 					<xsl:otherwise>
@@ -49,7 +49,7 @@
 				</xsl:choose>
 			</xsl:attribute>
 			<xsl:choose>
-				<xsl:when test="self::ui:multiTextField">
+				<xsl:when test="self::ui:multitextfield">
 					<xsl:call-template name="disabledElement">
 						<xsl:with-param name="isControl" select="1"/>
 					</xsl:call-template>

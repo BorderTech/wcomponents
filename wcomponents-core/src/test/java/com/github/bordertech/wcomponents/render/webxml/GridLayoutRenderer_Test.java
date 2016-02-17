@@ -22,12 +22,12 @@ public class GridLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {
 		panel.setLayout(new GridLayout(0, 1));
 		assertSchemaMatch(panel);
 
-		assertXpathExists("//ui:panel/ui:gridLayout", panel);
-		assertXpathNotExists("//ui:panel/ui:gridLayout/ui:cell", panel);
-		assertXpathEvaluatesTo("0", "//ui:panel/ui:gridLayout/@rows", panel);
-		assertXpathEvaluatesTo("1", "//ui:panel/ui:gridLayout/@cols", panel);
-		assertXpathNotExists("//ui:panel/ui:gridLayout/@hgap", panel);
-		assertXpathNotExists("//ui:panel/ui:gridLayout/@vgap", panel);
+		assertXpathExists("//ui:panel/ui:gridlayout", panel);
+		assertXpathNotExists("//ui:panel/ui:gridlayout/ui:cell", panel);
+		assertXpathEvaluatesTo("0", "//ui:panel/ui:gridlayout/@rows", panel);
+		assertXpathEvaluatesTo("1", "//ui:panel/ui:gridlayout/@cols", panel);
+		assertXpathNotExists("//ui:panel/ui:gridlayout/@hgap", panel);
+		assertXpathNotExists("//ui:panel/ui:gridlayout/@vgap", panel);
 	}
 
 	@Test
@@ -39,16 +39,16 @@ public class GridLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {
 		panel.setLayout(new GridLayout(1, 2, 3, 4));
 		assertSchemaMatch(panel);
 
-		assertXpathEvaluatesTo("1", "//ui:panel/ui:gridLayout/@rows", panel);
-		assertXpathEvaluatesTo("2", "//ui:panel/ui:gridLayout/@cols", panel);
-		assertXpathEvaluatesTo("3", "//ui:panel/ui:gridLayout/@hgap", panel);
-		assertXpathEvaluatesTo("4", "//ui:panel/ui:gridLayout/@vgap", panel);
-		assertXpathNotExists("//ui:panel/ui:gridLayout/ui:cell", panel);
+		assertXpathEvaluatesTo("1", "//ui:panel/ui:gridlayout/@rows", panel);
+		assertXpathEvaluatesTo("2", "//ui:panel/ui:gridlayout/@cols", panel);
+		assertXpathEvaluatesTo("3", "//ui:panel/ui:gridlayout/@hgap", panel);
+		assertXpathEvaluatesTo("4", "//ui:panel/ui:gridlayout/@vgap", panel);
+		assertXpathNotExists("//ui:panel/ui:gridlayout/ui:cell", panel);
 
 		panel.add(new WText(text1));
 		panel.add(new WText(text2));
-		assertXpathEvaluatesTo("2", "count(//ui:panel/ui:gridLayout/ui:cell)", panel);
-		assertXpathEvaluatesTo(text1, "normalize-space(//ui:panel/ui:gridLayout/ui:cell[1])", panel);
-		assertXpathEvaluatesTo(text2, "normalize-space(//ui:panel/ui:gridLayout/ui:cell[2])", panel);
+		assertXpathEvaluatesTo("2", "count(//ui:panel/ui:gridlayout/ui:cell)", panel);
+		assertXpathEvaluatesTo(text1, "normalize-space(//ui:panel/ui:gridlayout/ui:cell[1])", panel);
+		assertXpathEvaluatesTo(text2, "normalize-space(//ui:panel/ui:gridlayout/ui:cell[2])", panel);
 	}
 }

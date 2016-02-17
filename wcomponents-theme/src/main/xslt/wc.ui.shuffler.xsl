@@ -24,10 +24,7 @@
 		<xsl:variable name="myLabel" select="key('labelKey',$id)[1]"/>
 		<xsl:choose>
 			<xsl:when test="@readOnly">
-				<xsl:element name="ul">
-					<xsl:attribute name="id">
-						<xsl:value-of select="$id"/>
-					</xsl:attribute>
+				<ul id="{$id}">
 					<xsl:call-template name="title"/>
 					<xsl:attribute name="class">
 						<xsl:call-template name="commonClassHelper"/>
@@ -46,7 +43,7 @@
 						<xsl:with-param name="showOptions" select="'all'"/>
 						<xsl:with-param name="single" select="0"/>
 					</xsl:apply-templates>
-				</xsl:element>
+				</ul>
 			</xsl:when>
 			<xsl:otherwise>
 				<fieldset>
@@ -61,26 +58,17 @@
 						<xsl:with-param name="myLabel" select="$myLabel"/>
 					</xsl:call-template>
 					<xsl:variable name="listId" select="concat($id,'${wc.ui.shuffler.id.list.suffix}')"/>
-					<xsl:element name="select">
-						<xsl:attribute name="id">
-							<xsl:value-of select="$listId"/>
-						</xsl:attribute>
-						<xsl:attribute name="class">
-							<xsl:text>shuffler</xsl:text>
-						</xsl:attribute>
+					<select id="{$listId}" class="wc_shuffler" multiple="multiple">
 						<xsl:call-template name="disabledElement">
 							<xsl:with-param name="isControl" select="1"/>
 						</xsl:call-template>
-						<xsl:attribute name="multiple">
-							<xsl:text>multiple</xsl:text>
-						</xsl:attribute>
 						<xsl:if test="@rows &gt; 2">
 							<xsl:attribute name="size">
 								<xsl:value-of select="@rows"/>
 							</xsl:attribute>
 						</xsl:if>
 						<xsl:apply-templates mode="selectableList"/>
-					</xsl:element>
+					</select>
 					<xsl:call-template name="listSortControls">
 						<xsl:with-param name="id" select="$listId"/>
 					</xsl:call-template>

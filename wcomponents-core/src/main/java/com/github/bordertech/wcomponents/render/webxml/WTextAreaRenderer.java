@@ -31,7 +31,7 @@ final class WTextAreaRenderer extends AbstractWebXmlRenderer {
 		WComponent submitControl = textArea.getDefaultSubmitButton();
 		String submitControlId = submitControl == null ? null : submitControl.getId();
 
-		xml.appendTagOpen("ui:textArea");
+		xml.appendTagOpen("ui:textarea");
 		xml.appendAttribute("id", component.getId());
 		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
@@ -62,6 +62,6 @@ final class WTextAreaRenderer extends AbstractWebXmlRenderer {
 
 		xml.appendEscaped(textArea.getText());
 
-		xml.appendEndTag("ui:textArea");
+		xml.appendEndTag("ui:textarea");
 	}
 }

@@ -32,7 +32,7 @@ final class WRadioButtonSelectRenderer extends AbstractWebXmlRenderer {
 		boolean encode = rbSelect.getDescEncode();
 		boolean readOnly = rbSelect.isReadOnly();
 
-		xml.appendTagOpen("ui:radioButtonSelect");
+		xml.appendTagOpen("ui:radiobuttonselect");
 		xml.appendAttribute("id", component.getId());
 		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
@@ -82,7 +82,7 @@ final class WRadioButtonSelectRenderer extends AbstractWebXmlRenderer {
 			}
 		}
 
-		xml.appendEndTag("ui:radioButtonSelect");
+		xml.appendEndTag("ui:radiobuttonselect");
 
 		if (rbSelect.isAjax()) {
 			paintAjax(rbSelect, xml);
@@ -133,16 +133,16 @@ final class WRadioButtonSelectRenderer extends AbstractWebXmlRenderer {
 	 */
 	private void paintAjax(final WRadioButtonSelect rbSelect, final XmlStringBuilder xml) {
 		// Start tag
-		xml.appendTagOpen("ui:ajaxTrigger");
+		xml.appendTagOpen("ui:ajaxtrigger");
 		xml.appendAttribute("triggerId", rbSelect.getId());
 		xml.appendClose();
 
 		// Target
-		xml.appendTagOpen("ui:ajaxTargetId");
+		xml.appendTagOpen("ui:ajaxtargetid");
 		xml.appendAttribute("targetId", rbSelect.getAjaxTarget().getId());
 		xml.appendEnd();
 
 		// End tag
-		xml.appendEndTag("ui:ajaxTrigger");
+		xml.appendEndTag("ui:ajaxtrigger");
 	}
 }

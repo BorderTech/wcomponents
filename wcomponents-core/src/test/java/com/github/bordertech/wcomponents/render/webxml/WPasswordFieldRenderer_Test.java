@@ -38,72 +38,72 @@ public class WPasswordFieldRenderer_Test extends AbstractWebXmlRendererTestCase 
 		assertSchemaMatch(field);
 
 		assertSchemaMatch(field);
-		assertXpathEvaluatesTo(field.getId(), "//ui:passwordField/@id", field);
-		assertXpathNotExists("//ui:passwordField/@disabled", field);
-		assertXpathNotExists("//ui:passwordField/@hidden", field);
-		assertXpathNotExists("//ui:passwordField/@required", field);
-		assertXpathNotExists("//ui:passwordField/@readOnly", field);
-		assertXpathNotExists("//ui:passwordField/@minLength", field);
-		assertXpathNotExists("//ui:passwordField/@maxLength", field);
-		assertXpathNotExists("//ui:passwordField/@toolTip", field);
-		assertXpathNotExists("//ui:passwordField/@accessibleText", field);
-		assertXpathNotExists("//ui:passwordField/@size", field);
-		assertXpathNotExists("//ui:passwordField/@buttonId", field);
+		assertXpathEvaluatesTo(field.getId(), "//ui:passwordfield/@id", field);
+		assertXpathNotExists("//ui:passwordfield/@disabled", field);
+		assertXpathNotExists("//ui:passwordfield/@hidden", field);
+		assertXpathNotExists("//ui:passwordfield/@required", field);
+		assertXpathNotExists("//ui:passwordfield/@readOnly", field);
+		assertXpathNotExists("//ui:passwordfield/@minLength", field);
+		assertXpathNotExists("//ui:passwordfield/@maxLength", field);
+		assertXpathNotExists("//ui:passwordfield/@toolTip", field);
+		assertXpathNotExists("//ui:passwordfield/@accessibleText", field);
+		assertXpathNotExists("//ui:passwordfield/@size", field);
+		assertXpathNotExists("//ui:passwordfield/@buttonId", field);
 
 		field.setDisabled(true);
 		assertSchemaMatch(field);
-		assertXpathEvaluatesTo("true", "//ui:passwordField/@disabled", field);
+		assertXpathEvaluatesTo("true", "//ui:passwordfield/@disabled", field);
 
 		setFlag(field, ComponentModel.HIDE_FLAG, true);
 		assertSchemaMatch(field);
-		assertXpathEvaluatesTo("true", "//ui:passwordField/@hidden", field);
+		assertXpathEvaluatesTo("true", "//ui:passwordfield/@hidden", field);
 
 		field.setMandatory(true);
 		assertSchemaMatch(field);
-		assertXpathEvaluatesTo("true", "//ui:passwordField/@required", field);
+		assertXpathEvaluatesTo("true", "//ui:passwordfield/@required", field);
 
 		field.setReadOnly(true);
 		assertSchemaMatch(field);
-		assertXpathEvaluatesTo("true", "//ui:passwordField/@readOnly", field);
+		assertXpathEvaluatesTo("true", "//ui:passwordfield/@readOnly", field);
 
 		field.setMinLength(45);
 		assertSchemaMatch(field);
-		assertXpathEvaluatesTo("45", "//ui:passwordField/@minLength", field);
+		assertXpathEvaluatesTo("45", "//ui:passwordfield/@minLength", field);
 
 		field.setMaxLength(50);
 		assertSchemaMatch(field);
-		assertXpathEvaluatesTo("50", "//ui:passwordField/@maxLength", field);
+		assertXpathEvaluatesTo("50", "//ui:passwordfield/@maxLength", field);
 
 		field.setToolTip("tooltip");
 		assertSchemaMatch(field);
-		assertXpathEvaluatesTo(field.getToolTip(), "//ui:passwordField/@toolTip", field);
+		assertXpathEvaluatesTo(field.getToolTip(), "//ui:passwordfield/@toolTip", field);
 
 		field.setAccessibleText("accessible");
 		assertSchemaMatch(field);
-		assertXpathEvaluatesTo(field.getAccessibleText(), "//ui:passwordField/@accessibleText",
+		assertXpathEvaluatesTo(field.getAccessibleText(), "//ui:passwordfield/@accessibleText",
 				field);
 
 		field.setColumns(40);
 		assertSchemaMatch(field);
-		assertXpathEvaluatesTo("40", "//ui:passwordField/@size", field);
+		assertXpathEvaluatesTo("40", "//ui:passwordfield/@size", field);
 
 		field.setDefaultSubmitButton(button);
 		assertSchemaMatch(field);
-		assertXpathEvaluatesTo(button.getId(), "//ui:passwordField/@buttonId", field);
+		assertXpathEvaluatesTo(button.getId(), "//ui:passwordfield/@buttonId", field);
 
 		field.setText("Hello");
 		assertSchemaMatch(field);
-		assertXpathEvaluatesTo("", "normalize-space(//ui:passwordField)", field);
+		assertXpathEvaluatesTo("", "normalize-space(//ui:passwordfield)", field);
 	}
 
 	@Test
 	public void testXssEscaping() throws IOException, SAXException, XpathException {
 		WPasswordField field = new WPasswordField();
 
-		field.setToolTip(getMaliciousAttribute("ui:passwordField"));
+		field.setToolTip(getMaliciousAttribute("ui:passwordfield"));
 		assertSafeContent(field);
 
-		field.setAccessibleText(getMaliciousAttribute("ui:passwordField"));
+		field.setAccessibleText(getMaliciousAttribute("ui:passwordfield"));
 		assertSafeContent(field);
 	}
 }

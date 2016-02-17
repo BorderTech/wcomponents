@@ -45,7 +45,7 @@ public class WSubMenuRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathNotExists("//ui:submenu/@selected", menu);
 		assertXpathNotExists("//ui:submenu/@accessKey", menu);
 		assertXpathNotExists("//ui:submenu/@selectMode", menu);
-		assertXpathExists("//ui:submenu/ui:content/ui:menuItem", menu);
+		assertXpathExists("//ui:submenu/ui:content/ui:menuitem", menu);
 		assertXpathNotExists("//ui:submenu/ui:content/ui:separator", menu);
 		assertXpathEvaluatesTo("client", "//ui:submenu/@mode", menu);
 

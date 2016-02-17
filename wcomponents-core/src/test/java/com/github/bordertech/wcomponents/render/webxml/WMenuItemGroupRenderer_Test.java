@@ -33,16 +33,16 @@ public class WMenuItemGroupRenderer_Test extends AbstractWebXmlRendererTestCase 
 
 		setActiveContext(createUIContext());
 
-		assertXpathExists("//ui:menuGroup", wrapped);
-		assertXpathEvaluatesTo(groupName, "normalize-space(//ui:menuGroup/ui:decoratedLabel)",
+		assertXpathExists("//ui:menugroup", wrapped);
+		assertXpathEvaluatesTo(groupName, "normalize-space(//ui:menugroup/ui:decoratedlabel)",
 				wrapped);
-		assertXpathEvaluatesTo(menuGroup.getId(), "//ui:menuGroup/@id", wrapped);
-		assertXpathNotExists("//ui:menuGroup/ui:submenu", wrapped);
-		assertXpathNotExists("//ui:menuGroup/ui:menuItem", wrapped);
-		assertXpathNotExists("//ui:menuGroup/ui:separator", wrapped);
+		assertXpathEvaluatesTo(menuGroup.getId(), "//ui:menugroup/@id", wrapped);
+		assertXpathNotExists("//ui:menugroup/ui:submenu", wrapped);
+		assertXpathNotExists("//ui:menugroup/ui:menuitem", wrapped);
+		assertXpathNotExists("//ui:menugroup/ui:separator", wrapped);
 
 		menuGroup.addSeparator();
-		assertXpathExists("//ui:menuGroup/ui:separator", wrapped);
+		assertXpathExists("//ui:menugroup/ui:separator", wrapped);
 	}
 
 	/**

@@ -798,7 +798,7 @@ function(has, event, uid, classList, timers, shed, loader, i18n, fabric, Mustach
 								if (rect) {
 									zoomFace(rect);
 								}
-								done()
+								done();
 							}, done);
 						}
 					};

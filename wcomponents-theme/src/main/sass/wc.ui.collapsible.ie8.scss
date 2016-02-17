@@ -1,8 +1,0 @@
-/* wc.ui.collapsible.ie8.scss */
-@import 'mixins_common.scss';
-
-//We got rid of the marker in IE8 because it causes the browser to crash with a seg fault when the state changes (cool eh?)
-summary > :first-child:before {
-	content: '+ ';
-}
-/* end wc.ui.collapsible.ie8.scss */

@@ -4,5 +4,5 @@
 		real tabset, nor is there a facility for subgroupings of elements with a role
 		of tab in WAI-ARIA.
 	-->	
-	<xsl:template match="ui:tabGroup"/>
+	<xsl:template match="ui:tabgroup"/>
 </xsl:stylesheet>

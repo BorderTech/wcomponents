@@ -4,7 +4,7 @@
 	<xs:include schemaLocation="attributeGroups.control.xsd" />
 	<xs:include schemaLocation="optgroup.xsd" />
 
-	<xs:element name="radioButtonSelect">
+	<xs:element name="radiobuttonselect">
 		<xs:annotation>
 			<xs:documentation>
 				<p>WRadioButtonSelect represents a single selection device where each option is presented as a common radio button style widget.</p>

@@ -1,14 +1,10 @@
 /* wc.ui.decoratedLabel.scss */
 @import 'vars_all.scss';
 
-//scss-lint:disable QualifyingElement
-// The output element of a WDecoratedLabel is dependent upon the content model of the containing element. It defaults to
-// span.
-div.wc_dlbl_seg {
+.wc_dlbl_seg {
 	display: inline-block;
-}
 
-.wc_dlbl_seg + .wc_dlbl_seg {
-	margin-left: $hgap-small;
+	+ .wc_dlbl_seg {
+		margin-left: $hgap-small;
+	}
 }
-/* end wc.ui.decoratedLabel.scss */

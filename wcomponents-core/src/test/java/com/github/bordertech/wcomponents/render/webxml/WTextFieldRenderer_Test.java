@@ -39,76 +39,76 @@ public class WTextFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 		root.add(suggestions);
 
 		assertSchemaMatch(textField);
-		assertXpathEvaluatesTo(textField.getId(), "//ui:textField/@id", textField);
-		assertXpathNotExists("//ui:textField/@disabled", textField);
-		assertXpathNotExists("//ui:textField/@hidden", textField);
-		assertXpathNotExists("//ui:textField/@required", textField);
-		assertXpathNotExists("//ui:textField/@readOnly", textField);
-		assertXpathNotExists("//ui:textField/@minLength", textField);
-		assertXpathNotExists("//ui:textField/@maxLength", textField);
-		assertXpathNotExists("//ui:textField/@toolTip", textField);
-		assertXpathNotExists("//ui:textField/@accessibleText", textField);
-		assertXpathNotExists("//ui:textField/@size", textField);
-		assertXpathNotExists("//ui:textField/@buttonId", textField);
-		assertXpathNotExists("//ui:textField/@pattern", textField);
-		assertXpathNotExists("//ui:textField/@list", textField);
+		assertXpathEvaluatesTo(textField.getId(), "//ui:textfield/@id", textField);
+		assertXpathNotExists("//ui:textfield/@disabled", textField);
+		assertXpathNotExists("//ui:textfield/@hidden", textField);
+		assertXpathNotExists("//ui:textfield/@required", textField);
+		assertXpathNotExists("//ui:textfield/@readOnly", textField);
+		assertXpathNotExists("//ui:textfield/@minLength", textField);
+		assertXpathNotExists("//ui:textfield/@maxLength", textField);
+		assertXpathNotExists("//ui:textfield/@toolTip", textField);
+		assertXpathNotExists("//ui:textfield/@accessibleText", textField);
+		assertXpathNotExists("//ui:textfield/@size", textField);
+		assertXpathNotExists("//ui:textfield/@buttonId", textField);
+		assertXpathNotExists("//ui:textfield/@pattern", textField);
+		assertXpathNotExists("//ui:textfield/@list", textField);
 
 		textField.setDisabled(true);
 		assertSchemaMatch(textField);
-		assertXpathEvaluatesTo("true", "//ui:textField/@disabled", textField);
+		assertXpathEvaluatesTo("true", "//ui:textfield/@disabled", textField);
 
 		setFlag(textField, ComponentModel.HIDE_FLAG, true);
 		assertSchemaMatch(textField);
-		assertXpathEvaluatesTo("true", "//ui:textField/@hidden", textField);
+		assertXpathEvaluatesTo("true", "//ui:textfield/@hidden", textField);
 
 		textField.setMandatory(true);
 		assertSchemaMatch(textField);
-		assertXpathEvaluatesTo("true", "//ui:textField/@required", textField);
+		assertXpathEvaluatesTo("true", "//ui:textfield/@required", textField);
 
 		textField.setReadOnly(true);
 		assertSchemaMatch(textField);
-		assertXpathEvaluatesTo("true", "//ui:textField/@readOnly", textField);
+		assertXpathEvaluatesTo("true", "//ui:textfield/@readOnly", textField);
 
 		textField.setMinLength(45);
 		assertSchemaMatch(textField);
-		assertXpathEvaluatesTo("45", "//ui:textField/@minLength", textField);
+		assertXpathEvaluatesTo("45", "//ui:textfield/@minLength", textField);
 
 		textField.setMaxLength(50);
 		assertSchemaMatch(textField);
-		assertXpathEvaluatesTo("50", "//ui:textField/@maxLength", textField);
+		assertXpathEvaluatesTo("50", "//ui:textfield/@maxLength", textField);
 
 		textField.setToolTip("tooltip");
 		assertSchemaMatch(textField);
-		assertXpathEvaluatesTo(textField.getToolTip(), "//ui:textField/@toolTip", textField);
+		assertXpathEvaluatesTo(textField.getToolTip(), "//ui:textfield/@toolTip", textField);
 
 		textField.setAccessibleText("accessible");
 		assertSchemaMatch(textField);
-		assertXpathEvaluatesTo(textField.getAccessibleText(), "//ui:textField/@accessibleText",
+		assertXpathEvaluatesTo(textField.getAccessibleText(), "//ui:textfield/@accessibleText",
 				textField);
 
 		textField.setColumns(40);
 		assertSchemaMatch(textField);
-		assertXpathEvaluatesTo("40", "//ui:textField/@size", textField);
+		assertXpathEvaluatesTo("40", "//ui:textfield/@size", textField);
 
 		textField.setDefaultSubmitButton(button);
 		assertSchemaMatch(textField);
-		assertXpathEvaluatesTo(button.getId(), "//ui:textField/@buttonId", textField);
+		assertXpathEvaluatesTo(button.getId(), "//ui:textfield/@buttonId", textField);
 
 		textField.setPattern("");
 		assertSchemaMatch(textField);
-		assertXpathNotExists("//ui:textField/@pattern", textField);
+		assertXpathNotExists("//ui:textfield/@pattern", textField);
 
 		textField.setPattern("test[123]");
 		assertSchemaMatch(textField);
-		assertXpathEvaluatesTo(textField.getPattern(), "//ui:textField/@pattern", textField);
+		assertXpathEvaluatesTo(textField.getPattern(), "//ui:textfield/@pattern", textField);
 
 		textField.setText("Hello");
 		assertSchemaMatch(textField);
-		assertXpathEvaluatesTo(textField.getText(), "normalize-space(//ui:textField)", textField);
+		assertXpathEvaluatesTo(textField.getText(), "normalize-space(//ui:textfield)", textField);
 
 		textField.setSuggestions(suggestions);
 		assertSchemaMatch(textField);
-		assertXpathEvaluatesTo(suggestions.getId(), "//ui:textField/@list", textField);
+		assertXpathEvaluatesTo(suggestions.getId(), "//ui:textfield/@list", textField);
 	}
 
 	@Test
@@ -118,10 +118,10 @@ public class WTextFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 		textField.setText(getMaliciousContent());
 		assertSafeContent(textField);
 
-		textField.setToolTip(getMaliciousAttribute("ui:textField"));
+		textField.setToolTip(getMaliciousAttribute("ui:textfield"));
 		assertSafeContent(textField);
 
-		textField.setAccessibleText(getMaliciousAttribute("ui:textField"));
+		textField.setAccessibleText(getMaliciousAttribute("ui:textfield"));
 		assertSafeContent(textField);
 	}
 }

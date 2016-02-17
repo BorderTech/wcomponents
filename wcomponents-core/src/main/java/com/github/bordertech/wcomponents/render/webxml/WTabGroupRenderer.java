@@ -25,7 +25,7 @@ final class WTabGroupRenderer extends AbstractWebXmlRenderer {
 		WTabGroup group = (WTabGroup) component;
 		XmlStringBuilder xml = renderContext.getWriter();
 
-		xml.appendTagOpen("ui:tabGroup");
+		xml.appendTagOpen("ui:tabgroup");
 		xml.appendAttribute("id", component.getId());
 		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
@@ -34,6 +34,6 @@ final class WTabGroupRenderer extends AbstractWebXmlRenderer {
 
 		paintChildren(group, renderContext);
 
-		xml.appendEndTag("ui:tabGroup");
+		xml.appendEndTag("ui:tabgroup");
 	}
 }

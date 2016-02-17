@@ -33,23 +33,23 @@ public class WTabGroupRenderer_Test extends AbstractWebXmlRendererTestCase {
 		WTabGroup tabGroup = new WTabGroup(groupName);
 		WComponent wrapped = wrapTabGroup(tabGroup);
 
-		assertXpathExists("//ui:tabGroup", wrapped);
-		assertXpathEvaluatesTo(groupName, "normalize-space(//ui:tabGroup/ui:decoratedLabel)",
+		assertXpathExists("//ui:tabgroup", wrapped);
+		assertXpathEvaluatesTo(groupName, "normalize-space(//ui:tabgroup/ui:decoratedlabel)",
 				wrapped);
-		assertXpathEvaluatesTo(tabGroup.getId(), "//ui:tabGroup/@id", wrapped);
-		assertXpathNotExists("//ui:tabGroup/@disabled", wrapped);
-		assertXpathNotExists("//ui:tabGroup/ui:tab", wrapped);
-		assertXpathNotExists("//ui:tabGroup/ui:separator", wrapped);
+		assertXpathEvaluatesTo(tabGroup.getId(), "//ui:tabgroup/@id", wrapped);
+		assertXpathNotExists("//ui:tabgroup/@disabled", wrapped);
+		assertXpathNotExists("//ui:tabgroup/ui:tab", wrapped);
+		assertXpathNotExists("//ui:tabgroup/ui:separator", wrapped);
 
 		tabGroup.setDisabled(true);
-		assertXpathEvaluatesTo("true", "//ui:tabGroup/@disabled", wrapped);
+		assertXpathEvaluatesTo("true", "//ui:tabgroup/@disabled", wrapped);
 
 		tabGroup.addSeparator();
-		assertXpathExists("//ui:tabGroup/ui:separator", wrapped);
+		assertXpathExists("//ui:tabgroup/ui:separator", wrapped);
 		assertSchemaMatch(wrapped);
 
 		tabGroup.addTab(new WText("dummy"), "dummy", TabMode.CLIENT);
-		assertXpathExists("//ui:tabGroup/ui:tab", wrapped);
+		assertXpathExists("//ui:tabgroup/ui:tab", wrapped);
 		assertSchemaMatch(wrapped);
 	}
 

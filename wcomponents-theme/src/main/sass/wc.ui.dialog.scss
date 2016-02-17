@@ -4,13 +4,13 @@
 @import 'wc.ui.dialog_vars.scss';
 
 dialog {
+	@include border($width: 0); // oh chrome, you try so hard to annoy me
 	background: transparent;
-	border: 0 none; // oh chrome, you try so hard to annoy me
 	display: none;
 	margin: 0;
 	padding: 0;
 	position: fixed;
-	z-index: 20;
+	z-index: $z-index-dialog;
 
 	@include respond(mobile) {
 		@include border-box;
@@ -92,4 +92,3 @@ dialog {
 		background-position: 100% 0;
 	}
 }
-/* end wc.ui.dialog.scss */

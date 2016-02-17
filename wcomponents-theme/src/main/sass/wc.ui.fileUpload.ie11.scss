@@ -1,7 +1,7 @@
 /* wc.ui.fileUpload.ie11.scss */
 @import 'mixins_common.scss';
 
-.fileUpload .file {
+.wc-fileupload .wc-file {
 	padding-right: 3px; // IE11 cannot calc 100% - 1.333 em and set a right pad in em at the same time. Useless POS.
 }
 
@@ -13,12 +13,12 @@ input[type='file'] {
 	padding: 0;
 
 	&::-ms-browse { // pseudo-element ::-ms-browse on its own has detrimental effects on all buttons!!
-		border: 0 none;
+		@include border($width: 0);
 	}
 
 	&::-ms-value {
+		@include border($width: 0);
 		background-color: inherit;
-		border: 0 none;
 		margin: 0;
 	}
 
@@ -26,4 +26,3 @@ input[type='file'] {
 		background-color: $wc-ui-color-disabled-bg;
 	}
 }
-/* end wc.ui.fileUpload.ie11.scss */

@@ -1,5 +1,4 @@
 /* wc.ui.table.sort.color.scss */
-
 // Column sorting relate to the sorting of data in sortable tables.
 // This css covers control elements in the heading cells and the rendering of sorted columns.
 @import 'wc.ui.table_vars.scss';
@@ -11,4 +10,3 @@ th[sorted] {
 	background-color: $wc-ui-color-highlight-bg;
 	color: $wc-ui-color-highlight-fg;
 }
-/* end wc.ui.table.sort.color.scss */

@@ -49,20 +49,20 @@ public class WDateFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 		// Validate Schema
 		assertSchemaMatch(dateField);
 		// Check Attributes
-		assertXpathEvaluatesTo(dateField.getId(), "//ui:dateField/@id", dateField);
+		assertXpathEvaluatesTo(dateField.getId(), "//ui:datefield/@id", dateField);
 		// Optional
-		assertXpathEvaluatesTo("", "//ui:dateField", dateField);
-		assertXpathNotExists("//ui:dateField[@disabled]", dateField);
-		assertXpathNotExists("//ui:dateField[@hidden]", dateField);
-		assertXpathNotExists("//ui:dateField[@required]", dateField);
-		assertXpathNotExists("//ui:dateField[@readOnly]", dateField);
-		assertXpathNotExists("//ui:dateField[@tabIndex]", dateField);
-		assertXpathNotExists("//ui:dateField[@toolTip]", dateField);
-		assertXpathNotExists("//ui:dateField[@accessibleText]", dateField);
-		assertXpathNotExists("//ui:dateField[@buttonId]", dateField);
-		assertXpathNotExists("//ui:dateField[@date]", dateField);
-		assertXpathNotExists("//ui:dateField[@min]", dateField);
-		assertXpathNotExists("//ui:dateField[@max]", dateField);
+		assertXpathEvaluatesTo("", "//ui:datefield", dateField);
+		assertXpathNotExists("//ui:datefield[@disabled]", dateField);
+		assertXpathNotExists("//ui:datefield[@hidden]", dateField);
+		assertXpathNotExists("//ui:datefield[@required]", dateField);
+		assertXpathNotExists("//ui:datefield[@readOnly]", dateField);
+		assertXpathNotExists("//ui:datefield[@tabIndex]", dateField);
+		assertXpathNotExists("//ui:datefield[@toolTip]", dateField);
+		assertXpathNotExists("//ui:datefield[@accessibleText]", dateField);
+		assertXpathNotExists("//ui:datefield[@buttonId]", dateField);
+		assertXpathNotExists("//ui:datefield[@date]", dateField);
+		assertXpathNotExists("//ui:datefield[@min]", dateField);
+		assertXpathNotExists("//ui:datefield[@max]", dateField);
 	}
 
 	@Test
@@ -85,19 +85,19 @@ public class WDateFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 		// Validate Schema
 		assertSchemaMatch(dateField);
 		// Check Attributes
-		assertXpathEvaluatesTo(dateField.getId(), "//ui:dateField/@id", dateField);
+		assertXpathEvaluatesTo(dateField.getId(), "//ui:datefield/@id", dateField);
 		// Optional
-		assertXpathEvaluatesTo(TEST_INTERNAL_DATE_STRING, "//ui:dateField/@date", dateField);
-		assertXpathEvaluatesTo("true", "//ui:dateField/@disabled", dateField);
-		assertXpathEvaluatesTo("true", "//ui:dateField/@hidden", dateField);
-		assertXpathEvaluatesTo("true", "//ui:dateField/@required", dateField);
-		assertXpathEvaluatesTo("true", "//ui:dateField/@readOnly", dateField);
-		assertXpathEvaluatesTo("", "//ui:dateField/@tabIndex", dateField);
-		assertXpathEvaluatesTo("TITLE", "//ui:dateField/@toolTip", dateField);
-		assertXpathEvaluatesTo("ALT", "//ui:dateField/@accessibleText", dateField);
-		assertXpathEvaluatesTo(button.getId(), "//ui:dateField/@buttonId", dateField);
-		assertXpathEvaluatesTo("2011-02-01", "//ui:dateField/@min", dateField);
-		assertXpathEvaluatesTo("2012-03-02", "//ui:dateField/@max", dateField);
+		assertXpathEvaluatesTo(TEST_INTERNAL_DATE_STRING, "//ui:datefield/@date", dateField);
+		assertXpathEvaluatesTo("true", "//ui:datefield/@disabled", dateField);
+		assertXpathEvaluatesTo("true", "//ui:datefield/@hidden", dateField);
+		assertXpathEvaluatesTo("true", "//ui:datefield/@required", dateField);
+		assertXpathEvaluatesTo("true", "//ui:datefield/@readOnly", dateField);
+		assertXpathEvaluatesTo("", "//ui:datefield/@tabIndex", dateField);
+		assertXpathEvaluatesTo("TITLE", "//ui:datefield/@toolTip", dateField);
+		assertXpathEvaluatesTo("ALT", "//ui:datefield/@accessibleText", dateField);
+		assertXpathEvaluatesTo(button.getId(), "//ui:datefield/@buttonId", dateField);
+		assertXpathEvaluatesTo("2011-02-01", "//ui:datefield/@min", dateField);
+		assertXpathEvaluatesTo("2012-03-02", "//ui:datefield/@max", dateField);
 	}
 
 	@Test
@@ -105,10 +105,10 @@ public class WDateFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 		WDateField dateField = new WDateField();
 		setActiveContext(createUIContext());
 
-		dateField.setToolTip(getMaliciousAttribute("ui:dateField"));
+		dateField.setToolTip(getMaliciousAttribute("ui:datefield"));
 		assertSafeContent(dateField);
 
-		dateField.setAccessibleText(getMaliciousAttribute("ui:dateField"));
+		dateField.setAccessibleText(getMaliciousAttribute("ui:datefield"));
 		assertSafeContent(dateField);
 
 		MockRequest request = new MockRequest();

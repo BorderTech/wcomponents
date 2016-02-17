@@ -3,7 +3,7 @@
 // See wc.ui.menu.css for generic structure.
 @import 'wc.ui.menu_vars.scss';
 
-.menu {
+.wc-menu {
 	[role],
 	[aria-expanded] > button {
 		color: $wc-ui-color-menu-fg;
@@ -30,20 +30,19 @@
 [role='menuitemradio'][aria-checked='true'],
 [role='menuitemcheckbox'][aria-checked='true'],
 [role='treeitem'][aria-selected='true'],
-.submenu[aria-selected='true'] > button,
-.submenu[aria-checked='true'] > button {
+.wc-submenu[aria-selected='true'] > button,
+.wc-submenu[aria-checked='true'] > button {
 	background-color: $wc-ui-color-invite-bg;
 	color: $wc-ui-color-invite-fg;
 }
 
-.submenu {
+.wc-submenu {
 	&[aria-selected='true'],
 	&[aria-checked='true'] {
 		background-color: transparent;
 		color: $wc-ui-color-menu-fg;
 	}
 }
-
 
 // hover
 // no ability to use the class shorthand for :hover otherwise we get a hover effect on branches (role='menuitem' etc)
@@ -52,11 +51,10 @@
 [role='menuitemradio']:hover,
 [role='menuitemcheckbox']:hover,
 [role='treeitem']:hover,
-.menu [aria-expanded] > button:hover,
-.menu [role]:focus,
-.menu [aria-expanded] > button:focus,
+.wc-menu [aria-expanded] > button:hover,
+.wc-menu [role]:focus,
+.wc-menu [aria-expanded] > button:focus,
 [aria-expanded='true'] > button:hover {
 	background-color: $wc-ui-color-invite-bg;
 	color: $wc-ui-color-invite-fg;
 }
-/* end wc.ui.menu.color.scss */

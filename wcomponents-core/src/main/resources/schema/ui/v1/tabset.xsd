@@ -43,13 +43,13 @@
 				<xs:element ref="ui:margin" minOccurs="0" />
 				<xs:choice maxOccurs="unbounded">
 					<xs:element ref="ui:tab" />
-					<xs:element name="tabGroup">
+					<xs:element name="tabgroup">
 						<xs:annotation>
 							<xs:documentation>Deprecated: do not use.</xs:documentation>
 						</xs:annotation>
 						<xs:complexType>
 							<xs:sequence>
-								<xs:element ref="ui:decoratedLabel" minOccurs="0" />
+								<xs:element ref="ui:decoratedlabel" minOccurs="0" />
 								<xs:choice maxOccurs="unbounded">
 									<xs:element ref="ui:tab" />
 									<xs:element ref="ui:separator" />

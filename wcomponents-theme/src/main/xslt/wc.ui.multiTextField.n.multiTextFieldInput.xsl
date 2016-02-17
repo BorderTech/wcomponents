@@ -13,12 +13,12 @@
 
 		param readOnly: The read only state of the parent multiTextField
 
-		param useField: A reference to the ui:multiTextField element which may
+		param useField: A reference to the ui:multitextfield element which may
 		be the calling element or its parent depending upon from where this
 		template is called.
 	-->
 	<xsl:template name="multiTextFieldInput">
-		<xsl:variable name="field" select="ancestor-or-self::ui:multiTextField"/>
+		<xsl:variable name="field" select="ancestor-or-self::ui:multitextfield"/>
 		<xsl:variable name="fieldId">
 			<xsl:value-of select="$field/@id"/>
 		</xsl:variable>

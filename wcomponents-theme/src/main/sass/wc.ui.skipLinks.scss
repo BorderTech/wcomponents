@@ -1,7 +1,7 @@
 /* wc.ui.skipLinks.scss */
 @import 'vars_all.scss';
 
-.skipLinks {
+.wc-skiplinks {
 	height: 0;
 	left: 0;
 	position: absolute;
@@ -20,8 +20,7 @@
 			display: inline-block;
 			padding: $hgap-normal;
 			position: static;
-			z-index: 100;
+			z-index: $z-index-common; // never found in dialogs.
 		}
 	}
 }
-/* end wc.ui.skipLinks.scss */

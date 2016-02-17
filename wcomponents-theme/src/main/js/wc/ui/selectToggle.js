@@ -21,10 +21,12 @@ define(["wc/dom/shed",
 		"wc/dom/formUpdateManager",
 		"wc/dom/Widget",
 		"wc/dom/initialise",
+		"wc/ui/table/common",
+		"wc/ui/rowAnalog",
 		"wc/ui/checkboxAnalog",
 		"wc/ui/radioAnalog"],
-	/** @param shed wc/dom/shed @param tag wc/dom.tag @param getFilteredGroup wc/dom/getFilteredGroup @param toArray wc/array/toArray @param formUpdateManager wc/dom/formUpdateManager @param Widget wc/dom/Widget @param initialise wc/dom/initialise @ignore */
-	function(shed, tag, getFilteredGroup, toArray, formUpdateManager, Widget, initialise) {
+	/** @param shed wc/dom/shed @param tag wc/dom.tag @param getFilteredGroup wc/dom/getFilteredGroup @param toArray wc/array/toArray @param formUpdateManager wc/dom/formUpdateManager @param Widget wc/dom/Widget @param initialise wc/dom/initialise @param table @param rowAnalog @ignore */
+	function(shed, tag, getFilteredGroup, toArray, formUpdateManager, Widget, initialise, table, rowAnalog) {
 		"use strict";
 
 		/**
@@ -73,7 +75,7 @@ define(["wc/dom/shed",
 				CONTROLLER_ABSTRACT = CONTROLLER_ABSTRACT || new Widget("button", CLASS_TOGGLE);
 				CONTROLLER_CHECKBOX_WD = CONTROLLER_CHECKBOX_WD || CONTROLLER_ABSTRACT.extend("", {role: CHECKBOX});
 				CONTROLLER_LIST_WD = CONTROLLER_LIST_WD || new Widget("span", CLASS_TOGGLE);
-				CONTROLLER_MENU_WD = CONTROLLER_MENU_WD || CONTROLLER_WD.extend("submenucontent");
+				CONTROLLER_MENU_WD = CONTROLLER_MENU_WD || CONTROLLER_WD.extend("wc_submenucontent");
 				RADIO_SUBCONTROLLER = RADIO_SUBCONTROLLER || CONTROLLER_ABSTRACT.extend("", {"role": "radio"});
 				MENU_SUBCONTROLLER = MENU_SUBCONTROLLER || CONTROLLER_ABSTRACT.extend("", {"role": "menuitemradio"});
 				SUBCONTROLLER_WD = SUBCONTROLLER_WD || [RADIO_SUBCONTROLLER, MENU_SUBCONTROLLER];
@@ -84,10 +86,10 @@ define(["wc/dom/shed",
 
 				CHECKBOX_WD = CHECKBOX_WD || new Widget("input", "", {"type": CHECKBOX});
 				ARIA_CB_WD = ARIA_CB_WD || new Widget("", "", {"role": CHECKBOX});
-				ROW_WD = ROW_WD || new Widget("tr", "", {"role": "row", "aria-selected": null});
-				CELL_WD = CELL_WD || new Widget("td", "wc_table_sel_wrapper");
+				ROW_WD = ROW_WD || rowAnalog.ITEM;
+				CELL_WD = CELL_WD || table.TD.extend("wc_table_sel_wrapper");
 				ALL_CB = ALL_CB || [CHECKBOX_WD, ARIA_CB_WD, ROW_WD];
-				TABLE_WRAPPER = TABLE_WRAPPER || new Widget("div", "table");
+				TABLE_WRAPPER = TABLE_WRAPPER || table.WRAPPER;
 
 				inited = true;
 			}
@@ -245,7 +247,7 @@ define(["wc/dom/shed",
 			}
 
 			/**
-			 * Get the `ui:rowSelection/@selectAll` control artefact for a table from any element in the table.
+			 * Get the `ui:rowselection/@selectAll` control artefact for a table from any element in the table.
 			 *
 			 * @function
 			 * @private

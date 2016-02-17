@@ -1,7 +1,8 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
 	<xsl:import href="wc.common.getHVGap.xsl"/>
+	<xsl:import href="wc.common.n.className.xsl"/>
 	<!--
-		ui:borderLayout is a layout mode of WPanel which consists of one or more
+		ui:borderlayout is a layout mode of WPanel which consists of one or more
 		containers displayed in a particular pattern.
 
 		This is a rough CSS based emulation of AWT BorderLayout with fixed width
@@ -9,18 +10,18 @@
 		display:table-cell.
 
 		Inter-cell spacing
-		
+
 		The horizontal spacing between ui:west, ui:center and ui:east is determined
 		by the hgap attribute.
-		
+
 		The vertical spacing betwen ui:north, the middle row and ui:south is determined
 		by the vgap property
- 
+
 		This template arranges the child elements in the correct order. If there is one
 		or more of ui:west, ui:center and ui:east then a wrapper is provided for them
 		before they are applied.
 	-->
-<xsl:template match="ui:borderLayout">
+<xsl:template match="ui:borderlayout">
 		<xsl:variable name="vgap">
 			<xsl:call-template name="getHVGap">
 				<xsl:with-param name="gap" select="@vgap"/>
@@ -28,14 +29,14 @@
 		</xsl:variable>
 		<xsl:element name="div">
 			<xsl:attribute name="class">
-				<xsl:text>borderLayout</xsl:text>
+				<xsl:call-template name="commonClassHelper"/>
 			</xsl:attribute>
 			<xsl:apply-templates select="ui:north"/>
 			<xsl:variable name="colCount" select="count(ui:west|ui:center|ui:east)"/>
 			<xsl:if test="$colCount &gt;0">
 				<xsl:element name="div">
 					<xsl:attribute name="class">
-						<xsl:text>wc_borderLayout_middle</xsl:text>
+						<xsl:text>wc_borderlayout_middle</xsl:text>
 					</xsl:attribute>
 					<xsl:if test="ui:north and ($vgap != 0)">
 						<xsl:attribute name="style">

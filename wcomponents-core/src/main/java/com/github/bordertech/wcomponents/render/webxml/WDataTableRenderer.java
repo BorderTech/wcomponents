@@ -130,7 +130,7 @@ final class WDataTableRenderer extends AbstractWebXmlRenderer {
 		if (table.getSelectMode() != SelectMode.NONE) {
 			boolean multiple = table.getSelectMode() == SelectMode.MULTIPLE;
 
-			xml.appendTagOpen("ui:rowSelection");
+			xml.appendTagOpen("ui:rowselection");
 			xml.appendOptionalAttribute("multiple", multiple, "true");
 
 			if (multiple) {
@@ -155,7 +155,7 @@ final class WDataTableRenderer extends AbstractWebXmlRenderer {
 		}
 
 		if (table.getExpandMode() != ExpandMode.NONE) {
-			xml.appendTagOpen("ui:rowExpansion");
+			xml.appendTagOpen("ui:rowexpansion");
 
 			switch (table.getExpandMode()) {
 				case CLIENT:
@@ -279,9 +279,9 @@ final class WDataTableRenderer extends AbstractWebXmlRenderer {
 		xml.appendClose();
 
 		if (model.getRowCount() == 0) {
-			xml.appendTag("ui:noData");
+			xml.appendTag("ui:nodata");
 			xml.appendEscaped(table.getNoDataMessage());
-			xml.appendEndTag("ui:noData");
+			xml.appendEndTag("ui:nodata");
 		} else {
 			// If has at least one visible col, paint the rows.
 			final int columnCount = table.getColumnCount();

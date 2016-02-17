@@ -2,24 +2,24 @@
 	<xsl:import href="wc.constants.xsl"/>
 	<xsl:import href="wc.common.getHVGap.xsl"/>
 	<!--
-		Transform for ui:listLayout which is one of the possible child elements of ui:panel.
-		
+		Transform for ui:listlayout which is one of the possible child elements of ui:panel.
+
 		A panel with a listLayout will transform to a HTML ul or ol element depending
 		upon the ordered attribute of the listLayout.
-		
+
 		Empty cells are not output.
-		
+
 		When the ordered property is true the list is ordered. At the moment this
 		creates some limitations in display of other properties:
 			* When type is FLAT no separator will be shown
 			* When type is STACKED or STRIPED and separator is DOT or BAR then the
 		normal numeric marker is shown
-		
+
 		The parent element (ol or ul) is created in the transform of the parent
-		WPanel and it holds the identification and type attributes. The 
+		WPanel and it holds the identification and type attributes. The
 		listLayout then merely passes through to the cells after determining gaps.
 	-->
-	<xsl:template match="ui:listLayout">
+	<xsl:template match="ui:listlayout">
 		<xsl:variable name="listElement">
 			<xsl:choose>
 				<xsl:when test="@ordered=$t">
@@ -32,7 +32,7 @@
 		</xsl:variable>
 		<xsl:element name="{$listElement}">
 			<xsl:attribute name="class">
-				<xsl:value-of select="normalize-space(concat('listLayout ',@type,' ', @align))"/>
+				<xsl:value-of select="normalize-space(concat('wc-listlayout ',@type,' ', @align))"/>
 				<xsl:if test="not(@align)">
 					<xsl:text> ${wc.common.align.std}</xsl:text>
 				</xsl:if>
@@ -47,8 +47,6 @@
 						<xsl:text> none</xsl:text>
 					</xsl:when>
 				</xsl:choose>
-				<xsl:if test="not(@ordered=$t)">
-				</xsl:if>
 			</xsl:attribute>
 			<xsl:variable name="hgap">
 				<xsl:call-template name="getHVGap"/>

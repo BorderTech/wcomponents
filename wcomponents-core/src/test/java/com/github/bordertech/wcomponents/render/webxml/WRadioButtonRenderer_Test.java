@@ -33,51 +33,51 @@ public class WRadioButtonRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		button.setVisible(true);
 		assertSchemaMatch(button);
-		assertXpathExists("//ui:radioButton", button);
-		assertXpathEvaluatesTo(button.getId(), "//ui:radioButton/@id", button);
-		assertXpathEvaluatesTo(button.getGroupName(), "//ui:radioButton/@groupName", button);
-		assertXpathEvaluatesTo(button.getValue(), "//ui:radioButton/@value", button);
-		assertXpathNotExists("//ui:radioButton/@submitOnChange", button);
-		assertXpathNotExists("//ui:radioButton/@tabIndex", button);
+		assertXpathExists("//ui:radiobutton", button);
+		assertXpathEvaluatesTo(button.getId(), "//ui:radiobutton/@id", button);
+		assertXpathEvaluatesTo(button.getGroupName(), "//ui:radiobutton/@groupName", button);
+		assertXpathEvaluatesTo(button.getValue(), "//ui:radiobutton/@value", button);
+		assertXpathNotExists("//ui:radiobutton/@submitOnChange", button);
+		assertXpathNotExists("//ui:radiobutton/@tabIndex", button);
 
 		// Check selected
-		assertXpathNotExists("//ui:radioButton/@selected", button);
+		assertXpathNotExists("//ui:radiobutton/@selected", button);
 		button.setSelected(true);
 		assertSchemaMatch(button);
-		assertXpathEvaluatesTo("true", "//ui:radioButton/@selected", button);
+		assertXpathEvaluatesTo("true", "//ui:radiobutton/@selected", button);
 
 		// Check disabled
-		assertXpathNotExists("//ui:radioButton/@disabled", button);
+		assertXpathNotExists("//ui:radiobutton/@disabled", button);
 		button.setDisabled(true);
 		assertSchemaMatch(button);
-		assertXpathEvaluatesTo("true", "//ui:radioButton/@disabled", button);
+		assertXpathEvaluatesTo("true", "//ui:radiobutton/@disabled", button);
 
 		// Check hidden
-		assertXpathNotExists("//ui:radioButton/@hidden", button);
+		assertXpathNotExists("//ui:radiobutton/@hidden", button);
 		setFlag(button, ComponentModel.HIDE_FLAG, true);
 		assertSchemaMatch(button);
-		assertXpathEvaluatesTo("true", "//ui:radioButton/@hidden", button);
+		assertXpathEvaluatesTo("true", "//ui:radiobutton/@hidden", button);
 
 		// Check required
-		assertXpathNotExists("//ui:radioButton/@required", button);
+		assertXpathNotExists("//ui:radiobutton/@required", button);
 		group.setMandatory(true);
 		assertSchemaMatch(button);
-		assertXpathEvaluatesTo("true", "//ui:radioButton/@required", button);
+		assertXpathEvaluatesTo("true", "//ui:radiobutton/@required", button);
 
 		// Check readOnly
-		assertXpathNotExists("//ui:radioButton/@readOnly", button);
+		assertXpathNotExists("//ui:radiobutton/@readOnly", button);
 		button.setReadOnly(true);
 		assertSchemaMatch(button);
-		assertXpathEvaluatesTo("true", "//ui:radioButton/@readOnly", button);
+		assertXpathEvaluatesTo("true", "//ui:radiobutton/@readOnly", button);
 
 		// Check toolTip
 		String toolTip = "WRadioButton_Test.testRenderedFormat.toolTip";
 		button.setToolTip(toolTip);
 		assertSchemaMatch(button);
-		assertXpathEvaluatesTo(toolTip, "//ui:radioButton/@toolTip", button);
+		assertXpathEvaluatesTo(toolTip, "//ui:radiobutton/@toolTip", button);
 		button.setToolTip(null);
 		assertSchemaMatch(button);
-		assertXpathNotExists("//ui:radioButton/@toolTip", button);
+		assertXpathNotExists("//ui:radiobutton/@toolTip", button);
 
 		// Check submitOnChange
 		group = new RadioButtonGroup();
@@ -85,7 +85,7 @@ public class WRadioButtonRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		group.setSubmitOnChange(true);
 		assertSchemaMatch(button);
-		assertXpathEvaluatesTo("true", "//ui:radioButton/@submitOnChange", button);
+		assertXpathEvaluatesTo("true", "//ui:radiobutton/@submitOnChange", button);
 	}
 
 	@Test
@@ -118,9 +118,9 @@ public class WRadioButtonRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		assertSchemaMatch(root);
 
-		assertXpathEvaluatesTo("true", "//ui:radioButton/@isNull", button1);
-		assertXpathEvaluatesTo("true", "//ui:radioButton/@isNull", button2);
-		assertXpathEvaluatesTo("", "//ui:radioButton/@isNull", button3);
+		assertXpathEvaluatesTo("true", "//ui:radiobutton/@isNull", button1);
+		assertXpathEvaluatesTo("true", "//ui:radiobutton/@isNull", button2);
+		assertXpathEvaluatesTo("", "//ui:radiobutton/@isNull", button3);
 	}
 
 }

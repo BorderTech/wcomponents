@@ -48,7 +48,7 @@
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element ref="ui:decoratedLabel" />
+				<xs:element ref="ui:decoratedlabel" />
 				<xs:element name="content">
 					<xs:annotation>
 						<xs:documentation>Container for the items within the sub menu.</xs:documentation>
@@ -56,7 +56,7 @@
 					<xs:complexType>
 						<xs:choice minOccurs="0" maxOccurs="unbounded">
 							<xs:group ref="ui:menuComponentGroup" />
-							<xs:element ref="ui:menuGroup" />
+							<xs:element ref="ui:menugroup" />
 						</xs:choice>
 						<xs:attribute name="id" use="required" type="xs:ID">
 							<xs:annotation>

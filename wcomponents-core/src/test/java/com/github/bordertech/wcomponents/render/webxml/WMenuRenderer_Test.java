@@ -37,7 +37,7 @@ public class WMenuRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo("bar", "//ui:menu/@type", menu);
 		assertXpathNotExists("//ui:menu/@disabled", menu);
 		assertXpathNotExists("//ui:menu/@selectMode", menu);
-		assertXpathExists("//ui:menu/ui:menuItem", menu);
+		assertXpathExists("//ui:menu/ui:menuitem", menu);
 		assertXpathNotExists("//ui:menu/ui:separator", menu);
 
 		menu.addSeparator();
