@@ -47,7 +47,6 @@ import org.junit.runners.Suite;
 	WFieldWarningIndicatorRenderer_Test.class,
 	WFigureRenderer_Test.class,
 	WFileWidgetRenderer_Test.class,
-	WFilterControlRenderer_Test.class,
 	WHiddenCommentRenderer_Test.class,
 	WHorizontalRuleRenderer_Test.class,
 	WHeadingRenderer_Test.class,

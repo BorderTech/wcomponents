@@ -1,6 +1,7 @@
 ### WComponents ###
 wcomponents-theme/node/
 wcomponents-theme/package.json
+wcomponents-theme/bower.json
 wcomponents-theme/README.md
 wcomponents-theme/jsdoc.json
 wcomponents-theme/.npmrc

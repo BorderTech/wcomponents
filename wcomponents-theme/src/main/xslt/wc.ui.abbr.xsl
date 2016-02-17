@@ -16,6 +16,11 @@
 			</xsl:variable>
 			<xsl:element name="{$element}">
 				<xsl:call-template name="makeCommonClass"/>
+				<xsl:if test="@toolTip">
+					<xsl:attribute name="title">
+						<xsl:value-of select="@toolTip"/>
+					</xsl:attribute>
+				</xsl:if>
 				<xsl:value-of select="."/>
 			</xsl:element>
 		</xsl:if>
