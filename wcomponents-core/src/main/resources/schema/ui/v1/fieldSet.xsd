@@ -5,7 +5,7 @@
 	<xs:include schemaLocation="attributeGroups.common.xsd" />
 	<xs:include schemaLocation="contentGroups.xsd" />
 
-	<xs:include schemaLocation="decoratedlabel.xsd" />
+	<xs:include schemaLocation="decoratedLabel.xsd" />
 	<xs:include schemaLocation="margin.xsd" />
 
 	<xs:element name="fieldset">

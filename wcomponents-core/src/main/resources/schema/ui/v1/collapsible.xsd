@@ -3,7 +3,7 @@
 	<xs:include schemaLocation="attributeGroups.container.xsd"/>
 	
 	<xs:include schemaLocation="margin.xsd"/>
-	<xs:include schemaLocation="decoratedlabel.xsd"/>
+	<xs:include schemaLocation="decoratedLabel.xsd"/>
 	<xs:include schemaLocation="mixedContentWithId.xsd"/>
 	
 	<xs:element name="collapsible">
