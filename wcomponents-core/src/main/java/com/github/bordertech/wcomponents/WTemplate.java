@@ -1,10 +1,7 @@
 package com.github.bordertech.wcomponents;
 
-import com.github.bordertech.wcomponents.template.HandlebarsRendererImpl;
-import com.github.bordertech.wcomponents.template.PlainTextRendererImpl;
 import com.github.bordertech.wcomponents.template.TemplateRenderer;
 import com.github.bordertech.wcomponents.template.TemplateRendererFactory;
-import com.github.bordertech.wcomponents.template.VelocityRendererImpl;
 import com.github.bordertech.wcomponents.util.Util;
 import java.util.Collections;
 import java.util.HashMap;
@@ -17,8 +14,10 @@ import java.util.Map;
  * Using a template is the preferred method in implementing a responsive design.
  * </p>
  * <p>
- * WComponents comes configured for {@link VelocityRendererImpl Velocity}, {@link HandlebarsRendererImpl Handlebars} and
- * {@link PlainTextRendererImpl Plain Text} templates.
+ * WComponents comes configured for
+ * {@link com.github.bordertech.wcomponents.template.TemplateRendererFactory.TemplateEngine#VELOCITY Velocity}, {@link com.github.bordertech.wcomponents.template.TemplateRendererFactory.TemplateEngine#HANDLEBARS Handlebars}
+ * and {@link com.github.bordertech.wcomponents.template.TemplateRendererFactory.TemplateEngine#PLAINTEXT Plain Text}
+ * templates.
  * </p>
  * <p>
  * Components can be included in a template by adding the component via
@@ -49,6 +48,9 @@ import java.util.Map;
  * {@link #addEngineOption(java.lang.String, java.lang.Object) addEngineOption(key, value)}. The options are determined
  * by the {@link TemplateRenderer} implementation.
  * </p>
+ *
+ * @see TemplateRenderer
+ * @see TemplateRendererFactory
  *
  * @author Jonathan Austin
  * @since 1.0.3

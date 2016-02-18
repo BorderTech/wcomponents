@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents.template;
 
+import com.github.bordertech.wcomponents.WTemplate;
 import com.github.bordertech.wcomponents.util.Config;
 import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.Util;
@@ -18,6 +19,9 @@ import java.util.Map;
  * The default template engine is set via the parameter "bordertech.wcomponents.template.renderer". For example:-
  * <code>bordertech.wcomponents.template.renderer=myengine</code>
  * </p>
+ *
+ * @see WTemplate
+ * @see TemplateRenderer
  *
  * @author Jonathan Austin
  * @since 1.0.3

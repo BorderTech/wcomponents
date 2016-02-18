@@ -23,6 +23,14 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * Handlebars template renderer.
+ * <p>
+ * Has the following engine options:-
+ * </p>
+ * <ul>
+ * <li>{@link #PRETTY_PRINT} - Include with value "true" to activate</li>
+ * <li>{@link #MARKDOWN} - Include with value "true" to activate</li>
+ * <li>{@link #ESCAPING_STRATEGY} - Include with {@link EscapingStrategy} as the value</li>
+ * </ul>
  *
  * @author Jonathan Austin
  * @since 1.0.3

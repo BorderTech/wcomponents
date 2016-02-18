@@ -20,6 +20,15 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * Plain text template renderer.
+ * <p>
+ * Used for templates that require no processing (ie static) and have no tagged components or parameters.
+ * </p>
+ * <p>
+ * Has the following engine options:-
+ * </p>
+ * <ul>
+ * <li>{@link #XML_ENCODE} - Include to activate</li>
+ * </ul>
  *
  * @author Jonathan Austin
  * @since 1.0.3
@@ -32,7 +41,7 @@ public class PlainTextRendererImpl implements TemplateRenderer {
 	private static final String CACHE_NAME = "wc-plaintext-templates";
 
 	/**
-	 * XML encode the text option.
+	 * XML encode the template engine option.
 	 */
 	public static final String XML_ENCODE = "encode";
 

@@ -1,6 +1,7 @@
 package com.github.bordertech.wcomponents.template;
 
 import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.WTemplate;
 import java.io.Writer;
 import java.util.Map;
 
@@ -15,6 +16,9 @@ import java.util.Map;
  * <p>
  * The template engines used to render the template can have configuration passed in via the engine options map.
  * </p>
+ *
+ * @see TemplateRendererFactory
+ * @see WTemplate
  *
  * @author Jonathan Austin
  * @since 1.0.3

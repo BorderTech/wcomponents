@@ -16,6 +16,9 @@ import org.apache.velocity.runtime.RuntimeConstants;
 
 /**
  * Velocity template renderer.
+ * <p>
+ * Has no engine options.
+ * </p>
  *
  * @author Jonathan Austin
  * @since 1.0.3
