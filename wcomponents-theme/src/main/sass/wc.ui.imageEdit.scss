@@ -26,7 +26,19 @@
 	&.wc_showcam .wc_img_canvas {
 		display: none;
 	}
-
+	
+	fieldset.wc_img_capture {
+		display: none;
+	}
+	
+	&.wc_camenable fieldset.wc_img_capture {
+		display: block;
+	}
+	
+	&.wc_showcam.wc_camenable fieldset.wc_img_capture {
+		display: none;
+	}
+	
 	button {
 		@include button;
 		@include background-image('../images/up.png', $height: 1em, $width: 1em);
@@ -88,7 +100,7 @@
 			background-image: url('../images/rotate-right.png');
 		}
 
-		&.snap {
+		&.wc_btn_snap {
 			background-image: url('../images/camera-add.png');
 			display: block;
 			margin: $hgap-small auto 0;
@@ -116,6 +128,10 @@
 		
 		&.wc_btn_face[disabled] {
 			background-image: url('../images/person-d.png');
+		}
+		
+		&.wc_btn_camera {
+			background-image: url('../images/camera-web.png');
 		}
 	}
 
