@@ -174,6 +174,7 @@ public class ComponentModel implements WebModel, Externalizable {
 
 	/**
 	 * Adds extra textual information to describe a component. This is intended for screen-readers only.
+	 *
 	 * @deprecated use toolTip
 	 */
 	private Serializable accessibleText;
@@ -455,42 +456,54 @@ public class ComponentModel implements WebModel, Externalizable {
 
 	/**
 	 * @return Returns the tag.
+	 * @deprecated Use {@link WTemplate} instead
 	 */
+	@Deprecated
 	protected String getTag() {
 		return tag;
 	}
 
 	/**
 	 * @param tag The tag to set.
+	 * @deprecated Use {@link WTemplate} instead
 	 */
+	@Deprecated
 	protected void setTag(final String tag) {
 		this.tag = tag;
 	}
 
 	/**
 	 * @return Returns the templateUrl.
+	 * @deprecated Use {@link WTemplate} instead
 	 */
+	@Deprecated
 	public String getTemplateUrl() {
 		return templateUrl;
 	}
 
 	/**
 	 * @param templateUrl The templateUrl to set.
+	 * @deprecated Use {@link WTemplate} instead
 	 */
+	@Deprecated
 	public void setTemplateUrl(final String templateUrl) {
 		this.templateUrl = templateUrl;
 	}
 
 	/**
 	 * @return Returns the template mark-up.
+	 * @deprecated Use {@link WTemplate} instead
 	 */
+	@Deprecated
 	public String getTemplateMarkUp() {
 		return templateMarkUp;
 	}
 
 	/**
 	 * @param templateMarkUp The template mark-up to set.
+	 * @deprecated Use {@link WTemplate} instead
 	 */
+	@Deprecated
 	public void setTemplateMarkUp(final String templateMarkUp) {
 		this.templateMarkUp = templateMarkUp;
 	}

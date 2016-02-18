@@ -19,7 +19,10 @@ import org.apache.velocity.exception.ResourceNotFoundException;
  *
  * @author Martin Shevchenko
  * @since 1.0.0
+ * @deprecated Do not require a template for an interceptor. Write a custom interceptor that extends
+ * {@link InterceptorComponent}.
  */
+@Deprecated
 public class VelocityInterceptor extends InterceptorComponent {
 
 	/**
