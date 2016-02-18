@@ -273,7 +273,7 @@
 								<button type="button" aria-haspopup="true" class="wc_btn_nada" id="{$subRowToggleControlButtonId}" aria-controls="{$subRowToggleControlContentId}">
 									<span class="wc_off"><xsl:value-of select="$$${wc.ui.table.string.rowSelection.label}"/></span>
 								</button>
-								<div class="wc_ wc_seltog" role="menu" aria-expanded="false" id="{$subRowToggleControlContentId}" aria-labelledby="{$subRowToggleControlButtonId}">
+								<div class="wc_submenucontent wc_seltog" role="menu" aria-expanded="false" id="{$subRowToggleControlContentId}" aria-labelledby="{$subRowToggleControlButtonId}">
 									<xsl:variable name="allSelectableSubRows" select="count(.//ui:subtr[ancestor::ui:table[1]/@id = $tableId]/ui:tr[not(@unselectable)])"/>
 									<xsl:variable name="allUnselectedSubRows" select="count(.//ui:subtr[ancestor::ui:table[1]/@id = $tableId]/ui:tr[not(@unselectable or @selected)])"/>
 									<xsl:variable name="subRowControlList">

@@ -13,8 +13,8 @@ span.wc-label {
 }
 
 // space between a checkable and its label
-[type='radio'] + .wc-label,
-[type='checkbox'] + .wc-label,
+[type='radio'] + label,
+[type='checkbox'] + label,
 .wc_ro + .wc-label {
 	margin-left: $hgap-small;
 }

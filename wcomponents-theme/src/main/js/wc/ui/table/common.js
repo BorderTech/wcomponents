@@ -4,7 +4,7 @@
  *
  * @requires module:wc/dom/Widget
  */
-require(["wc/dom/Widget"],
+define(["wc/dom/Widget"],
 	/** @param Widget @ignore */
 	function (Widget) {
 		"use strict";
