@@ -26,7 +26,9 @@ import java.util.Map;
  * </p>
  * <p>
  * Parameters can be passed into a template via
- * {@link #addParameter(java.lang.String, java.lang.Object) addParameter(tag, value)}.
+ * {@link #addParameter(java.lang.String, java.lang.Object) addParameter(tag, value)}. The instance of WTemplate is
+ * passed in as a parameter with a key of "wc". The getter methods of WTemplate can be accessed via the bean notation in
+ * the templates. For example "wc.id" to access the WTemplate id or "wc.bean" to access the bean (if set).
  * </p>
  * <p>
  * If no template engine is set on WTemplate then the default templating engine is used. The default template engine is
@@ -127,11 +129,11 @@ public class WTemplate extends WBeanComponent implements Container, NamingContex
 	 * @param component the component to add
 	 */
 	public void addTaggedComponent(final String tag, final WComponent component) {
-		if (component == null) {
-			throw new IllegalArgumentException("A component must be provided.");
-		}
 		if (Util.empty(tag)) {
 			throw new IllegalArgumentException("A tag must be provided.");
+		}
+		if (component == null) {
+			throw new IllegalArgumentException("A component must be provided.");
 		}
 
 		TemplateModel model = getOrCreateComponentModel();
@@ -308,6 +310,9 @@ public class WTemplate extends WBeanComponent implements Container, NamingContex
 	 * @param value the engine option value
 	 */
 	public void addEngineOption(final String key, final Object value) {
+		if (Util.empty(key)) {
+			throw new IllegalArgumentException("A key must be provided");
+		}
 		TemplateModel model = getOrCreateComponentModel();
 		if (model.engineOptions == null) {
 			model.engineOptions = new HashMap<>();
