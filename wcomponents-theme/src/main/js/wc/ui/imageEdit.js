@@ -308,6 +308,7 @@ function(has, event, uid, classList, timers, shed, loader, i18n, fabric, Mustach
 								height: config.height || defaults.height
 							},
 							heading: {
+								capture: "Capture",
 								rotate: i18n.get("${wc.ui.imageEdit.rotate}"),
 								move: i18n.get("${wc.ui.imageEdit.move}"),
 								zoom: i18n.get("${wc.ui.imageEdit.zoom}")
@@ -366,6 +367,7 @@ function(has, event, uid, classList, timers, shed, loader, i18n, fabric, Mustach
 					// }
 					if (!file) {
 						if (has("rtc-gum")) {
+							classList.add(container, "wc_camenable");
 							classList.add(container, "wc_showcam");
 							imageCapture.snapshotControl(eventConfig, container);
 						}
@@ -377,7 +379,10 @@ function(has, event, uid, classList, timers, shed, loader, i18n, fabric, Mustach
 				}, reject);
 			});
 
-			return Promise.all([promise, dialogFrame.open(getDialogFrameConfig(callbacks.lose))]).then(function(values) {
+			return Promise.all([promise, dialogFrame.open(getDialogFrameConfig(function() {
+				imageCapture.stop();
+				callbacks.lose();
+			}))]).then(function(values) {
 				var dialogContent = dialogFrame.getContent(),
 					container = values[0];
 
@@ -872,7 +877,8 @@ function(has, event, uid, classList, timers, shed, loader, i18n, fabric, Mustach
 			this.snapshotControl = function (eventConfig, container) {
 				var click = eventConfig.click;
 				if (has("rtc-gum")) {
-					click.snap = {
+					activateCameraControl(eventConfig, container);
+					click.wc_btn_snap = {
 						func: function() {
 							var dataUrl,
 								fbImageTemp,
@@ -882,12 +888,24 @@ function(has, event, uid, classList, timers, shed, loader, i18n, fabric, Mustach
 								dataUrl = fbImageTemp.toDataURL();
 								loadImageFromDataUrl(dataUrl);
 								classList.remove(container, "wc_showcam");
-								imageCapture.stop();
+								imageCapture.stop(true);
 							}
 						}
 					};
 				}
 			};
+
+			function activateCameraControl(eventConfig, container) {
+				var click = eventConfig.click;
+				if (has("rtc-gum")) {
+					click.wc_btn_camera = {
+						func: function() {
+							imageCapture.play();
+							classList.add(container, "wc_showcam");
+						}
+					};
+				}
+			}
 
 			/**
 			 * Initialize the video element.
@@ -962,9 +980,9 @@ function(has, event, uid, classList, timers, shed, loader, i18n, fabric, Mustach
 			/**
 			 * Close the web camera video stream.
 			 */
-			this.stop = function() {
+			this.stop = function(pause) {
 				var i, track, tracks, video = document.getElementById(VIDEO_ID);
-				if (video) {
+				if (video && !pause) {
 					video.src = "";
 				}
 				if (_stream) {
@@ -980,7 +998,9 @@ function(has, event, uid, classList, timers, shed, loader, i18n, fabric, Mustach
 					else if (_stream.stop) {
 						_stream.stop();
 					}
-					_stream = null;
+					if (!pause) {
+						_stream = null;
+					}
 				}
 			};
 
