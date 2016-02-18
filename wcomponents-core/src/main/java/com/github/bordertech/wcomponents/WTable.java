@@ -908,6 +908,21 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 	}
 
 	/**
+	 * Set the table as having row headers.
+	 * @param rowHeaders indicates that the first data column in the table should be considered a row header.
+	 */
+	public void setRowHeaders(final boolean rowHeaders) {
+		getOrCreateComponentModel().rowHeaders = rowHeaders;
+	}
+
+	/**
+	 * @return is the first data column a row header column?
+	 */
+	public boolean isRowHeaders() {
+		return getComponentModel().rowHeaders;
+	}
+
+	/**
 	 * Sets whether the "expand all" control should be available.
 	 *
 	 * @param expandAll true if the expand-all control should be available, false if not.
@@ -2104,6 +2119,11 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 
 			constraintForComponent.add(constraint);
 		}
+
+		/**
+		 * Indicates that the first data column in the table is considered a row header.
+		 */
+		private boolean rowHeaders;
 	}
 
 	/**
