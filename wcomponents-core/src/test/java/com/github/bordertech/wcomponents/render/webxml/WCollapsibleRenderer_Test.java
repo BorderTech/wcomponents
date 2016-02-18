@@ -147,7 +147,7 @@ public class WCollapsibleRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertSchemaMatch(collapsible);
 		assertXpathEvaluatesTo("true", "//ui:collapsible/@collapsed", collapsible);
 		assertXpathEvaluatesTo(COLLAPSIBLE_HEADING,
-				"normalize-space(//ui:collapsible/ui:decoratedLabel/ui:labelBody)", collapsible);
+				"normalize-space(//ui:collapsible/ui:decoratedlabel/ui:labelbody)", collapsible);
 
 		if (shouldRenderContentWhenClosed) {
 			assertXpathEvaluatesTo(COLLAPSIBLE_CONTENT,
@@ -160,7 +160,7 @@ public class WCollapsibleRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertSchemaMatch(collapsible);
 		assertXpathNotExists("//ui:collapsible/@collapsed", collapsible);
 		assertXpathEvaluatesTo(COLLAPSIBLE_HEADING,
-				"normalize-space(//ui:collapsible/ui:decoratedLabel/ui:labelBody)", collapsible);
+				"normalize-space(//ui:collapsible/ui:decoratedlabel/ui:labelbody)", collapsible);
 
 		if (shouldRenderContentWhenOpen) {
 			assertXpathEvaluatesTo(COLLAPSIBLE_CONTENT,

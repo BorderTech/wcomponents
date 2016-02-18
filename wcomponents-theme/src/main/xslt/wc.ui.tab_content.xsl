@@ -10,7 +10,7 @@
 		<xsl:param name="type"/>
 		<xsl:param name="firstOpenTab"/>
 
-		<xsl:apply-templates select="ui:tabContent">
+		<xsl:apply-templates select="ui:tabcontent">
 			<xsl:with-param name="open">
 				<xsl:if test="$firstOpenTab=. or ($type='accordion' and @open)"><!-- see note in template for ui:tab above -->
 					<xsl:number value="1"/>

@@ -42,11 +42,11 @@
 		The value of s button is a fixed value for all buttons and its purpose is only to inform WComponents which 
 		button was used in a submission.	
 	-->
-	<xsl:template match="ui:button|ui:printButton">
+	<xsl:template match="ui:button|ui:printbutton">
 		<button name="{@id}" value="x">
 			<xsl:attribute name="type">
 				<xsl:choose>
-					<xsl:when test="self::ui:printButton or parent::ui:dialog">
+					<xsl:when test="self::ui:printbutton or parent::ui:dialog">
 						<xsl:text>button</xsl:text>
 					</xsl:when>
 					<xsl:otherwise>

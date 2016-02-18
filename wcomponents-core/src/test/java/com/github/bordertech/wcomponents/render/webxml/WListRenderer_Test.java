@@ -31,34 +31,34 @@ public class WListRenderer_Test extends AbstractWebXmlRendererTestCase {
 		WList list = new WList(WList.Type.STRIPED);
 		list.setRepeatedComponent(new WText());
 		assertSchemaMatch(list);
-		assertXpathEvaluatesTo("striped", "//ui:listLayout/@type", list);
-		assertXpathNotExists("//ui:listLayout/@separator", list);
+		assertXpathEvaluatesTo("striped", "//ui:listlayout/@type", list);
+		assertXpathNotExists("//ui:listlayout/@separator", list);
 		assertXpathNotExists("//ui:panel/@type", list);
 
 		list.setType(WList.Type.FLAT);
-		assertXpathEvaluatesTo("flat", "//ui:listLayout/@type", list);
-		assertXpathNotExists("//ui:listLayout/@separator", list);
+		assertXpathEvaluatesTo("flat", "//ui:listlayout/@type", list);
+		assertXpathNotExists("//ui:listlayout/@separator", list);
 		assertXpathNotExists("//ui:panel/@type", list);
 
 		list.setType(WList.Type.STACKED);
-		assertXpathEvaluatesTo("stacked", "//ui:listLayout/@type", list);
-		assertXpathNotExists("//ui:listLayout/@separator", list);
+		assertXpathEvaluatesTo("stacked", "//ui:listlayout/@type", list);
+		assertXpathNotExists("//ui:listlayout/@separator", list);
 		assertXpathNotExists("//ui:panel/@type", list);
 
 		list.setSeparator(WList.Separator.NONE);
-		assertXpathEvaluatesTo("stacked", "//ui:listLayout/@type", list);
-		assertXpathNotExists("//ui:listLayout/@separator", list);
+		assertXpathEvaluatesTo("stacked", "//ui:listlayout/@type", list);
+		assertXpathNotExists("//ui:listlayout/@separator", list);
 		assertXpathNotExists("//ui:panel/@type", list);
 
 		list.setSeparator(WList.Separator.BAR);
-		assertXpathEvaluatesTo("stacked", "//ui:listLayout/@type", list);
-		assertXpathEvaluatesTo("bar", "//ui:listLayout/@separator", list);
+		assertXpathEvaluatesTo("stacked", "//ui:listlayout/@type", list);
+		assertXpathEvaluatesTo("bar", "//ui:listlayout/@separator", list);
 		assertXpathNotExists("//ui:panel/@type", list);
 
 		list.setSeparator(WList.Separator.DOT);
-		assertXpathEvaluatesTo("stacked", "//ui:listLayout/@type", list);
-		assertXpathEvaluatesTo("dot", "//ui:listLayout/@separator", list);
-		assertXpathNotExists("//ui:listLayout[@type='box']", list);
+		assertXpathEvaluatesTo("stacked", "//ui:listlayout/@type", list);
+		assertXpathEvaluatesTo("dot", "//ui:listlayout/@separator", list);
+		assertXpathNotExists("//ui:listlayout[@type='box']", list);
 	}
 
 	@Test
@@ -69,9 +69,9 @@ public class WListRenderer_Test extends AbstractWebXmlRendererTestCase {
 		list.setRepeatedComponent(new WText());
 
 		assertSchemaMatch(list);
-		assertXpathEvaluatesTo("striped", "//ui:listLayout/@type", list);
+		assertXpathEvaluatesTo("striped", "//ui:listlayout/@type", list);
 		assertXpathEvaluatesTo("box", "//ui:panel/@type", list);
-		assertXpathNotExists("//ui:listLayout/@separator", list);
+		assertXpathNotExists("//ui:listlayout/@separator", list);
 	}
 
 	@Test
@@ -104,16 +104,16 @@ public class WListRenderer_Test extends AbstractWebXmlRendererTestCase {
 		list.setRepeatedComponent(new WText());
 		list.setData(Arrays.asList(new String[]{"row1", "row2", "row3"}));
 		assertSchemaMatch(list);
-		assertXpathNotExists("//ui:panel/ui:listLayout/@hgap", list);
-		assertXpathNotExists("//ui:panel/ui:listLayout/@vgap", list);
+		assertXpathNotExists("//ui:panel/ui:listlayout/@hgap", list);
+		assertXpathNotExists("//ui:panel/ui:listlayout/@vgap", list);
 
 		// With hgap, vgap
 		list = new WList(WList.Type.STRIPED, 1, 2);
 		list.setRepeatedComponent(new WText());
 		list.setData(Arrays.asList(new String[]{"row1", "row2", "row3"}));
 		assertSchemaMatch(list);
-		assertXpathEvaluatesTo("1", "//ui:panel/ui:listLayout/@hgap", list);
-		assertXpathEvaluatesTo("2", "//ui:panel/ui:listLayout/@vgap", list);
+		assertXpathEvaluatesTo("1", "//ui:panel/ui:listlayout/@hgap", list);
+		assertXpathEvaluatesTo("2", "//ui:panel/ui:listlayout/@vgap", list);
 	}
 
 	@Test

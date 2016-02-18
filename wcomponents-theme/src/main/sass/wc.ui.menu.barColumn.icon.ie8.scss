@@ -1,6 +1,6 @@
 /* wc.ui.menu.barColumn.icon.ie8.scss */
-[role='menubar'] > .submenu > button {
-	> .decoratedLabel {
+[role='menubar'] > .wc-submenu > button {
+	> .wc-decoratedlabel {
 		background-image: url('../images/down.png');
 		background-position: 100% 50%;
 		background-repeat: no-repeat;
@@ -9,13 +9,13 @@
 		padding-right: 16px;
 	}
 
-	&[disabled] .decoratedLabel {
+	&[disabled] > .wc-decoratedlabel {
 		background-image: url('../images/down-d.png');
 	}
 }
 
-[role='menu'] .submenu > button {
-	> .decoratedLabel {
+[role='menu'] .wc-submenu > button {
+	> .wc-decoratedlabel {
 		background-image: url('../images/next.png');
 		background-position: 100% 50%;
 		background-repeat: no-repeat;
@@ -24,8 +24,7 @@
 		padding-right: 6px;
 	}
 
-	&[disabled] .decoratedLabel {
+	&[disabled] > .wc-decoratedlabel {
 		background-image: url('../images/next-d.png');
 	}
 }
-/* end wc.ui.menu.barColumn.icon.ie8.scss */

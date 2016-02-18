@@ -1,7 +1,7 @@
 /* wc.ui.section.scss */
 @import 'mixins_common.scss';
 
-.section > .decoratedLabel {
+.wc-section > .wc-decoratedlabel {
 	background-color: $wc-ui-color-section-heading-bg;
 	color: $wc-ui-color-section-heading-fg;
 
@@ -26,4 +26,3 @@
 	}
 	// scss-lint:enable QualifyingElement
 }
-/* end wc.ui.section.scss */

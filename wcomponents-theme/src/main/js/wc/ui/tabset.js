@@ -355,7 +355,7 @@ define(["wc/dom/ariaAnalog",
 				TABPANEL = TABPANEL || new Widget("", "", {"role": "tabpanel"});
 
 				if ((panel = TABPANEL.findAncestor(element)) && (panelId = panel.id)) {
-					TABSET = TABSET || new Widget("", "tabset");
+					TABSET = TABSET || new Widget("", "wc-tabset");
 					if ((tabset = TABSET.findAncestor(panel))) {
 						tabWidget = instance.ITEM.extend("", {"aria-controls": panelId});
 						result = tabWidget.findDescendant(tabset);

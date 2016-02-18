@@ -2,7 +2,7 @@
 
 <!--
 
-XML schema for ui:printButton (WPrintButton)
+XML schema for ui:printbutton (WPrintButton)
 
 -->
 
@@ -10,10 +10,9 @@ XML schema for ui:printButton (WPrintButton)
 
 	<xs:include schemaLocation="button.xsd"/>
 
-	<xs:element name="printButton" type="ui:buttonType">
+	<xs:element name="printbutton" type="ui:buttonType">
 		<xs:annotation>
-			<xs:documentation>Deprecated. Do not use.</xs:documentation>
+			<xs:documentation>Creates a pointless client-side print button. You probably do not need this.</xs:documentation>
 		</xs:annotation>
 	</xs:element>
-	
 </xs:schema>

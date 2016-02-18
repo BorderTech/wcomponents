@@ -10,7 +10,7 @@
 	top: $vgap-normal;
 	vertical-align: middle;
 	width: 100%;
-	z-index: 100;
+	z-index: $z-index-unloading-message;
 
 	div {
 		background-color: $wc-ui-color-global-bg;
@@ -35,7 +35,6 @@
 		}
 	}
 }
-
 
 // ajax busy areas
 // We make the background of the busy element transparent and set all of its children to visibility:hidden so the

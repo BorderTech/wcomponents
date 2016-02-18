@@ -38,25 +38,25 @@ public class WSelectToggleRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		assertSchemaMatch(toggle);
 
-		assertXpathNotExists("//ui:selectToggle/@roundTrip", toggle);
-		assertXpathEvaluatesTo(toggle.getId(), "//ui:selectToggle/@id", toggle);
-		assertXpathEvaluatesTo(toggle.getTarget().getId(), "//ui:selectToggle/@target", toggle);
-		assertXpathEvaluatesTo("control", "//ui:selectToggle/@renderAs", toggle);
-		assertXpathEvaluatesTo("none", "//ui:selectToggle/@selected", toggle);
+		assertXpathNotExists("//ui:selecttoggle/@roundTrip", toggle);
+		assertXpathEvaluatesTo(toggle.getId(), "//ui:selecttoggle/@id", toggle);
+		assertXpathEvaluatesTo(toggle.getTarget().getId(), "//ui:selecttoggle/@target", toggle);
+		assertXpathEvaluatesTo("control", "//ui:selecttoggle/@renderAs", toggle);
+		assertXpathEvaluatesTo("none", "//ui:selecttoggle/@selected", toggle);
 
 		// Test Server-side
 		toggle.setClientSide(false);
 		assertSchemaMatch(toggle);
-		assertXpathEvaluatesTo("true", "//ui:selectToggle/@roundTrip", toggle);
+		assertXpathEvaluatesTo("true", "//ui:selecttoggle/@roundTrip", toggle);
 
 		// Test when selected
 		toggle.setState(WSelectToggle.State.ALL);
 		assertSchemaMatch(toggle);
-		assertXpathEvaluatesTo("all", "//ui:selectToggle/@selected", toggle);
+		assertXpathEvaluatesTo("all", "//ui:selecttoggle/@selected", toggle);
 
 		// Test when partially selected
 		toggle.setState(WSelectToggle.State.SOME);
 		assertSchemaMatch(toggle);
-		assertXpathEvaluatesTo("some", "//ui:selectToggle/@selected", toggle);
+		assertXpathEvaluatesTo("some", "//ui:selecttoggle/@selected", toggle);
 	}
 }

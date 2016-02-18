@@ -38,8 +38,8 @@ public class WTabRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		assertXpathExists("//ui:tab", tabSet);
 		assertXpathEvaluatesTo(tab.getId(), "//ui:tab/@id", tabSet);
-		assertXpathEvaluatesTo(tabName, "normalize-space(//ui:tab/ui:decoratedLabel)", tabSet);
-		assertXpathEvaluatesTo(tabContent, "normalize-space(//ui:tab/ui:tabContent)", tabSet);
+		assertXpathEvaluatesTo(tabName, "normalize-space(//ui:tab/ui:decoratedlabel)", tabSet);
+		assertXpathEvaluatesTo(tabContent, "normalize-space(//ui:tab/ui:tabcontent)", tabSet);
 		assertXpathEvaluatesTo("true", "//ui:tab/@open", tabSet);
 		assertXpathEvaluatesTo("client", "//ui:tab/@mode", tabSet);
 		assertXpathNotExists("//ui:tab/@disabled", tabSet);
@@ -51,8 +51,8 @@ public class WTabRenderer_Test extends AbstractWebXmlRendererTestCase {
 		tabSet.remove(tab);
 		tab = tabSet.addTab(new WText(tabContent), tabName, TabMode.LAZY);
 		assertXpathEvaluatesTo(tab.getId(), "//ui:tab/@id", tabSet);
-		assertXpathEvaluatesTo(tabName, "normalize-space(//ui:tab/ui:decoratedLabel)", tabSet);
-		assertXpathEvaluatesTo(tabContent, "normalize-space(//ui:tab/ui:tabContent)", tabSet);
+		assertXpathEvaluatesTo(tabName, "normalize-space(//ui:tab/ui:decoratedlabel)", tabSet);
+		assertXpathEvaluatesTo(tabContent, "normalize-space(//ui:tab/ui:tabcontent)", tabSet);
 		assertXpathEvaluatesTo("true", "//ui:tab/@open", tabSet);
 		assertXpathEvaluatesTo("lazy", "//ui:tab/@mode", tabSet);
 		assertXpathNotExists("//ui:tab/@disabled", tabSet);

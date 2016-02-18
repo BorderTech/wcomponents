@@ -1,7 +1,7 @@
 /* wc.ui.panel.flowLayout.scss */
 @import 'wc.ui.panel_vars.scss';
 
-.flowLayout {
+.wc-flowlayout {
 	@include flex($wrap: wrap, $justify: flex-start, $align-items: flex-start, $align-content: flex-start);
 
 	&.baseline {

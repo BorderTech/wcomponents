@@ -123,25 +123,25 @@ final class WLinkRenderer extends AbstractWebXmlRenderer {
 		AjaxTarget[] actionTargets = link.getActionTargets();
 
 		// Start tag
-		xml.appendTagOpen("ui:ajaxTrigger");
+		xml.appendTagOpen("ui:ajaxtrigger");
 		xml.appendAttribute("triggerId", link.getId());
 		xml.appendClose();
 
 		if (actionTargets != null && actionTargets.length > 0) {
 			// Targets
 			for (AjaxTarget target : actionTargets) {
-				xml.appendTagOpen("ui:ajaxTargetId");
+				xml.appendTagOpen("ui:ajaxtargetid");
 				xml.appendAttribute("targetId", target.getId());
 				xml.appendEnd();
 			}
 		} else {
 			// Target itself
-			xml.appendTagOpen("ui:ajaxTargetId");
+			xml.appendTagOpen("ui:ajaxtargetid");
 			xml.appendAttribute("targetId", link.getId());
 			xml.appendEnd();
 		}
 
 		// End tag
-		xml.appendEndTag("ui:ajaxTrigger");
+		xml.appendEndTag("ui:ajaxtrigger");
 	}
 }

@@ -14,7 +14,7 @@
 	has at least one selection. WMultiTextField is a compound widget to elicit
 	multiple songle line text responses.
 -->
-	<xsl:template match="ui:multiDropdown|ui:multiTextField">
+	<xsl:template match="ui:multidropdown|ui:multitextfield">
 		<xsl:variable name="readOnly">
 			<xsl:if test="@readOnly">
 				<xsl:number value="1"/>
@@ -24,29 +24,33 @@
 		<xsl:variable name="myLabel" select="key('labelKey',$id)[1]"/>
 		
 		<xsl:choose>
-			<xsl:when test="$readOnly=1 and (self::ui:multiDropdown[count(.//ui:option[@selected]) &lt;= 1])">
+			<xsl:when test="$readOnly=1 and (self::ui:multidropdown[count(.//ui:option[@selected]) &lt;= 1])">
 				<xsl:call-template name="readOnlyControl">
 					<xsl:with-param name="applies" select=".//ui:option[@selected]"/>
 					<xsl:with-param name="useReadOnlyMode" select="1"/>
 					<xsl:with-param name="label" select="$myLabel"/>
 				</xsl:call-template>
 			</xsl:when>
-			<xsl:when test="$readOnly=1 and (self::ui:multiTextField[count(ui:value) &lt;= 1])">
+			<xsl:when test="$readOnly=1 and (self::ui:multitextfield[count(ui:value) &lt;= 1])">
 				<xsl:call-template name="readOnlyControl">
 					<xsl:with-param name="useReadOnlyMode" select="1"/>
 					<xsl:with-param name="label" select="$myLabel"/>
 				</xsl:call-template>
 			</xsl:when>
 			<xsl:when test="$readOnly=1">
-				<ul class="wc_list_nb">
+				<ul>
 					<xsl:call-template name="commonAttributes"/>
+					<xsl:attribute name="class">
+						<xsl:call-template name="commonClassHelper"/>
+						<xsl:text> -wc_list_nb</xsl:text>
+					</xsl:attribute>
 					<xsl:if test="$myLabel">
 						<xsl:attribute name="aria-labelledby">
 							<xsl:value-of select="$myLabel/@id"/>
 						</xsl:attribute>
 					</xsl:if>
 					<xsl:choose>
-						<xsl:when test="self::ui:multiDropdown">
+						<xsl:when test="self::ui:multidropdown">
 							<xsl:apply-templates select="ui:option[@selected]|ui:optgroup[ui:option[@selected]]" mode="readOnly">
 								<xsl:with-param name="single" select="0"/>
 							</xsl:apply-templates>
@@ -80,7 +84,7 @@
 					<ul class="wc_list_nb">
 						<xsl:choose>
 							<!-- content transform is dependant upon the actual component being transformed-->
-							<xsl:when test="self::ui:multiDropdown">
+							<xsl:when test="self::ui:multidropdown">
 								<xsl:call-template name="multiDropDownContentRenderer">
 									<xsl:with-param name="myLabel" select="$myLabel"/>
 								</xsl:call-template>

@@ -148,16 +148,16 @@ public class WrongStepAjaxInterceptor extends InterceptorComponent {
 
 			writer.write(XMLUtil.getXMLDeclarationWithThemeXslt(uic));
 
-			writer.print("<ui:ajaxResponse ");
+			writer.print("<ui:ajaxresponse ");
 			writer.print(XMLUtil.UI_NAMESPACE);
 			writer.print(">");
-			writer.print("<ui:ajaxTarget id=\"" + targetId + "\" action=\"replace\">");
+			writer.print("<ui:ajaxtarget id=\"" + targetId + "\" action=\"replace\">");
 
 			// Redirect URL
 			writer.print("<ui:redirect url=\"" + url + "\" />");
 
-			writer.print("</ui:ajaxTarget>");
-			writer.print("</ui:ajaxResponse>");
+			writer.print("</ui:ajaxtarget>");
+			writer.print("</ui:ajaxresponse>");
 		} catch (IOException e) {
 			throw new SystemException("Error writing redirect for ajax wrong step interceptor", e);
 		}

@@ -106,7 +106,7 @@
 					</xsl:attribute>
 				</xsl:if>
 			</xsl:if>
-			<xsl:apply-templates select="ui:decoratedLabel">
+			<xsl:apply-templates select="ui:decoratedlabel">
 				<xsl:with-param name="output" select="'div'"/>
 			</xsl:apply-templates>
 		</th>

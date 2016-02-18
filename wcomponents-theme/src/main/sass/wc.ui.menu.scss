@@ -21,27 +21,27 @@
 [role='menuitemradio'],
 [role='menuitemcheckbox'],
 [role='treeitem'],
-.submenu > button {
+.wc-submenu > button {
 	@include border-box;
 	display: block;
 	text-align: $preferred-alignment;
 	width: 100%;
 }
 
-.submenu,
+.wc-submenu,
 [role='menu'] {
 	// We need the important here otherwise we have to do a LOT of overriding of roles.
 	// scss-lint:disable ImportantRule
 	padding: 0 !important;
 }
 
-.menu {
+.wc-menu {
 	[role='separator'] {
 		margin: 0;
 		padding: 0;
 	}
 
-	.decoratedLabel {
+	.wc-decoratedlabel {
 		display: table-row;
 		width: 100%;
 	}
@@ -54,13 +54,12 @@
 		}
 	}
 
-	.labelBody {
+	.wc-labelbody {
 		width: 100%;
 	}
 }
 
-.submenu[aria-expanded='false'] >  [role='group'],
-.submenu > [role='menu'][aria-expanded='false'] {
+.wc-submenu[aria-expanded='false'] >  [role='group'],
+.wc-submenu > [role='menu'][aria-expanded='false'] {
 	display: none;
 }
-/* end wc.ui.menu.scss */

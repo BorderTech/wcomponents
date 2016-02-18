@@ -11,7 +11,7 @@ textarea + output {
 	margin-top: -$border-width;
 	padding: $hgap-small;
 	position: absolute;
-	z-index: 5;
+	z-index: $z-index-common;
 
 	&:before { // show the number of chars remaining
 		content: attr(value);
@@ -22,7 +22,7 @@ textarea + output {
 	}
 
 	dialog & {
-		z-index: 25;
+		z-index: $z-index-common-in-dialog;
 	}
 }
 
@@ -36,4 +36,3 @@ pre.wc_ro {
 	white-space: pre-wrap;
 	word-wrap: break-word;
 }
-/* end wc.ui.textarea.scss */

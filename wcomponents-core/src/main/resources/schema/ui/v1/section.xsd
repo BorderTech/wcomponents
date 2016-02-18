@@ -12,7 +12,7 @@ XML schema for section (WSection)
 	<xs:include schemaLocation="margin.xsd" />
 	<xs:element name="section">
 		<xs:annotation>
-			<xs:documentation> WSection represents a major section of content within a screen. It exposes its labelling component (ui:decoratedLabel) as the section
+			<xs:documentation> WSection represents a major section of content within a screen. It exposes its labelling component (ui:decoratedlabel) as the section
 				heading.</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
@@ -20,10 +20,10 @@ XML schema for section (WSection)
 				<xs:element ref="ui:margin" minOccurs="0" />
 				<xs:sequence minOccurs="0">
 					<xs:annotation>
-						<xs:documentation> The ui:decoratedLabel and ui:panel elements are both required if the section has content. They are both omitted if the section has
+						<xs:documentation> The ui:decoratedlabel and ui:panel elements are both required if the section has content. They are both omitted if the section has
 							attribute mode set to any value and attribute hidden="true". </xs:documentation>
 					</xs:annotation>
-					<xs:element ref="ui:decoratedLabel" />
+					<xs:element ref="ui:decoratedlabel" />
 					<xs:element ref="ui:panel" />
 				</xs:sequence>
 			</xs:sequence>

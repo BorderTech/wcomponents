@@ -37,9 +37,10 @@ define(["wc/dom/attribute",
 		"wc/ui/ajaxRegion",
 		"wc/ui/ajax/processResponse",
 		"wc/ui/onloadFocusControl",
-		"wc/timers"],
-	/** @param attribute wc/dom/attribute @param event wc/dom/event @param focus wc/dom/focus @param formUpdateManager wc/dom/formUpdateManager @param initialise wc/dom/initialise @param shed wc/dom/shed @param Widget wc/dom/Widget @param ajaxRegion wc/ui/ajaxRegion @param processResponse wc/ui/ajax/processResponse @param onloadFocusControl wc/ui/onloadFocusControl @param timers wc/timers @ignore */
-	function(attribute, event, focus, formUpdateManager, initialise, shed, Widget, ajaxRegion, processResponse, onloadFocusControl, timers) {
+		"wc/timers",
+		"wc/ui/table/common"],
+	/** @param attribute wc/dom/attribute @param event wc/dom/event @param focus wc/dom/focus @param formUpdateManager wc/dom/formUpdateManager @param initialise wc/dom/initialise @param shed wc/dom/shed @param Widget wc/dom/Widget @param ajaxRegion wc/ui/ajaxRegion @param processResponse wc/ui/ajax/processResponse @param onloadFocusControl wc/ui/onloadFocusControl @param timers wc/timers @param common @ignore */
+	function(attribute, event, focus, formUpdateManager, initialise, shed, Widget, ajaxRegion, processResponse, onloadFocusControl, timers, common) {
 		"use strict";
 
 		/**
@@ -55,15 +56,15 @@ define(["wc/dom/attribute",
 					NEXT: 2,
 					LAST: 3
 				},
-				TABLE_WRAPPER = new Widget("div", "table"),
+				TABLE_WRAPPER = common.WRAPPER,
 				SELECTOR = new Widget("select"),
 				PAGINATION_SELECTOR = SELECTOR.extend("wc_table_pag_select"),
 				RPP_SELECTOR = SELECTOR.extend("wc_table_pag_rpp"),
-				PAGE = new Widget("tbody"),
-				ROW = new Widget("tr", "wc_table_pag_row"),
+				PAGE = common.TBODY,
+				ROW = common.TR.extend("wc_table_pag_row"),
 				PAGINATION_CONTAINER = new Widget("", "wc_table_pag_cont"),
-				TABLE = new Widget("TABLE"),
-				PAGINATION_BUTTON = new Widget("button"),
+				TABLE = common.TABLE,
+				PAGINATION_BUTTON = common.BUTTON,
 				START_ELEMENT,
 				END_ELEMENT,
 				updateQueue,

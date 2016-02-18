@@ -70,7 +70,7 @@ final class WTabRenderer extends AbstractWebXmlRenderer {
 		// Paint content
 		WComponent content = tab.getContent();
 
-		xml.appendTagOpen("ui:tabContent");
+		xml.appendTagOpen("ui:tabcontent");
 		xml.appendAttribute("id", tab.getId() + "-content");
 		xml.appendClose();
 
@@ -81,7 +81,7 @@ final class WTabRenderer extends AbstractWebXmlRenderer {
 			content.paint(renderContext);
 		}
 
-		xml.appendEndTag("ui:tabContent");
+		xml.appendEndTag("ui:tabcontent");
 
 		xml.appendEndTag("ui:tab");
 	}

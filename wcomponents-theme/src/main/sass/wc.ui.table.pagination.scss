@@ -20,7 +20,6 @@
 // This rule applies when the pagination controls are at the bottom of the table.
 // scss-lint:disable QualifyingElement
 table + div  > .wc_table_pag_cont {
-	text-align: right; 
+	text-align: right;
 }
 // scss-lint:enable QualifyingElement
-/* end wc.ui.table.pagination.scss */

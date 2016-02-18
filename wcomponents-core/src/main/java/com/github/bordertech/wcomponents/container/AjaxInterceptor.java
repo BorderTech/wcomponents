@@ -123,7 +123,7 @@ public class AjaxInterceptor extends InterceptorComponent {
 			throw new SystemException("No context available for trigger " + operation.getTriggerId());
 		}
 
-		xml.appendTagOpen("ui:ajaxTarget");
+		xml.appendTagOpen("ui:ajaxtarget");
 		xml.appendAttribute("id", operation.getTargetContainerId());
 		xml.appendAttribute("action", "replaceContent");
 		xml.appendClose();
@@ -148,7 +148,7 @@ public class AjaxInterceptor extends InterceptorComponent {
 			UIContextHolder.popContext();
 		}
 
-		xml.appendEndTag("ui:ajaxTarget");
+		xml.appendEndTag("ui:ajaxtarget");
 	}
 
 	/**
@@ -181,14 +181,14 @@ public class AjaxInterceptor extends InterceptorComponent {
 
 			UIContextHolder.pushContext(target.getContext());
 			try {
-				xml.appendTagOpen("ui:ajaxTarget");
+				xml.appendTagOpen("ui:ajaxtarget");
 				xml.appendAttribute("id", targetId);
 				xml.appendAttribute("action", "replace");
 				xml.appendClose();
 
 				target.getComponent().paint(renderContext);
 
-				xml.appendEndTag("ui:ajaxTarget");
+				xml.appendEndTag("ui:ajaxtarget");
 			} finally {
 				UIContextHolder.popContext();
 			}

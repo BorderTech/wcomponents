@@ -2,7 +2,7 @@
 @import 'wc.ui.dialog_vars.scss';
 
 dialog {
-	border: 0 none;
+	@include border($width: 0);
 	height: auto;
 	max-width: 100%;
 	min-height: $wc-ui-dialog-min-height;
@@ -33,4 +33,3 @@ dialog {
 		}
 	}
 }
-/* end wc.ui.dialog.dt.scss */

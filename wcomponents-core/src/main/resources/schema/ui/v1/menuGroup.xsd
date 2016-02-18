@@ -7,14 +7,14 @@
 	<xs:include schemaLocation="submenu.xsd" />
 	<xs:include schemaLocation="separator.xsd" />
 
-	<xs:element name="menuGroup">
+	<xs:element name="menugroup">
 		<xs:annotation>
 			<xs:documentation>Deprecated: avoid using this component. WMenuGroup represents a loose semantic or functional group of controls with a WMenu. For most component
 				grouping it is preferable to use WSubMenu.</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element ref="ui:decoratedLabel">
+				<xs:element ref="ui:decoratedlabel">
 					<xs:annotation>
 						<xs:documentation>Not implemented: no equivalent in WAI-ARIA menu widget descendants.</xs:documentation>
 					</xs:annotation>
@@ -36,7 +36,7 @@
 
 	<xs:group name="menuComponentGroup">
 		<xs:choice>
-			<xs:element ref="ui:menuItem" />
+			<xs:element ref="ui:menuitem" />
 			<xs:element ref="ui:submenu" />
 			<xs:element ref="ui:separator" />
 		</xs:choice>

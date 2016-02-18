@@ -56,13 +56,13 @@ public class WValidationErrorsRenderer_Test extends AbstractWebXmlRendererTestCa
 		errors.setErrors(diags);
 
 		assertSchemaMatch(root);
-		assertXpathEvaluatesTo(text1.getId(), "//ui:validationErrors/ui:error/@for", root);
-		assertXpathEvaluatesTo("Test Error1", "//ui:validationErrors/ui:error", root);
+		assertXpathEvaluatesTo(text1.getId(), "//ui:validationerrors/ui:error/@for", root);
+		assertXpathEvaluatesTo("Test Error1", "//ui:validationerrors/ui:error", root);
 
 		String title = "WValidationErrorsTitle";
 		errors.setTitleText(title);
 		assertSchemaMatch(root);
-		assertXpathEvaluatesTo(title, "//ui:validationErrors/@title", root);
+		assertXpathEvaluatesTo(title, "//ui:validationerrors/@title", root);
 
 		// Check for error message with no associated component
 		setActiveContext(createUIContext());
@@ -71,8 +71,8 @@ public class WValidationErrorsRenderer_Test extends AbstractWebXmlRendererTestCa
 		errors.setErrors(diags);
 
 		assertSchemaMatch(root);
-		assertXpathNotExists("//ui:validationErrors/ui:error/@for", root);
-		assertXpathEvaluatesTo("Test Error1", "//ui:validationErrors/ui:error", root);
+		assertXpathNotExists("//ui:validationerrors/ui:error/@for", root);
+		assertXpathEvaluatesTo("Test Error1", "//ui:validationerrors/ui:error", root);
 	}
 
 	@Test

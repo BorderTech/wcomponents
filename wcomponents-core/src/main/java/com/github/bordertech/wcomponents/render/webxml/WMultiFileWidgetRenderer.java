@@ -32,7 +32,7 @@ final class WMultiFileWidgetRenderer extends AbstractWebXmlRenderer {
 		WComponent dropzone = widget.getDropzone();
 		WImageEditor editor = widget.getEditor();
 
-		xml.appendTagOpen("ui:fileUpload");
+		xml.appendTagOpen("ui:fileupload");
 		xml.appendAttribute("id", component.getId());
 		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
@@ -71,7 +71,7 @@ final class WMultiFileWidgetRenderer extends AbstractWebXmlRenderer {
 			for (FileWidgetUpload file : widget.getFiles()) {
 				FileWidgetRendererUtil.renderFileElement(widget, xml, file, i++);
 			}
-			xml.appendEndTag("ui:fileUpload");
+			xml.appendEndTag("ui:fileupload");
 		}
 	}
 

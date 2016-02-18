@@ -29,7 +29,7 @@ final class WPasswordFieldRenderer extends AbstractWebXmlRenderer {
 		WComponent submitControl = field.getDefaultSubmitButton();
 		String submitControlId = submitControl == null ? null : submitControl.getId();
 
-		xml.appendTagOpen("ui:passwordField");
+		xml.appendTagOpen("ui:passwordfield");
 		xml.appendAttribute("id", component.getId());
 		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");

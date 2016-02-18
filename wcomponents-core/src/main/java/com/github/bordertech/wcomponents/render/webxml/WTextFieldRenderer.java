@@ -37,7 +37,7 @@ final class WTextFieldRenderer extends AbstractWebXmlRenderer {
 		WComponent submitControl = textField.getDefaultSubmitButton();
 		String submitControlId = submitControl == null ? null : submitControl.getId();
 
-		xml.appendTagOpen("ui:textField");
+		xml.appendTagOpen("ui:textfield");
 		xml.appendAttribute("id", component.getId());
 		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
@@ -58,6 +58,6 @@ final class WTextFieldRenderer extends AbstractWebXmlRenderer {
 
 		xml.appendEscaped(textField.getText());
 
-		xml.appendEndTag("ui:textField");
+		xml.appendEndTag("ui:textfield");
 	}
 }

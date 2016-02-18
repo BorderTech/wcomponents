@@ -31,25 +31,25 @@ public class WRadioButtonSelectRenderer_Test extends AbstractWebXmlRendererTestC
 	public void testDoPaint() throws IOException, SAXException, XpathException {
 		WRadioButtonSelect buttonGroup = new WRadioButtonSelect(new String[]{"a", "b", "c"});
 		assertSchemaMatch(buttonGroup);
-		assertXpathEvaluatesTo("3", "count(//ui:radioButtonSelect/ui:option)", buttonGroup);
+		assertXpathEvaluatesTo("3", "count(//ui:radiobuttonselect/ui:option)", buttonGroup);
 
 		// Check selected
-		assertXpathNotExists("//ui:radioButtonSelect/ui:option[@selected='true']", buttonGroup);
+		assertXpathNotExists("//ui:radiobuttonselect/ui:option[@selected='true']", buttonGroup);
 
 		buttonGroup.setSelected("b");
 		assertSchemaMatch(buttonGroup);
-		assertXpathEvaluatesTo("1", "count(//ui:radioButtonSelect/ui:option[@selected='true'])",
+		assertXpathEvaluatesTo("1", "count(//ui:radiobuttonselect/ui:option[@selected='true'])",
 				buttonGroup);
-		assertXpathEvaluatesTo("b", "//ui:radioButtonSelect/ui:option[@selected='true']",
+		assertXpathEvaluatesTo("b", "//ui:radiobuttonselect/ui:option[@selected='true']",
 				buttonGroup);
 
 		// Check Readonly - only render selected option
 		buttonGroup.setReadOnly(true);
 		assertSchemaMatch(buttonGroup);
-		assertXpathEvaluatesTo("true", "//ui:radioButtonSelect/@readOnly", buttonGroup);
-		assertXpathEvaluatesTo("1", "count(//ui:radioButtonSelect/ui:option[@selected='true'])",
+		assertXpathEvaluatesTo("true", "//ui:radiobuttonselect/@readOnly", buttonGroup);
+		assertXpathEvaluatesTo("1", "count(//ui:radiobuttonselect/ui:option[@selected='true'])",
 				buttonGroup);
-		assertXpathEvaluatesTo("b", "//ui:radioButtonSelect/ui:option[@selected='true']",
+		assertXpathEvaluatesTo("b", "//ui:radiobuttonselect/ui:option[@selected='true']",
 				buttonGroup);
 
 	}
@@ -72,17 +72,17 @@ public class WRadioButtonSelectRenderer_Test extends AbstractWebXmlRendererTestC
 
 		// Validate ALL Options
 		assertSchemaMatch(group);
-		assertXpathEvaluatesTo(group.getId(), "//ui:radioButtonSelect/@id", group);
-		assertXpathEvaluatesTo("true", "//ui:radioButtonSelect/@disabled", group);
-		assertXpathEvaluatesTo("true", "//ui:radioButtonSelect/@hidden", group);
-		assertXpathEvaluatesTo("true", "//ui:radioButtonSelect/@required", group);
-		assertXpathEvaluatesTo("true", "//ui:radioButtonSelect/@readOnly", group);
-		assertXpathEvaluatesTo("true", "//ui:radioButtonSelect/@submitOnChange", group);
-		assertXpathEvaluatesTo("tip", "//ui:radioButtonSelect/@toolTip", group);
-		assertXpathEvaluatesTo("true", "//ui:radioButtonSelect/@frameless", group);
-		assertXpathEvaluatesTo("column", "//ui:radioButtonSelect/@layout", group);
-		assertXpathEvaluatesTo("2", "//ui:radioButtonSelect/@layoutColumnCount", group);
-		assertXpathEvaluatesTo(group.getId(), "//ui:ajaxTrigger/@triggerId", group);
+		assertXpathEvaluatesTo(group.getId(), "//ui:radiobuttonselect/@id", group);
+		assertXpathEvaluatesTo("true", "//ui:radiobuttonselect/@disabled", group);
+		assertXpathEvaluatesTo("true", "//ui:radiobuttonselect/@hidden", group);
+		assertXpathEvaluatesTo("true", "//ui:radiobuttonselect/@required", group);
+		assertXpathEvaluatesTo("true", "//ui:radiobuttonselect/@readOnly", group);
+		assertXpathEvaluatesTo("true", "//ui:radiobuttonselect/@submitOnChange", group);
+		assertXpathEvaluatesTo("tip", "//ui:radiobuttonselect/@toolTip", group);
+		assertXpathEvaluatesTo("true", "//ui:radiobuttonselect/@frameless", group);
+		assertXpathEvaluatesTo("column", "//ui:radiobuttonselect/@layout", group);
+		assertXpathEvaluatesTo("2", "//ui:radiobuttonselect/@layoutColumnCount", group);
+		assertXpathEvaluatesTo(group.getId(), "//ui:ajaxtrigger/@triggerId", group);
 	}
 
 	@Test(expected = SystemException.class)
@@ -100,10 +100,10 @@ public class WRadioButtonSelectRenderer_Test extends AbstractWebXmlRendererTestC
 
 		assertSafeContent(group);
 
-		group.setToolTip(getMaliciousAttribute("ui:radioButtonSelect"));
+		group.setToolTip(getMaliciousAttribute("ui:radiobuttonselect"));
 		assertSafeContent(group);
 
-		group.setAccessibleText(getMaliciousAttribute("ui:radioButtonSelect"));
+		group.setAccessibleText(getMaliciousAttribute("ui:radiobuttonselect"));
 		assertSafeContent(group);
 	}
 
@@ -113,23 +113,23 @@ public class WRadioButtonSelectRenderer_Test extends AbstractWebXmlRendererTestC
 
 		WRadioButtonSelect select = new WRadioButtonSelect(options);
 		assertSchemaMatch(select);
-		assertXpathEvaluatesTo("5", "count(//ui:radioButtonSelect/ui:option)", select);
+		assertXpathEvaluatesTo("5", "count(//ui:radiobuttonselect/ui:option)", select);
 
-		assertXpathEvaluatesTo("", "//ui:radioButtonSelect/ui:option[@value='']/text()", select);
+		assertXpathEvaluatesTo("", "//ui:radiobuttonselect/ui:option[@value='']/text()", select);
 
 		for (int i = 0; i < options.length; i++) {
 			String code = select.optionToCode(options[i]);
 			String option = options[i];
 			if (option == null || option.equals("")) {
 				assertXpathEvaluatesTo("",
-						"//ui:radioButtonSelect/ui:option[@value='" + code + "']/text()", select);
+						"//ui:radiobuttonselect/ui:option[@value='" + code + "']/text()", select);
 				assertXpathEvaluatesTo("true",
-						"//ui:radioButtonSelect/ui:option[@value='" + code + "']/@isNull", select);
+						"//ui:radiobuttonselect/ui:option[@value='" + code + "']/@isNull", select);
 			} else {
 				assertXpathEvaluatesTo(option,
-						"//ui:radioButtonSelect/ui:option[@value='" + code + "']/text()", select);
+						"//ui:radiobuttonselect/ui:option[@value='" + code + "']/text()", select);
 				assertXpathEvaluatesTo("",
-						"//ui:radioButtonSelect/ui:option[@value='" + code + "']/@isNull", select);
+						"//ui:radiobuttonselect/ui:option[@value='" + code + "']/@isNull", select);
 			}
 		}
 	}

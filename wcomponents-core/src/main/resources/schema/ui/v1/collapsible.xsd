@@ -35,7 +35,7 @@
 		<xs:complexType>
 			<xs:sequence>
 				<xs:element ref="ui:margin" minOccurs="0"/>
-				<xs:element ref="ui:decoratedLabel"/>
+				<xs:element ref="ui:decoratedlabel"/>
 				<xs:element name="content" type="ui:mixedContentWithId"/>
 			</xs:sequence>
 			

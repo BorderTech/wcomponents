@@ -9,38 +9,37 @@
 	-->
 	<xsl:template match="ui:content" mode="collapsible">
 		<xsl:variable name="mode" select="../@mode"/>
-		<xsl:element name="div">
-			<xsl:attribute name="id">
-				<xsl:value-of select="@id"/>
-			</xsl:attribute>
-			<!--
-				attribute aria-describedby
-				The content is controlled by the SUMMARY element but is described by the content
-				of the SUMMARY element which will be the WDecoratedLabel child of the WCollapsible.
-			-->
-			<xsl:attribute name="aria-describedby">
-				<xsl:value-of select="../ui:decoratedLabel/@id"/>
-			</xsl:attribute>
+		<xsl:variable name="isAjax">
+			<xsl:if test="$mode='dynamic' or $mode='eager' or ($mode='lazy' and ../@collapsed)">
+				<xsl:number value="1"/>
+			</xsl:if>
+		</xsl:variable>
+		<!--
+			attribute aria-describedby
+			The content is controlled by the SUMMARY element but is described by the content
+			of the SUMMARY element which will be the WDecoratedLabel child of the WCollapsible.
+		-->
+		<div id="{@id}" aria-describedby="{../ui:decoratedlabel/@id}">
+			<xsl:attribute name="class">
+				<xsl:text>wc-content</xsl:text>
 			<xsl:choose>
-				<xsl:when test="$mode='dynamic' or $mode='eager' or ($mode='lazy' and ../@collapsed)">
-					<xsl:attribute name="class">
-						<xsl:text>wc_magic</xsl:text>
-						<xsl:if test="$mode='dynamic'">
-							<xsl:text> wc_dynamic</xsl:text>
-						</xsl:if>
-					</xsl:attribute>
-					<xsl:attribute name="data-wc-ajaxalias">
-						<xsl:value-of select="../@id"/>
-					</xsl:attribute>
+				<xsl:when test="$isAjax=1">
+					<xsl:text> wc_magic</xsl:text>
+					<xsl:if test="$mode='dynamic'">
+						<xsl:text> wc_dynamic</xsl:text>
+					</xsl:if>
 				</xsl:when>
 				<xsl:when test="$mode='server'">
-					<xsl:attribute name="class">
-						<xsl:text>wc_lame</xsl:text>
-					</xsl:attribute>
+					<xsl:text> wc_lame</xsl:text>
 				</xsl:when>
 			</xsl:choose>
+			</xsl:attribute>
+			<xsl:if test="$isAjax=1">
+				<xsl:attribute name="data-wc-ajaxalias">
+					<xsl:value-of select="../@id"/>
+				</xsl:attribute></xsl:if>
 			<xsl:apply-templates/>
-		</xsl:element>
+		</div>
 	</xsl:template>
 	
 </xsl:stylesheet>

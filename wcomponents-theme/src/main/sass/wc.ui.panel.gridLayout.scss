@@ -2,10 +2,10 @@
 @import 'mixins_common.scss';
 
 // We need to override the regular row flex model.
-.gridLayout .row {
+.wc-gridlayout > .wc-row {
 	@include flex-justify-content($where: flex-start);
 
-	> .cell {
+	> .wc-column {
 		@include flex-grow(0);
 		@include flex-shrink(0);
 	}

@@ -72,7 +72,7 @@
 				</xsl:choose>
 			</xsl:attribute>
 			<xsl:attribute name="aria-controls">
-				<xsl:value-of select="ui:tabContent/@id"/>
+				<xsl:value-of select="ui:tabcontent/@id"/>
 			</xsl:attribute>
 			<xsl:if test="$tabElement='button'">
 				<xsl:attribute name="type">
@@ -128,12 +128,12 @@
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:variable>
-			<xsl:apply-templates select="ui:decoratedLabel">
+			<xsl:apply-templates select="ui:decoratedlabel">
 				<xsl:with-param name="output" select="$labelElement"/>
 			</xsl:apply-templates>
 		</xsl:element>
 		<xsl:if test="$type='accordion'">
-			<xsl:apply-templates select="ui:tabContent">
+			<xsl:apply-templates select="ui:tabcontent">
 				<xsl:with-param name="open" select="$isOpen"/>
 			</xsl:apply-templates>
 		</xsl:if>

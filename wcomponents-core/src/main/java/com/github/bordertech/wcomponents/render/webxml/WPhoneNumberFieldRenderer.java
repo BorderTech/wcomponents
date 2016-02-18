@@ -36,7 +36,7 @@ final class WPhoneNumberFieldRenderer extends AbstractWebXmlRenderer {
 		WComponent submitControl = field.getDefaultSubmitButton();
 		String submitControlId = submitControl == null ? null : submitControl.getId();
 
-		xml.appendTagOpen("ui:phoneNumberField");
+		xml.appendTagOpen("ui:phonenumberfield");
 		xml.appendAttribute("id", component.getId());
 		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
@@ -57,6 +57,6 @@ final class WPhoneNumberFieldRenderer extends AbstractWebXmlRenderer {
 
 		xml.appendEscaped(field.getText());
 
-		xml.appendEndTag("ui:phoneNumberField");
+		xml.appendEndTag("ui:phonenumberfield");
 	}
 }

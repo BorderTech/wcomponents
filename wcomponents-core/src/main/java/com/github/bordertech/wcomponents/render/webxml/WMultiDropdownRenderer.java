@@ -33,7 +33,7 @@ final class WMultiDropdownRenderer extends AbstractWebXmlRenderer {
 		int min = dropdown.getMinSelect();
 		int max = dropdown.getMaxSelect();
 
-		xml.appendTagOpen("ui:multiDropdown");
+		xml.appendTagOpen("ui:multidropdown");
 		xml.appendAttribute("id", component.getId());
 		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
@@ -79,7 +79,7 @@ final class WMultiDropdownRenderer extends AbstractWebXmlRenderer {
 		}
 
 		// End tag
-		xml.appendEndTag("ui:multiDropdown");
+		xml.appendEndTag("ui:multidropdown");
 	}
 
 	/**

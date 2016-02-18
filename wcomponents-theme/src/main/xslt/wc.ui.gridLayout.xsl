@@ -1,27 +1,27 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
 	<xsl:import href="wc.common.getHVGap.xsl"/>
 	<!--
-		Creates a pseudo-grid where each column is the same width and each row is the 
+		Creates a pseudo-grid where each column is the same width and each row is the
 		height of the tallest cell in the row. This is a very rough emulation of an AWT
 		gridLayout.
-		
-		ui:gridLayout is one of the possible child elements of ui:panel.
-		
+
+		ui:gridlayout is one of the possible child elements of ui:panel.
+
 		A grid will occupy the whole available width. The width of each cell is
 		determined by the number of cols requested (or, if cols is not specified the
 		number of cells divided by the number of rows). If HGAP is specified then the
 		actual content box will be smaller than the width by the HGAP.
-		
+
 		In the default theme a grid is laid out using table display. The cells have
 		margins to implement hgap and vgap (if set).
-		
+
 		Child elements
-		
+
 		* ui:cell (minOccurs 0, maxOccurs unbounded)
 		Each component placed into a gridLayout is output in a ui:cell. Empty cells
 		are ouput into the UI to maintain grid positioning of content.
-	
-	
+
+
 		This template determines the order in which cell child elements templates are
 		applied based on calculations of rows and columns in the grid.
 
@@ -30,9 +30,9 @@
 		to split the call and make the siblings into temporary pseudo-parents. Not as
 		hard as it sounds!
 	-->
-	<xsl:template match="ui:gridLayout">
+	<xsl:template match="ui:gridlayout">
 		<xsl:if test="ui:cell">
-			<div class="{local-name(.)}">
+			<div class="wc-gridlayout">
 				<xsl:variable name="cols" select="@cols"/>
 				<xsl:variable name="rows" select="@rows"/>
 				<!--
@@ -55,7 +55,7 @@
 						</xsl:otherwise>
 					</xsl:choose>
 				</xsl:variable>
-				
+
 				<xsl:variable name="colWidth">
 					<xsl:choose>
 						<xsl:when test="$useCols=1">
@@ -71,7 +71,7 @@
 					last columns will be a little wider than the central columns but not so much
 					difference as if we had just used a left or right margin/padding in which case
 					one column would have been much larger than the others (a whole hgap wider).
-					
+
 					We therefore divide the hgap by two before passing it through to the cells.
 				-->
 				<xsl:variable name="hgap">
@@ -95,7 +95,7 @@
 						<xsl:with-param name="gap" select="@vgap"/>
 					</xsl:call-template>
 				</xsl:variable>
-				
+
 				<xsl:choose>
 					<xsl:when test="$useCols=1">
 						<xsl:apply-templates select="ui:cell" mode="gl">
@@ -112,6 +112,6 @@
 					</xsl:otherwise>
 				</xsl:choose>
 			</div>
-		</xsl:if>		
+		</xsl:if>
 	</xsl:template>
 </xsl:stylesheet>

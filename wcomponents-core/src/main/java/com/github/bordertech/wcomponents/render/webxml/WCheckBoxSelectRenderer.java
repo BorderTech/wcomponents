@@ -34,7 +34,7 @@ final class WCheckBoxSelectRenderer extends AbstractWebXmlRenderer {
 		int min = select.getMinSelect();
 		int max = select.getMaxSelect();
 
-		xml.appendTagOpen("ui:checkBoxSelect");
+		xml.appendTagOpen("ui:checkboxselect");
 		xml.appendAttribute("id", component.getId());
 		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
@@ -86,7 +86,7 @@ final class WCheckBoxSelectRenderer extends AbstractWebXmlRenderer {
 			}
 		}
 
-		xml.appendEndTag("ui:checkBoxSelect");
+		xml.appendEndTag("ui:checkboxselect");
 	}
 
 	/**

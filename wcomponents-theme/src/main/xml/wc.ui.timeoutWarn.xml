@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ui:messageBox xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/xhtml" type="warn">
+<ui:messagebox xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/xhtml" type="warn">
 	<ui:message>
 		<ui:text type="emphasised">%s</ui:text>
 		<br/>
 		%s
 	</ui:message>
-</ui:messageBox>
+</ui:messagebox>

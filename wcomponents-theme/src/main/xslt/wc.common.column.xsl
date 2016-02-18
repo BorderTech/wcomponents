@@ -41,6 +41,9 @@
 						<xsl:text> ${wc.common.align.std}</xsl:text>
 					</xsl:otherwise>
 				</xsl:choose>
+				<xsl:if test="not(self::ui:column)">
+					<xsl:text> wc-column</xsl:text>
+				</xsl:if>
 			</xsl:attribute>
 			<xsl:if test="$style != ''">
 				<xsl:attribute name="style">

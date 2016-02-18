@@ -27,7 +27,7 @@ final class WFileWidgetRenderer extends AbstractWebXmlRenderer {
 		XmlStringBuilder xml = renderContext.getWriter();
 		long maxFileSize = fileWidget.getMaxFileSize();
 
-		xml.appendTagOpen("ui:fileUpload");
+		xml.appendTagOpen("ui:fileupload");
 		xml.appendAttribute("id", component.getId());
 		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");

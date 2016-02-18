@@ -18,9 +18,9 @@
 					<xsl:text> wc_magic</xsl:text>
 				</xsl:if>
 			</xsl:attribute>
-			<xsl:if test="ui:decoratedLabel">
+			<xsl:if test="ui:decoratedlabel">
 				<xsl:attribute name="aria-labelledby">
-					<xsl:value-of select="ui:decoratedLabel/@id"/>
+					<xsl:value-of select="ui:decoratedlabel/@id"/>
 				</xsl:attribute>
 			</xsl:if>
 			<xsl:apply-templates select="ui:margin"/>
@@ -32,7 +32,7 @@
 					</div>
 				</xsl:if>
 				<xsl:element name="${wc.dom.html5.element.figcaption}">
-					<xsl:apply-templates select="ui:decoratedLabel"/>
+					<xsl:apply-templates select="ui:decoratedlabel"/>
 				</xsl:element>
 			</xsl:if>
 		</xsl:element>

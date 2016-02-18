@@ -37,9 +37,9 @@ public class WRepeaterRenderer_Test extends AbstractWebXmlRendererTestCase {
 		repeater.setBeanList(Arrays.asList(ROW_DATA));
 
 		// Should have 3 inputs
-		assertXpathEvaluatesTo("3", "count(//ui:textField)", repeater);
-		assertXpathEvaluatesTo(ROW_DATA[0], "//ui:textField[1]/text()", repeater);
-		assertXpathEvaluatesTo(ROW_DATA[1], "//ui:textField[2]/text()", repeater);
-		assertXpathEvaluatesTo(ROW_DATA[2], "//ui:textField[3]/text()", repeater);
+		assertXpathEvaluatesTo("3", "count(//ui:textfield)", repeater);
+		assertXpathEvaluatesTo(ROW_DATA[0], "//ui:textfield[1]/text()", repeater);
+		assertXpathEvaluatesTo(ROW_DATA[1], "//ui:textfield[2]/text()", repeater);
+		assertXpathEvaluatesTo(ROW_DATA[2], "//ui:textfield[3]/text()", repeater);
 	}
 }

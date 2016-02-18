@@ -30,7 +30,7 @@ final class ListLayoutRenderer extends AbstractWebXmlRenderer {
 		int hgap = layout.getHgap();
 		int vgap = layout.getVgap();
 
-		xml.appendTagOpen("ui:listLayout");
+		xml.appendTagOpen("ui:listlayout");
 
 		switch (layout.getType()) {
 			case FLAT:
@@ -97,6 +97,6 @@ final class ListLayoutRenderer extends AbstractWebXmlRenderer {
 			xml.appendEndTag("ui:cell");
 		}
 
-		xml.appendEndTag("ui:listLayout");
+		xml.appendEndTag("ui:listlayout");
 	}
 }

@@ -35,7 +35,7 @@ final class WAjaxControlRenderer extends AbstractWebXmlRenderer {
 		}
 
 		// Start tag
-		xml.appendTagOpen("ui:ajaxTrigger");
+		xml.appendTagOpen("ui:ajaxtrigger");
 		xml.appendAttribute("triggerId", trigger.getId());
 		xml.appendOptionalAttribute("allowedUses", loadCount > 0, loadCount);
 		xml.appendOptionalAttribute("delay", delay > 0, delay);
@@ -43,13 +43,13 @@ final class WAjaxControlRenderer extends AbstractWebXmlRenderer {
 
 		// Targets
 		for (AjaxTarget target : ajaxControl.getTargets()) {
-			xml.appendTagOpen("ui:ajaxTargetId");
+			xml.appendTagOpen("ui:ajaxtargetid");
 			xml.appendAttribute("targetId", target.getId());
 			xml.appendEnd();
 		}
 
 		// End tag
-		xml.appendEndTag("ui:ajaxTrigger");
+		xml.appendEndTag("ui:ajaxtrigger");
 	}
 
 }

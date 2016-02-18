@@ -97,7 +97,7 @@
 				</xsl:when>
 			</xsl:choose>
 			<xsl:choose>
-				<xsl:when test="self::ui:rowSelection or self::ui:rowExpansion">
+				<xsl:when test="self::ui:rowselection or self::ui:rowexpansion">
 					<!--
 						TODO: this applies only to WDataTable's intrinsic disabled mode. It is on the list to remove.
 					-->	
@@ -106,7 +106,7 @@
 						<xsl:with-param name="field" select="parent::ui:table"/>
 					</xsl:call-template>
 				</xsl:when>
-				<xsl:when test="self::ui:selectToggle"><!-- WCollapsibleToggle does not have a disabled state. -->
+				<xsl:when test="self::ui:selecttoggle"><!-- WCollapsibleToggle does not have a disabled state. -->
 					<xsl:call-template name="disabledElement">
 						<xsl:with-param name="isControl" select="1"/>
 					</xsl:call-template>

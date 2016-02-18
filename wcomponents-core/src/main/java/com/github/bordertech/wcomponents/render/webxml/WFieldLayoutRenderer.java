@@ -27,7 +27,7 @@ final class WFieldLayoutRenderer extends AbstractWebXmlRenderer {
 		int labelWidth = fieldLayout.getLabelWidth();
 		String title = fieldLayout.getTitle();
 
-		xml.appendTagOpen("ui:fieldLayout");
+		xml.appendTagOpen("ui:fieldlayout");
 		xml.appendAttribute("id", component.getId());
 		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
@@ -47,6 +47,6 @@ final class WFieldLayoutRenderer extends AbstractWebXmlRenderer {
 		// Paint Fields
 		paintChildren(fieldLayout, renderContext);
 
-		xml.appendEndTag("ui:fieldLayout");
+		xml.appendEndTag("ui:fieldlayout");
 	}
 }

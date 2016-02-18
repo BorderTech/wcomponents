@@ -8,7 +8,7 @@
 		As far as we are concerned these controls are all buttons and differ only in
 		visual appearance and what they claim to be in WAI-ARIA.
 	-->
-	<xsl:template match="ui:selectToggle">
+	<xsl:template match="ui:selecttoggle">
 		<!--
 			see wc.common.selectToggle.xsl
 		-->
