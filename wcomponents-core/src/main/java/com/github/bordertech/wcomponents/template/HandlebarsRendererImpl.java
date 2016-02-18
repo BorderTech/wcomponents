@@ -15,6 +15,7 @@ import com.github.jknack.handlebars.context.JavaBeanValueResolver;
 import com.github.jknack.handlebars.context.MapValueResolver;
 import com.github.jknack.handlebars.io.ClassPathTemplateLoader;
 import com.github.jknack.handlebars.io.TemplateLoader;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Map;
@@ -86,7 +87,8 @@ public class HandlebarsRendererImpl implements TemplateRenderer {
 
 			// Render
 			writeTemplate(template, handlebarsContext, componentsByKey, writer);
-
+		} catch (FileNotFoundException e) {
+			throw new SystemException("Could not find handlebars template [" + templateName + "]. " + e.getMessage(), e);
 		} catch (Exception e) {
 			throw new SystemException("Problems with handlebars template [" + templateName + "]. " + e.getMessage(), e);
 		}

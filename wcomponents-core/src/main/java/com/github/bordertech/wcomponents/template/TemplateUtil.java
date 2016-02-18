@@ -36,7 +36,7 @@ public final class TemplateUtil {
 			WComponent comp = tagged.getValue();
 
 			// The key needs to be something which would never be output by a Template.
-			String key = "<WC-TemplateLayout-" + tag + "/>";
+			String key = "[WC-TemplateLayout-" + tag + "]";
 			componentsByKey.put(key, comp);
 
 			// Map the tag to the key in the context

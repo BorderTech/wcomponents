@@ -188,6 +188,21 @@
 			<version>1.0.0</version>
 		</dependency>
 
+		<!-- JSR107 Caching provider. -->
+		<dependency>
+			<scope>test</scope>
+			<groupId>org.ehcache</groupId>
+			<artifactId>ehcache</artifactId>
+			<version>3.0.0.m4</version>
+		</dependency>
+		<dependency>
+			<scope>test</scope>
+			<groupId>org.terracotta</groupId>
+			<artifactId>management-model</artifactId>
+			<version>2.0.0</version>
+		</dependency>
+
+
 	</dependencies>
 
 </project>

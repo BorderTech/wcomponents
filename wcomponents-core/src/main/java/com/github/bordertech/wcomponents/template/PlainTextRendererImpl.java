@@ -74,7 +74,7 @@ public class PlainTextRendererImpl implements TemplateRenderer {
 			if (output == null) {
 				stream = getClass().getResourceAsStream(name);
 				if (stream == null) {
-					throw new SystemException("Could not load template.");
+					throw new SystemException("Could not find plain text template [" + templateName + "].");
 				}
 				output = new String(StreamUtil.getBytes(stream));
 				if (xmlEncode) {
@@ -85,6 +85,8 @@ public class PlainTextRendererImpl implements TemplateRenderer {
 				}
 			}
 			writer.write(output);
+		} catch (SystemException e) {
+			throw e;
 		} catch (Exception e) {
 			throw new SystemException("Problems with plain text template [" + templateName + "]. " + e.getMessage(), e);
 		} finally {

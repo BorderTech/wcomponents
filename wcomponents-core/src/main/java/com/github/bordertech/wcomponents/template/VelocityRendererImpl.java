@@ -12,6 +12,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.RuntimeConstants;
 
 /**
@@ -65,7 +66,8 @@ public class VelocityRendererImpl implements TemplateRenderer {
 			try (TemplateWriter velocityWriter = new TemplateWriter(writer, componentsByKey, uic)) {
 				template.merge(velocityContext, velocityWriter);
 			}
-
+		} catch (ResourceNotFoundException e) {
+			throw new SystemException("Could not find velocity template [" + templateName + "]. " + e.getMessage(), e);
 		} catch (Exception e) {
 			throw new SystemException("Problems with velocity template [" + templateName + "]. " + e.getMessage(), e);
 		}
