@@ -8,10 +8,10 @@
 	<xsl:import href="wc.common.required.xsl"/>
 	<xsl:import href="wc.common.hide.xsl"/>
 	<!--
-		This transform is reused by ui:listBox and ui:dropdown.
+		This transform is reused by ui:listbox and ui:dropdown.
 		See wc.ui.combo.xsl for ui:dropdown with @type="combo" and not @readOnly="true"
 	-->
-	<xsl:template match="ui:dropdown|ui:listBox">
+	<xsl:template match="ui:dropdown|ui:listbox">
 		<xsl:variable name="id" select="@id"/>
 		<xsl:variable name="myLabel" select="key('labelKey',$id)"/>
 		<xsl:choose>
@@ -29,7 +29,7 @@
 						<xsl:with-param name="live" select="'off'"/>
 						<xsl:with-param name="myLabel" select="$myLabel[1]"/>
 					</xsl:call-template>
-					<xsl:if test="self::ui:listBox and not(@single)">
+					<xsl:if test="self::ui:listbox and not(@single)">
 						<xsl:attribute name="multiple">
 							<xsl:text>multiple</xsl:text>
 						</xsl:attribute>
@@ -66,7 +66,7 @@
 				<xsl:call-template name="inlineError">
 					<xsl:with-param name="errors" select="$isError"/>
 				</xsl:call-template>
-				<xsl:if test="self::ui:listBox">
+				<xsl:if test="self::ui:listbox">
 					<xsl:call-template name="hField"/>
 				</xsl:if>
 			</xsl:when>
@@ -90,7 +90,11 @@
 				</xsl:call-template>
 			</xsl:when>
 			<xsl:when test=".//ui:option[@selected]">
-				<ul id="{$id}" class="wc_list_nb">
+				<ul id="{$id}">
+					<xsl:attribute name="class">
+						<xsl:call-template name="commonClassHelper"/>
+						<xsl:text> wc_list_nb</xsl:text>
+					</xsl:attribute>
 					<xsl:if test="$myLabel">
 						<xsl:attribute name="aria-labelledby">
 							<xsl:value-of select="$myLabel/@id"/>

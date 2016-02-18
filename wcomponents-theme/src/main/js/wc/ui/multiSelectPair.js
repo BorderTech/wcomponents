@@ -37,7 +37,7 @@ define(["wc/dom/attribute",
 		 * @private
 		 */
 		function MultiSelectPair() {
-			var CONTAINER = new Widget("fieldset", "multiSelectPair"),
+			var CONTAINER = new Widget("fieldset", "wc-multiselectpair"),
 				SELECT = new Widget("select"),
 				CONTAINER_INITIALISED_KEY = "multiSelectPair.inited",
 				LIST_TYPE_AVAILABLE = 0,

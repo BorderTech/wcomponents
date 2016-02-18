@@ -9,7 +9,7 @@
 		Child elements
 		* ui:field
 	-->
-	<xsl:template match="ui:fieldLayout">
+	<xsl:template match="ui:fieldlayout">
 		<xsl:variable name="element">
 			<xsl:choose>
 				<xsl:when test="@ordered">

@@ -25,7 +25,7 @@
 				</xsl:call-template>
 			</xsl:when>
 			<xsl:otherwise>
-				<div class="row">
+				<div class="wc-row">
 					<!--
 						We apply vgap (if any) to all rows except the first.
 					-->

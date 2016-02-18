@@ -71,7 +71,7 @@
 		<xsl:call-template name="ajaxController">
 			<xsl:with-param name="id">
 				<xsl:choose>
-					<xsl:when test="self::ui:radioButton">
+					<xsl:when test="self::ui:radiobutton">
 						<xsl:value-of select="@groupName"/>
 					</xsl:when>
 					<xsl:otherwise>

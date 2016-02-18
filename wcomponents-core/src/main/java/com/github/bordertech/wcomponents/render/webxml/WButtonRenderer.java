@@ -107,17 +107,17 @@ class WButtonRenderer extends AbstractWebXmlRenderer {
 	 */
 	private void paintAjax(final WButton button, final XmlStringBuilder xml) {
 		// Start tag
-		xml.appendTagOpen("ui:ajaxTrigger");
+		xml.appendTagOpen("ui:ajaxtrigger");
 		xml.appendAttribute("triggerId", button.getId());
 		xml.appendClose();
 
 		// Target
-		xml.appendTagOpen("ui:ajaxTargetId");
+		xml.appendTagOpen("ui:ajaxtargetid");
 		xml.appendAttribute("targetId", button.getAjaxTarget().getId());
 		xml.appendEnd();
 
 		// End tag
-		xml.appendEndTag("ui:ajaxTrigger");
+		xml.appendEndTag("ui:ajaxtrigger");
 	}
 
 	/**

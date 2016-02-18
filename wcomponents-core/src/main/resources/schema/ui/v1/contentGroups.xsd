@@ -4,75 +4,79 @@
 The XML schema for a WComponent page.
 
 -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+	targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
 	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0">
 
 	<xs:include schemaLocation="all.xsd" />
 
 	<xs:group name="contentGroup">
 		<xs:annotation>
-			<xs:documentation>A group of stand-alone components: those which are able to be added directly to a WApplication or a content container.</xs:documentation>
+			<xs:documentation>
+				A group of stand-alone components: those which are able to be added directly to a WApplication or a
+				content container.
+			</xs:documentation>
 		</xs:annotation>
 		<xs:choice>
 			<xs:element ref="ui:abbr" />
 			<xs:element ref="ui:additionalParameters" />
 			<xs:element ref="ui:application" />
-			<xs:element ref="ui:ajaxTrigger" />
+			<xs:element ref="ui:ajaxtrigger" />
 			<xs:element ref="ui:audio" />
 			<xs:element ref="ui:button" />
-			<xs:element ref="ui:checkBox" />
-			<xs:element ref="ui:checkBoxSelect" />
+			<xs:element ref="ui:checkbox" />
+			<xs:element ref="ui:checkboxselect" />
 			<xs:element ref="ui:collapsible" />
 			<xs:element ref="ui:comment" />
 			<xs:element ref="ui:componentGroup" />
-			<xs:element ref="ui:expandCollapseAll" />
-			<xs:element ref="ui:dateField" />
-			<xs:element ref="ui:decoratedLabel" />
-			<xs:element ref="ui:definitionList" />
+			<xs:element ref="ui:collapsibletoggle" />
+			<xs:element ref="ui:datefield" />
+			<xs:element ref="ui:decoratedlabel" />
+			<xs:element ref="ui:definitionlist" />
 			<xs:element ref="ui:dialog" />
 			<xs:element ref="ui:dropdown" />
-			<xs:element ref="ui:emailField" />
-			<xs:element ref="ui:fieldIndicator" />
-			<xs:element ref="ui:fieldLayout" />
-			<xs:element ref="ui:fieldSet" />
+			<xs:element ref="ui:emailfield" />
+			<xs:element ref="ui:fieldindicator" />
+			<xs:element ref="ui:fieldlayout" />
+			<xs:element ref="ui:fieldset" />
 			<xs:element ref="ui:figure" />
-			<xs:element ref="ui:fileUpload" />
-			<xs:element ref="ui:filterControl" />
+			<xs:element ref="ui:fileupload" />
 			<xs:element ref="ui:heading" />
 			<xs:element ref="ui:image" />
 			<xs:element ref="ui:label" />
 			<xs:element ref="ui:link" />
-			<xs:element ref="ui:listBox" />
+			<xs:element ref="ui:listbox" />
 			<xs:element ref="ui:menu" />
-			<xs:element ref="ui:messageBox" />
-			<xs:element ref="ui:multiDropdown" />
-			<xs:element ref="ui:multiSelectPair" />
-			<xs:element ref="ui:multiTextField" />
-			<xs:element ref="ui:numberField" />
+			<xs:element ref="ui:messagebox" />
+			<xs:element ref="ui:multidropdown" />
+			<xs:element ref="ui:multiselectpair" />
+			<xs:element ref="ui:multitextfield" />
+			<xs:element ref="ui:numberfield" />
 			<xs:element ref="ui:panel" />
-			<xs:element ref="ui:passwordField" />
-			<xs:element ref="ui:phoneNumberField" />
+			<xs:element ref="ui:passwordfield" />
+			<xs:element ref="ui:phonenumberfield" />
 			<xs:element ref="ui:popup" />
-			<xs:element ref="ui:printButton" />
-			<xs:element ref="ui:progressBar" />
-			<xs:element ref="ui:radioButton" />
-			<xs:element ref="ui:radioButtonSelect" />
+			<xs:element ref="ui:printbutton" />
+			<xs:element ref="ui:progressbar" />
+			<xs:element ref="ui:radiobutton" />
+			<xs:element ref="ui:radiobuttonselect" />
 			<xs:element ref="ui:redirect" />
 			<xs:element ref="ui:row" />
 			<xs:element ref="ui:section" />
-			<xs:element ref="ui:selectToggle" />
+			<xs:element ref="ui:selecttoggle" />
 			<xs:element ref="ui:session" />
 			<xs:element ref="ui:shuffler" />
-			<xs:element ref="ui:skipLinks" />
+			<xs:element ref="ui:skiplinks" />
 			<xs:element ref="ui:subordinate" />
 			<xs:element ref="ui:suggestions" />
 			<xs:element ref="ui:tabset" />
 			<xs:element ref="ui:table" />
 			<xs:element ref="ui:text" />
-			<xs:element ref="ui:textArea" />
-			<xs:element ref="ui:textField" />
+			<xs:element ref="ui:textarea" />
+			<xs:element ref="ui:textfield" />
 			<xs:element ref="ui:tracking" />
-			<xs:element ref="ui:validationErrors" />
+			<xs:element ref="ui:tree" />
+			<xs:element ref="ui:validationerrors" />
 			<xs:element ref="ui:version" />
 			<xs:element ref="ui:video" />
 			<!-- Allow any XHTML elements such as script and style tags, and some basic formatting. -->
@@ -82,59 +86,20 @@ The XML schema for a WComponent page.
 
 	<xs:group name="ajaxContentGroup">
 		<xs:annotation>
-			<xs:documentation>The components which are allowed within an ajax response as a descendant of ui:ajaxTarget. This group extends contentGroup to include some elements
-				which are not explicitly stand-along components but which are able to be individually targetted by AJAX requests.</xs:documentation>
+			<xs:documentation>
+				The components which are allowed within an ajax response as a descendant of ui:ajaxtarget. This group
+				extends contentGroup to include some elements which are not explicitly stand-along components but which
+				are able to be individually targetted by AJAX requests.
+			</xs:documentation>
 		</xs:annotation>
 		<xs:choice>
 			<xs:group ref="ui:contentGroup" />
-			<xs:element ref="ui:menuItem" />
+			<xs:element ref="ui:menuitem" />
 			<xs:element ref="ui:submenu" />
-			<xs:element ref="ui:menuGroup" />
+			<xs:element ref="ui:menugroup" />
 			<xs:element ref="ui:separator" />
 			<xs:element ref="ui:field" />
+			<xs:element ref="ui:treeitem" />
 		</xs:choice>
 	</xs:group>
-
-	<!--
-		TODO: consider this for WDecoratedLabel phrase content extension since we are building a <strong>web</strong> application framework here!
-
-	<xs:group name="phraseGroup">
-		<xs:annotation>
-			<xs:documentation>Group of components which represent phrase content components as per the HTML5 specification.</xs:documentation>
-		</xs:annotation>
-		<xs:choice>
-			<xs:element ref="ui:abbr"/>
-			<xs:element ref="ui:additionalParameters" />
-			<xs:element ref="ui:application" />
-			<xs:element ref="ui:ajaxTrigger" />
-			<xs:element ref="ui:audio"/>
-			<xs:element ref="ui:button" />
-			<xs:element ref="ui:checkBox" />
-			<xs:element ref="ui:comment" />
-			<xs:element ref="ui:componentGroup" />
-			<xs:element ref="ui:decoratedLabel"/>
-			<xs:element ref="ui:dropdown" />
-			<xs:element ref="ui:emailField" />
-			<xs:element ref="ui:fieldIndicator" />
-			<xs:element ref="ui:fileUpload" />
-			<xs:element ref="ui:filterControl" />
-			<xs:element ref="ui:image" />
-			<xs:element ref="ui:label" />
-			<xs:element ref="ui:link" />
-			<xs:element ref="ui:listBox" />
-			<xs:element ref="ui:numberField" />
-			<xs:element ref="ui:passwordField" />
-			<xs:element ref="ui:phoneNumberField" />
-			<xs:element ref="ui:popup" />
-			<xs:element ref="ui:printButton" />
-			<xs:element ref="ui:progressBar" />
-			<xs:element ref="ui:radioButton" />
-			<xs:element ref="ui:redirect" />
-			<xs:element ref="ui:subordinate" />
-			<xs:element ref="ui:text" />
-			<xs:element ref="ui:textArea" />
-			<xs:element ref="ui:textField" />
-		</xs:choice>
-	</xs:group>-->
-
 </xs:schema>

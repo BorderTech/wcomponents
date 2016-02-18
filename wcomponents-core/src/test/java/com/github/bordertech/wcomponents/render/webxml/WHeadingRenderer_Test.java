@@ -69,13 +69,13 @@ public class WHeadingRenderer_Test extends AbstractWebXmlRendererTestCase {
 		WHeading heading = new WHeading(WHeading.TITLE, new WDecoratedLabel(new WText(text1)));
 		assertSchemaMatch(heading);
 
-		assertXpathEvaluatesTo(text1, "//ui:heading[@level=1]/ui:decoratedLabel/ui:labelBody/text()",
+		assertXpathEvaluatesTo(text1, "//ui:heading[@level=1]/ui:decoratedlabel/ui:labelbody/text()",
 				heading);
 
 		// Test WHeading's WText implementation
 		heading.setText(text2);
 		assertXpathEvaluatesTo(text2 + text1,
-				"//ui:heading[@level=1]/ui:decoratedLabel/ui:labelBody/text()", heading);
+				"//ui:heading[@level=1]/ui:decoratedlabel/ui:labelbody/text()", heading);
 	}
 
 	@Test

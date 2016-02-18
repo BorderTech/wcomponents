@@ -1,7 +1,7 @@
 /* wc.ui.table.rowExpansion.scss */
 @import 'mixins_common.scss';
 
-.rowExpansion {
+.wc-rowexpansion {
 	&[role='radiogroup'] {
 		list-style-type: none;
 		margin: 0;
@@ -50,4 +50,3 @@
 	display: inline-block;
 	width: $line-size;
 }
-/* end wc.ui.table.rowExpansion.scss */

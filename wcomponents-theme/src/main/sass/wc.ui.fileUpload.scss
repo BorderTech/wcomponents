@@ -6,7 +6,7 @@
 	vertical-align: top;
 }
 
-.fileUpload {
+.wc-fileupload {
 	a {
 		@extend %a-button;
 		@include flex-grow(1);
@@ -21,7 +21,7 @@
 			@extend %a-button;
 			@include flex-shrink(0);
 			@include button;
-			@include background-image-icon('../images/delete.png');
+			@include background-image($url: '../images/delete.png', $reset-size: 1em);
 			margin-left: $hgap-small;
 
 			&[disabled] {
@@ -30,7 +30,7 @@
 		}
 	}
 
-	.file {
+	.wc-file {
 		@include flex($justify: space-between, $align-items: flex-start);
 		@include border;
 		background-color: $wc-ui-color-highlight-bg;
@@ -43,12 +43,12 @@
 		display: table-cell;  // horrendously wrong no doubt but fixes columns
 		padding-top: $hgap-small;
 
-		.file + .file {
+		.wc-file + .wc-file {
 			margin-top: $vgap-normal;
 		}
 
 		&.wc_list_flat {
-			.file {
+			.wc-file {
 				display: inline-block;
 				margin-right: $hgap-small;
 				margin-top: $hgap-small;

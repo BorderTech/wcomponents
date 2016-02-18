@@ -22,7 +22,7 @@
 		text (without an immediate character count) and then paste into the textarea.
 		The HTML5 browsers have it wrong, we have it right.
 	-->
-	<xsl:template match="ui:textArea">
+	<xsl:template match="ui:textarea">
 		<xsl:variable name="id" select="@id"/>
 		<xsl:variable name="readOnly">
 			<xsl:if test="@readOnly=$t">

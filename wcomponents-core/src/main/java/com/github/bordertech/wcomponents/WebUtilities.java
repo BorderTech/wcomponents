@@ -8,6 +8,7 @@ import com.github.bordertech.wcomponents.util.TreeUtil;
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.net.URLConnection;
 import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
@@ -575,8 +576,10 @@ public final class WebUtilities {
 		String mimeType = config.getString("bordertech.wcomponents.mimeType." + suffix);
 
 		if (mimeType == null) {
-			mimeType = config.getString("bordertech.wcomponents.mimeType.defaultMimeType",
-					"application/octet-stream");
+			mimeType = URLConnection.guessContentTypeFromName(fileName);
+			if (mimeType == null) {
+				mimeType = config.getString("bordertech.wcomponents.mimeType.defaultMimeType", "application/octet-stream");
+			}
 		}
 
 		return mimeType;

@@ -41,69 +41,69 @@ public class WCheckBoxRenderer_Test extends AbstractWebXmlRendererTestCase {
 		setActiveContext(createUIContext());
 
 		assertSchemaMatch(wcbTest);
-		assertXpathExists("//ui:checkBox", wcbTest);
-		assertXpathEvaluatesTo(wcbTest.getId(), "//ui:checkBox/@id", wcbTest);
-		assertXpathNotExists("//ui:checkBox/@tabIndex", wcbTest);
+		assertXpathExists("//ui:checkbox", wcbTest);
+		assertXpathEvaluatesTo(wcbTest.getId(), "//ui:checkbox/@id", wcbTest);
+		assertXpathNotExists("//ui:checkbox/@tabIndex", wcbTest);
 
 		// Check groupName
-		assertXpathNotExists("//ui:checkBox/@groupName", wcbTest);
+		assertXpathNotExists("//ui:checkbox/@groupName", wcbTest);
 		wcbTest.setGroup(group);
 		assertSchemaMatch(wcbTest);
-		assertXpathEvaluatesTo(group.getId(), "//ui:checkBox/@groupName", wcbTest);
+		assertXpathEvaluatesTo(group.getId(), "//ui:checkbox/@groupName", wcbTest);
 
 		// Check disabled
-		assertXpathNotExists("//ui:checkBox/@disabled", wcbTest);
+		assertXpathNotExists("//ui:checkbox/@disabled", wcbTest);
 		wcbTest.setDisabled(true);
 		assertSchemaMatch(wcbTest);
-		assertXpathEvaluatesTo("true", "//ui:checkBox/@disabled", wcbTest);
+		assertXpathEvaluatesTo("true", "//ui:checkbox/@disabled", wcbTest);
 
 		// Check hidden
-		assertXpathNotExists("//ui:checkBox/@hidden", wcbTest);
+		assertXpathNotExists("//ui:checkbox/@hidden", wcbTest);
 		setFlag(wcbTest, ComponentModel.HIDE_FLAG, true);
 		assertSchemaMatch(wcbTest);
-		assertXpathEvaluatesTo("true", "//ui:checkBox/@hidden", wcbTest);
+		assertXpathEvaluatesTo("true", "//ui:checkbox/@hidden", wcbTest);
 
 		// Check required
-		assertXpathNotExists("//ui:checkBox/@required", wcbTest);
+		assertXpathNotExists("//ui:checkbox/@required", wcbTest);
 		wcbTest.setMandatory(true);
 		assertSchemaMatch(wcbTest);
-		assertXpathEvaluatesTo("true", "//ui:checkBox/@required", wcbTest);
+		assertXpathEvaluatesTo("true", "//ui:checkbox/@required", wcbTest);
 
 		// Check readOnly
-		assertXpathNotExists("//ui:checkBox/@readOnly", wcbTest);
+		assertXpathNotExists("//ui:checkbox/@readOnly", wcbTest);
 		wcbTest.setReadOnly(true);
 		assertSchemaMatch(wcbTest);
-		assertXpathEvaluatesTo("true", "//ui:checkBox/@readOnly", wcbTest);
+		assertXpathEvaluatesTo("true", "//ui:checkbox/@readOnly", wcbTest);
 
 		// Check selected
-		assertXpathNotExists("//ui:checkBox/@selected", wcbTest);
+		assertXpathNotExists("//ui:checkbox/@selected", wcbTest);
 		wcbTest.setSelected(true);
 		assertSchemaMatch(wcbTest);
-		assertXpathEvaluatesTo("true", "//ui:checkBox/@selected", wcbTest);
+		assertXpathEvaluatesTo("true", "//ui:checkbox/@selected", wcbTest);
 
 		// Check submitOnChange
-		assertXpathNotExists("//ui:checkBox/@submitOnChange", wcbTest);
+		assertXpathNotExists("//ui:checkbox/@submitOnChange", wcbTest);
 		wcbTest.setSubmitOnChange(true);
 		assertSchemaMatch(wcbTest);
-		assertXpathEvaluatesTo("true", "//ui:checkBox/@submitOnChange", wcbTest);
+		assertXpathEvaluatesTo("true", "//ui:checkbox/@submitOnChange", wcbTest);
 
 		// Check toolTip
-		assertXpathNotExists("//ui:checkBox/@toolTip", wcbTest);
+		assertXpathNotExists("//ui:checkbox/@toolTip", wcbTest);
 		wcbTest.setToolTip("WCheckBox_Test.testRenderedFormat.title");
 		assertSchemaMatch(wcbTest);
-		assertXpathEvaluatesTo(wcbTest.getToolTip(), "//ui:checkBox/@toolTip", wcbTest);
+		assertXpathEvaluatesTo(wcbTest.getToolTip(), "//ui:checkbox/@toolTip", wcbTest);
 
 		// Check accessibleText
-		assertXpathNotExists("//ui:checkBox/@accessibleText", wcbTest);
+		assertXpathNotExists("//ui:checkbox/@accessibleText", wcbTest);
 		wcbTest.setAccessibleText("WCheckBox_Test.testRenderedFormat.accessibleText");
 		assertSchemaMatch(wcbTest);
-		assertXpathEvaluatesTo(wcbTest.getAccessibleText(), "//ui:checkBox/@accessibleText", wcbTest);
+		assertXpathEvaluatesTo(wcbTest.getAccessibleText(), "//ui:checkbox/@accessibleText", wcbTest);
 
 		// Check button id
-		assertXpathNotExists("//ui:checkBox/@buttonId", wcbTest);
+		assertXpathNotExists("//ui:checkbox/@buttonId", wcbTest);
 		wcbTest.setDefaultSubmitButton(button);
 		assertSchemaMatch(wcbTest);
-		assertXpathEvaluatesTo(button.getId(), "//ui:checkBox/@buttonId", wcbTest);
+		assertXpathEvaluatesTo(button.getId(), "//ui:checkbox/@buttonId", wcbTest);
 	}
 
 	@Test

@@ -129,10 +129,10 @@ public class WStyledTextRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		assertSafeContent(styledText);
 
-		styledText.setToolTip(getMaliciousAttribute("ui:textField"));
+		styledText.setToolTip(getMaliciousAttribute("ui:textfield"));
 		assertSafeContent(styledText);
 
-		styledText.setAccessibleText(getMaliciousAttribute("ui:textField"));
+		styledText.setAccessibleText(getMaliciousAttribute("ui:textfield"));
 		assertSafeContent(styledText);
 
 		styledText.setWhitespaceMode(WStyledText.WhitespaceMode.PRESERVE);

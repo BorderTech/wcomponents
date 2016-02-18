@@ -1,10 +1,19 @@
-<div class="row">
-	<div class="wc_img_editpane">
+<div class="wc-row">
+	<div class="wc_img_editpane wc-column">
 		<div class="wc_img_canvas">
 			<canvas id="wc_img_canvas"></canvas>
 		</div>
 	</div>
-	<div class="wc_img_controls">
+	<div class="wc_img_cap wc-column" style="height: {{style.height}}px">
+		<div>
+			<video id="wc_img_video">{{message.novideo}}</video>
+		</div>
+		<button title="{{message.snap}}" type="button" class="wc_btn_snap"><span class="wc_off">{{action.snap}}</span></button>
+	</div>
+	<div class="wc_img_nocap wc-column">
+		<p>{{message.nocapture}}</p>
+	</div>
+	<div class="wc_img_controls wc-column">
 		<fieldset>
 			<legend>{{heading.rotate}}</legend>
 			<button title="{{message.rotateLeft90}}" type="button" class="anticlock90"><span class="wc_off">{{action.rotateLeft90}}</span></button>
@@ -16,6 +25,7 @@
 			<legend>{{heading.zoom}}</legend>
 			<button title="{{message.zoomIn}}" type="button" class="in"><span class="wc_off">{{action.zoomIn}}</span></button>
 			<button title="{{message.zoomOut}}" type="button" class="out"><span class="wc_off">{{action.zoomOut}}</span></button>
+			<button title="{{message.face}}" type="button" class="wc_btn_face"><span class="wc_off">{{action.face}}</span></button>
 		</fieldset>
 		<fieldset class="wc_img_buttons">
 			<legend>{{heading.move}}</legend>
@@ -24,23 +34,14 @@
 			<button title="{{message.moveRight}}" type="button" class="right"><span class="wc_off">{{action.moveRight}}</span></button>
 			<button title="{{message.moveDown}}" type="button" class="down"><span class="wc_off">{{action.moveDown}}</span></button>
 		</fieldset>
-		<div>
-			<label title="{{message.speed}}" for="wc_img_speed">{{action.speed}}</label>
-			<input title="{{message.speed}}" type="range" min="{{value.speedMin}}" max="{{value.speedMax}}" value="{{value.speedNow}}" step="0.5" id="wc_img_speed"/>
-		</div>
+		<fieldset class="wc_img_capture">
+			<legend>{{heading.capture}}</legend>
+			<button title="{{message.camera}}" type="button" class="wc_btn_camera"><span class="wc_off">{{action.camera}}</span></button>
+		</fieldset>
 		<div>
 			<button title="{{message.reset}}" type="button" class="reset"><span class="wc_off">{{action.reset}}</span></button>
 			<button title="{{message.cancel}}" type="button" class="cancel"><span class="wc_off">{{action.cancel}}</span></button>
 			<button title="{{message.save}}" type="button" class="save"><span class="wc_off">{{action.save}}</span></button>
 		</div>
-	</div>
-	<div class="wc_img_cap">
-		<div>
-			<video id="wc_img_video">{{message.novideo}}</video>
-		</div>
-		<button title="{{message.snap}}" type="button" class="snap"><span class="wc_off">{{action.snap}}</span></button>
-	</div>
-	<div class="wc_img_nocap">
-		<p>{{message.nocapture}}</p>
 	</div>
 </div>

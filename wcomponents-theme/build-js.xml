@@ -117,10 +117,16 @@
 				<exclude name="*jquery*"/>
 			</fileset>
 		</copy>
+		<copy todir="${lib.build.target.dir}/tracking" >
+			<fileset dir="${basedir}/node_modules/tracking" includes="build/**"/>
+		</copy>
 		<copy todir="${lib.build.target.dir}/mustache" >
 			<fileset dir="${basedir}/node_modules/mustache" includes="**">
 				<exclude name="*wrappers*"/>
 			</fileset>
+		</copy>
+		<copy todir="${lib.build.target.dir}/bower_components" failonerror="false"><!-- Optionally copy any bower components to the lib dir -->
+			<fileset dir="${basedir}/bower_components" includes="**"/>
 		</copy>
 		<copy file="${basedir}/node_modules/promise-polyfill/Promise.min.js" tofile="${lib.build.target.dir}/Promise.min.js"/>
 		<copy file="${basedir}/node_modules/accessibility-developer-tools/dist/js/axs_testing.js" tofile="${lib.build.target.dir}/axs_testing.js"/>

@@ -20,6 +20,6 @@ final class WPrintButtonRenderer extends WButtonRenderer {
 	 */
 	@Override
 	protected String getTagName(final WButton button) {
-		return "ui:printButton";
+		return "ui:printbutton";
 	}
 }

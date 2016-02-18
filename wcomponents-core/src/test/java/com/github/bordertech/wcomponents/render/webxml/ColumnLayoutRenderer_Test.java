@@ -23,7 +23,7 @@ public class ColumnLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {
 		container.setLayout(new ColumnLayout(new int[]{50, 50}));
 		assertSchemaMatch(container);
 
-		assertXpathNotExists("//ui:panel/ui:columnLayout/ui:cell", container);
+		assertXpathNotExists("//ui:panel/ui:columnlayout/ui:cell", container);
 	}
 
 	@Test
@@ -40,51 +40,51 @@ public class ColumnLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {
 		// One element -> 1 row, 2 cols (one empty)
 		container.add(new WText(text1));
 		assertSchemaMatch(container);
-		assertXpathEvaluatesTo("1", "count(//ui:panel/ui:columnLayout)", container);
+		assertXpathEvaluatesTo("1", "count(//ui:panel/ui:columnlayout)", container);
 		assertXpathEvaluatesTo(String.valueOf(cols.length),
-				"count(//ui:panel/ui:columnLayout/ui:column)", container);
-		assertXpathEvaluatesTo(text1, "normalize-space(//ui:panel/ui:columnLayout/ui:cell[1])",
+				"count(//ui:panel/ui:columnlayout/ui:column)", container);
+		assertXpathEvaluatesTo(text1, "normalize-space(//ui:panel/ui:columnlayout/ui:cell[1])",
 				container);
-		assertXpathEvaluatesTo("", "normalize-space(//ui:panel/ui:columnLayout/ui:cell[2])",
+		assertXpathEvaluatesTo("", "normalize-space(//ui:panel/ui:columnlayout/ui:cell[2])",
 				container);
 
 		// Two elements -> 1 row, 2 cols
 		container.add(new WText(text2));
 		assertSchemaMatch(container);
-		assertXpathEvaluatesTo("1", "count(//ui:panel/ui:columnLayout)", container);
+		assertXpathEvaluatesTo("1", "count(//ui:panel/ui:columnlayout)", container);
 		assertXpathEvaluatesTo(String.valueOf(cols.length),
-				"count(//ui:panel/ui:columnLayout/ui:column)", container);
+				"count(//ui:panel/ui:columnlayout/ui:column)", container);
 		assertXpathEvaluatesTo(String.valueOf(cols[0]),
-				"//ui:panel/ui:columnLayout/ui:column[1]/@width", container);
+				"//ui:panel/ui:columnlayout/ui:column[1]/@width", container);
 		assertXpathEvaluatesTo(String.valueOf(cols[1]),
-				"//ui:panel/ui:columnLayout/ui:column[2]/@width", container);
-		assertXpathEvaluatesTo(text1, "normalize-space(//ui:panel/ui:columnLayout/ui:cell[1])",
+				"//ui:panel/ui:columnlayout/ui:column[2]/@width", container);
+		assertXpathEvaluatesTo(text1, "normalize-space(//ui:panel/ui:columnlayout/ui:cell[1])",
 				container);
-		assertXpathEvaluatesTo(text2, "normalize-space(//ui:panel/ui:columnLayout/ui:cell[2])",
+		assertXpathEvaluatesTo(text2, "normalize-space(//ui:panel/ui:columnlayout/ui:cell[2])",
 				container);
-		assertXpathEvaluatesTo("", "//ui:panel/ui:columnLayout/@hgap", container);
-		assertXpathEvaluatesTo("", "//ui:panel/ui:columnLayout/@vgap", container);
+		assertXpathEvaluatesTo("", "//ui:panel/ui:columnlayout/@hgap", container);
+		assertXpathEvaluatesTo("", "//ui:panel/ui:columnlayout/@vgap", container);
 
 		// Test hgap, vgap
 		container.setLayout(new ColumnLayout(cols, 1, 2));
 		assertSchemaMatch(container);
-		assertXpathEvaluatesTo("1", "//ui:panel/ui:columnLayout/@hgap", container);
-		assertXpathEvaluatesTo("2", "//ui:panel/ui:columnLayout/@vgap", container);
+		assertXpathEvaluatesTo("1", "//ui:panel/ui:columnlayout/@hgap", container);
+		assertXpathEvaluatesTo("2", "//ui:panel/ui:columnlayout/@vgap", container);
 
 		// Test Alignment
 		container.setLayout(new ColumnLayout(cols, aligns));
 		assertSchemaMatch(container);
-		assertXpathEvaluatesTo("", "//ui:panel/ui:columnLayout/@hgap", container);
-		assertXpathEvaluatesTo("", "//ui:panel/ui:columnLayout/@vgap", container);
-		assertXpathEvaluatesTo("right", "//ui:panel/ui:columnLayout/ui:column[1]/@align", container);
-		assertXpathEvaluatesTo("center", "//ui:panel/ui:columnLayout/ui:column[2]/@align", container);
+		assertXpathEvaluatesTo("", "//ui:panel/ui:columnlayout/@hgap", container);
+		assertXpathEvaluatesTo("", "//ui:panel/ui:columnlayout/@vgap", container);
+		assertXpathEvaluatesTo("right", "//ui:panel/ui:columnlayout/ui:column[1]/@align", container);
+		assertXpathEvaluatesTo("center", "//ui:panel/ui:columnlayout/ui:column[2]/@align", container);
 
 		// Test Alignment, hgap, vgap
 		container.setLayout(new ColumnLayout(cols, aligns, 1, 2));
 		assertSchemaMatch(container);
-		assertXpathEvaluatesTo("1", "//ui:panel/ui:columnLayout/@hgap", container);
-		assertXpathEvaluatesTo("2", "//ui:panel/ui:columnLayout/@vgap", container);
-		assertXpathEvaluatesTo("right", "//ui:panel/ui:columnLayout/ui:column[1]/@align", container);
-		assertXpathEvaluatesTo("center", "//ui:panel/ui:columnLayout/ui:column[2]/@align", container);
+		assertXpathEvaluatesTo("1", "//ui:panel/ui:columnlayout/@hgap", container);
+		assertXpathEvaluatesTo("2", "//ui:panel/ui:columnlayout/@vgap", container);
+		assertXpathEvaluatesTo("right", "//ui:panel/ui:columnlayout/ui:column[1]/@align", container);
+		assertXpathEvaluatesTo("center", "//ui:panel/ui:columnlayout/ui:column[2]/@align", container);
 	}
 }

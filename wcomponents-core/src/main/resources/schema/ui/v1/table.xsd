@@ -86,7 +86,7 @@
 					</xs:annotation>
 					<xs:complexType>
 						<xs:sequence>
-							<xs:element name="rowsSelect" minOccurs="0">
+							<xs:element name="rowsselect" minOccurs="0">
 								<xs:annotation>
 									<xs:documentation>This sub element provides a means for the user to select how many rows per page they want to see. This selection is made from a limited list of options. The initial number of rows per page is represented in the rowsPerPage attribute of the pagination element.</xs:documentation>
 								</xs:annotation>
@@ -171,7 +171,7 @@
 				</xs:element>
 
 				<!--  Row selection control -->
-				<xs:element name="rowSelection" minOccurs="0">
+				<xs:element name="rowselection" minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>Provides information regarding table row selection. Presence of this element indicates that a table may have selectable rows.</xs:documentation>
 					</xs:annotation>
@@ -215,7 +215,7 @@
 				</xs:element>
 
 				<!--  Row expansion control -->
-				<xs:element name="rowExpansion" minOccurs="0">
+				<xs:element name="rowexpansion" minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>Provides information regarding table row expansion. Presence of this element indicates that a table may have expandable rows.</xs:documentation>
 					</xs:annotation>
@@ -308,7 +308,7 @@
 								</xs:annotation>
 								<xs:complexType mixed="true">
 									<xs:sequence>
-										<xs:element ref="ui:decoratedLabel"/>
+										<xs:element ref="ui:decoratedlabel"/>
 									</xs:sequence>
 									<!-- No width means use default width. -->
 									<xs:attribute name="width">
@@ -352,7 +352,7 @@
 					</xs:annotation>
 					<xs:complexType>
 						<xs:choice>
-							<xs:element name="noData">
+							<xs:element name="nodata">
 								<xs:complexType mixed="true"/>
 							</xs:element>
 							<xs:element name="tr" type="ui:trType" maxOccurs="unbounded"/>
@@ -376,17 +376,17 @@
 									<xs:sequence>
 										<xs:element name="condition" minOccurs="0" maxOccurs="unbounded">
 											<xs:annotation>
-												<xs:documentation>Provides a rule which determines whether the action may  be processed based on row selection. Not applicable if the nearest ancestor ui:table does not have a ui:rowSelection child.</xs:documentation>
+												<xs:documentation>Provides a rule which determines whether the action may  be processed based on row selection. Not applicable if the nearest ancestor ui:table does not have a ui:rowselection child.</xs:documentation>
 											</xs:annotation>
 											<xs:complexType>
 												<xs:attribute name="minSelectedRows" type="xs:positiveInteger">
 													<xs:annotation>
-														<xs:documentation>Provides the minimum number of rows which must be selected before the action can be successfully invoked. If the ui:rowSelection/@multiple attribute is not true then a min of any number greater than one is meaningless.</xs:documentation>
+														<xs:documentation>Provides the minimum number of rows which must be selected before the action can be successfully invoked. If the ui:rowselection/@multiple attribute is not true then a min of any number greater than one is meaningless.</xs:documentation>
 													</xs:annotation>
 												</xs:attribute>
 												<xs:attribute name="maxSelectedRows" type="xs:positiveInteger">
 													<xs:annotation>
-														<xs:documentation>Provides the maximum number of rows which must be selected before the action can be successfully invoked. If the ui:rowSelection/@multiple attribute is not true then a max of any number greater than one is meaningless.</xs:documentation>
+														<xs:documentation>Provides the maximum number of rows which must be selected before the action can be successfully invoked. If the ui:rowselection/@multiple attribute is not true then a max of any number greater than one is meaningless.</xs:documentation>
 													</xs:annotation>
 												</xs:attribute>
 												<xs:attribute name="type">
@@ -417,7 +417,7 @@
 										</xs:element>
 										<xs:element ref="ui:button"/>
 										<!-- This must only be used for ui:buttons included in the actions -->
-										<xs:element ref="ui:ajaxTrigger" minOccurs="0"/>
+										<xs:element ref="ui:ajaxtrigger" minOccurs="0"/>
 									</xs:sequence>
 								</xs:complexType>
 							</xs:element>
@@ -470,9 +470,9 @@
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
-			<xs:attribute name="type">
+			<xs:attribute name="type" default="table">
 				<xs:annotation>
-					<xs:documentation>Determines the indentation mode of the table if it has expandable rows. No impact if the table does not have a ui:rowExpansion child element or if there are no expandible rows in the current view.</xs:documentation>
+					<xs:documentation>Determines the indentation mode of the table if it has expandable rows. No impact if the table does not have a ui:rowexpansion child element or if there are no expandible rows in the current view.</xs:documentation>
 				</xs:annotation>
 				<xs:simpleType>
 					<xs:restriction base="xs:NMTOKEN">
@@ -498,18 +498,18 @@
 			<xs:element name="th" minOccurs="0">
 				<xs:complexType mixed="true">
 					<xs:sequence>
-						<xs:element ref="ui:decoratedLabel" minOccurs="0"/>
+						<xs:group ref="ui:contentGroup" minOccurs="0" maxOccurs="unbounded"/>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
 			<xs:element name="td" minOccurs="1" maxOccurs="unbounded">
 				<xs:complexType mixed="true">
 					<xs:sequence>
-						<xs:any processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+						<xs:group ref="ui:contentGroup" minOccurs="0" maxOccurs="unbounded"/>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
-			<xs:element name="subTr" minOccurs="0">
+			<xs:element name="subtr" minOccurs="0">
 				<xs:complexType>
 				<!-- Temporary fix to allow for empty subTr. Waiting on fix from T&S in WC6 and then the empty subTr will not need to be rendered. -->
 					<xs:choice minOccurs="0">
@@ -517,7 +517,7 @@
 						<xs:element name="content">
 							<xs:complexType mixed="true">
 								<xs:sequence>
-									<xs:any processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+									<xs:group ref="ui:contentGroup" minOccurs="0" maxOccurs="unbounded"/>
 								</xs:sequence>
 								<xs:attribute name="spanAllCols" type="xs:boolean"/>
 							</xs:complexType>

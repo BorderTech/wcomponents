@@ -25,7 +25,7 @@ define(["wc/dom/group",
 		 */
 		function RadioButtonGroup() {
 			var RADIO = new Widget("input", null, {"type": "radio"}),
-				RADIO_BUTTON_SELECT = new Widget("", "radioButtonSelect", {"role": "radiogroup"});
+				RADIO_BUTTON_SELECT = new Widget("", "wc-radioButtonSelect", {"role": "radiogroup"});
 
 			/**
 			 * Listen for mandatory/optional and set the group's radio buttons.

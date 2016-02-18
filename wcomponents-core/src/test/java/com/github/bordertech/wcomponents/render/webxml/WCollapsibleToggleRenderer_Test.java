@@ -29,12 +29,12 @@ public class WCollapsibleToggleRenderer_Test extends AbstractWebXmlRendererTestC
 		setActiveContext(createUIContext());
 
 		assertSchemaMatch(toggle);
-		assertXpathNotExists("//ui:expandCollapseAll/@roundTrip", toggle);
-		assertXpathEvaluatesTo(toggle.getGroupName(), "//ui:expandCollapseAll/@groupName", toggle);
+		assertXpathNotExists("//ui:collapsibletoggle/@roundTrip", toggle);
+		assertXpathEvaluatesTo(toggle.getGroupName(), "//ui:collapsibletoggle/@groupName", toggle);
 
 		// Server-side
 		toggle = new WCollapsibleToggle(false);
 		assertSchemaMatch(toggle);
-		assertXpathEvaluatesTo("true", "//ui:expandCollapseAll/@roundTrip", toggle);
+		assertXpathEvaluatesTo("true", "//ui:collapsibletoggle/@roundTrip", toggle);
 	}
 }

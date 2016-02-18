@@ -3,9 +3,8 @@
 // This CSS for the page footer
 @import 'wc.ui.panel_vars.scss';
 
-.footer {
+footer.wc-panel {
 	background-color: $wc-ui-color-panel-footer-background;
 	color: $wc-ui-color-panel-footer-foreground;
 	padding: $hgap-normal;
 }
-/* end wc.ui.panel.footer.scss */

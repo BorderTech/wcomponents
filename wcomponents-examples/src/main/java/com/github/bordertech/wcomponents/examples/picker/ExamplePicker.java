@@ -51,8 +51,10 @@ public class ExamplePicker extends WApplication {
 		add(messages);
 
 		// Syntax highlighting
-		addCssFile("/com/github/bordertech/wcomponents/examples/syntaxHighlight.css");
-		addJsFile("/com/github/bordertech/wcomponents/examples/syntaxHighlight.js");
+		// addCssFile("/com/github/bordertech/wcomponents/examples/sunlight.default.css"); // use ONE CSS File
+		addCssFile("/com/github/bordertech/wcomponents/examples/sunlight.dark.css");
+		addJsFile("/com/github/bordertech/wcomponents/examples/sunlight-min.js");
+		addJsFile("/com/github/bordertech/wcomponents/examples/sunlight.java-min.js");
 
 		String className = Config.getInstance().getString(PARAM_KEY, TreePicker.class.getName());
 
@@ -64,6 +66,7 @@ public class ExamplePicker extends WApplication {
 			add(new ErrorComponent("Unable to load picker ui " + className, e));
 		}
 	}
+
 
 	/**
 	 * If a step error has occurred, then display an error message to the user.

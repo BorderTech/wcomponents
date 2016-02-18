@@ -91,7 +91,7 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		setActiveContext(createUIContext());
 		assertSchemaMatch(component);
-		assertXpathEvaluatesTo(component.getNoDataMessage(), "//ui:table/ui:tbody/ui:noData",
+		assertXpathEvaluatesTo(component.getNoDataMessage(), "//ui:table/ui:tbody/ui:nodata",
 				component);
 	}
 
@@ -202,7 +202,7 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		String[] colHeaders = {COL1_HEADING_TEST, COL2_HEADING_TEST, COL3_HEADING_TEST};
 		for (int i = 0; i < component.getColumnCount(); i++) {
 			assertXpathEvaluatesTo(colHeaders[i], "//ui:table/ui:thead/ui:th[" + (i + 1)
-					+ "]/ui:decoratedLabel/ui:labelBody", component);
+					+ "]/ui:decoratedlabel/ui:labelbody", component);
 		}
 
 		// check table content
@@ -213,7 +213,7 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 				assertXpathEvaluatesTo((String) tableModel.getValueAt(row, j),
 						"//ui:table/ui:tbody/ui:tr[" + (i + 1)
 						+ "]/ui:td[" + (j + 1)
-						+ "]/ui:textField", component);
+						+ "]/ui:textfield", component);
 			}
 		}
 	}
@@ -301,11 +301,11 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo((new Integer(tableModel.getRowCount())).toString(),
 				"//ui:table/ui:pagination/@rows",
 				component);
-		assertXpathEvaluatesTo("10", "//ui:table/ui:pagination/ui:rowsSelect/ui:option[1]/@value",
+		assertXpathEvaluatesTo("10", "//ui:table/ui:pagination/ui:rowsselect/ui:option[1]/@value",
 				component);
-		assertXpathEvaluatesTo("20", "//ui:table/ui:pagination/ui:rowsSelect/ui:option[2]/@value",
+		assertXpathEvaluatesTo("20", "//ui:table/ui:pagination/ui:rowsselect/ui:option[2]/@value",
 				component);
-		assertXpathEvaluatesTo("30", "//ui:table/ui:pagination/ui:rowsSelect/ui:option[3]/@value",
+		assertXpathEvaluatesTo("30", "//ui:table/ui:pagination/ui:rowsselect/ui:option[3]/@value",
 				component);
 
 	}
@@ -324,7 +324,7 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		assertSchemaMatch(component);
 
-		assertXpathExists("//ui:table/ui:rowSelection", component);
+		assertXpathExists("//ui:table/ui:rowselection", component);
 	}
 
 	@Test
@@ -343,9 +343,9 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		assertSchemaMatch(component);
 
-		assertXpathExists("//ui:table/ui:rowSelection", component);
-		assertXpathEvaluatesTo(TRUE, "//ui:table/ui:rowSelection/@multiple", component);
-		assertXpathEvaluatesTo("text", "//ui:table/ui:rowSelection/@selectAll", component);
+		assertXpathExists("//ui:table/ui:rowselection", component);
+		assertXpathEvaluatesTo(TRUE, "//ui:table/ui:rowselection/@multiple", component);
+		assertXpathEvaluatesTo("text", "//ui:table/ui:rowselection/@selectAll", component);
 	}
 
 	@Test
@@ -364,11 +364,11 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		assertSchemaMatch(component);
 
-		assertXpathExists("//ui:table/ui:rowSelection", component);
-		assertXpathEvaluatesTo(TRUE, "//ui:table/ui:rowSelection/@multiple", component);
-		assertXpathEvaluatesTo("control", "//ui:table/ui:rowSelection/@selectAll", component);
+		assertXpathExists("//ui:table/ui:rowselection", component);
+		assertXpathEvaluatesTo(TRUE, "//ui:table/ui:rowselection/@multiple", component);
+		assertXpathEvaluatesTo("control", "//ui:table/ui:rowselection/@selectAll", component);
 		// toggle not available by default
-		assertXpathNotExists("//ui:table/ui:rowSelection/@toggle", component);
+		assertXpathNotExists("//ui:table/ui:rowselection/@toggle", component);
 	}
 
 	@Test
@@ -388,8 +388,8 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		assertSchemaMatch(component);
 
-		assertXpathExists("//ui:table/ui:rowSelection", component);
-		assertXpathEvaluatesTo(TRUE, "//ui:table/ui:rowSelection/@toggle", component);
+		assertXpathExists("//ui:table/ui:rowselection", component);
+		assertXpathEvaluatesTo(TRUE, "//ui:table/ui:rowselection/@toggle", component);
 	}
 
 	@Test
@@ -410,9 +410,9 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		setActiveContext(createUIContext());
 		assertSchemaMatch(component);
 
-		assertXpathExists("//ui:table/ui:rowSelection", component);
-		assertXpathEvaluatesTo(TRUE, "//ui:table/ui:rowSelection/@multiple", component);
-		assertXpathEvaluatesTo("control", "//ui:table/ui:rowSelection/@selectAll", component);
+		assertXpathExists("//ui:table/ui:rowselection", component);
+		assertXpathEvaluatesTo(TRUE, "//ui:table/ui:rowselection/@multiple", component);
+		assertXpathEvaluatesTo("control", "//ui:table/ui:rowselection/@selectAll", component);
 	}
 
 	@Test
@@ -428,7 +428,7 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		component.setExpandMode(ExpandMode.CLIENT);
 
 		assertSchemaMatch(component);
-		assertXpathEvaluatesTo("client", "//ui:table/ui:rowExpansion/@mode", component);
+		assertXpathEvaluatesTo("client", "//ui:table/ui:rowexpansion/@mode", component);
 	}
 
 	@Test
@@ -444,7 +444,7 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		component.setExpandMode(ExpandMode.LAZY);
 
 		assertSchemaMatch(component);
-		assertXpathEvaluatesTo("lazy", "//ui:table/ui:rowExpansion/@mode", component);
+		assertXpathEvaluatesTo("lazy", "//ui:table/ui:rowexpansion/@mode", component);
 	}
 
 	@Test
@@ -460,7 +460,7 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		component.setExpandMode(ExpandMode.DYNAMIC);
 
 		assertSchemaMatch(component);
-		assertXpathEvaluatesTo("dynamic", "//ui:table/ui:rowExpansion/@mode", component);
+		assertXpathEvaluatesTo("dynamic", "//ui:table/ui:rowexpansion/@mode", component);
 	}
 
 	@Test
@@ -523,6 +523,40 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathNotExists("//ui:table/ui:thead/ui:th[1]/@width", table);
 		assertXpathEvaluatesTo("1", "//ui:table/ui:thead/ui:th[2]/@width", table);
 		assertXpathEvaluatesTo("100", "//ui:table/ui:thead/ui:th[3]/@width", table);
+	}
+
+	@Test
+	public void testDoPaintOfRowHeaderWithNoRowHeaderColumn() throws IOException, SAXException, XpathException {
+
+		WTable table = new WTable();
+		table.addColumn(new WTableColumn(COL1_HEADING_TEST, WTextField.class));
+		table.addColumn(new WTableColumn(COL2_HEADING_TEST, WTextField.class));
+		table.addColumn(new WTableColumn(COL3_HEADING_TEST, WTextField.class));
+		// no row headers set
+
+		TableModel tableModel = createTableModel();
+		table.setTableModel(tableModel);
+
+		assertSchemaMatch(table);
+		assertXpathNotExists("//ui:table/ui:tbody/ui:tr/ui:th", table);
+	}
+
+	@Test
+	public void testDoPainWithRowHeaderColumn() throws IOException, SAXException, XpathException {
+
+		WTable table = new WTable();
+		table.addColumn(new WTableColumn(COL1_HEADING_TEST, WTextField.class));
+		table.addColumn(new WTableColumn(COL2_HEADING_TEST, WTextField.class));
+		table.addColumn(new WTableColumn(COL3_HEADING_TEST, WTextField.class));
+		// set the first column as the row headers
+		table.setRowHeaders(true);
+
+		TableModel tableModel = createTableModel();
+		table.setTableModel(tableModel);
+
+		assertSchemaMatch(table);
+		assertXpathExists("//ui:table/ui:tbody/ui:tr/ui:th", table);
+		assertXpathNotExists("//ui:table/ui:tbody/ui:tr/ui:th[2]", table);
 	}
 
 	@Test
@@ -684,12 +718,12 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		// column headers - only COL1 and COL3 showing - in positions 1 and 2 respectively - only 2 cols
 		assertXpathEvaluatesTo(COL1_HEADING_TEST,
-				"//ui:table/ui:thead/ui:th[1]/ui:decoratedLabel/ui:labelBody",
+				"//ui:table/ui:thead/ui:th[1]/ui:decoratedlabel/ui:labelbody",
 				component);
 		assertXpathEvaluatesTo(COL3_HEADING_TEST,
-				"//ui:table/ui:thead/ui:th[2]/ui:decoratedLabel/ui:labelBody",
+				"//ui:table/ui:thead/ui:th[2]/ui:decoratedlabel/ui:labelbody",
 				component);
-		assertXpathNotExists("//ui:table/ui:thead/ui:th[3]/ui:decoratedLabel/ui:labelBody",
+		assertXpathNotExists("//ui:table/ui:thead/ui:th[3]/ui:decoratedlabel/ui:labelbody",
 				component);
 
 		// first row - col1 and col3 from model in positions 1 and 2 respectively - only 2 cols showing
@@ -699,11 +733,11 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		String firstName = (String) tableModel.getValueAt(row, 0);
 		String entryDate = (String) tableModel.getValueAt(row, 2);
 
-		assertXpathEvaluatesTo(firstName, "//ui:table/ui:tbody/ui:tr[1]/ui:td[1]/ui:textField",
+		assertXpathEvaluatesTo(firstName, "//ui:table/ui:tbody/ui:tr[1]/ui:td[1]/ui:textfield",
 				component);
-		assertXpathEvaluatesTo(entryDate, "//ui:table/ui:tbody/ui:tr[1]/ui:td[2]/ui:textField",
+		assertXpathEvaluatesTo(entryDate, "//ui:table/ui:tbody/ui:tr[1]/ui:td[2]/ui:textfield",
 				component);
-		assertXpathNotExists("//ui:table/ui:tbody/ui:tr[1]/ui:td[3]/ui:textField", component);
+		assertXpathNotExists("//ui:table/ui:tbody/ui:tr[1]/ui:td[3]/ui:textfield", component);
 	}
 
 	@Test

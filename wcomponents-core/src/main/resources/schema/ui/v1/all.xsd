@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	elementFormDefault="qualified" targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
 	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns="http://www.w3.org/1999/xhtml">
@@ -32,7 +31,6 @@
 	<xs:include schemaLocation="fieldSet.xsd" />
 	<xs:include schemaLocation="figure.xsd" />
 	<xs:include schemaLocation="fileUpload.xsd" />
-	<xs:include schemaLocation="filterControl.xsd" />
 	<xs:include schemaLocation="heading.xsd" />
 	<xs:include schemaLocation="image.xsd" />
 	<xs:include schemaLocation="label.xsd" />
@@ -71,6 +69,7 @@
 	<xs:include schemaLocation="textArea.xsd" />
 	<xs:include schemaLocation="textField.xsd" />
 	<xs:include schemaLocation="tracking.xsd"/>
+	<xs:include schemaLocation="tree.xsd"/>
 	<xs:include schemaLocation="validationErrors.xsd" />
 	<xs:include schemaLocation="version.xsd" />
 	<xs:include schemaLocation="video.xsd" />

@@ -4,21 +4,21 @@
 
 [role='menu'] { //this role is any part of a COLUMN menu and submenus of a BAR or FLYOUT
 	> [role],
-	> .submenu > button {
+	> .wc-submenu > button {
 		padding: $wc-ui-menu-bar-column-item-pad;
 	}
 
 	&[aria-expanded='true'] {
-		z-index: 5;
+		z-index: $z-index-common;
 
 		dialog & {
-			z-index: 25;
+			z-index: $z-index-common-in-dialog;
 		}
 	}
 }
 
 [data-wc-menufixed='true'] {
-	.submenu[aria-expanded='true'] [role='menu'] {
+	.wc-submenu[aria-expanded='true'] [role='menu'] {
 		@include border-box;
 		// important to override the default for aria-busy areas. Transparent sub-menus help no-one and it may seem that we are not loading.
 		// scss-lint:disable ImportantRule

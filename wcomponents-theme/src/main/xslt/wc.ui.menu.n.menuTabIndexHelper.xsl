@@ -32,7 +32,7 @@
 			</xsl:when>
 			<!-- if I am disabled I cannot have tabIndex but only need explicity -1 if I am a menuItem with no @URL and not @submit="true"-->
 			<xsl:when test="@disabled">
-				<xsl:if test="self::ui:menuItem and not(@url or @submit)">
+				<xsl:if test="self::ui:menuitem and not(@url or @submit)">
 					<xsl:text>-1</xsl:text>
 				</xsl:if>
 			</xsl:when>

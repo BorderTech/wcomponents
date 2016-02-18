@@ -3,7 +3,7 @@
 	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0">
 	<xs:include schemaLocation="attributeGroups.control.xsd" />
 	<xs:include schemaLocation="link.xsd" />
-	<xs:element name="fileUpload">
+	<xs:element name="fileupload">
 		<xs:annotation>
 			<xs:documentation>
 				<p>WFileWidget represents component which can be used to upload zero or one file; WMultiFieldWidget represents a component which is used to upload zero or more

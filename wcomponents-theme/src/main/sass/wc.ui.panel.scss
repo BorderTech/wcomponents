@@ -1,6 +1,6 @@
 /* wc.ui.panel.scss */
 @import 'wc.ui.panel_vars.scss';
 
-.panel[aria-busy='true'] {
+.wc-panel[aria-busy='true'] {
 	min-height: $line-size; // always allow room for a loading indicator
 }

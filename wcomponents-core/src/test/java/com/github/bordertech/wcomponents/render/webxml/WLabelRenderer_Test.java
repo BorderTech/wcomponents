@@ -72,7 +72,7 @@ public class WLabelRenderer_Test extends AbstractWebXmlRendererTestCase {
 		text2.setText("text2");
 		label.add(text2);
 		assertSchemaMatch(root);
-		assertXpathEvaluatesTo("text2", "//ui:label/ui:textArea", label);
+		assertXpathEvaluatesTo("text2", "//ui:label/ui:textarea", label);
 	}
 
 	@Test

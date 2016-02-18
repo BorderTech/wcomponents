@@ -200,7 +200,7 @@
 						</xsl:attribute>
 					</xsl:otherwise>
 				</xsl:choose>
-				<xsl:apply-templates select="ui:decoratedLabel"/>
+				<xsl:apply-templates select="ui:decoratedlabel"/>
 			</xsl:element>
 			<xsl:apply-templates select="ui:content" mode="submenu">
 				<xsl:with-param name="open" select="$open"/>

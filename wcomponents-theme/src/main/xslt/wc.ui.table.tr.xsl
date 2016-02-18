@@ -5,13 +5,10 @@
 	<xsl:import href="wc.common.n.className.xsl"/>
 	<xsl:import href="wc.common.offscreenSpan.xsl"/>
 	<xsl:import href="wc.ui.table.n.xsl"/>
-	<!--
-	TODO: remove this when WFilterControl is no longer part of the Java API
-	<xsl:import href="wc.ui.table.tr.n.containsWords.xsl"/>-->
 	<xsl:import href="wc.ui.table.tr.n.clientRowClosedHelper.xsl"/>
 	<!--
 		Transform for each row in the WTable. The row itself transforms to a HTML tr element. It may also output another
-		row if it has a ui:subTr child.
+		row if it has a ui:subtr child.
 
 		param myTable: The first table ancestor of the current row. This is determined at the most efficient point
 		(usually ui:tbody using its parent node) and then passed through all subsequent transforms to save constant
@@ -29,21 +26,21 @@
 		<xsl:variable name="rowId" select="concat($tableId,'-',@rowIndex)"/>
 
 		<xsl:variable name="selectableRow">
-			<xsl:if test="$myTable/ui:rowSelection">
+			<xsl:if test="$myTable/ui:rowselection">
 				<xsl:value-of select="1"/>
 			</xsl:if>
 		</xsl:variable>
 
 		<xsl:variable name="hasRowExpansion">
-			<xsl:if test="$myTable/ui:rowExpansion">
+			<xsl:if test="$myTable/ui:rowexpansion">
 				<xsl:value-of select="1"/>
 			</xsl:if>
 		</xsl:variable>
 
 		<xsl:variable name="indent">
 			<xsl:choose>
-				<xsl:when test="$hasRowExpansion=1 and $myTable/@type='hierarchic' and parent::ui:subTr">
-					<xsl:value-of select="count(ancestor::ui:subTr[ancestor::ui:table[1] = $myTable])"/>
+				<xsl:when test="$hasRowExpansion=1 and $myTable/@type='hierarchic' and parent::ui:subtr">
+					<xsl:value-of select="count(ancestor::ui:subtr[ancestor::ui:table[1] = $myTable])"/>
 				</xsl:when>
 				<xsl:otherwise>
 					<xsl:number value="0"/>
@@ -51,49 +48,10 @@
 			</xsl:choose>
 		</xsl:variable>
 
-		<!--
-			Row filtering:
-			* if the table has no active filters then show the row;
-			* if the table has active Filters and the row has no filter values then hide the row;
-			* otherwise test if the row contains a filterValue which is also one of the
-			table filters.
-
-			TODO: remove this when WFilterControl is no longer part of the Java API
-
-		<xsl:variable name="tableFilters" select="normalize-space($myTable/@activeFilters)"/>
-
-		<xsl:variable name="rowFilters" select="normalize-space(@filterValues)"/>
-
-		<xsl:variable name="filterThisRow">
-			<xsl:choose>
-				<xsl:when test="not($tableFilters)">
-					<xsl:value-of select="0"/>
-				</xsl:when>
-				<xsl:when test="not($rowFilters)">
-					<xsl:value-of select="1"/>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:variable name="matchedFilters">
-						<xsl:call-template name="containsWords">
-							<xsl:with-param name="testString" select="$rowFilters"/>
-							<xsl:with-param name="testWords" select="$tableFilters"/>
-						</xsl:call-template>
-					</xsl:variable>
-					<xsl:value-of select="1-$matchedFilters"/>
-				</xsl:otherwise>
-			</xsl:choose>
-		</xsl:variable>
-		-->
 
 		<xsl:variable name="removeRow">
 			<xsl:choose>
-				<!--
-					TODO: remove this when WFilterControl is no longer part of the Java API.
-
-					If your implementation requires WDataTabe and WFilterControl support then you must add
-					`$filterThisRow=1 or ` to the beginning of the test attribute of the following xsl:when:
-				-->
-				<xsl:when test="$parentIsClosed=1 or @hidden=$t or parent::ui:subTr[not(@open=$t)] or (ancestor::ui:subTr[not(@open=$t) and ancestor::ui:table[1]/@id=$tableId])">
+				<xsl:when test="$parentIsClosed=1 or @hidden=$t or parent::ui:subtr[not(@open=$t)] or (ancestor::ui:subtr[not(@open=$t) and ancestor::ui:table[1]/@id=$tableId])">
 					<xsl:value-of select="1"/>
 				</xsl:when>
 				<xsl:when test="parent::ui:tbody and $myTable/ui:pagination/@mode = 'client'">
@@ -106,9 +64,9 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
-		
+
 		<xsl:variable name="isSelectToggle">
-			<xsl:if test="$hasRowExpansion + $selectableRow = 2 and $myTable/ui:rowSelection/@toggle and ui:subTr/ui:tr[not(@unselectable)]">
+			<xsl:if test="$hasRowExpansion + $selectableRow = 2 and $myTable/ui:rowselection/@toggle and ui:subtr/ui:tr[not(@unselectable)]">
 				<xsl:number value="1"/>
 			</xsl:if>
 		</xsl:variable>
@@ -139,10 +97,10 @@
 			</xsl:attribute>
 
 			<xsl:if test="$hasRowExpansion=1">
-				<xsl:if test="ui:subTr">
+				<xsl:if test="ui:subtr">
 					<xsl:attribute name="aria-expanded">
 						<xsl:choose>
-							<xsl:when test="ui:subTr/@open=$t">
+							<xsl:when test="ui:subtr/@open=$t">
 								<xsl:copy-of select="$t"/>
 							</xsl:when>
 							<xsl:otherwise>
@@ -151,22 +109,22 @@
 						</xsl:choose>
 					</xsl:attribute>
 
-					<xsl:variable name="expMode" select="$myTable/ui:rowExpansion/@mode"/>
+					<xsl:variable name="expMode" select="$myTable/ui:rowexpansion/@mode"/>
 
 					<xsl:variable name="isOpen">
-						<xsl:if test="ui:subTr/@open=$t">
+						<xsl:if test="ui:subtr/@open=$t">
 							<xsl:value-of select="1"/>
 						</xsl:if>
 					</xsl:variable>
 
 					<xsl:attribute name="aria-controls">
 						<xsl:choose>
-							<xsl:when test="ui:subTr/ui:tr">
-								<xsl:apply-templates select="ui:subTr/ui:tr" mode="subRowControlIdentifier">
+							<xsl:when test="ui:subtr/ui:tr">
+								<xsl:apply-templates select="ui:subtr/ui:tr" mode="subRowControlIdentifier">
 									<xsl:with-param name="tableId" select="$tableId"/>
 								</xsl:apply-templates>
 							</xsl:when>
-							<xsl:when test="ui:subTr/ui:content">
+							<xsl:when test="ui:subtr/ui:content">
 								<xsl:value-of select="concat($tableId,'${wc.ui.table.id.subTr.content.suffix}',@rowIndex)"/>
 							</xsl:when>
 							<xsl:otherwise>
@@ -204,12 +162,12 @@
 					</xsl:if>
 				</xsl:if>
 
-				<xsl:if test="parent::ui:subTr">
+				<xsl:if test="parent::ui:subtr">
 					<xsl:call-template name="setARIALive"/>
 				</xsl:if>
 
 				<xsl:attribute name="aria-level">
-					<xsl:value-of select="count(ancestor::ui:subTr[ancestor::ui:table[1]/@id=$tableId]) + 1"/>
+					<xsl:value-of select="count(ancestor::ui:subtr[ancestor::ui:table[1]/@id=$tableId]) + 1"/>
 				</xsl:attribute>
 			</xsl:if>
 
@@ -236,7 +194,7 @@
 			<xsl:if test="$selectableRow=1 and not(@unselectable=$t)">
 				<xsl:attribute name="aria-selected">
 					<xsl:choose>
-						<xsl:when test="$isSelectToggle=1 and .//ui:subTr[ancestor::ui:table[1]/@id = $tableId]/ui:tr[not(@unselectable or @selected)]">
+						<xsl:when test="$isSelectToggle=1 and .//ui:subtr[ancestor::ui:table[1]/@id = $tableId]/ui:tr[not(@unselectable or @selected)]">
 							<!-- If I am a select toggle row for my 'descendant' rows and one or more of these are not selected then I am not selected. -->
 							<xsl:text>false</xsl:text>
 						</xsl:when>
@@ -260,8 +218,8 @@
 				<xsl:attribute name="data-wc-value">
 					<xsl:value-of select="@rowIndex"/>
 				</xsl:attribute>
-				
-				<!--<xsl:if test="ui:subTr/ui:tr and $myTable/ui:rowSelection/@toggle">
+
+				<!--<xsl:if test="ui:subtr/ui:tr and $myTable/ui:rowselection/@toggle">
 					<xsl:attribute name="wc-data-toggle">
 						<xsl:text>1</xsl:text>
 					</xsl:attribute>
@@ -294,15 +252,6 @@
 					</xsl:call-template>
 				</xsl:otherwise>
 			</xsl:choose>
-
-			<!--
-				TODO: remove this when WFilterControl is no longer part of the Java API
-			<xsl:if test="$rowFilters!=''">
-				<xsl:attribute name="data-wc-filters">
-					<xsl:value-of select="$rowFilters"/>
-				</xsl:attribute>
-			</xsl:if>
-			-->
 			<!-- END OF TR ATTRIBUTES -->
 
 
@@ -318,22 +267,22 @@
 						<xsl:variable name="subRowToggleControlId" select="concat($rowId, '_toggleController')"/>
 						<xsl:variable name="subRowToggleControlButtonId" select="concat($subRowToggleControlId, '_showbtn')"/>
 						<xsl:variable name="subRowToggleControlContentId" select="concat($subRowToggleControlId, '_content')"/>
-						
-						<div class="menu flyout" role="menubar" id="{$subRowToggleControlId}">
-							<div class="submenu" role="menuitem">
+
+						<div class="wc-menu flyout" role="menubar" id="{$subRowToggleControlId}">
+							<div class="wc-submenu" role="menuitem">
 								<button type="button" aria-haspopup="true" class="wc_btn_nada" id="{$subRowToggleControlButtonId}" aria-controls="{$subRowToggleControlContentId}">
 									<span class="wc_off"><xsl:value-of select="$$${wc.ui.table.string.rowSelection.label}"/></span>
 								</button>
-								<div class="submenucontent wc_seltog" role="menu" aria-expanded="false" id="{$subRowToggleControlContentId}" aria-labelledby="{$subRowToggleControlButtonId}">
-									<xsl:variable name="allSelectableSubRows" select="count(.//ui:subTr[ancestor::ui:table[1]/@id = $tableId]/ui:tr[not(@unselectable)])"/>
-									<xsl:variable name="allUnselectedSubRows" select="count(.//ui:subTr[ancestor::ui:table[1]/@id = $tableId]/ui:tr[not(@unselectable or @selected)])"/>
+								<div class="wc_submenucontent wc_seltog" role="menu" aria-expanded="false" id="{$subRowToggleControlContentId}" aria-labelledby="{$subRowToggleControlButtonId}">
+									<xsl:variable name="allSelectableSubRows" select="count(.//ui:subtr[ancestor::ui:table[1]/@id = $tableId]/ui:tr[not(@unselectable)])"/>
+									<xsl:variable name="allUnselectedSubRows" select="count(.//ui:subtr[ancestor::ui:table[1]/@id = $tableId]/ui:tr[not(@unselectable or @selected)])"/>
 									<xsl:variable name="subRowControlList">
 										<xsl:value-of select="concat($rowId, ' ')"/><!-- these controllers control this row too -->
-										<xsl:apply-templates select="ui:subTr//ui:tr[ancestor::ui:table[1]/@id = $tableId]" mode="subRowControlIdentifier">
+										<xsl:apply-templates select="ui:subtr//ui:tr[ancestor::ui:table[1]/@id = $tableId]" mode="subRowControlIdentifier">
 											<xsl:with-param name="tableId" select="$tableId"/>
 										</xsl:apply-templates>
 									</xsl:variable>
-									<button type="button" role="menuitemradio" class="menuitem wc_seltog wc_btn_nada" aria-controls="{$subRowControlList}" data-wc-value="all">
+									<button type="button" role="menuitemradio" class="wc-menuitem wc_seltog wc_btn_nada" aria-controls="{$subRowControlList}" data-wc-value="all">
 										<xsl:attribute name="aria-checked">
 											<xsl:choose>
 												<xsl:when test="$allUnselectedSubRows = 0">
@@ -347,7 +296,7 @@
 										<span class="wc_off"><xsl:value-of select="$$${wc.common.toggles.i18n.select.label}"/> </span>
 										<xsl:value-of select="$$${wc.common.toggles.i18n.selectAll}"/>
 									</button>
-									<button type="button" role="menuitemradio" class="menuitem wc_seltog wc_btn_nada" aria-controls="{$subRowControlList}"  data-wc-value="none">
+									<button type="button" role="menuitemradio" class="wc-menuitem wc_seltog wc_btn_nada" aria-controls="{$subRowControlList}"  data-wc-value="none">
 										<xsl:attribute name="aria-checked">
 											<xsl:choose>
 												<xsl:when test="$allSelectableSubRows = $allUnselectedSubRows">
@@ -374,10 +323,10 @@
 			 compliant assistive technologues that the row is expanded or not expandable, the other is
 			 to span the indentation columns which are required before outputting the collapser element.
 			-->
-			<xsl:if test="$myTable/ui:rowExpansion">
+			<xsl:if test="$myTable/ui:rowexpansion">
 				<!-- The rowExpansion cell will hold the expansion control (if any) -->
 				<td class="wc_table_rowexp_container">
-					<xsl:if test="ui:subTr">
+					<xsl:if test="ui:subtr">
 						<xsl:attribute name="role">button</xsl:attribute>
 						<xsl:attribute name="aria-controls">
 							<xsl:value-of select="$rowId"/>
@@ -402,7 +351,7 @@
 		 The subTr child element is applied after closing the row's tr element as it
 		 is not a child of the row.
 		-->
-		<xsl:apply-templates select="ui:subTr">
+		<xsl:apply-templates select="ui:subtr">
 			<xsl:with-param name="myTable" select="$myTable"/>
 			<xsl:with-param name="parentIsClosed" select="$removeRow"/>
 			<xsl:with-param name="indent" select="$indent"/>

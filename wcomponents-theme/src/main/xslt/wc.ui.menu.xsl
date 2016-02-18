@@ -13,7 +13,7 @@
 
 		Child Elements
 		* ui:submenu
-		* ui:menuItem
+		* ui:menuitem
 
 		Menus may not be nested.
 	-->

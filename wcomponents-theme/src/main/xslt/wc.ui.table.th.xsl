@@ -43,9 +43,7 @@
 					<xsl:with-param name="indent" select="$indent"/>
 				</xsl:call-template>
 			</xsl:if>
-			<xsl:apply-templates select="ui:decoratedLabel">
-				<xsl:with-param name="output" select="'div'"/>
-			</xsl:apply-templates>
+			<xsl:apply-templates />
 		</th>
 	</xsl:template>
 </xsl:stylesheet>

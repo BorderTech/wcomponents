@@ -10,19 +10,35 @@
 		@include border;
 	}
 
-	.wc_img_nocap,
-	.wc_img_cap.cantplay {
+	.wc_img_cap,
+	.wc_img_nocap {
 		display: none;
 	}
-
-	.wc_img_nocap.cantplay {
+	
+	&.wc_nortc .wc_img_nocap {
 		display: block;
 	}
-
-	&.nocap .wc_img_cap {
+	
+	&.wc_showcam .wc_img_cap {
+		display: block;
+	}
+	
+	&.wc_showcam .wc_img_canvas {
 		display: none;
 	}
-
+	
+	fieldset.wc_img_capture {
+		display: none;
+	}
+	
+	&.wc_camenable fieldset.wc_img_capture {
+		display: block;
+	}
+	
+	&.wc_showcam.wc_camenable fieldset.wc_img_capture {
+		display: none;
+	}
+	
 	button {
 		@include button;
 		@include background-image('../images/up.png', $height: 1em, $width: 1em);
@@ -84,7 +100,7 @@
 			background-image: url('../images/rotate-right.png');
 		}
 
-		&.snap {
+		&.wc_btn_snap {
 			background-image: url('../images/camera-add.png');
 			display: block;
 			margin: $hgap-small auto 0;
@@ -100,6 +116,22 @@
 
 		&.save {
 			background-image: url('../images/save.png');
+		}
+		
+		&.camera {
+			background-image: url('../images/camera-web.png');
+		}
+		
+		&.wc_btn_face {
+			background-image: url('../images/person.png');
+		}
+		
+		&.wc_btn_face[disabled] {
+			background-image: url('../images/person-d.png');
+		}
+		
+		&.wc_btn_camera {
+			background-image: url('../images/camera-web.png');
 		}
 	}
 
@@ -124,7 +156,7 @@
 
 @include respond(phonelike) {
 	.wc_img_editor {
-		.row > div {
+		.wc-row > div {
 			text-align: center;
 		}
 

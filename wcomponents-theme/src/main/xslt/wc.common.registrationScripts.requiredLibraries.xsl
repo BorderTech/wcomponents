@@ -34,31 +34,22 @@
 			<xsl:if test=".//ui:audio or .//ui:video">
 				<xsl:text>"wc/ui/mediaplayer",</xsl:text>
 			</xsl:if>
-			<xsl:if test=".//ui:checkBox[not(@readOnly)] or .//ui:checkBoxSelect[not(@readOnly)]">
+			<xsl:if test=".//ui:checkbox[not(@readOnly)] or .//ui:checkboxselect[not(@readOnly)]">
 				<xsl:text>"wc/ui/checkBox",</xsl:text>
-				<xsl:if test=".//ui:checkBoxSelect[not(@readOnly)]">
+				<xsl:if test=".//ui:checkboxselect[not(@readOnly)]">
 					<xsl:text>"wc/ui/checkBoxSelect",</xsl:text>
 				</xsl:if>
 			</xsl:if>
 			<xsl:if test=".//ui:collapsible">
 				<xsl:text>"wc/ui/collapsible",</xsl:text>
 			</xsl:if>
-			<xsl:if test=".//ui:expandCollapseAll">
+			<xsl:if test=".//ui:collapsibletoggle">
 				<xsl:text>"wc/ui/collapsibleToggle",</xsl:text>
 			</xsl:if>
-			<xsl:if test=".//ui:fileUpload">
+			<xsl:if test=".//ui:fileupload">
 				<xsl:text>"wc/ui/multiFileUploader","wc/ui/fileUpload",</xsl:text>
 			</xsl:if>
-			<!-- 
-				WFilterControl only works on WDataTable and both are in the process of being removed. If you require
-				WFilterControl you will need to uncomment the following piece of XSLT.
-				
-				TODO: this should be deleted when WFilterControl is removed from the Java API.
-			<xsl:if test=".//ui:filterControl">
-				<xsl:text>"wc/ui/filterControl",</xsl:text>
-			</xsl:if>
-			-->
-			<xsl:if test=".//ui:listBox[not(@readOnly)]">
+			<xsl:if test=".//ui:listbox[not(@readOnly)]">
 				<xsl:text>"wc/ui/dropdown",</xsl:text>
 			</xsl:if>
 			<xsl:if test=".//ui:link[@type='button' or ui:windowAttributes[count(@*) &gt; 1]]">
@@ -78,26 +69,26 @@
 				<xsl:if test=".//ui:menu[@type='tree']">
 					<xsl:text>"wc/ui/menu/tree",</xsl:text>
 				</xsl:if>
-				<xsl:if test=".//ui:menuItem[@url]">
+				<xsl:if test=".//ui:menuitem[@url]">
 					<xsl:text>"wc/ui/navigationButton",</xsl:text>
 				</xsl:if>-->
 			</xsl:if>
-			<xsl:if test=".//ui:multiDropdown[not(@readOnly)]">
+			<xsl:if test=".//ui:multidropdown[not(@readOnly)]">
 				<xsl:text>"wc/ui/multiFormComponent",</xsl:text>
 			</xsl:if>
-			<xsl:if test=".//ui:multiSelectPair[not(@readOnly)]">
+			<xsl:if test=".//ui:multiselectpair[not(@readOnly)]">
 				<xsl:text>"wc/ui/multiSelectPair",</xsl:text>
 			</xsl:if>
-			<xsl:if test=".//ui:multiTextField[not(@readOnly)]">
+			<xsl:if test=".//ui:multitextfield[not(@readOnly)]">
 				<xsl:text>"wc/ui/multiFormComponent","wc/ui/textField",</xsl:text>
 			</xsl:if>
-			<xsl:if test=".//ui:printButton">
+			<xsl:if test=".//ui:printbutton">
 				<xsl:text>"wc/ui/printButton",</xsl:text>
 			</xsl:if>
-			<xsl:if test=".//ui:radioButtonSelect[not(@readOnly)] or .//ui:radioButton[not(@readOnly)]">
+			<xsl:if test=".//ui:radiobuttonselect[not(@readOnly)] or .//ui:radiobutton[not(@readOnly)]">
 				<xsl:text>"wc/ui/radioButtonSelect",</xsl:text>
 			</xsl:if>
-			<xsl:if test=".//ui:shuffler[not(@readOnly)] or .//ui:multiSelectPair[@shuffle and not(@readOnly)]">
+			<xsl:if test=".//ui:shuffler[not(@readOnly)] or .//ui:multiselectpair[@shuffle and not(@readOnly)]">
 				<xsl:text>"wc/ui/shuffler",</xsl:text>
 			</xsl:if>
 			<xsl:if test=".//ui:suggestions or .//ui:dropdown[@type and not(@readOnly)]">
@@ -108,10 +99,10 @@
 				<!--<xsl:if test=".//ui:table/ui:actions">
 					<xsl:text>"wc/ui/table/action",</xsl:text>
 				</xsl:if>
-				<xsl:if test=".//ui:rowSelection">
-					<xsl:text>"wc/ui/rowAnalog",</xsl:text>
+				<xsl:if test=".//ui:rowselection">
+					<xsl:text>"wc/ui/rowAnalog"</xsl:text>
 				</xsl:if>
-				<xsl:if test=".//ui:rowExpansion">
+				<xsl:if test=".//ui:rowexpansion">
 					<xsl:text>"wc/ui/table/rowExpansion",</xsl:text>
 				</xsl:if>
 				<xsl:if test=".//ui:pagination">

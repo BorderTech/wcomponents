@@ -42,6 +42,7 @@ define(["wc/dom/classList",
 			var BUTTON = new Widget("button"),
 				ANCHOR,
 				OPENER = BUTTON.extend("", {"data-wc-dialogconf": null}),
+				BASE_CLASS = "wc-dialog",
 				registry = {},
 				UNIT = "px",
 				emptyOnClose = true,
@@ -76,7 +77,7 @@ define(["wc/dom/classList",
 				if (id) {
 					registry[id] = {
 						id: id,
-						className: dialogObj.className,
+						className: BASE_CLASS + (dialogObj.className ? (" " + dialogObj.className) : ""),
 						formId: dialogObj.form,
 						width: dialogObj.width,
 						height: dialogObj.height,
@@ -182,7 +183,7 @@ define(["wc/dom/classList",
 						}
 						classList.add(content, "wc_magic");
 						classList.add(content, "wc_dynamic");
-						eagerLoader.load(content, false, true);
+						eagerLoader.load(content, false, false);
 					}
 					else {
 						console.warn("Could not find dialog content wrapper.");

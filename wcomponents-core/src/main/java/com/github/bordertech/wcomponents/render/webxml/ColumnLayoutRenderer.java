@@ -31,7 +31,7 @@ final class ColumnLayoutRenderer extends AbstractWebXmlRenderer {
 		int vgap = layout.getVgap();
 		int cols = layout.getColumnCount();
 
-		xml.appendTagOpen("ui:columnLayout");
+		xml.appendTagOpen("ui:columnlayout");
 		xml.appendOptionalAttribute("hgap", hgap > 0, hgap);
 		xml.appendOptionalAttribute("vgap", vgap > 0, vgap);
 		xml.appendClose();
@@ -70,6 +70,6 @@ final class ColumnLayoutRenderer extends AbstractWebXmlRenderer {
 			xml.appendEndTag("ui:cell");
 		}
 
-		xml.appendEndTag("ui:columnLayout");
+		xml.appendEndTag("ui:columnlayout");
 	}
 }

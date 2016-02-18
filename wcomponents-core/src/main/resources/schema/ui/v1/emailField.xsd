@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0">
 	<xs:include schemaLocation="attributeGroups.control.xsd"/>
-	<xs:element name="emailField">
+	<xs:element name="emailfield">
 		<xs:annotation>
 			<xs:documentation>
 				<p>WEmailField represents a data input device for email addresses.</p>

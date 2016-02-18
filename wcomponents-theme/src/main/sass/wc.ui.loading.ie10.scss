@@ -13,12 +13,9 @@
 	}
 }
 
-
 // ajax busy areas
 [aria-busy='true'] {
 	// important to override any other background image
 	//scss-lint:disable ImportantRule
 	background-image: url('../images/loading-dark.gif') !important;
 }
-
-/* end wc.common.loading.ie10.scss */

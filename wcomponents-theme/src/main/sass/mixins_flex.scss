@@ -1,13 +1,24 @@
 // Flex layout mixins
+// We do not even pretend to support IE10 flexbox. There are a few *.ie10.scss files which have IE10 flexbox so
+// maybe we have a reason for IE10 flexbox mixins if anyone could be bothered making them.
+
+// Vendor prefixes still required for Safari. All other modern browsers seem OK.
 // scss-lint:disable VendorPrefix
+
+/// Set a flex display mode with its associated gubbins.
+/// @param {flex-direction} $direction [row] The flex-direction.
+/// @param {flex-wrap} $wrap [nowrap] The flex wrap model to apply.
+/// @param {justify-content} $justify [flex-start] The item justification model to apply.
+/// @param {align-items} $align-items [stretch] The item alignment model to apply.
+/// @param {align-content} $align-content [stretch] The item content alignment model to set.
 @mixin flex($direction: row, $wrap: nowrap, $justify: flex-start, $align-items: stretch, $align-content: stretch) {
 	display: -webkit-flex;
-	display: flex;
 	-webkit-flex-direction: $direction;
 	-webkit-flex-wrap: $wrap;
 	-webkit-justify-content: $justify;
 	-webkit-align-items: $align-items;
 	-webkit-align-content: $align-content;
+	display: flex;
 	flex-direction: $direction;
 	flex-wrap: $wrap;
 	justify-content: $justify;
@@ -15,31 +26,43 @@
 	align-content: $align-content;
 }
 
+/// Apply the align-items rule to an element. This assumes a flex display is already set.
+/// @param {align-items} $where [flex-start] The align-items model to set.
 @mixin flex-align-items($where: flex-start) {
 	-webkit-align-items: $where;
 	align-items: $where;
 }
 
+/// Apply the align-self rule to an element. This assumes a flex display is already set on the element's parent.
+/// @param {align-self} $align The align-items model to set.
 @mixin flex-align-self($align) {
 	-webkit-align-self: $align;
 	align-self: $align;
 }
 
+/// Apply the flex-grow rule to an element. This assumes a flex display is already set on the element's parent.
+/// @param {int} $int [0] The flex-grow value to set.
 @mixin flex-grow($int: 0) {
 	-webkit-flex-grow: $int;
 	flex-grow: $int;
 }
 
+/// Apply the justify-content rule to an element. This assumes a flex display is already set.
+/// @param {justify-content} $where [flex-start] The justify-content model to set.
 @mixin flex-justify-content($where: flex-start) {
 	-webkit-justify-content: $where;
 	justify-content: $where;
 }
 
+/// Apply the flex-shrink rule to an element. This assumes a flex display is already set on the element's parent.
+/// @param {int} $int [1] The flex-shrink value to set.
 @mixin flex-shrink($int: 1) {
 	-webkit-flex-shrink: $int;
 	flex-shrink: $int;
 }
 
+/// Apply the flex-direction rule to an element. This assumes a flex display is already set.
+/// @param {flex-direction} $direction The direction to set.
 @mixin flex-direction($direction) {
 	-webkit-flex-direction: $direction;
 	flex-direction: $direction;

@@ -59,7 +59,7 @@ Field name      Type        Mandatory       Value
 				<xs:element ref="ui:margin" minOccurs="0"/>
 				<xs:choice maxOccurs="unbounded">
 					<xs:group ref="ui:menuComponentGroup"/>
-					<xs:element ref="ui:menuGroup"/>
+					<xs:element ref="ui:menugroup"/>
 				</xs:choice>
 			</xs:sequence>
 			

@@ -49,10 +49,9 @@ summary {
 	}
 }
 
-
 // content of the collapsible NOTE: this is currently wrapped in a div but this could be > * with an override for
 // summary::first-of-type
-div {
+div[aria-describedby] {
 	details > & {
 		display: none;
 	}
@@ -61,7 +60,7 @@ div {
 		display: block;
 
 		&[aria-busy='true'] {
-			min-height: 16px;
+			min-height: $line-size;
 		}
 	}
 }
@@ -69,4 +68,3 @@ div {
 ::-webkit-details-marker { // remove the default summary marker from webkit browsers
 	display: none;
 }
-/* end wc.ui.collapsible.scss */

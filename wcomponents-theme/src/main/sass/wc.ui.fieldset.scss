@@ -18,9 +18,8 @@ fieldset {
 	padding: 3px;
 
 	&.noborder { //it is pretty common to remove borders from fieldsets.
-		border: 0 none;
+		@include border($width: 0);
 		margin: 0;
 		padding: 0;
 	}
 }
-/* end wc.ui.fieldset.scss */

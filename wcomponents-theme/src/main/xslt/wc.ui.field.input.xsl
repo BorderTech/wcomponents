@@ -1,18 +1,18 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
 	<xsl:import href="wc.constants.xsl"/>
+	<xsl:import href="wc.common.n.className.xsl"/>
 	<!--
 		The input part of WField is a wrapper for other components. FieldIndicators
 		should be output after the functional content of the input.
-		 
+
 		param parentLayout (length 1)
 		Used to determine if the WField has a parent WFieldLayout (which may not be true
-		if the WField is in an {{{./wc.ui.ajaxResponse.html}AJAX response}}). We have to
-		calculate this in ui:field so we may as well pass it in.
-		
+		if the WField is in an AJAX response. We have to calculate this in ui:field so we may as well pass it in.
+
 		param labelWidth
 		The labelWidth property of the parent WFieldLayout (if known). We have to
 		calculate this in ui:field so we may as well pass it in.
-		
+
 		param isCheckRadio (1/0)
 		Indicates whether the WField is a container for a WCheckBox, WRadioButton
 		or a WSelectToggle (renderAs not control) as the primary input control,
@@ -24,11 +24,11 @@
 		<xsl:param name="labelWidth"/>
 		<xsl:param name="isCheckRadio"/>
 		<xsl:variable name="inputWidth" select="../@inputWidth"/>
-		<xsl:element name="div">
+		<div>
 			<xsl:attribute name="class">
-				<xsl:text>input</xsl:text>
+				<xsl:call-template name="commonClassHelper"/>
 				<xsl:if test="$inputWidth">
-					<xsl:text> inputWidth</xsl:text>
+					<xsl:text> wc_inputwidth</xsl:text>
 				</xsl:if>
 			</xsl:attribute>
 			<!--
@@ -74,15 +74,15 @@
 			</xsl:if>
 			<xsl:choose>
 				<xsl:when test="$isCheckRadio!=1">
-					<xsl:apply-templates select="node()[not(self::ui:fieldIndicator)]"/>
-					<xsl:apply-templates select="ui:fieldIndicator"/>
+					<xsl:apply-templates select="node()[not(self::ui:fieldindicator)]"/>
+					<xsl:apply-templates select="ui:fieldindicator"/>
 				</xsl:when>
 				<xsl:otherwise>
-					<xsl:apply-templates select="ui:checkBox|ui:radioButton|ui:selectToggle"/>
-					<xsl:apply-templates select="node()[not(self::ui:fieldIndicator or self::ui:checkBox or self::ui:radioButton or self::ui:selectToggle)]"/>
-					<xsl:apply-templates select="ui:fieldIndicator"/>
+					<xsl:apply-templates select="ui:checkbox|ui:radiobutton|ui:selecttoggle"/>
+					<xsl:apply-templates select="node()[not(self::ui:fieldindicator or self::ui:checkbox or self::ui:radiobutton or self::ui:selecttoggle)]"/>
+					<xsl:apply-templates select="ui:fieldindicator"/>
 				</xsl:otherwise>
 			</xsl:choose>
-		</xsl:element>
+		</div>
 	</xsl:template>
 </xsl:stylesheet>

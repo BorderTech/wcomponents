@@ -64,19 +64,26 @@ final class WTableRowRendererRenderer extends AbstractWebXmlRenderer {
 		xml.appendOptionalAttribute("expandable", rowExpandable && !rowExpanded, "true");
 		xml.appendClose();
 
+		// wrote the column cell.
+		boolean isRowHeader = table.isRowHeaders(); // need this before we get into the loop
 		for (int i = 0; i < numCols; i++) {
 			int colIndex = columnOrder == null ? i : columnOrder[i];
 			WTableColumn col = table.getColumn(colIndex);
+			String cellTag = "ui:td";
 
 			if (col.isVisible()) {
-				xml.appendTag("ui:td");
+				if (isRowHeader) { // The first rendered column will be the row header.
+					cellTag = "ui:th";
+					isRowHeader = false; // only set one col as the row header.
+				}
+				xml.appendTag(cellTag);
 				renderer.getRenderer(colIndex).paint(renderContext);
-				xml.appendEndTag("ui:td");
+				xml.appendEndTag(cellTag);
 			}
 		}
 
 		if (rowExpandable) {
-			xml.appendTagOpen("ui:subTr");
+			xml.appendTagOpen("ui:subtr");
 			xml.appendOptionalAttribute("open", rowExpanded, "true");
 			xml.appendClose();
 
@@ -84,7 +91,7 @@ final class WTableRowRendererRenderer extends AbstractWebXmlRenderer {
 				renderChildren(renderer, renderContext, wrapper.getChildren());
 			}
 
-			xml.appendEndTag("ui:subTr");
+			xml.appendEndTag("ui:subtr");
 		}
 
 		xml.appendEndTag("ui:tr");

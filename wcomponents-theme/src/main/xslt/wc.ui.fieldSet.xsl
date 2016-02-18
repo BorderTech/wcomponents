@@ -8,10 +8,10 @@
 	<xsl:import href="wc.common.offscreenSpan.xsl"/>
 	<xsl:import href="wc.common.n.className.xsl"/>
 	<!--
-		Transform for ui:fieldSet which is the XML output of WFieldSet.
+		Transform for ui:fieldset which is the XML output of WFieldSet.
 
 		Child Elements
-		* ui:decoratedLabel
+		* ui:decoratedlabel
 		* ui:content
 
 		Base element:
@@ -35,7 +35,7 @@
 		fieldset in in an error state the error message are output before the fieldset
 		is closed.
 	-->
-	<xsl:template match="ui:fieldSet">
+	<xsl:template match="ui:fieldset">
 		<xsl:variable name="frame">
 			<xsl:value-of select="@frame"/>
 		</xsl:variable>
@@ -101,8 +101,8 @@
 			-->
 			<xsl:element name="legend">
 				<xsl:call-template name="accessKey"/>
-				<xsl:apply-templates select="ui:decoratedLabel"/>
-				<xsl:if test="normalize-space(ui:decoratedLabel/*)='' and not(ui:decoratedLabel//ui:image)">
+				<xsl:apply-templates select="ui:decoratedlabel"/>
+				<xsl:if test="normalize-space(ui:decoratedlabel/*)='' and not(ui:decoratedlabel//ui:image)">
 					<xsl:value-of select="$$${wc.common.i18n.requiredLabel}"/>
 				</xsl:if>
 				<xsl:if test="@required">

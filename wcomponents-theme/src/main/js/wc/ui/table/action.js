@@ -7,16 +7,16 @@
  * @requires module:wc/dom/event
  * @requires module:wc/dom/getFilteredGroup
  * @requires module:wc/dom/initialise
- * @requires module:wc/dom/Widget
  * @requires module:wc/dom/shed
+ * @requires module:wc/ui/table/common
  */
 define(["wc/dom/event",
 		"wc/dom/getFilteredGroup",
 		"wc/dom/initialise",
-		"wc/dom/Widget",
-		"wc/dom/shed"],
-	/** @param event wc/dom/event @param getFilteredGroup wc/dom/getFilteredGroup @param initialise wc/dom/initialise @param Widget wc/dom/Widget @param shed wc/dom/shed @ignore */
-	function(event, getFilteredGroup, initialise, Widget, shed) {
+		"wc/dom/shed",
+		"wc/ui/table/common"],
+	/** @param event wc/dom/event @param getFilteredGroup wc/dom/getFilteredGroup @param initialise wc/dom/initialise @param shed wc/dom/shed @param common @ignore */
+	function(event, getFilteredGroup, initialise, shed, common) {
 		"use strict";
 
 		/**
@@ -25,9 +25,9 @@ define(["wc/dom/event",
 		 * @private
 		 */
 		function Action() {
-			var ACTION_BUTTON = new Widget("BUTTON", "wc_table_cond"),
-				ACTION_TABLE = new Widget("div", "table"),
-				ROW_CONTAINER = new Widget("tbody"),
+			var ACTION_BUTTON = common.BUTTON.extend("wc_table_cond"),
+				ACTION_TABLE = common.WRAPPER,
+				ROW_CONTAINER = common.TBODY,
 				ACTION = { WARN: "warning",
 					ERR: "error" };
 

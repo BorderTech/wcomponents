@@ -9,7 +9,7 @@
 		Transform for WProgressBar. 
 		This component generates a graphical indicator of static progess, not a timer.
 	-->
-	<xsl:template match="ui:progressBar">
+	<xsl:template match="ui:progressbar">
 		<xsl:variable name="percentage" select="round(100 * (@value div @max))"/>
 		<xsl:variable name="barText">
 			<xsl:choose>

@@ -3,20 +3,20 @@
 
 // field layouts may be an ordered list, in which case we want to expose the numbers so need the element qualifier
 //scss-lint:disable QualifyingElement
-ul.fieldLayout {
+ul.wc-fieldlayout {
 	list-style-type: none;
 	margin: 0;
 	padding: 0;
 }
 //scss-lint:enable QualifyingElement
 
-.field {
-	+ .field {
+.wc-field {
+	+ .wc-field {
 		margin-top: $vgap-normal;
 	}
 
 	> :first-child,
-	> .input {
+	> .wc-input {
 		@include respond(phonelike) {
 			// important to override inline CSS from XSLT
 			//scss-lint:disable ImportantRule
@@ -53,12 +53,12 @@ ul.fieldLayout {
 				// scss-lint:enable NestingDepth
 			}
 		}
-		> .input {
+		> .wc-input {
 			max-width: $input-width;
 			width: $input-width;
 		}
 
-		> .wc_off + .input { // if the label is off screen we need some margin.
+		> .wc_off + .wc-input { // if the label is off screen we need some margin.
 			margin-left: $label-width;
 		}
 	}
@@ -66,8 +66,7 @@ ul.fieldLayout {
 	.stacked > & {
 		// Stacked is pretty easy, just need to put in a vertical spacer between the label and the controls. This should
 		// probably be smaller than the gap between fields.
-		> label + .input,
-		> .label + .input {
+		> .wc-label + .wc-input {
 			margin-top: $vgap-small;
 		}
 	}
@@ -75,10 +74,10 @@ ul.fieldLayout {
 
 // InputWidth is placed inline but a class is added to the input part of the field to signify that an inputWidth is in
 // use so we can size the components
-.input.inputWidth {
+.wc-input.wc_inputwidth {
 	> [type='text'],
 	> [type='date'],
-	> .dateField,
+	>.wc-datefield,
 	> [type='password'],
 	> [type='email'],
 	> [type='tel'],
@@ -90,14 +89,13 @@ ul.fieldLayout {
 		width: 100%;
 	}
 
-	> .dateField[role='combobox'] {
+	>.wc-datefield[role='combobox'] {
 		width: auto;
 	}
 }
 
 @include respond(phonelike) {
-	.flat > .field > .wc_fld_pl { //this is the placeholder for a null or moved label (moved for checkbox or radio). Remove on narrow viewports.
+	.flat > .wc-field > .wc_fld_pl { //this is the placeholder for a null or moved label (moved for checkbox or radio). Remove on narrow viewports.
 		display: none;
 	}
 }
-/* end wc.ui.fieldLayout.scss */

@@ -50,11 +50,11 @@ public class WFieldWarningIndicatorRenderer_Test extends AbstractWebXmlRendererT
 		// Validate Schema
 		assertSchemaMatch(root);
 		// Check Attributes
-		assertXpathEvaluatesTo(indicator.getId(), "//ui:fieldIndicator/@id", root);
-		assertXpathEvaluatesTo("warn", "//ui:fieldIndicator/@type", root);
-		assertXpathEvaluatesTo(text.getId(), "//ui:fieldIndicator/@for", root);
+		assertXpathEvaluatesTo(indicator.getId(), "//ui:fieldindicator/@id", root);
+		assertXpathEvaluatesTo("warn", "//ui:fieldindicator/@type", root);
+		assertXpathEvaluatesTo(text.getId(), "//ui:fieldindicator/@for", root);
 		// Check Message
-		assertXpathEvaluatesTo("Test Warning", "//ui:fieldIndicator/ui:message", root);
+		assertXpathEvaluatesTo("Test Warning", "//ui:fieldindicator/ui:message", root);
 	}
 
 	@Test

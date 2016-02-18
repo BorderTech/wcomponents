@@ -28,7 +28,7 @@ final class WProgressBarRenderer extends AbstractWebXmlRenderer {
 		WProgressBar progressBar = (WProgressBar) component;
 		XmlStringBuilder xml = renderContext.getWriter();
 
-		xml.appendTagOpen("ui:progressBar");
+		xml.appendTagOpen("ui:progressbar");
 		xml.appendAttribute("id", component.getId());
 		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
@@ -51,7 +51,7 @@ final class WProgressBarRenderer extends AbstractWebXmlRenderer {
 		} else {
 			xml.appendClose();
 			xml.appendEscaped(text);
-			xml.appendEndTag("ui:progressBar");
+			xml.appendEndTag("ui:progressbar");
 		}
 	}
 }

@@ -2,9 +2,9 @@
 	<xsl:import href="wc.ui.borderLayout.n.borderLayoutCell.xsl"/>
 	<!--
 	
-		The transform for west, center and east elements within a ui:borderLayout.
+		The transform for west, center and east elements within a ui:borderlayout.
 		
-		The space between the cells is set by the parent ui:borderLayout's hgap
+		The space between the cells is set by the parent ui:borderlayout's hgap
 		attribute. If set this is set half as a left margin on all but the leftmost 
 		(in ltr	languages) cell and half as a right margin on all but the rightmost.
 	-->

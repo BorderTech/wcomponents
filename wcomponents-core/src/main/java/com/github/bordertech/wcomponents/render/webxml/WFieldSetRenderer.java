@@ -25,7 +25,7 @@ final class WFieldSetRenderer extends AbstractWebXmlRenderer {
 		WFieldSet fieldSet = (WFieldSet) component;
 		XmlStringBuilder xml = renderContext.getWriter();
 
-		xml.appendTagOpen("ui:fieldSet");
+		xml.appendTagOpen("ui:fieldset");
 		xml.appendAttribute("id", component.getId());
 		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
@@ -73,6 +73,6 @@ final class WFieldSetRenderer extends AbstractWebXmlRenderer {
 		}
 
 		xml.appendEndTag("ui:content");
-		xml.appendEndTag("ui:fieldSet");
+		xml.appendEndTag("ui:fieldset");
 	}
 }

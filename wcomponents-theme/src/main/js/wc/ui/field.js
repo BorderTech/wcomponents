@@ -19,13 +19,13 @@ define(["wc/ui/ajax/processResponse", "wc/dom/Widget", "wc/dom/initialise", "wc/
 		 * @private
 		 */
 		function FieldAjaxSubscriber() {
-			var FIELD = new Widget("li", "field"),
+			var FIELD = new Widget("li", "wc-field"),
 				NO_PARENT_ATTRIB = "data-wc-nop";
 
 			/**
 			 * Before inserting a container into the DOM we may need to manipulate some properties which are not
 			 * available to the XSLT as they are ancestor dependent. This will only be the case if the element being
-			 * acted upon is the output of ui:field without a ui:fieldLayout parent.
+			 * acted upon is the output of ui:field without a ui:fieldlayout parent.
 			 *
 			 * @function
 			 * @private

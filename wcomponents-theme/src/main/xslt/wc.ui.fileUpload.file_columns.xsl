@@ -3,7 +3,7 @@
 	<xsl:import href="wc.common.attributeSets.xsl"/>
 	<xsl:import href="wc.ui.fileUpload.file.xsl"/>
 <!--
-	File children of ui:fileUpload. These are arranged in a list for nice semantic
+	File children of ui:fileupload. These are arranged in a list for nice semantic
 	reasons. Each file has a checkbox to deselect it (for removal) and a label
 	which gets its content from a call to the named template {{fileInfo}}. This
 	named template is not totally necessary but makes themeing the list a little

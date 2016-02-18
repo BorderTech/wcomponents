@@ -35,14 +35,14 @@ public class WFieldLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {
 		// Validate Schema
 		assertSchemaMatch(layout);
 		// Check Attributes
-		assertXpathEvaluatesTo(layout.getId(), "//ui:fieldLayout/@id", layout);
-		assertXpathEvaluatesTo("flat", "//ui:fieldLayout/@layout", layout);
-		assertXpathEvaluatesTo("", "//ui:fieldLayout/@hidden", layout);
-		assertXpathEvaluatesTo("", "//ui:fieldLayout/@labelWidth", layout);
-		assertXpathEvaluatesTo("", "//ui:fieldLayout/@title", layout);
-		assertXpathEvaluatesTo("", "//ui:fieldLayout/@ordered", layout);
+		assertXpathEvaluatesTo(layout.getId(), "//ui:fieldlayout/@id", layout);
+		assertXpathEvaluatesTo("flat", "//ui:fieldlayout/@layout", layout);
+		assertXpathEvaluatesTo("", "//ui:fieldlayout/@hidden", layout);
+		assertXpathEvaluatesTo("", "//ui:fieldlayout/@labelWidth", layout);
+		assertXpathEvaluatesTo("", "//ui:fieldlayout/@title", layout);
+		assertXpathEvaluatesTo("", "//ui:fieldlayout/@ordered", layout);
 		// Check No Fields
-		assertXpathNotExists("//ui:fieldLayout/ui:field", layout);
+		assertXpathNotExists("//ui:fieldlayout/ui:field", layout);
 	}
 
 	@Test
@@ -55,34 +55,34 @@ public class WFieldLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {
 		// Validate Schema
 		assertSchemaMatch(layout);
 		// Check Attributes
-		assertXpathEvaluatesTo(layout.getId(), "//ui:fieldLayout/@id", layout);
-		assertXpathEvaluatesTo("stacked", "//ui:fieldLayout/@layout", layout);
-		assertXpathEvaluatesTo("true", "//ui:fieldLayout/@hidden", layout);
-		assertXpathEvaluatesTo("10", "//ui:fieldLayout/@labelWidth", layout);
-		assertXpathEvaluatesTo("title1", "//ui:fieldLayout/@title", layout);
+		assertXpathEvaluatesTo(layout.getId(), "//ui:fieldlayout/@id", layout);
+		assertXpathEvaluatesTo("stacked", "//ui:fieldlayout/@layout", layout);
+		assertXpathEvaluatesTo("true", "//ui:fieldlayout/@hidden", layout);
+		assertXpathEvaluatesTo("10", "//ui:fieldlayout/@labelWidth", layout);
+		assertXpathEvaluatesTo("title1", "//ui:fieldlayout/@title", layout);
 		// Check No Fields
-		assertXpathNotExists("//ui:fieldLayout/ui:field", layout);
+		assertXpathNotExists("//ui:fieldlayout/ui:field", layout);
 
 		// Set Label Width - 0
 		layout.setLabelWidth(0);
-		assertXpathEvaluatesTo("", "//ui:fieldLayout/@labelWidth", layout);
+		assertXpathEvaluatesTo("", "//ui:fieldlayout/@labelWidth", layout);
 
 		// Set Label Width - 1
 		layout.setLabelWidth(1);
-		assertXpathEvaluatesTo("1", "//ui:fieldLayout/@labelWidth", layout);
+		assertXpathEvaluatesTo("1", "//ui:fieldlayout/@labelWidth", layout);
 
 		// Set Label Width - 100
 		layout.setLabelWidth(100);
-		assertXpathEvaluatesTo("100", "//ui:fieldLayout/@labelWidth", layout);
+		assertXpathEvaluatesTo("100", "//ui:fieldlayout/@labelWidth", layout);
 
 		// Set ordered
 		layout.setOrdered(true);
 		assertSchemaMatch(layout);
-		assertXpathEvaluatesTo("1", "//ui:fieldLayout/@ordered", layout);
+		assertXpathEvaluatesTo("1", "//ui:fieldlayout/@ordered", layout);
 
 		// Set offset
 		layout.setOrderedOffset(20);
-		assertXpathEvaluatesTo("20", "//ui:fieldLayout/@ordered", layout);
+		assertXpathEvaluatesTo("20", "//ui:fieldlayout/@ordered", layout);
 	}
 
 	@Test
@@ -94,42 +94,42 @@ public class WFieldLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {
 		// Validate Schema
 		assertSchemaMatch(layout);
 		// Check Fields
-		assertXpathEvaluatesTo("2", "count(//ui:fieldLayout/ui:field)", layout);
+		assertXpathEvaluatesTo("2", "count(//ui:fieldlayout/ui:field)", layout);
 	}
 
 	@Test
 	public void testXssEscaping() throws IOException, SAXException, XpathException {
 		WFieldLayout layout = new WFieldLayout();
-		layout.setTitle(getMaliciousAttribute("ui:fieldLayout"));
+		layout.setTitle(getMaliciousAttribute("ui:fieldlayout"));
 		assertSafeContent(layout);
 	}
 
 	@Test
 	public void testRenderedWithMargins() throws IOException, SAXException, XpathException {
 		WFieldLayout layout = new WFieldLayout();
-		assertXpathNotExists("//ui:fieldLayout/ui:margin", layout);
+		assertXpathNotExists("//ui:fieldlayout/ui:margin", layout);
 
 		Margin margin = new Margin(0);
 		layout.setMargin(margin);
-		assertXpathNotExists("//ui:fieldLayout/ui:margin", layout);
+		assertXpathNotExists("//ui:fieldlayout/ui:margin", layout);
 
 		margin = new Margin(1);
 		layout.setMargin(margin);
 		assertSchemaMatch(layout);
-		assertXpathEvaluatesTo("1", "//ui:fieldLayout/ui:margin/@all", layout);
-		assertXpathEvaluatesTo("", "//ui:fieldLayout/ui:margin/@north", layout);
-		assertXpathEvaluatesTo("", "//ui:fieldLayout/ui:margin/@east", layout);
-		assertXpathEvaluatesTo("", "//ui:fieldLayout/ui:margin/@south", layout);
-		assertXpathEvaluatesTo("", "//ui:fieldLayout/ui:margin/@west", layout);
+		assertXpathEvaluatesTo("1", "//ui:fieldlayout/ui:margin/@all", layout);
+		assertXpathEvaluatesTo("", "//ui:fieldlayout/ui:margin/@north", layout);
+		assertXpathEvaluatesTo("", "//ui:fieldlayout/ui:margin/@east", layout);
+		assertXpathEvaluatesTo("", "//ui:fieldlayout/ui:margin/@south", layout);
+		assertXpathEvaluatesTo("", "//ui:fieldlayout/ui:margin/@west", layout);
 
 		margin = new Margin(1, 2, 3, 4);
 		layout.setMargin(margin);
 		assertSchemaMatch(layout);
-		assertXpathEvaluatesTo("", "//ui:fieldLayout/ui:margin/@all", layout);
-		assertXpathEvaluatesTo("1", "//ui:fieldLayout/ui:margin/@north", layout);
-		assertXpathEvaluatesTo("2", "//ui:fieldLayout/ui:margin/@east", layout);
-		assertXpathEvaluatesTo("3", "//ui:fieldLayout/ui:margin/@south", layout);
-		assertXpathEvaluatesTo("4", "//ui:fieldLayout/ui:margin/@west", layout);
+		assertXpathEvaluatesTo("", "//ui:fieldlayout/ui:margin/@all", layout);
+		assertXpathEvaluatesTo("1", "//ui:fieldlayout/ui:margin/@north", layout);
+		assertXpathEvaluatesTo("2", "//ui:fieldlayout/ui:margin/@east", layout);
+		assertXpathEvaluatesTo("3", "//ui:fieldlayout/ui:margin/@south", layout);
+		assertXpathEvaluatesTo("4", "//ui:fieldlayout/ui:margin/@west", layout);
 	}
 
 }

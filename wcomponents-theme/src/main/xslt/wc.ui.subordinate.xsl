@@ -15,7 +15,7 @@
 		Key to find radio buttons which match a ui:subordinate ui:condition. Used by
 		ui:subordinate because a radio buttons name is not the same as its id.
 		-->
-	<xsl:key name="conditionKey" match="//ui:radioButton" use="@id"/>
+	<xsl:key name="conditionKey" match="//ui:radiobutton" use="@id"/>
 	<!--
 		Template match="ui:subordinate|ui:componentGroup|ui:target|ui:onTrue|ui:onFalse|ui:and|ui:or"
 		 Null template to prevent inline UI artefacts.

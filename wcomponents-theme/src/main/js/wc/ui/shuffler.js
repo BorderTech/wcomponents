@@ -30,8 +30,8 @@ define(["wc/dom/event",
 		function Shuffler() {
 			var MOVE_BUTTON = new Widget("button", "wc_sorter"),
 				FIELDSET = new Widget("fieldset"),
-				CONTAINER = FIELDSET.extend("shuffler"),
-				SHUFFLER_SELECT = new Widget("select", "shuffler"),
+				CONTAINER = FIELDSET.extend("wc-shuffler"),
+				SHUFFLER_SELECT,
 				UP = "up",
 				DOWN = "down",
 				TOP = "top",
@@ -44,6 +44,7 @@ define(["wc/dom/event",
 				 * based on the selections made in the available/chosen elements.
 				 */
 				function _writeState(container) {
+					SHUFFLER_SELECT = SHUFFLER_SELECT || new Widget("select", "wc_shuffler");
 					var list = SHUFFLER_SELECT.findDescendant(container),
 						options, i, len, next;
 

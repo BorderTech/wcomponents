@@ -24,7 +24,7 @@ final class WMenuItemGroupRenderer extends AbstractWebXmlRenderer {
 		WMenuItemGroup group = (WMenuItemGroup) component;
 		XmlStringBuilder xml = renderContext.getWriter();
 
-		xml.appendTagOpen("ui:menuGroup");
+		xml.appendTagOpen("ui:menugroup");
 		xml.appendAttribute("id", component.getId());
 		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
@@ -32,6 +32,6 @@ final class WMenuItemGroupRenderer extends AbstractWebXmlRenderer {
 
 		paintChildren(group, renderContext);
 
-		xml.appendEndTag("ui:menuGroup");
+		xml.appendEndTag("ui:menugroup");
 	}
 }

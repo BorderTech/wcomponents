@@ -4,7 +4,7 @@
 	<xs:include schemaLocation="attributeGroups.control.xsd" />
 	<xs:include schemaLocation="optgroup.xsd" />
 
-	<xs:element name="multiDropdown">
+	<xs:element name="multidropdown">
 		<xs:annotation>
 			<xs:documentation>
 				<p>WMultiDropdown represents a compound multi-selection device comprising an indeterminate number of single selection devices which do not individually allow for no

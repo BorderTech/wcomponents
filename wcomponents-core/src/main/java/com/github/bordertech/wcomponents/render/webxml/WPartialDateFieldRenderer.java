@@ -29,7 +29,7 @@ final class WPartialDateFieldRenderer extends AbstractWebXmlRenderer {
 		String submitControlId = submitControl == null ? null : submitControl.getId();
 		String date = formatDate(dateField);
 
-		xml.appendTagOpen("ui:dateField");
+		xml.appendTagOpen("ui:datefield");
 		xml.appendAttribute("id", component.getId());
 		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
@@ -50,7 +50,7 @@ final class WPartialDateFieldRenderer extends AbstractWebXmlRenderer {
 			xml.appendEscaped(dateField.getText());
 		}
 
-		xml.appendEndTag("ui:dateField");
+		xml.appendEndTag("ui:datefield");
 	}
 
 	/**

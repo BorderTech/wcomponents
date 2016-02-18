@@ -8,14 +8,14 @@
 
 // use inline-block on a label-dummy to prevent a required marker flying off the end
 //scss-lint:disable QualifyingElement
-span.label {
+span.wc-label {
 	display: inline-block;
 }
 
 // space between a checkable and its label
 [type='radio'] + label,
 [type='checkbox'] + label,
-.wc_ro + .label {
+.wc_ro + .wc-label {
 	margin-left: $hgap-small;
 }
 
@@ -39,8 +39,7 @@ input[type='checkbox'] + .wc_req:before {
 	@include mandatory-indicator;
 }
 
-label,
-.label {
+.wc-label {
 	&.wc_req {
 		@include border-box;
 		padding-right: 1em;
@@ -53,4 +52,3 @@ label,
 		}
 	}
 }
-/* end wc.ui.label.scss */

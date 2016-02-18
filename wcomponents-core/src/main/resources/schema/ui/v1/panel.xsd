@@ -14,7 +14,7 @@
 			<xs:sequence>
 				<xs:element ref="ui:margin" minOccurs="0" />
 				<xs:choice>
-					<xs:element name="gridLayout">
+					<xs:element name="gridlayout">
 						<xs:annotation>
 							<xs:documentation>Provides a layout mechanism for WPanel which attempts to apply a regular grid to the components in the panel.</xs:documentation>
 						</xs:annotation>
@@ -40,7 +40,7 @@
 							<xs:attributeGroup ref="ui:gaps.attributes" />
 						</xs:complexType>
 					</xs:element>
-					<xs:element name="flowLayout">
+					<xs:element name="flowlayout">
 						<xs:annotation>
 							<xs:documentation>Provides a layout mechanism for WPanel which attempts to apply a consisten vertical or horizontal flow of the components in the
 								panel.</xs:documentation>
@@ -117,7 +117,7 @@
 						</xs:complexType>
 					</xs:element>
 
-					<xs:element name="listLayout">
+					<xs:element name="listlayout">
 						<xs:annotation>
 							<xs:documentation>Provides a layout mechanism for WPanel which creates a list out of components in the panel. This layout should <strong>only</strong>
 								be used when each of the panel's content components is part of a single semantic group.</xs:documentation>
@@ -151,9 +151,9 @@
 									</xs:restriction>
 								</xs:simpleType>
 							</xs:attribute>
-							<xs:attribute name="align">
+							<xs:attribute name="align" default="left">
 								<xs:annotation>
-									<xs:documentation>Indicates the alignment of content in the cells. If not set then "left" is assumed.</xs:documentation>
+									<xs:documentation>Indicates the alignment of content in the cells.</xs:documentation>
 								</xs:annotation>
 								<xs:simpleType>
 									<xs:restriction base="xs:NMTOKEN">
@@ -178,10 +178,9 @@
 									</xs:restriction>
 								</xs:simpleType>
 							</xs:attribute>
-							<xs:attribute name="separator">
+							<xs:attribute name="separator" default="none">
 								<xs:annotation>
-									<xs:documentation>Indicates the list item separator to be used. If onitted then no separator is used. May be overridden in the
-										theme.</xs:documentation>
+									<xs:documentation>Indicates the list item separator to be used. If omitted then no separator is used.</xs:documentation>
 								</xs:annotation>
 								<xs:simpleType>
 									<xs:restriction base="xs:NMTOKEN">
@@ -213,7 +212,7 @@
 						</xs:complexType>
 					</xs:element>
 
-					<xs:element name="borderLayout">
+					<xs:element name="borderlayout">
 						<xs:annotation>
 							<xs:documentation>Provides a layout mechanism for WPanel which attempts to apply a layout consisting of up to four edge regions and a central
 								region.</xs:documentation>
@@ -230,7 +229,7 @@
 						</xs:complexType>
 					</xs:element>
 
-					<xs:element name="columnLayout">
+					<xs:element name="columnlayout">
 						<xs:annotation>
 							<xs:documentation>Provides a layout mechanism for WPanel which attempts to apply a consistent row and column set to the components in the panel. This
 								differs from a grid layout in that the columns are not constrained to a uniform width or horizontal alignment of content.</xs:documentation>
@@ -335,76 +334,10 @@
 									screen.</xs:documentation>
 							</xs:annotation>
 						</xs:enumeration>
-						<xs:enumeration value="group-select">
-							<xs:annotation>
-								<xs:documentation>Deprecated: do not use.</xs:documentation>
-							</xs:annotation>
-						</xs:enumeration>
 						<xs:enumeration value="header">
 							<xs:annotation>
 								<xs:documentation>Indicates the panel is used as a page header. This is a restricted type and should only be applied once in any
 									screen.</xs:documentation>
-							</xs:annotation>
-						</xs:enumeration>
-						<!-- Application-specific panel types -->
-						<xs:enumeration value="app-summary-panel">
-							<xs:annotation>
-								<xs:documentation>Available for interpretation by theme. No specific semantics or style.</xs:documentation>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="app-container">
-							<xs:annotation>
-								<xs:documentation>Available for interpretation by theme. No specific semantics or style.</xs:documentation>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="app-tab-menu">
-							<xs:annotation>
-								<xs:documentation>Deprecated: do not use</xs:documentation>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="app-content">
-							<xs:annotation>
-								<xs:documentation>Available for interpretation by theme. No specific semantics or style.</xs:documentation>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="app-assessment-content">
-							<xs:annotation>
-								<xs:documentation>Deprecated: do not use</xs:documentation>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="progress-details-panel">
-							<xs:annotation>
-								<xs:documentation>Deprecated: do not use</xs:documentation>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="app-data-controls">
-							<xs:annotation>
-								<xs:documentation>Available for interpretation by theme. No specific semantics or style.</xs:documentation>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="app-data-sub-controls">
-							<xs:annotation>
-								<xs:documentation>Available for interpretation by theme. No specific semantics or style.</xs:documentation>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="app-accordion">
-							<xs:annotation>
-								<xs:documentation>Deprecated: do not use</xs:documentation>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="app-accordion-client">
-							<xs:annotation>
-								<xs:documentation>Deprecated: do not use</xs:documentation>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="app-accordion-clients">
-							<xs:annotation>
-								<xs:documentation>Deprecated: do not use</xs:documentation>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="app-accordion-actions">
-							<xs:annotation>
-								<xs:documentation>Deprecated: do not use</xs:documentation>
 							</xs:annotation>
 						</xs:enumeration>
 					</xs:restriction>

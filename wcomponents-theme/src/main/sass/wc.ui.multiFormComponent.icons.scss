@@ -4,8 +4,8 @@
 
 .wc_mfc {
 	button {
+		@include background-image($url: '../images/delete.png', $reset-size: 1em);
 		@include button($border: 0, $padding: 0);
-		@include background-image-icon('../images/delete.png');
 		margin-left: $hgap-small;
 		vertical-align: middle;
 

@@ -51,7 +51,7 @@ define(["wc/dom/ariaAnalog",
 			 * @type {module:wc/dom/Widget}
 			 * @public
 			 */
-			this.CONTAINER = new Widget("fieldset", "checkBoxSelect");
+			this.CONTAINER = new Widget("fieldset", "wc-checkboxselect");
 
 			/**
 			 * The description of a group item.
@@ -80,7 +80,7 @@ define(["wc/dom/ariaAnalog",
 			 * @protected
 			 */
 			this._extendedInitialisation = function(/* element */) {
-				this.actionable.push(new Widget("input", "", {"type": "checkbox"}));
+				this.actionable.push(this.ITEM);
 			};
 
 			/**
