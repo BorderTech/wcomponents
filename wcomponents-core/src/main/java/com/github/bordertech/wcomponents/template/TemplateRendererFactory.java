@@ -3,6 +3,8 @@ package com.github.bordertech.wcomponents.template;
 import com.github.bordertech.wcomponents.util.Config;
 import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.Util;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Return the {@link TemplateRenderer} implementation for a given template engine.
@@ -23,10 +25,15 @@ import com.github.bordertech.wcomponents.util.Util;
 public final class TemplateRendererFactory {
 
 	/**
+	 * A cache of template renderers keyed by the class name.
+	 */
+	private static final Map<String, TemplateRenderer> CACHE = new HashMap<>();
+
+	/**
 	 * Private constructor.
 	 */
 	private TemplateRendererFactory() {
-		// Do not alow instantiation
+		// Do not allow instantiation
 	}
 
 	/**
@@ -95,9 +102,16 @@ public final class TemplateRendererFactory {
 			throw new SystemException("No implementation set for template engine [" + engineName + "]. Set the parameter [" + paramKey + "].");
 		}
 
+		// Check the cache
+		TemplateRenderer cached = CACHE.get(clazzName);
+		if (cached != null) {
+			return cached;
+		}
+
 		try {
 			Class<TemplateRenderer> clazz = (Class<TemplateRenderer>) Class.forName(clazzName);
 			TemplateRenderer renderer = clazz.newInstance();
+			CACHE.put(clazzName, renderer);
 			return renderer;
 		} catch (Exception e) {
 			throw new IllegalArgumentException("Could not instantiate template renderer [" + clazzName + "]. " + e.getMessage(), e);

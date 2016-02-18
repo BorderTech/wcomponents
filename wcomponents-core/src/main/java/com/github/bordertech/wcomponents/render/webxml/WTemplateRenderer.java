@@ -35,7 +35,7 @@ final class WTemplateRenderer extends AbstractWebXmlRenderer {
 		// Load the parameters
 		context.putAll(template.getParameters());
 
-		// Get template renderer
+		// Get template renderer for the engine
 		String engine = template.getEngineName();
 		if (Util.empty(engine)) {
 			engine = TemplateRendererFactory.DEFAULT_ENGINE_NAME;

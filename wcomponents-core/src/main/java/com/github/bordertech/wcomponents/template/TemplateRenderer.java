@@ -50,6 +50,8 @@ public interface TemplateRenderer {
 	void renderTemplate(final String templateName, final Map<String, Object> context, final Map<String, WComponent> taggedComponents, final Writer writer, final Map<String, Object> options);
 
 	/**
+	 * Render an inline template.
+	 *
 	 * @param templateInline the inline template
 	 * @param context the context for the template
 	 * @param taggedComponents the tagged components
