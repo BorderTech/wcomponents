@@ -498,14 +498,14 @@
 			<xs:element name="th" minOccurs="0">
 				<xs:complexType mixed="true">
 					<xs:sequence>
-						<xs:element ref="ui:decoratedlabel" minOccurs="0"/>
+						<xs:group ref="ui:contentGroup" minOccurs="0" maxOccurs="unbounded"/>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
 			<xs:element name="td" minOccurs="1" maxOccurs="unbounded">
 				<xs:complexType mixed="true">
 					<xs:sequence>
-						<xs:any processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+						<xs:group ref="ui:contentGroup" minOccurs="0" maxOccurs="unbounded"/>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
@@ -517,7 +517,7 @@
 						<xs:element name="content">
 							<xs:complexType mixed="true">
 								<xs:sequence>
-									<xs:any processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+									<xs:group ref="ui:contentGroup" minOccurs="0" maxOccurs="unbounded"/>
 								</xs:sequence>
 								<xs:attribute name="spanAllCols" type="xs:boolean"/>
 							</xs:complexType>

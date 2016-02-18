@@ -4,15 +4,16 @@
  * @extends module:wc/dom/ariaAnalog
  * @requires module:wc/dom/ariaAnalog
  * @requires module:wc/dom/initialise
- * @requires module:wc/dom/Widget
+ * @requires module:wc/ui/table/common
  */
 define(["wc/dom/ariaAnalog",
 		"wc/dom/initialise",
-		"wc/ui/selectToggle",
 		"wc/ui/table/common"],
 	/** @param ariaAnalog wc/dom/ariaAnalog @param initialise wc/dom/initialise @param table @ignore */
 	function(ariaAnalog, initialise, table) {
 		"use strict";
+
+		/* Unused dependency: selectToggle is required implicitly. It is probably loaded but we cannot be sure. */
 
 		/**
 		 * @constructor

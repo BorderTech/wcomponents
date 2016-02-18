@@ -526,6 +526,40 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
+	public void testDoPaintOfRowHeaderWithNoRowHeaderColumn() throws IOException, SAXException, XpathException {
+
+		WTable table = new WTable();
+		table.addColumn(new WTableColumn(COL1_HEADING_TEST, WTextField.class));
+		table.addColumn(new WTableColumn(COL2_HEADING_TEST, WTextField.class));
+		table.addColumn(new WTableColumn(COL3_HEADING_TEST, WTextField.class));
+		// no row headers set
+
+		TableModel tableModel = createTableModel();
+		table.setTableModel(tableModel);
+
+		assertSchemaMatch(table);
+		assertXpathNotExists("//ui:table/ui:tbody/ui:tr/ui:th", table);
+	}
+
+	@Test
+	public void testDoPainWithRowHeaderColumn() throws IOException, SAXException, XpathException {
+
+		WTable table = new WTable();
+		table.addColumn(new WTableColumn(COL1_HEADING_TEST, WTextField.class));
+		table.addColumn(new WTableColumn(COL2_HEADING_TEST, WTextField.class));
+		table.addColumn(new WTableColumn(COL3_HEADING_TEST, WTextField.class));
+		// set the first column as the row headers
+		table.setRowHeaders(true);
+
+		TableModel tableModel = createTableModel();
+		table.setTableModel(tableModel);
+
+		assertSchemaMatch(table);
+		assertXpathExists("//ui:table/ui:tbody/ui:tr/ui:th", table);
+		assertXpathNotExists("//ui:table/ui:tbody/ui:tr/ui:th[2]", table);
+	}
+
+	@Test
 	public void testDoPaintSortableSortModeDynamicClientSettings() throws IOException, SAXException,
 			XpathException {
 		WTable component = new WTable();

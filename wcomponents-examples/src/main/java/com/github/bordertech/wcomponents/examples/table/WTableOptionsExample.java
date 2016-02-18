@@ -155,6 +155,11 @@ public class WTableOptionsExample extends WBeanContainer {
 	private final WCheckBox cbToggleSubRowSelection = new WCheckBox();
 
 	/**
+	 * Use row headers.
+	 */
+	private final WCheckBox cbHasRowHeaders = new WCheckBox();
+
+	/**
 	 * Construct the example.
 	 */
 	public WTableOptionsExample() {
@@ -184,15 +189,6 @@ public class WTableOptionsExample extends WBeanContainer {
 
 		layout.addField("Select Mode", rbsSelect);
 		WField fieldSelectAll = layout.addField("Select All Type", rbsSelectAll);
-		layout.addField("Expand Mode", rbsExpand);
-		layout.addField("Paging Mode", rbsPaging);
-		layout.addField("Striping Type", rbsStriping);
-		layout.addField("Separator Type", rbsSeparator);
-		layout.addField("Sort Mode", rbsSorting);
-		layout.addField("Show col headers", showColHeaders);
-		WField fieldExpandAll = layout.addField("Expand all", expandAll);
-		WField fieldToggleSubRowSelection = layout.addField("Parent row selection controls sub row selection", cbToggleSubRowSelection);
-
 		/* show and hide the row selection sub-options */
 		WSubordinateControl subShowSelectOptions = new WSubordinateControl();
 		Rule rule = new Rule();
@@ -202,6 +198,13 @@ public class WTableOptionsExample extends WBeanContainer {
 		subShowSelectOptions.addRule(rule);
 		add(subShowSelectOptions);
 
+		layout.addField("Expand Mode", rbsExpand);
+		layout.addField("Paging Mode", rbsPaging);
+		layout.addField("Striping Type", rbsStriping);
+		layout.addField("Separator Type", rbsSeparator);
+		layout.addField("Sort Mode", rbsSorting);
+		layout.addField("Show col headers", showColHeaders);
+		WField fieldExpandAll = layout.addField("Expand all", expandAll);
 		/* show and hide the row expansion sub-options */
 		WSubordinateControl subShowExpandOptions = new WSubordinateControl();
 		rule = new Rule();
@@ -211,13 +214,22 @@ public class WTableOptionsExample extends WBeanContainer {
 		subShowExpandOptions.addRule(rule);
 		add(subShowExpandOptions);
 
+		WField fieldToggleSubRowSelection = layout.addField("Parent row selection controls sub row selection", cbToggleSubRowSelection);
+		/* show/hide sub-row selection options */
+		WSubordinateControl subToggler = new WSubordinateControl();
+		rule = new Rule();
+		rule.setCondition(new And(new Equal(rbsSelect, WTable.SelectMode.MULTIPLE), new NotEqual(rbsExpand, WTable.ExpandMode.NONE)));
+		rule.addActionOnTrue(new Show(fieldToggleSubRowSelection));
+		rule.addActionOnFalse(new Hide(fieldToggleSubRowSelection));
+		subToggler.addRule(rule);
+		add(subToggler);
+
 		layout.addField("Editable", chbEditable);
 		layout.addField("Column order", columnOrder);
 		WField fieldRows = layout.addField("Rows per page", numRowsPerPage);
 		WField fieldRowsOptions = layout.addField("Rows per page options", chbRowsPerPageOptions);
 		WField fieldPaginationLocation = layout.addField("Location of pagination controls", paginationControlsLocation);
-		layout.addField("Caption", tfCaption);
-
+		/* show/hide pagination options */
 		WSubordinateControl pagRowsPerPage = new WSubordinateControl();
 		rule = new Rule();
 		rule.setCondition(new Equal(rbsPaging, WTable.PaginationMode.NONE));
@@ -230,13 +242,8 @@ public class WTableOptionsExample extends WBeanContainer {
 		pagRowsPerPage.addRule(rule);
 		add(pagRowsPerPage);
 
-		WSubordinateControl subToggler = new WSubordinateControl();
-		rule = new Rule();
-		rule.setCondition(new And(new Equal(rbsSelect, WTable.SelectMode.MULTIPLE), new NotEqual(rbsExpand, WTable.ExpandMode.NONE)));
-		rule.addActionOnTrue(new Show(fieldToggleSubRowSelection));
-		rule.addActionOnFalse(new Hide(fieldToggleSubRowSelection));
-		subToggler.addRule(rule);
-		add(subToggler);
+		layout.addField("Caption", tfCaption);
+		layout.addField("Use row headers", cbHasRowHeaders);
 
 		// Apply Button
 		WButton apply = new WButton("Apply");
@@ -487,7 +494,8 @@ public class WTableOptionsExample extends WBeanContainer {
 				&& cbToggleSubRowSelection.isSelected()
 				&& rbsExpand.getSelected() != WTable.ExpandMode.NONE
 				&& rbsSelect.getSelected() == WTable.SelectMode.MULTIPLE);
-
+		// row headers
+		table.setRowHeaders(cbHasRowHeaders.isSelected());
 		// Caption
 		if (null == tfCaption.getText() || "".equals(tfCaption.getText())) {
 			table.setCaption(null);

@@ -150,6 +150,11 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 	}
 
 	@Test
+	public void testRowHeadersAccessors() {
+		assertAccessorsCorrect(new WTable(), "rowHeaders", false, true, false);
+	}
+
+	@Test
 	public void testNoDataMessageAccessors() {
 		String msg = I18nUtilities.format(null, InternalMessages.DEFAULT_NO_TABLE_DATA);
 		assertAccessorsCorrect(new WTable(), "noDataMessage", msg, "nodata1", "nodata2");
