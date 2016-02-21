@@ -26,7 +26,6 @@
 			<xsl:call-template name="commonAttributes">
 				<xsl:with-param name="isWrapper" select="1"/>
 			</xsl:call-template>
-
 			<xsl:call-template name="makeCommonClass">
 				<xsl:with-param name="additional">
 					<xsl:value-of select="@type"/>

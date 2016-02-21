@@ -28,8 +28,6 @@
 		</xsl:variable>
 
 		<div>
-			<xsl:call-template name="commonAttributes"/>
-			
 			<!--
 				NOTES on class:
 				We would like to be able to define all menu appearance and behaviour solely using role. That is not, 
@@ -37,10 +35,8 @@
 				there is no sensible reuse mechanism. So we base some instrinsic stuff on the "wc-menu" class and the 
 				important stuff on roles.
 			-->
-			<xsl:call-template name="makeCommonClass">
-				<xsl:with-param name="additional">
-					<xsl:value-of select="@type"/>
-				</xsl:with-param>
+			<xsl:call-template name="commonAttributes">
+				<xsl:with-param name="class" select="@type"/>
 			</xsl:call-template>
 			<xsl:apply-templates select="ui:margin"/>
 

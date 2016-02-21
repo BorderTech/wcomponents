@@ -22,10 +22,7 @@
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:with-param>
-		</xsl:call-template>
-		
-		<xsl:call-template name="makeCommonClass">
-			<xsl:with-param name="additional">
+			<xsl:with-param name="class">
 				<xsl:value-of select="$class"/>
 				<xsl:choose>
 					<xsl:when test="@imagePosition">

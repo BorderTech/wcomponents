@@ -71,10 +71,7 @@
 		<xsl:element name="{$menuItemElement}">
 			<xsl:call-template name="commonAttributes">
 				<xsl:with-param name="isControl" select="$isButton"/>
-			</xsl:call-template>
-			
-			<xsl:call-template name="makeCommonClass">
-				<xsl:with-param name="additional">
+				<xsl:with-param name="class">
 					<xsl:if test="$actionType &gt; 0">
 						<xsl:text> wc_btn_nada</xsl:text>
 						<xsl:if test="@cancel">

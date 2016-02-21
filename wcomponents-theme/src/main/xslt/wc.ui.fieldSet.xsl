@@ -51,9 +51,7 @@
 		<fieldset>
 			<xsl:call-template name="commonAttributes">
 				<xsl:with-param name="isWrapper" select="1"/>
-			</xsl:call-template>
-			<xsl:call-template name="makeCommonClass">
-				<xsl:with-param name="additional">
+				<xsl:with-param name="class">
 					<xsl:if test="$frame='noborder' or $frame='none'">
 						<xsl:text> wc_noborder</xsl:text>
 					</xsl:if>

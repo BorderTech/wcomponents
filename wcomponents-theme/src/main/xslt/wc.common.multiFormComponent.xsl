@@ -39,9 +39,8 @@
 			</xsl:when>
 			<xsl:when test="$readOnly=1">
 				<ul>
-					<xsl:call-template name="commonAttributes"/>
-					<xsl:call-template name="makeCommonClass">
-						<xsl:with-param name="additional">
+					<xsl:call-template name="commonAttributes">
+						<xsl:with-param name="class">
 							<xsl:text> -wc_list_nb</xsl:text>
 						</xsl:with-param>
 					</xsl:call-template>

@@ -25,8 +25,8 @@
 			<xsl:call-template name="commonAttributes">
 				<xsl:with-param name="live" select="'off'"/>
 				<xsl:with-param name="isWrapper" select="1"/>
+				<xsl:with-param name="class" select="''"/>
 			</xsl:call-template>
-			<xsl:call-template name="makeCommonClass"/>
 			<xsl:apply-templates select="*">
 				<xsl:with-param name="output" select="$output"/>
 			</xsl:apply-templates>

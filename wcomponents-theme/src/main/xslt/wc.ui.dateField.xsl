@@ -46,9 +46,8 @@
 					</xsl:choose>
 				</xsl:variable>
 				<xsl:element name="{$tagName}">
-					<xsl:call-template name="commonAttributes"/>
-					<xsl:call-template name="makeCommonClass">
-						<xsl:with-param name="additional">
+					<xsl:call-template name="commonAttributes">
+						<xsl:with-param name="class">
 							<xsl:text> wc_datero wc_ro</xsl:text>
 						</xsl:with-param>
 					</xsl:call-template>

@@ -24,13 +24,11 @@
 					<xsl:call-template name="commonAttributes">
 						<xsl:with-param name="isWrapper" select="1"/>
 						<xsl:with-param name="live" select="'off'"/>
-					</xsl:call-template>
-					<xsl:call-template name="title"/>
-					<xsl:call-template name="makeCommonClass">
-						<xsl:with-param name="additional">
+						<xsl:with-param name="class">
 							<xsl:text>wc_list_nb</xsl:text>
 						</xsl:with-param>
 					</xsl:call-template>
+					<xsl:call-template name="title"/>
 					<xsl:if test="$myLabel">
 						<xsl:attribute name="aria-labelledby">
 							<xsl:value-of select="$myLabel/@id"/>
