@@ -29,7 +29,10 @@ public final class RendererFactoryImpl implements RendererFactory {
 
 	/**
 	 * {@inheritDoc}
+	 *
+	 * @deprecated Use {@link WTemplate} instead
 	 */
+	@Deprecated
 	@Override
 	public Renderer getTemplateRenderer() {
 		return NULL_RENDERER;

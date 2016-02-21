@@ -10,7 +10,10 @@ public final class DefaultWComponent extends AbstractWComponent {
 
 	/**
 	 * {@inheritDoc}
+	 *
+	 * @deprecated Use {@link WTemplate} instead.
 	 */
+	@Deprecated
 	@Override // to make public
 	public void setTemplate(final String aUrl) {
 		super.setTemplate(aUrl);
@@ -18,7 +21,10 @@ public final class DefaultWComponent extends AbstractWComponent {
 
 	/**
 	 * {@inheritDoc}
+	 *
+	 * @deprecated Use {@link WTemplate} instead.
 	 */
+	@Deprecated
 	@Override // to make public
 	public void setTemplateMarkUp(final String markUp) {
 		super.setTemplateMarkUp(markUp);

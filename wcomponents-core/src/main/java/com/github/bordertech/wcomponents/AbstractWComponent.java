@@ -506,7 +506,9 @@ public abstract class AbstractWComponent implements WComponent {
 	 * Associates a Velocity template with this component by supplying a resource url.
 	 *
 	 * @param templateUrl the location of the velocity template resource.
+	 * @deprecated Use {@link WTemplate} instead
 	 */
+	@Deprecated
 	void setTemplate(final String templateUrl) {
 		getOrCreateComponentModel().setTemplateUrl(templateUrl);
 	}
@@ -515,7 +517,9 @@ public abstract class AbstractWComponent implements WComponent {
 	 * Directly associates Velocity mark-up with this component. The mark-up will be used for rendering.
 	 *
 	 * @param markUp Velocity mark-up.
+	 * @deprecated Use {@link WTemplate} instead
 	 */
+	@Deprecated
 	void setTemplateMarkUp(final String markUp) {
 		getOrCreateComponentModel().setTemplateMarkUp(markUp);
 	}
@@ -524,7 +528,9 @@ public abstract class AbstractWComponent implements WComponent {
 	 * Retrieves Velocity mark-up which has been explicitly associated with this component.
 	 *
 	 * @return the Velocity mark-up, or null if no mark-up has been set explicitly.
+	 * @deprecated Use {@link WTemplate} instead
 	 */
+	@Deprecated
 	public String getTemplateMarkUp() {
 		return getComponentModel().getTemplateMarkUp();
 	}
@@ -533,7 +539,9 @@ public abstract class AbstractWComponent implements WComponent {
 	 * Retrieves the resource url of the Velocity template associated with this component.
 	 *
 	 * @return the location of the Velocity template resource, or null if there is no template.
+	 * @deprecated Use {@link WTemplate} instead
 	 */
+	@Deprecated
 	public String getTemplate() {
 		return getComponentModel().getTemplateUrl();
 	}
@@ -547,7 +555,7 @@ public abstract class AbstractWComponent implements WComponent {
 	 * </p>
 	 *
 	 * @param clazz the class to use to retrieve the template.
-	 * @deprecated use {@link #setTemplate(String)}.
+	 * @deprecated Use {@link WTemplate} instead
 	 */
 	@Deprecated
 	void setTemplate(final Class clazz) {
@@ -1385,7 +1393,9 @@ public abstract class AbstractWComponent implements WComponent {
 	 *
 	 * @param component the component to add.
 	 * @param tag the tag used to identify the component.
+	 * @deprecated Use {@link WTemplate} instead.
 	 */
+	@Deprecated
 	void add(final WComponent component, final String tag) {
 		add(component);
 		component.setTag(tag);
@@ -1508,7 +1518,10 @@ public abstract class AbstractWComponent implements WComponent {
 	// ----------------------------
 	/**
 	 * {@inheritDoc}
+	 *
+	 * @deprecated Use {@link WTemplate} instead
 	 */
+	@Deprecated
 	@Override
 	public String getTag() {
 		ComponentModel model = getComponentModel();
@@ -1517,7 +1530,10 @@ public abstract class AbstractWComponent implements WComponent {
 
 	/**
 	 * {@inheritDoc}
+	 *
+	 * @deprecated Use {@link WTemplate} instead
 	 */
+	@Deprecated
 	@Override
 	public void setTag(final String tag) {
 		ComponentModel model = getOrCreateComponentModel();
@@ -1623,6 +1639,7 @@ public abstract class AbstractWComponent implements WComponent {
 
 	/**
 	 * {@inheritDoc}
+	 *
 	 * @deprecated use setToolTip
 	 */
 	@Override
@@ -1633,6 +1650,7 @@ public abstract class AbstractWComponent implements WComponent {
 
 	/**
 	 * {@inheritDoc}
+	 *
 	 * @deprecated use getToolTip
 	 */
 	@Override

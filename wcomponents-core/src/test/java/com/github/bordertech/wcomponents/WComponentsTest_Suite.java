@@ -125,6 +125,7 @@ import org.junit.runners.Suite;
 	WNamingContext_Test.class,
 	WPartialDateField_Test.class,
 	WTable_Test.class,
+	WTemplate_Test.class,
 	WTextArea_Test.class,
 	WTextField_Test.class,
 	WText_Test.class,

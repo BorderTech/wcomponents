@@ -1,0 +1,7 @@
+id=${wc.id}
+param=${mytest}
+firstName=${wc.bean.firstName}
+lastName=${wc.bean.lastName}
+child=${child1}
+not1=[$!{notexist}]
+not2=[$!{wc.notexist}]

@@ -1,12 +1,15 @@
 package com.github.bordertech.wcomponents.velocity;
 
+import com.github.bordertech.wcomponents.WTemplate;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
  * @author James Gifford
  * @since 1.0.0
+ * @deprecated Use {@link WTemplate} instead.
  */
+@Deprecated
 public final class VelocityTemplateManager {
 
 	/**

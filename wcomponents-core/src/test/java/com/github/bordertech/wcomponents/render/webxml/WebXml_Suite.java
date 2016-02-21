@@ -89,6 +89,7 @@ import org.junit.runners.Suite;
 	WTableRenderer_Test.class,
 	WTabRenderer_Test.class,
 	WTabSetRenderer_Test.class,
+	WTemplateRenderer_Test.class,
 	WTextAreaRenderer_Test.class,
 	WTextFieldRenderer_Test.class,
 	WTextRenderer_Test.class,
