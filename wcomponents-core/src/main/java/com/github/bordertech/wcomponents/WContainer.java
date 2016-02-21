@@ -22,7 +22,10 @@ public class WContainer extends WBeanComponent implements MutableContainer {
 
 	/**
 	 * {@inheritDoc}
+	 *
+	 * @deprecated Use {@link WTemplate} instead.
 	 */
+	@Deprecated
 	@Override
 	public void add(final WComponent component, final String tag) {
 		super.add(component, tag);
@@ -78,7 +81,10 @@ public class WContainer extends WBeanComponent implements MutableContainer {
 
 	/**
 	 * {@inheritDoc}
+	 *
+	 * @deprecated Use {@link WTemplate} instead
 	 */
+	@Deprecated
 	@Override
 	// to make public
 	public void setTemplate(final String templateUrl) {
@@ -87,7 +93,10 @@ public class WContainer extends WBeanComponent implements MutableContainer {
 
 	/**
 	 * {@inheritDoc}
+	 *
+	 * @deprecated Use {@link WTemplate} instead
 	 */
+	@Deprecated
 	@Override
 	// to make public
 	public void setTemplateMarkUp(final String markUp) {

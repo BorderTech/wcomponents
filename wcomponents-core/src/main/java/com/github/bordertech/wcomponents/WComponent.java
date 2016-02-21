@@ -366,14 +366,18 @@ public interface WComponent extends WebComponent {
 	 * Retrieves the tag used to identify this component in a Velocity template.
 	 *
 	 * @return the component's tag.
+	 * @deprecated Use {@link WTemplate} instead.
 	 */
+	@Deprecated
 	String getTag();
 
 	/**
 	 * Sets the tag used to identify this component in a Velocity template.
 	 *
 	 * @param tag the component's tag to set.
+	 * @deprecated Use {@link WTemplate} instead.
 	 */
+	@Deprecated
 	void setTag(final String tag);
 
 	/**
