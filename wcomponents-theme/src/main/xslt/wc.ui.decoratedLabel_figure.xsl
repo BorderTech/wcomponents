@@ -11,7 +11,6 @@
 				<xsl:with-param name="isWrapper" select="1"/>
 				<xsl:with-param name="class" select="''"/>
 			</xsl:call-template>
-			<xsl:call-template name="makeCommonClass"/>
 			<xsl:apply-templates select="ui:labelhead">
 				<xsl:with-param name="output" select="'div'"/>
 			</xsl:apply-templates>

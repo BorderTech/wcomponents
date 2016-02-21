@@ -21,18 +21,6 @@
 				<xsl:call-template name="commonClassHelper"/>
 			</xsl:variable>
 			<xsl:choose>
-				<xsl:when test="@space='paragraphs' and count(text() = 1)">
-					<p>
-						<xsl:call-template name="makeCommonClass">
-							<xsl:with-param name="additional">
-								<xsl:value-of select="@type"/>
-							</xsl:with-param>
-						</xsl:call-template>
-						<xsl:apply-templates mode="pre">
-							<xsl:with-param name="type" select="$type"/>
-						</xsl:apply-templates>
-					</p>
-				</xsl:when>
 				<xsl:when test="@space='paragraphs'">
 					<xsl:apply-templates select="text()" mode="para">
 						<xsl:with-param name="type" select="$type"/>
