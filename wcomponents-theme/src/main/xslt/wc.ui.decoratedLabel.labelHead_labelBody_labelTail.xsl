@@ -14,10 +14,11 @@
 			<xsl:attribute name="id">
 				<xsl:value-of select="@id"/>
 			</xsl:attribute>
-			<xsl:attribute name="class">
-				<xsl:call-template name="commonClassHelper"/>
-				<xsl:text> wc_dlbl_seg</xsl:text>
-			</xsl:attribute>
+			<xsl:call-template name="makeCommonClass">
+				<xsl:with-param name="additional">
+					<xsl:text> wc_dlbl_seg</xsl:text>
+				</xsl:with-param>
+			</xsl:call-template>
 			<xsl:apply-templates/>
 		</xsl:element>
 	</xsl:template>

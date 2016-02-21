@@ -25,12 +25,13 @@
 		<xsl:param name="isCheckRadio"/>
 		<xsl:variable name="inputWidth" select="../@inputWidth"/>
 		<div>
-			<xsl:attribute name="class">
-				<xsl:call-template name="commonClassHelper"/>
-				<xsl:if test="$inputWidth">
-					<xsl:text> wc_inputwidth</xsl:text>
-				</xsl:if>
-			</xsl:attribute>
+			<xsl:call-template name="makeCommonClass">
+				<xsl:with-param name="additional">
+					<xsl:if test="$inputWidth">
+						<xsl:text> wc_inputwidth</xsl:text>
+					</xsl:if>
+				</xsl:with-param>
+			</xsl:call-template>
 			<!--
 				If we are part of an ajaxResponse with REPLACE_CONTENT and we don't have a parent ui:field we
 				need to add a transient attribute to act as a flag for the ajax subscriber

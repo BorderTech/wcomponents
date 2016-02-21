@@ -12,28 +12,29 @@
 	<xsl:template name="borderLayoutCell">
 		<xsl:param name="hgap" select="0"/>
 		<xsl:param name="vgap" select="0"/>
+		<xsl:variable name="colCount" select="count(../ui:west|../ui:east|../ui:center)"/>
 		<xsl:element name="div">
-			<xsl:attribute name="class">
-				<xsl:call-template name="commonClassHelper"/>
-				<xsl:if test="self::ui:west or self::ui:east or self::ui:center">
-					<!-- IE8 needs more help because it does not know about last child -->
-					<xsl:variable name="colCount" select="count(../ui:west|../ui:east|../ui:center)"/>
-					<xsl:choose>
-						<xsl:when test = "$colCount = 1">
-							<xsl:text> wc_borderlayout_middle100</xsl:text>
-						</xsl:when>
-						<xsl:when test="(self::ui:west or self::ui:east) and ../ui:center">
-							<xsl:text> wc_borderlayout_middle25</xsl:text>
-						</xsl:when>
-						<xsl:when test="(self::ui:east and (../ui:west)) or (self::ui:west and (../ui:east)) or ($colCount = 3 and self::ui:center)">
-							<xsl:text> wc_borderlayout_middle50</xsl:text>
-						</xsl:when>
-						<xsl:when test="self::ui:center">
-							<xsl:text> wc_borderlayout_middle75</xsl:text>
-						</xsl:when>
-					</xsl:choose>
-				</xsl:if>
-			</xsl:attribute>
+			<xsl:call-template name="makeCommonClass">
+				<xsl:with-param name="additional">
+					<xsl:if test="self::ui:west or self::ui:east or self::ui:center">
+						<!-- IE8 needs more help because it does not know about last child -->
+						<xsl:choose>
+							<xsl:when test = "$colCount = 1">
+								<xsl:text> wc_borderlayout_middle100</xsl:text>
+							</xsl:when>
+							<xsl:when test="(self::ui:west or self::ui:east) and ../ui:center">
+								<xsl:text> wc_borderlayout_middle25</xsl:text>
+							</xsl:when>
+							<xsl:when test="(self::ui:east and (../ui:west)) or (self::ui:west and (../ui:east)) or ($colCount = 3 and self::ui:center)">
+								<xsl:text> wc_borderlayout_middle50</xsl:text>
+							</xsl:when>
+							<xsl:when test="self::ui:center">
+								<xsl:text> wc_borderlayout_middle75</xsl:text>
+							</xsl:when>
+						</xsl:choose>
+					</xsl:if>
+				</xsl:with-param>
+			</xsl:call-template>
 			<xsl:if test=" $hgap!=0 or $vgap!=0">
 				<xsl:attribute name="style">
 					<xsl:if test="$hgap!=0">

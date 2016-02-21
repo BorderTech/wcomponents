@@ -2,7 +2,6 @@
 	<xsl:import href="wc.common.hide.xsl"/>
 	<xsl:import href="wc.common.n.className.xsl" />
 	<xsl:import href="wc.ui.table.n.xsl"/>
-	<xsl:import href="wc.ui.table.subTr.content.n.WTableSubTrContentClass.xsl"/>
 	<!--
 		Transform for ui:content child of a ui:subtr.
 	-->
@@ -18,13 +17,14 @@
 			<xsl:if test="$parentIsClosed=1 or ancestor::ui:subtr[not(@open) or @open='false']">
 				<xsl:call-template name="hiddenElement"/>
 			</xsl:if>
-			<xsl:attribute name="class">
-				<xsl:call-template name="commonClassHelper"/>
-				<xsl:if test="$topRowIsStriped=1">
-					<xsl:text> wc_table_stripe</xsl:text>
-				</xsl:if>
-			</xsl:attribute>
-			
+			<xsl:call-template name="makeCommonClass">
+				<xsl:with-param name="additional">
+					<xsl:if test="$topRowIsStriped=1">
+						<xsl:text>wc_table_stripe</xsl:text>
+					</xsl:if>
+				</xsl:with-param>
+			</xsl:call-template>
+
 			<!-- 
 				subTr content is never individually selectable but must have the placeholder if the table has row
 				selection.
@@ -34,7 +34,7 @@
 					<xsl:text>&#x2002;</xsl:text>
 				</td>
 			</xsl:if>
-			
+
 			<!-- 
 				subTr content is not itself expandable but must have the placeholder to position it correctly relative
 				to its parent row.

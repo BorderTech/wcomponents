@@ -29,12 +29,13 @@
 					<xsl:apply-templates select="ui:param" mode="get"/>
 				</xsl:if>
 			</xsl:attribute>
-			<xsl:attribute name="class">
-				<xsl:call-template name="commonClassHelper"/>
-				<xsl:if test="@unsavedChanges or .//ui:button[@unsavedChanges] or .//ui:menuitem[@unsavedChanges]">
-					<xsl:text> wc_unsaved</xsl:text>
-				</xsl:if>
-			</xsl:attribute>
+			<xsl:call-template name="makeCommonClass">
+				<xsl:with-param name="additional">
+					<xsl:if test="@unsavedChanges or .//ui:button[@unsavedChanges] or .//ui:menuitem[@unsavedChanges]">
+						<xsl:text> wc_unsaved</xsl:text>
+					</xsl:if>
+				</xsl:with-param>
+			</xsl:call-template>
 			<!-- this ANT property sets the formnovalidate attribute -->
 			${wc.ui.application.xslt.HTML5clientSideValidation}
 			<xsl:call-template name="ajaxTarget"/>

@@ -100,7 +100,7 @@
 					<xsl:text>"wc/ui/table/action",</xsl:text>
 				</xsl:if>
 				<xsl:if test=".//ui:rowselection">
-					<xsl:text>"wc/ui/rowAnalog"</xsl:text>
+					<xsl:text>"wc/ui/rowAnalog",</xsl:text>
 				</xsl:if>
 				<xsl:if test=".//ui:rowexpansion">
 					<xsl:text>"wc/ui/table/rowExpansion",</xsl:text>

@@ -2,11 +2,11 @@
 @import 'mixins_common.scss';
 
 legend {
-	.noborder > & {
+	.wc_noborder > & {
 		padding-left: 0;
 	}
 
-	.notext > & {
+	.wc_notext > & {
 		@include offscreen();
 	}
 
@@ -15,7 +15,7 @@ legend {
 		float: right;
 	}
 
-	.wc_req.notext > &:before {
+	.wc_req.wc_notext > &:before {
 		content: '';
 	}
 }
