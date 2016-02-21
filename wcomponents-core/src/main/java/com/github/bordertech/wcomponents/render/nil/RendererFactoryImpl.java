@@ -4,6 +4,7 @@ import com.github.bordertech.wcomponents.RenderContext;
 import com.github.bordertech.wcomponents.Renderer;
 import com.github.bordertech.wcomponents.RendererFactory;
 import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.WTemplate;
 
 /**
  * The layout factory for the nil renderer package. This factory produces a renderer which doesn't do anything, and is

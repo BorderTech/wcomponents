@@ -2,6 +2,7 @@ package com.github.bordertech.wcomponents.render.webxml;
 
 import com.github.bordertech.wcomponents.Renderer;
 import com.github.bordertech.wcomponents.RendererFactory;
+import com.github.bordertech.wcomponents.WTemplate;
 import com.github.bordertech.wcomponents.util.SystemException;
 
 /**
