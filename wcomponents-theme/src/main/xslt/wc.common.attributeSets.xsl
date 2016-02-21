@@ -159,7 +159,7 @@
 			<xsl:value-of select="$id"/>
 		</xsl:attribute>
 		<xsl:if test="$class != 0">
-			<xsl:call-template name="commonClassHelper">
+			<xsl:call-template name="makeCommonClass">
 				<xsl:with-param name="additional">
 					<xsl:value-of select="$class"/>
 				</xsl:with-param>
