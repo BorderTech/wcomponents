@@ -1,4 +1,7 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
+	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
+	xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+	<xsl:import href="wc.common.attributeSets.xsl"/>
 	<xsl:import href="wc.common.ajax.xsl"/>
 	<xsl:import href="wc.common.hide.xsl"/>
 	<xsl:import href="wc.constants.xsl"/>
@@ -19,19 +22,11 @@
 	<xsl:template match="ui:decoratedlabel">
 		<xsl:param name="output" select="'span'"/>
 		<xsl:element name="{$output}">
-			<xsl:attribute name="id">
-				<xsl:value-of select="@id"/>
-			</xsl:attribute>
-			<xsl:attribute name="class">
-				<xsl:call-template name="commonClassHelper"/>
-				<xsl:if test="@type">
-					<xsl:value-of select="concat(' ',@type)"/>
-				</xsl:if>
-			</xsl:attribute>
-			<xsl:call-template name="hideElementIfHiddenSet"/>
-			<xsl:call-template name="ajaxTarget">
+			<xsl:call-template name="commonAttributes">
 				<xsl:with-param name="live" select="'off'"/>
+				<xsl:with-param name="isWrapper" select="1"/>
 			</xsl:call-template>
+			<xsl:call-template name="makeCommonClass"/>
 			<xsl:apply-templates select="*">
 				<xsl:with-param name="output" select="$output"/>
 			</xsl:apply-templates>

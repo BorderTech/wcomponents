@@ -22,10 +22,12 @@
 			<xsl:attribute name="id">
 				<xsl:value-of select="@id"/>
 			</xsl:attribute>
-			<xsl:attribute name="class">
-				<xsl:call-template name="commonClassHelper"/>
-				<xsl:value-of select="concat(' wc_msgbox ', $type)"/>
-			</xsl:attribute>
+			<xsl:call-template name="makeCommonClass">
+				<xsl:with-param name="additional">
+					<xsl:value-of select="concat(' wc_msgbox ', $type)"/>
+				</xsl:with-param>
+			</xsl:call-template>
+
 			<h1>
 				<span>
 					<xsl:choose>

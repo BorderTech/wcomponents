@@ -34,6 +34,7 @@
 				<xsl:number value="1"/>
 			</xsl:if>
 		</xsl:variable>
+
 		<xsl:variable name="elementType">
 			<xsl:choose>
 				<xsl:when test="$type='button' or $hasPopup=1">
@@ -44,13 +45,17 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
-		<xsl:variable name="class">
-			<xsl:call-template name="commonClassHelper"/>
-			<xsl:if test="@imagePosition">
-				<xsl:value-of select="concat(' wc_btn_img',@imagePosition)"/>
-			</xsl:if>
-		</xsl:variable>
+
 		<xsl:element name="{$elementType}">
+			<xsl:call-template name="buttonLinkCommonAttributes">
+				<xsl:with-param name="elementType" select="$elementType"/>
+				<xsl:with-param name="class">
+					<xsl:if test="$elementType='button' and not($type='button')">
+						<xsl:text> wc_btn_link</xsl:text>
+					</xsl:if>
+				</xsl:with-param>
+			</xsl:call-template>
+			
 			<xsl:choose>
 				<xsl:when test="$elementType='a'">
 					<xsl:attribute name="href">
@@ -62,46 +67,25 @@
 						</xsl:attribute>
 					</xsl:if>
 					<xsl:if test="ui:windowAttributes">
-						<!-- this  bit will only be called if the ui:windowAttributes child as only a name attribute, otherwise we would have gone to button-->
+						<!-- 
+							This  bit will only be called if the ui:windowAttributes child as only a name attribute, 
+							otherwise we would have gone to button.
+						-->
 						<xsl:attribute name="target">
 							<xsl:value-of select="ui:windowAttributes/@name"/>
 						</xsl:attribute>
 					</xsl:if>
-					<xsl:attribute name="class">
-						<xsl:value-of select="$class"/>
-					</xsl:attribute>
 				</xsl:when>
 				<xsl:otherwise>
 					<xsl:attribute name="type">
 						<xsl:text>button</xsl:text>
 					</xsl:attribute>
-					<xsl:attribute name="class">
-						<xsl:value-of select="$class"/>
-						<xsl:if test="not($type='button')">
-							<xsl:text> wc_btn_link</xsl:text>
-						</xsl:if>
-						<xsl:if test="@imageUrl and not(@imagePosition)">
-							<xsl:text> wc_btn_img</xsl:text>
-						</xsl:if>
-					</xsl:attribute>
-					
 					<xsl:attribute name="${wc.ui.link.attrib.url.standin}">
 						<xsl:value-of select="@url"/>
 					</xsl:attribute>
-					<xsl:if test="$hasPopup=1">
-						<xsl:attribute name="aria-haspopup">
-							<xsl:copy-of select="$t"/>
-						</xsl:attribute>
-						<xsl:attribute name="${wc.ui.link.attrib.specs}">
-							<xsl:apply-templates select="ui:windowAttributes" mode="specs"/>
-						</xsl:attribute>
-						<xsl:attribute name="${wc.ui.link.attrib.window}">
-							<xsl:value-of select="ui:windowAttributes/@name"/>
-						</xsl:attribute>
-					</xsl:if>
 				</xsl:otherwise>
 			</xsl:choose>
-			<xsl:call-template name="buttonLinkCommon">
+			<xsl:call-template name="buttonLinkCommonContent">
 				<xsl:with-param name="imageAltText" select="$imageAltText"/>
 			</xsl:call-template>
 		</xsl:element>

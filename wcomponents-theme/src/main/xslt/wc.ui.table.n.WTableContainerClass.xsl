@@ -5,9 +5,12 @@
 	-->
 	<xsl:template name="WTableContainerClass">
 		<xsl:param name="isError"/>
-		<xsl:call-template name="commonClassHelper"/>
-		<xsl:if test="$isError">
-			<xsl:text> wc_error</xsl:text>
-		</xsl:if>
+		<xsl:call-template name="commonClassHelper">
+			<xsl:with-param name="additional">
+				<xsl:if test="$isError">
+					<xsl:text>wc_error</xsl:text>
+				</xsl:if>
+			</xsl:with-param>
+		</xsl:call-template>
 	</xsl:template>
 </xsl:stylesheet>

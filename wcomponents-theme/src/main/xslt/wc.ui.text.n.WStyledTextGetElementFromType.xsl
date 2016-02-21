@@ -5,7 +5,7 @@
 		the tyoe attribute of ui:text.
 	-->
 	<xsl:template name="WStyledTextGetElementFromType">
-		<xsl:param name="type" select="@type"/>
+		<xsl:param name="type"/>
 		<xsl:choose>
 			<xsl:when test="$type='emphasised' or $type='highPriority'">
 				<xsl:text>strong</xsl:text>
@@ -19,7 +19,7 @@
 			<xsl:when test="$type='delete'">
 				<xsl:text>del</xsl:text>
 			</xsl:when>
-			<xsl:when test="self::ui:text">
+			<xsl:when test="self::ui:text or ($type!='' and $type !='plain')">
 				<xsl:text>span</xsl:text>
 			</xsl:when>
 		</xsl:choose>

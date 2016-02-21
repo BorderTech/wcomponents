@@ -28,9 +28,7 @@
 			</xsl:call-template>
 		</xsl:variable>
 		<xsl:element name="div">
-			<xsl:attribute name="class">
-				<xsl:call-template name="commonClassHelper"/>
-			</xsl:attribute>
+			<xsl:call-template name="makeCommonClass"/>
 			<xsl:apply-templates select="ui:north"/>
 			<xsl:variable name="colCount" select="count(ui:west|ui:center|ui:east)"/>
 			<xsl:if test="$colCount &gt;0">

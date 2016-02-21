@@ -30,8 +30,7 @@
 			set, default @value.
 		param live: The value to set to aria-live if the element is an ajax
 			target, default 'polite'.
-		param toolTip: a string to add to the element as a title attribute.
-			Defaults to the components toolTip attribute.
+		param myLabel: a WLabel "for" the current element. We can calculate this but may have already done the calc.
 	-->
 	<xsl:template name="commonControlAttributes">
 		<xsl:param name="id" select="@id"/>
@@ -46,6 +45,7 @@
 			<xsl:with-param name="live" select="$live"/>
 			<xsl:with-param name="isControl" select="1"/>
 		</xsl:call-template>
+		
 		<xsl:if test="not($name='')">
 			<xsl:attribute name="name">
 				<xsl:value-of select="$name"/>
@@ -60,12 +60,13 @@
 			<xsl:call-template name="invalid"/>
 		</xsl:if>
 
-		<xsl:attribute name="class">
-			<xsl:call-template name="commonClassHelper"/>
-			<xsl:if test="@submitOnChange and not(@list)">
-				<xsl:text> wc_soc</xsl:text>
-			</xsl:if>
-		</xsl:attribute>
+		<xsl:call-template name="makeCommonClass">
+			<xsl:with-param name="additional">
+				<xsl:if test="@submitOnChange and not(@list)">
+					<xsl:text> wc_soc</xsl:text>
+				</xsl:if>
+			</xsl:with-param>
+		</xsl:call-template>
 
 		<xsl:call-template name="requiredElement"/>
 		<xsl:call-template name="ajaxController">
@@ -119,18 +120,19 @@
 			<xsl:with-param name="isControl" select="$isControl"/>
 			<xsl:with-param name="isWrapper" select="1"/>
 		</xsl:call-template>
-		<xsl:attribute name="class">
-			<xsl:call-template name="commonClassHelper"/>
-			<xsl:if test="not(@readOnly)">
-				<xsl:text> notext noborder</xsl:text>
-				<xsl:if test="@required">
-					<xsl:text> wc_req</xsl:text>
+		<xsl:call-template name="makeCommonClass">
+			<xsl:with-param name="additional">
+				<xsl:if test="not(@readOnly)">
+					<xsl:text> wc_notext wc_noborder</xsl:text>
+					<xsl:if test="@required">
+						<xsl:text> wc_req</xsl:text>
+					</xsl:if>
 				</xsl:if>
-			</xsl:if>
-			<xsl:if test="$class!= ''">
-				<xsl:value-of select="concat(' ', $class)"/>
-			</xsl:if>
-		</xsl:attribute>
+				<xsl:if test="$class!= ''">
+					<xsl:value-of select="concat(' ', $class)"/>
+				</xsl:if>
+			</xsl:with-param>
+		</xsl:call-template>
 		<xsl:call-template name="ajaxController">
 			<xsl:with-param name="id" select="$id"/>
 		</xsl:call-template>
@@ -158,6 +160,7 @@
 		<xsl:param name="isControl" select="0"/>
 		<xsl:param name="readOnly" select="@readOnly"/>
 		<xsl:param name="isWrapper" select="0"/>
+
 		<xsl:attribute name="id">
 			<xsl:value-of select="$id"/>
 		</xsl:attribute>

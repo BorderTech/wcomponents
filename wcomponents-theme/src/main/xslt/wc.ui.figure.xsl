@@ -1,39 +1,38 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
-	<xsl:import href="wc.common.hide.xsl"/>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
+	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
+	xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+	<xsl:import href="wc.common.attributeSets.xsl"/>
 	<xsl:import href="wc.common.aria.live.xsl"/>
-	<xsl:import href="wc.constants.xsl"/>
 	<xsl:import href="wc.common.n.className.xsl"/>
 	<!--
-		Transform for WFigure. Direct map to Figure element. THe WDecoratedLabel child maps to Figcaption element.
+		Transform for WFigure. Direct map to Figure element. The WDecoratedLabel child maps to Figcaption element.
 	-->
 	<xsl:template match="ui:figure">
 		<xsl:variable name="mode" select="@mode"/>
 		<xsl:element name="${wc.dom.html5.element.figure}">
-			<xsl:attribute name="id">
-				<xsl:value-of select="@id"/>
-			</xsl:attribute>
-			<xsl:attribute name="class">
-				<xsl:call-template name="commonClassHelper"/>
-				<xsl:if test="$mode='lazy' and @hidden">
-					<xsl:text> wc_magic</xsl:text>
-				</xsl:if>
-			</xsl:attribute>
+			<xsl:call-template name="commonAttributes">
+				<xsl:with-param name="isWrapper" select="1"/>
+			</xsl:call-template>
+			<xsl:call-template name="makeCommonClass">
+				<xsl:with-param name="additional">
+					<xsl:if test="$mode='lazy' and @hidden">
+						<xsl:text> wc_magic</xsl:text>
+					</xsl:if>
+				</xsl:with-param>
+			</xsl:call-template>
+			<xsl:apply-templates select="ui:margin"/>
+			
 			<xsl:if test="ui:decoratedlabel">
 				<xsl:attribute name="aria-labelledby">
 					<xsl:value-of select="ui:decoratedlabel/@id"/>
 				</xsl:attribute>
 			</xsl:if>
-			<xsl:apply-templates select="ui:margin"/>
-			<xsl:call-template name="hideElementIfHiddenSet"/>
-			<xsl:if test="*[not(self::ui:margin)] or not($mode='eager')">
-				<xsl:if test="ui:content">
-					<div class="content">
-						<xsl:apply-templates select="ui:content"/>
-					</div>
-				</xsl:if>
-				<xsl:element name="${wc.dom.html5.element.figcaption}">
-					<xsl:apply-templates select="ui:decoratedlabel"/>
-				</xsl:element>
+
+			<xsl:if test="ui:content or ui:decoratedLabel or not($mode='eager')">
+				<div class="wc_content">
+					<xsl:apply-templates select="ui:content"/>
+				</div>
+				<xsl:apply-templates select="ui:decoratedlabel" mode="figure"/>
 			</xsl:if>
 		</xsl:element>
 	</xsl:template>

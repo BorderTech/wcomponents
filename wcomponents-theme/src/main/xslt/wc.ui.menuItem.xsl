@@ -7,6 +7,8 @@
 	<xsl:import href="wc.common.accessKey.xsl"/>
 	<xsl:import href="wc.common.ajax.xsl"/>
 	<xsl:import href="wc.common.n.className.xsl"/>
+	<xsl:import href="wc.common.title.xsl"/>
+	<xsl:import href="wc.common.attributeSets.xsl"/>
 	<!--
 		WMenuItem forms part of a single compound widget with the WMenu at its root.
 
@@ -67,26 +69,25 @@
 		</xsl:variable>
 
 		<xsl:element name="{$menuItemElement}">
-			<xsl:attribute name="id">
-				<xsl:value-of select="$id"/>
-			</xsl:attribute>
-			<xsl:attribute name="class">
-				<xsl:call-template name="commonClassHelper"/>
-				<xsl:if test="$actionType &gt; 0">
-					<xsl:text> wc_btn_nada</xsl:text>
-					<xsl:if test="@cancel">
-						<xsl:text> wc_btn_cancel</xsl:text>
+			<xsl:call-template name="commonAttributes">
+				<xsl:with-param name="isControl" select="$isButton"/>
+			</xsl:call-template>
+			
+			<xsl:call-template name="makeCommonClass">
+				<xsl:with-param name="additional">
+					<xsl:if test="$actionType &gt; 0">
+						<xsl:text> wc_btn_nada</xsl:text>
+						<xsl:if test="@cancel">
+							<xsl:text> wc_btn_cancel</xsl:text>
+						</xsl:if>
+						<xsl:if test="@unsavedChanges">
+							<xsl:text> wc_unsaved</xsl:text>
+						</xsl:if>
 					</xsl:if>
-					<xsl:if test="@unsavedChanges">
-						<xsl:text> wc_unsaved</xsl:text>
-					</xsl:if>
-				</xsl:if>
-			</xsl:attribute>
-			<xsl:if test="@toolTip">
-				<xsl:attribute name="title">
-					<xsl:value-of select="normalize-space(@toolTip)"/>
-				</xsl:attribute>
-			</xsl:if>
+				</xsl:with-param>
+			</xsl:call-template>
+
+			<xsl:call-template name="title"/>
 			<xsl:choose>
 				<xsl:when test="$actionType=1">
 					<xsl:attribute name="type">
@@ -145,7 +146,6 @@
 				</xsl:attribute>
 			</xsl:if>
 			<xsl:call-template name="ajaxController"/>
-			<xsl:call-template name="hideElementIfHiddenSet"/>
 			<xsl:choose>
 				<xsl:when test="$myAncestorMenu">
 					<!--
@@ -209,39 +209,40 @@
 						</xsl:attribute>
 					</xsl:if>
 
-					<!-- this choice is just to negate the need for the complex ancestor lookup if the menuItem is itself disabled -->
-					<xsl:choose>
-						<xsl:when test="@disabled">
+					<!-- 
+						If the menuitem is disabled its state attribute will have been set in commonAttributes.
+					-->
+					<xsl:if test="not(@disabled)">
+						<!--
+							The menuItem will be disabled if it is a descendant of a submenu which is disabled,
+							or if it is a descendant of a menu which is disabled.
+						-->
+						<xsl:variable name="disabledAncestor" select="ancestor::*[@disabled and
+							(($noContextMenu=1 and self::ui:submenu) or
+							($myAncestorMenu and (self::ui:menu[.=$myAncestorMenu] or self::ui:submenu[ancestor::ui:menu[1]=$myAncestorMenu])))]"/>
+						<xsl:if test="$disabledAncestor">
 							<xsl:call-template name="disabledElement">
+								<xsl:with-param name="field" select="$disabledAncestor"/>
 								<xsl:with-param name="isControl" select="$isButton"/>
 							</xsl:call-template>
-						</xsl:when>
-						<xsl:otherwise>
-							<!--
-								The menuItem will be disabled if it is a descendant of a submenu which is disabled,
-								or if it is a descendant of a menu which is disabled.
-							-->
-							<xsl:variable name="disabledAncestor" select="ancestor::*[@disabled and
-								(($noContextMenu=1 and self::ui:submenu) or
-								($myAncestorMenu and (self::ui:menu[.=$myAncestorMenu] or self::ui:submenu[ancestor::ui:menu[1]=$myAncestorMenu])))]"/>
-							<xsl:if test="$disabledAncestor">
-								<xsl:call-template name="disabledElement">
-									<xsl:with-param name="field" select="$disabledAncestor"/>
-									<xsl:with-param name="isControl" select="$isButton"/>
-								</xsl:call-template>
-							</xsl:if>
-						</xsl:otherwise>
-					</xsl:choose>
-					<!--
-					 If the menuItem is not in a submenu then the accesskey attribute will be set
-					 if required and a balloon help tooltip element is created. If there is no context
-					 menu then we have to assume we are in a submenu. This may cause access key
-					 problems for direct AJAX targetting of WMenuItems which are at the top level of
-					 a WMenu.
-					-->
-					<xsl:if test="@accessKey and not($myAncestorSubmenu)">
-						<xsl:call-template name="accessKey"/>
+						</xsl:if>
 					</xsl:if>
+					<!--
+						We may drop accessKey on menuitem in favour of WAI-ARIA keyboard navigation (which we already 
+						implement).
+					-->
+					<xsl:call-template name="accessKey">
+						<xsl:with-param name="useToolTip">
+							<xsl:choose>
+								<xsl:when test="$myAncestorSubmenu">
+									<xsl:number value="0"/>
+								</xsl:when>
+								<xsl:otherwise>
+									<xsl:number value="1"/>
+								</xsl:otherwise>
+							</xsl:choose>
+						</xsl:with-param>
+					</xsl:call-template>
 				</xsl:when>
 				<xsl:otherwise>
 					<!-- no menu context -->
@@ -251,15 +252,6 @@
 					<xsl:attribute name="tabindex">
 						<xsl:text>-1</xsl:text>
 					</xsl:attribute>
-					<xsl:if test="@accessKey">
-						<xsl:attribute name="accesskey">
-							<xsl:value-of select="@accessKey"/>
-						</xsl:attribute>
-					</xsl:if>
-					<!-- no context menu, take the disabled state only from this elements @disabled attribute -->
-					<xsl:call-template name="disabledElement">
-						<xsl:with-param name="isControl" select="$isButton"/>
-					</xsl:call-template>
 					<!--
 					 Attributes used by AJAX subscribers for menuItems without a menu context
 
@@ -276,6 +268,10 @@
 							<xsl:value-of select="@selectable"/>
 						</xsl:attribute>
 					</xsl:if>
+
+					<xsl:call-template name="accessKey">
+						<xsl:with-param name="useToolTip" select="0"/>
+					</xsl:call-template>
 				</xsl:otherwise>
 			</xsl:choose>
 			<xsl:apply-templates select="ui:decoratedlabel">

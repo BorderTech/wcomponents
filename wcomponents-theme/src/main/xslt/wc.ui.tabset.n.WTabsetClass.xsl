@@ -6,10 +6,13 @@
 		must commence with a single space.
 	-->
 	<xsl:template name="WTabsetClass">
-		<xsl:call-template name="commonClassHelper" />
-		<xsl:value-of select="concat(' ', @type)"/>
-		<xsl:if test="@type='left' or @type='right'"><!-- convenience class to reduce CSS -->
-			<xsl:text> wc_tab_lr</xsl:text>
-		</xsl:if>
+		<xsl:call-template name="commonClassHelper">
+			<xsl:with-param name="additional">
+				<xsl:value-of select="@type"/>
+				<xsl:if test="@type='left' or @type='right'"><!-- convenience class to reduce CSS -->
+					<xsl:text> wc_tab_lr</xsl:text>
+				</xsl:if>
+			</xsl:with-param>
+		</xsl:call-template>
 	</xsl:template>
 </xsl:stylesheet>

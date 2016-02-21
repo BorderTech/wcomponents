@@ -114,10 +114,11 @@
 					<xsl:text> wc_seltog</xsl:text>
 				</xsl:variable>
 				<span id="{$toggleId}" role="radiogroup">
-					<xsl:attribute name="class">
-						<xsl:call-template name="commonClassHelper"/>
-						<xsl:text> wc_seltog</xsl:text>
-					</xsl:attribute>
+					<xsl:call-template name="makeCommonClass">
+						<xsl:with-param name="additional">
+							<xsl:text> wc_seltog</xsl:text>
+						</xsl:with-param>
+					</xsl:call-template>
 					<xsl:call-template name="ajaxTarget"/>
 					<xsl:if test="$isCheckboxTarget">
 						<xsl:attribute name="data-wc-cbgroup">
@@ -240,10 +241,11 @@
 							<xsl:value-of select="$name"/>
 						</xsl:attribute>
 					</xsl:if>
-					<xsl:attribute name="class">
-						<xsl:call-template name="commonClassHelper"/>
-						<xsl:text> wc_seltog wc_btn_nada</xsl:text>
-					</xsl:attribute>
+					<xsl:call-template name="makeCommonClass">
+						<xsl:with-param name="additional">
+							<xsl:text> wc_seltog wc_btn_nada</xsl:text>
+						</xsl:with-param>
+					</xsl:call-template>
 					<xsl:attribute name="title">
 						<xsl:choose>
 							<xsl:when test="$label!=''">

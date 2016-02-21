@@ -2,9 +2,12 @@
 	<xsl:import href="wc.common.n.className.xsl"/>
 	
 	<xsl:template name="WSectionClass">
-		<xsl:call-template name="commonClassHelper"/>
-		<xsl:if test="@mode='lazy' and @hidden">
-			<xsl:text> wc_magic</xsl:text>
-		</xsl:if>
+		<xsl:call-template name="commonClassHelper">
+			<xsl:with-param name="additional">
+				<xsl:if test="@mode='lazy' and @hidden">
+					<xsl:text>wc_magic</xsl:text>
+				</xsl:if>
+			</xsl:with-param>
+		</xsl:call-template>
 	</xsl:template>
 </xsl:stylesheet>
