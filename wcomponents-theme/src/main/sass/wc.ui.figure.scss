@@ -3,7 +3,7 @@
 
 figure {
 	@include flex($direction: column, $align-content: center);
-	.content {
+	.wc_content {
 		text-align: center;
 	}
 }

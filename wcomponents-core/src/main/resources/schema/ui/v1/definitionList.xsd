@@ -34,7 +34,7 @@
 			
 			<xs:attribute name="type">
 				<xs:annotation>
-					<xs:documentation>Indicates the layout of the definition list. If not set then the layout is determined by th euser agent.</xs:documentation>
+					<xs:documentation>Indicates the layout of the definition list. If not set then the layout is determined by the user agent.</xs:documentation>
 				</xs:annotation>
 				<xs:simpleType>
 					<xs:restriction base="xs:NMTOKEN">

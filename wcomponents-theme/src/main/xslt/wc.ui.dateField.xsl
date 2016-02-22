@@ -46,11 +46,11 @@
 					</xsl:choose>
 				</xsl:variable>
 				<xsl:element name="{$tagName}">
-					<xsl:call-template name="commonAttributes"/>
-					<xsl:attribute name="class">
-						<xsl:call-template name="commonClassHelper"/>
-						<xsl:text> wc_datero wc_ro</xsl:text>
-					</xsl:attribute>
+					<xsl:call-template name="commonAttributes">
+						<xsl:with-param name="class">
+							<xsl:text> wc_datero wc_ro</xsl:text>
+						</xsl:with-param>
+					</xsl:call-template>
 					<xsl:if test="$myLabel">
 						<xsl:attribute name="aria-labelledby">
 							<xsl:value-of select="$myLabel/@id"/>

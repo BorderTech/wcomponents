@@ -25,10 +25,11 @@
 	-->
 	<xsl:template match="ui:fieldindicator">
 		<ul id="{@id}">
-			<xsl:attribute name="class">
-				<xsl:call-template name="commonClassHelper"/>
-				<xsl:value-of select="concat(' ', @type)"/>
-			</xsl:attribute>
+			<xsl:call-template name="makeCommonClass">
+				<xsl:with-param name="additional">
+					<xsl:value-of select="@type"/>
+				</xsl:with-param>
+			</xsl:call-template>
 			<xsl:apply-templates/>
 		</ul>
 	</xsl:template>

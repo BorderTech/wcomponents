@@ -1,11 +1,7 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
 	<xsl:import href="wc.common.ajax.xsl"/>
 	<xsl:import href="wc.common.attributeSets.xsl"/>
-	<xsl:import href="wc.common.disabledElement.xsl"/>
-	<xsl:import href="wc.common.hide.xsl"/>
 	<xsl:import href="wc.common.listSortControls.xsl"/>
-	<xsl:import href="wc.common.required.xsl"/>
-	<xsl:import href="wc.constants.xsl"/>
 	<xsl:import href="wc.common.missingLabel.xsl"/>
 	<xsl:import href="wc.common.title.xsl"/>
 	<xsl:import href="wc.common.makeLegend.xsl"/>
@@ -25,20 +21,19 @@
 		<xsl:choose>
 			<xsl:when test="@readOnly">
 				<ul id="{$id}">
+					<xsl:call-template name="commonAttributes">
+						<xsl:with-param name="isWrapper" select="1"/>
+						<xsl:with-param name="live" select="'off'"/>
+						<xsl:with-param name="class">
+							<xsl:text>wc_list_nb</xsl:text>
+						</xsl:with-param>
+					</xsl:call-template>
 					<xsl:call-template name="title"/>
-					<xsl:attribute name="class">
-						<xsl:call-template name="commonClassHelper"/>
-						<xsl:text> wc_list_nb</xsl:text>
-					</xsl:attribute>
 					<xsl:if test="$myLabel">
 						<xsl:attribute name="aria-labelledby">
 							<xsl:value-of select="$myLabel/@id"/>
 						</xsl:attribute>
 					</xsl:if>
-					<xsl:call-template name="hideElementIfHiddenSet"/>
-					<xsl:call-template name="ajaxTarget">
-						<xsl:with-param name="live" select="'off'"/>
-					</xsl:call-template>
 					<xsl:apply-templates select="ui:option|ui:optgroup" mode="readOnly">
 						<xsl:with-param name="showOptions" select="'all'"/>
 						<xsl:with-param name="single" select="0"/>
@@ -51,6 +46,7 @@
 						<xsl:with-param name="isControl" select="1"/>
 						<xsl:with-param name="myLabel" select="$myLabel"/>
 					</xsl:call-template>
+					<!-- if there is a label we can have a title, otherwise @toolTip is used to make the legend. -->
 					<xsl:if test="$myLabel">
 						<xsl:call-template name="title"/>
 					</xsl:if>

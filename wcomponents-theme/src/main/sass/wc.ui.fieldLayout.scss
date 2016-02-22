@@ -15,19 +15,6 @@ ul.wc-fieldlayout {
 		margin-top: $vgap-normal;
 	}
 
-	> :first-child,
-	> .wc-input {
-		@include respond(phonelike) {
-			// important to override inline CSS from XSLT
-			//scss-lint:disable ImportantRule
-			@include border-box;
-			display: block;
-			margin-left: 0 !important;
-			max-width: 100% !important;
-			width: 100% !important;
-		}
-	}
-
 	// Flat is the most common use, but shouldn't be (due to a11y concerns which are not covered by WCAG 2.0)
 	.flat > & {
 		> * {
@@ -37,22 +24,8 @@ ul.wc-fieldlayout {
 
 		> :first-child { //the first child is the label or standing or merely an empty placeholder/spacer
 			width: $label-width;
-
-			> .wc_req { // Position the required marker next to the input.
-				@include border-box;
-				padding-right: 1em; //Padding right is for the required marker.
-				position: relative;
-
-				// The excessive depth here could be re-written I suppose...
-				// scss-lint:disable NestingDepth
-				&:after { // this is the required marker
-					position: absolute;
-					right: 0;
-					top: 0;
-				}
-				// scss-lint:enable NestingDepth
-			}
 		}
+
 		> .wc-input {
 			max-width: $input-width;
 			width: $input-width;
@@ -95,7 +68,19 @@ ul.wc-fieldlayout {
 }
 
 @include respond(phonelike) {
-	.flat > .wc-field > .wc_fld_pl { //this is the placeholder for a null or moved label (moved for checkbox or radio). Remove on narrow viewports.
-		display: none;
+	.flat > .wc-field {
+		> :first-child,
+		> .wc-input {
+			// important to override inline CSS from XSLT
+			//scss-lint:disable ImportantRule
+			@include fit-content($imp: 1);
+			display: block;
+			margin-left: 0 !important;
+			max-width: 100% !important;
+		}
+
+		> .wc_fld_pl { //this is the placeholder for a null or moved label (moved for checkbox or radio). Remove on narrow viewports.
+			display: none;
+		}
 	}
 }

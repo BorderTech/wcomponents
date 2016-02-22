@@ -31,20 +31,21 @@
 				</xsl:attribute>
 				<xsl:call-template name="ajaxTarget"/>
 			</xsl:if>
-			<xsl:attribute name="class">
-				<xsl:call-template name="commonClassHelper"/>
-				<xsl:choose>
-					<xsl:when test="$align">
-						<xsl:value-of select="concat(' ',$align)"/>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:text> ${wc.common.align.std}</xsl:text>
-					</xsl:otherwise>
-				</xsl:choose>
-				<xsl:if test="not(self::ui:column)">
-					<xsl:text> wc-column</xsl:text>
-				</xsl:if>
-			</xsl:attribute>
+			<xsl:call-template name="makeCommonClass">
+				<xsl:with-param name="additional">
+					<xsl:choose>
+						<xsl:when test="$align">
+							<xsl:value-of select="concat(' ',$align)"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:text> ${wc.common.align.std}</xsl:text>
+						</xsl:otherwise>
+					</xsl:choose>
+					<xsl:if test="not(self::ui:column)">
+						<xsl:text> wc-column</xsl:text>
+					</xsl:if>
+				</xsl:with-param>
+			</xsl:call-template>
 			<xsl:if test="$style != ''">
 				<xsl:attribute name="style">
 					<xsl:value-of select="$style"/>

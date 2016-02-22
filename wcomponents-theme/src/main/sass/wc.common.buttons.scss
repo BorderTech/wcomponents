@@ -52,12 +52,12 @@ button {
 	&_link {
 		color: $wc-ui-color-link;
 		text-decoration: underline;
-
-		// class wc_btn_img is applied to buttons which hold an image but no visible text.
-		&.wc_btn_img {
-			text-decoration: none;
-		}
 	}
+}
+
+// class wc_nti (no text image) is applied to buttons and links which hold an image but no visible text.
+.wc_nti {
+	text-decoration: none;
 }
 
 /// Components which are not button elements but act as buttons. This is _very_ rare and is currently limited to

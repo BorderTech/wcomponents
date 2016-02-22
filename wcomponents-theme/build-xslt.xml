@@ -24,7 +24,6 @@
 	<property name="xsl.target.debug.file.name" value="${xsl.target.file.prefix}${debug.target.file.name.suffix}.xsl"/>
 	<property name="xsl.target.file.name" value="${xsl.target.file.prefix}.xsl"/>
 	<property name="xsl.target.intermediate.file.name" value="${xsl.target.file.prefix}${xsl.target.intermediate.file.suffix}"/>
-	<property name="plugin.xslt.dir.name" value="xslt"/>
 
 	<target name="build"
 		depends="init, copyXslSrc, buildI18nWrappers, buildXslt, minify"
@@ -50,7 +49,7 @@
 			<param name="includeUrl" expression="${xsl.target.debug.file.name}"/>
 			<regexpmapper from="^(.*)\.xml" to="${xslt.target.file.name}_\1${debug.target.file.name.suffix}.xsl"/>
 		</xslt>
-		
+
 		<!--
 			Seems to be a bug in ant 1.8.2 where it gets confused by the backslash in the \1 matched group ref
 		-->
@@ -122,24 +121,8 @@
 				<expandproperties/>
 			</filterchain>
 		</copy>
-		<copy todir="${xsl.tmp.src.dir}" overwrite="true" flatten="true">
-			<fileset dir="${common.src.plugin.dir}" includesfile="${plugin.includesfile}" excludesfile="${excludesfile}" erroronmissingdir="false">
-				<filename name="**/${plugin.xslt.dir.name}/*.xsl"/>
-			</fileset>
-			<filterchain>
-				<expandproperties/>
-			</filterchain>
-		</copy>
 		<copy todir="${xsl.tmp.src.dir}" overwrite="true">
 			<fileset dir="${impl.xsl.src.dir}" includes="*.xsl" erroronmissingdir="false"/>
-			<filterchain>
-				<expandproperties/>
-			</filterchain>
-		</copy>
-		<copy todir="${xsl.tmp.src.dir}" overwrite="true" flatten="true">
-			<fileset dir="${impl.src.plugin.dir}" includesfile="${plugin.includesfile}" excludesfile="${excludesfile}" erroronmissingdir="false">
-				<filename name="**/${plugin.xslt.dir.name}/*.xsl"/>
-			</fileset>
 			<filterchain>
 				<expandproperties/>
 			</filterchain>

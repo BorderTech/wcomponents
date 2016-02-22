@@ -67,17 +67,17 @@
 			</xsl:choose>
 		</xsl:variable>
 		<xsl:element name="{$elementName}">
-			<xsl:call-template name="commonAttributes"/>
+			<xsl:call-template name="commonAttributes">
+				<xsl:with-param name="class">
+					<xsl:text> wc_ro</xsl:text>
+					<xsl:if test="$class != ''">
+						<xsl:value-of select="concat(' ', $class)"/>
+					</xsl:if>
+				</xsl:with-param>
+			</xsl:call-template>
 			<xsl:call-template name="title">
 				<xsl:with-param name="title" select="$toolTip"/>
 			</xsl:call-template>
-			<xsl:attribute name="class">
-				<xsl:call-template name="commonClassHelper"/>
-				<xsl:text> wc_ro</xsl:text>
-				<xsl:if test="$class != ''">
-					<xsl:value-of select="concat(' ', $class)"/>
-				</xsl:if>
-			</xsl:attribute>
 			<xsl:if test="$style!=''">
 				<xsl:attribute name="style">
 					<xsl:value-of select="$style"/>

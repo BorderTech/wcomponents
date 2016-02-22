@@ -10,7 +10,6 @@
 	<import file="build-import.xml"/>
 	<property name="i18n.rootdir" location="${common.src.rootdir}/i18n"/>
 	<property name="impl.i18n.rootdir" location="${impl.src.main.dir}/i18n"/>
-	<property name="plugin.i18n.dir.name" value="i18n"/>
 
 	<target name="init" depends="clean">
 		<property file="${properties.build.constants}"/>
@@ -105,17 +104,6 @@
 					<fileset dir="${i18n.rootdir}" includes="*.@{locale}.properties" excludesfile="${excludesfile}"/>
 					<fileset dir="${impl.i18n.rootdir}/parentImplementation" includes="*.@{locale}.properties" erroronmissingdir="false"/>
 					<fileset dir="${impl.i18n.rootdir}" includes="*.@{locale}.properties" erroronmissingdir="false"/>
-					<!-- plugins -->
-					<fileset dir="${common.src.plugin.dir}" includesfile="${plugin.includesfile}" excludesfile="${excludesfile}" erroronmissingdir="false">
-						<filename name="**/${plugin.i18n.dir.name}/*.@{locale}.properties"/>
-					</fileset>
-					<fileset dir="${impl.src.plugin.dir}/parentImplementation" includesfile="${plugin.includesfile}" erroronmissingdir="false">
-						<filename name="**/${plugin.i18n.dir.name}/*.@{locale}.properties"/>
-					</fileset>
-
-					<fileset dir="${impl.src.plugin.dir}" includesfile="${plugin.includesfile}" erroronmissingdir="false">
-						<filename name="**/${plugin.i18n.dir.name}/*.@{locale}.properties"/>
-					</fileset>
 				</path>
 				<filterchain>
 					<expandproperties/>

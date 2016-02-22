@@ -14,39 +14,43 @@
 		overflows.
 	-->
 	<xsl:template match="ui:text">
-		<xsl:variable name="type" select="@type"/>
-		
-		<xsl:variable name="class">
-			<xsl:call-template name="commonClassHelper"/>
-		</xsl:variable>
-		<xsl:choose>
-			<xsl:when test="@space='paragraphs'">
-				<xsl:apply-templates select="text()" mode="para">
-					<xsl:with-param name="type" select="$type"/>
-					<xsl:with-param name="class" select="$class"/>
-				</xsl:apply-templates>
-			</xsl:when>
-			<xsl:when test="@space">
-				<pre class="{$class}">
-					<xsl:apply-templates mode="pre">
+		<xsl:if test="text()">
+			<xsl:variable name="type" select="@type"/>
+			
+			<xsl:variable name="class">
+				<xsl:call-template name="commonClassHelper"/>
+			</xsl:variable>
+			<xsl:choose>
+				<xsl:when test="@space='paragraphs'">
+					<xsl:apply-templates select="text()" mode="para">
 						<xsl:with-param name="type" select="$type"/>
+						<xsl:with-param name="class" select="$class"/>
 					</xsl:apply-templates>
-				</pre>
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:variable name="elementType">
-					<xsl:call-template name="WStyledTextGetElementFromType"/>
-				</xsl:variable>
-				<xsl:element name="{$elementType}">
-					<xsl:attribute name="class">
-						<xsl:value-of select="$class"/>
-						<xsl:if test="$type !=''">
-							<xsl:value-of select="concat(' ', $type)"/>
-						</xsl:if>
-					</xsl:attribute>
-					<xsl:apply-templates />
-				</xsl:element>
-			</xsl:otherwise>
-		</xsl:choose>
+				</xsl:when>
+				<xsl:when test="@space">
+					<pre class="{$class}">
+						<xsl:apply-templates mode="pre">
+							<xsl:with-param name="type" select="$type"/>
+						</xsl:apply-templates>
+					</pre>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:variable name="elementType">
+						<xsl:call-template name="WStyledTextGetElementFromType">
+							<xsl:with-param name="type" select="$type"/>
+						</xsl:call-template>
+					</xsl:variable>
+					<xsl:element name="{$elementType}">
+						<xsl:call-template name="makeCommonClass">
+							<xsl:with-param name="additional">
+								<xsl:value-of select="@type"/>
+							</xsl:with-param>
+						</xsl:call-template>
+						<xsl:apply-templates />
+					</xsl:element>
+				</xsl:otherwise>
+			</xsl:choose>
+			
+		</xsl:if>
 	</xsl:template>
 </xsl:stylesheet>

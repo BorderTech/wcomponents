@@ -8,9 +8,9 @@
 		in the HTML spec.
 	-->
 	<xsl:template match="ui:term">
-		<xsl:element name="dt">
+		<dt>
 			<xsl:value-of select="@text"/>
-		</xsl:element>
+		</dt>
 		<xsl:apply-templates select="ui:data"/>
 	</xsl:template>
 </xsl:stylesheet>

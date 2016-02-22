@@ -58,7 +58,7 @@ public class WStyledTextOptionsExample extends WPanel {
 				styled.setType((WStyledText.Type) type.getSelected());
 				styled.setWhitespaceMode((WStyledText.WhitespaceMode) mode.getSelected());
 				styled.setText(text.getText());
-				styled.setHtmlClass(useBigTextClass.isSelected() ? "bigText" : "");
+				styled.setHtmlClass(useBigTextClass.isSelected() ? "bigText" : null);
 			}
 		});
 

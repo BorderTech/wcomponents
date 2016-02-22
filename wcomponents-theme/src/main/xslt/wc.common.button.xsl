@@ -1,6 +1,5 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
 	<xsl:import href="wc.common.buttonLinkCommon.xsl"/>
-	<xsl:import href="wc.common.n.className.xsl"/>
 	<!--
 		This is a group transform for WButton (including WConfirmationButton and
 		WCancelButton) and WPrintButton.
@@ -44,6 +43,25 @@
 	-->
 	<xsl:template match="ui:button|ui:printbutton">
 		<button name="{@id}" value="x">
+			<xsl:call-template name="buttonLinkCommonAttributes">
+				<xsl:with-param name="class">
+					<xsl:if test="self::ui:button">
+						<xsl:if test="@unsavedChanges">
+							<xsl:text> wc_unsaved</xsl:text>
+						</xsl:if>
+						<xsl:if test="@cancel">
+							<xsl:text> wc_btn_cancel</xsl:text>
+						</xsl:if>
+						<xsl:if test="parent::ui:action">
+							<xsl:text> wc_table_cond</xsl:text>
+						</xsl:if>
+					</xsl:if>
+					<xsl:if test="@type='link'">
+						<xsl:text> wc_btn_link</xsl:text>
+					</xsl:if>
+				</xsl:with-param>
+			</xsl:call-template>
+			
 			<xsl:attribute name="type">
 				<xsl:choose>
 					<xsl:when test="self::ui:printbutton or parent::ui:dialog">
@@ -54,31 +72,6 @@
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:attribute>
-			
-			<xsl:attribute name="class">
-				<xsl:call-template name="commonClassHelper"/>
-				<xsl:if test="self::ui:button">
-					<xsl:if test="@unsavedChanges">
-						<xsl:text> wc_unsaved</xsl:text>
-					</xsl:if>
-					<xsl:if test="@cancel">
-						<xsl:text> wc_btn_cancel</xsl:text>
-					</xsl:if>
-					<xsl:if test="parent::ui:action">
-						<xsl:text> wc_table_cond</xsl:text>
-					</xsl:if>
-				</xsl:if>
-				<xsl:if test="@type='link'">
-					<xsl:text> wc_btn_link</xsl:text>
-				</xsl:if>
-				<xsl:if test="@imagePosition">
-					<xsl:value-of select="concat(' wc_btn_img',@imagePosition)"/>
-				</xsl:if>
-				<xsl:if test="@imageUrl and not(@imagePosition)">
-					<xsl:text> wc_btn_img</xsl:text>
-				</xsl:if>
-			</xsl:attribute>
-			
 
 			<!-- nothing else applies to print buttons -->
 			<xsl:if test="self::ui:button">
@@ -105,17 +98,15 @@
 						</xsl:attribute>
 					</xsl:when>
 					<xsl:when test="key('triggerKey',@id)">
-						<!-- do not merge this with the top when as we _do_ validate on AJAX if the validates attribute is set. -->
+						<!-- 
+							Do not merge this with the top when as we _do_ validate on AJAX if the validates attribute 
+							is set.
+						-->
 						<xsl:attribute name="formnovalidate">
 							<xsl:text>formnovalidate</xsl:text>
 						</xsl:attribute>
 					</xsl:when>
 				</xsl:choose>
-				<xsl:if test="@popup or parent::ui:dialog">
-					<xsl:attribute name="aria-haspopup">
-						<xsl:copy-of select="$t"/>
-					</xsl:attribute>
-				</xsl:if>
 				<xsl:choose>
 					<xsl:when test="parent::ui:dialog">
 						<xsl:attribute name="data-wc-dialogconf">
@@ -136,7 +127,7 @@
 					</xsl:when>
 				</xsl:choose>
 			</xsl:if>
-			<xsl:call-template name="buttonLinkCommon"/>
+			<xsl:call-template name="buttonLinkCommonContent"/>
 		</button>
 	</xsl:template>
 </xsl:stylesheet>

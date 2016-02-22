@@ -1,6 +1,7 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
-	<xsl:import href="wc.common.ajax.xsl"/>
-	<xsl:import href="wc.constants.xsl"/>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
+	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
+	xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+	<xsl:import href="wc.common.attributeSets.xsl"/>
 	<xsl:import href="wc.common.inlineError.xsl"/>
 	<xsl:import href="wc.common.invalid.xsl"/>
 	<xsl:import href="wc.common.required.xsl"/>
@@ -47,29 +48,25 @@
 			fieldset is also styled as if it was in an error state.
 		-->
 		<xsl:variable name="isError" select="key('errorKey',@id)"/>
-		<xsl:element name="fieldset">
-			<xsl:attribute name="id">
-				<xsl:value-of select="@id"/>
-			</xsl:attribute>
-			<xsl:attribute name="class">
-				<xsl:call-template name="commonClassHelper"/>
-				<xsl:if test="$frame='noborder' or $frame='none'">
-					<xsl:text> noborder</xsl:text>
-				</xsl:if>
-				<xsl:if test="$frame='notext' or $frame='none'">
-					<xsl:text> notext</xsl:text>
-				</xsl:if>
-				<xsl:if test="@required">
-					<xsl:text> wc_req</xsl:text>
-				</xsl:if>
-			</xsl:attribute>
+		<fieldset>
+			<xsl:call-template name="commonAttributes">
+				<xsl:with-param name="isWrapper" select="1"/>
+				<xsl:with-param name="class">
+					<xsl:if test="$frame='noborder' or $frame='none'">
+						<xsl:text> wc_noborder</xsl:text>
+					</xsl:if>
+					<xsl:if test="$frame='notext' or $frame='none'">
+						<xsl:text> wc_notext</xsl:text>
+					</xsl:if>
+					<xsl:if test="@required">
+						<xsl:text> wc_req</xsl:text>
+					</xsl:if>
+				</xsl:with-param>
+			</xsl:call-template>
 			<xsl:apply-templates select="ui:margin"/>
 			<xsl:if test="$isError">
 				<xsl:call-template name="invalid"/>
 			</xsl:if>
-			<xsl:call-template name="hideElementIfHiddenSet"/>
-
-			<xsl:call-template name="ajaxTarget"/>
 			<!--
 				The Legend/Label/Heading
 
@@ -99,7 +96,7 @@
 
 				The legend will always be output but may be rendered out of viewport by the frame attribute.
 			-->
-			<xsl:element name="legend">
+			<legend>
 				<xsl:call-template name="accessKey"/>
 				<xsl:apply-templates select="ui:decoratedlabel"/>
 				<xsl:if test="normalize-space(ui:decoratedlabel/*)='' and not(ui:decoratedlabel//ui:image)">
@@ -112,7 +109,7 @@
 						</xsl:with-param>
 					</xsl:call-template>
 				</xsl:if>
-			</xsl:element>
+			</legend>
 
 			<xsl:apply-templates select="ui:content"/>
 			<xsl:if test="$isError">
@@ -120,6 +117,6 @@
 					<xsl:with-param name="errors" select="$isError"/>
 				</xsl:call-template>
 			</xsl:if>
-		</xsl:element>
+		</fieldset>
 	</xsl:template>
 </xsl:stylesheet>

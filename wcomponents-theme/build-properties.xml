@@ -27,17 +27,14 @@
 		<echo>Building ${implementation.sub.propeties} from ${impl.src.main.dir}/properties</echo>
 		<concat destfile="${implementation.sub.propeties}" fixlastline="yes" ignoreempty="false" overwrite="true">
 			<fileset dir="${impl.src.main.dir}/${prop.src.dir.name}" includes="*.properties" erroronmissingdir="false" />
-			<fileset dir="${impl.src.plugin.dir}" includes="**/${prop.src.dir.name}/*.properties" erroronmissingdir="false"/>
 		</concat>
 		<echo>Building ${implementation.parent.propeties} from ${impl.src.main.dir}/properties/parentImplementation</echo>
 		<concat destfile="${implementation.parent.propeties}" fixlastline="yes" ignoreempty="false" overwrite="true">
 			<fileset dir="${impl.src.main.dir}/${prop.src.dir.name}/parentImplementation" includes="*.properties" erroronmissingdir="false"/>
-			<fileset dir="${impl.src.plugin.dir}" includes="**/${prop.src.dir.name}/parentImplementation/*.properties" erroronmissingdir="false"/>
 		</concat>
 		<echo>Building ${core.propeties} from ${common.src.rootdir}/properties</echo>
 		<concat destfile="${core.propeties}" fixlastline="yes" overwrite="true">
 			<fileset dir="${common.src.rootdir}/${prop.src.dir.name}" includes="*.properties" />
-			<fileset dir="${common.src.plugin.dir}" includes="**/${prop.src.dir.name}/*.properties" erroronmissingdir="false"/>
 		</concat>
 
 		<!--

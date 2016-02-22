@@ -48,7 +48,6 @@
 			</xsl:choose>
 		</xsl:variable>
 
-
 		<xsl:variable name="removeRow">
 			<xsl:choose>
 				<xsl:when test="$parentIsClosed=1 or @hidden=$t or parent::ui:subtr[not(@open=$t)] or (ancestor::ui:subtr[not(@open=$t) and ancestor::ui:table[1]/@id=$tableId])">
@@ -76,25 +75,29 @@
 				<xsl:attribute name="role">row</xsl:attribute>
 			</xsl:if>
 
-			<xsl:attribute name="class">
-				<xsl:call-template name="commonClassHelper"/>
-				<xsl:choose>
-					<xsl:when test="parent::ui:tbody">
-						<xsl:if test="$myTable/@striping='rows' and position() mod 2 = 0">
+			<xsl:call-template name="makeCommonClass">
+				<xsl:with-param name="additional">
+					<xsl:choose>
+						<xsl:when test="parent::ui:tbody">
+							<xsl:if test="$myTable/@striping='rows' and position() mod 2 = 0">
+								<xsl:text> wc_table_stripe</xsl:text>
+							</xsl:if>
+							<xsl:if test="$myTable/ui:pagination">
+								<xsl:text> wc_table_pag_row</xsl:text>
+							</xsl:if>
+						</xsl:when>
+						<xsl:when test="$topRowIsStriped=1">
 							<xsl:text> wc_table_stripe</xsl:text>
-						</xsl:if>
-						<xsl:if test="$myTable/ui:pagination">
-							<xsl:text> wc_table_pag_row</xsl:text>
-						</xsl:if>
-					</xsl:when>
-					<xsl:when test="$topRowIsStriped=1">
-						<xsl:text> wc_table_stripe</xsl:text>
-					</xsl:when>
-				</xsl:choose>
-				<!--<xsl:if test="$isSelectToggle = 1">
-					<xsl:text> wc_seltog</xsl:text>
-				</xsl:if>-->
-			</xsl:attribute>
+						</xsl:when>
+					</xsl:choose>
+					<!--
+						Adding this class makes all sorts of magic happen.
+					<xsl:if test="$isSelectToggle = 1">
+						<xsl:text> wc_seltog</xsl:text>
+					</xsl:if>
+					-->
+				</xsl:with-param>
+			</xsl:call-template>
 
 			<xsl:if test="$hasRowExpansion=1">
 				<xsl:if test="ui:subtr">
@@ -194,7 +197,7 @@
 			<xsl:if test="$selectableRow=1 and not(@unselectable=$t)">
 				<xsl:attribute name="aria-selected">
 					<xsl:choose>
-						<xsl:when test="$isSelectToggle=1 and .//ui:subtr[ancestor::ui:table[1]/@id = $tableId]/ui:tr[not(@unselectable or @selected)]">
+						<xsl:when test="$isSelectToggle = 1 and .//ui:subtr[ancestor::ui:table[1]/@id = $tableId]/ui:tr[not(@unselectable or @selected)]">
 							<!-- If I am a select toggle row for my 'descendant' rows and one or more of these are not selected then I am not selected. -->
 							<xsl:text>false</xsl:text>
 						</xsl:when>
@@ -218,30 +221,13 @@
 				<xsl:attribute name="data-wc-value">
 					<xsl:value-of select="@rowIndex"/>
 				</xsl:attribute>
-
-				<!--<xsl:if test="ui:subtr/ui:tr and $myTable/ui:rowselection/@toggle">
-					<xsl:attribute name="wc-data-toggle">
-						<xsl:text>1</xsl:text>
-					</xsl:attribute>
-				</xsl:if>-->
-
-				<!-- WDataTable still needs disabled support -->
-				<xsl:choose>
-					<xsl:when test="@disabled">
-						<xsl:call-template name="disabledElement"/>
-					</xsl:when>
-					<xsl:when test="$myTable/@disabled">
-						<xsl:call-template name="disabledElement">
-							<xsl:with-param name="field" select="$myTable"/>
-						</xsl:call-template>
-					</xsl:when>
-				</xsl:choose>
 			</xsl:if>
 
 			<xsl:if test="$removeRow=1">
 				<xsl:call-template name="hiddenElement"/>
 			</xsl:if>
 
+			<!-- TODO remove the disabled block when we drop WDataTable -->
 			<xsl:choose>
 				<xsl:when test="@disabled">
 					<xsl:call-template name="disabledElement"/>
@@ -254,12 +240,11 @@
 			</xsl:choose>
 			<!-- END OF TR ATTRIBUTES -->
 
-
 			<!--
 			rowSelection indicator wrapper
 
-			 This cell is actually an empty cell which is used as a placeholder to display
-			 the row selection mechanism and state indicators.
+			This cell is an empty cell which is used as a placeholder to display the secondary indicators of the row 
+			selection mechanism and state. The primary indicators are the aria-selected state.
 			-->
 			<xsl:if test="$selectableRow=1">
 				<td class="wc_table_sel_wrapper" aria-hidden="true">
@@ -267,7 +252,10 @@
 						<xsl:variable name="subRowToggleControlId" select="concat($rowId, '_toggleController')"/>
 						<xsl:variable name="subRowToggleControlButtonId" select="concat($subRowToggleControlId, '_showbtn')"/>
 						<xsl:variable name="subRowToggleControlContentId" select="concat($subRowToggleControlId, '_content')"/>
-
+						<!--
+							THIS IS HORRID but necessary - it has to be a complete emulation of a flyout menu but I have nothing to
+							apply to make the submenu and menu ite,s so I cannot even make the menu template into a named template.
+						-->
 						<div class="wc-menu flyout" role="menubar" id="{$subRowToggleControlId}">
 							<div class="wc-submenu" role="menuitem">
 								<button type="button" aria-haspopup="true" class="wc_btn_nada" id="{$subRowToggleControlButtonId}" aria-controls="{$subRowToggleControlContentId}">

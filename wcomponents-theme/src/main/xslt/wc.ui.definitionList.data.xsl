@@ -3,8 +3,8 @@
 		The data items in a defintion list map directly to HTML DD elements
 -->
 	<xsl:template match="ui:data">
-		<xsl:element name="dd">
+		<dd>
 			<xsl:apply-templates/>
-		</xsl:element>
+		</dd>
 	</xsl:template>
 </xsl:stylesheet>
