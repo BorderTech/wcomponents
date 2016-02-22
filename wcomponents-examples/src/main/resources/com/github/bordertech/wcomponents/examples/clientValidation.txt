@@ -1,0 +1,5 @@
+<script type="text/javascript" defer="defer">
+require(["wc/compat/compat!"], function() {
+	require(["wc/ui/validation/all"]);
+});
+</script>
