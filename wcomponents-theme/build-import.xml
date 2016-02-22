@@ -47,7 +47,6 @@
 	<property name="images.target.dir.name" value="images"/>
 	<property name="res.target.dir.name" value="resource"/>
 	<property name="examples.target.dir.name" value="examples"/>
-	<property name="plugins.target.dir.name" value="plugins"/>
 	<property name="excludesfile" location="${impl.src.dir}/excludes.txt"/>
 	<property name="style.build.target.dir" location="${target.rootdir}/${css.target.dir.name}"/>
 	<property name="script.debug.build.target.dir" location="${target.rootdir}/${script.debug.target.dir.name}"/>
@@ -281,16 +280,6 @@
 			</propertyfile>
 		</sequential>
 	</macrodef>
-
-	<!--
-	PLUGINS
-	-->
-	<property name="common.src.plugin.dir" location="${common.src.rootdir}/plugins"/>
-	<property name="impl.src.plugin.dir" location="${impl.src.main.dir}/plugins"/>
-	<condition property="plugin.includesfile" value="${impl.src.dir}/plugins.include.txt" else="${component.rootdir}/plugins.include.txt">
-		<available file="${impl.src.dir}/plugins.include.txt"/>
-	</condition>
-	<property name="plugin.includesfile" location="${impl.src.dir}/plugins.include.txt"/>
 
 	<!--
 		Runs static analysis on javascript code.

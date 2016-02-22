@@ -17,7 +17,6 @@
 	<property name="xml.rootdir" location="${common.src.rootdir}/xml" />
 	<property name="impl.xml.rootdir" location="${impl.src.main.dir}/xml" />
 	<property name="xml.build.target.dir" location="${output.dir}/${implementation.name}/${xml.target.dir.name}" />
-	<property name="plugin.xml.dir.name" value="xml" />
 
 	<target name="init" depends="clean">
 		<property file="${properties.build.constants}" />
@@ -26,13 +25,7 @@
 	<target name="build" depends="init" description="Builds XML resources">
 		<copy todir="${xml.build.target.dir}" overwrite="true" flatten="true">
 			<fileset dir="${xml.rootdir}" includes="*.xml, *.rdf" excludesfile="${excludesfile}" />
-			<fileset dir="${common.src.plugin.dir}" includesfile="${plugin.includesfile}" excludesfile="${excludesfile}" erroronmissingdir="false">
-				<filename name="**/${plugin.xml.dir.name}/*.xml" />
-			</fileset>
 			<fileset dir="${impl.xml.rootdir}" includes="*.xml, *.rdf"  erroronmissingdir="false"/>
-			<fileset dir="${impl.src.plugin.dir}" includesfile="${plugin.includesfile}" excludesfile="${excludesfile}" erroronmissingdir="false">
-				<filename name="**/${plugin.xml.dir.name}/*.xml" />
-			</fileset>
 			<filterchain>
 				<expandproperties />
 				<deletecharacters chars="\t" />

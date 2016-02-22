@@ -1,4 +1,6 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
+	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
+	xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
 	<xsl:import href="wc.constants.xsl"/>
 	<xsl:import href="wc.ui.root.variables.xsl"/>
 	<xsl:import href="wc.ui.root.n.styleLoaderConfig.xsl"/>
@@ -65,6 +67,8 @@
 			<!-- Used for testing purposes -->
 			<xsl:value-of select="concat('xslUrl:&quot;', normalize-space($xslPath), '&quot;')"/>
 			<xsl:text>},&#10;"wc/i18n/i18n": {</xsl:text>
+			<xsl:value-of select="concat('locale:&quot;', normalize-space($locale), '&quot;')"/>
+			<xsl:text>},&#10;"lib/i18n": {</xsl:text>
 			<xsl:value-of select="concat('locale:&quot;', normalize-space($locale), '&quot;')"/>
 			<xsl:text>},&#10;"wc/loader/resource": {</xsl:text>
 			<xsl:value-of select="concat('xmlBaseUrl:&quot;', normalize-space($resourceRoot), '${xml.target.dir.name}/&quot;,&#10;')"/>

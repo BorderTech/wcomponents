@@ -270,7 +270,7 @@
 			An array of paths to exclude which should always include external (dojo, requirejs etc). This is built from
 			the list of directories in the built source (and obviously excludes the "wc" directory).
 		-->
-		<dirset id="jsdoc.excludes.dirset" dir="${jsdoc.source.dir}" includes="*" excludes="wc, ${plugins.target.dir.name}"/>
+		<dirset id="jsdoc.excludes.dirset" dir="${jsdoc.source.dir}" includes="*" excludes="wc"/>
 		<pathconvert pathsep="&quot;, &quot;" property="jsdoc.excludes" targetos="unix" refid="jsdoc.excludes.dirset"/>
 
 		<!-- Copy the default config file to expand properties. -->

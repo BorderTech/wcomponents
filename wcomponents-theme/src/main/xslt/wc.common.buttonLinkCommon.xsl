@@ -50,13 +50,9 @@
 		<xsl:call-template name="ajaxController"/>
 		
 		<xsl:variable name="linkHasPopup">
-			<xsl:choose>
-				<xsl:when test="ui:windowAttributes[count(@*) &gt; 1] or (@type='button' and ui:windowAttributes)">
-					<xsl:attribute name="aria-haspopup">
-						<xsl:copy-of select="$t"/>
-					</xsl:attribute>
-				</xsl:when>
-			</xsl:choose>
+			<xsl:if test="ui:windowAttributes[count(@*) &gt; 1] or (@type='button' and ui:windowAttributes)">
+				<xsl:number value="1"/>
+			</xsl:if>
 		</xsl:variable>
 		
 		<xsl:if test="@popup or parent::ui:dialog or $linkHasPopup=1">
