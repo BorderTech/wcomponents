@@ -8,7 +8,7 @@ import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WFieldLayout;
 import com.github.bordertech.wcomponents.WLabel;
 import com.github.bordertech.wcomponents.WTabSet;
-import com.github.bordertech.wcomponents.WText;
+import com.github.bordertech.wcomponents.examples.common.ClientValidationTemplate;
 import com.github.bordertech.wcomponents.examples.validation.basic.BasicFieldLayoutValidationExample;
 import com.github.bordertech.wcomponents.examples.validation.basic.BasicFieldsValidationExample;
 import com.github.bordertech.wcomponents.examples.validation.fields.FieldValidation;
@@ -22,17 +22,16 @@ import com.github.bordertech.wcomponents.validation.WValidationErrors;
  * @author Adam Millard
  */
 public class ValidationExamples extends WContainer {
+
 	/**
-	 * Use client validation?
+	 * Toggle whether to use client validation.
 	 */
 	private final WCheckBox useClientValidation = new WCheckBox();
 
 	/**
-	 * Include the client side validation scripts.
+	 * Template to include client validation.
 	 */
-	private final WText csvJs = new WText("<script type=\"text/javascript\" defer=\"defer\">\n"
-		+ "require([\"wc/compat/compat!\"], function(){\n\trequire([\"wc/ui/validation/all\"]);});\n"
-		+ "</script>\n");
+	private final ClientValidationTemplate jsPlainTextTemplate = new ClientValidationTemplate();
 
 	private final WButton btnApplySettings =  new WButton("Apply");
 
@@ -40,13 +39,11 @@ public class ValidationExamples extends WContainer {
 	 * Creates a ValidationExamples.
 	 */
 	public ValidationExamples() {
-		csvJs.setEncodeText(false);
-		csvJs.setVisible(false);
 
 		btnApplySettings.setAction(new ValidatingAction(new WValidationErrors(), btnApplySettings) {
 			@Override
 			public void executeOnValid(final ActionEvent event) {
-				csvJs.setVisible(useClientValidation.isSelected());
+				jsPlainTextTemplate.setVisible(useClientValidation.isSelected());
 			}
 		});
 
@@ -64,6 +61,6 @@ public class ValidationExamples extends WContainer {
 		tabs.addTab(new FieldValidation(), "All Fields", WTabSet.TAB_MODE_LAZY);
 
 		add(tabs);
-		add(csvJs);
+		add(jsPlainTextTemplate);
 	}
 }
