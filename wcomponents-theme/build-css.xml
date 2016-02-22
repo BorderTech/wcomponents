@@ -110,29 +110,9 @@
 			</filterchain>
 		</copy>
 
-		<!-- wcomponents-theme's plugin SCSS (if any ever exists) -->
-		<copy todir="${sass.tmp.src.dir}" overwrite="true">
-			<fileset dir="${common.src.plugin.dir}" includesfile="${plugin.includesfile}" excludesfile="${excludesfile}" erroronmissingdir="false">
-				<filename name="**/sass/*.scss" />
-			</fileset>
-			<filterchain>
-				<expandproperties />
-			</filterchain>
-		</copy>
-
 		<!-- Implementation SCSS -->
 		<copy todir="${sass.tmp.src.dir}" overwrite="true">
 			<fileset dir="${impl.sass.rootdir}" includes="*.scss" erroronmissingdir="false"/>
-			<filterchain>
-				<expandproperties />
-			</filterchain>
-		</copy>
-
-		<!-- implementation plugin SCSS -->
-		<copy todir="${sass.tmp.src.dir}" overwrite="true">
-			<fileset dir="${impl.src.plugin.dir}" includesfile="${plugin.includesfile}" excludesfile="${excludesfile}" erroronmissingdir="false">
-				<filename name="**/sass/*.scss" />
-			</fileset>
 			<filterchain>
 				<expandproperties />
 			</filterchain>
