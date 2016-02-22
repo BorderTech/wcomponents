@@ -22,8 +22,14 @@ import com.github.bordertech.wcomponents.validation.WValidationErrors;
  * @author Adam Millard
  */
 public class ValidationExamples extends WContainer {
-
+	/**
+	 * Use client validation?
+	 */
 	private final WCheckBox useClientValidation = new WCheckBox();
+
+	/**
+	 * Include the client side validation scripts.
+	 */
 	private final WText csvJs = new WText("<script type=\"text/javascript\" defer=\"defer\">\n"
 		+ "require([\"wc/compat/compat!\"], function(){\n\trequire([\"wc/ui/validation/all\"]);});\n"
 		+ "</script>\n");
