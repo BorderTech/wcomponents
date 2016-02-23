@@ -7,6 +7,7 @@
 	<xs:include schemaLocation="ajaxTrigger.xsd"/>
 	<xs:include schemaLocation="margin.xsd"/>
 	<xs:include schemaLocation="attributeGroups.control.xsd"/>
+	<xs:include schemaLocation="attributeGroups.tree.xsd"/>
 
 	<xs:element name="table">
 		<xs:annotation>
@@ -176,9 +177,9 @@
 						<xs:documentation>Provides information regarding table row selection. Presence of this element indicates that a table may have selectable rows.</xs:documentation>
 					</xs:annotation>
 					<xs:complexType>
-						<xs:attribute name="multiple" type="xs:boolean">
+						<xs:attribute name="multiple" type="xs:boolean" default="false">
 							<xs:annotation>
-								<xs:documentation>Indicates that more than one row may be selected at a time in a manner similar to a group of check boxes. Not output if "false".</xs:documentation>
+								<xs:documentation>Indicates that more than one row may be selected at a time in a manner similar to a group of check boxes.</xs:documentation>
 							</xs:annotation>
 						</xs:attribute>
 						<xs:attribute name="groupName" type="xs:string">
@@ -220,36 +221,7 @@
 						<xs:documentation>Provides information regarding table row expansion. Presence of this element indicates that a table may have expandable rows.</xs:documentation>
 					</xs:annotation>
 					<xs:complexType>
-						<xs:attribute name="mode" use="required">
-							<xs:annotation>
-								<xs:documentation>Provides the mode for expanding rows.</xs:documentation>
-							</xs:annotation>
-							<xs:simpleType>
-								<xs:restriction base="xs:NMTOKEN">
-									<xs:enumeration value="client">
-										<xs:annotation>
-											<xs:documentation>The content exists in the page and showing/hiding that content is purely a client-side process.</xs:documentation>
-										</xs:annotation>
-									</xs:enumeration>
-									<xs:enumeration value="dynamic">
-										<xs:annotation>
-											<xs:documentation>The content is fetched from the server using AJAX each time the content is displayed.</xs:documentation>
-										</xs:annotation>
-									</xs:enumeration>
-									<xs:enumeration value="lazy">
-										<xs:annotation>
-											<xs:documentation>The content is fetched from the server the first time the content is displayed then remains static for the rest fo the lifecycle of the page.</xs:documentation>
-										</xs:annotation>
-									</xs:enumeration>
-									<xs:enumeration value="server">
-										<xs:annotation>
-											<xs:documentation>The content is not part of the page's XML unless it is in a visible (open) state and a user action to display the content will result in the entire
-												application POSTing to the server application. This mode is deprecated and is available only for backwards compatibilty with a deprecated form of the table component.</xs:documentation>
-										</xs:annotation>
-									</xs:enumeration>
-								</xs:restriction>
-							</xs:simpleType>
-						</xs:attribute>
+						<xs:attributeGroup ref="ui:tree.mode.attributes"/>
 						<xs:attribute name="expandAll" type="xs:boolean">
 							<xs:annotation>
 								<xs:documentation>Indicates that a control should be provided to allow the user to expand or collapse all available expandable rows.</xs:documentation>
