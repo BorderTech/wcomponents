@@ -222,9 +222,8 @@ define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "
 
 				if (childCount > 1 && BANNER.findAncestor(nextMenu)) {
 					branchElement = document.createElement("div");
-					branchElement.setAttribute(ROLE, "menuitem");
+					branchElement.setAttribute(ROLE, "presentation");
 					branchElement.className = "wc-submenu";
-					branchElement.setAttribute("aria-expanded", "false");
 					button = document.createElement("button");
 					button.type = "button";
 					button.setAttribute("aria-haspopup", "true");
@@ -232,12 +231,14 @@ define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "
 					contentId = uid();
 					button.setAttribute("aria-controls", contentId);
 					button.className = "wc_btn_nada";
+					button.setAttribute(ROLE, "menuitem");
 					branchElement.appendChild(button);
 
 					submenuContentElement = document.createElement("div");
 					submenuContentElement.className = "wc_submenucontent";
 					submenuContentElement.id = contentId;
 					submenuContentElement.setAttribute(ROLE, "menu");
+					submenuContentElement.setAttribute("aria-expanded", "false");
 					branchElement.appendChild(submenuContentElement);
 
 					while ((menuItem = nextMenu.firstChild)) {

@@ -59,7 +59,7 @@
 	}
 }
 
-.wc-submenu[aria-expanded='false'] >  [role='group'],
+.wc-submenu[aria-expanded='false'] > [role='group'],
 .wc-submenu > [role='menu'][aria-expanded='false'] {
 	display: none;
 }
