@@ -61,35 +61,35 @@ define(["wc/dom/shed",
 
 			/**
 			 * This module has a **lot** of Widgets. We only need these Widgets if the module actually gets used. There
-			 * are three entry points: two shed subscribers and the state writer. This means we can delay the
-			 * instantiation of these Widgets until some of them are needed.
+			 * are two entry points: a shed subscriber and the state writer. This means we can delay the instantiation
+			 * of these Widgets until some of them are needed.
 			 *
 			 * @function
-			 * @public
+			 * @private
 			 */
 			function initialiseControllers() {
 				var CHECKBOX = "checkbox",
 					CLASS_TOGGLE = "wc_seltog";
 
 				CONTROLLER_WD = new Widget("", CLASS_TOGGLE),
-				CONTROLLER_ABSTRACT = CONTROLLER_ABSTRACT || new Widget("button", CLASS_TOGGLE);
-				CONTROLLER_CHECKBOX_WD = CONTROLLER_CHECKBOX_WD || CONTROLLER_ABSTRACT.extend("", {role: CHECKBOX});
-				CONTROLLER_LIST_WD = CONTROLLER_LIST_WD || new Widget("span", CLASS_TOGGLE);
-				CONTROLLER_MENU_WD = CONTROLLER_MENU_WD || CONTROLLER_WD.extend("wc_submenucontent");
-				RADIO_SUBCONTROLLER = RADIO_SUBCONTROLLER || CONTROLLER_ABSTRACT.extend("", {"role": "radio"});
-				MENU_SUBCONTROLLER = MENU_SUBCONTROLLER || CONTROLLER_ABSTRACT.extend("", {"role": "menuitemradio"});
-				SUBCONTROLLER_WD = SUBCONTROLLER_WD || [RADIO_SUBCONTROLLER, MENU_SUBCONTROLLER];
+				CONTROLLER_ABSTRACT = new Widget("button", CLASS_TOGGLE);
+				CONTROLLER_CHECKBOX_WD = CONTROLLER_ABSTRACT.extend("", {role: CHECKBOX});
+				CONTROLLER_LIST_WD = new Widget("span", CLASS_TOGGLE);
+				CONTROLLER_MENU_WD = CONTROLLER_WD.extend("wc_submenucontent");
+				RADIO_SUBCONTROLLER = CONTROLLER_ABSTRACT.extend("", {"role": "radio"});
+				MENU_SUBCONTROLLER = CONTROLLER_ABSTRACT.extend("", {"role": "menuitemradio"});
+				SUBCONTROLLER_WD = [RADIO_SUBCONTROLLER, MENU_SUBCONTROLLER];
 
-				ACTIVE_CONTROLLER_WD = ACTIVE_CONTROLLER_WD || SUBCONTROLLER_WD.map(function (next) {
+				ACTIVE_CONTROLLER_WD = SUBCONTROLLER_WD.map(function (next) {
 					return next.extend("", {"aria-checked": "true"});
 				});
 
-				CHECKBOX_WD = CHECKBOX_WD || new Widget("input", "", {"type": CHECKBOX});
-				ARIA_CB_WD = ARIA_CB_WD || new Widget("", "", {"role": CHECKBOX});
-				ROW_WD = ROW_WD || rowAnalog.ITEM;
-				CELL_WD = CELL_WD || table.TD.extend("wc_table_sel_wrapper");
-				ALL_CB = ALL_CB || [CHECKBOX_WD, ARIA_CB_WD, ROW_WD];
-				TABLE_WRAPPER = TABLE_WRAPPER || table.WRAPPER;
+				CHECKBOX_WD = new Widget("input", "", {"type": CHECKBOX});
+				ARIA_CB_WD = new Widget("", "", {"role": CHECKBOX});
+				ROW_WD = rowAnalog.ITEM;
+				CELL_WD = table.TD.extend("wc_table_sel_wrapper");
+				ALL_CB = [CHECKBOX_WD, ARIA_CB_WD, ROW_WD];
+				TABLE_WRAPPER = table.WRAPPER;
 
 				inited = true;
 			}

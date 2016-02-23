@@ -379,9 +379,7 @@ define(["wc/has", "wc/ajax/ajax", "wc/xml/xmlString", "wc/xml/xpath", "wc/array/
 					if (promises.length) {
 						return Promise.all(promises).then(checkXsl);
 					}
-					else {
-						return Promise.resolve(checkXsl());
-					}
+					return Promise.resolve(checkXsl());
 				}
 			}
 
