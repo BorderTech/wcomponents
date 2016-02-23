@@ -182,6 +182,7 @@ define(["wc/ui/menu/core",
 						branch.removeAttribute("data-wc-selectmode");
 						if ((opener = this._getBranchOpener(branch))) {
 							opener.removeAttribute("aria-haspopup");
+							opener.removeAttribute("role");
 						}
 						if (!branch.getAttribute(EXP_ATTRIB)) {
 							branch.setAttribute(EXP_ATTRIB, isOpen);

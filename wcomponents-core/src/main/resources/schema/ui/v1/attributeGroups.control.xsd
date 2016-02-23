@@ -6,6 +6,7 @@
 		Attribute groups used by interactive controls.
 	-->
 	<xs:include schemaLocation="attributeGroups.common.xsd"/>
+	<xs:include schemaLocation="attributeGroups.container.xsd"/>
 
 	<xs:attributeGroup name="interaction.attributes">
 		<xs:annotation>
@@ -13,20 +14,7 @@
 				Common attributes for interactive components.
 			</xs:documentation>
 		</xs:annotation>
-		<xs:attribute name="id" type="xs:ID" use="required">
-			<xs:annotation>
-				<xs:documentation>
-					The unique identifier for the component.
-				</xs:documentation>
-			</xs:annotation>
-		</xs:attribute>
-		<xs:attribute name="class" type="xs:string">
-			<xs:annotation>
-				<xs:documentation>
-					Provides the ability to pass an HTML class attribute onto the root output element.
-				</xs:documentation>
-			</xs:annotation>
-		</xs:attribute>
+		<xs:attributeGroup ref="ui:container.attributes"/>
 		<xs:attribute name="disabled" type="xs:boolean" default="false">
 			<xs:annotation>
 				<xs:documentation>
@@ -34,23 +22,7 @@
 				</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-		<xs:attribute name="hidden" type="xs:boolean" default="false">
-			<xs:annotation>
-				<xs:documentation>
-					The component will be in a hidden state if "true".
-				</xs:documentation>
-			</xs:annotation>
-		</xs:attribute>
-		<xs:attribute name="track" type="xs:boolean" default="false">
-			<xs:annotation>
-				<xs:documentation>
-					Indicates that the component should take part in web analytics tracking.
-				</xs:documentation>
-			</xs:annotation>
-		</xs:attribute>
 	</xs:attributeGroup>
-
-
 
 	<xs:attributeGroup name="control.attributes">
 		<xs:annotation>
@@ -70,8 +42,6 @@
 			</xs:annotation>
 		</xs:attribute>
 	</xs:attributeGroup>
-
-
 
 	<xs:attributeGroup name="input.attributes">
 		<xs:annotation>

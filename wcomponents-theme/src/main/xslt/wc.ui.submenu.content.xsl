@@ -20,14 +20,7 @@
 			<xsl:value-of select="../@id"/>
 		</xsl:variable>
 		
-		<xsl:element name="div">
-			<xsl:attribute name="id">
-				<xsl:value-of select="@id"/>
-			</xsl:attribute>
-			<xsl:attribute name="aria-labelledby">
-				<xsl:value-of select="$submenuId"/>
-				<xsl:text>${wc.ui.menu.submenu.openerIdSuffix}</xsl:text>
-			</xsl:attribute>
+		<div id="{@id}" arial-labelledby="{concat($submenuId, '${wc.ui.menu.submenu.openerIdSuffix}')}">
 			<xsl:attribute name="class">
 				<xsl:text>wc_submenucontent</xsl:text>
 				<xsl:choose>
@@ -78,6 +71,6 @@
 				</xsl:if>
 			</xsl:if>
 			<xsl:apply-templates select="*"/>
-		</xsl:element>
+		</div>
 	</xsl:template>
 </xsl:stylesheet>
