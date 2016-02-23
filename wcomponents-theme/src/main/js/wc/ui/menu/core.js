@@ -50,12 +50,12 @@ define(["wc/has",
 	function(has, attribute, classList, event, focus, formUpdateManager, getFilteredGroup, keyWalker, shed, textContent, viewportCollision, Widget, key, processResponse, timers, i18n, getBox, toArray) {
 		"use strict";
 
-		/* NOTE: Many functions in this module are private but accept an instance of a subclass as an
-		 * argument. These private functions are ones which either do not need to be overridden in a subclass because they are
-		 * generic or, more specifically, which ought not be overridden because they do exactly that which they are supposed.
-		 * This use of private functions with a subclass instance argument is merely a trope to work around the lack of protected
-		 * and final as in a real language these would be protected final functions but we don't even have a JSDoc tag for final
-		 * so we go private for safety. */
+		/* NOTE: Many functions in this module are private but accept an instance of a subclass as an argument. These
+		 * private functions are ones which either do not need to be overridden in a subclass because they are generic
+		 * or, more specifically, which ought not be overridden because they do exactly that which they are supposed.
+		 * This use of private functions with a subclass instance argument is merely a trope to work around the lack of
+		 * protected and final as in a real language these would be protected final functions but we don't even have a
+		 * JSDoc tag for final so we go private for safety. */
 
 		var abstractMenu,
 			BOOTSTRAPPED = "wc/ui/menu/bs",
@@ -170,11 +170,14 @@ define(["wc/has",
 		 * @private
 		 * @param {Element} element The element we are testing.
 		 * @param {Object} instance The subclass instance.
-		 * @returns {?Element} The leaf Element which is or contains element or null if the lelemnt is not in a
-		 *    menu item.
+		 * @returns {?Element} The leaf Element which is or contains element or null if the element is not in a menu
+		 *  item.
 		 */
 		function getItem(element, instance) {
 			if (instance._getRoot(element)) {
+				if (instance._isOpener(element)) {
+					return instance._getBranch(element);
+				}
 				return Widget.findAncestor(element, instance._wd.leaf);
 			}
 			return null;
@@ -273,7 +276,10 @@ define(["wc/has",
 		function isItem(element, instance) {
 			var role = element.getAttribute(ROLE_ATTRIB),
 				o;
-			if (!role) {
+			if (instance._isBranch(element)) {
+				return true;
+			}
+			if (!role || instance._isOpener(element)) {
 				return false;
 			}
 			for (o in instance._role.LEAF) {
@@ -1132,8 +1138,7 @@ define(["wc/has",
 		 * @param {Element} toContainer the container into which state fields are written
 		 */
 		function writeState(container, toContainer) {
-			var _widgets,
-				root,
+			var root,
 				branchItem;
 
 			function writeExpandedState(nextSubmenu) {
@@ -1159,6 +1164,9 @@ define(["wc/has",
 			}
 
 			function writeMenuState(next, includeMenu) {
+				if (!next) {
+					return; // called from the wrong menu type maybe?
+				}
 				/* Cannot use getFilteredGroup for expandables any more.
 				 * Why not?
 				 * Well:
@@ -1178,21 +1186,21 @@ define(["wc/has",
 				Array.prototype.forEach.call(getFilteredGroup(next, {
 					filter: (getFilteredGroup.FILTERS.selected | getFilteredGroup.FILTERS.enabled),
 					ignoreInnerGroups: true
-				}),
-				writeSelectedState, this);
+				}), writeSelectedState, this);
 				if (includeMenu) {
 					formUpdateManager.writeStateField(toContainer, next.id + "-h", "x");
 				}
 			}
 
 			try {
+				// menus inside the comtainer
 				Array.prototype.forEach.call(this.ROOT.findDescendants(container), writeMenuState, this);
+				// if the container is a menu
 				if (this.ROOT.isOneOfMe(container)) {
 					writeMenuState.call(this, container, true);
 				}
-				else {
-					_widgets = [this._wd.submenu].concat(this._wd.leaf);
-					if (Widget.isOneOfMe(container, _widgets) && (root = this._getRoot(container))) {
+				else if ((root = this._getRoot(container))) { // if the container is a menu item of some kind.
+					if (this._isBranch(container) || this._isLeaf(container) || this._wd.submenu.isOneOfMe(container)) {
 						writeMenuState.call(this, root, true);
 					}
 				}
@@ -1596,7 +1604,7 @@ define(["wc/has",
 		 * @returns {Boolean} true if the element is a branch opener.
 		 */
 		AbstractMenu.prototype._isOpener = function(element) {
-			return this.getFixedWidgets().BRANCH_TRIGGER.isOneOfMe(element);
+			return !!this.getFixedWidgets().BRANCH_TRIGGER.findAncestor(element);
 		};
 
 		/**
