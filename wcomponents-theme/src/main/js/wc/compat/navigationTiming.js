@@ -161,15 +161,22 @@ define(["wc/has", "wc/dom/event", "wc/dom/storage", "wc/dom/initialise", "wc/isN
 				});
 
 				initialise.addInitRoutine(function() {
-					var wctiming = module.config().timing;
+					var config, wctiming;
+					if (window.System && window.System.config) {
+						config = window.System.config;
+					}
+					else {
+						config = module.config();
+					}
+					wctiming = config.timing;
 					timing.domLoading = wctiming["loading"] || wctiming["interactive"];  // in IE8 we don't always get "loading" so "interactive" will have to do
 					timing.domInteractive = wctiming["interactive"];
 					/* NOTE: timing.loadEventStart and loadEventEnd should be milliseconds of now().
 					 * In IE without native performance these have to be set by a single handler in the onload
 					 * event which is included in wc/compat/js. In Firefox these can be dealt with (slightly)
 					 *  more accurately in the load event handlers in this file. */
-					timing.loadEventStart = module.config().loadEventStart || 0;
-					timing.loadEventEnd = module.config().loadEventEnd || 0;
+					timing.loadEventStart = config.loadEventStart || 0;
+					timing.loadEventEnd = config.loadEventEnd || 0;
 					timing.responseEnd = timing.domLoading;  // hopefully close enough
 					window.setTimeout(function() {  // FF needs this to be delayed
 						timing.domComplete = wctiming["complete"];

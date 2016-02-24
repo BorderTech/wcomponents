@@ -1,30 +1,30 @@
 /**
  * Provides functionality to undertake client validation for WFieldSet.
  *
- * @module validation/fieldset
+ * @module wc/ui/validation/fieldset
+ * @requires module:wc/i18n/i18n
  * @requires module:wc/dom/initialise
  * @requires module:wc/dom/shed
  * @requires module:wc/dom/Widget
  * @requires module:wc/ui/getFirstLabelForElement
- * @requires module:validation/isComplete
- * @requires module:validation/validationManager
- * @requires module:validation/required
+ * @requires module:wc/ui/validation/isComplete
+ * @requires module:wc/ui/validation/validationManager
+ * @requires module:wc/ui/validation/required
  */
-define(["lib/i18n!wc/nls/validation",
+define(["wc/i18n/i18n",
 		"wc/dom/initialise",
 		"wc/dom/shed",
 		"wc/dom/Widget",
 		"wc/ui/getFirstLabelForElement",
 		"wc/ui/validation/isComplete",
 		"wc/ui/validation/validationManager",
-		"wc/ui/validation/required",
-		"lib/sprintf"],
-	/** @param i18n @param initialise wc/dom/initialise @param shed wc/dom/shed @param Widget wc/dom/Widget @param getFirstLabelForElement wc/ui/getFirstLabelForElement @param isComplete validation/isComplete @param validationManager validation/validationManager @param required validation/required @oaram sprintf @ignore */
-	function(i18n, initialise, shed, Widget, getFirstLabelForElement, isComplete, validationManager, required, sprintf) {
+		"wc/ui/validation/required"],
+	/** @param i18n wc/i18n/i18n @param initialise wc/dom/initialise @param shed wc/dom/shed @param Widget wc/dom/Widget @param getFirstLabelForElement wc/ui/getFirstLabelForElement @param isComplete wc/ui/validation/isComplete @param validationManager wc/ui/validation/validationManager @param required wc/ui/validation/required @ignore */
+	function(i18n, initialise, shed, Widget, getFirstLabelForElement, isComplete, validationManager, required) {
 		"use strict";
 		/**
 		 * @constructor
-		 * @alias module:validation/fieldset~ValidationFieldset
+		 * @alias module:wc/ui/validation/fieldset~ValidationFieldset
 		 * @private
 		 */
 		function ValidationFieldset() {
@@ -54,7 +54,7 @@ define(["lib/i18n!wc/nls/validation",
 			 */
 			function flagError(fset) {
 				var legend = getFirstLabelForElement(fset, true) || fset.title,
-					message = sprintf.sprintf(i18n.requiredFieldSet, legend);
+					message = i18n.get("${validation.core.i18n.requiredFieldSet}", legend);
 
 				validationManager.flagError({element: fset,
 											message: message,
@@ -94,7 +94,7 @@ define(["lib/i18n!wc/nls/validation",
 			 *
 			 * If something changes inside an invalid fieldset we also need to revalidate the fieldset.
 			 *
-			 * @function module:validation/fieldset.revalidateFieldset
+			 * @function module:wc/ui/validation/fieldset.revalidateFieldset
 			 * @param {Element} element A control which may be inside an invalid fieldset.
 			 */
 			this.revalidateFieldset = function(element) {
@@ -136,7 +136,7 @@ define(["lib/i18n!wc/nls/validation",
 			/**
 			 * Initialise callback.
 			 *
-			 * @function module:validation/fieldset.postInit
+			 * @function module:wc/ui/validation/fieldset.postInit
 			 */
 			this.postInit = function() {
 				validationManager.subscribe(validate);
@@ -148,7 +148,7 @@ define(["lib/i18n!wc/nls/validation",
 				shed.subscribe(shed.actions.HIDE, validationShedSubscriber);
 			};
 		}
-		var /** @alias module:validation/fieldset */ instance = new ValidationFieldset();
+		var /** @alias module:wc/ui/validation/fieldset */ instance = new ValidationFieldset();
 		initialise.register(instance);
 		return instance;
 	});

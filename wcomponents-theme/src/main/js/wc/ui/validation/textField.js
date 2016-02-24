@@ -2,25 +2,26 @@
  * Provides functionality to undertake client validation for text inputs including WTextField, WEmailField,
  * WPhoneNumberField and WPasswordField.
  *
- * @typedef {Object} module:wvalidation/textField.config() Optional module configuration.
+ * @typedef {Object} module:wwc/ui/validation/textField.config() Optional module configuration.
  * @property {String} rx The email regular expression as a string.
  * @default "^(?:\\".+\\"|[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+)@[a-zA-Z0-9-]+(?:\\\\.[a-zA-Z0-9-]+)+$"
  *
- * @module validation/textField
+ * @module wc/ui/validation/textField
  * @requires module:wc/dom/initialise
  * @requires module:wc/dom/Widget
+ * @requires module:wc/i18n/i18n
  * @requires module:wc/dom/attribute
  * @requires module:wc/dom/event
  * @requires module:wc/ui/getFirstLabelForElement
  * @requires external:lib/sprintf
  * @requires module:wc/ui/dateField
- * @requires module:validation/required
- * @requires module:validation/validationManager
+ * @requires module:wc/ui/validation/required
+ * @requires module:wc/ui/validation/validationManager
  * @requires module:wc/ui/textField
  */
 define(["wc/dom/initialise",
 		"wc/dom/Widget",
-		"lib/i18n!wc/nls/validation",
+		"wc/i18n/i18n",
 		"wc/dom/attribute",
 		"wc/dom/event",
 		"wc/ui/getFirstLabelForElement",
@@ -30,12 +31,12 @@ define(["wc/dom/initialise",
 		"wc/ui/validation/validationManager",
 		"wc/ui/textField",
 		"module"],
-	/** @param initialise wc/dom/initialise @param Widget wc/dom/Widget @param i18n @param attribute wc/dom/attribute @param event wc/dom/event @param getFirstLabelForElement wc/ui/getFirstLabelForElement @param sprintf lib/sprintf @param dateField wc/ui/dateField @param required validation/required @param validationManager validation/validationManager @param textField wc/ui/textField @param module @ignore */
+	/** @param initialise wc/dom/initialise @param Widget wc/dom/Widget @param i18n wc/i18n/i18n @param attribute wc/dom/attribute @param event wc/dom/event @param getFirstLabelForElement wc/ui/getFirstLabelForElement @param sprintf lib/sprintf @param dateField wc/ui/dateField @param required wc/ui/validation/required @param validationManager wc/ui/validation/validationManager @param textField wc/ui/textField @param module @ignore */
 	function(initialise, Widget, i18n, attribute, event, getFirstLabelForElement, sprintf, dateField, required, validationManager, textField, module) {
 		"use strict";
 		/**
 		 * @constructor
-		 * @alias module:validation/textField~ValidationTextInput
+		 * @alias module:wc/ui/validation/textField~ValidationTextInput
 		 * @private
 		 */
 		function ValidationTextInput() {
@@ -69,7 +70,7 @@ define(["wc/dom/initialise",
 			 * @param {String} flag The framework for the error message in sprintf format.
 			 */
 			function _flagError(element, flag) {
-				var label = getFirstLabelForElement(element, true) || element.title || i18n.unlabelledQualifier,
+				var label = getFirstLabelForElement(element, true) || element.title || i18n.get("${validation.core.i18n.unlabelledQualifier}"),
 					message = sprintf.sprintf(flag, label),
 					attachTo = null;
 
@@ -96,23 +97,23 @@ define(["wc/dom/initialise",
 					value = element.value,
 					flag = "",
 					patternFlag,
-					concatenator = i18n.multiErrorConcatenator;
+					concatenator = i18n.get("${validation.core.i18n.multiErrorConcatenator}");
 
 				if (value && !validationManager.isExempt(element)) {
 					// min length
 					if ((mask = element.getAttribute("${wc.ui.textField.attrib.minLength}")) && value.length < parseInt(mask, 10)) {
 						result = true;
-						flag = sprintf.sprintf(i18n.minLength, "%s", mask);
+						flag = i18n.get("${validation.textField.i18n.minLength}", "%s", mask);
 					}
 					// pattern (first email)
 					if (EMAIL.isOneOfMe(element)) {
 						regexp = new RegExp(RX_STRING);
-						patternFlag = i18n.email;
+						patternFlag = i18n.get("${validation.email.i18n.error}");
 					}
 					else if ((mask = element.getAttribute("pattern"))) {
 						try {
 							regexp = new RegExp("^(?:" + mask + ")$");
-							patternFlag = i18n.patternMismatch;
+							patternFlag = i18n.get("${validation.core.i18n.patternMismatch}");
 						}
 						catch (e) {
 							regexp = null;
@@ -204,7 +205,7 @@ define(["wc/dom/initialise",
 
 			/**
 			 * Initialise callback to attach event listeners.
-			 * @function module:validation/textField.initialise
+			 * @function module:wc/ui/validation/textField.initialise
 			 * @param {Element} element The element being initialised, usually document.body.
 			 */
 			this.initialise = function(element) {
@@ -218,14 +219,14 @@ define(["wc/dom/initialise",
 
 			/**
 			 * Late initialisation callback to wire up validation manager subscriber.
-			 * @function module:validation/textField.postInit
+			 * @function module:wc/ui/validation/textField.postInit
 			 */
 			this.postInit = function() {
 				validationManager.subscribe(validate);
 			};
 		}
 
-		var /** @alias module:validation/textField */ instance = new ValidationTextInput();
+		var /** @alias module:wc/ui/validation/textField */ instance = new ValidationTextInput();
 		initialise.register(instance);
 		return instance;
 	});

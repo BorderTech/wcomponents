@@ -1,35 +1,36 @@
 /**
  * Provides functionality to undertake client validation of WMultiDropdown and WMultiTextField.
  *
- * @module validation/multiFormComponent
+ * @module wc/ui/validation/multiFormComponent
  * @requires module:wc/dom/attribute
  * @requires module:wc/dom/event
  * @requires module:wc/dom/initialise
  * @requires module:wc/dom/Widget
+ * @requires module:wc/i18n/i18n
  * @requires module:wc/ui/multiFormComponent
  * @requires module:wc/array/unique
  * @requires module:wc/ui/getFirstLabelForElement
  * @requires external:lib/sprintf
- * @requires module:validation/required
- * @requires module:validation/validationManager
+ * @requires module:wc/ui/validation/required
+ * @requires module:wc/ui/validation/validationManager
  */
 define(["wc/dom/attribute",
 		"wc/dom/event",
 		"wc/dom/initialise",
 		"wc/dom/Widget",
-		"lib/i18n!wc/nls/validation",
+		"wc/i18n/i18n",
 		"wc/ui/multiFormComponent",
 		"wc/array/unique",
 		"wc/ui/getFirstLabelForElement",
 		"lib/sprintf",
 		"wc/ui/validation/required",
 		"wc/ui/validation/validationManager"],
-	/** @param attribute wc/dom/attribute @param event wc/dom/event @param initialise wc/dom/initialise @param Widget wc/dom/Widget @param i18n @param multiFormComponent wc/ui/multiFormComponent @param unique wc/array/unique @param getFirstLabelForElement wc/ui/getFirstLabelForElement @param sprintf lib/sprintf @param required validation/required @param validationManager validation/validationManager @ignore */
+	/** @param attribute wc/dom/attribute @param event wc/dom/event @param initialise wc/dom/initialise @param Widget wc/dom/Widget @param i18n wc/i18n/i18n @param multiFormComponent wc/ui/multiFormComponent @param unique wc/array/unique @param getFirstLabelForElement wc/ui/getFirstLabelForElement @param sprintf lib/sprintf @param required wc/ui/validation/required @param validationManager wc/ui/validation/validationManager @ignore */
 	function(attribute, event, initialise, Widget, i18n, multiFormComponent, unique, getFirstLabelForElement, sprintf, required, validationManager) {
 		"use strict";
 		/**
 		 * @constructor
-		 * @alias module:validation/multiFormComponent~ValidationMultiFormComponent
+		 * @alias module:wc/ui/validation/multiFormComponent~ValidationMultiFormComponent
 		 * @private
 		 */
 		function ValidationMultiFormComponent() {
@@ -78,8 +79,8 @@ define(["wc/dom/attribute",
 				// added parseInt because for a while these values were being compared to non-numeric objects
 				var min = window.parseInt(next.getAttribute("${wc.common.attrib.min}")),
 					max = window.parseInt(next.getAttribute("${wc.common.attrib.max}")),
-					underFlag = "selectableUnderMin",
-					overFlag = "selectableOverMax",
+					underFlag = "${validation.core.i18n.selectableUnderMin}",
+					overFlag = "${validation.core.i18n.selectableOverMax}",
 					isInvalid = false,
 					count, flag, limit;
 				if (min || max) {
@@ -95,8 +96,8 @@ define(["wc/dom/attribute",
 						}), function(a, b) {
 							return (a.value === b.value ? 0 : 1);
 						}).length;
-						underFlag = "mtf_inputUnderMin";
-						overFlag = "mtf_inputOverMax";
+						underFlag = "${validation.multiTextField.i18n.inputUnderMin}";
+						overFlag = "${validation.multiTextField.i18n.inputOverMax}";
 					}
 					else {
 						// set it to zero because otherwise it will be a zero length nodelist and not equivalent of false
@@ -106,12 +107,12 @@ define(["wc/dom/attribute",
 					if (count) {  // count may be zero now (after filter/unique)
 						if (min && count < min) {
 							isInvalid = true;
-							flag = i18n[underFlag];
+							flag = i18n.get(underFlag);
 							limit = min;
 						}
 						else if (max && count > max) {
 							isInvalid = true;
-							flag = i18n[overFlag];
+							flag = i18n.get(overFlag);
 							limit = max;
 						}
 					}
@@ -220,7 +221,7 @@ define(["wc/dom/attribute",
 
 			/**
 			 * Initialisation callback to set up event listeners.
-			 * @function module:validation/multiFormComponent.initialise
+			 * @function module:wc/ui/validation/multiFormComponent.initialise
 			 * @param {Element} element A DOM element: in practice ths is usually document.body.
 			 */
 			this.initialise = function(element) {
@@ -235,14 +236,14 @@ define(["wc/dom/attribute",
 
 			/**
 			 * Initialisation callback to attach vaidation subscriber.
-			 * @function module:validation/multiFormComponent.postInit
+			 * @function module:wc/ui/validation/multiFormComponent.postInit
 			 */
 			this.postInit = function() {
 				validationManager.subscribe(validate);
 			};
 		}
 
-		var /** @alias module:validation/multiFormComponent */ instance = new ValidationMultiFormComponent();
+		var /** @alias module:wc/ui/validation/multiFormComponent */ instance = new ValidationMultiFormComponent();
 		initialise.register(instance);
 		return instance;
 	});

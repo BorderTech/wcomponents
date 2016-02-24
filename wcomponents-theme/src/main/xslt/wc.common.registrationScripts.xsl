@@ -26,8 +26,10 @@
 		<xsl:if test="$rego!='' or self::ui:root">
 			<xsl:variable name="scriptId" select="generate-id()"/>
 			<script type="text/javascript" class="registrationScripts" id="{$scriptId}">
-				<xsl:text>require(["wc/compat/compat!"], function(){</xsl:text>
-				<xsl:text>require(["wc/i18n/i18n!"], function(){</xsl:text>
+				<xsl:text>System["import"]("wc/compat/compat").then(function(polyfills) {</xsl:text>
+				<xsl:text>Promise.all(polyfills).then(function() {</xsl:text>
+				<xsl:text>System["import"]("wc/i18n/i18n").then(function(i18n) {</xsl:text>
+				<xsl:text>i18n.initialize().then(function() {</xsl:text>
 				<xsl:text>require(["wc/common"], function(c){if(c){try{</xsl:text>
 				<xsl:if test="self::ui:root">
 					<!--
@@ -43,7 +45,7 @@
 				<xsl:text>}finally{require(["wc/dom/removeElement"],function(r){r("</xsl:text>
 				<xsl:value-of select="$scriptId"/>
 				<xsl:text>",250);});}}});</xsl:text>
-				<xsl:text>});});</xsl:text>
+				<xsl:text>});});});});</xsl:text>
 			</script>
 		</xsl:if>
 

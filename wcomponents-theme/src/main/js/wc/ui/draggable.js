@@ -20,6 +20,7 @@
  * @requires module:wc/has
  * @requires module:wc/ui/ajax/processResponse
  * @requires module:wc/ui/positionable
+ * @requires module:wc/ui/draggable
  */
 define(["wc/dom/attribute",
 		"wc/dom/classList",
@@ -35,9 +36,9 @@ define(["wc/dom/attribute",
 		"wc/has",
 		"wc/ui/ajax/processResponse",
 		"wc/ui/positionable",
-		"module"],
-	/** @param attribute wc/dom/attribute @param classList wc/dom/classList @param clearSelection wc/dom/clearSelection @param event wc/dom/event @param getMouseEventOffset wc/dom/getEventOffset @param isAcceptableEventTarget wc/dom/isAcceptableTarget @param getBox wc/dom/getBox @param initialise wc/dom/initialise @param shed wc/dom/shed @param uid wc/dom/uid @param Widget wc/dom/Widget @param has wc/has @param processResponse wc/ui/ajax/processResponse @param positionable wc/ui/positionable @param module @ignore */
-	function(attribute, classList, clearSelection, event, getMouseEventOffset, isAcceptableEventTarget, getBox, initialise, shed, uid, Widget, has, processResponse, positionable, module) {
+		"wc/config"],
+	/** @param attribute wc/dom/attribute @param classList wc/dom/classList @param clearSelection wc/dom/clearSelection @param event wc/dom/event @param getMouseEventOffset wc/dom/getEventOffset @param isAcceptableEventTarget wc/dom/isAcceptableTarget @param getBox wc/dom/getBox @param initialise wc/dom/initialise @param shed wc/dom/shed @param uid wc/dom/uid @param Widget wc/dom/Widget @param has wc/has @param processResponse wc/ui/ajax/processResponse @param positionable wc/ui/positionable @param wcconfig wc/config @ignore */
+	function(attribute, classList, clearSelection, event, getMouseEventOffset, isAcceptableEventTarget, getBox, initialise, shed, uid, Widget, has, processResponse, positionable, wcconfig) {
 		"use strict";
 
 		/**
@@ -53,7 +54,7 @@ define(["wc/dom/attribute",
 				dragging,
 				offsetX = {},
 				offsetY = {},
-				conf = module.config(),
+				conf = wcconfig.get("wc/ui/draggable"),
 				KEY_MOVE = ((conf && conf.step) ? conf.step : 6),  // the number of pixels by which a draggable is moved by keyboard
 				BS = ns + ".inited",
 				MM_EVENT = ns + ".move.inited";

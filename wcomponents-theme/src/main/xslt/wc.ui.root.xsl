@@ -38,28 +38,36 @@
 				
 				<xsl:apply-templates select="ui:application/ui:css" mode="inHead"/>
 				<xsl:apply-templates select=".//html:link[@rel='stylesheet']" mode="inHead"/>
-
-				<!--
-					We need to set up the require config very early.
-				-->
-				<xsl:call-template name="makeRequireConfig"/>
-
+				
+<!--				<xsl:call-template name="externalScript">
+					<xsl:with-param name="scriptName" select="'lib/system-polyfills.src'"/>
+				</xsl:call-template>-->
+				<xsl:call-template name="externalScript">
+					<xsl:with-param name="scriptName" select="'lib/system.src'"/>
+				</xsl:call-template>
+				<script type="text/javascript">
+					<xsl:text>define = System.amdDefine;</xsl:text>
+					<xsl:text>require = window.requirejs = System.amdRequire;</xsl:text>
+				</script>
+				
 				<!--
 					non-AMD compatible fixes for IE: things that need to be fixed before we can require anything but
 					have to be added after we have included requirejs/require.
 				-->
 				<xsl:call-template name="makeIE8CompatScripts"/>
-
-				<xsl:call-template name="externalScript">
-					<xsl:with-param name="scriptName" select="'lib/require'"/>
-				</xsl:call-template>
+				
+				<!--
+					We need to set up the require config very early.
+				-->
+				<xsl:call-template name="makeRequireConfig"/>
 
 				<!-- We can delete some script nodes after they have been used. To do this we need the script element to have an ID. -->
 				<xsl:variable name="scriptId" select="generate-id()"/>
 				<!-- We want to load up the CSS as soon as we can, so do it immediately after loading require. -->
 				<xsl:variable name="styleLoaderId" select="concat($scriptId,'-styleloader')"/>
 				<script type="text/javascript" id="{$styleLoaderId}">
-					<xsl:text>require(["wc/compat/compat!"], function() {</xsl:text>
+					<xsl:text>System["import"]("wc/compat/compat").then(function(polyfills) {</xsl:text>
+					<xsl:text>Promise.all(polyfills).then(function() {</xsl:text>
 					<xsl:text>require(["wc/loader/style", "wc/dom/removeElement"</xsl:text>
 					<xsl:if test="$isDebug=1">
 						<xsl:text>,"wc/debug/consoleColor", "wc/debug/a11y", "wc/debug/indicator"</xsl:text>
@@ -67,7 +75,7 @@
 					<xsl:text>], function(s, r){try{s.load();}finally{r("</xsl:text>
 					<xsl:value-of select="$styleLoaderId"/>
 					<xsl:text>", 250);}});</xsl:text>
-					<xsl:text>});</xsl:text>
+					<xsl:text>})}, function(ex) {console.error("ERR", ex);});</xsl:text>
 				</script>
 
 				<xsl:call-template name="registrationScripts"/>

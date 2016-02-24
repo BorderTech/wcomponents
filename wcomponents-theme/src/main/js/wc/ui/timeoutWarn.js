@@ -9,7 +9,7 @@
  * <p>There will always be a chance of getting the session timeout wrong, but there is wrong and then
  * there is WRONG. It is better to warn the user too early rather than too late.</p>
  *
- * @typedef {Object} module:wc/ui.timeoutWarn.config() Optional module configuration.
+ * @typedef {Object} module:wc/ui/timeoutWarn.config() Optional module configuration.
  * @property {int} min The minimum timeout (in seconds). If the requested session timeout is less than this we will not
  * attempt to warn the user.
  * @default 60
@@ -23,12 +23,12 @@
  * @requires module:wc/loader/resource
  * @requires module:wc/dom/shed
  * @requires module:wc/timers
+ * @requires module:wc/config
  *
  * @todo Document private members, check source order.
  */
-define(["lib/sprintf", "wc/xml/xslTransform", "wc/dom/event", "wc/dom/Widget", "wc/i18n/i18n", "wc/loader/resource", "wc/dom/shed", "wc/timers", "module"],
-	/** @param sprintf lib/sprintf @param xslTransform wc/xml/xslTransform @param event wc/dom/event @param Widget wc/dom/Widget @param i18n wc/i18n/i18n @param loader wc/loader/resource @param shed wc/dom/shed @param timers wc/timers @param module @ignore */
-	function(sprintf, xslTransform, event, Widget, i18n, loader, shed, timers, module) {
+define(["lib/sprintf", "wc/xml/xslTransform", "wc/dom/event", "wc/dom/Widget", "wc/i18n/i18n", "wc/loader/resource", "wc/dom/shed", "wc/timers", "wc/config"],
+	function(sprintf, xslTransform, event, Widget, i18n, loader, shed, timers, wcconfig) {
 		"use strict";
 		/**
 		 * @constructor
@@ -38,7 +38,7 @@ define(["lib/sprintf", "wc/xml/xslTransform", "wc/dom/event", "wc/dom/Widget", "
 		function TimeoutWarner() {
 			var expiresAt,
 				WARN_AT = 20000,  // warn user when this many milliseconds remaining, this default is the WCAG 2.0 minimum of 20 seconds
-				conf = module.config(),
+				conf = wcconfig.get("wc/ui/timeoutWarn"),
 				MIN_TIMEOUT = (conf ? (conf.min || 30) : 30),
 				timerWarn,
 				timerExpired,

@@ -12,12 +12,14 @@
 		* add "wc/ui/validation/all" (or whatever you decide to use) to localRequiredLibraries.xsl
 		* to use client side validation per view add a script element to the WApplication using addJsFile where your JsFile
 		has something like:
-		   require(["wc/compat/compat!"], function(){require(["wc/ui/validation/all"]);});
+		   require(["wc/compat/compat !"], function(){require(["wc/ui/validation/all"]);});
 
 	-->
 	<xsl:template name="plugin_validation">
 		<script type="text/javascript">
-			<xsl:text>require(["wc/compat/compat!"], function(){require(["wc/ui/validation/all"]);});</xsl:text>
+			<xsl:text>System["import"]("wc/compat/compat").then(function(polyfills) {</xsl:text>
+			<xsl:text>Promise.all(polyfills).then(</xsl:text>
+			<xsl:text>function(){require(["wc/ui/validation/all"]);});});</xsl:text>
 		</script>
 	</xsl:template>
 
@@ -28,7 +30,7 @@
 	<xsl:template name="plugin_validation">
 		<xsl:variable name="scriptId" select="concat(generate-id(), '-validationscript')"/>
 		<script type="text/javascript" id="{$scriptId}">
-			<xsl:text>require(["wc/compat/compat!"], function(){try{</xsl:text>
+			<xsl:text>require(["wc/compat/compat !"], function(){try{</xsl:text>
 			<xsl:call-template name="plugin_validation_includes"/>
 			<xsl:text>}finally{require(["wc/dom/removeElement"],function(r){r("</xsl:text>
 			<xsl:value-of select="$scriptId"/>
