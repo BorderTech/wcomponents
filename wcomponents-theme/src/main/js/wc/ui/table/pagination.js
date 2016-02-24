@@ -68,11 +68,133 @@ define(["wc/dom/attribute",
 				START_ELEMENT,
 				END_ELEMENT,
 				updateQueue,
-				triggerButtonId;
-
+				triggerButtonId,
+				BUSY = "aria-busy",
+				PAGE_ATTRIB = "data-wc-pages",
+				NUM_BEFORE_AFTER_CURRENT_PAGE_OPTIONS = 4, // this is the number of selections to show around the current page option.
+				NUM_PAGE_OPTIONS = 2 * NUM_BEFORE_AFTER_CURRENT_PAGE_OPTIONS + 3; // This weird number gives us FIRST (4 before selected) SELECTED (4 after selected) LAST.
 			SELECTOR.descendFrom(PAGINATION_CONTAINER);
 			PAGINATION_BUTTON.descendFrom(PAGINATION_CONTAINER);
 
+			/**
+			 * Helper for updateSelectOptions and setUpPageSelectOptions.
+			 * @param {int} currentPage The page currently being shown.
+			 * @param {type} totalPages The number of pages in the table.
+			 * @returns {Number} the start point for the page select options' values.
+			 */
+			function getStartValue(currentPage, totalPages) {
+				if (currentPage <= NUM_BEFORE_AFTER_CURRENT_PAGE_OPTIONS) {
+					return 1;
+				}
+				if (totalPages - currentPage <= NUM_BEFORE_AFTER_CURRENT_PAGE_OPTIONS) {
+					return totalPages - NUM_PAGE_OPTIONS + 2;
+				}
+				return currentPage - NUM_BEFORE_AFTER_CURRENT_PAGE_OPTIONS;
+			}
+
+			/**
+			 * Update the options in the page selector after we change page (client mode only).
+			 *
+			 * @function
+			 * @private
+			 * @param {Element} element The page selector.
+			 * @param {boolean} ignoreOther If true then do not reset the "other" page select (when the table has two).
+			 */
+			function updateSelectOptions(element, ignoreOther) {
+				var currentPage,
+					options,
+					i,
+					nextOption,
+					otherSelect,
+					startVal,
+					totalPages = parseInt(element.getAttribute(PAGE_ATTRIB), 10) - 1; // the data-* attribute is one based.
+
+				if (totalPages < NUM_PAGE_OPTIONS) {
+					// If the total number of options is such that we never re-arrange them then there is nothing to do.
+					return;
+				}
+
+				currentPage = parseInt(element.value, 10);
+				options = element.options;
+
+				element.setAttribute(BUSY, "true");
+				startVal = getStartValue(currentPage, totalPages);
+
+				for (i = 1; i < options.length - 1; ++i) {
+					nextOption = options[i];
+					if (startVal === currentPage) {
+						shed.select(nextOption, true);
+						// Safari bug
+						element.selectedIndex = i;
+					}
+					nextOption.value = startVal++;
+					nextOption.innerHTML = startVal; // already incremented.
+				}
+				element.removeAttribute(BUSY);
+				if (!ignoreOther && (otherSelect = getOtherSelector(element))) {
+					updateSelectOptions(otherSelect, true);
+				}
+			}
+
+			/**
+			 * Add the required options to the pagination control's page selector.
+			 *
+			 * @function
+			 * @private
+			 * @param {Element} [element] Any element defaults to document.body.
+			 */
+			function setUpPageSelectOptions(element) {
+				var container = element || document.body,
+					selectors = PAGINATION_SELECTOR.findDescendants(container);
+
+				Array.prototype.forEach.call(selectors, function(next) {
+					var totalPages,
+						currentPage,
+						startVal,
+						i,
+						isSelected,
+						selectedIndex,
+						option = "";
+
+					if (next.options.length > 1 || ((totalPages = parseInt(next.getAttribute(PAGE_ATTRIB), 10)) === 1)) {
+						return; // we have already processed this. Should never happen but hey!
+					}
+
+					totalPages--; // the data-* attribute is one based.
+
+					currentPage = parseInt(next.value, 10);
+					startVal = getStartValue(currentPage, totalPages);
+
+					isSelected = currentPage === 0;
+					option = "<option value='0'" + (isSelected ? " selected='selected'" : "") + ">1</option>";
+					if (isSelected) {
+						selectedIndex = 0;
+					}
+
+					for (i = 0; i < NUM_PAGE_OPTIONS - 2; i++) {
+						if (i + 1 >= totalPages) {
+							break;
+						}
+						isSelected = currentPage === startVal;
+						option += "<option value='" + startVal + "'" + (isSelected ? " selected='selected'" : "") + ">" + (startVal + 1) + "</option>";
+						if (isSelected) {
+							selectedIndex = i + 1;
+						}
+						startVal++;
+					}
+					isSelected = currentPage === totalPages;
+					option += "<option value='" + totalPages + "'" + (isSelected ? " selected='selected'" : "") + ">" + (totalPages + 1) + "</option>";
+					if (isSelected) {
+						selectedIndex = i + 1;
+					}
+
+					next.innerHTML = option;
+					if (selectedIndex !== undefined) {
+						next.selectedIndex = selectedIndex;
+					}
+					next.removeAttribute(BUSY);
+				});
+			}
 
 			/**
 			 * Given one page selection dropdown find the other (if the table has two).
@@ -131,7 +253,7 @@ define(["wc/dom/attribute",
 					selector = PAGINATION_SELECTOR.findDescendant(paginationContainer),
 					otherSelector;
 
-				if (selector && !shed.isDisabled(selector)) {// don't do anything if selector disabled
+				if (selector && !shed.isDisabled(selector) && selector.getAttribute(BUSY) !== "true") {// don't do anything if selector disabled or busy
 					len = selector.options.length;
 					oldIndex = selector.selectedIndex;
 					buttonType = getButtonType(button);
@@ -255,6 +377,29 @@ define(["wc/dom/attribute",
 			}
 
 			/**
+			 * Updates the record X of Y displays on client-mode page change.
+			 * @param {Element} wrapper The table wrapper.
+			 * @param {String} startHTML The content for the start span.
+			 * @param {String} endHTML The content for the end span.
+			 */
+			function updateRecordDisplays(wrapper, startHTML, endHTML) {
+				START_ELEMENT = START_ELEMENT || new Widget("span", "wc_table_pag_rowstart");
+				END_ELEMENT = END_ELEMENT || new Widget("span", "wc_table_pag_rowend");
+				Array.prototype.forEach.call(START_ELEMENT.findDescendants(wrapper), function(next) {
+					if (TABLE_WRAPPER.findAncestor(next) === wrapper) {
+						next.innerHTML = "";
+						next.innerHTML = startHTML;
+					}
+				});
+				Array.prototype.forEach.call(END_ELEMENT.findDescendants(wrapper), function(next) {
+					if (TABLE_WRAPPER.findAncestor(next) === wrapper) {
+						next.innerHTML = "";
+						next.innerHTML = endHTML;
+					}
+				});
+			}
+
+			/**
 			 * Change the visible page to reflect a change in the selector list. Assumes a change has actually been
 			 * made, it's up to the caller to ensure that an update is actually necessary.
 			 *
@@ -265,40 +410,32 @@ define(["wc/dom/attribute",
 			 */
 			function changePage(element, button) {
 				var page, rows, rowsPerPage, i, len, requestedPage,
-					paginatedTable, startIdx, startElement, endElement;
+					wrapper,
+					paginatedTable,
+					startIdx;
 
 				if (element.hasAttribute("data-wc-ajaxalias")) {
 					triggerButtonId = button.id;
 					// ajaxRegion.requestLoad(element);
 					requestAjaxLoad(element);
 				}
-				else if ((paginatedTable = TABLE_WRAPPER.findAncestor(element)) && (paginatedTable = TABLE.findDescendant(paginatedTable, true))) {
-					page = PAGE.findDescendant(paginatedTable, /* immediate= */true);
-					if (page) {
-						rows = ROW.findDescendants(page, true);
-						len = rows.length;
-						requestedPage = element.selectedIndex;
-						rowsPerPage = paginatedTable.getAttribute("data-wc-rpp");
-						for (i = 0; i < len; i++) {  // don't "let i" here
-							if (!shed.isHidden(rows[i])) {
-								break;
-							}
-						}
+				else if ((wrapper = TABLE_WRAPPER.findAncestor(element)) && (paginatedTable = TABLE.findDescendant(wrapper, true)) && (page = PAGE.findDescendant(paginatedTable, true))) {
+					rows = ROW.findDescendants(page, true);
+					len = rows.length;
+					requestedPage = element.value;
+					rowsPerPage = paginatedTable.getAttribute("data-wc-rpp");
 
-						startIdx = requestedPage * rowsPerPage;
-						interleavedShowHide(rows, rowsPerPage, startIdx, i);
-						START_ELEMENT = START_ELEMENT || new Widget("span", "wc_table_pag_rowstart");
-						END_ELEMENT = END_ELEMENT || new Widget("span", "wc_table_pag_rowend");
-						if ((startElement = START_ELEMENT.findDescendant(paginatedTable))) {
-							startElement.innerHTML = "";
-							startElement.innerHTML = startIdx + 1;
-							if ((endElement = END_ELEMENT.findDescendant(paginatedTable))) {
-								endElement.innerHTML = "";
-								endElement.innerHTML = Math.min(startIdx + 1 * rowsPerPage, len);
-							}
+					for (i = 0; i < len; i++) {  // don't "let i" here
+						if (!shed.isHidden(rows[i])) {
+							break;
 						}
-						setPaginationButtonState(element);
 					}
+
+					startIdx = requestedPage * rowsPerPage;
+					interleavedShowHide(rows, rowsPerPage, startIdx, i);
+					updateSelectOptions(element);
+					updateRecordDisplays(wrapper, (startIdx + 1), Math.min(startIdx + 1 * rowsPerPage, len));
+					setPaginationButtonState(element);
 				}
 			}
 
@@ -417,12 +554,19 @@ define(["wc/dom/attribute",
 			 *
 			 * @function
 			 * @private
-			 * @param {Element} element Not required for this function.
+			 * @param {Element} element The AJAX target element.
 			 * @param {String} action Not required for this function.
 			 * @param {String} triggerId The id of the ajax trigger element.
 			 */
 			function ajaxSubscriber(element, action, triggerId) {
 				var button, trigger;
+				if (element) {
+					if (TABLE_WRAPPER.isOneOfMe(element)) {
+						setUpPageSelectOptions(element);
+					}
+
+					Array.prototype.forEach.call(TABLE_WRAPPER.findDescendants(element), setUpPageSelectOptions);
+				}
 				if (triggerId && triggerButtonId && (trigger = document.getElementById(triggerId)) && PAGINATION_SELECTOR.isOneOfMe(trigger)) {
 					try {
 						if ((button = document.getElementById(triggerButtonId))) {
@@ -498,6 +642,7 @@ define(["wc/dom/attribute",
 			 * @public
 			 */
 			this.postInit = function() {
+				setUpPageSelectOptions();
 				processResponse.subscribe(ajaxSubscriber, true);
 				formUpdateManager.subscribe(writeState);
 			};
