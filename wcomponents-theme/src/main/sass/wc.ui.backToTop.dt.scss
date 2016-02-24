@@ -1,0 +1,7 @@
+/* wc.ui.backToTop.dt.scss */
+@import 'mixins_common.scss';
+/// The back to top of page link.
+.wc_btt:before {
+	height: 4em;
+	width: 4em;
+}

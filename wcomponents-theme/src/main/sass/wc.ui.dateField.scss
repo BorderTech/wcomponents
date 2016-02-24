@@ -3,14 +3,14 @@
 // Styling specific to the date input component including the calendar.
 
 // We use a single ID'd component for all calendar date pickers and move it around to where it is needed.
-//scss-lint:disable IdSelector
+// scss-lint:disable IdSelector
 @import 'mixins_common.scss';
 
 .wc-datefield {
 	display: inline-block;
 	position: relative;
 
-	&[role='combobox'] {//partial date field or no native support
+	&[role='combobox'] { // partial date field or no native support
 		@include border($color: $wc-ui-color-border-form-control);
 
 		&[aria-disabled='true'] {
@@ -25,7 +25,7 @@
 }
 
 [role='combobox'] {
-	/// The whole combo is invalid but we only want to apply the background color to the textbox.
+	// The whole combo is invalid but we only want to apply the background color to the textbox.
 	&[aria-invalid='true'] > input {
 		background-color: $wc-ui-color-error-bg;
 	}
@@ -90,11 +90,6 @@
 	background-color: $wc-ui-color-global-bg;
 	white-space: nowrap;
 	z-index: $z-index-common;
-
-	&[hidden] { // override of override
-		//scss-lint:disable ImportantRule
-		display: none !important;
-	}
 
 	dialog & {
 		z-index: $z-index-common-in-dialog;
@@ -233,13 +228,5 @@
 	#wc-caldaybox .wc_wdf_pick {
 		height: 100%;
 		width: 100%;
-	}
-}
-
-// need this AFTER the general mobile respond
-// scss-lint:disable MergeableSelector
-#wc-calendar {
-	@include respond(ipad) { // weird iOS9 bug
-		max-height: 704px;
 	}
 }

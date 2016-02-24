@@ -2,7 +2,7 @@
 // Primary styling for the page and preliminary styling of some commonly used basic elements and layout classes.
 @import 'mixins_common.scss';
 
-// We need to have the document body fill the viewport in all browsers to correctly propogate some click events.
+// We need to have the document body fill the viewport in all browsers to correctly propagate some click events.
 html {
 	height: 100%;
 }
@@ -16,14 +16,6 @@ body {
 	line-height: $line-height;
 	margin: 0;
 	padding: 0;
-
-	@include respond($size: 1024px, $test: min-device-width) {
-		font-size: $font-size;
-	}
-
-	@include reset-large-screen { // make the default (75%) text size bigger on really big screens.
-		font-size: $bigscreen-font-size;
-	}
 }
 
 pre {
@@ -52,15 +44,6 @@ img {
 	}
 }
 
-// [hidden] hides content.
-// .wc_off moves the content so it is still available to assistive technologies but is not visible on screen.
-//  Applying this to [hidden] is redundant but needed because of irregular hidden support.
-[hidden] {
-	// important required to override more specific display rules (see menus, collapsibles for examples)
-	// scss-lint:disable ImportantRule
-	display: none !important;
-}
-
 .wc_off {
 	@include offscreen;
 }
@@ -77,45 +60,6 @@ img {
 .center {
 	@include align(center);
 }
-
-// scss-lint:disable QualifyingElement
-// Some elements should not exist but devs persist in using them. These have been removed using a null transform but
-// this may not remove any which are injected in a way which will avoid the XSLT (such as by a custom script) so we keep
-// this CSS.
-applet,
-acronym,
-bgsound,
-dir,
-frame,
-frameset,
-noframes,
-isindex,
-listing,
-nextid,
-noembed,
-plaintext,
-rb,
-strike,
-xmp,
-basefont,
-big,
-blink,
-center,
-font,
-marquee,
-multicol,
-nobr,
-spacer,
-tt {
-	display: none;
-}
-
-img[border='0'],
-a[name],
-input[type='number'][maxlength] {
-	@include outline($color: $wc-ui-color-error-fg);
-}
-
 
 @include viewport {
 	user-zoom: zoom;
