@@ -221,8 +221,13 @@
 		}
 	}
 
-	.wc_wdf_cls::before {
-		content: url('../images/cal-mob-close.svg');
+	.wc_wdf_cls {
+		line-height: 0;
+		margin-left: 0;
+
+		&::before {
+			content: url('../images/cal-mob-close.svg');
+		}
 	}
 
 	#wc-caldaybox .wc_wdf_pick {
