@@ -1,4 +1,4 @@
-define(["intern!object", "intern/chai!assert", "./resources/test.utils"], function(registerSuite, assert, testutils) {
+define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], function(registerSuite, assert, testutils) {
 	"use strict";
 	/* ACHTUNG!
 	 * Because these tests rely on a file input element we can't actually test the real thing in many of the tests
@@ -11,11 +11,10 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 	registerSuite({
 		name: TEST_MODULE,
 		setup: function() {
-			var result = new testutils.LamePromisePolyFill();
-			testutils.setupHelper([TEST_MODULE], function(obj) {
-				controller = obj;
+			var result = testutils.setupHelper([TEST_MODULE]).then(function(arr) {
+				controller = arr[0];
 				testHolder = testutils.getTestHolder();
-				testutils.setUpExternalHTML(urlResource, testHolder).then(result._resolve);
+				return testutils.setUpExternalHTML(urlResource, testHolder);
 			});
 			return result;
 		},

@@ -1,4 +1,4 @@
-define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
+define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 	function (registerSuite, assert, testutils) {
 		"use strict";
 		var convertDynamicContent, Widget, shed, CONVERTIBLES,
@@ -6,7 +6,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
 			form,
 			CONVERSION_TARGET_ID = "conversionTarget",
 			testHolder,
-			urlResource = "../../target/test-classes/wcomponents-theme/intern/resources/domConvertDynamicContent.html";
+			urlResource = "@RESOURCES@/domConvertDynamicContent.html";
 
 		registerSuite({
 			name: "domConvertDynamicContent",
@@ -20,13 +20,14 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
 				});
 			},
 			beforeEach: function() {
-				var result = new testutils.LamePromisePolyFill();
-				testutils.loadResource(urlResource, function(response) {
-					testHolder = testHolder || testutils.getTestHolder();
-					testHolder.innerHTML = response;
-					form = document.getElementById("abc123");
-					result._resolve();
-				}, result._reject);
+				var result = new Promise(function(win, lose) {
+					testutils.loadResource(urlResource, function(response) {
+						testHolder = testHolder || testutils.getTestHolder();
+						testHolder.innerHTML = response;
+						form = document.getElementById("abc123");
+						win();
+					}, lose);
+				});
 				return result;
 			},
 			afterEach: function() {

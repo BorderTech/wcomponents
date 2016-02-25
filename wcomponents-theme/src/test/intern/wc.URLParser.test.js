@@ -1,4 +1,4 @@
-define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
+define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 	function (registerSuite, assert, testutils) {
 		"use strict";
 		var urlParser,
@@ -28,8 +28,8 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
 		registerSuite({
 			name: "urlParser",
 			setup: function() {
-				return testutils.setupHelper(["wc/urlParser"], function(p) {
-					urlParser = p;
+				return testutils.setupHelper(["wc/urlParser"]).then(function(arr) {
+					urlParser = arr[0];
 					urls.forEach(_parseIt);
 				});
 			},

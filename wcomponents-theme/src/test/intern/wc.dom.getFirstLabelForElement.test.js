@@ -1,17 +1,16 @@
-define(["intern!object", "intern/chai!assert", "../intern/resources/test.utils"],
+define(["intern!object", "intern/chai!assert", "../intern/resources/test.utils!"],
 	function (registerSuite, assert, testutils) {
 		"use strict";
 		var getFirstLabelForElement, testHolder,
-			urlResource = "../../target/test-classes/wcomponents-theme/intern/resources/domTest.html";
+			urlResource = "@RESOURCES@/domTest.html";
 
 		registerSuite({
 			name: "domGetFirstLabelForElement",
 			setup: function() {
-				var result = new testutils.LamePromisePolyFill();
-				return testutils.setupHelper(["wc/ui/getFirstLabelForElement"], function(obj) {
-					getFirstLabelForElement = obj;
+				var result = testutils.setupHelper(["wc/ui/getFirstLabelForElement"]).then(function(arr) {
+					getFirstLabelForElement = arr[0];
 					testHolder = testutils.getTestHolder();
-					testutils.setUpExternalHTML(urlResource, testHolder).then(result._resolve);
+					return testutils.setUpExternalHTML(urlResource, testHolder);
 				});
 				return result;
 			},
