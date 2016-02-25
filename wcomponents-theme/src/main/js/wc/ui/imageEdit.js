@@ -568,14 +568,14 @@ function(has, event, uid, classList, timers, shed, loader, i18n, fabric, Mustach
 		 */
 		function zoomControls(eventConfig) {
 			var press = eventConfig.press;
-			press.in = {
+			press.wc_btn_in = {
 				func: numericProp,
 				getter: "getScaleX",
 				setter: "scale",
 				step: 0.05
 			};
 
-			press.out = {
+			press.wc_btn_out = {
 				func: numericProp,
 				getter: "getScaleX",
 				setter: "scale",

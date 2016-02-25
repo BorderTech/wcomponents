@@ -14,10 +14,11 @@
  * @requires module:wc/dom/storage
  * @requires module:wc/dom/initialise
  * @requires module:wc/isNumeric
+ * @requires module:wc/config
  */
-define(["wc/has", "wc/dom/event", "wc/dom/storage", "wc/dom/initialise", "wc/isNumeric", "module"],
-	/** @param has wc/has @param event wc/dom/event @param storage wc/dom/storage @param initialise wc/dom/initialise @param isNumeric wc/isNumeric @param module module @ignore */
-	function(has, event, storage, initialise, isNumeric, module) {
+define(["wc/has", "wc/dom/event", "wc/dom/storage", "wc/dom/initialise", "wc/isNumeric", "wc/config"],
+	/** @param has wc/has @param event wc/dom/event @param storage wc/dom/storage @param initialise wc/dom/initialise @param isNumeric wc/isNumeric @param wcconfig wc/config @ignore */
+	function(has, event, storage, initialise, isNumeric, wcconfig) {
 		"use strict";
 		var HISTORY_CHECK_PARAM = "last_history_length",
 			ORIGIN_CHECK_PROP = "wcOriginCheck",
@@ -161,13 +162,7 @@ define(["wc/has", "wc/dom/event", "wc/dom/storage", "wc/dom/initialise", "wc/isN
 				});
 
 				initialise.addInitRoutine(function() {
-					var config, wctiming;
-					if (window.System && window.System.config) {
-						config = window.System.config;
-					}
-					else {
-						config = module.config();
-					}
+					var wctiming, config = wcconfig.get("wc/compat/navigationTiming");
 					wctiming = config.timing;
 					timing.domLoading = wctiming["loading"] || wctiming["interactive"];  // in IE8 we don't always get "loading" so "interactive" will have to do
 					timing.domInteractive = wctiming["interactive"];

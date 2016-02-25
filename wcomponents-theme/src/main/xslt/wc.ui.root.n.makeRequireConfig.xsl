@@ -95,9 +95,9 @@
 		timing[document.readyState] = (new Date()).getTime();
 		document.onreadystatechange = function(){
 				timing[document.readyState] = (new Date()).getTime();
-				if(window.requirejs &amp;&amp; window.requirejs.config) window.requirejs.config({"config":{"wc/polyfill/navigationTiming":{"timing": timing}}});
+				if(window.requirejs &amp;&amp; window.requirejs.config) window.requirejs.config({"config":{"wc/compat/navigationTiming":{"timing": timing}}});
 			};
-		wcconfig["wc/polyfill/navigationTiming"] = {"timing": timing};
+		wcconfig["wc/compat/navigationTiming"] = {"timing": timing};
 		wcconfig["wc/config"] = { "dehydrated": JSON.stringify(wcconfig) };
 	}
 	catch(ex){}

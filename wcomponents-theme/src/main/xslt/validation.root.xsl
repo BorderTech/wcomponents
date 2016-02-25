@@ -12,14 +12,12 @@
 		* add "wc/ui/validation/all" (or whatever you decide to use) to localRequiredLibraries.xsl
 		* to use client side validation per view add a script element to the WApplication using addJsFile where your JsFile
 		has something like:
-		   require(["wc/compat/compat !"], function(){require(["wc/ui/validation/all"]);});
+		   require(["wc/compat/compat!"], function(){require(["wc/ui/validation/all"]);});
 
 	-->
 	<xsl:template name="plugin_validation">
 		<script type="text/javascript">
-			<xsl:text>System["import"]("wc/compat/compat").then(function(polyfills) {</xsl:text>
-			<xsl:text>Promise.all(polyfills).then(</xsl:text>
-			<xsl:text>function(){require(["wc/ui/validation/all"]);});});</xsl:text>
+			<xsl:text>require(["wc/compat/compat!"], function(){require(["wc/ui/validation/all"]);});</xsl:text>
 		</script>
 	</xsl:template>
 

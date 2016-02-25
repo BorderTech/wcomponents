@@ -2,7 +2,7 @@
  * Provides functionality to undertake client validation for text inputs including WTextField, WEmailField,
  * WPhoneNumberField and WPasswordField.
  *
- * @typedef {Object} module:wwc/ui/validation/textField.config() Optional module configuration.
+ * @typedef {Object} module:wc/ui/validation/textField.config() Optional module configuration.
  * @property {String} rx The email regular expression as a string.
  * @default "^(?:\\".+\\"|[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+)@[a-zA-Z0-9-]+(?:\\\\.[a-zA-Z0-9-]+)+$"
  *
@@ -18,6 +18,7 @@
  * @requires module:wc/ui/validation/required
  * @requires module:wc/ui/validation/validationManager
  * @requires module:wc/ui/textField
+ * @requires module:wc/config
  */
 define(["wc/dom/initialise",
 		"wc/dom/Widget",
@@ -30,9 +31,8 @@ define(["wc/dom/initialise",
 		"wc/ui/validation/required",
 		"wc/ui/validation/validationManager",
 		"wc/ui/textField",
-		"module"],
-	/** @param initialise wc/dom/initialise @param Widget wc/dom/Widget @param i18n wc/i18n/i18n @param attribute wc/dom/attribute @param event wc/dom/event @param getFirstLabelForElement wc/ui/getFirstLabelForElement @param sprintf lib/sprintf @param dateField wc/ui/dateField @param required wc/ui/validation/required @param validationManager wc/ui/validation/validationManager @param textField wc/ui/textField @param module @ignore */
-	function(initialise, Widget, i18n, attribute, event, getFirstLabelForElement, sprintf, dateField, required, validationManager, textField, module) {
+		"wc/config"],
+	function(initialise, Widget, i18n, attribute, event, getFirstLabelForElement, sprintf, dateField, required, validationManager, textField, wcconfig) {
 		"use strict";
 		/**
 		 * @constructor
@@ -48,7 +48,7 @@ define(["wc/dom/initialise",
 				WITH_PATTERN,
 				PATTERNS,
 				WITH_MIN,
-				conf = module.config(),
+				conf = wcconfig.get("wc/ui/validation/textField"),
 				RX_STRING = ((conf && conf.rx) ? conf.rx : "${wc.ui.emailField.regex}");
 
 			/**

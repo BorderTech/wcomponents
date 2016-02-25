@@ -23,8 +23,8 @@
 		</fieldset>
 		<fieldset>
 			<legend>{{heading.zoom}}</legend>
-			<button title="{{message.zoomIn}}" type="button" class="in"><span class="wc_off">{{action.zoomIn}}</span></button>
-			<button title="{{message.zoomOut}}" type="button" class="out"><span class="wc_off">{{action.zoomOut}}</span></button>
+			<button title="{{message.zoomIn}}" type="button" class="wc_btn_in"><span class="wc_off">{{action.zoomIn}}</span></button>
+			<button title="{{message.zoomOut}}" type="button" class="wc_btn_out"><span class="wc_off">{{action.zoomOut}}</span></button>
 			<button title="{{message.face}}" type="button" class="wc_btn_face"><span class="wc_off">{{action.face}}</span></button>
 		</fieldset>
 		<fieldset class="wc_img_buttons">
