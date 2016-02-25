@@ -1,11 +1,13 @@
-define(["wc/ui/loading", "wc/dom/storage"], function(loading, storage) {
+define(["wc/has", "wc/ui/loading", "wc/dom/storage"], function(has, loading, storage) {
 	"use strict";
 	var AXE = storage.get("wc.a11y.AXE");  // set this to "true" to use axe-core
 
 	loading.done.then(window.setTimeout(function() {
-		// kick this off after a few seconds so that RequireJS has (hopefully) finished loading modules
-		console.log("Pending a11y check in 3 seconds");
-		a11yTest();
+		if (!has("ie")) {
+			// kick this off after a few seconds so that RequireJS has (hopefully) finished loading modules
+			console.log("Pending a11y check in 3 seconds");
+			a11yTest();
+		}
 	}, 3000));
 
 	/**

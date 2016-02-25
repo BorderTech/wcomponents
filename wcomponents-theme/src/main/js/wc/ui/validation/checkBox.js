@@ -3,12 +3,12 @@
  * <p><strong>NOTE:</strong> this is for individual WCheckBoxes marked 'required'; check boxes in a WCheckBoxSelect are
  * never individually marked required.</p>
  *
- * @module validation/checkBox
+ * @module wc/ui/validation/checkBox
  * @requires module:wc/wc/dom/initialise
  * @requires module:wc/wc/dom/Widget
  * @requires module:wc/wc/dom/shed
- * @requires module:validation/required
- * @requires module:validation/validationManager
+ * @requires module:wc/ui/validation/required
+ * @requires module:wc/ui/validation/validationManager
  * @requires module:wc/wc/ui/getFirstLabelForElement
  */
 define(["wc/dom/initialise",
@@ -17,12 +17,12 @@ define(["wc/dom/initialise",
 		"wc/ui/validation/required",
 		"wc/ui/validation/validationManager",
 		"wc/ui/getFirstLabelForElement"],
-	/** @param initialise wc/dom/initialise @param Widget wc/dom/Widget @param shed wc/dom/shed @param required validation/required @param validationManager validation/validationManager @param getFirstLabelForElement wc/ui/getFirstLabelForElement @ignore */
+	/** @param initialise wc/dom/initialise @param Widget wc/dom/Widget @param shed wc/dom/shed @param required wc/ui/validation/required @param validationManager wc/ui/validation/validationManager @param getFirstLabelForElement wc/ui/getFirstLabelForElement @ignore */
 	function(initialise, Widget, shed, required, validationManager, getFirstLabelForElement) {
 		"use strict";
 		/**
 		 * @constructor
-		 * @alias module:validation/checkBox~ValidationCheckBox
+		 * @alias module:wc/ui/validation/checkBox~ValidationCheckBox
 		 * @private
 		 */
 		function ValidationCheckBox() {
@@ -43,7 +43,7 @@ define(["wc/dom/initialise",
 
 			/**
 			 * Validate mandatory check boxes using the {@link ./required} module. This is a subscriber
-			 * function for {@link module:validation/validationManager}.
+			 * function for {@link module:wc/ui/validation/validationManager}.
 			 * @function
 			 * @private
 			 * @param {Element} container The DOM element being validated.
@@ -59,7 +59,7 @@ define(["wc/dom/initialise",
 
 			/**
 			 * Initialise function to set up check boxes for validation.
-			 * @function module:validation/checkBox.initialise
+			 * @function module:wc/ui/validation/checkBox.initialise
 			 * @public
 			 */
 			this.initialise = function() {
@@ -68,7 +68,7 @@ define(["wc/dom/initialise",
 			};
 		}
 
-		var /** @alias module:validation/checkBox */ instance = new ValidationCheckBox();
+		var /** @alias module:wc/ui/validation/checkBox */ instance = new ValidationCheckBox();
 		initialise.register(instance);
 		return instance;
 	});

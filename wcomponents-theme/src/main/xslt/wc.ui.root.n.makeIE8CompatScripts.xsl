@@ -12,9 +12,10 @@
 		<xsl:comment>[if lte IE 8]&gt;
 &lt;script type="text/javascript"&gt;
 (function(){
-	var i,el=["${wc.dom.html5.element.details}","${wc.dom.html5.element.datalist}","${wc.dom.html5.element.aside}","${wc.dom.html5.element.dialog}","${wc.dom.html5.element.summary}","${wc.dom.html5.element.section}","${wc.dom.html5.element.header}","${wc.dom.html5.element.nav}","${wc.dom.html5.element.footer}","${wc.dom.html5.element.meter}","${wc.dom.html5.element.output}","${wc.dom.html5.element.progress}","${wc.dom.html5.element.audio}","${wc.dom.html5.element.video}","${wc.dom.html5.element.source}","${wc.dom.html5.element.time}","${wc.dom.html5.element.track}","${wc.dom.html5.element.figcaption}","${wc.dom.html5.element.figure}"];
-	require.config["wc/fix/html5Fix_ie8"]={elements:el};
-	for(i=0;i &lt; el.length;i++){document.createElement(el[i]);}})();
+	var i, el=["${wc.dom.html5.element.details}","${wc.dom.html5.element.datalist}","${wc.dom.html5.element.aside}","${wc.dom.html5.element.dialog}","${wc.dom.html5.element.summary}","${wc.dom.html5.element.section}","${wc.dom.html5.element.header}","${wc.dom.html5.element.nav}","${wc.dom.html5.element.footer}","${wc.dom.html5.element.meter}","${wc.dom.html5.element.output}","${wc.dom.html5.element.progress}","${wc.dom.html5.element.audio}","${wc.dom.html5.element.video}","${wc.dom.html5.element.source}","${wc.dom.html5.element.time}","${wc.dom.html5.element.track}","${wc.dom.html5.element.figcaption}","${wc.dom.html5.element.figure}"];
+	if (window.SystemJS &amp;&amp; SystemJS.config) SystemJS.config({ "wc/fix/html5Fix_ie8": { elements: el } });
+	else if (window.require &amp;&amp; require.config) require.config["wc/fix/html5Fix_ie8"] = { elements: el };
+	for (i = 0; i &lt; el.length; i++){ document.createElement(el[i]); } })();
 &lt;/script&gt;
 &lt;![endif]</xsl:comment>
 	</xsl:template>

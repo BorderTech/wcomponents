@@ -16,10 +16,11 @@
  * @requires module:wc/dom/shed
  * @requires module:wc/dom/Widget
  * @requires module:wc/has
+ * @requires module:wc/config
  */
-define(["wc/i18n/i18n", "wc/dom/event", "wc/dom/focus", "wc/dom/initialise", "wc/dom/getViewportSize", "wc/dom/shed", "wc/dom/Widget", "wc/has", "module"],
-	/** @param i18n wc/i18n/i18n @param event wc/dom/event @param focus wc/dom/focus @param initialise wc/dom/initialise @param getViewportSize wc/dom/getViewportSize @param shed wc/dom/shed @param Widget wc/dom/Widget @param has wc/has @param module @ignore */
-	function(i18n, event, focus, initialise, getViewportSize, shed, Widget, has, module) {
+define(["wc/i18n/i18n", "wc/dom/event", "wc/dom/focus", "wc/dom/initialise", "wc/dom/getViewportSize", "wc/dom/shed", "wc/dom/Widget", "wc/has", "wc/config"],
+	/** @param i18n wc/i18n/i18n @param event wc/dom/event @param focus wc/dom/focus @param initialise wc/dom/initialise @param getViewportSize wc/dom/getViewportSize @param shed wc/dom/shed @param Widget wc/dom/Widget @param has wc/has @param wcconfig wc/config @ignore */
+	function(i18n, event, focus, initialise, getViewportSize, shed, Widget, has, wcconfig) {
 		"use strict";
 
 		if (has("ie")) {
@@ -52,7 +53,7 @@ define(["wc/i18n/i18n", "wc/dom/event", "wc/dom/focus", "wc/dom/initialise", "wc
 				 * @private
 				 * @default 0
 				 */
-				MIN_SCROLL_BEFORE_SHOW = (module.config() ? (module.config().scroll || 0) : 0),
+				MIN_SCROLL_BEFORE_SHOW = 0,
 				/**
 				 * Is the back to top link enabled?
 				 * @var
@@ -60,6 +61,15 @@ define(["wc/i18n/i18n", "wc/dom/event", "wc/dom/focus", "wc/dom/initialise", "wc
 				 * @private
 				 */
 				isEnabled = true;
+
+			initialise();
+
+			function initialise() {
+				var config = wcconfig.get("wc/ui/backToTop");
+				if (config) {
+					MIN_SCROLL_BEFORE_SHOW = config.scroll || MIN_SCROLL_BEFORE_SHOW;
+				}
+			}
 
 			/**
 			 * Click event handler to scroll the page when the back to top link is clicked.
@@ -118,7 +128,7 @@ define(["wc/i18n/i18n", "wc/dom/event", "wc/dom/focus", "wc/dom/initialise", "wc
 			 * @param {Event} $event The wrapped keydown event.
 			 */
 			function keyEvent($event) {
-				if ($event.keyCode === KeyEvent.DOM_VK_ESCAPE) {
+				if ($event.keyCode === window.KeyEvent.DOM_VK_ESCAPE) {
 					toggle();
 				}
 			}

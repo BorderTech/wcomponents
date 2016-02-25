@@ -1,11 +1,11 @@
 /**
  * Provides functionality to undertake client validation of WRadioButtonSelect.
  *
- * @module validation/radioButtonSelect
+ * @module wc/ui/validation/radioButtonSelect
  * @requires module:wc/dom/initialise
  * @requires module:wc/dom/shed
- * @requires module:validation/required
- * @requires module:validation/validationManager
+ * @requires module:wc/ui/validation/required
+ * @requires module:wc/ui/validation/validationManager
  * @requires module:wc/ui/radioButtonSelect
  *
  */
@@ -14,12 +14,12 @@ define(["wc/dom/initialise",
 		"wc/ui/validation/required",
 		"wc/ui/validation/validationManager",
 		"wc/ui/radioButtonSelect"],
-	/** @param initialise wc/dom/initialise @param shed wc/dom/shed @param required validation/required @param validationManager validation/validationManager @param radioButtonSelect wc/ui/radioButtonSelect @ignore */
+	/** @param initialise wc/dom/initialise @param shed wc/dom/shed @param required wc/ui/validation/required @param validationManager wc/ui/validation/validationManager @param radioButtonSelect wc/ui/radioButtonSelect @ignore */
 	function(initialise, shed, required, validationManager, radioButtonSelect) {
 		"use strict";
 		/**
 		 * @constructor
-		 * @alias module:validation/radioButtonSelect~ValidationRadioButtonGroup
+		 * @alias module:wc/ui/validation/radioButtonSelect~ValidationRadioButtonGroup
 		 * @private
 		 */
 		function ValidationRadioButtonGroup() {
@@ -54,7 +54,7 @@ define(["wc/dom/initialise",
 
 			/**
 			 * Late setup - subscribers to shed and validation manager.
-			 * @function module:validation/radioButtonSelect.postInit
+			 * @function module:wc/ui/validation/radioButtonSelect.postInit
 			 */
 			this.postInit = function () {
 				validationManager.subscribe(validate);
@@ -62,7 +62,7 @@ define(["wc/dom/initialise",
 			};
 		}
 
-		var /** @alias module:validation/radioButtonSelect */ instance = new ValidationRadioButtonGroup();
+		var /** @alias module:wc/ui/validation/radioButtonSelect */ instance = new ValidationRadioButtonGroup();
 		initialise.register(instance);
 		return instance;
 	});

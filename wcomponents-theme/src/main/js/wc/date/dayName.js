@@ -7,7 +7,7 @@
  * @module
  * @requires module:wc/i18n/i18n
  */
-define(["wc/i18n/i18n!"],/** @param i18n wc/i18n/i18n @ignore */function(i18n) {
+define(["wc/i18n/i18n"],/** @param i18n wc/i18n/i18n @ignore */function(i18n) {
 	"use strict";
 
 	function Day() {

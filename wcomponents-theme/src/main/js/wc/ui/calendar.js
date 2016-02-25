@@ -33,6 +33,7 @@
  * @requires module:wc/dom/initialise
  * @requires module:wc/timers
  * @requires module:Mustache
+ * @requires module:wc/config
  *
  * @see {@link module:wc/ui/datefield}
  *
@@ -62,11 +63,11 @@ define(["wc/dom/attribute",
 		"wc/dom/initialise",
 		"wc/timers",
 		"Mustache",
-		"module"],
+		"wc/config"],
 
 function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthName, today, interchange, classList, event,
 		focus, shed, tag, viewportCollision, getBox, Widget, i18n, loader, isNumeric, dateField, initialise,
-		timers, Mustache, module) {
+		timers, Mustache, wcconfig) {
 
 	"use strict";
 
@@ -102,7 +103,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 			refocusId,
 			MIN_ATTRIB = "min",
 			MAX_ATTRIB = "max",
-			conf = module.config(),
+			conf = wcconfig.get("wc/ui/calendar"),
 			MIN_YEAR = ((conf && conf.min) ? conf.min : 1000),
 			MAX_YEAR = ((conf && conf.max) ? conf.max : 9999);
 

@@ -1,4 +1,4 @@
-define(["wc/dom/event", "wc/Observer", "wc/compat/compat!"], function(event, Observer) {
+define(["wc/dom/event", "wc/Observer", "wc/compat/compat!", "wc/i18n/i18n!"], function(event, Observer) {
 	"use strict";
 	function WcTestUtils() {
 		var html5FileSelector,

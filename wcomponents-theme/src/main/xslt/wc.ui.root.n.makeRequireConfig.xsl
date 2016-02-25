@@ -61,6 +61,7 @@
 					deps:[],&#10;
 			</xsl:text>
 			<xsl:value-of select="concat('baseUrl:&quot;', normalize-space($resourceRoot), $scriptDir, '/&quot;,&#10;')"/>
+			<xsl:value-of select="concat('baseURL:&quot;', normalize-space($resourceRoot), $scriptDir, '/&quot;,&#10;')"/>
 			<xsl:value-of select="concat('urlArgs:&quot;', $cacheBuster, '&quot;&#10;')"/>
 			<xsl:text>};&#10;wcconfig = {"wc/xml/xslTransform": {</xsl:text>
 			<xsl:value-of select="concat('xslEngine:&quot;', system-property('xsl:vendor'), '&quot;,&#10;')"/>
@@ -94,13 +95,21 @@
 		timing[document.readyState] = (new Date()).getTime();
 		document.onreadystatechange = function(){
 				timing[document.readyState] = (new Date()).getTime();
-				if(window.requirejs) window.requirejs.config({"config":{"wc/compat/navigationTiming":{"timing": timing}}});
+				if(window.requirejs &amp;&amp; window.requirejs.config) window.requirejs.config({"config":{"wc/compat/navigationTiming":{"timing": timing}}});
 			};
 		wcconfig["wc/compat/navigationTiming"] = {"timing": timing};
+		wcconfig["wc/config"] = { "dehydrated": JSON.stringify(wcconfig) };
 	}
 	catch(ex){}
 	config.config = wcconfig;
-	if(window.requirejs) window.requirejs.config(config);
+	if(window.SystemJS) {
+				wcconfig.meta = { "*": { format: "amd", scriptLoad: false } };
+				wcconfig.packages = { ".": { defaultExtension: "js" } };
+				window.SystemJS.pluginFirst = wcconfig.pluginFirst = true;
+				window.SystemJS.defaultJSExtensions = config.defaultJSExtensions = true;
+				window.SystemJS.config(config);
+	}
+	else if(window.requirejs) window.requirejs.config(config);
 	else require = config;
 })();</xsl:text>
 		</xsl:element>

@@ -1,35 +1,36 @@
 /**
  * Provides functionality to undertake client validation of WDateField.
  *
- * @module validation/dateField
+ * @module wc/ui/validation/dateField
  * @requires module:wc/date/interchange
  * @requires module:wc/date/getDifference
  * @requires module:wc/dom/attribute
  * @requires module:wc/dom/event
  * @requires module:wc/dom/initialise
+ * @requires module:wc/i18n/i18n
  * @requires module:wc/ui/dateField
- * @requires module:validation/validationManager
+ * @requires module:wc/ui/validation/validationManager
  * @requires module:wc/ui/getFirstLabelForElement
  * @requires external:lib/sprintf
- * @requires module:validation/isComplete
+ * @requires module:wc/ui/validation/isComplete
  */
 define(["wc/date/interchange",
 		"wc/date/getDifference",
 		"wc/dom/attribute",
 		"wc/dom/event",
 		"wc/dom/initialise",
-		"lib/i18n!wc/nls/validation",
+		"wc/i18n/i18n",
 		"wc/ui/dateField",
 		"wc/ui/validation/validationManager",
 		"wc/ui/getFirstLabelForElement",
 		"lib/sprintf",
 		"wc/ui/validation/isComplete"],
-	/** @param interchange wc/date/interchange @param getDifference wc/date/getDifference @param attribute wc/dom/attribute @param event wc/dom/event @param initialise wc/dom/initialise @param i18n @param dateField wc/ui/dateField @param validationManager validation/validationManager @param getFirstLabelForElement wc/ui/getFirstLabelForElement @param sprintf lib/sprintf @param isComplete validation/isComplete @ignore */
+	/** @param interchange wc/date/interchange @param getDifference wc/date/getDifference @param attribute wc/dom/attribute @param event wc/dom/event @param initialise wc/dom/initialise @param i18n wc/i18n/i18n @param dateField wc/ui/dateField @param validationManager wc/ui/validation/validationManager @param getFirstLabelForElement wc/ui/getFirstLabelForElement @param sprintf lib/sprintf @param isComplete wc/ui/validation/isComplete @ignore */
 	function(interchange, getDifference, attribute, event, initialise, i18n, dateField, validationManager, getFirstLabelForElement, sprintf, isComplete) {
 		"use strict";
 		/**
 		 * @constructor
-		 * @alias module:validation/dateField~ValidationDateInput
+		 * @alias module:wc/ui/validation/dateField~ValidationDateInput
 		 * @private
 		 */
 		function ValidationDateInput() {
@@ -88,7 +89,7 @@ define(["wc/date/interchange",
 							if (getDifference(date, comparisonDate) < 0) {
 								invalid = true;
 								comparisonDate = comparisonDate.toLocaleDateString();
-								flag = i18n.date_min;
+								flag = i18n.get("${validation.dateField.i18n.min}");
 								// manipulate flag to replace the numbered string placeholders (so it ends up in the same format as the other flags)
 								flag = sprintf.sprintf(flag, LABEL_PLACEHOLDER, comparisonDate);
 							}
@@ -98,7 +99,7 @@ define(["wc/date/interchange",
 							if (getDifference(date, comparisonDate) > 0) {
 								invalid = true;
 								comparisonDate = comparisonDate.toLocaleDateString();
-								flag = i18n.date_max;
+								flag = i18n.get("${validation.dateField.i18n.max}");
 								// manipulate flag to replace the numbered string placeholders (so it ends up in the same format as the other flags)
 								flag = sprintf.sprintf(flag, LABEL_PLACEHOLDER, comparisonDate);
 							}
@@ -106,12 +107,12 @@ define(["wc/date/interchange",
 					}
 					else {
 						// a full date field can only be valid if a full date is entered and getDateFromElement will return ""
-						flag = i18n.date_mustBeFull;
+						flag = i18n.get("${validation.dateField.i18n.mustBeFull}");
 						invalid = true;
 					}
 				}
 				if (invalid) {
-					label = getFirstLabelForElement(textbox, true) || element.title || i18n.unlabelledQualifier;
+					label = getFirstLabelForElement(textbox, true) || element.title || i18n.get("${validation.core.i18n.unlabelledQualifier}");
 					validationManager.flagError({element: element, message: sprintf.sprintf(flag, label)});
 				}
 				return invalid;
@@ -126,8 +127,8 @@ define(["wc/date/interchange",
 			 */
 			function messageFunction(element) {
 				var textbox = dateField.getTextBox(element),
-					label = getFirstLabelForElement(textbox, true) || textbox.title || i18n.unlabelledQualifier;
-				return sprintf.sprintf(i18n.requiredField, label);
+					label = getFirstLabelForElement(textbox, true) || textbox.title || i18n.get("${validation.core.i18n.unlabelledQualifier}");
+				return sprintf.sprintf(i18n.get("${validation.core.i18n.requiredField}"), label);
 			}
 
 			/**
@@ -247,7 +248,7 @@ define(["wc/date/interchange",
 			/**
 			 * Initialisation function to attach the change event listener (or focus listener in obsolete browsers).
 			 * TODO: maybe move to postInit?
-			 * @function module:validation/dateField.initialise
+			 * @function module:wc/ui/validation/dateField.initialise
 			 * @public
 			 * @param {Element} element The element being initialised.
 			 */
@@ -294,7 +295,7 @@ define(["wc/date/interchange",
 			/**
 			 * Late initialisation function to set up dateField validation.
 			 * TODO: move initialisation here, do we need the change listeners so early?
-			 * @function module:validation/dateField.postInit
+			 * @function module:wc/ui/validation/dateField.postInit
 			 * @public
 			 */
 			this.postInit = function() {
@@ -303,7 +304,7 @@ define(["wc/date/interchange",
 			};
 		}
 
-		var /** @alias module:validation/dateField */ instance = new ValidationDateInput();
+		var /** @alias module:wc/ui/validation/dateField */ instance = new ValidationDateInput();
 		initialise.register(instance);
 		return instance;
 	});
