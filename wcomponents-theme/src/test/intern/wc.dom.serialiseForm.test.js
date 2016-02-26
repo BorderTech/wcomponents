@@ -1,9 +1,9 @@
-define(["intern!object", "intern/chai!assert", "../intern/resources/test.utils"],
+define(["intern!object", "intern/chai!assert", "../intern/resources/test.utils!"],
 	function (registerSuite, assert, testutils) {
 		"use strict";
 
 		var serialize, Widget, testHolder,
-			urlResource = "../../target/test-classes/wcomponents-theme/intern/resources/domSerialiseForm.html",
+			urlResource = "@RESOURCES@/domSerialiseForm.html",
 			TEMP_CONTAINER_ID = "tempContainerId",
 			STRING_EXPECTED = "T3=%C2%A9%0AZ&H1=x&H2=&PWD=&T1=&T2=YES&My%20Name=me&S1=abc&S2=abc&S2=abc&S3=YES&S4=",
 			SERIALIZED_OBJ_EXPECTED = { T3: ["%C2%A9%0AZ"],
@@ -36,13 +36,12 @@ define(["intern!object", "intern/chai!assert", "../intern/resources/test.utils"]
 		registerSuite({
 			name: "wc/dom/serialize",
 			setup: function() {
-				var result = new testutils.LamePromisePolyFill();
-				testutils.setupHelper(["wc/dom/serialize", "wc/dom/Widget"], function(s, W) {
-					serialize = s;
-					Widget = W;
+				var result = testutils.setupHelper(["wc/dom/serialize", "wc/dom/Widget"]).then(function(arr) {
+					serialize = arr[0];
+					Widget = arr[1];
 					testHolder = testutils.getTestHolder();
 					INPUTS = new Widget("INPUT", "", { type: "hidden" });
-					testutils.setUpExternalHTML(urlResource, testHolder).then(result._resolve);
+					return testutils.setUpExternalHTML(urlResource, testHolder);
 				});
 				return result;
 			},

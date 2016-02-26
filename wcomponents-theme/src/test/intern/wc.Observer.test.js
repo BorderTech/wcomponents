@@ -1,4 +1,4 @@
-define(["intern!object", "intern/chai!assert", "./resources/test.utils"], function(registerSuite, assert, testutils) {
+define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], function(registerSuite, assert, testutils) {
 	"use strict";
 
 	var ns = "An_observed_nameSpace",
@@ -10,8 +10,8 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 	registerSuite({
 		name: "Observer",
 		setup: function() {
-			return testutils.setupHelper(["wc/Observer"], function(o) {
-				Observer = o;
+			return testutils.setupHelper(["wc/Observer"]).then(function(arr) {
+				Observer = arr[0];
 				observer = new Observer();
 				testHolder = testutils.getTestHolder();
 				containerId = testHolder.id;

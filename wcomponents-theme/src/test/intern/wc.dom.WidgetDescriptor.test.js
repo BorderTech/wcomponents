@@ -1,19 +1,18 @@
-define(["intern!object", "intern/chai!assert", "./resources/test.utils"], function(registerSuite, assert, testutils) {
+define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], function(registerSuite, assert, testutils) {
 	"use strict";
 
 	var Widget, allDivs, fooDiv, barDiv, mooDiv, staticDiv, monkeyDiv, barfooDiv, fooSpan, allAnchors, allBars, allMoos,
 		allFooBarDivs, mooDivInFooDiv, mooDivInFooDivImmediate, barSpanInMooDivInFooDiv, allStaticAnchors,
 		allStaticBartAnchors, allStaticBartAnchorsWithAName, allStaticBartAnchorsWithANameAndImmediateDescendMooInFoo,
 		staticNamedAnchor, matchId, allNamedElements, allElementsWithId, a3Owner, testHolder,
-		urlResource = "../../target/test-classes/wcomponents-theme/intern/resources/domWidget.html";
+		urlResource = "@RESOURCES@/domWidget.html";
 
 
 	registerSuite({
 		name: "Widget",
 		setup: function() {
-			var result = new testutils.LamePromisePolyFill();
-			testutils.setupHelper(["wc/dom/Widget"], function(obj) {
-				Widget = obj;
+			var result = testutils.setupHelper(["wc/dom/Widget"]).then(function(arr) {
+				Widget = arr[0];
 				testHolder = testutils.getTestHolder();
 
 				allDivs = new Widget("div");
@@ -64,7 +63,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 				barSpanInMooDivInFooDiv.descendFrom(mooDivInFooDiv);
 				allStaticBartAnchorsWithANameAndImmediateDescendMooInFoo.descendFrom(mooDivInFooDiv, true);
 
-				testutils.setUpExternalHTML(urlResource, testHolder).then(result._resolve);
+				return testutils.setUpExternalHTML(urlResource, testHolder);
 			});
 			return result;
 		},
