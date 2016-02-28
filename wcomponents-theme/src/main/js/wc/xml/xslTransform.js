@@ -14,12 +14,12 @@
  * @requires module:wc/xml/xmlString
  * @requires module:wc/xml/xpath
  * @requires module:wc/array/toArray
+ * @requires module:wc/config
  *
  * @todo Document private members.
  */
-define(["wc/has", "wc/ajax/ajax", "wc/xml/xmlString", "wc/xml/xpath", "wc/array/toArray", "module"],
-	/** @param has wc/has @param ajax wc/ajax/ajax @param xmlString wc/xml/xmlString @param xpath wc/xml/xpath @param toArray wc/array/toArray @param module module @ignore */
-	function(has, ajax, xmlString, xpath, toArray, module) {
+define(["wc/has", "wc/ajax/ajax", "wc/xml/xmlString", "wc/xml/xpath", "wc/array/toArray", "wc/config"],
+	function(has, ajax, xmlString, xpath, toArray, wcconfig) {
 		"use strict";
 
 		/**
@@ -168,7 +168,7 @@ define(["wc/has", "wc/ajax/ajax", "wc/xml/xmlString", "wc/xml/xpath", "wc/array/
 						included = xpath.query("//xsl:include|//xsl:import", false, xsl);
 					if (included && included.length) {
 						console.info("Applying webkit xsl:include fix");
-						ownerHref = module.config().xslUrl.replace(/\/[^\/]+$/, "/");
+						ownerHref = wcconfig.get("wc/xml/xslTransform").xslUrl.replace(/\/[^\/]+$/, "/");
 						included.forEach(function(nextInclude) {
 							var next, parent, docRoot, i, dupQuery, dupElement,
 								href = mergeHref(ownerHref, nextInclude.getAttribute("href"));
@@ -571,7 +571,7 @@ define(["wc/has", "wc/ajax/ajax", "wc/xml/xmlString", "wc/xml/xpath", "wc/array/
 			 * @returns {String} The url.
 			 */
 			this.getXslUrl = function() {
-				return module.config().xslUrl;
+				return wcconfig.get("wc/xml/xslTransform").xslUrl;
 			};
 		}
 

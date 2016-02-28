@@ -1,14 +1,14 @@
 /**
  * Provides functionality to undertake client validation of WDropdown (not Type.COMBO), WSingleSelect, and WMultiSelect.
  *
- * @module validation/dropdown
+ * @module wc/ui/validation/dropdown
  * @requires module:wc/dom/attribute
  * @requires module:wc/dom/event
  * @requires module:wc/dom/initialise
  * @requires module:wc/dom/Widget
- * @requires module:validation/minMax
- * @requires module:validation/validationManager
- * @requires module:validation/required
+ * @requires module:wc/ui/validation/minMax
+ * @requires module:wc/ui/validation/validationManager
+ * @requires module:wc/ui/validation/required
  * @requires module:wc/dom/getFilteredGroup
  */
 define(["wc/dom/attribute",
@@ -19,12 +19,12 @@ define(["wc/dom/attribute",
 		"wc/ui/validation/validationManager",
 		"wc/ui/validation/required",
 		"wc/dom/getFilteredGroup"],
-	/** @param attribute wc/dom/attribute @param event wc/dom/event @param initialise wc/dom/initialise @param Widget wc/dom/Widget @param minMax validation/minMax @param validationManager validation/validationManager @param required validation/required @param getFilteredGroup wc/dom/getFilteredGroup @ignore */
+	/** @param attribute wc/dom/attribute @param event wc/dom/event @param initialise wc/dom/initialise @param Widget wc/dom/Widget @param minMax wc/ui/validation/minMax @param validationManager wc/ui/validation/validationManager @param required wc/ui/validation/required @param getFilteredGroup wc/dom/getFilteredGroup @ignore */
 	function(attribute, event, initialise, Widget, minMax, validationManager, required, getFilteredGroup) {
 		"use strict";
 		/**
 		 * @constructor
-		 * @alias module:validation/dropdown~Dropdown
+		 * @alias module:wc/ui/validation/dropdown~Dropdown
 		 * @private
 		 */
 		function ValidationDropDown() {
@@ -88,7 +88,7 @@ define(["wc/dom/attribute",
 
 			/**
 			 * Wire up appropriate event listeners.
-			 * @function module:validation/dropdown.initialise
+			 * @function module:wc/ui/validation/dropdown.initialise
 			 * @param {Element} element The element being initialised, usually document.body.
 			 */
 			this.initialise = function(element) {
@@ -102,14 +102,14 @@ define(["wc/dom/attribute",
 
 			/**
 			 * Wire up subscribers in late initialisation.
-			 * @function module:validation/dropdown.postInit
+			 * @function module:wc/ui/validation/dropdown.postInit
 			 */
 			this.postInit = function() {
 				validationManager.subscribe(validate);
 			};
 		}
 
-		var /** @alias module:validation/dropdown */ instance = new ValidationDropDown();
+		var /** @alias module:wc/ui/validation/dropdown */ instance = new ValidationDropDown();
 		initialise.register(instance);
 		return instance;
 	});

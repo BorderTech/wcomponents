@@ -3,8 +3,8 @@
  * @requires module:wc/ajax/ajax
  * @requires module:wc/loader/prefetch
  */
-define(["wc/ajax/ajax", "wc/loader/prefetch", "module"],
-	function(ajax, prefetch, module) {
+define(["wc/ajax/ajax", "wc/loader/prefetch", "wc/config", "module"],
+	function(ajax, prefetch, wcconfig, module) {
 		"use strict";
 		/**
 		 * @constructor
@@ -49,11 +49,24 @@ define(["wc/ajax/ajax", "wc/loader/prefetch", "module"],
 				return ajax.loadXmlDoc(url, null, asText, async);
 			};
 
+			function getConfig() {
+				var config = wcconfig.get("wc/loader/resource");
+				if (!config) {
+					if (window.System && window.System.config) {
+						config = window.System.config;
+					}
+					else if (module && module.config) {
+						config = module.config();
+					}
+				}
+				return config;
+			}
+
 			function getUrl(fileName) {
-				var path, idx, cachebuster;
-				if (module && module.config) {
-					path = module.config().resourceBaseUrl;
-					cachebuster = module.config().cachebuster;
+				var path, idx, cachebuster, config = getConfig();
+				if (config) {
+					path = config.xmlBaseUrl;
+					cachebuster = config.cachebuster;
 				}
 				else {
 					idx = module.uri.indexOf(module.id);

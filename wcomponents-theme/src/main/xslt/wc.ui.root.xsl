@@ -38,18 +38,18 @@
 				
 				<xsl:apply-templates select="ui:application/ui:css" mode="inHead"/>
 				<xsl:apply-templates select=".//html:link[@rel='stylesheet']" mode="inHead"/>
-
+				
 				<!--
 					We need to set up the require config very early.
 				-->
 				<xsl:call-template name="makeRequireConfig"/>
-
+				
 				<!--
 					non-AMD compatible fixes for IE: things that need to be fixed before we can require anything but
 					have to be added after we have included requirejs/require.
 				-->
 				<xsl:call-template name="makeIE8CompatScripts"/>
-
+				
 				<xsl:call-template name="externalScript">
 					<xsl:with-param name="scriptName" select="'lib/require'"/>
 				</xsl:call-template>

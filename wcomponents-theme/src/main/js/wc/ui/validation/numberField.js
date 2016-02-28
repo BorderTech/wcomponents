@@ -1,13 +1,14 @@
 /**
  * Provides functionality to undertake client validation of WNumberField.
  *
- * @module validation/numberField
+ * @module wc/ui/validation/numberField
  * @requires module:wc/dom/attribute
  * @requires module:wc/dom/initialise
  * @requires module:wc/dom/event
  * @requires module:wc/dom/Widget
- * @requires module:validation/validationManager
- * @requires module:validation/required
+ * @requires module:wc/i18n/i18n
+ * @requires module:wc/ui/validation/validationManager
+ * @requires module:wc/ui/validation/required
  * @requires module:wc/ui/getFirstLabelForElement
  * @requires external:lib/sprintf
  * @requires module:wc/ui/numberField
@@ -16,18 +17,18 @@ define(["wc/dom/attribute",
 		"wc/dom/initialise",
 		"wc/dom/event",
 		"wc/dom/Widget",
-		"lib/i18n!wc/nls/validation",
+		"wc/i18n/i18n",
 		"wc/ui/validation/validationManager",
 		"wc/ui/validation/required",
 		"wc/ui/getFirstLabelForElement",
 		"lib/sprintf",
 		"wc/ui/numberField"],
-	/** @param attribute wc/dom/attribute @param initialise wc/dom/initialise @param event wc/dom/event @param Widget wc/dom/Widget @param i18n @param validationManager validation/validationManager @param required validation/required @param getFirstLabelForElement wc/ui/getFirstLabelForElement @param sprintf lib/sprintf @param numberField wc/ui/numberField @ignore */
+	/** @param attribute wc/dom/attribute @param initialise wc/dom/initialise @param event wc/dom/event @param Widget wc/dom/Widget @param i18n wc/i18n/i18n @param validationManager wc/ui/validation/validationManager @param required wc/ui/validation/required @param getFirstLabelForElement wc/ui/getFirstLabelForElement @param sprintf lib/sprintf @param numberField wc/ui/numberField @ignore */
 	function(attribute, initialise, event, Widget, i18n, validationManager, required, getFirstLabelForElement, sprintf, numberField) {
 		"use strict";
 		/**
 		 * @constructor
-		 * @alias module:validation/numberField~ValidationNumberField
+		 * @alias module:wc/ui/validation/numberField~ValidationNumberField
 		 * @private
 		 */
 		function ValidationNumberField() {
@@ -62,11 +63,11 @@ define(["wc/dom/attribute",
 						}
 					}
 					else if (isNaN(value)) {
-						message = i18n.num_notNumeric;
+						message = i18n.get("${validation.numberField.i18n.notNumeric}");
 					}
 					if (message) {
 						result = true;
-						label = getFirstLabelForElement(element, true) || element.title || i18n.unlabelledQualifier;
+						label = getFirstLabelForElement(element, true) || element.title || i18n.get("${validation.core.i18n.unlabelledQualifier}");
 						message = sprintf.sprintf(message, label, (min || max), max);
 						validationManager.flagError({element: element, message: message});
 					}
@@ -88,11 +89,11 @@ define(["wc/dom/attribute",
 				var result;
 				if (MAX_FIELD.isOneOfMe(element)) {
 					if (isNaN(value)) {
-						result = min ? i18n.num_notNumeric_minMax : i18n.num_notNumeric_max;
+						result = min ? i18n.get("${validation.numberField.i18n.notNumeric.minMax}") : i18n.get("${validation.numberField.i18n.notNumeric.max}");
 					}
 					else if (value > parseFloat(max)) {
 						// if value < min it cannot be > max
-						result = min ? i18n.num_outOfRange : i18n.num_overMax;
+						result = min ? i18n.get("${validation.numberField.i18n.outOfRange}") : i18n.get("${validation.numberField.i18n.overMax}");
 					}
 				}
 				return result;
@@ -111,10 +112,10 @@ define(["wc/dom/attribute",
 				var result;
 				if (MIN_FIELD.isOneOfMe(element)) {
 					if (isNaN(value)) {
-						result = i18n.num_notNumeric_min;
+						result = i18n.get("${validation.numberField.i18n.notNumeric.min}");
 					}
 					else if (value < parseFloat(min)) {
-						result = i18n.num_underMin;
+						result = i18n.get("${validation.numberField.i18n.underMin}");
 					}
 				}
 				return result;
@@ -166,7 +167,7 @@ define(["wc/dom/attribute",
 
 			/**
 			 * Intialisation callback to attach event listeners.
-			 * @function module:validation/numberField.initialise
+			 * @function module:wc/ui/validation/numberField.initialise
 			 * @param {Element} element The element being iitialised, usually document.body.
 			 */
 			this.initialise = function(element) {
@@ -180,14 +181,14 @@ define(["wc/dom/attribute",
 
 			/**
 			 * Intialisation callback to do late subscription.
-			 * @function module:validation/numberField.postInit
+			 * @function module:wc/ui/validation/numberField.postInit
 			 */
 			this.postInit = function() {
 				validationManager.subscribe(validate);
 			};
 		}
 
-		var /** @alias module:validation/numberField */ instance = new ValidationNumberField();
+		var /** @alias module:wc/ui/validation/numberField */ instance = new ValidationNumberField();
 		initialise.register(instance);
 		return instance;
 	});

@@ -4,24 +4,24 @@
  *
  * @see {@link module:wc/dom/cancelUpdate}
  *
- * @module validation/cancelUpdate
+ * @module wc/ui/validation/cancelUpdate
  * @requires module:wc/wc/dom/event
  * @requires module:wc/wc/dom/initialise
  * @requires module:wc/wc/dom/Widget
  * @requires module:wc/wc/dom/focus
- * @requires module:validation/validationManager
+ * @requires module:wc/ui/validation/validationManager
  */
 define(["wc/dom/event",
 		"wc/dom/initialise",
 		"wc/dom/Widget",
 		"wc/dom/focus",
 		"wc/ui/validation/validationManager"],
-	/** @param event wc/dom/event @param initialise wc/dom/initialise @param Widget wc/dom/Widget @param focus wc/dom/focus @param validationManager validation/validationManager @ignore */
+	/** @param event wc/dom/event @param initialise wc/dom/initialise @param Widget wc/dom/Widget @param focus wc/dom/focus @param validationManager wc/ui/validation/validationManager @ignore */
 	function(event, initialise, Widget, focus, validationManager) {
 		"use strict";
 		/**
 		 * @constructor
-		 * @alias module:validation/cancelUpdate~ValidationCancelUpdateControl
+		 * @alias module:wc/ui/validation/cancelUpdate~ValidationCancelUpdateControl
 		 * @private
 		 */
 		function ValidationCancelUpdateControl() {
@@ -74,7 +74,7 @@ define(["wc/dom/event",
 			 * handlers to do any state changes and have the opportunity to cancel the event before we bother with
 			 * handling it.
 			 *
-			 * @function  module:validation/cancelUpdate.initialise
+			 * @function  module:wc/ui/validation/cancelUpdate.initialise
 			 * @param {Element} element The HTML element being initialised, usually document.body.
 			 */
 			this.initialise = function(element) {
@@ -82,7 +82,7 @@ define(["wc/dom/event",
 			};
 		}
 
-		var /** @alias module:validation/cancelUpdate */ instance = new ValidationCancelUpdateControl();
+		var /** @alias module:wc/ui/validation/cancelUpdate */ instance = new ValidationCancelUpdateControl();
 		initialise.register(instance);
 		return instance;
 	});

@@ -75,7 +75,7 @@ define(["intern!object", "intern/chai!assert", "../intern/resources/test.utils"]
 					expected = element.className.split(SPACE);
 				do {
 					assert.strictEqual(expected[i], element.classList.item(i), "item returned unexpected result");
-				}while (expected[ ++i ]);
+				} while (expected[ ++i ]);
 			},
 			testItemNoClassValue: function() {
 				var id = "test_par",  // element with class attribute with no value

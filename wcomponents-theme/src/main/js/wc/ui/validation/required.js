@@ -3,31 +3,30 @@
  * components. There are a lot of similarities though so I have included a few public functions which will suffice for
  * all required testing for most components.
  *
- * @module validation/required
+ * @module wc/ui/validation/required
  * @requires module:wc/ui/getFirstLabelForElement
- * @requires module:validation/isComplete
+ * @requires module:wc/ui/validation/isComplete
  * @requires module:wc/dom/Widget
- * @requires module:validation/validationManager
- * @requires external:lib/sprintf
+ * @requires module:wc/i18n/i18n
+ * @requires module:wc/ui/validation/validationManager
  */
 define([
 	"wc/ui/getFirstLabelForElement",
 	"wc/ui/validation/isComplete",
 	"wc/dom/Widget",
-	"lib/i18n!wc/nls/validation",
-	"wc/ui/validation/validationManager",
-	"lib/sprintf"],
-	/** @param getFirstLabelForElement wc/ui/getFirstLabelForElement @param isComplete validation/isComplete @param Widget wc/dom/Widget @param i18n @param validationManager validation/validationManager @ignore */
-	function(getFirstLabelForElement, isComplete, Widget, i18n, validationManager, sprintf) {
+	"wc/i18n/i18n",
+	"wc/ui/validation/validationManager"],
+	/** @param getFirstLabelForElement wc/ui/getFirstLabelForElement @param isComplete wc/ui/validation/isComplete @param Widget wc/dom/Widget @param i18n wc/i18n/i18n @param validationManager wc/ui/validation/validationManager @ignore */
+	function(getFirstLabelForElement, isComplete, Widget, i18n, validationManager) {
 		"use strict";
 		/**
 		 * @constructor
-		 * @alias module:validation/required~ValidateRequired
+		 * @alias module:wc/ui/validation/required~ValidateRequired
 		 * @private
 		 */
 		function ValidateRequired() {
 			/**
-			 * @constant {object}  module:validation/required.CONSTRAINTS Indicates how mandatory-ness
+			 * @constant {object}  module:wc/ui/validation/required.CONSTRAINTS Indicates how mandatory-ness
 			 * is determined for a particular component one of the aria-required attribute, a className or the required
 			 * attribute.
 			 * @property {String} ARIA Use aria-required.
@@ -48,8 +47,8 @@ define([
 			 * @returns {String} A formatted error message.
 			 */
 			function getRequiredMessage(element) {
-				var label = getFirstLabelForElement(element, true) || element.title || i18n.unlabelledQualifier;
-				return sprintf.sprintf(i18n.requiredField, label);
+				var label = getFirstLabelForElement(element, true) || element.title || i18n.get("${validation.core.i18n.unlabelledQualifier}");
+				return i18n.get("${validation.core.i18n.requiredField}", label);
 			}
 
 			/**
@@ -57,7 +56,7 @@ define([
 			 * @function
 			 * @private
 			 * @param {Element[]} elements An array of elements in an invalid state.
-			 * @param {module:validation/required~config} [config] Configuration object.
+			 * @param {module:wc/ui/validation/required~config} [config] Configuration object.
 			 */
 			function flagAllThese(elements, config) {
 				var position, attachToFunc, messageFunc = getRequiredMessage;
@@ -95,10 +94,10 @@ define([
 			/**
 			 * Gets all required instances of a given Widget in a container.
 			 *
-			 * @function module:validation/required.getRequired
+			 * @function module:wc/ui/validation/required.getRequired
 			 * @param {Element} container Where to look (we look inside, container doesn't count).
 			 * @param {module:wc/dom/Widget} widget A Widget describing the type of component for which we are looking.
-			 * @param {module:validation/required.CONSTRAINTS} [requiredConstraint] Sets the required constraint if not using the required attribute.
+			 * @param {module:wc/ui/validation/required.CONSTRAINTS} [requiredConstraint] Sets the required constraint if not using the required attribute.
 			 * @returns {Element[]} Will return an empty array if there are no required components in the container(including the container itself).
 			 */
 			this.getRequired = function(container, widget, requiredConstraint) {
@@ -188,7 +187,7 @@ define([
 			 * the majority of components required validation is all the same: a component is required or aria-required,
 			 * it is incomplete, it gets a standard message and the flag is applied to the element "afterEnd".
 			 *
-			 * @function module:validation/required.doItAllForMe
+			 * @function module:wc/ui/validation/required.doItAllForMe
 			 * @param {Element} container the container being validated.
 			 * @param {module:dom/Widget} widget the descriptor of the component being tested.
 			 * @param {Boolean} [useAria] set true to use aria-required as the indicator of mandatory-ness, otherwise
@@ -211,8 +210,8 @@ define([
 			 * A helper for doing all of the required validation but allowing individual components to set a lot of
 			 * optional parameters.
 			 *
-			 * @function module:validation/required.complexValidationHelper
-			 * @param {module:validation/required~config} obj Configuration parameters.
+			 * @function module:wc/ui/validation/required.complexValidationHelper
+			 * @param {module:wc/ui/validation/required~config} obj Configuration parameters.
 			 * @returns {Boolean} true if obj.container is valid.
 			 */
 			this.complexValidationHelper = function(obj) {
@@ -244,9 +243,9 @@ define([
 			 * practice to do so before doing any further revalidation but you could turn on in-context validation for
 			 * all change events by not doing that test.
 			 *
-			 * @function module:validation/required.revalidate
+			 * @function module:wc/ui/validation/required.revalidate
 			 * @param {Element} element The element to re-validate.
-			 * @param {module:validation/required~config} config Configuration parameters.
+			 * @param {module:wc/ui/validation/required~config} config Configuration parameters.
 			 */
 			this.revalidate = function (element, config) {
 				var result = isComplete.isComplete(element);
@@ -257,21 +256,21 @@ define([
 			};
 		}
 
-		return /** @alias module:validation/required */ new ValidateRequired();
+		return /** @alias module:wc/ui/validation/required */ new ValidateRequired();
 
 		/**
 		 * Configuration object for several functions.
-		 * @typedef {Object} module:validation/required~config
+		 * @typedef {Object} module:wc/ui/validation/required~config
 		 * @property {Element} container The container being validated.
 		 * @property {module:wc/dom/Widget} widget The description of the component we are currently testing.
 		 * @property {Function} [filterFunc] A function to call to test for completeness, defaults to
-		 *    {@link module:validation/required~isNotComplete}.
+		 *    {@link module:wc/ui/validation/required~isNotComplete}.
 		 * @property {Function} [flagFunc] A function to set the error message box. Defaults to
-		 *    {@link module:validation/required~flagAllThese}
+		 *    {@link module:wc/ui/validation/required~flagAllThese}
 		 * @property {Function} [messageFunc] A function to get the error message. Defaults to
-		 *    {@link module:validation/required~getRequiredMessage}.
+		 *    {@link module:wc/ui/validation/required~getRequiredMessage}.
 		 * @property {String} [position] String as per insertAdjacentHTML - where to put the error message box
-		 *    (see {@link module:validation/validationManager}). Defaults to "afterEnd".
+		 *    (see {@link module:wc/ui/validation/validationManager}). Defaults to "afterEnd".
 		 * @property {Function} [attachToFunc] A function used to determine to which element to attach the message
 		 *    box; only set if the component needs it.
 		 */
