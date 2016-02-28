@@ -1,9 +1,13 @@
+scss_files: 'src/main/sass/*.scss'
+
+exclude: 'src/main/sass/libs/**/*.scss'
+
 linters:
 # inherit defaults except:
 
   Comment:
     enabled: true
-    allowed: '^\/\*(:? [a-z0-9]+\.[a-zA-Z0-9\._]+)\.scss \*\/$' # allow file name in head and tail comment.
+    allowed: '^\/\*(:? [a-z0-9]+\.[a-zA-Z0-9\._]+)\.scss \*\/$' # allow file name in head comment.
 
   DisableLinterReason:
     enabled: true

@@ -1,6 +1,6 @@
 /* wc.ui.loading.scss */
 // styling for the loading indicator that appears for page reloads and AJAX regions
-@import 'vars_all.scss';
+@import 'mixins_common.scss';
 
 // loading indicator is generated and identified
 //scss-lint:disable IdSelector
@@ -22,16 +22,11 @@
 		vertical-align: middle;
 		width: auto;
 
-		&:before { // the spinner
-			background-image: url('../images/loading.svg');
-			background-repeat: no-repeat;
-			background-size: 100% 100%;
-			content: '\a0';
-			display: inline-block;
-			height: 2em;
+		&:before { // yeah - I know this won't work for replaced content...
+			@include wc-icon($fa-var-spinner);
+			@include wc-spin; // fa do not yet have a mixin for this.
+			font-size: 2em;
 			margin-right: $hgap-normal;
-			vertical-align: middle;
-			width: 2em;
 		}
 	}
 }
@@ -43,16 +38,28 @@
 	// Some of these properties have to be important to over-ride specific component's rules
 	// scss-lint:disable ImportantRule
 	background-color: transparent !important;
-	background-image: url('../images/loading.svg') !important;
-	background-position: 50% 50%;
-	background-repeat: no-repeat;
-	background-size: $line-size $line-size !important;
 	// border-color: transparent !important; busy stuff should keep borders - we should ensure they keep the same dimensions too so it doesn't look stupid
 	color: $wc-ui-color-disabled-fg;
 
+	&:before { // yeah - I know this won't work for replaced content...
+		@include wc-icon($fa-var-spinner);
+		@include wc-spin; // fa do not yet have a mixin for this.
+	}
 	// Make any interactive child element of a busy region invisible. We want them to take up their space but not be
 	// shown to reduce the likelihood of a user interacting with them whilst they are being updated/replaced.
 	> * {
 		visibility: hidden;
+	}
+}
+
+input,
+select,
+textarea,
+img {
+	&[aria-busy='true'] {
+		background-image: url('../images/loading-dark.gif'); // old school!
+		background-position: 50% 50%;
+		background-repeat: no-repeat;
+		background-size: $line-size $line-size;
 	}
 }

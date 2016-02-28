@@ -7,4 +7,30 @@
 	select + .wc_ibtn { // no first of type
 		margin-left: $hgap-large;
 	}
+
+	.wc_ibtn {
+		&:before {
+			@include wc-icon($fa-var-angle-double-left);
+			text-align: center;
+			width: (18em / 14);
+		}
+
+		+ .wc_ibtn {
+			&:before {
+				content: $fa-var-angle-left;
+			}
+			// IE8 sucks, we need this nesting depth
+			//scss-lint:disable NestingDepth
+			+ .wc_ibtn {
+				&:before {
+					content: $fa-var-angle-right;
+				}
+
+				+ .wc_ibtn:before {
+					content: $fa-var-angle-double-right;
+				}
+
+			}
+		}
+	}
 }

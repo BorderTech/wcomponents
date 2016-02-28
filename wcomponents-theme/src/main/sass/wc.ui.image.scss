@@ -7,14 +7,11 @@ $button-neg-margin-large: -1 * ($reset-button-size + 2 * $hgap-small);
 $double-border-width: 2 * $border-width;
 
 button[data-img][data-editor] {
-	@include button($reset-width: -1, $reset-height: -1);
-	@include background-image($url: '../images/image-edit.png');
+	@include button($height: -1, $padding: -1, $width: -1);
 	margin-left: calc(#{$button-neg-margin-normal} - #{$double-border-width});
 
-	@include reset-large-screen {
-		height: $reset-button-size;
-		margin-left: calc(#{$button-neg-margin-large} - #{$double-border-width});
-		width: $reset-button-size;
+	&:before {
+		@include wc-icon($fa-var-picture-o);
 	}
 }
 

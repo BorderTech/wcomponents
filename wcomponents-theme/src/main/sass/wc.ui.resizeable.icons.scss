@@ -3,37 +3,16 @@
 
 //this button selector is required to prevent styling a max.restore header bar
 //scss-lint:disable QualifyingElement
-.wc_resize,
-button.wc_maxcont {
-	@include make-box;
-}
-
-.wc_resize {
-	&,
-	&:hover,
-	&:focus {
-		@include background-image('../images/resize-handle.png', $height: cover, $x: 0, $y: 0);
-	}
+.wc_resize:before {
+	@include wc-icon($fa-var-hand-lizard-o);
 }
 
 button.wc_maxcont {
-	&,
-	&:hover,
-	&:focus {
-		@include background-image('../images/resize-sprite.png', $height: cover, $x: 0, $y: 0);
+	&:before {
+		@include wc-icon($fa-var-plus-square-o);
 	}
 
-	&:hover,
-	&:focus {
-		background-position: 33.34% 0;
-	}
-
-	&[aria-pressed='true'] {
-		background-position: 66.67% 0;
-
-		&:hover,
-		&:focus {
-			background-position: 100% 0;
-		}
+	&[aria-pressed='true']:before {
+		content: $fa-var-minus-square-o;
 	}
 }

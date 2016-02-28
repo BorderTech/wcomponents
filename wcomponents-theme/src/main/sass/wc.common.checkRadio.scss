@@ -4,24 +4,24 @@
 /// WCheckBox and WRadioButton in read-only mode.
 .wc-checkbox,
 .wc-radiobutton {
-	&.wc_ro {
-		@include background-image($url: '../images/checkbox-ro.png', $height: 1em, $width: 1em);
-		@include make-box($width: 1em, $height: 1em);
+	&.wc_ro:before {
+		@include wc-icon($fa-var-square-o);
 	}
 }
 
 /// Selected, read-only WCheckBox.
-.wc-checkbox.wc_ro_sel {
-	background-image: url('../images/checkbox-s-ro.png');
+.wc-checkbox.wc_ro_sel:before {
+	content: $fa-var-check-square-o;
 }
 
 
 /// read-only WRadioButton.
 .wc-radiobutton.wc_ro {
-	background-image: url('../images/radio-ro.png');
-
+	&:before {
+		content: $fa-var-circle-o;
+	}
 	/// selected, read-only WRadioButton.
-	&.wc_ro_sel {
-		background-image: url('../images/radio-s-ro.png');
+	&.wc_ro_sel:before {
+		content: $fa-var-dot-circle-o;
 	}
 }

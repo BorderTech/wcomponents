@@ -23,6 +23,7 @@
 /// User agent button styles are the bane of our lives. The _main_ problem is hard coded font styles rather than
 /// allowing them to inherit.
 button {
+	@include border-box; // redundant for _almost_ all browsers now.
 	font-family: inherit;
 	font-size: inherit;
 	line-height: inherit;

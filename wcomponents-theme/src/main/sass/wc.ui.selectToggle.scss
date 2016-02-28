@@ -4,51 +4,31 @@
 @import 'mixins_common.scss';
 
 .wc_seltog {
-	span:first-child { // push the options off of the select keyword
-		margin-right: $hgap-normal;
-	}
+	> button {
+		margin-left: $hgap-normal;
 
-	button {
 		&[aria-checked='true'] {
 			font-weight: bold;
 		}
-
-		+ button::before {
-			content: '|';
-			font-weight: normal;
-			margin: 0 $hgap-small;
-		}
 	}
 
-	&[role='checkbox'] { // Graphical representation of state when rendered as a control
-		@include make-box($width: 1em, $height: 1em);
-		@include background-image($url: '../images/checkbox.png', $height: 1em, $width: 1em);
-		vertical-align: text-top; // ensure that the 1em 'checkbox' analog lines up with any surrounding inline text.
-
-
-		&[aria-checked='true'] {
-			background-image: url('../images/checkbox-s.png');
+	&[role='checkbox'] { // Rendered as a control
+		&:before {
+			@include wc-icon($fa-var-square-o);
+			text-align: left;
+			width: (18em / 14);
 		}
 
-		&[aria-checked='mixed'] {
-			background-image: url('../images/checkbox-i.png');
+		&[aria-checked='true']:before {
+			content: $fa-var-check-square-o;
 		}
 
-		&[disabled] {
-			background-image: url('../images/checkbox-d.png');
-
-
-			&[aria-checked='mixed'] {
-				background-image: url('../images/checkbox-i-d.png');
-			}
-
-			&[aria-checked='true'] {
-				background-image: url('../images/checkbox-s-d.png');
-			}
+		&[aria-checked='mixed']:before {
+			content: $fa-var-square;
 		}
-	}
 
-	+ label {
-		margin-left: $hgap-small;
+		+ label {
+			margin-left: $hgap-small;
+		}
 	}
 }

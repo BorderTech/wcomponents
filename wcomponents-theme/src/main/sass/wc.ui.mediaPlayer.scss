@@ -2,37 +2,32 @@
 // styles for WAudio and WVideo when the media is not able to be handled by the user agent natively. */
 @import 'mixins_common.scss';
 
+.wc_av_play,
+.wc-src,
+.wc-track {
+	&:before {
+		@include wc-icon($fa-var-play);
+	}
+}
+
 .wc-src,
 .wc-track {
 	display: inline-block;
 
-	&:before {
-		@include make-box;
-		content: '';
-		margin-right: $hgap-small;
-		vertical-align: text-bottom;
+	+ & {
+		margin-left: $hgap-normal;
 	}
 }
 
-.wc_av_play,
-.wc-src:before {
-	@include background-image($url: '../images/play.png', $reset-size: 1em);
-}
 
 .wc_av_play {
-	@include button;
+	@include button($height: -1, $padding: -1, $width: -1);
 
-	&[aria-pressed='true'] {
-		background-image: url('../images/pause.png');
+	&[aria-pressed='true']:before {
+		content: $fa-var-pause;
 	}
 }
 
-
 .wc-track:before {
-	@include background-image($url: '../images/application-smil.png', $reset-size: 1em);
-}
-
-.wc-track + .wc-track,
-.wc-src + .wc-src {
-	margin-left: $hgap-normal;
+	content: $fa-var-file-text;
 }

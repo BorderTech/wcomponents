@@ -1,5 +1,5 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
-	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
 	xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
 	<xsl:import href="wc.constants.xsl"/>
 	<xsl:import href="wc.ui.root.variables.xsl"/>
@@ -71,7 +71,7 @@
 			<xsl:text>},&#10;"lib/i18n": {</xsl:text>
 			<xsl:value-of select="concat('locale:&quot;', normalize-space($locale), '&quot;')"/>
 			<xsl:text>},&#10;"wc/loader/resource": {</xsl:text>
-			<xsl:value-of select="concat('xmlBaseUrl:&quot;', normalize-space($resourceRoot), '${xml.target.dir.name}/&quot;,&#10;')"/>
+			<xsl:value-of select="concat('resourceBaseUrl:&quot;', normalize-space($resourceRoot), '${resource.target.dir.name}/&quot;,&#10;')"/>
 			<xsl:value-of select="concat('cachebuster:&quot;', $cacheBuster, '&quot;')"/>
 			<xsl:text>},&#10;"wc/loader/style":{</xsl:text>
 			<xsl:value-of select="concat('cssBaseUrl:&quot;', normalize-space($resourceRoot), '${css.target.dir.name}/&quot;,&#10;')"/>

@@ -10,36 +10,24 @@
 
 /// Each individual shuffle control
 .wc_sorter {
-	@include button;
-	@include background-image('../images/top.png', $height: 1em, $width: 1em);
+	@include button($height: -1, $padding: -1, $width: -1);
 	display: block;
 
-	&[disabled] {
-		background-image: url('../images/top-d.png');
+	&:before {
+		@include wc-icon($fa-var-angle-double-up);
 	}
 
 	// NOTE this will need a .ie8.scss file if your implementation needs to support ie8.
-	&:nth-of-type(2) {
-		background-image: url('../images/up.png');
-
-		&[disabled] {
-			background-image: url('../images/up-d.png');
-		}
+	&:nth-of-type(2)::before {
+		content: $fa-var-angle-up;
 	}
 
-	&:nth-of-type(3) {
-		background-image: url('../images/down.png');
+	&:nth-of-type(3)::before {
+		content: $fa-var-angle-down;
 
-		&[disabled] {
-			background-image: url('../images/down-d.png');
-		}
 	}
 
-	&:last-of-type {
-		background-image: url('../images/bottom.png');
-
-		&[disabled] {
-			background-image: url('../images/bottom-d.png');
-		}
+	&:last-of-type::before {
+		content: $fa-var-angle-double-down;
 	}
 }

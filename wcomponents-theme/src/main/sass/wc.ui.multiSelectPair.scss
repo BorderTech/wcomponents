@@ -35,7 +35,7 @@
 		padding-top: $line-size;
 
 		button {
-			@include button;
+			@include button($height: -1, $padding: -1, $width: -1);
 		}
 	}
 

@@ -4,6 +4,10 @@
 @import 'vars_all.scss';
 @import 'mixins_flex.scss'; // flex layouts
 @import 'mixins_respond.scss'; // responsive design media queries
+@import 'mixins_animate.scss';
+// FontAwesome mixins and vars...
+@import 'libs/fa/variables.scss';
+@import 'libs/fa/mixins.scss';
 
 /// Set the elements text-align property. I am not convinced this is a useful mixin.
 /// @param {alignment} $align [$preferred-alignment] The horizontal alignment to set.
@@ -143,12 +147,6 @@
 	@if($background != -1) {
 		background-color: $background;
 	}
-	// need this for Firefox
-	// scss-lint:disable VendorPrefix
-	-moz-box-sizing: content-box;
-	// scss-lint:enable VendorPrefix
-	box-sizing: content-box;
-	font: inherit; // we really need this to make icon buttons behave
 	@if ($height != -1) {
 		height: $height;
 	}
@@ -162,12 +160,12 @@
 		width: $width;
 	}
 
-	@if($reset-width != -1 or $reset-height != -1) {
+	@if(($width != -1 or $height != -1) and ($reset-width != -1 or $reset-height != -1)) {
 		@include reset-large-screen {
-			@if($reset-height != -1) {
+			@if($height != -1 and $reset-height != -1) {
 				height: $reset-height;
 			}
-			@if($reset-width != -1) {
+			@if($width != -1 and $reset-width != -1) {
 				width: $reset-width;
 			}
 		}
@@ -286,4 +284,12 @@
 /// Use the symbol font as the font family for the element.
 @mixin use-symbol-font {
 	font-family: $symbol-font;
+}
+
+/// use fa-icon
+@mixin wc-icon ($icon: -1) {
+	@include fa-icon;
+	@if ($icon != -1) {
+		content: $icon;
+	}
 }

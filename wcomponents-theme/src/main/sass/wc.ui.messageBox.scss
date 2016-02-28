@@ -11,15 +11,13 @@
 		color: $std-color-white;
 		font-size: $msg-box-header-size;
 		font-weight: normal;
-		margin-top: 0;
-		padding: $vgap-normal;
-		width: $line-size;
 
 		&:before {
-			@include make-box($height: $msg-box-header-size, $width: $msg-box-header-size); // Width and height same as font-size for the heading
-			@include background-image($url: '../images/error.png', $height: contain);
-			content: ' ';
-			vertical-align: text-top;
+			@include wc-icon($fa-var-minus-circle);
+			// from font-awesome fixed-width icon
+			text-align: center;
+			vertical-align: middle;
+			width: (18em / 14);
 		}
 
 		> span {
@@ -53,7 +51,7 @@
 			background-color: $wc-ui-color-warning-fg;
 
 			&:before {
-				background-image: url('../images/warning.png');
+				content: $fa-var-exclamation-triangle;
 			}
 		}
 	}
@@ -65,7 +63,7 @@
 			background-color: $wc-ui-color-info-fg;
 
 			&:before {
-				background-image: url('../images/information.png');
+				content: $fa-var-info-circle;
 			}
 		}
 	}
@@ -77,12 +75,12 @@
 			background-color: $wc-ui-color-success-fg;
 
 			&:before {
-				background-image: url('../images/success.png');
+				content: $fa-var-check-circle;
 			}
 		}
 	}
 
-	li { //maintain white space on messages.
-		white-space: pre-wrap;
-	}
+	// li { //maintain white space on messages.
+	// 	white-space: pre-wrap;
+	// }
 }

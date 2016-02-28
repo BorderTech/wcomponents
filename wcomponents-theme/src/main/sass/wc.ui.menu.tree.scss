@@ -20,3 +20,9 @@
 		background-color: inherit;
 	}
 }
+
+[role='tree'] .wc-decoratedlabel {
+	display: inline-table;
+	margin-left: $hgap-small;
+	width: calc(100% - 2em);
+}

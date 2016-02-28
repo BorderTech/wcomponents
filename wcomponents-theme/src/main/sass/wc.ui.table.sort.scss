@@ -3,17 +3,23 @@
 
 th {
 	&[aria-sort] {
-		@include background-image ('../images/down-d.png', $x: 100%);
-		background-position-x: calc(100% - 0.25em);
-		cursor: pointer;
-		padding-right: calc(16px + 0.5em);//allow for 16px image, image position and 0.25em between text and image.
+		&:after {
+			@include wc-icon($fa-var-caret-square-o-down);
+			cursor: pointer;
+			margin-left: $hgap-small; //allow for 16px image, image position and 0.25em between text and image.
+		}
+
+		> .wc-decoratedlabel {
+			display: inline-block;
+			width: calc(100% - 2em);
+		}
 	}
 
-	&[sorted] {
-		background-image: url('../images/down.png');
+	&[sorted]:after {
+		content: $fa-var-caret-down;
 	}
 
-	&[sorted~='reversed'] {
-		background-image: url('../images/up.png');
+	&[sorted~='reversed']:after {
+		content: $fa-var-caret-up;
 	}
 }

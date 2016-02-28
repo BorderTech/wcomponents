@@ -368,8 +368,11 @@ define(["wc/has",
 					if (action === shed.actions.EXPAND && shed.isExpanded(element)) {
 						onchangeSubmit.ignoreNextChange();
 						openSelect = element.id;
+						// these next lot are really only needed on first show.
 						listbox.setAttribute(CONTROLS, element.id);
-						if (listbox.previousSibling !== element) {
+						listbox.style.minWidth = element.clientWidth + "px";
+						shed.show(listbox, true); // but do not put them inside the test below ...
+						if (listbox.previousSibling !== element) { // cannot be guaranteed in the XML tree.
 							if (element.parentNode.lastChild === element) {
 								element.parentNode.appendChild(listbox);
 							}
@@ -378,8 +381,6 @@ define(["wc/has",
 							}
 						}
 
-						listbox.style.minWidth = element.clientWidth + "px";
-						shed.show(listbox);
 						optionVal[(element.id)] = element.value;
 						if (filter && !CHATTY_COMBO.isOneOfMe(element)) {
 							filterOptions(element, 0);
@@ -388,15 +389,14 @@ define(["wc/has",
 					else if (action === shed.actions.COLLAPSE && !shed.isExpanded(element)) {
 						onchangeSubmit.clearIgnoreChange();
 						acceptFirstMatch(element);
-						shed.hide(listbox);
 						openSelect = "";
 						if (optionVal[(element.id)] !== element.value) {
 							timers.setTimeout(event.fire, 0, element, event.TYPE.change);
 						}
 						optionVal[(element.id)] = null;
 					}
-					else if (listbox && (action === shed.actions.HIDE || action === shed.actions.DISABLE)) {
-						shed.hide(listbox);
+					else if ((action === shed.actions.HIDE || action === shed.actions.DISABLE) && shed.isExpanded(element)) {
+						shed.collapse(element);
 					}
 				}
 				else if (action === shed.actions.HIDE && LISTBOX.isOneOfMe(element)) {

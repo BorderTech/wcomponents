@@ -458,9 +458,11 @@ define(["wc/has",
 				}
 
 				if (matches.length && (suggestionList = getSuggestionList(dateField))) {
+					suggestionList.setAttribute("aria-busy", "true");
 					suggestionList.innerHTML = "";
 					if (!(matches.length === 1 && formattedDatesSame(lastVal, instance.getTextBox(dateField).value))) {
 						suggestionList.innerHTML = getSuggestions(matches);
+						suggestionList.removeAttribute("aria-busy");
 						if (!shed.isExpanded(dateField)) {
 							shed.expand(dateField);
 						}
@@ -491,6 +493,7 @@ define(["wc/has",
 					}
 					else if ((suggestionList = getSuggestionList(dateField))) {
 						suggestionList.innerHTML = "";
+						suggestionList.setAttribute("aria-busy", "true");
 					}
 				}
 

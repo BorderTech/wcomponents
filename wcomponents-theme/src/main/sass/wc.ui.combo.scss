@@ -7,42 +7,17 @@ datalist {
 }
 
 input[role='combobox'] {
-	@include background-image($url: '../images/down.png', $height: 1em, $width: 1em, $x: 100%);
-	@include border;
-	@include border-box;
 	padding-right: $line-size;
 
-	&[disabled] {
-		background-image: url('../images/down-d.png');
-	}
-
-	~ [role='listbox'] {
-		@include border;
-		background-color: $wc-ui-color-highlight-bg;
+	&[aria-expanded = 'true'] ~ [role='listbox'] {
 		display: block;
-		list-style-type: none;
-		margin: 0;
 		max-height: (7 * ($line-size + (2 * $hgap-small))); // allow for up to seven visible options.
 		max-width: 100%;
 		overflow: auto;
-		padding: 0;
-		position: absolute;
-		z-index: $z-index-common;
-
-		dialog & {
-			z-index: $z-index-common-in-dialog;
-		}
-
-		&[aria-busy='true'] {
-			// we do not want dynamic suggestion lists to go transparent when busy
-			// scss-lint:disable ImportantRule
-			background-color: $wc-ui-color-highlight-bg !important;
-		}
 	}
 }
 
 li[role='option'] {
-	color: $wc-ui-color-highlight-fg;
 	margin: 0;
 	min-height: 1em;
 	padding: $hgap-small;
@@ -52,5 +27,20 @@ li[role='option'] {
 		background-color: $wc-ui-color-invite-bg;
 		color: $wc-ui-color-invite-fg;
 		cursor: pointer;
+	}
+}
+
+.wc_list_wrapper {
+	position: relative;
+
+	&:after {
+		@include wc-icon($fa-var-caret-down);
+		position: absolute;
+		right: ($line-size / 4);
+		top: ($line-size / 4);
+	}
+
+	> input {
+		background-color: transparent;
 	}
 }
