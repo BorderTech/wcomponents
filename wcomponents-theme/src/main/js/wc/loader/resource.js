@@ -65,7 +65,7 @@ define(["wc/ajax/ajax", "wc/loader/prefetch", "wc/config", "module"],
 			function getUrl(fileName) {
 				var path, idx, cachebuster, config = getConfig();
 				if (config) {
-					path = config.xmlBaseUrl;
+					path = config.resourceBaseUrl;
 					cachebuster = config.cachebuster;
 				}
 				else {
