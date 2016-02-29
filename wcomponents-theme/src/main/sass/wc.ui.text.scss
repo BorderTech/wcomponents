@@ -3,14 +3,14 @@
 @import 'mixins_common.scss';
 
 .highPriority { //strong element
-	@include outline($color: $wc-ui-color-error-fg, $style: double, $width: 3px);
+	// @include outline($color: $wc-ui-color-error-fg, $style: double, $width: 3px);
 	background-color: $wc-ui-color-error-bg;
 	color: $wc-ui-color-error-fg;
 	padding: 0 $hgap-small;
 }
 
 .mediumPriority { //em element
-	@include outline($color: $wc-ui-color-warning-fg);
+	// @include outline($color: $wc-ui-color-warning-fg);
 	background-color: $wc-ui-color-global-bg;
 	color: $wc-ui-color-warning-fg;
 	padding: 0 $hgap-small;

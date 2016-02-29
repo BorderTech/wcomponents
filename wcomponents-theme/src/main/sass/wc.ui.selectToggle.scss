@@ -12,23 +12,7 @@
 		}
 	}
 
-	&[role='checkbox'] { // Rendered as a control
-		&:before {
-			@include wc-icon($fa-var-square-o);
-			text-align: left;
-			width: (18em / 14);
-		}
-
-		&[aria-checked='true']:before {
-			content: $fa-var-check-square-o;
-		}
-
-		&[aria-checked='mixed']:before {
-			content: $fa-var-square;
-		}
-
-		+ label {
-			margin-left: $hgap-small;
-		}
+	&[role='checkbox']  + label {
+		margin-left: $hgap-small;
 	}
 }

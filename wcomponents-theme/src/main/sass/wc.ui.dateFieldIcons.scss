@@ -1,0 +1,7 @@
+/* wc.ui.dateFieldIcons.scss */
+@import 'mixins_common.scss';
+
+// calendar launch button
+.wc_wdf_cal :before {
+	@include wc-icon($fa-var-calendar);
+}

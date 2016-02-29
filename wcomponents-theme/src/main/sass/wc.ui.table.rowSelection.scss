@@ -9,21 +9,9 @@ tr[aria-selected] {
 		@include row-invite;
 		cursor: pointer;
 	}
-
-	> .wc_table_sel_wrapper {
-		&:before {
-			@include wc-icon($fa-var-circle-o);
-			text-align: left;
-			width: 1em;
-		}
-   }
 }
 
 .wc_table_sel_wrapper {
-	tr[aria-selected='true'] > &:before {
-		content: $fa-var-dot-circle-o;
-	}
-
 	[role='menubar'] {
 		button {
 			margin-left: 0; // override .wc_seltog style.
@@ -40,18 +28,6 @@ tr[aria-selected] {
 				vertical-align: top;
 				width: 1em;
 			}
-		}
-	}
-}
-
-[aria-multiselectable='true'] > tbody {
-	> tr {
-		&[aria-selected]  > .wc_table_sel_wrapper:before {
-			content: $fa-var-square-o;
-		}
-
-		&[aria-selected='true']  > .wc_table_sel_wrapper:before {
-			content: $fa-var-check-square-o;
 		}
 	}
 }

@@ -1,0 +1,10 @@
+/* wc.ui.fileUploadIcons.scss */
+@import 'mixins_common.scss';
+
+.wc-fileupload  a ~ button :before {
+	@include wc-icon($fa-var-trash);
+}
+
+.wc_btn_camera:before {
+	@include wc-icon($fa-var-camera-retro);
+}

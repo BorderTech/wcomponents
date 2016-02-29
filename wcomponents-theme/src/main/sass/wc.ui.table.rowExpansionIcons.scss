@@ -1,4 +1,4 @@
-/* wc.ui.table.rowExpansion.icons.scss */
+/* wc.ui.table.rowExpansionIcons.scss */
 @import 'mixins_common.scss';
 
 // ROW EXPANSION iconography and expand/collapse all iconography.
@@ -6,7 +6,8 @@
 
 tr[role='row'] {
 	> td[role='button']:before {
-		@include wc-icon($fa-var-chevron-circle-right);
+		// @include wc-icon($fa-var-chevron-circle-right);
+		@include wc-icon($fa-var-caret-right);
 		text-align: center;
 		width: (18em / 14);
 
@@ -14,7 +15,8 @@ tr[role='row'] {
 
 	&[aria-expanded='true'] {
 		> td[role='button']:before {
-			content: $fa-var-chevron-circle-down;
+			// content: $fa-var-chevron-circle-down;
+			content: $fa-var-caret-down;
 		}
 	}
 }

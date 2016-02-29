@@ -1,23 +1,18 @@
 /* wc.ui.image.scss */
 @import 'mixins_common.scss';
 
-$reset-button-size: 1em;
-$button-neg-margin-normal: -1 * ($line-size + 2 * $hgap-small);
-$button-neg-margin-large: -1 * ($reset-button-size + 2 * $hgap-small);
-$double-border-width: 2 * $border-width;
+img {
+	@include border($width: 0);
 
-button[data-img][data-editor] {
-	@include button($height: -1, $padding: -1, $width: -1);
-	margin-left: calc(#{$button-neg-margin-normal} - #{$double-border-width});
-
-	&:before {
-		@include wc-icon($fa-var-picture-o);
+	a &,
+	button & {
+		vertical-align: text-bottom;
 	}
-}
 
-figure img {
-	&,
-	+ button {
-		vertical-align: bottom;
+	figure & {
+		&,
+		+ button {
+			vertical-align: bottom;
+		}
 	}
 }

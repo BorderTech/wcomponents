@@ -20,10 +20,6 @@
 			@include flex-shrink(0);
 			display: inline-block;
 			margin-left: $hgap-small;
-
-			&:after {
-				@include wc-icon($fa-var-trash);
-			}
 		}
 	}
 
@@ -100,8 +96,4 @@
 	color: $wc-ui-color-highlight-fg;
 	padding: $hgap-small;
 	word-wrap: break-word;
-}
-
-.wc_btn_camera:after {
-	@include wc-icon($fa-var-camera-retro);
 }

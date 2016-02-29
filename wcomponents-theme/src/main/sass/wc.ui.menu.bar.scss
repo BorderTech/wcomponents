@@ -80,10 +80,6 @@
 		> [role='menuitem']:first-child > button {
 			padding: $hgap-small;
 
-			&::before {
-				@include wc-icon($fa-var-bars);
-			}
-
 			&::after {
 				color: $wc-ui-color-panel-header-foreground;
 			}

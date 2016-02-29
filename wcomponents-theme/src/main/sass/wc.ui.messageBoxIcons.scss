@@ -1,0 +1,24 @@
+/* wc.ui.messagesBoxIcons.scss */
+@import 'wc.ui.messageBox_vars.scss';
+
+.wc_msgbox {
+
+	> h1:before {
+		@include wc-icon($fa-var-minus-circle);
+		text-align: center;
+		vertical-align: middle;
+		width: (18em / 14);
+	}
+
+	&.warn  > h1:before {
+		content: $fa-var-exclamation-triangle;
+	}
+
+	&.info  > h1:before {
+		content: $fa-var-info-circle;
+	}
+
+	&.success > h1:before {
+		content: $fa-var-check-circle;
+	}
+}

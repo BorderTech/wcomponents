@@ -1,25 +1,11 @@
 /* wc.ui.table.sort.scss */
 @import 'mixins_common.scss';
 
-th {
-	&[aria-sort] {
-		&:after {
-			@include wc-icon($fa-var-caret-square-o-down);
-			cursor: pointer;
-			margin-left: $hgap-small; //allow for 16px image, image position and 0.25em between text and image.
-		}
+th[aria-sort] {
+	cursor: pointer;
 
-		> .wc-decoratedlabel {
-			display: inline-block;
-			width: calc(100% - 2em);
-		}
-	}
-
-	&[sorted]:after {
-		content: $fa-var-caret-down;
-	}
-
-	&[sorted~='reversed']:after {
-		content: $fa-var-caret-up;
+	> .wc-decoratedlabel {
+		display: inline-block;
+		width: calc(100% - 2em); // allow for sort icon
 	}
 }

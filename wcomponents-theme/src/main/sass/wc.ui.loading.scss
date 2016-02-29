@@ -22,16 +22,13 @@
 		vertical-align: middle;
 		width: auto;
 
-		&:before { // yeah - I know this won't work for replaced content...
-			@include wc-icon($fa-var-spinner);
-			@include wc-spin; // fa do not yet have a mixin for this.
-			font-size: 2em;
+		&:before {
 			margin-right: $hgap-normal;
 		}
 	}
 }
 
-// ajax busy areas
+// (Usually ajax) busy areas
 // We make the background of the busy element transparent and set all of its children to visibility:hidden so the
 // element appears to just vanish and leave its loading indicator You may want to change this (a Cheshire cat maybe?).
 [aria-busy='true'] {
@@ -41,25 +38,9 @@
 	// border-color: transparent !important; busy stuff should keep borders - we should ensure they keep the same dimensions too so it doesn't look stupid
 	color: $wc-ui-color-disabled-fg;
 
-	&:before { // yeah - I know this won't work for replaced content...
-		@include wc-icon($fa-var-spinner);
-		@include wc-spin; // fa do not yet have a mixin for this.
-	}
 	// Make any interactive child element of a busy region invisible. We want them to take up their space but not be
 	// shown to reduce the likelihood of a user interacting with them whilst they are being updated/replaced.
 	> * {
 		visibility: hidden;
-	}
-}
-
-input,
-select,
-textarea,
-img {
-	&[aria-busy='true'] {
-		background-image: url('../images/loading-dark.gif'); // old school!
-		background-position: 50% 50%;
-		background-repeat: no-repeat;
-		background-size: $line-size $line-size;
 	}
 }

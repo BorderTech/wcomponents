@@ -35,15 +35,6 @@ a {
 	}
 }
 
-img {
-	@include border($width: 0);
-
-	a &,
-	button & {
-		vertical-align: text-bottom;
-	}
-}
-
 .wc_off {
 	@include offscreen;
 }

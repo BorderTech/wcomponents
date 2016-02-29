@@ -1,0 +1,31 @@
+/* wc.ui.loadingIcons.scss */
+// styling for the loading indicator that appears for page reloads and AJAX regions
+@import 'mixins_common.scss';
+
+// loading indicator is generated and identified
+//scss-lint:disable IdSelector
+#wc_ui_loading  div:before {
+	@include wc-icon($fa-var-spinner);
+	@include wc-spin; // fa do not yet have a mixin for this.
+	font-size: 2em;
+}
+
+// ajax busy areas
+// We make the background of the busy element transparent and set all of its children to visibility:hidden so the
+// element appears to just vanish and leave its loading indicator You may want to change this (a Cheshire cat maybe?).
+[aria-busy='true']:before { // yeah - I know this won't work for replaced content...
+	@include wc-icon($fa-var-spinner);
+	@include wc-spin; // fa do not yet have a mixin for this.
+}
+
+input,
+select,
+textarea,
+img {
+	&[aria-busy='true'] {
+		background-image: url('../images/loading-dark.gif'); // old school!
+		background-position: 50% 50%;
+		background-repeat: no-repeat;
+		background-size: $line-size $line-size;
+	}
+}

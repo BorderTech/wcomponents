@@ -24,10 +24,6 @@
 .wc_wdf_cal {
 	margin-right: $hgap-small;
 
-	&:before {
-		@include wc-icon($fa-var-calendar);
-	}
-
 	&:hover,
 	&:focus {
 		background-color: $wc-ui-color-invite-bg;

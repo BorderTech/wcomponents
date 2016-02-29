@@ -33,13 +33,6 @@ li[role='option'] {
 .wc_list_wrapper {
 	position: relative;
 
-	&:after {
-		@include wc-icon($fa-var-caret-down);
-		position: absolute;
-		right: ($line-size / 4);
-		top: ($line-size / 4);
-	}
-
 	> input {
 		background-color: transparent;
 	}

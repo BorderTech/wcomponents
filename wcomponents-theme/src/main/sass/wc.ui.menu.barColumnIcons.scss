@@ -6,13 +6,11 @@
 	[role='menubar'] > &:after {
 		@include wc-icon($fa-var-caret-down);
 		margin-left: $wc-ui-menu-bar-column-opener-indicator-before-after;
-		// vertical-align: text-top;
 	}
 
 	[role='menu'] & > .wc-decoratedlabel:after {
 		@include wc-icon($fa-var-caret-right);
 		display: table-cell;
-		// min-width: 1em;
 		padding-left: $wc-ui-menu-bar-column-opener-indicator-before-after;
 	}
 }
