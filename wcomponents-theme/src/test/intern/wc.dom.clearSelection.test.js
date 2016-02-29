@@ -14,7 +14,7 @@ define(["intern!object", "intern/chai!assert", "../intern/resources/test.utils!"
 			TEXT = "This is some known text",
 			testHolder,
 			DELAY = 10,
-			TIMEOUT = 1000;
+			TIMEOUT = 3000;
 
 		function getSelectedText() {
 			var result;
