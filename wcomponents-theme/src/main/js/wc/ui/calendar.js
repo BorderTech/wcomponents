@@ -507,7 +507,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 						return render(text)[0];
 					};
 				},
-				dayName: dayName.get(),
+				dayName: dayName.get(true),
 				monthName: monthName.get(),
 				fullYear: _today.getFullYear(),
 				monthLabel: i18n.get("${wc.ui.dateField.i18n.calendarMonthLabel}"),

@@ -1,5 +1,5 @@
 /* eslint no-new-wrappers:0 */
-define(["intern!object", "intern/chai!assert", "../intern/resources/test.utils"],
+define(["intern!object", "intern/chai!assert", "../intern/resources/test.utils!"],
 	function (registerSuite, assert, testutils) {
 		"use strict";
 		/**
@@ -14,7 +14,7 @@ define(["intern!object", "intern/chai!assert", "../intern/resources/test.utils"]
 			VAL = "foobar",
 			OBJ = {"foo": "bar"},
 			testHolder,
-			urlResource = "../../target/test-classes/wcomponents-theme/intern/resources/domAttribute.html";
+			urlResource = "@RESOURCES@/domAttribute.html";
 
 		registerSuite({
 			name: "domAttribute",

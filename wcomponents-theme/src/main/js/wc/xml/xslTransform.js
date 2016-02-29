@@ -429,8 +429,17 @@ define(["wc/has", "wc/ajax/ajax", "wc/xml/xmlString", "wc/xml/xpath", "wc/array/
 							if (xml) {
 								xsl = parsedArgs.xsl;
 								if (xsl) {
-									result = memoizedApplyXsl(xml, xsl, asHtml, parsedArgs.uri, args.params);
-									win(result);
+									if (has("activex")) {
+										require(["wc/fix/getActiveX_ieAll"], function(obj) {
+											getActiveX = obj;
+											result = memoizedApplyXsl(xml, xsl, asHtml, parsedArgs.uri, args.params);
+											win(result);
+										});
+									}
+									else {
+										result = memoizedApplyXsl(xml, xsl, asHtml, parsedArgs.uri, args.params);
+										win(result);
+									}
 								}
 								else {
 									lose("Could not extract XSL from args");
@@ -583,10 +592,6 @@ define(["wc/has", "wc/ajax/ajax", "wc/xml/xmlString", "wc/xml/xpath", "wc/array/
 		has.add("gecko-xsltprocessor", function(g) {
 			return (typeof g.XSLTProcessor !== "undefined");
 		});
-
-		if (has("activex")) {
-			getActiveX = require("wc/fix/getActiveX_ieAll");  // this can only work if "wc/fix/getActiveX_ieAll" is already loaded - the compat script must ensure that.
-		}
 
 		if (has("ie") < 9) {
 			require(["wc/fix/html5Fix_ie8", "wc/fix/noScope_ie8"], function(arg1, arg2) {

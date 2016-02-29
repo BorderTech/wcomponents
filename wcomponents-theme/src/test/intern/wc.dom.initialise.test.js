@@ -1,8 +1,8 @@
-define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
+define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 	function (registerSuite, assert, testutils) {
 		"use strict";
 
-		var initialise, TIMEOUT = 250;  // needs to be reasonably large because IE8 is slloowwwwww......
+		var initialise, TIMEOUT = 3000;  // needs to be large...
 		/*
 		 * NOTE on async tests.
 		 * We can call the deferred object resolver from the initialise callback and
