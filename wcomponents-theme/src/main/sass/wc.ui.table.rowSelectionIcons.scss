@@ -13,12 +13,29 @@ tr[aria-selected]  > .wc_table_sel_wrapper:before {
 	content: $fa-var-dot-circle-o;
 }
 
-[aria-multiselectable='true'] > tbody  > tr {
-	&[aria-selected]  > .wc_table_sel_wrapper:before {
-		content: $fa-var-square-o;
+[aria-multiselectable='true'] {
+	> thead .wc_seltog[role='checkbox'] { // Rendered as a control - need to reverse the colour scheme.
+		&:before {
+			content: $fa-var-square;
+		}
+
+		&[aria-checked='true']:before {
+			content: $fa-var-check-square-o;
+		}
+
+		&[aria-checked='mixed']:before {
+			content: $fa-var-square-o;
+		}
 	}
 
-	&[aria-selected='true']  > .wc_table_sel_wrapper:before {
-		content: $fa-var-check-square-o;
+	> tbody  > tr {
+		&[aria-selected]  > .wc_table_sel_wrapper:before {
+			content: $fa-var-square-o;
+		}
+
+		&[aria-selected='true']  > .wc_table_sel_wrapper:before {
+			content: $fa-var-check-square-o;
+		}
 	}
+
 }

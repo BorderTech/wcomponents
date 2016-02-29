@@ -1,4 +1,4 @@
-/* wc.ui.feedback.messages.indicators.scss */
+/* wc.ui.feedback.messagesIcons.scss */
 //    WFieldWarningIndicator
 //    WFieldErrorIndicator
 //    WMessageBox/WMessages
@@ -16,48 +16,21 @@
 .warn,
 .info {
 	> li:before {
-		@include use-symbol-font;
+		@include wc-icon($fa-var-minus-circle);
+		margin-right: $hgap-small;
 	}
 }
-
 
 li:before {
-	// error x
-	.error > & {
-		content: '\00D7\00a0';
-	}
-
-	// Warn !!
 	.warn > & {
-		content: '\203c\00a0';
+		content: $fa-var-exclamation-triangle;
 	}
 
-	// info i
 	.info > & {
-		content: '\2170\00a0';
+		content: $fa-var-info-circle;
 	}
 
-	// success tick : could cause i18n problems see http://en.wikipedia.org/wiki/Tick_(check_mark)
 	.success > & {
-		content: '\2713\00a0';
-	}
-}
-
-// message colors
-ul {
-	&.error {
-		color: $wc-ui-color-error-fg;
-	}
-
-	&.warn {
-		color: $wc-ui-color-warning-fg;
-	}
-
-	&.info {
-		color: $wc-ui-color-info-fg;
-	}
-
-	&.success {
-		color: $wc-ui-color-success-fg;
+		content: $fa-var-check-circle;
 	}
 }

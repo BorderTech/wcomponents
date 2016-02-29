@@ -29,25 +29,3 @@
 		min-width: $line-size;
 	}
 }
-// 
-// .wc_wdf_mv {
-// 	&:before {
-// 		@include use-symbol-font;
-// 		vertical-align: middle;
-// 	}
-//
-// 	&[value='-1']:before {// back a month
-// 		content: '\25c0';
-// 	}
-// 	&[value='1']:before {// forwards a month
-// 		content: '\25b6';
-// 	}
-// 	&[value='t']:before {//go to today
-// 		content: '\25cf';
-// 	}
-// }
-
-// do not display the close buttton unless we are in a mobile scenario (ESC works)
-// .wc_wdf_cls {
-// 	display: none;
-// }

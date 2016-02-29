@@ -20,3 +20,13 @@ tr[role='row'] {
 		}
 	}
 }
+
+.wc-rowexpansion button {
+	&:before {
+		@include wc-icon($fa-var-plus-square-o);
+	}
+
+	&[data-wc-value='collapse']:before {
+		content: $fa-var-minus-square-o;
+	}
+}
