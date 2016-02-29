@@ -3,6 +3,11 @@
 @import 'mixins_common.scss';
 
 .wc_mfc {
+	input,
+	select {
+		max-width: calc(100% - 2em);
+	}
+
 	button {
 		@include button($height: -1, $padding: -1, $width: -1);
 		margin-left: $hgap-small;
@@ -11,10 +16,20 @@
 			@include wc-icon($fa-var-minus-square);
 			color: $wc-ui-color-error-fg;
 		}
+
+		&[disabled]:before {
+			color: $wc-ui-color-disabled-fg;
+		}
 	}
 
-	li:first-child button:before {
-		color: $wc-ui-color-success-fg;
-		content: $fa-var-plus-square;
+	li:first-child button {
+		&:before {
+			color: $wc-ui-color-success-fg;
+			content: $fa-var-plus-square;
+		}
+
+		&[disabled]:before {
+			color: $wc-ui-color-disabled-fg;
+		}
 	}
 }
