@@ -13,9 +13,13 @@
 // ajax busy areas
 // We make the background of the busy element transparent and set all of its children to visibility:hidden so the
 // element appears to just vanish and leave its loading indicator You may want to change this (a Cheshire cat maybe?).
-[aria-busy='true']:before { // yeah - I know this won't work for replaced content...
-	@include wc-icon($fa-var-spinner);
-	@include wc-spin; // fa do not yet have a mixin for this.
+[aria-busy='true'] {
+	text-align: center;
+
+	&:before { // yeah - I know this won't work for replaced content...
+		@include wc-icon($fa-var-spinner);
+		@include wc-spin; // fa do not yet have a mixin for this.
+	}
 }
 
 input,
@@ -27,5 +31,6 @@ img {
 		background-position: 50% 50%;
 		background-repeat: no-repeat;
 		background-size: $line-size $line-size;
+		text-align: left;
 	}
 }
