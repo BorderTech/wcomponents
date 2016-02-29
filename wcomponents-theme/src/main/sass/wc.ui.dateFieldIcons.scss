@@ -5,3 +5,21 @@
 .wc_wdf_cal:before {
 	@include wc-icon($fa-var-calendar);
 }
+
+// use a single identified artefact for calendars
+//scss-lint:disable IdSelector
+#wc-calendar thead button {
+	@include wc-icon($fa-calendar-times-o);
+
+	&[value = '-1'] {
+		content: $fa-var-calendar-minus-o;
+	}
+
+	&[value = 't'] {
+		content: $fa-var-calendar-o;
+	}
+
+	&[value = '1'] {
+		content: $fa-var-calendar-plus-o;
+	}
+}
