@@ -1,5 +1,5 @@
 /* wc.ui.multiSelectPair.scss */
-@import 'mixins_common.scss';
+@import 'mixins-common.scss';
 
 .wc-multiselectpair {
 	white-space: nowrap;
@@ -35,7 +35,7 @@
 		padding-top: $line-size;
 
 		button {
-			@include button($height: -1, $padding: -1, $width: -1);
+			@include button;
 		}
 	}
 

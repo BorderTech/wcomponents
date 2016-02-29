@@ -1,5 +1,5 @@
 /* wc.ui.dateField.dt.scss */
-@import 'mixins_common.scss';
+@import 'mixins-common.scss';
 // The calendar container is a single generated element with a fixed id.
 // scss-lint:disable IdSelector
 #wc-calbox { // This is the calendar container.
@@ -24,8 +24,4 @@
 
 #wc-calendar {
 	background-color: $wc-ui-color-global-bg;
-
-	thead button {
-		min-width: $line-size;
-	}
 }

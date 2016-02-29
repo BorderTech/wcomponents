@@ -1,15 +1,14 @@
 /* wc.common.listbox.scss */
 // listbox for combo and datefield
-@import 'mixins_common.scss';
+@import 'mixins-common.scss';
 
 [role='listbox'] {
 	@include border;
+	@include tight-box;
 	background-color: $wc-ui-color-highlight-bg;
 	color: $wc-ui-color-highlight-fg;
 	display: none;
 	list-style-type: none;
-	margin: 0;
-	padding: 0;
 	position: absolute;
 	z-index: $z-index-common;
 

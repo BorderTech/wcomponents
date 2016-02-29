@@ -4,7 +4,7 @@
 
 // We use a single ID'd component for all calendar date pickers and move it around to where it is needed.
 // scss-lint:disable IdSelector
-@import 'mixins_common.scss';
+@import 'mixins-common.scss';
 
 .wc-datefield {
 	display: inline-block;
@@ -54,7 +54,7 @@
 	}
 
 	[role='option'] {
-		margin: 0;
+		@include margin($size: 0);
 		min-height: 1em;
 		padding: 1px $hgap-small;
 
@@ -87,7 +87,7 @@
 		}
 
 		button {
-			@include button($height: -1, $padding: -1, $width: -1);
+			@include button;
 			margin-left: $hgap-normal;
 			// vertical-align: middle;
 		}

@@ -3,9 +3,8 @@
 
 dialog {
 	&[open] {
+		@include tight-box;
 		display: block;
-		margin: 0;
-		padding: 0;
 	}
 
 	> [aria-live] {

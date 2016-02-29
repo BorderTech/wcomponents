@@ -12,7 +12,7 @@
 // would no longer need to submit. It is handy for other clickable/focusable/disableable goodness though.
 
 // TODO (wishful thinking): Where the WMenu type allows use the menu element in the popup mode and its label/button.
-@import 'mixins_common.scss';
+@import 'mixins-common.scss';
 
 // Item default styles.
 // NOTE: an item may be a WMenuItem or a WSubMenu. Remember each submenu has an item role in [role='menu'] and
@@ -37,7 +37,7 @@
 
 .wc-menu {
 	[role='separator'] {
-		margin: 0;
+		@include margin($size: 0);
 		padding: 0;
 	}
 

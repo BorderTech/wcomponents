@@ -5,10 +5,9 @@
 
 dialog {
 	@include border($width: 0); // oh chrome, you try so hard to annoy me
+	@include tight-box;
 	background: transparent;
 	display: none;
-	margin: 0;
-	padding: 0;
 	position: fixed;
 	z-index: $z-index-dialog;
 
@@ -26,12 +25,10 @@ dialog {
 	}
 
 	> [aria-live] { // dialog content container
-		@include border;
+		@include padded-box;
 		background-color: $wc-ui-color-global-bg;
 		height: 100%;
 		overflow: auto;
-		padding: $hgap-normal;
-
 
 		&[aria-busy='true'] {
 			// override usual transparency of busy elements because that's just wrong with a dialog's content.
@@ -64,12 +61,6 @@ dialog {
 			color: $wc-ui-color-dialog-head-fg;
 			padding: 0.2em 0.25em 0.15em;
 
-			// &:hover:before,
-			// &:focus:before {
-			// 	background-color: $wc-ui-color-dialog-head-fg;
-			// 	color: $wc-ui-color-dialog-head-bg;
-			// }
-
 			+ button {
 				margin-left: $hgap-small;
 			}
@@ -82,9 +73,9 @@ dialog {
 
 		> h1 { // the title
 			@include flex-grow(1);
+			@include margin($size: 0);
 			color: $wc-ui-color-dialog-head-fg;
 			font-size: 1em;
-			margin: 0;
 		}
 
 		> span { // the header control 'block'

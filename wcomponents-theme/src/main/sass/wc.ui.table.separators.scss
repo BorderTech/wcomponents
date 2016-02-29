@@ -2,7 +2,7 @@
 // Row and Column Separators
 // .wc_table_rowsep is applied to the tbody
 // .wc_table_colsep is applied to the colgroup
-@import 'mixins_common.scss';
+@import 'mixins-common.scss';
 @import 'wc.ui.table_vars.scss';
 
 .wc_table_rowsep > tr + tr {

@@ -1,5 +1,5 @@
 /* wc.ui.imageEdit.scss */
-@import 'mixins_common.scss';
+@import 'mixins-common.scss';
 
 .wc_img_editor {
 	background-color: $wc-ui-color-global-bg;
@@ -40,7 +40,7 @@
 	}
 
 	button {
-		@include button($height: -1, $padding: -1, $width: -1);
+		@include button;
 		margin: 0 $hgap-small;
 
 		&:first-of-type {

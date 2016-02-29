@@ -1,6 +1,6 @@
 /* wc.ui.loadingIcons.scss */
 // styling for the loading indicator that appears for page reloads and AJAX regions
-@import 'mixins_common.scss';
+@import 'mixins-common.scss';
 
 // loading indicator is generated and identified
 //scss-lint:disable IdSelector
@@ -27,10 +27,7 @@ select,
 textarea,
 img {
 	&[aria-busy='true'] {
-		background-image: url('../images/loading-dark.gif'); // old school!
-		background-position: 50% 50%;
-		background-repeat: no-repeat;
-		background-size: $line-size $line-size;
+		background: url('../images/loading-dark.gif') 50% 50% no-repeat transparent;
 		text-align: left;
 	}
 }

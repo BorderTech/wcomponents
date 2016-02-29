@@ -1,16 +1,16 @@
 /* wc.ui.fileUpload.scss */
-@import 'mixins_common.scss';
+@import 'mixins-common.scss';
 
 .wc-fileupload {
 	button {
-		@include button($height: -1, $width: -1);
+		@include button($padding: $hgap-small);
 	}
 
 	a {
 		@include flex-grow(1);
 		@include flex-shrink(1);
 		display: inline-block;
-		max-width: calc(100% - #{$line-size});
+		max-width: calc(100% - 2em);
 
 		img {
 			max-width: 100%;

@@ -1,7 +1,7 @@
 /* wc.ui.fileUploadIcons.scss */
-@import 'mixins_common.scss';
+@import 'mixins-common.scss';
 
-.wc-fileupload  a ~ button :before {
+.wc-fileupload  a ~ button:before {
 	@include wc-icon($fa-var-trash);
 }
 

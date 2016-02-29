@@ -1,5 +1,5 @@
 /* wc.ui.combo.scss */
-@import 'mixins_common.scss';
+@import 'mixins-common.scss';
 
 // This redundant rule is not as redundant as you might think so just leave it be!
 datalist {
@@ -7,7 +7,7 @@ datalist {
 }
 
 input[role='combobox'] {
-	padding-right: $line-size;
+	padding-right: $line-size; // allow for icon
 
 	&[aria-expanded = 'true'] ~ [role='listbox'] {
 		display: block;
@@ -18,7 +18,7 @@ input[role='combobox'] {
 }
 
 li[role='option'] {
-	margin: 0;
+	@include margin($size: 0);
 	min-height: 1em;
 	padding: $hgap-small;
 

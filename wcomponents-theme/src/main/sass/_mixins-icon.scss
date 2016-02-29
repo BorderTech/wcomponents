@@ -1,0 +1,14 @@
+// Mixins for setting icons.
+// Moved out of mixins-common for ease of override.
+
+// FontAwesome mixins and vars...
+@import 'mixins-animate.scss';
+@import 'libs/fa/variables.scss';
+@import 'libs/fa/mixins.scss';
+/// use fa-icon
+@mixin wc-icon ($icon: -1) {
+	@include fa-icon;
+	@if ($icon != -1) {
+		content: $icon;
+	}
+}

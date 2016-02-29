@@ -1,13 +1,12 @@
 /* wc.ui.checkableSelect.scss */
 // CSS for WCheckBoxSelect and WRadioButtonSelect
-@import 'mixins_common.scss';
+@import 'mixins-common.scss';
 
 .wc_chkgrp {
 	&_bdr {
 		&,
 		&.wc_noborder {
-			@include border;
-			padding: 1px;
+			@include padded-box(1px);
 		}
 	}
 

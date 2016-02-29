@@ -1,10 +1,9 @@
 /* wc.ui.collapsibleToggle.scss */
-@import 'mixins_common.scss';
+@import 'mixins-common.scss';
 
 .wc-collapsibletoggle {
+	@include tight-box;
 	list-style-type: none;
-	margin: 0;
-	padding: 0;
 
 	> li {
 		display: inline-block;

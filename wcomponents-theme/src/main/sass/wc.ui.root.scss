@@ -1,5 +1,5 @@
 /* wc.ui.root.scss */
-@import 'mixins_common.scss';
+@import 'mixins-common.scss';
 
 noscript p {
 	@include border($width: 3px, $color: $wc-ui-color-error-fg);

@@ -1,6 +1,6 @@
 /* wc.common.page.scss */
 // Primary styling for the page and preliminary styling of some commonly used basic elements and layout classes.
-@import 'mixins_common.scss';
+@import 'mixins-common.scss';
 
 // We need to have the document body fill the viewport in all browsers to correctly propagate some click events.
 html {
@@ -8,14 +8,13 @@ html {
 }
 
 body {
+	@include tight-box;
 	background-color: $wc-ui-color-global-bg;
 	color: $wc-ui-color-global-fg;
 	font-family: $default-font;
 	font-size: $mobile-font-size;
 	height: 100%; // body to fill viewport for event propagation.
 	line-height: $line-height;
-	margin: 0;
-	padding: 0;
 }
 
 pre {

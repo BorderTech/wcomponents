@@ -1,11 +1,11 @@
 /* wc.ui.imageEditIcons.scss */
-@import 'mixins_common.scss';
+@import 'mixins-common.scss';
 
 $button-neg-margin-normal: -1 * ($line-size + 2 * $hgap-small);
 $double-border-width: 2 * $border-width;
 
 button[data-img][data-editor] { // edit image button
-	@include button($height: -1, $padding: -1, $width: -1);
+	@include button;
 	margin-left: calc(#{$button-neg-margin-normal} - #{$double-border-width});
 
 	&:before {

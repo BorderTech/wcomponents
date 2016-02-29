@@ -1,5 +1,5 @@
 /* wc.common.page.dt.scss */
-@import 'mixins_common.scss';
+@import 'mixins-common.scss';
 
 body {
 	@include respond($size: 1024px, $test: min-device-width) {

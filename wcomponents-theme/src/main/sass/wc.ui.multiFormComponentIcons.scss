@@ -1,6 +1,6 @@
 /* wc.ui.multiFormComponentIcons.scss */
 // WMultiTextField and WMultiDropdown action buttons (+/-)
-@import 'mixins_common.scss';
+@import 'mixins-common.scss';
 
 .wc_mfc {
 	input,
@@ -9,7 +9,7 @@
 	}
 
 	button {
-		@include button($height: -1, $padding: -1, $width: -1);
+		@include button;
 		margin-left: $hgap-small;
 
 		&:before {

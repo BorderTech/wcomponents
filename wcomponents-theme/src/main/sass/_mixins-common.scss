@@ -1,13 +1,10 @@
 // Allow Vendor Prefix in mixins.
 //scss-lint:disable VendorPrefix
 
-@import 'vars_all.scss';
-@import 'mixins_flex.scss'; // flex layouts
-@import 'mixins_respond.scss'; // responsive design media queries
-@import 'mixins_animate.scss';
-// FontAwesome mixins and vars...
-@import 'libs/fa/variables.scss';
-@import 'libs/fa/mixins.scss';
+@import 'vars.scss';
+@import 'mixins-flex.scss'; // flex layouts.
+@import 'mixins-respond.scss'; // responsive design media queries.
+@import 'mixins-icon.scss'; // in-built iconography.
 
 /// Set the elements text-align property. I am not convinced this is a useful mixin.
 /// @param {alignment} $align [$preferred-alignment] The horizontal alignment to set.
@@ -27,63 +24,6 @@
 	cursor: default !important;
 	outline: none !important;
 	text-decoration: none !important;
-}
-
-/// Add a background-image to almost anything. The default for this macro will add a small, centered,
-///   non-repeateing background image to the element.
-///
-/// @param {string} $url The URL of your image.
-/// @param {dimension} $height [$line-size] The vertical aspect of background-size. Set -1 to omit the background-size rule.
-/// @param {repetition} $repeat [no-repeat] The repeat rule for your image.
-/// @param {dimension} $width [$line-size] The horizontal aspect of background-size. Set -1 to omit the background-size rule.
-/// @param {position|dimension} $x [50%] The x-position aspect of background-position. The background-position rule is
-/// omitted if both $x and $y are 0.
-/// @param {position|dimension} $y [50%] The y-position aspect of background-position. The background-position rule is
-/// omitted if both $x and $y are 0.
-/// @param {boolean|position|dimension} $reset-size [-1]. Include a large screen media query to reset background size.
-/// If true then reset to 1em x 1em as a shorthand for the default size. Omitted if this is -1 or if background-size is not set.
-@mixin background-image ($url, $height: $line-size, $repeat: no-repeat, $width: $line-size, $x: 50%, $y: 50%, $reset-size: -1) {
-	background-image: url($url);
-	@if ($x != 0 or $y != 0) {
-		background-position: $x $y;
-	}
-	@if($repeat != repeat) {
-		background-repeat: $repeat;
-	}
-	@if($height == contain or $width == contain) {
-		background-size: contain;
-	}
-	@else if($height == cover or $width == cover) {
-		background-size: cover;
-	}
-	@else if($height != -1 and $width != -1) {
-		background-size: $width $height;
-		@if($reset-size == true) {
-			@include reset-large-screen {
-				background-size: 1em 1em;
-			}
-		}
-		@else if($reset-size != -1) {
-			@include reset-large-screen {
-				background-size: $reset-size;
-			}
-		}
-	}
-	@content;
-}
-
-/// Add a scaled, centred background-image (as an icon). This is basically a cut-down version of the background-image
-/// mixin for adding iconic images to things (usually buttons). The image is always a square of edge length $line-size.
-/// It is reset to 1em square on large screens.
-/// @todo Delete this and replace calls with a call directly to background-image.
-///
-/// @param {string} $url The URL of your image.
-/// @param {position|dimension} $x [50%] The x-position aspect of background-position. The background-position rule is
-///   omitted if both $x and $y are 0.
-/// @param {position|dimension} $y [50%] The y-position aspect of background-position. The background-position rule is
-///   omitted if both $x and $y are 0.
-@mixin background-image-icon ($url, $x: 50%, $y: 50%) {
-	@include background-image($url: $url, $x: $x, $y: $y, $reset-size: 1em);
 }
 
 /// Set simple border styles. Using $width = 0 will unset a border.
@@ -133,11 +73,11 @@
 /// @param {boolean|int} $border [true] If true then the border mixin is called with no params (get a default border).
 ///   Set false to not include the standard border mixin. Set to any non-negative integer to create a stabdard coloured
 ///   border of the required width. If you want a non-standard border set false and use the border mixin by itself.
-/// @param {dimension} $height [$line-size] The height of the button. Set -1 to omit this rule.
-/// @param {dimension} $padding [1em] The padding of the button. Set -1 to omit this rule.
+/// @param {dimension} $height [-1] The height of the button. Set -1 to omit this rule.
+/// @param {dimension} $padding [-1] The padding of the button. Set -1 to omit this rule.
 /// @param {position} $text-align [center] The text align for your button. Set '' to omit this rule.
-/// @param {dimension} $width [$line-size] The width of the button. Set -1 to omit this rule.
-@mixin button ($background: transparent, $border: true, $height: $line-size, $padding: $hgap-small, $text-align: center, $width: $line-size, $reset-height: 1em, $reset-width: 1em) {
+/// @param {dimension} $width [-1] The width of the button. Set -1 to omit this rule.
+@mixin button($background: transparent, $border: true, $height: $line-size, $padding: -1, $text-align: center, $width: -1) {
 	@if ($border == true) {
 		@include border;
 	}
@@ -158,17 +98,6 @@
 	}
 	@if ($width != -1) {
 		width: $width;
-	}
-
-	@if(($width != -1 or $height != -1) and ($reset-width != -1 or $reset-height != -1)) {
-		@include reset-large-screen {
-			@if($height != -1 and $reset-height != -1) {
-				height: $reset-height;
-			}
-			@if($width != -1 and $reset-width != -1) {
-				width: $reset-width;
-			}
-		}
 	}
 	@content;
 }
@@ -194,19 +123,7 @@
 }
 // scss-lint:enable DuplicateProperty
 
-/// Makes a square box (for exampe to put a 100% scaled SVG in).
-/// @param {display} $display [inline-block] How you want your box to display.
-/// @param {dimension} $height [$line-size] The height of the box. Set auto to omit this rule.
-/// @param {dimension} $width [$line-size] The width of the box. Set auto to omit this rule.
-@mixin make-box($display: inline-block, $height: $line-size, $width: $line-size) {
-	display: $display;
-	@if ($height != auto) {
-		height: $height;
-	}
-	@if ($width != auto) {
-		width: $width;
-	}
-}
+
 
 /// Show the mandatory indicator
 /// @todo: make the mandatory indicator string into a var.
@@ -281,15 +198,8 @@
 	padding: $pad;
 }
 
-/// Use the symbol font as the font family for the element.
-@mixin use-symbol-font {
-	font-family: $symbol-font;
-}
-
-/// use fa-icon
-@mixin wc-icon ($icon: -1) {
-	@include fa-icon;
-	@if ($icon != -1) {
-		content: $icon;
-	}
+/// Set margin and padding to 0.
+@mixin tight-box {
+	margin: 0;
+	padding: 0;
 }

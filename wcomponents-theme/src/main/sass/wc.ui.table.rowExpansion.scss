@@ -1,11 +1,11 @@
 /* wc.ui.table.rowExpansion.scss */
-@import 'mixins_common.scss';
+@import 'mixins-common.scss';
+@import 'wc.ui.table_vars.scss';
 
 .wc-rowexpansion {
 	&[role='radiogroup'] {
+		@include tight-box;
 		list-style-type: none;
-		margin: 0;
-		padding: 0;
 
 		@include respond(phonelike) {
 			text-align: left;
@@ -25,5 +25,5 @@
 
 .wc-row-indent {
 	display: inline-block;
-	width: $line-size;
+	width: $table-hierarchic-indent;
 }

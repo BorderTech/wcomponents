@@ -1,5 +1,5 @@
 /* wc.ui.figure.scss */
-@import 'mixins_common.scss';
+@import 'mixins-common.scss';
 
 figure {
 	@include flex($direction: column, $align-content: center);

@@ -8,7 +8,7 @@
 
 // The styles here are purposely minimal and will give you a DETAILS element pretty much like a Chrome default.
 
-@import 'mixins_common.scss';
+@import 'mixins-common.scss';
 
 details,
 summary {
@@ -26,12 +26,11 @@ summary {
 	> h4,
 	> h5,
 	> h6 {
+		@include tight-box;
 		color: $wc-ui-color-global-fg;
 		display: inline-block;
 		font-size: 1em;
 		font-weight: bold;
-		margin: 0;
-		padding: 0;
 		vertical-align: text-top;
 		width: calc(100% - 2em); // allow for the iconography
 	}
@@ -45,9 +44,5 @@ div[aria-describedby] {
 
 	[open] > & {
 		display: block;
-
-		&[aria-busy='true'] {
-			min-height: $line-size;
-		}
 	}
 }
