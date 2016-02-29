@@ -1,6 +1,6 @@
 /* wc.common.listSort.scss */
 // The list sort controls are the buttons used to reorder the options used by WMultiSelectPair and WShuffler
-@import 'mixins_common.scss';
+@import 'mixins-common.scss';
 
 /// The container for the list shuffle controls.
 .wc_sortcont {
@@ -11,35 +11,5 @@
 /// Each individual shuffle control
 .wc_sorter {
 	@include button;
-	@include background-image('../images/top.png', $height: 1em, $width: 1em);
 	display: block;
-
-	&[disabled] {
-		background-image: url('../images/top-d.png');
-	}
-
-	// NOTE this will need a .ie8.scss file if your implementation needs to support ie8.
-	&:nth-of-type(2) {
-		background-image: url('../images/up.png');
-
-		&[disabled] {
-			background-image: url('../images/up-d.png');
-		}
-	}
-
-	&:nth-of-type(3) {
-		background-image: url('../images/down.png');
-
-		&[disabled] {
-			background-image: url('../images/down-d.png');
-		}
-	}
-
-	&:last-of-type {
-		background-image: url('../images/bottom.png');
-
-		&[disabled] {
-			background-image: url('../images/bottom-d.png');
-		}
-	}
 }

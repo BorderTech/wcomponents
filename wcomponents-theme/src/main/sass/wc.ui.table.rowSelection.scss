@@ -9,65 +9,24 @@ tr[aria-selected] {
 		@include row-invite;
 		cursor: pointer;
 	}
-
-	> .wc_table_sel_wrapper {
-		@include background-image($url: '../images/radio.png', $width: 1em, $height: 1em);
-
-		.wc_table_hastoggleselect & {
-			background-position: $table-cell-padding-left-right 50%;
-			padding-left: $table-cell-padding-left-right + 1em;
-		}
-   }
 }
 
 .wc_table_sel_wrapper {
-	tr[aria-selected='true'] > & {
-		background-image: url('../images/radio-s.png');
-	}
-
-	tr[aria-disabled='true'] > & {
-		background-image: url('../images/radio-d.png');
-	}
-
-	.wc_seltog  button + button::before { // remove select toggle list separator
-		display: none;
-	}
-
-	[role='menubar'] .wc-submenu > button { // the is the submenu opener emulator for the sub-row toggle control
-		@include button($background: $wc-ui-color-menu-bg, $height: -1, $padding: 0, $width: 1em, $reset-height: -1, $reset-width: -1);
-		height: calc(1em - 2px);
-		position: relative;
-		top: 2px;
-
-		&::after {
-			background-position: 50% 50%;
-			background-size: 0.667em;
-			height: calc(1em - 2px); // allow for the border
-			margin-left: 0; // remove submenu opener indicator margin
-			width: 1em;
-		}
-	}
-}
-
-[aria-multiselectable='true'] > tbody {
-	> tr {
-		&[aria-selected] {
-			> .wc_table_sel_wrapper {
-				background-image: url('../images/checkbox.png');
-			}
-
-			&[aria-disabled='true'] > .wc_table_sel_wrapper {
-				background-image: url('../images/checkbox-d.png');
-			}
+	[role='menubar'] {
+		button {
+			margin-left: 0; // override .wc_seltog style.
 		}
 
-		&[aria-selected='true'] {
-			> .wc_table_sel_wrapper {
-				background-image: url('../images/checkbox-s.png');
-			}
+		.wc-submenu > button { // the is the submenu opener emulator for the sub-row toggle control
+			@include button($background: $wc-ui-color-menu-bg, $padding: 0, $width: 1em);
+			height: calc(1em - 2px); // 2px fpr border
+			position: relative;
+			top: 2px;
 
-			&[aria-disabled='true'] > .wc_table_sel_wrapper {
-				background-image: url('../images/checkbox-s-d.png');
+			&::after {
+				margin-left: 0; // remove submenu opener indicator margin
+				vertical-align: top;
+				width: 1em;
 			}
 		}
 	}
@@ -75,5 +34,5 @@ tr[aria-selected] {
 
 .wc_table_col_hasmenu {
 	// text-align: right;
-	width: 2em;
+	width: ($line-size * 2);
 }

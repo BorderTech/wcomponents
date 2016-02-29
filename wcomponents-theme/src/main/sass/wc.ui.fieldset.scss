@@ -10,16 +10,14 @@
 // Legend:
 //  * Firefox & Chrome padding: 0 2px, margin:0. border:0
 //  * IE padding: 0 2px, border-width:medium (transparent but changes box)
-@import 'mixins_common.scss';
+@import 'mixins-common.scss';
 
 fieldset {
-	@include border;
-	margin: 0;
-	padding: 3px;
+	@include padded-box($pad: $hgap-small);
+	@include margin($size: 0);
 
 	&.wc_noborder { //it is pretty common to remove borders from fieldsets.
 		@include border($width: 0);
-		margin: 0;
 		padding: 0;
 	}
 }

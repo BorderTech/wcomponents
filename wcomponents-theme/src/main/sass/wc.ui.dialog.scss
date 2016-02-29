@@ -5,10 +5,9 @@
 
 dialog {
 	@include border($width: 0); // oh chrome, you try so hard to annoy me
+	@include tight-box;
 	background: transparent;
 	display: none;
-	margin: 0;
-	padding: 0;
 	position: fixed;
 	z-index: $z-index-dialog;
 
@@ -26,12 +25,10 @@ dialog {
 	}
 
 	> [aria-live] { // dialog content container
-		@include border;
+		@include padded-box;
 		background-color: $wc-ui-color-global-bg;
 		height: 100%;
 		overflow: auto;
-		padding: $hgap-normal;
-
 
 		&[aria-busy='true'] {
 			// override usual transparency of busy elements because that's just wrong with a dialog's content.
@@ -57,6 +54,17 @@ dialog {
 		@include flex-grow(0);
 		@include flex-shrink(0);
 		background-color: $wc-ui-color-dialog-head-bg;
+
+		.wc_btn_nada {
+			@include border;
+			background-color: $wc-ui-color-dialog-head-bg;
+			color: $wc-ui-color-dialog-head-fg;
+			padding: 0.2em 0.25em 0.15em;
+
+			+ button {
+				margin-left: $hgap-small;
+			}
+		}
 	}
 
 	> header {
@@ -65,9 +73,9 @@ dialog {
 
 		> h1 { // the title
 			@include flex-grow(1);
+			@include margin($size: 0);
 			color: $wc-ui-color-dialog-head-fg;
 			font-size: 1em;
-			margin: 0;
 		}
 
 		> span { // the header control 'block'
@@ -79,16 +87,5 @@ dialog {
 
 	> footer {
 		display: none; // only show footer is resizeable AND using desktop css - see wc.ui.dialog.dt.scss
-	}
-}
-
-// dialog close control
-// NOTE: for resize handle and max/restore control see wc.ui.resizeable.scss.
-.wc_dialog_close.wc_btn_nada {
-	@include background-image($url: '../images/dialog-close-sprite.png', $height: cover, $x: 0, $y: 0);
-	@include make-box;
-	&:focus,
-	&:hover {
-		background-position: 100% 0;
 	}
 }

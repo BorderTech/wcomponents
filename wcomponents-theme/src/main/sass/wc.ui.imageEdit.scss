@@ -1,5 +1,5 @@
 /* wc.ui.imageEdit.scss */
-@import 'mixins_common.scss';
+@import 'mixins-common.scss';
 
 .wc_img_editor {
 	background-color: $wc-ui-color-global-bg;
@@ -14,37 +14,34 @@
 	.wc_img_nocap {
 		display: none;
 	}
-	
+
 	&.wc_nortc .wc_img_nocap {
 		display: block;
 	}
-	
+
 	&.wc_showcam .wc_img_cap {
 		display: block;
 	}
-	
+
 	&.wc_showcam .wc_img_canvas {
 		display: none;
 	}
-	
-	fieldset.wc_img_capture {
+
+	.wc_img_capture {
 		display: none;
 	}
-	
-	&.wc_camenable fieldset.wc_img_capture {
+
+	&.wc_camenable .wc_img_capture {
 		display: block;
 	}
-	
-	&.wc_showcam.wc_camenable fieldset.wc_img_capture {
+
+	&.wc_showcam.wc_camenable .wc_img_capture {
 		display: none;
 	}
-	
+
 	button {
 		@include button;
-		@include background-image('../images/up.png', $height: 1em, $width: 1em);
-
 		margin: 0 $hgap-small;
-		// min-width: 4em;
 
 		&:first-of-type {
 			margin-left: 0;
@@ -54,84 +51,22 @@
 			margin-right: 0;
 		}
 
-		&.up,
-		&.down {
+		&.wc_btn_up,
+		&.wc_btn_down {
 			display: block;
 		}
 
-		&.up {
+		&.wc_btn_up {
 			margin: 0 auto $hgap-small;
 		}
 
-		&.down {
-			background-image: url('../images/down.png');
+		&.wc_btn_down {
 			margin: $hgap-small auto 0;
-		}
-
-		&.left {
-			background-image: url('../images/previous.png');
-		}
-
-		&.right {
-			background-image: url('../images/next.png');
-		}
-
-		&.in {
-			background-image: url('../images/zoom-in.png');
-		}
-
-		&.out {
-			background-image: url('../images/zoom-out.png');
-		}
-
-		&.anticlock {
-			background-image: url('../images/arrow-rotate-anticlockwise.png');
-		}
-
-		&.clock {
-			background-image: url('../images/arrow-rotate-clockwise.png');
-		}
-
-		&.anticlock90 {
-			background-image: url('../images/rotate-left.png');
-		}
-
-		&.clock90 {
-			background-image: url('../images/rotate-right.png');
 		}
 
 		&.wc_btn_snap {
-			background-image: url('../images/camera-add.png');
 			display: block;
 			margin: $hgap-small auto 0;
-		}
-
-		&.reset {
-			background-image: url('../images/undo.png');
-		}
-
-		&.cancel {
-			background-image: url('../images/delete.png');
-		}
-
-		&.save {
-			background-image: url('../images/save.png');
-		}
-		
-		&.camera {
-			background-image: url('../images/camera-web.png');
-		}
-		
-		&.wc_btn_face {
-			background-image: url('../images/person.png');
-		}
-		
-		&.wc_btn_face[disabled] {
-			background-image: url('../images/person-d.png');
-		}
-		
-		&.wc_btn_camera {
-			background-image: url('../images/camera-web.png');
 		}
 	}
 

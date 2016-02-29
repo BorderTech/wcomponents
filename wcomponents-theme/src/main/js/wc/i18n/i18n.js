@@ -4,9 +4,9 @@
  * @requires module:wc/array/toArray
  * @requires module:wc/array/unique
  */
-define(["lib/sprintf", "wc/array/toArray", "wc/array/unique", "module"],
+define(["lib/sprintf", "wc/array/toArray", "wc/array/unique", "wc/config"],
 
-	function(sprintf, toArray, unique, module) {
+	function(sprintf, toArray, unique, wcconfig) {
 		"use strict";
 		var instance = new I18n();
 		/**
@@ -20,7 +20,17 @@ define(["lib/sprintf", "wc/array/toArray", "wc/array/unique", "module"],
 		 * @private
 		 */
 		function I18n() {
-			var bundle, NOT_FOUND_RETURN_VALUE = "";
+			var bundle, i18nConfig, NOT_FOUND_RETURN_VALUE = "";
+
+			/**
+			 * Resolves when this module is initialized.
+			 * @param config Configuration options.
+			 * @returns Promise
+			 */
+			this.initialize = function(config) {
+				i18nConfig = config || {};
+				return loadJs();
+			};
 
 			/**
 			 * Look up a particular key.
@@ -40,37 +50,36 @@ define(["lib/sprintf", "wc/array/toArray", "wc/array/unique", "module"],
 			 * Loads a resource bundle containing messages for the given locale.
 			 * Will attempt to fall back to default locales if possible.
 			 */
-			function loadJs(id, parentRequire, callback, config) {
-				var i18nConfig,
-					attempted = [],
-					locales =[],
-					win = function(obj) {
-						bundle = obj;
-						callback(instance);
-					},
-					tryLoadNext = function(locale) {
-						var nextLocale;
-						attempted.push(locale);
-						if (locales.length) {
-							nextLocale = locales.shift();
-							console.log("Attempting to load locale", nextLocale);
-							loadLocale(parentRequire, nextLocale).then(win, tryLoadNext);
-						}
-						else {
-							console.error("Could not find any i18n resource bundles", attempted.join());
-						}
-					};
-				if (id) {
-					locales.push(id);
-				}
-				if (config && config.config && (i18nConfig = config.config[module.id]) && i18nConfig.locale) {
-					locales.push(i18nConfig.locale);
-				}
-				addDefaultLocales(locales);
-				if (locales.length > 1) {
-					locales = unique(locales);
-				}
-				tryLoadNext();
+			function loadJs() {
+				var result = new Promise(function(resolve, reject) {
+					var attempted = [],
+						locales =[],
+						win = function(obj) {
+							bundle = obj;
+							resolve(bundle);
+						},
+						tryLoadNext = function() {
+							var nextLocale;
+							if (locales.length) {
+								nextLocale = locales.shift();
+								attempted.push(nextLocale);
+								console.log("Attempting to load locale", nextLocale);
+								loadLocale(nextLocale).then(win, tryLoadNext);
+							}
+							else {
+								reject("Could not find any i18n resource bundles " + attempted.join());
+							}
+						};
+					if (i18nConfig.locale) {
+						locales.push(i18nConfig.locale);
+					}
+					addDefaultLocales(locales);
+					if (locales.length > 1) {
+						locales = unique(locales);
+					}
+					tryLoadNext();
+				});
+				return result;
 			}
 
 			/**
@@ -96,18 +105,17 @@ define(["lib/sprintf", "wc/array/toArray", "wc/array/unique", "module"],
 			/**
 			 * Attempts to load  a resource bundle for the given locale.
 			 *
-			 * @param {Function} parentRequire The require loader to use to load the resource.
 			 * @param {string} locale The locale name.
 			 * @returns {Promise} resolved with the resource bundle if found. Rejected if not found.
 			 */
-			function loadLocale(parentRequire, locale) {
+			function loadLocale(locale) {
 				var promise = new Promise(function(resolve, reject) {
 					var lose = function() {
 						console.info("Could not find i18n bundle for ", locale);
 						reject(locale);
 					};
 					if (locale) {
-						parentRequire(["wc/i18n/" + locale], function(obj) {
+						require(["wc/i18n/" + locale], function(obj) {
 							if (obj) {
 								resolve(obj);
 							}
@@ -152,7 +160,7 @@ define(["lib/sprintf", "wc/array/toArray", "wc/array/unique", "module"],
 			 */
 			this.load = function (id, parentRequire, callback, config) {
 				if (!config || !config.isBuild) {
-					loadJs(id, parentRequire, callback, config);
+					instance.initialize(wcconfig.get("wc/i18n/i18n")).then(callback);
 				}
 				else {
 					callback();

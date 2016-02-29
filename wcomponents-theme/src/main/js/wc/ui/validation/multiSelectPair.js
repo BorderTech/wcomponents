@@ -1,17 +1,18 @@
 /**
  * Provides functionality to undertake client validation of WMultiSelectPair.
  *
- * @module validation/multiSelectPair
+ * @module wc/ui/validation/multiSelectPair
  * @requires module:wc/dom/attribute
  * @requires module:wc/dom/event
  * @requires module:wc/dom/initialise
  * @requires module:wc/dom/shed
  * @requires module:wc/ui/multiSelectPair
- * @requires module:validation/isComplete
- * @requires module:validation/minMax
- * @requires module:validation/required
- * @requires module:validation/validationManager
+ * @requires module:wc/ui/validation/isComplete
+ * @requires module:wc/ui/validation/minMax
+ * @requires module:wc/ui/validation/required
+ * @requires module:wc/ui/validation/validationManager
  * @requires module:wc/ui/getFirstLabelForElement
+ * @requires module:wc/i18n/i18n
  */
 define(["wc/dom/attribute",
 		"wc/dom/event",
@@ -23,14 +24,13 @@ define(["wc/dom/attribute",
 		"wc/ui/validation/required",
 		"wc/ui/validation/validationManager",
 		"wc/ui/getFirstLabelForElement",
-		"lib/i18n!wc/nls/validation",
-		"lib/sprintf"],
-	/** @param attribute wc/dom/attribute @param event wc/dom/event @param initialise wc/dom/initialise @param shed wc/dom/shed @param multiSelectPair wc/ui/multiSelectPair @param isComplete validation/isComplete @param minMax validation/minMax @param required validation/required @param validationManager validation/validationManager @param getFirstLabelForElement wc/ui/getFirstLabelForElement @param i18n @ignore */
-	function(attribute, event, initialise, shed, multiSelectPair, isComplete, minMax, required, validationManager, getFirstLabelForElement, i18n, sprintf) {
+		"wc/i18n/i18n"],
+	/** @param attribute wc/dom/attribute @param event wc/dom/event @param initialise wc/dom/initialise @param shed wc/dom/shed @param multiSelectPair wc/ui/multiSelectPair @param isComplete wc/ui/validation/isComplete @param minMax wc/ui/validation/minMax @param required wc/ui/validation/required @param validationManager wc/ui/validation/validationManager @param getFirstLabelForElement wc/ui/getFirstLabelForElement @param i18n wc/i18n/i18n @ignore */
+	function(attribute, event, initialise, shed, multiSelectPair, isComplete, minMax, required, validationManager, getFirstLabelForElement, i18n) {
 		"use strict";
 		/**
 		 * @constructor
-		 * @alias module:validation/multiSelectPair~ValidationMultiSelectPair
+		 * @alias module:wc/ui/validation/multiSelectPair~ValidationMultiSelectPair
 		 * @private
 		 */
 		function ValidationMultiSelectPair() {
@@ -125,8 +125,8 @@ define(["wc/dom/attribute",
 
 			/**
 			 * An array filter function to determine if a particular component is "complete". Passed in to
-			 * {@link module:validation/isComplete} as part of
-			 * {@link module:validation/multiSelectPair~_isComplete}.
+			 * {@link module:wc/ui/validation/isComplete} as part of
+			 * {@link module:wc/ui/validation/multiSelectPair~_isComplete}.
 			 * @function
 			 * @private
 			 * @param {Element} next A WMultiSelectPair.
@@ -162,7 +162,7 @@ define(["wc/dom/attribute",
 				var label = getFirstLabelForElement(element, true) || element.title,
 					list = getSelectionList(element),
 					listLabel = getFirstLabelForElement(list, true) || list.title;
-				return sprintf.sprintf(i18n.msp_required, label, listLabel);
+				return i18n.get("${validation.multiSelectPair.i18n.required}", label, listLabel);
 			}
 
 			/**
@@ -199,8 +199,8 @@ define(["wc/dom/attribute",
 				// reset obj for minMax checking
 				obj.constraint = obj.filter = obj.messageFunc = null;
 				obj.selectFunc = getSelectionList;
-				obj.minText = "msp_underMin}";
-				obj.maxText = "msp_overMax}";
+				obj.minText = "${validation.multiSelectPair.i18n.underMin}";
+				obj.maxText = "${validation.multiSelectPair.i18n.overMax}";
 
 				obj.selectedFunc = function(el) {
 					return el.options || [];
@@ -213,7 +213,7 @@ define(["wc/dom/attribute",
 
 			/**
 			 * Set up initial event listeners.
-			 * @function module:validation/multiSelectPair.initialise
+			 * @function module:wc/ui/validation/multiSelectPair.initialise
 			 * @param {Element} element the element being intialised: usually document.body
 			 */
 			this.initialise = function(element) {
@@ -227,7 +227,7 @@ define(["wc/dom/attribute",
 
 			/**
 			 * Late set up to wire up subscribers after initialisation.
-			 * @function module:validation/multiSelectPair.postInit
+			 * @function module:wc/ui/validation/multiSelectPair.postInit
 			 */
 			this.postInit = function () {
 				validationManager.subscribe(validate);
@@ -235,7 +235,7 @@ define(["wc/dom/attribute",
 			};
 		}
 
-		var /** @alias module:validation/multiSelectPair */ instance = new ValidationMultiSelectPair();
+		var /** @alias module:wc/ui/validation/multiSelectPair */ instance = new ValidationMultiSelectPair();
 		initialise.register(instance);
 		return instance;
 	});

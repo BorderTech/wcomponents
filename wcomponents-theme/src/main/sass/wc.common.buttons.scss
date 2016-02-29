@@ -18,15 +18,16 @@
 // Having a button which is styled to emulate a link is to provide UI consistency in areas where buttons and links are
 // mixed. It may be more appropriate to not have a button which disguises itself as a link but to use the noStyle
 // variant.
-@import 'mixins_common.scss';
+@import 'mixins-common.scss';
 
 /// User agent button styles are the bane of our lives. The _main_ problem is hard coded font styles rather than
 /// allowing them to inherit.
 button {
+	@include border-box; // redundant for _almost_ all browsers now.
+	@include margin($size: 0);
 	font-family: inherit;
 	font-size: inherit;
 	line-height: inherit;
-	margin: 0;
 }
 
 /// CLASS wc_btn_nada has all style stripped. CLASS wc_btn_link is made to look like a link.

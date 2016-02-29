@@ -33,6 +33,7 @@
  * @requires module:wc/dom/initialise
  * @requires module:wc/timers
  * @requires module:Mustache
+ * @requires module:wc/config
  *
  * @see {@link module:wc/ui/datefield}
  *
@@ -62,11 +63,11 @@ define(["wc/dom/attribute",
 		"wc/dom/initialise",
 		"wc/timers",
 		"Mustache",
-		"module"],
+		"wc/config"],
 
 function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthName, today, interchange, classList, event,
 		focus, shed, tag, viewportCollision, getBox, Widget, i18n, loader, isNumeric, dateField, initialise,
-		timers, Mustache, module) {
+		timers, Mustache, wcconfig) {
 
 	"use strict";
 
@@ -102,7 +103,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 			refocusId,
 			MIN_ATTRIB = "min",
 			MAX_ATTRIB = "max",
-			conf = module.config(),
+			conf = wcconfig.get("wc/ui/calendar"),
 			MIN_YEAR = ((conf && conf.min) ? conf.min : 1000),
 			MAX_YEAR = ((conf && conf.max) ? conf.max : 9999);
 
@@ -373,11 +374,10 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 				else {
 					refocusId = null;
 				}
-				cal.removeAttribute("style");  // remove any inline styles
+				cal.removeAttribute("style"); // remove any inline styles
 				shed.hide(cal);
 			}
 		}
-
 
 		/**
 		 * Helper for keydown event listener which handles key presses on year input.
@@ -507,7 +507,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 						return render(text)[0];
 					};
 				},
-				dayName: dayName.get(),
+				dayName: dayName.get(true),
 				monthName: monthName.get(),
 				fullYear: _today.getFullYear(),
 				monthLabel: i18n.get("${wc.ui.dateField.i18n.calendarMonthLabel}"),
@@ -1011,16 +1011,6 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 			}
 		}
 
-		function focusEvent($event) {
-			var element, calendar;
-			if (!$event.defaultPrevented && (element = $event.target)) {
-				calendar = getCal();
-				if (calendar && ((element === window || element === document) || !(calendar.compareDocumentPosition(element) & Node.DOCUMENT_POSITION_CONTAINED_BY))) {
-					hideCalendar(true);
-				}
-			}
-		}
-
 		function keydownEvent($event) {
 			var target = $event.target,
 				keyCode = $event.keyCode,
@@ -1106,12 +1096,6 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 * @param {Element} element The element being initialised, usually document.body.
 		 */
 		this.initialise = function(element) {
-			if (event.canCapture) {
-				event.add(window, event.TYPE.focus, focusEvent, null, null, true);
-			}
-			else {
-				event.add(element, event.TYPE.focusin, focusEvent);
-			}
 			event.add(element, event.TYPE.click, clickEvent);
 			event.add(element, event.TYPE.keydown, keydownEvent);
 		};

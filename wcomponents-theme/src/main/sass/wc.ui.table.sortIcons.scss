@@ -1,0 +1,17 @@
+/* wc.ui.table.sortIcons.scss */
+@import 'mixins-common.scss';
+
+th {
+	&[aria-sort]:after {
+		@include wc-icon($fa-var-caret-down);
+		margin-left: $hgap-small; //allow for 16px image, image position and 0.25em between text and image.
+	}
+
+	&[sorted]:after {
+		content: $fa-var-caret-square-o-down;
+	}
+
+	&[sorted~='reversed']:after {
+		content: $fa-var-caret-square-o-up;
+	}
+}

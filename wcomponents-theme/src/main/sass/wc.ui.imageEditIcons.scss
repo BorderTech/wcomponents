@@ -1,0 +1,79 @@
+/* wc.ui.imageEditIcons.scss */
+@import 'mixins-common.scss';
+
+$button-neg-margin-normal: -1 * ($line-size + 2 * $hgap-small);
+$double-border-width: 2 * $border-width;
+
+button[data-img][data-editor] { // edit image button
+	@include button;
+	margin-left: calc(#{$button-neg-margin-normal} - #{$double-border-width});
+
+	&:before {
+		@include wc-icon($fa-var-picture-o);
+	}
+}
+
+.wc_img_editor {
+
+	button {
+		&:before {
+			@include wc-icon($fa-var-caret-up);
+		}
+
+		&.wc_btn_down:before {
+			content: $fa-var-caret-down;
+		}
+
+		&.wc_btn_left:before {
+			content: $fa-var-caret-left;
+		}
+
+		&.wc_btn_right:before {
+			content: $fa-var-caret-right;
+		}
+
+		&.wc_btn_in:before {
+			content: $fa-var-search-plus;
+		}
+
+		&.wc_btn_out:before {
+			content: $fa-var-search-minus;
+		}
+
+		&.wc_btn_anticlock:before {
+			content: $fa-var-undo;
+		}
+
+		&.wc_btn_clock:before {
+			content: $fa-var-repeat;
+		}
+
+		&.wc_btn_anticlock90:before {
+			content: $fa-var-reply;
+		}
+
+		&.wc_btn_clock90:before {
+			content: $fa-var-share;
+		}
+
+		&.wc_btn_snap:before {
+			content: $fa-var-camera;
+		}
+
+		&.wc_btn_reset:before {
+			content: $fa-var-history;
+		}
+
+		&.wc_btn_cancel:before {
+			content: $fa-var-trash;
+		}
+
+		&.wc_btn_save:before {
+			content: $fa-var-floppy-o;
+		}
+
+		&.wc_btn_face:before {
+			content: $fa-var-user;
+		}
+	}
+}

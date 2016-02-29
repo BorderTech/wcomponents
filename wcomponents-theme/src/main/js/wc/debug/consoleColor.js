@@ -2,15 +2,13 @@
  * A debug mode only fake module to provide DRAMATIC recolouring of the document body when the console logs a warning or
  * error. The actual style applied is determined by the CSS, this module just adds a new className to the body.
  *
- * This is not actually an AMD module but can be "required" as if it was. This is done automatically when in debug
- * mode.
  *
  * @module
- * @param {Object} g global.
  */
-(function(g) {
+define(function() {
 	"use strict";
-	var noop = function() {
+	var global = window,
+		noop = function() {
 			debugger;
 		},
 		console = "console";  // allow the code to be minified a little better (pointless - we are not present at all in teh minified code!)
@@ -26,11 +24,11 @@
 	 *    undefined.
 	 */
 	function logFactory(mthd, flag) {
-		var func = g[console][mthd] || noop;
+		var func = global[console][mthd] || noop;
 		return function() {
 			var docBody,
 				result = func.apply(this, arguments);
-			if (flag && g.document && (docBody = g.document.body)) {
+			if (flag && global.document && (docBody = global.document.body)) {
 				/*
 				 * Check for classList without calling it because otherwise if classList logs an error
 				 * or warning we would get an infinite loop :)
@@ -47,8 +45,9 @@
 		};
 	}
 
-	if (console in g) {
-		g[console].warn = logFactory("warn", "wc_loggedwarn");
-		g[console].error = logFactory("error", "wc_loggederror");
+	if (console in global) {
+		global[console].warn = logFactory("warn", "wc_loggedwarn");
+		global[console].error = logFactory("error", "wc_loggederror");
 	}
-})(this);
+	return {};
+});

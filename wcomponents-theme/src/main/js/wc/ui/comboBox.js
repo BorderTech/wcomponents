@@ -27,6 +27,7 @@
  * @requires module:wc/ui/ajax/processResponse
  * @requires module:wc/ui/onchangeSubmit
  * @requires module:wc/ui/listboxAnalog
+ * @requires module:wc/config
  */
 define(["wc/has",
 		"wc/ajax/triggerManager",
@@ -45,10 +46,9 @@ define(["wc/has",
 		"wc/ui/ajax/processResponse",
 		"wc/ui/onchangeSubmit",
 		"wc/ui/listboxAnalog",
-		"module"
+		"wc/config"
 	],
-	/** @param has wc/has @param triggerManager wc/ajax/triggerManager @param attribute wc/dom/attribute @param classList wc/dom/classList @param event wc/dom/event @param focus wc/dom/focus @param getFilteredGroup wc/dom/getFilteredGroup @param initialise wc/dom/initialise @param shed wc/dom/shed @param textContent wc/dom/textContent @param Widget wc/dom/Widget @param key wc/key @param timers wc/timers @param ajaxRegion wc/ui/ajaxRegion @param processResponse wc/ui/ajax/processResponse @param onchangeSubmit wc/ui/onchangeSubmit @param listboxAnalog @param module @ignore */
-	function(has, triggerManager, attribute, classList, event, focus, getFilteredGroup, initialise, shed, textContent, Widget, key, timers, ajaxRegion, processResponse, onchangeSubmit, listboxAnalog, module) {
+	function(has, triggerManager, attribute, classList, event, focus, getFilteredGroup, initialise, shed, textContent, Widget, key, timers, ajaxRegion, processResponse, onchangeSubmit, listboxAnalog, wcconfig) {
 		"use strict";
 
 		/**
@@ -74,7 +74,7 @@ define(["wc/has",
 				CHATTY_COMBO = COMBO.extend(CLASS_CHATTY),
 				updateTimeout,
 				VALUE_ATTRIB = "data-wc-value",
-				conf = module.config(),
+				conf = wcconfig.get("wc/ui/comboBox"),
 				/**
 				 * Wait this long before updating the list on keydown.
 				 * @var
@@ -368,8 +368,11 @@ define(["wc/has",
 					if (action === shed.actions.EXPAND && shed.isExpanded(element)) {
 						onchangeSubmit.ignoreNextChange();
 						openSelect = element.id;
+						// these next lot are really only needed on first show.
 						listbox.setAttribute(CONTROLS, element.id);
-						if (listbox.previousSibling !== element) {
+						listbox.style.minWidth = element.clientWidth + "px";
+						shed.show(listbox, true); // but do not put them inside the test below ...
+						if (listbox.previousSibling !== element) { // cannot be guaranteed in the XML tree.
 							if (element.parentNode.lastChild === element) {
 								element.parentNode.appendChild(listbox);
 							}
@@ -378,8 +381,6 @@ define(["wc/has",
 							}
 						}
 
-						listbox.style.minWidth = element.clientWidth + "px";
-						shed.show(listbox);
 						optionVal[(element.id)] = element.value;
 						if (filter && !CHATTY_COMBO.isOneOfMe(element)) {
 							filterOptions(element, 0);
@@ -388,15 +389,14 @@ define(["wc/has",
 					else if (action === shed.actions.COLLAPSE && !shed.isExpanded(element)) {
 						onchangeSubmit.clearIgnoreChange();
 						acceptFirstMatch(element);
-						shed.hide(listbox);
 						openSelect = "";
 						if (optionVal[(element.id)] !== element.value) {
 							timers.setTimeout(event.fire, 0, element, event.TYPE.change);
 						}
 						optionVal[(element.id)] = null;
 					}
-					else if (listbox && (action === shed.actions.HIDE || action === shed.actions.DISABLE)) {
-						shed.hide(listbox);
+					else if ((action === shed.actions.HIDE || action === shed.actions.DISABLE) && shed.isExpanded(element)) {
+						shed.collapse(element);
 					}
 				}
 				else if (action === shed.actions.HIDE && LISTBOX.isOneOfMe(element)) {

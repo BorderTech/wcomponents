@@ -39,13 +39,7 @@
 				</xsl:otherwise>
 			</xsl:choose>
 			<xsl:if test="not($readOnly=$t)">
-				<button type="button" class="wc_btn_nada" title="{$removeTxt}">
-					<xsl:call-template name="offscreenSpan">
-						<xsl:with-param name="text">
-							<xsl:value-of select="$removeTxt"/>
-						</xsl:with-param>
-					</xsl:call-template>
-				</button>
+				<button type="button" class="wc_btn_nada" title="{$removeTxt}"></button>
 			</xsl:if>
 		</li>
 	</xsl:template>

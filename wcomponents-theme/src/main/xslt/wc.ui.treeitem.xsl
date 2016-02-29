@@ -167,6 +167,11 @@
 						<xsl:if test="not(@open = $t)">
 							<xsl:call-template name="hiddenElement"/>
 						</xsl:if>
+						<xsl:if test="not(ui:treeitem)">
+							<xsl:attribute name="aria-busy">
+								<xsl:copy-of select="$t"/>
+							</xsl:attribute>
+						</xsl:if>
 						<xsl:apply-templates select="ui:treeitem">
 							<xsl:with-param name="disabled">
 								<xsl:choose>
@@ -177,9 +182,6 @@
 								</xsl:choose>
 							</xsl:with-param>
 						</xsl:apply-templates>
-						<xsl:if test="not(ui:treeitem)">
-							<span role="treeitem" hidden="hidden">&#x0a;</span>
-						</xsl:if>
 					</div>
 				</xsl:otherwise>
 			</xsl:choose>

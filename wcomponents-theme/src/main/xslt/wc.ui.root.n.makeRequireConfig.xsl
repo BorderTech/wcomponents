@@ -1,5 +1,5 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
-	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
 	xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
 	<xsl:import href="wc.constants.xsl"/>
 	<xsl:import href="wc.ui.root.variables.xsl"/>
@@ -61,6 +61,7 @@
 					deps:[],&#10;
 			</xsl:text>
 			<xsl:value-of select="concat('baseUrl:&quot;', normalize-space($resourceRoot), $scriptDir, '/&quot;,&#10;')"/>
+			<xsl:value-of select="concat('baseURL:&quot;', normalize-space($resourceRoot), $scriptDir, '/&quot;,&#10;')"/>
 			<xsl:value-of select="concat('urlArgs:&quot;', $cacheBuster, '&quot;&#10;')"/>
 			<xsl:text>};&#10;wcconfig = {"wc/xml/xslTransform": {</xsl:text>
 			<xsl:value-of select="concat('xslEngine:&quot;', system-property('xsl:vendor'), '&quot;,&#10;')"/>
@@ -71,7 +72,7 @@
 			<xsl:text>},&#10;"lib/i18n": {</xsl:text>
 			<xsl:value-of select="concat('locale:&quot;', normalize-space($locale), '&quot;')"/>
 			<xsl:text>},&#10;"wc/loader/resource": {</xsl:text>
-			<xsl:value-of select="concat('xmlBaseUrl:&quot;', normalize-space($resourceRoot), '${xml.target.dir.name}/&quot;,&#10;')"/>
+			<xsl:value-of select="concat('resourceBaseUrl:&quot;', normalize-space($resourceRoot), '${resource.target.dir.name}/&quot;,&#10;')"/>
 			<xsl:value-of select="concat('cachebuster:&quot;', $cacheBuster, '&quot;')"/>
 			<xsl:text>},&#10;"wc/loader/style":{</xsl:text>
 			<xsl:value-of select="concat('cssBaseUrl:&quot;', normalize-space($resourceRoot), '${css.target.dir.name}/&quot;,&#10;')"/>
@@ -94,13 +95,21 @@
 		timing[document.readyState] = (new Date()).getTime();
 		document.onreadystatechange = function(){
 				timing[document.readyState] = (new Date()).getTime();
-				if(window.requirejs) window.requirejs.config({"config":{"wc/compat/navigationTiming":{"timing": timing}}});
+				if(window.requirejs &amp;&amp; window.requirejs.config) window.requirejs.config({"config":{"wc/compat/navigationTiming":{"timing": timing}}});
 			};
 		wcconfig["wc/compat/navigationTiming"] = {"timing": timing};
+		wcconfig["wc/config"] = { "dehydrated": JSON.stringify(wcconfig) };
 	}
 	catch(ex){}
 	config.config = wcconfig;
-	if(window.requirejs) window.requirejs.config(config);
+	if(window.SystemJS) {
+				wcconfig.meta = { "*": { format: "amd", scriptLoad: false } };
+				wcconfig.packages = { ".": { defaultExtension: "js" } };
+				window.SystemJS.pluginFirst = wcconfig.pluginFirst = true;
+				window.SystemJS.defaultJSExtensions = config.defaultJSExtensions = true;
+				window.SystemJS.config(config);
+	}
+	else if(window.requirejs) window.requirejs.config(config);
 	else require = config;
 })();</xsl:text>
 		</xsl:element>

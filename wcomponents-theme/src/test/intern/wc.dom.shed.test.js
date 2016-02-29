@@ -1,9 +1,9 @@
-define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
+define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 	function(registerSuite, assert, testutils) {
 		"use strict";
 
 		var controller, testHolder,
-			urlResource = "../../target/test-classes/wcomponents-theme/intern/resources/domShed.html";
+			urlResource = "@RESOURCES@/domShed.html";
 
 		function _withSubscribeHelper(id, action) {
 			var element = document.getElementById(id),
@@ -26,13 +26,13 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
 		registerSuite({
 			name: "Shed",
 			setup: function() {
-				var result = new testutils.LamePromisePolyFill();
-				testutils.setupHelper(["wc/dom/shed"], function(obj) {
-					controller = obj;
+				var result = testutils.setupHelper(["wc/dom/shed"]).then(function(arr) {
+					controller = arr[0];
 					testHolder = testutils.getTestHolder();
-					testutils.setUpExternalHTML(urlResource, testHolder).then(result._resolve);
+					return testutils.setUpExternalHTML(urlResource, testHolder);
 				});
 				return result;
+
 			},
 			teardown: function() {
 				testHolder.innerHTML = "";

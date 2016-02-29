@@ -8,24 +8,24 @@
  *
  * <p>Finally, you probably want to override this.validate and this.revalidate.</p>
  *
- * @module validation/ariaAnalog
+ * @module wc/ui/validation/ariaAnalog
  * @requires module:wc/dom/group
  * @requires module:wc/dom/shed
- * @requires module:validation/validationManager
- * @requires module:validation/isComplete
+ * @requires module:wc/ui/validation/validationManager
+ * @requires module:wc/ui/validation/isComplete
  */
 define(["wc/dom/group",
 		"wc/dom/shed",
 		"wc/ui/validation/validationManager",
 		"wc/ui/validation/isComplete"],
-	/** @param group wc/dom/group @param shed wc/dom/shed @param validationManager validation/validationManager @param isComplete validation/isComplete @ignore */
+	/** @param group wc/dom/group @param shed wc/dom/shed @param validationManager wc/ui/validation/validationManager @param isComplete wc/ui/validation/isComplete @ignore */
 	function(group, shed, validationManager, isComplete) {
 		"use strict";
 
 		/**
 		 * @constructor
 		 * @abstract
-		 * @alias module:validation/ariaAnalog~ValidationAriaAnalog
+		 * @alias module:wc/ui/validation/ariaAnalog~ValidationAriaAnalog
 		 * @private
 		 */
 		function ValidationAriaAnalog() {}
@@ -132,7 +132,7 @@ define(["wc/dom/group",
 			}
 		};
 
-		var /** @alias module:validation/ariaAnalog */ instance = new ValidationAriaAnalog();
+		var /** @alias module:wc/ui/validation/ariaAnalog */ instance = new ValidationAriaAnalog();
 
 		if (typeof Object.freeze !== "undefined") {
 			Object.freeze(instance);

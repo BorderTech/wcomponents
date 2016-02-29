@@ -7,7 +7,7 @@
  * @module
  * @requires module:wc/i18n/i18n
  */
-define(["wc/i18n/i18n!"],/** @param i18n wc/i18n/i18n @ignore */function(i18n) {
+define(["wc/i18n/i18n"],/** @param i18n wc/i18n/i18n @ignore */function(i18n) {
 	"use strict";
 
 	function Day() {
@@ -39,14 +39,20 @@ define(["wc/i18n/i18n!"],/** @param i18n wc/i18n/i18n @ignore */function(i18n) {
 		 * @alias module:wc/date/dayName.get
 		 * @public
 		 * @static
-		 * @returns {String[]} The names of the days in order such that index zero is Sunday, index six is Saturday.
+		 * @param {boolean} startOnMonday If true the first day in the array will be Monday instead of Sunday.
+		 * @returns {String[]} The names of the days in order such that index zero is Sunday, index six is Saturday (if startOnMonday is true then zero is Monday, six is Sunday).
 		 *
 		 */
-		this.get = function() {
+		this.get = function(startOnMonday) {
+			var result;
 			if (!days) {
 				initialise();
 			}
-			return days.concat();
+			result = days.concat();
+			if (startOnMonday) {
+				result.push(result.shift());
+			}
+			return result;
 		};
 	}
 
