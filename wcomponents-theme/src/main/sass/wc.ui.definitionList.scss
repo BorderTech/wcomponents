@@ -1,10 +1,10 @@
 /* wc.ui.definitionList.scss */
-@import 'mixins_common.scss';
+@import 'mixins-common.scss';
 
 // NOTE: the dl element is required here to differentiate from WFieldLayout with the same classNames generated from
 // LAYOUT attribute in XML
 dl {
-	margin: 0;
+	@include margin($size: 0);
 
 	//type flat
 	&.flat {

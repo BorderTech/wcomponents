@@ -4,8 +4,7 @@
 @import 'wc.ui.panel_vars.scss';
 
 .feature {
-	@include border;
+	@include padded-box;
 	background-color: $wc-ui-color-panel-feature-background;
 	color: $wc-ui-color-panel-feature-foreground;
-	padding: $hgap-normal;
 }

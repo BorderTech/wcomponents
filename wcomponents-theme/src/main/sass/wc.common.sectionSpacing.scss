@@ -1,4 +1,4 @@
-@import 'mixins_common.scss';
+@import 'mixins-common.scss';
 
 section {
 	@include border;
@@ -15,7 +15,7 @@ section {
 		}
 
 		> h1 {
-			margin: 0;
+			@include margin($size: 0);
 			width: 100%;
 		}
 
@@ -27,7 +27,7 @@ section {
 
 	// WPanel types CHROME and ACTION
 	> h1 {
-		margin: 0;
+		@include margin($size: 0);
 		padding: $section-header-spacing;
 	}
 

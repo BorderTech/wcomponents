@@ -5,7 +5,7 @@
 		This build must be called with the name of the implementation rootdir set in property "implementation.name". If
 		 not set then the css from "wcomponents-theme" alone will be used.
 
-		build-images.xml and build-xml.xml needs to be called before this build so that the base64
+		build-images.xml and build-resource.xml needs to be called before this build so that the base64
 		task can find images and webfonts to embed
 	-->
 	<import file="build-import.xml" />
@@ -104,7 +104,7 @@
 	<target name="copyCssSrc">
 		<!-- wcomponents-theme SCSS -->
 		<copy todir="${sass.tmp.src.dir}" overwrite="true">
-			<fileset dir="${sass.rootdir}" includes="*.scss" excludesfile="${excludesfile}" />
+			<fileset dir="${sass.rootdir}" includes="**/*.scss" excludesfile="${excludesfile}" />
 			<filterchain>
 				<expandproperties />
 			</filterchain>
@@ -112,7 +112,7 @@
 
 		<!-- Implementation SCSS -->
 		<copy todir="${sass.tmp.src.dir}" overwrite="true">
-			<fileset dir="${impl.sass.rootdir}" includes="*.scss" erroronmissingdir="false"/>
+			<fileset dir="${impl.sass.rootdir}" includes="**/*.scss" erroronmissingdir="false"/>
 			<filterchain>
 				<expandproperties />
 			</filterchain>

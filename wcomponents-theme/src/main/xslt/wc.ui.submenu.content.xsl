@@ -67,7 +67,9 @@
 						We have to keep the menu role on the content wrapper to make the menu function but role menu
 						must have at least one descendant role menuitem[(?:radio)|(?:checkbox)]?
 					-->
-					<span role="menuitem" class="wc_menuitem_dummy" hidden="hidden"></span>
+					<xsl:attribute name="aria-busy">
+						<xsl:copy-of select="$t"/>
+					</xsl:attribute>
 				</xsl:if>
 			</xsl:if>
 			<xsl:apply-templates select="*"/>

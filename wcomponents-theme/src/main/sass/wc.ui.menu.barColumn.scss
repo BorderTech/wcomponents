@@ -18,7 +18,7 @@
 }
 
 [data-wc-menufixed='true'] {
-	.wc-submenu[aria-expanded='true'] [role='menu'] {
+	.wc-submenu > [role='menu'][aria-expanded='true'] {
 		@include border-box;
 		// important to override the default for aria-busy areas. Transparent sub-menus help no-one and it may seem that we are not loading.
 		// scss-lint:disable ImportantRule

@@ -236,14 +236,7 @@
 							<xsl:value-of select="$$${wc.ui.dateField.i18n.calendarLaunchButton}"/>
 						</xsl:attribute>
 					</xsl:element>
-					<xsl:element name="ul">
-						<xsl:attribute name="role">
-							<xsl:text>listbox</xsl:text>
-						</xsl:attribute>
-						<xsl:element name="li"><!-- a listbox must contain an option -->
-							<xsl:attribute name="role">option</xsl:attribute>
-						</xsl:element>
-					</xsl:element>
+					<ul role="listbox" aria-busy="true"></ul>
 				</div>
 				<xsl:call-template name="inlineError">
 					<xsl:with-param name="errors" select="$isError"/>

@@ -1,0 +1,15 @@
+/* wc.common.page.ie10.scss */
+// Text mode optgroup emulation for multiple selection controls readOnly mode: WMultiSelect, WMultiSelectPair, WShuffler
+// Internet Explorer chooses to render an optgroup in an italic font.
+.wc_optgroup {
+	font-style: italic;
+}
+
+// [hidden] hides content.
+// .wc_off moves the content so it is still available to assistive technologies but is not visible on screen.
+// Applying this to [hidden] is redundant but needed because of irregular hidden support.
+[hidden] {
+	// important required to override more specific display rules (see menus, collapsibles for examples)
+	// scss-lint:disable ImportantRule
+	display: none !important;
+}

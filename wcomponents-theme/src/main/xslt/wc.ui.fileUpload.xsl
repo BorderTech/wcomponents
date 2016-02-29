@@ -117,7 +117,7 @@
 							<xsl:otherwise>
 								<ul>
 									<xsl:attribute name="class">
-										<xsl:text>wc_filelist wc_list_nb</xsl:text>
+										<xsl:text>wwc_list_nb wc_filelist</xsl:text>
 										<xsl:if test="$cols = 0">
 											<xsl:text> wc_list_flat</xsl:text>
 										</xsl:if>

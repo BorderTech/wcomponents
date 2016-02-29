@@ -1,11 +1,11 @@
 /* wc.debug.axs.scss */
 // CSS for the AXE/AXS output in debug mode
 
-@import 'mixins_common.scss';
+@import 'mixins-common.scss';
 
 .wc_a11y {
 	@include border;
-	margin: $hgap-large;
+	@include margin($size: $hgap-large);
 
 	> a {
 		margin: 0 $hgap-small;

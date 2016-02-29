@@ -1,5 +1,5 @@
 /* wc.ui.backToTop.scss */
-@import 'mixins_common.scss';
+@import 'mixins-common.scss';
 
 /// The back to top of page link.
 .wc_btt {
@@ -10,13 +10,8 @@
 	&:before {
 		content: url('../images/back-to-top.svg');
 		display: block;
-		height: 4em;
-		width: 4em;
-
-		@include respond (mobile) {
-			height: 1.5em;
-			width: 1.5em;
-		}
+		height: 1.5em;
+		width: 1.5em;
 	}
 
 	> span {

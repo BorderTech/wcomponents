@@ -31,7 +31,7 @@
 [role='menuitemcheckbox'][aria-checked='true'],
 [role='treeitem'][aria-selected='true'],
 .wc-submenu[aria-selected='true'] > button,
-.wc-submenu[aria-checked='true'] > button {
+.wc-submenu > button[aria-checked='true'] {
 	background-color: $wc-ui-color-invite-bg;
 	color: $wc-ui-color-invite-fg;
 }

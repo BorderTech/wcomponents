@@ -1,15 +1,15 @@
 /* wc.common.form.scss */
 // This document contains general css styling for generic form components. Custom components have their own css files
-@import 'mixins_common.scss';
+@import 'mixins-common.scss';
 
 input,
 select,
 textarea {
 	@include border($color: $wc-ui-color-border-form-control); // breaks firefox OS X quite nastily but it is better than the other options with all other browsers
+	@include margin($size: 0);
 	font-family: inherit;
 	font-size: inherit;
 	line-height: inherit;
-	margin: 0;
 	max-width: 100%;
 
 	&[aria-invalid='true'] {
@@ -54,4 +54,9 @@ input {
 	display: inline-block;
 	max-width: 100%;
 	word-wrap: break-word;
+}
+
+// This wrapper is handy for positioning lists
+.wc_input_wrapper {
+	display: inline-block;
 }

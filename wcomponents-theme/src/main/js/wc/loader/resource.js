@@ -65,16 +65,16 @@ define(["wc/ajax/ajax", "wc/loader/prefetch", "wc/config", "module"],
 			function getUrl(fileName) {
 				var path, idx, cachebuster, config = getConfig();
 				if (config) {
-					path = config.xmlBaseUrl;
+					path = config.resourceBaseUrl;
 					cachebuster = config.cachebuster;
 				}
 				else {
 					idx = module.uri.indexOf(module.id);
 					path = module.uri.substring(0, idx);
-					path = path.replace(/\/[^\/]+\/$/, "/${xml.target.dir.name}/");
+					path = path.replace(/\/[^\/]+\/$/, "/${resource.target.dir.name}/");
 				}
 
-				baseUrl = baseUrl || path || "";  // ${xml.target.dir.name}/";
+				baseUrl = baseUrl || path || "";  // ${resource.target.dir.name}/";
 				var url = baseUrl + fileName + "?" + cachebuster;
 				return url;
 			}

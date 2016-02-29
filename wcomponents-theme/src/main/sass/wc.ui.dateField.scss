@@ -3,15 +3,16 @@
 // Styling specific to the date input component including the calendar.
 
 // We use a single ID'd component for all calendar date pickers and move it around to where it is needed.
-//scss-lint:disable IdSelector
-@import 'mixins_common.scss';
+// scss-lint:disable IdSelector
+@import 'mixins-common.scss';
 
 .wc-datefield {
 	display: inline-block;
 	position: relative;
 
-	&[role='combobox'] {//partial date field or no native support
+	&[role='combobox'] { // partial date field or no native support
 		@include border($color: $wc-ui-color-border-form-control);
+		padding: 1px;
 
 		&[aria-disabled='true'] {
 			background-color: $wc-ui-color-disabled-bg;
@@ -19,45 +20,41 @@
 	}
 }
 
-[role='combobox'] > input,
+// calendar launch button
 .wc_wdf_cal {
-	vertical-align: middle;
+	margin-right: $hgap-small;
+
+	&:hover,
+	&:focus {
+		background-color: $wc-ui-color-invite-bg;
+		color: $wc-ui-color-invite-fg;
+	}
 }
 
 [role='combobox'] {
-	/// The whole combo is invalid but we only want to apply the background color to the textbox.
+	// The whole combo is invalid but we only want to apply the background color to the textbox.
 	&[aria-invalid='true'] > input {
 		background-color: $wc-ui-color-error-bg;
 	}
 
 	> input {
-		// important to remove invalid state border
-		// scss-lint:disable ImportantRule
-		border: 0 none !important;
-	}
-
-	> [role='listbox'] {
-		// @include border;
-		background-color: $wc-ui-color-global-bg;
-		left: $border-width * -1;
-		list-style-type: none;
-		margin: 0;
-		min-width: 100%;
 		padding: 0;
-		position: absolute;
-		z-index: $z-index-common;
 
-		dialog & {
-			z-index: $z-index-common-in-dialog;
+		&,
+		&[disabled] {
+			border: 0 none;
 		}
 	}
 
-	&[aria-expanded='false'] > [role='listbox'] {
-		display: none;
+	&[aria-expanded='true'] > [role='listbox'] {
+		border: 0 none;
+		display: block;
+		left: $border-width * -1;
+		min-width: 100%;
 	}
 
 	[role='option'] {
-		margin: 0;
+		@include margin($size: 0);
 		min-height: 1em;
 		padding: 1px $hgap-small;
 
@@ -69,32 +66,11 @@
 	}
 }
 
-// calendar launch button
-.wc_wdf_cal {
-	@include background-image($url: '../images/date.png', $reset-size: 1em);
-	@include button($border: 0);
-	@include border($pos: left);
-
-	&:hover,
-	&:focus {
-		background-color: $wc-ui-color-invite-bg;
-	}
-
-	&[disabled] {
-		background-image: url('../images/date-d.png');
-	}
-}
-
-// This is the calendar container. The important is to override hidden from being inside a closed combo.
+// This is the calendar container.
 #wc-calbox {
 	background-color: $wc-ui-color-global-bg;
 	white-space: nowrap;
 	z-index: $z-index-common;
-
-	&[hidden] { // override of override
-		//scss-lint:disable ImportantRule
-		display: none !important;
-	}
 
 	dialog & {
 		z-index: $z-index-common-in-dialog;
@@ -109,6 +85,17 @@
 		td:last-child { // container of the close button
 			text-align: right;
 		}
+
+		button {
+			@include button;
+			margin-left: $hgap-normal;
+			// vertical-align: middle;
+		}
+
+		input { //year field:
+			margin: 0 $hgap-large;
+			width: 5em; //  FF and IE do not size by max.
+		}
 	}
 
 	th {
@@ -116,15 +103,6 @@
 		color: $wc-ui-color-highlight-fg;
 		padding: $vgap-small $hgap-small;
 		text-align: center;
-	}
-
-	input,
-	thead button:first-of-type {
-		margin-left: $hgap-large;
-	}
-
-	input { // year field: FF and IE do not size by max.
-		width: 5em;
 	}
 
 	abbr { // days of the week
@@ -141,8 +119,6 @@
 
 // date picker buttons
 .wc_wdf_pick {
-	color: $wc-ui-color-global-fg;
-	cursor: pointer;
 	min-width: 100%;
 	padding: $vgap-small $hgap-small;
 	text-align: center;
@@ -167,6 +143,7 @@
 .wc_wdf_today { // today
 	@include outline();
 }
+
 
 
 // The main purpose of this CSS is to make the pop-up calendar full screen. We make all of the buttons bigger to make
@@ -195,15 +172,8 @@
 			}
 
 			button {
-				@include border($width: 0);
-				background-color: transparent;
+				border: 0 none;
 				margin-left: $hgap-normal;
-				padding: 0;
-				vertical-align: middle;
-
-				&::before {
-					@include make-box;
-				}
 			}
 		}
 
@@ -212,34 +182,8 @@
 		}
 	}
 
-	.wc_wdf_mv {
-		&[value='-1']::before {
-			content: url('../images/cal-mob-back1.svg');
-		}
-
-		&[value='1']::before {
-			content: url('../images/cal-mob-forward1.svg');
-		}
-
-		&[value='t']::before {
-			content: url('../images/cal-mob-today.svg');
-		}
-	}
-
-	.wc_wdf_cls::before {
-		content: url('../images/cal-mob-close.svg');
-	}
-
 	#wc-caldaybox .wc_wdf_pick {
 		height: 100%;
 		width: 100%;
-	}
-}
-
-// need this AFTER the general mobile respond
-// scss-lint:disable MergeableSelector
-#wc-calendar {
-	@include respond(ipad) { // weird iOS9 bug
-		max-height: 704px;
 	}
 }

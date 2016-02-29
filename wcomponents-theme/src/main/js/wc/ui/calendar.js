@@ -374,11 +374,10 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 				else {
 					refocusId = null;
 				}
-				cal.removeAttribute("style");  // remove any inline styles
+				cal.removeAttribute("style"); // remove any inline styles
 				shed.hide(cal);
 			}
 		}
-
 
 		/**
 		 * Helper for keydown event listener which handles key presses on year input.
@@ -1012,16 +1011,6 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 			}
 		}
 
-		function focusEvent($event) {
-			var element, calendar;
-			if (!$event.defaultPrevented && (element = $event.target)) {
-				calendar = getCal();
-				if (calendar && ((element === window || element === document) || !(calendar.compareDocumentPosition(element) & Node.DOCUMENT_POSITION_CONTAINED_BY))) {
-					hideCalendar(true);
-				}
-			}
-		}
-
 		function keydownEvent($event) {
 			var target = $event.target,
 				keyCode = $event.keyCode,
@@ -1107,12 +1096,6 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 * @param {Element} element The element being initialised, usually document.body.
 		 */
 		this.initialise = function(element) {
-			if (event.canCapture) {
-				event.add(window, event.TYPE.focus, focusEvent, null, null, true);
-			}
-			else {
-				event.add(element, event.TYPE.focusin, focusEvent);
-			}
 			event.add(element, event.TYPE.click, clickEvent);
 			event.add(element, event.TYPE.keydown, keydownEvent);
 		};

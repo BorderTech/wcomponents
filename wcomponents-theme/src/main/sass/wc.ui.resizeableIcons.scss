@@ -1,0 +1,18 @@
+/* wc.ui.resizeableIcons.scss */
+@import 'mixins-common.scss';
+
+//this button selector is required to prevent styling a max.restore header bar
+//scss-lint:disable QualifyingElement
+.wc_resize:before {
+	@include wc-icon($fa-var-hand-lizard-o);
+}
+
+button.wc_maxcont {
+	&:before {
+		@include wc-icon($fa-var-plus-square-o);
+	}
+
+	&[aria-pressed='true']:before {
+		content: $fa-var-minus-square-o;
+	}
+}

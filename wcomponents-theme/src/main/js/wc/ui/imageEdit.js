@@ -540,25 +540,25 @@ function(has, event, uid, classList, timers, shed, loader, i18n, fabric, Mustach
 		 */
 		function moveControls(eventConfig) {
 			var press = eventConfig.press;
-			press.up = {
+			press.wc_btn_up = {
 				func: numericProp,
 				prop: "Top",
 				step: -1
 			};
 
-			press.down = {
+			press.wc_btn_down = {
 				func: numericProp,
 				prop: "Top",
 				step: 1
 			};
 
-			press.left = {
+			press.wc_btn_left = {
 				func: numericProp,
 				prop: "Left",
 				step: -1
 			};
 
-			press.right = {
+			press.wc_btn_right = {
 				func: numericProp,
 				prop: "Left",
 				step: 1
@@ -591,27 +591,27 @@ function(has, event, uid, classList, timers, shed, loader, i18n, fabric, Mustach
 		 */
 		function rotationControls(eventConfig) {
 			var press = eventConfig.press;
-			press.clock = {
+			press.wc_btn_clock = {
 				func: numericProp,
 				prop: "Angle",
 				step: 1
 			};
 
-			press.anticlock = {
+			press.wc_btn_anticlock = {
 				func: numericProp,
 				prop: "Angle",
 				step: -1
 			};
 
 			var click = eventConfig.click;
-			click.clock90 = {
+			click.wc_btn_clock90 = {
 				func: numericProp,
 				prop: "Angle",
 				step: 90,
 				exact: true
 			};
 
-			click.anticlock90 = {
+			click.wc_btn_anticlock90 = {
 				func: numericProp,
 				prop: "Angle",
 				step: -90,
@@ -624,7 +624,7 @@ function(has, event, uid, classList, timers, shed, loader, i18n, fabric, Mustach
 		 */
 		function resetControl(eventConfig) {
 			var click = eventConfig.click;
-			click.reset = {
+			click.wc_btn_reset = {
 				func: resetCanvas
 			};
 		}
@@ -634,7 +634,7 @@ function(has, event, uid, classList, timers, shed, loader, i18n, fabric, Mustach
 		 */
 		function cancelControl(eventConfig, editor, callbacks/* , file */) {
 			var click = eventConfig.click;
-			click.cancel = {
+			click.wc_btn_cancel = {
 				func: saveImage.bind(null, editor, callbacks, true)
 			};
 		}
@@ -644,7 +644,7 @@ function(has, event, uid, classList, timers, shed, loader, i18n, fabric, Mustach
 		 */
 		function saveControl(eventConfig, editor, callbacks, file) {
 			var click = eventConfig.click;
-			click.save = {
+			click.wc_btn_save = {
 				func: saveImage.bind(null, editor, callbacks, false, file)
 			};
 		}
