@@ -44,29 +44,25 @@ ul.wc-fieldlayout {
 	}
 }
 
-.wc-input {
-	overflow: auto;
+// InputWidth is placed inline but a class is added to the input part of the field to signify that an inputWidth is
+// in use so we can size the components
+.wc_inputwidth {
+	> [type='text'],
+	> [type='date'],
+	> .wc-datefield,
+	> [type='password'],
+	> [type='email'],
+	> [type='tel'],
+	> [type='number'],
+	> textarea,
+	> select,
+	> fieldset {
+		@include border-box;
+		width: 100%;
+	}
 
-	// InputWidth is placed inline but a class is added to the input part of the field to signify that an inputWidth is
-	// in use so we can size the components
-	&.wc_inputwidth {
-		> [type='text'],
-		> [type='date'],
-		>.wc-datefield,
-		> [type='password'],
-		> [type='email'],
-		> [type='tel'],
-		> [type='number'],
-		> textarea,
-		> select,
-		> fieldset {
-			@include border-box;
-			width: 100%;
-		}
-
-		>.wc-datefield[role='combobox'] {
-			width: auto;
-		}
+	> .wc-datefield[role='combobox'] {
+		width: auto;
 	}
 }
 

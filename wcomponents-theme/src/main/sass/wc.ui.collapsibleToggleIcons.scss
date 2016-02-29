@@ -4,9 +4,14 @@
 .wc-collapsibletoggle {
 	button:before {
 		@include wc-icon($fa-var-plus-square-o);
+		@include margin($pos: right);
 	}
 
 	[data-wc-value='collapse']:before {
 		content: $fa-var-minus-square-o;
+	}
+
+	button + button {
+		@include margin($pos: left, $size: $hgap-normal);
 	}
 }

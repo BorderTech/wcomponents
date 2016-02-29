@@ -1,7 +1,7 @@
 /* wc.ui.comboIcons.scss */
 @import 'mixins-common.scss';
 
-.wc_list_wrapper:after {
+.wc_list_wrapper:before {
 	@include wc-icon($fa-var-caret-down);
 	position: absolute;
 	right: ($line-size / 4);
