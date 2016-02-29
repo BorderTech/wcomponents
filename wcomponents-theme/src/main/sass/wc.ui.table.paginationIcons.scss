@@ -7,9 +7,7 @@
 	vertical-align: middle;
 
 	&::before {
-		@include wc-icon($fa-var-angle-double-left);
-		text-align: center;
-		width: (18em / 14);
+		@include wc-icon-fw($fa-var-angle-double-left);
 	}
 
 

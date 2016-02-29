@@ -4,10 +4,8 @@
 .wc_msgbox {
 
 	> h1:before {
-		@include wc-icon($fa-var-minus-circle);
-		text-align: center;
+		@include wc-icon-fw($fa-var-minus-circle);
 		vertical-align: middle;
-		width: (18em / 14);
 	}
 
 	&.warn  > h1:before {

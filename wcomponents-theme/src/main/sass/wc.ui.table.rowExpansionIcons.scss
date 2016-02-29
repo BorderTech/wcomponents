@@ -7,10 +7,7 @@
 tr[role='row'] {
 	> td[role='button']:before {
 		// @include wc-icon($fa-var-chevron-circle-right);
-		@include wc-icon($fa-var-caret-right);
-		text-align: center;
-		width: (18em / 14);
-
+		@include wc-icon-fw($fa-var-caret-right);
 	}
 
 	&[aria-expanded='true'] {

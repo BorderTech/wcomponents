@@ -5,10 +5,16 @@
 @import 'mixins-animate.scss';
 @import 'libs/fa/variables.scss';
 @import 'libs/fa/mixins.scss';
+
 /// use fa-icon
-@mixin wc-icon ($icon: -1) {
+@mixin wc-icon ($icon) {
 	@include fa-icon;
-	@if ($icon != -1) {
-		content: $icon;
-	}
+	content: $icon;
+}
+
+/// Make a fixed-width icon.
+@mixin wc-icon-fw ($icon, $text-align: center) {
+	@include wc-icon($icon);
+	text-align: $text-align;
+	width: (18em / 14);
 }

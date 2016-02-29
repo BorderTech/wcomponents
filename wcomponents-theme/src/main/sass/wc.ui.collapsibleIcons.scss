@@ -12,8 +12,7 @@
 
 summary {
 	&:before {
-		@include wc-icon($fa-var-caret-right);
-		margin-right: $hgap-small;
+		@include wc-icon-fw($fa-var-caret-right, left);
 	}
 
 	[open] > &:before {
