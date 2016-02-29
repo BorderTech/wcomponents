@@ -9,17 +9,19 @@
 // use a single identified artefact for calendars
 //scss-lint:disable IdSelector
 #wc-calendar thead button {
-	@include wc-icon($fa-calendar-times-o);
+	&:before {
+		@include wc-icon($fa-var-calendar-times-o);
+	}
 
-	&[value = '-1'] {
+	&[value = '-1']:before {
 		content: $fa-var-calendar-minus-o;
 	}
 
-	&[value = 't'] {
+	&[value = 't']:before {
 		content: $fa-var-calendar-o;
 	}
 
-	&[value = '1'] {
+	&[value = '1']:before {
 		content: $fa-var-calendar-plus-o;
 	}
 }
