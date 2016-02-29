@@ -17,8 +17,8 @@ import com.github.bordertech.wcomponents.template.TemplateRendererFactory;
 
 /**
  * An example showing how to use {@link WStyledText} to create icons using
- * <a href="https://fortawesome.github.io/Font-Awesome/">Font Awesome<.a>.
- * 
+ * <a href="https://fortawesome.github.io/Font-Awesome/">Font Awesome</a>.
+ *
  * @author Mark Reeves
  * @since 2016-03-01
  */
