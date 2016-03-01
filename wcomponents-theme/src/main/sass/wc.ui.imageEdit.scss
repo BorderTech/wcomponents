@@ -40,7 +40,6 @@
 	}
 
 	button {
-		@include button;
 		margin: 0 $hgap-small;
 
 		&:first-of-type {

@@ -18,13 +18,16 @@
 					<xsl:attribute name="data-img">
 						<xsl:value-of select="@id"/>
 					</xsl:attribute>
+					<xsl:attribute name="class">
+						<xsl:text>wc_btn_icon</xsl:text>
+					</xsl:attribute>
 				</xsl:when>
 				<xsl:otherwise>
 					<xsl:attribute name="data-selector">
 						<xsl:value-of select="@id"/>
 					</xsl:attribute>
 					<xsl:attribute name="class">
-						<xsl:text>wc_btn_camera</xsl:text>
+						<xsl:text>wc_btn_camera wc_btn_icon</xsl:text>
 					</xsl:attribute>
 				</xsl:otherwise>
 			</xsl:choose>

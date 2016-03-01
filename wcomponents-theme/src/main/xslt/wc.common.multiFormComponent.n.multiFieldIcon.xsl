@@ -37,7 +37,7 @@
 			</xsl:choose>
 		</xsl:variable>
 		
-		<button type="button" title="{$toolTip}">
+		<button type="button" title="{$toolTip}" class="wc_btn_icon">
 			<xsl:attribute name="aria-controls">
 				<xsl:choose>
 					<xsl:when test="self::ui:multitextfield or position() = 1">

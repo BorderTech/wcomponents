@@ -77,7 +77,7 @@
 /// @param {dimension} $padding [-1] The padding of the button. Set -1 to omit this rule.
 /// @param {position} $text-align [center] The text align for your button. Set '' to omit this rule.
 /// @param {dimension} $width [-1] The width of the button. Set -1 to omit this rule.
-@mixin button($background: transparent, $border: true, $height: $line-size, $padding: -1, $text-align: center, $width: -1) {
+@mixin button($background: transparent, $border: true, $height: -1, $padding: -1, $text-align: center, $width: -1) {
 	@if ($border == true) {
 		@include border;
 	}

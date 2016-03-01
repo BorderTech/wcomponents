@@ -5,7 +5,6 @@
 input,
 select,
 textarea {
-	@include border($color: $wc-ui-color-border-form-control); // breaks firefox OS X quite nastily but it is better than the other options with all other browsers
 	@include margin($size: 0);
 	font-family: inherit;
 	font-size: inherit;
@@ -19,12 +18,14 @@ textarea {
 	&[disabled] {
 		@include aria-disabled;
 		background-color: $wc-ui-color-disabled-bg;
-		border-color: $wc-ui-color-disabled-border;
 	}
 }
 
 input,
 textarea {
+	// Border on select breaks firefox OS X quite nastily so we only apply it to input and textarea.
+	// If you want a disabled border color you may want to also apply this to select and live with Firefox's ugliness.
+	@include border($color: $wc-ui-color-border-form-control);
 	padding: 1px;
 }
 

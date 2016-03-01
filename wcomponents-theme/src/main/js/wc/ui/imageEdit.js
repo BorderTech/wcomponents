@@ -456,7 +456,7 @@ function(has, event, uid, classList, timers, shed, loader, i18n, fabric, Mustach
 			}
 
 			function getEventConfig(element, type) {
-				var name = element.className;
+				var name = element.name;
 				if (element.localName === "button" && name && eventConfig[type]) {
 					return eventConfig[type][name];
 				}
@@ -540,25 +540,25 @@ function(has, event, uid, classList, timers, shed, loader, i18n, fabric, Mustach
 		 */
 		function moveControls(eventConfig) {
 			var press = eventConfig.press;
-			press.wc_btn_up = {
+			press.up = {
 				func: numericProp,
 				prop: "Top",
 				step: -1
 			};
 
-			press.wc_btn_down = {
+			press.down = {
 				func: numericProp,
 				prop: "Top",
 				step: 1
 			};
 
-			press.wc_btn_left = {
+			press.left = {
 				func: numericProp,
 				prop: "Left",
 				step: -1
 			};
 
-			press.wc_btn_right = {
+			press.right = {
 				func: numericProp,
 				prop: "Left",
 				step: 1
@@ -570,14 +570,14 @@ function(has, event, uid, classList, timers, shed, loader, i18n, fabric, Mustach
 		 */
 		function zoomControls(eventConfig) {
 			var press = eventConfig.press;
-			press.wc_btn_in = {
+			press.in = {
 				func: numericProp,
 				getter: "getScaleX",
 				setter: "scale",
 				step: 0.05
 			};
 
-			press.wc_btn_out = {
+			press.out = {
 				func: numericProp,
 				getter: "getScaleX",
 				setter: "scale",
@@ -591,27 +591,27 @@ function(has, event, uid, classList, timers, shed, loader, i18n, fabric, Mustach
 		 */
 		function rotationControls(eventConfig) {
 			var press = eventConfig.press;
-			press.wc_btn_clock = {
+			press.clock = {
 				func: numericProp,
 				prop: "Angle",
 				step: 1
 			};
 
-			press.wc_btn_anticlock = {
+			press.anticlock = {
 				func: numericProp,
 				prop: "Angle",
 				step: -1
 			};
 
 			var click = eventConfig.click;
-			click.wc_btn_clock90 = {
+			click.clock90 = {
 				func: numericProp,
 				prop: "Angle",
 				step: 90,
 				exact: true
 			};
 
-			click.wc_btn_anticlock90 = {
+			click.anticlock90 = {
 				func: numericProp,
 				prop: "Angle",
 				step: -90,
@@ -624,7 +624,7 @@ function(has, event, uid, classList, timers, shed, loader, i18n, fabric, Mustach
 		 */
 		function resetControl(eventConfig) {
 			var click = eventConfig.click;
-			click.wc_btn_reset = {
+			click.reset = {
 				func: resetCanvas
 			};
 		}
@@ -634,7 +634,7 @@ function(has, event, uid, classList, timers, shed, loader, i18n, fabric, Mustach
 		 */
 		function cancelControl(eventConfig, editor, callbacks/* , file */) {
 			var click = eventConfig.click;
-			click.wc_btn_cancel = {
+			click.cancel = {
 				func: saveImage.bind(null, editor, callbacks, true)
 			};
 		}
@@ -644,7 +644,7 @@ function(has, event, uid, classList, timers, shed, loader, i18n, fabric, Mustach
 		 */
 		function saveControl(eventConfig, editor, callbacks, file) {
 			var click = eventConfig.click;
-			click.wc_btn_save = {
+			click.save = {
 				func: saveImage.bind(null, editor, callbacks, false, file)
 			};
 		}
@@ -790,9 +790,9 @@ function(has, event, uid, classList, timers, shed, loader, i18n, fabric, Mustach
 
 			this.initControls = function(eventConfig, container) {
 				require(["wc/ui/facetracking"], function(facetracking) {
-					eventConfig.click.wc_btn_face = {
+					eventConfig.click.face = {
 						func: function() {
-							var button = container.querySelector(".wc_btn_face"),
+							var button = container.querySelector("[name='face']"),
 								done = function() {
 									if (button) {
 										shed.enable(button);
@@ -880,7 +880,7 @@ function(has, event, uid, classList, timers, shed, loader, i18n, fabric, Mustach
 				var click = eventConfig.click;
 				if (has("rtc-gum")) {
 					activateCameraControl(eventConfig, container);
-					click.wc_btn_snap = {
+					click.snap = {
 						func: function() {
 							var dataUrl,
 								fbImageTemp,
@@ -900,7 +900,7 @@ function(has, event, uid, classList, timers, shed, loader, i18n, fabric, Mustach
 			function activateCameraControl(eventConfig, container) {
 				var click = eventConfig.click;
 				if (has("rtc-gum")) {
-					click.wc_btn_camera = {
+					click.camera = {
 						func: function() {
 							imageCapture.play();
 							classList.add(container, "wc_showcam");

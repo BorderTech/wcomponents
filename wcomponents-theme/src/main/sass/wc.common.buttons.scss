@@ -30,15 +30,11 @@ button {
 	line-height: inherit;
 }
 
-/// CLASS wc_btn_nada has all style stripped. CLASS wc_btn_link is made to look like a link.
 .wc_btn {
 	&_link,
-	&_nada {
-		@include border($width: 0);
-		background-color: transparent;
+	&_nada { // CLASS wc_btn_nada has all style stripped. CLASS wc_btn_link is made to look like a link.
+		@include button($border: 0, $padding: 0, $text-align: inherit);
 		cursor: pointer;
-		padding: 0;
-		text-align: inherit;
 
 		&[disabled] {
 			color: $wc-ui-color-disabled-fg;
@@ -53,6 +49,16 @@ button {
 	&_link {
 		color: $wc-ui-color-link;
 		text-decoration: underline;
+	}
+
+	&_icon { // Common styles for buttons which are always iconic
+		@include button;
+		color: inherit;
+
+		&[disabled] {
+			background-color: $wc-ui-color-disabled-bg;
+			color: $wc-ui-color-disabled-fg;
+		}
 	}
 }
 

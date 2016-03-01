@@ -137,38 +137,26 @@
 		<xsl:param name="type"/>
 		<xsl:param name="idSuffix"/>
 		<xsl:param name="disabled"/>
-		<xsl:element name="button">
-			<xsl:attribute name="id">
-				<xsl:value-of select="concat(../@id,'.pagination.',$idSuffix)"/>
-			</xsl:attribute>
-			<xsl:attribute name="title">
-				<xsl:value-of select="$title"/>
-			</xsl:attribute>
-			<xsl:attribute name="type">
-				<xsl:value-of select="$type"/>
-			</xsl:attribute>
+		<button id="{concat(../@id,'.pagination.',$idSuffix)}" title="{$title}" type="{$type}" class="wc_btn_icon">
 			<xsl:if test="$type='submit'">
 				<xsl:attribute name="formnovalidate">
 					<xsl:text>formnovalidate</xsl:text>
 				</xsl:attribute>
 			</xsl:if>
-			<xsl:attribute name="class">
-				<xsl:text>wc_ibtn</xsl:text>
-			</xsl:attribute>
 			<xsl:choose>
 				<xsl:when test = "$disabled = 1">
 					<xsl:attribute name="disabled">
 						<xsl:text>disabled</xsl:text>
 					</xsl:attribute>
 				</xsl:when>
-				<xsl:otherwise>
+				<xsl:otherwise><!-- WDataTable compatibility only -->
 					<xsl:call-template name="disabledElement">
 						<xsl:with-param name="field" select="parent::ui:table"/>
 						<xsl:with-param name="isControl" select="1"/>
 					</xsl:call-template>
 				</xsl:otherwise>
 			</xsl:choose>
-		</xsl:element>
+		</button>
 	</xsl:template>
 
 </xsl:stylesheet>

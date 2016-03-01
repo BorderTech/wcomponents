@@ -9,7 +9,6 @@
 	}
 
 	button {
-		@include button;
 		margin-left: $hgap-small;
 
 		&:before {

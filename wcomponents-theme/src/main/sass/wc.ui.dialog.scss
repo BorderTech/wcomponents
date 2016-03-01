@@ -54,16 +54,10 @@ dialog {
 		@include flex-grow(0);
 		@include flex-shrink(0);
 		background-color: $wc-ui-color-dialog-head-bg;
+		color: $wc-ui-color-dialog-head-fg;
 
-		.wc_btn_nada {
-			@include border;
-			background-color: $wc-ui-color-dialog-head-bg;
-			color: $wc-ui-color-dialog-head-fg;
-			padding: 0.2em 0.25em 0.15em;
-
-			+ button {
-				margin-left: $hgap-small;
-			}
+		button:before {
+			padding: $hgap-small;
 		}
 	}
 
@@ -82,6 +76,14 @@ dialog {
 			@include flex-align-self(flex-start);
 			line-height: 0;
 			margin-right: 0.25em;
+		}
+
+		.wc_btn_icon {
+			border-color: $wc-ui-color-dialog-head-fg;
+
+			+ button {
+				margin-left: $hgap-small;
+			}
 		}
 	}
 
