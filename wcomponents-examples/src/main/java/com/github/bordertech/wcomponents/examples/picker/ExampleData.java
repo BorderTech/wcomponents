@@ -53,10 +53,10 @@ import com.github.bordertech.wcomponents.examples.WPopupExample;
 import com.github.bordertech.wcomponents.examples.WRadioButtonInRepeater;
 import com.github.bordertech.wcomponents.examples.WRadioButtonTriggerActionExample;
 import com.github.bordertech.wcomponents.examples.WSectionExample;
-import com.github.bordertech.wcomponents.examples.WSessionExample;
 import com.github.bordertech.wcomponents.examples.WShufflerExample;
 import com.github.bordertech.wcomponents.examples.WSingleSelectExample;
 import com.github.bordertech.wcomponents.examples.WSkipLinksExample;
+import com.github.bordertech.wcomponents.examples.WStyledTextFontAwesomeExample;
 import com.github.bordertech.wcomponents.examples.WStyledTextOptionsExample;
 import com.github.bordertech.wcomponents.examples.WSuggestionsExample;
 import com.github.bordertech.wcomponents.examples.WTemplateExample;
@@ -130,7 +130,6 @@ import com.github.bordertech.wcomponents.examples.theme.WCheckBoxExample;
 import com.github.bordertech.wcomponents.examples.theme.WCheckBoxSelectExample;
 import com.github.bordertech.wcomponents.examples.theme.WCollapsibleExample;
 import com.github.bordertech.wcomponents.examples.theme.WCollapsibleGroupExample;
-import com.github.bordertech.wcomponents.examples.theme.WColumnLayoutExample;
 import com.github.bordertech.wcomponents.examples.theme.WConfirmationButtonExample;
 import com.github.bordertech.wcomponents.examples.theme.WDateFieldExample;
 import com.github.bordertech.wcomponents.examples.theme.WEmailFieldExample;
@@ -275,6 +274,7 @@ public final class ExampleData implements Serializable {
 		new ExampleData("Progress bar", WProgressBarExample.class),
 		// new ExampleData("Session timeout", WSessionExample.class),
 		new ExampleData("Styled Text options", WStyledTextOptionsExample.class),
+		new ExampleData("Icons with WStyledText", WStyledTextFontAwesomeExample.class),
 		new ExampleData("Text", WTextExample.class),
 		new ExampleData("Timeout Warning", WTimeoutWarningExample.class),
 		new ExampleData("Timeout Warning default options", WTimeoutWarningDefaultExample.class),

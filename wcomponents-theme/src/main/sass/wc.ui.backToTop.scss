@@ -6,12 +6,15 @@
 	bottom: 1em;
 	position: fixed;
 	right: 1em;
+	text-decoration: none;
 
 	&:before {
-		content: url('../images/back-to-top.svg');
+		@include wc-icon($fa-var-chevron-circle-up);
 		display: block;
-		height: 1.5em;
-		width: 1.5em;
+		font-size: 1.5em;
+		line-height: inherit;
+		text-align: center;
+		vertical-align: middle;
 	}
 
 	> span {
