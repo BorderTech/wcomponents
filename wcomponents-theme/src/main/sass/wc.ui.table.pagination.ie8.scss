@@ -8,27 +8,21 @@
 		margin-left: $hgap-large;
 	}
 
-	button {
+	button + button {
 		&:before {
-			@include wc-icon-fw($fa-var-angle-double-left);
+			content: $fa-var-angle-left;
 		}
-
+		// IE8 sucks, we need this nesting depth
+		//scss-lint:disable NestingDepth
 		+ button {
 			&:before {
-				content: $fa-var-angle-left;
+				content: $fa-var-angle-right;
 			}
-			// IE8 sucks, we need this nesting depth
-			//scss-lint:disable NestingDepth
-			+ button {
-				&:before {
-					content: $fa-var-angle-right;
-				}
 
-				+ button:before {
-					content: $fa-var-angle-double-right;
-				}
-
+			+ button:before {
+				content: $fa-var-angle-double-right;
 			}
+
 		}
 	}
 }

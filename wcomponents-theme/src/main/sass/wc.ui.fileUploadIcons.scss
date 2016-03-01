@@ -2,9 +2,9 @@
 @import 'mixins-common.scss';
 
 .wc-fileupload  a ~ button:before {
-	@include wc-icon($fa-var-trash);
+	content: $fa-var-trash;
 }
 
 .wc_btn_camera:before {
-	@include wc-icon($fa-var-video-camera);
+	content: $fa-var-video-camera;
 }

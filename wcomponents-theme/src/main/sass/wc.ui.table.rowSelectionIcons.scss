@@ -3,14 +3,14 @@
 @import 'wc.ui.menu_vars.scss';
 
 // only want to style aria-selected rows, nothing else
-tr[aria-selected]  > .wc_table_sel_wrapper:before {
-	@include wc-icon($fa-var-circle-o);
-	text-align: left;
-	width: 1em;
-}
+.wc_table_sel_wrapper:before {
+	tr[aria-selected] > & {
+		@include wc-icon-fw($fa-var-circle-o, left);
+	}
 
-.wc_table_sel_wrapper  tr[aria-selected='true'] > &:before {
-	content: $fa-var-dot-circle-o;
+	tr[aria-selected='true'] > & {
+		content: $fa-var-dot-circle-o;
+	}
 }
 
 [aria-multiselectable='true'] {
@@ -29,11 +29,11 @@ tr[aria-selected]  > .wc_table_sel_wrapper:before {
 	}
 
 	> tbody  > tr {
-		&[aria-selected]  > .wc_table_sel_wrapper:before {
+		&[aria-selected] > .wc_table_sel_wrapper:before {
 			content: $fa-var-square-o;
 		}
 
-		&[aria-selected='true']  > .wc_table_sel_wrapper:before {
+		&[aria-selected='true'] > .wc_table_sel_wrapper:before {
 			content: $fa-var-check-square-o;
 		}
 	}

@@ -2,8 +2,8 @@
 @import 'mixins-common.scss';
 
 .wc_list_wrapper:before {
-	@include wc-icon($fa-var-caret-down);
+	@include wc-icon-fw($fa-var-caret-down);
 	position: absolute;
-	right: ($line-size / 4);
-	top: ($line-size / 4);
+	right: 0.25rem; // The fixed icon width div 4 - it works!
+	top: 0.25rem;
 }

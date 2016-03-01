@@ -39,7 +39,7 @@
 				</xsl:otherwise>
 			</xsl:choose>
 			<xsl:if test="not($readOnly=$t)">
-				<button type="button" class="wc_btn_nada" title="{$removeTxt}"></button>
+				<button type="button" class="wc_btn_icon" title="{$removeTxt}"></button>
 			</xsl:if>
 		</li>
 	</xsl:template>

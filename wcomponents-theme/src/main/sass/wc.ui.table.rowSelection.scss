@@ -12,6 +12,8 @@ tr[aria-selected] {
 }
 
 .wc_table_sel_wrapper {
+	white-space: nowrap;
+
 	[role='menubar'] {
 		button {
 			margin-left: 0; // override .wc_seltog style.
@@ -30,9 +32,4 @@ tr[aria-selected] {
 			}
 		}
 	}
-}
-
-.wc_table_col_hasmenu {
-	// text-align: right;
-	width: ($line-size * 2);
 }

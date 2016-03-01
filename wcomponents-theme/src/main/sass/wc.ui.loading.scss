@@ -18,7 +18,7 @@
 		color: $wc-ui-color-global-fg;
 		display: inline-block;
 		margin: 0 auto;
-		padding: 1em;
+		padding: $hgap-large;
 		vertical-align: middle;
 		width: auto;
 
@@ -35,7 +35,7 @@
 	// Some of these properties have to be important to over-ride specific component's rules
 	// scss-lint:disable ImportantRule
 	background-color: transparent !important;
-	// border-color: transparent !important; busy stuff should keep borders - we should ensure they keep the same dimensions too so it doesn't look stupid
+	// scss-lint:enable ImportantRule
 	color: $wc-ui-color-disabled-fg;
 
 	// Make any interactive child element of a busy region invisible. We want them to take up their space but not be

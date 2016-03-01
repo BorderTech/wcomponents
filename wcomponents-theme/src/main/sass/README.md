@@ -33,12 +33,9 @@ If you need CSS for IE for IE8 or before I recommend adding a conditional commen
 
 ### Comments
 
-* Each CSS and SCSS file must commence with a CSS comment which includes **only** its file name. This makes CSS debugging much easier (remember that CSS style comments are stripped in the final compressed output but Sass comments are stripped in all circumstances).
+* Each Sass file must commence with a CSS comment which includes **only** its file name. This makes CSS debugging much easier (remember that CSS style comments are stripped in the final compressed output but Sass comments are stripped in all circumstances).
 * Comments **must be in Sass single line** style unless they are pertinent to debugging and then they must have a local override of the `Comments` scss-lint rule. If a particular declaration in a declaration block requires a comment it **must be in Sass single line form** under all circumstances.
-* There must be a single space between the start of a comment and the first character of the comment content.
-* If a rule is commented there must not be any empty lines between the last line of the comment and the first selector.
 * Do not place a CSS style comment inside a declaration block (it causes issues with Safari's developer tools). Sass single line comments are permitted inside rule blocks.
-* If a particular selector in a multi-selector rule requires a comment it should be placed on the same line as the selector.
 
 #### Example
 
@@ -68,7 +65,7 @@ The take-home message of this is: there is no hard and fast rule for when to use
 ## Things to do
 
 * The conversion from CSS is still early so there is a lot of optimization which could happen.
-* We need to get on top of the documentation: there is currently no SassDoc for example.
+* We need to get on top of the documentation: there is currently little or no SassDoc for example.
 * A lot of this CSS was inherited and has grown like topsy so we also need to standardize class names and some data-* attribute names.
 
 ## References

@@ -57,17 +57,7 @@
 	box-sizing: border-box;
 }
 
-/// Style a button with a (usually) transparent background. Handy for holding iconography! The default call to this
-/// mixin will style a button to:
-///
-/// * be a fixed square size eqivalent to the default line size;
-/// * have a small amount of padding on all sides;
-/// * will have a box-model of content-box;
-/// * will inherit font styles;
-/// * have a standard border on all sides (see the border mixin);
-/// * have center text-alignment;
-/// * will reset the linear dimensions from $line-size to 1em using the reset-large-screen mixin;
-/// * then apply content.
+/// Style a button with a (usually) transparent background. Handy for holding iconography!
 ///
 /// @param {color} $background [transparent] Set the button background. Set -1 to ignore this rule.
 /// @param {boolean|int} $border [true] If true then the border mixin is called with no params (get a default border).

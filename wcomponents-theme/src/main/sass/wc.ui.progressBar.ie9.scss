@@ -15,7 +15,7 @@ progress {
 	@include border;
 	background-color: $wc-ui-color-progress-bg;
 	display: block;
-	height: $line-size;
+	height: 1em;
 	position: relative;
 	width: 100%;
 

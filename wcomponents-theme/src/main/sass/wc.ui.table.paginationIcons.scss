@@ -4,7 +4,8 @@
 // The deep nesting and repition here is necessitated by IE8's (and earlier)) lack of nth-child
 .wc_table_pag_cont button {
 	&::before {
-		@include wc-icon-fw($fa-var-angle-double-left);
+		content: $fa-var-angle-double-left;
+		min-width: 1rem;
 	}
 
 	&:nth-of-type(2) {

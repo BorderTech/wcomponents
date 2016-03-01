@@ -3,14 +3,14 @@
 
 // calendar launch button
 .wc_wdf_cal:before {
-	@include wc-icon($fa-var-calendar);
+	content: $fa-var-calendar;
 }
 
 // use a single identified artefact for calendars
 //scss-lint:disable IdSelector
 #wc-calendar thead button {
 	&:before {
-		@include wc-icon($fa-var-calendar-times-o);
+		content: $fa-var-calendar-times-o;
 	}
 
 	&[value = '-1']:before {

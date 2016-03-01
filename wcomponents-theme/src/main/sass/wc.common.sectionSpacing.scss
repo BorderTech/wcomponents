@@ -3,6 +3,13 @@
 section {
 	@include border;
 
+	> h1,
+	> header h1 {
+		@include margin($size: 0);
+		font-size: 1rem;
+		font-weight: normal;
+	}
+
 	// First the header. There are two options. a header element for WSection, a H1 for WPanel
 	// WSection
 	> header {
@@ -15,7 +22,6 @@ section {
 		}
 
 		> h1 {
-			@include margin($size: 0);
 			width: 100%;
 		}
 
@@ -27,7 +33,6 @@ section {
 
 	// WPanel types CHROME and ACTION
 	> h1 {
-		@include margin($size: 0);
 		padding: $section-header-spacing;
 	}
 
