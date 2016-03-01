@@ -6,19 +6,20 @@
 
 $symbol-font: 'Lucida Sans Unicode', 'Arial Unicode MS';
 
+// This variable is used to construct boxes where the width of the box is equal to the line height of the text.
+//$line-size: $line-height * 1em;
 
-/// Add a background-image to almost anything. The default for this macro will add a small, centered,
-///   non-repeateing background image to the element.
+/// Add a background-image to almost anything.
 ///
 /// @param {string} $url The URL of your image.
-/// @param {dimension} $height [$line-size] The vertical aspect of background-size. Set -1 to omit the background-size rule.
+/// @param {dimension} $height [-1] The vertical aspect of background-size. Set -1 to omit the background-size rule.
 /// @param {repetition} $repeat [no-repeat] The repeat rule for your image.
-/// @param {dimension} $width [$line-size] The horizontal aspect of background-size. Set -1 to omit the background-size rule.
+/// @param {dimension} $width [-1] The horizontal aspect of background-size. Set -1 to omit the background-size rule.
 /// @param {position|dimension} $x [50%] The x-position aspect of background-position. The background-position rule is
 /// omitted if both $x and $y are 0.
 /// @param {position|dimension} $y [50%] The y-position aspect of background-position. The background-position rule is
 /// omitted if both $x and $y are 0.
-@mixin background-image($url, $height: $line-size, $repeat: no-repeat, $width: $line-size, $x: 50%, $y: 50%) {
+@mixin background-image($url, $height: -1, $repeat: no-repeat, $width: -1, $x: 50%, $y: 50%) {
 	background-image: url($url);
 	@if ($x != 0 or $y != 0) {
 		background-position: $x $y;
@@ -39,8 +40,7 @@ $symbol-font: 'Lucida Sans Unicode', 'Arial Unicode MS';
 }
 
 /// Add a scaled, centred background-image (as an icon). This is basically a cut-down version of the background-image
-/// mixin for adding iconic images to things (usually buttons). The image is always a square of edge length $line-size.
-/// @todo Delete this and replace calls with a call directly to background-image.
+/// mixin for adding iconic images to things (usually buttons).
 ///
 /// @param {string} $url The URL of your image.
 /// @param {position|dimension} $x [50%] The x-position aspect of background-position. The background-position rule is
@@ -53,9 +53,9 @@ $symbol-font: 'Lucida Sans Unicode', 'Arial Unicode MS';
 
 /// Makes a square box (for exampe to put a 100% scaled SVG in).
 /// @param {display} $display [inline-block] How you want your box to display.
-/// @param {dimension} $height [$line-size] The height of the box. Set auto to omit this rule.
-/// @param {dimension} $width [$line-size] The width of the box. Set auto to omit this rule.
-@mixin make-box($display: inline-block, $height: $line-size, $width: $line-size) {
+/// @param {dimension} $height [auto] The height of the box. Set auto to omit this rule.
+/// @param {dimension} $width [auto] The width of the box. Set auto to omit this rule.
+@mixin make-box($display: inline-block, $height: $auto, $width: auto) {
 	display: $display;
 	@if ($height != auto) {
 		height: $height;

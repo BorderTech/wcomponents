@@ -6,5 +6,5 @@
 // dialog close control
 // NOTE: for resize handle and max/restore control see wc.ui.resizeable.scss.
 .wc_dialog_close:before {
-	@include wc-icon($fa-var-times);
+	content: $fa-var-times;
 }

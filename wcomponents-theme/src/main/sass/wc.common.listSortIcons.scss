@@ -5,7 +5,7 @@
 /// Each individual shuffle control's iconography
 .wc_sorter {
 	&:before {
-		@include wc-icon($fa-var-angle-double-up);
+		content: $fa-var-angle-double-up;
 	}
 
 	// NOTE this will need a .ie8.scss file if your implementation needs to support ie8.

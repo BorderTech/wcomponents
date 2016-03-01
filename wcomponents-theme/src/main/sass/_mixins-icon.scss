@@ -7,14 +7,17 @@
 @import 'libs/fa/mixins.scss';
 
 /// use fa-icon
-@mixin wc-icon ($icon) {
+@mixin wc-icon ($icon: -1) {
 	@include fa-icon;
-	content: $icon;
+	@if($icon != -1) {
+		content: $icon;
+	}
+	font-size: 1rem; // keep icons at 16px
 }
 
 /// Make a fixed-width icon.
-@mixin wc-icon-fw ($icon, $text-align: center) {
+@mixin wc-icon-fw ($icon, $text-align: center, $width: 1rem) {
 	@include wc-icon($icon);
 	text-align: $text-align;
-	width: (18em / 14);
+	width: $width;
 }

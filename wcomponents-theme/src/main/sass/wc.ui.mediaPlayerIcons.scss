@@ -2,7 +2,6 @@
 // styles for WAudio and WVideo when the media is not able to be handled by the user agent natively. */
 @import 'mixins-common.scss';
 
-.wc_av_play,
 .wc-src,
 .wc-track {
 	&:before {
@@ -10,10 +9,16 @@
 	}
 }
 
-.wc_av_play[aria-pressed='true']:before {
-	content: $fa-var-pause;
-}
-
 .wc-track:before {
 	content: $fa-var-file-text;
+}
+
+.wc_av_play {
+	&:before {
+		content: $fa-var-play;
+	}
+
+	&[aria-pressed='true']:before {
+		content: $fa-var-pause;
+	}
 }

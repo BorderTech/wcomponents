@@ -3,7 +3,8 @@
 
 .wc_msp_btncol button {
 	&:before {
-		@include wc-icon-fw($fa-var-angle-right);
+		content: $fa-var-angle-right;
+		width: 1rem;
 	}
 
 	// NOTE this will need a .ie8.scss file if your implementation needs to support ie8.

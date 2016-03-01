@@ -1,15 +1,4 @@
 /* wc.ui.fieldset.scss */
-
-// Just a few notes regarding fieldset defaults:
-
-//  * Firefox padding:  0.35em 0.625em 0.75em
-//  * Chrome padding:  0.35em 0.75em 0.625em
-//  * IE padding: 0 2px 3px
-// All three default margin: 0 2px
-
-// Legend:
-//  * Firefox & Chrome padding: 0 2px, margin:0. border:0
-//  * IE padding: 0 2px, border-width:medium (transparent but changes box)
 @import 'mixins-common.scss';
 
 fieldset {

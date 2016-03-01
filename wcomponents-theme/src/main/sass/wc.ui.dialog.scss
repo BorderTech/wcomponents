@@ -69,13 +69,13 @@ dialog {
 			@include flex-grow(1);
 			@include margin($size: 0);
 			color: $wc-ui-color-dialog-head-fg;
-			font-size: 1em;
+			font-size: 1rem;
 		}
 
 		> span { // the header control 'block'
 			@include flex-align-self(flex-start);
 			line-height: 0;
-			margin-right: 0.25em;
+			margin-right: $hgap-small;
 		}
 
 		.wc_btn_icon {

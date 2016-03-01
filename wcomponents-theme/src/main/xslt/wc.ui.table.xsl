@@ -205,13 +205,7 @@
 							</xsl:if>
 
 							<xsl:if test="$rowSelection=1">
-								<col>
-									<xsl:attribute name="class">
-										<xsl:text>wc_table_colauto</xsl:text>
-										<xsl:if test="$hasToggleSelectMode = 1">
-											<xsl:text> wc_table_col_hasmenu</xsl:text>
-										</xsl:if>
-									</xsl:attribute>
+								<col class="wc_table_colauto">
 									<xsl:if test="$isDebug=1">
 										<xsl:comment>row selection column</xsl:comment>
 									</xsl:if>
