@@ -93,3 +93,8 @@
 	padding: $hgap-small;
 	word-wrap: break-word;
 }
+
+input[type='file']::-webkit-file-upload-button {
+	@include button($border: 0);
+	@include border($pos: right, $width: 1px);
+}
