@@ -6,7 +6,7 @@ datalist {
 	display: none;
 }
 
-input[role='combobox'] {
+input[role='combobox'] { // not the combo wrapper of datefield.
 	padding-right: $line-size; // allow for icon
 
 	&[aria-expanded = 'true'] ~ [role='listbox'] {
@@ -14,19 +14,6 @@ input[role='combobox'] {
 		max-height: (7 * ($line-size + (2 * $hgap-small))); // allow for up to seven visible options.
 		max-width: 100%;
 		overflow: auto;
-	}
-}
-
-li[role='option'] {
-	@include margin($size: 0);
-	min-height: 1em;
-	padding: $hgap-small;
-
-	&:hover,
-	&:focus {
-		background-color: $wc-ui-color-invite-bg;
-		color: $wc-ui-color-invite-fg;
-		cursor: pointer;
 	}
 }
 

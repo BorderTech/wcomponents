@@ -6,10 +6,9 @@
 .wc_sortcont {
 	display: inline-block;
 	vertical-align: top;
-}
 
-/// Each individual shuffle control
-.wc_sorter {
-	@include button;
-	display: block;
+	/// Each individual shuffle control
+	button {
+		display: block;
+	}
 }

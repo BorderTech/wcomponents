@@ -4,27 +4,27 @@
 .wc_table_pag_cont {
 	label,
 	select,
-	select + .wc_ibtn { // no first of type
+	select + button { // no first of type
 		margin-left: $hgap-large;
 	}
 
-	.wc_ibtn {
+	button {
 		&:before {
 			@include wc-icon-fw($fa-var-angle-double-left);
 		}
 
-		+ .wc_ibtn {
+		+ button {
 			&:before {
 				content: $fa-var-angle-left;
 			}
 			// IE8 sucks, we need this nesting depth
 			//scss-lint:disable NestingDepth
-			+ .wc_ibtn {
+			+ button {
 				&:before {
 					content: $fa-var-angle-right;
 				}
 
-				+ .wc_ibtn:before {
+				+ button:before {
 					content: $fa-var-angle-double-right;
 				}
 

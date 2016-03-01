@@ -4,7 +4,8 @@
 // disabled colours are special They are harder to get 4.5:1 and still look disabled!
 $wc-ui-color-disabled-fg: #696969;
 $wc-ui-color-disabled-bg: #f3f3f3;
-$wc-ui-color-disabled-border: $wc-ui-color-disabled-fg;
+// disabled border notused in the default theme.
+$wc-ui-color-disabled-border: $std-color-lines; // same as regular border in this case: it is not important and can cause inconsistencies
 //disabled controls in the banner, WSection headers, dialog headers etc
 $wc-color-primary-disabled: #ccc;
 // $wc-ui-color-primary-disabled-bg: #333; //may be unnecessary

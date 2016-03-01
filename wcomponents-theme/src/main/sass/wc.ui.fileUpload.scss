@@ -2,10 +2,6 @@
 @import 'mixins-common.scss';
 
 .wc-fileupload {
-	button {
-		@include button($padding: $hgap-small);
-	}
-
 	a {
 		@include flex-grow(1);
 		@include flex-shrink(1);

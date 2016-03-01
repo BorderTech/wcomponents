@@ -19,9 +19,9 @@ tr[aria-selected] {
 
 		.wc-submenu > button { // the is the submenu opener emulator for the sub-row toggle control
 			@include button($background: $wc-ui-color-menu-bg, $padding: 0, $width: 1em);
-			height: calc(1em - 2px); // 2px fpr border
+			height: 1em;
 			position: relative;
-			top: 2px;
+			top: 2px; // allow for the border.
 
 			&::after {
 				margin-left: 0; // remove submenu opener indicator margin
