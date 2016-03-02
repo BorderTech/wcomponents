@@ -5,31 +5,30 @@
 
 dialog {
 	@include border($width: 0); // oh chrome, you try so hard to annoy me
-	@include tight-box;
+	@include border-box;
 	background: transparent;
 	display: none;
+	height: 100%;
+	left: 0;
+	margin: 0;
+	padding: 0;
 	position: fixed;
+	top: 0;
+	width: 100%;
 	z-index: $z-index-dialog;
 
-	@include respond(mobile) {
-		@include border-box;
+	&[role="alertdialog"] {
 		height: 98%;
-		left: 0;
 		margin: 1%;
-		top: 0;
 		width: 98%;
-
-		> header .wc_maxcont {
-			display: none;
-		}
 	}
 
 	> [aria-live] { // dialog content container
 		@include padded-box;
-		background-color: $wc-ui-color-global-bg;
 		height: 100%;
 		overflow: auto;
 
+		&,
 		&[aria-busy='true'] {
 			// override usual transparency of busy elements because that's just wrong with a dialog's content.
 			// scss-lint:disable ImportantRule
@@ -84,6 +83,10 @@ dialog {
 			+ button {
 				margin-left: $hgap-small;
 			}
+		}
+
+		.wc_maxcont {
+			display: none;
 		}
 	}
 
