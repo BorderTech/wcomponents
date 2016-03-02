@@ -4,27 +4,31 @@
 @import 'wc.ui.dialog_vars.scss';
 
 dialog {
-	// Important to override inline CSS
-	// scss-lint:disable ImportantRule
 	@include border($width: 0); // oh chrome, you try so hard to annoy me
 	@include border-box;
-	@include tight-box;
 	background: transparent;
 	display: none;
-	height: 98% !important;
+	height: 100%;
 	left: 0;
-	margin: 1%;
+	margin: 0;
+	padding: 0;
 	position: fixed;
 	top: 0;
-	width: 98% !important;
+	width: 100%;
 	z-index: $z-index-dialog;
+
+	&[role="alertdialog"] {
+		height: 98%;
+		margin: 1%;
+		width: 98%;
+	}
 
 	> [aria-live] { // dialog content container
 		@include padded-box;
-		background-color: $wc-ui-color-global-bg;
 		height: 100%;
 		overflow: auto;
 
+		&,
 		&[aria-busy='true'] {
 			// override usual transparency of busy elements because that's just wrong with a dialog's content.
 			// scss-lint:disable ImportantRule

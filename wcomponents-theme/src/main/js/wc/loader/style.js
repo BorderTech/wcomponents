@@ -140,7 +140,7 @@ define(["wc/has", "wc/config", "wc/fixes"], /** @param has wc/has @param module 
 			 * @type {String}
 			 * @private
 			 */
-			cssFileNameAndUrlExtension = (isDebug ? "${debug.target.file.name.suffix}" : "") + ".css" + (CACHEBUSTER ? ("?" + CACHEBUSTER) : ""),
+			cssFileNameAndUrlExtension = ".css",
 			/**
 			 * Used to access keys in the screenStylesToAdd JSON object.
 			 * @var
@@ -314,6 +314,7 @@ define(["wc/has", "wc/config", "wc/fixes"], /** @param has wc/has @param module 
 				CSS_BASE_URL = config.cssBaseUrl;
 				CACHEBUSTER = config.cachebuster;
 				isDebug = config.debug;
+				cssFileNameAndUrlExtension = (isDebug ? "${debug.target.file.name.suffix}" : "") + ".css" + (CACHEBUSTER ? ("?" + CACHEBUSTER) : "");
 				if (config.ie) {
 					ieVersionsToSupport = config.ie;
 				}
