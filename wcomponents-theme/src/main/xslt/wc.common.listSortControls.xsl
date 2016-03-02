@@ -12,6 +12,7 @@
 	<xsl:template name="listSortControls">
 		<xsl:param name="id" select="@id"/>
 		<span class="wc_sortcont">
+			<xsl:if test="self::ui:multiselectpair">&#x00a0;</xsl:if>
 			<xsl:call-template name="listSortControl">
 				<xsl:with-param name="id" select="$id"/>
 				<xsl:with-param name="value" select="'top'"/>

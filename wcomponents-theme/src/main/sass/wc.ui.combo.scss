@@ -7,11 +7,12 @@ datalist {
 }
 
 input[role='combobox'] { // not the combo wrapper of datefield.
-	padding-right: $line-size; // allow for icon
+	@include border-box;
+	padding-right: 1rem; // allow for icon
 
 	&[aria-expanded = 'true'] ~ [role='listbox'] {
 		display: block;
-		max-height: (7 * ($line-size + (2 * $hgap-small))); // allow for up to seven visible options.
+		max-height: (7 * ($hgap-normal + (2 * $hgap-small))); // allow for up to seven visible options.
 		max-width: 100%;
 		overflow: auto;
 	}

@@ -55,6 +55,10 @@ button {
 		@include button;
 		color: inherit;
 
+		&:before {
+			@include wc-icon;
+		}
+
 		&[disabled] {
 			background-color: $wc-ui-color-disabled-bg;
 			color: $wc-ui-color-disabled-fg;

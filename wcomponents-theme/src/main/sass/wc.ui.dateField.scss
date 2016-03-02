@@ -76,7 +76,7 @@
 
 		input { //year field:
 			margin: 0 $hgap-large;
-			width: 5em; //  FF and IE do not size by max.
+			width: 5rem; //  FF and IE do not size by max.
 		}
 	}
 
@@ -104,7 +104,7 @@
 	min-width: 100%;
 	padding: $vgap-small $hgap-small;
 	text-align: center;
-	width: 3em;
+	width: 3rem;
 
 	&:hover,
 	&:focus {
@@ -141,7 +141,7 @@
 	}
 
 	#wc-calendar {
-		font-size: 1.5em;
+		font-size: 1.5rem;
 		height: 100%;
 
 		thead {
@@ -160,7 +160,7 @@
 		}
 
 		th { // The th contain the day name addreviations.
-			font-size: 1em;
+			font-size: 1rem;
 		}
 	}
 

@@ -9,7 +9,7 @@
 // scss-lint:disable QualifyingElement
 button.wc_maxcont {
 	&:before {
-		@include wc-icon($fa-var-plus);
+		content: $fa-var-plus;
 	}
 
 	&[aria-pressed='true']:before {

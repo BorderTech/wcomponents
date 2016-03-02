@@ -13,8 +13,6 @@
 
 	&.warning { // I have never seen a warning level issue in WComponents which has NOT been a false negative.
 		border-color: $wc-ui-color-warning-fg;
-		// max-height: 5em;
-		// overflow: auto;
 
 		&:before {
 			background-color: $wc-ui-color-warning-fg;

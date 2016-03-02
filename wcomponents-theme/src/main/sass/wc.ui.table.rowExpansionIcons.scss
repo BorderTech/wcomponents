@@ -6,13 +6,11 @@
 
 tr[role='row'] {
 	> td[role='button']:before {
-		// @include wc-icon($fa-var-chevron-circle-right);
 		@include wc-icon-fw($fa-var-caret-right);
 	}
 
 	&[aria-expanded='true'] {
 		> td[role='button']:before {
-			// content: $fa-var-chevron-circle-down;
 			content: $fa-var-caret-down;
 		}
 	}

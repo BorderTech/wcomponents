@@ -3,15 +3,16 @@
 
 /// The back to top of page link.
 .wc_btt {
-	bottom: 1em;
+	bottom: 1rem;
+	opacity: 0.5;
 	position: fixed;
-	right: 1em;
+	right: 1rem;
 	text-decoration: none;
 
 	&:before {
 		@include wc-icon($fa-var-chevron-circle-up);
 		display: block;
-		font-size: 1.5em;
+		font-size: 1.5rem;
 		line-height: inherit;
 		text-align: center;
 		vertical-align: middle;

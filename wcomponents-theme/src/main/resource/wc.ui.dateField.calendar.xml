@@ -9,12 +9,12 @@
 				</select>
 				<input id="wc-calyear" value="{{fullYear}}" autocomplete="off" type="number" title="{{yearLabel}}" min="1000" max="9999"/><!-- DON'T GIVE NAME! -->
 
-				<button type="button" class="wc_wdf_mv" value="-1" title="{{lastMonth}}"> </button>
-				<button type="button" class="wc_wdf_mv" value="t" title="{{today}}"> </button>
-				<button type="button" class="wc_wdf_mv" value="1" title="{{nextMonth}}"> </button>
+				<button type="button" class="wc_wdf_mv wc_btn_icon" value="-1" title="{{lastMonth}}"> </button>
+				<button type="button" class="wc_wdf_mv wc_btn_icon" value="t" title="{{today}}"> </button>
+				<button type="button" class="wc_wdf_mv wc_btn_icon" value="1" title="{{nextMonth}}"> </button>
 			</td>
 			<td>
-				<button type="button" class="wc_wdf_cls" title="{{closeLabel}}"></button>
+				<button type="button" class="wc_wdf_cls wc_btn_icon" title="{{closeLabel}}"></button>
 			</td>
 		</tr>
 		<tr>

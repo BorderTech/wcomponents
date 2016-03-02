@@ -4,7 +4,7 @@
 th {
 	&[aria-sort]:after {
 		@include wc-icon($fa-var-caret-down);
-		margin-left: $hgap-small; //allow for 16px image, image position and 0.25em between text and image.
+		margin-left: $hgap-small;
 	}
 
 	&[sorted]:after {
