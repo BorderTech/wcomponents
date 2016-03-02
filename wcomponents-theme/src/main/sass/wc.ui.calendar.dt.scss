@@ -1,0 +1,76 @@
+/* wc.ui.calendar.dt.scss */
+@import 'mixins-common.scss';
+// The calendar container is a single generated element with a fixed id.
+// scss-lint:disable IdSelector
+#wc-calbox { // This is the calendar container.
+	@include border; // or box-shadow: Xpx Ypx Zpx $wc-ui-color-shadow; but not both
+	@include fit-content;
+	height: auto;
+	left: auto;
+	position: absolute;
+	right: 0;
+	top: auto;
+
+	&.wc_colsth { // bottom collision
+		bottom: 110%;
+	}
+
+	&.wc_colwest { // right collision
+		left: 0;
+		right: auto;
+	}
+
+	dialog & {
+		position: fixed;
+		right: auto;
+	}
+}
+
+#wc-calendar {
+	font-size: 1rem;
+}
+
+.wc_wdf_pick {
+	line-height: inherit;
+	max-width: none;
+}
+
+// The main purpose of this CSS is to make the pop-up calendar full screen. We make all of the buttons bigger to make
+// them easier for fingers to push and finally add a close button to make up for the lack of an escape key.
+// The calendar container is a single generated element with a fixed id.
+@include respond(small) {
+	#wc-calbox {
+		// Important to overcome inline style of the collision detection routine which we want to ignore here.
+		// scss-lint:disable ImportantRule
+		height: 100%;
+		overflow: auto;
+		position: fixed;
+		width: 100%;
+
+		.wc-column {
+			&:first-child {
+				margin-bottom: $hgap-small;
+				text-align: center;
+			}
+
+			+ .wc-column {
+				display: inline-block;
+				// important to override normal column width override of inline style
+				width: 50% !important;
+			}
+		}
+	}
+
+	#wc-calendar {
+		font-size: 1.5rem;
+
+		th { // The th contain the day name addreviations.
+			font-size: 1rem;
+		}
+	}
+
+	.wc_wdf_pick {
+		line-height: 2;
+		max-width: 100%;
+	}
+}

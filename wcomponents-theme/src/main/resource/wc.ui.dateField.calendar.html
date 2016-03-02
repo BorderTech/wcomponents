@@ -1,22 +1,23 @@
+<div class="wc-row">
+	<div class="wc-column">
+		<select id="wc-calmonth" title="{{monthLabel}}"><!-- DON'T GIVE NAME! -->
+			{{#monthName}}
+			<option>{{.}}</option>
+			{{/monthName}}
+		</select>
+		<input id="wc-calyear" value="{{fullYear}}" autocomplete="off" type="number" title="{{yearLabel}}" min="1000" max="9999"/><!-- DON'T GIVE NAME! -->
+	</div>
+	<div class="wc-column">
+		<button type="button" class="wc_wdf_mv wc_btn_icon" value="-1" title="{{lastMonth}}"> </button>
+		<button type="button" class="wc_wdf_mv wc_btn_icon" value="t" title="{{today}}"> </button>
+		<button type="button" class="wc_wdf_mv wc_btn_icon" value="1" title="{{nextMonth}}"> </button>
+	</div>
+	<div class="wc-column">
+		<button type="button" class="wc_wdf_cls wc_btn_icon" title="{{closeLabel}}"></button>
+	</div>
+</div>
 <table id="wc-calendar" cellpadding="0" cellspacing="0" border="0">
 	<thead>
-		<tr>
-			<td colspan="6">
-				<select id="wc-calmonth" title="{{monthLabel}}"><!-- DON'T GIVE NAME! -->
-				{{#monthName}}
-					<option>{{.}}</option>
-				{{/monthName}}
-				</select>
-				<input id="wc-calyear" value="{{fullYear}}" autocomplete="off" type="number" title="{{yearLabel}}" min="1000" max="9999"/><!-- DON'T GIVE NAME! -->
-
-				<button type="button" class="wc_wdf_mv wc_btn_icon" value="-1" title="{{lastMonth}}"> </button>
-				<button type="button" class="wc_wdf_mv wc_btn_icon" value="t" title="{{today}}"> </button>
-				<button type="button" class="wc_wdf_mv wc_btn_icon" value="1" title="{{nextMonth}}"> </button>
-			</td>
-			<td>
-				<button type="button" class="wc_wdf_cls wc_btn_icon" title="{{closeLabel}}"></button>
-			</td>
-		</tr>
 		<tr>
 			{{#dayName}}
 			<th>

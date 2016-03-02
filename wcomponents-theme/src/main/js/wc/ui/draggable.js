@@ -47,7 +47,8 @@ define(["wc/dom/attribute",
 		 * @private
 		 */
 		function Draggable() {
-			var DRAGGABLE = new Widget("", "", {"data-wc-draggable": "true"}),
+			var TRUE = "true",
+				DRAGGABLE = new Widget("", "", {"data-wc-draggable": TRUE}),
 				DRAGGABLE_HAS_ANIMATION_CLASS = "wc_dragflow",
 				CLASS_REMOVED_ATTRIB = "data_draggableremovedanimation",
 				ns = "wc.ui.draggable",
@@ -58,6 +59,34 @@ define(["wc/dom/attribute",
 				KEY_MOVE = ((conf && conf.step) ? conf.step : 6),  // the number of pixels by which a draggable is moved by keyboard
 				BS = ns + ".inited",
 				MM_EVENT = ns + ".move.inited";
+
+			/**
+			 * Helper to turn off UI move animations.
+			 *
+			 * @function
+			 * @private
+			 * @param {Element} el The element being moved.
+			 */
+			function removeAminationClass(el) {
+				if (classList.contains(el, DRAGGABLE_HAS_ANIMATION_CLASS)) {
+					classList.remove(el, DRAGGABLE_HAS_ANIMATION_CLASS);
+					el.setAttribute(CLASS_REMOVED_ATTRIB, TRUE);
+				}
+			}
+
+			/**
+			 * Helper to turn on UI move animations.
+			 *
+			 * @function
+			 * @private
+			 * @param {Element} el The element to be tested.
+			 */
+			function replaceAnimationClass(el) {
+				if (el.getAttribute(CLASS_REMOVED_ATTRIB) === TRUE) {
+					classList.add(el, DRAGGABLE_HAS_ANIMATION_CLASS);
+					el.removeAttribute(CLASS_REMOVED_ATTRIB);
+				}
+			}
 
 			/**
 			 * We usually need to move a complex component but only want a sub-component to be the move handle. This
@@ -92,11 +121,7 @@ define(["wc/dom/attribute",
 					position = getBox(moveTarget, true);
 					offsetX[id] = offset.X - position.left;
 					offsetY[id] = offset.Y - position.top;
-
-					if (classList.contains(moveTarget, DRAGGABLE_HAS_ANIMATION_CLASS)) {
-						classList.remove(moveTarget, DRAGGABLE_HAS_ANIMATION_CLASS);
-						moveTarget.setAttribute(CLASS_REMOVED_ATTRIB, "true");
-					}
+					removeAminationClass(moveTarget);
 				}
 			}
 
@@ -110,33 +135,41 @@ define(["wc/dom/attribute",
 			 */
 			function keydownEvent($event) {
 				var target = $event.target, element, result = false, x, y, keyCode = $event.keyCode, moveTarget, position;
-				if (!$event.defaultPrevented && (element = DRAGGABLE.findAncestor(target))) {
-					switch (keyCode) {
-						case KeyEvent.DOM_VK_RIGHT:
-							x = KEY_MOVE;
-							break;
-						case KeyEvent.DOM_VK_LEFT:
-							x = 0 - KEY_MOVE;
-							break;
-						case KeyEvent.DOM_VK_DOWN:
-							y = KEY_MOVE;
-							break;
-						case KeyEvent.DOM_VK_UP:
-							y = 0 - KEY_MOVE;
-							break;
+				try {
+					if (!$event.defaultPrevented && (element = DRAGGABLE.findAncestor(target))) {
+						switch (keyCode) {
+							case KeyEvent.DOM_VK_RIGHT:
+								x = KEY_MOVE;
+								break;
+							case KeyEvent.DOM_VK_LEFT:
+								x = 0 - KEY_MOVE;
+								break;
+							case KeyEvent.DOM_VK_DOWN:
+								y = KEY_MOVE;
+								break;
+							case KeyEvent.DOM_VK_UP:
+								y = 0 - KEY_MOVE;
+								break;
+						}
+						// this is the bit that does the key driven "drag"
+						if ((x || y) && (moveTarget = getMoveTarget(element))) {
+							removeAminationClass(moveTarget);
+							x = x || 0;
+							y = y || 0;
+							position = getBox(moveTarget, true);
+							positionable.reset(element, true);
+							positionable.setPositionInView(moveTarget, position.left + x, position.top + y);
+							result = true;
+						}
 					}
-					// this is the bit that does the key driven "drag"
-					if ((x || y) && (moveTarget = getMoveTarget(element))) {
-						x = x || 0;
-						y = y || 0;
-						position = getBox(moveTarget, true);
-						positionable.reset(element, true);
-						positionable.setPositionInView(moveTarget, position.left + x, position.top + y);
-						result = true;
+					if (result) {
+						$event.preventDefault();
 					}
 				}
-				if (result) {
-					$event.preventDefault();
+				finally {
+					if (moveTarget) {
+						replaceAnimationClass(moveTarget);
+					}
 				}
 			}
 
@@ -164,10 +197,7 @@ define(["wc/dom/attribute",
 					id = moveTarget.id || (moveTarget.id = uid());
 					dragging = id;
 					position = getBox(moveTarget, true);
-					if (classList.contains(moveTarget, DRAGGABLE_HAS_ANIMATION_CLASS)) {
-						classList.remove(moveTarget, DRAGGABLE_HAS_ANIMATION_CLASS);
-						moveTarget.setAttribute(CLASS_REMOVED_ATTRIB, "true");
-					}
+					removeAminationClass(moveTarget);
 					offsetX[id] = touch.pageX - position.left;
 					offsetY[id] = touch.pageY - position.top;
 					$event.preventDefault();
@@ -182,9 +212,8 @@ define(["wc/dom/attribute",
 			 */
 			function mouseupTouchendTouchcancelEvent() {
 				var element;
-				if (dragging && (element = document.getElementById(dragging)) && element.getAttribute(CLASS_REMOVED_ATTRIB) === "true") {
-					classList.add(element, DRAGGABLE_HAS_ANIMATION_CLASS);
-					element.removeAttribute(CLASS_REMOVED_ATTRIB);
+				if (dragging && (element = document.getElementById(dragging))) {
+					replaceAnimationClass(element);
 				}
 				dragging = null;
 			}
@@ -228,10 +257,7 @@ define(["wc/dom/attribute",
 				}
 
 				if ((element = document.getElementById(dragging))) {
-					if (classList.contains(element, DRAGGABLE_HAS_ANIMATION_CLASS)) {
-						classList.remove(element, DRAGGABLE_HAS_ANIMATION_CLASS);
-						element.setAttribute(CLASS_REMOVED_ATTRIB, "true");
-					}
+					removeAminationClass(element);
 					offset = getMouseEventOffset($event);
 					moveTo(element, offset.X, offset.Y);
 				}

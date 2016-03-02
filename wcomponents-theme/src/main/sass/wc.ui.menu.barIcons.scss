@@ -3,8 +3,6 @@
 // NOTE: role menuitemradio and menuitemcheckbox can be shorthanded to aria-checked.
 @import 'wc.ui.menu_vars.scss';
 
-@include respond(mobile) {
-	[role='banner'] [data-wc-menufixed] > [role='menuitem']:first-child > button::before {
-		@include wc-icon($fa-var-bars);
-	}
+[role='banner'] [data-wc-menufixed] > [role='menuitem']:first-child > button::before {
+	@include wc-icon($fa-var-bars);
 }

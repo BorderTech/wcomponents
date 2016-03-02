@@ -73,16 +73,14 @@
 
 @import 'wc.ui.panel_vars.scss'; // for the header foreground color
 
-@include respond(mobile) {
-	[role='banner'] [role='menubar'][data-wc-menufixed] {
-		display: inline-block;
+[role='banner'] [role='menubar'][data-wc-menufixed] {
+	display: inline-block;
 
-		> [role='menuitem']:first-child > button {
-			padding: $hgap-small;
+	> [role='menuitem']:first-child > button {
+		padding: $hgap-small;
 
-			&::after {
-				color: $wc-ui-color-panel-header-foreground;
-			}
+		&::after {
+			color: $wc-ui-color-panel-header-foreground;
 		}
 	}
 }
