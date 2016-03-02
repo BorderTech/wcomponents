@@ -1,12 +1,10 @@
 /* wc.ui.dialog.pattern_safari.scss */
-@import 'wc.ui.dialog_vars.scss';
-
-dialog > [aria-live] { // dialog content container
-	// scss-lint:disable VendorPrefix
-	height: -webkit-fit-content;
-	// scss-lint:enable VendorPrefix
-
-	@include respond(mobile) {
-		height: 100%;
-	}
-}
+// @import 'wc.ui.dialog_vars.scss';
+//
+// dialog > [aria-live] { // dialog content container
+// 	@include fit-content($what: height);
+//
+// 	@include respond(small) {
+// 		height: 100%;
+// 	}
+// }

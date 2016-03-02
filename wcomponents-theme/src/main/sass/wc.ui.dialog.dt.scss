@@ -2,24 +2,32 @@
 @import 'wc.ui.dialog_vars.scss';
 
 dialog[open] {
-	@include border($width: 0);
-	height: auto;
+	@include fit-content($what: height, $imp: true);
+	@include fit-content($what: width, $imp: true);
+	margin: 0;
 	max-width: 100%;
 	min-height: $wc-ui-dialog-min-height;
 	min-width: $wc-ui-dialog-min-width;
 
-
 	@include respond(small) {
-		@include border($width: 0); // oh chrome, you try so hard to annoy me
 		@include tight-box;
-		height: 98%;
-		position: fixed;
+		// Important to override inline CSS
+		// scss-lint:disable ImportantRule
+		height: 98% !important;
+		left: 0 !important;
+		margin: 1%;
+		top: 0 !important;
+		width: 98% !important;
 	}
 
 	> footer {
 		display: block;
 		line-height: 0;
 		text-align: right;
+	}
+
+	> header .wc_maxcont {
+		display: inline-block;
 	}
 
 	&.wc_dragflow,

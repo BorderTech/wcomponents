@@ -95,20 +95,20 @@
 // Allow duplicate width declarations
 // scss-lint:disable DuplicateProperty
 /// Size a container to fit its content.
-@mixin fit-content($imp: 0) {
+@mixin fit-content($what: width, $imp: 0) {
 	@if ($imp == 0) {
-		width: auto;
-		width: -webkit-fit-content;
-		width: -moz-fit-content;
-		width: fit-content;
+		#{$what}: auto;
+		#{$what}: -webkit-fit-content;
+		#{$what}: -moz-fit-content;
+		#{$what}: fit-content;
 	}
 	@else {
 		// Important needed for some reason!
 		// scss-lint:disable ImportantRule
-		width: auto !important;
-		width: -webkit-fit-content !important;
-		width: -moz-fit-content !important;
-		width: fit-content !important;
+		#{$what}: auto !important;
+		#{$what}: -webkit-fit-content !important;
+		#{$what}: -moz-fit-content !important;
+		#{$what}: fit-content !important;
 	}
 }
 // scss-lint:enable DuplicateProperty

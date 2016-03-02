@@ -4,25 +4,20 @@
 @import 'wc.ui.dialog_vars.scss';
 
 dialog {
+	// Important to override inline CSS
+	// scss-lint:disable ImportantRule
 	@include border($width: 0); // oh chrome, you try so hard to annoy me
+	@include border-box;
 	@include tight-box;
 	background: transparent;
 	display: none;
+	height: 98% !important;
+	left: 0;
+	margin: 1%;
 	position: fixed;
+	top: 0;
+	width: 98% !important;
 	z-index: $z-index-dialog;
-
-	@include respond(small) {
-		@include border-box;
-		height: 98%;
-		left: 0;
-		margin: 1%;
-		top: 0;
-		width: 98%;
-
-		> header .wc_maxcont {
-			display: none;
-		}
-	}
 
 	> [aria-live] { // dialog content container
 		@include padded-box;
@@ -84,6 +79,10 @@ dialog {
 			+ button {
 				margin-left: $hgap-small;
 			}
+		}
+
+		.wc_maxcont {
+			display: none;
 		}
 	}
 
