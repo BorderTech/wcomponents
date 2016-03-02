@@ -467,6 +467,9 @@ define(["wc/has",
 							shed.expand(dateField);
 						}
 					}
+					else if (shed.isExpanded(dateField)) {
+						shed.collapse(dateField);
+					}
 				}
 			}
 
@@ -494,6 +497,9 @@ define(["wc/has",
 					else if ((suggestionList = getSuggestionList(dateField))) {
 						suggestionList.innerHTML = "";
 						suggestionList.setAttribute("aria-busy", "true");
+						if (shed.isExpanded(dateField)) {
+							shed.collapse(dateField);
+						}
 					}
 				}
 

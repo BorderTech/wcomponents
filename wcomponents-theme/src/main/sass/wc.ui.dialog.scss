@@ -11,7 +11,7 @@ dialog {
 	position: fixed;
 	z-index: $z-index-dialog;
 
-	@include respond(mobile) {
+	@include respond(small) {
 		@include border-box;
 		height: 98%;
 		left: 0;

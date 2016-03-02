@@ -67,7 +67,7 @@ ul.wc-fieldlayout {
 }
 
 
-@include respond(phonelike) {
+@include respond(small) {
 	.flat > .wc-field {
 		> :first-child,
 		> .wc-input {

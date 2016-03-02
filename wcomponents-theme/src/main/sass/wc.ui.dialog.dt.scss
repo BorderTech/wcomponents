@@ -1,12 +1,20 @@
 /* wc.ui.dialog.dt.scss */
 @import 'wc.ui.dialog_vars.scss';
 
-dialog {
+dialog[open] {
 	@include border($width: 0);
 	height: auto;
 	max-width: 100%;
 	min-height: $wc-ui-dialog-min-height;
 	min-width: $wc-ui-dialog-min-width;
+
+
+	@include respond(small) {
+		@include border($width: 0); // oh chrome, you try so hard to annoy me
+		@include tight-box;
+		height: 98%;
+		position: fixed;
+	}
 
 	> footer {
 		display: block;

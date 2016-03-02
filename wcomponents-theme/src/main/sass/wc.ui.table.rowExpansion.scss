@@ -7,7 +7,7 @@
 		@include tight-box;
 		list-style-type: none;
 
-		@include respond(phonelike) {
+		@include respond(small) {
 			text-align: left;
 		}
 	}
