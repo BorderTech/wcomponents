@@ -74,7 +74,7 @@
 		<property name="httpHost" value="${env.HOSTNAME}"/>
 		<property file="${properties.build.constants}"/>
 		<property name="xsl.build.path" value="${implementation.name}/${xslt.target.dir.name}" />
-		<property name="xml.build.path" value="${implementation.name}/${xml.target.dir.name}" />
+		<property name="xml.build.path" value="${implementation.name}/${resource.target.dir.name}" />
 		<property name="css.build.path" value="${implementation.name}/${css.target.dir.name}" />
 		<if>
 			<equals arg1="${test.target.mode}" arg2="debug" />

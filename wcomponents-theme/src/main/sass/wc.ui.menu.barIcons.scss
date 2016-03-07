@@ -1,0 +1,8 @@
+/* wc.ui.menu.bar.scss */
+// These styles apply to WMenus of type BAR and FLYOUT
+// NOTE: role menuitemradio and menuitemcheckbox can be shorthanded to aria-checked.
+@import 'wc.ui.menu_vars.scss';
+
+[role='banner'] [data-wc-menufixed] > [role='menuitem']:first-child > button::before {
+	@include wc-icon($fa-var-bars);
+}

@@ -161,7 +161,7 @@ define(["wc/i18n/i18n", "wc/has", "wc/dom/classList", "wc/dom/event", "wc/dom/in
 				if (element.getAttribute(LAME_CONTROLS) === "play") {
 					parent = element.parentElement;
 					playButton = document.createElement("button");
-					playButton.className = "wc_btn_nada wc_av_play";
+					playButton.className = "wc_btn_icon wc_av_play";
 					playButton.title = i18n.get("${wc.ui.media.i18n.play}");
 					playButton.setAttribute("type", "button");
 					playButton.setAttribute("aria-pressed", "false");

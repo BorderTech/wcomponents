@@ -20,14 +20,7 @@
 			<xsl:value-of select="../@id"/>
 		</xsl:variable>
 		
-		<xsl:element name="div">
-			<xsl:attribute name="id">
-				<xsl:value-of select="@id"/>
-			</xsl:attribute>
-			<xsl:attribute name="aria-labelledby">
-				<xsl:value-of select="$submenuId"/>
-				<xsl:text>${wc.ui.menu.submenu.openerIdSuffix}</xsl:text>
-			</xsl:attribute>
+		<div id="{@id}" arial-labelledby="{concat($submenuId, '${wc.ui.menu.submenu.openerIdSuffix}')}">
 			<xsl:attribute name="class">
 				<xsl:text>wc_submenucontent</xsl:text>
 				<xsl:choose>
@@ -69,15 +62,17 @@
 					</xsl:choose>
 				</xsl:attribute>
 				<xsl:if test="not(*)">
-					<!-- make a dummy menu item.
+					<!-- make the sub menu busy.
 						Why?
 						We have to keep the menu role on the content wrapper to make the menu function but role menu
-						must have at least one descendant role menuitem[(?:radio)|(?:checkbox)]?
+						must have at least one descendant role menuitem[(?:radio)|(?:checkbox)]? _or_ be aria-busy.
 					-->
-					<span role="menuitem" class="wc_menuitem_dummy" hidden="hidden"></span>
+					<xsl:attribute name="aria-busy">
+						<xsl:copy-of select="$t"/>
+					</xsl:attribute>
 				</xsl:if>
 			</xsl:if>
 			<xsl:apply-templates select="*"/>
-		</xsl:element>
+		</div>
 	</xsl:template>
 </xsl:stylesheet>

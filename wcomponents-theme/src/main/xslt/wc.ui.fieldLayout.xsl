@@ -26,11 +26,7 @@
 		<xsl:element name="{$element}">
 			<xsl:call-template name="commonAttributes">
 				<xsl:with-param name="isWrapper" select="1"/>
-			</xsl:call-template>
-			<xsl:call-template name="makeCommonClass">
-				<xsl:with-param name="additional">
-					<xsl:value-of select="@layout"/>
-				</xsl:with-param>
+				<xsl:with-param name="class" select="@layout"/>
 			</xsl:call-template>
 			<xsl:if test="@ordered and @ordered &gt; 1">
 				<xsl:attribute name="start">

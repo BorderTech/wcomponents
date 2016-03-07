@@ -1,12 +1,11 @@
 /* wc.common.list.scss */
 /// Styles applied to list output of many components.
-@import 'vars_all.scss';
+@import 'mixins-common.scss';
 
 /// represents a list with no bullets
 .wc_list_nb {
+	@include tight-box;
 	list-style-type: none;
-	margin: 0;
-	padding: 0;
 }
 
 /// text mode option and optgroup emulation

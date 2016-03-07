@@ -1,5 +1,5 @@
 /* wc.ui.timeoutWarn.scss */
-@import 'vars_all.scss';
+@import 'vars.scss';
 
 // timeout warning container is generated and identified.
 // scss-lint:disable IdSelector
@@ -8,6 +8,6 @@
 	bottom: 0;
 	position: fixed;
 	right: 0;
-	width: 35em;
+	width: 35rem;
 	z-index: $z-index-unloading-message; // z-index needs to be above dialogs, unloading shims etc
 }

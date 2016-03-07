@@ -1,34 +1,34 @@
 /**
  * Provides functionality to undertake client validation of WFileWidget and WMultiFileWidget.
  *
- * @module validation/fileUpload
+ * @module wc/ui/validation/fileUpload
  * @requires module:wc/dom/attribute
  * @requires module:wc/dom/event
  * @requires module:wc/dom/initialise
+ * @requires module:wc/i18n/i18n
  * @requires module:wc/ui/getFirstLabelForElement
  * @requires module:wc/dom/Widget
- * @requires module:validation/isComplete
- * @requires module:validation/validationManager
- * @requires module:validation/required
+ * @requires module:wc/ui/validation/isComplete
+ * @requires module:wc/ui/validation/validationManager
+ * @requires module:wc/ui/validation/required
  * @requires module:wc/ui/multiFileUploader
  */
 define(["wc/dom/attribute",
 		"wc/dom/event",
 		"wc/dom/initialise",
-		"lib/i18n!wc/nls/validation",
+		"wc/i18n/i18n",
 		"wc/ui/getFirstLabelForElement",
 		"wc/dom/Widget",
 		"wc/ui/validation/isComplete",
 		"wc/ui/validation/validationManager",
 		"wc/ui/validation/required",
-		"wc/ui/multiFileUploader",
-		"lib/sprintf"],
-	/** @param attribute wc/dom/attribute @param event wc/dom/event @param initialise wc/dom/initialise @param i18n @param getFirstLabelForElement wc/ui/getFirstLabelForElement @param Widget wc/dom/Widget @param isComplete validation/isComplete @param validationManager validation/validationManager @param required validation/required @param multiFileUploader wc/ui/multiFileUploader @ignore */
-	function(attribute, event, initialise, i18n, getFirstLabelForElement, Widget, isComplete, validationManager, required, multiFileUploader, sprintf) {
+		"wc/ui/multiFileUploader"],
+	/** @param attribute wc/dom/attribute @param event wc/dom/event @param initialise wc/dom/initialise @param i18n wc/i18n/i18n @param getFirstLabelForElement wc/ui/getFirstLabelForElement @param Widget wc/dom/Widget @param isComplete wc/ui/validation/isComplete @param validationManager wc/ui/validation/validationManager @param required wc/ui/validation/required @param multiFileUploader wc/ui/multiFileUploader @ignore */
+	function(attribute, event, initialise, i18n, getFirstLabelForElement, Widget, isComplete, validationManager, required, multiFileUploader) {
 		"use strict";
 		/**
 		 * @constructor
-		 * @alias module:validation/fileUpload~ValidationFileUpload
+		 * @alias module:wc/ui/validation/fileUpload~ValidationFileUpload
 		 * @private
 		 */
 		function ValidationFileUpload() {
@@ -49,7 +49,7 @@ define(["wc/dom/attribute",
 
 				function _messageFunc(element) {
 					var legend = getFirstLabelForElement(element, true) || element.title;
-					return sprintf.sprintf(i18n.file, legend);
+					return i18n.get("${validation.multiFileUploader.i18n.required}", legend);
 				}
 
 				obj = {container: container,
@@ -123,7 +123,7 @@ define(["wc/dom/attribute",
 
 			/**
 			 * Initialisation callback to attach events.
-			 * @function module:validation/fileUpload.initialise
+			 * @function module:wc/ui/validation/fileUpload.initialise
 			 * @param {Element} element The element being initialised.
 			 */
 			this.initialise = function(element) {
@@ -137,7 +137,7 @@ define(["wc/dom/attribute",
 
 			/**
 			 * Late initialisation callback to attach subscribers.
-			 * @function module:validation/fileUpload.postInit
+			 * @function module:wc/ui/validation/fileUpload.postInit
 			 */
 			this.postInit = function() {
 				validationManager.subscribe(validate);
@@ -145,7 +145,7 @@ define(["wc/dom/attribute",
 			};
 		}
 
-		var /** @alias module:validation/fileUpload */ instance = new ValidationFileUpload();
+		var /** @alias module:wc/ui/validation/fileUpload */ instance = new ValidationFileUpload();
 		initialise.register(instance);
 		return instance;
 	});

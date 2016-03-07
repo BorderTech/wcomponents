@@ -1,0 +1,12 @@
+/* wc.common.page.dt.scss */
+@import 'mixins-common.scss';
+
+body {
+	@include respond($size: 1024px, $test: min-device-width) {
+		font-size: $font-size;
+	}
+
+	@include reset-large-screen { // make the default (75%) text size bigger on really big screens.
+		font-size: $bigscreen-font-size;
+	}
+}

@@ -1,4 +1,4 @@
-@import 'vars_all.scss';
+@import 'vars.scss';
 
 $wc-ui-color-table-head-bg: $std-color-primary;
 $wc-ui-color-table-head-fg: $std-color-primary-accent;
@@ -11,3 +11,6 @@ $wc-color-table-foot-disabled: $wc-ui-color-disabled-fg;
 $table-cell-padding-top-bottom: $hgap-small;
 $table-cell-padding-left-right: $hgap-small;
 $table-cell-padding: $table-cell-padding-top-bottom;
+
+// the amount of the indent for hierarchic tables
+$table-hierarchic-indent: 1.5em;

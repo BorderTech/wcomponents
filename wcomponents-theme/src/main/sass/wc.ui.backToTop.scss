@@ -1,22 +1,21 @@
 /* wc.ui.backToTop.scss */
-@import 'mixins_common.scss';
+@import 'mixins-common.scss';
 
 /// The back to top of page link.
 .wc_btt {
-	bottom: 1em;
+	bottom: 1rem;
+	opacity: 0.5;
 	position: fixed;
-	right: 1em;
+	right: 1rem;
+	text-decoration: none;
 
 	&:before {
-		content: url('../images/back-to-top.svg');
+		@include wc-icon($fa-var-chevron-circle-up);
 		display: block;
-		height: 4em;
-		width: 4em;
-
-		@include respond (mobile) {
-			height: 1.5em;
-			width: 1.5em;
-		}
+		font-size: 1.5rem;
+		line-height: inherit;
+		text-align: center;
+		vertical-align: middle;
 	}
 
 	> span {

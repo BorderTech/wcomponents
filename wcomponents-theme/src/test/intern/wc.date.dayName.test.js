@@ -1,55 +1,47 @@
-define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
+define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 	function (registerSuite, assert, testutils) {
 		"use strict";
-		var testDate,
-			day,
-			result,
-			SUNDAY,
-			MONDAY,
-			TUESDAY,
-			WEDNESDAY,
-			THURSDAY,
-			FRIDAY,
-			SATURDAY;
+		var controller,
+			mondayWeek,
+			defaultWeek;
 		registerSuite({
 			name: "dayName",
 			setup: function () {
-				SUNDAY = 0;
-				MONDAY = 1;
-				TUESDAY = 2;
-				WEDNESDAY = 3;
-				THURSDAY = 4;
-				FRIDAY = 5;
-				SATURDAY = 6;
-				testDate = new Date();
 				return testutils.setupHelper(["wc/date/dayName"], function(dayName) {
-					day = dayName;
+					controller = dayName;
 				});
 			},
 			beforeEach: function () {
-				result = day.get(testDate);
+				defaultWeek = controller.get();
+				mondayWeek = controller.get(true);
 			},
 			testDaySunday: function () {
-				assert.strictEqual("Sunday", result[SUNDAY]);
+				assert.strictEqual("Sunday", defaultWeek[0]);
+				assert.strictEqual("Monday", mondayWeek[0]);
 			},
 			testDayMonday: function () {
-				assert.strictEqual("Monday", result[MONDAY]);
+				assert.strictEqual("Monday", defaultWeek[1]);
+				assert.strictEqual("Tuesday", mondayWeek[1]);
 			},
 			testDayTuesday: function () {
-				assert.strictEqual("Tuesday", result[TUESDAY]);
+				assert.strictEqual("Tuesday", defaultWeek[2]);
+				assert.strictEqual("Wednesday", mondayWeek[2]);
 			},
 			testDayWednesday: function () {
-				assert.strictEqual("Wednesday", result[WEDNESDAY]);
+				assert.strictEqual("Wednesday", defaultWeek[3]);
+				assert.strictEqual("Thursday", mondayWeek[3]);
 			},
 			testDayThursday: function () {
-				assert.strictEqual("Thursday", result[THURSDAY]);
+				assert.strictEqual("Thursday", defaultWeek[4]);
+				assert.strictEqual("Friday", mondayWeek[4]);
 			},
 			testDayFriday: function () {
-				assert.strictEqual("Friday", result[FRIDAY]);
+				assert.strictEqual("Friday", defaultWeek[5]);
+				assert.strictEqual("Saturday", mondayWeek[5]);
 			},
 			testDaySaturday: function () {
-				var result = day.get(testDate);
-				assert.strictEqual("Saturday", result[SATURDAY]);
+				assert.strictEqual("Saturday", defaultWeek[6]);
+				assert.strictEqual("Sunday", mondayWeek[6]);
 			}
 		});
 	});

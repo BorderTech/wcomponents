@@ -2,11 +2,12 @@
 @import 'wc.ui.dialog_vars.scss';
 
 dialog > [aria-live] { // dialog content container
+	// need to work around a Safari-OSX bug but not for full screen dialogs.
 	// scss-lint:disable VendorPrefix
 	height: -webkit-fit-content;
 	// scss-lint:enable VendorPrefix
 
-	@include respond(mobile) {
+	@include respond(small) {
 		height: 100%;
 	}
 }

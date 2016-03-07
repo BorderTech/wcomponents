@@ -1,4 +1,4 @@
-@import 'mixins_common.scss';
+@import 'mixins-common.scss';
 
 //generic menu structure
 $wc-ui-menu-item-pad-topbottom: $vgap-normal;
@@ -20,6 +20,5 @@ $wc-ui-menu-flyout-vseparator-pad: $hgap-small 0;
 $wc-ui-menu-bar-column-opener-indicator-before-after: $hgap-small;
 
 //type TREE
-$wc-ui-menu-tree-indent: 1em;
+$wc-ui-menu-tree-indent: 0.75rem;
 $wc-ui-menu-tree-item-pad: $hgap-small $vgap-normal;
-$wc-ui-menu-tree-icon-size: 1em;

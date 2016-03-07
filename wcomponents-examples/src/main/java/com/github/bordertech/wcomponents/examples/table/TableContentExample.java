@@ -11,6 +11,8 @@ import com.github.bordertech.wcomponents.WTable.TableModel;
 import com.github.bordertech.wcomponents.WTableColumn;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.examples.DynamicImage;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This example shows use of a {@link WTable}, with a two-dimensional array of data and rendering of dynamic content.
@@ -31,6 +33,8 @@ public class TableContentExample extends WPanel {
 	 */
 	public TableContentExample() {
 		table = new WTable();
+		table.setPaginationMode(WTable.PaginationMode.CLIENT);
+		table.setRowsPerPage(5);
 		table.addColumn(new WTableColumn("Name (text)", new WText()));
 		table.addColumn(new WTableColumn("Name (image)", new DynamicWImage()));
 		add(table);
@@ -57,9 +61,16 @@ public class TableContentExample extends WPanel {
 	 * @return a new data model.
 	 */
 	private TableModel createTableModel() {
-		String[][] data = new String[][]{new String[]{"Row 1", "Row 1"}, new String[]{"Row 2", "Row 2"},
-		new String[]{"Row 3", "Row 3"}};
+		//String[][] data = new String[][]{};//{new String[]{"Row 1", "Row 1"}, new String[]{"Row 2", "Row 2"}, new String[]{"Row 3", "Row 3"}};
+		int capcity = 100;
 
+		List<String[]> list = new ArrayList<>();
+		int i = 1;
+		do {
+			list.add(new String[]{"Row " + String.valueOf(i), "Row " + String.valueOf(i)});
+		} while (++i <= capcity);
+
+		String[][] data = list.toArray(new String[capcity][2]);
 		return new AdapterBasicTableModel(new SimpleTableModel(data));
 	}
 

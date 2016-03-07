@@ -1,0 +1,13 @@
+/* wc.ui.menu.tree.icon.scss */
+// tree menu branch indicators
+@import 'wc.ui.menu_vars.scss';
+
+[role='treeitem'] {
+	&[aria-expanded] > button:before {
+		@include wc-icon($fa-var-plus-square-o);
+	}
+
+	&[aria-expanded='true'] > button:before {
+		content: $fa-var-minus-square-o;
+	}
+}

@@ -2,7 +2,7 @@
 // This is the core of the table CSS. The other CSS files are used for functional images and other items which are less
 // likely to be implementation specific
 @import 'wc.ui.table_vars.scss';
-@import 'mixins_common.scss';
+@import 'mixins-common.scss';
 
 .wc-table.wc_error {
 	@include outline($color: $wc-ui-color-error-fg, $offset: -1px);
@@ -52,8 +52,7 @@ th.wc_table_sel_wrapper { // reset the vertical alignment of th with these class
 }
 
 .wc_table_colauto {
-	max-width: $line-size;
-	width: $line-size;
+	width: 0.5rem; // actually anything small but more than zero.
 }
 
 // Column Striping.

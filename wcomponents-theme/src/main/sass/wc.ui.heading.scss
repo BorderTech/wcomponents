@@ -1,6 +1,6 @@
 /* wc.ui.heading.scss */
 // This file is purposely left as a stub for easy over-ride
-@import 'vars_all.scss';
+@import 'mixins-common.scss';
 
 h1,
 h2,
@@ -22,13 +22,5 @@ h4 {
 		img {
 			vertical-align: middle;
 		}
-	}
-}
-
-section {
-	> h1,
-	> header h1 {
-		font-size: 1em;
-		font-weight: normal;
 	}
 }

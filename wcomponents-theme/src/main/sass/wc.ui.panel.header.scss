@@ -9,10 +9,10 @@
 
 	h1 {
 		color: $wc-ui-color-panel-header-foreground;
-		font-size: 3em;
+		font-size: 3rem;
 		font-weight: lighter;
 		margin: 0;
-		padding: 0.25em 0.3333em;
+		padding: $vgap-normal $hgap-normal;
 	}
 
 	a,
@@ -23,7 +23,7 @@
 
 @include respond (mobile) {
 	[role='banner'] {
-		> .content {
+		> .wc-content {
 			@include flex($direction: row-reverse, $wrap: wrap, $justify: space-between, $align-items: center, $align-content: flex-start);
 
 			> * {
@@ -38,7 +38,7 @@
 		}
 
 		h1 {
-			font-size: 1.25em;
+			font-size: 1.25rem;
 			font-weight: bold;
 			margin: 0;
 			padding: 0;

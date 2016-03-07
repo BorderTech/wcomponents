@@ -1,14 +1,14 @@
 /**
  * Provides functionality to undertake client validation of WCheckBoxSelect. Extends {@link module:wc/validation/ariaAnalog}.
  *
- * @module validation/checkBoxSelect
- * @extends module:validation/ariaAnalog
+ * @module wc/ui/validation/checkBoxSelect
+ * @extends module:wc/ui/validation/ariaAnalog
  * @requires module:wc/dom/initialise
  * @requires module:wc/dom/getFilteredGroup
- * @requires module:validation/ariaAnalog
+ * @requires module:wc/ui/validation/ariaAnalog
  * @requires module:wc/"wc/ui/validation/validationManager
- * @requires module:validation/required
- * @requires module:validation/minMax
+ * @requires module:wc/ui/validation/required
+ * @requires module:wc/ui/validation/minMax
  * @requires module:wc/ui/checkBoxSelect
  */
 define(["wc/dom/initialise",
@@ -18,14 +18,14 @@ define(["wc/dom/initialise",
 		"wc/ui/validation/required",
 		"wc/ui/validation/minMax",
 		"wc/ui/checkBoxSelect"],
-	/** @param initialise dom/initialise @param getFilteredGroup dom/getFilteredGroup @param ariaAnalog validation/ariaAnalog @param validationManager validation/validationManager @param required validation/required @param minMax validation/minMax @param checkBoxSelect ui/checkBoxSelect @ignore */
+	/** @param initialise dom/initialise @param getFilteredGroup dom/getFilteredGroup @param ariaAnalog wc/ui/validation/ariaAnalog @param validationManager wc/ui/validation/validationManager @param required wc/ui/validation/required @param minMax wc/ui/validation/minMax @param checkBoxSelect ui/checkBoxSelect @ignore */
 	function(initialise, getFilteredGroup, ariaAnalog, validationManager, required, minMax, checkBoxSelect) {
 		"use strict";
 
 		/**
 		 * @constructor
-		 * @alias module:validation/checkBoxSelect~ValidationCheckBoxSelect
-		 * @extends module:validation/ariaAnalog~ValidationAriaAnalog
+		 * @alias module:wc/ui/validation/checkBoxSelect~ValidationCheckBoxSelect
+		 * @extends module:wc/ui/validation/ariaAnalog~ValidationAriaAnalog
 		 * @private
 		 */
 		function ValidationCheckBoxSelect() {
@@ -101,7 +101,7 @@ define(["wc/dom/initialise",
 
 		ValidationCheckBoxSelect.prototype = ariaAnalog;
 
-		var /** @alias module:validation/checkBoxSelect */ instance = new ValidationCheckBoxSelect();
+		var /** @alias module:wc/ui/validation/checkBoxSelect */ instance = new ValidationCheckBoxSelect();
 		instance.constructor = ValidationCheckBoxSelect;
 		initialise.register(instance);
 		return instance;

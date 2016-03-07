@@ -2,14 +2,14 @@
  * Provides functionality to test if a component is "complete". What constitutes complete is dependent upon the
  * WComponent, but for most of them we have a simple test using an extension of {@link module:wc/dom/isSuccessfulElement}.
  *
- * @module validation/isComplete
+ * @module wc/ui/validation/isComplete
  * @requires module:wc/Observer
  * @requires module:wc/array/toArray
  * @requires module:wc/dom/getFilteredGroup
  * @requires module:wc/dom/isSuccessfulElement
  * @requires module:wc/dom/tag
  * @requires module:wc/dom/Widget
- * @requires module:validation/validationManager
+ * @requires module:wc/ui/validation/validationManager
  */
 define(["wc/Observer",
 		"wc/array/toArray",
@@ -18,12 +18,12 @@ define(["wc/Observer",
 		"wc/dom/tag",
 		"wc/dom/Widget",
 		"wc/ui/validation/validationManager"],
-	/** @param Observer wc/Observer @param toArray wc/array/toArray @param getFilteredGroup wc/dom/getFilteredGroup @param isSuccessfulElement wc/dom/isSuccessfulElement @param tag wc/dom/tag @param Widget wc/dom/Widget @param validationManager validation/validationManager @ignore */
+	/** @param Observer wc/Observer @param toArray wc/array/toArray @param getFilteredGroup wc/dom/getFilteredGroup @param isSuccessfulElement wc/dom/isSuccessfulElement @param tag wc/dom/tag @param Widget wc/dom/Widget @param validationManager wc/ui/validation/validationManager @ignore */
 	function(Observer, toArray, getFilteredGroup, isSuccessfulElement, tag, Widget, validationManager) {
 		"use strict";
 		/**
 		 * @constructor
-		 * @alias module:validation/isComplete~IsComplete
+		 * @alias module:wc/ui/validation/isComplete~IsComplete
 		 * @private
 		 */
 		function IsComplete() {
@@ -38,7 +38,7 @@ define(["wc/Observer",
 			 * completeness.
 			 *
 			 * @see {@link module:wc/Observer#subscribe}
-			 * @function module:validation/isComplete.subscribe
+			 * @function module:wc/ui/validation/isComplete.subscribe
 			 * @public
 			 * @param {Function} subscriber The function that will be notified by {@link analytics/validationManager}.
 			 *    This function <strong>MUST</strong> be present at "publish" time, but need not be preset at
@@ -88,7 +88,7 @@ define(["wc/Observer",
 			 * controls can use this helper to determine their completeness just by passing in the Widget which
 			 * describes their top level component and a filter/completeness test function.
 			 *
-			 * @function module:validation/isComplete.isCompleteHelper
+			 * @function module:wc/ui/validation/isComplete.isCompleteHelper
 			 * @param {Element} container A DOM node, usually one containing components but could be the component.
 			 * @param {module:wc/dom/Widget} widget A Widget describing the component calling this function.
 			 * @param {Function} filter A function which returns true if an instance of the component is complete.
@@ -172,7 +172,7 @@ define(["wc/Observer",
 			 * <li>we do observer.notify for any subscribers so that WAI-ARIA role based widgets can do their thing;</li>
 			 * <li>if result is still false after 1 we do a DOM based test of likely candidates.</li></ol>
 			 *
-			 * @function module:validation/isComplete.isContainerComplete
+			 * @function module:wc/ui/validation/isComplete.isContainerComplete
 			 * @param {Element} container That which we are testing.
 			 * @returns {boolean} true if the container is "complete".
 			 */
@@ -264,7 +264,7 @@ define(["wc/Observer",
 			 * Determines if an element  is 'complete' i.e. it send something other than an empty string to the server.
 			 * This public method is a fit for most components. Only unusual or complex components would need to have
 			 * specialised methods for determining completeness.
-			 * @function module:validation/isComplete.isComplete
+			 * @function module:wc/ui/validation/isComplete.isComplete
 			 * @param {Element} element the element to test.
 			 * @returns {boolean} true if the element is complete.
 			 */
@@ -272,5 +272,5 @@ define(["wc/Observer",
 				return element.name ? isNativeComplete(element) : this.isContainerComplete(element);
 			};
 		}
-		return /** @alias module:validation/isComplete */ new IsComplete();
+		return /** @alias module:wc/ui/validation/isComplete */ new IsComplete();
 	});

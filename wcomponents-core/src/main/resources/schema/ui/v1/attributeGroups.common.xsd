@@ -34,11 +34,8 @@
 		</xs:attribute>
 	</xs:attributeGroup>
 
-
-
-
 	<xs:attributeGroup name="ajax.mode.attributes">
-		<xs:attribute name="mode" use="required">
+		<xs:attribute name="mode" default="client">
 			<xs:annotation>
 				<xs:documentation>
 					Indicates the content display mode for the component.
@@ -80,10 +77,12 @@
 					<xs:enumeration value="server">
 						<xs:annotation>
 							<xs:documentation>
-								The content is not part of the page's XML unless it is in a visible (open) state and a
-								user action to display the content will result in the entire application POSTing to the
-								server application. This mode is deprecated for all implementing components and should
-								be avoided as it poses significant user interaction problems.
+								<p>This mode is being phased out and is only present for backwards compatibility.</p>
+								<p>Components may not support this mode.</p>
+								<p>The content is not part of the page's XML unless it is in a visible (open) state and
+									a user action to display the content will result in the entire application POSTing 
+									to the server application. This mode is deprecated for all implementing components 
+									and should be avoided as it poses significant user interaction problems.</p>
 							</xs:documentation>
 						</xs:annotation>
 					</xs:enumeration>
@@ -91,8 +90,6 @@
 			</xs:simpleType>
 		</xs:attribute>
 	</xs:attributeGroup>
-
-
 
 	<xs:attributeGroup name="ajax.mode.simple.attributes">
 		<xs:attribute name="mode">

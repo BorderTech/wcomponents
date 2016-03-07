@@ -1,38 +1,12 @@
 /* wc.ui.media.player.scss */
 // styles for WAudio and WVideo when the media is not able to be handled by the user agent natively. */
-@import 'mixins_common.scss';
+@import 'mixins-common.scss';
 
 .wc-src,
 .wc-track {
 	display: inline-block;
 
-	&:before {
-		@include make-box;
-		content: '';
-		margin-right: $hgap-small;
-		vertical-align: text-bottom;
+	+ & {
+		margin-left: $hgap-normal;
 	}
-}
-
-.wc_av_play,
-.wc-src:before {
-	@include background-image($url: '../images/play.png', $reset-size: 1em);
-}
-
-.wc_av_play {
-	@include button;
-
-	&[aria-pressed='true'] {
-		background-image: url('../images/pause.png');
-	}
-}
-
-
-.wc-track:before {
-	@include background-image($url: '../images/application-smil.png', $reset-size: 1em);
-}
-
-.wc-track + .wc-track,
-.wc-src + .wc-src {
-	margin-left: $hgap-normal;
 }

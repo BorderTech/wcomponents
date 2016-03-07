@@ -1,7 +1,7 @@
 /**
  * Provides functionality to implement a resizeable component.
  *
- * @typedef {Object} module:wc/ui.resizeable.config() Optional module configuration.
+ * @typedef {Object} module:wc/ui/resizeable.config() Optional module configuration.
  * @property {?int} min The minimum size, in px, any element is allowed to be.
  * @default 0
  * @proprty {?int} step The number of pixels to increase/decrease per keypress when resizing with the arrow keys.
@@ -22,6 +22,7 @@
  * @requires module:wc/dom/Widget
  * @requires module:wc/has
  * @requires module:wc/ui/ajax/processResponse
+ * @requires module:wc/config
  *
  * @todo check source order.
  */
@@ -39,9 +40,8 @@ define(["wc/dom/attribute",
 		"wc/dom/Widget",
 		"wc/has",
 		"wc/ui/ajax/processResponse",
-		"module"],
-	/** @param attribute wc/dom/attribute @param classList wc/dom/classList @param clearSelection wc/dom/clearSelection @param event wc/dom/event @param getMouseEventOffset wc/dom/getEventOffset @param isAcceptableTarget wc/dom/isAcceptableTarget @param getBox wc/dom/getBox @param getStyle wc/dom/getStyle @param initialise wc/dom/initialise @param shed wc/dom/shed @param uid wc/dom/uid @param Widget wc/dom/Widget @param has wc/has @param processResponse wc/ui/ajax/processResponse @param module @ignore */
-	function(attribute, classList, clearSelection, event, getMouseEventOffset, isAcceptableTarget, getBox, getStyle, initialise, shed, uid, Widget, has, processResponse, module) {
+		"wc/config"],
+	function(attribute, classList, clearSelection, event, getMouseEventOffset, isAcceptableTarget, getBox, getStyle, initialise, shed, uid, Widget, has, processResponse, wcconfig) {
 		"use strict";
 		/**
 		 * @constructor
@@ -56,7 +56,7 @@ define(["wc/dom/attribute",
 				RESIZEABLE_HAS_ANIMATION_CLASS = "wc_resizeflow",
 				CLASS_REMOVED_ATTRIB = "data-wc-resizeableremovedanimation",
 				CLASS_MAX = "wc_max",
-				conf = module.config(),
+				conf = wcconfig.get("wc/ui/resizeable"),
 				MIN_SIZE = ((conf && conf.min) ? conf.min : 0), // set this to any sensible size but will cause errors in IE if < 0
 				resizing,
 				offsetX = {},

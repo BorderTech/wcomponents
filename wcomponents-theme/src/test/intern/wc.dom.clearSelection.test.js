@@ -3,7 +3,7 @@
  * Agreed. I got rid of lib/dojo/Deferred but leaving this comment as a flag that this test needs some serious review.
  *
  */
-define(["intern!object", "intern/chai!assert", "../intern/resources/test.utils"],
+define(["intern!object", "intern/chai!assert", "../intern/resources/test.utils!"],
 	function (registerSuite, assert, testutils) {
 		"use strict";
 		/*
@@ -14,7 +14,7 @@ define(["intern!object", "intern/chai!assert", "../intern/resources/test.utils"]
 			TEXT = "This is some known text",
 			testHolder,
 			DELAY = 10,
-			TIMEOUT = 1000;
+			TIMEOUT = 3000;
 
 		function getSelectedText() {
 			var result;
@@ -74,10 +74,11 @@ define(["intern!object", "intern/chai!assert", "../intern/resources/test.utils"]
 				var dfd = this.async(TIMEOUT);
 				timers.setTimeout(function() {
 					var wait = function(ms) {
-						var waitDfd = new testutils.LamePromisePolyFill();
-						setTimeout(function() {
-							waitDfd._resolve(getSelectedText());
-						}, ms);
+						var waitDfd = new Promise(function(win) {
+							setTimeout(function() {
+								win(getSelectedText());
+							}, ms);
+						});
 						return waitDfd;
 					};
 
@@ -98,10 +99,11 @@ define(["intern!object", "intern/chai!assert", "../intern/resources/test.utils"]
 				var dfd = this.async(TIMEOUT);
 				timers.setTimeout(function() {
 					var wait = function(ms) {
-						var waitDfd = new testutils.LamePromisePolyFill();
-						setTimeout(function() {
-							waitDfd._resolve(clearSelection());
-						}, ms);
+						var waitDfd = new Promise(function(win) {
+							setTimeout(function() {
+								win(clearSelection());
+							}, ms);
+						});
 						return waitDfd;
 					};
 
@@ -123,10 +125,11 @@ define(["intern!object", "intern/chai!assert", "../intern/resources/test.utils"]
 				var dfd = this.async(TIMEOUT);
 				timers.setTimeout(function() {
 					var wait = function(ms) {
-						var waitDfd = new testutils.LamePromisePolyFill();
-						setTimeout(function() {
-							waitDfd._resolve(clearSelection());
-						}, ms);
+						var waitDfd = new Promise(function(win) {
+							setTimeout(function() {
+								win(clearSelection());
+							}, ms);
+						});
 						return waitDfd;
 					};
 

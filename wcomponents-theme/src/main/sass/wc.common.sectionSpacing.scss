@@ -1,7 +1,14 @@
-@import 'mixins_common.scss';
+@import 'mixins-common.scss';
 
 section {
 	@include border;
+
+	> h1,
+	> header h1 {
+		@include margin($size: 0);
+		font-size: 1rem;
+		font-weight: normal;
+	}
 
 	// First the header. There are two options. a header element for WSection, a H1 for WPanel
 	// WSection
@@ -15,7 +22,6 @@ section {
 		}
 
 		> h1 {
-			margin: 0;
 			width: 100%;
 		}
 
@@ -27,13 +33,12 @@ section {
 
 	// WPanel types CHROME and ACTION
 	> h1 {
-		margin: 0;
 		padding: $section-header-spacing;
 	}
 
 	// now the content
 	// All
-	> .content {
+	> .wc-content {
 		padding: $section-content-spacing;
 	}
 
@@ -67,19 +72,19 @@ section {
 	//scss-lint:enable QualifyingElement
 }
 
-// the negative margin must be 0 - the padding of WSection.content.
+// the negative margin must be 0 - the padding of WSection content.
 $neg-margin: -$section-content-spacing;
 
 // Docking a Bar menu
 // If you have a WPanel of type CHROME or ACTION or a WSection containing a plain WPanel and the WPanel does not have a
 // layout then add a WMenu Type BAR to the content of the WPanel then we can 'dock' the menu to the panel/section
 // header.
-.wc-section > .content > .wc-panel, //we use the WSection class here so we do not end up with weird multi-depth happenings.
+.wc-section > .wc-content > .wc-panel, //we use the WSection class here so we do not end up with weird multi-depth happenings.
 .chrome,
 .action {
 	// need these deep selectors unfortunately
 	// scss-lint:disable SelectorDepth
-	> .content > .bar:first-child {
+	> .wc-content > .bar:first-child {
 		margin: $neg-margin $neg-margin $section-content-spacing;
 	}
 	// scss-lint:enable SelectorDepth

@@ -1,0 +1,6 @@
+// Meta Module to import all common variables.
+//You can (probably) safely import this file rather than trying to work out which common vars files you need
+@import 'colors.scss';
+@import 'common.scss';
+@import 'fonts.scss';
+@import 'spacing.scss';

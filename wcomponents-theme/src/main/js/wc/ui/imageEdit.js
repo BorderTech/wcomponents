@@ -438,23 +438,25 @@ function(has, event, uid, classList, timers, shed, loader, i18n, fabric, Mustach
 				else if (speed > MAX_SPEED) {
 					speed = MAX_SPEED;
 				}
-				timer = timers.setTimeout(callbackWrapper, 100, config);
 			}
 
 			function pressStart($event) {
 				var config = getEventConfig($event.target, "press");
 				if (config) {
-					timer = timers.setTimeout(callbackWrapper, 100, config);
+					pressEnd();
+					timer = timers.setInterval(callbackWrapper, 100, config);
 				}
 			}
 
 			function pressEnd() {
 				speed = START_SPEED;
-				timers.clearTimeout(timer);
+				if (timer) {
+					timers.clearInterval(timer);
+				}
 			}
 
 			function getEventConfig(element, type) {
-				var name = element.className;
+				var name = element.name;
 				if (element.localName === "button" && name && eventConfig[type]) {
 					return eventConfig[type][name];
 				}
@@ -788,9 +790,9 @@ function(has, event, uid, classList, timers, shed, loader, i18n, fabric, Mustach
 
 			this.initControls = function(eventConfig, container) {
 				require(["wc/ui/facetracking"], function(facetracking) {
-					eventConfig.click.wc_btn_face = {
+					eventConfig.click.face = {
 						func: function() {
-							var button = container.querySelector(".wc_btn_face"),
+							var button = container.querySelector("[name='face']"),
 								done = function() {
 									if (button) {
 										shed.enable(button);
@@ -878,7 +880,7 @@ function(has, event, uid, classList, timers, shed, loader, i18n, fabric, Mustach
 				var click = eventConfig.click;
 				if (has("rtc-gum")) {
 					activateCameraControl(eventConfig, container);
-					click.wc_btn_snap = {
+					click.snap = {
 						func: function() {
 							var dataUrl,
 								fbImageTemp,
@@ -898,7 +900,7 @@ function(has, event, uid, classList, timers, shed, loader, i18n, fabric, Mustach
 			function activateCameraControl(eventConfig, container) {
 				var click = eventConfig.click;
 				if (has("rtc-gum")) {
-					click.wc_btn_camera = {
+					click.camera = {
 						func: function() {
 							imageCapture.play();
 							classList.add(container, "wc_showcam");

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+	<xs:attributeGroup name="tree.mode.attributes">
+
+		<xs:attribute name="mode" default="client">
+			<xs:annotation>
+				<xs:documentation>Provides the mode for expanding rows.</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="client">
+						<xs:annotation>
+							<xs:documentation>
+								The content exists in the page and showing/hiding that content is purely a client-side 
+								process.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:enumeration>
+					<xs:enumeration value="dynamic">
+						<xs:annotation>
+							<xs:documentation>
+								The content is fetched from the server using AJAX each time the content is displayed.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:enumeration>
+					<xs:enumeration value="lazy">
+						<xs:annotation>
+							<xs:documentation>
+								The content is fetched from the server the first time the content is displayed then 
+								remains static for the rest fo the lifecycle of the page.
+							</xs:documentation>
+						</xs:annotation>
+					</xs:enumeration>
+					<xs:enumeration value="server">
+						<xs:annotation>
+							<xs:documentation>
+								<p>The content is not part of the page's XML unless it is in a visible (open) state and
+									a user action to display the content will result in the entire application POSTing
+									to the server application.</p>
+								<p>This mode only available for backwards compatibilty with WDataTable and <strong>must
+									not</strong> be implemented for any other purpose.</p>
+							</xs:documentation>
+						</xs:annotation>
+					</xs:enumeration>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:attributeGroup>
+</xs:schema>

@@ -46,6 +46,11 @@
 		<stopwatch name="copySrc" action="start"/>
 		<property name="lib.tmp.src.dir" location="${script.tmp.src.dir}/lib"/>
 		<copy file="${basedir}/node_modules/requirejs/require.js" tofile="${lib.tmp.src.dir}/require.js"/>
+		<copy todir="${lib.tmp.src.dir}" overwrite="true">
+			<fileset dir="${basedir}/node_modules/systemjs/dist">
+				<include name="*.*"/>
+			</fileset>
+		</copy>
 		<copy file="${basedir}/node_modules/sprintf-js/src/sprintf.js" tofile="${lib.tmp.src.dir}/sprintf.js"/>
 		<copy todir="${lib.tmp.src.dir}/dojo" overwrite="true">
 			<fileset dir="${basedir}/node_modules/dojo">
