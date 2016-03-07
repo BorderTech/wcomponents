@@ -27,9 +27,7 @@
 			</xsl:if>
 
 			<xsl:if test="ui:content or ui:decoratedLabel or not($mode='eager')">
-				<div class="wc_content">
-					<xsl:apply-templates select="ui:content"/>
-				</div>
+				<xsl:apply-templates select="ui:content"/>
 				<xsl:apply-templates select="ui:decoratedlabel" mode="figure"/>
 			</xsl:if>
 		</xsl:element>

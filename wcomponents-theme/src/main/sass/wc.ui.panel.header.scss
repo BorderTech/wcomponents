@@ -23,7 +23,7 @@
 
 @include respond (mobile) {
 	[role='banner'] {
-		> .content {
+		> .wc-content {
 			@include flex($direction: row-reverse, $wrap: wrap, $justify: space-between, $align-items: center, $align-content: flex-start);
 
 			> * {

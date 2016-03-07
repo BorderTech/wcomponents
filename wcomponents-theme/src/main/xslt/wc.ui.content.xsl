@@ -7,6 +7,37 @@
 		form of wrapper.
 	-->
 	<xsl:template match="ui:content">
+		<xsl:param name="class"/>
+		<xsl:param name="ajaxId"/>
+		<xsl:param name="labelId" />
+		<div>
+			<xsl:if test="@id and @id != ''">
+				<xsl:attribute name="id">
+					<xsl:value-of select="@id"/>
+				</xsl:attribute>
+			</xsl:if>
+			<xsl:attribute name="class">
+				<xsl:text>wc-content</xsl:text>
+				<xsl:if test="$class != ''">
+					<xsl:value-of select="concat(' ', $class)"/>
+				</xsl:if>
+			</xsl:attribute>
+			<xsl:if test="$ajaxId != ''">
+				<xsl:attribute name="data-wc-ajaxalias">
+					<xsl:value-of select="$ajaxId"/>
+				</xsl:attribute>
+			</xsl:if>
+			<xsl:if test="$labelId != ''">
+				<xsl:attribute name="aria-describedby">
+					<xsl:value-of select="$labelId"/>
+				</xsl:attribute>
+			</xsl:if>
+			<xsl:apply-templates/>
+		</div>
+	</xsl:template>
+	
+	
+	<xsl:template match="ui:content" mode="passthru">
 		<xsl:apply-templates/>
 	</xsl:template>
 </xsl:stylesheet>
