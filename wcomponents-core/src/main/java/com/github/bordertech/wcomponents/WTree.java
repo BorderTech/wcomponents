@@ -1,15 +1,17 @@
 package com.github.bordertech.wcomponents;
 
-import com.github.bordertech.wcomponents.util.AbstractTreeNode;
-import com.github.bordertech.wcomponents.util.TreeNode;
+import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.Util;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -20,13 +22,18 @@ import org.apache.commons.logging.LogFactory;
  * @since 1.0.0
  */
 public class WTree extends AbstractInput
-		implements AjaxTarget, SubordinateTarget,
-		Marginable {
+		implements AjaxTarget, SubordinateTrigger, SubordinateTarget,
+		Marginable, Targetable {
 
 	/**
 	 * The logger instance for this class.
 	 */
 	private static final Log LOG = LogFactory.getLog(WTree.class);
+
+	/**
+	 * Tree item image request.
+	 */
+	public static final String ITEM_IMAGE_ID_KEY = "wc_treeitemid";
 
 	/**
 	 * This is used to control how row selection should work.
@@ -119,29 +126,6 @@ public class WTree extends AbstractInput
 	}
 
 	/**
-	 * Set the inputs based on the incoming request. The text input values are set as an array of strings on the
-	 * parameter with this name {@link #getName()}. Any empty strings will be ignored.
-	 *
-	 * @param request the current request.
-	 * @return true if the inputs have changed, otherwise return false
-	 */
-	@Override
-	protected boolean doHandleRequest(final Request request) {
-		Set<String> values = getRequestValue(request);
-		Set<String> current = getValue();
-
-		boolean changed = selectionsEqual(values, current);
-
-		if (changed) {
-			setData(values);
-		}
-
-		handleExpansionRequest(request);
-
-		return changed;
-	}
-
-	/**
 	 * {@inheritDoc}
 	 */
 	@Override
@@ -153,44 +137,20 @@ public class WTree extends AbstractInput
 		}
 	}
 
-	/**
-	 * Override preparePaint to register an AJAX operation if necessary.
-	 *
-	 * @param request the request being responded to.
-	 */
-	@Override
-	protected void preparePaintComponent(final Request request) {
-		super.preparePaintComponent(request);
-
-		AjaxHelper.registerComponentTargetItself(getId(), request);
-	}
-
-	public TreeItemNode getTreeItemNode(final String itemId) {
-		Iterator<TreeNode> nodes = getCurrentRootNode().breadthFirst();
-		while (nodes.hasNext()) {
-			TreeItemNode treeNode = (TreeItemNode) nodes.next();
-			if (treeNode.getTreeItem().getItemId().equals(itemId)) {
-				return treeNode;
-			}
-		}
-		return null;
-	}
-
-	public TreeItemNode getCurrentRootNode() {
-		TreeItemNode root = getShuffledRootNode();
+	public ItemIdNode getCurrentRootNode() {
+		ItemIdNode root = getUserRootNode();
 		if (root == null) {
-			root = getTreeModel().getRootNode();
+			root = getTreeModel().getNodeTree();
 		}
-		return root == null ? new TreeItemNode(null) : root;
+		return root == null ? new ItemIdNodeImpl(null) : root;
 	}
 
-	public TreeItemNode getShuffledRootNode() {
-		return getComponentModel().shuffleRootNode;
+	public ItemIdNode getUserRootNode() {
+		return getComponentModel().userNodeTree;
 	}
 
-	public void setShuffledRootNode(final TreeItemNode root) {
-		getOrCreateComponentModel().shuffleRootNode = root;
-
+	public void setUserRootNode(final ItemIdNode root) {
+		getOrCreateComponentModel().userNodeTree = root;
 	}
 
 	/**
@@ -209,6 +169,24 @@ public class WTree extends AbstractInput
 	}
 
 	/**
+	 * The action used when the tree items are shuffled on the client.
+	 *
+	 * @param action the shuffle action
+	 */
+	public void setShuffleAction(final Action action) {
+		getOrCreateComponentModel().shuffleAction = action;
+	}
+
+	/**
+	 * The action used when the tree items are shuffled on the client.
+	 *
+	 * @return the shuffle action
+	 */
+	public Action getShuffleAction() {
+		return getComponentModel().shuffleAction;
+	}
+
+	/**
 	 * @return the table model
 	 */
 	public TreeModel getTreeModel() {
@@ -222,7 +200,7 @@ public class WTree extends AbstractInput
 	 */
 	public void setTableModel(final TreeModel treeModel) {
 		getOrCreateComponentModel().treeModel = treeModel;
-		getOrCreateComponentModel().shuffleRootNode = null;
+		setUserRootNode(null);
 		setSelectedRows(null);
 		setExpandedRows(null);
 	}
@@ -284,7 +262,7 @@ public class WTree extends AbstractInput
 	 *
 	 * @param rowKeys the keys of expanded rows.
 	 */
-	public void setExpandedRows(final Set<?> rowKeys) {
+	public void setExpandedRows(final Set<String> rowKeys) {
 		getOrCreateComponentModel().expandedRows = rowKeys;
 	}
 
@@ -297,8 +275,8 @@ public class WTree extends AbstractInput
 	 *
 	 * @return the expanded row keys.
 	 */
-	public Set<?> getExpandedRows() {
-		Set<?> keys = getComponentModel().expandedRows;
+	public Set<String> getExpandedRows() {
+		Set<String> keys = getComponentModel().expandedRows;
 		if (keys == null) {
 			return Collections.emptySet();
 		} else {
@@ -315,7 +293,7 @@ public class WTree extends AbstractInput
 	 *
 	 * @param rowKeys the keys of selected rows.
 	 */
-	public void setSelectedRows(final Set<?> rowKeys) {
+	public void setSelectedRows(final Set<String> rowKeys) {
 		setData(rowKeys);
 	}
 
@@ -328,8 +306,165 @@ public class WTree extends AbstractInput
 	 *
 	 * @return the selected row keys.
 	 */
-	public Set<?> getSelectedRows() {
+	public Set<String> getSelectedRows() {
 		return getValue();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getTargetId() {
+		return getId();
+	}
+
+	public TreeItem getTreeItem(final String itemId) {
+		TreeModel model = getTreeModel();
+		if (model == null) {
+			return null;
+		}
+		return model.getTreeItem(itemId);
+	}
+
+	/**
+	 * Override preparePaint to register an AJAX operation if necessary.
+	 *
+	 * @param request the request being responded to.
+	 */
+	@Override
+	protected void preparePaintComponent(final Request request) {
+		super.preparePaintComponent(request);
+		if (isShuffle()) {
+			AjaxHelper.registerComponentTargetItself(getId(), request);
+		}
+		// Check expanded rows are available
+		for (String itemId : getExpandedRows()) {
+
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected boolean beforeHandleRequest(final Request request) {
+		// Check if is targeted request
+		String targetParam = request.getParameter(Environment.TARGET_ID);
+		boolean targetted = (targetParam != null && targetParam.equals(getTargetId()));
+		if (targetted) {
+			doHandleItemImageRequest(request);
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Handle a targeted request to retrieve the tree item image.
+	 *
+	 * @param request the request being processed
+	 */
+	protected void doHandleItemImageRequest(final Request request) {
+
+		// Check for tree item id
+		String itemId = request.getParameter(ITEM_IMAGE_ID_KEY);
+		if (itemId == null) {
+			throw new SystemException("No tree item id provided for image request.");
+		}
+
+		// Check is valid node
+		ItemIdNode node = findItemIdNode(itemId, getCurrentRootNode());
+		if (node == null) {
+			throw new SystemException("Tree item id [" + itemId + "] is not in the tree.");
+		}
+
+		// Check valid item id
+		TreeItem item = getTreeItem(itemId);
+		if (item == null) {
+			throw new SystemException("Tree item id [" + itemId + "] is not in the tree model.");
+		}
+
+		ContentEscape escape = new ContentEscape(item.getImage());
+		throw escape;
+	}
+
+	/**
+	 * Retrieves a URL for the tree item image.
+	 *
+	 * @param item the tree item
+	 * @return the URL to access the tree item image.
+	 */
+	public String getItemImageUrl(final TreeItem item) {
+
+		// Check if has image url
+		String url = item.getUrl();
+		if (!Util.empty(url)) {
+			return url;
+		}
+
+		// Check if has image
+		Image image = item.getImage();
+		if (image == null) {
+			return null;
+		}
+
+		// Check static resource
+		if (image instanceof InternalResource) {
+			return ((InternalResource) image).getTargetUrl();
+		}
+
+		// Build targetted url
+		Environment env = getEnvironment();
+		Map<String, String> parameters = env.getHiddenParameters();
+		parameters.put(Environment.TARGET_ID, getTargetId());
+
+		String cacheKey = item.getImageCacheKey();
+
+		if (Util.empty(cacheKey)) {
+			// Add some randomness to the URL to prevent caching
+			String random = WebUtilities.generateRandom();
+			parameters.put(Environment.UNIQUE_RANDOM_PARAM, random);
+		} else {
+			// Remove step counter as not required for cached content
+			parameters.remove(Environment.STEP_VARIABLE);
+			parameters.remove(Environment.SESSION_TOKEN_VARIABLE);
+			// Add the cache key
+			parameters.put(Environment.CONTENT_CACHE_KEY, cacheKey);
+		}
+
+		// Item id
+		parameters.put(ITEM_IMAGE_ID_KEY, item.getItemId());
+
+		// The targetable path needs to be configured for the portal environment.
+		url = env.getWServletPath();
+
+		// Note the last parameter. In javascript we don't want to encode "&".
+		return WebUtilities.getPath(url, parameters, true);
+	}
+
+	/**
+	 * Set the inputs based on the incoming request. The text input values are set as an array of strings on the
+	 * parameter with this name {@link #getName()}. Any empty strings will be ignored.
+	 *
+	 * @param request the current request.
+	 * @return true if the inputs have changed, otherwise return false
+	 */
+	@Override
+	protected boolean doHandleRequest(final Request request) {
+		Set<String> values = getRequestValue(request);
+		Set<String> current = getValue();
+
+		boolean changed = selectionsEqual(values, current);
+
+		if (changed) {
+			setData(values);
+		}
+
+		if (isShuffle()) {
+			handleShuffleRequest(request);
+		}
+		handleExpansionRequest(request);
+
+		return changed;
 	}
 
 	/**
@@ -344,26 +479,26 @@ public class WTree extends AbstractInput
 			paramValue = new String[0];
 		}
 
-		String[] selectedRows = removeEmptyStrings(paramValue);
-		Set<String> newSelections = new HashSet<>();
+		String[] selectedRowIds = removeEmptyStrings(paramValue);
+		Set<String> newSelectionIds = new HashSet<>();
 
 		boolean singleSelect = getSelectMode() == SelectMode.SINGLE;
 
-		if (selectedRows != null && getCurrentRootNode().getChildCount() != 0) {
-			// Map the rendered IDs back to the row keys
-			for (String selectedRow : selectedRows) {
-				TreeItem item = getTreeModel().getTreeItem(selectedRow);
+		if (selectedRowIds != null) {
+			ItemIdNode root = getCurrentRootNode();
+			for (String selectedRowId : selectedRowIds) {
+				ItemIdNode item = findItemIdNode(selectedRowId, root);
 				if (item == null) {
 					continue;
 				}
-				newSelections.add(selectedRow);
+				newSelectionIds.add(selectedRowId);
 				if (singleSelect) {
 					break;
 				}
 			}
 		}
 
-		return newSelections;
+		return newSelectionIds;
 	}
 
 	/**
@@ -433,21 +568,124 @@ public class WTree extends AbstractInput
 			paramValue = new String[0];
 		}
 
-		String[] expandedRows = removeEmptyStrings(paramValue);
-		Set<Object> newExpansions = new HashSet<>();
+		String[] expandedRowIds = removeEmptyStrings(paramValue);
+		Set<String> newExpansionIds = new HashSet<>();
 
-		if (expandedRows != null && getCurrentRootNode().getChildCount() != 0) {
-			// Map the rendered IDs back to the row keys
-			for (String expandedRow : expandedRows) {
-				TreeItem item = getTreeModel().getTreeItem(expandedRow);
+		if (expandedRowIds != null) {
+			ItemIdNode root = getCurrentRootNode();
+			for (String expandedRowId : expandedRowIds) {
+				ItemIdNode item = findItemIdNode(expandedRowId, root);
 				if (item == null) {
 					continue;
 				}
-				newExpansions.add(expandedRow);
+				newExpansionIds.add(expandedRowId);
 			}
 		}
+		setExpandedRows(newExpansionIds);
+	}
 
-		setExpandedRows(newExpansions);
+	/**
+	 * Handle the tree items have been shuffled.
+	 *
+	 * @param request the request being processed
+	 */
+	protected void handleShuffleRequest(final Request request) {
+
+		String json = request.getParameter(getId() + ".shuffle");
+		if (Util.empty(json)) {
+			return;
+		}
+
+		// New
+		ItemIdNode newTree = null;
+		try {
+			JsonParser parser = new JsonParser();
+			JsonObject jsonRoot = parser.parse(json).getAsJsonObject();
+			newTree = handleJsonToTree(jsonRoot);
+		} catch (Exception e) {
+			LOG.warn("Could not parse JSON for shuffle tree items. " + e.getMessage());
+			return;
+		}
+
+		// Current
+		ItemIdNode currentTree = getCurrentRootNode();
+
+		boolean changed = isNodeSame(newTree, currentTree);
+
+		if (changed) {
+			setUserRootNode(newTree);
+			// Run the shuffle action (if set)
+			final Action action = getShuffleAction();
+			if (action != null) {
+				// Set the selected file id as the action object
+				final ActionEvent event = new ActionEvent(this, "shuffle");
+				Runnable later = new Runnable() {
+					@Override
+					public void run() {
+						action.execute(event);
+					}
+				};
+				invokeLater(later);
+			}
+		}
+	}
+
+	private ItemIdNode handleJsonToTree(final JsonObject json) {
+
+		ItemIdNodeImpl root = new ItemIdNodeImpl(null);
+
+		JsonArray children = json.getAsJsonArray("root");
+		for (int i = 0; i < children.size(); i++) {
+			JsonObject child = children.get(i).getAsJsonObject();
+			convertJsonToTree(root, child);
+		}
+
+		return root;
+	}
+
+	private void convertJsonToTree(final ItemIdNodeImpl parentNode, final JsonObject json) {
+
+		String id = json.getAsJsonPrimitive("id").getAsString();
+
+		ItemIdNodeImpl node = new ItemIdNodeImpl(id);
+		parentNode.addChild(node);
+
+		JsonArray children = json.getAsJsonArray("items");
+		for (int i = 0; i < children.size(); i++) {
+			JsonObject child = children.get(i).getAsJsonObject();
+			convertJsonToTree(node, child);
+		}
+	}
+
+	private boolean isNodeSame(final ItemIdNode tree1, final ItemIdNode tree2) {
+
+		// Check IDs match
+		if (!Util.equals(tree1.getItemId(), tree2.getItemId())) {
+			return false;
+		}
+
+		// Check have same number of children
+		if (tree1.getChildren().size() != tree2.getChildren().size()) {
+			return false;
+		}
+
+		// Check child IDs match
+		for (int i = 0; i < tree1.getChildren().size(); i++) {
+			if (!isNodeSame(tree1.getChildren().get(i), tree2.getChildren().get(i))) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private ItemIdNode copyTreeNode(final ItemIdNode node) {
+		ItemIdNodeImpl copy = new ItemIdNodeImpl(node.getItemId());
+
+		for (ItemIdNode childItem : node.getChildren()) {
+			ItemIdNode childCopy = copyTreeNode(childItem);
+			copy.addChild(childCopy);
+		}
+		return copy;
 	}
 
 	/**
@@ -472,13 +710,49 @@ public class WTree extends AbstractInput
 		}
 	}
 
+	private ItemIdNode findItemIdNode(final String itemId, final ItemIdNode node) {
+		if (Util.equals(itemId, node.getItemId())) {
+			return node;
+		}
+
+		for (ItemIdNode childItem : node.getChildren()) {
+			ItemIdNode childNode = findItemIdNode(itemId, childItem);
+			if (childNode != null) {
+				return childNode;
+			}
+		}
+
+		return null;
+	}
+
+	private void checkNodesLoaded(final Set<String> itemIds, final ItemIdNode node) {
+
+		// Check if node is expanded
+		if (node.hasChildren()) {
+			boolean expand = itemIds.remove(node.getItemId());
+			if (expand && node.getChildren().isEmpty()) {
+				getTreeModel().loadChildren(node);
+			}
+			if (itemIds.isEmpty()) {
+				return;
+			}
+		}
+
+		for (ItemIdNode childItem : node.getChildren()) {
+			checkNodesLoaded(itemIds, childItem);
+			if (itemIds.isEmpty()) {
+				return;
+			}
+		}
+	}
+
 	/**
 	 * @return a String representation of this component, for debugging purposes.
 	 */
 	@Override
 	public String toString() {
 		TreeModel model = getTreeModel();
-		return toString(model.getClass().getSimpleName() + ", " + getCurrentRootNode().getChildCount() + " rows", -1,
+		return toString(model.getClass().getSimpleName() + ", " + getCurrentRootNode().getChildren().size() + " rows", -1,
 				-1);
 	}
 
@@ -525,7 +799,7 @@ public class WTree extends AbstractInput
 		private Margin margin;
 
 		/**
-		 * The data model for the table.
+		 * The data model for the tree.
 		 */
 		private TreeModel treeModel = EmptyTreeModel.INSTANCE;
 
@@ -535,7 +809,6 @@ public class WTree extends AbstractInput
 		 */
 		private SelectMode selectMode = SelectMode.SINGLE;
 
-		// Row expansion
 		/**
 		 * Indicates how row expansion should function.
 		 */
@@ -544,26 +817,80 @@ public class WTree extends AbstractInput
 		/**
 		 * Holds the keys of currently expanded rows.
 		 */
-		private Set<?> expandedRows;
+		private Set<String> expandedRows;
 
+		/**
+		 * Allow the rows to be shuffled.
+		 */
 		private boolean shuffle;
 
 		/**
-		 * This is used to map rendered table row indices to table model row indices, if the table model supports this
-		 * mode of sorting.
+		 * Shuffle action.
 		 */
-		private TreeItemNode shuffleRootNode;
+		private Action shuffleAction;
+
+		/**
+		 * This is used to allow a user to have a different tree of nodes.
+		 */
+		private ItemIdNode userNodeTree;
+	}
+
+	public enum ShuffleType {
+		BRANCH,
+		LEAF,
+		BOTH
 	}
 
 	public static class TreeItem implements Serializable {
 
 		private final String itemId;
-		private String label;
-		private String url;
-		private ContentAccess content;
+		private final String label;
+		private final String url;
+		private final Image image;
+		private final String imageCacheKey;
+		private final ShuffleType type;
 
-		public TreeItem(final String itemId) {
+		public TreeItem(final String itemId, final String label, final String url) {
+			this(itemId, label, url, ShuffleType.BOTH);
+		}
+
+		public TreeItem(final String itemId, final String label, final Image image) {
+			this(itemId, label, image, null, ShuffleType.BOTH);
+		}
+
+		public TreeItem(final String itemId, final String label, final Image image, final String imageCacheKey) {
+			this(itemId, label, image, imageCacheKey, ShuffleType.BOTH);
+		}
+
+		public TreeItem(final String itemId, final String label) {
+			this(itemId, label, ShuffleType.BOTH);
+		}
+
+		public TreeItem(final String itemId, final String label, final String url, final ShuffleType type) {
 			this.itemId = itemId;
+			this.label = label;
+			this.url = url;
+			this.image = null;
+			this.imageCacheKey = null;
+			this.type = type;
+		}
+
+		public TreeItem(final String itemId, final String label, final Image image, final String imageCacheKey, final ShuffleType type) {
+			this.itemId = itemId;
+			this.label = label;
+			this.image = image;
+			this.imageCacheKey = imageCacheKey;
+			this.url = null;
+			this.type = type;
+		}
+
+		public TreeItem(final String itemId, final String label, final ShuffleType type) {
+			this.itemId = itemId;
+			this.label = label;
+			this.image = null;
+			this.imageCacheKey = null;
+			this.url = null;
+			this.type = type;
 		}
 
 		public String getItemId() {
@@ -574,24 +901,20 @@ public class WTree extends AbstractInput
 			return label;
 		}
 
-		public void setLabel(String label) {
-			this.label = label;
-		}
-
 		public String getUrl() {
 			return url;
 		}
 
-		public void setUrl(String url) {
-			this.url = url;
+		public Image getImage() {
+			return image;
 		}
 
-		public ContentAccess getContent() {
-			return content;
+		public String getImageCacheKey() {
+			return imageCacheKey;
 		}
 
-		public void setContent(final ContentAccess content) {
-			this.content = content;
+		public ShuffleType getType() {
+			return type;
 		}
 
 		/**
@@ -611,27 +934,53 @@ public class WTree extends AbstractInput
 		}
 	}
 
-	public static class TreeItemNode extends AbstractTreeNode {
+	public static interface ItemIdNode {
 
-		private final TreeItem treeItem;
+		public String getItemId();
 
-		private boolean childrenToLoad;
+		public void addChild(final ItemIdNode child);
 
-		public TreeItemNode(final TreeItem treeItem) {
-			this.treeItem = treeItem;
+		public boolean hasChildren();
+
+		public List<ItemIdNode> getChildren();
+	}
+
+	public static class ItemIdNodeImpl implements ItemIdNode {
+
+		private final String itemId;
+
+		private List<ItemIdNode> children;
+
+		public ItemIdNodeImpl(final String itemId) {
+			this.itemId = itemId;
 		}
 
-		public TreeItem getTreeItem() {
-			return treeItem;
+		@Override
+		public String getItemId() {
+			return itemId;
 		}
 
-		public void setChildrenToLoad(final boolean childrenToLoad) {
-			this.childrenToLoad = childrenToLoad;
+		@Override
+		public void addChild(final ItemIdNode node) {
+			if (children == null) {
+				children = new ArrayList<>();
+			}
+			children.add(node);
 		}
 
-		public boolean hasChildrenToLoad() {
-			return childrenToLoad;
+		@Override
+		public List<ItemIdNode> getChildren() {
+			if (children == null) {
+				return Collections.EMPTY_LIST;
+			} else {
+				return Collections.unmodifiableList(children);
+			}
 		}
+
+		public boolean hasChildren() {
+			return children != null && !children.isEmpty();
+		}
+
 	}
 
 	/**
@@ -674,17 +1023,9 @@ public class WTree extends AbstractInput
 		 */
 		boolean isSelectable(final String itemId);
 
-		/**
-		 * Indicates whether the given row is expandable.
-		 *
-		 * @param row the row index
-		 * @return true if the row is expandable, false otherwise.
-		 */
-		boolean isExpandable(final String itemId);
+		ItemIdNode getNodeTree();
 
-		TreeItemNode getRootNode();
-
-		void loadChildren(final TreeItemNode node);
+		void loadChildren(final ItemIdNode node);
 	}
 
 	/**
@@ -697,11 +1038,7 @@ public class WTree extends AbstractInput
 	public abstract class AbstractTreeModel implements TreeModel {
 
 		/**
-		 * This model does not support the concept of row disabling by default. Subclasses will need to override this
-		 * method to support row disabling.
-		 *
-		 * @param row ignored.
-		 * @return false.
+		 * {@inheritDoc}
 		 */
 		@Override
 		public boolean isDisabled(final String itemId) {
@@ -709,27 +1046,16 @@ public class WTree extends AbstractInput
 		}
 
 		/**
-		 * This model does not support the concept of row selectability by default. Subclasses will need to override
-		 * this method for selection of specific rows.
-		 *
-		 * @param row ignored.
-		 * @return false
+		 * {@inheritDoc}
 		 */
 		@Override
 		public boolean isSelectable(final String itemId) {
 			return false;
 		}
 
-		/**
-		 * This model does not support the concept of rows being expandable by default. Subclasses will need to override
-		 * this method for expansion of specific rows.
-		 *
-		 * @param row ignored
-		 * @return false
-		 */
 		@Override
-		public boolean isExpandable(final String itemId) {
-			return false;
+		public void loadChildren(final ItemIdNode node) {
+			// Do nothing
 		}
 
 	}
@@ -742,12 +1068,12 @@ public class WTree extends AbstractInput
 	 */
 	public static final class EmptyTreeModel extends AbstractTreeModel {
 
-		private final static TreeItemNode ROOT = new TreeItemNode(null);
-
 		/**
 		 * The singleton instance.
 		 */
 		public static final EmptyTreeModel INSTANCE = new EmptyTreeModel();
+
+		private final ItemIdNode root = new ItemIdNodeImpl(null);
 
 		/**
 		 * Prevent external instantiation of this class.
@@ -761,15 +1087,9 @@ public class WTree extends AbstractInput
 		}
 
 		@Override
-		public TreeItemNode getRootNode() {
-			return ROOT;
+		public ItemIdNode getNodeTree() {
+			return root;
 		}
-
-		@Override
-		public void loadChildren(final TreeItemNode node) {
-			// Do nothing
-		}
-
 	}
 
 }
