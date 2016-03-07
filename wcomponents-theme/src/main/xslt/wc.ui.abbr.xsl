@@ -7,22 +7,20 @@
 		If the ui:abbr has no content do not output anything.
 	-->
 	<xsl:template match="ui:abbr">
-		<xsl:if test="text()">
-			<xsl:variable name="element">
-				<xsl:choose>
-					<xsl:when test="@toolTip">abbr</xsl:when>
-					<xsl:otherwise>span</xsl:otherwise>
-				</xsl:choose>
-			</xsl:variable>
-			<xsl:element name="{$element}">
-				<xsl:call-template name="makeCommonClass"/>
-				<xsl:if test="@toolTip">
-					<xsl:attribute name="title">
-						<xsl:value-of select="@toolTip"/>
-					</xsl:attribute>
-				</xsl:if>
-				<xsl:value-of select="."/>
-			</xsl:element>
-		</xsl:if>
+		<xsl:variable name="element">
+			<xsl:choose>
+				<xsl:when test="@toolTip">abbr</xsl:when>
+				<xsl:otherwise>span</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:element name="{$element}">
+			<xsl:call-template name="makeCommonClass"/>
+			<xsl:if test="@toolTip">
+				<xsl:attribute name="title">
+					<xsl:value-of select="@toolTip"/>
+				</xsl:attribute>
+			</xsl:if>
+			<xsl:value-of select="."/>
+		</xsl:element>
 	</xsl:template>
 </xsl:stylesheet>

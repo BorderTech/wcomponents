@@ -52,7 +52,6 @@
 						<xsl:attribute name="data-focusid"><xsl:value-of select="@defaultFocusId"/></xsl:attribute>
 					</xsl:if>
 					<xsl:apply-templates />
-					<xsl:apply-templates select=".//ui:dialog[ui:content][1]" mode="withcontent"/>
 				</xsl:element>
 			</xsl:when>
 			<xsl:otherwise>

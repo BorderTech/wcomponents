@@ -62,10 +62,10 @@
 					</xsl:choose>
 				</xsl:attribute>
 				<xsl:if test="not(*)">
-					<!-- make a dummy menu item.
+					<!-- make the sub menu busy.
 						Why?
 						We have to keep the menu role on the content wrapper to make the menu function but role menu
-						must have at least one descendant role menuitem[(?:radio)|(?:checkbox)]?
+						must have at least one descendant role menuitem[(?:radio)|(?:checkbox)]? _or_ be aria-busy.
 					-->
 					<xsl:attribute name="aria-busy">
 						<xsl:copy-of select="$t"/>

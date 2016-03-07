@@ -30,7 +30,7 @@ define(["wc/array/toArray", "wc/dom/event", "wc/dom/focus", "wc/dom/initialise",
 		 * @private
 		 */
 		function CollapsibleToggle() {
-			var EXPAND_COLLAPSE_ALL = new Widget("button", "collpasibletoggle"),
+			var EXPAND_COLLAPSE_ALL = new Widget("button", "collapsibletoggle"),
 				COLLAPSIBLE = new Widget("details"),
 				COLLAPSIBLE_TRIGGER,
 				EXPAND = "expand";
