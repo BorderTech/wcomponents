@@ -1,7 +1,7 @@
 /* wc.ui.menu.color.scss */
 // Colour styles common to all menus: made to ease theme overrides a little.
 // See wc.ui.menu.css for generic structure.
-@import 'wc.ui.menu_vars.scss';
+@import 'wc.ui.menu_vars';
 
 .wc-menu {
 	[role],

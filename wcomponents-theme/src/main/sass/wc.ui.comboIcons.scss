@@ -1,5 +1,5 @@
 /* wc.ui.comboIcons.scss */
-@import 'mixins-common.scss';
+@import 'mixins-common';
 
 .wc_list_wrapper:before {
 	@include wc-icon-fw($fa-var-caret-down);

@@ -1,0 +1,12 @@
+// CLASS wc_btn_link is made to look like a link.
+@import 'mixins-common';
+
+%wc_btn_link {
+	color: $wc-ui-color-link;
+	text-decoration: underline;
+
+	// class wc_nti (no text image) is applied to buttons and links which hold an image but no visible text.
+	&.wc_nti {
+		text-decoration: none;
+	}
+}

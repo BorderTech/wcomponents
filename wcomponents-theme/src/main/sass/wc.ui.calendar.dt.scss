@@ -1,5 +1,5 @@
 /* wc.ui.calendar.dt.scss */
-@import 'mixins-common.scss';
+@import 'mixins-common';
 // The calendar container is a single generated element with a fixed id.
 // scss-lint:disable IdSelector
 #wc-calbox { // This is the calendar container.

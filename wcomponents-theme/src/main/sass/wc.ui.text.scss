@@ -1,6 +1,6 @@
 /* wc.ui.text.scss */
 //WStyledText - not WText
-@import 'mixins-common.scss';
+@import 'mixins-common';
 
 .highPriority { //strong element
 	// @include outline($color: $wc-ui-color-error-fg, $style: double, $width: 3px);
