@@ -1,5 +1,5 @@
 /* wc.ui.menu.tree.scss */
-@import 'wc.ui.menu_vars.scss';
+@import 'wc.ui.menu_vars';
 
 [role='tree'] [role='treeitem'],
 [role='treeitem'][aria-expanded] > button {

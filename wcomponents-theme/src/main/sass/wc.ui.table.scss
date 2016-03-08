@@ -1,8 +1,8 @@
 /* wc.ui.table.scss */
 // This is the core of the table CSS. The other CSS files are used for functional images and other items which are less
 // likely to be implementation specific
-@import 'wc.ui.table_vars.scss';
-@import 'mixins-common.scss';
+@import 'wc.ui.table_vars';
+@import 'mixins-common';
 
 .wc-table.wc_error {
 	@include outline($color: $wc-ui-color-error-fg, $offset: -1px);

@@ -1,6 +1,6 @@
 /* wc.ui.tabset.scss */
-@import 'mixins-common.scss';
-@import 'wc.ui.tabset_vars.scss';
+@import 'mixins-common';
+@import 'wc.ui.tabset_vars';
 
 [role='tablist'] {
 	&,
@@ -66,11 +66,7 @@
 }
 
 [role='tab'] {
-	@include padded-box();
-	background-color: $wc-ui-color-tab-inactive;
-	color: $wc-ui-color-global-fg;
-	cursor: pointer;
-	margin: 0;
+	@include padded-box($bg-color: $wc-ui-color-tab-inactive, $color: $wc-ui-color-global-fg);
 
 	&[aria-selected='true'] {
 		position: relative;

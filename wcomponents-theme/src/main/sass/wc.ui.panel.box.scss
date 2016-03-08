@@ -1,7 +1,7 @@
 /* wc.ui.panel.box.scss */
 // type BOX:
 // 'A box panel has a border.' therefore has a pad to remove the content from the border.
-@import 'mixins-common.scss';
+@import 'mixins-common';
 
 .box {
 	@include padded-box;

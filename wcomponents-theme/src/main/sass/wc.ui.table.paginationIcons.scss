@@ -1,5 +1,5 @@
 /* wc.ui.table.paginationIcons.scss */
-@import 'mixins-common.scss';
+@import 'mixins-common';
 
 // The deep nesting and repition here is necessitated by IE8's (and earlier)) lack of nth-child
 .wc_table_pag_cont button {

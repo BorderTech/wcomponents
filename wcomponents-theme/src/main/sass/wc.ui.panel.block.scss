@@ -4,7 +4,7 @@
 // type 'block' should do nothing?' But that would be too easy. A WPanel with no type is just a container. Type
 // BLOCK does (according to the javadoc): 'A 'block' type panel has padding around the edges.'
 
-@import 'wc.ui.panel_vars.scss';
+@import 'wc.ui.panel_vars';
 
 .block {
 	padding: $hgap-normal;

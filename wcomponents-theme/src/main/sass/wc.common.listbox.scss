@@ -1,6 +1,6 @@
 /* wc.common.listbox.scss */
 // listbox for combo and datefield
-@import 'mixins-common.scss';
+@import 'mixins-common';
 
 ul[role='listbox'] {
 	@include border;

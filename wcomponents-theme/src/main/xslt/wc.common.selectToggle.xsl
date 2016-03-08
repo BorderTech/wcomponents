@@ -127,7 +127,7 @@
 					</xsl:if>
 					<xsl:choose>
 						<xsl:when test="self::ui:rowselection">
-							<xsl:call-template name="disabledElement">
+							<xsl:call-template name="disabledElement"><!-- WDataTable compatibility only. -->
 								<xsl:with-param name="field" select=".."/>
 							</xsl:call-template>
 						</xsl:when>
@@ -140,7 +140,7 @@
 						<xsl:text>${wc.ui.selectToggle.id.suffix.label}</xsl:text>
 					</xsl:variable>
 					
-					<span id="{$defaultLabelId}">
+					<xsl:variable name="labelContent">
 						<xsl:choose>
 							<xsl:when test="$label!=''">
 								<xsl:value-of select="$label"/>
@@ -152,9 +152,14 @@
 								<xsl:value-of select="$$${wc.common.toggles.i18n.select.label}"/>
 							</xsl:when>
 						</xsl:choose>
-					</span>
+					</xsl:variable>
+					<xsl:if test="$labelContent != ''">
+						<span id="{$defaultLabelId}">
+							<xsl:value-of select="$labelContent"/>
+						</span>
+					</xsl:if>
 					
-					<xsl:variable name="labelId">
+					<xsl:variable name="realLabelId">
 						<xsl:choose>
 							<xsl:when test="self::ui:rowselection">
 								<xsl:value-of select="$defaultLabelId"/>
@@ -181,7 +186,7 @@
 								<xsl:number value="1"/>
 							</xsl:if>
 						</xsl:with-param>
-						<xsl:with-param name="labelId" select="$labelId"/>
+						<xsl:with-param name="labelId" select="$realLabelId"/>
 					</xsl:call-template>
 	
 					<xsl:call-template name="toggleElement">
@@ -197,7 +202,7 @@
 								<xsl:number value="1"/>
 							</xsl:if>
 						</xsl:with-param>
-						<xsl:with-param name="labelId" select="$labelId"/>
+						<xsl:with-param name="labelId" select="$realLabelId"/>
 					</xsl:call-template>
 				</span>
 			</xsl:when>
