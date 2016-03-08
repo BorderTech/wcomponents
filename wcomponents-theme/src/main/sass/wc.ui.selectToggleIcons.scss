@@ -19,7 +19,7 @@
 	> button {
 		&:before {
 			@include wc-icon-fw($fa-var-check-square-o, left);
-			opacity: 0.5;
+			opacity: 0.3333;
 		}
 
 		+ button:before {
