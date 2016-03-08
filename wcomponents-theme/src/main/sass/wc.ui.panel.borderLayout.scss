@@ -1,5 +1,5 @@
 /* wc.ui.panel.borderLayout.scss */
-@import 'wc.ui.panel_vars.scss';
+@import 'wc.ui.panel_vars';
 
 .wc_borderlayout_middle {
 	@include flex($justify: space-between);

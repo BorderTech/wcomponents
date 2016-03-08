@@ -1,10 +1,10 @@
 // Allow Vendor Prefix in mixins.
 //scss-lint:disable VendorPrefix
 
-@import 'vars.scss';
-@import 'mixins-flex.scss'; // flex layouts.
-@import 'mixins-respond.scss'; // responsive design media queries.
-@import 'mixins-icon.scss'; // in-built iconography.
+@import 'vars';
+@import 'mixins-flex'; // flex layouts.
+@import 'mixins-respond'; // responsive design media queries.
+@import 'mixins-icon'; // in-built iconography.
 
 /// Set the elements text-align property. I am not convinced this is a useful mixin.
 /// @param {alignment} $align [$preferred-alignment] The horizontal alignment to set.

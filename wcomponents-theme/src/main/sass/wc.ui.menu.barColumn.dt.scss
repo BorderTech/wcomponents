@@ -1,6 +1,6 @@
 /* wc.ui.menu.barColumn.dt.scss */
 // Desktop styles for WMenu type BAR, type FLYOUT, type COLUMN
-@import 'wc.ui.menu_vars.scss';
+@import 'wc.ui.menu_vars';
 
 .wc-submenu {
 	[role='menubar'] &,

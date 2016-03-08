@@ -18,7 +18,7 @@
 // Having a button which is styled to emulate a link is to provide UI consistency in areas where buttons and links are
 // mixed. It may be more appropriate to not have a button which disguises itself as a link but to use the noStyle
 // variant.
-@import 'mixins-common.scss';
+@import 'mixins-common';
 
 /// User agent button styles are the bane of our lives. The _main_ problem is hard coded font styles rather than
 /// allowing them to inherit.
@@ -30,46 +30,9 @@ button {
 	line-height: inherit;
 }
 
-.wc_btn {
-	&_link,
-	&_nada { // CLASS wc_btn_nada has all style stripped. CLASS wc_btn_link is made to look like a link.
-		@include button($border: 0, $padding: 0, $text-align: inherit);
-		cursor: pointer;
-
-		&[disabled] {
-			color: $wc-ui-color-disabled-fg;
-			cursor: auto;
-		}
-	}
-
-	&_nada {
-		color: inherit;
-	}
-
-	&_link {
-		color: $wc-ui-color-link;
-		text-decoration: underline;
-	}
-
-	&_icon { // Common styles for buttons which are always iconic
-		@include button;
-		color: inherit;
-
-		&:before {
-			@include wc-icon;
-		}
-
-		&[disabled] {
-			background-color: $wc-ui-color-disabled-bg;
-			color: $wc-ui-color-disabled-fg;
-		}
-	}
-}
-
-// class wc_nti (no text image) is applied to buttons and links which hold an image but no visible text.
-.wc_nti {
-	text-decoration: none;
-}
+@import 'btn-nada';
+@import 'btn-link';
+@import 'btn-icon';
 
 /// Components which are not button elements but act as buttons. This is _very_ rare and is currently limited to
 /// summary elements in browsers which do not provide native details/summary behaviour.

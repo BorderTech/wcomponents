@@ -1,5 +1,5 @@
 /* wc.ui.fieldset.scss */
-@import 'mixins-common.scss';
+@import 'mixins-common';
 
 fieldset {
 	@include padded-box($pad: $hgap-small);

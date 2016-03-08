@@ -4,7 +4,7 @@
 
 // We use a single ID'd component for all calendar date pickers and move it around to where it is needed.
 // scss-lint:disable IdSelector
-@import 'mixins-common.scss';
+@import 'mixins-common';
 
 .wc-datefield {
 	display: inline-block;
@@ -29,6 +29,11 @@
 	&:focus {
 		background-color: $wc-ui-color-invite-bg;
 		color: $wc-ui-color-invite-fg;
+	}
+
+	&[disabled]:hover {
+		background-color: $wc-ui-color-disabled-bg;
+		color: $wc-ui-color-disabled-fg;
 	}
 }
 

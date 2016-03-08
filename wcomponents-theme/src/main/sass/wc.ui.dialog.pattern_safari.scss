@@ -1,5 +1,5 @@
 /* wc.ui.dialog.pattern_safari.scss */
-@import 'wc.ui.dialog_vars.scss';
+@import 'wc.ui.dialog_vars';
 
 dialog > [aria-live] { // dialog content container
 	// need to work around a Safari-OSX bug but not for full screen dialogs.

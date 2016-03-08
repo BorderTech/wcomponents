@@ -1,7 +1,7 @@
 /* wc.common.listSortIcons.scss */
 
 // The list sort controls are the buttons used to reorder the options used by WMultiSelectPair and WShuffler
-@import 'mixins-common.scss';
+@import 'mixins-common';
 /// Each individual shuffle control's iconography
 .wc_sorter {
 	&:before {

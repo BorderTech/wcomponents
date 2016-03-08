@@ -1,6 +1,6 @@
 /* wc.ui.tabset.scss */
-@import 'mixins-common.scss';
-@import 'wc.ui.tabset_vars.scss';
+@import 'mixins-common';
+@import 'wc.ui.tabset_vars';
 
 [role='tablist'] {
 	&,
