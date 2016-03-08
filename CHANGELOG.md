@@ -7,6 +7,9 @@
 ## Major Bug fixes
 For all bug fixes see [GitHub Issues](https://github.com/BorderTech/wcomponents/issues?q=is%3Aissue+is%3Aclosed+label%3Abug)
 
+* Fixed a bug in the calendar-based date picker which could result in months starting on the wrong day.
+* Reverted a change to WDialog JavaScript to fix Action bug #389
+
 # Release 1.0.3
 
 ## API Changes
