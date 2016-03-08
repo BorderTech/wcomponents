@@ -183,9 +183,17 @@
 /// Make a container into a simple padded box with a standard border.
 /// @param {dimaension} $pad [$hgap-normal] The amount of padding.
 /// @param {color} $border [$wc-ui-color-border] The border color.
-@mixin padded-box($pad: $hgap-normal, $border: $wc-ui-color-border) {
+/// @param {color|-1} $color [-1] The foreground color. Set to -1 (default) to not set this rule.
+/// @param {color|-1} $bg-color [-1] The background color. Set to -1 (default) to not set this rule.
+@mixin padded-box($pad: $hgap-normal, $border: $wc-ui-color-border, $color: -1, $bg-color: -1) {
 	@include border($color: $border);
 	padding: $pad;
+	@if ($bg-color != -1) {
+		background-color: $bg-color;
+	}
+	@if ($color != -1) {
+		color: $color;
+	}
 }
 
 /// Set margin and padding to 0.

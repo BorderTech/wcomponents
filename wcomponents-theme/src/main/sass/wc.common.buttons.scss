@@ -34,6 +34,18 @@ button {
 @import 'btn-link';
 @import 'btn-icon';
 
+.wc_btn_nada {
+	@extend %wc_btn_nada;
+}
+
+.wc_btn_link {
+	@extend %wc_btn_link;
+}
+
+.wc_btn_icon {
+	@extend %wc_btn_icon;
+}
+
 /// Components which are not button elements but act as buttons. This is _very_ rare and is currently limited to
 /// summary elements in browsers which do not provide native details/summary behaviour.
 [role='button'] {

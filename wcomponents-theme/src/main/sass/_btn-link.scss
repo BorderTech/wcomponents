@@ -1,7 +1,7 @@
 // CLASS wc_btn_link is made to look like a link.
 @import 'mixins-common';
 
-.wc_btn_link {
+%wc_btn_link {
 	color: $wc-ui-color-link;
 	text-decoration: underline;
 

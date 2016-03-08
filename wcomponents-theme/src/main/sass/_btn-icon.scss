@@ -1,7 +1,7 @@
 @import 'mixins-common';
 // Common styles for buttons which are always iconic.
 
-.wc_btn_icon {
+%wc_btn_icon {
 	@include button;
 	color: inherit;
 
