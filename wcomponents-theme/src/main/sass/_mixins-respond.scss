@@ -2,11 +2,14 @@
 // design mixins as required.
 
 //how big is a small screen?
-$small: 1000px;
+$small-screen: 1000px;
 //and a common/medium screen?
-$medium: 1280px;
+$medium-screen: 1280px;
 //how about a BIG screen?
-$large: 1921px;//bigger than 1080p
+$large-screen: 1921px;//bigger than 1080p
+
+// guess what this is for!
+$bigger-than-small-screen: $small-screen + 1px;
 
 @mixin respond($size, $test: max-width) {
 	@if($size == phone) { //should cover most modern phones and some smaller/older tablets
@@ -25,17 +28,22 @@ $large: 1921px;//bigger than 1080p
 		}
 	}
 	@else if($size == small) {
-		@media only screen and (#{$test}: $small) {
+		@media only screen and (#{$test}: $small-screen) {
+			@content;
+		}
+	}
+	@else if($size == 'not-small') {
+		@media only screen and (min-width: $bigger-than-small-screen) {
 			@content;
 		}
 	}
 	@else if($size == medium) {
-		@media only screen and (#{$test}: $medium) {
+		@media only screen and (#{$test}: $medium-screen) {
 			@content;
 		}
 	}
 	@else if($size == large) {
-		@media only screen and (#{$test}: $large) {
+		@media only screen and (#{$test}: $large-screen) {
 			@content;
 		}
 	}
@@ -74,17 +82,5 @@ $large: 1921px;//bigger than 1080p
 @mixin reset-large-screen {
 	@include respond($size: large, $test: min-device-width) {
 		@content;
-	}
-}
-
-// create a viewport media rule
-@mixin viewport() {
-	@-ms-viewport {
-		@content
-
-	}
-
-	@viewport {
-		@content
 	}
 }

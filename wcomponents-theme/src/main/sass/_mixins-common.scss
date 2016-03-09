@@ -57,6 +57,14 @@
 	box-sizing: border-box;
 }
 
+/// Set an element's box-sizing to content-box.
+@mixin content-box {
+	// Require -moz-box-sizing for consistency
+	// scss-lint:disable VendorPrefix
+	-moz-box-sizing: content-box;
+	box-sizing: content-box;
+}
+
 /// Style a button with a (usually) transparent background. Handy for holding iconography!
 ///
 /// @param {color} $background [transparent] Set the button background. Set -1 to ignore this rule.
@@ -200,4 +208,15 @@
 @mixin tight-box {
 	margin: 0;
 	padding: 0;
+}
+
+/// create a viewport media rule
+@mixin viewport() {
+	@-ms-viewport {
+		@content
+	}
+
+	@viewport {
+		@content
+	}
 }

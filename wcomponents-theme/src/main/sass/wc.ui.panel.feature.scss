@@ -4,7 +4,5 @@
 @import 'wc.ui.panel_vars';
 
 .feature {
-	@include padded-box;
-	background-color: $wc-ui-color-panel-feature-background;
-	color: $wc-ui-color-panel-feature-foreground;
+	@include padded-box($bg-color: $wc-ui-color-panel-feature-background, $color: $wc-ui-color-panel-feature-foreground);
 }
