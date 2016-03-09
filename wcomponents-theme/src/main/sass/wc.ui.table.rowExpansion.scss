@@ -1,6 +1,6 @@
 /* wc.ui.table.rowExpansion.scss */
-@import 'mixins-common.scss';
-@import 'wc.ui.table_vars.scss';
+@import 'mixins-common';
+@import 'wc.ui.table_vars';
 
 .wc-rowexpansion {
 	&[role='radiogroup'] {

@@ -2,8 +2,8 @@
 // Row and Column Separators
 // .wc_table_rowsep is applied to the tbody
 // .wc_table_colsep is applied to the colgroup
-@import 'mixins-common.scss';
-@import 'wc.ui.table_vars.scss';
+@import 'mixins-common';
+@import 'wc.ui.table_vars';
 
 .wc_table_rowsep > tr + tr {
 	@include border($pos: top);

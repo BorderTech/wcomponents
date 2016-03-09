@@ -17,12 +17,6 @@ linters:
     # default same_line which does not align with our eslint rules and is slightly less readable.
     style: new_line
 
-  ImportPath:
-    enabled: true
-    leading_underscore: false
-    # default false - this should be easy enough to fix but does not gel with IDE autocomplete.
-    filename_extension: true
-
   Indentation:
     enabled: true
     allow_non_nested_indentation: false

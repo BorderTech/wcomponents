@@ -1,10 +1,10 @@
 // Allow Vendor Prefix in mixins.
 //scss-lint:disable VendorPrefix
 
-@import 'vars.scss';
-@import 'mixins-flex.scss'; // flex layouts.
-@import 'mixins-respond.scss'; // responsive design media queries.
-@import 'mixins-icon.scss'; // in-built iconography.
+@import 'vars';
+@import 'mixins-flex'; // flex layouts.
+@import 'mixins-respond'; // responsive design media queries.
+@import 'mixins-icon'; // in-built iconography.
 
 /// Set the elements text-align property. I am not convinced this is a useful mixin.
 /// @param {alignment} $align [$preferred-alignment] The horizontal alignment to set.
@@ -55,6 +55,14 @@
 	// scss-lint:disable VendorPrefix
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
+}
+
+/// Set an element's box-sizing to content-box.
+@mixin content-box {
+	// Require -moz-box-sizing for consistency
+	// scss-lint:disable VendorPrefix
+	-moz-box-sizing: content-box;
+	box-sizing: content-box;
 }
 
 /// Style a button with a (usually) transparent background. Handy for holding iconography!
@@ -183,13 +191,32 @@
 /// Make a container into a simple padded box with a standard border.
 /// @param {dimaension} $pad [$hgap-normal] The amount of padding.
 /// @param {color} $border [$wc-ui-color-border] The border color.
-@mixin padded-box($pad: $hgap-normal, $border: $wc-ui-color-border) {
+/// @param {color|-1} $color [-1] The foreground color. Set to -1 (default) to not set this rule.
+/// @param {color|-1} $bg-color [-1] The background color. Set to -1 (default) to not set this rule.
+@mixin padded-box($pad: $hgap-normal, $border: $wc-ui-color-border, $color: -1, $bg-color: -1) {
 	@include border($color: $border);
 	padding: $pad;
+	@if ($bg-color != -1) {
+		background-color: $bg-color;
+	}
+	@if ($color != -1) {
+		color: $color;
+	}
 }
 
 /// Set margin and padding to 0.
 @mixin tight-box {
 	margin: 0;
 	padding: 0;
+}
+
+/// create a viewport media rule
+@mixin viewport() {
+	@-ms-viewport {
+		@content
+	}
+
+	@viewport {
+		@content
+	}
 }

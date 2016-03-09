@@ -22,7 +22,7 @@
 
 		<xsl:variable name="element">
 			<xsl:choose>
-				<xsl:when test="@expandable or ui:menuitem">
+				<xsl:when test="@expandable or ui:treeitem">
 					<xsl:text>div</xsl:text>
 				</xsl:when>
 				<xsl:otherwise>
@@ -124,7 +124,7 @@
 						</xsl:choose>
 					</span>
 					<span class="wc_leaf_name">
-						<xsl:value-of select="@title"/>
+						<xsl:value-of select="@label"/>
 					</span>
 					<xsl:if test="$isHtree !=1">
 						<span class="wc_leaf_hopener" role="presentation">
@@ -155,7 +155,7 @@
 							</xsl:choose>
 						</span>
 						<span class="wc_leaf_name">
-							<xsl:value-of select="@title"/>
+							<xsl:value-of select="@label"/>
 						</span>
 					</button>
 					<xsl:if test="$isHtree != 1">

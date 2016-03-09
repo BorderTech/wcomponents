@@ -1,0 +1,27 @@
+/* wc.ui.tabset.scss */
+@import 'wc.ui.tabset_vars';
+
+[role='tab'] {
+	background-color: $wc-ui-color-tab-inactive;
+	color: $wc-ui-color-global-fg;
+
+	&:hover,
+	&:focus {
+		background-color: $wc-ui-color-invite-bg;
+		color: $wc-ui-color-invite-fg;
+	}
+
+	&[aria-selected='true'],
+	&[aria-expanded='true'] {
+		background-color: $wc-ui-color-tab-active;
+	}
+
+	&[disabled] {
+		background-color: $wc-ui-color-disabled-bg;
+		color: $wc-ui-color-disabled-fg;
+	}
+}
+
+[role='tabpanel'] {
+	background-color: $wc-ui-color-global-bg;
+}

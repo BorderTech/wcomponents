@@ -2,9 +2,9 @@
 // Moved out of mixins-common for ease of override.
 
 // FontAwesome mixins and vars...
-@import 'mixins-animate.scss';
-@import 'libs/fa/variables.scss';
-@import 'libs/fa/mixins.scss';
+@import 'mixins-animate';
+@import 'libs/fa/variables';
+@import 'libs/fa/mixins';
 
 /// use fa-icon
 @mixin wc-icon ($icon: -1) {

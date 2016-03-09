@@ -1,10 +1,11 @@
+@import 'mixins-common';
+
 // How wide are the tabs left or right?
+// This _should_ be a percentage, otherwise you will have to manipulate the IE9 Sass.
 $wc-ui-tabset-left-right-tab-width: 15%;
 
 // colors
-@import 'vars.scss';
 $wc-ui-color-tab-inactive: $std-color-tertiary;
-$wc-ui-color-tab-focus: $std-color-invite-bg;
 $wc-ui-color-tab-active: $std-color-white;
 
 @mixin wc-ui-tabset-top-border-radius {
@@ -12,11 +13,13 @@ $wc-ui-color-tab-active: $std-color-white;
 	border-top-right-radius: 0.33em;
 }
 
+// left inherits top.
 @mixin wc-ui-tabset-left-border-radius {
 	border-top-right-radius: 0;
 	border-bottom-left-radius: 0.33em;
 }
 
+// right inherits top
 @mixin wc-ui-tabset-right-border-radius {
 	border-top-left-radius: 0;
 	border-bottom-right-radius: 0.33em;

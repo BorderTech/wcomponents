@@ -1,6 +1,6 @@
 /* wc.ui.label.scss */
 // styles for WLabel and the label emulators
-@import 'wc.ui.label_vars.scss';
+@import 'wc.ui.label_vars';
 
 .hint {// .hint is additional text for labels that describe other information for the related form element
 	@include label-hint;

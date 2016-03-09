@@ -1,0 +1,16 @@
+@import 'mixins-common';
+// Common styles for buttons which are always iconic.
+
+%wc_btn_icon {
+	@include button;
+	color: inherit;
+
+	&:before {
+		@include wc-icon;
+	}
+
+	&[disabled] {
+		background-color: $wc-ui-color-disabled-bg;
+		color: $wc-ui-color-disabled-fg;
+	}
+}
