@@ -4,8 +4,9 @@
 		Return 1 if the list goes after the content.
 	-->
 	<xsl:template name="tabsAfterContent">
-		<xsl:if test="@type ='right'">
+		<!--<xsl:if test="@type ='right'">
 			<xsl:number value="1"/>
-		</xsl:if>
+		</xsl:if>-->
+		<xsl:number value="0"/>
 	</xsl:template>
 </xsl:stylesheet>
