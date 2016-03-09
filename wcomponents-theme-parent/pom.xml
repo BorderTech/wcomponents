@@ -180,7 +180,7 @@
 					<execution>
 						<id>test</id>
 						<phase>test</phase>
-						<configuration>`
+						<configuration>
 							<skip>${theme.skip.antrun}</skip>
 							<target>
 								<echo>Attempting to start ANT test at ${theme.core.dir}</echo>
