@@ -1,5 +1,5 @@
 /* wc.ui.combo.scss */
-@import 'mixins-common.scss';
+@import 'mixins-common';
 
 // This redundant rule is not as redundant as you might think so just leave it be!
 datalist {
@@ -12,7 +12,7 @@ input[role='combobox'] { // not the combo wrapper of datefield.
 
 	&[aria-expanded = 'true'] ~ [role='listbox'] {
 		display: block;
-		max-height: (7 * ($hgap-normal + (2 * $hgap-small))); // allow for up to seven visible options.
+		max-height: (7 * $line-height * (1rem + (2 * $hgap-small))); // allow for up to seven visible options.
 		max-width: 100%;
 		overflow: auto;
 	}

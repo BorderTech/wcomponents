@@ -51,7 +51,7 @@
 				<xsl:with-param name="elementType" select="$elementType"/>
 				<xsl:with-param name="class">
 					<xsl:if test="$elementType='button' and not($type='button')">
-						<xsl:text> wc_btn_link</xsl:text>
+						<xsl:text> wc_btn_nada wc_btn_link</xsl:text>
 					</xsl:if>
 				</xsl:with-param>
 			</xsl:call-template>

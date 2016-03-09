@@ -1,14 +1,19 @@
 /* wc.ui.selectToggle.scss */
 // only text mode
 
-@import 'mixins-common.scss';
+@import 'mixins-common';
 
 .wc_seltog {
 	> button {
 		margin-left: $hgap-normal;
+		text-decoration: underline;
+
+		&:first-child {
+			margin-left: 0;
+		}
 
 		&[aria-checked='true'] {
-			font-weight: bold;
+			text-decoration: none;
 		}
 	}
 

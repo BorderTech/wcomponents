@@ -2,26 +2,13 @@
 	<xsl:import href="wc.common.getHVGap.xsl"/>
 	<xsl:import href="wc.common.n.className.xsl"/>
 	<!--
-		ui:borderlayout is a layout mode of WPanel which consists of one or more
-		containers displayed in a particular pattern.
-
-		This is a rough CSS based emulation of AWT BorderLayout with fixed width
-		components. We could apply table layout but max-width is not well supported with
-		display:table-cell.
-
-		Inter-cell spacing
-
-		The horizontal spacing between ui:west, ui:center and ui:east is determined
-		by the hgap attribute.
-
-		The vertical spacing betwen ui:north, the middle row and ui:south is determined
-		by the vgap property
-
-		This template arranges the child elements in the correct order. If there is one
-		or more of ui:west, ui:center and ui:east then a wrapper is provided for them
-		before they are applied.
+		ui:borderlayout is a layout mode of WPanel which consists of one or more containers displayed in a particular 
+		pattern. This is a rough CSS based emulation of AWT BorderLayout. 
+		
+		This template arranges the child elements in the correct order. If there is one or more of ui:west, ui:center 
+		and ui:east then a wrapper is provided for them before they are applied.
 	-->
-<xsl:template match="ui:borderlayout">
+	<xsl:template match="ui:borderlayout">
 		<xsl:variable name="vgap">
 			<xsl:call-template name="getHVGap">
 				<xsl:with-param name="gap" select="@vgap"/>

@@ -9,7 +9,7 @@
 // This is split out from the main feedback CSS for ease of overriding as it is a lot of
 // CSS to do a very small job and overriding the whole lot in an implementation would require all
 // this just to turn off the pseudo elements plus the styling needed for the indicators.
-@import 'mixins-common.scss';
+@import 'mixins-common';
 
 .error,
 .success,

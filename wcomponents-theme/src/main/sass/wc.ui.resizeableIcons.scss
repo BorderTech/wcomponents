@@ -1,5 +1,5 @@
 /* wc.ui.resizeableIcons.scss */
-@import 'mixins-common.scss';
+@import 'mixins-common';
 
 .wc_resize:before {
 	@include wc-icon($fa-var-hand-lizard-o);

@@ -1,5 +1,5 @@
 /* wc.ui.imageEdit.scss */
-@import 'mixins-common.scss';
+@import 'mixins-common';
 
 .wc_img_editor {
 	background-color: $wc-ui-color-global-bg;
@@ -88,7 +88,7 @@
 	}
 }
 
-@include respond(phonelike) {
+@include respond(small) {
 	.wc_img_editor {
 		.wc-row > div {
 			text-align: center;

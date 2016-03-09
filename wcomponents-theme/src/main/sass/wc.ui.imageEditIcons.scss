@@ -1,5 +1,5 @@
 /* wc.ui.imageEditIcons.scss */
-@import 'mixins-common.scss';
+@import 'mixins-common';
 
 button[data-img][data-editor]:before {
 	content: $fa-var-picture-o;

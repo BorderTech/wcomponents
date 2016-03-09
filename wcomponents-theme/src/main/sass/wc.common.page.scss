@@ -1,6 +1,6 @@
 /* wc.common.page.scss */
 // Primary styling for the page and preliminary styling of some commonly used basic elements and layout classes.
-@import 'mixins-common.scss';
+@import 'mixins-common';
 
 // We need to have the document body fill the viewport in all browsers to correctly propagate some click events.
 html {

@@ -77,7 +77,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 	 * @private
 	 */
 	function Calendar() {
-		var TEMPLATE_NAME = "wc.ui.dateField.calendar.xml",
+		var TEMPLATE_NAME = "wc.ui.dateField.calendar.html",
 			DATE_KEY = "date_key",
 			CONTAINER_ID = "wc-calbox",
 			DAY_CONTAINER_ID = "wc-caldaybox",
@@ -1065,7 +1065,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 				timers.clearTimeout(reposTimer);
 			}
 			if (!isOpening) {
-				reposTimer = timers.setTimeout(hideCalendar, 100);
+				reposTimer = timers.setTimeout(position, 100);
 			}
 		}
 

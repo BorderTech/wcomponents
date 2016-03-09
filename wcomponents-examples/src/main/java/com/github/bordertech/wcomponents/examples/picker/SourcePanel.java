@@ -1,8 +1,10 @@
 package com.github.bordertech.wcomponents.examples.picker;
 
 import com.github.bordertech.wcomponents.WPanel;
+import com.github.bordertech.wcomponents.WTemplate;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WebUtilities;
+import com.github.bordertech.wcomponents.template.TemplateRendererFactory;
 
 /**
  * <p>
@@ -23,15 +25,9 @@ public class SourcePanel extends WPanel {
 	 */
 	public SourcePanel() {
 		source.setEncodeText(false);
-		setUp();
-	}
-
-	/**
-	 * Set up the source panel. No over-rideable methods in my constructors but I am neurotic!.
-	 */
-	private void setUp() {
-		setTemplate("com/github/bordertech/wcomponents/examples/picker/sourceView.vm");
-		add(source, "src");
+		WTemplate template = new WTemplate("/com/github/bordertech/wcomponents/examples/picker/sourceView.vm", TemplateRendererFactory.TemplateEngine.VELOCITY);
+		add(template);
+		template.addTaggedComponent("src", source);
 	}
 
 	/**

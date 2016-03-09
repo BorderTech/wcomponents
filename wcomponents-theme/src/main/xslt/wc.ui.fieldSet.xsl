@@ -111,7 +111,7 @@
 				</xsl:if>
 			</legend>
 
-			<xsl:apply-templates select="ui:content"/>
+			<xsl:apply-templates select="ui:content" mode="passthru"/>
 			<xsl:if test="$isError">
 				<xsl:call-template name="inlineError">
 					<xsl:with-param name="errors" select="$isError"/>

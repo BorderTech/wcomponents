@@ -1,7 +1,7 @@
 /* wc.ui.panel.header.scss */
 // This contains CSS for WPanel Type.HEADER which is used to make the page header (role banner) and is most commonly
 // over-ridden.
-@import 'wc.ui.panel_vars.scss';
+@import 'wc.ui.panel_vars';
 
 [role='banner'] {
 	background-color: $wc-ui-color-panel-header-background;
@@ -23,7 +23,7 @@
 
 @include respond (mobile) {
 	[role='banner'] {
-		> .content {
+		> .wc-content {
 			@include flex($direction: row-reverse, $wrap: wrap, $justify: space-between, $align-items: center, $align-content: flex-start);
 
 			> * {

@@ -1,5 +1,5 @@
 /* wc.ui.image.scss */
-@import 'mixins-common.scss';
+@import 'mixins-common';
 
 img {
 	@include border($width: 0);
