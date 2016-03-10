@@ -82,6 +82,10 @@
 			vertical-align: bottom;
 		}
 	}
+	
+	.wc_btn_camera {
+		display: none;  // This should only be available on desktop browsers
+	}
 }
 
 
