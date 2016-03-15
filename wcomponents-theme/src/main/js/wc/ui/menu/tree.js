@@ -28,9 +28,10 @@ define(["wc/ui/menu/core",
 		"wc/has",
 		"wc/dom/classList",
 		"wc/dom/formUpdateManager",
-		"wc/dom/getFilteredGroup"],
-	/** @param abstractMenu @param keyWalker @param shed @param Widget @param toArray  @param treeItem @param initialise @param has s @param classList @param formUpdateManager @param getFilteredGroup @ignore */
-	function(abstractMenu, keyWalker, shed, Widget, toArray, treeItem, initialise, has, classList, formUpdateManager, getFilteredGroup) {
+		"wc/dom/getFilteredGroup",
+		"wc/ui/ajaxRegion"],
+	/** @param abstractMenu @param keyWalker @param shed @param Widget @param toArray  @param treeItem @param initialise @param has s @param classList @param formUpdateManager @param getFilteredGroup @param ajaxRegion @ignore */
+	function(abstractMenu, keyWalker, shed, Widget, toArray, treeItem, initialise, has, classList, formUpdateManager, getFilteredGroup, ajaxRegion) {
 		"use strict";
 
 		/**
@@ -560,33 +561,37 @@ define(["wc/ui/menu/core",
 				}).length === (shed.isSelected(element) ? 1 : 0);
 			}
 
+			this.ajaxExpand = function(element, root) {
+				var mode = root.getAttribute("data-wc-ajaxmode"),
+					obj,
+					elId = element.id;
 
-//			function shedDeselectHelper(element) {
-//				var submenu, selectedDescendant;
-//				if (instance._isBranch(element)) {
-//					if ((submenu = instance._getSubMenu(element, true))) {
-//						selectedDescendant = getFilteredGroup(submenu, {
-//							itemWd: LEAF_WD,
-//							ignoreInnerGroups: true
-//						}).length;
-//					}
-//					if (!selectedDescendant) {
-//						instance[instance._FUNC_MAP.CLOSE](element);
-//					}
-//				}
-//			}
+				if (mode && mode !== 'client') {
+					obj = {
+						id: elId,
+						alias: root.id,
+						loads: [elId],
+						oneShot: (mode === 'lazy'),
+						getData: "wc_tiid=" + elId,
+						serialiseForm: false,
+						method: 'get',
+						formRegion: root.id
+					};
 
+					ajaxRegion.requestLoad(element, obj);
+				}
+			};
 
 			this.shedSubscriber = function(element, action) {
 				var root;
 
-				if (!(element && (root = this.getRoot(element)) && this.isHTree(root))) {
+				if (!element || !(root = this.getRoot(element)) || isWMenu(root)) {
 					// we are only concerned with htree here. Vertical trees are fine.
 					this.constructor.prototype.shedSubscriber.call(this, element, action);
 					return;
 				}
 
-				if (action === shed.actions.SELECT) {
+				if (this.isHTree(root) && action === shed.actions.SELECT) {
 					if (this._isBranch(element) && this._openOnSelect(root) && !shed.isExpanded(element)) {
 						this[this._FUNC_MAP.OPEN](element);
 					}
@@ -596,10 +601,11 @@ define(["wc/ui/menu/core",
 					return;
 				}
 
-//				if (action === shed.actions.DESELECT && this.isHTree(root)) {
-//					shedDeselectHelper(element);
-//					return;
-//				}
+				if (action === shed.actions.EXPAND) {
+					this.constructor.prototype.shedSubscriber.call(this, element, action);
+					this.ajaxExpand(element, root);
+					return;
+				}
 
 				this.constructor.prototype.shedSubscriber.call(this, element, action);
 			};
