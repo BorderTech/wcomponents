@@ -26,23 +26,9 @@
 							<tr>
 								<td>@id</td>
 								<td>String</td>
-								<td>yes</td>
-								<td>"x"</td>
-								<td>Value POSTed only if the WTreeItem is the item causing the form submission.</td>
-							</tr>
-							<tr>
-								<td>@id.selected</td>
-								<td>String</td>
 								<td>no</td>
 								<td>"x"</td>
-								<td>Value POSTed only if the WTreeItem is in the selected state.</td>
-							</tr>
-							<tr>
-								<td>@id.open</td>
-								<td>String</td>
-								<td>no</td>
-								<td>"true"</td>
-								<td>Value POSTed only if the WTreeItem has children and is in the expanded state.</td>
+								<td>Value POSTed only if the WTreeItem is the item causing the form submission (ajax mode open).</td>
 							</tr>
 						</tbody>
 					</table>

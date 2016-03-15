@@ -15,15 +15,4 @@
 			content: $fa-var-square;
 		}
 	}
-
-	> button {
-		&:before {
-			@include wc-icon-fw($fa-var-check-square-o, left);
-			opacity: 0.3333;
-		}
-
-		+ button:before {
-			content: $fa-var-square-o;
-		}
-	}
 }

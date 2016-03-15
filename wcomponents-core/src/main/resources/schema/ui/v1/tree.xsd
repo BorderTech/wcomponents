@@ -21,6 +21,7 @@
 							<th>Type</th>
 							<th>Mandatory</th>
 							<th>Value</th>
+							<th>Notes</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -29,6 +30,21 @@
 							<td>String</td>
 							<td>yes</td>
 							<td>"x"</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>@id</td>
+							<td>String</td>
+							<td>no</td>
+							<td>list of selected tree item IDs.</td>
+							<td>Value POSTed only if there are selected WTreeItem(s) in the WTree.</td>
+						</tr>
+						<tr>
+							<td>@id.open</td>
+							<td>String</td>
+							<td>no</td>
+							<td>"true"</td>
+							<td>Value POSTed only if the WTree has one or more WTreeItems in the expanded state.</td>
 						</tr>
 					</tbody>
 				</table>

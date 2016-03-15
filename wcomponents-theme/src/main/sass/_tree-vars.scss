@@ -1,0 +1,9 @@
+// WTree and WMenu type TREE
+@import 'mixins-common';
+$wc-tree-indent: 0.75rem;
+$wc-tree-item-pad: $hgap-small 0;
+
+
+// htree default widths
+$wc-htree-branch-width: 10rem;
+$wc-htree-branch-offset: $wc-htree-branch-width + $hgap-small;
