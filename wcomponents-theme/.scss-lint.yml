@@ -7,7 +7,7 @@ linters:
 
   Comment:
     enabled: true
-    allowed: '^\/\*(:? [a-z0-9]+\.[a-zA-Z0-9\._]+)\.scss \*\/$' # allow file name in head comment.
+    allowed: '^\/\* [a-zA-Z0-9\.\-_]+\.scss \*\/$' # allow file name in head comment.
 
   DisableLinterReason:
     enabled: true

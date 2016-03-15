@@ -1,0 +1,38 @@
+/* htree.scss */
+@import 'tree-vars';
+
+[role='tree'].wc_htree {
+	@include border;
+	overflow: auto;
+	position: relative;
+
+	[role='group'] {
+		// @include border($pos: left, $width: 3px);
+		left: $wc-htree-branch-offset;
+		min-height: 100%; // min-height used to hide the parent menu/submenu hover/selected state.
+		min-width: 0; // min-width used to override common 100%.
+		padding-left: $hgap-small; // override normal (vertical) tree.
+		position: absolute;
+		top: 0;
+		width: $wc-htree-branch-width;
+		z-index: 1;
+	}
+
+	[role='treeitem'] {
+		width: $wc-htree-branch-width;
+	}
+
+	[aria-expanded] > button {
+		@include flex($align-items: baseline);
+
+		.wc_leaf_hopener {
+			@include flex-grow(1);
+			text-align: right;
+		}
+	}
+
+	[aria-expanded='true'] > button {
+		background-color: $wc-ui-color-highlight-bg;
+		color: $wc-ui-color-highlight-fg;
+	}
+}

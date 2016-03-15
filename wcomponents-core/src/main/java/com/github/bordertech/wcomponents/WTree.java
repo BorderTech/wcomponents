@@ -501,7 +501,7 @@ public class WTree extends AbstractInput
 		Set<String> values = getRequestValue(request);
 		Set<String> current = getValue();
 
-		boolean changed = selectionsEqual(values, current);
+		boolean changed = !selectionsEqual(values, current);
 
 		if (changed) {
 			setData(values);
@@ -513,6 +513,19 @@ public class WTree extends AbstractInput
 		handleExpansionRequest(request);
 
 		return changed;
+	}
+
+	/**
+	 * <p>
+	 * Indicates whether this tree was present in the request.
+	 * </p>
+	 *
+	 * @param request the request being responded to.
+	 * @return true if this tree was present in the request, false if not.
+	 */
+	@Override
+	protected boolean isPresent(final Request request) {
+		return request.getParameter(getId() + "-h") != null;
 	}
 
 	/**
@@ -561,7 +574,7 @@ public class WTree extends AbstractInput
 	 */
 	private Set<String> getNewSelections(final Request request) {
 
-		String[] paramValue = request.getParameterValues(getId() + ".selected");
+		String[] paramValue = request.getParameterValues(getId());
 		if (paramValue == null) {
 			paramValue = new String[0];
 		}
@@ -682,7 +695,7 @@ public class WTree extends AbstractInput
 	 */
 	private void handleExpansionRequest(final Request request) {
 
-		String[] paramValue = request.getParameterValues(getId() + ".expanded");
+		String[] paramValue = request.getParameterValues(getId() + ".open");
 		if (paramValue == null) {
 			paramValue = new String[0];
 		}
@@ -1359,14 +1372,6 @@ public class WTree extends AbstractInput
 		boolean isDisabled(final List<Integer> row);
 
 		/**
-		 * Indicates whether the given row is selectable.
-		 *
-		 * @param row the row index
-		 * @return true if the row is selectable, false otherwise.
-		 */
-		boolean isSelectable(final List<Integer> row);
-
-		/**
 		 * Retrieves the value at the given row and column.
 		 *
 		 * @param row - the row index.
@@ -1452,14 +1457,6 @@ public class WTree extends AbstractInput
 		@Override
 		public boolean isExpandable(final List<Integer> row) {
 			return true;
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public boolean isSelectable(final List<Integer> row) {
-			return false;
 		}
 
 		/**

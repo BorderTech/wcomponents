@@ -53,7 +53,14 @@
 
 	<!-- Checks whether files end with a new line.                        -->
 	<!-- See http://checkstyle.sf.net/config_misc.html#NewlineAtEndOfFile -->
-	<module name="NewlineAtEndOfFile"/>
+	<module name="NewlineAtEndOfFile">
+		<!-- WC
+			Choosing "lf" should allow eof to be either "LF" or "CRLF" (both end with "LF").
+			This is more permissive and more predicatable than the default "enforce whatever line separator is default on the current platform".
+			When fetching code via git newlines are usually normalized anyway.
+		-->
+		<property name="lineSeparator" value="lf"/>
+	</module>
 
 	<!-- Checks that property files contain the same keys.         -->
 	<!-- See http://checkstyle.sf.net/config_misc.html#Translation -->

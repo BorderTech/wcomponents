@@ -27,22 +27,14 @@
 // * WARNING: using the .class [role][aria-checked='true'] shorthand here will cause ANY element with an aria-checked
 // state to take on these styles. This shouldn't be a problem but I have left it with the longer form to allow for
 // odd/weird/stupid component nesting. Anyone want to put a WSelectToggle into a WMenuItem? it is possible...
-[role='menuitemradio'][aria-checked='true'],
-[role='menuitemcheckbox'][aria-checked='true'],
-[role='treeitem'][aria-selected='true'],
-.wc-submenu[aria-selected='true'] > button,
-.wc-submenu > button[aria-checked='true'] {
-	background-color: $wc-ui-color-invite-bg;
-	color: $wc-ui-color-invite-fg;
-}
-
-.wc-submenu {
-	&[aria-selected='true'],
+[role='menuitemradio'],
+[role='menuitemcheckbox'] {
 	&[aria-checked='true'] {
-		background-color: transparent;
-		color: $wc-ui-color-menu-fg;
+		background-color: $wc-ui-color-invite-bg;
+		color: $wc-ui-color-invite-fg;
 	}
 }
+
 
 // hover
 // no ability to use the class shorthand for :hover otherwise we get a hover effect on branches (role='menuitem' etc)
@@ -50,11 +42,18 @@
 [role='menuitem']:hover,
 [role='menuitemradio']:hover,
 [role='menuitemcheckbox']:hover,
-[role='treeitem']:hover,
 .wc-menu [aria-expanded] > button:hover,
-.wc-menu [role]:focus,
-.wc-menu [aria-expanded] > button:focus,
-[aria-expanded='true'] > button:hover {
+.wc-menu [aria-expanded] > button:focus {
 	background-color: $wc-ui-color-invite-bg;
 	color: $wc-ui-color-invite-fg;
+}
+
+
+.wc-submenu {
+	&[aria-checked='true'],
+	&:hover {
+		background-color: transparent;
+		color: $wc-ui-color-menu-fg;
+	}
+
 }

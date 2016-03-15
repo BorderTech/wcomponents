@@ -44,7 +44,6 @@
 			<xsl:call-template name="inlineError">
 				<xsl:with-param name="errors" select="$isError"/>
 			</xsl:call-template>
-			<xsl:call-template name="hField"/>
 		</div>
 	</xsl:template>
 </xsl:stylesheet>

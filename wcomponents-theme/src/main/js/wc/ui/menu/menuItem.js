@@ -18,11 +18,7 @@ define(["wc/dom/ariaAnalog",
 	function(ariaAnalog, initialise, Widget, isAcceptableEventTarget, shed) {
 		"use strict";
 
-		var abstractMenu;
-
-		require(["wc/ui/menu/core"], function(menu) {
-			abstractMenu = menu;
-		});
+		var opener;
 
 		/**
 		 * @constructor
@@ -38,12 +34,13 @@ define(["wc/dom/ariaAnalog",
 			 * @param {Object} instance An instance of the module's singleton of MenuItemCheckbox or MenuItemRadio.
 			 */
 			function clickEventHelper($event, instance) {
-				var target = $event.target, element, widgets;
+				var target = $event.target, element;
 				if (!$event.defaultPrevented && (element = instance.getActivableFromTarget(target)) && !shed.isDisabled(element)) {
+					opener = opener || new Widget("button", "wc-submenu-o");
 					/* a menu item (checkbox|radio) can be toggled if it is itself an acceptable element OR
 					 * if the click event is on a branch opener button, which would normally render the menu
 					 * item unacceptable as an event target*/
-					if (isAcceptableEventTarget(element, target) || (abstractMenu && (widgets = abstractMenu.getFixedWidgets()) && widgets.BRANCH_TRIGGER && widgets.BRANCH_TRIGGER.findAncestor(target))) {
+					if (isAcceptableEventTarget(element, target) || opener.findAncestor(target)) {
 						instance.activate(element, $event.shiftKey, ($event.ctrlKey || $event.metaKey));
 					}
 				}

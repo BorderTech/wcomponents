@@ -97,13 +97,13 @@ define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "
 				if (!this.isMobile) {
 					return;
 				}
-				if (this._wd.submenu.isOneOfMe(element)) {
-					if (this.ROOT.findAncestor(element)) {
+				if (this.isSubMenu(element)) {
+					if (this.getRoot(element)) {
 						this.fixSubMenuContent(element);
 					}
 					return;
 				}
-				else if (this.ROOT.isOneOfMe(element)) {
+				else if (this.isRoot(element)) {
 					candidates = [element];
 				}
 				else {
@@ -113,7 +113,7 @@ define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "
 				Array.prototype.forEach.call(candidates, function(next) {
 					if (!next.hasAttribute(MENU_FIXED)) {
 						next.setAttribute(MENU_FIXED, "true");
-						Array.prototype.forEach.call(this._wd.submenu.findDescendants(next), this.fixSubMenuContent, this);
+						Array.prototype.forEach.call(this._getSubMenu(next, true, true), this.fixSubMenuContent, this);
 					}
 				}, this);
 			};

@@ -193,6 +193,11 @@ function(has, event, uid, classList, timers, shed, loader, i18n, fabric, Mustach
 					fbCanvas = new fabric.Canvas("wc_img_canvas");
 					fbCanvas.setWidth(config.width || defaults.width);
 					fbCanvas.setHeight(config.height || defaults.height);
+					fbCanvas.on("selection:cleared", function() {
+						if (fbImage) {
+							fbCanvas.setActiveObject(fbImage);
+						}
+					});
 					overlayUrl = config.overlay;
 					if (file) {
 						fileReader = new FileReader();
@@ -232,12 +237,42 @@ function(has, event, uid, classList, timers, shed, loader, i18n, fabric, Mustach
 			imgObj.onload = imageLoaded;
 		}
 
+		/**
+		 * We're assuming that the image should not scale too small...
+		 * This should probably be a config parameter.
+		 * @param {number} availWidth The width of the canvas.
+		 * @param {number} availHeight The height of the canvas.
+		 * @param {number} imgWidth The raw image width.
+		 * @param {number} imgHeight The raw image height.
+		 * @returns {number} The minimum scale to keep this image from getting too small.
+		 */
+		function calcMinScale(availWidth, availHeight, imgWidth, imgHeight) {
+			var result, minScaleDefault = 0.1, minScaleX, minScaleY,
+				minWidth = availWidth * 0.7,
+				minHeight = availHeight * 0.7;
+			if (imgWidth > minWidth) {
+				minScaleX = minWidth / imgWidth;
+			}
+			else {
+				minScaleX = minScaleDefault;
+			}
+			if (imgHeight > minHeight) {
+				minScaleY = minHeight / imgHeight;
+			}
+			else {
+				minScaleY = minScaleDefault;
+			}
+			result = Math.max(minScaleX, minScaleY);
+			return result;
+		}
+
 		/*
 		 * Displays an img element in the image editor.
 		 * @param {Element} img An image element.
 		 */
 		function renderImage(img) {
-			var width = fbCanvas.getWidth(),
+			var minScaleLimit = 0.1,
+				width = fbCanvas.getWidth(),
 				height = fbCanvas.getHeight(),
 				imageWidth, imageHeight;
 			fbImage = new fabric.Image(img);
@@ -245,7 +280,7 @@ function(has, event, uid, classList, timers, shed, loader, i18n, fabric, Mustach
 				angle: 0,
 				top: 0,
 				left: 0,
-				minScaleLimit: 0.1,
+				lockScalingFlip: true,
 				lockUniScaling: true,
 				centeredScaling: true,
 				centeredRotation: true
@@ -258,6 +293,8 @@ function(has, event, uid, classList, timers, shed, loader, i18n, fabric, Mustach
 			else {
 				fbImage.scaleToHeight(height).setCoords();
 			}
+			minScaleLimit = calcMinScale(width, height, imageWidth, imageHeight);
+			fbImage.minScaleLimit = minScaleLimit;
 			stateStack.length = 0;
 			fbCanvas.clear();
 			fbCanvas.add(fbImage);
