@@ -108,7 +108,6 @@ final class WTreeRenderer extends AbstractWebXmlRenderer {
 
 		String itemId = model.getItemId(rowIndex);
 
-		boolean selectable = model.isSelectable(rowIndex);
 		boolean selected = selectedRows.remove(itemId);
 
 		boolean expandable = model.isExpandable(rowIndex) && model.hasChildren(rowIndex);
@@ -124,7 +123,7 @@ final class WTreeRenderer extends AbstractWebXmlRenderer {
 		xml.appendAttribute("id", tree.getItemIdPrefix() + itemId);
 		xml.appendAttribute("label", model.getItemLabel(rowIndex));
 		xml.appendOptionalAttribute("imageUrl", url);
-		xml.appendOptionalAttribute("selected", selectable && selected, "true");
+		xml.appendOptionalAttribute("selected", selected, "true");
 		xml.appendOptionalAttribute("expandable", expandable, "true");
 		xml.appendOptionalAttribute("open", expandable && expanded, "true");
 		xml.appendClose();
@@ -185,7 +184,6 @@ final class WTreeRenderer extends AbstractWebXmlRenderer {
 		String itemId = node.getItemId();
 		List<Integer> rowIndex = mapIndex.get(itemId);
 
-		boolean selectable = model.isSelectable(rowIndex);
 		boolean selected = selectedRows.remove(itemId);
 
 		boolean expandable = model.isExpandable(rowIndex) && node.hasChildren();
@@ -201,7 +199,7 @@ final class WTreeRenderer extends AbstractWebXmlRenderer {
 		xml.appendAttribute("id", tree.getItemIdPrefix() + itemId);
 		xml.appendAttribute("label", model.getItemLabel(rowIndex));
 		xml.appendOptionalAttribute("imageUrl", url);
-		xml.appendOptionalAttribute("selected", selectable && selected, "true");
+		xml.appendOptionalAttribute("selected", selected, "true");
 		xml.appendOptionalAttribute("expandable", expandable, "true");
 		xml.appendOptionalAttribute("open", expandable && expanded, "true");
 		xml.appendClose();
