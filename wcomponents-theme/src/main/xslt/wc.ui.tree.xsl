@@ -28,6 +28,12 @@
 				</xsl:choose>
 			</xsl:attribute>
 
+			<xsl:if test="@mode and @mode != 'client'">
+				<xsl:attribute name="data-wc-ajaxmode">
+					<xsl:value-of select="@mode"/>
+				</xsl:attribute>
+			</xsl:if>
+	
 			<xsl:call-template name="requiredElement"/>
 			<xsl:call-template name="ajaxController"/>
 
