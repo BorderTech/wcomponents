@@ -30,6 +30,13 @@ final class WTreeRenderer extends AbstractWebXmlRenderer {
 		WTree tree = (WTree) component;
 		XmlStringBuilder xml = renderContext.getWriter();
 
+		// Check if rendering an open item request
+		String openId = tree.getOpenRequestItemId();
+		if (openId != null) {
+			handleOpenItemRequest(tree, xml, openId);
+			return;
+		}
+
 		xml.appendTagOpen("ui:tree");
 		xml.appendAttribute("id", component.getId());
 		xml.appendOptionalAttribute("class", component.getHtmlClass());
@@ -68,6 +75,29 @@ final class WTreeRenderer extends AbstractWebXmlRenderer {
 		}
 
 		xml.appendEndTag("ui:tree");
+	}
+
+	/**
+	 * Paint the item that was on the open request.
+	 *
+	 * @param tree the WTree to render
+	 * @param xml the XML string builder
+	 * @param itemId the item id to open
+	 */
+	protected void handleOpenItemRequest(final WTree tree, final XmlStringBuilder xml, final String itemId) {
+		WTree.TreeModel model = tree.getTreeModel();
+		Set<String> selectedRows = new HashSet(tree.getSelectedRows());
+		Set<String> expandedRows = new HashSet(tree.getExpandedRows());
+		WTree.ExpandMode mode = tree.getExpandMode();
+
+		if (tree.getCustomTree() == null) {
+			List<Integer> rowIndex = tree.getItemIdIndexMap().get(itemId);
+			paintItem(tree, mode, model, rowIndex, xml, selectedRows, expandedRows);
+		} else {
+			Map<String, List<Integer>> mapIndex = tree.getItemIdIndexMap();
+			WTree.ItemIdNode node = tree.getCustomIdMap().get(itemId);
+			paintCustomItem(tree, mode, model, node, xml, selectedRows, expandedRows, mapIndex);
+		}
 	}
 
 	/**

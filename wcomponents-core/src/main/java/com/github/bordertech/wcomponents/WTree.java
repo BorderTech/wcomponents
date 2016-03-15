@@ -33,9 +33,9 @@ public class WTree extends AbstractInput
 	private static final Log LOG = LogFactory.getLog(WTree.class);
 
 	/**
-	 * Tree item image request.
+	 * Tree item request key.
 	 */
-	private static final String ITEM_IMAGE_REQUEST_KEY = "wc_trid";
+	private static final String ITEM_REQUEST_KEY = "wc_tiid";
 
 	/**
 	 * Scratch map key for the map between an item id and its row index.
@@ -271,6 +271,7 @@ public class WTree extends AbstractInput
 	 */
 	public void setCustomTree(final ItemIdNode customTree) {
 		getOrCreateComponentModel().customTree = customTree;
+		clearCustomIdMap();
 	}
 
 	/**
@@ -432,7 +433,7 @@ public class WTree extends AbstractInput
 		}
 
 		// Item id
-		parameters.put(ITEM_IMAGE_REQUEST_KEY, itemId);
+		parameters.put(ITEM_REQUEST_KEY, itemId);
 
 		// The targetable path needs to be configured for the portal environment.
 		url = env.getWServletPath();
@@ -463,9 +464,14 @@ public class WTree extends AbstractInput
 	@Override
 	protected void preparePaintComponent(final Request request) {
 		super.preparePaintComponent(request);
-		if (isShuffle()) {
-			AjaxHelper.registerComponentTargetItself(getId(), request);
+
+		// Check if this is open item request
+		if (isOpenItemRequest(request)) {
+			handleOpenItemRequest(request);
 		}
+
+		// Register for AJAX
+		AjaxHelper.registerComponentTargetItself(getId(), request);
 		// Update custom tree nodes (if needed)
 		ItemIdNode custom = getCustomTree();
 		if (custom != null) {
@@ -479,6 +485,7 @@ public class WTree extends AbstractInput
 	 */
 	@Override
 	protected boolean beforeHandleRequest(final Request request) {
+
 		// Check if is targeted request
 		String targetParam = request.getParameter(Environment.TARGET_ID);
 		boolean targetted = (targetParam != null && targetParam.equals(getTargetId()));
@@ -486,7 +493,17 @@ public class WTree extends AbstractInput
 			handleItemImageRequest(request);
 			return false;
 		}
-		return true;
+
+		// If is open item request, dont continue handle request processing.
+		return !isOpenItemRequest(request);
+	}
+
+	/**
+	 * @param request the request being processed
+	 * @return true if its an open item request
+	 */
+	protected boolean isOpenItemRequest(final Request request) {
+		return AjaxHelper.isCurrentAjaxTrigger(this) && request.getParameter(ITEM_REQUEST_KEY) != null;
 	}
 
 	/**
@@ -498,6 +515,7 @@ public class WTree extends AbstractInput
 	 */
 	@Override
 	protected boolean doHandleRequest(final Request request) {
+
 		Set<String> values = getRequestValue(request);
 		Set<String> current = getValue();
 
@@ -671,7 +689,7 @@ public class WTree extends AbstractInput
 	private void handleItemImageRequest(final Request request) {
 
 		// Check for tree item id
-		String itemId = request.getParameter(ITEM_IMAGE_REQUEST_KEY);
+		String itemId = request.getParameter(ITEM_REQUEST_KEY);
 		if (itemId == null) {
 			throw new SystemException("No tree item id provided for image request.");
 		}
@@ -713,6 +731,40 @@ public class WTree extends AbstractInput
 			}
 		}
 		setExpandedRows(newExpansionIds);
+	}
+
+	/**
+	 * Handles a request containing an open request.
+	 *
+	 * @param request the request containing row open request.
+	 */
+	private void handleOpenItemRequest(final Request request) {
+
+		// Check for tree item id
+		String param = request.getParameter(ITEM_REQUEST_KEY);
+		if (param == null) {
+			throw new SystemException("No tree item id provided for open request.");
+		}
+
+		int offset = getItemIdPrefix().length();
+		String itemId = param.substring(offset);
+
+		// Check valid item id
+		if (!isValidTreeItem(itemId)) {
+			throw new SystemException("Tree item id [" + itemId + "] is not valid.");
+		}
+
+		List<Integer> rowIndex = getItemIdIndexMap().get(itemId);
+		if (!getTreeModel().isExpandable(rowIndex)) {
+			throw new SystemException("Tree item id [" + itemId + "] is not expandable.");
+		}
+
+		// Add itemId to expanded
+		Set<String> rowIds = new HashSet<>(getExpandedRows());
+		rowIds.add(itemId);
+		setExpandedRows(rowIds);
+
+		setOpenRequestItemId(itemId);
 	}
 
 	/**
@@ -1074,6 +1126,20 @@ public class WTree extends AbstractInput
 	}
 
 	/**
+	 * @param itemId the item id to open
+	 */
+	private void setOpenRequestItemId(final String itemId) {
+		getScratchMap().put("openid", itemId);
+	}
+
+	/**
+	 * @return the item id to open. or null
+	 */
+	public String getOpenRequestItemId() {
+		return (String) getScratchMap().get("openid");
+	}
+
+	/**
 	 * @return a String representation of this component, for debugging purposes.
 	 */
 	@Override
@@ -1189,7 +1255,6 @@ public class WTree extends AbstractInput
 		 * This is used to allow a user to have a different tree of nodes.
 		 */
 		private ItemIdNode customTree;
-
 	}
 
 	/**
