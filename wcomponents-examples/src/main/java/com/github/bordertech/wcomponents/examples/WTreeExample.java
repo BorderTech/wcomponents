@@ -7,6 +7,7 @@ import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WCheckBox;
 import com.github.bordertech.wcomponents.WContainer;
+import com.github.bordertech.wcomponents.WDropdown;
 import com.github.bordertech.wcomponents.WFieldLayout;
 import com.github.bordertech.wcomponents.WLabel;
 import com.github.bordertech.wcomponents.WTree;
@@ -38,6 +39,11 @@ public class WTreeExample extends WContainer {
 	private final WCheckBox cbUseMultiSelect = new WCheckBox();
 
 	/**
+	 * A selector for expand mode.
+	 */
+	private final WDropdown ddExpMode = new WDropdown();
+
+	/**
 	 * Construct the example.
 	 */
 	public WTreeExample() {
@@ -46,6 +52,11 @@ public class WTreeExample extends WContainer {
 		layout.setMargin(new Margin(0, 0, 12, 0));
 		layout.addField("Use HTree", cbMakeHTree);
 		layout.addField("Enable multiple selection", cbUseMultiSelect);
+
+		ddExpMode.setOptions(WTree.ExpandMode.values());
+		ddExpMode.setSelected(WTree.ExpandMode.CLIENT);
+		layout.addField("Expand mode", ddExpMode);
+
 
 		WButton btnOptions = new WButton("Apply");
 		btnOptions.setAction(new Action() {
@@ -81,6 +92,7 @@ public class WTreeExample extends WContainer {
 	private void applyOptions() {
 		tree.setType(cbMakeHTree.isSelected() ? WTree.Type.HORIZONTAL : WTree.Type.VERTICAL);
 		tree.setSelectMode(cbUseMultiSelect.isSelected() ? WTree.SelectMode.MULTIPLE : WTree.SelectMode.SINGLE);
+		tree.setExpandMode((WTree.ExpandMode) ddExpMode.getSelected());
 	}
 
 	/**
