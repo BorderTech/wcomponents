@@ -74,20 +74,16 @@ define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "
 			 * @returns {Boolean} true if first/last item.
 			 */
 			function isFirstLastItem(element, root, isLast) {
-				var result = false,
-					target,
+				var target,
 					direction = isLast ? keyWalker.MOVE_TO.NEXT : keyWalker.MOVE_TO.PREVIOUS;
 
 				/* get the element which would be focussed if we were to use findFn without
 				 * allowing cycling and forcing depthFirstNavigation false. If we don't get anything then
 				 * the element passed in is the first/last*/
 				if ((target = instance._getTargetItem(element, direction, root, false))) {
-					result = element === target;  // if the target is the same as target then element is first &/or last
+					return element === target;  // if the target is the same as target then element is first &/or last
 				}
-				else {
-					result = true;  // there are no other elements so it MUST be the first & last!
-				}
-				return result;
+				return true;
 			}
 
 //

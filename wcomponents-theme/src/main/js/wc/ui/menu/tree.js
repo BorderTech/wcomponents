@@ -200,15 +200,16 @@ define(["wc/ui/menu/core",
 			this._cycleSiblings = false;
 
 			/**
-			 * Tree branches stay open and do not have hover effects or collision detection.
+			 * Trees are not transient.
 			 *
-			 * @var
-			 * @type {boolean}
-			 * @protected
-			 * @override
-			 * @default false
+			 * @function
+			 * @public
+			 * @param {Element} element An element in a menu. Not used in this implementation.
+			 * @return {boolean} true if the current menu has transient sub-menu artefacts.
 			 */
-			this._transient = false;
+			this.isTransient = function(element) {
+				return false;
+			};
 
 			/**
 			 * Trees automatically select selectable treeitems on navigation.
@@ -487,12 +488,12 @@ define(["wc/ui/menu/core",
 				}
 
 				if ((root = this.getRoot(target))) {
-					if (this.isHTree(root)) { // htree completely driven by select.
+					if (isWMenu(root)) {
+						this.constructor.prototype.clickEvent.call(this, $event);
 						return;
 					}
 
-					if (isWMenu(root)) {
-						this.constructor.prototype.clickEvent.call(this, $event);
+					if (this.isHTree(root)) { // htree completely driven by select.
 						return;
 					}
 
@@ -552,7 +553,12 @@ define(["wc/ui/menu/core",
 			};
 
 
-
+			/**
+			 * Determines if a given element is the last selected item at its level of the tree.
+			 * @param {Element} element The element being tested.
+			 * @param {Element} root The root of the current tree.
+			 * @returns {Boolean} true if the element is the only selected item at its level.
+			 */
 			function isLastSelectedItemAtLevel(element, root) {
 				var level = instance._getSubMenu(element) || ((root && instance.isRoot(root)) ? root : instance.getRoot(element));
 
@@ -561,6 +567,12 @@ define(["wc/ui/menu/core",
 				}).length === (shed.isSelected(element) ? 1 : 0);
 			}
 
+			/**
+			 * Helper for shedSubscriber which undertakes an ajax loadwhen a branch is opened if required.
+			 *
+			 * @param {Element} element The branch being opened.
+			 * @param {Element} root The root of the currect tree.
+			 */
 			this.ajaxExpand = function(element, root) {
 				var mode = root.getAttribute("data-wc-ajaxmode"),
 					obj,
@@ -582,6 +594,15 @@ define(["wc/ui/menu/core",
 				}
 			};
 
+			/**
+			 * Override {@link:module:wc/dom/shed} subscriber to add special cases for trees.
+			 *
+			 * @function
+			 * @protected
+			 * @override
+			 * @param {Element} element The element being acted upon.
+			 * @param {String} action The action being taken.
+			 */
 			this.shedSubscriber = function(element, action) {
 				var root;
 
@@ -635,6 +656,47 @@ define(["wc/ui/menu/core",
 					return true;
 				}
 				return this.constructor.prototype._animateBranch.call(this, item, open);
+			};
+
+			/**
+			 * A TreeWalker filter to get a text node match during key-initiated tree walking.
+			 * @function
+			 * @protected
+			 * @override
+			 * @param {Node} textNode The node being tested.
+			 * @returns {Number}
+			 */
+			this.textMatchFilter = function(textNode) {
+				var parent = textNode.parentNode;
+
+				if (isWMenu(this.getRoot(parent))) {
+					return this.constructor.prototype.textMatchFilter.call(this, parent);
+				}
+
+				if (!classList.contains(parent, "wc_leaf_name")) {
+					return  NodeFilter.FILTER_SKIP;
+				}
+
+				if (textNode.nodeValue) {
+					return NodeFilter.FILTER_ACCEPT;
+				}
+
+				return NodeFilter.FILTER_SKIP;
+			};
+
+			this.enableDisable = function(element, action, root) {
+				var shedFunc;
+				if (this._isBranch(element)) {
+					shedFunc = action === shed.actions.DISABLE ? "disable" : "enable";
+					// dis/en-able the opener
+					shed[shedFunc](instance._getBranchOpener(element));
+					// disable or re-enable stuff inside the submenu
+					this.disableInBranch(element, shedFunc);
+				}
+				// branches and items when disabled: may have to change default tabstop
+				if (action === shed.actions.DISABLE) {
+					this.hideDisableHelper(element, root);
+				}
 			};
 		}
 
